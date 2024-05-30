@@ -20,7 +20,7 @@
             margin: 50px;
             background-color: #fff;
             color: #000;
-            
+            padding: 30px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
