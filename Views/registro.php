@@ -141,7 +141,6 @@
                             <option value="PY">🇵🇾 Paraguay (+595)</option>
                             <option value="PE">🇵🇪 Peru (+51)</option>
                             <option value="PR">🇵🇷 Puerto Rico (+1)</option>
-                            <option value="DO">🇩🇴 Dominican Republic (+1)</option>
                             <option value="UY">🇺🇾 Uruguay (+598)</option>
                             <option value="VE">🇻🇪 Venezuela (+58)</option>
                             <option value="US">🇺🇸 United States (+1)</option>
