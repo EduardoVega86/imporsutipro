@@ -76,6 +76,16 @@
             font-size: 18px;
             margin-bottom: 20px;
         }
+
+        @media (max-width: 768px) {
+            .menu_derecha {
+                display: flex !important;
+            }
+
+            .menu_izquierda {
+                display: none !important;
+            }
+        }
     </style>
 </head>
 
@@ -87,7 +97,6 @@
     <div class="d-flex">
         <div class="left-panel">
             <img src="https://tiendas.imporsuitpro.com/imgs/logo.png" alt="IMORSUIT">
-
         </div>
         <div class="container">
             <div class="header">
