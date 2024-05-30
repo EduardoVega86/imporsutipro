@@ -85,13 +85,13 @@
     <div class="header-notice">
         ¡No desaproveches esta oportunidad, únete a IMPORSUIT!
     </div>
-    <div class="d-flex flex-column">
+    <div class="d-flex flex-column" style="padding: 10px;">
         <div class="imagen_logo">
             <img src="https://tiendas.imporsuitpro.com/imgs/logo.png" alt="IMORSUIT" width="300px" height="100px">
         </div>
         <div class="container">
             <div class="header">
-                <p>¿Estás listo para unirte a este mundo de ecommerce? Llena tus datos para empezar.😉</p>
+                <p>¿Estás listo para unirte a este mundo de ecommerce? Comencemos!!!😉</p>
             </div>
             <form>
                 <div class="form-group">
