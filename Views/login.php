@@ -7,11 +7,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IMORSUIT Registration</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
             background-image: url('https://tiendas.imporsuitpro.com/imgs/login.png');
             background-size: cover;
             background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
             color: #fff;
             font-family: Arial, sans-serif;
         }
@@ -19,7 +25,7 @@
         .container {
             align-self: center;
             max-width: 600px;
-            margin: 50px;
+            margin: 20px;
             background-color: #fff;
             color: #000;
             padding: 30px;
@@ -58,73 +64,48 @@
             text-align: center;
         }
 
-        .header-notice {
-            background-color: #000;
-            color: #fff;
-            text-align: center;
-            padding: 10px 0;
-            font-size: 18px;
-            margin-bottom: 20px;
-        }
-
-        .step {
-            display: none;
-            animation: fadeIn 0.5s forwards;
-        }
-
-        .step-active {
-            display: block;
-        }
-
-        @media (max-width: 768px) {
-            .menu_derecha {
-                display: flex !important;
-            }
-
-            .menu_izquierda {
-                display: none !important;
-            }
-        }
         .forgot-password {
             display: flex;
             align-items: center;
             color: #666;
             text-decoration: none;
+            justify-content: center;
+            margin-top: 15px;
         }
+
         .forgot-password i {
             margin-right: 5px;
         }
+
         .forgot-password:hover {
             color: #333;
         }
     </style>
 </head>
-<div class="d-flex flex-column" style="padding: 20px;">
-    <div class="imagen_logo">
-        <img src="https://tiendas.imporsuitpro.com/imgs/logo.png" alt="IMORSUIT" width="300px" height="100px">
-    </div>
+
+<body>
     <div class="container">
+        <div class="imagen_logo">
+            <img src="https://tiendas.imporsuitpro.com/imgs/logo.png" alt="IMORSUIT" width="300px" height="100px">
+        </div>
         <div class="header">
             <h1>Login</h1>
         </div>
         <form id="multiStepForm">
             <div class="form-group">
                 <label for="usuario">Usuario</label>
-                <input type="text" class="form-control" id="usuario" placeholder="usuario">
+                <input type="text" class="form-control" id="usuario" placeholder="Usuario">
             </div>
             <div class="form-group">
                 <label for="contrasena">Contraseña</label>
-                <input type="contrasena" class="form-control" id="contrasena" placeholder="contrasena">
+                <input type="password" class="form-control" id="contrasena" placeholder="Contraseña">
             </div>
             <button type="button" class="btn btn-primary w-100">Iniciar Sesión</button>
-            <a href="#" class="forgot-password" style="justify-content: center;">
+            <a href="#" class="forgot-password">
                 <i class="fas fa-lock"></i> ¿Olvidaste tu contraseña?
             </a>
         </form>
     </div>
-</div>
-
-
 </body>
 
 </html>
