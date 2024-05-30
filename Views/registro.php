@@ -123,7 +123,7 @@
                     <div class="form-group" style="width: 35%;">
                         <label for="pais">País</label>
                         <select class="form-control" id="pais">
-                            <option selected="selected" value="+593"> 🇪🇨 Ecuador (+593)</option>
+                            <option selected="selected" value="EC"> 🇪🇨 Ecuador (+593)</option>
                             <!-- Add other countries as needed -->
                         </select>
                     </div>
@@ -146,20 +146,8 @@
             <!-- Step 2 -->
             <div class="step">
                 <div class="form-group">
-                    <label for="address">Dirección</label>
-                    <input type="text" class="form-control" id="address" placeholder="Dirección">
-                </div>
-                <div class="form-group">
-                    <label for="city">Ciudad</label>
-                    <input type="text" class="form-control" id="city" placeholder="Ciudad">
-                </div>
-                <div class="form-group">
-                    <label for="state">Provincia/Estado</label>
-                    <input type="text" class="form-control" id="state" placeholder="Provincia/Estado">
-                </div>
-                <div class="form-group">
-                    <label for="zip">Código Postal</label>
-                    <input type="text" class="form-control" id="zip" placeholder="Código Postal">
+                    <label for="address">Tienda</label>
+                    <input type="text" class="form-control" id="tienda" placeholder="Tienda">
                 </div>
                 <button type="button" class="btn btn-secondary w-100 mb-2" onclick="prevStep()">Anterior</button>
                 <button type="submit" class="btn btn-primary w-100">Enviar</button>
