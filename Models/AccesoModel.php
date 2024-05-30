@@ -7,11 +7,11 @@ class AccesoModel extends Query
         $response = $this->initialResponse();
 
         //Se general el usuario
-        $sql = "INSERT INTO usuarios (nombre, correo, pais, telefono, contrasena) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO users (nombre, correo, pais, telefono, contrasena) VALUES (?, ?, ?, ?, ?)";
         $data = [$nombre, $correo, $pais, $telefono, $contrasena];
         $this->insert($sql, $data);
         //Se obtiene el id del usuario
-        $id = $this->select("SELECT id FROM usuarios WHERE correo = '$correo'");
+        $id = $this->select("SELECT id FROM users WHERE correo = '$correo'");
         //Se genera la plataforma
         $sql = "INSERT INTO plataformas (`nombre_tienda`, `contacto`, `whatsapp`, `fecha_ingreso`, `fecha_actualza`, `id_plan`, `url_imporsuit`, `carpeta_servidor`, `email`,  `referido`, `token_referido`, `refiere`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $data = [$tienda, $nombre, $telefono, date('Y-m-d H:i:s'), date('Y-m-d H:i:s'), 1, 'https://' . $tienda . '.imporsuitpro.com', '/public_html' . $tienda, $correo, '', '', ''];
