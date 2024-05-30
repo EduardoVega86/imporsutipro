@@ -52,16 +52,7 @@
             background-color: #0a0b29;
         }
 
-        .left-panel {
-            background-color: #11143b;
-            height: 80vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: #fff;
-            padding: 20px;
-        }
+        
 
         .left-panel img {
             max-width: 80%;
@@ -94,7 +85,7 @@
     <div class="header-notice">
         ¡No desaproveches esta oportunidad, únete a IMPORSUIT!
     </div>
-    <div class="d-flex">
+    <div class="d-flex flex-column">
         <div class="left-panel">
             <img src="https://tiendas.imporsuitpro.com/imgs/logo.png" alt="IMORSUIT">
         </div>
