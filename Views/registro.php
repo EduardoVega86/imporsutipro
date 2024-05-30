@@ -113,16 +113,16 @@
             <div class="step step-active">
                 <div class="form-group">
                     <label for="nombre">Nombre</label>
-                    <input type="text" class="form-control" id="nombre" placeholder="Nombre">
+                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre">
                 </div>
                 <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" id="correo" placeholder="Email">
+                    <label for="correo">Email</label>
+                    <input type="email" class="form-control" id="correo" name="correo" placeholder="Email">
                 </div>
                 <div class="d-flex flex-row">
                     <div class="form-group" style="width: 35%;">
                         <label for="pais">País</label>
-                        <select class="form-control" id="pais">
+                        <select class="form-control" id="pais" name="pais">
                             <option selected="selected" value="EC"> 🇪🇨 Ecuador (+593)</option>
                             <option value="AR">🇦🇷 Argentina (+54)</option>
                             <option value="BO">🇧🇴 Bolivia (+591)</option>
@@ -149,16 +149,16 @@
                     </div>
                     <div class="form-group" style="width: 65%;">
                         <label for="telefono">Teléfono</label>
-                        <input type="text" class="form-control" id="telefono" placeholder="Teléfono">
+                        <input type="text" class="form-control" id="telefono" name="telefono" placeholder="Teléfono">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="contrasena">Contraseña</label>
-                    <input type="password" class="form-control" id="contrasena" placeholder="Contraseña">
+                    <input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="Contraseña">
                 </div>
                 <div class="form-group">
                     <label for="repetir-contrasena">Repetir Contraseña</label>
-                    <input type="password" class="form-control" id="repetir-contrasena" placeholder="Repetir Contraseña">
+                    <input type="password" class="form-control" id="repetir-contrasena" name="repetir-contrasena" placeholder="Repetir Contraseña">
                 </div>
                 <button type="button" class="btn btn-primary w-100" onclick="nextStep()">Siguiente</button>
             </div>
@@ -167,7 +167,7 @@
             <div class="step">
                 <div class="form-group">
                     <label for="tienda">Nombre de tu tienda</label>
-                    <input type="text" class="form-control" id="tienda" placeholder="Tienda">
+                    <input type="text" class="form-control" id="tienda" name="tienda" placeholder="Tienda">
                 </div>
                 <button type="button" class="btn btn-secondary w-100 mb-2" onclick="prevStep()">Anterior</button>
                 <button type="submit" class="btn btn-primary w-100">Enviar</button>
@@ -212,7 +212,7 @@
             data[key] = value;
         });
 
-        const url = '<?php echo SERVERURL; ?>Acceso/registro'; // Asegúrate de definir SERVERURL en tu backend PHP
+        const url = '<?php echo SERVERURL; ?>Acceso/registro';
 
         fetch(url, {
                 method: 'POST',
