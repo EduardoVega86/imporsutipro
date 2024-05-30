@@ -120,14 +120,14 @@
                     <input type="email" class="form-control" id="email" placeholder="Email">
                 </div>
                 <div class="d-flex flex-row">
-                    <div class="form-group">
+                    <div class="form-group" style="width: 40%;">
                         <label for="pais">País</label>
                         <select class="form-control" id="pais">
-                            <option value="+593">Ecuador (+593)</option>
+                            <option selected="selected" value="+593"> 🇪🇨 Ecuador (+593)</option>
                             <!-- Add other countries as needed -->
                         </select>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" style="width: 60%;">
                         <label for="telefono">Teléfono</label>
                         <input type="text" class="form-control" id="telefono" placeholder="Teléfono">
                     </div>
