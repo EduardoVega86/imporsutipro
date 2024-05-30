@@ -16,6 +16,7 @@
         }
 
         .container {
+            align-self: center;
             max-width: 600px;
             margin: 50px;
             background-color: #fff;
@@ -54,9 +55,8 @@
 
         
 
-        .left-panel img {
-            max-width: 80%;
-            margin-bottom: 20px;
+        .imagen_logo {
+            text-align: center;
         }
 
         .header-notice {
@@ -86,8 +86,8 @@
         ¡No desaproveches esta oportunidad, únete a IMPORSUIT!
     </div>
     <div class="d-flex flex-column">
-        <div class="left-panel">
-            <img src="https://tiendas.imporsuitpro.com/imgs/logo.png" alt="IMORSUIT">
+        <div class="imagen_logo">
+            <img src="https://tiendas.imporsuitpro.com/imgs/logo.png" alt="IMORSUIT" width="300px" height="300px">
         </div>
         <div class="container">
             <div class="header">
