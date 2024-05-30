@@ -54,7 +54,7 @@
 
         .left-panel {
             background-color: #11143b;
-            height: 100vh;
+            height: 80vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
