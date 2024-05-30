@@ -160,6 +160,7 @@
                     <label for="repetir-contrasena">Repetir Contraseña</label>
                     <input type="password" class="form-control" id="repetir-contrasena" name="repetir-contrasena" placeholder="Repetir Contraseña">
                 </div>
+                <div id="password-error" style="color: red; display: none;">Las contraseñas no coinciden.</div>
                 <button type="button" class="btn btn-primary w-100" onclick="nextStep()">Siguiente</button>
             </div>
 
