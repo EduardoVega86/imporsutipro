@@ -205,17 +205,17 @@
     }
 
     function validatePassword() {
-            const password = document.getElementById("contrasena").value;
-            const repeatPassword = document.getElementById("repetir-contrasena").value;
-            const errorDiv = document.getElementById("password-error");
+        const password = document.getElementById("contrasena").value;
+        const repeatPassword = document.getElementById("repetir-contrasena").value;
+        const errorDiv = document.getElementById("password-error");
 
-            if (password === repeatPassword) {
-                errorDiv.style.display = "none";
-                nextStep();
-            } else {
-                errorDiv.style.display = "block";
-            }
+        if (password === repeatPassword) {
+            errorDiv.style.display = "none";
+            nextStep();
+        } else {
+            errorDiv.style.display = "block";
         }
+    }
 
     document.getElementById("multiStepForm").addEventListener("submit", function(event) {
         event.preventDefault();
