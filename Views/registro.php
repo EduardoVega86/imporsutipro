@@ -91,7 +91,6 @@
         </div>
         <div class="container">
             <div class="header">
-                <img src="https://tiendas.imporsuitpro.com/imgs/logo_i.png" alt="IMORSUIT">
                 <p>¿Estás listo para unirte a este mundo de ecommerce? Llena tus datos para empezar.😉</p>
             </div>
             <form>
