@@ -12,14 +12,14 @@
 
 <body>
 
-    <div class="container">
+    
         <div class="d-flex flex-column">
             <div>
-
+            <span>¡No desaproveches esta oportunidad, únete a IMPORSUIT!</span>
             </div>
             <div class="d-flex flex-row">
                 <div class="aling-center">
-
+                    <img src="" alt="">
                 </div>
                 <div class="d-flex flex-column">
                     <img src="logo.png" alt="IMORSUIT">
@@ -59,7 +59,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    
 
 </body>
 
