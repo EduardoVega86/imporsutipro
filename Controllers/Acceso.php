@@ -21,12 +21,14 @@ class Acceso extends Controller
     }
     public function registro()
     {
-        $nombre = $_POST['nombre'];
-        $correo = $_POST['correo'];
-        $pais = $_POST['pais'];
-        $telefono = $_POST['telefono'];
-        $contrasena = $_POST['contrasena'];
-        $tienda = $_POST['tienda'];
+        $data = json_decode(file_get_contents("php://input"), true);
+        print_r($data);
+        $nombre = $data['nombre'];
+        $correo = $data['correo'];
+        $pais = $data['pais'];
+        $telefono = $data['telefono'];
+        $contrasena = $data['contrasena'];
+        $tienda = $data['tienda'];
 
         $response = $this->model->registro($nombre, $correo, $pais, $telefono, $contrasena, $tienda);
 
