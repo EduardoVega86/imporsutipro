@@ -17,4 +17,10 @@ class Controller
             $this->model = new $model(); // Assign the new instance to the $model property
         }
     }
+
+    public function generateSesion($data)
+    {
+        $_SESSION['id'] = $data['id'];
+        $_SESSION['plataforma'] = $data['idPlataforma'];
+    }
 }

@@ -1,11 +1,15 @@
 <?php
-
+session_start();
 class Home extends Controller
 {
     ///Vistas
     public function index()
     {
-        $this->views->render($this, "index");
+        if (isset($_SESSION['id'])) {
+            header("Location: /Dashboard");
+        } else {
+            $this->views->render($this, "index");
+        }
     }
     public function promociones()
     {
@@ -17,11 +21,19 @@ class Home extends Controller
     }
     public function login()
     {
-        $this->views->render($this, "login");
+        if (isset($_SESSION['id'])) {
+            header("Location: /Dashboard");
+        } else {
+            $this->views->render($this, "login");
+        }
     }
     public function registro()
     {
-        $this->views->render($this, "registro");
+        if (isset($_SESSION['id'])) {
+            header("Location: /Dashboard");
+        } else {
+            $this->views->render($this, "registro");
+        }
     }
 
     ///Funciones

@@ -21,6 +21,15 @@ class Acceso extends Controller
     }
     public function registro()
     {
-        $this->views->render($this, "registro");
+        $nombre = $_POST['nombre'];
+        $correo = $_POST['correo'];
+        $pais = $_POST['pais'];
+        $telefono = $_POST['telefono'];
+        $contrasena = $_POST['contrasena'];
+        $tienda = $_POST['tienda'];
+
+        $response = $this->model->registro($nombre, $correo, $pais, $telefono, $contrasena, $tienda);
+
+        echo json_encode($response);
     }
 }

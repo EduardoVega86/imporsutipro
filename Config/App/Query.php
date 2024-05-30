@@ -48,4 +48,14 @@ class Query extends Conexion
     {
         $this->pdo->close();
     }
+
+    public function initialResponse()
+    {
+        $response = [
+            'status' => 500,
+            'message' => 'Petición exitosa',
+            'data' => []
+        ];
+        return $response;
+    }
 }
