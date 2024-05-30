@@ -76,8 +76,13 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         @media (max-width: 768px) {
@@ -93,27 +98,28 @@
 </head>
 
 <div class="header-notice">
-        ¡No desaproveches esta oportunidad, únete a IMPORSUIT!
+    ¡No desaproveches esta oportunidad, únete a IMPORSUIT!
+</div>
+<div class="d-flex flex-column" style="padding: 20px;">
+    <div class="imagen_logo">
+        <img src="https://tiendas.imporsuitpro.com/imgs/logo.png" alt="IMORSUIT" width="300px" height="100px">
     </div>
-    <div class="d-flex flex-column" style="padding: 20px;">
-        <div class="imagen_logo">
-            <img src="https://tiendas.imporsuitpro.com/imgs/logo.png" alt="IMORSUIT" width="300px" height="100px">
+    <div class="container">
+        <div class="header">
+            <p>¿Estás listo para unirte a este mundo de ecommerce? Comencemos!!!😉</p>
         </div>
-        <div class="container">
-            <div class="header">
-                <p>¿Estás listo para unirte a este mundo de ecommerce? Comencemos!!!😉</p>
-            </div>
-            <form id="multiStepForm">
-                <!-- Step 1 -->
-                <div class="step step-active">
-                    <div class="form-group">
-                        <label for="nombre">Nombre</label>
-                        <input type="text" class="form-control" id="nombre" placeholder="Nombre">
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" placeholder="Email">
-                    </div>
+        <form id="multiStepForm">
+            <!-- Step 1 -->
+            <div class="step step-active">
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" placeholder="Nombre">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Email">
+                </div>
+                <div class="d-flex flex-row">
                     <div class="form-group">
                         <label for="pais">País</label>
                         <select class="form-control" id="pais">
@@ -125,77 +131,79 @@
                         <label for="telefono">Teléfono</label>
                         <input type="text" class="form-control" id="telefono" placeholder="Teléfono">
                     </div>
-                    <div class="form-group">
-                        <label for="contrasena">Contraseña</label>
-                        <input type="password" class="form-control" id="contrasena" placeholder="Contraseña">
-                    </div>
-                    <div class="form-group">
-                        <label for="repetir-contrasena">Repetir Contraseña</label>
-                        <input type="password" class="form-control" id="repetir-contrasena" placeholder="Repetir Contraseña">
-                    </div>
-                    <button type="button" class="btn btn-primary w-100" onclick="nextStep()">Siguiente</button>
                 </div>
+                <div class="form-group">
+                    <label for="contrasena">Contraseña</label>
+                    <input type="password" class="form-control" id="contrasena" placeholder="Contraseña">
+                </div>
+                <div class="form-group">
+                    <label for="repetir-contrasena">Repetir Contraseña</label>
+                    <input type="password" class="form-control" id="repetir-contrasena" placeholder="Repetir Contraseña">
+                </div>
+                <button type="button" class="btn btn-primary w-100" onclick="nextStep()">Siguiente</button>
+            </div>
 
-                <!-- Step 2 -->
-                <div class="step">
-                    <div class="form-group">
-                        <label for="address">Dirección</label>
-                        <input type="text" class="form-control" id="address" placeholder="Dirección">
-                    </div>
-                    <div class="form-group">
-                        <label for="city">Ciudad</label>
-                        <input type="text" class="form-control" id="city" placeholder="Ciudad">
-                    </div>
-                    <div class="form-group">
-                        <label for="state">Provincia/Estado</label>
-                        <input type="text" class="form-control" id="state" placeholder="Provincia/Estado">
-                    </div>
-                    <div class="form-group">
-                        <label for="zip">Código Postal</label>
-                        <input type="text" class="form-control" id="zip" placeholder="Código Postal">
-                    </div>
-                    <button type="button" class="btn btn-secondary w-100 mb-2" onclick="prevStep()">Anterior</button>
-                    <button type="submit" class="btn btn-primary w-100">Enviar</button>
+            <!-- Step 2 -->
+            <div class="step">
+                <div class="form-group">
+                    <label for="address">Dirección</label>
+                    <input type="text" class="form-control" id="address" placeholder="Dirección">
                 </div>
-            </form>
-        </div>
+                <div class="form-group">
+                    <label for="city">Ciudad</label>
+                    <input type="text" class="form-control" id="city" placeholder="Ciudad">
+                </div>
+                <div class="form-group">
+                    <label for="state">Provincia/Estado</label>
+                    <input type="text" class="form-control" id="state" placeholder="Provincia/Estado">
+                </div>
+                <div class="form-group">
+                    <label for="zip">Código Postal</label>
+                    <input type="text" class="form-control" id="zip" placeholder="Código Postal">
+                </div>
+                <button type="button" class="btn btn-secondary w-100 mb-2" onclick="prevStep()">Anterior</button>
+                <button type="submit" class="btn btn-primary w-100">Enviar</button>
+            </div>
+        </form>
     </div>
+</div>
 
-    <script>
-        let currentStep = 0;
-        const steps = document.querySelectorAll(".step");
+<script>
+    let currentStep = 0;
+    const steps = document.querySelectorAll(".step");
 
-        function showStep(step) {
-            steps.forEach((stepElement, index) => {
-                stepElement.classList.remove("step-active");
-                if (index === step) {
-                    stepElement.classList.add("step-active");
-                }
-            });
-        }
-
-        function nextStep() {
-            if (currentStep < steps.length - 1) {
-                currentStep++;
-                showStep(currentStep);
+    function showStep(step) {
+        steps.forEach((stepElement, index) => {
+            stepElement.classList.remove("step-active");
+            if (index === step) {
+                stepElement.classList.add("step-active");
             }
-        }
-
-        function prevStep() {
-            if (currentStep > 0) {
-                currentStep--;
-                showStep(currentStep);
-            }
-        }
-
-        document.getElementById("multiStepForm").addEventListener("submit", function(event) {
-            event.preventDefault();
-            // Add form submission logic here
-            alert("Formulario enviado!");
         });
-    </script>
+    }
+
+    function nextStep() {
+        if (currentStep < steps.length - 1) {
+            currentStep++;
+            showStep(currentStep);
+        }
+    }
+
+    function prevStep() {
+        if (currentStep > 0) {
+            currentStep--;
+            showStep(currentStep);
+        }
+    }
+
+    document.getElementById("multiStepForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        // Add form submission logic here
+        alert("Formulario enviado!");
+    });
+</script>
 
 </body>
+
 </html>
 
 <?php require_once './Views/templates/landing/footer.php'; ?>
