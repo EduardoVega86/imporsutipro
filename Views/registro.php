@@ -206,7 +206,25 @@
     document.getElementById("multiStepForm").addEventListener("submit", function(event) {
         event.preventDefault();
         // Add form submission logic here
-        alert("Formulario enviado!");
+        let url = '<?php echo SERVERURL ?>';
+        fetch(url + 'Acceso/registro', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                // Maneja la respuesta del servidor aquí
+                alert("Inicio de sesión exitoso");
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                // Maneja los errores aquí
+                alert("Hubo un problema con el inicio de sesión");
+            });
     });
 </script>
 
