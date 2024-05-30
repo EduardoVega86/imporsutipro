@@ -166,7 +166,7 @@
             <!-- Step 2 -->
             <div class="step">
                 <div class="form-group">
-                    <label for="address">Nombre de tu tienda</label>
+                    <label for="tienda">Nombre de tu tienda</label>
                     <input type="text" class="form-control" id="tienda" placeholder="Tienda">
                 </div>
                 <button type="button" class="btn btn-secondary w-100 mb-2" onclick="prevStep()">Anterior</button>
@@ -205,9 +205,16 @@
 
     document.getElementById("multiStepForm").addEventListener("submit", function(event) {
         event.preventDefault();
-        // Add form submission logic here
-        let url = '<?php echo SERVERURL ?>';
-        fetch(url + 'Acceso/registro', {
+
+        const formData = new FormData(this);
+        const data = {};
+        formData.forEach((value, key) => {
+            data[key] = value;
+        });
+
+        const url = '<?php echo SERVERURL; ?>Acceso/registro'; // Asegúrate de definir SERVERURL en tu backend PHP
+
+        fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -218,12 +225,12 @@
             .then(data => {
                 console.log('Success:', data);
                 // Maneja la respuesta del servidor aquí
-                alert("Inicio de sesión exitoso");
+                alert("Registro exitoso");
             })
             .catch((error) => {
                 console.error('Error:', error);
                 // Maneja los errores aquí
-                alert("Hubo un problema con el inicio de sesión");
+                alert("Hubo un problema con el registro");
             });
     });
 </script>
