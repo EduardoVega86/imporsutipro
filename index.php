@@ -2,6 +2,13 @@
 require_once 'Config/Config.php';
 
 $rute = !empty($_GET['url']) ? $_GET['url'] : 'Home/index';
+if ($rute == "/registro") {
+    $rute = "Home/registro";
+} else if ($rute == "/login") {
+    $rute = "Home/login";
+} else if ($rute == "/recovery") {
+    $rute = "Acceso/recovery";
+}
 $array = explode('/', $rute);
 $controller = $array[0];
 $method = "index";
