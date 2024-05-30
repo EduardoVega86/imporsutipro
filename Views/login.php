@@ -84,6 +84,7 @@
 </head>
 
 <body>
+    <div class="d-flex flex-column">
     <div class="imagen_logo">
         <img src="https://tiendas.imporsuitpro.com/imgs/logo.png" alt="IMORSUIT" width="300px" height="100px">
     </div>
@@ -105,6 +106,7 @@
                 <i class="fas fa-lock"></i> ¿Olvidaste tu contraseña?
             </a>
         </form>
+    </div>
     </div>
 </body>
 
