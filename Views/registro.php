@@ -144,7 +144,6 @@
                             <option value="DO">🇩🇴 Dominican Republic (+1)</option>
                             <option value="UY">🇺🇾 Uruguay (+598)</option>
                             <option value="VE">🇻🇪 Venezuela (+58)</option>
-                            <option value="UM">🇺🇲 United States Minor Outlying Islands (+1)</option>
                             <option value="US">🇺🇸 United States (+1)</option>
                             <!-- Add other countries as needed -->
                         </select>
