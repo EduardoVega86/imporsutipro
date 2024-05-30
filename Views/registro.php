@@ -2,6 +2,7 @@
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +14,7 @@
             color: #fff;
             font-family: Arial, sans-serif;
         }
+
         .container {
             max-width: 600px;
             margin: 50px auto;
@@ -20,29 +22,36 @@
             color: #000;
             padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
         .header {
             text-align: center;
             margin-bottom: 30px;
         }
+
         .header img {
             max-width: 150px;
         }
+
         .form-group {
             margin-bottom: 15px;
         }
+
         .form-control {
             height: 45px;
             font-size: 16px;
         }
+
         .btn-primary {
             background-color: #11143b;
             border: none;
         }
+
         .btn-primary:hover {
             background-color: #0a0b29;
         }
+
         .left-panel {
             background-color: #11143b;
             height: 100vh;
@@ -53,10 +62,12 @@
             color: #fff;
             padding: 20px;
         }
+
         .left-panel img {
             max-width: 80%;
             margin-bottom: 20px;
         }
+
         .header-notice {
             background-color: #000;
             color: #fff;
@@ -67,6 +78,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <div class="header-notice">
@@ -74,11 +86,12 @@
     </div>
     <div class="d-flex">
         <div class="left-panel">
-            <img src="left-image.png" alt="IMORSUIT">
-            <img src="logo.png" alt="IMORSUIT">
+            <img src="https://tiendas.imporsuitpro.com/imgs/logo.png" alt="IMORSUIT">
+
         </div>
         <div class="container">
             <div class="header">
+                <img src="https://tiendas.imporsuitpro.com/imgs/logo_i.png" alt="IMORSUIT">
                 <h1>IMORSUIT</h1>
                 <p>¿Estás listo para unirte a este mundo de ecommerce? Llena tus datos para empezar.😉</p>
             </div>
@@ -116,6 +129,7 @@
     </div>
 
 </body>
+
 </html>
 
 <?php require_once './Views/templates/landing/footer.php'; ?>
