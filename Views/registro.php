@@ -87,7 +87,7 @@
     </div>
     <div class="d-flex flex-column">
         <div class="imagen_logo">
-            <img src="https://tiendas.imporsuitpro.com/imgs/logo.png" alt="IMORSUIT" width="300px" height="300px">
+            <img src="https://tiendas.imporsuitpro.com/imgs/logo.png" alt="IMORSUIT" width="600px" height="300px">
         </div>
         <div class="container">
             <div class="header">
