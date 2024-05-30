@@ -84,10 +84,10 @@
 </head>
 
 <body>
+    <div class="imagen_logo">
+        <img src="https://tiendas.imporsuitpro.com/imgs/logo.png" alt="IMORSUIT" width="300px" height="100px">
+    </div>
     <div class="container">
-        <div class="imagen_logo">
-            <img src="https://tiendas.imporsuitpro.com/imgs/logo.png" alt="IMORSUIT" width="300px" height="100px">
-        </div>
         <div class="header">
             <h1>Login</h1>
         </div>
