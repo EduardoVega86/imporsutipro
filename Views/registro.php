@@ -226,7 +226,7 @@
             data[key] = value;
         });
 
-        const url = '<?php echo SERVERURL; ?>Acceso/registro';
+        const url = '<?php echo SERVERURL; ?>Acceso/registro'; // Asegúrate de definir SERVERURL en tu backend PHP
 
         fetch(url, {
                 method: 'POST',
@@ -238,13 +238,21 @@
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
-                // Maneja la respuesta del servidor aquí
-                alert("Registro exitoso");
+                // Mostrar alerta de éxito
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Registro exitoso',
+                    text: 'Tu registro se ha realizado correctamente.'
+                });
             })
             .catch((error) => {
                 console.error('Error:', error);
-                // Maneja los errores aquí
-                alert("Hubo un problema con el registro");
+                // Mostrar alerta de error
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Hubo un problema con el registro.'
+                });
             });
     });
 </script>
