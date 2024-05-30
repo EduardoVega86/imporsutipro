@@ -99,10 +99,6 @@
         }
     </style>
 </head>
-
-<div class="header-notice">
-    ¡No desaproveches esta oportunidad, únete a IMPORSUIT!
-</div>
 <div class="d-flex flex-column" style="padding: 20px;">
     <div class="imagen_logo">
         <img src="https://tiendas.imporsuitpro.com/imgs/logo.png" alt="IMORSUIT" width="300px" height="100px">
@@ -121,7 +117,7 @@
                 <input type="contrasena" class="form-control" id="contrasena" placeholder="contrasena">
             </div>
             <button type="button" class="btn btn-primary w-100">Iniciar Sesión</button>
-            <a href="#" class="forgot-password">
+            <a href="#" class="forgot-password" style="justify-content: center;">
                 <i class="fas fa-lock"></i> ¿Olvidaste tu contraseña?
             </a>
         </form>
