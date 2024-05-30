@@ -2,3 +2,5 @@
 
 
 <?php require_once './Views/templates/landing/footer.php'; ?>
+
+
