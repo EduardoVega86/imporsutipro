@@ -7,10 +7,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IMORSUIT Registration</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #11143b;
+            background-image: url('https://tiendas.imporsuitpro.com/imgs/login.png');
+            background-size: cover;
+            background-position: center;
             color: #fff;
             font-family: Arial, sans-serif;
         }
@@ -75,16 +76,6 @@
             display: block;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
         @media (max-width: 768px) {
             .menu_derecha {
                 display: flex !important;
@@ -93,6 +84,18 @@
             .menu_izquierda {
                 display: none !important;
             }
+        }
+        .forgot-password {
+            display: flex;
+            align-items: center;
+            color: #666;
+            text-decoration: none;
+        }
+        .forgot-password i {
+            margin-right: 5px;
+        }
+        .forgot-password:hover {
+            color: #333;
         }
     </style>
 </head>
@@ -106,18 +109,21 @@
     </div>
     <div class="container">
         <div class="header">
-            <p>¿Estás listo para unirte al mundo del ecommerce? Comencemos!!!😉</p>
+            <h1>Login</h1>
         </div>
         <form id="multiStepForm">
             <div class="form-group">
-                <label for="nombre">Nombre</label>
-                <input type="text" class="form-control" id="nombre" placeholder="Nombre">
+                <label for="usuario">Usuario</label>
+                <input type="text" class="form-control" id="usuario" placeholder="usuario">
             </div>
             <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" class="form-control" id="email" placeholder="Email">
+                <label for="contrasena">Contraseña</label>
+                <input type="contrasena" class="form-control" id="contrasena" placeholder="contrasena">
             </div>
-            <button type="button" class="btn btn-primary w-100" onclick="nextStep()">Iniciar Sesión</button>
+            <button type="button" class="btn btn-primary w-100">Iniciar Sesión</button>
+            <a href="#" class="forgot-password">
+                <i class="fas fa-lock"></i> ¿Olvidaste tu contraseña?
+            </a>
         </form>
     </div>
 </div>
