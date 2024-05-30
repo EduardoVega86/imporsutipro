@@ -8,50 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IMORSUIT Registration</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #11143b;
-            color: #fff;
-            font-family: Arial, sans-serif;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 50px auto;
-            background-color: #fff;
-            color: #000;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .header img {
-            max-width: 150px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-control {
-            height: 45px;
-            font-size: 16px;
-        }
-
-        .btn-primary {
-            background-color: #11143b;
-            border: none;
-        }
-
-        .btn-primary:hover {
-            background-color: #0a0b29;
-        }
-    </style>
 </head>
 
 <body>
