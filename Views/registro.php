@@ -117,7 +117,7 @@
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email" placeholder="Email">
+                    <input type="email" class="form-control" id="correo" placeholder="Email">
                 </div>
                 <div class="d-flex flex-row">
                     <div class="form-group" style="width: 35%;">
