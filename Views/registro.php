@@ -17,7 +17,7 @@
 
         .container {
             max-width: 600px;
-            margin: 50px;
+            margin-right: 50px;
             background-color: #fff;
             color: #000;
             padding: 30px;
@@ -92,7 +92,6 @@
         <div class="container">
             <div class="header">
                 <img src="https://tiendas.imporsuitpro.com/imgs/logo_i.png" alt="IMORSUIT">
-                <h1>IMORSUIT</h1>
                 <p>¿Estás listo para unirte a este mundo de ecommerce? Llena tus datos para empezar.😉</p>
             </div>
             <form>
