@@ -39,6 +39,17 @@
             background-color: #007bff;
         }
 
+        .sidebar .menu {
+            flex-grow: 1;
+        }
+
+        .sidebar .footer-text {
+            text-align: center;
+            color: #fff;
+            padding: 10px;
+            user-select: none;
+        }
+
         .content {
             margin-left: 150px;
             width: 100%;
@@ -77,7 +88,7 @@
 
 <body>
     <div class="sidebar" id="sidebar">
-        <div>
+        <div class="menu">
             <a href="#" class="toggle-btn" id="toggle-btn">
                 <box-icon name="menu" color="#fff"></box-icon>
             </a>
