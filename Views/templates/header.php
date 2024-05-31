@@ -22,7 +22,7 @@
             top: 0;
             bottom: 0;
             left: 0;
-            background-color: #343a40;
+            background-color: #171931;
             padding-top: 1rem;
             transition: width 0.3s;
         }
@@ -55,7 +55,7 @@
             opacity: 0;
         }
         .navbar-custom {
-            background-color: #343a40;
+            background-color: #171931;
             color: #fff;
         }
         .navbar-custom .navbar-brand,
