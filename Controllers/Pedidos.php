@@ -3,14 +3,13 @@ session_start();
 class Home extends Controller
 {
     ///Vistas
-
-    public function pedidos()
+    ///Vistas
+    public function index()
     {
-        if (isset($_SESSION['id'])) {
-            header("Location: /Dashboard");
-        } else {
-            $this->views->render($this, "pedidos_ingresados");
-        }
+        $this->views->render($this, "index");
     }
-    ///Funciones
+    public function recovery()
+    {
+        $this->views->render($this, "recovery");
+    }
 }
