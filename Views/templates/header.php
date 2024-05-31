@@ -26,7 +26,7 @@
             bottom: 0;
             left: 0;
             background-color: #171931;
-            padding-top: 1rem;
+            padding-top: 1.4rem;
             transition: width 0.3s;
         }
 
@@ -94,14 +94,14 @@
     <div class="sidebar" id="sidebar">
         <div class="menu">
             <a href="#" class="toggle-btn" id="toggle-btn">
-                <box-icon name="menu" color="#fff" padding-right: 5px;></box-icon>
+                <box-icon name="menu" color="#fff" style="padding-right: 5px;"></box-icon>
             </a>
-            <a href="#"><box-icon name="home" color="#fff" padding-right: 5px;></box-icon> <span class="menu-text">Inicio</span></a>
-            <a href="#"><box-icon name="cart" color="#fff" padding-right: 5px;></box-icon> <span class="menu-text">Marketplace</span></a>
-            <a href="#"><box-icon name="user" color="#fff" padding-right: 5px;></box-icon> <span class="menu-text">Clientes</span></a>
-            <a href="#"><box-icon name="cube" color="#fff" padding-right: 5px;></box-icon> <span class="menu-text">Productos</span></a>
-            <a href="#"><box-icon name="shopping-bag" color="#fff" padding-right: 5px;></box-icon> <span class="menu-text">Compras</span></a>
-            <a href="#"><box-icon name="receipt" color="#fff" padding-right: 5px;></box-icon> <span class="menu-text">Pedidos</span></a>
+            <a href="#"><box-icon name="home" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Inicio</span></a>
+            <a href="#"><box-icon name="cart" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Marketplace</span></a>
+            <a href="#"><box-icon name="user" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Clientes</span></a>
+            <a href="#"><box-icon name="cube" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Productos</span></a>
+            <a href="#"><box-icon name="shopping-bag" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Compras</span></a>
+            <a href="#"><box-icon name="receipt" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Pedidos</span></a>
             <!-- Agrega más enlaces según sea necesario -->
         </div>
         <div class="footer-text">
