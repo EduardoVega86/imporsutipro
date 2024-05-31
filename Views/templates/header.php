@@ -36,7 +36,6 @@
         }
         .content {
             margin-left: 250px;
-            padding: 1rem;
             width: 100%;
             transition: margin-left 0.3s;
         }
