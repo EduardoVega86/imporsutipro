@@ -1,4 +1,4 @@
-<?php require_once './Views/templates/landing/header.php'; ?>
+<?php require_once './Views/templates/header.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -158,4 +158,4 @@
     </div>
 </body>
 </html>
-<?php require_once './Views/templates/landing/footer.php'; ?>
+<?php require_once './Views/templates/footer.php'; ?>
