@@ -124,8 +124,8 @@
             <div class="container-fluid">
                 <a class="navbar-brand" href="#"><img src="https://tiendas.imporsuitpro.com/imgs/LOGOS-IMPORSUIT.png" alt="IMORSUIT" width="100px" height="44px"></a>
                 <div class="navbar-right">
-                    <a class="nav-link" href="#"> <box-icon name='videos' type='solid' ></box-icon> Tutoriales</a>
-                    <span class="navbar-text"> <box-icon name='wallet'></box-icon> $0.00</span>
+                    <a class="nav-link" href="#"> <i class='bx bxs-videos' ></i> Tutoriales</a>
+                    <span class="navbar-text"> <i class='bx bx-wallet' ></i> $0.00</span>
                 </div>
             </div>
         </nav>
