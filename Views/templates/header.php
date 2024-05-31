@@ -77,7 +77,7 @@
         <!-- Agrega más enlaces según sea necesario -->
     </div>
     <div class="content">
-        <nav class="navbar navbar-expand-lg navbar-custom">
+        <nav class="navbar navbar-expand-lg navbar-custom" style="padding-top: 1rem;">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">IMPORSUITPRO</a>
                 <div class="d-flex">
