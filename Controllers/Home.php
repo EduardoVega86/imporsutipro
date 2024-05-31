@@ -35,7 +35,7 @@ class Home extends Controller
             $this->views->render($this, "registro");
         }
     }
-    public function pedidos()
+    public function pedidos_ingresados()
     {
         if (isset($_SESSION['id'])) {
             header("Location: /Dashboard");
