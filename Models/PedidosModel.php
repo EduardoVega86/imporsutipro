@@ -1,9 +1,8 @@
 <?php
-class AccesoModel extends Query
+class PedidosModel extends Query
 {
-    public function pedidos($usuario, $password)
+    public function __construct()
     {
-        $sql = "SELECT * FROM usuarios WHERE correo = '$usuario' AND contrasena = '$password'";
-        return $this->select($sql);
+        parent::__construct();
     }
 }

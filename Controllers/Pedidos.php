@@ -2,6 +2,10 @@
 session_start();
 class Pedidos extends Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
     ///Vistas
     public function index()
     {
