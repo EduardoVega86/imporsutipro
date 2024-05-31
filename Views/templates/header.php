@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -96,6 +95,8 @@
 
         .navbar-custom .nav-link,
         .navbar-custom .navbar-text {
+            display: flex;
+            align-items: center;
             margin-left: 15px;
         }
     </style>
@@ -124,8 +125,8 @@
             <div class="container-fluid">
                 <a class="navbar-brand" href="#"><img src="https://tiendas.imporsuitpro.com/imgs/LOGOS-IMPORSUIT.png" alt="IMORSUIT" width="100px" height="44px"></a>
                 <div class="navbar-right">
-                    <a class="nav-link" href="#"> <box-icon type='solid' name='videos' color="#fff"></box-icon> Tutoriales</a>
-                    <span class="navbar-text"> <box-icon name='wallet' color="#fff"></box-icon> $0.00</span>
+                    <a class="nav-link" href="#"><box-icon type='solid' name='videos' color="#fff"></box-icon> Tutoriales</a>
+                    <span class="navbar-text"><box-icon name='wallet' color="#fff"></box-icon> $0.00</span>
                 </div>
             </div>
         </nav>
