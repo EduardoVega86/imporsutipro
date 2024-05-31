@@ -79,7 +79,7 @@
     <div class="content">
         <nav class="navbar navbar-expand-lg navbar-custom" style="padding-top: 1rem;">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">IMPORSUITPRO</a>
+                <a class="navbar-brand" href="#"><img src="https://tiendas.imporsuitpro.com/imgs/LOGOS-IMPORSUIT.png" alt="IMORSUIT" width="100px" height="44px"></a>
                 <div class="d-flex">
                     <a class="nav-link" href="#">Tutoriales</a>
                     <span class="navbar-text">$0.00</span>
