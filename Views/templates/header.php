@@ -38,36 +38,47 @@
             display: flex;
             align-items: center;
         }
+        .offcanvas {
+            background-color: #1a1a2e;
+            color: #fff;
+        }
     </style>
 </head>
 
 <body class="">
 <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu">
             <span class="navbar-toggler-icon">&#9776;</span>
         </button>
         <a class="navbar-brand" href="#">IMPOR</a>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Services</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
-                </li>
-            </ul>
-            <div class="right-section">
-                <a href="#" class="nav-link">Tutoriales</a>
-                <span class="nav-link">$0.00</span>
-                <a href="#" class="nav-link"><i class="fa fa-sign-out-alt"></i></a>
-            </div>
+        <div class="right-section">
+            <a href="#" class="nav-link">Tutoriales</a>
+            <span class="nav-link">$0.00</span>
+            <a href="#" class="nav-link"><i class="fa fa-sign-out-alt"></i></a>
         </div>
     </div>
 </nav>
+
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasMenu">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title">Menu</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Services</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Contact</a>
+            </li>
+        </ul>
+    </div>
+</div>
