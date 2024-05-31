@@ -87,6 +87,17 @@
         .navbar-custom .navbar-text {
             color: #fff;
         }
+
+        .navbar-custom .navbar-right {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+        }
+
+        .navbar-custom .nav-link,
+        .navbar-custom .navbar-text {
+            margin-left: 15px;
+        }
     </style>
 </head>
 
@@ -112,7 +123,7 @@
         <nav class="navbar navbar-expand-lg navbar-custom" style="padding-top: 0.26rem;">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#"><img src="https://tiendas.imporsuitpro.com/imgs/LOGOS-IMPORSUIT.png" alt="IMORSUIT" width="100px" height="44px"></a>
-                <div class="d-flex">
+                <div class="navbar-right">
                     <a class="nav-link" href="#">Tutoriales</a>
                     <span class="navbar-text">$0.00</span>
                 </div>
