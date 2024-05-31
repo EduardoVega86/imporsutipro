@@ -15,6 +15,14 @@ class Pedidos extends Controller
     {
         $this->views->render($this, "index");
     }
+    public function guias()
+    {
+        $this->views->render($this, "guias");
+    }
+    public function anuladas()
+    {
+        $this->views->render($this, "anuladas");
+    }
     public function nuevo()
     {
         $this->views->render($this, "nuevo");
