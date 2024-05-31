@@ -6,7 +6,9 @@ if ($rute == "registro") {
     $rute = "Home/registro";
 } else if ($rute == "login") {
     $rute = "Home/login";
-} else if ($rute == "recovery") {
+} else if ($rute == "pedidos_ingresados") {
+    $rute = "Home/pedidos_ingresados";
+}else if ($rute == "recovery") {
     $rute = "Acceso/recovery";
 }
 $array = explode('/', $rute);

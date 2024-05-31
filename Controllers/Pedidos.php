@@ -4,7 +4,7 @@ class Home extends Controller
 {
     ///Vistas
 
-    public function login()
+    public function pedidos()
     {
         if (isset($_SESSION['id'])) {
             header("Location: /Dashboard");
