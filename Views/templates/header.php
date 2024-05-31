@@ -39,45 +39,15 @@
             display: flex;
             align-items: center;
         }
-        .sidebar {
-            height: 100%;
-            width: 0;
-            position: fixed;
-            z-index: 1;
-            top: 0;
-            left: 0;
-            background-color: #1a1a2e;
-            overflow-x: hidden;
-            transition: 0.5s;
-            padding-top: 60px;
+        .offcanvas-body ul.navbar-nav .nav-item .nav-link {
+            font-size: 18px;
+            padding: 10px;
         }
-        .sidebar a {
-            padding: 10px 15px;
-            text-decoration: none;
-            font-size: 25px;
-            color: #fff;
-            display: block;
-            transition: 0.3s;
+        .offcanvas-header {
+            border-bottom: 1px solid #ddd;
         }
-        .sidebar a:hover {
-            color: #f1f1f1;
-        }
-        .sidebar .closebtn {
-            position: absolute;
-            top: 0;
-            right: 25px;
-            font-size: 36px;
-            margin-left: 50px;
-        }
-        .openbtn {
-            font-size: 20px;
-            cursor: pointer;
-            background-color: #1a1a2e;
-            color: white;
-            border: none;
-        }
-        .openbtn:hover {
-            background-color: #444;
+        .offcanvas-body {
+            padding-top: 10px;
         }
     </style>
 </head>
