@@ -34,7 +34,9 @@
             color: #fff;
             padding: 10px;
             text-decoration: none;
-            display: block;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .sidebar a:hover {
@@ -46,8 +48,9 @@
         }
 
         .sidebar .footer-text {
+            font-size: 13px;
             text-align: center;
-            color: #fff;
+            color: #959595;
             padding: 10px;
             user-select: none;
         }
