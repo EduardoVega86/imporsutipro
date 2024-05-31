@@ -34,7 +34,8 @@
             color: #fff;
             padding: 10px;
             text-decoration: none;
-            display: block;
+            display: flex;
+            align-items: center;
         }
 
         .sidebar a:hover {
