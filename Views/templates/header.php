@@ -16,7 +16,7 @@
             overflow: hidden;
         }
         .sidebar {
-            width: 250px;
+            width: 150px;
             position: fixed;
             top: 0;
             bottom: 0;
@@ -35,15 +35,15 @@
             background-color: #007bff;
         }
         .content {
-            margin-left: 250px;
+            margin-left: 150px;
             width: 100%;
             transition: margin-left 0.3s;
         }
         .sidebar-collapsed {
-            width: 80px;
+            width: 45px;
         }
         .content-collapsed {
-            margin-left: 80px;
+            margin-left: 45px;
         }
         .menu-text {
             display: inline;
