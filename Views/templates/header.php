@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,6 +16,7 @@
             height: 100vh;
             overflow: hidden;
         }
+
         .sidebar {
             width: 150px;
             position: fixed;
@@ -25,37 +27,46 @@
             padding-top: 1rem;
             transition: width 0.3s;
         }
+
         .sidebar a {
             color: #fff;
             padding: 10px;
             text-decoration: none;
             display: block;
         }
+
         .sidebar a:hover {
             background-color: #007bff;
         }
+
         .content {
             margin-left: 150px;
             width: 100%;
             transition: margin-left 0.3s;
         }
+
         .sidebar-collapsed {
             width: 45px;
         }
+
         .content-collapsed {
             margin-left: 45px;
         }
+
         .menu-text {
             display: inline;
             transition: opacity 0.3s;
         }
+
         .sidebar-collapsed .menu-text {
             opacity: 0;
         }
+
         .navbar-custom {
             background-color: #171931;
             color: #fff;
         }
+
         .navbar-custom .navbar-brand,
         .navbar-custom .nav-link,
         .navbar-custom .navbar-text {
@@ -63,21 +74,27 @@
         }
     </style>
 </head>
+
 <body>
     <div class="sidebar" id="sidebar">
-        <a href="#" class="toggle-btn" id="toggle-btn">
-            <box-icon name="menu" color="#fff"></box-icon>
-        </a>
-        <a href="#"><box-icon name="home" color="#fff"></box-icon> <span class="menu-text">Inicio</span></a>
-        <a href="#"><box-icon name="cart" color="#fff"></box-icon> <span class="menu-text">Marketplace</span></a>
-        <a href="#"><box-icon name="user" color="#fff"></box-icon> <span class="menu-text">Clientes</span></a>
-        <a href="#"><box-icon name="cube" color="#fff"></box-icon> <span class="menu-text">Productos</span></a>
-        <a href="#"><box-icon name="shopping-bag" color="#fff"></box-icon> <span class="menu-text">Compras</span></a>
-        <a href="#"><box-icon name="receipt" color="#fff"></box-icon> <span class="menu-text">Pedidos</span></a>
-        <!-- Agrega más enlaces según sea necesario -->
+        <div>
+            <a href="#" class="toggle-btn" id="toggle-btn">
+                <box-icon name="menu" color="#fff"></box-icon>
+            </a>
+            <a href="#"><box-icon name="home" color="#fff"></box-icon> <span class="menu-text">Inicio</span></a>
+            <a href="#"><box-icon name="cart" color="#fff"></box-icon> <span class="menu-text">Marketplace</span></a>
+            <a href="#"><box-icon name="user" color="#fff"></box-icon> <span class="menu-text">Clientes</span></a>
+            <a href="#"><box-icon name="cube" color="#fff"></box-icon> <span class="menu-text">Productos</span></a>
+            <a href="#"><box-icon name="shopping-bag" color="#fff"></box-icon> <span class="menu-text">Compras</span></a>
+            <a href="#"><box-icon name="receipt" color="#fff"></box-icon> <span class="menu-text">Pedidos</span></a>
+            <!-- Agrega más enlaces según sea necesario -->
+        </div>
+        <div class="footer-text">
+            2024 © Imporsuit
+        </div>
     </div>
     <div class="content">
-        <nav class="navbar navbar-expand-lg navbar-custom" style="padding-top: 1rem;">
+        <nav class="navbar navbar-expand-lg navbar-custom" style="padding-top: 0.26rem;">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#"><img src="https://tiendas.imporsuitpro.com/imgs/LOGOS-IMPORSUIT.png" alt="IMORSUIT" width="100px" height="44px"></a>
                 <div class="d-flex">
