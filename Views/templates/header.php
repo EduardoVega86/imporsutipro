@@ -6,11 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IMPORSUITPRO</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 
     <style>
         body {
@@ -18,7 +16,6 @@
         }
         .navbar {
             background-color: #1a1a2e;
-            padding: 10px 20px;
         }
         .navbar-brand {
             color: #fff;
@@ -39,10 +36,6 @@
             display: flex;
             align-items: center;
         }
-        .offcanvas-body ul.navbar-nav .nav-item .nav-link {
-            font-size: 18px;
-            padding: 10px;
-        }
         .offcanvas-header {
             border-bottom: 1px solid #ddd;
         }
@@ -53,10 +46,10 @@
 </head>
 
 <body class="">
-<nav class="navbar navbar-expand-lg">
+<nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu">
-            <span class="navbar-toggler-icon">&#9776;</span>
+            <span class="navbar-toggler-icon"></span>
         </button>
         <a class="navbar-brand" href="#">IMPOR</a>
         <div class="right-section">
