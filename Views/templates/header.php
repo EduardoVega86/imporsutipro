@@ -18,6 +18,8 @@
         }
 
         .sidebar {
+            display: flex;
+            flex-direction: column;
             width: 150px;
             position: fixed;
             top: 0;

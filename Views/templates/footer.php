@@ -17,12 +17,14 @@
                 sidebar.addClass('sidebar-collapsed');
                 $('.content').addClass('content-collapsed');
                 $('.menu-text').hide();
+                $('.footer-text').hide();
             }
 
             toggleBtn.on('click', function() {
                 sidebar.toggleClass('sidebar-collapsed');
                 $('.content').toggleClass('content-collapsed');
                 $('.menu-text').toggle();
+                $('.footer-text').toggle(!sidebar.hasClass('sidebar-collapsed'));
                 localStorage.setItem('isSidebarCollapsed', sidebar.hasClass('sidebar-collapsed'));
             });
         });
