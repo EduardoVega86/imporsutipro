@@ -45,7 +45,7 @@
     </style>
 </head>
 
-<body class="">
+<body>
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu">
