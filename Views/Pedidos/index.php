@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-<div class="content-page">
+<div class="content-page" style="padding: 20px;">
         <!-- Start content -->
         <div class="content">
             <div class="container">
