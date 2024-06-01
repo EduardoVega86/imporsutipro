@@ -13,13 +13,14 @@
 </style>
 <div class="content" style="margin: 10px;">
     <div class="container">
-        <h3 class="portlet-title">
-            Agregar Dirección
-            <button class="btn btn-danger" onclick="colocarMarcadorUbicacionActual()">Usar ubicación actual</button>
 
-        </h3>
         <div class="row">
             <div class="col-md-3">
+                <h3 class="portlet-title">
+                    Agregar Dirección
+                    <button class="btn btn-danger" onclick="colocarMarcadorUbicacionActual()">Usar ubicación actual</button>
+
+                </h3>
                 <form id="formularioDatos" method="post" action="../ajax/guardar_bodega.php">
 
                     <div class="form-group row">
@@ -44,7 +45,7 @@
                                 <div id="div_ciudad" onclick="verify()">
                                     <select class="datos form-control" id="ciudad_entrega" name="ciudad_entrega" onchange="seleccionarProvincia()" required disabled>
                                         <option value="">Ciudad *</option>
-                                        
+
                                     </select>
                                 </div>
                             </div>
