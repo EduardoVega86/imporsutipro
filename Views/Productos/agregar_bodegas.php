@@ -12,7 +12,7 @@
     }
 </style>
 <div class="content" style="margin: 10px;">
-    <div class="container">
+    <div class="container" style="margin: 10px;">
 
         <div class="row">
             <div class="col-md-3">
