@@ -1,6 +1,16 @@
 <?php require_once './Views/templates/header.php'; ?>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGulcdBtz_Mydtmu432GtzJz82J_yb-rs&libraries=places"></script>
 
+<style>
+    body {
+        background-color: #f8f9fa;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        overflow-y: auto;
+    }
+</style>
 <div class="content" style="margin: 10px;">
     <div class="container">
         <h3 class="portlet-title">
