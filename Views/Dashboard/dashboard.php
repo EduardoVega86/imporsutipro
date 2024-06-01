@@ -1,3 +1,4 @@
+<?php require_once './Views/templates/header.php'; ?>
 <style>
     .card-box {
         border-radius: 0.5rem !important;
@@ -929,3 +930,4 @@
         }
     });
 </script>
+<?php require_once './Views/templates/footer.php'; ?>
