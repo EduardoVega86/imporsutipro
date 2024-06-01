@@ -142,8 +142,8 @@
             <a href="#" class="toggle-btn" id="toggle-btn">
                 <box-icon name="menu" color="#fff" style="padding-right: 5px;"></box-icon>
             </a>
-            <a href="#" class="dropdown-btn"><box-icon name="cart" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Productos</span></a>
-            <div class="submenu">
+            <a href="#" class="dropdown-btn" data-target="#submenu1"><box-icon name="cart" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Productos</span></a>
+            <div class="submenu" id="submenu1">
                 <a href="#"><box-icon name="store" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Locales</span></a>
                 <a href="#"><box-icon name="shopping-bag" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Marketplace</span></a>
             </div>

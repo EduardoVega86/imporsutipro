@@ -1,5 +1,5 @@
         <!-- Fin del contenido de la página -->
-    </div>
+        </div>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
@@ -37,19 +37,22 @@
             });
 
             dropdownBtn.on('click', function() {
+                const targetSubmenu = $($(this).data('target'));
+
                 if (sidebar.hasClass('sidebar-collapsed')) {
-                    // Ocultar el submenú normal
+                    // Ocultar todos los submenús normales
                     submenu.removeClass('active');
                     // Mostrar el submenú emergente
                     const offset = $(this).offset();
                     submenuPopup.css({
-                        top: offset.top + 'px'
+                        top: offset.top + 'px',
+                        left: offset.left + $(this).outerWidth() + 'px'
                     }).toggleClass('active');
                 } else {
                     // Ocultar el submenú emergente
                     submenuPopup.removeClass('active');
                     // Mostrar el submenú normal
-                    submenu.slideToggle().toggleClass('active');
+                    targetSubmenu.slideToggle().toggleClass('active');
                 }
             });
 
