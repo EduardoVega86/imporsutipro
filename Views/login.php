@@ -1,13 +1,4 @@
 <?php require_once './Views/templates/landing/header.php'; ?>
-
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IMORSUIT Registration</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
             background-color: #171931;
@@ -81,9 +72,7 @@
             color: #333;
         }
     </style>
-</head>
 
-<body>
     <div class="d-flex flex-column" style="width: 700px;">
     <div class="imagen_logo">
         <img src="https://tiendas.imporsuitpro.com/imgs/logo.png" alt="IMORSUIT" width="300px" height="100px">
@@ -108,8 +97,6 @@
         </form>
     </div>
     </div>
-</body>
 
-</html>
 
 <?php require_once './Views/templates/landing/footer.php'; ?>
