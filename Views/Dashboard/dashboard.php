@@ -134,16 +134,6 @@
         /* Asegura un mínimo de altura */
     }
 
-    /* reponsive*/
-    body,
-    html {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        overflow-x: hidden;
-        /* Evita desbordamiento horizontal */
-    }
-
     /* Estilo para la sección de información para que ocupe todo el ancho */
     .seccion_informacion {
         display: flex;
