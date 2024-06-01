@@ -15,13 +15,13 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
     <style>
         body {
-            background-color: #f8f9fa;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            overflow-y: auto;
-        }
+        background-color: #f8f9fa;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        overflow-y: auto;
+    }
 
         .sidebar {
             display: flex;
@@ -74,7 +74,7 @@
             user-select: none;
         }
 
-        .content_cabecera {
+        .content {
             margin-left: 150px;
             width: 100%;
             transition: margin-left 0.3s;
@@ -84,7 +84,7 @@
             width: 45px;
         }
 
-        .content_cabecera-collapsed {
+        .content-collapsed {
             margin-left: 45px;
         }
 
@@ -184,7 +184,7 @@
     <div class="submenu-popup" id="submenu-popup">
         <!-- Este div será llenado dinámicamente con el contenido del submenú adecuado -->
     </div>
-    <div class="content_cabecera">
+    <div class="content">
         <nav class="navbar navbar-expand-lg navbar-custom" style="padding-top: 0.26rem;">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#"><img src="https://tiendas.imporsuitpro.com/imgs/LOGOS-IMPORSUIT.png" alt="IMORSUIT" width="100px" height="44px"></a>

@@ -1,7 +1,7 @@
 <?php require_once './Views/templates/header.php'; ?>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGulcdBtz_Mydtmu432GtzJz82J_yb-rs&libraries=places"></script>
 
-<div class="content">
+<div class="content" style="margin: 10px;">
     <div class="container">
         <h3 class="portlet-title">
             Agregar Dirección
