@@ -73,7 +73,7 @@
         color: #fff;
     }
 </style>
-<div class="container">
+<div class="container" style="padding: 10px; margin: 10px;">
     <div class="header">
         <h1>IMPOR SUIT Dashboard</h1>
     </div>
