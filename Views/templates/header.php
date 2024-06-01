@@ -109,11 +109,10 @@
                 <box-icon name="menu" color="#fff" style="padding-right: 5px;"></box-icon>
             </a>
             <a href="#"><box-icon name="home" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Inicio</span></a>
-            <a href="#"><box-icon name="cart" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Marketplace</span></a>
-            <a href="#"><box-icon name="user" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Clientes</span></a>
-            <a href="#"><box-icon name="cube" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Productos</span></a>
-            <a href="#"><box-icon name="shopping-bag" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Compras</span></a>
+            <a href="#"><box-icon name="cart" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Productos</span></a>
             <a href="#"><box-icon name="receipt" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Pedidos</span></a>
+            <a href="#"><box-icon name="wallet" color="#fff" style="padding-right: 5px;"> </box-icon> <span class="menu-text">Wallet</span></a>
+            <a href="#"><box-icon name="cog" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Configuraciones</span></a>
             <!-- Agrega más enlaces según sea necesario -->
         </div>
         <div class="footer-text">
