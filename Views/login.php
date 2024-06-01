@@ -84,7 +84,7 @@
         <form id="login">
             <div class="form-group">
                 <label for="correo">Correo</label>
-                <input type="text" class="form-control" id="correo"  name="correo" placeholder="Correo">
+                <input type="text" class="form-control" id="correo" name="correo" placeholder="Correo">
             </div>
             <div class="form-group">
                 <label for="contrasena">Contraseña</label>
@@ -131,7 +131,11 @@
                     Swal.fire({
                         icon: 'success',
                         title: data.title,
-                        text: data.message
+                        text: data.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    }).then(() => {
+                        window.location.href = 'https://new.imporsuitpro.com/dashboard';
                     });
                 }
             })
@@ -141,7 +145,9 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'Hubo un problema con el inicio de sesión.'
+                    text: 'Hubo un problema con el inicio de sesión.',
+                    showConfirmButton: false,
+                    timer: 2000
                 });
             });
     });
