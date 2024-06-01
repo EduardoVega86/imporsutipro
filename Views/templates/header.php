@@ -161,7 +161,7 @@
             <div class="submenu" id="submenu1">
                 <a href="#"><box-icon name="store" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Locales</span></a>
                 <a href="#"><box-icon name="shopping-bag" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Marketplace</span></a>
-                <a href="#"><box-icon type="solid" name="truck" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Bodegas</span></a>
+                <a href="https://new.imporsuitpro.com/Productos/agregar_bodegas"><box-icon type="solid" name="truck" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Bodegas</span></a>
             </div>
             <a href="#" class="dropdown-btn" data-target="#submenu2"><box-icon name="receipt" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Pedidos</span></a>
             <div class="submenu" id="submenu2">
