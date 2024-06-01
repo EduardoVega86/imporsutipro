@@ -16,8 +16,10 @@ class Acceso extends Controller
     ///Funciones
     public function login()
     {
-        $usuario = $_POST['usuario'];
-        $password = $_POST['password'];
+        $correo = $_POST['correo'];
+        $contrasena = $_POST['contrasena'];
+        $response = $this->model->login($correo, $contrasena);
+        echo json_encode($response);
     }
     public function registro()
     {
