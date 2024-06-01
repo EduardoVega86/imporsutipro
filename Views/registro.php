@@ -221,9 +221,9 @@
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
-                text: "El nombre de la tienda no puede contener espacios ni caracteres especiales com (/,  ^, *, $, @ , \\\)",
+                text: "El nombre de la tienda no puede contener espacios ni caracteres especiales com (/,  ^, *, $, @ , \\)",
                 showConfirmButton: false,
-                timer: 1500
+                timer: 2000
             }).then(() => {
                 input.value = input.value.slice(0, -1);
             });
