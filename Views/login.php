@@ -121,7 +121,7 @@
             .then(data => {
                 console.log('Success:', data);
                 // Mostrar alerta de éxito
-                if (data.status == 500) {
+                if (data.status == 401) {
                     Swal.fire({
                         icon: 'error',
                         title: data.title,
