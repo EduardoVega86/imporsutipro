@@ -30,7 +30,7 @@
         margin: 10px;
         text-align: center;
         flex: 1 1 calc(25% - 40px);
-        max-width: calc(25% - 40px);
+        width: 50%;
     }
 
     .stat-box h3 {
