@@ -91,7 +91,7 @@
                 <input type="password" class="form-control" id="contrasena" placeholder="Contraseña">
             </div>
             <button type="button" class="btn btn-primary w-100">Iniciar Sesión</button>
-            <a href="https://new.imporsuitpro.com/recovery" class="forgot-password">
+            <a href="https://new.imporsuitpro.com/Home/recovery" class="forgot-password">
                 <i class="fas fa-lock"></i> ¿Olvidaste tu contraseña?
             </a>
         </form>
