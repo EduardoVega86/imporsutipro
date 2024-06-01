@@ -9,7 +9,7 @@ if ($rute == "registro") {
 } else if ($rute == "pedidos_ingresados") {
     $rute = "Home/pedidos_ingresados";
 }else if ($rute == "recovery") {
-    $rute = "Acceso/recovery";
+    $rute = "Home/recovery";
 }
 $array = explode('/', $rute);
 $controller = $array[0];
