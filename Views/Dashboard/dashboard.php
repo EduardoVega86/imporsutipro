@@ -167,13 +167,24 @@
                 </div>
                 <div class="content-box">
                     <h4>Visitas</h4>
-                    <ul class="list-group">
-                        <li class="list-group-item">Inicio</li>
-                        <li class="list-group-item">Plancha Pelo</li>
-                        <li class="list-group-item">Catálogo</li>
-                        <li class="list-group-item">Productos</li>
-                        <!-- Añadir más elementos de visita según sea necesario -->
-                    </ul>
+                    <<table class="table">
+                        <thead>
+                            <tr>
+                                <th>Pagina</th>
+                                <th>Visitas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Catalogo</td>
+                                <td>20000</td>
+                            </tr>
+                            <tr>
+                                <td>Productos</td>
+                                <td>20000</td>
+                            </tr>
+                        </tbody>
+                        </table>
                 </div>
             </div>
         </div>
