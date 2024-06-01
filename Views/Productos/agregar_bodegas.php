@@ -14,32 +14,7 @@
 
                     <div class="form-group row">
                         <div class="col-md-12">
-                            <?php if ($rol == 1) {
 
-
-                            ?>
-                                <select class='form-control' name='empresa' id='empresa' required>
-                                    <option value="">-- Selecciona cliente--</option>
-                                    <?php
-
-                                    $query_categoria = mysqli_query($conexion, "select * from users where cargo_users=4 order by apellido_users;");
-                                    while ($rw = mysqli_fetch_array($query_categoria)) {
-                                    ?>
-                                        <option value="<?php echo $rw['id_users']; ?>"><?php echo $rw['apellido_users']; ?></option>
-                                    <?php
-                                    }
-                                    ?>
-                                </select>
-                            <?php
-
-                            } else {
-                            ?>
-                                <input id="empresa" name="empresa" class="form-control " type="hidden" value="<?php echo $user_id; ?>">
-                            <?php
-
-                            }
-                            ?>
-                            <br>
                             <input id="nombre" name="nombre" class="form-control " type="text" placeholder="Nombre de la Bodega" required>
                             <br>
                             <input id="direccion" name="direccion" class="form-control " type="text" placeholder="Ingresa una dirección">
@@ -50,21 +25,7 @@
                                 <span class="help-block">Provincia </span>
                                 <select class="datos form-control " onchange="cargar_provincia_pedido()" id="provinica" name="provinica" required>
                                     <option value="">Provincia *</option>
-                                    <?php
-                                    $sql2 = "select * from provincia_laar where id_pais = $pais";
 
-                                    $query2 = mysqli_query($conexion, $sql2);
-                                    while ($row2 = mysqli_fetch_array($query2)) {
-
-                                        $id_prov = $row2['id_prov'];
-
-                                        $provincia = $row2['provincia'];
-                                        $cod_provincia = $row2['codigo_provincia'];
-
-                                        // Imprimir la opción con la marca de "selected" si es el valor almacenado
-                                        echo '<option value="' . $cod_provincia . '">' . $provincia . '</option>';
-                                    }
-                                    ?>
                                 </select>
                             </div>
                             <br>
@@ -73,20 +34,7 @@
                                 <div id="div_ciudad" onclick="verify()">
                                     <select class="datos form-control" id="ciudad_entrega" name="ciudad_entrega" onchange="seleccionarProvincia()" required disabled>
                                         <option value="">Ciudad *</option>
-                                        <?php
-                                        $sql2 = "select * from ciudad_cotizacion where id_pais='$pais' ";
-                                        $query2 = mysqli_query($conexion, $sql2);
-                                        $rowcount = mysqli_num_rows($query2);
-                                        $i = 1;
-                                        while ($row2 = mysqli_fetch_array($query2)) {
-                                            $id_ciudad = $row2['id_cotizacion'];
-                                            $nombre = $row2['ciudad'];
-                                            $cod_ciudad = $row2['codigo_ciudad_laar'];
-                                            $valor_seleccionado = $ciudaddestino;
-                                            $selected = ($valor_seleccionado == $cod_ciudad) ? 'selected' : '';
-                                            echo '<option value="' . $cod_ciudad . '>' . $nombre . '</option>';
-                                        ?>
-                                        <?php } ?>
+                                        
                                     </select>
                                 </div>
                             </div>
