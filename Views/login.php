@@ -84,11 +84,11 @@
         <form id="login">
             <div class="form-group">
                 <label for="correo">Correo</label>
-                <input type="text" class="form-control" id="correo" placeholder="Correo">
+                <input type="text" class="form-control" id="correo"  name="correo" placeholder="Correo">
             </div>
             <div class="form-group">
                 <label for="contrasena">Contraseña</label>
-                <input type="password" class="form-control" id="contrasena" placeholder="Contraseña">
+                <input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="Contraseña">
             </div>
             <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
             <a href="https://new.imporsuitpro.com/Home/recovery" class="forgot-password">
@@ -141,7 +141,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'Hubo un problema con el registro.'
+                    text: 'Hubo un problema con el inicio de sesión.'
                 });
             });
     });
