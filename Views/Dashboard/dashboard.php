@@ -83,9 +83,6 @@
 
 <body>
     <div class="container-fluid">
-        <div class="header">
-            <h1>IMPOR SUIT Dashboard</h1>
-        </div>
 
         <div class="d-flex flex-row">
             <div class="stats-container">
