@@ -1,13 +1,14 @@
 <?php require_once './Views/templates/header.php'; ?>
 <style>
-     body {
-            background-color: #f8f9fa;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            overflow-y: auto;
-        }
+    body {
+        background-color: #f8f9fa;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        overflow-y: auto;
+    }
+
     .header {
         text-align: center;
         margin: 20px 0;
@@ -72,93 +73,95 @@
     }
 </style>
 <div class="container">
-<div class="header">
-    <h1>IMPOR SUIT Dashboard</h1>
-</div>
+    <div class="header">
+        <h1>IMPOR SUIT Dashboard</h1>
+    </div>
+    <div class="d-flex flex-column">
+        <div class="d-flex flex-row">
+            <div class="stats-container">
+                <div class="stat-box">
+                    <h3>5.00</h3>
+                    <p>Total Ventas</p>
+                </div>
+                <div class="stat-box">
+                    <h3>$ 299.98</h3>
+                    <p>Total Pedidos</p>
+                </div>
+                <div class="stat-box">
+                    <h3>2.00</h3>
+                    <p>Total Guias</p>
+                </div>
+                <div class="stat-box">
+                    <h3>0.00</h3>
+                    <p>Total Recaudo</p>
+                </div>
+                <div class="stat-box">
+                    <h3>0.00</h3>
+                    <p>Total Fletes</p>
+                </div>
+                <div class="stat-box">
+                    <h3>0.00</h3>
+                    <p>Devoluciones</p>
+                </div>
+            </div>
 
-<div class="stats-container">
-    <div class="stat-box">
-        <h3>5.00</h3>
-        <p>Total Ventas</p>
-    </div>
-    <div class="stat-box">
-        <h3>$ 299.98</h3>
-        <p>Total Pedidos</p>
-    </div>
-    <div class="stat-box">
-        <h3>2.00</h3>
-        <p>Total Guias</p>
-    </div>
-    <div class="stat-box">
-        <h3>0.00</h3>
-        <p>Total Recaudo</p>
-    </div>
-    <div class="stat-box">
-        <h3>0.00</h3>
-        <p>Total Fletes</p>
-    </div>
-    <div class="stat-box">
-        <h3>0.00</h3>
-        <p>Devoluciones</p>
-    </div>
-</div>
-
-<div class="slider-container">
-    <img src="https://tiendas.imporsuitpro.com/imgs/logo.png" alt="Slider">
-</div>
-
-<div class="content-container">
-    <div class="content-box">
-        <h4>Últimos Pedidos</h4>
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>No. Pedido</th>
-                        <th>Fecha</th>
-                        <th>Monto</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>COT-005757</td>
-                        <td>01-06-2024</td>
-                        <td>$44.99</td>
-                    </tr>
-                    <tr>
-                        <td>COT-005756</td>
-                        <td>01-06-2024</td>
-                        <td>$45.00</td>
-                    </tr>
-                    <tr>
-                        <td>COT-005755</td>
-                        <td>01-06-2024</td>
-                        <td>$49.99</td>
-                    </tr>
-                    <tr>
-                        <td>COT-005754</td>
-                        <td>01-06-2024</td>
-                        <td>$80.00</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="slider-container">
+                <img src="https://tiendas.imporsuitpro.com/imgs/logo.png" alt="Slider">
+            </div>
         </div>
-        <button class="btn btn-primary">Ver todas las Ventas</button>
+        <div class="content-container">
+            <div class="content-box">
+                <h4>Últimos Pedidos</h4>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>No. Pedido</th>
+                                <th>Fecha</th>
+                                <th>Monto</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>COT-005757</td>
+                                <td>01-06-2024</td>
+                                <td>$44.99</td>
+                            </tr>
+                            <tr>
+                                <td>COT-005756</td>
+                                <td>01-06-2024</td>
+                                <td>$45.00</td>
+                            </tr>
+                            <tr>
+                                <td>COT-005755</td>
+                                <td>01-06-2024</td>
+                                <td>$49.99</td>
+                            </tr>
+                            <tr>
+                                <td>COT-005754</td>
+                                <td>01-06-2024</td>
+                                <td>$80.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button class="btn btn-primary">Ver todas las Ventas</button>
+            </div>
+            <div class="content-box">
+                <h4>Ventas del Último Mes</h4>
+                <canvas id="salesChart"></canvas>
+            </div>
+            <div class="content-box">
+                <h4>Visitas</h4>
+                <ul class="list-group">
+                    <li class="list-group-item">Inicio</li>
+                    <li class="list-group-item">Plancha Pelo</li>
+                    <li class="list-group-item">Catálogo</li>
+                    <li class="list-group-item">Productos</li>
+                </ul>
+            </div>
+        </div>
     </div>
-    <div class="content-box">
-        <h4>Ventas del Último Mes</h4>
-        <canvas id="salesChart"></canvas>
-    </div>
-    <div class="content-box">
-        <h4>Visitas</h4>
-        <ul class="list-group">
-            <li class="list-group-item">Inicio</li>
-            <li class="list-group-item">Plancha Pelo</li>
-            <li class="list-group-item">Catálogo</li>
-            <li class="list-group-item">Productos</li>
-        </ul>
-    </div>
-</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
