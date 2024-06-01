@@ -16,8 +16,10 @@ class Acceso extends Controller
     ///Funciones
     public function login()
     {
-        $correo = $_POST['correo'];
-        $contrasena = $_POST['contrasena'];
+        $data = json_decode(file_get_contents("php://input"), true);
+
+        $correo = $data['correo'];
+        $contrasena = $data['contrasena'];
         $response = $this->model->login($correo, $contrasena);
         echo json_encode($response);
     }
