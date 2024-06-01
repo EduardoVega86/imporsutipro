@@ -34,6 +34,7 @@ class Acceso extends Controller
         $contrasena = $data['contrasena'];
         $tienda = $data['tienda'];
 
+
         $response = $this->model->registro($nombre, $correo, $pais, $telefono, $contrasena, $tienda);
 
         echo json_encode($response);

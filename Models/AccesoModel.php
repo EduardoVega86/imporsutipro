@@ -67,7 +67,7 @@ class AccesoModel extends Query
     }
     public function login($usuario, $password)
     {
-        $sql = "SELECT * FROM usuarios WHERE email_users = '$usuario'";
+        $sql = "SELECT * FROM users WHERE email_users = '$usuario'";
         $datos_usuario = $this->select($sql);
         if (count($datos_usuario) > 0) {
             if (password_verify($password, $datos_usuario[0]['con_users'])) {
