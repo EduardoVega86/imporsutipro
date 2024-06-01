@@ -255,11 +255,19 @@
             .then(data => {
                 console.log('Success:', data);
                 // Mostrar alerta de éxito
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Registro exitoso',
-                    text: 'Tu registro se ha realizado correctamente.'
-                });
+                if (data.status == 500) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: data.message,
+                        text: data.error
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Registro exitoso',
+                        text: 'Tu registro se ha realizado correctamente.'
+                    });
+                }
             })
             .catch((error) => {
                 console.error('Error:', error);
