@@ -167,7 +167,7 @@
                 </div>
                 <div class="content-box">
                     <h4>Visitas</h4>
-                    <<table class="table">
+                    <table class="table">
                         <thead>
                             <tr>
                                 <th>Pagina</th>
