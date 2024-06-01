@@ -48,10 +48,22 @@
         .sidebar .submenu {
             display: none;
             flex-direction: column;
+            animation: slide-down 0.3s ease-out;
         }
 
         .sidebar .submenu a {
             padding-left: 30px;
+        }
+
+        @keyframes slide-down {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .sidebar .footer-text {
@@ -112,6 +124,33 @@
             align-items: center;
             margin-left: 15px;
         }
+
+        .submenu-popup {
+            position: absolute;
+            top: 0;
+            left: 150px;
+            width: 150px;
+            background-color: #171931;
+            border-left: 1px solid #444;
+            display: none;
+            flex-direction: column;
+            animation: slide-right 0.3s ease-out;
+        }
+
+        .sidebar-collapsed .submenu-popup {
+            left: 45px;
+        }
+
+        @keyframes slide-right {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
     </style>
 </head>
 
@@ -121,12 +160,16 @@
             <a href="#" class="toggle-btn" id="toggle-btn">
                 <box-icon name="menu" color="#fff" style="padding-right: 5px;"></box-icon>
             </a>
-            <a href="#"><box-icon name="home" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Inicio</span></a>
             <a href="#" class="dropdown-btn"><box-icon name="cart" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Productos</span></a>
             <div class="submenu">
                 <a href="#"><box-icon name="store" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Locales</span></a>
                 <a href="#"><box-icon name="shopping-bag" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Marketplace</span></a>
             </div>
+            <div class="submenu-popup" id="submenu-popup">
+                <a href="#"><box-icon name="store" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Locales</span></a>
+                <a href="#"><box-icon name="shopping-bag" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Marketplace</span></a>
+            </div>
+            <a href="#"><box-icon name="home" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Inicio</span></a>
             <a href="#"><box-icon name="receipt" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Pedidos</span></a>
             <a href="#"><box-icon name="wallet" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Wallet</span></a>
             <a href="#"><box-icon name="cog" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Configuración</span></a>

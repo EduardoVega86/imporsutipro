@@ -13,6 +13,7 @@
             const toggleBtn = $('#toggle-btn');
             const dropdownBtn = $('.dropdown-btn');
             const submenu = $('.submenu');
+            const submenuPopup = $('#submenu-popup');
             const isSidebarCollapsed = localStorage.getItem('isSidebarCollapsed') === 'true';
 
             if (isSidebarCollapsed) {
@@ -31,7 +32,11 @@
             });
 
             dropdownBtn.on('click', function() {
-                submenu.toggle();
+                if (sidebar.hasClass('sidebar-collapsed')) {
+                    submenuPopup.css('top', $(this).offset().top + 'px').toggle();
+                } else {
+                    submenu.slideToggle();
+                }
             });
         });
     </script>
