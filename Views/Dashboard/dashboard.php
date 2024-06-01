@@ -16,7 +16,7 @@
 
     .stats-container {
         display: flex;
-        flex-wrap: wrap;
+        flex-direction: column;
         justify-content: space-around;
         margin-bottom: 20px;
     }
@@ -79,29 +79,35 @@
     <div class="d-flex flex-column">
         <div class="d-flex flex-row">
             <div class="stats-container">
-                <div class="stat-box">
-                    <h3>5.00</h3>
-                    <p>Total Ventas</p>
+                <div class="d-flex flex-row">
+                    <div class="stat-box">
+                        <h3>5.00</h3>
+                        <p>Total Ventas</p>
+                    </div>
+                    <div class="stat-box">
+                        <h3>$ 299.98</h3>
+                        <p>Total Pedidos</p>
+                    </div>
                 </div>
-                <div class="stat-box">
-                    <h3>$ 299.98</h3>
-                    <p>Total Pedidos</p>
+                <div class="d-flex flex-row">
+                    <div class="stat-box">
+                        <h3>2.00</h3>
+                        <p>Total Guias</p>
+                    </div>
+                    <div class="stat-box">
+                        <h3>0.00</h3>
+                        <p>Total Recaudo</p>
+                    </div>
                 </div>
-                <div class="stat-box">
-                    <h3>2.00</h3>
-                    <p>Total Guias</p>
-                </div>
-                <div class="stat-box">
-                    <h3>0.00</h3>
-                    <p>Total Recaudo</p>
-                </div>
-                <div class="stat-box">
-                    <h3>0.00</h3>
-                    <p>Total Fletes</p>
-                </div>
-                <div class="stat-box">
-                    <h3>0.00</h3>
-                    <p>Devoluciones</p>
+                <div class="d-flex flex-row">
+                    <div class="stat-box">
+                        <h3>0.00</h3>
+                        <p>Total Fletes</p>
+                    </div>
+                    <div class="stat-box">
+                        <h3>0.00</h3>
+                        <p>Devoluciones</p>
+                    </div>
                 </div>
             </div>
 
