@@ -211,7 +211,7 @@
     function validateStoreName() {
         const input = document.getElementById('tienda');
         const label = document.querySelector('label[for="tienda"]');
-        const regex = /^[a-zA-Z-]*$/;
+        const regex = /^[a-zA-Z]*$/;
 
         input.value = input.value.toLowerCase();
 
@@ -221,7 +221,9 @@
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
-                text: "El nombre de la tienda no puede contener espacios ni caracteres especiales",
+                text: "El nombre de la tienda no puede contener espacios ni caracteres especiales com (/,  ^, *, $, @ , \\\)",
+                showConfirmButton: false,
+                timer: 1500
             }).then(() => {
                 input.value = input.value.slice(0, -1);
             });
