@@ -81,16 +81,16 @@
         <div class="header">
             <h1>Login</h1>
         </div>
-        <form id="multiStepForm">
+        <form id="login">
             <div class="form-group">
-                <label for="usuario">Usuario</label>
-                <input type="text" class="form-control" id="usuario" placeholder="Usuario">
+                <label for="correo">Correo</label>
+                <input type="text" class="form-control" id="correo"  name="correo" placeholder="Correo">
             </div>
             <div class="form-group">
                 <label for="contrasena">Contraseña</label>
-                <input type="password" class="form-control" id="contrasena" placeholder="Contraseña">
+                <input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="Contraseña">
             </div>
-            <button type="button" class="btn btn-primary w-100">Iniciar Sesión</button>
+            <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
             <a href="https://new.imporsuitpro.com/Home/recovery" class="forgot-password">
                 <i class="fas fa-lock"></i> ¿Olvidaste tu contraseña?
             </a>
@@ -98,5 +98,52 @@
     </div>
 </div>
 
+<script>
+    document.getElementById("login").addEventListener("submit", function(event) {
+        event.preventDefault();
 
+        const formData = new FormData(this);
+        const data = {};
+        formData.forEach((value, key) => {
+            data[key] = value;
+        });
+
+        const url = '<?php echo SERVERURL; ?>Acceso/login'; // Asegúrate de definir SERVERURL en tu backend PHP
+
+        fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                // Mostrar alerta de éxito
+                if (data.status == 500) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: data.title,
+                        text: data.message
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'success',
+                        title: data.title,
+                        text: data.message
+                    });
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                // Mostrar alerta de error
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Hubo un problema con el inicio de sesión.'
+                });
+            });
+    });
+</script>
 <?php require_once './Views/templates/landing/footer.php'; ?>

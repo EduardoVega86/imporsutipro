@@ -15,6 +15,10 @@ class Productos extends Controller
     {
         $this->views->render($this, "bodegas");
     }
+    public function agregar_bodegas()
+    {
+        $this->views->render($this, "agregar_bodegas");
+    }
 
 
     ///Funciones

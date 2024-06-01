@@ -110,6 +110,7 @@
                     <label for="correo">Email</label>
                     <input type="email" class="form-control" id="correo" name="correo" placeholder="Email">
                 </div>
+                <div id="email-error" style="color: red; display: none;">Formato de correo inválido.</div>
                 <div class="d-flex flex-row">
                     <div class="form-group" style="width: 35%;">
                         <label for="pais">País</label>
@@ -152,7 +153,7 @@
                     <input type="password" class="form-control" id="repetir-contrasena" name="repetir-contrasena" placeholder="Repetir Contraseña">
                 </div>
                 <div id="password-error" style="color: red; display: none;">Las contraseñas no coinciden.</div>
-                <button type="button" class="btn btn-primary w-100" onclick="validatePassword()">Siguiente</button>
+                <button type="button" class="btn btn-primary w-100" onclick="validateEmailAndPassword()">Siguiente</button>
             </div>
 
             <!-- Step 2 -->
@@ -195,16 +196,33 @@
         }
     }
 
-    function validatePassword() {
+    function validateEmailAndPassword() {
+        const email = document.getElementById("correo").value;
+        const emailErrorDiv = document.getElementById("email-error");
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
         const password = document.getElementById("contrasena").value;
         const repeatPassword = document.getElementById("repetir-contrasena").value;
-        const errorDiv = document.getElementById("password-error");
+        const passwordErrorDiv = document.getElementById("password-error");
+
+        let isValid = true;
+
+        if (emailPattern.test(email)) {
+            emailErrorDiv.style.display = "none";
+        } else {
+            emailErrorDiv.style.display = "block";
+            isValid = false;
+        }
 
         if (password === repeatPassword) {
-            errorDiv.style.display = "none";
-            nextStep();
+            passwordErrorDiv.style.display = "none";
         } else {
-            errorDiv.style.display = "block";
+            passwordErrorDiv.style.display = "block";
+            isValid = false;
+        }
+
+        if (isValid) {
+            nextStep();
         }
     }
 
@@ -221,7 +239,7 @@
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
-                text: "El nombre de la tienda no puede contener espacios ni caracteres especiales com (/,  ^, *, $, @ , \\)",
+                text: "El nombre de la tienda no puede contener espacios ni caracteres especiales como (/, ^, *, $, @, \\)",
                 showConfirmButton: false,
                 timer: 2000
             }).then(() => {
