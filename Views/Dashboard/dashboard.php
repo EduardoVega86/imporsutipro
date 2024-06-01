@@ -24,6 +24,7 @@
         flex-direction: column;
         justify-content: space-around;
         margin-bottom: 20px;
+        width: 25%;
     }
 
     .stat-box {
@@ -43,7 +44,7 @@
     }
 
     .slider-container {
-        width: 100%;
+        width: 75%;
         margin-bottom: 20px;
     }
 
