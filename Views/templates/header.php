@@ -87,11 +87,27 @@
         }
 
         .sidebar-collapsed .menu-text {
-            opacity: 0;
+            display: none;
+        }
+
+        .submenu-popup {
+            position: fixed;
+            top: 0;
+            left: 45px;
+            width: 150px;
+            background-color: #171931;
+            display: none;
+            flex-direction: column;
+            border-left: 1px solid #444;
+            z-index: 1000;
         }
 
         .submenu-popup .menu-text {
-            opacity: 1 !important;
+            display: inline !important;
+        }
+
+        .submenu-popup.active {
+            display: flex;
         }
 
         .navbar-custom {
@@ -116,22 +132,6 @@
             display: flex;
             align-items: center;
             margin-left: 15px;
-        }
-
-        .submenu-popup {
-            position: fixed;
-            top: 0;
-            left: 45px;
-            width: 150px;
-            background-color: #171931;
-            display: none;
-            flex-direction: column;
-            border-left: 1px solid #444;
-            z-index: 1000;
-        }
-
-        .submenu-popup.active {
-            display: flex;
         }
     </style>
 </head>

@@ -19,7 +19,7 @@
             if (isSidebarCollapsed) {
                 sidebar.addClass('sidebar-collapsed');
                 $('.content').addClass('content-collapsed');
-                
+                $('.menu-text').hide();
                 $('.footer-text').hide();
             }
 
