@@ -6,13 +6,14 @@ if ($rute == "registro") {
     $rute = "Home/registro";
 } else if ($rute == "login") {
     $rute = "Home/login";
-} else if ($rute == "pedidos_ingresados") {
-    $rute = "Home/pedidos_ingresados";
-}else if ($rute == "recovery") {
-    $rute = "Home/recovery";
+} else if ($rute == "recovery") {
+    $rute = "Acceso/recovery";
 }
 $array = explode('/', $rute);
 $controller = $array[0];
+// hacer mayuscula la primera letra
+$controller = ucwords($controller);
+
 $method = "index";
 $parameter = "";
 if (!empty($array[1])) {
