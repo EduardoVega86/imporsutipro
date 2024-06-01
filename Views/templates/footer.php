@@ -11,6 +11,8 @@
         $(document).ready(function() {
             const sidebar = $('#sidebar');
             const toggleBtn = $('#toggle-btn');
+            const dropdownBtn = $('.dropdown-btn');
+            const submenu = $('.submenu');
             const isSidebarCollapsed = localStorage.getItem('isSidebarCollapsed') === 'true';
 
             if (isSidebarCollapsed) {
@@ -26,6 +28,10 @@
                 $('.menu-text').toggle();
                 $('.footer-text').toggle(!sidebar.hasClass('sidebar-collapsed'));
                 localStorage.setItem('isSidebarCollapsed', sidebar.hasClass('sidebar-collapsed'));
+            });
+
+            dropdownBtn.on('click', function() {
+                submenu.toggle();
             });
         });
     </script>

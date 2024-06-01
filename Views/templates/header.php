@@ -45,6 +45,15 @@
             flex-grow: 1;
         }
 
+        .sidebar .submenu {
+            display: none;
+            flex-direction: column;
+        }
+
+        .sidebar .submenu a {
+            padding-left: 30px;
+        }
+
         .sidebar .footer-text {
             font-size: 13px;
             text-align: center;
@@ -74,6 +83,10 @@
 
         .sidebar-collapsed .menu-text {
             opacity: 0;
+        }
+
+        .sidebar-collapsed .footer-text {
+            display: none;
         }
 
         .navbar-custom {
@@ -109,11 +122,14 @@
                 <box-icon name="menu" color="#fff" style="padding-right: 5px;"></box-icon>
             </a>
             <a href="#"><box-icon name="home" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Inicio</span></a>
-            <a href="#"><box-icon name="cart" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Productos</span></a>
+            <a href="#" class="dropdown-btn"><box-icon name="cart" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Productos</span></a>
+            <div class="submenu">
+                <a href="#"><box-icon name="store" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Locales</span></a>
+                <a href="#"><box-icon name="shopping-bag" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Marketplace</span></a>
+            </div>
             <a href="#"><box-icon name="receipt" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Pedidos</span></a>
-            <a href="#"><box-icon name="wallet" color="#fff" style="padding-right: 5px;"> </box-icon> <span class="menu-text">Wallet</span></a>
-            <a href="#"><box-icon name="cog" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Configuraciones</span></a>
-            <!-- Agrega más enlaces según sea necesario -->
+            <a href="#"><box-icon name="wallet" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Wallet</span></a>
+            <a href="#"><box-icon name="cog" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Configuración</span></a>
         </div>
         <div class="footer-text">
             2024 © Imporsuit
