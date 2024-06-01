@@ -159,7 +159,14 @@
                 <a href="#"><box-icon name="shopping-bag" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Marketplace</span></a>
             </div>
             <a href="#"><box-icon name="home" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Inicio</span></a>
-            <a href="#"><box-icon name="receipt" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Pedidos</span></a>
+            <a href="#" class="dropdown-btn" data-target="#submenu2"><box-icon name="receipt" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Pedidos</span></a>
+            <div class="submenu" id="submenu2">
+                <a href="#"><box-icon name="file" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Nuevo</span></a>
+                <a href="#"><box-icon name="history" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Historial</span></a>
+                <a href="#"><box-icon name="archive" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Guías</span></a>
+                <a href="#"><box-icon name="x" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Anulados</span></a>
+                <a href="#"><box-icon name="info-circle" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Novedad</span></a>
+            </div>
             <a href="#"><box-icon name="wallet" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Wallet</span></a>
             <a href="#"><box-icon name="cog" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Configuración</span></a>
         </div>
@@ -168,8 +175,7 @@
         </div>
     </div>
     <div class="submenu-popup" id="submenu-popup">
-        <a href="#"><box-icon name="store" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Locales</span></a>
-        <a href="#"><box-icon name="shopping-bag" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Marketplace</span></a>
+        <!-- Este div será llenado dinámicamente con el contenido del submenú adecuado -->
     </div>
     <div class="content">
         <nav class="navbar navbar-expand-lg navbar-custom" style="padding-top: 0.26rem;">

@@ -42,7 +42,8 @@
                 if (sidebar.hasClass('sidebar-collapsed')) {
                     // Ocultar todos los submenús normales
                     submenu.removeClass('active');
-                    // Mostrar el submenú emergente
+                    // Llenar y mostrar el submenú emergente
+                    submenuPopup.html(targetSubmenu.html());
                     const offset = $(this).offset();
                     submenuPopup.css({
                         top: offset.top + 'px',
