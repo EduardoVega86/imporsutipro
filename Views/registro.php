@@ -159,7 +159,7 @@
             <div class="step">
                 <div class="form-group">
                     <label for="tienda">Nombre de tu tienda</label>
-                    <input type="text" class="form-control" id="tienda" name="tienda" placeholder="Tienda">
+                    <input type="text" class="form-control" id="tienda" name="tienda" placeholder="Tienda" oninput="validateStoreName()">
                 </div>
                 <button type="button" class="btn btn-secondary w-100 mb-2" onclick="prevStep()">Anterior</button>
                 <button type="submit" class="btn btn-primary w-100">Enviar</button>
@@ -205,6 +205,29 @@
             nextStep();
         } else {
             errorDiv.style.display = "block";
+        }
+    }
+
+    function validateStoreName() {
+        const input = document.getElementById('tienda');
+        const label = document.querySelector('label[for="tienda"]');
+        const regex = /^[a-zA-Z-]*$/;
+
+        input.value = input.value.toLowerCase();
+
+        if (!regex.test(input.value)) {
+            label.classList.remove("text-green-500");
+            label.classList.add("text-red-500", "border-red-500");
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "El nombre de la tienda no puede contener espacios ni caracteres especiales",
+            }).then(() => {
+                input.value = input.value.slice(0, -1);
+            });
+        } else {
+            label.classList.remove("text-red-500", "border-red-500");
+            label.classList.add("text-green-500");
         }
     }
 
