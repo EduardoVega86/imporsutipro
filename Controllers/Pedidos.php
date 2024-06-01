@@ -7,20 +7,24 @@ class Pedidos extends Controller
         parent::__construct();
     }
     ///Vistas
-    public function index()
+    public function index($filtro = "")
     {
-        $this->views->render($this, "index");
+        $data = $this->model->cargarPedidosIngresados($filtro);
+        $this->views->render($this, "index", $data);
     }
-    public function historial()
+    public function ingreso($filtro = "")
     {
-        $this->views->render($this, "index");
+        $data = $this->model->cargarPedidosIngresados($filtro);
+        $this->views->render($this, "index", $data);
     }
-    public function guias()
+    public function guias($filtro = "")
     {
-        $this->views->render($this, "guias");
+        $data = $this->model->cargarGuias($filtro);
+        $this->views->render($this, "guias", $data);
     }
-    public function anuladas()
+    public function anuladas($filtro = "")
     {
+        $data = $this->model->cargarAnuladas($filtro);
         $this->views->render($this, "anuladas");
     }
     public function nuevo()
