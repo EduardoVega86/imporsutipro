@@ -2,7 +2,7 @@
 class Query extends Conexion
 {
     private $pdo, $connection, $sql;
-    
+
     public function __construct()
     {
         $this->pdo = new Conexion();
@@ -18,7 +18,7 @@ class Query extends Conexion
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
             return $result;
         } catch (PDOException $e) {
-            return $this->handleError($e->getMessage());
+            return $this->handleError($e->getMessage(), $e->getCode());
         }
     }
 
@@ -31,7 +31,7 @@ class Query extends Conexion
             $result = $query->rowCount();
             return $result;
         } catch (PDOException $e) {
-            return $this->handleError($e->getMessage());
+            return $this->handleError($e->getMessage(), $e->getCode());
         }
     }
 
@@ -44,7 +44,7 @@ class Query extends Conexion
             $result = $query->rowCount();
             return $result;
         } catch (PDOException $e) {
-            return $this->handleError($e->getMessage());
+            return $this->handleError($e->getMessage(), $e->getCode());
         }
     }
 
@@ -57,7 +57,7 @@ class Query extends Conexion
             $result = $query->rowCount();
             return $result;
         } catch (PDOException $e) {
-            return $this->handleError($e->getMessage());
+            return $this->handleError($e->getMessage(), $e->getCode());
         }
     }
 
@@ -70,7 +70,7 @@ class Query extends Conexion
     {
         return [
             'status' => 500,
-            'message' => 'Petición exitosa',
+            'title' => 'Error',
             'data' => []
         ];
     }
@@ -90,15 +90,19 @@ class Query extends Conexion
             $result = $this->insert($sql, $data);
             return $result;
         } catch (PDOException $e) {
-            return $this->handleError($e->getMessage());
+            return $this->handleError($e->getMessage(), $e->getCode());
         }
     }
 
-    private function handleError($message)
+    private function handleError($message, $code = 0)
     {
+        //si se genera un error de SQLException agarrar el codigo de error y el mensaje
+
         return [
             'status' => 'error',
-            'message' => $message
+            'message' => $message,
+            'code' => $code
+
         ];
     }
 
