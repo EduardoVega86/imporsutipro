@@ -74,7 +74,7 @@
             user-select: none;
         }
 
-        .content {
+        .content_cabecera {
             margin-left: 150px;
             width: 100%;
             transition: margin-left 0.3s;
@@ -84,7 +84,7 @@
             width: 45px;
         }
 
-        .content-collapsed {
+        .content_cabecera-collapsed {
             margin-left: 45px;
         }
 
@@ -184,7 +184,7 @@
     <div class="submenu-popup" id="submenu-popup">
         <!-- Este div será llenado dinámicamente con el contenido del submenú adecuado -->
     </div>
-    <div class="content">
+    <div class="content_cabecera">
         <nav class="navbar navbar-expand-lg navbar-custom" style="padding-top: 0.26rem;">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#"><img src="https://tiendas.imporsuitpro.com/imgs/LOGOS-IMPORSUIT.png" alt="IMORSUIT" width="100px" height="44px"></a>
