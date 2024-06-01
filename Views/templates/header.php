@@ -15,9 +15,12 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
     <style>
         body {
-            display: flex;
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
             height: 100vh;
-            overflow: hidden;
+            overflow-y: auto;
         }
 
         .sidebar {

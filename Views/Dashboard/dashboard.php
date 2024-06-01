@@ -1,13 +1,5 @@
 <?php require_once './Views/templates/header.php'; ?>
 <style>
-    body {
-        background-color: #f8f9fa;
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        height: 100vh;
-        overflow-y: auto;
-    }
 
     .container-fluid {
         width: 100%;
