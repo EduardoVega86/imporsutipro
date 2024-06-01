@@ -29,13 +29,34 @@
                 $('.menu-text').toggle();
                 $('.footer-text').toggle(!sidebar.hasClass('sidebar-collapsed'));
                 localStorage.setItem('isSidebarCollapsed', sidebar.hasClass('sidebar-collapsed'));
+
+                // Ocultar el submenú emergente si el menú principal se expande
+                if (!sidebar.hasClass('sidebar-collapsed')) {
+                    submenuPopup.removeClass('active');
+                }
             });
 
             dropdownBtn.on('click', function() {
                 if (sidebar.hasClass('sidebar-collapsed')) {
-                    submenuPopup.css('top', $(this).offset().top + 'px').toggle();
+                    // Ocultar el submenú normal
+                    submenu.removeClass('active');
+                    // Mostrar el submenú emergente
+                    const offset = $(this).offset();
+                    submenuPopup.css({
+                        top: offset.top + 'px'
+                    }).toggleClass('active');
                 } else {
-                    submenu.slideToggle();
+                    // Ocultar el submenú emergente
+                    submenuPopup.removeClass('active');
+                    // Mostrar el submenú normal
+                    submenu.slideToggle().toggleClass('active');
+                }
+            });
+
+            // Cerrar el submenú emergente al hacer clic fuera de él
+            $(document).on('click', function(event) {
+                if (!$(event.target).closest('.dropdown-btn, .submenu-popup').length) {
+                    submenuPopup.removeClass('active');
                 }
             });
         });

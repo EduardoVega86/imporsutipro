@@ -48,22 +48,15 @@
         .sidebar .submenu {
             display: none;
             flex-direction: column;
-            animation: slide-down 0.3s ease-out;
+            padding-left: 20px;
         }
 
         .sidebar .submenu a {
-            padding-left: 30px;
+            padding: 5px 10px;
         }
 
-        @keyframes slide-down {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .sidebar .submenu.active {
+            display: flex;
         }
 
         .sidebar .footer-text {
@@ -126,30 +119,23 @@
         }
 
         .submenu-popup {
-            position: absolute;
+            position: fixed;
             top: 0;
-            left: 150px;
+            left: 45px;
             width: 150px;
             background-color: #171931;
-            border-left: 1px solid #444;
             display: none;
             flex-direction: column;
-            animation: slide-right 0.3s ease-out;
+            border-left: 1px solid #444;
+            z-index: 1000;
         }
 
         .sidebar-collapsed .submenu-popup {
             left: 45px;
         }
 
-        @keyframes slide-right {
-            from {
-                opacity: 0;
-                transform: translateX(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+        .submenu-popup.active {
+            display: flex;
         }
     </style>
 </head>
@@ -165,10 +151,6 @@
                 <a href="#"><box-icon name="store" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Locales</span></a>
                 <a href="#"><box-icon name="shopping-bag" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Marketplace</span></a>
             </div>
-            <div class="submenu-popup" id="submenu-popup">
-                <a href="#"><box-icon name="store" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Locales</span></a>
-                <a href="#"><box-icon name="shopping-bag" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Marketplace</span></a>
-            </div>
             <a href="#"><box-icon name="home" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Inicio</span></a>
             <a href="#"><box-icon name="receipt" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Pedidos</span></a>
             <a href="#"><box-icon name="wallet" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Wallet</span></a>
@@ -177,6 +159,10 @@
         <div class="footer-text">
             2024 © Imporsuit
         </div>
+    </div>
+    <div class="submenu-popup" id="submenu-popup">
+        <a href="#"><box-icon name="store" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Locales</span></a>
+        <a href="#"><box-icon name="shopping-bag" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Marketplace</span></a>
     </div>
     <div class="content">
         <nav class="navbar navbar-expand-lg navbar-custom" style="padding-top: 0.26rem;">
