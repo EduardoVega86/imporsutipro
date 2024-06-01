@@ -9,6 +9,11 @@
         overflow-y: auto;
     }
 
+    .container-fluid {
+        width: 100%;
+        padding: 20px;
+    }
+
     .header {
         text-align: center;
         margin: 20px 0;
@@ -16,10 +21,9 @@
 
     .stats-container {
         display: flex;
-        flex-direction: column;
+        flex-wrap: wrap;
         justify-content: space-around;
         margin-bottom: 20px;
-        width: 30%;
     }
 
     .stat-box {
@@ -30,7 +34,7 @@
         margin: 10px;
         text-align: center;
         flex: 1 1 calc(25% - 40px);
-        width: 50%;
+        max-width: calc(25% - 40px);
     }
 
     .stat-box h3 {
@@ -39,7 +43,7 @@
     }
 
     .slider-container {
-        width: 70%;
+        width: 100%;
         margin-bottom: 20px;
     }
 
@@ -66,6 +70,7 @@
 
     .table-responsive {
         max-height: 200px;
+        overflow-y: auto;
     }
 
     .table thead th {
@@ -73,49 +78,45 @@
         color: #fff;
     }
 </style>
-<div class="container" style="padding: 10px; margin: 10px;">
-    <div class="header">
-        <h1>IMPOR SUIT Dashboard</h1>
-    </div>
-    <div class="d-flex flex-column">
-        <div class="d-flex flex-row">
-            <div class="stats-container">
-                <div class="d-flex flex-row">
-                    <div class="stat-box">
-                        <h3>5.00</h3>
-                        <p>Total Ventas</p>
-                    </div>
-                    <div class="stat-box">
-                        <h3>$ 299.98</h3>
-                        <p>Total Pedidos</p>
-                    </div>
-                </div>
-                <div class="d-flex flex-row">
-                    <div class="stat-box">
-                        <h3>2.00</h3>
-                        <p>Total Guias</p>
-                    </div>
-                    <div class="stat-box">
-                        <h3>0.00</h3>
-                        <p>Total Recaudo</p>
-                    </div>
-                </div>
-                <div class="d-flex flex-row">
-                    <div class="stat-box">
-                        <h3>0.00</h3>
-                        <p>Total Fletes</p>
-                    </div>
-                    <div class="stat-box">
-                        <h3>0.00</h3>
-                        <p>Devoluciones</p>
-                    </div>
-                </div>
-            </div>
+</head>
 
-            <div class="slider-container">
-                <img src="https://tiendas.imporsuitpro.com/imgs/logo.png" alt="Slider">
+<body>
+    <div class="container-fluid">
+        <div class="header">
+            <h1>IMPOR SUIT Dashboard</h1>
+        </div>
+
+        <div class="stats-container">
+            <div class="stat-box">
+                <h3>5.00</h3>
+                <p>Total Ventas</p>
+            </div>
+            <div class="stat-box">
+                <h3>$ 299.98</h3>
+                <p>Total Pedidos</p>
+            </div>
+            <div class="stat-box">
+                <h3>2.00</h3>
+                <p>Total Guias</p>
+            </div>
+            <div class="stat-box">
+                <h3>0.00</h3>
+                <p>Total Recaudo</p>
+            </div>
+            <div class="stat-box">
+                <h3>0.00</h3>
+                <p>Total Fletes</p>
+            </div>
+            <div class="stat-box">
+                <h3>0.00</h3>
+                <p>Devoluciones</p>
             </div>
         </div>
+
+        <div class="slider-container">
+            <img src="https://tiendas.imporsuitpro.com/imgs/logo.png" alt="Slider">
+        </div>
+
         <div class="content-container">
             <div class="content-box">
                 <h4>Últimos Pedidos</h4>
@@ -165,36 +166,36 @@
                     <li class="list-group-item">Plancha Pelo</li>
                     <li class="list-group-item">Catálogo</li>
                     <li class="list-group-item">Productos</li>
+                    <!-- Añadir más elementos de visita según sea necesario -->
                 </ul>
             </div>
         </div>
     </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    var ctx = document.getElementById('salesChart').getContext('2d');
-    var salesChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['1 May', '2 May', '3 May', '4 May', '5 May', '6 May', '7 May', '8 May', '9 May', '10 May', '11 May', '12 May', '13 May', '14 May', '15 May', '16 May', '17 May', '18 May', '19 May', '20 May', '21 May', '22 May', '23 May', '24 May', '25 May', '26 May', '27 May', '28 May', '29 May', '30 May', '31 May'],
-            datasets: [{
-                label: 'Ventas este mes',
-                data: [0, 1000, 500, 1200, 1800, 2300, 300, 600, 800, 500, 700, 2000, 100, 0, 300, 500, 400, 300, 200, 1000, 200, 300, 500, 600, 300, 500, 700, 800, 600, 1000, 0],
-                backgroundColor: 'rgba(0, 123, 255, 0.5)',
-                borderColor: 'rgba(0, 123, 255, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var ctx = document.getElementById('salesChart').getContext('2d');
+        var salesChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['1 May', '2 May', '3 May', '4 May', '5 May', '6 May', '7 May', '8 May', '9 May', '10 May', '11 May', '12 May', '13 May', '14 May', '15 May', '16 May', '17 May', '18 May', '19 May', '20 May', '21 May', '22 May', '23 May', '24 May', '25 May', '26 May', '27 May', '28 May', '29 May', '30 May', '31 May'],
+                datasets: [{
+                    label: 'Ventas este mes',
+                    data: [0, 1000, 500, 1200, 1800, 2300, 300, 600, 800, 500, 700, 2000, 100, 0, 300, 500, 400, 300, 200, 1000, 200, 300, 500, 600, 300, 500, 700, 800, 600, 1000, 0],
+                    backgroundColor: 'rgba(0, 123, 255, 0.5)',
+                    borderColor: 'rgba(0, 123, 255, 1)',
+                    borderWidth: 1
                 }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
             }
-        }
-    });
-</script>
-<?php require_once './Views/templates/footer.php'; ?>
+        });
+    </script>
+    <?php require_once './Views/templates/footer.php'; ?>
