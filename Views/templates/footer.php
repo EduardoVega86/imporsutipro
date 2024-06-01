@@ -59,6 +59,13 @@
                     submenuPopup.removeClass('active');
                 }
             });
+
+            // Cerrar el submenú normal al hacer clic fuera de él
+            $(document).on('click', function(event) {
+                if (!$(event.target).closest('.dropdown-btn, .submenu').length) {
+                    submenu.removeClass('active').slideUp();
+                }
+            });
         });
     </script>
 </body>
