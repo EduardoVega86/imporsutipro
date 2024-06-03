@@ -21,7 +21,7 @@
     }
 </style>
 <!-- llamada de modales -->
-<?php require_once '/Modales/atritubos_locales.php'; ?>
+<?php require_once 'Modales/atritubos_locales.php'; ?>
 
 <div class="custom-container-fluid">
     <div class="container mt-5">
