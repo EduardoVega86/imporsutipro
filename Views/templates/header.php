@@ -18,6 +18,7 @@
             display: flex;
             height: 100vh;
             overflow: hidden;
+            flex-direction: column;
         }
 
         .sidebar {
@@ -31,6 +32,7 @@
             background-color: #171931;
             padding-top: 1.4rem;
             transition: width 0.3s;
+            z-index: 1000;
         }
 
         .sidebar a {
@@ -73,8 +75,10 @@
 
         .content {
             margin-left: 150px;
-            width: 100%;
+            flex-grow: 1;
+            overflow: auto;
             transition: margin-left 0.3s;
+            padding: 15px;
         }
 
         .sidebar-collapsed {
@@ -102,7 +106,6 @@
         .submenu-popup a {
             padding: 5px 10px;
             color: #fff;
-            padding: 10px;
             text-decoration: none;
             display: flex;
             align-items: center;
@@ -111,6 +114,7 @@
         .navbar-custom {
             background-color: #171931;
             color: #fff;
+            width: 100%;
         }
 
         .navbar-custom .navbar-brand,
@@ -146,6 +150,45 @@
 
         .submenu-popup.active {
             display: flex;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 45px;
+            }
+
+            .content {
+                margin-left: 45px;
+            }
+
+            .sidebar .menu-text {
+                display: none;
+            }
+
+            .sidebar .footer-text {
+                display: none;
+            }
+
+            .submenu-popup {
+                left: 45px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .navbar-custom .navbar-brand {
+                margin-right: auto;
+            }
+
+            .navbar-custom .navbar-right {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .navbar-custom .nav-link,
+            .navbar-custom .navbar-text {
+                margin-left: 0;
+                margin-top: 5px;
+            }
         }
     </style>
 </head>
@@ -185,9 +228,14 @@
         <nav class="navbar navbar-expand-lg navbar-custom" style="padding-top: 0.26rem;">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#"><img src="https://tiendas.imporsuitpro.com/imgs/LOGOS-IMPORSUIT.png" alt="IMORSUIT" width="100px" height="44px"></a>
-                <div class="navbar-right">
-                    <a class="nav-link" href="#"><box-icon type='solid' name='videos' color="#fff"></box-icon> Tutoriales</a>
-                    <span class="navbar-text"><box-icon name='wallet' color="#fff"></box-icon> $0.00</span>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <div class="navbar-right">
+                        <a class="nav-link" href="#"><box-icon type='solid' name='videos' color="#fff"></box-icon> Tutoriales</a>
+                        <span class="navbar-text"><box-icon name='wallet' color="#fff"></box-icon> $0.00</span>
+                    </div>
                 </div>
             </div>
         </nav>
