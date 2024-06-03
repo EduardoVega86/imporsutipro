@@ -14,10 +14,10 @@
         padding: 20px;
     } */
 
-    .header {
+    /* .header {
         text-align: center;
         margin: 20px 0;
-    }
+    } */
 
     .stats-container {
         display: flex;
