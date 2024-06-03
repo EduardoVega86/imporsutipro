@@ -129,6 +129,7 @@
             display: flex;
             align-items: center;
             margin-left: 15px;
+            margin-right: 15px;
         }
 
         .profile-dropdown {
