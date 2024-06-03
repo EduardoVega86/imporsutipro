@@ -3,10 +3,10 @@
         margin-bottom: 15px;
     }
 
-    .modal-header {
+    /* .modal-header {
         background-color: #343a40;
         color: white;
-    }
+    } */
 
     .hidden-tab {
         display: none !important;
