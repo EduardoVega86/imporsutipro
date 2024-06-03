@@ -83,7 +83,7 @@
         display: flex;
         flex-direction: row;
     }
-    .tablas_estaditicas {
+    .tablas_estaditicas .content-container{
         display: flex;
         flex-direction: row;
     }
@@ -93,7 +93,7 @@
             flex-direction: column-reverse !important;
         }
 
-        .tablas_estaditicas {
+        .tablas_estaditicas .content-container{
             flex-direction: column !important;
         }
     }
