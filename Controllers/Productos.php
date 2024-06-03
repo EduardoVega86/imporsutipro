@@ -35,7 +35,7 @@ class Productos extends Controller
         if (!$this->hasPermission(2)) {
             header("Location: /dashboard");
         }
-        $data = $this->model->cargarCategorias();
+        $data = $this->model->cargarCategorias($plataforma = $_SESSION['id_plataforma']);
         $this->views->render($this, "categorias", $data);
     }
 

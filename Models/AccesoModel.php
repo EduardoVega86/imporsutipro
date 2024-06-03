@@ -48,7 +48,6 @@ class AccesoModel extends Query
 
                     $sql = "INSERT INTO usuario_plataforma (id_usuario, id_plataforma) VALUES (?, ?)";
                     $data = [$id[0]['id_users'], $idPlataforma[0]['id_plataforma']];
-                    $this->insert($sql, $data);
                     $insertar_relacion = $this->insert($sql, $data);
                     if ($insertar_relacion == 1) {
                         $response['status'] = 200;
@@ -59,6 +58,7 @@ class AccesoModel extends Query
                         $_SESSION["user"] = $correo;
                         $_SESSION["id_plataforma"] = $idPlataforma[0]['id_plataforma'];
                         $_SESSION['login_time'] = time();
+                        $_SESSION['cargo'] = 1;
                         //enviar correo
                         $url_change = "https://" . $tienda . ".imporsuitpro.com";
                         require_once 'PHPMailer/Mail.php';

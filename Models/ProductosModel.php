@@ -17,9 +17,9 @@ class ProductosModel extends Query
         return $this->select($sql);
     }
 
-    public function cargarCategorias()
+    public function cargarCategorias($plataforma)
     {
-        $sql = "SELECT * FROM lineas";
+        $sql = "SELECT * FROM lineas WHERE id_plataforma = $plataforma";
         return $this->select($sql);
     }
 }
