@@ -17,47 +17,57 @@
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="datos-basicos" role="tabpanel" aria-labelledby="datos-basicos-tab">
                         <form>
-                            <div class="form-group">
-                                <label for="codigo">Código:</label>
-                                <input type="text" class="form-control" id="codigo" value="10088">
-                            </div>
-                            <div class="form-group">
-                                <label for="nombre">Nombre:</label>
-                                <input type="text" class="form-control" id="nombre">
-                            </div>
-                            <div class="form-group">
-                                <label for="descripcion">Descripción:</label>
-                                <textarea class="form-control" id="descripcion"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="categoria">Categoría:</label>
-                                <select class="form-select" id="categoria">
-                                    <option selected>-- Selecciona --</option>
-                                    <option value="1">Categoría 1</option>
-                                    <option value="2">Categoría 2</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="proveedor">Proveedor:</label>
-                                <select class="form-select" id="proveedor">
-                                    <option selected>-- Selecciona --</option>
-                                    <option value="1">Proveedor 1</option>
-                                    <option value="2">Proveedor 2</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="formato-pagina">Formato Página Productos:</label>
-                                <select class="form-select" id="formato-pagina">
-                                    <option selected>-- Selecciona --</option>
-                                    <option value="1">Formato 1</option>
-                                    <option value="2">Formato 2</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Formato:</label>
-                                <div class="d-flex">
-                                    <img src="formato1.png" alt="Formato 1" class="me-2">
-                                    <img src="formato2.png" alt="Formato 2">
+                            <div class="d-flex flex-column">
+                                <div class="d-flex flex-row">
+                                    <div class="form-group">
+                                        <label for="codigo">Código:</label>
+                                        <input type="text" class="form-control" id="codigo" value="10088">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="nombre">Nombre:</label>
+                                        <input type="text" class="form-control" id="nombre">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="descripcion">Descripción:</label>
+                                    <textarea class="form-control" id="descripcion"></textarea>
+                                </div>
+                                <div class="d-flex flex-row">
+                                    <div class="d-flex flex-column">
+                                        <div class="form-group">
+                                            <label for="categoria">Categoría:</label>
+                                            <select class="form-select" id="categoria">
+                                                <option selected>-- Selecciona --</option>
+                                                <option value="1">Categoría 1</option>
+                                                <option value="2">Categoría 2</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Formato:</label>
+                                            <div class="d-flex">
+                                                <img src="formato1.png" alt="Formato 1" class="me-2">
+                                                <img src="formato2.png" alt="Formato 2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-column">
+                                        <div class="form-group">
+                                            <label for="proveedor">Proveedor:</label>
+                                            <select class="form-select" id="proveedor">
+                                                <option selected>-- Selecciona --</option>
+                                                <option value="1">Proveedor 1</option>
+                                                <option value="2">Proveedor 2</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="formato-pagina">Formato Página Productos:</label>
+                                            <select class="form-select" id="formato-pagina">
+                                                <option selected>-- Selecciona --</option>
+                                                <option value="1">Formato 1</option>
+                                                <option value="2">Formato 2</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </form>
