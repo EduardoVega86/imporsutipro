@@ -117,7 +117,7 @@
             max-width: calc(105% - 40px);
         }
         .custom-container-fluid{
-            width: 80%;
+            width: 100%;
             margin: 0;
         }
     }
