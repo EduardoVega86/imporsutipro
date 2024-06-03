@@ -67,7 +67,7 @@ class Controller
         }
 
         if (isset($_SESSION["user"])) {
-            if ($_SESSION["user"]["rol"] == $permission) {
+            if ($_SESSION["user"]["cargo"] === 1 || $_SESSION["user"]["cargo"] === $permission) {
                 return true;
             }
         }
