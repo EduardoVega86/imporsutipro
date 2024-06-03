@@ -60,6 +60,19 @@ class Controller
         }
         return false;
     }
+    public function hasPermission($permission)
+    {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (isset($_SESSION["user"])) {
+            if ($_SESSION["user"]["rol"] == $permission) {
+                return true;
+            }
+        }
+        return false;
+    }
     public function logouts()
     {
 

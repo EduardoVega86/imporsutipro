@@ -5,6 +5,8 @@ class Productos extends Controller
     public function __construct()
     {
         parent::__construct();
+        if (!$this->isAuth())
+            header("Location: /login");
     }
     ///Vistas
     public function index()
@@ -21,12 +23,14 @@ class Productos extends Controller
     }
     public function locales()
     {
-        $this->views->render($this, "locales");
+        $data = $this->model->cargarLocales();
+        $this->views->render($this, "locales", $data);
     }
 
     public function categorias()
     {
-        $this->views->render($this, "categorias");
+        $data = $this->model->cargarCategorias();
+        $this->views->render($this, "categorias", $data);
     }
 
 
