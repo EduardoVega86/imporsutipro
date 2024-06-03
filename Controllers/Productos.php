@@ -24,6 +24,11 @@ class Productos extends Controller
         $this->views->render($this, "locales");
     }
 
+    public function categorias()
+    {
+        $this->views->render($this, "categorias");
+    }
+
 
     ///Funciones
 }
