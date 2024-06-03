@@ -9,10 +9,10 @@
         overflow-y: auto;
     }
 
-    .container-fluid {
+    /* .container-fluid {
         width: 100%;
         padding: 20px;
-    }
+    } */
 
     .header {
         text-align: center;
@@ -78,13 +78,28 @@
         background: #343a40;
         color: #fff;
     }
+    /* secciones principales  */
+    .banner_estadisticas {
+        display: flex;
+        flex-direction: row;
+    }
+    /* responsive */
+    @media (max-width: 768px) {
+        .banner_estadisticas {
+            flex-direction: column-reverse !important;
+        }
+
+        .menu_izquierda {
+            display: none !important;
+        }
+    }
 </style>
 </head>
 
 <body>
     <div class="container-fluid">
 
-        <div class="d-flex flex-row">
+        <div class="banner_estadisticas">
             <div class="stats-container">
                 <div class="d-flex flex-row">
                     <div class="stat-box">

@@ -76,16 +76,6 @@
             opacity: 1;
         }
     }
-
-    @media (max-width: 768px) {
-        .menu_derecha {
-            display: flex !important;
-        }
-
-        .menu_izquierda {
-            display: none !important;
-        }
-    }
 </style>
 
 <div class="header-notice">
