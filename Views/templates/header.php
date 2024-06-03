@@ -148,13 +148,16 @@
             display: flex;
         }
 
-        .sidebar{
-            margin: 0; 
-            z-index: 50;
-        }
+        /* responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                margin: 0;
+                z-index: 50;
+            }
 
-        .content{
-            margin: 0;
+            .content {
+                margin: 0;
+            }
         }
     </style>
 </head>
