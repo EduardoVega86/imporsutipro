@@ -47,7 +47,7 @@
             <div class="d-flex">
                 <button class="btn btn-outline-secondary me-2"><i class="fas fa-file-alt"></i> Reporte</button>
                 <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#atributosModal"><i class="fas fa-list"></i> Atributos</button>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregar_productoModal"><i class="fas fa-list"></i> Agregar</button>
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_productoModal"><i class="fas fa-list"></i> Agregar</button>
             </div>
         </div>
         <div class="table-responsive">
