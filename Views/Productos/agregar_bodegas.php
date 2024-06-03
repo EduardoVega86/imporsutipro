@@ -34,7 +34,7 @@
     }
 </style>
 <div class="content">
-    <div class="container" style="margin: 10px;">
+    <div class="container cuerpo_mapa" style="margin: 10px;">
 
         <div class="contenido">
             <div class="col-md-3">
