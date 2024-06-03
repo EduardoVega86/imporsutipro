@@ -180,7 +180,7 @@
             }
 
             .custom-container-fluid {
-                width: 95%;
+                width: 90%;
                 margin-left: 35px;
             }
         }
