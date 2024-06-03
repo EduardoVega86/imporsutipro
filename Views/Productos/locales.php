@@ -10,7 +10,7 @@
     }
 
     .table thead th {
-        background-color: #007bff;
+        background-color: #171931;
         color: white;
     }
 
