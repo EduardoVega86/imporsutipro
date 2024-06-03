@@ -9,11 +9,6 @@
         overflow-y: auto;
     }
 
-    .container-fluid {
-        width: 100%;
-        padding: 20px;
-    }
-
     .header {
         text-align: center;
         margin: 20px 0;
@@ -95,6 +90,19 @@
 
         .tablas_estaditicas .content-container{
             flex-direction: column !important;
+        }
+
+        .stats-container{
+            width: 100%;
+        }
+
+        .slider-container{
+            width: 100%;
+        }
+
+        .content-box {
+            width: 100%;
+            max-width: calc(105% - 40px);
         }
     }
 </style>
