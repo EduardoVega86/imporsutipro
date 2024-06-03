@@ -211,7 +211,7 @@
             }
 
             .profile-dropdown {
-                top: 50px;
+                top: 105px; /* Ajusta esta altura según sea necesario */
                 right: 10px;
             }
         }
