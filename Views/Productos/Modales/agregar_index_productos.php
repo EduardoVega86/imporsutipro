@@ -186,6 +186,8 @@
             const manejaInventarioSelect = document.getElementById('maneja-inventario');
             const inventarioVariableTab = document.getElementById('inventario-variable-tab');
             const bodegaField = document.getElementById('bodega-field');
+            const precioReferencialCheckbox = document.getElementById('precio-referencial');
+            const precioReferencialInput = document.getElementById('precio-referencial-valor');
 
             function toggleInventarioVariableTab() {
                 if (productoVariableSelect.value === '1') { // 1 para "Sí"
@@ -203,14 +205,20 @@
                 }
             }
 
+            function togglePrecioReferencialInput() {
+                precioReferencialInput.disabled = !precioReferencialCheckbox.checked;
+            }
+
             productoVariableSelect.addEventListener('change', function() {
                 toggleInventarioVariableTab();
                 toggleBodegaField();
             });
 
             manejaInventarioSelect.addEventListener('change', toggleBodegaField);
+            precioReferencialCheckbox.addEventListener('change', togglePrecioReferencialInput);
 
             toggleInventarioVariableTab(); // Llama a la función al cargar la página para ajustar la visibilidad inicial
             toggleBodegaField(); // Llama a la función al cargar la página para ajustar la visibilidad inicial
+            togglePrecioReferencialInput(); // Llama a la función al cargar la página para ajustar la visibilidad inicial
         });
 </script>

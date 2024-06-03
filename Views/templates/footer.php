@@ -85,6 +85,20 @@
                 }
             });
         });
+
+        //funcion cerrar sesion 
+        function cerrar_sesion() {
+        $.ajax({
+            url: '<?php echo SERVERURL; ?>acceso/logout', 
+            method: 'GET', 
+            success: function(response) {
+                location.reload();
+            },
+            error: function(xhr, status, error) {
+                console.error('Error al cerrar la sesión', status, error);
+            }
+        });
+    }
     </script>
 </body>
 </html>

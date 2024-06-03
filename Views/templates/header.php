@@ -260,7 +260,7 @@
                     <img src="https://tiendas.imporsuitpro.com/imgs/your-profile-image.jpg" class="profile-pic" id="profilePic" alt="Perfil">
                     <div class="profile-dropdown" id="profileDropdown">
                         <a href="#"><box-icon name="user" color="#fff" style="padding-right: 5px;"></box-icon> Perfil</a>
-                        <a href="#"><box-icon name="log-out" color="#fff" style="padding-right: 5px;"></box-icon> Cerrar sesión</a>
+                        <a onclick="cerrar_sesion()"><box-icon name="log-out" color="#fff" style="padding-right: 5px;"></box-icon> Cerrar sesión</a>
                     </div>
                 </div>
             </div>
