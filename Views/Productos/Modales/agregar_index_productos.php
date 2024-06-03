@@ -1,5 +1,5 @@
 <div class="modal fade" id="agregar_productoModal" tabindex="-1" aria-labelledby="agregar_productoModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="agregar_productoModalLabel"><i class="fas fa-edit"></i> Nuevo Producto</h5>
@@ -19,11 +19,11 @@
                         <form>
                             <div class="d-flex flex-column">
                                 <div class="d-flex flex-row">
-                                    <div class="form-group">
+                                    <div class="form-group w-100">
                                         <label for="codigo">Código:</label>
                                         <input type="text" class="form-control" id="codigo" value="10088">
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group w-100">
                                         <label for="nombre">Nombre:</label>
                                         <input type="text" class="form-control" id="nombre">
                                     </div>
@@ -33,7 +33,7 @@
                                     <textarea class="form-control" id="descripcion"></textarea>
                                 </div>
                                 <div class="d-flex flex-row">
-                                    <div class="d-flex flex-column">
+                                    <div class="d-flex flex-column w-100">
                                         <div class="form-group">
                                             <label for="categoria">Categoría:</label>
                                             <select class="form-select" id="categoria">
@@ -50,7 +50,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="d-flex flex-column">
+                                    <div class="d-flex flex-column w-100">
                                         <div class="form-group">
                                             <label for="proveedor">Proveedor:</label>
                                             <select class="form-select" id="proveedor">
