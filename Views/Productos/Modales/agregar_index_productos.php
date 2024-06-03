@@ -14,7 +14,7 @@
                         <button class="nav-link" id="precios-stock-tab" data-bs-toggle="tab" data-bs-target="#precios-stock" type="button" role="tab" aria-controls="precios-stock" aria-selected="false"><strong>Precios y Stock</strong></button>
                     </li>
                     <li class="nav-item hidden-tab" role="presentation">
-                        <button class="nav-link active" id="inventario-variable-tab" data-bs-toggle="tab" data-bs-target="#inventario-variable" type="button" role="tab" aria-controls="inventario-variable" aria-selected="true"><strong>Inventario Variable</strong></button>
+                        <button class="nav-link" id="inventario-variable-tab" data-bs-toggle="tab" data-bs-target="#inventario-variable" type="button" role="tab" aria-controls="inventario-variable" aria-selected="true"><strong>Inventario Variable</strong></button>
                     </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
