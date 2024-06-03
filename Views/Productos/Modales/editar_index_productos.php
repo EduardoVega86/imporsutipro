@@ -11,17 +11,13 @@
     .hidden-tab {
         display: none !important;
     }
-
-    .hidden-field {
-        display: none;
-    }
 </style>
 
-<div class="modal fade" id="agregar_productoModal" tabindex="-1" aria-labelledby="agregar_productoModalLabel" aria-hidden="true">
+<div class="modal fade" id="editar_productoModal" tabindex="-1" aria-labelledby="editar_productoModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="agregar_productoModalLabel"><i class="fas fa-edit"></i> Nuevo Producto</h5>
+                <h5 class="modal-title" id="editar_productoModalLabel"><i class="fas fa-edit"></i> Nuevo Producto</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -31,9 +27,6 @@
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="precios-stock-tab" data-bs-toggle="tab" data-bs-target="#precios-stock" type="button" role="tab" aria-controls="precios-stock" aria-selected="false"><strong>Precios y Stock</strong></button>
-                    </li>
-                    <li class="nav-item hidden-tab" role="presentation" id="inventario-variable-tab">
-                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#inventario-variable" type="button" role="tab" aria-controls="inventario-variable" aria-selected="false"><strong>Inventario Variable</strong></button>
                     </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
@@ -99,8 +92,8 @@
                             <div class="d-flex flex-column">
                                 <div class="d-flex flex-row gap-3">
                                     <div class="form-group w-100">
-                                        <label for="costo">Costo:</label>
-                                        <input type="text" class="form-control" id="costo">
+                                        <label for="ultimo_costo">Ultimo Costo:</label>
+                                        <input type="text" class="form-control" id="ultimo_costo">
                                     </div>
                                     <div class="form-group w-100">
                                         <label for="utilidad">Utilidad %:</label>
@@ -119,9 +112,8 @@
                                 </div>
                                 <div class="d-flex flex-row gap-3">
                                     <div class="form-group w-100">
-                                        <label for="precio-referencial">¿Precio Referencial?</label>
-                                        <input type="checkbox" class="form-check-input" id="precio-referencial">
-                                        <input type="text" class="form-control mt-2" id="precio-referencial-valor" disabled>
+                                        <label for="precio-referencial">Precio Referencial</label>
+                                        <input type="text" class="form-control mt-2" id="precio-referencial-valor">
                                     </div>
                                     <div class="form-group w-100">
                                         <label for="maneja-inventario">Maneja Inventario:</label>
@@ -132,16 +124,6 @@
                                         </select>
                                     </div>
                                     <div class="form-group w-100">
-                                        <label for="producto-variable">Producto Variable:</label>
-                                        <select class="form-select" id="producto-variable">
-                                            <option selected>-- Selecciona --</option>
-                                            <option value="1">Sí</option>
-                                            <option value="2">No</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="d-flex flex-row gap-3">
-                                    <div class="form-group w-100">
                                         <label for="stock-inicial">Stock Inicial:</label>
                                         <input type="text" class="form-control" id="stock-inicial">
                                     </div>
@@ -149,23 +131,7 @@
                                         <label for="stock-minimo">Stock Mínimo:</label>
                                         <input type="text" class="form-control" id="stock-minimo">
                                     </div>
-                                    <div class="form-group w-100 hidden-field" id="bodega-field">
-                                        <label for="bodega">Bodega:</label>
-                                        <select class="form-select" id="bodega">
-                                            <option selected>-- Selecciona Bodega --</option>
-                                            <option value="1">Bodega 1</option>
-                                            <option value="2">Bodega 2</option>
-                                        </select>
-                                    </div>
                                 </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="tab-pane fade" id="inventario-variable" role="tabpanel" aria-labelledby="inventario-variable-tab">
-                        <form>
-                            <div class="form-group">
-                                <label for="inventario-variable-input">Inventario Variable:</label>
-                                <input type="text" class="form-control" id="inventario-variable-input">
                             </div>
                         </form>
                     </div>
@@ -178,39 +144,3 @@
         </div>
     </div>
 </div>
-
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-            const productoVariableSelect = document.getElementById('producto-variable');
-            const manejaInventarioSelect = document.getElementById('maneja-inventario');
-            const inventarioVariableTab = document.getElementById('inventario-variable-tab');
-            const bodegaField = document.getElementById('bodega-field');
-
-            function toggleInventarioVariableTab() {
-                if (productoVariableSelect.value === '1') { // 1 para "Sí"
-                    inventarioVariableTab.classList.remove('hidden-tab');
-                } else {
-                    inventarioVariableTab.classList.add('hidden-tab');
-                }
-            }
-
-            function toggleBodegaField() {
-                if (manejaInventarioSelect.value === '1' && productoVariableSelect.value === '2') { // 1 para "Sí" y 2 para "No"
-                    bodegaField.classList.remove('hidden-field');
-                } else {
-                    bodegaField.classList.add('hidden-field');
-                }
-            }
-
-            productoVariableSelect.addEventListener('change', function() {
-                toggleInventarioVariableTab();
-                toggleBodegaField();
-            });
-
-            manejaInventarioSelect.addEventListener('change', toggleBodegaField);
-
-            toggleInventarioVariableTab(); // Llama a la función al cargar la página para ajustar la visibilidad inicial
-            toggleBodegaField(); // Llama a la función al cargar la página para ajustar la visibilidad inicial
-        });
-</script>

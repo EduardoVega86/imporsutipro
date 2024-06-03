@@ -23,6 +23,7 @@
 <!-- llamada de modales -->
 <?php require_once './Views/Productos/Modales/atributos_index_productos.php'; ?>
 <?php require_once './Views/Productos/Modales/agregar_index_productos.php'; ?>
+<?php require_once './Views/Productos/Modales/editar_index_productos.php'; ?>
 
 <div class="custom-container-fluid">
     <div class="container mt-5">
@@ -88,7 +89,7 @@
                         <td>icono</td>
                         <td>29/12/2023</td>
                         <td>
-                            <button class="btn btn-primary btn-sm"><i class="fas fa-edit"></i> Editar</button>
+                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#agregar_productoModal"><i class="fas fa-edit"></i> Editar</button>
                             <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
                         </td>
                     </tr>
@@ -108,7 +109,7 @@
                         <td>icono</td>
                         <td>29/12/2023</td>
                         <td>
-                            <button class="btn btn-primary btn-sm"><i class="fas fa-edit"></i> Editar</button>
+                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#agregar_productoModal"><i class="fas fa-edit"></i> Editar</button>
                             <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
                         </td>
                     </tr>
