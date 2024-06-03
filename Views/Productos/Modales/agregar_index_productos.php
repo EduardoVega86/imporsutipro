@@ -26,8 +26,8 @@
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="precios-stock-tab" data-bs-toggle="tab" data-bs-target="#precios-stock" type="button" role="tab" aria-controls="precios-stock" aria-selected="false"><strong>Precios y Stock</strong></button>
                     </li>
-                    <li class="nav-item hidden-tab" role="presentation">
-                        <button class="nav-link" id="inventario-variable-tab" data-bs-toggle="tab" data-bs-target="#inventario-variable" type="button" role="tab" aria-controls="inventario-variable" aria-selected="true"><strong>Inventario Variable</strong></button>
+                    <li class="nav-item hidden-tab" role="presentation" id="inventario-variable-tab">
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#inventario-variable" type="button" role="tab" aria-controls="inventario-variable" aria-selected="false"><strong>Inventario Variable</strong></button>
                     </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
@@ -130,7 +130,7 @@
                                         <select class="form-select" id="producto-variable">
                                             <option selected>-- Selecciona --</option>
                                             <option value="1">Sí</option>
-                                            <option value="2" selected="selected">No</option>
+                                            <option value="2">No</option>
                                         </select>
                                     </div>
                                 </div>
@@ -147,7 +147,7 @@
                             </div>
                         </form>
                     </div>
-                    <div class="tab-pane fade active show" id="inventario-variable" role="tabpanel" aria-labelledby="inventario-variable-tab">
+                    <div class="tab-pane fade" id="inventario-variable" role="tabpanel" aria-labelledby="inventario-variable-tab">
                         <form>
                             <div class="form-group">
                                 <label for="inventario-variable-input">Inventario Variable:</label>
@@ -169,20 +169,17 @@
         document.addEventListener('DOMContentLoaded', function () {
             const productoVariableSelect = document.getElementById('producto-variable');
             const inventarioVariableTab = document.getElementById('inventario-variable-tab');
-            const inventarioVariableContent = document.getElementById('inventario-variable');
 
             function toggleInventarioVariableTab() {
-                if (productoVariableSelect.value === '1') {
+                if (productoVariableSelect.value === '1') { // 1 for "Sí"
                     inventarioVariableTab.classList.remove('hidden-tab');
-                    inventarioVariableContent.classList.remove('hidden-tab');
                 } else {
                     inventarioVariableTab.classList.add('hidden-tab');
-                    inventarioVariableContent.classList.add('hidden-tab');
                     document.getElementById('datos-basicos-tab').click();
                 }
             }
 
             productoVariableSelect.addEventListener('change', toggleInventarioVariableTab);
-            toggleInventarioVariableTab(); // Llama a la función al cargar la página para ajustar la visibilidad inicial
+            toggleInventarioVariableTab(); // Call the function on page load to set the initial state
         });
     </script>
