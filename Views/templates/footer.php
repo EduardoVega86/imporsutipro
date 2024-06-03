@@ -14,6 +14,8 @@
             const dropdownBtn = $('.dropdown-btn');
             const submenu = $('.submenu');
             const submenuPopup = $('#submenu-popup');
+            const profilePic = $('#profilePic');
+            const profileDropdown = $('#profileDropdown');
             const isSidebarCollapsed = localStorage.getItem('isSidebarCollapsed') === 'true';
 
             if (isSidebarCollapsed) {
@@ -68,6 +70,18 @@
             $(document).on('click', function(event) {
                 if (!$(event.target).closest('.dropdown-btn, .submenu').length) {
                     submenu.removeClass('active').slideUp();
+                }
+            });
+
+            // Mostrar/ocultar menú de perfil
+            profilePic.on('click', function() {
+                profileDropdown.toggle();
+            });
+
+            // Cerrar menú de perfil al hacer clic fuera de él
+            $(document).on('click', function(event) {
+                if (!$(event.target).closest('#profilePic, #profileDropdown').length) {
+                    profileDropdown.hide();
                 }
             });
         });

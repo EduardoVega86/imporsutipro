@@ -132,6 +132,35 @@
             margin-left: 15px;
         }
 
+        .profile-dropdown {
+            position: absolute;
+            top: 60px;
+            right: 15px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+        }
+
+        .profile-dropdown a {
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .profile-dropdown a:hover {
+            background-color: #f0f0f0;
+        }
+
+        .profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
         .submenu-popup {
             position: fixed;
             top: 0;
@@ -153,18 +182,13 @@
         }
 
         .custom-container-fluid {
-            /* Extiende las propiedades de container-fluid */
             padding-left: 15px;
             padding-right: 15px;
             margin-left: auto;
             margin-right: auto;
-            /* Añade o sobrescribe propiedades aquí */
             background-color: #f8f9fa;
-            /* Ejemplo de propiedad sobrescrita */
-            /* Añade otras propiedades necesarias */
         }
 
-        /* responsive */
         @media (max-width: 768px) {
             .sidebar {
                 margin: 0;
@@ -225,6 +249,11 @@
                 <div class="navbar-right">
                     <a class="nav-link" href="#"><box-icon type='solid' name='videos' color="#fff"></box-icon> Tutoriales</a>
                     <span class="navbar-text"><box-icon name='wallet' color="#fff"></box-icon> $0.00</span>
+                    <img src="https://tiendas.imporsuitpro.com/imgs/your-profile-image.jpg" class="profile-pic" id="profilePic" alt="Perfil">
+                    <div class="profile-dropdown" id="profileDropdown">
+                        <a href="#">Perfil</a>
+                        <a href="#">Cerrar sesión</a>
+                    </div>
                 </div>
             </div>
         </nav>
