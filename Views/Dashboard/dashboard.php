@@ -83,7 +83,7 @@
         display: flex;
         flex-direction: row;
     }
-    .talas_estaditicas {
+    .tablas_estaditicas {
         display: flex;
         flex-direction: row;
     }
@@ -93,7 +93,7 @@
             flex-direction: column-reverse !important;
         }
 
-        .talas_estaditicas {
+        .tablas_estaditicas {
             flex-direction: column !important;
         }
     }
@@ -141,7 +141,7 @@
                 <img src="https://tiendas.imporsuitpro.com/imgs/logo.png" alt="Slider">
             </div>
         </div>
-        <div class="d-flex flex-row">
+        <div class="tablas_estaditicas">
             <div class="content-container">
                 <div class="content-box">
                     <h4>Últimos Pedidos</h4>
