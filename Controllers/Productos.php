@@ -7,9 +7,9 @@ class Productos extends Controller
         parent::__construct();
         if (!$this->isAuth())
             header("Location: /login");
-        if (!$this->hasPermission(2)) {
+        /* if (!$this->hasPermission(2)) {
             header("Location: /dashboard");
-        }
+        } */
     }
     ///Vistas
     public function index()
