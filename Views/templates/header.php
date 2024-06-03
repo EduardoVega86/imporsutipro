@@ -102,7 +102,6 @@
         .submenu-popup a {
             padding: 5px 10px;
             color: #fff;
-            padding: 10px;
             text-decoration: none;
             display: flex;
             align-items: center;
@@ -132,6 +131,38 @@
             margin-left: 15px;
         }
 
+        .profile-dropdown {
+            position: absolute;
+            top: 60px;
+            right: 15px;
+            background-color: #171931;
+            border: 1px solid #444;
+            border-radius: 5px;
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+            padding: 10px;
+        }
+
+        .profile-dropdown a {
+            padding: 10px;
+            text-decoration: none;
+            color: #fff;
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-dropdown a:hover {
+            background-color: #007bff;
+        }
+
+        .profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
         .submenu-popup {
             position: fixed;
             top: 0;
@@ -153,18 +184,13 @@
         }
 
         .custom-container-fluid {
-            /* Extiende las propiedades de container-fluid */
             padding-left: 15px;
             padding-right: 15px;
             margin-left: auto;
             margin-right: auto;
-            /* Añade o sobrescribe propiedades aquí */
             background-color: #f8f9fa;
-            /* Ejemplo de propiedad sobrescrita */
-            /* Añade otras propiedades necesarias */
         }
 
-        /* responsive */
         @media (max-width: 768px) {
             .sidebar {
                 margin: 0;
@@ -182,6 +208,11 @@
             .custom-container-fluid {
                 width: 90%;
                 margin-left: 35px;
+            }
+
+            .profile-dropdown {
+                top: 50px;
+                right: 10px;
             }
         }
     </style>
@@ -225,6 +256,11 @@
                 <div class="navbar-right">
                     <a class="nav-link" href="#"><box-icon type='solid' name='videos' color="#fff"></box-icon> Tutoriales</a>
                     <span class="navbar-text"><box-icon name='wallet' color="#fff"></box-icon> $0.00</span>
+                    <img src="https://tiendas.imporsuitpro.com/imgs/your-profile-image.jpg" class="profile-pic" id="profilePic" alt="Perfil">
+                    <div class="profile-dropdown" id="profileDropdown">
+                        <a href="#"><box-icon name="user" color="#fff" style="padding-right: 5px;"></box-icon> Perfil</a>
+                        <a href="#"><box-icon name="log-out" color="#fff" style="padding-right: 5px;"></box-icon> Cerrar sesión</a>
+                    </div>
                 </div>
             </div>
         </nav>
