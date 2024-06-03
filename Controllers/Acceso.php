@@ -40,4 +40,12 @@ class Acceso extends Controller
 
         echo json_encode($response);
     }
+
+    public function logout()
+    {
+        session_start();
+        session_unset();
+        session_destroy();
+        header("Location: /login");
+    }
 }

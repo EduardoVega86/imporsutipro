@@ -62,29 +62,67 @@ class Pedidos extends Controller
         $id_sucursal = 1;
         $nombre = $_POST['nombre'];
         $telefono = $_POST['telefono'];
-        $celular = $_POST['telefono'];
-        $calle_principal = $_POST['calle_principal'];
-        $calle_secundaria = $_POST['calle_secundaria'];
-        $numero_casa = $_POST['numero_casa'];
-        $referencia = $_POST['referencia'];
-        $ciudad = $_POST['ciudad'];
         $provincia = $_POST['provincia'];
+        $calle_principal = $_POST['calle_principal'];
+        $ciudad = $_POST['ciudad'];
+        $calle_secundaria = $_POST['calle_secundaria'];
+        $referencia = $_POST['referencia'];
         $observacion = $_POST['observacion'];
         $guia_enviada = 0;
-        $anulado = 0;
         $transporte = NULL;
         $identificacion = NULL;
+        $celular = $_POST['telefono'];
         $cod = NULL;
         $valor_segura = NULL;
         $dropshipping = $_POST['dropshipping'];
         $tienda = $_POST['tienda'];
+        $importado = NULL;
         $plataforma_importa = NULL;
         $estado_guia_sistema = 1;
         $id_factura_origen = NULL;
+        $impreso = NULL;
+        $facturada = NULL;
         $factura_numero = NULL;
         $numero_guia = NULL;
+        $anulado = 0;
 
-        $response =  $this->model->generarPedido($fecha, $id_cliente, $id_vendedor, $condiciones, $monto_factura, $estado_factura, $id_user_factura, $validez, $id_sucursal, $nombre, $telefono, $celular, $calle_principal, $calle_secundaria, $numero_casa, $referencia, $ciudad, $provincia, $observacion, $guia_enviada, $anulado, $transporte, $identificacion, $cod, $valor_segura, $dropshipping, $tienda, $plataforma_importa, $estado_guia_sistema, $id_factura_origen, $factura_numero, $numero_guia, $_SESSION['id_plataforma']);
+        $response =  $this->model->generarPedido(
+            $fecha,
+            $id_cliente,
+            $id_vendedor,
+            $condiciones,
+            $monto_factura,
+            $estado_factura,
+            $id_user_factura,
+            $validez,
+            $id_sucursal,
+            $nombre,
+            $telefono,
+            $provincia,
+            $calle_principal,
+            $ciudad,
+            $calle_secundaria,
+            $referencia,
+            $observacion,
+            $guia_enviada,
+            $transporte,
+            $identificacion,
+            $celular,
+            $cod,
+            $valor_segura,
+            $dropshipping,
+            $tienda,
+            $importado,
+            $plataforma_importa,
+            $estado_guia_sistema,
+            $id_factura_origen,
+            $impreso,
+            $facturada,
+            $factura_numero,
+            $numero_guia,
+            $anulado,
+            $id_plataforma = $_SESSION['id_plataforma']
+        );
         echo json_encode($response);
     }
 }

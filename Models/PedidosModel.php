@@ -36,8 +36,43 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
-    public function generarPedido($fecha, $id_cliente, $id_vendedor, $condiciones, $monto_factura, $estado_factura, $id_user_factura, $validez, $id_sucursal, $nombre, $telefono, $celular, $calle_principal, $calle_secundaria, $numero_casa, $referencia, $ciudad, $provincia, $observacion, $guia_enviada, $anulado, $transporte, $identificacion, $cod, $valor_segura, $dropshipping, $tienda, $plataforma_importa, $estado_guia_sistema, $id_factura_origen, $factura_numero, $numero_guia, $plataforma)
-    {
+    public function generarPedido(
+        $fecha,
+        $id_cliente,
+        $id_vendedor,
+        $condiciones,
+        $monto_factura,
+        $estado_factura,
+        $id_user_factura,
+        $validez,
+        $id_sucursal,
+        $nombre,
+        $telefono,
+        $provincia,
+        $calle_principal,
+        $ciudad,
+        $calle_secundaria,
+        $referencia,
+        $observacion,
+        $guia_enviada,
+        $transporte,
+        $identificacion,
+        $celular,
+        $cod,
+        $valor_segura,
+        $dropshipping,
+        $tienda,
+        $importado,
+        $plataforma_importa,
+        $estado_guia_sistema,
+        $id_factura_origen,
+        $impreso,
+        $facturada,
+        $factura_numero,
+        $numero_guia,
+        $anulado,
+        $id_plataforma
+    ) {
         $response = $this->initialResponse();
 
         //obtiene ultimo numero de factura
@@ -52,15 +87,7 @@ class PedidosModel extends Query
             $nuevo_numero_factura = 'COT-000001';
         }
 
-        $sql = "INSERT INTO facturas_cot (
-            fecha, numero_factura, id_cliente, id_vendedor, condiciones, monto_factura, 
-            estado_factura, id_user_factura, validez, id_sucursal, 
-            nombre, telefono, celular, calle_principal, calle_secundaria, 
-            numero_casa, referencia, ciudad, provincia, observacion, 
-            guia_enviada, anulado, transporte, identificacion, cod, 
-            valor_segura, dropshipping, tienda, plataforma_importa, 
-            estado_guia_sistema, id_factura_origen, factura_numero, 
-            guia, id_plataforma
+        $sql = "INSERT INTO facturas_cot ( `numero_factura`, `fecha_factura`, `id_cliente`, `id_vendedor`, `condiciones`, `monto_factura`, `estado_factura`, `id_users_factura`, `validez`, `id_sucursal`, `nombre`, `telefono`, `provincia`, `c_principal`, `ciudad_cot`, `c_secundaria`, `referencia`, `observacion`, `guia_enviada`, `transporte`, `identificacion`, `celular`, `cod`, `valor_seguro`, `drogshipin`, `tienda`, `importado`, `plataforma_importa`, `estado_guia_sistema`, `id_factura_origen`, `impreso`, `facturada`, `factura_numero`, `numero_guia`, `anulada`, `id_plataforma`
         ) VALUES (
             ?, ?, ?, ?, ?, 
             ?, ?, ?, ?, ?, 
@@ -72,14 +99,7 @@ class PedidosModel extends Query
         )";
 
         $data = [
-            $fecha, $nuevo_numero_factura, $id_cliente, $id_vendedor, $condiciones, $monto_factura,
-            $estado_factura, $id_user_factura, $validez, $id_sucursal,
-            $nombre, $telefono, $celular, $calle_principal, $calle_secundaria,
-            $numero_casa, $referencia, $ciudad, $provincia, $observacion,
-            $guia_enviada, $anulado, $transporte, $identificacion, $cod,
-            $valor_segura, $dropshipping, $tienda, $plataforma_importa,
-            $estado_guia_sistema, $id_factura_origen, $factura_numero,
-            $numero_guia, $plataforma
+            $nuevo_numero_factura, $fecha, $id_cliente, $id_vendedor, $condiciones, $monto_factura, $estado_factura, $id_user_factura, $validez, $id_sucursal, $nombre, $telefono, $provincia, $calle_principal, $ciudad, $calle_secundaria, $referencia, $observacion, $guia_enviada, $transporte, $identificacion, $celular, $cod, $valor_segura, $dropshipping, $tienda, $importado, $plataforma_importa, $estado_guia_sistema, $id_factura_origen, $impreso, $facturada, $factura_numero, $numero_guia, $anulado, $id_plataforma
         ];
 
         $insertar_pedido = $this->insert($sql, $data);
