@@ -32,6 +32,9 @@ class Productos extends Controller
 
     public function categorias()
     {
+        if (!$this->hasPermission(2)) {
+            header("Location: /dashboard");
+        }
         $data = $this->model->cargarCategorias();
         $this->views->render($this, "categorias", $data);
     }

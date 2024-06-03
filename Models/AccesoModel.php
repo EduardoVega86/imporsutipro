@@ -22,9 +22,9 @@ class AccesoModel extends Query
         /* $sql = "INSERT INTO users (nombre, correo, pais, telefono, contrasena) VALUES (?, ?, ?, ?, ?)"; */
 
         $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
-        $sql = "INSERT INTO users (nombre_users, email_users, con_users, usuario_users, date_added) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO users (nombre_users, email_users, con_users, usuario_users, date_added, cargo_users) VALUES (?, ?, ?, ?, ?, ?)";
         //   echo $sql;
-        $data = [$nombre, $correo, $contrasena, $correo, $date_added];
+        $data = [$nombre, $correo, $contrasena, $correo, $date_added, 1];
         $insertar_usuario = $this->insert($sql, $data);
         //print_r($insertar_usuario);
         //echo 'erro'.$insertar_usuario;;
@@ -124,6 +124,7 @@ class AccesoModel extends Query
                 $idPlataforma = $this->select("SELECT id_plataforma FROM usuario_plataforma WHERE id_usuario = " . $datos_usuario[0]["id_users"]);
                 $_SESSION["id_plataforma"] = $idPlataforma[0]["id_plataforma"];
                 $_SESSION['login_time'] = time();
+                $_SESSION['cargo'] = $datos_usuario[0]['cargo_users'];
             } else {
                 $response = $this->initialResponse();
                 $response['status'] = 401;
