@@ -20,6 +20,8 @@
         vertical-align: middle;
     }
 </style>
+<!-- llamada de modales -->
+<?php require_once './Modales/atritubos_locales.php'; ?>
 
 <div class="custom-container-fluid">
     <div class="container mt-5">
@@ -43,7 +45,7 @@
             </div>
             <div class="d-flex">
                 <button class="btn btn-outline-secondary me-2"><i class="fas fa-file-alt"></i> Reporte</button>
-                <button class="btn btn-primary me-2"><i class="fas fa-list"></i> Atributos</button>
+                <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#atributosModal"><i class="fas fa-list"></i> Atributos</button>
                 <button class="btn btn-success"><i class="fas fa-plus"></i> Agregar</button>
             </div>
         </div>
@@ -51,19 +53,39 @@
             <table class="table table-bordered table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th>Nombre</th>
-                        <th>Email</th>
-                        <th>Teléfono</th>
+                        <th>ID</th>
+                        <th></th>
+                        <th>Código</th>
+                        <th>Producto</th>
+                        <th>Destacado</th>
+                        <th>Existencia</th>
+                        <th>Costo</th>
+                        <th>Pxmayor</th>
+                        <th>PVP</th>
+                        <th>Precio Referencial</th>
+                        <th>Landing</th>
+                        <th>Imagenes</th>
+                        <th>Enviar a Marketplace</th>
+                        <th>Agregado</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>1</td>
-                        <td>Juan Pérez</td>
-                        <td>juan.perez@example.com</td>
-                        <td>+123456789</td>
+                        <td>616</td>
+                        <td>imagen Producto</td>
+                        <td>10061</td>
+                        <td>ACCESORIOS BRAZO IRONMAN</td>
+                        <td>Si o No</td>
+                        <td>8</td>
+                        <td>$2.00</td>
+                        <td>$2.00</td>
+                        <td>$4.00</td>
+                        <td>$4.00</td>
+                        <td>icono</td>
+                        <td>icono</td>
+                        <td>icono</td>
+                        <td>29/12/2023</td>
                         <td>
                             <button class="btn btn-primary btn-sm"><i class="fas fa-edit"></i> Editar</button>
                             <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
