@@ -18,7 +18,7 @@
                     <div class="tab-pane fade show active" id="datos-basicos" role="tabpanel" aria-labelledby="datos-basicos-tab">
                         <form>
                             <div class="d-flex flex-column">
-                                <div class="d-flex flex-row">
+                                <div class="d-flex flex-row gap-3">
                                     <div class="form-group w-100">
                                         <label for="codigo">Código:</label>
                                         <input type="text" class="form-control" id="codigo" value="10088">
@@ -32,7 +32,7 @@
                                     <label for="descripcion">Descripción:</label>
                                     <textarea class="form-control" id="descripcion"></textarea>
                                 </div>
-                                <div class="d-flex flex-row">
+                                <div class="d-flex flex-row gap-3">
                                     <div class="d-flex flex-column w-100">
                                         <div class="form-group">
                                             <label for="categoria">Categoría:</label>
