@@ -117,7 +117,7 @@
                                         <select class="form-select" id="producto-variable">
                                             <option selected>-- Selecciona --</option>
                                             <option value="1">Sí</option>
-                                            <option value="2">No</option>
+                                            <option value="2" selected="selected">No</option>
                                         </select>
                                     </div>
                                 </div>
