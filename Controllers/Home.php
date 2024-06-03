@@ -5,8 +5,8 @@ class Home extends Controller
     ///Vistas
     public function index()
     {
-        if (isset($_SESSION['id'])) {
-            header("Location: /Dashboard");
+        if ($this->isAuth()) {
+            header("Location: /Admin");
         } else {
             $this->views->render($this, "index");
         }
@@ -21,32 +21,32 @@ class Home extends Controller
     }
     public function login()
     {
-        if (isset($_SESSION['id'])) {
-            header("Location: /Dashboard");
+        if ($this->isAuth()) {
+            header("Location: /Admin");
         } else {
             $this->views->render($this, "login");
         }
     }
     public function registro()
     {
-        if (isset($_SESSION['id'])) {
-            header("Location: /Dashboard");
+        if ($this->isAuth()) {
+            header("Location: /Admin");
         } else {
             $this->views->render($this, "registro");
         }
     }
     public function recovery()
     {
-        if (isset($_SESSION['id'])) {
-            header("Location: /Dashboard");
+        if ($this->isAuth()) {
+            header("Location: /Admin");
         } else {
             $this->views->render($this, "recovery");
         }
     }
     public function pedidos_ingresados()
     {
-        if (isset($_SESSION['id'])) {
-            header("Location: /Dashboard");
+        if ($this->isAuth()) {
+            header("Location: /Admin");
         } else {
             $this->views->render($this, "pedidos_ingresados");
         }
