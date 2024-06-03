@@ -33,8 +33,8 @@
     }
     }
 </style>
-<div class="content">
-    <div class="container cuerpo_mapa" style="margin: 10px;">
+<div class="content cuerpo_mapa">
+    <div class="container" style="margin: 10px;">
 
         <div class="contenido">
             <div class="col-md-3">
