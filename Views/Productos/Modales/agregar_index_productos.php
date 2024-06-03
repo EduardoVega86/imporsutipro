@@ -13,6 +13,9 @@
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="precios-stock-tab" data-bs-toggle="tab" data-bs-target="#precios-stock" type="button" role="tab" aria-controls="precios-stock" aria-selected="false"><strong>Precios y Stock</strong></button>
                     </li>
+                    <li class="nav-item hidden-tab" role="presentation">
+                        <button class="nav-link active" id="inventario-variable-tab" data-bs-toggle="tab" data-bs-target="#inventario-variable" type="button" role="tab" aria-controls="inventario-variable" aria-selected="true"><strong>Inventario Variable</strong></button>
+                    </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="datos-basicos" role="tabpanel" aria-labelledby="datos-basicos-tab">
@@ -128,6 +131,14 @@
                                         <input type="text" class="form-control" id="stock-minimo">
                                     </div>
                                 </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade active show" id="inventario-variable" role="tabpanel" aria-labelledby="inventario-variable-tab">
+                        <form>
+                            <div class="form-group">
+                                <label for="inventario-variable-input">Inventario Variable:</label>
+                                <input type="text" class="form-control" id="inventario-variable-input">
                             </div>
                         </form>
                     </div>
