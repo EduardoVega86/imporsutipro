@@ -83,14 +83,18 @@
         display: flex;
         flex-direction: row;
     }
+    .talas_estaditicas {
+        display: flex;
+        flex-direction: row;
+    }
     /* responsive */
     @media (max-width: 768px) {
         .banner_estadisticas {
             flex-direction: column-reverse !important;
         }
 
-        .menu_izquierda {
-            display: none !important;
+        .talas_estaditicas {
+            flex-direction: column !important;
         }
     }
 </style>
