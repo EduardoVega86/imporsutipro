@@ -66,8 +66,8 @@ class Controller
             session_start();
         }
 
-        if (isset($_SESSION["user"])) {
-            if ($_SESSION["cargo"] === 1 || $_SESSION["cargo"] === $permission) {
+        if (isset($_SESSION["cargo"])) {
+            if ($_SESSION["cargo"] === "1" || $_SESSION["cargo"] === $permission) {
                 return true;
             }
         }
