@@ -10,11 +10,33 @@
         height: 100vh;
         overflow-y: auto;
     }
+
+    .cuerpo_mapa {
+        margin: 10px;
+        width: 100%;
+    }
+
+    .contenido {
+        display: flex;
+        flex-direction: row;
+    }
+
+    /* responsive */
+    @media (max-width: 768px) {
+        .cuerpo_mapa {
+            margin-left: 35px;
+            width: 90%;
+        }
+
+        .contenido {
+        flex-direction: column-reverse;
+    }
+    }
 </style>
-<div class="content" style="margin: 10px;">
+<div class="content">
     <div class="container" style="margin: 10px;">
 
-        <div class="row">
+        <div class="contenido">
             <div class="col-md-3">
                 <h3 class="portlet-title">
                     Agregar Dirección
