@@ -148,9 +148,21 @@
             display: flex;
         }
 
-        .img_logo{
-                margin: 0;
-            }
+        .img_logo {
+            margin: 0;
+        }
+
+        .custom-container-fluid {
+            /* Extiende las propiedades de container-fluid */
+            padding-left: 15px;
+            padding-right: 15px;
+            margin-left: auto;
+            margin-right: auto;
+            /* Añade o sobrescribe propiedades aquí */
+            background-color: #f8f9fa;
+            /* Ejemplo de propiedad sobrescrita */
+            /* Añade otras propiedades necesarias */
+        }
 
         /* responsive */
         @media (max-width: 768px) {
@@ -163,8 +175,13 @@
                 margin: 0;
             }
 
-            .img_logo{
+            .img_logo {
                 margin-left: 42px;
+            }
+
+            .custom-container-fluid {
+                width: 95%;
+                margin-left: 35px;
             }
         }
     </style>
@@ -179,7 +196,7 @@
             <a href="https://new.imporsuitpro.com/dashboard"><box-icon name="home" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Inicio</span></a>
             <a href="#" class="dropdown-btn" data-target="#submenu1"><box-icon name="cart" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Productos</span></a>
             <div class="submenu" id="submenu1">
-                <a href="#"><box-icon name="store" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Locales</span></a>
+                <a href="https://new.imporsuitpro.com/Productos/locales"><box-icon name="store" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Locales</span></a>
                 <a href="#"><box-icon name="shopping-bag" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Marketplace</span></a>
                 <a href="https://new.imporsuitpro.com/Productos/agregar_bodegas"><box-icon type="solid" name="truck" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Bodegas</span></a>
             </div>

@@ -19,6 +19,10 @@ class Productos extends Controller
     {
         $this->views->render($this, "agregar_bodegas");
     }
+    public function locales()
+    {
+        $this->views->render($this, "locales");
+    }
 
 
     ///Funciones
