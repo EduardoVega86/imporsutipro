@@ -41,4 +41,38 @@ class Productos extends Controller
 
 
     ///Funciones
+
+    public function agregarBodega()
+    {
+        $nombre = $_POST['nombre'];
+        $direccion = $_POST['direccion'];
+        $telefono = $_POST['telefono'];
+        $ciudad = $_POST['ciudad'];
+        $provincia = $_POST['provincia'];
+        $contacto = $_POST['contacto'];
+        $telefono_contacto = $_POST['telefono_contacto'];
+        $numerocasa = $_POST['numerocasa'];
+        $referencia = $_POST['referencia'];
+        $response = $this->model->agregarBodega($nombre, $direccion, $telefono, $ciudad, $provincia, $contacto, $telefono_contacto, $numerocasa, $referencia, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
+
+    public function agregarCategoria()
+    {
+        $nombre_linea = $_POST['nombre_linea'];
+        $descripcion_linea = $_POST['descripcion_linea'];
+        $estado_linea = 1;
+        $date_added = date("Y-m-d H:i:s");
+        $online = $_POST['online'];
+        $imagen = $_POST['imagen'] ?? '';
+        $tipo = $_POST['tipo'] ?? '';
+        $padre = $_POST['padre'] ?? 0;
+        $response = $this->model->agregarCategoria($nombre_linea, $descripcion_linea, $estado_linea, $date_added, $online, $imagen, $tipo, $padre, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
+    public function agregar_producto()
+    {
+    }
 }

@@ -22,4 +22,30 @@ class ProductosModel extends Query
         $sql = "SELECT * FROM lineas WHERE id_plataforma = $plataforma";
         return $this->select($sql);
     }
+
+    public function agregarBodega($nombre, $direccion, $telefono, $ciudad, $provincia, $contacto, $telefono_contacto, $numerocasa, $referencia, $plataforma)
+    {
+        // codigo para agregar bodega
+        $response = $this->initialResponse();
+    }
+
+    public function agregarCategoria($nombre_linea, $descripcion_linea, $estado_linea, $date_added, $online, $imagen, $tipo, $padre, $plataforma)
+    {
+        // codigo para agregar categoria
+        $response = $this->initialResponse();
+
+        $sql = "INSERT INTO lineas (nombre_linea, descripcion_linea, estado_linea, date_added, online, imagen, tipo, padre, id_plataforma) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $data = [$nombre_linea, $descripcion_linea, $estado_linea, $date_added, $online, $imagen, $tipo, $padre, $plataforma];
+        $insertar_categoria = $this->insert($sql, $data);
+        if ($insertar_categoria == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Categoria agregada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al agregar la categoria';
+        }
+        return $response;
+    }
 }
