@@ -1,15 +1,17 @@
 <style>
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .modal-header {
-            background-color: #343a40;
-            color: white;
-        }
-        .hidden-tab {
-            display: none !important;
-        }
-    </style>
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .modal-header {
+        background-color: #343a40;
+        color: white;
+    }
+
+    .hidden-tab {
+        display: none !important;
+    }
+</style>
 
 <div class="modal fade" id="agregar_productoModal" tabindex="-1" aria-labelledby="agregar_productoModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -166,20 +168,19 @@
 </div>
 
 <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const productoVariableSelect = document.getElementById('producto-variable');
-            const inventarioVariableTab = document.getElementById('inventario-variable-tab');
+    document.addEventListener('DOMContentLoaded', function() {
+        const productoVariableSelect = document.getElementById('producto-variable');
+        const inventarioVariableTab = document.getElementById('inventario-variable-tab');
 
-            function toggleInventarioVariableTab() {
-                if (productoVariableSelect.value === '1') { // 1 for "Sí"
-                    inventarioVariableTab.classList.remove('hidden-tab');
-                } else {
-                    inventarioVariableTab.classList.add('hidden-tab');
-                    document.getElementById('datos-basicos-tab').click();
-                }
+        function toggleInventarioVariableTab() {
+            if (productoVariableSelect.value === '1') { // 1 para "Sí"
+                inventarioVariableTab.classList.remove('hidden-tab');
+            } else {
+                inventarioVariableTab.classList.add('hidden-tab');
             }
+        }
 
-            productoVariableSelect.addEventListener('change', toggleInventarioVariableTab);
-            toggleInventarioVariableTab(); // Call the function on page load to set the initial state
-        });
-    </script>
+        productoVariableSelect.addEventListener('change', toggleInventarioVariableTab);
+        toggleInventarioVariableTab(); // Llama a la función al cargar la página para ajustar la visibilidad inicial
+    });
+</script>
