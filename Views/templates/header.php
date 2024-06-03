@@ -148,6 +148,10 @@
             display: flex;
         }
 
+        .img_logo{
+                margin: 0;
+            }
+
         /* responsive */
         @media (max-width: 768px) {
             .sidebar {
@@ -157,6 +161,10 @@
 
             .content {
                 margin: 0;
+            }
+
+            .img_logo{
+                margin-left: 42px;
             }
         }
     </style>
@@ -196,7 +204,7 @@
     <div class="content">
         <nav class="navbar navbar-expand-lg navbar-custom" style="padding-top: 0.26rem;">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#"><img src="https://tiendas.imporsuitpro.com/imgs/LOGOS-IMPORSUIT.png" alt="IMORSUIT" width="100px" height="44px"></a>
+                <a class="navbar-brand img_logo" href="#"><img src="https://tiendas.imporsuitpro.com/imgs/LOGOS-IMPORSUIT.png" alt="IMORSUIT" width="100px" height="44px"></a>
                 <div class="navbar-right">
                     <a class="nav-link" href="#"><box-icon type='solid' name='videos' color="#fff"></box-icon> Tutoriales</a>
                     <span class="navbar-text"><box-icon name='wallet' color="#fff"></box-icon> $0.00</span>
