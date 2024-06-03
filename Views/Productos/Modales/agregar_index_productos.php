@@ -13,9 +13,6 @@
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="precios-stock-tab" data-bs-toggle="tab" data-bs-target="#precios-stock" type="button" role="tab" aria-controls="precios-stock" aria-selected="false"><strong>Precios y Stock</strong></button>
                     </li>
-                    <li class="nav-item hidden-tab" role="presentation">
-                        <button class="nav-link" id="inventario-variable-tab" data-bs-toggle="tab" data-bs-target="#inventario-variable" type="button" role="tab" aria-controls="inventario-variable" aria-selected="false"><strong>Inventario Variable</strong></button>
-                    </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="datos-basicos" role="tabpanel" aria-labelledby="datos-basicos-tab">
@@ -134,14 +131,6 @@
                             </div>
                         </form>
                     </div>
-                    <div class="tab-pane fade" id="inventario-variable" role="tabpanel" aria-labelledby="inventario-variable-tab">
-                        <form>
-                            <div class="form-group">
-                                <label for="inventario-variable-input">Inventario Variable:</label>
-                                <input type="text" class="form-control" id="inventario-variable-input">
-                            </div>
-                        </form>
-                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -151,22 +140,3 @@
         </div>
     </div>
 </div>
-
-
-<script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const productoVariableSelect = document.getElementById('producto-variable');
-            const inventarioVariableTab = document.getElementById('inventario-variable-tab');
-            const inventarioVariableContent = document.getElementById('inventario-variable');
-
-            productoVariableSelect.addEventListener('change', function () {
-                if (productoVariableSelect.value === '1') {
-                    inventarioVariableTab.classList.remove('hidden-tab');
-                } else {
-                    inventarioVariableTab.classList.add('hidden-tab');
-                    // If switching to "No", switch tab to another available tab
-                    document.getElementById('datos-basicos-tab').click();
-                }
-            });
-        });
-    </script>
