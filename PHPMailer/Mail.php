@@ -7,7 +7,7 @@ $smtp_secure = 'ssl';
 $smtp_user = 'info@imporfactoryusa.com';
 $smtp_pass = 'Mark2demasiado.';
 $smtp_from = $smtp_user;
-$smtp_from_name = 'ImporSuit';
+$smtp_from_name = 'Imporsuitpro';
 
 
 $message_body = '<!DOCTYPE html>
@@ -100,62 +100,66 @@ $message_body = '<!DOCTYPE html>
             background-color: #28a745 !important;
             border-color: #28a745 !important;
         }
+
         .bg-secondary {
             background-color: #6c757d !important;
         }
+
         @media (max-width: 576px) {
             .p-5 {
                 padding: 1rem !important;
             }
+
             .container {
                 max-width: 80% !important;
             }
         }
+
         @media (min-width: 768px) {
             .container {
                 max-width: 60% !important;
             }
         }
+
         @media (min-width: 992px) {
             .container {
                 max-width: 50% !important;
             }
         }
+
         @media (min-width: 1200px) {
             .container {
                 max-width: 40% !important;
             }
-        }   
-
+        }
     </style>
 </head>
 
 <body class="bg-secondary">
-<br>
-<br>
+    <br>
+    <br>
 
     <div class="container">
         <section class="text-center bg-white rounded-5 mt-5 p-5 shadow-lg border-5 border-top border-primary">
             <article>
-                <h1>ImporSuit</h1>
+                <h1>Imporsuitpro</h1>
             </article>
             <article>
-                <h2>Recuperación de contraseña</h2>
+                <h2>Registro exitoso</h2>
             </article>
             <article>
-                <p>Estimado usuario, para recuperar su contraseña haga click en el siguiente enlace:</p>
-                <p><a class="btn btn-success" href="' . $url_change . '">Recuperar
-                        contraseña</a></p>
+                <p>Estimado usuario, este correo es para validar que tu cuenta ha sido creada correctamente:</p>
+                <p><a class="btn btn-success" href="' . $url_change . '">Ir a Tienda</a></p>
                 <p>Si el enlace no funciona, copie y pegue la siguiente dirección en su navegador:</p>
                 <p>' . $url_change . '</p>
-                <p>Si no ha solicitado recuperar su contraseña, por favor ignore este mensaje.</p>
+                <p>Bienvenido a nuestra comunidad.</p>
             </article>
         </section>
     </div>
     <br>
     <br>
 
-    </body>
+</body>
 
 </html>
 

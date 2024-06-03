@@ -21,6 +21,7 @@ class Acceso extends Controller
         $correo = $data['correo'];
         $contrasena = $data['contrasena'];
         $response = $this->model->login($correo, $contrasena);
+
         echo json_encode($response);
     }
     public function registro()

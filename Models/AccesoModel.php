@@ -1,8 +1,19 @@
 <?php
+require_once 'PHPMailer/PHPMailer.php';
+require_once 'PHPMailer/SMTP.php';
+require_once 'PHPMailer/Exception.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+
 class AccesoModel extends Query
 {
     public function registro($nombre, $correo, $pais, $telefono, $contrasena, $tienda)
     {
+        ini_set('session.gc_maxlifetime', 3600);
+        ini_set('session.cookie_lifetime', 3600);
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
         //Inicia la respuesta
         $response = $this->initialResponse();
 
@@ -44,6 +55,33 @@ class AccesoModel extends Query
                         $response['title'] = 'Peticion exitosa';
                         $response['message'] = 'Usuario registrado correctamente';
                         $response['data'] = ['id' => $id[0]['id_users'], 'idPlataforma' => $idPlataforma[0]['id_plataforma']];
+                        //session_start();
+                        $_SESSION["user"] = $correo;
+                        $_SESSION["id_plataforma"] = $idPlataforma[0]['id_plataforma'];
+                        $_SESSION['login_time'] = time();
+                        //enviar correo
+                        $url_change = "https://" . $tienda . ".imporsuitpro.com";
+                        require_once 'PHPMailer/Mail.php';
+                        $mail = new PHPMailer();
+                        $mail->isSMTP();
+                        $mail->SMTPDebug = $smtp_debug;
+                        $mail->Host = $smtp_host;
+                        $mail->SMTPAuth = true;
+                        $mail->Username = $smtp_user;
+                        $mail->Password = $smtp_pass;
+                        $mail->Port = 465;
+                        $mail->SMTPSecure = $smtp_secure;
+                        $mail->isHTML(true);
+                        $mail->CharSet = 'UTF-8';
+                        $mail->setFrom($smtp_from, $smtp_from_name);
+                        $mail->addAddress($correo);
+                        $mail->Subject = 'Registro en Imporsuitpro';
+                        $mail->Body = $message_body_pedido;
+                        if ($mail->send()) {
+                            //echo "Correo enviado";
+                        } else {
+                            echo "Error al enviar el correo: " . $mail->ErrorInfo;
+                        }
                     }
                 } else {
                     $response['message'] = "Error al crear el perfil";
@@ -67,6 +105,11 @@ class AccesoModel extends Query
     }
     public function login($usuario, $password)
     {
+        ini_set('session.gc_maxlifetime', 3600);
+        ini_set('session.cookie_lifetime', 3600);
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
         $sql = "SELECT * FROM users WHERE email_users = '$usuario'";
         $datos_usuario = $this->select($sql);
         if (count($datos_usuario) > 0) {
@@ -76,6 +119,11 @@ class AccesoModel extends Query
                 $response['title'] = 'Peticion exitosa';
                 $response['message'] = 'Usuario autenticado correctamente';
                 $response['data'] = $datos_usuario[0];
+                //session_start();
+                $_SESSION["user"] = $datos_usuario[0]["email_users"];
+                $idPlataforma = $this->select("SELECT id_plataforma FROM usuario_plataforma WHERE id_usuario = " . $datos_usuario[0]["id_users"]);
+                $_SESSION["id_plataforma"] = $idPlataforma[0]["id_plataforma"];
+                $_SESSION['login_time'] = time();
             } else {
                 $response = $this->initialResponse();
                 $response['status'] = 401;
