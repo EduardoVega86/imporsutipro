@@ -73,27 +73,26 @@
         background: #343a40;
         color: #fff;
     }
-
     /* secciones principales  */
     .banner_estadisticas {
         display: flex;
         flex-direction: row;
     }
-
-    .tablas_estaditicas .content-container {
+    .tablas_estaditicas .content-container{
         display: flex;
         flex-direction: row;
     }
 
     .custom-container-fluid {
-        --bs-gutter-x: 1.5rem;
-        --bs-gutter-y: 0;
-        width: 100%;
-        padding-right: calc(var(--bs-gutter-x)* .5);
-        padding-left: calc(var(--bs-gutter-x)* .5);
-        margin-right: auto;
-        margin-left: auto;
-    }
+    /* Extiende las propiedades de container-fluid */
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    /* Añade o sobrescribe propiedades aquí */
+    background-color: #f8f9fa; /* Ejemplo de propiedad sobrescrita */
+    /* Añade otras propiedades necesarias */
+}
 
     /* responsive */
     @media (max-width: 768px) {
@@ -101,15 +100,15 @@
             flex-direction: column-reverse !important;
         }
 
-        .tablas_estaditicas .content-container {
+        .tablas_estaditicas .content-container{
             flex-direction: column !important;
         }
 
-        .stats-container {
+        .stats-container{
             width: 100%;
         }
 
-        .slider-container {
+        .slider-container{
             width: 100%;
         }
 
@@ -117,8 +116,7 @@
             width: 100%;
             max-width: calc(105% - 40px);
         }
-
-        .custom-container-fluid {
+        .custom-container-fluid{
             width: 80%;
             margin: 0;
         }
@@ -229,7 +227,7 @@
                                 <td>20000</td>
                             </tr>
                         </tbody>
-                    </table>
+                        </table>
                 </div>
             </div>
         </div>
