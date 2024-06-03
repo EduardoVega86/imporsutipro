@@ -22,6 +22,7 @@
 </style>
 <!-- llamada de modales -->
 <?php require_once './Views/Productos/Modales/atributos_index_productos.php'; ?>
+<?php require_once './Views/Productos/Modales/agregar_index_productos.php'; ?>
 
 <div class="custom-container-fluid">
     <div class="container mt-5">
@@ -46,7 +47,7 @@
             <div class="d-flex">
                 <button class="btn btn-outline-secondary me-2"><i class="fas fa-file-alt"></i> Reporte</button>
                 <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#atributosModal"><i class="fas fa-list"></i> Atributos</button>
-                <button class="btn btn-success"><i class="fas fa-plus"></i> Agregar</button>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregar_productoModal"><i class="fas fa-list"></i> Agregar</button>
             </div>
         </div>
         <div class="table-responsive">
