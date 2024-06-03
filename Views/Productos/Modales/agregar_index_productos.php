@@ -1,3 +1,16 @@
+<style>
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .modal-header {
+            background-color: #343a40;
+            color: white;
+        }
+        .hidden-tab {
+            display: none !important;
+        }
+    </style>
+
 <div class="modal fade" id="agregar_productoModal" tabindex="-1" aria-labelledby="agregar_productoModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -151,3 +164,25 @@
         </div>
     </div>
 </div>
+
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const productoVariableSelect = document.getElementById('producto-variable');
+            const inventarioVariableTab = document.getElementById('inventario-variable-tab');
+            const inventarioVariableContent = document.getElementById('inventario-variable');
+
+            function toggleInventarioVariableTab() {
+                if (productoVariableSelect.value === '1') {
+                    inventarioVariableTab.classList.remove('hidden-tab');
+                    inventarioVariableContent.classList.remove('hidden-tab');
+                } else {
+                    inventarioVariableTab.classList.add('hidden-tab');
+                    inventarioVariableContent.classList.add('hidden-tab');
+                    document.getElementById('datos-basicos-tab').click();
+                }
+            }
+
+            productoVariableSelect.addEventListener('change', toggleInventarioVariableTab);
+            toggleInventarioVariableTab(); // Llama a la función al cargar la página para ajustar la visibilidad inicial
+        });
+    </script>
