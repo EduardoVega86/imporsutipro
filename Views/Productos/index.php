@@ -25,10 +25,21 @@
 <?php require_once './Views/Productos/Modales/agregar_index_productos.php'; ?>
 <?php require_once './Views/Productos/Modales/editar_index_productos.php'; ?>
 
+<style>
+    .filtros_producos{
+        display: flex;
+        flex-direction: row;
+    }
+    @media (max-width: 768px) {
+        .filtros_producos{
+            flex-direction: column;
+        }
+    }
+</style>
 <div class="custom-container-fluid">
     <div class="container mt-5">
         <h2 class="text-center mb-4">Productos</h2>
-        <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="filtros_producos justify-content-between align-items-center mb-3">
             <div class="d-flex">
                 <input type="text" class="form-control me-2" placeholder="Código o Nombre">
                 <select class="form-select me-2">
@@ -55,21 +66,21 @@
             <table class="table table-bordered table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th></th>
-                        <th>Código</th>
-                        <th>Producto</th>
-                        <th>Destacado</th>
-                        <th>Existencia</th>
-                        <th>Costo</th>
-                        <th>Pxmayor</th>
-                        <th>PVP</th>
-                        <th>Precio Referencial</th>
-                        <th>Landing</th>
-                        <th>Imagenes</th>
-                        <th>Enviar a Marketplace</th>
-                        <th>Agregado</th>
-                        <th>Acciones</th>
+                        <th class="text-nowrap">ID</th>
+                        <th class="text-nowrap"></th>
+                        <th class="text-nowrap">Código</th>
+                        <th class="text-nowrap">Producto</th>
+                        <th class="text-nowrap">Destacado</th>
+                        <th class="text-nowrap">Existencia</th>
+                        <th class="text-nowrap">Costo</th>
+                        <th class="text-nowrap">Pxmayor</th>
+                        <th class="text-nowrap">PVP</th>
+                        <th class="text-nowrap">Precio Referencial</th>
+                        <th class="text-nowrap">Landing</th>
+                        <th class="text-nowrap">Imagenes</th>
+                        <th class="text-nowrap">Enviar a Marketplace</th>
+                        <th class="text-nowrap">Agregado</th>
+                        <th class="text-nowrap">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
