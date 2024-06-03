@@ -74,50 +74,60 @@
                     </div>
                     <div class="tab-pane fade" id="precios-stock" role="tabpanel" aria-labelledby="precios-stock-tab">
                         <form>
-                            <div class="form-group">
-                                <label for="costo">Costo:</label>
-                                <input type="text" class="form-control" id="costo">
-                            </div>
-                            <div class="form-group">
-                                <label for="utilidad">Utilidad %:</label>
-                                <input type="text" class="form-control" id="utilidad">
-                            </div>
-                            <div class="form-group">
-                                <label for="precio-proveedor">Precio Proveedor:</label>
-                                <input type="text" class="form-control" id="precio-proveedor">
-                            </div>
-                            <div class="form-group">
-                                <label for="precio-venta">Precio de Venta (Sugerido):</label>
-                                <input type="text" class="form-control" id="precio-venta">
-                            </div>
-                            <div class="form-group">
-                                <label for="precio-referencial">¿Precio Referencial?</label>
-                                <input type="checkbox" class="form-check-input" id="precio-referencial">
-                                <input type="text" class="form-control mt-2" id="precio-referencial-valor" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label for="maneja-inventario">Maneja Inventario:</label>
-                                <select class="form-select" id="maneja-inventario">
-                                    <option selected>-- Selecciona --</option>
-                                    <option value="1">Sí</option>
-                                    <option value="2">No</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="producto-variable">Producto Variable:</label>
-                                <select class="form-select" id="producto-variable">
-                                    <option selected>-- Selecciona --</option>
-                                    <option value="1">Sí</option>
-                                    <option value="2">No</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="stock-inicial">Stock Inicial:</label>
-                                <input type="text" class="form-control" id="stock-inicial">
-                            </div>
-                            <div class="form-group">
-                                <label for="stock-minimo">Stock Mínimo:</label>
-                                <input type="text" class="form-control" id="stock-minimo">
+                            <div class="d-flex flex-column">
+                                <div class="d-flex flex-row gap-3">
+                                    <div class="form-group w-100">
+                                        <label for="costo">Costo:</label>
+                                        <input type="text" class="form-control" id="costo">
+                                    </div>
+                                    <div class="form-group w-100">
+                                        <label for="utilidad">Utilidad %:</label>
+                                        <input type="text" class="form-control" id="utilidad">
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row gap-3">
+                                    <div class="form-group w-100">
+                                        <label for="precio-proveedor">Precio Proveedor:</label>
+                                        <input type="text" class="form-control" id="precio-proveedor">
+                                    </div>
+                                    <div class="form-group w-100">
+                                        <label for="precio-venta">Precio de Venta (Sugerido):</label>
+                                        <input type="text" class="form-control" id="precio-venta">
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row gap-3">
+                                    <div class="form-group w-100">
+                                        <label for="precio-referencial">¿Precio Referencial?</label>
+                                        <input type="checkbox" class="form-check-input" id="precio-referencial">
+                                        <input type="text" class="form-control mt-2" id="precio-referencial-valor" disabled>
+                                    </div>
+                                    <div class="form-group w-100">
+                                        <label for="maneja-inventario">Maneja Inventario:</label>
+                                        <select class="form-select" id="maneja-inventario">
+                                            <option selected>-- Selecciona --</option>
+                                            <option value="1">Sí</option>
+                                            <option value="2">No</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group w-100">
+                                        <label for="producto-variable">Producto Variable:</label>
+                                        <select class="form-select" id="producto-variable">
+                                            <option selected>-- Selecciona --</option>
+                                            <option value="1">Sí</option>
+                                            <option value="2">No</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row gap-3">
+                                    <div class="form-group w-100">
+                                        <label for="stock-inicial">Stock Inicial:</label>
+                                        <input type="text" class="form-control" id="stock-inicial">
+                                    </div>
+                                    <div class="form-group w-100">
+                                        <label for="stock-minimo">Stock Mínimo:</label>
+                                        <input type="text" class="form-control" id="stock-minimo">
+                                    </div>
+                                </div>
                             </div>
                         </form>
                     </div>
