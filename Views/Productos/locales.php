@@ -92,10 +92,20 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>2</td>
-                        <td>María López</td>
-                        <td>maria.lopez@example.com</td>
-                        <td>+987654321</td>
+                        <td>616</td>
+                        <td>imagen Producto</td>
+                        <td>10061</td>
+                        <td>ACCESORIOS BRAZO IRONMAN</td>
+                        <td>Si o No</td>
+                        <td>8</td>
+                        <td>$2.00</td>
+                        <td>$2.00</td>
+                        <td>$4.00</td>
+                        <td>$4.00</td>
+                        <td>icono</td>
+                        <td>icono</td>
+                        <td>icono</td>
+                        <td>29/12/2023</td>
                         <td>
                             <button class="btn btn-primary btn-sm"><i class="fas fa-edit"></i> Editar</button>
                             <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
