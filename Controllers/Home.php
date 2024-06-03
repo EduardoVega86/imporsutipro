@@ -6,7 +6,7 @@ class Home extends Controller
     public function index()
     {
         if ($this->isAuth()) {
-            header("Location: /Admin");
+            header("Location: /Dashboard");
         } else {
             $this->views->render($this, "index");
         }
@@ -22,7 +22,7 @@ class Home extends Controller
     public function login()
     {
         if ($this->isAuth()) {
-            header("Location: /Admin");
+            header("Location: /Dashboard");
         } else {
             $this->views->render($this, "login");
         }
@@ -30,7 +30,7 @@ class Home extends Controller
     public function registro()
     {
         if ($this->isAuth()) {
-            header("Location: /Admin");
+            header("Location: /Dashboard");
         } else {
             $this->views->render($this, "registro");
         }
@@ -38,7 +38,7 @@ class Home extends Controller
     public function recovery()
     {
         if ($this->isAuth()) {
-            header("Location: /Admin");
+            header("Location: /Dashboard");
         } else {
             $this->views->render($this, "recovery");
         }
@@ -46,7 +46,7 @@ class Home extends Controller
     public function pedidos_ingresados()
     {
         if ($this->isAuth()) {
-            header("Location: /Admin");
+            header("Location: /Dashboard");
         } else {
             $this->views->render($this, "pedidos_ingresados");
         }
