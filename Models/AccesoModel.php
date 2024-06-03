@@ -76,7 +76,7 @@ class AccesoModel extends Query
                         $mail->setFrom($smtp_from, $smtp_from_name);
                         $mail->addAddress($correo);
                         $mail->Subject = 'Registro en Imporsuitpro';
-                        $mail->Body = $message_body_pedido;
+                        $mail->Body = $message_body;
                         if ($mail->send()) {
                             //echo "Correo enviado";
                         } else {
