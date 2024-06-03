@@ -9,11 +9,6 @@
         overflow-y: auto;
     }
 
-    .container-fluid {
-        width: 100%;
-        padding: 20px;
-    }
-
     .header {
         text-align: center;
         margin: 20px 0;
