@@ -9,15 +9,15 @@
         overflow-y: auto;
     }
 
-    /* .container-fluid {
+    .container-fluid {
         width: 100%;
         padding: 20px;
-    } */
+    }
 
-    /* .header {
+    .header {
         text-align: center;
         margin: 20px 0;
-    } */
+    }
 
     .stats-container {
         display: flex;
