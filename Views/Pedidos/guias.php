@@ -70,7 +70,7 @@
 </div>
 <!-- <script src="./Views/Pedidos/js/guias.js"></script> -->
 <script>
-    const dataJSON = <?php echo($data);?>;
+    const dataJSON = <?php echo $data;?>;
     console.log(JSON.parse(dataJSON));
 </script>
 <?php require_once './Views/templates/footer.php'; ?>
