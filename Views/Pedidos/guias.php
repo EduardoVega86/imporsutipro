@@ -40,10 +40,10 @@
 </style>
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1900px;">
-        <h2 class="text-center mb-4">Productos</h2>
-        <div class="filtros_producos justify-content-between align-items-center mb-3">
+        <h2 class="text-center mb-4">Guias</h2>
+        <!-- <div class="filtros_producos justify-content-between align-items-center mb-3">
 
-        </div>
+        </div> -->
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
             <table id="datatable_guias" class="table table-striped">
