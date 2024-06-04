@@ -25,7 +25,7 @@ class ProductosModel extends Query
 
     public function agregarBodega($nombre, $direccion, $telefono, $ciudad, $provincia, $contacto, $telefono_contacto, $numerocasa, $referencia, $plataforma)
     {
-        // codigo para agregar bodega
+        /* // codigo para agregar bodega
         $response = $this->initialResponse();
         
          $sql = "INSERT INTO bodega (nombre_users, email_users, con_users, usuario_users, date_added, cargo_users) VALUES (?, ?, ?, ?, ?, ?)";
@@ -35,7 +35,7 @@ class ProductosModel extends Query
          if ($insertar_usuario == 1) {
              
          }
-         return $response;
+         return $response; */
     }
 
     public function agregarCategoria($nombre_linea, $descripcion_linea, $estado_linea, $date_added, $online, $imagen, $tipo, $padre, $plataforma)
