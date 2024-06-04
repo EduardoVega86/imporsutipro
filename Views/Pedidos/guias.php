@@ -68,8 +68,8 @@
         </div>
     </div>
 </div>
-<script src="./Views/Pedidos/js/guias.js"></script> 
 <script>
     const dataJSON = <?php echo json_encode($data);?>;
 </script>
+<script src="./Views/Pedidos/js/guias.js"></script> 
 <?php require_once './Views/templates/footer.php'; ?>
