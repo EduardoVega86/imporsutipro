@@ -71,6 +71,6 @@
 <script src="./Views/Pedidos/js/guias.js"></script>
 <script>
     const dataJSON = JSON.stringify(<?php print_r($data);?>);
-    console.log(dataJSON);
+    console.log(JSON.parse(dataJSON));
 </script>
 <?php require_once './Views/templates/footer.php'; ?>
