@@ -125,4 +125,11 @@ class Pedidos extends Controller
         );
         echo json_encode($response);
     }
+
+    public function obtener_guias($filtro = "")
+    {
+
+        $data = $this->model->cargarGuias($filtro);
+        echo json_encode($data);
+    }
 }
