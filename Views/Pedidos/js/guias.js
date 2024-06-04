@@ -48,6 +48,19 @@ const listGuias = async () => {
 
         let content = ``;
         guias.forEach((guia, index) => {
+            let transporte = guia.transporte;
+            let transporte_contet='';
+            if (transporte = 'SERVIENTREGA'){
+                transporte_contet = '<span style="background-color: #28C839; color: white;">SERVIENTREGA</span>';
+            }else if (transporte = 'LAAR'){
+                transporte_contet = '<span style="background-color: #F4DB08; color: white;">LAAR</span>';
+            }else if (transporte = 'SPEED'){
+                transporte_contet = '<span style="background-color: #red; color: white;">SPEED</span>';
+            }else if (transporte = 'GINTRACOM'){
+                transporte_contet = '<span style="background-color: #red; color: white;">GINTRACOM</span>';
+            }else {
+                transporte_contet = '<span style="background-color: #F4DB08; color: white;">Guia no enviada</span>';
+            }
             content += `
                 <tr>
                     <td>${guia.numero_factura}</td>
@@ -55,13 +68,16 @@ const listGuias = async () => {
                     <td class="d-flex flex-column">
                     <span></span><strong> ${guia.nombre} </strong></span>
                     <span>${guia.c_principal} y ${guia.c_secundaria}</span>
-                    <span>telf: ${guia.telefono}/span>
+                    <span>telf: ${guia.telefono}</span>
                     </td>
                     <td>PAIS</td>
                     <td>${guia.tienda}</td>
-                    <td>${guia.transporte}</td>
-                    <td>${guia.estado_guia_sistema}</i></td>
-                    <td>${guia.impreso}</i></td>
+                    <td>${transporte_contet}</td>
+                    <td>
+                    ${guia.estado_guia_sistema}
+                    <a href="https://wa.me/${formatPhoneNumber(guia.telefono)}" style="font-size: 40px;" target="_blank"><i class="bx bxl-whatsapp-square" style="color: green"></i></a>
+                    </td>
+                    <td>${guia.impreso}</td>
                     <td>
                         <button class="btn btn-sm btn-primary"><i class="fa-solid fa-pencil"></i></button>
                         <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash-can"></i></button>
@@ -77,3 +93,26 @@ const listGuias = async () => {
 window.addEventListener("load", async () => {
     await initDataTable();
 });
+
+function formatPhoneNumber(number) {
+    // Eliminar caracteres no numéricos excepto el signo +
+    number = number.replace(/[^\d+]/g, '');
+
+    // Verificar si el número ya tiene el código de país +593
+    if (/^\+593/.test(number)) {
+        // El número ya está correctamente formateado con +593
+        return number;
+    } else if (/^593/.test(number)) {
+        // El número tiene 593 al inicio pero le falta el +
+        return '+' + number;
+    } else {
+        // Si el número comienza con 0, quitarlo
+        if (number.startsWith('0')) {
+            number = number.substring(1);
+        }
+        // Agregar el código de país +593 al inicio del número
+        number = '+593' + number;
+    }
+
+    return number;
+}
