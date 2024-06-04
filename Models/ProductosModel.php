@@ -27,6 +27,15 @@ class ProductosModel extends Query
     {
         // codigo para agregar bodega
         $response = $this->initialResponse();
+        
+         $sql = "INSERT INTO bodega (nombre_users, email_users, con_users, usuario_users, date_added, cargo_users) VALUES (?, ?, ?, ?, ?, ?)";
+        //   echo $sql;
+        $data = [$nombre, $correo, $contrasena, $correo, $date_added, 1];
+        $insertar_usuario = $this->insert($sql, $data);
+         if ($insertar_usuario == 1) {
+             
+         }
+         return $response;
     }
 
     public function agregarCategoria($nombre_linea, $descripcion_linea, $estado_linea, $date_added, $online, $imagen, $tipo, $padre, $plataforma)

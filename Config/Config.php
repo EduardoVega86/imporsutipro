@@ -1,6 +1,6 @@
 <?php
 
-const SERVERURL = "https://new.imporsuitpro.com/";
+const SERVERURL = "http://localhost/imporsutipro/";
 
 const HOST = '3.233.119.65';
 const USER = "imporsuit_system";
