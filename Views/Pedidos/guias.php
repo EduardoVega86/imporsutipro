@@ -71,21 +71,6 @@
 <!-- <script src="./Views/Pedidos/js/guias.js"></script> -->
 <script>
     const dataJSON = JSON.stringify(<?php print_r($data);?>);
-const parsedData = JSON.parse(dataJSON);
-
-// Accessing nested elements
-parsedData.forEach((item) => {
-    // Access first-level array elements
-    console.log(item.property1);
-    console.log(item.property2);
-
-    // Access nested array elements (if any)
-    if (item.nestedArray) {
-        item.nestedArray.forEach((nestedItem) => {
-            console.log(nestedItem.nestedProperty1);
-            console.log(nestedItem.nestedProperty2);
-        });
-    }
-});
+    console.log(JSON.parse(dataJSON));
 </script>
 <?php require_once './Views/templates/footer.php'; ?>

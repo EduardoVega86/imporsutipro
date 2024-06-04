@@ -50,7 +50,7 @@ const listUsers = async () => {
         guias.forEach((guia, index) => {
             content += `
                 <tr>
-                    <td class="d-flex flex-column">${index + 1}</td>
+                    <td class="d-flex flex-column">${guia.numero}</td>
                     <td>${user.name}</td>
                     <td>${user.email}</td>
                     <td>${user.address.city}</td>
