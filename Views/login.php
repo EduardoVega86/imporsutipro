@@ -74,7 +74,7 @@
 
     /* Estilo base del enlace */
     .animated-link {
-        display: flex;
+        display: flex !important;
         align-items: center;
         justify-content: center;
         margin-top: 15px;
@@ -92,6 +92,22 @@
         color: #0056b3;
         transform: scale(1.1);
         /* Aumenta ligeramente el tamaño */
+    }
+
+    /* Estilo para centrar el texto "o" */
+    .center-text {
+        text-align: center;
+        margin: 15px 0;
+        /* Añadir margen para separarlo de los enlaces */
+    }
+
+    /* Estilo para ocultar las líneas de los <hr> */
+    .no-border {
+        border: none;
+        height: 1px;
+        /* Ajustar la altura para mantener el espaciado */
+        background: none;
+        /* Asegurarse de que no haya fondo */
     }
 </style>
 
@@ -116,9 +132,9 @@
             <a href="https://new.imporsuitpro.com/Home/recovery" class="forgot-password">
                 <i class="fas fa-lock"></i> ¿Olvidaste tu contraseña?
             </a>
-            <hr>
-            o
-            <hr>
+            <hr class="no-border">
+            <div class="center-text">o</div>
+            <hr class="no-border">
             <a href="https://new.imporsuitpro.com/registro" class="animated-link">
                 Regístrate ahora
             </a>
