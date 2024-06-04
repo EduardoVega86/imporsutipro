@@ -5,7 +5,7 @@ const dataTableOptions = {
     //scrollX: "2000px",
     lengthMenu: [5, 10, 15, 20, 100, 200, 500],
     columnDefs: [
-        { className: "centered", targets: [0, 1, 2, 3, 4, 5, 6] },
+        { className: "centered", targets: [0, 1, 2, 3, 4, 5,7,8] },
         /* { orderable: false, targets: [5, 6] }, */
         /* { searchable: false, targets: [1] } */
         //{ width: "50%", targets: [0] }
@@ -67,7 +67,7 @@ const listGuias = async () => {
                     <td>${guia.numero_factura}</td>
                     <td>${guia.fecha_factura}</td>
                     <td class="d-flex flex-column">
-                    <span></span><strong> ${guia.nombre} </strong></span>
+                    <span><strong> ${guia.nombre} </strong></span>
                     <span>${guia.c_principal} y ${guia.c_secundaria}</span>
                     <span>telf: ${guia.telefono}</span>
                     </td>
@@ -75,8 +75,8 @@ const listGuias = async () => {
                     <td>${guia.tienda}</td>
                     <td>${transporte_contet}</td>
                     <td class="d-flex flex-row">
-                    <span>${guia.estado_guia_sistema}</span>
-                    <a href="https://wa.me/${formatPhoneNumber(guia.telefono)}" style="font-size: 40px;" target="_blank"><box-icon type='logo' name='whatsapp-square' color="green"></box-icon></a>
+                    <span class="w-100">${guia.estado_guia_sistema}</span>
+                    <a class="w-100" href="https://wa.me/${formatPhoneNumber(guia.telefono)}" style="font-size: 40px;" target="_blank"><box-icon type='logo' name='whatsapp-square' color="green"></box-icon></a>
                     </td>
                     <td>${guia.impreso}</td>
                     <td>
