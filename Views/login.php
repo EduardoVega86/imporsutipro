@@ -71,6 +71,24 @@
     .forgot-password:hover {
         color: #333;
     }
+
+    /* Estilo base del enlace */
+    .animated-link {
+        font-size: 1rem;
+        color: #007bff;
+        text-decoration: none;
+        transition: all 0.3s ease-in-out;
+        display: inline-block;
+        /* Para que la transformación funcione correctamente */
+    }
+
+    /* Estilo cuando el mouse está sobre el enlace */
+    .animated-link:hover {
+        font-size: 1.2rem;
+        color: #0056b3;
+        transform: scale(1.1);
+        /* Aumenta ligeramente el tamaño */
+    }
 </style>
 
 <div class="d-flex flex-column" style="width: 700px;">
@@ -94,8 +112,8 @@
             <a href="https://new.imporsuitpro.com/Home/recovery" class="forgot-password">
                 <i class="fas fa-lock"></i> ¿Olvidaste tu contraseña?
             </a>
-            <a href="https://new.imporsuitpro.com/registro" class="forgot-password">
-                Registrate ahora
+            <a href="https://new.imporsuitpro.com/registro" class="animated-link">
+                Regístrate ahora
             </a>
         </form>
     </div>
