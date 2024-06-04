@@ -54,13 +54,13 @@ const listGuias = async () => {
             if (transporte == 'SERVIENTREGA'){
                 transporte_contet = '<span style="background-color: #28C839; color: white; padding: 5px;">SERVIENTREGA</span>';
             }else if (transporte == 'LAAR'){
-                transporte_contet = '<span style="background-color: #F4DB08; color: white; padding: 5px;">LAAR</span>';
+                transporte_contet = '<span style="background-color: #E3CE1C; color: white; padding: 5px;">LAAR</span>';
             }else if (transporte == 'SPEED'){
                 transporte_contet = '<span style="background-color: #red; color: white; padding: 5px;">SPEED</span>';
             }else if (transporte == 'GINTRACOM'){
                 transporte_contet = '<span style="background-color: #red; color: white; padding: 5px;">GINTRACOM</span>';
             }else {
-                transporte_contet = '<span style="background-color: #F4DB08; color: white; padding: 5px;">Guia no enviada</span>';
+                transporte_contet = '<span style="background-color: #E3CE1C; color: white; padding: 5px;">Guia no enviada</span>';
             }
             content += `
                 <tr>
