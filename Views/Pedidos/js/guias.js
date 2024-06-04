@@ -49,6 +49,7 @@ const listGuias = async () => {
         let content = ``;
         guias.forEach((guia, index) => {
             let transporte = guia.transporte;
+            console.log(transporte);
             let transporte_contet='';
             if (transporte == 'SERVIENTREGA'){
                 transporte_contet == '<span style="background-color: #28C839; color: white; padding: 5px;">SERVIENTREGA</span>';
