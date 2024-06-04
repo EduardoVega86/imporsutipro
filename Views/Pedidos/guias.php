@@ -1,57 +1,7 @@
 <?php require_once './Views/templates/header.php'; ?>
 
 <style>
-    .table-responsive {
-    overflow-x: auto;
-}
-
-.table thead th {
-    background-color: #171931;
-    color: white;
-}
-
-.table th,
-.table td {
-    text-align: center;
-    vertical-align: middle;
-}
-
-.centered {
-    text-align: center !important;
-    vertical-align: middle !important;
-}
-
-/* Ajustes para pantallas pequeñas */
-@media (max-width: 768px) {
-    .table th, .table td {
-        display: block;
-        width: 100%;
-        text-align: left;
-    }
     
-    .table thead {
-        display: none;
-    }
-    
-    .table tr {
-        margin-bottom: 1rem;
-        border-bottom: 2px solid #ddd;
-    }
-    
-    .table td {
-        position: relative;
-        padding-left: 50%;
-    }
-    
-    .table td::before {
-        content: attr(data-label);
-        position: absolute;
-        left: 0;
-        width: 50%;
-        padding-left: 15px;
-        font-weight: bold;
-    }
-}
 </style>
 
 <style>
