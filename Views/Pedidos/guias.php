@@ -37,33 +37,6 @@
             flex-direction: column;
         }
     }
-
-    /* Cambiar el color de las flechas de ordenación */
-    .dataTables_wrapper .dataTables_paginate .paginate_button,
-    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-        color: white !important;
-        /* Cambia 'white' por el color que desees */
-    }
-
-    /* Cambiar el color de las flechas de ordenación en la cabecera de la tabla */
-    table.dataTable thead .sorting,
-    table.dataTable thead .sorting_asc,
-    table.dataTable thead .sorting_desc,
-    table.dataTable thead .sorting_asc_disabled,
-    table.dataTable thead .sorting_desc_disabled {
-        color: white !important;
-        /* Cambia 'white' por el color que desees */
-    }
-
-    /* Para ajustar el color de las flechas cuando se está ordenando */
-    table.dataTable thead .sorting:after,
-    table.dataTable thead .sorting_asc:after,
-    table.dataTable thead .sorting_desc:after,
-    table.dataTable thead .sorting_asc_disabled:after,
-    table.dataTable thead .sorting_desc_disabled:after {
-        color: white !important;
-        /* Cambia 'white' por el color que desees */
-    }
 </style>
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1900px;">
@@ -95,5 +68,5 @@
         </div>
     </div>
 </div>
-<script src="<?php echo SERVERURL ?>/Views/Pedidos/js/guias.js"></script>
+<script src="<?php echo SERVERURL?>/Views/Pedidos/js/guias.js"></script> 
 <?php require_once './Views/templates/footer.php'; ?>
