@@ -60,7 +60,7 @@ const listGuias = async () => {
             } else if (transporte == 'GINTRACOM') {
                 transporte_contet = '<span style="background-color: red; color: white; padding: 5px;">GINTRACOM</span>';
             } else {
-                transporte_contet = '<span style="background-color: #E3BC1C; color: white; padding: 5px;">Guia no enviada</span>';
+                transporte_contet = '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem">Guia no enviada</span>';
             }
             content += `
                 <tr>
