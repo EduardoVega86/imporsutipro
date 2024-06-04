@@ -76,7 +76,7 @@ const listGuias = async () => {
                     <td>${transporte_contet}</td>
                     <td class="d-flex flex-row">
                     <span>${guia.estado_guia_sistema}</span>
-                    <a href="https://wa.me/${formatPhoneNumber(guia.telefono)}" style="font-size: 40px;" target="_blank"><i class="bx bxl-whatsapp-square" style="color: green"></i></a>
+                    <a href="https://wa.me/${formatPhoneNumber(guia.telefono)}" style="font-size: 40px;" target="_blank"><box-icon type='logo' name='whatsapp-square' color="green"></box-icon></a>
                     </td>
                     <td>${guia.impreso}</td>
                     <td>
