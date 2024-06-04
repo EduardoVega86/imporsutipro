@@ -50,16 +50,16 @@ const listGuias = async () => {
         guias.forEach((guia, index) => {
             let transporte = guia.transporte;
             let transporte_contet='';
-            if (transporte = 'SERVIENTREGA'){
-                transporte_contet = '<span style="background-color: #28C839; color: white;">SERVIENTREGA</span>';
-            }else if (transporte = 'LAAR'){
-                transporte_contet = '<span style="background-color: #F4DB08; color: white;">LAAR</span>';
-            }else if (transporte = 'SPEED'){
-                transporte_contet = '<span style="background-color: #red; color: white;">SPEED</span>';
-            }else if (transporte = 'GINTRACOM'){
-                transporte_contet = '<span style="background-color: #red; color: white;">GINTRACOM</span>';
+            if (transporte == 'SERVIENTREGA'){
+                transporte_contet == '<span style="background-color: #28C839; color: white; padding: 5px;">SERVIENTREGA</span>';
+            }else if (transporte == 'LAAR'){
+                transporte_contet == '<span style="background-color: #F4DB08; color: white; padding: 5px;">LAAR</span>';
+            }else if (transporte == 'SPEED'){
+                transporte_contet == '<span style="background-color: #red; color: white; padding: 5px;">SPEED</span>';
+            }else if (transporte == 'GINTRACOM'){
+                transporte_contet == '<span style="background-color: #red; color: white; padding: 5px;">GINTRACOM</span>';
             }else {
-                transporte_contet = '<span style="background-color: #F4DB08; color: white;">Guia no enviada</span>';
+                transporte_contet == '<span style="background-color: #F4DB08; color: white; padding: 5px;">Guia no enviada</span>';
             }
             content += `
                 <tr>
@@ -73,8 +73,8 @@ const listGuias = async () => {
                     <td>PAIS</td>
                     <td>${guia.tienda}</td>
                     <td>${transporte_contet}</td>
-                    <td>
-                    ${guia.estado_guia_sistema}
+                    <td class="d-flex flex-row">
+                    <span>${guia.estado_guia_sistema}</span>
                     <a href="https://wa.me/${formatPhoneNumber(guia.telefono)}" style="font-size: 40px;" target="_blank"><i class="bx bxl-whatsapp-square" style="color: green"></i></a>
                     </td>
                     <td>${guia.impreso}</td>
