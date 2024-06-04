@@ -94,6 +94,9 @@
             <a href="https://new.imporsuitpro.com/Home/recovery" class="forgot-password">
                 <i class="fas fa-lock"></i> ¿Olvidaste tu contraseña?
             </a>
+            <a href="https://new.imporsuitpro.com/registro" class="forgot-password">
+                Registrate ahora
+            </a>
         </form>
     </div>
 </div>
