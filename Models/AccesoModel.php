@@ -58,9 +58,9 @@ class AccesoModel extends Query
 (0, 'Pago Contra Entrega', 'fa-lock', NULL, 'Paga cuando recibes el producto', 2, $id_plataforma),
 (0, 'Atención al cliente', 'fa-headset', NULL, 'Soporte 100% garantizado', 2, $id_plataforma);";
                         
-                        $registro_caracteristicas=$this->select($sql_caracteristicas);
+                        $registro_caracteristicas=$this->simple_insert($sql_caracteristicas);
                        // print_r($registro_caracteristicas);
-                        //if($registro_caracteristicas==1){
+                        if($registro_caracteristicas==1){
                         $response['status'] = 200;
                         $response['title'] = 'Peticion exitosa';
                         $response['message'] = 'Usuario registrado correctamente';
