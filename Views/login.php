@@ -74,6 +74,10 @@
 
     /* Estilo base del enlace */
     .animated-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 15px;
         font-size: 1rem;
         color: #007bff;
         text-decoration: none;
@@ -112,6 +116,9 @@
             <a href="https://new.imporsuitpro.com/Home/recovery" class="forgot-password">
                 <i class="fas fa-lock"></i> ¿Olvidaste tu contraseña?
             </a>
+            <hr>
+            o
+            <hr>
             <a href="https://new.imporsuitpro.com/registro" class="animated-link">
                 Regístrate ahora
             </a>
