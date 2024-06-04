@@ -22,9 +22,9 @@ class PedidosModel extends Query
     {
         if (empty($filtro) || $filtro == "") {
 
-            $sql = "SELECT * FROM facturas_cot where guia IS NOT NULL and anulado = 0";
+            $sql = "SELECT * FROM facturas_cot where numero_guia IS NOT NULL and anulado = 0";
         } else {
-            $sql = "SELECT * FROM facturas_cot where guia IS NOT NULL and $filtro";
+            $sql = "SELECT * FROM facturas_cot where numero_guia IS NOT NULL and $filtro";
         }
         return $this->select($sql);
     }
