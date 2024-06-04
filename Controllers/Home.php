@@ -6,7 +6,7 @@ class Home extends Controller
     {
         parent::__construct();
         if ($this->isAuth()) {
-            header("Location: /dashboard");
+            header("Location:  " . SERVERURL . "dashboard");
         }
     }
     ///Vistas
