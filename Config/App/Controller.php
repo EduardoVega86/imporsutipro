@@ -58,8 +58,8 @@ class Controller
         if (isset($_SESSION["user"])) {
             $verified =  true;
         }
-        if (!$verified) {
-            header("Location: " . SERVERURL . "login");
+        if ($verified) {
+            header("Location: " . SERVERURL . "dashboard");
         }
     }
     public function hasPermission($permission)
