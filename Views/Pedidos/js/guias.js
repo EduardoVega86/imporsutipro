@@ -5,7 +5,7 @@ const dataTableOptions = {
     //scrollX: "2000px",
     lengthMenu: [5, 10, 15, 20, 100, 200, 500],
     columnDefs: [
-        { className: "centered", targets: [0, 1, 2, 3, 4, 5,7,8] },
+        { className: "centered", targets: [0, 1, 2, 3, 4, 5,6,7,8] },
         /* { orderable: false, targets: [5, 6] }, */
         /* { searchable: false, targets: [1] } */
         //{ width: "50%", targets: [0] }
@@ -52,15 +52,15 @@ const listGuias = async () => {
             console.log(transporte);
             let transporte_contet = '';
             if (transporte == 'SERVIENTREGA') {
-                transporte_contet = '<span style="background-color: #28C839; color: white; padding: 5px;">SERVIENTREGA</span>';
+                transporte_contet = '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SERVIENTREGA</span>';
             } else if (transporte == 'LAAR') {
-                transporte_contet = '<span style="background-color: #E3BC1C; color: white; padding: 5px;">LAAR</span>';
+                transporte_contet = '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">LAAR</span>';
             } else if (transporte == 'SPEED') {
-                transporte_contet = '<span style="background-color: red; color: white; padding: 5px;">SPEED</span>';
+                transporte_contet = '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
             } else if (transporte == 'GINTRACOM') {
-                transporte_contet = '<span style="background-color: red; color: white; padding: 5px;">GINTRACOM</span>';
+                transporte_contet = '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>';
             } else {
-                transporte_contet = '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem">Guia no enviada</span>';
+                transporte_contet = '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">Guia no enviada</span>';
             }
             content += `
                 <tr>
