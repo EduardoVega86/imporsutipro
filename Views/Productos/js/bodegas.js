@@ -52,10 +52,10 @@ const listGuias = async () => {
     guias.forEach((guia, index) => {
       content += `
                 <tr>
-                    <td>${guia.id}</td
-                    <td>${guia.nombre}</td
+                    <td>${guia.id}</td>
+                    <td>${guia.nombre}</td>
                     <td>${guia.direccion}</td>
-                    <td>${guia.provincia}</td
+                    <td>${guia.provincia}</td>
                     <td>${guia.responsable}</td>
                     <td>${guia.contacto}</td>
                     <td>
