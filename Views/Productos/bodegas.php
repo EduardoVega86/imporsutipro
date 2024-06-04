@@ -54,7 +54,7 @@
                     <tr>
                         <th class="centered">ID</th>
                         <th class="centered">Nombre</th>
-                        <th class="centered">Dreccion</th>
+                        <th class="centered">Direccion</th>
                         <th class="centered">Ciudad</th>
                         <th class="centered">Responsable</th>
                         <th class="centered">Telefono</th>
