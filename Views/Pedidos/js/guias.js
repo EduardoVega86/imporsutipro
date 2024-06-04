@@ -74,7 +74,7 @@ const listGuias = async () => {
                     <td>PAIS</td>
                     <td>${guia.tienda}</td>
                     <td>${transporte_contet}</td>
-                    <td">
+                    <td>
                     <div>
                     <span class="w-100">${guia.estado_guia_sistema}</span>
                     </div>
