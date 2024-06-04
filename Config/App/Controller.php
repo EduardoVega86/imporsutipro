@@ -58,7 +58,7 @@ class Controller
         if (isset($_SESSION["user"])) {
             $verified =  true;
         }
-        if ($verified) {
+        if ($verified && SERVERURL . $_GET['url'] === SERVERURL . "login") {
             header("Location: " . SERVERURL . "dashboard");
         }
     }
