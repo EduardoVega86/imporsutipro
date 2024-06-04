@@ -54,14 +54,7 @@ const listGuias = async () => {
                 <tr>
                     <td>${guia.id}</td>
                     <td>${guia.nombre}</td>
-                    <td>${guia.direccion}</td>
-                    <td>${guia.provincia}</td>
-                    <td>${guia.responsable}</td>
-                    <td>${guia.contacto}</td>
-                    <td>
-                        <button class="btn btn-sm btn-primary"><i class="fa-solid fa-pencil"></i></button>
-                        <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                    </td>
+                   
                 </tr>`;
     });
     document.getElementById("tableBody_guias").innerHTML = content;
