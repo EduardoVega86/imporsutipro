@@ -43,14 +43,14 @@ const initDataTable = async () => {
 
 const listUsers = async () => {
     try {
-        
-        const guias = JSON.parse(dataJSON);
+        const response = await fetch("https://new.imporsuitpro.com/pedidos/obtener_guias");
+        const users = await response.json();
 
         let content = ``;
-        guias.forEach((guia, index) => {
+        users.forEach((user, index) => {
             content += `
                 <tr>
-                    <td class="d-flex flex-column">${guia.numero}</td>
+                    <td>${index + 1}</td>
                     <td>${user.name}</td>
                     <td>${user.email}</td>
                     <td>${user.address.city}</td>
