@@ -69,7 +69,4 @@
     </div>
 </div>
 <script src="./js/guias.js"></script> 
-<script>
-    const dataJSON = <?php echo json_encode($data);?>;
-</script>
 <?php require_once './Views/templates/footer.php'; ?>
