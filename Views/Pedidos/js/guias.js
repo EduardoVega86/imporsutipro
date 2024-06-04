@@ -50,33 +50,33 @@ const listGuias = async () => {
         guias.forEach((guia, index) => {
             let transporte = guia.transporte;
             console.log(transporte);
-            let transporte_contet='';
-            if (transporte == 'SERVIENTREGA'){
+            let transporte_contet = '';
+            if (transporte == 'SERVIENTREGA') {
                 transporte_contet = '<span style="background-color: #28C839; color: white; padding: 5px;">SERVIENTREGA</span>';
-            }else if (transporte == 'LAAR'){
+            } else if (transporte == 'LAAR') {
                 transporte_contet = '<span style="background-color: #E3BC1C; color: white; padding: 5px;">LAAR</span>';
-            }else if (transporte == 'SPEED'){
-                transporte_contet = '<span style="background-color: #red; color: white; padding: 5px;">SPEED</span>';
-            }else if (transporte == 'GINTRACOM'){
-                transporte_contet = '<span style="background-color: #red; color: white; padding: 5px;">GINTRACOM</span>';
-            }else {
+            } else if (transporte == 'SPEED') {
+                transporte_contet = '<span style="background-color: red; color: white; padding: 5px;">SPEED</span>';
+            } else if (transporte == 'GINTRACOM') {
+                transporte_contet = '<span style="background-color: red; color: white; padding: 5px;">GINTRACOM</span>';
+            } else {
                 transporte_contet = '<span style="background-color: #E3BC1C; color: white; padding: 5px;">Guia no enviada</span>';
             }
             content += `
                 <tr>
                     <td>${guia.numero_factura}</td>
                     <td>${guia.fecha_factura}</td>
-                    <td class="d-flex flex-column">
-                    <span><strong> ${guia.nombre} </strong></span>
-                    <span>${guia.c_principal} y ${guia.c_secundaria}</span>
-                    <span>telf: ${guia.telefono}</span>
+                    <td>
+                        <div><strong>${guia.nombre}</strong></div>
+                        <div>${guia.c_principal} y ${guia.c_secundaria}</div>
+                        <div>telf: ${guia.telefono}</div>
                     </td>
                     <td>PAIS</td>
                     <td>${guia.tienda}</td>
                     <td>${transporte_contet}</td>
                     <td>
-                    <span class="w-100">${guia.estado_guia_sistema}</span>
-                    <a class="w-100" href="https://wa.me/${formatPhoneNumber(guia.telefono)}" style="font-size: 60px;" target="_blank"><box-icon type='logo' name='whatsapp-square' color="green"></box-icon></a>
+                        <span class="w-100">${guia.estado_guia_sistema}</span>
+                        <a class="w-100" href="https://wa.me/${formatPhoneNumber(guia.telefono)}" style="font-size: 40px;" target="_blank"><box-icon type='logo' name='whatsapp-square' color="green"></box-icon></a>
                     </td>
                     <td>${guia.impreso}</td>
                     <td>
@@ -85,7 +85,7 @@ const listGuias = async () => {
                     </td>
                 </tr>`;
         });
-        tableBody_guias.innerHTML = content;
+        document.getElementById('tableBody_guias').innerHTML = content;
     } catch (ex) {
         alert(ex);
     }
