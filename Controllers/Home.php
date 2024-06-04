@@ -5,18 +5,13 @@ class Home extends Controller
     public function __construct()
     {
         parent::__construct();
-        if ($this->isAuth()) {
-            header("Location: /dashboard");
-        }
+        $this->isAuth();
     }
     ///Vistas
     public function index()
     {
-        if ($this->isAuth()) {
-            header("Location: /dashboard");
-        } else {
-            $this->views->render($this, "index");
-        }
+
+        $this->views->render($this, "index");
     }
     public function promociones()
     {
@@ -28,35 +23,20 @@ class Home extends Controller
     }
     public function login()
     {
-        if ($this->isAuth()) {
-            header("Location: /dashboard");
-        } else {
-            $this->views->render($this, "login");
-        }
+        $this->views->render($this, "login");
     }
     public function registro()
     {
-        if ($this->isAuth()) {
-            header("Location: /dashboard");
-        } else {
-            $this->views->render($this, "registro");
-        }
+
+        $this->views->render($this, "registro");
     }
     public function recovery()
     {
-        if ($this->isAuth()) {
-            header("Location: /dashboard");
-        } else {
-            $this->views->render($this, "recovery");
-        }
+        $this->views->render($this, "recovery");
     }
     public function pedidos_ingresados()
     {
-        if ($this->isAuth()) {
-            header("Location: /dashboard");
-        } else {
-            $this->views->render($this, "pedidos_ingresados");
-        }
+        $this->views->render($this, "pedidos_ingresados");
     }
     ///Funciones
 }

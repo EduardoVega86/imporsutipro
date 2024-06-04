@@ -51,14 +51,16 @@ class Controller
     }
     public function isAuth()
     {
+        $verified = false;
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
-
         if (isset($_SESSION["user"])) {
-            return true;
+            $verified =  true;
         }
-        return false;
+        if (!$verified) {
+            header("Location: " . SERVERURL . "login");
+        }
     }
     public function hasPermission($permission)
     {
