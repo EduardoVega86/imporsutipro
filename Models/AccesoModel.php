@@ -158,4 +158,10 @@ class AccesoModel extends Query
         $sql = "SELECT * FROM usuarios WHERE correo = '$correo'";
         return $this->select($sql);
     }
+    
+    public function listarBodegas($plataforma)
+    {
+        $sql = "SELECT * FROM bodega WHERE id_plataforma in ('$plataforma',0) ";
+        return $this->select($sql);
+    }
 }

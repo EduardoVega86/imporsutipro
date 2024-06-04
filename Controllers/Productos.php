@@ -39,7 +39,11 @@ class Productos extends Controller
         $this->views->render($this, "categorias", $data);
     }
 
-
+ public function verbodegas()
+    {
+        $this->views->render($this, "bodegas");
+    }
+    
     ///Funciones
 
     public function agregarBodega()
@@ -74,5 +78,10 @@ class Productos extends Controller
 
     public function agregar_producto()
     {
+    }
+    
+     public function listar_bodegas()
+    {
+         $response = $this->model->listarBodegas($_SESSION['id_plataforma']);
     }
 }
