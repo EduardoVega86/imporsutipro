@@ -51,11 +51,11 @@ const listGuias = async () => {
             content += `
                 <tr>
                     <td>${guia.numero_factura}</td>
-                    <td>${guia.fecha}</td>
-                    <td>
-                    <strong> ${guia.nombre} </strong>
-                    ${guia.c_principal} y ${guia.c_secundaria}
-                    telf: ${guia.telefono}
+                    <td>${guia.fecha_factura}</td>
+                    <td class="d-flex flex-column">
+                    <span></span><strong> ${guia.nombre} </strong></span>
+                    <span>${guia.c_principal} y ${guia.c_secundaria}</span>
+                    <span>telf: ${guia.telefono}/span>
                     </td>
                     <td>PAIS</td>
                     <td>${guia.tienda}</td>
