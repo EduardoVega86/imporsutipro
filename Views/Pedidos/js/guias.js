@@ -51,6 +51,7 @@ const listGuias = async () => {
             content += `
                 <tr>
                     <td>${guia.numero_factura}</td>
+                    <td>${guia.fecha}</td>
                     <td>
                     <strong> ${guia.nombre} </strong>
                     ${guia.c_principal} y ${guia.c_secundaria}
