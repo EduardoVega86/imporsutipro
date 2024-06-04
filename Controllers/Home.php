@@ -5,7 +5,9 @@ class Home extends Controller
     public function __construct()
     {
         parent::__construct();
-        $this->isAuth();
+        if ($this->isAuth()) {
+            header("Location: /dashboard");
+        }
     }
     ///Vistas
     public function index()
