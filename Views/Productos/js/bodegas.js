@@ -55,6 +55,7 @@ const listGuias = async () => {
                     <td>${guia.id}</td
                     <td>${guia.nombre}</td
                     <td>${guia.direccion}</td>
+                    <td>${guia.provincia}</td
                     <td>${guia.responsable}</td>
                     <td>${guia.contacto}</td>
                     <td>
