@@ -68,7 +68,7 @@
         </div>
     </div>
 </div>
-<script src="./Views/Pedidos/js/guias.js"></script>
+<!-- <script src="./Views/Pedidos/js/guias.js"></script> -->
 <script>
     const dataJSON = JSON.stringify(<?php print_r($data);?>);
     console.log(JSON.parse(dataJSON));
