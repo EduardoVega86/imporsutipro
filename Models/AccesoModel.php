@@ -49,7 +49,18 @@ class AccesoModel extends Query
                     $sql = "INSERT INTO usuario_plataforma (id_usuario, id_plataforma) VALUES (?, ?)";
                     $data = [$id[0]['id_users'], $idPlataforma[0]['id_plataforma']];
                     $insertar_relacion = $this->insert($sql, $data);
+                    
+                    
                     if ($insertar_relacion == 1) {
+                     $id_plataforma=$idPlataforma[0]['id_plataforma'];
+                        $sql_caracteristicas="INSERT INTO `caracteristicas_tienda` (`id_producto`, `texto`, `icon_text`, `enlace_icon`, `subtexto_icon`, `accion`, `id_plataforma`) VALUES
+(0, 'Envío Gratis a todo el País', 'fa-check', '', 'Llegamos a todo el País', 1, $id_plataforma),
+(0, 'Pago Contra Entrega', 'fa-lock', NULL, 'Paga cuando recibes el producto', 2, $id_plataforma),
+(0, 'Atención al cliente', 'fa-headset', NULL, 'Soporte 100% garantizado', 2, $id_plataforma);";
+                        
+                        $registro_caracteristicas=$this->select($sql_caracteristicas);
+                       // print_r($registro_caracteristicas);
+                        //if($registro_caracteristicas==1){
                         $response['status'] = 200;
                         $response['title'] = 'Peticion exitosa';
                         $response['message'] = 'Usuario registrado correctamente';
@@ -81,14 +92,16 @@ class AccesoModel extends Query
                             //echo "Correo enviado";
                         } else {
                             echo "Error al enviar el correo: " . $mail->ErrorInfo;
+                        }  
                         }
+                       
                     }
                 } else {
                     $response['message'] = "Error al crear el perfil";
                 }
             } else {
                 $response['message'] = "Error al crear la plataforma! Intentelo nuevamente";
-                // $borrar_usuario=$this->insert($sql, $data);
+                 //$borrar_usuario=$this->delete($sql, $data);
             }
 
             //Se genera la relacion
