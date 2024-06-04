@@ -7,7 +7,7 @@ const dataTableOptions = {
     columnDefs: [
         { className: "centered", targets: [0, 1, 2, 3, 4, 5, 6] },
         { orderable: false, targets: [5, 6] },
-        { searchable: false, targets: [1] }
+        /* { searchable: false, targets: [1] } */
         //{ width: "50%", targets: [0] }
     ],
     pageLength: 3,
