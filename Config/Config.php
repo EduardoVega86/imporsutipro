@@ -11,10 +11,7 @@ if (ENVIRONMENT == 'development') {
     error_reporting(E_ALL);
     define("SERVERURL", "http://localhost/imporsutipro/");
 } else {
-
-
-
-    define("SERVERURL", "http://new.imporsutipro.com/");
+    define("SERVERURL", "https://new.imporsutipro.com/");
 }
 
 const HOST = '3.233.119.65';
