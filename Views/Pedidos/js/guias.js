@@ -36,21 +36,21 @@ const initDataTable = async () => {
 
     await listUsers();
 
-    dataTable = $("#datatable_users").DataTable(dataTableOptions);
+    dataTable = $("#datatable_guias").DataTable(dataTableOptions);
 
     dataTableIsInitialized = true;
 };
 
 const listUsers = async () => {
     try {
-        const response = await fetch("https://jsonplaceholder.typicode.com/users");
-        const users = await response.json();
+        
+        const guias = JSON.parse(dataJSON);
 
         let content = ``;
-        users.forEach((user, index) => {
+        guias.forEach((guia, index) => {
             content += `
                 <tr>
-                    <td>${index + 1}</td>
+                    <td class="d-flex flex-column">${index + 1}</td>
                     <td>${user.name}</td>
                     <td>${user.email}</td>
                     <td>${user.address.city}</td>
@@ -62,7 +62,7 @@ const listUsers = async () => {
                     </td>
                 </tr>`;
         });
-        tableBody_users.innerHTML = content;
+        tableBody_guias.innerHTML = content;
     } catch (ex) {
         alert(ex);
     }

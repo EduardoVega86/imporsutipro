@@ -25,10 +25,6 @@
         vertical-align: middle !important;
     }
 </style>
-<!-- llamada de modales -->
-<?php require_once './Views/Productos/Modales/atributos_index_productos.php'; ?>
-<?php require_once './Views/Productos/Modales/agregar_index_productos.php'; ?>
-<?php require_once './Views/Productos/Modales/editar_index_productos.php'; ?>
 
 <style>
     .filtros_producos {
@@ -43,7 +39,6 @@
     }
 </style>
 <div class="custom-container-fluid">
-    <?php print_r($data);?>
     <div class="container mt-5" style="max-width: 1900px;">
         <h2 class="text-center mb-4">Productos</h2>
         <div class="filtros_producos justify-content-between align-items-center mb-3">
@@ -51,24 +46,31 @@
         </div>
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
-            <table id="datatable_users" class="table table-striped">
+            <table id="datatable_guias" class="table table-striped">
                 <!-- <caption>
                     DataTable.js Demo
                 </caption> -->
                 <thead>
                     <tr>
-                        <th class="centered">#</th>
-                        <th class="centered">Name</th>
-                        <th class="centered">Email</th>
-                        <th class="centered">City</th>
-                        <th class="centered">Company</th>
-                        <th class="centered">Status</th>
-                        <th class="centered">Options</th>
+                        <th class="centered"># Orden</th>
+                        <th class="centered">Detalle</th>
+                        <th class="centered">Cliente</th>
+                        <th class="centered">Localidad</th>
+                        <th class="centered">Tienda</th>
+                        <th class="centered">Transportadora</th>
+                        <th class="centered">Esado</th>
+                        <th class="centered">Impreso</th>
+                        <th class="centered">Acciones</th>
                     </tr>
                 </thead>
-                <tbody id="tableBody_users"></tbody>
+                <tbody id="tableBody_guias"></tbody>
             </table>
         </div>
     </div>
 </div>
+<!-- <script src="./Views/Pedidos/js/guias.js"></script> -->
+<script>
+    const dataJSON = JSON.stringify(<?php print_r($data);?>);
+    console.log(JSON.parse(dataJSON));
+</script>
 <?php require_once './Views/templates/footer.php'; ?>
