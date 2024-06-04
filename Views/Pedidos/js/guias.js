@@ -34,28 +34,33 @@ const initDataTable = async () => {
         dataTable.destroy();
     }
 
-    await listUsers();
+    await listGuias();
 
     dataTable = $("#datatable_guias").DataTable(dataTableOptions);
 
     dataTableIsInitialized = true;
 };
 
-const listUsers = async () => {
+const listGuias = async () => {
     try {
         const response = await fetch("https://new.imporsuitpro.com/pedidos/obtener_guias");
-        const users = await response.json();
+        const guias = await response.json();
 
         let content = ``;
-        users.forEach((user, index) => {
+        guias.forEach((guia, index) => {
             content += `
                 <tr>
-                    <td>${index + 1}</td>
-                    <td>${user.name}</td>
-                    <td>${user.email}</td>
-                    <td>${user.address.city}</td>
-                    <td>${user.company.name}</td>
-                    <td><i class="fa-solid fa-check" style="color: green;"></i></td>
+                    <td>${guia.numero_factura}</td>
+                    <td>
+                    <strong> ${guia.nombre} </strong>
+                    ${guia.c_principal} y ${guia.c_secundaria}
+                    telf: ${guia.telefono}
+                    </td>
+                    <td>PAIS</td>
+                    <td>${guia.tienda}</td>
+                    <td>${guia.transporte}</td>
+                    <td>${guia.estado_guia_sistema}</i></td>
+                    <td>${guia.impreso}</i></td>
                     <td>
                         <button class="btn btn-sm btn-primary"><i class="fa-solid fa-pencil"></i></button>
                         <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash-can"></i></button>

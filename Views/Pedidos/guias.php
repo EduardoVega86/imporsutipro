@@ -58,7 +58,7 @@
                         <th class="centered">Localidad</th>
                         <th class="centered">Tienda</th>
                         <th class="centered">Transportadora</th>
-                        <th class="centered">Esado</th>
+                        <th class="centered">Estado</th>
                         <th class="centered">Impreso</th>
                         <th class="centered">Acciones</th>
                     </tr>
