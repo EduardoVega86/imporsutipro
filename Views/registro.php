@@ -218,109 +218,110 @@
     }
 
     document.getElementById("multiStepForm").addEventListener("submit", function(event) {
-    event.preventDefault();
+        event.preventDefault();
 
-    validateStoreName(function(isValid) {
-        if (isValid) {
-            enviarFormulario();
-        }
-    });
-});
-
-function validateStoreName(callback) {
-    const input = document.getElementById('tienda');
-    const label = document.querySelector('label[for="tienda"]');
-    const errorDiv = document.getElementById('tienda-error');
-    const regex = /^[a-zA-Z]*$/;
-
-    input.value = input.value.toLowerCase();
-
-    if (!regex.test(input.value)) {
-        label.classList.remove("text-green-500");
-        label.classList.add("text-red-500", "border-red-500");
-        errorDiv.textContent = "El nombre de la tienda no puede contener espacios ni caracteres especiales como (/, ^, *, $, @, \\)";
-        errorDiv.style.display = "block";
-        input.value = input.value.slice(0, -1);
-        callback(false);
-        return;
-    }
-
-    fetch('Acceso/validar_tiendas', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ tienda: input.value })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.exists) {
-            errorDiv.textContent = "Esta tienda ya existe.";
-            errorDiv.style.display = "block";
-            callback(false);
-        } else {
-            errorDiv.style.display = "none";
-            callback(true);
-        }
-    })
-    .catch(error => {
-        console.error('Error en la validación del nombre de la tienda:', error);
-        errorDiv.textContent = "Hubo un problema con la validación del nombre de la tienda.";
-        errorDiv.style.display = "block";
-        callback(false);
-    });
-}
-
-function enviarFormulario() {
-    const formData = new FormData(document.getElementById("multiStepForm"));
-    const data = {};
-    formData.forEach((value, key) => {
-        data[key] = value;
-    });
-
-    const url = '<?php echo SERVERURL; ?>Acceso/registro'; // Asegúrate de definir SERVERURL en tu backend PHP
-
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Error en la respuesta de la API');
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log('Success:', data);
-        if (data.status == 500) {
-            Swal.fire({
-                icon: 'error',
-                title: data.title,
-                text: data.message
-            });
-        } else {
-            Swal.fire({
-                icon: 'success',
-                title: data.title,
-                text: data.message
-            }).then(() => {
-                window.location.href = 'https://new.imporsuitpro.com/dashboard';
-            });
-        }
-    })
-    .catch((error) => {
-        console.error('Error en el registro:', error);
-        Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'Hubo un problema con el registro.'
+        validateStoreName(function(isValid) {
+            if (isValid) {
+                enviarFormulario();
+            }
         });
     });
-}
 
+    function validateStoreName(callback) {
+        const input = document.getElementById('tienda');
+        const label = document.querySelector('label[for="tienda"]');
+        const errorDiv = document.getElementById('tienda-error');
+        const regex = /^[a-zA-Z]*$/;
+
+        input.value = input.value.toLowerCase();
+
+        if (!regex.test(input.value)) {
+            label.classList.remove("text-green-500");
+            label.classList.add("text-red-500", "border-red-500");
+            errorDiv.textContent = "El nombre de la tienda no puede contener espacios ni caracteres especiales como (/, ^, *, $, @, \\)";
+            errorDiv.style.display = "block";
+            input.value = input.value.slice(0, -1);
+            callback(false);
+            return;
+        }
+
+        fetch('Acceso/validar_tiendas', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    tienda: input.value
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.exists) {
+                    errorDiv.textContent = "Esta tienda ya existe.";
+                    errorDiv.style.display = "block";
+                    callback(false);
+                } else {
+                    errorDiv.style.display = "none";
+                    callback(true);
+                }
+            })
+            .catch(error => {
+                console.error('Error en la validación del nombre de la tienda:', error);
+                errorDiv.textContent = "Hubo un problema con la validación del nombre de la tienda.";
+                errorDiv.style.display = "block";
+                callback(false);
+            });
+    }
+
+    function enviarFormulario() {
+        const formData = new FormData(document.getElementById("multiStepForm"));
+        const data = {};
+        formData.forEach((value, key) => {
+            data[key] = value;
+        });
+
+        const url = '<?php echo SERVERURL; ?>Acceso/registro'; // Asegúrate de definir SERVERURL en tu backend PHP
+
+        fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error en la respuesta de la API');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Success:', data);
+                if (data.status == 500) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: data.title,
+                        text: data.message
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'success',
+                        title: data.title,
+                        text: data.message
+                    }).then(() => {
+                        window.location.href = 'https://new.imporsuitpro.com/dashboard';
+                    });
+                }
+            })
+            .catch((error) => {
+                console.error('Error en el registro:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Hubo un problema con el registro.'
+                });
+            });
+    }
 </script>
 
 <?php require_once './Views/templates/landing/footer.php'; ?>
