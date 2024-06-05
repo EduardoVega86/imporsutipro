@@ -115,6 +115,84 @@
                 precioProveedor: 10.00,
                 precioSugerido: 20.00,
                 proveedor: "ANOTHERPROVIDER"
+            },{
+                img: "https://significado.com/wp-content/uploads/Imagen-Animada.jpg",
+                title: "Producto 1",
+                stock: 8,
+                precioProveedor: 12.50,
+                precioSugerido: 27.50,
+                proveedor: "CLIJISPOREPRS"
+            },
+            {
+                img: "https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg",
+                title: "Producto 2",
+                stock: 5,
+                precioProveedor: 10.00,
+                precioSugerido: 20.00,
+                proveedor: "ANOTHERPROVIDER"
+            },
+            {
+                img: "https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg",
+                title: "Producto 2",
+                stock: 5,
+                precioProveedor: 10.00,
+                precioSugerido: 20.00,
+                proveedor: "ANOTHERPROVIDER"
+            },
+            {
+                img: "https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg",
+                title: "Producto 2",
+                stock: 5,
+                precioProveedor: 10.00,
+                precioSugerido: 20.00,
+                proveedor: "ANOTHERPROVIDER"
+            },
+            {
+                img: "https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg",
+                title: "Producto 2",
+                stock: 5,
+                precioProveedor: 10.00,
+                precioSugerido: 20.00,
+                proveedor: "ANOTHERPROVIDER"
+            },{
+                img: "https://significado.com/wp-content/uploads/Imagen-Animada.jpg",
+                title: "Producto 1",
+                stock: 8,
+                precioProveedor: 12.50,
+                precioSugerido: 27.50,
+                proveedor: "CLIJISPOREPRS"
+            },
+            {
+                img: "https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg",
+                title: "Producto 2",
+                stock: 5,
+                precioProveedor: 10.00,
+                precioSugerido: 20.00,
+                proveedor: "ANOTHERPROVIDER"
+            },
+            {
+                img: "https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg",
+                title: "Producto 2",
+                stock: 5,
+                precioProveedor: 10.00,
+                precioSugerido: 20.00,
+                proveedor: "ANOTHERPROVIDER"
+            },
+            {
+                img: "https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg",
+                title: "Producto 2",
+                stock: 5,
+                precioProveedor: 10.00,
+                precioSugerido: 20.00,
+                proveedor: "ANOTHERPROVIDER"
+            },
+            {
+                img: "https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg",
+                title: "Producto 2",
+                stock: 5,
+                precioProveedor: 10.00,
+                precioSugerido: 20.00,
+                proveedor: "ANOTHERPROVIDER"
             }
         ];
 
