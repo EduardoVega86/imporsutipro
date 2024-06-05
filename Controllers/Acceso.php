@@ -48,4 +48,15 @@ class Acceso extends Controller
         session_destroy();
         header("Location:  " . SERVERURL . "login");
     }
+
+    public function validar_tiendas()
+{
+    header('Content-Type: application/json');
+    $data = json_decode(file_get_contents('php://input'), true);
+    error_log(print_r($data, true)); // Agrega esta línea para depuración
+    $tienda = $data['tienda'];
+    $exists = $this->model->validarTiendas($tienda);
+    echo json_encode(['exists' => $exists]);
+}
+
 }

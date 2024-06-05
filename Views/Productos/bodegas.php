@@ -44,9 +44,12 @@
         <!-- <div class="filtros_producos justify-content-between align-items-center mb-3">
 
         </div> -->
+        <a href="https://new.imporsuitpro.com/Productos/agregar_bodegas" class="btn btn-success">
+            <i class="fas fa-plus"></i> Agregar
+        </a>
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
-            <table id="datatable_guias" class="table table-striped">
+            <table id="datatable_bodegas" class="table table-striped">
                 <!-- <caption>
                     DataTable.js Demo
                 </caption> -->
@@ -54,16 +57,17 @@
                     <tr>
                         <th class="centered">ID</th>
                         <th class="centered">Nombre</th>
+                        <th class="centered">Direccion</th>
                         <th class="centered">Ciudad</th>
                         <th class="centered">Responsable</th>
                         <th class="centered">Telefono</th>
                         <th class="centered">Acciones</th>
                     </tr>
                 </thead>
-                <tbody id="tableBody_guias"></tbody>
+                <tbody id="tableBody_bodegas"></tbody>
             </table>
         </div>
     </div>
 </div>
-<script src="<?php echo SERVERURL?>/Views/Productos/js/bodegas.js"></script> 
+<script src="<?php echo SERVERURL ?>/Views/Productos/js/bodegas.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
