@@ -296,9 +296,6 @@ document.getElementById("multiStepForm").addEventListener("submit", function(eve
 
             fetch(url, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
                 body: data
             })
             .then(response => {
