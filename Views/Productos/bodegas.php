@@ -44,7 +44,7 @@
         <!-- <div class="filtros_producos justify-content-between align-items-center mb-3">
 
         </div> -->
-        <a href="https://new.imporsuitpro.com/Productos/agregar_bodegas" class="btn btn-success">
+        <a href="<?php echo SERVERURL ?>Productos/agregar_bodegas" class="btn btn-success">
             <i class="fas fa-plus"></i> Agregar
         </a>
         <div class="table-responsive">

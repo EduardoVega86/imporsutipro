@@ -120,13 +120,13 @@
                 <input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="Contraseña">
             </div>
             <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
-            <a href="https://new.imporsuitpro.com/Home/recovery" class="forgot-password">
+            <a href="<?php echo SERVERURL ?>Home/recovery" class="forgot-password">
                 <i class="fas fa-lock"></i> ¿Olvidaste tu contraseña?
             </a>
             
             <div class="center-text">o</div>
             
-            <a href="https://new.imporsuitpro.com/registro" class="animated-link">
+            <a href="<?php echo SERVERURL ?>registro" class="animated-link">
                 Regístrate ahora
             </a>
         </form>
@@ -170,7 +170,7 @@
                         showConfirmButton: false,
                         timer: 2000
                     }).then(() => {
-                        window.location.href = 'https://new.imporsuitpro.com/dashboard';
+                        window.location.href = '<?php echo SERVERURL ?>dashboard';
                     });
                 }
             })

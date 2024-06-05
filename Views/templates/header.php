@@ -231,25 +231,25 @@
             <a href="#" class="toggle-btn" id="toggle-btn">
                 <box-icon name="menu" color="#fff" style="padding-right: 5px;"></box-icon>
             </a>
-            <a href="https://new.imporsuitpro.com/dashboard"><box-icon name="home" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Inicio</span></a>
+            <a href="<?php echo SERVERURL ?>dashboard"><box-icon name="home" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Inicio</span></a>
             <a href="#" class="dropdown-btn" data-target="#submenu1"><box-icon name="cart" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Productos</span></a>
             <div class="submenu" id="submenu1">
-                <a href="https://new.imporsuitpro.com/Productos"><box-icon name="store" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Listado</span></a>
+                <a href="<?php echo SERVERURL ?>Productos"><box-icon name="store" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Listado</span></a>
 
 
 
-                <a href="https://new.imporsuitpro.com/Productos/categorias"><box-icon type="solid" name="category" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Categorias</span></a>
-                <a href="https://new.imporsuitpro.com/Productos/marketplace"><box-icon name="shopping-bag" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Marketplace</span></a>
-                                <a href="https://new.imporsuitpro.com/Productos/agregar_bodegas"><box-icon type="solid" name="truck" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Agregar Bodegas</span></a>
+                <a href="<?php echo SERVERURL ?>Productos/categorias"><box-icon type="solid" name="category" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Categorias</span></a>
+                <a href="<?php echo SERVERURL ?>Productos/marketplace"><box-icon name="shopping-bag" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Marketplace</span></a>
+                                <a href="<?php echo SERVERURL ?>Productos/agregar_bodegas"><box-icon type="solid" name="truck" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Agregar Bodegas</span></a>
 
-                <a href="https://new.imporsuitpro.com/Productos/bodegas"><box-icon type="solid" name="truck" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Bodegas</span></a>
+                <a href="<?php echo SERVERURL ?>Productos/bodegas"><box-icon type="solid" name="truck" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Bodegas</span></a>
 
             </div>
             <a href="#" class="dropdown-btn" data-target="#submenu2"><box-icon name="receipt" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Pedidos</span></a>
             <div class="submenu" id="submenu2">
                 <a href="#"><box-icon name="file" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Nuevo</span></a>
                 <a href="#"><box-icon name="history" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Historial</span></a>
-                <a href="https://new.imporsuitpro.com/pedidos/guias"><box-icon name="archive" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Guías</span></a>
+                <a href="<?php echo SERVERURL ?>pedidos/guias"><box-icon name="archive" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Guías</span></a>
                 <a href="#"><box-icon name="x" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Anulados</span></a>
                 <a href="#"><box-icon name="info-circle" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Novedad</span></a>
             </div>
