@@ -47,6 +47,7 @@
 .btn-import {
     background-color: #ffc107;
     color: white;
+    margin-bottom: 10px; /* Añade margen inferior para espacio adicional */
 }
 
 .card-text {
