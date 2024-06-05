@@ -68,5 +68,5 @@
         </div>
     </div>
 </div>
-<script src="<?php echo SERVERURL ?>/Views/Productos/js/bodegas.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/Productos/js/categorias.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
