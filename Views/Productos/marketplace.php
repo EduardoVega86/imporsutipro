@@ -139,6 +139,22 @@
                 </div>
             </div>
         </div>
+        <div class="card card-custom">
+            <img src="https://significado.com/wp-content/uploads/Imagen-Animada.jpg" class="card-img-top" alt="Product Image">
+            <div class="card-body text-center d-flex flex-column justify-content-between">
+                <div>
+                    <h5 class="card-title">Producto 1</h5>
+                    <p class="card-text">Stock: <strong style="color:green">8</strong></p>
+                    <p class="card-text">Precio Proveedor: <strong>$12.50</strong></p>
+                    <p class="card-text">Precio Sugerido: <strong>$27.50</strong></p>
+                    <p class="card-text">Proveedor: <a href="#">CLIJISPOREPRS</a></p>
+                </div>
+                <div>
+                    <button class="btn btn-description">Descripción</button>
+                    <button class="btn btn-import">Importar</button>
+                </div>
+            </div>
+        </div>
         <!-- Repetir para más productos -->
     </div>
 </div>
