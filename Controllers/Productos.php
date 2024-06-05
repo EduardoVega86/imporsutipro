@@ -32,11 +32,7 @@ class Productos extends Controller
 
     public function categorias()
     {
-        if (!$this->hasPermission(2)) {
-            header("Location: /dashboard");
-        }
-        $data = $this->model->cargarCategorias($plataforma = $_SESSION['id_plataforma']);
-        $this->views->render($this, "categorias", $data);
+        $this->views->render($this, "categorias");
     }
 
     public function verbodegas()
