@@ -86,4 +86,10 @@ class Productos extends Controller
         $response = $this->model->listarBodegas($_SESSION['id_plataforma']);
         echo json_encode($response);
     }
+    
+    public function cargar_categorias()
+    {
+        $response = $this->model->cargarCategorias($_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
 }
