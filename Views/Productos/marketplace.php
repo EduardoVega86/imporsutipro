@@ -1,2 +1,75 @@
 <?php require_once './Views/templates/header.php'; ?>
+<style>
+        .card-custom {
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card-custom:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        }
+        .card-custom img {
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+        .card-custom .btn-description {
+            background-color: #00aaff;
+            color: white;
+            border-radius: 50px;
+            padding: 10px 20px;
+            margin: 5px;
+        }
+        .card-custom .btn-import {
+            background-color: #ffc107;
+            color: white;
+            border-radius: 50px;
+            padding: 10px 20px;
+            margin: 5px;
+        }
+    </style>
+
+<div class="container mt-4">
+        <div class="row mb-3">
+            <div class="col-md-4 mb-3 mb-md-0">
+                <input type="text" class="form-control" placeholder="Código o Nombre">
+            </div>
+            <div class="col-md-4 mb-3 mb-md-0">
+                <select class="form-control">
+                    <option>-- Selecciona Línea --</option>
+                    <option>Línea 1</option>
+                    <option>Línea 2</option>
+                    <option>Línea 3</option>
+                </select>
+            </div>
+            <div class="col-md-3 mb-3 mb-md-0">
+                <select class="form-control">
+                    <option>Selecciona una opción</option>
+                    <option>Opción 1</option>
+                    <option>Opción 2</option>
+                    <option>Opción 3</option>
+                </select>
+            </div>
+            <div class="col-md-1">
+                <button class="btn btn-warning w-100"><i class="fa fa-search"></i></button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card card-custom">
+                    <img src="https://via.placeholder.com/150" class="card-img-top" alt="Product Image">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Producto 1</h5>
+                        <p class="card-text">Stock: <strong>8</strong></p>
+                        <p class="card-text">Precio Proveedor: <strong>$12.50</strong></p>
+                        <p class="card-text">Precio Sugerido: <strong>$27.50</strong></p>
+                        <p class="card-text">Proveedor: <a href="#">CLIJISPOREPRS</a></p>
+                        <button class="btn btn-description">Descripción</button>
+                        <button class="btn btn-import">Importar</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Repetir para más productos -->
+        </div>
+    </div>
 <?php require_once './Views/templates/footer.php'; ?>
