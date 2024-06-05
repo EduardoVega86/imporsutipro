@@ -137,6 +137,82 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-md-4">
+            <div class="card card-custom">
+                <img src="https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg" class="card-img-top" alt="Product Image">
+                <div class="card-body text-center d-flex flex-column justify-content-between">
+                    <div>
+                        <h5 class="card-title">Producto 1</h5>
+                        <p class="card-text">Stock: <strong>8</strong></p>
+                        <p class="card-text">Precio Proveedor: <strong>$12.50</strong></p>
+                        <p class="card-text">Precio Sugerido: <strong>$27.50</strong></p>
+                        <p class="card-text">Proveedor: <a href="#">CLIJISPOREPRS</a></p>
+                    </div>
+                    <div>
+                        <button class="btn btn-description">Descripción</button>
+                        <button class="btn btn-import">Importar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card card-custom">
+                <img src="https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg" class="card-img-top" alt="Product Image">
+                <div class="card-body text-center d-flex flex-column justify-content-between">
+                    <div>
+                        <h5 class="card-title">Producto 1</h5>
+                        <p class="card-text">Stock: <strong>8</strong></p>
+                        <p class="card-text">Precio Proveedor: <strong>$12.50</strong></p>
+                        <p class="card-text">Precio Sugerido: <strong>$27.50</strong></p>
+                        <p class="card-text">Proveedor: <a href="#">CLIJISPOREPRS</a></p>
+                    </div>
+                    <div>
+                        <button class="btn btn-description">Descripción</button>
+                        <button class="btn btn-import">Importar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card card-custom">
+                <img src="https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg" class="card-img-top" alt="Product Image">
+                <div class="card-body text-center d-flex flex-column justify-content-between">
+                    <div>
+                        <h5 class="card-title">Producto 1</h5>
+                        <p class="card-text">Stock: <strong>8</strong></p>
+                        <p class="card-text">Precio Proveedor: <strong>$12.50</strong></p>
+                        <p class="card-text">Precio Sugerido: <strong>$27.50</strong></p>
+                        <p class="card-text">Proveedor: <a href="#">CLIJISPOREPRS</a></p>
+                    </div>
+                    <div>
+                        <button class="btn btn-description">Descripción</button>
+                        <button class="btn btn-import">Importar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card card-custom">
+                <img src="https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg" class="card-img-top" alt="Product Image">
+                <div class="card-body text-center d-flex flex-column justify-content-between">
+                    <div>
+                        <h5 class="card-title">Producto 1</h5>
+                        <p class="card-text">Stock: <strong>8</strong></p>
+                        <p class="card-text">Precio Proveedor: <strong>$12.50</strong></p>
+                        <p class="card-text">Precio Sugerido: <strong>$27.50</strong></p>
+                        <p class="card-text">Proveedor: <a href="#">CLIJISPOREPRS</a></p>
+                    </div>
+                    <div>
+                        <button class="btn btn-description">Descripción</button>
+                        <button class="btn btn-import">Importar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- Repetir para más productos -->
     </div>
     <?php require_once './Views/templates/footer.php'; ?>
