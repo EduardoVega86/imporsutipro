@@ -1,7 +1,7 @@
 <?php require_once './Views/templates/header.php'; ?>
 <link rel="stylesheet" type="text/css" href="<?php echo SERVERURL ?>/Views/Productos/css/marketplace.css">
 
-<div class="container mt-4">
+<div class="custom-container-fluid mt-4">
     <div class="row mb-3">
         <div class="col-md-4 mb-3 mb-md-0">
             <input type="text" class="form-control" placeholder="Código o Nombre">
