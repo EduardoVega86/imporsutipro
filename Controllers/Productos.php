@@ -90,4 +90,10 @@ class Productos extends Controller
         $response = $this->model->listarBodegas($_SESSION['id_plataforma']);
         echo json_encode($response);
     }
+
+    public function listar_marketplace()
+    {
+        $response = $this->model->listarMarketplace();
+        echo json_encode($response);
+    }
 }
