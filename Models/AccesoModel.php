@@ -161,7 +161,7 @@ class AccesoModel extends Query
     
     public function validarTiendas($tienda)
 {
-    $sql = "SELECT * FROM plataformas WHERE tienda = ?";
+    $sql = "SELECT * FROM plataformas WHERE nombre_tienda = ?";
     $params = [$tienda];
     $result = $this->select($sql, $params);
 
