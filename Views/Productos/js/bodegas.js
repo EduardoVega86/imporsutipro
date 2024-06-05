@@ -34,37 +34,37 @@ const initDataTable = async () => {
     dataTable.destroy();
   }
 
-  await listGuias();
+  await listBodegas();
 
-  dataTable = $("#datatable_guias").DataTable(dataTableOptions);
+  dataTable = $("#datatable_bodegas").DataTable(dataTableOptions);
 
   dataTableIsInitialized = true;
 };
 
-const listGuias = async () => {
+const listBodegas = async () => {
   try {
     const response = await fetch(
       "https://new.imporsuitpro.com/productos/listar_bodegas"
     );
-    const guias = await response.json();
+    const bodegas = await response.json();
 
     let content = ``;
-    guias.forEach((guia, index) => {
+    bodegas.forEach((bodega, index) => {
       content += `
                 <tr>
-                    <td>${guia.id}</td>
-                    <td>${guia.nombre}</td>
-                    <td>${guia.direccion}</td>
-                    <td>${guia.provincia}</td>
-                    <td>${guia.responsable}</td>
-                    <td>${guia.contacto}</td>
+                    <td>${bodega.id}</td>
+                    <td>${bodega.nombre}</td>
+                    <td>${bodega.direccion}</td>
+                    <td>${bodega.provincia}</td>
+                    <td>${bodega.responsable}</td>
+                    <td>${bodega.contacto}</td>
                     <td>
                         <button class="btn btn-sm btn-primary"><i class="fa-solid fa-pencil"></i></button>
                         <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash-can"></i></button>
                     </td>
                 </tr>`;
     });
-    document.getElementById("tableBody_guias").innerHTML = content;
+    document.getElementById("tableBody_bodegas").innerHTML = content;
   } catch (ex) {
     alert(ex);
   }
@@ -73,26 +73,3 @@ const listGuias = async () => {
 window.addEventListener("load", async () => {
   await initDataTable();
 });
-
-function formatPhoneNumber(number) {
-  // Eliminar caracteres no numéricos excepto el signo +
-  number = number.replace(/[^\d+]/g, "");
-
-  // Verificar si el número ya tiene el código de país +593
-  if (/^\+593/.test(number)) {
-    // El número ya está correctamente formateado con +593
-    return number;
-  } else if (/^593/.test(number)) {
-    // El número tiene 593 al inicio pero le falta el +
-    return "+" + number;
-  } else {
-    // Si el número comienza con 0, quitarlo
-    if (number.startsWith("0")) {
-      number = number.substring(1);
-    }
-    // Agregar el código de país +593 al inicio del número
-    number = "+593" + number;
-  }
-
-  return number;
-}
