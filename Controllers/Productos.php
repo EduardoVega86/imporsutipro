@@ -39,11 +39,16 @@ class Productos extends Controller
         $this->views->render($this, "categorias", $data);
     }
 
- public function verbodegas()
+    public function verbodegas()
     {
         $this->views->render($this, "bodegas");
     }
-    
+
+    public function marketplace()
+    {
+        $this->views->render($this, "marketplace");
+    }
+
     ///Funciones
 
     public function agregarBodega()
@@ -79,10 +84,10 @@ class Productos extends Controller
     public function agregar_producto()
     {
     }
-    
-     public function listar_bodegas()
+
+    public function listar_bodegas()
     {
-         $response = $this->model->listarBodegas($_SESSION['id_plataforma']);
-         echo json_encode($response);
+        $response = $this->model->listarBodegas($_SESSION['id_plataforma']);
+        echo json_encode($response);
     }
 }
