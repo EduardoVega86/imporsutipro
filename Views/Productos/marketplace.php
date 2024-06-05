@@ -32,7 +32,7 @@
             <div class="card-body text-center d-flex flex-column justify-content-between">
                 <div>
                     <h5 class="card-title">Producto 1</h5>
-                    <p class="card-text">Stock: <strong>8</strong></p>
+                    <p class="card-text">Stock: <strong style="color:green">8</strong></p>
                     <p class="card-text">Precio Proveedor: <strong>$12.50</strong></p>
                     <p class="card-text">Precio Sugerido: <strong>$27.50</strong></p>
                     <p class="card-text">Proveedor: <a href="#">CLIJISPOREPRS</a></p>
@@ -48,7 +48,7 @@
             <div class="card-body text-center d-flex flex-column justify-content-between">
                 <div>
                     <h5 class="card-title">Producto 1</h5>
-                    <p class="card-text">Stock: <strong>8</strong></p>
+                    <p class="card-text">Stock: <strong style="color:green">8</strong></p>
                     <p class="card-text">Precio Proveedor: <strong>$12.50</strong></p>
                     <p class="card-text">Precio Sugerido: <strong>$27.50</strong></p>
                     <p class="card-text">Proveedor: <a href="#">CLIJISPOREPRS</a></p>
@@ -64,7 +64,7 @@
             <div class="card-body text-center d-flex flex-column justify-content-between">
                 <div>
                     <h5 class="card-title">Producto 1</h5>
-                    <p class="card-text">Stock: <strong>8</strong></p>
+                    <p class="card-text">Stock: <strong style="color:green">8</strong></p>
                     <p class="card-text">Precio Proveedor: <strong>$12.50</strong></p>
                     <p class="card-text">Precio Sugerido: <strong>$27.50</strong></p>
                     <p class="card-text">Proveedor: <a href="#">CLIJISPOREPRS</a></p>
@@ -80,7 +80,7 @@
             <div class="card-body text-center d-flex flex-column justify-content-between">
                 <div>
                     <h5 class="card-title">Producto 1</h5>
-                    <p class="card-text">Stock: <strong>8</strong></p>
+                    <p class="card-text">Stock: <strong style="color:green">8</strong></p>
                     <p class="card-text">Precio Proveedor: <strong>$12.50</strong></p>
                     <p class="card-text">Precio Sugerido: <strong>$27.50</strong></p>
                     <p class="card-text">Proveedor: <a href="#">CLIJISPOREPRS</a></p>
@@ -96,7 +96,7 @@
             <div class="card-body text-center d-flex flex-column justify-content-between">
                 <div>
                     <h5 class="card-title">Producto 1</h5>
-                    <p class="card-text">Stock: <strong>8</strong></p>
+                    <p class="card-text">Stock: <strong style="color:green">8</strong></p>
                     <p class="card-text">Precio Proveedor: <strong>$12.50</strong></p>
                     <p class="card-text">Precio Sugerido: <strong>$27.50</strong></p>
                     <p class="card-text">Proveedor: <a href="#">CLIJISPOREPRS</a></p>
@@ -112,7 +112,7 @@
             <div class="card-body text-center d-flex flex-column justify-content-between">
                 <div>
                     <h5 class="card-title">Producto 1</h5>
-                    <p class="card-text">Stock: <strong>8</strong></p>
+                    <p class="card-text">Stock: <strong style="color:green">8</strong></p>
                     <p class="card-text">Precio Proveedor: <strong>$12.50</strong></p>
                     <p class="card-text">Precio Sugerido: <strong>$27.50</strong></p>
                     <p class="card-text">Proveedor: <a href="#">CLIJISPOREPRS</a></p>
