@@ -144,6 +144,7 @@
 
 .page-link {
     color: #007bff;
+    cursor: pointer;
 }
 
 .page-link:hover {
@@ -157,6 +158,13 @@
     pointer-events: none;
     background-color: #fff;
     border-color: #dee2e6;
+}
+
+.page-item.active .page-link {
+    z-index: 1;
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
 }
 
 .page-item .page-link {
