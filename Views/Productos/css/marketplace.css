@@ -102,3 +102,8 @@
     font-size: 20px;
     margin-bottom: 5px;
 }
+
+.fixed-size-img {
+    height: 300px; /* Tamaño fijo para la imagen */
+    object-fit: cover; /* La imagen se adapta al contenedor manteniendo su proporción */
+}
