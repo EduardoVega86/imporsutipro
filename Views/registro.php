@@ -243,15 +243,22 @@ function validateStoreName(callback) {
         label.classList.add("text-green-500");
 
         // Llama a la API para validar si la tienda existe
-        fetch('<?php echo SERVERURL; ?>Acceso/validar_tiendas', {
+        console.log("Enviando solicitud a la API para validar la tienda...");
+        fetch('Acceso/validar_tiendas', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ tienda: input.value })
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error en la respuesta de la API');
+            }
+            return response.json();
+        })
         .then(data => {
+            console.log('Respuesta de la API:', data);
             if (data.exists) {
                 errorDiv.style.display = "block";
                 if (callback) callback(false);
@@ -261,7 +268,7 @@ function validateStoreName(callback) {
             }
         })
         .catch(error => {
-            console.error('Error:', error);
+            console.error('Error en la validación del nombre de la tienda:', error);
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
@@ -285,6 +292,8 @@ document.getElementById("multiStepForm").addEventListener("submit", function(eve
 
             const url = '<?php echo SERVERURL; ?>Acceso/registro'; // Asegúrate de definir SERVERURL en tu backend PHP
 
+            console.log("Enviando datos de registro:", data);
+
             fetch(url, {
                 method: 'POST',
                 headers: {
@@ -292,9 +301,14 @@ document.getElementById("multiStepForm").addEventListener("submit", function(eve
                 },
                 body: JSON.stringify(data)
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error en la respuesta de la API');
+                }
+                return response.json();
+            })
             .then(data => {
-                console.log('Success:', data);
+                console.log('Respuesta de registro:', data);
                 // Mostrar alerta de éxito
                 if (data.status == 500) {
                     Swal.fire({
@@ -313,7 +327,7 @@ document.getElementById("multiStepForm").addEventListener("submit", function(eve
                 }
             })
             .catch((error) => {
-                console.error('Error:', error);
+                console.error('Error en el registro:', error);
                 // Mostrar alerta de error
                 Swal.fire({
                     icon: 'error',
