@@ -235,7 +235,7 @@
             <a href="#" class="dropdown-btn" data-target="#submenu1"><box-icon name="cart" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Productos</span></a>
             <div class="submenu" id="submenu1">
                 <a href="https://new.imporsuitpro.com/Productos"><box-icon name="store" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Listado</span></a>
-                <a href="#"><box-icon name="shopping-bag" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Marketplace</span></a>
+                <a href="https://new.imporsuitpro.com/Productos/marketplace"><box-icon name="shopping-bag" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Marketplace</span></a>
                 <a href="https://new.imporsuitpro.com/Productos/agregar_bodegas"><box-icon type="solid" name="truck" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Bodegas</span></a>
             </div>
             <a href="#" class="dropdown-btn" data-target="#submenu2"><box-icon name="receipt" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Pedidos</span></a>
