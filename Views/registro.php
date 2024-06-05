@@ -296,7 +296,7 @@ document.getElementById("multiStepForm").addEventListener("submit", function(eve
 
             fetch(url, {
                 method: 'POST',
-                body: data
+                body: data['tienda']
             })
             .then(response => {
                 if (!response.ok) {
