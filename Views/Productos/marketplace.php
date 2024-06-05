@@ -30,9 +30,20 @@
     <div id="card-container" class="card-container">
         <!-- Tarjetas de productos se insertarán aquí -->
     </div>
-    <div id="pagination" class="pagination">
-        <!-- Botones de paginación se insertarán aquí -->
-    </div>
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            <li class="page-item">
+                <button class="page-link" id="previous-page" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </button>
+            </li>
+            <li class="page-item">
+                <button class="page-link" id="next-page" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </button>
+            </li>
+        </ul>
+    </nav>
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -197,56 +208,64 @@
         ];
 
         const cardContainer = document.getElementById('card-container');
-        const pagination = document.getElementById('pagination');
+    const previousPageButton = document.getElementById('previous-page');
+    const nextPageButton = document.getElementById('next-page');
 
-        function displayProducts(products, page = 1, perPage = productsPerPage) {
-            cardContainer.innerHTML = '';
-            const start = (page - 1) * perPage;
-            const end = start + perPage;
-            const paginatedProducts = products.slice(start, end);
+    function displayProducts(products, page = 1, perPage = productsPerPage) {
+        cardContainer.innerHTML = '';
+        const start = (page - 1) * perPage;
+        const end = start + perPage;
+        const paginatedProducts = products.slice(start, end);
 
-            paginatedProducts.forEach(product => {
-                const card = document.createElement('div');
-                card.className = 'card card-custom';
-                card.innerHTML = `
-                    <img src="${product.img}" class="card-img-top" alt="Product Image">
-                    <div class="card-body text-center d-flex flex-column justify-content-between">
-                        <div>
-                            <h5 class="card-title">${product.title}</h5>
-                            <p class="card-text">Stock: <strong style="color:green">${product.stock}</strong></p>
-                            <p class="card-text">Precio Proveedor: <strong>$${product.precioProveedor.toFixed(2)}</strong></p>
-                            <p class="card-text">Precio Sugerido: <strong>$${product.precioSugerido.toFixed(2)}</strong></p>
-                            <p class="card-text">Proveedor: <a href="#">${product.proveedor}</a></p>
-                        </div>
-                        <div>
-                            <button class="btn btn-description" data-bs-toggle="modal" data-bs-target="#descripcion_productModal">Descripción</button>
-                            <button class="btn btn-import">Importar</button>
-                        </div>
+        paginatedProducts.forEach(product => {
+            const card = document.createElement('div');
+            card.className = 'card card-custom';
+            card.innerHTML = `
+                <img src="${product.img}" class="card-img-top" alt="Product Image">
+                <div class="card-body text-center d-flex flex-column justify-content-between">
+                    <div>
+                        <h5 class="card-title">${product.title}</h5>
+                        <p class="card-text">Stock: <strong style="color:green">${product.stock}</strong></p>
+                        <p class="card-text">Precio Proveedor: <strong>$${product.precioProveedor.toFixed(2)}</strong></p>
+                        <p class="card-text">Precio Sugerido: <strong>$${product.precioSugerido.toFixed(2)}</strong></p>
+                        <p class="card-text">Proveedor: <a href="#">${product.proveedor}</a></p>
                     </div>
-                `;
-                cardContainer.appendChild(card);
-            });
+                    <div>
+                        <button class="btn btn-description" data-bs-toggle="modal" data-bs-target="#descripcion_productModal">Descripción</button>
+                        <button class="btn btn-import">Importar</button>
+                    </div>
+                </div>
+            `;
+            cardContainer.appendChild(card);
+        });
+    }
+
+    function updatePaginationButtons(totalProducts, perPage = productsPerPage) {
+        const totalPages = Math.ceil(totalProducts / perPage);
+        previousPageButton.disabled = currentPage === 1;
+        nextPageButton.disabled = currentPage === totalPages;
+    }
+
+    previousPageButton.addEventListener('click', function () {
+        if (currentPage > 1) {
+            currentPage--;
+            displayProducts(products, currentPage, productsPerPage);
+            updatePaginationButtons(products.length, productsPerPage);
         }
-
-        function displayPagination(totalProducts, perPage = productsPerPage) {
-            pagination.innerHTML = '';
-            const totalPages = Math.ceil(totalProducts / perPage);
-
-            for (let i = 1; i <= totalPages; i++) {
-                const pageButton = document.createElement('button');
-                pageButton.className = 'btn btn-light';
-                pageButton.innerText = i;
-                pageButton.addEventListener('click', function() {
-                    currentPage = i;
-                    displayProducts(products, currentPage, productsPerPage);
-                });
-                pagination.appendChild(pageButton);
-            }
-        }
-
-        displayProducts(products, currentPage, productsPerPage);
-        displayPagination(products.length, productsPerPage);
     });
+
+    nextPageButton.addEventListener('click', function () {
+        const totalPages = Math.ceil(products.length / productsPerPage);
+        if (currentPage < totalPages) {
+            currentPage++;
+            displayProducts(products, currentPage, productsPerPage);
+            updatePaginationButtons(products.length, productsPerPage);
+        }
+    });
+
+    displayProducts(products, currentPage, productsPerPage);
+    updatePaginationButtons(products.length, productsPerPage);
+});
 </script>
 
 
