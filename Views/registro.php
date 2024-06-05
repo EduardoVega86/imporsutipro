@@ -238,20 +238,14 @@ function validateStoreName(callback) {
     if (!regex.test(input.value)) {
         label.classList.remove("text-green-500");
         label.classList.add("text-red-500", "border-red-500");
-        Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "El nombre de la tienda no puede contener espacios ni caracteres especiales como (/, ^, *, $, @, \\)",
-            showConfirmButton: false,
-            timer: 2000
-        }).then(() => {
-            input.value = input.value.slice(0, -1);
-            callback(false);
-        });
+        errorDiv.textContent = "El nombre de la tienda no puede contener espacios ni caracteres especiales como (/, ^, *, $, @, \\)";
+        errorDiv.style.display = "block";
+        input.value = input.value.slice(0, -1);
+        callback(false);
         return;
     }
 
-    fetch('<?php echo SERVERURL; ?>Acceso/validar_tiendas', {
+    fetch('Acceso/validar_tiendas', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -261,6 +255,7 @@ function validateStoreName(callback) {
     .then(response => response.json())
     .then(data => {
         if (data.exists) {
+            errorDiv.textContent = "Esta tienda ya existe.";
             errorDiv.style.display = "block";
             callback(false);
         } else {
@@ -270,11 +265,8 @@ function validateStoreName(callback) {
     })
     .catch(error => {
         console.error('Error en la validación del nombre de la tienda:', error);
-        Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'Hubo un problema con la validación del nombre de la tienda.'
-        });
+        errorDiv.textContent = "Hubo un problema con la validación del nombre de la tienda.";
+        errorDiv.style.display = "block";
         callback(false);
     });
 }
