@@ -51,7 +51,8 @@ class Acceso extends Controller
 
     public function validar_tiendas()
 {
-    $tienda = $_POST['tienda'];
+    $tienda = file_get_contents("php://input");
+    $tienda = json_decode($tienda,true);
     $exists = $this->model->validarTiendas($tienda);
     echo json_encode(['exists' => $exists]);
 }
