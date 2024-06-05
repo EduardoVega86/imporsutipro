@@ -26,8 +26,8 @@
                 <button class="btn btn-warning w-100"><i class="fa fa-search"></i></button>
             </div>
         </div>
-        <div class="card-group">
-            <div class="col-md-4">
+        <div class="row card-group">
+            <div class="col-6 col-md-4 col-lg-3 col-xl-2">
                 <div class="card card-custom">
                     <img src="https://significado.com/wp-content/uploads/Imagen-Animada.jpg" class="card-img-top" alt="Product Image">
                     <div class="card-body text-center d-flex flex-column justify-content-between">
@@ -45,7 +45,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-6 col-md-4 col-lg-3 col-xl-2">
                 <div class="card card-custom">
                     <img src="https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg" class="card-img-top" alt="Product Image">
                     <div class="card-body text-center d-flex flex-column justify-content-between">
@@ -63,7 +63,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-6 col-md-4 col-lg-3 col-xl-2">
                 <div class="card card-custom">
                     <img src="https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg" class="card-img-top" alt="Product Image">
                     <div class="card-body text-center d-flex flex-column justify-content-between">
@@ -81,7 +81,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-6 col-md-4 col-lg-3 col-xl-2">
                 <div class="card card-custom">
                     <img src="https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg" class="card-img-top" alt="Product Image">
                     <div class="card-body text-center d-flex flex-column justify-content-between">
@@ -99,7 +99,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-6 col-md-4 col-lg-3 col-xl-2">
                 <div class="card card-custom">
                     <img src="https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg" class="card-img-top" alt="Product Image">
                     <div class="card-body text-center d-flex flex-column justify-content-between">
@@ -117,7 +117,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-6 col-md-4 col-lg-3 col-xl-2">
                 <div class="card card-custom">
                     <img src="https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg" class="card-img-top" alt="Product Image">
                     <div class="card-body text-center d-flex flex-column justify-content-between">
@@ -137,6 +137,5 @@
             </div>
             <!-- Repetir para más productos -->
         </div>
-        <?php require_once './Views/templates/footer.php'; ?>
     </div>
     <?php require_once './Views/templates/footer.php'; ?>
