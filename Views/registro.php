@@ -150,7 +150,7 @@
             <div class="step">
                 <div class="form-group">
                     <label for="tienda">Nombre de tu tienda</label>
-                    <input type="text" class="form-control" id="tienda" name="tienda" placeholder="Tienda" oninput="validateStoreName()">
+                    <input type="text" class="form-control" id="tienda" name="tienda" placeholder="Tienda">
                     <div id="tienda-error" style="color: red; display: none;">Esta tienda ya existe.</div>
                 </div>
                 <button type="button" class="btn btn-secondary w-100 mb-2" onclick="prevStep()">Anterior</button>
@@ -221,7 +221,6 @@ function validateStoreName(callback) {
     const input = document.getElementById('tienda');
     const label = document.querySelector('label[for="tienda"]');
     const errorDiv = document.getElementById('tienda-error');
-    const submitButton = document.querySelector('button[type="submit"]');
     const regex = /^[a-zA-Z]*$/;
 
     input.value = input.value.toLowerCase();
@@ -237,8 +236,8 @@ function validateStoreName(callback) {
             timer: 2000
         }).then(() => {
             input.value = input.value.slice(0, -1);
+            if (callback) callback(false);
         });
-        if (callback) callback(false);
     } else {
         label.classList.remove("text-red-500", "border-red-500");
         label.classList.add("text-green-500");
@@ -255,11 +254,9 @@ function validateStoreName(callback) {
         .then(data => {
             if (data.exists) {
                 errorDiv.style.display = "block";
-                submitButton.disabled = true;
                 if (callback) callback(false);
             } else {
                 errorDiv.style.display = "none";
-                submitButton.disabled = false;
                 if (callback) callback(true);
             }
         })
