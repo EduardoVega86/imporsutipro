@@ -7,7 +7,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 class AccesoModel extends Query
 {
-    public function registro($nombre, $correo, $pais, $telefono, $contrasena, $tienda)
+   public function registro($nombre, $correo, $pais, $telefono, $contrasena, $tienda)
     {
         ini_set('session.gc_maxlifetime', 3600);
         ini_set('session.cookie_lifetime', 3600);
@@ -32,8 +32,8 @@ class AccesoModel extends Query
             $id = $this->select("SELECT id_users FROM users WHERE usuario_users = '$correo'");
             //print_r($id);
             //Se genera la plataforma
-            $sql = "INSERT INTO plataformas (`nombre_tienda`, `contacto`, `whatsapp`, `fecha_ingreso`, `fecha_actualza`, `id_plan`, `url_imporsuit`, `carpeta_servidor`, `email`,  `referido`, `token_referido`, `refiere`, `pais`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            $data = [$tienda, $nombre, $telefono, date('Y-m-d H:i:s'), date('Y-m-d H:i:s'), 1, 'https://' . $tienda . '.imporsuitpro.com', '/public_html' . $tienda, $correo, 0, '', '', $pais];
+            $sql = "INSERT INTO plataformas (`nombre_tienda`, `contacto`, `whatsapp`, `fecha_ingreso`, `fecha_actualza`, `id_plan`, `url_imporsuit`, `carpeta_servidor`, `email`,  `referido`, `token_referido`, `refiere`, `pais`, `id_user`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $data = [$tienda, $nombre, $telefono, date('Y-m-d H:i:s'), date('Y-m-d H:i:s'), 1, 'https://' . $tienda . '.imporsuitpro.com', '/public_html' . $tienda, $correo, 0, '', '', $pais, $id[0]['id_users']];
             $insertar_plataforma = $this->insert($sql, $data);
             // print_r($insertar_plataforma);
             //si se guarda correctamente la plataforma 
@@ -59,9 +59,15 @@ class AccesoModel extends Query
 (0, 'Atención al cliente', 'fa-headset', NULL, 'Soporte 100% garantizado', 2, $id_plataforma);";
                         
                         $registro_caracteristicas=$this->simple_insert($sql_caracteristicas);
+                        
+                      $sql_bodega="INSERT INTO `bodega`(`nombre`,`id_empresa`,`responsable`,`contacto`,`id_plataforma`)VALUES
+                       ('$tienda',$id_plataforma,'$nombre','$telefono',$id_plataforma);";
+                      
+                           $registro_bodega=$this->simple_insert($sql_bodega);
+                               
                         //echo $registro_caracteristicas;
                        // print_r($registro_caracteristicas);
-                        if($registro_caracteristicas>0){
+                        if($registro_caracteristicas>0 && $registro_bodega>0){
                         $response['status'] = 200;
                         $response['title'] = 'Peticion exitosa';
                         $response['message'] = 'Usuario registrado correctamente';
