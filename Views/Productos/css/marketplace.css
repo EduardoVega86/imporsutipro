@@ -68,7 +68,7 @@
 }
 
 .modal-header {
-    background-color: #007bff;
+    background-color: #171931;
     color: white;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
@@ -100,4 +100,5 @@
 
 .texto_modal{
     font-size: 20px;
+    margin-bottom: 5px;
 }
