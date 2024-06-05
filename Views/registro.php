@@ -299,7 +299,7 @@ document.getElementById("multiStepForm").addEventListener("submit", function(eve
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(data)
+                body: data
             })
             .then(response => {
                 if (!response.ok) {
