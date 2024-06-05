@@ -36,7 +36,7 @@
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const productsPerPage = 5;
+        const productsPerPage = 20;
         let currentPage = 1;
         const products = [{
                 img: "https://significado.com/wp-content/uploads/Imagen-Animada.jpg",
