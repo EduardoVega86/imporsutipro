@@ -9,14 +9,14 @@
         <div class="container-fluid">
           <div class="row">
             <div class="col-md-6">
-              <h6 class="mb-3">Información</h6>
-              <p><strong>Código del Producto:</strong> 10179</p>
-              <p><strong>Nombre Producto:</strong> Cepillo Secador</p>
-              <p><strong>Precio Proveedor:</strong> $10.00</p>
-              <p><strong>Precio Sugerido:</strong> $13.00</p>
-              <p><strong>Stock:</strong> <span class="text-success">1</span></p>
-              <p><strong>Proveedor:</strong> <a href="https://edishop.imporsuit.com" target="_blank">https://edishop.imporsuit.com</a></p>
-              <p><a href="tel:+593998011578">+593998011578</a></p>
+              <h4 class="mb-3">Información</h4>
+              <p class="texto_modal"><strong>Código del Producto:</strong> 10179</p>
+              <p class="texto_modal"><strong>Nombre Producto:</strong> Cepillo Secador</p>
+              <p class="texto_modal"><strong>Precio Proveedor:</strong> $10.00</p>
+              <p class="texto_modal"><strong>Precio Sugerido:</strong> $13.00</p>
+              <p class="texto_modal"><strong>Stock:</strong> <span class="text-success">1</span></p>
+              <p class="texto_modal"><strong>Proveedor:</strong> <a href="https://edishop.imporsuit.com" target="_blank">https://edishop.imporsuit.com</a></p>
+              <p class="texto_modal"><a href="tel:+593998011578">+593998011578</a></p>
             </div>
             <div class="col-md-6">
               <img src="https://example.com/image.jpg" class="img-fluid rounded" alt="Product Image">
