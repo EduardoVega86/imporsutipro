@@ -130,4 +130,7 @@
     .descripcion_producto{
         flex-direction: column-reverse;
     }
+    .informacion {
+    width: 100%;
+    }
 }
