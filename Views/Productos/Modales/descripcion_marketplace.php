@@ -48,7 +48,7 @@
                         </div>
                     </div>
                     <hr>
-                    <h6 class="mb-3">Descripción</h6>
+                    <h3 class="mb-3" style="text-decoration:underline;"><strong>Descripción</strong></h3>
                     <p>Cepillo Secador</p>
                 </div>
             </div>
