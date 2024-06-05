@@ -18,9 +18,28 @@
               <p class="texto_modal"><strong>Proveedor:</strong> <a href="https://edishop.imporsuit.com" target="_blank">https://edishop.imporsuit.com</a></p>
               <p class="texto_modal"><a href="tel:+593998011578">+593998011578</a></p>
             </div>
-            <div class="col-md-6">
-              <img src="https://example.com/image.jpg" class="img-fluid rounded" alt="Product Image">
-            </div>
+            <div class="col-12">
+              <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <img src="https://example.com/image1.jpg" class="d-block w-100 fixed-size-img" alt="Product Image 1">
+                  </div>
+                  <div class="carousel-item">
+                    <img src="https://example.com/image2.jpg" class="d-block w-100 fixed-size-img" alt="Product Image 2">
+                  </div>
+                  <div class="carousel-item">
+                    <img src="https://example.com/image3.jpg" class="d-block w-100 fixed-size-img" alt="Product Image 3">
+                  </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
           </div>
           <hr>
           <h3 class="mb-3" style="text-decoration:underline;"><strong>Descripción</strong></h3>
