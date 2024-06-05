@@ -22,7 +22,7 @@
         body {
             display: flex;
             height: 100vh;
-            overflow: hidden;
+            overflow-x: hidden;
         }
 
         .sidebar {
