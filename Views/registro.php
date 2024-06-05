@@ -265,12 +265,6 @@
                     callback(true);
                 }
             })
-            .catch(error => {
-                console.error('Error en la validación del nombre de la tienda:', error);
-                errorDiv.textContent = "Hubo un problema con la validación del nombre de la tienda.";
-                errorDiv.style.display = "block";
-                callback(false);
-            });
     }
 
     function enviarFormulario() {
