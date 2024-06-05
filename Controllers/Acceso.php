@@ -53,7 +53,7 @@ class Acceso extends Controller
 {
     $tienda = file_get_contents("php://input");
     $tienda = json_decode($tienda,true);
-    $exists = $this->model->validarTiendas($tienda);
+    $exists = $this->model->validarTiendas($tienda['tienda']);
     echo json_encode(['exists' => $exists]);
 }
 }
