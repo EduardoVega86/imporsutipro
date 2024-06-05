@@ -48,4 +48,11 @@ class Acceso extends Controller
         session_destroy();
         header("Location:  " . SERVERURL . "login");
     }
+
+    public function validar_tiendas()
+{
+    $tienda = $_POST['tienda'];
+    $exists = $this->model->validarTiendas($tienda);
+    echo json_encode(['exists' => $exists]);
+}
 }
