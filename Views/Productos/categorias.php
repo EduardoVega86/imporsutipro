@@ -40,33 +40,32 @@
 </style>
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
-        <h2 class="text-center mb-4">Guias</h2>
+        <h2 class="text-center mb-4">Bodegas</h2>
         <!-- <div class="filtros_producos justify-content-between align-items-center mb-3">
 
         </div> -->
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_productoModal"><i class="fas fa-plus"></i> Agregar</button>
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
-            <table id="datatable_guias" class="table table-striped">
+            <table id="datatable_bodegas" class="table table-striped">
                 <!-- <caption>
                     DataTable.js Demo
                 </caption> -->
                 <thead>
                     <tr>
-                        <th class="centered"># Orden</th>
-                        <th class="centered">Detalle</th>
-                        <th class="centered">Cliente</th>
-                        <th class="centered">Localidad</th>
-                        <th class="centered">Tienda</th>
-                        <th class="centered">Transportadora</th>
-                        <th class="centered">Estado</th>
-                        <th class="centered">Impreso</th>
+                        <th class="centered">ID</th>
+                        <th class="centered">Nombre</th>
+                        <th class="centered">Direccion</th>
+                        <th class="centered">Ciudad</th>
+                        <th class="centered">Responsable</th>
+                        <th class="centered">Telefono</th>
                         <th class="centered">Acciones</th>
                     </tr>
                 </thead>
-                <tbody id="tableBody_guias"></tbody>
+                <tbody id="tableBody_bodegas"></tbody>
             </table>
         </div>
     </div>
 </div>
-<script src="<?php echo SERVERURL?>/Views/Productos/js/categorias.js"></script> 
+<script src="<?php echo SERVERURL ?>/Views/Productos/js/bodegas.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
