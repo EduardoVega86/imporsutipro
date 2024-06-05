@@ -21,9 +21,9 @@
     }
 </style>
 <!-- llamada de modales -->
-<?php require_once './Views/Productos/modales/atributos_index_productos.php'; ?>
-<?php require_once './Views/Productos/modales/agregar_index_productos.php'; ?>
-<?php require_once './Views/Productos/modales/editar_index_productos.php'; ?>
+<?php require_once './Views/Productos/Modales/atributos_index_productos.php'; ?>
+<?php require_once './Views/Productos/Modales/agregar_index_productos.php'; ?>
+<?php require_once './Views/Productos/Modales/editar_index_productos.php'; ?>
 
 <style>
     .filtros_producos{
