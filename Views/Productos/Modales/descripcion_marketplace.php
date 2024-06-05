@@ -22,13 +22,13 @@
                             <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
                                 <div class="carousel-inner">
                                     <div class="carousel-item active">
-                                        <img src="https://example.com/image1.jpg" class="d-block w-100 fixed-size-img" alt="Product Image 1">
+                                        <img src="https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg" class="d-block w-100 fixed-size-img" alt="Product Image 1">
                                     </div>
                                     <div class="carousel-item">
-                                        <img src="https://example.com/image2.jpg" class="d-block w-100 fixed-size-img" alt="Product Image 2">
+                                        <img src="https://significado.com/wp-content/uploads/Imagen-Animada.jpg" class="d-block w-100 fixed-size-img" alt="Product Image 2">
                                     </div>
                                     <div class="carousel-item">
-                                        <img src="https://example.com/image3.jpg" class="d-block w-100 fixed-size-img" alt="Product Image 3">
+                                        <img src="https://marketing4ecommerce.net/wp-content/uploads/2024/02/imagen-generada-con-nightcafe-e1708680739301.jpg" class="d-block w-100 fixed-size-img" alt="Product Image 3">
                                     </div>
                                 </div>
                                 <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
