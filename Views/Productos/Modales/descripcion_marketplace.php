@@ -7,7 +7,7 @@
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
-                    <div class="row">
+                    <div class="descripcion_producto">
                         <div class="col-6 col-md-6 mb-4 mb-md-0">
                             <h3 class="mb-3" style="text-decoration:underline;"><strong>Información</strong></h3>
                             <p class="texto_modal"><strong>Código del Producto:</strong> 10179</p>
