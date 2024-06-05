@@ -6,7 +6,7 @@
     margin: 10px;
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* Para evitar que el contenido se salga */
+    overflow: hidden; /* Evita que el contenido se salga de la card */
 }
 
 .card-custom:hover {
@@ -19,8 +19,8 @@
     border-top-right-radius: 15px;
     height: 200px;
     width: 100%;
-    object-fit: cover; /* Mantener la proporción de la imagen */
-    flex-shrink: 0; /* Evitar que la imagen se encoja */
+    object-fit: cover; /* Mantiene la proporción de la imagen */
+    flex-shrink: 0; /* Evita que la imagen se encoja */
 }
 
 .card-custom .card-body {
@@ -28,14 +28,19 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    overflow: hidden; /* Para evitar que el contenido se salga */
+    overflow: hidden; /* Evita que el contenido se salga de la card */
+}
+
+.card-custom .card-body .content {
+    overflow: auto; /* Permite el desplazamiento si el contenido es demasiado grande */
+    flex: 1;
 }
 
 .card-custom .btn-description,
 .card-custom .btn-import {
     border-radius: 50px;
     padding: 10px 20px;
-    margin: 5px auto; /* Center the buttons */
+    margin: 5px auto; /* Centra los botones */
     width: 80%;
 }
 
