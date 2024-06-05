@@ -125,12 +125,16 @@
     display: flex;
     flex-direction: row;
 }
+.informacion_producto{
+    width: 50%; /* Aproximadamente la mitad del contenedor, similar a col-6 */
+    margin-bottom: 1rem; /* Espaciado en la parte inferior, similar a mb-4 */
+}
 
 @media (max-width: 768px) {
     .descripcion_producto{
         flex-direction: column-reverse;
     }
-    .informacion {
+    .informacion_producto {
     width: 100%;
     }
 }
