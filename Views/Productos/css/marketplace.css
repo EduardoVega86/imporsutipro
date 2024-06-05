@@ -103,7 +103,20 @@
     margin-bottom: 5px;
 }
 
+/* carrusel */
 .fixed-size-img {
     height: 300px; /* Tamaño fijo para la imagen */
     object-fit: cover; /* La imagen se adapta al contenedor manteniendo su proporción */
+}
+
+.carousel-thumbnails img {
+    height: 80px;
+    width: 80px;
+    object-fit: cover;
+    cursor: pointer;
+    transition: border 0.3s;
+}
+
+.carousel-thumbnails img:hover {
+    border: 2px solid #007bff;
 }
