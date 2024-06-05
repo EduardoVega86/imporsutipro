@@ -1,5 +1,5 @@
 <?php require_once './Views/templates/header.php'; ?>
-<link rel="stylesheet" type="text/css" href="./Views/Productos/css/marketplace.css"> 
+<link rel="stylesheet" type="text/css" href="<?php echo SERVERURL?>/Views/Productos/css/marketplace.css"> 
 
 <div class="container mt-4">
     <div class="row mb-3">
