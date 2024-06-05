@@ -22,6 +22,19 @@ class Query extends Conexion
         }
     }
 
+    public function simple_select($sql)
+    {
+        try {
+            $this->sql = $sql;
+            $query = $this->connection->prepare($this->sql);
+            $query->execute();
+            $result = $query->rowCount();
+            return $result;
+        } catch (PDOException $e) {
+            return $this->handleError($e->getMessage(), $e->getCode());
+        }
+    }
+
     public function insert($sql, $data)
     {
         try {
