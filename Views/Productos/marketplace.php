@@ -9,7 +9,6 @@
         margin: 10px;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
     }
 
     .card-custom:hover {
@@ -101,12 +100,14 @@
         <div class="col-md-4">
             <div class="card card-custom">
                 <img src="https://significado.com/wp-content/uploads/Imagen-Animada.jpg" class="card-img-top" alt="Product Image">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Producto 1</h5>
-                    <p class="card-text">Stock: <strong>8</strong></p>
-                    <p class="card-text">Precio Proveedor: <strong>$12.50</strong></p>
-                    <p class="card-text">Precio Sugerido: <strong>$27.50</strong></p>
-                    <p class="card-text">Proveedor: <a href="#">CLIJISPOREPRS</a></p>
+                <div class="card-body text-center d-flex flex-column justify-content-between">
+                    <div>
+                        <h5 class="card-title">Producto 1</h5>
+                        <p class="card-text">Stock: <strong>8</strong></p>
+                        <p class="card-text">Precio Proveedor: <strong>$12.50</strong></p>
+                        <p class="card-text">Precio Sugerido: <strong>$27.50</strong></p>
+                        <p class="card-text">Proveedor: <a href="#">CLIJISPOREPRS</a></p>
+                    </div>
                     <div>
                         <button class="btn btn-description">Descripción</button>
                         <button class="btn btn-import">Importar</button>
@@ -116,5 +117,4 @@
         </div>
         <!-- Repetir para más productos -->
     </div>
-</div>
-<?php require_once './Views/templates/footer.php'; ?>
+    <?php require_once './Views/templates/footer.php'; ?>
