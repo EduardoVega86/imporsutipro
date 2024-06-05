@@ -44,7 +44,9 @@
         <!-- <div class="filtros_producos justify-content-between align-items-center mb-3">
 
         </div> -->
-        <button class="btn btn-success" href="https://new.imporsuitpro.com/Productos/agregar_bodegas"><i class="fas fa-plus"></i> Agregar</button>
+        <a href="https://new.imporsuitpro.com/Productos/agregar_bodegas" class="btn btn-success">
+            <i class="fas fa-plus"></i> Agregar
+        </a>
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
             <table id="datatable_bodegas" class="table table-striped">
@@ -67,5 +69,5 @@
         </div>
     </div>
 </div>
-<script src="<?php echo SERVERURL?>/Views/Productos/js/bodegas.js"></script> 
+<script src="<?php echo SERVERURL ?>/Views/Productos/js/bodegas.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
