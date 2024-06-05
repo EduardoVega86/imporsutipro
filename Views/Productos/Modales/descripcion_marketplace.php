@@ -23,8 +23,8 @@
             </div>
           </div>
           <hr>
-          <h6 class="mb-3">Descripción</h6>
-          <p>Cepillo Secador</p>
+          <h4 class="mb-3">Descripción</h4>
+          <p class="texto_modal">Cepillo Secador</p>
         </div>
       </div>
       <div class="modal-footer">
