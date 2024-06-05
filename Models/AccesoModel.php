@@ -170,7 +170,6 @@ class AccesoModel extends Query
         $sql = "SELECT * FROM plataformas WHERE nombre_tienda = ?";
         $params = [$tienda];
         $result = $this->simple_select($sql, $params);
-        echo $result;
         if ($result > 0){
             return true;
         }
