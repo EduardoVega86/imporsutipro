@@ -49,6 +49,9 @@
         background-color: #ffc107;
         color: white;
     }
+    .card-text{
+        margin-bottom: 10px;
+    }
 
     @media (max-width: 768px) {
         .card-custom {
