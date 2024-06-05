@@ -131,7 +131,7 @@
                         <p class="card-text">Proveedor: <a href="#">${product.proveedor}</a></p>
                     </div>
                     <div>
-                        <button class="btn btn-description">Descripción</button>
+                        <button class="btn btn-description" data-bs-toggle="modal" data-bs-target="#descripcion_productModal">Descripción</button>
                         <button class="btn btn-import">Importar</button>
                     </div>
                 </div>
