@@ -22,13 +22,13 @@ class Query extends Conexion
         }
     }
 
-    public function simple_select($sql)
+    public function simple_select($sql, $data)
     {
         try {
             $this->sql = $sql;
             $query = $this->connection->prepare($this->sql);
-            $query->execute();
-            $result = $query->rowCount();
+            $query->execute($data);
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
             return $result;
         } catch (PDOException $e) {
             return $this->handleError($e->getMessage(), $e->getCode());
