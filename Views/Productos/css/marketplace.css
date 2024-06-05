@@ -3,8 +3,8 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s, box-shadow 0.3s;
     height: 500px;
-    width: 100%; /* Full width for columns */
-    margin: 10px 0;
+    width: 250px;
+    margin: 10px;
     display: flex;
     flex-direction: column;
 }
@@ -15,7 +15,7 @@
 }
 
 .card-custom img {
-    border-top-left-radius: 15px;
+    border-top-left-radius: 15px;   
     border-top-right-radius: 15px;
     height: 200px;
     width: 100%;
@@ -33,7 +33,8 @@
 .card-custom .btn-import {
     border-radius: 50px;
     padding: 10px 20px;
-    margin: 5px auto; /* Center the buttons */
+    margin: 5px auto;
+    /* Center the buttons */
     width: 80%;
 }
 
@@ -46,13 +47,26 @@
     background-color: #ffc107;
     color: white;
 }
-
-.card-text {
+.card-text{
     margin-bottom: 10px;
 }
 
-.card-group {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between; /* Adjust to have space between columns */
+@media (max-width: 768px) {
+    .card-custom {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .card-group {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .card-custom {
+        width: calc(50% - 20px);
+        /* Two cards side by side */
+    }
 }
