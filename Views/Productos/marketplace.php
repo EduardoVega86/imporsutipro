@@ -100,7 +100,7 @@
     <div class="card-group">
         <div class="col-md-4">
             <div class="card card-custom">
-                <img src="https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg" class="card-img-top" alt="Product Image">
+                <img src="https://significado.com/wp-content/uploads/Imagen-Animada.jpg" class="card-img-top" alt="Product Image">
                 <div class="card-body text-center">
                     <h5 class="card-title">Producto 1</h5>
                     <p class="card-text">Stock: <strong>8</strong></p>
