@@ -6,7 +6,7 @@ class Productos extends Controller
     {
         parent::__construct();
         if (!$this->isAuth())
-            header("Location: /login");
+            header("Location:  " . SERVERURL . "login");
         /* if (!$this->hasPermission(2)) {
             header("Location: /dashboard");
         } */

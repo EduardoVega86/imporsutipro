@@ -6,7 +6,7 @@ class Pedidos extends Controller
     {
         parent::__construct();
         if (!$this->isAuth()) {
-            header("Location: /login");
+            header("Location:  " . SERVERURL . "login");
         }
     }
     ///Vistas
