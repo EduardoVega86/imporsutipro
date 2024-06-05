@@ -6,6 +6,7 @@
     margin: 10px;
     display: flex;
     flex-direction: column;
+    overflow: hidden; /* Para evitar que el contenido se salga */
 }
 
 .card-custom:hover {
@@ -18,7 +19,8 @@
     border-top-right-radius: 15px;
     height: 200px;
     width: 100%;
-    object-fit: cover;
+    object-fit: cover; /* Mantener la proporción de la imagen */
+    flex-shrink: 0; /* Evitar que la imagen se encoja */
 }
 
 .card-custom .card-body {
@@ -26,6 +28,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    overflow: hidden; /* Para evitar que el contenido se salga */
 }
 
 .card-custom .btn-description,
