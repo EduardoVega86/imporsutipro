@@ -150,7 +150,8 @@
             <div class="step">
                 <div class="form-group">
                     <label for="tienda">Nombre de tu tienda</label>
-                    <input type="text" class="form-control" id="tienda" name="tienda" placeholder="Tienda" oninput="validateStoreName()">
+                    <input type="text" class="form-control" id="tienda" name="tienda" placeholder="Tienda">
+                    <div id="tienda-error" style="color: red; display: none;">Esta tienda ya existe.</div>
                 </div>
                 <button type="button" class="btn btn-secondary w-100 mb-2" onclick="prevStep()">Anterior</button>
                 <button type="submit" class="btn btn-primary w-100">Enviar</button>
@@ -161,107 +162,153 @@
 
 <script>
     let currentStep = 0;
-    const steps = document.querySelectorAll(".step");
+const steps = document.querySelectorAll(".step");
 
-    function showStep(step) {
-        steps.forEach((stepElement, index) => {
-            stepElement.classList.remove("step-active");
-            if (index === step) {
-                stepElement.classList.add("step-active");
+function showStep(step) {
+    steps.forEach((stepElement, index) => {
+        stepElement.classList.remove("step-active");
+        if (index === step) {
+            stepElement.classList.add("step-active");
+        }
+    });
+}
+
+function nextStep() {
+    if (currentStep < steps.length - 1) {
+        currentStep++;
+        showStep(currentStep);
+    }
+}
+
+function prevStep() {
+    if (currentStep > 0) {
+        currentStep--;
+        showStep(currentStep);
+    }
+}
+
+function validateEmailAndPassword() {
+    const email = document.getElementById("correo").value;
+    const emailErrorDiv = document.getElementById("email-error");
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    const password = document.getElementById("contrasena").value;
+    const repeatPassword = document.getElementById("repetir-contrasena").value;
+    const passwordErrorDiv = document.getElementById("password-error");
+
+    let isValid = true;
+
+    if (emailPattern.test(email)) {
+        emailErrorDiv.style.display = "none";
+    } else {
+        emailErrorDiv.style.display = "block";
+        isValid = false;
+    }
+
+    if (password === repeatPassword) {
+        passwordErrorDiv.style.display = "none";
+    } else {
+        passwordErrorDiv.style.display = "block";
+        isValid = false;
+    }
+
+    if (isValid) {
+        nextStep();
+    }
+}
+
+function validateStoreName(callback) {
+    const input = document.getElementById('tienda');
+    const label = document.querySelector('label[for="tienda"]');
+    const errorDiv = document.getElementById('tienda-error');
+    const regex = /^[a-zA-Z]*$/;
+
+    input.value = input.value.toLowerCase();
+
+    if (!regex.test(input.value)) {
+        label.classList.remove("text-green-500");
+        label.classList.add("text-red-500", "border-red-500");
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "El nombre de la tienda no puede contener espacios ni caracteres especiales como (/, ^, *, $, @, \\)",
+            showConfirmButton: false,
+            timer: 2000
+        }).then(() => {
+            input.value = input.value.slice(0, -1);
+            if (callback) callback(false);
+        });
+    } else {
+        label.classList.remove("text-red-500", "border-red-500");
+        label.classList.add("text-green-500");
+
+        // Llama a la API para validar si la tienda existe
+        console.log("Enviando solicitud a la API para validar la tienda...");
+        fetch('Acceso/validar_tiendas', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ tienda: input.value })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error en la respuesta de la API');
             }
-        });
-    }
-
-    function nextStep() {
-        if (currentStep < steps.length - 1) {
-            currentStep++;
-            showStep(currentStep);
-        }
-    }
-
-    function prevStep() {
-        if (currentStep > 0) {
-            currentStep--;
-            showStep(currentStep);
-        }
-    }
-
-    function validateEmailAndPassword() {
-        const email = document.getElementById("correo").value;
-        const emailErrorDiv = document.getElementById("email-error");
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-        const password = document.getElementById("contrasena").value;
-        const repeatPassword = document.getElementById("repetir-contrasena").value;
-        const passwordErrorDiv = document.getElementById("password-error");
-
-        let isValid = true;
-
-        if (emailPattern.test(email)) {
-            emailErrorDiv.style.display = "none";
-        } else {
-            emailErrorDiv.style.display = "block";
-            isValid = false;
-        }
-
-        if (password === repeatPassword) {
-            passwordErrorDiv.style.display = "none";
-        } else {
-            passwordErrorDiv.style.display = "block";
-            isValid = false;
-        }
-
-        if (isValid) {
-            nextStep();
-        }
-    }
-
-    function validateStoreName() {
-        const input = document.getElementById('tienda');
-        const label = document.querySelector('label[for="tienda"]');
-        const regex = /^[a-zA-Z]*$/;
-
-        input.value = input.value.toLowerCase();
-
-        if (!regex.test(input.value)) {
-            label.classList.remove("text-green-500");
-            label.classList.add("text-red-500", "border-red-500");
+            return response.json();
+        })
+        .then(data => {
+            console.log('Respuesta de la API:', data);
+            if (data.exists) {
+                errorDiv.style.display = "block";
+                if (callback) callback(false);
+            } else {
+                errorDiv.style.display = "none";
+                if (callback) callback(true);
+            }
+        })
+        .catch(error => {
+            console.error('Error en la validación del nombre de la tienda:', error);
             Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "El nombre de la tienda no puede contener espacios ni caracteres especiales como (/, ^, *, $, @, \\)",
-                showConfirmButton: false,
-                timer: 2000
-            }).then(() => {
-                input.value = input.value.slice(0, -1);
+                icon: 'error',
+                title: 'Error',
+                text: 'Hubo un problema con la validación del nombre de la tienda.'
             });
-        } else {
-            label.classList.remove("text-red-500", "border-red-500");
-            label.classList.add("text-green-500");
-        }
-    }
-
-    document.getElementById("multiStepForm").addEventListener("submit", function(event) {
-        event.preventDefault();
-
-        const formData = new FormData(this);
-        const data = {};
-        formData.forEach((value, key) => {
-            data[key] = value;
+            if (callback) callback(false);
         });
+    }
+}
 
-        const url = '<?php echo SERVERURL; ?>Acceso/registro'; // Asegúrate de definir SERVERURL en tu backend PHP
+document.getElementById("multiStepForm").addEventListener("submit", function(event) {
+    event.preventDefault();
 
-        fetch(url, {
+    validateStoreName(function(isValid) {
+        if (isValid) {
+            const formData = new FormData(document.getElementById("multiStepForm"));
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+
+            const url = '<?php echo SERVERURL; ?>Acceso/registro'; // Asegúrate de definir SERVERURL en tu backend PHP
+
+            console.log("Enviando datos de registro:", data);
+
+            fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(data)
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error en la respuesta de la API');
+                }
+                return response.json();
+            })
             .then(data => {
-                console.log('Success:', data);
+                console.log('Respuesta de registro:', data);
                 // Mostrar alerta de éxito
                 if (data.status == 500) {
                     Swal.fire({
@@ -280,7 +327,7 @@
                 }
             })
             .catch((error) => {
-                console.error('Error:', error);
+                console.error('Error en el registro:', error);
                 // Mostrar alerta de error
                 Swal.fire({
                     icon: 'error',
@@ -288,7 +335,10 @@
                     text: 'Hubo un problema con el registro.'
                 });
             });
+        }
     });
+});
+
 </script>
 
 <?php require_once './Views/templates/landing/footer.php'; ?>

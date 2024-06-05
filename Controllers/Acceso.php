@@ -48,4 +48,27 @@ class Acceso extends Controller
         session_destroy();
         header("Location:  " . SERVERURL . "login");
     }
+
+    public function validar_tiendas()
+{
+    header('Content-Type: application/json');
+    
+    // Verificar si los datos se recibieron correctamente
+    $data = json_decode(file_get_contents('php://input'), true);
+    
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        echo json_encode(['error' => 'Invalid JSON input']);
+        return;
+    }
+
+    // Asegúrate de que la clave 'tienda' está presente
+    if (!isset($data['tienda'])) {
+        echo json_encode(['error' => 'Missing "tienda" key']);
+        return;
+    }
+
+    $tienda = $data['tienda'];
+    $exists = $this->model->validarTiendas($tienda);
+    echo json_encode(['exists' => $exists]);
+}
 }
