@@ -32,11 +32,7 @@ class Productos extends Controller
 
     public function categorias()
     {
-        if (!$this->hasPermission(2)) {
-            header("Location: /dashboard");
-        }
-        $data = $this->model->cargarCategorias($plataforma = $_SESSION['id_plataforma']);
-        $this->views->render($this, "categorias", $data);
+        $this->views->render($this, "categorias");
     }
 
     public function verbodegas()
@@ -94,6 +90,11 @@ class Productos extends Controller
     public function listar_marketplace()
     {
         $response = $this->model->listarMarketplace();
+    }
+
+    public function cargar_categorias()
+    {
+        $response = $this->model->cargarCategorias($_SESSION['id_plataforma']);
         echo json_encode($response);
     }
 }

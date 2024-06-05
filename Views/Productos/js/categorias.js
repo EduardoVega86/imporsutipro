@@ -44,7 +44,7 @@ const initDataTable = async () => {
 const listBodegas = async () => {
   try {
     const response = await fetch(
-      "https://new.imporsuitpro.com/productos/listar_bodegas"
+      "https://new.imporsuitpro.com/productos/cargar_categorias"
     );
     const bodegas = await response.json();
 
@@ -52,12 +52,13 @@ const listBodegas = async () => {
     bodegas.forEach((bodega, index) => {
       content += `
                 <tr>
-                    <td>${bodega.id}</td>
-                    <td>${bodega.nombre}</td>
-                    <td>${bodega.direccion}</td>
-                    <td>${bodega.provincia}</td>
-                    <td>${bodega.responsable}</td>
-                    <td>${bodega.contacto}</td>
+                    <td>${bodega.nombre_linea}</td>
+                    <td>${bodega.imagen}</td>
+                    <td>${bodega.online}</td>
+                    <td>${bodega.descripcion_linea}</td>
+                    <td>${bodega.tipo}</td>
+                    <td>${bodega.padre}</td>
+                    <td>${bodega.estado_linea}</td>
                     <td>
                         <button class="btn btn-sm btn-primary"><i class="fa-solid fa-pencil"></i></button>
                         <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash-can"></i></button>
