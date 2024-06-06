@@ -30,12 +30,16 @@ class AccesoModel extends Query
         //echo 'erro'.$insertar_usuario;;
         if ($insertar_usuario == 1) {
             $id = $this->select("SELECT id_users FROM users WHERE usuario_users = '$correo'");
+            
+            $id_matriz = $this->obtenerMatriz();
+            //print_r($id_matriz);
+            $id_matriz=$id_matriz[0]['idmatriz'];
             //print_r($id);
             //Se genera la plataforma
-            $sql = "INSERT INTO plataformas (`nombre_tienda`, `contacto`, `whatsapp`, `fecha_ingreso`, `fecha_actualza`, `id_plan`, `url_imporsuit`, `carpeta_servidor`, `email`,  `referido`, `token_referido`, `refiere`, `pais`, `id_user`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            $data = [$tienda, $nombre, $telefono, date('Y-m-d H:i:s'), date('Y-m-d H:i:s'), 1, 'https://' . $tienda . '.imporsuitpro.com', '/public_html' . $tienda, $correo, 0, '', '', $pais, $id[0]['id_users']];
+            $sql = "INSERT INTO plataformas (`nombre_tienda`, `contacto`, `whatsapp`, `fecha_ingreso`, `fecha_actualza`, `id_plan`, `url_imporsuit`, `carpeta_servidor`, `email`,  `referido`, `token_referido`, `refiere`, `pais`, `id_matriz`) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $data = [$tienda, $nombre, $telefono, date('Y-m-d H:i:s'), date('Y-m-d H:i:s'), 1, 'https://' . $tienda . '.imporsuitpro.com', '/public_html' . $tienda, $correo, 0, '', '', $pais, $id_matriz];
             $insertar_plataforma = $this->insert($sql, $data);
-            // print_r($insertar_plataforma);
+             print_r($insertar_plataforma);
             //si se guarda correctamente la plataforma 
             if ($insertar_plataforma == 1) {
                 $idPlataforma = $this->select("SELECT id_plataforma FROM plataformas WHERE email = '$correo'");
@@ -98,7 +102,7 @@ class AccesoModel extends Query
                         if ($mail->send()) {
                             //echo "Correo enviado";
                         } else {
-                            echo "Error al enviar el correo: " . $mail->ErrorInfo;
+                          //  echo "Error al enviar el correo: " . $mail->ErrorInfo;
                         }  
                         }
                        

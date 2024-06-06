@@ -118,6 +118,7 @@
                 <div id="infoDireccion"></div>
             </div>
         </div>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGulcdBtz_Mydtmu432GtzJz82J_yb-rs&libraries=places&callback=initMap"></script>
         <script>
             // Inicializar el mapa
             function initMap() {
@@ -215,7 +216,7 @@
                 });
             }
         </script>
-        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGulcdBtz_Mydtmu432GtzJz82J_yb-rs&libraries=places&callback=initMap"></script>
+        
 
 
     </div>
