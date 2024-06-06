@@ -44,7 +44,7 @@ const initDataTable = async () => {
 const listCategorias = async () => {
   try {
     const response = await fetch(
-      ""+SERVERURL+"productos/cargar_categorias"
+      "" + SERVERURL + "productos/cargar_categorias"
     );
     const categorias = await response.json();
 
@@ -71,39 +71,37 @@ const listCategorias = async () => {
   }
 };
 
-function eliminar_categoria(id){
-
-            $.ajax({
-                type: 'POST',
-                url: '' + SERVERURL + 'productos/eliminarCategoria',
-                data: id,
-                dataType: 'json',
-                success: function(response) {
-                    // Mostrar alerta de éxito
-                    if (response.status == 500) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: response.title,
-                            text: response.message
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'success',
-                            title: response.title,
-                            text: response.message,
-                            showConfirmButton: false,
-                            timer: 2000
-                        }).then(() => {
-                            // Recargar la DataTable
-                            initDataTable();
-                        });
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error en la solicitud AJAX:', error);
-                    alert('Hubo un problema al agregar la categoría');
-                }
-            });
+function eliminar_categoria(id) {
+  $.ajax({
+    type: "POST",
+    url: "" + SERVERURL + "productos/eliminarCategoria",
+    data: id,
+    success: function (response) {
+      // Mostrar alerta de éxito
+      if (response.status == 500) {
+        Swal.fire({
+          icon: "error",
+          title: response.title,
+          text: response.message,
+        });
+      } else {
+        Swal.fire({
+          icon: "success",
+          title: response.title,
+          text: response.message,
+          showConfirmButton: false,
+          timer: 2000,
+        }).then(() => {
+          // Recargar la DataTable
+          initDataTable();
+        });
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al agregar la categoría");
+    },
+  });
 }
 window.addEventListener("load", async () => {
   await initDataTable();
