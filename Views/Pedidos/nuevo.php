@@ -21,18 +21,44 @@
         width: 100%;
     }
 
-    .left-column, .right-column {
+    .left-column,
+    .right-column {
         padding: 20px;
     }
 
     .sticky-top-custom {
         position: sticky;
-        top: 60px; /* Ajusta esto a la altura de cualquier cabecera o menú que tengas */
+        top: 60px;
+        /* Ajusta esto a la altura de cualquier cabecera o menú que tengas */
         z-index: 1000;
     }
 
     .img-container img {
         max-width: 100px;
+    }
+
+    .transportadora {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 10px;
+        overflow: hidden;
+        padding: 10px;
+        background-color: #f8f9fa;
+        display: inline-block;
+    }
+
+    .transportadora img {
+        max-width: 100px;
+        transition: filter 0.3s ease;
+        filter: grayscale(100%);
+    }
+
+    .transportadora:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .transportadora:hover img {
+        filter: grayscale(0%);
     }
 </style>
 
@@ -129,16 +155,16 @@
                 <h5>Generar Guías</h5>
                 <div class="d-flex justify-content-around mb-4">
                     <!-- Agregar imágenes o iconos según sea necesario -->
-                    <div class="img-container text-center">
+                    <div class="img-container text-center transportadora">
                         <img src="https://i.revistapym.com.co/old/2021/09/WhatsApp-Image-2021-09-25-at-1.08.55-PM.jpeg?w=728" alt="Servientrega">
                     </div>
-                    <div class="img-container text-center">
+                    <div class="img-container text-center transportadora">
                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbwGM5QX15dfNUFH2FDGs1-mZC8LKbB6naMQ&s" alt="Laborcourier">
                     </div>
-                    <div class="img-container text-center">
+                    <div class="img-container text-center transportadora">
                         <img src="path/to/speed_logo.png" alt="Speed">
                     </div>
-                    <div class="img-container text-center">
+                    <div class="img-container text-center transportadora">
                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSf6LcrOLlpzpAJjvngTX0CfcwUbGmo1eNVTQ&s" alt="Gintracom">
                     </div>
                 </div>
