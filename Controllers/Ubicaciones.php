@@ -1,5 +1,5 @@
 <?php
-class Ubucaciones extends Controller
+class Ubicaciones extends Controller
 {
 
     public function __construct()
