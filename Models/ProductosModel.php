@@ -81,8 +81,7 @@ class ProductosModel extends Query
     {
         // codigo para eliminar categoria
         $response = $this->initialResponse();
-        echo $id;
-        echo $plataforma;
+
         $sql = "DELETE FROM lineas WHERE id_linea = ? AND id_plataforma = ?";
         $data = [$id, $plataforma];
         $eliminar_categoria = $this->delete($sql, $data);
