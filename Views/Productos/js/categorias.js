@@ -129,6 +129,7 @@ function editar_categoria(id) {
                   
                   console.log('Elementos encontrados, actualizando valores...');
                   // Llenar los inputs del modal con los datos recibidos
+                  $('#editar_id_linea').val(data.id_linea);
                   $('#editar_nombre_linea').val(data.nombre_linea);
                   $('#editar_descripcion_linea').val(data.descripcion_linea);
                   $('#editar_online').val(data.online);

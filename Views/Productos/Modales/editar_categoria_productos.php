@@ -46,6 +46,7 @@
             </div>
             <div class="modal-body">
                 <form id="editar_categoriaForm">
+                    <input type="hidden" id="editar_id_linea" name="id_linea">
                     <div class="form-group">
                         <label for="editar_nombre_linea">Nombre:</label>
                         <input type="text" class="form-control" id="editar_nombre_linea" name="nombre_linea" placeholder="Nombre">
