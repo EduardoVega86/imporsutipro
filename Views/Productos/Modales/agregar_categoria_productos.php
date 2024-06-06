@@ -1,39 +1,39 @@
 <style>
     .modal-content {
-    border-radius: 15px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
+        border-radius: 15px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
 
-.modal-header {
-    background-color: #171931;
-    color: white;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-}
+    .modal-header {
+        background-color: #171931;
+        color: white;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+    }
 
-.modal-header .btn-close {
-    color: white;
-}
+    .modal-header .btn-close {
+        color: white;
+    }
 
-.modal-body {
-    padding: 20px;
-}
+    .modal-body {
+        padding: 20px;
+    }
 
-.modal-footer {
-    border-top: none;
-    padding: 10px 20px;
-}
+    .modal-footer {
+        border-top: none;
+        padding: 10px 20px;
+    }
 
-.modal-footer .btn-secondary {
-    background-color: #6c757d;
-    border-color: #6c757d;
-}
+    .modal-footer .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
 
-.modal-footer .btn-primary {
-    background-color: #ffc107;
-    border-color: #ffc107;
-    color: white;
-}
+    .modal-footer .btn-primary {
+        background-color: #ffc107;
+        border-color: #ffc107;
+        color: white;
+    }
 </style>
 
 <div class="modal fade" id="agregar_categoriaModal" tabindex="-1" aria-labelledby="agregar_categoriaModalLabel" aria-hidden="true">
@@ -97,16 +97,27 @@
 
             $.ajax({
                 type: 'POST',
-                url: ''+SERVERURL+'productos/agregarCategoria',
+                url: '' + SERVERURL + 'productos/agregarCategoria',
                 data: formData,
                 dataType: 'json',
                 success: function(response) {
-                    if (response.success) {
-                        alert('Categoría agregada exitosamente');
-                        $('#agregar_categoriaModal').modal('hide');
-                        // Aquí puedes actualizar tu lista de categorías o realizar otra acción
+                    // Mostrar alerta de éxito
+                    if (data.status == 401) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: data.title,
+                            text: data.message
+                        });
                     } else {
-                        alert('Error al agregar la categoría');
+                        Swal.fire({
+                            icon: 'success',
+                            title: data.title,
+                            text: data.message,
+                            showConfirmButton: false,
+                            timer: 2000
+                        }).then(() => {
+                            window.location.href = '<?php echo SERVERURL ?>dashboard';
+                        });
                     }
                 },
                 error: function(xhr, status, error) {
