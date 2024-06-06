@@ -130,16 +130,16 @@
                 <div class="d-flex justify-content-around mb-4">
                     <!-- Agregar imágenes o iconos según sea necesario -->
                     <div class="img-container text-center">
-                        <img src="path/to/servientrega_logo.png" alt="Servientrega">
+                        <img src="https://i.revistapym.com.co/old/2021/09/WhatsApp-Image-2021-09-25-at-1.08.55-PM.jpeg?w=728" alt="Servientrega">
                     </div>
                     <div class="img-container text-center">
-                        <img src="path/to/laborcourier_logo.png" alt="Laborcourier">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbwGM5QX15dfNUFH2FDGs1-mZC8LKbB6naMQ&s" alt="Laborcourier">
                     </div>
                     <div class="img-container text-center">
                         <img src="path/to/speed_logo.png" alt="Speed">
                     </div>
                     <div class="img-container text-center">
-                        <img src="path/to/gintracom_logo.png" alt="Gintracom">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSf6LcrOLlpzpAJjvngTX0CfcwUbGmo1eNVTQ&s" alt="Gintracom">
                     </div>
                 </div>
                 <form>
