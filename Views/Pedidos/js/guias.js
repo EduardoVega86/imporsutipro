@@ -43,7 +43,7 @@ const initDataTable = async () => {
 
 const listGuias = async () => {
     try {
-        const response = await fetch("https://new.imporsuitpro.com/pedidos/obtener_guias");
+        const response = await fetch(""+SERVERURL+"pedidos/obtener_guias");
         const guias = await response.json();
 
         let content = ``;

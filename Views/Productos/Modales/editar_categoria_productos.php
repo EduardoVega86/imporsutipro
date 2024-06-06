@@ -90,13 +90,30 @@
         </div>
     </div>
 </div>
-
-
-
 <script>
     $(document).ready(function() {
-        $('#guardarCategoria').click(function() {
-            var formData = $('#categoriaForm').serialize();
+        $('#actualizarCategoria').click(function() {
+            var id_linea = $('#editar_id_linea').val();
+            var nombre_linea = $('#editar_nombre_linea').val();
+            var descripcion_linea = $('#editar_descripcion_linea').val();
+            var online = $('#editar_online').val();
+            var tipo = $('#editar_tipo').val();
+            var padre = $('#editar_padre').val();
+            var estado = $('#editar_estado').val();
+            var imagen = ''; // Asigna el valor apropiado para imagen si es necesario
+            var date_added = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
+            var formData = {
+                id: id_linea,
+                nombre_linea: nombre_linea,
+                descripcion_linea: descripcion_linea,
+                online: online,
+                tipo: tipo,
+                padre: padre,
+                estado: estado,
+                imagen: imagen,
+                date_added: date_added
+            };
 
             $.ajax({
                 type: 'POST',
