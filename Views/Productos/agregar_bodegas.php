@@ -359,8 +359,8 @@
     // Función para cargar ciudades según la provincia seleccionada
     function cargarCiudades() {
         let provinciaId = $('#provincia').val();
-        console.log(provinciaId)
         if (provinciaId) {
+            console.log('entro en la condicion')
             $.ajax({
                 url: '' + SERVERURL + 'Ubicaciones/obtenerCiudades/' + provinciaId, // Reemplaza con la ruta correcta a tu controlador
                 method: 'GET',
