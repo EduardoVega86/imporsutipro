@@ -62,19 +62,22 @@
                             <option value="0">NO</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label for="editar_tipo">Tipo:</label>
-                        <select class="form-control" id="editar_tipo" name="tipo">
+                    <!-- <div class="form-group">
+                        <label for="tipo">Tipo:</label>
+                        <select class="form-control" id="tipo" name="tipo">
                             <option value="1">PRINCIPAL</option>
                             <option value="0">SECUNDARIO</option>
                         </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="editar_padre">Categoria Principal:</label>
-                        <select class="form-control" id="editar_padre" name="padre">
+                    </div> -->
+                    <input type="hidden" id="editar_tipo" name="tipo" value="1">
+                    <!-- <div class="form-group">
+                        <label for="padre">Categoria Principal:</label>
+                        <select class="form-control" id="padre" name="padre">
                             <option value="0">-- Selecciona --</option>
+                            
                         </select>
-                    </div>
+                    </div> -->
+                    <input type="hidden" id="editar_padre" name="tipo" value="0">
                     <div class="form-group">
                         <label for="editar_estado">Estado:</label>
                         <select class="form-control" id="editar_estado" name="estado">

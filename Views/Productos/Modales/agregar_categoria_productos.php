@@ -67,14 +67,15 @@
                             <option value="0">SECUNDARIO</option>
                         </select>
                     </div> -->
-                    <input type="hidden" id="editar_tipo" name="tipo" value="1">
-                    <div class="form-group">
+                    <input type="hidden" id="tipo" name="tipo" value="1">
+                    <!-- <div class="form-group">
                         <label for="padre">Categoria Principal:</label>
                         <select class="form-control" id="padre" name="padre">
                             <option value="0">-- Selecciona --</option>
-                            <!-- Agregar opciones según sea necesario -->
+                            
                         </select>
-                    </div>
+                    </div> -->
+                    <input type="hidden" id="padre" name="tipo" value="0">
                     <div class="form-group">
                         <label for="estado">Estado:</label>
                         <select class="form-control" id="estado" name="estado">
