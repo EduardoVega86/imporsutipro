@@ -252,7 +252,7 @@
             </div>
             <a href="#" class="dropdown-btn" data-target="#submenu2"><box-icon name="receipt" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Pedidos</span></a>
             <div class="submenu" id="submenu2">
-                <a href="#"><box-icon name="file" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Nuevo</span></a>
+                <a href="<?php echo SERVERURL ?>Pedidos/nuevo"><box-icon name="file" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Nuevo</span></a>
                 <a href="#"><box-icon name="history" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Historial</span></a>
                 <a href="<?php echo SERVERURL ?>pedidos/guias"><box-icon name="archive" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Guías</span></a>
                 <a href="#"><box-icon name="x" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Anulados</span></a>
