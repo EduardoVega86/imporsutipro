@@ -71,7 +71,7 @@ const listCategorias = async () => {
       content += `
                 <tr>
                     <td>${categoria.nombre_linea}</td>
-                    <td><i class="fas fa-camera icon-button" data-toggle="modal" data-target="#imageModal"></i></td>
+                    <td><i class="fas fa-camera icon-button" data-toggle="modal" data-target="#imagen_categoriaModal"></i></td>
                     <td>${online}</td>
                     <td>${categoria.descripcion_linea}</td>
                     <td>${tipo}</td>
