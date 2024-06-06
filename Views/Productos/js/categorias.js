@@ -60,8 +60,8 @@ const listBodegas = async () => {
                     <td>${bodega.padre}</td>
                     <td>${bodega.estado_linea}</td>
                     <td>
-                        <button class="btn btn-sm btn-primary"><i class="fa-solid fa-pencil"></i></button>
-                        <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash-can"></i></button>
+                        <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editar_categoriaModal"><i class="fa-solid fa-pencil"></i>Editar</button>
+                        <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash-can"></i>Borrar</button>
                     </td>
                 </tr>`;
     });

@@ -44,7 +44,7 @@
         <!-- <div class="filtros_producos justify-content-between align-items-center mb-3">
 
         </div> -->
-        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_productoModal"><i class="fas fa-plus"></i> Agregar</button>
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_categoriaModal"><i class="fas fa-plus"></i> Agregar</button>
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
             <table id="datatable_bodegas" class="table table-striped">
