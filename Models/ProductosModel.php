@@ -23,16 +23,22 @@ class ProductosModel extends Query
         return $this->select($sql);
     }
 
-    public function agregarBodega($nombre, $direccion, $telefono, $ciudad, $provincia, $contacto, $telefono_contacto, $numerocasa, $referencia, $plataforma)
+     public function agregarBodega($nombre, $direccion, $telefono, $ciudad, $provincia, $contacto, $telefono_contacto, $numerocasa, $referencia, $plataforma, $longitu, $latitud)
     {
-        // codigo para agregar bodega
+        // codigo para agregar categoria
         $response = $this->initialResponse();
 
-        $sql = "INSERT INTO bodega (nombre_users, email_users, con_users, usuario_users, date_added, cargo_users) VALUES (?, ?, ?, ?, ?, ?)";
-        //   echo $sql;
-        $data = [$nombre, $correo, $contrasena, $correo, $date_added, 1];
-        $insertar_usuario = $this->insert($sql, $data);
-        if ($insertar_usuario == 1) {
+        $sql = "INSERT INTO `bodega` (`nombre`,`id_empresa`,`longitud`,`latitud`,`direccion`,`num_casa`,`referencia`,`responsable`,`contacto`,`localidad`,`provincia``id_plataforma`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $data =                 [$nombre, $plataforma, $longitud, $latitud, $direccion, $numerocasa, $referencia, $contacto, $telefono_contacto, $ciudad, $provincia, $plataforma];
+        $insertar_categoria = $this->insert($sql, $data);
+        if ($insertar_categoria == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Categoria agregada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al agregar la categoria';
         }
         return $response;
     }
