@@ -140,6 +140,7 @@ function editar_categoria(id) {
   });
 }
 
+
 window.addEventListener("load", async () => {
   await initDataTable();
 });
