@@ -118,7 +118,7 @@ function editar_categoria(id) {
       if (response && response.length > 0) {
         // Obtener el primer objeto de la respuesta
         const data = response[0];
-
+        console.log (data);
         // Llenar los inputs del modal con los datos recibidos
         $('#nombre_linea').val(data.nombre_linea);
         $('#descripcion_linea').val(data.descripcion_linea);
