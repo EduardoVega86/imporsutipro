@@ -39,7 +39,7 @@ class AccesoModel extends Query
             $sql = "INSERT INTO plataformas (`nombre_tienda`, `contacto`, `whatsapp`, `fecha_ingreso`, `fecha_actualza`, `id_plan`, `url_imporsuit`, `carpeta_servidor`, `email`,  `referido`, `token_referido`, `refiere`, `pais`, `id_matriz`) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $data = [$tienda, $nombre, $telefono, date('Y-m-d H:i:s'), date('Y-m-d H:i:s'), 1, 'https://' . $tienda . '.imporsuitpro.com', '/public_html' . $tienda, $correo, 0, '', '', $pais, $id_matriz];
             $insertar_plataforma = $this->insert($sql, $data);
-             print_r($insertar_plataforma);
+            // print_r($insertar_plataforma);
             //si se guarda correctamente la plataforma 
             if ($insertar_plataforma == 1) {
                 $idPlataforma = $this->select("SELECT id_plataforma FROM plataformas WHERE email = '$correo'");
