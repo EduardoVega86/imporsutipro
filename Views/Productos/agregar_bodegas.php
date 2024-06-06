@@ -347,7 +347,7 @@
                 provinciaSelect.append('<option value="">Provincia *</option>'); // Añadir opción por defecto
 
                 provincias.forEach(function(provincia) {
-                    provinciaSelect.append(`<option value="${provincia.id_prov}">${provincia.provincia}</option>`);
+                    provinciaSelect.append(`<option value="${provincia.codigo_provincia}">${provincia.provincia}</option>`);
                 });
             },
             error: function(error) {
