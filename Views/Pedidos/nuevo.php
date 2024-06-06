@@ -50,8 +50,8 @@
         </div>
     </div>
 
-    <div class="row mb-4">
-        <div class="col-md-6 form-section">
+    <div class="d-flex flex-column">
+        <div class="form-section">
             <h5>Datos Destinatario</h5>
             <form>
                 <div class="mb-3">
@@ -99,7 +99,7 @@
             </form>
         </div>
 
-        <div class="col-md-6 form-section">
+        <div class="form-section">
             <h5>Generar Guías</h5>
             <div class="d-flex justify-content-around mb-4">
                 <!-- Agregar imágenes o iconos según sea necesario -->
