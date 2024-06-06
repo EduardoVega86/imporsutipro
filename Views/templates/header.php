@@ -247,8 +247,6 @@
 
                 <a href="<?php echo SERVERURL ?>Productos/categorias"><box-icon type="solid" name="category" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Categorias</span></a>
                 <a href="<?php echo SERVERURL ?>Productos/marketplace"><box-icon name="shopping-bag" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Marketplace</span></a>
-                                <a href="<?php echo SERVERURL ?>Productos/agregar_bodegas"><box-icon type="solid" name="truck" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Agregar Bodegas</span></a>
-
                 <a href="<?php echo SERVERURL ?>Productos/bodegas"><box-icon type="solid" name="truck" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Bodegas</span></a>
 
             </div>
