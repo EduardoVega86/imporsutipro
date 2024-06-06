@@ -62,6 +62,7 @@ const listCategorias = async () => {
                     <td>
                         <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editar_categoriaModal"><i class="fa-solid fa-pencil"></i>Editar</button>
                         <button class="btn btn-sm btn-danger" onclick="eliminar_categoria(${categoria.id_linea})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
+
                     </td>
                 </tr>`;
     });
@@ -74,8 +75,9 @@ const listCategorias = async () => {
 function eliminar_categoria(id) {
   $.ajax({
     type: "POST",
-    url: "" + SERVERURL + "productos/eliminarCategoria",
-    data: id,
+    url: SERVERURL + "productos/eliminarCategoria",
+    data: { id: id }, // Enviar el ID como un objeto
+    dataType: 'json', // Asegurarse de que la respuesta se trata como JSON
     success: function (response) {
       // Mostrar alerta de éxito
       if (response.status == 500) {
@@ -99,7 +101,7 @@ function eliminar_categoria(id) {
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al agregar la categoría");
+      alert("Hubo un problema al eliminar la categoría");
     },
   });
 }
