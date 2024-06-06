@@ -4,7 +4,7 @@ class UbicacionesModel extends Query
 {
     public function obtener_provincias()
     {
-        $sql = "SELECT * FROM provincias_laar";
+        $sql = "SELECT * FROM provincia_laar";
         return $this->select($sql);
     }
 
