@@ -338,7 +338,7 @@
     // Función para cargar provincias
     function cargarProvincias() {
         $.ajax({
-            url: 'ruta_al_controlador/obtenerProvincias', // Reemplaza con la ruta correcta a tu controlador
+            url: '' + SERVERURL + 'Ubicaciones/obtenerProvincias', // Reemplaza con la ruta correcta a tu controlador
             method: 'GET',
             success: function(response) {
                 let provincias = JSON.parse(response);
@@ -362,7 +362,7 @@
 
         if (provinciaId) {
             $.ajax({
-                url: 'ruta_al_controlador/obtenerCiudades/' + provinciaId, // Reemplaza con la ruta correcta a tu controlador
+                url: '' + SERVERURL + 'Ubicaciones/obtenerCiudades/' + provinciaId, // Reemplaza con la ruta correcta a tu controlador
                 method: 'GET',
                 success: function(response) {
                     let ciudades = JSON.parse(response);
