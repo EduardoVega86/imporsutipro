@@ -17,16 +17,35 @@
     .btn-custom {
         width: 100%;
     }
+
+    .left-column {
+        width: 50%;
+        padding: 20px;
+        padding-top: 60px;
+        position: -webkit-sticky;
+        /* Para compatibilidad con Safari */
+        position: sticky;
+        top: 0;
+        /* Ajusta esto a la altura de cualquier cabecera o menú que tengas */
+        height: 100%;
+        /* O la altura que quieras que tenga */
+    }
+
+    .right-column {
+        width: 50%;
+        padding: 20px;
+        padding-top: 60px;
+    }
 </style>
 
 <div class="custom-container-fluid mt-4">
-    <div class="d-flex flex-row mb-4">
+    <div class="d-flex flex-row left-column">
         <div class="col">
             <h2 class="section-title">Generar Guías</h2>
         </div>
     </div>
 
-    <div class="d-flex flex-row">
+    <div class="d-flex flex-row right-column">
         <div class="d-flex flex-row mb-4">
             <div class="card-box">
                 <form>
