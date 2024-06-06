@@ -127,4 +127,14 @@ class Productos extends Controller
         $response = $this->model->cargarCategorias($_SESSION['id_plataforma']);
         echo json_encode($response);
     }
+
+    public function agregar_caracteristica()
+    {
+    }
+
+    public function guardar_imagen()
+    {
+        $response = $this->model->guardarImagen($_FILES['imagen'], $_POST['id_linea'], $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
 }
