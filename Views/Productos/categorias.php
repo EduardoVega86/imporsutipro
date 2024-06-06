@@ -39,8 +39,8 @@
     }
 </style>
 
-<?php require_once './Views/Productos/Modales/agregar_categorias_productos.php'; ?>
-<?php require_once './Views/Productos/Modales/editar_categorias_productos.php'; ?>
+<?php require_once './Views/Productos/Modales/agregar_categoria_productos.php'; ?>
+<?php require_once './Views/Productos/Modales/editar_categoria_productos.php'; ?>
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
