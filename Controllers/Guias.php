@@ -17,8 +17,8 @@ class Guias extends Controller
     {
     }
 
-    private function obtenerDestinatario()
+    private function obtenerDestinatario($id_bodega)
     {
-        $response = $this->model->obtenerDestinatario($id_plataforma);
+        $datos = $this->model->obtenerDestinatario($id_bodega);
     }
 }
