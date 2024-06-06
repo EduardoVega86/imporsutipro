@@ -75,7 +75,7 @@
                             
                         </select>
                     </div> -->
-                    <input type="hidden" id="padre" name="tipo" value="0">
+                    <input type="hidden" id="padre" name="padre" value="0">
                     <div class="form-group">
                         <label for="estado">Estado:</label>
                         <select class="form-control" id="estado" name="estado">

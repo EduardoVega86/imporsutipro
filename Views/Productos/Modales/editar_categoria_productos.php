@@ -77,7 +77,7 @@
                             
                         </select>
                     </div> -->
-                    <input type="hidden" id="editar_padre" name="tipo" value="0">
+                    <input type="hidden" id="editar_padre" name="padre" value="0">
                     <div class="form-group">
                         <label for="editar_estado">Estado:</label>
                         <select class="form-control" id="editar_estado" name="estado">
