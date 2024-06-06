@@ -391,8 +391,5 @@
     }
 }
 
-// Asegúrate de que el evento onchange está configurado correctamente
-$('#provincia').change(cargarCiudades);
-
 </script>
 <?php require_once './Views/templates/footer.php'; ?>
