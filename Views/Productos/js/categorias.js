@@ -64,9 +64,9 @@ const listCategorias = async () => {
       }
 
       if(categoria.estado_linea == 0){
-        estado_linea= '<span style="background-color: #F20E0E; color: white; padding: 5px; border-radius: 0.3rem;">Desactivado</span>';
+        estado_linea= '<span style="background-color: #F20E0E; color: white; padding: 5px; border-radius: 0.3rem;">Inactivo</span>';
       }else{
-        estado_linea= '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SI</span>';
+        estado_linea= '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">Activo</span>';
       }
       content += `
                 <tr>
