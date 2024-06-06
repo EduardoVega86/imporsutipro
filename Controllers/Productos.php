@@ -92,11 +92,6 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
-    public function listarCategorias()
-    {
-        $response = $this->model->listarCategorias($_SESSION['id_plataforma']);
-        echo json_encode($response);
-    }
 
     public function listarCategoria()
     {
