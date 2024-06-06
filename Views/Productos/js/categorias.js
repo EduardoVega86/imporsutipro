@@ -118,15 +118,27 @@ function editar_categoria(id) {
       if (response && response.length > 0) {
         // Obtener el primer objeto de la respuesta
         const data = response[0];
-        console.log (data);
-        console.log(data.nombre_linea);
+        console.log(data); // Depuración: Mostrar los datos obtenidos
+
         // Llenar los inputs del modal con los datos recibidos
-        $('#nombre_linea').val(data.nombre_linea);
-        $('#descripcion_linea').val(data.descripcion_linea);
-        $('#online').val(data.online);
-        $('#tipo').val(data.tipo);
-        $('#padre').val(data.padre);
-        $('#estado').val(data.estado_linea);
+        if ($('#nombre_linea').length) {
+          $('#nombre_linea').val(data.nombre_linea);
+        }
+        if ($('#descripcion_linea').length) {
+          $('#descripcion_linea').val(data.descripcion_linea);
+        }
+        if ($('#online').length) {
+          $('#online').val(data.online);
+        }
+        if ($('#tipo').length) {
+          $('#tipo').val(data.tipo);
+        }
+        if ($('#padre').length) {
+          $('#padre').val(data.padre);
+        }
+        if ($('#estado').length) {
+          $('#estado').val(data.estado_linea);
+        }
 
         // Abrir el modal
         $('#editar_categoriaModal').modal('show');
@@ -140,6 +152,7 @@ function editar_categoria(id) {
     },
   });
 }
+
 
 window.addEventListener("load", async () => {
   await initDataTable();
