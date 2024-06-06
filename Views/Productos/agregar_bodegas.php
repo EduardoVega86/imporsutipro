@@ -361,7 +361,7 @@
         let provinciaId = $('#provincia').val();
         if (provinciaId) {
             $.ajax({
-                url: '' + SERVERURL + 'Ubicaciones/obtenerCiudades/' + provinciaId, // Reemplaza con la ruta correcta a tu controlador
+                url: SERVERURL + 'Ubicaciones/obtenerCiudades/' + provinciaId, // Reemplaza con la ruta correcta a tu controlador
                 method: 'GET',
                 success: function(response) {
                     let ciudades = JSON.parse(response);
@@ -370,7 +370,7 @@
                     ciudadSelect.append('<option value="">Ciudad *</option>'); // Añadir opción por defecto
 
                     ciudades.forEach(function(ciudad) {
-                        ciudadSelect.append(`<option value="${ciudad.id}">${ciudad.nombre}</option>`);
+                        ciudadSelect.append(`<option value="${ciudad.id_ciudad}">${ciudad.nombre_ciudad}</option>`);
                     });
 
                     ciudadSelect.prop('disabled', false); // Habilitar el select de ciudades
