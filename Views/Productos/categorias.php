@@ -38,7 +38,7 @@
         }
     }
 </style>
-
+<script src="<?php echo SERVERURL ?>/Views/Productos/js/categorias.js"></script>
 <?php require_once './Views/Productos/Modales/agregar_categoria_productos.php'; ?>
 <?php require_once './Views/Productos/Modales/editar_categoria_productos.php'; ?>
 
@@ -72,5 +72,4 @@
         </div>
     </div>
 </div>
-<script src="<?php echo SERVERURL ?>/Views/Productos/js/categorias.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
