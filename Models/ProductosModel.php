@@ -23,7 +23,7 @@ class ProductosModel extends Query
         return $this->select($sql);
     }
 
-     public function agregarBodega($nombre, $direccion, $telefono, $ciudad, $provincia, $contacto, $telefono_contacto, $numerocasa, $referencia, $plataforma, $longitu, $latitud)
+    public function agregarBodega($nombre, $direccion, $telefono, $ciudad, $provincia, $contacto, $telefono_contacto, $numerocasa, $referencia, $plataforma, $longitu, $latitud)
     {
         // codigo para agregar categoria
         $response = $this->initialResponse();
@@ -158,6 +158,24 @@ class ProductosModel extends Query
                 $response['title'] = 'Error';
                 $response['message'] = 'Error al subir la imagen';
             }
+        }
+        return $response;
+    }
+
+    public function agregarCaracteristica($variedad, $id_atributo, $plataforma)
+    {
+        $response = $this->initialResponse();
+        $sql = "INSERT INTO variedades (variedad, id_atributo, id_plataforma) VALUES (?, ?, ?)";
+        $data = [$variedad, $id_atributo, $plataforma];
+        $insertar_caracteristica = $this->insert($sql, $data);
+        if ($insertar_caracteristica == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Caracteristica agregada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al agregar la caracteristica';
         }
         return $response;
     }

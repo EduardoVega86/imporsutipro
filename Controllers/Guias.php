@@ -11,4 +11,14 @@ class Guias extends Controller
             header("Location: /dashboard");
         } */
     }
+    /// funciones
+
+    public function generarLaar()
+    {
+    }
+
+    private function obtenerDestinatario()
+    {
+        $response = $this->model->obtenerDestinatario($id_plataforma);
+    }
 }

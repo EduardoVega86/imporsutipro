@@ -47,7 +47,7 @@ class Productos extends Controller
 
     ///Funciones
 
-   public function agregarBodega()
+    public function agregarBodega()
     {
         $nombre = $_POST['nombre'];
         $direccion = $_POST['direccion_completa'];
@@ -132,6 +132,10 @@ class Productos extends Controller
 
     public function agregar_caracteristica()
     {
+        $variedad = $_POST['variedad'];
+        $id_atributo = $_POST['id_atributo'];
+        $response = $this->model->agregarCaracteristica($variedad, $id_atributo, $_SESSION['id_plataforma']);
+        echo json_encode($response);
     }
 
     public function guardar_imagen()
