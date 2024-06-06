@@ -28,7 +28,7 @@
 
     <div class="d-flex flex-row">
         <div class="d-flex flex-row mb-4">
-            <div class="col-md-6 form-section">
+            <div class="card-box">
                 <form>
                     <div class="d-flex flex-row g-3 align-items-center mb-3">
                         <div class="col-auto">
