@@ -29,8 +29,8 @@
         }
 
         .contenido {
-        flex-direction: column-reverse;
-    }
+            flex-direction: column-reverse;
+        }
     }
 </style>
 <div class="content cuerpo_mapa">
@@ -56,18 +56,16 @@
 
                             <div>
                                 <span class="help-block">Provincia </span>
-                                <select class="datos form-control " onchange="cargar_provincia_pedido()" id="provinica" name="provinica" required>
+                                <select class="datos form-control" onchange="cargarProvincias()" id="provincia" name="provincia" required>
                                     <option value="">Provincia *</option>
-
                                 </select>
                             </div>
                             <br>
                             <div>
                                 <span class="help-block">Ciudad </span>
-                                <div id="div_ciudad" onclick="verify()">
-                                    <select class="datos form-control" id="ciudad_entrega" name="ciudad_entrega" onchange="seleccionarProvincia()" required disabled>
+                                <div id="div_ciudad">
+                                    <select class="datos form-control" id="ciudad_entrega" name="ciudad_entrega" onchange="seleccionarCiudad()" required disabled>
                                         <option value="">Ciudad *</option>
-
                                     </select>
                                 </div>
                             </div>
@@ -216,7 +214,7 @@
                 });
             }
         </script>
-        
+
 
 
     </div>
@@ -331,5 +329,55 @@
     }
 
     // Asegúrate de reemplazar la clave de la API en la URL del script de Google Maps al final del archivo
+
+    // Función para cargar provincias
+function cargarProvincias() {
+    $.ajax({
+        url: 'ruta_al_controlador/obtenerProvincias', // Reemplaza con la ruta correcta a tu controlador
+        method: 'GET',
+        success: function(response) {
+            let provincias = JSON.parse(response);
+            let provinciaSelect = $('#provincia');
+            provinciaSelect.empty();
+            provinciaSelect.append('<option value="">Provincia *</option>'); // Añadir opción por defecto
+
+            provincias.forEach(function(provincia) {
+                provinciaSelect.append(`<option value="${provincia.id}">${provincia.nombre}</option>`);
+            });
+        },
+        error: function(error) {
+            console.log('Error al cargar provincias:', error);
+        }
+    });
+}
+
+// Función para cargar ciudades según la provincia seleccionada
+function cargarCiudades() {
+    let provinciaId = $('#provincia').val();
+
+    if (provinciaId) {
+        $.ajax({
+            url: 'ruta_al_controlador/obtenerCiudades/' + provinciaId, // Reemplaza con la ruta correcta a tu controlador
+            method: 'GET',
+            success: function(response) {
+                let ciudades = JSON.parse(response);
+                let ciudadSelect = $('#ciudad_entrega');
+                ciudadSelect.empty();
+                ciudadSelect.append('<option value="">Ciudad *</option>'); // Añadir opción por defecto
+
+                ciudades.forEach(function(ciudad) {
+                    ciudadSelect.append(`<option value="${ciudad.id}">${ciudad.nombre}</option>`);
+                });
+
+                ciudadSelect.prop('disabled', false); // Habilitar el select de ciudades
+            },
+            error: function(error) {
+                console.log('Error al cargar ciudades:', error);
+            }
+        });
+    } else {
+        $('#ciudad_entrega').empty().append('<option value="">Ciudad *</option>').prop('disabled', true);
+    }
+}
 </script>
 <?php require_once './Views/templates/footer.php'; ?>
