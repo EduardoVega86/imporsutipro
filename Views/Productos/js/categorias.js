@@ -49,16 +49,33 @@ const listCategorias = async () => {
     const categorias = await response.json();
 
     let content = ``;
+    let online='';
     categorias.forEach((categoria, index) => {
+      if(categoria.online == 0){
+        online= '<span style="background-color: #F20E0E; color: white; padding: 5px; border-radius: 0.3rem;">No</span>';
+      }else{
+        online= '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SI</span>';
+      }
+
+      if(categoria.tipo == 0){
+        tipo= '<span style="background-color: #F20E0E; color: white; padding: 5px; border-radius: 0.3rem;">SEGUNDARIO</span>';
+      }else{
+        tipo= '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">PRINCIPAL</span>';
+      }
+
+      if(categoria.estado_linea == 0){
+        estado_linea= '<span style="background-color: #F20E0E; color: white; padding: 5px; border-radius: 0.3rem;">Desactivado</span>';
+      }else{
+        estado_linea= '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SI</span>';
+      }
       content += `
                 <tr>
                     <td>${categoria.nombre_linea}</td>
                     <td>${categoria.imagen}</td>
-                    <td>${categoria.online}</td>
+                    <td>${online}</td>
                     <td>${categoria.descripcion_linea}</td>
-                    <td>${categoria.tipo}</td>
-                    <td>${categoria.padre}</td>
-                    <td>${categoria.estado_linea}</td>
+                    <td>${tipo}</td>
+                    <td>${estado_linea}</td>
                     <td>
                         <button class="btn btn-sm btn-primary" onclick="editar_categoria(${categoria.id_linea})"><i class="fa-solid fa-pencil"></i>Editar</button>
                         <button class="btn btn-sm btn-danger" onclick="eliminar_categoria(${categoria.id_linea})"><i class="fa-solid fa-trash-can"></i>Borrar</button>

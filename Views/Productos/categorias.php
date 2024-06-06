@@ -61,7 +61,7 @@
                         <th class="centered">Online</th>
                         <th class="centered">Descripción</th>
                         <th class="centered">Tipo</th>
-                        <th class="centered">Padre</th>
+                        <!-- <th class="centered">Padre</th> -->
                         <th class="centered">Estado</th>
                         <th class="centered">Acciones</th>
                     </tr>
