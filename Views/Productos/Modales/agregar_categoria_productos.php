@@ -56,15 +56,15 @@
                     <div class="form-group">
                         <label for="online">Online:</label>
                         <select class="form-control" id="online" name="online">
-                            <option>SI</option>
-                            <option>NO</option>
+                            <option value="1">SI</option>
+                            <option value="0">NO</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="tipo">Tipo:</label>
                         <select class="form-control" id="tipo" name="tipo">
-                            <option>PRINCIPAL</option>
-                            <option>SECUNDARIO</option>
+                            <option value="1">PRINCIPAL</option>
+                            <option value="0">SECUNDARIO</option>
                         </select>
                     </div>
                     <div class="form-group">
