@@ -115,14 +115,17 @@ function editar_categoria(id) {
     success: function (response) {
       console.log(response); // Depuración: Mostrar la respuesta en la consola
 
-      if (response) {
+      if (response && response.length > 0) {
+        // Obtener el primer objeto de la respuesta
+        const data = response[0];
+
         // Llenar los inputs del modal con los datos recibidos
-        $('#nombre_linea').val(response.nombre_linea);
-        $('#descripcion_linea').val(response.descripcion_linea);
-        $('#online').val(response.online);
-        $('#tipo').val(response.tipo);
-        $('#padre').val(response.padre);
-        $('#estado').val(response.estado_linea);
+        $('#nombre_linea').val(data.nombre_linea);
+        $('#descripcion_linea').val(data.descripcion_linea);
+        $('#online').val(data.online);
+        $('#tipo').val(data.tipo);
+        $('#padre').val(data.padre);
+        $('#estado').val(data.estado_linea);
 
         // Abrir el modal
         $('#editar_categoriaModal').modal('show');
@@ -136,6 +139,7 @@ function editar_categoria(id) {
     },
   });
 }
+
 
 
 window.addEventListener("load", async () => {
