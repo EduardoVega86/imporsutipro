@@ -108,38 +108,50 @@ function eliminar_categoria(id) {
 
 function editar_categoria(id) {
   $.ajax({
-    type: "POST",
-    url: SERVERURL + "productos/listarCategoria",
-    data: { id: id },
-    dataType: 'json',
-    success: function (response) {
-      console.log(response); // Depuración: Mostrar la respuesta en la consola
+      type: "POST",
+      url: SERVERURL + "productos/listarCategoria",
+      data: { id: id },
+      dataType: 'json',
+      success: function (response) {
+          console.log(response); // Depuración: Mostrar la respuesta en la consola
 
-      if (response && response.length > 0) {
-        // Obtener el primer objeto de la respuesta
-        const data = response[0];
-        console.log (data);
-        console.log(data.nombre_linea);
-        // Llenar los inputs del modal con los datos recibidos
-        $('#nombre_linea').val(data.nombre_linea);
-        $('#descripcion_linea').val(data.descripcion_linea);
-        $('#online').val(data.online);
-        $('#tipo').val(data.tipo);
-        $('#padre').val(data.padre);
-        $('#estado').val(data.estado_linea);
+          if (response && response.length > 0) {
+              // Obtener el primer objeto de la respuesta
+              const data = response[0];
 
-        // Abrir el modal
-        $('#editar_categoriaModal').modal('show');
-      } else {
-        console.error("La respuesta está vacía o tiene un formato incorrecto.");
-      }
-    },
-    error: function (xhr, status, error) {
-      console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al obtener la información de la categoría");
-    },
+              // Verificar que los elementos existen antes de asignarles valores
+              if ($('#nombre_linea').length > 0 && 
+                  $('#descripcion_linea').length > 0 && 
+                  $('#online').length > 0 && 
+                  $('#tipo').length > 0 && 
+                  $('#padre').length > 0 && 
+                  $('#estado').length > 0) {
+                  
+                  console.log('Elementos encontrados, actualizando valores...');
+                  // Llenar los inputs del modal con los datos recibidos
+                  $('#nombre_linea').val(data.nombre_linea);
+                  $('#descripcion_linea').val(data.descripcion_linea);
+                  $('#online').val(data.online);
+                  $('#tipo').val(data.tipo);
+                  $('#padre').val(data.padre);
+                  $('#estado').val(data.estado_linea);
+
+                  // Abrir el modal
+                  $('#editar_categoriaModal').modal('show');
+              } else {
+                  console.error("Uno o más elementos no se encontraron en el DOM.");
+              }
+          } else {
+              console.error("La respuesta está vacía o tiene un formato incorrecto.");
+          }
+      },
+      error: function (xhr, status, error) {
+          console.error("Error en la solicitud AJAX:", error);
+          alert("Hubo un problema al obtener la información de la categoría");
+      },
   });
 }
+
 
 window.addEventListener("load", async () => {
   await initDataTable();
