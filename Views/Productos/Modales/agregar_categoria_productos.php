@@ -102,17 +102,17 @@
                 dataType: 'json',
                 success: function(response) {
                     // Mostrar alerta de éxito
-                    if (data.status == 401) {
+                    if (response.status == 401) {
                         Swal.fire({
                             icon: 'error',
-                            title: data.title,
-                            text: data.message
+                            title: response.title,
+                            text: response.message
                         });
                     } else {
                         Swal.fire({
                             icon: 'success',
-                            title: data.title,
-                            text: data.message,
+                            title: response.title,
+                            text: response.message,
                             showConfirmButton: false,
                             timer: 2000
                         }).then(() => {
