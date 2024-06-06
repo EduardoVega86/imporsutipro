@@ -116,7 +116,10 @@
                             showConfirmButton: false,
                             timer: 2000
                         }).then(() => {
-                            window.location.href = '<?php echo SERVERURL ?>dashboard';
+                            // Cerrar el modal
+                            $('#agregar_categoriaModal').modal('hide');
+                            // Recargar la DataTable
+                            initDataTable();
                         });
                     }
                 },
