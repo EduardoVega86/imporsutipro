@@ -170,7 +170,7 @@ class Query extends Conexion
 
     public function obtenerMatriz()
     {
-        $host = $_SERVER['HTTP_HOST'];
+        $host = SERVERURL;
         $sql = "SELECT idmatriz FROM matriz WHERE url_matriz like '%$host%'";
         return $this->select($sql);
     }

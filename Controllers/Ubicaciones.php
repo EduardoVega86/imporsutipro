@@ -26,7 +26,6 @@ class Ubicaciones extends Controller
     public function obtenerMatriz()
     {
         $data = $this->model->obtenerMatriz();
-        echo $_SERVER['HTTP_HOST'];
         echo json_encode($data);
     }
 }
