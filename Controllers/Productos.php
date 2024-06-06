@@ -94,7 +94,9 @@ class Productos extends Controller
 
     public function eliminarCategoria()
     {
-        $id = $_POST['id'];
+        $data = file_get_contents("php://input");
+        $id = json_decode($data, true)['id'];
+
         $response = $this->model->eliminarCategoria($id, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
