@@ -116,17 +116,45 @@ function editar_categoria(id) {
       console.log(response); // Depuración: Mostrar la respuesta en la consola
 
       if (response && response.length > 0) {
-        // Obtener el primer objeto de la respuesta
         const data = response[0];
-        console.log (data);
-        console.log(data.nombre_linea);
-        // Llenar los inputs del modal con los datos recibidos
-        $('#nombre_linea').val(data.nombre_linea);
-        $('#descripcion_linea').val(data.descripcion_linea);
-        $('#online').val(data.online);
-        $('#tipo').val(data.tipo);
-        $('#padre').val(data.padre);
-        $('#estado').val(data.estado_linea);
+        console.log(data); // Depuración: Mostrar los datos obtenidos
+
+        // Verificar y asignar valores a los inputs
+        const nombreLineaInput = $('#nombre_linea');
+        if (nombreLineaInput.length) {
+          nombreLineaInput.val(data.nombre_linea);
+          console.log('Nombre línea asignado:', nombreLineaInput.val()); // Depuración
+        }
+
+        const descripcionLineaInput = $('#descripcion_linea');
+        if (descripcionLineaInput.length) {
+          descripcionLineaInput.val(data.descripcion_linea);
+          console.log('Descripción línea asignada:', descripcionLineaInput.val()); // Depuración
+        }
+
+        const onlineSelect = $('#online');
+        if (onlineSelect.length) {
+          onlineSelect.val(data.online);
+          console.log('Online asignado:', onlineSelect.val()); // Depuración
+        }
+
+        const tipoSelect = $('#tipo');
+        if (tipoSelect.length) {
+          tipoSelect.val(data.tipo);
+          console.log('Tipo asignado:', tipoSelect.val()); // Depuración
+        }
+
+        const padreSelect = $('#padre');
+        if (padreSelect.length) {
+          padreSelect.val(data.padre);
+          console.log('Padre asignado:', padreSelect.val()); // Depuración
+        }
+
+        const estadoSelect = $('#estado');
+        if (estadoSelect.length) {
+          estadoSelect.val(data.estado_linea);
+          console.log('Estado asignado:', estadoSelect.val()); // Depuración
+        }
 
         // Abrir el modal
         $('#editar_categoriaModal').modal('show');
@@ -140,6 +168,7 @@ function editar_categoria(id) {
     },
   });
 }
+
 
 window.addEventListener("load", async () => {
   await initDataTable();
