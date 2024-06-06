@@ -70,8 +70,8 @@
             </div>
         </div>
 
-        <div class="d-flex flex-column right-column">
-            <div class="form-section">
+        <div class="d-flex flex-column right-column form-section">
+            <div class="">
                 <h5>Datos Destinatario</h5>
                 <form>
                     <div class="d-flex flex-column">
@@ -127,7 +127,7 @@
                 </form>
             </div>
 
-            <div class="form-section">
+            <div class="">
                 <h5>Generar Guías</h5>
                 <div class="d-flex justify-content-around mb-4">
                     <!-- Agregar imágenes o iconos según sea necesario -->
