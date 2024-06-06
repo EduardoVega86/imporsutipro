@@ -44,7 +44,7 @@ const initDataTable = async () => {
 const listBodegas = async () => {
   try {
     const response = await fetch(
-      "https://new.imporsuitpro.com/productos/listar_bodegas"
+      ""+SERVERURL+"productos/listar_bodegas"
     );
     const bodegas = await response.json();
 

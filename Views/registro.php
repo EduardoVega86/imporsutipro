@@ -303,7 +303,7 @@
                         title: data.title,
                         text: data.message
                     }).then(() => {
-                        window.location.href = 'https://new.imporsuitpro.com/dashboard';
+                        window.location.href = ''+SERVERURL+'dashboard';
                     });
                 }
             })

@@ -97,7 +97,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: 'ruta/a/tu/controlador/agregarCategoria', // Cambia esta URL a la ruta correcta de tu controlador
+                url: ''+SERVERURL+'productos/agregarCategoria',
                 data: formData,
                 dataType: 'json',
                 success: function(response) {
