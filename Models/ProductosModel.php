@@ -102,4 +102,10 @@ class ProductosModel extends Query
         $sql = "SELECT * FROM bodega WHERE id_plataforma in ('$plataforma',0) ";
         return $this->select($sql);
     }
+
+    public function listarCategoria($id, $plataforma)
+    {
+        $sql = "SELECT * FROM lineas WHERE id_linea = $id AND id_plataforma = $plataforma";
+        return $this->select($sql);
+    }
 }
