@@ -115,7 +115,7 @@ class ProductosModel extends Query
         return $this->select($sql);
     }
 
-    public function guardar_imagen_categorias()
+    public function guardar_imagen_categorias($imagen, $id_categoria, $plataforma)
     {
         $response = $this->initialResponse();
         $target_dir = "public/img/categorias";
@@ -153,6 +153,19 @@ class ProductosModel extends Query
                 $response['title'] = 'Peticion exitosa';
                 $response['message'] = 'Imagen subida correctamente';
                 $response['data'] = $target_file;
+
+                $sql = "UPDATE lineas SET imagen = ? WHERE id_linea = ? AND id_plataforma = ?";
+                $data = [$target_file, $id_categoria, $plataforma];
+                $editar_imagen = $this->update($sql, $data);
+                if ($editar_imagen == 1) {
+                    $response['status'] = 200;
+                    $response['title'] = 'Peticion exitosa';
+                    $response['message'] = 'Imagen subida correctamente';
+                } else {
+                    $response['status'] = 500;
+                    $response['title'] = 'Error';
+                    $response['message'] = 'Error al subir la imagen';
+                }
             } else {
                 $response['status'] = 500;
                 $response['title'] = 'Error';

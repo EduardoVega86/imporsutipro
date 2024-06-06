@@ -138,9 +138,9 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
-    public function guardar_imagen()
+    public function guardar_imagen_categorias()
     {
-        $response = $this->model->guardarImagen($_FILES['imagen'], $_POST['id_linea'], $_SESSION['id_plataforma']);
+        $response = $this->model->guardar_imagen_categorias($_FILES['imagen'], $_POST['id_linea'], $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
 }
