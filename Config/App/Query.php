@@ -74,7 +74,20 @@ class Query extends Conexion
         }
     }
 
-    public function delete($sql)
+    public function delete($sql, $data)
+    {
+        try {
+            $this->sql = $sql;
+            $query = $this->connection->prepare($this->sql);
+            $query->execute($data);
+            $result = $query->rowCount();
+            return $result;
+        } catch (PDOException $e) {
+            return $this->handleError($e->getMessage(), $e->getCode());
+        }
+    }
+
+    public function simple_delete($sql)
     {
         try {
             $this->sql = $sql;
@@ -86,7 +99,6 @@ class Query extends Conexion
             return $this->handleError($e->getMessage(), $e->getCode());
         }
     }
-
     public function close()
     {
         $this->pdo->close();
