@@ -61,7 +61,7 @@ const listCategorias = async () => {
                     <td>${categoria.estado_linea}</td>
                     <td>
                         <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editar_categoriaModal"><i class="fa-solid fa-pencil"></i>Editar</button>
-                        <button class="btn btn-sm btn-danger" onclick="eliminar_categoria(${categoria.id_categoria})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
+                        <button class="btn btn-sm btn-danger" onclick="eliminar_categoria(${categoria.id_linea})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
                     </td>
                 </tr>`;
     });
