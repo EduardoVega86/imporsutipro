@@ -36,6 +36,7 @@
 }
 </style>
 
+<!-- Modal -->
 <div class="modal fade" id="editar_categoriaModal" tabindex="-1" aria-labelledby="editar_categoriaModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -44,7 +45,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-            <form id="editar_categoriaForm">
+                <form id="editar_categoriaForm">
                     <div class="form-group">
                         <label for="nombre_linea">Nombre:</label>
                         <input type="text" class="form-control" id="nombre_linea" name="nombre_linea" placeholder="Nombre">
@@ -90,6 +91,7 @@
         </div>
     </div>
 </div>
+
 
 <script>
     $(document).ready(function() {

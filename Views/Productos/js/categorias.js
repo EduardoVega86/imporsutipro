@@ -110,19 +110,25 @@ function editar_categoria(id) {
   $.ajax({
     type: "POST",
     url: SERVERURL + "productos/listarCategoria",
-    data: { id: id }, // Enviar el ID como un objeto
-    dataType: 'json', // Asegurarse de que la respuesta se trata como JSON
+    data: { id: id },
+    dataType: 'json',
     success: function (response) {
-      // Llenar los inputs del modal con los datos recibidos
-      $('#nombre_linea').val(response.nombre_linea);
-      $('#descripcion_linea').val(response.descripcion_linea);
-      $('#online').val(response.online);
-      $('#tipo').val(response.tipo);
-      $('#padre').val(response.padre);
-      $('#estado').val(response.estado_linea);
+      console.log(response); // Depuración: Mostrar la respuesta en la consola
 
-      // Abrir el modal
-      $('#editar_categoriaModal').modal('show');
+      if (response) {
+        // Llenar los inputs del modal con los datos recibidos
+        $('#nombre_linea').val(response.nombre_linea);
+        $('#descripcion_linea').val(response.descripcion_linea);
+        $('#online').val(response.online);
+        $('#tipo').val(response.tipo);
+        $('#padre').val(response.padre);
+        $('#estado').val(response.estado_linea);
+
+        // Abrir el modal
+        $('#editar_categoriaModal').modal('show');
+      } else {
+        console.error("La respuesta está vacía o tiene un formato incorrecto.");
+      }
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
@@ -130,6 +136,7 @@ function editar_categoria(id) {
     },
   });
 }
+
 
 window.addEventListener("load", async () => {
   await initDataTable();
