@@ -77,8 +77,8 @@
                     <div class="form-group">
                         <label for="estado">Estado:</label>
                         <select class="form-control" id="estado" name="estado">
-                            <option>Activo</option>
-                            <option>Inactivo</option>
+                            <option value="1">Activo</option>
+                            <option value="0">Inactivo</option>
                         </select>
                     </div>
                 </form>
