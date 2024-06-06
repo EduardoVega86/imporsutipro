@@ -70,7 +70,7 @@
                     <div class="form-group">
                         <label for="padre">Categoria Principal:</label>
                         <select class="form-control" id="padre" name="padre">
-                            <option>-- Selecciona --</option>
+                            <option value="0">-- Selecciona --</option>
                             <!-- Agregar opciones según sea necesario -->
                         </select>
                     </div>
