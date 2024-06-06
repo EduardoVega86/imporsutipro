@@ -47,37 +47,36 @@
             <div class="modal-body">
                 <form id="editar_categoriaForm">
                     <div class="form-group">
-                        <label for="nombre_linea">Nombre:</label>
-                        <input type="text" class="form-control" id="nombre_linea" name="nombre_linea" placeholder="Nombre">
+                        <label for="editar_nombre_linea">Nombre:</label>
+                        <input type="text" class="form-control" id="editar_nombre_linea" name="nombre_linea" placeholder="Nombre">
                     </div>
                     <div class="form-group">
-                        <label for="descripcion_linea">Descripción:</label>
-                        <textarea class="form-control" id="descripcion_linea" name="descripcion_linea" rows="3" placeholder="Descripción"></textarea>
+                        <label for="editar_descripcion_linea">Descripción:</label>
+                        <textarea class="form-control" id="editar_descripcion_linea" name="descripcion_linea" rows="3" placeholder="Descripción"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="online">Online:</label>
-                        <select class="form-control" id="online" name="online">
+                        <label for="editar_online">Online:</label>
+                        <select class="form-control" id="editar_online" name="online">
                             <option value="1">SI</option>
                             <option value="0">NO</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="tipo">Tipo:</label>
-                        <select class="form-control" id="tipo" name="tipo">
+                        <label for="editar_tipo">Tipo:</label>
+                        <select class="form-control" id="editar_tipo" name="tipo">
                             <option value="1">PRINCIPAL</option>
                             <option value="0">SECUNDARIO</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="padre">Categoria Principal:</label>
-                        <select class="form-control" id="padre" name="padre">
+                        <label for="editar_padre">Categoria Principal:</label>
+                        <select class="form-control" id="editar_padre" name="padre">
                             <option value="0">-- Selecciona --</option>
-                            <!-- Agregar opciones según sea necesario -->
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="estado">Estado:</label>
-                        <select class="form-control" id="estado" name="estado">
+                        <label for="editar_estado">Estado:</label>
+                        <select class="form-control" id="editar_estado" name="estado">
                             <option value="1">Activo</option>
                             <option value="0">Inactivo</option>
                         </select>
@@ -86,11 +85,12 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Guardar</button>
+                <button type="button" class="btn btn-primary" id="actualizarCategoria">Guardar</button>
             </div>
         </div>
     </div>
 </div>
+
 
 
 <script>

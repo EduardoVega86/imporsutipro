@@ -120,21 +120,21 @@ function editar_categoria(id) {
               const data = response[0];
 
               // Verificar que los elementos existen antes de asignarles valores
-              if ($('#nombre_linea').length > 0 && 
-                  $('#descripcion_linea').length > 0 && 
-                  $('#online').length > 0 && 
-                  $('#tipo').length > 0 && 
-                  $('#padre').length > 0 && 
-                  $('#estado').length > 0) {
+              if ($('#editar_nombre_linea').length > 0 && 
+                  $('#editar_descripcion_linea').length > 0 && 
+                  $('#editar_online').length > 0 && 
+                  $('#editar_tipo').length > 0 && 
+                  $('#editar_padre').length > 0 && 
+                  $('#editar_estado').length > 0) {
                   
                   console.log('Elementos encontrados, actualizando valores...');
                   // Llenar los inputs del modal con los datos recibidos
-                  $('#nombre_linea').val(data.nombre_linea);
-                  $('#descripcion_linea').val(data.descripcion_linea);
-                  $('#online').val(data.online);
-                  $('#tipo').val(data.tipo);
-                  $('#padre').val(data.padre);
-                  $('#estado').val(data.estado_linea);
+                  $('#editar_nombre_linea').val(data.nombre_linea);
+                  $('#editar_descripcion_linea').val(data.descripcion_linea);
+                  $('#editar_online').val(data.online);
+                  $('#editar_tipo').val(data.tipo);
+                  $('#editar_padre').val(data.padre);
+                  $('#editar_estado').val(data.estado_linea);
 
                   // Abrir el modal
                   $('#editar_categoriaModal').modal('show');
@@ -151,6 +151,7 @@ function editar_categoria(id) {
       },
   });
 }
+
 
 
 window.addEventListener("load", async () => {
