@@ -77,6 +77,28 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
+    public function editarCategoria()
+    {
+        $id = $_POST['id'];
+        $nombre_linea = $_POST['nombre_linea'];
+        $descripcion_linea = $_POST['descripcion_linea'];
+        $estado_linea = 1;
+        $date_added = date("Y-m-d H:i:s");
+        $online = $_POST['online'];
+        $imagen = $_POST['imagen'] ?? '';
+        $tipo = $_POST['tipo'] ?? '';
+        $padre = $_POST['padre'] ?? 0;
+        $response = $this->model->editarCategoria($id, $nombre_linea, $descripcion_linea, $estado_linea, $date_added, $online, $imagen, $tipo, $padre, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
+    public function eliminarCategoria()
+    {
+        $id = $_POST['id'];
+        $response = $this->model->eliminarCategoria($id, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
     public function agregar_producto()
     {
     }

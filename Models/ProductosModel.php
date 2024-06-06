@@ -56,6 +56,47 @@ class ProductosModel extends Query
         }
         return $response;
     }
+
+    public function editarCategoria($id, $nombre_linea, $descripcion_linea, $estado_linea, $date_added, $online, $imagen, $tipo, $padre, $plataforma)
+    {
+        // codigo para editar categoria
+        $response = $this->initialResponse();
+
+        $sql = "UPDATE lineas SET nombre_linea = ?, descripcion_linea = ?, estado_linea = ?, date_added = ?, online = ?, imagen = ?, tipo = ?, padre = ? WHERE id_linea = ? AND id_plataforma = ?";
+        $data = [$nombre_linea, $descripcion_linea, $estado_linea, $date_added, $online, $imagen, $tipo, $padre, $id, $plataforma];
+        $editar_categoria = $this->update($sql, $data);
+        if ($editar_categoria == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Categoria editada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al editar la categoria';
+        }
+        return $response;
+    }
+
+    public function eliminarCategoria($id, $plataforma)
+    {
+        // codigo para eliminar categoria
+        $response = $this->initialResponse();
+
+        $sql = "DELETE FROM lineas WHERE id_linea = ? AND id_plataforma = ?";
+        $data = [$id, $plataforma];
+        $eliminar_categoria = $this->delete($sql, $data);
+        if ($eliminar_categoria == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Categoria eliminada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al eliminar la categoria';
+        }
+        return $response;
+    }
+
     public function listarBodegas($plataforma)
     {
         $sql = "SELECT * FROM bodega WHERE id_plataforma in ('$plataforma',0) ";
