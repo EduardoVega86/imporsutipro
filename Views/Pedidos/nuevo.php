@@ -22,7 +22,6 @@
         width: 50%;
         padding: 20px;
         padding-top: 60px;
-        position: -webkit-sticky;
         /* Para compatibilidad con Safari */
         position: sticky;
         top: 0;
