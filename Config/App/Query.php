@@ -166,4 +166,12 @@ class Query extends Conexion
 
         return $ip;
     }
+
+
+    public function obtenerMatriz()
+    {
+        $host = $_SERVER['HTTP_HOST'];
+        $sql = "SELECT * FROM matriz WHERE url_matriz like '%$host%'";
+        return $this->select($sql)[0];
+    }
 }
