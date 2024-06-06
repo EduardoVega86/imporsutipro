@@ -34,43 +34,77 @@ const initDataTable = async () => {
     dataTable.destroy();
   }
 
-  await listBodegas();
+  await listCategorias();
 
-  dataTable = $("#datatable_bodegas").DataTable(dataTableOptions);
+  dataTable = $("#datatable_categorias").DataTable(dataTableOptions);
 
   dataTableIsInitialized = true;
 };
 
-const listBodegas = async () => {
+const listCategorias = async () => {
   try {
     const response = await fetch(
       ""+SERVERURL+"productos/cargar_categorias"
     );
-    const bodegas = await response.json();
+    const categorias = await response.json();
 
     let content = ``;
-    bodegas.forEach((bodega, index) => {
+    categorias.forEach((categoria, index) => {
       content += `
                 <tr>
-                    <td>${bodega.nombre_linea}</td>
-                    <td>${bodega.imagen}</td>
-                    <td>${bodega.online}</td>
-                    <td>${bodega.descripcion_linea}</td>
-                    <td>${bodega.tipo}</td>
-                    <td>${bodega.padre}</td>
-                    <td>${bodega.estado_linea}</td>
+                    <td>${categoria.nombre_linea}</td>
+                    <td>${categoria.imagen}</td>
+                    <td>${categoria.online}</td>
+                    <td>${categoria.descripcion_linea}</td>
+                    <td>${categoria.tipo}</td>
+                    <td>${categoria.padre}</td>
+                    <td>${categoria.estado_linea}</td>
                     <td>
                         <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editar_categoriaModal"><i class="fa-solid fa-pencil"></i>Editar</button>
-                        <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash-can"></i>Borrar</button>
+                        <button class="btn btn-sm btn-danger" onclick="eliminar_categoria(${categoria.id})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
                     </td>
                 </tr>`;
     });
-    document.getElementById("tableBody_bodegas").innerHTML = content;
+    document.getElementById("tableBody_categorias").innerHTML = content;
   } catch (ex) {
     alert(ex);
   }
 };
 
+function eliminar_categoria(id){
+
+            $.ajax({
+                type: 'POST',
+                url: '' + SERVERURL + 'productos/eliminarCategoria',
+                data: id,
+                dataType: 'json',
+                success: function(response) {
+                    // Mostrar alerta de éxito
+                    if (response.status == 500) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: response.title,
+                            text: response.message
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'success',
+                            title: response.title,
+                            text: response.message,
+                            showConfirmButton: false,
+                            timer: 2000
+                        }).then(() => {
+                            // Recargar la DataTable
+                            initDataTable();
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error en la solicitud AJAX:', error);
+                    alert('Hubo un problema al agregar la categoría');
+                }
+            });
+}
 window.addEventListener("load", async () => {
   await initDataTable();
 });

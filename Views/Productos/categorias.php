@@ -51,7 +51,7 @@
         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_categoriaModal"><i class="fas fa-plus"></i> Agregar</button>
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
-            <table id="datatable_bodegas" class="table table-striped">
+            <table id="datatable_categorias" class="table table-striped">
                 <!-- <caption>
                     DataTable.js Demo
                 </caption> -->
@@ -67,7 +67,7 @@
                         <th class="centered">Acciones</th>
                     </tr>
                 </thead>
-                <tbody id="tableBody_bodegas"></tbody>
+                <tbody id="tableBody_categorias"></tbody>
             </table>
         </div>
     </div>

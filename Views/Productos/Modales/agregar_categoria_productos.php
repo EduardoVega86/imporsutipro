@@ -102,7 +102,7 @@
                 dataType: 'json',
                 success: function(response) {
                     // Mostrar alerta de éxito
-                    if (response.status == 401) {
+                    if (response.status == 500) {
                         Swal.fire({
                             icon: 'error',
                             title: response.title,
