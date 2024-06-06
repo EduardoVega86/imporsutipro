@@ -44,7 +44,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-            <form id="categoriaForm">
+                <form id="categoriaForm">
                     <div class="form-group">
                         <label for="nombre_linea">Nombre:</label>
                         <input type="text" class="form-control" id="nombre_linea" name="nombre_linea" placeholder="Nombre">
