@@ -1,16 +1,39 @@
 <style>
-    .form-group {
-        margin-bottom: 15px;
-    }
+    .modal-content {
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
 
-    /* .modal-header {
-        background-color: #343a40;
-        color: white;
-    } */
+.modal-header {
+    background-color: #171931;
+    color: white;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
 
-    .hidden-tab {
-        display: none !important;
-    }
+.modal-header .btn-close {
+    color: white;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.modal-footer {
+    border-top: none;
+    padding: 10px 20px;
+}
+
+.modal-footer .btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.modal-footer .btn-primary {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: white;
+}
 </style>
 
 <div class="modal fade" id="editar_categoriaModal" tabindex="-1" aria-labelledby="editar_categoriaModalLabel" aria-hidden="true">
