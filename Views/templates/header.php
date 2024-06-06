@@ -15,9 +15,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
 
-    <script>
-        const SERVERURL = <?php echo SERVERURL ?>;
-    </script>
     <style>
         body {
             display: flex;
