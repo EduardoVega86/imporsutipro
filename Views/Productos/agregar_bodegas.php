@@ -358,38 +358,30 @@
 
     // Función para cargar ciudades según la provincia seleccionada
     function cargarCiudades() {
-    let provinciaId = $('#provincia').val();
-    console.log('Provincia seleccionada:', provinciaId); // Verificar la provincia seleccionada
+        let provinciaId = $('#provincia').val();
+        if (provinciaId) {
+            $.ajax({
+                url: '' + SERVERURL + 'Ubicaciones/obtenerCiudades/' + provinciaId, // Reemplaza con la ruta correcta a tu controlador
+                method: 'GET',
+                success: function(response) {
+                    let ciudades = JSON.parse(response);
+                    let ciudadSelect = $('#ciudad_entrega');
+                    ciudadSelect.empty();
+                    ciudadSelect.append('<option value="">Ciudad *</option>'); // Añadir opción por defecto
 
-    if (provinciaId) {
-        let url = SERVERURL + 'Ubicaciones/obtenerCiudades/' + provinciaId;
-        console.log('URL de la solicitud AJAX:', url); // Verificar la URL de la solicitud AJAX
+                    ciudades.forEach(function(ciudad) {
+                        ciudadSelect.append(`<option value="${ciudad.id}">${ciudad.nombre}</option>`);
+                    });
 
-        $.ajax({
-            url: url, 
-            method: 'GET',
-            success: function(response) {
-                console.log('Respuesta del servidor:', response); // Verificar la respuesta del servidor
-
-                let ciudades = JSON.parse(response);
-                let ciudadSelect = $('#ciudad_entrega');
-                ciudadSelect.empty();
-                ciudadSelect.append('<option value="">Ciudad *</option>'); // Añadir opción por defecto
-
-                ciudades.forEach(function(ciudad) {
-                    ciudadSelect.append(`<option value="${ciudad.id}">${ciudad.nombre}</option>`);
-                });
-
-                ciudadSelect.prop('disabled', false); // Habilitar el select de ciudades
-            },
-            error: function(error) {
-                console.log('Error al cargar ciudades:', error);
-            }
-        });
-    } else {
-        $('#ciudad_entrega').empty().append('<option value="">Ciudad *</option>').prop('disabled', true);
+                    ciudadSelect.prop('disabled', false); // Habilitar el select de ciudades
+                },
+                error: function(error) {
+                    console.log('Error al cargar ciudades:', error);
+                }
+            });
+        } else {
+            $('#ciudad_entrega').empty().append('<option value="">Ciudad *</option>').prop('disabled', true);
+        }
     }
-}
-
 </script>
 <?php require_once './Views/templates/footer.php'; ?>
