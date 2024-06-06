@@ -172,6 +172,6 @@ class Query extends Conexion
     {
         $host = $_SERVER['HTTP_HOST'];
         $sql = "SELECT idmatriz FROM matriz WHERE url_matriz like '%$host%'";
-        return $this->select($sql)[0];
+        return $this->select($sql);
     }
 }
