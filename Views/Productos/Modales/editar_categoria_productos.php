@@ -44,41 +44,41 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
+            <form id="editar_categoriaForm">
                     <div class="form-group">
-                        <label for="nombre">Nombre:</label>
-                        <input type="text" class="form-control" id="nombre" placeholder="Nombre">
+                        <label for="nombre_linea">Nombre:</label>
+                        <input type="text" class="form-control" id="nombre_linea" name="nombre_linea" placeholder="Nombre">
                     </div>
                     <div class="form-group">
-                        <label for="descripcion">Descripción:</label>
-                        <textarea class="form-control" id="descripcion" rows="3" placeholder="Descripción"></textarea>
+                        <label for="descripcion_linea">Descripción:</label>
+                        <textarea class="form-control" id="descripcion_linea" name="descripcion_linea" rows="3" placeholder="Descripción"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="online">Online:</label>
-                        <select class="form-control" id="online">
-                            <option>SI</option>
-                            <option>NO</option>
+                        <select class="form-control" id="online" name="online">
+                            <option value="1">SI</option>
+                            <option value="0">NO</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="tipo">Tipo:</label>
-                        <select class="form-control" id="tipo">
-                            <option>PRINCIPAL</option>
-                            <option>SECUNDARIO</option>
+                        <select class="form-control" id="tipo" name="tipo">
+                            <option value="1">PRINCIPAL</option>
+                            <option value="0">SECUNDARIO</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="categoriaPrincipal">Categoria Principal:</label>
-                        <select class="form-control" id="categoriaPrincipal">
-                            <option>-- Selecciona --</option>
-                            <!-- Agregar opciones según sea necesario -->
+                        <label for="padre">Categoria Principal:</label>
+                        <select class="form-control" id="padre" name="padre">
+                            <option value="0">-- Selecciona --</option>
+                            <!-- editar opciones según sea necesario -->
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="estado">Estado:</label>
-                        <select class="form-control" id="estado">
-                            <option>Activo</option>
-                            <option>Inactivo</option>
+                        <select class="form-control" id="estado" name="estado">
+                            <option value="1">Activo</option>
+                            <option value="0">Inactivo</option>
                         </select>
                     </div>
                 </form>
@@ -90,3 +90,45 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+        $('#guardarCategoria').click(function() {
+            var formData = $('#categoriaForm').serialize();
+
+            $.ajax({
+                type: 'POST',
+                url: '' + SERVERURL + 'productos/editarCategoria',
+                data: formData,
+                dataType: 'json',
+                success: function(response) {
+                    // Mostrar alerta de éxito
+                    if (response.status == 500) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: response.title,
+                            text: response.message
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'success',
+                            title: response.title,
+                            text: response.message,
+                            showConfirmButton: false,
+                            timer: 2000
+                        }).then(() => {
+                            // Cerrar el modal
+                            $('#editar_categoriaModal').modal('hide');
+                            // Recargar la DataTable
+                            initDataTable();
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error en la solicitud AJAX:', error);
+                    alert('Hubo un problema al editar la categoría');
+                }
+            });
+        });
+    });
+</script>

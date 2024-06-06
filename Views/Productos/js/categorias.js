@@ -105,6 +105,32 @@ function eliminar_categoria(id) {
     },
   });
 }
+
+function editar_categoria(id) {
+  $.ajax({
+    type: "POST",
+    url: SERVERURL + "productos/listarCategoria",
+    data: { id: id }, // Enviar el ID como un objeto
+    dataType: 'json', // Asegurarse de que la respuesta se trata como JSON
+    success: function (response) {
+      // Llenar los inputs del modal con los datos recibidos
+      $('#nombre_linea').val(response.nombre_linea);
+      $('#descripcion_linea').val(response.descripcion_linea);
+      $('#online').val(response.online);
+      $('#tipo').val(response.tipo);
+      $('#padre').val(response.padre);
+      $('#estado').val(response.estado_linea);
+
+      // Abrir el modal
+      $('#editar_categoriaModal').modal('show');
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al obtener la información de la categoría");
+    },
+  });
+}
+
 window.addEventListener("load", async () => {
   await initDataTable();
 });
