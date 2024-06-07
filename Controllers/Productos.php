@@ -73,6 +73,24 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
+    public function editarBodega()
+    {
+        $id = $_POST['id'];
+        $nombre = $_POST['nombre'];
+        $direccion = $_POST['direccion_completa'];
+        $telefono = $_POST['telefono'];
+        $ciudad = $_POST['ciudad_entrega'];
+        $provincia = $_POST['provincia'];
+        $contacto = $_POST['nombre_contacto'];
+        $telefono_contacto = $telefono;
+        $numerocasa = $_POST['numero_casa'];
+        $referencia = $_POST['referencia'];
+        $longitud = $_POST['longitud'];
+        $latitud = $_POST['latitud'];
+        $response = $this->model->editarBodega($id, $nombre, $direccion, $telefono, $ciudad, $provincia, $contacto, $telefono_contacto, $numerocasa, $referencia, $_SESSION['id_plataforma'], $longitud, $latitud);
+        echo json_encode($response);
+    }
+
     public function listar_bodegas()
     {
         $response = $this->model->listarBodegas($_SESSION['id_plataforma']);

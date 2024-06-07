@@ -230,6 +230,26 @@ class ProductosModel extends Query
         return $response;
     }
 
+    public function editarBodega($id, $nombre, $direccion, $telefono, $ciudad, $provincia, $contacto, $telefono_contacto, $numerocasa, $referencia, $plataforma, $longitud, $latitud)
+    {
+        // codigo para editar categoria
+        $response = $this->initialResponse();
+
+        $sql = "UPDATE `bodega` SET `nombre` = ?, `longitud` = ?, `latitud` = ?, `direccion` = ?, `num_casa` = ?, `referencia` = ?, `responsable` = ?, `contacto` = ?, `localidad` = ?, `provincia` = ? WHERE `id_bodega` = ? AND `id_plataforma` = ?";
+        $data = [$nombre, $longitud, $latitud, $direccion, $numerocasa, $referencia, $contacto, $telefono_contacto, $ciudad, $provincia, $id, $plataforma];
+        $editar_categoria = $this->update($sql, $data);
+        if ($editar_categoria == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Categoria editada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = $editar_categoria['message'];
+        }
+        return $response;
+    }
+
 
 
 
