@@ -1,5 +1,5 @@
 <?php
-class InvetariosModel extends Query
+class ProductosModel extends Query
 {
     public function __construct()
     {
@@ -8,80 +8,37 @@ class InvetariosModel extends Query
 
     ///productos
 
-    public function obtener_bodegas($plataforma)
+    public function obtener_productos($plataforma)
     {
-        $sql = "SELECT * FROM inventario_bodegas WHERE id_plataforma in ('0','$plataforma') ";
+        $sql = "SELECT * FROM `productos` where drogshipin = 1 or id_plataform=$plataforma";
         return $this->select($sql);
     }
 
-    public function agregarStock($inventario, $cantidad, $plataforma, $sku,  $referencia,  $id_producto, $id_bodega)
+    public function agregarMarketplace($codigo_producto,  $plataforma)
     {
         $response = $this->initialResponse();
-        $sql_id = "SELECT saldo_stock FROM inventario_bodegas WHERE id_inventario = $inventario";
-        $stock = $this->select($sql_id);
-        $stock_inventario = $stock[0]['saldo_stock'];
-        $saldo_stock=$stock_inventario+$cantidad;
-        $sql_update="update inventario_bodegas set saldo_stock=$saldo_stock where id_inventario=$inventario";
+        $sql_update="update productos set drogshipin=1 where id_producto=$codigo_producto";
         $actualizar_stock= $this->simple_select($sql_update);
-        
-        if($actualizar_stock==1){
-        $id_usuario=$_SESSION['id'];
-        $nota= "Se agrego $cantidad productos(s) al inventario";
-        $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $data = [$id_usuario, $inventario, $plataforma, $sku, $id_linea_producto, $nota, $referencia, $cantidad, 1, $id_bodega ,$id_producto];
-        $insertar_historial = $this->insert($sql, $data);
-
-        if ($insertar_historial == 1) {
-            $response['status'] = 200;
-            $response['title'] = 'Peticion exitosa';
-            $response['message'] = 'Producto agregado correctamente';
-            
-        } else {
-            $response['status'] = 500;
+ if($actualizar_stock==1){
+       $response['status'] = 200;
+       $response['title'] = 'Peticion exitosa';
+       $response['message'] = 'Producto agregado correctamente al Marketplace';
+ }else{
+    $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = 'Error al agregar el historial';
-        }
-        }else{
-           $response['status'] = 500;
-            $response['title'] = 'Error';
-            $response['message'] = 'Error stock';   
-        }
+            $response['message'] = 'Error al agregar a Marketplace'; 
+ }
+        return $response;
     }
-    
-    public function eliminarStock($inventario, $cantidad, $plataforma, $sku,  $referencia,  $id_producto, $id_bodega)
-    {
-        $response = $this->initialResponse();
-        $sql_id = "SELECT saldo_stock FROM inventario_bodegas WHERE id_inventario = $inventario";
-        $stock = $this->select($sql_id);
-        $stock_inventario = $stock[0]['saldo_stock'];
-        $saldo_stock=$stock_inventario-$cantidad;
-        $sql_update="update inventario_bodegas set saldo_stock=$saldo_stock where id_inventario=$inventario";
-        $actualizar_stock= $this->simple_select($sql_update);
-        
-        if($actualizar_stock==1){
-        $id_usuario=$_SESSION['id'];
-        $nota= "Se agrego $cantidad productos(s) al inventario";
-        $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $data = [$id_usuario, $inventario, $plataforma, $sku, $id_linea_producto, $nota, $referencia, $cantidad, 1, $id_bodega ,$id_producto];
-        $insertar_historial = $this->insert($sql, $data);
 
-        if ($insertar_historial == 1) {
-            $response['status'] = 200;
-            $response['title'] = 'Peticion exitosa';
-            $response['message'] = 'Producto agregado correctamente';
-            if ($insertar_producto_ === 1) {
-                $response['message'] = 'Producto y stock agregado correctamente';
-            }
-        } else {
-            $response['status'] = 500;
-            $response['title'] = 'Error';
-            $response['message'] = 'Error al agregar el historial';
-        }
-        }else{
-           $response['status'] = 500;
-            $response['title'] = 'Error';
-            $response['message'] = 'Error stock';   
-        }
+    public function agregarTmp($id_producto, $cantidad, $precio,  $plataforma)
+    {
+    $timestamp = time() . '_' . session_id();   
+
+
+
+        $sql = "SELECT * FROM productos p inner join inventario_bodegas ib on p.codigo_producto = ib.sku WHERE p.id_producto = $id AND p.id_plataforma = $plataforma";
+        return $this->select($sql);
     }
 
     public function guardar_imagen_productos()
