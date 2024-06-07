@@ -78,9 +78,8 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
-    public function obtenerBodega()
+    public function obtenerBodega($id)
     {
-        $id = $_POST['id'];
         $response = $this->model->obtenerBodega($id, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
