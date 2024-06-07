@@ -72,7 +72,7 @@ const listBodegas = async () => {
 
 function editar_bodegas(id) {
   const serverUrl = '<?php echo SERVERURL ?>';
-  const url = `${serverUrl}Productos/editar_bodegas?id=${id}`;
+  const url = `${serverUrl}Productos/editar_bodegas/${id}`;
   window.location.href = url;
 }
 
