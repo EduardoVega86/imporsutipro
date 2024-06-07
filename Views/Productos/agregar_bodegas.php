@@ -389,13 +389,12 @@
         event.preventDefault();
 
         const formData = new FormData(this);
-        const data = {};
 
         const url = '<?php echo SERVERURL; ?>Productos/agregarBodega'; // Asegúrate de definir SERVERURL en tu backend PHP
 
         fetch(url, {
                 method: 'POST',
-                body: data
+                body: formData
             })
             .then(response => response.json())
             .then(data => {
