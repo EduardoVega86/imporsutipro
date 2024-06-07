@@ -394,7 +394,7 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
 
     // Función para cargar los datos de la bodega
     function cargarDatosBodega() {
-        const url = '<?php echo SERVERURL; ?>Productos/obtener_bodega?id=' + bodegaId;
+        const url = '<?php echo SERVERURL; ?>Productos/obtenerBodega?id=' + bodegaId;
 
         fetch(url)
             .then(response => response.json())
