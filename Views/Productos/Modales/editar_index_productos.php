@@ -118,7 +118,7 @@
                                         <input type="text" class="form-control" id="editar_stock_inicial">
                                     </div>
                                 </div>
-                                <div class="form-group w-100 hidden-field" id="bodega-field">
+                                <div class="form-group w-100" id="bodega-field">
                                     <label for="editar_bodega">Bodega:</label>
                                     <select class="form-select" id="editar_bodega">
                                         <option selected>-- Selecciona Bodega --</option>
