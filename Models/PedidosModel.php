@@ -54,7 +54,7 @@ class PedidosModel extends Query
         return $id_platafomra;
     }
     
-    public function buscarTmp($id)
+    public function buscarTmp($plataforma)
     {
         $tmp=session_id();
         $sql = "SELECT * FROM tmp_cotizacion WHERE t = sesion_id=$id";
