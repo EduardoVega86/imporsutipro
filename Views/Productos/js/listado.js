@@ -1,8 +1,6 @@
 let dataTable;
 let dataTableIsInitialized = false;
 
-const SERVERURL = 'https://new.imporsuitpro.com/';
-
 const dataTableOptions = {
   paging: false,
   searching: false,
@@ -40,7 +38,7 @@ const listAtributos = async () => {
         .filter(caracteristica => caracteristica.id_atributo === atributo.id_atributo)
         .map(caracteristica => `
           <span class="tag">
-            ${caracteristica.variedad} <span class="remove-tag" data-variedad-id="${caracteristica.id_variedad}">&times;</span>
+            ${caracteristica.variedad} <span class="remove-tag" data-atributo-id="${atributo.id_atributo}" data-valor="${caracteristica.variedad}" data-variedad-id="${caracteristica.id_variedad}">&times;</span>
           </span>`).join('');
 
       content += `
@@ -73,9 +71,12 @@ const listAtributos = async () => {
     // Agregar event listeners a todos los botones de eliminar etiqueta
     document.querySelectorAll('.remove-tag').forEach(span => {
       span.addEventListener('click', async (event) => {
-        const variedadId = event.target.getAttribute('data-variedad-id');
+        const atributoId = event.target.getAttribute('data-atributo-id');
+        const valor = event.target.getAttribute('data-valor');
+        const variedadoId = event.target.getAttribute('data-variedad-id');
+        
 
-        await eliminarCaracteristica(variedadId);
+        await eliminarCaracteristica(variedadoId);
         await listAtributos();  // Refresh the list of attributes
       });
     });
@@ -121,10 +122,10 @@ const agregarCaracteristica = async (atributoId, valor) => {
   }
 };
 
-const eliminarCaracteristica = async (variedadId) => {
+const eliminarCaracteristica = async (variedadoId) => {
   try {
     const formData = new FormData();
-    formData.append('id', variedadId);
+    formData.append('id', variedadoId);
 
     const response = await fetch(`${SERVERURL}productos/eliminar_caracteristica`, {
       method: 'POST',
