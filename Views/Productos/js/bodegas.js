@@ -49,9 +49,13 @@ const listBodegas = async () => {
     const bodegas = await response.json();
 
     let content = ``;
-    var ciudad='';
+    const ciudadPromises = bodegas.map(bodega => cargarCiudad(bodega.localidad));
+
+        // Esperar a que todas las promesas se resuelvan
+        const ciudades = await Promise.all(ciudadPromises);
+
     bodegas.forEach((bodega, index) => {
-      ciudad= cargarCiudad(bodega.localidad);
+      const ciudad = ciudades[index];
       content += `
                 <tr>
                     <td>${bodega.id}</td>
@@ -77,9 +81,8 @@ function editar_bodegas(id) {
   window.location.href = url;
 }
 
-// Función para cargar los datos de la bodega
 async function cargarCiudad(id_ciudad) {
-  const url = ''+SERVERURL+'Ubicaciones/obtenerCiudad/' + id_ciudad;
+  const url = '' + SERVERURL + 'Ubicaciones/obtenerCiudad/' + id_ciudad;
   try {
       const response = await fetch(url);
       const data = await response.json();
