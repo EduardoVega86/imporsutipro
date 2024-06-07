@@ -399,19 +399,20 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
         fetch(url)
             .then(response => response.json())
             .then(data => {
-                if (data.success) {
+                if (data.length > 0) {
+                    const bodega = data[0];
                     // Asignar los valores a los campos del formulario
-                    document.getElementById('nombre').value = data.bodega.nombre;
-                    document.getElementById('direccion').value = data.bodega.direccion;
-                    document.getElementById('provincia').value = data.bodega.provincia;
-                    cargarCiudades(data.bodega.provincia, data.bodega.ciudad_entrega);
-                    document.getElementById('direccion_completa').value = data.bodega.direccion_completa;
-                    document.getElementById('nombre_contacto').value = data.bodega.nombre_contacto;
-                    document.getElementById('telefono').value = data.bodega.telefono;
-                    document.getElementById('numero_casa').value = data.bodega.numero_casa;
-                    document.getElementById('referencia').value = data.bodega.referencia;
-                    document.getElementById('latitud').value = data.bodega.latitud;
-                    document.getElementById('longitud').value = data.bodega.longitud;
+                    document.getElementById('nombre').value = bodega.nombre;
+                    document.getElementById('direccion').value = bodega.direccion;
+                    document.getElementById('provincia').value = bodega.provincia;
+                    cargarCiudades(bodega.provincia, bodega.localidad);
+                    document.getElementById('direccion_completa').value = bodega.direccion;
+                    document.getElementById('nombre_contacto').value = bodega.responsable;
+                    document.getElementById('telefono').value = bodega.contacto;
+                    document.getElementById('numero_casa').value = bodega.num_casa;
+                    document.getElementById('referencia').value = bodega.referencia;
+                    document.getElementById('latitud').value = bodega.latitud;
+                    document.getElementById('longitud').value = bodega.longitud;
                 } else {
                     console.error('Error al cargar los datos de la bodega:', data.message);
                 }
@@ -420,9 +421,9 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
     }
 
     // Ejecutar la función cargarDatosBodega cuando se cargue la página
-    document.addEventListener('DOMContentLoaded', function() {
+    /* document.addEventListener('DOMContentLoaded', function() {
         cargarDatosBodega();
-    });
+    }); */
 
     //actualizar datos bodegas
 
