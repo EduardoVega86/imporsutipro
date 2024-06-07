@@ -73,12 +73,6 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="form-group w-100 hidden-field" id="bodega-field">
-                                        <label for="bodega">Bodega:</label>
-                                        <select class="form-select" id="editar_bodega">
-                                            <option selected>-- Selecciona Bodega --</option>
-                                        </select>
-                                    </div>
                                 </div>
                             </div>
                         </form>
@@ -123,6 +117,12 @@
                                         <label for="editar_stock_inicial">Stock Inicial:</label>
                                         <input type="text" class="form-control" id="editar_stock_inicial">
                                     </div>
+                                </div>
+                                <div class="form-group w-100 hidden-field" id="bodega-field">
+                                    <label for="editar_bodega">Bodega:</label>
+                                    <select class="form-select" id="editar_bodega">
+                                        <option selected>-- Selecciona Bodega --</option>
+                                    </select>
                                 </div>
                             </div>
                         </form>
