@@ -55,7 +55,7 @@ const listBodegas = async () => {
                     <td>${bodega.id}</td>
                     <td>${bodega.nombre}</td>
                     <td>${bodega.direccion}</td>
-                    <td>${bodega.provincia}</td>
+                    <td>${bodega.ciudad}</td>
                     <td>${bodega.responsable}</td>
                     <td>${bodega.contacto}</td>
                     <td>
