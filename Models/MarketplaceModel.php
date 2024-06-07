@@ -34,7 +34,7 @@ class ProductosModel extends Query
 
     public function agregarTmp($id_producto, $cantidad, $precio,  $plataforma, $sku)
     {
-    $timestamp = time() . '_' . session_id();   
+    $timestamp = session_id();   
         $sql = "INSERT INTO `tmp_cotizacion` (`id_producto`, `cantidad_tmp`, `precio_tmp`, `desc_tmp`, `session_id`, `id_plataforma`, `sku`) VALUES ('1', '1', '1', '1', '1', '1', '1');";
         $data = [$id_producto, $cantidad, $precio, $timestamp, $plataforma, $sku];
         $insertar_caracteristica = $this->insert($sql, $data);
