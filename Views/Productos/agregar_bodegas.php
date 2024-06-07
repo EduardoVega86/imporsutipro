@@ -398,10 +398,7 @@
 
         fetch(url, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
+                body: data
             })
             .then(response => response.json())
             .then(data => {
@@ -431,7 +428,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'Hubo un problema con el inicio de sesión.',
+                    text: 'Hubo un problema con el agregar bodega.',
                     showConfirmButton: false,
                     timer: 2000
                 });
