@@ -421,7 +421,7 @@
                         showConfirmButton: false,
                         timer: 2000
                     }).then(() => {
-                        window.location.href = '<?php echo SERVERURL ?>dashboard';
+                        window.location.href = '<?php echo SERVERURL ?>Productos/bodegas';
                     });
                 }
             })
