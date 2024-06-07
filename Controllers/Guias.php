@@ -19,8 +19,7 @@ class Guias extends Controller
 
     private function obtenerDestinatario()
     {
-        $id_bodega = $_POST['id_bodega'];
-        $id_producto = $_POST['id_producto'];
-        $datos = $this->model->obtenerDestinatario($id_bodega, $id_producto);
+        $id_producto = $_POST['id_inventario'];
+        $datos = $this->model->obtenerDestinatario($id_producto);
     }
 }

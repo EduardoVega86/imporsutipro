@@ -230,12 +230,18 @@ class ProductosModel extends Query
         return $response;
     }
 
+    public function obtenerBodega($id, $plataforma)
+    {
+        $sql = "SELECT * FROM bodega WHERE id_bodega = $id AND id_plataforma = $plataforma";
+        return $this->select($sql);
+    }
+
     public function editarBodega($id, $nombre, $direccion, $telefono, $ciudad, $provincia, $contacto, $telefono_contacto, $numerocasa, $referencia, $plataforma, $longitud, $latitud)
     {
         // codigo para editar categoria
         $response = $this->initialResponse();
 
-        $sql = "UPDATE `bodega` SET `nombre` = ?, `longitud` = ?, `latitud` = ?, `direccion` = ?, `num_casa` = ?, `referencia` = ?, `responsable` = ?, `contacto` = ?, `localidad` = ?, `provincia` = ? WHERE `id_bodega` = ? AND `id_plataforma` = ?";
+        $sql = "UPDATE `bodega` SET `nombre` = ?, `longitud` = ?, `latitud` = ?, `direccion` = ?, `num_casa` = ?, `referencia` = ?, `responsable` = ?, `contacto` = ?, `localidad` = ?, `provincia` = ? WHERE `id` = ? AND `id_plataforma` = ?";
         $data = [$nombre, $longitud, $latitud, $direccion, $numerocasa, $referencia, $contacto, $telefono_contacto, $ciudad, $provincia, $id, $plataforma];
         $editar_categoria = $this->update($sql, $data);
         if ($editar_categoria == 1) {
