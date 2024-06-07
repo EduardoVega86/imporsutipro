@@ -78,7 +78,6 @@
                             </div>
                     </div>
                     <div class="tab-pane fade" id="editar-precios-stock" role="tabpanel" aria-labelledby="editar-precios-stock-tab">
-                        <form>
                             <div class="d-flex flex-column">
                                 <div class="d-flex flex-row gap-3">
                                     <div class="form-group w-100">
