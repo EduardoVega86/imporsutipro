@@ -57,7 +57,7 @@ const listBodegas = async () => {
                     <td>${bodega.id}</td>
                     <td>${bodega.nombre}</td>
                     <td>${bodega.direccion}</td>
-                    <td>${ciudad[0]["ciudad"]}</td>
+                    <td>${ciudad[0]}</td>
                     <td>${bodega.responsable}</td>
                     <td>${bodega.contacto}</td>
                     <td>
@@ -78,17 +78,16 @@ function editar_bodegas(id) {
 }
 
 // Función para cargar los datos de la bodega
-function cargarCiudad(id_ciudad) {
-  const url = ''+ SERVERURL +'Ubicaciones/obtenerCiudad/' + id_ciudad;
-  var ciudad='';
-  fetch(url)
-      .then(response => response.json())
-      .then(data => {
-        ciudad=data;
-      })
-      .catch(error => console.error('Error:', error));
-
-      return ciudad;
+async function cargarCiudad(id_ciudad) {
+  const url = ''+SERVERURL+'Ubicaciones/obtenerCiudad/' + id_ciudad;
+  try {
+      const response = await fetch(url);
+      const data = await response.json();
+      return data[0].ciudad; 
+  } catch (error) {
+      console.error('Error:', error);
+      return null;
+  }
 }
 
 window.addEventListener("load", async () => {
