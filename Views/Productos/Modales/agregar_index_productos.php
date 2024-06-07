@@ -162,7 +162,7 @@
                             <table id="datatable_detalleInventario" class="table table-bordered table-striped table-hover w-50">
                                 <thead>
                                     <tr>
-                                        <th class="text-nowrap">Atribuo</th>
+                                        <th class="text-nowrap">Atributo</th>
                                         <th class="text-nowrap">SKU</th>
                                         <th class="text-nowrap">P. Proveedor</th>
                                         <th class="text-nowrap">P. de Venta</th>

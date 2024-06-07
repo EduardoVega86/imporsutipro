@@ -159,8 +159,8 @@ const agregarFilaDetalleInventario = async (atributoId, valor) => {
 
     const nuevaFila = `
         <tr>
-            <td>${atributoId}</td>
-            <td><input type="text" class="form-control" value="${valor}"></td>
+            <td>${valor}</td>
+            <td><input type="text" class="form-control"></td>
             <td><input type="text" class="form-control"></td>
             <td><input type="text" class="form-control"></td>
             <td><input type="text" class="form-control"></td>
