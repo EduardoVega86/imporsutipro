@@ -12,25 +12,6 @@
         margin-left: 0.5em;
         cursor: pointer;
     }
-
-    .modal-dialog {
-        max-width: 100%;
-        margin: 1.75rem auto;
-    }
-
-    .modal-content {
-        width: 100%;
-    }
-
-    .table-responsive {
-        width: 100%;
-    }
-
-    .table {
-        width: 100%;
-        margin-bottom: 1rem;
-        background-color: transparent;
-    }
 </style>
 
 <div class="modal fade" id="atributosModal" tabindex="-1" aria-labelledby="atributosModalLabel" aria-hidden="true">
@@ -42,7 +23,11 @@
             </div>
             <div class="modal-body">
                 <div class="table-responsive">
+                    <!-- <table class="table table-bordered table-striped table-hover"> -->
                     <table id="datatable_atributos" class="table table-striped">
+                        <!-- <caption>
+                    DataTable.js Demo
+                </caption> -->
                         <thead>
                             <tr>
                                 <th class="centered">Atributo</th>
