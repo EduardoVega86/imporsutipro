@@ -47,6 +47,15 @@ class Productos extends Controller
 
     ///Funciones
 
+    public function obtener_productos()
+    {
+        $response = $this->model->obtener_productos($_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
+
+    /// Funciones de bodegas
+
     public function agregarBodega()
     {
         $nombre = $_POST['nombre'];
@@ -60,11 +69,18 @@ class Productos extends Controller
         $referencia = $_POST['referencia'];
         $longitud = $_POST['longitud'];
         $latitud = $_POST['latitud'];
-        $response = $this->model->agregarBodega($nombre, $direccion, $telefono, $ciudad, $provincia, $contacto, $telefono_contacto, $numerocasa, $referencia, $_SESSION['id_plataforma'], $longitu, $latitud);
+        $response = $this->model->agregarBodega($nombre, $direccion, $telefono, $ciudad, $provincia, $contacto, $telefono_contacto, $numerocasa, $referencia, $_SESSION['id_plataforma'], $longitud, $latitud);
+        echo json_encode($response);
+    }
+
+    public function listar_bodegas()
+    {
+        $response = $this->model->listarBodegas($_SESSION['id_plataforma']);
         echo json_encode($response);
     }
 
 
+    /// Funciones de categorias
     public function agregarCategoria()
     {
         $nombre_linea = $_POST['nombre_linea'];
@@ -109,19 +125,10 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
-    public function agregar_producto()
+    public function guardar_imagen_categorias()
     {
-    }
-
-    public function listar_bodegas()
-    {
-        $response = $this->model->listarBodegas($_SESSION['id_plataforma']);
+        $response = $this->model->guardar_imagen_categorias($_FILES['imagen'], $_POST['id_linea'], $_SESSION['id_plataforma']);
         echo json_encode($response);
-    }
-
-    public function listar_marketplace()
-    {
-        $response = $this->model->listarMarketplace();
     }
 
     public function cargar_categorias()
@@ -130,17 +137,26 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
+
+
+    /// Funciones de productos
+
+    public function agregar_producto()
+    {
+    }
+
+    public function listar_marketplace()
+    {
+        $response = $this->model->listarMarketplace();
+    }
+
+
+
     public function agregar_caracteristica()
     {
         $variedad = $_POST['variedad'];
         $id_atributo = $_POST['id_atributo'];
         $response = $this->model->agregarCaracteristica($variedad, $id_atributo, $_SESSION['id_plataforma']);
-        echo json_encode($response);
-    }
-
-    public function guardar_imagen_categorias()
-    {
-        $response = $this->model->guardar_imagen_categorias($_FILES['imagen'], $_POST['id_linea'], $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
 }

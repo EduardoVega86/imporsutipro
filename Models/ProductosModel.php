@@ -6,6 +6,8 @@ class ProductosModel extends Query
         parent::__construct();
     }
 
+    ///productos
+
     public function cargarProductos($filtro = "")
     {
         if (!empty($filtro)) {
@@ -17,31 +19,60 @@ class ProductosModel extends Query
         return $this->select($sql);
     }
 
-    public function cargarCategorias($plataforma)
+    public function guardar_imagen_productos()
     {
-        $sql = "SELECT * FROM lineas WHERE id_plataforma = $plataforma";
-        return $this->select($sql);
-    }
-
-    public function agregarBodega($nombre, $direccion, $telefono, $ciudad, $provincia, $contacto, $telefono_contacto, $numerocasa, $referencia, $plataforma, $longitu, $latitud)
-    {
-        // codigo para agregar categoria
         $response = $this->initialResponse();
-
-        $sql = "INSERT INTO `bodega` (`nombre`,`id_empresa`,`longitud`,`latitud`,`direccion`,`num_casa`,`referencia`,`responsable`,`contacto`,`localidad`,`provincia``id_plataforma`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $data =                 [$nombre, $plataforma, $longitud, $latitud, $direccion, $numerocasa, $referencia, $contacto, $telefono_contacto, $ciudad, $provincia, $plataforma];
-        $insertar_categoria = $this->insert($sql, $data);
-        if ($insertar_categoria == 1) {
-            $response['status'] = 200;
-            $response['title'] = 'Peticion exitosa';
-            $response['message'] = 'Categoria agregada correctamente';
+        $target_dir = "public/img/productos";
+        $target_file = $target_dir . basename($_FILES["file"]["name"]);
+        $uploadOk = 1;
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        $check = getimagesize($_FILES["file"]["tmp_name"]);
+        if ($check !== false) {
+            $uploadOk = 1;
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = 'Error al agregar la categoria';
+            $response['message'] = 'El archivo no es una imagen';
+            $uploadOk = 0;
+        }
+        if ($_FILES["file"]["size"] > 500000) {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'El archivo es muy grande';
+            $uploadOk = 0;
+        }
+        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Solo se permiten archivos JPG, JPEG, PNG';
+            $uploadOk = 0;
+        }
+        if ($uploadOk == 0) {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al subir la imagen';
+        } else {
+            if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
+                $response['status'] = 200;
+                $response['title'] = 'Peticion exitosa';
+                $response['message'] = 'Imagen subida correctamente';
+                $response['data'] = $target_file;
+            } else {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'Error al subir la imagen';
+            }
         }
         return $response;
     }
+
+    public function obtener_productos_bodegas($id_bodega, $plataforma)
+    {
+        $sql = "SELECT * FROM inventario_bodegas WHERE id_bodega = $id_bodega and id_plataforma = $plataforma";
+        return $this->select($sql);
+    }
+
+    ///categorias
 
     public function agregarCategoria($nombre_linea, $descripcion_linea, $estado_linea, $date_added, $online, $imagen, $tipo, $padre, $plataforma)
     {
@@ -61,6 +92,13 @@ class ProductosModel extends Query
             $response['message'] = 'Error al agregar la categoria';
         }
         return $response;
+    }
+
+
+    public function cargarCategorias($plataforma)
+    {
+        $sql = "SELECT * FROM lineas WHERE id_plataforma = $plataforma";
+        return $this->select($sql);
     }
 
     public function editarCategoria($id, $nombre_linea, $descripcion_linea, $estado_linea, $date_added, $online, $imagen, $tipo, $padre, $plataforma)
@@ -103,11 +141,6 @@ class ProductosModel extends Query
         return $response;
     }
 
-    public function listarBodegas($plataforma)
-    {
-        $sql = "SELECT * FROM bodega WHERE id_plataforma in ('$plataforma',0) ";
-        return $this->select($sql);
-    }
 
     public function listarCategoria($id, $plataforma)
     {
@@ -174,52 +207,41 @@ class ProductosModel extends Query
         }
         return $response;
     }
-    public function guardar_imagen_productos()
+
+    ///bodegas
+
+    public function agregarBodega($nombre, $direccion, $telefono, $ciudad, $provincia, $contacto, $telefono_contacto, $numerocasa, $referencia, $plataforma, $longitud, $latitud)
     {
+        // codigo para agregar categoria
         $response = $this->initialResponse();
-        $target_dir = "public/img/productos";
-        $target_file = $target_dir . basename($_FILES["file"]["name"]);
-        $uploadOk = 1;
-        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-        $check = getimagesize($_FILES["file"]["tmp_name"]);
-        if ($check !== false) {
-            $uploadOk = 1;
+
+        $sql = "INSERT INTO `bodega` (`nombre`,`id_empresa`,`longitud`,`latitud`,`direccion`,`num_casa`,`referencia`,`responsable`,`contacto`,`localidad`,`provincia``id_plataforma`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $data = [$nombre, $plataforma, $longitud, $latitud, $direccion, $numerocasa, $referencia, $contacto, $telefono_contacto, $ciudad, $provincia, $plataforma];
+        $insertar_categoria = $this->insert($sql, $data);
+        if ($insertar_categoria == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Categoria agregada correctamente';
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = 'El archivo no es una imagen';
-            $uploadOk = 0;
-        }
-        if ($_FILES["file"]["size"] > 500000) {
-            $response['status'] = 500;
-            $response['title'] = 'Error';
-            $response['message'] = 'El archivo es muy grande';
-            $uploadOk = 0;
-        }
-        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
-            $response['status'] = 500;
-            $response['title'] = 'Error';
-            $response['message'] = 'Solo se permiten archivos JPG, JPEG, PNG';
-            $uploadOk = 0;
-        }
-        if ($uploadOk == 0) {
-            $response['status'] = 500;
-            $response['title'] = 'Error';
-            $response['message'] = 'Error al subir la imagen';
-        } else {
-            if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
-                $response['status'] = 200;
-                $response['title'] = 'Peticion exitosa';
-                $response['message'] = 'Imagen subida correctamente';
-                $response['data'] = $target_file;
-            } else {
-                $response['status'] = 500;
-                $response['title'] = 'Error';
-                $response['message'] = 'Error al subir la imagen';
-            }
+            $response['message'] = 'Error al agregar la categoria';
         }
         return $response;
     }
+
+
+
+
+    public function listarBodegas($plataforma)
+    {
+        $sql = "SELECT * FROM bodega WHERE id_plataforma in ('$plataforma',0) ";
+        return $this->select($sql);
+    }
+
+
+
+    ///caracteristicas
 
     public function agregarCaracteristica($variedad, $id_atributo, $plataforma)
     {
