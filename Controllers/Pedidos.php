@@ -78,6 +78,27 @@ class Pedidos extends Controller
         } else {
             $dropshipping = 1;
         }
+
+        $importado = $_POST['importado'] ?? 0;
+        $plataforma_importa = $_POST['plataforma_importa'] ?? 0;
+        $cod = $_POST['cod'] ?? 0;
+        $estado_guia_sistema = 1;
+        $impreso = 0;
+        $facturada = 0;
+        $factura_numero = 0;
+        $numero_guia = 0;
+        $anulada = 0;
+        $id_plataforma = $_SESSION['id_plataforma'];
+
+        ///origen
+        $identificacionO = $_POST['identificacionO'] ?? "";
+        $celularO = $_POST['celularO'] ?? $telefono_cliente;
+        $nombreO = $_POST['nombreO'];
+        $ciudadO = $_POST['ciudadO'];
+        $provinciaO = $_POST['provinciaO'];
+        $direccionO = $_POST['direccionO'];
+        $referenciaO = $_POST['referenciaO'];
+        $numeroCasaO = $_POST['numeroCasaO'] ?? 0;
     }
 
     public function obtener_propietario($id_producto)

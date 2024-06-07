@@ -60,6 +60,14 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
+    public function obtener_producto($id)
+    {
+        $response = $this->model->obtener_producto($id, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
+
+
 
     /// Funciones de bodegas
 
@@ -214,6 +222,7 @@ class Productos extends Controller
 
     public function editar_producto()
     {
+        $id = $_POST['id_producto'];
         $codigo_producto = $_POST['codigo_producto'];
         $nombre_producto = $_POST['nombre_producto'];
         $descripcion_producto = $_POST['descripcion_producto'];
@@ -242,6 +251,8 @@ class Productos extends Controller
 
         echo json_encode($response);
     }
+
+
 
 
     public function listar_marketplace()
