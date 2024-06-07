@@ -62,29 +62,27 @@ const listAtributos = async () => {
 };
 
 const agregarCaracteristica = async (atributoId, valor) => {
-  try {
-    const response = await fetch('https://new.imporsuitpro.com/productos/agregar_caracteristica', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        id_atributo: atributoId,
-        valor: valor,
-      }),
-    });
-
-    if (response.ok) {
-      const result = await response.json();
-      alert('Característica agregada exitosamente');
-    } else {
-      const error = await response.json();
-      alert('Error al agregar la característica: ' + error.message);
+    try {
+      const formData = new FormData();
+      formData.append('id_atributo', atributoId);
+      formData.append('variedad', valor);
+  
+      const response = await fetch(''+ SERVERURL +'/productos/agregar_caracteristica', {
+        method: 'POST',
+        body: formData,
+      });
+  
+      if (response.ok) {
+        const result = await response.json();
+        alert('Característica agregada exitosamente');
+      } else {
+        const error = await response.json();
+        alert('Error al agregar la característica: ' + error.message);
+      }
+    } catch (ex) {
+      alert('Error al conectarse a la API: ' + ex.message);
     }
-  } catch (ex) {
-    alert('Error al conectarse a la API: ' + ex.message);
-  }
-};
+  };
 
 window.addEventListener("load", async () => {
   await initDataTable();
