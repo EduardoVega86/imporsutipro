@@ -1,7 +1,7 @@
-let dataTable_inventario;
-let dataTable_inventarioIsInitialized = false;
+let dataTableInventario;
+let dataTableInventarioIsInitialized = false;
 
-const dataTable_inventarioOptions = {
+const dataTableInventarioOptions = {
   paging: false,
   searching: false,
   info: false,
@@ -14,23 +14,23 @@ const dataTable_inventarioOptions = {
   },
 };
 
-const initDataTable_inventarioVariable = async () => {
-  if (dataTable_inventarioIsInitialized) {
-    dataTable_inventario.destroy();
+const initDataTableInventario = async () => {
+  if (dataTableInventarioIsInitialized) {
+    dataTableInventario.destroy();
   }
 
-  await listInventarioVariable();
+  await listAtributosInventario();
 
-  dataTable_inventario = $("#datatable_inventarioVariable").DataTable(dataTable_inventarioOptions);
+  dataTableInventario = $("#datatable_inventarioVariable").DataTable(dataTableInventarioOptions);
 
-  dataTable_inventarioIsInitialized = true;
+  dataTableInventarioIsInitialized = true;
 };
 
-const listInventarioVariable = async () => {
+const listAtributosInventario = async () => {
   try {
     const response = await fetch(`${SERVERURL}productos/listar_atributos`);
     const atributos = await response.json();
-    const caracteristicas = await listarCaracteristicas();
+    const caracteristicas = await listarCaracteristicasInventario();
 
     let content = ``;
     atributos.forEach((atributo, index) => {
@@ -60,9 +60,9 @@ const listInventarioVariable = async () => {
           const valor = event.target.value;
 
           if (valor.trim() !== '') {
-            await agregarCaracteristica(atributoId, valor);
+            await agregarCaracteristicaInventario(atributoId, valor);
             event.target.value = ''; // Clear the input after submission
-            await listAtributos();  // Refresh the list of attributes
+            await listAtributosInventario();  // Refresh the list of attributes
           }
         }
       });
@@ -71,13 +71,9 @@ const listInventarioVariable = async () => {
     // Agregar event listeners a todos los botones de eliminar etiqueta
     document.querySelectorAll('.remove-tag').forEach(span => {
       span.addEventListener('click', async (event) => {
-        const atributoId = event.target.getAttribute('data-atributo-id');
-        const valor = event.target.getAttribute('data-valor');
         const variedadoId = event.target.getAttribute('data-variedad-id');
-        
-
-        await eliminarCaracteristica(variedadoId);
-        await listAtributos();  // Refresh the list of attributes
+        await eliminarCaracteristicaInventario(variedadoId);
+        await listAtributosInventario();  // Refresh the list of attributes
       });
     });
   } catch (ex) {
@@ -85,7 +81,7 @@ const listInventarioVariable = async () => {
   }
 };
 
-const listarCaracteristicas = async () => {
+const listarCaracteristicasInventario = async () => {
   try {
     const response = await fetch(`${SERVERURL}productos/listar_caracteristicas`);
     if (response.ok) {
@@ -100,7 +96,7 @@ const listarCaracteristicas = async () => {
   }
 };
 
-const agregarCaracteristica = async (atributoId, valor) => {
+const agregarCaracteristicaInventario = async (atributoId, valor) => {
   try {
     const formData = new FormData();
     formData.append('id_atributo', atributoId);
@@ -122,7 +118,7 @@ const agregarCaracteristica = async (atributoId, valor) => {
   }
 };
 
-const eliminarCaracteristica = async (variedadoId) => {
+const eliminarCaracteristicaInventario = async (variedadoId) => {
   try {
     const formData = new FormData();
     formData.append('id', variedadoId);
@@ -144,5 +140,5 @@ const eliminarCaracteristica = async (variedadoId) => {
 };
 
 window.addEventListener("load", async () => {
-  await initDataTable_inventarioVariable();
+  await initDataTableInventario();
 });
