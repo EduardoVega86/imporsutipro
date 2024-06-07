@@ -40,7 +40,7 @@ class ProductosModel extends Query
             //bodega inicial
             $sql_bodega = "SELECT * FROM bodega WHERE id_plataforma = $plataforma limit 1";
             $bodega = $this->select($sql_bodega);
-            $bodega = $bodega[0]['id_bodega'];
+            $bodega = $bodega[0]['id'];
 
             $sql_insert = "INSERT INTO inventario_bodegas (sku, id_producto, id_variante, bodega, pcp, pvp, pref, stock_inicial, saldo_stock, id_plataforma) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $data_insert = [$codigo_producto, $id_producto, 0, $bodega, $pcp, $pvp, $pref, 0, 0, $plataforma];
