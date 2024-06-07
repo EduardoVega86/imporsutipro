@@ -14,26 +14,35 @@ class ProductosModel extends Query
         return $this->select($sql);
     }
 
-    public function agregarProducto($codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $plataforma, $stock_inicial, $bodega)
+    public function agregarProducto($codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $plataforma, $stock_inicial, $bodega, $pcp, $pvp, $pref)
     {
         $response = $this->initialResponse();
         $sql = "INSERT INTO productos (codigo_producto, nombre_producto, descripcion_producto, id_linea_producto, inv_producto, producto_variable, costo_producto, aplica_iva, estado_producto, date_added, image_path, id_imp_producto, pagina_web, formato, drogshipin, destacado, id_plataforma) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $data = [$codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $plataforma];
         $insertar_producto = $this->insert($sql, $data);
 
+        $sql_id = "SELECT id_producto FROM productos WHERE codigo_producto = $codigo_producto AND id_plataforma = $plataforma";
+        $id_producto = $this->select($sql_id);
+        $id_producto = $id_producto[0]['id_producto'];
         if ($inv_producto === 1) {
-            $sql_id = "SELECT id_producto FROM productos WHERE codigo_producto = $codigo_producto AND id_plataforma = $plataforma";
-            $id_producto = $this->select($sql_id);
-            $id_producto = $id_producto[0]['id_producto'];
 
             if ($producto_variable === 0) {
                 $sql = "INSERT INTO inventario_bodegas (sku, id_producto, id_variante, bodega, pcp, pvp, pref, stock_inicial, saldo_stock, id_plataforma) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                $data = [$codigo_producto, $id_producto, 0, $bodega, $costo_producto, $costo_producto, $costo_producto, $stock_inicial, $stock_inicial, $plataforma];
+                $data = [$codigo_producto, $id_producto, 0, $bodega, $pcp, $pvp, $pref, $stock_inicial, $stock_inicial, $plataforma];
             } else {
                 $sql = "INSERT INTO inventario_bodegas (sku, id_producto, id_variante, bodega, pcp, pvp, pref, stock_inicial, saldo_stock, id_plataforma) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                $data = [$codigo_producto, $id_producto, $producto_variable, $bodega, $costo_producto, $costo_producto, $costo_producto, $stock_inicial, $stock_inicial, $plataforma];
+                $data = [$codigo_producto, $id_producto, $producto_variable, $bodega, $pcp, $pvp, $pref, $stock_inicial, $stock_inicial, $plataforma];
             }
             $insertar_producto_ = $this->insert($sql, $data);
+        } else {
+            //bodega inicial
+            $sql_bodega = "SELECT * FROM bodega WHERE id_plataforma = $plataforma limit 1";
+            $bodega = $this->select($sql_bodega);
+            $bodega = $bodega[0]['id_bodega'];
+
+            $sql_insert = "INSERT INTO inventario_bodegas (sku, id_producto, id_variante, bodega, pcp, pvp, pref, stock_inicial, saldo_stock, id_plataforma) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $data_insert = [$codigo_producto, $id_producto, 0, $bodega, $pcp, $pvp, $pref, 0, 0, $plataforma];
+            $insertar_producto_ = $this->insert($sql_insert, $data_insert);
         }
         if ($insertar_producto == 1) {
             $response['status'] = 200;

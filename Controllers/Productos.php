@@ -202,8 +202,12 @@ class Productos extends Controller
         $stock_inicial = $_POST['stock_inicial'] ?? 0;
         $bodega = $_POST['bodega'] ?? 0;
 
+        $pcp = $_POST['pcp'] ?? 0;
+        $pvp = $_POST['pvp'] ?? 0;
+        $pref = $_POST['pref'] ?? 0;
 
-        $response = $this->model->agregarProducto($codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $_SESSION['id_plataforma'], $stock_inicial, $bodega);
+
+        $response = $this->model->agregarProducto($codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $_SESSION['id_plataforma'], $stock_inicial, $bodega, $pcp, $pvp, $pref);
     }
 
     public function listar_marketplace()
