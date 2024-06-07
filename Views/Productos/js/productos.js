@@ -207,6 +207,7 @@ function editarProducto(id) {
                     
                     console.log('Elementos encontrados, actualizando valores...');
                     // Llenar los inputs del modal con los datos recibidos
+                    $('#editar_id_producto').val(data.id_producto);
                     $('#editar_codigo').val(data.codigo_producto);
                     $('#editar_nombre').val(data.nombre_producto);
                     $('#editar_descripcion').val(data.descripcion_producto);
