@@ -98,7 +98,7 @@ class ProductosModel extends Query
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = 'Error al editar el producto';
+            $response['message'] = $editar_producto['message'];
         }
         return $response;
     }
