@@ -150,19 +150,19 @@
 
                     </div>
                     <div class="tab-pane fade" id="inventario-variable" role="tabpanel" aria-labelledby="inventario-variable-tab">
-                    <table id="datatable_atributos" class="table table-striped">
-                        <!-- <caption>
+                        <table id="datatable_atributos" class="table table-striped">
+                            <!-- <caption>
                     DataTable.js Demo
                 </caption> -->
-                        <thead>
-                            <tr>
-                                <th class="centered">Atributo</th>
-                                <th class="centered">Valor</th>
-                                <th class="centered"></th>
-                            </tr>
-                        </thead>
-                        <tbody id="tableBody_atributos"></tbody>
-                    </table>
+                            <thead>
+                                <tr>
+                                    <th class="centered">Atributo</th>
+                                    <th class="centered">Valor</th>
+                                    <th class="centered"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody_atributos"></tbody>
+                        </table>
 
                     </div>
                 </div>
