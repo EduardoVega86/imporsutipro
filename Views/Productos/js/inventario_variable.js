@@ -1,139 +1,3 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const productoVariableSelect = document.getElementById('producto-variable');
-    const manejaInventarioSelect = document.getElementById('maneja-inventario');
-    const inventarioVariableTab = document.getElementById('inventario-variable-tab');
-    const bodegaField = document.getElementById('bodega-field');
-    const precioReferencialCheckbox = document.getElementById('precio-referencial');
-    const precioReferencialInput = document.getElementById('precio-referencial-valor');
-
-    function toggleInventarioVariableTab() {
-        if (productoVariableSelect.value === '1') { // 1 para "Sí"
-            inventarioVariableTab.classList.remove('hidden-tab');
-        } else {
-            inventarioVariableTab.classList.add('hidden-tab');
-        }
-    }
-
-    function toggleBodegaField() {
-        if (manejaInventarioSelect.value === '1' && productoVariableSelect.value === '2') { // 1 para "Sí" y 2 para "No"
-            bodegaField.classList.remove('hidden-field');
-        } else {
-            bodegaField.classList.add('hidden-field');
-        }
-    }
-
-    function togglePrecioReferencialInput() {
-        precioReferencialInput.disabled = !precioReferencialCheckbox.checked;
-    }
-
-    productoVariableSelect.addEventListener('change', function() {
-        toggleInventarioVariableTab();
-        toggleBodegaField();
-    });
-
-    manejaInventarioSelect.addEventListener('change', toggleBodegaField);
-    precioReferencialCheckbox.addEventListener('change', togglePrecioReferencialInput);
-
-    toggleInventarioVariableTab(); // Llama a la función al cargar la página para ajustar la visibilidad inicial
-    toggleBodegaField(); // Llama a la función al cargar la página para ajustar la visibilidad inicial
-    togglePrecioReferencialInput(); // Llama a la función al cargar la página para ajustar la visibilidad inicial
-});
-
-//enviar datos a base de datos
-$(document).ready(function() {
-    $('#agregar_producto_form').submit(function(event) {
-        event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
-
-        // Crea un objeto FormData
-        var formData = new FormData();
-        formData.append('codigo_producto', $('#codigo').val());
-        formData.append('nombre_producto', $('#nombre').val());
-        formData.append('descripcion_producto', $('#descripcion').val());
-        formData.append('id_linea_producto', $('#categoria').val());
-        formData.append('inv_producto', $('#maneja-inventario').val());
-        formData.append('producto_variable', $('#producto-variable').val());
-        formData.append('costo_producto', $('#costo').val());
-        formData.append('aplica_iva', 1); // Suponiendo que siempre aplica IVA
-        formData.append('estado_producto', 1); // Suponiendo que el estado es activo
-        formData.append('date_added', new Date().toISOString().split('T')[0]);
-        formData.append('image_path', ''); // Asumiendo que no hay imagen por ahora
-        formData.append('pagina_web', $('#formato-pagina').val());
-        formData.append('formato', 'Formato 1'); // Suponiendo que siempre es Formato 1
-        formData.append('drogshipin', 0); // Suponiendo que no es dropshipping
-        formData.append('destacado', 0); // Suponiendo que no es destacado
-        formData.append('stock_inicial', $('#stock-inicial').val());
-        formData.append('bodega', $('#bodega').val());
-        formData.append('pcp', $('#precio-proveedor').val());
-        formData.append('pvp', $('#precio-venta').val());
-        formData.append('pref', $('#precio-referencial-valor').val());
-
-        // Realiza la solicitud AJAX
-        $.ajax({
-            url: '' + SERVERURL + 'productos/agregar_producto',
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(response) {
-                alert('Producto agregado exitosamente');
-                console.log(response);
-            },
-            error: function(error) {
-                alert('Hubo un error al agregar el producto');
-                console.log(error);
-            }
-        });
-    });
-});
-
-//cargar select de bodega 
-$(document).ready(function() {
-    // Realiza la solicitud AJAX para obtener la lista de bodegas
-    $.ajax({
-        url: '' + SERVERURL + 'productos/listar_bodegas',
-        type: 'GET',
-        dataType: 'json',
-        success: function(response) {
-            // Asegúrate de que la respuesta es un array
-            if (Array.isArray(response)) {
-                response.forEach(function(bodega) {
-                    // Agrega una nueva opción al select por cada bodega
-                    $('#bodega').append(new Option(bodega.nombre, bodega.id));
-                });
-            } else {
-                console.log('La respuesta de la API no es un array:', response);
-            }
-        },
-        error: function(error) {
-            console.error('Error al obtener la lista de bodegas:', error);
-        }
-    });
-});
-
-//cargar select categoria
-$(document).ready(function() {
-    // Realiza la solicitud AJAX para obtener la lista de categorias
-    $.ajax({
-        url: '' + SERVERURL + 'productos/cargar_categorias',
-        type: 'GET',
-        dataType: 'json',
-        success: function(response) {
-            // Asegúrate de que la respuesta es un array
-            if (Array.isArray(response)) {
-                response.forEach(function(categoria) {
-                    // Agrega una nueva opción al select por cada categoria
-                    $('#categoria').append(new Option(categoria.nombre_linea, categoria.id_linea));
-                });
-            } else {
-                console.log('La respuesta de la API no es un array:', response);
-            }
-        },
-        error: function(error) {
-            console.error('Error al obtener la lista de categorias:', error);
-        }
-    });
-});
-
 // Inicializa la tabla inventario variable
 let dataTableInventario;
 let dataTableInventarioIsInitialized = false;
@@ -217,12 +81,14 @@ const listAtributosInventario = async () => {
         // Agregar event listeners a todos los atributos (excepto la "x")
         document.querySelectorAll('.tag').forEach(span => {
             span.addEventListener('click', async (event) => {
-                const atributoId = event.target.getAttribute('data-atributo-id');
-                const valor = event.target.textContent.trim();
-
-                await agregarFilaDetalleInventario(atributoId, valor);
+                if (!event.target.classList.contains('remove-tag')) {
+                    const atributoId = event.target.parentElement.getAttribute('data-atributo-id');
+                    const valor = event.target.textContent.trim();
+                    await agregarFilaDetalleInventario(atributoId, valor);
+                }
             });
         });
+
     } catch (ex) {
         alert('Error al cargar los atributos: ' + ex.message);
     }
