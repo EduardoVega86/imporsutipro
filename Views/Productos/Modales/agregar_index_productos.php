@@ -166,7 +166,7 @@
                             <label for="inventario-variable-input">Inventario Variable:</label>
                             <input type="text" class="form-control" id="inventario-variable-input">
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
@@ -227,37 +227,37 @@
     $('#agregar_producto_form').submit(function(event) {
         event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
 
-        // Captura los datos del formulario
-        var formData = {
-            codigo_producto: $('#codigo').val(),
-            nombre_producto: $('#nombre').val(),
-            descripcion_producto: $('#descripcion').val(),
-            id_linea_producto: $('#categoria').val(),
-            inv_producto: $('#maneja-inventario').val(),
-            producto_variable: $('#producto-variable').val(),
-            costo_producto: $('#costo').val(),
-            aplica_iva: 1, // Suponiendo que siempre aplica IVA
-            estado_producto: 1, // Suponiendo que el estado es activo
-            date_added: new Date().toISOString().split('T')[0],
-            image_path: '', // Asumiendo que no hay imagen por ahora
-            id_imp_producto: $('#proveedor').val(),
-            pagina_web: $('#formato-pagina').val(),
-            formato: 'Formato 1', // Suponiendo que siempre es Formato 1
-            drogshipin: 0, // Suponiendo que no es dropshipping
-            destacado: 0, // Suponiendo que no es destacado
-            stock_inicial: $('#stock-inicial').val(),
-            bodega: $('#bodega').val(),
-            pcp: $('#precio-proveedor').val(),
-            pvp: $('#precio-venta').val(),
-            pref: $('#precio-referencial-valor').val()
-        };
+        // Crea un objeto FormData
+        var formData = new FormData();
+        formData.append('codigo_producto', $('#codigo').val());
+        formData.append('nombre_producto', $('#nombre').val());
+        formData.append('descripcion_producto', $('#descripcion').val());
+        formData.append('id_linea_producto', $('#categoria').val());
+        formData.append('inv_producto', $('#maneja-inventario').val());
+        formData.append('producto_variable', $('#producto-variable').val());
+        formData.append('costo_producto', $('#costo').val());
+        formData.append('aplica_iva', 1); // Suponiendo que siempre aplica IVA
+        formData.append('estado_producto', 1); // Suponiendo que el estado es activo
+        formData.append('date_added', new Date().toISOString().split('T')[0]);
+        formData.append('image_path', ''); // Asumiendo que no hay imagen por ahora
+        formData.append('id_imp_producto', $('#proveedor').val());
+        formData.append('pagina_web', $('#formato-pagina').val());
+        formData.append('formato', 'Formato 1'); // Suponiendo que siempre es Formato 1
+        formData.append('drogshipin', 0); // Suponiendo que no es dropshipping
+        formData.append('destacado', 0); // Suponiendo que no es destacado
+        formData.append('stock_inicial', $('#stock-inicial').val());
+        formData.append('bodega', $('#bodega').val());
+        formData.append('pcp', $('#precio-proveedor').val());
+        formData.append('pvp', $('#precio-venta').val());
+        formData.append('pref', $('#precio-referencial-valor').val());
 
         // Realiza la solicitud AJAX
         $.ajax({
-            url: ''+SERVERURL+'productos/agregar_producto',
+            url: '' + SERVERURL + 'productos/agregar_producto',
             type: 'POST',
-            data: JSON.stringify(formData),
-            contentType: 'application/json',
+            data: formData,
+            processData: false,
+            contentType: false,
             success: function(response) {
                 alert('Producto agregado exitosamente');
                 console.log(response);
