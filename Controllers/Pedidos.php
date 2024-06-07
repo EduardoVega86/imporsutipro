@@ -130,4 +130,10 @@ class Pedidos extends Controller
     {
         print_r($_SESSION);
     }
+
+    public function buscarTmp()
+    {
+        $response = $this->model->buscarTmp();
+        echo json_encode($response);
+    }
 }
