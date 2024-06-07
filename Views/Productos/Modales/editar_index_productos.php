@@ -32,9 +32,9 @@
                 <div class="tab-content" id="editarTabContent">
                     <div class="tab-pane fade show active" id="editar-datos-basicos" role="tabpanel" aria-labelledby="editar-datos-basicos-tab">
                         <form id="editar_producto_form">
-                            <input type="hidden" id="editar_id_producto" name="id_producto">
                             <div class="d-flex flex-column">
                                 <div class="d-flex flex-row gap-3">
+                                    <input type="hidden" id="editar_id_producto" name="id_producto">
                                     <div class="form-group w-100">
                                         <label for="editar_codigo">Código:</label>
                                         <input type="text" class="form-control" id="editar_codigo">
@@ -66,8 +66,8 @@
                                     </div>
                                     <div class="d-flex flex-column w-100">
                                         <div class="form-group">
-                                            <label for="editar_formato_pagina">Formato Página Productos:</label>
-                                            <select class="form-select" id="editar_formato_pagina">
+                                            <label for="editar_formato-pagina">Formato Página Productos:</label>
+                                            <select class="form-select" id="editar_formato-pagina">
                                                 <option selected>-- Selecciona --</option>
                                                 <option value="1">Formato 1</option>
                                                 <option value="2">Formato 2</option>
@@ -78,52 +78,52 @@
                             </div>
                     </div>
                     <div class="tab-pane fade" id="editar-precios-stock" role="tabpanel" aria-labelledby="editar-precios-stock-tab">
-                            <div class="d-flex flex-column">
-                                <div class="d-flex flex-row gap-3">
-                                    <div class="form-group w-100">
-                                        <label for="editar_ultimo_costo">Ultimo Costo:</label>
-                                        <input type="text" class="form-control" id="editar_ultimo_costo">
-                                    </div>
-                                    <div class="form-group w-100">
-                                        <label for="editar_utilidad">Utilidad %:</label>
-                                        <input type="text" class="form-control" id="editar_utilidad">
-                                    </div>
+                        <div class="d-flex flex-column">
+                            <div class="d-flex flex-row gap-3">
+                                <div class="form-group w-100">
+                                    <label for="editar_ultimo_costo">Ultimo Costo:</label>
+                                    <input type="text" class="form-control" id="editar_ultimo_costo">
                                 </div>
-                                <div class="d-flex flex-row gap-3">
-                                    <div class="form-group w-100">
-                                        <label for="editar_precio_proveedor">Precio Proveedor:</label>
-                                        <input type="text" class="form-control" id="editar_precio_proveedor">
-                                    </div>
-                                    <div class="form-group w-100">
-                                        <label for="editar_precio_venta">Precio de Venta (Sugerido):</label>
-                                        <input type="text" class="form-control" id="editar_precio_venta">
-                                    </div>
-                                </div>
-                                <div class="d-flex flex-row gap-3">
-                                    <div class="form-group w-100">
-                                        <label for="editar_precio_referencial">Precio Referencial</label>
-                                        <input type="text" class="form-control mt-2" id="editar_precio_referencial">
-                                    </div>
-                                    <div class="form-group w-100">
-                                        <label for="editar_maneja_inventario">Maneja Inventario:</label>
-                                        <select class="form-select" id="editar_maneja_inventario">
-                                            <option selected>-- Selecciona --</option>
-                                            <option value="1">Sí</option>
-                                            <option value="2">No</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group w-100">
-                                        <label for="editar_stock_inicial">Stock Inicial:</label>
-                                        <input type="text" class="form-control" id="editar_stock_inicial">
-                                    </div>
-                                    <div class="form-group w-100" id="bodega-field">
-                                        <label for="editar_bodega">Bodega:</label>
-                                        <select class="form-select" id="editar_bodega">
-                                            <option selected>-- Selecciona Bodega --</option>
-                                        </select>
-                                    </div>
+                                <div class="form-group w-100">
+                                    <label for="editar_utilidad">Utilidad %:</label>
+                                    <input type="text" class="form-control" id="editar_utilidad">
                                 </div>
                             </div>
+                            <div class="d-flex flex-row gap-3">
+                                <div class="form-group w-100">
+                                    <label for="editar_precio_proveedor">Precio Proveedor:</label>
+                                    <input type="text" class="form-control" id="editar_precio_proveedor">
+                                </div>
+                                <div class="form-group w-100">
+                                    <label for="editar_precio_venta">Precio de Venta (Sugerido):</label>
+                                    <input type="text" class="form-control" id="editar_precio_venta">
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row gap-3">
+                                <div class="form-group w-100">
+                                    <label for="editar_precio_referencial">Precio Referencial</label>
+                                    <input type="text" class="form-control mt-2" id="editar_precio_referencial">
+                                </div>
+                                <div class="form-group w-100">
+                                    <label for="editar_maneja_inventario">Maneja Inventario:</label>
+                                    <select class="form-select" id="editar_maneja_inventario">
+                                        <option selected>-- Selecciona --</option>
+                                        <option value="1">Sí</option>
+                                        <option value="2">No</option>
+                                    </select>
+                                </div>
+                                <div class="form-group w-100">
+                                    <label for="editar_stock_inicial">Stock Inicial:</label>
+                                    <input type="text" class="form-control" id="editar_stock_inicial">
+                                </div>
+                            </div>
+                            <div class="form-group w-100" id="bodega-field">
+                                <label for="editar_bodega">Bodega:</label>
+                                <select class="form-select" id="editar_bodega">
+                                    <option selected>-- Selecciona Bodega --</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -135,7 +135,6 @@
         </div>
     </div>
 </div>
-
 <script>
     $(document).ready(function() {
         // Enviar datos al editar producto
@@ -144,7 +143,7 @@
 
             // Crea un objeto FormData
             var formData = new FormData();
-            formData.append('id_producto', $('#editar_id_producto').val());
+            formData.append('id_producto', $('#editar_id_producto').val()); // Asegúrate de tener el ID del producto en un campo oculto
             formData.append('codigo_producto', $('#editar_codigo').val());
             formData.append('nombre_producto', $('#editar_nombre').val());
             formData.append('descripcion_producto', $('#editar_descripcion').val());
