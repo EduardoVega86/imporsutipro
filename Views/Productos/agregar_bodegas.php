@@ -390,9 +390,6 @@
 
         const formData = new FormData(this);
         const data = {};
-        formData.forEach((value, key) => {
-            data[key] = value;
-        });
 
         const url = '<?php echo SERVERURL; ?>Productos/agregarBodega'; // Asegúrate de definir SERVERURL en tu backend PHP
 
