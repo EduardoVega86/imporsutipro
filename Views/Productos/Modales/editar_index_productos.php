@@ -126,7 +126,6 @@
                                     </select>
                                 </div>
                             </div>
-                        </form>
                     </div>
                 </div>
             </div>
@@ -134,6 +133,7 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 <button type="button" class="btn btn-primary">Guardar</button>
             </div>
+            </form>
         </div>
     </div>
 </div>
