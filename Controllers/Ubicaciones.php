@@ -28,4 +28,10 @@ class Ubicaciones extends Controller
         $data = $this->model->obtenerMatriz();
         echo json_encode($data);
     }
+
+    public function obtenerCiudad($id)
+    {
+        $data = $this->model->obtenerCiudad($id);
+        echo json_encode($data);
+    }
 }
