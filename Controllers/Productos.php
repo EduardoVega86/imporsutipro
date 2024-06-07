@@ -62,9 +62,9 @@ class Productos extends Controller
         $direccion = $_POST['direccion_completa'];
         $telefono = $_POST['telefono'];
         $ciudad = $_POST['ciudad_entrega'];
-        $provincia = $_POST['provinica'];
+        $provincia = $_POST['provincia'];
         $contacto = $_POST['nombre_contacto'];
-        $telefono_contacto = $_POST['telefono_contacto'];
+        $telefono_contacto = $telefono;
         $numerocasa = $_POST['numero_casa'];
         $referencia = $_POST['referencia'];
         $longitud = $_POST['longitud'];
