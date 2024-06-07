@@ -225,7 +225,7 @@ class ProductosModel extends Query
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = 'Error al agregar la categoria';
+            $response['message'] = $insertar_categoria['message'];
         }
         return $response;
     }
