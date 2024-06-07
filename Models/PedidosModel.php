@@ -54,10 +54,10 @@ class PedidosModel extends Query
         return $id_platafomra;
     }
     
-    public function buscarTmp($plataforma)
+    public function buscarTmp()
     {
         $tmp=session_id();
-        $sql = "SELECT * FROM tmp_cotizacion WHERE t = sesion_id=$id";
+        $sql = "SELECT * FROM tmp_cotizacion WHERE t = sesion_id=$tmp";
 
         $sql = "SELECT * FROM provincia_laar";
         return $this->select($sql);
