@@ -1,14 +1,9 @@
-let dataTable;
-let dataTableIsInitialized = false;
+let dataTableProductos;
+let dataTableProductosIsInitialized = false;
 
-const dataTableOptions = {
-  //scrollX: "2000px",
-  /* lengthMenu: [5, 10, 15, 20, 100, 200, 500], */
+const dataTableProductosOptions = {
   columnDefs: [
     { className: "centered", targets: [0, 1, 2, 3, 4, 5, 6] },
-    /* { orderable: false, targets: [5, 6] }, */
-    /* { searchable: false, targets: [1] } */
-    //{ width: "50%", targets: [0] }
   ],
   pageLength: 10,
   destroy: true,
@@ -29,16 +24,16 @@ const dataTableOptions = {
   },
 };
 
-const initDataTable = async () => {
-  if (dataTableIsInitialized) {
-    dataTable.destroy();
+const initDataTableProductos = async () => {
+  if (dataTableProductosIsInitialized) {
+    dataTableProductos.destroy();
   }
 
   await listProductos();
 
-  dataTable = $("#datatable_productos").DataTable(dataTableOptions);
+  dataTableProductos = $("#datatable_productos").DataTable(dataTableProductosOptions);
 
-  dataTableIsInitialized = true;
+  dataTableProductosIsInitialized = true;
 };
 
 const listProductos = async () => {
@@ -49,7 +44,6 @@ const listProductos = async () => {
     const productos = await response.json();
 
     let content = ``;
-    let online = "";
     productos.forEach((producto, index) => {
       content += `
                 <tr>
@@ -68,9 +62,8 @@ const listProductos = async () => {
                     <td>logo agregar a market</td>
                     <td>logo agregar atributos</td>
                     <td>
-                        <button class="btn btn-sm btn-primary" onclick="editar_producto(${producto.id_linea})"><i class="fa-solid fa-pencil"></i>Editar</button>
-                        <button class="btn btn-sm btn-danger" onclick="eliminar_producto(${producto.id_linea})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
-
+                        <button class="btn btn-sm btn-primary" onclick="editarProducto(${producto.id_linea})"><i class="fa-solid fa-pencil"></i>Editar</button>
+                        <button class="btn btn-sm btn-danger" onclick="eliminarProducto(${producto.id_linea})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
                     </td>
                 </tr>`;
     });
@@ -81,5 +74,5 @@ const listProductos = async () => {
 };
 
 window.addEventListener("load", async () => {
-  await initDataTable();
+  await initDataTableProductos();
 });
