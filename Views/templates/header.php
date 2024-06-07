@@ -275,7 +275,7 @@
                 <div class="navbar-right">
                     <a class="nav-link" href="#"><box-icon type='solid' name='videos' color="#fff"></box-icon> Tutoriales</a>
                     <span class="navbar-text"><box-icon name='wallet' color="#fff"></box-icon> $0.00</span>
-                    <img src="https://tiendas.imporsuitpro.com/imgs/your-profile-image.jpg" class="profile-pic" id="profilePic" alt="Perfil">
+                    <img src="https://new.imporsuitpro.com/public/img/img.png" class="profile-pic" id="profilePic" alt="Perfil">
                     <div class="profile-dropdown" id="profileDropdown">
                         <a href="#"><box-icon name="user" color="#fff" style="padding-right: 5px;"></box-icon> Perfil</a>
                         <a onclick="cerrar_sesion()"><box-icon name="log-out" color="#fff" style="padding-right: 5px;"></box-icon> Cerrar sesión</a>

@@ -32,9 +32,6 @@
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="precios-stock-tab" data-bs-toggle="tab" data-bs-target="#precios-stock" type="button" role="tab" aria-controls="precios-stock" aria-selected="false"><strong>Precios y Stock</strong></button>
                     </li>
-                    <li class="nav-item hidden-tab" role="presentation" id="inventario-variable-tab">
-                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#inventario-variable" type="button" role="tab" aria-controls="inventario-variable" aria-selected="false"><strong>Inventario Variable</strong></button>
-                    </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="datos-basicos" role="tabpanel" aria-labelledby="datos-basicos-tab">
@@ -146,36 +143,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="inventario-variable" role="tabpanel" aria-labelledby="inventario-variable-tab">
-                        <div class="d-flex">
-                            <table id="datatable_inventarioVariable" class="table table-striped w-50">
-                                <thead>
-                                    <tr>
-                                        <th class="centered">Atributo</th>
-                                        <th class="centered">Valor</th>
-                                        <th class="centered"></th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tableBody_inventarioVariable"></tbody>
-                            </table>
-
-                            <table id="datatable_detalleInventario" class="table table-bordered table-striped table-hover w-50">
-                                <thead>
-                                    <tr>
-                                        <th class="text-nowrap">Atributo</th>
-                                        <th class="text-nowrap">SKU</th>
-                                        <th class="text-nowrap">P. Proveedor</th>
-                                        <th class="text-nowrap">P. de Venta</th>
-                                        <th class="text-nowrap">P. Referencial</th>
-                                        <th class="text-nowrap">Bodega</th>
-                                        <th class="text-nowrap">Stock inicial</th>
-                                        <th class="text-nowrap">ID variable</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tableBody_detalleInventario"></tbody>
-                            </table>
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -191,18 +158,10 @@
     document.addEventListener('DOMContentLoaded', function() {
         const productoVariableSelect = document.getElementById('producto-variable');
         const manejaInventarioSelect = document.getElementById('maneja-inventario');
-        const inventarioVariableTab = document.getElementById('inventario-variable-tab');
         const bodegaField = document.getElementById('bodega-field');
         const precioReferencialCheckbox = document.getElementById('precio-referencial');
         const precioReferencialInput = document.getElementById('precio-referencial-valor');
 
-        function toggleInventarioVariableTab() {
-            if (productoVariableSelect.value === '1') { // 1 para "Sí"
-                inventarioVariableTab.classList.remove('hidden-tab');
-            } else {
-                inventarioVariableTab.classList.add('hidden-tab');
-            }
-        }
 
         function toggleBodegaField() {
             if (manejaInventarioSelect.value === '1' && productoVariableSelect.value === '2') { // 1 para "Sí" y 2 para "No"
@@ -217,14 +176,12 @@
         }
 
         productoVariableSelect.addEventListener('change', function() {
-            toggleInventarioVariableTab();
             toggleBodegaField();
         });
 
         manejaInventarioSelect.addEventListener('change', toggleBodegaField);
         precioReferencialCheckbox.addEventListener('change', togglePrecioReferencialInput);
 
-        toggleInventarioVariableTab(); // Llama a la función al cargar la página para ajustar la visibilidad inicial
         toggleBodegaField(); // Llama a la función al cargar la página para ajustar la visibilidad inicial
         togglePrecioReferencialInput(); // Llama a la función al cargar la página para ajustar la visibilidad inicial
     });
