@@ -1,7 +1,7 @@
-let dataTable_producto;
-let dataTable_productoIsInitialized = false;
+let dataTable;
+let dataTableIsInitialized = false;
 
-const dataTable_productoOptions = {
+const dataTableOptions = {
   //scrollX: "2000px",
   /* lengthMenu: [5, 10, 15, 20, 100, 200, 500], */
   columnDefs: [
@@ -30,15 +30,15 @@ const dataTable_productoOptions = {
 };
 
 const initDataTable = async () => {
-  if (dataTable_productoIsInitialized) {
-    dataTable_producto.destroy();
+  if (dataTableIsInitialized) {
+    dataTable.destroy();
   }
 
   await listProductos();
 
-  dataTable_producto = $("#datatable_productos").DataTable(dataTable_productoOptions);
+  dataTable = $("#datatable_productos").DataTable(dataTableOptions);
 
-  dataTable_productoIsInitialized = true;
+  dataTableIsInitialized = true;
 };
 
 const listProductos = async () => {
