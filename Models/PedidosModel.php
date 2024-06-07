@@ -36,84 +36,12 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
-    public function generarPedido(
-        $fecha,
-        $id_cliente,
-        $id_vendedor,
-        $condiciones,
-        $monto_factura,
-        $estado_factura,
-        $id_user_factura,
-        $validez,
-        $id_sucursal,
-        $nombre,
-        $telefono,
-        $provincia,
-        $calle_principal,
-        $ciudad,
-        $calle_secundaria,
-        $referencia,
-        $observacion,
-        $guia_enviada,
-        $transporte,
-        $identificacion,
-        $celular,
-        $cod,
-        $valor_segura,
-        $dropshipping,
-        $tienda,
-        $importado,
-        $plataforma_importa,
-        $estado_guia_sistema,
-        $id_factura_origen,
-        $impreso,
-        $facturada,
-        $factura_numero,
-        $numero_guia,
-        $anulado,
-        $id_plataforma
-    ) {
+    public function nuevo_pedido($fecha_factura, $id_usuario, $monto_factura, $estado_factura, $nombre_cliente, $telefono_cliente, $c_principal, $ciudad_cot, $c_secundaria, $referencia, $observacion, $guia_enviada, $transporte, $identificacion, $celular, $id_producto_venta, $dropshipping, $id_plataforma, $dueño_id, $importado, $plataforma_importa, $cod, $estado_guia_sistema, $impreso, $facturada, $factura_numero, $numero_guia, $anulada, $identificacionO, $celularO, $nombreO, $ciudadO, $provinciaO, $direccionO, $referenciaO, $numeroCasaO, $valor_segura, $no_piezas, $tipo_servicio, $peso, $contiene, $costo_flete, $costo_producto, $comentario, $id_transporte)
+    {
         $response = $this->initialResponse();
-
-        //obtiene ultimo numero de factura
-        $sql = "SELECT MAX(numero_factura) FROM facturas_cot  ORDER BY numero_factura DESC LIMIT 1";
-        $numero_factura = $this->select($sql);
-        if ($numero_factura && isset($numero_factura[0]['MAX(numero_factura)'])) {
-            $numero_factura = $numero_factura[0]['MAX(numero_factura)'];
-            $numero = intval(substr($numero_factura, 4));
-            $numero++;
-            $nuevo_numero_factura = 'COT-' . str_pad($numero, 6, '0', STR_PAD_LEFT);
-        } else {
-            $nuevo_numero_factura = 'COT-000001';
-        }
-
-        $sql = "INSERT INTO facturas_cot ( `numero_factura`, `fecha_factura`, `id_cliente`, `id_vendedor`, `condiciones`, `monto_factura`, `estado_factura`, `id_users_factura`, `validez`, `id_sucursal`, `nombre`, `telefono`, `provincia`, `c_principal`, `ciudad_cot`, `c_secundaria`, `referencia`, `observacion`, `guia_enviada`, `transporte`, `identificacion`, `celular`, `cod`, `valor_seguro`, `drogshipin`, `tienda`, `importado`, `plataforma_importa`, `estado_guia_sistema`, `id_factura_origen`, `impreso`, `facturada`, `factura_numero`, `numero_guia`, `anulada`, `id_plataforma`
-        ) VALUES (
-            ?, ?, ?, ?, ?, 
-            ?, ?, ?, ?, ?, 
-            ?, ?, ?, ?, ?, 
-            ?, ?, ?, ?, ?, 
-            ?, ?, ?, ?, ?, 
-            ?, ?, ?, ?, ?, 
-            ?, ?, ?, ?
-        )";
-
-        $data = [
-            $nuevo_numero_factura, $fecha, $id_cliente, $id_vendedor, $condiciones, $monto_factura, $estado_factura, $id_user_factura, $validez, $id_sucursal, $nombre, $telefono, $provincia, $calle_principal, $ciudad, $calle_secundaria, $referencia, $observacion, $guia_enviada, $transporte, $identificacion, $celular, $cod, $valor_segura, $dropshipping, $tienda, $importado, $plataforma_importa, $estado_guia_sistema, $id_factura_origen, $impreso, $facturada, $factura_numero, $numero_guia, $anulado, $id_plataforma
-        ];
-
-        $insertar_pedido = $this->insert($sql, $data);
-
-        if ($insertar_pedido == 1) {
-            $response['status'] = 200;
-            $response['title'] = 'Peticion exitosa';
-            $response['message'] = 'Pedido generado correctamente';
-        } else {
-            $response['status'] = 500;
-            $response['title'] = 'Error';
-            $response['message'] = 'Error al generar el pedido';
-        }
-
+        $sql = "INSERT INTO facturas_cot (fecha_factura, id_usuario, monto_factura, estado_factura, nombre_cliente, telefono_cliente, c_principal, ciudad_cot, c_secundaria, referencia, observacion, guia_enviada, transporte, identificacion, celular, id_producto_venta, dropshipping, id_plataforma, dueño_id, importado, plataforma_importa, cod, estado_guia_sistema, impreso, facturada, factura_numero, numero_guia, anulada, identificacionO, celularO, nombreO, ciudadO, provinciaO, direccionO, referenciaO, numeroCasaO, valor_segura, no_piezas, tipo_servicio, peso, contiene, costo_flete, costo_producto, comentario, id_transporte) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $data = array($fecha_factura, $id_usuario, $monto_factura, $estado_factura, $nombre_cliente, $telefono_cliente, $c_principal, $ciudad_cot, $c_secundaria, $referencia, $observacion, $guia_enviada, $transporte, $identificacion, $celular, $id_producto_venta, $dropshipping, $id_plataforma, $dueño_id, $importado, $plataforma_importa, $cod, $estado_guia_sistema, $impreso, $facturada, $factura_numero, $numero_guia, $anulada, $identificacionO, $celularO, $nombreO, $ciudadO, $provinciaO, $direccionO, $referenciaO, $numeroCasaO, $valor_segura, $no_piezas, $tipo_servicio, $peso, $contiene, $costo_flete, $costo_producto, $comentario, $id_transporte);
+        $response = $this->insert($sql, $data);
         return $response;
     }
 
