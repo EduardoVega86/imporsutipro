@@ -189,12 +189,12 @@ class Productos extends Controller
         $inv_producto = $_POST['inv_producto'];
         $producto_variable = $_POST['producto_variable'];
         $costo_producto = $_POST['costo_producto'];
-        $aplica_iva = $_POST['aplica_iva'];
+        $aplica_iva = $_POST['aplica_iva'] ?? 0;
         $estado_producto = $_POST['estado_producto'];
         $date_added = date("Y-m-d H:i:s");
         $image_path = "";
         $id_imp_producto = $_POST['id_imp_producto'];
-        $pagina_web = $_POST['pagina_web'];
+        $pagina_web = $_POST['pagina_web'] ?? 0;
         $formato = $_POST['formato'];
         $drogshipin = $_POST['drogshipin'] ?? 0;
         $destacado = $_POST['destacado'] ?? 0;
