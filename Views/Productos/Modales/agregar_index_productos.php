@@ -130,10 +130,6 @@
                                     <label for="stock-inicial">Stock Inicial:</label>
                                     <input type="text" class="form-control" id="stock-inicial">
                                 </div>
-                                <div class="form-group w-100">
-                                    <label for="stock-minimo">Stock Mínimo:</label>
-                                    <input type="text" class="form-control" id="stock-minimo">
-                                </div>
                                 <div class="form-group w-100 hidden-field" id="bodega-field">
                                     <label for="bodega">Bodega:</label>
                                     <select class="form-select" id="bodega">
