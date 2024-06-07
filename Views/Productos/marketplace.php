@@ -36,26 +36,25 @@
         </ul>
     </nav>
 </div>
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const productsPerPage = 10;
         let currentPage = 1;
-        let products = [];
+        const products = [];
 
         const cardContainer = document.getElementById('card-container');
         const pagination = document.getElementById('pagination');
 
         async function fetchProducts() {
-            try {
-                const response = await fetch(''+SERVERURL+'marketplace/obtener_productos');
-                products = await response.json();
-                displayProducts(products, currentPage, productsPerPage);
-                createPagination(products.length, productsPerPage);
-            } catch (error) {
-                console.error('Error al obtener los productos:', error);
-            }
+        try {
+            const response = await fetch(''+SERVERURL+'marketplace/obtener_productos');
+            products = await response.json();
+            displayProducts(products, currentPage, productsPerPage);
+            setupPagination(products.length, productsPerPage);
+        } catch (error) {
+            console.error('Error al obtener los productos:', error);
         }
+    }
 
         function displayProducts(products, page = 1, perPage = productsPerPage) {
             cardContainer.innerHTML = '';
@@ -147,8 +146,10 @@
             nextPageItem.classList.toggle('disabled', currentPage === totalPages);
         }
 
-        fetchProducts();
+        displayProducts(products, currentPage, productsPerPage);
+        createPagination(products.length, productsPerPage);
     });
 </script>
+
 
 <?php require_once './Views/templates/footer.php'; ?>
