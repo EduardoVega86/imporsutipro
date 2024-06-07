@@ -109,42 +109,42 @@ function eliminarProducto(id) {
   
   function editarProducto(id) {
     $.ajax({
-        type: "GET", // Cambiado de POST a GET ya que estamos obteniendo datos
-        url: SERVERURL + "productos/obtener_producto/" + id, // Añadir el id en la URL
+        type: "GET",
+        url: SERVERURL + "productos/obtener_producto/" + id,
         dataType: 'json',
         success: function (response) {
             console.log(response); // Depuración: Mostrar la respuesta en la consola
   
-            if (response) {
-                const data = response;
+            if (response && response.length > 0) {
+                const data = response[0];
   
-                if ($('#codigo').length > 0 && 
-                    $('#nombre').length > 0 && 
-                    $('#descripcion').length > 0 && 
-                    $('#categoria').length > 0 && 
-                    $('#formato-pagina').length > 0 &&
-                    $('#ultimo_costo').length > 0 &&
-                    $('#utilidad').length > 0 &&
-                    $('#precio-proveedor').length > 0 &&
-                    $('#precio-venta').length > 0 &&
-                    $('#precio-referencial-valor').length > 0 &&
-                    $('#maneja-inventario').length > 0 &&
-                    $('#stock-inicial').length > 0) {
+                if ($('#editar_codigo').length > 0 && 
+                    $('#editar_nombre').length > 0 && 
+                    $('#editar_descripcion').length > 0 && 
+                    $('#editar_categoria').length > 0 && 
+                    $('#editar_formato-pagina').length > 0 &&
+                    $('#editar_ultimo_costo').length > 0 &&
+                    $('#editar_utilidad').length > 0 &&
+                    $('#editar_precio_proveedor').length > 0 &&
+                    $('#editar_precio_venta').length > 0 &&
+                    $('#editar_precio_referencial').length > 0 &&
+                    $('#editar_maneja_inventario').length > 0 &&
+                    $('#editar_stock_inicial').length > 0) {
                     
                     console.log('Elementos encontrados, actualizando valores...');
                     // Llenar los inputs del modal con los datos recibidos
-                    $('#codigo').val(data.codigo_producto);
-                    $('#nombre').val(data.nombre_producto);
-                    $('#descripcion').val(data.descripcion_producto);
-                    $('#categoria').val(data.id_linea_producto);
-                    $('#formato-pagina').val(data.pagina_web);
-                    $('#ultimo_costo').val(data.costo_producto);
-                    $('#utilidad').val(data.utilidad);
-                    $('#precio-proveedor').val(data.pcp);
-                    $('#precio-venta').val(data.pvp);
-                    $('#precio-referencial-valor').val(data.pref);
-                    $('#maneja-inventario').val(data.inv_producto);
-                    $('#stock-inicial').val(data.stock_inicial);
+                    $('#editar_codigo').val(data.codigo_producto);
+                    $('#editar_nombre').val(data.nombre_producto);
+                    $('#editar_descripcion').val(data.descripcion_producto);
+                    $('#editar_categoria').val(data.id_linea_producto);
+                    $('#editar_formato-pagina').val(data.pagina_web);
+                    $('#editar_ultimo_costo').val(data.costo_producto);
+                    $('#editar_utilidad').val(data.utilidad);
+                    $('#editar_precio_proveedor').val(data.pcp);
+                    $('#editar_precio_venta').val(data.pvp);
+                    $('#editar_precio_referencial').val(data.pref);
+                    $('#editar_maneja_inventario').val(data.inv_producto);
+                    $('#editar_stock_inicial').val(data.stock_inicial);
 
                     // Abrir el modal
                     $('#editar_productoModal').modal('show');
