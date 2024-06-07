@@ -43,16 +43,16 @@ const initDataTable = async () => {
 
 const listBodegas = async () => {
   try {
-    const response = await fetch(
-      ""+SERVERURL+"productos/listar_bodegas"
-    );
+    const response = await fetch("" + SERVERURL + "productos/listar_bodegas");
     const bodegas = await response.json();
 
     let content = ``;
-    const ciudadPromises = bodegas.map(bodega => cargarCiudad(bodega.localidad));
+    const ciudadPromises = bodegas.map((bodega) =>
+      cargarCiudad(bodega.localidad)
+    );
 
-        // Esperar a que todas las promesas se resuelvan
-        const ciudades = await Promise.all(ciudadPromises);
+    // Esperar a que todas las promesas se resuelvan
+    const ciudades = await Promise.all(ciudadPromises);
 
     bodegas.forEach((bodega, index) => {
       const ciudad = ciudades[index];
@@ -77,19 +77,19 @@ const listBodegas = async () => {
 };
 
 function editar_bodegas(id) {
-  const url = ''+ SERVERURL +'Productos/editar_bodegas?id='+id;
+  const url = "" + SERVERURL + "Productos/editar_bodegas?id=" + id;
   window.location.href = url;
 }
 
 async function cargarCiudad(id_ciudad) {
-  const url = '' + SERVERURL + 'Ubicaciones/obtenerCiudad/' + id_ciudad;
+  const url = "" + SERVERURL + "Ubicaciones/obtenerCiudad/" + id_ciudad;
   try {
-      const response = await fetch(url);
-      const data = await response.json();
-      return data[0].ciudad; 
+    const response = await fetch(url);
+    const data = await response.json();
+    return data[0].ciudad;
   } catch (error) {
-      console.error('Error:', error);
-      return null;
+    console.error("Error:", error);
+    return null;
   }
 }
 
