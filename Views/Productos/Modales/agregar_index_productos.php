@@ -59,9 +59,7 @@
                                         <div class="form-group">
                                             <label for="categoria">Categoría:</label>
                                             <select class="form-select" id="categoria">
-                                                <option selected>-- Selecciona --</option>
-                                                <option value="1">Categoría 1</option>
-                                                <option value="2">Categoría 2</option>
+                                                <option selected>-- Selecciona Categoría --</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
@@ -272,7 +270,7 @@
     $(document).ready(function() {
         // Realiza la solicitud AJAX para obtener la lista de bodegas
         $.ajax({
-            url: ''+ SERVERURL +'productos/listar_bodegas',
+            url: '' + SERVERURL + 'productos/listar_bodegas',
             type: 'GET',
             dataType: 'json',
             success: function(response) {
@@ -288,6 +286,30 @@
             },
             error: function(error) {
                 console.error('Error al obtener la lista de bodegas:', error);
+            }
+        });
+    });
+
+    //cargar select categoria
+    $(document).ready(function() {
+        // Realiza la solicitud AJAX para obtener la lista de categorias
+        $.ajax({
+            url: '' + SERVERURL + 'productos/cargar_categorias',
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                // Asegúrate de que la respuesta es un array
+                if (Array.isArray(response)) {
+                    response.forEach(function(categoria) {
+                        // Agrega una nueva opción al select por cada categoria
+                        $('#categoria').append(new Option(categoria.nombre_linea, categoria.id_linea));
+                    });
+                } else {
+                    console.log('La respuesta de la API no es un array:', response);
+                }
+            },
+            error: function(error) {
+                console.error('Error al obtener la lista de categorias:', error);
             }
         });
     });
