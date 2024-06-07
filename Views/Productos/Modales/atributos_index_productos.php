@@ -1,11 +1,12 @@
 <style>
     .tag {
         display: inline-block;
-        padding: 0.25em 0.5em;
+        padding: 4px;
         background-color: #007bff;
         color: white;
         border-radius: 0.25rem;
         margin-right: 0.5em;
+        margin-top: 2px;
     }
 
     .tag .remove-tag {
