@@ -204,8 +204,7 @@
             formData.append('estado_producto', 1); // Suponiendo que el estado es activo
             formData.append('date_added', new Date().toISOString().split('T')[0]);
             formData.append('image_path', ''); // Asumiendo que no hay imagen por ahora
-            formData.append('pagina_web', $('#formato-pagina').val());
-            formData.append('formato', 'Formato 1'); // Suponiendo que siempre es Formato 1
+            formData.append('formato', $('#formato-pagina').val());
             formData.append('drogshipin', 0); // Suponiendo que no es dropshipping
             formData.append('destacado', 0); // Suponiendo que no es destacado
             formData.append('stock_inicial', $('#stock-inicial').val());
