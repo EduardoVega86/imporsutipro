@@ -53,6 +53,36 @@ class Pedidos extends Controller
     {
         $fecha_factura = date("Y-m-d H:i:s");
         $id_usuario = $_SESSION['id'];
+        $monto_factura = $_POST['total_venta'];
+        $estado_factura = 1;
+        $nombre_cliente = $_POST['nombre'];
+        $telefono_cliente = $_POST['telefono'];
+        $c_principal = $_POST['calle_principal'];
+        $ciudad_cot = $_POST['ciudad'];
+        $c_secundaria = $_POST['calle_secundaria'];
+        $referencia = $_POST['referencia'];
+        $observacion    = $_POST['observacion'];
+        $guia_enviada = 1;
+        $transporte = $_POST['transporte'];
+        $identificacion = $_POST['identificacion'] ?? "";
+        $celular = $_POST['celular'] ?? $telefono_cliente;
+        ///
+
+        $id_producto_venta = $_POST['id_producto_venta'];
+
+        $dropshipping = $_POST['dropshipping'] ?? 0;
+        $id_plataforma = $_SESSION['id_plataforma'];
+        $dueño_id = $this->obtener_propietario($id_producto_venta);
+        if ($dueño_id == $id_plataforma) {
+            $dropshipping = 0;
+        } else {
+            $dropshipping = 1;
+        }
+    }
+
+    public function obtener_propietario($id_producto)
+    {
+        $datos = $this->model->obtenerDestinatario($id_producto);
     }
 
     public function obtener_guias($filtro = "")

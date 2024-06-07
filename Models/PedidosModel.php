@@ -116,4 +116,13 @@ class PedidosModel extends Query
 
         return $response;
     }
+
+    public function obtenerDestinatario($id)
+    {
+        $sql = "SELECT id_plataforma FROM inventario_bodegas WHERE id_inventario = $id";
+
+        $id_platafomra = $this->select($sql);
+        $id_platafomra = $id_platafomra[0]['id_plataforma'];
+        return $id_platafomra;
+    }
 }
