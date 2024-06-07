@@ -433,10 +433,7 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
 
         const formData = new FormData(this);
 
-        // Añadir el ID de la bodega al formData
-        formData.append('bodega_id', bodegaId);
-
-        const url = '<?php echo SERVERURL; ?>Productos/agregarBodega'; // Asegúrate de definir SERVERURL en tu backend PHP
+        const url = '<?php echo SERVERURL; ?>Productos/editarBodega'; // Asegúrate de definir SERVERURL en tu backend PHP
 
         fetch(url, {
                 method: 'POST',
