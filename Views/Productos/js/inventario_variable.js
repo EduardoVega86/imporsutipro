@@ -14,7 +14,7 @@ const dataTableOptions = {
   },
 };
 
-const initDataTable = async () => {
+const initDataTable_inventarioVariable = async () => {
   if (dataTableIsInitialized) {
     dataTable.destroy();
   }
@@ -144,5 +144,5 @@ const eliminarCaracteristica = async (variedadoId) => {
 };
 
 window.addEventListener("load", async () => {
-  await initDataTable();
+  await initDataTable_inventarioVariable();
 });
