@@ -91,6 +91,13 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
+    public function eliminarBodega()
+    {
+        $id = $_POST['id'];
+        $response = $this->model->eliminarBodega($id, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
     public function listar_bodegas()
     {
         $response = $this->model->listarBodegas($_SESSION['id_plataforma']);
