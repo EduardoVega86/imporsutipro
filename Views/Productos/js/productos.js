@@ -222,7 +222,7 @@ function editarProducto(id) {
                     $('#editar_stock_inicial').val(data.stock_inicial);
 
                     // Abrir el modal
-                    $('#editar_producto_form').modal('show');
+                    $('#editar_productoModal').modal('show');
                 } else {
                     console.error("Uno o más elementos no se encontraron en el DOM.");
                 }
