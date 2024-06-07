@@ -151,9 +151,6 @@
                     </div>
                     <div class="tab-pane fade" id="inventario-variable" role="tabpanel" aria-labelledby="inventario-variable-tab">
                         <table id="datatable_inventarioVariable" class="table table-striped">
-                            <!-- <caption>
-                    DataTable.js Demo
-                </caption> -->
                             <thead>
                                 <tr>
                                     <th class="centered">Atributo</th>
@@ -164,6 +161,36 @@
                             <tbody id="tableBody_inventarioVariable"></tbody>
                         </table>
 
+                        <hr>
+
+                        <table class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th class="text-nowrap">Atribuo</th>
+                        <th class="text-nowrap">SKU</th>
+                        <th class="text-nowrap">P. Proveedor</th>
+                        <th class="text-nowrap">P. de Venta</th>
+                        <th class="text-nowrap">P. Referencial</th>
+                        <th class="text-nowrap">Bodega</th>
+                        <th class="text-nowrap">Stock inicial</th>
+                        <th class="text-nowrap">ID variable</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>616</td>
+                        <td>imagen Producto</td>
+                        <td>10061</td>
+                        <td>ACCESORIOS BRAZO IRONMAN</td>
+                        <td>Si o No</td>
+                        <td>8</td>
+                        <td>$2.00</td>
+                        <td>$2.00</td>
+                    </tr>
+                    
+                    <!-- Agrega más filas según sea necesario -->
+                </tbody>
+            </table>
                     </div>
                 </div>
             </div>
