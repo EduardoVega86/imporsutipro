@@ -232,7 +232,7 @@ class ProductosModel extends Query
 
     public function obtenerBodega($id, $plataforma)
     {
-        $sql = "SELECT * FROM bodega WHERE id_bodega = $id AND id_plataforma = $plataforma";
+        $sql = "SELECT * FROM bodega WHERE id= $id AND id_plataforma = $plataforma";
         return $this->select($sql);
     }
 
