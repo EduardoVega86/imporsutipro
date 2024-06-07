@@ -59,7 +59,7 @@ const listBodegas = async () => {
                     <td>${bodega.responsable}</td>
                     <td>${bodega.contacto}</td>
                     <td>
-                        <button class="btn btn-sm btn-primary"><i class="fa-solid fa-pencil"></i></button>
+                        <button class="btn btn-sm btn-primary" onclick="editar_bodegas(${bodega.id})"><i class="fa-solid fa-pencil"></i></button>
                         <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash-can"></i></button>
                     </td>
                 </tr>`;
@@ -69,6 +69,12 @@ const listBodegas = async () => {
     alert(ex);
   }
 };
+
+function editar_bodegas(id) {
+  const serverUrl = '<?php echo SERVERURL ?>';
+  const url = `${serverUrl}Productos/editar_bodegas?id=${id}`;
+  window.location.href = url;
+}
 
 window.addEventListener("load", async () => {
   await initDataTable();
