@@ -138,48 +138,50 @@
     </div>
 </div>
 <script>
-    // Enviar datos al editar producto
-    $('#editar_producto_form').submit(function(event) {
-        event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
+    $(document).ready(function() {
+        // Enviar datos al editar producto
+        $('#editar_producto_form').submit(function(event) {
+            event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
 
-        // Crea un objeto FormData
-        var formData = new FormData();
-        formData.append('id_producto', $('#editar_id_producto').val()); // Asegúrate de tener el ID del producto en un campo oculto
-        formData.append('codigo_producto', $('#editar_codigo').val());
-        formData.append('nombre_producto', $('#editar_nombre').val());
-        formData.append('descripcion_producto', $('#editar_descripcion').val());
-        formData.append('id_linea_producto', $('#editar_categoria').val());
-        formData.append('inv_producto', $('#editar_maneja_inventario').val());
-        formData.append('producto_variable', $('#editar_producto_variable').val());
-        formData.append('costo_producto', $('#editar_ultimo_costo').val());
-        formData.append('aplica_iva', 1); // Suponiendo que siempre aplica IVA
-        formData.append('estado_producto', 1); // Suponiendo que el estado es activo
-        formData.append('date_added', new Date().toISOString().split('T')[0]);
-        formData.append('image_path', ''); // Asumiendo que no hay imagen por ahora
-        formData.append('formato', $('#editar_formato_pagina').val());
-        formData.append('drogshipin', 0); // Suponiendo que no es dropshipping
-        formData.append('destacado', 0); // Suponiendo que no es destacado
-        formData.append('stock_inicial', $('#editar_stock_inicial').val());
-        formData.append('bodega', $('#editar_bodega').val());
-        formData.append('pcp', $('#editar_precio_proveedor').val());
-        formData.append('pvp', $('#editar_precio_venta').val());
-        formData.append('pref', $('#editar_precio_referencial').val());
+            // Crea un objeto FormData
+            var formData = new FormData();
+            formData.append('id_producto', $('#editar_id_producto').val()); // Asegúrate de tener el ID del producto en un campo oculto
+            formData.append('codigo_producto', $('#editar_codigo').val());
+            formData.append('nombre_producto', $('#editar_nombre').val());
+            formData.append('descripcion_producto', $('#editar_descripcion').val());
+            formData.append('id_linea_producto', $('#editar_categoria').val());
+            formData.append('inv_producto', $('#editar_maneja_inventario').val());
+            formData.append('producto_variable', $('#editar_producto_variable').val());
+            formData.append('costo_producto', $('#editar_ultimo_costo').val());
+            formData.append('aplica_iva', 1); // Suponiendo que siempre aplica IVA
+            formData.append('estado_producto', 1); // Suponiendo que el estado es activo
+            formData.append('date_added', new Date().toISOString().split('T')[0]);
+            formData.append('image_path', ''); // Asumiendo que no hay imagen por ahora
+            formData.append('formato', $('#editar_formato_pagina').val());
+            formData.append('drogshipin', 0); // Suponiendo que no es dropshipping
+            formData.append('destacado', 0); // Suponiendo que no es destacado
+            formData.append('stock_inicial', $('#editar_stock_inicial').val());
+            formData.append('bodega', $('#editar_bodega').val());
+            formData.append('pcp', $('#editar_precio_proveedor').val());
+            formData.append('pvp', $('#editar_precio_venta').val());
+            formData.append('pref', $('#editar_precio_referencial').val());
 
-        // Realiza la solicitud AJAX
-        $.ajax({
-            url: SERVERURL + 'productos/editar_producto',
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(response) {
-                alert('Producto editado exitosamente');
-                console.log(response);
-            },
-            error: function(error) {
-                alert('Hubo un error al editar el producto');
-                console.log(error);
-            }
+            // Realiza la solicitud AJAX
+            $.ajax({
+                url: SERVERURL + 'productos/editar_producto',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    alert('Producto editado exitosamente');
+                    console.log(response);
+                },
+                error: function(error) {
+                    alert('Hubo un error al editar el producto');
+                    console.log(error);
+                }
+            });
         });
     });
 </script>
