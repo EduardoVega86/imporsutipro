@@ -306,4 +306,28 @@ class ProductosModel extends Query
         }
         return $response;
     }
+
+    public function listarCaracteristicas($plataforma)
+    {
+        $sql = "SELECT * FROM variedades WHERE id_plataforma = $plataforma";
+        return $this->select($sql);
+    }
+
+    public function eliminarCaracteristica($id, $plataforma)
+    {
+        $response = $this->initialResponse();
+        $sql = "DELETE FROM variedades WHERE id_variedad = ? AND id_plataforma = ?";
+        $data = [$id, $plataforma];
+        $eliminar_caracteristica = $this->delete($sql, $data);
+        if ($eliminar_caracteristica == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Caracteristica eliminada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al eliminar la caracteristica';
+        }
+        return $response;
+    }
 }

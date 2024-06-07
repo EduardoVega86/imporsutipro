@@ -188,12 +188,25 @@ class Productos extends Controller
     }
 
 
-
+    /// Funciones de caracteristicas
     public function agregar_caracteristica()
     {
         $variedad = $_POST['variedad'];
         $id_atributo = $_POST['id_atributo'];
         $response = $this->model->agregarCaracteristica($variedad, $id_atributo, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
+    public function listar_caracteristicas()
+    {
+        $response = $this->model->listarCaracteristicas($_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
+    public function eliminar_caracteristica()
+    {
+        $id = $_POST['id'];
+        $response = $this->model->eliminarCaracteristica($id, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
 }
