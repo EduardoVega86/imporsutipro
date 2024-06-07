@@ -109,24 +109,25 @@ function eliminarProducto(id) {
   
    //cargar select de bodega 
    $(document).ready(function() {
-    // Realiza la solicitud AJAX para obtener la lista de bodegas
+    // Realiza la solicitud AJAX para obtener la lista de categorias
     $.ajax({
-        url: '' + SERVERURL + 'productos/listar_bodegas',
+        url: SERVERURL + 'productos/cargar_categorias',
         type: 'GET',
         dataType: 'json',
         success: function(response) {
             // Asegúrate de que la respuesta es un array
             if (Array.isArray(response)) {
-                response.forEach(function(bodega) {
-                    // Agrega una nueva opción al select por cada bodega
-                    $('#bodega').append(new Option(bodega.nombre, bodega.id));
+                response.forEach(function(categoria) {
+                    // Agrega una nueva opción al select por cada categoria
+                    $('#categoria').append(new Option(categoria.nombre_linea, categoria.id_linea));
+                    $('#editar_categoria').append(new Option(categoria.nombre_linea, categoria.id_linea));
                 });
             } else {
                 console.log('La respuesta de la API no es un array:', response);
             }
         },
         error: function(error) {
-            console.error('Error al obtener la lista de bodegas:', error);
+            console.error('Error al obtener la lista de categorias:', error);
         }
     });
 });
@@ -155,7 +156,7 @@ $(document).ready(function() {
     });
 });
 
-  function editarProducto(id) {
+function editarProducto(id) {
     $.ajax({
         type: "GET",
         url: SERVERURL + "productos/obtener_producto/" + id,
@@ -208,6 +209,7 @@ $(document).ready(function() {
         },
     });
 }
+
 
 
 window.addEventListener("load", async () => {
