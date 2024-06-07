@@ -24,6 +24,11 @@ class Productos extends Controller
     {
         $this->views->render($this, "agregar_bodegas");
     }
+
+    public function editar_bodegas()
+    {
+        $this->views->render($this, "editar_bodega");
+    }
     public function locales()
     {
         $data = $this->model->cargarLocales();
@@ -79,6 +84,7 @@ class Productos extends Controller
         $response = $this->model->obtenerBodega($id, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
+
 
     public function editarBodega()
     {
