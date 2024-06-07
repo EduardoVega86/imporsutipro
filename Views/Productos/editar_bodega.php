@@ -48,7 +48,7 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
 
                 </h3>
                 <form id="formularioDatos_editar" method="post">
-                    <input type="hidden" id="bodega_id" name="bodega_id" value="<?php echo $bodega_id; ?>">
+                    <input type="hidden" id="id" name="id" value="<?php echo $bodega_id; ?>">
 
                     <div class="form-group row">
                         <div class="col-md-12">
