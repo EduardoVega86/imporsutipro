@@ -72,14 +72,6 @@
                                     </div>
                                     <div class="d-flex flex-column w-100">
                                         <div class="form-group">
-                                            <label for="proveedor">Proveedor:</label>
-                                            <select class="form-select" id="proveedor">
-                                                <option selected>-- Selecciona --</option>
-                                                <option value="1">Proveedor 1</option>
-                                                <option value="2">Proveedor 2</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
                                             <label for="formato-pagina">Formato Página Productos:</label>
                                             <select class="form-select" id="formato-pagina">
                                                 <option selected>-- Selecciona --</option>
@@ -158,10 +150,19 @@
 
                     </div>
                     <div class="tab-pane fade" id="inventario-variable" role="tabpanel" aria-labelledby="inventario-variable-tab">
-                        <div class="form-group">
-                            <label for="inventario-variable-input">Inventario Variable:</label>
-                            <input type="text" class="form-control" id="inventario-variable-input">
-                        </div>
+                    <table id="datatable_atributos" class="table table-striped">
+                        <!-- <caption>
+                    DataTable.js Demo
+                </caption> -->
+                        <thead>
+                            <tr>
+                                <th class="centered">Atributo</th>
+                                <th class="centered">Valor</th>
+                                <th class="centered"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody_atributos"></tbody>
+                    </table>
 
                     </div>
                 </div>
@@ -236,7 +237,6 @@
             formData.append('estado_producto', 1); // Suponiendo que el estado es activo
             formData.append('date_added', new Date().toISOString().split('T')[0]);
             formData.append('image_path', ''); // Asumiendo que no hay imagen por ahora
-            formData.append('id_imp_producto', $('#proveedor').val());
             formData.append('pagina_web', $('#formato-pagina').val());
             formData.append('formato', 'Formato 1'); // Suponiendo que siempre es Formato 1
             formData.append('drogshipin', 0); // Suponiendo que no es dropshipping

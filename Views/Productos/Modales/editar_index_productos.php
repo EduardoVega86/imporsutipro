@@ -67,14 +67,6 @@
                                     </div>
                                     <div class="d-flex flex-column w-100">
                                         <div class="form-group">
-                                            <label for="proveedor">Proveedor:</label>
-                                            <select class="form-select" id="proveedor">
-                                                <option selected>-- Selecciona --</option>
-                                                <option value="1">Proveedor 1</option>
-                                                <option value="2">Proveedor 2</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
                                             <label for="formato-pagina">Formato Página Productos:</label>
                                             <select class="form-select" id="formato-pagina">
                                                 <option selected>-- Selecciona --</option>
