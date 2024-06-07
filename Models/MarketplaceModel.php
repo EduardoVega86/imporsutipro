@@ -10,7 +10,7 @@ class MarketplaceModel extends Query
 
     public function obtener_productos($plataforma)
     {
-        $sql = "SELECT * FROM `productos` where drogshipin = 1 or id_plataform=$plataforma";
+        $sql = "SELECT * FROM `productos` where drogshipin = 1 or id_plataforma=$plataforma";
         return $this->select($sql);
     }
 
