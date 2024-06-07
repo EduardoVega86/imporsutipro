@@ -18,326 +18,486 @@
 </style>
 
 <div class="modal fade" id="agregar_productoModal" tabindex="-1" aria-labelledby="agregar_productoModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="agregar_productoModalLabel"><i class="fas fa-edit"></i> Nuevo Producto</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="datos-basicos-tab" data-bs-toggle="tab" data-bs-target="#datos-basicos" type="button" role="tab" aria-controls="datos-basicos" aria-selected="true"><strong>Datos Básicos</strong></button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="precios-stock-tab" data-bs-toggle="tab" data-bs-target="#precios-stock" type="button" role="tab" aria-controls="precios-stock" aria-selected="false"><strong>Precios y Stock</strong></button>
-                    </li>
-                    <li class="nav-item hidden-tab" role="presentation" id="inventario-variable-tab">
-                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#inventario-variable" type="button" role="tab" aria-controls="inventario-variable" aria-selected="false"><strong>Inventario Variable</strong></button>
-                    </li>
-                </ul>
-                <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade show active" id="datos-basicos" role="tabpanel" aria-labelledby="datos-basicos-tab">
-                        <form id="agregar_producto_form">
-                            <div class="d-flex flex-column">
-                                <div class="d-flex flex-row gap-3">
-                                    <div class="form-group w-100">
-                                        <label for="codigo">Código:</label>
-                                        <input type="text" class="form-control" id="codigo" value="10088">
-                                    </div>
-                                    <div class="form-group w-100">
-                                        <label for="nombre">Nombre:</label>
-                                        <input type="text" class="form-control" id="nombre">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="descripcion">Descripción:</label>
-                                    <textarea class="form-control" id="descripcion"></textarea>
-                                </div>
-                                <div class="d-flex flex-row gap-3">
-                                    <div class="d-flex flex-column w-100">
-                                        <div class="form-group">
-                                            <label for="categoria">Categoría:</label>
-                                            <select class="form-select" id="categoria">
-                                                <option selected>-- Selecciona Categoría --</option>
-                                            </select>
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="agregar_productoModalLabel"><i class="fas fa-edit"></i> Nuevo Producto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="datos-basicos-tab" data-bs-toggle="tab" data-bs-target="#datos-basicos" type="button" role="tab" aria-controls="datos-basicos" aria-selected="true"><strong>Datos Básicos</strong></button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="precios-stock-tab" data-bs-toggle="tab" data-bs-target="#precios-stock" type="button" role="tab" aria-controls="precios-stock" aria-selected="false"><strong>Precios y Stock</strong></button>
+                        </li>
+                        <li class="nav-item hidden-tab" role="presentation" id="inventario-variable-tab">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#inventario-variable" type="button" role="tab" aria-controls="inventario-variable" aria-selected="false"><strong>Inventario Variable</strong></button>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="datos-basicos" role="tabpanel" aria-labelledby="datos-basicos-tab">
+                            <form id="agregar_producto_form">
+                                <div class="d-flex flex-column">
+                                    <div class="d-flex flex-row gap-3">
+                                        <div class="form-group w-100">
+                                            <label for="codigo">Código:</label>
+                                            <input type="text" class="form-control" id="codigo" value="10088">
                                         </div>
-                                        <div class="form-group">
-                                            <label>Formato:</label>
-                                            <div class="d-flex">
-                                                <img src="formato1.png" alt="Formato 1" class="me-2">
-                                                <img src="formato2.png" alt="Formato 2">
+                                        <div class="form-group w-100">
+                                            <label for="nombre">Nombre:</label>
+                                            <input type="text" class="form-control" id="nombre">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="descripcion">Descripción:</label>
+                                        <textarea class="form-control" id="descripcion"></textarea>
+                                    </div>
+                                    <div class="d-flex flex-row gap-3">
+                                        <div class="d-flex flex-column w-100">
+                                            <div class="form-group">
+                                                <label for="categoria">Categoría:</label>
+                                                <select class="form-select" id="categoria">
+                                                    <option selected>-- Selecciona Categoría --</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Formato:</label>
+                                                <div class="d-flex">
+                                                    <img src="formato1.png" alt="Formato 1" class="me-2">
+                                                    <img src="formato2.png" alt="Formato 2">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-column w-100">
+                                            <div class="form-group">
+                                                <label for="formato-pagina">Formato Página Productos:</label>
+                                                <select class="form-select" id="formato-pagina">
+                                                    <option selected>-- Selecciona --</option>
+                                                    <option value="1">Formato 1</option>
+                                                    <option value="2">Formato 2</option>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="d-flex flex-column w-100">
-                                        <div class="form-group">
-                                            <label for="formato-pagina">Formato Página Productos:</label>
-                                            <select class="form-select" id="formato-pagina">
-                                                <option selected>-- Selecciona --</option>
-                                                <option value="1">Formato 1</option>
-                                                <option value="2">Formato 2</option>
-                                            </select>
-                                        </div>
+                                </div>
+                        </div>
+                        <div class="tab-pane fade" id="precios-stock" role="tabpanel" aria-labelledby="precios-stock-tab">
+                            <div class="d-flex flex-column">
+                                <div class="d-flex flex-row gap-3">
+                                    <div class="form-group w-100">
+                                        <label for="costo">Costo:</label>
+                                        <input type="text" class="form-control" id="costo">
+                                    </div>
+                                    <div class="form-group w-100">
+                                        <label for="utilidad">Utilidad %:</label>
+                                        <input type="text" class="form-control" id="utilidad">
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row gap-3">
+                                    <div class="form-group w-100">
+                                        <label for="precio-proveedor">Precio Proveedor:</label>
+                                        <input type="text" class="form-control" id="precio-proveedor">
+                                    </div>
+                                    <div class="form-group w-100">
+                                        <label for="precio-venta">Precio de Venta (Sugerido):</label>
+                                        <input type="text" class="form-control" id="precio-venta">
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row gap-3">
+                                    <div class="form-group w-100">
+                                        <label for="precio-referencial">¿Precio Referencial?</label>
+                                        <input type="checkbox" class="form-check-input" id="precio-referencial">
+                                        <input type="text" class="form-control mt-2" id="precio-referencial-valor" disabled>
+                                    </div>
+                                    <div class="form-group w-100">
+                                        <label for="maneja-inventario">Maneja Inventario:</label>
+                                        <select class="form-select" id="maneja-inventario">
+                                            <option selected>-- Selecciona --</option>
+                                            <option value="1">Sí</option>
+                                            <option value="2">No</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group w-100">
+                                        <label for="producto-variable">Producto Variable:</label>
+                                        <select class="form-select" id="producto-variable">
+                                            <option selected>-- Selecciona --</option>
+                                            <option value="1">Sí</option>
+                                            <option value="2">No</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row gap-3">
+                                    <div class="form-group w-100">
+                                        <label for="stock-inicial">Stock Inicial:</label>
+                                        <input type="text" class="form-control" id="stock-inicial">
+                                    </div>
+                                    <div class="form-group w-100">
+                                        <label for="stock-minimo">Stock Mínimo:</label>
+                                        <input type="text" class="form-control" id="stock-minimo">
+                                    </div>
+                                    <div class="form-group w-100 hidden-field" id="bodega-field">
+                                        <label for="bodega">Bodega:</label>
+                                        <select class="form-select" id="bodega">
+                                            <option selected>-- Selecciona Bodega --</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="tab-pane fade" id="inventario-variable" role="tabpanel" aria-labelledby="inventario-variable-tab">
+                            <div class="d-flex">
+                                <table id="datatable_inventarioVariable" class="table table-striped w-50">
+                                    <thead>
+                                        <tr>
+                                            <th class="centered">Atributo</th>
+                                            <th class="centered">Valor</th>
+                                            <th class="centered"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tableBody_inventarioVariable"></tbody>
+                                </table>
 
-                    </div>
-                    <div class="tab-pane fade" id="precios-stock" role="tabpanel" aria-labelledby="precios-stock-tab">
-
-                        <div class="d-flex flex-column">
-                            <div class="d-flex flex-row gap-3">
-                                <div class="form-group w-100">
-                                    <label for="costo">Costo:</label>
-                                    <input type="text" class="form-control" id="costo">
-                                </div>
-                                <div class="form-group w-100">
-                                    <label for="utilidad">Utilidad %:</label>
-                                    <input type="text" class="form-control" id="utilidad">
-                                </div>
-                            </div>
-                            <div class="d-flex flex-row gap-3">
-                                <div class="form-group w-100">
-                                    <label for="precio-proveedor">Precio Proveedor:</label>
-                                    <input type="text" class="form-control" id="precio-proveedor">
-                                </div>
-                                <div class="form-group w-100">
-                                    <label for="precio-venta">Precio de Venta (Sugerido):</label>
-                                    <input type="text" class="form-control" id="precio-venta">
-                                </div>
-                            </div>
-                            <div class="d-flex flex-row gap-3">
-                                <div class="form-group w-100">
-                                    <label for="precio-referencial">¿Precio Referencial?</label>
-                                    <input type="checkbox" class="form-check-input" id="precio-referencial">
-                                    <input type="text" class="form-control mt-2" id="precio-referencial-valor" disabled>
-                                </div>
-                                <div class="form-group w-100">
-                                    <label for="maneja-inventario">Maneja Inventario:</label>
-                                    <select class="form-select" id="maneja-inventario">
-                                        <option selected>-- Selecciona --</option>
-                                        <option value="1">Sí</option>
-                                        <option value="2">No</option>
-                                    </select>
-                                </div>
-                                <div class="form-group w-100">
-                                    <label for="producto-variable">Producto Variable:</label>
-                                    <select class="form-select" id="producto-variable">
-                                        <option selected>-- Selecciona --</option>
-                                        <option value="1">Sí</option>
-                                        <option value="2">No</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-row gap-3">
-                                <div class="form-group w-100">
-                                    <label for="stock-inicial">Stock Inicial:</label>
-                                    <input type="text" class="form-control" id="stock-inicial">
-                                </div>
-                                <div class="form-group w-100">
-                                    <label for="stock-minimo">Stock Mínimo:</label>
-                                    <input type="text" class="form-control" id="stock-minimo">
-                                </div>
-                                <div class="form-group w-100 hidden-field" id="bodega-field">
-                                    <label for="bodega">Bodega:</label>
-                                    <select class="form-select" id="bodega">
-                                        <option selected>-- Selecciona Bodega --</option>
-                                    </select>
-                                </div>
+                                <table id="datatable_detalleInventario" class="table table-bordered table-striped table-hover w-50">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-nowrap">Atribuo</th>
+                                            <th class="text-nowrap">SKU</th>
+                                            <th class="text-nowrap">P. Proveedor</th>
+                                            <th class="text-nowrap">P. de Venta</th>
+                                            <th class="text-nowrap">P. Referencial</th>
+                                            <th class="text-nowrap">Bodega</th>
+                                            <th class="text-nowrap">Stock inicial</th>
+                                            <th class="text-nowrap">ID variable</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tableBody_detalleInventario"></tbody>
+                                </table>
                             </div>
                         </div>
-
-                    </div>
-                    <div class="tab-pane fade" id="inventario-variable" role="tabpanel" aria-labelledby="inventario-variable-tab">
-                        <table id="datatable_inventarioVariable" class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th class="centered">Atributo</th>
-                                    <th class="centered">Valor</th>
-                                    <th class="centered"></th>
-                                </tr>
-                            </thead>
-                            <tbody id="tableBody_inventarioVariable"></tbody>
-                        </table>
-
-                        <hr>
-
-                        <table class="table table-bordered table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th class="text-nowrap">Atribuo</th>
-                        <th class="text-nowrap">SKU</th>
-                        <th class="text-nowrap">P. Proveedor</th>
-                        <th class="text-nowrap">P. de Venta</th>
-                        <th class="text-nowrap">P. Referencial</th>
-                        <th class="text-nowrap">Bodega</th>
-                        <th class="text-nowrap">Stock inicial</th>
-                        <th class="text-nowrap">ID variable</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>616</td>
-                        <td>imagen Producto</td>
-                        <td>10061</td>
-                        <td>ACCESORIOS BRAZO IRONMAN</td>
-                        <td>Si o No</td>
-                        <td>8</td>
-                        <td>$2.00</td>
-                        <td>$2.00</td>
-                    </tr>
-                    
-                    <!-- Agrega más filas según sea necesario -->
-                </tbody>
-            </table>
                     </div>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+                </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-primary">Guardar</button>
-            </div>
-            </form>
         </div>
     </div>
-</div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const productoVariableSelect = document.getElementById('producto-variable');
+            const manejaInventarioSelect = document.getElementById('maneja-inventario');
+            const inventarioVariableTab = document.getElementById('inventario-variable-tab');
+            const bodegaField = document.getElementById('bodega-field');
+            const precioReferencialCheckbox = document.getElementById('precio-referencial');
+            const precioReferencialInput = document.getElementById('precio-referencial-valor');
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const productoVariableSelect = document.getElementById('producto-variable');
-        const manejaInventarioSelect = document.getElementById('maneja-inventario');
-        const inventarioVariableTab = document.getElementById('inventario-variable-tab');
-        const bodegaField = document.getElementById('bodega-field');
-        const precioReferencialCheckbox = document.getElementById('precio-referencial');
-        const precioReferencialInput = document.getElementById('precio-referencial-valor');
-
-        function toggleInventarioVariableTab() {
-            if (productoVariableSelect.value === '1') { // 1 para "Sí"
-                inventarioVariableTab.classList.remove('hidden-tab');
-            } else {
-                inventarioVariableTab.classList.add('hidden-tab');
+            function toggleInventarioVariableTab() {
+                if (productoVariableSelect.value === '1') { // 1 para "Sí"
+                    inventarioVariableTab.classList.remove('hidden-tab');
+                } else {
+                    inventarioVariableTab.classList.add('hidden-tab');
+                }
             }
-        }
 
-        function toggleBodegaField() {
-            if (manejaInventarioSelect.value === '1' && productoVariableSelect.value === '2') { // 1 para "Sí" y 2 para "No"
-                bodegaField.classList.remove('hidden-field');
-            } else {
-                bodegaField.classList.add('hidden-field');
+            function toggleBodegaField() {
+                if (manejaInventarioSelect.value === '1' && productoVariableSelect.value === '2') { // 1 para "Sí" y 2 para "No"
+                    bodegaField.classList.remove('hidden-field');
+                } else {
+                    bodegaField.classList.add('hidden-field');
+                }
             }
-        }
 
-        function togglePrecioReferencialInput() {
-            precioReferencialInput.disabled = !precioReferencialCheckbox.checked;
-        }
+            function togglePrecioReferencialInput() {
+                precioReferencialInput.disabled = !precioReferencialCheckbox.checked;
+            }
 
-        productoVariableSelect.addEventListener('change', function() {
-            toggleInventarioVariableTab();
-            toggleBodegaField();
+            productoVariableSelect.addEventListener('change', function() {
+                toggleInventarioVariableTab();
+                toggleBodegaField();
+            });
+
+            manejaInventarioSelect.addEventListener('change', toggleBodegaField);
+            precioReferencialCheckbox.addEventListener('change', togglePrecioReferencialInput);
+
+            toggleInventarioVariableTab(); // Llama a la función al cargar la página para ajustar la visibilidad inicial
+            toggleBodegaField(); // Llama a la función al cargar la página para ajustar la visibilidad inicial
+            togglePrecioReferencialInput(); // Llama a la función al cargar la página para ajustar la visibilidad inicial
         });
 
-        manejaInventarioSelect.addEventListener('change', toggleBodegaField);
-        precioReferencialCheckbox.addEventListener('change', togglePrecioReferencialInput);
+        //enviar datos a base de datos
+        $(document).ready(function() {
+            $('#agregar_producto_form').submit(function(event) {
+                event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
 
-        toggleInventarioVariableTab(); // Llama a la función al cargar la página para ajustar la visibilidad inicial
-        toggleBodegaField(); // Llama a la función al cargar la página para ajustar la visibilidad inicial
-        togglePrecioReferencialInput(); // Llama a la función al cargar la página para ajustar la visibilidad inicial
-    });
+                // Crea un objeto FormData
+                var formData = new FormData();
+                formData.append('codigo_producto', $('#codigo').val());
+                formData.append('nombre_producto', $('#nombre').val());
+                formData.append('descripcion_producto', $('#descripcion').val());
+                formData.append('id_linea_producto', $('#categoria').val());
+                formData.append('inv_producto', $('#maneja-inventario').val());
+                formData.append('producto_variable', $('#producto-variable').val());
+                formData.append('costo_producto', $('#costo').val());
+                formData.append('aplica_iva', 1); // Suponiendo que siempre aplica IVA
+                formData.append('estado_producto', 1); // Suponiendo que el estado es activo
+                formData.append('date_added', new Date().toISOString().split('T')[0]);
+                formData.append('image_path', ''); // Asumiendo que no hay imagen por ahora
+                formData.append('pagina_web', $('#formato-pagina').val());
+                formData.append('formato', 'Formato 1'); // Suponiendo que siempre es Formato 1
+                formData.append('drogshipin', 0); // Suponiendo que no es dropshipping
+                formData.append('destacado', 0); // Suponiendo que no es destacado
+                formData.append('stock_inicial', $('#stock-inicial').val());
+                formData.append('bodega', $('#bodega').val());
+                formData.append('pcp', $('#precio-proveedor').val());
+                formData.append('pvp', $('#precio-venta').val());
+                formData.append('pref', $('#precio-referencial-valor').val());
 
-    //enviar datos a base de datos
-    $(document).ready(function() {
-        $('#agregar_producto_form').submit(function(event) {
-            event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
+                // Realiza la solicitud AJAX
+                $.ajax({
+                    url: '' + SERVERURL + 'productos/agregar_producto',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        alert('Producto agregado exitosamente');
+                        console.log(response);
+                    },
+                    error: function(error) {
+                        alert('Hubo un error al agregar el producto');
+                        console.log(error);
+                    }
+                });
+            });
+        });
 
-            // Crea un objeto FormData
-            var formData = new FormData();
-            formData.append('codigo_producto', $('#codigo').val());
-            formData.append('nombre_producto', $('#nombre').val());
-            formData.append('descripcion_producto', $('#descripcion').val());
-            formData.append('id_linea_producto', $('#categoria').val());
-            formData.append('inv_producto', $('#maneja-inventario').val());
-            formData.append('producto_variable', $('#producto-variable').val());
-            formData.append('costo_producto', $('#costo').val());
-            formData.append('aplica_iva', 1); // Suponiendo que siempre aplica IVA
-            formData.append('estado_producto', 1); // Suponiendo que el estado es activo
-            formData.append('date_added', new Date().toISOString().split('T')[0]);
-            formData.append('image_path', ''); // Asumiendo que no hay imagen por ahora
-            formData.append('pagina_web', $('#formato-pagina').val());
-            formData.append('formato', 'Formato 1'); // Suponiendo que siempre es Formato 1
-            formData.append('drogshipin', 0); // Suponiendo que no es dropshipping
-            formData.append('destacado', 0); // Suponiendo que no es destacado
-            formData.append('stock_inicial', $('#stock-inicial').val());
-            formData.append('bodega', $('#bodega').val());
-            formData.append('pcp', $('#precio-proveedor').val());
-            formData.append('pvp', $('#precio-venta').val());
-            formData.append('pref', $('#precio-referencial-valor').val());
-
-            // Realiza la solicitud AJAX
+        //cargar select de bodega 
+        $(document).ready(function() {
+            // Realiza la solicitud AJAX para obtener la lista de bodegas
             $.ajax({
-                url: '' + SERVERURL + 'productos/agregar_producto',
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
+                url: '' + SERVERURL + 'productos/listar_bodegas',
+                type: 'GET',
+                dataType: 'json',
                 success: function(response) {
-                    alert('Producto agregado exitosamente');
-                    console.log(response);
+                    // Asegúrate de que la respuesta es un array
+                    if (Array.isArray(response)) {
+                        response.forEach(function(bodega) {
+                            // Agrega una nueva opción al select por cada bodega
+                            $('#bodega').append(new Option(bodega.nombre, bodega.id));
+                        });
+                    } else {
+                        console.log('La respuesta de la API no es un array:', response);
+                    }
                 },
                 error: function(error) {
-                    alert('Hubo un error al agregar el producto');
-                    console.log(error);
+                    console.error('Error al obtener la lista de bodegas:', error);
                 }
             });
         });
-    });
 
-    //cargar select de bodega 
-    $(document).ready(function() {
-        // Realiza la solicitud AJAX para obtener la lista de bodegas
-        $.ajax({
-            url: '' + SERVERURL + 'productos/listar_bodegas',
-            type: 'GET',
-            dataType: 'json',
-            success: function(response) {
-                // Asegúrate de que la respuesta es un array
-                if (Array.isArray(response)) {
-                    response.forEach(function(bodega) {
-                        // Agrega una nueva opción al select por cada bodega
-                        $('#bodega').append(new Option(bodega.nombre, bodega.id));
-                    });
-                } else {
-                    console.log('La respuesta de la API no es un array:', response);
+        //cargar select categoria
+        $(document).ready(function() {
+            // Realiza la solicitud AJAX para obtener la lista de categorias
+            $.ajax({
+                url: '' + SERVERURL + 'productos/cargar_categorias',
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    // Asegúrate de que la respuesta es un array
+                    if (Array.isArray(response)) {
+                        response.forEach(function(categoria) {
+                            // Agrega una nueva opción al select por cada categoria
+                            $('#categoria').append(new Option(categoria.nombre_linea, categoria.id_linea));
+                        });
+                    } else {
+                        console.log('La respuesta de la API no es un array:', response);
+                    }
+                },
+                error: function(error) {
+                    console.error('Error al obtener la lista de categorias:', error);
                 }
-            },
-            error: function(error) {
-                console.error('Error al obtener la lista de bodegas:', error);
-            }
+            });
         });
-    });
 
-    //cargar select categoria
-    $(document).ready(function() {
-        // Realiza la solicitud AJAX para obtener la lista de categorias
-        $.ajax({
-            url: '' + SERVERURL + 'productos/cargar_categorias',
-            type: 'GET',
-            dataType: 'json',
-            success: function(response) {
-                // Asegúrate de que la respuesta es un array
-                if (Array.isArray(response)) {
-                    response.forEach(function(categoria) {
-                        // Agrega una nueva opción al select por cada categoria
-                        $('#categoria').append(new Option(categoria.nombre_linea, categoria.id_linea));
-                    });
-                } else {
-                    console.log('La respuesta de la API no es un array:', response);
-                }
+        // Inicializa la tabla inventario variable
+        let dataTableInventario;
+        let dataTableInventarioIsInitialized = false;
+
+        const dataTableInventarioOptions = {
+            paging: false,
+            searching: false,
+            info: false,
+            lengthChange: false,
+            destroy: true,
+            autoWidth: false,
+            language: {
+                emptyTable: "No hay datos disponibles en la tabla",
+                loadingRecords: "Cargando...",
             },
-            error: function(error) {
-                console.error('Error al obtener la lista de categorias:', error);
+        };
+
+        const initDataTableInventario = async () => {
+            if (dataTableInventarioIsInitialized) {
+                dataTableInventario.destroy();
             }
+
+            await listAtributosInventario();
+
+            dataTableInventario = $("#datatable_inventarioVariable").DataTable(dataTableInventarioOptions);
+
+            dataTableInventarioIsInitialized = true;
+        };
+
+        const listAtributosInventario = async () => {
+            try {
+                const response = await fetch(`${SERVERURL}productos/listar_atributos`);
+                const atributos = await response.json();
+                const caracteristicas = await listarCaracteristicasInventario();
+
+                let content = ``;
+                atributos.forEach((atributo, index) => {
+                    const tags = caracteristicas
+                        .filter(caracteristica => caracteristica.id_atributo === atributo.id_atributo)
+                        .map(caracteristica => `
+                            <span class="tag">
+                                ${caracteristica.variedad} <span class="remove-tag" data-atributo-id="${atributo.id_atributo}" data-valor="${caracteristica.variedad}" data-variedad-id="${caracteristica.id_variedad}">&times;</span>
+                            </span>`).join('');
+
+                    content += `
+                        <tr>
+                            <td>${atributo.nombre_atributo}</td>
+                            <td>${tags}</td>
+                            <td><input id="agregar_atributo_${index}" name="agregar_atributo" class="form-control agregar_atributo" type="text" data-atributo-id="${atributo.id_atributo}"></td>
+                        </tr>`;
+                });
+
+                document.getElementById("tableBody_inventarioVariable").innerHTML = content;
+
+                // Agregar event listeners a todos los inputs recién creados
+                document.querySelectorAll('.agregar_atributo').forEach(input => {
+                    input.addEventListener('keypress', async (event) => {
+                        if (event.key === 'Enter') {
+                            event.preventDefault();  // Previene el comportamiento por defecto del Enter
+                            const atributoId = event.target.getAttribute('data-atributo-id');
+                            const valor = event.target.value;
+
+                            if (valor.trim() !== '') {
+                                await agregarCaracteristicaInventario(atributoId, valor);
+                                event.target.value = ''; // Clear the input after submission
+                                await listAtributosInventario();  // Refresh the list of attributes
+                            }
+                        }
+                    });
+                });
+
+                // Agregar event listeners a todos los botones de eliminar etiqueta
+                document.querySelectorAll('.remove-tag').forEach(span => {
+                    span.addEventListener('click', async (event) => {
+                        const variedadoId = event.target.getAttribute('data-variedad-id');
+                        await eliminarCaracteristicaInventario(variedadoId);
+                        await listAtributosInventario();  // Refresh the list of attributes
+                    });
+                });
+
+                // Agregar event listeners a todos los atributos (excepto la "x")
+                document.querySelectorAll('.tag').forEach(span => {
+                    span.addEventListener('click', async (event) => {
+                        const atributoId = event.target.getAttribute('data-atributo-id');
+                        const valor = event.target.textContent.trim();
+
+                        await agregarFilaDetalleInventario(atributoId, valor);
+                    });
+                });
+            } catch (ex) {
+                alert('Error al cargar los atributos: ' + ex.message);
+            }
+        };
+
+        const listarCaracteristicasInventario = async () => {
+            try {
+                const response = await fetch(`${SERVERURL}productos/listar_caracteristicas`);
+                if (response.ok) {
+                    const data = await response.json();
+                    return data;
+                } else {
+                    throw new Error('Error al listar las características');
+                }
+            } catch (ex) {
+                alert('Error al conectarse a la API: ' + ex.message);
+                return [];
+            }
+        };
+
+        const agregarCaracteristicaInventario = async (atributoId, valor) => {
+            try {
+                const formData = new FormData();
+                formData.append('id_atributo', atributoId);
+                formData.append('variedad', valor);
+
+                const response = await fetch(`${SERVERURL}productos/agregar_caracteristica`, {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (response.ok) {
+                    alert('Característica agregada exitosamente');
+                } else {
+                    const error = await response.json();
+                    alert('Error al agregar la característica: ' + error.message);
+                }
+            } catch (ex) {
+                alert('Error al conectarse a la API: ' + ex.message);
+            }
+        };
+
+        const eliminarCaracteristicaInventario = async (variedadoId) => {
+            try {
+                const formData = new FormData();
+                formData.append('id', variedadoId);
+
+                const response = await fetch(`${SERVERURL}productos/eliminar_caracteristica`, {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (response.ok) {
+                    alert('Característica eliminada exitosamente');
+                } else {
+                    const error = await response.json();
+                    alert('Error al eliminar la característica: ' + error.message);
+                }
+            } catch (ex) {
+                alert('Error al conectarse a la API: ' + ex.message);
+            }
+        };
+
+        const agregarFilaDetalleInventario = async (atributoId, valor) => {
+            const codigoProducto = $('#codigo').val();
+            const numeroIncremental = document.querySelectorAll('#tableBody_detalleInventario tr').length + 1;
+            const idVariable = `${codigoProducto}-${numeroIncremental}`;
+
+            const nuevaFila = `
+                <tr>
+                    <td>${atributoId}</td>
+                    <td><input type="text" class="form-control" value="${valor}"></td>
+                    <td><input type="text" class="form-control"></td>
+                    <td><input type="text" class="form-control"></td>
+                    <td><input type="text" class="form-control"></td>
+                    <td><input type="text" class="form-control"></td>
+                    <td><input type="text" class="form-control"></td>
+                    <td>${idVariable}</td>
+                </tr>
+            `;
+
+            document.getElementById('tableBody_detalleInventario').insertAdjacentHTML('beforeend', nuevaFila);
+        };
+
+        window.addEventListener("load", async () => {
+            await initDataTableInventario();
         });
-    });
-</script>
+    </script>
