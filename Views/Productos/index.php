@@ -26,12 +26,13 @@
 <?php require_once './Views/Productos/Modales/editar_index_productos.php'; ?>
 
 <style>
-    .filtros_producos{
+    .filtros_producos {
         display: flex;
         flex-direction: row;
     }
+
     @media (max-width: 768px) {
-        .filtros_producos{
+        .filtros_producos {
             flex-direction: column;
         }
     }
@@ -63,7 +64,8 @@
             </div>
         </div>
         <div class="table-responsive">
-            <table class="table table-bordered table-striped table-hover">
+            <!-- <table class="table table-bordered table-striped table-hover"> -->
+            <table id="datatable_productos" class="table table-striped">
                 <thead>
                     <tr>
                         <th class="text-nowrap">ID</th>
@@ -73,63 +75,21 @@
                         <th class="text-nowrap">Destacado</th>
                         <th class="text-nowrap">Existencia</th>
                         <th class="text-nowrap">Costo</th>
-                        <th class="text-nowrap">Pxmayor</th>
+                        <th class="text-nowrap">P. Proveedor</th>
                         <th class="text-nowrap">PVP</th>
                         <th class="text-nowrap">Precio Referencial</th>
                         <th class="text-nowrap">Landing</th>
                         <th class="text-nowrap">Imagenes</th>
                         <th class="text-nowrap">Enviar a Marketplace</th>
-                        <th class="text-nowrap">Agregado</th>
                         <th class="text-nowrap">Acciones</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>616</td>
-                        <td>imagen Producto</td>
-                        <td>10061</td>
-                        <td>ACCESORIOS BRAZO IRONMAN</td>
-                        <td>Si o No</td>
-                        <td>8</td>
-                        <td>$2.00</td>
-                        <td>$2.00</td>
-                        <td>$4.00</td>
-                        <td>$4.00</td>
-                        <td>icono</td>
-                        <td>icono</td>
-                        <td>icono</td>
-                        <td>29/12/2023</td>
-                        <td>
-                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#agregar_productoModal"><i class="fas fa-edit"></i> Editar</button>
-                            <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>616</td>
-                        <td>imagen Producto</td>
-                        <td>10061</td>
-                        <td>ACCESORIOS BRAZO IRONMAN</td>
-                        <td>Si o No</td>
-                        <td>8</td>
-                        <td>$2.00</td>
-                        <td>$2.00</td>
-                        <td>$4.00</td>
-                        <td>$4.00</td>
-                        <td>icono</td>
-                        <td>icono</td>
-                        <td>icono</td>
-                        <td>29/12/2023</td>
-                        <td>
-                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#agregar_productoModal"><i class="fas fa-edit"></i> Editar</button>
-                            <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
-                        </td>
-                    </tr>
-                    <!-- Agrega más filas según sea necesario -->
-                </tbody>
+                <tbody id="tableBody_productos"></tbody>
             </table>
         </div>
     </div>
 </div>
 <script src="<?php echo SERVERURL ?>/Views/Productos/js/listado.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/Productos/js/productos.js"></script>
 <!-- <script src="<?php echo SERVERURL ?>/Views/Productos/js/inventario_variable.js"></script> -->
 <?php require_once './Views/templates/footer.php'; ?>
