@@ -10,7 +10,10 @@ const dataTableOptions = {
     /* { searchable: false, targets: [1] } */
     //{ width: "50%", targets: [0] }
   ],
-  pageLength: 10,
+  paging: false, // Deshabilita la paginación
+  searching: false, // Deshabilita la caja de búsqueda
+  info: false, // Deshabilita la información de registros
+  lengthChange: false, // Deshabilita el menú de cambio de longitud
   destroy: true,
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
