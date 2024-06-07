@@ -32,9 +32,9 @@
                 <div class="tab-content" id="editarTabContent">
                     <div class="tab-pane fade show active" id="editar-datos-basicos" role="tabpanel" aria-labelledby="editar-datos-basicos-tab">
                         <form id="editar_producto_form">
+                            <input type="hidden" id="editar_id_producto" name="id_producto">
                             <div class="d-flex flex-column">
                                 <div class="d-flex flex-row gap-3">
-                                    <input type="hidden" id="editar_id_producto" name="id_producto">
                                     <div class="form-group w-100">
                                         <label for="editar_codigo">Código:</label>
                                         <input type="text" class="form-control" id="editar_codigo">
@@ -66,8 +66,8 @@
                                     </div>
                                     <div class="d-flex flex-column w-100">
                                         <div class="form-group">
-                                            <label for="editar_formato-pagina">Formato Página Productos:</label>
-                                            <select class="form-select" id="editar_formato-pagina">
+                                            <label for="editar_formato_pagina">Formato Página Productos:</label>
+                                            <select class="form-select" id="editar_formato_pagina">
                                                 <option selected>-- Selecciona --</option>
                                                 <option value="1">Formato 1</option>
                                                 <option value="2">Formato 2</option>
@@ -76,10 +76,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </form>
                     </div>
                     <div class="tab-pane fade" id="editar-precios-stock" role="tabpanel" aria-labelledby="editar-precios-stock-tab">
-                        <form id="editar_precios_form">
+                        <form>
                             <div class="d-flex flex-column">
                                 <div class="d-flex flex-row gap-3">
                                     <div class="form-group w-100">
@@ -118,12 +117,12 @@
                                         <label for="editar_stock_inicial">Stock Inicial:</label>
                                         <input type="text" class="form-control" id="editar_stock_inicial">
                                     </div>
-                                </div>
-                                <div class="form-group w-100" id="bodega-field">
-                                    <label for="editar_bodega">Bodega:</label>
-                                    <select class="form-select" id="editar_bodega">
-                                        <option selected>-- Selecciona Bodega --</option>
-                                    </select>
+                                    <div class="form-group w-100" id="bodega-field">
+                                        <label for="editar_bodega">Bodega:</label>
+                                        <select class="form-select" id="editar_bodega">
+                                            <option selected>-- Selecciona Bodega --</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                     </div>
@@ -137,6 +136,7 @@
         </div>
     </div>
 </div>
+
 <script>
     $(document).ready(function() {
         // Enviar datos al editar producto
@@ -145,7 +145,7 @@
 
             // Crea un objeto FormData
             var formData = new FormData();
-            formData.append('id_producto', $('#editar_id_producto').val()); // Asegúrate de tener el ID del producto en un campo oculto
+            formData.append('id_producto', $('#editar_id_producto').val());
             formData.append('codigo_producto', $('#editar_codigo').val());
             formData.append('nombre_producto', $('#editar_nombre').val());
             formData.append('descripcion_producto', $('#editar_descripcion').val());
@@ -168,7 +168,7 @@
 
             // Realiza la solicitud AJAX
             $.ajax({
-                url: SERVERURL + 'productos/editar_producto',
+                url: '' + SERVERURL + 'productos/editar_producto',
                 type: 'POST',
                 data: formData,
                 processData: false,
