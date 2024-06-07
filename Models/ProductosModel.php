@@ -14,6 +14,41 @@ class ProductosModel extends Query
         return $this->select($sql);
     }
 
+    public function agregarProducto($codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $plataforma, $stock_inicial, $bodega)
+    {
+        $response = $this->initialResponse();
+        $sql = "INSERT INTO productos (codigo_producto, nombre_producto, descripcion_producto, id_linea_producto, inv_producto, producto_variable, costo_producto, aplica_iva, estado_producto, date_added, image_path, id_imp_producto, pagina_web, formato, drogshipin, destacado, id_plataforma) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $data = [$codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $plataforma];
+        $insertar_producto = $this->insert($sql, $data);
+
+        if ($inv_producto === 1) {
+            $sql_id = "SELECT id_producto FROM productos WHERE codigo_producto = $codigo_producto AND id_plataforma = $plataforma";
+            $id_producto = $this->select($sql_id);
+            $id_producto = $id_producto[0]['id_producto'];
+
+            if ($producto_variable === 0) {
+                $sql = "INSERT INTO inventario_bodegas (sku, id_producto, id_variante, bodega, pcp, pvp, pref, stock_inicial, saldo_stock, id_plataforma) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                $data = [$codigo_producto, $id_producto, 0, $bodega, $costo_producto, $costo_producto, $costo_producto, $stock_inicial, $stock_inicial, $plataforma];
+            } else {
+                $sql = "INSERT INTO inventario_bodegas (sku, id_producto, id_variante, bodega, pcp, pvp, pref, stock_inicial, saldo_stock, id_plataforma) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                $data = [$codigo_producto, $id_producto, $producto_variable, $bodega, $costo_producto, $costo_producto, $costo_producto, $stock_inicial, $stock_inicial, $plataforma];
+            }
+            $insertar_producto_ = $this->insert($sql, $data);
+        }
+        if ($insertar_producto == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Producto agregado correctamente';
+            if ($insertar_producto_ === 1) {
+                $response['message'] = 'Producto y stock agregado correctamente';
+            }
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al agregar el producto';
+        }
+    }
+
     public function guardar_imagen_productos()
     {
         $response = $this->initialResponse();

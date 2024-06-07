@@ -182,6 +182,28 @@ class Productos extends Controller
 
     public function agregar_producto()
     {
+        $codigo_producto = $_POST['codigo_producto'];
+        $nombre_producto = $_POST['nombre_producto'];
+        $descripcion_producto = $_POST['descripcion_producto'];
+        $id_linea_producto = $_POST["id_linea_producto"];
+        $inv_producto = $_POST['inv_producto'];
+        $producto_variable = $_POST['producto_variable'];
+        $costo_producto = $_POST['costo_producto'];
+        $aplica_iva = $_POST['aplica_iva'];
+        $estado_producto = $_POST['estado_producto'];
+        $date_added = date("Y-m-d H:i:s");
+        $image_path = "";
+        $id_imp_producto = $_POST['id_imp_producto'];
+        $pagina_web = $_POST['pagina_web'];
+        $formato = $_POST['formato'];
+        $drogshipin = $_POST['drogshipin'] ?? 0;
+        $destacado = $_POST['destacado'] ?? 0;
+        /// stocks
+        $stock_inicial = $_POST['stock_inicial'] ?? 0;
+        $bodega = $_POST['bodega'] ?? 0;
+
+
+        $response = $this->model->agregarProducto($codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $_SESSION['id_plataforma'], $stock_inicial, $bodega);
     }
 
     public function listar_marketplace()
