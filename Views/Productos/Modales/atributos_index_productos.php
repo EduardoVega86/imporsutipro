@@ -22,51 +22,22 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>ATRIBUTO</th>
-                            <th>VALOR</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>TALLA</td>
-                            <td>
-                                <div class="tag">
-                                    WFEWED <span class="remove-tag">x</span>
-                                </div>
-                            </td>
-                            <td><input type="text" class="form-control" value=""></td>
-                        </tr>
-                        <tr>
-                            <td>COLOR</td>
-                            <td><input type="text" class="form-control"></td>
-                            <td><input type="text" class="form-control" value=""></td>
-                        </tr>
-                        <tr>
-                            <td>MARCA</td>
-                            <td><input type="text" class="form-control"></td>
-                            <td><input type="text" class="form-control" value=""></td>
-                        </tr>
-                        <tr>
-                            <td>MODELO</td>
-                            <td><input type="text" class="form-control"></td>
-                            <td><input type="text" class="form-control" value=""></td>
-                        </tr>
-                        <tr>
-                            <td>MATERIAL</td>
-                            <td><input type="text" class="form-control"></td>
-                            <td><input type="text" class="form-control" value=""></td>
-                        </tr>
-                        <tr>
-                            <td>CAPACIDAD</td>
-                            <td><input type="text" class="form-control"></td>
-                            <td><input type="text" class="form-control" value=""></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <!-- <table class="table table-bordered table-striped table-hover"> -->
+                    <table id="datatable_atributos" class="table table-striped">
+                        <!-- <caption>
+                    DataTable.js Demo
+                </caption> -->
+                        <thead>
+                            <tr>
+                                <th class="centered">Atributo</th>
+                                <th class="centered">Valor</th>
+                                <th class="centered"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody_atributos"></tbody>
+                    </table>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -74,12 +45,3 @@
         </div>
     </div>
 </div>
-<script>
-        document.addEventListener('DOMContentLoaded', function () {
-            document.querySelectorAll('.remove-tag').forEach(function (btn) {
-                btn.addEventListener('click', function () {
-                    btn.parentElement.remove();
-                });
-            });
-        });
-    </script>

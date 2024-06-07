@@ -130,4 +130,5 @@
         </div>
     </div>
 </div>
+<script src="<?php echo SERVERURL ?>/Views/Productos/js/listado.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
