@@ -40,166 +40,21 @@
     document.addEventListener('DOMContentLoaded', function() {
         const productsPerPage = 10;
         let currentPage = 1;
-        const products = [{
-                img: "https://significado.com/wp-content/uploads/Imagen-Animada.jpg",
-                title: "Producto 1",
-                stock: 8,
-                precioProveedor: 12.50,
-                precioSugerido: 27.50,
-                proveedor: "CLIJISPOREPRS"
-            },
-            {
-                img: "https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg",
-                title: "Producto 2",
-                stock: 5,
-                precioProveedor: 10.00,
-                precioSugerido: 20.00,
-                proveedor: "ANOTHERPROVIDER"
-            },
-            {
-                img: "https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg",
-                title: "Producto 2",
-                stock: 5,
-                precioProveedor: 10.00,
-                precioSugerido: 20.00,
-                proveedor: "ANOTHERPROVIDER"
-            },
-            {
-                img: "https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg",
-                title: "Producto 2",
-                stock: 5,
-                precioProveedor: 10.00,
-                precioSugerido: 20.00,
-                proveedor: "ANOTHERPROVIDER"
-            },
-            {
-                img: "https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg",
-                title: "Producto 2",
-                stock: 5,
-                precioProveedor: 10.00,
-                precioSugerido: 20.00,
-                proveedor: "ANOTHERPROVIDER"
-            },
-            {
-                img: "https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg",
-                title: "Producto 2",
-                stock: 5,
-                precioProveedor: 10.00,
-                precioSugerido: 20.00,
-                proveedor: "ANOTHERPROVIDER"
-            },
-            {
-                img: "https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg",
-                title: "Producto 2",
-                stock: 5,
-                precioProveedor: 10.00,
-                precioSugerido: 20.00,
-                proveedor: "ANOTHERPROVIDER"
-            },
-            {
-                img: "https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg",
-                title: "Producto 2",
-                stock: 5,
-                precioProveedor: 10.00,
-                precioSugerido: 20.00,
-                proveedor: "ANOTHERPROVIDER"
-            }, {
-                img: "https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg",
-                title: "Producto 2",
-                stock: 5,
-                precioProveedor: 10.00,
-                precioSugerido: 20.00,
-                proveedor: "ANOTHERPROVIDER"
-            }, {
-                img: "https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg",
-                title: "Producto 2",
-                stock: 5,
-                precioProveedor: 10.00,
-                precioSugerido: 20.00,
-                proveedor: "ANOTHERPROVIDER"
-            }, {
-                img: "https://significado.com/wp-content/uploads/Imagen-Animada.jpg",
-                title: "Producto 1",
-                stock: 8,
-                precioProveedor: 12.50,
-                precioSugerido: 27.50,
-                proveedor: "CLIJISPOREPRS"
-            },
-            {
-                img: "https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg",
-                title: "Producto 2",
-                stock: 5,
-                precioProveedor: 10.00,
-                precioSugerido: 20.00,
-                proveedor: "ANOTHERPROVIDER"
-            },
-            {
-                img: "https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg",
-                title: "Producto 2",
-                stock: 5,
-                precioProveedor: 10.00,
-                precioSugerido: 20.00,
-                proveedor: "ANOTHERPROVIDER"
-            },
-            {
-                img: "https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg",
-                title: "Producto 2",
-                stock: 5,
-                precioProveedor: 10.00,
-                precioSugerido: 20.00,
-                proveedor: "ANOTHERPROVIDER"
-            },
-            {
-                img: "https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg",
-                title: "Producto 2",
-                stock: 5,
-                precioProveedor: 10.00,
-                precioSugerido: 20.00,
-                proveedor: "ANOTHERPROVIDER"
-            }, {
-                img: "https://significado.com/wp-content/uploads/Imagen-Animada.jpg",
-                title: "Producto 1",
-                stock: 8,
-                precioProveedor: 12.50,
-                precioSugerido: 27.50,
-                proveedor: "CLIJISPOREPRS"
-            },
-            {
-                img: "https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg",
-                title: "Producto 2",
-                stock: 5,
-                precioProveedor: 10.00,
-                precioSugerido: 20.00,
-                proveedor: "ANOTHERPROVIDER"
-            },
-            {
-                img: "https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg",
-                title: "Producto 2",
-                stock: 5,
-                precioProveedor: 10.00,
-                precioSugerido: 20.00,
-                proveedor: "ANOTHERPROVIDER"
-            },
-            {
-                img: "https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg",
-                title: "Producto 2",
-                stock: 5,
-                precioProveedor: 10.00,
-                precioSugerido: 20.00,
-                proveedor: "ANOTHERPROVIDER"
-            },
-            {
-                img: "https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg",
-                title: "Producto 2",
-                stock: 5,
-                precioProveedor: 10.00,
-                precioSugerido: 20.00,
-                proveedor: "ANOTHERPROVIDER"
-            }
-        ];
+        const products = [];
 
         const cardContainer = document.getElementById('card-container');
         const pagination = document.getElementById('pagination');
+
+        async function fetchProducts() {
+        try {
+            const response = await fetch(''+SERVERURL+'marketplace/obtener_productos');
+            products = await response.json();
+            displayProducts(products, currentPage, productsPerPage);
+            setupPagination(products.length, productsPerPage);
+        } catch (error) {
+            console.error('Error al obtener los productos:', error);
+        }
+    }
 
         function displayProducts(products, page = 1, perPage = productsPerPage) {
             cardContainer.innerHTML = '';
