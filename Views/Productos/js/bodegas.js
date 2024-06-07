@@ -49,13 +49,15 @@ const listBodegas = async () => {
     const bodegas = await response.json();
 
     let content = ``;
+    var ciudad='';
     bodegas.forEach((bodega, index) => {
+      ciudad= cargarCiudad(bodega.localidad);
       content += `
                 <tr>
                     <td>${bodega.id}</td>
                     <td>${bodega.nombre}</td>
                     <td>${bodega.direccion}</td>
-                    <td>${bodega.ciudad}</td>
+                    <td>${ciudad}</td>
                     <td>${bodega.responsable}</td>
                     <td>${bodega.contacto}</td>
                     <td>
@@ -73,6 +75,20 @@ const listBodegas = async () => {
 function editar_bodegas(id) {
   const url = ''+ SERVERURL +'Productos/editar_bodegas?id='+id;
   window.location.href = url;
+}
+
+// Función para cargar los datos de la bodega
+function cargarCiudad(id_ciudad) {
+  const url = '<?php echo SERVERURL; ?>Productos/obtenerCiudad/' + id_ciudad;
+  var ciudad='';
+  fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        ciudad=data;
+      })
+      .catch(error => console.error('Error:', error));
+
+      return ciudad;
 }
 
 window.addEventListener("load", async () => {
