@@ -107,6 +107,54 @@ function eliminarProducto(id) {
     });
   }
   
+   //cargar select de bodega 
+   $(document).ready(function() {
+    // Realiza la solicitud AJAX para obtener la lista de bodegas
+    $.ajax({
+        url: '' + SERVERURL + 'productos/listar_bodegas',
+        type: 'GET',
+        dataType: 'json',
+        success: function(response) {
+            // Asegúrate de que la respuesta es un array
+            if (Array.isArray(response)) {
+                response.forEach(function(bodega) {
+                    // Agrega una nueva opción al select por cada bodega
+                    $('#bodega').append(new Option(bodega.nombre, bodega.id));
+                });
+            } else {
+                console.log('La respuesta de la API no es un array:', response);
+            }
+        },
+        error: function(error) {
+            console.error('Error al obtener la lista de bodegas:', error);
+        }
+    });
+});
+
+//cargar select categoria
+$(document).ready(function() {
+    // Realiza la solicitud AJAX para obtener la lista de categorias
+    $.ajax({
+        url: '' + SERVERURL + 'productos/cargar_categorias',
+        type: 'GET',
+        dataType: 'json',
+        success: function(response) {
+            // Asegúrate de que la respuesta es un array
+            if (Array.isArray(response)) {
+                response.forEach(function(categoria) {
+                    // Agrega una nueva opción al select por cada categoria
+                    $('#categoria').append(new Option(categoria.nombre_linea, categoria.id_linea));
+                });
+            } else {
+                console.log('La respuesta de la API no es un array:', response);
+            }
+        },
+        error: function(error) {
+            console.error('Error al obtener la lista de categorias:', error);
+        }
+    });
+});
+
   function editarProducto(id) {
     $.ajax({
         type: "GET",
@@ -137,9 +185,8 @@ function eliminarProducto(id) {
                     $('#editar_nombre').val(data.nombre_producto);
                     $('#editar_descripcion').val(data.descripcion_producto);
                     $('#editar_categoria').val(data.id_linea_producto);
-                    $('#editar_formato-pagina').val(data.pagina_web);
+                    $('#editar_formato-pagina').val(data.formato);
                     $('#editar_ultimo_costo').val(data.costo_producto);
-                    $('#editar_utilidad').val(data.utilidad);
                     $('#editar_precio_proveedor').val(data.pcp);
                     $('#editar_precio_venta').val(data.pvp);
                     $('#editar_precio_referencial').val(data.pref);
