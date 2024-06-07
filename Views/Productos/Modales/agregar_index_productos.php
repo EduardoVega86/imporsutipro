@@ -153,8 +153,6 @@
                                     <label for="bodega">Bodega:</label>
                                     <select class="form-select" id="bodega">
                                         <option selected>-- Selecciona Bodega --</option>
-                                        <option value="1">Bodega 1</option>
-                                        <option value="2">Bodega 2</option>
                                     </select>
                                 </div>
                             </div>
@@ -224,49 +222,73 @@
 
     //enviar datos a base de datos
     $(document).ready(function() {
-    $('#agregar_producto_form').submit(function(event) {
-        event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
+        $('#agregar_producto_form').submit(function(event) {
+            event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
 
-        // Crea un objeto FormData
-        var formData = new FormData();
-        formData.append('codigo_producto', $('#codigo').val());
-        formData.append('nombre_producto', $('#nombre').val());
-        formData.append('descripcion_producto', $('#descripcion').val());
-        formData.append('id_linea_producto', $('#categoria').val());
-        formData.append('inv_producto', $('#maneja-inventario').val());
-        formData.append('producto_variable', $('#producto-variable').val());
-        formData.append('costo_producto', $('#costo').val());
-        formData.append('aplica_iva', 1); // Suponiendo que siempre aplica IVA
-        formData.append('estado_producto', 1); // Suponiendo que el estado es activo
-        formData.append('date_added', new Date().toISOString().split('T')[0]);
-        formData.append('image_path', ''); // Asumiendo que no hay imagen por ahora
-        formData.append('id_imp_producto', $('#proveedor').val());
-        formData.append('pagina_web', $('#formato-pagina').val());
-        formData.append('formato', 'Formato 1'); // Suponiendo que siempre es Formato 1
-        formData.append('drogshipin', 0); // Suponiendo que no es dropshipping
-        formData.append('destacado', 0); // Suponiendo que no es destacado
-        formData.append('stock_inicial', $('#stock-inicial').val());
-        formData.append('bodega', $('#bodega').val());
-        formData.append('pcp', $('#precio-proveedor').val());
-        formData.append('pvp', $('#precio-venta').val());
-        formData.append('pref', $('#precio-referencial-valor').val());
+            // Crea un objeto FormData
+            var formData = new FormData();
+            formData.append('codigo_producto', $('#codigo').val());
+            formData.append('nombre_producto', $('#nombre').val());
+            formData.append('descripcion_producto', $('#descripcion').val());
+            formData.append('id_linea_producto', $('#categoria').val());
+            formData.append('inv_producto', $('#maneja-inventario').val());
+            formData.append('producto_variable', $('#producto-variable').val());
+            formData.append('costo_producto', $('#costo').val());
+            formData.append('aplica_iva', 1); // Suponiendo que siempre aplica IVA
+            formData.append('estado_producto', 1); // Suponiendo que el estado es activo
+            formData.append('date_added', new Date().toISOString().split('T')[0]);
+            formData.append('image_path', ''); // Asumiendo que no hay imagen por ahora
+            formData.append('id_imp_producto', $('#proveedor').val());
+            formData.append('pagina_web', $('#formato-pagina').val());
+            formData.append('formato', 'Formato 1'); // Suponiendo que siempre es Formato 1
+            formData.append('drogshipin', 0); // Suponiendo que no es dropshipping
+            formData.append('destacado', 0); // Suponiendo que no es destacado
+            formData.append('stock_inicial', $('#stock-inicial').val());
+            formData.append('bodega', $('#bodega').val());
+            formData.append('pcp', $('#precio-proveedor').val());
+            formData.append('pvp', $('#precio-venta').val());
+            formData.append('pref', $('#precio-referencial-valor').val());
 
-        // Realiza la solicitud AJAX
+            // Realiza la solicitud AJAX
+            $.ajax({
+                url: '' + SERVERURL + 'productos/agregar_producto',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    alert('Producto agregado exitosamente');
+                    console.log(response);
+                },
+                error: function(error) {
+                    alert('Hubo un error al agregar el producto');
+                    console.log(error);
+                }
+            });
+        });
+    });
+
+    //cargar select de bodega 
+    $(document).ready(function() {
+        // Realiza la solicitud AJAX para obtener la lista de bodegas
         $.ajax({
-            url: '' + SERVERURL + 'productos/agregar_producto',
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
+            url: ''+ SERVERURL +'productos/listar_bodegas',
+            type: 'GET',
+            dataType: 'json',
             success: function(response) {
-                alert('Producto agregado exitosamente');
-                console.log(response);
+                // Asegúrate de que la respuesta es un array
+                if (Array.isArray(response)) {
+                    response.forEach(function(bodega) {
+                        // Agrega una nueva opción al select por cada bodega
+                        $('#bodega').append(new Option(bodega.nombre, bodega.id));
+                    });
+                } else {
+                    console.log('La respuesta de la API no es un array:', response);
+                }
             },
             error: function(error) {
-                alert('Hubo un error al agregar el producto');
-                console.log(error);
+                console.error('Error al obtener la lista de bodegas:', error);
             }
         });
     });
-});
 </script>
