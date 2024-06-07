@@ -8,14 +8,9 @@ class ProductosModel extends Query
 
     ///productos
 
-    public function cargarProductos($filtro = "")
+    public function obtener_productos($plataforma)
     {
-        if (!empty($filtro)) {
-            $sql = "SELECT * FROM productos WHERE $filtro";
-            return $this->select($sql);
-        } else {
-            $sql = "SELECT * FROM productos";
-        }
+        $sql = "SELECT * FROM inventario_bodegas WHERE id_plataforma = $plataforma ";
         return $this->select($sql);
     }
 
@@ -281,7 +276,7 @@ class ProductosModel extends Query
 
     public function listarBodegas($plataforma)
     {
-        $sql = "SELECT * FROM bodega WHERE id_plataforma in ('$plataforma',0) ";
+        $sql = "SELECT * FROM bodega WHERE id_plataforma in ('$plataforma') or global = 1";
         return $this->select($sql);
     }
 
@@ -310,6 +305,12 @@ class ProductosModel extends Query
     public function listarCaracteristicas($plataforma)
     {
         $sql = "SELECT * FROM variedades WHERE id_plataforma = $plataforma";
+        return $this->select($sql);
+    }
+
+    public function listarAtributos($id, $plataforma)
+    {
+        $sql = "SELECT * FROM atributos WHERE id_plataforma in (0, $plataforma)";
         return $this->select($sql);
     }
 

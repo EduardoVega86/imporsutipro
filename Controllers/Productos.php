@@ -50,6 +50,8 @@ class Productos extends Controller
         $this->views->render($this, "marketplace");
     }
 
+
+
     ///Funciones
 
     public function obtener_productos()
@@ -200,6 +202,12 @@ class Productos extends Controller
     public function listar_caracteristicas()
     {
         $response = $this->model->listarCaracteristicas($_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
+    public function listar_atributos()
+    {
+        $response = $this->model->listarAtributos(0, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
 
