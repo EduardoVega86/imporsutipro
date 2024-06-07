@@ -79,7 +79,7 @@ function editar_bodegas(id) {
 
 // Función para cargar los datos de la bodega
 function cargarCiudad(id_ciudad) {
-  const url = '<?php echo SERVERURL; ?>Productos/obtenerCiudad/' + id_ciudad;
+  const url = ''+ SERVERURL +'Productos/obtenerCiudad/' + id_ciudad;
   var ciudad='';
   fetch(url)
       .then(response => response.json())
