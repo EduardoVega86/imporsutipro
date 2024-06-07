@@ -43,7 +43,7 @@
                     <button class="btn btn-danger" onclick="colocarMarcadorUbicacionActual()">Usar ubicación actual</button>
 
                 </h3>
-                <form id="formularioDatos" method="post" action="../ajax/guardar_bodega.php">
+                <form id="formularioDatos" method="post">
 
                     <div class="form-group row">
                         <div class="col-md-12">
@@ -384,5 +384,58 @@
         $('#ciudad_entrega').empty().append('<option value="">Ciudad *</option>').prop('disabled', true);
     }
 }
+
+    document.getElementById("formularioDatos").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(this);
+        const data = {};
+        formData.forEach((value, key) => {
+            data[key] = value;
+        });
+
+        const url = '<?php echo SERVERURL; ?>Productos/agregarBodega'; // Asegúrate de definir SERVERURL en tu backend PHP
+
+        fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                // Mostrar alerta de éxito
+                if (data.status == 500) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: data.title,
+                        text: data.message
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'success',
+                        title: data.title,
+                        text: data.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    }).then(() => {
+                        window.location.href = '<?php echo SERVERURL ?>dashboard';
+                    });
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                // Mostrar alerta de error
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Hubo un problema con el inicio de sesión.',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            });
+    });
 </script>
 <?php require_once './Views/templates/footer.php'; ?>
