@@ -48,7 +48,7 @@
 
         async function fetchProducts() {
             try {
-                const response = await fetch(''+SERVERURL+'marketplace/obtener_productos');
+                const response = await fetch('' + SERVERURL + 'marketplace/obtener_productos');
                 products = await response.json();
                 displayProducts(products, currentPage, productsPerPage);
                 createPagination(products.length, productsPerPage);
@@ -70,11 +70,10 @@
                 <img src="${product.img}" class="card-img-top" alt="Product Image">
                 <div class="card-body text-center d-flex flex-column justify-content-between">
                     <div>
-                        <h5 class="card-title">${product.title}</h5>
-                        <p class="card-text">Stock: <strong style="color:green">${product.stock}</strong></p>
-                        <p class="card-text">Precio Proveedor: <strong>$${product.precioProveedor.toFixed(2)}</strong></p>
-                        <p class="card-text">Precio Sugerido: <strong>$${product.precioSugerido.toFixed(2)}</strong></p>
-                        <p class="card-text">Proveedor: <a href="#">${product.proveedor}</a></p>
+                        <h5 class="card-title">${product.nombre_producto}</h5>
+                        <p class="card-text">Código: <strong>${product.codigo_producto}</strong></p>
+                        <p class="card-text">Descripción: <strong>${product.descripcion_producto}</strong></p>
+                        <p class="card-text">Categoría: <strong>${product.id_linea_producto}</strong></p>
                     </div>
                     <div>
                         <button class="btn btn-description" data-bs-toggle="modal" data-bs-target="#descripcion_productModal">Descripción</button>
