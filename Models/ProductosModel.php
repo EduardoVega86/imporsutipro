@@ -62,6 +62,47 @@ class ProductosModel extends Query
         return $response;
     }
 
+    public function editarProducto($id, $codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $plataforma, $stock_inicial, $bodega, $pcp, $pvp, $pref)
+    {
+        $response = $this->initialResponse();
+        $sql = "UPDATE productos SET codigo_producto = ?, nombre_producto = ?, descripcion_producto = ?, id_linea_producto = ?, inv_producto = ?, producto_variable = ?, costo_producto = ?, aplica_iva = ?, estado_producto = ?, date_added = ?, image_path = ?, id_imp_producto = ?, pagina_web = ?, formato = ?, drogshipin = ?, destacado = ? WHERE id_producto = ? AND id_plataforma = ?";
+        $data = [$codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $id, $plataforma];
+        $editar_producto = $this->update($sql, $data);
+
+        if ($inv_producto == 1) {
+            if ($producto_variable === 0) {
+                $sql = "UPDATE inventario_bodegas SET sku = ?, id_producto = ?, id_variante = ?, bodega = ?, pcp = ?, pvp = ?, pref = ?, stock_inicial = ?, saldo_stock = ? WHERE id_producto = ? AND id_plataforma = ?";
+                $data = [$codigo_producto, $id, 0, $bodega, $pcp, $pvp, $pref, $stock_inicial, $stock_inicial, $id, $plataforma];
+            } else {
+                $sql = "UPDATE inventario_bodegas SET sku = ?, id_producto = ?, id_variante = ?, bodega = ?, pcp = ?, pvp = ?, pref = ?, stock_inicial = ?, saldo_stock = ? WHERE id_producto = ? AND id_plataforma = ?";
+                $data = [$codigo_producto, $id, $producto_variable, $bodega, $pcp, $pvp, $pref, $stock_inicial, $stock_inicial, $id, $plataforma];
+            }
+            $editar_producto_ = $this->update($sql, $data);
+        } else {
+            $sql_bodega = "SELECT * FROM bodega WHERE id_plataforma = $plataforma limit 1";
+            $bodega = $this->select($sql_bodega);
+            $bodega = $bodega[0]['id'];
+
+            $sql_insert = "UPDATE inventario_bodegas SET sku = ?, id_producto = ?, id_variante = ?, bodega = ?, pcp = ?, pvp = ?, pref = ?, stock_inicial = ?, saldo_stock = ? WHERE id_producto = ? AND id_plataforma = ?";
+            $data_insert = [$codigo_producto, $id, 0, $bodega, $pcp, $pvp, $pref, 0, 0, $id, $plataforma];
+            $insertar_producto_ = $this->update($sql_insert, $data_insert);
+        }
+
+        if ($editar_producto == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Producto editado correctamente';
+            if ($editar_producto_ === 1) {
+                $response['message'] = 'Producto y stock editado correctamente';
+            }
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al editar el producto';
+        }
+        return $response;
+    }
+
     public function obtenerProducto($id, $plataforma)
     {
         $sql = "SELECT * FROM productos p inner join inventario_bodegas ib on p.codigo_producto = ib.sku WHERE p.id_producto = $id AND p.id_plataforma = $plataforma";
