@@ -156,6 +156,31 @@ $(document).ready(function() {
     });
 });
 
+$(document).ready(function() {
+    // Realiza la solicitud AJAX para obtener la lista de bodegas
+    $.ajax({
+        url: SERVERURL + 'productos/listar_bodegas',
+        type: 'GET',
+        dataType: 'json',
+        success: function(response) {
+            // Asegúrate de que la respuesta es un array
+            if (Array.isArray(response)) {
+                response.forEach(function(bodega) {
+                    // Agrega una nueva opción al select por cada bodega
+                    $('#bodega').append(new Option(bodega.nombre, bodega.id));
+                    $('#editar_bodega').append(new Option(bodega.nombre, bodega.id));
+                });
+            } else {
+                console.log('La respuesta de la API no es un array:', response);
+            }
+        },
+        error: function(error) {
+            console.error('Error al obtener la lista de bodegas:', error);
+        }
+    });
+});
+
+
 function editarProducto(id) {
     $.ajax({
         type: "GET",
@@ -186,6 +211,7 @@ function editarProducto(id) {
                     $('#editar_nombre').val(data.nombre_producto);
                     $('#editar_descripcion').val(data.descripcion_producto);
                     $('#editar_categoria').val(data.id_linea_producto);
+                    $('#editar_bodega').val(data.bodega);
                     $('#editar_formato-pagina').val(data.formato);
                     $('#editar_ultimo_costo').val(data.costo_producto);
                     $('#editar_precio_proveedor').val(data.pcp);

@@ -73,6 +73,12 @@
                                             </select>
                                         </div>
                                     </div>
+                                    <div class="form-group w-100 hidden-field" id="bodega-field">
+                                        <label for="bodega">Bodega:</label>
+                                        <select class="form-select" id="editar_bodega">
+                                            <option selected>-- Selecciona Bodega --</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </form>
