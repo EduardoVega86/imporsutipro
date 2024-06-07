@@ -1,7 +1,7 @@
-let dataTable;
-let dataTableIsInitialized = false;
+let dataTable_inventario;
+let dataTable_inventarioIsInitialized = false;
 
-const dataTableOptions = {
+const dataTable_inventarioOptions = {
   paging: false,
   searching: false,
   info: false,
@@ -15,15 +15,15 @@ const dataTableOptions = {
 };
 
 const initDataTable_inventarioVariable = async () => {
-  if (dataTableIsInitialized) {
-    dataTable.destroy();
+  if (dataTable_inventarioIsInitialized) {
+    dataTable_inventario.destroy();
   }
 
   await listInventarioVariable();
 
-  dataTable = $("#datatable_inventarioVariable").DataTable(dataTableOptions);
+  dataTable_inventario = $("#datatable_inventarioVariable").DataTable(dataTable_inventarioOptions);
 
-  dataTableIsInitialized = true;
+  dataTable_inventarioIsInitialized = true;
 };
 
 const listInventarioVariable = async () => {
