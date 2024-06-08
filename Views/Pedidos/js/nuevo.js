@@ -1,14 +1,9 @@
-let dataTable;
-let dataTableIsInitialized = false;
+let dataTableNuevoPedido;
+let dataTableNuevoPedidoIsInitialized = false;
 
-const dataTableOptions = {
-    //scrollX: "2000px",
-    /* lengthMenu: [5, 10, 15, 20, 100, 200, 500], */
+const dataTableNuevoPedidoOptions = {
     columnDefs: [
-        { className: "centered", targets: [0, 1, 2, 3, 4, 5,6,7,8] },
-        /* { orderable: false, targets: [5, 6] }, */
-        /* { searchable: false, targets: [1] } */
-        //{ width: "50%", targets: [0] }
+        { className: "centered", targets: [0, 1, 2, 3, 4, 5, 6, 7, 8] },
     ],
     pageLength: 10,
     destroy: true,
@@ -29,16 +24,16 @@ const dataTableOptions = {
     }
 };
 
-const initDataTable = async () => {
-    if (dataTableIsInitialized) {
-        dataTable.destroy();
+const initDataTableNuevoPedido = async () => {
+    if (dataTableNuevoPedidoIsInitialized) {
+        dataTableNuevoPedido.destroy();
     }
 
     await listNuevoPedido();
 
-    dataTable = $("#datatable_nuevoPedido").DataTable(dataTableOptions);
+    dataTableNuevoPedido = $("#datatable_nuevoPedido").DataTable(dataTableNuevoPedidoOptions);
 
-    dataTableIsInitialized = true;
+    dataTableNuevoPedidoIsInitialized = true;
 };
 
 const listNuevoPedido = async () => {
@@ -48,15 +43,18 @@ const listNuevoPedido = async () => {
 
         let content = ``;
         nuevosPedidos.forEach((nuevoPedido, index) => {
+            const precio = parseFloat(nuevoPedido.precio_tmp);
+            const descuento = parseFloat(nuevoPedido.desc_tmp);
+            const precioFinal = precio - (precio * (descuento / 100));
+
             content += `
                 <tr>
-                    <td>${nuevoPedido.numero_factura}</td>
-                    <td>${nuevoPedido.fecha_factura}</td>
-                    <td>${nuevoPedido.fecha_factura}</td>
-                    <td>${nuevoPedido.fecha_factura}</td>
-                    <td>${nuevoPedido.fecha_factura}</td>
-                    <td><input type="text" id="precio" class="form-control" value="${nuevoPedido.fecha_factura}"></td>
-                    <td><input type="text" id="descuento" class="form-control" value="${nuevoPedido.fecha_factura}"></td>
+                    <td>${nuevoPedido.id_tmp}</td>
+                    <td>${nuevoPedido.cantidad_tmp}</td>
+                    <td>${nuevoPedido.nombre_producto}</td>
+                    <td><input type="text" id="precio_nuevoPedido_${index}" class="form-control" value="${precio}"></td>
+                    <td><input type="text" id="descuento_nuevoPedido_${index}" class="form-control" value="${descuento}"></td>
+                    <td><span id="precioFinal_nuevoPedido_${index}">${precioFinal.toFixed(2)}</span></td>
                     <td>
                         <button class="btn btn-sm btn-primary"><i class="fa-solid fa-pencil"></i></button>
                         <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash-can"></i></button>
@@ -70,5 +68,5 @@ const listNuevoPedido = async () => {
 };
 
 window.addEventListener("load", async () => {
-    await initDataTable();
+    await initDataTableNuevoPedido();
 });
