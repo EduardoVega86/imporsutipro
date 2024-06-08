@@ -70,7 +70,7 @@
     </div>
 
     <div class="row">
-        <div class="col-md-4 left-column sticky-top-custom">
+        <div class="col-md-6 left-column sticky-top-custom">
             <div class="form-section">
                 <form>
                     <div class="row g-3 align-items-center mb-3">
@@ -94,7 +94,7 @@
             </div>
         </div>
 
-        <div class="col-md-8 right-column">
+        <div class="col-md-6 right-column">
             <div class="form-section mb-4">
                 <h5>Datos Destinatario</h5>
                 <form>
