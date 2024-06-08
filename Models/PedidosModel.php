@@ -66,6 +66,7 @@ class PedidosModel extends Query
         $sql = "delete FROM tmp_cotizacion WHERE id_tmp = ?";
         $data = [$id_tmp];
         $eliminar_tmp = $this->delete($sql, $data);
+        print_r($eliminar_tmp);
         if ($eliminar_tmp == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
