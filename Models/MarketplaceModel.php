@@ -35,7 +35,7 @@ class MarketplaceModel extends Query
     public function agregarTmp($id_producto, $cantidad, $precio,  $plataforma, $sku)
     {
         $timestamp = session_id();
-        $sql = "INSERT INTO `tmp_cotizacion` (`id_producto`, `cantidad_tmp`, `precio_tmp`, `desc_tmp`, `session_id`, `id_plataforma`, `sku`) VALUES ('1', '1', '1', '1', '1', '1', '1');";
+        $sql = "INSERT INTO `tmp_cotizacion` (`id_producto`, `cantidad_tmp`, `precio_tmp`, `desc_tmp`, `session_id`, `id_plataforma`, `sku`) VALUES (?, ?, ?, ?, ?, ?, ?);";
         $data = [$id_producto, $cantidad, $precio, $timestamp, $plataforma, $sku];
         $insertar_caracteristica = $this->insert($sql, $data);
         if ($insertar_caracteristica == 1) {
