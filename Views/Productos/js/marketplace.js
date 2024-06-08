@@ -163,7 +163,6 @@ function enviar_cliente(id) {
 
         // Crear un objeto FormData y agregar los datos
         const formData = new FormData();
-        formData.append("codigo_producto", data.codigo_producto);
         formData.append("cantidad", 1);
         formData.append("precio", data.pvp);
         formData.append("id_producto", data.id_producto);

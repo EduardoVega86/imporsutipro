@@ -38,12 +38,11 @@ class Marketplace extends Controller
 
     public function agregarTmp()
     {
-        $codigo_producto = $_POST['codigo_producto'];
         $cantidad = $_POST['cantidad'];
         $precio = $_POST['precio'];
-        $precio = $_POST['id_producto'];
-        $precio = $_POST['sku'];
-        $response = $this->model->agregarTmp($codigo_producto, $cantidad, $precio, $_SESSION['id_plataforma']);
+        $id_producto = $_POST['id_producto'];
+        $sku = $_POST['sku'];
+        $response = $this->model->agregarTmp($id_producto, $cantidad, $precio, $_SESSION['id_plataforma'],$sku);
         echo json_encode($response);
     }
 }
