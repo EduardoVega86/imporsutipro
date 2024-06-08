@@ -120,99 +120,89 @@
         <script>
             // Inicializar el mapa
             function initMap() {
-                var map = new google.maps.Map(document.getElementById('mapa'), {
-                    center: {
-                        lat: 0,
-                        lng: -78
-                    },
-                    zoom: 7
-                });
+    var map = new google.maps.Map(document.getElementById('mapa'), {
+        center: { lat: 0, lng: -78 },
+        zoom: 7
+    });
 
-                var geocoder = new google.maps.Geocoder();
-                var infowindow = new google.maps.InfoWindow();
+    var geocoder = new google.maps.Geocoder();
+    var infowindow = new google.maps.InfoWindow();
 
-                // Autocompletado de direcciones
-                var input = document.getElementById('direccion');
-                //alert(input);
-                var autocomplete = new google.maps.places.Autocomplete(input);
-                autocomplete.bindTo('bounds', map);
+    // Autocompletado de direcciones
+    var input = document.getElementById('direccion');
+    var autocomplete = new google.maps.places.Autocomplete(input);
+    autocomplete.bindTo('bounds', map);
 
-                // Crear un marcador inicial
-                var marker = new google.maps.Marker({
-                    position: {
-                        lat: 0,
-                        lng: -78
-                    },
-                    map: map,
-                    draggable: true // Hacer el marcador arrastrable
-                });
+    // Crear un marcador inicial
+    var marker = new google.maps.Marker({
+        position: { lat: 0, lng: -78 },
+        map: map,
+        draggable: true // Hacer el marcador arrastrable
+    });
 
-                // Al seleccionar una dirección, centrar el mapa en esa ubicación y colocar el marcador
-                autocomplete.addListener('place_changed', function() {
-                    var place = autocomplete.getPlace();
+    // Al seleccionar una dirección, centrar el mapa en esa ubicación y colocar el marcador
+    autocomplete.addListener('place_changed', function() {
+        var place = autocomplete.getPlace();
 
-                    if (!place.geometry) {
-                        window.alert("No se encontraron detalles de la dirección: '" + place.name + "'");
-                        return;
-                    }
+        if (!place.geometry) {
+            window.alert("No se encontraron detalles de la dirección: '" + place.name + "'");
+            return;
+        }
 
-                    // Centrar el mapa en la ubicación seleccionada
-                    map.setCenter(place.geometry.location);
-                    map.setZoom(15);
+        // Centrar el mapa en la ubicación seleccionada
+        map.setCenter(place.geometry.location);
+        map.setZoom(15);
 
-                    // Posicionar el marcador en la ubicación seleccionada
-                    marker.setPosition(place.geometry.location);
+        // Posicionar el marcador en la ubicación seleccionada
+        marker.setPosition(place.geometry.location);
 
-                    // Actualizar campos del formulario con la información de la dirección seleccionada
-                    infowindow.setContent('Dirección: ' + place.formatted_address);
+        // Actualizar campos del formulario con la información de la dirección seleccionada
+        infowindow.setContent('Dirección: ' + place.formatted_address);
+        infowindow.open(map, marker);
+        document.getElementById('latitud').value = place.geometry.location.lat();
+        document.getElementById('longitud').value = place.geometry.location.lng();
+        document.getElementById('direccion_completa').value = place.formatted_address;
+
+        // Obtener la dirección mediante geocodificación inversa
+        geocoder.geocode({ 'location': place.geometry.location }, function(results, status) {
+            if (status === 'OK') {
+                if (results[0]) {
+                    infowindow.setContent('Dirección: ' + results[0].formatted_address);
                     infowindow.open(map, marker);
-                    $("#latitud").val(place.geometry.location.lat());
-                    $("#longitud").val(place.geometry.location.lng());
-                    $("#direccion_completa").val(place.formatted_address);
-
-
-                    // Obtener la dirección mediante geocodificación inversa
-                    geocoder.geocode({
-                        'location': place.geometry.location
-                    }, function(results, status) {
-                        if (status === 'OK') {
-                            if (results[0]) {
-                                infowindow.setContent('Dirección: ' + results[0].formatted_address);
-                                infowindow.open(map, marker);
-
-                            } else {
-                                window.alert('No se encontraron resultados');
-                            }
-                        } else {
-                            window.alert('Geocoder falló debido a: ' + status);
-                        }
-                    });
-
-                });
-
-                // Al mover el marcador, obtener la nueva dirección
-                marker.addListener('dragend', function() {
-                    var latlng = marker.getPosition();
-
-                    geocoder.geocode({
-                        'location': latlng
-                    }, function(results, status) {
-                        if (status === 'OK') {
-                            if (results[0]) {
-                                infowindow.setContent('Dirección: ' + results[0].formatted_address);
-                                infowindow.open(map, marker);
-                                var latitud = results[0].geometry.location.lat();
-                                var longitud = results[0].geometry.location.lng();
-                                alert(latlng)
-                            } else {
-                                window.alert('No se encontraron resultados');
-                            }
-                        } else {
-                            window.alert('Geocoder falló debido a: ' + status);
-                        }
-                    });
-                });
+                } else {
+                    window.alert('No se encontraron resultados');
+                }
+            } else {
+                window.alert('Geocoder falló debido a: ' + status);
             }
+        });
+    });
+
+    // Al mover el marcador, obtener la nueva dirección
+    marker.addListener('dragend', function() {
+        var latlng = marker.getPosition();
+        geocoder.geocode({ 'location': latlng }, function(results, status) {
+            if (status === 'OK') {
+                if (results[0]) {
+                    infowindow.setContent('Dirección: ' + results[0].formatted_address);
+                    infowindow.open(map, marker);
+                    var latitud = results[0].geometry.location.lat();
+                    var longitud = results[0].geometry.location.lng();
+                    document.getElementById('latitud').value = latitud;
+                    document.getElementById('longitud').value = longitud;
+                    document.getElementById('direccion_completa').value = results[0].formatted_address;
+                } else {
+                    window.alert('No se encontraron resultados');
+                }
+            } else {
+                window.alert('Geocoder falló debido a: ' + status);
+            }
+        });
+    });
+}
+
+// Asegúrate de reemplazar 'YOUR_API_KEY' con tu clave API correcta.
+
         </script>
 
 
