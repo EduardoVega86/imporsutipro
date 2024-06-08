@@ -175,7 +175,7 @@ function enviar_cliente(id) {
           processData: false,
           contentType: false,
           success: function (response2) {
-            console.log("Producto agregado temporalmente:", response2.status);
+            console.log("Producto agregado temporalmente:", response2);
             if (response2.status == 500) {
               Swal.fire({
                 icon: "error",
