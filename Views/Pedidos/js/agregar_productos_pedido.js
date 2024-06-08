@@ -5,7 +5,7 @@ const dataTableNuevosPedidosOptions = {
     //scrollX: "2000px",
     /* lengthMenu: [5, 10, 15, 20, 100, 200, 500], */
     columnDefs: [
-        { className: "centered", targets: [0, 1, 2, 3, 4, 5, 6, 7, 8] },
+        { className: "centered", targets: [0, 1, 2, 3, 4, 5, 6] },
         /* { orderable: false, targets: [5, 6] }, */
         /* { searchable: false, targets: [1] } */
         //{ width: "50%", targets: [0] }
@@ -56,7 +56,6 @@ const listNuevosPedidos = async () => {
                     <td>${nuevoPedido.stock}</td>
                     <td><input type="number" class="form-control" value="1" min="1" id="cantidad_${index}"></td>
                     <td>${nuevoPedido.codigo}</td>
-                    
                     <td>
                         <button class="btn btn-sm btn-succes"><i class="fa-solid fa-pencil"></i></button>
                     </td>
