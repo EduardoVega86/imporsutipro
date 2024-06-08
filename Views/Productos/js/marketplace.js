@@ -128,11 +128,11 @@ function agregarModal_marketplace(id) {
                 $('#precio_sugerido').text(data.pvp);
                 $('#stock').text(data.saldo_stock);
                 $('#nombre_proveedor').text(data.contacto);
-                $('#telefono_proveedor').text(data.whatsapp);
+                $('#telefono_proveedor').text(formatPhoneNumber(data.whatsapp));
                 $('#descripcion').text(data.descripcion_producto);
 
                 // Actualizar el enlace con el número de teléfono del proveedor
-                $('a[href^="https://wa.me/"]').attr('href', 'https://wa.me/' + data.whatsapp);
+                $('a[href^="https://wa.me/"]').attr('href', 'https://wa.me/' + formatPhoneNumber(data.whatsapp));
 
 
                 // Abrir el modal
@@ -146,4 +146,27 @@ function agregarModal_marketplace(id) {
             alert("Hubo un problema al obtener la información del producto");
         },
     });
+
+    function formatPhoneNumber(number) {
+        // Eliminar caracteres no numéricos excepto el signo +
+        number = number.replace(/[^\d+]/g, '');
+    
+        // Verificar si el número ya tiene el código de país +593
+        if (/^\+593/.test(number)) {
+            // El número ya está correctamente formateado con +593
+            return number;
+        } else if (/^593/.test(number)) {
+            // El número tiene 593 al inicio pero le falta el +
+            return '+' + number;
+        } else {
+            // Si el número comienza con 0, quitarlo
+            if (number.startsWith('0')) {
+                number = number.substring(1);
+            }
+            // Agregar el código de país +593 al inicio del número
+            number = '+593' + number;
+        }
+    
+        return number;
+    }
 }
