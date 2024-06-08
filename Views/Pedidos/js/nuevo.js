@@ -60,7 +60,7 @@ const listNuevoPedido = async () => {
                     <td><input type="text" id="descuento_nuevoPedido_${index}" class="form-control" value="${descuento}"></td>
                     <td><span id="precioFinal_nuevoPedido_${index}">${precioFinal.toFixed(2)}</span></td>
                     <td>
-                        <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash-can"></i></button>
+                        <button class="btn btn-sm btn-danger" onclick="eliminar_nuevoPedido(${nuevoPedido.id_tmp})"><i class="fa-solid fa-trash-can"></i></button>
                     </td>
                 </tr>`;
         });
@@ -69,6 +69,40 @@ const listNuevoPedido = async () => {
         alert(ex);
     }
 };
+
+function eliminar_nuevoPedido(id) {
+    $.ajax({
+      type: "POST",
+      url: SERVERURL + "productos/eliminarTmp",
+      data: { id: id }, // Enviar el ID como un objeto
+      dataType: 'json', // Asegurarse de que la respuesta se trata como JSON
+      success: function (response) {
+        // Mostrar alerta de éxito
+        if (response.status == 500) {
+          Swal.fire({
+            icon: "error",
+            title: response.title,
+            text: response.message,
+          });
+        } else {
+          Swal.fire({
+            icon: "success",
+            title: response.title,
+            text: response.message,
+            showConfirmButton: false,
+            timer: 2000,
+          }).then(() => {
+            // Recargar la DataTable
+            initDataTable();
+          });
+        }
+      },
+      error: function (xhr, status, error) {
+        console.error("Error en la solicitud AJAX:", error);
+        alert("Hubo un problema al eliminar la categoría");
+      },
+    });
+  }
 
 window.addEventListener("load", async () => {
     await initDataTableNuevoPedido();
