@@ -116,7 +116,7 @@ function agregarModal_marketplace(id) {
         dataType: 'json',
         success: function (response) {
             console.log(response); // Depuración: Mostrar la respuesta en la consola
-  
+
             if (response) {
                 // Obtener el primer objeto de la respuesta
                 const data = response;
@@ -124,7 +124,7 @@ function agregarModal_marketplace(id) {
                 // Verificar que los elementos existen antes de asignarles valores
                 if ($('.informacion_producto').length > 0) {
                     console.log('Elementos encontrados, actualizando valores...');
-                    
+
                     // Llenar los elementos del modal con los datos recibidos
                     $('.informacion_producto').html(`
                         <h3 class="mb-3" style="text-decoration:underline;"><strong>Información</strong></h3>
@@ -171,3 +171,4 @@ function agregarModal_marketplace(id) {
         },
     });
 }
+
