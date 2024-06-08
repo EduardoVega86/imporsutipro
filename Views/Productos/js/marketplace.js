@@ -166,6 +166,8 @@ function enviar_cliente(id) {
         formData.append("codigo_producto", data.codigo_producto);
         formData.append("cantidad", 1);
         formData.append("precio", data.pvp);
+        formData.append("id_producto", data.id_producto);
+        formData.append("sku", data.sku);
 
         $.ajax({
           type: "POST",
