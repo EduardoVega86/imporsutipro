@@ -192,7 +192,7 @@ function enviar_cliente(id) {
                 showConfirmButton: false,
                 timer: 2000,
               }).then(() => {
-                window.location.href = SERVERURL + "Pedidos/nuevo?id_producto=" + data.id_producto + "&sku=" + data.sku;
+                window.location.href = "" + SERVERURL + "Pedidos/nuevo";
               });
             }
           },
