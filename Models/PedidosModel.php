@@ -61,6 +61,13 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
     
+     public function eliminarTmp($id_tmp)
+    {
+       
+        $sql = "delete FROM tmp_cotizacion WHERE id_tmp='$tmp'";
+        return $this->select($sql);
+    }
+    
  
     
         public function buscarProductosBodega($producto, $sku, $plataforma)
