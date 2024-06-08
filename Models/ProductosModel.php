@@ -21,7 +21,7 @@ class ProductosModel extends Query
         $data = [$codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $plataforma];
         $insertar_producto = $this->insert($sql, $data);
 
-        $sql_id = "SELECT id_producto FROM productos WHERE codigo_producto = '$codigo_producto' AND id_plataforma = $plataforma";
+        $sql_id = "SELECT MAX(id_producto) as id_producto from productos where id_plataforma = $plataforma";
         $id_producto = $this->select($sql_id);
         $id_producto = $id_producto[0]['id_producto'];
         echo $inv_producto;
