@@ -151,64 +151,82 @@ function agregarModal_marketplace(id) {
   });
 }
 
-//enviar cliente
+// Enviar cliente
 function enviar_cliente(id) {
-  $.ajax({
-    type: "POST",
-    url: SERVERURL + "marketplace/obtener_producto/" + id,
-    dataType: "json",
-    success: function (response) {
-      if (response) {
-        const data = response[0];
-
-        // Crear un objeto FormData y agregar los datos
-        const formData = new FormData();
-        formData.append("cantidad", 1);
-        formData.append("precio", data.pvp);
-        formData.append("id_producto", data.id_producto);
-        formData.append("sku", data.sku);
-
-        $.ajax({
-          type: "POST",
-          url: "" + SERVERURL + "marketplace/agregarTmp",
-          data: formData,
-          processData: false,
-          contentType: false,
-          success: function (response2) {
-            console.log("Producto agregado temporalmente:", response2);
-            if (response2.status == 500) {
+    $.ajax({
+      type: "POST",
+      url: SERVERURL + "marketplace/obtener_producto/" + id,
+      dataType: "json",
+      success: function (response) {
+        if (response) {
+          const data = response[0];
+  
+          // Crear un objeto FormData y agregar los datos
+          const formData = new FormData();
+          formData.append("cantidad", 1);
+          formData.append("precio", data.pvp);
+          formData.append("id_producto", data.id_producto);
+          formData.append("sku", data.sku);
+  
+          $.ajax({
+            type: "POST",
+            url: SERVERURL + "marketplace/agregarTmp",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+              console.log("Producto agregado temporalmente:", response);
+  
+              // Asegúrate de que la respuesta tiene los campos correctos
+              if (response.status === 500) {
+                Swal.fire({
+                  icon: "error",
+                  title: response.title,
+                  text: response.message,
+                });
+              } else if (response.status === 200) {
+                Swal.fire({
+                  icon: "success",
+                  title: response.title,
+                  text: response.message,
+                  showConfirmButton: false,
+                  timer: 2000,
+                }).then(() => {
+                  window.location.href = SERVERURL + "Pedidos/nuevo";
+                });
+              } else {
+                console.error("Respuesta inesperada:", response);
+                Swal.fire({
+                  icon: "error",
+                  title: "Error",
+                  text: "Respuesta inesperada del servidor.",
+                });
+              }
+            },
+            error: function (xhr, status, error) {
+              console.error("Error en la solicitud AJAX:", error);
               Swal.fire({
                 icon: "error",
-                title: response2.title,
-                text: response2.message,
+                title: "Error",
+                text: "Hubo un problema al agregar el producto temporalmente.",
               });
-            } else if (response2.status == 200) {
-              Swal.fire({
-                icon: "success",
-                title: response2.title,
-                text: response2.message,
-                showConfirmButton: false,
-                timer: 2000,
-              }).then(() => {
-                window.location.href = "" + SERVERURL + "Pedidos/nuevo";
-              });
-            }
-          },
-          error: function (xhr, status, error) {
-            console.error("Error en la solicitud AJAX:", error);
-            alert("Hubo un problema al agregar el producto temporalmente");
-          },
+            },
+          });
+        } else {
+          console.error("La respuesta está vacía o tiene un formato incorrecto.");
+        }
+      },
+      error: function (xhr, status, error) {
+        console.error("Error en la solicitud AJAX:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Hubo un problema al obtener la información del producto.",
         });
-      } else {
-        console.error("La respuesta está vacía o tiene un formato incorrecto.");
-      }
-    },
-    error: function (xhr, status, error) {
-      console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al obtener la información del producto");
-    },
-  });
-}
+      },
+    });
+  }
+  
 
 function formatPhoneNumber(number) {
   // Eliminar caracteres no numéricos excepto el signo +
