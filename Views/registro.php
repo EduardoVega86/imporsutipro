@@ -150,7 +150,7 @@
             <div class="step">
                 <div class="form-group">
                     <label for="tienda">Nombre de tu tienda</label>
-                    <input type="text" class="form-control" id="tienda" name="tienda" placeholder="Tienda" oninput="validateStoreName()">
+                    <input type="text" class="form-control" id="tienda" name="tienda" placeholder="Tienda" oninput="validateStoreName()" required>
                     <div id="tienda-error" style="color: red; display: none;">Esta tienda ya existe.</div>
                 </div>
                 <button type="button" class="btn btn-secondary w-100 mb-2" onclick="prevStep()">Anterior</button>
