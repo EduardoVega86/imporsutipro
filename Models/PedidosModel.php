@@ -82,6 +82,8 @@ class PedidosModel extends Query
     
     
     
+    
+    
  
     
         public function buscarProductosBodega($producto, $sku, $plataforma)
@@ -92,8 +94,30 @@ class PedidosModel extends Query
          
         $sql = "SELECT * FROM inventario_bodega WHERE bodega=$id_bodega and id_plataforma=$plataforma";
         return $this->select($sql);
-    }
+        }
     
+        
+         public function cambiarPrecio($id_tmp, $precio, $descuento)
+        {
+            
+       $sql = "UPDATE tmp_cotizacion SET precio_tmp = ?, desc_tmp =? WHERE id_tmp = ?";
+                $data = [$precio, $descuento, $id_tmp];
+                $editar_tmp = $this->update($sql, $data);
+                if ($editar_tmp == 1) {
+                    $response['status'] = 200;
+                    $response['title'] = 'Peticion exitosa';
+                    $response['message'] = 'Imagen subida correctamente';
+                } else {
+                    $response['status'] = 500;
+                    $response['title'] = 'Error';
+                    $response['message'] = 'Error al subir la imagen';
+                }
+                
+                return $response;
+         }
+                
+        
+        
             public function recuperarOrigenBodega($producto, $sku, $plataforma)
         {
             
