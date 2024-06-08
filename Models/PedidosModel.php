@@ -63,9 +63,19 @@ class PedidosModel extends Query
     
      public function eliminarTmp($id_tmp)
     {
-       
-        $sql = "delete FROM tmp_cotizacion WHERE id_tmp='$id_tmp'";
-        return $this->select($sql);
+        $sql = "delete FROM tmp_cotizacion WHERE id_tmp = ?";
+        $data = [$id_tmp];
+        $eliminar_tmp = $this->delete($sql, $data);
+        if ($eliminar_tmp == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Categoria eliminada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al eliminar la categoria';
+        }
+        return $response;
     }
     
     
