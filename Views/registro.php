@@ -306,7 +306,8 @@
                         title: data.title,
                         text: data.message
                     });
-                } else {
+                } 
+                if(data.status == 200)  {
                     Swal.fire({
                         icon: 'success',
                         title: data.title,
