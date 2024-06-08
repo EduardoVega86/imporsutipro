@@ -68,5 +68,5 @@
         </div>
     </div>
 </div>
-<script src="<?php echo SERVERURL?>/Views/Pedidos/js/guias.js"></script> 
+<script src="<?php echo SERVERURL?>/Views/Pedidos/js/guias.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>

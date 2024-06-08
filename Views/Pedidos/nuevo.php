@@ -26,13 +26,6 @@
         padding: 20px;
     }
 
-    .sticky-top-custom {
-        position: sticky;
-        top: 60px;
-        /* Ajusta esto a la altura de cualquier cabecera o menú que tengas */
-        z-index: 1000;
-    }
-
     .img-container img {
         max-width: 100px;
     }
@@ -70,7 +63,7 @@
     </div>
 
     <div class="row">
-        <div class="col-md-6 left-column sticky-top-custom">
+        <div class="col-md-6 left-column d-flex flex-column">
             <div class="form-section">
                 <form>
                     <div class="row g-3 align-items-center mb-3">
@@ -92,6 +85,26 @@
                     </div>
                 </form>
             </div>
+            <div class="table-responsive">
+            <!-- <table class="table table-bordered table-striped table-hover"> -->
+            <table id="datatable_nuevoPedido" class="table table-striped">
+                <!-- <caption>
+                    DataTable.js Demo
+                </caption> -->
+                <thead>
+                    <tr>
+                        <th class="centered">Cod</th>
+                        <th class="centered">Cant.</th>
+                        <th class="centered">Descripción</th>
+                        <th class="centered">Precio</th>
+                        <th class="centered">Desc %</th>
+                        <th class="centered">Total</th>
+                        <th class="centered">Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody_nuevoPedido"></tbody>
+            </table>
+        </div>
         </div>
 
         <div class="col-md-6 right-column">
@@ -196,4 +209,5 @@
     </div>
 </div>
 
+<script src="<?php echo SERVERURL?>/Views/Pedidos/js/guias.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
