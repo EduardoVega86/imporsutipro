@@ -82,7 +82,7 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
         vertical-align: middle !important;
     }
 </style>
-
+<?php require_once './Views/Pedidos/Modales/agregar_productos_pedido.php'; ?>
 <div class="custom-container-fluid mt-4">
     <div class="row">
         <div class="col">
