@@ -178,13 +178,13 @@ function enviar_cliente(id) {
               console.log("Producto agregado temporalmente:", response2);
   
               // Asegúrate de que la respuesta tiene los campos correctos
-              if (response2.status == 500) {
+              if (response2.status = 500) {
                 Swal.fire({
                   icon: "error",
                   title: response2.title,
                   text: response2.message,
                 });
-              } else if (response2.status == 200) {
+              } else if (response2.status = 200) {
                 console.log('entro en la condicion')
                 Swal.fire({
                   icon: "success",
