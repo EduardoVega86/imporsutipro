@@ -1,6 +1,14 @@
 let dataTableNuevosPedidos;
 let dataTableNuevosPedidosIsInitialized = false;
 
+function getParameterByName(name) {
+    const url = new URL(window.location.href);
+    return url.searchParams.get(name);
+}
+// Obtener el id_producto de la URL
+const id_producto = getParameterByName('id_producto');
+const sku = getParameterByName('sku');
+
 const dataTableNuevosPedidosOptions = {
     //scrollX: "2000px",
     /* lengthMenu: [5, 10, 15, 20, 100, 200, 500], */
@@ -41,31 +49,41 @@ const initDataTableNuevosPedidos = async () => {
     dataTableNuevosPedidosIsInitialized = true;
 };
 
-const listNuevosPedidos = async () => {
-    try {
-        const response = await fetch(""+SERVERURL+"pedidos/obtener_guias");
-        const nuevosPedidos = await response.json();
-
-        let content = ``;
-        nuevosPedidos.forEach((nuevoPedido, index) => {
-            content += `
-                <tr>
-                    <td>${nuevoPedido.imagen}</td>
-                    <td>${nuevoPedido.codigo}</td>
-                    <td>${nuevoPedido.nombre}</td>
-                    <td>${nuevoPedido.stock}</td>
-                    <td><input type="number" class="form-control" value="1" min="1" id="cantidad_${index}"></td>
-                    <td>${nuevoPedido.codigo}</td>
-                    <td>
-                        <button class="btn btn-sm btn-succes"><i class="fa-solid fa-pencil"></i></button>
-                    </td>
-                </tr>`;
-        });
-        document.getElementById('tableBody_nuevosPedidos').innerHTML = content;
-    } catch (ex) {
-        alert(ex);
-    }
+const listNuevosPedidos = () => {
+    $.ajax({
+        url: SERVERURL + "pedidos/buscarProductosBodega/"+id_producto,
+        type: 'GET',
+        data: sku,
+        success: function(nuevosPedidos) {
+            let content = ``;
+            nuevosPedidos.forEach((nuevoPedido, index) => {
+                content += `
+                    <tr>
+                        <td>${nuevoPedido.imagen}</td>
+                        <td>${nuevoPedido.codigo}</td>
+                        <td>${nuevoPedido.nombre}</td>
+                        <td>${nuevoPedido.stock}</td>
+                        <td><input type="number" class="form-control" value="1" min="1" id="cantidad_${index}"></td>
+                        <td>${nuevoPedido.codigo}</td>
+                        <td>
+                            <button class="btn btn-sm btn-success"><i class="fa-solid fa-pencil"></i></button>
+                        </td>
+                    </tr>`;
+            });
+            document.getElementById('tableBody_nuevosPedidos').innerHTML = content;
+            $('#nuevosPedidosModal').modal('show');
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
+    });
 };
+
+
+//abrir modal
+function buscar_productos_nuevoPedido(){
+    $('#nuevosPedidosModal').modal('show');
+}
 
 window.addEventListener("load", async () => {
     await initDataTableNuevosPedidos();

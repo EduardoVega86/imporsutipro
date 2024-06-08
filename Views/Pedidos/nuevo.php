@@ -108,7 +108,7 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                             <input type="text" id="codigo" class="form-control">
                         </div>
                         <div class="col-auto">
-                        <button type="button" class="btn btn-primary" onclick="buscar_productos_nuevoPedido(<?php echo htmlspecialchars($id_producto); ?>, '<?php echo htmlspecialchars($sku); ?>')">Buscar</button>
+                        <button type="button" class="btn btn-primary" onclick="buscar_productos_nuevoPedido()">Buscar</button>
                         </div>
                     </div>
                 </form>
