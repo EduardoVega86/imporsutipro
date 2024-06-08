@@ -17,7 +17,7 @@
                             <p class="texto_modal"><strong>Stock:</strong> <span id="stock" class="text-success"></span></p>
                             <br>
                             <h3 class="mb-3" style="text-decoration:underline;"><strong>Proveedor</strong></h3>
-                            <p class="texto_modal"><strong>Nombre:</strong> <span id="nombre_proveedor" class="text-success"></span></p>
+                            <p class="texto_modal"><strong>Nombre:</strong> <span id="nombre_proveedor"></span></p>
                             <p class="texto_modal"><a href="https://wa.me/{telefono_proveedor}"><span id="telefono_proveedor"></span></a></p>
                         </div>
                         <div class="informacion_producto">
@@ -51,7 +51,7 @@
                     </div>
                     <hr>
                     <h3 class="mb-3" style="text-decoration:underline;"><strong>Descripción</strong></h3>
-                    <p><span id="descripcion" class="text-success"></p>
+                    <p><span id="descripcion"></p>
                 </div>
             </div>
             <div class="modal-footer">

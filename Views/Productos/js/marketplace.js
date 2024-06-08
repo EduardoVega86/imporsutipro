@@ -131,6 +131,10 @@ function agregarModal_marketplace(id) {
                 $('#telefono_proveedor').text(data.whatsapp);
                 $('#descripcion').text(data.descripcion_producto);
 
+                // Actualizar el enlace con el número de teléfono del proveedor
+                $('a[href^="https://wa.me/"]').attr('href', 'https://wa.me/' + data.whatsapp);
+
+
                 // Abrir el modal
                 $('#descripcion_productModal').modal('show');
             } else {
