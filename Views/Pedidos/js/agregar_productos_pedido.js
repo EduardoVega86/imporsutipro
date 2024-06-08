@@ -86,7 +86,6 @@ const listNuevosPedidos = () => {
                         </tr>`;
                 });
                 document.getElementById('tableBody_nuevosPedidos').innerHTML = content;
-                $('#nuevosPedidosModal').modal('show');
             } else {
                 console.error("La respuesta no es un array:", nuevosPedidos);
                 alert("Error: La respuesta no tiene el formato esperado.");
