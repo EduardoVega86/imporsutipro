@@ -169,7 +169,7 @@ function enviar_cliente(id) {
         formData.append("sku", data.sku);
 
         $.ajax({
-          type: "POST",
+          method: "POST",
           url: "" + SERVERURL + "marketplace/agregarTmp",
           data: formData,
           success: function (response2) {
