@@ -73,7 +73,7 @@ const listNuevoPedido = async () => {
 function eliminar_nuevoPedido(id) {
     $.ajax({
       type: "POST",
-      url: SERVERURL + "productos/eliminarTmp",
+      url: SERVERURL + "pedidos/eliminarTmp",
       data: { id: id }, // Enviar el ID como un objeto
       dataType: 'json', // Asegurarse de que la respuesta se trata como JSON
       success: function (response) {
