@@ -185,15 +185,7 @@ function enviar_cliente(id) {
                 text: response2.message,
               });
             } else if (response2.status == 200) {
-              Swal.fire({
-                icon: "success",
-                title: response2.title,
-                text: response2.message,
-                showConfirmButton: false,
-                timer: 2000,
-              }).then(() => {
-                window.location.href = "" + SERVERURL + "Pedidos/nuevo";
-              });
+                window.location.href = SERVERURL + "Pedidos/nuevo?id_producto=" + data.id_producto + "&sku=" + data.sku;
             }
           },
           error: function (xhr, status, error) {

@@ -82,7 +82,7 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
         vertical-align: middle !important;
     }
 </style>
-
+<?php require_once './Views/Pedidos/Modales/agregar_productos_pedido.php'; ?>
 <div class="custom-container-fluid mt-4">
     <div class="row">
         <div class="col">
@@ -108,7 +108,7 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                             <input type="text" id="codigo" class="form-control">
                         </div>
                         <div class="col-auto">
-                            <button type="button" class="btn btn-primary" onclick="buscar_productos_nuevoPedido(<?php echo $id_prodcuto;?>,<?php echo $sku;?>)">Buscar</button>
+                        <button type="button" class="btn btn-primary" onclick="buscar_productos_nuevoPedido(<?php echo htmlspecialchars($id_producto); ?>, '<?php echo htmlspecialchars($sku); ?>')">Buscar</button>
                         </div>
                     </div>
                 </form>
