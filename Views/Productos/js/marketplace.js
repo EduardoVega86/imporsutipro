@@ -170,27 +170,28 @@ function enviar_cliente(id) {
 
         $.ajax({
           type: "POST",
-          url: ""+SERVERURL +"marketplace/agregarTmp",
+          url: "" + SERVERURL + "marketplace/agregarTmp",
           data: formData,
           processData: false,
           contentType: false,
           success: function (response) {
             console.log("Producto agregado temporalmente:", response);
             if (response.status == 500) {
-                Swal.fire({
-                    icon: 'error',
-                    title: response.title,
-                    text: response.message
-                });
-            } else if (response.status == 200){
-
-                    Swal.fire({
-                        icon: 'success',
-                        title: response.title,
-                        text: response.message
-                    }).then(() => {
-                        window.location.href = '' + SERVERURL + 'Pedidos/nuevo';
-                    });
+              Swal.fire({
+                icon: "error",
+                title: response.title,
+                text: response.message,
+              });
+            } else if (response.status == 200) {
+              Swal.fire({
+                icon: "success",
+                title: response.title,
+                text: response.message,
+                showConfirmButton: false,
+                timer: 2000,
+              }).then(() => {
+                window.location.href = "" + SERVERURL + "Pedidos/nuevo";
+              });
             }
           },
           error: function (xhr, status, error) {
