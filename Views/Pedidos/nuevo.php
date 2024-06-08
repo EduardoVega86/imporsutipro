@@ -1,5 +1,8 @@
 <?php require_once './Views/templates/header.php'; ?>
-
+<?php // Recuperar los parámetros de la URL
+$id_producto = isset($_GET['id_producto']) ? $_GET['id_producto'] : null;
+$sku = isset($_GET['sku']) ? $_GET['sku'] : null;
+?>
 <style>
     .section-title {
         background-color: #f8f9fa;
@@ -105,7 +108,7 @@
                             <input type="text" id="codigo" class="form-control">
                         </div>
                         <div class="col-auto">
-                            <button type="button" class="btn btn-primary">Buscar</button>
+                        <button type="button" class="btn btn-primary" onclick="buscar_productos_nuevoPedido(<?php echo htmlspecialchars($id_producto); ?>, '<?php echo htmlspecialchars($sku); ?>')">Buscar</button>
                         </div>
                     </div>
                 </form>
@@ -235,4 +238,5 @@
 </div>
 
 <script src="<?php echo SERVERURL?>/Views/Pedidos/js/nuevo.js"></script>
+<script src="<?php echo SERVERURL?>/Views/Pedidos/js/agregar_productos_pedido.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>

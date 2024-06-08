@@ -1,7 +1,7 @@
-let dataTableNuevoPedido;
-let dataTableNuevoPedidoIsInitialized = false;
+let dataTableNuevosPedidos;
+let dataTableNuevosPedidosIsInitialized = false;
 
-const dataTableNuevoPedidoOptions = {
+const dataTableNuevosPedidosOptions = {
     paging: false,
     searching: false,
     info: false,
@@ -13,9 +13,9 @@ const dataTableNuevoPedidoOptions = {
     ],
     language: {
         lengthMenu: "Mostrar _MENU_ registros por página",
-        zeroRecords: "Ningún usuario encontrado",
+        zeroRecords: "Ningún producto encontrado",
         info: "Mostrando de _START_ a _END_ de un total de _TOTAL_ registros",
-        infoEmpty: "Ningún usuario encontrado",
+        infoEmpty: "Ningún producto encontrado",
         infoFiltered: "(filtrados desde _MAX_ registros totales)",
         search: "Buscar:",
         loadingRecords: "Cargando...",
@@ -28,70 +28,59 @@ const dataTableNuevoPedidoOptions = {
     }
 };
 
-const initDataTableNuevoPedido = async () => {
-    if (dataTableNuevoPedidoIsInitialized) {
-        dataTableNuevoPedido.destroy();
+// Inicializar el DataTable para los nuevos pedidos
+const initDataTableNuevosPedidos = async () => {
+    if (dataTableNuevosPedidosIsInitialized) {
+        dataTableNuevosPedidos.destroy();
     }
 
-    await listNuevoPedido();
+    dataTableNuevosPedidos = $("#datatable_nuevosPedidos").DataTable(dataTableNuevosPedidosOptions);
 
-    dataTableNuevoPedido = $("#datatable_nuevoPedido").DataTable(dataTableNuevoPedidoOptions);
-
-    dataTableNuevoPedidoIsInitialized = true;
+    dataTableNuevosPedidosIsInitialized = true;
 };
 
-const listNuevoPedido = async () => {
+// Función para buscar productos y mostrar el modal
+const buscar_productos_nuevoPedido = async (id_producto, sku) => {
+    const formData = new FormData();
+    formData.append('sku', sku);
+
     try {
-        const response = await fetch(""+SERVERURL+"pedidos/buscarTmp");
-        const nuevosPedidos = await response.json();
+        const response = await fetch(`https://new.imporsuitpro.com/pedidos/buscarProductosBodega/${id_producto}`, {
+            method: 'POST',
+            body: formData
+        });
+        const productos = await response.json();
 
         let content = ``;
-        nuevosPedidos.forEach((nuevoPedido, index) => {
-            const precio = parseFloat(nuevoPedido.precio_tmp);
-            const descuento = parseFloat(nuevoPedido.desc_tmp);
-            const precioFinal = precio - (precio * (descuento / 100));
-
+        productos.forEach((producto, index) => {
             content += `
                 <tr>
-                    <td>${nuevoPedido.id_tmp}</td>
-                    <td>${nuevoPedido.cantidad_tmp}</td>
-                    <td>${nuevoPedido.nombre_producto}</td>
-                    <td><input type="text" id="precio_nuevoPedido_${index}" class="form-control" value="${precio}"></td>
-                    <td><input type="text" id="descuento_nuevoPedido_${index}" class="form-control" value="${descuento}"></td>
-                    <td><span id="precioFinal_nuevoPedido_${index}">${precioFinal.toFixed(2)}</span></td>
+                    <td><img src="${producto.imagen}" alt="Imagen del producto" style="max-width: 50px;"></td>
+                    <td>${producto.codigo}</td>
+                    <td>${producto.nombre}</td>
+                    <td>${producto.stock}</td>
+                    <td><input type="number" class="form-control" value="1" min="1" id="cantidad_${index}"></td>
+                    <td>${producto.precio}</td>
                     <td>
-                        <button class="btn btn-sm btn-danger" onclick="eliminar_nuevoPedido(${nuevoPedido.id_tmp})"><i class="fa-solid fa-trash-can"></i></button>
+                        <button class="btn btn-sm btn-primary" onclick="agregarProductoPedido(${producto.id})">Agregar</button>
                     </td>
                 </tr>`;
         });
-        document.getElementById('tableBody_nuevoPedido').innerHTML = content;
-    } catch (ex) {
-        alert(ex);
+
+        document.getElementById('tableBody_nuevosPedidos').innerHTML = content;
+        await initDataTableNuevosPedidos();
+        $('#nuevosPedidosModal').modal('show');
+    } catch (error) {
+        console.error('Error al buscar productos:', error);
+        alert('Hubo un problema al buscar los productos');
     }
 };
 
-function eliminar_nuevoPedido(id) {
-    $.ajax({
-        type: "POST",
-        url: SERVERURL + "pedidos/eliminarTmp/"+id,
-        dataType: 'json', // Asegurarse de que la respuesta se trata como JSON
-        success: function (response) {
-            // Mostrar alerta de éxito
-            if (response.status == 500) {
-                toastr.error('EL PRODUCTO NO SE ELIMINADO CORRECTAMENTE', 'NOTIFICACIÓN', { positionClass: 'toast-bottom-center' });
-            } else if (response.status == 200){
-                toastr.success('PRODUCTO ELIMINADO CORRECTAMENTE', 'NOTIFICACIÓN', { positionClass: 'toast-bottom-center' });
-            }
-
-            // Recargar la DataTable
-            initDataTableNuevoPedido();
-        },
-        error: function (xhr, status, error) {
-            console.error("Error en la solicitud AJAX:", error);
-            alert("Hubo un problema al eliminar la categoría");
-        },
-    });
-}
+// Función para agregar producto al pedido
+const agregarProductoPedido = (idProducto) => {
+    // Aquí puedes implementar la lógica para agregar el producto al pedido
+    console.log(`Agregar producto con ID: ${idProducto}`);
+};
 
 window.addEventListener("load", async () => {
     await initDataTableNuevoPedido();

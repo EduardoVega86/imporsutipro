@@ -192,7 +192,7 @@ function enviar_cliente(id) {
                 showConfirmButton: false,
                 timer: 2000,
               }).then(() => {
-                window.location.href = "" + SERVERURL + "Pedidos/nuevo";
+                window.location.href = SERVERURL + "Pedidos/nuevo?id_producto=" + data.id_producto + "&sku=" + data.sku;
               });
             }
           },
@@ -235,7 +235,6 @@ function formatPhoneNumber(number) {
   return number;
 }
 
-//vaciar temporal al cargar marketpalce
 // Función para vaciar temporalmente los pedidos
 const vaciarTmpPedidos = async () => {
     try {
