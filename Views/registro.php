@@ -306,15 +306,15 @@
                         title: data.title,
                         text: data.message
                     });
-                } 
-                if(data.status == 200)  {
-                    Swal.fire({
-                        icon: 'success',
-                        title: data.title,
-                        text: data.message
-                    }).then(() => {
-                        window.location.href = ''+SERVERURL+'dashboard';
-                    });
+                } else if (data.status == 500){
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: data.title,
+                            text: data.message
+                        }).then(() => {
+                            window.location.href = '' + SERVERURL + 'dashboard';
+                        });
                 }
             })
             .catch((error) => {
