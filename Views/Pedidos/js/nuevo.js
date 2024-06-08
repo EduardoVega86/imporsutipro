@@ -1,7 +1,7 @@
-let dataTableNuevosPedidos;
-let dataTableNuevosPedidosIsInitialized = false;
+let dataTableNuevoPedido;
+let dataTableNuevoPedidoIsInitialized = false;
 
-const dataTableNuevosPedidosOptions = {
+const dataTableNuevoPedidoOptions = {
     paging: false,
     searching: false,
     info: false,
@@ -13,9 +13,9 @@ const dataTableNuevosPedidosOptions = {
     ],
     language: {
         lengthMenu: "Mostrar _MENU_ registros por página",
-        zeroRecords: "Ningún producto encontrado",
+        zeroRecords: "Ningún usuario encontrado",
         info: "Mostrando de _START_ a _END_ de un total de _TOTAL_ registros",
-        infoEmpty: "Ningún producto encontrado",
+        infoEmpty: "Ningún usuario encontrado",
         infoFiltered: "(filtrados desde _MAX_ registros totales)",
         search: "Buscar:",
         loadingRecords: "Cargando...",
@@ -28,60 +28,72 @@ const dataTableNuevosPedidosOptions = {
     }
 };
 
-// Inicializar el DataTable para los nuevos pedidos
-const initDataTableNuevosPedidos = async () => {
-    if (dataTableNuevosPedidosIsInitialized) {
-        dataTableNuevosPedidos.destroy();
+const initDataTableNuevoPedido = async () => {
+    if (dataTableNuevoPedidoIsInitialized) {
+        dataTableNuevoPedido.destroy();
     }
 
-    dataTableNuevosPedidos = $("#datatable_nuevosPedidos").DataTable(dataTableNuevosPedidosOptions);
+    await listNuevoPedido();
 
-    dataTableNuevosPedidosIsInitialized = true;
+    dataTableNuevoPedido = $("#datatable_nuevoPedido").DataTable(dataTableNuevoPedidoOptions);
+
+    dataTableNuevoPedidoIsInitialized = true;
 };
 
-// Función para buscar productos y mostrar el modal
-const buscar_productos_nuevoPedido = async (id_producto, sku) => {
-    const formData = new FormData();
-    formData.append('sku', sku);
-
+const listNuevoPedido = async () => {
     try {
-        const response = await fetch(`https://new.imporsuitpro.com/pedidos/buscarProductosBodega/${id_producto}`, {
-            method: 'POST',
-            body: formData
-        });
-        const productos = await response.json();
+        const response = await fetch(""+SERVERURL+"pedidos/buscarTmp");
+        const nuevosPedidos = await response.json();
 
         let content = ``;
-        productos.forEach((producto, index) => {
+        nuevosPedidos.forEach((nuevoPedido, index) => {
+            const precio = parseFloat(nuevoPedido.precio_tmp);
+            const descuento = parseFloat(nuevoPedido.desc_tmp);
+            const precioFinal = precio - (precio * (descuento / 100));
+
             content += `
                 <tr>
-                    <td><img src="${producto.imagen}" alt="Imagen del producto" style="max-width: 50px;"></td>
-                    <td>${producto.codigo}</td>
-                    <td>${producto.nombre}</td>
-                    <td>${producto.stock}</td>
-                    <td><input type="number" class="form-control" value="1" min="1" id="cantidad_${index}"></td>
-                    <td>${producto.precio}</td>
+                    <td>${nuevoPedido.id_tmp}</td>
+                    <td>${nuevoPedido.cantidad_tmp}</td>
+                    <td>${nuevoPedido.nombre_producto}</td>
+                    <td><input type="text" id="precio_nuevoPedido_${index}" class="form-control" value="${precio}"></td>
+                    <td><input type="text" id="descuento_nuevoPedido_${index}" class="form-control" value="${descuento}"></td>
+                    <td><span id="precioFinal_nuevoPedido_${index}">${precioFinal.toFixed(2)}</span></td>
                     <td>
-                        <button class="btn btn-sm btn-primary" onclick="agregarProductoPedido(${producto.id})">Agregar</button>
+                        <button class="btn btn-sm btn-danger" onclick="eliminar_nuevoPedido(${nuevoPedido.id_tmp})"><i class="fa-solid fa-trash-can"></i></button>
                     </td>
                 </tr>`;
         });
-
-        document.getElementById('tableBody_nuevosPedidos').innerHTML = content;
-        await initDataTableNuevosPedidos();
-        $('#nuevosPedidosModal').modal('show');
-    } catch (error) {
-        console.error('Error al buscar productos:', error);
-        alert('Hubo un problema al buscar los productos');
+        document.getElementById('tableBody_nuevoPedido').innerHTML = content;
+    } catch (ex) {
+        alert(ex);
     }
 };
 
-// Función para agregar producto al pedido
-const agregarProductoPedido = (idProducto) => {
-    // Aquí puedes implementar la lógica para agregar el producto al pedido
-    console.log(`Agregar producto con ID: ${idProducto}`);
-};
+function eliminar_nuevoPedido(id) {
+    $.ajax({
+        type: "POST",
+        url: SERVERURL + "pedidos/eliminarTmp/"+id,
+        dataType: 'json', // Asegurarse de que la respuesta se trata como JSON
+        success: function (response) {
+            // Mostrar alerta de éxito
+            if (response.status == 500) {
+                toastr.error('EL PRODUCTO NO SE ELIMINADO CORRECTAMENTE', 'NOTIFICACIÓN', { positionClass: 'toast-bottom-center' });
+            } else if (response.status == 200){
+                toastr.success('PRODUCTO ELIMINADO CORRECTAMENTE', 'NOTIFICACIÓN', { positionClass: 'toast-bottom-center' });
+            }
 
+            // Recargar la DataTable
+            initDataTableNuevoPedido();
+        },
+        error: function (xhr, status, error) {
+            console.error("Error en la solicitud AJAX:", error);
+            alert("Hubo un problema al eliminar la categoría");
+        },
+    });
+}
+
+buscar_productos_nuevoPedido(id_producto,sku)
 window.addEventListener("load", async () => {
     await initDataTableNuevoPedido();
 });
