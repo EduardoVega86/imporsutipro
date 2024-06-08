@@ -72,24 +72,29 @@ const listNuevoPedido = async () => {
 
 function eliminar_nuevoPedido(id) {
     $.ajax({
-      type: "POST",
-      url: SERVERURL + "pedidos/eliminarTmp",
-      data: { id: id }, // Enviar el ID como un objeto
-      dataType: 'json', // Asegurarse de que la respuesta se trata como JSON
-      success: function (response) {
-        // Mostrar alerta de éxito
-        $.Notification.notify('success','bottom center','NOTIFICACIÓN', 'PRODUCTO ELIMINADO CORRECTAMENTE')
-        
-        // Recargar la DataTable
-        initDataTable();
-      },
-      error: function (xhr, status, error) {
-        console.error("Error en la solicitud AJAX:", error);
-        alert("Hubo un problema al eliminar la categoría");
-      },
+        type: "POST",
+        url: SERVERURL + "pedidos/eliminarTmp",
+        data: { id: id }, // Enviar el ID como un objeto
+        dataType: 'json', // Asegurarse de que la respuesta se trata como JSON
+        success: function (response) {
+            // Mostrar alerta de éxito
+            if (response.status == 500) {
+                $.Notification.notify('error', 'bottom center', 'NOTIFICACIÓN', 'EL PRODUCTO NO SE ELIMINADO CORRECTAMENTE');
+            } else if (response == 200){
+                $.Notification.notify('success', 'bottom center', 'NOTIFICACIÓN', 'PRODUCTO ELIMINADO CORRECTAMENTE');
+            }
+
+            // Recargar la DataTable
+            initDataTableNuevoPedido();
+        },
+        error: function (xhr, status, error) {
+            console.error("Error en la solicitud AJAX:", error);
+            alert("Hubo un problema al eliminar la categoría");
+        },
     });
-  }
+}
 
 window.addEventListener("load", async () => {
     await initDataTableNuevoPedido();
 });
+
