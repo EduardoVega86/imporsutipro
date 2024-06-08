@@ -10,13 +10,13 @@
                     <div class="descripcion_producto">
                         <div class="informacion_producto">
                             <h3 class="mb-3" style="text-decoration:underline;"><strong>Información</strong></h3>
-                            <p class="texto_modal"><strong>Código del Producto:</strong> 10179</p>
-                            <p class="texto_modal"><strong>Nombre Producto:</strong> Cepillo Secador</p>
-                            <p class="texto_modal"><strong>Precio Proveedor:</strong> $10.00</p>
-                            <p class="texto_modal"><strong>Precio Sugerido:</strong> $13.00</p>
-                            <p class="texto_modal"><strong>Stock:</strong> <span class="text-success"><strong>1</strong></span></p>
+                            <p class="texto_modal"><strong>Código del Producto:</strong> <span id="codigo_producto"></span></p>
+                            <p class="texto_modal"><strong>Nombre Producto:</strong> <span id="nombre_producto"></span></p>
+                            <p class="texto_modal"><strong>Precio Proveedor:</strong> <span id="precio_proveedor"></span></p>
+                            <p class="texto_modal"><strong>Precio Sugerido:</strong> <span id="precio_sugerido"></span></p>
+                            <p class="texto_modal"><strong>Stock:</strong> <span id="stock" class="text-success"></span></p>
                             <p class="texto_modal"><strong>Proveedor:</strong> <a href="https://edishop.imporsuit.com" target="_blank">https://edishop.imporsuit.com</a></p>
-                            <p class="texto_modal"><a href="tel:+593998011578">+593998011578</a></p>
+                            <p class="texto_modal"><a href="https://wa.me/{telefono}"><span id="telefono"></span></a></p>
                         </div>
                         <div class="informacion_producto">
                             <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
