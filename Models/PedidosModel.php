@@ -121,7 +121,7 @@ class PedidosModel extends Query
             public function recuperarOrigenBodega($producto, $sku, $plataforma)
         {
             
-        $id_bodega_buscar = $this->select("SELECT id_bodega FROM inventario_bodega WHERE id_producto = $producto and sku='$sku' ");
+        $id_bodega_buscar = $this->select("SELECT id_bodega FROM inventario_bodegas WHERE id_producto = $producto and sku='$sku' ");
         $id_bodega = $id_bodega_buscar[0]['id_bodega'];
          
         $sql = "SELECT * FROM bodega WHERE id=$id_bodega";
