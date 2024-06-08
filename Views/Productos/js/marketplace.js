@@ -239,7 +239,7 @@ function formatPhoneNumber(number) {
 // Función para vaciar temporalmente los pedidos
 const vaciarTmpPedidos = async () => {
     try {
-        const response = await fetch(''+SERVERURL+'pedidos/vaciarTmp');
+        const response = await fetch(''+SERVERURL+'marketplace/vaciarTmp');
         if (!response.ok) {
             throw new Error('Error al vaciar los pedidos temporales');
         }
