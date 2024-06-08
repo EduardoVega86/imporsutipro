@@ -52,7 +52,7 @@ class MarketplaceModel extends Query
 
     public function obtener_producto($id, $plataforma)
     {
-        $sql = "SELECT * FROM `productos` where drogshipin = 1 or id_plataforma=$plataforma";
+        $sql = "SELECT ib.*, p.* FROM `inventario_bodegas` AS ib INNER JOIN `productos` AS p ON p.`id_producto` = ib.`id_producto` WHERE `ib`.`id_producto` = $id;";;
         $data = [$id];
         return $this->select($sql, $data);
     }
