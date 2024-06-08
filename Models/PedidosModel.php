@@ -58,8 +58,6 @@ class PedidosModel extends Query
     {
         $tmp=session_id();
         $sql = "SELECT * FROM tmp_cotizacion WHERE t = sesion_id=$tmp";
-
-        $sql = "SELECT * FROM provincia_laar";
         return $this->select($sql);
     }
 }
