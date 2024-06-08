@@ -65,12 +65,12 @@ const listNuevosPedidos = () => {
             nuevosPedidos.forEach((nuevoPedido, index) => {
                 content += `
                     <tr>
-                        <td>${nuevoPedido.imagen}</td>
-                        <td>${nuevoPedido.codigo}</td>
-                        <td>${nuevoPedido.nombre}</td>
-                        <td>${nuevoPedido.stock}</td>
+                        <td>${nuevoPedido.image_path}</td>
+                        <td>${nuevoPedido.id_producto}</td>
+                        <td>${nuevoPedido.nombre_producto}</td>
+                        <td>${nuevoPedido.stock_inicial}</td>
                         <td><input type="number" class="form-control" value="1" min="1" id="cantidad_${index}"></td>
-                        <td>${nuevoPedido.codigo}</td>
+                        <td>${nuevoPedido.pvp}</td>
                         <td>
                             <button class="btn btn-sm btn-success"><i class="fa-solid fa-pencil"></i></button>
                         </td>

@@ -32,7 +32,7 @@
                         <thead>
                             <tr>
                                 <th class="centered">Imagen</th>
-                                <th class="centered">Cod.</th>
+                                <th class="centered">Id</th>
                                 <th class="centered">Productos</th>
                                 <th class="centered">Stock</th>
                                 <th class="centered">Cantidad</th>
