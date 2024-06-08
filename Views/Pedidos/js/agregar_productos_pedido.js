@@ -50,11 +50,10 @@ const initDataTableNuevosPedidos = async () => {
 };
 
 const listNuevosPedidos = () => {
-    let data = new FormData(sku);
     $.ajax({
         url: SERVERURL + "pedidos/buscarProductosBodega/"+id_producto,
         type: 'GET',
-        data: data,
+        data: {sku},
         success: function(nuevosPedidos) {
             let content = ``;
             nuevosPedidos.forEach((nuevoPedido, index) => {
