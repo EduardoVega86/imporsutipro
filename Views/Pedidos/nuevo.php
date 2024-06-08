@@ -62,7 +62,7 @@
     }
 </style>
 
-<div class="container custom-container-fluid mt-4">
+<div class="custom-container-fluid mt-4">
     <div class="row">
         <div class="col">
             <h2 class="section-title">Generar Guías</h2>
