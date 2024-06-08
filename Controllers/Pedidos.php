@@ -137,14 +137,16 @@ class Pedidos extends Controller
         echo json_encode($response);
     }
 
-    public function buscarProductosBodega($id_producto, $sku)
+    public function buscarProductosBodega($id_producto)
     {
+        $sku = $_POST['sku'];
         $response = $this->model->buscarProductosBodega($id_producto, $sku, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
 
-    public function recuperarOrigenBodega($producto, $sku)
+    public function recuperarOrigenBodega($producto)
     {
+        $sku = $_POST['sku'];
         $response = $this->model->recuperarOrigenBodega($producto, $sku, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
