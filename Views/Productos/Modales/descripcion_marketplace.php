@@ -15,8 +15,10 @@
                             <p class="texto_modal"><strong>Precio Proveedor:</strong> <span id="precio_proveedor"></span></p>
                             <p class="texto_modal"><strong>Precio Sugerido:</strong> <span id="precio_sugerido"></span></p>
                             <p class="texto_modal"><strong>Stock:</strong> <span id="stock" class="text-success"></span></p>
-                            <p class="texto_modal"><strong>Proveedor:</strong> <a href="https://edishop.imporsuit.com" target="_blank">https://edishop.imporsuit.com</a></p>
-                            <p class="texto_modal"><a href="https://wa.me/{telefono}"><span id="telefono"></span></a></p>
+                            <br>
+                            <h3 class="mb-3" style="text-decoration:underline;"><strong>Proveedor</strong></h3>
+                            <p class="texto_modal"><strong>Nombre:</strong> <span id="nombre_proveedor" class="text-success"></span></p>
+                            <p class="texto_modal"><a href="https://wa.me/{telefono_proveedor}"><span id="telefono_proveedor"></span></a></p>
                         </div>
                         <div class="informacion_producto">
                             <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -49,7 +51,7 @@
                     </div>
                     <hr>
                     <h3 class="mb-3" style="text-decoration:underline;"><strong>Descripción</strong></h3>
-                    <p>Cepillo Secador</p>
+                    <p><span id="descripcion" class="text-success"></p>
                 </div>
             </div>
             <div class="modal-footer">

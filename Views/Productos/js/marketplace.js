@@ -127,7 +127,9 @@ function agregarModal_marketplace(id) {
                 $('#precio_proveedor').text(data.costo_producto);
                 $('#precio_sugerido').text(data.pvp);
                 $('#stock').text(data.saldo_stock);
-                $('#telefono').text(data.id_producto); // Asegúrate de que `id_producto` es el dato que quieres mostrar aquí
+                $('#nombre_proveedor').text(data.contacto);
+                $('#telefono_proveedor').text(data.whatsapp);
+                $('#descripcion').text(data.descripcion_producto);
 
                 // Abrir el modal
                 $('#descripcion_productModal').modal('show');
