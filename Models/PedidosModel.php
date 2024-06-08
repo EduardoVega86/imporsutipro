@@ -68,6 +68,8 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
     
+    
+    
  
     
         public function buscarProductosBodega($producto, $sku, $plataforma)

@@ -56,4 +56,11 @@ class MarketplaceModel extends Query
         $data = [$id];
         return $this->select($sql, $data);
     }
+    
+    public function vaciarTmp()
+    {
+        $timestamp = session_id();       
+        $sql = "delete FROM tmp_cotizacion WHERE session_id='$timestamp'";
+        return $this->select($sql);
+    }
 }
