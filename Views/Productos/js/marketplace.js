@@ -178,13 +178,13 @@ function enviar_cliente(id) {
               console.log("Producto agregado temporalmente:", response);
   
               // Asegúrate de que la respuesta tiene los campos correctos
-              if (response.status === 500) {
+              if (response.status == 500) {
                 Swal.fire({
                   icon: "error",
                   title: response.title,
                   text: response.message,
                 });
-              } else if (response.status === 200) {
+              } else if (response.status == 200) {
                 Swal.fire({
                   icon: "success",
                   title: response.title,
@@ -194,14 +194,7 @@ function enviar_cliente(id) {
                 }).then(() => {
                   window.location.href = SERVERURL + "Pedidos/nuevo";
                 });
-              } else {
-                console.error("Respuesta inesperada:", response);
-                Swal.fire({
-                  icon: "error",
-                  title: "Error",
-                  text: "Respuesta inesperada del servidor.",
-                });
-              }
+              } 
             },
             error: function (xhr, status, error) {
               console.error("Error en la solicitud AJAX:", error);
