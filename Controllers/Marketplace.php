@@ -23,6 +23,12 @@ class Marketplace extends Controller
         echo json_encode($response);
     }
 
+    public function obtener_producto($id)
+    {
+        $response = $this->model->obtener_producto($id, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
     public function agregarMarketplace()
     {
         $codigo_producto = $_POST['codigo_producto'];

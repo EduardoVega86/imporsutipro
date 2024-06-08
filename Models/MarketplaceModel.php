@@ -49,4 +49,11 @@ class MarketplaceModel extends Query
         }
         return $response;
     }
+
+    public function obtener_producto($id, $plataforma)
+    {
+        $sql = "SELECT * FROM `productos` where drogshipin = 1 or id_plataforma=$plataforma";
+        $data = [$id];
+        return $this->select($sql, $data);
+    }
 }
