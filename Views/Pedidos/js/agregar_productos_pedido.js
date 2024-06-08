@@ -61,24 +61,7 @@ const listNuevosPedidos = () => {
 
             // Verificar si la respuesta es un array
             if (Array.isArray(response)) {
-                let nuevosPedidos = response;
-                let content = ``;
-                nuevosPedidos.forEach((nuevoPedido, index) => {
-                    content += `
-                        <tr>
-                            <td>${nuevoPedido.image_path}</td>
-                            <td>${nuevoPedido.id_producto}</td>
-                            <td>${nuevoPedido.nombre_producto}</td>
-                            <td>${nuevoPedido.stock_inicial}</td>
-                            <td><input type="number" class="form-control" value="1" min="1" id="cantidad_${index}"></td>
-                            <td>${nuevoPedido.pvp}</td>
-                            <td>
-                                <button class="btn btn-sm btn-success"><i class="fa-solid fa-pencil"></i></button>
-                            </td>
-                        </tr>`;
-                });
-                document.getElementById('tableBody_nuevosPedidos').innerHTML = content;
-                $('#nuevosPedidosModal').modal('show');
+                renderTable(response);
             } else {
                 console.error("La respuesta no es un array:", response);
                 alert("Error: La respuesta no tiene el formato esperado.");
@@ -89,6 +72,26 @@ const listNuevosPedidos = () => {
             alert(errorThrown);
         }
     });
+};
+
+const renderTable = (nuevosPedidos) => {
+    let content = ``;
+    nuevosPedidos.forEach((nuevoPedido, index) => {
+        content += `
+            <tr>
+                <td>${nuevoPedido.image_path || 'N/A'}</td>
+                <td>${nuevoPedido.id_producto}</td>
+                <td>${nuevoPedido.nombre_producto}</td>
+                <td>${nuevoPedido.stock_inicial}</td>
+                <td><input type="number" class="form-control" value="1" min="1" id="cantidad_${index}"></td>
+                <td>${nuevoPedido.pvp}</td>
+                <td>
+                    <button class="btn btn-sm btn-success"><i class="fa-solid fa-pencil"></i></button>
+                </td>
+            </tr>`;
+    });
+    document.getElementById('tableBody_nuevosPedidos').innerHTML = content;
+    $('#nuevosPedidosModal').modal('show');
 };
 
 // Abrir modal
