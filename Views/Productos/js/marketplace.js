@@ -169,11 +169,14 @@ function enviar_cliente(id) {
         formData.append("sku", data.sku);
 
         $.ajax({
-          method: "POST",
+          type: "POST",
           url: "" + SERVERURL + "marketplace/agregarTmp",
           data: formData,
+          processData: false,
+          contentType: false,
           success: function (response2) {
-            console.table(response2);
+            console.log(response2);
+            console.log(response2[0])
             if (response2.status == 500) {
               Swal.fire({
                 icon: "error",
