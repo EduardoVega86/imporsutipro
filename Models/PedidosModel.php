@@ -64,7 +64,7 @@ class PedidosModel extends Query
      public function eliminarTmp($id_tmp)
     {
        
-        $sql = "delete FROM tmp_cotizacion WHERE id_tmp='$tmp'";
+        $sql = "delete FROM tmp_cotizacion WHERE id_tmp='$id_tmp'";
         return $this->select($sql);
     }
     
