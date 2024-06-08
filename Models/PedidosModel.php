@@ -67,7 +67,7 @@ class PedidosModel extends Query
         $data = [$id_tmp];
         //echo print_r($data);
         $eliminar_tmp = $this->delete($sql, $data);
-        print_r($eliminar_tmp);
+        //print_r($eliminar_tmp);
         if ($eliminar_tmp == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
