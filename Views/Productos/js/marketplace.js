@@ -185,6 +185,7 @@ function enviar_cliente(id) {
                   text: response2.message,
                 });
               } else if (response2.status == 200) {
+                console.log('entro en la condicion')
                 Swal.fire({
                   icon: "success",
                   title: response2.title,
