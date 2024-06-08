@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function agregarModal_marketplace(id) {
     $.ajax({
         type: "POST",
-        url: SERVERURL + "marketplace/obtener_objeto",
+        url: SERVERURL + "marketplace/obtener_producto",
         data: { id: id },
         dataType: 'json',
         success: function (response) {
