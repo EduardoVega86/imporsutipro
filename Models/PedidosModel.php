@@ -65,9 +65,21 @@ class PedidosModel extends Query
     
         public function buscarProductosBodega($producto, $sku, $plataforma)
         {
-        $id_bodega = $this->select("SELECT id_bodega FROM inventario_bodega WHERE id_producto = $producto and sku='$sku' ");
-        
-        $sql = "SELECT * FROM tmp_cotizacion WHERE  session_id=$tmp";
+            
+        $id_bodega_buscar = $this->select("SELECT id_bodega FROM inventario_bodega WHERE id_producto = $producto and sku='$sku' ");
+        $id_bodega = $id_bodega_buscar[0]['id_bodega'];
+         
+        $sql = "SELECT * FROM inventario_bodega WHERE bodega=$id_bodega and id_plataforma=$plataforma";
+        return $this->select($sql);
+    }
+    
+            public function recuperarOrigenBodega($producto, $sku, $plataforma)
+        {
+            
+        $id_bodega_buscar = $this->select("SELECT id_bodega FROM inventario_bodega WHERE id_producto = $producto and sku='$sku' ");
+        $id_bodega = $id_bodega_buscar[0]['id_bodega'];
+         
+        $sql = "SELECT * FROM bodega WHERE id=$id_bodega";
         return $this->select($sql);
     }
 }
