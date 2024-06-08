@@ -136,4 +136,22 @@ class Pedidos extends Controller
         $response = $this->model->buscarTmp();
         echo json_encode($response);
     }
+
+    public function buscarProductosBodega($id_producto, $sku)
+    {
+        $response = $this->model->buscarProductosBodega($id_producto, $sku, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
+    public function recuperarOrigenBodega($producto, $sku)
+    {
+        $response = $this->model->recuperarOrigenBodega($producto, $sku, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
+    public function eliminarTmp($id_tmp)
+    {
+        $response = $this->model->eliminarTmp($id_tmp);
+        echo json_encode($response);
+    }
 }
