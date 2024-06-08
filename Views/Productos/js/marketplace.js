@@ -174,21 +174,21 @@ function enviar_cliente(id) {
             data: formData,
             processData: false,
             contentType: false,
-            success: function (response) {
-              console.log("Producto agregado temporalmente:", response);
+            success: function (response2) {
+              console.log("Producto agregado temporalmente:", response2);
   
               // Asegúrate de que la respuesta tiene los campos correctos
-              if (response.status == 500) {
+              if (response2.status == 500) {
                 Swal.fire({
                   icon: "error",
-                  title: response.title,
-                  text: response.message,
+                  title: response2.title,
+                  text: response2.message,
                 });
-              } else if (response.status == 200) {
+              } else if (response2.status == 200) {
                 Swal.fire({
                   icon: "success",
-                  title: response.title,
-                  text: response.message,
+                  title: response2.title,
+                  text: response2.message,
                   showConfirmButton: false,
                   timer: 2000,
                 }).then(() => {
