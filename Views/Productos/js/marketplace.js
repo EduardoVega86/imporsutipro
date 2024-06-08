@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <p class="card-text">Categoría: <strong>${product.id_linea_producto}</strong></p>
                 </div>
                 <div>
-                    <button class="btn btn-description" data-bs-toggle="modal" data-bs-target="#descripcion_productModal">Descripción</button>
+                    <button class="btn btn-description" onclick="agregarModal_marketplace(${product.id_producto})">Descripción</button>
                     <button class="btn btn-import">Importar</button>
                 </div>
             </div>
@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function agregarModal_marketplace(id) {
     $.ajax({
         type: "POST",
-        url: SERVERURL + "productos/listarCategoria",
+        url: SERVERURL + "marketplace/obtener_objeto",
         data: { id: id },
         dataType: 'json',
         success: function (response) {
@@ -141,7 +141,7 @@ function agregarModal_marketplace(id) {
                     $('#editar_estado').val(data.estado_linea);
   
                     // Abrir el modal
-                    $('#editar_categoriaModal').modal('show');
+                    $('#descripcion_productModal').modal('show');
                 } else {
                     console.error("Uno o más elementos no se encontraron en el DOM.");
                 }
