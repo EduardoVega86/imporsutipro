@@ -50,10 +50,16 @@ const initDataTableNuevosPedidos = async () => {
 };
 
 const listNuevosPedidos = () => {
+    // Crear una instancia de FormData
+    let formData = new FormData();
+    formData.append('sku', sku);  // Añadir el SKU al FormData
+
     $.ajax({
-        url: SERVERURL + "pedidos/buscarProductosBodega/"+id_producto,
-        type: 'GET',
-        data: {sku},
+        url: SERVERURL + "pedidos/buscarProductosBodega/" + id_producto,
+        type: 'POST',  // Cambiar a POST para enviar FormData
+        data: formData,
+        processData: false,  // No procesar los datos
+        contentType: false,  // No establecer ningún tipo de contenido
         success: function(nuevosPedidos) {
             let content = ``;
             nuevosPedidos.forEach((nuevoPedido, index) => {
@@ -78,6 +84,7 @@ const listNuevosPedidos = () => {
         }
     });
 };
+
 
 
 //abrir modal
