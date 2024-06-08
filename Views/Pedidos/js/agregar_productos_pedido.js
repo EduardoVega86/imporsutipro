@@ -60,24 +60,37 @@ const listNuevosPedidos = () => {
         data: formData,
         processData: false,  // No procesar los datos
         contentType: false,  // No establecer ningún tipo de contenido
-        success: function(nuevosPedidos) {
-            let content = ``;
-            nuevosPedidos.forEach((nuevoPedido, index) => {
-                content += `
-                    <tr>
-                        <td>${nuevoPedido.image_path}</td>
-                        <td>${nuevoPedido.id_producto}</td>
-                        <td>${nuevoPedido.nombre_producto}</td>
-                        <td>${nuevoPedido.stock_inicial}</td>
-                        <td><input type="number" class="form-control" value="1" min="1" id="cantidad_${index}"></td>
-                        <td>${nuevoPedido.pvp}</td>
-                        <td>
-                            <button class="btn btn-sm btn-success"><i class="fa-solid fa-pencil"></i></button>
-                        </td>
-                    </tr>`;
-            });
-            document.getElementById('tableBody_nuevosPedidos').innerHTML = content;
-            $('#nuevosPedidosModal').modal('show');
+        success: function(response) {
+            console.log("Respuesta del servidor:", response);  // Verificar la respuesta
+
+            // Verificar si la respuesta es un JSON y tiene el formato esperado
+            let nuevosPedidos = response;
+            if (typeof response === 'string') {
+                nuevosPedidos = JSON.parse(response);
+            }
+
+            if (Array.isArray(nuevosPedidos)) {
+                let content = ``;
+                nuevosPedidos.forEach((nuevoPedido, index) => {
+                    content += `
+                        <tr>
+                            <td>${nuevoPedido.image_path}</td>
+                            <td>${nuevoPedido.id_producto}</td>
+                            <td>${nuevoPedido.nombre_producto}</td>
+                            <td>${nuevoPedido.stock_inicial}</td>
+                            <td><input type="number" class="form-control" value="1" min="1" id="cantidad_${index}"></td>
+                            <td>${nuevoPedido.pvp}</td>
+                            <td>
+                                <button class="btn btn-sm btn-success"><i class="fa-solid fa-pencil"></i></button>
+                            </td>
+                        </tr>`;
+                });
+                document.getElementById('tableBody_nuevosPedidos').innerHTML = content;
+                $('#nuevosPedidosModal').modal('show');
+            } else {
+                console.error("La respuesta no es un array:", nuevosPedidos);
+                alert("Error: La respuesta no tiene el formato esperado.");
+            }
         },
         error: function(jqXHR, textStatus, errorThrown) {
             alert(errorThrown);
@@ -85,13 +98,12 @@ const listNuevosPedidos = () => {
     });
 };
 
-
-
-//abrir modal
-function buscar_productos_nuevoPedido(){
+// Abrir modal
+function buscar_productos_nuevoPedido() {
     $('#nuevosPedidosModal').modal('show');
 }
 
 window.addEventListener("load", async () => {
     await initDataTableNuevosPedidos();
 });
+
