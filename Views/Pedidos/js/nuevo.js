@@ -78,24 +78,10 @@ function eliminar_nuevoPedido(id) {
       dataType: 'json', // Asegurarse de que la respuesta se trata como JSON
       success: function (response) {
         // Mostrar alerta de éxito
-        if (response.status == 500) {
-          Swal.fire({
-            icon: "error",
-            title: response.title,
-            text: response.message,
-          });
-        } else {
-          Swal.fire({
-            icon: "success",
-            title: response.title,
-            text: response.message,
-            showConfirmButton: false,
-            timer: 2000,
-          }).then(() => {
-            // Recargar la DataTable
-            initDataTable();
-          });
-        }
+        $.Notification.notify('success','bottom center','NOTIFICACIÓN', 'PRODUCTO ELIMINADO CORRECTAMENTE')
+        
+        // Recargar la DataTable
+        initDataTable();
       },
       error: function (xhr, status, error) {
         console.error("Error en la solicitud AJAX:", error);
