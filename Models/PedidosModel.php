@@ -89,8 +89,8 @@ class PedidosModel extends Query
         public function buscarProductosBodega($producto, $sku, $plataforma)
         {
             
-        $id_bodega_buscar = $this->select("SELECT id_bodega FROM inventario_bodega WHERE id_producto = $producto and sku='$sku' ");
-        $id_bodega = $id_bodega_buscar[0]['id_bodega'];
+        $id_bodega_buscar = $this->select("SELECT bodega FROM inventario_bodega WHERE id_producto = $producto and sku='$sku' ");
+        $id_bodega = $id_bodega_buscar[0]['bodega'];
          
         $sql = "SELECT * FROM inventario_bodega WHERE bodega=$id_bodega and id_plataforma=$plataforma";
         return $this->select($sql);
