@@ -234,3 +234,21 @@ function formatPhoneNumber(number) {
 
   return number;
 }
+
+//vaciar temporal al cargar marketpalce
+// Función para vaciar temporalmente los pedidos
+const vaciarTmpPedidos = async () => {
+    try {
+        const response = await fetch(''+SERVERURL+'pedidos/vaciarTmp/');
+        if (!response.ok) {
+            throw new Error('Error al vaciar los pedidos temporales');
+        }
+        const data = await response.json();
+        console.log('Respuesta de vaciarTmp:', data);
+    } catch (error) {
+        console.error('Error al hacer la solicitud:', error);
+    }
+};
+
+// Ejecutar la función cuando la página se haya cargado
+window.addEventListener('load', vaciarTmpPedidos);
