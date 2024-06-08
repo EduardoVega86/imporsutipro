@@ -3,7 +3,7 @@ let dataTableNuevoPedidoIsInitialized = false;
 
 const dataTableNuevoPedidoOptions = {
     columnDefs: [
-        { className: "centered", targets: [0, 1, 2, 3, 4, 5, 6, 7, 8] },
+        { className: "centered", targets: [0, 1, 2, 3, 4, 5, 6] },
     ],
     pageLength: 10,
     destroy: true,
