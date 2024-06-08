@@ -175,8 +175,9 @@ function enviar_cliente(id) {
           processData: false,
           contentType: false,
           success: function (response2) {
+            response2 = JSON.parse(response2);
             console.log(response2);
-            console.log(response2[0])
+            console.log(response2[0]);
             if (response2.status == 500) {
               Swal.fire({
                 icon: "error",
