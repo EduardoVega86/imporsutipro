@@ -60,7 +60,6 @@ const listNuevoPedido = async () => {
                     <td><input type="text" id="descuento_nuevoPedido_${index}" class="form-control" value="${descuento}"></td>
                     <td><span id="precioFinal_nuevoPedido_${index}">${precioFinal.toFixed(2)}</span></td>
                     <td>
-                        <button class="btn btn-sm btn-primary"><i class="fa-solid fa-pencil"></i></button>
                         <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash-can"></i></button>
                     </td>
                 </tr>`;
