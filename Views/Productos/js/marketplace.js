@@ -176,18 +176,18 @@ function enviar_cliente(id) {
           contentType: false,
           success: function (response) {
             console.log("Producto agregado temporalmente:", response);
-            if (data.status == 500) {
+            if (response.status == 500) {
                 Swal.fire({
                     icon: 'error',
-                    title: data.title,
-                    text: data.message
+                    title: response.title,
+                    text: response.message
                 });
-            } else if (data.status == 200){
+            } else if (response.status == 200){
 
                     Swal.fire({
                         icon: 'success',
-                        title: data.title,
-                        text: data.message
+                        title: response.title,
+                        text: response.message
                     }).then(() => {
                         window.location.href = '' + SERVERURL + 'Pedidos/nuevo';
                     });
