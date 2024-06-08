@@ -69,11 +69,11 @@ class PedidosModel extends Query
         if ($eliminar_tmp == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
-            $response['message'] = 'Categoria eliminada correctamente';
+            $response['message'] = 'Producto eliminado correctamente';
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = 'Error al eliminar la categoria';
+            $response['message'] = 'Error al eliminar la producto';
         }
         return $response;
     }
