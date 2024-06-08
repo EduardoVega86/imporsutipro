@@ -117,7 +117,7 @@ function agregarModal_marketplace(id) {
         success: function (response) {
             console.log(response); // Depuración: Mostrar la respuesta en la consola
   
-            if (response && response.producto) {
+            if (response) {
                 const data = response.producto;
   
                 // Verificar que los elementos existen antes de asignarles valores
