@@ -79,9 +79,9 @@ function eliminar_nuevoPedido(id) {
         success: function (response) {
             // Mostrar alerta de éxito
             if (response.status == 500) {
-                $.Notification.notify('error', 'bottom center', 'NOTIFICACIÓN', 'EL PRODUCTO NO SE ELIMINADO CORRECTAMENTE');
-            } else if (response == 200){
-                $.Notification.notify('success', 'bottom center', 'NOTIFICACIÓN', 'PRODUCTO ELIMINADO CORRECTAMENTE');
+                toastr.error('EL PRODUCTO NO SE ELIMINADO CORRECTAMENTE', 'NOTIFICACIÓN', { positionClass: 'toast-bottom-center' });
+            } else if (response.status == 200){
+                toastr.success('PRODUCTO ELIMINADO CORRECTAMENTE', 'NOTIFICACIÓN', { positionClass: 'toast-bottom-center' });
             }
 
             // Recargar la DataTable
