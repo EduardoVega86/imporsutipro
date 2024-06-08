@@ -172,9 +172,8 @@ function enviar_cliente(id) {
           type: "POST",
           url: "" + SERVERURL + "marketplace/agregarTmp",
           data: formData,
-          
           success: function (response2) {
-           
+            console.table(response2);
             if (response2.status == 500) {
               Swal.fire({
                 icon: "error",
