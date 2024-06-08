@@ -92,8 +92,6 @@ function eliminar_nuevoPedido(id) {
         },
     });
 }
-
-buscar_productos_nuevoPedido(id_producto,sku)
 window.addEventListener("load", async () => {
     await initDataTableNuevoPedido();
 });

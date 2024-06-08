@@ -1,11 +1,11 @@
-let dataTable;
-let dataTableIsInitialized = false;
+let dataTableNuevosPedidos;
+let dataTableNuevosPedidosIsInitialized = false;
 
-const dataTableOptions = {
+const dataTableNuevosPedidosOptions = {
     //scrollX: "2000px",
     /* lengthMenu: [5, 10, 15, 20, 100, 200, 500], */
     columnDefs: [
-        { className: "centered", targets: [0, 1, 2, 3, 4, 5,6,7,8] },
+        { className: "centered", targets: [0, 1, 2, 3, 4, 5, 6, 7, 8] },
         /* { orderable: false, targets: [5, 6] }, */
         /* { searchable: false, targets: [1] } */
         //{ width: "50%", targets: [0] }
@@ -14,9 +14,9 @@ const dataTableOptions = {
     destroy: true,
     language: {
         lengthMenu: "Mostrar _MENU_ registros por página",
-        zeroRecords: "Ningún usuario encontrado",
+        zeroRecords: "Ningún pedido encontrado",
         info: "Mostrando de _START_ a _END_ de un total de _TOTAL_ registros",
-        infoEmpty: "Ningún usuario encontrado",
+        infoEmpty: "Ningún pedido encontrado",
         infoFiltered: "(filtrados desde _MAX_ registros totales)",
         search: "Buscar:",
         loadingRecords: "Cargando...",
@@ -29,16 +29,16 @@ const dataTableOptions = {
     }
 };
 
-const initDataTable = async () => {
-    if (dataTableIsInitialized) {
-        dataTable.destroy();
+const initDataTableNuevosPedidos = async () => {
+    if (dataTableNuevosPedidosIsInitialized) {
+        dataTableNuevosPedidos.destroy();
     }
 
     await listNuevosPedidos();
 
-    dataTable = $("#datatable_nuevosPedidos").DataTable(dataTableOptions);
+    dataTableNuevosPedidos = $("#datatable_nuevosPedidos").DataTable(dataTableNuevosPedidosOptions);
 
-    dataTableIsInitialized = true;
+    dataTableNuevosPedidosIsInitialized = true;
 };
 
 const listNuevosPedidos = async () => {
@@ -69,5 +69,5 @@ const listNuevosPedidos = async () => {
 };
 
 window.addEventListener("load", async () => {
-    await initDataTable();
+    await initDataTableNuevosPedidos();
 });
