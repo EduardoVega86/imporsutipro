@@ -41,6 +41,8 @@ class Marketplace extends Controller
         $codigo_producto = $_POST['codigo_producto'];
         $cantidad = $_POST['cantidad'];
         $precio = $_POST['precio'];
+        $precio = $_POST['id_producto'];
+        $precio = $_POST['sku'];
         $response = $this->model->agregarTmp($codigo_producto, $cantidad, $precio, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
