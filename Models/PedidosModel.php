@@ -61,10 +61,13 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
     
+ 
+    
         public function buscarProductosBodega($producto, $sku, $plataforma)
-    {
-      
-        $sql = "SELECT * FROM tmp_cotizacion WHERE  sesion_id=$tmp";
+        {
+        $id_bodega = $this->select("SELECT id_bodega FROM inventario_bodega WHERE id_producto = $producto and sku='$sku' ");
+        
+        $sql = "SELECT * FROM tmp_cotizacion WHERE  session_id=$tmp";
         return $this->select($sql);
     }
 }
