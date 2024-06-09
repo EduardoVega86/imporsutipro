@@ -1,14 +1,16 @@
 let dataTableProductos;
 let dataTableProductosIsInitialized = false;
-
+function getFecha (){
+  
+}
 const dataTableProductosOptions = {
   columnDefs: [
     { className: "centered", targets: [0, 1, 2, 3, 4, 5, 6] },
   ],
   pageLength: 10,
   destroy: true,
-  dom: '<"d-flex justify-content-between"lBf><t><"d-flex justify-content-between"lip>',
-  /* buttons: [
+  dom: '<"d-flex justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
+  buttons: [
     {
       extend: "copyHtml5",
       text: '<i class="bx bx-copy"></i>',
@@ -26,21 +28,21 @@ const dataTableProductosOptions = {
       exportOptions: {
         columns: [0, 1, 2, 3, 4 ,5 , 6 ,7 ,8 ,9, 10 ,11 ,12],
       },
-      filename: "Usuarios" + "_" + getFecha(),
+      filename: "Productos" + "_" + getFecha(),
       footer: true,
     },
     {
       extend: "csvHtml5",
       text: 'CSV <i class="fa-solid fa-file-csv" style="color: #2e8500;"></i>',
-      title: "Panel de Control: Usuarios",
+      title: "Panel de Control: Productos",
       titleAttr: "Exportar a CSV",
       exportOptions: {
         columns: [0, 1, 2, 3, 4 ,5 , 6 ,7 ,8 ,9, 10 ,11 ,12],
       },
-      filename: "Usuarios" + "_" + getFecha(),
+      filename: "Productos" + "_" + getFecha(),
       footer: true,
     },
-  ], */
+  ],
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
     zeroRecords: "Ningún usuario encontrado",

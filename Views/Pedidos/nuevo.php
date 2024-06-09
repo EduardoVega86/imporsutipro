@@ -108,31 +108,31 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                             <input type="text" id="codigo" class="form-control">
                         </div>
                         <div class="col-auto">
-                        <button type="button" class="btn btn-primary" onclick="buscar_productos_nuevoPedido()">Buscar</button>
+                            <button type="button" class="btn btn-primary" onclick="buscar_productos_nuevoPedido()">Buscar</button>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="table-responsive">
-            <!-- <table class="table table-bordered table-striped table-hover"> -->
-            <table id="datatable_nuevoPedido" class="table table-striped">
-                <!-- <caption>
+                <!-- <table class="table table-bordered table-striped table-hover"> -->
+                <table id="datatable_nuevoPedido" class="table table-striped">
+                    <!-- <caption>
                     DataTable.js Demo
                 </caption> -->
-                <thead>
-                    <tr>
-                        <th class="centered">Cod</th>
-                        <th class="centered">Cant.</th>
-                        <th class="centered">Descripción</th>
-                        <th class="centered">Precio</th>
-                        <th class="centered">Desc %</th>
-                        <th class="centered">Total</th>
-                        <th class="centered">Acción</th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody_nuevoPedido"></tbody>
-            </table>
-        </div>
+                    <thead>
+                        <tr>
+                            <th class="centered">Cod</th>
+                            <th class="centered">Cant.</th>
+                            <th class="centered">Descripción</th>
+                            <th class="centered">Precio</th>
+                            <th class="centered">Desc %</th>
+                            <th class="centered">Total</th>
+                            <th class="centered">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody_nuevoPedido"></tbody>
+                </table>
+            </div>
         </div>
 
         <div class="col-md-6 right-column">
@@ -237,6 +237,6 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
     </div>
 </div>
 
-<script src="<?php echo SERVERURL?>/Views/Pedidos/js/nuevo.js"></script>
-<script src="<?php echo SERVERURL?>/Views/Pedidos/js/agregar_productos_pedido.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/Pedidos/js/nuevo.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/Pedidos/js/agregar_productos_pedido.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
