@@ -135,7 +135,16 @@ class Pedidos extends Controller
     {
         $response = $this->model->buscarTmp();
         if($response == null || empty($response)){
-          return   $response = array();
+            $arr = array([
+                'id_producto' => 0,
+                'nombre' => '',
+                'precio' => 0,
+                'descuento' => 0,
+                'cantidad' => 0,
+                'total' => 0,
+                'sku' => '',
+                'id_tmp' => 0]);
+          return   json_encode($arr)    ;
         }
         $id_producto = $response[0]['id_producto'];
 
@@ -178,7 +187,7 @@ class Pedidos extends Controller
         $descuento = $_POST['descuento'];
         $precio = $_POST['precio'];
         $response = $this->model->actualizarTmp($id_tmp, $descuento, $precio);
-        
+
         echo json_encode($response);
     }
 
