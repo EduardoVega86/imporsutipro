@@ -48,8 +48,7 @@ var provincia_bodega = "";
 var direccion_bodega = "";
 var referencia_bodega = "";
 var numerCasa_Bodega = "";
-var celular_cliente = "";
-var id_producto_venta_cliente = "";
+var id_producto_venta = "";
 var dropshipping = "";
 var id_prataforma = "";
 
@@ -70,10 +69,9 @@ const listNuevoPedido = async () => {
       direccion_bodega = nuevosPedidos_bodega.direccion;
       referencia_bodega = nuevosPedidos_bodega.referencia;
       numerCasa_Bodega = nuevosPedidos_bodega.num_casa;
-      celular_cliente = ;
-      id_producto_venta_cliente = ;
-      dropshipping = ;
-      id_prataforma = ;
+      id_producto_venta = nuevosPedidos.id_producto;
+      dropshipping = nuevosPedidos.drogshiping;
+      id_prataforma = nuevosPedidos.id_plataforma;
 
       const precio = parseFloat(nuevoPedido.precio_tmp);
       const descuento = parseFloat(nuevoPedido.desc_tmp);
@@ -259,14 +257,14 @@ function agregar_nuevoPedido() {
     formData.append("identificacion", 0);
     formData.append("observacion", $("#observacion").val());
     formData.append("transporte", 0);
-    formData.append("celular", celular_bodega); // Suponiendo que siempre aplica IVA
-    formData.append("estado_producto", 1); // Suponiendo que el estado es activo
-    formData.append("date_added", new Date().toISOString().split("T")[0]);
-    formData.append("image_path", ""); // Asumiendo que no hay imagen por ahora
-    formData.append("formato", $("#formato-pagina").val());
-    formData.append("drogshipin", 0); // Suponiendo que no es dropshipping
-    formData.append("destacado", 0); // Suponiendo que no es destacado
-    formData.append("stock_inicial", $("#stock-inicial").val());
+    formData.append("celular", telefono); // Suponiendo que siempre aplica IVA
+    formData.append("id_producto_venta", id_producto_venta_cliente); // Suponiendo que el estado es activo
+    formData.append("dropshipping ", dropshipping);
+    formData.append("id_prataforma ", id_prataforma ); // Asumiendo que no hay imagen por ahora
+    formData.append("importado", 0);
+    formData.append("identificacionO", 0); // Suponiendo que no es dropshipping
+    formData.append("celularO", celular_bodega); // Suponiendo que no es destacado
+    formData.append("nombreO", nombre);
     formData.append("bodega", $("#bodega").val());
     formData.append("pcp", $("#precio-proveedor").val());
     formData.append("pvp", $("#precio-venta").val());
