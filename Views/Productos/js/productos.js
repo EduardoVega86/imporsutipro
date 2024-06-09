@@ -19,7 +19,7 @@ const dataTableProductosOptions = {
   destroy: true,
   select: true,
 
-  dom: '<"d-flex w-full justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
+ /*  dom: '<"d-flex w-full justify-content-between"lBf><t><"d-flex justify-content-between"ip>', */
   buttons: [
     {
       extend: "copyHtml5",
