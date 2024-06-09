@@ -152,7 +152,6 @@ function eliminar_nuevoPedido(id) {
   $.ajax({
     type: "POST",
     url: SERVERURL + "pedidos/eliminarTmp/" + id,
-    dataType: "json", // Asegurarse de que la respuesta se trata como JSON
     success: function (response) {
       // Mostrar alerta de éxito
       if (response.status == 500) {
