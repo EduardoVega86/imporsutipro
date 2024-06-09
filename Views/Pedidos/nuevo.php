@@ -234,11 +234,11 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                         <label for="valor_asegurar" class="form-label">Valor a asegurar</label>
                         <input type="text" class="form-control" id="valor_asegurar" placeholder="Valor a asegurar">
                     </div>
-                    <div class="d-flex justify-content-between">
-                        <button type="submit" class="btn btn-success btn-custom">Guardar Pedido</button>
-                        <button type="button" class="btn btn-danger btn-custom">Generar Guía</button>
-                    </div>
                 </form>
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-success btn-custom">Guardar Pedido</button>
+                    <button type="button" class="btn btn-danger btn-custom">Generar Guía</button>
+                </div>
             </div>
         </div>
     </div>

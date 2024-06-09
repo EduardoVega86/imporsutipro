@@ -144,7 +144,8 @@ class Pedidos extends Controller
                 'total' => 0,
                 'sku' => '',
                 'id_tmp' => 0]);
-          return   json_encode($arr)    ;
+          echo json_encode($arr)    ;
+                return;
         }
         $id_producto = $response[0]['id_producto'];
 
