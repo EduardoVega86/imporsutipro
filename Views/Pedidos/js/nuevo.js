@@ -76,7 +76,7 @@ const listNuevoPedido = async () => {
       dropshipping = nuevosPedidos.drogshiping;
       id_prataforma = nuevosPedidos.id_plataforma;
 
-      contiene += ``; 
+      contiene += `${nuevoPedido.nombre_producto} X${nuevoPedido.cantidad_tmp} `; 
 
       const precio = parseFloat(nuevoPedido.precio_tmp);
       const descuento = parseFloat(nuevoPedido.desc_tmp);
@@ -281,7 +281,7 @@ function agregar_nuevoPedido() {
         formData.append("valor_seguro", 0); // Corregir nombre de variable
         formData.append("no_piezas", 1);
 
-        formData.append("contiene", 0);
+        formData.append("contiene", contiene);
 
         formData.append("costo_flete", 0);
         formData.append("costo_producto", 0);
