@@ -47,7 +47,7 @@ class PedidosModel extends Query
         $response = $this->initialResponse();
         $sql = "INSERT INTO facturas_cot (
             numero_factura, fecha_factura, id_usuario, monto_factura, estado_factura, 
-            nombre_cliente, telefono_cliente, c_principal, ciudad_cot, c_secundaria, 
+            nombre, telefono, c_principal, ciudad_cot, c_secundaria, 
             referencia, observacion, guia_enviada, transporte, identificacion, celular, 
             id_producto_venta, dropshipping, id_plataforma, dueño_id, importado, 
             plataforma_importa, cod, estado_guia_sistema, impreso, facturada, factura_numero, 
