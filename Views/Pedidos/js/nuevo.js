@@ -146,8 +146,6 @@ function recalcular(id, idPrecio, idDescuento) {
       console.error("Error:", error);
       alert("Hubo un problema al actualizar el producto");
     });
-
-  initDataTableNuevoPedido();
 }
 
 function eliminar_nuevoPedido(id) {
