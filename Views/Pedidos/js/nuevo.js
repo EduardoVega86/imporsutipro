@@ -59,16 +59,16 @@ const listNuevoPedido = async () => {
   try {
     const response = await fetch("" + SERVERURL + "pedidos/buscarTmp");
 
-   
     const data = await response.json();
-    console.log(data)
+    console.log(data);
 
-    if( data.tmp[0].id_producto == 0 && eliminado == false){ // If the response is empty, return
-        return;
+    if (data.tmp[0].id_producto == 0 && eliminado == false) {
+      // If the response is empty, return
+      return;
     }
     const nuevosPedidos = data.tmp; // Extract the 'tmp' array from the response
     const nuevosPedidos_bodega = data.bodega;
-    console.log(nuevosPedidos_bodega)
+    console.log(nuevosPedidos_bodega);
     let content = ``;
     let total = 0;
     nuevosPedidos.forEach((nuevoPedido, index) => {
@@ -87,38 +87,9 @@ const listNuevoPedido = async () => {
       costo_producto = costo_producto + nuevoPedido.precio_tmp;
 
       // Verificar condición
-    if (ciudad_bodega == null || provincia_bodega == null || direccion_bodega == null) {
-        // Bloquear los botones
-        document.getElementById("guardarPedidoBtn").disabled = true;
-        document.getElementById("generarGuiaBtn").disabled = true;
-
-        // Agregar manejador de eventos para mostrar aviso
-        const showTooltip = (event) => {
-            const tooltip = document.createElement("div");
-            tooltip.className = "tooltip";
-            tooltip.innerText = "El dueño de la bodega no ha colocado una dirección";
-            tooltip.style.position = "absolute";
-            tooltip.style.backgroundColor = "#f8d7da";
-            tooltip.style.color = "#721c24";
-            tooltip.style.border = "1px solid #f5c6cb";
-            tooltip.style.padding = "5px";
-            tooltip.style.borderRadius = "3px";
-            tooltip.style.zIndex = "1000";
-            document.body.appendChild(tooltip);
-
-            const rect = event.target.getBoundingClientRect();
-            tooltip.style.left = `${rect.left + window.scrollX + rect.width / 2 - tooltip.clientWidth / 2}px`;
-            tooltip.style.top = `${rect.top + window.scrollY - tooltip.clientHeight - 5}px`;
-
-            event.target.onmouseleave = () => {
-                tooltip.remove();
-            };
-        };
-
-        document.getElementById("guardarPedidoBtn").onmouseenter = showTooltip;
-        document.getElementById("generarGuiaBtn").onmouseenter = showTooltip;
-        return; // Salir de la función si la condición se cumple
-    }
+      if (!validar_direccion()) {
+        return; // Salir de la función si la validación falla
+      }
 
       const precio = parseFloat(nuevoPedido.precio_tmp);
       const descuento = parseFloat(nuevoPedido.desc_tmp);
@@ -147,12 +118,11 @@ const listNuevoPedido = async () => {
     });
     document.getElementById("monto_total").innerHTML = total.toFixed(2);
     document.getElementById("tableBody_nuevoPedido").innerHTML = content;
-    if(eliminado == true){
-        eliminado = false;
-        document.getElementById("monto_total").innerHTML = 0;
-        document.getElementById("tableBody_nuevoPedido").innerHTML = ""; 
+    if (eliminado == true) {
+      eliminado = false;
+      document.getElementById("monto_total").innerHTML = 0;
+      document.getElementById("tableBody_nuevoPedido").innerHTML = "";
     }
-    
   } catch (ex) {
     alert(ex);
   }
@@ -194,8 +164,113 @@ function recalcular(id, idPrecio, idDescuento) {
     });
 }
 
+function validar_direccion() {
+  if (
+    ciudad_bodega == null ||
+    provincia_bodega == null ||
+    direccion_bodega == null
+  ) {
+    // Bloquear los botones
+    document.getElementById("guardarPedidoBtn").disabled = true;
+    document.getElementById("generarGuiaBtn").disabled = true;
+
+    // Agregar manejador de eventos para mostrar aviso
+    const showTooltip = (event) => {
+      const tooltip = document.createElement("div");
+      tooltip.className = "tooltip";
+      tooltip.innerText = "El dueño de la bodega no ha colocado una dirección";
+      tooltip.style.position = "absolute";
+      tooltip.style.backgroundColor = "#f8d7da";
+      tooltip.style.color = "#721c24";
+      tooltip.style.border = "1px solid #f5c6cb";
+      tooltip.style.padding = "5px";
+      tooltip.style.borderRadius = "3px";
+      tooltip.style.zIndex = "1000";
+      document.body.appendChild(tooltip);
+
+      const rect = event.target.getBoundingClientRect();
+      tooltip.style.left = `${
+        rect.left + window.scrollX + rect.width / 2 - tooltip.clientWidth / 2
+      }px`;
+      tooltip.style.top = `${
+        rect.top + window.scrollY - tooltip.clientHeight - 5
+      }px`;
+
+      event.target.onmouseleave = () => {
+        tooltip.remove();
+      };
+    };
+
+    document.getElementById("guardarPedidoBtn").onmouseenter = showTooltip;
+    document.getElementById("generarGuiaBtn").onmouseenter = showTooltip;
+    return false; // Retorna falso para indicar que la validación falló
+  }
+  return true; // Retorna verdadero si la validación pasa
+}
+
+function agregar_nuevoPedido(event) {
+  event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
+
+  // Verificar condición
+  if (!validar_direccion()) {
+    return; // Salir de la función si la validación falla
+  }
+
+  // Crea un objeto FormData
+  var formData = new FormData();
+  var montoTotal = document.getElementById("monto_total").innerText;
+  formData.append("total_venta", montoTotal);
+  formData.append("nombre", $("#nombre").val());
+  formData.append("telefono", $("#telefono").val());
+  formData.append("calle_principal", $("#calle_principal").val());
+  formData.append("calle_secundaria", $("#calle_secundaria").val());
+  formData.append("ciudad", $("#ciudad").val());
+  formData.append("provincia", $("#provincia").val());
+  formData.append("identificacion", 0);
+  formData.append("observacion", $("#observacion").val());
+  formData.append("transporte", 0);
+  formData.append("celular", $("#telefono").val()); // Asegúrate de obtener el valor correcto
+  formData.append("id_producto_venta", id_producto_venta_cliente);
+  formData.append("dropshipping", dropshipping);
+  formData.append("id_plataforma", id_plataforma); // Corregir nombre de variable
+  formData.append("importado", 0);
+  formData.append("id_propietario", id_propietario_bodega);
+  formData.append("identificacionO", 0);
+  formData.append("celularO", celular_bodega);
+  formData.append("nombreO", nombre_bodega); // Corregir nombre de variable
+  formData.append("ciudadO", ciudad_bodega);
+  formData.append("provinciaO", provincia_bodega);
+  formData.append("direccionO", direccion_bodega);
+  formData.append("referenciaO", referencia_bodega); // Corregir nombre de variable
+  formData.append("numeroCasaO", numeroCasa_bodega);
+  formData.append("valor_seguro", 0); // Corregir nombre de variable
+  formData.append("no_piezas", 1);
+  formData.append("contiene", contiene);
+  formData.append("costo_flete", 0);
+  formData.append("costo_producto", costo_producto);
+  formData.append("comentario", "Enviado por x");
+  formData.append("id_transporte", 0);
+
+  // Realiza la solicitud AJAX
+  $.ajax({
+    url: "" + SERVERURL + "/pedidos/nuevo_pedido",
+    type: "POST",
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function (response) {
+      alert("Producto agregado exitosamente");
+      console.log(response);
+    },
+    error: function (error) {
+      alert("Hubo un error al agregar el producto");
+      console.log(error);
+    },
+  });
+}
+
 function eliminar_nuevoPedido(id) {
-    eliminado = true;
+  eliminado = true;
   $.ajax({
     type: "POST",
     url: SERVERURL + "pedidos/eliminarTmp/" + id,
@@ -293,59 +368,58 @@ function cargarCiudades() {
 
 //agregar funcion pedido
 function agregar_nuevoPedido() {
-    // Evita que el formulario se envíe de la forma tradicional
-    event.preventDefault();
+  // Evita que el formulario se envíe de la forma tradicional
+  event.preventDefault();
 
-    // Crea un objeto FormData
-    var formData = new FormData();
-    var montoTotal = document.getElementById("monto_total").innerText;
-    formData.append("total_venta", montoTotal);
-    formData.append("nombre", $("#nombre").val());
-    formData.append("telefono", $("#telefono").val());
-    formData.append("calle_principal", $("#calle_principal").val());
-    formData.append("calle_secundaria", $("#calle_secundaria").val());
-    formData.append("referencia", $("#referencia").val());
-    formData.append("ciudad", $("#ciudad").val());
-    formData.append("provincia", $("#provincia").val());
-    formData.append("identificacion", 0);
-    formData.append("observacion", $("#observacion").val());
-    formData.append("transporte", 0);
-    formData.append("celular", $("#telefono").val()); // Asegúrate de obtener el valor correcto
-    formData.append("id_producto_venta", id_producto_venta);
-    formData.append("dropshipping", dropshipping);
-    formData.append("importado", 0);
-    formData.append("id_propietario", id_propietario_bodega);
-    formData.append("identificacionO", 0);
-    formData.append("celularO", celular_bodega);
-    formData.append("nombreO", nombre_bodega); // Corregir nombre de variable
-    formData.append("ciudadO", ciudad_bodega);
-    formData.append("provinciaO", provincia_bodega);
-    formData.append("direccionO", direccion_bodega);
-    formData.append("referenciaO", referencia_bodega); // Corregir nombre de variable
-    formData.append("numeroCasaO", numeroCasa_bodega);
-    formData.append("valor_seguro", 0); // Corregir nombre de variable
-    formData.append("no_piezas", 1);
-    formData.append("contiene", contiene);
-    formData.append("costo_flete", 0);
-    formData.append("costo_producto", costo_producto);
-    formData.append("comentario", "Enviado por x");
-    formData.append("id_transporte", 0);
+  // Crea un objeto FormData
+  var formData = new FormData();
+  var montoTotal = document.getElementById("monto_total").innerText;
+  formData.append("total_venta", montoTotal);
+  formData.append("nombre", $("#nombre").val());
+  formData.append("telefono", $("#telefono").val());
+  formData.append("calle_principal", $("#calle_principal").val());
+  formData.append("calle_secundaria", $("#calle_secundaria").val());
+  formData.append("referencia", $("#referencia").val());
+  formData.append("ciudad", $("#ciudad").val());
+  formData.append("provincia", $("#provincia").val());
+  formData.append("identificacion", 0);
+  formData.append("observacion", $("#observacion").val());
+  formData.append("transporte", 0);
+  formData.append("celular", $("#telefono").val()); // Asegúrate de obtener el valor correcto
+  formData.append("id_producto_venta", id_producto_venta);
+  formData.append("dropshipping", dropshipping);
+  formData.append("importado", 0);
+  formData.append("id_propietario", id_propietario_bodega);
+  formData.append("identificacionO", 0);
+  formData.append("celularO", celular_bodega);
+  formData.append("nombreO", nombre_bodega); // Corregir nombre de variable
+  formData.append("ciudadO", ciudad_bodega);
+  formData.append("provinciaO", provincia_bodega);
+  formData.append("direccionO", direccion_bodega);
+  formData.append("referenciaO", referencia_bodega); // Corregir nombre de variable
+  formData.append("numeroCasaO", numeroCasa_bodega);
+  formData.append("valor_seguro", 0); // Corregir nombre de variable
+  formData.append("no_piezas", 1);
+  formData.append("contiene", contiene);
+  formData.append("costo_flete", 0);
+  formData.append("costo_producto", costo_producto);
+  formData.append("comentario", "Enviado por x");
+  formData.append("id_transporte", 0);
 
-    // Realiza la solicitud AJAX
-    $.ajax({
-        url: "" + SERVERURL + "/pedidos/nuevo_pedido",
-        type: "POST",
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function (response) {
-            alert("Producto agregado exitosamente");
-            console.log(response);
-        },
-        error: function (error) {
-            alert("Hubo un error al agregar el producto");
-            console.log(error);
-        },
-    });
+  // Realiza la solicitud AJAX
+  $.ajax({
+    url: "" + SERVERURL + "/pedidos/nuevo_pedido",
+    type: "POST",
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function (response) {
+      alert("Producto agregado exitosamente");
+      console.log(response);
+    },
+    error: function (error) {
+      alert("Hubo un error al agregar el producto");
+      console.log(error);
+    },
+  });
 }
-
