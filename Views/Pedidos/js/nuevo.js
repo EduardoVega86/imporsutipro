@@ -1,5 +1,6 @@
 let dataTableNuevoPedido;
 let dataTableNuevoPedidoIsInitialized = false;
+let eliminado = false;
 
 const dataTableNuevoPedidoOptions = {
   paging: false,
@@ -63,7 +64,7 @@ const listNuevoPedido = async () => {
     const data = await response.json();
     console.log(data)
 
-    if( data.tmp[0].id_producto == 0){ // If the response is empty, return
+    if( data.tmp[0].id_producto == 0 && eliminado == false){ // If the response is empty, return
         return;
     }
     const nuevosPedidos = data.tmp; // Extract the 'tmp' array from the response
@@ -156,6 +157,7 @@ function recalcular(id, idPrecio, idDescuento) {
 }
 
 function eliminar_nuevoPedido(id) {
+    eliminado = true;
   $.ajax({
     type: "POST",
     url: SERVERURL + "pedidos/eliminarTmp/" + id,
@@ -270,7 +272,7 @@ function agregar_nuevoPedido() {
     formData.append("observacion", $("#observacion").val());
     formData.append("transporte", 0);
     formData.append("celular", $("#telefono").val()); // Asegúrate de obtener el valor correcto
-    formData.append("id_producto_venta", id_producto_venta_cliente);
+    formData.append("id_producto_venta", id_producto_venta);
     formData.append("dropshipping", dropshipping);
     formData.append("id_plataforma", id_plataforma); // Corregir nombre de variable
     formData.append("importado", 0);
