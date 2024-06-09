@@ -187,7 +187,7 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                     </div>
                     <div class="mb-3">
                         <label for="observaciones" class="form-label">Observaciones para la entrega</label>
-                        <input type="text" class="form-control" id="observaciones" placeholder="Referencias Adicionales (Opcional)">
+                        <input type="text" class="form-control" id="observacion" placeholder="Referencias Adicionales (Opcional)">
                     </div>
                 </form>
             </div>

@@ -1,17 +1,4 @@
-document.querySelectorAll(".buttons-html5").forEach((element) => {
-    // remueve las clases de bootstrap
-    element.classList.remove("btn", "btn-secondary", "buttons-excel", "buttons-html5");
 
-
-    element.classList.add(
-      "btn",
-      "btn-primary",
-      "px-2",
-      "py-1",
-      "rounded",
-      "mx-1",
-    );
-  });
 
 
 let dataTableProductos;
@@ -91,6 +78,20 @@ const initDataTableProductos = async () => {
   dataTableProductos = $("#datatable_productos").DataTable(dataTableProductosOptions);
 
   dataTableProductosIsInitialized = true;
+
+  document.querySelectorAll(".buttons-html5").forEach((element) => {
+    // remueve las clases de bootstrap
+    element.classList.remove("btn", "btn-secondary", "buttons-excel", "buttons-html5");
+    element.classList.add(
+      "btn",
+      "btn-primary",
+      "px-2",
+      "py-1",
+      "rounded",
+      "mx-1",
+    );
+  });
+
 };
 
 const listProductos = async () => {
