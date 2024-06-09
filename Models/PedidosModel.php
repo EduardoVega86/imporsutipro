@@ -53,11 +53,11 @@ class PedidosModel extends Query
             referencia, observacion, guia_enviada, transporte, identificacion, celular, 
             id_propietario, drogshipin, id_plataforma, importado, 
             plataforma_importa, cod, estado_guia_sistema, impreso, facturada, factura_numero, 
-            numero_guia, anulada, identificacionO, celularO, nombreO, ciudadO, provinciaO, 
+            numero_guia, anulada, identificacionO, nombreO, ciudadO, provinciaO, 
             direccionO, referenciaO, numeroCasaO, valor_segura, no_piezas, tipo_servicio, 
             peso, contiene, costo_flete, costo_producto, comentario, id_transporte
         ) VALUES (
-            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
         )";
         
         $data = array(
@@ -66,7 +66,7 @@ class PedidosModel extends Query
             $referencia, $observacion, $guia_enviada, $transporte, $identificacion, $celular, 
             $id_producto_venta, $dropshipping, $id_plataforma,  $importado, 
             $plataforma_importa, $cod, $estado_guia_sistema, $impreso, $facturada, $factura_numero, 
-            $numero_guia, $anulada, $identificacionO, $celularO, $nombreO, $ciudadO, $provinciaO, 
+            $numero_guia, $anulada, $identificacionO,  $nombreO, $ciudadO, $provinciaO, 
             $direccionO, $referenciaO, $numeroCasaO, $valor_segura, $no_piezas, $tipo_servicio, 
             $peso, $contiene, $costo_flete, $costo_producto, $comentario, $id_transporte
         );
