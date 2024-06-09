@@ -53,6 +53,7 @@ var id_producto_venta = "";
 var dropshipping = "";
 var id_prataforma = "";
 var contiene = "";
+var costo_producto = "";
 
 const listNuevoPedido = async () => {
   try {
@@ -76,7 +77,8 @@ const listNuevoPedido = async () => {
       dropshipping = nuevosPedidos.drogshiping;
       id_prataforma = nuevosPedidos.id_plataforma;
 
-      contiene += `${nuevoPedido.nombre_producto} X${nuevoPedido.cantidad_tmp} `; 
+      contiene += `${nuevoPedido.nombre_producto} X${nuevoPedido.cantidad_tmp} `;
+      costo_producto =
 
       const precio = parseFloat(nuevoPedido.precio_tmp);
       const descuento = parseFloat(nuevoPedido.desc_tmp);
@@ -119,7 +121,7 @@ function recalcular(id, idPrecio, idDescuento) {
   ffrm.append("precio", precio);
   ffrm.append("descuento", descuento);
 
-  fetch("" + SERVERURL + "pedidos/actualizarTmp" + id, {
+  fetch("" + SERVERURL + "pedidos/actualizarTmp/" + id, {
     method: "POST",
     body: ffrm,
   })
