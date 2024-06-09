@@ -70,6 +70,7 @@ const listNuevoPedido = async () => {
       direccion_bodega = nuevosPedidos_bodega.direccion;
       referencia_bodega = nuevosPedidos_bodega.referencia;
       numeroCasa_bodega = nuevosPedidos_bodega.num_casa;
+      id_propietario_bodega = n
       id_producto_venta = nuevosPedidos.id_producto;
       dropshipping = nuevosPedidos.drogshiping;
       id_prataforma = nuevosPedidos.id_plataforma;
