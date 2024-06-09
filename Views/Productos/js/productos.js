@@ -7,7 +7,7 @@ const dataTableProductosOptions = {
   ],
   pageLength: 10,
   destroy: true,
-  dom: '<fB<t>lip>',
+  dom: '<"d-flex"fB<t>lip>',
   /* buttons: [
     {
       extend: "copyHtml5",
