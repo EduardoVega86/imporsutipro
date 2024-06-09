@@ -278,7 +278,6 @@ function agregar_nuevoPedido() {
     formData.append("celular", $("#telefono").val()); // Asegúrate de obtener el valor correcto
     formData.append("id_producto_venta", id_producto_venta);
     formData.append("dropshipping", dropshipping);
-    formData.append("id_plataforma", id_plataforma); // Corregir nombre de variable
     formData.append("importado", 0);
     formData.append("id_propietario", id_propietario_bodega);
     formData.append("identificacionO", 0);
