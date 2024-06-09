@@ -1,7 +1,7 @@
 window.addEventListener("load", function () {
   document.querySelectorAll(".buttons-html5").forEach((element) => {
     // remueve las clases de bootstrap
-    element.classList.remove("btn btn-secondary", "buttons-excel", "buttons-html5");
+    element.classList.remove("btn", "btn-secondary", "buttons-excel", "buttons-html5");
 
 
     element.classList.add(
