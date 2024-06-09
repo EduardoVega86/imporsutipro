@@ -134,4 +134,10 @@ class PedidosModel extends Query
         $sql = "SELECT * FROM bodega WHERE id=$id_bodega";
         return $this->select($sql);
     }
+
+    public function actualizarTmp($id_tmp, $descuento, $precio){
+        $sql = "UPDATE tmp_cotizacion SET desc_tmp = ?, precio_tmp = ? WHERE id_tmp = ?";
+        $data = [$descuento, $precio, $id_tmp];
+        return $this->update($sql, $data);
+    }
 }

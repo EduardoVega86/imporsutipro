@@ -76,8 +76,8 @@ const listNuevoPedido = async () => {
                     <td>${nuevoPedido.id_tmp}</td>
                     <td>${nuevoPedido.cantidad_tmp}</td>
                     <td>${nuevoPedido.nombre_producto}</td>
-                    <td><input type="text" oncblur='recalcular()' id="precio_nuevoPedido_${index}" class="form-control prec" value="${precio}"></td>
-                    <td><input type="text" oncblur='recalcular()' id="descuento_nuevoPedido_${index}" class="form-control desc" value="${descuento}"></td>
+                    <td><input type="text" oncblur='recalcular("${nuevosPedidos.id_tmp }", "precio_nuevoPedido_${index}")' id="precio_nuevoPedido_${index}" class="form-control prec" value="${precio}"></td>
+                    <td><input type="text" oncblur='recalcular("${nuevosPedidos.id_tmp }", "precio_nuevoPedido_${index}")' id="descuento_nuevoPedido_${index}" class="form-control desc" value="${descuento}"></td>
                     <td><span class='tota' id="precioFinal_nuevoPedido_${index}">${precioFinal.toFixed(
         2
       )}</span></td>
@@ -94,6 +94,40 @@ const listNuevoPedido = async () => {
     alert(ex);
   }
 };
+
+function recalcular(id, idPrecio) {
+  const precio = parseFloat(document.getElementById(idPrecio).value);
+  const descuento = parseFloat(document.getElementById(idDescuento).value);
+ 
+  const ffrm = new FormData();
+    ffrm.append("id", id);
+    ffrm.append("precio", precio);
+    ffrm.append("descuento", descuento);
+    
+    fetch("" + SERVERURL + "pedidos/actualizarTmp", {
+        method: "POST",
+        body: ffrm,
+    })
+    .then((response) => response.json())
+    .then((data) => {
+        if (data.status == 200) {
+            toastr.success("PRODUCTO ACTUALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
+                positionClass: "toast-bottom-center",
+            });
+        } else {
+            toastr.error("EL PRODUCTO NO SE ACTUALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
+                positionClass: "toast-bottom-center",
+            });
+        }
+        initDataTableNuevoPedido();
+    })
+    .catch((error) => {
+        console.error("Error:", error);
+        alert("Hubo un problema al actualizar el producto");
+    });
+
+    initDataTableNuevoPedido();
+}
 
 function eliminar_nuevoPedido(id) {
   $.ajax({
@@ -200,14 +234,16 @@ function agregar_nuevoPedido(){
 
         // Crea un objeto FormData
         var formData = new FormData();
-        formData.append('codigo_producto', $('#codigo').val());
-        formData.append('nombre_producto', $('#nombre').val());
-        formData.append('descripcion_producto', $('#descripcion').val());
-        formData.append('id_linea_producto', $('#categoria').val());
-        formData.append('inv_producto', $('#maneja-inventario').val());
-        formData.append('producto_variable', $('#producto-variable').val());
-        formData.append('costo_producto', $('#costo').val());
-        formData.append('aplica_iva', 1); // Suponiendo que siempre aplica IVA
+        formData.append('nombre', $('#nombre').val());
+        formData.append('telefono', $('#telefono').val());
+        formData.append('calle_principal', $('#calle_principal').val());
+        formData.append('calle_secundaria', $('#calle_secundaria').val());
+        formData.append('ciudad', $('#ciudad').val());
+        formData.append('provincia', $('#provincia').val());
+        formData.append('identificacion', 0);
+        formData.append('observacion', $('#observacion').val());
+        formData.append('transporte', 0);
+        formData.append('celular', celular_bodega ); // Suponiendo que siempre aplica IVA
         formData.append('estado_producto', 1); // Suponiendo que el estado es activo
         formData.append('date_added', new Date().toISOString().split('T')[0]);
         formData.append('image_path', ''); // Asumiendo que no hay imagen por ahora
