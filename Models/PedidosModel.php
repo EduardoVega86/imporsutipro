@@ -80,10 +80,17 @@ class PedidosModel extends Query
         return $response;
     }
     
+    public function buscarBodega($id_producto){
+        $sql = "SELECT * FROM inventario_bodegas WHERE id_producto = $id_producto limit 1";
+
+        $responde = $this->select($sql);
+        $bodega = $responde[0]['bodega'];
+        $sql = "SELECT * FROM bodega WHERE id = $bodega";
+        return $this->select($sql);
+    }
     
     
-    
-    
+
  
     
         public function buscarProductosBodega($producto, $sku, $plataforma)

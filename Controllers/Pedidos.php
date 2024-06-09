@@ -134,6 +134,14 @@ class Pedidos extends Controller
     public function buscarTmp()
     {
         $response = $this->model->buscarTmp();
+        $id_producto = $response[0]['id_producto'];
+
+        $response2 = $this->model->buscarBodega($id_producto);
+
+        $response = array(
+            'tmp' => $response,
+            'bodega' => $response2
+        );
         echo json_encode($response);
     }
 
@@ -156,4 +164,13 @@ class Pedidos extends Controller
         $response = $this->model->eliminarTmp($id_tmp);
         echo json_encode($response);
     }
+
+    public function buscarBodega ($id_producto)
+    {
+        $response = $this->model->buscarBodega($id_producto);
+        echo json_encode($response);
+    }
+
+
+    
 }
