@@ -7,6 +7,8 @@ const dataTableProductosOptions = {
   ],
   pageLength: 10,
   destroy: true,
+  dom: '<"flex justify-between items-center mb-4"lBf<"text-center mt-4">r>t<"flex justify-between items-center"ip>',
+
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
     zeroRecords: "Ningún usuario encontrado",
