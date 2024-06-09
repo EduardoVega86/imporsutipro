@@ -134,7 +134,8 @@ class Pedidos extends Controller
     public function buscarTmp()
     {
         $response = $this->model->buscarTmp();
-        if($response == null || empty($response)){
+        if ($response == null || empty($response)) {
+
             $arr = array([
                 'id_producto' => 0,
                 'nombre' => '',
@@ -143,9 +144,14 @@ class Pedidos extends Controller
                 'cantidad' => 0,
                 'total' => 0,
                 'sku' => '',
-                'id_tmp' => 0]);
-          echo json_encode($arr)    ;
-                return;
+                'id_tmp' => 0
+            ]);
+            $tmp = array(
+                'tmp' => $arr,
+                'bodega' => []
+            );
+            echo json_encode($tmp);
+            return;
         }
         $id_producto = $response[0]['id_producto'];
 
@@ -178,20 +184,18 @@ class Pedidos extends Controller
         echo json_encode($response);
     }
 
-    public function buscarBodega ($id_producto)
+    public function buscarBodega($id_producto)
     {
         $response = $this->model->buscarBodega($id_producto);
         echo json_encode($response);
     }
 
-    public function actualizarTmp($id_tmp){
+    public function actualizarTmp($id_tmp)
+    {
         $descuento = $_POST['descuento'];
         $precio = $_POST['precio'];
         $response = $this->model->actualizarTmp($id_tmp, $descuento, $precio);
 
         echo json_encode($response);
     }
-
-
-    
 }
