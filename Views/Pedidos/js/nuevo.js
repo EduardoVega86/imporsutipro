@@ -68,18 +68,18 @@ const listNuevoPedido = async () => {
     }
     const nuevosPedidos = data.tmp; // Extract the 'tmp' array from the response
     const nuevosPedidos_bodega = data.bodega;
-
+    console.log(nuevosPedidos_bodega)
     let content = ``;
     let total = 0;
     nuevosPedidos.forEach((nuevoPedido, index) => {
-      celular_bodega = nuevosPedidos_bodega.contacto;
-      nombre_bodega = nuevosPedidos_bodega.nombre;
-      ciudad_bodega = nuevosPedidos_bodega.localidad;
-      provincia_bodega = nuevosPedidos_bodega.provincia;
-      direccion_bodega = nuevosPedidos_bodega.direccion;
-      referencia_bodega = nuevosPedidos_bodega.referencia;
-      numeroCasa_bodega = nuevosPedidos_bodega.num_casa;
-      id_propietario_bodega = nuevosPedidos_bodega.id;
+      celular_bodega = nuevosPedidos_bodega[0].contacto;
+      nombre_bodega = nuevosPedidos_bodega[0].nombre;
+      ciudad_bodega = nuevosPedidos_bodega[0].localidad;
+      provincia_bodega = nuevosPedidos_bodega[0].provincia;
+      direccion_bodega = nuevosPedidos_bodega[0].direccion;
+      referencia_bodega = nuevosPedidos_bodega[0].referencia;
+      numeroCasa_bodega = nuevosPedidos_bodega[0].num_casa;
+      id_propietario_bodega = nuevosPedidos_bodega[0].id;
       id_producto_venta = nuevosPedidos.id_producto;
       dropshipping = nuevosPedidos.drogshiping;
 
