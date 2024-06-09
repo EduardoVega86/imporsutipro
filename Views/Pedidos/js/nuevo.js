@@ -59,10 +59,10 @@ const listNuevoPedido = async () => {
   try {
     const response = await fetch("" + SERVERURL + "pedidos/buscarTmp");
 
-    const data = await response.json();
-    if(data === null){
+    if(response === null || response === undefined ){
         return;
     }
+    const data = await response.json();
     const nuevosPedidos = data.tmp; // Extract the 'tmp' array from the response
     const nuevosPedidos_bodega = data.bodega;
 
