@@ -110,12 +110,7 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                         <div class="col-auto">
                             <button type="button" class="btn btn-primary" onclick="buscar_productos_nuevoPedido()">Buscar</button>
                         </div>
-                        <div class="col-auto">
-                            <span>Total: $ <span id="monto_total" class="monto">
 
-                                </span> </span>
-
-                        </div>
                     </div>
                 </form>
             </div>
@@ -138,6 +133,12 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                     </thead>
                     <tbody id="tableBody_nuevoPedido"></tbody>
                 </table>
+                <div class="col-auto">
+                    <span>Total: $ <span id="monto_total" class="monto">
+
+                        </span> </span>
+
+                </div>
             </div>
         </div>
 
