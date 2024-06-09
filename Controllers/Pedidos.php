@@ -134,7 +134,9 @@ class Pedidos extends Controller
     public function buscarTmp()
     {
         $response = $this->model->buscarTmp();
-        print_r($response);
+        if($response == null || empty($response)){
+          return   $response = array();
+        }
         $id_producto = $response[0]['id_producto'];
 
         $response2 = $this->model->buscarBodega($id_producto);
