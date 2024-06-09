@@ -138,8 +138,8 @@ class PedidosModel extends Query
     public function actualizarTmp($id_tmp, $descuento, $precio){
         $sql = "UPDATE tmp_cotizacion SET desc_tmp = ?, precio_tmp = ? WHERE id_tmp = ?";
         $data = [$descuento, $precio, $id_tmp];
-       $response = $this->update($sql, $data);
-        if($response == 1){
+       $responses = $this->update($sql, $data);
+        if($responses == 1){
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
             $response['message'] = 'Producto actualizado correctamente';
@@ -148,5 +148,6 @@ class PedidosModel extends Query
             $response['title'] = 'Error';
             $response['message'] = 'Error al actualizar el producto';
         }
+            return $response;
     }
 }
