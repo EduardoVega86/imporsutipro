@@ -133,8 +133,8 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                     </thead>
                     <tbody id="tableBody_nuevoPedido"></tbody>
                 </table>
-                <div class="col-auto">
-                    <span>Total: $ <span id="monto_total" class="monto">
+                <div class="text-end">
+                    <span>Total: $0.00 <span id="monto_total" class="monto">
 
                         </span> </span>
 

@@ -57,6 +57,7 @@ const listNuevoPedido = async () => {
     const nuevosPedidos_bodega = data.bodega;
 
     let content = ``;
+    let total = 0;
     nuevosPedidos.forEach((nuevoPedido, index) => {
       celular_bodega = nuevosPedidos_bodega.contacto;
       nombre = nuevosPedidos_bodega.nombre;
@@ -69,6 +70,7 @@ const listNuevoPedido = async () => {
       const precio = parseFloat(nuevoPedido.precio_tmp);
       const descuento = parseFloat(nuevoPedido.desc_tmp);
       const precioFinal = precio - precio * (descuento / 100);
+        total += precioFinal;
       content += `
                 <tr>
                     <td>${nuevoPedido.id_tmp}</td>
@@ -86,6 +88,7 @@ const listNuevoPedido = async () => {
                     </td>
                 </tr>`;
     });
+    document.getElementById("monto_total").innerHTML = total.toFixed(2);
     document.getElementById("tableBody_nuevoPedido").innerHTML = content;
   } catch (ex) {
     alert(ex);
@@ -191,3 +194,47 @@ function cargarCiudades() {
 
 //agregar funcion pedido
 
+function agregar_nuevoPedido(){
+    $('#agregar_producto_form').submit(function(event) {
+        event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
+
+        // Crea un objeto FormData
+        var formData = new FormData();
+        formData.append('codigo_producto', $('#codigo').val());
+        formData.append('nombre_producto', $('#nombre').val());
+        formData.append('descripcion_producto', $('#descripcion').val());
+        formData.append('id_linea_producto', $('#categoria').val());
+        formData.append('inv_producto', $('#maneja-inventario').val());
+        formData.append('producto_variable', $('#producto-variable').val());
+        formData.append('costo_producto', $('#costo').val());
+        formData.append('aplica_iva', 1); // Suponiendo que siempre aplica IVA
+        formData.append('estado_producto', 1); // Suponiendo que el estado es activo
+        formData.append('date_added', new Date().toISOString().split('T')[0]);
+        formData.append('image_path', ''); // Asumiendo que no hay imagen por ahora
+        formData.append('formato', $('#formato-pagina').val());
+        formData.append('drogshipin', 0); // Suponiendo que no es dropshipping
+        formData.append('destacado', 0); // Suponiendo que no es destacado
+        formData.append('stock_inicial', $('#stock-inicial').val());
+        formData.append('bodega', $('#bodega').val());
+        formData.append('pcp', $('#precio-proveedor').val());
+        formData.append('pvp', $('#precio-venta').val());
+        formData.append('pref', $('#precio-referencial-valor').val());
+
+        // Realiza la solicitud AJAX
+        $.ajax({
+            url: '' + SERVERURL + 'productos/agregar_producto',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                alert('Producto agregado exitosamente');
+                console.log(response);
+            },
+            error: function(error) {
+                alert('Hubo un error al agregar el producto');
+                console.log(error);
+            }
+        });
+    });
+}
