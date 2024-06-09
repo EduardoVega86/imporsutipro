@@ -51,7 +51,6 @@ const listNuevoPedido = async () => {
             const precio = parseFloat(nuevoPedido.precio_tmp);
             const descuento = parseFloat(nuevoPedido.desc_tmp);
             const precioFinal = precio - (precio * (descuento / 100));
-            tony chupalo
             content += `
                 <tr>  Tony
                     <td>${nuevoPedido.id_tmp}</td>
