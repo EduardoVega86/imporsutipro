@@ -86,9 +86,10 @@ const listNuevoPedido = async () => {
       contiene += `${nuevoPedido.nombre_producto} X${nuevoPedido.cantidad_tmp} `;
       costo_producto = costo_producto + nuevoPedido.precio_tmp;
 
-      if (ciudad_bodega == null || provincia_bodega == null || direccion_bodega == null){
-        
-      }
+      // Verificar condición
+    if (!validar_direccion()) {
+        return; // Salir de la función si la validación falla
+    }
 
       const precio = parseFloat(nuevoPedido.precio_tmp);
       const descuento = parseFloat(nuevoPedido.desc_tmp);
