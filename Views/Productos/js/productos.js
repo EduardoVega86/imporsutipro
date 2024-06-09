@@ -17,7 +17,6 @@ const dataTableProductosOptions = {
   ],
   pageLength: 10,
   destroy: true,
-  select: true,
   responsive: true,
   autoWidth: true,
   bAutoWidth: true,
