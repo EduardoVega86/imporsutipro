@@ -126,7 +126,7 @@ function recalcular(id, idPrecio, idDescuento) {
     body: ffrm,
   })
     .then((response) => response.json())
-    .then((data) => {
+    .then(async(data) => {
       if (data.status == 200) {
         toastr.success("PRODUCTO ACTUALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
@@ -140,7 +140,7 @@ function recalcular(id, idPrecio, idDescuento) {
           }
         );
       }
-      initDataTableNuevoPedido();
+      await initDataTableNuevoPedido();
     })
     .catch((error) => {
       console.error("Error:", error);
