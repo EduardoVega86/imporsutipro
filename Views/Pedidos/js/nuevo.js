@@ -52,7 +52,6 @@ var numeroCasa_bodega = "";
 var id_propietario_bodega = "";
 var id_producto_venta = "";
 var dropshipping = "";
-var id_prataforma = "";
 var contiene = "";
 var costo_producto = 0;
 
@@ -83,7 +82,6 @@ const listNuevoPedido = async () => {
       id_propietario_bodega = nuevosPedidos_bodega.id;
       id_producto_venta = nuevosPedidos.id_producto;
       dropshipping = nuevosPedidos.drogshiping;
-      id_prataforma = nuevosPedidos.id_plataforma;
 
       contiene += `${nuevoPedido.nombre_producto} X${nuevoPedido.cantidad_tmp} `;
       costo_producto = costo_producto + nuevoPedido.precio_tmp;
