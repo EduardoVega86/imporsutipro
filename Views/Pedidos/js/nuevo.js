@@ -246,7 +246,7 @@ function cargarCiudades() {
 
 //agregar funcion pedido
 
-function agregar_nuevoPedido() {
+
     $("#agregar_producto_form").submit(function (event) {
         event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
 
@@ -305,6 +305,4 @@ function agregar_nuevoPedido() {
         });
     });
 
-    // Forzar el envío del formulario para que el event handler se active
-    $("#agregar_producto_form").submit();
-}
+ 
