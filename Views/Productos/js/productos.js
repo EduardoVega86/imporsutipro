@@ -21,7 +21,7 @@ const dataTableProductosOptions = {
   buttons: [
     {
       extend: "copyHtml5",
-      text: 'Copiar<i class="bx bx-copy"></i>',
+      text: '<i class="bx bx-copy"></i>',
       titleAttr: "Copiar",
       className: "btn btn-primary btn-sm",
       exportOptions: {
@@ -52,7 +52,7 @@ const dataTableProductosOptions = {
     },
   ],
   language: {
-    lengthMenu: "Mostrar _MENU_ registros por página",
+    lengthMenu: "Mostrar _MENU_ ",
     zeroRecords: "Ningún usuario encontrado",
     info: "Mostrando de _START_ a _END_ de un total de _TOTAL_ registros",
     infoEmpty: "Ningún usuario encontrado",

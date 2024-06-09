@@ -41,6 +41,10 @@ const initDataTableNuevoPedido = async () => {
     dataTableNuevoPedidoIsInitialized = true;
 };
 
+var identificacion_bodega = "0";
+var contacto_bodega = "";
+var 
+
 const listNuevoPedido = async () => {
     try {
         const response = await fetch(""+SERVERURL+"pedidos/buscarTmp");
