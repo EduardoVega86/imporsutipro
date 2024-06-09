@@ -178,6 +178,7 @@ class Pedidos extends Controller
         $descuento = $_POST['descuento'];
         $precio = $_POST['precio'];
         $response = $this->model->actualizarTmp($id_tmp, $descuento, $precio);
+        
         echo json_encode($response);
     }
 
