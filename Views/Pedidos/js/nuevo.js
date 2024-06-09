@@ -70,7 +70,7 @@ const listNuevoPedido = async () => {
       direccion_bodega = nuevosPedidos_bodega.direccion;
       referencia_bodega = nuevosPedidos_bodega.referencia;
       numeroCasa_bodega = nuevosPedidos_bodega.num_casa;
-      id_propietario_bodega = n
+      id_propietario_bodega = nuevosPedidos_bodega.id;
       id_producto_venta = nuevosPedidos.id_producto;
       dropshipping = nuevosPedidos.drogshiping;
       id_prataforma = nuevosPedidos.id_plataforma;
@@ -264,6 +264,7 @@ function agregar_nuevoPedido() {
     formData.append("dropshipping ", dropshipping);
     formData.append("id_prataforma ", id_prataforma );
     formData.append("importado", 0);
+    formData.append("id_propietario", id_propietario_bodega);
     formData.append("identificacionO", 0);
     formData.append("celularO", celular_bodega);
     formData.append("nombreO", nombre_bodedga);
