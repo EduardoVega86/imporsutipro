@@ -41,9 +41,13 @@ const initDataTableNuevoPedido = async () => {
     dataTableNuevoPedidoIsInitialized = true;
 };
 
-var identificacion_bodega = "0";
-var contacto_bodega = "";
-var 
+var celular_bodega = "";
+var nombre = "";
+var ciudad_bodega = "";
+var provincia_bodega = "";
+var direccion_bodega = "";
+var referencia_bodega = "";
+var numerCasa_Bodega = "";
 
 const listNuevoPedido = async () => {
     try {
