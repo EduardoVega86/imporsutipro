@@ -52,6 +52,7 @@ var id_propietario_bodega = "";
 var id_producto_venta = "";
 var dropshipping = "";
 var id_prataforma = "";
+var contiene = "";
 
 const listNuevoPedido = async () => {
   try {
@@ -74,6 +75,8 @@ const listNuevoPedido = async () => {
       id_producto_venta = nuevosPedidos.id_producto;
       dropshipping = nuevosPedidos.drogshiping;
       id_prataforma = nuevosPedidos.id_plataforma;
+
+      contiene += ``; 
 
       const precio = parseFloat(nuevoPedido.precio_tmp);
       const descuento = parseFloat(nuevoPedido.desc_tmp);
@@ -116,7 +119,7 @@ function recalcular(id, idPrecio, idDescuento) {
   ffrm.append("precio", precio);
   ffrm.append("descuento", descuento);
 
-  fetch("" + SERVERURL + "pedidos/actualizarTmp", {
+  fetch("" + SERVERURL + "pedidos/actualizarTmp" + id, {
     method: "POST",
     body: ffrm,
   })
@@ -245,61 +248,64 @@ function cargarCiudades() {
 //agregar funcion pedido
 
 function agregar_nuevoPedido() {
-  $("#agregar_producto_form").submit(function (event) {
-    event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
+    $("#agregar_producto_form").submit(function (event) {
+        event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
 
-    // Crea un objeto FormData
-    var formData = new FormData();
-    formData.append("nombre", $("#nombre").val());
-    formData.append("telefono", $("#telefono").val());
-    formData.append("calle_principal", $("#calle_principal").val());
-    formData.append("calle_secundaria", $("#calle_secundaria").val());
-    formData.append("ciudad", $("#ciudad").val());
-    formData.append("provincia", $("#provincia").val());
-    formData.append("identificacion", 0);
-    formData.append("observacion", $("#observacion").val());
-    formData.append("transporte", 0);
-    formData.append("celular", telefono);
-    formData.append("id_producto_venta", id_producto_venta_cliente);
-    formData.append("dropshipping ", dropshipping);
-    formData.append("id_prataforma ", id_prataforma );
-    formData.append("importado", 0);
-    formData.append("id_propietario", id_propietario_bodega);
-    formData.append("identificacionO", 0);
-    formData.append("celularO", celular_bodega);
-    formData.append("nombreO", nombre_bodedga);
-    formData.append("ciudadO", ciudad_bodega);
-    formData.append("provinciaO", provincia_bodega);
-    formData.append("direccionO", direccion_bodega);
-    formData.append("reefenrenciaO", referencia_bodega);
-    formData.append("numeroCasaO", numeroCasa_bodega);
-    formData.append("valor_segura", 0);
-    formData.append("no_piezas", 1);
+        // Crea un objeto FormData
+        var formData = new FormData();
+        var montoTotal = document.getElementById('monto_total').innerText;
+        formData.append("total_venta", montoTotal);
+        formData.append("nombre", $("#nombre").val());
+        formData.append("telefono", $("#telefono").val());
+        formData.append("calle_principal", $("#calle_principal").val());
+        formData.append("calle_secundaria", $("#calle_secundaria").val());
+        formData.append("ciudad", $("#ciudad").val());
+        formData.append("provincia", $("#provincia").val());
+        formData.append("identificacion", 0);
+        formData.append("observacion", $("#observacion").val());
+        formData.append("transporte", 0);
+        formData.append("celular", telefono);
+        formData.append("id_producto_venta", id_producto_venta_cliente);
+        formData.append("dropshipping", dropshipping);
+        formData.append("id_plataforma", id_plataforma); // Corregir nombre de variable
+        formData.append("importado", 0);
+        formData.append("id_propietario", id_propietario_bodega);
+        formData.append("identificacionO", 0);
+        formData.append("celularO", celular_bodega);
+        formData.append("nombreO", nombre_bodega); // Corregir nombre de variable
+        formData.append("ciudadO", ciudad_bodega);
+        formData.append("provinciaO", provincia_bodega);
+        formData.append("direccionO", direccion_bodega);
+        formData.append("referenciaO", referencia_bodega); // Corregir nombre de variable
+        formData.append("numeroCasaO", numeroCasa_bodega);
+        formData.append("valor_seguro", 0); // Corregir nombre de variable
+        formData.append("no_piezas", 1);
 
-    formData.append("contiene", 0);
+        formData.append("contiene", 0);
 
-    formData.append("costo_flete", 0);
+        formData.append("costo_flete", 0);
+        formData.append("costo_producto", 0);
+        formData.append("comentario", "Enviado por x");
+        formData.append("id_transporte", 0);
 
-    formData.append("costo_producto", 0);
-
-    formData.append("comentario", "Enviado por x");
-    formData.append("id_transporte", 0);
-
-    // Realiza la solicitud AJAX
-    $.ajax({
-      url: "" + SERVERURL + "/pedidos/nuevo_pedido",
-      type: "POST",
-      data: formData,
-      processData: false,
-      contentType: false,
-      success: function (response) {
-        alert("Producto agregado exitosamente");
-        console.log(response);
-      },
-      error: function (error) {
-        alert("Hubo un error al agregar el producto");
-        console.log(error);
-      },
+        // Realiza la solicitud AJAX
+        $.ajax({
+            url: "" + SERVERURL + "/pedidos/nuevo_pedido",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                alert("Producto agregado exitosamente");
+                console.log(response);
+            },
+            error: function (error) {
+                alert("Hubo un error al agregar el producto");
+                console.log(error);
+            },
+        });
     });
-  });
+
+    // Forzar el envío del formulario para que el event handler se active
+    $("#agregar_producto_form").submit();
 }

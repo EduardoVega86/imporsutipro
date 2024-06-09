@@ -145,7 +145,7 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
         <div class="col-md-6 right-column">
             <div class="form-section mb-4">
                 <h5>Datos Destinatario</h5>
-                <form>
+                <form id="datos_destinatario">
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label for="nombre" class="form-label">Nombre y Apellido</label>
@@ -235,7 +235,7 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                         <input type="text" class="form-control" id="valor_asegurar" placeholder="Valor a asegurar">
                     </div>
                     <div class="d-flex justify-content-between">
-                        <button type="button" class="btn btn-success btn-custom">Guardar Pedido</button>
+                        <button type="button" class="btn btn-success btn-custom" onclick="agregar_nuevoPedido()">Guardar Pedido</button>
                         <button type="button" class="btn btn-danger btn-custom">Generar Guía</button>
                     </div>
                 </form>
