@@ -38,11 +38,44 @@ class PedidosModel extends Query
 
     public function nuevo_pedido($fecha_factura, $id_usuario, $monto_factura, $estado_factura, $nombre_cliente, $telefono_cliente, $c_principal, $ciudad_cot, $c_secundaria, $referencia, $observacion, $guia_enviada, $transporte, $identificacion, $celular, $id_producto_venta, $dropshipping, $id_plataforma, $dueño_id, $importado, $plataforma_importa, $cod, $estado_guia_sistema, $impreso, $facturada, $factura_numero, $numero_guia, $anulada, $identificacionO, $celularO, $nombreO, $ciudadO, $provinciaO, $direccionO, $referenciaO, $numeroCasaO, $valor_segura, $no_piezas, $tipo_servicio, $peso, $contiene, $costo_flete, $costo_producto, $comentario, $id_transporte)
     {
+
+        $ultima_factura = $this->select("SELECT MAX(numero_factura) as factura_numero FROM facturas_cot");
+        $factura_numero = $ultima_factura[0]['factura_numero'];
+        
+        $nueva_factura = $this->incrementarNumeroFactura($factura_numero);
+
         $response = $this->initialResponse();
-        $sql = "INSERT INTO facturas_cot (fecha_factura, id_usuario, monto_factura, estado_factura, nombre_cliente, telefono_cliente, c_principal, ciudad_cot, c_secundaria, referencia, observacion, guia_enviada, transporte, identificacion, celular, id_producto_venta, dropshipping, id_plataforma, dueño_id, importado, plataforma_importa, cod, estado_guia_sistema, impreso, facturada, factura_numero, numero_guia, anulada, identificacionO, celularO, nombreO, ciudadO, provinciaO, direccionO, referenciaO, numeroCasaO, valor_segura, no_piezas, tipo_servicio, peso, contiene, costo_flete, costo_producto, comentario, id_transporte) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $data = array($fecha_factura, $id_usuario, $monto_factura, $estado_factura, $nombre_cliente, $telefono_cliente, $c_principal, $ciudad_cot, $c_secundaria, $referencia, $observacion, $guia_enviada, $transporte, $identificacion, $celular, $id_producto_venta, $dropshipping, $id_plataforma, $dueño_id, $importado, $plataforma_importa, $cod, $estado_guia_sistema, $impreso, $facturada, $factura_numero, $numero_guia, $anulada, $identificacionO, $celularO, $nombreO, $ciudadO, $provinciaO, $direccionO, $referenciaO, $numeroCasaO, $valor_segura, $no_piezas, $tipo_servicio, $peso, $contiene, $costo_flete, $costo_producto, $comentario, $id_transporte);
+        $sql = "INSERT INTO facturas_cot (
+            numero_factura, fecha_factura, id_usuario, monto_factura, estado_factura, 
+            nombre_cliente, telefono_cliente, c_principal, ciudad_cot, c_secundaria, 
+            referencia, observacion, guia_enviada, transporte, identificacion, celular, 
+            id_producto_venta, dropshipping, id_plataforma, dueño_id, importado, 
+            plataforma_importa, cod, estado_guia_sistema, impreso, facturada, factura_numero, 
+            numero_guia, anulada, identificacionO, celularO, nombreO, ciudadO, provinciaO, 
+            direccionO, referenciaO, numeroCasaO, valor_segura, no_piezas, tipo_servicio, 
+            peso, contiene, costo_flete, costo_producto, comentario, id_transporte
+        ) VALUES (
+            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+        )";
+        
+        $data = array(
+            $nueva_factura, $fecha_factura, $id_usuario, $monto_factura, $estado_factura, 
+            $nombre_cliente, $telefono_cliente, $c_principal, $ciudad_cot, $c_secundaria, 
+            $referencia, $observacion, $guia_enviada, $transporte, $identificacion, $celular, 
+            $id_producto_venta, $dropshipping, $id_plataforma, $dueño_id, $importado, 
+            $plataforma_importa, $cod, $estado_guia_sistema, $impreso, $facturada, $factura_numero, 
+            $numero_guia, $anulada, $identificacionO, $celularO, $nombreO, $ciudadO, $provinciaO, 
+            $direccionO, $referenciaO, $numeroCasaO, $valor_segura, $no_piezas, $tipo_servicio, 
+            $peso, $contiene, $costo_flete, $costo_producto, $comentario, $id_transporte
+        );
+        
+        if (substr_count($sql, '?') !== count($data)) {
+            throw new Exception('La cantidad de placeholders en la consulta no coincide con la cantidad de elementos en el array de datos.');
+        }
+        
         $response = $this->insert($sql, $data);
         return $response;
+        
     }
 
     public function obtenerDestinatario($id)
@@ -149,5 +182,20 @@ class PedidosModel extends Query
             $response['message'] = 'Error al actualizar el producto';
         }
             return $response;
+    }
+
+    function incrementarNumeroFactura($factura) {
+        // Separar el prefijo del número de serie
+        $partes = explode('-', $factura);
+        $prefijo = $partes[0];
+        $serial = $partes[1];
+        
+        // Convertir el número de serie a un entero, incrementarlo, y formatearlo con ceros a la izquierda
+        $nuevoSerial = str_pad((int)$serial + 1, strlen($serial), '0', STR_PAD_LEFT);
+        
+        // Unir el prefijo con el nuevo número de serie
+        $nuevaFactura = $prefijo . '-' . $nuevoSerial;
+        
+        return $nuevaFactura;
     }
 }
