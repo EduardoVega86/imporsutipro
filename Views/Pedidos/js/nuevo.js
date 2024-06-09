@@ -252,7 +252,7 @@ function cargarCiudades() {
 
 //agregar funcion pedido
 
-$("#agregar_producto_form").submit(function (event) {
+$("#datos_destinatario").submit(function (event) {
   event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
 
   // Crea un objeto FormData
