@@ -188,3 +188,6 @@ function cargarCiudades() {
       .prop("disabled", true);
   }
 }
+
+//agregar funcion pedido
+
