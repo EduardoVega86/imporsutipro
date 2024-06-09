@@ -7,8 +7,40 @@ const dataTableProductosOptions = {
   ],
   pageLength: 10,
   destroy: true,
-  dom: '<"flex justify-between items-center mb-4"lBf<"text-center mt-4">r>t<"flex justify-between items-center"ip>',
-
+  /* dom: '<"flex justify-between items-center mb-4"lBf<"text-center mt-4">r>t<"flex justify-between items-center"ip>', */
+  buttons: [
+    {
+      extend: "copyHtml5",
+      text: '<i class="bx bx-copy"></i>',
+      titleAttr: "Copiar",
+      className: "btn btn-primary btn-sm",
+      exportOptions: {
+        columns: [0, 1, 2, 3, 4 ,5 , 6 ,7 ,8 ,9, 10 ,11 ,12],
+      },
+    },
+    {
+      extend: "excelHtml5",
+      text: 'Excel <i class="fa-solid fa-file-excel" style="color: #2e8500;"></i>',
+      title: "Panel de Control: Usuarios",
+      titleAttr: "Exportar a Excel",
+      exportOptions: {
+        columns: [0, 1, 2, 3, 4 ,5 , 6 ,7 ,8 ,9, 10 ,11 ,12],
+      },
+      filename: "Usuarios" + "_" + getFecha(),
+      footer: true,
+    },
+    {
+      extend: "csvHtml5",
+      text: 'CSV <i class="fa-solid fa-file-csv" style="color: #2e8500;"></i>',
+      title: "Panel de Control: Usuarios",
+      titleAttr: "Exportar a CSV",
+      exportOptions: {
+        columns: [0, 1, 2, 3, 4 ,5 , 6 ,7 ,8 ,9, 10 ,11 ,12],
+      },
+      filename: "Usuarios" + "_" + getFecha(),
+      footer: true,
+    },
+  ],
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
     zeroRecords: "Ningún usuario encontrado",
