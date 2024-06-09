@@ -59,7 +59,7 @@ const listNuevoPedido = async () => {
   try {
     const response = await fetch("" + SERVERURL + "pedidos/buscarTmp");
 
-    if(response === null || response === undefined || response === "" ){
+    if(response === null || response === undefined || response === "" || !response ){
         return;
     }
     const data = await response.json();
