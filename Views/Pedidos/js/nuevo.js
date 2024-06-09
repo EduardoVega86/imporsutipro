@@ -86,6 +86,40 @@ const listNuevoPedido = async () => {
       contiene += `${nuevoPedido.nombre_producto} X${nuevoPedido.cantidad_tmp} `;
       costo_producto = costo_producto + nuevoPedido.precio_tmp;
 
+      // Verificar condición
+    if (ciudad_bodega == null || provincia_bodega == null || direccion_bodega == null) {
+        // Bloquear los botones
+        document.getElementById("guardarPedidoBtn").disabled = true;
+        document.getElementById("generarGuiaBtn").disabled = true;
+
+        // Agregar manejador de eventos para mostrar aviso
+        const showTooltip = (event) => {
+            const tooltip = document.createElement("div");
+            tooltip.className = "tooltip";
+            tooltip.innerText = "El dueño de la bodega no ha colocado una dirección";
+            tooltip.style.position = "absolute";
+            tooltip.style.backgroundColor = "#f8d7da";
+            tooltip.style.color = "#721c24";
+            tooltip.style.border = "1px solid #f5c6cb";
+            tooltip.style.padding = "5px";
+            tooltip.style.borderRadius = "3px";
+            tooltip.style.zIndex = "1000";
+            document.body.appendChild(tooltip);
+
+            const rect = event.target.getBoundingClientRect();
+            tooltip.style.left = `${rect.left + window.scrollX + rect.width / 2 - tooltip.clientWidth / 2}px`;
+            tooltip.style.top = `${rect.top + window.scrollY - tooltip.clientHeight - 5}px`;
+
+            event.target.onmouseleave = () => {
+                tooltip.remove();
+            };
+        };
+
+        document.getElementById("guardarPedidoBtn").onmouseenter = showTooltip;
+        document.getElementById("generarGuiaBtn").onmouseenter = showTooltip;
+        return; // Salir de la función si la condición se cumple
+    }
+
       const precio = parseFloat(nuevoPedido.precio_tmp);
       const descuento = parseFloat(nuevoPedido.desc_tmp);
       const precioFinal = precio - precio * (descuento / 100);
