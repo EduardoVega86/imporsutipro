@@ -81,7 +81,7 @@ const listNuevoPedido = async () => {
       numeroCasa_bodega = nuevosPedidos_bodega[0].num_casa;
       id_propietario_bodega = nuevosPedidos_bodega[0].id;
       id_producto_venta = nuevosPedidos.id_producto;
-      dropshipping = nuevosPedidos.drogshiping;
+      dropshipping = nuevosPedidos.drogshipin;
 
       contiene += `${nuevoPedido.nombre_producto} X${nuevoPedido.cantidad_tmp} `;
       costo_producto = costo_producto + nuevoPedido.precio_tmp;
