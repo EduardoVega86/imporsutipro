@@ -48,6 +48,9 @@ var provincia_bodega = "";
 var direccion_bodega = "";
 var referencia_bodega = "";
 var numerCasa_Bodega = "";
+var celular_cliente = "";
+var id_producto_venta_cliente = "";
+
 
 const listNuevoPedido = async () => {
   try {
@@ -76,8 +79,8 @@ const listNuevoPedido = async () => {
                     <td>${nuevoPedido.id_tmp}</td>
                     <td>${nuevoPedido.cantidad_tmp}</td>
                     <td>${nuevoPedido.nombre_producto}</td>
-                    <td><input type="text" oncblur='recalcular("${nuevosPedidos.id_tmp }", "precio_nuevoPedido_${index}")' id="precio_nuevoPedido_${index}" class="form-control prec" value="${precio}"></td>
-                    <td><input type="text" oncblur='recalcular("${nuevosPedidos.id_tmp }", "precio_nuevoPedido_${index}")' id="descuento_nuevoPedido_${index}" class="form-control desc" value="${descuento}"></td>
+                    <td><input type="text" oncblur='recalcular("${nuevoPedido.id_tmp }", "precio_nuevoPedido_${index}")' id="precio_nuevoPedido_${index}" class="form-control prec" value="${precio}"></td>
+                    <td><input type="text" oncblur='recalcular("${nuevoPedido.id_tmp }", "precio_nuevoPedido_${index}")' id="descuento_nuevoPedido_${index}" class="form-control desc" value="${descuento}"></td>
                     <td><span class='tota' id="precioFinal_nuevoPedido_${index}">${precioFinal.toFixed(
         2
       )}</span></td>
@@ -243,7 +246,7 @@ function agregar_nuevoPedido(){
         formData.append('identificacion', 0);
         formData.append('observacion', $('#observacion').val());
         formData.append('transporte', 0);
-        formData.append('celular', celular_bodega ); // Suponiendo que siempre aplica IVA
+        formData.append('celular', celular_bodega); // Suponiendo que siempre aplica IVA
         formData.append('estado_producto', 1); // Suponiendo que el estado es activo
         formData.append('date_added', new Date().toISOString().split('T')[0]);
         formData.append('image_path', ''); // Asumiendo que no hay imagen por ahora
