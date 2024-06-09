@@ -151,15 +151,15 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="ciudad" class="form-label">Ciudad</label>
-                            <select id="ciudad" class="form-select">
+                            <label for="provincia" class="form-label">Provincia</label>
+                            <select id="provincia" class="form-select">
                                 <option selected>Selecciona una opción</option>
                                 <!-- Agregar opciones aquí -->
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label for="provincia" class="form-label">Provincia</label>
-                            <select id="provincia" class="form-select">
+                            <label for="ciudad" class="form-label">Ciudad</label>
+                            <select id="ciudad" class="form-select">
                                 <option selected>Selecciona una opción</option>
                                 <!-- Agregar opciones aquí -->
                             </select>

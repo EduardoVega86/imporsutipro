@@ -1,3 +1,17 @@
+window.addEventListener("load", function () {
+  document.querySelectorAll(".dt-button").forEach((element) => {
+    element.classList.remove("dt-button");
+    element.classList.add(
+      "btn",
+      "btn-primary",
+      "px-2",
+      "py-1",
+      "rounded",
+      "mx-1",
+    );
+  });
+});
+
 let dataTableProductos;
 let dataTableProductosIsInitialized = false;
 function getFecha (){
@@ -18,7 +32,7 @@ const dataTableProductosOptions = {
   buttons: [
     {
       extend: "copyHtml5",
-      text: '<i class="bx bx-copy"></i>',
+      text: 'Copiar<i class="bx bx-copy"></i>',
       titleAttr: "Copiar",
       className: "btn btn-primary btn-sm",
       exportOptions: {
