@@ -62,7 +62,7 @@ const listNuevoPedido = async () => {
    
     const data = await response.json();
 
-    if(data.id_producto == null || data.id_producto == 0){
+    if(data.tmp.id_producto == null || data.tmp.id_producto == 0){
         return;
     }
     const nuevosPedidos = data.tmp; // Extract the 'tmp' array from the response
@@ -251,6 +251,7 @@ function cargarCiudades() {
 }
 
 //agregar funcion pedido
+
 $("#agregar_producto_form").submit(function (event) {
   event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
 

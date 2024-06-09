@@ -236,7 +236,7 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                     </div>
                 </form>
                 <div class="d-flex justify-content-between">
-                    <button type="submit" class="btn btn-success btn-custom">Guardar Pedido</button>
+                    <button type="button" class="btn btn-success btn-custom">Guardar Pedido</button>
                     <button type="button" class="btn btn-danger btn-custom">Generar Guía</button>
                 </div>
             </div>
