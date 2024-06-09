@@ -7,8 +7,8 @@ const dataTableProductosOptions = {
   ],
   pageLength: 10,
   destroy: true,
-  dom: '<lf<t>ip>',
-  buttons: [
+  dom: '<lfBPQ<t>ip>',
+  /* buttons: [
     {
       extend: "copyHtml5",
       text: '<i class="bx bx-copy"></i>',
@@ -40,7 +40,7 @@ const dataTableProductosOptions = {
       filename: "Usuarios" + "_" + getFecha(),
       footer: true,
     },
-  ],
+  ], */
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
     zeroRecords: "Ningún usuario encontrado",

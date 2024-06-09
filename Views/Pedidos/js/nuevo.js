@@ -44,7 +44,8 @@ const initDataTableNuevoPedido = async () => {
 const listNuevoPedido = async () => {
     try {
         const response = await fetch(""+SERVERURL+"pedidos/buscarTmp");
-        const nuevosPedidos = await response.json();
+        const data = await response.json();
+        const nuevosPedidos = data.tmp; // Extract the 'tmp' array from the response
 
         let content = ``;
         nuevosPedidos.forEach((nuevoPedido, index) => {
@@ -52,7 +53,7 @@ const listNuevoPedido = async () => {
             const descuento = parseFloat(nuevoPedido.desc_tmp);
             const precioFinal = precio - (precio * (descuento / 100));
             content += `
-                <tr>  Tony
+                <tr>
                     <td>${nuevoPedido.id_tmp}</td>
                     <td>${nuevoPedido.cantidad_tmp}</td>
                     <td>${nuevoPedido.nombre_producto}</td>
