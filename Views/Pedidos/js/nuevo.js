@@ -61,8 +61,9 @@ const listNuevoPedido = async () => {
 
    
     const data = await response.json();
-    console.log(data.tmp)
-    if(data.tmp[0].id_producto == 0 || data==  null){ // If the response is empty, return
+    
+
+    if( data==  null){ // If the response is empty, return
         return;
     }
     const nuevosPedidos = data.tmp; // Extract the 'tmp' array from the response
