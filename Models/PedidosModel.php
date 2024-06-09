@@ -52,7 +52,7 @@ class PedidosModel extends Query
             nombre, telefono, c_principal, ciudad_cot, c_secundaria, 
             referencia, observacion, guia_enviada, transporte, identificacion, celular, 
             id_propietario, drogshipin, id_plataforma, importado, 
-            plataforma_importa, cod, estado_guia_sistema, impreso, facturada, factura_numero, 
+            plataforma_importa, cod, estado_guia_sistema, impreso, facturada, 
             numero_guia, anulada, identificacionO, nombreO, ciudadO, provinciaO, 
             direccionO, referenciaO, numeroCasaO, valor_seguro, no_piezas, tipo_servicio, 
             peso, contiene, costo_flete, costo_producto, comentario, id_transporte
@@ -65,7 +65,7 @@ class PedidosModel extends Query
             $nombre_cliente, $telefono_cliente, $c_principal, $ciudad_cot, $c_secundaria, 
             $referencia, $observacion, $guia_enviada, $transporte, $identificacion, $celular, 
             $id_plataforma, $dropshipping, $id_plataforma,  $importado, 
-            $plataforma_importa, $cod, $estado_guia_sistema, $impreso, $facturada, $factura_numero, 
+            $plataforma_importa, $cod, $estado_guia_sistema, $impreso, $facturada,  
             $numero_guia, $anulada, $identificacionO,  $nombreO, $ciudadO, $provinciaO, 
             $direccionO, $referenciaO, $numeroCasaO, $valor_segura, $no_piezas, $tipo_servicio, 
             $peso, $contiene, $costo_flete, $costo_producto, $comentario, $id_transporte
