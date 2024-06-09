@@ -53,7 +53,7 @@ var id_producto_venta = "";
 var dropshipping = "";
 var id_prataforma = "";
 var contiene = "";
-var costo_producto = "";
+var costo_producto = 0;
 
 const listNuevoPedido = async () => {
   try {
@@ -78,7 +78,7 @@ const listNuevoPedido = async () => {
       id_prataforma = nuevosPedidos.id_plataforma;
 
       contiene += `${nuevoPedido.nombre_producto} X${nuevoPedido.cantidad_tmp} `;
-      costo_producto =
+      costo_producto = costo_producto + nuevoPedido.precio_tmp;
 
       const precio = parseFloat(nuevoPedido.precio_tmp);
       const descuento = parseFloat(nuevoPedido.desc_tmp);
@@ -286,7 +286,7 @@ function agregar_nuevoPedido() {
         formData.append("contiene", contiene);
 
         formData.append("costo_flete", 0);
-        formData.append("costo_producto", 0);
+        formData.append("costo_producto", costo_producto);
         formData.append("comentario", "Enviado por x");
         formData.append("id_transporte", 0);
 
