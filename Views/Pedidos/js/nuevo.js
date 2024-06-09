@@ -11,7 +11,7 @@ const dataTableNuevoPedidoOptions = {
     columnDefs: [
         { className: "centered", targets: [0, 1, 2, 3, 4, 5, 6] },
     ],
-    dom: '<"flex justify-between items-center mb-4"lBf<"text-center mt-4">r>t<"flex justify-between items-center"ip>',
+    /* dom: '<"flex justify-between items-center mb-4"lBf<"text-center mt-4">r>t<"flex justify-between items-center"ip>', */
     language: {
         lengthMenu: "Mostrar _MENU_ registros por página",
         zeroRecords: "Ningún usuario encontrado",
