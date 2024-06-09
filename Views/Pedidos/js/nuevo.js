@@ -178,33 +178,13 @@ function validar_direccion() {
     generarGuiaBtn.disabled = true;
 
     // Crear el tooltip
-    const tooltipText = "El dueño de la bodega no ha colocado una dirección";
-
-    const showTooltip = (event) => {
-      const tooltip = document.createElement("div");
-      tooltip.className = "tooltip";
-      tooltip.innerText = tooltipText;
-      tooltip.style.position = "absolute";
-      tooltip.style.backgroundColor = "#f8d7da";
-      tooltip.style.color = "#721c24";
-      tooltip.style.border = "1px solid #f5c6cb";
-      tooltip.style.padding = "5px";
-      tooltip.style.borderRadius = "3px";
-      tooltip.style.zIndex = "1000";
-      document.body.appendChild(tooltip);
-
-      const rect = event.target.getBoundingClientRect();
-      tooltip.style.left = `${
-        rect.left + window.scrollX + rect.width / 2 - tooltip.clientWidth / 2
-      }px`;
-      tooltip.style.top = `${
-        rect.top + window.scrollY - tooltip.clientHeight - 5
-      }px`;
-
-      event.target.onmouseleave = () => {
-        tooltip.remove();
-      };
-    };
+    toastr.error(
+        "Esta bodega no contiene datos de dirección y no puede generar guias",
+        "NOTIFICACIÓN",
+        {
+          positionClass: "toast-bottom-center",
+        }
+      );
 
     guardarPedidoBtn.onmouseenter = showTooltip;
     generarGuiaBtn.onmouseenter = showTooltip;
