@@ -19,8 +19,8 @@ const dataTableProductosOptions = {
   destroy: true,
   select: true,
   responsive: true,
-  autoWidth: false,
-  bAutoWidth: false,
+  autoWidth: true,
+  bAutoWidth: true,
  /*  dom: '<"d-flex w-full justify-content-between"lBf><t><"d-flex justify-content-between"ip>', */
   buttons: [
     {
