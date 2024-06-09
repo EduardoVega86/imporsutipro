@@ -50,7 +50,8 @@ var referencia_bodega = "";
 var numerCasa_Bodega = "";
 var celular_cliente = "";
 var id_producto_venta_cliente = "";
-
+var dropshipping = "";
+var id_prataforma = "";
 
 const listNuevoPedido = async () => {
   try {
@@ -69,18 +70,26 @@ const listNuevoPedido = async () => {
       direccion_bodega = nuevosPedidos_bodega.direccion;
       referencia_bodega = nuevosPedidos_bodega.referencia;
       numerCasa_Bodega = nuevosPedidos_bodega.num_casa;
+      celular_cliente = ;
+      id_producto_venta_cliente = ;
+      dropshipping = ;
+      id_prataforma = ;
 
       const precio = parseFloat(nuevoPedido.precio_tmp);
       const descuento = parseFloat(nuevoPedido.desc_tmp);
       const precioFinal = precio - precio * (descuento / 100);
-        total += precioFinal;
+      total += precioFinal;
       content += `
                 <tr>
                     <td>${nuevoPedido.id_tmp}</td>
                     <td>${nuevoPedido.cantidad_tmp}</td>
                     <td>${nuevoPedido.nombre_producto}</td>
-                    <td><input type="text" oncblur='recalcular("${nuevoPedido.id_tmp }", "precio_nuevoPedido_${index}")' id="precio_nuevoPedido_${index}" class="form-control prec" value="${precio}"></td>
-                    <td><input type="text" oncblur='recalcular("${nuevoPedido.id_tmp }", "precio_nuevoPedido_${index}")' id="descuento_nuevoPedido_${index}" class="form-control desc" value="${descuento}"></td>
+                    <td><input type="text" onblur='recalcular("${
+                      nuevoPedido.id_tmp
+                    }", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}")' id="precio_nuevoPedido_${index}" class="form-control prec" value="${precio}"></td>
+                    <td><input type="text" onblur='recalcular("${
+                      nuevoPedido.id_tmp
+                    }", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}")' id="descuento_nuevoPedido_${index}" class="form-control desc" value="${descuento}"></td>
                     <td><span class='tota' id="precioFinal_nuevoPedido_${index}">${precioFinal.toFixed(
         2
       )}</span></td>
@@ -101,35 +110,39 @@ const listNuevoPedido = async () => {
 function recalcular(id, idPrecio) {
   const precio = parseFloat(document.getElementById(idPrecio).value);
   const descuento = parseFloat(document.getElementById(idDescuento).value);
- 
+
   const ffrm = new FormData();
-    ffrm.append("id", id);
-    ffrm.append("precio", precio);
-    ffrm.append("descuento", descuento);
-    
-    fetch("" + SERVERURL + "pedidos/actualizarTmp", {
-        method: "POST",
-        body: ffrm,
-    })
+  ffrm.append("id", id);
+  ffrm.append("precio", precio);
+  ffrm.append("descuento", descuento);
+
+  fetch("" + SERVERURL + "pedidos/actualizarTmp", {
+    method: "POST",
+    body: ffrm,
+  })
     .then((response) => response.json())
     .then((data) => {
-        if (data.status == 200) {
-            toastr.success("PRODUCTO ACTUALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
-                positionClass: "toast-bottom-center",
-            });
-        } else {
-            toastr.error("EL PRODUCTO NO SE ACTUALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
-                positionClass: "toast-bottom-center",
-            });
-        }
-        initDataTableNuevoPedido();
+      if (data.status == 200) {
+        toastr.success("PRODUCTO ACTUALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else {
+        toastr.error(
+          "EL PRODUCTO NO SE ACTUALIZADO CORRECTAMENTE",
+          "NOTIFICACIÓN",
+          {
+            positionClass: "toast-bottom-center",
+          }
+        );
+      }
+      initDataTableNuevoPedido();
     })
     .catch((error) => {
-        console.error("Error:", error);
-        alert("Hubo un problema al actualizar el producto");
+      console.error("Error:", error);
+      alert("Hubo un problema al actualizar el producto");
     });
 
-    initDataTableNuevoPedido();
+  initDataTableNuevoPedido();
 }
 
 function eliminar_nuevoPedido(id) {
@@ -231,49 +244,49 @@ function cargarCiudades() {
 
 //agregar funcion pedido
 
-function agregar_nuevoPedido(){
-    $('#agregar_producto_form').submit(function(event) {
-        event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
+function agregar_nuevoPedido() {
+  $("#agregar_producto_form").submit(function (event) {
+    event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
 
-        // Crea un objeto FormData
-        var formData = new FormData();
-        formData.append('nombre', $('#nombre').val());
-        formData.append('telefono', $('#telefono').val());
-        formData.append('calle_principal', $('#calle_principal').val());
-        formData.append('calle_secundaria', $('#calle_secundaria').val());
-        formData.append('ciudad', $('#ciudad').val());
-        formData.append('provincia', $('#provincia').val());
-        formData.append('identificacion', 0);
-        formData.append('observacion', $('#observacion').val());
-        formData.append('transporte', 0);
-        formData.append('celular', celular_bodega); // Suponiendo que siempre aplica IVA
-        formData.append('estado_producto', 1); // Suponiendo que el estado es activo
-        formData.append('date_added', new Date().toISOString().split('T')[0]);
-        formData.append('image_path', ''); // Asumiendo que no hay imagen por ahora
-        formData.append('formato', $('#formato-pagina').val());
-        formData.append('drogshipin', 0); // Suponiendo que no es dropshipping
-        formData.append('destacado', 0); // Suponiendo que no es destacado
-        formData.append('stock_inicial', $('#stock-inicial').val());
-        formData.append('bodega', $('#bodega').val());
-        formData.append('pcp', $('#precio-proveedor').val());
-        formData.append('pvp', $('#precio-venta').val());
-        formData.append('pref', $('#precio-referencial-valor').val());
+    // Crea un objeto FormData
+    var formData = new FormData();
+    formData.append("nombre", $("#nombre").val());
+    formData.append("telefono", $("#telefono").val());
+    formData.append("calle_principal", $("#calle_principal").val());
+    formData.append("calle_secundaria", $("#calle_secundaria").val());
+    formData.append("ciudad", $("#ciudad").val());
+    formData.append("provincia", $("#provincia").val());
+    formData.append("identificacion", 0);
+    formData.append("observacion", $("#observacion").val());
+    formData.append("transporte", 0);
+    formData.append("celular", celular_bodega); // Suponiendo que siempre aplica IVA
+    formData.append("estado_producto", 1); // Suponiendo que el estado es activo
+    formData.append("date_added", new Date().toISOString().split("T")[0]);
+    formData.append("image_path", ""); // Asumiendo que no hay imagen por ahora
+    formData.append("formato", $("#formato-pagina").val());
+    formData.append("drogshipin", 0); // Suponiendo que no es dropshipping
+    formData.append("destacado", 0); // Suponiendo que no es destacado
+    formData.append("stock_inicial", $("#stock-inicial").val());
+    formData.append("bodega", $("#bodega").val());
+    formData.append("pcp", $("#precio-proveedor").val());
+    formData.append("pvp", $("#precio-venta").val());
+    formData.append("pref", $("#precio-referencial-valor").val());
 
-        // Realiza la solicitud AJAX
-        $.ajax({
-            url: '' + SERVERURL + 'productos/agregar_producto',
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(response) {
-                alert('Producto agregado exitosamente');
-                console.log(response);
-            },
-            error: function(error) {
-                alert('Hubo un error al agregar el producto');
-                console.log(error);
-            }
-        });
+    // Realiza la solicitud AJAX
+    $.ajax({
+      url: "" + SERVERURL + "productos/agregar_producto",
+      type: "POST",
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function (response) {
+        alert("Producto agregado exitosamente");
+        console.log(response);
+      },
+      error: function (error) {
+        alert("Hubo un error al agregar el producto");
+        console.log(error);
+      },
     });
+  });
 }
