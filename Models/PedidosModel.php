@@ -44,12 +44,14 @@ class PedidosModel extends Query
         
         $nueva_factura = $this->incrementarNumeroFactura($factura_numero);
 
+
+
         $response = $this->initialResponse();
         $sql = "INSERT INTO facturas_cot (
             numero_factura, fecha_factura, id_usuario, monto_factura, estado_factura, 
             nombre, telefono, c_principal, ciudad_cot, c_secundaria, 
             referencia, observacion, guia_enviada, transporte, identificacion, celular, 
-            id_producto_venta, dropshipping, id_plataforma, dueño_id, importado, 
+            id_propietario, dropshipping, id_plataforma, dueño_id, importado, 
             plataforma_importa, cod, estado_guia_sistema, impreso, facturada, factura_numero, 
             numero_guia, anulada, identificacionO, celularO, nombreO, ciudadO, provinciaO, 
             direccionO, referenciaO, numeroCasaO, valor_segura, no_piezas, tipo_servicio, 
