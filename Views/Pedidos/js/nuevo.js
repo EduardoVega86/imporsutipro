@@ -270,6 +270,7 @@ function agregar_nuevoPedido() {
     formData.append("telefono", $("#telefono").val());
     formData.append("calle_principal", $("#calle_principal").val());
     formData.append("calle_secundaria", $("#calle_secundaria").val());
+    formData.append("referencia", $("#referencia").val());
     formData.append("ciudad", $("#ciudad").val());
     formData.append("provincia", $("#provincia").val());
     formData.append("identificacion", 0);
