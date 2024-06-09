@@ -94,9 +94,9 @@ class Pedidos extends Controller
         $identificacionO = $_POST['identificacionO'] ?? "";
         $celularO = $_POST['celularO'] ?? $telefono_cliente;
         $nombreO = $_POST['nombreO'];
-        $ciudadO = $_POST['ciudadO'];
-        $provinciaO = $_POST['provinciaO'];
-        $direccionO = $_POST['direccionO'];
+        $ciudadO = $_POST['ciudadO'] ?? 0;
+        $provinciaO = $_POST['provinciaO'] ?? 0;
+        $direccionO = $_POST['direccionO'] ?? "vacio";
         $referenciaO = $_POST['referenciaO'];
         $numeroCasaO = $_POST['numeroCasaO'] ?? 0;
 
