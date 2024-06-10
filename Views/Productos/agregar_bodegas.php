@@ -65,7 +65,7 @@
     <div class="container" style="margin: 10px;">
 
         <div class="contenido contenido_mapa">
-            <div class="formulario">
+            <div class="col-md-3">
                 <h3 class="portlet-title">
                     Agregar Dirección
                     <button class="btn btn-danger" onclick="colocarMarcadorUbicacionActual()">Usar ubicación actual</button>
@@ -139,7 +139,7 @@
                     <input class="btn btn-primary" type="submit" value="Guardar">
                 </form>
             </div>
-            <div class="mapa_google">
+            <div class="col-md-9">
                 <div id="mapa" style="height: 100%;"></div>
                 <div id="infoDireccion"></div>
             </div>
