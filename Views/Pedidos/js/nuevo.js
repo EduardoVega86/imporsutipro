@@ -358,6 +358,7 @@ function agregar_nuevoPedido() {
                 showConfirmButton: false,
                 timer: 2000
             }).then(() => {
+                vaciarTmpPedidos ();
                 window.location.href = ''+SERVERURL+'Pedidos';
             });
         }
