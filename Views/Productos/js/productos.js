@@ -292,7 +292,6 @@ function editarProducto(id) {
           $("#editar_categoria").length > 0 &&
           $("#editar_formato-pagina").length > 0 &&
           $("#editar_ultimo_costo").length > 0 &&
-          $("#editar_utilidad").length > 0 &&
           $("#editar_precio_proveedor").length > 0 &&
           $("#editar_precio_venta").length > 0 &&
           $("#editar_precio_referencial").length > 0 &&
