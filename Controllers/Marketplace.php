@@ -57,4 +57,5 @@ class Marketplace extends Controller
         $response = $this->model->obtenerPreciosProductos($id, $sku, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
+    
 }
