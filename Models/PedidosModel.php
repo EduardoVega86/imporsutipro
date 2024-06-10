@@ -80,7 +80,7 @@ class PedidosModel extends Query
         if($responses ===1){
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
-            $response['message'] = 'Pedido creado correctamente';
+            $response['message'] = $responses['message'];
         }
         return $response;
         
