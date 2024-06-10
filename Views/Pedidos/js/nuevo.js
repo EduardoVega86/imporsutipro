@@ -165,30 +165,38 @@ function recalcular(id, idPrecio, idDescuento) {
 }
 
 function validar_direccion() {
-  if (
-    ciudad_bodega == null ||
-    provincia_bodega == null ||
-    direccion_bodega == null
-  ) {
-    // Bloquear los botones
-    const guardarPedidoBtn = document.getElementById("guardarPedidoBtn");
-    const generarGuiaBtn = document.getElementById("generarGuiaBtn");
+    // Obtener los parámetros de la URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const idProducto = urlParams.get('id_producto');
+    const sku = urlParams.get('sku');
 
-    guardarPedidoBtn.disabled = true;
-    generarGuiaBtn.disabled = true;
+    // Solo realizar la validación si los parámetros están presentes
+    if (idProducto && sku) {
+        if (
+            ciudad_bodega == null ||
+            provincia_bodega == null ||
+            direccion_bodega == null
+        ) {
+            // Bloquear los botones
+            const guardarPedidoBtn = document.getElementById("guardarPedidoBtn");
+            const generarGuiaBtn = document.getElementById("generarGuiaBtn");
 
-    // Crear el tooltip
-    toastr.error(
-        "Esta bodega no contiene datos de dirección y no puede generar guias",
-        "NOTIFICACIÓN",
-        {
-          positionClass: "toast-bottom-center",
+            guardarPedidoBtn.disabled = true;
+            generarGuiaBtn.disabled = true;
+
+            // Crear el tooltip
+            toastr.error(
+                "Esta bodega no contiene datos de dirección y no puede generar guias",
+                "NOTIFICACIÓN",
+                {
+                    positionClass: "toast-bottom-center",
+                }
+            );
+
+            return false; // Retorna falso para indicar que la validación falló
         }
-      );
-
-    return false; // Retorna falso para indicar que la validación falló
-  }
-  return true; // Retorna verdadero si la validación pasa
+    }
+    return true; // Retorna verdadero si la validación pasa o los parámetros no están presentes
 }
 
 function eliminar_nuevoPedido(id) {
