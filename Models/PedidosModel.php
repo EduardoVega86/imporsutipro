@@ -102,7 +102,7 @@ class PedidosModel extends Query
     public function buscarTmp()
     {
         $tmp=session_id();
-        $sql = "SELECT * FROM tmp_cotizacion, productos WHERE productos.id_producto=tmp_cotizacion.id_producto and session_id='$tmp'";
+        $sql = "SELECT * FROM tmp_cotizacion, productos, inventario_bodegas WHERE inventario_bodegas.id_producto=productos.id_producto and inventario_bodegas.sku=productos.codigo_producto and productos.id_producto=tmp_cotizacion.id_producto and session_id='$tmp'";
         return $this->select($sql);
     }
     
