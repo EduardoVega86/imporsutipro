@@ -33,9 +33,10 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="card-body text-center d-flex flex-column justify-content-between">
                 <div>
                     <h5 class="card-title">${product.nombre_producto}</h5>
-                    <p class="card-text">Código: <strong>${product.codigo_producto}</strong></p>
-                    <p class="card-text">Descripción: <strong>${product.descripcion_producto}</strong></p>
-                    <p class="card-text">Categoría: <strong>${product.id_linea_producto}</strong></p>
+                    <p class="card-text">Stock: <strong style="color:green">${product.stock}</strong></p>
+                    <p class="card-text">Precio Proveedor: <strong>$20</strong></p>
+                    <p class="card-text">Precio Sugerido: <strong>$25</strong></p>
+                    <p class="card-text">Proveedor: <a href="#">tony</a></p>
                 </div>
                 <div>
                     <button class="btn btn-description" onclick="agregarModal_marketplace(${product.id_producto})">Descripción</button>
