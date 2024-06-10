@@ -103,15 +103,9 @@ class ProductosModel extends Query
         return $response;
     }
 
-    public function obtenerProducto($id, $plataforma, $id_linea)
+    public function obtenerProducto($id, $plataforma)
     {
-        if ($id_linea==0){
-          
-            $sql = "SELECT * FROM productos p inner join inventario_bodegas ib on p.codigo_producto = ib.sku WHERE p.id_producto = $id AND p.id_plataforma = $plataforma";
-        }else{
-           $sql = "SELECT * FROM productos p inner join inventario_bodegas ib on p.codigo_producto = ib.sku WHERE p.id_producto = $id AND p.id_plataforma = $plataforma and p.id_linea_producto=$id_linea";  
-        }
-       
+        $sql = "SELECT * FROM productos p inner join inventario_bodegas ib on p.codigo_producto = ib.sku WHERE p.id_producto = $id AND p.id_plataforma = $plataforma";
         return $this->select($sql);
     }
 
