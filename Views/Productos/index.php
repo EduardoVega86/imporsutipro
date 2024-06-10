@@ -43,12 +43,10 @@
         <div class="filtros_producos justify-content-between align-items-center mb-3">
             <div class="d-flex">
                 <input type="text" class="form-control me-2" placeholder="Código o Nombre">
-                <select class="form-select me-2">
-                    <option selected>-- Seleccionar Categorias --</option>
-                    <option value="1">Categoria 1</option>
-                    <option value="2">Categoria 2</option>
-                    <option value="3">Categoria 3</option>
+                <select id="categoria_filtro" class="form-select me-2">
+                    <option selected value="">-- Seleccionar Categorías --</option>
                 </select>
+
                 <button class="btn btn-outline-secondary me-2"><i class="fas fa-search"></i></button>
                 <div class="form-check align-self-center">
                     <input class="form-check-input" type="checkbox" id="habilitarDestacados">
