@@ -45,6 +45,7 @@
             </div>
             <div class="modal-body">
                 <form id="imageForm">
+                    <input type="hidden" id="id_imagenCategoria" name="id_imagenCategoria">
                     <div class="form-group">
                         <label for="imageInput">Imagen</label>
                         <input type="file" class="form-control-file" id="imageInput" accept="image/*">
@@ -54,7 +55,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" id="saveButton">Guardar</button>
+                <button type="button" class="btn btn-primary" id="saveButton_imangeCategoria">Guardar</button>
             </div>
         </div>
     </div>
@@ -76,9 +77,29 @@
             }
         });
 
-        $('#saveButton').click(function() {
-            // Aquí puedes añadir la lógica para guardar la imagen
-            alert('Imagen guardada');
+        $('#saveButton_imangeCategoria').click(function() {
+            var formData = new FormData();
+            var file = $('#imageInput')[0].files[0];
+            var id = $('#id_imagenCategoria').val();
+
+            formData.append('imagen', file);
+            formData.append('id_linea', id);
+
+            $.ajax({
+                url: 'ruta/a/tu/controlador/guardar_imagen_categorias', // Cambia esta ruta por la ruta correcta a tu controlador
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    alert('Imagen guardada correctamente');
+                    $('#imagen_categoriaModal').modal('hide');
+                    // Puedes añadir lógica adicional aquí para actualizar la vista
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert('Error al guardar la imagen: ' + textStatus);
+                }
+            });
         });
     });
 </script>

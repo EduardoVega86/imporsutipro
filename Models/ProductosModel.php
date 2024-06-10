@@ -108,12 +108,6 @@ class ProductosModel extends Query
         $sql = "SELECT * FROM productos p inner join inventario_bodegas ib on p.codigo_producto = ib.sku WHERE p.id_producto = $id AND p.id_plataforma = $plataforma";
         return $this->select($sql);
     }
-    
-     public function obtenerProductosCategoria($id, $plataforma)
-    {
-        $sql = "SELECT * FROM productos p inner join inventario_bodegas ib on p.codigo_producto = ib.sku WHERE  p.id_plataforma = $plataforma and id_linea_producto=$id";
-        return $this->select($sql);
-    }
 
     public function guardar_imagen_productos()
     {

@@ -8,11 +8,8 @@
             <input type="text" class="form-control" placeholder="Código o Nombre">
         </div>
         <div class="col-md-4 mb-3 mb-md-0">
-            <select class="form-control">
-                <option>-- Selecciona Línea --</option>
-                <option>Línea 1</option>
-                <option>Línea 2</option>
-                <option>Línea 3</option>
+            <select id="categoria_filtroMarketplace" class="form-select me-2">
+                <option selected value="">-- Seleccionar Categorías --</option>
             </select>
         </div>
         <div class="col-md-3 mb-3 mb-md-0">

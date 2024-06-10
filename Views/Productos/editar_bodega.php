@@ -322,6 +322,17 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
     var bodegaId = <?php echo json_encode($bodega_id); ?>;
 
     $(document).ready(function() {
+        // Inicializar Select2 en los selectores
+        $('#provincia').select2({
+            placeholder: 'Provincia *',
+            allowClear: true
+        });
+
+        $('#ciudad_entrega').select2({
+            placeholder: 'Ciudad *',
+            allowClear: true
+        });
+        
         cargarProvincias();
         cargarDatosBodega();
     });

@@ -33,9 +33,10 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="card-body text-center d-flex flex-column justify-content-between">
                 <div>
                     <h5 class="card-title">${product.nombre_producto}</h5>
-                    <p class="card-text">Código: <strong>${product.codigo_producto}</strong></p>
-                    <p class="card-text">Descripción: <strong>${product.descripcion_producto}</strong></p>
-                    <p class="card-text">Categoría: <strong>${product.id_linea_producto}</strong></p>
+                    <p class="card-text">Stock: <strong style="color:green">9</strong></p>
+                    <p class="card-text">Precio Proveedor: <strong>$20</strong></p>
+                    <p class="card-text">Precio Sugerido: <strong>$25</strong></p>
+                    <p class="card-text">Proveedor: <a href="#">tony</a></p>
                 </div>
                 <div>
                     <button class="btn btn-description" onclick="agregarModal_marketplace(${product.id_producto})">Descripción</button>
@@ -240,6 +241,32 @@ const vaciarTmpPedidos = async () => {
         console.error('Error al hacer la solicitud:', error);
     }
 };
+
+//cargar select categoria
+$(document).ready(function () {
+    // Realiza la solicitud AJAX para obtener la lista de categorias
+    $.ajax({
+      url: SERVERURL + "productos/cargar_categorias",
+      type: "GET",
+      dataType: "json",
+      success: function (response) {
+        // Asegúrate de que la respuesta es un array
+        if (Array.isArray(response)) {
+          response.forEach(function (categoria) {
+            // Agrega una nueva opción al select por cada categoria
+            $("#categoria_filtroMarketplace").append(
+              new Option(categoria.nombre_linea, categoria.id_linea)
+            );
+          });
+        } else {
+          console.log("La respuesta de la API no es un array:", response);
+        }
+      },
+      error: function (error) {
+        console.error("Error al obtener la lista de categorias:", error);
+      },
+    });
+  });
 
 // Ejecutar la función cuando la página se haya cargado
 window.addEventListener('load', vaciarTmpPedidos);
