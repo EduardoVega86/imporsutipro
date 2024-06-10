@@ -83,7 +83,7 @@ const listNuevoPedido = async () => {
       id_propietario_bodega = nuevosPedidos_bodega[0].id;
       id_producto_venta = nuevoPedido.id_producto;
       dropshipping = nuevoPedido.drogshipin;
-      costo_producto = nuevoPedido.costo_producto
+      costo_producto = nuevoPedido.costo_producto;
 
       contiene += `${nuevoPedido.nombre_producto} X${nuevoPedido.cantidad_tmp} `;
 
@@ -237,6 +237,17 @@ window.addEventListener("load", async () => {
 
 //cargar selelct ciudades y provincias
 $(document).ready(function () {
+  // Inicializar Select2 en los selects
+  $("#provincia").select2({
+    placeholder: "Selecciona una opción",
+    allowClear: true,
+  });
+
+  $("#ciudad").select2({
+    placeholder: "Selecciona una opción",
+    allowClear: true,
+  });
+
   cargarProvincias(); // Llamar a cargarProvincias cuando la página esté lista
 
   // Llamar a cargarCiudades cuando se seleccione una provincia
@@ -348,7 +359,7 @@ function agregar_nuevoPedido() {
     processData: false,
     contentType: false,
     success: function (response) {
-        response = JSON.parse(response);
+      response = JSON.parse(response);
       if (response.status == 500) {
         Swal.fire({
           icon: "error",
@@ -377,14 +388,14 @@ function agregar_nuevoPedido() {
 
 // Función para vaciar temporalmente los pedidos
 const vaciarTmpPedidos = async () => {
-    try {
-        const response = await fetch(''+SERVERURL+'marketplace/vaciarTmp');
-        if (!response.ok) {
-            throw new Error('Error al vaciar los pedidos temporales');
-        }
-        const data = await response.json();
-        console.log('Respuesta de vaciarTmp:', data);
-    } catch (error) {
-        console.error('Error al hacer la solicitud:', error);
+  try {
+    const response = await fetch("" + SERVERURL + "marketplace/vaciarTmp");
+    if (!response.ok) {
+      throw new Error("Error al vaciar los pedidos temporales");
     }
+    const data = await response.json();
+    console.log("Respuesta de vaciarTmp:", data);
+  } catch (error) {
+    console.error("Error al hacer la solicitud:", error);
+  }
 };
