@@ -348,6 +348,7 @@ function agregar_nuevoPedido() {
     processData: false,
     contentType: false,
     success: function (response) {
+        response = JSON.parse(response);
       if (response.status == 500) {
         Swal.fire({
           icon: "error",
