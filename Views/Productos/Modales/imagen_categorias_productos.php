@@ -77,10 +77,10 @@
             }
         });
 
-        $('#saveButton').click(function() {
+        $('#saveButton_imangeCategoria').click(function() {
             var formData = new FormData();
             var file = $('#imageInput')[0].files[0];
-            var id = $('#id').val();
+            var id = $('#id_imagenCategoria').val();
 
             formData.append('imagen', file);
             formData.append('id_linea', id);
