@@ -358,7 +358,7 @@ function agregar_nuevoPedido() {
                 showConfirmButton: false,
                 timer: 2000
             }).then(() => {
-                window.location.href = '<?php echo SERVERURL ?>Productos/bodegas';
+                window.location.href = ''+SERVERURL+'Pedidos';
             });
         }
     },
