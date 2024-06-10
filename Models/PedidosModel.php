@@ -76,6 +76,11 @@ class PedidosModel extends Query
         }
         
         $response = $this->insert($sql, $data);
+        if($response ===1){
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Pedido creado correctamente';
+        }
         return $response;
         
     }
