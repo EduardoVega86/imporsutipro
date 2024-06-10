@@ -21,6 +21,22 @@
         flex-direction: row;
     }
 
+    /* contenido mapa */
+    .contenido_mapa {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .fomulario {
+        width: 30%;
+    }
+
+    .mapa_google {
+        width: 70%;
+        overflow: auto !important;
+    }
+
     /* responsive */
     @media (max-width: 768px) {
         .cuerpo_mapa {
@@ -31,12 +47,24 @@
         .contenido {
             flex-direction: column-reverse;
         }
+
+        .contenido_mapa {
+            flex-direction: column;
+        }
+
+        .fomulario {
+            width: 100%;
+        }
+
+        .mapa_google {
+            width: 100%;
+        }
     }
 </style>
 <div class="content cuerpo_mapa">
     <div class="container" style="margin: 10px;">
 
-        <div class="contenido">
+        <div class="contenido contenido_mapa">
             <div class="col-md-3">
                 <h3 class="portlet-title">
                     Agregar Dirección
