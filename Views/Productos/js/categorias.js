@@ -70,10 +70,10 @@ const listCategorias = async () => {
         estado_linea= '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">Activo</span>';
       }
 
-      if (empty(categoria.imagen)){
-        cargar_imagen = '<i class="fas fa-camera icon-button" onclick="agregar_imagenCategoria(${categoria.id_linea})"></i>';
-      }else {
-        cargar_imagen = `<img src="ruta/a/tu/imagen.png" class="icon-button" onclick="agregar_imagenCategoria(${categoria.id_linea})" alt="Agregar imagen">`;
+      if (!categoria.imagen) {
+        cargar_imagen = `<i class="fas fa-camera icon-button" onclick="agregar_imagenCategoria(${categoria.id_linea})"></i>`;
+      } else {
+        cargar_imagen = `<img src="${categoria.imagen}" class="icon-button" onclick="agregar_imagenCategoria(${categoria.id_linea})" alt="Agregar imagen">`;
       }
 
       content += `
