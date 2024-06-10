@@ -27,6 +27,7 @@ const dataTableNuevosPedidosOptions = {
     infoEmpty: "Ningún pedido encontrado",
     infoFiltered: "(filtrados desde _MAX_ registros totales)",
     search: "Buscar:",
+    autoWidth: false,
     loadingRecords: "Cargando...",
     paginate: {
       first: "Primero",
