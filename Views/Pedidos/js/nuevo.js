@@ -71,6 +71,7 @@ const listNuevoPedido = async () => {
     console.log(nuevosPedidos_bodega);
     let content = ``;
     let total = 0;
+    let precio_costo = 0;
     nuevosPedidos.forEach((nuevoPedido, index) => {
       celular_bodega = nuevosPedidos_bodega[0].contacto;
       nombre_bodega = nuevosPedidos_bodega[0].nombre;
@@ -84,7 +85,9 @@ const listNuevoPedido = async () => {
       dropshipping = nuevoPedido.drogshipin;
 
       contiene += `${nuevoPedido.nombre_producto} X${nuevoPedido.cantidad_tmp} `;
-      costo_producto = costo_producto + nuevoPedido.precio_tmp;
+
+      precio_costo = parseFloat(nuevoPedido.precio_tmp);
+      costo_producto = costo_producto + precio_costo;
 
       // Verificar condición
       if (!validar_direccion()) {
@@ -129,6 +132,7 @@ const listNuevoPedido = async () => {
 };
 
 function recalcular(id, idPrecio, idDescuento) {
+  costo_producto = 0;
   const precio = parseFloat(document.getElementById(idPrecio).value);
   const descuento = parseFloat(document.getElementById(idDescuento).value);
 
@@ -165,38 +169,38 @@ function recalcular(id, idPrecio, idDescuento) {
 }
 
 function validar_direccion() {
-    // Obtener los parámetros de la URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const idProducto = urlParams.get('id_producto');
-    const sku = urlParams.get('sku');
+  // Obtener los parámetros de la URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const idProducto = urlParams.get("id_producto");
+  const sku = urlParams.get("sku");
 
-    // Solo realizar la validación si los parámetros están presentes
-    if (idProducto && sku) {
-        if (
-            ciudad_bodega == null ||
-            provincia_bodega == null ||
-            direccion_bodega == null
-        ) {
-            // Bloquear los botones
-            const guardarPedidoBtn = document.getElementById("guardarPedidoBtn");
-            const generarGuiaBtn = document.getElementById("generarGuiaBtn");
+  // Solo realizar la validación si los parámetros están presentes
+  if (idProducto && sku) {
+    if (
+      ciudad_bodega == null ||
+      provincia_bodega == null ||
+      direccion_bodega == null
+    ) {
+      // Bloquear los botones
+      const guardarPedidoBtn = document.getElementById("guardarPedidoBtn");
+      const generarGuiaBtn = document.getElementById("generarGuiaBtn");
 
-            guardarPedidoBtn.disabled = true;
-            generarGuiaBtn.disabled = true;
+      guardarPedidoBtn.disabled = true;
+      generarGuiaBtn.disabled = true;
 
-            // Crear el tooltip
-            toastr.error(
-                "Esta bodega no contiene datos de dirección y no puede generar guias",
-                "NOTIFICACIÓN",
-                {
-                    positionClass: "toast-bottom-center",
-                }
-            );
-
-            return false; // Retorna falso para indicar que la validación falló
+      // Crear el tooltip
+      toastr.error(
+        "Esta bodega no contiene datos de dirección y no puede generar guias",
+        "NOTIFICACIÓN",
+        {
+          positionClass: "toast-bottom-center",
         }
+      );
+
+      return false; // Retorna falso para indicar que la validación falló
     }
-    return true; // Retorna verdadero si la validación pasa o los parámetros no están presentes
+  }
+  return true; // Retorna verdadero si la validación pasa o los parámetros no están presentes
 }
 
 function eliminar_nuevoPedido(id) {
@@ -344,24 +348,24 @@ function agregar_nuevoPedido() {
     processData: false,
     contentType: false,
     success: function (response) {
-        if (response.status == 500) {
-            Swal.fire({
-                icon: 'error',
-                title: response.title,
-                text: response.message
-            });
-        } else if (response.status == 200){
-            Swal.fire({
-                icon: 'success',
-                title: response.title,
-                text: response.message,
-                showConfirmButton: false,
-                timer: 2000
-            }).then(() => {
-                vaciarTmpPedidos ();
-                window.location.href = ''+SERVERURL+'Pedidos';
-            });
-        }
+      if (response.status == 500) {
+        Swal.fire({
+          icon: "error",
+          title: response.title,
+          text: response.message,
+        });
+      } else if (response.status == 200) {
+        Swal.fire({
+          icon: "success",
+          title: response.title,
+          text: response.message,
+          showConfirmButton: false,
+          timer: 2000,
+        }).then(() => {
+          vaciarTmpPedidos();
+          window.location.href = "" + SERVERURL + "Pedidos";
+        });
+      }
     },
     error: function (error) {
       alert("Hubo un error al agregar el producto");
