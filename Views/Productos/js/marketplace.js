@@ -254,13 +254,7 @@ $(document).ready(function () {
         if (Array.isArray(response)) {
           response.forEach(function (categoria) {
             // Agrega una nueva opción al select por cada categoria
-            $("#categoria").append(
-              new Option(categoria.nombre_linea, categoria.id_linea)
-            );
-            $("#editar_categoria").append(
-              new Option(categoria.nombre_linea, categoria.id_linea)
-            );
-            $("#categoria_filtro").append(
+            $("#categoria_filtroMarketplace").append(
               new Option(categoria.nombre_linea, categoria.id_linea)
             );
           });
