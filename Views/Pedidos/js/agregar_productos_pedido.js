@@ -81,7 +81,7 @@ const listNuevosPedidos = () => {
                             <td><input type="number" class="form-control" value="1" min="1" id="cantidad_${index}"></td>
                             <td>${nuevoPedido.pvp}</td>
                             <td>
-                                <button class="btn btn-sm btn-success"><i class="fa-solid fa-pencil"></i></button>
+                                <button class="btn btn-sm btn-success" onclick="enviar_cliente(${nuevoPedido.id_producto})"><i class="fa-solid fa-pencil"></i></button>
                             </td>
                         </tr>`;
                 });
@@ -101,6 +101,59 @@ const listNuevosPedidos = () => {
 function buscar_productos_nuevoPedido() {
     $('#nuevosPedidosModal').modal('show');
 }
+
+//enviar cliente
+function enviar_cliente(id) {
+    $.ajax({
+      type: "POST",
+      url: SERVERURL + "marketplace/obtener_producto/" + id,
+      dataType: "json",
+      success: function (response) {
+        if (response) {
+          const data = response[0];
+  
+          // Crear un objeto FormData y agregar los datos
+          const formData = new FormData();
+          formData.append("cantidad", 1);
+          formData.append("precio", data.pvp);
+          formData.append("id_producto", data.id_producto);
+          formData.append("sku", data.sku);
+  
+          $.ajax({
+            type: "POST",
+            url: "" + SERVERURL + "marketplace/agregarTmp",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response2) {
+              response2 = JSON.parse(response2);
+              console.log(response2);
+              console.log(response2[0]);
+              if (response2.status == 500) {
+                Swal.fire({
+                  icon: "error",
+                  title: response2.title,
+                  text: response2.message,
+                });
+              } else if (response2.status == 200) {
+                initDataTableNuevoPedido();
+              }
+            },
+            error: function (xhr, status, error) {
+              console.error("Error en la solicitud AJAX:", error);
+              alert("Hubo un problema al agregar el producto temporalmente");
+            },
+          });
+        } else {
+          console.error("La respuesta está vacía o tiene un formato incorrecto.");
+        }
+      },
+      error: function (xhr, status, error) {
+        console.error("Error en la solicitud AJAX:", error);
+        alert("Hubo un problema al obtener la información del producto");
+      },
+    });
+  }
 
 window.addEventListener("load", async () => {
     await initDataTableNuevosPedidos();
