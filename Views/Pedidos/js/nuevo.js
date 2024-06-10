@@ -344,8 +344,23 @@ function agregar_nuevoPedido() {
     processData: false,
     contentType: false,
     success: function (response) {
-      alert("Producto agregado exitosamente");
-      console.log(response);
+        if (response.status == 500) {
+            Swal.fire({
+                icon: 'error',
+                title: response.title,
+                text: response.message
+            });
+        } else if (response.status == 200){
+            Swal.fire({
+                icon: 'success',
+                title: response.title,
+                text: response.message,
+                showConfirmButton: false,
+                timer: 2000
+            }).then(() => {
+                window.location.href = '<?php echo SERVERURL ?>Productos/bodegas';
+            });
+        }
     },
     error: function (error) {
       alert("Hubo un error al agregar el producto");
