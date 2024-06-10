@@ -14,7 +14,7 @@
         </div>
         <div class="col-md-3 mb-3 mb-md-0">
             <select class="form-control">
-                <option>Selecciona una opción</option>
+                <option>Selecciona una tienda</option>
                 <option>Opción 1</option>
                 <option>Opción 2</option>
                 <option>Opción 3</option>

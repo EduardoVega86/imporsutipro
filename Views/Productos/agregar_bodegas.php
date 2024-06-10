@@ -33,7 +33,7 @@
         }
     }
 </style>
-<div class="content cuerpo_mapa">
+<div class="custom-container-fluid mt-4 cuerpo_mapa">
     <div class="container" style="margin: 10px;">
 
         <div class="contenido">
