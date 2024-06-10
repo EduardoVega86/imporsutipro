@@ -83,11 +83,11 @@ const listNuevoPedido = async () => {
       id_propietario_bodega = nuevosPedidos_bodega[0].id;
       id_producto_venta = nuevoPedido.id_producto;
       dropshipping = nuevoPedido.drogshipin;
+      costo_producto = nuevoPedido.costo_producto
 
       contiene += `${nuevoPedido.nombre_producto} X${nuevoPedido.cantidad_tmp} `;
 
       precio_costo = parseFloat(nuevoPedido.precio_tmp);
-      costo_producto = costo_producto + precio_costo;
 
       // Verificar condición
       if (!validar_direccion()) {
