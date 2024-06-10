@@ -55,9 +55,9 @@ class PedidosModel extends Query
             plataforma_importa, cod, estado_guia_sistema, impreso, facturada, 
             numero_guia, anulada, identificacionO, nombreO, ciudadO, provinciaO, provincia,
             direccionO, referenciaO, numeroCasaO, valor_seguro, no_piezas, tipo_servicio, 
-            peso, contiene, costo_flete, costo_producto, comentario, id_transporte
+            peso, contiene, costo_flete, costo_producto, comentario, id_transporte, telefonoO
         ) VALUES (
-            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
         )";
         
         $data = array(
@@ -68,7 +68,7 @@ class PedidosModel extends Query
             $plataforma_importa, $cod, $estado_guia_sistema, $impreso, $facturada,  
             $numero_guia, $anulada, $identificacionO,  $nombreO, $ciudadO, $provinciaO, $provincia,
             $direccionO, $referenciaO, $numeroCasaO, $valor_segura, $no_piezas, $tipo_servicio, 
-            $peso, $contiene, $costo_flete, $costo_producto, $comentario, $id_transporte
+            $peso, $contiene, $costo_flete, $costo_producto, $comentario, $id_transporte, $celularO
         );
         
         if (substr_count($sql, '?') !== count($data)) {
