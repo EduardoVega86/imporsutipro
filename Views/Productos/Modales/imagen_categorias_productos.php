@@ -45,6 +45,7 @@
             </div>
             <div class="modal-body">
                 <form id="imageForm">
+                    <input type="hidden" id="id" name="id_imagenCategoria">
                     <div class="form-group">
                         <label for="imageInput">Imagen</label>
                         <input type="file" class="form-control-file" id="imageInput" accept="image/*">
