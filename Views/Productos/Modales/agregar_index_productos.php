@@ -88,26 +88,22 @@
                                     <input type="text" class="form-control" id="costo">
                                 </div>
                                 <div class="form-group w-100">
-                                    <label for="utilidad">Utilidad %:</label>
-                                    <input type="text" class="form-control" id="utilidad">
-                                </div>
-                            </div>
-                            <div class="d-flex flex-row gap-3">
-                                <div class="form-group w-100">
                                     <label for="precio-proveedor">Precio Proveedor:</label>
                                     <input type="text" class="form-control" id="precio-proveedor">
                                 </div>
+                            </div>
+                            <div class="d-flex flex-row gap-3">
                                 <div class="form-group w-100">
                                     <label for="precio-venta">Precio de Venta (Sugerido):</label>
                                     <input type="text" class="form-control" id="precio-venta">
                                 </div>
-                            </div>
-                            <div class="d-flex flex-row gap-3">
                                 <div class="form-group w-100">
                                     <label for="precio-referencial">¿Precio Referencial?</label>
                                     <input type="checkbox" class="form-check-input" id="precio-referencial">
                                     <input type="text" class="form-control mt-2" id="precio-referencial-valor" disabled>
                                 </div>
+                            </div>
+                            <div class="d-flex flex-row gap-3">
                                 <div class="form-group w-100">
                                     <label for="maneja-inventario">Maneja Inventario:</label>
                                     <select class="form-select" id="maneja-inventario">

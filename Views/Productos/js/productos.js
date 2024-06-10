@@ -237,7 +237,7 @@ $(document).ready(function () {
 const filtrarProductosPorCategoria = async (categoriaId) => {
     try {
       const response = await fetch(
-        `${SERVERURL}productos/obtener_productos_categoria/${categoriaId}`
+        `${SERVERURL}productos/obtener_productos_categoria/${categoriaId}`  // falta que me creen esta api
       );
       const productos = await response.json();
   
