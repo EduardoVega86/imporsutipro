@@ -32,6 +32,11 @@ class MarketplaceModel extends Query
         return $response;
     }
 
+    public function obtenerPreciosProductos($id_producto, $sku, $plataforma)
+    {
+         $sql = "SELECT * FROM `invetario_bodegas` where id_producto = $id_producto and sku='$sku' and id_plataforma=$plataforma";
+        return $this->select($sql);
+    }
     public function agregarTmp($id_producto, $cantidad, $precio,  $plataforma, $sku)
     {
         $timestamp = session_id();
