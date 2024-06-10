@@ -233,8 +233,9 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
 
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAj-OWe4vKRnRiHQEx2ANZqxIGBT8z6Fo0&libraries=places&callback=initMap"></script>
 
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAj-OWe4vKRnRiHQEx2ANZqxIGBT8z6Fo0&libraries=places&callback=initMap"></script>
+
 <script>
-    // Define variables globales para el mapa y el marcador
     var map;
     var marker;
     var geocoder = new google.maps.Geocoder();
@@ -244,32 +245,22 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
         geocoder = new google.maps.Geocoder();
         infowindow = new google.maps.InfoWindow();
 
-        // Inicializa el mapa
         map = new google.maps.Map(document.getElementById('mapa'), {
-            center: {
-                lat: -0.1806532,
-                lng: -78.4678382
-            }, // Coordenadas de ejemplo, puedes poner las que quieras
+            center: { lat: -0.1806532, lng: -78.4678382 },
             zoom: 15
         });
 
-        // Crea un marcador arrastrable en el mapa
         marker = new google.maps.Marker({
             map: map,
-            position: {
-                lat: -0.1806532,
-                lng: -78.4678382
-            }, // Coordenadas de ejemplo
+            position: { lat: -0.1806532, lng: -78.4678382 },
             draggable: true,
             title: "Arrástrame para seleccionar una ubicación"
         });
 
-        // Autocompletado de direcciones
         var input = document.getElementById('direccion');
         var autocomplete = new google.maps.places.Autocomplete(input);
         autocomplete.bindTo('bounds', map);
 
-        // Evento de autocompletado: actualiza el mapa y el marcador con la nueva ubicación
         autocomplete.addListener('place_changed', function() {
             var place = autocomplete.getPlace();
             if (!place.geometry) {
@@ -279,7 +270,6 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
             actualizarMapaYMarcador(place.geometry.location, place.formatted_address);
         });
 
-        // Evento de arrastre del marcador: actualiza los campos del formulario con la nueva ubicación
         marker.addListener('dragend', function() {
             actualizarDireccionDesdeLatLng(marker.getPosition());
         });
@@ -293,13 +283,10 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
         $("#latitud").val(location.lat());
         $("#longitud").val(location.lng());
         $("#direccion_completa").val(address);
-        // Resto de la lógica para actualizar otros campos del formulario
     }
 
     function actualizarDireccionDesdeLatLng(latlng) {
-        geocoder.geocode({
-            'location': latlng
-        }, function(results, status) {
+        geocoder.geocode({ 'location': latlng }, function(results, status) {
             if (status === 'OK' && results[0]) {
                 actualizarMapaYMarcador(latlng, results[0].formatted_address);
             } else {
@@ -315,7 +302,6 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
                 };
-                console.log(pos);
                 actualizarMapaYMarcador(pos, 'Tu ubicación actual');
             }, function() {
                 handleLocationError(true, map.getCenter());
@@ -333,26 +319,22 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
         infowindow.open(map);
     }
 
-    // Asegúrate de reemplazar la clave de la API en la URL del script de Google Maps al final del archivo
-
-
     var bodegaId = <?php echo json_encode($bodega_id); ?>;
 
     $(document).ready(function() {
-        cargarProvincias(); // Llamar a cargarProvincias cuando la página esté lista
-        cargarDatosBodega(); // Cargar datos de la bodega cuando la página esté lista
+        cargarProvincias();
+        cargarDatosBodega();
     });
 
-    // Función para cargar provincias
     function cargarProvincias() {
         $.ajax({
-            url: '<?php echo SERVERURL; ?>Ubicaciones/obtenerProvincias', // Reemplaza con la ruta correcta a tu controlador
+            url: '<?php echo SERVERURL; ?>Ubicaciones/obtenerProvincias',
             method: 'GET',
             success: function(response) {
                 let provincias = JSON.parse(response);
                 let provinciaSelect = $('#provincia');
                 provinciaSelect.empty();
-                provinciaSelect.append('<option value="">Provincia *</option>'); // Añadir opción por defecto
+                provinciaSelect.append('<option value="">Provincia *</option>');
 
                 provincias.forEach(function(provincia) {
                     provinciaSelect.append(`<option value="${provincia.codigo_provincia}">${provincia.provincia}</option>`);
@@ -364,24 +346,24 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
         });
     }
 
-    // Función para cargar ciudades según la provincia seleccionada
-    function cargarCiudades(provinciaId, ciudadId = null) {
+    function cargarCiudades() {
+        let provinciaId = $('#provincia').val();
         if (provinciaId) {
             $.ajax({
-                url: '<?php echo SERVERURL; ?>Ubicaciones/obtenerCiudades/' + provinciaId, // Reemplaza con la ruta correcta a tu controlador
+                url: '<?php echo SERVERURL; ?>Ubicaciones/obtenerCiudades/' + provinciaId,
                 method: 'GET',
                 success: function(response) {
                     let ciudades = JSON.parse(response);
                     console.log('Ciudades recibidas:', ciudades); // Verificar los datos en la consola del navegador
                     let ciudadSelect = $('#ciudad_entrega');
                     ciudadSelect.empty();
-                    ciudadSelect.append('<option value="">Ciudad *</option>'); // Añadir opción por defecto
+                    ciudadSelect.append('<option value="">Ciudad *</option>');
 
                     ciudades.forEach(function(ciudad) {
-                        ciudadSelect.append(`<option value="${ciudad.id_cotizacion}" ${ciudad.id_cotizacion == ciudadId ? 'selected' : ''}>${ciudad.ciudad}</option>`);
+                        ciudadSelect.append(`<option value="${ciudad.id_cotizacion}">${ciudad.ciudad}</option>`);
                     });
 
-                    ciudadSelect.prop('disabled', false); // Habilitar el select de ciudades
+                    ciudadSelect.prop('disabled', false);
                 },
                 error: function(error) {
                     console.log('Error al cargar ciudades:', error);
@@ -392,7 +374,6 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
         }
     }
 
-    // Función para cargar los datos de la bodega
     function cargarDatosBodega() {
         const url = '<?php echo SERVERURL; ?>Productos/obtenerBodega/' + bodegaId;
 
@@ -401,7 +382,6 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
             .then(data => {
                 if (data.length > 0) {
                     const bodega = data[0];
-                    // Asignar los valores a los campos del formulario
                     document.getElementById('nombre').value = bodega.nombre;
                     document.getElementById('direccion').value = bodega.direccion;
                     document.getElementById('provincia').value = bodega.provincia;
@@ -420,20 +400,12 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
             .catch(error => console.error('Error:', error));
     }
 
-    // Ejecutar la función cargarDatosBodega cuando se cargue la página
-    /* document.addEventListener('DOMContentLoaded', function() {
-        cargarDatosBodega();
-    }); */
-
-    //actualizar datos bodegas
-
-
     document.getElementById("formularioDatos_editar").addEventListener("submit", function(event) {
         event.preventDefault();
 
         const formData = new FormData(this);
 
-        const url = '<?php echo SERVERURL; ?>Productos/editarBodega'; // Asegúrate de definir SERVERURL en tu backend PHP
+        const url = '<?php echo SERVERURL; ?>Productos/editarBodega';
 
         fetch(url, {
                 method: 'POST',
@@ -441,8 +413,6 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
             })
             .then(response => response.json())
             .then(data => {
-                console.log('Success:', data);
-                // Mostrar alerta de éxito
                 if (data.status == 500) {
                     Swal.fire({
                         icon: 'error',
@@ -462,8 +432,6 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
                 }
             })
             .catch((error) => {
-                console.error('Error:', error);
-                // Mostrar alerta de error
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
@@ -474,4 +442,5 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
             });
     });
 </script>
+
 <?php require_once './Views/templates/footer.php'; ?>
