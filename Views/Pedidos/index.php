@@ -46,7 +46,7 @@
         </div> -->
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
-            <table id="datatable_hisotrialPedidos" class="table table-striped">
+            <table id="datatable_historialPedidos" class="table table-striped">
                 <!-- <caption>
                     DataTable.js Demo
                 </caption> -->
@@ -63,7 +63,7 @@
                         <th class="centered">Acciones</th>
                     </tr>
                 </thead>
-                <tbody id="tableBody_hisotrialPedidos"></tbody>
+                <tbody id="tableBody_historialPedidos"></tbody>
             </table>
         </div>
     </div>
