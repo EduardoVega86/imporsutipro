@@ -242,5 +242,37 @@ const vaciarTmpPedidos = async () => {
     }
 };
 
+//cargar select categoria
+$(document).ready(function () {
+    // Realiza la solicitud AJAX para obtener la lista de categorias
+    $.ajax({
+      url: SERVERURL + "productos/cargar_categorias",
+      type: "GET",
+      dataType: "json",
+      success: function (response) {
+        // Asegúrate de que la respuesta es un array
+        if (Array.isArray(response)) {
+          response.forEach(function (categoria) {
+            // Agrega una nueva opción al select por cada categoria
+            $("#categoria").append(
+              new Option(categoria.nombre_linea, categoria.id_linea)
+            );
+            $("#editar_categoria").append(
+              new Option(categoria.nombre_linea, categoria.id_linea)
+            );
+            $("#categoria_filtro").append(
+              new Option(categoria.nombre_linea, categoria.id_linea)
+            );
+          });
+        } else {
+          console.log("La respuesta de la API no es un array:", response);
+        }
+      },
+      error: function (error) {
+        console.error("Error al obtener la lista de categorias:", error);
+      },
+    });
+  });
+
 // Ejecutar la función cuando la página se haya cargado
 window.addEventListener('load', vaciarTmpPedidos);
