@@ -120,89 +120,98 @@
         <script>
             // Inicializar el mapa
             function initMap() {
-    var map = new google.maps.Map(document.getElementById('mapa'), {
-        center: { lat: 0, lng: -78 },
-        zoom: 7
-    });
+                var map = new google.maps.Map(document.getElementById('mapa'), {
+                    center: {
+                        lat: 0,
+                        lng: -78
+                    },
+                    zoom: 7
+                });
 
-    var geocoder = new google.maps.Geocoder();
-    var infowindow = new google.maps.InfoWindow();
+                var geocoder = new google.maps.Geocoder();
+                var infowindow = new google.maps.InfoWindow();
 
-    // Autocompletado de direcciones
-    var input = document.getElementById('direccion');
-    var autocomplete = new google.maps.places.Autocomplete(input);
-    autocomplete.bindTo('bounds', map);
+                // Autocompletado de direcciones
+                var input = document.getElementById('direccion');
+                var autocomplete = new google.maps.places.Autocomplete(input);
+                autocomplete.bindTo('bounds', map);
 
-    // Crear un marcador inicial
-    var marker = new google.maps.Marker({
-        position: { lat: 0, lng: -78 },
-        map: map,
-        draggable: true // Hacer el marcador arrastrable
-    });
+                // Crear un marcador inicial
+                var marker = new google.maps.Marker({
+                    position: {
+                        lat: 0,
+                        lng: -78
+                    },
+                    map: map,
+                    draggable: true // Hacer el marcador arrastrable
+                });
 
-    // Al seleccionar una dirección, centrar el mapa en esa ubicación y colocar el marcador
-    autocomplete.addListener('place_changed', function() {
-        var place = autocomplete.getPlace();
+                // Al seleccionar una dirección, centrar el mapa en esa ubicación y colocar el marcador
+                autocomplete.addListener('place_changed', function() {
+                    var place = autocomplete.getPlace();
 
-        if (!place.geometry) {
-            window.alert("No se encontraron detalles de la dirección: '" + place.name + "'");
-            return;
-        }
+                    if (!place.geometry) {
+                        window.alert("No se encontraron detalles de la dirección: '" + place.name + "'");
+                        return;
+                    }
 
-        // Centrar el mapa en la ubicación seleccionada
-        map.setCenter(place.geometry.location);
-        map.setZoom(15);
+                    // Centrar el mapa en la ubicación seleccionada
+                    map.setCenter(place.geometry.location);
+                    map.setZoom(15);
 
-        // Posicionar el marcador en la ubicación seleccionada
-        marker.setPosition(place.geometry.location);
+                    // Posicionar el marcador en la ubicación seleccionada
+                    marker.setPosition(place.geometry.location);
 
-        // Actualizar campos del formulario con la información de la dirección seleccionada
-        infowindow.setContent('Dirección: ' + place.formatted_address);
-        infowindow.open(map, marker);
-        document.getElementById('latitud').value = place.geometry.location.lat();
-        document.getElementById('longitud').value = place.geometry.location.lng();
-        document.getElementById('direccion_completa').value = place.formatted_address;
-
-        // Obtener la dirección mediante geocodificación inversa
-        geocoder.geocode({ 'location': place.geometry.location }, function(results, status) {
-            if (status === 'OK') {
-                if (results[0]) {
-                    infowindow.setContent('Dirección: ' + results[0].formatted_address);
+                    // Actualizar campos del formulario con la información de la dirección seleccionada
+                    infowindow.setContent('Dirección: ' + place.formatted_address);
                     infowindow.open(map, marker);
-                } else {
-                    window.alert('No se encontraron resultados');
-                }
-            } else {
-                window.alert('Geocoder falló debido a: ' + status);
+                    document.getElementById('latitud').value = place.geometry.location.lat();
+                    document.getElementById('longitud').value = place.geometry.location.lng();
+                    document.getElementById('direccion_completa').value = place.formatted_address;
+
+                    // Obtener la dirección mediante geocodificación inversa
+                    geocoder.geocode({
+                        'location': place.geometry.location
+                    }, function(results, status) {
+                        if (status === 'OK') {
+                            if (results[0]) {
+                                infowindow.setContent('Dirección: ' + results[0].formatted_address);
+                                infowindow.open(map, marker);
+                            } else {
+                                window.alert('No se encontraron resultados');
+                            }
+                        } else {
+                            window.alert('Geocoder falló debido a: ' + status);
+                        }
+                    });
+                });
+
+                // Al mover el marcador, obtener la nueva dirección
+                marker.addListener('dragend', function() {
+                    var latlng = marker.getPosition();
+                    geocoder.geocode({
+                        'location': latlng
+                    }, function(results, status) {
+                        if (status === 'OK') {
+                            if (results[0]) {
+                                infowindow.setContent('Dirección: ' + results[0].formatted_address);
+                                infowindow.open(map, marker);
+                                var latitud = results[0].geometry.location.lat();
+                                var longitud = results[0].geometry.location.lng();
+                                document.getElementById('latitud').value = latitud;
+                                document.getElementById('longitud').value = longitud;
+                                document.getElementById('direccion_completa').value = results[0].formatted_address;
+                            } else {
+                                window.alert('No se encontraron resultados');
+                            }
+                        } else {
+                            window.alert('Geocoder falló debido a: ' + status);
+                        }
+                    });
+                });
             }
-        });
-    });
 
-    // Al mover el marcador, obtener la nueva dirección
-    marker.addListener('dragend', function() {
-        var latlng = marker.getPosition();
-        geocoder.geocode({ 'location': latlng }, function(results, status) {
-            if (status === 'OK') {
-                if (results[0]) {
-                    infowindow.setContent('Dirección: ' + results[0].formatted_address);
-                    infowindow.open(map, marker);
-                    var latitud = results[0].geometry.location.lat();
-                    var longitud = results[0].geometry.location.lng();
-                    document.getElementById('latitud').value = latitud;
-                    document.getElementById('longitud').value = longitud;
-                    document.getElementById('direccion_completa').value = results[0].formatted_address;
-                } else {
-                    window.alert('No se encontraron resultados');
-                }
-            } else {
-                window.alert('Geocoder falló debido a: ' + status);
-            }
-        });
-    });
-}
-
-// Asegúrate de reemplazar 'YOUR_API_KEY' con tu clave API correcta.
-
+            // Asegúrate de reemplazar 'YOUR_API_KEY' con tu clave API correcta.
         </script>
 
 
@@ -322,6 +331,17 @@
 
 
     $(document).ready(function() {
+        // Inicializar Select2 en los selectores
+        $('#provincia').select2({
+            placeholder: 'Provincia *',
+            allowClear: true
+        });
+
+        $('#ciudad_entrega').select2({
+            placeholder: 'Ciudad *',
+            allowClear: true
+        });
+
         cargarProvincias(); // Llamar a cargarProvincias cuando la página esté lista
     });
 
@@ -348,32 +368,32 @@
 
     // Función para cargar ciudades según la provincia seleccionada
     function cargarCiudades() {
-    let provinciaId = $('#provincia').val();
-    if (provinciaId) {
-        $.ajax({
-            url: SERVERURL + 'Ubicaciones/obtenerCiudades/' + provinciaId, // Reemplaza con la ruta correcta a tu controlador
-            method: 'GET',
-            success: function(response) {
-                let ciudades = JSON.parse(response);
-                console.log('Ciudades recibidas:', ciudades); // Verificar los datos en la consola del navegador
-                let ciudadSelect = $('#ciudad_entrega');
-                ciudadSelect.empty();
-                ciudadSelect.append('<option value="">Ciudad *</option>'); // Añadir opción por defecto
+        let provinciaId = $('#provincia').val();
+        if (provinciaId) {
+            $.ajax({
+                url: SERVERURL + 'Ubicaciones/obtenerCiudades/' + provinciaId, // Reemplaza con la ruta correcta a tu controlador
+                method: 'GET',
+                success: function(response) {
+                    let ciudades = JSON.parse(response);
+                    console.log('Ciudades recibidas:', ciudades); // Verificar los datos en la consola del navegador
+                    let ciudadSelect = $('#ciudad_entrega');
+                    ciudadSelect.empty();
+                    ciudadSelect.append('<option value="">Ciudad *</option>'); // Añadir opción por defecto
 
-                ciudades.forEach(function(ciudad) {
-                    ciudadSelect.append(`<option value="${ciudad.id_cotizacion}">${ciudad.ciudad}</option>`);
-                });
+                    ciudades.forEach(function(ciudad) {
+                        ciudadSelect.append(`<option value="${ciudad.id_cotizacion}">${ciudad.ciudad}</option>`);
+                    });
 
-                ciudadSelect.prop('disabled', false); // Habilitar el select de ciudades
-            },
-            error: function(error) {
-                console.log('Error al cargar ciudades:', error);
-            }
-        });
-    } else {
-        $('#ciudad_entrega').empty().append('<option value="">Ciudad *</option>').prop('disabled', true);
+                    ciudadSelect.prop('disabled', false); // Habilitar el select de ciudades
+                },
+                error: function(error) {
+                    console.log('Error al cargar ciudades:', error);
+                }
+            });
+        } else {
+            $('#ciudad_entrega').empty().append('<option value="">Ciudad *</option>').prop('disabled', true);
+        }
     }
-}
 
     document.getElementById("formularioDatos").addEventListener("submit", function(event) {
         event.preventDefault();
