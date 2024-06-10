@@ -38,7 +38,7 @@
     }
 </style>
 <div class="custom-container-fluid">
-    <div class="container mt-5" style="max-width: 1900px;">
+    <div class="container mt-5" style="max-width: 1600px;">
         <h2 class="text-center mb-4">Productos</h2>
         <div class="filtros_producos justify-content-between align-items-center mb-3">
             <div class="d-flex">
