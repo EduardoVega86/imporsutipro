@@ -50,6 +50,7 @@ const listCategorias = async () => {
 
     let content = ``;
     let online='';
+    let cargar_imagen='';
     categorias.forEach((categoria, index) => {
       if(categoria.online == 0){
         online= '<span style="background-color: #F20E0E; color: white; padding: 5px; border-radius: 0.3rem;">No</span>';
@@ -68,10 +69,17 @@ const listCategorias = async () => {
       }else{
         estado_linea= '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">Activo</span>';
       }
+
+      if (empty(categoria.imagen)){
+        cargar_imagen = '<i class="fas fa-camera icon-button" onclick="agregar_imagenCategoria(${categoria.id_linea})"></i>';
+      }else {
+        cargar_imagen = `<img src="ruta/a/tu/imagen.png" class="icon-button" onclick="agregar_imagenCategoria(${categoria.id_linea})" alt="Agregar imagen">`;
+      }
+
       content += `
                 <tr>
                     <td>${categoria.nombre_linea}</td>
-                    <td><i class="fas fa-camera icon-button" onclick="agregar_imagenCategoria(${categoria.id_linea})"></i></td>
+                    <td>${cargar_imagen}</td>
                     <td>${online}</td>
                     <td>${categoria.descripcion_linea}</td>
                     <td>${tipo}</td>
