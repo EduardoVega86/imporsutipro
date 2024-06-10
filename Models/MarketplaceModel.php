@@ -18,7 +18,7 @@ class MarketplaceModel extends Query
     {
         $response = $this->initialResponse();
         $sql_update = "update productos set drogshipin=? where id_producto=?";
-        $data_update = [$codigo_producto, $plataforma];
+        $data_update = [1, $codigo_producto];
         $actualizar_stock = $this->simple_select($sql_update, $data_update);
         if ($actualizar_stock == 1) {
             $response['status'] = 200;
