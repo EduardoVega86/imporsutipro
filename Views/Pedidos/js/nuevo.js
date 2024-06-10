@@ -186,9 +186,6 @@ function validar_direccion() {
         }
       );
 
-    guardarPedidoBtn.onmouseenter = showTooltip;
-    generarGuiaBtn.onmouseenter = showTooltip;
-
     return false; // Retorna falso para indicar que la validación falló
   }
   return true; // Retorna verdadero si la validación pasa
