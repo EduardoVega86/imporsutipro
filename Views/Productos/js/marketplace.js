@@ -1,116 +1,127 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const productsPerPage = 10;
-  let currentPage = 1;
-  let products = [];
-
-  const cardContainer = document.getElementById("card-container");
-  const pagination = document.getElementById("pagination");
-
-  async function fetchProducts() {
-    try {
-      const response = await fetch(
-        "" + SERVERURL + "marketplace/obtener_productos"
-      );
-      products = await response.json();
-      displayProducts(products, currentPage, productsPerPage);
-      createPagination(products.length, productsPerPage);
-    } catch (error) {
-      console.error("Error al obtener los productos:", error);
-    }
-  }
-
-  function displayProducts(products, page = 1, perPage = productsPerPage) {
-    cardContainer.innerHTML = "";
-    const start = (page - 1) * perPage;
-    const end = start + perPage;
-    const paginatedProducts = products.slice(start, end);
-
-    paginatedProducts.forEach((product) => {
-      const card = document.createElement("div");
-      card.className = "card card-custom";
-      card.innerHTML = `
-            <img src="${product.img}" class="card-img-top" alt="Product Image">
-            <div class="card-body text-center d-flex flex-column justify-content-between">
-                <div>
-                    <h5 class="card-title">${product.nombre_producto}</h5>
-                    <p class="card-text">Stock: <strong style="color:green">9</strong></p>
-                    <p class="card-text">Precio Proveedor: <strong>$20</strong></p>
-                    <p class="card-text">Precio Sugerido: <strong>$25</strong></p>
-                    <p class="card-text">Proveedor: <a href="#">tony</a></p>
-                </div>
-                <div>
-                    <button class="btn btn-description" onclick="agregarModal_marketplace(${product.id_producto})">Descripción</button>
-                    <button class="btn btn-import" onclick="enviar_cliente(${product.id_producto})">Enviar a cliente</button>
-                </div>
-            </div>
-        `;
-      cardContainer.appendChild(card);
-    });
-  }
-
-  function createPagination(totalProducts, perPage = productsPerPage) {
-    pagination.innerHTML = "";
-    const totalPages = Math.ceil(totalProducts / perPage);
-
-    const previousPageItem = document.createElement("li");
-    previousPageItem.className = "page-item";
-    previousPageItem.innerHTML = `
-        <button class="page-link" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-        </button>
-    `;
-    previousPageItem.addEventListener("click", function () {
-      if (currentPage > 1) {
-        currentPage--;
-        displayProducts(products, currentPage, productsPerPage);
-        createPagination(totalProducts, perPage);
+    const productsPerPage = 10;
+    let currentPage = 1;
+    let products = [];
+    let filteredProducts = [];
+  
+    const cardContainer = document.getElementById("card-container");
+    const pagination = document.getElementById("pagination");
+    const categoriaFiltro = document.getElementById("categoria_filtroMarketplace");
+  
+    async function fetchProducts() {
+      try {
+        const response = await fetch("" + SERVERURL + "marketplace/obtener_productos");
+        products = await response.json();
+        filteredProducts = products; // Initially, no filter is applied
+        displayProducts(filteredProducts, currentPage, productsPerPage);
+        createPagination(filteredProducts.length, productsPerPage);
+      } catch (error) {
+        console.error("Error al obtener los productos:", error);
       }
-    });
-    pagination.appendChild(previousPageItem);
-
-    for (let i = 1; i <= totalPages; i++) {
-      const pageItem = document.createElement("li");
-      pageItem.className = `page-item ${i === currentPage ? "active" : ""}`;
-      pageItem.innerHTML = `
-            <button class="page-link">${i}</button>
+    }
+  
+    function displayProducts(products, page = 1, perPage = productsPerPage) {
+      cardContainer.innerHTML = "";
+      const start = (page - 1) * perPage;
+      const end = start + perPage;
+      const paginatedProducts = products.slice(start, end);
+  
+      paginatedProducts.forEach((product) => {
+        const card = document.createElement("div");
+        card.className = "card card-custom";
+        card.innerHTML = `
+          <img src="${product.img}" class="card-img-top" alt="Product Image">
+          <div class="card-body text-center d-flex flex-column justify-content-between">
+              <div>
+                  <h5 class="card-title">${product.nombre_producto}</h5>
+                  <p class="card-text">Stock: <strong style="color:green">9</strong></p>
+                  <p class="card-text">Precio Proveedor: <strong>$20</strong></p>
+                  <p class="card-text">Precio Sugerido: <strong>$25</strong></p>
+                  <p class="card-text">Proveedor: <a href="#">tony</a></p>
+              </div>
+              <div>
+                  <button class="btn btn-description" onclick="agregarModal_marketplace(${product.id_producto})">Descripción</button>
+                  <button class="btn btn-import" onclick="enviar_cliente(${product.id_producto})">Enviar a cliente</button>
+              </div>
+          </div>
         `;
-      pageItem.addEventListener("click", function () {
-        currentPage = i;
-        displayProducts(products, currentPage, productsPerPage);
-        createPagination(totalProducts, perPage);
+        cardContainer.appendChild(card);
       });
-      pagination.appendChild(pageItem);
     }
-
-    const nextPageItem = document.createElement("li");
-    nextPageItem.className = "page-item";
-    nextPageItem.innerHTML = `
-        <button class="page-link" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-        </button>
-    `;
-    nextPageItem.addEventListener("click", function () {
-      if (currentPage < totalPages) {
-        currentPage++;
-        displayProducts(products, currentPage, productsPerPage);
-        createPagination(totalProducts, perPage);
+  
+    function createPagination(totalProducts, perPage = productsPerPage) {
+      pagination.innerHTML = "";
+      const totalPages = Math.ceil(totalProducts / perPage);
+  
+      const previousPageItem = document.createElement("li");
+      previousPageItem.className = "page-item";
+      previousPageItem.innerHTML = `
+          <button class="page-link" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+          </button>
+      `;
+      previousPageItem.addEventListener("click", function () {
+        if (currentPage > 1) {
+          currentPage--;
+          displayProducts(filteredProducts, currentPage, productsPerPage);
+          createPagination(totalProducts, perPage);
+        }
+      });
+      pagination.appendChild(previousPageItem);
+  
+      for (let i = 1; i <= totalPages; i++) {
+        const pageItem = document.createElement("li");
+        pageItem.className = `page-item ${i === currentPage ? "active" : ""}`;
+        pageItem.innerHTML = `
+              <button class="page-link">${i}</button>
+          `;
+        pageItem.addEventListener("click", function () {
+          currentPage = i;
+          displayProducts(filteredProducts, currentPage, productsPerPage);
+          createPagination(totalProducts, perPage);
+        });
+        pagination.appendChild(pageItem);
       }
+  
+      const nextPageItem = document.createElement("li");
+      nextPageItem.className = "page-item";
+      nextPageItem.innerHTML = `
+          <button class="page-link" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+          </button>
+      `;
+      nextPageItem.addEventListener("click", function () {
+        if (currentPage < totalPages) {
+          currentPage++;
+          displayProducts(filteredProducts, currentPage, productsPerPage);
+          createPagination(totalProducts, perPage);
+        }
+      });
+      pagination.appendChild(nextPageItem);
+  
+      updatePaginationButtons(totalPages);
+    }
+  
+    function updatePaginationButtons(totalPages) {
+      const previousPageItem = pagination.querySelector(".page-item:first-child");
+      const nextPageItem = pagination.querySelector(".page-item:last-child");
+  
+      previousPageItem.classList.toggle("disabled", currentPage === 1);
+      nextPageItem.classList.toggle("disabled", currentPage === totalPages);
+    }
+  
+    categoriaFiltro.addEventListener("change", function () {
+      const selectedCategory = categoriaFiltro.value;
+      filteredProducts = selectedCategory 
+        ? products.filter(product => product.id_linea_producto === selectedCategory) 
+        : products;
+      currentPage = 1;
+      displayProducts(filteredProducts, currentPage, productsPerPage);
+      createPagination(filteredProducts.length, productsPerPage);
     });
-    pagination.appendChild(nextPageItem);
-
-    updatePaginationButtons(totalPages);
-  }
-
-  function updatePaginationButtons(totalPages) {
-    const previousPageItem = pagination.querySelector(".page-item:first-child");
-    const nextPageItem = pagination.querySelector(".page-item:last-child");
-
-    previousPageItem.classList.toggle("disabled", currentPage === 1);
-    nextPageItem.classList.toggle("disabled", currentPage === totalPages);
-  }
-
-  fetchProducts();
-});
+  
+    fetchProducts();
+  });
 
 //agregar informacion al modal descripcion marketplace
 function agregarModal_marketplace(id) {
