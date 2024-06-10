@@ -21,46 +21,39 @@
         flex-direction: row;
     }
 
-    .col-md-3, .col-md-9 {
-        padding: 0 15px;
-    }
-
+    /* responsive */
     @media (max-width: 768px) {
         .cuerpo_mapa {
-            margin: 10px;
-            width: 100%;
+            margin-left: 35px;
+            width: 90%;
         }
 
         .contenido {
-            flex-direction: column;
-        }
-
-        .col-md-3, .col-md-9 {
-            width: 100%;
-            padding: 0;
-        }
-
-        #mapa {
-            height: 400px;
+            flex-direction: column-reverse;
         }
     }
 </style>
-
 <div class="content cuerpo_mapa">
     <div class="container" style="margin: 10px;">
+
         <div class="contenido">
             <div class="col-md-3">
                 <h3 class="portlet-title">
                     Agregar Dirección
                     <button class="btn btn-danger" onclick="colocarMarcadorUbicacionActual()">Usar ubicación actual</button>
+
                 </h3>
                 <form id="formularioDatos" method="post">
+
                     <div class="form-group row">
                         <div class="col-md-12">
+
                             <input id="nombre" name="nombre" class="form-control " type="text" placeholder="Nombre de la Bodega" required>
                             <br>
                             <input id="direccion" name="direccion" class="form-control " type="text" placeholder="Ingresa una dirección">
                             <br>
+
+
                             <div>
                                 <span class="help-block">Provincia </span>
                                 <select class="datos form-control" id="provincia" name="provincia" onchange="cargarCiudades()" required>
@@ -78,6 +71,7 @@
                             </div>
                             <br>
                             <input readonly id="direccion_completa" name="direccion_completa" class="form-control" type="text" placeholder="Ingresa una dirección">
+
                             <br>
                             <input id="nombre_contacto" name="nombre_contacto" class="form-control " type="text" placeholder="Ingrese Contacto">
                             <br>
@@ -87,6 +81,7 @@
                             <br>
                             <input id="referencia" name="referencia" class="form-control " type="text" placeholder="Ingrese referencia">
                             <div class="input-group">
+
                                 <?php
                                 //echo '<h2>'. get_row('edificio', 'nombre', 'id_edificio', $id_edificio).'</h2>';
                                 ?>
@@ -96,6 +91,7 @@
                     <div class="form-group row">
                         <div class="col-md-12">
                             <div class="input-group">
+
                                 <input readonly id="latitud" name="latitud" class="form-control" type="text" placeholder="Latitud">
                                 <input readonly id="longitud" name="longitud" class="form-control" type="text" placeholder="Longitud">
                             </div>
@@ -104,8 +100,13 @@
                     <div class="form-group row">
                         <div class="col-md-12">
                             <div class="input-group">
+
+
                             </div>
                         </div>
+
+
+
                     </div>
                     <input class="btn btn-primary" type="submit" value="Guardar">
                 </form>
@@ -115,7 +116,108 @@
                 <div id="infoDireccion"></div>
             </div>
         </div>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGulcdBtz_Mydtmu432GtzJz82J_yb-rs&libraries=places&callback=initMap"></script>
+        <script>
+            // Inicializar el mapa
+            function initMap() {
+                var map = new google.maps.Map(document.getElementById('mapa'), {
+                    center: {
+                        lat: 0,
+                        lng: -78
+                    },
+                    zoom: 7
+                });
+
+                var geocoder = new google.maps.Geocoder();
+                var infowindow = new google.maps.InfoWindow();
+
+                // Autocompletado de direcciones
+                var input = document.getElementById('direccion');
+                var autocomplete = new google.maps.places.Autocomplete(input);
+                autocomplete.bindTo('bounds', map);
+
+                // Crear un marcador inicial
+                var marker = new google.maps.Marker({
+                    position: {
+                        lat: 0,
+                        lng: -78
+                    },
+                    map: map,
+                    draggable: true // Hacer el marcador arrastrable
+                });
+
+                // Al seleccionar una dirección, centrar el mapa en esa ubicación y colocar el marcador
+                autocomplete.addListener('place_changed', function() {
+                    var place = autocomplete.getPlace();
+
+                    if (!place.geometry) {
+                        window.alert("No se encontraron detalles de la dirección: '" + place.name + "'");
+                        return;
+                    }
+
+                    // Centrar el mapa en la ubicación seleccionada
+                    map.setCenter(place.geometry.location);
+                    map.setZoom(15);
+
+                    // Posicionar el marcador en la ubicación seleccionada
+                    marker.setPosition(place.geometry.location);
+
+                    // Actualizar campos del formulario con la información de la dirección seleccionada
+                    infowindow.setContent('Dirección: ' + place.formatted_address);
+                    infowindow.open(map, marker);
+                    document.getElementById('latitud').value = place.geometry.location.lat();
+                    document.getElementById('longitud').value = place.geometry.location.lng();
+                    document.getElementById('direccion_completa').value = place.formatted_address;
+
+                    // Obtener la dirección mediante geocodificación inversa
+                    geocoder.geocode({
+                        'location': place.geometry.location
+                    }, function(results, status) {
+                        if (status === 'OK') {
+                            if (results[0]) {
+                                infowindow.setContent('Dirección: ' + results[0].formatted_address);
+                                infowindow.open(map, marker);
+                            } else {
+                                window.alert('No se encontraron resultados');
+                            }
+                        } else {
+                            window.alert('Geocoder falló debido a: ' + status);
+                        }
+                    });
+                });
+
+                // Al mover el marcador, obtener la nueva dirección
+                marker.addListener('dragend', function() {
+                    var latlng = marker.getPosition();
+                    geocoder.geocode({
+                        'location': latlng
+                    }, function(results, status) {
+                        if (status === 'OK') {
+                            if (results[0]) {
+                                infowindow.setContent('Dirección: ' + results[0].formatted_address);
+                                infowindow.open(map, marker);
+                                var latitud = results[0].geometry.location.lat();
+                                var longitud = results[0].geometry.location.lng();
+                                document.getElementById('latitud').value = latitud;
+                                document.getElementById('longitud').value = longitud;
+                                document.getElementById('direccion_completa').value = results[0].formatted_address;
+                            } else {
+                                window.alert('No se encontraron resultados');
+                            }
+                        } else {
+                            window.alert('Geocoder falló debido a: ' + status);
+                        }
+                    });
+                });
+            }
+
+            // Asegúrate de reemplazar 'YOUR_API_KEY' con tu clave API correcta.
+        </script>
+
+
+
     </div>
+    <!-- end container -->
 </div>
 <!-- end content -->
 
