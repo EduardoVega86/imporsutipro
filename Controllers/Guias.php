@@ -20,12 +20,12 @@ class Guias extends Controller
         $ciudadOrigen = $_POST['ciudadO'];
         $ciudadOrigen = $this->model->obtenerCiudadLaar($ciudadOrigen);
         $direccionOrigen = $_POST['direccionO'];
-        $telefonoOrigen = $_POST['telefonoO'];
+        $telefonoOrigen = $_POST['celularO'];
         $referenciaOrigen = $_POST['referenciaO'];
         $celularOrigen = $telefonoOrigen;
         /// destinatario
         $nombreDestino = $_POST['nombre'];
-        $ciudadDestino = $_POST['ciudad_cot'];
+        $ciudadDestino = $_POST['ciudad'];
         $ciudadDestino = $this->model->obtenerCiudadLaar($ciudadDestino);
         $direccionDestino = $_POST['c_principal'] + " y " + $_POST['c_secundaria'] + " " + $_POST['referencia'];
         $telefonoDestino = $_POST['telefono'];
