@@ -243,6 +243,7 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                         <img src="<?php echo SERVERURL; ?>/public/img/GINTRACOM.jpg" alt="Gintracom">
                         <div class="price-tag">$<span id="price_gintracom">--</span></div>
                     </div>
+                    <input type="hidden" id="valor_costo" name="valor_costo">
                 </div>
                 <form>
                     <div class="mb-3">

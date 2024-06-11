@@ -256,6 +256,19 @@ $(document).ready(function () {
   // Llamar a cargarCiudades cuando se seleccione una provincia
   $("#provincia").on("change", cargarCiudades);
 
+
+  $(".price-tag").click(function() {
+    var priceId = $(this).data("price-id");
+    var priceValue = $("#" + priceId).text().trim();
+
+    if (priceValue !== "--" && priceValue !== "") {
+        $("#valor_costo").val(priceValue);
+        console.log("Selected price: " + priceValue);
+    } else {
+        console.log("No price available for this option");
+    }
+});
+
   $("#provincia,#ciudad").change(function () {
     var provincia = $("#provincia").val();
     var ciudad = $("#ciudad").val();
