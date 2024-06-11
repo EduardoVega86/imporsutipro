@@ -210,7 +210,7 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                         <img src="<?php echo SERVERURL;?>/public/img/LAAR.jpg" alt="Laborcourier">
                     </div>
                     <div class="img-container text-center transportadora">
-                        <img src="<?php echo SERVERURL;?>/public/img/SPEED.png" alt="Speed">
+                        <img src="<?php echo SERVERURL;?>/public/img/SPEED.jpg" alt="Speed">
                     </div>
                     <div class="img-container text-center transportadora">
                         <img src="<?php echo SERVERURL;?>/public/img/GINTRACOM.jpg" alt="Gintracom">
