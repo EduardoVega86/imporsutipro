@@ -11,7 +11,7 @@ class CalculadoraModel extends Query
 
         $precio_laar = $this->select("SELECT * from cobertura_laar WHERE tipo_cobertura = '$trayecto_laar' ");
         $precio_servientrega = $this->select("SELECT * from cobertura_servientrega WHERE tipo_cobertura = '$trayecto_servientrega' ");
-        $precio_gintracom = $this->select("SELECT * from cobertura_gintracom WHERE tipo_cobertura = '$trayecto_gintracom' ");
+        $precio_gintracom = $this->select("SELECT * from cobertura_gintracom WHERE trayecto = '$trayecto_gintracom' ");
 
         $tarifas['laar'] = $precio_laar[0]['precio'];
         $tarifas['servientrega'] = $precio_servientrega[0]['precio'];
