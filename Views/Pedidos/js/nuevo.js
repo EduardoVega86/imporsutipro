@@ -231,6 +231,7 @@ function eliminar_nuevoPedido(id) {
     },
   });
 }
+
 window.addEventListener("load", async () => {
   await initDataTableNuevoPedido();
 });
