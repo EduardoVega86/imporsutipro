@@ -229,7 +229,7 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                         <label class="form-check-label" for="asegurar_mercaderia">
                             Deseo asegurar la mercadería
                         </label> -->
-                        <label class="form-check-label" for="extras">Extras</label>
+                        <label class="form-check-label" for="extras">extra</label>
                         <select class="form-control">
                             <option>Selecciona un Extras</option>
                             <option value="1">Autogestion</option>
