@@ -262,7 +262,7 @@ $(document).ready(function () {
     var selectedCompany = $(this).data("company");
 
     if (priceValue !== "--" && priceValue !== "") {
-      $("#valor_costo").val(priceValue);
+      $("#costo_flete").val(priceValue);
       $("#transportadora_selected").val(selectedCompany);
       
 
