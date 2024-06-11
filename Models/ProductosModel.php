@@ -109,7 +109,7 @@ class ProductosModel extends Query
         return $this->select($sql);
     }
 
-    public function guardar_imagen_productos()
+    public function guardar_imagen_productos($imagen, $id_producto, $plataforma)
     {
         $response = $this->initialResponse();
         $target_dir = "public/img/productos/";
