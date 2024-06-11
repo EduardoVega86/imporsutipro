@@ -30,17 +30,16 @@ const dataTableNuevoPedidoOptions = {
 
 const initDataTableNuevoPedido = async () => {
   if (dataTableNuevoPedidoIsInitialized) {
-    dataTableNuevoPedido.destroy();
+    dataTableNuevoPedido.destroy();  // Destruir la DataTable existente
   }
 
-  await listNuevoPedido();
+  await listNuevoPedido();  // Esperar a que los datos sean listados
 
-  dataTableNuevoPedido = $("#datatable_nuevoPedido").DataTable(
-    dataTableNuevoPedidoOptions
-  );
+  dataTableNuevoPedido = $("#datatable_nuevoPedido").DataTable(dataTableNuevoPedidoOptions);  // Inicializar la DataTable
 
-  dataTableNuevoPedidoIsInitialized = true;
+  dataTableNuevoPedidoIsInitialized = true;  // Marcar que la DataTable ha sido inicializada
 };
+
 
 var celular_bodega = "";
 var nombre_bodega = "";
@@ -57,79 +56,57 @@ var costo_producto = 0;
 
 const listNuevoPedido = async () => {
   try {
-    const response = await fetch("" + SERVERURL + "pedidos/buscarTmp");
-
+    const response = await fetch(SERVERURL + "pedidos/buscarTmp");
     const data = await response.json();
     console.log(data);
 
-    if (data.tmp[0].id_producto == 0 && eliminado == false) {
-      // If the response is empty, return
+    if (data.tmp.length === 0) {
+      // Si no hay datos, resetear la tabla
+      document.getElementById("monto_total").innerHTML = "0.00";
+      document.getElementById("tableBody_nuevoPedido").innerHTML = '<tr><td colspan="7">No data available in table</td></tr>';
       return;
     }
-    const nuevosPedidos = data.tmp; // Extract the 'tmp' array from the response
+
+    const nuevosPedidos = data.tmp;
     const nuevosPedidos_bodega = data.bodega;
     console.log(nuevosPedidos_bodega);
+
     let content = ``;
     let total = 0;
-    let precio_costo = 0;
+
     nuevosPedidos.forEach((nuevoPedido, index) => {
-      celular_bodega = nuevosPedidos_bodega[0].contacto;
-      nombre_bodega = nuevosPedidos_bodega[0].nombre;
-      ciudad_bodega = nuevosPedidos_bodega[0].localidad;
-      provincia_bodega = nuevosPedidos_bodega[0].provincia;
-      direccion_bodega = nuevosPedidos_bodega[0].direccion;
-      referencia_bodega = nuevosPedidos_bodega[0].referencia;
-      numeroCasa_bodega = nuevosPedidos_bodega[0].num_casa;
-      id_propietario_bodega = nuevosPedidos_bodega[0].id;
-      id_producto_venta = nuevoPedido.id_producto;
-      dropshipping = nuevoPedido.drogshipin;
-      costo_producto = nuevoPedido.costo_producto;
-
-      contiene += `${nuevoPedido.nombre_producto} X${nuevoPedido.cantidad_tmp} `;
-
-      precio_costo = parseFloat(nuevoPedido.precio_tmp);
-
-      // Verificar condición
-      if (!validar_direccion()) {
-        return; // Salir de la función si la validación falla
-      }
-
       const precio = parseFloat(nuevoPedido.precio_tmp);
       const descuento = parseFloat(nuevoPedido.desc_tmp);
       const precioFinal = precio - precio * (descuento / 100);
       total += precioFinal;
+
       content += `
-                <tr>
-                    <td>${nuevoPedido.id_tmp}</td>
-                    <td>${nuevoPedido.cantidad_tmp}</td>
-                    <td>${nuevoPedido.nombre_producto}</td>
-                    <td><input type="text" onblur='recalcular("${
-                      nuevoPedido.id_tmp
-                    }", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}")' id="precio_nuevoPedido_${index}" class="form-control prec" value="${precio}"></td>
-                    <td><input type="text" onblur='recalcular("${
-                      nuevoPedido.id_tmp
-                    }", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}")' id="descuento_nuevoPedido_${index}" class="form-control desc" value="${descuento}"></td>
-                    <td><span class='tota' id="precioFinal_nuevoPedido_${index}">${precioFinal.toFixed(
-        2
-      )}</span></td>
-                    <td>
-                        <button class="btn btn-sm btn-danger" onclick="eliminar_nuevoPedido(${
-                          nuevoPedido.id_tmp
-                        })"><i class="fa-solid fa-trash-can"></i></button>
-                    </td>
-                </tr>`;
+        <tr>
+            <td>${nuevoPedido.id_tmp}</td>
+            <td>${nuevoPedido.cantidad_tmp}</td>
+            <td>${nuevoPedido.nombre_producto}</td>
+            <td><input type="text" onblur='recalcular("${nuevoPedido.id_tmp}", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}")' id="precio_nuevoPedido_${index}" class="form-control prec" value="${precio}"></td>
+            <td><input type="text" onblur='recalcular("${nuevoPedido.id_tmp}", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}")' id="descuento_nuevoPedido_${index}" class="form-control desc" value="${descuento}"></td>
+            <td><span class='tota' id="precioFinal_nuevoPedido_${index}">${precioFinal.toFixed(2)}</span></td>
+            <td>
+                <button class="btn btn-sm btn-danger" onclick="eliminar_nuevoPedido(${nuevoPedido.id_tmp})"><i class="fa-solid fa-trash-can"></i></button>
+            </td>
+        </tr>`;
     });
+
     document.getElementById("monto_total").innerHTML = total.toFixed(2);
     document.getElementById("tableBody_nuevoPedido").innerHTML = content;
+
     if (eliminado == true) {
       eliminado = false;
-      document.getElementById("monto_total").innerHTML = 0;
+      document.getElementById("monto_total").innerHTML = "0.00";
       document.getElementById("tableBody_nuevoPedido").innerHTML = "";
     }
   } catch (ex) {
     alert(ex);
   }
 };
+
 
 function recalcular(id, idPrecio, idDescuento) {
   costo_producto = 0;
@@ -209,17 +186,10 @@ function eliminar_nuevoPedido(id) {
     type: "POST",
     url: SERVERURL + "pedidos/eliminarTmp/" + id,
     success: function (response) {
-      // Mostrar alerta de éxito
       if (response.status == 500) {
-        toastr.error(
-          "EL PRODUCTO NO SE ELIMINADO CORRECTAMENTE",
-          "NOTIFICACIÓN",
-          { positionClass: "toast-bottom-center" }
-        );
+        toastr.error("EL PRODUCTO NO SE ELIMINADO CORRECTAMENTE", "NOTIFICACIÓN", { positionClass: "toast-bottom-center" });
       } else if (response.status == 200) {
-        toastr.success("PRODUCTO ELIMINADO CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
+        toastr.success("PRODUCTO ELIMINADO CORRECTAMENTE", "NOTIFICACIÓN", { positionClass: "toast-bottom-center" });
       }
 
       // Recargar la DataTable
@@ -231,6 +201,8 @@ function eliminar_nuevoPedido(id) {
     },
   });
 }
+
+
 window.addEventListener("load", async () => {
   await initDataTableNuevoPedido();
 });
