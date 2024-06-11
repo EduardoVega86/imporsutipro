@@ -64,7 +64,7 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
         bottom: 10px;
         left: 50%;
         transform: translate(-50%, 0);
-        background-color: rgba(0, 0, 0, 0.4);
+        background-color: rgba(0, 0, 0, 0.5);
         color: white;
         padding: 5px 10px;
         border-radius: 5px;
@@ -73,7 +73,7 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
 
     .transportadora:hover .price-tag {
         transform: translate(-50%, 0) scale(1.2);
-        background-color: rgba(0, 0, 0, 0.6);
+        background-color: rgba(0, 0, 0, 0.9);
     }
 
 
