@@ -41,6 +41,14 @@ class Pedidos extends Controller
 
         $this->views->render($this, "ver", $id);
     }
+
+    public function editar($id)
+    {
+        if (empty($id))
+            header("Location: " . SERVERURL . "Pedidos");
+
+        $this->views->render($this, "editar_pedido", $id);
+    }
     public function novedades()
     {
         $this->views->render($this, "novedades");
@@ -51,6 +59,7 @@ class Pedidos extends Controller
     ///Funciones
     public function nuevo_pedido()
     {
+
         $fecha_factura = date("Y-m-d H:i:s");
         $id_usuario = $_SESSION['id'];
         $monto_factura = $_POST['total_venta'];
@@ -113,6 +122,21 @@ class Pedidos extends Controller
 
         $response = $this->model->nuevo_pedido($fecha_factura, $id_usuario, $monto_factura, $estado_factura, $nombre_cliente, $telefono_cliente, $c_principal, $ciudad_cot, $c_secundaria, $referencia, $observacion, $guia_enviada, $transporte, $identificacion, $celular, $dueño_id, $dropshipping, $id_plataforma, $dueño_id, $importado, $plataforma_importa, $cod, $estado_guia_sistema, $impreso, $facturada, $factura_numero, $numero_guia, $anulada, $identificacionO, $celularO, $nombreO, $ciudadO, $provinciaO, $direccionO, $referenciaO, $numeroCasaO, $valor_segura, $no_piezas, $tipo_servicio, $peso, $contiene, $costo_flete, $costo_producto, $comentario, $id_transporte, $provincia);
         echo json_encode($response);
+    }
+
+    public function editar_pedido()
+    {
+        $id_factura = $_POST['id_factura'];
+        $nombre_cliente = $_POST['nombre'];
+        $telefono_cliente = $_POST['telefono'];
+        $c_principal = $_POST['calle_principal'];
+        $ciudad_cot = $_POST['ciudad'];
+        $c_secundaria = $_POST['calle_secundaria'];
+        $provincia = $_POST['provincia'];
+        $referencia = $_POST['referencia'];
+        $observacion    = $_POST['observacion'];
+        $guia_enviada = 1;
+        $transporte = $_POST['transporte'];
     }
 
     public function obtener_propietario($id_producto)
