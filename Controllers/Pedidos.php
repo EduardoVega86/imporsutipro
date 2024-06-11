@@ -92,7 +92,7 @@ class Pedidos extends Controller
         } else {
             $dropshipping = 1;
         }
-
+        echo $dropshipping;
         $importado = $_POST['importado'] ?? 0;
         $plataforma_importa = $_POST['plataforma_importa'] ?? 0;
         $cod = $_POST['cod'] ?? 0;
