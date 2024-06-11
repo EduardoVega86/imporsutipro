@@ -20,34 +20,46 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
   
-    function displayProducts(products, page = 1, perPage = productsPerPage) {
-      cardContainer.innerHTML = "";
-      const start = (page - 1) * perPage;
-      const end = start + perPage;
-      const paginatedProducts = products.slice(start, end);
-  
-      paginatedProducts.forEach((product) => {
-        const card = document.createElement("div");
-        card.className = "card card-custom";
-        card.innerHTML = `
-          <img src="${product.img}" class="card-img-top" alt="Product Image">
-          <div class="card-body text-center d-flex flex-column justify-content-between">
-              <div>
-                  <h5 class="card-title">${product.nombre_producto}</h5>
-                  <p class="card-text">Stock: <strong style="color:green">9</strong></p>
-                  <p class="card-text">Precio Proveedor: <strong>$20</strong></p>
-                  <p class="card-text">Precio Sugerido: <strong>$25</strong></p>
-                  <p class="card-text">Proveedor: <a href="#">tony</a></p>
-              </div>
-              <div>
-                  <button class="btn btn-description" onclick="agregarModal_marketplace(${product.id_producto})">Descripción</button>
-                  <button class="btn btn-import" onclick="enviar_cliente(${product.id_producto})">Enviar a cliente</button>
-              </div>
-          </div>
-        `;
-        cardContainer.appendChild(card);
-      });
+    const displayProducts = (products, page = 1, perPage = productsPerPage) => {
+  cardContainer.innerHTML = "";
+  const start = (page - 1) * perPage;
+  const end = start + perPage;
+  const paginatedProducts = products.slice(start, end);
+
+  paginatedProducts.forEach(async (product) => {
+    // Realiza la solicitud a la API para obtener los detalles del producto
+    try {
+      const response = await fetch(SERVERURL + "marketplace/obtener_producto/" + product.id_producto);
+      const productDetails = await response.json();
+
+      // Extrae los detalles del producto
+      const { costo_producto, pvp, saldo_stock, url_imporsuit } = productDetails;
+
+      // Crea la tarjeta del producto
+      const card = document.createElement("div");
+      card.className = "card card-custom";
+      card.innerHTML = `
+        <img src="${product.img}" class="card-img-top" alt="Product Image">
+        <div class="card-body text-center d-flex flex-column justify-content-between">
+            <div>
+                <h5 class="card-title">${product.nombre_producto}</h5>
+                <p class="card-text">Stock: <strong style="color:green">${saldo_stock}</strong></p>
+                <p class="card-text">Precio Proveedor: <strong>$${costo_producto}</strong></p>
+                <p class="card-text">Precio Sugerido: <strong>$${pvp}</strong></p>
+                <p class="card-text">Proveedor: <a href="${url_imporsuit}" target="_blank">${url_imporsuit}</a></p>
+            </div>
+            <div>
+                <button class="btn btn-description" onclick="agregarModal_marketplace(${product.id_producto})">Descripción</button>
+                <button class="btn btn-import" onclick="enviar_cliente(${product.id_producto})">Enviar a cliente</button>
+            </div>
+        </div>
+      `;
+      cardContainer.appendChild(card);
+    } catch (error) {
+      console.error('Error al obtener los detalles del producto:', error);
     }
+  });
+};
   
     function createPagination(totalProducts, perPage = productsPerPage) {
       pagination.innerHTML = "";
