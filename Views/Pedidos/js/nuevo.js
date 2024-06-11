@@ -29,9 +29,9 @@ const dataTableNuevoPedidoOptions = {
 };
 
 const initDataTableNuevoPedido = async () => {
-  if (dataTableNuevoPedidoIsInitialized) {
+  /* if (dataTableNuevoPedidoIsInitialized) {
     dataTableNuevoPedido.destroy();
-  }
+  } */
 
   await listNuevoPedido();
 
