@@ -112,7 +112,7 @@ class ProductosModel extends Query
     public function guardar_imagen_productos()
     {
         $response = $this->initialResponse();
-        $target_dir = "public/img/productos";
+        $target_dir = "public/img/productos/";
         $target_file = $target_dir . basename($imagen["name"]);
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
@@ -247,7 +247,7 @@ class ProductosModel extends Query
     public function guardar_imagen_categorias($imagen, $id_categoria, $plataforma)
     {
         $response = $this->initialResponse();
-        $target_dir = "public/img/categorias";
+        $target_dir = "public/img/categorias/";
         $target_file = $target_dir . basename($imagen["name"]);
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
