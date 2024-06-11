@@ -260,7 +260,8 @@ $(document).ready(function () {
     var provincia = $("#provincia").val();
     var ciudad = $("#ciudad").val();
     var monto_total = $("#monto_total").val();
-    console.log( 'antes de la condicion')
+
+    console.log('antes de la condicion');
     if (
       provincia !== "Selecciona una opción" &&
       ciudad !== "Selecciona una opción" &&
@@ -275,6 +276,8 @@ $(document).ready(function () {
         url: SERVERURL + "Calculadora/obtenerTarifas",
         type: "POST",
         data: formData,
+        processData: false, // Agregado para manejar FormData correctamente
+        contentType: false, // Agregado para manejar FormData correctamente
         success: function (response) {
           console.log(response);
         },
