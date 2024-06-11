@@ -1,8 +1,8 @@
 let dataTableNuevoPedido;
 let dataTableNuevoPedidoIsInitialized = false;
 let eliminado = false;
-let id_producto_pedido = ""
-let sku_pedido = "";
+const id_producto = getParameterByName("id_producto");
+const sku = getParameterByName("sku");
 const dataTableNuevoPedidoOptions = {
   paging: false,
   searching: false,
@@ -88,10 +88,6 @@ const listNuevoPedido = async () => {
       dropshipping = nuevoPedido.drogshipin;
       costo_producto = nuevoPedido.costo_producto;
 
-      //variable globales
-      id_producto_pedido = nuevoPedido.id_producto;
-      sku_pedido = nuevoPedido.sku;
-
       contiene += `${nuevoPedido.nombre_producto} X${nuevoPedido.cantidad_tmp} `;
 
       precio_costo = parseFloat(nuevoPedido.precio_tmp);
@@ -175,10 +171,14 @@ function recalcular(id, idPrecio, idDescuento) {
     });
 }
 
-function validar_direccion() {  
+function validar_direccion() {
+  // Obtener los parámetros de la URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const idProducto = urlParams.get("id_producto");
+  const sku = urlParams.get("sku");
 
   // Solo realizar la validación si los parámetros están presentes
-  if (id_producto_pedido && sku_pedido) {
+  if (idProducto && sku) {
     if (
       ciudad_bodega == null ||
       provincia_bodega == null ||

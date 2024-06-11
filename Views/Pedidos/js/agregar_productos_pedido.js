@@ -5,6 +5,9 @@ function getParameterByName(name) {
   const url = new URL(window.location.href);
   return url.searchParams.get(name);
 }
+// Obtener el id_producto de la URL
+const id_producto = getParameterByName("id_producto");
+const sku = getParameterByName("sku");
 
 const dataTableNuevosPedidosOptions = {
   //scrollX: "2000px",
@@ -51,10 +54,10 @@ const initDataTableNuevosPedidos = async () => {
 const listNuevosPedidos = () => {
   // Crear una instancia de FormData
   let formData = new FormData();
-  formData.append("sku", sku_pedido); // Añadir el SKU al FormData
+  formData.append("sku", sku); // Añadir el SKU al FormData
 
   $.ajax({
-    url: SERVERURL + "pedidos/buscarProductosBodega/" + id_producto_pedido,
+    url: SERVERURL + "pedidos/buscarProductosBodega/" + id_producto,
     type: "POST", // Cambiar a POST para enviar FormData
     data: formData,
     processData: false, // No procesar los datos
