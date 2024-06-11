@@ -248,7 +248,13 @@ const filtrarProductosPorCategoria = async (categoriaId) => {
       const productos = await response.json();
   
       let content = ``;
+      let subir_marketplace = "";
       productos.forEach((producto, index) => {
+        if (producto.drogshipin == 0){
+          subir_marketplace = `<box-icon name='cloud-download' ></box-icon>`;
+        } else {
+          subir_marketplace = `<box-icon name='cloud-upload' onclick="subir_marketplace(${producto.id_producto})"></box-icon>`;
+        }
         content += `
                   <tr>
                       <td>${producto.id_producto}</td>
@@ -345,23 +351,18 @@ function subir_marketplace(id){
     success: function (response) {
       // Mostrar alerta de éxito
       if (response.status == 500) {
-        Swal.fire({
-          icon: "error",
-          title: response.title,
-          text: response.message,
+        toastr.error(
+            "EL PRODUCTO NO SE AGREGRO AL MARKETPLACE CORRECTAMENTE",
+            "NOTIFICACIÓN", {
+                positionClass: "toast-bottom-center"
+            }
+        );
+    } else if (response.status == 200) {
+        toastr.success("PRODUCTO AGREGADO CORRECTAMENTE", "NOTIFICACIÓN", {
+            positionClass: "toast-bottom-center",
         });
-      } else {
-        Swal.fire({
-          icon: "success",
-          title: response.title,
-          text: response.message,
-          showConfirmButton: false,
-          timer: 2000,
-        }).then(() => {
-          // Recargar la DataTable
-          initDataTable();
-        });
-      }
+        initDataTableProductos();
+    }
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
