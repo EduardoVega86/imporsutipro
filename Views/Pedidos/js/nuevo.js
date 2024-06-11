@@ -10,7 +10,6 @@ const dataTableNuevoPedidoOptions = {
   destroy: true,
   autoWidth: false,
   columnDefs: [{ className: "centered", targets: [0, 1, 2, 3, 4, 5, 6] }],
-  /* dom: '<"flex justify-between items-center mb-4"lBf<"text-center mt-4">r>t<"flex justify-between items-center"ip>', */
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
     zeroRecords: "Ningún usuario encontrado",
@@ -39,20 +38,6 @@ const initDataTableNuevoPedido = async () => {
 
   dataTableNuevoPedidoIsInitialized = true;  // Marcar que la DataTable ha sido inicializada
 };
-
-
-var celular_bodega = "";
-var nombre_bodega = "";
-var ciudad_bodega = "";
-var provincia_bodega = "";
-var direccion_bodega = "";
-var referencia_bodega = "";
-var numeroCasa_bodega = "";
-var id_propietario_bodega = "";
-var id_producto_venta = "";
-var dropshipping = "";
-var contiene = "";
-var costo_producto = 0;
 
 const listNuevoPedido = async () => {
   try {
@@ -97,7 +82,7 @@ const listNuevoPedido = async () => {
     document.getElementById("monto_total").innerHTML = total.toFixed(2);
     document.getElementById("tableBody_nuevoPedido").innerHTML = content;
 
-    if (eliminado == true) {
+    if (eliminado) {
       eliminado = false;
       document.getElementById("monto_total").innerHTML = "0.00";
       document.getElementById("tableBody_nuevoPedido").innerHTML = "";
@@ -106,7 +91,6 @@ const listNuevoPedido = async () => {
     alert(ex);
   }
 };
-
 
 function recalcular(id, idPrecio, idDescuento) {
   costo_producto = 0;
@@ -118,7 +102,7 @@ function recalcular(id, idPrecio, idDescuento) {
   ffrm.append("precio", precio);
   ffrm.append("descuento", descuento);
 
-  fetch("" + SERVERURL + "pedidos/actualizarTmp/" + id, {
+  fetch(SERVERURL + "pedidos/actualizarTmp/" + id, {
     method: "POST",
     body: ffrm,
   })
@@ -129,13 +113,9 @@ function recalcular(id, idPrecio, idDescuento) {
           positionClass: "toast-bottom-center",
         });
       } else {
-        toastr.error(
-          "EL PRODUCTO NO SE ACTUALIZADO CORRECTAMENTE",
-          "NOTIFICACIÓN",
-          {
-            positionClass: "toast-bottom-center",
-          }
-        );
+        toastr.error("EL PRODUCTO NO SE ACTUALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
       }
       await initDataTableNuevoPedido();
     })
@@ -146,26 +126,22 @@ function recalcular(id, idPrecio, idDescuento) {
 }
 
 function validar_direccion() {
-  // Obtener los parámetros de la URL
   const urlParams = new URLSearchParams(window.location.search);
   const idProducto = urlParams.get("id_producto");
   const sku = urlParams.get("sku");
 
-  // Solo realizar la validación si los parámetros están presentes
   if (idProducto && sku) {
     if (
       ciudad_bodega == null ||
       provincia_bodega == null ||
       direccion_bodega == null
     ) {
-      // Bloquear los botones
       const guardarPedidoBtn = document.getElementById("guardarPedidoBtn");
       const generarGuiaBtn = document.getElementById("generarGuiaBtn");
 
       guardarPedidoBtn.disabled = true;
       generarGuiaBtn.disabled = true;
 
-      // Crear el tooltip
       toastr.error(
         "Esta bodega no contiene datos de dirección y no puede generar guias",
         "NOTIFICACIÓN",
@@ -174,10 +150,10 @@ function validar_direccion() {
         }
       );
 
-      return false; // Retorna falso para indicar que la validación falló
+      return false;
     }
   }
-  return true; // Retorna verdadero si la validación pasa o los parámetros no están presentes
+  return true;
 }
 
 function eliminar_nuevoPedido(id) {
@@ -202,100 +178,89 @@ function eliminar_nuevoPedido(id) {
   });
 }
 
-
 window.addEventListener("load", async () => {
   await initDataTableNuevoPedido();
 });
 
-//cargar selelct ciudades y provincias
 $(document).ready(function () {
-    // Inicializar Select2 en los selects
-    $('#provincia').select2({
-      placeholder: 'Selecciona una opción',
-      allowClear: true
-    });
-    
-    $('#ciudad').select2({
-      placeholder: 'Selecciona una opción',
-      allowClear: true
-    });
-  
-    cargarProvincias(); // Llamar a cargarProvincias cuando la página esté lista
-  
-    // Llamar a cargarCiudades cuando se seleccione una provincia
-    $("#provincia").on("change", cargarCiudades);
+  $('#provincia').select2({
+    placeholder: 'Selecciona una opción',
+    allowClear: true
   });
   
-  // Función para cargar provincias
-  function cargarProvincias() {
+  $('#ciudad').select2({
+    placeholder: 'Selecciona una opción',
+    allowClear: true
+  });
+
+  cargarProvincias(); 
+  
+  $("#provincia").on("change", cargarCiudades);
+});
+
+function cargarProvincias() {
+  $.ajax({
+    url: SERVERURL + "Ubicaciones/obtenerProvincias",
+    method: "GET",
+    success: function (response) {
+      let provincias = JSON.parse(response);
+      let provinciaSelect = $("#provincia");
+      provinciaSelect.empty();
+      provinciaSelect.append('<option value="">Provincia *</option>');
+
+      provincias.forEach(function (provincia) {
+        provinciaSelect.append(
+          `<option value="${provincia.codigo_provincia}">${provincia.provincia}</option>`
+        );
+      });
+
+      provinciaSelect.trigger('change.select2');
+    },
+    error: function (error) {
+      console.log("Error al cargar provincias:", error);
+    },
+  });
+}
+
+function cargarCiudades() {
+  let provinciaId = $("#provincia").val();
+  if (provinciaId) {
     $.ajax({
-      url: "" + SERVERURL + "Ubicaciones/obtenerProvincias", // Reemplaza con la ruta correcta a tu controlador
+      url: SERVERURL + "Ubicaciones/obtenerCiudades/" + provinciaId,
       method: "GET",
       success: function (response) {
-        let provincias = JSON.parse(response);
-        let provinciaSelect = $("#provincia");
-        provinciaSelect.empty();
-        provinciaSelect.append('<option value="">Provincia *</option>'); // Añadir opción por defecto
-  
-        provincias.forEach(function (provincia) {
-          provinciaSelect.append(
-            `<option value="${provincia.codigo_provincia}">${provincia.provincia}</option>`
+        let ciudades = JSON.parse(response);
+        console.log("Ciudades recibidas:", ciudades);
+        let ciudadSelect = $("#ciudad");
+        ciudadSelect.empty();
+        ciudadSelect.append('<option value="">Ciudad *</option>');
+
+        ciudades.forEach(function (ciudad) {
+          ciudadSelect.append(
+            `<option value="${ciudad.id_cotizacion}">${ciudad.ciudad}</option>`
           );
         });
-  
-        // Refrescar Select2 para que muestre las nuevas opciones
-        provinciaSelect.trigger('change.select2');
+
+        ciudadSelect.trigger('change.select2');
+
+        ciudadSelect.prop("disabled", false);
       },
       error: function (error) {
-        console.log("Error al cargar provincias:", error);
+        console.log("Error al cargar ciudades:", error);
       },
     });
+  } else {
+    $("#ciudad")
+      .empty()
+      .append('<option value="">Ciudad *</option>')
+      .prop("disabled", true)
+      .trigger('change.select2');
   }
-  
-  // Función para cargar ciudades según la provincia seleccionada
-  function cargarCiudades() {
-    let provinciaId = $("#provincia").val();
-    if (provinciaId) {
-      $.ajax({
-        url: SERVERURL + "Ubicaciones/obtenerCiudades/" + provinciaId, // Reemplaza con la ruta correcta a tu controlador
-        method: "GET",
-        success: function (response) {
-          let ciudades = JSON.parse(response);
-          console.log("Ciudades recibidas:", ciudades); // Verificar los datos en la consola del navegador
-          let ciudadSelect = $("#ciudad");
-          ciudadSelect.empty();
-          ciudadSelect.append('<option value="">Ciudad *</option>'); // Añadir opción por defecto
-  
-          ciudades.forEach(function (ciudad) {
-            ciudadSelect.append(
-              `<option value="${ciudad.id_cotizacion}">${ciudad.ciudad}</option>`
-            );
-          });
-  
-          // Refrescar Select2 para que muestre las nuevas opciones
-          ciudadSelect.trigger('change.select2');
-  
-          ciudadSelect.prop("disabled", false); // Habilitar el select de ciudades
-        },
-        error: function (error) {
-          console.log("Error al cargar ciudades:", error);
-        },
-      });
-    } else {
-      $("#ciudad")
-        .empty()
-        .append('<option value="">Ciudad *</option>')
-        .prop("disabled", true)
-        .trigger('change.select2'); // Refrescar Select2 para mostrar el estado deshabilitado
-    }
-  }
+}
 
-//agregar funcion pedido
-function agregar_nuevoPedido() {
-  // Evita que el formulario se envíe de la forma tradicional
+function agregar_nuevoPedido(event) {
   event.preventDefault();
 
-  // Crea un objeto FormData
   var formData = new FormData();
   var montoTotal = document.getElementById("monto_total").innerText;
   formData.append("total_venta", montoTotal);
@@ -309,20 +274,20 @@ function agregar_nuevoPedido() {
   formData.append("identificacion", 0);
   formData.append("observacion", $("#observacion").val());
   formData.append("transporte", 0);
-  formData.append("celular", $("#telefono").val()); // Asegúrate de obtener el valor correcto
+  formData.append("celular", $("#telefono").val());
   formData.append("id_producto_venta", id_producto_venta);
   formData.append("dropshipping", dropshipping);
   formData.append("importado", 0);
   formData.append("id_propietario", id_propietario_bodega);
   formData.append("identificacionO", 0);
   formData.append("celularO", celular_bodega);
-  formData.append("nombreO", nombre_bodega); // Corregir nombre de variable
+  formData.append("nombreO", nombre_bodega);
   formData.append("ciudadO", ciudad_bodega);
   formData.append("provinciaO", provincia_bodega);
   formData.append("direccionO", direccion_bodega);
-  formData.append("referenciaO", referencia_bodega); // Corregir nombre de variable
+  formData.append("referenciaO", referencia_bodega);
   formData.append("numeroCasaO", numeroCasa_bodega);
-  formData.append("valor_seguro", 0); // Corregir nombre de variable
+  formData.append("valor_seguro", 0);
   formData.append("no_piezas", 1);
   formData.append("contiene", contiene);
   formData.append("costo_flete", 0);
@@ -330,9 +295,8 @@ function agregar_nuevoPedido() {
   formData.append("comentario", "Enviado por x");
   formData.append("id_transporte", 0);
 
-  // Realiza la solicitud AJAX
   $.ajax({
-    url: "" + SERVERURL + "/pedidos/nuevo_pedido",
+    url: SERVERURL + "/pedidos/nuevo_pedido",
     type: "POST",
     data: formData,
     processData: false,
@@ -354,7 +318,7 @@ function agregar_nuevoPedido() {
           timer: 2000,
         }).then(() => {
           vaciarTmpPedidos();
-          window.location.href = "" + SERVERURL + "Pedidos";
+          window.location.href = SERVERURL + "Pedidos";
         });
       }
     },
@@ -365,10 +329,9 @@ function agregar_nuevoPedido() {
   });
 }
 
-// Función para vaciar temporalmente los pedidos
 const vaciarTmpPedidos = async () => {
   try {
-    const response = await fetch("" + SERVERURL + "marketplace/vaciarTmp");
+    const response = await fetch(SERVERURL + "marketplace/vaciarTmp");
     if (!response.ok) {
       throw new Error("Error al vaciar los pedidos temporales");
     }
