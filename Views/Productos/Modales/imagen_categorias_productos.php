@@ -44,13 +44,13 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="imageForm">
+                <form id="imageForm" enctype="multipart/form-data">
                     <input type="hidden" id="id_imagenCategoria" name="id_imagenCategoria">
                     <div class="form-group">
                         <label for="imageInput">Imagen</label>
-                        <input type="file" class="form-control-file" id="imageInput" accept="image/*">
+                        <input type="file" class="form-control-file" id="imageInput" name="imagen" accept="image/*">
                     </div>
-                    <img id="imagePreview" class="image-preview" src="" alt="Preview">
+                    <img id="imagePreview" class="image-preview" src="" alt="Preview" style="display: none;">
                 </form>
             </div>
             <div class="modal-footer">
@@ -78,11 +78,8 @@
         });
 
         $('#saveButton_imangeCategoria').click(function() {
-            var formData = new FormData();
-            var file = $('#imageInput')[0].files[0];
+            var formData = new FormData($('#imageForm')[0]);
             var id = $('#id_imagenCategoria').val();
-
-            formData.append('imagen', file);
             formData.append('id_linea', id);
 
             $.ajax({
