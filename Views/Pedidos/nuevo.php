@@ -33,7 +33,9 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
         max-width: 100px;
     }
 
+    /* animacion y diseño de transportadoras y precio transportador */
     .transportadora {
+        position: relative;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         border-radius: 10px;
         overflow: hidden;
@@ -56,6 +58,25 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
     .transportadora:hover img {
         filter: grayscale(0%);
     }
+
+    .price-tag {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .transportadora:hover .price-tag {
+        opacity: 1;
+    }
+
+    /* final de diseño de transportadoras */
 
     /* tabla */
     .table-striped tbody tr:nth-of-type(odd) {
@@ -202,18 +223,21 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
             <div class="form-section">
                 <h5>Generar Guías</h5>
                 <div class="d-flex justify-content-around mb-4">
-                    <!-- Agregar imágenes o iconos según sea necesario -->
                     <div class="img-container text-center transportadora">
-                        <img src="<?php echo SERVERURL;?>/public/img/SERVIENTREGA.jpg" alt="Servientrega">
+                        <img src="<?php echo SERVERURL; ?>/public/img/SERVIENTREGA.jpg" alt="Servientrega">
+                        <div class="price-tag">Precio: $10</div>
                     </div>
                     <div class="img-container text-center transportadora">
-                        <img src="<?php echo SERVERURL;?>/public/img/LAAR.jpg" alt="Laborcourier">
+                        <img src="<?php echo SERVERURL; ?>/public/img/LAAR.jpg" alt="Laborcourier">
+                        <div class="price-tag">Precio: $15</div>
                     </div>
                     <div class="img-container text-center transportadora">
-                        <img src="<?php echo SERVERURL;?>/public/img/SPEED.jpg" alt="Speed">
+                        <img src="<?php echo SERVERURL; ?>/public/img/SPEED.jpg" alt="Speed">
+                        <div class="price-tag">Precio: $20</div>
                     </div>
                     <div class="img-container text-center transportadora">
-                        <img src="<?php echo SERVERURL;?>/public/img/GINTRACOM.jpg" alt="Gintracom">
+                        <img src="<?php echo SERVERURL; ?>/public/img/GINTRACOM.jpg" alt="Gintracom">
+                        <div class="price-tag">Precio: $25</div>
                     </div>
                 </div>
                 <form>
