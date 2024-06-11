@@ -92,7 +92,7 @@ class Pedidos extends Controller
 
         $importado = $_POST['importado'] ?? 0;
         $plataforma_importa = $_POST['plataforma_importa'] ?? 0;
-        $cod = $_POST['cod'] ?? 0;
+        $cod = $_POST['recaudo'] ?? 0;
         $estado_guia_sistema = 1;
         $impreso = 0;
         $facturada = 0;
@@ -122,7 +122,7 @@ class Pedidos extends Controller
         $id_transporte = $_POST['id_transporte'] ?? 0;
 
         $response = $this->model->nuevo_pedido($fecha_factura, $id_usuario, $monto_factura, $estado_factura, $nombre_cliente, $telefono_cliente, $c_principal, $ciudad_cot, $c_secundaria, $referencia, $observacion, $guia_enviada, $transporte, $identificacion, $celular, $dueño_id, $dropshipping, $id_plataforma, $dueño_id, $importado, $plataforma_importa, $cod, $estado_guia_sistema, $impreso, $facturada, $factura_numero, $numero_guia, $anulada, $identificacionO, $celularO, $nombreO, $ciudadO, $provinciaO, $direccionO, $referenciaO, $numeroCasaO, $valor_segura, $no_piezas, $tipo_servicio, $peso, $contiene, $costo_flete, $costo_producto, $comentario, $id_transporte, $provincia);
-        
+
         echo json_encode($response);
     }
 

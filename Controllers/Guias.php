@@ -41,9 +41,9 @@ class Guias extends Controller
         $valor_seguro = 0;
         $valor_declarado = 0;
         $tamanio = "";
-        $cod = $_POST['cod'];
+        $cod = $_POST['recaudo'];
         $costoflete = 0;
-        $costo_producto = $_POST['monto_factura'];
+        $costo_producto = $_POST['total_venta'];
         $tipo_cobro = 0;
         $comentario = $_POST['observacion'];
         $fecha = date("Y-m-d");
