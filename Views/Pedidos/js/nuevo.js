@@ -279,6 +279,7 @@ $(document).ready(function () {
         processData: false,
         contentType: false,
         success: function (response) {
+          response = JSON.parse(response);
           console.log("correcto el precio"+response.servientrega);
           $("#price_servientrega").text(response.servientrega);
           $("#price_gintracom").text(response.gintracom);
