@@ -251,9 +251,9 @@ const filtrarProductosPorCategoria = async (categoriaId) => {
       let subir_marketplace = "";
       productos.forEach((producto, index) => {
         if (producto.drogshipin == 0){
-          subir_marketplace = `<box-icon name='cloud-download' ></box-icon>`;
-        } else {
           subir_marketplace = `<box-icon name='cloud-upload' onclick="subir_marketplace(${producto.id_producto})"></box-icon>`;
+        } else {
+          subir_marketplace = `<box-icon name='cloud-download' ></box-icon>`;
         }
         content += `
                   <tr>

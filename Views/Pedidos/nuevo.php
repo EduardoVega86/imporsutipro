@@ -233,15 +233,15 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                     </div>
                     <div class="img-container text-center transportadora">
                         <img src="<?php echo SERVERURL; ?>/public/img/LAAR.jpg" alt="Laborcourier">
-                        <div class="price-tag">$<span id="price_servientrega">10</span></div>
+                        <div class="price-tag">$<span id="price_laar">10</span></div>
                     </div>
                     <div class="img-container text-center transportadora">
                         <img src="<?php echo SERVERURL; ?>/public/img/SPEED.jpg" alt="Speed">
-                        <div class="price-tag">$<span id="price_servientrega">10</span></div>
+                        <div class="price-tag">$<span id="price_speed">10</span></div>
                     </div>
                     <div class="img-container text-center transportadora">
                         <img src="<?php echo SERVERURL; ?>/public/img/GINTRACOM.jpg" alt="Gintracom">
-                        <div class="price-tag">$<span id="price_servientrega">10</span></div>
+                        <div class="price-tag">$<span id="price_gintracom">10</span></div>
                     </div>
                 </div>
                 <form>
