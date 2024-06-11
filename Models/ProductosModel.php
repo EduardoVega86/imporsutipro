@@ -488,6 +488,24 @@ class ProductosModel extends Query
         return $response;
     }
 
+    public function BajarMarketplace($id, $plataforma)
+    {
+        $sql = "UPDATE `productos` SET  `drogshipin` = ? WHERE `id_producto` = ? AND `id_plataforma` = ?";
+        $data = [0, $id, $plataforma];
+        $editar_producto = $this->update($sql, $data);
+        //print_r($editar_producto);
+        if ($editar_producto == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Categoria editada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+           // $response['message'] = $editar_producto['message'];
+        }
+        return $response;
+    }
+    
     public function SubirMarketplace($id, $plataforma)
     {
         $sql = "UPDATE `productos` SET  `drogshipin` = ? WHERE `id_producto` = ? AND `id_plataforma` = ?";

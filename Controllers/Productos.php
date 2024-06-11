@@ -287,6 +287,13 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
+     public function bajar_marketplace()
+    {
+        $id = $_POST['id'];
+        $response = $this->model->BajarMarketplace($id, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
 
 
 
