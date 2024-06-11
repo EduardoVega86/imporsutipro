@@ -24,7 +24,6 @@ class ProductosModel extends Query
         $sql_id = "SELECT MAX(id_producto) as id_producto from productos where id_plataforma = $plataforma";
         $id_producto = $this->select($sql_id);
         $id_producto = $id_producto[0]['id_producto'];
-        echo $inv_producto;
         if ($inv_producto == 1) {
 
             if ($producto_variable === 0) {
@@ -35,7 +34,6 @@ class ProductosModel extends Query
                 $data = [$codigo_producto, $id_producto, $producto_variable, $bodega, $pcp, $pvp, $pref, $stock_inicial, $stock_inicial, $plataforma];
             }
             $insertar_producto_ = $this->insert($sql, $data);
-            print_r($insertar_producto_);
         } else {
             //bodega inicial
             $sql_bodega = "SELECT * FROM bodega WHERE id_plataforma = $plataforma limit 1";

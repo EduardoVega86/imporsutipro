@@ -75,6 +75,8 @@ class Productos extends Controller
 
 
 
+
+
     /// Funciones de bodegas
 
     public function agregarBodega()
@@ -193,6 +195,7 @@ class Productos extends Controller
 
 
 
+
     /// Funciones de productos
 
     public function agregar_producto()
@@ -256,6 +259,13 @@ class Productos extends Controller
 
         $response = $this->model->editarProducto($id, $codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $_SESSION['id_plataforma'], $stock_inicial, $bodega, $pcp, $pvp, $pref);
 
+        echo json_encode($response);
+    }
+
+    public function eliminar_producto()
+    {
+        $id = $_POST['id'];
+        $response = $this->model->eliminarProducto($id, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
 
