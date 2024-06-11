@@ -268,6 +268,15 @@ class Productos extends Controller
         $response = $this->model->eliminarProducto($id, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
+    
+    
+    public function subir_marketplace()
+    {
+        $id = $_POST['id'];
+        $response = $this->model->SubirMarketplace($id, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
 
 
 
