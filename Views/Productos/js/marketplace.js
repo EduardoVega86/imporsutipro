@@ -32,9 +32,6 @@ document.addEventListener("DOMContentLoaded", function () {
       const response = await fetch(SERVERURL + "marketplace/obtener_producto/" + product.id_producto);
       const productDetails = await response.json();
 
-      // Extrae los detalles del producto
-      const { costo_producto, pvp, saldo_stock, url_imporsuit } = productDetails;
-
       // Crea la tarjeta del producto
       const card = document.createElement("div");
       card.className = "card card-custom";
@@ -43,10 +40,10 @@ document.addEventListener("DOMContentLoaded", function () {
         <div class="card-body text-center d-flex flex-column justify-content-between">
             <div>
                 <h5 class="card-title">${product.nombre_producto}</h5>
-                <p class="card-text">Stock: <strong style="color:green">${saldo_stock}</strong></p>
-                <p class="card-text">Precio Proveedor: <strong>$${costo_producto}</strong></p>
-                <p class="card-text">Precio Sugerido: <strong>$${pvp}</strong></p>
-                <p class="card-text">Proveedor: <a href="${url_imporsuit}" target="_blank">${url_imporsuit}</a></p>
+                <p class="card-text">Stock: <strong style="color:green">${productDetails.saldo_stock}</strong></p>
+                <p class="card-text">Precio Proveedor: <strong>$${productDetails.costo_producto}</strong></p>
+                <p class="card-text">Precio Sugerido: <strong>$${productDetails.pvp}</strong></p>
+                <p class="card-text">Proveedor: <a href="${productDetails.url_imporsuit}" target="_blank">${productDetails.url_imporsuit}</a></p>
             </div>
             <div>
                 <button class="btn btn-description" onclick="agregarModal_marketplace(${product.id_producto})">Descripción</button>
