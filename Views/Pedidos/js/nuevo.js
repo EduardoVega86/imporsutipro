@@ -257,9 +257,9 @@ $(document).ready(function () {
   $("#provincia").on("change", cargarCiudades);
 
   $("#provincia,#ciudad").change(function () {
-    var provincia = $("provincia").val();
-    var ciudad = $("ciudad").val();
-    var monto_total = $("monto_total").val();
+    var provincia = $("#provincia").val();
+    var ciudad = $("#ciudad").val();
+    var monto_total = $("#monto_total").val();
 
     if (
       provincia !== "Selecciona una opción" &&
