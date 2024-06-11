@@ -271,7 +271,7 @@ $(document).ready(function () {
       $(this).addClass("selected");
     } else {
       toastr.error(
-        "ESTA TRANSPORTADORA NO TIENE COVERTURA",
+        "ESTA TRANSPORTADORA NO TIENE COBERTURA",
         "NOTIFICACIÓN", {
             positionClass: "toast-bottom-center"
         }
