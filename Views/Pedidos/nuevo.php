@@ -64,10 +64,14 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
         bottom: 10px;
         left: 50%;
         transform: translate(-50%, 0);
-        background-color: rgba(0, 0, 0, 0.5);
+        background-color: rgba(0, 0, 0, 0.7);
         color: white;
-        padding: 5px 10px;
-        border-radius: 5px;
+        padding: 3px 6px;
+        /* Ajustar tamaño del fondo */
+        border-radius: 3px;
+        /* Ajustar borde redondeado */
+        font-size: 12px;
+        /* Ajustar tamaño de la fuente */
         transition: transform 0.3s ease, background-color 0.3s ease;
     }
 
@@ -75,7 +79,6 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
         transform: translate(-50%, 0) scale(1.2);
         background-color: rgba(0, 0, 0, 0.9);
     }
-
 
     /* final de diseño de transportadoras */
 
