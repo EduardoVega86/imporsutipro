@@ -75,6 +75,7 @@ class GuiasModel extends Query
             echo 'Error en la solicitud cURL: ' . curl_error($ch);
         }
         curl_close($ch);
+        print_r($result);
         return $result;
     }
 
@@ -108,6 +109,7 @@ class GuiasModel extends Query
             echo 'Error en la solicitud cURL para obtener el token: ' . curl_error($ch);
         }
         curl_close($ch);
+        print_r($response);
         return $response;
     }
 
