@@ -381,6 +381,7 @@ class ProductosModel extends Query
         $sql = "UPDATE `bodega` SET `nombre` = ?, `longitud` = ?, `latitud` = ?, `direccion` = ?, `num_casa` = ?, `referencia` = ?, `responsable` = ?, `contacto` = ?, `localidad` = ?, `provincia` = ? WHERE `id` = ? AND `id_plataforma` = ?";
         $data = [$nombre, $longitud, $latitud, $direccion, $numerocasa, $referencia, $contacto, $telefono_contacto, $ciudad, $provincia, $id, $plataforma];
         $editar_categoria = $this->update($sql, $data);
+        print_r($editar_categoria);
         if ($editar_categoria == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
