@@ -260,10 +260,11 @@ $(document).ready(function () {
     var provincia = $("#provincia").val();
     var ciudad = $("#ciudad").val();
     var monto_total = $("#monto_total").val();
-
+    console.log( 'antes de la condicion')
     if (
-      provincia != "Selecciona una opción" &&
-      ciudad != "Selecciona una opción"
+      provincia !== "Selecciona una opción" &&
+      ciudad !== "Selecciona una opción" &&
+      monto_total !== 0
     ) {
       let formData = new FormData();
       formData.append("ciudad", ciudad);
