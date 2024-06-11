@@ -109,7 +109,8 @@ class GuiasModel extends Query
             echo 'Error en la solicitud cURL para obtener el token: ' . curl_error($ch);
         }
         curl_close($ch);
-        print_r($response);
+        $response = json_decode($response, true);
+        $response = $response['token'];
         return $response;
     }
 
