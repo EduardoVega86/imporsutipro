@@ -35,46 +35,46 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
 
     /* animacion y diseño de transportadoras y precio transportador */
     .transportadora {
-    position: relative;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border-radius: 10px;
-    overflow: hidden;
-    padding: 10px;
-    background-color: #f8f9fa;
-    display: inline-block;
-}
+        position: relative;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 10px;
+        overflow: hidden;
+        padding: 10px;
+        background-color: #f8f9fa;
+        display: inline-block;
+    }
 
-.transportadora img {
-    max-width: 100px;
-    transition: filter 0.3s ease;
-    filter: grayscale(100%);
-}
+    .transportadora img {
+        max-width: 100px;
+        transition: filter 0.3s ease;
+        filter: grayscale(100%);
+    }
 
-.transportadora:hover {
-    transform: scale(1.1);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
+    .transportadora:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
 
-.transportadora:hover img {
-    filter: grayscale(0%);
-}
+    .transportadora:hover img {
+        filter: grayscale(0%);
+    }
 
-.price-tag {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translate(-50%, 0);
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
-    transition: transform 0.3s ease, background-color 0.3s ease;
-}
+    .price-tag {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translate(-50%, 0);
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+    }
 
-.transportadora:hover .price-tag {
-    transform: translate(-50%, 0) scale(1.2);
-    background-color: rgba(0, 0, 0, 0.9);
-}
+    .transportadora:hover .price-tag {
+        transform: translate(-50%, 0) scale(1.2);
+        background-color: rgba(0, 0, 0, 0.9);
+    }
 
 
     /* final de diseño de transportadoras */
