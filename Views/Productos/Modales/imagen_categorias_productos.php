@@ -44,62 +44,59 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="imageForm">
+                <form id="imageForm" enctype="multipart/form-data">
                     <input type="hidden" id="id_imagenCategoria" name="id_imagenCategoria">
                     <div class="form-group">
                         <label for="imageInput">Imagen</label>
-                        <input type="file" class="form-control-file" id="imageInput" accept="image/*">
+                        <input type="file" class="form-control-file" id="imageInput" accept="image/*" name="imagen">
                     </div>
                     <img id="imagePreview" class="image-preview" src="" alt="Preview">
-                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" id="saveButton_imangeCategoria">Guardar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
             </div>
+            </form>
         </div>
     </div>
 </div>
 
 <script>
     $(document).ready(function() {
-    $('#imageInput').change(function() {
-        const file = this.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                $('#imagePreview').attr('src', e.target.result);
-                $('#imagePreview').show();
-            }
-            reader.readAsDataURL(file);
-        } else {
-            $('#imagePreview').hide();
-        }
-    });
-
-    $('#saveButton_imangeCategoria').click(function() {
-        var formData = new FormData();
-        var file = $('#imageInput')[0].files[0];
-        var id = $('#id_imagenCategoria').val();
-
-        formData.append('imagen', file);
-        formData.append('id_linea', id);
-
-        $.ajax({
-            url: ''+SERVERURL+'Productos/guardar_imagen_categorias', // Cambia esta ruta por la ruta correcta a tu controlador
-            type: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function(response) {
-                alert('Imagen guardada correctamente');
-                $('#imagen_categoriaModal').modal('hide');
-                // Puedes añadir lógica adicional aquí para actualizar la vista
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                alert('Error al guardar la imagen: ' + textStatus);
+        $('#imageInput').change(function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#imagePreview').attr('src', e.target.result);
+                    $('#imagePreview').show();
+                }
+                reader.readAsDataURL(file);
+            } else {
+                $('#imagePreview').hide();
             }
         });
+
+        $('#imageForm').submit(function(event) {
+            event.preventDefault(); // Evita el envío del formulario por defecto
+
+            var formData = new FormData(this); // Crea un objeto FormData a partir del formulario
+
+            $.ajax({
+                url: SERVERURL + 'Productos/guardar_imagen_categorias', // Cambia esta ruta por la ruta correcta a tu controlador
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    alert('Imagen guardada correctamente');
+                    $('#imagen_categoriaModal').modal('hide');
+                    // Puedes añadir lógica adicional aquí para actualizar la vista
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert('Error al guardar la imagen: ' + textStatus);
+                }
+            });
+        });
     });
-});
 </script>
