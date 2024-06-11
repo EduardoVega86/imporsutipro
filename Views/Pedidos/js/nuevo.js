@@ -280,7 +280,9 @@ $(document).ready(function () {
         processData: false,
         contentType: false,
         success: function (response) {
-          console.log(response);
+          $("#price_servientrega").text(response.servientrega);
+          $("#price_laar").text(response.laar);
+          $("#price_gintracom").text(response.gintracom);
         },
         error: function (jqXHR, textStatus, errorThrown) {
           alert(errorThrown);
