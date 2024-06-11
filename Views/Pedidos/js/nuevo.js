@@ -1,8 +1,8 @@
 let dataTableNuevoPedido;
 let dataTableNuevoPedidoIsInitialized = false;
 let eliminado = false;
-const id_producto_pedido = ""
-const sku_pedido = "";
+let id_producto_pedido = ""
+let sku_pedido = "";
 const dataTableNuevoPedidoOptions = {
   paging: false,
   searching: false,
