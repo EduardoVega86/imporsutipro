@@ -63,20 +63,6 @@
 
 <script>
     $(document).ready(function() {
-        $('#imageInput').change(function() {
-            const file = this.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    $('#imagePreview').attr('src', e.target.result);
-                    $('#imagePreview').show();
-                }
-                reader.readAsDataURL(file);
-            } else {
-                $('#imagePreview').hide();
-            }
-        });
-
         $('#imageForm').submit(function(event) {
             event.preventDefault(); // Evita el envío del formulario por defecto
 
