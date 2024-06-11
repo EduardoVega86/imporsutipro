@@ -178,7 +178,7 @@ function recalcular(id, idPrecio, idDescuento) {
 function validar_direccion() {  
 
   // Solo realizar la validación si los parámetros están presentes
-  if (idProducto && sku) {
+  if (id_producto_pedido && sku_pedido) {
     if (
       ciudad_bodega == null ||
       provincia_bodega == null ||
