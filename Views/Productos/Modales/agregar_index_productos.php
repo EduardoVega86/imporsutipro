@@ -213,8 +213,22 @@
                 processData: false,
                 contentType: false,
                 success: function(response) {
-                    alert('Producto agregado exitosamente');
-                    console.log(response);
+                    // Mostrar alerta de éxito
+                    if (response.status == 500) {
+                        toastr.error(
+                            "EL PRODUCTO SE AGREGRO CORRECTAMENTE",
+                            "NOTIFICACIÓN", {
+                                positionClass: "toast-bottom-center"
+                            }
+                        );
+                    } else if (response.status == 200) {
+                        toastr.success("PRODUCTO AGREGADO CORRECTAMENTE", "NOTIFICACIÓN", {
+                            positionClass: "toast-bottom-center",
+                        });
+
+                        $('#agregar_productoModal').modal('hide');
+                        initDataTableProductos();
+                    }
                 },
                 error: function(error) {
                     alert('Hubo un error al agregar el producto');
