@@ -65,8 +65,8 @@ class Productos extends Controller
         $response = $this->model->obtenerProducto($id, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
-    
-     public function obtener_productos_categoria($id)
+
+    public function obtener_productos_categoria($id)
     {
         $response = $this->model->obtenerProductosCategoria($id, $_SESSION['id_plataforma']);
         echo json_encode($response);
@@ -180,6 +180,7 @@ class Productos extends Controller
 
     public function guardar_imagen_categorias()
     {
+        print_r($_FILES);
         $response = $this->model->guardar_imagen_categorias($_FILES['imagen'], $_POST['id_linea'], $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
