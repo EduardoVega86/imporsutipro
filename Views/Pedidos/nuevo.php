@@ -68,12 +68,12 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
         color: white;
         padding: 5px 10px;
         border-radius: 5px;
-        opacity: 0;
-        transition: opacity 0.3s ease;
+        transition: transform 0.3s ease, background-color 0.3s ease;
     }
 
     .transportadora:hover .price-tag {
-        opacity: 1;
+        transform: scale(1.2);
+        background-color: rgba(0, 0, 0, 0.9);
     }
 
     /* final de diseño de transportadoras */
