@@ -270,7 +270,12 @@ $(document).ready(function () {
       // Add 'selected' class to the clicked transportadora
       $(this).addClass("selected");
     } else {
-      console.log("No price available for this option");
+      toastr.error(
+        "ESTA TRANSPORTADORA NO TIENE COVERTURA",
+        "NOTIFICACIÓN", {
+            positionClass: "toast-bottom-center"
+        }
+    );
     }
   });
 
