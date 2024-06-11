@@ -187,7 +187,7 @@ class ProductosModel extends Query
 
     public function cargarCategorias($plataforma)
     {
-        $sql = "SELECT * FROM lineas WHERE id_plataforma = $plataforma";
+        $sql = "SELECT * FROM lineas WHERE id_plataforma = $plataforma or global=1";
         return $this->select($sql);
     }
 
@@ -235,6 +235,12 @@ class ProductosModel extends Query
     public function listarCategoria($id, $plataforma)
     {
         $sql = "SELECT * FROM lineas WHERE id_linea = $id AND id_plataforma = $plataforma";
+        return $this->select($sql);
+    }
+    
+      public function listarPlataformas()
+    {
+        $sql = "SELECT * FROM pla WHERE id_linea = $id AND id_plataforma = $plataforma";
         return $this->select($sql);
     }
 
@@ -442,5 +448,11 @@ class ProductosModel extends Query
             $response['message'] = $editar_producto['message'];
         }
         return $response;
+    }
+    
+     public function listarCategoriasMarketplace()
+    {
+        $sql = "SELECT * FROM pla WHERE id_linea = $id AND id_plataforma = $plataforma";
+        return $this->select($sql);
     }
 }
