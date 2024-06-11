@@ -84,14 +84,16 @@ if(!$factura_numero || $factura_numero==''){
         
         if ($responses === 1) {
             
-            $factura_id_result = $this->select("SELECT id FROM facturas_cot WHERE numero_factura = ?", array($nueva_factura));
-            $factura_id = $factura_id_result[0]['id'];
+            $factura_id_result = $this->select("SELECT id_factura FROM facturas_cot WHERE numero_factura = '$nueva_factura'");
+            //print_r($factura_id_result);
+            $factura_id = $factura_id_result[0]['id_factura'];
 
-               $tmp_cotizaciones = $this->select("SELECT * FROM tmp_cotizacion WHERE session_id = ?", array($tmp));
-
+               $tmp_cotizaciones = $this->select("SELECT * FROM tmp_cotizacion WHERE session_id = '$tmp'");
+             
         // Insertar cada registro de tmp_cotizacion en detalle_cotizacion
-        $detalle_sql = "INSERT INTO detalle_fact_cot (numero_factura, id_factura, id_producto, cantidad, desc_venta, precio, id_plataforma , sku) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $detalle_sql = "INSERT INTO detalle_fact_cot (numero_factura, id_factura, id_producto, cantidad, desc_venta, precio_venta, id_plataforma , sku) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         foreach ($tmp_cotizaciones as $tmp) {
+          //  echo 'enta';
             $detalle_data = array(
                 $nueva_factura,
                 $factura_id,
@@ -102,7 +104,8 @@ if(!$factura_numero || $factura_numero==''){
                 $tmp['id_plataforma'],
                 $tmp['sku']
             );
-            $this->insert($detalle_sql, $detalle_data);
+            $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
+           // print_r($guardar_detalle);
         }
         
         
