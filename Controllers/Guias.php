@@ -1,4 +1,4 @@
-<?
+<?php
 
 class Guias extends Controller
 {
