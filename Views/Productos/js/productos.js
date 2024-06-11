@@ -106,7 +106,13 @@ const listProductos = async () => {
     const productos = await response.json();
 
     let content = ``;
+    let cargar_imagen = "";
     productos.forEach((producto, index) => {
+      if (!producto.image_path) {
+        cargar_imagen = `<i class="fas fa-camera icon-button" onclick="agregar_imagenProducto(${producto.id_producto})"></i>`;
+      } else {
+        cargar_imagen = `<img src="${SERVERURL}${producto.image_path}" class="icon-button" onclick="agregar_imagenProducto(${producto.id_producto})" alt="Agregar imagen" width="50px">`;
+      }
       content += `
                 <tr>
                     <td>${producto.id_producto}</td>
@@ -121,7 +127,7 @@ const listProductos = async () => {
                     <td>${producto.pref}</td>
                     <td>logo landing</td>
                     <td>logo agregar imagen</td>
-                    <td>logo agregar a market</td>
+                    <td><box-icon name='cloud-upload' onclick="subir_marketplace(${producto.id_producto})"></box-icon></td>
                     <td>logo agregar atributos</td>
                     <td>
                         <button class="btn btn-sm btn-primary" onclick="editarProducto(${producto.id_producto})"><i class="fa-solid fa-pencil"></i>Editar</button>
@@ -257,7 +263,7 @@ const filtrarProductosPorCategoria = async (categoriaId) => {
                       <td>${producto.pref}</td>
                       <td>logo landing</td>
                       <td>logo agregar imagen</td>
-                      <td>logo agregar a market</td>
+                      <td><box-icon name='cloud-upload' onclick="subir_marketplace(${producto.id_producto})"></box-icon></td>
                       <td>logo agregar atributos</td>
                       <td>
                           <button class="btn btn-sm btn-primary" onclick="editarProducto(${producto.id_producto})"><i class="fa-solid fa-pencil"></i>Editar</button>
@@ -330,6 +336,15 @@ function editarProducto(id) {
   });
 }
 
+function subir_marketplace(){
+
+}
+
+
+function agregar_imagenProducto(id) {
+  $("#id_imagenCategoria").val(id);
+  $("#imagen_categoriaModal").modal("show");
+}
 window.addEventListener("load", async () => {
   await initDataTableProductos();
 });
