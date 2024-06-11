@@ -383,6 +383,19 @@ function cargarCiudades() {
 function agregar_nuevoPedido() {
   // Evita que el formulario se envíe de la forma tradicional
   event.preventDefault();
+  let transportadora_selected = $("#transportadora_selected").val();
+  if (transportadora_selected == "servientrega"){
+    transportadora_selected = 3;
+  }
+  if (transportadora_selected == "laar"){
+    transportadora_selected = 1;
+  }
+  if (transportadora_selected == "speed"){
+    transportadora_selected = 2;
+  }
+  if (transportadora_selected == "gintracom"){
+    transportadora_selected = 4;
+  }
 
   // Crea un objeto FormData
   var formData = new FormData();
@@ -417,7 +430,7 @@ function agregar_nuevoPedido() {
   formData.append("costo_flete", $("#costo_flete").val());
   formData.append("costo_producto", costo_producto);
   formData.append("comentario", "Enviado por x");
-  formData.append("id_transporte", $("#transportadora_selected").val());
+  formData.append("id_transporte", transportadora_selected);
 
   // Realiza la solicitud AJAX
   $.ajax({
