@@ -253,7 +253,7 @@ const filtrarProductosPorCategoria = async (categoriaId) => {
         if (producto.drogshipin == 0){
           subir_marketplace = `<box-icon name='cloud-upload' onclick="subir_marketplace(${producto.id_producto})"></box-icon>`;
         } else {
-          subir_marketplace = `<box-icon name='cloud-download' ></box-icon>`;
+          subir_marketplace = `<box-icon name='cloud-upload' onclick="bajar_marketplace(${producto.id_producto})"></box-icon>`;
         }
         content += `
                   <tr>
@@ -269,7 +269,7 @@ const filtrarProductosPorCategoria = async (categoriaId) => {
                       <td>${producto.pref}</td>
                       <td>logo landing</td>
                       <td>logo agregar imagen</td>
-                      <td><box-icon name='cloud-upload' onclick="subir_marketplace(${producto.id_producto})"></box-icon></td>
+                      <td>${subir_marketplace})</td>
                       <td>logo agregar atributos</td>
                       <td>
                           <button class="btn btn-sm btn-primary" onclick="editarProducto(${producto.id_producto})"><i class="fa-solid fa-pencil"></i>Editar</button>
@@ -359,6 +359,35 @@ function subir_marketplace(id){
         );
     } else if (response.status == 200) {
         toastr.success("PRODUCTO AGREGADO CORRECTAMENTE", "NOTIFICACIÓN", {
+            positionClass: "toast-bottom-center",
+        });
+        initDataTableProductos();
+    }
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al subir al marketplace");
+    },
+  });
+}
+
+function bajar_marketplace(id){
+  $.ajax({
+    type: "POST",
+    url: SERVERURL + "productos/bajar_marketplace",
+    data: { id: id }, // Enviar el ID como un objeto
+    dataType: "json", // Asegurarse de que la respuesta se trata como JSON
+    success: function (response) {
+      // Mostrar alerta de éxito
+      if (response.status == 500) {
+        toastr.error(
+            "EL PRODUCTO NO SE BAJO DEL MARKETPLACE CORRECTAMENTE",
+            "NOTIFICACIÓN", {
+                positionClass: "toast-bottom-center"
+            }
+        );
+    } else if (response.status == 200) {
+        toastr.success("PRODUCTO BAJADO DEL MARKETPLACE CORRECTAMENTE", "NOTIFICACIÓN", {
             positionClass: "toast-bottom-center",
         });
         initDataTableProductos();
