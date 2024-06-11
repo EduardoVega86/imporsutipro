@@ -20,7 +20,7 @@ class GuiasModel extends Query
                 "identificacionO" => $identificacion,
                 "nombreO" => $nombreOrigen,
                 "ciudadO" => $ciudadOrigen,
-                "direccionO" => $direccionOrigen,
+                "direccion" => $direccionOrigen,
                 "telefono" => $telefonoOrigen,
                 "celular" => $telefonoOrigen,
                 "referenciaO" => $referenciaOrigen,
