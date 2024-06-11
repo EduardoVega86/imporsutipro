@@ -255,6 +255,35 @@ $(document).ready(function () {
 
   // Llamar a cargarCiudades cuando se seleccione una provincia
   $("#provincia").on("change", cargarCiudades);
+
+  $("#provincia,#ciudad").change(function () {
+    var provincia = $("provincia").val();
+    var ciudad = $("ciudad").val();
+    var monto_total = $("monto_total").val();
+
+    if (
+      provincia !== "Selecciona una opción" &&
+      ciudad !== "Selecciona una opción" &&
+      monto_total != 0
+    ) {
+      let formData = new FormData();
+      formData.append("ciudad", ciudad);
+      formData.append("provincia", provincia);
+      formData.append("monto_factura", monto_total);
+
+      $.ajax({
+        url: SERVERURL + "Calculadora/obtenerTarifas",
+        type: "POST",
+        data: formData,
+        success: function (response) {
+            console.log(response);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          alert(errorThrown);
+        },
+      });
+    }
+  });
 });
 
 // Función para cargar provincias
