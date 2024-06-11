@@ -83,16 +83,13 @@ class Pedidos extends Controller
         $dropshipping = $_POST['dropshipping'] ?? 0;
         $id_plataforma = $_SESSION['id_plataforma'];
         $dueño_id = $this->obtener_propietario($id_producto_venta);
-        echo $dueño_id;
-
-        echo $id_plataforma;
 
         if ($dueño_id == $id_plataforma) {
             $dropshipping = 0;
         } else {
             $dropshipping = 1;
         }
-        echo $dropshipping;
+
         $importado = $_POST['importado'] ?? 0;
         $plataforma_importa = $_POST['plataforma_importa'] ?? 0;
         $cod = $_POST['cod'] ?? 0;
