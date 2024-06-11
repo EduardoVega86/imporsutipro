@@ -253,7 +253,7 @@ const filtrarProductosPorCategoria = async (categoriaId) => {
         if (producto.drogshipin == 0){
           subir_marketplace = `<box-icon name='cloud-upload' onclick="subir_marketplace(${producto.id_producto})"></box-icon>`;
         } else {
-          subir_marketplace = `<box-icon name='cloud-upload' onclick="bajar_marketplace(${producto.id_producto})"></box-icon>`;
+          subir_marketplace = `<box-icon name='cloud-download' onclick="bajar_marketplace(${producto.id_producto})"></box-icon>`;
         }
         content += `
                   <tr>
