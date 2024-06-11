@@ -261,7 +261,7 @@ $(document).ready(function () {
     var ciudad = $("#ciudad").val();
     var monto_total = $("#monto_total").text().trim();
 
-    console.log('antes de la condicion');
+    console.log("antes de la condicion");
     if (
       provincia !== "Selecciona una opción" &&
       ciudad !== "Selecciona una opción" &&
@@ -281,8 +281,8 @@ $(document).ready(function () {
         contentType: false,
         success: function (response) {
           $("#price_servientrega").text(response.servientrega);
-          $("#price_laar").text(response.laar);
           $("#price_gintracom").text(response.gintracom);
+          $("#price_laar").text(response.laar);
         },
         error: function (jqXHR, textStatus, errorThrown) {
           alert(errorThrown);
