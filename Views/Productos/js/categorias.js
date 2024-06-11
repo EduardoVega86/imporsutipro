@@ -49,33 +49,54 @@ const listCategorias = async () => {
     const categorias = await response.json();
 
     let content = ``;
-    let online='';
-    let cargar_imagen='';
+    let online = "";
+    let cargar_imagen = "";
+    let botones_accion = "";
     categorias.forEach((categoria, index) => {
-      if(categoria.online == 0){
-        online= '<span style="background-color: #F20E0E; color: white; padding: 5px; border-radius: 0.3rem;">No</span>';
-      }else{
-        online= '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SI</span>';
+      if (categoria.online == 0) {
+        online =
+          '<span style="background-color: #F20E0E; color: white; padding: 5px; border-radius: 0.3rem;">No</span>';
+      } else {
+        online =
+          '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SI</span>';
       }
 
-      if(categoria.tipo == 0){
-        tipo= '<span style="background-color: #F20E0E; color: white; padding: 5px; border-radius: 0.3rem;">SEGUNDARIO</span>';
-      }else{
-        tipo= '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">PRINCIPAL</span>';
+      if (categoria.tipo == 0) {
+        tipo =
+          '<span style="background-color: #F20E0E; color: white; padding: 5px; border-radius: 0.3rem;">SEGUNDARIO</span>';
+      } else {
+        tipo =
+          '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">PRINCIPAL</span>';
       }
 
-      if(categoria.estado_linea == 0){
-        estado_linea= '<span style="background-color: #F20E0E; color: white; padding: 5px; border-radius: 0.3rem;">Inactivo</span>';
-      }else{
-        estado_linea= '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">Activo</span>';
+      if (categoria.estado_linea == 0) {
+        estado_linea =
+          '<span style="background-color: #F20E0E; color: white; padding: 5px; border-radius: 0.3rem;">Inactivo</span>';
+      } else {
+        estado_linea =
+          '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">Activo</span>';
       }
 
       if (!categoria.imagen) {
-        cargar_imagen = `<i class="fas fa-camera icon-button" onclick="agregar_imagenCategoria(${categoria.id_linea})"></i>`;
+        if (categoria.global == 1) {
+          cargar_imagen = ``;
+        } else {
+          cargar_imagen = `<i class="fas fa-camera icon-button" onclick="agregar_imagenCategoria(${categoria.id_linea})"></i>`;
+        }
       } else {
-        cargar_imagen = `<img src="${SERVERURL}${categoria.imagen}" class="icon-button" onclick="agregar_imagenCategoria(${categoria.id_linea})" alt="Agregar imagen" width="50px">`;
-      } 
+        if (categoria.global == 1) {
+          cargar_imagen = ``;
+        } else {
+          cargar_imagen = `<img src="${SERVERURL}${categoria.imagen}" class="icon-button" onclick="agregar_imagenCategoria(${categoria.id_linea})" alt="Agregar imagen" width="50px">`;
+        }
+      }
 
+      if (categoria.global == 1) {
+        botones_accion = ``;
+      } else {
+        botones_accion = `<button class="btn btn-sm btn-primary" onclick="editar_categoria(${categoria.id_linea})"><i class="fa-solid fa-pencil"></i>Editar</button>
+        <button class="btn btn-sm btn-danger" onclick="eliminar_categoria(${categoria.id_linea})"><i class="fa-solid fa-trash-can"></i>Borrar</button>`;
+      }
       content += `
                 <tr>
                     <td>${categoria.nombre_linea}</td>
@@ -85,9 +106,7 @@ const listCategorias = async () => {
                     <td>${tipo}</td>
                     <td>${estado_linea}</td>
                     <td>
-                        <button class="btn btn-sm btn-primary" onclick="editar_categoria(${categoria.id_linea})"><i class="fa-solid fa-pencil"></i>Editar</button>
-                        <button class="btn btn-sm btn-danger" onclick="eliminar_categoria(${categoria.id_linea})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
-
+                    ${botones_accion}
                     </td>
                 </tr>`;
     });
@@ -102,7 +121,7 @@ function eliminar_categoria(id) {
     type: "POST",
     url: SERVERURL + "productos/eliminarCategoria",
     data: { id: id }, // Enviar el ID como un objeto
-    dataType: 'json', // Asegurarse de que la respuesta se trata como JSON
+    dataType: "json", // Asegurarse de que la respuesta se trata como JSON
     success: function (response) {
       // Mostrar alerta de éxito
       if (response.status == 500) {
@@ -133,54 +152,55 @@ function eliminar_categoria(id) {
 
 function editar_categoria(id) {
   $.ajax({
-      type: "POST",
-      url: SERVERURL + "productos/listarCategoria",
-      data: { id: id },
-      dataType: 'json',
-      success: function (response) {
-          console.log(response); // Depuración: Mostrar la respuesta en la consola
+    type: "POST",
+    url: SERVERURL + "productos/listarCategoria",
+    data: { id: id },
+    dataType: "json",
+    success: function (response) {
+      console.log(response); // Depuración: Mostrar la respuesta en la consola
 
-          if (response && response.length > 0) {
-              // Obtener el primer objeto de la respuesta
-              const data = response[0];
+      if (response && response.length > 0) {
+        // Obtener el primer objeto de la respuesta
+        const data = response[0];
 
-              // Verificar que los elementos existen antes de asignarles valores
-              if ($('#editar_nombre_linea').length > 0 && 
-                  $('#editar_descripcion_linea').length > 0 && 
-                  $('#editar_online').length > 0 && 
-                  $('#editar_tipo').length > 0 && 
-                  $('#editar_padre').length > 0 && 
-                  $('#editar_estado').length > 0) {
-                  
-                  console.log('Elementos encontrados, actualizando valores...');
-                  // Llenar los inputs del modal con los datos recibidos
-                  $('#editar_id_linea').val(data.id_linea);
-                  $('#editar_nombre_linea').val(data.nombre_linea);
-                  $('#editar_descripcion_linea').val(data.descripcion_linea);
-                  $('#editar_online').val(data.online);
-                  $('#editar_tipo').val(data.tipo);
-                  $('#editar_padre').val(data.padre);
-                  $('#editar_estado').val(data.estado_linea);
+        // Verificar que los elementos existen antes de asignarles valores
+        if (
+          $("#editar_nombre_linea").length > 0 &&
+          $("#editar_descripcion_linea").length > 0 &&
+          $("#editar_online").length > 0 &&
+          $("#editar_tipo").length > 0 &&
+          $("#editar_padre").length > 0 &&
+          $("#editar_estado").length > 0
+        ) {
+          console.log("Elementos encontrados, actualizando valores...");
+          // Llenar los inputs del modal con los datos recibidos
+          $("#editar_id_linea").val(data.id_linea);
+          $("#editar_nombre_linea").val(data.nombre_linea);
+          $("#editar_descripcion_linea").val(data.descripcion_linea);
+          $("#editar_online").val(data.online);
+          $("#editar_tipo").val(data.tipo);
+          $("#editar_padre").val(data.padre);
+          $("#editar_estado").val(data.estado_linea);
 
-                  // Abrir el modal
-                  $('#editar_categoriaModal').modal('show');
-              } else {
-                  console.error("Uno o más elementos no se encontraron en el DOM.");
-              }
-          } else {
-              console.error("La respuesta está vacía o tiene un formato incorrecto.");
-          }
-      },
-      error: function (xhr, status, error) {
-          console.error("Error en la solicitud AJAX:", error);
-          alert("Hubo un problema al obtener la información de la categoría");
-      },
+          // Abrir el modal
+          $("#editar_categoriaModal").modal("show");
+        } else {
+          console.error("Uno o más elementos no se encontraron en el DOM.");
+        }
+      } else {
+        console.error("La respuesta está vacía o tiene un formato incorrecto.");
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al obtener la información de la categoría");
+    },
   });
 }
 
 function agregar_imagenCategoria(id) {
-  $('#id_imagenCategoria').val(id);
-  $('#imagen_categoriaModal').modal('show');
+  $("#id_imagenCategoria").val(id);
+  $("#imagen_categoriaModal").modal("show");
 }
 
 window.addEventListener("load", async () => {
