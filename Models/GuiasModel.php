@@ -71,6 +71,9 @@ class GuiasModel extends Query
 
         //execute post
         $result = curl_exec($ch);
+        if (curl_errno($ch)) {
+            echo 'Error en la solicitud cURL: ' . curl_error($ch);
+        }
         curl_close($ch);
         return $result;
     }
@@ -101,6 +104,9 @@ class GuiasModel extends Query
             'Content-Length: ' . strlen($auth)
         ));
         $response = curl_exec($ch);
+        if (curl_errno($ch)) {
+            echo 'Error en la solicitud cURL para obtener el token: ' . curl_error($ch);
+        }
         curl_close($ch);
         return $response;
     }
