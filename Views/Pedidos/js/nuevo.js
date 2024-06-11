@@ -1,8 +1,7 @@
 let dataTableNuevoPedido;
 let dataTableNuevoPedidoIsInitialized = false;
 let eliminado = false;
-const id_producto = getParameterByName("id_producto");
-const sku = getParameterByName("sku");
+
 const dataTableNuevoPedidoOptions = {
   paging: false,
   searching: false,
