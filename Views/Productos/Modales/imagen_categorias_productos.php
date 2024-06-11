@@ -48,7 +48,7 @@
                     <input type="hidden" id="id_imagenCategoria" name="id_linea">
                     <div class="form-group">
                         <label for="imageInput">Imagen</label>
-                        <input type="file" class="form-control-file" id="imageInput" accept="image/*" name="imagen">
+                        <input type="file" class="form-control-file" id="imageInput" accept="image/*" name="imagen" style="width: 100px;">
                     </div>
                     <img id="imagePreview" class="image-preview" src="" alt="Preview">
             </div>
