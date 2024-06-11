@@ -89,9 +89,23 @@
                 contentType: false,
                 processData: false,
                 success: function(response) {
-                    alert('Imagen guardada correctamente');
-                    $('#imagen_categoriaModal').modal('hide');
-                    // Puedes añadir lógica adicional aquí para actualizar la vista
+                    // Mostrar alerta de éxito
+                    if (response.status == 500) {
+                        toastr.error(
+                            "LA IMAGEN NO SE AGREGRO CORRECTAMENTE",
+                            "NOTIFICACIÓN", {
+                                positionClass: "toast-bottom-center"
+                            }
+                        );
+                    } else if (response.status == 200) {
+                        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+                            positionClass: "toast-bottom-center",
+                        });
+
+                        $('#imagen_categoriaModal').modal('hide');
+                        initDataTable();
+                    }
+
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     alert('Error al guardar la imagen: ' + textStatus);
