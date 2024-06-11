@@ -256,18 +256,25 @@ $(document).ready(function () {
   // Llamar a cargarCiudades cuando se seleccione una provincia
   $("#provincia").on("change", cargarCiudades);
 
-
-  $(".price-tag").click(function() {
+  $(".price-tag").click(function () {
     var priceId = $(this).data("price-id");
-    var priceValue = $("#" + priceId).text().trim();
+    var priceValue = $("#" + priceId)
+      .text()
+      .trim();
 
     if (priceValue !== "--" && priceValue !== "") {
-        $("#valor_costo").val(priceValue);
-        console.log("Selected price: " + priceValue);
+      $("#valor_costo").val(priceValue);
+      console.log("Selected price: " + priceValue);
+
+      // Remove 'selected' class from all transportadora elements
+      $(".transportadora").removeClass("selected");
+
+      // Add 'selected' class to the parent of the clicked price-tag
+      $(this).closest(".transportadora").addClass("selected");
     } else {
-        console.log("No price available for this option");
+      console.log("No price available for this option");
     }
-});
+  });
 
   $("#provincia,#ciudad").change(function () {
     var provincia = $("#provincia").val();
@@ -293,7 +300,7 @@ $(document).ready(function () {
         contentType: false,
         success: function (response) {
           response = JSON.parse(response);
-          console.log("correcto el precio"+response.servientrega);
+          console.log("correcto el precio" + response.servientrega);
           $("#price_servientrega").text(response.servientrega);
           $("#price_gintracom").text(response.gintracom);
           $("#price_laar").text(response.laar);
