@@ -261,7 +261,6 @@ $(document).ready(function () {
     var ciudad = $("#ciudad").val();
     var monto_total = $("#monto_total").text().trim();
 
-    console.log("antes de la condicion");
     if (
       provincia !== "Selecciona una opción" &&
       ciudad !== "Selecciona una opción" &&
