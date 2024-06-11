@@ -86,7 +86,7 @@
         formData.append('id_linea', id);
 
         $.ajax({
-            url: 'URL_DEL_CONTROLADOR/guardar_imagen_categorias', // Cambia esta ruta por la ruta correcta a tu controlador
+            url: ''+SERVERURL+'Productos/guardar_imagen_categorias', // Cambia esta ruta por la ruta correcta a tu controlador
             type: 'POST',
             data: formData,
             contentType: false,
