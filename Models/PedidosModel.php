@@ -246,4 +246,10 @@ class PedidosModel extends Query
 
 
     //editar pedido
+
+    public function verPedido($id)
+    {
+        $sql = "SELECT * FROM facturas_cot WHERE id_factura = $id";
+        return $this->select($sql);
+    }
 }
