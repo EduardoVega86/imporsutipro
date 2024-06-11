@@ -224,12 +224,12 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                             <option value="0">Sin Recaudo</option>
                         </select>
                     </div>
-                    <div class="form-check mb-3">
+                    <div class="mb-3">
                         <!-- <input class="form-check-input" type="checkbox" id="asegurar_mercaderia">
                         <label class="form-check-label" for="asegurar_mercaderia">
                             Deseo asegurar la mercadería
                         </label> -->
-                        <label class="form-check-label" for="extras">Extras:</label>
+                        <label class="form-check-label" for="extras">Extras</label>
                         <select class="form-control">
                             <option>Selecciona un Extras</option>
                             <option value="1">Autogestion</option>
