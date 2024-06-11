@@ -28,7 +28,7 @@ class InvetariosModel extends Query
         $id_usuario=$_SESSION['id'];
         $nota= "Se agrego $cantidad productos(s) al inventario";
         $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $data = [$id_usuario, $inventario, $plataforma, $sku, $id_linea_producto, $nota, $referencia, $cantidad, 1, $id_bodega ,$id_producto];
+        $data = [$id_usuario, $inventario, $plataforma, $sku,  $nota, $referencia, $cantidad, 1, $id_bodega ,$id_producto];
         $insertar_historial = $this->insert($sql, $data);
 
         if ($insertar_historial == 1) {

@@ -38,11 +38,14 @@ class PedidosModel extends Query
 
     public function nuevo_pedido($fecha_factura, $id_usuario, $monto_factura, $estado_factura, $nombre_cliente, $telefono_cliente, $c_principal, $ciudad_cot, $c_secundaria, $referencia, $observacion, $guia_enviada, $transporte, $identificacion, $celular, $id_producto_venta, $dropshipping, $id_plataforma, $dueño_id, $importado, $plataforma_importa, $cod, $estado_guia_sistema, $impreso, $facturada, $factura_numero, $numero_guia, $anulada, $identificacionO, $celularO, $nombreO, $ciudadO, $provinciaO, $direccionO, $referenciaO, $numeroCasaO, $valor_segura, $no_piezas, $tipo_servicio, $peso, $contiene, $costo_flete, $costo_producto, $comentario, $id_transporte, $provincia)
     {
+         $tmp = session_id();
         $response = $this->initialResponse();
 
         $ultima_factura = $this->select("SELECT MAX(numero_factura) as factura_numero FROM facturas_cot");
         $factura_numero = $ultima_factura[0]['factura_numero'];
-
+if(!$factura_numero || $factura_numero==''){
+    $factura_numero='COT-0000000000';
+}
         $nueva_factura = $this->incrementarNumeroFactura($factura_numero);
 
 
@@ -77,7 +80,29 @@ class PedidosModel extends Query
         }
 
         $responses = $this->insert($sql, $data);
+        
+        
         if ($responses === 1) {
+            
+            $factura_id_result = $this->select("SELECT id FROM facturas_cot WHERE numero_factura = ?", array($nueva_factura));
+            $factura_id = $factura_id_result[0]['id'];
+
+               $tmp_cotizaciones = $this->select("SELECT * FROM tmp_cotizacion WHERE session_id = ?", array($tmp));
+
+        // Insertar cada registro de tmp_cotizacion en detalle_cotizacion
+        $detalle_sql = "INSERT INTO detalle_fact_cot (numero_factura, id_producto, cantidad, precio) VALUES (?, ?, ?, ?)";
+        foreach ($tmp_cotizaciones as $tmp) {
+            $detalle_data = array(
+                $nueva_factura,
+                $factura_id,
+                $tmp['id_producto'],
+                $tmp['cantidad'],
+                $tmp['precio']
+            );
+            $this->insert($detalle_sql, $detalle_data);
+        }
+        
+        
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
             $response['message'] = "Pedido creado correctamente";

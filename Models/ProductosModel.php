@@ -45,6 +45,16 @@ class ProductosModel extends Query
             $insertar_producto_ = $this->insert($sql_insert, $data_insert);
         }
         if ($insertar_producto == 1) {
+            
+        $id_usuario=$_SESSION['id'];
+        $id_inventario=buscar_inventario($id_producto, $codigo_producto);
+        $referencia='STOCK INICIAL';
+        $nota= "Se agrego $cantidad productos(s) al inventario";
+        $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $data = [$id_usuario, $id_inventario, $plataforma, $codigo_producto,  $nota, $referencia, $stock_inicial, 1, $id_bodega ,$id_producto];
+        $insertar_historial = $this->insert($sql, $data);
+        
+        
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
             $response['message'] = 'Producto agregado correctamente';
@@ -60,6 +70,13 @@ class ProductosModel extends Query
         return $response;
     }
 
+    public function buscar_inventario($id, $sku)
+    {
+       $sql_invetario = "SELECT * FROM invetario_bodegas WHERE id_producto = $id and sku='$sku'";
+            $invetario = $this->select($sql_invetario);
+            $id_invetario = $invetario[0]['id_invetario'];
+            return $id_invetario;
+    }
     public function editarProducto($id, $codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $plataforma, $stock_inicial, $bodega, $pcp, $pvp, $pref)
     {
         $response = $this->initialResponse();
