@@ -220,10 +220,11 @@ function eliminar_nuevoPedido(id) {
         toastr.success("PRODUCTO ELIMINADO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
+
+        // Recargar la DataTable
+      initDataTableNuevoPedido();
       }
 
-      // Recargar la DataTable
-      initDataTableNuevoPedido();
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
