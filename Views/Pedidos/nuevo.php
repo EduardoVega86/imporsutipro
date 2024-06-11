@@ -243,19 +243,19 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                 <div class="d-flex justify-content-around mb-4">
                     <div class="img-container text-center transportadora">
                         <img src="<?php echo SERVERURL; ?>/public/img/SERVIENTREGA.jpg" alt="Servientrega">
-                        <div class="price-tag">$<span id="price_servientrega">--</span></div>
+                        <div class="price-tag" data-price-id="price_servientrega">$<span id="price_servientrega">--</span></div>
                     </div>
                     <div class="img-container text-center transportadora">
                         <img src="<?php echo SERVERURL; ?>/public/img/LAAR.jpg" alt="Laborcourier">
-                        <div class="price-tag">$<span id="price_laar">--</span></div>
+                        <div class="price-tag" data-price-id="price_laar">$<span id="price_laar">--</span></div>
                     </div>
                     <div class="img-container text-center transportadora">
                         <img src="<?php echo SERVERURL; ?>/public/img/SPEED.jpg" alt="Speed">
-                        <div class="price-tag">$<span id="price_speed">--</span></div>
+                        <div class="price-tag" data-price-id="price_speed">$<span id="price_speed">--</span></div>
                     </div>
                     <div class="img-container text-center transportadora">
                         <img src="<?php echo SERVERURL; ?>/public/img/GINTRACOM.jpg" alt="Gintracom">
-                        <div class="price-tag">$<span id="price_gintracom">--</span></div>
+                        <div class="price-tag" data-price-id="price_gintracom">$<span id="price_gintracom">--</span></div>
                     </div>
                     <input type="hidden" id="valor_costo" name="valor_costo">
                 </div>
