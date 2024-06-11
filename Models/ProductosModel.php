@@ -493,6 +493,7 @@ class ProductosModel extends Query
         $sql = "UPDATE `productos` SET  `drogshipin` = ? WHERE `id_producto` = ? AND `id_plataforma` = ?";
         $data = [1, $id, $plataforma];
         $editar_producto = $this->update($sql, $data);
+        //print_r($editar_producto);
         if ($editar_producto == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
@@ -500,7 +501,7 @@ class ProductosModel extends Query
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = $editar_producto['message'];
+           // $response['message'] = $editar_producto['message'];
         }
         return $response;
     }
