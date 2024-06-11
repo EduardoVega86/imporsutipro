@@ -263,7 +263,8 @@ $(document).ready(function () {
 
     if (
       provincia !== "Selecciona una opción" &&
-      ciudad !== "Selecciona una opción" 
+      ciudad !== "Selecciona una opción" &&
+      monto_total != 0
     ) {
       let formData = new FormData();
       formData.append("ciudad", ciudad);
@@ -275,7 +276,7 @@ $(document).ready(function () {
         type: "POST",
         data: formData,
         success: function (response) {
-            console.log(response);
+          console.log(response);
         },
         error: function (jqXHR, textStatus, errorThrown) {
           alert(errorThrown);
