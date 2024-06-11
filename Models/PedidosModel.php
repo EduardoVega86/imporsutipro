@@ -90,14 +90,17 @@ if(!$factura_numero || $factura_numero==''){
                $tmp_cotizaciones = $this->select("SELECT * FROM tmp_cotizacion WHERE session_id = ?", array($tmp));
 
         // Insertar cada registro de tmp_cotizacion en detalle_cotizacion
-        $detalle_sql = "INSERT INTO detalle_fact_cot (numero_factura, id_producto, cantidad, precio) VALUES (?, ?, ?, ?)";
+        $detalle_sql = "INSERT INTO detalle_fact_cot (numero_factura, id_factura, id_producto, cantidad, desc_venta, precio, id_plataforma , sku) VALUES (?, ?, ?, ?, ?, ?, ?)";
         foreach ($tmp_cotizaciones as $tmp) {
             $detalle_data = array(
                 $nueva_factura,
                 $factura_id,
                 $tmp['id_producto'],
-                $tmp['cantidad'],
-                $tmp['precio']
+                $tmp['cantidad_tmp'],
+                $tmp['desc_tmp'],
+                $tmp['precio_tmp'],
+                $tmp['id_plataforma'],
+                $tmp['sku']
             );
             $this->insert($detalle_sql, $detalle_data);
         }

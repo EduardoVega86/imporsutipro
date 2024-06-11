@@ -80,7 +80,7 @@ class ProductosModel extends Query
     {
         
        $sql_invetario = "SELECT * FROM inventario_bodegas WHERE id_producto = $id and sku='$sku'";
-       echo $sql_invetario;
+       //echo $sql_invetario;
             $invetario = $this->select($sql_invetario);
             $id_invetario = $invetario[0]['id_inventario'];
             return $id_invetario;
