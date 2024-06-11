@@ -103,6 +103,24 @@ class ProductosModel extends Query
         return $response;
     }
 
+    public function eliminarProducto($id, $plataforma)
+    {
+        $response = $this->initialResponse();
+        $sql = "DELETE FROM productos WHERE id_producto = ? AND id_plataforma = ?";
+        $data = [$id, $plataforma];
+        $eliminar_producto = $this->delete($sql, $data);
+        if ($eliminar_producto == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Producto eliminado correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = $eliminar_producto['message'];
+        }
+        return $response;
+    }
+
     public function obtenerProducto($id, $plataforma)
     {
         $sql = "SELECT * FROM productos p inner join inventario_bodegas ib on p.codigo_producto = ib.sku WHERE p.id_producto = $id AND p.id_plataforma = $plataforma";
