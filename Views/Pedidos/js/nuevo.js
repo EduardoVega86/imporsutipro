@@ -280,6 +280,7 @@ $(document).ready(function () {
         processData: false,
         contentType: false,
         success: function (response) {
+          console.log("correcto el precio"+response.servientrega);
           $("#price_servientrega").text(response.servientrega);
           $("#price_gintracom").text(response.gintracom);
           $("#price_laar").text(response.laar);
