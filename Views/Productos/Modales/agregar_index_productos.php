@@ -216,7 +216,7 @@
                     // Mostrar alerta de éxito
                     if (response.status == 500) {
                         toastr.error(
-                            "EL PRODUCTO SE AGREGRO CORRECTAMENTE",
+                            "EL PRODUCTO NO SE AGREGRO CORRECTAMENTE",
                             "NOTIFICACIÓN", {
                                 positionClass: "toast-bottom-center"
                             }

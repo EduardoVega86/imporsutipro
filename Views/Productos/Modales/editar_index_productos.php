@@ -168,8 +168,22 @@
                 processData: false,
                 contentType: false,
                 success: function(response) {
-                    alert('Producto editado exitosamente');
-                    console.log(response);
+                    // Mostrar alerta de éxito
+                    if (response.status == 500) {
+                        toastr.error(
+                            "EL PRODUCTO NO SE EDITO CORRECTAMENTE",
+                            "NOTIFICACIÓN", {
+                                positionClass: "toast-bottom-center"
+                            }
+                        );
+                    } else if (response.status == 200) {
+                        toastr.success("PRODUCTO EDITADO CORRECTAMENTE", "NOTIFICACIÓN", {
+                            positionClass: "toast-bottom-center",
+                        });
+
+                        $('#editar_productoModal').modal('hide');
+                        initDataTableProductos();
+                    }
                 },
                 error: function(error) {
                     alert('Hubo un error al editar el producto');
