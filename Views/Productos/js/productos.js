@@ -336,8 +336,38 @@ function editarProducto(id) {
   });
 }
 
-function subir_marketplace(){
-
+function subir_marketplace(id){
+  $.ajax({
+    type: "POST",
+    url: SERVERURL + "productos/subir_marketplace",
+    data: { id: id }, // Enviar el ID como un objeto
+    dataType: "json", // Asegurarse de que la respuesta se trata como JSON
+    success: function (response) {
+      // Mostrar alerta de éxito
+      if (response.status == 500) {
+        Swal.fire({
+          icon: "error",
+          title: response.title,
+          text: response.message,
+        });
+      } else {
+        Swal.fire({
+          icon: "success",
+          title: response.title,
+          text: response.message,
+          showConfirmButton: false,
+          timer: 2000,
+        }).then(() => {
+          // Recargar la DataTable
+          initDataTable();
+        });
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al subir al marketplace");
+    },
+  });
 }
 
 
