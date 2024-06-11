@@ -138,7 +138,7 @@ const listProductos = async () => {
 function eliminarProducto(id) {
   $.ajax({
     type: "POST",
-    url: SERVERURL + "productos/eliminarCategoria",
+    url: SERVERURL + "productos/eliminarProducto",
     data: { id: id }, // Enviar el ID como un objeto
     dataType: "json", // Asegurarse de que la respuesta se trata como JSON
     success: function (response) {
