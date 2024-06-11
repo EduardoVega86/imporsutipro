@@ -469,7 +469,7 @@ function agregar_nuevoPedido() {
 
 
 function generar_guia() {
-  //  alert()
+  //   alert()
   // Evita que el formulario se envíe de la forma tradicional
   event.preventDefault();
   let transportadora_selected = $("#transportadora_selected").val();
