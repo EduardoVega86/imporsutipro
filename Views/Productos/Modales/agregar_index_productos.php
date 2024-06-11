@@ -109,7 +109,7 @@
                                     <select class="form-select" id="maneja-inventario">
                                         <option selected>-- Selecciona --</option>
                                         <option value="1">Sí</option>
-                                        <option value="2">No</option>
+                                        <option value="0">No</option>
                                     </select>
                                 </div>
                                 <div class="form-group w-100">
@@ -117,7 +117,7 @@
                                     <select class="form-select" id="producto-variable">
                                         <option selected>-- Selecciona --</option>
                                         <option value="1">Sí</option>
-                                        <option value="2">No</option>
+                                        <option value="0">No</option>
                                     </select>
                                 </div>
                             </div>
@@ -129,7 +129,7 @@
                                 <div class="form-group w-100 hidden-field" id="bodega-field">
                                     <label for="bodega">Bodega:</label>
                                     <select class="form-select" id="bodega">
-                                        <option selected>-- Selecciona Bodega --</option>
+                                        <option value="0" selected>-- Selecciona Bodega --</option>
                                     </select>
                                 </div>
                             </div>
@@ -156,7 +156,7 @@
 
 
         function toggleBodegaField() {
-            if (manejaInventarioSelect.value === '1' && productoVariableSelect.value === '2') { // 1 para "Sí" y 2 para "No"
+            if (manejaInventarioSelect.value === '1' && productoVariableSelect.value === '0') { // 1 para "Sí" y 2 para "No"
                 bodegaField.classList.remove('hidden-field');
             } else {
                 bodegaField.classList.add('hidden-field');
