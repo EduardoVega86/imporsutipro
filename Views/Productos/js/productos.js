@@ -158,7 +158,7 @@ function eliminarProducto(id) {
           timer: 2000,
         }).then(() => {
           // Recargar la DataTable
-          initDataTable();
+          initDataTableProductos();
         });
       }
     },
