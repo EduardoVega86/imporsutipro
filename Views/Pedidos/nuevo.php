@@ -204,16 +204,16 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                 <div class="d-flex justify-content-around mb-4">
                     <!-- Agregar imágenes o iconos según sea necesario -->
                     <div class="img-container text-center transportadora">
-                        <img src="https://i.revistapym.com.co/old/2021/09/WhatsApp-Image-2021-09-25-at-1.08.55-PM.jpeg?w=728" alt="Servientrega">
+                        <img src="<?php echo SERVERURL;?>/public/img/SERVIENTREGA.jpg" alt="Servientrega">
                     </div>
                     <div class="img-container text-center transportadora">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbwGM5QX15dfNUFH2FDGs1-mZC8LKbB6naMQ&s" alt="Laborcourier">
+                        <img src="<?php echo SERVERURL;?>/public/img/LAAR.jpg" alt="Laborcourier">
                     </div>
                     <div class="img-container text-center transportadora">
-                        <img src="path/to/speed_logo.png" alt="Speed">
+                        <img src="<?php echo SERVERURL;?>/public/img/SPEED.png" alt="Speed">
                     </div>
                     <div class="img-container text-center transportadora">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSf6LcrOLlpzpAJjvngTX0CfcwUbGmo1eNVTQ&s" alt="Gintracom">
+                        <img src="<?php echo SERVERURL;?>/public/img/GINTRACOM.jpg" alt="Gintracom">
                     </div>
                 </div>
                 <form>
