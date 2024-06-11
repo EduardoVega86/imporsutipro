@@ -522,7 +522,7 @@ function generar_guia() {
 
   // Realiza la solicitud AJAX
   if(transportadora_selected==1){
-  generar_guia='generar_laar';    
+  generar_guia='generarlaar';    
   }else{
       
   }
