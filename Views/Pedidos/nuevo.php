@@ -80,6 +80,20 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
         background-color: rgba(0, 0, 0, 0.9);
     }
 
+    .transportadora.selected {
+        border: 2px solid #007bff;
+        box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+    }
+
+    .transportadora.selected img {
+        filter: grayscale(0%);
+    }
+
+    .transportadora.selected .price-tag {
+        background-color: rgba(0, 123, 255, 0.9);
+        transform: translate(-50%, 0) scale(1.2);
+    }
+
     /* final de diseño de transportadoras */
 
     /* tabla */
