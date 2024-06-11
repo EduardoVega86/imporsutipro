@@ -73,7 +73,7 @@ const listCategorias = async () => {
       if (!categoria.imagen) {
         cargar_imagen = `<i class="fas fa-camera icon-button" onclick="agregar_imagenCategoria(${categoria.id_linea})"></i>`;
       } else {
-        cargar_imagen = `<img src="<?php echo SERVERURL;?>${categoria.imagen}" class="icon-button" onclick="agregar_imagenCategoria(${categoria.id_linea})" alt="Agregar imagen">`;
+        cargar_imagen = `${SERVERURL}${categoria.imagen}" class="icon-button" onclick="agregar_imagenCategoria(${categoria.id_linea})" alt="Agregar imagen">`;
       } 
 
       content += `
