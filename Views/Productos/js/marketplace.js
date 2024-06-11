@@ -1,136 +1,150 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const productsPerPage = 10;
-    let currentPage = 1;
-    let products = [];
-    let filteredProducts = [];
-  
-    const cardContainer = document.getElementById("card-container");
-    const pagination = document.getElementById("pagination");
-    const categoriaFiltro = document.getElementById("categoria_filtroMarketplace");
-  
-    async function fetchProducts() {
-      try {
-        const response = await fetch("" + SERVERURL + "marketplace/obtener_productos");
-        products = await response.json();
-        filteredProducts = products; // Initially, no filter is applied
-        displayProducts(filteredProducts, currentPage, productsPerPage);
-        createPagination(filteredProducts.length, productsPerPage);
-      } catch (error) {
-        console.error("Error al obtener los productos:", error);
-      }
-    }
-  
-    const displayProducts = (products, page = 1, perPage = productsPerPage) => {
-  cardContainer.innerHTML = "";
-  const start = (page - 1) * perPage;
-  const end = start + perPage;
-  const paginatedProducts = products.slice(start, end);
+  const productsPerPage = 10;
+  let currentPage = 1;
+  let products = [];
+  let filteredProducts = [];
 
-  paginatedProducts.forEach(async (product) => {
-    // Realiza la solicitud a la API para obtener los detalles del producto
+  const cardContainer = document.getElementById("card-container");
+  const pagination = document.getElementById("pagination");
+  const categoriaFiltro = document.getElementById(
+    "categoria_filtroMarketplace"
+  );
+
+  async function fetchProducts() {
     try {
-      const response = await fetch(SERVERURL + "marketplace/obtener_producto/" + product.id_producto);
-      const productDetails = await response.json();
-
-      // Crea la tarjeta del producto
-      const card = document.createElement("div");
-      card.className = "card card-custom";
-      card.innerHTML = `
-        <img src="${product.img}" class="card-img-top" alt="Product Image">
-        <div class="card-body text-center d-flex flex-column justify-content-between">
-            <div>
-                <h5 class="card-title">${product.nombre_producto}</h5>
-                <p class="card-text">Stock: <strong style="color:green">${productDetails.saldo_stock}</strong></p>
-                <p class="card-text">Precio Proveedor: <strong>$${productDetails.costo_producto}</strong></p>
-                <p class="card-text">Precio Sugerido: <strong>$${productDetails.pvp}</strong></p>
-                <p class="card-text">Proveedor: <a href="${productDetails.url_imporsuit}" target="_blank">${productDetails.url_imporsuit}</a></p>
-            </div>
-            <div>
-                <button class="btn btn-description" onclick="agregarModal_marketplace(${product.id_producto})">Descripción</button>
-                <button class="btn btn-import" onclick="enviar_cliente(${product.id_producto})">Enviar a cliente</button>
-            </div>
-        </div>
-      `;
-      cardContainer.appendChild(card);
+      const response = await fetch(
+        "" + SERVERURL + "marketplace/obtener_productos"
+      );
+      products = await response.json();
+      filteredProducts = products; // Initially, no filter is applied
+      displayProducts(filteredProducts, currentPage, productsPerPage);
+      createPagination(filteredProducts.length, productsPerPage);
     } catch (error) {
-      console.error('Error al obtener los detalles del producto:', error);
+      console.error("Error al obtener los productos:", error);
     }
-  });
-};
+  }
+
+  const displayProducts = (products, page = 1, perPage = productsPerPage) => {
+    cardContainer.innerHTML = "";
+    const start = (page - 1) * perPage;
+    const end = start + perPage;
+    const paginatedProducts = products.slice(start, end);
   
-    function createPagination(totalProducts, perPage = productsPerPage) {
-      pagination.innerHTML = "";
-      const totalPages = Math.ceil(totalProducts / perPage);
+    paginatedProducts.forEach(async (product) => {
+      // Realiza la solicitud a la API para obtener los detalles del producto
+      try {
+        const response = await fetch(SERVERURL + "marketplace/obtener_producto/" + product.id_producto);
+        const productDetails = await response.json();
   
-      const previousPageItem = document.createElement("li");
-      previousPageItem.className = "page-item";
-      previousPageItem.innerHTML = `
+        // Verifica la estructura del objeto devuelto por la API
+        if (productDetails && productDetails.length > 0) {
+          const { costo_producto, pvp, saldo_stock, url_imporsuit } = productDetails[0];  // Accede a los detalles del producto dentro del primer objeto
+  
+          // Crea la tarjeta del producto
+          const card = document.createElement("div");
+          card.className = "card card-custom";
+          card.innerHTML = `
+            <img src="${product.img}" class="card-img-top" alt="Product Image">
+            <div class="card-body text-center d-flex flex-column justify-content-between">
+                <div>
+                    <h5 class="card-title">${product.nombre_producto}</h5>
+                    <p class="card-text">Stock: <strong style="color:green">${saldo_stock}</strong></p>
+                    <p class="card-text">Precio Proveedor: <strong>$${costo_producto}</strong></p>
+                    <p class="card-text">Precio Sugerido: <strong>$${pvp}</strong></p>
+                    <p class="card-text">Proveedor: <a href="${url_imporsuit}" target="_blank">${url_imporsuit}</a></p>
+                </div>
+                <div>
+                    <button class="btn btn-description" onclick="agregarModal_marketplace(${product.id_producto})">Descripción</button>
+                    <button class="btn btn-import" onclick="enviar_cliente(${product.id_producto})">Enviar a cliente</button>
+                </div>
+            </div>
+          `;
+          cardContainer.appendChild(card);
+        } else {
+          console.error('Error: La respuesta de la API no contiene los datos esperados.');
+        }
+      } catch (error) {
+        console.error('Error al obtener los detalles del producto:', error);
+      }
+    });
+  };
+  
+
+  function createPagination(totalProducts, perPage = productsPerPage) {
+    pagination.innerHTML = "";
+    const totalPages = Math.ceil(totalProducts / perPage);
+
+    const previousPageItem = document.createElement("li");
+    previousPageItem.className = "page-item";
+    previousPageItem.innerHTML = `
           <button class="page-link" aria-label="Previous">
               <span aria-hidden="true">&laquo;</span>
           </button>
       `;
-      previousPageItem.addEventListener("click", function () {
-        if (currentPage > 1) {
-          currentPage--;
-          displayProducts(filteredProducts, currentPage, productsPerPage);
-          createPagination(totalProducts, perPage);
-        }
-      });
-      pagination.appendChild(previousPageItem);
-  
-      for (let i = 1; i <= totalPages; i++) {
-        const pageItem = document.createElement("li");
-        pageItem.className = `page-item ${i === currentPage ? "active" : ""}`;
-        pageItem.innerHTML = `
+    previousPageItem.addEventListener("click", function () {
+      if (currentPage > 1) {
+        currentPage--;
+        displayProducts(filteredProducts, currentPage, productsPerPage);
+        createPagination(totalProducts, perPage);
+      }
+    });
+    pagination.appendChild(previousPageItem);
+
+    for (let i = 1; i <= totalPages; i++) {
+      const pageItem = document.createElement("li");
+      pageItem.className = `page-item ${i === currentPage ? "active" : ""}`;
+      pageItem.innerHTML = `
               <button class="page-link">${i}</button>
           `;
-        pageItem.addEventListener("click", function () {
-          currentPage = i;
-          displayProducts(filteredProducts, currentPage, productsPerPage);
-          createPagination(totalProducts, perPage);
-        });
-        pagination.appendChild(pageItem);
-      }
-  
-      const nextPageItem = document.createElement("li");
-      nextPageItem.className = "page-item";
-      nextPageItem.innerHTML = `
+      pageItem.addEventListener("click", function () {
+        currentPage = i;
+        displayProducts(filteredProducts, currentPage, productsPerPage);
+        createPagination(totalProducts, perPage);
+      });
+      pagination.appendChild(pageItem);
+    }
+
+    const nextPageItem = document.createElement("li");
+    nextPageItem.className = "page-item";
+    nextPageItem.innerHTML = `
           <button class="page-link" aria-label="Next">
               <span aria-hidden="true">&raquo;</span>
           </button>
       `;
-      nextPageItem.addEventListener("click", function () {
-        if (currentPage < totalPages) {
-          currentPage++;
-          displayProducts(filteredProducts, currentPage, productsPerPage);
-          createPagination(totalProducts, perPage);
-        }
-      });
-      pagination.appendChild(nextPageItem);
-  
-      updatePaginationButtons(totalPages);
-    }
-  
-    function updatePaginationButtons(totalPages) {
-      const previousPageItem = pagination.querySelector(".page-item:first-child");
-      const nextPageItem = pagination.querySelector(".page-item:last-child");
-  
-      previousPageItem.classList.toggle("disabled", currentPage === 1);
-      nextPageItem.classList.toggle("disabled", currentPage === totalPages);
-    }
-  
-    categoriaFiltro.addEventListener("change", function () {
-      const selectedCategory = categoriaFiltro.value;
-      filteredProducts = selectedCategory 
-        ? products.filter(product => product.id_linea_producto === selectedCategory) 
-        : products;
-      currentPage = 1;
-      displayProducts(filteredProducts, currentPage, productsPerPage);
-      createPagination(filteredProducts.length, productsPerPage);
+    nextPageItem.addEventListener("click", function () {
+      if (currentPage < totalPages) {
+        currentPage++;
+        displayProducts(filteredProducts, currentPage, productsPerPage);
+        createPagination(totalProducts, perPage);
+      }
     });
-  
-    fetchProducts();
+    pagination.appendChild(nextPageItem);
+
+    updatePaginationButtons(totalPages);
+  }
+
+  function updatePaginationButtons(totalPages) {
+    const previousPageItem = pagination.querySelector(".page-item:first-child");
+    const nextPageItem = pagination.querySelector(".page-item:last-child");
+
+    previousPageItem.classList.toggle("disabled", currentPage === 1);
+    nextPageItem.classList.toggle("disabled", currentPage === totalPages);
+  }
+
+  categoriaFiltro.addEventListener("change", function () {
+    const selectedCategory = categoriaFiltro.value;
+    filteredProducts = selectedCategory
+      ? products.filter(
+          (product) => product.id_linea_producto === selectedCategory
+        )
+      : products;
+    currentPage = 1;
+    displayProducts(filteredProducts, currentPage, productsPerPage);
+    createPagination(filteredProducts.length, productsPerPage);
   });
+
+  fetchProducts();
+});
 
 //agregar informacion al modal descripcion marketplace
 function agregarModal_marketplace(id) {
@@ -206,7 +220,12 @@ function enviar_cliente(id) {
                 text: response2.message,
               });
             } else if (response2.status == 200) {
-                window.location.href = SERVERURL + "Pedidos/nuevo?id_producto=" + data.id_producto + "&sku=" + data.sku;
+              window.location.href =
+                SERVERURL +
+                "Pedidos/nuevo?id_producto=" +
+                data.id_producto +
+                "&sku=" +
+                data.sku;
             }
           },
           error: function (xhr, status, error) {
@@ -250,43 +269,43 @@ function formatPhoneNumber(number) {
 
 // Función para vaciar temporalmente los pedidos
 const vaciarTmpPedidos = async () => {
-    try {
-        const response = await fetch(''+SERVERURL+'marketplace/vaciarTmp');
-        if (!response.ok) {
-            throw new Error('Error al vaciar los pedidos temporales');
-        }
-        const data = await response.json();
-        console.log('Respuesta de vaciarTmp:', data);
-    } catch (error) {
-        console.error('Error al hacer la solicitud:', error);
+  try {
+    const response = await fetch("" + SERVERURL + "marketplace/vaciarTmp");
+    if (!response.ok) {
+      throw new Error("Error al vaciar los pedidos temporales");
     }
+    const data = await response.json();
+    console.log("Respuesta de vaciarTmp:", data);
+  } catch (error) {
+    console.error("Error al hacer la solicitud:", error);
+  }
 };
 
 //cargar select categoria
 $(document).ready(function () {
-    // Realiza la solicitud AJAX para obtener la lista de categorias
-    $.ajax({
-      url: SERVERURL + "productos/cargar_categorias",
-      type: "GET",
-      dataType: "json",
-      success: function (response) {
-        // Asegúrate de que la respuesta es un array
-        if (Array.isArray(response)) {
-          response.forEach(function (categoria) {
-            // Agrega una nueva opción al select por cada categoria
-            $("#categoria_filtroMarketplace").append(
-              new Option(categoria.nombre_linea, categoria.id_linea)
-            );
-          });
-        } else {
-          console.log("La respuesta de la API no es un array:", response);
-        }
-      },
-      error: function (error) {
-        console.error("Error al obtener la lista de categorias:", error);
-      },
-    });
+  // Realiza la solicitud AJAX para obtener la lista de categorias
+  $.ajax({
+    url: SERVERURL + "productos/cargar_categorias",
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+      // Asegúrate de que la respuesta es un array
+      if (Array.isArray(response)) {
+        response.forEach(function (categoria) {
+          // Agrega una nueva opción al select por cada categoria
+          $("#categoria_filtroMarketplace").append(
+            new Option(categoria.nombre_linea, categoria.id_linea)
+          );
+        });
+      } else {
+        console.log("La respuesta de la API no es un array:", response);
+      }
+    },
+    error: function (error) {
+      console.error("Error al obtener la lista de categorias:", error);
+    },
   });
+});
 
 // Ejecutar la función cuando la página se haya cargado
-window.addEventListener('load', vaciarTmpPedidos);
+window.addEventListener("load", vaciarTmpPedidos);
