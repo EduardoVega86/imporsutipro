@@ -3,7 +3,7 @@ class CalculadoraModel extends Query
 {
     public function obtenerTarifas($ciudad, $provincia, $monto_factura)
     {
-        $select = $this->select("SELECT * FROM ciudad_cotizacion WHERE ciudad = '$ciudad' ");
+        $select = $this->select("SELECT * FROM ciudad_cotizacion WHERE id_cotizacion = '$ciudad' ");
         $tarifas = [];
         $trayecto_laar = $select[0]['trayecto_laar'];
         $trayecto_servientrega = $select[0]['trayecto_servientrega'];
