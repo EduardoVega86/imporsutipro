@@ -259,13 +259,14 @@ $(document).ready(function () {
   $("#provincia,#ciudad").change(function () {
     var provincia = $("#provincia").val();
     var ciudad = $("#ciudad").val();
-    var monto_total = $("#monto_total").val();
+    var monto_total = $("#monto_total").text().trim();
 
     console.log('antes de la condicion');
     if (
       provincia !== "Selecciona una opción" &&
       ciudad !== "Selecciona una opción" &&
-      monto_total !== 0
+      monto_total !== "" &&
+      monto_total !== "0"
     ) {
       let formData = new FormData();
       formData.append("ciudad", ciudad);
@@ -276,8 +277,8 @@ $(document).ready(function () {
         url: SERVERURL + "Calculadora/obtenerTarifas",
         type: "POST",
         data: formData,
-        processData: false, // Agregado para manejar FormData correctamente
-        contentType: false, // Agregado para manejar FormData correctamente
+        processData: false,
+        contentType: false,
         success: function (response) {
           console.log(response);
         },
