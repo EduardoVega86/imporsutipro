@@ -256,11 +256,9 @@ $(document).ready(function () {
   // Llamar a cargarCiudades cuando se seleccione una provincia
   $("#provincia").on("change", cargarCiudades);
 
-  $(".price-tag").click(function () {
-    var priceId = $(this).data("price-id");
-    var priceValue = $("#" + priceId)
-      .text()
-      .trim();
+  $(".transportadora").click(function () {
+    var priceSpan = $(this).find(".price-tag span");
+    var priceValue = priceSpan.text().trim();
 
     if (priceValue !== "--" && priceValue !== "") {
       $("#valor_costo").val(priceValue);
@@ -269,8 +267,8 @@ $(document).ready(function () {
       // Remove 'selected' class from all transportadora elements
       $(".transportadora").removeClass("selected");
 
-      // Add 'selected' class to the parent of the clicked price-tag
-      $(this).closest(".transportadora").addClass("selected");
+      // Add 'selected' class to the clicked transportadora
+      $(this).addClass("selected");
     } else {
       console.log("No price available for this option");
     }
