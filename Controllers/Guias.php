@@ -18,6 +18,7 @@ class Guias extends Controller
         /// remitente
         $nombreOrigen = $_POST['nombreO'];
         $ciudadOrigen = $_POST['ciudadO'];
+        $ciudadOrigen = $this->model->obtenerCiudadLaar($ciudadOrigen);
         $direccionOrigen = $_POST['direccionO'];
         $telefonoOrigen = $_POST['telefonoO'];
         $referenciaOrigen = $_POST['referenciaO'];
@@ -25,6 +26,7 @@ class Guias extends Controller
         /// destinatario
         $nombreDestino = $_POST['nombre'];
         $ciudadDestino = $_POST['ciudad_cot'];
+        $ciudadDestino = $this->model->obtenerCiudadLaar($ciudadDestino);
         $direccionDestino = $_POST['c_principal'] + " y " + $_POST['c_secundaria'] + " " + $_POST['referencia'];
         $telefonoDestino = $_POST['telefono'];
         $celularDestino = $telefonoDestino;
@@ -46,9 +48,9 @@ class Guias extends Controller
         $comentario = $_POST['observacion'];
         $fecha = date("Y-m-d");
         $extras = "";
-        $numero_guia = $this->ultimaguia();
 
         $datos = $this->model->generarLaar($nombreOrigen, $ciudadOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras);
+        echo json_encode($datos);
     }
 
     private function obtenerDestinatario()
