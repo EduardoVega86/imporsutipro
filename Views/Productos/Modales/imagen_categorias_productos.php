@@ -44,13 +44,13 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="imageForm" enctype="multipart/form-data">
+                <form id="imageForm">
                     <input type="hidden" id="id_imagenCategoria" name="id_imagenCategoria">
                     <div class="form-group">
                         <label for="imageInput">Imagen</label>
-                        <input type="file" class="form-control-file" id="imageInput" name="imagen" accept="image/*">
+                        <input type="file" class="form-control-file" id="imageInput" accept="image/*">
                     </div>
-                    <img id="imagePreview" class="image-preview" src="" alt="Preview" style="display: none;">
+                    <img id="imagePreview" class="image-preview" src="" alt="Preview">
                 </form>
             </div>
             <div class="modal-footer">
@@ -63,40 +63,43 @@
 
 <script>
     $(document).ready(function() {
-        $('#imageInput').change(function() {
-            const file = this.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    $('#imagePreview').attr('src', e.target.result);
-                    $('#imagePreview').show();
-                }
-                reader.readAsDataURL(file);
-            } else {
-                $('#imagePreview').hide();
+    $('#imageInput').change(function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                $('#imagePreview').attr('src', e.target.result);
+                $('#imagePreview').show();
+            }
+            reader.readAsDataURL(file);
+        } else {
+            $('#imagePreview').hide();
+        }
+    });
+
+    $('#saveButton_imangeCategoria').click(function() {
+        var formData = new FormData();
+        var file = $('#imageInput')[0].files[0];
+        var id = $('#id_imagenCategoria').val();
+
+        formData.append('imagen', file);
+        formData.append('id_linea', id);
+
+        $.ajax({
+            url: 'URL_DEL_CONTROLADOR/guardar_imagen_categorias', // Cambia esta ruta por la ruta correcta a tu controlador
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                alert('Imagen guardada correctamente');
+                $('#imagen_categoriaModal').modal('hide');
+                // Puedes añadir lógica adicional aquí para actualizar la vista
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert('Error al guardar la imagen: ' + textStatus);
             }
         });
-
-        $('#saveButton_imangeCategoria').click(function() {
-            var formData = new FormData($('#imageForm')[0]);
-            var id = $('#id_imagenCategoria').val();
-            formData.append('id_linea', id);
-
-            $.ajax({
-                url: ''+SERVERURL+'Productos/guardar_imagen_categorias', // Cambia esta ruta por la ruta correcta a tu controlador
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(response) {
-                    alert('Imagen guardada correctamente');
-                    $('#imagen_categoriaModal').modal('hide');
-                    // Puedes añadir lógica adicional aquí para actualizar la vista
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    alert('Error al guardar la imagen: ' + textStatus);
-                }
-            });
-        });
     });
+});
 </script>
