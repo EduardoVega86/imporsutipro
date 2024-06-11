@@ -188,6 +188,19 @@ class ProductosModel extends Query
                 $response['title'] = 'Peticion exitosa';
                 $response['message'] = 'Imagen subida correctamente';
                 $response['data'] = $target_file;
+                
+                $sql = "UPDATE productos SET image_path = ? WHERE id_producto = ? AND id_plataforma = ?";
+                $data = [$target_file, $id_categoria, $plataforma];
+                $editar_imagen = $this->update($sql, $data);
+                if ($editar_imagen == 1) {
+                    $response['status'] = 200;
+                    $response['title'] = 'Peticion exitosa';
+                    $response['message'] = 'Imagen subida correctamente';
+                } else {
+                    $response['status'] = 500;
+                    $response['title'] = 'Error';
+                    $response['message'] = 'Error al subir la imagen';
+                }
             } else {
                 $response['status'] = 500;
                 $response['title'] = 'Error';
