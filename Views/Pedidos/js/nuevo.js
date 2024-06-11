@@ -468,7 +468,7 @@ function agregar_nuevoPedido() {
 }
 
 
-function geenrar_nuevaGuia() {
+function generar_guia() {
   // Evita que el formulario se envíe de la forma tradicional
   event.preventDefault();
   let transportadora_selected = $("#transportadora_selected").val();
@@ -528,7 +528,7 @@ function geenrar_nuevaGuia() {
   }
   
   $.ajax({
-    url: "" + SERVERURL + "/guias/generar_laar",
+    url: "" + SERVERURL + "/guias/"+generar_guia,
     type: "POST",
     data: formData,
     processData: false,
