@@ -142,6 +142,7 @@ class Pedidos extends Controller
     public function obtener_propietario($id_producto)
     {
         $datos = $this->model->obtenerDestinatario($id_producto);
+        return  $datos;
     }
 
     public function obtener_guias($filtro = "")
