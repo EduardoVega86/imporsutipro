@@ -414,10 +414,10 @@ function agregar_nuevoPedido() {
   formData.append("valor_seguro", 0); // Corregir nombre de variable
   formData.append("no_piezas", 1);
   formData.append("contiene", contiene);
-  formData.append("costo_flete", 0);
+  formData.append("costo_flete", $("#costo_flete").val());
   formData.append("costo_producto", costo_producto);
   formData.append("comentario", "Enviado por x");
-  formData.append("id_transporte", 0);
+  formData.append("id_transporte", $("#transportadora_selected").val());
 
   // Realiza la solicitud AJAX
   $.ajax({
