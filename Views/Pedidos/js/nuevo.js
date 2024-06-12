@@ -579,14 +579,12 @@ function generar_guia() {
             if (response.status == 500) {
               Swal.fire({
                 icon: "error",
-                title: response.title,
-                text: response.message,
+                title: "Error al creat guia",
               });
             } else if (response.status == 200) {
               Swal.fire({
                 icon: "success",
-                title: response.title,
-                text: response.message,
+                title: "Creacion de guia Completada",
                 showConfirmButton: false,
                 timer: 2000,
               }).then(() => {
