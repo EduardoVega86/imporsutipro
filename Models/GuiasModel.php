@@ -140,6 +140,7 @@ class GuiasModel extends Query
         $numero = str_pad((int)$numero + 1, strlen($numero), '0', STR_PAD_LEFT);
         // Unir el prefijo con el número de serie
         $guia = $prefijo . 'P' . $numero;
+        print_r($guia);
         return $guia;
     }
 }
