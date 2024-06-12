@@ -10,7 +10,9 @@ class MarketplaceModel extends Query
 
     public function obtener_productos($plataforma)
     {
-        $sql = "SELECT * FROM `productos` where drogshipin = 1 or id_plataforma=$plataforma";
+        $sql = "SELECT * FROM `productos`, inventario_bodegas where (productos.drogshipin=1 and inventario_bodegas.id_plataforma=productos.id_plataforma "
+                . "and inventario_bodegas.id_producto and productos.id_producto and inventario_bodegas.sku=productos.codigo_producto ) or "
+                . "(inventario_bodegas.id_plataforma=1152 and productos.id_plataforma=1152 and inventario_bodegas.id_producto and productos.id_producto and inventario_bodegas.sku=productos.codigo_producto) and bodega !=0";
         return $this->select($sql);
     }
 
@@ -39,10 +41,27 @@ class MarketplaceModel extends Query
     }
     public function agregarTmp($id_producto, $cantidad, $precio,  $plataforma, $sku)
     {
-        $timestamp = session_id();
-        $sql = "INSERT INTO `tmp_cotizacion` (`id_producto`, `cantidad_tmp`, `precio_tmp`, `session_id`, `id_plataforma`, `sku`) VALUES (?, ?, ?, ?, ?, ?);";
+        //verificar productos
+         $timestamp = session_id();
+          $cantidad_tmp = $this->select("SELECT * FROM tmp_cotizacion WHERE session_id = '$timestamp' and id_producto=$id_producto and sku=$sku" );
+          print_r($cantidad_tmp);
+          if (empty($cantidad_tmp)){
+              $sql = "INSERT INTO `tmp_cotizacion` (`id_producto`, `cantidad_tmp`, `precio_tmp`, `session_id`, `id_plataforma`, `sku`) VALUES (?, ?, ?, ?, ?, ?);";
         $data = [$id_producto, $cantidad, $precio, $timestamp, $plataforma, $sku];
         $insertar_caracteristica = $this->insert($sql, $data);
+        
+          }else{
+              $cantidad_anterior = $cantidad_tmp[0]["cantidad_tmp"];
+              $cantidad_nueva=$cantidad_anterior+$cantidad;
+              $id_tmp = $cantidad_tmp[0]["id_tmp"];
+              $sql = "UPDATE `tmp_cotizacion` SET  `cantidad_tmp` = ? WHERE `id_tmp` = ?";
+        $data = [$cantidad_nueva,$id_tmp];
+        $insertar_caracteristica = $this->update($sql, $data);
+        //print_r($insertar_caracteristica);
+          }
+         
+     
+        
         if ($insertar_caracteristica == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
