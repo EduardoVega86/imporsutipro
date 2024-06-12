@@ -550,7 +550,7 @@ function generar_guia() {
       // Mostrar alerta de carga antes de realizar la solicitud AJAX
       Swal.fire({
         title: "Cargando",
-        text: "Generando Guia pedido",
+        text: "Generando Guia del pedido",
         allowOutsideClick: false,
         showConfirmButton: false,
         timer: 2000,
@@ -558,7 +558,7 @@ function generar_guia() {
           Swal.showLoading();
         },
       });
-      
+
       if (response.status == 500) {
         Swal.fire({
           icon: "error",
