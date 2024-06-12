@@ -588,22 +588,26 @@ function generar_guia() {
             }, 2000);
 
             if (response.status == 500) {
-              Swal.fire({
-                icon: "error",
-                title: response.title,
-                text: response.message,
-              });
+              setTimeout(() => {
+                Swal.fire({
+                  icon: "error",
+                  title: response.title,
+                  text: response.message,
+                });
+              }, 2000);
             } else if (response.status == 200) {
-              Swal.fire({
-                icon: "success",
-                title: response.title,
-                text: response.message,
-                showConfirmButton: false,
-                timer: 2000,
-              }).then(() => {
-                vaciarTmpPedidos();
-                window.location.href = "" + SERVERURL + "Pedidos";
-              });
+              setTimeout(() => {
+                Swal.fire({
+                  icon: "success",
+                  title: response.title,
+                  text: response.message,
+                  showConfirmButton: false,
+                  timer: 2000,
+                }).then(() => {
+                  vaciarTmpPedidos();
+                  window.location.href = "" + SERVERURL + "Pedidos";
+                });
+              }, 2000);
             }
           },
           error: function (error) {
