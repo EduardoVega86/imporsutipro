@@ -467,6 +467,7 @@ function agregar_nuevoPedido() {
 }
 
 function generar_guia() {
+  //   alert()
   // Evita que el formulario se envíe de la forma tradicional
   event.preventDefault();
   let transportadora_selected = $("#transportadora_selected").val();
@@ -519,23 +520,11 @@ function generar_guia() {
   formData.append("comentario", "Enviado por x");
   formData.append("id_transporte", transportadora_selected);
 
-  // Determinar la URL para generar la guía
+  // Realiza la solicitud AJAX
   if (transportadora_selected == 1) {
     generar_guia = "generarlaar";
   } else {
-    // Define otras posibles rutas aquí
   }
-
-  // Mostrar alerta de carga antes de realizar la primera solicitud AJAX
-  Swal.fire({
-    title: "Cargando",
-    text: "Creando nuevo pedido",
-    allowOutsideClick: false,
-    showConfirmButton: false,
-    willOpen: () => {
-      Swal.showLoading();
-    },
-  });
 
   $.ajax({
     url: "" + SERVERURL + "/pedidos/nuevo_pedido",
@@ -545,9 +534,21 @@ function generar_guia() {
     contentType: false,
     success: function (response) {
       response = JSON.parse(response);
+      // Mostrar alerta de carga antes de realizar la solicitud AJAX
+      Swal.fire({
+        title: "Cargando",
+        text: "Creando nuevo pedido",
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        willOpen: () => {
+          Swal.showLoading();
+        },
+      });
 
-      // Cerrar la alerta de carga después de recibir la respuesta
-      Swal.close();
+      // Cerrar la alerta de carga después de 2 segundos
+      setTimeout(() => {
+        Swal.close();
+      }, 2000);
 
       if (response.status == 500) {
         Swal.fire({
@@ -557,18 +558,6 @@ function generar_guia() {
         });
       } else if (response.status == 200) {
         formData.append("numero_factura", response.numero_factura);
-
-        // Mostrar segunda alerta de carga antes de realizar la segunda solicitud AJAX
-        Swal.fire({
-          title: "Cargando",
-          text: "Generando guía del pedido",
-          allowOutsideClick: false,
-          showConfirmButton: false,
-          willOpen: () => {
-            Swal.showLoading();
-          },
-        });
-
         $.ajax({
           url: "" + SERVERURL + "/guias/" + generar_guia,
           type: "POST",
@@ -577,10 +566,22 @@ function generar_guia() {
           contentType: false,
           success: function (response) {
             response = JSON.parse(response);
+            // Mostrar alerta de carga antes de realizar la solicitud AJAX
+            Swal.fire({
+              title: "Cargando",
+              text: "Generando Guia pedido",
+              allowOutsideClick: false,
+              showConfirmButton: false,
+              willOpen: () => {
+                Swal.showLoading();
+              },
+            });
 
-            // Cerrar la segunda alerta de carga después de recibir la respuesta
-            Swal.close();
-
+            // Cerrar la alerta de carga después de 2 segundos
+            setTimeout(() => {
+              Swal.close();
+            }, 2000);
+            
             if (response.status == 500) {
               Swal.fire({
                 icon: "error",
@@ -601,29 +602,18 @@ function generar_guia() {
             }
           },
           error: function (error) {
-            Swal.close(); // Cerrar alerta en caso de error
-            Swal.fire({
-              icon: "error",
-              title: "Error",
-              text: "Hubo un error al agregar el producto",
-            });
+            alert("Hubo un error al agregar el producto");
             console.log(error);
           },
         });
       }
     },
     error: function (error) {
-      Swal.close(); // Cerrar alerta en caso de error
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "Hubo un error al agregar el producto",
-      });
+      alert("Hubo un error al agregar el producto");
       console.log(error);
     },
   });
 }
-
 // Función para vaciar temporalmente los pedidos
 const vaciarTmpPedidos = async () => {
   try {
