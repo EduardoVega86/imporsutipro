@@ -589,7 +589,7 @@ function generar_guia() {
                 timer: 2000,
               }).then(() => {
                 vaciarTmpPedidos();
-                window.location.href = "" + SERVERURL + "Pedidos";
+                window.location.href = "" + SERVERURL + "Pedidos/guias";
               });
             }
           },
