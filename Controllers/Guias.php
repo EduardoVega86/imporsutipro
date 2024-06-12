@@ -55,6 +55,9 @@ class Guias extends Controller
         $datos = json_decode($datos, true);
         if (!empty($datos["guia"])) {
             $this->model->actualizarGuia($numero_factura, $datos["guia"]);
+            $datos["status"] = "200";
+        } else {
+            $datos["status"] = "500";
         }
         echo json_encode($datos);
     }

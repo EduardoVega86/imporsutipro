@@ -76,7 +76,6 @@ class GuiasModel extends Query
             echo 'Error en la solicitud cURL: ' . curl_error($ch);
         }
         curl_close($ch);
-        print_r($result);
         return $result;
     }
 
@@ -131,7 +130,6 @@ class GuiasModel extends Query
         $sql = 'UPDATE `facturas_cot` SET numero_guia =? WHERE numero_factura = ?;';
         $data = array($guia, $numero_factura);
         $response = $this->insert($sql, $data);
-        print_r($response);
     }
 
     public function incrementarGuia($guia)
