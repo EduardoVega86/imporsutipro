@@ -534,6 +534,8 @@ function generar_guia() {
     contentType: false,
     success: function (response) {
       response = JSON.parse(response);
+
+      // Mostrar alerta de carga antes de realizar la solicitud AJAX
       Swal.fire({
         title: "Cargando",
         text: "Creando nuevo pedido",
@@ -543,6 +545,12 @@ function generar_guia() {
           Swal.showLoading();
         },
       });
+
+      // Cerrar la alerta de carga después de 2 segundos
+      setTimeout(() => {
+        Swal.close();
+      }, 2000);
+
       if (response.status == 500) {
         Swal.fire({
           icon: "error",
