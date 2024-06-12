@@ -112,11 +112,13 @@ class PedidosModel extends Query
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
             $response['message'] = "Pedido creado correctamente";
+            $response["numero_factura"] = $nueva_factura;
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
             $response['message'] = $responses['message'];
         }
+
         return $response;
     }
 

@@ -121,4 +121,10 @@ class GuiasModel extends Query
         $ciudad = $this->select($sql);
         return $ciudad[0]['codigo_ciudad_laar'];
     }
+
+    public function actualizarGuia($numero_factura, $guia)
+    {
+        $sql = "UPDATE facturas_cot SET numero_guia = '$guia' WHERE numero_factura = '$numero_factura'";
+        $this->select($sql);
+    }
 }
