@@ -1,7 +1,7 @@
 <?php
 class CalculadoraModel extends Query
 {
-    public function obtenerTarifas($ciudad, $provincia, $monto_factura)
+    public function obtenerTarifas($ciudad, $provincia, $monto_factura, $recuado)
     {
         $select = $this->select("SELECT * FROM ciudad_cotizacion WHERE id_cotizacion = '$ciudad' ");
         $tarifas = [];
@@ -33,12 +33,21 @@ class CalculadoraModel extends Query
         if ($trayecto_laar === "0" || $trayecto_laar === null) {
             $tarifas['laar'] = 0;
         } else {
-            $tarifas['laar'] = $tarifas['laar'] + $previo;
+            if ($recuado === "1") {
+
+                $tarifas['laar'] = $tarifas['laar'] + $previo;
+            } else {
+                $tarifas['laar'] = $tarifas['laar'];
+            }
         }
         if ($trayecto_gintracom === "0" || $trayecto_gintracom === null) {
             $tarifas['gintracom'] = 0;
         } else {
-            $tarifas['gintracom'] = $tarifas['gintracom'] + $previo;
+            if ($recuado === "1") {
+                $tarifas['gintracom'] = $tarifas['gintracom'] + $previo;
+            } else {
+                $tarifas['gintracom'] = $tarifas['gintracom'];
+            }
         }
         if ($previo < 1.25) {
             $previo = 1.25;
@@ -46,9 +55,12 @@ class CalculadoraModel extends Query
         if ($trayecto_servientrega === "0" || $trayecto_servientrega === null) {
             $tarifas['servientrega'] = 0;
         } else {
-            $tarifas['servientrega'] = $tarifas['servientrega'] + $previo;
+            if ($recuado === "1") {
+                $tarifas['servientrega'] = $tarifas['servientrega'] + $previo;
+            } else {
+                $tarifas['servientrega'] = $tarifas['servientrega'];
+            }
         }
-
         return $tarifas;
     }
 }
