@@ -324,8 +324,10 @@ $(document).ready(function () {
     success: function (response) {
         $("#nombre").val(response[0].nombre);
         $("#telefono").val(response[0].telefono);
-        $("#provincia").val(response[0].provincia);
-        $("#ciudad").val(response[0].ciudad_cot);
+        // Rellenar los selects
+        $("#provincia").val(response[0].provincia).change();
+        $("#ciudad").val(response[0].ciudad_cot).change();
+        
         $("#calle_principal").val(response[0].c_principal);
         $("#calle_secundaria").val(response[0].c_secundaria);
         $("#referencia").val(response[0].referencia);
