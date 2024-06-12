@@ -264,8 +264,8 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                     <div class="mb-3">
                         <label for="recaudo" class="form-label">Recaudo</label>
                         <select id="recaudo" class="form-select">
-                            <option value="1">Con Recaudo</option>
-                            <option value="0">Sin Recaudo</option>
+                            <option value="1" selected>Con Recaudo</option>
+                            <option value="2">Sin Recaudo</option>
                         </select>
                     </div>
                     <div class="mb-3">
