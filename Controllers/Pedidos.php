@@ -132,6 +132,18 @@ class Pedidos extends Controller
         echo json_encode($data);
     }
 
+    public function anular_pedido($id)
+    {
+        $response = $this->model->anular_pedido($id);
+        echo json_encode($response);
+    }
+
+    public function datos_pedido($id)
+    {
+        $data = $this->model->datosPedido($id);
+        echo json_encode($data);
+    }
+
     public function editar_pedido()
     {
         $id_factura = $_POST['id_factura'];
