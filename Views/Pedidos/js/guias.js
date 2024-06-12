@@ -48,16 +48,16 @@ const listGuias = async () => {
 
         let content = ``;
         guias.forEach((guia, index) => {
-            let transporte = guia.transporte;
+            let transporte = guia.id_transporte;
             console.log(transporte);
             let transporte_contet = '';
-            if (transporte == 'SERVIENTREGA') {
+            if (transporte == 3) {
                 transporte_contet = '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SERVIENTREGA</span>';
-            } else if (transporte == 'LAAR') {
+            } else if (transporte == 1) {
                 transporte_contet = '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">LAAR</span>';
-            } else if (transporte == 'SPEED') {
+            } else if (transporte == 2) {
                 transporte_contet = '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
-            } else if (transporte == 'GINTRACOM') {
+            } else if (transporte == 4) {
                 transporte_contet = '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>';
             } else {
                 transporte_contet = '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">Guia no enviada</span>';
