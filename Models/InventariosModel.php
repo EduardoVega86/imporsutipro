@@ -383,6 +383,13 @@ class InvetariosModel extends Query
         $sql = "SELECT * FROM atributos WHERE id_plataforma in (0, $plataforma)";
         return $this->select($sql);
     }
+    
+     public function listarProductoListaCompras($id, $plataforma)
+    {
+        $sql = "SELECT * FROM desc WHERE id_plataforma in (0, $plataforma)";
+        return $this->select($sql);
+    }
+    
 
     public function eliminarCaracteristica($id, $plataforma)
     {
