@@ -256,15 +256,37 @@ $(document).ready(function () {
   // Llamar a cargarCiudades cuando se seleccione una provincia
   $("#provincia").on("change", cargarCiudades);
 
+  $(".transportadora").click(function () {
+    var priceSpan = $(this).find(".price-tag span");
+    var priceValue = priceSpan.text().trim();
+    var selectedCompany = $(this).data("company");
+
+    if (priceValue !== "--" && priceValue !== "") {
+      $("#costo_flete").val(priceValue);
+      $("#transportadora_selected").val(selectedCompany);
+
+      // Remove 'selected' class from all transportadora elements
+      $(".transportadora").removeClass("selected");
+
+      // Add 'selected' class to the clicked transportadora
+      $(this).addClass("selected");
+    } else {
+      toastr.error("ESTA TRANSPORTADORA NO TIENE COBERTURA", "NOTIFICACIÓN", {
+        positionClass: "toast-bottom-center",
+      });
+    }
+  });
+
   $("#provincia,#ciudad").change(function () {
     var provincia = $("#provincia").val();
     var ciudad = $("#ciudad").val();
-    var monto_total = $("#monto_total").val();
+    var monto_total = $("#monto_total").text().trim();
 
     if (
       provincia !== "Selecciona una opción" &&
       ciudad !== "Selecciona una opción" &&
-      monto_total != 0
+      monto_total !== "" &&
+      monto_total !== "0"
     ) {
       let formData = new FormData();
       formData.append("ciudad", ciudad);
@@ -275,8 +297,14 @@ $(document).ready(function () {
         url: SERVERURL + "Calculadora/obtenerTarifas",
         type: "POST",
         data: formData,
+        processData: false,
+        contentType: false,
         success: function (response) {
-          console.log(response);
+          response = JSON.parse(response);
+          console.log("correcto el precio" + response.servientrega);
+          $("#price_servientrega").text(response.servientrega);
+          $("#price_gintracom").text(response.gintracom);
+          $("#price_laar").text(response.laar);
         },
         error: function (jqXHR, textStatus, errorThrown) {
           alert(errorThrown);
@@ -354,6 +382,19 @@ function cargarCiudades() {
 function agregar_nuevoPedido() {
   // Evita que el formulario se envíe de la forma tradicional
   event.preventDefault();
+  let transportadora_selected = $("#transportadora_selected").val();
+  if (transportadora_selected == "servientrega") {
+    transportadora_selected = 3;
+  }
+  if (transportadora_selected == "laar") {
+    transportadora_selected = 1;
+  }
+  if (transportadora_selected == "speed") {
+    transportadora_selected = 2;
+  }
+  if (transportadora_selected == "gintracom") {
+    transportadora_selected = 4;
+  }
 
   // Crea un objeto FormData
   var formData = new FormData();
@@ -385,10 +426,10 @@ function agregar_nuevoPedido() {
   formData.append("valor_seguro", 0); // Corregir nombre de variable
   formData.append("no_piezas", 1);
   formData.append("contiene", contiene);
-  formData.append("costo_flete", 0);
+  formData.append("costo_flete", $("#costo_flete").val());
   formData.append("costo_producto", costo_producto);
   formData.append("comentario", "Enviado por x");
-  formData.append("id_transporte", 0);
+  formData.append("id_transporte", transportadora_selected);
 
   // Realiza la solicitud AJAX
   $.ajax({
@@ -425,6 +466,146 @@ function agregar_nuevoPedido() {
   });
 }
 
+function generar_guia() {
+  //   alert()
+  // Evita que el formulario se envíe de la forma tradicional
+  event.preventDefault();
+  let transportadora_selected = $("#transportadora_selected").val();
+  if (transportadora_selected == "servientrega") {
+    transportadora_selected = 3;
+  }
+  if (transportadora_selected == "laar") {
+    transportadora_selected = 1;
+  }
+  if (transportadora_selected == "speed") {
+    transportadora_selected = 2;
+  }
+  if (transportadora_selected == "gintracom") {
+    transportadora_selected = 4;
+  }
+
+  // Crea un objeto FormData
+  var formData = new FormData();
+  var montoTotal = document.getElementById("monto_total").innerText;
+  formData.append("total_venta", montoTotal);
+  formData.append("nombre", $("#nombre").val());
+  formData.append("recaudo", $("#recaudo").val());
+  formData.append("telefono", $("#telefono").val());
+  formData.append("calle_principal", $("#calle_principal").val());
+  formData.append("calle_secundaria", $("#calle_secundaria").val());
+  formData.append("referencia", $("#referencia").val());
+  formData.append("ciudad", $("#ciudad").val());
+  formData.append("provincia", $("#provincia").val());
+  formData.append("identificacion", 0);
+  formData.append("observacion", $("#observacion").val());
+  formData.append("transporte", 0);
+  formData.append("celular", $("#telefono").val()); // Asegúrate de obtener el valor correcto
+  formData.append("id_producto_venta", id_producto_venta);
+  formData.append("dropshipping", dropshipping);
+  formData.append("importado", 0);
+  formData.append("id_propietario", id_propietario_bodega);
+  formData.append("identificacionO", 0);
+  formData.append("celularO", celular_bodega);
+  formData.append("nombreO", nombre_bodega); // Corregir nombre de variable
+  formData.append("ciudadO", ciudad_bodega);
+  formData.append("provinciaO", provincia_bodega);
+  formData.append("direccionO", direccion_bodega);
+  formData.append("referenciaO", referencia_bodega); // Corregir nombre de variable
+  formData.append("numeroCasaO", numeroCasa_bodega);
+  formData.append("valor_seguro", 0); // Corregir nombre de variable
+  formData.append("no_piezas", 1);
+  formData.append("contiene", contiene);
+  formData.append("costo_flete", $("#costo_flete").val());
+  formData.append("costo_producto", costo_producto);
+  formData.append("comentario", "Enviado por x");
+  formData.append("id_transporte", transportadora_selected);
+
+  // Realiza la solicitud AJAX
+  if (transportadora_selected == 1) {
+    generar_guia = "generarlaar";
+  } else {
+  }
+
+  // Mostrar alerta de carga antes de realizar la solicitud AJAX
+  Swal.fire({
+    title: "Cargando",
+    text: "Creando nuevo pedido",
+    allowOutsideClick: false,
+    showConfirmButton: false,
+    timer: 2000,
+    willOpen: () => {
+      Swal.showLoading();
+    },
+  });
+
+  $.ajax({
+    url: "" + SERVERURL + "/pedidos/nuevo_pedido",
+    type: "POST",
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function (response) {
+      response = JSON.parse(response);
+
+      // Mostrar alerta de carga antes de realizar la solicitud AJAX
+      Swal.fire({
+        title: "Cargando",
+        text: "Generando Guia del pedido",
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        timer: 2000,
+        willOpen: () => {
+          Swal.showLoading();
+        },
+      });
+
+      if (response.status == 500) {
+        Swal.fire({
+          icon: "error",
+          title: response.title,
+          text: response.message,
+        });
+      } else if (response.status == 200) {
+        formData.append("numero_factura", response.numero_factura);
+        $.ajax({
+          url: "" + SERVERURL + "/guias/" + generar_guia,
+          type: "POST",
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function (response) {
+            response = JSON.parse(response);
+
+            if (response.status == 500) {
+              Swal.fire({
+                icon: "error",
+                title: "Error al creat guia",
+              });
+            } else if (response.status == 200) {
+              Swal.fire({
+                icon: "success",
+                title: "Creacion de guia Completada",
+                showConfirmButton: false,
+                timer: 2000,
+              }).then(() => {
+                vaciarTmpPedidos();
+                window.location.href = "" + SERVERURL + "Pedidos/guias";
+              });
+            }
+          },
+          error: function (error) {
+            alert("Hubo un error al agregar el producto");
+            console.log(error);
+          },
+        });
+      }
+    },
+    error: function (error) {
+      alert("Hubo un error al agregar el producto");
+      console.log(error);
+    },
+  });
+}
 // Función para vaciar temporalmente los pedidos
 const vaciarTmpPedidos = async () => {
   try {
@@ -438,3 +619,5 @@ const vaciarTmpPedidos = async () => {
     console.error("Error al hacer la solicitud:", error);
   }
 };
+
+//Generar guia
