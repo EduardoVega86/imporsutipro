@@ -129,4 +129,17 @@ class GuiasModel extends Query
         $sql = "UPDATE facturas_cot SET numero_guia = '$guia' WHERE numero_factura = '$numero_factura'";
         $this->select($sql);
     }
+
+    public function incrementarGuia($guia)
+    {
+        // Separar el prefijo del número de serie
+        $partes = explode('P', $guia);
+        $prefijo = $partes[0];
+        $numero = $partes[1];
+        // Incrementar el número de serie
+        $numero = str_pad((int)$numero + 1, strlen($numero), '0', STR_PAD_LEFT);
+        // Unir el prefijo con el número de serie
+        $guia = $prefijo . 'P' . $numero;
+        return $guia;
+    }
 }
