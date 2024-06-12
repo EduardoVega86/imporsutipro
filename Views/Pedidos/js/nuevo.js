@@ -530,6 +530,22 @@ function generar_guia() {
   }
   
   $.ajax({
+    url: "" + SERVERURL + "/pedidos/nuevo_pedido",
+    type: "POST",
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function (response) {
+      response = JSON.parse(response);
+      if (response.status == 500) {
+        Swal.fire({
+          icon: "error",
+          title: response.title,
+          text: response.message,
+        });
+      } else if (response.status == 200) {
+          formData.append("numero_factura", response.numero_factura);
+        $.ajax({
     url: "" + SERVERURL + "/guias/"+generar_guia,
     type: "POST",
     data: formData,
@@ -554,6 +570,13 @@ function generar_guia() {
           vaciarTmpPedidos();
           window.location.href = "" + SERVERURL + "Pedidos";
         });
+      }
+    },
+    error: function (error) {
+      alert("Hubo un error al agregar el producto");
+      console.log(error);
+    },
+  });
       }
     },
     error: function (error) {
