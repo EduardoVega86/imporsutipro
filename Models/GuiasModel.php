@@ -87,6 +87,8 @@ class GuiasModel extends Query
         $numero_guia = $numero_guia[0]['numero_guia'];
         if ($numero_guia == null || empty($numero_guia)) {
             $numero_guia = "IMP000001";
+        } else {
+            $numero_guia = "IMP" . str_pad(substr($numero_guia, 3) + 1, 6, "0", STR_PAD_LEFT);
         }
         return $numero_guia;
     }
