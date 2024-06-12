@@ -264,13 +264,8 @@ class PedidosModel extends Query
 
     public function datosPedido($id)
     {
-        $sql = "SELECT * FROM facturas_cot f inner join detalle_fact_cot dt on dt.numero_factura = f.numero_factura WHERE f.id_factura = $id";
-        $resultado1 = $this->select($sql);
-        $id_producto = $resultado1[0]['id_producto'];
-        $sql = "SELECT * FROM inventario_bodegas ib inner join productos p on ib.id_producto = p.id_producto WHERE p.id_producto =$id_producto";
-        $resultado2 = $this->select($sql);
-        $resultado = array_merge($resultado1, $resultado2);
-        return $resultado;
+      $sql = "SELECT * FROM `detalle_fact_cot`, productos, inventario_bodegas WHERE id_factura=$id and detalle_fact_cot.id_producto=productos.id_producto and detalle_fact_cot.sku=productos.codigo_producto and inventario_bodegas.sku=detalle_fact_cot.sku and inventario_bodegas.id_producto=detalle_fact_cot.id_producto";
+      return $this->select($sql);
     }
 
     public function cargarPedido($id)
