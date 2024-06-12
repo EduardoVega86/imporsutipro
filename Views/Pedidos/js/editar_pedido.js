@@ -386,6 +386,19 @@ $(document).ready(function () {
       console.error("Error al obtener el pedido:", error);
     },
   });
+
+  // cargar datos productos
+  $.ajax({
+    url: SERVERURL + "pedidos/datos_pedido" + id_factura,
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+        console.log(response)
+    },
+    error: function (error) {
+      console.error("Error al obtener la lista de bodegas:", error);
+    },
+  });
 });
 
 // Función para cargar provincias
