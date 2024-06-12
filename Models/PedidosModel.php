@@ -266,4 +266,10 @@ class PedidosModel extends Query
         $resultado = array_merge($resultado1, $resultado2);
         return $resultado;
     }
+
+    public function cargarPedido($id)
+    {
+        $sql = "SELECT * FROM facturas_cot WHERE id_factura = $id";
+        return $this->select($sql);
+    }
 }
