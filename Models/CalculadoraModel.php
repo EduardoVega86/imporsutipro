@@ -13,9 +13,21 @@ class CalculadoraModel extends Query
         $precio_servientrega = $this->select("SELECT * from cobertura_servientrega WHERE tipo_cobertura = '$trayecto_servientrega' ");
         $precio_gintracom = $this->select("SELECT * from cobertura_gintracom WHERE trayecto = '$trayecto_gintracom' ");
 
-        $tarifas['laar'] = $precio_laar[0]['precio'];
-        $tarifas['servientrega'] = $precio_servientrega[0]['precio'];
-        $tarifas['gintracom'] = $precio_gintracom[0]['precio'];
+        if ($precio_laar[0]['precio'] == null || empty($precio_laar[0]['precio'])) {
+            $precio_laar[0]['precio'] = 0;
+        } else {
+            $tarifas['laar'] = $precio_laar[0]['precio'];
+        }
+        if ($precio_servientrega[0]['precio'] == null || empty($precio_servientrega[0]['precio'])) {
+            $precio_servientrega[0]['precio'] = 0;
+        } else {
+            $tarifas['servientrega'] = $precio_servientrega[0]['precio'];
+        }
+        if ($precio_gintracom[0]['precio'] == null || empty($precio_gintracom[0]['precio'])) {
+            $precio_gintracom[0]['precio'] = 0;
+        } else {
+            $tarifas['gintracom'] = $precio_gintracom[0]['precio'];
+        }
 
         $previo = $monto_factura * 0.03;
         if ($trayecto_laar === "0" || $trayecto_laar === null) {
