@@ -222,10 +222,10 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                             <label for="numero_casa" class="form-label">Número de Casa</label>
                             <input type="text" class="form-control" id="numero_casa" placeholder="Número de Casa">
-                        </div>
+                        </div> -->
                         <div class="col-md-6">
                             <label for="referencia" class="form-label">Referencia</label>
                             <input type="text" class="form-control" id="referencia" placeholder="Referencia">

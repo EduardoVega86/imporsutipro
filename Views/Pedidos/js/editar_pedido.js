@@ -322,9 +322,14 @@ $(document).ready(function () {
     type: "GET",
     dataType: "json",
     success: function (response) {
-        console.log("informacion editar");
-        console.log(response[0]);
-        console.log(response[0].c_principal);
+        $("#nombre").val(response[0].nombre);
+        $("#telefono").val(response[0].telefono);
+        $("#provincia").val(response[0].provincia);
+        $("#ciudad").val(response[0].ciudad_cot);
+        $("#calle_principal").val(response[0].c_principal);
+        $("#calle_secundaria").val(response[0].c_secundaria);
+        $("#referencia").val(response[0].referencia);
+        $("#observacion").val(response[0].observacion);
     },
     error: function (error) {
       console.error("Error al obtener la lista de bodegas:", error);
