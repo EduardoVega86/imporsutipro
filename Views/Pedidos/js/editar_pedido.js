@@ -3,7 +3,7 @@ let dataTableNuevoPedidoIsInitialized = false;
 let eliminado = false;
 // Obtener el valor del id_factura desde la URL
 const url = window.location.href;
-const id_factura = url.split('/').pop();
+const id_factura = url.split("/").pop();
 
 const dataTableNuevoPedidoOptions = {
   paging: false,
@@ -316,25 +316,74 @@ $(document).ready(function () {
     }
   });
 
-  //consumir datos y poner en inputs editar
+  // Consumir datos y poner en inputs para editar
   $.ajax({
-    url: SERVERURL + "pedidos/verPedido/"+id_factura,
+    url: SERVERURL + "pedidos/verPedido/" + id_factura,
     type: "GET",
     dataType: "json",
     success: function (response) {
-        $("#nombre").val(response[0].nombre);
-        $("#telefono").val(response[0].telefono);
-        // Rellenar los selects
-        $("#provincia").val(response[0].provincia).change();
-        $("#ciudad").val(response[0].ciudad_cot).change();
-        
-        $("#calle_principal").val(response[0].c_principal);
-        $("#calle_secundaria").val(response[0].c_secundaria);
-        $("#referencia").val(response[0].referencia);
-        $("#observacion").val(response[0].observacion);
+      $("#nombre").val(response[0].nombre);
+      $("#telefono").val(response[0].telefono);
+      $("#calle_principal").val(response[0].c_principal);
+      $("#calle_secundaria").val(response[0].c_secundaria);
+      $("#referencia").val(response[0].referencia);
+      $("#observacion").val(response[0].observacion);
+
+      // Primero cargar provincias y luego asignar la provincia seleccionada
+      $.ajax({
+        url: SERVERURL + "Ubicaciones/obtenerProvincias",
+        type: "GET",
+        success: function (responseProvincias) {
+          let provincias = JSON.parse(responseProvincias);
+          let provinciaSelect = $("#provincia");
+          provinciaSelect.empty();
+          provinciaSelect.append('<option value="">Provincia *</option>'); // Añadir opción por defecto
+
+          provincias.forEach(function (provincia) {
+            provinciaSelect.append(
+              `<option value="${provincia.codigo_provincia}">${provincia.provincia}</option>`
+            );
+          });
+
+          // Asignar valor de la provincia y notificar a Select2
+          provinciaSelect.val(response[0].provincia).trigger("change.select2");
+
+          // Después de asignar la provincia, cargar ciudades y asignar la ciudad seleccionada
+          $.ajax({
+            url:
+              SERVERURL +
+              "Ubicaciones/obtenerCiudades/" +
+              response[0].provincia,
+            type: "GET",
+            success: function (responseCiudades) {
+              let ciudades = JSON.parse(responseCiudades);
+              let ciudadSelect = $("#ciudad");
+              ciudadSelect.empty();
+              ciudadSelect.append('<option value="">Ciudad *</option>'); // Añadir opción por defecto
+
+              ciudades.forEach(function (ciudad) {
+                ciudadSelect.append(
+                  `<option value="${ciudad.id_cotizacion}">${ciudad.ciudad}</option>`
+                );
+              });
+
+              // Asignar valor de la ciudad y notificar a Select2
+              ciudadSelect
+                .val(response[0].ciudad_cot)
+                .trigger("change.select2");
+            },
+            error: function (error) {
+              console.error("Error al cargar las ciudades:", error);
+            },
+          });
+        },
+        error: function (error) {
+          console.error("Error al cargar las provincias:", error);
+        },
+      });
     },
     error: function (error) {
-      console.error("Error al obtener la lista de bodegas:", error);
+      console.error("Error al obtener el pedido:", error);
     },
   });
 });
@@ -342,7 +391,7 @@ $(document).ready(function () {
 // Función para cargar provincias
 function cargarProvincias() {
   $.ajax({
-    url: "" + SERVERURL + "Ubicaciones/obtenerProvincias", // Reemplaza con la ruta correcta a tu controlador
+    url: SERVERURL + "Ubicaciones/obtenerProvincias", // Reemplaza con la ruta correcta a tu controlador
     method: "GET",
     success: function (response) {
       let provincias = JSON.parse(response);
