@@ -132,14 +132,18 @@ class GuiasModel extends Query
 
     public function incrementarGuia($guia)
     {
+        // Encontrar la posición del primer dígito en la cadena
+        $pos = strcspn($guia, '0123456789');
         // Separar el prefijo del número de serie
-        $partes = explode('P', $guia);
-        $prefijo = $partes[0];
-        $numero = $partes[1];
+        $prefijo = substr($guia, 0, $pos);
+        $numero = substr($guia, $pos);
+
         // Incrementar el número de serie
         $numero = str_pad((int)$numero + 1, strlen($numero), '0', STR_PAD_LEFT);
+
         // Unir el prefijo con el número de serie
-        $guia = $prefijo . 'P' . $numero;
+        $guia = $prefijo . $numero;
+
         print_r($guia);
         return $guia;
     }
