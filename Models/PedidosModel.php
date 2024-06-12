@@ -22,8 +22,7 @@ class PedidosModel extends Query
     {
         if (empty($filtro) || $filtro == "") {
 
-            $sql = "SELECT * FROM facturas_cot WHERE TRIM(numero_guia) <> '' AND numero_guia IS NOT NULL AND anulada = 0;
-            ";
+            $sql = "SELECT * FROM facturas_cot WHERE TRIM(numero_guia) <> '' AND numero_guia IS NOT NULL AND numero_guia <> '0' AND anulada = 0 ORDER BY `facturas_cot`.`numero_factura` DESC";
         } else {
             $sql = "SELECT * FROM facturas_cot WHERE TRIM(numero_guia) <> '' AND numero_guia IS NOT NULL AND anulada = 0 and $filtro";
         }
@@ -262,7 +261,7 @@ class PedidosModel extends Query
         $sql = "SELECT * FROM facturas_cot f inner join detalle_fact_cot dt on dt.numero_factura = f.numero_factura WHERE f.id_factura = $id";
         $resultado1 = $this->select($sql);
         $id_producto = $resultado1[0]['id_producto'];
-        $sql = "SELECT * FROM inventario_bodegas WHERE id_producto = $id_producto";
+        $sql = "SELECT * FROM inventario_bodegas ib inner join productos p on ib.id_producto = p.id_producto WHERE p.id_producto =$id_producto";
         $resultado2 = $this->select($sql);
         $resultado = array_merge($resultado1, $resultado2);
         return $resultado;
