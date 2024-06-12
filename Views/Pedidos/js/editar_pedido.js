@@ -283,6 +283,7 @@ $(document).ready(function () {
   $("#provincia,#ciudad").change(function () {
     var provincia = $("#provincia").val();
     var ciudad = $("#ciudad").val();
+    var recaudo = $("#recaudo").val();
     var monto_total = $("#monto_total").text().trim();
 
     if (
@@ -294,6 +295,7 @@ $(document).ready(function () {
       let formData = new FormData();
       formData.append("ciudad", ciudad);
       formData.append("provincia", provincia);
+      formData.append("recaudo", recaudo);
       formData.append("monto_factura", monto_total);
 
       $.ajax({
