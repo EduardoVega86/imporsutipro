@@ -526,6 +526,18 @@ function generar_guia() {
   } else {
   }
 
+  // Mostrar alerta de carga antes de realizar la solicitud AJAX
+  Swal.fire({
+    title: "Cargando",
+    text: "Creando nuevo pedido",
+    allowOutsideClick: false,
+    showConfirmButton: false,
+    timer: 2000,
+    willOpen: () => {
+      Swal.showLoading();
+    },
+  });
+
   $.ajax({
     url: "" + SERVERURL + "/pedidos/nuevo_pedido",
     type: "POST",
@@ -534,10 +546,11 @@ function generar_guia() {
     contentType: false,
     success: function (response) {
       response = JSON.parse(response);
+
       // Mostrar alerta de carga antes de realizar la solicitud AJAX
       Swal.fire({
         title: "Cargando",
-        text: "Creando nuevo pedido",
+        text: "Generando Guia pedido",
         allowOutsideClick: false,
         showConfirmButton: false,
         timer: 2000,
@@ -545,7 +558,7 @@ function generar_guia() {
           Swal.showLoading();
         },
       });
-
+      
       if (response.status == 500) {
         Swal.fire({
           icon: "error",
@@ -562,17 +575,6 @@ function generar_guia() {
           contentType: false,
           success: function (response) {
             response = JSON.parse(response);
-            // Mostrar alerta de carga antes de realizar la solicitud AJAX
-            Swal.fire({
-              title: "Cargando",
-              text: "Generando Guia pedido",
-              allowOutsideClick: false,
-              showConfirmButton: false,
-              timer: 2000,
-              willOpen: () => {
-                Swal.showLoading();
-              },
-            });
 
             if (response.status == 500) {
               Swal.fire({
