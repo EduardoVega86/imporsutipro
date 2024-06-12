@@ -540,15 +540,11 @@ function generar_guia() {
         text: "Creando nuevo pedido",
         allowOutsideClick: false,
         showConfirmButton: false,
+        timer: 2000,
         willOpen: () => {
           Swal.showLoading();
         },
       });
-
-      // Cerrar la alerta de carga después de 2 segundos
-      setTimeout(() => {
-        Swal.close();
-      }, 2000);
 
       if (response.status == 500) {
         Swal.fire({
@@ -572,16 +568,12 @@ function generar_guia() {
               text: "Generando Guia pedido",
               allowOutsideClick: false,
               showConfirmButton: false,
+              timer: 2000,
               willOpen: () => {
                 Swal.showLoading();
               },
             });
 
-            // Cerrar la alerta de carga después de 2 segundos
-            setTimeout(() => {
-              Swal.close();
-            }, 2000);
-            
             if (response.status == 500) {
               Swal.fire({
                 icon: "error",
