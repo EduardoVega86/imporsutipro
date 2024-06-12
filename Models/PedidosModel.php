@@ -10,7 +10,7 @@ class PedidosModel extends Query
     {
         if (empty($filtro) || $filtro == "") {
 
-            $sql = "SELECT * FROM facturas_cot where guia IS NULL and anulado = 0";
+            $sql = "SELECT * FROM facturas_cot where numero_guia = '' or numero_guia is null and anulada = 0";
         } else {
 
             $separar_filtro = explode(",", $filtro);
