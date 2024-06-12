@@ -128,7 +128,7 @@ class GuiasModel extends Query
     {
         $sql = "UPDATE facturas_cot SET numero_guia = '?' WHERE numero_factura = '?'";
         $data = array($guia, $numero_factura);
-        $response = $this->update($sql, $data);
+        $response = $this->insert($sql, $data);
         print_r($response);
     }
 
