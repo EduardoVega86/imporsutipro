@@ -546,10 +546,8 @@ function generar_guia() {
     success: function (response) {
       response = JSON.parse(response);
 
-      // Cerrar la alerta de carga después de 2 segundos
-      setTimeout(() => {
-        Swal.close();
-      }, 2000);
+      // Cerrar la alerta de carga después de recibir la respuesta
+      Swal.close();
 
       if (response.status == 500) {
         Swal.fire({
@@ -561,17 +559,15 @@ function generar_guia() {
         formData.append("numero_factura", response.numero_factura);
 
         // Mostrar segunda alerta de carga antes de realizar la segunda solicitud AJAX
-        setTimeout(() => {
-          Swal.fire({
-            title: "Cargando",
-            text: "Generando guía del pedido",
-            allowOutsideClick: false,
-            showConfirmButton: false,
-            willOpen: () => {
-              Swal.showLoading();
-            },
-          });
-        }, 2000);
+        Swal.fire({
+          title: "Cargando",
+          text: "Generando guía del pedido",
+          allowOutsideClick: false,
+          showConfirmButton: false,
+          willOpen: () => {
+            Swal.showLoading();
+          },
+        });
 
         $.ajax({
           url: "" + SERVERURL + "/guias/" + generar_guia,
@@ -582,35 +578,30 @@ function generar_guia() {
           success: function (response) {
             response = JSON.parse(response);
 
-            // Cerrar la segunda alerta de carga después de 2 segundos
-            setTimeout(() => {
-              Swal.close();
-            }, 2000);
+            // Cerrar la segunda alerta de carga después de recibir la respuesta
+            Swal.close();
 
             if (response.status == 500) {
-              setTimeout(() => {
-                Swal.fire({
-                  icon: "error",
-                  title: response.title,
-                  text: response.message,
-                });
-              }, 2000);
+              Swal.fire({
+                icon: "error",
+                title: response.title,
+                text: response.message,
+              });
             } else if (response.status == 200) {
-              setTimeout(() => {
-                Swal.fire({
-                  icon: "success",
-                  title: response.title,
-                  text: response.message,
-                  showConfirmButton: false,
-                  timer: 2000,
-                }).then(() => {
-                  vaciarTmpPedidos();
-                  window.location.href = "" + SERVERURL + "Pedidos";
-                });
-              }, 2000);
+              Swal.fire({
+                icon: "success",
+                title: response.title,
+                text: response.message,
+                showConfirmButton: false,
+                timer: 2000,
+              }).then(() => {
+                vaciarTmpPedidos();
+                window.location.href = "" + SERVERURL + "Pedidos";
+              });
             }
           },
           error: function (error) {
+            Swal.close(); // Cerrar alerta en caso de error
             Swal.fire({
               icon: "error",
               title: "Error",
@@ -622,6 +613,7 @@ function generar_guia() {
       }
     },
     error: function (error) {
+      Swal.close(); // Cerrar alerta en caso de error
       Swal.fire({
         icon: "error",
         title: "Error",
