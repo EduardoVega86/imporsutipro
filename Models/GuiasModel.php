@@ -127,7 +127,11 @@ class GuiasModel extends Query
     public function actualizarGuia($numero_factura, $guia)
     {
         $sql = "UPDATE facturas_cot SET numero_guia = '?' WHERE numero_factura = '?'";
-        $response = $this->update($sql, array($guia, $numero_factura));
+        $data = [
+            $guia,
+            $numero_factura
+        ];
+        $response = $this->update($sql, $data);
         print_r($response);
     }
 
