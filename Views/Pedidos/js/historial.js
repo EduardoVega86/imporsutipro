@@ -80,7 +80,7 @@ const listHistorialPedidos = async () => {
                     </td>
                     <td>${historialPedido.impreso}</td>
                     <td>
-                        <button class="btn btn-sm btn-primary" onclick="boton_editarPedido(${historialPedido.numero_factura})"><i class="fa-solid fa-pencil"></i></button>
+                        <button class="btn btn-sm btn-primary" onclick="boton_editarPedido(${historialPedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>
                         <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash-can"></i></button>
                     </td>
                 </tr>`;
