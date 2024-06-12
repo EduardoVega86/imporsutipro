@@ -49,19 +49,19 @@ const listHistorialPedidos = async () => {
         let content = ``;
         let impresiones ="";
         historialPedidos.forEach((historialPedido, index) => {
-            let transporte = historialPedido.transporte;
+            let transporte = historialPedido.id_transporte;
             console.log(transporte);
             let transporte_content = '';
-            if (transporte == 'SERVIENTREGA') {
-                transporte_content = '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SERVIENTREGA</span>';
-            } else if (transporte == 'LAAR') {
-                transporte_content = '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">LAAR</span>';
-            } else if (transporte == 'SPEED') {
-                transporte_content = '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
-            } else if (transporte == 'GINTRACOM') {
-                transporte_content = '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>';
+            if (transporte == 3) {
+                transporte_contet = '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SERVIENTREGA</span>';
+            } else if (transporte == 1) {
+                transporte_contet = '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">LAAR</span>';
+            } else if (transporte == 2) {
+                transporte_contet = '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
+            } else if (transporte == 4) {
+                transporte_contet = '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>';
             } else {
-                transporte_content = '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">Guia no enviada</span>';
+                transporte_contet = '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">Guia no enviada</span>';
             }
 
             //impresiones
