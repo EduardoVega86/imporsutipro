@@ -264,6 +264,7 @@ $(document).ready(function () {
     if (priceValue !== "--" && priceValue !== "") {
       $("#costo_flete").val(priceValue);
       $("#transportadora_selected").val(selectedCompany);
+      
 
       // Remove 'selected' class from all transportadora elements
       $(".transportadora").removeClass("selected");
@@ -383,16 +384,16 @@ function agregar_nuevoPedido() {
   // Evita que el formulario se envíe de la forma tradicional
   event.preventDefault();
   let transportadora_selected = $("#transportadora_selected").val();
-  if (transportadora_selected == "servientrega") {
+  if (transportadora_selected == "servientrega"){
     transportadora_selected = 3;
   }
-  if (transportadora_selected == "laar") {
+  if (transportadora_selected == "laar"){
     transportadora_selected = 1;
   }
-  if (transportadora_selected == "speed") {
+  if (transportadora_selected == "speed"){
     transportadora_selected = 2;
   }
-  if (transportadora_selected == "gintracom") {
+  if (transportadora_selected == "gintracom"){
     transportadora_selected = 4;
   }
 
@@ -466,21 +467,22 @@ function agregar_nuevoPedido() {
   });
 }
 
+
 function generar_guia() {
   //   alert()
   // Evita que el formulario se envíe de la forma tradicional
   event.preventDefault();
   let transportadora_selected = $("#transportadora_selected").val();
-  if (transportadora_selected == "servientrega") {
+  if (transportadora_selected == "servientrega"){
     transportadora_selected = 3;
   }
-  if (transportadora_selected == "laar") {
+  if (transportadora_selected == "laar"){
     transportadora_selected = 1;
   }
-  if (transportadora_selected == "speed") {
+  if (transportadora_selected == "speed"){
     transportadora_selected = 2;
   }
-  if (transportadora_selected == "gintracom") {
+  if (transportadora_selected == "gintracom"){
     transportadora_selected = 4;
   }
 
@@ -489,7 +491,7 @@ function generar_guia() {
   var montoTotal = document.getElementById("monto_total").innerText;
   formData.append("total_venta", montoTotal);
   formData.append("nombre", $("#nombre").val());
-  formData.append("recaudo", $("#recaudo").val());
+   formData.append("recaudo", $("#recaudo").val());
   formData.append("telefono", $("#telefono").val());
   formData.append("calle_principal", $("#calle_principal").val());
   formData.append("calle_secundaria", $("#calle_secundaria").val());
@@ -521,11 +523,12 @@ function generar_guia() {
   formData.append("id_transporte", transportadora_selected);
 
   // Realiza la solicitud AJAX
-  if (transportadora_selected == 1) {
-    generar_guia = "generarlaar";
-  } else {
+  if(transportadora_selected==1){
+  generar_guia='generarlaar';    
+  }else{
+      
   }
-
+  
   $.ajax({
     url: "" + SERVERURL + "/pedidos/nuevo_pedido",
     type: "POST",
@@ -541,39 +544,39 @@ function generar_guia() {
           text: response.message,
         });
       } else if (response.status == 200) {
-        formData.append("numero_factura", response.numero_factura);
+          formData.append("numero_factura", response.numero_factura);
         $.ajax({
-          url: "" + SERVERURL + "/guias/" + generar_guia,
-          type: "POST",
-          data: formData,
-          processData: false,
-          contentType: false,
-          success: function (response) {
-            response = JSON.parse(response);
-            if (response.status == 500) {
-              Swal.fire({
-                icon: "error",
-                title: response.title,
-                text: response.message,
-              });
-            } else if (response.status == 200) {
-              Swal.fire({
-                icon: "success",
-                title: response.title,
-                text: response.message,
-                showConfirmButton: false,
-                timer: 2000,
-              }).then(() => {
-                vaciarTmpPedidos();
-                window.location.href = "" + SERVERURL + "Pedidos";
-              });
-            }
-          },
-          error: function (error) {
-            alert("Hubo un error al agregar el producto");
-            console.log(error);
-          },
+    url: "" + SERVERURL + "/guias/"+generar_guia,
+    type: "POST",
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function (response) {
+      response = JSON.parse(response);
+      if (response.status == 500) {
+        Swal.fire({
+          icon: "error",
+          title: response.title,
+          text: response.message,
         });
+      } else if (response.status == 200) {
+        Swal.fire({
+          icon: "success",
+          title: response.title,
+          text: response.message,
+          showConfirmButton: false,
+          timer: 2000,
+        }).then(() => {
+          vaciarTmpPedidos();
+          window.location.href = "" + SERVERURL + "Pedidos";
+        });
+      }
+    },
+    error: function (error) {
+      alert("Hubo un error al agregar el producto");
+      console.log(error);
+    },
+  });
       }
     },
     error: function (error) {
@@ -597,3 +600,4 @@ const vaciarTmpPedidos = async () => {
 };
 
 //Generar guia
+
