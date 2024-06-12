@@ -47,6 +47,7 @@ const listHistorialPedidos = async () => {
         const historialPedidos = await response.json();
 
         let content = ``;
+        let impresiones ="";
         historialPedidos.forEach((historialPedido, index) => {
             let transporte = historialPedido.transporte;
             console.log(transporte);
@@ -62,6 +63,13 @@ const listHistorialPedidos = async () => {
             } else {
                 transporte_content = '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">Guia no enviada</span>';
             }
+
+            //impresiones
+            if (historialPedido.impreso == 0){
+                impresiones = `<box-icon name='printer' color= "red"></box-icon>`;
+            } else {
+                impresiones = `<box-icon name='printer' color= "green"></box-icon>`;
+            }
             content += `
                 <tr>
                     <td>${historialPedido.numero_factura}</td>
@@ -72,13 +80,13 @@ const listHistorialPedidos = async () => {
                         <div>telf: ${historialPedido.telefono}</div>
                     </td>
                     <td>PAIS</td>
-                    <td>${historialPedido.tienda}</td>
+                    <td>${historialPedido.id_plataforma}</td>
                     <td>${transporte_content}</td>
                     <td>
                         <span class="w-100">${historialPedido.estado_guia_sistema}</span>
                         <a class="w-100" href="https://wa.me/${formatPhoneNumber(historialPedido.telefono)}" style="font-size: 40px;" target="_blank"><box-icon type='logo' name='whatsapp-square' color="green"></box-icon></a>
                     </td>
-                    <td>${historialPedido.impreso}</td>
+                    <td>${impresiones}</td>
                     <td>
                         <button class="btn btn-sm btn-primary" onclick="boton_editarPedido(${historialPedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>
                         <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash-can"></i></button>
