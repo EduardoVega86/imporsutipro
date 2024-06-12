@@ -389,7 +389,7 @@ $(document).ready(function () {
 
   // cargar datos productos
   $.ajax({
-    url: SERVERURL + "pedidos/datos_pedido" + id_factura,
+    url: SERVERURL + "pedidos/datos_pedido/" + id_factura,
     type: "GET",
     dataType: "json",
     success: function (response) {
