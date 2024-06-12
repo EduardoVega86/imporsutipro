@@ -79,7 +79,8 @@ const listHistorialPedidos = async () => {
                         <div>${historialPedido.c_principal} y ${historialPedido.c_secundaria}</div>
                         <div>telf: ${historialPedido.telefono}</div>
                     </td>
-                    <td>PAIS</td>
+                    <td>${historialPedido.provincia}</td>
+                    <td>${historialPedido.ciudad}</td>
                     <td>${historialPedido.id_plataforma}</td>
                     <td>${transporte_content}</td>
                     <td>
