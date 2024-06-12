@@ -22,9 +22,10 @@ class PedidosModel extends Query
     {
         if (empty($filtro) || $filtro == "") {
 
-            $sql = "SELECT * FROM facturas_cot where numero_guia IS NOT NULL and anulada = 0";
+            $sql = "SELECT * FROM facturas_cot WHERE TRIM(numero_guia) <> '' AND numero_guia IS NOT NULL AND anulada = 0;
+            ";
         } else {
-            $sql = "SELECT * FROM facturas_cot where numero_guia IS NOT NULL and $filtro";
+            $sql = "SELECT * FROM facturas_cot WHERE TRIM(numero_guia) <> '' AND numero_guia IS NOT NULL AND anulada = 0 and $filtro";
         }
         return $this->select($sql);
     }
