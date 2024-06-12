@@ -574,7 +574,7 @@ function generar_guia() {
           processData: false,
           contentType: false,
           success: function (response) {
-            response = JSON.parse(response);
+            /* response = JSON.parse(response); */
 
             if (response.status == 500) {
               Swal.fire({
