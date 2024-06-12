@@ -1,6 +1,9 @@
 let dataTableNuevoPedido;
 let dataTableNuevoPedidoIsInitialized = false;
 let eliminado = false;
+// Obtener el valor del id_factura desde la URL
+const url = window.location.href;
+const id_factura = url.split('/').pop();
 
 const dataTableNuevoPedidoOptions = {
   paging: false,
@@ -311,6 +314,19 @@ $(document).ready(function () {
         },
       });
     }
+  });
+
+  //consumir datos y poner en inputs editar
+  $.ajax({
+    url: SERVERURL + "pedidos/verPedido/"+id_factura,
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+      console.log(response);
+    },
+    error: function (error) {
+      console.error("Error al obtener la lista de bodegas:", error);
+    },
   });
 });
 
