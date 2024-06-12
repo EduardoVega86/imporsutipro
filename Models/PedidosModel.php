@@ -255,6 +255,12 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
+    public function pedidos()
+    {
+        $sql = "SELECT * FROM facturas_cot WHERE anulada = 0 AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0') ORDER BY numero_factura DESC;";
+        return $this->select($sql);
+    }
+
 
     public function datosPedido($id)
     {
