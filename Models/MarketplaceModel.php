@@ -12,7 +12,7 @@ class MarketplaceModel extends Query
     {
         $sql = "SELECT * FROM `productos`, inventario_bodegas where (productos.drogshipin=1 and inventario_bodegas.id_plataforma=productos.id_plataforma "
                 . "and inventario_bodegas.id_producto and productos.id_producto and inventario_bodegas.sku=productos.codigo_producto ) or "
-                . "(inventario_bodegas.id_plataforma=1152 and productos.id_plataforma=1152 and inventario_bodegas.id_producto and productos.id_producto and inventario_bodegas.sku=productos.codigo_producto) and bodega !=0";
+                . "(inventario_bodegas.id_plataforma=$plataforma and productos.id_plataforma=$plataforma and inventario_bodegas.id_producto and productos.id_producto and inventario_bodegas.sku=productos.codigo_producto) and bodega !=0";
         return $this->select($sql);
     }
 
@@ -44,7 +44,7 @@ class MarketplaceModel extends Query
         //verificar productos
          $timestamp = session_id();
           $cantidad_tmp = $this->select("SELECT * FROM tmp_cotizacion WHERE session_id = '$timestamp' and id_producto=$id_producto and sku=$sku" );
-          print_r($cantidad_tmp);
+          //print_r($cantidad_tmp);
           if (empty($cantidad_tmp)){
               $sql = "INSERT INTO `tmp_cotizacion` (`id_producto`, `cantidad_tmp`, `precio_tmp`, `session_id`, `id_plataforma`, `sku`) VALUES (?, ?, ?, ?, ?, ?);";
         $data = [$id_producto, $cantidad, $precio, $timestamp, $plataforma, $sku];
