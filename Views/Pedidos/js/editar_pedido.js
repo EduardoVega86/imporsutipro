@@ -322,7 +322,9 @@ $(document).ready(function () {
     type: "GET",
     dataType: "json",
     success: function (response) {
-      console.log(response);
+        console.log("informacion editar");
+        console.log(response[0]);
+        console.log(response[0].c_principal);
     },
     error: function (error) {
       console.error("Error al obtener la lista de bodegas:", error);
