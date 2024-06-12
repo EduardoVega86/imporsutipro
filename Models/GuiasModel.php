@@ -126,8 +126,9 @@ class GuiasModel extends Query
 
     public function actualizarGuia($numero_factura, $guia)
     {
-        $sql = "UPDATE facturas_cot SET numero_guia = '$guia' WHERE numero_factura = '$numero_factura'";
-        $this->select($sql);
+        $sql = "UPDATE facturas_cot SET numero_guia = '?' WHERE numero_factura = '?'";
+        $response = $this->update($sql, array($guia, $numero_factura));
+        print_r($response);
     }
 
     public function incrementarGuia($guia)
@@ -144,7 +145,6 @@ class GuiasModel extends Query
         // Unir el prefijo con el número de serie
         $guia = $prefijo . $numero;
 
-        print_r($guia);
         return $guia;
     }
 }
