@@ -47,6 +47,7 @@ const listGuias = async () => {
         const guias = await response.json();
 
         let content = ``;
+        let impresiones ="";
         guias.forEach((guia, index) => {
             let transporte = guia.id_transporte;
             console.log(transporte);
@@ -61,6 +62,13 @@ const listGuias = async () => {
                 transporte_contet = '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>';
             } else {
                 transporte_contet = '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">Guia no enviada</span>';
+            }
+
+            //impresiones
+            if (guia.impreso == 0){
+                impresiones = `<box-icon name='printer' color= "red"></box-icon>`;
+            } else {
+                impresiones = `<box-icon name='printer' color= "green"></box-icon>`;
             }
             content += `
                 <tr>
@@ -78,7 +86,7 @@ const listGuias = async () => {
                         <span class="w-100">${guia.estado_guia_sistema}</span>
                         <a class="w-100" href="https://wa.me/${formatPhoneNumber(guia.telefono)}" style="font-size: 40px;" target="_blank"><box-icon type='logo' name='whatsapp-square' color="green"></box-icon></a>
                     </td>
-                    <td>${guia.impreso}</td>
+                    <td>${impresiones}</td>
                     <td>
                         <button class="btn btn-sm btn-primary"><i class="fa-solid fa-pencil"></i></button>
                         <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash-can"></i></button>
