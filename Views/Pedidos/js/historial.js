@@ -43,7 +43,7 @@ const initDataTableHistorial = async () => {
 
 const listHistorialPedidos = async () => {
     try {
-        const response = await fetch(""+SERVERURL+"pedidos/obtener_guias");
+        const response = await fetch(""+SERVERURL+"pedidos/cargar_pedidos");
         const historialPedidos = await response.json();
 
         let content = ``;
