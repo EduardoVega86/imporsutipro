@@ -2,6 +2,10 @@ let dataTableNuevosPedidos;
 let dataTableNuevosPedidosIsInitialized = false;
 
 
+// Obtener el valor del id_factura desde la URL
+var url = window.location.href;
+var id_factura_1 = url.split("/").pop();
+
 const dataTableNuevosPedidosOptions = {
   //scrollX: "2000px",
   /* lengthMenu: [5, 10, 15, 20, 100, 200, 500], */
@@ -120,7 +124,7 @@ function enviar_cliente(id, index) {
         formData.append("precio", data.pvp);
         formData.append("id_producto", data.id_producto);
         formData.append("sku", data.sku);
-        formData.append("sku", id_factura);
+        formData.append("sku", id_factura_1);
 
         $.ajax({
           type: "POST",
