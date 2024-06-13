@@ -61,7 +61,7 @@ const listNuevoPedido = async () => {
 
     const data = await response.json();
 
-    if (data.tmp[0].id_producto == 0 && eliminado == false) {
+    if ((data.tmp[0].id_producto == 0 && eliminado == false) || data.bodega[0].id_producto == 0) {
       // If the response is empty, return
       return;
     }
