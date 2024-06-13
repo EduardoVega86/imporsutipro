@@ -197,30 +197,17 @@ function formatPhoneNumber(number) {
 
 // Function to handle the click event for sending selected items
 document.getElementById('imprimir_guias').addEventListener('click', () => {
-    const allGuias = [];
-    const rows = document.querySelectorAll('#datatable_guias tbody tr');
+    const selectedGuias = [];
+    const checkboxes = document.querySelectorAll('.selectCheckbox:checked');
   
-    rows.forEach(row => {
-      const guiaData = {
-        numero_factura: row.cells[1].innerText,
-        fecha_factura: row.cells[2].innerText,
-        nombre: row.cells[3].querySelector('strong').innerText,
-        direccion: row.cells[3].innerText,
-        telefono: row.cells[3].innerText.match(/telf: (\d+)/)[1],
-        provincia: row.cells[4].innerText,
-        ciudad: row.cells[5].innerText,
-        plataforma: row.cells[6].innerText,
-        transporte: row.cells[7].innerText,
-        estado: row.cells[8].innerText,
-        impreso: row.cells[9].innerText.includes('green') ? 1 : 0,
-        acciones: row.cells[10].innerText
-      };
-      allGuias.push(guiaData);
+    checkboxes.forEach(checkbox => {
+      selectedGuias.push(checkbox.getAttribute('data-id'));
     });
   
-    // Convert the all items to JSON and log it to the console
-    const allGuiasJson = JSON.stringify(allGuias, null, 2);
-    console.log(allGuiasJson);
+    // Convert the selected items to JSON and log it to the console
+    const selectedGuiasJson = JSON.stringify(selectedGuias);
+    console.log(selectedGuiasJson);
+
   });
 
 window.addEventListener("load", async () => {
