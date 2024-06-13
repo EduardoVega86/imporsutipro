@@ -14,12 +14,12 @@
         color: white;
     }
 
-    .dataTables_wrapper .sorting:before,
-    .dataTables_wrapper .sorting:after,
-    .dataTables_wrapper .sorting_asc:before,
-    .dataTables_wrapper .sorting_asc:after,
-    .dataTables_wrapper .sorting_desc:before,
-    .dataTables_wrapper .sorting_desc:after {
+    table.dataTable thead .sorting:before,
+    table.dataTable thead .sorting:after,
+    table.dataTable thead .sorting_asc:before,
+    table.dataTable thead .sorting_asc:after,
+    table.dataTable thead .sorting_desc:before,
+    table.dataTable thead .sorting_desc:after {
         color: white !important;
         /* Cambia el color a blanco */
     }
