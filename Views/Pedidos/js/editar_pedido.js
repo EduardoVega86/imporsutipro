@@ -158,10 +158,7 @@ function recalcular(id, idPrecio, idDescuento) {
       }
       await initDataTableNuevoPedido();
     })
-    .catch((error) => {
-      console.error("Error:", error);
-      alert("Hubo un problema al actualizar el producto");
-    });
+    
 }
 
 function validar_direccion() {
