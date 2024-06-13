@@ -249,7 +249,7 @@ class PedidosModel extends Query
         $sql = "UPDATE detalle_fact_cot SET desc_venta = ?, precio_venta = ? WHERE id_detalle = ?";
         $data = [$descuento, $precio, $id_detalle];
         $responses = $this->update($sql, $data);
-        print_r($responses);
+        //print_r($responses);
         if ($responses == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
