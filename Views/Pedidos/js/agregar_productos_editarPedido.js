@@ -4,23 +4,9 @@ let dataTableNuevosPedidosIsInitialized = false;
 const url = window.location.href;
 const id_factura = url.split("/").pop();
 
-$(document).ready(function () {
-  // Obtener el id_producto de la URL
-  const id_producto = getParameterByName("id_producto");
-  const sku = getParameterByName("sku");
-
-  $.ajax({
-    url: SERVERURL + "pedidos/datos_pedido/" + id_factura,
-    type: "GET",
-    dataType: "json",
-    success: function (response) {
-        console.log(response);
-    },
-    error: function (error) {
-      console.error("Error al obtener la lista de bodegas:", error);
-    },
-  });
-});
+// Obtener el id_producto de la URL
+const id_producto = "";
+const sku = "";
 
 const dataTableNuevosPedidosOptions = {
   //scrollX: "2000px",
@@ -65,6 +51,17 @@ const initDataTableNuevosPedidos = async () => {
 };
 
 const listNuevosPedidos = () => {
+    $.ajax({
+        url: SERVERURL + "pedidos/datos_pedido/" + id_factura,
+        type: "GET",
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+        },
+        error: function (error) {
+          console.error("Error al obtener la lista de bodegas:", error);
+        },
+      });
   // Crear una instancia de FormData
   let formData = new FormData();
   formData.append("sku", sku); // Añadir el SKU al FormData
@@ -114,8 +111,8 @@ const listNuevosPedidos = () => {
 
 // Abrir modal
 function buscar_productos_nuevoPedido() {
-    $("#nuevosPedidosModal").modal("show");
-  }
+  $("#nuevosPedidosModal").modal("show");
+}
 
 //enviar cliente
 //enviar cliente
