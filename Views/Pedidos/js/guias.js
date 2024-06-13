@@ -93,19 +93,22 @@ const listGuias = async () => {
                     <td>${guia.tienda}</td>
                     <td>${transporte_content}</td>
                     <td>
-                        <div>
-                        <div><span class="w-100 ${span_estado}">${estado_guia}</span></div>
-                        <div><a class="w-100" href="https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${
-                          guia.numero_guia
-                        }" target="_blank">${guia.numero_guia}</a></div>
-                        <div><a href="https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${
-                          guia.numero_guia
-                        }"><img src="https://new.imporsuitpro.com/public/img/tracking.png" width="30px" id="buscar_traking" alt="buscar_traking"></a>
-                        <a class="w-100" href="https://wa.me/${formatPhoneNumber(
-                          guia.telefono
-                        )}" style="font-size: 40px;" target="_blank"><box-icon type='logo' name='whatsapp-square' color="green"></box-icon></a>
-                        </div>
-                        </div>
+                    <div style="text-align: center;">
+                    <div>
+                      <span class="w-100 ${span_estado}">${estado_guia}</span>
+                    </div>
+                    <div>
+                      <a class="w-100" href="https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>
+                    </div>
+                    <div style="position: relative; display: inline-block; margin-top: 10px;">
+                      <a href="https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${guia.numero_guia}" style="vertical-align: middle;">
+                        <img src="https://new.imporsuitpro.com/public/img/tracking.png" width="30px" id="buscar_traking" alt="buscar_traking">
+                      </a>
+                      <a href="https://wa.me/${formatPhoneNumber(guia.telefono)}" style="font-size: 50px; vertical-align: middle; margin-left: 10px;" target="_blank">
+                        <box-icon type='logo' name='whatsapp-square' color="green"></box-icon>
+                      </a>
+                    </div>
+                  </div>
                     </td>
                     <td>${impresiones}</td>
                     <td>
