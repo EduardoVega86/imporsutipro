@@ -2,13 +2,8 @@ let dataTable;
 let dataTableIsInitialized = false;
 
 const dataTableOptions = {
-  //scrollX: "2000px",
-  /* lengthMenu: [5, 10, 15, 20, 100, 200, 500], */
   columnDefs: [
-    { className: "centered", targets: [0, 1, 2, 3, 4, 5, 6, 7, 8] },
-    /* { orderable: false, targets: [5, 6] }, */
-    /* { searchable: false, targets: [1] } */
-    //{ width: "50%", targets: [0] }
+    { className: "centered", targets: [1, 2, 3, 4, 5, 6, 7, 8, 9] },
   ],
   pageLength: 10,
   destroy: true,
@@ -39,6 +34,7 @@ const initDataTable = async () => {
   dataTable = $("#datatable_guias").DataTable(dataTableOptions);
 
   dataTableIsInitialized = true;
+
   // Handle select all checkbox
   document.getElementById('selectAll').addEventListener('change', function() {
     const checkboxes = document.querySelectorAll('.selectCheckbox');
@@ -55,7 +51,6 @@ const listGuias = async () => {
     let impresiones = "";
     guias.forEach((guia, index) => {
       let transporte = guia.id_transporte;
-      console.log(transporte);
       let transporte_content = "";
       if (transporte == 3) {
         transporte_content =
@@ -75,10 +70,9 @@ const listGuias = async () => {
       }
 
       estado = validar_estado(guia.estado_guia_sistema);
-      var span_estado = estado.span_estado; // Obtiene el valor de span_estado
-      var estado_guia = estado.estado_guia; // Obtiene el valor de estado_guia
+      var span_estado = estado.span_estado;
+      var estado_guia = estado.estado_guia;
 
-      //impresiones
       if (guia.impreso == 0) {
         impresiones = `<box-icon name='printer' color= "red"></box-icon>`;
       } else {
@@ -86,7 +80,7 @@ const listGuias = async () => {
       }
       content += `
                 <tr>
-                <td><input type="checkbox" class="selectCheckbox" data-id="${guia.numero_factura}"></td>
+                    <td><input type="checkbox" class="selectCheckbox" data-id="${guia.numero_factura}"></td>
                     <td>${guia.numero_factura}</td>
                     <td>${guia.fecha_factura}</td>
                     <td>
@@ -135,21 +129,6 @@ const listGuias = async () => {
   }
 };
 
-// Function to handle the click event for sending selected items
-document.getElementById('sendSelected').addEventListener('click', () => {
-    const selectedGuias = [];
-    const checkboxes = document.querySelectorAll('.selectCheckbox:checked');
-  
-    checkboxes.forEach(checkbox => {
-      selectedGuias.push(checkbox.getAttribute('data-id'));
-    });
-  
-    // Convert the selected items to JSON and send it to the server
-    const selectedGuiasJson = JSON.stringify(selectedGuias);
-    console.log(selectedGuiasJson);
-  
-  });
-
 function validar_estado(estado) {
   var span_estado = "";
   var estado_guia = "";
@@ -196,6 +175,54 @@ function validar_estado(estado) {
     estado_guia: estado_guia,
   };
 }
+
+window.addEventListener("load", async () => {
+  await initDataTable();
+});
+
+function formatPhoneNumber(number) {
+  number = number.replace(/[^\d+]/g, "");
+  if (/^\+593/.test(number)) {
+    return number;
+  } else if (/^593/.test(number)) {
+    return "+" + number;
+  } else {
+    if (number.startsWith("0")) {
+      number = number.substring(1);
+    }
+    number = "+593" + number;
+  }
+  return number;
+}
+
+// Function to handle the click event for sending selected items
+document.getElementById('sendSelected').addEventListener('click', () => {
+  const selectedGuias = [];
+  const checkboxes = document.querySelectorAll('.selectCheckbox:checked');
+
+  checkboxes.forEach(checkbox => {
+    selectedGuias.push(checkbox.getAttribute('data-id'));
+  });
+
+  // Convert the selected items to JSON and send it to the server
+  const selectedGuiasJson = JSON.stringify(selectedGuias);
+  console.log(selectedGuiasJson);
+
+  // Make an API call to send the selectedGuiasJson
+  // Example:
+  // fetch(SERVERURL + 'your_endpoint', {
+  //   method: 'POST',
+  //   headers: {
+  //     'Content-Type': 'application/json'
+  //   },
+  //   body: selectedGuiasJson
+  // }).then(response => response.json())
+  // .then(data => {
+  //   console.log(data);
+  // }).catch(error => {
+  //   console.error('Error:', error);
+  // });
+});
 
 window.addEventListener("load", async () => {
   await initDataTable();
