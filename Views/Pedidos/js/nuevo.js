@@ -276,7 +276,7 @@ $(document).ready(function () {
     }
   });
 
-  $("#provincia,#ciudad").change(function () {
+  $("#provincia,#ciudad,#recaudo").change(function () {
     var provincia = $("#provincia").val();
     var ciudad = $("#ciudad").val();
     var monto_total = $("#monto_total").text().trim();
