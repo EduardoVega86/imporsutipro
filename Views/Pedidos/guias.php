@@ -14,8 +14,14 @@
         color: white;
     }
 
-    .dt-column-order{
-        color: white;
+    .dataTables_wrapper .sorting:before,
+    .dataTables_wrapper .sorting:after,
+    .dataTables_wrapper .sorting_asc:before,
+    .dataTables_wrapper .sorting_asc:after,
+    .dataTables_wrapper .sorting_desc:before,
+    .dataTables_wrapper .sorting_desc:after {
+        color: white !important;
+        /* Cambia el color a blanco */
     }
 
     .table th,
