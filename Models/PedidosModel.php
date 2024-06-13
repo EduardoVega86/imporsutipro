@@ -254,6 +254,7 @@ class PedidosModel extends Query
         $sql = "UPDATE detalle_fact_cot SET desc_venta = ?, precio_venta = ? WHERE id_detalle = ?";
         $data = [$descuento, $precio, $id_detalle];
         $responses = $this->update($sql, $data);
+        print_r($responses);
         if ($responses == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
@@ -261,7 +262,7 @@ class PedidosModel extends Query
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = 'Error al actualizar el producto';
+            $response['message'] = $responses['message'];
         }
         return $response;
     }
@@ -317,8 +318,10 @@ class PedidosModel extends Query
           $cantidad_tmp = $this->select("SELECT * FROM detalle_fact_cot WHERE id_factura = '$id_factura' and id_producto=$id_producto and sku=$sku" );
           //print_r($cantidad_tmp);
           if (empty($cantidad_tmp)){
-              $sql = "INSERT INTO `detalle_fact_cot` (`id_producto`, `cantidad`, `precio_venta`, `id_factura`, `id_plataforma`, `sku`) VALUES (?, ?, ?, ?, ?, ?);";
-        $data = [$id_producto, $cantidad, $precio, $id_factura, $plataforma, $sku];
+              $numeroFactura = $this->select("SELECT numero_factura FROM facturas_cot WHERE id_factura = '$id_factura'");
+              $numero_factura=$numeroFactura[0]['numero_factura'];
+              $sql = "INSERT INTO `detalle_fact_cot` (`id_producto`, `cantidad`, `precio_venta`, `id_factura`, `id_plataforma`, `sku`, `numero_factura`) VALUES (?, ?, ?, ?, ?, ?, ?);";
+        $data = [$id_producto, $cantidad, $precio, $id_factura, $plataforma, $sku, $numero_factura];
         $insertar_caracteristica = $this->insert($sql, $data);
         
           }else{
@@ -331,7 +334,7 @@ class PedidosModel extends Query
         //print_r($insertar_caracteristica);
           }
          
-     
+      print_r($insertar_caracteristica);
         
         if ($insertar_caracteristica == 1) {
             $response['status'] = 200;
