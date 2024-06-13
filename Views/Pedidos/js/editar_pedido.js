@@ -441,7 +441,7 @@ function cargarProvincias() {
   });
 }
 
-// Función para cargar ciudades según la provincia seleccionada
+/* // Función para cargar ciudades según la provincia seleccionada
 function cargarCiudades() {
   let provinciaId = $("#provincia").val();
   if (provinciaId) {
@@ -565,7 +565,7 @@ function agregar_nuevoPedido() {
       console.log(error);
     },
   });
-}
+} */
 
 function generar_guia() {
   //   alert()
