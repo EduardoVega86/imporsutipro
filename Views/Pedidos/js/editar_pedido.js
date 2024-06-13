@@ -247,7 +247,14 @@ $(document).ready(function () {
 
   cargarProvincias(); // Llamar a cargarProvincias cuando la página esté lista
 
-  
+  let isInitialLoad = true;
+
+  // Llamar a cargarCiudades cuando se seleccione una provincia
+  $("#provincia").on("change", function() {
+    if (!isInitialLoad) {
+      cargarCiudades();
+    }
+  });
 
   // Consumir datos y poner en inputs para editar
   $.ajax({
@@ -292,10 +299,7 @@ $(document).ready(function () {
 
           // Después de asignar la provincia, cargar ciudades y asignar la ciudad seleccionada
           $.ajax({
-            url:
-              SERVERURL +
-              "Ubicaciones/obtenerCiudades/" +
-              response[0].provincia,
+            url: SERVERURL + "Ubicaciones/obtenerCiudades/" + response[0].provincia,
             type: "GET",
             success: function (responseCiudades) {
               let ciudades = JSON.parse(responseCiudades);
@@ -310,17 +314,18 @@ $(document).ready(function () {
               });
 
               // Asignar valor de la ciudad y notificar a Select2
-              ciudadSelect
-                .val(response[0].ciudad_cot)
-                .trigger("change.select2");
-                
-              // Comprobar si la ciudad fue asignada correctamente y mantenerla
-              if (!ciudadSelect.val()) {
+              ciudadSelect.val(response[0].ciudad_cot).trigger("change.select2");
+
+              // Asegurarse de que la ciudad se muestre correctamente
+              setTimeout(() => {
                 ciudadSelect.val(response[0].ciudad_cot).trigger("change.select2");
-              }
+              }, 100);
 
               // Llamar manualmente la función de cambio después de asignar los valores
-              $("#provincia, #ciudad").trigger("change");
+              setTimeout(() => {
+                $("#provincia, #ciudad").trigger("change");
+                isInitialLoad = false; // Finalizar la carga inicial
+              }, 200);
             },
             error: function (error) {
               console.error("Error al cargar las ciudades:", error);
@@ -410,7 +415,6 @@ $(document).ready(function () {
   });
 });
 
-
 // Función para cargar provincias
 function cargarProvincias() {
   $.ajax({
@@ -471,7 +475,7 @@ function cargarCiudades() {
       .empty()
       .append('<option value="">Ciudad *</option>')
       .prop("disabled", true)
-      .trigger("change.select2"); // Refrescar Select2 para mostrar el estado deshabilitado
+      .trigger("change.select2");
   }
 }
 
