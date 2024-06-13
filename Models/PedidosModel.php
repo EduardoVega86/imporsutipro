@@ -252,7 +252,7 @@ class PedidosModel extends Query
     public function actualizarDetalle($id_detalle, $descuento, $precio)
     {
         $sql = "UPDATE detalle_fact_cot SET desc_venta = ?, precio_venta = ? WHERE id_detalle = ?";
-        $data = [$descuento, $precio, $id_tmp];
+        $data = [$descuento, $precio, $id_detalle];
         $responses = $this->update($sql, $data);
         if ($responses == 1) {
             $response['status'] = 200;
