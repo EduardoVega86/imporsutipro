@@ -96,10 +96,10 @@ const listNuevoPedido = async () => {
                     <td>${nuevoPedido.cantidad}</td>
                     <td>${nuevoPedido.nombre_producto}</td>
                     <td><input type="text" onblur='recalcular("${
-                      nuevoPedido.id_producto
+                      nuevoPedido.id_detalle
                     }", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}")' id="precio_nuevoPedido_${index}" class="form-control prec" value="${precio}"></td>
                     <td><input type="text" onblur='recalcular("${
-                      nuevoPedido.id_producto
+                      nuevoPedido.id_detalle
                     }", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}")' id="descuento_nuevoPedido_${index}" class="form-control desc" value="${descuento}"></td>
                     <td><span class='tota' id="precioFinal_nuevoPedido_${index}">${precioFinal.toFixed(
         2
