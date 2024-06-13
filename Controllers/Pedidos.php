@@ -128,7 +128,7 @@ class Pedidos extends Controller
 
     public function cargarPedidos()
     {
-        $data = $this->model->pedidos();
+        $data = $this->model->pedidos($_SESSION["id_plataforma"]);
         echo json_encode($data);
     }
 
@@ -250,8 +250,8 @@ class Pedidos extends Controller
 
         echo json_encode($response);
     }
-    
-     public function actualizarDetalle($id_detalle)
+
+    public function actualizarDetalle($id_detalle)
     {
         $descuento = $_POST['descuento'];
         $precio = $_POST['precio'];
@@ -259,7 +259,7 @@ class Pedidos extends Controller
 
         echo json_encode($response);
     }
-    
+
     public function agregarDetalle()
     {
         $cantidad = $_POST['cantidad'];
@@ -267,14 +267,14 @@ class Pedidos extends Controller
         $id_producto = $_POST['id_producto'];
         $sku = $_POST['sku'];
         $id_factura = $_POST['id_factura'];
-      
+
         $response = $this->model->agregarDetalle($id_producto, $cantidad, $precio, $_SESSION['id_plataforma'], $sku, $id_factura);
         echo json_encode($response);
     }
-    
-     public function eliminarDescripcion($id_detalle)
+
+    public function eliminarDescripcion($id_detalle)
     {
-       
+
         $response = $this->model->eliminarDescripcion($id_detalle);
 
         echo json_encode($response);

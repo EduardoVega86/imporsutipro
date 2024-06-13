@@ -6,15 +6,10 @@ class PedidosModel extends Query
         parent::__construct();
     }
 
-    public function cargarPedidosIngresados($filtro)
+    public function cargarPedidosIngresados($plataforma)
     {
-        if (empty($filtro) || $filtro == "") {
 
-            $sql = "SELECT * FROM facturas_cot where numero_guia = '' or numero_guia is null and anulada = 0";
-        } else {
-
-            $separar_filtro = explode(",", $filtro);
-        }
+        $sql = "SELECT * FROM facturas_cot where numero_guia = '' or numero_guia is null and anulada = 0 and id_plataforma = '$plataforma'  ORDER BY numero_factura DESC";
         return $this->select($sql);
     }
 
@@ -292,9 +287,9 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
-    public function pedidos()
+    public function pedidos($plataforma)
     {
-        $sql = "SELECT *, (SELECT ciudad FROM ciudad_cotizacion where id_cotizacion = ciudad_cot) as ciudad,(SELECT provincia FROM ciudad_cotizacion where id_cotizacion = ciudad_cot) as provinciaa,(SELECT url_imporsuit from plataformas where id_plataforma = id_propietario) as plataforma FROM facturas_cot WHERE anulada = 0 AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0') ORDER BY numero_factura DESC;";
+        $sql = "SELECT *, (SELECT ciudad FROM ciudad_cotizacion where id_cotizacion = ciudad_cot) as ciudad,(SELECT provincia FROM ciudad_cotizacion where id_cotizacion = ciudad_cot) as provinciaa,(SELECT url_imporsuit from plataformas where id_plataforma = id_propietario) as plataforma FROM facturas_cot WHERE anulada = 0 AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0') and id_plataforma = '$plataforma' ORDER BY numero_factura DESC;";
         return $this->select($sql);
     }
 
