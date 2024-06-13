@@ -270,4 +270,12 @@ class Pedidos extends Controller
         $response = $this->model->agregarDetalle($id_producto, $cantidad, $precio, $_SESSION['id_plataforma'], $sku, $id_factura);
         echo json_encode($response);
     }
+    
+     public function eliminarDescripcion($id_detalle)
+    {
+       
+        $response = $this->model->eliminarDescripcion($id_detalle);
+
+        echo json_encode($response);
+    }
 }

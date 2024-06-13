@@ -156,6 +156,25 @@ class PedidosModel extends Query
         }
         return $response;
     }
+    
+    public function eliminarDescripcion($id_descripcion)
+    {
+        $sql = "delete FROM detalle_fact_cot WHERE id_detalle = ?";
+        $data = [$id_descripcion];
+        //echo print_r($data);
+        $eliminar_tmp = $this->delete($sql, $data);
+        //print_r($eliminar_tmp);
+        if ($eliminar_tmp == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Producto eliminado correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al eliminar la producto';
+        }
+        return $response;
+    }
 
     public function buscarBodega($id_producto)
     {
