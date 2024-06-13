@@ -1,13 +1,6 @@
 let dataTableNuevosPedidos;
 let dataTableNuevosPedidosIsInitialized = false;
 
-const url = window.location.href;
-const id_factura = url.split("/").pop();
-
-// Obtener el id_producto de la URL
-const id_producto = "";
-const sku = "";
-
 const dataTableNuevosPedidosOptions = {
   //scrollX: "2000px",
   /* lengthMenu: [5, 10, 15, 20, 100, 200, 500], */
@@ -51,17 +44,8 @@ const initDataTableNuevosPedidos = async () => {
 };
 
 const listNuevosPedidos = () => {
-  $.ajax({
-    url: SERVERURL + "pedidos/datos_pedido/" + id_factura,
-    type: "GET",
-    dataType: "json",
-    success: function (response) {
-      console.log(response);
-    },
-    error: function (error) {
-      console.error("Error al obtener la lista de bodegas:", error);
-    },
-  });
+   var id_producto= $('#id_productoBuscar').val();
+   var sku = $('#sku_productoBuscar').val();
   // Crear una instancia de FormData
   let formData = new FormData();
   formData.append("sku", sku); // Añadir el SKU al FormData
