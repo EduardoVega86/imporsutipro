@@ -3,8 +3,8 @@ let dataTableNuevosPedidosIsInitialized = false;
 
 
 // Obtener el valor del id_factura desde la URL
-var url = window.location.href;
-var id_factura_1 = url.split("/").pop();
+var url_1 = window.location.href;
+var id_factura_1 = url_1.split("/").pop();
 
 const dataTableNuevosPedidosOptions = {
   //scrollX: "2000px",
