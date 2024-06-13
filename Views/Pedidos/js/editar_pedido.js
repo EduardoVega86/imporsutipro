@@ -247,6 +247,27 @@ $(document).ready(function () {
   // Llamar a cargarCiudades cuando se seleccione una provincia
   $("#provincia").on("change", cargarCiudades);
 
+  $(".transportadora").click(function () {
+    var priceSpan = $(this).find(".price-tag span");
+    var priceValue = priceSpan.text().trim();
+    var selectedCompany = $(this).data("company");
+
+    if (priceValue !== "--" && priceValue !== "") {
+      $("#costo_flete").val(priceValue);
+      $("#transportadora_selected").val(selectedCompany);
+
+      // Remove 'selected' class from all transportadora elements
+      $(".transportadora").removeClass("selected");
+
+      // Add 'selected' class to the clicked transportadora
+      $(this).addClass("selected");
+    } else {
+      toastr.error("ESTA TRANSPORTADORA NO TIENE COBERTURA", "NOTIFICACIÓN", {
+        positionClass: "toast-bottom-center",
+      });
+    }
+  });
+
   $("#provincia,#ciudad").change(function () {
     var provincia = $("#provincia").val();
     var ciudad = $("#ciudad").val();
@@ -281,27 +302,6 @@ $(document).ready(function () {
         error: function (jqXHR, textStatus, errorThrown) {
           alert(errorThrown);
         },
-      });
-    }
-  });
-
-  $(".transportadora").click(function () {
-    var priceSpan = $(this).find(".price-tag span");
-    var priceValue = priceSpan.text().trim();
-    var selectedCompany = $(this).data("company");
-
-    if (priceValue !== "--" && priceValue !== "") {
-      $("#costo_flete").val(priceValue);
-      $("#transportadora_selected").val(selectedCompany);
-
-      // Remove 'selected' class from all transportadora elements
-      $(".transportadora").removeClass("selected");
-
-      // Add 'selected' class to the clicked transportadora
-      $(this).addClass("selected");
-    } else {
-      toastr.error("ESTA TRANSPORTADORA NO TIENE COBERTURA", "NOTIFICACIÓN", {
-        positionClass: "toast-bottom-center",
       });
     }
   });
