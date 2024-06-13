@@ -315,7 +315,7 @@ $(document).ready(function () {
                 .val(response[0].ciudad_cot)
                 .trigger("change.select2");
 
-              // Llamar manualmente la función de cambio después de asignar los valores
+              // Ahora llamar a la función de cambio manualmente
               $("#provincia, #ciudad").trigger("change");
             },
             error: function (error) {
@@ -405,6 +405,7 @@ $(document).ready(function () {
     },
   });
 });
+
 
 // Función para cargar provincias
 function cargarProvincias() {
