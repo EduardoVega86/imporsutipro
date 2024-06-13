@@ -266,8 +266,8 @@ class Pedidos extends Controller
         $precio = $_POST['precio'];
         $id_producto = $_POST['id_producto'];
         $sku = $_POST['sku'];
-        $sku = $_POST['id_factura'];
-        $response = $this->model->agregarDetalle($id_producto, $cantidad, $precio, $_SESSION['id_plataforma'], $sku);
+        $id_factura = $_POST['id_factura'];
+        $response = $this->model->agregarDetalle($id_producto, $cantidad, $precio, $_SESSION['id_plataforma'], $sku, $id_factura);
         echo json_encode($response);
     }
 }
