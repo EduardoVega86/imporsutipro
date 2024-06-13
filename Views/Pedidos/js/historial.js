@@ -84,7 +84,6 @@ const listHistorialPedidos = async () => {
                     <td>${historialPedido.plataforma}</td>
                     <td>${transporte_content}</td>
                     <td>
-                        <span class="w-100">${historialPedido.estado_guia_sistema}</span>
                         <a class="w-100" href="https://wa.me/${formatPhoneNumber(historialPedido.telefono)}" style="font-size: 40px;" target="_blank"><box-icon type='logo' name='whatsapp-square' color="green"></box-icon></a>
                     </td>
                     <td>${impresiones}</td>

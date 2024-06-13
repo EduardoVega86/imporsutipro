@@ -24,6 +24,25 @@
         text-align: center !important;
         vertical-align: middle !important;
     }
+
+    .badge_danger{
+        background-color: red;
+        color: white;
+    }
+
+    .badge_purple{
+        background-color: #680EF2;
+        color: white;
+    }
+
+    .badge_warning{
+        background-color: #F2CC0E;
+        color: white;
+    }
+    .badge_green{
+        background-color: #32D814;
+        color: white;
+    }
 </style>
 
 <style>
