@@ -1,9 +1,6 @@
 let dataTableNuevosPedidos;
 let dataTableNuevosPedidosIsInitialized = false;
 
-// Obtener el valor del id_factura desde la URL
-const url = window.location.href;
-const id_factura = url.split("/").pop();
 
 const dataTableNuevosPedidosOptions = {
   //scrollX: "2000px",
@@ -82,7 +79,7 @@ const listNuevosPedidos = () => {
                             <td><input type="number" class="form-control" value="1" min="1" id="cantidad_${index}"></td>
                             <td>${nuevoPedido.pvp}</td>
                             <td>
-                            <button class="btn btn-sm btn-success" ><i class="fa-solid fa-pencil"></i></button>
+                            <button class="btn btn-sm btn-success" onclick="enviar_cliente(${nuevoPedido.id_producto}, ${index})"><i class="fa-solid fa-pencil"></i></button>
                             </td>
                         </tr>`;
         });
