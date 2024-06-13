@@ -60,7 +60,7 @@ const listHistorialPedidos = async () => {
                 transporte_contet = '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
             } else if (transporte == 4) {
                 transporte_contet = '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>';
-            } else {
+            } else if (transporte == 0){
                 transporte_contet = '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">Guia no enviada</span>';
             }
 
