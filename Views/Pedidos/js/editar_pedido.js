@@ -60,66 +60,51 @@ var costo_producto = 0;
 
 const listNuevoPedido = async () => {
   try {
-    const response = await fetch("" + SERVERURL + "pedidos/buscarTmp");
+    const response = await fetch(
+      "" + SERVERURL + "pedidos/datos_pedido/" + id_factura
+    );
 
     const data = await response.json();
-    console.log(data);
+    nuevosPedidos = data;
 
-    if (data.tmp[0].id_producto == 0 && eliminado == false) {
-      // If the response is empty, return
-      return;
-    }
-    const nuevosPedidos = data.tmp; // Extract the 'tmp' array from the response
-    const nuevosPedidos_bodega = data.bodega;
-    console.log(nuevosPedidos_bodega);
     let content = ``;
     let total = 0;
     let precio_costo = 0;
     nuevosPedidos.forEach((nuevoPedido, index) => {
-      if (nuevosPedidos_bodega.length > 0 && nuevosPedidos_bodega[0]) {
-        celular_bodega = nuevosPedidos_bodega[0].contacto;
-        nombre_bodega = nuevosPedidos_bodega[0].nombre;
-        ciudad_bodega = nuevosPedidos_bodega[0].localidad;
-        provincia_bodega = nuevosPedidos_bodega[0].provincia;
-        direccion_bodega = nuevosPedidos_bodega[0].direccion;
-        referencia_bodega = nuevosPedidos_bodega[0].referencia;
-        numeroCasa_bodega = nuevosPedidos_bodega[0].num_casa;
-        id_propietario_bodega = nuevosPedidos_bodega[0].id;
-      }
       id_producto_venta = nuevoPedido.id_producto;
       dropshipping = nuevoPedido.drogshipin;
       costo_producto = nuevoPedido.costo_producto;
 
-      contiene += `${nuevoPedido.nombre_producto} X${nuevoPedido.cantidad_tmp} `;
+      contiene += `${nuevoPedido.nombre_producto} X${nuevoPedido.cantidad} `;
 
-      precio_costo = parseFloat(nuevoPedido.precio_tmp);
+      precio_costo = parseFloat(nuevoPedido.pvp); // no estoy seguro si es precio_venta o pvp, preguntar despues
 
       // Verificar condición
       if (!validar_direccion()) {
         return; // Salir de la función si la validación falla
       }
 
-      const precio = parseFloat(nuevoPedido.precio_tmp);
-      const descuento = parseFloat(nuevoPedido.desc_tmp);
+      const precio = parseFloat(nuevoPedido.pvp); // no estoy seguro si es precio_venta o pvp, preguntar despues
+      const descuento = parseFloat(nuevoPedido.desc_venta);
       const precioFinal = precio - precio * (descuento / 100);
       total += precioFinal;
       content += `
                 <tr>
-                    <td>${nuevoPedido.id_tmp}</td>
-                    <td>${nuevoPedido.cantidad_tmp}</td>
+                    <td>${nuevoPedido.id_producto}</td>
+                    <td>${nuevoPedido.cantidad}</td>
                     <td>${nuevoPedido.nombre_producto}</td>
                     <td><input type="text" onblur='recalcular("${
-                      nuevoPedido.id_tmp
+                      nuevoPedido.id_producto
                     }", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}")' id="precio_nuevoPedido_${index}" class="form-control prec" value="${precio}"></td>
                     <td><input type="text" onblur='recalcular("${
-                      nuevoPedido.id_tmp
+                      nuevoPedido.id_producto
                     }", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}")' id="descuento_nuevoPedido_${index}" class="form-control desc" value="${descuento}"></td>
                     <td><span class='tota' id="precioFinal_nuevoPedido_${index}">${precioFinal.toFixed(
         2
       )}</span></td>
                     <td>
                         <button class="btn btn-sm btn-danger" onclick="eliminar_nuevoPedido(${
-                          nuevoPedido.id_tmp
+                          nuevoPedido.id_producto
                         })"><i class="fa-solid fa-trash-can"></i></button>
                     </td>
                 </tr>`;
@@ -324,6 +309,15 @@ $(document).ready(function () {
     type: "GET",
     dataType: "json",
     success: function (response) {
+      celular_bodega = response[0].telefonoO;
+      nombre_bodega = response[0].nombreO;
+      ciudad_bodega = response[0].ciudadO;
+      provincia_bodega = response[0].provinciaO;
+      direccion_bodega = response[0].direccionO;
+      referencia_bodega = response[0].referenciaO;
+      numeroCasa_bodega = response[0].numeroCasaO;
+      id_propietario_bodega = response[0].id_propietario;
+
       $("#nombre").val(response[0].nombre);
       $("#telefono").val(response[0].telefono);
       $("#calle_principal").val(response[0].c_principal);
@@ -395,7 +389,7 @@ $(document).ready(function () {
     type: "GET",
     dataType: "json",
     success: function (response) {
-        console.log(response)
+      console.log(response);
     },
     error: function (error) {
       console.error("Error al obtener la lista de bodegas:", error);

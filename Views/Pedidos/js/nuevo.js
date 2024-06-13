@@ -60,7 +60,6 @@ const listNuevoPedido = async () => {
     const response = await fetch("" + SERVERURL + "pedidos/buscarTmp");
 
     const data = await response.json();
-    console.log(data);
 
     if (data.tmp[0].id_producto == 0 && eliminado == false) {
       // If the response is empty, return
@@ -68,7 +67,7 @@ const listNuevoPedido = async () => {
     }
     const nuevosPedidos = data.tmp; // Extract the 'tmp' array from the response
     const nuevosPedidos_bodega = data.bodega;
-    console.log(nuevosPedidos_bodega);
+    
     let content = ``;
     let total = 0;
     let precio_costo = 0;
