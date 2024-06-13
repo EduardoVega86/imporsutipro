@@ -14,6 +14,10 @@
         color: white;
     }
 
+    .dt-column-order{
+        color: white;
+    }
+
     .table th,
     .table td {
         text-align: center;
