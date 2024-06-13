@@ -13,17 +13,7 @@
         background-color: #171931;
         color: white;
     }
-
-    table.dataTable thead .sorting:before,
-    table.dataTable thead .sorting:after,
-    table.dataTable thead .sorting_asc:before,
-    table.dataTable thead .sorting_asc:after,
-    table.dataTable thead .sorting_desc:before,
-    table.dataTable thead .sorting_desc:after {
-        color: white !important;
-        /* Cambia el color a blanco */
-    }
-
+    
     .table th,
     .table td {
         text-align: center;
