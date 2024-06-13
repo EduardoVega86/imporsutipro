@@ -112,6 +112,11 @@ const listNuevosPedidos = () => {
   });
 };
 
+// Abrir modal
+function buscar_productos_nuevoPedido() {
+    $("#nuevosPedidosModal").modal("show");
+  }
+
 //enviar cliente
 //enviar cliente
 function enviar_cliente(id, index) {
