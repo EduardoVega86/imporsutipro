@@ -121,7 +121,7 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
         vertical-align: middle !important;
     }
 </style>
-<?php require_once './Views/Pedidos/Modales/agregar_productos_pedido.php'; ?>
+<?php require_once './Views/Pedidos/Modales/agregar_productos_editarPedido.php'; ?>
 <div class="custom-container-fluid mt-4">
     <div class="row">
         <div class="col">
@@ -292,5 +292,5 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
 </div>
 
 <script src="<?php echo SERVERURL ?>/Views/Pedidos/js/editar_pedido.js"></script>
-<script src="<?php echo SERVERURL ?>/Views/Pedidos/js/agregar_productos_pedido.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/Pedidos/js/agregar_productos_editarPedido.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
