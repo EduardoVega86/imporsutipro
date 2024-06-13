@@ -467,7 +467,13 @@ function cargarCiudades() {
         console.log("Error al cargar ciudades:", error);
       },
     });
-  } 
+  } else {
+    $("#ciudad")
+      .empty()
+      .append('<option value="">Ciudad *</option>')
+      .prop("disabled", true)
+      .trigger("change.select2"); // Refrescar Select2 para mostrar el estado deshabilitado
+  }
 }
 
 //agregar funcion pedido
