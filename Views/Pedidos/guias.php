@@ -73,6 +73,9 @@
         <!-- <div class="filtros_producos justify-content-between align-items-center mb-3">
 
         </div> -->
+
+        <button id="imprimir_guias" class="btn btn-success">Imprimir</button>
+
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
             <table id="datatable_guias" class="table table-striped">

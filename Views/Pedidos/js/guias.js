@@ -196,33 +196,33 @@ function formatPhoneNumber(number) {
 }
 
 // Function to handle the click event for sending selected items
-document.getElementById('sendSelected').addEventListener('click', () => {
-  const selectedGuias = [];
-  const checkboxes = document.querySelectorAll('.selectCheckbox:checked');
-
-  checkboxes.forEach(checkbox => {
-    selectedGuias.push(checkbox.getAttribute('data-id'));
+document.getElementById('imprimir_guias').addEventListener('click', () => {
+    const selectedGuias = [];
+    const checkboxes = document.querySelectorAll('.selectCheckbox:checked');
+  
+    checkboxes.forEach(checkbox => {
+      selectedGuias.push(checkbox.getAttribute('data-id'));
+    });
+  
+    // Convert the selected items to JSON and log it to the console
+    const selectedGuiasJson = JSON.stringify(selectedGuias);
+    console.log(selectedGuiasJson);
+  
+    // Make an API call to send the selectedGuiasJson if needed
+    // Example:
+    // fetch(SERVERURL + 'your_endpoint', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: selectedGuiasJson
+    // }).then(response => response.json())
+    // .then(data => {
+    //   console.log(data);
+    // }).catch(error => {
+    //   console.error('Error:', error);
+    // });
   });
-
-  // Convert the selected items to JSON and send it to the server
-  const selectedGuiasJson = JSON.stringify(selectedGuias);
-  console.log(selectedGuiasJson);
-
-  // Make an API call to send the selectedGuiasJson
-  // Example:
-  // fetch(SERVERURL + 'your_endpoint', {
-  //   method: 'POST',
-  //   headers: {
-  //     'Content-Type': 'application/json'
-  //   },
-  //   body: selectedGuiasJson
-  // }).then(response => response.json())
-  // .then(data => {
-  //   console.log(data);
-  // }).catch(error => {
-  //   console.error('Error:', error);
-  // });
-});
 
 window.addEventListener("load", async () => {
   await initDataTable();
