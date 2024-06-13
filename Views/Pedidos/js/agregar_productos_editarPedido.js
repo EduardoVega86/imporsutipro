@@ -51,17 +51,17 @@ const initDataTableNuevosPedidos = async () => {
 };
 
 const listNuevosPedidos = () => {
-    $.ajax({
-        url: SERVERURL + "pedidos/datos_pedido/" + id_factura,
-        type: "GET",
-        dataType: "json",
-        success: function (response) {
-            console.log(response);
-        },
-        error: function (error) {
-          console.error("Error al obtener la lista de bodegas:", error);
-        },
-      });
+  $.ajax({
+    url: SERVERURL + "pedidos/datos_pedido/" + id_factura,
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+      console.log(response);
+    },
+    error: function (error) {
+      console.error("Error al obtener la lista de bodegas:", error);
+    },
+  });
   // Crear una instancia de FormData
   let formData = new FormData();
   formData.append("sku", sku); // Añadir el SKU al FormData
