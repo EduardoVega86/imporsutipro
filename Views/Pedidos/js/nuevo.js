@@ -62,8 +62,7 @@ const listNuevoPedido = async () => {
     const data = await response.json();
 
     if (data.tmp[0].id_producto == 0 && eliminado == false) {
-      document.getElementById("monto_total").innerHTML = 0;
-      document.getElementById("tableBody_nuevoPedido").innerHTML = "";
+      // If the response is empty, return
       return;
     }
     const nuevosPedidos = data.tmp; // Extract the 'tmp' array from the response
@@ -125,6 +124,8 @@ const listNuevoPedido = async () => {
     document.getElementById("tableBody_nuevoPedido").innerHTML = content;
     if (eliminado == true) {
       eliminado = false;
+      document.getElementById("monto_total").innerHTML = 0;
+      document.getElementById("tableBody_nuevoPedido").innerHTML = "";
     }
   } catch (ex) {
     alert(ex);
