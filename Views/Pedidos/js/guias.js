@@ -27,10 +27,6 @@ const dataTableOptions = {
       previous: "Anterior",
     },
   },
-  initComplete: function() {
-    // Cambiar el color de las flechas de ordenación a blanco
-    $('thead .sorting:before, thead .sorting:after, thead .sorting_asc:before, thead .sorting_asc:after, thead .sorting_desc:before, thead .sorting_desc:after').css('color', 'white');
-  },
 };
 
 const initDataTable = async () => {
