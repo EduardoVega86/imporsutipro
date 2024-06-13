@@ -143,6 +143,7 @@ function enviar_cliente(id, index) {
                 text: response2.message,
               });
             } else if (response2.status == 200) {
+                console.log("entro en el 200")
               initDataTableNuevoPedido();
             }
           },
