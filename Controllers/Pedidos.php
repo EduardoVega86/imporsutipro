@@ -251,6 +251,15 @@ class Pedidos extends Controller
         echo json_encode($response);
     }
     
+     public function actualizarDetalle($id_detalle)
+    {
+        $descuento = $_POST['descuento'];
+        $precio = $_POST['precio'];
+        $response = $this->model->actualizarDetalle($id_detalle, $descuento, $precio);
+
+        echo json_encode($response);
+    }
+    
     public function agregarDetalle()
     {
         $cantidad = $_POST['cantidad'];

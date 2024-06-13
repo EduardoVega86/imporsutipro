@@ -229,6 +229,23 @@ class PedidosModel extends Query
         }
         return $response;
     }
+    
+    public function actualizarDetalle($id_detalle, $descuento, $precio)
+    {
+        $sql = "UPDATE detalle_fact_cot SET desc_venta = ?, precio_venta = ? WHERE id_detalle = ?";
+        $data = [$descuento, $precio, $id_tmp];
+        $responses = $this->update($sql, $data);
+        if ($responses == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Producto actualizado correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al actualizar el producto';
+        }
+        return $response;
+    }
 
     function incrementarNumeroFactura($factura)
     {
