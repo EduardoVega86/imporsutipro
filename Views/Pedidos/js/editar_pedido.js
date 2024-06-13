@@ -90,8 +90,12 @@ const listNuevoPedido = async () => {
       total += precioFinal;
       content += `
                 <tr>
-                <input type="hidden" id="id_productoBuscar_${index}" name="id_productoBuscar_${index}" value= "${nuevoPedido.id_producto}">
-                <input type="hidden" id="sku_productoBuscar_${index}" name="sku_productoBuscar_${index}" value= "${nuevoPedido.sku}"></input>
+                <input type="hidden" id="id_productoBuscar_${index}" name="id_productoBuscar_${index}" value= "${
+        nuevoPedido.id_producto
+      }">
+                <input type="hidden" id="sku_productoBuscar_${index}" name="sku_productoBuscar_${index}" value= "${
+        nuevoPedido.sku
+      }"></input>
                     <td>${nuevoPedido.id_producto}</td>
                     <td>${nuevoPedido.cantidad}</td>
                     <td>${nuevoPedido.nombre_producto}</td>
@@ -229,7 +233,6 @@ window.addEventListener("load", async () => {
   await initDataTableNuevosPedidos();
 });
 
-//cargar selelct ciudades y provincias
 $(document).ready(function () {
   // Inicializar Select2 en los selects
   $("#provincia").select2({
@@ -311,6 +314,9 @@ $(document).ready(function () {
               ciudadSelect
                 .val(response[0].ciudad_cot)
                 .trigger("change.select2");
+
+              // Llamar manualmente la función de cambio después de asignar los valores
+              $("#provincia, #ciudad").trigger("change");
             },
             error: function (error) {
               console.error("Error al cargar las ciudades:", error);
@@ -385,8 +391,6 @@ $(document).ready(function () {
       });
     }
   });
-
-  
 
   // cargar datos productos
   $.ajax({
