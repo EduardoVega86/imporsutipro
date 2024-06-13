@@ -459,7 +459,7 @@ function cargarCiudades() {
         });
 
         // Refrescar Select2 para que muestre las nuevas opciones
-        
+        ciudadSelect.trigger("change.select2");
 
         ciudadSelect.prop("disabled", false); // Habilitar el select de ciudades
       },
@@ -467,13 +467,7 @@ function cargarCiudades() {
         console.log("Error al cargar ciudades:", error);
       },
     });
-  } else {
-    $("#ciudad")
-      .empty()
-      .append('<option value="">Ciudad *</option>')
-      .prop("disabled", true)
-      .trigger("change.select2"); // Refrescar Select2 para mostrar el estado deshabilitado
-  }
+  } 
 }
 
 //agregar funcion pedido
