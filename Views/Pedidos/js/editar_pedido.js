@@ -247,65 +247,6 @@ $(document).ready(function () {
   // Llamar a cargarCiudades cuando se seleccione una provincia
   $("#provincia").on("change", cargarCiudades);
 
-  $(".transportadora").click(function () {
-    var priceSpan = $(this).find(".price-tag span");
-    var priceValue = priceSpan.text().trim();
-    var selectedCompany = $(this).data("company");
-
-    if (priceValue !== "--" && priceValue !== "") {
-      $("#costo_flete").val(priceValue);
-      $("#transportadora_selected").val(selectedCompany);
-
-      // Remove 'selected' class from all transportadora elements
-      $(".transportadora").removeClass("selected");
-
-      // Add 'selected' class to the clicked transportadora
-      $(this).addClass("selected");
-    } else {
-      toastr.error("ESTA TRANSPORTADORA NO TIENE COBERTURA", "NOTIFICACIÓN", {
-        positionClass: "toast-bottom-center",
-      });
-    }
-  });
-
-  $("#provincia,#ciudad").change(function () {
-    var provincia = $("#provincia").val();
-    var ciudad = $("#ciudad").val();
-    var recaudo = $("#recaudo").val();
-    var monto_total = $("#monto_total").text().trim();
-
-    if (
-      provincia !== "Selecciona una opción" &&
-      ciudad !== "Selecciona una opción" &&
-      monto_total !== "" &&
-      monto_total !== "0"
-    ) {
-      let formData = new FormData();
-      formData.append("ciudad", ciudad);
-      formData.append("provincia", provincia);
-      formData.append("recaudo", recaudo);
-      formData.append("monto_factura", monto_total);
-
-      $.ajax({
-        url: SERVERURL + "Calculadora/obtenerTarifas",
-        type: "POST",
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function (response) {
-          response = JSON.parse(response);
-          console.log("correcto el precio" + response.servientrega);
-          $("#price_servientrega").text(response.servientrega);
-          $("#price_gintracom").text(response.gintracom);
-          $("#price_laar").text(response.laar);
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-          alert(errorThrown);
-        },
-      });
-    }
-  });
-
   // Consumir datos y poner en inputs para editar
   $.ajax({
     url: SERVERURL + "pedidos/verPedido/" + id_factura,
@@ -385,6 +326,67 @@ $(document).ready(function () {
       console.error("Error al obtener el pedido:", error);
     },
   });
+
+  $(".transportadora").click(function () {
+    var priceSpan = $(this).find(".price-tag span");
+    var priceValue = priceSpan.text().trim();
+    var selectedCompany = $(this).data("company");
+
+    if (priceValue !== "--" && priceValue !== "") {
+      $("#costo_flete").val(priceValue);
+      $("#transportadora_selected").val(selectedCompany);
+
+      // Remove 'selected' class from all transportadora elements
+      $(".transportadora").removeClass("selected");
+
+      // Add 'selected' class to the clicked transportadora
+      $(this).addClass("selected");
+    } else {
+      toastr.error("ESTA TRANSPORTADORA NO TIENE COBERTURA", "NOTIFICACIÓN", {
+        positionClass: "toast-bottom-center",
+      });
+    }
+  });
+
+  $("#provincia,#ciudad").change(function () {
+    var provincia = $("#provincia").val();
+    var ciudad = $("#ciudad").val();
+    var recaudo = $("#recaudo").val();
+    var monto_total = $("#monto_total").text().trim();
+
+    if (
+      provincia !== "Selecciona una opción" &&
+      ciudad !== "Selecciona una opción" &&
+      monto_total !== "" &&
+      monto_total !== "0"
+    ) {
+      let formData = new FormData();
+      formData.append("ciudad", ciudad);
+      formData.append("provincia", provincia);
+      formData.append("recaudo", recaudo);
+      formData.append("monto_factura", monto_total);
+
+      $.ajax({
+        url: SERVERURL + "Calculadora/obtenerTarifas",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+          response = JSON.parse(response);
+          console.log("correcto el precio" + response.servientrega);
+          $("#price_servientrega").text(response.servientrega);
+          $("#price_gintracom").text(response.gintracom);
+          $("#price_laar").text(response.laar);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          alert(errorThrown);
+        },
+      });
+    }
+  });
+
+  
 
   // cargar datos productos
   $.ajax({
