@@ -334,7 +334,7 @@ class PedidosModel extends Query
         //print_r($insertar_caracteristica);
           }
          
-      print_r($insertar_caracteristica);
+     // print_r($insertar_caracteristica);
         
         if ($insertar_caracteristica == 1) {
             $response['status'] = 200;
