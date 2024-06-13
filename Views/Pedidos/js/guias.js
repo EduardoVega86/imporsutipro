@@ -51,17 +51,17 @@ const listGuias = async () => {
         guias.forEach((guia, index) => {
             let transporte = guia.id_transporte;
             console.log(transporte);
-            let transporte_contet = '';
+            let transporte_content = '';
             if (transporte == 3) {
-                transporte_contet = '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SERVIENTREGA</span>';
+                transporte_content = '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SERVIENTREGA</span>';
             } else if (transporte == 1) {
-                transporte_contet = '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">LAAR</span>';
+                transporte_content = '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">LAAR</span>';
             } else if (transporte == 2) {
-                transporte_contet = '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
+                transporte_content = '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
             } else if (transporte == 4) {
-                transporte_contet = '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>';
+                transporte_content = '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>';
             } else {
-                transporte_contet = '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">Guia no enviada</span>';
+                transporte_content = '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">Guia no enviada</span>';
             }
 
             //impresiones
@@ -82,7 +82,7 @@ const listGuias = async () => {
                     <td>${guia.provincia}</td>
                     <td>${guia.ciudad}</td>
                     <td>${guia.tienda}</td>
-                    <td>${transporte_contet}</td>
+                    <td>${transporte_content}</td>
                     <td>
                         <span class="w-100">${guia.estado_guia_sistema}</span>
                         <a class="w-100" href="https://wa.me/${formatPhoneNumber(guia.telefono)}" style="font-size: 40px;" target="_blank"><box-icon type='logo' name='whatsapp-square' color="green"></box-icon></a>
