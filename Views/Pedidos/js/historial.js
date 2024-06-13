@@ -53,15 +53,15 @@ const listHistorialPedidos = async () => {
             console.log(transporte);
             let transporte_content = '';
             if (transporte == 3) {
-                transporte_contet = '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SERVIENTREGA</span>';
+                transporte_content = '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SERVIENTREGA</span>';
             } else if (transporte == 1) {
-                transporte_contet = '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">LAAR</span>';
+                transporte_content = '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">LAAR</span>';
             } else if (transporte == 2) {
-                transporte_contet = '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
+                transporte_content = '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
             } else if (transporte == 4) {
-                transporte_contet = '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>';
-            } else {
-                transporte_contet = '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">Guia no enviada</span>';
+                transporte_content = '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>';
+            } else if (transporte == 0){
+                transporte_content = '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">Guia no enviada</span>';
             }
 
             //impresiones
@@ -81,7 +81,7 @@ const listHistorialPedidos = async () => {
                     </td>
                     <td>${historialPedido.provincia}</td>
                     <td>${historialPedido.ciudad}</td>
-                    <td>${historialPedido.id_plataforma}</td>
+                    <td>${historialPedido.plataforma}</td>
                     <td>${transporte_content}</td>
                     <td>
                         <span class="w-100">${historialPedido.estado_guia_sistema}</span>

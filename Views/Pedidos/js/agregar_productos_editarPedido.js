@@ -107,57 +107,67 @@ function buscar_productos_nuevoPedido() {
 //enviar cliente
 //enviar cliente
 function enviar_cliente(id, index) {
-  // Obtener el valor del input cantidad correspondiente
-  let cantidad = $(`#cantidad_${index}`).val();
-
-  $.ajax({
-    type: "POST",
-    url: SERVERURL + "marketplace/obtener_producto/" + id,
-    dataType: "json",
-    success: function (response) {
-      if (response) {
-        const data = response[0];
-
-        // Crear un objeto FormData y agregar los datos
-        const formData = new FormData();
-        formData.append("cantidad", cantidad); // Utilizar la cantidad obtenida
-        formData.append("precio", data.pvp);
-        formData.append("id_producto", data.id_producto);
-        formData.append("sku", data.sku);
-        formData.append("id_factura", id_factura_1);
-
-        $.ajax({
-          type: "POST",
-          url: SERVERURL + "pedidos/agregarDetalle",
-          data: formData,
-          processData: false,
-          contentType: false,
-          success: function (response2) {
-            response2 = JSON.parse(response2);
-            console.log(response2);
-            console.log(response2[0]);
-            if (response2.status == 500) {
-              Swal.fire({
-                icon: "error",
-                title: response2.title,
-                text: response2.message,
-              });
-            } else if (response2.status == 200) {
-              initDataTableNuevoPedido();
-            }
-          },
-          error: function (xhr, status, error) {
-            console.error("Error en la solicitud AJAX:", error);
-            alert("Hubo un problema al agregar el producto temporalmente");
-          },
-        });
-      } else {
-        console.error("La respuesta está vacía o tiene un formato incorrecto.");
-      }
-    },
-    error: function (xhr, status, error) {
-      console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al obtener la información del producto");
-    },
-  });
-}
+    // Obtener el valor del input cantidad correspondiente
+    let cantidad = $(`#cantidad_${index}`).val();
+  
+    $.ajax({
+      type: "POST",
+      url: SERVERURL + "marketplace/obtener_producto/" + id,
+      dataType: "json",
+      success: function (response) {
+        console.log(response); // Verificar la respuesta del primer AJAX
+        if (response) {
+          const data = response[0];
+          console.log(data); // Verificar los datos recibidos
+  
+          // Crear un objeto FormData y agregar los datos
+          const formData = new FormData();
+          formData.append("cantidad", cantidad); // Utilizar la cantidad obtenida
+          formData.append("precio", data.pvp);
+          formData.append("id_producto", data.id_producto);
+          formData.append("sku", data.sku);
+          formData.append("id_factura", id_factura_1);
+  
+          // Verificar los datos en formData
+          for (var pair of formData.entries()) {
+            console.log(pair[0]+ ', ' + pair[1]); 
+          }
+  
+          $.ajax({
+            type: "POST",
+            url: SERVERURL + "pedidos/agregarDetalle",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response2) {
+              console.log(response2); // Verificar la respuesta del segundo AJAX
+              console.log(typeof response2.status); // Verificar el tipo de dato de response2.status
+              if (response2.status == 500) {
+                Swal.fire({
+                  icon: "error",
+                  title: response2.title,
+                  text: response2.message,
+                });
+              } else if (response2.status == 200) {
+                console.log("entro en el 200");
+                initDataTableNuevoPedido();
+              } else {
+                console.log("Otro status:", response2.status);
+              }
+            },
+            error: function (xhr, status, error) {
+              console.error("Error en la solicitud AJAX:", error);
+              alert("Hubo un problema al agregar el producto temporalmente");
+            },
+          });
+        } else {
+          console.error("La respuesta está vacía o tiene un formato incorrecto.");
+        }
+      },
+      error: function (xhr, status, error) {
+        console.error("Error en la solicitud AJAX:", error);
+        alert("Hubo un problema al obtener la información del producto");
+      },
+    });
+  }
+  
