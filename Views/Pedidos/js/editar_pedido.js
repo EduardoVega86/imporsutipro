@@ -77,14 +77,14 @@ const listNuevoPedido = async () => {
 
       contiene += `${nuevoPedido.nombre_producto} X${nuevoPedido.cantidad} `;
 
-      precio_costo = parseFloat(nuevoPedido.pvp); // no estoy seguro si es precio_venta o pvp, preguntar despues
+      precio_costo = parseFloat(nuevoPedido.precio_venta);
 
       // Verificar condición
       if (!validar_direccion()) {
         return; // Salir de la función si la validación falla
       }
 
-      const precio = parseFloat(nuevoPedido.pvp); // no estoy seguro si es precio_venta o pvp, preguntar despues
+      const precio = parseFloat(nuevoPedido.precio_venta);
       const descuento = parseFloat(nuevoPedido.desc_venta);
       const precioFinal = precio - precio * (descuento / 100);
       total += precioFinal;
