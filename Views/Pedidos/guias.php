@@ -25,23 +25,33 @@
         vertical-align: middle !important;
     }
 
-    .badge_danger{
+    /* Diseños de estados guias */
+    .badge_danger {
         background-color: red;
         color: white;
+        padding: 4px;
+        border-radius: 0.3rem;
     }
 
-    .badge_purple{
-        background-color: #680EF2;
+    .badge_purple {
+        background-color: #804BD1;
         color: white;
+        padding: 4px;
+        border-radius: 0.3rem;
     }
 
-    .badge_warning{
+    .badge_warning {
         background-color: #F2CC0E;
         color: white;
+        padding: 4px;
+        border-radius: 0.3rem;
     }
-    .badge_green{
-        background-color: #32D814;
+
+    .badge_green {
+        background-color: #59D343;
         color: white;
+        padding: 4px;
+        border-radius: 0.3rem;
     }
 </style>
 
@@ -88,5 +98,5 @@
         </div>
     </div>
 </div>
-<script src="<?php echo SERVERURL?>/Views/Pedidos/js/guias.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/Pedidos/js/guias.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
