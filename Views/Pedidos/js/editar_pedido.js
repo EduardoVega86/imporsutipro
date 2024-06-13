@@ -314,8 +314,13 @@ $(document).ready(function () {
               ciudadSelect
                 .val(response[0].ciudad_cot)
                 .trigger("change.select2");
+                
+              // Comprobar si la ciudad fue asignada correctamente y mantenerla
+              if (!ciudadSelect.val()) {
+                ciudadSelect.val(response[0].ciudad_cot).trigger("change.select2");
+              }
 
-              // Ahora llamar a la función de cambio manualmente
+              // Llamar manualmente la función de cambio después de asignar los valores
               $("#provincia, #ciudad").trigger("change");
             },
             error: function (error) {
