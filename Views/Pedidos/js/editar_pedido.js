@@ -106,7 +106,7 @@ const listNuevoPedido = async () => {
       )}</span></td>
                     <td>
                         <button class="btn btn-sm btn-danger" onclick="eliminar_nuevoPedido(${
-                          nuevoPedido.id_producto
+                          nuevoPedido.id_detalle
                         })"><i class="fa-solid fa-trash-can"></i></button>
                     </td>
                 </tr>`;
@@ -199,7 +199,7 @@ function eliminar_nuevoPedido(id) {
   eliminado = true;
   $.ajax({
     type: "POST",
-    url: SERVERURL + "pedidos/eliminarTmp/" + id,
+    url: SERVERURL + "pedidos/eliminarDescripcion/" + id,
     success: function (response) {
       // Mostrar alerta de éxito
       if (response.status == 500) {
