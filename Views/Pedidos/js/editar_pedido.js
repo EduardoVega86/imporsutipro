@@ -133,7 +133,7 @@ function recalcular(id, idPrecio, idDescuento) {
   ffrm.append("precio", precio);
   ffrm.append("descuento", descuento);
 
-  fetch("" + SERVERURL + "pedidos/actualizarTmp/" + id, {
+  fetch("" + SERVERURL + "pedidos/actualizarDetalle/" + id, {
     method: "POST",
     body: ffrm,
   })
