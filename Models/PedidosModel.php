@@ -273,4 +273,39 @@ class PedidosModel extends Query
         $sql = "SELECT * FROM facturas_cot WHERE id_factura = $id";
         return $this->select($sql);
     }
+    
+    public function agregarDetalle($id_producto, $cantidad, $precio,  $plataforma, $sku, $id_factura)
+    {
+        //verificar productos
+         $timestamp = session_id();
+          $cantidad_tmp = $this->select("SELECT * FROM detalle_fact_cot WHERE id_factura = '$id_factura' and id_producto=$id_producto and sku=$sku" );
+          //print_r($cantidad_tmp);
+          if (empty($cantidad_tmp)){
+              $sql = "INSERT INTO `detalle_fact_cot` (`id_producto`, `cantidad`, `precio_venta`, `id_factura`, `id_plataforma`, `sku`) VALUES (?, ?, ?, ?, ?, ?);";
+        $data = [$id_producto, $cantidad, $precio, $id_factura, $plataforma, $sku];
+        $insertar_caracteristica = $this->insert($sql, $data);
+        
+          }else{
+              $cantidad_anterior = $cantidad_tmp[0]["cantidad"];
+              $cantidad_nueva=$cantidad_anterior+$cantidad;
+              $id_detalle = $cantidad_tmp[0]["id_detalle"];
+              $sql = "UPDATE `detalle_fact_cot` SET  `cantidad` = ? WHERE `id_detalle` = ?";
+        $data = [$cantidad_nueva,$id_detalle];
+        $insertar_caracteristica = $this->update($sql, $data);
+        //print_r($insertar_caracteristica);
+          }
+         
+     
+        
+        if ($insertar_caracteristica == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Producto agregado al carrito';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al agregar la caracteristica';
+        }
+        return $response;
+    }
 }
