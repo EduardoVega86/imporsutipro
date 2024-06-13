@@ -459,7 +459,7 @@ function cargarCiudades() {
         });
 
         // Refrescar Select2 para que muestre las nuevas opciones
-        ciudadSelect.trigger("change.select2");
+        
 
         ciudadSelect.prop("disabled", false); // Habilitar el select de ciudades
       },
