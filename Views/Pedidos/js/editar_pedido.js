@@ -247,8 +247,7 @@ $(document).ready(function () {
 
   cargarProvincias(); // Llamar a cargarProvincias cuando la página esté lista
 
-  // Llamar a cargarCiudades cuando se seleccione una provincia
-  $("#provincia").on("change", cargarCiudades);
+  
 
   // Consumir datos y poner en inputs para editar
   $.ajax({
@@ -315,15 +314,13 @@ $(document).ready(function () {
                 .val(response[0].ciudad_cot)
                 .trigger("change.select2");
                 
-              // Asegurarse de que la ciudad se muestre correctamente
-              setTimeout(() => {
+              // Comprobar si la ciudad fue asignada correctamente y mantenerla
+              if (!ciudadSelect.val()) {
                 ciudadSelect.val(response[0].ciudad_cot).trigger("change.select2");
-              }, 100);
+              }
 
               // Llamar manualmente la función de cambio después de asignar los valores
-              setTimeout(() => {
-                $("#provincia, #ciudad").trigger("change");
-              }, 200);
+              $("#provincia, #ciudad").trigger("change");
             },
             error: function (error) {
               console.error("Error al cargar las ciudades:", error);
