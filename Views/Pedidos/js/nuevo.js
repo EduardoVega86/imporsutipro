@@ -57,23 +57,21 @@ var costo_producto = 0;
 
 const listNuevoPedido = async () => {
   try {
-    const response = await fetch(SERVERURL + "pedidos/buscarTmp");
+    const response = await fetch("" + SERVERURL + "pedidos/buscarTmp");
+
     const data = await response.json();
 
-    // Verificar si el array 'tmp' está vacío o tiene un producto con id 0
-    if (data.tmp.length === 0 || (data.tmp[0].id_producto == 0 && !eliminado)) {
+    if (data.tmp[0].id_producto == 0 && eliminado == false) {
       document.getElementById("monto_total").innerHTML = 0;
       document.getElementById("tableBody_nuevoPedido").innerHTML = "";
       return;
     }
-
-    const nuevosPedidos = data.tmp;
+    const nuevosPedidos = data.tmp; // Extract the 'tmp' array from the response
     const nuevosPedidos_bodega = data.bodega;
     
     let content = ``;
     let total = 0;
     let precio_costo = 0;
-
     nuevosPedidos.forEach((nuevoPedido, index) => {
       if (nuevosPedidos_bodega.length > 0 && nuevosPedidos_bodega[0]) {
         celular_bodega = nuevosPedidos_bodega[0].contacto;
@@ -93,36 +91,41 @@ const listNuevoPedido = async () => {
 
       precio_costo = parseFloat(nuevoPedido.precio_tmp);
 
+      // Verificar condición
       if (!validar_direccion()) {
-        return;
+        return; // Salir de la función si la validación falla
       }
 
       const precio = parseFloat(nuevoPedido.precio_tmp);
       const descuento = parseFloat(nuevoPedido.desc_tmp);
       const precioFinal = precio - precio * (descuento / 100);
       total += precioFinal;
-
       content += `
                 <tr>
                     <td>${nuevoPedido.id_tmp}</td>
                     <td>${nuevoPedido.cantidad_tmp}</td>
                     <td>${nuevoPedido.nombre_producto}</td>
-                    <td><input type="text" onblur='recalcular("${nuevoPedido.id_tmp}", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}")' id="precio_nuevoPedido_${index}" class="form-control prec" value="${precio}"></td>
-                    <td><input type="text" onblur='recalcular("${nuevoPedido.id_tmp}", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}")' id="descuento_nuevoPedido_${index}" class="form-control desc" value="${descuento}"></td>
-                    <td><span class='tota' id="precioFinal_nuevoPedido_${index}">${precioFinal.toFixed(2)}</span></td>
+                    <td><input type="text" onblur='recalcular("${
+                      nuevoPedido.id_tmp
+                    }", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}")' id="precio_nuevoPedido_${index}" class="form-control prec" value="${precio}"></td>
+                    <td><input type="text" onblur='recalcular("${
+                      nuevoPedido.id_tmp
+                    }", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}")' id="descuento_nuevoPedido_${index}" class="form-control desc" value="${descuento}"></td>
+                    <td><span class='tota' id="precioFinal_nuevoPedido_${index}">${precioFinal.toFixed(
+        2
+      )}</span></td>
                     <td>
-                        <button class="btn btn-sm btn-danger" onclick="eliminar_nuevoPedido(${nuevoPedido.id_tmp})"><i class="fa-solid fa-trash-can"></i></button>
+                        <button class="btn btn-sm btn-danger" onclick="eliminar_nuevoPedido(${
+                          nuevoPedido.id_tmp
+                        })"><i class="fa-solid fa-trash-can"></i></button>
                     </td>
                 </tr>`;
     });
-
     document.getElementById("monto_total").innerHTML = total.toFixed(2);
     document.getElementById("tableBody_nuevoPedido").innerHTML = content;
-
     if (eliminado == true) {
       eliminado = false;
     }
-
   } catch (ex) {
     alert(ex);
   }
