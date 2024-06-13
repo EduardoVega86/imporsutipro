@@ -70,8 +70,6 @@ const listNuevoPedido = async () => {
     let content = ``;
     let total = 0;
     let precio_costo = 0;
-    content = `<input type="hidden" id="id_productoBuscar" name="id_productoBuscar" value= "${nuevosPedidos[0].id_producto}">
-    <input type="hidden" id="sku_productoBuscar" name="sku_productoBuscar" value= "${nuevosPedidos[0].sku}"></input>`;
     nuevosPedidos.forEach((nuevoPedido, index) => {
       id_producto_venta = nuevoPedido.id_producto;
       dropshipping = nuevoPedido.drogshipin;
@@ -92,6 +90,8 @@ const listNuevoPedido = async () => {
       total += precioFinal;
       content += `
                 <tr>
+                <input type="hidden" id="id_productoBuscar_${index}" name="id_productoBuscar_${index}" value= "${nuevoPedido.id_producto}">
+                <input type="hidden" id="sku_productoBuscar_${index}" name="sku_productoBuscar_${index}" value= "${nuevoPedido.sku}"></input>
                     <td>${nuevoPedido.id_producto}</td>
                     <td>${nuevoPedido.cantidad}</td>
                     <td>${nuevoPedido.nombre_producto}</td>

@@ -44,8 +44,8 @@ const initDataTableNuevosPedidos = async () => {
 };
 
 const listNuevosPedidos = () => {
-   var id_producto= $('#id_productoBuscar').val();
-   var sku = $('#sku_productoBuscar').val();
+  var id_producto = $("#id_productoBuscar_0").val();
+  var sku = $("#sku_productoBuscar_0").val();
   // Crear una instancia de FormData
   let formData = new FormData();
   formData.append("sku", sku); // Añadir el SKU al FormData
