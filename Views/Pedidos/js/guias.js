@@ -100,7 +100,7 @@ const listGuias = async () => {
                         }" target="_blank">${guia.numero_guia}</a></div>
                         <div><a href="https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${
                           guia.numero_guia
-                        }"><img src="https://new.imporsuitpro.com/public/img/tracking.png" class="" id="buscar_traking" alt="buscar_traking"></a>
+                        }"><img src="https://new.imporsuitpro.com/public/img/tracking.png" width="30px" id="buscar_traking" alt="buscar_traking"></a>
                         <a class="w-100" href="https://wa.me/${formatPhoneNumber(
                           guia.telefono
                         )}" style="font-size: 40px;" target="_blank"><box-icon type='logo' name='whatsapp-square' color="green"></box-icon></a>
