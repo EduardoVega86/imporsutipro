@@ -204,34 +204,35 @@ function validar_direccion() {
   return true; // Retorna verdadero si la validación pasa o los parámetros no están presentes
 }
 
-function eliminar_nuevoPedido(id) {
-  eliminado = true;
-  $.ajax({
-    type: "POST",
-    url: SERVERURL + "pedidos/eliminarTmp/" + id,
-    success: function (response) {
-      // Mostrar alerta de éxito
-      if (response.status == 500) {
-        toastr.error(
-          "EL PRODUCTO NO SE ELIMINADO CORRECTAMENTE",
-          "NOTIFICACIÓN",
-          { positionClass: "toast-bottom-center" }
-        );
-      } else if (response.status == 200) {
-        toastr.success("PRODUCTO ELIMINADO CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-      }
+async function eliminar_nuevoPedido(id) {
+  let eliminado = true;
+  try {
+    const response = await $.ajax({
+      type: "POST",
+      url: SERVERURL + "pedidos/eliminarTmp/" + id
+    });
 
-      // Recargar la DataTable
-      initDataTableNuevoPedido();
-    },
-    error: function (xhr, status, error) {
-      console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al eliminar la categoría");
-    },
-  });
+    // Mostrar alerta de éxito
+    if (response.status == 500) {
+      toastr.error(
+        "EL PRODUCTO NO SE ELIMINADO CORRECTAMENTE",
+        "NOTIFICACIÓN",
+        { positionClass: "toast-bottom-center" }
+      );
+    } else if (response.status == 200) {
+      toastr.success("PRODUCTO ELIMINADO CORRECTAMENTE", "NOTIFICACIÓN", {
+        positionClass: "toast-bottom-center",
+      });
+    }
+
+    // Recargar la DataTable
+    await initDataTableNuevoPedido();
+  } catch (error) {
+    console.error("Error en la solicitud AJAX:", error);
+    alert("Hubo un problema al eliminar la categoría");
+  }
 }
+
 
 window.addEventListener("load", async () => {
   await initDataTableNuevoPedido();
