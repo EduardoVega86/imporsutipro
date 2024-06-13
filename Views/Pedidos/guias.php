@@ -13,7 +13,7 @@
         background-color: #171931;
         color: white;
     }
-    
+
     .table th,
     .table td {
         text-align: center;
@@ -81,6 +81,7 @@
                 </caption> -->
                 <thead>
                     <tr>
+                        <th class="centered"><input type="checkbox" id="selectAll"></th>
                         <th class="centered"># Orden</th>
                         <th class="centered">Detalle</th>
                         <th class="centered">Cliente</th>

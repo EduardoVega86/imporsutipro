@@ -39,6 +39,11 @@ const initDataTable = async () => {
   dataTable = $("#datatable_guias").DataTable(dataTableOptions);
 
   dataTableIsInitialized = true;
+  // Handle select all checkbox
+  document.getElementById('selectAll').addEventListener('change', function() {
+    const checkboxes = document.querySelectorAll('.selectCheckbox');
+    checkboxes.forEach(checkbox => checkbox.checked = this.checked);
+  });
 };
 
 const listGuias = async () => {
@@ -81,6 +86,7 @@ const listGuias = async () => {
       }
       content += `
                 <tr>
+                <td><input type="checkbox" class="selectCheckbox" data-id="${guia.numero_factura}"></td>
                     <td>${guia.numero_factura}</td>
                     <td>${guia.fecha_factura}</td>
                     <td>
@@ -128,6 +134,21 @@ const listGuias = async () => {
     alert(ex);
   }
 };
+
+// Function to handle the click event for sending selected items
+document.getElementById('sendSelected').addEventListener('click', () => {
+    const selectedGuias = [];
+    const checkboxes = document.querySelectorAll('.selectCheckbox:checked');
+  
+    checkboxes.forEach(checkbox => {
+      selectedGuias.push(checkbox.getAttribute('data-id'));
+    });
+  
+    // Convert the selected items to JSON and send it to the server
+    const selectedGuiasJson = JSON.stringify(selectedGuias);
+    console.log(selectedGuiasJson);
+  
+  });
 
 function validar_estado(estado) {
   var span_estado = "";
