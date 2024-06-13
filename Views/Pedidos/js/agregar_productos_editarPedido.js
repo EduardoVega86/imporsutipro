@@ -124,7 +124,7 @@ function enviar_cliente(id, index) {
         formData.append("precio", data.pvp);
         formData.append("id_producto", data.id_producto);
         formData.append("sku", data.sku);
-        formData.append("sku", id_factura_1);
+        formData.append("id_factura", id_factura_1);
 
         $.ajax({
           type: "POST",
