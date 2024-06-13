@@ -226,6 +226,7 @@ function eliminar_nuevoPedido(id) {
 
 window.addEventListener("load", async () => {
   await initDataTableNuevoPedido();
+  await initDataTableNuevosPedidos();
 });
 
 //cargar selelct ciudades y provincias
