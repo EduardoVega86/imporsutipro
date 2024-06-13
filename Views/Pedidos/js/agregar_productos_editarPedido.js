@@ -1,6 +1,10 @@
 let dataTableNuevosPedidos;
 let dataTableNuevosPedidosIsInitialized = false;
 
+// Obtener el valor del id_factura desde la URL
+const url = window.location.href;
+const id_factura = url.split("/").pop();
+
 const dataTableNuevosPedidosOptions = {
   //scrollX: "2000px",
   /* lengthMenu: [5, 10, 15, 20, 100, 200, 500], */
@@ -119,10 +123,11 @@ function enviar_cliente(id, index) {
         formData.append("precio", data.pvp);
         formData.append("id_producto", data.id_producto);
         formData.append("sku", data.sku);
+        formData.append("sku", id_factura);
 
         $.ajax({
           type: "POST",
-          url: SERVERURL + "marketplace/agregarTmp",
+          url: SERVERURL + "pedidos/agregarDetalle",
           data: formData,
           processData: false,
           contentType: false,
@@ -155,7 +160,3 @@ function enviar_cliente(id, index) {
     },
   });
 }
-
-window.addEventListener("load", async () => {
-  
-});
