@@ -90,7 +90,7 @@ const listGuias = async () => {
                     </td>
                     <td>${guia.provincia}</td>
                     <td>${guia.ciudad}</td>
-                    <td>${guia.tienda}</td>
+                    <td>${guia.plataforma}</td>
                     <td>${transporte_content}</td>
                     <td>
                      <div style="text-align: center;">

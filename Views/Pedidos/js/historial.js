@@ -81,7 +81,7 @@ const listHistorialPedidos = async () => {
                     </td>
                     <td>${historialPedido.provincia}</td>
                     <td>${historialPedido.ciudad}</td>
-                    <td>${historialPedido.id_plataforma}</td>
+                    <td>${historialPedido.plataforma}</td>
                     <td>${transporte_content}</td>
                     <td>
                         <span class="w-100">${historialPedido.estado_guia_sistema}</span>
