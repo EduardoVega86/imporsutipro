@@ -45,12 +45,11 @@ class Gestion extends Controller
         }
 
         if ($esEntregado) {
-            return 'Entregado';
+            $this->model->actualizarEstado(7, $noGuia);
         } elseif ($esDevolucion) {
-            return 'Devolución';
+            $this->model->actualizarEstado(9, $noGuia);
         } else {
-            return 'Otro estado';
+            $response = $this->model->actualizarEstado($estadoActualCodigo, $noGuia);
         }
-        $response = $this->model->actualizarEstado($estadoActualCodigo, $noGuia);
     }
 }

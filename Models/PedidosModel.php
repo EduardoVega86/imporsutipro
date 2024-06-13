@@ -57,7 +57,7 @@ class PedidosModel extends Query
             referencia, observacion, guia_enviada, transporte, identificacion, celular, 
             id_propietario, drogshipin, id_plataforma, importado, 
             plataforma_importa, cod, estado_guia_sistema, impreso, facturada, 
-            numero_guia, anulada, identificacionO, nombreO, ciudadO, provinciaO, provincia,
+            anulada, identificacionO, nombreO, ciudadO, provinciaO, provincia,
             direccionO, referenciaO, numeroCasaO, valor_seguro, no_piezas, tipo_servicio, 
             peso, contiene, costo_flete, costo_producto, comentario, id_transporte, telefonoO
         ) VALUES (
@@ -70,7 +70,7 @@ class PedidosModel extends Query
             $referencia, $observacion, $guia_enviada, $transporte, $identificacion, $celular,
             $dueño_id, $dropshipping, $id_plataforma,  $importado,
             $plataforma_importa, $cod, $estado_guia_sistema, $impreso, $facturada,
-            $numero_guia, $anulada, $identificacionO,  $nombreO, $ciudadO, $provinciaO, $provincia,
+            $anulada, $identificacionO,  $nombreO, $ciudadO, $provinciaO, $provincia,
             $direccionO, $referenciaO, $numeroCasaO, $valor_segura, $no_piezas, $tipo_servicio,
             $peso, $contiene, $costo_flete, $costo_producto, $comentario, $id_transporte, $celularO
         );
@@ -156,7 +156,7 @@ class PedidosModel extends Query
         }
         return $response;
     }
-    
+
     public function eliminarDescripcion($id_descripcion)
     {
         $sql = "delete FROM detalle_fact_cot WHERE id_detalle = ?";
@@ -248,7 +248,7 @@ class PedidosModel extends Query
         }
         return $response;
     }
-    
+
     public function actualizarDetalle($id_detalle, $descuento, $precio)
     {
         $sql = "UPDATE detalle_fact_cot SET desc_venta = ?, precio_venta = ? WHERE id_detalle = ?";
@@ -310,32 +310,31 @@ class PedidosModel extends Query
         $sql = "SELECT * FROM facturas_cot WHERE id_factura = $id";
         return $this->select($sql);
     }
-    
+
     public function agregarDetalle($id_producto, $cantidad, $precio,  $plataforma, $sku, $id_factura)
     {
         //verificar productos
-         $timestamp = session_id();
-          $cantidad_tmp = $this->select("SELECT * FROM detalle_fact_cot WHERE id_factura = '$id_factura' and id_producto=$id_producto and sku=$sku" );
-          //print_r($cantidad_tmp);
-          if (empty($cantidad_tmp)){
-              $numeroFactura = $this->select("SELECT numero_factura FROM facturas_cot WHERE id_factura = '$id_factura'");
-              $numero_factura=$numeroFactura[0]['numero_factura'];
-              $sql = "INSERT INTO `detalle_fact_cot` (`id_producto`, `cantidad`, `precio_venta`, `id_factura`, `id_plataforma`, `sku`, `numero_factura`) VALUES (?, ?, ?, ?, ?, ?, ?);";
-        $data = [$id_producto, $cantidad, $precio, $id_factura, $plataforma, $sku, $numero_factura];
-        $insertar_caracteristica = $this->insert($sql, $data);
-        
-          }else{
-              $cantidad_anterior = $cantidad_tmp[0]["cantidad"];
-              $cantidad_nueva=$cantidad_anterior+$cantidad;
-              $id_detalle = $cantidad_tmp[0]["id_detalle"];
-              $sql = "UPDATE `detalle_fact_cot` SET  `cantidad` = ? WHERE `id_detalle` = ?";
-        $data = [$cantidad_nueva,$id_detalle];
-        $insertar_caracteristica = $this->update($sql, $data);
-        //print_r($insertar_caracteristica);
-          }
-         
-      print_r($insertar_caracteristica);
-        
+        $timestamp = session_id();
+        $cantidad_tmp = $this->select("SELECT * FROM detalle_fact_cot WHERE id_factura = '$id_factura' and id_producto=$id_producto and sku=$sku");
+        //print_r($cantidad_tmp);
+        if (empty($cantidad_tmp)) {
+            $numeroFactura = $this->select("SELECT numero_factura FROM facturas_cot WHERE id_factura = '$id_factura'");
+            $numero_factura = $numeroFactura[0]['numero_factura'];
+            $sql = "INSERT INTO `detalle_fact_cot` (`id_producto`, `cantidad`, `precio_venta`, `id_factura`, `id_plataforma`, `sku`, `numero_factura`) VALUES (?, ?, ?, ?, ?, ?, ?);";
+            $data = [$id_producto, $cantidad, $precio, $id_factura, $plataforma, $sku, $numero_factura];
+            $insertar_caracteristica = $this->insert($sql, $data);
+        } else {
+            $cantidad_anterior = $cantidad_tmp[0]["cantidad"];
+            $cantidad_nueva = $cantidad_anterior + $cantidad;
+            $id_detalle = $cantidad_tmp[0]["id_detalle"];
+            $sql = "UPDATE `detalle_fact_cot` SET  `cantidad` = ? WHERE `id_detalle` = ?";
+            $data = [$cantidad_nueva, $id_detalle];
+            $insertar_caracteristica = $this->update($sql, $data);
+            //print_r($insertar_caracteristica);
+        }
+
+        print_r($insertar_caracteristica);
+
         if ($insertar_caracteristica == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
