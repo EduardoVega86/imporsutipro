@@ -21,7 +21,7 @@
     }
 
     th span.dt-column-order {
-        color: white;
+        display: none;
     }
 
     .centered {
