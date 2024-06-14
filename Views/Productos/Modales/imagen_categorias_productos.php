@@ -48,9 +48,9 @@
                     <input type="hidden" id="id_imagenCategoria" name="id_linea">
                     <div class="form-group">
                         <label for="imageInput">Imagen</label>
-                        <input type="file" class="form-control-file" id="imageInput" accept="image/*" name="imagen" style="width: 100px;">
+                        <input type="file" class="form-control-file" id="imageInput" accept="image/*" name="imagen">
                     </div>
-                    <img id="imagePreview" class="image-preview" src="" alt="Preview">
+                    <img id="imagePreview" class="image-preview" src="" alt="Preview" width="200px">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
