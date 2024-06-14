@@ -45,8 +45,9 @@
                 <table id="datatable_seleccionProductoAtributo" class="table table-striped w-100">
                     <thead>
                         <tr>
-                            <th class="centered">Atributo</th>
-                            <th class="centered">Valor</th>
+                            <th class="centered">Descripcion</th>
+                            <th class="centered">Precio Proveedor</th>
+                            <th class="centered">Precio de Venta</th>
                             <th class="centered"></th>
                         </tr>
                     </thead>

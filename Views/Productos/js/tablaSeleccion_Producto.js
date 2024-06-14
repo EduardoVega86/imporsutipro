@@ -3,7 +3,7 @@ let dataTableSeleccionProductoAtributoIsInitialized = false;
 
 const dataTableSeleccionProductoAtributoOptions = {
   columnDefs: [
-    { className: "centered", targets: [0, 1, 2] },
+    { className: "centered", targets: [0, 1, 2, 3] },
     { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
   ],
   pageLength: 10,
@@ -52,10 +52,11 @@ const listGuiasSeleccionProductoAtributo = async () => {
     seleccion_Protuctos.forEach((seleccion_Protucto, index) => {
       content += `
                 <tr>
-                    <td>${seleccion_Protucto.nombre_atributo}</td>
-                    <td>${seleccion_Protucto.variedad}</td>
+                    <td> ${seleccion_Protucto.nombre_atributo} ${seleccion_Protucto.variedad}</td>
+                    <td>$ ${seleccion_Protucto.pcp}</td>
+            <td>$ ${seleccion_Protucto.pvp}</td>
                     <td>
-                        <button class="btn btn-sm btn-danger"><i class="fa-solid fa-plus"></i></button>
+                        <button class="btn btn-sm btn-danger" onclick="enviar_cliente(${seleccion_Protucto.id_producto},'${seleccion_Protucto.sku}',${seleccion_Protucto.pvp},${seleccion_Protucto.id_inventario})"><i class="fa-solid fa-plus"> </i></button>
                     </td>
                 </tr>`;
     });
