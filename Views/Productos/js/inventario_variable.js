@@ -244,7 +244,6 @@ let dataTableDetalleInventarioIsInitialized = false;
 const dataTableDetalleInventarioOptions = {
   columnDefs: [
     { className: "centered", targets: [0, 1, 2, 3, 4, 5, 6] },
-    { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
   ],
   pageLength: 10,
   destroy: true,
@@ -289,14 +288,13 @@ const listDetalleInventario = async () => {
     detalleInventario.forEach((detalle, index) => {
       content += `
       <tr>
-      <td></td>
-      <td><input type="text" class="form-control"></td>
-      <td><input type="text" class="form-control"></td>
-      <td><input type="text" class="form-control"></td>
-      <td><input type="text" class="form-control"></td>
-      <td><input type="text" class="form-control"></td>
-      <td><input type="text" class="form-control"></td>
-      <td></td>
+      <td>${detalle.variedad}</td>
+      <td>${detalle.sku}</td>
+      <td>${detalle.pcp}</td>
+      <td>${detalle.pvp}</td>
+      <td>${detalle.pref}</td>
+      <td>${detalle.sku}</td>
+      <td>${detalle.stock_inicial}</td>
         </tr>`;
     });
     document.getElementById("tableBody_detalleInventario").innerHTML = content;
