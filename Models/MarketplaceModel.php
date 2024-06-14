@@ -19,7 +19,7 @@ class MarketplaceModel extends Query
         $response = $this->initialResponse();
         $sql_update = "update productos set drogshipin=? where id_producto=?";
         $data_update = [1, $codigo_producto];
-        $actualizar_stock = $this->simple_select($sql_update, $data_update);
+        $actualizar_stock = $this->obtenerBodegaProducto($sql_update, $data_update);
         if ($actualizar_stock == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
@@ -46,12 +46,12 @@ class MarketplaceModel extends Query
                    
           //print_r($cantidad_tmp);
           if (empty($cantidad_tmp)){
-              $id_inventario=$this->simple_select($id_producto, $sku);
+              $id_inventario=$this->obtenerBodegaProducto($id_producto, $sku);
                       
               $sql = "INSERT INTO `tmp_cotizacion` (`id_producto`, `cantidad_tmp`, `precio_tmp`, `session_id`, `id_plataforma`, `sku`, `id_inventario`) VALUES (?, ?, ?, ?, ?, ?, ?);";
         $data = [$id_producto, $cantidad, $precio, $timestamp, $plataforma, $sku, $id_inventario];
         $insertar_caracteristica = $this->insert($sql, $data);
-        print_r($insertar_caracteristica);
+        //print_r($insertar_caracteristica);
           }else{
               $cantidad_anterior = $cantidad_tmp[0]["cantidad_tmp"];
               $cantidad_nueva=$cantidad_anterior+$cantidad;
@@ -77,8 +77,8 @@ class MarketplaceModel extends Query
     }
 
     public function obtenerBodegaProducto($id_producto, $sku) {
-        
-        $sql_invetario = "SELECT * FROM inventario_bodegas WHERE id_producto = $id and sku='$sku'";
+       // echo $sku;
+        $sql_invetario = "SELECT * FROM inventario_bodegas WHERE id_producto = $id_producto and sku='$sku'";
         //echo $sql_invetario;
         $invetario = $this->select($sql_invetario);
         $id_invetario = $invetario[0]['id_inventario'];
