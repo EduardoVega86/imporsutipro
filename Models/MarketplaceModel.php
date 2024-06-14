@@ -12,14 +12,12 @@ class MarketplaceModel extends Query
     {
         $sql = "SELECT DISTINCT p.*, ib.*
 FROM productos p
-JOIN (
-    SELECT id_producto, sku, id_plataforma, bodega
-    FROM inventario_bodegas
-    GROUP BY id_producto, sku, id_plataforma, bodega
-) ib ON p.id_producto = ib.id_producto AND p.codigo_producto = ib.sku
-WHERE (p.drogshipin = 1 AND ib.id_plataforma = p.id_plataforma)
-   OR (ib.id_plataforma = $plataforma AND p.id_plataforma = $plataforma)
-   AND ib.bodega != 0";
+JOIN inventario_bodegas ib 
+ON p.id_producto = ib.id_producto AND p.codigo_producto = ib.sku
+WHERE ((p.drogshipin = 1 AND ib.id_plataforma = p.id_plataforma)
+   OR (ib.id_plataforma = $plataforma AND p.id_plataforma = $plataforma))
+   AND ib.bodega != 0;
+";
         return $this->select($sql);
     }
 
