@@ -11,7 +11,8 @@ class ManifiestosModel extends Query
     {
         if (count($arreglo) == 0) return;
         if (count($arreglo) == 1) {
-            $this->generarManifiestoUnico($arreglo[0]);
+            $html = $this->generarManifiestoUnico($arreglo[0]);
+            return  $html;
         }
     }
 
