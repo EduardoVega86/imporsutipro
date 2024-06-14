@@ -24,6 +24,7 @@
             <div class="modal-body">
                 <div class="tab-pane fade" id="inventario-variable" role="tabpanel" aria-labelledby="inventario-variable-tab">
                     <div class="d-flex">
+                        <input type="hidden" id="id_productoVariable" name="id_productoVariable" value="0">
                         <table id="datatable_inventarioVariable" class="table table-striped w-50">
                             <thead>
                                 <tr>

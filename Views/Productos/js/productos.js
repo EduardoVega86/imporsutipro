@@ -108,6 +108,7 @@ const listProductos = async () => {
     let content = ``;
     let cargar_imagen = "";
     let subir_marketplace = "";
+    let producto_variable = "";
     productos.forEach((producto, index) => {
       if (!producto.image_path) {
         cargar_imagen = `<i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${producto.id_producto})"></i>`;
@@ -118,6 +119,12 @@ const listProductos = async () => {
         subir_marketplace = `<box-icon name='cloud-upload' onclick="subir_marketplace(${producto.id_producto})"></box-icon>`;
       } else {
         subir_marketplace = `<box-icon name='cloud-download' onclick="bajar_marketplace(${producto.id_producto})"></box-icon>`;
+      }
+
+      if (producto.producto_variable == 0){
+        producto_variable = ``;
+      } else {
+        producto_variable = `<img src="https://new.imporsuitpro.com/public/img/atributos.png" width="30px" id="buscar_traking" alt="buscar_traking" onclick="abrir_modalInventarioVariable(${producto.id_producto})">`;
       }
       content += `
                 <tr>
@@ -134,9 +141,7 @@ const listProductos = async () => {
                     <td>logo landing</td>
                     <td>logo agregar imagen</td>
                     <td>${subir_marketplace}</td>
-                    <td>
-                    <img src="https://new.imporsuitpro.com/public/img/atributos.png" width="30px" id="buscar_traking" alt="buscar_traking" data-toggle="modal" data-target="#inventario_variableModal">
-                    </td>
+                    <td>${producto_variable}</td>
                     <td>
                         <button class="btn btn-sm btn-primary" onclick="editarProducto(${producto.id_producto})"><i class="fa-solid fa-pencil"></i>Editar</button>
                         <button class="btn btn-sm btn-danger" onclick="eliminarProducto(${producto.id_producto})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
@@ -258,6 +263,7 @@ const filtrarProductosPorCategoria = async (categoriaId) => {
       let content = ``;
       let cargar_imagen = "";
       let subir_marketplace = "";
+      let producto_variable = "";
       productos.forEach((producto, index) => {
         if (!producto.image_path) {
           cargar_imagen = `<i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${producto.id_producto})"></i>`;
@@ -268,6 +274,12 @@ const filtrarProductosPorCategoria = async (categoriaId) => {
           subir_marketplace = `<box-icon name='cloud-upload' onclick="subir_marketplace(${producto.id_producto})"></box-icon>`;
         } else {
           subir_marketplace = `<box-icon name='cloud-download' onclick="bajar_marketplace(${producto.id_producto})"></box-icon>`;
+        }
+
+        if (producto.producto_variable == 0){
+          producto_variable = ``;
+        } else {
+          producto_variable = `<img src="https://new.imporsuitpro.com/public/img/atributos.png" width="30px" id="buscar_traking" alt="buscar_traking" onclick="abrir_modalInventarioVariable(${producto.id_producto})">`;
         }
         content += `
                   <tr>
@@ -284,9 +296,7 @@ const filtrarProductosPorCategoria = async (categoriaId) => {
                       <td>logo landing</td>
                       <td>logo agregar imagen</td>
                       <td>${subir_marketplace})</td>
-                      <td>
-                      <img src="https://new.imporsuitpro.com/public/img/atributos.png" width="30px" id="buscar_traking" alt="buscar_traking" data-toggle="modal" data-target="#inventario_variableModal">
-                      </td>
+                      <td>${producto_variable}</td>
                       <td>
                           <button class="btn btn-sm btn-primary" onclick="editarProducto(${producto.id_producto})"><i class="fa-solid fa-pencil"></i>Editar</button>
                           <button class="btn btn-sm btn-danger" onclick="eliminarProducto(${producto.id_producto})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
@@ -424,3 +434,9 @@ function agregar_imagenProducto(id) {
 window.addEventListener("load", async () => {
   await initDataTableProductos();
 });
+
+
+function abrir_modalInventarioVariable(id){
+  $("#id_productoVariable").val(id);
+  $("#inventario_variableModal").modal("show");
+}
