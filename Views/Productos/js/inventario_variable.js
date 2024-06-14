@@ -1,7 +1,6 @@
 // Inicializa la tabla inventario variable
 let dataTableInventario;
 let dataTableInventarioIsInitialized = false;
-const id_productoVariable = $("#id_productoVariable").val();
 
 const dataTableInventarioOptions = {
   paging: false,
@@ -94,6 +93,7 @@ const listAtributosInventario = async () => {
           const atributoId = tag.getAttribute("data-atributo-id");
           const id_variedad = tag.getAttribute("data-variedad-id");
           const valor = tag.getAttribute("data-valor");
+          const id_productoVariable = $("#id_productoVariable").val();
           $.ajax({
             url: SERVERURL + "Productos/consultarMaximo/" + id_productoVariable,
             type: "GET",
@@ -280,10 +280,9 @@ const initDataTableDetalleInventario = async () => {
 };
 
 const listDetalleInventario = async () => {
+  const id_productoVariable = $("#id_productoVariable").val();
   try {
-    const response = await fetch(
-      "" + SERVERURL + "pedidos/mostrarVariedades/"+id_productoVariable
-    );
+    const response = await fetch("" + SERVERURL + "pedidos/mostrarVariedades/"+id_productoVariable);
     const detalleInventario = await response.json();
 
     let content = ``;
