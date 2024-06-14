@@ -240,9 +240,9 @@ function enviar_cliente(id, sku, pvp,id_inventario) {
         window.location.href =
           SERVERURL +
           "Pedidos/nuevo?id_producto=" +
-          data.id_producto +
+          id +
           "&sku=" +
-          data.sku;
+          sku;
       }
     },
     error: function (xhr, status, error) {
