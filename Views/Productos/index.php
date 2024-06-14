@@ -24,6 +24,7 @@
 <?php require_once './Views/Productos/Modales/atributos_index_productos.php'; ?>
 <?php require_once './Views/Productos/Modales/agregar_index_productos.php'; ?>
 <?php require_once './Views/Productos/Modales/editar_index_productos.php'; ?>
+<?php require_once './Views/Productos/Modales/imagen_productos.php'; ?>
 
 <style>
     .filtros_producos {
