@@ -52,10 +52,10 @@ const listGuiasSeleccionProductoAtributo = async () => {
     seleccion_Protuctos.forEach((seleccion_Protucto, index) => {
       content += `
                 <tr>
-                    <td></td>
-                    <td></td>
+                    <td>${seleccion_Protucto.nombre_atributo}</td>
+                    <td>${seleccion_Protucto.variedad}</td>
                     <td>
-                        <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash-can"></i></button>
+                        <button class="btn btn-sm btn-danger"><i class="fa-solid fa-plus"></i></button>
                     </td>
                 </tr>`;
     });
