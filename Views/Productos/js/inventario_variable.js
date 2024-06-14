@@ -90,8 +90,10 @@ const listAtributosInventario = async () => {
                         type: "GET",
                         dataType: "json",
                         success: function (response) {
-                            document.getElementById('valor_guardar').value = valor;
-                            document.getElementById('sku_guardar').value = response;
+
+                            $("#valor_guardar").val(valor);
+                            $("#sku_guardar").val(response);
+
                         },
                         error: function (error) {
                           console.error("Error al obtener la lista de bodegas:", error);
