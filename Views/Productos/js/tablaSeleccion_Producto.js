@@ -3,7 +3,7 @@ let dataTableSeleccionProductoAtributoIsInitialized = false;
 
 const dataTableSeleccionProductoAtributoOptions = {
   columnDefs: [
-    { className: "centered", targets: [1, 2, 3, 4] },
+    { className: "centered", targets: [0, 1, 2] },
     { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
   ],
   pageLength: 10,
