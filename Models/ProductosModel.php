@@ -48,7 +48,7 @@ class ProductosModel extends Query
         }
         // print_r($insertar_producto);
         if ($insertar_producto == 1) {
-echo $codigo_producto;
+//echo $codigo_producto;
             $id_usuario = $_SESSION['id'];
             $id_inventario = $this->buscar_inventario($id_producto, $codigo_producto);
             $referencia = 'STOCK INICIAL';
@@ -580,8 +580,8 @@ function aumentarCodigo($codigo) {
         // Si no contiene un guion, agregar -1 al final
         $nuevoCodigo = $codigo . '-1';
     }
-echo $nuevoCodigo;
-    //return $nuevoCodigo;
+//echo $nuevoCodigo;
+    return $nuevoCodigo;
 }
 
 }
