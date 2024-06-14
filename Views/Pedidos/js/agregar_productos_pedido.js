@@ -129,12 +129,16 @@ function enviar_cliente(id, index, sku, pvp) {
       console.log(response2);
       console.log(response2[0]);
       if (response2.status == 500) {
-        Swal.fire({
-          icon: "error",
-          title: response2.title,
-          text: response2.message,
-        });
+        toastr.error(
+          "NO SE AGREGRO CORRECTAMENTE",
+          "NOTIFICACIÓN", {
+              positionClass: "toast-bottom-center"
+          }
+      );
       } else if (response2.status == 200) {
+        toastr.success("PRODUCTO AGREGADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+      });
         initDataTableNuevoPedido();
       }
     },
