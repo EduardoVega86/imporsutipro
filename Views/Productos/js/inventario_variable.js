@@ -84,8 +84,9 @@ const listAtributosInventario = async () => {
                 if (!event.target.classList.contains('remove-tag')) {
                     const atributoId = tag.getAttribute('data-atributo-id');
                     const valor = tag.getAttribute('data-valor');
+                    const id_productoVariable = $('#id_productoVariable').val();
                     $.ajax({
-                        url: SERVERURL + "Productos/consultarMaximo/"+atributoId,
+                        url: SERVERURL + "Productos/consultarMaximo/"+id_productoVariable,
                         type: "GET",
                         dataType: "json",
                         success: function (response) {
@@ -164,6 +165,11 @@ const eliminarCaracteristicaInventario = async (variedadoId) => {
         alert('Error al conectarse a la API: ' + ex.message);
     }
 };
+
+// Agregar variedad
+function agregar_variedad(){
+    
+}
 
 window.addEventListener("load", async () => {
     await initDataTableInventario();
