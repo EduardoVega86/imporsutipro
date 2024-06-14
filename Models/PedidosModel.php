@@ -86,7 +86,7 @@ class PedidosModel extends Query
             $tmp_cotizaciones = $this->select("SELECT * FROM tmp_cotizacion WHERE session_id = '$tmp'");
 
             // Insertar cada registro de tmp_cotizacion en detalle_cotizacion
-            $detalle_sql = "INSERT INTO detalle_fact_cot (numero_factura, id_factura, id_producto, cantidad, desc_venta, precio_venta, id_plataforma , sku) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            $detalle_sql = "INSERT INTO detalle_fact_cot (numero_factura, id_factura, id_producto, cantidad, desc_venta, precio_venta, id_plataforma , sku, id_inventario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             foreach ($tmp_cotizaciones as $tmp) {
                 //  echo 'enta';
                 $detalle_data = array(
@@ -97,7 +97,8 @@ class PedidosModel extends Query
                     $tmp['desc_tmp'],
                     $tmp['precio_tmp'],
                     $tmp['id_plataforma'],
-                    $tmp['sku']
+                    $tmp['sku'],
+                    $tmp['id_inventario']
                 );
                 $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
                 // print_r($guardar_detalle);
