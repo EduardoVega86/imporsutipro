@@ -89,7 +89,7 @@ const listGuias = async () => {
                         <div>${guia.c_principal} y ${guia.c_secundaria}</div>
                         <div>telf: ${guia.telefono}</div>
                     </td>
-                    <td>${guia.provincia}</td>
+                    <td>${guia.provinciaa}</td>
                     <td>${guia.ciudad}</td>
                     <td>${guia.plataforma}</td>
                     <td>${transporte_content}</td>
