@@ -18,6 +18,7 @@ class ManifiestosModel extends Query
     public function generarManifiestoUnico($factura)
     {
         $datos = $this->select("SELECT * FROM facturas_cot WHERE numero_factura = '$factura' ");
-        print_r($datos);
+        $productos = $this->select("SELECT * FROM detalle_fact_cot WHERE numero_factura = '$factura' ");
+        print_r($datos . " - " . $productos);
     }
 }
