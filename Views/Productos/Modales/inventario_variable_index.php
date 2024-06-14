@@ -20,13 +20,17 @@
         margin: 0 20px;
         /* Espaciado opcional alrededor de la línea */
     }
+
     .custom-hr {
-            border: 0;
-            height: 2px; /* Ajusta la altura según sea necesario */
-            background-color: black; /* Cambia el color según sea necesario */
-            margin: 0; /* Espaciado opcional alrededor de la línea */
-            opacity: 1;
-        }
+        border: 0;
+        height: 2px;
+        /* Ajusta la altura según sea necesario */
+        background-color: black;
+        /* Cambia el color según sea necesario */
+        margin: 0;
+        /* Espaciado opcional alrededor de la línea */
+        opacity: 1;
+    }
 </style>
 <div class="modal fade" id="inventario_variableModal" tabindex="-1" aria-labelledby="inventario_variableModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
@@ -68,7 +72,40 @@
                     </div>
                     <hr class="custom-hr">
                     <div id="inputs_guardarAtributos">
-
+                        <div class="d-flex flex-row">
+                            <div class="d-flex flex-row">
+                                <label for="valor">Valor</label>
+                                <input type="text" class="form-control" id="valor_guardar">
+                            </div>
+                            <div class="d-flex flex-row">
+                                <label for="sku">SKU</label>
+                                <input type="text" class="form-control" id="sku_guardar">
+                            </div>
+                            <div class="d-flex flex-row">
+                                <label for="precioProveedor">Precio proveedor</label>
+                                <input type="text" class="form-control" id="precioProveedor_guardar">
+                            </div>
+                            <div class="d-flex flex-row">
+                                <label for="precioVenta">Precio venta</label>
+                                <input type="text" class="form-control" id="precioVenta_guardar">
+                            </div>
+                            <div class="d-flex flex-row">
+                                <label for="precioRefe">Precio referencial</label>
+                                <input type="text" class="form-control" id="precioRefe_guardar">
+                            </div>
+                            <label for="bodega">Bodega:</label>
+                                    <select class="form-select" id="bodega">
+                                        <option value="0" selected>-- Selecciona Bodega --</option>
+                                    </select>
+                            <div class="d-flex flex-row">
+                                <label for="stockInicial">Stock inicial</label>
+                                <input type="text" class="form-control" id="stockInicial_guardar">
+                            </div>
+                            <div class="d-flex flex-row">
+                                <label for="idVariable">ID Variable</label>
+                                <input type="text" class="form-control" id="idVariable_guardar">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
