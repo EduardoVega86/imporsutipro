@@ -29,17 +29,26 @@ document.addEventListener("DOMContentLoaded", function () {
     const start = (page - 1) * perPage;
     const end = start + perPage;
     const paginatedProducts = products.slice(start, end);
-  
+
     paginatedProducts.forEach(async (product) => {
       // Realiza la solicitud a la API para obtener los detalles del producto
       try {
-        const response = await fetch(SERVERURL + "marketplace/obtener_producto/" + product.id_producto);
+        const response = await fetch(
+          SERVERURL + "marketplace/obtener_producto/" + product.id_producto
+        );
         const productDetails = await response.json();
-  
+
         // Verifica la estructura del objeto devuelto por la API
         if (productDetails && productDetails.length > 0) {
-          const { costo_producto, pvp, saldo_stock, url_imporsuit } = productDetails[0];  // Accede a los detalles del producto dentro del primer objeto
-  
+          const { costo_producto, pvp, saldo_stock, url_imporsuit } =
+            productDetails[0]; // Accede a los detalles del producto dentro del primer objeto
+
+          let boton_enviarCliente = ``;
+          if (product.producto_variable == 0) {
+            boton_enviarCliente = `<button class="btn btn-import" onclick="enviar_cliente(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})">Enviar a cliente</button>`;
+          } else if (product.producto_variable == 1) {
+            boton_enviarCliente = `<button class="btn btn-import" onclick="abrir_modalSeleccionAtributo(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})">Enviar a cliente</button>`;
+          }
           // Crea la tarjeta del producto
           const card = document.createElement("div");
           card.className = "card card-custom";
@@ -55,20 +64,21 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
                 <div>
                     <button class="btn btn-description" onclick="agregarModal_marketplace(${product.id_producto})">Descripción</button>
-                    <button class="btn btn-import" onclick="enviar_cliente(${product.id_producto})">Enviar a cliente</button>
+                    ${boton_enviarCliente}
                 </div>
             </div>
           `;
           cardContainer.appendChild(card);
         } else {
-          console.error('Error: La respuesta de la API no contiene los datos esperados.');
+          console.error(
+            "Error: La respuesta de la API no contiene los datos esperados."
+          );
         }
       } catch (error) {
-        console.error('Error al obtener los detalles del producto:', error);
+        console.error("Error al obtener los detalles del producto:", error);
       }
     });
   };
-  
 
   function createPagination(totalProducts, perPage = productsPerPage) {
     pagination.innerHTML = "";
@@ -174,8 +184,11 @@ function agregarModal_marketplace(id) {
         );
 
         // Actualizar la imagenes del modal
-        $("#imagen_principal").attr("src",SERVERURL+""+ data.image_path);
-        $("#imagen_principalPequena").attr("src", SERVERURL+""+ data.image_path);
+        $("#imagen_principal").attr("src", SERVERURL + "" + data.image_path);
+        $("#imagen_principalPequena").attr(
+          "src",
+          SERVERURL + "" + data.image_path
+        );
 
         // Abrir el modal
         $("#descripcion_productModal").modal("show");
@@ -190,60 +203,51 @@ function agregarModal_marketplace(id) {
   });
 }
 
+//abrir modal de seleccion de producto con atributo especifico
+function abrir_modalSeleccionAtributo(id){
+  $("#id_productoSeleccionado").val(id);
+  initDataTableSeleccionProductoAtributo();
+  $("#imagen_categoriaModal").modal("show");
+}
+
 //enviar cliente
-function enviar_cliente(id) {
+function enviar_cliente(id, sku, pvp,id_inventario) {
+  // Crear un objeto FormData y agregar los datos
+  const formData = new FormData();
+  formData.append("cantidad", 1);
+  formData.append("precio", pvp);
+  formData.append("id_producto", id);
+  formData.append("sku", sku);
+  formData.append("id_inventario", id_inventario);
+
   $.ajax({
     type: "POST",
-    url: SERVERURL + "marketplace/obtener_producto/" + id,
-    dataType: "json",
-    success: function (response) {
-      if (response) {
-        const data = response[0];
-
-        // Crear un objeto FormData y agregar los datos
-        const formData = new FormData();
-        formData.append("cantidad", 1);
-        formData.append("precio", data.pvp);
-        formData.append("id_producto", data.id_producto);
-        formData.append("sku", data.sku);
-
-        $.ajax({
-          type: "POST",
-          url: "" + SERVERURL + "marketplace/agregarTmp",
-          data: formData,
-          processData: false,
-          contentType: false,
-          success: function (response2) {
-            response2 = JSON.parse(response2);
-            console.log(response2);
-            console.log(response2[0]);
-            if (response2.status == 500) {
-              Swal.fire({
-                icon: "error",
-                title: response2.title,
-                text: response2.message,
-              });
-            } else if (response2.status == 200) {
-              window.location.href =
-                SERVERURL +
-                "Pedidos/nuevo?id_producto=" +
-                data.id_producto +
-                "&sku=" +
-                data.sku;
-            }
-          },
-          error: function (xhr, status, error) {
-            console.error("Error en la solicitud AJAX:", error);
-            alert("Hubo un problema al agregar el producto temporalmente");
-          },
+    url: "" + SERVERURL + "marketplace/agregarTmp",
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function (response2) {
+      response2 = JSON.parse(response2);
+      console.log(response2);
+      console.log(response2[0]);
+      if (response2.status == 500) {
+        Swal.fire({
+          icon: "error",
+          title: response2.title,
+          text: response2.message,
         });
-      } else {
-        console.error("La respuesta está vacía o tiene un formato incorrecto.");
+      } else if (response2.status == 200) {
+        window.location.href =
+          SERVERURL +
+          "Pedidos/nuevo?id_producto=" +
+          data.id_producto +
+          "&sku=" +
+          data.sku;
       }
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al obtener la información del producto");
+      alert("Hubo un problema al agregar el producto temporalmente");
     },
   });
 }

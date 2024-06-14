@@ -1,6 +1,7 @@
 <?php require_once './Views/templates/header.php'; ?>
 <link rel="stylesheet" type="text/css" href="<?php echo SERVERURL ?>/Views/Productos/css/marketplace.css">
 <?php require_once './Views/Productos/Modales/descripcion_marketplace.php'; ?>
+<?php require_once './Views/Productos/Modales/Seleccion_productoAtributo.php'; ?>
 
 <div class="custom-container-fluid mt-4">
     <div class="row mb-3">
@@ -36,4 +37,5 @@
 
 
 <script src="<?php echo SERVERURL ?>/Views/Productos/js/marketplace.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/Productos/js/tablaSeleccion_Producto.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
