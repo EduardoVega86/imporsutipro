@@ -93,10 +93,12 @@
                                 <label for="precioRefe">Precio referencial</label>
                                 <input type="text" class="form-control" id="precioRefe_guardar">
                             </div>
+                            <div class="d-flex flex-column">
                             <label for="bodega">Bodega:</label>
-                                    <select class="form-select" id="bodega">
-                                        <option value="0" selected>-- Selecciona Bodega --</option>
-                                    </select>
+                            <select class="form-select" id="bodega">
+                                <option value="0" selected>-- Selecciona Bodega --</option>
+                            </select>
+                            </div>
                             <div class="d-flex flex-column">
                                 <label for="stockInicial">Stock inicial</label>
                                 <input type="text" class="form-control" id="stockInicial_guardar">
