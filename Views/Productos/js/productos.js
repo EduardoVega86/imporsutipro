@@ -122,7 +122,7 @@ const listProductos = async () => {
       content += `
                 <tr>
                     <td>${producto.id_producto}</td>
-                    <td><i class="fas fa-camera icon-button" data-toggle="modal" data-target="#imagen_productoModal"></i></td>
+                    <td>${cargar_imagen}</td>
                     <td>${producto.codigo_producto}</td>
                     <td>${producto.nombre_producto}</td>
                     <td>${producto.destacado}</td>
@@ -270,7 +270,7 @@ const filtrarProductosPorCategoria = async (categoriaId) => {
         content += `
                   <tr>
                       <td>${producto.id_producto}</td>
-                      <td><i class="fas fa-camera icon-button" data-toggle="modal" data-target="#imagen_productoModal"></i></td>
+                      <td>${cargar_imagen}</td>
                       <td>${producto.codigo_producto}</td>
                       <td>${producto.nombre_producto}</td>
                       <td>${producto.destacado}</td>
@@ -414,8 +414,8 @@ function bajar_marketplace(id){
 
 
 function agregar_imagenProducto(id) {
-  $("#id_imagenCategoria").val(id);
-  $("#imagen_categoriaModal").modal("show");
+  $("#id_imagenproducto").val(id);
+  $("#imagen_productoModal").modal("show");
 }
 window.addEventListener("load", async () => {
   await initDataTableProductos();

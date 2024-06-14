@@ -36,16 +36,16 @@
     }
 </style>
 
-<div class="modal fade" id="imagen_categoriaModal" tabindex="-1" aria-labelledby="imagen_categoriaModalLabel" aria-hidden="true">
+<div class="modal fade" id="imagen_productoModal" tabindex="-1" aria-labelledby="imagen_productoModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="imagen_categoriaModalLabel"><i class="fas fa-edit"></i> Nueva imagen producto</h5>
+                <h5 class="modal-title" id="imagen_productoModalLabel"><i class="fas fa-edit"></i> Nueva imagen producto</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="imageForm" enctype="multipart/form-data">
-                    <input type="hidden" id="id_imagenCategoria" name="id_linea">
+                    <input type="hidden" id="id_imagenproducto" name="id_producto">
                     <div class="form-group">
                         <label for="imageInput">Imagen</label>
                         <input type="file" class="form-control-file" id="imageInput" accept="image/*" name="imagen" style="width: 100px;">
@@ -83,7 +83,7 @@
             var formData = new FormData(this); // Crea un objeto FormData a partir del formulario
 
             $.ajax({
-                url: SERVERURL + 'Productos/guardar_imagen_categorias', // Cambia esta ruta por la ruta correcta a tu controlador
+                url: SERVERURL + 'Productos/guardar_imagen_productos', // Cambia esta ruta por la ruta correcta a tu controlador
                 type: 'POST',
                 data: formData,
                 contentType: false,
@@ -102,7 +102,7 @@
                             positionClass: "toast-bottom-center",
                         });
 
-                        $('#imagen_categoriaModal').modal('hide');
+                        $('#imagen_productoModal').modal('hide');
                         initDataTable();
                     }
 
