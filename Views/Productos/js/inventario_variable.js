@@ -282,7 +282,7 @@ const initDataTableDetalleInventario = async () => {
 const listDetalleInventario = async () => {
   const id_productoVariable = $("#id_productoVariable").val();
   try {
-    const response = await fetch("" + SERVERURL + "pedidos/mostrarVariedades/"+id_productoVariable);
+    const response = await fetch("" + SERVERURL + "productos/mostrarVariedades/"+id_productoVariable);
     const detalleInventario = await response.json();
 
     let content = ``;
