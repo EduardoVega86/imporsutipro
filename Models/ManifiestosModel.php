@@ -23,6 +23,7 @@ class ManifiestosModel extends Query
 
         $factura = $datos[0];
         $html = $this->generarHtmlUnico($factura, $productos);
+        return $html;
     }
 
     public function generarHtmlUnico($factura, $productos)
