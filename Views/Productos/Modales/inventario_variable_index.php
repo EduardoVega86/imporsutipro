@@ -17,8 +17,6 @@
     .vertical-line {
         border-left: 2px solid black;
         /* Cambia el grosor y el color según sea necesario */
-        height: 100px;
-        /* Ajusta la altura según sea necesario */
         margin: 0 20px;
         /* Espaciado opcional alrededor de la línea */
     }
