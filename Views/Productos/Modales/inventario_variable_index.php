@@ -73,23 +73,23 @@
                     <hr class="custom-hr">
                     <div id="inputs_guardarAtributos">
                         <div class="d-flex flex-row">
-                            <div class="d-flex flex-row">
+                            <div class="d-flex flex-column">
                                 <label for="valor">Valor</label>
                                 <input type="text" class="form-control" id="valor_guardar">
                             </div>
-                            <div class="d-flex flex-row">
+                            <div class="d-flex flex-column">
                                 <label for="sku">SKU</label>
                                 <input type="text" class="form-control" id="sku_guardar">
                             </div>
-                            <div class="d-flex flex-row">
+                            <div class="d-flex flex-column">
                                 <label for="precioProveedor">Precio proveedor</label>
                                 <input type="text" class="form-control" id="precioProveedor_guardar">
                             </div>
-                            <div class="d-flex flex-row">
+                            <div class="d-flex flex-column">
                                 <label for="precioVenta">Precio venta</label>
                                 <input type="text" class="form-control" id="precioVenta_guardar">
                             </div>
-                            <div class="d-flex flex-row">
+                            <div class="d-flex flex-column">
                                 <label for="precioRefe">Precio referencial</label>
                                 <input type="text" class="form-control" id="precioRefe_guardar">
                             </div>
@@ -97,11 +97,11 @@
                                     <select class="form-select" id="bodega">
                                         <option value="0" selected>-- Selecciona Bodega --</option>
                                     </select>
-                            <div class="d-flex flex-row">
+                            <div class="d-flex flex-column">
                                 <label for="stockInicial">Stock inicial</label>
                                 <input type="text" class="form-control" id="stockInicial_guardar">
                             </div>
-                            <div class="d-flex flex-row">
+                            <div class="d-flex flex-column">
                                 <label for="idVariable">ID Variable</label>
                                 <input type="text" class="form-control" id="idVariable_guardar">
                             </div>

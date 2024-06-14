@@ -84,10 +84,7 @@ const listAtributosInventario = async () => {
                 if (!event.target.classList.contains('remove-tag')) {
                     const inputId = tag.getAttribute('data-atributo-id');
                     const valor = tag.getAttribute('data-valor');
-                    const input = document.querySelector(`#agregar_atributo_${inputId}`);
-                    if (input) {
-                        input.value = valor;
-                    }
+                    document.getElementById('valor_guardar').value = valor;
                 }
             });
         });
