@@ -44,12 +44,12 @@ WHERE ((p.drogshipin = 1 AND ib.id_plataforma = p.id_plataforma)
          $sql = "SELECT * FROM `invetario_bodegas` , plataformas where inventario_bodegas.id_plataforma=plataformas.id_plataforma and id_producto = $id_producto and sku='$sku' and inventario_bodegas.id_plataforma=$plataforma";
         return $this->select($sql);
     }
-    public function agregarTmp($id_producto, $cantidad, $precio,  $plataforma, $sku)
+    public function agregarTmp($id_producto, $cantidad, $precio,  $plataforma, $sku, $id_invetario)
     {
         //verificar productos
          $timestamp = session_id();
          //echo "SELECT * FROM tmp_cotizacion WHERE session_id = '$timestamp' and id_producto=$id_producto and sku=$sku";
-          $cantidad_tmp = $this->select("SELECT * FROM tmp_cotizacion WHERE session_id = '$timestamp' and id_producto=$id_producto and sku='$sku'" );
+          $cantidad_tmp = $this->select("SELECT * FROM tmp_cotizacion WHERE session_id = '$timestamp' and id_inventario=$id_invetario" );
                    
           //print_r($cantidad_tmp);
           if (empty($cantidad_tmp)){
