@@ -74,87 +74,89 @@
 
         </div> -->
         <div class="d-flex flex-column justify-content-between">
-                                    <div class="d-flex flex-row " style="width: 100%;">
-                                        <div class="d-flex flex-row align-items-end" style="width: 34%;">
-                                            <div class="flex-fill" style="margin: 0; padding-left: 0;">
-                                                <h6>Seleccione fecha de inicio:</h6>
-                                                <div class="input-group date" id="datepickerInicio">
-                                                    <input type="text" class="form-control" name="fechaInicio">
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="flex-fill" style="padding-left: 15px; ">
-                                                <h6>Seleccione fecha de fin:</h6>
-                                                <div class="input-group date" id="datepickerFin">
-                                                    <input type="text" class="form-control" name="fechaFin">
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div style=" padding-top: 10px;">
-                                                <span class="input-group-btn">
-                                                    <button type="button" class="btn btn-info waves-effect waves-light">
-                                                        Buscar <span class="fa fa-search"></span></button>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="flex-fill" style=" padding-left: 10px; width:35%">
-                                            <
-                                        </div>
-                                        <div class="flex-fill">
-                                            <div class=" d-flex flex-row justify-content-start">
-                                                <input class="input-change" type="checkbox" role="switch" id="facturas_impresas">
-                                                <label class="form-check-label" for="flexSwitchCheckChecked">Facturas Impresas</label>
-                                            </div>
-                                        </div>
-                                    </div>
+            <div class="d-flex flex-row " style="width: 100%;">
+                <div class="d-flex flex-row align-items-end" style="width: 34%;">
+                    <div class="flex-fill" style="margin: 0; padding-left: 0;">
+                        <h6>Seleccione fecha de inicio:</h6>
+                        <div class="input-group date" id="datepickerInicio">
+                            <input type="text" class="form-control" name="fechaInicio">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-fill" style="padding-left: 15px; ">
+                        <h6>Seleccione fecha de fin:</h6>
+                        <div class="input-group date" id="datepickerFin">
+                            <input type="text" class="form-control" name="fechaFin">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style=" padding-top: 10px;">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-info waves-effect waves-light">
+                                Buscar <span class="fa fa-search"></span></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="flex-fill" style=" padding-left: 10px; width:35%">
+                    <div class=" d-flex flex-row justify-content-start">
+                        <input class="input-change" type="checkbox" role="switch" id="facturas_impresas">
+                        <label class="form-check-label" for="flexSwitchCheckChecked">Facturas Impresas</label>
+                    </div>
+                </div>
+                <div class="flex-fill">
 
-                                    <div class="d-flex flex-row">
-                                        <div class="d-flex flex-column" style="width: 100%;">
-                                            <div class="d-flex flex-row justify-content-start">
-                                            label for="tienda_q" class="col-form-label">Tienda</label>
-                                            <select onchange="buscar(this.value)" id="tienda_q" class="form-control">
-                                                <option value="0">Selecciona una Tienda</option>
-                
-                                            </select>
-                                            </div>
-                                            <div style="width: 100%;">
+                </div>
+            </div>
 
+            <div class="d-flex flex-row">
+                <div class="d-flex flex-column" style="width: 100%;">
+                    <div class="d-flex flex-row justify-content-start">
+                        <div style="width: 100%;">
+                            <label for="tienda_q" class="col-form-label">Tienda</label>
+                            <select onchange="buscar(this.value)" id="tienda_q" class="form-control">
+                                <option value="0">Selecciona una Tienda</option>
 
-                                            </div>
-                                        </div>
-                                        <div style="width: 100%;">
-                                            <label style="padding-left: 20px;" for="inputPassword3" class="col-sm-2 col-form-label">Estado</label>
-                                            <div style="padding-left: 20px;">
-                                                <select onchange="buscar_estado(this.value)" name="estado_q" class="form-control" id="estado_q">
-                                                    <option value="0"> Seleccione Estado </option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div style="width: 100%;">
-                                            <label style="padding-left: 20px;" for="inputPassword3" class="col-sm-2 col-form-label">Transportadora</label>
-                                            <div style="padding-left: 20px;">
-                                                <select name="transporte" id="transporte" class="form-control">
-                                                    <option value="0"> Seleccione Transportadora</option>
-                                                    <option value="LAAR">Laar</option>
-                                                    <option value="IMPORFAST">Speed</option>
-                                                    <option value="SERVIENTREGA">Servientrega</option>
-                                                    <option value="GINTRACOM">Gintracom</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div style="padding-top: 20px;">
+                            </select>
+                        </div>
+                    </div>
+                    <div style="width: 100%;">
 
 
-                                <button id="imprimir_guias" class="btn btn-success">Generar Impresion</button>
-                                </div>
+                    </div>
+                </div>
+                <div style="width: 100%;">
+                    <label style="padding-left: 20px;" for="inputPassword3" class="col-sm-2 col-form-label">Estado</label>
+                    <div style="padding-left: 20px;">
+                        <select onchange="buscar_estado(this.value)" name="estado_q" class="form-control" id="estado_q">
+                            <option value="0"> Seleccione Estado </option>
+                        </select>
+                    </div>
+                </div>
+                <div style="width: 100%;">
+                    <label style="padding-left: 20px;" for="inputPassword3" class="col-sm-2 col-form-label">Transportadora</label>
+                    <div style="padding-left: 20px;">
+                        <select name="transporte" id="transporte" class="form-control">
+                            <option value="0"> Seleccione Transportadora</option>
+                            <option value="LAAR">Laar</option>
+                            <option value="IMPORFAST">Speed</option>
+                            <option value="SERVIENTREGA">Servientrega</option>
+                            <option value="GINTRACOM">Gintracom</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="padding-top: 20px;">
 
-        
+
+            <button id="imprimir_guias" class="btn btn-success">Generar Impresion</button>
+        </div>
+
+
 
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
