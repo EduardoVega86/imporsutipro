@@ -19,6 +19,7 @@ class ManifiestosModel extends Query
     {
         $datos = $this->select("SELECT * FROM facturas_cot WHERE numero_factura = '$factura' ");
         $productos = $this->select("SELECT * FROM detalle_fact_cot WHERE numero_factura = '$factura' ");
-        print_r($datos . $productos);
+        print_r($datos);
+        print_r($productos);
     }
 }
