@@ -108,6 +108,7 @@
                                 <input type="text" class="form-control" id="idVariable_guardar">
                             </div>
                         </div>
+                        <button type="button" class="btn btn-success" onclick="agregar_variedad()">Agregar</button>
                     </div>
                 </div>
             </div>

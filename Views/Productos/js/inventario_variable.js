@@ -82,9 +82,20 @@ const listAtributosInventario = async () => {
         document.querySelectorAll('.tag').forEach(tag => {
             tag.addEventListener('click', (event) => {
                 if (!event.target.classList.contains('remove-tag')) {
-                    const inputId = tag.getAttribute('data-atributo-id');
+                    const atributoId = tag.getAttribute('data-atributo-id');
                     const valor = tag.getAttribute('data-valor');
-                    document.getElementById('valor_guardar').value = valor;
+                    $.ajax({
+                        url: SERVERURL + "Productos/consultarMaximo/"+atributoId,
+                        type: "GET",
+                        dataType: "json",
+                        success: function (response) {
+                            document.getElementById('valor_guardar').value = valor;
+                            document.getElementById('sku_guardar').value = response;
+                        },
+                        error: function (error) {
+                          console.error("Error al obtener la lista de bodegas:", error);
+                        },
+                      });
                 }
             });
         });
@@ -93,6 +104,7 @@ const listAtributosInventario = async () => {
         alert('Error al cargar los atributos: ' + ex.message);
     }
 };
+
 
 
 const listarCaracteristicasInventario = async () => {
