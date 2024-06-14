@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
           const card = document.createElement("div");
           card.className = "card card-custom";
           card.innerHTML = `
-            <img src="${SERVERURL}${producto.image_path}" class="card-img-top" alt="Product Image">
+            <img src="${SERVERURL}${product.image_path}" class="card-img-top" alt="Product Image">
             <div class="card-body text-center d-flex flex-column justify-content-between">
                 <div>
                     <h5 class="card-title">${product.nombre_producto}</h5>
