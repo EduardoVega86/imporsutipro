@@ -349,25 +349,18 @@ class Productos extends Controller
     }
     
     function consultarMaximo($id_producto){
+        //echo $id_producto;
      $response = $this->model->consultarMaximo($id_producto);
+     //echo $response;
      return $response;           
     }
     
-    function aumentar_codigo($codigo) {
-        //echo 'asd';
-    // Verificar si el código contiene un guion
-    if (strpos($codigo, '-') !== false) {
-        // Si contiene un guion, extraer la parte numérica después del guion
-        $partes = explode('-', $codigo);
-        $numero = intval(end($partes)) + 1;
-        // Unir las partes con el nuevo número
-        array_pop($partes);
-        $nuevoCodigo = implode('-', $partes) . '-' . $numero;
-    } else {
-        // Si no contiene un guion, agregar -1 al final
-        $nuevoCodigo = $codigo . '-1';
+    function mostrarVariedades($id_producto){
+        //echo $id_producto;
+     $response = $this->model->mostrarVariedades($id_producto);
+    // print_r($response);
+    echo json_encode($response);        
     }
-//echo $nuevoCodigo;
-    return $nuevoCodigo;
-}
+    
+    
 }

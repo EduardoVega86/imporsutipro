@@ -542,19 +542,33 @@ class ProductosModel extends Query
         return $this->select($sql);
     }
     
+    public function mostrarVariedades($id_producto)
+    {
+       // echo $id_producto;
+        $sql = "select * from inventario_bodegas ib, productos p, variedades v, atributos a where ib.id_producto=$id_producto and ib.id_producto=p.id_producto and ib.id_variante=v.id_variedad and v.id_atributo=a.id_atributo";
+       
+        return $this->select($sql);
+    }
+    
     public function consultarMaximo($id_producto)
     {
+       
         $sql = "SELECT sku FROM inventario_bodegas WHERE id_producto = $id_producto ORDER BY  CASE  WHEN sku LIKE '%-%' THEN CAST(SUBSTRING_INDEX(sku, '-', -1) AS UNSIGNED)
         ELSE 0 END DESC, sku DESC LIMIT 1;";
        
+       
+        
         $id_producto = $this->select($sql);
         $codigo_producto = $id_producto[0]['sku'];
-        $codigo_nuevo=aumentarCodigo($codigo_producto);
-        return $codigo_nuevo;
+     
+        $codigo_nuevo=$this->aumentarCodigo($codigo_producto);
+        echo $codigo_nuevo;
+        //return $codigo_nuevo;
     }
     
 function aumentarCodigo($codigo) {
     // Verificar si el código contiene un guion
+    //echo $codigo.'ad';
     if (strpos($codigo, '-') !== false) {
         // Si contiene un guion, extraer la parte numérica después del guion
         $partes = explode('-', $codigo);
@@ -566,8 +580,8 @@ function aumentarCodigo($codigo) {
         // Si no contiene un guion, agregar -1 al final
         $nuevoCodigo = $codigo . '-1';
     }
-
-    return $nuevoCodigo;
+echo $nuevoCodigo;
+    //return $nuevoCodigo;
 }
 
 }
