@@ -16,7 +16,7 @@ JOIN inventario_bodegas ib
 ON p.id_producto = ib.id_producto AND p.codigo_producto = ib.sku
 WHERE ((p.drogshipin = 1 AND ib.id_plataforma = p.id_plataforma)
    OR (ib.id_plataforma = $plataforma AND p.id_plataforma = $plataforma))
-   AND ib.bodega != 0;
+   AND ib.bodega != 0 AND ib.bodega != 50000;
 ";
         return $this->select($sql);
     }

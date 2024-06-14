@@ -34,7 +34,7 @@ class ProductosModel extends Query
                 $data = [$codigo_producto, $id_producto, 0, $bodega, $pcp, $pvp, $pref, $stock_inicial, $stock_inicial, $plataforma];
             } else {
                 $sql = "INSERT INTO inventario_bodegas (sku, id_producto, id_variante, bodega, pcp, pvp, pref, stock_inicial, saldo_stock, id_plataforma) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                $data = [$codigo_producto, $id_producto, $producto_variable, $bodega, $pcp, $pvp, $pref, $stock_inicial, $stock_inicial, $plataforma];
+                $data = [$codigo_producto, $id_producto, $producto_variable, 50000, $pcp, $pvp, $pref, $stock_inicial, $stock_inicial, $plataforma];
             }
             $insertar_producto = $this->insert($sql, $data);
         } else {
