@@ -40,19 +40,19 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="d-flex flex-row">
-                    <input type="hidden" id="id_productoSeleccionado" name="id_productoSeleccionado" value="0">
-                    <table id="datatable_seleccionProductoAtributo" class="table table-striped w-100">
-                        <thead>
-                            <tr>
-                                <th class="centered">Atributo</th>
-                                <th class="centered">Valor</th>
-                                <th class="centered"></th>
-                            </tr>
-                        </thead>
-                        <tbody id="tableBody_seleccionProductoAtributo"></tbody>
-                    </table>
-                </div>
+
+                <input type="hidden" id="id_productoSeleccionado" name="id_productoSeleccionado" value="0">
+                <table id="datatable_seleccionProductoAtributo" class="table table-striped w-100">
+                    <thead>
+                        <tr>
+                            <th class="centered">Atributo</th>
+                            <th class="centered">Valor</th>
+                            <th class="centered"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody_seleccionProductoAtributo"></tbody>
+                </table>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
