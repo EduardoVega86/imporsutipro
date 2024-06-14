@@ -78,17 +78,6 @@ const listAtributosInventario = async () => {
             });
         });
 
-        // Agregar event listeners a todos los atributos (excepto la "x")
-        document.querySelectorAll('.tag').forEach(span => {
-            span.addEventListener('click', async (event) => {
-                if (!event.target.classList.contains('remove-tag')) {
-                    const atributoId = event.target.parentElement.getAttribute('data-atributo-id');
-                    const valor = event.target.textContent.trim();
-                    await agregarFilaDetalleInventario(atributoId, valor);
-                }
-            });
-        });
-
     } catch (ex) {
         alert('Error al cargar los atributos: ' + ex.message);
     }
@@ -150,27 +139,6 @@ const eliminarCaracteristicaInventario = async (variedadoId) => {
     } catch (ex) {
         alert('Error al conectarse a la API: ' + ex.message);
     }
-};
-
-const agregarFilaDetalleInventario = async (atributoId, valor) => {
-    const codigoProducto = $('#codigo').val();
-    const numeroIncremental = document.querySelectorAll('#tableBody_detalleInventario tr').length + 1;
-    const idVariable = `${codigoProducto}-${numeroIncremental}`;
-
-    const nuevaFila = `
-        <tr>
-            <td>${valor}</td>
-            <td><input type="text" class="form-control"></td>
-            <td><input type="text" class="form-control"></td>
-            <td><input type="text" class="form-control"></td>
-            <td><input type="text" class="form-control"></td>
-            <td><input type="text" class="form-control"></td>
-            <td><input type="text" class="form-control"></td>
-            <td>${idVariable}</td>
-        </tr>
-    `;
-
-    document.getElementById('tableBody_detalleInventario').insertAdjacentHTML('beforeend', nuevaFila);
 };
 
 window.addEventListener("load", async () => {

@@ -1,36 +1,36 @@
 <?php require_once './Views/templates/header.php'; ?>
 
 <style>
-   .table {
-    border-collapse: collapse;
-    width: 100%;
-}
+    .table {
+        border-collapse: collapse;
+        width: 100%;
+    }
 
-.table th,
-.table td {
-    text-align: center;
-    vertical-align: middle;
-    border: 1px solid #ddd; /* Añadir borde a celdas */
-}
+    .table th,
+    .table td {
+        text-align: center;
+        vertical-align: middle;
+        border: 1px solid #ddd;
+        /* Añadir borde a celdas */
+    }
 
-.table-striped tbody tr:nth-of-type(odd) {
-    background-color: rgba(0, 0, 0, .05);
-}
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: rgba(0, 0, 0, .05);
+    }
 
-.table-hover tbody tr:hover {
-    background-color: rgba(0, 0, 0, .075);
-}
+    .table-hover tbody tr:hover {
+        background-color: rgba(0, 0, 0, .075);
+    }
 
-.table thead th {
-    background-color: #171931;
-    color: white;
-}
+    .table thead th {
+        background-color: #171931;
+        color: white;
+    }
 
-.centered {
-    text-align: center !important;
-    vertical-align: middle !important;
-}
-
+    .centered {
+        text-align: center !important;
+        vertical-align: middle !important;
+    }
 </style>
 <!-- llamada de modales -->
 <?php require_once './Views/Productos/Modales/atributos_index_productos.php'; ?>
