@@ -20,6 +20,12 @@
         margin: 0 20px;
         /* Espaciado opcional alrededor de la línea */
     }
+    .custom-hr {
+            border: 0;
+            height: 2px; /* Ajusta la altura según sea necesario */
+            background-color: black; /* Cambia el color según sea necesario */
+            margin: 20px 0; /* Espaciado opcional alrededor de la línea */
+        }
 </style>
 <div class="modal fade" id="inventario_variableModal" tabindex="-1" aria-labelledby="inventario_variableModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
@@ -59,6 +65,7 @@
                             <tbody id="tableBody_detalleInventario"></tbody>
                         </table>
                     </div>
+                    <hr class="custom-hr">
                     <div id="inputs_guardarAtributos">
 
                     </div>
