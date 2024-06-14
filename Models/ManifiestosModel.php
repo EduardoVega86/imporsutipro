@@ -24,12 +24,22 @@ class ManifiestosModel extends Query
         $html = $this->generarHtml($factura, $productos);
     }
 
-    public function generarHtml($factura, $productos)
+    public function generarHtmlUnico($factura, $productos)
     {
         $fecha_actual = date("d/m/Y");
         $manifiesto = "";
         $transporte = "";
         $guia = $factura['numero_guia'];
+        $ciudad = $factura['ciudad_cot'];
+        $ciudad_destino = $this->select("SELECT ciudad from ciudad_cotizacion where id_cotizacion = '$ciudad' ")[0];
+
+        $monto_factura = $factura['monto_factura'];
+        $cod = $factura['cod'];
+        if ($cod == 1) {
+            $cod = "Con Recaudo";
+        } else {
+            $cod = "Sin Recaudo";
+        }
         if (strpos($guia, "IMP") === 0 || strpos($guia, "MKP") === 0) {
             $transporte = "LAAR";
         } else {
@@ -47,8 +57,27 @@ class ManifiestosModel extends Query
 
         foreach ($productos_id as $producto) {
             $id = $producto['id'];
-            $nombre_producto = $this->select("SELECT nombre FROM productos WHERE id = '$id' ")[0]['nombre'];
+            $nombre_producto = $this->select("SELECT nombre_producto, codigo_producto FROM productos WHERE id_producto = '$id' ")[0];
+            $nombre_producto = $nombre_producto['nombre_producto'];
+            $codigo_producto = $nombre_producto['codigo_producto'];
+            $cantidad = $producto['cantidad'];
+            $html_producto = "
+            <tr>
+            <td> ( ID: " . $id_producto . " ) - ( SKU: " . $codigo_producto . " ) - " . $nombre_producto . " </td>
+            <td> " . $cantidad . "</td>
+        </tr>";
+            $producto_html .= $html_producto;
+        }
 
+        $manifiestohtml = "
+        <tr>
+        <td>Nro: 1 </td>
+        <td>Guia: " . $guia . " </td>
+        <td>Ciudad Destino: " . $ciudad_destino . " </td>
+        <td>Valor de Recaudo: " . $monto_factura . "</td>
+        <td>Tipo de logistica: " . $cod . "</td>
+    </tr>
+        ";
 
         $manifiestoT = "
             <table class='section1-table'>
@@ -86,6 +115,18 @@ class ManifiestosModel extends Query
                 <td>FIRMA DEL ENCARGADO DEL MANIFIESTO:</td>
             </tr>
         </table>";
+
+        $html = "";
+        $html .= $manifiestoT;
+        $html .= "<table class='section4-table'>
+        <tr>
+            <td>PRODUCTO</td>
+            <td>CANTIDAD</td>
+        </tr>
+        " . $producto_html . "
+    </table>";
+
+
 
 
         return $html;
