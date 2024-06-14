@@ -31,7 +31,7 @@ class ManifiestosModel extends Query
         $transporte = "";
         $guia = $factura['numero_guia'];
         $ciudad = $factura['ciudad_cot'];
-        $ciudad_destino = $this->select("SELECT ciudad from ciudad_cotizacion where id_cotizacion = '$ciudad' ")[0];
+        $ciudad_destino = $this->select("SELECT ciudad from ciudad_cotizacion where id_cotizacion = '$ciudad' ")[0]['ciudad'];
 
         $monto_factura = $factura['monto_factura'];
         $cod = $factura['cod'];
