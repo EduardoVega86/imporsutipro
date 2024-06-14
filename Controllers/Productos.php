@@ -331,4 +331,20 @@ class Productos extends Controller
         $response = $this->model->eliminarCaracteristica($id, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
+    
+    //FUNCIONES PARA AGREGAR VARIABLES
+     public function agregarVariable()
+    {
+        
+        $id_variedad = $_POST['id_variedad'];
+        $id_producto = $_POST['id_producto'];
+        $sku = $_POST['sku'];
+        $bodega = $_POST["id_bodega"];
+        $pcp = $_POST['pcp'];
+        $pvp = $_POST['pvp'];
+        $stock = $_POST['stock'];
+        $response = $this->model->agregarVariable($id_variedad, $id_producto, $sku, $bodega, $pcp, $pvp, $stock, $_SESSION['id_plataforma']);
+
+        echo json_encode($response);
+    }
 }

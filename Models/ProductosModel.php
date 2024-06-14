@@ -455,8 +455,8 @@ class ProductosModel extends Query
      public function agregarVariable($id_variedad, $id_producto, $sku, $bodega, $pcp, $pvp, $stock, $plataforma)
     {
         $response = $this->initialResponse();
-        $sql = "INSERT INTO inventario_bodegas (id_producto, sku, id_variante, bodega, pcp, pvp, stock_inicial, saldo_stock) VALUES (?, ?, ?)";
-        $data = [$variedad, $id_atributo, $plataforma];
+        $sql = "INSERT INTO inventario_bodegas (id_producto, sku, id_variante, bodega, pcp, pvp, stock_inicial, saldo_stock, id_plataforma) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $data = [$id_producto, $sku, $id_variedad, $bodega, $pcp, $pvp, $stock, $stock, $plataforma];
         $insertar_caracteristica = $this->insert($sql, $data);
         if ($insertar_caracteristica == 1) {
             $response['status'] = 200;
