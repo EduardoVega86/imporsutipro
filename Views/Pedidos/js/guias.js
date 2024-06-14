@@ -212,15 +212,18 @@ document.getElementById("imprimir_guias").addEventListener("click", () => {
   console.log(selectedGuiasJson);
 
   let formData = new FormData();
-  formData.append("facturas", selectedGuiasJson); // Añadir el SKU al FormData
+  formData.append("facturas", selectedGuiasJson);
 
   $.ajax({
     type: "POST",
-    url: SERVERURL + "/Manifiestos/generar",
+    url: SERVERURL + "/Manifiestos/generar", // Asegúrate de que SERVERURL esté definida
     data: formData,
+    processData: false, // Necesario para FormData
+    contentType: false, // Necesario para FormData
     dataType: "json",
     success: function (response) {
-
+      console.log("Respuesta del servidor:", response);
+      // Manejar la respuesta exitosa aquí
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
@@ -228,6 +231,7 @@ document.getElementById("imprimir_guias").addEventListener("click", () => {
     },
   });
 });
+
 
 window.addEventListener("load", async () => {
   await initDataTable();
