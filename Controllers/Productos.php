@@ -333,6 +333,8 @@ class Productos extends Controller
     }
     
     //FUNCIONES PARA AGREGAR VARIABLES
+    
+    
      public function agregarVariable()
     {
         
