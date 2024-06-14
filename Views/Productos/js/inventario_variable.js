@@ -226,7 +226,9 @@ function agregar_variedad() {
     data: formData,
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
-    success: function (response) {},
+    success: function (response) {
+        initDataTableDetalleInventario();
+    },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
     },
@@ -293,7 +295,7 @@ const listDetalleInventario = async () => {
       <td>${detalle.pcp}</td>
       <td>${detalle.pvp}</td>
       <td>${detalle.pref}</td>
-      <td>${detalle.sku}</td>
+      <td>${detalle.bodega}</td>
       <td>${detalle.stock_inicial}</td>
         </tr>`;
     });
