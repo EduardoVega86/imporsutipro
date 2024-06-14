@@ -71,7 +71,7 @@ class ManifiestosModel extends Query
             $producto_html .= $html_producto;
         }
 
-        $manifiestohtml = "
+        $manifiesto = "
         <tr>
         <td>Nro: 1 </td>
         <td>Guia: " . $guia . " </td>
@@ -187,7 +187,6 @@ class ManifiestosModel extends Query
         </head>
         <body>
             <main>';
-        $html .= $manifiestohtml;
         $html .= $manifiestoT;
         $html .= "<table class='section4-table'>
         <tr>
