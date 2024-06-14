@@ -207,7 +207,7 @@ function agregarModal_marketplace(id) {
 function abrir_modalSeleccionAtributo(id){
   $("#id_productoSeleccionado").val(id);
   initDataTableSeleccionProductoAtributo();
-  $("#imagen_categoriaModal").modal("show");
+  $("#seleccionProdcutoAtributoModal").modal("show");
 }
 
 //enviar cliente
