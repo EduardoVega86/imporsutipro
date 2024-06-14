@@ -451,6 +451,24 @@ class ProductosModel extends Query
         }
         return $response;
     }
+    
+     public function agregarVariable($id_variedad, $id_producto, $sku, $bodega, $pcp, $pvp, $stock, $plataforma)
+    {
+        $response = $this->initialResponse();
+        $sql = "INSERT INTO inventario_bodegas (id_producto, sku, id_variante, bodega, pcp, pvp, stock_inicial, saldo_stock) VALUES (?, ?, ?)";
+        $data = [$variedad, $id_atributo, $plataforma];
+        $insertar_caracteristica = $this->insert($sql, $data);
+        if ($insertar_caracteristica == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Caracteristica agregada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al agregar la caracteristica';
+        }
+        return $response;
+    }
 
     public function listarCaracteristicas($plataforma)
     {

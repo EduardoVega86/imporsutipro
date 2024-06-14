@@ -10,9 +10,7 @@ class MarketplaceModel extends Query
 
     public function obtener_productos($plataforma)
     {
-        $sql = "SELECT * FROM `productos`, inventario_bodegas where (productos.drogshipin=1 and inventario_bodegas.id_plataforma=productos.id_plataforma "
-                . "and inventario_bodegas.id_producto and productos.id_producto and inventario_bodegas.sku=productos.codigo_producto ) or "
-                . "(inventario_bodegas.id_plataforma=$plataforma and productos.id_plataforma=$plataforma and inventario_bodegas.id_producto and productos.id_producto and inventario_bodegas.sku=productos.codigo_producto) and bodega !=0";
+        $sql = "SELECT DISTINCT p.*, ib.* FROM productos p JOIN inventario_bodegas ib ON p.id_producto = ib.id_producto AND p.codigo_producto = ib.sku WHERE (p.drogshipin = 1 AND ib.id_plataforma = p.id_plataforma) OR (ib.id_plataforma = $plataforma AND p.id_plataforma = $plataforma) AND ib.bodega != 0";
         return $this->select($sql);
     }
 
