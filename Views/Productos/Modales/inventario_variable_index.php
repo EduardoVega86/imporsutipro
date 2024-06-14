@@ -24,7 +24,8 @@
             border: 0;
             height: 2px; /* Ajusta la altura según sea necesario */
             background-color: black; /* Cambia el color según sea necesario */
-            margin: 20px 0; /* Espaciado opcional alrededor de la línea */
+            margin: 0; /* Espaciado opcional alrededor de la línea */
+            opacity: 1;
         }
 </style>
 <div class="modal fade" id="inventario_variableModal" tabindex="-1" aria-labelledby="inventario_variableModalLabel" aria-hidden="true">
