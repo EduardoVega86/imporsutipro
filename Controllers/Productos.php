@@ -182,21 +182,21 @@ class Productos extends Controller
 
     public function guardar_imagen_categorias()
     {
-        print_r($_FILES);
+
         $response = $this->model->guardar_imagen_categorias($_FILES['imagen'], $_POST['id_linea'], $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
 
-    
-     public function guardar_imagen_productos()
+
+    public function guardar_imagen_productos()
     {
-        print_r($_FILES);
+
         $response = $this->model->guardar_imagen_categorias($_FILES['imagen'], $_POST['id_producto'], $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
 
-    
-    
+
+
     public function cargar_categorias()
     {
         $response = $this->model->cargarCategorias($_SESSION['id_plataforma']);
@@ -278,8 +278,8 @@ class Productos extends Controller
         $response = $this->model->eliminarProducto($id, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
-    
-    
+
+
     public function subir_marketplace()
     {
         $id = $_POST['id'];
@@ -287,7 +287,7 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
-     public function bajar_marketplace()
+    public function bajar_marketplace()
     {
         $id = $_POST['id'];
         $response = $this->model->BajarMarketplace($id, $_SESSION['id_plataforma']);

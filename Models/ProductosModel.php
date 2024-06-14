@@ -21,8 +21,8 @@ class ProductosModel extends Query
         $data = [$codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $plataforma];
         $insertar_producto = $this->insert($sql, $data);
 
-        if(!$pref){
-            $pref=0;
+        if (!$pref) {
+            $pref = 0;
         }
         $sql_id = "SELECT MAX(id_producto) as id_producto from productos where id_plataforma = $plataforma";
         $id_producto = $this->select($sql_id);
@@ -36,7 +36,7 @@ class ProductosModel extends Query
                 $sql = "INSERT INTO inventario_bodegas (sku, id_producto, id_variante, bodega, pcp, pvp, pref, stock_inicial, saldo_stock, id_plataforma) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 $data = [$codigo_producto, $id_producto, $producto_variable, $bodega, $pcp, $pvp, $pref, $stock_inicial, $stock_inicial, $plataforma];
             }
-            $insertar_producto= $this->insert($sql, $data);
+            $insertar_producto = $this->insert($sql, $data);
         } else {
             //bodega inicial
             $sql_bodega = "SELECT * FROM bodega WHERE id_plataforma = $plataforma limit 1";
@@ -45,27 +45,26 @@ class ProductosModel extends Query
             $sql_insert = "INSERT INTO inventario_bodegas (sku, id_producto, id_variante, bodega, pcp, pvp, pref, stock_inicial, saldo_stock, id_plataforma) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $data_insert = [$codigo_producto, $id_producto, 0, $bodega, $pcp, $pvp, $pref, 0, 0, $plataforma];
             $insertar_producto = $this->insert($sql_insert, $data_insert);
-           
         }
         // print_r($insertar_producto);
         if ($insertar_producto == 1) {
-            
-        $id_usuario=$_SESSION['id'];
-        $id_inventario=$this->buscar_inventario($id_producto, $codigo_producto);
-        $referencia='STOCK INICIAL';
-        $nota= "Se agrego $stock_inicial productos(s) al inventario";
-        $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $data = [$id_usuario, $id_inventario, $plataforma, $codigo_producto,  $nota, $referencia, $stock_inicial, 1, $bodega ,$id_producto];
-        $insertar_historial = $this->insert($sql, $data);
-       // print_r($insertar_historial);
-        
+
+            $id_usuario = $_SESSION['id'];
+            $id_inventario = $this->buscar_inventario($id_producto, $codigo_producto);
+            $referencia = 'STOCK INICIAL';
+            $nota = "Se agrego $stock_inicial productos(s) al inventario";
+            $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $data = [$id_usuario, $id_inventario, $plataforma, $codigo_producto,  $nota, $referencia, $stock_inicial, 1, $bodega, $id_producto];
+            $insertar_historial = $this->insert($sql, $data);
+            // print_r($insertar_historial);
+
             if ($insertar_historial === 1) {
                 $response['message'] = 'Producto y stock agregado correctamente';
-                
-                
-            $response['status'] = 200;
-            $response['title'] = 'Peticion exitosa';
-            $response['message'] = 'Producto agregado correctamente';
+
+
+                $response['status'] = 200;
+                $response['title'] = 'Peticion exitosa';
+                $response['message'] = 'Producto agregado correctamente';
             }
         } else {
             $response['status'] = 500;
@@ -78,12 +77,12 @@ class ProductosModel extends Query
 
     public function buscar_inventario($id, $sku)
     {
-        
-       $sql_invetario = "SELECT * FROM inventario_bodegas WHERE id_producto = $id and sku='$sku'";
-       //echo $sql_invetario;
-            $invetario = $this->select($sql_invetario);
-            $id_invetario = $invetario[0]['id_inventario'];
-            return $id_invetario;
+
+        $sql_invetario = "SELECT * FROM inventario_bodegas WHERE id_producto = $id and sku='$sku'";
+        //echo $sql_invetario;
+        $invetario = $this->select($sql_invetario);
+        $id_invetario = $invetario[0]['id_inventario'];
+        return $id_invetario;
     }
     public function editarProducto($id, $codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $plataforma, $stock_inicial, $bodega, $pcp, $pvp, $pref)
     {
@@ -177,11 +176,6 @@ class ProductosModel extends Query
             $response['title'] = 'Error';
             $response['message'] = 'Solo se permiten archivos JPG, JPEG, PNG';
             $uploadOk = 0;
-        }
-        if ($uploadOk == 0) {
-            $response['status'] = 500;
-            $response['title'] = 'Error';
-            $response['message'] = 'Error al subir la imagen';
         } else {
             if (move_uploaded_file($imagen["tmp_name"], $target_file)) {
                 $response['status'] = 200;
@@ -501,11 +495,11 @@ class ProductosModel extends Query
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
-           // $response['message'] = $editar_producto['message'];
+            // $response['message'] = $editar_producto['message'];
         }
         return $response;
     }
-    
+
     public function SubirMarketplace($id, $plataforma)
     {
         $sql = "UPDATE `productos` SET  `drogshipin` = ? WHERE `id_producto` = ? AND `id_plataforma` = ?";
@@ -519,7 +513,7 @@ class ProductosModel extends Query
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
-           // $response['message'] = $editar_producto['message'];
+            // $response['message'] = $editar_producto['message'];
         }
         return $response;
     }
