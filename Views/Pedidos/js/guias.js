@@ -4,6 +4,7 @@ let dataTableIsInitialized = false;
 const dataTableOptions = {
   columnDefs: [
     { className: "centered", targets: [1, 2, 3, 4, 5, 6, 7, 8, 9] },
+    { "orderable": false, "targets": 0 },//ocultar para columna 0 el ordenar columna
   ],
   pageLength: 10,
   destroy: true,
