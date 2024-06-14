@@ -216,11 +216,11 @@ document.getElementById("imprimir_guias").addEventListener("click", () => {
 
   $.ajax({
     type: "POST",
-    url: SERVERURL + "productos/Manifiestos/generar",
+    url: SERVERURL + "/Manifiestos/generar",
     data: formData,
     dataType: "json",
     success: function (response) {
-      
+
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);

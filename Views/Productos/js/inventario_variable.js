@@ -38,7 +38,7 @@ const listAtributosInventario = async () => {
             const tags = caracteristicas
                 .filter(caracteristica => caracteristica.id_atributo === atributo.id_atributo)
                 .map(caracteristica => `
-                    <span class="tag">
+                    <span class="tag" data-atributo-id="${atributo.id_atributo}" data-valor="${caracteristica.variedad}" data-variedad-id="${caracteristica.id_variedad}">
                         ${caracteristica.variedad} <span class="remove-tag" data-atributo-id="${atributo.id_atributo}" data-valor="${caracteristica.variedad}" data-variedad-id="${caracteristica.id_variedad}">&times;</span>
                     </span>`).join('');
 
@@ -78,10 +78,25 @@ const listAtributosInventario = async () => {
             });
         });
 
+        // Agregar event listeners a todos los tags, excepto la X
+        document.querySelectorAll('.tag').forEach(tag => {
+            tag.addEventListener('click', (event) => {
+                if (!event.target.classList.contains('remove-tag')) {
+                    const inputId = tag.getAttribute('data-atributo-id');
+                    const valor = tag.getAttribute('data-valor');
+                    const input = document.querySelector(`#agregar_atributo_${inputId}`);
+                    if (input) {
+                        input.value = valor;
+                    }
+                }
+            });
+        });
+
     } catch (ex) {
         alert('Error al cargar los atributos: ' + ex.message);
     }
 };
+
 
 const listarCaracteristicasInventario = async () => {
     try {
