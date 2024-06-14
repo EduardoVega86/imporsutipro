@@ -53,6 +53,7 @@ const listGuiasSeleccionProductoAtributo = async () => {
       content += `
                 <tr>
                     <td></td>
+                    <td></td>
                     <td>
                         <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash-can"></i></button>
                     </td>
