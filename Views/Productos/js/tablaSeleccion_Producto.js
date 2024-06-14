@@ -64,7 +64,3 @@ const listGuiasSeleccionProductoAtributo = async () => {
     alert(ex);
   }
 };
-
-window.addEventListener("load", async () => {
-  await initDataTableSeleccionProductoAtributo();
-});
