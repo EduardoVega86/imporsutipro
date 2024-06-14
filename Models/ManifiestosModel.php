@@ -21,7 +21,7 @@ class ManifiestosModel extends Query
         $productos = $this->select("SELECT * FROM detalle_fact_cot WHERE numero_factura = '$factura' ");
 
         $factura = $datos[0];
-        $html = $this->generarHtml($factura, $productos);
+        $html = $this->generarHtmlUnico($factura, $productos);
     }
 
     public function generarHtmlUnico($factura, $productos)
