@@ -175,7 +175,7 @@ function agregarModal_marketplace(id) {
 
         // Actualizar la imagenes del modal
         $("#imagen_principal").attr("src",SERVERURL+""+ data.image_path);
-        $("#imagen_principalPpequena").attr("src", SERVERURL+""+ data.image_path);
+        $("#imagen_principalPequena").attr("src", SERVERURL+""+ data.image_path);
 
         // Abrir el modal
         $("#descripcion_productModal").modal("show");
