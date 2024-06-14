@@ -102,11 +102,7 @@
                                             </div>
                                         </div>
                                         <div class="flex-fill" style=" padding-left: 10px; width:35%">
-                                            <label for="tienda_q" class="col-form-label">Tienda</label>
-                                            <select onchange="buscar(this.value)" id="tienda_q" class="form-control">
-                                                <option value="0">Selecciona una Tienda</option>
-                
-                                            </select>
+                                            <
                                         </div>
                                         <div class="flex-fill">
                                             <div class=" d-flex flex-row justify-content-start">
@@ -119,7 +115,11 @@
                                     <div class="d-flex flex-row">
                                         <div class="d-flex flex-column" style="width: 100%;">
                                             <div class="d-flex flex-row justify-content-start">
-                                                
+                                            label for="tienda_q" class="col-form-label">Tienda</label>
+                                            <select onchange="buscar(this.value)" id="tienda_q" class="form-control">
+                                                <option value="0">Selecciona una Tienda</option>
+                
+                                            </select>
                                             </div>
                                             <div style="width: 100%;">
 
