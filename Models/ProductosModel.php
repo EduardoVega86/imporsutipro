@@ -455,6 +455,9 @@ class ProductosModel extends Query
      public function agregarVariable($id_variedad, $id_producto, $sku, $bodega, $pcp, $pvp, $stock, $plataforma, $pref)
     {
         $response = $this->initialResponse();
+        
+        
+        
         $sql = "INSERT INTO inventario_bodegas (id_producto, sku, id_variante, bodega, pcp, pvp, stock_inicial, saldo_stock, id_plataforma, pref) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $data = [$id_producto, $sku, $id_variedad, $bodega, $pcp, $pvp, $stock, $stock, $plataforma, $pref];
         $insertar_caracteristica = $this->insert($sql, $data);
@@ -472,7 +475,9 @@ class ProductosModel extends Query
 
     public function listarCaracteristicas($plataforma)
     {
+        
         $sql = "SELECT * FROM variedades WHERE id_plataforma = $plataforma";
+       
         return $this->select($sql);
     }
 
