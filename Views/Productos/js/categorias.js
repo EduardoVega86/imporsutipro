@@ -81,7 +81,7 @@ const listCategorias = async () => {
         if (categoria.global == 1) {
           cargar_imagen = ``;
         } else {
-          cargar_imagen = `<i class="fas fa-camera icon-button" onclick="agregar_imagenCategoria(${categoria.id_linea})"></i>`;
+          cargar_imagen = `<i class="bx bxs-camera-plus" onclick="agregar_imagenCategoria(${categoria.id_linea})"></i>`;
         }
       } else {
         if (categoria.global == 1) {

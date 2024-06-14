@@ -110,7 +110,7 @@ const listProductos = async () => {
     let subir_marketplace = "";
     productos.forEach((producto, index) => {
       if (!producto.image_path) {
-        cargar_imagen = `<i class="fas fa-camera icon-button" onclick="agregar_imagenProducto(${producto.id_producto})"></i>`;
+        cargar_imagen = `<i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${producto.id_producto})"></i>`;
       } else {
         cargar_imagen = `<img src="${SERVERURL}${producto.image_path}" class="icon-button" onclick="agregar_imagenProducto(${producto.id_producto})" alt="Agregar imagen" width="50px">`;
       }
@@ -258,7 +258,7 @@ const filtrarProductosPorCategoria = async (categoriaId) => {
       let subir_marketplace = "";
       productos.forEach((producto, index) => {
         if (!producto.image_path) {
-          cargar_imagen = `<i class="fas fa-camera icon-button" onclick="agregar_imagenProducto(${producto.id_producto})"></i>`;
+          cargar_imagen = `<i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${producto.id_producto})"></i>`;
         } else {
           cargar_imagen = `<img src="${SERVERURL}${producto.image_path}" class="icon-button" onclick="agregar_imagenProducto(${producto.id_producto})" alt="Agregar imagen" width="50px">`;
         }
