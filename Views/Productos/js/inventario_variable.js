@@ -304,8 +304,3 @@ const listDetalleInventario = async () => {
     alert(ex);
   }
 };
-
-// Inicializar el DataTable cuando el documento esté listo
-$(document).ready(() => {
-  initDataTableDetalleInventario();
-});

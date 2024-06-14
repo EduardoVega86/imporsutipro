@@ -438,5 +438,6 @@ window.addEventListener("load", async () => {
 
 function abrir_modalInventarioVariable(id){
   $("#id_productoVariable").val(id);
+  initDataTableDetalleInventario();
   $("#inventario_variableModal").modal("show");
 }
