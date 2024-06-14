@@ -191,7 +191,7 @@ class Productos extends Controller
     public function guardar_imagen_productos()
     {
 
-        $response = $this->model->guardar_imagen_categorias($_FILES['imagen'], $_POST['id_producto'], $_SESSION['id_plataforma']);
+        $response = $this->model->guardar_imagen_productos($_FILES['imagen'], $_POST['id_producto'], $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
 
