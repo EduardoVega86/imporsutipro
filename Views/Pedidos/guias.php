@@ -20,7 +20,7 @@
         vertical-align: middle;
     }
 
-    th span.dt-column-order {
+    th span .dt-column-order {
         display: none;
     }
 
