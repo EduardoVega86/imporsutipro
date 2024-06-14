@@ -15,7 +15,7 @@
     }
 </style>
 <div class="modal fade" id="inventario_variableModal" tabindex="-1" aria-labelledby="inventario_variableModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="inventario_variableModalLabel">INVENTARIO VARIABLE</h5>
