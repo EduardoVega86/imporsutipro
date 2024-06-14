@@ -272,7 +272,7 @@ const initDataTableDetalleInventario = async () => {
 
   await listDetalleInventario();
 
-  dataTableDetalleInventario = $("#datatable_detalle_inventario").DataTable(
+  dataTableDetalleInventario = $("#datatable_detalleInventario").DataTable(
     dataTableDetalleInventarioOptions
   );
 
@@ -299,7 +299,7 @@ const listDetalleInventario = async () => {
       <td></td>
         </tr>`;
     });
-    document.getElementById("tableBody_detalle_inventario").innerHTML = content;
+    document.getElementById("tableBody_detalleInventario").innerHTML = content;
   } catch (ex) {
     alert(ex);
   }
