@@ -20,6 +20,10 @@
         vertical-align: middle;
     }
 
+    th span.dt-column-order {
+        color: white;
+    }
+
     .centered {
         text-align: center !important;
         vertical-align: middle !important;
