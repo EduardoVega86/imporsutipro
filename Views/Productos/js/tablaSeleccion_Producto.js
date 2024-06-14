@@ -46,10 +46,10 @@ const listGuiasSeleccionProductoAtributo = async () => {
     const response = await fetch(
       "" + SERVERURL + "productos/mostrarVariedades/" + id_productoSeleccionado
     );
-    const guias = await response.json();
+    const seleccion_Protuctos = await response.json();
 
     let content = ``;
-    guias.forEach((guia, index) => {
+    seleccion_Protuctos.forEach((seleccion_Protucto, index) => {
       content += `
                 <tr>
                     <td></td>
