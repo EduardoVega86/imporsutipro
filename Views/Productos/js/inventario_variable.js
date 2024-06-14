@@ -91,6 +91,7 @@ const listAtributosInventario = async () => {
       tag.addEventListener("click", (event) => {
         if (!event.target.classList.contains("remove-tag")) {
           const atributoId = tag.getAttribute("data-atributo-id");
+          const id_variedad = tag.getAttribute('data-variedad-id');
           const valor = tag.getAttribute("data-valor");
           const id_productoVariable = $("#id_productoVariable").val();
           $.ajax({
@@ -99,6 +100,7 @@ const listAtributosInventario = async () => {
             dataType: "text",
             success: function (response) {
               document.getElementById("valor_guardar").value = valor;
+              document.getElementById("id_variedadTemporadal").value = id_variedad;
               document.getElementById("sku_guardar").value = response;
             },
             error: function (error) {
@@ -204,7 +206,32 @@ $(document).ready(function () {
 });
 
 // Agregar variedad
-function agregar_variedad() {}
+function agregar_variedad() {
+    
+    let formData = new FormData();
+    formData.append("id_variedad", $("#id_variedadTemporadal").val());
+    formData.append("id_producto", $("#id_productoVariable").val());
+    formData.append("sku", $("#sku_guardar").val());
+    formData.append("id_bodega", $("#bodega_inventarioVariable").val());
+    formData.append("pcp", $("#precioProveedor_guardar").val());
+    formData.append("pvp", $("#precioVenta_guardar").val());
+    formData.append("pref", $("#precioRefe_guardar").val());
+    formData.append("stock", $("#stockInicial_guardar").val());
+  
+    $.ajax({
+      url: SERVERURL + "Productos/agregarVariable",
+      type: "POST", // Cambiar a POST para enviar FormData
+      data: formData,
+      processData: false, // No procesar los datos
+      contentType: false, // No establecer ningún tipo de contenido
+      success: function (response) {
+        
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        alert(errorThrown);
+      },
+    });
+}
 
 window.addEventListener("load", async () => {
   await initDataTableInventario();

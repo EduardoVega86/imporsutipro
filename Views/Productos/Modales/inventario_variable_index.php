@@ -64,7 +64,6 @@
                                     <th class="text-nowrap">P. Referencial</th>
                                     <th class="text-nowrap">Bodega</th>
                                     <th class="text-nowrap">Stock inicial</th>
-                                    <th class="text-nowrap">ID variable</th>
                                 </tr>
                             </thead>
                             <tbody id="tableBody_detalleInventario"></tbody>
@@ -73,6 +72,7 @@
                     <hr class="custom-hr">
                     <div id="inputs_guardarAtributos">
                         <div class="d-flex flex-row">
+                            <input type="hidden" id="id_variedadTemporadal" name="id_variedadTemporadal">
                             <div class="d-flex flex-column">
                                 <label for="valor">Valor</label>
                                 <input type="text" class="form-control" id="valor_guardar">
@@ -94,18 +94,14 @@
                                 <input type="text" class="form-control" id="precioRefe_guardar">
                             </div>
                             <div class="d-flex flex-column">
-                            <label for="bodega_inventarioVariable">Bodega:</label>
-                            <select class="form-select" id="bodega_inventarioVariable">
-                                <option value="0" selected>-- Selecciona Bodega --</option>
-                            </select>
+                                <label for="bodega_inventarioVariable">Bodega:</label>
+                                <select class="form-select" id="bodega_inventarioVariable">
+                                    <option value="0" selected>-- Selecciona Bodega --</option>
+                                </select>
                             </div>
                             <div class="d-flex flex-column">
                                 <label for="stockInicial">Stock inicial</label>
                                 <input type="text" class="form-control" id="stockInicial_guardar">
-                            </div>
-                            <div class="d-flex flex-column">
-                                <label for="idVariable">ID Variable</label>
-                                <input type="text" class="form-control" id="idVariable_guardar">
                             </div>
                         </div>
                         <button type="button" class="btn btn-success" onclick="agregar_variedad()">Agregar</button>

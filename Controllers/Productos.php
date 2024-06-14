@@ -345,7 +345,8 @@ class Productos extends Controller
         $pcp = $_POST['pcp'];
         $pvp = $_POST['pvp'];
         $stock = $_POST['stock'];
-        $response = $this->model->agregarVariable($id_variedad, $id_producto, $sku, $bodega, $pcp, $pvp, $stock, $_SESSION['id_plataforma']);
+        $pref = $_POST['pref'];
+        $response = $this->model->agregarVariable($id_variedad, $id_producto, $sku, $bodega, $pcp, $pvp, $stock, $_SESSION['id_plataforma'], $pref);
 
         echo json_encode($response);
     }
