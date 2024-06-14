@@ -83,7 +83,7 @@ const listNuevosPedidos = () => {
                             <td><input type="number" class="form-control" value="1" min="1" id="cantidad_${index}"></td>
                             <td>${nuevoPedido.pvp}</td>
                             <td>
-                            <button class="btn btn-sm btn-success" onclick="enviar_cliente(${nuevoPedido.id_producto}, ${index})"><i class="fa-solid fa-pencil"></i></button>
+                            <button class="btn btn-sm btn-success" onclick="enviar_cliente(${nuevoPedido.id_producto}, ${index})"><i class="fa-solid fa-plus"></i></button>
                             </td>
                         </tr>`;
         });

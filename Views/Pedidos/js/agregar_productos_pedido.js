@@ -83,7 +83,7 @@ const listNuevosPedidos = () => {
                             <td><input type="number" class="form-control" value="1" min="1" id="cantidad_${index}"></td>
                             <td>${nuevoPedido.pvp}</td>
                             <td>
-                            <button class="btn btn-sm btn-success" onclick="enviar_cliente(${nuevoPedido.id_producto}, ${index},'${nuevoPedido.sku}', ${nuevoPedido.pvp})"><i class="fa-solid fa-pencil"></i></button>
+                            <button class="btn btn-sm btn-success" onclick="enviar_cliente(${nuevoPedido.id_producto}, ${index},'${nuevoPedido.sku}', ${nuevoPedido.pvp}, ${nuevoPedido.id_inventario})"><i class="fa-solid fa-plus"></i></button>
                             </td>
                         </tr>`;
         });
@@ -106,7 +106,7 @@ function buscar_productos_nuevoPedido() {
 
 //enviar cliente
 //enviar cliente
-function enviar_cliente(id, index, sku, pvp) {
+function enviar_cliente(id, index, sku, pvp, id_inventario) {
   // Obtener el valor del input cantidad correspondiente
   let cantidad = $(`#cantidad_${index}`).val();
 
@@ -117,6 +117,7 @@ function enviar_cliente(id, index, sku, pvp) {
   formData.append("precio", pvp);
   formData.append("id_producto", id);
   formData.append("sku", sku);
+  formData.append("id_inventario", id_inventario);
 
   $.ajax({
     type: "POST",
