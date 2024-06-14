@@ -57,9 +57,9 @@ class ManifiestosModel extends Query
 
         foreach ($productos_id as $producto) {
             $id = $producto['id'];
-            $nombre_producto = $this->select("SELECT nombre_producto, codigo_producto FROM productos WHERE id_producto = '$id' ")[0];
-            $nombre_producto = $nombre_producto['nombre_producto'];
-            $codigo_producto = $nombre_producto['codigo_producto'];
+            $nombr = $this->select("SELECT nombre_producto, codigo_producto FROM productos WHERE id_producto = '$id' ")[0];
+            $nombre_producto = $nombr['nombre_producto'];
+            $codigo_producto = $nombr['codigo_producto'];
             $cantidad = $producto['cantidad'];
             $html_producto = "
             <tr>
