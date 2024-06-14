@@ -541,4 +541,33 @@ class ProductosModel extends Query
         $sql = "SELECT * FROM pla WHERE id_linea = $id AND id_plataforma = $plataforma";
         return $this->select($sql);
     }
+    
+    public function consultarMaximo($id_producto)
+    {
+        $sql = "SELECT sku FROM inventario_bodegas WHERE id_producto = $id_producto ORDER BY  CASE  WHEN sku LIKE '%-%' THEN CAST(SUBSTRING_INDEX(sku, '-', -1) AS UNSIGNED)
+        ELSE 0 END DESC, sku DESC LIMIT 1;";
+       
+        $id_producto = $this->select($sql);
+        $codigo_producto = $id_producto[0]['sku'];
+        $codigo_nuevo=aumentarCodigo($codigo_producto);
+        return $codigo_nuevo;
+    }
+    
+function aumentarCodigo($codigo) {
+    // Verificar si el código contiene un guion
+    if (strpos($codigo, '-') !== false) {
+        // Si contiene un guion, extraer la parte numérica después del guion
+        $partes = explode('-', $codigo);
+        $numero = intval(end($partes)) + 1;
+        // Unir las partes con el nuevo número
+        array_pop($partes);
+        $nuevoCodigo = implode('-', $partes) . '-' . $numero;
+    } else {
+        // Si no contiene un guion, agregar -1 al final
+        $nuevoCodigo = $codigo . '-1';
+    }
+
+    return $nuevoCodigo;
+}
+
 }

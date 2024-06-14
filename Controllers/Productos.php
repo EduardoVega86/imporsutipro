@@ -347,4 +347,27 @@ class Productos extends Controller
 
         echo json_encode($response);
     }
+    
+    function consultarMaximo($id_producto){
+     $response = $this->model->consultarMaximo($id_producto);
+     return $response;           
+    }
+    
+    function aumentar_codigo($codigo) {
+        //echo 'asd';
+    // Verificar si el código contiene un guion
+    if (strpos($codigo, '-') !== false) {
+        // Si contiene un guion, extraer la parte numérica después del guion
+        $partes = explode('-', $codigo);
+        $numero = intval(end($partes)) + 1;
+        // Unir las partes con el nuevo número
+        array_pop($partes);
+        $nuevoCodigo = implode('-', $partes) . '-' . $numero;
+    } else {
+        // Si no contiene un guion, agregar -1 al final
+        $nuevoCodigo = $codigo . '-1';
+    }
+//echo $nuevoCodigo;
+    return $nuevoCodigo;
+}
 }
