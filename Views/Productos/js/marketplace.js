@@ -173,6 +173,10 @@ function agregarModal_marketplace(id) {
           "https://wa.me/" + formatPhoneNumber(data.whatsapp)
         );
 
+        // Actualizar la imagenes del modal
+        $("#imagen_principal").attr("src",SERVERURL+""+ data.image_path);
+        $("#imagen_principalPpequena").attr("src", SERVERURL+""+ data.image_path);
+
         // Abrir el modal
         $("#descripcion_productModal").modal("show");
       } else {
