@@ -48,6 +48,8 @@ class ManifiestosModel extends Query
             $transporte = "";
         }
         $producto_html = "";
+        $producto = "";
+        $productoT = "";
         $productos_id = [];
         foreach ($productos as $producto) {
             $id_producto = $producto['id_producto'];
@@ -117,6 +119,33 @@ class ManifiestosModel extends Query
                 <td>FIRMA DEL ENCARGADO DEL MANIFIESTO:</td>
             </tr>
         </table>";
+
+        $productoT .= "
+        <div class='page-break'></div>
+
+            <table class='products-table'>
+                
+                <tr>
+                    <th>Productos</th>
+                    <th>FECHA MANIFIESTO (DD/MM/YYYY) " . $fecha_actual . "
+                    </th>
+                </tr>
+                
+            </table>
+        
+        <table class='products-table-inv'>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Cantidad</th>
+                </tr>
+            </thead>
+            <tbody>
+            " . $producto_html . "
+            </tbody>
+        </table>
+        </section>
+        ";
 
         $html = '   <!DOCTYPE html>
         <html lang="en">
@@ -188,13 +217,7 @@ class ManifiestosModel extends Query
         <body>
             <main>';
         $html .= $manifiestoT;
-        $html .= "<table class='section4-table'>
-        <tr>
-            <td>PRODUCTO</td>
-            <td>CANTIDAD</td>
-        </tr>
-        " . $producto_html . "
-    </table>";
+        $html .= $productoT;
 
         $html .= ' </main>
         </body>
