@@ -1,6 +1,7 @@
 // Inicializa la tabla inventario variable
 let dataTableInventario;
 let dataTableInventarioIsInitialized = false;
+const id_productoVariable = $("#id_productoVariable").val();
 
 const dataTableInventarioOptions = {
   paging: false,
@@ -91,16 +92,16 @@ const listAtributosInventario = async () => {
       tag.addEventListener("click", (event) => {
         if (!event.target.classList.contains("remove-tag")) {
           const atributoId = tag.getAttribute("data-atributo-id");
-          const id_variedad = tag.getAttribute('data-variedad-id');
+          const id_variedad = tag.getAttribute("data-variedad-id");
           const valor = tag.getAttribute("data-valor");
-          const id_productoVariable = $("#id_productoVariable").val();
           $.ajax({
             url: SERVERURL + "Productos/consultarMaximo/" + id_productoVariable,
             type: "GET",
             dataType: "text",
             success: function (response) {
               document.getElementById("valor_guardar").value = valor;
-              document.getElementById("id_variedadTemporadal").value = id_variedad;
+              document.getElementById("id_variedadTemporadal").value =
+                id_variedad;
               document.getElementById("sku_guardar").value = response;
             },
             error: function (error) {
@@ -193,7 +194,9 @@ $(document).ready(function () {
       if (Array.isArray(response)) {
         response.forEach(function (bodega) {
           // Agrega una nueva opción al select por cada bodega
-          $("#bodega_inventarioVariable").append(new Option(bodega.nombre, bodega.id));
+          $("#bodega_inventarioVariable").append(
+            new Option(bodega.nombre, bodega.id)
+          );
         });
       } else {
         console.log("La respuesta de la API no es un array:", response);
@@ -207,32 +210,103 @@ $(document).ready(function () {
 
 // Agregar variedad
 function agregar_variedad() {
-    
-    let formData = new FormData();
-    formData.append("id_variedad", $("#id_variedadTemporadal").val());
-    formData.append("id_producto", $("#id_productoVariable").val());
-    formData.append("sku", $("#sku_guardar").val());
-    formData.append("id_bodega", $("#bodega_inventarioVariable").val());
-    formData.append("pcp", $("#precioProveedor_guardar").val());
-    formData.append("pvp", $("#precioVenta_guardar").val());
-    formData.append("pref", $("#precioRefe_guardar").val());
-    formData.append("stock", $("#stockInicial_guardar").val());
-  
-    $.ajax({
-      url: SERVERURL + "Productos/agregarVariable",
-      type: "POST", // Cambiar a POST para enviar FormData
-      data: formData,
-      processData: false, // No procesar los datos
-      contentType: false, // No establecer ningún tipo de contenido
-      success: function (response) {
-        
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-        alert(errorThrown);
-      },
-    });
+  let formData = new FormData();
+  formData.append("id_variedad", $("#id_variedadTemporadal").val());
+  formData.append("id_producto", $("#id_productoVariable").val());
+  formData.append("sku", $("#sku_guardar").val());
+  formData.append("id_bodega", $("#bodega_inventarioVariable").val());
+  formData.append("pcp", $("#precioProveedor_guardar").val());
+  formData.append("pvp", $("#precioVenta_guardar").val());
+  formData.append("pref", $("#precioRefe_guardar").val());
+  formData.append("stock", $("#stockInicial_guardar").val());
+
+  $.ajax({
+    url: SERVERURL + "Productos/agregarVariable",
+    type: "POST", // Cambiar a POST para enviar FormData
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    success: function (response) {},
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
 }
 
 window.addEventListener("load", async () => {
   await initDataTableInventario();
+});
+
+// tabla detalle inventario
+let dataTableDetalleInventario;
+let dataTableDetalleInventarioIsInitialized = false;
+
+const dataTableDetalleInventarioOptions = {
+  columnDefs: [
+    { className: "centered", targets: [0, 1, 2, 3, 4, 5, 6] },
+    { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
+  ],
+  pageLength: 10,
+  destroy: true,
+  language: {
+    lengthMenu: "Mostrar _MENU_ registros por página",
+    zeroRecords: "Ningún detalle de inventario encontrado",
+    info: "Mostrando de _START_ a _END_ de un total de _TOTAL_ registros",
+    infoEmpty: "Ningún detalle de inventario encontrado",
+    infoFiltered: "(filtrados desde _MAX_ registros totales)",
+    search: "Buscar:",
+    loadingRecords: "Cargando...",
+    paginate: {
+      first: "Primero",
+      last: "Último",
+      next: "Siguiente",
+      previous: "Anterior",
+    },
+  },
+};
+
+const initDataTableDetalleInventario = async () => {
+  if (dataTableDetalleInventarioIsInitialized) {
+    dataTableDetalleInventario.destroy();
+  }
+
+  await listDetalleInventario();
+
+  dataTableDetalleInventario = $("#datatable_detalle_inventario").DataTable(
+    dataTableDetalleInventarioOptions
+  );
+
+  dataTableDetalleInventarioIsInitialized = true;
+};
+
+const listDetalleInventario = async () => {
+  try {
+    const response = await fetch(
+      "" + SERVERURL + "pedidos/mostrarVariedades/"+id_productoVariable
+    );
+    const detalleInventario = await response.json();
+
+    let content = ``;
+    detalleInventario.forEach((detalle, index) => {
+      content += `
+      <tr>
+      <td></td>
+      <td><input type="text" class="form-control"></td>
+      <td><input type="text" class="form-control"></td>
+      <td><input type="text" class="form-control"></td>
+      <td><input type="text" class="form-control"></td>
+      <td><input type="text" class="form-control"></td>
+      <td><input type="text" class="form-control"></td>
+      <td></td>
+        </tr>`;
+    });
+    document.getElementById("tableBody_detalle_inventario").innerHTML = content;
+  } catch (ex) {
+    alert(ex);
+  }
+};
+
+// Inicializar el DataTable cuando el documento esté listo
+$(document).ready(() => {
+  initDataTableDetalleInventario();
 });
