@@ -75,7 +75,7 @@
         </div> -->
         <div class="d-flex flex-column justify-content-between">
             <div class="d-flex flex-row " style="width: 100%;">
-                <div class="d-flex flex-row align-items-end" style="width: 34%;">
+                <div class="d-flex flex-row align-items-end" style="width: 40%;">
                     <div class="flex-fill" style="margin: 0; padding-left: 0;">
                         <h6>Seleccione fecha de inicio:</h6>
                         <div class="input-group date" id="datepickerInicio">
@@ -94,17 +94,17 @@
                             </div>
                         </div>
                     </div>
-                    <div style=" padding-top: 10px;">
+                    <div style=" padding-top: 10px; padding-left: 10px;">
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-info waves-effect waves-light">
                                 Buscar <span class="fa fa-search"></span></button>
                         </span>
                     </div>
                 </div>
-                <div class="flex-fill" style=" padding-left: 10px; width:35%">
+                <div class="flex-fill" style=" padding-left: 20px; width:35%">
                     <div class=" d-flex flex-row justify-content-start">
                         <input class="input-change" type="checkbox" role="switch" id="facturas_impresas">
-                        <label class="form-check-label" for="flexSwitchCheckChecked">Facturas Impresas</label>
+                        <label class="form-check-label" for="flexSwitchCheckChecked" style="padding-left: 10px;">Facturas Impresas</label>
                     </div>
                 </div>
                 <div class="flex-fill">
