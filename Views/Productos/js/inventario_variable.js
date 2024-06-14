@@ -96,6 +96,7 @@ const listAtributosInventario = async () => {
           $.ajax({
             url: SERVERURL + "Productos/consultarMaximo/" + id_productoVariable,
             type: "GET",
+            dataType: "text",
             success: function (response) {
               document.getElementById("valor_guardar").value = valor;
               document.getElementById("sku_guardar").value = response;
