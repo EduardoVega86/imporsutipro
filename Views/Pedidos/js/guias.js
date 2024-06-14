@@ -4,7 +4,7 @@ let dataTableIsInitialized = false;
 const dataTableOptions = {
   columnDefs: [
     { className: "centered", targets: [1, 2, 3, 4, 5, 6, 7, 8, 9] },
-    { "orderable": false, "targets": 0 },//ocultar para columna 0 el ordenar columna
+    { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
   ],
   pageLength: 10,
   destroy: true,
@@ -37,9 +37,9 @@ const initDataTable = async () => {
   dataTableIsInitialized = true;
 
   // Handle select all checkbox
-  document.getElementById('selectAll').addEventListener('change', function() {
-    const checkboxes = document.querySelectorAll('.selectCheckbox');
-    checkboxes.forEach(checkbox => checkbox.checked = this.checked);
+  document.getElementById("selectAll").addEventListener("change", function () {
+    const checkboxes = document.querySelectorAll(".selectCheckbox");
+    checkboxes.forEach((checkbox) => (checkbox.checked = this.checked));
   });
 };
 
@@ -81,7 +81,9 @@ const listGuias = async () => {
       }
       content += `
                 <tr>
-                    <td><input type="checkbox" class="selectCheckbox" data-id="${guia.numero_factura}"></td>
+                    <td><input type="checkbox" class="selectCheckbox" data-id="${
+                      guia.numero_factura
+                    }"></td>
                     <td>${guia.numero_factura}</td>
                     <td>${guia.fecha_factura}</td>
                     <td>
@@ -197,19 +199,35 @@ function formatPhoneNumber(number) {
 }
 
 // Function to handle the click event for sending selected items
-document.getElementById('imprimir_guias').addEventListener('click', () => {
-    const selectedGuias = [];
-    const checkboxes = document.querySelectorAll('.selectCheckbox:checked');
-  
-    checkboxes.forEach(checkbox => {
-      selectedGuias.push(checkbox.getAttribute('data-id'));
-    });
-  
-    // Convert the selected items to JSON and log it to the console
-    const selectedGuiasJson = JSON.stringify(selectedGuias);
-    console.log(selectedGuiasJson);
+document.getElementById("imprimir_guias").addEventListener("click", () => {
+  const selectedGuias = [];
+  const checkboxes = document.querySelectorAll(".selectCheckbox:checked");
 
+  checkboxes.forEach((checkbox) => {
+    selectedGuias.push(checkbox.getAttribute("data-id"));
   });
+
+  // Convert the selected items to JSON and log it to the console
+  const selectedGuiasJson = JSON.stringify(selectedGuias);
+  console.log(selectedGuiasJson);
+
+  let formData = new FormData();
+  formData.append("facturas", selectedGuiasJson); // Añadir el SKU al FormData
+
+  $.ajax({
+    type: "POST",
+    url: SERVERURL + "productos/Manifiestos/generar",
+    data: formData,
+    dataType: "json",
+    success: function (response) {
+      
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al obtener la información de la categoría");
+    },
+  });
+});
 
 window.addEventListener("load", async () => {
   await initDataTable();
