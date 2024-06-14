@@ -13,6 +13,12 @@
         margin-left: 0.5em;
         cursor: pointer;
     }
+    .vertical-line {
+    border-left: 2px solid black; /* Cambia el grosor y el color según sea necesario */
+    height: 100px; /* Ajusta la altura según sea necesario */
+    margin: 0 20px; /* Espaciado opcional alrededor de la línea */
+}
+
 </style>
 <div class="modal fade" id="inventario_variableModal" tabindex="-1" aria-labelledby="inventario_variableModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
@@ -23,9 +29,9 @@
             </div>
             <div class="modal-body">
 
-                <div class="d-flex">
+                <div class="d-flex flex-row">
                     <input type="hidden" id="id_productoVariable" name="id_productoVariable" value="0">
-                    <table id="datatable_inventarioVariable" class="table table-striped w-50">
+                    <table id="datatable_inventarioVariable" class="table table-striped w-100">
                         <thead>
                             <tr>
                                 <th class="centered">Atributo</th>
@@ -35,8 +41,8 @@
                         </thead>
                         <tbody id="tableBody_inventarioVariable"></tbody>
                     </table>
-
-                    <table id="datatable_detalleInventario" class="table table-bordered table-striped table-hover w-50">
+                    <div class="vertical-line"></div>
+                    <table id="datatable_detalleInventario" class="table table-bordered table-striped table-hover w-100">
                         <thead>
                             <tr>
                                 <th class="text-nowrap">Atribuo</th>
