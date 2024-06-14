@@ -43,12 +43,15 @@ class MarketplaceModel extends Query
          $timestamp = session_id();
          //echo "SELECT * FROM tmp_cotizacion WHERE session_id = '$timestamp' and id_producto=$id_producto and sku=$sku";
           $cantidad_tmp = $this->select("SELECT * FROM tmp_cotizacion WHERE session_id = '$timestamp' and id_producto=$id_producto and sku='$sku'" );
+                   
           //print_r($cantidad_tmp);
           if (empty($cantidad_tmp)){
-              $sql = "INSERT INTO `tmp_cotizacion` (`id_producto`, `cantidad_tmp`, `precio_tmp`, `session_id`, `id_plataforma`, `sku`) VALUES (?, ?, ?, ?, ?, ?);";
-        $data = [$id_producto, $cantidad, $precio, $timestamp, $plataforma, $sku];
+              $id_inventario=$this->simple_select($id_producto, $sku);
+                      
+              $sql = "INSERT INTO `tmp_cotizacion` (`id_producto`, `cantidad_tmp`, `precio_tmp`, `session_id`, `id_plataforma`, `sku`, `id_inventario`) VALUES (?, ?, ?, ?, ?, ?, ?);";
+        $data = [$id_producto, $cantidad, $precio, $timestamp, $plataforma, $sku, $id_inventario];
         $insertar_caracteristica = $this->insert($sql, $data);
-        
+        print_r($insertar_caracteristica);
           }else{
               $cantidad_anterior = $cantidad_tmp[0]["cantidad_tmp"];
               $cantidad_nueva=$cantidad_anterior+$cantidad;
@@ -73,6 +76,15 @@ class MarketplaceModel extends Query
         return $response;
     }
 
+    public function obtenerBodegaProducto($id_producto, $sku) {
+        
+        $sql_invetario = "SELECT * FROM inventario_bodegas WHERE id_producto = $id and sku='$sku'";
+        //echo $sql_invetario;
+        $invetario = $this->select($sql_invetario);
+        $id_invetario = $invetario[0]['id_inventario'];
+        return $id_invetario;
+        
+    }
     public function obtener_producto($id, $plataforma)
     {
         $sql = "SELECT ib.*, p.*, pl.* FROM `inventario_bodegas` AS ib INNER JOIN `productos` AS p ON p.`id_producto` = ib.`id_producto` inner join `plataformas` pl on p.id_plataforma = pl.id_plataforma WHERE `ib`.`id_producto` = $id;";;
