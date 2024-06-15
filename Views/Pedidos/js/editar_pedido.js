@@ -74,7 +74,7 @@ const listNuevoPedido = async () => {
     nuevosPedidos.forEach((nuevoPedido, index) => {
       id_producto_venta = nuevoPedido.id_producto;
       dropshipping = nuevoPedido.drogshipin;
-      costo_producto = costo_producto + (parseFloat(nuevoPedido.costo_producto) * parseFloat(nuevoPedido.cantidad_tmp));
+      costo_producto = costo_producto + (parseFloat(nuevoPedido.costo_producto) * parseFloat(nuevoPedido.cantidad));
 
       contiene += `${nuevoPedido.nombre_producto} X${nuevoPedido.cantidad} `;
 
@@ -87,7 +87,7 @@ const listNuevoPedido = async () => {
 
       const precio = parseFloat(nuevoPedido.precio_venta);
       const descuento = parseFloat(nuevoPedido.desc_venta);
-      const cantidad = parseFloat(nuevoPedido.cantidad_tmp);
+      const cantidad = parseFloat(nuevoPedido.cantidad);
       const precioFinal = (precio * cantidad) - (precio * (descuento / 100));
       total += precioFinal;
       content += `
