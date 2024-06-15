@@ -119,6 +119,12 @@
         background-color: #dc3545;
         color: white;
     }
+    .vertical-line {
+            border-left: 2px solid black;
+            height: 100px; /* Ajusta la altura según tus necesidades */
+            position: absolute;
+            left: 50%; /* Ajusta la posición horizontal según tus necesidades */
+        }
 </style>
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
@@ -145,6 +151,7 @@
                     <tbody id="tableBody_inventario"></tbody>
                 </table>
             </div>
+            <div class="vertical-line"></div>
             <div class="w-60 d-flex flex-row gap-2">
                 <div class="card w-20" style="height: 300px; padding:10px">
                     <img src="tu-imagen.png" alt="Producto">
