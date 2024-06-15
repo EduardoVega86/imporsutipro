@@ -122,7 +122,7 @@ const initDataTableStockIndividual = async (id_inventario) => {
   const listStockIndividual = async (id_inventario) => {
     try {
       const response = await fetch(
-        `${SERVERURL}productos/obtener_inventario/${id_inventario}`
+        `${SERVERURL}productos/obtenerInventario/${id_inventario}`
       );
       const stockIndividuals = await response.json();
   
@@ -153,3 +153,4 @@ const initDataTableStockIndividual = async (id_inventario) => {
   function seleccionar_cambiarInventario(id_inventario) {
     initDataTableStockIndividual(id_inventario);
   }
+meco
