@@ -461,7 +461,7 @@ class ProductosModel extends Query
         $response = $this->initialResponse();
         
         
-         $inicial_variable= $this->select("SELECT id_inventario FROM inventario_productos WHERE id_producto = '$id_producto' and bodega=50000" );
+         $inicial_variable= $this->select("SELECT id_inventario FROM inventario_bodegas WHERE id_producto = '$id_producto' and bodega=50000" );
                    
           //print_r($cantidad_tmp);
           if (empty($inicial_variable)){
@@ -472,8 +472,8 @@ class ProductosModel extends Query
           }else{
               print_r($inicial_variable);
                $id_inventario = $inicial_variable[0]["id_inventario"];
-               $sql = "UPDATE `inventario_bodegas` SET  `sku`=?, `bodega`=? ,`pcp`=? ,`pvp`=? ,`stock_inicial`=? ,`saldo_stock`=?  WHERE `id_inventario` = ?";
-                $data = [$sku, $bodega ,$pcp ,$pvp ,$stock ,$stock ,$id_inventario];
+               $sql = "UPDATE `inventario_bodegas` SET  `sku`=?, `bodega`=? ,`pcp`=? ,`pvp`=? ,`stock_inicial`=? ,`saldo_stock`=?, `id_variante`=?  WHERE `id_inventario` = ?";
+                $data = [$sku, $bodega ,$pcp ,$pvp ,$stock ,$stock ,$id_inventario,$id_variedad];
                $insertar_caracteristica = $this->update($sql, $data);
         
           }
