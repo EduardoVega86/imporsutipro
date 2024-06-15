@@ -130,7 +130,7 @@
     }
 
     .hidden {
-        display: none;
+        display: none !important;
     }
 </style>
 <div class="custom-container-fluid">
