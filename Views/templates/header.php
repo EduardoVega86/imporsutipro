@@ -286,7 +286,7 @@
                     <span class="navbar-text"><box-icon name='wallet' color="#fff"></box-icon> $0.00</span>
                     <img src="https://new.imporsuitpro.com/public/img/img.png" class="profile-pic" id="profilePic" alt="Perfil">
                     <div class="profile-dropdown" id="profileDropdown">
-                        < href="#"><box-icon name="user" color="#fff" style="padding-right: 5px;"></box-icon> <?php echo $_SESSION["tienda"] ?></a>
+                        <a href="#"><box-icon name="user" color="#fff" style="padding-right: 5px;"></box-icon> <?php echo $_SESSION["tienda"] ?></a>
                         <a onclick="cerrar_sesion()"><box-icon name="log-out" color="#fff" style="padding-right: 5px;"></box-icon> Cerrar sesión</a>
                     </div>
                 </div>
