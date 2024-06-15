@@ -32,14 +32,18 @@ const initDataTableInventario = async () => {
 
   await listInventario();
 
-  dataTableInventario = $("#datatable_inventario").DataTable(dataTableInventarioOptions);
+  dataTableInventario = $("#datatable_inventario").DataTable(
+    dataTableInventarioOptions
+  );
 
   dataTableInventarioIsInitialized = true;
 };
 
 const listInventario = async () => {
   try {
-    const response = await fetch("" + SERVERURL + "productos/obtener_productos");
+    const response = await fetch(
+      "" + SERVERURL + "productos/obtener_productos"
+    );
     const inventarios = await response.json();
 
     let content = ``;
