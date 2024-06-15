@@ -46,7 +46,7 @@ class Guias extends Controller
         $valor_declarado = 0;
         $tamanio = "";
         $cod = $_POST['recaudo'];
-        $costoflete = 0;
+        $costoflete = $_POST['costo_flete'] ?? 0;
         $costo_producto = $_POST['total_venta'];
         $tipo_cobro = 0;
         $comentario = $_POST['observacion'];
@@ -60,6 +60,8 @@ class Guias extends Controller
         if (!empty($datos["guia"])) {
             $this->model->actualizarGuia($numero_factura, $datos["guia"], $nombreDestino, $ciudad, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $cod, $costo_producto, $comentario, $_SESSION["id"], $calle_principal, $calle_secundaria, $contiene, $provincia);
             $datos["status"] = "200";
+
+            $this->model->asignarWallet($datos["guia"], $costo_producto);
         } else {
             $datos["status"] = "500";
         }
