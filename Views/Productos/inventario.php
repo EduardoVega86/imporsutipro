@@ -89,6 +89,7 @@
                 <thead>
                     <tr>
                         <th class="centered">ID</th>
+                        <th class="centered">Codigo</th>
                         <th class="centered"></th>
                         <th class="centered">Producto</th>
                         <th class="centered">Existencia</th>
