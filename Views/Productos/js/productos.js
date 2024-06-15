@@ -328,7 +328,7 @@ function editarProducto(id) {
           $("#editar_nombre").length > 0 &&
           $("#editar_descripcion").length > 0 &&
           $("#editar_categoria").length > 0 &&
-          $("#editar_formato-pagina").length > 0 &&
+          $("#editar_formato_pagina").length > 0 &&
           $("#editar_ultimo_costo").length > 0 &&
           $("#editar_precio_proveedor").length > 0 &&
           $("#editar_precio_venta").length > 0 &&
@@ -344,7 +344,7 @@ function editarProducto(id) {
           $("#editar_descripcion").val(data.descripcion_producto);
           $("#editar_categoria").val(data.id_linea_producto);
           $("#editar_bodega").val(data.bodega);
-          $("#editar_formato-pagina").val(data.formato);
+          $("#editar_formato_pagina").val(data.formato);
           $("#editar_ultimo_costo").val(data.costo_producto);
           $("#editar_precio_proveedor").val(data.pcp);
           $("#editar_precio_venta").val(data.pvp);
