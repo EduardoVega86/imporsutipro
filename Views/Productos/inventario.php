@@ -80,12 +80,6 @@
         <!-- <div class="filtros_producos justify-content-between align-items-center mb-3"></div>
         </div> -->
         
-        <div style="padding-top: 20px;">
-
-
-            <button id="imprimir_guias" class="btn btn-success">Generar Impresion</button>
-        </div>
-        
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
             <table id="datatable_inventario" class="table table-striped">
@@ -106,5 +100,5 @@
         </div>
     </div>
 </div>
-<script src="<?php echo SERVERURL ?>/Views/Pedidos/js/inventario.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/Productos/js/inventario.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
