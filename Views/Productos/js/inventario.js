@@ -180,9 +180,8 @@ function seleccionar_cambiarInventario(id_inventario) {
         type: "GET",
         dataType: "json",
         success: function (response2) {
-          const data = response2[0];
-          document.getElementById("image_stock").src =
-            SERVERURL + data.image_path;
+            
+          $("#image_stock").attr("src", SERVERURL + response2[0].image_path);
 
           initDataTableStockIndividual(id_inventario);
           document
