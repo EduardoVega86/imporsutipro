@@ -312,7 +312,7 @@ class PedidosModel extends Query
         //verificar productos
 
          $timestamp = session_id();
-          $cantidad_tmp = $this->select("SELECT * FROM detalle_fact_cot WHERE id_factura = '$id_factura' and id_producto=$id_producto and sku=$sku" );
+         $cantidad_tmp = $this->select("SELECT * FROM detalle_fact_cot WHERE id_factura = '$id_factura' and id_producto=$id_producto and sku=$sku" );
           //print_r($cantidad_tmp);
           if (empty($cantidad_tmp)){
               $numeroFactura = $this->select("SELECT numero_factura FROM facturas_cot WHERE id_factura = '$id_factura'");

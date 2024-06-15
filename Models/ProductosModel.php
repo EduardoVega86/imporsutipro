@@ -457,10 +457,23 @@ class ProductosModel extends Query
         $response = $this->initialResponse();
         
         
-        
-        $sql = "INSERT INTO inventario_bodegas (id_producto, sku, id_variante, bodega, pcp, pvp, stock_inicial, saldo_stock, id_plataforma, pref) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+         $inicial_variable= $this->select("SELECT * FROM invetario_productos WHERE id_producto = '$id_producto' and sku=$sku and bodega=50000" );
+                   
+          //print_r($cantidad_tmp);
+          if (empty($inicial_variable)){
+                $sql = "INSERT INTO inventario_bodegas (id_producto, sku, id_variante, bodega, pcp, pvp, stock_inicial, saldo_stock, id_plataforma, pref) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $data = [$id_producto, $sku, $id_variedad, $bodega, $pcp, $pvp, $stock, $stock, $plataforma, $pref];
         $insertar_caracteristica = $this->insert($sql, $data);
+        
+          }else{
+               $cantidad_anterior = $inicial_variable[0]["id_invetario"];
+               $sql = "UPDATE `inventario_bodegas` SET  `sku`,  = ? WHERE `id_tmp` = ?";
+                $data = [$cantidad_nueva,$id_tmp];
+             $insertar_caracteristica = $this->update($sql, $data);
+        
+          }
+              
+      
         if ($insertar_caracteristica == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
