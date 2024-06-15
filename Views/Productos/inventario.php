@@ -159,7 +159,7 @@
                 </table>
             </div>
             <div class="w-50 d-flex flex-row gap-2 hidden" id="inventarioSection">
-                <div class="card" style="height: 300px; padding:10px">
+                <div class="card" style="height: 450px; padding:10px">
                     <img src="tu-imagen.png" alt="Producto" id="image_stock">
                     <h6>Nombre:<span id="nombreeProducto_stock"></span></h6>
                     <div class="stock">Existencia: <span id="existencia_stock"></span></div>
