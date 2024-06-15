@@ -50,9 +50,9 @@ const listInventario = async () => {
     let cargarImagen = "";
     inventarios.forEach((inventario, index) => {
       if (!inventario.image_path) {
-        cargarImagen = `<i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${inventario.id_producto})"></i>`;
+        cargarImagen = `<i class="bx bxs-camera-plus"></i>`;
       } else {
-        cargarImagen = `<img src="${SERVERURL}${inventario.image_path}" class="icon-button" onclick="agregar_imagenProducto(${inventario.id_producto})" alt="Agregar imagen" width="50px">`;
+        cargarImagen = `<img src="${SERVERURL}${inventario.image_path}" class="icon-button" alt="Agregar imagen" width="50px">`;
       }
 
       content += `

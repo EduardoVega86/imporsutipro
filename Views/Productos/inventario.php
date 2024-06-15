@@ -73,14 +73,55 @@
             flex-direction: column;
         }
     }
+
+    /* Diseño de Cards */
+    .card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            width: 200px;
+            padding: 15px;
+            text-align: center;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .card img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .card .stock {
+            color: red;
+            font-weight: bold;
+            margin: 10px 0;
+            background-color: #f8d7da;
+            padding: 5px;
+            border-radius: 4px;
+        }
+        .card .btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px 0;
+        }
+        .card .btn-add {
+            background-color: #28a745;
+            color: white;
+        }
+        .card .btn-delete {
+            background-color: #dc3545;
+            color: white;
+        }
 </style>
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
         <h2 class="text-center mb-4">Ajusto de Inventario</h2>
         <!-- <div class="filtros_producos justify-content-between align-items-center mb-3"></div>
         </div> -->
-        
-        <div class="table-responsive">
+
+        <div class="table-responsive w-50">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
             <table id="datatable_inventario" class="table table-striped">
                 <!-- <caption>
@@ -98,6 +139,14 @@
                 </thead>
                 <tbody id="tableBody_inventario"></tbody>
             </table>
+        </div>
+        <div class="w-50">
+            <div class="card">
+                <img src="tu-imagen.png" alt="Producto">
+                <div class="stock">Existencia: 123</div>
+                <button class="btn btn-add">Agregar Stock</button>
+                <button class="btn btn-delete">Eliminar Stock</button>
+            </div>
         </div>
     </div>
 </div>
