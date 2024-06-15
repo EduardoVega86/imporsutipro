@@ -59,7 +59,6 @@ var contiene = "";
 var costo_producto = 0;
 
 const listNuevoPedido = async () => {
-  costo_producto = 0;
   try {
     const response = await fetch(
       "" + SERVERURL + "pedidos/datos_pedido/" + id_factura
@@ -71,6 +70,7 @@ const listNuevoPedido = async () => {
     let content = ``;
     let total = 0;
     let precio_costo = 0;
+    costo_producto = 0;
     nuevosPedidos.forEach((nuevoPedido, index) => {
       id_producto_venta = nuevoPedido.id_producto;
       dropshipping = nuevoPedido.drogshipin;

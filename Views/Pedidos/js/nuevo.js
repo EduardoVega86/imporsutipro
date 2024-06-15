@@ -56,7 +56,6 @@ var contiene = "";
 var costo_producto = 0;
 
 const listNuevoPedido = async () => {
-  costo_producto = 0;
   try {
     const response = await fetch(SERVERURL + "pedidos/buscarTmp");
     const data = await response.json();
@@ -74,7 +73,7 @@ const listNuevoPedido = async () => {
     let content = ``;
     let total = 0;
     let precio_costo = 0;
-
+    costo_producto = 0;
     nuevosPedidos.forEach((nuevoPedido, index) => {
       if (nuevosPedidos_bodega.length > 0 && nuevosPedidos_bodega[0]) {
         celular_bodega = nuevosPedidos_bodega[0].contacto;
