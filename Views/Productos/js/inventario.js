@@ -168,19 +168,22 @@ function seleccionar_cambiarInventario(id_inventario) {
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
-        console.log(response);
+      console.log("informacion de inventario"+response);
       $("#existencia_stock").val(response[0].saldo_stock);
       var id_producto = response[0].id_producto;
 
       // ajax para consultar imagen de producto
       $.ajax({
-        url: SERVERURL + "productos/obtener_producto/"+id_producto,
+        url: SERVERURL + "productos/obtener_producto/" + id_producto,
         type: "GET",
         dataType: "json",
         success: function (response2) {
-            document.getElementById("image_stock").src = ""+SERVERURL+""+response2.image_path;
-            initDataTableStockIndividual(id_inventario);
-            document.getElementById("inventarioSection").classList.remove("hidden");
+          document.getElementById("image_stock").src =
+            "" + SERVERURL + "" + response2.image_path;
+          initDataTableStockIndividual(id_inventario);
+          document
+            .getElementById("inventarioSection")
+            .classList.remove("hidden");
         },
         error: function (error) {
           console.error("Error al obtener la lista de bodegas:", error);
