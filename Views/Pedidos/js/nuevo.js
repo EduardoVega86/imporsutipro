@@ -130,7 +130,6 @@ const listNuevoPedido = async () => {
 
 
 function recalcular(id, idPrecio, idDescuento) {
-  costo_producto = 0;
   const precio = parseFloat(document.getElementById(idPrecio).value);
   const descuento = parseFloat(document.getElementById(idDescuento).value);
 
