@@ -461,7 +461,7 @@ class ProductosModel extends Query
         $response = $this->initialResponse();
         
         
-         $inicial_variable= $this->select("SELECT id_inventario FROM invetario_productos WHERE id_producto = '$id_producto' and bodega=50000" );
+         $inicial_variable= $this->select("SELECT id_inventario FROM inventario_productos WHERE id_producto = '$id_producto' and bodega=50000" );
                    
           //print_r($cantidad_tmp);
           if (empty($inicial_variable)){
@@ -470,6 +470,7 @@ class ProductosModel extends Query
         $insertar_caracteristica = $this->insert($sql, $data);
         
           }else{
+              print_r($inicial_variable);
                $id_inventario = $inicial_variable[0]["id_inventario"];
                $sql = "UPDATE `inventario_bodegas` SET  `sku`=?, `bodega`=? ,`pcp`=? ,`pvp`=? ,`stock_inicial`=? ,`saldo_stock`=?  WHERE `id_inventario` = ?";
                 $data = [$sku, $bodega ,$pcp ,$pvp ,$stock ,$stock ,$id_inventario];
@@ -567,7 +568,7 @@ class ProductosModel extends Query
     public function mostrarVariedades($id_producto)
     {
        // echo $id_producto;
-        $sql = "select * from inventario_bodegas ib, productos p, variedades v, atributos a where ib.id_producto=$id_producto and ib.id_producto=p.id_producto and ib.id_variante=v.id_variedad and v.id_atributo=a.id_atributo";
+        $sql = "select * from inventario_bodegas ib, productos p, variedades v, atributos a, bodega b where ib.id_producto=$id_producto and ib.id_producto=p.id_producto and ib.id_variante=v.id_variedad and v.id_atributo=a.id_atributo and ib.bodega=b.id";
        
         return $this->select($sql);
     }
