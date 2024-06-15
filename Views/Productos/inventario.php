@@ -125,7 +125,7 @@
         <h2 class="text-center mb-4">Ajusto de Inventario</h2>
         <!-- <div class="filtros_producos justify-content-between align-items-center mb-3"></div>
         </div> -->
-        <div class="d-flex flex-row">
+        <div class="d-flex flex-row gap-2">
             <div class="table-responsive w-50">
                 <!-- <table class="table table-bordered table-striped table-hover"> -->
                 <table id="datatable_inventario" class="table table-striped">
@@ -145,7 +145,7 @@
                     <tbody id="tableBody_inventario"></tbody>
                 </table>
             </div>
-            <div class="w-60 d-flex flex-row">
+            <div class="w-60 d-flex flex-row gap-2">
                 <div class="card w-20" style="height: 300px; padding:10px">
                     <img src="tu-imagen.png" alt="Producto">
                     <div class="stock">Existencia: 123</div>
