@@ -227,7 +227,7 @@ function agregar_variedad() {
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
-        initDataTableDetalleInventario();
+      initDataTableDetalleInventario();
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
@@ -244,9 +244,7 @@ let dataTableDetalleInventario;
 let dataTableDetalleInventarioIsInitialized = false;
 
 const dataTableDetalleInventarioOptions = {
-  columnDefs: [
-    { className: "centered", targets: [0, 1, 2, 3, 4, 5, 6] },
-  ],
+  columnDefs: [{ className: "centered", targets: [0, 1, 2, 3, 4, 5, 6] }],
   pageLength: 10,
   destroy: true,
   language: {
@@ -283,9 +281,11 @@ const initDataTableDetalleInventario = async () => {
 const listDetalleInventario = async () => {
   const id_productoVariable = $("#id_productoVariable").val();
   try {
-    const response = await fetch("" + SERVERURL + "productos/mostrarVariedades/"+id_productoVariable);
+    const response = await fetch(
+      "" + SERVERURL + "productos/mostrarVariedades/" + id_productoVariable
+    );
     const detalleInventario = await response.json();
-
+    //nombre es nombre_bodega
     let content = ``;
     detalleInventario.forEach((detalle, index) => {
       content += `
@@ -295,7 +295,7 @@ const listDetalleInventario = async () => {
       <td>${detalle.pcp}</td>
       <td>${detalle.pvp}</td>
       <td>${detalle.pref}</td>
-      <td>${detalle.bodega}</td>
+      <td>${detalle.nombre}</td>
       <td>${detalle.stock_inicial}</td>
         </tr>`;
     });
