@@ -28,7 +28,7 @@ class ProductosModel extends Query
         $id_producto = $this->select($sql_id);
         $id_producto = $id_producto[0]['id_producto'];
         if ($inv_producto == 1) {
-           echo $producto_variable;
+           //echo $producto_variable;
 
             if ($producto_variable == 0) {
                 
