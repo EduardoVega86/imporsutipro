@@ -139,7 +139,7 @@
         <!-- <div class="filtros_producos justify-content-between align-items-center mb-3"></div>
         </div> -->
         <div class="d-flex flex-row gap-2">
-            <div class="table-responsive">
+            <div class="table-responsive w-50">
                 <!-- <table class="table table-bordered table-striped table-hover"> -->
                 <table id="datatable_inventario" class="table table-striped">
                     <!-- <caption>
@@ -158,7 +158,7 @@
                     <tbody id="tableBody_inventario"></tbody>
                 </table>
             </div>
-            <div class="d-flex flex-row gap-2 hidden" id="inventarioSection">
+            <div class="w-50 d-flex flex-row gap-2 hidden" id="inventarioSection">
                 <div class="card w-20" style="height: 300px; padding:10px">
                     <img src="tu-imagen.png" alt="Producto">
                     <div class="stock">Existencia: 123</div>
