@@ -161,12 +161,12 @@ function seleccionar_cambiarInventario(id_inventario) {
     let formData = new FormData();
     formData.append("id_inventario", id_inventario); // Añadir el ID del inventario al FormData
 
-    // Convertir FormData a cadena de consulta
-    let params = new URLSearchParams(formData).toString();
-
     $.ajax({
-        url: SERVERURL + "inventarios/obtenerInventario?" + params,
-        type: "GET",
+        url: SERVERURL + "inventarios/obtenerInventario",
+        type: "POST",
+        data: formData,
+        processData: false, // No procesar los datos
+        contentType: false, // No establecer ningún tipo de contenido
         dataType: "json", // Asegúrate de recibir datos JSON
         success: function(response) {
             console.log("informacion de inventario: " + response);
