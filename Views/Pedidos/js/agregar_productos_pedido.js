@@ -76,7 +76,7 @@ const listNuevosPedidos = () => {
         nuevosPedidos.forEach((nuevoPedido, index) => {
           content += `
                         <tr>
-                            <td>src="${SERVERURL}${nuevoPedido.image_path}"</td>
+                            <td><img src="${SERVERURL}${nuevoPedido.image_path}" class="icon-button" width="50px"></td>
                             <td>${nuevoPedido.id_producto}</td>
                             <td>${nuevoPedido.nombre_producto}</td>
                             <td>${nuevoPedido.stock_inicial}</td>
