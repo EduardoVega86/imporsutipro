@@ -170,9 +170,7 @@ function seleccionar_cambiarInventario(id_inventario) {
     dataType: "json", // Asegúrate de recibir datos JSON
     success: function (response) {
       console.log("informacion de inventario: " + JSON.stringify(response));
-      console.log("1"+response[0].id_producto);
-      console.log("2"+JSON.stringify(response[0].id_producto))
-      console.log("3"+JSON.stringify(response.id_producto))
+      console.log(response[0].id_producto);
       $("#existencia_stock").val(response[0].saldo_stock);
       var id_producto = response[0].id_producto;
 
