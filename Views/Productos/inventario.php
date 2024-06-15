@@ -160,8 +160,8 @@
             </div>
             <div class="w-50 d-flex flex-row gap-2 hidden" id="inventarioSection">
                 <div class="card" style="height: 300px; padding:10px">
-                    <img src="tu-imagen.png" alt="Producto">
-                    <div class="stock">Existencia: 123</div>
+                    <img src="tu-imagen.png" alt="Producto" id="image_stock">
+                    <div class="stock" id="existencia_stock">Existencia: 123</div>
                     <button class="btn btn-add">Agregar Stock</button>
                     <button class="btn btn-delete">Eliminar Stock</button>
                 </div>
