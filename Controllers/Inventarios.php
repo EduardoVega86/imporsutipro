@@ -81,4 +81,47 @@ class Inventarios extends Controller
         // print_r($response);
         echo json_encode($response);
     }
+    
+     public function obtenerHistorial()
+    {
+        //echo $id_producto;
+        $id_inventario = $_POST['id_inventario'];
+        $response = $this->model->obtenerHistorial($id_inventario);
+        // print_r($response);
+        echo json_encode($response);
+    }
+    
+     public function agregarStockInventario()
+    {
+        //echo $id_producto;
+        $inventario = $_POST['id_inventario'];
+        $cantidad= $_POST['cantidad'];
+        $referencia=  $_POST['referencia'];
+        
+        $sku=  $_POST['sku'];
+        $id_producto=  $_POST['id_producto'];
+        $id_bodega=  $_POST['id_bodega'];
+        
+        
+        $response = $this->model->agregarStock($inventario, $cantidad, $_SESSION['id_plataforma'], $sku,  $referencia,  $id_producto, $id_bodega);
+        // print_r($response);
+        echo json_encode($response);
+    }
+    
+    public function eliminarStockInventario()
+    {
+        //echo $id_producto;
+        $inventario = $_POST['id_inventario'];
+        $cantidad= $_POST['cantidad'];
+        $referencia=  $_POST['referencia'];
+        
+        $sku=  $_POST['sku'];
+        $id_producto=  $_POST['id_producto'];
+        $id_bodega=  $_POST['id_bodega'];
+        
+        
+        $response = $this->model->eliminarStock($inventario, $cantidad, $_SESSION['id_plataforma'], $sku,  $referencia,  $id_producto, $id_bodega);
+        // print_r($response);
+        echo json_encode($response);
+    }
 }
