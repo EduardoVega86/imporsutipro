@@ -1,5 +1,4 @@
 <?php require_once './Views/templates/header.php'; ?>
-<link rel="stylesheet" type="text/css" href="<?php echo SERVERURL ?>/Views/Productos/css/marketplace.css">
 
 <div class="custom-container-fluid mt-4">
 <h1>Despacho de guías</h1>

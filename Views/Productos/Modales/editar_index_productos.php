@@ -109,15 +109,26 @@
                                     </select>
                                 </div>
                                 <div class="form-group w-100">
+                                    <label for="producto-variable">Producto Variable:</label>
+                                    <select class="form-select" id="producto-variable">
+                                        <option selected>-- Selecciona --</option>
+                                        <option value="1">Sí</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="d-flex flex-row gap-3">
+                                <div class="form-group w-100" id="bodega-field">
+                                    <label for="editar_bodega">Bodega:</label>
+                                    <select class="form-select" id="editar_bodega">
+                                        <option selected>-- Selecciona Bodega --</option>
+                                    </select>
+                                </div>
+                                <div class="form-group w-100">
                                     <label for="editar_stock_inicial">Stock Inicial:</label>
                                     <input type="text" class="form-control" id="editar_stock_inicial">
                                 </div>
-                            </div>
-                            <div class="form-group w-100" id="bodega-field">
-                                <label for="editar_bodega">Bodega:</label>
-                                <select class="form-select" id="editar_bodega">
-                                    <option selected>-- Selecciona Bodega --</option>
-                                </select>
                             </div>
                         </div>
                     </div>
