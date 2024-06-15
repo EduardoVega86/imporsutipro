@@ -165,6 +165,8 @@ function seleccionar_cambiarInventario(id_inventario) {
     url: SERVERURL + "inventarios/obtenerInventario`",
     type: "GET",
     data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
       console.log("informacion de inventario: "+response);
       $("#existencia_stock").val(response[0].saldo_stock);
