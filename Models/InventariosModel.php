@@ -137,6 +137,17 @@ class InvetariosModel extends Query
         return $this->select($sql);
     }
 
+    public function obtenerInventario($id_inventario)
+    {
+        $sql = "SELECT * FROM inventario_bodegas WHERE id_inventario = $id_inventario";
+        return $this->select($sql);
+    }
+    public function obtenerHistorial($id_inventario)
+    {
+        $sql = "SELECT * FROM historial_productos WHERE id_inventario = $id_inventario";
+        return $this->select($sql);
+    }
+    
     ///categorias
 
     public function agregarCategoria($nombre_linea, $descripcion_linea, $estado_linea, $date_added, $online, $imagen, $tipo, $padre, $plataforma)
