@@ -58,9 +58,9 @@ class AccesoModel extends Query
                     if ($insertar_relacion == 1) {
                         $id_plataforma = $idPlataforma[0]['id_plataforma'];
                         $sql_caracteristicas = "INSERT INTO `caracteristicas_tienda` (`id_producto`, `texto`, `icon_text`, `enlace_icon`, `subtexto_icon`, `accion`, `id_plataforma`) VALUES
-(0, 'Envío Gratis a todo el País', 'fa-check', '', 'Llegamos a todo el País', 1, $id_plataforma),
-(0, 'Pago Contra Entrega', 'fa-lock', NULL, 'Paga cuando recibes el producto', 2, $id_plataforma),
-(0, 'Atención al cliente', 'fa-headset', NULL, 'Soporte 100% garantizado', 2, $id_plataforma);";
+                        (0, 'Envío Gratis a todo el País', 'fa-check', '', 'Llegamos a todo el País', 1, $id_plataforma),
+                        (0, 'Pago Contra Entrega', 'fa-lock', NULL, 'Paga cuando recibes el producto', 2, $id_plataforma),
+                        (0, 'Atención al cliente', 'fa-headset', NULL, 'Soporte 100% garantizado', 2, $id_plataforma);";
 
                         $registro_caracteristicas = $this->simple_insert($sql_caracteristicas);
 
@@ -82,6 +82,7 @@ class AccesoModel extends Query
                             $_SESSION['login_time'] = time();
                             $_SESSION['cargo'] = 1;
                             $_SESSION['id'] = $id[0]['id_users'];
+                            $_SESSION['tienda'] = "https://" . $tienda . ".imporsuitpro.com";
                             //enviar correo
                             $url_change = "https://" . $tienda . ".imporsuitpro.com";
                             require_once 'PHPMailer/Mail.php';
@@ -150,6 +151,7 @@ class AccesoModel extends Query
                 $_SESSION['login_time'] = time();
                 $_SESSION['cargo'] = $datos_usuario[0]['cargo_users'];
                 $_SESSION['id'] = $datos_usuario[0]['id_users'];
+                $_SESSION['tienda'] = $datos_usuario[0]['url_imporsuit'];
             } else {
                 $response = $this->initialResponse();
                 $response['status'] = 401;

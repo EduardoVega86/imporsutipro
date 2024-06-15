@@ -147,4 +147,19 @@ class GuiasModel extends Query
 
         return $guia;
     }
+
+    public function asignarWallet($numero_factura, $guia, $fecha, $nombreDestino, $id_plataforma, $estado, $costo_producto, $cod)
+    {
+        $buscar_detalle = "SELECT * FROM detalle_fact_cot WHERE numero_factura = '$numero_factura'";
+        $respueta_detalle = $this->select($buscar_detalle);
+        $id_inventario = $respueta_detalle[0]['id_inventario'];
+
+
+
+        $buscar_inventario = "SELECT * FROM inventario_bodegas WHERE id_inventario = '$id_inventario'";
+        $inventario = $this->select($buscar_inventario);
+        $id_bodega = $inventario[0]['bodega'];
+
+        $bodega = "SELECT * FROM bodegas WHERE id_bodega = '$id_bodega'";
+    }
 }
