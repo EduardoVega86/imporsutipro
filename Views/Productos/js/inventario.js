@@ -179,8 +179,6 @@ function seleccionar_cambiarInventario(id_inventario) {
         type: "GET",
         dataType: "json",
         success: function (response2) {
-
-            console.log("Imagen: "+response2[0].image_path);
           $("#image_stock").attr("src", SERVERURL + response2[0].image_path);
 
           initDataTableStockIndividual(id_inventario);
