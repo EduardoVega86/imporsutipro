@@ -181,6 +181,7 @@
                 contentType: false,
                 success: function(response) {
                     // Mostrar alerta de éxito
+                    response = JSON.parse(response);
                     if (response.status == 500) {
                         toastr.error(
                             "EL PRODUCTO NO SE EDITO CORRECTAMENTE",
