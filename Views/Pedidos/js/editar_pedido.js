@@ -56,9 +56,10 @@ var id_propietario_bodega = "";
 var id_producto_venta = "";
 var dropshipping = "";
 var contiene = "";
-var costo_producto = 0;
+
 
 const listNuevoPedido = async () => {
+  var costo_producto = 0;
   try {
     const response = await fetch(
       "" + SERVERURL + "pedidos/datos_pedido/" + id_factura
@@ -73,7 +74,7 @@ const listNuevoPedido = async () => {
     nuevosPedidos.forEach((nuevoPedido, index) => {
       id_producto_venta = nuevoPedido.id_producto;
       dropshipping = nuevoPedido.drogshipin;
-      costo_producto = costo_producto + nuevoPedido.costo_producto;
+      costo_producto = costo_producto + parseFloat(nuevoPedido.costo_producto)
 
       contiene += `${nuevoPedido.nombre_producto} X${nuevoPedido.cantidad} `;
 
@@ -128,7 +129,6 @@ const listNuevoPedido = async () => {
 };
 
 function recalcular(id, idPrecio, idDescuento) {
-  costo_producto = 0;
   const precio = parseFloat(document.getElementById(idPrecio).value);
   const descuento = parseFloat(document.getElementById(idDescuento).value);
 

@@ -53,9 +53,10 @@ var id_propietario_bodega = "";
 var id_producto_venta = "";
 var dropshipping = "";
 var contiene = "";
-var costo_producto = 0;
+
 
 const listNuevoPedido = async () => {
+  var costo_producto = 0;
   try {
     const response = await fetch(SERVERURL + "pedidos/buscarTmp");
     const data = await response.json();
