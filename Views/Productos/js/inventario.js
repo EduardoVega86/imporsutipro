@@ -122,7 +122,7 @@ const initDataTableStockIndividual = async (id_inventario) => {
   const listStockIndividual = async (id_inventario) => {
     try {
       const response = await fetch(
-        `${SERVERURL}productos/obtenerInventario/${id_inventario}`
+        `${SERVERURL}inventario/obtenerInventario/${id_inventario}`
       );
       const stockIndividuals = await response.json();
   
