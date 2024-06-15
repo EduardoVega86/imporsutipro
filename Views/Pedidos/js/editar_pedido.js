@@ -73,7 +73,7 @@ const listNuevoPedido = async () => {
     nuevosPedidos.forEach((nuevoPedido, index) => {
       id_producto_venta = nuevoPedido.id_producto;
       dropshipping = nuevoPedido.drogshipin;
-      costo_producto = nuevoPedido.costo_producto;
+      costo_producto = costo_producto + nuevoPedido.costo_producto;
 
       contiene += `${nuevoPedido.nombre_producto} X${nuevoPedido.cantidad} `;
 

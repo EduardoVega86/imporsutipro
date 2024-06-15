@@ -179,25 +179,6 @@ function validar_estado(estado) {
   };
 }
 
-window.addEventListener("load", async () => {
-  await initDataTable();
-});
-
-function formatPhoneNumber(number) {
-  number = number.replace(/[^\d+]/g, "");
-  if (/^\+593/.test(number)) {
-    return number;
-  } else if (/^593/.test(number)) {
-    return "+" + number;
-  } else {
-    if (number.startsWith("0")) {
-      number = number.substring(1);
-    }
-    number = "+593" + number;
-  }
-  return number;
-}
-
 // Function to handle the click event for sending selected items
 document.getElementById("imprimir_guias").addEventListener("click", () => {
   const selectedGuias = [];
