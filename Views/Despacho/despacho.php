@@ -62,6 +62,7 @@
         </div>
         <button class="btn">Devolución</button>
     </div>
+    
 </div>
 
 <?php require_once './Views/templates/footer.php'; ?>
