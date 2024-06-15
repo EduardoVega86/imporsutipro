@@ -168,7 +168,7 @@ function seleccionar_cambiarInventario(id_inventario) {
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
-        console.log(response[0]);
+        console.log(response);
       $("#existencia_stock").val(response[0].saldo_stock);
       var id_producto = response[0].id_producto;
 
