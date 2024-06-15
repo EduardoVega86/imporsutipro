@@ -73,14 +73,7 @@ class Inventarios extends Controller
         echo json_encode($response);
     }
     
-    public function obtenerHistorial()
-    {
-        //echo $id_producto;
-        $id_inventario = $_POST['id_inventario'];
-        $response = $this->model->obtenerHistorial($id_inventario);
-        // print_r($response);
-        echo json_encode($response);
-    }
+  
     
      public function obtenerHistorial()
     {
