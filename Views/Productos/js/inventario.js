@@ -155,6 +155,6 @@ const listStockIndividual = async (id_inventario) => {
 };
 
 function seleccionar_cambiarInventario(id_inventario) {
-  initDataTableStockIndividual(id_inventario);
+    document.getElementById("inventarioSection").classList.remove("hidden");
+    initDataTableStockIndividual(id_inventario);
 }
-meco;

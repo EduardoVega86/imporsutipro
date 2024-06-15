@@ -119,12 +119,19 @@
         background-color: #dc3545;
         color: white;
     }
+
     .vertical-line {
-            border-left: 2px solid black;
-            height: 100px; /* Ajusta la altura según tus necesidades */
-            position: absolute;
-            left: 50%; /* Ajusta la posición horizontal según tus necesidades */
-        }
+        border-left: 2px solid black;
+        height: 100px;
+        /* Ajusta la altura según tus necesidades */
+        position: absolute;
+        left: 50%;
+        /* Ajusta la posición horizontal según tus necesidades */
+    }
+
+    .hidden {
+        display: none;
+    }
 </style>
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
@@ -151,7 +158,7 @@
                     <tbody id="tableBody_inventario"></tbody>
                 </table>
             </div>
-            <div class="w-60 d-flex flex-row gap-2">
+            <div class="w-60 d-flex flex-row gap-2 hidden" id="inventarioSection">
                 <div class="card w-20" style="height: 300px; padding:10px">
                     <img src="tu-imagen.png" alt="Producto">
                     <div class="stock">Existencia: 123</div>
