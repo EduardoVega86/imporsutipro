@@ -10,7 +10,7 @@ class MarketplaceModel extends Query
 
     public function obtener_productos($plataforma)
     {
-        $sql = "SELECT p.nombre_producto, p.producto_variable, ib.*
+        $sql = "SELECT p.nombre_producto, p.producto_variable ,ib.*
 FROM productos p
 JOIN (
     SELECT 
@@ -23,10 +23,10 @@ JOIN (
     WHERE ib.bodega != 0 AND ib.bodega != 50000
     GROUP BY ib.id_producto, ib.sku, ib.id_plataforma, ib.bodega
 ) ib_filtered
-ON p.id_producto = ib_filtered.id_producto AND p.codigo_producto = ib_filtered.sku
+ON p.id_producto = ib_filtered.id_producto 
 JOIN inventario_bodegas ib
 ON ib.id_producto = ib_filtered.id_producto AND ib.sku = ib_filtered.sku AND ib.id_inventario = ib_filtered.min_id_inventario
-WHERE (p.drogshipin = 1 OR p.id_plataforma = $plataforma)
+WHERE (p.drogshipin = 1 OR p.id_plataforma = 1168)
   AND ((p.drogshipin = 1 AND ib.id_plataforma = p.id_plataforma) 
    OR (ib.id_plataforma = p.id_plataforma));
 ";
