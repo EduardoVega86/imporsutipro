@@ -106,36 +106,40 @@ const dataTableStockIndividualOptions = {
 };
 
 const initDataTableStockIndividual = async (id_inventario) => {
-    if (dataTableStockIndividualIsInitialized) {
-      dataTableStockIndividual.destroy();
-    }
-  
-    await listStockIndividual(id_inventario);
-  
-    dataTableStockIndividual = $("#datatable_stockIndividual").DataTable(
-      dataTableStockIndividualOptions
-    );
-  
-    dataTableStockIndividualIsInitialized = true;
-  };
-  
-  const listStockIndividual = async (id_inventario) => {
-    try {
-      const response = await fetch(
-        `${SERVERURL}inventario/obtenerInventario/${id_inventario}`
-      );
-      const stockIndividuals = await response.json();
-  
-      let content = ``;
-      stockIndividuals.forEach((stockIndividual, index) => {
-        let cargarImagen = "";
-        if (!stockIndividual.image_path) {
-          cargarImagen = `<i class="bx bxs-camera-plus"></i>`;
-        } else {
-          cargarImagen = `<img src="${SERVERURL}${stockIndividual.image_path}" class="icon-button" alt="Agregar imagen" width="50px">`;
-        }
-  
-        content += `
+  if (dataTableStockIndividualIsInitialized) {
+    dataTableStockIndividual.destroy();
+  }
+
+  await listStockIndividual(id_inventario);
+
+  dataTableStockIndividual = $("#datatable_stockIndividual").DataTable(
+    dataTableStockIndividualOptions
+  );
+
+  dataTableStockIndividualIsInitialized = true;
+};
+
+const listStockIndividual = async (id_inventario) => {
+  try {
+    const formData = new FormData();
+    formData.append("id_inventario", id_inventario);
+
+    const response = await fetch(`${SERVERURL}inventario/obtenerInventario`, {
+      method: "POST",
+      body: formData,
+    });
+    const stockIndividuals = await response.json();
+
+    let content = ``;
+    stockIndividuals.forEach((stockIndividual, index) => {
+      let cargarImagen = "";
+      if (!stockIndividual.image_path) {
+        cargarImagen = `<i class="bx bxs-camera-plus"></i>`;
+      } else {
+        cargarImagen = `<img src="${SERVERURL}${stockIndividual.image_path}" class="icon-button" alt="Agregar imagen" width="50px">`;
+      }
+
+      content += `
         <tr>
         <td>${stockIndividual.id_producto}</td>
         <td>${cargarImagen}</td>
@@ -143,14 +147,14 @@ const initDataTableStockIndividual = async (id_inventario) => {
         <td>${stockIndividual.nombre_producto}</td>
         <td>${stockIndividual.saldo_stock}</td>
         </tr>`;
-      });
-      document.getElementById("tableBody_stockIndividual").innerHTML = content;
-    } catch (ex) {
-      alert(ex);
-    }
-  };
-  
-  function seleccionar_cambiarInventario(id_inventario) {
-    initDataTableStockIndividual(id_inventario);
+    });
+    document.getElementById("tableBody_stockIndividual").innerHTML = content;
+  } catch (ex) {
+    alert(ex);
   }
-meco
+};
+
+function seleccionar_cambiarInventario(id_inventario) {
+  initDataTableStockIndividual(id_inventario);
+}
+meco;
