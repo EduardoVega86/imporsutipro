@@ -147,11 +147,12 @@ class AccesoModel extends Query
                 //session_start();
                 $_SESSION["user"] = $datos_usuario[0]["email_users"];
                 $idPlataforma = $this->select("SELECT id_plataforma FROM usuario_plataforma WHERE id_usuario = " . $datos_usuario[0]["id_users"]);
+                $url_imporsuit = $this->select("SELECT url_imporsuit FROM plataformas WHERE id_plataforma = " . $idPlataforma[0]["id_plataforma"]);
                 $_SESSION["id_plataforma"] = $idPlataforma[0]["id_plataforma"];
                 $_SESSION['login_time'] = time();
                 $_SESSION['cargo'] = $datos_usuario[0]['cargo_users'];
                 $_SESSION['id'] = $datos_usuario[0]['id_users'];
-                $_SESSION['tienda'] = $datos_usuario[0]['url_imporsuit'];
+                $_SESSION['tienda'] = $url_imporsuit[0]['url_imporsuit'];
             } else {
                 $response = $this->initialResponse();
                 $response['status'] = 401;
