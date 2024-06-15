@@ -127,7 +127,7 @@ const listStockIndividual = async (id_inventario) => {
     const formData = new FormData();
     formData.append("id_inventario", id_inventario);
 
-    const response = await fetch(`${SERVERURL}inventarios/obtenerInventario`, {
+    const response = await fetch(`${SERVERURL}inventarios/obtenerHistorial`, {
       method: "POST",
       body: formData,
     });
