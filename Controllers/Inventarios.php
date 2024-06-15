@@ -63,7 +63,7 @@ class Inventarios extends Controller
 
 
 
-    function obtenerInventario()
+    public function obtenerInventario()
     {
         //echo $id_producto;
         $id_inventario = $_POST['id_inventario'];
@@ -72,7 +72,7 @@ class Inventarios extends Controller
         echo json_encode($response);
     }
     
-     function obtenerHistorial()
+    public function obtenerHistorial()
     {
         //echo $id_producto;
         $id_inventario = $_POST['id_inventario'];
