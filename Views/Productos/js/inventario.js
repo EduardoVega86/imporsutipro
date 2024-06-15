@@ -158,43 +158,42 @@ const listStockIndividual = async (id_inventario) => {
 };
 
 function seleccionar_cambiarInventario(id_inventario) {
-    let formData = new FormData();
-    formData.append("id_inventario", id_inventario); // Añadir el ID del inventario al FormData
+  let formData = new FormData();
+  formData.append("id_inventario", id_inventario); // Añadir el ID del inventario al FormData
 
-    $.ajax({
-        url: SERVERURL + "inventarios/obtenerInventario",
-        type: "POST",
-        data: formData,
-        processData: false, // No procesar los datos
-        contentType: false, // No establecer ningún tipo de contenido
-        dataType: "json", // Asegúrate de recibir datos JSON
-        success: function(response) {
-            console.log("informacion de inventario: " + response);
-            if (response && response.length > 0) {
-                $("#existencia_stock").val(response[0].saldo_stock);
-                var id_producto = response[0].id_producto;
+  $.ajax({
+    url: SERVERURL + "inventarios/obtenerInventario",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    dataType: "json", // Asegúrate de recibir datos JSON
+    success: function (response) {
+      console.log("informacion de inventario: " + JSON.stringify(response));
+      response = JSON.stringify(response);
+      $("#existencia_stock").val(response.saldo_stock);
+      var id_producto = response.id_producto;
 
-                // ajax para consultar imagen de producto
-                $.ajax({
-                    url: SERVERURL + "productos/obtener_producto/" + id_producto,
-                    type: "GET",
-                    dataType: "json",
-                    success: function(response2) {
-                        document.getElementById("image_stock").src = SERVERURL + response2.image_path;
-                        initDataTableStockIndividual(id_inventario);
-                        document.getElementById("inventarioSection").classList.remove("hidden");
-                    },
-                    error: function(error) {
-                        console.error("Error al obtener la imagen del producto:", error);
-                    }
-                });
-            } else {
-                console.error("Respuesta vacía o inválida.");
-            }
+      // ajax para consultar imagen de producto
+      $.ajax({
+        url: SERVERURL + "productos/obtener_producto/" + id_producto,
+        type: "GET",
+        dataType: "json",
+        success: function (response2) {
+          document.getElementById("image_stock").src =
+            SERVERURL + response2.image_path;
+          initDataTableStockIndividual(id_inventario);
+          document
+            .getElementById("inventarioSection")
+            .classList.remove("hidden");
         },
-        error: function(error) {
-            console.error("Error al obtener la información del inventario:", error);
-        }
-    });
+        error: function (error) {
+          console.error("Error al obtener la imagen del producto:", error);
+        },
+      });
+    },
+    error: function (error) {
+      console.error("Error al obtener la información del inventario:", error);
+    },
+  });
 }
-
