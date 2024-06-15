@@ -371,4 +371,23 @@ class Productos extends Controller
         // print_r($response);
         echo json_encode($response);
     }
+    
+    
+       public function obtenerInventario()
+    {
+        //echo $id_producto;
+        $id_inventario = $_POST['id_inventario'];
+        $response = $this->model->obtenerInventario($id_inventario);
+        // print_r($response);
+        echo json_encode($response);
+    }
+    
+    public function obtenerHistorial()
+    {
+        //echo $id_producto;
+        $id_inventario = $_POST['id_inventario'];
+        $response = $this->model->obtenerHistorial($id_inventario);
+        // print_r($response);
+        echo json_encode($response);
+    }
 }

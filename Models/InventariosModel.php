@@ -1,5 +1,5 @@
 <?php
-class InvetariosModel extends Query
+class InventariosModel extends Query
 {
     public function __construct()
     {

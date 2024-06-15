@@ -65,6 +65,7 @@ class Inventarios extends Controller
 
     public function obtenerInventario()
     {
+       // echo $id;
         //echo $id_producto;
         $id_inventario = $_POST['id_inventario'];
         $response = $this->model->obtenerInventario($id_inventario);
