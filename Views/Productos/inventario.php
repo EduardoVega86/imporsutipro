@@ -126,7 +126,7 @@
         <!-- <div class="filtros_producos justify-content-between align-items-center mb-3"></div>
         </div> -->
         <div class="d-flex flex-row">
-            <div class="table-responsive w-40">
+            <div class="table-responsive w-50">
                 <!-- <table class="table table-bordered table-striped table-hover"> -->
                 <table id="datatable_inventario" class="table table-striped">
                     <!-- <caption>
