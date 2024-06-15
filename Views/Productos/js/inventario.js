@@ -77,7 +77,6 @@ window.addEventListener("load", async () => {
   await initDataTableInventario();
 });
 
-
 // tabla con informacion de inventario de producto individual
 let dataTableStockIndividual;
 let dataTableStockIndividualIsInitialized = false;
@@ -106,46 +105,51 @@ const dataTableStockIndividualOptions = {
   },
 };
 
-const initDataTableStockIndividual = async () => {
-  if (dataTableStockIndividualIsInitialized) {
-    dataTableStockIndividual.destroy();
-  }
-
-  await listStockIndividual();
-
-  dataTableStockIndividual = $("#datatable_stockIndividual").DataTable(
-    dataTableStockIndividualOptions
-  );
-
-  dataTableStockIndividualIsInitialized = true;
-};
-
-const listStockIndividual = async () => {
-  try {
-    const response = await fetch(
-      "" + SERVERURL + "productos/obtener_inventario"+id_inventario
+const initDataTableStockIndividual = async (id_inventario) => {
+    if (dataTableStockIndividualIsInitialized) {
+      dataTableStockIndividual.destroy();
+    }
+  
+    await listStockIndividual(id_inventario);
+  
+    dataTableStockIndividual = $("#datatable_stockIndividual").DataTable(
+      dataTableStockIndividualOptions
     );
-    const stockIndividuals = await response.json();
-
-    let content = ``;
-    let cargarImagen = "";
-    stockIndividuals.forEach((stockIndividual, index) => {
-
-      content += `
-      <tr>
-      <td>${stockIndividual.id_producto}</td>
-      <td>${cargarImagen}</td>
-      <td>${stockIndividual.codigo_producto}</td>
-      <td>${stockIndividual.nombre_producto}</td>
-      <td>${stockIndividual.saldo_stock}</td>
-      </tr>`;
-    });
-    document.getElementById("tableBody_stockIndividual").innerHTML = content;
-  } catch (ex) {
-    alert(ex);
+  
+    dataTableStockIndividualIsInitialized = true;
+  };
+  
+  const listStockIndividual = async (id_inventario) => {
+    try {
+      const response = await fetch(
+        `${SERVERURL}productos/obtener_inventario/${id_inventario}`
+      );
+      const stockIndividuals = await response.json();
+  
+      let content = ``;
+      stockIndividuals.forEach((stockIndividual, index) => {
+        let cargarImagen = "";
+        if (!stockIndividual.image_path) {
+          cargarImagen = `<i class="bx bxs-camera-plus"></i>`;
+        } else {
+          cargarImagen = `<img src="${SERVERURL}${stockIndividual.image_path}" class="icon-button" alt="Agregar imagen" width="50px">`;
+        }
+  
+        content += `
+        <tr>
+        <td>${stockIndividual.id_producto}</td>
+        <td>${cargarImagen}</td>
+        <td>${stockIndividual.codigo_producto}</td>
+        <td>${stockIndividual.nombre_producto}</td>
+        <td>${stockIndividual.saldo_stock}</td>
+        </tr>`;
+      });
+      document.getElementById("tableBody_stockIndividual").innerHTML = content;
+    } catch (ex) {
+      alert(ex);
+    }
+  };
+  
+  function seleccionar_cambiarInventario(id_inventario) {
+    initDataTableStockIndividual(id_inventario);
   }
-};
-
-window.addEventListener("load", async () => {
-  await initDataTableStockIndividual();
-});
