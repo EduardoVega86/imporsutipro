@@ -1,6 +1,19 @@
 <?php require_once './Views/templates/header.php'; ?>
 
 <style>
+    .table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    .table th,
+    .table td {
+        text-align: center;
+        vertical-align: middle;
+        border: 1px solid #ddd;
+        /* Añadir borde a celdas */
+    }
+
     .table-striped tbody tr:nth-of-type(odd) {
         background-color: rgba(0, 0, 0, .05);
     }
@@ -12,12 +25,6 @@
     .table thead th {
         background-color: #171931;
         color: white;
-    }
-
-    .table th,
-    .table td {
-        text-align: center;
-        vertical-align: middle;
     }
 
     .centered {

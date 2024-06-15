@@ -109,8 +109,8 @@
                                     </select>
                                 </div>
                                 <div class="form-group w-100">
-                                    <label for="producto-variable">Producto Variable:</label>
-                                    <select class="form-select" id="producto-variable">
+                                    <label for="editar_producto_variable">Producto Variable:</label>
+                                    <select class="form-select" id="editar_producto_variable">
                                         <option selected>-- Selecciona --</option>
                                         <option value="1">Sí</option>
                                         <option value="0">No</option>
@@ -165,6 +165,7 @@
             formData.append('formato', $('#editar_formato_pagina').val());
             formData.append('drogshipin', 0); // Suponiendo que no es dropshipping
             formData.append('destacado', 0); // Suponiendo que no es destacado
+            formData.append('producto_variable', $('#editar_producto_variable').val());
             formData.append('stock_inicial', $('#editar_stock_inicial').val());
             formData.append('bodega', $('#editar_bodega').val());
             formData.append('pcp', $('#editar_precio_proveedor').val());
