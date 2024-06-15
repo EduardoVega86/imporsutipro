@@ -28,11 +28,15 @@ class ProductosModel extends Query
         $id_producto = $this->select($sql_id);
         $id_producto = $id_producto[0]['id_producto'];
         if ($inv_producto == 1) {
+           echo $producto_variable;
 
-            if ($producto_variable === 0) {
+            if ($producto_variable == 0) {
+                
+                // echo 'con invetario';
                 $sql = "INSERT INTO inventario_bodegas (sku, id_producto, id_variante, bodega, pcp, pvp, pref, stock_inicial, saldo_stock, id_plataforma) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 $data = [$codigo_producto, $id_producto, 0, $bodega, $pcp, $pvp, $pref, $stock_inicial, $stock_inicial, $plataforma];
             } else {
+                // echo 'sin invetario';
                 $sql = "INSERT INTO inventario_bodegas (sku, id_producto, id_variante, bodega, pcp, pvp, pref, stock_inicial, saldo_stock, id_plataforma) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 $data = [$codigo_producto, $id_producto, $producto_variable, 50000, $pcp, $pvp, $pref, $stock_inicial, $stock_inicial, $plataforma];
             }
