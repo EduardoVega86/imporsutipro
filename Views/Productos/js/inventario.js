@@ -158,40 +158,43 @@ const listStockIndividual = async (id_inventario) => {
 };
 
 function seleccionar_cambiarInventario(id_inventario) {
-  let formData = new FormData();
-  formData.append("id_inventario", id_inventario); // Añadir el SKU al FormData
+    let formData = new FormData();
+    formData.append("id_inventario", id_inventario); // Añadir el ID del inventario al FormData
 
-  $.ajax({
-    url: SERVERURL + "inventarios/obtenerInventario`",
-    type: "GET",
-    data: formData,
-    processData: false, // No procesar los datos
-    contentType: false, // No establecer ningún tipo de contenido
-    success: function (response) {
-      console.log("informacion de inventario: "+response);
-      $("#existencia_stock").val(response[0].saldo_stock);
-      var id_producto = response[0].id_producto;
+    // Convertir FormData a cadena de consulta
+    let params = new URLSearchParams(formData).toString();
 
-      // ajax para consultar imagen de producto
-      $.ajax({
-        url: SERVERURL + "productos/obtener_producto/" + id_producto,
+    $.ajax({
+        url: SERVERURL + "inventarios/obtenerInventario?" + params,
         type: "GET",
-        dataType: "json",
-        success: function (response2) {
-          document.getElementById("image_stock").src =
-            "" + SERVERURL + "" + response2.image_path;
-          initDataTableStockIndividual(id_inventario);
-          document
-            .getElementById("inventarioSection")
-            .classList.remove("hidden");
+        dataType: "json", // Asegúrate de recibir datos JSON
+        success: function(response) {
+            console.log("informacion de inventario: " + response);
+            if (response && response.length > 0) {
+                $("#existencia_stock").val(response[0].saldo_stock);
+                var id_producto = response[0].id_producto;
+
+                // ajax para consultar imagen de producto
+                $.ajax({
+                    url: SERVERURL + "productos/obtener_producto/" + id_producto,
+                    type: "GET",
+                    dataType: "json",
+                    success: function(response2) {
+                        document.getElementById("image_stock").src = SERVERURL + response2.image_path;
+                        initDataTableStockIndividual(id_inventario);
+                        document.getElementById("inventarioSection").classList.remove("hidden");
+                    },
+                    error: function(error) {
+                        console.error("Error al obtener la imagen del producto:", error);
+                    }
+                });
+            } else {
+                console.error("Respuesta vacía o inválida.");
+            }
         },
-        error: function (error) {
-          console.error("Error al obtener la lista de bodegas:", error);
-        },
-      });
-    },
-    error: function (error) {
-      console.error("Error al obtener la lista de bodegas:", error);
-    },
-  });
+        error: function(error) {
+            console.error("Error al obtener la información del inventario:", error);
+        }
+    });
 }
+
