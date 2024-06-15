@@ -26,7 +26,7 @@ JOIN (
 ON p.id_producto = ib_filtered.id_producto 
 JOIN inventario_bodegas ib
 ON ib.id_producto = ib_filtered.id_producto AND ib.sku = ib_filtered.sku AND ib.id_inventario = ib_filtered.min_id_inventario
-WHERE (p.drogshipin = 1 OR p.id_plataforma = 1168)
+WHERE (p.drogshipin = 1 OR p.id_plataforma = $plataforma)
   AND ((p.drogshipin = 1 AND ib.id_plataforma = p.id_plataforma) 
    OR (ib.id_plataforma = p.id_plataforma));
 ";
