@@ -10,7 +10,7 @@
     }
 
     .custom-container-fluid {
-        background-color: #6c757d;
+        background-color: #171931;
         padding: 20px;
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -55,12 +55,12 @@
 
 <div class="full-screen-container">
     <div class="custom-container-fluid mt-4">
-        <h1>Devolución de guías</h1>
+        <h1>Despacho de guías</h1>
         <div class="form-group">
             <label for="numeroGuia">Número de Guía</label>
             <input type="text" id="numeroGuia" placeholder="Coloca el cursor aquí antes de">
         </div>
-        <button class="btn">Devolución</button>
+        <button class="btn">Despacho</button>
     </div>
     
 </div>
