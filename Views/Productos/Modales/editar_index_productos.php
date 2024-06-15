@@ -66,8 +66,8 @@
                                     </div>
                                     <div class="d-flex flex-column w-100">
                                         <div class="form-group">
-                                            <label for="editar_formato-pagina">Formato Página Productos:</label>
-                                            <select class="form-select" id="editar_formato-pagina">
+                                            <label for="editar_formato_pagina">Formato Página Productos:</label>
+                                            <select class="form-select" id="editar_formato_pagina">
                                                 <option selected>-- Selecciona --</option>
                                                 <option value="1">Formato 1</option>
                                                 <option value="2">Formato 2</option>
