@@ -126,7 +126,7 @@
         <!-- <div class="filtros_producos justify-content-between align-items-center mb-3"></div>
         </div> -->
         <div class="d-flex flex-row">
-            <div class="table-responsive w-50">
+            <div class="table-responsive w-40">
                 <!-- <table class="table table-bordered table-striped table-hover"> -->
                 <table id="datatable_inventario" class="table table-striped">
                     <!-- <caption>
@@ -145,14 +145,14 @@
                     <tbody id="tableBody_inventario"></tbody>
                 </table>
             </div>
-            <div class="w-50 d-flex flex-row">
-                <div class="card">
+            <div class="w-60 d-flex flex-row">
+                <div class="card w-20 h-40">
                     <img src="tu-imagen.png" alt="Producto">
                     <div class="stock">Existencia: 123</div>
                     <button class="btn btn-add">Agregar Stock</button>
                     <button class="btn btn-delete">Eliminar Stock</button>
                 </div>
-                <div class="table-responsive">
+                <div class="table-responsive w-40">
                     <!-- <table class="table table-bordered table-striped table-hover"> -->
                     <table id="datatable_stockIndividual" class="table table-striped">
                         <!-- <caption>
