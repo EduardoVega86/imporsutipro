@@ -50,6 +50,11 @@ class Productos extends Controller
         $this->views->render($this, "marketplace");
     }
 
+    public function inventario()
+    {
+        $this->views->render($this, "inventario");
+    }
+
 
 
     ///Funciones
@@ -331,13 +336,13 @@ class Productos extends Controller
         $response = $this->model->eliminarCaracteristica($id, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
-    
+
     //FUNCIONES PARA AGREGAR VARIABLES
-    
-    
-     public function agregarVariable()
+
+
+    public function agregarVariable()
     {
-        
+
         $id_variedad = $_POST['id_variedad'];
         $id_producto = $_POST['id_producto'];
         $sku = $_POST['sku'];
@@ -350,20 +355,20 @@ class Productos extends Controller
 
         echo json_encode($response);
     }
-    
-    function consultarMaximo($id_producto){
+
+    function consultarMaximo($id_producto)
+    {
         //echo $id_producto;
-     $response = $this->model->consultarMaximo($id_producto);
-     //echo $response;
-     return $response;           
+        $response = $this->model->consultarMaximo($id_producto);
+        //echo $response;
+        return $response;
     }
-    
-    function mostrarVariedades($id_producto){
+
+    function mostrarVariedades($id_producto)
+    {
         //echo $id_producto;
-     $response = $this->model->mostrarVariedades($id_producto);
-    // print_r($response);
-    echo json_encode($response);        
+        $response = $this->model->mostrarVariedades($id_producto);
+        // print_r($response);
+        echo json_encode($response);
     }
-    
-    
 }
