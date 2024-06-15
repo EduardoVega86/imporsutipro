@@ -171,7 +171,7 @@ function seleccionar_cambiarInventario(id_inventario) {
     success: function (response) {
       console.log("informacion de inventario: " + JSON.stringify(response));
       console.log(response[0].saldo_stock);
-      $("#existencia_stock").val(response[0].saldo_stock);
+      $("#existencia_stock").text(response[0].saldo_stock);
       var id_producto = response[0].id_producto;
 
       // ajax para consultar imagen de producto
