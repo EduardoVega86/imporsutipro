@@ -1,7 +1,7 @@
-let dataTable;
-let dataTableIsInitialized = false;
+let dataTableInventario;
+let dataTableInventarioIsInitialized = false;
 
-const dataTableOptions = {
+const dataTableInventarioOptions = {
   columnDefs: [
     { className: "centered", targets: [1, 2, 3, 4, 5, 6, 7, 8, 9] },
     { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
@@ -25,56 +25,50 @@ const dataTableOptions = {
   },
 };
 
-const initDataTable = async () => {
-  if (dataTableIsInitialized) {
-    dataTable.destroy();
+const initDataTableInventario = async () => {
+  if (dataTableInventarioIsInitialized) {
+    dataTableInventario.destroy();
   }
 
-  await listGuias();
+  await listInventario();
 
-  dataTable = $("#datatable_guias").DataTable(dataTableOptions);
+  dataTableInventario = $("#datatable_inventario").DataTable(dataTableInventarioOptions);
 
-  dataTableIsInitialized = true;
-
-  // Handle select all checkbox
-  document.getElementById("selectAll").addEventListener("change", function () {
-    const checkboxes = document.querySelectorAll(".selectCheckbox");
-    checkboxes.forEach((checkbox) => (checkbox.checked = this.checked));
-  });
+  dataTableInventarioIsInitialized = true;
 };
 
-const listGuias = async () => {
+const listInventario = async () => {
   try {
     const response = await fetch("" + SERVERURL + "productos/obtener_productos");
-    const guias = await response.json();
+    const inventarios = await response.json();
 
     let content = ``;
-    let cargar_imagen = "";
-    guias.forEach((guia, index) => {
-      if (!producto.image_path) {
-        cargar_imagen = `<i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${producto.id_producto})"></i>`;
+    let cargarImagen = "";
+    inventarios.forEach((inventario, index) => {
+      if (!inventario.image_path) {
+        cargarImagen = `<i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${inventario.id_producto})"></i>`;
       } else {
-        cargar_imagen = `<img src="${SERVERURL}${producto.image_path}" class="icon-button" onclick="agregar_imagenProducto(${producto.id_producto})" alt="Agregar imagen" width="50px">`;
+        cargarImagen = `<img src="${SERVERURL}${inventario.image_path}" class="icon-button" onclick="agregar_imagenProducto(${inventario.id_producto})" alt="Agregar imagen" width="50px">`;
       }
 
       content += `
       <tr>
-      <td>${producto.id_producto}</td>
-      <td>${cargar_imagen}</td>
-      <td>${producto.codigo_producto}</td>
-      <td>${producto.nombre_producto}</td>
-      <td>${producto.saldo_stock}</td>
+      <td>${inventario.id_producto}</td>
+      <td>${cargarImagen}</td>
+      <td>${inventario.codigo_producto}</td>
+      <td>${inventario.nombre_producto}</td>
+      <td>${inventario.saldo_stock}</td>
       <td>
-          <button class="btn btn-sm btn-primary" onclick="seleccionar_cambiarInventario(${producto.id_producto})"><i class="fa-solid fa-pencil"></i>Editar</button>
+          <button class="btn btn-sm btn-primary" onclick="seleccionar_cambiarInventario(${inventario.id_producto})"><i class="fa-solid fa-pencil"></i>Editar</button>
       </td>
       </tr>`;
     });
-    document.getElementById("tableBody_guias").innerHTML = content;
+    document.getElementById("tableBody_inventario").innerHTML = content;
   } catch (ex) {
     alert(ex);
   }
 };
 
 window.addEventListener("load", async () => {
-  await initDataTable();
+  await initDataTableInventario();
 });
