@@ -473,12 +473,12 @@ class ProductosModel extends Query
               print_r($inicial_variable);
                $id_inventario = $inicial_variable[0]["id_inventario"];
                $sql = "UPDATE `inventario_bodegas` SET  `sku`=?, `bodega`=? ,`pcp`=? ,`pvp`=? ,`stock_inicial`=? ,`saldo_stock`=?, `id_variante`=?  WHERE `id_inventario` = ?";
-                $data = [$sku, $bodega ,$pcp ,$pvp ,$stock ,$stock ,$id_inventario,$id_variedad];
+                $data = [$sku, $bodega ,$pcp ,$pvp ,$stock ,$stock ,$id_variedad, $id_inventario];
                $insertar_caracteristica = $this->update($sql, $data);
         
           }
               
-      
+          print_r($insertar_caracteristica);
         if ($insertar_caracteristica == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
