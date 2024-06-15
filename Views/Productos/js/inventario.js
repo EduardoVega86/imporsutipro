@@ -63,7 +63,7 @@ const listInventario = async () => {
       <td>${inventario.nombre_producto}</td>
       <td>${inventario.saldo_stock}</td>
       <td>
-          <button class="btn btn-sm btn-primary" onclick="seleccionar_cambiarInventario(${inventario.id_producto})"><i class="fa-solid fa-pencil"></i>Editar</button>
+          <button class="btn btn-sm btn-primary" onclick="seleccionar_cambiarInventario(${inventario.id_inventario})"><i class="fa-solid fa-pencil"></i>Editar</button>
       </td>
       </tr>`;
     });
@@ -75,4 +75,77 @@ const listInventario = async () => {
 
 window.addEventListener("load", async () => {
   await initDataTableInventario();
+});
+
+
+// tabla con informacion de inventario de producto individual
+let dataTableStockIndividual;
+let dataTableStockIndividualIsInitialized = false;
+
+const dataTableStockIndividualOptions = {
+  columnDefs: [
+    { className: "centered", targets: [0, 1, 2, 3] },
+    { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
+  ],
+  pageLength: 10,
+  destroy: true,
+  language: {
+    lengthMenu: "Mostrar _MENU_ registros por página",
+    zeroRecords: "Ningún usuario encontrado",
+    info: "Mostrando de _START_ a _END_ de un total de _TOTAL_ registros",
+    infoEmpty: "Ningún usuario encontrado",
+    infoFiltered: "(filtrados desde _MAX_ registros totales)",
+    search: "Buscar:",
+    loadingRecords: "Cargando...",
+    paginate: {
+      first: "Primero",
+      last: "Último",
+      next: "Siguiente",
+      previous: "Anterior",
+    },
+  },
+};
+
+const initDataTableStockIndividual = async () => {
+  if (dataTableStockIndividualIsInitialized) {
+    dataTableStockIndividual.destroy();
+  }
+
+  await listStockIndividual();
+
+  dataTableStockIndividual = $("#datatable_stockIndividual").DataTable(
+    dataTableStockIndividualOptions
+  );
+
+  dataTableStockIndividualIsInitialized = true;
+};
+
+const listStockIndividual = async () => {
+  try {
+    const response = await fetch(
+      "" + SERVERURL + "productos/obtener_inventario"+id_inventario
+    );
+    const stockIndividuals = await response.json();
+
+    let content = ``;
+    let cargarImagen = "";
+    stockIndividuals.forEach((stockIndividual, index) => {
+
+      content += `
+      <tr>
+      <td>${stockIndividual.id_producto}</td>
+      <td>${cargarImagen}</td>
+      <td>${stockIndividual.codigo_producto}</td>
+      <td>${stockIndividual.nombre_producto}</td>
+      <td>${stockIndividual.saldo_stock}</td>
+      </tr>`;
+    });
+    document.getElementById("tableBody_stockIndividual").innerHTML = content;
+  } catch (ex) {
+    alert(ex);
+  }
+};
+
+window.addEventListener("load", async () => {
+  await initDataTableStockIndividual();
 });
