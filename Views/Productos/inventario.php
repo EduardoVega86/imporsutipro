@@ -151,7 +151,6 @@
                     <tbody id="tableBody_inventario"></tbody>
                 </table>
             </div>
-            <div class="vertical-line"></div>
             <div class="w-60 d-flex flex-row gap-2">
                 <div class="card w-20" style="height: 300px; padding:10px">
                     <img src="tu-imagen.png" alt="Producto">
