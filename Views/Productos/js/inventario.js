@@ -169,8 +169,7 @@ function seleccionar_cambiarInventario(id_inventario) {
     contentType: false, // No establecer ningún tipo de contenido
     dataType: "json", // Asegúrate de recibir datos JSON
     success: function (response) {
-      console.log("informacion de inventario: " + JSON.stringify(response));
-      console.log(response[0].saldo_stock);
+      
       $("#existencia_stock").text(response[0].saldo_stock);
       var id_producto = response[0].id_producto;
 
@@ -180,7 +179,8 @@ function seleccionar_cambiarInventario(id_inventario) {
         type: "GET",
         dataType: "json",
         success: function (response2) {
-            
+
+            console.log("Imagen: "+response2[0].image_path);
           $("#image_stock").attr("src", SERVERURL + response2[0].image_path);
 
           initDataTableStockIndividual(id_inventario);
