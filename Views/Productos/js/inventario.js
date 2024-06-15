@@ -88,6 +88,9 @@ const dataTableStockIndividualOptions = {
   ],
   pageLength: 10,
   destroy: true,
+  responsive: true,
+  autoWidth: true,
+  bAutoWidth: true,
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
     zeroRecords: "Ningún usuario encontrado",
