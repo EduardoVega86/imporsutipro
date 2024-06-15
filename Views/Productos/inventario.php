@@ -146,13 +146,13 @@
                 </table>
             </div>
             <div class="w-60 d-flex flex-row">
-                <div class="card w-20 h-40">
+                <div class="card w-20" style="height: 300px; padding:10px">
                     <img src="tu-imagen.png" alt="Producto">
                     <div class="stock">Existencia: 123</div>
                     <button class="btn btn-add">Agregar Stock</button>
                     <button class="btn btn-delete">Eliminar Stock</button>
                 </div>
-                <div class="table-responsive w-40">
+                <div class="table-responsive w-80">
                     <!-- <table class="table table-bordered table-striped table-hover"> -->
                     <table id="datatable_stockIndividual" class="table table-striped">
                         <!-- <caption>
