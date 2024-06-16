@@ -17,7 +17,7 @@ class PedidosModel extends Query
     {
         if (empty($filtro) || $filtro == "") {
 
-            $sql = "SELECT *, (SELECT ciudad FROM ciudad_cotizacion where id_cotizacion = ciudad_cot) as ciudad,(SELECT provincia FROM ciudad_cotizacion where id_cotizacion = ciudad_cot) as provinciaa, (SELECT url_imporsuit from plataformas where id_plataforma = id_plataforma) as plataforma FROM facturas_cot WHERE TRIM(numero_guia) <> '' AND numero_guia IS NOT NULL AND numero_guia <> '0' AND anulada = 0 and (id_plataforma = $plataforma or id_propietario = $plataforma) ORDER BY `facturas_cot`.`numero_factura` DESC;";
+            $sql = "SELECT *, (SELECT ciudad FROM ciudad_cotizacion where id_cotizacion = ciudad_cot) as ciudad,(SELECT provincia FROM ciudad_cotizacion where id_cotizacion = ciudad_cot) as provinciaa, (SELECT url_imporsuit from plataformas where id_plataforma = id_propietario) as plataforma FROM facturas_cot WHERE TRIM(numero_guia) <> '' AND numero_guia IS NOT NULL AND numero_guia <> '0' AND anulada = 0 and (id_plataforma = $plataforma or id_propietario = $plataforma) ORDER BY `facturas_cot`.`numero_factura` DESC;";
         } else {
             $sql = "SELECT * FROM facturas_cot WHERE TRIM(numero_guia) <> '' AND numero_guia IS NOT NULL AND anulada = 0 and $filtro";
         }
