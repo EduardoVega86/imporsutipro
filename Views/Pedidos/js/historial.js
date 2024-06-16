@@ -97,7 +97,7 @@ const listHistorialPedidos = async () => {
                         <div>telf: ${historialPedido.telefono}</div>
                     </td>
                     <td>${historialPedido.provinciaa}-${ciudad}</td>
-                    <a href="#" id="plataformaLink" onclick="abirModal_infoTienda(${historialPedido.plataforma})">${plataforma}</a>
+                    <td><a href="#" id="plataformaLink" onclick="abirModal_infoTienda(${historialPedido.plataforma})">${plataforma}</a></td>
                     <td>${transporte_content}</td>
                     <td>
                         <a class="w-100" href="https://wa.me/${formatPhoneNumber(
