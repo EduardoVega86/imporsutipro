@@ -74,6 +74,12 @@ const listGuias = async () => {
       var span_estado = estado.span_estado;
       var estado_guia = estado.estado_guia;
 
+      //tomar solo la ciudad
+      let ciudadCompleta = guia.ciudad;
+      let ciudadArray = ciudadCompleta.split("/");
+      let ciudad = ciudadArray[0];
+
+      let plataforma = procesarPlataforma(guia.plataforma);
       if (guia.impreso == 0) {
         impresiones = `<box-icon name='printer' color= "red"></box-icon>`;
       } else {
@@ -91,9 +97,8 @@ const listGuias = async () => {
                         <div>${guia.c_principal} y ${guia.c_secundaria}</div>
                         <div>telf: ${guia.telefono}</div>
                     </td>
-                    <td>${guia.provinciaa}</td>
-                    <td>${guia.ciudad}</td>
-                    <td>${guia.plataforma}</td>
+                    <td>${guia.provinciaa}-${ciudad}</td>
+                    <td>${plataforma}</td>
                     <td>${transporte_content}</td>
                     <td>
                      <div style="text-align: center;">
@@ -131,6 +136,19 @@ const listGuias = async () => {
     alert(ex);
   }
 };
+
+function procesarPlataforma(url) {
+  // Eliminar el "https://"
+  let sinProtocolo = url.replace('https://', '');
+
+  // Eliminar ".imporsuitpro.com"
+  let baseNombre = sinProtocolo.replace('.imporsuitpro.com', '');
+
+  // Convertir a mayúsculas
+  let resultado = baseNombre.toUpperCase();
+
+  return resultado;
+}
 
 function validar_estado(estado) {
   var span_estado = "";
@@ -212,7 +230,6 @@ document.getElementById("imprimir_guias").addEventListener("click", () => {
     },
   });
 });
-
 
 window.addEventListener("load", async () => {
   await initDataTable();

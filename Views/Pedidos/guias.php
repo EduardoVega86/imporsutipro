@@ -177,8 +177,7 @@
                         <th class="centered"># Orden</th>
                         <th class="centered">Detalle</th>
                         <th class="centered">Cliente</th>
-                        <th class="centered">Provincia</th>
-                        <th class="centered">Ciudad</th>
+                        <th class="centered">Destino</th>
                         <th class="centered">Tienda</th>
                         <th class="centered">Transportadora</th>
                         <th class="centered">Estado</th>
