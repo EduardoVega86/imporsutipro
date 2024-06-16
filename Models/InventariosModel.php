@@ -21,8 +21,11 @@ class InventariosModel extends Query
         $stock = $this->select($sql_id);
         $stock_inventario = $stock[0]['saldo_stock'];
         $saldo_stock=$stock_inventario+$cantidad;
-        $sql_update="update inventario_bodegas set saldo_stock=$saldo_stock where id_inventario=$inventario";
-        $actualizar_stock= $this->simple_select($sql_update);
+        $sql_update="update inventario_bodegas set saldo_stock=? where id_inventario=?";
+         $data = [$saldo_stock, $inventario];
+        $actualizar_stock= $this->update($sql_update, $data);
+        
+     
         
         if($actualizar_stock==1){
         $id_usuario=$_SESSION['id'];
@@ -171,51 +174,8 @@ class InventariosModel extends Query
     }
 
 
-    public function cargarCategorias($plataforma)
-    {
-        $sql = "SELECT * FROM lineas WHERE id_plataforma = $plataforma";
-        return $this->select($sql);
-    }
+ 
 
-    public function editarCategoria($id, $nombre_linea, $descripcion_linea, $estado_linea, $date_added, $online, $imagen, $tipo, $padre, $plataforma)
-    {
-        // codigo para editar categoria
-        $response = $this->initialResponse();
-
-        $sql = "UPDATE lineas SET nombre_linea = ?, descripcion_linea = ?, estado_linea = ?, date_added = ?, online = ?, imagen = ?, tipo = ?, padre = ? WHERE id_linea = ? AND id_plataforma = ?";
-        $data = [$nombre_linea, $descripcion_linea, $estado_linea, $date_added, $online, $imagen, $tipo, $padre, $id, $plataforma];
-        $editar_categoria = $this->update($sql, $data);
-        if ($editar_categoria == 1) {
-            $response['status'] = 200;
-            $response['title'] = 'Peticion exitosa';
-            $response['message'] = 'Categoria editada correctamente';
-        } else {
-            $response['status'] = 500;
-            $response['title'] = 'Error';
-            $response['message'] = 'Error al editar la categoria';
-        }
-        return $response;
-    }
-
-    public function eliminarCategoria($id, $plataforma)
-    {
-        // codigo para eliminar categoria
-        $response = $this->initialResponse();
-
-        $sql = "DELETE FROM lineas WHERE id_linea = ? AND id_plataforma = ?";
-        $data = [$id, $plataforma];
-        $eliminar_categoria = $this->delete($sql, $data);
-        if ($eliminar_categoria == 1) {
-            $response['status'] = 200;
-            $response['title'] = 'Peticion exitosa';
-            $response['message'] = 'Categoria eliminada correctamente';
-        } else {
-            $response['status'] = 500;
-            $response['title'] = 'Error';
-            $response['message'] = 'Error al eliminar la categoria';
-        }
-        return $response;
-    }
 
 
     public function listarCategoria($id, $plataforma)
@@ -408,6 +368,45 @@ class InventariosModel extends Query
         $sql = "DELETE FROM variedades WHERE id_variedad = ? AND id_plataforma = ?";
         $data = [$id, $plataforma];
         $eliminar_caracteristica = $this->delete($sql, $data);
+        if ($eliminar_caracteristica == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Caracteristica eliminada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al eliminar la caracteristica';
+        }
+        return $response;
+    }
+    
+    public function despacho_guia($id_factura, $plataforma)
+    {
+        $response = $this->initialResponse();
+      
+        
+        $tmp_cotizaciones = $this->select("SELECT * FROM detalle_fact_cot WHERE id_factura = $id_factura");
+        $detalle_sql_despacho = "INSERT INTO `historial_depacho` (`id_pedido`, `guia`, `id_factura`) VALUES (?, ?, ?, ?)";
+        
+        foreach ($tmp_cotizaciones as $tmp) {
+                //  echo 'enta';
+                $detalle_data = array(
+                    $nueva_factura,
+                    $factura_id,
+                    $tmp['id_producto'],
+                    $tmp['cantidad_tmp'],
+                    $tmp['desc_tmp'],
+                    $tmp['precio_tmp'],
+                    $tmp['id_plataforma'],
+                    $tmp['sku'],
+                    $tmp['id_inventario']
+                );
+                $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
+                // print_r($guardar_detalle);
+            }
+            
+        print_r($tmp_cotizaciones);
+        
         if ($eliminar_caracteristica == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
