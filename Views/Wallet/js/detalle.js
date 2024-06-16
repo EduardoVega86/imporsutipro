@@ -49,8 +49,15 @@ const listDetalleWallet = async () => {
 
       content += `
                 <tr>
-                    <td>${detalleWallet.numero_factura}</td>
-                    <td>${detalleWallet.fecha_factura}</td>
+                    <td>${detalleWallet.tienda}</td>
+                    <td>${detalleWallet.ventas}</td>
+                    <td>${detalleWallet.utilidad}</td>
+                    <td>${detalleWallet.ventas}</td>
+                    <td>${detalleWallet.count_visto_0}</td>
+                    <td>
+                    <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel_general('${detalleWallet.tienda}')">Descargar Excel general</button>
+                    <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel('${detalleWallet.tienda}')">Descargar Excel</button>
+                    </td>
                     <td>
                     <div class="dropdown">
                     <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
