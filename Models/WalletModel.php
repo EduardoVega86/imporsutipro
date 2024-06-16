@@ -63,7 +63,7 @@ class WalletModel extends Query
             'abonos_registrados' => $abonos_registrados[0]['pagos'] ?? 0
         ];
 
-        return json_encode($data);
+        return $data;
     }
 
     public function obtenerFacturas($tienda, $filtro)
