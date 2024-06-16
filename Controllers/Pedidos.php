@@ -182,7 +182,7 @@ class Pedidos extends Controller
     public function obtener_guias($filtro = "")
     {
 
-        $data = $this->model->cargarGuias($filtro);
+        $data = $this->model->cargarGuias($filtro, $_SESSION['id_plataforma']);
         echo json_encode($data);
     }
 

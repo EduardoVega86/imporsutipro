@@ -204,7 +204,6 @@ class GuiasModel extends Query
 
     public function anularGuia($id)
     {
-
         $token = $this->laarToken();
         $ch = curl_init(LLAR_ENDPOINT_CANCEL . $id);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
