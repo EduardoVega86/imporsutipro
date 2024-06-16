@@ -17,6 +17,7 @@ class InventariosModel extends Query
     public function agregarStock($inventario, $cantidad, $plataforma, $sku,  $referencia,  $id_producto, $id_bodega)
     {
         $response = $this->initialResponse();
+        
         $sql_id = "SELECT saldo_stock FROM inventario_bodegas WHERE id_inventario = $inventario";
         $stock = $this->select($sql_id);
         $stock_inventario = $stock[0]['saldo_stock'];
@@ -25,16 +26,17 @@ class InventariosModel extends Query
          $data = [$saldo_stock, $inventario];
         $actualizar_stock= $this->update($sql_update, $data);
         
-     
+       
         
         if($actualizar_stock==1){
         $id_usuario=$_SESSION['id'];
         $nota= "Se agrego $cantidad productos(s) al inventario";
-        $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $data = [$id_usuario, $inventario, $plataforma, $sku,  $nota, $referencia, $cantidad, 1, $id_bodega ,$id_producto];
         $insertar_historial = $this->insert($sql, $data);
-
+        //print_r($insertar_historial);
         if ($insertar_historial == 1) {
+           // echo 'entrra';
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
             $response['message'] = 'Producto agregado correctamente';
@@ -49,6 +51,7 @@ class InventariosModel extends Query
             $response['title'] = 'Error';
             $response['message'] = 'Error stock';   
         }
+         return $response;
     }
     
     public function eliminarStock($inventario, $cantidad, $plataforma, $sku,  $referencia,  $id_producto, $id_bodega)
@@ -58,23 +61,25 @@ class InventariosModel extends Query
         $stock = $this->select($sql_id);
         $stock_inventario = $stock[0]['saldo_stock'];
         $saldo_stock=$stock_inventario-$cantidad;
-        $sql_update="update inventario_bodegas set saldo_stock=$saldo_stock where id_inventario=$inventario";
-        $actualizar_stock= $this->simple_select($sql_update);
+        $sql_update="update inventario_bodegas set saldo_stock=? where id_inventario=?";
+         $data = [$saldo_stock, $inventario];
+        $actualizar_stock= $this->update($sql_update, $data);
         
         if($actualizar_stock==1){
         $id_usuario=$_SESSION['id'];
         $nota= "Se agrego $cantidad productos(s) al inventario";
-        $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $data = [$id_usuario, $inventario, $plataforma, $sku,  $nota, $referencia, $cantidad, 2, $id_bodega ,$id_producto];
         $insertar_historial = $this->insert($sql, $data);
-
+        // echo 'asd';
+      //  print_r($insertar_historial);
+       
         if ($insertar_historial == 1) {
+          //  echo 'asd';
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
             $response['message'] = 'Producto agregado correctamente';
-            if ($insertar_producto_ === 1) {
-                $response['message'] = 'Producto y stock agregado correctamente';
-            }
+           
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
@@ -85,6 +90,8 @@ class InventariosModel extends Query
             $response['title'] = 'Error';
             $response['message'] = 'Error stock';   
         }
+        
+        return $response;
     }
 
     public function guardar_imagen_productos()

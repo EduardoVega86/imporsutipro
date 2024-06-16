@@ -97,8 +97,8 @@ class Inventarios extends Controller
         
         
         $response = $this->model->agregarStock($inventario, $cantidad, $_SESSION['id_plataforma'], $sku,  $referencia,  $id_producto, $id_bodega);
-        // print_r($response);
-        echo json_encode($response);
+        print_r($response);
+        return json_encode($response);
     }
     
      public function generarDespacho($id_factura)
