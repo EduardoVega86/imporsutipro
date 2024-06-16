@@ -45,7 +45,6 @@ const listDetalleWallet = async () => {
     let content = ``;
 
     detallesWallet.forEach((detalleWallet, index) => {
-        console.log(detalleWallet)
 
       content += `
                 <tr>
