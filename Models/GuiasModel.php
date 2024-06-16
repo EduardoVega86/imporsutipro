@@ -198,7 +198,5 @@ class GuiasModel extends Query
         $insert_wallet = "INSERT INTO cabecera_cuenta_pagar (numero_factura, fecha, cliente, tienda, proveedor, estado_guia, total_venta, costo, precio_envio, monto_recibir, valor_cobrado, valor_pendiente, full, guia, cod, id_matriz) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         $data = array($numero_factura, $fecha, $nombreDestino, $tienda_venta, $proveedor, $estado, $costo_producto, $costo_o, $precio_envio, $monto_recibir, 0, $monto_recibir, $full, $guia, $cod, $id_matriz);
         $response = $this->insert($insert_wallet, $data);
-
-        print_r($response);
     }
 }
