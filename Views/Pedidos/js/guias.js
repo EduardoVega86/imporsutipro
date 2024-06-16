@@ -292,6 +292,7 @@ function formatPhoneNumber(number) {
 
 //anular guia
 function anular_guia(nuemero_guia){
+  console.log("se jecuto la funcion");
   let formData = new FormData();
   formData.append("guia", nuemero_guia);
 
