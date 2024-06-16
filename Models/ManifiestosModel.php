@@ -9,13 +9,31 @@ class ManifiestosModel extends Query
 
     public function generarManifiesto($arreglo)
     {
+      
         if (count($arreglo) == 0) return;
-        if (count($arreglo) == 1) {
-            $html = $this->generarManifiestoUnico($arreglo[0]);
+        if (count($arreglo) > 0) {
+            print_r($arreglo);
+            $string = "('" . implode("','", $arreglo) . "')";
+           // echo $string;
+            $sql = "SELECT  id_producto, (select nombre_producto from productos where id_producto=1360) as nombre, count(id_detalle) FROM `detalle_fact_cot` WHERE numero_factura in $string group by id_producto, sku";
+        echo $sql;
+            $resumen= $this->select($sql);
+        print_r($resumen);
             return  $html;
         }
     }
 
+    public function generarTablaDescripcion($facturas)
+    {
+  //      echo 'asd'.$facturas;
+        $datos = $this->select("SELECT * FROM facturas_cot WHERE numero_factura = '$factura' ");
+        $productos = $this->select("SELECT * FROM detalle_fact_cot WHERE numero_factura = '$factura' ");
+
+        $factura = $datos[0];
+        $html = $this->generarHtmlUnico($factura, $productos);
+        return $html;
+    }
+    
     public function generarManifiestoUnico($factura)
     {
         $datos = $this->select("SELECT * FROM facturas_cot WHERE numero_factura = '$factura' ");
