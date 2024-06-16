@@ -30,7 +30,7 @@ class Wallet extends Controller
         $existe = $this->model->existeTienda($tienda);
         var_dump($existe);
         if (empty($existe)) {
-            $this->model->crearBilltera($tienda);
+            $this->model->crearBilletera($tienda);
             echo "XD";
         }
 
