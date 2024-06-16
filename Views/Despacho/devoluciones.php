@@ -44,7 +44,7 @@
     }
 
     .btn {
-        background-color: #ffeb3b;
+        background-color: #198754;
         color: black;
         border: none;
         padding: 10px 20px;
