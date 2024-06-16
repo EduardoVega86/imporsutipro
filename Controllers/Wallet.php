@@ -28,6 +28,7 @@ class Wallet extends Controller
             header("Location: /wallet/billetera");
         }
         $existe = $this->model->existeTienda($tienda);
+        var_dump($existe);
         if (empty($existe)) {
             $this->model->crearBilltera($tienda);
             echo "XD";
