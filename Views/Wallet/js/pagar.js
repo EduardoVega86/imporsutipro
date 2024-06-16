@@ -22,6 +22,11 @@ function cargarDashboard_wallet(){
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
         $('#image_tienda').attr('src', SERVERURL+'public/img/profile_wallet.png');
+        $("#totalVentas_wallet").text(response.ventas);
+        $("#utilidadGenerada_wallet").text(response.utilidad);
+        $("#descuentoDevolucion_wallet").text(response.devoluciones);
+        $("#retirosAcreditados_wallet").text(response.abonos_registrados);
+        $("#saldoBilletera_wallet").text(response.saldo);
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);

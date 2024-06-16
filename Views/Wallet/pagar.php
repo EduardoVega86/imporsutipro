@@ -73,7 +73,7 @@
             <div class="table-responsive left">
             <div class="card text-center">
             <div class="card-body">
-                <img src="" id="image_tienda" class="rounded-circle mb-3" alt="Profile Picture">
+                <img src="" id="image_tienda" width="100px" class="rounded-circle mb-3" alt="Profile Picture">
                 <h5 class="card-title"><a href="#" id="tienda_url"><span id="tienda_span"></span></a></h5>
                 <button class="btn btn-primary mb-3">Regresar</button>
                 
@@ -85,8 +85,8 @@
                                     <div class="d-flex align-items-center">
                                         <i class="bi bi-cart-fill fs-1 text-primary"></i>
                                         <div class="ms-3">
-                                            <p class="mb-0">MONTO DE VENTA</p>
-                                            <h3 class="text-primary">$<span id="montoVenta_wallet"></span></h3>
+                                            <p class="mb-0">TOTAL EN VENTAS</p>
+                                            <h3 class="text-primary">$<span id="totalVentas_wallet"></span></h3>
                                         </div>
                                     </div>
                                 </div>
@@ -100,8 +100,8 @@
                                     <div class="d-flex align-items-center">
                                         <i class="bi bi-currency-dollar fs-1 text-success"></i>
                                         <div class="ms-3">
-                                            <p class="mb-0">GANANCIA DE VENTAS</p>
-                                            <h3 class="text-success">$<span id="gananciaVentas_wallet"></span></h3>
+                                            <p class="mb-0">UTILIDAD GENERADA</p>
+                                            <h3 class="text-success">$<span id="utilidadGenerada_wallet"></span></h3>
                                         </div>
                                     </div>
                                 </div>
@@ -115,8 +115,8 @@
                                     <div class="d-flex align-items-center">
                                         <i class="bi bi-cash-coin fs-1 text-danger"></i>
                                         <div class="ms-3">
-                                            <p class="mb-0">DESCUENTO DEVOLUCIONES</p>
-                                            <h3 class="text-danger">$<span id="descuentoDevoluciones_wallet"></span></h3>
+                                            <p class="mb-0">DESCUENTO DEVOLUCIÓN</p>
+                                            <h3 class="text-danger">$<span id="descuentoDevolucion_wallet"></span></h3>
                                         </div>
                                     </div>
                                 </div>
@@ -130,8 +130,8 @@
                                     <div class="d-flex align-items-center">
                                         <i class="bi bi-clipboard-check fs-1 text-primary"></i>
                                         <div class="ms-3">
-                                            <p class="mb-0">UTILIDAD GENERADA</p>
-                                            <h3 class="text-primary">$<span id="utilidadGenerada_wallet"></span></h3>
+                                            <p class="mb-0">RETIROS ACREDITADOS</p>
+                                            <h3 class="text-primary">$<span id="retirosAcreditados_wallet"></span></h3>
                                         </div>
                                     </div>
                                 </div>
@@ -145,23 +145,8 @@
                                     <div class="d-flex align-items-center">
                                         <i class="bi bi-wallet2 fs-1 text-success"></i>
                                         <div class="ms-3">
-                                            <p class="mb-0">TOTAL RETIROS</p>
-                                            <h3 class="text-success">$<span id="totalRetiros_wallet"></span></h3>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="d-flex align-items-center">
-                                        <i class="bi bi-bank fs-1 text-primary"></i>
-                                        <div class="ms-3">
-                                            <p class="mb-0">SALDO EN WALLET</p>
-                                            <h3 class="text-primary">$<span id="saldo_wallet"></span></h3>
+                                            <p class="mb-0">SALDO EN BILLETERA</p>
+                                            <h3 class="text-success">$<span id="saldoBilletera_wallet"></span></h3>
                                         </div>
                                     </div>
                                 </div>
