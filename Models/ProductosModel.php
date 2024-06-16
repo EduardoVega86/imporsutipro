@@ -469,8 +469,10 @@ class ProductosModel extends Query
         $data = [$id_producto, $sku, $id_variedad, $bodega, $pcp, $pvp, $stock, $stock, $plataforma, $pref];
         $insertar_caracteristica = $this->insert($sql, $data);
         
+        
+        
           }else{
-              print_r($inicial_variable);
+             // print_r($inicial_variable);
                $id_inventario = $inicial_variable[0]["id_inventario"];
                $sql = "UPDATE `inventario_bodegas` SET  `sku`=?, `bodega`=? ,`pcp`=? ,`pvp`=? ,`stock_inicial`=? ,`saldo_stock`=?, `id_variante`=?  WHERE `id_inventario` = ?";
                 $data = [$sku, $bodega ,$pcp ,$pvp ,$stock ,$stock ,$id_variedad, $id_inventario];
@@ -478,11 +480,31 @@ class ProductosModel extends Query
         
           }
               
-          print_r($insertar_caracteristica);
+          
+        //  print_r($insertar_caracteristica);
         if ($insertar_caracteristica == 1) {
+        $id_usuario=$_SESSION['id'];
+       
+            $referencia = 'STOCK INICIAL';
+            $nota = "Se agrego $stock_inicial productos(s) al inventario";
+               $id_inventario = $this->buscar_inventario($id_producto, $sku);
+        $nota= "Se agrego $cantidad productos(s) al inventario";
+        $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $data = [$id_usuario, $inventario, $plataforma, $sku,  $nota, $referencia, $cantidad, 1, $id_bodega ,$id_producto];
+        $insertar_historial = $this->insert($sql, $data);
+
+        if ($insertar_historial == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
-            $response['message'] = 'Caracteristica agregada correctamente';
+            $response['message'] = 'Producto agregado correctamente';
+            if ($insertar_producto_ === 1) {
+                $response['message'] = 'Producto y stock agregado correctamente';
+            }
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al agregar el historial';
+        }
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
