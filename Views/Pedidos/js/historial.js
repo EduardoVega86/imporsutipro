@@ -130,6 +130,7 @@ function abrirModal_infoTienda(tienda){
       processData: false, // No procesar los datos
       contentType: false, // No establecer ningún tipo de contenido
       success: function (response) {
+        response = JSON.parse(response);
         $("#nombreTienda").val(response[0].nombre_tienda);
         $("#telefonoTienda").val(response[0].whatsapp);
         $("#correoTienda").val(response[0].email);
