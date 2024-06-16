@@ -54,13 +54,16 @@ class WalletModel extends Query
         $guias_pendientes = $this->select("SELECT COUNT(*) as guias_pendientes FROM cabecera_cuenta_pagar WHERE tienda = '$tienda' and visto = 0");
         $pagos = $this->select("SELECT * FROM `pagos` WHERE tienda = '$tienda'");
         $abonos_registrados = $this->select("SELECT SUM(valor) as pagos  FROM `pagos` WHERE tienda = '$tienda' and recargo = 0");
+
+        $billtera = $this->select("SELECT saldo FROM billeteras WHERE tienda = '$tienda'");
         $data = [
             'utilidad' => $datos_facturas_entregadas[0]['utilidad'] ?? 0,
             'ventas' => $datos_facturas_entregadas[0]['ventas'] ?? 0,
             'devoluciones' => $datos_facturas_devueltas[0]['devoluciones'] ?? 0,
             'guias_pendientes' => $guias_pendientes[0]['guias_pendientes'] ?? 0,
             'pagos' => $pagos ?? 0,
-            'abonos_registrados' => $abonos_registrados[0]['pagos'] ?? 0
+            'abonos_registrados' => $abonos_registrados[0]['pagos'] ?? 0,
+            'saldo' => $billtera[0]['saldo'] ?? 0
         ];
 
         return $data;
