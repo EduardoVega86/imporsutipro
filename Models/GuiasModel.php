@@ -201,4 +201,33 @@ class GuiasModel extends Query
         $data = array($numero_factura, $fecha, $nombreDestino, $tienda_venta, $proveedor, $estado, $costo_producto, $costo_o, $precio_envio, $monto_recibir, 0, $monto_recibir, $full, $guia, $cod, $id_matriz);
         $response = $this->insert($insert_wallet, $data);
     }
+
+    public function anularGuia($id)
+    {
+
+        $token = $this->laarToken();
+        $ch = curl_init(LLAR_ENDPOINT_CANCEL . $id);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Authorization: Bearer ' . $token
+        ));
+
+        //execute post
+        $result = curl_exec($ch);
+        if (curl_errno($ch)) {
+            echo 'Error en la solicitud cURL: ' . curl_error($ch);
+        }
+        $deleteHttpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        if ($deleteHttpCode == 200) {
+            $response = array("status" => 200, "message" => "Guía anulada correctamente");
+            $sql = "UPDATE facturas_cot SET estado_guia_sistema = 8 WHERE numero_guia = ?";
+            $response = $this->update($sql, array($id));
+        } else {
+            $response = array("status" => 500, "message" => "Error al anular la guía");
+        }
+        curl_close($ch);
+
+        return $response;
+    }
 }

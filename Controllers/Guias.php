@@ -72,4 +72,11 @@ class Guias extends Controller
         $id_producto = $_POST['id_inventario'];
         $datos = $this->model->obtenerDestinatario($id_producto);
     }
+
+    public function anularGuia()
+    {
+        $id = $_POST['guia'];
+        $datos = $this->model->anularGuia($id);
+        echo json_encode($datos);
+    }
 }
