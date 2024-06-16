@@ -83,10 +83,6 @@
     .link-like:hover {
         color: darkblue;
     }
-
-    .dropdown-item:hover {
-        background-color: grey;
-    }
 </style>
 
 <div class="custom-container-fluid">
