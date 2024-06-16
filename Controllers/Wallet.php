@@ -7,14 +7,14 @@ class Wallet extends Controller
         parent::__construct();
         if (!$this->isAuth())
             header("Location:  " . SERVERURL . "login");
-        if ($_SESSION["id_plataforma"] != 1167) {
-            header("Location: /dashboard");
-        }
     }
     ///vistas
     public function index()
     {
         $this->views->render($this, "index");
+        if ($_SESSION["id_plataforma"] != 1167) {
+            header("Location: /wallet/billetera");
+        }
     }
     public function billetera()
     {
@@ -23,6 +23,9 @@ class Wallet extends Controller
 
     public function pagar($tienda)
     {
+        if ($_SESSION["id_plataforma"] != 1167) {
+            header("Location: /wallet/billetera");
+        }
         $existe = $this->model->existeTienda($tienda);
         if ($existe == 0 || $existe == null || $existe == "" || $existe == false || empty($existe)) {
             $this->model->crearBilltera($tienda);
