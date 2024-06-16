@@ -187,7 +187,7 @@
                 </table>
             </div>
             <div class="right gap-2 hidden" id="inventarioSection">
-                <div class="card" style="height: 475px; padding:10px">
+                <div class="card" style="height: 550px; padding:10px">
                     <input type="hidden" id="id_inventarioStock" name="id_inventarioStock">
                     <input type="hidden" id="skuStock" name="skuStock">
                     <input type="hidden" id="id_productoStock" name="id_productoStock">
