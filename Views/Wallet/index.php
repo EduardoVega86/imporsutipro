@@ -97,7 +97,6 @@
                         <th class="centered">Tienda</th>
                         <th class="centered">Total Venta</th>
                         <th class="centered">Total Utilidad</th>
-                        <th class="centered">Saldo Pendiente</th>
                         <th class="centered">Guías Pendientes</th>
                         <th class="centered">Excel</th>
                         <th class="centered">Acciones</th>

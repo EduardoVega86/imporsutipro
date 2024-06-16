@@ -51,7 +51,6 @@ const listDetalleWallet = async () => {
                     <td>${detalleWallet.tienda}</td>
                     <td>${detalleWallet.ventas}</td>
                     <td>${detalleWallet.utilidad}</td>
-                    <td>${detalleWallet.ventas}</td>
                     <td>${detalleWallet.count_visto_0}</td>
                     <td>
                     <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel_general('${detalleWallet.tienda}')">Descargar Excel general</button>
