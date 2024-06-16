@@ -28,8 +28,10 @@ function cargarDashboard_wallet(){
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
         response = JSON.parse(response);
-        console.log(response.venta);
+        console.log(response.ventas);
         $('#image_tienda').attr('src', SERVERURL+'public/img/profile_wallet.png');
+        $("#tienda_span").text(tienda);
+
         $("#totalVentas_wallet").text(response.ventas);
         $("#utilidadGenerada_wallet").text(response.utilidad);
         $("#descuentoDevolucion_wallet").text(response.devoluciones);
