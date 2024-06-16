@@ -268,6 +268,8 @@
                 <a href="<?php echo SERVERURL ?>pedidos/guias"><box-icon name="archive" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Guías</span></a>
                 <a href="#"><box-icon name="x" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Anulados</span></a>
                 <a href="#"><box-icon name="info-circle" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Novedad</span></a>
+                <a href="<?php echo SERVERURL ?>despacho/despacho"><box-icon type="solid" name="box" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Relacion Despacho</span></a>
+                <a href="<?php echo SERVERURL ?>despacho/devoluciones"><box-icon type="solid" name="box" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Ingresar Devolucion</span></a>
             </div>
             <a href="#"><box-icon name="wallet" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Wallet</span></a>
             <a href="#"><box-icon name="cog" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Configuración</span></a>
