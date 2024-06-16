@@ -10,6 +10,12 @@ document.addEventListener('DOMContentLoaded', function() {
     cargarDashboard_wallet();
 });
 
+$(document).ready(function(){
+    $('#regresar').click(function() {
+        window.location.href = SERVERURL+'wallet';
+    });
+});
+
 function cargarDashboard_wallet(){
     let formData = new FormData();
   formData.append("tienda", tienda);
