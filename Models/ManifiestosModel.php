@@ -12,16 +12,32 @@ class ManifiestosModel extends Query
       
         if (count($arreglo) == 0) return;
         if (count($arreglo) > 0) {
-            print_r($arreglo);
+            //print_r($arreglo);
             $string = "('" . implode("','", $arreglo) . "')";
            // echo $string;
-            $sql = "SELECT  id_producto, (select nombre_producto from productos where id_producto=1360) as nombre, count(id_detalle) FROM `detalle_fact_cot` WHERE numero_factura in $string group by id_producto, sku";
-        echo $sql;
+            $sql = "SELECT dfc.id_producto, p.nombre_producto, COUNT(dfc.id_detalle) AS cantidad, ib.*, v.* FROM detalle_fact_cot dfc LEFT JOIN productos p ON dfc.id_producto = p.id_producto LEFT JOIN inventario_bodegas ib ON dfc.id_inventario = ib.id_inventario LEFT JOIN variedades v ON ib.id_variante = v.id_variedad "
+                    . "WHERE dfc.numero_factura IN $string GROUP BY dfc.id_producto, p.nombre_producto, ib.id_inventario, v.id_variedad;  ";
+       // echo $sql;
             $resumen= $this->select($sql);
-        print_r($resumen);
+        $html=$this->generarTablaHTML($resumen);
             return  $html;
         }
     }
+    
+function generarTablaHTML($data) {
+    $html = '<table border="1">';
+    $html .= '<tr><th>ID Producto</th><th>Nombre Producto</th><th>Cantidad</th><th>Variedad</th></tr>';
+    foreach ($data as $row) {
+        $html .= '<tr>';
+        $html .= '<td>' . htmlspecialchars($row['id_producto']) . '</td>';
+        $html .= '<td>' . htmlspecialchars($row['nombre_producto']) . '</td>';
+        $html .= '<td>' . htmlspecialchars($row['cantidad']) . '</td>';
+        $html .= '<td>' . htmlspecialchars($row['variedad']) . '</td>';
+        $html .= '</tr>';
+    }
+    $html .= '</table>';
+    return $html;
+}
 
     public function generarTablaDescripcion($facturas)
     {
