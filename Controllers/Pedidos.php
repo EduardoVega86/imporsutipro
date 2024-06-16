@@ -185,7 +185,9 @@ class Pedidos extends Controller
 
     public function buscarTmp()
     {
+        
         $response = $this->model->buscarTmp();
+        //print_r($response);
         if ($response == null || empty($response)) {
 
             $arr = array([

@@ -237,12 +237,12 @@ function enviar_cliente(id, sku, pvp,id_inventario) {
           text: response2.message,
         });
       } else if (response2.status == 200) {
-        /* window.location.href =
+        window.location.href =
           SERVERURL +
           "Pedidos/nuevo?id_producto=" +
           id +
           "&sku=" +
-          sku; */
+          sku; 
       }
     },
     error: function (xhr, status, error) {

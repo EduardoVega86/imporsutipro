@@ -78,10 +78,10 @@ WHERE (p.drogshipin = 1 OR p.id_plataforma = $plataforma)
               $sql = "UPDATE `tmp_cotizacion` SET  `cantidad_tmp` = ? WHERE `id_tmp` = ?";
         $data = [$cantidad_nueva,$id_tmp];
         $insertar_caracteristica = $this->update($sql, $data);
-        print_r($insertar_caracteristica);
+       
           }
          
-     
+      //print_r($insertar_caracteristica);
         
         if ($insertar_caracteristica == 1) {
             $response['status'] = 200;
