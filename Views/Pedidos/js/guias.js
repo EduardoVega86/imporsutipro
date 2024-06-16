@@ -98,7 +98,7 @@ const listGuias = async () => {
                         <div>telf: ${guia.telefono}</div>
                     </td>
                     <td>${guia.provinciaa}-${ciudad}</td>
-                    <a href="#" data-toggle="modal" data-target="#infoTiendaModal">${plataforma}</a>
+                    <a href="#" id="plataformaLink" onclick="abirModal_infoTienda(${historialPedido.plataforma})">${plataforma}</a>
                     <td>${transporte_content}</td>
                     <td>
                      <div style="text-align: center;">
@@ -136,6 +136,10 @@ const listGuias = async () => {
     alert(ex);
   }
 };
+
+function abirModal_infoTienda(){
+  $('#infoTiendaModal').modal('show');
+}
 
 function procesarPlataforma(url) {
   // Eliminar el "https://"

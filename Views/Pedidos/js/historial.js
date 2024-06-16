@@ -120,7 +120,7 @@ const listHistorialPedidos = async () => {
 };
 
 function abirModal_infoTienda(){
-    
+    $('#infoTiendaModal').modal('show');
 }
 
 function procesarPlataforma(url) {
