@@ -101,11 +101,19 @@ class Inventarios extends Controller
         echo json_encode($response);
     }
     
-     public function generarDespacho($id_factura)
+     public function generarDespacho($num_guia)
     {
        
        
-        $response = $this->model->despacho_guia($id_factura, $_SESSION['id_plataforma']);
+        $response = $this->model->despacho_guia($num_guia, $_SESSION['id_plataforma']);
+        // print_r($response);
+        echo json_encode($response);
+    }
+     public function generarDevolucion($num_guia)
+    {
+       
+       
+        $response = $this->model->devolucion_guia($num_guia, $_SESSION['id_plataforma']);
         // print_r($response);
         echo json_encode($response);
     }

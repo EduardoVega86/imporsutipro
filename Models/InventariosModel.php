@@ -67,7 +67,7 @@ class InventariosModel extends Query
         
         if($actualizar_stock==1){
         $id_usuario=$_SESSION['id'];
-        $nota= "Se agrego $cantidad productos(s) al inventario";
+        $nota= "Se eliminó $cantidad productos(s) al inventario";
         $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $data = [$id_usuario, $inventario, $plataforma, $sku,  $nota, $referencia, $cantidad, 2, $id_bodega ,$id_producto];
         $insertar_historial = $this->insert($sql, $data);
@@ -149,12 +149,12 @@ class InventariosModel extends Query
 
     public function obtenerInventario($id_inventario)
     {
-        $sql = "SELECT * FROM inventario_bodegas WHERE id_inventario = $id_inventario";
+        $sql = "SELECT * FROM inventario_bodegas WHERE id_inventario = $id_inventario ";
         return $this->select($sql);
     }
     public function obtenerHistorial($id_inventario)
     {
-        $sql = "SELECT * FROM historial_productos WHERE id_inventario = $id_inventario";
+        $sql = "SELECT * FROM historial_productos WHERE id_inventario = $id_inventario order by id_historial desc";
         return $this->select($sql);
     }
     
@@ -387,41 +387,178 @@ class InventariosModel extends Query
         return $response;
     }
     
-    public function despacho_guia($id_factura, $plataforma)
+    public function despacho_guia($num_guia, $plataforma)
     {
+     
         $response = $this->initialResponse();
       
+         $sql_factura = "SELECT * FROM facturas_cot WHERE numero_guia = '$num_guia'";
+       //  echo $sql_factura;
+            $factura = $this->select($sql_factura);
+            $id_factura = $factura[0]['id_factura'];
+            $estado_factura = $factura[0]['estado_factura'];
+            if($estado_factura==1){
+      //  echo $id_factura;
         
         $tmp_cotizaciones = $this->select("SELECT * FROM detalle_fact_cot WHERE id_factura = $id_factura");
-        $detalle_sql_despacho = "INSERT INTO `historial_depacho` (`id_pedido`, `guia`, `id_factura`) VALUES (?, ?, ?, ?)";
-        
+        $detalle_sql_despacho = "INSERT INTO `historial_depacho` (`id_pedido`, `guia`, `id_producto`, `sku`, `cantidad`, `id_usuario`) VALUES (?, ?, ?, ?, ?, ?)";
+       // $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $detalle_sql_historial = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        //print_r($tmp_cotizaciones);
+        //$nota='Se descuenta'
+         $id_usuario=$_SESSION['id'];
         foreach ($tmp_cotizaciones as $tmp) {
                 //  echo 'enta';
-                $detalle_data = array(
-                    $nueva_factura,
-                    $factura_id,
+                $despacho_data = array(
+                    $id_factura,
+                    $num_guia,
                     $tmp['id_producto'],
-                    $tmp['cantidad_tmp'],
-                    $tmp['desc_tmp'],
-                    $tmp['precio_tmp'],
-                    $tmp['id_plataforma'],
                     $tmp['sku'],
-                    $tmp['id_inventario']
+                    $tmp['cantidad'],
+                    $id_usuario
                 );
-                $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
-                // print_r($guardar_detalle);
+                $guardar_detalle = $this->insert($detalle_sql_despacho, $despacho_data);
+                $nota='Se elimina '.$tmp['cantidad'].' productos(s) del inventario -DESPACHO GUIA-';
+                $id_inventario=$tmp['id_inventario'];
+                $sql_bodega = "SELECT bodega FROM inventario_bodegas WHERE id_inventario = $id_inventario";
+                //echo $sql_bodega;
+                 $bodega = $this->select($sql_bodega);
+                 //print_r($bodega);
+                 $id_bodega = $bodega[0]['bodega'];
+            
+                $historial_data = array(
+                    $id_usuario,
+                    $tmp['id_inventario'],
+                    $plataforma,
+                    $tmp['sku'],
+                    $nota,
+                    $num_guia,
+                    $tmp['cantidad'],
+                    2,
+                    $id_bodega,
+                    $tmp['id_producto']
+                );
+                $guardar_detalle = $this->insert($detalle_sql_historial, $historial_data);
+                
+                  $sql_id = "SELECT saldo_stock FROM inventario_bodegas WHERE id_inventario = $id_inventario";
+                  $stock = $this->select($sql_id);
+        $stock_inventario = $stock[0]['saldo_stock'];
+        $saldo_stock=$stock_inventario-$tmp['cantidad'];
+        $sql_update="update inventario_bodegas set saldo_stock=? where id_inventario=?";
+         $data = [$saldo_stock, $id_inventario];
+        $actualizar_stock= $this->update($sql_update, $data);
+        
+                
+                 //print_r($guardar_detalle);
             }
             
-        print_r($tmp_cotizaciones);
+             $sql = "UPDATE `facturas_cot` SET `estado_factura` = ? WHERE `id_factura` = ?";
+        $data = [2, $id_factura];
+        $editar_categoria = $this->update($sql, $data);
+            
+        //print_r($tmp_cotizaciones);
         
-        if ($eliminar_caracteristica == 1) {
+        if ($editar_categoria == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
-            $response['message'] = 'Caracteristica eliminada correctamente';
+            $response['message'] = 'Despacho Exitoso';
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = 'Error al eliminar la caracteristica';
+            $response['message'] = 'Error al generar el despacho';
+        }
+        }else{
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Esta guia ya ha sido despachada'; 
+        }
+        return $response;
+    }
+    
+     public function devolucion_guia($num_guia, $plataforma)
+    {
+     
+        $response = $this->initialResponse();
+      
+         $sql_factura = "SELECT * FROM facturas_cot WHERE numero_guia = '$num_guia'";
+       //  echo $sql_factura;
+            $factura = $this->select($sql_factura);
+            $id_factura = $factura[0]['id_factura'];
+            $estado_factura = $factura[0]['estado_factura'];
+            if($estado_factura==2){
+      //  echo $id_factura;
+        
+        $tmp_cotizaciones = $this->select("SELECT * FROM detalle_fact_cot WHERE id_factura = $id_factura");
+        $detalle_sql_despacho = "INSERT INTO `historial_depacho` (`id_pedido`, `guia`, `id_producto`, `sku`, `cantidad`, `id_usuario`) VALUES (?, ?, ?, ?, ?, ?)";
+       // $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $detalle_sql_historial = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        //print_r($tmp_cotizaciones);
+        //$nota='Se descuenta'
+         $id_usuario=$_SESSION['id'];
+        foreach ($tmp_cotizaciones as $tmp) {
+                //  echo 'enta';
+                $despacho_data = array(
+                    $id_factura,
+                    $num_guia,
+                    $tmp['id_producto'],
+                    $tmp['sku'],
+                    $tmp['cantidad'],
+                    $id_usuario
+                );
+                $guardar_detalle = $this->insert($detalle_sql_despacho, $despacho_data);
+                $nota='Se agrega '.$tmp['cantidad'].' productos(s) del inventario -DEVOLUCION-';
+                $id_inventario=$tmp['id_inventario'];
+                $sql_bodega = "SELECT bodega FROM inventario_bodegas WHERE id_inventario = $id_inventario";
+                //echo $sql_bodega;
+                 $bodega = $this->select($sql_bodega);
+                 //print_r($bodega);
+                 $id_bodega = $bodega[0]['bodega'];
+            
+                $historial_data = array(
+                    $id_usuario,
+                    $tmp['id_inventario'],
+                    $plataforma,
+                    $tmp['sku'],
+                    $nota,
+                    $num_guia,
+                    $tmp['cantidad'],
+                    2,
+                    $id_bodega,
+                    $tmp['id_producto']
+                );
+                $guardar_detalle = $this->insert($detalle_sql_historial, $historial_data);
+                
+                  $sql_id = "SELECT saldo_stock FROM inventario_bodegas WHERE id_inventario = $id_inventario";
+                  $stock = $this->select($sql_id);
+        $stock_inventario = $stock[0]['saldo_stock'];
+        $saldo_stock=$stock_inventario+$tmp['cantidad'];
+        $sql_update="update inventario_bodegas set saldo_stock=? where id_inventario=?";
+         $data = [$saldo_stock, $id_inventario];
+        $actualizar_stock= $this->update($sql_update, $data);
+        
+                
+                 //print_r($guardar_detalle);
+            }
+            
+             $sql = "UPDATE `facturas_cot` SET `estado_factura` = ? WHERE `id_factura` = ?";
+        $data = [3, $id_factura];
+        $editar_categoria = $this->update($sql, $data);
+            
+        //print_r($tmp_cotizaciones);
+        
+        if ($editar_categoria == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Despacho Exitoso';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al generar la devolucion';
+        }
+        }else{
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Esta guia ya ha sido despachada'; 
         }
         return $response;
     }
