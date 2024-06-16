@@ -31,12 +31,12 @@ class ManifiestosModel extends Query
                 return $guia['numero_guia'];
             }, $guias);
 
-            print_r($guias);
+            
 
             $resumen = $this->select($sql);
             $html = $this->generarTablaHTML($resumen);
 
-            /*  $combinedPdfPath = $this->generateUniqueFilename('Lista-Compras-', __DIR__ . '/manifiestos');
+             $combinedPdfPath = $this->generateUniqueFilename('Lista-Compras-', __DIR__ . '/manifiestos');
             $tempName = explode('-', $combinedPdfPath);
             $tempName[0] = str_replace(__DIR__ . '/manifiestos/', '', $tempName[0]);
             $lastNumber = glob(__DIR__ . '/manifiestos/' . $tempName[0] . '-*');
@@ -52,7 +52,27 @@ class ManifiestosModel extends Query
             }
 
             $first = $this->generateFirstPdf($html);
- */
+            if(is_array($guias)){
+                $downloadedPdfs = [$first];
+                foreach ($guias as $guia) {
+                    if(strpos($guia, "IMP") === 0 || strpos($guia, "MKP") === 0){
+                        $pdf_content = $file_get_contents("https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=" . $guia);
+                    }
+                    if($pdf_content === false){
+                        exit("No se pudo obtener el PDF de la guía: $pdfUrl");
+                    }
+                    $tempPdfPath = $this->generateUniqueFilename('Temp-', __DIR__ . '/temporales');
+                    file_put_contents($tempPdfPath, $pdf_content);
+                    $downloadedPdfs[] = $tempPdfPath;
+                }
+                $this->combinePdfs($downloadedPdfs, $combinedPdfPath);
+                foreach ($downloadedPdfs as $pdf) {
+                    if(file_exists($pdf)){
+                        unlink($pdf);
+                    }
+                }
+            }
+            echo $combinedPdfPath;
             return  $html;
         }
     }
@@ -65,7 +85,7 @@ class ManifiestosModel extends Query
         $dompdf->render();
         $pdfPath = $this->generateUniqueFilename('Lista-Compras-', __DIR__ . '/temporales');
         file_put_contents($pdfPath, $dompdf->output());
-    }
+        return $pdfPath;
 
     function generateUniqueFilename($prefix, $directory = '.')
     {
