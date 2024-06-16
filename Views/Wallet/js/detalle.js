@@ -48,7 +48,7 @@ const listDetalleWallet = async () => {
 
       content += `
                 <tr>
-                    <td><a class="dropdown-item" style="cursor: pointer;" href="<?php echo SERVERURL; ?>wallet/pagar?tienda=${detalleWallet.tienda}">${detalleWallet.tienda}</a></td>
+                    <td><a class="dropdown-item" style="cursor: pointer; text-decoration: underline; color: blue;" href="${SERVERURL}wallet/pagar?tienda=${detalleWallet.tienda}">${detalleWallet.tienda}</a></td>
                     <td>${detalleWallet.ventas}</td>
                     <td>${detalleWallet.utilidad}</td>
                     <td>${detalleWallet.count_visto_0}</td>
@@ -62,7 +62,7 @@ const listDetalleWallet = async () => {
                         <i class="fa-solid fa-gear"></i>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" style="cursor: pointer;" href="<?php echo SERVERURL; ?>wallet/pagar?tienda=${detalleWallet.tienda}"><i class='bx bx-wallet'></i>Pagar</a></li>
+                        <li><a class="dropdown-item" style="cursor: pointer;" href="${SERVERURL}wallet/pagar?tienda=${detalleWallet.tienda}"><i class='bx bx-wallet'></i>Pagar</a></li>
                     </ul>
                     </div>
                     </td>
