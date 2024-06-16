@@ -48,7 +48,7 @@ const listDetalleWallet = async () => {
 
       content += `
                 <tr>
-                    <td><a class="dropdown-item" style="cursor: pointer; text-decoration: underline; color: blue;" href="${SERVERURL}wallet/pagar?tienda=${detalleWallet.tienda}">${detalleWallet.tienda}</a></td>
+                    <td><a class="dropdown-item link-like" href="${SERVERURL}wallet/pagar?tienda=${detalleWallet.tienda}">${detalleWallet.tienda}</a></td>
                     <td>${detalleWallet.ventas}</td>
                     <td>${detalleWallet.utilidad}</td>
                     <td>${detalleWallet.count_visto_0}</td>
