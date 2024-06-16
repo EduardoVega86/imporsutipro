@@ -22,7 +22,7 @@ class Pedidos extends Controller
     }
     public function guias($filtro = "")
     {
-        $data = $this->model->cargarGuias($filtro);
+        $data = $this->model->cargarGuias($filtro, $_SESSION['id_plataforma']);
         $this->views->render($this, "guias", $data);
     }
     public function anuladas($filtro = "")
