@@ -60,9 +60,7 @@
         padding: 4px;
         border-radius: 0.3rem;
     }
-</style>
 
-<style>
     .filtros_producos {
         display: flex;
         flex-direction: row;
@@ -142,9 +140,6 @@
             <div class="table-responsive w-40">
                 <!-- <table class="table table-bordered table-striped table-hover"> -->
                 <table id="datatable_inventario" class="table table-striped">
-                    <!-- <caption>
-                    DataTable.js Demo
-                </caption> -->
                     <thead>
                         <tr>
                             <th class="centered">ID</th>
