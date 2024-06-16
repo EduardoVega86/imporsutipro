@@ -73,6 +73,15 @@
             flex-direction: column;
         }
     }
+
+    .link-like {
+            color: blue;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .link-like:hover {
+            color: darkblue;
+        }
 </style>
 <?php require_once './Views/Pedidos/Modales/informacion_plataforma.php'; ?>
 <div class="custom-container-fluid">
