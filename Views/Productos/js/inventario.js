@@ -136,8 +136,8 @@ const listStockIndividual = async (id_inventario) => {
     let content = ``;
     let tipo = "";
     stockIndividuals.forEach((stockIndividual, index) => {
-      console.log(stockIndividual.tipo_historial)
-      console.log(stockIndividual[0].tipo_historial)
+      console.log("1 "+stockIndividual.tipo_historial)
+      console.log("2 "+stockIndividual[0].tipo_historial)
     
       if (stockIndividual[0].tipo_historial == 1) {
         tipo = `<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">Entrada</span>`;
