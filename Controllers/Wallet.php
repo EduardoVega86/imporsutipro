@@ -28,10 +28,9 @@ class Wallet extends Controller
             header("Location: /wallet/billetera");
         }
         $existe = $this->model->existeTienda($tienda);
-        var_dump($existe);
+
         if (empty($existe)) {
             $this->model->crearBilletera($tienda);
-            echo "XD";
         }
 
         $this->views->render($this, "pagar");
@@ -44,6 +43,13 @@ class Wallet extends Controller
 
         $datos = $this->model->obtenerTiendas();
         echo $datos;
+    }
+
+    public function obtenerDetalles()
+    {
+        $tienda = $_POST['tienda'];
+        $datos = $this->model->obtenerDatos($tienda);
+        echo json_encode($datos);
     }
 
     public function abonarBilletera()
