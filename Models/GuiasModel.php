@@ -195,8 +195,6 @@ class GuiasModel extends Query
         $data = array($numero_factura, $fecha, $nombreDestino, $tienda_venta, $proveedor, $estado, $costo_producto, $costo_o, $precio_envio, $monto_recibir, 0, $monto_recibir, $full, $guia, $cod, $id_matriz);
         $response = $this->insert($insert_wallet, $data);
 
-        if ($response == 1) {
-            print_r($response);
-        }
+        print_r($response);
     }
 }
