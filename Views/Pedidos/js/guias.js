@@ -131,7 +131,7 @@ const listGuias = async () => {
                         <i class="fa-solid fa-gear"></i>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" href="#">Anular</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="anular_guia(${guia.numero_guia})">Anular</a></li>
                         <li><a class="dropdown-item" href="#">Información</a></li>
                     </ul>
                 </div>
@@ -288,4 +288,38 @@ function formatPhoneNumber(number) {
   }
 
   return number;
+}
+
+//anular guia
+function anular_guia(nuemero_guia){
+  let formData = new FormData();
+  formData.append("guia", nuemero_guia);
+
+  $.ajax({
+    url: SERVERURL + "guias/anularGuia",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error(
+            "LA GUIA NO SE ANULO CORRECTAMENTE",
+            "NOTIFICACIÓN", {
+                positionClass: "toast-bottom-center"
+            }
+        );
+    } else if (response.status == 200) {
+        toastr.success("GUIA ANULADA CORRECTAMENTE", "NOTIFICACIÓN", {
+            positionClass: "toast-bottom-center",
+        });
+
+        $('#imagen_categoriaModal').modal('hide');
+        initDataTable ();
+    }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
 }
