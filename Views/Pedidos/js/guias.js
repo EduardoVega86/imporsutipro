@@ -103,7 +103,7 @@ const listGuias = async () => {
                     <td>
                      <div style="text-align: center;">
                      <div>
-                      <span class="w-100 ${span_estado}">${estado_guia}</span>
+                      <span class="w-100 text-nowrap ${span_estado}">${estado_guia}</span>
                      </div>
                      <div>
                       <a class="w-100" href="https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${
