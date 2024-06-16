@@ -222,7 +222,7 @@ function agregar_stock() {
   formData.append("id_bodega", id_bodegaStock);
 
   $.ajax({
-    url: SERVERURL + "inventario/agregarStockInventario",
+    url: SERVERURL + "inventarios/agregarStockInventario",
     type: "POST", // Cambiar a POST para enviar FormData
     data: formData,
     processData: false, // No procesar los datos
@@ -238,7 +238,7 @@ function agregar_stock() {
         });
 
         $("#imagen_categoriaModal").modal("hide");
-        initDataTable();
+        initDataTableStockIndividual(id_inventarioStock);
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -264,7 +264,7 @@ function eliminar_stock() {
   formData.append("id_bodega", id_bodegaStock);
 
   $.ajax({
-    url: SERVERURL + "inventario/eliminarStockInventario",
+    url: SERVERURL + "inventarios/eliminarStockInventario",
     type: "POST", // Cambiar a POST para enviar FormData
     data: formData,
     processData: false, // No procesar los datos
@@ -280,7 +280,7 @@ function eliminar_stock() {
         });
 
         $("#imagen_categoriaModal").modal("hide");
-        initDataTable();
+        initDataTableStockIndividual(id_inventarioStock);
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
