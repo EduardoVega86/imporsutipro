@@ -119,7 +119,7 @@ const listHistorialPedidos = async () => {
   }
 };
 
-function abrirModal_infoTienda(){
+function abrirModal_infoTienda(tienda){
     $('#infoTiendaModal').modal('show');
 }
 
