@@ -33,7 +33,12 @@ class Wallet extends Controller
 
 
     ///
+    public function obtenerDatos()
+    {
 
+        $datos = $this->model->obtenerTiendas();
+        echo $datos;
+    }
 
     public function abonarBilletera()
     {

@@ -2,6 +2,52 @@
 
 class WalletModel extends Query
 {
+
+    public function obtenerTiendas()
+    {
+        $datos_tienda = $this->select("-- Crear una lista de todas las tiendas
+                                        WITH todas_tiendas AS (
+                                            SELECT DISTINCT tienda
+                                            FROM cabecera_cuenta_pagar
+                                        )
+
+                                        -- Contar cuántos registros tienen visto = 0 por tienda
+                                        , count_visto_0 AS (
+                                            SELECT tienda, COUNT(*) AS count_visto_0
+                                            FROM cabecera_cuenta_pagar
+                                            WHERE visto = 0
+                                            GROUP BY tienda
+                                        )
+
+                                        -- Calcular la suma de monto_recibir y total_venta por tienda cuando visto = 1
+                                        , sum_visto_1 AS (
+                                            SELECT 
+                                                tienda, 
+                                                ROUND(SUM(monto_recibir), 2) AS utilidad, 
+                                                ROUND(SUM(total_venta), 2) AS ventas
+                                            FROM cabecera_cuenta_pagar
+                                            WHERE visto = 1
+                                            GROUP BY tienda
+                                        )
+
+                                        -- Combinar todos los resultados y ordenar por count_visto_0 de mayor a menor
+                                        SELECT 
+                                            t.tienda,
+                                            COALESCE(cv0.count_visto_0, 0) AS count_visto_0,
+                                            COALESCE(sv1.utilidad, 0) AS utilidad,
+                                            COALESCE(sv1.ventas, 0) AS ventas
+                                        FROM 
+                                            todas_tiendas t
+                                        LEFT JOIN 
+                                            count_visto_0 cv0 ON t.tienda = cv0.tienda
+                                        LEFT JOIN 
+                                            sum_visto_1 sv1 ON t.tienda = sv1.tienda
+                                        ORDER BY 
+                                            count_visto_0 DESC;");
+        return json_encode($datos_tienda);
+    }
+
+
     public function abonarBilletera($id_cabecera, $valor, $tienda, $usuario)
     {
         if ($valor == 0) {
