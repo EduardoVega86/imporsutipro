@@ -64,7 +64,7 @@
     </div>
     <div class="guides-list-container mt-4" style="margin-right: auto;">
         <h2>Guías Ingresadas</h2>
-        <button id="generar_impresion" class="btn btn-success">Generar Impresion</button>
+        <button id="generarImpresionBtn" class="btn btn-success">Generar Impresion</button>
         <ul id="guidesList" class="list-group"></ul>
     </div>
 </div>
@@ -96,7 +96,7 @@
             },
             error: function(xhr, status, error) {
                 console.error("Error en la solicitud AJAX:", error);
-                alert("Hubo un problema al obtener la información de la categoría");
+                alert("Hubo un problema al obtener la información de la guia");
             },
         });
     }
