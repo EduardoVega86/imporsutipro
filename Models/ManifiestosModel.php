@@ -1,4 +1,9 @@
 <?php
+require_once 'dompdf/autoload.inc.php';
+require_once 'vendor/autoload.php';
+
+use Dompdf\Dompdf;
+use setasign\Fpdi\Fpdi;
 
 class ManifiestosModel extends Query
 {
@@ -9,39 +14,92 @@ class ManifiestosModel extends Query
 
     public function generarManifiesto($arreglo)
     {
-      
+
         if (count($arreglo) == 0) return;
         if (count($arreglo) > 0) {
-            //print_r($arreglo);
+
+
+            print_r($arreglo);
             $string = "('" . implode("','", $arreglo) . "')";
-           // echo $string;
+            // echo $string;
             $sql = "SELECT dfc.id_producto, p.nombre_producto, COUNT(dfc.id_detalle) AS cantidad, ib.*, v.* FROM detalle_fact_cot dfc LEFT JOIN productos p ON dfc.id_producto = p.id_producto LEFT JOIN inventario_bodegas ib ON dfc.id_inventario = ib.id_inventario LEFT JOIN variedades v ON ib.id_variante = v.id_variedad "
-                    . "WHERE dfc.numero_factura IN $string GROUP BY dfc.id_producto, p.nombre_producto, ib.id_inventario, v.id_variedad;  ";
-       // echo $sql;
-            $resumen= $this->select($sql);
-        $html=$this->generarTablaHTML($resumen);
+                . "WHERE dfc.numero_factura IN $string GROUP BY dfc.id_producto, p.nombre_producto, ib.id_inventario, v.id_variedad;  ";
+            // echo $sql;
+            $resumen = $this->select($sql);
+            $html = $this->generarTablaHTML($resumen);
+
+            /*  $combinedPdfPath = $this->generateUniqueFilename('Lista-Compras-', __DIR__ . '/manifiestos');
+            $tempName = explode('-', $combinedPdfPath);
+            $tempName[0] = str_replace(__DIR__ . '/manifiestos/', '', $tempName[0]);
+            $lastNumber = glob(__DIR__ . '/manifiestos/' . $tempName[0] . '-*');
+            if (count($lastNumber) > 0) {
+                $lastNumber = explode('-', $lastNumber[count($lastNumber) - 1]);
+                $lastNumber = $lastNumber[1];
+                $lastNumber = explode('.', $lastNumber);
+                $lastNumber = $lastNumber[0];
+                $lastNumber = intval($lastNumber) + 1;
+                $combinedPdfPath = __DIR__ . '/manifiestos/' . $tempName[0] . '-' . $lastNumber . '.pdf';
+            } else {
+                $combinedPdfPath = __DIR__ . '/manifiestos/' . $tempName[0] . '-1000.pdf';
+            }
+
+            $first = $this->generateFirstPdf($html);
+ */
             return  $html;
         }
     }
-    
-function generarTablaHTML($data) {
-    $html = '<table border="1">';
-    $html .= '<tr><th>ID Producto</th><th>Nombre Producto</th><th>Cantidad</th><th>Variedad</th></tr>';
-    foreach ($data as $row) {
-        $html .= '<tr>';
-        $html .= '<td>' . htmlspecialchars($row['id_producto']) . '</td>';
-        $html .= '<td>' . htmlspecialchars($row['nombre_producto']) . '</td>';
-        $html .= '<td>' . htmlspecialchars($row['cantidad']) . '</td>';
-        $html .= '<td>' . htmlspecialchars($row['variedad']) . '</td>';
-        $html .= '</tr>';
+
+    public function generateFirstPdf($html)
+    {
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+        $pdfPath = $this->generateUniqueFilename('Lista-Compras-', __DIR__ . '/temporales');
+        file_put_contents($pdfPath, $dompdf->output());
     }
-    $html .= '</table>';
-    return $html;
-}
+
+    function generateUniqueFilename($prefix, $directory = '.')
+    {
+        $tempFile = tempnam($directory, $prefix);
+        unlink($tempFile); // Eliminar el archivo temporal creado por tempnam
+
+        return $tempFile . '.pdf'; // Devolver el nombre de archivo con extensión .pdf
+    }
+    function combinePdfs($pdfPaths, $outputPath)
+    {
+        $pdf = new Fpdi();
+        foreach ($pdfPaths as $filePath) {
+            $pageCount = $pdf->setSourceFile($filePath);
+            for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
+                $templateId = $pdf->importPage($pageNo);
+                $size = $pdf->getTemplateSize($templateId);
+                $pdf->AddPage($size['orientation'], [$size['width'], $size['height']]);
+                $pdf->useTemplate($templateId);
+            }
+        }
+        $pdf->Output('F', $outputPath);
+    }
+
+    function generarTablaHTML($data)
+    {
+        $html = '<table border="1">';
+        $html .= '<tr><th>ID Producto</th><th>Nombre Producto</th><th>Cantidad</th><th>Variedad</th></tr>';
+        foreach ($data as $row) {
+            $html .= '<tr>';
+            $html .= '<td>' . htmlspecialchars($row['id_producto']) . '</td>';
+            $html .= '<td>' . htmlspecialchars($row['nombre_producto']) . '</td>';
+            $html .= '<td>' . htmlspecialchars($row['cantidad']) . '</td>';
+            $html .= '<td>' . htmlspecialchars($row['variedad']) . '</td>';
+            $html .= '</tr>';
+        }
+        $html .= '</table>';
+        return $html;
+    }
 
     public function generarTablaDescripcion($facturas)
     {
-  //      echo 'asd'.$facturas;
+        //      echo 'asd'.$facturas;
         $datos = $this->select("SELECT * FROM facturas_cot WHERE numero_factura = '$factura' ");
         $productos = $this->select("SELECT * FROM detalle_fact_cot WHERE numero_factura = '$factura' ");
 
@@ -49,7 +107,7 @@ function generarTablaHTML($data) {
         $html = $this->generarHtmlUnico($factura, $productos);
         return $html;
     }
-    
+
     public function generarManifiestoUnico($factura)
     {
         $datos = $this->select("SELECT * FROM facturas_cot WHERE numero_factura = '$factura' ");
