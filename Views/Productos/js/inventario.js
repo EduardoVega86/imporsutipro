@@ -137,7 +137,7 @@ const listStockIndividual = async (id_inventario) => {
     let tipo = "";
     stockIndividuals.forEach((stockIndividual, index) => {
     
-      if (stockIndividual.tipo_historial == 1) {
+      if (stockIndividual[0].tipo_historial == 1) {
         tipo = `<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">Entrada</span>`;
       } else {
         tipo = `<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">Salida</span>`;
@@ -145,11 +145,11 @@ const listStockIndividual = async (id_inventario) => {
 
       content += `
         <tr>
-        <td>${stockIndividual.fecha_historial}</td>
-      <td>${stockIndividual.nota_historial}</td>
-      <td>${stockIndividual.referencia_historial}</td>
+        <td>${stockIndividual[0].fecha_historial}</td>
+      <td>${stockIndividual[0].nota_historial}</td>
+      <td>${stockIndividual[0].referencia_historial}</td>
       <td>${tipo}</td>
-      <td>${stockIndividual.cantidad_historial}</td>
+      <td>${stockIndividual[0].cantidad_historial}</td>
         </tr>`;
     });
     document.getElementById("tableBody_stockIndividual").innerHTML = content;
