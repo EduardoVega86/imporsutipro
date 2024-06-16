@@ -57,12 +57,59 @@
     <div class="custom-container-fluid mt-4">
         <h1>Devolución de guías</h1>
         <div class="form-group">
-            <label for="numeroGuia">Número de Guía</label>
-            <input type="text" id="numeroGuia" placeholder="Coloca el cursor aquí antes de">
+            <label for="numeroGuiaDevolucion">Número de Guía</label>
+            <input type="text" id="numeroGuiaDevolucion" placeholder="Coloca el cursor aquí antes de">
         </div>
-        <button class="btn">Devolución</button>
+        <button id="devolucionBtn" class="btn">Devolución</button>
     </div>
-    
 </div>
 
+<script>
+    function ejecutarDevolucion() {
+        var numeroGuia = document.getElementById('numeroGuiaDevolucion').value;
+        $.ajax({
+            type: "POST",
+            url: SERVERURL + "Inventarios/generarDevolucion/" + numeroGuia,
+            dataType: "json",
+            success: function(response) {
+                if (response.status == 500) {
+                    toastr.error(
+                        "LA GUIA NO SE AGREGRO CORRECTAMENTE",
+                        "NOTIFICACIÓN", {
+                            positionClass: "toast-bottom-center"
+                        }
+                    );
+                } else if (response.status == 200) {
+                    toastr.success("GUIA AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+                        positionClass: "toast-bottom-center",
+                    });
+
+                    agregarGuia(numeroGuia);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error en la solicitud AJAX:", error);
+                alert("Hubo un problema al obtener la información de la categoría");
+            },
+        });
+    }
+
+    // Función para agregar una guía a la lista
+    function agregarGuia(numeroGuia) {
+        var listItem = document.createElement('li');
+        listItem.className = 'list-group-item';
+        listItem.textContent = numeroGuia;
+        document.getElementById('guidesList').appendChild(listItem);
+    }
+
+    // Escuchar el evento 'keypress' del input
+    document.getElementById('numeroGuiaDevolucion').addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            ejecutarDevolucion();
+        }
+    });
+
+    // Escuchar el evento 'click' del botón
+    document.getElementById('devolucionBtn').addEventListener('click', ejecutarDevolucion);
+</script>
 <?php require_once './Views/templates/footer.php'; ?>

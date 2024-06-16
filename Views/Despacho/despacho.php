@@ -60,9 +60,63 @@
             <label for="numeroGuia">Número de Guía</label>
             <input type="text" id="numeroGuia" placeholder="Coloca el cursor aquí antes de">
         </div>
-        <button class="btn">Despacho</button>
+        <button id="despachoBtn" class="btn">Despacho</button>
     </div>
-    
+    <div class="guides-list-container mt-4">
+        <h2>Guías Ingresadas</h2>
+        <ul id="guidesList" class="list-group"></ul>
+    </div>
 </div>
+
+<script>
+    function ejecutarDespacho() {
+        var numeroGuia = document.getElementById('numeroGuia').value;
+
+
+        $.ajax({
+            type: "POST",
+            url: SERVERURL + "Inventarios/generarDespacho/" + numeroGuia,
+            dataType: "json",
+            success: function(response) {
+                if (response.status == 500) {
+                    toastr.error(
+                        "LA GUIA NO SE AGREGRO CORRECTAMENTE",
+                        "NOTIFICACIÓN", {
+                            positionClass: "toast-bottom-center"
+                        }
+                    );
+                } else if (response.status == 200) {
+                    toastr.success("GUIA AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+                        positionClass: "toast-bottom-center",
+                    });
+
+                    agregarGuia(numeroGuia);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error en la solicitud AJAX:", error);
+                alert("Hubo un problema al obtener la información de la categoría");
+            },
+        });
+    }
+
+    // Función para agregar una guía a la lista
+    function agregarGuia(numeroGuia) {
+        var listItem = document.createElement('li');
+        listItem.className = 'list-group-item';
+        listItem.textContent = numeroGuia;
+        document.getElementById('guidesList').appendChild(listItem);
+    }
+
+    // Escuchar el evento 'keypress' del input
+    document.getElementById('numeroGuia').addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            ejecutarDespacho();
+        }
+    });
+
+    // Escuchar el evento 'click' del botón
+    document.getElementById('despachoBtn').addEventListener('click', ejecutarDespacho);
+</script>
 
 <?php require_once './Views/templates/footer.php'; ?>
