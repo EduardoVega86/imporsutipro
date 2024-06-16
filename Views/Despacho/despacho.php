@@ -80,13 +80,13 @@
             success: function(response) {
                 if (response.status == 500) {
                     toastr.error(
-                        "LA GUIA NO SE AGREGRO CORRECTAMENTE",
+                        ""+ response.message,
                         "NOTIFICACIÓN", {
                             positionClass: "toast-bottom-center"
                         }
                     );
                 } else if (response.status == 200) {
-                    toastr.success("GUIA AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+                    toastr.success(""+ response.message, "NOTIFICACIÓN", {
                         positionClass: "toast-bottom-center",
                     });
 
