@@ -57,6 +57,13 @@ class Pedidos extends Controller
 
 
     ///Funciones
+
+    public function datosPlataformas()
+    {
+        $tienda = $_POST["tienda"];
+        $data = $this->model->datosPlataformas($tienda);
+    }
+
     public function nuevo_pedido()
     {
 
@@ -185,7 +192,7 @@ class Pedidos extends Controller
 
     public function buscarTmp()
     {
-        
+
         $response = $this->model->buscarTmp();
         //print_r($response);
         if ($response == null || empty($response)) {
