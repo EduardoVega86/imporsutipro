@@ -130,10 +130,10 @@ function abrirModal_infoTienda(tienda){
       processData: false, // No procesar los datos
       contentType: false, // No establecer ningún tipo de contenido
       success: function (response) {
-        $("#nombreTienda").val(response.nombre_tienda);
-        $("#telefonoTienda").val(response.whatsapp);
-        $("#correoTienda").val(response.email);
-        $("#enlaceTienda").val(response.url_imporsuit);
+        $("#nombreTienda").val(response[0].nombre_tienda);
+        $("#telefonoTienda").val(response[0].whatsapp);
+        $("#correoTienda").val(response[0].email);
+        $("#enlaceTienda").val(response[0].url_imporsuit);
   
         $('#infoTiendaModal').modal('show');
       },
