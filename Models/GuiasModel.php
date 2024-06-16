@@ -222,6 +222,11 @@ class GuiasModel extends Query
             $response = array("status" => 200, "message" => "Guía anulada correctamente");
             $sql = "UPDATE facturas_cot SET estado_guia_sistema = 8 WHERE numero_guia = ?";
             $response = $this->update($sql, array($id));
+            if ($response === 1) {
+                $response = array("status" => 200, "message" => "Guía anulada correctamente");
+            } else {
+                $response = array("status" => 500, "message" => "Error al anular la guía");
+            }
         } else {
             $response = array("status" => 500, "message" => "Error al anular la guía");
         }
