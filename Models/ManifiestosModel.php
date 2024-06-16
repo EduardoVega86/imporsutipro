@@ -111,19 +111,68 @@ class ManifiestosModel extends Query
 
     public function generarTablaHTML($data)
     {
-        $html = '<table border="1">';
-        $html .= '<tr><th>ID Producto</th><th>Nombre Producto</th><th>Cantidad</th><th>Variedad</th></tr>';
+        $html = '
+        <style>
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            th, td {
+                border: 1px solid black;
+                padding: 8px;
+                text-align: left;
+            }
+            th {
+                background-color: #f2f2f2;
+            }
+            @media screen and (max-width: 600px) {
+                table, thead, tbody, th, td, tr {
+                    display: block;
+                    width: 100%;
+                }
+                th, td {
+                    box-sizing: border-box;
+                    width: 100%;
+                    text-align: right;
+                }
+                tr {
+                    margin-bottom: 15px;
+                }
+                td {
+                    text-align: right;
+                    padding-left: 50%;
+                    position: relative;
+                }
+                td:before {
+                    content: attr(data-label);
+                    position: absolute;
+                    left: 10px;
+                    width: calc(50% - 10px);
+                    padding-right: 10px;
+                    white-space: nowrap;
+                    text-align: left;
+                }
+            }
+        </style>
+        <table>
+            <tr>
+                <th>ID Producto</th>
+                <th>Nombre Producto</th>
+                <th>Cantidad</th>
+                <th>Variedad</th>
+            </tr>';
         foreach ($data as $row) {
             $html .= '<tr>';
-            $html .= '<td>' . htmlspecialchars($row['id_producto']) . '</td>';
-            $html .= '<td>' . htmlspecialchars($row['nombre_producto']) . '</td>';
-            $html .= '<td>' . htmlspecialchars($row['cantidad']) . '</td>';
-            $html .= '<td>' . htmlspecialchars($row['variedad']) . '</td>';
+            $html .= '<td data-label="ID Producto">' . htmlspecialchars($row['id_producto']) . '</td>';
+            $html .= '<td data-label="Nombre Producto">' . htmlspecialchars($row['nombre_producto']) . '</td>';
+            $html .= '<td data-label="Cantidad">' . htmlspecialchars($row['cantidad']) . '</td>';
+            $html .= '<td data-label="Variedad">' . htmlspecialchars($row['variedad']) . '</td>';
             $html .= '</tr>';
         }
         $html .= '</table>';
         return $html;
     }
+
 
     public function generarTablaDescripcion($facturas)
     {
