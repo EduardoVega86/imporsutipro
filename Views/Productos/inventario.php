@@ -149,7 +149,7 @@
         max-width: 65%;
     }
 
-    @media (min-width: 768px) {
+    @media (max-width: 768px) {
         .left_right {
             flex-direction: column;
         }
