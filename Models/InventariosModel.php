@@ -481,7 +481,7 @@ class InventariosModel extends Query
      
         $response = $this->initialResponse();
       
-         $sql_factura = "SELECT * FROM facturas_cot WHERE numero_guia = '$num_guia'";
+         $sql_factura = "SELECT * FROM facturas_cot WHERE numero_guia = '$num_guia' ";
        //  echo $sql_factura;
             $factura = $this->select($sql_factura);
             $id_factura = $factura[0]['id_factura'];
@@ -559,7 +559,7 @@ class InventariosModel extends Query
         }else{
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = 'Esta guia ya ha sido despachada'; 
+            $response['message'] = 'Esta guia ya ha sido devuelta'; 
         }
         return $response;
     }
