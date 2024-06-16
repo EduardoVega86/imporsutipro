@@ -136,8 +136,8 @@ const listStockIndividual = async (id_inventario) => {
     let content = ``;
     let tipo = "";
     stockIndividuals.forEach((stockIndividual, index) => {
-      console.log("1 "+stockIndividual.tipo_historial)
-    
+      console.log("1 " + stockIndividual.tipo_historial);
+
       if (stockIndividual.tipo_historial == 1) {
         tipo = `<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">Entrada</span>`;
       } else {
@@ -162,6 +162,7 @@ const listStockIndividual = async (id_inventario) => {
 function seleccionar_cambiarInventario(id_inventario) {
   let formData = new FormData();
   formData.append("id_inventario", id_inventario); // Añadir el ID del inventario al FormData
+  $("#id_inventarioStock").val(id_inventario);
 
   $.ajax({
     url: SERVERURL + "inventarios/obtenerInventario",
@@ -172,6 +173,11 @@ function seleccionar_cambiarInventario(id_inventario) {
     dataType: "json", // Asegúrate de recibir datos JSON
     success: function (response) {
       $("#existencia_stock").text(response[0].saldo_stock);
+
+      $("#skuStock").val(response[0].sku);
+      $("#id_productoStock").val(response[0].id_producto);
+      $("#id_bodegaStock").val(response[0].bodega);
+
       var id_producto = response[0].id_producto;
 
       // ajax para consultar imagen de producto
@@ -195,6 +201,90 @@ function seleccionar_cambiarInventario(id_inventario) {
     },
     error: function (error) {
       console.error("Error al obtener la información del inventario:", error);
+    },
+  });
+}
+
+function agregar_stock() {
+  var id_inventarioStock = $("#id_inventarioStock").val();
+  var cantidadStock = $("#cantidadStock").val();
+  var referencistock = $("#referencistock").val();
+  var skuStock = $("#skuStock").val();
+  var id_productoStock = $("#id_productoStock").val();
+  var id_bodegaStock = $("#id_bodegaStock").val();
+
+  let formData = new FormData();
+  formData.append("id_inventario", id_inventarioStock);
+  formData.append("cantidad", cantidadStock);
+  formData.append("referencia", referencistock);
+  formData.append("sku", skuStock);
+  formData.append("id_producto", id_productoStock);
+  formData.append("id_bodega", id_bodegaStock);
+
+  $.ajax({
+    url: SERVERURL + "inventario/agregarStockInventario",
+    type: "POST", // Cambiar a POST para enviar FormData
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("NO SE AGREGAR CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("SE AGREGAR CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+
+        $("#imagen_categoriaModal").modal("hide");
+        initDataTable();
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+}
+
+function eliminar_stock() {
+  var id_inventarioStock = $("#id_inventarioStock").val();
+  var cantidadStock = $("#cantidadStock").val();
+  var referencistock = $("#referencistock").val();
+  var skuStock = $("#skuStock").val();
+  var id_productoStock = $("#id_productoStock").val();
+  var id_bodegaStock = $("#id_bodegaStock").val();
+
+  let formData = new FormData();
+  formData.append("id_inventario", id_inventarioStock);
+  formData.append("cantidad", cantidadStock);
+  formData.append("referencia", referencistock);
+  formData.append("sku", skuStock);
+  formData.append("id_producto", id_productoStock);
+  formData.append("id_bodega", id_bodegaStock);
+
+  $.ajax({
+    url: SERVERURL + "inventario/eliminarStockInventario",
+    type: "POST", // Cambiar a POST para enviar FormData
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("NO SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+
+        $("#imagen_categoriaModal").modal("hide");
+        initDataTable();
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
     },
   });
 }

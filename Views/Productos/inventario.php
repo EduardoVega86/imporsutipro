@@ -160,16 +160,21 @@
             </div>
             <div class="w-50 d-flex flex-row gap-2 hidden" id="inventarioSection">
                 <div class="card" style="height: 475px; padding:10px">
+                    <input type="hidden" id="id_inventarioStock" name="id_inventarioStock">
+                    <input type="hidden" id="skuStock" name="skuStock">
+                    <input type="hidden" id="id_productoStock" name="id_productoStock">
+                    <input type="hidden" id="id_bodegaStock" name="id_bodegaStock">
+
                     <img src="tu-imagen.png" alt="Producto" id="image_stock">
                     <h6>Nombre:<span id="nombreeProducto_stock"></span></h6>
                     <div class="stock">Existencia: <span id="existencia_stock"></span></div>
                     <hr>
                     <label for="cantidad:">Cantidad:</label>
-                    <input type="text" class="form-control" id="cantidad" placeholder="Ingresa una cantidad">
+                    <input type="text" class="form-control" id="cantidadStock" placeholder="Ingresa una cantidad">
                     <label for="referencia:">Referencia:</label>
-                    <input type="text" class="form-control" id="referencia" placeholder="Ingresa una referencia">
-                    <button class="btn btn-add">Agregar Stock</button>
-                    <button class="btn btn-delete">Eliminar Stock</button>
+                    <input type="text" class="form-control" id="referencistock" placeholder="Ingresa una referencia">
+                    <button class="btn btn-add" onclick="agregar_stock()">Agregar Stock</button>
+                    <button class="btn btn-delete" onclick="eliminar_stock()">Eliminar Stock</button>
                 </div>
                 <div class="table-responsive">
                     <!-- <table class="table table-bordered table-striped table-hover"> -->
