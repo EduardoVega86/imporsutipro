@@ -236,8 +236,8 @@ function agregar_stock() {
         toastr.success("SE AGREGAR CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
-
-        initDataTableStockIndividual(id_inventarioStock);
+        seleccionar_cambiarInventario(id_inventarioStock);
+        initDataTableInventario();
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -278,8 +278,9 @@ function eliminar_stock() {
         toastr.success("SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
-
-        initDataTableStockIndividual(id_inventarioStock);
+        seleccionar_cambiarInventario(id_inventarioStock);
+        initDataTableInventario();
+        /* initDataTableStockIndividual(id_inventarioStock); */
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
