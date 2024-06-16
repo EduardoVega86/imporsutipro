@@ -138,8 +138,8 @@ class Inventarios extends Controller
     public function generarlistacompra(){
        $arreglo_guias=$_POST['guias'];
         $response = $this->model->listarProductoListaCompras($arreglo_guias);
-        // print_r($response);
+         print_r($response);
         echo json_encode($response);  
     }
-            ¨
+           
 }

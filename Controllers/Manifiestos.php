@@ -17,6 +17,7 @@ class Manifiestos extends Controller
     {
         $arreglo = $_POST['facturas'];
         $arreglo = json_decode($arreglo, true);
+        print_r($arreglo);
         $html =    $this->model->generarManifiesto($arreglo);
 
         print_r($html);
