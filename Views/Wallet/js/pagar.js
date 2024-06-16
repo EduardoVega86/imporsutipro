@@ -27,8 +27,8 @@ function cargarDashboard_wallet(){
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
-        console.log(response[0].venta);
         response = JSON.parse(response);
+        console.log(response.venta);
         $('#image_tienda').attr('src', SERVERURL+'public/img/profile_wallet.png');
         $("#totalVentas_wallet").text(response.ventas);
         $("#utilidadGenerada_wallet").text(response.utilidad);
