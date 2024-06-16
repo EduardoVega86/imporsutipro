@@ -62,7 +62,7 @@ const listDetalleWallet = async () => {
                         <i class="fa-solid fa-gear"></i>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><span class="dropdown-item" style="cusor: pointer;" href="${SERVERURL}wallet/pagar?tienda=${detalleWallet.tienda}"><i class='bx bx-wallet'></i>Pagar</span></li>
+                        <li><a class="dropdown-item" style="cursor: pointer;" href="pagar.php?numero_guia=${detalleWallet.numero_guia}"><i class='bx bx-wallet'></i>Pagar</a></li>
                     </ul>
                     </div>
                     </td>
