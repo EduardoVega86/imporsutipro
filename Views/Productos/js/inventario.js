@@ -238,7 +238,6 @@ function agregar_stock() {
           positionClass: "toast-bottom-center",
         });
 
-        $("#imagen_categoriaModal").modal("hide");
         initDataTableStockIndividual(id_inventarioStock);
       }
     },
@@ -281,7 +280,6 @@ function eliminar_stock() {
           positionClass: "toast-bottom-center",
         });
 
-        $("#imagen_categoriaModal").modal("hide");
         initDataTableStockIndividual(id_inventarioStock);
       }
     },
