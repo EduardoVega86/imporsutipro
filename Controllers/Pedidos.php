@@ -62,6 +62,7 @@ class Pedidos extends Controller
     {
         $tienda = $_POST["tienda"];
         $data = $this->model->datosPlataformas($tienda);
+        echo json_encode($data);
     }
 
     public function nuevo_pedido()
