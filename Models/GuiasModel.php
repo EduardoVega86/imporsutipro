@@ -174,8 +174,10 @@ class GuiasModel extends Query
 
         if ($id_plataforma_bodega == $id_plataforma_producto) {
             $full = 0;
-        } else {
+        } else if ($id_plataforma_producto == $id_plataforma) {
             $full = 1;
+        } else {
+            $full = 0;
         }
         $proveedor = $id_plataforma_bodega;
         $proveedor = $this->select("SELECT url_imporsuit FROM plataformas WHERE id_plataforma = '$proveedor'");
