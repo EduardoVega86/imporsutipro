@@ -44,7 +44,7 @@
     }
 
     .btn {
-        background-color: #ffeb3b;
+        background-color: #198754;
         color: black;
         border: none;
         padding: 10px 20px;
@@ -60,7 +60,7 @@
             <label for="numeroGuia">Número de Guía</label>
             <input type="text" id="numeroGuia" placeholder="Coloca el cursor aquí antes de">
         </div>
-        <button id="despachoBtn" class="btn">Despacho</button>
+        <button id="despachoBtn" class="btn btn-success">Despacho</button>
     </div>
     <div class="guides-list-container mt-4" style="margin-right: auto;">
         <h2>Guías Ingresadas</h2>
