@@ -198,9 +198,9 @@
                     <div class="stock">Existencia: <span id="existencia_stock"></span></div>
                     <hr>
                     <label for="cantidad:">Cantidad:</label>
-                    <input type="text" class="form-control" id="cantidadStock" placeholder="Ingresa una cantidad">
+                    <input type="text" class="form-control" id="cantidadStock" placeholder="Ingresar cantidad">
                     <label for="referencia:">Referencia:</label>
-                    <input type="text" class="form-control" id="referencistock" placeholder="Ingresa una referencia">
+                    <input type="text" class="form-control" id="referencistock" placeholder="Ingresar referencia">
                     <button class="btn btn-add" onclick="agregar_stock()">Agregar Stock</button>
                     <button class="btn btn-delete" onclick="eliminar_stock()">Eliminar Stock</button>
                 </div>
