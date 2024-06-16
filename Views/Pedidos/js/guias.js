@@ -98,7 +98,7 @@ const listGuias = async () => {
                         <div>telf: ${guia.telefono}</div>
                     </td>
                     <td>${guia.provinciaa}-${ciudad}</td>
-                    <td><a href="#" id="plataformaLink" onclick="abirModal_infoTienda(${guia.plataforma})">${plataforma}</a></td>
+                    <td><a href="#" id="plataformaLink" onclick="abrirModal_infoTienda("${guia.plataforma}")">${plataforma}</a></td>
                     <td>${transporte_content}</td>
                     <td>
                      <div style="text-align: center;">
@@ -137,7 +137,7 @@ const listGuias = async () => {
   }
 };
 
-function abirModal_infoTienda(){
+function abrirModal_infoTienda(tienda){
   $('#infoTiendaModal').modal('show');
 }
 
