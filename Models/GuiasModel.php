@@ -148,7 +148,7 @@ class GuiasModel extends Query
         return $guia;
     }
 
-    public function asignarWallet($numero_factura, $guia, $fecha, $nombreDestino, $id_plataforma, $estado, $costo_producto, $cod)
+    public function asignarWallet($numero_factura, $guia, $fecha, $nombreDestino, $id_plataforma, $estado, $costo_producto, $cod, $precio_envio)
     {
         $buscar_detalle = "SELECT * FROM detalle_fact_cot WHERE numero_factura = '$numero_factura'";
         $respueta_detalle = $this->select($buscar_detalle);
@@ -159,7 +159,40 @@ class GuiasModel extends Query
         $buscar_inventario = "SELECT * FROM inventario_bodegas WHERE id_inventario = '$id_inventario'";
         $inventario = $this->select($buscar_inventario);
         $id_bodega = $inventario[0]['bodega'];
+        $id_producto = $inventario[0]['id_producto'];
 
-        $bodega = "SELECT * FROM bodegas WHERE id_bodega = '$id_bodega'";
+        $buscar_bodega = "SELECT * FROM bodega WHERE id = '$id_bodega'";
+        $bodega = $this->select($buscar_bodega);
+        $id_plataforma_bodega = $bodega[0]['id_plataforma'];
+
+        $buscar_producto = "SELECT * FROM productos WHERE id_producto = '$id_producto'";
+        $producto = $this->select($buscar_producto);
+        $id_plataforma_producto = $producto[0]['id_plataforma'];
+
+        $id_matriz = $this->obtenerMatriz();
+        $id_matriz = $id_matriz[0]['idmatriz'];
+
+        if ($id_plataforma_bodega == $id_plataforma_producto) {
+            $full = 0;
+            $proveedor = null;
+        } else {
+            $full = 1;
+            $proveedor = $id_plataforma_bodega;
+            $proveedor = $this->select("SELECT url_imporsuit FROM plataformas WHERE id_plataforma = '$proveedor'");
+        }
+
+        $tienda_venta = $this->select("SELECT url_imporsuit FROM plataformas WHERE id_plataforma = '$id_plataforma'");
+        $tienda_venta = $tienda_venta[0]['url_imporsuit'];
+
+        $costo = $this->select("SELECT costo_producto FROM facturas_cot WHERE numero_factura = '$numero_factura'");
+        $costo_o = $costo[0]['costo_producto'];
+
+
+
+        $monto_recibir = $costo_producto - $precio_envio - $full - $costo_o;
+
+        $insert_wallet = "INSERT INTO cabecera_cuenta_pagar (numero_factura, fecha, cliente, tienda, proveedor. estado_guia, total_venta, costo, precio_envio, monto_recibir, valor_cobrado, valor_pendiente, full, guia, cod, id_matriz) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        $data = array($numero_factura, $fecha, $nombreDestino, $tienda_venta, $proveedor, $estado, $costo_producto, $costo_o, $precio_envio, $monto_recibir, 0, $monto_recibir, $full, $guia, $cod, $id_matriz);
+        $response = $this->insert($insert_wallet, $data);
     }
 }
