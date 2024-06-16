@@ -131,8 +131,8 @@ const listGuias = async () => {
                         <i class="fa-solid fa-gear"></i>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" href="#" onclick="anular_guia(${guia.numero_guia})">Anular</a></li>
-                        <li><a class="dropdown-item" href="#">Información</a></li>
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="anular_guia(${guia.numero_guia})">Anular</span></li>
+                        <li><span class="dropdown-item" style="cursor: pointer;">Información</span></li>
                     </ul>
                 </div>
                     </td>
