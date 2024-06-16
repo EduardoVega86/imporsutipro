@@ -364,7 +364,8 @@ class InventariosModel extends Query
     
      public function listarProductoListaCompras($id, $plataforma)
     {
-        $sql = "SELECT * FROM desc WHERE id_plataforma in (0, $plataforma)";
+        
+        $sql = "SELECT  id_producto, (select nombre_producto from productos where id_producto=1360) as nombre, count(id_detalle) FROM `detalle_fact_cot` WHERE id_factura in (122,121) group by id_producto, sku";
         return $this->select($sql);
     }
     
