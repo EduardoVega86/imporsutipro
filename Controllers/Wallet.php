@@ -11,10 +11,14 @@ class Wallet extends Controller
             header("Location: /dashboard");
         }
     }
-
+    ///vistas
     public function index()
     {
         $this->views->render($this, "index");
+    }
+    public function billetera()
+    {
+        $this->views->render($this, "billetera");
     }
 
     public function pagar($tienda)
@@ -26,6 +30,10 @@ class Wallet extends Controller
 
         $this->views->render($this, "pagar");
     }
+
+
+    ///
+
 
     public function abonarBilletera()
     {

@@ -72,8 +72,11 @@ class ManifiestosModel extends Query
                     }
                 }
             }
-            echo $combinedPdfPath;
-            return  $html;
+            $reponse = [
+                "url" => $combinedPdfPath,
+                "status" => "200"
+            ];
+            return $reponse;
         }
     }
 
