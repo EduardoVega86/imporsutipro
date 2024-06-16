@@ -144,7 +144,7 @@ class WalletModel extends Query
     {
         $sql = "SELECT * FROM billeteras WHERE tienda = '$tienda'";
         $response =  $this->select($sql);
-        return json_encode($response);
+        return $response;
     }
 
     public function crearBilletera($tienda)
