@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 $(document).ready(function(){
     $('#regresar').click(function() {
-        window.location.href = SERVERURL+'wallet';
+        window.location.href = SERVERURL + 'wallet';
     });
 });
 
@@ -27,8 +27,6 @@ function cargarDashboard_wallet(){
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
-        response = JSON.parse(response);
-        console.log(response.ventas);
         $('#image_tienda').attr('src', SERVERURL+'public/img/profile_wallet.png');
         $("#tienda_span").text(tienda);
 
