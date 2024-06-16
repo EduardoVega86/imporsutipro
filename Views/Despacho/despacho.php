@@ -64,6 +64,7 @@
     </div>
     <div class="guides-list-container mt-4" style="margin-right: auto;">
         <h2>Guías Ingresadas</h2>
+        <button id="generar_impresion" class="btn btn-success">Generar Impresion</button>
         <ul id="guidesList" class="list-group"></ul>
     </div>
 </div>
@@ -117,6 +118,21 @@
 
     // Escuchar el evento 'click' del botón
     document.getElementById('despachoBtn').addEventListener('click', ejecutarDespacho);
+
+
+    // Función para generar JSON con la lista de guías y imprimirlo en consola
+    function generarImpresion() {
+        var guias = [];
+        var listItems = document.querySelectorAll('#guidesList .list-group-item');
+        listItems.forEach(function(item) {
+            guias.push(item.textContent);
+        });
+        var guiasJSON = JSON.stringify(guias, null, 2);
+        console.log(guiasJSON);
+    }
+    
+    // Escuchar el evento 'click' del botón de generar impresión
+    document.getElementById('generarImpresionBtn').addEventListener('click', generarImpresion);
 </script>
 
 <?php require_once './Views/templates/footer.php'; ?>
