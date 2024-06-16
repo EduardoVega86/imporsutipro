@@ -55,12 +55,12 @@ class WalletModel extends Query
         $pagos = $this->select("SELECT * FROM `pagos` WHERE tienda = '$tienda'");
         $abonos_registrados = $this->select("SELECT SUM(valor) as pagos  FROM `pagos` WHERE tienda = '$tienda' and recargo = 0");
         $data = [
-            'utilidad' => $datos_facturas_entregadas[0]['utilidad'],
-            'ventas' => $datos_facturas_entregadas[0]['ventas'],
-            'devoluciones' => $datos_facturas_devueltas[0]['devoluciones'],
-            'guias_pendientes' => $guias_pendientes[0]['guias_pendientes'],
-            'pagos' => $pagos,
-            'abonos_registrados' => $abonos_registrados[0]['pagos']
+            'utilidad' => $datos_facturas_entregadas[0]['utilidad'] ?? 0,
+            'ventas' => $datos_facturas_entregadas[0]['ventas'] ?? 0,
+            'devoluciones' => $datos_facturas_devueltas[0]['devoluciones'] ?? 0,
+            'guias_pendientes' => $guias_pendientes[0]['guias_pendientes'] ?? 0,
+            'pagos' => $pagos ?? 0,
+            'abonos_registrados' => $abonos_registrados[0]['pagos'] ?? 0
         ];
 
         return json_encode($data);
