@@ -134,21 +134,22 @@ const listStockIndividual = async (id_inventario) => {
     const stockIndividuals = await response.json();
 
     let content = ``;
+    let tipo = "";
     stockIndividuals.forEach((stockIndividual, index) => {
-      let cargarImagen = "";
-      if (!stockIndividual.image_path) {
-        cargarImagen = `<i class="bx bxs-camera-plus"></i>`;
+    
+      if (stockIndividual.tipo_historial == 1) {
+        tipo = `<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">Entrada</span>`;
       } else {
-        cargarImagen = `<img src="${SERVERURL}${stockIndividual.image_path}" class="icon-button" alt="Agregar imagen" width="50px">`;
+        tipo = `<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">Salida</span>`;
       }
 
       content += `
         <tr>
-        <td>${stockIndividual.id_producto}</td>
-        <td>${cargarImagen}</td>
-        <td>${stockIndividual.codigo_producto}</td>
-        <td>${stockIndividual.nombre_producto}</td>
-        <td>${stockIndividual.saldo_stock}</td>
+        <td>${stockIndividual.fecha_historial}</td>
+      <td>${stockIndividual.nota_historial}</td>
+      <td>${stockIndividual.referencia_historial}</td>
+      <td>${tipo}</td>
+      <td>${stockIndividual.cantidad_historial}</td>
         </tr>`;
     });
     document.getElementById("tableBody_stockIndividual").innerHTML = content;
