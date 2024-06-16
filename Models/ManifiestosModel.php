@@ -19,19 +19,20 @@ class ManifiestosModel extends Query
         if (count($arreglo) > 0) {
 
 
-            print_r($arreglo);
-            //obtener guias
-            foreach ($arreglo as $factura) {
-                $facturas[] = $factura;
-            }
-            $facturas = array_unique($facturas);
-            $facturas = array_values($facturas);
-            print_r($facturas);
             $string = "('" . implode("','", $arreglo) . "')";
             // echo $string;
             $sql = "SELECT dfc.id_producto, p.nombre_producto, COUNT(dfc.id_detalle) AS cantidad, ib.*, v.* FROM detalle_fact_cot dfc LEFT JOIN productos p ON dfc.id_producto = p.id_producto LEFT JOIN inventario_bodegas ib ON dfc.id_inventario = ib.id_inventario LEFT JOIN variedades v ON ib.id_variante = v.id_variedad "
                 . "WHERE dfc.numero_factura IN $string GROUP BY dfc.id_producto, p.nombre_producto, ib.id_inventario, v.id_variedad;  ";
             // echo $sql;
+
+            $sql_guias = "SELECT numero_guia FROM facturas_cot WHERE numero_factura IN $string";
+            $guias = $this->select($sql_guias);
+            $guias = array_map(function ($guia) {
+                return $guia['numero_guia'];
+            }, $guias);
+
+            print_r($guias);
+
             $resumen = $this->select($sql);
             $html = $this->generarTablaHTML($resumen);
 
