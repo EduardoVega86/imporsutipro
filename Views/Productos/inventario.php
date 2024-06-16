@@ -132,14 +132,45 @@
     .hidden {
         display: none !important;
     }
+
+    /* reponsive de secciones */
+    .left_right {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .left {
+        max-width: 35%;
+    }
+
+    .right {
+        display: flex;
+        flex-direction: row;
+        max-width: 65%;
+    }
+
+    @media (min-width: 768px) {
+        .left_right {
+            flex-direction: column;
+        }
+
+        .left {
+            max-width: 100%;
+        }
+
+        .right {
+            flex-direction: column;
+            max-width: 100%;
+        }
+    }
 </style>
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
         <h2 class="text-center mb-4">Ajusto de Inventario</h2>
         <!-- <div class="filtros_producos justify-content-between align-items-center mb-3"></div>
         </div> -->
-        <div class="d-flex flex-row gap-2">
-            <div class="table-responsive" style="max-width: 35%;">
+        <div class="left_right gap-2">
+            <div class="table-responsive left">
                 <!-- <table class="table table-bordered table-striped table-hover"> -->
                 <table id="datatable_inventario" class="table table-striped">
                     <thead>
@@ -155,7 +186,7 @@
                     <tbody id="tableBody_inventario"></tbody>
                 </table>
             </div>
-            <div class="d-flex flex-row gap-2 hidden" id="inventarioSection" style="max-width: 65%;">
+            <div class="right gap-2 hidden" id="inventarioSection">
                 <div class="card" style="height: 475px; padding:10px">
                     <input type="hidden" id="id_inventarioStock" name="id_inventarioStock">
                     <input type="hidden" id="skuStock" name="skuStock">
