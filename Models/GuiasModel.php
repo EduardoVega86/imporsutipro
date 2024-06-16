@@ -174,16 +174,19 @@ class GuiasModel extends Query
 
         if ($id_plataforma_bodega == $id_plataforma_producto) {
             $full = 0;
-            $proveedor = null;
         } else {
             $full = 1;
-            $proveedor = $id_plataforma_bodega;
-            $proveedor = $this->select("SELECT url_imporsuit FROM plataformas WHERE id_plataforma = '$proveedor'");
-            $proveedor = $proveedor[0]['url_imporsuit'];
         }
+        $proveedor = $id_plataforma_bodega;
+        $proveedor = $this->select("SELECT url_imporsuit FROM plataformas WHERE id_plataforma = '$proveedor'");
+        $proveedor = $proveedor[0]['url_imporsuit'];
 
         $tienda_venta = $this->select("SELECT url_imporsuit FROM plataformas WHERE id_plataforma = '$id_plataforma'");
         $tienda_venta = $tienda_venta[0]['url_imporsuit'];
+
+        if ($tienda_venta == $proveedor) {
+            $proveedor = null;
+        }
 
         $costo = $this->select("SELECT costo_producto FROM facturas_cot WHERE numero_factura = '$numero_factura'");
         $costo_o = $costo[0]['costo_producto'];
