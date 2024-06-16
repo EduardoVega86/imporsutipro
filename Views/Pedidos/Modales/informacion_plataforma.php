@@ -50,19 +50,19 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="nombreTienda">Nombre</label>
-                                <input type="text" class="form-control" id="nombreTienda" value="Edison Henry Echeverría Pozo" readonly>
+                                <input type="text" class="form-control" id="nombreTienda" name="nombreTienda" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="telefonoTienda">Teléfono</label>
-                                <input type="text" class="form-control" id="telefonoTienda" value="593998011578" readonly>
+                                <input type="text" class="form-control" id="telefonoTienda" name="telefonoTienda" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="correoTienda">Correo</label>
-                                <input type="email" class="form-control" id="correoTienda" value="eheppersonal@gmail.com" readonly>
+                                <input type="email" class="form-control" id="correoTienda" name="correoTienda" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="enlaceTienda">Enlace</label>
-                                <input type="url" class="form-control" id="enlaceTienda" value="https://edishop.imporsuit.com" readonly>
+                                <input type="url" class="form-control" id="enlaceTienda" name="enlaceTienda" readonly>
                             </div>
                         </div>
                     </div>

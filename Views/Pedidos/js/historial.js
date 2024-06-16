@@ -120,8 +120,28 @@ const listHistorialPedidos = async () => {
 };
 
 function abrirModal_infoTienda(tienda){
-    $('#infoTiendaModal').modal('show');
-}
+    let formData = new FormData();
+    formData.append("tienda", tienda);
+  
+    $.ajax({
+      url: SERVERURL + "pedidos/datosPlataformas",
+      type: "POST", 
+      data: formData,
+      processData: false, // No procesar los datos
+      contentType: false, // No establecer ningún tipo de contenido
+      success: function (response) {
+        $("#nombreTienda").val(response.id_linea);
+        $("#telefonoTienda").val(response.id_linea);
+        $("#correoTienda").val(response.id_linea);
+        $("#enlaceTienda").val(response.id_linea);
+  
+        $('#infoTiendaModal').modal('show');
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        alert(errorThrown);
+      },
+    });
+  }
 
 function procesarPlataforma(url) {
     // Eliminar el "https://"
