@@ -21,8 +21,9 @@ class Wallet extends Controller
         $this->views->render($this, "billetera");
     }
 
-    public function pagar($tienda)
+    public function pagar()
     {
+        $tienda = $_GET['tienda'];
         if ($_SESSION["id_plataforma"] != 1167) {
             header("Location: /wallet/billetera");
         }
