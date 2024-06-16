@@ -54,7 +54,7 @@
 </style>
 
 <div class="full-screen-container">
-    <div class="custom-container-fluid mt-4">
+    <div class="custom-container-fluid mt-4" style="margin-right: 20px;">
         <h1>Despacho de guías</h1>
         <div class="form-group">
             <label for="numeroGuia">Número de Guía</label>
@@ -62,7 +62,7 @@
         </div>
         <button id="despachoBtn" class="btn">Despacho</button>
     </div>
-    <div class="guides-list-container mt-4">
+    <div class="guides-list-container mt-4" style="margin-right: auto;">
         <h2>Guías Ingresadas</h2>
         <ul id="guidesList" class="list-group"></ul>
     </div>
