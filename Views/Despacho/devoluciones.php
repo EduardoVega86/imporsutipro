@@ -62,6 +62,10 @@
         </div>
         <button id="devolucionBtn" class="btn">Devolución</button>
     </div>
+    <div class="guides-list-container mt-4">
+        <h2>Guías Ingresadas</h2>
+        <ul id="guidesList" class="list-group"></ul>
+    </div>
 </div>
 
 <script>
