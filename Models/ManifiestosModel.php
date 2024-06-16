@@ -31,12 +31,12 @@ class ManifiestosModel extends Query
                 return $guia['numero_guia'];
             }, $guias);
 
-            
+
 
             $resumen = $this->select($sql);
             $html = $this->generarTablaHTML($resumen);
 
-             $combinedPdfPath = $this->generateUniqueFilename('Lista-Compras-', __DIR__ . '/manifiestos');
+            $combinedPdfPath = $this->generateUniqueFilename('Lista-Compras-', __DIR__ . '/manifiestos');
             $tempName = explode('-', $combinedPdfPath);
             $tempName[0] = str_replace(__DIR__ . '/manifiestos/', '', $tempName[0]);
             $lastNumber = glob(__DIR__ . '/manifiestos/' . $tempName[0] . '-*');
@@ -52,14 +52,14 @@ class ManifiestosModel extends Query
             }
 
             $first = $this->generateFirstPdf($html);
-            if(is_array($guias)){
+            if (is_array($guias)) {
                 $downloadedPdfs = [$first];
                 foreach ($guias as $guia) {
-                    if(strpos($guia, "IMP") === 0 || strpos($guia, "MKP") === 0){
-                        $pdf_content = $file_get_contents("https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=" . $guia);
+                    if (strpos($guia, "IMP") === 0 || strpos($guia, "MKP") === 0) {
+                        $pdf_content = file_get_contents("https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=" . $guia);
                     }
-                    if($pdf_content === false){
-                        exit("No se pudo obtener el PDF de la guía: $pdfUrl");
+                    if ($pdf_content === false) {
+                        exit("No se pudo obtener el PDF de la guía: $guia");
                     }
                     $tempPdfPath = $this->generateUniqueFilename('Temp-', __DIR__ . '/temporales');
                     file_put_contents($tempPdfPath, $pdf_content);
@@ -67,7 +67,7 @@ class ManifiestosModel extends Query
                 }
                 $this->combinePdfs($downloadedPdfs, $combinedPdfPath);
                 foreach ($downloadedPdfs as $pdf) {
-                    if(file_exists($pdf)){
+                    if (file_exists($pdf)) {
                         unlink($pdf);
                     }
                 }
@@ -86,15 +86,15 @@ class ManifiestosModel extends Query
         $pdfPath = $this->generateUniqueFilename('Lista-Compras-', __DIR__ . '/temporales');
         file_put_contents($pdfPath, $dompdf->output());
         return $pdfPath;
-
-    function generateUniqueFilename($prefix, $directory = '.')
+    }
+    public function generateUniqueFilename($prefix, $directory = '.')
     {
         $tempFile = tempnam($directory, $prefix);
         unlink($tempFile); // Eliminar el archivo temporal creado por tempnam
 
         return $tempFile . '.pdf'; // Devolver el nombre de archivo con extensión .pdf
     }
-    function combinePdfs($pdfPaths, $outputPath)
+    public function combinePdfs($pdfPaths, $outputPath)
     {
         $pdf = new Fpdi();
         foreach ($pdfPaths as $filePath) {
@@ -109,7 +109,7 @@ class ManifiestosModel extends Query
         $pdf->Output('F', $outputPath);
     }
 
-    function generarTablaHTML($data)
+    public function generarTablaHTML($data)
     {
         $html = '<table border="1">';
         $html .= '<tr><th>ID Producto</th><th>Nombre Producto</th><th>Cantidad</th><th>Variedad</th></tr>';
@@ -128,8 +128,8 @@ class ManifiestosModel extends Query
     public function generarTablaDescripcion($facturas)
     {
         //      echo 'asd'.$facturas;
-        $datos = $this->select("SELECT * FROM facturas_cot WHERE numero_factura = '$factura' ");
-        $productos = $this->select("SELECT * FROM detalle_fact_cot WHERE numero_factura = '$factura' ");
+        $datos = $this->select("SELECT * FROM facturas_cot WHERE numero_factura = '$facturas' ");
+        $productos = $this->select("SELECT * FROM detalle_fact_cot WHERE numero_factura = '$facturas' ");
 
         $factura = $datos[0];
         $html = $this->generarHtmlUnico($factura, $productos);
