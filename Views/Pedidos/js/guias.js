@@ -126,8 +126,15 @@ const listGuias = async () => {
                     </td>
                     <td>${impresiones}</td>
                     <td>
-                        <button class="btn btn-sm btn-primary"><i class="fa-solid fa-pencil"></i></button>
-                        <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash-can"></i></button>
+                    <div class="dropdown">
+                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-gear"></i>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" href="#">Anular</a></li>
+                        <li><a class="dropdown-item" href="#">Información</a></li>
+                    </ul>
+                </div>
                     </td>
                 </tr>`;
     });
