@@ -51,6 +51,13 @@ class Wallet extends Controller
         $datos = $this->model->obtenerDatos($tienda);
         echo json_encode($datos);
     }
+    public function obtenerFacturas()
+    {
+        $tienda = $_POST['tienda'];
+        $filtro = $_POST['filtro'];
+        $datos = $this->model->obtenerFacturas($tienda, $filtro);
+        echo json_encode($datos);
+    }
 
     public function abonarBilletera()
     {

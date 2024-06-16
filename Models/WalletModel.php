@@ -52,14 +52,33 @@ class WalletModel extends Query
         $datos_facturas_entregadas = $this->select("SELECT SUM(monto_recibir) as utilidad, sum(total_ventas) as ventas FROM cabecera_cuenta_pagar WHERE tienda = '$tienda' and visto = 1");
         $datos_facturas_devueltas = $this->select("SELECT SUM(monto_recibir) as devoluciones FROM cabecera_cuenta_pagar WHERE tienda = '$tienda' and visto = 1 and estado_guia = 9");
         $guias_pendientes = $this->select("SELECT COUNT(*) as guias_pendientes FROM cabecera_cuenta_pagar WHERE tienda = '$tienda' and visto = 0");
+        $pagos = $this->select("SELECT * FROM `pagos` WHERE tienda = '$tienda'");
+        $abonos_registrados = $this->select("SELECT SUM(valor) as pagos  FROM `pagos` WHERE tienda = '$tienda' and recargo = 0");
         $data = [
             'utilidad' => $datos_facturas_entregadas[0]['utilidad'],
             'ventas' => $datos_facturas_entregadas[0]['ventas'],
             'devoluciones' => $datos_facturas_devueltas[0]['devoluciones'],
-            'guias_pendientes' => $guias_pendientes[0]['guias_pendientes']
+            'guias_pendientes' => $guias_pendientes[0]['guias_pendientes'],
+            'pagos' => $pagos,
+            'abonos_registrados' => $abonos_registrados[0]['pagos']
         ];
 
         return json_encode($data);
+    }
+
+    public function obtenerFacturas($tienda, $filtro)
+    {
+        if ($filtro == 'pendientes') {
+            $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE tienda = '$tienda' and valor_pendiente != 0";
+        } else if ($filtro == 'abonadas') {
+            $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE tienda = '$tienda' and valor_pendiente = 0";
+        } else if ($filtro == 'devoluciones') {
+            $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE tienda = '$tienda' and estado_guia = 9";
+        } else {
+            $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE tienda = '$tienda'";
+        }
+        $response =  $this->select($sql);
+        return json_encode($response);
     }
 
 
