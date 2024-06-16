@@ -96,8 +96,8 @@ const listHistorialPedidos = async () => {
       }</div>
                         <div>telf: ${historialPedido.telefono}</div>
                     </td>
-                    <td>${historialPedido.provincia}-${ciudad}</td>
-                    <td>${plataforma}</td>
+                    <td>${historialPedido.provinciaa}-${ciudad}</td>
+                    <a href="#" id="plataformaLink" onclick="abirModal_infoTienda(${historialPedido.plataforma})">${plataforma}</a>
                     <td>${transporte_content}</td>
                     <td>
                         <a class="w-100" href="https://wa.me/${formatPhoneNumber(
@@ -118,6 +118,10 @@ const listHistorialPedidos = async () => {
     alert(ex);
   }
 };
+
+function abirModal_infoTienda(){
+    
+}
 
 function procesarPlataforma(url) {
     // Eliminar el "https://"
