@@ -220,7 +220,7 @@ class GuiasModel extends Query
         $deleteHttpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         if ($deleteHttpCode == 200) {
             $response = array("status" => 200, "message" => "Guía anulada correctamente");
-            $sql = "UPDATE facturas_cot SET estado_guia_sistema = 8 and anulada = 1 WHERE numero_guia = ?";
+            $sql = "UPDATE facturas_cot SET estado_guia_sistema = 8, anulada = 1 WHERE numero_guia = ?";
             $response = $this->update($sql, array($id));
             if ($response === 1) {
                 $response = array("status" => 200, "message" => "Guía anulada correctamente");
