@@ -1,5 +1,4 @@
 <?php
-require_once 'vendor/dompdf/dompdf/autoload.inc.php';
 require_once 'vendor/autoload.php';
 
 
