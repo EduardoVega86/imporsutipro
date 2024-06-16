@@ -194,7 +194,7 @@
                     <input type="hidden" id="id_bodegaStock" name="id_bodegaStock">
 
                     <img src="tu-imagen.png" alt="Producto" id="image_stock">
-                    <h6>Nombre:<span id="nombreeProducto_stock"></span></h6>
+                    <h6 style="padding-top: 5px;"><strong><span id="nombreeProducto_stock"></span></strong></h6>
                     <div class="stock">Existencia: <span id="existencia_stock"></span></div>
                     <hr>
                     <label for="cantidad:">Cantidad:</label>
