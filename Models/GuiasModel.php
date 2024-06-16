@@ -180,7 +180,7 @@ class GuiasModel extends Query
             $full = 0;
         }
         $proveedor = $id_plataforma_bodega;
-        $proveedor = $this->select("SELECT url_imporsuit FROM plataformas WHERE id_plataforma = '$proveedor'");
+        $proveedor = $this->select("SELECT url_imporsuit FROM plataformas WHERE id_plataforma = '$id_plataforma_producto'");
         $proveedor = $proveedor[0]['url_imporsuit'];
 
         $tienda_venta = $this->select("SELECT url_imporsuit FROM plataformas WHERE id_plataforma = '$id_plataforma'");
