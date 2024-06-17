@@ -67,22 +67,25 @@
 
     /* diseño de iconos con botones */
     .icon-button {
-  background-color: #007bff; /* Color de fondo azul */
-  border: none;
-  border-radius: 5px;
-  color: white; /* Color del icono */
-  padding: 10px 15px;
-  font-size: 16px;
-  cursor: pointer;
-}
+        background-color: #007bff;
+        /* Color de fondo azul */
+        border: none;
+        border-radius: 5px;
+        color: white;
+        /* Color del icono */
+        padding: 10px 15px;
+        font-size: 16px;
+        cursor: pointer;
+    }
 
-.icon-button i {
-  margin-right: 5px;
-}
+    .icon-button i {
+        margin-right: 5px;
+    }
 
-.icon-button:hover {
-  background-color: #0056b3; /* Color de fondo al pasar el ratón */
-}/*  */
+    .icon-button:hover {
+        background-color: #0056b3;
+        /* Color de fondo al pasar el ratón */
+    }
 </style>
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
@@ -193,7 +196,7 @@
                         <th class="centered">Factura</th>
                         <th class="centered">Detalle factura</th>
                         <th class="centered">Tienda</th>
-                        <th class="centered">Vental total</th>
+                        <th class="centered">Venta total</th>
                         <th class="centered">Costo</th>
                         <th class="centered">Precio envio</th>
                         <th class="centered">Full Fillment</th>
@@ -202,7 +205,6 @@
                         <th class="centered">Monto pendiente</th>
                         <th class="centered">Peso</th>
                         <th class="centered">Guia</th>
-                        <th class="centered">Ver</th>
                         <th class="centered">Editar</th>
                         <th class="centered">Devolucion</th>
                         <th class="centered">Tipo envio</th>
