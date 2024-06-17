@@ -81,7 +81,7 @@ class WalletModel extends Query
             $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE tienda = '$tienda'";
         }
         $response =  $this->select($sql);
-        return json_encode($response);
+        return $response;
     }
 
 
