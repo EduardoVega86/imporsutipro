@@ -86,7 +86,14 @@ const initDataTableFacturas = async () => {
 
 const listFacturas = async () => {
   try {
-    const response = await fetch("" + SERVERURL + "wallet/obtenerDatos");
+    const formData = new FormData();
+    formData.append("tienda", tienda);
+    formData.append("filtro", filtro_facturas);
+
+    const response = await fetch(`${SERVERURL}wallet/obtenerFacturas"`, {
+      method: "POST",
+      body: formData,
+    });
     const facturas = await response.json();
 
     let content = ``;
