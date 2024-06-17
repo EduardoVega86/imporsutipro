@@ -207,16 +207,16 @@
 
                 <thead>
                     <tr>
-                        <th class="centered"><input type="checkbox" id="selectAll"></th>
+                        <th></th>
                         <th class="centered">Factura</th>
                         <th class="centered">Detalle factura</th>
+                        <th class="centered">Estado Guia</th>
                         <th class="centered">Tienda</th>
                         <th class="centered">Venta total</th>
                         <th class="centered">Costo</th>
                         <th class="centered">Precio envio</th>
                         <th class="centered">Full Fillment</th>
                         <th class="centered">Monto a recibir</th>
-                        <th class="centered">Monto cobrado</th>
                         <th class="centered">Monto pendiente</th>
                         <th class="centered">Peso</th>
                         <th class="centered">Guia</th>

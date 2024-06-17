@@ -107,34 +107,46 @@ const listFacturas = async () => {
     const facturas = await response.json();
 
     let content = ``;
-    estado_guia = "";
+    let cod = "";
+    let estado_guiaCheck = "";
+    let estado_guia = "";
     facturas.forEach((factura, index) => {
       let tienda_nombre = procesarPlataforma(factura.tienda);
       if (factura.cod == 1) {
-        estado_guia = "Recaudo";
+        cod = "Recaudo";
       } else {
-        estado_guia = "Sin Recaudo";
+        cod = "Sin Recaudo";
+      }
+      
+      if (factura.estado_guia == 7){
+        estado_guiaCheck = "checked";
+        estado_guia = "Entregado";
+      } else if (factura.estado_guia == 9){
+        estado_guiaCheck = "checked";
+        estado_guia = "Devuelto";
+      }else{
+        estado_guia = "No acreditable";
       }
 
       content += `
                 <tr>
-                    <td><input type="checkbox" class="selectCheckbox"></td>
+                    <td><input type="checkbox" class="selectCheckbox" ${estado_guiaCheck}></td>
                     <td>
                     <div><span claas="text-nowrap">${factura.numero_factura}</span></div>
                     <div><span claas="text-nowrap">${factura.guia}</span></div>
-                    <div><span class="w-100 text-nowrap" style="background-color:#7B57EC; color:white; padding:5px; border-radius:0.3rem;">${estado_guia}</span></div>
+                    <div><span class="w-100 text-nowrap" style="background-color:#7B57EC; color:white; padding:5px; border-radius:0.3rem;">${cod}</span></div>
                     </td>
                     <td>
                     <div>${factura.cliente}</div>
                     <div>${factura.fecha}</div>
                     </td>
+                    <td>${estado_guia}</td>
                     <td>${tienda_nombre}</td>
                     <td>${factura.total_venta}</td>
                     <td>${factura.costo}</td>
                     <td>${factura.precio_envio}</td>
                     <td>${factura.full}</td>
                     <td>${factura.monto_recibir}</td>
-                    <td>${factura.valor_cobrado}</td>
                     <td>${factura.valor_pendiente}</td>
                     <td>${factura.peso}</td>
                     <td>
