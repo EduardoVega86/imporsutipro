@@ -8,7 +8,7 @@ class CalculadoraModel extends Query
         $trayecto_laar = $select[0]['trayecto_laar'];
         $trayecto_servientrega = $select[0]['trayecto_servientrega'];
         $trayecto_gintracom = $select[0]['trayecto_gintracom'];
-
+        $ciudad = $select[0]['ciudad'];
         $precio_laar = $this->select("SELECT * from cobertura_laar WHERE tipo_cobertura = '$trayecto_laar' ");
         $precio_servientrega = $this->select("SELECT * from cobertura_servientrega WHERE tipo_cobertura = '$trayecto_servientrega' ");
         $precio_gintracom = $this->select("SELECT * from cobertura_gintracom WHERE trayecto = '$trayecto_gintracom' ");
@@ -61,6 +61,28 @@ class CalculadoraModel extends Query
                 $tarifas['servientrega'] = $tarifas['servientrega'];
             }
         }
+
+        if ($ciudad == "QUITO") {
+            $tarifas["speed"] = 5.5;
+        } else if ($ciudad == "VALLE DE LOS CHILLOS") {
+            $tarifas["speed"] = 6.5;
+        } else if ($ciudad == "CUMBAYA") {
+            $tarifas["speed"] = 6.5;
+        } else if ($ciudad == "TUMBACO") {
+            $tarifas["speed"] = 6.5;
+        } else if ($ciudad == "SANGOLQUI") {
+            $tarifas["speed"] = 6.5;
+        } else if ($ciudad == "PIFO") {
+            $tarifas["speed"] = 6.5;
+        } else if ($ciudad == "SAN RAFAEL") {
+            $tarifas["speed"] = 6.5;
+        } else if ($ciudad == "CONOCOTO") {
+            $tarifas["speed"] = 6.5;
+        } else {
+            $tarifas["speed"] = 0;
+        }
+
+
         return $tarifas;
     }
 }
