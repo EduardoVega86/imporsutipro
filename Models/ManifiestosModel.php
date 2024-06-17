@@ -33,7 +33,7 @@ class ManifiestosModel extends Query
         if (empty($resumen)) {
             return ['status' => '500', 'message' => 'No se encontraron datos para generar el PDF.'];
         }
-
+        
         $html = $this->generarTablaManifiesto($resumen);
 
         // Generar el PDF con Dompdf
@@ -249,7 +249,13 @@ class ManifiestosModel extends Query
     {
         $fecha = date('Y-m-d H:i:s'); // Obtén la fecha y hora actual
         $generator = new BarcodeGeneratorHTML();
-
+        
+        $id_usuario=$_SESSION['id'];
+        $sql_usuario = "SELECT nombre_users FROM users WHERE id_users = $id_usuario";
+        $usuario = $this->select($sql_usuario);        
+        $nombre_usuario = $usuario[0]['nombre_users'];
+        
+        
         $html = '
         <style>
             table {
@@ -295,8 +301,10 @@ class ManifiestosModel extends Query
         </style>
         <table>
          <tr>
+         <th>Responsable</th>
+         <th>' . $resp . '</th>
                 <th>Fecha</th>
-                <th>' . $fecha . '</th>
+                <th>' . $nombre_usuario . '</th>
                
             </tr>
           </table>
