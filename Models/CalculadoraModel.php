@@ -85,4 +85,19 @@ class CalculadoraModel extends Query
 
         return $tarifas;
     }
+
+
+    public function saldo($plataforma)
+    {
+        $select = $this->select("SELECT * FROM plataformas WHERE id_plataforma = '$plataforma' ");
+        $url = $select[0]['url_imporsuit'];
+
+        $billetera = $this->select("SELECT * FROM billeteras WHERE tienda = '$url' ");
+        if (empty($billetera)) {
+            $saldo = 0;
+        } else {
+            $saldo = $billetera[0]['saldo'];
+        }
+        return $saldo;
+    }
 }

@@ -11,4 +11,11 @@ class Calculadora extends Controller
         $tarifas = $this->model->obtenerTarifas($ciudad, $provincia, $monto_factura, $recuado);
         echo json_encode($tarifas);
     }
+
+    public function saldo()
+    {
+        $plataforma = $_SESSION['id_plataforma'];
+        $saldo = $this->model->saldo($plataforma);
+        echo json_encode($saldo);
+    }
 }

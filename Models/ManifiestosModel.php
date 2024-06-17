@@ -11,63 +11,63 @@ class ManifiestosModel extends Query
     {
         parent::__construct();
     }
-    
-     public function generarManifiestoGuias($arreglo)
-{
-    if (count($arreglo) == 0) return;
 
-    $string = "('" . implode("','", $arreglo) . "')";
+    public function generarManifiestoGuias($arreglo)
+    {
+        if (count($arreglo) == 0) return;
 
-    // Consulta de facturas con el número de productos
-    $sql = "SELECT fc.*, 
+        $string = "('" . implode("','", $arreglo) . "')";
+
+        // Consulta de facturas con el número de productos
+        $sql = "SELECT fc.*, 
                    (SELECT SUM(cantidad) 
                     FROM detalle_fact_cot dfc 
                     WHERE dfc.id_factura = fc.id_factura) AS numero_productos 
             FROM facturas_cot fc 
             WHERE fc.numero_guia IN $string";
 
-    $resumen = $this->select($sql);
+        $resumen = $this->select($sql);
 
-    // Verificar que se haya obtenido el resumen
-    if (empty($resumen)) {
-        return ['status' => '500', 'message' => 'No se encontraron datos para generar el PDF.'];
+        // Verificar que se haya obtenido el resumen
+        if (empty($resumen)) {
+            return ['status' => '500', 'message' => 'No se encontraron datos para generar el PDF.'];
+        }
+
+        $html = $this->generarTablaManifiesto($resumen);
+
+        // Generar el PDF con Dompdf
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        // Ruta del archivo PDF
+        $combinedPdfPath = $this->generateUniqueFilename('Manifiesto-', __DIR__ . '/manifiestos');
+        $tempName = explode('-', $combinedPdfPath);
+        $tempName[0] = str_replace(__DIR__ . '/manifiestos/', '', $tempName[0]);
+        $lastNumber = glob(__DIR__ . '/manifiestos/' . $tempName[0] . '-*');
+        if (count($lastNumber) > 0) {
+            $lastNumber = explode('-', $lastNumber[count($lastNumber) - 1]);
+            $lastNumber = $lastNumber[1];
+            $lastNumber = explode('.', $lastNumber);
+            $lastNumber = $lastNumber[0];
+            $lastNumber = intval($lastNumber) + 1;
+            $combinedPdfPath = __DIR__ . '/manifiestos/' . $tempName[0] . '-' . $lastNumber . '.pdf';
+        } else {
+            $combinedPdfPath = __DIR__ . '/manifiestos/' . $tempName[0] . '-1000.pdf';
+        }
+
+        // Guardar el PDF en el servidor
+        file_put_contents($combinedPdfPath, $dompdf->output());
+
+        // Devolver la respuesta
+        $response = [
+            "url" => $combinedPdfPath,
+            "status" => "200"
+        ];
+
+        return $response;
     }
-
-    $html = $this->generarTablaManifiesto($resumen);
-
-    // Generar el PDF con Dompdf
-    $dompdf = new Dompdf();
-    $dompdf->loadHtml($html);
-    $dompdf->setPaper('A4', 'portrait');
-    $dompdf->render();
-
-    // Ruta del archivo PDF
-    $combinedPdfPath = $this->generateUniqueFilename('Manifiesto-', __DIR__ . '/manifiestos');
-    $tempName = explode('-', $combinedPdfPath);
-    $tempName[0] = str_replace(__DIR__ . '/manifiestos/', '', $tempName[0]);
-    $lastNumber = glob(__DIR__ . '/manifiestos/' . $tempName[0] . '-*');
-    if (count($lastNumber) > 0) {
-        $lastNumber = explode('-', $lastNumber[count($lastNumber) - 1]);
-        $lastNumber = $lastNumber[1];
-        $lastNumber = explode('.', $lastNumber);
-        $lastNumber = $lastNumber[0];
-        $lastNumber = intval($lastNumber) + 1;
-        $combinedPdfPath = __DIR__ . '/manifiestos/' . $tempName[0] . '-' . $lastNumber . '.pdf';
-    } else {
-        $combinedPdfPath = __DIR__ . '/manifiestos/' . $tempName[0] . '-1000.pdf';
-    }
-
-    // Guardar el PDF en el servidor
-    file_put_contents($combinedPdfPath, $dompdf->output());
-
-    // Devolver la respuesta
-    $response = [
-        "url" => $combinedPdfPath,
-        "status" => "200"
-    ];
-
-    return $response;
-}
 
     public function generarManifiesto($arreglo)
     {
@@ -129,10 +129,18 @@ class ManifiestosModel extends Query
                     }
                 }
             }
+
+            // Devolver la respuesta
             $reponse = [
                 "url" => $combinedPdfPath,
                 "status" => "200"
             ];
+            //se descarga el pdf
+            header('Content-Type: application/pdf');
+            $fecha = date('Y-m-d H:i:s');
+            header('Content-Disposition: attachment; filename=" Lista-' . $fecha  . '"');
+            readfile($combinedPdfPath);
+
             return $reponse;
         }
     }
@@ -233,9 +241,9 @@ class ManifiestosModel extends Query
         return $html;
     }
 
- public function generarTablaManifiesto($data)
+    public function generarTablaManifiesto($data)
     {
-     $fecha = date('Y-m-d H:i:s'); // Obtén la fecha y hora actual
+        $fecha = date('Y-m-d H:i:s'); // Obtén la fecha y hora actual
         $html = '
         <style>
             table {
@@ -282,7 +290,7 @@ class ManifiestosModel extends Query
         <table>
          <tr>
                 <th>Fecha</th>
-                <th>'.$fecha.'</th>
+                <th>' . $fecha . '</th>
                
             </tr>
           </table>
@@ -294,20 +302,20 @@ class ManifiestosModel extends Query
                 <th>Productos</th>
                 <th>Monto a cobrar</th>
             </tr>';
-        $numero=1;
+        $numero = 1;
         foreach ($data as $row) {
             $html .= '<tr>';
             $html .= '<td data-label="ID Producto">' . $numero . '</td>';
             $html .= '<td data-label="Nombre Producto">' . htmlspecialchars($row['numero_guia']) . '</td>';
-            $html .= '<td data-label="Cantidad">' . htmlspecialchars($row['c_principal']) .' '.htmlspecialchars($row['c_secundaria']). '</td>';
-             $html .= '<td data-label="Variedad"> ' . htmlspecialchars($row['numero_productos']) . '</td>';
+            $html .= '<td data-label="Cantidad">' . htmlspecialchars($row['c_principal']) . ' ' . htmlspecialchars($row['c_secundaria']) . '</td>';
+            $html .= '<td data-label="Variedad"> ' . htmlspecialchars($row['numero_productos']) . '</td>';
             $html .= '<td data-label="Variedad">$ ' . htmlspecialchars($row['monto_factura']) . '</td>';
             $html .= '</tr>';
         }
         $html .= '</table>';
         return $html;
     }
-    
+
     public function generarTablaDescripcion($facturas)
     {
         //      echo 'asd'.$facturas;
