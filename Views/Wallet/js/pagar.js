@@ -109,8 +109,8 @@ const listFacturas = async () => {
                 <tr>
                     <td><input type="checkbox" class="selectCheckbox"></td>
                     <td>
-                    ${factura.numero_factura}
-                    ${factura.guia}
+                    <span claas="text-nowrap">${factura.numero_factura}</span> 
+                    <span claas="text-nowrap">${factura.guia}</span>       
                     </td>
                     <td>
                     ${factura.cliente}
