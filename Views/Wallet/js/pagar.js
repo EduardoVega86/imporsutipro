@@ -223,12 +223,10 @@ const initDataTablePagos = async () => {
 const listPagos = async () => {
   try {
     const pagos =  pagos_global;
-    console.log (pagos);
     let content = ``;
     let tipo ="";
     pagos.forEach((pago, index) => {
         console.log("pago1"+pago.fecha);
-        console.log("pago2"+pago[0].fecha);
 
         if (pago.recargo == 0){
             tipo= "Pago de Billetera";
