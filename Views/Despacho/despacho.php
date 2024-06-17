@@ -129,6 +129,27 @@
         });
         var guiasJSON = JSON.stringify(guias, null, 2);
         console.log(guiasJSON);
+        
+        let formData = new FormData();
+  formData.append("guias", guiasJSON);
+
+  $.ajax({
+    type: "POST",
+    url: SERVERURL + "/Manifiestos/generarManifiesto", // Asegúrate de que SERVERURL esté definida
+    data: formData,
+    processData: false, // Necesario para FormData
+    contentType: false, // Necesario para FormData
+    dataType: "json",
+    success: function (response) {
+      console.log("Respuesta del servidor:", response);
+      // Manejar la respuesta exitosa aquí
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al obtener la información de la categoría");
+    },
+  });
+  
     }
     
     // Escuchar el evento 'click' del botón de generar impresión
