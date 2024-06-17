@@ -42,7 +42,7 @@ class ManifiestosModel extends Query
             $bodega_nombre = $bodega[0]['bodega'];
             
         
-        $html ='<h3 style="text-align: center;>'.strtoupper ($bodega_nombre).'</h3>';
+        $html ='<h3 style="text-align: center;>tecto</h3>';
         $html .= $this->generarTablaManifiesto($resumen);
 echo $html;
         // Generar el PDF con Dompdf
