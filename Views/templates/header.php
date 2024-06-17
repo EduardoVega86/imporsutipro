@@ -263,7 +263,6 @@
             </div>
             <a href="#" class="dropdown-btn" data-target="#submenu2"><box-icon name="receipt" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Pedidos</span></a>
             <div class="submenu" id="submenu2">
-                <a href="<?php echo SERVERURL ?>Pedidos/nuevo"><box-icon name="file" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Nuevo</span></a>
                 <a href="<?php echo SERVERURL ?>Pedidos"><box-icon name="history" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Historial</span></a>
                 <a href="<?php echo SERVERURL ?>pedidos/guias"><box-icon name="archive" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Guías</span></a>
                 <a href="#"><box-icon name="x" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Anulados</span></a>
@@ -287,7 +286,7 @@
                 <a class="navbar-brand img_logo" href="<?php echo SERVERURL ?>dashboard"><img src="https://tiendas.imporsuitpro.com/imgs/LOGOS-IMPORSUIT.png" alt="IMORSUIT" width="100px" height="44px"></a>
                 <div class="navbar-right">
                     <a class="nav-link" href="#"><box-icon type='solid' name='videos' color="#fff"></box-icon> Tutoriales</a>
-                    <span class="navbar-text"><box-icon name='wallet' color="#fff"></box-icon> $<span id="precio_wallet"></span></span>
+                    <span class="navbar-text"><box-icon name='wallet' color="#fff"></box-icon> $<span id="  "></span></span>
                     <img src="https://new.imporsuitpro.com/public/img/img.png" class="profile-pic" id="profilePic" alt="Perfil">
                     <div class="profile-dropdown" id="profileDropdown">
                         <a href="#"><box-icon name="user" color="#fff" style="padding-right: 5px;"></box-icon> <?php echo $_SESSION["tienda"] ?></a>

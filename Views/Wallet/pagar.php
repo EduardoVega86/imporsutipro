@@ -45,8 +45,6 @@
     }
 
     .right {
-        display: flex;
-        flex-direction: row;
         max-width: 63%;
     }
 
@@ -60,7 +58,6 @@
         }
 
         .right {
-            flex-direction: column;
             max-width: 100%;
         }
     }
