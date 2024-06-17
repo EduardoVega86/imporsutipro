@@ -84,7 +84,7 @@
                     type: "GET",
                     dataType: "json",
                     success: function(response) {
-                        $("#precio_wallet").text(response);
+                        $("#precio_wallet").text(parseFloat(response).toFixed(2));
                     },
                     error: function(error) {
                         console.error("Error al obtener la lista de bodegas:", error);
