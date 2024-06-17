@@ -236,7 +236,71 @@ class ManifiestosModel extends Query
         return $html;
     }
 
-
+ public function generarTablaManifiesto($data)
+    {
+        $html = '
+        <style>
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            th, td {
+                border: 1px solid black;
+                padding: 8px;
+                text-align: left;
+            }
+            th {
+                background-color: #f2f2f2;
+            }
+            @media screen and (max-width: 600px) {
+                table, thead, tbody, th, td, tr {
+                    display: block;
+                    width: 100%;
+                }
+                th, td {
+                    box-sizing: border-box;
+                    width: 100%;
+                    text-align: right;
+                }
+                tr {
+                    margin-bottom: 15px;
+                }
+                td {
+                    text-align: right;
+                    padding-left: 50%;
+                    position: relative;
+                }
+                td:before {
+                    content: attr(data-label);
+                    position: absolute;
+                    left: 10px;
+                    width: calc(50% - 10px);
+                    padding-right: 10px;
+                    white-space: nowrap;
+                    text-align: left;
+                }
+            }
+        </style>
+        <table>
+            <tr>
+                <th>Numero</th>
+                <th>Guia</th>
+                <th>Nombre</th>
+                <th>Variedad</th>
+            </tr>';
+        $numero=1;
+        foreach ($data as $row) {
+            $html .= '<tr>';
+            $html .= '<td data-label="ID Producto">' . $numero . '</td>';
+            $html .= '<td data-label="Nombre Producto">' . htmlspecialchars($row['numero_guia']) . '</td>';
+            $html .= '<td data-label="Cantidad">' . htmlspecialchars($row['c_principal']) . htmlspecialchars($row['c_secundaria']). '</td>';
+            $html .= '<td data-label="Variedad">' . htmlspecialchars($row['monto_factura']) . '</td>';
+            $html .= '</tr>';
+        }
+        $html .= '</table>';
+        return $html;
+    }
+    
     public function generarTablaDescripcion($facturas)
     {
         //      echo 'asd'.$facturas;
