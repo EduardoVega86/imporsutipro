@@ -191,6 +191,7 @@
                                 <th class="centered">Fecha</th>
                                 <th class="centered">Tipo</th>
                                 <th class="centered">Valor</th>
+                                <th class="centered">Forma de pago</th>
                                 <th class="centered">Recibo</th>
                             </tr>
                         </thead>
