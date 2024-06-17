@@ -254,7 +254,9 @@ document.getElementById("imprimir_guias").addEventListener("click", () => {
     dataType: "json",
     success: function (response) {
       console.log("Respuesta del servidor:", response.status);
-      // Manejar la respuesta exitosa aquí
+      if (response.status == 200){
+        
+      }
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
