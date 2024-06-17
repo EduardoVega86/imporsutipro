@@ -31,7 +31,7 @@ function cargarDashboard_wallet() {
     success: function (response) {
       response = JSON.parse(response);
 
-      pagos_global = response.pago;
+      pagos_global = response.pagos;
       $("#image_tienda").attr(
         "src",
         SERVERURL + "public/img/profile_wallet.png"
