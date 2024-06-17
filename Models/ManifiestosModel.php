@@ -285,6 +285,7 @@ echo $html;
                 <th>Numero</th>
                 <th>Guia</th>
                 <th>Nombre</th>
+                <th>Productos</th>
                 <th>Variedad</th>
             </tr>';
         $numero=1;
@@ -293,6 +294,7 @@ echo $html;
             $html .= '<td data-label="ID Producto">' . $numero . '</td>';
             $html .= '<td data-label="Nombre Producto">' . htmlspecialchars($row['numero_guia']) . '</td>';
             $html .= '<td data-label="Cantidad">' . htmlspecialchars($row['c_principal']) .' '.htmlspecialchars($row['c_secundaria']). '</td>';
+             $html .= '<td data-label="Variedad">$ ' . htmlspecialchars($row['numero_productos']) . '</td>';
             $html .= '<td data-label="Variedad">$ ' . htmlspecialchars($row['monto_factura']) . '</td>';
             $html .= '</tr>';
         }
