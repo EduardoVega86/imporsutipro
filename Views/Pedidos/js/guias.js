@@ -253,7 +253,7 @@ document.getElementById("imprimir_guias").addEventListener("click", () => {
     contentType: false, // Necesario para FormData
     dataType: "json",
     success: function (response) {
-      console.log("Respuesta del servidor:", response);
+      console.log("Respuesta del servidor:", response.status);
       // Manejar la respuesta exitosa aquí
     },
     error: function (xhr, status, error) {
