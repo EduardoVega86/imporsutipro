@@ -55,7 +55,7 @@ class Productos extends Controller
         $this->views->render($this, "inventario");
     }
 
-    public function investario_bodega()
+    public function inventario_bodega()
     {
         $this->views->render($this, "inventario_bodega");
     }
