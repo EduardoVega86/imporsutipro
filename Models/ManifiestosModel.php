@@ -33,7 +33,15 @@ class ManifiestosModel extends Query
         if (empty($resumen)) {
             return ['status' => '500', 'message' => 'No se encontraron datos para generar el PDF.'];
         }
-        $html='<h3>NOMBRE DE LA TIENDA</h3>';
+        
+         
+            $sql_bodega = "SELECT  b.nombre as bodega FROM `facturas_cot` fc, detalle_fact_cot dfc, inventario_bodegas ib, bodega b WHERE numero_guia in $string and fc.id_factura=dfc.id_factura  and ib.id_inventario=dfc.id_inventario and ib.bodega=b.id limit 1;";
+       //  echo $sql_factura;$id_factura
+            $bodega = $this->select($sql_bodega);
+            $bodega_nombre = $bodega[0]['bodega'];
+            
+        
+        $html='<h3 style="text-align: center;>'.strtoupper ($bodega_nombre).'</h3>';
         $html .= $this->generarTablaManifiesto($resumen);
 
         // Generar el PDF con Dompdf
