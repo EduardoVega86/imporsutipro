@@ -125,7 +125,7 @@ const listGuias = async () => {
                       </a>
                      </div>
                      <div>
-                     <button class="btn btn-success">Controlar Novedad</button>
+                     <button class="btn btn_novedades">Controlar Novedad</button>
                      </div>
                      </div>
                     </td>

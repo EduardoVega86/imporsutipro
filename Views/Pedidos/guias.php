@@ -75,13 +75,25 @@
     }
 
     .link-like {
-            color: blue;
-            text-decoration: underline;
-            cursor: pointer;
-        }
-        .link-like:hover {
-            color: darkblue;
-        }
+        color: blue;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    .link-like:hover {
+        color: darkblue;
+    }
+
+    .btn_novedades {
+        background-color: #1337EC;
+        border-color: #1337EC;
+        color: white;
+    }
+
+    .btn_novedades:hover {
+        background-color: #102BB4;
+        border-color: #102BB4;
+    }
 </style>
 <?php require_once './Views/Pedidos/Modales/informacion_plataforma.php'; ?>
 <div class="custom-container-fluid">
