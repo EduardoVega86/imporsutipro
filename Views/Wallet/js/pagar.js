@@ -225,9 +225,7 @@ const listPagos = async () => {
     const pagos =  pagos_global;
     let content = ``;
     let tipo ="";
-    console.log(pagos)
     pagos.forEach((pago, index) => {
-        console.log("pago1"+pago.fecha);
 
         if (pago.recargo == 0){
             tipo= "Pago de Billetera";
