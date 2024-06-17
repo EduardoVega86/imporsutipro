@@ -645,7 +645,7 @@ function generar_guia() {
   // Mostrar alerta de carga antes de realizar la solicitud AJAX
   Swal.fire({
     title: "Cargando",
-    text: "Creando nuevo pedido",
+    text: "Creando Guia",
     allowOutsideClick: false,
     showConfirmButton: false,
     timer: 2000,
