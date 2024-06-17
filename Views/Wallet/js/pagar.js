@@ -8,9 +8,19 @@ const tienda = url.searchParams.get("tienda");
 var pagos_global;
 
 // Añadimos un evento que se ejecuta cuando el DOM ha sido completamente cargado
-document.addEventListener("DOMContentLoaded", function () {
-  cargarDashboard_wallet();
-});
+document.addEventListener("DOMContentLoaded", async function () {
+    try {
+      // Ejecutar cargarDashboard_wallet primero
+      cargarDashboard_wallet();
+      
+      // Luego ejecutar initDataTablePagos
+      await initDataTablePagos();
+    } catch (error) {
+      // Manejar cualquier error que ocurra en initDataTablePagos
+      console.error("Error al inicializar la tabla de pagos:", error);
+    }
+  });
+  
 
 $(document).ready(function () {
   $("#regresar").click(function () {
@@ -249,7 +259,3 @@ const listPagos = async () => {
     alert(ex);
   }
 };
-
-window.addEventListener("load", async () => {
-  await initDataTablePagos();
-});
