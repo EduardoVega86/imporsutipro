@@ -198,7 +198,7 @@
                 </div>
             </div>
         </div>
-
+        <hr style="border: none; border-top: 2px solid #000;">
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
             <table id="datatable_facturas" class="table table-striped">
