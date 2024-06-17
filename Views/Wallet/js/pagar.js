@@ -125,8 +125,8 @@ const listFacturas = async () => {
                     <div><span class="w-100 text-nowrap" style="background-color:#7B57EC; color:white; padding:5px; border-radius:0.3rem;">${estado_guia}</span></div>
                     </td>
                     <td>
-                    ${factura.cliente}
-                    ${factura.fecha}
+                    <div>${factura.cliente}</div>
+                    <div>${factura.fecha}</div>
                     </td>
                     <td>${tienda_nombre}</td>
                     <td>${factura.total_venta}</td>
