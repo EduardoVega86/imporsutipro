@@ -4,6 +4,7 @@ require_once 'vendor/autoload.php';
 
 use Dompdf\Dompdf;
 use setasign\Fpdi\Fpdi;
+use Picqer\Barcode\BarcodeGeneratorHTML;
 
 class ManifiestosModel extends Query
 {
@@ -247,6 +248,8 @@ class ManifiestosModel extends Query
     public function generarTablaManifiesto($data)
     {
         $fecha = date('Y-m-d H:i:s'); // Obtén la fecha y hora actual
+        $generator = new BarcodeGeneratorHTML();
+        
         $html = '
         <style>
             table {
@@ -307,12 +310,13 @@ class ManifiestosModel extends Query
             </tr>';
         $numero = 1;
         foreach ($data as $row) {
+             $codigoBarras = $generator->getBarcode($row['numero_guia'], $generator::TYPE_CODE_128);
             $html .= '<tr>';
             $html .= '<td data-label="ID Producto">' . $numero . '</td>';
-            $html .= '<td data-label="Nombre Producto">' . htmlspecialchars($row['numero_guia']) . '</td>';
-            $html .= '<td data-label="Cantidad">' . htmlspecialchars($row['c_principal']) . ' ' . htmlspecialchars($row['c_secundaria']) . '</td>';
-            $html .= '<td data-label="Variedad"> ' . htmlspecialchars($row['numero_productos']) . '</td>';
-            $html .= '<td data-label="Variedad">$ ' . htmlspecialchars($row['monto_factura']) . '</td>';
+            $html .= '<td data-label="Documento">' .$codigoBarras.'</br>'. htmlspecialchars($row['numero_guia']) . '</td>';
+            $html .= '<td data-label="Direccion">' . htmlspecialchars($row['c_principal']) . ' ' . htmlspecialchars($row['c_secundaria']) . '</td>';
+            $html .= '<td data-label="No Productos"> ' . htmlspecialchars($row['numero_productos']) . '</td>';
+            $html .= '<td data-label="Monto a Cobrar">$ ' . htmlspecialchars($row['monto_factura']) . '</td>';
             $html .= '</tr>';
         }
         $html .= '</table>';
