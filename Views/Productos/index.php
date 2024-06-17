@@ -45,7 +45,7 @@
         flex-direction: row;
     }
 
-    .seccion_filtros {
+    .primerSeccion_filtros {
         display: flex;
         flex-direction: row;
     }
@@ -55,7 +55,7 @@
             flex-direction: column;
         }
 
-        .seccion_filtros {
+        .primerSeccion_filtros {
             flex-direction: column;
             gap: 5px;
         }
@@ -65,7 +65,7 @@
     <div class="container mt-5" style="max-width: 1600px;">
         <h2 class="text-center mb-4">Productos</h2>
         <div class="filtros_producos justify-content-between align-items-center mb-3">
-            <div class="d-flex">
+            <div class="primerSeccion_filtros">
                 <input type="text" class="form-control me-2" placeholder="Código o Nombre">
                 <select id="categoria_filtro" class="form-select me-2">
                     <option selected value="">-- Seleccionar Categorías --</option>
