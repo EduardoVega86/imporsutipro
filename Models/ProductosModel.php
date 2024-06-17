@@ -10,7 +10,11 @@ class ProductosModel extends Query
 
     public function obtener_productos($plataforma)
     {
-        $sql = "SELECT ib.*, p.* FROM `inventario_bodegas` AS ib INNER JOIN `productos` AS p ON p.`id_producto` = ib.`id_producto` WHERE ib.`id_plataforma` = $plataforma";
+        $sql = "SELECT ib.*, p.*
+FROM `inventario_bodegas` AS ib
+INNER JOIN `productos` AS p ON p.`id_producto` = ib.`id_producto`
+WHERE ib.`id_plataforma` = $plataforma
+GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
         return $this->select($sql);
     }
 
