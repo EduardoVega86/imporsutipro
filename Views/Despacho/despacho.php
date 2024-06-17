@@ -7,7 +7,7 @@
         align-items: center;
         height: 100vh;
         background-color: #f0f0f0;
-        padding-left: 20px;
+        padding-left: 30px;
     }
 
     .custom-container-fluid {
@@ -56,6 +56,7 @@
         .full-screen-container{
             flex-direction: column;
             gap: 2px;
+            height: 20vh;
         }
     }
 </style>
@@ -69,7 +70,7 @@
         </div>
         <button id="despachoBtn" class="btn btn-success">Despacho</button>
     </div>
-    <div class="guides-list-container mt-4" style="margin-right: auto;">
+    <div class="guides-list-container mt-4" style="margin-right: auto; margin-left: 30px;">
         <h2>Guías Ingresadas</h2>
         <button id="generarImpresionBtn" class="btn btn-success">Generar Impresion</button>
         <ul id="guidesList" class="list-group"></ul>

@@ -56,6 +56,7 @@
         .full-screen-containerd{
             flex-direction: column;
             gap: 2px;
+            height: 20vh;
         }
     }
 </style>
@@ -69,7 +70,7 @@
         </div>
         <button id="devolucionBtn" class="btn">Devolución</button>
     </div>
-    <div class="guides-list-container mt-4" style="margin-right: auto;">
+    <div class="guides-list-container mt-4" style="margin-right: auto; margin-left: 30px;">
         <h2>Guías Ingresadas</h2>
         <ul id="guidesList" class="list-group"></ul>
     </div>
