@@ -302,9 +302,9 @@ class ManifiestosModel extends Query
         <table>
          <tr>
          <th>Responsable</th>
-         <th>' . $resp . '</th>
+         <th>' . $nombre_usuario . '</th>
                 <th>Fecha</th>
-                <th>' . $nombre_usuario . '</th>
+                <th>' . $fecha . '</th>
                
             </tr>
           </table>
