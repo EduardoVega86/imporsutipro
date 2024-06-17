@@ -104,18 +104,19 @@ const listFacturas = async () => {
     let content = ``;
 
     facturas.forEach((factura, index) => {
+        let tienda_nombre = procesarPlataforma(factura.tienda);
       content += `
                 <tr>
                     <td><input type="checkbox" class="selectCheckbox"></td>
                     <td>
-                    #Factura:${factura.numero_factura}
-                    Guia:${factura.guia}
+                    ${factura.numero_factura}
+                    ${factura.guia}
                     </td>
                     <td>
                     ${factura.cliente}
                     ${factura.fecha}
                     </td>
-                    <td>${factura.tienda}</td>
+                    <td>${tienda_nombre}</td>
                     <td>${factura.total_venta}</td>
                     <td>${factura.costo}</td>
                     <td>${factura.precio_envio}</td>
@@ -149,6 +150,19 @@ const listFacturas = async () => {
     alert(ex);
   }
 };
+
+function procesarPlataforma(url) {
+    // Eliminar el "https://"
+    let sinProtocolo = url.replace('https://', '');
+  
+    // Eliminar ".imporsuitpro.com"
+    let baseNombre = sinProtocolo.replace('.imporsuitpro.com', '');
+  
+    // Convertir a mayúsculas
+    let resultado = baseNombre.toUpperCase();
+  
+    return resultado;
+  }
 
 window.addEventListener("load", async () => {
   await initDataTableFacturas();
