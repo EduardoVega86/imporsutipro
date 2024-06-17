@@ -73,7 +73,7 @@
         border-radius: 5px;
         color: white;
         /* Color del icono */
-        padding: 10px 15px;
+        padding: 5px;
         font-size: 16px;
         cursor: pointer;
     }
