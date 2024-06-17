@@ -222,7 +222,7 @@ const initDataTablePagos = async () => {
 
 const listPagos = async () => {
   try {
-    const pagos = await pagos_global.json();
+    const pagos =  pagos_global;
 
     let content = ``;
     let tipo ="";
