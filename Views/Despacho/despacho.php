@@ -52,22 +52,21 @@
         cursor: pointer;
     }
 </style>
-<div class="custom-container-fluid" style="justify-content: center; align-items: center; height: 100vh;">
-    
-        <div class="custom-container-fluid mt-4" style="margin-right: 20px;">
-            <h1>Despacho de guías</h1>
-            <div class="form-group">
-                <label for="numeroGuia">Número de Guía</label>
-                <input type="text" id="numeroGuia" placeholder="Coloca el cursor aquí antes de">
-            </div>
-            <button id="despachoBtn" class="btn btn-success">Despacho</button>
+
+<div class="full-screen-container">
+    <div class="custom-container-fluid mt-4" style="margin-right: 20px;">
+        <h1>Despacho de guías</h1>
+        <div class="form-group">
+            <label for="numeroGuia">Número de Guía</label>
+            <input type="text" id="numeroGuia" placeholder="Coloca el cursor aquí antes de">
         </div>
-        <div class="guides-list-container mt-4" style="margin-right: auto;">
-            <h2>Guías Ingresadas</h2>
-            <button id="generarImpresionBtn" class="btn btn-success">Generar Impresion</button>
-            <ul id="guidesList" class="list-group"></ul>
-        </div>
-    
+        <button id="despachoBtn" class="btn btn-success">Despacho</button>
+    </div>
+    <div class="guides-list-container mt-4" style="margin-right: auto;">
+        <h2>Guías Ingresadas</h2>
+        <button id="generarImpresionBtn" class="btn btn-success">Generar Impresion</button>
+        <ul id="guidesList" class="list-group"></ul>
+    </div>
 </div>
 
 <script>
@@ -82,13 +81,13 @@
             success: function(response) {
                 if (response.status == 500) {
                     toastr.error(
-                        "" + response.message,
+                        ""+ response.message,
                         "NOTIFICACIÓN", {
                             positionClass: "toast-bottom-center"
                         }
                     );
                 } else if (response.status == 200) {
-                    toastr.success("" + response.message, "NOTIFICACIÓN", {
+                    toastr.success(""+ response.message, "NOTIFICACIÓN", {
                         positionClass: "toast-bottom-center",
                     });
 
@@ -130,29 +129,29 @@
         });
         var guiasJSON = JSON.stringify(guias, null, 2);
         console.log(guiasJSON);
-
+        
         let formData = new FormData();
-        formData.append("guias", guiasJSON);
+  formData.append("guias", guiasJSON);
 
-        $.ajax({
-            type: "POST",
-            url: SERVERURL + "/Manifiestos/generarManifiesto", // Asegúrate de que SERVERURL esté definida
-            data: formData,
-            processData: false, // Necesario para FormData
-            contentType: false, // Necesario para FormData
-            dataType: "json",
-            success: function(response) {
-                console.log("Respuesta del servidor:", response);
-                // Manejar la respuesta exitosa aquí
-            },
-            error: function(xhr, status, error) {
-                console.error("Error en la solicitud AJAX:", error);
-                alert("Hubo un problema al obtener la información de la categoría");
-            },
-        });
-
+  $.ajax({
+    type: "POST",
+    url: SERVERURL + "/Manifiestos/generarManifiesto", // Asegúrate de que SERVERURL esté definida
+    data: formData,
+    processData: false, // Necesario para FormData
+    contentType: false, // Necesario para FormData
+    dataType: "json",
+    success: function (response) {
+      console.log("Respuesta del servidor:", response);
+      // Manejar la respuesta exitosa aquí
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al obtener la información de la categoría");
+    },
+  });
+  
     }
-
+    
     // Escuchar el evento 'click' del botón de generar impresión
     document.getElementById('generarImpresionBtn').addEventListener('click', generarImpresion);
 </script>
