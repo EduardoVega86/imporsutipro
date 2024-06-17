@@ -258,7 +258,7 @@ $(document).ready(function () {
     var priceValue = priceSpan.text().trim();
     var selectedCompany = $(this).data("company");
 
-    if (priceValue !== "--" && priceValue !== "") {
+    if (priceValue !== "--" && priceValue !== "" && priceValue !== "0"&& priceValue !== "Proximamente") {
       $("#costo_flete").val(priceValue);
       $("#transportadora_selected").val(selectedCompany);
 
@@ -300,9 +300,10 @@ $(document).ready(function () {
         contentType: false,
         success: function (response) {
           response = JSON.parse(response);
-          console.log("correcto el precio" + response.servientrega);
-          $("#price_servientrega").text(response.servientrega);
-          $("#price_gintracom").text(response.gintracom);
+
+          /* $("#price_servientrega").text(response.servientrega); */
+          /* $("#price_gintracom").text(response.gintracom); */
+          $("#price_speed").text(response.speed);
           $("#price_laar").text(response.laar);
         },
         error: function (jqXHR, textStatus, errorThrown) {
