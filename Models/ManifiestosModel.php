@@ -31,9 +31,13 @@ FROM
 WHERE 
     fc.numero_guia IN $string;
   ";
-            echo $sql;
+            // echo $sql;
 
-       
+            $sql_guias = "SELECT numero_guia FROM facturas_cot WHERE numero_factura IN $string";
+            $guias = $this->select($sql_guias);
+            $guias = array_map(function ($guia) {
+                return $guia['numero_guia'];
+            }, $guias);
 
 
 
