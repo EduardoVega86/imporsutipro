@@ -33,8 +33,8 @@ class ManifiestosModel extends Query
         if (empty($resumen)) {
             return ['status' => '500', 'message' => 'No se encontraron datos para generar el PDF.'];
         }
-        
-        $html = $this->generarTablaManifiesto($resumen);
+        $html='<h3>NOMBRE DE LA TIENDA</h3>';
+        $html .= $this->generarTablaManifiesto($resumen);
 
         // Generar el PDF con Dompdf
         $dompdf = new Dompdf();
