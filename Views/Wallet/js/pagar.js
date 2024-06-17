@@ -233,7 +233,7 @@ const listPagos = async () => {
     const pagos =  pagos_global;
     let content = ``;
     let tipo ="";
-    console.log(pagos)
+    console.log("pagos: "+pagos)
     pagos.forEach((pago, index) => {
         console.log("pago1"+pago.fecha);
 
