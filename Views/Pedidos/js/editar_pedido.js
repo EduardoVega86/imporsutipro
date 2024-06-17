@@ -4,6 +4,7 @@ let eliminado = false;
 // Obtener el valor del id_factura desde la URL
 const url = window.location.href;
 const id_factura = url.split("/").pop();
+let numero_factura;
 
 const dataTableNuevoPedidoOptions = {
   paging: false,
@@ -72,9 +73,13 @@ const listNuevoPedido = async () => {
     let precio_costo = 0;
     costo_producto = 0;
     nuevosPedidos.forEach((nuevoPedido, index) => {
+      numero_factura = nuevoPedido.numero_factura;
       id_producto_venta = nuevoPedido.id_producto;
       dropshipping = nuevoPedido.drogshipin;
-      costo_producto = costo_producto + (parseFloat(nuevoPedido.costo_producto) * parseFloat(nuevoPedido.cantidad));
+      costo_producto =
+        costo_producto +
+        parseFloat(nuevoPedido.costo_producto) *
+          parseFloat(nuevoPedido.cantidad);
 
       contiene += `${nuevoPedido.nombre_producto} X${nuevoPedido.cantidad} `;
 
@@ -88,7 +93,7 @@ const listNuevoPedido = async () => {
       const precio = parseFloat(nuevoPedido.precio_venta);
       const descuento = parseFloat(nuevoPedido.desc_venta);
       const cantidad = parseFloat(nuevoPedido.cantidad);
-      const precioFinal = (precio * cantidad) - (precio * (descuento / 100));
+      const precioFinal = precio * cantidad - precio * (descuento / 100);
       total += precioFinal;
       content += `
                 <tr>
@@ -158,8 +163,7 @@ function recalcular(id, idPrecio, idDescuento) {
         );
       }
       await initDataTableNuevoPedido();
-    })
-    
+    });
 }
 
 function validar_direccion() {
@@ -202,7 +206,7 @@ async function eliminar_nuevoPedido(id) {
   try {
     const response = await $.ajax({
       type: "POST",
-      url: SERVERURL + "pedidos/eliminarDescripcion/" + id
+      url: SERVERURL + "pedidos/eliminarDescripcion/" + id,
     });
 
     // Mostrar alerta de éxito
@@ -226,7 +230,6 @@ async function eliminar_nuevoPedido(id) {
   }
 }
 
-
 window.addEventListener("load", async () => {
   await initDataTableNuevoPedido();
   await initDataTableNuevosPedidos();
@@ -249,7 +252,7 @@ $(document).ready(function () {
   let isInitialLoad = true;
 
   // Llamar a cargarCiudades cuando se seleccione una provincia
-  $("#provincia").on("change", function() {
+  $("#provincia").on("change", function () {
     if (!isInitialLoad) {
       cargarCiudades();
     }
@@ -298,7 +301,10 @@ $(document).ready(function () {
 
           // Después de asignar la provincia, cargar ciudades y asignar la ciudad seleccionada
           $.ajax({
-            url: SERVERURL + "Ubicaciones/obtenerCiudades/" + response[0].provincia,
+            url:
+              SERVERURL +
+              "Ubicaciones/obtenerCiudades/" +
+              response[0].provincia,
             type: "GET",
             success: function (responseCiudades) {
               let ciudades = JSON.parse(responseCiudades);
@@ -313,11 +319,15 @@ $(document).ready(function () {
               });
 
               // Asignar valor de la ciudad y notificar a Select2
-              ciudadSelect.val(response[0].ciudad_cot).trigger("change.select2");
+              ciudadSelect
+                .val(response[0].ciudad_cot)
+                .trigger("change.select2");
 
               // Asegurarse de que la ciudad se muestre correctamente
               setTimeout(() => {
-                ciudadSelect.val(response[0].ciudad_cot).trigger("change.select2");
+                ciudadSelect
+                  .val(response[0].ciudad_cot)
+                  .trigger("change.select2");
               }, 100);
 
               // Llamar manualmente la función de cambio después de asignar los valores
@@ -346,7 +356,12 @@ $(document).ready(function () {
     var priceValue = priceSpan.text().trim();
     var selectedCompany = $(this).data("company");
 
-    if (priceValue !== "--" && priceValue !== "" && priceValue !== "0"&& priceValue !== "Proximamente") {
+    if (
+      priceValue !== "--" &&
+      priceValue !== "" &&
+      priceValue !== "0" &&
+      priceValue !== "Proximamente"
+    ) {
       $("#costo_flete").val(priceValue);
       $("#transportadora_selected").val(selectedCompany);
 
@@ -388,7 +403,7 @@ $(document).ready(function () {
         contentType: false,
         success: function (response) {
           response = JSON.parse(response);
-          
+
           /* $("#price_servientrega").text(response.servientrega); */
           /* $("#price_gintracom").text(response.gintracom); */
           /* $("#price_speed").text(response.speed); */
@@ -639,8 +654,9 @@ function generar_guia() {
     },
   });
 
+  formData.append("numero_factura", numero_factura);
   $.ajax({
-    url: "" + SERVERURL + "/pedidos/nuevo_pedido",
+    url: "" + SERVERURL + "/guias/" + generar_guia,
     type: "POST",
     data: formData,
     processData: false,
@@ -648,56 +664,20 @@ function generar_guia() {
     success: function (response) {
       response = JSON.parse(response);
 
-      // Mostrar alerta de carga antes de realizar la solicitud AJAX
-      Swal.fire({
-        title: "Cargando",
-        text: "Generando Guia del pedido",
-        allowOutsideClick: false,
-        showConfirmButton: false,
-        timer: 2000,
-        willOpen: () => {
-          Swal.showLoading();
-        },
-      });
-
       if (response.status == 500) {
         Swal.fire({
           icon: "error",
-          title: response.title,
-          text: response.message,
+          title: "Error al creat guia",
         });
       } else if (response.status == 200) {
-        formData.append("numero_factura", response.numero_factura);
-        $.ajax({
-          url: "" + SERVERURL + "/guias/" + generar_guia,
-          type: "POST",
-          data: formData,
-          processData: false,
-          contentType: false,
-          success: function (response) {
-            response = JSON.parse(response);
-
-            if (response.status == 500) {
-              Swal.fire({
-                icon: "error",
-                title: "Error al creat guia",
-              });
-            } else if (response.status == 200) {
-              Swal.fire({
-                icon: "success",
-                title: "Creacion de guia Completada",
-                showConfirmButton: false,
-                timer: 2000,
-              }).then(() => {
-                vaciarTmpPedidos();
-                window.location.href = "" + SERVERURL + "Pedidos/guias";
-              });
-            }
-          },
-          error: function (error) {
-            alert("Hubo un error al agregar el producto");
-            console.log(error);
-          },
+        Swal.fire({
+          icon: "success",
+          title: "Creacion de guia Completada",
+          showConfirmButton: false,
+          timer: 2000,
+        }).then(() => {
+          vaciarTmpPedidos();
+          window.location.href = "" + SERVERURL + "Pedidos/guias";
         });
       }
     },
