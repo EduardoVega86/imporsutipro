@@ -61,16 +61,11 @@ class ManifiestosModel extends Query
         file_put_contents($combinedPdfPath, $dompdf->output());
 
         // Devolver la respuesta
-    
-          // Devolver la respuesta
-        $new_url = str_replace("/home/imporsuitpro/public_html/new", "", $combinedPdfPath);
-            $new_url = "https://new.imporsuitpro.com" . $new_url;
-            
-            $reponse = [
-                "url" => $combinedPdfPath,
-                "download" => $new_url,
-                "status" => "200"
-            ];
+        $response = [
+            "url" => $combinedPdfPath,
+            "status" => "200"
+        ];
+        
 
         return $response;
     }
