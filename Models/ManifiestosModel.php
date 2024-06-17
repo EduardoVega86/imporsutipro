@@ -53,6 +53,17 @@ class ManifiestosModel extends Query
 
             $first = $this->generateFirstPdf($html);
             
+            
+                $downloadedPdfs = [$first];
+               
+                $this->combinePdfs($downloadedPdfs, $downloadedPdfs);
+                foreach ($downloadedPdfs as $pdf) {
+                    if (file_exists($pdf)) {
+                        unlink($pdf);
+                    }
+                }
+          
+            
             $reponse = [
                 "url" => $combinedPdfPath,
                 "status" => "200"
