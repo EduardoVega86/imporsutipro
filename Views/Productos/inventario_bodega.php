@@ -175,7 +175,7 @@
     }
 
     .flecha:hover {
-        transform: scale(1.1);
+        transform: scale(1.05);
     }
 </style>
 <div class="custom-container-fluid">
