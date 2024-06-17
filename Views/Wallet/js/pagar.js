@@ -117,7 +117,7 @@ const listFacturas = async () => {
                     <td>
                     <span claas="text-nowrap">${factura.numero_factura}</span> 
                     <span claas="text-nowrap">${factura.guia}</span> 
-                    <span class="w-100 text-nowrap" style="background-color:#7B57EC; color:white; padding:5px; border-radious:0.3rem;">${estado_guia}</span>      
+                    <span class="w-100 text-nowrap" style="background-color:#7B57EC; color:white; padding:5px; border-radius:0.3rem;">${estado_guia}</span>      
                     </td>
                     <td>
                     ${factura.cliente}
