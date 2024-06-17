@@ -223,7 +223,7 @@ const initDataTablePagos = async () => {
 const listPagos = async () => {
   try {
     const pagos =  pagos_global;
-
+    console.log (pagos);
     let content = ``;
     let tipo ="";
     pagos.forEach((pago, index) => {
