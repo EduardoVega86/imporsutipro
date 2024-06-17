@@ -12,52 +12,57 @@ class ManifiestosModel extends Query
         parent::__construct();
     }
     
-    public function generarManifiestoGuias($arreglo)
-{
-    if (count($arreglo) == 0) return;
+     public function generarManifiestoGuias($arreglo)
+    {
 
-    $string = "('" . implode("','", $arreglo) . "')";
-    
-    // Consulta de facturas
-    $sql = "SELECT * FROM facturas_cot WHERE numero_guia IN $string";
-    $resumen = $this->select($sql);
+        if (count($arreglo) == 0) return;
+        if (count($arreglo) > 0) {
 
-    // Generar HTML de la tabla
-    $html = $this->generarTablaManifiesto($resumen);
 
-    // Generar el PDF con Dompdf
-    $dompdf = new Dompdf();
-    $dompdf->loadHtml($html);
-    $dompdf->setPaper('A4', 'portrait');
-    $dompdf->render();
+            $string = "('" . implode("','", $arreglo) . "')";
+            // echo $string;
+            $sql = "select * from facturas_cot where numero_guia in $string  ";
+            // echo $sql;
 
-    // Ruta del archivo PDF
-    $combinedPdfPath = $this->generateUniqueFilename('Manifiesto-', __DIR__ . '/manifiestos');
-    $tempName = explode('-', $combinedPdfPath);
-    $tempName[0] = str_replace(__DIR__ . '/manifiestos/', '', $tempName[0]);
-    $lastNumber = glob(__DIR__ . '/manifiestos/' . $tempName[0] . '-*');
-    if (count($lastNumber) > 0) {
-        $lastNumber = explode('-', $lastNumber[count($lastNumber) - 1]);
-        $lastNumber = $lastNumber[1];
-        $lastNumber = explode('.', $lastNumber);
-        $lastNumber = $lastNumber[0];
-        $lastNumber = intval($lastNumber) + 1;
-        $combinedPdfPath = __DIR__ . '/manifiestos/' . $tempName[0] . '-' . $lastNumber . '.pdf';
-    } else {
-        $combinedPdfPath = __DIR__ . '/manifiestos/' . $tempName[0] . '-1000.pdf';
+            $sql_guias = "SELECT numero_guia FROM facturas_cot WHERE numero_factura IN $string";
+            $guias = $this->select($sql_guias);
+            $guias = array_map(function ($guia) {
+                return $guia['numero_guia'];
+            }, $guias);
+
+
+
+            $resumen = $this->select($sql);
+           // print_r($resumen);
+            $html = $this->generarTablaManifiesto($resumen);
+echo $html;
+            $combinedPdfPath = $this->generateUniqueFilename('Manifiesto-', __DIR__ . '/manifiestos');
+            $tempName = explode('-', $combinedPdfPath);
+            $tempName[0] = str_replace(__DIR__ . '/manifiestos/', '', $tempName[0]);
+            $lastNumber = glob(__DIR__ . '/manifiestos/' . $tempName[0] . '-*');
+            if (count($lastNumber) > 0) {
+                $lastNumber = explode('-', $lastNumber[count($lastNumber) - 1]);
+                $lastNumber = $lastNumber[1];
+                $lastNumber = explode('.', $lastNumber);
+                $lastNumber = $lastNumber[0];
+                $lastNumber = intval($lastNumber) + 1;
+                $combinedPdfPath = __DIR__ . '/manifiestos/' . $tempName[0] . '-' . $lastNumber . '.pdf';
+            } else {
+                $combinedPdfPath = __DIR__ . '/manifiestos/' . $tempName[0] . '-1000.pdf';
+            }
+
+            $first = $this->generateFirstPdf($html);
+            
+            
+          
+            
+            $reponse = [
+                "url" => $combinedPdfPath,
+                "status" => "200"
+            ];
+            return $reponse;
+        }
     }
-
-    // Guardar el PDF en el servidor
-    file_put_contents($combinedPdfPath, $dompdf->output());
-
-    // Devolver la respuesta
-    $reponse = [
-        "url" => $combinedPdfPath,
-        "status" => "200"
-    ];
-
-    return $reponse;
-}
 
     public function generarManifiesto($arreglo)
     {
@@ -204,13 +209,6 @@ class ManifiestosModel extends Query
                 }
             }
         </style>
-         <table>
-         <tr>
-                <th>Fecha</th>
-                <th></th>
-               
-            </tr>
-          </table>
         <table>
             <tr>
                 <th>ID Producto</th>
@@ -276,6 +274,13 @@ class ManifiestosModel extends Query
             }
         </style>
         <table>
+         <tr>
+                <th>Fecha</th>
+                <th></th>
+               
+            </tr>
+          </table>
+        <table>
             <tr>
                 <th>Numero</th>
                 <th>Guia</th>
@@ -287,8 +292,8 @@ class ManifiestosModel extends Query
             $html .= '<tr>';
             $html .= '<td data-label="ID Producto">' . $numero . '</td>';
             $html .= '<td data-label="Nombre Producto">' . htmlspecialchars($row['numero_guia']) . '</td>';
-            $html .= '<td data-label="Cantidad">' . htmlspecialchars($row['c_principal']) . htmlspecialchars($row['c_secundaria']). '</td>';
-            $html .= '<td data-label="Variedad">' . htmlspecialchars($row['monto_factura']) . '</td>';
+            $html .= '<td data-label="Cantidad">' . htmlspecialchars($row['c_principal']) .' '.htmlspecialchars($row['c_secundaria']). '</td>';
+            $html .= '<td data-label="Variedad">$ ' . htmlspecialchars($row['monto_factura']) . '</td>';
             $html .= '</tr>';
         }
         $html .= '</table>';
