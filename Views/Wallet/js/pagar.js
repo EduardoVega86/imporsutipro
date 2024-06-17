@@ -149,11 +149,11 @@ const listFacturas = async () => {
                     </div>
                     </td>
 
-                    <td><button class="icon-button" style="background-color: green; margin: 0;"><i class="fa-solid fa-pen-to-square"></i></button></td>
-                    <td><button class="icon-button" style="background-color: #FCBF00; margin: 0;"><i class="fa-solid fa-rotate-left"></i></button></td>
+                    <td><button class="icon-button" style="background-color: green; margin: 0;"><i class="fa-solid fa-pen-to-square" style="margin: 0;"></i></button></td>
+                    <td><button class="icon-button" style="background-color: #FCBF00; margin: 0;"><i class="fa-solid fa-rotate-left" style="margin: 0;"></i></button></td>
                     <td></td>
                     <td></td>
-                    <td><button class="icon-button" style="background-color: red; margin: 0;"><i class="fa-solid fa-trash"></i></button></td>
+                    <td><button class="icon-button" style="background-color: red; margin: 0;"><i class="fa-solid fa-trash" style="margin: 0;"></i></button></td>
                     
                 </tr>`;
     });
