@@ -225,13 +225,21 @@ const listPagos = async () => {
     const pagos = await pagos_global.json();
 
     let content = ``;
-
+    let tipo ="";
     pagos.forEach((pago, index) => {
+        console.log("pago1"+pago.fecha);
+        console.log("pago2"+pago[0].fecha);
 
+        if (pago.recargo == 0){
+            tipo= "Pago de Billetera";
+        }else{
+            tipo= "Recargo de Billetera";
+        }
       content += `
                 <tr>
                     <td>${pago.numero_documento}</td>
                     <td>${pago.fecha}</td>
+                    <td>${tipo}</td>
                     <td>${pago.valor}</td>
                     <td>${pago.forma_pago}</td>
                     <td></td>
