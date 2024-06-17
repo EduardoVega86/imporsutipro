@@ -65,8 +65,16 @@ const listBodegas = async () => {
                     <td>${bodega.responsable}</td>
                     <td>${bodega.contacto}</td>
                     <td>
-                        <button class="btn btn-sm btn-primary" onclick="editar_bodegas(${bodega.id})"><i class="fa-solid fa-pencil"></i></button>
-                        <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash-can"></i></button>
+                    <div class="dropdown">
+                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-gear"></i>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="ver_inventario(${bodega.id})"><i class='bx bxs-file-find'></i>Ver Inventario</span></li>
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="editar_bodegas(${bodega.id})"><i class="fa-solid fa-pencil"></i>Editar</span></li>
+                        <li><span class="dropdown-item" style="cursor: pointer;"><i class="fa-solid fa-trash-can"></i>Eliminar</span></li>
+                    </ul>
+                    </div>
                     </td>
                 </tr>`;
     });
@@ -91,6 +99,10 @@ async function cargarCiudad(id_ciudad) {
     console.error("Error:", error);
     return null;
   }
+}
+
+function ver_inventario(id_bodega){
+  window.location.href = SERVERURL + "Productos/inventario_bodega?id_producto=" + id_bodega; 
 }
 
 window.addEventListener("load", async () => {
