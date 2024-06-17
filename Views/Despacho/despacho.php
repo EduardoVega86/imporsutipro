@@ -7,6 +7,7 @@
         align-items: center;
         height: 100vh;
         background-color: #f0f0f0;
+        padding-left: 20px;
     }
 
     .custom-container-fluid {
@@ -50,6 +51,12 @@
         padding: 10px 20px;
         border-radius: 4px;
         cursor: pointer;
+    }
+    @media (max-width: 768px) {
+        .custom-container-fluid{
+            flex-direction: column;
+            gap: 2px;
+        }
     }
 </style>
 

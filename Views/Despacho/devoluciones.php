@@ -51,6 +51,12 @@
         border-radius: 4px;
         cursor: pointer;
     }
+    @media (max-width: 768px) {
+        .custom-container-fluid{
+            flex-direction: column;
+            gap: 2px;
+        }
+    }
 </style>
 
 <div class="full-screen-container">
