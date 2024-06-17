@@ -3,21 +3,21 @@ const urlActual = window.location.href;
 // Crear un objeto URL
 const url = new URL(urlActual);
 // Obtener el valor del parámetro 'tienda'
-const tienda = url.searchParams.get('tienda');
+const tienda = url.searchParams.get("tienda");
 
 // Añadimos un evento que se ejecuta cuando el DOM ha sido completamente cargado
-document.addEventListener('DOMContentLoaded', function() {
-    cargarDashboard_wallet();
+document.addEventListener("DOMContentLoaded", function () {
+  cargarDashboard_wallet();
 });
 
-$(document).ready(function(){
-    $('#regresar').click(function() {
-        window.location.href = SERVERURL + 'wallet';
-    });
+$(document).ready(function () {
+  $("#regresar").click(function () {
+    window.location.href = SERVERURL + "wallet";
+  });
 });
 
-function cargarDashboard_wallet(){
-    let formData = new FormData();
+function cargarDashboard_wallet() {
+  let formData = new FormData();
   formData.append("tienda", tienda);
 
   $.ajax({
@@ -27,15 +27,18 @@ function cargarDashboard_wallet(){
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
-        response = JSON.parse(response);
-        $('#image_tienda').attr('src', SERVERURL+'public/img/profile_wallet.png');
-        $("#tienda_span").text(tienda);
+      response = JSON.parse(response);
+      $("#image_tienda").attr(
+        "src",
+        SERVERURL + "public/img/profile_wallet.png"
+      );
+      $("#tienda_span").text(tienda);
 
-        $("#totalVentas_wallet").text(response.ventas);
-        $("#utilidadGenerada_wallet").text(response.utilidad);
-        $("#descuentoDevolucion_wallet").text(response.devoluciones);
-        $("#retirosAcreditados_wallet").text(response.abonos_registrados);
-        $("#saldoBilletera_wallet").text(response.saldo);
+      $("#totalVentas_wallet").text(response.ventas);
+      $("#utilidadGenerada_wallet").text(response.utilidad);
+      $("#descuentoDevolucion_wallet").text(response.devoluciones);
+      $("#retirosAcreditados_wallet").text(response.abonos_registrados);
+      $("#saldoBilletera_wallet").text(response.saldo);
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
@@ -44,7 +47,7 @@ function cargarDashboard_wallet(){
 }
 
 // TABLAS FACTURAS
-let filtro_facturas="todas";
+let filtro_facturas = "todas";
 let dataTableFacturas;
 let dataTableFacturasIsInitialized = false;
 
@@ -79,7 +82,9 @@ const initDataTableFacturas = async () => {
 
   await listFacturas();
 
-  dataTableFacturas = $("#datatable_facturas").DataTable(dataTableFacturasOptions);
+  dataTableFacturas = $("#datatable_facturas").DataTable(
+    dataTableFacturasOptions
+  );
 
   dataTableFacturasIsInitialized = true;
 };
@@ -99,24 +104,45 @@ const listFacturas = async () => {
     let content = ``;
 
     facturas.forEach((factura, index) => {
-
       content += `
                 <tr>
                     <td><input type="checkbox" class="selectCheckbox"></td>
-                    <td>${factura.ventas}</td>
-                    <td>${factura.utilidad}</td>
-                    <td>${factura.count_visto_0}</td>
-                    
+                    <td>
+                    #Factura:${factura.numoer_factura}
+                    Guia:${factura.guia}
+                    </td>
+                    <td>
+                    ${factura.cliente}
+                    ${factura.fecha}
+                    </td>
+                    <td>${factura.tienda}</td>
+                    <td>${factura.total_venta}</td>
+                    <td>${factura.costo}</td>
+                    <td>${factura.precio_envio}</td>
+                    <td>${factura.full}</td>
+                    <td>${factura.monto_recibir}</td>
+                    <td>${factura.valor_cobrado}</td>
+                    <td>${factura.valor_pendiente}</td>
+                    <td>${factura.peso}</td>
                     <td>
                     <div class="dropdown">
                     <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-gear"></i>
+                    <i class='bx bxs-truck' ></i>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" style="cursor: pointer;" href="${SERVERURL}wallet/pagar?tienda=${factura.tienda}"><i class='bx bx-wallet'></i>Pagar</a></li>
+                        <li><a class="dropdown-item" style="cursor: pointer;" href="https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${factura.guia}">Traking</a></li>
+                        <li><a class="dropdown-item" style="cursor: pointer;" href="https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${factura.guia}">Ticket</a></li>
                     </ul>
                     </div>
                     </td>
+
+                    <td><button class="icon-button"><i class="fas fa-eye"></i></button></td>
+                    <td><button class="icon-button" style="background-color: green;"><i class="fa-solid fa-file-pen"></i></i></button></td>
+                    <td><button class="icon-button" style="background-color: #FCBF00;"><i class="fa-solid fa-rotate-left"></i></button></td>
+                    <td></td>
+                    <td></td>
+                    <td><button class="icon-button" style="background-color: red;"><i class="fa-solid fa-trash"></i></button></td>
+                    
                 </tr>`;
     });
     document.getElementById("tableBody_facturas").innerHTML = content;

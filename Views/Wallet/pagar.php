@@ -64,6 +64,25 @@
             max-width: 100%;
         }
     }
+
+    /* diseño de iconos con botones */
+    .icon-button {
+  background-color: #007bff; /* Color de fondo azul */
+  border: none;
+  border-radius: 5px;
+  color: white; /* Color del icono */
+  padding: 10px 15px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.icon-button i {
+  margin-right: 5px;
+}
+
+.icon-button:hover {
+  background-color: #0056b3; /* Color de fondo al pasar el ratón */
+}/*  */
 </style>
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
