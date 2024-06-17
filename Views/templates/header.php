@@ -287,7 +287,7 @@
                 <a class="navbar-brand img_logo" href="<?php echo SERVERURL ?>dashboard"><img src="https://tiendas.imporsuitpro.com/imgs/LOGOS-IMPORSUIT.png" alt="IMORSUIT" width="100px" height="44px"></a>
                 <div class="navbar-right">
                     <a class="nav-link" href="#"><box-icon type='solid' name='videos' color="#fff"></box-icon> Tutoriales</a>
-                    <span class="navbar-text"><box-icon name='wallet' color="#fff"></box-icon> $0.00</span>
+                    <span class="navbar-text"><box-icon name='wallet' color="#fff"></box-icon> $<span id="precio_wallet"></span></span>
                     <img src="https://new.imporsuitpro.com/public/img/img.png" class="profile-pic" id="profilePic" alt="Perfil">
                     <div class="profile-dropdown" id="profileDropdown">
                         <a href="#"><box-icon name="user" color="#fff" style="padding-right: 5px;"></box-icon> <?php echo $_SESSION["tienda"] ?></a>
