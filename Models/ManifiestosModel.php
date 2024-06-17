@@ -24,7 +24,7 @@ class ManifiestosModel extends Query
             $sql = "select * from facturas_cot where numero_guia in $string  ";
             // echo $sql;
 
-            $sql_guias = "SELECT numero_guia FROM facturas_cot WHERE numero_factura IN $string";
+            $sql_guias = "SELECT fc.*, (SELECT COUNT(*) FROM detalle_fact_cot dfc WHERE dfc.id_factura = fc.id_factura) AS numero_productos FROM facturas_cot fc WHERE fc.numero_guia IN $string; ";
             $guias = $this->select($sql_guias);
             $guias = array_map(function ($guia) {
                 return $guia['numero_guia'];
@@ -276,7 +276,7 @@ echo $html;
         <table>
          <tr>
                 <th>Fecha</th>
-                <th>'.date().'</th>
+                <th></th>
                
             </tr>
           </table>
