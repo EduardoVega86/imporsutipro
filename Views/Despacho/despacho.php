@@ -53,7 +53,7 @@
         cursor: pointer;
     }
     @media (max-width: 768px) {
-        .custom-container-fluid{
+        .full-screen-container{
             flex-direction: column;
             gap: 2px;
         }
