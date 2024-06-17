@@ -256,6 +256,19 @@ document.getElementById("imprimir_guias").addEventListener("click", () => {
     processData: false, // Necesario para FormData
     contentType: false, // Necesario para FormData
     dataType: "json",
+    beforeSend: function () {
+      // Mostrar alerta de carga antes de realizar la solicitud AJAX
+      Swal.fire({
+        title: "Cargando",
+        text: "Creando lista de productos",
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        timer: 2000,
+        willOpen: () => {
+          Swal.showLoading();
+        },
+      });
+    },
     success: function (response) {
       if (response.status == 200) {
         const link = document.createElement("a");
