@@ -22,7 +22,7 @@ class ManifiestosModel extends Query
             $string = "('" . implode("','", $arreglo) . "')";
             // echo $string;
             $sql = "SELECT dfc.id_producto, p.nombre_producto, sum(dfc.cantidad) AS cantidad, ib.*, v.* FROM detalle_fact_cot dfc LEFT JOIN productos p ON dfc.id_producto = p.id_producto LEFT JOIN inventario_bodegas ib ON dfc.id_inventario = ib.id_inventario LEFT JOIN variedades v ON ib.id_variante = v.id_variedad "
-                . "WHERE dfc.numero_factura IN $string GROUP BY dfc.id_producto, p.nombre_producto, ib.id_inventario, v.id_variedad;  ";
+                . "WHERE dfc.numero_guia IN $string GROUP BY dfc.id_producto, p.nombre_producto, ib.id_inventario, v.id_variedad;  ";
             // echo $sql;
 
             $sql_guias = "SELECT numero_guia FROM facturas_cot WHERE numero_factura IN $string";
