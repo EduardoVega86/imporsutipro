@@ -34,7 +34,7 @@ class ManifiestosModel extends Query
 
             $resumen = $this->select($sql);
            // print_r($resumen);
-            $html = $this->generarTablaHTML($resumen);
+            $html = $this->generarTablaManifiesto($resumen);
 echo $html;
             $combinedPdfPath = $this->generateUniqueFilename('Manifiesto-', __DIR__ . '/manifiestos');
             $tempName = explode('-', $combinedPdfPath);
@@ -94,7 +94,7 @@ echo $html;
 
 
             $resumen = $this->select($sql);
-            $html = $this->generarTablaManifiesto($resumen);
+            $html = $this->generarTablaHTML($resumen);
 
             $combinedPdfPath = $this->generateUniqueFilename('Lista-Compras-', __DIR__ . '/manifiestos');
             $tempName = explode('-', $combinedPdfPath);

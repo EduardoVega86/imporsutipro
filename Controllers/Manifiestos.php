@@ -28,7 +28,7 @@ class Manifiestos extends Controller
     {
         $arreglo = $_POST['guias'];
         $arreglo = json_decode($arreglo, true);
-        print_r($arreglo);
+        //print_r($arreglo);
         //devuelve el html
         $html =    $this->model->generarManifiestoGuias($arreglo);
 
