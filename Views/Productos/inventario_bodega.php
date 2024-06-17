@@ -163,6 +163,20 @@
             max-width: 100%;
         }
     }
+
+    .flecha {
+        font-size: 48px;
+        cursor: pointer;
+        display: inline-block;
+        padding: 10px;
+        transition: transform 0.2s;
+        text-decoration: none;
+        color: black;
+    }
+
+    .flecha:hover {
+        transform: scale(1.2);
+    }
 </style>
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
@@ -170,6 +184,9 @@
         <!-- <div class="filtros_producos justify-content-between align-items-center mb-3"></div>
         </div> -->
         <div class="left_right gap-2">
+            <div class="flecha" onclick="redireccionar()">
+                <i class="fas fa-arrow-left"></i>
+            </div>
             <div class="table-responsive left">
                 <!-- <table class="table table-bordered table-striped table-hover"> -->
                 <table id="datatable_inventario" class="table table-striped">

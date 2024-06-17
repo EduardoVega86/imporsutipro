@@ -288,3 +288,7 @@ function eliminar_stock() {
     },
   });
 }
+
+function redireccionar() {
+  window.location.href = SERVERURL + "/Productos/bodegas";
+}
