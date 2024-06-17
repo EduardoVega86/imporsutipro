@@ -139,7 +139,6 @@ class ManifiestosModel extends Query
             header('Content-Type: application/pdf');
             $fecha = date('Y-m-d H:i:s');
             header('Content-Disposition: attachment; filename=" Lista-' . $fecha  . '"');
-            readfile($combinedPdfPath);
 
             return $reponse;
         }
