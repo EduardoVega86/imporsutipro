@@ -31,7 +31,7 @@ FROM
 WHERE 
     fc.numero_guia IN $string;
   ";
-            // echo $sql;
+            echo $sql;
 
        
 
