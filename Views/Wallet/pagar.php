@@ -47,7 +47,7 @@
     .right {
         display: flex;
         flex-direction: row;
-        max-width: 63%;
+        max-width: 100%;
     }
 
     @media (max-width: 768px) {
@@ -182,7 +182,7 @@
             </div>
 
             <div class="right gap-2">
-                <div class="table-responsive w-80">
+                <div class="table-responsive">
                     <table id="datatable_pagos" class="table table-striped">
 
                         <thead>
