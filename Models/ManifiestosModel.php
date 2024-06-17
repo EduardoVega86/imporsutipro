@@ -42,8 +42,8 @@ class ManifiestosModel extends Query
             $bodega_nombre = $bodega[0]['bodega'];
             
         
-        $html ='<h3 style="text-align: center;>tecto</h3>';
-        $html = $this->generarTablaManifiesto($resumen);
+       // $html ='<h3 style="text-align: center;>tecto</h3>';
+        $html = $this->generarTablaManifiesto($resumen, $bodega_nombre);
 echo $html;
         // Generar el PDF con Dompdf
         $dompdf = new Dompdf();
@@ -254,7 +254,7 @@ echo $html;
         return $html;
     }
 
-    public function generarTablaManifiesto($data)
+    public function generarTablaManifiesto($data , $bodega_nombre)
     {
         $fecha = date('Y-m-d H:i:s'); // Obtén la fecha y hora actual
         $generator = new BarcodeGeneratorHTML();
@@ -308,6 +308,7 @@ echo $html;
                 }
             }
         </style>
+         <h3>' . $bodega_nombre . '</h3>
         <table>
          <tr>
          <th>Responsable</th>
