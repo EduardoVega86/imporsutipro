@@ -35,6 +35,7 @@ async function cargarDashboard_wallet() {
       let data = await response.json();
   
       pagos_global = data.pagos;
+      console.log("primero global: "+pagos_global);
       $("#image_tienda").attr(
         "src",
         SERVERURL + "public/img/profile_wallet.png"
