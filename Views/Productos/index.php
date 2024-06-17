@@ -45,9 +45,19 @@
         flex-direction: row;
     }
 
+    .seccion_filtros {
+        display: flex;
+        flex-direction: row;
+    }
+
     @media (max-width: 768px) {
         .filtros_producos {
             flex-direction: column;
+        }
+
+        .seccion_filtros {
+            flex-direction: column;
+            gap: 5px;
         }
     }
 </style>

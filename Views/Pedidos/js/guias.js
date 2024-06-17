@@ -257,7 +257,6 @@ document.getElementById("imprimir_guias").addEventListener("click", () => {
     contentType: false, // Necesario para FormData
     dataType: "json",
     success: function (response) {
-      console.log("Respuesta del servidor:", response.status);
       if (response.status == 200) {
         const link = document.createElement("a");
         link.href = response.download;
