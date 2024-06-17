@@ -235,6 +235,7 @@ class ManifiestosModel extends Query
 
  public function generarTablaManifiesto($data)
     {
+     $fecha = date('Y-m-d H:i:s'); // Obtén la fecha y hora actual
         $html = '
         <style>
             table {
@@ -281,7 +282,7 @@ class ManifiestosModel extends Query
         <table>
          <tr>
                 <th>Fecha</th>
-                <th></th>
+                <th>'.$fecha.'</th>
                
             </tr>
           </table>
@@ -291,7 +292,7 @@ class ManifiestosModel extends Query
                 <th>Guia</th>
                 <th>Nombre</th>
                 <th>Productos</th>
-                <th>Variedad</th>
+                <th>Monto a cobrar</th>
             </tr>';
         $numero=1;
         foreach ($data as $row) {
@@ -299,8 +300,8 @@ class ManifiestosModel extends Query
             $html .= '<td data-label="ID Producto">' . $numero . '</td>';
             $html .= '<td data-label="Nombre Producto">' . htmlspecialchars($row['numero_guia']) . '</td>';
             $html .= '<td data-label="Cantidad">' . htmlspecialchars($row['c_principal']) .' '.htmlspecialchars($row['c_secundaria']). '</td>';
-             $html .= '<td data-label="Variedad">$ ' . htmlspecialchars($row['numero_productos']) . '</td>';
-            $html .= '<td data-label="Variedad">' . htmlspecialchars($row['monto_factura']) . '</td>';
+             $html .= '<td data-label="Variedad"> ' . htmlspecialchars($row['numero_productos']) . '</td>';
+            $html .= '<td data-label="Variedad">$ ' . htmlspecialchars($row['monto_factura']) . '</td>';
             $html .= '</tr>';
         }
         $html .= '</table>';
