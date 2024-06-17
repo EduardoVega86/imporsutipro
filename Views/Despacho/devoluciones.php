@@ -56,7 +56,7 @@
         .full-screen-containerd{
             flex-direction: column;
             gap: 2px;
-            height: 20vh;
+            height: 60vh;
         }
     }
 </style>
