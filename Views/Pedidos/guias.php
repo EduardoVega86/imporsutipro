@@ -93,6 +93,7 @@
     .btn_novedades:hover {
         background-color: #102BB4;
         border-color: #102BB4;
+        color: white;
     }
 </style>
 <?php require_once './Views/Pedidos/Modales/informacion_plataforma.php'; ?>
