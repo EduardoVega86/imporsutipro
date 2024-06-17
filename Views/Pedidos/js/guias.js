@@ -98,7 +98,9 @@ const listGuias = async () => {
                         <div>telf: ${guia.telefono}</div>
                     </td>
                     <td>${guia.provinciaa}-${ciudad}</td>
-                    <td><span class="link-like" id="plataformaLink" onclick="abrirModal_infoTienda('${guia.plataforma}')">${plataforma}</span></td>
+                    <td><span class="link-like" id="plataformaLink" onclick="abrirModal_infoTienda('${
+                      guia.plataforma
+                    }')">${plataforma}</span></td>
                     <td>${transporte_content}</td>
                     <td>
                      <div style="text-align: center;">
@@ -131,7 +133,9 @@ const listGuias = async () => {
                         <i class="fa-solid fa-gear"></i>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="anular_guia('${guia.numero_guia}')">Anular</span></li>
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="anular_guia('${
+                          guia.numero_guia
+                        }')">Anular</span></li>
                         <li><span class="dropdown-item" style="cursor: pointer;">Información</span></li>
                     </ul>
                 </div>
@@ -144,13 +148,13 @@ const listGuias = async () => {
   }
 };
 
-function abrirModal_infoTienda(tienda){
+function abrirModal_infoTienda(tienda) {
   let formData = new FormData();
   formData.append("tienda", tienda);
 
   $.ajax({
     url: SERVERURL + "pedidos/datosPlataformas",
-    type: "POST", 
+    type: "POST",
     data: formData,
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
@@ -161,7 +165,7 @@ function abrirModal_infoTienda(tienda){
       $("#correoTienda").val(response[0].email);
       $("#enlaceTienda").val(response[0].url_imporsuit);
 
-      $('#infoTiendaModal').modal('show');
+      $("#infoTiendaModal").modal("show");
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
@@ -171,10 +175,10 @@ function abrirModal_infoTienda(tienda){
 
 function procesarPlataforma(url) {
   // Eliminar el "https://"
-  let sinProtocolo = url.replace('https://', '');
+  let sinProtocolo = url.replace("https://", "");
 
   // Eliminar ".imporsuitpro.com"
-  let baseNombre = sinProtocolo.replace('.imporsuitpro.com', '');
+  let baseNombre = sinProtocolo.replace(".imporsuitpro.com", "");
 
   // Convertir a mayúsculas
   let resultado = baseNombre.toUpperCase();
@@ -254,8 +258,13 @@ document.getElementById("imprimir_guias").addEventListener("click", () => {
     dataType: "json",
     success: function (response) {
       console.log("Respuesta del servidor:", response.status);
-      if (response.status == 200){
-        
+      if (response.status == 200) {
+        const link = document.createElement("a");
+        link.href = response.download;
+        link.download = ""; // Puedes poner un nombre de archivo aquí si lo deseas
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
       }
     },
     error: function (xhr, status, error) {
@@ -293,7 +302,7 @@ function formatPhoneNumber(number) {
 }
 
 //anular guia
-function anular_guia(nuemero_guia){
+function anular_guia(nuemero_guia) {
   console.log("se jecuto la funcion");
   let formData = new FormData();
   formData.append("guia", nuemero_guia);
@@ -307,20 +316,17 @@ function anular_guia(nuemero_guia){
     success: function (response) {
       response = JSON.parse(response);
       if (response.status == 500) {
-        toastr.error(
-            "LA GUIA NO SE ANULO CORRECTAMENTE",
-            "NOTIFICACIÓN", {
-                positionClass: "toast-bottom-center"
-            }
-        );
-    } else if (response.status == 200) {
+        toastr.error("LA GUIA NO SE ANULO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
         toastr.success("GUIA ANULADA CORRECTAMENTE", "NOTIFICACIÓN", {
-            positionClass: "toast-bottom-center",
+          positionClass: "toast-bottom-center",
         });
 
-        $('#imagen_categoriaModal').modal('hide');
-        initDataTable ();
-    }
+        $("#imagen_categoriaModal").modal("hide");
+        initDataTable();
+      }
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
