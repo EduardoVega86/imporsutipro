@@ -317,10 +317,10 @@ function formatPhoneNumber(number) {
 }
 
 //anular guia
-function anular_guia(nuemero_guia) {
+function anular_guia(numero_guia) {
   console.log("se jecuto la funcion");
   let formData = new FormData();
-  formData.append("guia", nuemero_guia);
+  formData.append("guia", numero_guia);
 
   $.ajax({
     url: SERVERURL + "guias/anularGuia",
@@ -351,6 +351,6 @@ function anular_guia(nuemero_guia) {
 //modal novedades
 function controlar_novedad(numero_guia){
   $("#numero_guiaNovedad").val(numero_guia);
-  $("#traking_novedad").attr("href", "https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia=" + nuemero_guia);
+  $("#traking_novedad").attr("href", "https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia=" + numero_guia);
   $("#controlNovedadesModal").modal("show");
 }
