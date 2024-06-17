@@ -16,6 +16,10 @@ class ComposerStaticInit394db9ff3e8bed461b3131f49f543b23
             'Svg\\' => 4,
             'Sabberworm\\CSS\\' => 15,
         ),
+        'P' => 
+        array (
+            'Picqer\\Barcode\\' => 15,
+        ),
         'M' => 
         array (
             'Masterminds\\' => 12,
@@ -42,6 +46,10 @@ class ComposerStaticInit394db9ff3e8bed461b3131f49f543b23
         'Sabberworm\\CSS\\' => 
         array (
             0 => __DIR__ . '/..' . '/sabberworm/php-css-parser/src',
+        ),
+        'Picqer\\Barcode\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/picqer/php-barcode-generator/src',
         ),
         'Masterminds\\' => 
         array (
