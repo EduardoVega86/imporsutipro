@@ -26,7 +26,7 @@ class ManifiestosModel extends Query
                     WHERE dfc.id_factura = fc.id_factura) AS numero_productos 
             FROM facturas_cot fc 
             WHERE fc.numero_guia IN $string";
-
+echo $sql;
         $resumen = $this->select($sql);
 
         // Verificar que se haya obtenido el resumen
