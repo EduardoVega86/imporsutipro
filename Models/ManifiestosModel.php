@@ -13,50 +13,61 @@ class ManifiestosModel extends Query
     }
     
      public function generarManifiestoGuias($arreglo)
-    {
+{
+    if (count($arreglo) == 0) return;
 
-        if (count($arreglo) == 0) return;
-        if (count($arreglo) > 0) {
+    $string = "('" . implode("','", $arreglo) . "')";
 
+    // Consulta de facturas con el número de productos
+    $sql = "SELECT fc.*, 
+                   (SELECT SUM(cantidad) 
+                    FROM detalle_fact_cot dfc 
+                    WHERE dfc.id_factura = fc.id_factura) AS numero_productos 
+            FROM facturas_cot fc 
+            WHERE fc.numero_guia IN $string";
 
-            $string = "('" . implode("','", $arreglo) . "')";
-            // echo $string;
-            $sql = "SELECT fc.*, (SELECT sum(cantidad) FROM detalle_fact_cot dfc WHERE dfc.id_factura = fc.id_factura) AS numero_productos FROM facturas_cot fc WHERE fc.numero_guia IN $string;  ";
-            // echo $sql;
+    $resumen = $this->select($sql);
 
-           
-
-            $resumen = $this->select($sql);
-           // print_r($resumen);
-            $html = $this->generarTablaManifiesto($resumen);
-echo $html;
-            $combinedPdfPath = $this->generateUniqueFilename('Manifiesto-', __DIR__ . '/manifiestos');
-            $tempName = explode('-', $combinedPdfPath);
-            $tempName[0] = str_replace(__DIR__ . '/manifiestos/', '', $tempName[0]);
-            $lastNumber = glob(__DIR__ . '/manifiestos/' . $tempName[0] . '-*');
-            if (count($lastNumber) > 0) {
-                $lastNumber = explode('-', $lastNumber[count($lastNumber) - 1]);
-                $lastNumber = $lastNumber[1];
-                $lastNumber = explode('.', $lastNumber);
-                $lastNumber = $lastNumber[0];
-                $lastNumber = intval($lastNumber) + 1;
-                $combinedPdfPath = __DIR__ . '/manifiestos/' . $tempName[0] . '-' . $lastNumber . '.pdf';
-            } else {
-                $combinedPdfPath = __DIR__ . '/manifiestos/' . $tempName[0] . '-1000.pdf';
-            }
-
-            $first = $this->generateFirstPdf($html);
-            
-            
-          
-            
-            $reponse = [
-                "url" => $combinedPdfPath,
-                "status" => "200"
-            ];
-            return $reponse;
-        }
+    // Verificar que se haya obtenido el resumen
+    if (empty($resumen)) {
+        return ['status' => '500', 'message' => 'No se encontraron datos para generar el PDF.'];
     }
+
+    $html = $this->generarTablaManifiesto($resumen);
+
+    // Generar el PDF con Dompdf
+    $dompdf = new Dompdf();
+    $dompdf->loadHtml($html);
+    $dompdf->setPaper('A4', 'portrait');
+    $dompdf->render();
+
+    // Ruta del archivo PDF
+    $combinedPdfPath = $this->generateUniqueFilename('Manifiesto-', __DIR__ . '/manifiestos');
+    $tempName = explode('-', $combinedPdfPath);
+    $tempName[0] = str_replace(__DIR__ . '/manifiestos/', '', $tempName[0]);
+    $lastNumber = glob(__DIR__ . '/manifiestos/' . $tempName[0] . '-*');
+    if (count($lastNumber) > 0) {
+        $lastNumber = explode('-', $lastNumber[count($lastNumber) - 1]);
+        $lastNumber = $lastNumber[1];
+        $lastNumber = explode('.', $lastNumber);
+        $lastNumber = $lastNumber[0];
+        $lastNumber = intval($lastNumber) + 1;
+        $combinedPdfPath = __DIR__ . '/manifiestos/' . $tempName[0] . '-' . $lastNumber . '.pdf';
+    } else {
+        $combinedPdfPath = __DIR__ . '/manifiestos/' . $tempName[0] . '-1000.pdf';
+    }
+
+    // Guardar el PDF en el servidor
+    file_put_contents($combinedPdfPath, $dompdf->output());
+
+    // Devolver la respuesta
+    $response = [
+        "url" => $combinedPdfPath,
+        "status" => "200"
+    ];
+
+    return $response;
+}
 
     public function generarManifiesto($arreglo)
     {
