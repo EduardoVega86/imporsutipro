@@ -181,8 +181,8 @@
                 </div>
             </div>
 
-            <div class="right gap-2 hidden" id="inventarioSection">
-                <div class="table-responsive">
+            <div class="right gap-2">
+                <div class="table-responsive w-80">
                     <table id="datatable_pagos" class="table table-striped">
 
                         <thead>
