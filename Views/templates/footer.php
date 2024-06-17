@@ -84,7 +84,6 @@
                     type: "GET",
                     dataType: "json",
                     success: function(response) {
-                        console.log("wallet"+ response);
                         $("#precio_wallet").text(response);
                     },
                     error: function(error) {
