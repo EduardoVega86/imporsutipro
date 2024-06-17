@@ -402,7 +402,7 @@ class InventariosModel extends Query
             $sql_plataforma_bodega = "SELECT b.id_plataforma FROM `detalle_fact_cot` dfc, inventario_bodegas  ib, bodega b where ib.bodega=b.id and id_factura=$id_factura and dfc.id_inventario=ib.id_inventario GROUP by bodega";
        //  echo $sql_factura;$id_factura
             $plataforma_bodega = $this->select($sql_plataforma_bodega);
-            $id_plataforma_bodega = $detalle_factura[0]['id_plataforma'];
+            $id_plataforma_bodega = $plataforma_bodega[0]['id_plataforma'];
           
                 if($id_plataforma_bodega==$plataforma) {
             if($estado_factura==1){
@@ -535,7 +535,7 @@ class InventariosModel extends Query
                     $nota,
                     $num_guia,
                     $tmp['cantidad'],
-                    2,
+                    1,
                     $id_bodega,
                     $tmp['id_producto']
                 );
