@@ -8,9 +8,20 @@ const tienda = url.searchParams.get("tienda");
 var pagos_global;
 
 // Añadimos un evento que se ejecuta cuando el DOM ha sido completamente cargado
-document.addEventListener("DOMContentLoaded", function () {
-  cargarDashboard_wallet();
-});
+document.addEventListener("DOMContentLoaded", async function () {
+    try {
+      // Ejecutar cargarDashboard_wallet primero
+      await cargarDashboard_wallet();
+  
+      // Luego ejecutar initDataTablePagos
+      await initDataTablePagos();
+  
+      // Inicializar la tabla de facturas
+      await initDataTableFacturas();
+    } catch (error) {
+      console.error("Error inicializando los datos:", error);
+    }
+  });
 
 $(document).ready(function () {
   $("#regresar").click(function () {
@@ -175,9 +186,6 @@ function procesarPlataforma(url) {
   return resultado;
 }
 
-window.addEventListener("load", async () => {
-  await initDataTableFacturas();
-});
 
 
 //TABLA DE PAGOS
@@ -250,6 +258,3 @@ const listPagos = async () => {
   }
 };
 
-window.addEventListener("load", async () => {
-  await initDataTablePagos();
-});
