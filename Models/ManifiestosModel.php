@@ -27,9 +27,9 @@ class ManifiestosModel extends Query
            
 
             $resumen = $this->select($sql);
-            print_r($resumen);
+           // print_r($resumen);
             $html = $this->generarTablaManifiesto($resumen);
-//echo $html;
+echo $html;
             $combinedPdfPath = $this->generateUniqueFilename('Manifiesto-', __DIR__ . '/manifiestos');
             $tempName = explode('-', $combinedPdfPath);
             $tempName[0] = str_replace(__DIR__ . '/manifiestos/', '', $tempName[0]);
