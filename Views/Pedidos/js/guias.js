@@ -263,6 +263,7 @@ document.getElementById("imprimir_guias").addEventListener("click", () => {
         text: "Creando lista de productos",
         allowOutsideClick: false,
         showConfirmButton: false,
+        timer: 2000,
         willOpen: () => {
           Swal.showLoading();
         },
@@ -276,8 +277,6 @@ document.getElementById("imprimir_guias").addEventListener("click", () => {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        // Cerrar alerta de carga después de la descarga exitosa
-        Swal.close();
       }
     },
     error: function (xhr, status, error) {
