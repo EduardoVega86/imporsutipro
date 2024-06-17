@@ -52,8 +52,8 @@
         cursor: pointer;
     }
 </style>
-<div class="custom-container-fluid">
-    <div class="full-screen-container">
+<div class="custom-container-fluid" style="justify-content: center; align-items: center; height: 100vh;">
+    
         <div class="custom-container-fluid mt-4" style="margin-right: 20px;">
             <h1>Despacho de guías</h1>
             <div class="form-group">
@@ -67,7 +67,7 @@
             <button id="generarImpresionBtn" class="btn btn-success">Generar Impresion</button>
             <ul id="guidesList" class="list-group"></ul>
         </div>
-    </div>
+    
 </div>
 
 <script>
