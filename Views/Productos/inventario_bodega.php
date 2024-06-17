@@ -165,7 +165,7 @@
     }
 
     .flecha {
-        font-size: 48px;
+        font-size: 30px;
         cursor: pointer;
         display: inline-block;
         padding: 10px;
