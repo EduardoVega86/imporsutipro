@@ -29,7 +29,7 @@ class ManifiestosModel extends Query
             $resumen = $this->select($sql);
             print_r($resumen);
             $html = $this->generarTablaManifiesto($resumen);
-echo $html;
+//echo $html;
             $combinedPdfPath = $this->generateUniqueFilename('Manifiesto-', __DIR__ . '/manifiestos');
             $tempName = explode('-', $combinedPdfPath);
             $tempName[0] = str_replace(__DIR__ . '/manifiestos/', '', $tempName[0]);
@@ -289,7 +289,7 @@ echo $html;
             $html .= '<td data-label="Nombre Producto">' . htmlspecialchars($row['numero_guia']) . '</td>';
             $html .= '<td data-label="Cantidad">' . htmlspecialchars($row['c_principal']) .' '.htmlspecialchars($row['c_secundaria']). '</td>';
              $html .= '<td data-label="Variedad">$ ' . htmlspecialchars($row['numero_productos']) . '</td>';
-            $html .= '<td data-label="Variedad">$ ' . htmlspecialchars($row['monto_factura']) . '</td>';
+            $html .= '<td data-label="Variedad">' . htmlspecialchars($row['monto_factura']) . '</td>';
             $html .= '</tr>';
         }
         $html .= '</table>';
