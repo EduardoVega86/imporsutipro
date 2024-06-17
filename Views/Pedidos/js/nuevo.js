@@ -69,7 +69,7 @@ const listNuevoPedido = async () => {
 
     const nuevosPedidos = data.tmp;
     const nuevosPedidos_bodega = data.bodega;
-    
+
     let content = ``;
     let total = 0;
     let precio_costo = 0;
@@ -87,7 +87,10 @@ const listNuevoPedido = async () => {
       }
       id_producto_venta = nuevoPedido.id_producto;
       dropshipping = nuevoPedido.drogshipin;
-      costo_producto = costo_producto + (parseFloat(nuevoPedido.costo_producto) * parseFloat(nuevoPedido.cantidad_tmp));
+      costo_producto =
+        costo_producto +
+        parseFloat(nuevoPedido.costo_producto) *
+          parseFloat(nuevoPedido.cantidad_tmp);
 
       contiene += `${nuevoPedido.nombre_producto} X${nuevoPedido.cantidad_tmp} `;
 
@@ -100,7 +103,7 @@ const listNuevoPedido = async () => {
       const precio = parseFloat(nuevoPedido.precio_tmp);
       const descuento = parseFloat(nuevoPedido.desc_tmp);
       const cantidad = parseFloat(nuevoPedido.cantidad_tmp);
-      const precioFinal = (precio * cantidad) - (precio * (descuento / 100));
+      const precioFinal = precio * cantidad - precio * (descuento / 100);
       total += precioFinal;
 
       content += `
@@ -108,11 +111,19 @@ const listNuevoPedido = async () => {
                     <td>${nuevoPedido.id_tmp}</td>
                     <td>${nuevoPedido.cantidad_tmp}</td>
                     <td>${nuevoPedido.nombre_producto}</td>
-                    <td><input type="text" onblur='recalcular("${nuevoPedido.id_tmp}", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}")' id="precio_nuevoPedido_${index}" class="form-control prec" value="${precio}"></td>
-                    <td><input type="text" onblur='recalcular("${nuevoPedido.id_tmp}", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}")' id="descuento_nuevoPedido_${index}" class="form-control desc" value="${descuento}"></td>
-                    <td><span class='tota' id="precioFinal_nuevoPedido_${index}">${precioFinal.toFixed(2)}</span></td>
+                    <td><input type="text" onblur='recalcular("${
+                      nuevoPedido.id_tmp
+                    }", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}")' id="precio_nuevoPedido_${index}" class="form-control prec" value="${precio}"></td>
+                    <td><input type="text" onblur='recalcular("${
+                      nuevoPedido.id_tmp
+                    }", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}")' id="descuento_nuevoPedido_${index}" class="form-control desc" value="${descuento}"></td>
+                    <td><span class='tota' id="precioFinal_nuevoPedido_${index}">${precioFinal.toFixed(
+        2
+      )}</span></td>
                     <td>
-                        <button class="btn btn-sm btn-danger" onclick="eliminar_nuevoPedido(${nuevoPedido.id_tmp})"><i class="fa-solid fa-trash-can"></i></button>
+                        <button class="btn btn-sm btn-danger" onclick="eliminar_nuevoPedido(${
+                          nuevoPedido.id_tmp
+                        })"><i class="fa-solid fa-trash-can"></i></button>
                     </td>
                 </tr>`;
     });
@@ -123,12 +134,10 @@ const listNuevoPedido = async () => {
     if (eliminado == true) {
       eliminado = false;
     }
-
   } catch (ex) {
     alert(ex);
   }
 };
-
 
 function recalcular(id, idPrecio, idDescuento) {
   const precio = parseFloat(document.getElementById(idPrecio).value);
@@ -206,7 +215,7 @@ async function eliminar_nuevoPedido(id) {
   try {
     const response = await $.ajax({
       type: "POST",
-      url: SERVERURL + "pedidos/eliminarTmp/" + id
+      url: SERVERURL + "pedidos/eliminarTmp/" + id,
     });
 
     // Mostrar alerta de éxito
@@ -229,7 +238,6 @@ async function eliminar_nuevoPedido(id) {
     alert("Hubo un problema al eliminar la categoría");
   }
 }
-
 
 window.addEventListener("load", async () => {
   await initDataTableNuevoPedido();
@@ -258,7 +266,12 @@ $(document).ready(function () {
     var priceValue = priceSpan.text().trim();
     var selectedCompany = $(this).data("company");
 
-    if (priceValue !== "--" && priceValue !== "" && priceValue !== "0"&& priceValue !== "Proximamente") {
+    if (
+      priceValue !== "--" &&
+      priceValue !== "" &&
+      priceValue !== "0" &&
+      priceValue !== "Proximamente"
+    ) {
       $("#costo_flete").val(priceValue);
       $("#transportadora_selected").val(selectedCompany);
 
@@ -278,7 +291,7 @@ $(document).ready(function () {
     var provincia = $("#provincia").val();
     var ciudad = $("#ciudad").val();
     var monto_total = $("#monto_total").text().trim();
-    var recaudo =$("#recaudo").val();
+    var recaudo = $("#recaudo").val();
 
     if (
       provincia !== "Selecciona una opción" &&
@@ -303,7 +316,7 @@ $(document).ready(function () {
 
           /* $("#price_servientrega").text(response.servientrega); */
           /* $("#price_gintracom").text(response.gintracom); */
-          $("#price_speed").text(response.speed);
+          /* $("#price_speed").text(response.speed); */
           $("#price_laar").text(response.laar);
         },
         error: function (jqXHR, textStatus, errorThrown) {

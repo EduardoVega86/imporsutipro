@@ -391,7 +391,7 @@ $(document).ready(function () {
           
           /* $("#price_servientrega").text(response.servientrega); */
           /* $("#price_gintracom").text(response.gintracom); */
-          $("#price_speed").text(response.speed);
+          /* $("#price_speed").text(response.speed); */
           $("#price_laar").text(response.laar);
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -478,44 +478,7 @@ function cargarCiudades() {
   }
 }
 
-/* // Función para cargar ciudades según la provincia seleccionada
-function cargarCiudades() {
-  let provinciaId = $("#provincia").val();
-  if (provinciaId) {
-    $.ajax({
-      url: SERVERURL + "Ubicaciones/obtenerCiudades/" + provinciaId, // Reemplaza con la ruta correcta a tu controlador
-      method: "GET",
-      success: function (response) {
-        let ciudades = JSON.parse(response);
-        console.log("Ciudades recibidas:", ciudades); // Verificar los datos en la consola del navegador
-        let ciudadSelect = $("#ciudad");
-        ciudadSelect.empty();
-        ciudadSelect.append('<option value="">Ciudad *</option>'); // Añadir opción por defecto
-
-        ciudades.forEach(function (ciudad) {
-          ciudadSelect.append(
-            `<option value="${ciudad.id_cotizacion}">${ciudad.ciudad}</option>`
-          );
-        });
-
-        // Refrescar Select2 para que muestre las nuevas opciones
-        ciudadSelect.trigger("change.select2");
-
-        ciudadSelect.prop("disabled", false); // Habilitar el select de ciudades
-      },
-      error: function (error) {
-        console.log("Error al cargar ciudades:", error);
-      },
-    });
-  } else {
-    $("#ciudad")
-      .empty()
-      .append('<option value="">Ciudad *</option>')
-      .prop("disabled", true)
-      .trigger("change.select2");
-  }
-}
-
+/* 
 //agregar funcion pedido
 function agregar_nuevoPedido() {
   // Evita que el formulario se envíe de la forma tradicional
