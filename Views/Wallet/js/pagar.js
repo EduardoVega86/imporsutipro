@@ -230,10 +230,11 @@ const initDataTablePagos = async () => {
 
 const listPagos = async () => {
   try {
+    console.log("pagos: "+pagos_global)
     const pagos =  pagos_global;
     let content = ``;
     let tipo ="";
-    console.log("pagos: "+pagos)
+    console.log("pagos2: "+pagos)
     pagos.forEach((pago, index) => {
         console.log("pago1"+pago.fecha);
 
