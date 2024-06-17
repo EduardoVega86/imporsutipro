@@ -43,7 +43,7 @@ class ManifiestosModel extends Query
             
         
         $html ='<h3 style="text-align: center;>tecto</h3>';
-        $html .= $this->generarTablaManifiesto($resumen);
+        $html = $this->generarTablaManifiesto($resumen);
 echo $html;
         // Generar el PDF con Dompdf
         $dompdf = new Dompdf();
