@@ -8,7 +8,10 @@ const tienda = url.searchParams.get("tienda");
 var pagos_global;
 
 // Añadimos un evento que se ejecuta cuando el DOM ha sido completamente cargado
-document.addEventListener("DOMContentLoaded", function () {});
+document.addEventListener("DOMContentLoaded", function () {
+  cargarDashboard_wallet();
+  initDataTablePagos();
+});
 
 $(document).ready(function () {
   $("#regresar").click(function () {
@@ -177,6 +180,7 @@ window.addEventListener("load", async () => {
   await initDataTableFacturas();
 });
 
+
 //TABLA DE PAGOS
 let dataTablePagos;
 let dataTablePagosIsInitialized = false;
@@ -219,18 +223,18 @@ const initDataTablePagos = async () => {
 
 const listPagos = async () => {
   try {
-    const pagos = pagos_global;
+    const pagos =  pagos_global;
     let content = ``;
-    let tipo = "";
-    console.log(pagos);
+    let tipo ="";
+    console.log(pagos)
     pagos.forEach((pago, index) => {
-      console.log("pago1" + pago.fecha);
+        console.log("pago1"+pago.fecha);
 
-      if (pago.recargo == 0) {
-        tipo = "Pago de Billetera";
-      } else {
-        tipo = "Recargo de Billetera";
-      }
+        if (pago.recargo == 0){
+            tipo= "Pago de Billetera";
+        }else{
+            tipo= "Recargo de Billetera";
+        }
       content += `
                 <tr>
                     <td>${pago.numero_documento}</td>
@@ -247,7 +251,4 @@ const listPagos = async () => {
   }
 };
 
-window.addEventListener("load", async () => {
-  cargarDashboard_wallet();
-  await initDataTablePagos();
-});
+
