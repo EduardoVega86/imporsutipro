@@ -4,7 +4,7 @@ require_once 'vendor/autoload.php';
 
 use Dompdf\Dompdf;
 use setasign\Fpdi\Fpdi;
-use Picqer\Barcode\BarcodeGeneratorHTML;
+use picqer\php-barcode-generator\BarcodeGeneratorHTML;
 
 class ManifiestosModel extends Query
 {
