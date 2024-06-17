@@ -308,7 +308,7 @@ echo $html;
                 }
             }
         </style>
-         <h3>' . $bodega_nombre . '</h3>
+         <h3 style="text-align: center">' . strtoupper($bodega_nombre) . '</h3>
         <table>
          <tr>
          <th>Responsable</th>
