@@ -102,15 +102,22 @@ const listFacturas = async () => {
     const facturas = await response.json();
 
     let content = ``;
-
+    estado_guia = "";
     facturas.forEach((factura, index) => {
-        let tienda_nombre = procesarPlataforma(factura.tienda);
+      let tienda_nombre = procesarPlataforma(factura.tienda);
+      if (factura.cod == 1) {
+        estado_guia = "Recaudo";
+      } else {
+        estado_guia = "Sin Recaudo";
+      }
+
       content += `
                 <tr>
                     <td><input type="checkbox" class="selectCheckbox"></td>
                     <td>
                     <span claas="text-nowrap">${factura.numero_factura}</span> 
-                    <span claas="text-nowrap">${factura.guia}</span>       
+                    <span claas="text-nowrap">${factura.guia}</span> 
+                    <span class="w-100 text-nowrap" style="background-color:#7B57EC; color:white;">${estado_guia}</span>      
                     </td>
                     <td>
                     ${factura.cliente}
@@ -152,17 +159,17 @@ const listFacturas = async () => {
 };
 
 function procesarPlataforma(url) {
-    // Eliminar el "https://"
-    let sinProtocolo = url.replace('https://', '');
-  
-    // Eliminar ".imporsuitpro.com"
-    let baseNombre = sinProtocolo.replace('.imporsuitpro.com', '');
-  
-    // Convertir a mayúsculas
-    let resultado = baseNombre.toUpperCase();
-  
-    return resultado;
-  }
+  // Eliminar el "https://"
+  let sinProtocolo = url.replace("https://", "");
+
+  // Eliminar ".imporsuitpro.com"
+  let baseNombre = sinProtocolo.replace(".imporsuitpro.com", "");
+
+  // Convertir a mayúsculas
+  let resultado = baseNombre.toUpperCase();
+
+  return resultado;
+}
 
 window.addEventListener("load", async () => {
   await initDataTableFacturas();
