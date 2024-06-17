@@ -276,7 +276,7 @@ echo $html;
         <table>
          <tr>
                 <th>Fecha</th>
-                <th></th>
+                <th>'.date().'</th>
                
             </tr>
           </table>
