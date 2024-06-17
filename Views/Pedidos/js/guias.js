@@ -121,7 +121,7 @@ const listGuias = async () => {
                       <a href="https://wa.me/${formatPhoneNumber(
                         guia.telefono
                       )}" target="_blank" style="font-size: 50px; vertical-align: middle; margin-left: 10px;" target="_blank">
-                        <box-icon type='logo' name='whatsapp-square' color="green"></box-icon>
+                      <i class='bx bxl-whatsapp-square'></i>
                       </a>
                      </div>
                      </div>
