@@ -88,7 +88,7 @@
     }
 </style>
 <div class="custom-container-fluid">
-    <div class="container mt-5" style="max-width: 1600px;">
+    <div class="container mt-5" style="max-width: 1500px;">
         <h2 class="text-center mb-4">Pagar Wallet</h2>
 
         <div class="left_right gap-2">
