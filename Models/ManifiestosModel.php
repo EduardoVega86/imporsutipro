@@ -204,6 +204,13 @@ class ManifiestosModel extends Query
                 }
             }
         </style>
+         <table>
+         <tr>
+                <th>Fecha</th>
+                <th></th>
+               
+            </tr>
+          </table>
         <table>
             <tr>
                 <th>ID Producto</th>
