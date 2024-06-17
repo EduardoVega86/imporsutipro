@@ -304,7 +304,8 @@ class ManifiestosModel extends Query
             <tr>
                 <th>Numero</th>
                 <th>Guia</th>
-                <th>Nombre</th>
+                <th>Cliente</th>
+                 <th>Dirección</th>
                 <th>Productos</th>
                 <th>Monto a cobrar</th>
             </tr>';
@@ -314,9 +315,11 @@ class ManifiestosModel extends Query
             $html .= '<tr>';
             $html .= '<td data-label="ID Producto">' . $numero . '</td>';
             $html .= '<td data-label="Documento">' . $codigoBarras . '</br>' . htmlspecialchars($row['numero_guia']) . '</td>';
+             $html .= '<td data-label="Cliente">' . htmlspecialchars($row['nombre']) . '</td>';
             $html .= '<td data-label="Direccion">' . htmlspecialchars($row['c_principal']) . ' ' . htmlspecialchars($row['c_secundaria']) . '</td>';
             $html .= '<td data-label="No Productos"> ' . htmlspecialchars($row['numero_productos']) . '</td>';
-            $html .= '<td data-label="Monto a Cobrar">$ ' . htmlspecialchars($row['monto_factura']) . '</td>';
+            if ($row['cod']==1){ $monto_cobrar=htmlspecialchars($row['monto_factura']); }else{$monto_cobrar=0;} 
+            $html .= '<td data-label="Monto a Cobrar">$ ' . number_format($monto_cobrar,2) . '</td>';
             $html .= '</tr>';
         }
         $html .= '</table>';
