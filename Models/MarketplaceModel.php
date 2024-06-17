@@ -10,8 +10,29 @@ class MarketplaceModel extends Query
 
     public function obtener_productos($plataforma)
     {
-        $sql = "SELECT DISTINCT p.nombre_producto, p.producto_variable, ib.* FROM productos p JOIN ( SELECT ib.id_producto, MIN(ib.sku) AS min_sku, -- Select the minimum SKU ib.id_plataforma, ib.bodega, MIN(ib.id_inventario) AS min_id_inventario FROM inventario_bodegas ib WHERE ib.bodega != 0 AND ib.bodega != 50000 GROUP BY ib.id_producto, ib.id_plataforma, ib.bodega ) ib_filtered ON p.id_producto = ib_filtered.id_producto JOIN inventario_bodegas ib ON ib.id_producto = ib_filtered.id_producto AND ib.sku = ib_filtered.min_sku -- Match with the minimum SKU AND ib.id_inventario = ib_filtered.min_id_inventario WHERE (p.drogshipin = 1 OR p.id_plataforma = $plataforma) AND ((p.drogshipin = 1 AND ib.id_plataforma = p.id_plataforma) OR (ib.id_plataforma = p.id_plataforma)); ;
-";
+         
+        $sql = "SELECT DISTINCT p.nombre_producto, p.producto_variable, ib.*
+FROM productos p
+JOIN (
+    SELECT
+        ib.id_producto,
+        MIN(ib.sku) AS min_sku,  -- Select the minimum SKU
+        ib.id_plataforma,
+        ib.bodega,
+        MIN(ib.id_inventario) AS min_id_inventario
+    FROM inventario_bodegas ib
+    WHERE ib.bodega != 0 AND ib.bodega != 50000
+    GROUP BY ib.id_producto, ib.id_plataforma, ib.bodega
+) ib_filtered
+ON p.id_producto = ib_filtered.id_producto
+JOIN inventario_bodegas ib
+ON ib.id_producto = ib_filtered.id_producto
+AND ib.sku = ib_filtered.min_sku 
+AND ib.id_inventario = ib_filtered.min_id_inventario
+WHERE (p.drogshipin = 1 OR p.id_plataforma = 1152)
+AND ((p.drogshipin = 1 AND ib.id_plataforma = p.id_plataforma)
+    OR (ib.id_plataforma = p.id_plataforma));";
+       // echo $sql;
         return $this->select($sql);
     }
 
