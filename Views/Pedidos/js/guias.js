@@ -350,5 +350,7 @@ function anular_guia(nuemero_guia) {
 }
 //modal novedades
 function controlar_novedad(numero_guia){
-
+  $("#numero_guiaNovedad").val(numero_guia);
+  $("#traking_novedad").attr("href", "https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia=" + nuemero_guia);
+  $("#controlNovedadesModal").modal("show");
 }

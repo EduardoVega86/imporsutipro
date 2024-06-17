@@ -72,43 +72,17 @@
             <div class="modal-body">
                 <div class="informacion_producto">
                     <h3 class="mb-3" style="text-decoration:underline;"><strong>Información</strong></h3>
-                    <p class="texto_modal"><strong>Código del Producto:</strong> <span id="codigo_producto"></span></p>
-                    <p class="texto_modal"><strong>Nombre Producto:</strong> <span id="nombre_producto"></span></p>
-                    <p class="texto_modal"><strong>Precio Proveedor:</strong> <span id="precio_proveedor"></span></p>
-                    <p class="texto_modal"><strong>Precio Sugerido:</strong> <span id="precio_sugerido"></span></p>
-                    <p class="texto_modal"><strong>Stock:</strong> <span id="stock" class="text-success"></span></p>
-                    <br>
-                    <h3 class="mb-3" style="text-decoration:underline;"><strong>Proveedor</strong></h3>
-                    <p class="texto_modal"><strong>Nombre:</strong> <span id="nombre_proveedor"></span></p>
-                    <p class="texto_modal"><a href="https://wa.me/{telefono_proveedor}"><span id="telefono_proveedor"></span></a></p>
+                    <p class="texto_modal"><strong>ID:</strong> <span id="id_novedad"></span></p>
+                    <p class="texto_modal"><strong>Guia:</strong> <span id="numero_guiaNovedad"></span></p>
+                    <p class="texto_modal"><strong>Cliente:</strong> <span id="cliente_novedad"></span></p>
+                    <p class="texto_modal"><strong>Estado:</strong> <span id="estado_novedad"></span></p>
+                    <p class="texto_modal"><strong>Transportadora:</strong> <span id="transportadora_novedad"></span></p>
+                    <p class="texto_modal"><strong>Novedad:</strong> <span id="novedad" class="text-success"></span></p>
+                    <p class="texto_modal"><strong>Solucion:</strong> <span id="solucion_novedad" class="text-success"></span></p>
+                    <p class="texto_modal"><strong>Traking:</strong> <a href="#" target="_blank" id="traking_novedad">Ver traking</a></p>
                 </div>
                 <div class="informacion_producto">
-                    <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img src="https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg" class="d-block w-100 fixed-size-img" alt="Product Image 1" id="imagen_principal">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg" class="d-block w-100 fixed-size-img" alt="Product Image 2">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="https://marketing4ecommerce.net/wp-content/uploads/2024/02/imagen-generada-con-nightcafe-e1708680739301.jpg" class="d-block w-100 fixed-size-img" alt="Product Image 3">
-                            </div>
-                        </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
-                    </div>
-                    <div class="carousel-thumbnails mt-2 d-flex justify-content-center">
-                        <img src="https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg" class="img-thumbnail mx-1" alt="Thumbnail 1" data-bs-target="#productCarousel" data-bs-slide-to="0" id="imagen_principalPequena">
-                        <img src="https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg" class="img-thumbnail mx-1" alt="Thumbnail 2" data-bs-target="#productCarousel" data-bs-slide-to="1">
-                        <img src="https://marketing4ecommerce.net/wp-content/uploads/2024/02/imagen-generada-con-nightcafe-e1708680739301.jpg" class="img-thumbnail mx-1" alt="Thumbnail 3" data-bs-target="#productCarousel" data-bs-slide-to="2">
-                    </div>
+                    
                 </div>
             </div>
             <hr>
