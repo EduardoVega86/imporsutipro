@@ -50,6 +50,7 @@ const listGuias = async () => {
 
     let content = ``;
     let impresiones = "";
+    let novedad ="";
     guias.forEach((guia, index) => {
       let transporte = guia.id_transporte;
       let transporte_content = "";
@@ -78,6 +79,10 @@ const listGuias = async () => {
       let ciudadCompleta = guia.ciudad;
       let ciudadArray = ciudadCompleta.split("/");
       let ciudad = ciudadArray[0];
+
+      if(guia.estado_guia_sistema == 14 ){
+        novedad = `<button class="btn btn_novedades" onclick="controlar_novedad('${guia.numero_guia}')">Controlar Novedad</button>`;
+      }
 
       let plataforma = procesarPlataforma(guia.plataforma);
       if (guia.impreso == 0) {
@@ -125,7 +130,7 @@ const listGuias = async () => {
                       </a>
                      </div>
                      <div>
-                     <button class="btn btn_novedades" onclick="controlar_novedad('${guia.numero_guia}')">Controlar Novedad</button>
+                     ${novedad}
                      </div>
                      </div>
                     </td>
