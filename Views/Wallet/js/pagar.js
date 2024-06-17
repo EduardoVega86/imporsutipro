@@ -13,11 +13,8 @@ document.addEventListener("DOMContentLoaded", async function () {
       // Ejecutar cargarDashboard_wallet primero
       await cargarDashboard_wallet();
   
-      // Luego ejecutar initDataTablePagos
-      await initDataTablePagos();
-  
-      // Inicializar la tabla de facturas
-      await initDataTableFacturas();
+      // Luego ejecutar initDataTablePagos y initDataTableFacturas
+      await Promise.all([initDataTablePagos(), initDataTableFacturas()]);
     } catch (error) {
       console.error("Error inicializando los datos:", error);
     }
