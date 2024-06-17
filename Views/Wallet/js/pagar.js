@@ -5,6 +5,8 @@ const url = new URL(urlActual);
 // Obtener el valor del parámetro 'tienda'
 const tienda = url.searchParams.get("tienda");
 
+var pagos_global;
+
 // Añadimos un evento que se ejecuta cuando el DOM ha sido completamente cargado
 document.addEventListener("DOMContentLoaded", function () {
   cargarDashboard_wallet();
@@ -28,6 +30,8 @@ function cargarDashboard_wallet() {
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
       response = JSON.parse(response);
+
+      pagos_global = response.pago;
       $("#image_tienda").attr(
         "src",
         SERVERURL + "public/img/profile_wallet.png"
@@ -173,4 +177,72 @@ function procesarPlataforma(url) {
 
 window.addEventListener("load", async () => {
   await initDataTableFacturas();
+});
+
+
+//TABLA DE PAGOS
+let dataTablePagos;
+let dataTablePagosIsInitialized = false;
+
+const dataTablePagosOptions = {
+  columnDefs: [
+    { className: "centered", targets: [1, 2, 3, 4, 5] },
+    { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
+  ],
+  pageLength: 10,
+  destroy: true,
+  language: {
+    lengthMenu: "Mostrar _MENU_ registros por página",
+    zeroRecords: "Ningún usuario encontrado",
+    info: "Mostrando de _START_ a _END_ de un total de _TOTAL_ registros",
+    infoEmpty: "Ningún usuario encontrado",
+    infoFiltered: "(filtrados desde _MAX_ registros totales)",
+    search: "Buscar:",
+    loadingRecords: "Cargando...",
+    paginate: {
+      first: "Primero",
+      last: "Último",
+      next: "Siguiente",
+      previous: "Anterior",
+    },
+  },
+};
+
+const initDataTablePagos = async () => {
+  if (dataTablePagosIsInitialized) {
+    dataTablePagos.destroy();
+  }
+
+  await listPagos();
+
+  dataTablePagos = $("#datatable_pagos").DataTable(dataTablePagosOptions);
+
+  dataTablePagosIsInitialized = true;
+};
+
+const listPagos = async () => {
+  try {
+    const pagos = await pagos_global.json();
+
+    let content = ``;
+
+    pagos.forEach((pago, index) => {
+
+      content += `
+                <tr>
+                    <td>${pago.numero_documento}</td>
+                    <td>${pago.fecha}</td>
+                    <td>${pago.valor}</td>
+                    <td>${pago.forma_pago}</td>
+                    <td></td>
+                </tr>`;
+    });
+    document.getElementById("tableBody_pagos").innerHTML = content;
+  } catch (ex) {
+    alert(ex);
+  }
+};
+
+window.addEventListener("load", async () => {
+  await initDataTablePagos();
 });

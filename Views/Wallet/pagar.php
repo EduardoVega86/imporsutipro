@@ -182,7 +182,20 @@
             </div>
 
             <div class="right gap-2 hidden" id="inventarioSection">
+                <div class="table-responsive">
+                    <table id="datatable_pagos" class="table table-striped">
 
+                        <thead>
+                            <tr>
+                                <th class="centered">Numero documento</th>
+                                <th class="centered">Fecha</th>
+                                <th class="centered">Valor</th>
+                                <th class="centered">Recibo</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody_pagos"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
