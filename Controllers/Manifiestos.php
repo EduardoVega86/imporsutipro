@@ -21,10 +21,10 @@ class Manifiestos extends Controller
         //devuelve el html
         $html =    $this->model->generarManifiesto($arreglo);
 
-        print_r($html);
+        echo json_encode($html);
     }
-    
-     public function generarManifiesto()
+
+    public function generarManifiesto()
     {
         $arreglo = $_POST['guias'];
         $arreglo = json_decode($arreglo, true);
@@ -34,5 +34,4 @@ class Manifiestos extends Controller
 
         print_r($html);
     }
-    
 }
