@@ -8,17 +8,9 @@ const tienda = url.searchParams.get("tienda");
 var pagos_global;
 
 // Añadimos un evento que se ejecuta cuando el DOM ha sido completamente cargado
-document.addEventListener("DOMContentLoaded", async function () {
-    try {
-      // Ejecutar cargarDashboard_wallet primero
-      await cargarDashboard_wallet();
-  
-      // Luego ejecutar initDataTablePagos y initDataTableFacturas
-      await Promise.all([initDataTablePagos(), initDataTableFacturas()]);
-    } catch (error) {
-      console.error("Error inicializando los datos:", error);
-    }
-  });
+document.addEventListener("DOMContentLoaded", function () {
+  cargarDashboard_wallet();
+});
 
 $(document).ready(function () {
   $("#regresar").click(function () {
@@ -40,6 +32,7 @@ function cargarDashboard_wallet() {
       response = JSON.parse(response);
 
       pagos_global = response.pagos;
+      initDataTablePagos();
       $("#image_tienda").attr(
         "src",
         SERVERURL + "public/img/profile_wallet.png"
@@ -183,6 +176,9 @@ function procesarPlataforma(url) {
   return resultado;
 }
 
+window.addEventListener("load", async () => {
+  await initDataTableFacturas();
+});
 
 
 //TABLA DE PAGOS
@@ -227,11 +223,10 @@ const initDataTablePagos = async () => {
 
 const listPagos = async () => {
   try {
-    console.log("pagos: "+pagos_global)
     const pagos =  pagos_global;
     let content = ``;
     let tipo ="";
-    console.log("pagos2: "+pagos)
+    console.log("pagos: "+pagos)
     pagos.forEach((pago, index) => {
         console.log("pago1"+pago.fecha);
 
@@ -255,4 +250,3 @@ const listPagos = async () => {
     alert(ex);
   }
 };
-
