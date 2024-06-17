@@ -20,7 +20,7 @@ class Usuarios extends Controller
     }
 
     public function cargarUsuarios()
-    {
+    {   
         $data = $this->model->cargarUsuarios();
         return $data;
     }
@@ -52,6 +52,13 @@ class Usuarios extends Controller
         $data = file_get_contents('php://input');
         $data = json_decode($data, true);
         $response = $this->model->eliminarUsuario($data);
+        echo json_encode($response);
+    }
+
+    //obtener datos de user_group
+    public function obtener_userGroup()
+    {
+        $response = $this->model->obtener_userGroup($_SESSION['id_plataforma']);
         echo json_encode($response);
     }
 }
