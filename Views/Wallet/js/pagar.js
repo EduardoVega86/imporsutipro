@@ -8,9 +8,11 @@ const tienda = url.searchParams.get("tienda");
 var pagos_global;
 
 // Añadimos un evento que se ejecuta cuando el DOM ha sido completamente cargado
-document.addEventListener("DOMContentLoaded", function () {
-  cargarDashboard_wallet();
-});
+document.addEventListener("DOMContentLoaded", async function () {
+    cargarDashboard_wallet();
+    await initDataTablePagos();
+  });
+  
 
 $(document).ready(function () {
   $("#regresar").click(function () {
@@ -18,41 +20,37 @@ $(document).ready(function () {
   });
 });
 
-async function cargarDashboard_wallet() {
-    let formData = new FormData();
-    formData.append("tienda", tienda);
-  
-    try {
-      let response = await fetch(SERVERURL + "wallet/obtenerDetalles", {
-        method: "POST",
-        body: formData
-      });
-  
-      if (!response.ok) {
-        throw new Error('Network response was not ok ' + response.statusText);
-      }
-  
-      let data = await response.json();
-  
-      pagos_global = data.pagos;
-      console.log("primero global: "+pagos_global);
+function cargarDashboard_wallet() {
+  let formData = new FormData();
+  formData.append("tienda", tienda);
+
+  $.ajax({
+    url: SERVERURL + "wallet/obtenerDetalles",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    success: function (response) {
+      response = JSON.parse(response);
+
+      pagos_global = response.pagos;
       $("#image_tienda").attr(
         "src",
         SERVERURL + "public/img/profile_wallet.png"
       );
       $("#tienda_span").text(tienda);
-  
-      $("#totalVentas_wallet").text(data.ventas);
-      $("#utilidadGenerada_wallet").text(data.utilidad);
-      $("#descuentoDevolucion_wallet").text(data.devoluciones);
-      $("#retirosAcreditados_wallet").text(data.abonos_registrados);
-      $("#saldoBilletera_wallet").text(data.saldo);
-  
-    } catch (error) {
-      alert('Error: ' + error.message);
-    }
-  }
-  
+
+      $("#totalVentas_wallet").text(response.ventas);
+      $("#utilidadGenerada_wallet").text(response.utilidad);
+      $("#descuentoDevolucion_wallet").text(response.devoluciones);
+      $("#retirosAcreditados_wallet").text(response.abonos_registrados);
+      $("#saldoBilletera_wallet").text(response.saldo);
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+}
 
 // TABLAS FACTURAS
 let filtro_facturas = "todas";
@@ -253,7 +251,3 @@ const listPagos = async () => {
     alert(ex);
   }
 };
-
-window.addEventListener("load", async () => {
-  await initDataTablePagos();
-});
