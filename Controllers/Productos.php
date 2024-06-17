@@ -55,6 +55,11 @@ class Productos extends Controller
         $this->views->render($this, "inventario");
     }
 
+    public function investario_bodega()
+    {
+        $this->views->render($this, "inventario_bodega");
+    }
+
 
 
     ///Funciones
@@ -371,9 +376,9 @@ class Productos extends Controller
         // print_r($response);
         echo json_encode($response);
     }
-    
-    
-       public function obtenerInventario()
+
+
+    public function obtenerInventario()
     {
         //echo $id_producto;
         $id_inventario = $_POST['id_inventario'];
@@ -381,7 +386,7 @@ class Productos extends Controller
         // print_r($response);
         echo json_encode($response);
     }
-    
+
     public function obtenerHistorial()
     {
         //echo $id_producto;
