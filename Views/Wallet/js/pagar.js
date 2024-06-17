@@ -90,7 +90,7 @@ const listFacturas = async () => {
     formData.append("tienda", tienda);
     formData.append("filtro", filtro_facturas);
 
-    const response = await fetch(`${SERVERURL}wallet/obtenerFacturas"`, {
+    const response = await fetch(`${SERVERURL}wallet/obtenerFacturas`, {
       method: "POST",
       body: formData,
     });
