@@ -125,7 +125,7 @@ const listGuias = async () => {
                       </a>
                      </div>
                      <div>
-                     <button class="btn btn_novedades" onclick="controlar_novedad(${guia.numero_guia})">Controlar Novedad</button>
+                     <button class="btn btn_novedades" onclick="controlar_novedad('${guia.numero_guia}')">Controlar Novedad</button>
                      </div>
                      </div>
                     </td>
