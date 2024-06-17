@@ -223,9 +223,9 @@ class GuiasModel extends Query
             $sql = "UPDATE facturas_cot SET estado_guia_sistema = 8, anulada = 1 WHERE numero_guia = ?";
             $response = $this->update($sql, array($id));
             if ($response === 1) {
-                $response = array("status" => 200, "message" => "Guía anulada correctamente");
                 $eliminar_wallet = "DELETE FROM cabecera_cuenta_pagar WHERE guia = ?";
                 $response = $this->delete($eliminar_wallet, array($id));
+                $response = array("status" => 200, "message" => "Guía anulada correctamente");
             } else {
                 $response = array("status" => 500, "message" => "Error al anular la guía");
             }
