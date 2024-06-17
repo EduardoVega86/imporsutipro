@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <div>
                     <h5 class="card-title">${product.nombre_producto}</h5>
                     <p class="card-text">Stock: <strong style="color:green">${saldo_stock}</strong></p>
-                    <p class="card-text">Precio Proveedor: <strong>$${costo_producto}</strong></p>
+                    <p class="card-text">Precio Proveedor: <strong>$${productDetails[0].pcp}</strong></p>
                     <p class="card-text">Precio Sugerido: <strong>$${pvp}</strong></p>
                     <p class="card-text">Proveedor: <a href="${url_imporsuit}" target="_blank">${url_imporsuit}</a></p>
                 </div>
