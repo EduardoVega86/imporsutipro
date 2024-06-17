@@ -47,7 +47,7 @@
     .right {
         display: flex;
         flex-direction: row;
-        max-width: 100%;
+        max-width: 63%;
     }
 
     @media (max-width: 768px) {
