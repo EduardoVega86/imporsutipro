@@ -286,6 +286,7 @@ class Productos extends Controller
         $pvp = $_POST['pvp'] ?? 0;
         $pref = $_POST['pref'] ?? 0;
 
+        
         $response = $this->model->editarProducto($id, $codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $_SESSION['id_plataforma'], $stock_inicial, $bodega, $pcp, $pvp, $pref);
 
         echo json_encode($response);
@@ -428,16 +429,28 @@ class Productos extends Controller
             $spreadsheet = $objReader->load($fileTmpPath);
             $sheet = $spreadsheet->getActiveSheet();
             $data = $sheet->toArray();
-
+ $date_added = date("Y-m-d H:i:s");
             // Aquí puedes procesar los datos del Excel
+            $fila=0;
             foreach ($data as $row) {
+                if($fila>0){
+                
+                   print_r ($data[$fila]); 
+                 //  $response = $this->model->agregarProducto($codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $_SESSION['id_plataforma'], $stock_inicial, $bodega, $pcp, $pvp, $pref);
+               $response = $this->model->agregarProducto($data[$fila][0], $data[$fila][1], $data[$fila][2], $data[$fila][3], $data[$fila][4], $data[$fila][5], $data[$fila][6], '1', '1', $date_added, $data[$fila][7], '1', '1', '1', '0', '0', $_SESSION['id_plataforma'], $data[$fila][8], $id_inventario, $data[$fila][9], $data[$fila][10], $data[$fila][11]);
+               print_r($response);
+               
+               // echo $data[$fila][0];
+                //echo 'fila';
+                }
                 // $row es un array que contiene todas las celdas de una fila
-                print_r($row); // Ejemplo de impresión de la fila
+              //  print_r($row); // Ejemplo de impresión de la fila
+                $fila++;
             }
 
             // Puedes almacenar la información procesada en la base de datos o manejarla como desees
-            $response = $this->model->obtenerHistorial($id_inventario);
-            echo json_encode($response);
+            $response = $this->model->importacion_masiva($data);
+           // echo json_encode($response);
         } else {
             echo json_encode(['error' => 'Solo se permiten archivos Excel (xlsx, xls).']);
         }

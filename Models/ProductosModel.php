@@ -633,4 +633,9 @@ function aumentarCodigo($codigo) {
     return $nuevoCodigo;
 }
 
+ public function importacion_masiva($plataforma)
+    {
+     //print_r($plataforma);
+    }
+
 }
