@@ -311,10 +311,10 @@ echo $html;
                 }
             }
         </style>
-         <p style="text-align: center; font-size:20px">' . strtoupper($bodega_nombre) . '</p>
+         <p style="text-align: center; font-size:20px"><strong>' . strtoupper($bodega_nombre) . '</strong></p>
              
  <p style="text-align: center; font-size:12px">' . strtoupper($direccion) . '</p>
-     <p style="text-align: center; font-size:12px">' . strtoupper($telefono) . '</p>
+     <p style="text-align: center; font-size:12px">' . strtoupper($responsable). strtoupper($telefono) . '</p>
          
         <table>
          <tr>
