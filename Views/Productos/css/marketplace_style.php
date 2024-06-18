@@ -72,7 +72,7 @@
 
 .modal-header {
     background-color: <?php echo COLOR_FONDO; ?>;
-    color: white;
+    color: <?php echo COLOR_LETRAS; ?>;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
 }
