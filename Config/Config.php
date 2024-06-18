@@ -46,7 +46,7 @@ if (ENVIRONMENT == "production") {
     define("SERVERURL", $url_matriz);
 }
 
-echo MATRIZ;
+//echo MATRIZ;
 
 $logo = $matriz['logo'];
 $marca = $matriz['marca'];
