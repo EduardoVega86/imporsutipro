@@ -50,11 +50,23 @@
         border-radius: 4px;
         cursor: pointer;
     }
+
     @media (max-width: 768px) {
-        .full-screen-container{
+        .full-screen-container {
             flex-direction: column;
             gap: 2px;
             height: 60vh;
         }
+    }
+
+    .delete-btn {
+        margin-left: 10px;
+        color: red;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+
+    .delete-btn:hover {
+        transform: scale(1.2);
     }
 </style>
