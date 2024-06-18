@@ -87,8 +87,8 @@
                     <span class="navbar-text"><box-icon name='wallet' color="<?php echo COLOR_LETRAS; ?>"></box-icon> $<span id="  "></span></span>
                     <img src="https://new.imporsuitpro.com/public/img/img.png" class="profile-pic" id="profilePic" alt="Perfil">
                     <div class="profile-dropdown" id="profileDropdown">
-                        <a href="#"><box-icon name="user" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <?php echo $_SESSION["tienda"] ?></a>
-                        <a onclick="cerrar_sesion()"><box-icon name="log-out" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> Cerrar sesión</a>
+                        <a href="#"><i class='bx bx-user menu-icon'></i> <?php echo $_SESSION["tienda"] ?></a>
+                        <a onclick="cerrar_sesion()"><i class='bx bx-log-out menu-icon' ></i> Cerrar sesión</a>
                     </div>
                 </div>
             </div>
