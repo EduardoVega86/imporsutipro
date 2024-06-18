@@ -31,6 +31,10 @@
         color: <?php echo COLOR_LETRA_HOVER; ?>;
     }
 
+    .menu-icon {
+        padding-right: 5px !important;
+        font-size: 50px;
+    }
 
     .sidebar .menu {
         flex-grow: 1;
