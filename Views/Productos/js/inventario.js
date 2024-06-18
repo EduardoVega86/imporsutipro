@@ -89,6 +89,7 @@ const dataTableStockIndividualOptions = {
   ],
   pageLength: 10,
   destroy: true,
+  responsive: true,
   autoWidth: true,
   bAutoWidth: true,
   language: {
