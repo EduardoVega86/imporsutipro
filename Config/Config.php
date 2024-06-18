@@ -16,7 +16,7 @@ if (ENVIRONMENT == 'development') {
     error_reporting(E_ALL);
     define("SERVERURL", "http://localhost/imporsutipro/");
 } else {
-    $url_actual = $_SERVER['HTTP_HOST'];
+    $url_actual = "https://" . $_SERVER['HTTP_HOST'];
     $mysqli = new mysqli(HOST, USER, PASSWORD, DB);
     $mysqli->set_charset(CHARSET);
     if ($mysqli->connect_errno) {
@@ -24,7 +24,7 @@ if (ENVIRONMENT == 'development') {
         exit;
     }
     $matriz = [];
-    echo $url_actual;
+
     $sql = "SELECT * FROM matriz where url_matriz = '$url_actual'";
     $result = $mysqli->query($sql);
     if ($result->num_rows > 0) {
