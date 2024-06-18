@@ -2,7 +2,7 @@
 
 <style>
     body {
-        background-color: <?php echo COLOR_FONDO; ?>;
+        background-color: #171931;
         color: #fff;
         font-family: Arial, sans-serif;
     }

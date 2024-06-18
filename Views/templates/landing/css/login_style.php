@@ -1,5 +1,3 @@
-<?php require_once './Views/templates/landing/header.php'; ?>
-
 <style>
     body {
         background-color: #171931;
@@ -9,7 +7,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
+        min-height: 100vh;
         margin: 0;
         font-family: Arial, sans-serif;
     }
@@ -72,28 +70,33 @@
     .forgot-password:hover {
         color: #333;
     }
+
+    /* Estilo base del enlace */
+    .animated-link {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        margin-top: 15px;
+        font-size: 1rem;
+        color: #007bff;
+        text-decoration: none;
+        transition: all 0.3s ease-in-out;
+        display: inline-block;
+        /* Para que la transformación funcione correctamente */
+    }
+
+    /* Estilo cuando el mouse está sobre el enlace */
+    .animated-link:hover {
+        font-size: 1.2rem;
+        color: #0056b3;
+        transform: scale(1.1);
+        /* Aumenta ligeramente el tamaño */
+    }
+
+    /* Estilo para centrar el texto "o" */
+    .center-text {
+        text-align: center;
+        margin: 5px 0;
+        /* Añadir margen para separarlo de los enlaces */
+    }
 </style>
-
-<div class="d-flex flex-column" style="width: 700px;">
-    <div class="imagen_logo">
-        <img src="https://tiendas.imporsuitpro.com/imgs/logo.png" alt="IMORSUIT" width="300px" height="100px">
-    </div>
-    <div class="container">
-        <div class="header">
-            <h1>IMPORSUIT</h1>
-        </div>
-        <form id="multiStepForm">
-            <div class="form-group">
-                <label for="email">Restablecer contraseña</label>
-                <input type="text" class="form-control" id="email" placeholder="Email">
-            </div>
-            <button type="button" class="btn btn-primary w-100"> <box-icon name='envelope' color='#ffff' type='solid'></box-icon> Enviar correo</button>
-            <a href="<?php echo SERVERURL ?>login" class="forgot-password">
-                <i class="fa-solid fa-arrow-left"></i> Volver
-            </a>
-        </form>
-    </div>
-</div>
-
-
-<?php require_once './Views/templates/landing/footer.php'; ?>

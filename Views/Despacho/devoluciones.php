@@ -11,7 +11,7 @@
     }
 
     .custom-container-fluid {
-        background-color: <?php echo COLOR_FONDO; ?>;
+        background-color: #171931;
         padding: 20px;
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
