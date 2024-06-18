@@ -1,7 +1,7 @@
 <?php
 session_start();
 require 'vendor/autoload.php';
-
+//use PHPExcel_IOFactory;
 
 
 class Productos extends Controller
@@ -407,12 +407,42 @@ class Productos extends Controller
     
     public function importarExcel()
     {
-        //echo $id_producto;
-        $id_inventario = $_POST['id_bodega'];
-        $id_inventario = $_POST['id_bodega'];
         
-        $response = $this->model->obtenerHistorial($id_inventario);
-        // print_r($response);
-        echo json_encode($response);
+    // Obtener el ID de inventario desde el formulario
+    $id_inventario = $_POST['id_bodega'];
+    
+    // Verificar y manejar el archivo subido
+    if (isset($_FILES['archivo']) && $_FILES['archivo']['error'] === UPLOAD_ERR_OK) {
+        $fileTmpPath = $_FILES['archivo']['tmp_name'];
+        $fileName = $_FILES['archivo']['name'];
+        $fileSize = $_FILES['archivo']['size'];
+        $fileType = $_FILES['archivo']['type'];
+        $fileNameCmps = explode(".", $fileName);
+        $fileExtension = strtolower(end($fileNameCmps));
+
+        // Permitir solo archivos Excel
+        $allowedfileExtensions = array('xlsx', 'xls');
+        if (in_array($fileExtension, $allowedfileExtensions)) {
+            $inputFileType = PHPExcel_IOFactory::identify($fileTmpPath);
+            $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+            $spreadsheet = $objReader->load($fileTmpPath);
+            $sheet = $spreadsheet->getActiveSheet();
+            $data = $sheet->toArray();
+
+            // Aquí puedes procesar los datos del Excel
+            foreach ($data as $row) {
+                // $row es un array que contiene todas las celdas de una fila
+                print_r($row); // Ejemplo de impresión de la fila
+            }
+
+            // Puedes almacenar la información procesada en la base de datos o manejarla como desees
+            $response = $this->model->obtenerHistorial($id_inventario);
+            echo json_encode($response);
+        } else {
+            echo json_encode(['error' => 'Solo se permiten archivos Excel (xlsx, xls).']);
+        }
+    } else {
+        echo json_encode(['error' => 'Error al subir el archivo.']);
+    }
     }
 }
