@@ -6,11 +6,13 @@ class UsuariossModel extends Query
         parent::__construct();
     }
 
-    ///productos
+    ///userGroup
 
     public function obtener_userGroup($plataforma)
     {
         $sql = "SELECT ib.*, p.* FROM `inventario_bodegas` AS ib INNER JOIN `productos` AS p ON p.`id_producto` = ib.`id_producto` WHERE ib.`id_plataforma` = $plataforma";
         return $this->select($sql);
     }
+
+    //ususarios
 }
