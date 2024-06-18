@@ -1,50 +1,7 @@
 <?php require_once './Views/templates/header.php'; ?>
+<?php require_once './Views/Productos/css/bodegas_style.php'; ?>
 
-<style>
-    .table {
-        border-collapse: collapse;
-        width: 100%;
-    }
 
-    .table th,
-    .table td {
-        text-align: center;
-        vertical-align: middle;
-        border: 1px solid #ddd;
-        /* Añadir borde a celdas */
-    }
-
-    .table-striped tbody tr:nth-of-type(odd) {
-        background-color: rgba(0, 0, 0, .05);
-    }
-
-    .table-hover tbody tr:hover {
-        background-color: rgba(0, 0, 0, .075);
-    }
-
-    .table thead th {
-        background-color: #171931;
-        color: white;
-    }
-
-    .centered {
-        text-align: center !important;
-        vertical-align: middle !important;
-    }
-</style>
-
-<style>
-    .filtros_producos {
-        display: flex;
-        flex-direction: row;
-    }
-
-    @media (max-width: 768px) {
-        .filtros_producos {
-            flex-direction: column;
-        }
-    }
-</style>
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
         <h2 class="text-center mb-4">Bodegas</h2>
