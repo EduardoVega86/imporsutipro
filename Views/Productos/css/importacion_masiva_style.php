@@ -59,14 +59,15 @@
         }
     }
 
-    .delete-btn {
-        margin-left: 10px;
-        color: red;
-        cursor: pointer;
-        transition: transform 0.3s ease;
+    .form-group label {
+        color: white; /* Cambiar el color de la etiqueta a blanco */
     }
-
-    .delete-btn:hover {
-        transform: scale(1.2);
+    .form-control-file::file-selector-button {
+        color: white; /* Cambiar el color del texto del botón del input file a blanco */
+        background-color: transparent; /* Fondo transparente */
+        border: 1px solid white; /* Borde blanco */
+    }
+    .form-control-file {
+        color: white; /* Cambiar el color del texto del input file a blanco */
     }
 </style>
