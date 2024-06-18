@@ -62,11 +62,7 @@
     .form-group label {
         color: white; /* Cambiar el color de la etiqueta a blanco */
     }
-    .form-control-file::file-selector-button {
-        color: white; /* Cambiar el color del texto del botón del input file a blanco */
-        background-color: transparent; /* Fondo transparente */
-        border: 1px solid white; /* Borde blanco */
-    }
+    
     .form-control-file {
         color: white; /* Cambiar el color del texto del input file a blanco */
     }
