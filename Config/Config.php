@@ -24,7 +24,7 @@ if (ENVIRONMENT == 'development') {
         exit;
     }
     $matriz = [];
-
+    echo $url_actual;
     $sql = "SELECT * FROM matriz where url_matriz = '$url_actual'";
     $result = $mysqli->query($sql);
     if ($result->num_rows > 0) {
