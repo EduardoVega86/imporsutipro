@@ -37,8 +37,21 @@
                 contentType: false, // Necesario para que jQuery no añada un tipo de contenido
                 processData: false, // Necesario para que jQuery no convierta los datos a una cadena
                 success: function(response) {
-                    alert('Archivo subido correctamente');
-                    console.log(response); // Mostrar respuesta del servidor en consola
+                    if (response.status == 500) {
+                        toastr.error(
+                            "LOS PRODUCTOS NO SE AGREGARON CORRECTAMENTE",
+                            "NOTIFICACIÓN", {
+                                positionClass: "toast-bottom-center"
+                            }
+                        );
+                    } else if (response.status == 200) {
+                        toastr.success("PRODUCTOS AGREGADOS CORRECTAMENTE", "NOTIFICACIÓN", {
+                            positionClass: "toast-bottom-center",
+                        });
+
+                        $('#imagen_categoriaModal').modal('hide');
+                        initDataTable();
+                    }
                 },
                 error: function() {
                     alert('Error al subir el archivo');
