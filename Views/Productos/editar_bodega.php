@@ -1,42 +1,12 @@
-<?php require_once './Views/templates/header.php'; ?>
 <?php
 require_once './Views/templates/header.php';
 $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
 ?>
+<?php require_once './Views/Productos/css/editar_bodega_style.php'; ?>
+
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGulcdBtz_Mydtmu432GtzJz82J_yb-rs&libraries=places"></script>
 
-<style>
-    body {
-        background-color: #f8f9fa;
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        height: 100vh;
-        overflow-y: auto;
-    }
 
-    .cuerpo_mapa {
-        margin: 10px;
-        width: 100%;
-    }
-
-    .contenido {
-        display: flex;
-        flex-direction: row;
-    }
-
-    /* responsive */
-    @media (max-width: 768px) {
-        .cuerpo_mapa {
-            margin-left: 35px;
-            width: 90%;
-        }
-
-        .contenido {
-            flex-direction: column-reverse;
-        }
-    }
-</style>
 <div class="content cuerpo_mapa">
     <div class="container" style="margin: 10px;">
 
