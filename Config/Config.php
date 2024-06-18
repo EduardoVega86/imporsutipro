@@ -16,40 +16,40 @@ if (ENVIRONMENT == 'development') {
     error_reporting(E_ALL);
     define("SERVERURL", "http://localhost/imporsutipro/");
 } else {
-    $url_actual = "https://" . $_SERVER['HTTP_HOST'] . "/";
-    $mysqli = new mysqli(HOST, USER, PASSWORD, DB);
-    $mysqli->set_charset(CHARSET);
-    if ($mysqli->connect_errno) {
-        echo "Error al conectarse con la base de datos";
-        exit;
-    }
-    $matriz = [];
-
-    $sql = "SELECT * FROM matriz where url_matriz = '$url_actual'";
-    $result = $mysqli->query($sql);
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $matriz = $row;
-        }
-    } else {
-        echo "0 results";
-    }
-
-    $mysqli->close();
-
-    $id_matriz = $matriz['idmatriz'];
-    $color_fondo = $matriz['color_fondo_login'];
-    define("MATRIZ", $id_matriz);
-    $url_matriz = $matriz['url_matriz'];
-    define("SERVERURL", $url_matriz);
-    $logo = $matriz['logo'];
-    $marca = $matriz['marca'];
-    $prefijo = $matriz['prefijo'];
-    $favicon = $matriz['favicon'];
-    $color_letras = $matriz['color_letras'];
-    $color_hover = $matriz['color_hover'];
-    $color_letra_hover = $matriz['color_letra_hover'];
 }
+$url_actual = "https://" . $_SERVER['HTTP_HOST'] . "/";
+$mysqli = new mysqli(HOST, USER, PASSWORD, DB);
+$mysqli->set_charset(CHARSET);
+if ($mysqli->connect_errno) {
+    echo "Error al conectarse con la base de datos";
+    exit;
+}
+$matriz = [];
+
+$sql = "SELECT * FROM matriz where url_matriz = '$url_actual'";
+$result = $mysqli->query($sql);
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $matriz = $row;
+    }
+} else {
+    echo "0 results";
+}
+
+$mysqli->close();
+
+$id_matriz = $matriz['idmatriz'];
+$color_fondo = $matriz['color_fondo_login'];
+define("MATRIZ", $id_matriz);
+$url_matriz = $matriz['url_matriz'];
+define("SERVERURL", $url_matriz);
+$logo = $matriz['logo'];
+$marca = $matriz['marca'];
+$prefijo = $matriz['prefijo'];
+$favicon = $matriz['favicon'];
+$color_letras = $matriz['color_letras'];
+$color_hover = $matriz['color_hover'];
+$color_letra_hover = $matriz['color_letra_hover'];
 
 
 const LAAR_USER = "import.uio.api";
