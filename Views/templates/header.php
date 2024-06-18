@@ -42,36 +42,36 @@
     <div class="sidebar" id="sidebar">
         <div class="menu">
             <a href="#" class="toggle-btn" id="toggle-btn">
-                <box-icon name="menu" color="#fff" style="padding-right: 5px;"></box-icon>
+                <box-icon name="menu" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon>
             </a>
-            <a href="<?php echo SERVERURL ?>dashboard"><box-icon name="home" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Inicio</span></a>
-            <a href="<?php echo SERVERURL ?>Productos/marketplace"><box-icon name="shopping-bag" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Marketplace</span></a>
+            <a href="<?php echo SERVERURL ?>dashboard"><box-icon name="home" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Inicio</span></a>
+            <a href="<?php echo SERVERURL ?>Productos/marketplace"><box-icon name="shopping-bag" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Marketplace</span></a>
             
-            <a href="#" class="dropdown-btn" data-target="#submenu1"><box-icon name="cart" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Mis Productos</span></a>
+            <a href="#" class="dropdown-btn" data-target="#submenu1"><box-icon name="cart" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Mis Productos</span></a>
             
             <div class="submenu" id="submenu1">
-                <a href="<?php echo SERVERURL ?>Productos"><box-icon name="store" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Listado</span></a>
+                <a href="<?php echo SERVERURL ?>Productos"><box-icon name="store" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Listado</span></a>
 
 
 
-                <a href="<?php echo SERVERURL ?>Productos/categorias"><box-icon type="solid" name="category" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Categorias</span></a>
+                <a href="<?php echo SERVERURL ?>Productos/categorias"><box-icon type="solid" name="category" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Categorias</span></a>
                 
-                 <a href="<?php echo SERVERURL ?>Productos/bodegas"><box-icon type="solid" name="truck" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Bodegas</span></a>
+                 <a href="<?php echo SERVERURL ?>Productos/bodegas"><box-icon type="solid" name="truck" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Bodegas</span></a>
                  
-                 <a href="<?php echo SERVERURL ?>Productos/inventario"><box-icon name="list-plus" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Inventario</span></a>
+                 <a href="<?php echo SERVERURL ?>Productos/inventario"><box-icon name="list-plus" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Inventario</span></a>
 
             </div>
-            <a href="#" class="dropdown-btn" data-target="#submenu2"><box-icon name="receipt" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Pedidos</span></a>
+            <a href="#" class="dropdown-btn" data-target="#submenu2"><box-icon name="receipt" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Pedidos</span></a>
             <div class="submenu" id="submenu2">
-                <a href="<?php echo SERVERURL ?>Pedidos"><box-icon name="history" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Historial</span></a>
-                <a href="<?php echo SERVERURL ?>pedidos/guias"><box-icon name="archive" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Guías</span></a>
-                <a href="#"><box-icon name="x" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Anulados</span></a>
-                <a href="#"><box-icon name="info-circle" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Novedad</span></a>
-                <a href="<?php echo SERVERURL ?>despacho/despacho"><box-icon type="solid" name="box" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Relacion Despacho</span></a>
-                <a href="<?php echo SERVERURL ?>despacho/devoluciones"><box-icon type="solid" name="box" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Ingresar Devolucion</span></a>
+                <a href="<?php echo SERVERURL ?>Pedidos"><box-icon name="history" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Historial</span></a>
+                <a href="<?php echo SERVERURL ?>pedidos/guias"><box-icon name="archive" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Guías</span></a>
+                <a href="#"><box-icon name="x" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Anulados</span></a>
+                <a href="#"><box-icon name="info-circle" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Novedad</span></a>
+                <a href="<?php echo SERVERURL ?>despacho/despacho"><box-icon type="solid" name="box" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Relacion Despacho</span></a>
+                <a href="<?php echo SERVERURL ?>despacho/devoluciones"><box-icon type="solid" name="box" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Ingresar Devolucion</span></a>
             </div>
-            <a href="#"><box-icon name="wallet" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Wallet</span></a>
-            <a href="#"><box-icon name="cog" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Configuración</span></a>
+            <a href="#"><box-icon name="wallet" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Wallet</span></a>
+            <a href="#"><box-icon name="cog" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Configuración</span></a>
         </div>
         <div class="footer-text">
             2024 © <?php echo MARCA; ?>
@@ -85,12 +85,12 @@
             <div class="container-fluid">
                 <a class="navbar-brand img_logo" href="<?php echo SERVERURL ?>dashboard"><img src="<?php echo IMAGEN_LOGO; ?>" alt="IMORSUIT" width="100px" height="44px"></a>
                 <div class="navbar-right">
-                    <a class="nav-link" href="#"><box-icon type='solid' name='videos' color="#fff"></box-icon> Tutoriales</a>
-                    <span class="navbar-text"><box-icon name='wallet' color="#fff"></box-icon> $<span id="  "></span></span>
+                    <a class="nav-link" href="#"><box-icon type='solid' name='videos' color="<?php echo COLOR_LETRAS; ?>"></box-icon> Tutoriales</a>
+                    <span class="navbar-text"><box-icon name='wallet' color="<?php echo COLOR_LETRAS; ?>"></box-icon> $<span id="  "></span></span>
                     <img src="https://new.imporsuitpro.com/public/img/img.png" class="profile-pic" id="profilePic" alt="Perfil">
                     <div class="profile-dropdown" id="profileDropdown">
-                        <a href="#"><box-icon name="user" color="#fff" style="padding-right: 5px;"></box-icon> <?php echo $_SESSION["tienda"] ?></a>
-                        <a onclick="cerrar_sesion()"><box-icon name="log-out" color="#fff" style="padding-right: 5px;"></box-icon> Cerrar sesión</a>
+                        <a href="#"><box-icon name="user" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <?php echo $_SESSION["tienda"] ?></a>
+                        <a onclick="cerrar_sesion()"><box-icon name="log-out" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> Cerrar sesión</a>
                     </div>
                 </div>
             </div>
