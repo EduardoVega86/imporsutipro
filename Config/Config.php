@@ -53,5 +53,5 @@ const LLAR_ENDPOINT_CANCEL = 'https://api.laarcourier.com:9727/guias/anular/';
 
 ///obtener matriz 
 
-const COLOR_FONDO = "green";
+const COLOR_FONDO = "#171931";
 const IMAGEN_LOGO = "https://tiendas.imporsuitpro.com/imgs/LOGOS-IMPORSUIT.png";
