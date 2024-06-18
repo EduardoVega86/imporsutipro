@@ -55,6 +55,7 @@ $favicon = $matriz['favicon'];
 $color_letras = $matriz['color_letras'];
 $color_hover = $matriz['color_hover'];
 $color_letra_hover = $matriz['color_letra_hover'];
+$banner_inicio = $matriz['banner_inicio'];
 
 
 const LAAR_USER = "import.uio.api";
@@ -73,3 +74,4 @@ define("FAVICON", $favicon);
 define("COLOR_LETRAS", $color_letras);
 define("COLOR_HOVER", $color_hover);
 define("COLOR_LETRA_HOVER", $color_letra_hover);
+define("BANNER_INICIO", $banner_inicio);
