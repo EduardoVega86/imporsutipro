@@ -58,6 +58,8 @@
 
                 <a href="<?php echo SERVERURL ?>Productos/inventario"><i class='bx bx-list-plus menu-icon' ></i> <span class="menu-text">Inventario</span></a>
 
+                <a href="<?php echo SERVERURL ?>Productos/importacion_masiva"><i class='bx bxs-cart-download menu-icon'></i> <span class="menu-text">Importación Masiva</span></a>
+
             </div>
             <a href="#" class="dropdown-btn" data-target="#submenu2"><i class='bx bx-receipt menu-icon' ></i> <span class="menu-text">Pedidos</span></a>
             <div class="submenu" id="submenu2">
