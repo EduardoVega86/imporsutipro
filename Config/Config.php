@@ -55,4 +55,4 @@ const LLAR_ENDPOINT_CANCEL = 'https://api.laarcourier.com:9727/guias/anular/';
 ///obtener matriz 
 
 define("COLOR_FONDO", $color_fondo);
-define("IMAGENT_LOGO", $logo);
+define("IMAGEN_LOGO", $logo);
