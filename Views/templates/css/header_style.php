@@ -29,6 +29,7 @@
     .sidebar a:hover {
         background-color: <?php echo COLOR_HOVER; ?>;
         color: <?php echo COLOR_LETRA_HOVER; ?>;
+        font-weight: bold;
     }
 
     .menu-icon {
