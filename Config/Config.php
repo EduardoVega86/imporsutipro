@@ -18,7 +18,6 @@ if (ENVIRONMENT == 'development') {
 } else {
 }
 $url_actual = "https://" . $_SERVER['HTTP_HOST'] . "/";
-echo $url_actual;
 $mysqli = new mysqli(HOST, USER, PASSWORD, DB);
 $mysqli->set_charset(CHARSET);
 if ($mysqli->connect_errno) {
@@ -43,7 +42,10 @@ $id_matriz = $matriz['idmatriz'];
 $color_fondo = $matriz['color_fondo_login'];
 define("MATRIZ", $id_matriz);
 $url_matriz = $matriz['url_matriz'];
-define("SERVERURL", $url_matriz);
+if (ENVIRONMENT == "production") {
+    define("SERVERURL", $url_matriz);
+}
+
 $logo = $matriz['logo'];
 $marca = $matriz['marca'];
 $prefijo = $matriz['prefijo'];
