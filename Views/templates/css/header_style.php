@@ -33,10 +33,11 @@
 
     .menu-icon {
         color: <?php echo COLOR_LETRAS; ?> !important;
+        padding-right: 5px;
     }
 
     .menu-icon:hover {
-        color: <?php echo COLOR_LETRA_HOVER; ?> !important;
+        color: <?php echo COLOR_LETRA_HOVER; ?>;
     }
 
     .sidebar .menu {
