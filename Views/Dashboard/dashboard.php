@@ -38,7 +38,7 @@
         </div>
 
         <div class="slider-container">
-            <img src="https://tiendas.imporsuitpro.com/imgs/logo.png" alt="Slider">
+            <img src="<?php echo BANNER_INICIO; ?>" alt="Slider">
         </div>
     </div>
     <div class="tablas_estaditicas">
