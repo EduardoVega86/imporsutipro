@@ -70,7 +70,7 @@
     function eliminarGuia(numeroGuia, listItem) {
         $.ajax({
             type: "POST",
-            url: SERVERURL + "Inventarios/eliminarGuia/" + numeroGuia,
+            url: SERVERURL + "Inventarios/devolverDespacho/" + numeroGuia,
             dataType: "json",
             success: function(response) {
                 if (response.status == 200) {
