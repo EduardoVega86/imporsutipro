@@ -89,8 +89,14 @@
     contentType: false, // Necesario para FormData
     dataType: "json",
     success: function (response) {
-      console.log("Respuesta del servidor:", response);
-      // Manejar la respuesta exitosa aquí
+       if (response.status == 200) {
+        const link = document.createElement("a");
+        link.href = response.download;
+        link.download = ""; // Puedes poner un nombre de archivo aquí si lo deseas
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
