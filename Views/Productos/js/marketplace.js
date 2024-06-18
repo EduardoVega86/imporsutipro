@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <p class="card-text">Stock: <strong style="color:green">${saldo_stock}</strong></p>
                     <p class="card-text">Precio Proveedor: <strong>$${productDetails[0].pcp}</strong></p>
                     <p class="card-text">Precio Sugerido: <strong>$${pvp}</strong></p>
-                    <p class="card-text">Proveedor: <a href="${url_imporsuit}" target="_blank">${url_imporsuit}</a></p>
+                    <p class="card-text">Proveedor: <a href="${url_imporsuit}" target="_blank" style="font-size: 15px;">${url_imporsuit}</a></p>
                 </div>
                 <div>
                     <button class="btn btn-description" onclick="agregarModal_marketplace(${product.id_producto})">Descripción</button>
