@@ -27,7 +27,7 @@
         }
 
         .sidebar a:hover {
-            background-color: green;
+            background-color: <?php echo COLOR_HOVER; ?>;
         }
 
         .sidebar .menu {
