@@ -26,7 +26,9 @@
         $('#uploadForm').on('submit', function(e) {
             e.preventDefault(); // Prevenir el envío normal del formulario
 
-            var formData = new FormData(this); // Usar FormData para manejar archivos
+            var formData = new FormData();
+            formData.append('archivo', $('#fileInput')[0].files[0]); // Añadir archivo al FormData
+            formData.append('id_bodega', $('#idBodega').val()); // Añadir ID de bodega al FormData
 
             $.ajax({
                 url: '<?php echo SERVERURL; ?>Productos/importarExcel', // Ruta del controlador que manejará el archivo
@@ -45,6 +47,7 @@
         });
     });
 
+    //cargar select de bodegas
     $(document).ready(function() {
         // Realiza la solicitud AJAX para obtener la lista de bodegas
         $.ajax({
