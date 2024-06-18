@@ -1,5 +1,11 @@
 <?php
 session_start();
+require 'vendor/autoload.php';
+
+use PhpOffice\PhpSpreadsheet\IOFactory;
+
+
+
 class Productos extends Controller
 {
     public function __construct()
@@ -409,6 +415,37 @@ class Productos extends Controller
         
         $response = $this->model->obtenerHistorial($id_inventario);
         // print_r($response);
+        if (isset($_FILES['archivo']) && $_FILES['archivo']['error'] == 0) {
+    // Acceder al archivo
+    $archivo = $_FILES['archivo'];
+
+    // Temporalmente ubicación del archivo
+    $tmpArchivo = $archivo['tmp_name'];
+
+    // Leer el archivo Excel
+    $spreadsheet = IOFactory::load($tmpArchivo);
+    $sheet = $spreadsheet->getActiveSheet();
+
+    // Navegar por las filas y columnas
+    echo "<table border='1'>";
+    foreach ($sheet->getRowIterator() as $row) {
+        echo "<tr>";
+        $cellIterator = $row->getCellIterator();
+        $cellIterator->setIterateOnlyExistingCells(false); // Incluye las celdas vacías
+        foreach ($cellIterator as $cell) {
+            echo "<td>" . $cell->getValue() . "</td>";
+        }
+        echo "</tr>";
+    }
+    echo "</table>";
+} else {
+    if (isset($_FILES['archivo'])) {
+        echo "Error al subir archivo. Código de error: " . $_FILES['archivo']['error'];
+    } else {
+        echo "No se recibió ningún archivo.";
+    }
+}
+
         echo json_encode($response);
     }
 }
