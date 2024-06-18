@@ -31,14 +31,6 @@
         color: <?php echo COLOR_LETRA_HOVER; ?>;
     }
 
-    .menu-icon {
-        color: <?php echo COLOR_LETRAS; ?> !important;
-        padding-right: 5px !important;
-    }
-
-    .menu-icon:hover {
-        color: <?php echo COLOR_LETRA_HOVER; ?> !important;
-    }
 
     .sidebar .menu {
         flex-grow: 1;
