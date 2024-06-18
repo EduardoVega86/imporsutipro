@@ -17,19 +17,6 @@
     </div>
 </div>
 
-<style>
-.delete-btn {
-    margin-left: 10px;
-    color: red;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-}
-
-.delete-btn:hover {
-    transform: scale(1.2);
-}
-</style>
-
 <script>
     function ejecutarDespacho() {
         var numeroGuia = document.getElementById('numeroGuia').value;
@@ -72,11 +59,36 @@
         deleteBtn.innerHTML = '&times;';
 
         deleteBtn.addEventListener('click', function() {
-            listItem.remove();
+            eliminarGuia(numeroGuia, listItem);
         });
 
         listItem.appendChild(deleteBtn);
         document.getElementById('guidesList').appendChild(listItem);
+    }
+
+    // Función para eliminar una guía de la lista
+    function eliminarGuia(numeroGuia, listItem) {
+        $.ajax({
+            type: "POST",
+            url: SERVERURL + "Inventarios/eliminarGuia/" + numeroGuia,
+            dataType: "json",
+            success: function(response) {
+                if (response.status == 200) {
+                    listItem.remove();
+                    toastr.success("Guía eliminada exitosamente", "NOTIFICACIÓN", {
+                        positionClass: "toast-bottom-center",
+                    });
+                } else {
+                    toastr.error("No se pudo eliminar la guía: " + response.message, "NOTIFICACIÓN", {
+                        positionClass: "toast-bottom-center",
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error en la solicitud AJAX:", error);
+                alert("Hubo un problema al intentar eliminar la guía");
+            },
+        });
     }
 
     // Escuchar el evento 'keypress' del input
