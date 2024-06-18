@@ -90,7 +90,7 @@
     contentType: false, // Necesario para FormData
     dataType: "json",
     success: function (response) {
-        alert(response.status);
+        //alert(response.status);
        if (response.status == 200) {
         const link = document.createElement("a");
         link.href = response.download;
