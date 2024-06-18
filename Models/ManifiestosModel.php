@@ -35,15 +35,18 @@ class ManifiestosModel extends Query
         }
         
          
-            $sql_bodega = "SELECT  b.nombre as bodega FROM `facturas_cot` fc, detalle_fact_cot dfc, inventario_bodegas ib, bodega b WHERE numero_guia in $string and fc.id_factura=dfc.id_factura  and ib.id_inventario=dfc.id_inventario and ib.bodega=b.id limit 1;";
+            $sql_bodega = "SELECT  b.nombre as bodega, b.contacto, b.responsable, b.direccion FROM `facturas_cot` fc, detalle_fact_cot dfc, inventario_bodegas ib, bodega b WHERE numero_guia in $string and fc.id_factura=dfc.id_factura  and ib.id_inventario=dfc.id_inventario and ib.bodega=b.id limit 1;";
             //echo $sql_bodega;
        //  echo $sql_factura;$id_factura
             $bodega = $this->select($sql_bodega);
             $bodega_nombre = $bodega[0]['bodega'];
+            $telefono = $bodega[0]['contacto'];
+            $responsable = $bodega[0]['responsable'];
+            $direccion = $bodega[0]['direccion'];
             
         
        // $html ='<h3 style="text-align: center;>tecto</h3>';
-        $html = $this->generarTablaManifiesto($resumen, $bodega_nombre);
+        $html = $this->generarTablaManifiesto($resumen, $bodega_nombre, $direccion, $telefono, $responsable);
 echo $html;
         // Generar el PDF con Dompdf
         $dompdf = new Dompdf();
@@ -254,7 +257,7 @@ echo $html;
         return $html;
     }
 
-    public function generarTablaManifiesto($data , $bodega_nombre)
+    public function generarTablaManifiesto($data , $bodega_nombre, $direccion, $telefono, $responsable)
     {
         $fecha = date('Y-m-d H:i:s'); // Obtén la fecha y hora actual
         $generator = new BarcodeGeneratorHTML();
@@ -308,7 +311,11 @@ echo $html;
                 }
             }
         </style>
-         <p style="text-align: center; font-size:20px">' . strtoupper($bodega_nombre) . '</p>
+         <p style="text-align: center; font-size:20px">' . strtoupper($bodega_nombre) . '</p></br>
+             
+ <p style="text-align: center; font-size:12px">' . strtoupper($direccion) . '</p>
+     <p style="text-align: center; font-size:12px">' . strtoupper($telefono) . '</p>
+         
         <table>
          <tr>
          <th>Responsable</th>
