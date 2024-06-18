@@ -145,7 +145,8 @@
     }
 
     .profile-dropdown a:hover {
-        background-color: #007bff;
+        background-color: <?php echo COLOR_HOVER; ?>;
+        color: <?php echo COLOR_LETRA_HOVER; ?>;
     }
 
     .profile-pic {
