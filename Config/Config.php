@@ -27,7 +27,6 @@ if ($mysqli->connect_errno) {
 $matriz = [];
 
 $sql = "SELECT * FROM matriz where url_matriz = '$url_actual'";
-//echo $sql;
 $result = $mysqli->query($sql);
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
@@ -57,7 +56,6 @@ $color_letras = $matriz['color_letras'];
 $color_hover = $matriz['color_hover'];
 $color_letra_hover = $matriz['color_letra_hover'];
 
-//echo $color_letra_hover;
 
 const LAAR_USER = "import.uio.api";
 const LAAR_PASSWORD = "Imp@rt*23";
