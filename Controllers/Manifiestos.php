@@ -32,6 +32,6 @@ class Manifiestos extends Controller
         //devuelve el html
         $html =    $this->model->generarManifiestoGuias($arreglo);
 
-        print_r($html);
+       echo json_encode($html);
     }
 }
