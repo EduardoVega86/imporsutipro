@@ -32,11 +32,11 @@
     }
 
     .menu-icon {
-        color: <?php echo COLOR_LETRAS; ?>;
+        color: <?php echo COLOR_LETRAS; ?> !important;
     }
 
     .menu-icon:hover {
-        color: <?php echo COLOR_LETRA_HOVER; ?>;
+        color: <?php echo COLOR_LETRA_HOVER; ?> !important;
     }
 
     .sidebar .menu {
