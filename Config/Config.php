@@ -38,7 +38,7 @@ if (ENVIRONMENT == 'development') {
     $mysqli->close();
 
     $id_matriz = $matriz['idmatriz'];
-
+    $color_fondo = $matriz['color_fondo_login'];
     define("MATRIZ", $id_matriz);
     $url_matriz = $matriz['url_matriz'];
     define("SERVERURL", $url_matriz);
@@ -53,5 +53,5 @@ const LLAR_ENDPOINT_CANCEL = 'https://api.laarcourier.com:9727/guias/anular/';
 
 ///obtener matriz 
 
-const COLOR_FONDO = "#171931";
+define("COLOR_FONDO", $color_fondo);
 const IMAGEN_LOGO = "https://tiendas.imporsuitpro.com/imgs/LOGOS-IMPORSUIT.png";
