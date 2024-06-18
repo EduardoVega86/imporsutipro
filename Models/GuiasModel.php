@@ -81,11 +81,12 @@ class GuiasModel extends Query
 
     public function ultimaguia()
     {
-        $sql = "SELECT MAX(numero_guia) as numero_guia FROM facturas_cot";
+        $prefijo = PREFIJOS;
+        $sql = "SELECT MAX(numero_guia) as numero_guia FROM facturas_cot where numero_guia like '$prefijo%'";
         $numero_guia = $this->select($sql);
         $numero_guia = $numero_guia[0]['numero_guia'];
         if ($numero_guia == null || empty($numero_guia)) {
-            $numero_guia = "IMP000001";
+            $numero_guia = $prefijo . "000001";
         } else {
             $numero_guia =  $this->incrementarGuia($numero_guia);
         }
