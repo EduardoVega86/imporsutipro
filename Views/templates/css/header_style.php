@@ -19,7 +19,7 @@
         }
 
         .sidebar a {
-            color: #fff;
+            color: <?php echo COLOR_LETRAS; ?>;
             padding: 10px;
             text-decoration: none;
             display: flex;
@@ -86,7 +86,7 @@
 
         .submenu-popup a {
             padding: 5px 10px;
-            color: #fff;
+            color: <?php echo COLOR_LETRAS; ?>;
             text-decoration: none;
             display: flex;
             align-items: center;
@@ -94,13 +94,13 @@
 
         .navbar-custom {
             background-color: <?php echo COLOR_FONDO; ?>;
-            color: #fff;
+            color: <?php echo COLOR_LETRAS; ?>;
         }
 
         .navbar-custom .navbar-brand,
         .navbar-custom .nav-link,
         .navbar-custom .navbar-text {
-            color: #fff;
+            color: <?php echo COLOR_LETRAS; ?>;
         }
 
         .navbar-custom .navbar-right {
@@ -133,7 +133,7 @@
         .profile-dropdown a {
             padding: 10px;
             text-decoration: none;
-            color: #fff;
+            color: <?php echo COLOR_LETRAS; ?>;
             display: flex;
             align-items: center;
         }
