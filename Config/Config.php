@@ -45,6 +45,7 @@ if (ENVIRONMENT == 'development') {
     $logo = $matriz['logo'];
     $marca = $matriz['marca'];
     $prefijo = $matriz['prefijo'];
+    $favicon = $matriz['favicon'];
 }
 
 
@@ -60,3 +61,4 @@ define("COLOR_FONDO", $color_fondo);
 define("IMAGEN_LOGO", $logo);
 define("MARCA", $marca);
 define("PREFIJOS", $prefijo);
+define("FAVICON", $favicon);
