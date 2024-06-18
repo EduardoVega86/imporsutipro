@@ -83,6 +83,7 @@ class AccesoModel extends Query
                             $_SESSION['cargo'] = 1;
                             $_SESSION['id'] = $id[0]['id_users'];
                             $_SESSION['tienda'] = "https://" . $tienda . ".imporsuitpro.com";
+                            $_SESSION['matriz'] = $id_matriz;
                             //enviar correo
                             $url_change = "https://" . $tienda . ".imporsuitpro.com";
                             require_once 'PHPMailer/Mail.php';
@@ -153,6 +154,7 @@ class AccesoModel extends Query
                 $_SESSION['cargo'] = $datos_usuario[0]['cargo_users'];
                 $_SESSION['id'] = $datos_usuario[0]['id_users'];
                 $_SESSION['tienda'] = $nombre_tienda[0]['nombre_tienda'];
+                $_SESSION['matriz'] = $this->obtenerMatriz();
             } else {
                 $response = $this->initialResponse();
                 $response['status'] = 401;
