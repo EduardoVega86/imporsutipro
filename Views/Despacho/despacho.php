@@ -78,7 +78,7 @@
                     toastr.success("Guía eliminada exitosamente", "NOTIFICACIÓN", {
                         positionClass: "toast-bottom-center",
                     });
-                } else {
+                } else if (response.status == 500){
                     toastr.error("No se pudo eliminar la guía: " + response.message, "NOTIFICACIÓN", {
                         positionClass: "toast-bottom-center",
                     });
