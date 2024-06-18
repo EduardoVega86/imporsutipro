@@ -22,7 +22,7 @@
 
     .table thead th {
         background-color: <?php echo COLOR_FONDO; ?>;
-        color: white;
+        color: <?php echo COLOR_LETRAS; ?>;
     }
 
     .centered {
