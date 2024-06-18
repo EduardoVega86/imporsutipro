@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <p class="card-text">Stock: <strong style="color:green">${saldo_stock}</strong></p>
                     <p class="card-text">Precio Proveedor: <strong>$${productDetails[0].pcp}</strong></p>
                     <p class="card-text">Precio Sugerido: <strong>$${pvp}</strong></p>
-                    <p class="card-text">Proveedor: <a href="${url_imporsuit}" target="_blank" style="font-size: 15px;">${url_imporsuit}</a></p>
+                    <p class="card-text">Proveedor: <a href="${url_imporsuit}" target="_blank" style="font-size: 15px;">${procesarPlataforma(url_imporsuit)}</a></p>
                 </div>
                 <div>
                     <button class="btn btn-description" onclick="agregarModal_marketplace(${product.id_producto})">Descripción</button>
@@ -201,6 +201,19 @@ function agregarModal_marketplace(id) {
       alert("Hubo un problema al obtener la información del producto");
     },
   });
+}
+
+function procesarPlataforma(url) {
+  // Eliminar el "https://"
+  let sinProtocolo = url.replace("https://", "");
+
+  // Eliminar ".imporsuitpro.com"
+  let baseNombre = sinProtocolo.replace(".imporsuitpro.com", "");
+
+  // Convertir a mayúsculas
+  let resultado = baseNombre.toUpperCase();
+
+  return resultado;
 }
 
 //abrir modal de seleccion de producto con atributo especifico
