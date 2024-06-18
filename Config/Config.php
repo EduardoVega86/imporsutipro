@@ -1,4 +1,9 @@
 <?php
+const HOST = '3.233.119.65';
+const USER = "imporsuit_system";
+const PASSWORD = "imporsuit_system";
+const DB = "imporsuitpro_new";
+const CHARSET = "utf8";
 
 if ($_SERVER['HTTP_HOST'] == 'localhost') {
     define('ENVIRONMENT', 'development');
@@ -39,11 +44,6 @@ if (ENVIRONMENT == 'development') {
     define("SERVERURL", $url_matriz . "/");
 }
 
-const HOST = '3.233.119.65';
-const USER = "imporsuit_system";
-const PASSWORD = "imporsuit_system";
-const DB = "imporsuitpro_new";
-const CHARSET = "utf8";
 
 const LAAR_USER = "import.uio.api";
 const LAAR_PASSWORD = "Imp@rt*23";
