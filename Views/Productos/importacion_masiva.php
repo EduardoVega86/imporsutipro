@@ -1,5 +1,5 @@
 <?php require_once './Views/templates/header.php'; ?>
-<?php require_once './Views/Despacho/css/despacho_style.php'; ?>
+<?php require_once './Views/Productos/css/importacion_masiva_style.php'; ?>
 
 <div class="full-screen-container">
     <div class="custom-container-fluid mt-4" style="margin-right: 20px;">
