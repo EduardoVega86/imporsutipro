@@ -44,34 +44,32 @@
             <a href="#" class="toggle-btn" id="toggle-btn">
                 <i class='bx bx-menu menu-icon'></i>
             </a>
-            <a href="<?php echo SERVERURL ?>dashboard"><box-icon name="home" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Inicio</span></a>
-            <a href="<?php echo SERVERURL ?>Productos/marketplace"><box-icon name="shopping-bag" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Marketplace</span></a>
+            <a href="<?php echo SERVERURL ?>dashboard"><i class='bx bx-home menu-icon'></i> <span class="menu-text">Inicio</span></a>
+            <a href="<?php echo SERVERURL ?>Productos/marketplace"><i class='bx bx-shopping-bag menu-icon' ></i> <span class="menu-text">Marketplace</span></a>
 
-            <a href="#" class="dropdown-btn" data-target="#submenu1"><box-icon name="cart" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Mis Productos</span></a>
+            <a href="#" class="dropdown-btn" data-target="#submenu1"><i class='bx bx-cart menu-icon' ></i> <span class="menu-text">Mis Productos</span></a>
 
             <div class="submenu" id="submenu1">
-                <a href="<?php echo SERVERURL ?>Productos"><box-icon name="store" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Listado</span></a>
+                <a href="<?php echo SERVERURL ?>Productos"><i class='bx bxs-store menu-icon' ></i> <span class="menu-text">Listado</span></a>
 
+                <a href="<?php echo SERVERURL ?>Productos/categorias"><i class='bx bxs-category menu-icon' ></i> <span class="menu-text">Categorias</span></a>
 
+                <a href="<?php echo SERVERURL ?>Productos/bodegas"><i class='bx bxs-truck menu-icon' ></i> <span class="menu-text">Bodegas</span></a>
 
-                <a href="<?php echo SERVERURL ?>Productos/categorias"><box-icon type="solid" name="category" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Categorias</span></a>
-
-                <a href="<?php echo SERVERURL ?>Productos/bodegas"><box-icon type="solid" name="truck" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Bodegas</span></a>
-
-                <a href="<?php echo SERVERURL ?>Productos/inventario"><box-icon name="list-plus" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Inventario</span></a>
+                <a href="<?php echo SERVERURL ?>Productos/inventario"><<i class='bx bx-list-plus menu-icon' ></i> <span class="menu-text">Inventario</span></a>
 
             </div>
-            <a href="#" class="dropdown-btn" data-target="#submenu2"><box-icon name="receipt" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Pedidos</span></a>
+            <a href="#" class="dropdown-btn" data-target="#submenu2"><i class='bx bx-receipt menu-icon' ></i> <span class="menu-text">Pedidos</span></a>
             <div class="submenu" id="submenu2">
-                <a href="<?php echo SERVERURL ?>Pedidos"><box-icon name="history" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Historial</span></a>
-                <a href="<?php echo SERVERURL ?>pedidos/guias"><box-icon name="archive" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Guías</span></a>
-                <a href="#"><box-icon name="x" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Anulados</span></a>
-                <a href="#"><box-icon name="info-circle" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Novedad</span></a>
-                <a href="<?php echo SERVERURL ?>despacho/despacho"><box-icon type="solid" name="box" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Relacion Despacho</span></a>
-                <a href="<?php echo SERVERURL ?>despacho/devoluciones"><box-icon type="solid" name="box" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Ingresar Devolucion</span></a>
+                <a href="<?php echo SERVERURL ?>Pedidos"><i class='bx bx-history menu-icon' ></i> <span class="menu-text">Historial</span></a>
+                <a href="<?php echo SERVERURL ?>pedidos/guias"><i class='bx bx-archive menu-icon' ></i> <span class="menu-text">Guías</span></a>
+                <a href="#"><i class='bx bx-x menu-icon'></i> <span class="menu-text">Anulados</span></a>
+                <a href="#"><<i class='bx bx-info-circle menu-icon' ></i> <span class="menu-text">Novedad</span></a>
+                <a href="<?php echo SERVERURL ?>despacho/despacho"><i class='bx bxs-box menu-icon' ></i> <span class="menu-text">Relacion Despacho</span></a>
+                <a href="<?php echo SERVERURL ?>despacho/devoluciones"><i class='bx bx-box menu-icon' ></i> <span class="menu-text">Ingresar Devolucion</span></a>
             </div>
-            <a href="#"><box-icon name="wallet" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Wallet</span></a>
-            <a href="#"><box-icon name="cog" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Configuración</span></a>
+            <a href="#"><i class='bx bx-wallet menu-icon' ></i> <span class="menu-text">Wallet</span></a>
+            <a href="#"><i class='bx bx-cog menu-icon' ></i> <span class="menu-text">Configuración</span></a>
         </div>
         <div class="footer-text">
             2024 © <?php echo MARCA; ?>
