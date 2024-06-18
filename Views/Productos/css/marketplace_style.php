@@ -9,7 +9,7 @@
     display: flex;
     flex-direction: column;
     overflow: hidden; /* Para evitar que el contenido se salga */
-    width: 300px;
+    width: 290px;
 }
 
 .card-custom:hover {
