@@ -74,7 +74,7 @@
             <a href="#"><box-icon name="cog" color="#fff" style="padding-right: 5px;"></box-icon> <span class="menu-text">Configuración</span></a>
         </div>
         <div class="footer-text">
-            2024 © Imporsuit
+            2024 © <?php echo MARCA; ?>
         </div>
     </div>
     <div class="submenu-popup" id="submenu-popup">
