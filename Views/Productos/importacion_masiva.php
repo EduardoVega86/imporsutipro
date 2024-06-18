@@ -3,14 +3,14 @@
 
 <div class="full-screen-container">
     <div class="custom-container-fluid mt-4" style="margin-right: 20px;">
-        <h1>Importacion Masiva</h1>
+        <h1>Importación Masiva</h1>
         <form id="uploadForm" enctype="multipart/form-data">
-            <label for="fileUpload">Seleccione un archivo:</label>
-            <input type="file" name="archivo" id="fileUpload">
-            <button type="submit">Enviar Archivo</button>
+            <div class="form-group">
+                <label for="fileInput">Seleccionar archivo:</label>
+                <input type="file" class="form-control-file" id="fileInput" name="file" required>
+            </div>
+            <button type="submit" class="btn btn-success">Enviar</button>
         </form>
-
-        <button id="despachoBtn" class="btn btn-success">Despacho</button>
     </div>
 </div>
 
