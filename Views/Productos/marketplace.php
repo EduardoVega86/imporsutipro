@@ -1,5 +1,6 @@
 <?php require_once './Views/templates/header.php'; ?>
-<link rel="stylesheet" type="text/css" href="<?php echo SERVERURL ?>/Views/Productos/css/marketplace.css">
+<?php require_once './Views/Productos/css/login_style.php'; ?>
+
 <?php require_once './Views/Productos/Modales/descripcion_marketplace.php'; ?>
 <?php require_once './Views/Productos/Modales/Seleccion_productoAtributo.php'; ?>
 
