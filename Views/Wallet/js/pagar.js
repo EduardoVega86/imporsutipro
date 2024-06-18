@@ -63,6 +63,7 @@ const dataTableFacturasOptions = {
   ],
   pageLength: 10,
   destroy: true,
+  responsive: true,
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
     zeroRecords: "Ningún usuario encontrado",
@@ -204,6 +205,7 @@ const dataTablePagosOptions = {
   ],
   pageLength: 10,
   destroy: true,
+  responsive: true,
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
     zeroRecords: "Ningún usuario encontrado",
