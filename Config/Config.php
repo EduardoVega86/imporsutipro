@@ -38,7 +38,7 @@ if (ENVIRONMENT == 'development') {
 
     $mysqli->close();
 
-    $id_matriz = $matriz['id_matriz'];
+    $id_matriz = $matriz['idmatriz'];
 
     define("MATRIZ", $id_matriz);
     $url_matriz = $matriz['url_matriz'];
