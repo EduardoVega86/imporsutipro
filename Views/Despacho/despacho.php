@@ -70,6 +70,7 @@
 
     // Función para generar JSON con la lista de guías y imprimirlo en consola
     function generarImpresion() {
+        alert();
         var guias = [];
         var listItems = document.querySelectorAll('#guidesList .list-group-item');
         listItems.forEach(function(item) {
