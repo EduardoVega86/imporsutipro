@@ -18,6 +18,7 @@ if (ENVIRONMENT == 'development') {
 } else {
 }
 $url_actual = "https://" . $_SERVER['HTTP_HOST'] . "/";
+echo $url_actual;
 $mysqli = new mysqli(HOST, USER, PASSWORD, DB);
 $mysqli->set_charset(CHARSET);
 if ($mysqli->connect_errno) {
