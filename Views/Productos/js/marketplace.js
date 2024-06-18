@@ -44,7 +44,6 @@ document.addEventListener("DOMContentLoaded", function () {
             productDetails[0]; // Accede a los detalles del producto dentro del primer objeto
 
           let boton_enviarCliente = ``;
-          let tienda = procesarPlataforma(url_imporsuit);
           if (product.producto_variable == 0) {
             boton_enviarCliente = `<button class="btn btn-import" onclick="enviar_cliente(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})">Enviar a cliente</button>`;
           } else if (product.producto_variable == 1) {
@@ -61,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <p class="card-text">Stock: <strong style="color:green">${saldo_stock}</strong></p>
                     <p class="card-text">Precio Proveedor: <strong>$${productDetails[0].pcp}</strong></p>
                     <p class="card-text">Precio Sugerido: <strong>$${pvp}</strong></p>
-                    <p class="card-text">Proveedor: <a href="${url_imporsuit}" target="_blank" style="font-size: 15px;">${tienda}</a></p>
+                    <p class="card-text">Proveedor: <a href="${url_imporsuit}" target="_blank" style="font-size: 15px;">${procesarPlataforma(url_imporsuit)}</a></p>
                 </div>
                 <div>
                     <button class="btn btn-description" onclick="agregarModal_marketplace(${product.id_producto})">Descripción</button>
