@@ -33,7 +33,7 @@
 
     .menu-icon {
         padding-right: 5px !important;
-        font-size: 50px;
+        font-size: 20px;
     }
 
     .sidebar .menu {

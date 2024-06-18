@@ -43,7 +43,6 @@
         <div class="menu">
             <a href="#" class="toggle-btn" id="toggle-btn">
                 <i class='bx bx-menu menu-icon'></i>
-                <box-icon name="menu" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon>
             </a>
             <a href="<?php echo SERVERURL ?>dashboard"><box-icon name="home" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Inicio</span></a>
             <a href="<?php echo SERVERURL ?>Productos/marketplace"><box-icon name="shopping-bag" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Marketplace</span></a>
