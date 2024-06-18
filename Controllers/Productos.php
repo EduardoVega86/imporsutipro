@@ -400,4 +400,15 @@ class Productos extends Controller
         // print_r($response);
         echo json_encode($response);
     }
+    
+    public function importarExcel()
+    {
+        //echo $id_producto;
+        $id_inventario = $_POST['id_bodega'];
+        $id_inventario = $_POST['id_bodega'];
+        
+        $response = $this->model->obtenerHistorial($id_inventario);
+        // print_r($response);
+        echo json_encode($response);
+    }
 }

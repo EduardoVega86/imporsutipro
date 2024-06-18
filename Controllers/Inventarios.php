@@ -118,6 +118,16 @@ class Inventarios extends Controller
         echo json_encode($response);
     }
     
+       public function devolverDespacho($num_guia)
+    {
+       
+       
+        $response = $this->model->devolucion_guia_despacho($num_guia, $_SESSION['id_plataforma']);
+        // print_r($response);
+        echo json_encode($response);
+    }
+    
+    
     public function eliminarStockInventario()
     {
         //echo $id_producto;

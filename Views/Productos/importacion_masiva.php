@@ -3,11 +3,12 @@
 
 <div class="full-screen-container">
     <div class="custom-container-fluid mt-4" style="margin-right: 20px;">
-        <h1>Despacho de guías</h1>
-        <div class="form-group">
-            <label for="numeroGuia">Número de Guía</label>
-            <input type="text" id="numeroGuia" placeholder="Coloca el cursor aquí antes de">
-        </div>
+        <h1>Importacion Masiva</h1>
+       <form action="tu_controlador.php" method="POST" enctype="multipart/form-data">
+        <label for="fileUpload">Seleccione un archivo:</label>
+        <input type="file" name="archivo" id="fileUpload">
+        <button type="submit">Enviar Archivo</button>
+    </form>
         <button id="despachoBtn" class="btn btn-success">Despacho</button>
     </div>
     <div class="guides-list-container mt-4" style="margin-right: auto; margin-left: 30px;">
