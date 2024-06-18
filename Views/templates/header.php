@@ -1,3 +1,5 @@
+<?php require_once './Views/templates/css/header_style.php'; ?>
+
 <!DOCTYPE html>
 <html lang="es">
 
