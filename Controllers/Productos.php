@@ -60,6 +60,11 @@ class Productos extends Controller
         $this->views->render($this, "inventario_bodega");
     }
 
+    public function importacion_masiva()
+    {
+        $this->views->render($this, "importacion_masiva");
+    }
+
 
 
     ///Funciones
