@@ -112,13 +112,6 @@ class ComposerStaticInit394db9ff3e8bed461b3131f49f543b23
     );
 
     public static $prefixesPsr0 = array (
-        'P' => 
-        array (
-            'PHPExcel' => 
-            array (
-                0 => __DIR__ . '/..' . '/phpoffice/phpexcel/Classes',
-            ),
-        ),
         'H' => 
         array (
             'HTMLPurifier' => 
