@@ -42,7 +42,7 @@ if (ENVIRONMENT == 'development') {
 
     define("MATRIZ", $id_matriz);
     $url_matriz = $matriz['url_matriz'];
-    define("SERVERURL", $url_matriz . "/");
+    define("SERVERURL", $url_matriz);
 }
 
 
