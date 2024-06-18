@@ -48,6 +48,7 @@ if (ENVIRONMENT == 'development') {
     $favicon = $matriz['favicon'];
     $color_letras = $matriz['color_letras'];
     $color_hover = $matriz['color_hover'];
+    $color_letra_hover = $matriz['color_letra_hover'];
 }
 
 
@@ -66,3 +67,4 @@ define("PREFIJOS", $prefijo);
 define("FAVICON", $favicon);
 define("COLOR_LETRAS", $color_letras);
 define("COLOR_HOVER", $color_hover);
+define("COLOR_LETRA_HOVER", $color_letra_hover);
