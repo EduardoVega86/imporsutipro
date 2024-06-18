@@ -27,7 +27,7 @@
         }
 
         .sidebar a:hover {
-            background-color: #007bff;
+            background-color: green;
         }
 
         .sidebar .menu {
