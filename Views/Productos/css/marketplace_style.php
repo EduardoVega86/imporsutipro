@@ -71,7 +71,7 @@
 }
 
 .modal-header {
-    background-color: #171931;
+    background-color: <?php echo COLOR_FONDO; ?>;
     color: white;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
@@ -207,7 +207,7 @@
 }
 
 .table thead th {
-    background-color: #171931;
+    background-color: <?php echo COLOR_FONDO; ?>;
     color: white;
 }
 

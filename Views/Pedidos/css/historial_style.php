@@ -21,7 +21,7 @@
     }
 
     .table thead th {
-        background-color: #171931;
+        background-color: <?php echo COLOR_FONDO; ?>;
         color: white;
     }
 

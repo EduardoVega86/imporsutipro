@@ -13,7 +13,7 @@
             top: 0;
             bottom: 0;
             left: 0;
-            background-color: #171931;
+            background-color: <?php echo COLOR_FONDO; ?>;
             padding-top: 1.4rem;
             transition: width 0.3s;
         }
@@ -93,7 +93,7 @@
         }
 
         .navbar-custom {
-            background-color: #171931;
+            background-color: <?php echo COLOR_FONDO; ?>;
             color: #fff;
         }
 
@@ -121,7 +121,7 @@
             position: absolute;
             top: 60px;
             right: 15px;
-            background-color: #171931;
+            background-color: <?php echo COLOR_FONDO; ?>;
             border: 1px solid #444;
             border-radius: 5px;
             display: none;
@@ -154,7 +154,7 @@
             top: 0;
             left: 45px;
             width: 150px;
-            background-color: #171931;
+            background-color: <?php echo COLOR_FONDO; ?>;
             display: none;
             flex-direction: column;
             border-left: 1px solid #444;
