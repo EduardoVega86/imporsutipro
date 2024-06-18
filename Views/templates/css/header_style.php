@@ -32,9 +32,7 @@
     }
 
     .menu-icon {
-        color: <?php echo COLOR_LETRAS; ?> !important;
-        font-size: 30px;
-        padding-right: 5px;
+        color: <?php echo COLOR_LETRAS; ?>;
     }
 
     .menu-icon:hover {

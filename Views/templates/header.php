@@ -8,7 +8,7 @@
     <link rel="icon" type="image/png" href="<?php echo FAVICON; ?>">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
@@ -23,7 +23,7 @@
 
     <!-- footer -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-
+    
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
@@ -33,7 +33,7 @@
     <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
+    
 
     <?php require_once './Views/templates/css/header_style.php'; ?>
 </head>
@@ -42,23 +42,23 @@
     <div class="sidebar" id="sidebar">
         <div class="menu">
             <a href="#" class="toggle-btn" id="toggle-btn">
-                <i class='bx bx-menu menu-icon'></i>
+                <box-icon name="menu" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon>
             </a>
             <a href="<?php echo SERVERURL ?>dashboard"><box-icon name="home" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Inicio</span></a>
             <a href="<?php echo SERVERURL ?>Productos/marketplace"><box-icon name="shopping-bag" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Marketplace</span></a>
-
+            
             <a href="#" class="dropdown-btn" data-target="#submenu1"><box-icon name="cart" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Mis Productos</span></a>
-
+            
             <div class="submenu" id="submenu1">
                 <a href="<?php echo SERVERURL ?>Productos"><box-icon name="store" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Listado</span></a>
 
 
 
                 <a href="<?php echo SERVERURL ?>Productos/categorias"><box-icon type="solid" name="category" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Categorias</span></a>
-
-                <a href="<?php echo SERVERURL ?>Productos/bodegas"><box-icon type="solid" name="truck" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Bodegas</span></a>
-
-                <a href="<?php echo SERVERURL ?>Productos/inventario"><box-icon name="list-plus" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Inventario</span></a>
+                
+                 <a href="<?php echo SERVERURL ?>Productos/bodegas"><box-icon type="solid" name="truck" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Bodegas</span></a>
+                 
+                 <a href="<?php echo SERVERURL ?>Productos/inventario"><box-icon name="list-plus" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Inventario</span></a>
 
             </div>
             <a href="#" class="dropdown-btn" data-target="#submenu2"><box-icon name="receipt" color="<?php echo COLOR_LETRAS; ?>" style="padding-right: 5px;"></box-icon> <span class="menu-text">Pedidos</span></a>
