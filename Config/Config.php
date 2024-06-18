@@ -25,3 +25,6 @@ const LAAR_PASSWORD = "Imp@rt*23";
 const LAAR_ENDPOINT_AUTH = "https://api.laarcourier.com:9727/authenticate";
 const LAAR_ENDPOINT = "https://api.laarcourier.com:9727/guias/contado";
 const LLAR_ENDPOINT_CANCEL = 'https://api.laarcourier.com:9727/guias/anular/';
+
+const COLOR_FONDO = "#171931";
+const IMAGEN_LOGO = "https://tiendas.imporsuitpro.com/imgs/LOGOS-IMPORSUIT.png";
