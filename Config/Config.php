@@ -42,6 +42,7 @@ if (ENVIRONMENT == 'development') {
     define("MATRIZ", $id_matriz);
     $url_matriz = $matriz['url_matriz'];
     define("SERVERURL", $url_matriz);
+    $logo = $matriz['logo'];
 }
 
 
@@ -54,4 +55,4 @@ const LLAR_ENDPOINT_CANCEL = 'https://api.laarcourier.com:9727/guias/anular/';
 ///obtener matriz 
 
 define("COLOR_FONDO", $color_fondo);
-const IMAGEN_LOGO = "https://tiendas.imporsuitpro.com/imgs/LOGOS-IMPORSUIT.png";
+define("IMAGENT_LOGO", $logo);
