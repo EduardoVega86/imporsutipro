@@ -43,6 +43,7 @@ if (ENVIRONMENT == 'development') {
     $url_matriz = $matriz['url_matriz'];
     define("SERVERURL", $url_matriz);
     $logo = $matriz['logo'];
+    $marca = $matriz['marca'];
 }
 
 
@@ -56,3 +57,4 @@ const LLAR_ENDPOINT_CANCEL = 'https://api.laarcourier.com:9727/guias/anular/';
 
 define("COLOR_FONDO", $color_fondo);
 define("IMAGEN_LOGO", $logo);
+define("MARCA", $marca);
