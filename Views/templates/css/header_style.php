@@ -139,14 +139,14 @@
     .profile-dropdown a {
         padding: 10px;
         text-decoration: none;
-        color: <?php echo COLOR_LETRAS; ?>;
+        color: <?php echo COLOR_LETRAS; ?> !important;
         display: flex;
         align-items: center;
     }
 
     .profile-dropdown a:hover {
-        background-color: <?php echo COLOR_HOVER; ?>;
-        color: <?php echo COLOR_LETRA_HOVER; ?>;
+        background-color: <?php echo COLOR_HOVER; ?> !important;
+        color: <?php echo COLOR_LETRA_HOVER; ?> !important;
     }
 
     .profile-pic {
