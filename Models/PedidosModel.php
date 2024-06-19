@@ -15,16 +15,7 @@ class PedidosModel extends Query
 
     public function cargarGuias($plataforma, $fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso)
     {
-        $sql = "SELECT *, 
-            (SELECT ciudad FROM ciudad_cotizacion WHERE id_cotizacion = ciudad_cot) AS ciudad, 
-            (SELECT provincia FROM ciudad_cotizacion WHERE id_cotizacion = ciudad_cot) AS provinciaa, 
-            (SELECT url_imporsuit FROM plataformas WHERE id_plataforma = id_propietario) AS plataforma 
-            FROM facturas_cot 
-            WHERE TRIM(numero_guia) <> '' 
-            AND numero_guia IS NOT NULL 
-            AND numero_guia <> '0' 
-            AND anulada = 0 
-            AND (id_plataforma = $plataforma OR id_propietario = $plataforma)";
+        $sql = "SELECT fc.*, cc.ciudad, cc.provincia AS provinciaa, p.url_imporsuit AS plataforma FROM facturas_cot fc LEFT JOIN ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot LEFT JOIN plataformas p ON p.id_plataforma = fc.id_plataforma WHERE TRIM(fc.numero_guia) <> '' AND fc.numero_guia IS NOT NULL AND fc.numero_guia <> '0' AND fc.anulada = 0 AND (fc.id_plataforma = $plataforma OR fc.id_propietario =$plataforma) ORDER BY fc.numero_factura DESC;";
 
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
             $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";

@@ -79,4 +79,10 @@ class Guias extends Controller
         $datos = $this->model->anularGuia($id);
         echo json_encode($datos);
     }
+
+    public function obtenerTiendas()
+    {
+        $datos = $this->model->obtenerTiendas();
+        echo json_encode($datos);
+    }
 }
