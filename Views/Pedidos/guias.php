@@ -12,7 +12,7 @@
         </div> -->
         <div class="d-flex flex-column justify-content-between">
             <div class="d-flex flex-row " style="width: 100%;">
-                <div class="d-flex flex-row align-items-end" style="width: 40%; margin-top: 20px;">
+                <div class="d-flex flex-row align-items-end" style="width: 45%; margin-top: 20px;">
                     <div class="flex-fill">
                         <h6>Seleccione el rango de fechas:</h6>
                         <div class="input-group">
