@@ -321,8 +321,6 @@ $(document).ready(function() {
 
     filtro_facturas = $(this).data('filter'); // Actualizar variable con el filtro seleccionado
 
-    console.log('Filtro seleccionado: ', filtro_facturas); // Para verificar el valor de la variable
-
     initDataTableFacturas()
   });
 });
