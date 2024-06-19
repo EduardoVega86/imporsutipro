@@ -129,6 +129,7 @@ class AccesoModel extends Query
 
         return $response;
     }
+
     public function login($usuario, $password)
     {
         ini_set('session.gc_maxlifetime', 3600);
@@ -155,6 +156,7 @@ class AccesoModel extends Query
                 $_SESSION['id'] = $datos_usuario[0]['id_users'];
                 $_SESSION['tienda'] = $nombre_tienda[0]['nombre_tienda'];
                 $_SESSION['matriz'] = $this->obtenerMatriz();
+                $this->crearSubdominio($nombre_tienda[0]['nombre_tienda']);
             } else {
                 $response = $this->initialResponse();
                 $response['status'] = 401;
@@ -184,5 +186,52 @@ class AccesoModel extends Query
             return true;
         }
         return false;
+    }
+
+    public function crearSubdominio($nombre_tienda)
+    {
+
+        $cpanelUrl = 'https://administracion.imporsuitpro.com:2083/';
+        $cpanelUsername = 'imporsuitpro';
+        $cpanelPassword = 'Mark2demasiado..';
+        $verificador = array();
+        $rootdomain = DOMINIO;
+        $apiUrl = $cpanelUrl . 'execute/SubDomain/addsubdomain?domain=' . $nombre_tienda . '&rootdomain=' . $rootdomain;
+        $this->cpanelRequest($apiUrl, $cpanelUsername, $cpanelPassword);
+        $contador = 0;
+        foreach ($verificador as $key => $value) {
+            if ($value == 1) {
+                $contador++;
+            }
+        }
+        if ($contador == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function cpanelRequest($url, $username, $password, $postFields = null)
+    {
+        global $verificador;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        if ($postFields !== null) {
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
+        }
+        $response = curl_exec($ch);
+        //var_dump($response);
+        if (curl_errno($ch)) {
+            echo 'Error en la solicitud cURL: ' . curl_error($ch);
+        } else {
+            $responseData = json_decode($response, true);
+            $verifica = $responseData['status'];
+            array_push($verificador, $verifica);
+        }
+        curl_close($ch);
     }
 }

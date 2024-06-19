@@ -46,7 +46,6 @@ class Wallet extends Controller
     ///
     public function obtenerDatos()
     {
-
         $datos = $this->model->obtenerTiendas();
         echo $datos;
     }
@@ -82,5 +81,25 @@ class Wallet extends Controller
         $usuario = $_SESSION['id'];
 
         $datos = $this->model->reversarAbono($id_cabecera, $valor, $usuario);
+    }
+
+    public function obtenerDatosBancarios()
+    {
+        $datos = $this->model->obtenerDatosBancarios($_SESSION["id_plataforma"]);
+        echo json_encode($datos);
+    }
+
+    public function guardarDatosBancarios()
+    {
+        $banco = $_POST['banco'];
+        $tipo_cuenta = $_POST['tipo_cuenta'];
+        $numero_cuenta = $_POST['numero_cuenta'];
+        $nombre = $_POST['nombre'];
+        $cedula = $_POST['cedula'];
+        $correo = $_POST['correo'];
+        $telefono    = $_POST['telefono'];
+
+        $datos = $this->model->guardarDatosBancarios($banco, $tipo_cuenta, $numero_cuenta, $nombre, $cedula, $correo, $telefono, $_SESSION["id_plataforma"]);;
+        echo json_encode($datos);
     }
 }

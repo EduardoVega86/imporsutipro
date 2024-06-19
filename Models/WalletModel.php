@@ -245,8 +245,16 @@ class WalletModel extends Query
 
     public function obtenerDatosBancarios($plataformas)
     {
-        $sql = "SELECT * from datos_banco_usuarios ";
+        $sql = "SELECT * from datos_banco_usuarios  where id_plataforma = '$plataformas'";
         $response =  $this->select($sql);
         return json_encode($response);
+    }
+
+    public function guardarDatosBancarios($banco, $tipo_cuenta, $numero_cuenta, $nombre, $cedula, $correo, $telefono, $plataforma)
+    {
+        $sql = "INSERT INTO datos_banco_usuarios (`banco`, `tipo_cuenta`, `numero_cuenta`, `nombre`, `cedula`, `correo`, `telefono`, `id_plataforma`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $response =  $this->insert($sql, array($banco, $tipo_cuenta, $numero_cuenta, $nombre, $cedula, $correo, $telefono, $plataforma));
+        $responses["status"] = 200;
+        return json_encode($responses);
     }
 }
