@@ -126,8 +126,7 @@
                 monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
                 firstDay: 1
             },
-            startDate: null, // No establecer una fecha de inicio predeterminada
-            endDate: null // No establecer una fecha de fin predeterminada
+            autoUpdateInput: false // Mantener esto en false
         });
 
         // Evento que se dispara cuando se aplica un nuevo rango de fechas
