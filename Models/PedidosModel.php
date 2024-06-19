@@ -13,14 +13,37 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
-    public function cargarGuias($filtro, $plataforma)
+    public function cargarGuias($plataforma, $fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso)
     {
-        if (empty($filtro) || $filtro == "") {
+        $sql = "SELECT *, 
+            (SELECT ciudad FROM ciudad_cotizacion WHERE id_cotizacion = ciudad_cot) AS ciudad, 
+            (SELECT provincia FROM ciudad_cotizacion WHERE id_cotizacion = ciudad_cot) AS provinciaa, 
+            (SELECT url_imporsuit FROM plataformas WHERE id_plataforma = id_propietario) AS plataforma 
+            FROM facturas_cot 
+            WHERE TRIM(numero_guia) <> '' 
+            AND numero_guia IS NOT NULL 
+            AND numero_guia <> '0' 
+            AND anulada = 0 
+            AND (id_plataforma = $plataforma OR id_propietario = $plataforma)";
 
-            $sql = "SELECT *, (SELECT ciudad FROM ciudad_cotizacion where id_cotizacion = ciudad_cot) as ciudad,(SELECT provincia FROM ciudad_cotizacion where id_cotizacion = ciudad_cot) as provinciaa, (SELECT url_imporsuit from plataformas where id_plataforma = id_propietario) as plataforma FROM facturas_cot WHERE TRIM(numero_guia) <> '' AND numero_guia IS NOT NULL AND numero_guia <> '0' AND anulada = 0 and (id_plataforma = $plataforma or id_propietario = $plataforma) ORDER BY `facturas_cot`.`numero_factura` DESC;";
-        } else {
-            $sql = "SELECT * FROM facturas_cot WHERE TRIM(numero_guia) <> '' AND numero_guia IS NOT NULL AND anulada = 0 and $filtro";
+        if (!empty($fecha_inicio) && !empty($fecha_fin)) {
+            $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
         }
+
+        if (!empty($transportadora)) {
+            $sql .= " AND transportadora = '$transportadora'";
+        }
+
+        if (!empty($estado)) {
+            $sql .= " AND estado_guia_sistema = '$estado'";
+        }
+
+        if (!empty($impreso)) {
+            $sql .= " AND impreso = '$impreso'";
+        }
+
+        $sql .= " ORDER BY `facturas_cot`.`numero_factura` DESC;";
+
         return $this->select($sql);
     }
 

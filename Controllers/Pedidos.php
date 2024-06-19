@@ -179,10 +179,16 @@ class Pedidos extends Controller
         return  $datos;
     }
 
-    public function obtener_guias($filtro = "")
+    public function obtener_guias()
     {
+        $fecha_inicio = $_POST['fecha_inicio'] ?? "";
+        $fecha_fin = $_POST['fecha_fin'] ?? "";
+        $transportadora = $_POST['transportadora'] ?? "";
+        $estado = $_POST['estado'] ?? "";
+        $impreso = $_POST['impreso'] ?? "";
 
-        $data = $this->model->cargarGuias($filtro, $_SESSION['id_plataforma']);
+
+        $data = $this->model->cargarGuias($_SESSION['id_plataforma'], $fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso);
         echo json_encode($data);
     }
 
