@@ -110,43 +110,24 @@
     </div>
 </div>
 <script>
-   $(function() {
-            $('#daterange').daterangepicker({
-                opens: 'right',
-                locale: {
-                    format: 'YYYY-MM-DD HH:mm:ss',
-                    separator: ' - ',
-                    applyLabel: 'Aplicar',
-                    cancelLabel: 'Cancelar',
-                    fromLabel: 'Desde',
-                    toLabel: 'Hasta',
-                    customRangeLabel: 'Custom',
-                    weekLabel: 'S',
-                    daysOfWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
-                    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                    firstDay: 1
-                },
-                autoUpdateInput: false,
-                timePicker: true,
-                timePicker24Hour: true,
-                timePickerSeconds: true
-            }, function(start, end, label) {
-                $('#daterange').val(start.format('YYYY-MM-DD HH:mm:ss') + ' - ' + end.format('YYYY-MM-DD HH:mm:ss'));
-            });
+    $(function() {
+        $('#daterange').daterangepicker({
+            opens: 'right',
+            locale: {
+                format: 'YYYY-MM-DD',
+                separator: ' - ',
+                applyLabel: 'Aplicar',
+                cancelLabel: 'Cancelar',
+                fromLabel: 'Desde',
+                toLabel: 'Hasta',
+                customRangeLabel: 'Custom',
+                weekLabel: 'S',
+                daysOfWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                firstDay: 1
+            }
         });
-
-        function getFormattedDates() {
-            let rangoFechas = $("#daterange").val();
-            let fechas = rangoFechas.split(" - ");
-            let fecha_inicio = moment(fechas[0]).startOf('day').format('YYYY-MM-DD HH:mm:ss');
-            let fecha_fin = moment(fechas[1]).endOf('day').format('YYYY-MM-DD HH:mm:ss');
-
-            const formData = new FormData();
-            formData.append("fecha_inicio", fecha_inicio);
-            formData.append("fecha_fin", fecha_fin);
-
-            return formData;
-        }
+    });
 </script>
 <script src="<?php echo SERVERURL ?>/Views/Pedidos/js/guias.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
