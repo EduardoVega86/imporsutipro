@@ -102,7 +102,7 @@ class WalletModel extends Query
         if ($saldo === 0) {
             return;
         }
-        $sql_update = "UPDATE cabecera_cuenta_pagar set valor_pendiente = 0 and visto = 1 WHERE id_cabecera = ?";
+        $sql_update = "UPDATE cabecera_cuenta_pagar set valor_pendiente = 0, visto = 1 WHERE id_cabecera = ?";
         $response =  $this->update($sql_update, array($id_cabecera));
 
         $sql = "UPDATE billeteras set saldo = saldo + $valor WHERE tienda = ?";
@@ -125,11 +125,10 @@ class WalletModel extends Query
 
             $sql = "INSERT INTO cabecera_cuenta_pagar (`tienda`, `numero_factura`, `guia`, `costo`, `monto_recibir`, `valor_pendiente`, `estado_guia`, `visto`, `full`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $response =  $this->insert($sql, array($proveedor, $numero_factura . '-P', $guia, $costo, $costo, $costo, 7, 0, $full));
-            print_r($response);
         }
 
         $responses["status"] = 200;
-        return json_encode($responses);
+        return $responses;
     }
 
     public function reversarAbono($id_cabecera, $valor, $tienda, $usuario)

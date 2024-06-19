@@ -72,6 +72,7 @@ class Wallet extends Controller
         $usuario = $_SESSION['id'];
 
         $datos = $this->model->abonarBilletera($id_cabecera, $valor, $usuario);
+        echo json_encode($datos);
     }
 
     public function reversarAbono()
