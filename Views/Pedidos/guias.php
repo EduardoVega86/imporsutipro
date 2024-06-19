@@ -12,7 +12,7 @@
         </div> -->
         <div class="d-flex flex-column justify-content-between">
             <div class="d-flex flex-row " style="width: 100%;">
-                <div class="d-flex flex-row align-items-end" style="width: 45%; margin-top: 20px;">
+                <div class="d-flex flex-row align-items-end" style="width: 40%; margin-top: 20px;">
                     <div class="flex-fill">
                         <h6>Seleccione el rango de fechas:</h6>
                         <div class="input-group">
@@ -134,6 +134,19 @@
             $('#daterange').val(start.format('YYYY-MM-DD HH:mm:ss') + ' - ' + end.format('YYYY-MM-DD HH:mm:ss'));
         });
     });
+
+    function getFormattedDates() {
+        let rangoFechas = $("#daterange").val();
+        let fechas = rangoFechas.split(" - ");
+        let fecha_inicio = moment(fechas[0]).startOf('day').format('YYYY-MM-DD HH:mm:ss');
+        let fecha_fin = moment(fechas[1]).endOf('day').format('YYYY-MM-DD HH:mm:ss');
+
+        const formData = new FormData();
+        formData.append("fecha_inicio", fecha_inicio);
+        formData.append("fecha_fin", fecha_fin);
+
+        return formData;
+    }
 </script>
 <script src="<?php echo SERVERURL ?>/Views/Pedidos/js/guias.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
