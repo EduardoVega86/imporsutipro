@@ -21,6 +21,11 @@ class AccesoModel extends Query
         $date_added       = date("Y-m-d H:i:s");
         /* $sql = "INSERT INTO users (nombre, correo, pais, telefono, contrasena) VALUES (?, ?, ?, ?, ?)"; */
 
+        $prefix = 'tmp_';
+        $timestamp = time();
+        $uniqueId = uniqid();
+        $tienda = $prefix . $timestamp . '_' . $uniqueId;
+    
         $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
         $sql = "INSERT INTO users (nombre_users, email_users, con_users, usuario_users, date_added, cargo_users) VALUES (?, ?, ?, ?, ?, ?)";
         //   echo $sql;

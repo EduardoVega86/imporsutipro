@@ -67,11 +67,23 @@ class Usuarios extends Controller
         echo json_encode($response);
     }
     
-    public function importarExcelPlataformas()
+    public function obtener_usuarios_matriz()
+    {
+        $response = $this->model->obtener_usuarios_matriz();
+        echo json_encode($response);
+    }
+    
+     public function obtener_usuarios_plataforma()
+    {
+        $response = $this->model->obtener_userGroup($_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+    
+    public function importarExcel()
     {
         
     // Obtener el ID de inventario desde el formulario
-    //$id_inventario = $_POST['id_bodega'];
+    $id_inventario = $_POST['id_bodega'];
     
     // Verificar y manejar el archivo subido
     if (isset($_FILES['archivo']) && $_FILES['archivo']['error'] === UPLOAD_ERR_OK) {
@@ -90,7 +102,7 @@ class Usuarios extends Controller
             $spreadsheet = $objReader->load($fileTmpPath);
             $sheet = $spreadsheet->getActiveSheet();
             $data = $sheet->toArray();
-            $date_added = date("Y-m-d H:i:s");
+ $date_added = date("Y-m-d H:i:s");
             // Aquí puedes procesar los datos del Excel
             $fila=0;
             $agregados=0;
@@ -101,7 +113,9 @@ class Usuarios extends Controller
                 
                    //print_r ($data[$fila]); 
                  //  $response = $this->model->agregarProducto($codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $_SESSION['id_plataforma'], $stock_inicial, $bodega, $pcp, $pvp, $pref);
-              $response = $this->model->registro($data[$fila][0], $data[$fila][1], $data[$fila][2], $data[$fila][3], 'import.1', $data[$fila][4]);;
+              $response = $this->model->registro($nombre, $correo, $pais, $telefono, $contrasena, $tienda);
+              
+                    $response = $this->model->agregarProducto($data[$fila][0], $data[$fila][1], $data[$fila][2], $data[$fila][3], 'Usuario.1', $data[$fila][5], $data[$fila][6], '1', '1', $date_added, $data[$fila][7], '1', '1', '1', '0', '0', $_SESSION['id_plataforma'], $data[$fila][8], $id_inventario, $data[$fila][9], $data[$fila][10], $data[$fila][11]);
              // echo $response ['status'];
               if ($response ['status']==200){
                $agregados=$agregados+1;   
@@ -141,4 +155,6 @@ class Usuarios extends Controller
     }
     echo json_encode($response);
     }
+    
+   
 }
