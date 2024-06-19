@@ -88,12 +88,10 @@
     <div class="container mt-5" style="max-width: 1600px;">
         <h2 class="text-center mb-4">Guias</h2>
 
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_productoModal"><i class="fas fa-plus"></i> Agregar</button>
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
             <table id="datatable_guias" class="table table-striped">
-                <!-- <caption>
-                    DataTable.js Demo
-                </caption> -->
                 <thead>
                     <tr>
                         <th class="centered">ID</th>
