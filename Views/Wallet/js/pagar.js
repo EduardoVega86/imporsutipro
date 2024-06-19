@@ -322,6 +322,6 @@ $(document).ready(function() {
 
     filtro_facturas = $(this).data('filter'); // Actualizar variable con el filtro seleccionado
 
-    initDataTableFacturas();
+    initDataTablePagos();
   });
 });
