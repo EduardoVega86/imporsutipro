@@ -107,6 +107,7 @@
             }
         </script>
 
+        <!-- librerias de filtro fecha -->
         <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/min/moment.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
         </body>

@@ -17,7 +17,7 @@
     }
 
     .custom-container-fluid h1 {
-        color: white;
+        color: black;
         margin-bottom: 20px;
     }
 
@@ -27,7 +27,7 @@
 
     .form-group label {
         display: block;
-        color: white;
+        color: black;
         margin-bottom: 5px;
     }
 
