@@ -40,6 +40,8 @@
     .slider-container {
         width: 67%;
         margin-bottom: 20px;
+        align-content: center;
+        text-align: center;
     }
 
     .slider-container img {
@@ -108,7 +110,7 @@
         }
 
         .slider-container img {
-        width: 100%;
-    }
+            width: 100%;
+        }
     }
 </style>
