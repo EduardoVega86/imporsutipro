@@ -19,7 +19,7 @@
                     </div>
                 </div>
                 <div class="flex-fill" style=" padding-left: 20px; width:35%">
-                    <div class=" d-flex flex-row justify-content-start">
+                    <div class=" d-flex flex-column justify-content-start">
                         <label for="inputPassword3" class="col-sm-2 col-form-label">Impresiones</label>
                         <div>
                             <select name="impresion" class="form-control" id="impresion">
