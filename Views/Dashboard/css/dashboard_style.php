@@ -43,7 +43,7 @@
     }
 
     .slider-container img {
-        width: auto;
+        width: 80%;
         border-radius: 10px;
     }
 
