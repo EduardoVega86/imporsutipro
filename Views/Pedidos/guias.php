@@ -128,6 +128,17 @@
             },
             autoUpdateInput: false
         });
+
+        // Evento que se dispara cuando se aplica un nuevo rango de fechas
+        $('#daterange').on('apply.daterangepicker', function(ev, picker) {
+            initDataTable();
+        });
+    });
+
+    $(document).ready(function() {
+        $("#estado_q,#transporte").change(function() {
+            initDataTable();
+        });
     });
 </script>
 <script src="<?php echo SERVERURL ?>/Views/Pedidos/js/guias.js"></script>
