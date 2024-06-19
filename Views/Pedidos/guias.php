@@ -37,7 +37,7 @@
                     <div class="d-flex flex-row justify-content-start">
                         <div style="width: 100%;">
                             <label for="tienda_q" class="col-form-label">Tienda</label>
-                            <select onchange="buscar(this.value)" id="tienda_q" class="form-control">
+                            <select id="tienda_q" class="form-control">
                                 <option value="">Selecciona una Tienda</option>
 
                             </select>
@@ -51,9 +51,9 @@
                 <div style="width: 100%;">
                     <label style="padding-left: 20px;" for="inputPassword3" class="col-sm-2 col-form-label">Estado</label>
                     <div style="padding-left: 20px;">
-                        <select onchange="buscar_estado(this.value)" name="estado_q" class="form-control" id="estado_q">
+                        <select name="estado_q" class="form-control" id="estado_q">
                             <option value=""> Seleccione Estado </option>
-                            <option value="1"> Anulado </option>
+                            <option value="8"> Anulado </option>
                             <option value="2"> Por Recolectar </option>
                             <option value="5"> En Transito </option>
                             <option value="7"> Entregado </option>
@@ -67,10 +67,10 @@
                     <div style="padding-left: 20px;">
                         <select name="transporte" id="transporte" class="form-control">
                             <option value=""> Seleccione Transportadora</option>
-                            <option value="1">Laar</option>
-                            <option value="2">Speed</option>
-                            <option value="3">Servientrega</option>
-                            <option value="4">Gintracom</option>
+                            <option value="LAAR">Laar</option>
+                            <option value="SPEED">Speed</option>
+                            <option value="SERVIENTREGA">Servientrega</option>
+                            <option value="GINTRACOM">Gintracom</option>
                         </select>
                     </div>
                 </div>
