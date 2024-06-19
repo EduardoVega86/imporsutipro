@@ -190,20 +190,23 @@ class AccesoModel extends Query
 
     public function crearSubdominio($nombre_tienda)
     {
-
         $cpanelUrl = 'https://administracion.imporsuitpro.com:2083/';
         $cpanelUsername = 'imporsuitpro';
         $cpanelPassword = 'Mark2demasiado..';
+        $rootdomain = 'imporsuitpro.com';
+        $subdomainDir = 'public/new';
         $verificador = array();
-        $rootdomain = DOMINIO;
-        $apiUrl = $cpanelUrl . 'execute/SubDomain/addsubdomain?domain=' . $nombre_tienda . '&rootdomain=' . $rootdomain;
+
+        $apiUrl = $cpanelUrl . 'execute/SubDomain/addsubdomain?domain=' . $nombre_tienda . '&rootdomain=' . $rootdomain . '&dir=' . $subdomainDir;
         $this->cpanelRequest($apiUrl, $cpanelUsername, $cpanelPassword);
+
         $contador = 0;
         foreach ($verificador as $key => $value) {
             if ($value == 1) {
                 $contador++;
             }
         }
+
         if ($contador == 1) {
             return true;
         } else {
@@ -224,12 +227,11 @@ class AccesoModel extends Query
             curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
         }
         $response = curl_exec($ch);
-        //var_dump($response);
         if (curl_errno($ch)) {
             echo 'Error en la solicitud cURL: ' . curl_error($ch);
         } else {
             $responseData = json_decode($response, true);
-            $verifica = $responseData['status'];
+            $verifica = $responseData['status'] ?? 0;
             array_push($verificador, $verifica);
         }
         curl_close($ch);
