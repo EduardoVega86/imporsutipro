@@ -1,4 +1,7 @@
 <?php
+
+use FontLib\EOT\Header;
+
 session_start();
 class Home extends Controller
 {
@@ -12,7 +15,7 @@ class Home extends Controller
     ///Vistas
     public function index()
     {
-
+        Header("Location: " . SERVERURL . "login");
         $this->views->render($this, "index");
     }
     public function promociones()
