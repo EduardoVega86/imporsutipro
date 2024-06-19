@@ -123,7 +123,7 @@ class WalletModel extends Query
         if ($proveedor != NULL || $proveedor != $tienda) {
             $full = $this->buscarFull($numero_factura, $id_plataforma);
 
-            $sql = "INSERT INTO cabecera_cuenta_pagar (`tienda`, `numero_factura`, `guia`, `costo`, `monto_recibir`, `valor_pendiente`, `estado_guia`, `visto`, `full`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO cabecera_cuenta_pagar (`tienda`, `numero_factura`, `guia`, `costo`, `monto_recibir`, `valor_pendiente`, `estado_guia`, `visto`, `full`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $response =  $this->insert($sql, array($proveedor, $numero_factura . '-P', $guia, $costo, $costo, $costo, 7, 0, $full));
             print_r($response);
         }
