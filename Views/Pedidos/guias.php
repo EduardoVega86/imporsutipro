@@ -38,7 +38,7 @@
                         <div style="width: 100%;">
                             <label for="tienda_q" class="col-form-label">Tienda</label>
                             <select onchange="buscar(this.value)" id="tienda_q" class="form-control">
-                                <option value="0">Selecciona una Tienda</option>
+                                <option value="">Selecciona una Tienda</option>
 
                             </select>
                         </div>
@@ -52,7 +52,7 @@
                     <label style="padding-left: 20px;" for="inputPassword3" class="col-sm-2 col-form-label">Estado</label>
                     <div style="padding-left: 20px;">
                         <select onchange="buscar_estado(this.value)" name="estado_q" class="form-control" id="estado_q">
-                            <option value="0"> Seleccione Estado </option>
+                            <option value=""> Seleccione Estado </option>
                             <option value="1"> Anulado </option>
                             <option value="2"> Por Recolectar </option>
                             <option value="5"> En Transito </option>
@@ -66,7 +66,7 @@
                     <label style="padding-left: 20px;" for="inputPassword3" class="col-sm-2 col-form-label">Transportadora</label>
                     <div style="padding-left: 20px;">
                         <select name="transporte" id="transporte" class="form-control">
-                            <option value="0"> Seleccione Transportadora</option>
+                            <option value=""> Seleccione Transportadora</option>
                             <option value="1">Laar</option>
                             <option value="2">Speed</option>
                             <option value="3">Servientrega</option>
@@ -114,7 +114,7 @@
         $('#daterange').daterangepicker({
             opens: 'right',
             locale: {
-                format: 'YYYY-MM-DD',
+                format: 'YYYY-MM-DD HH:mm:ss',
                 separator: ' - ',
                 applyLabel: 'Aplicar',
                 cancelLabel: 'Cancelar',
@@ -125,9 +125,28 @@
                 daysOfWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
                 monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
                 firstDay: 1
-            }
+            },
+            autoUpdateInput: false,
+            timePicker: true,
+            timePicker24Hour: true,
+            timePickerSeconds: true
+        }, function(start, end, label) {
+            $('#daterange').val(start.format('YYYY-MM-DD HH:mm:ss') + ' - ' + end.format('YYYY-MM-DD HH:mm:ss'));
         });
     });
+
+    function getFormattedDates() {
+        let rangoFechas = $("#daterange").val();
+        let fechas = rangoFechas.split(" - ");
+        let fecha_inicio = moment(fechas[0]).startOf('day').format('YYYY-MM-DD HH:mm:ss');
+        let fecha_fin = moment(fechas[1]).endOf('day').format('YYYY-MM-DD HH:mm:ss');
+
+        const formData = new FormData();
+        formData.append("fecha_inicio", fecha_inicio);
+        formData.append("fecha_fin", fecha_fin);
+
+        return formData;
+    }
 </script>
 <script src="<?php echo SERVERURL ?>/Views/Pedidos/js/guias.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
