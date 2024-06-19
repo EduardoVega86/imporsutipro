@@ -14,17 +14,18 @@
                 <label for="correo">Correo</label>
                 <input type="text" class="form-control" id="correo" name="correo" placeholder="Correo">
             </div>
-            <div class="form-group">
+            <div class="form-group password-toggle">
                 <label for="contrasena">Contraseña</label>
                 <input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="Contraseña">
+                <i class="password-toggle-icon" id="togglePassword" onclick="togglePasswordVisibility()">👁️</i>
             </div>
             <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
             <a href="<?php echo SERVERURL ?>Home/recovery" class="forgot-password">
                 <i class="fas fa-lock"></i> ¿Olvidaste tu contraseña?
             </a>
-            
+
             <div class="center-text">o</div>
-            
+
             <a href="<?php echo SERVERURL ?>registro" class="animated-link">
                 Regístrate ahora
             </a>
@@ -85,5 +86,18 @@
                 });
             });
     });
+
+    //funcion ara dejar ver o no contraseña
+    function togglePasswordVisibility() {
+        const passwordField = document.getElementById('contrasena');
+        const toggleIcon = document.getElementById('togglePassword');
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            toggleIcon.textContent = '🙈'; // Ícono con la raya
+        } else {
+            passwordField.type = 'password';
+            toggleIcon.textContent = '👁️'; // Ícono sin la raya
+        }
+    }
 </script>
 <?php require_once './Views/templates/landing/footer.php'; ?>
