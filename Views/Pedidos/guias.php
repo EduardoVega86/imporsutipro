@@ -9,7 +9,7 @@
         <h2 class="text-center mb-4">Guias</h2>
         <div class="d-flex flex-column justify-content-between">
             <div class="primer_seccionFiltro" style="width: 100%;">
-                <div class="d-flex flex-row align-items-end" style="width: 40%; margin-top: 20px;">
+                <div class="d-flex flex-row align-items-end filtro_fecha">
                     <div class="flex-fill">
                         <h6>Seleccione el rango de fechas:</h6>
                         <div class="input-group">

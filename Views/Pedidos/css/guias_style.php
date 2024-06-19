@@ -69,6 +69,10 @@
         display: flex;
         flex-direction: row;
     }
+    .filtro_fecha{
+        width: 40%; 
+        margin-top: 20px;
+    }
 
     @media (max-width: 768px) {
         .primer_seccionFiltro {
@@ -76,6 +80,9 @@
         }
         .segunda_seccionFiltro {
             flex-direction: column;
+        }
+        .filtro_fecha{
+            width: 100%;
         }
     }
 
