@@ -128,16 +128,7 @@
             },
             startDate: null, // No establecer una fecha de inicio predeterminada
             endDate: null // No establecer una fecha de fin predeterminada
-        }, function(start, end, label) {
-        // Este callback se ejecutará cuando el usuario seleccione un rango de fechas
-        if (!start.isValid() || !end.isValid()) {
-            // Si las fechas no son válidas, limpiar el input
-            $('#daterange').val('');
-        } else {
-            // Actualizar el input con el rango de fechas seleccionado
-            $('#daterange').val(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
-        }
-    });
+        });
 
         // Evento que se dispara cuando se aplica un nuevo rango de fechas
         $('#daterange').on('apply.daterangepicker', function(ev, picker) {
