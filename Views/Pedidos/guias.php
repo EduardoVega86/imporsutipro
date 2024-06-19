@@ -103,5 +103,25 @@
         </div>
     </div>
 </div>
+<script>
+    $(function() {
+        $('#daterange').daterangepicker({
+            opens: 'right',
+            locale: {
+                format: 'YYYY-MM-DD',
+                separator: ' - ',
+                applyLabel: 'Aplicar',
+                cancelLabel: 'Cancelar',
+                fromLabel: 'Desde',
+                toLabel: 'Hasta',
+                customRangeLabel: 'Custom',
+                weekLabel: 'S',
+                daysOfWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                firstDay: 1
+            }
+        });
+    });
+</script>
 <script src="<?php echo SERVERURL ?>/Views/Pedidos/js/guias.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
