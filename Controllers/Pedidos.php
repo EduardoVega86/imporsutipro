@@ -22,8 +22,7 @@ class Pedidos extends Controller
     }
     public function guias($filtro = "")
     {
-        $data = $this->model->cargarGuias($filtro, $_SESSION['id_plataforma']);
-        $this->views->render($this, "guias", $data);
+        $this->views->render($this, "guias");
     }
     public function anuladas($filtro = "")
     {
