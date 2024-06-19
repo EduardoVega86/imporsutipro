@@ -125,20 +125,13 @@
                 daysOfWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
                 monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
                 firstDay: 1
-            },
-            autoUpdateInput: false
+            }
         });
 
+        // Evento que se dispara cuando se aplica un nuevo rango de fechas
         $('#daterange').on('apply.daterangepicker', function(ev, picker) {
-        let fecha_inicio = picker.startDate.format('YYYY-MM-DD') + ' 00:00:00';
-        let fecha_fin = picker.endDate.format('YYYY-MM-DD') + ' 23:59:59';
-
-        // Actualiza el valor del input con el rango de fechas seleccionado
-        $(this).val(picker.startDate.format('YYYY-MM-DD') + ' - ' + picker.endDate.format('YYYY-MM-DD'));
-
-        // Llama a la función initDataTable con las fechas ajustadas
-        initDataTable(fecha_inicio, fecha_fin);
-    });
+            initDataTable();
+        });
     });
 
     $(document).ready(function() {

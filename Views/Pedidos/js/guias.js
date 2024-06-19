@@ -26,12 +26,12 @@ const dataTableOptions = {
   },
 };
 
-const initDataTable = async (fecha_inicio, fecha_fin) => {
+const initDataTable = async () => {
   if (dataTableIsInitialized) {
     dataTable.destroy();
   }
 
-  await listGuias(fecha_inicio, fecha_fin);
+  await listGuias();
 
   dataTable = $("#datatable_guias").DataTable(dataTableOptions);
 
@@ -44,8 +44,13 @@ const initDataTable = async (fecha_inicio, fecha_fin) => {
   });
 };
 
-const listGuias = async (fecha_inicio, fecha_fin) => {
+const listGuias = async () => {
   try {
+    let rangoFechas = $("#daterange").val();
+    let fechas = rangoFechas.split(" - ");
+    let fecha_inicio = fechas[0] + " 00:00:00";
+    let fecha_fin = fechas[1] + " 23:59:59";
+
     const formData = new FormData();
     formData.append("fecha_inicio", fecha_inicio);
     formData.append("fecha_fin", fecha_fin);
