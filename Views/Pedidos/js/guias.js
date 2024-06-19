@@ -101,7 +101,7 @@ const listGuias = async () => {
       if (guia.impreso == 0) {
         impresiones = `<box-icon name='printer' color= "red"></box-icon>`;
       } else {
-        impresiones = `<box-icon name='printer' color= "green"></box-icon>`;
+        impresiones = `<box-icon name='printer' color= "#28E418"></box-icon>`;
       }
       content += `
                 <tr>
