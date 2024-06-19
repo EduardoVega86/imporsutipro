@@ -121,22 +121,17 @@ const listFacturas = async () => {
 
       if (factura.estado_guia == 7) {
         estado_guiaCheck = "checked";
-        estado_guia = "Entregado";
+        estado_guia = `<input type="checkbox" class="selectCheckbox" ${estado_guiaCheck} data-factura-id_cabecera="${factura.id_cabecera}" data-factura-valor="${factura.monto_recibir}">`;
       } else if (factura.estado_guia == 9) {
         estado_guiaCheck = "checked";
-        estado_guia = "Devuelto";
+        estado_guia = `<input type="checkbox" class="selectCheckbox" ${estado_guiaCheck} data-factura-id_cabecera="${factura.id_cabecera}" data-factura-valor="${factura.monto_recibir}">`;
       } else {
         estado_guia = "No acreditable";
       }
 
       content += `
                 <tr>
-                    <td><input type="checkbox" class="selectCheckbox" ${estado_guiaCheck} data-factura-id_cabecera="${
-        factura.id_cabecera
-      }" data-factura-valor="${factura.monto_recibir}" ${
-        estado_guiaCheck ? "disabled" : ""
-      }>
-                    </td>
+                    <td>${estado_guia}</td>
                     <td>
                     <div><span claas="text-nowrap">${
                       factura.numero_factura
