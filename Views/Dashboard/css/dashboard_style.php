@@ -107,5 +107,8 @@
             max-width: calc(105% - 40px);
         }
 
+        .slider-container img {
+        width: 100%;
+    }
     }
 </style>
