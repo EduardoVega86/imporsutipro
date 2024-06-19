@@ -227,6 +227,11 @@ class GuiasModel extends Query
                 $eliminar_wallet = "DELETE FROM cabecera_cuenta_pagar WHERE guia = ?";
                 $response = $this->delete($eliminar_wallet, array($id));
                 $response = array("status" => 200, "message" => "Guía anulada correctamente");
+                $response2 = $this->select("SELECT * FROM facturas_cot WHERE numero_guia = '$id'");
+                $id_plataforma = $response2[0]['id_plataforma'];
+                $response3 = $this->select("SELECT * FROM plataformas WHERE id_plataforma = '$id_plataforma'");
+                $url = $response3[0]['id_matriz'];
+                $response4 = $this->update("UPDATE matriz set guia_generadas = guia_generadas - 1 WHERE idmatriz = ?", array($url));
             } else {
                 $response = array("status" => 500, "message" => "Error al anular la guía");
             }
