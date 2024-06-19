@@ -32,9 +32,9 @@
                 </div>
                 <div class="flex-fill filtro_tienda" style="width: 100%; padding-top: 8px; ">
                     <div style="width: 100%;">
-                        <label for="tienda_q" class="col-form-label">Tienda</label>
+                        <label for="tienda_q" class="col-form-label">Proveedor / Dropshipper</label>
                         <select id="tienda_q" class="form-control">
-                            <option value="">Selecciona una Tienda</option>
+                            <option value="">Selecciona un Proveedor / Dropshipper</option>
 
                         </select>
                     </div>
