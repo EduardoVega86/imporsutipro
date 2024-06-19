@@ -102,7 +102,7 @@ class AccesoModel extends Query
                             $mail->addAddress($correo);
                             $mail->Subject = 'Registro en Imporsuitpro';
                             $mail->Body = $message_body;
-                            $c = $this->crearSubdominio($nombre_tienda[0]['nombre_tienda']);
+                            $c = $this->crearSubdominio($tienda);
                             print_r($c);
                             if ($mail->send()) {
                                 //echo "Correo enviado";
@@ -194,7 +194,7 @@ class AccesoModel extends Query
         $cpanelUrl = 'https://administracion.imporsuitpro.com:2083/';
         $cpanelUsername = 'imporsuitpro';
         $cpanelPassword = 'Mark2demasiado..';
-        $rootdomain = 'imporsuitpro.com';
+        $rootdomain = DOMINIO;
         $subdomainDir = 'public/new';
         $verificador = array();
 
