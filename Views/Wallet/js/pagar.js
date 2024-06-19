@@ -52,7 +52,7 @@ function cargarDashboard_wallet() {
 }
 
 // TABLAS FACTURAS
-let filtro_facturas = "todas";
+let filtro_facturas = "";
 let dataTableFacturas;
 let dataTableFacturasIsInitialized = false;
 
@@ -315,16 +315,20 @@ const listPagos = async () => {
 
 $(document).ready(function() {
   var table = $('#example').DataTable();
+  var filtro_facturas = 'todos'; // Inicialmente seleccionado 'todos'
 
   $('.filter-btn').on('click', function() {
     $('.filter-btn').removeClass('active');
     $(this).addClass('active');
 
-    var filter = $(this).data('filter');
-    if (filter === 'todos') {
+    filtro_facturas = $(this).data('filter'); // Actualizar variable con el filtro seleccionado
+
+    if (filtro_facturas === 'todos') {
       table.column(2).search('').draw();  // Suponiendo que la columna de estado es la tercera (índice 2)
     } else {
-      table.column(2).search(filter, true, false).draw();
+      table.column(2).search(filtro_facturas, true, false).draw();
     }
+
+    console.log('Filtro seleccionado: ', filtro_facturas); // Para verificar el valor de la variable
   });
 });
