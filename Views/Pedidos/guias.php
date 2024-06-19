@@ -22,7 +22,7 @@
                     <div class=" d-flex flex-row justify-content-start">
                         <label for="inputPassword3" class="col-sm-2 col-form-label">Impresiones</label>
                         <div>
-                            <select name="estado_q" class="form-control" id="estado_q">
+                            <select name="impresion" class="form-control" id="impresion">
                                 <option value=""> Todas</option>
                                 <option value="1"> Impresas </option>
                                 <option value="0"> No impresas </option>
