@@ -89,6 +89,7 @@ class GuiasModel extends Query
             $numero_guia = $prefijo . "000001";
         } else {
             $numero_guia =  $this->incrementarGuia($numero_guia);
+            $response = $this->update("UPDATE matriz set guia_generadas = guia_generadas + 1 WHERE idmatriz = ?", array(MATRIZ));
         }
         return $numero_guia;
     }
