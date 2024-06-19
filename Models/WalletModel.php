@@ -228,7 +228,7 @@ class WalletModel extends Query
         $buscar_producto = $this->select("SELECT * FROM productos WHERE id_producto = '$id_producto'");
         $id__producto = $buscar_producto[0]['id_plataforma'];
 
-        $buscar_bodega = $this->select("SELECT * FROM bodegas WHERE id = '$id_bodega'");
+        $buscar_bodega = $this->select("SELECT * FROM bodega WHERE id = '$id_bodega'");
         $id__bodega = $buscar_bodega[0]['id_plataforma'];
         $valor_full = $buscar_bodega[0]['full_filme'];
 
