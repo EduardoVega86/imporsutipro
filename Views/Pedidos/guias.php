@@ -20,8 +20,14 @@
                 </div>
                 <div class="flex-fill" style=" padding-left: 20px; width:35%">
                     <div class=" d-flex flex-row justify-content-start">
-                        <input class="input-change" type="checkbox" role="switch" id="facturas_impresas">
-                        <label class="form-check-label" for="flexSwitchCheckChecked" style="padding-left: 10px;">Facturas Impresas</label>
+                        <label for="inputPassword3" class="col-sm-2 col-form-label">Impresiones</label>
+                        <div>
+                            <select name="estado_q" class="form-control" id="estado_q">
+                                <option value=""> Todas</option>
+                                <option value="1"> Impresas </option>
+                                <option value="0"> No impresas </option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="flex-fill">
@@ -60,8 +66,8 @@
                     </div>
                 </div>
                 <div style="width: 100%;">
-                    <label  for="inputPassword3" class="col-sm-2 col-form-label">Transportadora</label>
-                    <div >
+                    <label for="inputPassword3" class="col-sm-2 col-form-label">Transportadora</label>
+                    <div>
                         <select name="transporte" id="transporte" class="form-control">
                             <option value=""> Seleccione Transportadora</option>
                             <option value="LAAR">Laar</option>
@@ -109,34 +115,35 @@
 <script>
     let fecha_inicio = "";
     let fecha_fin = "";
-        $(function() {
-            $('#daterange').daterangepicker({
-                opens: 'right',
-                locale: {
-                    format: 'YYYY-MM-DD',
-                    separator: ' - ',
-                    applyLabel: 'Aplicar',
-                    cancelLabel: 'Cancelar',
-                    fromLabel: 'Desde',
-                    toLabel: 'Hasta',
-                    customRangeLabel: 'Custom',
-                    weekLabel: 'S',
-                    daysOfWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
-                    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                    firstDay: 1
-                },autoUpdateInput: false
-            });
-
-            // Evento que se dispara cuando se aplica un nuevo rango de fechas
-            $('#daterange').on('apply.daterangepicker', function(ev, picker) {
-                // Actualiza el valor del input con el rango de fechas seleccionado
-                $(this).val(picker.startDate.format('YYYY-MM-DD') + ' - ' + picker.endDate.format('YYYY-MM-DD'));
-
-                fecha_inicio = picker.startDate.format('YYYY-MM-DD') + ' 00:00:00';
-                fecha_fin = picker.endDate.format('YYYY-MM-DD') + ' 23:59:59';
-                initDataTable();
-            });
+    $(function() {
+        $('#daterange').daterangepicker({
+            opens: 'right',
+            locale: {
+                format: 'YYYY-MM-DD',
+                separator: ' - ',
+                applyLabel: 'Aplicar',
+                cancelLabel: 'Cancelar',
+                fromLabel: 'Desde',
+                toLabel: 'Hasta',
+                customRangeLabel: 'Custom',
+                weekLabel: 'S',
+                daysOfWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                firstDay: 1
+            },
+            autoUpdateInput: false
         });
+
+        // Evento que se dispara cuando se aplica un nuevo rango de fechas
+        $('#daterange').on('apply.daterangepicker', function(ev, picker) {
+            // Actualiza el valor del input con el rango de fechas seleccionado
+            $(this).val(picker.startDate.format('YYYY-MM-DD') + ' - ' + picker.endDate.format('YYYY-MM-DD'));
+
+            fecha_inicio = picker.startDate.format('YYYY-MM-DD') + ' 00:00:00';
+            fecha_fin = picker.endDate.format('YYYY-MM-DD') + ' 23:59:59';
+            initDataTable();
+        });
+    });
 
     $(document).ready(function() {
         $("#estado_q,#transporte").change(function() {
