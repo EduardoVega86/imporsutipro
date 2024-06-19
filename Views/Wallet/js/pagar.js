@@ -109,8 +109,8 @@ const listFacturas = async () => {
 
     let content = ``;
     let cod = "";
-    let estado_guiaCheck = "";
     let estado_guia = "";
+    let check = "";
     facturas.forEach((factura, index) => {
       let tienda_nombre = procesarPlataforma(factura.tienda);
       if (factura.cod == 1) {
@@ -120,18 +120,18 @@ const listFacturas = async () => {
       }
 
       if (factura.estado_guia == 7) {
-        estado_guiaCheck = "checked";
-        estado_guia = `<input type="checkbox" class="selectCheckbox" ${estado_guiaCheck} data-factura-id_cabecera="${factura.id_cabecera}" data-factura-valor="${factura.monto_recibir}">`;
+        estado_guia = "Entregado";
+        check = `<input type="checkbox" class="selectCheckbox" data-factura-id_cabecera="${factura.id_cabecera}" data-factura-valor="${factura.monto_recibir}">`;
       } else if (factura.estado_guia == 9) {
-        estado_guiaCheck = "checked";
-        estado_guia = `<input type="checkbox" class="selectCheckbox" ${estado_guiaCheck} data-factura-id_cabecera="${factura.id_cabecera}" data-factura-valor="${factura.monto_recibir}">`;
+        estado_guia = "Devuelto";
+        check = `<input type="checkbox" class="selectCheckbox" data-factura-id_cabecera="${factura.id_cabecera}" data-factura-valor="${factura.monto_recibir}">`;
       } else {
         estado_guia = "No acreditable";
       }
 
       content += `
                 <tr>
-                    <td>${estado_guia}</td>
+                    <td>${check}</td>
                     <td>
                     <div><span claas="text-nowrap">${
                       factura.numero_factura
