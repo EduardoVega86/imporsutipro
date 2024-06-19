@@ -12,30 +12,13 @@
         </div> -->
         <div class="d-flex flex-column justify-content-between">
             <div class="d-flex flex-row " style="width: 100%;">
-                <div class="d-flex flex-row align-items-end" style="width: 40%;">
-                    <div class="flex-fill" style="margin: 0; padding-left: 0;">
-                        <h6>Seleccione fecha de inicio:</h6>
-                        <div class="input-group date" id="datepickerInicio">
-                            <input type="text" class="form-control" name="fechaInicio">
-                            <div class="input-group-append">
-                                <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></span>
-                            </div>
+                <div class="d-flex flex-row align-items-end" style="width: 40%; margin-top: 20px;">
+                    <div class="flex-fill">
+                        <h6>Seleccione el rango de fechas:</h6>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="daterange">
+                            <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></span>
                         </div>
-                    </div>
-                    <div class="flex-fill" style="padding-left: 15px; ">
-                        <h6>Seleccione fecha de fin:</h6>
-                        <div class="input-group date" id="datepickerFin">
-                            <input type="text" class="form-control" name="fechaFin">
-                            <div class="input-group-append">
-                                <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div style=" padding-top: 10px; padding-left: 10px;">
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-info waves-effect waves-light">
-                                Buscar <span class="fa fa-search"></span></button>
-                        </span>
                     </div>
                 </div>
                 <div class="flex-fill" style=" padding-left: 20px; width:35%">

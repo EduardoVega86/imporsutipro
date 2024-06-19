@@ -51,7 +51,7 @@ const listGuias = async () => {
 
     let content = ``;
     let impresiones = "";
-    let novedad ="";
+    let novedad = "";
     guias.forEach((guia, index) => {
       let transporte = guia.id_transporte;
       let transporte_content = "";
@@ -81,7 +81,7 @@ const listGuias = async () => {
       let ciudadArray = ciudadCompleta.split("/");
       let ciudad = ciudadArray[0];
 
-      if(guia.estado_guia_sistema == 14 ){
+      if (guia.estado_guia_sistema == 14) {
         novedad = `<button class="btn btn_novedades" onclick="controlar_novedad('${guia.numero_guia}')">Controlar Novedad</button>`;
       }
 
@@ -355,8 +355,45 @@ function anular_guia(numero_guia) {
   });
 }
 //modal novedades
-function controlar_novedad(numero_guia){
+function controlar_novedad(numero_guia) {
   $("#numero_guiaNovedad").val(numero_guia);
-  $("#traking_novedad").attr("href", "https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia=" + numero_guia);
+  $("#traking_novedad").attr(
+    "href",
+    "https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia=" +
+      numero_guia
+  );
   $("#controlNovedadesModal").modal("show");
 }
+
+//filtro fechas
+$(function () {
+  $("#daterange").daterangepicker({
+    opens: "right",
+    locale: {
+      format: "YYYY-MM-DD",
+      separator: " - ",
+      applyLabel: "Aplicar",
+      cancelLabel: "Cancelar",
+      fromLabel: "Desde",
+      toLabel: "Hasta",
+      customRangeLabel: "Custom",
+      weekLabel: "S",
+      daysOfWeek: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+      monthNames: [
+        "Enero",
+        "Febrero",
+        "Marzo",
+        "Abril",
+        "Mayo",
+        "Junio",
+        "Julio",
+        "Agosto",
+        "Septiembre",
+        "Octubre",
+        "Noviembre",
+        "Diciembre",
+      ],
+      firstDay: 1,
+    },
+  });
+});
