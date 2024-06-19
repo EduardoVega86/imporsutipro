@@ -29,7 +29,7 @@ class PedidosModel extends Query
             $sql .= " AND estado_guia_sistema = '$estado'";
         }
 
-        if (!empty($impreso)) {
+        if ($impreso !== '') {
             $sql .= " AND impreso = '$impreso'";
         }
 
