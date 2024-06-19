@@ -18,7 +18,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex-fill" style="width:35%; padding-top: 8px;">
+                <div class="flex-fill" style="width: 100%; padding-top: 8px;">
                     <div class=" d-flex flex-column justify-content-start">
                         <label for="inputPassword3" class="col-sm-2 col-form-label">Impresiones</label>
                         <div>
@@ -30,7 +30,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex-fill" style="width:35%; padding-top: 8px;">
+                <div class="flex-fill" style="width: 100%; padding-top: 8px; ">
                     <div style="width: 100%;">
                         <label for="tienda_q" class="col-form-label">Tienda</label>
                         <select id="tienda_q" class="form-control">
