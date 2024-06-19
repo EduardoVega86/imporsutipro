@@ -17,7 +17,7 @@
     }
 
     .custom-container-fluid h1 {
-        color: white;
+        color: <?php echo COLOR_LETRAS;?>;
         margin-bottom: 20px;
     }
 
@@ -27,7 +27,7 @@
 
     .form-group label {
         display: block;
-        color: white;
+        color: <?php echo COLOR_LETRAS;?>;
         margin-bottom: 5px;
     }
 
@@ -60,12 +60,12 @@
     }
 
     .form-group label {
-        color: white;
+        color: <?php echo COLOR_LETRAS;?>;
         /* Cambiar el color de la etiqueta a blanco */
     }
 
     .form-control-file {
-        color: white;
+        color: <?php echo COLOR_LETRAS;?>;
         /* Cambiar el color del texto del input file a blanco */
     }
 
