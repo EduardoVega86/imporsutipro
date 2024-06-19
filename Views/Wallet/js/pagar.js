@@ -288,6 +288,7 @@ const listPagos = async () => {
     const pagos = pagos_global;
     let content = ``;
     let tipo = "";
+    console.log("pagos: " + pagos);
     pagos.forEach((pago, index) => {
       console.log("pago1" + pago.fecha);
 
@@ -320,6 +321,8 @@ $(document).ready(function() {
 
     filtro_facturas = $(this).data('filter'); // Actualizar variable con el filtro seleccionado
 
-    initDataTablePagos();
+    console.log('Filtro seleccionado: ', filtro_facturas); // Para verificar el valor de la variable
+
+    initDataTableFacturas()
   });
 });
