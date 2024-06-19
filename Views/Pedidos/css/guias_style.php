@@ -61,13 +61,20 @@
 </style>
 
 <style>
-    .filtros_producos {
+    .primer_seccionFiltro {
+        display: flex;
+        flex-direction: row;
+    }
+    .segunda_seccionFiltro {
         display: flex;
         flex-direction: row;
     }
 
     @media (max-width: 768px) {
-        .filtros_producos {
+        .primer_seccionFiltro {
+            flex-direction: column;
+        }
+        .segunda_seccionFiltro {
             flex-direction: column;
         }
     }

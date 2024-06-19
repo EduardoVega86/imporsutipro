@@ -7,11 +7,8 @@
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
         <h2 class="text-center mb-4">Guias</h2>
-        <!-- <div class="filtros_producos justify-content-between align-items-center mb-3">
-
-        </div> -->
         <div class="d-flex flex-column justify-content-between">
-            <div class="d-flex flex-row " style="width: 100%;">
+            <div class="primer_seccionFiltro" style="width: 100%;">
                 <div class="d-flex flex-row align-items-end" style="width: 40%; margin-top: 20px;">
                     <div class="flex-fill">
                         <h6>Seleccione el rango de fechas:</h6>
@@ -32,7 +29,7 @@
                 </div>
             </div>
 
-            <div class="d-flex flex-row">
+            <div class="segunda_seccionFiltro">
                 <div class="d-flex flex-column" style="width: 100%;">
                     <div class="d-flex flex-row justify-content-start">
                         <div style="width: 100%;">
