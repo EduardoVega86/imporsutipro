@@ -33,7 +33,7 @@ class PedidosModel extends Query
             $sql .= " AND impreso = '$impreso'";
         }
 
-        $sql .= " ORDER BY `facturas_cot`.`numero_factura` DESC;";
+        $sql .= " ORDER BY fc.numero_factura DESC;";
 
         return $this->select($sql);
     }
