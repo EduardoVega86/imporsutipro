@@ -102,6 +102,8 @@ class AccesoModel extends Query
                             $mail->addAddress($correo);
                             $mail->Subject = 'Registro en Imporsuitpro';
                             $mail->Body = $message_body;
+                            $c = $this->crearSubdominio($nombre_tienda[0]['nombre_tienda']);
+                            print_r($c);
                             if ($mail->send()) {
                                 //echo "Correo enviado";
                             } else {
@@ -156,8 +158,6 @@ class AccesoModel extends Query
                 $_SESSION['id'] = $datos_usuario[0]['id_users'];
                 $_SESSION['tienda'] = $nombre_tienda[0]['nombre_tienda'];
                 $_SESSION['matriz'] = $this->obtenerMatriz();
-                $c = $this->crearSubdominio($nombre_tienda[0]['nombre_tienda']);
-                print_r($c);
             } else {
                 $response = $this->initialResponse();
                 $response['status'] = 401;
