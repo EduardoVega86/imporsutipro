@@ -4,6 +4,9 @@
 <div class="full-screen-container">
     <div class="custom-container-fluid mt-4">
         <h1>Importación Masiva</h1>
+        <div class="download-button-container">
+            <a href="ruta/a/tu/archivo.xlsx" class="btn btn-success download-button">Descargar Plantilla</a>
+        </div>
         <form id="uploadForm" enctype="multipart/form-data">
 
             <div class="form-group w-100 hidden-field" id="bodega-field">

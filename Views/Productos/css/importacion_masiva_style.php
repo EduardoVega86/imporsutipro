@@ -60,10 +60,24 @@
     }
 
     .form-group label {
-        color: white; /* Cambiar el color de la etiqueta a blanco */
+        color: white;
+        /* Cambiar el color de la etiqueta a blanco */
     }
-    
+
     .form-control-file {
-        color: white; /* Cambiar el color del texto del input file a blanco */
+        color: white;
+        /* Cambiar el color del texto del input file a blanco */
+    }
+
+    .download-button-container {
+        text-align: left;
+        /* Alinea el botón a la izquierda */
+    }
+
+    .download-button {
+        font-size: 0.9rem;
+        /* Reduce el tamaño de la fuente */
+        padding: 0.5rem 1rem;
+        /* Ajusta el relleno del botón */
     }
 </style>
