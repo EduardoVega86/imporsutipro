@@ -118,7 +118,7 @@ const listFacturas = async () => {
       } else {
         cod = "Sin Recaudo";
       }
-
+      check = "";
       if (factura.estado_guia == 7) {
         estado_guia = "Entregado";
         check = `<input type="checkbox" class="selectCheckbox" data-factura-id_cabecera="${factura.id_cabecera}" data-factura-valor="${factura.monto_recibir}">`;
