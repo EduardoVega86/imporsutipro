@@ -119,7 +119,7 @@
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
             <div class="filter-container">
-                <button class="filter-btn" data-filter="todos">Todas</button>
+                <button class="filter-btn active" data-filter="todos">Todas</button>
                 <button class="filter-btn" data-filter="pendientes">Pendientes</button>
                 <button class="filter-btn" data-filter="abonadas">Abonadas</button>
                 <button class="filter-btn" data-filter="devoluciones">Devoluciones</button>

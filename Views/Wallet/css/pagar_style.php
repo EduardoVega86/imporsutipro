@@ -95,9 +95,15 @@
         margin-right: 5px;
         cursor: pointer;
         border-radius: 5px;
+        transition: background-color 0.3s;
     }
 
     .filter-btn:hover {
         background-color: #0056b3;
+    }
+
+    .filter-btn.active {
+        background-color: #0056b3;
+        font-weight: bold;
     }
 </style>

@@ -317,6 +317,9 @@ $(document).ready(function() {
   var table = $('#example').DataTable();
 
   $('.filter-btn').on('click', function() {
+    $('.filter-btn').removeClass('active');
+    $(this).addClass('active');
+
     var filter = $(this).data('filter');
     if (filter === 'todos') {
       table.column(2).search('').draw();  // Suponiendo que la columna de estado es la tercera (índice 2)
