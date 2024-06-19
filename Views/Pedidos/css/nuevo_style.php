@@ -24,18 +24,8 @@
         padding: 20px;
     }
 
-    .img-container {
-        flex: 0 0 48%;
-        max-width: 48%;
-        margin-bottom: 16px;
-        /* Ajuste de margen inferior */
-    }
-
-    @media (max-width: 768px) {
-        .img-container {
-            flex: 0 0 100%;
-            max-width: 100%;
-        }
+    .img-container img {
+        max-width: 100px;
     }
 
     /* animacion y diseño de transportadoras y precio transportador */
