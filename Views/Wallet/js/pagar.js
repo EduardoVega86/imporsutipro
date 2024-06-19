@@ -52,7 +52,7 @@ function cargarDashboard_wallet() {
 }
 
 // TABLAS FACTURAS
-let filtro_facturas = "";
+let filtro_facturas = "todos";
 let dataTableFacturas;
 let dataTableFacturasIsInitialized = false;
 
@@ -314,7 +314,6 @@ const listPagos = async () => {
 };
 
 $(document).ready(function() {
-  var filtro_facturas = 'todos'; // Inicialmente seleccionado 'todos'
 
   $('.filter-btn').on('click', function() {
     $('.filter-btn').removeClass('active');
