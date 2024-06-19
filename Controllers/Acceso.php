@@ -12,6 +12,7 @@ class Acceso extends Controller
         $this->views->render($this, "recovery");
     }
 
+   
 
     ///Funciones
     public function login()
@@ -56,4 +57,7 @@ class Acceso extends Controller
     $exists = $this->model->validarTiendas($tienda['tienda']);
     echo json_encode(['exists' => $exists]);
 }
+
+
+ 
 }

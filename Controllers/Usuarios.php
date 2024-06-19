@@ -19,6 +19,11 @@ class Usuarios extends Controller
         $this->views->render($this, "roles");
     }
 
+      public function importacion()
+    {
+        $this->views->render($this, "importacion");
+    }
+    
     public function cargarUsuarios()
     {   
         $data = $this->model->cargarUsuarios();
@@ -60,5 +65,80 @@ class Usuarios extends Controller
     {
         $response = $this->model->obtener_userGroup($_SESSION['id_plataforma']);
         echo json_encode($response);
+    }
+    
+    public function importarExcelPlataformas()
+    {
+        
+    // Obtener el ID de inventario desde el formulario
+    //$id_inventario = $_POST['id_bodega'];
+    
+    // Verificar y manejar el archivo subido
+    if (isset($_FILES['archivo']) && $_FILES['archivo']['error'] === UPLOAD_ERR_OK) {
+        $fileTmpPath = $_FILES['archivo']['tmp_name'];
+        $fileName = $_FILES['archivo']['name'];
+        $fileSize = $_FILES['archivo']['size'];
+        $fileType = $_FILES['archivo']['type'];
+        $fileNameCmps = explode(".", $fileName);
+        $fileExtension = strtolower(end($fileNameCmps));
+
+        // Permitir solo archivos Excel
+        $allowedfileExtensions = array('xlsx', 'xls');
+        if (in_array($fileExtension, $allowedfileExtensions)) {
+            $inputFileType = PHPExcel_IOFactory::identify($fileTmpPath);
+            $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+            $spreadsheet = $objReader->load($fileTmpPath);
+            $sheet = $spreadsheet->getActiveSheet();
+            $data = $sheet->toArray();
+            $date_added = date("Y-m-d H:i:s");
+            // Aquí puedes procesar los datos del Excel
+            $fila=0;
+            $agregados=0;
+            //echo count($data);
+            foreach ($data as $row) {
+               // echo $fila;
+                if($fila>0){
+                
+                   //print_r ($data[$fila]); 
+                 //  $response = $this->model->agregarProducto($codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $_SESSION['id_plataforma'], $stock_inicial, $bodega, $pcp, $pvp, $pref);
+              $response = $this->model->registro($data[$fila][0], $data[$fila][1], $data[$fila][2], $data[$fila][3], 'import.1', $data[$fila][4]);;
+             // echo $response ['status'];
+              if ($response ['status']==200){
+               $agregados=$agregados+1;   
+              }
+               //print_r($response);
+               
+               // echo $data[$fila][0];
+                //echo 'fila';
+                }
+                // $row es un array que contiene todas las celdas de una fila
+              //  print_r($row); // Ejemplo de impresión de la fila
+                $fila++;
+            }
+            if ($agregados>0){
+                $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = $agregados.' productos importados correctamente';
+            }else{
+                $response['status'] = 500;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'NO se agregaron productos, revice el archvio e inténtelo nuevamente'; 
+            }
+            // Puedes almacenar la información procesada en la base de datos o manejarla como desees
+            //$response = $this->model->importacion_masiva($data);
+           // echo json_encode($response);
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Solo se permiten archivos Excel (xlsx, xls).';
+           // return json_encode(['error' => 'Solo se permiten archivos Excel (xlsx, xls).']);
+        }
+    } else {
+         $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al subir el archivo.';
+        //echo json_encode(['error' => 'Error al subir el archivo.']);
+    }
+    echo json_encode($response);
     }
 }
