@@ -33,21 +33,21 @@ class ManifiestosModel extends Query
         if (empty($resumen)) {
             return ['status' => '500', 'message' => 'No se encontraron datos para generar el PDF.'];
         }
-        
-         
-            $sql_bodega = "SELECT  b.nombre as bodega, b.contacto, b.responsable, b.direccion FROM `facturas_cot` fc, detalle_fact_cot dfc, inventario_bodegas ib, bodega b WHERE numero_guia in $string and fc.id_factura=dfc.id_factura  and ib.id_inventario=dfc.id_inventario and ib.bodega=b.id limit 1;";
-            //echo $sql_bodega;
-       //  echo $sql_factura;$id_factura
-            $bodega = $this->select($sql_bodega);
-            $bodega_nombre = $bodega[0]['bodega'];
-            $telefono = $bodega[0]['contacto'];
-            $responsable = $bodega[0]['responsable'];
-            $direccion = $bodega[0]['direccion'];
-            
-        
-       // $html ='<h3 style="text-align: center;>tecto</h3>';
+
+
+        $sql_bodega = "SELECT  b.nombre as bodega, b.contacto, b.responsable, b.direccion FROM `facturas_cot` fc, detalle_fact_cot dfc, inventario_bodegas ib, bodega b WHERE numero_guia in $string and fc.id_factura=dfc.id_factura  and ib.id_inventario=dfc.id_inventario and ib.bodega=b.id limit 1;";
+        //echo $sql_bodega;
+        //  echo $sql_factura;$id_factura
+        $bodega = $this->select($sql_bodega);
+        $bodega_nombre = $bodega[0]['bodega'];
+        $telefono = $bodega[0]['contacto'];
+        $responsable = $bodega[0]['responsable'];
+        $direccion = $bodega[0]['direccion'];
+
+
+        // $html ='<h3 style="text-align: center;>tecto</h3>';
         $html = $this->generarTablaManifiesto($resumen, $bodega_nombre, $direccion, $telefono, $responsable);
-//echo $html;
+        //echo $html;
         // Generar el PDF con Dompdf
         $dompdf = new Dompdf();
         $dompdf->loadHtml($html);
@@ -106,6 +106,8 @@ class ManifiestosModel extends Query
                 return $guia['numero_guia'];
             }, $guias);
 
+            $update = "UPDATE facturas_cot SET impreso = 1 WHERE numero_factura IN $string";
+            $this->select($update);
 
 
             $resumen = $this->select($sql);
@@ -257,17 +259,17 @@ class ManifiestosModel extends Query
         return $html;
     }
 
-    public function generarTablaManifiesto($data , $bodega_nombre, $direccion, $telefono, $responsable)
+    public function generarTablaManifiesto($data, $bodega_nombre, $direccion, $telefono, $responsable)
     {
         $fecha = date('Y-m-d H:i:s'); // Obtén la fecha y hora actual
         $generator = new BarcodeGeneratorHTML();
-        
-        $id_usuario=$_SESSION['id'];
+
+        $id_usuario = $_SESSION['id'];
         $sql_usuario = "SELECT nombre_users FROM users WHERE id_users = $id_usuario";
-        $usuario = $this->select($sql_usuario);        
+        $usuario = $this->select($sql_usuario);
         $nombre_usuario = $usuario[0]['nombre_users'];
-        
-        
+
+
         $html = '
         <style>
             table {
@@ -314,7 +316,7 @@ class ManifiestosModel extends Query
          <p style="text-align: center; font-size:20px"><strong>' . strtoupper($bodega_nombre) . '</strong></p>
              
  <p style="text-align: center; font-size:12px">' . strtoupper($direccion) . '</p>
-     <p style="text-align: center; font-size:12px">' . strtoupper($responsable).' / '. strtoupper($telefono) . '</p>
+     <p style="text-align: center; font-size:12px">' . strtoupper($responsable) . ' / ' . strtoupper($telefono) . '</p>
          
         <table>
          <tr>
@@ -340,11 +342,15 @@ class ManifiestosModel extends Query
             $html .= '<tr>';
             $html .= '<td data-label="ID Producto">' . $numero . '</td>';
             $html .= '<td data-label="Documento">' . $codigoBarras . '</br>' . htmlspecialchars($row['numero_guia']) . '</td>';
-             $html .= '<td data-label="Cliente">' . htmlspecialchars($row['nombre']) . '</td>';
+            $html .= '<td data-label="Cliente">' . htmlspecialchars($row['nombre']) . '</td>';
             $html .= '<td data-label="Direccion">' . htmlspecialchars($row['c_principal']) . ' ' . htmlspecialchars($row['c_secundaria']) . '</td>';
             $html .= '<td data-label="No Productos"> ' . htmlspecialchars($row['numero_productos']) . '</td>';
-            if ($row['cod']==1){ $monto_cobrar=htmlspecialchars($row['monto_factura']); }else{$monto_cobrar=0;} 
-            $html .= '<td data-label="Monto a Cobrar">$ ' . number_format($monto_cobrar,2) . '</td>';
+            if ($row['cod'] == 1) {
+                $monto_cobrar = htmlspecialchars($row['monto_factura']);
+            } else {
+                $monto_cobrar = 0;
+            }
+            $html .= '<td data-label="Monto a Cobrar">$ ' . number_format($monto_cobrar, 2) . '</td>';
             $html .= '</tr>';
         }
         $html .= '</table>';
