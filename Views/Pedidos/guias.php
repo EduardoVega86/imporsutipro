@@ -32,7 +32,7 @@
             <div class="segunda_seccionFiltro">
                 <div class="d-flex flex-column" style="width: 100%;">
                     <div class="d-flex flex-row justify-content-start">
-                        <div style="width: 100%;" style="padding-right: 20px;">
+                        <div style="width: 100%;">
                             <label for="tienda_q" class="col-form-label">Tienda</label>
                             <select id="tienda_q" class="form-control">
                                 <option value="">Selecciona una Tienda</option>
@@ -46,8 +46,8 @@
                     </div>
                 </div>
                 <div style="width: 100%;">
-                    <label style="padding-right: 20px;" for="inputPassword3" class="col-sm-2 col-form-label">Estado</label>
-                    <div style="padding-right: 20px;">
+                    <label for="inputPassword3" class="col-sm-2 col-form-label">Estado</label>
+                    <div>
                         <select name="estado_q" class="form-control" id="estado_q">
                             <option value=""> Seleccione Estado </option>
                             <option value="8"> Anulado </option>

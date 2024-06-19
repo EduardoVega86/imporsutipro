@@ -68,6 +68,7 @@
     .segunda_seccionFiltro {
         display: flex;
         flex-direction: row;
+        gap : 10px;
     }
     .filtro_fecha{
         width: 40%; 
