@@ -127,7 +127,7 @@
                     daysOfWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
                     monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
                     firstDay: 1
-                }
+                },autoUpdateInput: false
             });
 
             // Evento que se dispara cuando se aplica un nuevo rango de fechas
