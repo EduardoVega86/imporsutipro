@@ -38,6 +38,11 @@ class Wallet extends Controller
         $this->views->render($this, "pagar");
     }
 
+    public function datos_bancarios()
+    {
+        $this->views->render($this, "datos_bancarios");
+    }
+
     ///
     public function obtenerDatos()
     {

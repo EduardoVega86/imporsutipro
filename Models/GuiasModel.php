@@ -244,4 +244,10 @@ class GuiasModel extends Query
 
         return $response;
     }
+
+    public function obtenerTiendas()
+    {
+        $sql = "SELECT * FROM tiendas";
+        return $this->select($sql);
+    }
 }

@@ -242,4 +242,11 @@ class WalletModel extends Query
 
         return $full;
     }
+
+    public function obtenerDatosBancarios($plataformas)
+    {
+        $sql = "SELECT * from datos_banco_usuarios ";
+        $response =  $this->select($sql);
+        return json_encode($response);
+    }
 }
