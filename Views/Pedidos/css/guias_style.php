@@ -72,7 +72,7 @@
         gap : 10px;
     }
     .filtro_fecha{
-        width: 40%; 
+        width: 100%; 
         margin-top: 20px;
     }
 
