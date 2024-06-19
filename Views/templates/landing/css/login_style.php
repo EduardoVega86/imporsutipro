@@ -99,4 +99,16 @@
         margin: 5px 0;
         /* Añadir margen para separarlo de los enlaces */
     }
+
+    .password-toggle {
+        position: relative;
+    }
+
+    .password-toggle-icon {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        cursor: pointer;
+    }
 </style>
