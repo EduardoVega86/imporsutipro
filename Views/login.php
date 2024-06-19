@@ -18,7 +18,7 @@
                 <label for="contrasena">Contraseña</label>
                 <input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="Contraseña">
                 <span class="password-toggle-icon" id="togglePassword" onclick="togglePasswordVisibility()">
-                    <i class="fa-solid fa-eye"></i>
+                🙈
                 </span>
             </div>
             <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
@@ -95,12 +95,11 @@
         const toggleIcon = document.getElementById('togglePassword').firstElementChild;
         if (passwordField.type === 'password') {
             passwordField.type = 'text';
-            toggleIcon.classList.remove('fa-eye');
-            toggleIcon.classList.add('fa-eye-slash');
+            toggleIcon.textContent = '🙈'; // Ícono con la raya
         } else {
             passwordField.type = 'password';
-            toggleIcon.classList.remove('fa-eye-slash');
-            toggleIcon.classList.add('fa-eye');
+            passwordField.type = 'password';
+                toggleIcon.textContent = '👁️'; // Ícono sin la raya
         }
     }
 </script>
