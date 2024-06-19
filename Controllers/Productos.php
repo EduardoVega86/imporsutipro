@@ -432,13 +432,20 @@ class Productos extends Controller
  $date_added = date("Y-m-d H:i:s");
             // Aquí puedes procesar los datos del Excel
             $fila=0;
+            $agregados=0;
+            //echo count($data);
             foreach ($data as $row) {
+               // echo $fila;
                 if($fila>0){
                 
-                   print_r ($data[$fila]); 
+                   //print_r ($data[$fila]); 
                  //  $response = $this->model->agregarProducto($codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $_SESSION['id_plataforma'], $stock_inicial, $bodega, $pcp, $pvp, $pref);
                $response = $this->model->agregarProducto($data[$fila][0], $data[$fila][1], $data[$fila][2], $data[$fila][3], $data[$fila][4], $data[$fila][5], $data[$fila][6], '1', '1', $date_added, $data[$fila][7], '1', '1', '1', '0', '0', $_SESSION['id_plataforma'], $data[$fila][8], $id_inventario, $data[$fila][9], $data[$fila][10], $data[$fila][11]);
-               print_r($response);
+             // echo $response ['status'];
+              if ($response ['status']==200){
+               $agregados=$agregados+1;   
+              }
+               //print_r($response);
                
                // echo $data[$fila][0];
                 //echo 'fila';
@@ -447,15 +454,31 @@ class Productos extends Controller
               //  print_r($row); // Ejemplo de impresión de la fila
                 $fila++;
             }
-
+            if ($agregados>0){
+                $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = $agregados.' productos importados';
+            }else{
+                $response['status'] = 500;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'NO se agregaron productos, revice el archvio e inténtelo nuevamente'; 
+            }
             // Puedes almacenar la información procesada en la base de datos o manejarla como desees
-            $response = $this->model->importacion_masiva($data);
+            //$response = $this->model->importacion_masiva($data);
            // echo json_encode($response);
         } else {
-            echo json_encode(['error' => 'Solo se permiten archivos Excel (xlsx, xls).']);
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Solo se permiten archivos Excel (xlsx, xls).';
+           // return json_encode(['error' => 'Solo se permiten archivos Excel (xlsx, xls).']);
         }
     } else {
-        echo json_encode(['error' => 'Error al subir el archivo.']);
+         $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al subir el archivo.';
+        //echo json_encode(['error' => 'Error al subir el archivo.']);
     }
+    echo json_encode($response);
     }
+    
 }
