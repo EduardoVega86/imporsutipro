@@ -238,7 +238,7 @@
                         showConfirmButton: false,
                         timer: 2000
                     }).then(() => {
-                        window.location.href = '' + SERVERURL + 'dashboard';
+                        /* window.location.href = '' + SERVERURL + 'dashboard'; */
                     });
                 }
             })
