@@ -9,6 +9,7 @@ class Wallet extends Controller
             header("Location:  " . SERVERURL . "login");
     }
     ///vistas
+
     public function index()
     {
         $this->views->render($this, "index");
@@ -16,6 +17,7 @@ class Wallet extends Controller
             header("Location: /wallet/billetera");
         }
     }
+
     public function billetera()
     {
         $this->views->render($this, "billetera");
@@ -36,7 +38,6 @@ class Wallet extends Controller
         $this->views->render($this, "pagar");
     }
 
-
     ///
     public function obtenerDatos()
     {
@@ -51,6 +52,7 @@ class Wallet extends Controller
         $datos = $this->model->obtenerDatos($tienda);
         echo json_encode($datos);
     }
+
     public function obtenerFacturas()
     {
         $tienda = $_POST['tienda'];
