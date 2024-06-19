@@ -366,34 +366,11 @@ function controlar_novedad(numero_guia) {
 }
 
 //filtro fechas
-$(function () {
-  $("#daterange").daterangepicker({
-    opens: "right",
-    locale: {
-      format: "YYYY-MM-DD",
-      separator: " - ",
-      applyLabel: "Aplicar",
-      cancelLabel: "Cancelar",
-      fromLabel: "Desde",
-      toLabel: "Hasta",
-      customRangeLabel: "Custom",
-      weekLabel: "S",
-      daysOfWeek: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
-      monthNames: [
-        "Enero",
-        "Febrero",
-        "Marzo",
-        "Abril",
-        "Mayo",
-        "Junio",
-        "Julio",
-        "Agosto",
-        "Septiembre",
-        "Octubre",
-        "Noviembre",
-        "Diciembre",
-      ],
-      firstDay: 1,
-    },
+$(document).ready(function() {
+  // Inicializar Flatpickr
+  $('#daterange').flatpickr({
+      mode: 'range',
+      locale: 'es',
+      dateFormat: 'Y-m-d'
   });
 });
