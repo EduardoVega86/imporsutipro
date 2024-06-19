@@ -26,7 +26,7 @@
 
             var formData = new FormData();
             formData.append('archivo', $('#fileInput')[0].files[0]); // Añadir archivo al FormData
-            formData.append('id_bodega', $('#bodega_importacionMasiva').val()); // Añadir ID de bodega al FormData
+           // formData.append('id_bodega', $('#bodega_importacionMasiva').val()); // Añadir ID de bodega al FormData
 
             $.ajax({
                 url: '<?php echo SERVERURL; ?>Usuarios/importarExcel', // Ruta del controlador que manejará el archivo

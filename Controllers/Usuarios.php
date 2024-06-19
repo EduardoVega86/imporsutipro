@@ -1,4 +1,6 @@
 <?php
+require 'vendor/autoload.php';
+
 class Usuarios extends Controller
 {
     public function __construct()
@@ -83,7 +85,7 @@ class Usuarios extends Controller
     {
         
     // Obtener el ID de inventario desde el formulario
-   // $id_inventario = $_POST['id_bodega'];
+    //$id_inventario = $_POST['id_bodega'];
     
     // Verificar y manejar el archivo subido
     if (isset($_FILES['archivo']) && $_FILES['archivo']['error'] === UPLOAD_ERR_OK) {
@@ -107,20 +109,18 @@ class Usuarios extends Controller
             $fila=0;
             $agregados=0;
             //echo count($data);
+            $prefix = 'tmp_';
+    $timestamp = time();
+    $uniqueId = uniqid();
+    $tienda = $prefix . $timestamp . '_' . $uniqueId;
+    
             foreach ($data as $row) {
                // echo $fila;
                 if($fila>0){
                 
                    //print_r ($data[$fila]); 
                  //  $response = $this->model->agregarProducto($codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $_SESSION['id_plataforma'], $stock_inicial, $bodega, $pcp, $pvp, $pref);
-              $response = $this->model->registro($nombre, $correo, $pais, $telefono, $contrasena, $tienda);
-              
-              $prefix = 'tmp_';
-        $timestamp = time();
-        $uniqueId = uniqid();
-        $tienda = $prefix . $timestamp . '_' . $uniqueId;
-        
-                    $response = $this->model->agregarProducto($data[$fila][0], $data[$fila][1], $data[$fila][2], $data[$fila][3], 'Plataforma.1', $tienda);
+              $response = $this->model->registro($data[$fila][0], $data[$fila][1], $data[$fila][2], $data[$fila][3], 'import.1', $tienda);;
              // echo $response ['status'];
               if ($response ['status']==200){
                $agregados=$agregados+1;   
