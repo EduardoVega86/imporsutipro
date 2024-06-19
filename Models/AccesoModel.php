@@ -200,19 +200,6 @@ class AccesoModel extends Query
 
         $apiUrl = $cpanelUrl . 'execute/SubDomain/addsubdomain?domain=' . $nombre_tienda . '&rootdomain=' . $rootdomain . '&dir=' . $subdomainDir;
         $this->cpanelRequest($apiUrl, $cpanelUsername, $cpanelPassword);
-
-        $contador = 0;
-        foreach ($verificador as $key => $value) {
-            if ($value == 1) {
-                $contador++;
-            }
-        }
-
-        if ($contador == 1) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     public function cpanelRequest($url, $username, $password, $postFields = null)
@@ -232,8 +219,6 @@ class AccesoModel extends Query
             echo 'Error en la solicitud cURL: ' . curl_error($ch);
         } else {
             $responseData = json_decode($response, true);
-            $verifica = $responseData['status'] ?? 0;
-            array_push($verificador, $verifica);
         }
         curl_close($ch);
     }
