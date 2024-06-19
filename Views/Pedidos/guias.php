@@ -32,9 +32,9 @@
             <div class="segunda_seccionFiltro">
                 <div class="d-flex flex-column" style="width: 100%;">
                     <div class="d-flex flex-row justify-content-start">
-                        <div style="width: 100%;">
-                            <label style="padding-right: 20px;" for="tienda_q" class="col-form-label">Tienda</label>
-                            <select style="padding-right: 20px;" id="tienda_q" class="form-control">
+                        <div style="width: 100%;" style="padding-right: 20px;">
+                            <label for="tienda_q" class="col-form-label">Tienda</label>
+                            <select id="tienda_q" class="form-control">
                                 <option value="">Selecciona una Tienda</option>
 
                             </select>
