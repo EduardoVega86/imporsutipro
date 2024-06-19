@@ -66,25 +66,47 @@
         flex-direction: row;
         gap: 20px;
     }
+
     .segunda_seccionFiltro {
         display: flex;
         flex-direction: row;
-        gap : 10px;
+        gap: 10px;
     }
-    .filtro_fecha{
-        width: 100%; 
+
+    .filtro_fecha {
+        width: 100%;
         margin-top: 20px;
+    }
+
+    .filtro_impresar {
+        width: 100%;
+        padding-top: 8px;
+    }
+
+    .filtro_tienda {
+        width: 100%;
+        padding-top: 8px;
     }
 
     @media (max-width: 768px) {
         .primer_seccionFiltro {
             flex-direction: column;
         }
+
         .segunda_seccionFiltro {
             flex-direction: column;
         }
-        .filtro_fecha{
+
+        .filtro_fecha {
             width: 100%;
+        }
+
+        .filtro_impresar {
+            padding-top: 0;
+        }
+
+        .filtro_tienda {
+            padding-top: 0;
         }
     }
 
