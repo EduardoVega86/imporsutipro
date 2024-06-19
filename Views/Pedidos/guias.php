@@ -134,19 +134,6 @@
             $('#daterange').val(start.format('YYYY-MM-DD HH:mm:ss') + ' - ' + end.format('YYYY-MM-DD HH:mm:ss'));
         });
     });
-
-    function getFormattedDates() {
-        let rangoFechas = $("#daterange").val();
-        let fechas = rangoFechas.split(" - ");
-        let fecha_inicio = moment(fechas[0]).startOf('day').format('YYYY-MM-DD HH:mm:ss');
-        let fecha_fin = moment(fechas[1]).endOf('day').format('YYYY-MM-DD HH:mm:ss');
-
-        const formData = new FormData();
-        formData.append("fecha_inicio", fecha_inicio);
-        formData.append("fecha_fin", fecha_fin);
-
-        return formData;
-    }
 </script>
 <script src="<?php echo SERVERURL ?>/Views/Pedidos/js/guias.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
