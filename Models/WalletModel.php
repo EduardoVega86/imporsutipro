@@ -90,7 +90,7 @@ class WalletModel extends Query
         if ($valor == 0) {
             return;
         }
-        $sql_select = "SELECT * FROM cabecera_cuenta_pagar WHERE id_cabecera = ?";
+        $sql_select = "SELECT * FROM `cabecera_cuenta_pagar` WHERE id_cabecera = $id_cabecera";
         $response =  $this->select($sql_select);
         $saldo = $response[0]['valor_pendiente'];
         $guia = $response[0]['guia'];
