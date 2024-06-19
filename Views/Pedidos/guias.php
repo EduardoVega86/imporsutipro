@@ -53,6 +53,12 @@
                     <div style="padding-left: 20px;">
                         <select onchange="buscar_estado(this.value)" name="estado_q" class="form-control" id="estado_q">
                             <option value="0"> Seleccione Estado </option>
+                            <option value="1"> Anulado </option>
+                            <option value="2"> Por Recolectar </option>
+                            <option value="5"> En Transito </option>
+                            <option value="7"> Entregado </option>
+                            <option value="14"> Con Novedad </option>
+                            <option value="9"> Devuelto </option>
                         </select>
                     </div>
                 </div>
@@ -61,10 +67,10 @@
                     <div style="padding-left: 20px;">
                         <select name="transporte" id="transporte" class="form-control">
                             <option value="0"> Seleccione Transportadora</option>
-                            <option value="LAAR">Laar</option>
-                            <option value="IMPORFAST">Speed</option>
-                            <option value="SERVIENTREGA">Servientrega</option>
-                            <option value="GINTRACOM">Gintracom</option>
+                            <option value="1">Laar</option>
+                            <option value="2">Speed</option>
+                            <option value="3">Servientrega</option>
+                            <option value="4">Gintracom</option>
                         </select>
                     </div>
                 </div>
