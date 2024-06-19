@@ -131,6 +131,7 @@
 
         // Evento que se dispara cuando se aplica un nuevo rango de fechas
         $('#daterange').on('apply.daterangepicker', function(ev, picker) {
+            $('#daterange').data('daterangepicker').autoUpdateInput = true;
             initDataTable();
         });
     });
