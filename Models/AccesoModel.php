@@ -233,6 +233,7 @@ class AccesoModel extends Query
             $responseData = json_decode($response, true);
             $verifica = $responseData['status'] ?? 0;
             array_push($verificador, $verifica);
+            print_r($responseData);
         }
         curl_close($ch);
     }
