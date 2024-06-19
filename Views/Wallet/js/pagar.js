@@ -189,7 +189,7 @@ const listFacturas = async () => {
         const target = event.target;
         if (!target.disabled) {
           target.disabled = true; // Bloquea el checkbox
-          const id_cabecera = target.getAttribute("data-factura-id");
+          const id_cabecera = target.getAttribute("data-factura-id_cabecera");
           const valor = target.getAttribute("data-factura-valor");
 
           let formData = new FormData();
