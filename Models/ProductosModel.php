@@ -64,6 +64,7 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
             $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $data = [$id_usuario, $id_inventario, $plataforma, $codigo_producto,  $nota, $referencia, $stock_inicial, 1, $bodega, $id_producto];
             $insertar_historial = $this->insert($sql, $data);
+            //$response['data']=
             // print_r($insertar_historial);
 
             if ($insertar_historial === 1) {
