@@ -195,7 +195,7 @@ class AccesoModel extends Query
         $cpanelUsername = 'imporsuitpro';
         $cpanelPassword = 'Mark2demasiado..';
         $rootdomain = DOMINIO;
-        $subdomainDir = 'public/new';
+        $subdomainDir = 'imporsuitpro.com/tienda/dist';
         $verificador = array();
 
         $apiUrl = $cpanelUrl . 'execute/SubDomain/addsubdomain?domain=' . $nombre_tienda . '&rootdomain=' . $rootdomain . '&dir=' . $subdomainDir;
