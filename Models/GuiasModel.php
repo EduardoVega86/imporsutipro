@@ -166,6 +166,7 @@ class GuiasModel extends Query
         $buscar_bodega = "SELECT * FROM bodega WHERE id = '$id_bodega'";
         $bodega = $this->select($buscar_bodega);
         $id_plataforma_bodega = $bodega[0]['id_plataforma'];
+        $valor_full = $bodega[0]['full_filme'];
 
         $buscar_producto = "SELECT * FROM productos WHERE id_producto = '$id_producto'";
         $producto = $this->select($buscar_producto);
@@ -177,7 +178,7 @@ class GuiasModel extends Query
         if ($id_plataforma_bodega == $id_plataforma_producto) {
             $full = 0;
         } else if ($id_plataforma_producto == $id_plataforma) {
-            $full = 1;
+            $full = $valor_full;
         } else {
             $full = 0;
         }

@@ -94,6 +94,11 @@ class WalletModel extends Query
         $response =  $this->select($sql_select);
         $saldo = $response[0]['valor_pendiente'];
         $guia = $response[0]['guia'];
+        $costo = $response[0]['costo'];
+        $proveedor = $response[0]['proveedor'];
+        $tienda = $response[0]['tienda'];
+        $numero_factura = $response[0]['numero_factura'];
+
         if ($saldo === 0) {
             return;
         }
@@ -112,6 +117,16 @@ class WalletModel extends Query
 
             $response =  $this->insert($sql, array($id_billetera, $usuario, "ENTRADA", "Se acredito a la billetera la guia: $guia", $valor, date("Y-m-d H:i:s")));
         }
+
+        $id_plataforma = $this->select("SELECT id_plataforma FROM plataformas WHERE url_imporsuit = '$proveedor'")[0]['id_plataforma'];
+
+        if ($proveedor != NULL || $proveedor != $tienda) {
+            $full = $this->buscarFull($numero_factura, $id_plataforma);
+
+            $sql = "INSERT INTO cabecera_cuenta_pagar (`tienda`, `numero_factura`, `guia`, `costo`, `monto_recibir`, `valor_pendiente`, `estado_guia`, `visto`, `full`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            $response =  $this->insert($sql, array($proveedor, $numero_factura, $guia, $costo, $costo, $costo, 7, 0, $full));
+        }
+
         $responses["status"] = 200;
         return json_encode($responses);
     }
@@ -199,5 +214,32 @@ class WalletModel extends Query
         $sql = "SELECT ROUND((SELECT SUM(monto_recibir) from cabecera_cuenta_pagar where tienda like '%$tienda%' and visto= 1 and estado_guia = 7 and monto_recibir) ,2)as venta , ROUND(SUM(monto_recibir),2) as utilidad, (SELECT ROUND(SUM(monto_recibir),2) from cabecera_cuenta_pagar where tienda like '%$tienda%' and estado_guia =9 and visto= 1)as devoluciones FROM `cabecera_cuenta_pagar` where tienda like '%$tienda%' and visto = 1;";
         $response =  $this->select($sql);
         return json_encode($response);
+    }
+
+    public function buscarFull($numero_factura, $id_plataforma)
+    {
+        $buscar_detalle = $this->select("SELECT * FROM detalle_fact_cot WHERE numero_factura = '$numero_factura'");
+        $id_inventario = $buscar_detalle[0]['id_inventario'];
+
+        $buscar_inventario = $this->select("SELECT * FROM inventario_bodegas WHERE id_inventario = '$id_inventario'");
+        $id_producto = $buscar_inventario[0]['id_producto'];
+        $id_bodega = $buscar_inventario[0]['bodega'];
+
+        $buscar_producto = $this->select("SELECT * FROM productos WHERE id_producto = '$id_producto'");
+        $id__producto = $buscar_producto[0]['id_plataforma'];
+
+        $buscar_bodega = $this->select("SELECT * FROM bodegas WHERE id = '$id_bodega'");
+        $id__bodega = $buscar_bodega[0]['id_plataforma'];
+        $valor_full = $buscar_bodega[0]['full_filme'];
+
+        if ($id__producto == $id__bodega) {
+            $full = 0;
+        } else if ($id__producto == $id_plataforma) {
+            $full =  $valor_full;
+        } else {
+            $full = 0;
+        }
+
+        return $full;
     }
 }
