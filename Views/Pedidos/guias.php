@@ -31,20 +31,20 @@
                     </div>
                 </div>
                 <div class="flex-fill">
-
-                </div>
-            </div>
-
-            <div class="segunda_seccionFiltro">
-                <div class="d-flex flex-column" style="width: 100%;">
-                    <div class="d-flex flex-row justify-content-start">
-                        <div style="width: 100%;">
+                <div style="width: 100%;">
                             <label for="tienda_q" class="col-form-label">Tienda</label>
                             <select id="tienda_q" class="form-control">
                                 <option value="">Selecciona una Tienda</option>
 
                             </select>
                         </div>
+                </div>
+            </div>
+
+            <div class="segunda_seccionFiltro">
+                <div class="d-flex flex-column" style="width: 100%;">
+                    <div class="d-flex flex-row justify-content-start">
+                        
                     </div>
                     <div style="width: 100%;">
 
