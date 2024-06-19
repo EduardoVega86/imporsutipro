@@ -85,7 +85,7 @@ class WalletModel extends Query
     }
 
 
-    public function abonarBilletera($id_cabecera, $valor, $tienda, $usuario)
+    public function abonarBilletera($id_cabecera, $valor, $usuario)
     {
         if ($valor == 0) {
             return;
