@@ -98,12 +98,6 @@
 
             <div class="right gap-2">
                 <div class="table-responsive">
-                    <div class="filter-container">
-                        <button class="filter-btn" data-filter="todos">Todas</button>
-                        <button class="filter-btn" data-filter="pendientes">Pendientes</button>
-                        <button class="filter-btn" data-filter="abonadas">Abonadas</button>
-                        <button class="filter-btn" data-filter="devoluciones">Devoluciones</button>
-                    </div>
                     <table id="datatable_pagos" class="table table-striped">
 
                         <thead>
@@ -124,6 +118,12 @@
         <hr style="border: none; border-top: 2px solid #000;">
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
+            <div class="filter-container">
+                <button class="filter-btn" data-filter="todos">Todas</button>
+                <button class="filter-btn" data-filter="pendientes">Pendientes</button>
+                <button class="filter-btn" data-filter="abonadas">Abonadas</button>
+                <button class="filter-btn" data-filter="devoluciones">Devoluciones</button>
+            </div>
             <table id="datatable_facturas" class="table table-striped">
 
                 <thead>
