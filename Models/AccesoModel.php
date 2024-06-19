@@ -102,7 +102,7 @@ class AccesoModel extends Query
                             $mail->addAddress($correo);
                             $mail->Subject = 'Registro en Imporsuitpro';
                             $mail->Body = $message_body;
-                            $this->crearSubdominio($tienda);
+                            // $this->crearSubdominio($tienda);
 
                             if ($mail->send()) {
                                 //echo "Correo enviado";
