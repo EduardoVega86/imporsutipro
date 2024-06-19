@@ -146,7 +146,7 @@
     });
 
     $(document).ready(function() {
-        $("#estado_q,#transporte").change(function() {
+        $("#estado_q,#transporte,#impresion").change(function() {
             initDataTable();
         });
     });
