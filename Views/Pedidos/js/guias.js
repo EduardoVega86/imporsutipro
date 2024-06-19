@@ -48,12 +48,8 @@ const listGuias = async () => {
   try {
     let rangoFechas = $("#daterange").val();
     let fechas = rangoFechas.split(" - ");
-    let fecha_inicio = moment(fechas[0])
-      .startOf("day")
-      .format("YYYY-MM-DD HH:mm:ss");
-    let fecha_fin = moment(fechas[1])
-      .endOf("day")
-      .format("YYYY-MM-DD HH:mm:ss");
+    let fecha_inicio = fechas[0];
+    let fecha_fin = fechas[1];
 
     const formData = new FormData();
     formData.append("fecha_inicio", fecha_inicio);
