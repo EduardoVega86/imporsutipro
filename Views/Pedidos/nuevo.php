@@ -125,7 +125,7 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
 
             <div class="form-section">
                 <h5>Generar Guías</h5>
-                <div class="d-flex justify-content-around mb-4 flex-wrap gap-4">
+                <div class="d-flex justify-content-around mb-4 flex-wrap gap-3">
                     <div class="img-container text-center transportadora" data-company="servientrega">
                         <img src="<?php echo SERVERURL; ?>/public/img/SERVIENTREGA.jpg" alt="Servientrega">
                         <div class="price-tag" data-price-id="price_servientrega"><span id="price_servientrega">Proximamente</span></div>
