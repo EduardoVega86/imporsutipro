@@ -64,6 +64,7 @@
     .primer_seccionFiltro {
         display: flex;
         flex-direction: row;
+        gap: 20px;
     }
     .segunda_seccionFiltro {
         display: flex;

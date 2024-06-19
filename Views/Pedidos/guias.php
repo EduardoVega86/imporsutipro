@@ -18,7 +18,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex-fill" style=" padding-left: 20px; width:35%; padding-top: 8px;">
+                <div class="flex-fill" style="width:35%; padding-top: 8px;">
                     <div class=" d-flex flex-column justify-content-start">
                         <label for="inputPassword3" class="col-sm-2 col-form-label">Impresiones</label>
                         <div>
@@ -30,27 +30,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex-fill">
-                <div style="width: 100%;">
-                            <label for="tienda_q" class="col-form-label">Tienda</label>
-                            <select id="tienda_q" class="form-control">
-                                <option value="">Selecciona una Tienda</option>
+                <div class="flex-fill" style="width:35%; padding-top: 8px;">
+                    <div style="width: 100%;">
+                        <label for="tienda_q" class="col-form-label">Tienda</label>
+                        <select id="tienda_q" class="form-control">
+                            <option value="">Selecciona una Tienda</option>
 
-                            </select>
-                        </div>
+                        </select>
+                    </div>
                 </div>
             </div>
 
             <div class="segunda_seccionFiltro">
-                <div class="d-flex flex-column" style="width: 100%;">
-                    <div class="d-flex flex-row justify-content-start">
-                        
-                    </div>
-                    <div style="width: 100%;">
-
-
-                    </div>
-                </div>
                 <div style="width: 100%;">
                     <label for="inputPassword3" class="col-sm-2 col-form-label">Estado</label>
                     <div>
