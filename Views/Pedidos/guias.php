@@ -18,7 +18,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex-fill" style=" padding-left: 20px; width:35%">
+                <div class="flex-fill" style=" padding-left: 20px; width:35%; padding-top: 8px;">
                     <div class=" d-flex flex-column justify-content-start">
                         <label for="inputPassword3" class="col-sm-2 col-form-label">Impresiones</label>
                         <div>
