@@ -5,7 +5,7 @@
     <div class="custom-container-fluid mt-4">
         <h1>Importación Masiva</h1>
         <div class="download-button-container">
-            <a href="ruta/a/tu/archivo.xlsx" class="btn btn-success download-button">Descargar Plantilla</a>
+            <a href="https://tiendas.imporsuitpro.com/plantilla/plantilla_productos.xlsx" class="btn btn-success download-button">Descargar Plantilla</a>
         </div>
         <form id="uploadForm" enctype="multipart/form-data">
 
