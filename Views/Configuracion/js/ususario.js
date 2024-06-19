@@ -45,7 +45,7 @@ const initDataTable = async () => {
 
 const listGuias = async () => {
   try {
-    const response = await fetch("" + SERVERURL + "pedidos/obtener_guias");
+    const response = await fetch("" + SERVERURL + "Usuarios/obtener_usuarios_matriz");
     const guias = await response.json();
 
     let content = ``;
