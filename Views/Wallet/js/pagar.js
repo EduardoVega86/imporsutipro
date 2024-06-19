@@ -118,22 +118,29 @@ const listFacturas = async () => {
       } else {
         cod = "Sin Recaudo";
       }
-      
-      if (factura.estado_guia == 7){
+
+      if (factura.estado_guia == 7) {
         estado_guiaCheck = "checked";
         estado_guia = "Entregado";
-      } else if (factura.estado_guia == 9){
+      } else if (factura.estado_guia == 9) {
         estado_guiaCheck = "checked";
         estado_guia = "Devuelto";
-      }else{
+      } else {
         estado_guia = "No acreditable";
       }
 
       content += `
                 <tr>
-                    <td><input type="checkbox" class="selectCheckbox" ${estado_guiaCheck}></td>
+                    <td><input type="checkbox" class="selectCheckbox" ${estado_guiaCheck} data-factura-id_cabecera="${
+        factura.id_cabecera
+      }" data-factura-valor="${factura.monto_recibir}" ${
+        estado_guiaCheck ? "disabled" : ""
+      }>
+                    </td>
                     <td>
-                    <div><span claas="text-nowrap">${factura.numero_factura}</span></div>
+                    <div><span claas="text-nowrap">${
+                      factura.numero_factura
+                    }</span></div>
                     <div><span claas="text-nowrap">${factura.guia}</span></div>
                     <div><span class="w-100 text-nowrap" style="background-color:#7B57EC; color:white; padding:5px; border-radius:0.3rem;">${cod}</span></div>
                     </td>
@@ -156,8 +163,12 @@ const listFacturas = async () => {
                     <i class='bx bxs-truck' ></i>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" style="cursor: pointer;" href="https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${factura.guia}">Traking</a></li>
-                        <li><a class="dropdown-item" style="cursor: pointer;" href="https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${factura.guia}">Ticket</a></li>
+                        <li><a class="dropdown-item" style="cursor: pointer;" href="https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${
+                          factura.guia
+                        }">Traking</a></li>
+                        <li><a class="dropdown-item" style="cursor: pointer;" href="https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${
+                          factura.guia
+                        }">Ticket</a></li>
                     </ul>
                     </div>
                     </td>
@@ -171,6 +182,49 @@ const listFacturas = async () => {
                 </tr>`;
     });
     document.getElementById("tableBody_facturas").innerHTML = content;
+
+    // Añadir evento de clic a los checkboxes
+    document.querySelectorAll(".selectCheckbox").forEach((checkbox) => {
+      checkbox.addEventListener("click", async (event) => {
+        const target = event.target;
+        if (!target.disabled) {
+          target.disabled = true; // Bloquea el checkbox
+          const id_cabecera = target.getAttribute("data-factura-id");
+          const valor = target.getAttribute("data-factura-valor");
+
+          let formData = new FormData();
+          formData.append("id_cabecera", id_cabecera);
+          formData.append("valor", valor);
+
+          $.ajax({
+            url: SERVERURL + "wallet/abonarBilletera",
+            type: "POST",
+            data: formData,
+            processData: false, // No procesar los datos
+            contentType: false, // No establecer ningún tipo de contenido
+            success: function (response) {
+              if (response.status == 500) {
+                toastr.error(
+                    "EL ABONADO NO SE AGREGRO CORRECTAMENTE",
+                    "NOTIFICACIÓN", {
+                        positionClass: "toast-bottom-center"
+                    }
+                );
+            } else if (response.status == 200) {
+                toastr.success("ABONADO AGREGADO CORRECTAMENTE", "NOTIFICACIÓN", {
+                    positionClass: "toast-bottom-center",
+                });
+
+                initDataTableFacturas();
+            }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+              alert(errorThrown);
+            },
+          });
+        }
+      });
+    });
   } catch (ex) {
     alert(ex);
   }
@@ -192,7 +246,6 @@ function procesarPlataforma(url) {
 window.addEventListener("load", async () => {
   await initDataTableFacturas();
 });
-
 
 //TABLA DE PAGOS
 let dataTablePagos;
@@ -237,18 +290,18 @@ const initDataTablePagos = async () => {
 
 const listPagos = async () => {
   try {
-    const pagos =  pagos_global;
+    const pagos = pagos_global;
     let content = ``;
-    let tipo ="";
-    console.log("pagos: "+pagos)
+    let tipo = "";
+    console.log("pagos: " + pagos);
     pagos.forEach((pago, index) => {
-        console.log("pago1"+pago.fecha);
+      console.log("pago1" + pago.fecha);
 
-        if (pago.recargo == 0){
-            tipo= "Pago de Billetera";
-        }else{
-            tipo= "Recargo de Billetera";
-        }
+      if (pago.recargo == 0) {
+        tipo = "Pago de Billetera";
+      } else {
+        tipo = "Recargo de Billetera";
+      }
       content += `
                 <tr>
                     <td>${pago.numero_documento}</td>
