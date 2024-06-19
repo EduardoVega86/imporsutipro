@@ -312,3 +312,16 @@ const listPagos = async () => {
     alert(ex);
   }
 };
+
+$(document).ready(function() {
+  var table = $('#example').DataTable();
+
+  $('.filter-btn').on('click', function() {
+    var filter = $(this).data('filter');
+    if (filter === 'todos') {
+      table.column(2).search('').draw();  // Suponiendo que la columna de estado es la tercera (índice 2)
+    } else {
+      table.column(2).search(filter, true, false).draw();
+    }
+  });
+});

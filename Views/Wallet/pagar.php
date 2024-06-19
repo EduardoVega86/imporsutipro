@@ -98,6 +98,12 @@
 
             <div class="right gap-2">
                 <div class="table-responsive">
+                    <div class="filter-container">
+                        <button class="filter-btn" data-filter="todos">Todas</button>
+                        <button class="filter-btn" data-filter="pendientes">Pendientes</button>
+                        <button class="filter-btn" data-filter="abonadas">Abonadas</button>
+                        <button class="filter-btn" data-filter="devoluciones">Devoluciones</button>
+                    </div>
                     <table id="datatable_pagos" class="table table-striped">
 
                         <thead>

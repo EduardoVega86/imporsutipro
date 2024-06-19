@@ -82,4 +82,22 @@
         background-color: #0056b3;
         /* Color de fondo al pasar el ratón */
     }
+
+    .filter-container {
+        margin-bottom: 10px;
+    }
+
+    .filter-btn {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        margin-right: 5px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .filter-btn:hover {
+        background-color: #0056b3;
+    }
 </style>
