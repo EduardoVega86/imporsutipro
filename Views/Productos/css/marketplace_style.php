@@ -59,7 +59,7 @@
 
 .card-container {
     display: flex;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
     gap: 10px; /* Adjust this value for desired spacing between cards */
     justify-content: flex-start; /* Aligns cards to the left */
 }
