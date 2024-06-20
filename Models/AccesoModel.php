@@ -28,7 +28,7 @@ class AccesoModel extends Query
     
         $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
         $sql = "INSERT INTO users (nombre_users, email_users, con_users, usuario_users, date_added, cargo_users) VALUES (?, ?, ?, ?, ?, ?)";
-        //   echo $sql;
+          echo $sql;
         $data = [$nombre, $correo, $contrasena, $correo, $date_added, 1];
         $insertar_usuario = $this->insert($sql, $data);
         //print_r($insertar_usuario);
