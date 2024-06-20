@@ -171,7 +171,6 @@ $(document).ready(function () {
       data: formData,
       dataType: "json",
       success: function (response) {
-        response = JSON.parse(response);
         if (response.status == 400) {
             if (response.code == "23000"){
                 toastr.error(
