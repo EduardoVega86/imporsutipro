@@ -171,4 +171,11 @@ class Wallet extends Controller
             echo json_encode($subirImagen);
         }
     }
+
+    public function obtenerHistorial()
+    {
+        $tienda     = $_POST['tienda'];
+        $response = $this->model->obtenerHistorial($tienda);
+        echo json_encode($response);
+    }
 }

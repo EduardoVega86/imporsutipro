@@ -385,4 +385,14 @@ class WalletModel extends Query
         }
         return $responses;
     }
+
+    public function obtenerHistorial($tienda)
+    {
+        $sql = "SELECT * FROM billeteras WHERE tienda = '$tienda'";
+        $response =  $this->select($sql);
+        $plataforma = $response[0]['id_billetera'];
+        $sql = "SELECT * FROM historial_billetera WHERE id_billetera = '$plataforma'";
+        $response =  $this->select($sql);
+        return $response;
+    }
 }
