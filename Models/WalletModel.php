@@ -264,7 +264,7 @@ class WalletModel extends Query
             $responses["status"] = 400;
             $responses["message"] = $response["message"];
         }
-        return json_encode($responses);
+        return $responses;
     }
 
     public function guardarDatosFacturacion($ruc, $razon, $direccion, $correo, $telefono, $plataforma)
