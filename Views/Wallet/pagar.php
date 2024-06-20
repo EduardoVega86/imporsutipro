@@ -116,7 +116,7 @@
                 </div>
                 <h3 style="text-align: center; padding-top:5px;">Tabla Historial de Pagos</h3>
                 <div class="table-responsive">
-                    <table id="datatable_pagos" class="table table-striped">
+                    <table id="datatable_historial_pago" class="table table-striped">
 
                         <thead>
                             <tr>
@@ -128,7 +128,7 @@
                                 <th class="centered">Recibo</th>
                             </tr>
                         </thead>
-                        <tbody id="tableBody_pagos"></tbody>
+                        <tbody id="tableBody_historial_pago"></tbody>
                     </table>
                 </div>
             </div>
