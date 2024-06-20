@@ -101,6 +101,23 @@
             </div>
             <div class="line"></div>
             <div class="right">
+                <div class="table-responsive">
+                    <table id="datatable_datos_bancarios" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th class="centered">ID</th>
+                                <th class="centered">Tipo de cuenta</th>
+                                <th class="centered">Banco</th>
+                                <th class="centered">Numero de cuenta</th>
+                                <th class="centered">Nombre</th>
+                                <th class="centered">Cedula</th>
+                                <th class="centered">Correo</th>
+                                <th class="centered">Telefono</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody_datos_bancarios"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
