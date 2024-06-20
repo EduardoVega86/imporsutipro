@@ -182,6 +182,7 @@
         margin-left: auto;
         margin-right: auto;
         background-color: #f8f9fa;
+        min-height: 80%;
     }
 
     @media (max-width: 768px) {
