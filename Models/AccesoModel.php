@@ -31,7 +31,7 @@ class AccesoModel extends Query
           echo $sql;
         $data = [$nombre, $correo, $contrasena, $correo, $date_added, 1];
         $insertar_usuario = $this->insert($sql, $data);
-        //print_r($insertar_usuario);
+        print_r($insertar_usuario);
         //echo 'erro'.$insertar_usuario;;
         if ($insertar_usuario == 1) {
             $id = $this->select("SELECT id_users FROM users WHERE usuario_users = '$correo'");
