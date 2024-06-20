@@ -84,7 +84,6 @@ class WalletModel extends Query
         return $response;
     }
 
-
     public function abonarBilletera($id_cabecera, $valor, $usuario)
     {
         if ($valor == 0) {
@@ -181,6 +180,8 @@ class WalletModel extends Query
 
         $id_billetera = $this->select("SELECT id_billetera FROM billeteras WHERE tienda = $tienda")[0]['id_billetera'];
 
+        $insert_pagos = "INSERT INTO pagos (`id_billetera`, `monto`, `fecha`, `id_responsable`) VALUES (?, ?, ?, ?)";
+
         $sql = "INSERT INTO historial_billetera (`id_billetera`, `id_responsable`, `tipo`, `motivo`, `monto`, `fecha`) VALUES (?, ?, ?, ?, ?, ?)";
         $response =  $this->insert($sql, array($id_billetera, $usuario, "SALIDA", "Se pago de la billetera el monto: $monto", $monto, date("Y-m-d H:i:s")));
         $responses["status"] = 200;
@@ -193,8 +194,6 @@ class WalletModel extends Query
         $response =  $this->select($sql);
         return json_encode($response);
     }
-
-
 
     public function existeTienda($tienda)
     {
@@ -280,6 +279,76 @@ class WalletModel extends Query
         $id_matriz = $id_matriz[0]['idmatriz'];
         $sql = "INSERT INTO facturacion (`ruc`, `razon_social`, `direccion`, `correo`, `telefono`, `id_plataforma`, `id_matriz`) VALUES (?, ?, ?, ?, ?, ?,?)";
         $response =  $this->insert($sql, array($ruc, $razon, $direccion, $correo, $telefono, $plataforma, $id_matriz));
+        if ($response == 1) {
+            $responses["status"] = 200;
+        } else {
+            $responses["status"] = 400;
+            $responses["message"] = $response["message"];
+        }
+        return $responses;
+    }
+
+    public function solicitarPago($id_cuenta, $valor, $fecha)
+    {
+        $matriz = $this->obtenerMatriz();
+        $matriz = $matriz[0]['idmatriz'];
+        $sql = "INSERT INTO pagos (`id_cuenta`, `valor`, `fecha`, `id_matriz`) VALUES (?, ?, ?, ?)";
+        $response =  $this->insert($sql, array($id_cuenta, $valor, $fecha, $matriz));
+        if ($response == 1) {
+            $responses["status"] = 200;
+        } else {
+            $responses["status"] = 400;
+            $responses["message"] = $response["message"];
+        }
+        return $responses;
+    }
+
+    public function subirImage($imagen)
+    {
+        $response = $this->initialResponse();
+        $target_dir = "public/img/pagos/";
+        $target_file = $target_dir . basename($imagen["name"]);
+        $uploadOk = 1;
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        $check = getimagesize($imagen["tmp_name"]);
+        if ($check !== false) {
+            $uploadOk = 1;
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'El archivo no es una imagen';
+            $uploadOk = 0;
+        }
+        if ($imagen["size"] > 500000) {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'El archivo es muy grande';
+            $uploadOk = 0;
+        }
+        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Solo se permiten archivos JPG, JPEG, PNG';
+            $uploadOk = 0;
+        } else {
+            if (move_uploaded_file($imagen["tmp_name"], $target_file)) {
+                $response["dir"] = $target_file;
+                $response['status'] = 1;
+            } else {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'Error al subir la imagen';
+            }
+        }
+        return $response;
+    }
+
+    public function pagarFactura($valor, $documento, $forma_pago, $fecha, $imagen, $plataforma)
+    {
+        $matriz = $this->obtenerMatriz();
+        $matriz = $matriz[0]['idmatriz'];
+        $sql = "INSERT INTO pagos (`valor`, `numero_documento`, `forma_pago`, `fecha`, `imagen`, `id_matriz`, `id_plataforma`) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $response =  $this->insert($sql, array($valor, $documento, $forma_pago, $fecha, $imagen, $matriz, $plataforma));
         if ($response == 1) {
             $responses["status"] = 200;
         } else {
