@@ -119,10 +119,12 @@ const initDataTableDatosFacturacion = async () => {
 
 const listDatosFacturacion = async () => {
   try {
-    const response = await fetch("" + SERVERURL + "wallet/obtenerDatosFacturacion");
+    const response = await fetch(
+      "" + SERVERURL + "wallet/obtenerDatosFacturacion"
+    );
     const datosFacturacion = await response.json();
     const datos_facturacion = datosFacturacion.datos_facturacion;
-    
+
     let content = ``;
 
     datos_facturacion.forEach((dato, index) => {
@@ -186,8 +188,7 @@ $(document).ready(function () {
             }
           );
 
-          $("#imagen_categoriaModal").modal("hide");
-          initDataTable();
+          initDataTableDatosBancarios();
         }
       },
       error: function (jqXHR, textStatus, errorThrown) {
@@ -232,8 +233,7 @@ $(document).ready(function () {
             }
           );
 
-          $("#imagen_categoriaModal").modal("hide");
-          initDataTable();
+          initDataTableDatosFacturacion();
         }
       },
       error: function (jqXHR, textStatus, errorThrown) {
@@ -245,8 +245,8 @@ $(document).ready(function () {
 });
 
 //eliminar dato bancario
-function eliminar_datoBancario(id_cuenta){
-    let formData = new FormData();
+function eliminar_datoBancario(id_cuenta) {
+  let formData = new FormData();
   formData.append("id_cuenta", id_cuenta);
 
   $.ajax({
@@ -256,20 +256,18 @@ function eliminar_datoBancario(id_cuenta){
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
-        if (response.status == 500) {
-            toastr.error(
-                "NO SE ELIMINO CORRECTAMENTE",
-                "NOTIFICACIÓN", {
-                    positionClass: "toast-bottom-center"
-                }
-            );
-        } else if (response.status == 200) {
-            toastr.success("SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
-                positionClass: "toast-bottom-center",
-            });
+      response = JSON.parse(response);
+      if (response.status == 200) {
+        toastr.success("SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
 
-            initDataTableDatosBancarios();
-        }
+        initDataTableDatosBancarios();
+      } else {
+        toastr.error("NO SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      }
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
@@ -278,8 +276,8 @@ function eliminar_datoBancario(id_cuenta){
 }
 
 //eliminar datos factracion
-function eliminar_datofacturacion(id_facturacion){
-    let formData = new FormData();
+function eliminar_datofacturacion(id_facturacion) {
+  let formData = new FormData();
   formData.append("id_facturacion", id_facturacion);
 
   $.ajax({
@@ -289,20 +287,18 @@ function eliminar_datofacturacion(id_facturacion){
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
-        if (response.status == 500) {
-            toastr.error(
-                "NO SE ELIMINO CORRECTAMENTE",
-                "NOTIFICACIÓN", {
-                    positionClass: "toast-bottom-center"
-                }
-            );
-        } else if (response.status == 200) {
-            toastr.success("SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
-                positionClass: "toast-bottom-center",
-            });
+      response = JSON.parse(response);
+      if (response.status == 200) {
+        toastr.success("SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
 
-            initDataTableDatosFacturacion();
-        }
+        initDataTableDatosFacturacion();
+      } else {
+        toastr.error("NO SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      }
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
