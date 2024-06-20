@@ -8,7 +8,8 @@
     .left {
         display: flex;
         flex-direction: column;
-        max-width: 40%;
+        max-width: 30%;
+        min-width: 30%;
     }
 
     .right {
@@ -32,6 +33,7 @@
 
         .left {
             max-width: 100%;
+            min-width: 100%;
         }
 
         .right {
