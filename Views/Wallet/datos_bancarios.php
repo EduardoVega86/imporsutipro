@@ -98,5 +98,5 @@
         </div>
     </div>
 </div>
-<!-- <script src="<?php echo SERVERURL ?>/Views/Wallet/js/detalle.js"></script> -->
+<script src="<?php echo SERVERURL ?>/Views/Wallet/js/datos_bancarios.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
