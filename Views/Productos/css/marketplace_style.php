@@ -1,15 +1,20 @@
 <style>
     /* cards */
+    .card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
+    gap: 10px; /* Ajusta este valor para el espaciado deseado entre las tarjetas */
+}
+
 .card-custom {
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s, box-shadow 0.3s;
     height: 520px;
-    margin: 10px;
     display: flex;
     flex-direction: column;
     overflow: hidden; /* Para evitar que el contenido se salga */
-    width: 275px;
+    width: 100%; /* Hacer que la tarjeta ocupe todo el ancho de su contenedor */
 }
 
 .card-custom:hover {
@@ -57,12 +62,6 @@
     margin-bottom: 10px;
 }
 
-.card-container {
-    display: flex;
-    /* flex-wrap: wrap; */
-    gap: 10px; /* Adjust this value for desired spacing between cards */
-    justify-content: flex-start; /* Aligns cards to the left */
-}
 
 /* modal */
 .modal-content {
