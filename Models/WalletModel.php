@@ -255,16 +255,16 @@ class WalletModel extends Query
     public function guardarDatosBancarios($banco, $tipo_cuenta, $numero_cuenta, $nombre, $cedula, $correo, $telefono, $plataforma)
     {
         $id_matriz = $this->obtenerMatriz();
-        $sql = "INSERT INTO datos_banco_usuarios (`banco`, `tipo_cuenta`, `numero_cuenta`, `nombre`, `cedula`, `correo`, `telefono`, `id_plataforma`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO datos_banco_usuarios (`banco`, `tipo_cuenta`, `numero_cuenta`, `nombre`, `cedula`, `correo`, `telefono`, `id_plataforma`, `id_matriz`) VALUES (?, ?, ?, ?, ?, ?, ?, ?,')";
         $response =  $this->insert($sql, array($banco, $tipo_cuenta, $numero_cuenta, $nombre, $cedula, $correo, $telefono, $plataforma));
-        return json_encode($response);
+        return $response;
     }
 
     public function guardarDatosFacturacion($ruc, $razon, $direccion, $correo, $telefono, $plataforma)
     {
         $id_matriz = $this->obtenerMatriz();
-        $sql = "INSERT INTO datos_facturacion (`ruc`, `razon_social`, `direccion`, `correo`, `telefono`, `id_plataforma`) VALUES (?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO datos_facturacion (`ruc`, `razon_social`, `direccion`, `correo`, `telefono`, `id_plataforma`, `id_matriz`) VALUES (?, ?, ?, ?, ?, ?,?)";
         $response =  $this->insert($sql, array($ruc, $razon, $direccion, $correo, $telefono, $plataforma));
-        return json_encode($response);
+        return $response;
     }
 }

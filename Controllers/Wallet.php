@@ -113,5 +113,6 @@ class Wallet extends Controller
         $telefono = $_POST['telefono'];
 
         $datos = $this->model->guardarDatosFacturacion($ruc, $razon_social, $direccion, $correo, $telefono, $_SESSION["id_plataforma"]);
+        echo json_encode($datos);
     }
 }
