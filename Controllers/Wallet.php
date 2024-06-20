@@ -104,6 +104,13 @@ class Wallet extends Controller
         echo json_encode($datos);
     }
 
+    public function eliminarDatoBancario()
+    {
+        $id_cuenta = $_POST['id_cuenta'];
+        $datos = $this->model->eliminarDatoBancario($id_cuenta);
+        echo json_encode($datos);
+    }
+
     public function guardarDatosFacturacion()
     {
         $ruc = $_POST['ruc'];
@@ -113,6 +120,13 @@ class Wallet extends Controller
         $telefono = $_POST['telefono'];
 
         $datos = $this->model->guardarDatosFacturacion($ruc, $razon_social, $direccion, $correo, $telefono, $_SESSION["id_plataforma"]);
+        echo json_encode($datos);
+    }
+
+    public function eliminarDatoFacturacion()
+    {
+        $id_facturacion = $_POST['id_facturacion'];
+        $datos = $this->model->eliminarDatoFacturacion($id_facturacion);
         echo json_encode($datos);
     }
 

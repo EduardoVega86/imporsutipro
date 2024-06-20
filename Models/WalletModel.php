@@ -273,6 +273,18 @@ class WalletModel extends Query
         return $responses;
     }
 
+    public function eliminarDatoBancario($id_cuenta)
+    {
+        $sql = "DELETE FROM datos_banco_usuarios WHERE id_cuenta = ?";
+        $response =  $this->delete($sql, array($id_cuenta));
+        if ($response == 1) {
+            $responses["status"] = 200;
+        } else {
+            $responses["status"] = 400;
+            $responses["message"] = $response["message"];
+        }
+    }
+
     public function guardarDatosFacturacion($ruc, $razon, $direccion, $correo, $telefono, $plataforma)
     {
         $id_matriz = $this->obtenerMatriz();
@@ -286,6 +298,18 @@ class WalletModel extends Query
             $responses["message"] = $response["message"];
         }
         return $responses;
+    }
+
+    public function eliminarDatoFacturacion($id_facturacion)
+    {
+        $sql = "DELETE FROM facturacion WHERE id_facturacion = ?";
+        $response =  $this->delete($sql, array($id_facturacion));
+        if ($response == 1) {
+            $responses["status"] = 200;
+        } else {
+            $responses["status"] = 400;
+            $responses["message"] = $response["message"];
+        }
     }
 
     public function solicitarPago($id_cuenta, $valor, $fecha)

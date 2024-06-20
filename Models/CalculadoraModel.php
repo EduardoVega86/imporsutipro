@@ -106,14 +106,8 @@ class CalculadoraModel extends Query
         return $saldo;
     }
 
-    public function calcularServi()
+    public function calcularServi($ciudadO, $ciudadD, $provinciaD, $monto_factura)
     {
-        $ciudadO = $_POST['ciudadOrigen'];
-        $provinciaO = $_POST['provinciaOrigen'];
-        $ciudadD = $_POST['ciudadDestino'];
-        $provinciaD = $_POST['provinciaDestino'];
-        $monto_factura = $_POST['monto_factura'];
-
         if (strpos($ciudadD, "/") !== false) {
             $destino = $ciudadD . " (" . $provinciaD . ")-" . $provinciaD;
         } else {
