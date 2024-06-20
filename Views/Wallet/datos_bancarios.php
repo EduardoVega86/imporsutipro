@@ -45,7 +45,7 @@
                     <button type="submit" class="btn btn-success">Enviar datos</button>
                 </form>
             </div>
-            <hr class="hr-vertical">
+            <div class="line"></div>
             <div class="right">
             </div>
         </div>

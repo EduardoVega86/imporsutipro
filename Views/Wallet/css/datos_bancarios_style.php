@@ -17,24 +17,12 @@
         max-width: 60%;
     }
 
-    .hr-vertical {
-        position: relative;
-        border: none;
-        height: 1px;
-        background: #000;
-        margin: 2rem 0;
-    }
-
-    .hr-vertical::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 1px;
-        height: 100px;
-        background: #000;
-    }
+    .line {
+            width: 1px;
+            height: 100px; /* Adjust the height for vertical line */
+            background-color: #000;
+            margin: 0 auto; /* Center the line horizontally */
+        }
 
     @media (max-width: 768px) {
         .left_right {
@@ -46,8 +34,13 @@
         }
 
         .right {
-
+            
             max-width: 100%;
         }
+        
+        .line {
+                width: 100px; /* Adjust the width for horizontal line */
+                height: 1px;
+            }
     }
 </style>
