@@ -376,7 +376,13 @@ const initDataTableHistorialPago = async () => {
 
 const listHistorialPago = async () => {
   try {
-    const response = await fetch("" + SERVERURL + "wallet/obtenerDatos");
+    const formData = new FormData();
+    formData.append("tienda", tienda);
+
+    const response = await fetch(`${SERVERURL}wallet/obtenerHistorial`, {
+      method: "POST",
+      body: formData,
+    });
     const historialPago = await response.json();
 
     let content = ``;
