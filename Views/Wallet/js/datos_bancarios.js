@@ -118,7 +118,7 @@ const initDataTableDatosFacturacion = async () => {
 
 const listDatosFacturacion = async () => {
   try {
-    const response = await fetch("" + SERVERURL + "wallet/obtenerDatos");
+    const response = await fetch("" + SERVERURL + "wallet/obtenerDatosFacturacion");
     const datosFacturacion = await response.json();
 
     const datos_facturacion = datosFacturacion.datos_facturacion;
