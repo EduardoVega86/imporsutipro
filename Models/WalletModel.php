@@ -249,7 +249,14 @@ class WalletModel extends Query
     {
         $sql = "SELECT * from datos_banco_usuarios  where id_plataforma = '$plataformas'";
         $response =  $this->select($sql);
-        return json_encode($response);
+        return $response;
+    }
+
+    public function obtenerDatosFacturacion($plataformas)
+    {
+        $sql = "SELECT * from facturacion  where id_plataforma = '$plataformas'";
+        $response =  $this->select($sql);
+        return $response;
     }
 
     public function guardarDatosBancarios($banco, $tipo_cuenta, $numero_cuenta, $nombre, $cedula, $correo, $telefono, $plataforma)

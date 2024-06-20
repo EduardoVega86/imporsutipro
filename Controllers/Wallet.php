@@ -115,4 +115,18 @@ class Wallet extends Controller
         $datos = $this->model->guardarDatosFacturacion($ruc, $razon_social, $direccion, $correo, $telefono, $_SESSION["id_plataforma"]);
         echo json_encode($datos);
     }
+
+
+    public function obtenerDatosFacturacion()
+    {
+        $dato_bancarios = $this->model->obtenerDatosBancarios($_SESSION["id_plataforma"]);
+        $dato_facturacion = $this->model->obtenerDatosFacturacion($_SESSION["id_plataforma"]);
+
+        $datos = [
+            "datos_bancarios" => $dato_bancarios,
+            "datos_facturacion" => $dato_facturacion
+        ];
+
+        echo json_encode($datos);
+    }
 }
