@@ -171,6 +171,7 @@ $(document).ready(function () {
       data: formData,
       dataType: "json",
       success: function (response) {
+        response = JSON.parse(response);
         if (response.status == 500) {
           toastr.error(
             "DATOS BANCARIOS NO SE AGREGARON CORRECTAMENTE",
@@ -216,6 +217,7 @@ $(document).ready(function () {
       data: formData,
       dataType: "json",
       success: function (response) {
+        response = JSON.parse(response);
         if (response.status == 500) {
           toastr.error(
             "DATOS DE FACTURACION NO SE AGREGARON CORRECTAMENTE",
