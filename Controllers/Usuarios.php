@@ -124,6 +124,8 @@ class Usuarios extends Controller
              // echo $response ['status'];
               if ($response ['status']==200){
                $agregados=$agregados+1;   
+              }else{
+                $duplicados=$duplicados+1;  
               }
                //print_r($response);
                
@@ -141,7 +143,7 @@ class Usuarios extends Controller
             }else{
                 $response['status'] = 500;
             $response['title'] = 'Peticion exitosa';
-            $response['message'] = 'NO se agregaron productos, revice el archvio e inténtelo nuevamente'; 
+            $response['message'] = 'NO se agregaron productos, revise el archvio e inténtelo nuevamente'; 
             }
             // Puedes almacenar la información procesada en la base de datos o manejarla como desees
             //$response = $this->model->importacion_masiva($data);
