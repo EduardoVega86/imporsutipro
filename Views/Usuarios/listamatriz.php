@@ -1,5 +1,5 @@
 <?php require_once './Views/templates/header.php'; ?>
-<?php require_once './Views/Usuarios/css/usuario_style.php'; ?>
+<?php require_once './Views/Usuarios/css/listamatriz_style.php'; ?>
 
 <?php require_once './Views/Pedidos/Modales/informacion_plataforma.php'; ?>
 <div class="custom-container-fluid">
@@ -25,5 +25,5 @@
         </div>
     </div>
 </div>
-<script src="<?php echo SERVERURL ?>/Views/Usuarios/js/usuario.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/Usuarios/js/listamatriz.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
