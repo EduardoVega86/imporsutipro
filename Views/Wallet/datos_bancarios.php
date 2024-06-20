@@ -7,40 +7,64 @@
         <h2 class="text-center mb-4">Datos Bancarios</h2>
         <div class="left_right gap-2">
             <div class="left">
-                <form>
+                <form id="datos_bancario">
                     <div class="mb-3">
-                        <label for="banco" class="form-label">Banco</label>
+                        <label for="banco" class="form-label">Banco:</label>
                         <select class="form-select" id="banco">
                             <option>-- Seleccione un banco --</option>
                             <!-- Opciones de bancos aquí -->
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="tipo-cuenta" class="form-label">Tipo de cuenta</label>
-                        <select class="form-select" id="tipo-cuenta">
+                        <label for="tipo_cuenta" class="form-label">Tipo de cuenta:</label>
+                        <select class="form-select" id="tipo_cuenta">
                             <option>-- Seleccione un tipo de cuenta --</option>
                             <!-- Opciones de tipos de cuenta aquí -->
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="numero-cuenta" class="form-label">Número de cuenta</label>
-                        <input type="text" class="form-control" id="numero-cuenta" placeholder="Numero de cuenta">
+                        <label for="numero_cuenta" class="form-label">Número de cuenta:</label>
+                        <input type="text" class="form-control" id="numero_cuenta" placeholder="Numero de cuenta">
                     </div>
                     <div class="mb-3">
-                        <label for="nombre-titular" class="form-label">Nombre del Titular</label>
-                        <input type="text" class="form-control" id="nombre-titular" placeholder="Nombre del titular">
+                        <label for="nombre_titular" class="form-label">Nombre del Titular:</label>
+                        <input type="text" class="form-control" id="nombre_titular" placeholder="Nombre del titular">
                     </div>
                     <div class="mb-3">
-                        <label for="cedula-titular" class="form-label">Cédula del Titular</label>
-                        <input type="text" class="form-control" id="cedula-titular" placeholder="Cédula del titular">
+                        <label for="cedula_titular" class="form-label">Cédula del Titular:</label>
+                        <input type="text" class="form-control" id="cedula_titular" placeholder="Cédula del titular">
                     </div>
                     <div class="mb-3">
-                        <label for="correo-titular" class="form-label">Correo del Titular</label>
-                        <input type="email" class="form-control" id="correo-titular" placeholder="Correo del titular">
+                        <label for="correo_titular" class="form-label">Correo del Titular:</label>
+                        <input type="email" class="form-control" id="correo_titular" placeholder="Correo del titular">
                     </div>
                     <div class="mb-3">
-                        <label for="telefono-titular" class="form-label">Teléfono del Titular</label>
-                        <input type="text" class="form-control" id="telefono-titular" placeholder="Teléfono del titular">
+                        <label for="telefono_titular" class="form-label">Teléfono del Titular:</label>
+                        <input type="text" class="form-control" id="telefono_titular" placeholder="Teléfono del titular">
+                    </div>
+                    <button type="submit" class="btn btn-success">Enviar datos</button>
+                </form>
+
+                <form id="datos_facturacion">
+                    <div class="mb-3">
+                        <label for="razon_socialFactura" class="form-label">Razón Social:</label>
+                        <input type="text" class="form-control" id="razon_socialFactura" placeholder="Razón Social">
+                    </div>
+                    <div class="mb-3">
+                        <label for="ruc_factura" class="form-label">RUC:</label>
+                        <input type="text" class="form-control" id="ruc_factura" placeholder="RUC">
+                    </div>
+                    <div class="mb-3">
+                        <label for="direccion_factura" class="form-label">Dirección:</label>
+                        <input type="text" class="form-control" id="direccion_factura" placeholder="Dirección">
+                    </div>
+                    <div class="mb-3">
+                        <label for="correo_factura" class="form-label">Correo:</label>
+                        <input type="text" class="form-control" id="correo_factura" placeholder="Correo">
+                    </div>
+                    <div class="mb-3">
+                        <label for="telefono_factura" class="form-label">Teléfono:</label>
+                        <input type="text" class="form-control" id="telefono_factura" placeholder="Teléfono">
                     </div>
                     <button type="submit" class="btn btn-success">Enviar datos</button>
                 </form>
