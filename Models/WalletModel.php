@@ -72,13 +72,13 @@ class WalletModel extends Query
     public function obtenerFacturas($tienda, $filtro)
     {
         if ($filtro == 'pendientes') {
-            $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE tienda = '$tienda' and valor_pendiente != 0";
+            $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE tienda = '$tienda' and valor_pendiente != 0 ORDER BY `cabecera_cuenta_pagar`.`estado_guia` DESC, `cabecera_cuenta_pagar`.`fecha` DESC";
         } else if ($filtro == 'abonadas') {
-            $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE tienda = '$tienda' and valor_pendiente = 0";
+            $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE tienda = '$tienda' and valor_pendiente = 0 ORDER BY `cabecera_cuenta_pagar`.`estado_guia` DESC, `cabecera_cuenta_pagar`.`fecha` DESC";
         } else if ($filtro == 'devoluciones') {
-            $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE tienda = '$tienda' and estado_guia = 9";
+            $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE tienda = '$tienda' and estado_guia = 9 ORDER BY `cabecera_cuenta_pagar`.`estado_guia` DESC, `cabecera_cuenta_pagar`.`fecha` DESC";
         } else {
-            $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE tienda = '$tienda'";
+            $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE tienda = '$tienda' ORDER BY `cabecera_cuenta_pagar`.`estado_guia` DESC, `cabecera_cuenta_pagar`.`fecha` DESC";
         }
         $response =  $this->select($sql);
         return $response;
