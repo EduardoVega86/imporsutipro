@@ -78,7 +78,16 @@ class Usuarios extends Controller
     //obtener datos de user_group
     public function obtener_userGroup()
     {
-        $response = $this->model->obtener_userGroup($_SESSION['id_plataforma']);
+        $response = $this->model->obtener_userGroup($_SESSION['id_plataforma']); https://
+        echo json_encode($response);
+    }
+    
+    
+      public function resetearContrasena()
+    {
+           $contrasena = $_POST['contrasena'];
+            $id_usuario = $_POST['id_usuario'];
+        $response = $this->model->resetearContrasena($id_usuario,  $contrasena );
         echo json_encode($response);
     }
     
