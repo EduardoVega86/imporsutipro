@@ -17,6 +17,25 @@
         max-width: 60%;
     }
 
+    .hr-vertical {
+        position: relative;
+        border: none;
+        height: 1px;
+        background: #000;
+        margin: 2rem 0;
+    }
+
+    .hr-vertical::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 1px;
+        height: 100px;
+        background: #000;
+    }
+
     @media (max-width: 768px) {
         .left_right {
             flex-direction: column;
@@ -27,7 +46,7 @@
         }
 
         .right {
-            
+
             max-width: 100%;
         }
     }
