@@ -15,6 +15,7 @@
                         <th class="centered">Nombres</th>
                         <th class="centered">Usuario</th>
                         <th class="centered">Email</th>
+                        <th class="centered">Telefono</th>
                         <th class="centered">Tienda</th>
                         <th class="centered">Agregado</th>
                         <th class="centered">Acciones</th>
