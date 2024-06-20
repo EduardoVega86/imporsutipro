@@ -121,10 +121,18 @@ const listFacturas = async () => {
       check = "";
       if (factura.estado_guia == 7) {
         estado_guia = "Entregado";
-        check = `<input type="checkbox" class="selectCheckbox" data-factura-id_cabecera="${factura.id_cabecera}" data-factura-valor="${factura.monto_recibir}">`;
+        if (factura.monto_recibir == 0){
+          check = "";
+        }else{
+          check = `<input type="checkbox" class="selectCheckbox" data-factura-id_cabecera="${factura.id_cabecera}" data-factura-valor="${factura.monto_recibir}">`;
+        }
       } else if (factura.estado_guia == 9) {
         estado_guia = "Devuelto";
-        check = `<input type="checkbox" class="selectCheckbox" data-factura-id_cabecera="${factura.id_cabecera}" data-factura-valor="${factura.monto_recibir}">`;
+        if (factura.monto_recibir == 0){
+          check = "";
+        }else{
+          check = `<input type="checkbox" class="selectCheckbox" data-factura-id_cabecera="${factura.id_cabecera}" data-factura-valor="${factura.monto_recibir}">`; 
+        }
       } else {
         estado_guia = "No acreditable";
       }
@@ -198,6 +206,7 @@ const listFacturas = async () => {
             processData: false, // No procesar los datos
             contentType: false, // No establecer ningún tipo de contenido
             success: function (response) {
+              response = JSON.parse(response);
               if (response.status == 500) {
                 toastr.error(
                     "EL ABONADO NO SE AGREGRO CORRECTAMENTE",
