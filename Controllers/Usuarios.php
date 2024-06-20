@@ -26,6 +26,19 @@ class Usuarios extends Controller
         $this->views->render($this, "importacion");
     }
     
+         public function listamatriz()
+    {
+        $this->views->render($this, "usuario");
+    }
+    
+        public function listado()
+    {
+        $this->views->render($this, "usuario");
+    }
+    
+    
+    
+    
     public function cargarUsuarios()
     {   
         $data = $this->model->cargarUsuarios();
