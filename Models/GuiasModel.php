@@ -250,4 +250,97 @@ class GuiasModel extends Query
         $sql = "SELECT * FROM tiendas";
         return $this->select($sql);
     }
+
+    //servientrega
+    public function generarServientrega($nombreOrigen, $ciudadOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras, $flete, $seguro, $comision, $otros, $impuestos)
+    {
+        $razon_social_remitente = "IMPORCOMEX S.A.";
+        $razon_zocial_destinatario = "Entrega a Domicilio";
+        $url = 'https://swservicli.servientrega.com.ec:5052/api/GuiaRecaudo';
+
+        $datos = array(
+            "ID_TIPO_LOGISTICA" => 1,
+            "DETALLE_ENVIO_1" => "",
+            "DETALLE_ENVIO_2" => "",
+            "DETALLE_ENVIO_3" => "",
+            "ID_CIUDAD_ORIGEN" => $ciudadOrigen,
+            "ID_CIUDAD_DESTINO" => $ciudadDestino,
+            "ID_DESTINATARIO_NE_CL" => "",
+            "RAZON_SOCIAL_DESTI_NE" =>  $razon_zocial_destinatario,
+            "NOMBRE_DESTINATARIO_NE" => $nombreDestino,
+            "APELLIDO_DESTINATAR_NE" =>    "",
+            "SECTOR_DESTINAT_NE" => "",
+            "TELEFONO1_DESTINAT_NE" => $telefonoDestino,
+            "TELEFONO2_DESTINAT_NE" => "",
+            "CODIGO_POSTAL_DEST_NE" => "",
+            "CORREO_DESTINATARIO" => "desarrollo1@imporfactoryusa.com",
+            "ID_REMITENTE_CL" => "001remi",
+            "RAZON_SOCIAL_REMITE" => $razon_social_remitente,
+            "NOMBRE_REMITENTE" => "$nombreOrigen",
+            "APELLIDO_REMITE" =>    "",
+            "DIRECCION1_REMITE" => "$direccionOrigen ",
+            "SECTOR_REMITE" => "",
+            "TELEFONO1_REMITE" => $telefonoOrigen,
+            "TELEFONO2_REMITE" => "",
+            "CODIGO_POSTAL_REMI" => "",
+            "ID_PRODUCTO" => 2,
+            "CONTENIDO" => $contiene,
+            "NUMERO_PIEZAS" => 1,
+            "VALOR_MERCANCIA" => $costo_producto,
+            "VALOR_ASEGURADO" => 0,
+            "LARGO" => 2,
+            "ANCHO" => 50,
+            "ALTO" => 50,
+            "PESO_FISICO" => 2,
+            "LOGIN_CREACION" => "integracion.api.1",
+            "PASSWORD" => "54321",
+            "ID_CL" => 0,
+            "VERIFICAR_CONTENIDO_RECAUDO" => "",
+            "VALIDADOR_RECAUDO" => "D",
+            "DIRECCION_RECAUDO" => $direccionDestino . " - Referencia: " . $referenciaDestino,
+            "FECHA_FACTURA" => $fecha,
+            "NUMERO_FACTURA" => "002584154154",
+            "VALOR_FACTURA" => $costo_producto,
+            "VALOR_FLETE " => $flete,
+            "VALOR_COMISION" => $comision,
+            "VALOR_SEGURO" => $seguro,
+            "VALOR_IMPUESTO" => $impuestos,
+            "VALOR_OTROS" => $otros,
+            "VALOR_A_RECAUDAR" => $costo_producto,
+            "DETALLE_ITEMS_FACTURA" => "PRUEBAS SISTEMAS",
+        );
+
+        // Convertir los datos al formato JSON
+        $jsonData = json_encode($datos);
+
+        // Inicializar cURL
+        $ch = curl_init($url);
+
+        // Configura opciones de cURL
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        // Ignora la verificación de SSL
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+
+        // Configurar las opciones de cURL para la solicitud POST
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        // Omitir la verificación de SSL si es necesario (no recomendado para producción)
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+        // Ejecutar la solicitud
+        $response = curl_exec($ch);
+
+        // Verificar si ocurrió algún error durante la solicitud
+        if (curl_errno($ch)) {
+            throw new Exception(curl_error($ch));
+        }
+
+        // Cerrar la sesión cURL
+        curl_close($ch);
+
+        // Mostrar la respuesta
+        return $response;
+    }
 }
