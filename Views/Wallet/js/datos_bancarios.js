@@ -172,7 +172,16 @@ $(document).ready(function () {
       dataType: "json",
       success: function (response) {
         response = JSON.parse(response);
-        if (response.status == 500) {
+        if (response.status == 400) {
+            if (response.code == "23000"){
+                toastr.error(
+                    "ESTE NUMERO DE CUENTA YA HA SIDO REGISTRADO",
+                    "NOTIFICACIÓN",
+                    {
+                      positionClass: "toast-bottom-center",
+                    }
+                  );
+            }
           toastr.error(
             "DATOS BANCARIOS NO SE AGREGARON CORRECTAMENTE",
             "NOTIFICACIÓN",
