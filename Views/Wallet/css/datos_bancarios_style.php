@@ -19,9 +19,8 @@
 
     .line {
             width: 1px;
-            height: 100%;
             background-color: #000;
-            margin-left: 10px;
+            margin-left: 50px;
         }
 
     @media (max-width: 768px) {
