@@ -14,7 +14,7 @@
                                 Datos Bancarios
                             </button>
                         </h2>
-                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#acordion_datosBancarios">
+                        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#acordion_datosBancarios">
                             <div class="accordion-body">
                                 <form id="datos_bancario">
                                     <div class="mb-3">
