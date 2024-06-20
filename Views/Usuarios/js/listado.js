@@ -55,6 +55,12 @@ const listObtenerUsuariosPlataforma = async () => {
                 <td>${usuario.nombre_users}</td>
                 <td>${usuario.usuario_users}</td>
                 <td>${usuario.email_users}</td>
+                <td>
+                <a href="https://wa.me/${formatPhoneNumber(
+                  usuario.whatsapp
+                )}" target="_blank" style="font-size: 45px; vertical-align: middle; margin-left: 10px;" target="_blank">
+                <i class='bx bxl-whatsapp-square' style="color: green;"></i>
+                </a></td>
                 <td>${usuario.nombre_tienda}</td>
                 <td>${usuario.date_added}</td>
                 <td>
