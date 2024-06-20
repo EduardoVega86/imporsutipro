@@ -54,7 +54,10 @@ const listListaUsuarioMatriz = async () => {
                     <td>${usuario.email_users}</td>
                     <td>${usuario.date_added}</td>
                     <td>${usuario.nombre_tienda}</td>
-                    <td>${usuario.whatsapp}</td>
+                    <td>
+                    <a href="https://wa.me/${formatPhoneNumber(usuario.whatsapp)}" target="_blank" style="font-size: 45px; vertical-align: middle; margin-left: 10px;" target="_blank">
+                    <i class='bx bxl-whatsapp-square' style="color: green;"></i>
+                    </a></td>
                     <td>
                     <div class="dropdown">
                     <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -76,3 +79,26 @@ const listListaUsuarioMatriz = async () => {
 window.addEventListener("load", async () => {
   await initDataTableListaUsuarioMatriz();
 });
+
+function formatPhoneNumber(number) {
+  // Eliminar caracteres no numéricos excepto el signo +
+  number = number.replace(/[^\d+]/g, "");
+
+  // Verificar si el número ya tiene el código de país +593
+  if (/^\+593/.test(number)) {
+    // El número ya está correctamente formateado con +593
+    return number;
+  } else if (/^593/.test(number)) {
+    // El número tiene 593 al inicio pero le falta el +
+    return "+" + number;
+  } else {
+    // Si el número comienza con 0, quitarlo
+    if (number.startsWith("0")) {
+      number = number.substring(1);
+    }
+    // Agregar el código de país +593 al inicio del número
+    number = "+593" + number;
+  }
+
+  return number;
+}
