@@ -116,9 +116,9 @@ const listProductos = async () => {
         cargar_imagen = `<img src="${SERVERURL}${producto.image_path}" class="icon-button" onclick="agregar_imagenProducto(${producto.id_producto})" alt="Agregar imagen" width="50px">`;
       }
       if (producto.drogshipin == 0){
-        subir_marketplace = `<box-icon name='cloud-upload' onclick="subir_marketplace(${producto.id_producto})"></box-icon>`;
+        subir_marketplace = `<box-icon name='cloud-upload' id="icono_subida_${producto.id_producto}" onclick="subir_marketplace(${producto.id_producto})"></box-icon>`;
       } else {
-        subir_marketplace = `<box-icon name='cloud-download' onclick="bajar_marketplace(${producto.id_producto})"></box-icon>`;
+        subir_marketplace = `<box-icon name='cloud-download' id="icono_bajada_${producto.id_producto}" onclick="bajar_marketplace(${producto.id_producto})"></box-icon>`;
       }
 
       if (producto.producto_variable == 0){
@@ -271,9 +271,9 @@ const filtrarProductosPorCategoria = async (categoriaId) => {
           cargar_imagen = `<img src="${SERVERURL}${producto.image_path}" class="icon-button" onclick="agregar_imagenProducto(${producto.id_producto})" alt="Agregar imagen" width="50px">`;
         }
         if (producto.drogshipin == 0){
-          subir_marketplace = `<box-icon name='cloud-upload' onclick="subir_marketplace(${producto.id_producto})"></box-icon>`;
+          subir_marketplace = `<box-icon name='cloud-upload' id="icono_subida_${producto.id_producto}" onclick="subir_marketplace(${producto.id_producto})"></box-icon>`;
         } else {
-          subir_marketplace = `<box-icon name='cloud-download' onclick="bajar_marketplace(${producto.id_producto})"></box-icon>`;
+          subir_marketplace = `<box-icon name='cloud-download' id="icono_bajada_${producto.id_producto}" onclick="bajar_marketplace(${producto.id_producto})"></box-icon>`;
         }
 
         if (producto.producto_variable == 0){
@@ -387,7 +387,8 @@ function subir_marketplace(id){
         toastr.success("PRODUCTO AGREGADO CORRECTAMENTE", "NOTIFICACIÓN", {
             positionClass: "toast-bottom-center",
         });
-        initDataTableProductos();
+        /* initDataTableProductos(); */
+        $('#icono_subida_'+id).hide();
     }
     },
     error: function (xhr, status, error) {
@@ -416,7 +417,8 @@ function bajar_marketplace(id){
         toastr.success("PRODUCTO BAJADO DEL MARKETPLACE CORRECTAMENTE", "NOTIFICACIÓN", {
             positionClass: "toast-bottom-center",
         });
-        initDataTableProductos();
+        /* initDataTableProductos(); */
+        $('#icono_bajada_'+id).hide();
     }
     },
     error: function (xhr, status, error) {
