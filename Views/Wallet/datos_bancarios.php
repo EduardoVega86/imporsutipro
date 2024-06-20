@@ -86,7 +86,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="correo_factura" class="form-label">Correo:</label>
-                                        <input type="text" class="form-control" id="correo_factura" placeholder="Correo">
+                                        <input type="email" class="form-control" id="correo_factura" placeholder="Correo">
                                     </div>
                                     <div class="mb-3">
                                         <label for="telefono_factura" class="form-label">Teléfono:</label>
