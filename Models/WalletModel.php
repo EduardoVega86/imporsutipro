@@ -263,7 +263,7 @@ class WalletModel extends Query
     public function guardarDatosFacturacion($ruc, $razon, $direccion, $correo, $telefono, $plataforma)
     {
         $id_matriz = $this->obtenerMatriz();
-        $sql = "INSERT INTO datos_facturacion (`ruc`, `razon_social`, `direccion`, `correo`, `telefono`, `id_plataforma`, `id_matriz`) VALUES (?, ?, ?, ?, ?, ?,?)";
+        $sql = "INSERT INTO facturacion (`ruc`, `razon_social`, `direccion`, `correo`, `telefono`, `id_plataforma`, `id_matriz`) VALUES (?, ?, ?, ?, ?, ?,?)";
         $response =  $this->insert($sql, array($ruc, $razon, $direccion, $correo, $telefono, $plataforma, $id_matriz));
         return $response;
     }
