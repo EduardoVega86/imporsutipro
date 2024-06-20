@@ -134,6 +134,7 @@
                                     <th class="centered">Dirección</th>
                                     <th class="centered">Correo</th>
                                     <th class="centered">Telefono</th>
+                                    <th class="centered">Acción</th>
                                 </tr>
                             </thead>
                             <tbody id="tableBody_datos_facturacion"></tbody>

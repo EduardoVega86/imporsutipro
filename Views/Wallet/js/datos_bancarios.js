@@ -62,6 +62,7 @@ const listDatosBancarios = async () => {
                     <td>${dato.cedula}</td>
                     <td>${dato.correo}</td>
                     <td>${dato.telefono}</td>
+                    <td><button class="icon-button" style="background-color: red; margin: 0;" onclick="eliminar_datoBancario(${dato.id_cuenta})"><i class="fa-solid fa-trash" style="margin: 0;"></i></button></td>
                 </tr>`;
     });
     document.getElementById("tableBody_datos_bancarios").innerHTML = content;
@@ -133,7 +134,7 @@ const listDatosFacturacion = async () => {
                     <td>${dato.direccion}</td>
                     <td>${dato.correo}</td>
                     <td>${dato.telefono}</td>
-                    <td><button class="icon-button" style="background-color: red; margin: 0;" onclick="eliminar_datoBancario(${dato.id_cuenta})"><i class="fa-solid fa-trash" style="margin: 0;"></i></button></td>
+                    <td><button class="icon-button" style="background-color: red; margin: 0;" onclick="eliminar_datofacturacion(${dato.id_facturacion})"><i class="fa-solid fa-trash" style="margin: 0;"></i></button></td>
                 </tr>`;
     });
     document.getElementById("tableBody_datos_facturacion").innerHTML = content;
@@ -250,6 +251,40 @@ function eliminar_datoBancario(id_cuenta){
 
   $.ajax({
     url: SERVERURL + "wallet/eliminarDatoBancario",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    success: function (response) {
+        if (response.status == 500) {
+            toastr.error(
+                "NO SE ELIMINO CORRECTAMENTE",
+                "NOTIFICACIÓN", {
+                    positionClass: "toast-bottom-center"
+                }
+            );
+        } else if (response.status == 200) {
+            toastr.success("SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
+                positionClass: "toast-bottom-center",
+            });
+
+            $('#imagen_categoriaModal').modal('hide');
+            initDataTable();
+        }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+}
+
+//eliminar datos factracion
+function eliminar_datofacturacion(id_facturacion){
+    let formData = new FormData();
+  formData.append("id_facturacion", id_facturacion);
+
+  $.ajax({
+    url: SERVERURL + "wallet/eliminarDatoFacturacion",
     type: "POST",
     data: formData,
     processData: false, // No procesar los datos
