@@ -23,18 +23,7 @@
         margin-left: 50px;
     }
 
-    .accordion-item {
-        width: 100%;
-    }
 
-    .accordion-body {
-        padding: 0;
-    }
-
-    .accordion-content {
-        height: 100%;
-        overflow: hidden;
-    }
 
     @media (max-width: 768px) {
         .left_right {
