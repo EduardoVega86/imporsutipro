@@ -17,7 +17,7 @@ class UsuariosModel extends Query
     public function obtener_usuarios_matriz()
     {
         $id_matriz = $this->obtenerMatriz();
-        $sql = "SELECT * FROM  usuario_plataforma, users, plataformas WHERE usuario_plataforma.id_usuario=users.id_users AND plataformas.id_plataforma=usuario_plataforma.id_plataforma and plataformas.id_matriz=$id_matriz;";
+        $sql = "SELECT * FROM  usuario_plataforma, users, plataformas WHERE usuario_plataforma.id_usuario=users.id_users AND plataformas.id_plataforma=usuario_plataforma.id_plataforma and plataformas.id_matriz=1;";
         return $this->select($sql);
     }
     

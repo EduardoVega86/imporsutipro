@@ -29,6 +29,9 @@ class CalculadoraModel extends Query
             $tarifas['gintracom'] = $precio_gintracom[0]['precio'];
         }
 
+        $matriz = $this->obtenerMatriz();
+        $matriz = $matriz[0]["idmatriz"];
+
         $previo = $monto_factura * 0.03;
         if ($trayecto_laar === "0" || $trayecto_laar === null) {
             $tarifas['laar'] = 0;
@@ -81,7 +84,9 @@ class CalculadoraModel extends Query
         } else {
             $tarifas["speed"] = 0;
         }
-
+        if ($matriz == 2) {
+            $tarifas['laar'] = 5.99;
+        }
 
         return $tarifas;
     }
