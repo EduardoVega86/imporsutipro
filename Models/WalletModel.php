@@ -260,16 +260,16 @@ class WalletModel extends Query
 
     public function guardarDatosBancarios($banco, $tipo_cuenta, $numero_cuenta, $nombre, $cedula, $correo, $telefono, $plataforma)
     {
-        $responses = $this->initialResponse();
+        $response = $this->initialResponse();
         $id_matriz = $this->obtenerMatriz();
         $id_matriz = $id_matriz[0]['idmatriz'];
         $sql = "INSERT INTO datos_banco_usuarios (`banco`, `tipo_cuenta`, `numero_cuenta`, `nombre`, `cedula`, `correo`, `telefono`, `id_plataforma`, `id_matriz`) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)";
-        $response =  $this->insert($sql, array($banco, $tipo_cuenta, $numero_cuenta, $nombre, $cedula, $correo, $telefono, $plataforma, $id_matriz));
-        if ($response == 1) {
+        $responses =  $this->insert($sql, array($banco, $tipo_cuenta, $numero_cuenta, $nombre, $cedula, $correo, $telefono, $plataforma, $id_matriz));
+        if ($responses == 1) {
             $response["status"] = 200;
         } else {
             $response["status"] = 400;
-            $response["message"] = $response["message"];
+            $response["message"] = $responses["message"];
         }
         return $response;
     }
