@@ -268,8 +268,7 @@ function eliminar_datoBancario(id_cuenta){
                 positionClass: "toast-bottom-center",
             });
 
-            $('#imagen_categoriaModal').modal('hide');
-            initDataTable();
+            initDataTableDatosBancarios();
         }
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -302,8 +301,7 @@ function eliminar_datofacturacion(id_facturacion){
                 positionClass: "toast-bottom-center",
             });
 
-            $('#imagen_categoriaModal').modal('hide');
-            initDataTable();
+            initDataTableDatosFacturacion();
         }
     },
     error: function (jqXHR, textStatus, errorThrown) {
