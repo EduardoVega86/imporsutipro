@@ -10,8 +10,10 @@ class MarketplaceModel extends Query
 
     public function obtener_productos($plataforma)
     {
+        $id_matriz = $this->obtenerMatriz();
+        $id_matriz = $id_matriz[0]['idmatriz'];
          
-        $sql = "SELECT DISTINCT p.nombre_producto, p.producto_variable, ib.*
+        $sql = "SELECT DISTINCT p.nombre_producto, p.producto_variable, ib.*, plat.id_matriz
 FROM productos p
 JOIN (
     SELECT
@@ -29,9 +31,12 @@ JOIN inventario_bodegas ib
 ON ib.id_producto = ib_filtered.id_producto
 AND ib.sku = ib_filtered.min_sku 
 AND ib.id_inventario = ib_filtered.min_id_inventario
-WHERE (p.drogshipin = 1 OR p.id_plataforma = $plataforma)
+JOIN plataformas plat
+ON ib.id_plataforma = plat.id_plataforma
+WHERE (p.drogshipin = 1 OR p.id_plataforma = $plataforma) 
 AND ((p.drogshipin = 1 AND ib.id_plataforma = p.id_plataforma)
-    OR (ib.id_plataforma = p.id_plataforma));";
+    OR (ib.id_plataforma = p.id_plataforma))
+and plat.id_matriz = $id_matriz";
        // echo $sql;
         return $this->select($sql);
     }
