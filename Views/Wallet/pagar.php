@@ -97,6 +97,24 @@
             </div>
 
             <div class="right gap-2">
+                <h3>Tabla de Pagos</h3>
+                <div class="table-responsive">
+                    <table id="datatable_pagos" class="table table-striped">
+
+                        <thead>
+                            <tr>
+                                <th class="centered">Numero documento</th>
+                                <th class="centered">Fecha</th>
+                                <th class="centered">Tipo</th>
+                                <th class="centered">Valor</th>
+                                <th class="centered">Forma de pago</th>
+                                <th class="centered">Recibo</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody_pagos"></tbody>
+                    </table>
+                </div>
+                <h3>Tabla Historial de Pagos</h3>
                 <div class="table-responsive">
                     <table id="datatable_pagos" class="table table-striped">
 
