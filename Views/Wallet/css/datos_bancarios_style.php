@@ -19,9 +19,9 @@
 
     .line {
             width: 1px;
-            height: 100px; /* Adjust the height for vertical line */
+            height: 100%;
             background-color: #000;
-            margin: 0 auto; /* Center the line horizontally */
+            margin-left: 10px;
         }
 
     @media (max-width: 768px) {
@@ -37,10 +37,11 @@
             
             max-width: 100%;
         }
-        
+
         .line {
-                width: 100px; /* Adjust the width for horizontal line */
+                width: 100%;
                 height: 1px;
+                margin: 0;
             }
     }
 </style>
