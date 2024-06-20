@@ -28,12 +28,12 @@ class Usuarios extends Controller
     
          public function listamatriz()
     {
-        $this->views->render($this, "usuario");
+        $this->views->render($this, "listamatriz");
     }
     
         public function listado()
     {
-        $this->views->render($this, "usuario");
+        $this->views->render($this, "listado");
     }
     
     
