@@ -30,7 +30,7 @@ class CalculadoraModel extends Query
         }
 
         $matriz = $this->obtenerMatriz();
-        $matriz = $matriz["idmatriz"];
+        $matriz = $matriz[0]["idmatriz"];
 
         $previo = $monto_factura * 0.03;
         if ($trayecto_laar === "0" || $trayecto_laar === null) {
