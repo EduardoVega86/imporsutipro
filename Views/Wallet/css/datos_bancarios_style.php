@@ -34,7 +34,6 @@
     .left_right {
         display: flex;
         flex-direction: row;
-        width: 100%;
     }
 
     .left {
@@ -48,6 +47,7 @@
         display: flex;
         flex-direction: column;
         max-width: 60%;
+        min-width: 60%;
     }
 
     .line {
@@ -72,6 +72,7 @@
         .right {
 
             max-width: 100%;
+            min-width: 60%;
         }
 
         .line {
