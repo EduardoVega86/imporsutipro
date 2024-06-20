@@ -48,14 +48,13 @@ const listListaUsuarioMatriz = async () => {
 
       content += `
                 <tr>
-                    <td><a class="dropdown-item link-like" href="${SERVERURL}wallet/pagar?tienda=${usuario.tienda}">${usuario.tienda}</a></td>
-                    <td>${usuario.ventas}</td>
-                    <td>${usuario.utilidad}</td>
-                    <td>${usuario.count_visto_0}</td>
-                    <td>
-                    <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel_general('${usuario.tienda}')">Descargar Excel general</button>
-                    <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel('${usuario.tienda}')">Descargar Excel</button>
-                    </td>
+                    <td>${usuario.id_users}</td>
+                    <td>${usuario.nombre_users}</td>
+                    <td>${usuario.usuario_users}</td>
+                    <td>${usuario.email_users}</td>
+                    <td>${usuario.date_added}</td>
+                    <td>${usuario.nombre_tienda}</td>
+                    <td>${usuario.whatsapp}</td>
                     <td>
                     <div class="dropdown">
                     <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
