@@ -1,7 +1,7 @@
-let dataTable;
-let dataTableIsInitialized = false;
+let dataTableListaUsuarioMatriz;
+let dataTableListaUsuarioMatrizIsInitialized = false;
 
-const dataTableOptions = {
+const dataTableListaUsuarioMatrizOptions = {
   columnDefs: [
     { className: "centered", targets: [1, 2, 3, 4, 5] },
     { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
@@ -25,82 +25,55 @@ const dataTableOptions = {
   },
 };
 
-const initDataTable = async () => {
-  if (dataTableIsInitialized) {
-    dataTable.destroy();
+const initDataTableListaUsuarioMatriz = async () => {
+  if (dataTableListaUsuarioMatrizIsInitialized) {
+    dataTableListaUsuarioMatriz.destroy();
   }
 
-  await listGuias();
+  await listListaUsuarioMatriz();
 
-  dataTable = $("#datatable_guias").DataTable(dataTableOptions);
+  dataTableListaUsuarioMatriz = $("#datatable_lista_usuarioMatriz").DataTable(dataTableListaUsuarioMatrizOptions);
 
-  dataTableIsInitialized = true;
-
-  // Handle select all checkbox
-  document.getElementById("selectAll").addEventListener("change", function () {
-    const checkboxes = document.querySelectorAll(".selectCheckbox");
-    checkboxes.forEach((checkbox) => (checkbox.checked = this.checked));
-  });
+  dataTableListaUsuarioMatrizIsInitialized = true;
 };
 
-const listGuias = async () => {
+const listListaUsuarioMatriz = async () => {
   try {
-    const response = await fetch("" + SERVERURL + "Usuarios/obtener_usuarios_matriz");
-    const guias = await response.json();
+    const response = await fetch("" + SERVERURL + "usuarios/obtener_usuarios_matriz");
+    const listaUsuarioMatriz = await response.json();
 
     let content = ``;
-    let impresiones = "";
-    guias.forEach((guia, index) => {
-      let transporte = guia.id_transporte;
-      let transporte_content = "";
-      if (transporte == 3) {
-        transporte_content =
-          '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SERVIENTREGA</span>';
-      } else if (transporte == 1) {
-        transporte_content =
-          '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">LAAR</span>';
-      } else if (transporte == 2) {
-        transporte_content =
-          '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
-      } else if (transporte == 4) {
-        transporte_content =
-          '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>';
-      } else {
-        transporte_content =
-          '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">Guia no enviada</span>';
-      }
 
-      estado = validar_estado(guia.estado_guia_sistema);
-      var span_estado = estado.span_estado;
-      var estado_guia = estado.estado_guia;
+    listaUsuarioMatriz.forEach((usuario, index) => {
 
-      //tomar solo la ciudad
-      let ciudadCompleta = guia.ciudad;
-      let ciudadArray = ciudadCompleta.split("/");
-      let ciudad = ciudadArray[0];
-
-      let plataforma = procesarPlataforma(guia.plataforma);
-      if (guia.impreso == 0) {
-        impresiones = `<box-icon name='printer' color= "red"></box-icon>`;
-      } else {
-        impresiones = `<box-icon name='printer' color= "green"></box-icon>`;
-      }
       content += `
-         <tr>
-         <td>${guia.pvp}</td>
-         <td>${guia.pref}</td>
-         <td>
-          <button class="btn btn-sm btn-primary" onclick="editarguia(${guia.id_guia})"><i class="fa-solid fa-pencil"></i>Editar</button>
-          <button class="btn btn-sm btn-danger" onclick="eliminarguia(${guia.id_guia})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
-         </td>
-         </tr>`;
+                <tr>
+                    <td><a class="dropdown-item link-like" href="${SERVERURL}wallet/pagar?tienda=${usuario.tienda}">${usuario.tienda}</a></td>
+                    <td>${usuario.ventas}</td>
+                    <td>${usuario.utilidad}</td>
+                    <td>${usuario.count_visto_0}</td>
+                    <td>
+                    <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel_general('${usuario.tienda}')">Descargar Excel general</button>
+                    <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel('${usuario.tienda}')">Descargar Excel</button>
+                    </td>
+                    <td>
+                    <div class="dropdown">
+                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-gear"></i>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" style="cursor: pointer;" href="${SERVERURL}wallet/pagar?tienda=${usuario.tienda}"><i class='bx bx-wallet'></i>Pagar</a></li>
+                    </ul>
+                    </div>
+                    </td>
+                </tr>`;
     });
-    document.getElementById("tableBody_guias").innerHTML = content;
+    document.getElementById("tableBody_lista_usuarioMatriz").innerHTML = content;
   } catch (ex) {
     alert(ex);
   }
 };
 
 window.addEventListener("load", async () => {
-  await initDataTable();
+  await initDataTableListaUsuarioMatriz();
 });
