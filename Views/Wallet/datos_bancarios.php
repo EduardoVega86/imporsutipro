@@ -102,7 +102,7 @@
             <div class="line"></div>
             <div class="right">
                 <div>
-                    <h3 style="text-align: center;">Lista de datos Bancarios</h3>
+                    <h3 style="text-align: center; padding-top:5px;">Lista de datos Bancarios</h3>
                     <div class="table-responsive">
                         <table id="datatable_datos_bancarios" class="table table-striped">
                             <thead>
@@ -122,7 +122,7 @@
                     </div>
                 </div>
                 <div>
-                    <h3 style="text-align: center;">Lista de datos de Facturación</h3>
+                    <h3 style="text-align: center; padding-top:5px;">Lista de datos de Facturación</h3>
                     <div class="table-responsive">
                         <table id="datatable_datos_facturacion" class="table table-striped">
                             <thead>
