@@ -99,7 +99,7 @@ class Usuarios extends Controller
     
      public function obtener_usuarios_plataforma()
     {
-        $response = $this->model->obtener_userGroup($_SESSION['id_plataforma']);
+        $response = $this->model->obtener_usuarios_plataforma($_SESSION['id_plataforma']);
         echo json_encode($response);
     }
     
