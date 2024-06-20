@@ -18,10 +18,23 @@
     }
 
     .line {
-            width: 1px;
-            background-color: #000;
-            margin-left: 50px;
-        }
+        width: 1px;
+        background-color: #000;
+        margin-left: 50px;
+    }
+
+    .accordion-item {
+        width: 100%;
+    }
+
+    .accordion-body {
+        padding: 0;
+    }
+
+    .accordion-content {
+        height: 100%;
+        overflow: hidden;
+    }
 
     @media (max-width: 768px) {
         .left_right {
@@ -33,14 +46,14 @@
         }
 
         .right {
-            
+
             max-width: 100%;
         }
 
         .line {
-                width: 100%;
-                height: 1px;
-                margin: 0;
-            }
+            width: 100%;
+            height: 1px;
+            margin: 0;
+        }
     }
 </style>
