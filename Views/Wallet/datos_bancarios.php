@@ -7,7 +7,7 @@
         <h2 class="text-center mb-4">Datos Bancarios</h2>
         <div class="left_right gap-2">
             <div class="left">
-            <div class="accordion" id="acordion_datosBancarios">
+                <div class="accordion" id="acordion_datosBancarios">
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingOne">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
@@ -20,15 +20,22 @@
                                     <div class="mb-3">
                                         <label for="banco" class="form-label">Banco:</label>
                                         <select class="form-select" id="banco">
-                                            <option>-- Seleccione un banco --</option>
-                                            <!-- Opciones de bancos aquí -->
+                                            <option value="0">-- Seleccione un banco --</option>
+                                            <option value="Pichincha">Banco Pichincha</option>
+                                            <option value="Guayaquil">Banco Guayaquil</option>
+                                            <option value="Produbanco">Banco Produbanco</option>
+                                            <option value="Bolivariano">Banco Bolivariano</option>
+                                            <option value="Pacifico">Banco Pacifico</option>
+                                            <option value="Solidario">Banco Solidario</option>
                                         </select>
                                     </div>
                                     <div class="mb-3">
                                         <label for="tipo_cuenta" class="form-label">Tipo de cuenta:</label>
                                         <select class="form-select" id="tipo_cuenta">
-                                            <option>-- Seleccione un tipo de cuenta --</option>
-                                            <!-- Opciones de tipos de cuenta aquí -->
+                                            <option value="0">-- Seleccione un tipo de cuenta --</option>
+                                            <option value="Ahorros">Ahorros</option>
+                                            <option value="Corriente">Corriente</option>
+                                        </select>
                                         </select>
                                     </div>
                                     <div class="mb-3">
