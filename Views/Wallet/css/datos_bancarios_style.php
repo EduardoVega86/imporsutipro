@@ -81,4 +81,26 @@
             margin: 0;
         }
     }
+
+    /* diseño de iconos con botones */
+    .icon-button {
+        background-color: #007bff;
+        /* Color de fondo azul */
+        border: none;
+        border-radius: 5px;
+        color: white;
+        /* Color del icono */
+        padding: 5px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .icon-button i {
+        margin-right: 5px;
+    }
+
+    .icon-button:hover {
+        background-color: #0056b3;
+        /* Color de fondo al pasar el ratón */
+    }
 </style>
