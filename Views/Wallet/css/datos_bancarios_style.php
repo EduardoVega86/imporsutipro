@@ -34,6 +34,7 @@
     .left_right {
         display: flex;
         flex-direction: row;
+        width: 100%;
     }
 
     .left {
