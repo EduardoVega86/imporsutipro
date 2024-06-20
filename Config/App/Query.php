@@ -174,6 +174,7 @@ class Query extends Conexion
         $host = str_replace("https://", "", $host);
         // quitar el http://
         $host = str_replace("http://", "", $host);
+        $host = str_replace("/imporsutipro/", "", $host);
         $sql = "SELECT idmatriz FROM matriz WHERE url_matriz like '%$host%'";
         return $this->select($sql);
     }
