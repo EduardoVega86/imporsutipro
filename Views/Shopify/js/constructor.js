@@ -53,9 +53,6 @@ document.addEventListener("DOMContentLoaded", function () {
         fillSelectWithKeys('select-nombre', data);
         fillSelectWithKeys('select-apellido', data);
         fillSelectWithKeys('select-principal', data);
-        fillSelectWithKeys('select-nombre', data);
-        fillSelectWithKeys('select-apellido', data);
-        fillSelectWithKeys('select-principal', data);
         fillSelectWithKeys('select-secundario', data);
         fillSelectWithKeys('select-provincia', data);
         fillSelectWithKeys('select-ciudad', data);
@@ -82,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             $(`#${selectId}`).select2({ width: '100%' }).on('change', function() {
                 const selectedKey = select.value;
-                removeDynamicSelects(selectId, true);
+                removeDynamicSelects(selectId);
                 if (selectedKey && data[selectedKey] && typeof data[selectedKey] === 'object') {
                     createDynamicSelect(selectId, data[selectedKey]);
                 }
@@ -118,14 +115,14 @@ document.addEventListener("DOMContentLoaded", function () {
     
         $(`#${dynamicSelectId}`).select2({ width: '100%' }).on('change', function() {
             const selectedKey = dynamicSelect.value;
-            removeDynamicSelects(dynamicSelectId, false);
+            removeDynamicSelects(dynamicSelectId);
             if (selectedKey && nestedData[selectedKey] && typeof nestedData[selectedKey] === 'object') {
                 createDynamicSelect(dynamicSelectId, nestedData[selectedKey]);
             }
         });
     }
     
-    function removeDynamicSelects(parentSelectId, isPrincipal) {
+    function removeDynamicSelects(parentSelectId) {
         const parentSelect = document.getElementById(parentSelectId);
         if (!parentSelect) return;
     
@@ -134,13 +131,13 @@ document.addEventListener("DOMContentLoaded", function () {
             select.parentNode.removeChild(select);
         });
     
-        // Si el select es principal, remover también los selects dinámicos de niveles inferiores
-        if (isPrincipal) {
-            const allDynamicSelects = parentSelect.parentNode.querySelectorAll(`select[id*='-dynamic']`);
-            allDynamicSelects.forEach(select => {
+        // Adicional: remover todos los selects dinámicos anidados
+        const allDynamicSelects = parentSelect.parentNode.querySelectorAll(`select[id*='-dynamic']`);
+        allDynamicSelects.forEach(select => {
+            if (select.id !== parentSelectId && select.id.indexOf(parentSelectId) === 0) {
                 select.parentNode.removeChild(select);
-            });
-        }
+            }
+        });
     }
     
     // Escuchar cambios en cualquier select del documento
