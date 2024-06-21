@@ -72,6 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // Añadir event listener para cada select
                 select.addEventListener('change', function() {
+                    console.log(1)
                     const selectedKey = select.value;
                     if (selectedKey && data[selectedKey] && typeof data[selectedKey] === 'object') {
                         createDynamicSelect(selectId, data[selectedKey]);
