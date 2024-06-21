@@ -115,4 +115,11 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(`Dynamic options for ${parentSelectId}:`, dynamicSelect.innerHTML); // Verificar opciones dinámicas añadidas
         $(`#${dynamicSelectId}`).select2({ width: '100%' });
     }
+
+    // Escuchar cambios en cualquier select del documento
+    document.addEventListener('change', function(event) {
+        if (event.target && event.target.nodeName === 'SELECT') {
+            console.log(`Change detected on select with id ${event.target.id}`);
+        }
+    });
 });
