@@ -88,7 +88,7 @@ class ShopifyModel extends Query
 
     public function ultimoJson($id_plataforma)
     {
-        $sql = "SELECT json FROM web_hook_shopify WHERE id_plataforma = $id_plataforma ORDER BY id_web_hook_shopify DESC LIMIT 1";
+        $sql = "SELECT json FROM web_hook_shopify WHERE id_plataforma = $id_plataforma ORDER BY id_wbs DESC LIMIT 1;";
         $response = $this->select($sql);
         return $response;
     }

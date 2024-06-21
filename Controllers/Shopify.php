@@ -84,4 +84,10 @@ class Shopify extends Controller
         $response = $this->model->verificarConfiguracion($_SESSION["id_plataforma"]);
         echo json_encode($response);
     }
+
+    public function ultimoJson()
+    {
+        $response = $this->model->ultimoJson($_SESSION["id_plataforma"]);
+        echo json_encode($response);
+    }
 }
