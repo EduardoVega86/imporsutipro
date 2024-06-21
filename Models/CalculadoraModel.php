@@ -165,13 +165,13 @@ class CalculadoraModel extends Query
         $decodedResponse = html_entity_decode($response);
         echo "Decoded Response: " . htmlspecialchars($decodedResponse);
 
-        // Cargar la respuesta como XML
-        $responseXml = simplexml_load_string($decodedResponse);
-        if ($responseXml === false) {
-            echo "Failed loading XML: ";
-            foreach (libxml_get_errors() as $error) {
-                echo "<br>", $error->message;
-            }
+        // Cargar la respuesta en DOMDocument
+        $dom = new DOMDocument();
+        libxml_use_internal_errors(true);
+        $dom->loadXML($decodedResponse);
+        if (libxml_get_errors()) {
+            echo "Failed loading XML";
+            libxml_clear_errors();
             return [
                 "flete" => 0,
                 "seguro" => 0,
@@ -181,11 +181,23 @@ class CalculadoraModel extends Query
             ];
         }
 
-        // Obtener el contenido de <Result>
-        $namespaces = $responseXml->getNamespaces(true);
-        $body = $responseXml->children($namespaces['SOAP-ENV'])->Body;
-        $result = (string)$body->children($namespaces['ns1'])->ConsultarResponse->Result;
+        // Extraer el contenido de <Result>
+        $xpath = new DOMXPath($dom);
+        $xpath->registerNamespace('soap', 'http://schemas.xmlsoap.org/soap/envelope/');
+        $xpath->registerNamespace('ns1', 'https://servientrega-ecuador.appsiscore.com/app/ws/');
+        $resultNode = $xpath->query('//soap:Body/ns1:ConsultarResponse/Result')->item(0);
+        if (!$resultNode) {
+            echo "No se encontró la etiqueta <Result>";
+            return [
+                "flete" => 0,
+                "seguro" => 0,
+                "comision" => 0,
+                "otros" => 0,
+                "impuestos" => 0
+            ];
+        }
 
+        $result = $resultNode->nodeValue;
         echo "Extracted Result: " . htmlspecialchars($result);
 
         // Decodificar entidades HTML del resultado
