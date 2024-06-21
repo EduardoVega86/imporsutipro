@@ -125,9 +125,16 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function removeDynamicSelects(parentSelectId) {
-        const dynamicSelects = document.querySelectorAll(`[id^='${parentSelectId}-dynamic']`);
+        const parentSelect = document.getElementById(parentSelectId);
+        if (!parentSelect) return;
+
+        // Buscar todos los selectores dinámicos relacionados con el parentSelectId
+        const dynamicSelects = parentSelect.parentNode.querySelectorAll(`select[id^='${parentSelectId}-dynamic']`);
         console.log(`Removing dynamic selects for ${parentSelectId}:`, dynamicSelects); // Verificar los selectores dinámicos a eliminar
-        dynamicSelects.forEach(select => select.parentNode.removeChild(select));
+        dynamicSelects.forEach(select => {
+            // Eliminar el select
+            select.parentNode.removeChild(select);
+        });
     }
 
     // Escuchar cambios en cualquier select del documento
