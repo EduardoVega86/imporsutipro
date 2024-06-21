@@ -4,7 +4,6 @@ class Shopify extends Controller
     public function __construct()
     {
         parent::__construct();
-        session_start();
     }
 
     public function index($id_plataforma)
@@ -37,7 +36,14 @@ class Shopify extends Controller
 
     public function generarEnlace()
     {
+        $this->isAuth();
         $data = $this->model->generarEnlace($_SESSION["id_plataforma"]);
+        echo json_encode($data);
+    }
+
+    public function obtenerPlataforma()
+    {
+        $data = $this->model->obtenerPlataforma($_SESSION["id_plataforma"]);
         echo json_encode($data);
     }
 
