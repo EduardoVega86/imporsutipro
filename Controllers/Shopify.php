@@ -15,7 +15,7 @@ class Shopify extends Controller
             $data = file_get_contents("php://input");
             $response = $this->model->agregarJson($id_plataforma, $data);
 
-            //$this->model->gestionarRequest($id_plataforma, $data);
+            $this->model->gestionarRequest($id_plataforma, $data);
         } else {
             $data = file_get_contents("php://input");
             $response = $this->model->agregarJson($id_plataforma, $data);
