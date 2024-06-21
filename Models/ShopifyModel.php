@@ -6,6 +6,38 @@ class ShopifyModel extends Query
         parent::__construct();
     }
 
+    public function gestionarRequest($plataforma, $data)
+    {
+        $data = json_decode($data, true);
+        $configuraciones = $this->obtenerConfiguracion($plataforma);
+        $configuraciones = $configuraciones[0];
+        $resultados = [];
+        foreach ($configuraciones as $key => $value) {
+            $resultados[$key] = $this->obtenerData($data, $value);
+        }
+        var_dump($resultados);
+    }
+
+    function obtenerData($data, $ruta)
+    {
+        $partes = explode("/", $ruta);
+        foreach ($partes as $parte) {
+            if (isset($data[$parte])) {
+                $data = $data[$parte];
+            } else {
+                return null;
+            }
+        }
+        return $data;
+    }
+
+    public function obtenerConfiguracion($id_plataforma)
+    {
+        $sql = "SELECT * FROM configuracion_shopify WHERE id_plataforma = $id_plataforma";
+        $response = $this->select($sql);
+        return $response;
+    }
+
     public function iniciarPlataforma($id_plataforma)
     {
         $sql = "INSERT INTO shopify (id_plataforma) VALUES (:id_plataforma)";
