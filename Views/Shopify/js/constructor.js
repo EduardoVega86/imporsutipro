@@ -36,7 +36,7 @@ document
             method: "GET",
             dataType: "json",
             success: function (data) {
-              if (data && data.length > 0) {
+              if (data && data.id) {
                 
                 // Ocultar la animación de carga debajo del input
                 document.getElementById("loading-below").style.display = "none";
