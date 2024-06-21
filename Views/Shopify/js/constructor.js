@@ -72,9 +72,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // Añadir event listener para cada select
                 select.addEventListener('change', function() {
-                    console.log(1)
+                    console.log(`Change event detected on ${selectId}`);
                     const selectedKey = select.value;
                     if (selectedKey && data[selectedKey] && typeof data[selectedKey] === 'object') {
+                        console.log(`Creating dynamic select for ${selectedKey}`);
                         createDynamicSelect(selectId, data[selectedKey]);
                     }
                 });
@@ -85,10 +86,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function createDynamicSelect(parentSelectId, nestedData) {
-        console.log("1");
         const parentSelect = document.getElementById(parentSelectId);
         if (!parentSelect) return;
-        console.log("2")
+
         const dynamicSelectId = `${parentSelectId}-dynamic`;
         let dynamicSelect = document.getElementById(dynamicSelectId);
 
