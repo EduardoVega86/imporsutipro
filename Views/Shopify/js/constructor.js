@@ -131,6 +131,7 @@ document.addEventListener("DOMContentLoaded", function () {
         dynamicSelects.forEach(select => {
             if (select.id !== parentSelectId && select.id.startsWith(parentSelectId)) {
                 console.log(`Eliminando select dinámico: ${select.id}`);
+                $(`#${select.id}`).select2('destroy'); // Destruir Select2 antes de eliminar
                 select.parentNode.removeChild(select);
             }
         });
