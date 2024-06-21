@@ -147,7 +147,7 @@ class CalculadoraModel extends Query
 
         $response = curl_exec($ch);
         curl_close($ch);
-
+        echo "Raw Response: " . htmlspecialchars($response);
         // Parsear la respuesta XML
         $responseXml = new SimpleXMLElement($response);
         $namespaces = $responseXml->getNamespaces(true);
