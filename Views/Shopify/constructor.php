@@ -28,6 +28,7 @@
                         <div class="generacion_enlace" id="enlace-section">
                             <label for="generador_enlace" class="form-label">Enlace generado:</label>
                             <input type="text" class="form-control" id="generador_enlace" disabled>
+                            <label for="infor">Agregar este enlace en su webhook</label>
                         </div>
                     </div>
                 </div>
