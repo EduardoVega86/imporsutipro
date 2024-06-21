@@ -84,9 +84,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function createDynamicSelect(parentSelectId, nestedData) {
+        console.log("1");
         const parentSelect = document.getElementById(parentSelectId);
         if (!parentSelect) return;
-
+        console.log("2")
         const dynamicSelectId = `${parentSelectId}-dynamic`;
         let dynamicSelect = document.getElementById(dynamicSelectId);
 
