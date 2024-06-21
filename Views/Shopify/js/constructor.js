@@ -125,12 +125,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function removeDynamicSelects(parentSelectId) {
-        const dynamicSelectId = `${parentSelectId}-dynamic`;
-        let dynamicSelect = document.getElementById(dynamicSelectId);
-        while (dynamicSelect) {
-            dynamicSelect.parentNode.removeChild(dynamicSelect);
-            dynamicSelect = document.getElementById(dynamicSelectId);
-        }
+        const dynamicSelects = document.querySelectorAll(`[id^='${parentSelectId}-dynamic']`);
+        dynamicSelects.forEach(select => select.parentNode.removeChild(select));
     }
 
     // Escuchar cambios en cualquier select del documento
