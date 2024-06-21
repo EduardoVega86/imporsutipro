@@ -27,8 +27,18 @@
 
                         <div class="generacion_enlace" id="enlace-section" style="padding-top: 10px;">
                             <label for="generador_enlace" class="form-label">Enlace generado:</label>
-                            <input type="text" class="form-control" id="generador_enlace" disabled>
-                            <label for="infor">Agregar este enlace en su webhook</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="generador_enlace" disabled>
+                                <button class="btn btn-primary" type="button" id="verify-button">Verificar</button>
+                            </div>
+                            <label for="infor">Nota: Agregar este enlace en su webhook</label>
+                        </div>
+                        
+                        <div class="loading-animation" id="loading-below" style="display: none;">
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only">Cargando...</span>
+                            </div>
+                            <div>Cargando...</div>
                         </div>
                     </div>
                 </div>
