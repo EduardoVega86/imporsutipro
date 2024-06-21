@@ -172,15 +172,20 @@ document.addEventListener("DOMContentLoaded", function () {
     function getSelectValues(selectId) {
         const values = [];
         let currentSelectId = selectId;
-        let counter = 0;
     
         while (document.getElementById(currentSelectId)) {
             const select = document.getElementById(currentSelectId);
             if (select && select.value) {
                 values.push(select.value);
             }
-            currentSelectId = `${selectId}-dynamic-${counter}`;
-            counter++;
+            // Modificar la lógica para obtener correctamente los selects dinámicos
+            const dynamicSelects = document.querySelectorAll(`select[id^="${currentSelectId}-dynamic"]`);
+            dynamicSelects.forEach(dynamicSelect => {
+                if (dynamicSelect && dynamicSelect.value) {
+                    values.push(dynamicSelect.value);
+                }
+            });
+            break; // Romper el bucle después de procesar el primer select principal y sus dinámicos
         }
     
         return values;
