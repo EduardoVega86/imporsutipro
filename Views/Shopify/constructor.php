@@ -70,5 +70,5 @@
     </div>
 </div>
 
-<script src="<?php echo SERVERURL ?>/Views/Shopidy/js/constructor.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/Shopify/js/constructor.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
