@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     console.log(`Change event detected on ${selectId}`); // Verificar si el evento change se detecta
                     const selectedKey = select.value;
 
-                    // Reiniciar selects dinámicos antes de crear nuevos
+                    // Reiniciar selects dinámicos siempre, antes de crear nuevos
                     resetDynamicSelects(selectId);
 
                     if (selectedKey && data[selectedKey] && typeof data[selectedKey] === 'object') {
@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log(`Change event detected on ${dynamicSelectId}`); // Verificar si el evento change se detecta
             const selectedKey = dynamicSelect.value;
 
-            // Reiniciar selects dinámicos antes de crear nuevos
+            // Reiniciar selects dinámicos siempre, antes de crear nuevos
             resetDynamicSelects(dynamicSelectId);
 
             if (selectedKey && nestedData[selectedKey] && typeof nestedData[selectedKey] === 'object') {
