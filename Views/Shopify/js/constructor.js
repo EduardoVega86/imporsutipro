@@ -23,7 +23,7 @@ document
     // final del cargar shopify
 
     //inicio cargar de boton verificar
-    ddocument
+    document
       .getElementById("verify-button")
       .addEventListener("click", function () {
         // Mostrar la animación de carga debajo del input
@@ -35,7 +35,7 @@ document
           dataType: "json",
           success: function (data) {
             if (data && data.length > 0) {
-                
+
               // Ocultar la animación de carga debajo del input
               document.getElementById("loading-below").style.display = "none";
 
