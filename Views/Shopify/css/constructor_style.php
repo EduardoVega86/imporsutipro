@@ -54,7 +54,6 @@
 
     .form-group label {
         color: black;
-        /* Cambiar el color de la etiqueta a blanco */
     }
 
     /* animacion y diseño de aplicacion y name de aplicacion */
