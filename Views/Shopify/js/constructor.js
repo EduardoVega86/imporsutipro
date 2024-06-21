@@ -62,8 +62,8 @@ document.getElementById('verify-button').addEventListener('click', function() {
 
 function fillSelectsWithKeys(data) {
     const selectIds = [
-        'select-nombres',
-        'select-apellidos',
+        'select-nombre',
+        'select-apellido',
         'select-principal',
         'select-secundario',
         'select-provincia',
