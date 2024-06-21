@@ -33,7 +33,7 @@
                             </div>
                             <label for="infor">Nota: Agregar este enlace en su webhook</label>
                         </div>
-                        
+
                         <div class="loading-animation" id="loading-below" style="display: none;">
                             <div class="spinner-border" role="status">
                                 <span class="sr-only">Cargando...</span>
@@ -46,34 +46,83 @@
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingTwo">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        Datos de Facturación
+                        Seleccione
                     </button>
                 </h2>
                 <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#acordion_aplicacionShopify">
                     <div class="accordion-body">
-                        <form id="datos_facturacion">
-                            <div class="mb-3">
-                                <label for="razon_socialFactura" class="form-label">Razón Social:</label>
-                                <input type="text" class="form-control" id="razon_socialFactura" placeholder="Razón Social">
-                            </div>
-                            <div class="mb-3">
-                                <label for="ruc_factura" class="form-label">RUC:</label>
-                                <input type="text" class="form-control" id="ruc_factura" placeholder="RUC">
-                            </div>
-                            <div class="mb-3">
-                                <label for="direccion_factura" class="form-label">Dirección:</label>
-                                <input type="text" class="form-control" id="direccion_factura" placeholder="Dirección">
-                            </div>
-                            <div class="mb-3">
-                                <label for="correo_factura" class="form-label">Correo:</label>
-                                <input type="email" class="form-control" id="correo_factura" placeholder="Correo">
-                            </div>
-                            <div class="mb-3">
-                                <label for="telefono_factura" class="form-label">Teléfono:</label>
-                                <input type="text" class="form-control" id="telefono_factura" placeholder="Teléfono">
-                            </div>
-                            <button type="submit" class="btn btn-success">Enviar datos</button>
-                        </form>
+                        <div class="form-group w-100 hidden-field" id="bodega-field">
+                            <label for="nombre">Nombre:</label>
+                            <select class="form-select" id="nombre">
+                                <option value="" selected>-- Seleccione Nombre --</option>
+                            </select>
+                        </div>
+                        <div class="form-group w-100 hidden-field" id="bodega-field">
+                            <label for="apellido">Apellido:</label>
+                            <select class="form-select" id="apellido">
+                                <option value="" selected>-- Seleccione Apellido --</option>
+                            </select>
+                        </div>
+                        <div class="form-group w-100 hidden-field" id="bodega-field">
+                            <label for="principal">Calle Principal:</label>
+                            <select class="form-select" id="principal">
+                                <option value="" selected>-- Seleccione Calle Principal --</option>
+                            </select>
+                        </div>
+                        <div class="form-group w-100 hidden-field" id="bodega-field">
+                            <label for="secundario">Calle Secundaria:</label>
+                            <select class="form-select" id="secundario">
+                                <option value="" selected>-- Seleccione Calle Secundaria --</option>
+                            </select>
+                        </div>
+                        <div class="form-group w-100 hidden-field" id="bodega-field">
+                            <label for="provincia">Provincia:</label>
+                            <select class="form-select" id="provincia">
+                                <option value="" selected>-- Seleccione Provincia --</option>
+                            </select>
+                        </div>
+                        <div class="form-group w-100 hidden-field" id="bodega-field">
+                            <label for="ciudad">Ciudad:</label>
+                            <select class="form-select" id="ciudad">
+                                <option value="" selected>-- Seleccione Ciudad --</option>
+                            </select>
+                        </div>
+                        <div class="form-group w-100 hidden-field" id="bodega-field">
+                            <label for="codigo_postal">Codigo postal:</label>
+                            <select class="form-select" id="codigo_postal">
+                                <option value="" selected>-- Seleccione Codigo postal --</option>
+                            </select>
+                        </div>
+                        <div class="form-group w-100 hidden-field" id="bodega-field">
+                            <label for="pais">País:</label>
+                            <select class="form-select" id="pais">
+                                <option value="" selected>-- Seleccione País --</option>
+                            </select>
+                        </div>
+                        <div class="form-group w-100 hidden-field" id="bodega-field">
+                            <label for="telefono">Teléfono:</label>
+                            <select class="form-select" id="telefono">
+                                <option value="" selected>-- Seleccione Teléfono --</option>
+                            </select>
+                        </div>
+                        <div class="form-group w-100 hidden-field" id="bodega-field">
+                            <label for="email">Email:</label>
+                            <select class="form-select" id="email">
+                                <option value="" selected>-- Seleccione Email --</option>
+                            </select>
+                        </div>
+                        <div class="form-group w-100 hidden-field" id="bodega-field">
+                            <label for="total">Total:</label>
+                            <select class="form-select" id="total">
+                                <option value="" selected>-- Seleccione Total --</option>
+                            </select>
+                        </div>
+                        <div class="form-group w-100 hidden-field" id="bodega-field">
+                            <label for="descuento">Descuento:</label>
+                            <select class="form-select" id="descuento">
+                                <option value="" selected>-- Seleccione Descuento --</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
