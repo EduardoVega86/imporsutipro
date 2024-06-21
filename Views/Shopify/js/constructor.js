@@ -137,6 +137,55 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
     
+    document.getElementById('send-button').addEventListener('click', function() {
+        const formData = new FormData();
+    
+        // List of principal select IDs
+        const selectIds = [
+            'select-nombre', 'select-apellido', 'select-principal', 'select-secundario',
+            'select-provincia', 'select-ciudad', 'select-codigo_postal', 'select-pais',
+            'select-telefono', 'select-email', 'select-total', 'select-descuento'
+        ];
+    
+        selectIds.forEach(selectId => {
+            const values = getSelectValues(selectId);
+            if (values.length > 0) {
+                formData.append(selectId.split('-')[1], values.join('/'));
+            }
+        });
+    
+        $.ajax({
+            url: 'URL_DE_TU_API',
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                console.log('Datos enviados correctamente:', response);
+            },
+            error: function(error) {
+                console.error('Error al enviar los datos:', error);
+            }
+        });
+    });
+    
+    function getSelectValues(selectId) {
+        const select = document.getElementById(selectId);
+        const values = [];
+        if (select && select.value) {
+            values.push(select.value);
+            let dynamicSelectId = `${selectId}-dynamic`;
+            while (document.getElementById(dynamicSelectId)) {
+                const dynamicSelect = document.getElementById(dynamicSelectId);
+                if (dynamicSelect && dynamicSelect.value) {
+                    values.push(dynamicSelect.value);
+                }
+                dynamicSelectId = `${dynamicSelectId}-${Date.now()}`;
+            }
+        }
+        return values;
+    }
+    
     // Escuchar cambios en cualquier select del documento
     document.addEventListener('change', function(event) {
         if (event.target && event.target.nodeName === 'SELECT') {
