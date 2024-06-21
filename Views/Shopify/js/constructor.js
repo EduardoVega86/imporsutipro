@@ -1,6 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-    let selectedPaths = {}; // Objeto para almacenar las rutas de cada select principal
-
     // Event listener para el contenedor que activa la generación del enlace
     document.getElementById("trigger-container").addEventListener("click", function () {
         document.getElementById("loading").style.display = "block";
@@ -76,12 +74,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // Inicializar select2 y luego adjuntar el event listener
                 $(`#${selectId}`).select2({ width: '100%' }).on('change', function() {
-                    updateSelectedPath(selectId, select.value);
                     console.log(`Change event detected on ${selectId}`); // Verificar si el evento change se detecta
                     const selectedKey = select.value;
                     if (selectedKey && data[selectedKey] && typeof data[selectedKey] === 'object') {
                         console.log(`Creating dynamic select for ${selectedKey}`); // Verificar si se está creando el select dinámico
                         createDynamicSelect(selectId, data[selectedKey]);
+                    } else {
+                        // Reiniciar selects dinámicos si no se cumple la condición
+                        resetDynamicSelects(selectId);
                     }
                 });
             } else {
@@ -116,81 +116,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
         console.log(`Dynamic options for ${parentSelectId}:`, dynamicSelect.innerHTML); // Verificar opciones dinámicas añadidas
         $(`#${dynamicSelectId}`).select2({ width: '100%' }).on('change', function() {
-            updateSelectedPath(dynamicSelectId, dynamicSelect.value);
             console.log(`Change event detected on ${dynamicSelectId}`); // Verificar si el evento change se detecta
             const selectedKey = dynamicSelect.value;
             if (selectedKey && nestedData[selectedKey] && typeof nestedData[selectedKey] === 'object') {
                 console.log(`Creating dynamic select for ${selectedKey}`); // Verificar si se está creando el select dinámico
                 createDynamicSelect(dynamicSelectId, nestedData[selectedKey]);
+            } else {
+                // Reiniciar selects dinámicos si no se cumple la condición
+                resetDynamicSelects(dynamicSelectId);
             }
         });
     }
 
-    function updateSelectedPath(selectId, value) {
-        const index = selectId.split('-').length - 2; // Obtener el índice del select basado en el número de guiones
-        const mainSelectId = selectId.split('-')[0]; // Obtener el id del select principal
-        if (!selectedPaths[mainSelectId]) {
-            selectedPaths[mainSelectId] = [];
-        }
-        selectedPaths[mainSelectId] = selectedPaths[mainSelectId].slice(0, index); // Cortar la ruta seleccionada hasta el índice actual
-        if (value) {
-            selectedPaths[mainSelectId].push(value); // Añadir el nuevo valor a la ruta seleccionada
-        }
-        console.log('Selected paths:', selectedPaths); // Mostrar las rutas seleccionadas
+    function resetDynamicSelects(parentSelectId) {
+        // Eliminar todos los selects dinámicos relacionados con el select padre
+        const parentSelect = document.getElementById(parentSelectId);
+        if (!parentSelect) return;
+
+        const selectsToRemove = parentSelect.parentNode.querySelectorAll(`select[id^='${parentSelectId}-dynamic']`);
+        selectsToRemove.forEach(select => select.remove());
     }
-
-    function sendSelectedPathsToApi() {
-        let formData = new FormData();
-
-        // Mapear nombres de selects a los nombres esperados por el controlador
-        const mapping = {
-            'select-nombre': 'nombre',
-            'select-apellido': 'apellido',
-            'select-principal': 'principal',
-            'select-secundario': 'secundario',
-            'select-provincia': 'provincia',
-            'select-ciudad': 'ciudad',
-            'select-codigo_postal': 'codigo_postal',
-            'select-pais': 'pais',
-            'select-telefono': 'telefono',
-            'select-email': 'email',
-            'select-total': 'total',
-            'select-descuento': 'descuento'
-        };
-
-        // Agregar cada ruta al formData con el nombre correcto
-        for (let key in selectedPaths) {
-            if (selectedPaths.hasOwnProperty(key) && mapping[key]) {
-                const path = selectedPaths[key].join('/');
-                formData.append(mapping[key], path);
-                console.log(`Appending ${mapping[key]}: ${path}`);
-            }
-        }
-
-        console.log('FormData content:');
-        formData.forEach((value, key) => {
-            console.log(key, value);
-        });
-
-        $.ajax({
-            url: SERVERURL + 'shopify/guardarConfiguracion', // Reemplaza esto con la URL de tu API
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(response) {
-                console.log('Paths sent successfully:', response);
-            },
-            error: function(error) {
-                console.error('Error sending paths:', error);
-            }
-        });
-    }
-
-    // Event listener para el botón de enviar
-    document.getElementById('send-button').addEventListener('click', function() {
-        sendSelectedPathsToApi();
-    });
 
     // Escuchar cambios en cualquier select del documento
     document.addEventListener('change', function(event) {
