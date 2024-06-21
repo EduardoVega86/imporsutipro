@@ -202,28 +202,26 @@ class CalculadoraModel extends Query
 
         // Decodificar entidades HTML del resultado
         $resultDecoded = html_entity_decode($result);
-
         echo "Decoded Result: " . htmlspecialchars($resultDecoded);
 
-        try {
-            // Convertir el resultado de la cadena XML a un objeto SimpleXMLElement
-            $resultXml = new SimpleXMLElement($resultDecoded);
-        } catch (Exception $e) {
-            echo "Error parsing XML: " . $e->getMessage();
-            return [
-                "flete" => 0,
-                "seguro" => 0,
-                "comision" => 0,
-                "otros" => 0,
-                "impuestos" => 0
-            ];
-        }
+        // Parsear manualmente el contenido de <Result>
+        $flete = $seguro = $comision = $otros = $impuestos = 0;
 
-        $flete = (float)$resultXml->flete;
-        $seguro = (float)$resultXml->seguro;
-        $comision = (float)$resultXml->valor_comision;
-        $otros = (float)$resultXml->otros;
-        $impuestos = (float)$resultXml->impuesto;
+        if (preg_match('/<flete>(.*?)<\/flete>/', $resultDecoded, $matches)) {
+            $flete = (float)$matches[1];
+        }
+        if (preg_match('/<seguro>(.*?)<\/seguro>/', $resultDecoded, $matches)) {
+            $seguro = (float)$matches[1];
+        }
+        if (preg_match('/<valor_comision>(.*?)<\/valor_comision>/', $resultDecoded, $matches)) {
+            $comision = (float)$matches[1];
+        }
+        if (preg_match('/<otros>(.*?)<\/otros>/', $resultDecoded, $matches)) {
+            $otros = (float)$matches[1];
+        }
+        if (preg_match('/<impuesto>(.*?)<\/impuesto>/', $resultDecoded, $matches)) {
+            $impuestos = (float)$matches[1];
+        }
 
         $data = [
             "flete" => $flete,
