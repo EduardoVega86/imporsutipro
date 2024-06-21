@@ -70,16 +70,5 @@
     </div>
 </div>
 
-<script>
-    document.getElementById('trigger-container').addEventListener('click', function() {
-        // Mostrar la animación de carga
-        document.getElementById('loading').style.display = 'block';
-
-        // Esperar 5 segundos y luego mostrar la sección de enlace generado
-        setTimeout(function() {
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('enlace-section').style.display = 'block';
-        }, 5000);
-    });
-</script>
+<script src="<?php echo SERVERURL ?>/Views/Shopidy/js/constructor.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
