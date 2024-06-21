@@ -156,6 +156,7 @@ class ShopifyModel extends Query
             'observacion' => $observacion,
             'transporte' => $transporte,
             'importado' => $importado,
+            'id_producto_venta' => $id_producto_venta,
         );
 
         $data = http_build_query($data);
