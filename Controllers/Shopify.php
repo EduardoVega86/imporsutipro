@@ -15,11 +15,8 @@ class Shopify extends Controller
             $data = file_get_contents("php://input");
             $this->model->gestionarRequest($id_plataforma, $data);
         } else {
-
-            $response = array(
-                "status" => "error",
-                "message" => "No se ha encontrado la plataforma",
-            );
+            $data = file_get_contents("php://input");
+            $response = $this->model->agregarJson($id_plataforma);
             echo json_encode($response);
         }
     }

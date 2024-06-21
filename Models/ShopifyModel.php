@@ -71,4 +71,18 @@ class ShopifyModel extends Query
         }
         return $response;
     }
+
+    public function agregarJson($id_plataforma, $data)
+    {
+        $sql = "INSERT INTO web_hook_shopify (id_plataforma, json) VALUES (?, ?)";
+        $response = $this->insert($sql, $data);
+        if ($response == 1) {
+            $response["status"] = "200";
+            $response["message"] = "Json guardado correctamente";
+        } else {
+            $response["status"] = "500";
+            $response["message"] = "Error al guardar el json";
+        }
+        return $response;
+    }
 }
