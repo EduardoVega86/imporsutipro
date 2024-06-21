@@ -117,26 +117,26 @@ class CalculadoraModel extends Query
         $url = "https://servientrega-ecuador.appsiscore.com/app/ws/cotizador_ser_recaudo.php?wsdl";
 
         $xml = <<<XML
-        <soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ws="https://servientrega-ecuador.appsiscore.com/app/ws/">
-        <soapenv:Header/>
-        <soapenv:Body>
-            <ws:Consultar soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
-                <producto xsi:type="xsd:string">MERCANCIA PREMIER</producto>
-                <origen xsi:type="xsd:string">$ciudadO</origen>
-                <destino xsi:type="xsd:string">$destino</destino>
-                <valor_mercaderia xsi:type="xsd:string">$monto_factura</valor_mercaderia>
-                <piezas xsi:type="xsd:string">1</piezas>
-                <peso xsi:type="xsd:string">2</peso>
-                <alto xsi:type="xsd:string">10</alto>
-                <ancho xsi:type="xsd:string">50</ancho>
-                <largo xsi:type="xsd:string">50</largo>
-                <tokn xsi:type="xsd:string">1593aaeeb60a560c156387989856db6be7edc8dc220f9feae3aea237da6a951d</tokn>
-                <usu xsi:type="xsd:string">IMPCOMEX</usu>
-                <pwd xsi:type="xsd:string">Rtcom-ex9912</pwd>
-            </ws:Consultar>
-        </soapenv:Body>
-        </soapenv:Envelope>
-        XML;
+    <soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ws="https://servientrega-ecuador.appsiscore.com/app/ws/">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <ws:Consultar soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+            <producto xsi:type="xsd:string">MERCANCIA PREMIER</producto>
+            <origen xsi:type="xsd:string">$ciudadO</origen>
+            <destino xsi:type="xsd:string">$destino</destino>
+            <valor_mercaderia xsi:type="xsd:string">$monto_factura</valor_mercaderia>
+            <piezas xsi:type="xsd:string">1</piezas>
+            <peso xsi:type="xsd:string">2</peso>
+            <alto xsi:type="xsd:string">10</alto>
+            <ancho xsi:type="xsd:string">50</ancho>
+            <largo xsi:type="xsd:string">50</largo>
+            <tokn xsi:type="xsd:string">1593aaeeb60a560c156387989856db6be7edc8dc220f9feae3aea237da6a951d</tokn>
+            <usu xsi:type="xsd:string">IMPCOMEX</usu>
+            <pwd xsi:type="xsd:string">Rtcom-ex9912</pwd>
+        </ws:Consultar>
+    </soapenv:Body>
+    </soapenv:Envelope>
+    XML;
 
         $ch = curl_init($url);
 
@@ -161,9 +161,13 @@ class CalculadoraModel extends Query
 
         echo "Raw Response: " . htmlspecialchars($response);
 
+        // Decodificar la respuesta HTML
+        $decodedResponse = html_entity_decode($response);
+        echo "Decoded Response: " . htmlspecialchars($decodedResponse);
+
         // Asegurarse de que la respuesta es un XML válido
         libxml_use_internal_errors(true);
-        $responseXml = simplexml_load_string($response);
+        $responseXml = simplexml_load_string($decodedResponse);
 
         if ($responseXml === false) {
             echo "Failed loading XML: ";
@@ -187,7 +191,7 @@ class CalculadoraModel extends Query
 
         // Verificar si la cadena no está vacía
         if (!empty($result)) {
-            // Decodificar entidades HTML
+            // Decodificar entidades HTML del resultado
             $resultDecoded = html_entity_decode($result);
 
             echo "Decoded Result: " . htmlspecialchars($resultDecoded);
