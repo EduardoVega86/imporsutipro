@@ -61,38 +61,54 @@ document.getElementById('verify-button').addEventListener('click', function() {
 });
 
 function fillSelectsWithKeys(data) {
-    const selectIds = [
-        'select-nombre',
-        'select-apellido',
-        'select-principal',
-        'select-secundario',
-        'select-provincia',
-        'select-ciudad',
-        'select-codigo_postal',
-        'select-pais',
-        'select-telefono',
-        'select-email',
-        'select-total',
-        'select-descuento'
-    ];
+    const container = document.getElementById('dynamic-select-container');
+    container.innerHTML = ''; // Limpiar el contenedor antes de llenarlo
 
-    selectIds.forEach(selectId => {
-        const select = document.getElementById(selectId);
-        if (select) {
-            select.innerHTML = '<option value="" selected>-- Seleccione --</option>';
-            for (let key in data) {
-                if (data.hasOwnProperty(key)) {
-                    const option = document.createElement('option');
-                    option.value = key;
-                    option.text = key;
-                    select.appendChild(option);
+    const createSelect = (key, data) => {
+        const selectContainer = document.createElement('div');
+        selectContainer.className = 'form-group w-100 hidden-field';
+        selectContainer.style.display = 'none'; // Ocultarlo inicialmente
+
+        const label = document.createElement('label');
+        label.textContent = key;
+        selectContainer.appendChild(label);
+
+        const select = document.createElement('select');
+        select.className = 'form-select';
+        select.id = `select-${key}`;
+        select.innerHTML = '<option value="" selected>-- Seleccione --</option>';
+
+        for (let subkey in data) {
+            if (data.hasOwnProperty(subkey)) {
+                const option = document.createElement('option');
+                option.value = subkey;
+                option.text = subkey;
+                select.appendChild(option);
+            }
+        }
+
+        selectContainer.appendChild(select);
+        container.appendChild(selectContainer);
+        $(`#select-${key}`).select2({ width: '100%' });
+
+        select.addEventListener('change', function() {
+            const selectedKey = this.value;
+            if (data[selectedKey] && typeof data[selectedKey] === 'object' && !Array.isArray(data[selectedKey])) {
+                document.getElementById(`dynamic-${key}-${selectedKey}`).style.display = 'block';
+            }
+        });
+    };
+
+    const processKeys = (data, prefix = '') => {
+        for (let key in data) {
+            if (data.hasOwnProperty(key)) {
+                if (typeof data[key] === 'object' && !Array.isArray(data[key])) {
+                    createSelect(`${prefix}${key}`, data[key]);
+                    processKeys(data[key], `${key}-`);
                 }
             }
-            $(`#${selectId}`).select2({
-                width: '100%'
-            });
-        } else {
-            console.error(`El elemento con id ${selectId} no existe en el DOM.`);
         }
-    });
+    };
+
+    processKeys(data);
 }
