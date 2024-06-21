@@ -151,12 +151,10 @@ class CalculadoraModel extends Query
 
         // Parsear la respuesta XML
         $responseXml = new SimpleXMLElement($response);
-
+        var_dump($responseXml);
         $namespaces = $responseXml->getNamespaces(true);
         $body = $responseXml->children($namespaces['SOAP-ENV'])->Body;
-        var_dump($body);
         $result = (string)$body->children($namespaces['ns1'])->ConsultarResponse->Result;
-        var_dump($result);
         // Imprimir el resultado para depuración
         echo "Raw Result: " . htmlspecialchars($result);
 
