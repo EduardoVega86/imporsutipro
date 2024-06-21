@@ -159,10 +159,12 @@ class CalculadoraModel extends Query
             ];
         }
 
-        echo "Raw Response: " . htmlspecialchars($response);
+        // Decodificar la respuesta HTML
+        $decodedResponse = html_entity_decode($response);
+        echo "Decoded Response: " . htmlspecialchars($decodedResponse);
 
-        // Usar expresiones regulares para extraer el contenido de <Result>
-        preg_match('/<Result xsi:type="xsd:string">(.*?)<\/Result>/', $response, $matches);
+        // Extraer el contenido de <Result> usando expresiones regulares
+        preg_match('/<Result xsi:type="xsd:string">(.*?)<\/Result>/', $decodedResponse, $matches);
 
         if (!isset($matches[1])) {
             echo "No se encontró la etiqueta <Result>";
@@ -175,13 +177,13 @@ class CalculadoraModel extends Query
             ];
         }
 
+        // Decodificar el contenido de <Result> y convertirlo a un array asociativo
         $result = html_entity_decode($matches[1]);
-        echo "Extracted Result: " . htmlspecialchars($result);
+        $resultJson = json_decode(json_encode(simplexml_load_string($result)), true);
 
-        try {
-            $resultXml = new SimpleXMLElement($result);
-        } catch (Exception $e) {
-            echo "Error parsing XML: " . $e->getMessage();
+        // Verificar si la conversión fue exitosa
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            echo "Error al convertir el XML a JSON: " . json_last_error_msg();
             return [
                 "flete" => 0,
                 "seguro" => 0,
@@ -191,11 +193,11 @@ class CalculadoraModel extends Query
             ];
         }
 
-        $flete = (float)$resultXml->flete;
-        $seguro = (float)$resultXml->seguro;
-        $comision = (float)$resultXml->valor_comision;
-        $otros = (float)$resultXml->otros;
-        $impuestos = (float)$resultXml->impuesto;
+        $flete = (float)$resultJson['flete'];
+        $seguro = (float)$resultJson['seguro'];
+        $comision = (float)$resultJson['valor_comision'];
+        $otros = (float)$resultJson['otros'];
+        $impuestos = (float)$resultJson['impuesto'];
 
         $data = [
             "flete" => $flete,
