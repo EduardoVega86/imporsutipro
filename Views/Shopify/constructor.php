@@ -50,7 +50,7 @@
                     </button>
                 </h2>
                 <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#acordion_aplicacionShopify">
-                    <div class="accordion-body">
+                    <div class="accordion-body" style="text-align: left;">
                         <div class="form-group w-100 hidden-field" id="bodega-field">
                             <label for="nombre">Nombre:</label>
                             <select class="form-select" id="nombre">
