@@ -62,7 +62,6 @@ document.addEventListener("DOMContentLoaded", function () {
         fillSelectWithKeys('select-email', data);
         fillSelectWithKeys('select-total', data);
         fillSelectWithKeys('select-descuento', data);
-        // ... Llamar a fillSelectWithKeys para cada select ...
     }
     
     function fillSelectWithKeys(selectId, data) {
@@ -79,6 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             $(`#${selectId}`).select2({ width: '100%' }).on('change', function() {
                 const selectedKey = select.value;
+                console.log(`Cambio detectado en ${selectId}, valor seleccionado: ${selectedKey}`);
                 removeDynamicSelects(selectId);
                 if (selectedKey && data[selectedKey] && typeof data[selectedKey] === 'object') {
                     createDynamicSelect(selectId, data[selectedKey]);
@@ -93,15 +93,11 @@ document.addEventListener("DOMContentLoaded", function () {
         const parentSelect = document.getElementById(parentSelectId);
         if (!parentSelect) return;
     
-        const dynamicSelectId = `${parentSelectId}-dynamic`;
-        let dynamicSelect = document.getElementById(dynamicSelectId);
-    
-        if (!dynamicSelect) {
-            dynamicSelect = document.createElement('select');
-            dynamicSelect.id = dynamicSelectId;
-            dynamicSelect.className = 'form-select mt-2';
-            parentSelect.parentNode.appendChild(dynamicSelect);
-        }
+        const dynamicSelectId = `${parentSelectId}-dynamic-${Date.now()}`;
+        let dynamicSelect = document.createElement('select');
+        dynamicSelect.id = dynamicSelectId;
+        dynamicSelect.className = 'form-select mt-2';
+        parentSelect.parentNode.appendChild(dynamicSelect);
     
         dynamicSelect.innerHTML = '<option value="" selected>-- Seleccione --</option>';
         for (let key in nestedData) {
@@ -113,8 +109,11 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
     
+        console.log(`Opciones dinámicas creadas para ${parentSelectId}:`, dynamicSelect.innerHTML);
+    
         $(`#${dynamicSelectId}`).select2({ width: '100%' }).on('change', function() {
             const selectedKey = dynamicSelect.value;
+            console.log(`Cambio detectado en ${dynamicSelectId}, valor seleccionado: ${selectedKey}`);
             removeDynamicSelects(dynamicSelectId);
             if (selectedKey && nestedData[selectedKey] && typeof nestedData[selectedKey] === 'object') {
                 createDynamicSelect(dynamicSelectId, nestedData[selectedKey]);
@@ -123,27 +122,21 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     function removeDynamicSelects(parentSelectId) {
+        console.log(`Eliminando selects dinámicos relacionados con ${parentSelectId}`);
         const parentSelect = document.getElementById(parentSelectId);
         if (!parentSelect) return;
     
         const dynamicSelects = parentSelect.parentNode.querySelectorAll(`select[id^='${parentSelectId}-dynamic']`);
         dynamicSelects.forEach(select => {
+            console.log(`Eliminando select dinámico: ${select.id}`);
             select.parentNode.removeChild(select);
-        });
-    
-        // Adicional: remover todos los selects dinámicos anidados
-        const allDynamicSelects = parentSelect.parentNode.querySelectorAll(`select[id*='-dynamic']`);
-        allDynamicSelects.forEach(select => {
-            if (select.id !== parentSelectId && select.id.indexOf(parentSelectId) === 0) {
-                select.parentNode.removeChild(select);
-            }
         });
     }
     
     // Escuchar cambios en cualquier select del documento
     document.addEventListener('change', function(event) {
         if (event.target && event.target.nodeName === 'SELECT') {
-            console.log(`Change detected on select with id ${event.target.id}`);
+            console.log(`Cambio detectado en select con id ${event.target.id}`);
         }
     });
     
