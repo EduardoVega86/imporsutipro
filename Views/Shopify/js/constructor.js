@@ -76,12 +76,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 $(`#${selectId}`).select2({ width: '100%' }).on('change', function() {
                     console.log(`Change event detected on ${selectId}`); // Verificar si el evento change se detecta
                     const selectedKey = select.value;
+
+                    // Reiniciar selects dinámicos antes de crear nuevos
+                    resetDynamicSelects(selectId);
+
                     if (selectedKey && data[selectedKey] && typeof data[selectedKey] === 'object') {
                         console.log(`Creating dynamic select for ${selectedKey}`); // Verificar si se está creando el select dinámico
                         createDynamicSelect(selectId, data[selectedKey]);
-                    } else {
-                        // Reiniciar selects dinámicos si no se cumple la condición
-                        resetDynamicSelects(selectId);
                     }
                 });
             } else {
@@ -118,12 +119,13 @@ document.addEventListener("DOMContentLoaded", function () {
         $(`#${dynamicSelectId}`).select2({ width: '100%' }).on('change', function() {
             console.log(`Change event detected on ${dynamicSelectId}`); // Verificar si el evento change se detecta
             const selectedKey = dynamicSelect.value;
+
+            // Reiniciar selects dinámicos antes de crear nuevos
+            resetDynamicSelects(dynamicSelectId);
+
             if (selectedKey && nestedData[selectedKey] && typeof nestedData[selectedKey] === 'object') {
                 console.log(`Creating dynamic select for ${selectedKey}`); // Verificar si se está creando el select dinámico
                 createDynamicSelect(dynamicSelectId, nestedData[selectedKey]);
-            } else {
-                // Reiniciar selects dinámicos si no se cumple la condición
-                resetDynamicSelects(dynamicSelectId);
             }
         });
     }
@@ -133,6 +135,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const parentSelect = document.getElementById(parentSelectId);
         if (!parentSelect) return;
 
+        // Obtener todos los selects dinámicos que comiencen con el id del select padre
         const selectsToRemove = parentSelect.parentNode.querySelectorAll(`select[id^='${parentSelectId}-dynamic']`);
         selectsToRemove.forEach(select => select.remove());
     }
