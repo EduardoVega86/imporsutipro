@@ -90,6 +90,6 @@ class Shopify extends Controller
     {
         $this->isAuth();
         $response = $this->model->ultimoJson($_SESSION["id_plataforma"]);
-        echo $response[0];
+        echo $response[0]["json"];
     }
 }
