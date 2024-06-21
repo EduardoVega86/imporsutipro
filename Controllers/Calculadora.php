@@ -19,6 +19,7 @@ class Calculadora extends Controller
 
     public function saldo()
     {
+        $this->isAuth();
         $plataforma = $_SESSION['id_plataforma'];
         $saldo = $this->model->saldo($plataforma);
         echo json_encode($saldo);
