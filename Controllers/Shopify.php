@@ -15,7 +15,12 @@ class Shopify extends Controller
             $data = file_get_contents("php://input");
             $this->model->gestionarRequest($id_plataforma, $data);
         } else {
-            $this->model->iniciarPlataforma($id_plataforma);
+
+            $response = array(
+                "status" => "error",
+                "message" => "No se ha encontrado la plataforma",
+            );
+            echo json_encode($response);
         }
     }
 
@@ -31,8 +36,7 @@ class Shopify extends Controller
 
     public function generarEnlace()
     {
-        $platafomra = $_POST["plataforma"];
-        $data = $this->model->generarEnlace($platafomra);
+        $data = $this->model->generarEnlace($_SESSION["id_plataforma"]);
         echo json_encode($data);
     }
 }
