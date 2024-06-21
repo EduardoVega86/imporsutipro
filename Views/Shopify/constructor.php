@@ -3,7 +3,7 @@
 
 <div class="full-screen-container">
     <div class="custom-container-fluid mt-4">
-        <h1>intregaciones</h1>
+        <h1>integraciones</h1>
         <div class="accordion" id="acordion_aplicacionShopify">
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingOne">
@@ -13,12 +13,23 @@
                 </h2>
                 <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#acordion_aplicacionShopify">
                     <div class="accordion-body" style="text-align: left;">
-                        <div class="img-container text-center aplicacion">
-                            <img src="<?php echo SERVERURL; ?>/public/img/SERVIENTREGA.jpg" alt="Shopify">
+                        <div class="img-container text-center aplicacion" id="trigger-container">
+                            <img src="<?php echo SERVERURL; ?>/public/img/logo_shopify.png" alt="Shopify">
                             <div class="name-tag"><span>Shopify</span></div>
                         </div>
-                    </div>
 
+                        <div class="loading-animation" id="loading">
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only">Cargando...</span>
+                            </div>
+                            <div>Cargando...</div>
+                        </div>
+
+                        <div class="generacion_enlace" id="enlace-section">
+                            <label for="generador_enlace" class="form-label">Enlace generado:</label>
+                            <input type="text" class="form-control" id="generador_enlace">
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="accordion-item">
@@ -59,4 +70,16 @@
     </div>
 </div>
 
+<script>
+    document.getElementById('trigger-container').addEventListener('click', function() {
+        // Mostrar la animación de carga
+        document.getElementById('loading').style.display = 'block';
+
+        // Esperar 5 segundos y luego mostrar la sección de enlace generado
+        setTimeout(function() {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('enlace-section').style.display = 'block';
+        }, 5000);
+    });
+</script>
 <?php require_once './Views/templates/footer.php'; ?>

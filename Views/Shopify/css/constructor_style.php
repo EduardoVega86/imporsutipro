@@ -18,7 +18,7 @@
     }
 
     .custom-container-fluid h1 {
-        color: <?php echo COLOR_LETRAS;?>;
+        color: <?php echo COLOR_LETRAS; ?>;
         margin-bottom: 20px;
     }
 
@@ -28,7 +28,7 @@
 
     .form-group label {
         display: block;
-        color: <?php echo COLOR_LETRAS;?>;
+        color: <?php echo COLOR_LETRAS; ?>;
         margin-bottom: 5px;
     }
 
@@ -61,12 +61,12 @@
     }
 
     .form-group label {
-        color: <?php echo COLOR_LETRAS;?>;
+        color: <?php echo COLOR_LETRAS; ?>;
         /* Cambiar el color de la etiqueta a blanco */
     }
 
     .form-control-file {
-        color: <?php echo COLOR_LETRAS;?>;
+        color: <?php echo COLOR_LETRAS; ?>;
         /* Cambiar el color del texto del input file a blanco */
     }
 
@@ -82,8 +82,8 @@
         /* Ajusta el relleno del botón */
     }
 
-     /* animacion y diseño de aplicacion y name de aplicacion */
-     .aplicacion {
+    /* animacion y diseño de aplicacion y name de aplicacion */
+    .aplicacion {
         position: relative;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         border-radius: 10px;
@@ -144,4 +144,23 @@
     }
 
     /* final de diseño de aplicacion */
+
+    .generacion_enlace {
+        display: none;
+    }
+
+    .loading-animation {
+        display: none;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .spinner-border {
+        width: 3rem;
+        height: 3rem;
+    }
+
+    .img-container {
+        cursor: pointer;
+    }
 </style>
