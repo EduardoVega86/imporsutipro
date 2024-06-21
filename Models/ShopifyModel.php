@@ -112,7 +112,7 @@ class ShopifyModel extends Query
             'calle_secundaria' => $calle_secundaria,
             'referencia' => $referencia,
             'observacion' => $observacion,
-            'guia_enviada' => 1,
+            'guia_enviada' => 0,
             'transporte' => $transporte,
             'identificacion' => "",
             'celular' => $telefono,

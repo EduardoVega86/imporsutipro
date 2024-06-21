@@ -76,7 +76,7 @@ class Pedidos extends Controller
         $provincia = $_POST['provincia'];
         $referencia = $_POST['referencia'];
         $observacion    = $_POST['observacion'];
-        $guia_enviada = 1;
+        $guia_enviada = 0;
         $transporte = $_POST['transporte'];
         $identificacion = $_POST['identificacion'] ?? "";
         $celular = $_POST['celular'] ?? $telefono_cliente;
