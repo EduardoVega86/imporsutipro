@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
             $(`#${selectId}`).select2({ width: '100%' }).on('change', function() {
                 const selectedKey = select.value;
                 console.log(`Cambio detectado en ${selectId}, valor seleccionado: ${selectedKey}`);
-                removeDynamicSelects(selectId);
+                removeAllDynamicSelects(selectId);
                 if (selectedKey && data[selectedKey] && typeof data[selectedKey] === 'object') {
                     createDynamicSelect(selectId, data[selectedKey]);
                 }
@@ -114,22 +114,25 @@ document.addEventListener("DOMContentLoaded", function () {
         $(`#${dynamicSelectId}`).select2({ width: '100%' }).on('change', function() {
             const selectedKey = dynamicSelect.value;
             console.log(`Cambio detectado en ${dynamicSelectId}, valor seleccionado: ${selectedKey}`);
-            removeDynamicSelects(dynamicSelectId);
+            removeAllDynamicSelects(dynamicSelectId);
             if (selectedKey && nestedData[selectedKey] && typeof nestedData[selectedKey] === 'object') {
                 createDynamicSelect(dynamicSelectId, nestedData[selectedKey]);
             }
         });
     }
     
-    function removeDynamicSelects(parentSelectId) {
-        console.log(`Eliminando selects dinámicos relacionados con ${parentSelectId}`);
+    function removeAllDynamicSelects(parentSelectId) {
+        console.log(`Eliminando todos los selects dinámicos relacionados con ${parentSelectId}`);
         const parentSelect = document.getElementById(parentSelectId);
         if (!parentSelect) return;
     
-        const dynamicSelects = parentSelect.parentNode.querySelectorAll(`select[id^='${parentSelectId}-dynamic']`);
+        // Remover todos los selects dinámicos dentro del mismo contenedor
+        const dynamicSelects = parentSelect.parentNode.querySelectorAll('select');
         dynamicSelects.forEach(select => {
-            console.log(`Eliminando select dinámico: ${select.id}`);
-            select.parentNode.removeChild(select);
+            if (select.id !== parentSelectId && select.id.startsWith(parentSelectId)) {
+                console.log(`Eliminando select dinámico: ${select.id}`);
+                select.parentNode.removeChild(select);
+            }
         });
     }
     
