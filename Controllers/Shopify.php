@@ -31,8 +31,7 @@ class Shopify extends Controller
 
     public function generarEnlace()
     {
-        $platafomra = $_POST["plataforma"];
-        $data = $this->model->generarEnlace($platafomra);
+        $data = $this->model->generarEnlace($_SESSION["id_plataforma"]);
         echo json_encode($data);
     }
 }
