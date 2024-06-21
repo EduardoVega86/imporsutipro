@@ -28,14 +28,16 @@ document
       .addEventListener("click", function () {
         // Mostrar la animación de carga debajo del input
         document.getElementById("loading-below").style.display = "block";
-        let i = 0;
-        while (i == 0) {
+
+        // Iniciar el bucle de verificación
+        let intervalId = setInterval(function () {
           $.ajax({
             url: SERVERURL + "shopify/ultimoJson",
             method: "GET",
             dataType: "json",
             success: function (data) {
               if (data && data.length > 0) {
+                
                 // Ocultar la animación de carga debajo del input
                 document.getElementById("loading-below").style.display = "none";
 
@@ -46,7 +48,9 @@ document
                     toggle: true,
                   }
                 );
-                i = 1;
+
+                // Terminar el intervalo
+                clearInterval(intervalId);
               } else {
                 // La condición no se cumple, mantener la animación de carga o mostrar un mensaje de error
                 document.getElementById("loading-below").innerHTML =
@@ -59,7 +63,7 @@ document
                 '<div class="spinner-border" role="status"><span class="sr-only">Cargando...</span></div><div>Error al obtener información. Intentar nuevamente.</div>';
             },
           });
-        }
+        }, 5000);
       });
     // final cargar de boton veritifcar
   });
