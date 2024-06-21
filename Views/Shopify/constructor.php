@@ -12,7 +12,7 @@
                     </button>
                 </h2>
                 <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#acordion_aplicacionShopify">
-                    <div class="accordion-body">
+                    <div class="accordion-body" style="text-align: left;">
                         <div class="img-container text-center aplicacion">
                             <img src="<?php echo SERVERURL; ?>/public/img/SERVIENTREGA.jpg" alt="Shopify">
                             <div class="name-tag"><span>Shopify</span></div>
