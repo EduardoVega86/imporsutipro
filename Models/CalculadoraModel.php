@@ -159,11 +159,8 @@ class CalculadoraModel extends Query
             ];
         }
 
-        echo "Raw Response: " . htmlspecialchars($response);
-
         // Decodificar la respuesta HTML
         $decodedResponse = html_entity_decode($response);
-        echo "Decoded Response: " . htmlspecialchars($decodedResponse);
 
         // Cargar la respuesta en DOMDocument
         $dom = new DOMDocument();
@@ -198,11 +195,9 @@ class CalculadoraModel extends Query
         }
 
         $result = $resultNode->nodeValue;
-        echo "Extracted Result: " . htmlspecialchars($result);
 
         // Decodificar entidades HTML del resultado
         $resultDecoded = html_entity_decode($result);
-        echo "Decoded Result: " . htmlspecialchars($resultDecoded);
 
         // Parsear manualmente el contenido de <Result>
         $flete = $seguro = $comision = $otros = $impuestos = 0;
