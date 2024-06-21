@@ -65,7 +65,7 @@ class Pedidos extends Controller
     {
 
         $fecha_factura = date("Y-m-d H:i:s");
-        $id_usuario = $_SESSION['id'];
+        $id_usuario = $_SESSION['id'] ?? 0;
         $monto_factura = $_POST['total_venta'];
         $estado_factura = 1;
         $nombre_cliente = $_POST['nombre'];
