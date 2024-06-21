@@ -87,6 +87,7 @@ class Shopify extends Controller
 
     public function ultimoJson()
     {
+        $this->isAuth();
         $response = $this->model->ultimoJson($_SESSION["id_plataforma"]);
         echo json_encode($response);
     }
