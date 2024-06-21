@@ -5,9 +5,6 @@ class Pedidos extends Controller
     public function __construct()
     {
         parent::__construct();
-        if (!$this->isAuth()) {
-            header("Location:  " . SERVERURL . "login");
-        }
     }
     ///Vistas
     public function index($filtro = "")
