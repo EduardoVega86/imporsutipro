@@ -161,19 +161,11 @@ class CalculadoraModel extends Query
 
         echo "Raw Response: " . htmlspecialchars($response);
 
-        // Decodificar la respuesta HTML
-        $decodedResponse = html_entity_decode($response);
-        echo "Decoded Response: " . htmlspecialchars($decodedResponse);
+        // Usar expresiones regulares para extraer el contenido de <Result>
+        preg_match('/<Result xsi:type="xsd:string">(.*?)<\/Result>/', $response, $matches);
 
-        // Asegurarse de que la respuesta es un XML válido
-        libxml_use_internal_errors(true);
-        $responseXml = simplexml_load_string($decodedResponse);
-
-        if ($responseXml === false) {
-            echo "Failed loading XML: ";
-            foreach (libxml_get_errors() as $error) {
-                echo "<br>", $error->message;
-            }
+        if (!isset($matches[1])) {
+            echo "No se encontró la etiqueta <Result>";
             return [
                 "flete" => 0,
                 "seguro" => 0,
@@ -183,50 +175,13 @@ class CalculadoraModel extends Query
             ];
         }
 
-        $namespaces = $responseXml->getNamespaces(true);
-        $body = $responseXml->children($namespaces['SOAP-ENV'])->Body;
-        $result = (string)$body->children($namespaces['ns1'])->ConsultarResponse->Result;
+        $result = html_entity_decode($matches[1]);
+        echo "Extracted Result: " . htmlspecialchars($result);
 
-        echo "Raw Result: " . htmlspecialchars($result);
-
-        // Verificar si la cadena no está vacía
-        if (!empty($result)) {
-            // Decodificar entidades HTML del resultado
-            $resultDecoded = html_entity_decode($result);
-
-            echo "Decoded Result: " . htmlspecialchars($resultDecoded);
-
-            try {
-                // Convertir el resultado de la cadena XML a un objeto SimpleXMLElement
-                $resultXml = new SimpleXMLElement($resultDecoded);
-            } catch (Exception $e) {
-                echo "Error parsing XML: " . $e->getMessage();
-                return [
-                    "flete" => 0,
-                    "seguro" => 0,
-                    "comision" => 0,
-                    "otros" => 0,
-                    "impuestos" => 0
-                ];
-            }
-
-            $flete = (float)$resultXml->flete;
-            $seguro = (float)$resultXml->seguro;
-            $comision = (float)$resultXml->valor_comision;
-            $otros = (float)$resultXml->otros;
-            $impuestos = (float)$resultXml->impuesto;
-
-            $data = [
-                "flete" => $flete,
-                "seguro" => $seguro,
-                "comision" => $comision,
-                "otros" => $otros,
-                "impuestos" => $impuestos
-            ];
-
-            return $data;
-        } else {
-            echo "Result string is empty";
+        try {
+            $resultXml = new SimpleXMLElement($result);
+        } catch (Exception $e) {
+            echo "Error parsing XML: " . $e->getMessage();
             return [
                 "flete" => 0,
                 "seguro" => 0,
@@ -235,5 +190,21 @@ class CalculadoraModel extends Query
                 "impuestos" => 0
             ];
         }
+
+        $flete = (float)$resultXml->flete;
+        $seguro = (float)$resultXml->seguro;
+        $comision = (float)$resultXml->valor_comision;
+        $otros = (float)$resultXml->otros;
+        $impuestos = (float)$resultXml->impuesto;
+
+        $data = [
+            "flete" => $flete,
+            "seguro" => $seguro,
+            "comision" => $comision,
+            "otros" => $otros,
+            "impuestos" => $impuestos
+        ];
+
+        return $data;
     }
 }
