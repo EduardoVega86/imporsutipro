@@ -148,14 +148,41 @@ class CalculadoraModel extends Query
         $response = curl_exec($ch);
         curl_close($ch);
 
+        if ($response === false) {
+            echo "CURL Error: " . curl_error($ch);
+            return [
+                "flete" => 0,
+                "seguro" => 0,
+                "comision" => 0,
+                "otros" => 0,
+                "impuestos" => 0
+            ];
+        }
 
-        // Parsear la respuesta XML
-        $responseXml = new SimpleXMLElement($response);
-        var_dump($responseXml);
+        echo "Raw Response: " . htmlspecialchars($response);
+
+        // Asegurarse de que la respuesta es un XML válido
+        libxml_use_internal_errors(true);
+        $responseXml = simplexml_load_string($response);
+
+        if ($responseXml === false) {
+            echo "Failed loading XML: ";
+            foreach (libxml_get_errors() as $error) {
+                echo "<br>", $error->message;
+            }
+            return [
+                "flete" => 0,
+                "seguro" => 0,
+                "comision" => 0,
+                "otros" => 0,
+                "impuestos" => 0
+            ];
+        }
+
         $namespaces = $responseXml->getNamespaces(true);
         $body = $responseXml->children($namespaces['SOAP-ENV'])->Body;
         $result = (string)$body->children($namespaces['ns1'])->ConsultarResponse->Result;
-        // Imprimir el resultado para depuración
+
         echo "Raw Result: " . htmlspecialchars($result);
 
         // Verificar si la cadena no está vacía
@@ -163,7 +190,6 @@ class CalculadoraModel extends Query
             // Decodificar entidades HTML
             $resultDecoded = html_entity_decode($result);
 
-            // Verificar si la cadena decodificada es válida
             echo "Decoded Result: " . htmlspecialchars($resultDecoded);
 
             try {
