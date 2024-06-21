@@ -154,26 +154,55 @@ class CalculadoraModel extends Query
         $body = $responseXml->children($namespaces['SOAP-ENV'])->Body;
         $result = (string)$body->children($namespaces['ns1'])->ConsultarResponse->Result;
 
-        // Decodificar entidades HTML
-        $resultDecoded = html_entity_decode($result);
+        // Imprimir el resultado para depuración
+        echo "Raw Result: " . htmlspecialchars($result);
 
-        // Convertir el resultado de la cadena XML a un objeto SimpleXMLElement
-        $resultXml = new SimpleXMLElement($resultDecoded);
+        // Verificar si la cadena no está vacía
+        if (!empty($result)) {
+            // Decodificar entidades HTML
+            $resultDecoded = html_entity_decode($result);
 
-        $flete = (float)$resultXml->flete;
-        $seguro = (float)$resultXml->seguro;
-        $comision = (float)$resultXml->valor_comision;
-        $otros = (float)$resultXml->otros;
-        $impuestos = (float)$resultXml->impuesto;
+            // Verificar si la cadena decodificada es válida
+            echo "Decoded Result: " . htmlspecialchars($resultDecoded);
 
-        $data = [
-            "flete" => $flete,
-            "seguro" => $seguro,
-            "comision" => $comision,
-            "otros" => $otros,
-            "impuestos" => $impuestos
-        ];
+            try {
+                // Convertir el resultado de la cadena XML a un objeto SimpleXMLElement
+                $resultXml = new SimpleXMLElement($resultDecoded);
+            } catch (Exception $e) {
+                echo "Error parsing XML: " . $e->getMessage();
+                return [
+                    "flete" => 0,
+                    "seguro" => 0,
+                    "comision" => 0,
+                    "otros" => 0,
+                    "impuestos" => 0
+                ];
+            }
 
-        return $data;
+            $flete = (float)$resultXml->flete;
+            $seguro = (float)$resultXml->seguro;
+            $comision = (float)$resultXml->valor_comision;
+            $otros = (float)$resultXml->otros;
+            $impuestos = (float)$resultXml->impuesto;
+
+            $data = [
+                "flete" => $flete,
+                "seguro" => $seguro,
+                "comision" => $comision,
+                "otros" => $otros,
+                "impuestos" => $impuestos
+            ];
+
+            return $data;
+        } else {
+            echo "Result string is empty";
+            return [
+                "flete" => 0,
+                "seguro" => 0,
+                "comision" => 0,
+                "otros" => 0,
+                "impuestos" => 0
+            ];
+        }
     }
 }
