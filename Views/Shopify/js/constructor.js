@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
+    let selectedPaths = {}; // Objeto para almacenar las rutas de cada select principal
+
     // Event listener para el contenedor que activa la generación del enlace
     document.getElementById("trigger-container").addEventListener("click", function () {
         document.getElementById("loading").style.display = "block";
@@ -74,6 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // Inicializar select2 y luego adjuntar el event listener
                 $(`#${selectId}`).select2({ width: '100%' }).on('change', function() {
+                    updateSelectedPath(selectId, select.value);
                     console.log(`Change event detected on ${selectId}`); // Verificar si el evento change se detecta
                     const selectedKey = select.value;
                     if (selectedKey && data[selectedKey] && typeof data[selectedKey] === 'object') {
@@ -113,6 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         console.log(`Dynamic options for ${parentSelectId}:`, dynamicSelect.innerHTML); // Verificar opciones dinámicas añadidas
         $(`#${dynamicSelectId}`).select2({ width: '100%' }).on('change', function() {
+            updateSelectedPath(dynamicSelectId, dynamicSelect.value);
             console.log(`Change event detected on ${dynamicSelectId}`); // Verificar si el evento change se detecta
             const selectedKey = dynamicSelect.value;
             if (selectedKey && nestedData[selectedKey] && typeof nestedData[selectedKey] === 'object') {
@@ -121,6 +125,49 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
+
+    function updateSelectedPath(selectId, value) {
+        const index = selectId.split('-').length - 2; // Obtener el índice del select basado en el número de guiones
+        const mainSelectId = selectId.split('-')[0]; // Obtener el id del select principal
+        if (!selectedPaths[mainSelectId]) {
+            selectedPaths[mainSelectId] = [];
+        }
+        selectedPaths[mainSelectId] = selectedPaths[mainSelectId].slice(0, index); // Cortar la ruta seleccionada hasta el índice actual
+        if (value) {
+            selectedPaths[mainSelectId].push(value); // Añadir el nuevo valor a la ruta seleccionada
+        }
+        console.log('Selected paths:', selectedPaths); // Mostrar las rutas seleccionadas
+    }
+
+    function sendSelectedPathsToApi() {
+        let formData = new FormData();
+        
+        // Agregar cada ruta al formData
+        for (let key in selectedPaths) {
+            if (selectedPaths.hasOwnProperty(key)) {
+                formData.append(key, selectedPaths[key].join('/'));
+            }
+        }
+
+        $.ajax({
+            url: SERVERURL + 'shopify/guardarConfiguracion', // Reemplaza esto con la URL de tu API
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                console.log('Paths sent successfully:', response);
+            },
+            error: function(error) {
+                console.error('Error sending paths:', error);
+            }
+        });
+    }
+
+    // Event listener para el botón de enviar
+    document.getElementById('send-button').addEventListener('click', function() {
+        sendSelectedPathsToApi();
+    });
 
     // Escuchar cambios en cualquier select del documento
     document.addEventListener('change', function(event) {

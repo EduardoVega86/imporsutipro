@@ -123,6 +123,7 @@
                                 <option value="" selected>-- Seleccione Descuento --</option>
                             </select>
                         </div>
+                        <button id="send-button" class="btn btn-primary">Enviar datos</button>
                     </div>
                 </div>
             </div>
