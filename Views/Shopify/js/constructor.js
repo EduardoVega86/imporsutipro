@@ -10,7 +10,7 @@ document.getElementById('trigger-container').addEventListener('click', function(
             type: "GET",
             dataType: "json",
             success: function(response) {
-                $("#generador_enlace").val(response);
+                $("#generador_enlace").val(response.url_imporsuit);
                 document.getElementById('enlace-section').style.display = 'block';
             },
             error: function(error) {
