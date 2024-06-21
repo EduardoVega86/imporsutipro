@@ -52,28 +52,6 @@
         }
     }
 
-    .form-group label {
-        color: <?php echo COLOR_LETRAS; ?>;
-        /* Cambiar el color de la etiqueta a blanco */
-    }
-
-    .form-control-file {
-        color: <?php echo COLOR_LETRAS; ?>;
-        /* Cambiar el color del texto del input file a blanco */
-    }
-
-    .download-button-container {
-        text-align: left;
-        /* Alinea el botón a la izquierda */
-    }
-
-    .download-button {
-        font-size: 0.9rem;
-        /* Reduce el tamaño de la fuente */
-        padding: 0.5rem 1rem;
-        /* Ajusta el relleno del botón */
-    }
-
     /* animacion y diseño de aplicacion y name de aplicacion */
     .aplicacion {
         position: relative;
