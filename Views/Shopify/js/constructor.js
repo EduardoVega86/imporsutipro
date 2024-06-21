@@ -76,8 +76,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     const selectedKey = select.value;
                     if (selectedKey && data[selectedKey] && typeof data[selectedKey] === 'object') {
                         createDynamicSelect(selectId, data[selectedKey]);
-                    } else {
-                        removeDynamicSelect(selectId);
                     }
                 });
             } else {
@@ -87,9 +85,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function createDynamicSelect(parentSelectId, nestedData) {
+        console.log("1");
         const parentSelect = document.getElementById(parentSelectId);
         if (!parentSelect) return;
-
+        console.log("2")
         const dynamicSelectId = `${parentSelectId}-dynamic`;
         let dynamicSelect = document.getElementById(dynamicSelectId);
 
@@ -111,13 +110,5 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         $(`#${dynamicSelectId}`).select2({ width: '100%' });
-    }
-
-    function removeDynamicSelect(parentSelectId) {
-        const dynamicSelectId = `${parentSelectId}-dynamic`;
-        const dynamicSelect = document.getElementById(dynamicSelectId);
-        if (dynamicSelect) {
-            dynamicSelect.parentNode.removeChild(dynamicSelect);
-        }
     }
 });
