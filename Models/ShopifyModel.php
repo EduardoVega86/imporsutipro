@@ -98,7 +98,7 @@ class ShopifyModel extends Query
         // Aquí se pueden continuar los procesos necesarios para la orden
         ///iniciar curl
         $ch = curl_init();
-        $url = "https://www.imporsuit.com/pedidos/nuevo_pedido";
+        $url = "https://new.imporsuitpro.com/pedidos/nuevo_pedido";
 
         $data = array(
             'fecha_factura' => date("Y-m-d H:i:s"),
@@ -182,7 +182,9 @@ class ShopifyModel extends Query
 
     public function obtenerProvincia($provincia)
     {
+
         $sql = "SELECT * FROM provincia_laar WHERE provincia = '$provincia'";
+        echo $sql;
         $response = $this->select($sql);
         return $response;
     }
