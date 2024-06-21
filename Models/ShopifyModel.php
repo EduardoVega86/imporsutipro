@@ -34,7 +34,7 @@ class ShopifyModel extends Query
         $url = $response[0]["url_matriz"];
 
         $responses = array(
-            "url_imporsuit" =>  $url . "/shopify/index/" . $id_plataforma,
+            "url_imporsuit" =>  $url . "shopify/index/" . $id_plataforma,
         );
         return $responses;
     }
