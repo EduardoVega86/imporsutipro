@@ -112,7 +112,14 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         console.log(`Dynamic options for ${parentSelectId}:`, dynamicSelect.innerHTML); // Verificar opciones dinámicas añadidas
-        $(`#${dynamicSelectId}`).select2({ width: '100%' });
+        $(`#${dynamicSelectId}`).select2({ width: '100%' }).on('change', function() {
+            console.log(`Change event detected on ${dynamicSelectId}`); // Verificar si el evento change se detecta
+            const selectedKey = dynamicSelect.value;
+            if (selectedKey && nestedData[selectedKey] && typeof nestedData[selectedKey] === 'object') {
+                console.log(`Creating dynamic select for ${selectedKey}`); // Verificar si se está creando el select dinámico
+                createDynamicSelect(dynamicSelectId, nestedData[selectedKey]);
+            }
+        });
     }
 
     // Escuchar cambios en cualquier select del documento
