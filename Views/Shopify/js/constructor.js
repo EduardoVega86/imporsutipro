@@ -88,11 +88,53 @@ function fillSelectsWithKeys(data) {
                     select.appendChild(option);
                 }
             }
-            $(`#${selectId}`).select2({
-                width: '100%'
+            $(`#${selectId}`).select2({ width: '100%' });
+
+            // Agregar event listener para manejar selects adicionales
+            select.addEventListener('change', function() {
+                const selectedKey = this.value;
+                if (data[selectedKey] && typeof data[selectedKey] === 'object' && !Array.isArray(data[selectedKey])) {
+                    addDynamicSelect(data[selectedKey], `dynamic-${selectId}-${selectedKey}`);
+                }
             });
         } else {
             console.error(`El elemento con id ${selectId} no existe en el DOM.`);
+        }
+    });
+}
+
+function addDynamicSelect(data, containerId) {
+    const container = document.getElementById('dynamic-select-container');
+
+    let nestedContainer = document.getElementById(containerId);
+    if (!nestedContainer) {
+        nestedContainer = document.createElement('div');
+        nestedContainer.id = containerId;
+        container.appendChild(nestedContainer);
+    }
+
+    nestedContainer.innerHTML = ''; // Limpiar el contenedor antes de llenarlo
+
+    const select = document.createElement('select');
+    select.className = 'form-select';
+    select.innerHTML = '<option value="" selected>-- Seleccione --</option>';
+
+    for (let key in data) {
+        if (data.hasOwnProperty(key)) {
+            const option = document.createElement('option');
+            option.value = key;
+            option.text = key;
+            select.appendChild(option);
+        }
+    }
+
+    nestedContainer.appendChild(select);
+    $(select).select2({ width: '100%' });
+
+    select.addEventListener('change', function() {
+        const selectedKey = this.value;
+        if (data[selectedKey] && typeof data[selectedKey] === 'object' && !Array.isArray(data[selectedKey])) {
+            addDynamicSelect(data[selectedKey], `${containerId}-${selectedKey}`);
         }
     });
 }
