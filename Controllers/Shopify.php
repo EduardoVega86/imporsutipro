@@ -23,6 +23,7 @@ class Shopify extends Controller
 
     public function constructor()
     {
+        $this->isAuth();
         $this->views->render($this, "constructor");
     }
 
