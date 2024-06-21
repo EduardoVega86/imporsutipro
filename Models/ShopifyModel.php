@@ -30,6 +30,81 @@ class ShopifyModel extends Query
         }
         var_dump($resultados);
         var_dump($lineItems);
+
+        //gestion de creacion de orden
+        $orden = $this->crearOrden($resultados, $lineItems);
+    }
+
+    public function crearOrden($data, $lineItems)
+    {
+        $total_venta = $data['total'];
+        $nombre = $data['nombre'] . " " . $data['apellido'];
+        $telefono = $data['telefono'];
+        ///quitar el + de la cadena
+        $telefono = str_replace("+", "", $telefono);
+        $calle_principal = $data['principal'];
+        $calle_secundaria = $data['secundario'];
+        $provincia = $data['provincia'];
+        $provincia = $this->obtenerProvincia($provincia);
+        $provincia = $provincia[0]['codigo_provincia'];
+        $ciudad = $data['ciudad'];
+        $ciudad = $this->obtenerCiudad($ciudad);
+        if (!empty($ciudad)) {
+            $ciudad = $ciudad[0]['id_cotizacion'];
+        } else {
+            $ciudad = 0;
+        }
+        $referencia = "Referencia: ";
+        $observacion = "Ciudad: " . $data["ciudad"];
+        $transporte = 0;
+        $id_producto_venta = $lineItems["sku"];
+        $importado = 0;
+        $plataforma_importa = "Shopify";
+        $recaudo = 1;
+
+        //origen
+
+        $datos_telefono = $this->obtenerBodegaInventario($id_producto_venta);
+        $bodega = $datos_telefono[0];
+
+        $celularO =  $bodega['contacto'];
+$nombreO = $bodega['nombre'];
+$ciudadO    = $bodega['localidad'];
+$provinciaO = $bodega['provincia'];
+$direccionO     = $bodega['direccion'];
+$referenciaO   = $bodega['referencia'] ?? " ";
+$numeroCasaO = $bodega['num_casa'] ?? " ";
+$valor_segura = 0;
+
+$no_piezas = 1;
+$contiene
+$costo_flete
+$costo_producto
+$id_transporte
+    }
+
+    public function obtenerBodegaInventario($id_producto_venta)
+    {
+        $sql = "SELECT * FROM inventario_bodegas WHERE id_producto = $id_producto_venta";
+        $response = $this->select($sql);
+        $bodega = $response[0]['bodega'];
+        $sql2 = "SELECT * FROM bodega WHERE id_bodega = $bodega";
+        $response2 = $this->select($sql2);
+        return $response2;
+    }
+
+    public function obtenerProvincia($provincia)
+    {
+        $sql = "SELECT * FROM provincia_laar WHERE provincia = $provincia";
+        $response = $this->select($sql);
+        return $response;
+    }
+
+    public function obtenerCiudad($ciudad)
+    {
+        $sql = "SELECT * FROM ciudad_cotizacion WHERE ciudad = $ciudad";
+        $response = $this->select($sql);
+        return $response;
     }
 
     function obtenerData($data, $ruta)
