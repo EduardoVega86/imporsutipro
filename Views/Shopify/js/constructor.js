@@ -1,95 +1,92 @@
-document
-  .getElementById("trigger-container")
-  .addEventListener("click", function () {
-    // Mostrar la animación de carga de boton shopify
+document.getElementById("trigger-container").addEventListener("click", function () {
+    // Mostrar la animación de carga de botón Shopify
     document.getElementById("loading").style.display = "block";
 
-    // Esperar 5 segundos y luego mostrar la sección de enlace generado
+    // Esperar 3 segundos y luego mostrar la sección de enlace generado
     setTimeout(function () {
-      document.getElementById("loading").style.display = "none";
-      $.ajax({
-        url: SERVERURL + "shopify/generarEnlace",
-        type: "GET",
-        dataType: "json",
-        success: function (response) {
-          $("#generador_enlace").val(response.url_imporsuit);
-          document.getElementById("enlace-section").style.display = "block";
-        },
-        error: function (error) {
-          console.error("Error al obtener la lista de bodegas:", error);
-        },
-      });
+        document.getElementById("loading").style.display = "none";
+        $.ajax({
+            url: SERVERURL + "shopify/generarEnlace",
+            type: "GET",
+            dataType: "json",
+            success: function (response) {
+                $("#generador_enlace").val(response.url_imporsuit);
+                document.getElementById("enlace-section").style.display = "block";
+            },
+            error: function (error) {
+                console.error("Error al obtener la lista de bodegas:", error);
+            },
+        });
     }, 3000);
-    // final del cargar shopify
+});
 
-    //inicio cargar de boton verificar
-    document.getElementById('verify-button').addEventListener('click', function() {
-        // Mostrar la animación de carga debajo del input
-        document.getElementById('loading-below').style.display = 'block';
+document.getElementById('verify-button').addEventListener('click', function() {
+    // Mostrar la animación de carga debajo del input
+    document.getElementById('loading-below').style.display = 'block';
 
-        // Iniciar el bucle de verificación
-        let intervalId = setInterval(function() {
-            $.ajax({
-                url: SERVERURL + 'shopify/ultimoJson',
-                method: 'GET',
-                dataType: 'json',
-                success: function(data) {
-                    if (data && data.id) {
-                        // Ocultar la animación de carga debajo del input
-                        document.getElementById('loading-below').style.display = 'none';
+    // Iniciar el bucle de verificación
+    let intervalId = setInterval(function() {
+        $.ajax({
+            url: SERVERURL + 'shopify/ultimoJson',
+            method: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                if (data && data.id && data.confirmed) {
+                    // Ocultar la animación de carga debajo del input
+                    document.getElementById('loading-below').style.display = 'none';
 
-                        // Llenar los selects con la información del JSON
-                        fillSelects(data);
+                    // Llenar los selects con las claves del JSON
+                    fillSelectsWithKeys(data);
 
-                        // Abrir el siguiente acordeón
-                        var collapseTwo = new bootstrap.Collapse(document.getElementById('collapseTwo'), {
-                            toggle: true
-                        });
+                    // Abrir el siguiente acordeón
+                    var collapseTwo = new bootstrap.Collapse(document.getElementById('collapseTwo'), {
+                        toggle: true
+                    });
 
-                        // Terminar el intervalo
-                        clearInterval(intervalId);
-                    } else {
-                        // La condición no se cumple, mantener la animación de carga o mostrar un mensaje de error
-                        document.getElementById('loading-below').innerHTML =
-                          '<div class="spinner-border" role="status"><span class="sr-only">Cargando...</span></div><div>No se pudo obtener información. Intentar nuevamente.</div>';
-                    }
-                },
-                error: function(error) {
-                    console.error('Error al llamar a la API:', error);
+                    // Terminar el intervalo
+                    clearInterval(intervalId);
+                } else {
+                    // La condición no se cumple, mantener la animación de carga o mostrar un mensaje de error
                     document.getElementById('loading-below').innerHTML =
-                      '<div class="spinner-border" role="status"><span class="sr-only">Cargando...</span></div><div>Error al obtener información. Intentar nuevamente.</div>';
+                      '<div class="spinner-border" role="status"><span class="sr-only">Cargando...</span></div><div>No se pudo obtener información. Intentar nuevamente.</div>';
                 }
-            });
-        }, 5000);
-    });
+            },
+            error: function(error) {
+                console.error('Error al llamar a la API:', error);
+                document.getElementById('loading-below').innerHTML =
+                  '<div class="spinner-border" role="status"><span class="sr-only">Cargando...</span></div><div>Error al obtener información. Intentar nuevamente.</div>';
+            }
+        });
+    }, 5000);
+});
 
-    function fillSelects(data) {
-        clearSelect('#select-nombres');
+function fillSelectsWithKeys(data) {
+    const selectIds = [
+        'select-nombres',
+        'select-apellidos',
+        'select-principal',
+        'select-secundario',
+        'select-provincia',
+        'select-ciudad',
+        'select-codigo_postal',
+        'select-pais',
+        'select-telefono',
+        'select-email',
+        'select-total',
+        'select-descuento'
+    ];
 
+    selectIds.forEach(selectId => {
+        const select = document.getElementById(selectId);
+        select.innerHTML = '<option value="" selected>-- Seleccione --</option>';
         for (let key in data) {
             if (data.hasOwnProperty(key)) {
-                let value = data[key];
-                if (typeof value === 'object' && value !== null) {
-                    value = JSON.stringify(value);
-                }
-                addOptionToSelect('#select-nombres', key, value);
+                const option = document.createElement('option');
+                option.value = key;
+                option.text = key;
+                select.appendChild(option);
             }
         }
-
-        // Inicializar select2 en todos los selects
-        $('.form-select').select2();
-    }
-
-    function clearSelect(selectId) {
-        $(selectId).empty().append('<option value="" selected>-- Seleccione --</option>');
-    }
-
-    function addOptionToSelect(selectId, text, value) {
-        const select = document.querySelector(selectId);
-        const option = document.createElement('option');
-        option.value = value;
-        option.text = text;
-        select.appendChild(option);
-    }
-    // final cargar de boton veritifcar
-  });
+        $(`#${selectId}`).select2();
+    });
+}
