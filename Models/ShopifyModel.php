@@ -29,7 +29,7 @@ class ShopifyModel extends Query
         $response = $this->select($sql);
         $url = $response[0]["url_imporsuit"];
         $responses = array(
-            "url_imporsuit" => $url
+            "url_imporsuit" => $url . "/shopify/index/" . $id_plataforma,
         );
         return $responses;
     }

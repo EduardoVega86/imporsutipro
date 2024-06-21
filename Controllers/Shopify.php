@@ -15,6 +15,7 @@ class Shopify extends Controller
             $data = file_get_contents("php://input");
             $this->model->gestionarRequest($id_plataforma, $data);
         } else {
+            echo "No existe la plataforma";
             $this->model->iniciarPlataforma($id_plataforma);
         }
     }
