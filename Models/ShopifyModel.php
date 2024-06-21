@@ -15,7 +15,21 @@ class ShopifyModel extends Query
         foreach ($configuraciones as $key => $value) {
             $resultados[$key] = $this->obtenerData($data, $value);
         }
+        $lineItems = [];
+        if (isset($data['line_items']) && is_array($data['line_items'])) {
+            foreach ($data['line_items'] as $item) {
+                $lineItems[] = [
+                    'id' => $item['id'],
+                    'sku' => $item['sku'],
+                    'name' => $item['name'],
+                    'price' => $item['price'],
+                    'quantity' => $item['quantity'],
+                    'vendor' => $item['vendor']
+                ];
+            }
+        }
         var_dump($resultados);
+        var_dump($lineItems);
     }
 
     function obtenerData($data, $ruta)
