@@ -155,7 +155,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     
         $.ajax({
-            url: 'URL_DE_TU_API',
+            url: SERVERURL+'shopify/guardarConfiguracion',
             method: 'POST',
             data: formData,
             processData: false,
