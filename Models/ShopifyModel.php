@@ -176,7 +176,7 @@ class ShopifyModel extends Query
         echo $sql;
         $response = $this->select($sql);
         $bodega = $response[0]['bodega'];
-        $sql2 = "SELECT * FROM bodega WHERE id_bodega = $bodega";
+        $sql2 = "SELECT * FROM bodega WHERE id = $bodega";
         $response2 = $this->select($sql2);
         return $response2;
     }
