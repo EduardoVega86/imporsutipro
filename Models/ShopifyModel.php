@@ -28,10 +28,12 @@ class ShopifyModel extends Query
                 ];
             }
         }
+
+        // Mostrar resultados (para depuración)
         var_dump($resultados);
         var_dump($lineItems);
 
-        //gestion de creacion de orden
+        // Gestión de creación de orden
         $orden = $this->crearOrden($resultados, $lineItems);
     }
 
@@ -40,7 +42,7 @@ class ShopifyModel extends Query
         $total_venta = $data['total'];
         $nombre = $data['nombre'] . " " . $data['apellido'];
         $telefono = $data['telefono'];
-        ///quitar el + de la cadena
+        // Quitar el + de la cadena
         $telefono = str_replace("+", "", $telefono);
         $calle_principal = $data['principal'];
         $calle_secundaria = $data['secundario'];
@@ -57,30 +59,115 @@ class ShopifyModel extends Query
         $referencia = "Referencia: ";
         $observacion = "Ciudad: " . $data["ciudad"];
         $transporte = 0;
-        $id_producto_venta = $lineItems["sku"];
         $importado = 0;
         $plataforma_importa = "Shopify";
         $recaudo = 1;
 
-        //origen
-
-        $datos_telefono = $this->obtenerBodegaInventario($id_producto_venta);
-        $bodega = $datos_telefono[0];
-
-        $celularO =  $bodega['contacto'];
-        $nombreO = $bodega['nombre'];
-        $ciudadO    = $bodega['localidad'];
-        $provinciaO = $bodega['provincia'];
-        $direccionO     = $bodega['direccion'];
-        $referenciaO   = $bodega['referencia'] ?? " ";
-        $numeroCasaO = $bodega['num_casa'] ?? " ";
-        $valor_segura = 0;
-
-        $no_piezas = 1;
         $contiene = "";
-        $costo_flete = 0;
-        $costo_producto     = 0;
-        $id_transporte = 0;
+        $costo_producto = 0;
+        // Procesar cada producto en lineItems
+        foreach ($lineItems as $item) {
+            $id_producto_venta = $item['sku'];
+
+            // Obtener información de la bodega
+            $datos_telefono = $this->obtenerBodegaInventario($id_producto_venta);
+            $bodega = $datos_telefono[0];
+
+            $celularO =  $bodega['contacto'];
+            $nombreO = $bodega['nombre'];
+            $ciudadO    = $bodega['localidad'];
+            $provinciaO = $bodega['provincia'];
+            $direccionO     = $bodega['direccion'];
+            $referenciaO   = $bodega['referencia'] ?? " ";
+            $numeroCasaO = $bodega['num_casa'] ?? " ";
+            $valor_segura = 0;
+
+            $no_piezas = $item['quantity'];
+            $contiene .= $item['name'] . " x" . $item['quantity'] . " ";
+
+            $costo_flete = 0;
+            $costo_producto += $item['price'] * $item['quantity'];
+            $id_transporte = 0;
+
+            // Aquí puedes añadir el código para guardar la orden en la base de datos
+        }
+        $comentario = "Orden creada desde Shopify";
+
+        $contiene = trim($contiene); // Eliminar el espacio extra al final
+
+        // Aquí se pueden continuar los procesos necesarios para la orden
+        ///iniciar curl
+        $ch = curl_init();
+        $url = "https://www.imporsuit.com/pedidos/nuevo_pedido";
+
+        $data = array(
+            'fecha_factura' => date("Y-m-d H:i:s"),
+            'id_usuario' => 1,
+            'monto_factura' => $total_venta,
+            'estado_factura' => 1,
+            'nombre_cliente' => $nombre,
+            'telefono_cliente' => $telefono,
+            'calle_principal' => $calle_principal,
+            'ciudad_cot' => $ciudad,
+            'calle_secundaria' => $calle_secundaria,
+            'referencia' => $referencia,
+            'observacion' => $observacion,
+            'guia_enviada' => 1,
+            'transporte' => $transporte,
+            'identificacion' => "",
+            'celular' => $telefono,
+            'dueño_id' => 1,
+            'dropshipping' => 0,
+            'id_plataforma' => 1,
+            'importado' => $importado,
+            'plataforma_importa' => $plataforma_importa,
+            'cod' => $recaudo,
+            'estado_guia_sistema' => 1,
+            'impreso' => 0,
+            'facturada' => 0,
+            'factura_numero' => 0,
+            'numero_guia' => 0,
+            'anulada' => 0,
+            'identificacionO' => "",
+            'celularO' => $celularO,
+            'nombreO' => $nombreO,
+            'ciudadO' => $ciudadO,
+            'provinciaO' => $provinciaO,
+            'direccionO' => $direccionO,
+            'referenciaO' => $referenciaO,
+            'numeroCasaO' => $numeroCasaO,
+            'valor_segura' => $valor_segura,
+            'no_piezas' => $no_piezas,
+            'tipo_servicio' => "201202002002013",
+            'peso' => "2",
+            'contiene' => $contiene,
+            'costo_flete' => $costo_flete,
+            'costo_producto' => $costo_producto,
+            'comentario' => $comentario,
+            'id_transporte' => $id_transporte,
+            'provincia' => $provincia,
+            'ciudad' => $ciudad,
+            'total_venta' => $total_venta,
+            'nombre' => $nombre,
+            'telefono' => $telefono,
+            'calle_principal' => $calle_principal,
+            'calle_secundaria' => $calle_secundaria,
+            'referencia' => $referencia,
+            'observacion' => $observacion,
+            'transporte' => $transporte,
+            'importado' => $importado,
+        );
+
+        $data = http_build_query($data);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        print_r($response);
+        // Como guardar en base de datos, enviar notificaciones, etc.
     }
 
     public function obtenerBodegaInventario($id_producto_venta)
@@ -95,14 +182,14 @@ class ShopifyModel extends Query
 
     public function obtenerProvincia($provincia)
     {
-        $sql = "SELECT * FROM provincia_laar WHERE provincia = $provincia";
+        $sql = "SELECT * FROM provincia_laar WHERE provincia = '$provincia'";
         $response = $this->select($sql);
         return $response;
     }
 
     public function obtenerCiudad($ciudad)
     {
-        $sql = "SELECT * FROM ciudad_cotizacion WHERE ciudad = $ciudad";
+        $sql = "SELECT * FROM ciudad_cotizacion WHERE ciudad = '$ciudad'";
         $response = $this->select($sql);
         return $response;
     }
@@ -119,6 +206,7 @@ class ShopifyModel extends Query
         }
         return $data;
     }
+
 
     public function obtenerConfiguracion($id_plataforma)
     {
