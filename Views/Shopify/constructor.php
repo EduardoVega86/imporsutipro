@@ -3,7 +3,7 @@
 
 <div class="full-screen-container">
     <div class="custom-container-fluid mt-4">
-        <h1>Importación Masiva</h1>
+        <h1>Constructor</h1>
         <div class="accordion" id="acordion_aplicacionShopify">
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingOne">
@@ -13,9 +13,9 @@
                 </h2>
                 <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#acordion_aplicacionShopify">
                     <div class="accordion-body">
-                        <div class="img-container text-center">
+                        <div class="img-container text-center transportadora">
                             <img src="<?php echo SERVERURL; ?>/public/img/SERVIENTREGA.jpg" alt="Shopify">
-                            <div><span>Shopify</span></div>
+                            <div class="price-tag"><span>Shopify</span></div>
                         </div>
                     </div>
 
