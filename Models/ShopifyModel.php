@@ -31,7 +31,7 @@ class ShopifyModel extends Query
 
         $sql = "SELECT * FROM matriz WHERE idmatriz = $url";
         $response = $this->select($sql);
-        $url = $response[0]["dominio"];
+        $url = $response[0]["url_matriz"];
 
         $responses = array(
             "url_imporsuit" => "https://" . $url . "/shopify/index/" . $id_plataforma,
