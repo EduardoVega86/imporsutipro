@@ -27,7 +27,7 @@
 
                         <div class="generacion_enlace" id="enlace-section">
                             <label for="generador_enlace" class="form-label">Enlace generado:</label>
-                            <input type="text" class="form-control" id="generador_enlace">
+                            <input type="text" class="form-control" id="generador_enlace" disabled>
                         </div>
                     </div>
                 </div>

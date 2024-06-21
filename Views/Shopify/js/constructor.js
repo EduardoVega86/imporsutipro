@@ -11,11 +11,11 @@ document.getElementById('trigger-container').addEventListener('click', function(
             dataType: "json",
             success: function(response) {
                 $("#generador_enlace").val(response);
+                document.getElementById('enlace-section').style.display = 'block';
             },
             error: function(error) {
                 console.error("Error al obtener la lista de bodegas:", error);
             },
         });
-        document.getElementById('enlace-section').style.display = 'block';
     }, 3000);
 });
