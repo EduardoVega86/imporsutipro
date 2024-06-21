@@ -25,11 +25,16 @@ class ShopifyModel extends Query
 
     public function generarEnlace($id_plataforma)
     {
-        $sql = "SELECT url_imporsuit from plataformas where id_plataforma = $id_plataforma";
+        $sql = "SELECT id_matriz from plataformas where id_plataforma = $id_plataforma";
         $response = $this->select($sql);
-        $url = $response[0]["url_imporsuit"];
+        $url = $response[0]["id_matriz"];
+
+        $sql = "SELECT * FROM matriz WHERE idmatriz = $url";
+        $response = $this->select($sql);
+        $url = $response[0]["dominio"];
+
         $responses = array(
-            "url_imporsuit" => $url . "/shopify/index/" . $id_plataforma,
+            "url_imporsuit" => "https://" . $url . "/shopify/index/" . $id_plataforma,
         );
         return $responses;
     }
