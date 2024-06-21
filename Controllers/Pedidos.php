@@ -103,7 +103,7 @@ class Pedidos extends Controller
         $factura_numero = 0;
         $numero_guia = 0;
         $anulada = 0;
-        $id_plataforma = $_SESSION['id_plataforma'];
+        $id_plataforma = $_SESSION['id_plataforma'] ?? $_POST['id_plataforma'];
 
         ///origen
         $identificacionO = $_POST['identificacionO'] ?? "";

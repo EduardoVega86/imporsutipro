@@ -34,10 +34,10 @@ class ShopifyModel extends Query
         var_dump($lineItems);
 
         // Gestión de creación de orden
-        $orden = $this->crearOrden($resultados, $lineItems);
+        $orden = $this->crearOrden($resultados, $lineItems, $plataforma);
     }
 
-    public function crearOrden($data, $lineItems)
+    public function crearOrden($data, $lineItems, $plataforma)
     {
         $total_venta = $data['total'];
         $nombre = $data['nombre'] . " " . $data['apellido'];
@@ -118,7 +118,7 @@ class ShopifyModel extends Query
             'celular' => $telefono,
             'dueño_id' => 1,
             'dropshipping' => 0,
-            'id_plataforma' => 1,
+            'id_plataforma' =>  $plataforma,
             'importado' => $importado,
             'plataforma_importa' => $plataforma_importa,
             'cod' => $recaudo,
