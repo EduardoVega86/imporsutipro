@@ -76,10 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 $(`#${selectId}`).select2({ width: '100%' }).on('change', function() {
                     console.log(`Change event detected on ${selectId}`); // Verificar si el evento change se detecta
                     const selectedKey = select.value;
-
-                    // Reiniciar selects dinámicos siempre
-                    resetDynamicSelects();
-
+                    removeDynamicSelects(selectId); // Remove existing dynamic selects
                     if (selectedKey && data[selectedKey] && typeof data[selectedKey] === 'object') {
                         console.log(`Creating dynamic select for ${selectedKey}`); // Verificar si se está creando el select dinámico
                         createDynamicSelect(selectId, data[selectedKey]);
@@ -119,10 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
         $(`#${dynamicSelectId}`).select2({ width: '100%' }).on('change', function() {
             console.log(`Change event detected on ${dynamicSelectId}`); // Verificar si el evento change se detecta
             const selectedKey = dynamicSelect.value;
-
-            // Reiniciar selects dinámicos siempre
-            resetDynamicSelects();
-
+            removeDynamicSelects(dynamicSelectId); // Remove existing dynamic selects
             if (selectedKey && nestedData[selectedKey] && typeof nestedData[selectedKey] === 'object') {
                 console.log(`Creating dynamic select for ${selectedKey}`); // Verificar si se está creando el select dinámico
                 createDynamicSelect(dynamicSelectId, nestedData[selectedKey]);
@@ -130,12 +124,13 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    function resetDynamicSelects() {
-        // Eliminar todos los selects dinámicos relacionados
-        const dynamicSelects = document.querySelectorAll(`select[id*='-dynamic']`);
-        dynamicSelects.forEach(select => {
-            select.remove();
-        });
+    function removeDynamicSelects(parentSelectId) {
+        const dynamicSelectId = `${parentSelectId}-dynamic`;
+        let dynamicSelect = document.getElementById(dynamicSelectId);
+        while (dynamicSelect) {
+            dynamicSelect.parentNode.removeChild(dynamicSelect);
+            dynamicSelect = document.getElementById(dynamicSelectId);
+        }
     }
 
     // Escuchar cambios en cualquier select del documento
