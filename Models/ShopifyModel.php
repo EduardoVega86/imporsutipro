@@ -173,6 +173,7 @@ class ShopifyModel extends Query
     public function obtenerBodegaInventario($id_producto_venta)
     {
         $sql = "SELECT * FROM inventario_bodegas WHERE id_producto = $id_producto_venta";
+        echo $sql;
         $response = $this->select($sql);
         $bodega = $response[0]['bodega'];
         $sql2 = "SELECT * FROM bodega WHERE id_bodega = $bodega";
