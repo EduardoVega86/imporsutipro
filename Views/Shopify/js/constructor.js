@@ -141,11 +141,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function sendSelectedPathsToApi() {
         let formData = new FormData();
-        
-        // Agregar cada ruta al formData
+
+        // Mapear nombres de selects a los nombres esperados por el controlador
+        const mapping = {
+            'select-nombre': 'nombre',
+            'select-apellido': 'apellido',
+            'select-principal': 'principal',
+            'select-secundario': 'secundario',
+            'select-provincia': 'provincia',
+            'select-ciudad': 'ciudad',
+            'select-codigo_postal': 'codigo_postal',
+            'select-pais': 'pais',
+            'select-telefono': 'telefono',
+            'select-email': 'email',
+            'select-total': 'total',
+            'select-descuento': 'descuento'
+        };
+
+        // Agregar cada ruta al formData con el nombre correcto
         for (let key in selectedPaths) {
-            if (selectedPaths.hasOwnProperty(key)) {
-                formData.append(key, selectedPaths[key].join('/'));
+            if (selectedPaths.hasOwnProperty(key) && mapping[key]) {
+                formData.append(mapping[key], selectedPaths[key].join('/'));
             }
         }
 
