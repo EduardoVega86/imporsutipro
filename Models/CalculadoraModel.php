@@ -148,14 +148,15 @@ class CalculadoraModel extends Query
         $response = curl_exec($ch);
         curl_close($ch);
 
-        echo "Raw Response: " . htmlspecialchars($response);
 
         // Parsear la respuesta XML
         $responseXml = new SimpleXMLElement($response);
+
         $namespaces = $responseXml->getNamespaces(true);
         $body = $responseXml->children($namespaces['SOAP-ENV'])->Body;
+        var_dump($body);
         $result = (string)$body->children($namespaces['ns1'])->ConsultarResponse->Result;
-
+        var_dump($result);
         // Imprimir el resultado para depuración
         echo "Raw Result: " . htmlspecialchars($result);
 
