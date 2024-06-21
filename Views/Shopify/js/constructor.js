@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 success: function(data) {
                     if (data && data.id && data.confirmed) {
                         document.getElementById('loading-below').style.display = 'none';
+                        console.log('Data received:', data); // Verificar los datos recibidos
                         fillSelectsWithKeys(data);
                         new bootstrap.Collapse(document.getElementById('collapseTwo'), { toggle: true });
                         clearInterval(intervalId);
@@ -59,6 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
         selectIds.forEach(selectId => {
             const select = document.getElementById(selectId);
             if (select) {
+                console.log(`Attaching event listener to ${selectId}`); // Verificar si el elemento select existe
                 select.innerHTML = '<option value="" selected>-- Seleccione --</option>';
                 for (let key in data) {
                     if (data.hasOwnProperty(key)) {
@@ -68,14 +70,14 @@ document.addEventListener("DOMContentLoaded", function () {
                         select.appendChild(option);
                     }
                 }
-                $(`#${selectId}`).select2({ width: '100%' });
+                console.log(`Options for ${selectId}:`, select.innerHTML); // Verificar opciones añadidas
 
-                // Añadir event listener para cada select
-                select.addEventListener('change', function() {
-                    console.log(`Change event detected on ${selectId}`);
+                // Inicializar select2 y luego adjuntar el event listener
+                $(`#${selectId}`).select2({ width: '100%' }).on('change', function() {
+                    console.log(`Change event detected on ${selectId}`); // Verificar si el evento change se detecta
                     const selectedKey = select.value;
                     if (selectedKey && data[selectedKey] && typeof data[selectedKey] === 'object') {
-                        console.log(`Creating dynamic select for ${selectedKey}`);
+                        console.log(`Creating dynamic select for ${selectedKey}`); // Verificar si se está creando el select dinámico
                         createDynamicSelect(selectId, data[selectedKey]);
                     }
                 });
@@ -109,6 +111,14 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
+        console.log(`Dynamic options for ${parentSelectId}:`, dynamicSelect.innerHTML); // Verificar opciones dinámicas añadidas
         $(`#${dynamicSelectId}`).select2({ width: '100%' });
     }
+
+    // Escuchar cambios en cualquier select del documento
+    document.addEventListener('change', function(event) {
+        if (event.target && event.target.nodeName === 'SELECT') {
+            console.log(`Change detected on select with id ${event.target.id}`);
+        }
+    });
 });
