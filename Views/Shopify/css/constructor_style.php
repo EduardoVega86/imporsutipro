@@ -43,14 +43,6 @@
         color: #6c757d;
     }
 
-    .btn {
-        background-color: #198754;
-        color: black;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 4px;
-        cursor: pointer;
-    }
 
     @media (max-width: 768px) {
         .full-screen-container {
