@@ -28,4 +28,10 @@ class Shopify extends Controller
     {
         $this->views->render($this, "configuracion");
     }
+
+    public function generarEnlace()
+    {
+        $data = $this->model->generarEnlace($_SESSION["id_plataforma"]);
+        echo json_encode($data);
+    }
 }
