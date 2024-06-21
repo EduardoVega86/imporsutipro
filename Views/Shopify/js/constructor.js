@@ -1,140 +1,153 @@
-document.getElementById("trigger-container").addEventListener("click", function () {
+document
+  .getElementById("trigger-container")
+  .addEventListener("click", function () {
     // Mostrar la animación de carga de botón Shopify
     document.getElementById("loading").style.display = "block";
 
     // Esperar 3 segundos y luego mostrar la sección de enlace generado
     setTimeout(function () {
-        document.getElementById("loading").style.display = "none";
-        $.ajax({
-            url: SERVERURL + "shopify/generarEnlace",
-            type: "GET",
-            dataType: "json",
-            success: function (response) {
-                $("#generador_enlace").val(response.url_imporsuit);
-                document.getElementById("enlace-section").style.display = "block";
-            },
-            error: function (error) {
-                console.error("Error al obtener la lista de bodegas:", error);
-            },
-        });
+      document.getElementById("loading").style.display = "none";
+      $.ajax({
+        url: SERVERURL + "shopify/generarEnlace",
+        type: "GET",
+        dataType: "json",
+        success: function (response) {
+          $("#generador_enlace").val(response.url_imporsuit);
+          document.getElementById("enlace-section").style.display = "block";
+        },
+        error: function (error) {
+          console.error("Error al obtener la lista de bodegas:", error);
+        },
+      });
     }, 3000);
-});
+  });
 
-document.getElementById('verify-button').addEventListener('click', function() {
-    // Mostrar la animación de carga debajo del input
-    document.getElementById('loading-below').style.display = 'block';
+document.getElementById("verify-button").addEventListener("click", function () {
+  // Mostrar la animación de carga debajo del input
+  document.getElementById("loading-below").style.display = "block";
 
-    // Iniciar el bucle de verificación
-    let intervalId = setInterval(function() {
-        $.ajax({
-            url: SERVERURL + 'shopify/ultimoJson',
-            method: 'GET',
-            dataType: 'json',
-            success: function(data) {
-                if (data && data.id && data.confirmed) {
-                    // Ocultar la animación de carga debajo del input
-                    document.getElementById('loading-below').style.display = 'none';
+  // Iniciar el bucle de verificación
+  let intervalId = setInterval(function () {
+    $.ajax({
+      url: SERVERURL + "shopify/ultimoJson",
+      method: "GET",
+      dataType: "json",
+      success: function (data) {
+        if (data && data.id && data.confirmed) {
+          // Ocultar la animación de carga debajo del input
+          document.getElementById("loading-below").style.display = "none";
 
-                    // Llenar los selects con las claves del JSON
-                    fillSelectsWithKeys(data);
+          // Llenar los selects con las claves del JSON
+          fillSelectsWithKeys(data);
 
-                    // Abrir el siguiente acordeón
-                    var collapseTwo = new bootstrap.Collapse(document.getElementById('collapseTwo'), {
-                        toggle: true
-                    });
-
-                    // Terminar el intervalo
-                    clearInterval(intervalId);
-                } else {
-                    // La condición no se cumple, mantener la animación de carga o mostrar un mensaje de error
-                    document.getElementById('loading-below').innerHTML =
-                      '<div class="spinner-border" role="status"><span class="sr-only">Cargando...</span></div><div>No se pudo obtener información. Intentar nuevamente.</div>';
-                }
-            },
-            error: function(error) {
-                console.error('Error al llamar a la API:', error);
-                document.getElementById('loading-below').innerHTML =
-                  '<div class="spinner-border" role="status"><span class="sr-only">Cargando...</span></div><div>Error al obtener información. Intentar nuevamente.</div>';
+          // Abrir el siguiente acordeón
+          var collapseTwo = new bootstrap.Collapse(
+            document.getElementById("collapseTwo"),
+            {
+              toggle: true,
             }
-        });
-    }, 5000);
+          );
+
+          // Terminar el intervalo
+          clearInterval(intervalId);
+        } else {
+          // La condición no se cumple, mantener la animación de carga o mostrar un mensaje de error
+          document.getElementById("loading-below").innerHTML =
+            '<div class="spinner-border" role="status"><span class="sr-only">Cargando...</span></div><div>No se pudo obtener información. Intentar nuevamente.</div>';
+        }
+      },
+      error: function (error) {
+        console.error("Error al llamar a la API:", error);
+        document.getElementById("loading-below").innerHTML =
+          '<div class="spinner-border" role="status"><span class="sr-only">Cargando...</span></div><div>Error al obtener información. Intentar nuevamente.</div>';
+      },
+    });
+  }, 5000);
 });
 
 function fillSelectsWithKeys(data) {
-    const selectIds = [
-        'select-nombre',
-        'select-apellido',
-        'select-principal',
-        'select-secundario',
-        'select-provincia',
-        'select-ciudad',
-        'select-codigo_postal',
-        'select-pais',
-        'select-telefono',
-        'select-email',
-        'select-total',
-        'select-descuento'
-    ];
+  const selectIds = [
+    "select-nombre",
+    "select-apellido",
+    "select-principal",
+    "select-secundario",
+    "select-provincia",
+    "select-ciudad",
+    "select-codigo_postal",
+    "select-pais",
+    "select-telefono",
+    "select-email",
+    "select-total",
+    "select-descuento",
+  ];
 
-    selectIds.forEach(selectId => {
-        const select = document.getElementById(selectId);
-        if (select) {
-            select.innerHTML = '<option value="" selected>-- Seleccione --</option>';
-            for (let key in data) {
-                if (data.hasOwnProperty(key)) {
-                    const option = document.createElement('option');
-                    option.value = key;
-                    option.text = key;
-                    select.appendChild(option);
-                }
-            }
-            $(`#${selectId}`).select2({ width: '100%' });
-
-            // Agregar event listener para manejar selects adicionales
-            select.addEventListener('change', function() {
-                const selectedKey = this.value;
-                if (data[selectedKey] && typeof data[selectedKey] === 'object' && !Array.isArray(data[selectedKey])) {
-                    addDynamicSelect(data[selectedKey], `${selectId}-container`);
-                }
-            });
-        } else {
-            console.error(`El elemento con id ${selectId} no existe en el DOM.`);
+  selectIds.forEach((selectId) => {
+    const select = document.getElementById(selectId);
+    if (select) {
+      select.innerHTML = '<option value="" selected>-- Seleccione --</option>';
+      for (let key in data) {
+        if (data.hasOwnProperty(key)) {
+          const option = document.createElement("option");
+          option.value = key;
+          option.text = key;
+          select.appendChild(option);
         }
-    });
+      }
+      $(`#${selectId}`).select2({ width: "100%" });
+
+      // Agregar event listener para manejar selects adicionales
+      select.addEventListener("change", function () {
+        const selectedKey = this.value;
+        if (
+          data[selectedKey] &&
+          typeof data[selectedKey] === "object" &&
+          !Array.isArray(data[selectedKey])
+        ) {
+          addDynamicSelect(data[selectedKey], `${selectId}-container`);
+        }
+      });
+    } else {
+      console.error(`El elemento con id ${selectId} no existe en el DOM.`);
+    }
+  });
 }
 
 function addDynamicSelect(data, containerId) {
-    const container = document.getElementById('dynamic-select-container');
+  const container = document.getElementById("dynamic-select-container");
 
-    let nestedContainer = document.getElementById(containerId);
-    if (!nestedContainer) {
-        nestedContainer = document.createElement('div');
-        nestedContainer.id = containerId;
-        container.appendChild(nestedContainer);
+  let nestedContainer = document.getElementById(containerId);
+  if (!nestedContainer) {
+    nestedContainer = document.createElement("div");
+    nestedContainer.id = containerId;
+    container.appendChild(nestedContainer);
+  }
+
+  nestedContainer.innerHTML = ""; // Limpiar el contenedor antes de llenarlo
+
+  const select = document.createElement("select");
+  select.className = "form-select";
+  select.innerHTML = '<option value="" selected>-- Seleccione --</option>';
+
+  for (let key in data) {
+    if (data.hasOwnProperty(key)) {
+      const option = document.createElement("option");
+      option.value = key;
+      option.text = key;
+      select.appendChild(option);
     }
+  }
 
-    nestedContainer.innerHTML = ''; // Limpiar el contenedor antes de llenarlo
+  nestedContainer.appendChild(select);
+  $(select).select2({ width: "100%" });
 
-    const select = document.createElement('select');
-    select.className = 'form-select';
-    select.innerHTML = '<option value="" selected>-- Seleccione --</option>';
-
-    for (let key in data) {
-        if (data.hasOwnProperty(key)) {
-            const option = document.createElement('option');
-            option.value = key;
-            option.text = key;
-            select.appendChild(option);
-        }
+  select.addEventListener("change", function () {
+    const selectedKey = this.value;
+    if (
+      data[selectedKey] &&
+      typeof data[selectedKey] === "object" &&
+      !Array.isArray(data[selectedKey])
+    ) {
+      addDynamicSelect(data[selectedKey], `${containerId}-${selectedKey}`);
     }
-
-    nestedContainer.appendChild(select);
-    $(select).select2({ width: '100%' });
-
-    select.addEventListener('change', function() {
-        const selectedKey = this.value;
-        if (data[selectedKey] && typeof data[selectedKey] === 'object' && !Array.isArray(data[selectedKey])) {
-            addDynamicSelect(data[selectedKey], `${containerId}-${selectedKey}`);
-        }
-    });
+  });
 }
