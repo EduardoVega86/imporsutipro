@@ -28,36 +28,38 @@ document
       .addEventListener("click", function () {
         // Mostrar la animación de carga debajo del input
         document.getElementById("loading-below").style.display = "block";
+        let i = 0;
+        while (i == 0) {
+          $.ajax({
+            url: SERVERURL + "shopify/ultimoJson",
+            method: "GET",
+            dataType: "json",
+            success: function (data) {
+              if (data && data.length > 0) {
+                // Ocultar la animación de carga debajo del input
+                document.getElementById("loading-below").style.display = "none";
 
-        $.ajax({
-          url: SERVERURL + "shopify/ultimoJson",
-          method: "GET",
-          dataType: "json",
-          success: function (data) {
-            if (data && data.length > 0) {
-
-              // Ocultar la animación de carga debajo del input
-              document.getElementById("loading-below").style.display = "none";
-
-              // Abrir el siguiente acordeón
-              var collapseTwo = new bootstrap.Collapse(
-                document.getElementById("collapseTwo"),
-                {
-                  toggle: true,
-                }
-              );
-            } else {
-              // La condición no se cumple, mantener la animación de carga o mostrar un mensaje de error
+                // Abrir el siguiente acordeón
+                var collapseTwo = new bootstrap.Collapse(
+                  document.getElementById("collapseTwo"),
+                  {
+                    toggle: true,
+                  }
+                );
+                i = 1;
+              } else {
+                // La condición no se cumple, mantener la animación de carga o mostrar un mensaje de error
+                document.getElementById("loading-below").innerHTML =
+                  '<div class="spinner-border" role="status"><span class="sr-only">Cargando...</span></div><div>No se pudo obtener información. Intentar nuevamente.</div>';
+              }
+            },
+            error: function (error) {
+              console.error("Error al llamar a la API:", error);
               document.getElementById("loading-below").innerHTML =
-                '<div class="spinner-border" role="status"><span class="sr-only">Cargando...</span></div><div>No se pudo obtener información. Intentar nuevamente.</div>';
-            }
-          },
-          error: function (error) {
-            console.error("Error al llamar a la API:", error);
-            document.getElementById("loading-below").innerHTML =
-              '<div class="spinner-border" role="status"><span class="sr-only">Cargando...</span></div><div>Error al obtener información. Intentar nuevamente.</div>';
-          },
-        });
+                '<div class="spinner-border" role="status"><span class="sr-only">Cargando...</span></div><div>Error al obtener información. Intentar nuevamente.</div>';
+            },
+          });
+        }
       });
     // final cargar de boton veritifcar
   });
