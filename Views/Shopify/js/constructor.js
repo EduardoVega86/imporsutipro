@@ -60,39 +60,37 @@ document.getElementById('verify-button').addEventListener('click', function() {
     }, 5000);
 });
 
-function fillSelectsWithKeys(data) {
-    const selectIds = [
-        'select-nombre',
-        'select-apellido',
-        'select-principal',
-        'select-secundario',
-        'select-provincia',
-        'select-ciudad',
-        'select-codigo_postal',
-        'select-pais',
-        'select-telefono',
-        'select-email',
-        'select-total',
-        'select-descuento'
-    ];
+function fillSelectsWithKeys(data, containerId = 'select-container') {
+    const container = document.getElementById(containerId);
+    container.innerHTML = ''; // Limpiar el contenedor antes de llenarlo
 
-    selectIds.forEach(selectId => {
-        const select = document.getElementById(selectId);
-        if (select) {
-            select.innerHTML = '<option value="" selected>-- Seleccione --</option>';
-            for (let key in data) {
-                if (data.hasOwnProperty(key)) {
-                    const option = document.createElement('option');
-                    option.value = key;
-                    option.text = key;
-                    select.appendChild(option);
-                }
+    const select = document.createElement('select');
+    select.className = 'form-select';
+    select.innerHTML = '<option value="" selected>-- Seleccione --</option>';
+
+    for (let key in data) {
+        if (data.hasOwnProperty(key)) {
+            const option = document.createElement('option');
+            option.value = key;
+            option.text = key;
+            select.appendChild(option);
+        }
+    }
+
+    container.appendChild(select);
+    $(select).select2({ width: '100%' });
+
+    select.addEventListener('change', function() {
+        const selectedKey = this.value;
+        if (data[selectedKey] && typeof data[selectedKey] === 'object') {
+            const nestedContainerId = `${containerId}-${selectedKey}`;
+            let nestedContainer = document.getElementById(nestedContainerId);
+            if (!nestedContainer) {
+                nestedContainer = document.createElement('div');
+                nestedContainer.id = nestedContainerId;
+                container.appendChild(nestedContainer);
             }
-            $(`#${selectId}`).select2({
-                width: '100%'
-            });
-        } else {
-            console.error(`El elemento con id ${selectId} no existe en el DOM.`);
+            fillSelectsWithKeys(data[selectedKey], nestedContainerId);
         }
     });
 }
