@@ -123,6 +123,7 @@
                                 <option value="" selected>-- Seleccione Descuento --</option>
                             </select>
                         </div>
+                        <div id="dynamic-select-container"></div>
                     </div>
                 </div>
             </div>

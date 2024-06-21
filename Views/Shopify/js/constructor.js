@@ -60,9 +60,60 @@ document.getElementById('verify-button').addEventListener('click', function() {
     }, 5000);
 });
 
-function fillSelectsWithKeys(data, containerId = 'select-container') {
-    const container = document.getElementById(containerId);
-    container.innerHTML = ''; // Limpiar el contenedor antes de llenarlo
+function fillSelectsWithKeys(data) {
+    const selectIds = [
+        'select-nombre',
+        'select-apellido',
+        'select-principal',
+        'select-secundario',
+        'select-provincia',
+        'select-ciudad',
+        'select-codigo_postal',
+        'select-pais',
+        'select-telefono',
+        'select-email',
+        'select-total',
+        'select-descuento'
+    ];
+
+    selectIds.forEach(selectId => {
+        const select = document.getElementById(selectId);
+        if (select) {
+            select.innerHTML = '<option value="" selected>-- Seleccione --</option>';
+            for (let key in data) {
+                if (data.hasOwnProperty(key)) {
+                    const option = document.createElement('option');
+                    option.value = key;
+                    option.text = key;
+                    select.appendChild(option);
+                }
+            }
+            $(`#${selectId}`).select2({ width: '100%' });
+
+            // Agregar event listener para manejar selects adicionales
+            select.addEventListener('change', function() {
+                const selectedKey = this.value;
+                if (data[selectedKey] && typeof data[selectedKey] === 'object' && !Array.isArray(data[selectedKey])) {
+                    addDynamicSelect(data[selectedKey], `${selectId}-container`);
+                }
+            });
+        } else {
+            console.error(`El elemento con id ${selectId} no existe en el DOM.`);
+        }
+    });
+}
+
+function addDynamicSelect(data, containerId) {
+    const container = document.getElementById('dynamic-select-container');
+
+    let nestedContainer = document.getElementById(containerId);
+    if (!nestedContainer) {
+        nestedContainer = document.createElement('div');
+        nestedContainer.id = containerId;
+        container.appendChild(nestedContainer);
+    }
+
+    nestedContainer.innerHTML = ''; // Limpiar el contenedor antes de llenarlo
 
     const select = document.createElement('select');
     select.className = 'form-select';
@@ -77,20 +128,13 @@ function fillSelectsWithKeys(data, containerId = 'select-container') {
         }
     }
 
-    container.appendChild(select);
+    nestedContainer.appendChild(select);
     $(select).select2({ width: '100%' });
 
     select.addEventListener('change', function() {
         const selectedKey = this.value;
-        if (data[selectedKey] && typeof data[selectedKey] === 'object') {
-            const nestedContainerId = `${containerId}-${selectedKey}`;
-            let nestedContainer = document.getElementById(nestedContainerId);
-            if (!nestedContainer) {
-                nestedContainer = document.createElement('div');
-                nestedContainer.id = nestedContainerId;
-                container.appendChild(nestedContainer);
-            }
-            fillSelectsWithKeys(data[selectedKey], nestedContainerId);
+        if (data[selectedKey] && typeof data[selectedKey] === 'object' && !Array.isArray(data[selectedKey])) {
+            addDynamicSelect(data[selectedKey], `${containerId}-${selectedKey}`);
         }
     });
 }
