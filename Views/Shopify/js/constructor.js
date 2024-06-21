@@ -170,19 +170,17 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     
     function getSelectValues(selectId) {
-        const select = document.getElementById(selectId);
         const values = [];
-        if (select && select.value) {
-            values.push(select.value);
-            let dynamicSelectId = `${selectId}-dynamic`;
-            while (document.getElementById(dynamicSelectId)) {
-                const dynamicSelect = document.getElementById(dynamicSelectId);
-                if (dynamicSelect && dynamicSelect.value) {
-                    values.push(dynamicSelect.value);
-                }
-                dynamicSelectId = `${dynamicSelectId}-${Date.now()}`;
+        let currentSelectId = selectId;
+    
+        while (document.getElementById(currentSelectId)) {
+            const select = document.getElementById(currentSelectId);
+            if (select && select.value) {
+                values.push(select.value);
             }
+            currentSelectId = `${currentSelectId}-dynamic`;
         }
+    
         return values;
     }
     
