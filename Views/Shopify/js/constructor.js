@@ -161,9 +161,16 @@ document.addEventListener("DOMContentLoaded", function () {
         // Agregar cada ruta al formData con el nombre correcto
         for (let key in selectedPaths) {
             if (selectedPaths.hasOwnProperty(key) && mapping[key]) {
-                formData.append(mapping[key], selectedPaths[key].join('/'));
+                const path = selectedPaths[key].join('/');
+                formData.append(mapping[key], path);
+                console.log(`Appending ${mapping[key]}: ${path}`);
             }
         }
+
+        console.log('FormData content:');
+        formData.forEach((value, key) => {
+            console.log(key, value);
+        });
 
         $.ajax({
             url: SERVERURL + 'shopify/guardarConfiguracion', // Reemplaza esto con la URL de tu API
