@@ -172,13 +172,15 @@ document.addEventListener("DOMContentLoaded", function () {
     function getSelectValues(selectId) {
         const values = [];
         let currentSelectId = selectId;
+        let counter = 0;
     
         while (document.getElementById(currentSelectId)) {
             const select = document.getElementById(currentSelectId);
             if (select && select.value) {
                 values.push(select.value);
             }
-            currentSelectId = `${currentSelectId}-dynamic`;
+            currentSelectId = `${selectId}-dynamic-${counter}`;
+            counter++;
         }
     
         return values;
