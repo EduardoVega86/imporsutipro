@@ -1,10 +1,6 @@
 <?php require_once './Views/templates/header.php'; ?>
 <?php require_once './Views/Shopify/css/constructor_style.php'; ?>
 
-<!-- Incluir los archivos CSS y JS de select2 -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-
 <div class="full-screen-container">
     <div class="custom-container-fluid mt-4">
         <h1>Integraciones</h1>
@@ -55,73 +51,73 @@
                 </h2>
                 <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#acordion_aplicacionShopify">
                     <div class="accordion-body" style="text-align: left;">
-                        <div class="form-group hidden-field">
+                        <div class="form-group w-100 hidden-field">
                             <label for="select-nombre">Nombre:</label>
                             <select class="form-select" id="select-nombre">
                                 <option value="" selected>-- Seleccione Nombre --</option>
                             </select>
                         </div>
-                        <div class="form-group hidden-field">
+                        <div class="form-group w-100 hidden-field">
                             <label for="select-apellido">Apellido:</label>
                             <select class="form-select" id="select-apellido">
                                 <option value="" selected>-- Seleccione Apellido --</option>
                             </select>
                         </div>
-                        <div class="form-group hidden-field">
+                        <div class="form-group w-100 hidden-field">
                             <label for="select-principal">Calle Principal:</label>
                             <select class="form-select" id="select-principal">
                                 <option value="" selected>-- Seleccione Calle Principal --</option>
                             </select>
                         </div>
-                        <div class="form-group hidden-field">
+                        <div class="form-group w-100 hidden-field">
                             <label for="select-secundario">Calle Secundaria:</label>
                             <select class="form-select" id="select-secundario">
                                 <option value="" selected>-- Seleccione Calle Secundaria --</option>
                             </select>
                         </div>
-                        <div class="form-group hidden-field">
+                        <div class="form-group w-100 hidden-field">
                             <label for="select-provincia">Provincia:</label>
                             <select class="form-select" id="select-provincia">
                                 <option value="" selected>-- Seleccione Provincia --</option>
                             </select>
                         </div>
-                        <div class="form-group hidden-field">
+                        <div class="form-group w-100 hidden-field">
                             <label for="select-ciudad">Ciudad:</label>
                             <select class="form-select" id="select-ciudad">
                                 <option value="" selected>-- Seleccione Ciudad --</option>
                             </select>
                         </div>
-                        <div class="form-group hidden-field">
+                        <div class="form-group w-100 hidden-field">
                             <label for="select-codigo_postal">Codigo postal:</label>
                             <select class="form-select" id="select-codigo_postal">
                                 <option value="" selected>-- Seleccione Codigo postal --</option>
                             </select>
                         </div>
-                        <div class="form-group hidden-field">
+                        <div class="form-group w-100 hidden-field">
                             <label for="select-pais">País:</label>
                             <select class="form-select" id="select-pais">
                                 <option value="" selected>-- Seleccione País --</option>
                             </select>
                         </div>
-                        <div class="form-group hidden-field">
+                        <div class="form-group w-100 hidden-field">
                             <label for="select-telefono">Teléfono:</label>
                             <select class="form-select" id="select-telefono">
                                 <option value="" selected>-- Seleccione Teléfono --</option>
                             </select>
                         </div>
-                        <div class="form-group hidden-field">
+                        <div class="form-group w-100 hidden-field">
                             <label for="select-email">Email:</label>
                             <select class="form-select" id="select-email">
                                 <option value="" selected>-- Seleccione Email --</option>
                             </select>
                         </div>
-                        <div class="form-group hidden-field">
+                        <div class="form-group w-100 hidden-field">
                             <label for="select-total">Total:</label>
                             <select class="form-select" id="select-total">
                                 <option value="" selected>-- Seleccione Total --</option>
                             </select>
                         </div>
-                        <div class="form-group hidden-field">
+                        <div class="form-group w-100 hidden-field">
                             <label for="select-descuento">Descuento:</label>
                             <select class="form-select" id="select-descuento">
                                 <option value="" selected>-- Seleccione Descuento --</option>
