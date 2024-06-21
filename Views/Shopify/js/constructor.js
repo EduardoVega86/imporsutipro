@@ -88,7 +88,9 @@ function fillSelectsWithKeys(data) {
                     select.appendChild(option);
                 }
             }
-            $(`#${selectId}`).select2();
+            $(`#${selectId}`).select2({
+                width: '100%'
+            });
         } else {
             console.error(`El elemento con id ${selectId} no existe en el DOM.`);
         }
