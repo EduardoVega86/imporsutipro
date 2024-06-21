@@ -82,8 +82,8 @@
         /* Ajusta el relleno del botón */
     }
 
-     /* animacion y diseño de transportadoras y precio transportador */
-     .transportadora {
+     /* animacion y diseño de aplicacion y name de aplicacion */
+     .aplicacion {
         position: relative;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         border-radius: 10px;
@@ -93,22 +93,22 @@
         display: inline-block;
     }
 
-    .transportadora img {
+    .aplicacion img {
         max-width: 100px;
         transition: filter 0.3s ease;
         filter: grayscale(100%);
     }
 
-    .transportadora:hover {
+    .aplicacion:hover {
         transform: scale(1.1);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
 
-    .transportadora:hover img {
+    .aplicacion:hover img {
         filter: grayscale(0%);
     }
 
-    .price-tag {
+    .name-tag {
         position: absolute;
         bottom: 10px;
         left: 50%;
@@ -124,24 +124,24 @@
         transition: transform 0.3s ease, background-color 0.3s ease;
     }
 
-    .transportadora:hover .price-tag {
+    .aplicacion:hover .name-tag {
         transform: translate(-50%, 0) scale(1.2);
         background-color: rgba(0, 0, 0, 0.9);
     }
 
-    .transportadora.selected {
+    .aplicacion.selected {
         border: 2px solid #007bff;
         box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
     }
 
-    .transportadora.selected img {
+    .aplicacion.selected img {
         filter: grayscale(0%);
     }
 
-    .transportadora.selected .price-tag {
+    .aplicacion.selected .name-tag {
         background-color: rgba(0, 123, 255, 0.9);
         transform: translate(-50%, 0) scale(1.2);
     }
 
-    /* final de diseño de transportadoras */
+    /* final de diseño de aplicacion */
 </style>
