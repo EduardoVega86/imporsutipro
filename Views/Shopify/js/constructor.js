@@ -78,15 +78,19 @@ function fillSelectsWithKeys(data) {
 
     selectIds.forEach(selectId => {
         const select = document.getElementById(selectId);
-        select.innerHTML = '<option value="" selected>-- Seleccione --</option>';
-        for (let key in data) {
-            if (data.hasOwnProperty(key)) {
-                const option = document.createElement('option');
-                option.value = key;
-                option.text = key;
-                select.appendChild(option);
+        if (select) {
+            select.innerHTML = '<option value="" selected>-- Seleccione --</option>';
+            for (let key in data) {
+                if (data.hasOwnProperty(key)) {
+                    const option = document.createElement('option');
+                    option.value = key;
+                    option.text = key;
+                    select.appendChild(option);
+                }
             }
+            $(`#${selectId}`).select2();
+        } else {
+            console.error(`El elemento con id ${selectId} no existe en el DOM.`);
         }
-        $(`#${selectId}`).select2();
     });
 }
