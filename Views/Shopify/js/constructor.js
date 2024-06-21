@@ -71,17 +71,20 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
                 }
                 console.log(`Options for ${selectId}:`, select.innerHTML); // Verificar opciones añadidas
+
+                // Inicializar select2 y luego adjuntar el event listener
                 $(`#${selectId}`).select2({ width: '100%' });
 
-                // Añadir event listener para cada select
-                select.addEventListener('change', function() {
-                    console.log(`Change event detected on ${selectId}`); // Verificar si el evento change se detecta
-                    const selectedKey = select.value;
-                    if (selectedKey && data[selectedKey] && typeof data[selectedKey] === 'object') {
-                        console.log(`Creating dynamic select for ${selectedKey}`); // Verificar si se está creando el select dinámico
-                        createDynamicSelect(selectId, data[selectedKey]);
-                    }
-                });
+                setTimeout(() => {
+                    select.addEventListener('change', function() {
+                        console.log(`Change event detected on ${selectId}`); // Verificar si el evento change se detecta
+                        const selectedKey = select.value;
+                        if (selectedKey && data[selectedKey] && typeof data[selectedKey] === 'object') {
+                            console.log(`Creating dynamic select for ${selectedKey}`); // Verificar si se está creando el select dinámico
+                            createDynamicSelect(selectId, data[selectedKey]);
+                        }
+                    });
+                }, 0);
             } else {
                 console.error(`El elemento con id ${selectId} no existe en el DOM.`);
             }
