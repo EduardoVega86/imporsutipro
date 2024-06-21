@@ -28,6 +28,9 @@ class ShopifyModel extends Query
         $sql = "SELECT url_imporsuit from plataformas where id_plataforma = $id_plataforma";
         $response = $this->select($sql);
         $url = $response[0]["url_imporsuit"];
-        return $responses["url_imporsuit"] = $url;
+        $responses = array(
+            "url_imporsuit" => $url
+        );
+        return $responses;
     }
 }
