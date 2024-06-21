@@ -70,6 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         select.appendChild(option);
                     }
                 }
+                console.log(`Options for ${selectId}:`, select.innerHTML); // Verificar opciones añadidas
                 $(`#${selectId}`).select2({ width: '100%' });
 
                 // Añadir event listener para cada select
@@ -111,6 +112,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
+        console.log(`Dynamic options for ${parentSelectId}:`, dynamicSelect.innerHTML); // Verificar opciones dinámicas añadidas
         $(`#${dynamicSelectId}`).select2({ width: '100%' });
     }
 });
