@@ -68,19 +68,19 @@ class ShopifyModel extends Query
         $bodega = $datos_telefono[0];
 
         $celularO =  $bodega['contacto'];
-$nombreO = $bodega['nombre'];
-$ciudadO    = $bodega['localidad'];
-$provinciaO = $bodega['provincia'];
-$direccionO     = $bodega['direccion'];
-$referenciaO   = $bodega['referencia'] ?? " ";
-$numeroCasaO = $bodega['num_casa'] ?? " ";
-$valor_segura = 0;
+        $nombreO = $bodega['nombre'];
+        $ciudadO    = $bodega['localidad'];
+        $provinciaO = $bodega['provincia'];
+        $direccionO     = $bodega['direccion'];
+        $referenciaO   = $bodega['referencia'] ?? " ";
+        $numeroCasaO = $bodega['num_casa'] ?? " ";
+        $valor_segura = 0;
 
-$no_piezas = 1;
-$contiene
-$costo_flete
-$costo_producto
-$id_transporte
+        $no_piezas = 1;
+        $contiene = "";
+        $costo_flete = 0;
+        $costo_producto     = 0;
+        $id_transporte = 0;
     }
 
     public function obtenerBodegaInventario($id_producto_venta)
