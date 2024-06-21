@@ -125,6 +125,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function removeDynamicSelects(parentSelectId) {
+        console.log(1)
         const dynamicSelects = document.querySelectorAll(`[id^='${parentSelectId}-dynamic']`);
         dynamicSelects.forEach(select => select.parentNode.removeChild(select));
     }
