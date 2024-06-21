@@ -152,10 +152,13 @@ class CalculadoraModel extends Query
         $responseXml = new SimpleXMLElement($response);
         $namespaces = $responseXml->getNamespaces(true);
         $body = $responseXml->children($namespaces['SOAP-ENV'])->Body;
-        $result = $body->children($namespaces['ns1'])->ConsultarResponse->Result;
+        $result = (string)$body->children($namespaces['ns1'])->ConsultarResponse->Result;
+
+        // Decodificar entidades HTML
+        $resultDecoded = html_entity_decode($result);
 
         // Convertir el resultado de la cadena XML a un objeto SimpleXMLElement
-        $resultXml = new SimpleXMLElement($result);
+        $resultXml = new SimpleXMLElement($resultDecoded);
 
         $flete = (float)$resultXml->flete;
         $seguro = (float)$resultXml->seguro;
