@@ -77,12 +77,19 @@ class ShopifyModel extends Query
         $sql = "INSERT INTO web_hook_shopify (id_plataforma, json) VALUES (?, ?)";
         $response = $this->insert($sql, [$id_plataforma, $data]);
         if ($response == 1) {
-            $response["status"] = "200";
-            $response["message"] = "Json guardado correctamente";
+            $responses["status"] = "200";
+            $responses["message"] = "Json guardado correctamente";
         } else {
-            $response["status"] = "500";
-            $response["message"] = "Error al guardar el json";
+            $responses["status"] = "500";
+            $responses["message"] = "Error al guardar el json";
         }
+        return $responses;
+    }
+
+    public function ultimoJson($id_plataforma)
+    {
+        $sql = "SELECT json FROM web_hook_shopify WHERE id_plataforma = $id_plataforma ORDER BY id_web_hook_shopify DESC LIMIT 1";
+        $response = $this->select($sql);
         return $response;
     }
 }
