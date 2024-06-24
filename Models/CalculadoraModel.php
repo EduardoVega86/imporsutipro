@@ -184,7 +184,6 @@ XML;
         $xpath->registerNamespace('soap', 'http://schemas.xmlsoap.org/soap/envelope/');
         $xpath->registerNamespace('ns1', 'https://servientrega-ecuador.appsiscore.com/app/ws/');
         $resultNode = $xpath->query('//soap:Body/ns1:ConsultarResponse/Result')->item(0);
-        print_r($resultNode);
         if (!$resultNode) {
             echo "No se encontró la etiqueta <Result>";
             return [
@@ -197,6 +196,7 @@ XML;
         }
 
         $result = html_entity_decode($resultNode->nodeValue);
+        print_r($result);
 
         // Parsear manualmente el contenido de <Result>
         $flete = $seguro = $comision = $otros = $impuestos = 0;
