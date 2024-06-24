@@ -159,7 +159,6 @@ XML;
                 "impuestos" => 0
             ];
         }
-        print_r($response);
 
         // Decodificar la respuesta HTML
         $decodedResponse = html_entity_decode($response);
@@ -181,13 +180,12 @@ XML;
         }
 
         // Extraer el contenido de <Result>
-
         $xpath = new DOMXPath($dom);
         $xpath->registerNamespace('soap', 'http://schemas.xmlsoap.org/soap/envelope/');
         $xpath->registerNamespace('ns1', 'https://servientrega-ecuador.appsiscore.com/app/ws/');
-        $resultNode = $xpath->query('//soap:Body/ns1:ConsultarResponse/ConsultarResult')->item(0);
+        $resultNode = $xpath->query('//soap:Body/ns1:ConsultarResponse/Result')->item(0);
         if (!$resultNode) {
-            echo "No se encontró la etiqueta <ConsultarResult>";
+            echo "No se encontró la etiqueta <Result>";
             return [
                 "flete" => 0,
                 "seguro" => 0,
@@ -197,7 +195,7 @@ XML;
             ];
         }
 
-        $result = $resultNode->nodeValue;
+        $result = html_entity_decode($resultNode->nodeValue);
 
         // Parsear manualmente el contenido de <Result>
         $flete = $seguro = $comision = $otros = $impuestos = 0;
