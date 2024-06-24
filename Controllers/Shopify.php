@@ -49,6 +49,7 @@ class Shopify extends Controller
 
     public function guardarConfiguracion()
     {
+        $this->isAuth();
         $nombre = $_POST["nombre"];
         $apellido = $_POST["apellido"];
         $principal = $_POST["principal"];
