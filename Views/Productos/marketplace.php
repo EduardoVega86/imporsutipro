@@ -5,7 +5,7 @@
 <?php require_once './Views/Productos/Modales/Seleccion_productoAtributo.php'; ?>
 
 <div class="custom-container-fluid mt-4">
-    <div>
+    <div style="padding-bottom: 20px; padding-top: 20px;">
         <div class="caja p-4 shadow-sm bg-white">
             <div class="row mb-3">
                 <div class="col-md-2 mb-3 mb-md-0">
