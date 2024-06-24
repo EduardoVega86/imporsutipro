@@ -166,7 +166,6 @@ XML;
         $dom = new DOMDocument();
         libxml_use_internal_errors(true);
         $dom->loadXML($decodedResponse);
-        print_r($dom);
         if (libxml_get_errors()) {
             echo "Failed loading XML";
             libxml_clear_errors();
@@ -181,6 +180,7 @@ XML;
 
         // Extraer el contenido de <Result>
         $xpath = new DOMXPath($dom);
+        print_r($xpath->query('//soap:Body/ns1:ConsultarResponse/Result')->item(0));
         $xpath->registerNamespace('soap', 'http://schemas.xmlsoap.org/soap/envelope/');
         $xpath->registerNamespace('ns1', 'https://servientrega-ecuador.appsiscore.com/app/ws/');
         $resultNode = $xpath->query('//soap:Body/ns1:ConsultarResponse/Result')->item(0);
