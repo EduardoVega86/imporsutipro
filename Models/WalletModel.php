@@ -405,5 +405,10 @@ class WalletModel extends Query
 
     public function enviarMensaje($mensaje)
     {
+        if ($mensaje == "solitud") {
+            $mensaje = "Se ha solicitado un pago";
+        } else if ($mensaje == "pago") {
+            $mensaje = "Se ha realizado un pago";
+        }
     }
 }
