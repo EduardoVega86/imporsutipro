@@ -320,8 +320,8 @@ class WalletModel extends Query
     {
         $matriz = $this->obtenerMatriz();
         $matriz = $matriz[0]['idmatriz'];
-        $sql = "INSERT INTO pagos (`id_cuenta`, `valor`, `fecha`, `id_matriz`) VALUES (?, ?, ?, ?)";
-        $response =  $this->insert($sql, array($id_cuenta, $valor, $fecha, $matriz));
+        $sql = "INSERT INTO pagos (`cantidad`, `id_cuenta`, `fecha`, `matriz`) VALUES (?, ?, ?, ?)";
+        $response =  $this->insert($sql, array($valor, $id_cuenta, $fecha, $matriz));
         if ($response == 1) {
             $responses["status"] = 200;
         } else {
@@ -401,5 +401,9 @@ class WalletModel extends Query
         $sql = "SELECT * FROM datos_banco_usuarios WHERE id_plataforma = '$plataforma'";
         $response =  $this->select($sql);
         return $response;
+    }
+
+    public function enviarMensaje($mensaje)
+    {
     }
 }
