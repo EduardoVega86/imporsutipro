@@ -384,37 +384,62 @@ $(document).ready(function () {
     var recaudo = $("#recaudo").val();
     var monto_total = $("#monto_total").text().trim();
 
-    if (
-      provincia !== "Selecciona una opción" &&
-      ciudad !== "Selecciona una opción" &&
-      monto_total !== "" &&
-      monto_total !== "0"
-    ) {
-      let formData = new FormData();
-      formData.append("ciudad", ciudad);
-      formData.append("provincia", provincia);
-      formData.append("recaudo", recaudo);
-      formData.append("monto_factura", monto_total);
+    let formData_ServiTarifa = new FormData();
+    formData_ServiTarifa.append("ciudadO", ciudad_bodega);
+    formData_ServiTarifa.append("monto_factura", monto_total);
+    formData_ServiTarifa.append("ciudadD", ciudad);
+    formData_ServiTarifa.append("provinciaD", provincia);
 
-      $.ajax({
-        url: SERVERURL + "Calculadora/obtenerTarifas",
-        type: "POST",
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function (response) {
-          response = JSON.parse(response);
+    $.ajax({
+      url: SERVERURL + "calculadora/calcularServi",
+      type: "POST",
+      data: formData_ServiTarifa,
+      processData: false, // No procesar los datos
+      contentType: false, // No establecer ningún tipo de contenido
+      success: function (response_serviTarifa) {
+        response_serviTarifa = JSON.parse(response_serviTarifa);
+        $("#flete").val(response_serviTarifa.flete);
+        $("#seguro").val(response_serviTarifa.seguro);
+        $("#comision").val(response_serviTarifa.comision);
+        $("#otros").val(response_serviTarifa.otros);
+        $("#impuestos").val(response_serviTarifa.impuestos);
 
-          $("#price_servientrega").text(response.servientrega);
-          /* $("#price_gintracom").text(response.gintracom); */
-          /* $("#price_speed").text(response.speed); */
-          $("#price_laar").text(response.laar);
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-          alert(errorThrown);
-        },
-      });
-    }
+        if (
+          provincia !== "Selecciona una opción" &&
+          ciudad !== "Selecciona una opción" &&
+          monto_total !== "" &&
+          monto_total !== "0"
+        ) {
+          let formData = new FormData();
+          formData.append("ciudad", ciudad);
+          formData.append("provincia", provincia);
+          formData.append("recaudo", recaudo);
+          formData.append("monto_factura", monto_total);
+
+          $.ajax({
+            url: SERVERURL + "Calculadora/obtenerTarifas",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+              response = JSON.parse(response);
+
+              $("#price_servientrega").text(response.servientrega);
+              /* $("#price_gintracom").text(response.gintracom); */
+              /* $("#price_speed").text(response.speed); */
+              $("#price_laar").text(response.laar);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+              alert(errorThrown);
+            },
+          });
+        }
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        alert(errorThrown);
+      },
+    });
   });
 
   // cargar datos productos
@@ -640,7 +665,8 @@ function generar_guia() {
   // Realiza la solicitud AJAX
   if (transportadora_selected == 1) {
     generar_guiaTransportadora = "generarlaar";
-  } else {
+  } else if (transportadora_selected == 3) {
+    generar_guiaTransportadora = "generarServientrega";
   }
 
   // Mostrar alerta de carga antes de realizar la solicitud AJAX
@@ -656,6 +682,15 @@ function generar_guia() {
   });
 
   formData.append("numero_factura", numero_factura);
+
+  if (transportadora_selected == 3) {
+    formData.append("flete", $("#flete").val());
+    formData.append("seguro", $("#seguro").val());
+    formData.append("comision", $("#comision").val());
+    formData.append("otros", $("#otros").val());
+    formData.append("impuestos", $("#impuestos").val());
+  }
+
   $.ajax({
     url: "" + SERVERURL + "/guias/" + generar_guiaTransportadora,
     type: "POST",
