@@ -18,7 +18,7 @@ class Guias extends Controller
         /// remitente
         $nombreOrigen = $_POST['nombreO'];
         $ciudad = $_POST['ciudadO'];
-        $ciudadOrigen = $this->model->obtenerNombre($ciudad, "codigo_ciudad_servientrega")[0]['codigo_ciudad_servientrega'];
+        $ciudadOrigen = $this->model->obtenerCiudadLaar($ciudad);
         $direccionOrigen = $_POST['direccionO'];
         $telefonoOrigen = $_POST['celularO'];
         $referenciaOrigen = $_POST['referenciaO'];
@@ -27,9 +27,7 @@ class Guias extends Controller
         $nombreDestino = $_POST['nombre'];
         $ciudadDestino = $_POST['ciudad'];
         $provincia = $_POST['provincia'];
-        $provincia = $this->model->obtenerNombre($provincia, "provincia")[0]['provincia'];
-
-        $ciudadDestino = $this->model->obtenerNombre($ciudadDestino, "codigo_ciudad_servientrega")[0]['codigo_ciudad_servientrega'];
+        $ciudadDestino = $this->model->obtenerCiudadLaar($ciudadDestino);
         $direccionDestino = $_POST['calle_principal'] . " y " . $_POST['calle_secundaria'];
 
         $calle_principal = $_POST['calle_principal'];
@@ -74,7 +72,7 @@ class Guias extends Controller
         $nombreOrigen = $_POST['nombreO'];
         $ciudadOrigen = $_POST['ciudadO'];
 
-        $ciudadOrigen = $this->model->obtenerNombre($ciudadOrigen, "ciudad")[0]['ciudad'];
+        $ciudadOrigen = $this->model->obtenerNombre($ciudadOrigen, "codigo_ciudad_servientrega")[0]['codigo_ciudad_servientrega'];
 
 
         $direccionOrigen = $_POST['direccionO'];
@@ -83,7 +81,8 @@ class Guias extends Controller
         $celularOrigen = $telefonoOrigen;
         $nombreDestino = $_POST['nombre'];
         $ciudadDestino = $_POST['ciudad'];
-        $ciudadDestino = $this->model->obtenerNombre($ciudadDestino, "ciudad")[0]['ciudad'];
+
+        $ciudadDestino = $this->model->obtenerNombre($ciudadDestino, "codigo_ciudad_servientrega")[0]['codigo_ciudad_servientrega'];
 
 
         $direccionDestino = $_POST['calle_principal'] . " y " . $_POST['calle_secundaria'];
