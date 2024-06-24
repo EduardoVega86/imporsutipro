@@ -53,7 +53,7 @@
     @media (max-width: 768px) {
         .full-screen-container {
             flex-direction: column;
-            gap: 2px;
+            gap: 10px;
             height: 60vh;
         }
     }
@@ -149,7 +149,7 @@
     }
 
     .json_informacion {
-        max-height: 300px;
+        max-height: 600px;
         /* Puedes ajustar esta altura según tus necesidades */
         overflow-y: auto;
         /* Añadir scroll vertical */
@@ -168,5 +168,12 @@
         /* Fuente monoespaciada para el JSON */
         color: #333;
         /* Color de texto */
+    }
+
+    @media (max-width: 768px) {
+        .json_informacion {
+            min-height: 400px;
+            width: 80%;
+        }
     }
 </style>
