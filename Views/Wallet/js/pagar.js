@@ -332,6 +332,19 @@ $(document).ready(function() {
 
     initDataTableFacturas()
   });
+
+  $.ajax({
+    url: SERVERURL + "wallet/obtenerCuentas",
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+      console.log(response)
+    },
+    error: function (error) {
+      console.error("Error al obtener la lista de bodegas:", error);
+    },
+  });
+
 });
 
 //TABLA DE HISTORIAL PAGOS
