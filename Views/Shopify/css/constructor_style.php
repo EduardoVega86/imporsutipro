@@ -6,6 +6,8 @@
         height: 100vh;
         background-color: #f0f0f0;
         padding-left: 30px;
+        overflow: hidden;
+        /* Para evitar el desbordamiento */
     }
 
     .custom-container-fluid {
@@ -15,6 +17,10 @@
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         text-align: center;
         min-width: 50%;
+        max-height: 80vh;
+        /* Altura máxima */
+        overflow-y: auto;
+        /* Scroll vertical si el contenido es mayor que la altura */
     }
 
     .custom-container-fluid h1 {
