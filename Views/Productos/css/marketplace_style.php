@@ -271,4 +271,6 @@
         background-color: #e85b50;
         border-color: #e85b50;
     }
+
+    /* CSS filtros */
 </style>

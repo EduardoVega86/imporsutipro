@@ -27,9 +27,13 @@
                     <option value="3">Proveedor 3</option>
                 </select>
             </div>
-            <div class="col-md-3 mb-3 mb-md-0">
+            <div class="col-md-4 mb-3 mb-md-0">
                 <label for="priceRange" class="form-label">Rango de precio:</label>
-                <input type="range" class="form-range" min="0" max="1000000" step="10000" id="priceRange">
+                <div id="price-range-slider"></div>
+                <div class="d-flex justify-content-between">
+                    <input type="text" id="price-min" class="form-control me-2" readonly>
+                    <input type="text" id="price-max" class="form-control" readonly>
+                </div>
             </div>
             <div class="col-md-2 mb-3 mb-md-0">
                 <select id="categoria_filtroMarketplace" class="form-select me-2">
