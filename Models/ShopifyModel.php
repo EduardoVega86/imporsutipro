@@ -252,10 +252,10 @@ class ShopifyModel extends Query
         return $responses;
     }
 
-    public function guardarConfiguracion($data)
+    public function guardarConfiguracion($nombre, $apellido, $principal, $secundario, $provincia, $ciudad, $codigo_postal, $pais, $telefono, $email, $total, $descuento, $id_plataforma)
     {
         $sql = "INSERT INTO configuracion_shopify (`nombre`, `apellido`, `principal`, `secundaria`, `provincia`, `ciudad`, `codigo_postal`, `pais`, `telefono`, `email`, `total`, `discount`, `id_plataforma`) VALUES (?, ?, ?, ? ,?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $response = $this->insert($sql, $data);
+        $response = $this->insert($sql, [$nombre, $apellido, $principal, $secundario, $provincia, $ciudad, $codigo_postal, $pais, $telefono, $email, $total, $descuento, $id_plataforma]);
         if ($response == 1) {
             $response["status"] = "200";
             $response["message"] = "Configuracion guardada correctamente";

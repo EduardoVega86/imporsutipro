@@ -63,23 +63,7 @@ class Shopify extends Controller
         $total = $_POST["total"];
         $descuento = $_POST["descuento"];
 
-        $data = array(
-            "nombre" => $nombre,
-            "apellido" => $apellido,
-            "principal" => $principal,
-            "secundario" => $secundario,
-            "provincia" => $provincia,
-            "ciudad" => $ciudad,
-            "codigo_postal" => $codigo_postal,
-            "pais" => $pais,
-            "telefono" => $telefono,
-            "email" => $email,
-            "total" => $total,
-            "descuento" => $descuento,
-            "id_plataforma" => $_SESSION["id_plataforma"]
-        );
-
-        $response = $this->model->guardarConfiguracion($data);
+        $response = $this->model->guardarConfiguracion($nombre, $apellido, $principal, $secundario, $provincia, $ciudad, $codigo_postal, $pais, $telefono, $email, $total, $descuento, $_SESSION["id_plataforma"]);
         echo json_encode($response);
     }
 
