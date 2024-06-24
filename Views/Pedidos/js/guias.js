@@ -72,13 +72,13 @@ const listGuias = async () => {
       if (transporte == "SERVIENTREGA") {
         transporte_content =
           '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SERVIENTREGA</span>';
-          ruta_descarga= "https://guias.imporsuit.com/Servientrega/Guia/";
-          ruta_traking= "https://www.servientrega.com.ec/Tracking/?guia=180778296&tipo=";
+          ruta_descarga= `https://guias.imporsuit.com/Servientrega/Guia/${guia.numero_guia}`;
+          ruta_traking= `https://www.servientrega.com.ec/Tracking/?guia=${guia.numero_guia}&tipo=${guia.numero_guia}`;
       } else if (transporte == "LAAR") {
         transporte_content =
           '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">LAAR</span>';
-          ruta_descarga= "https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=";
-          ruta_traking= "https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia=";
+          ruta_descarga= `https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${guia.numero_guia}`;
+          ruta_traking= `https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${guia.numero_guia}`;
       } else if (transporte == "SPEED") {
         transporte_content =
           '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
@@ -132,10 +132,10 @@ const listGuias = async () => {
                       <span class="w-100 text-nowrap ${span_estado}">${estado_guia}</span>
                      </div>
                      <div>
-                      <a class="w-100" href="${ruta_descarga}${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>
+                      <a class="w-100" href="${ruta_descarga}" target="_blank">${guia.numero_guia}</a>
                      </div>
                      <div style="position: relative; display: inline-block;">
-                      <a href="${ruta_traking}${guia.numero_guia}" target="_blank" style="vertical-align: middle;">
+                      <a href="${ruta_traking}" target="_blank" style="vertical-align: middle;">
                         <img src="https://new.imporsuitpro.com/public/img/tracking.png" width="30px" id="buscar_traking" alt="buscar_traking">
                       </a>
                       <a href="https://wa.me/${formatPhoneNumber(
