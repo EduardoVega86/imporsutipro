@@ -236,6 +236,6 @@ XML;
         }
 
         $nombre = $this->select($sql);
-        return $nombre[0];
+        return $nombre;
     }
 }
