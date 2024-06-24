@@ -8,6 +8,7 @@
         <h2 class="text-center mb-4">Pagar Wallet</h2>
 
         <div class="left_right gap-2">
+            <input type="hidden" id="enlace_tienda" name="enlace_tienda" value="<?php echo ENLACE; ?>">
             <div class="table-responsive left">
                 <div class="card text-center">
                     <div class="card-body">
