@@ -425,14 +425,16 @@ class GuiasModel extends Query
 
     public function obtenerNombre($codigo, $nombre)
     {
-        if ($nombre == "ciudad") {
-            $sql = "SELECT $nombre FROM ciudad_cotizacion WHERE id_cotizacion = '$codigo'";
-        } else if ($nombre === "codigo_ciudad_servientrega") {
-            $sql = "SELECT $nombre FROM ciudad_cotizacion WHERE id_cotizacion = '$codigo'";
-        } else {
-            $sql = "SELECT $nombre FROM ciudad_cotizacion WHERE codigo_provincia_laar = '$codigo' limit 1";
-        }
+        // Definir la tabla y la condición base
+        $table = "ciudad_cotizacion";
+        $condition = ($nombre === "ciudad" || $nombre === "codigo_ciudad_servientrega" || $nombre === "codigo_provincia_gintracom" || $nombre === "codigo_ciudad_gintracom")
+            ? "id_cotizacion = '$codigo'"
+            : "codigo_provincia_laar = '$codigo' limit 1";
 
+        // Construir la consulta SQL
+        $sql = "SELECT $nombre FROM $table WHERE $condition";
+
+        // Ejecutar la consulta y devolver el resultado
         $nombre = $this->select($sql);
         return $nombre;
     }

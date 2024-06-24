@@ -72,7 +72,7 @@ class Guias extends Controller
         $nombreOrigen = $_POST['nombreO'];
         $ciudadOrigen = $_POST['ciudadO'];
         $ciudad = $_POST['ciudad'];
-        $ciudadOrigen = $this->model->obtenerNombre($ciudadOrigen, "codigo_ciudad_servientrega")[0]['codigo_ciudad_servientrega'];
+        $ciudadOrigen = $this->model->obtenerNombre($ciudadOrigen, "codigo_ciudad_gintracom")[0]['codigo_ciudad_gintracom'];
 
 
         $direccionOrigen = $_POST['direccionO'];
@@ -123,6 +123,53 @@ class Guias extends Controller
             $response2 = $this->model->actualizarGuia($numero_factura, $response["id"], $nombreDestino, $ciudad, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $cod, $costo_producto, $comentario, $_SESSION["id"], $_POST['calle_principal'], $_POST['calle_secundaria'], $contiene, $provincia, $costoflete, "SERVIENTREGA");
         }
         echo json_encode($response);
+    }
+
+    public function generarGintracom()
+    {
+        $nombreOrigen = $_POST['nombreO'];
+        $ciudadOrigen = $_POST['ciudadO'];
+        $provinciaOrigen = $_POST['provinciaO'];
+        $ciudadOrigen = $this->model->obtenerNombre($ciudadOrigen, "codigo_ciudad_gintracom")[0]['codigo_ciudad_gintracom'];
+        $provinciaOrigen = $this->model->obtenerNombre($provinciaOrigen, "codigo_provincia_gintracom")[0]['codigo_provincia_gintracom'];
+
+        $direccionOrigen = $_POST['direccionO'];
+        $telefonoOrigen = $_POST['celularO'];
+        $referenciaOrigen = $_POST['referenciaO'];
+        $celularOrigen = $telefonoOrigen;
+        $nombreDestino = $_POST['nombre'];
+        $ciudadDestino = $_POST['ciudad'];
+
+        $ciudadDestino = $this->model->obtenerNombre($ciudadDestino, "codigo_ciudad_gintracom")[0]['codigo_ciudad_gintracom'];
+
+        $provincia = $_POST['provincia'];
+        $provinciaDestino = $this->model->obtenerNombre($provincia, "codigo_provincia_gintracom")[0]['codigo_provincia_gintracom'];
+        $direccionDestino = $_POST['calle_principal'] . " y " . $_POST['calle_secundaria'];
+        $telefonoDestino = $_POST['telefono'];
+        $celularDestino = $telefonoDestino;
+        $referenciaDestino = $_POST['referencia'];
+        $postal = "";
+        $identificacion  = "";
+        $contiene = $_POST['contiene'];
+        $peso = 2;
+        $valor_seguro = 0;
+        $valor_declarado = 0;
+        $tamanio = 2;
+        $cod = $_POST['recaudo'];
+        $costoflete = $_POST['costo_flete'] ?? 0;
+        $costo_producto = $_POST['total_venta'];
+        $tipo_cobro = 0;
+        $comentario = $_POST['observacion'];
+        $fecha = date("Y-m-d");
+        $extras = "";
+        $numero_factura = $_POST['numero_factura'];
+
+        $flete = $_POST['flete'];
+        $seguro = $_POST['seguro'];
+
+        $comision = $_POST['comision'];
+        $otros = $_POST['otros'];
+        $impuestos = $_POST['impuestos'];
     }
 
 
