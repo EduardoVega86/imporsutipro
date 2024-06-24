@@ -282,6 +282,7 @@
         display: flex;
         flex-direction: row;
         gap: 20px;
+        align-content: center;
     }
 
     /* Slide de rango de precions con noUiSlider */

@@ -36,7 +36,7 @@
                     </div>
                 </div>
                 <div class="primer_seccionFiltro">
-                    <div class="col-md-4 mb-3 mb-md-0">
+                    <div class="col-md-2 mb-3 mb-md-0">
                         <label for="priceRange" class="form-label">Rango de precio:</label>
                         <div id="price-range-slider"></div>
                         <div class="d-flex justify-content-between">
