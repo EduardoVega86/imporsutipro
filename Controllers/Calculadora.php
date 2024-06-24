@@ -36,7 +36,7 @@ class Calculadora extends Controller
         $provinciaD = $this->model->obtenerNombre($provinciaD, "provincia");
         $ciudadO = $this->model->obtenerNombre($ciudadO, "ciudad");
 
-
+        print_r($ciudadO);
 
         $tarifas = $this->model->calcularServi($ciudadO, $ciudadD, $provinciaD, $monto_factura);
         echo json_encode($tarifas);
