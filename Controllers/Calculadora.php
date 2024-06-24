@@ -32,9 +32,9 @@ class Calculadora extends Controller
         $monto_factura = $_POST['monto_factura'];
         $ciudadD = $_POST['ciudadD'];
 
-        $ciudadD = $this->model->obtenerNombre($ciudadD, "ciudad");
-        $provinciaD = $this->model->obtenerNombre($provinciaD, "provincia");
-        $ciudadO = $this->model->obtenerNombre($ciudadO, "ciudad");
+        $ciudadD = $this->model->obtenerNombre($ciudadD, "ciudad")[0]['ciudad'];
+        $provinciaD = $this->model->obtenerNombre($provinciaD, "provincia")[0]['provincia'];
+        $ciudadO = $this->model->obtenerNombre($ciudadO, "ciudad")[0]['ciudad'];
 
         print_r($ciudadO);
 
