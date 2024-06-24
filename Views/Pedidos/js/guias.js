@@ -65,18 +65,18 @@ const listGuias = async () => {
     let impresiones = "";
     let novedad = "";
     guias.forEach((guia, index) => {
-      let transporte = guia.id_transporte;
+      let transporte = guia.transporte;
       let transporte_content = "";
-      if (transporte == 3) {
+      if (transporte == "SERVIENTREGA") {
         transporte_content =
           '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SERVIENTREGA</span>';
-      } else if (transporte == 1) {
+      } else if (transporte == "LAAR") {
         transporte_content =
           '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">LAAR</span>';
-      } else if (transporte == 2) {
+      } else if (transporte == "SPEED") {
         transporte_content =
           '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
-      } else if (transporte == 4) {
+      } else if (transporte == "GINTRACOM") {
         transporte_content =
           '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>';
       } else {
