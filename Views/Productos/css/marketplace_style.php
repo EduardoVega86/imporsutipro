@@ -283,14 +283,18 @@
         flex-direction: row;
         gap: 20px;
     }
-    
-    .boton_favoritos{
+
+    .boton_favoritos {
         margin-left: auto;
     }
 
     @media (max-width: 768px) {
         .primer_seccionFiltro {
             flex-direction: column;
+        }
+
+        .boton_favoritos {
+            margin-left: initial;
         }
     }
 
