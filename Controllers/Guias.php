@@ -71,7 +71,7 @@ class Guias extends Controller
     {
         $nombreOrigen = $_POST['nombreO'];
         $ciudadOrigen = $_POST['ciudadO'];
-
+        $ciudad = $_POST['ciudad'];
         $ciudadOrigen = $this->model->obtenerNombre($ciudadOrigen, "codigo_ciudad_servientrega")[0]['codigo_ciudad_servientrega'];
 
 
@@ -84,7 +84,7 @@ class Guias extends Controller
 
         $ciudadDestino = $this->model->obtenerNombre($ciudadDestino, "codigo_ciudad_servientrega")[0]['codigo_ciudad_servientrega'];
 
-
+        $provincia = $_POST['provincia'];
         $direccionDestino = $_POST['calle_principal'] . " y " . $_POST['calle_secundaria'];
         $telefonoDestino = $_POST['telefono'];
         $celularDestino = $telefonoDestino;
@@ -117,7 +117,10 @@ class Guias extends Controller
         } else {
             $response = $this->model->generarServientregaSinRecaudo($nombreOrigen, $ciudadOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras, $flete, $seguro, $comision, $otros, $impuestos);
         }
-        //$response["status"] = 200;
+        if (isset($response["id"])) {
+            $response["status"] = 200;
+            $this->model->actualizarGuia($numero_factura, $response["id"], $nombreDestino, $ciudad, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $cod, $costo_producto, $comentario, $_SESSION["id"], $_POST['calle_principal'], $_POST['calle_secundaria'], $contiene, $provincia, $costoflete);
+        }
         echo $response;
     }
 
