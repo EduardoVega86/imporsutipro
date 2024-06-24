@@ -307,7 +307,9 @@ $(document).ready(function () {
       processData: false, // No procesar los datos
       contentType: false, // No establecer ningún tipo de contenido
       success: function (response_serviTarifa) {
-        console.log("flete: "+response_serviTarifa.flete)
+        console.log("flete: "+response_serviTarifa[0].flete)
+        response_serviTarifa = JSON.parse(response_serviTarifa)
+        console.log("flete2: "+response_serviTarifa.flete)
         $("#flete").val(response_serviTarifa.flete);
         $("#seguro").val(response_serviTarifa.seguro);
         $("#comision").val(response_serviTarifa.comision);
