@@ -45,6 +45,10 @@ document.addEventListener("DOMContentLoaded", function () {
               // Convertir el JSON en una cadena formateada y añadirlo al div
               document.getElementById("json-content").innerText =
                 JSON.stringify(data, null, 2);
+
+              // Mostrar el div json-informacion
+              document.getElementById("json-informacion").style.display =
+                "block";
             } else {
               document.getElementById("loading-below").innerHTML =
                 '<div class="spinner-border" role="status"><span class="sr-only">Cargando...</span></div><div>No se pudo obtener información. Intentar nuevamente.</div>';

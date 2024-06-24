@@ -144,6 +144,10 @@
         cursor: pointer;
     }
 
+    #json-informacion {
+        display: none;
+    }
+
     .json_informacion {
         max-height: 300px;
         /* Puedes ajustar esta altura según tus necesidades */

@@ -129,7 +129,7 @@
             </div>
         </div>
     </div>
-    <div class="json_informacion">
+    <div class="json_informacion" id="json-informacion">
         <h1>Json de Informacion</h1>
         <div id="json-content"></div>
     </div>
