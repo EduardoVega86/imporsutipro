@@ -408,10 +408,17 @@ class WalletModel extends Query
         return $response;
     }
 
-    public function enviarMensaje($mensaje)
+    public function obtenerCorreo($id)
     {
-        if ($mensaje == "solitud") {
-            require_once 'PHPMailer/Mail.php';
+        $sql = "SELECT email_users FROM users WHERE id_users = '$id'";
+        $response =  $this->select($sql);
+        return $response;
+    }
+
+    public function enviarMensaje($mensaje, $correo)
+    {
+        if ($mensaje == "solicitud") {
+            require_once 'PHPMailer/Mail_pago.php';
             $mail = new PHPMailer();
             $mail->isSMTP();
             $mail->SMTPDebug = $smtp_debug;
@@ -425,8 +432,8 @@ class WalletModel extends Query
             $mail->CharSet = 'UTF-8';
             $mail->setFrom($smtp_from, $smtp_from_name);
             $mail->addAddress($correo);
-            $mail->Subject = 'Registro en Imporsuitpro';
-            $mail->Body = $message_body;
+            $mail->Subject = 'Solicitud de Pago en Imporsuitpro';
+            $mail->Body = $message_body2;
             // $this->crearSubdominio($tienda);
 
             if ($mail->send()) {

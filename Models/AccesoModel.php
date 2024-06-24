@@ -21,11 +21,11 @@ class AccesoModel extends Query
         $date_added       = date("Y-m-d H:i:s");
         /* $sql = "INSERT INTO users (nombre, correo, pais, telefono, contrasena) VALUES (?, ?, ?, ?, ?)"; */
 
-//        $prefix = 'tmp_';
-//        $timestamp = time();
-//        $uniqueId = uniqid();
-//        $tienda = $prefix . $timestamp . '_' . $uniqueId;
-    
+        //        $prefix = 'tmp_';
+        //        $timestamp = time();
+        //        $uniqueId = uniqid();
+        //        $tienda = $prefix . $timestamp . '_' . $uniqueId;
+
         $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
         $sql = "INSERT INTO users (nombre_users, email_users, con_users, usuario_users, date_added, cargo_users) VALUES (?, ?, ?, ?, ?, ?)";
         //   echo $sql;
@@ -87,10 +87,11 @@ class AccesoModel extends Query
                             $_SESSION['login_time'] = time();
                             $_SESSION['cargo'] = 1;
                             $_SESSION['id'] = $id[0]['id_users'];
-                            $_SESSION['tienda'] = "https://" . $tienda . ".imporsuitpro.com";
+                            $_SESSION['tienda'] = $tienda;
                             $_SESSION['matriz'] = $id_matriz;
+                            $_SESSION["enlace"] = "https://" . $tienda . "." . DOMINIO;
                             //enviar correo
-                            $url_change = "https://" . $tienda . ".imporsuitpro.com";
+                            $url_change = "https://" . $tienda . "." . DOMINIO;
                             require_once 'PHPMailer/Mail.php';
                             $mail = new PHPMailer();
                             $mail->isSMTP();
@@ -162,6 +163,7 @@ class AccesoModel extends Query
                 $_SESSION['cargo'] = $datos_usuario[0]['cargo_users'];
                 $_SESSION['id'] = $datos_usuario[0]['id_users'];
                 $_SESSION['tienda'] = $nombre_tienda[0]['nombre_tienda'];
+                $_SESSION["enlace"] = "https://" . $nombre_tienda[0]['nombre_tienda'] . "." . DOMINIO;
                 $_SESSION['matriz'] = $this->obtenerMatriz();
             } else {
                 $response = $this->initialResponse();

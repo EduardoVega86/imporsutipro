@@ -150,7 +150,12 @@ class Wallet extends Controller
         $id_cuenta = $_POST['id_cuenta'];
         $valor = $_POST['valor'];
         $fecha = date("Y-m-d H:i:s");
+
         $response = $this->model->solicitarPago($id_cuenta, $valor, $fecha);
+        if ($response["status"] == 200) {
+            $correo = $this->model->obtenerCorreo($_SESSION["id"]);
+            $this->model->enviarCorreo("solicitud", $correo[0]["email_users"]);
+        }
         echo json_encode($response);
     }
 
