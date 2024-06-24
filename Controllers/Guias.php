@@ -163,13 +163,6 @@ class Guias extends Controller
         $fecha = date("Y-m-d");
         $extras = "";
         $numero_factura = $_POST['numero_factura'];
-
-        $flete = $_POST['flete'];
-        $seguro = $_POST['seguro'];
-
-        $comision = $_POST['comision'];
-        $otros = $_POST['otros'];
-        $impuestos = $_POST['impuestos'];
     }
 
 

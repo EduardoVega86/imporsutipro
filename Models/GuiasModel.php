@@ -127,8 +127,21 @@ class GuiasModel extends Query
 
     public function actualizarGuia($numero_factura, $guia, $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $cod, $costo_producto, $comentario, $usuario, $calle_principal, $calle_secundaria, $contiene, $provincia, $costo_flete, $transp)
     {
-
-        $sql =  "UPDATE `facturas_cot` SET `id_usuario`=?,`monto_factura`=?,`nombre`=?,`telefono`=?,`provincia`=?,`c_principal`=?,`ciudad_cot`=?,`c_secundaria`=?,`referencia`=?,`observacion`=?,`guia_enviada`=1,`transporte`='$transp',`celular`=?,`estado_guia_sistema`=2,`numero_guia`=?,`cod`=?,`contiene`=?,`comentario`=?,`id_transporte`=1, `costo_flete` =$costo_flete WHERE `numero_factura`=?";
+        switch ($transp) {
+            case 'LAAR':
+                $id_transporte = 1;
+                break;
+            case 'SERVIENTREGA':
+                $id_transporte = 2;
+                break;
+            case 'GINTRACOM':
+                $id_transporte = 3;
+                break;
+            case 'SPEED':
+                $id_transporte = 4;
+                break;
+        }
+        $sql =  "UPDATE `facturas_cot` SET `id_usuario`=?,`monto_factura`=?,`nombre`=?,`telefono`=?,`provincia`=?,`c_principal`=?,`ciudad_cot`=?,`c_secundaria`=?,`referencia`=?,`observacion`=?,`guia_enviada`=1,`transporte`='$transp',`celular`=?,`estado_guia_sistema`=2,`numero_guia`=?,`cod`=?,`contiene`=?,`comentario`=?,`id_transporte`=$id_transporte, `costo_flete` =$costo_flete WHERE `numero_factura`=?";
         $data = array($usuario, $costo_producto, $nombreDestino, $telefonoDestino, $provincia, $calle_principal, $ciudadDestino, $calle_secundaria, $referenciaDestino, $comentario, $celularDestino, $guia, $cod, $contiene, $comentario, $numero_factura);
         $response = $this->insert($sql, $data);
         return $response;
