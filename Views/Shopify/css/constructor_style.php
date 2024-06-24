@@ -143,4 +143,26 @@
     .img-container {
         cursor: pointer;
     }
+
+    .json_informacion {
+        max-height: 300px;
+        /* Puedes ajustar esta altura según tus necesidades */
+        overflow-y: auto;
+        /* Añadir scroll vertical */
+        border: 1px solid #ced4da;
+        /* Borde ligero */
+        padding: 10px;
+        background-color: #f8f9fa;
+        /* Fondo claro */
+        border-radius: 5px;
+    }
+
+    #json-content {
+        white-space: pre-wrap;
+        /* Mantener los saltos de línea y espacios */
+        font-family: monospace;
+        /* Fuente monoespaciada para el JSON */
+        color: #333;
+        /* Color de texto */
+    }
 </style>
