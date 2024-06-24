@@ -355,6 +355,8 @@ class GuiasModel extends Query
     {
         if ($nombre == "ciudad") {
             $sql = "SELECT $nombre FROM ciudad_cotizacion WHERE id_cotizacion = '$codigo'";
+        } else if ($nombre === "codigo_ciudad_servientrega") {
+            $sql = "SELECT $nombre FROM ciudad_cotizacion WHERE id_cotizacion = '$codigo'";
         } else {
             $sql = "SELECT $nombre FROM ciudad_cotizacion WHERE codigo_provincia_laar = '$codigo' limit 1";
         }
