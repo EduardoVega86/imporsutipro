@@ -3,7 +3,7 @@
 
 <div class="d-flex flex-column" style="width: 700px;">
     <div class="imagen_logo">
-        <img src="<?php echo LOGIN_IMAGEN; ?>" alt="IMORSUIT" width="300px" height="100px">
+        <img src="<?php echo LOGIN_IMAGE; ?>" alt="IMORSUIT" width="300px" height="100px">
     </div>
     <div class="container">
         <div class="header">
