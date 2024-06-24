@@ -258,11 +258,13 @@ class ShopifyModel extends Query
         $response = $this->insert($sql, [$nombre, $apellido, $principal, $secundario, $provincia, $ciudad, $codigo_postal, $pais, $telefono, $email, $total, $descuento, $id_plataforma]);
         print_r($response);
         if ($response == 2) {
-            $response["message"] = "Configuracion guardada correctamente";
+            $responses["status"] = 200;
+            $responses["message"] = "Configuracion guardada correctamente";
         } else {
-            $response["message"] = "Error al guardar la configuracion";
+            $responses["status"] = 500;
+            $responses["message"] = "Error al guardar la configuracion";
         }
-        return $response;
+        return $responses;
     }
 
     public function verificarConfiguracion($id_plataforma)
