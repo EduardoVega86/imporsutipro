@@ -129,6 +129,11 @@
             </div>
         </div>
     </div>
+    <div class="json_informacion">
+        <h1>Json de Informacion</h1>
+        <div id="json-content"></div>
+    </div>
+
 </div>
 
 <script src="<?php echo SERVERURL ?>/Views/Shopify/js/constructor.js"></script>
