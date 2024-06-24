@@ -195,4 +195,51 @@ class AccesoModel extends Query
         }
         return false;
     }
+
+    public function recuperar_contrasena($correo)
+    {
+        $usuario = $this->select("SELECT * FROM users WHERE email_users = '$correo'");
+
+        if (count($usuario) > 0) {
+            $token = md5(uniqid(mt_rand(), true));
+        }
+        $sql = "UPDATE users SET token_act = ?, estado_token = 1 WHERE email_users = ?";
+        $data = [$token, $correo];
+        $response = $this->update($sql, $data);
+
+        if ($response == 1) {
+            require_once 'PHPMailer/Mail.php';
+            $mail = new PHPMailer();
+            $mail->isSMTP();
+            $mail->SMTPDebug = $smtp_debug;
+            $mail->Host = $smtp_host;
+            $mail->SMTPAuth = true;
+            $mail->Username = $smtp_user;
+            $mail->Password = $smtp_pass;
+            $mail->Port = 465;
+            $mail->SMTPSecure = $smtp_secure;
+            $mail->isHTML(true);
+            $mail->CharSet = 'UTF-8';
+            $mail->setFrom($smtp_from, $smtp_from_name);
+            $mail->addAddress($correo);
+            $mail->Subject = 'Recuperación de contraseña';
+            $mail->Body = 'Para recuperar tu contraseña, haz clic en el siguiente enlace: <a href="' . SERVERURL . 'recovery/' . $token . '">Recuperar contraseña</a>';
+            if ($mail->send()) {
+                $response = $this->initialResponse();
+                $response['status'] = 200;
+                $response['title'] = 'Peticion exitosa';
+                $response['message'] = 'Correo enviado correctamente';
+            } else {
+                $response = $this->initialResponse();
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'Error al enviar el correo: ' . $mail->ErrorInfo;
+            }
+        } else {
+            $response = $this->initialResponse();
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al actualizar el token';
+        }
+    }
 }

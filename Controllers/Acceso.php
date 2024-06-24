@@ -12,7 +12,7 @@ class Acceso extends Controller
         $this->views->render($this, "recovery");
     }
 
-   
+
 
     ///Funciones
     public function login()
@@ -51,13 +51,16 @@ class Acceso extends Controller
     }
 
     public function validar_tiendas()
-{
-    $tienda = file_get_contents("php://input");
-    $tienda = json_decode($tienda,true);
-    $exists = $this->model->validarTiendas($tienda['tienda']);
-    echo json_encode(['exists' => $exists]);
-}
+    {
+        $tienda = file_get_contents("php://input");
+        $tienda = json_decode($tienda, true);
+        $exists = $this->model->validarTiendas($tienda['tienda']);
+        echo json_encode(['exists' => $exists]);
+    }
 
-
- 
+    public function recuperar_contrasena()
+    {
+        $correo = $_POST['correo'];
+        $response = $this->model->recuperarContrasena($correo);
+    }
 }
