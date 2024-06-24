@@ -162,11 +162,11 @@ XML;
 
         // Decodificar la respuesta HTML
         $decodedResponse = html_entity_decode($response);
-        print_r($decodedResponse);
         // Cargar la respuesta en DOMDocument
         $dom = new DOMDocument();
         libxml_use_internal_errors(true);
         $dom->loadXML($decodedResponse);
+        print_r($dom);
         if (libxml_get_errors()) {
             echo "Failed loading XML";
             libxml_clear_errors();
