@@ -272,5 +272,48 @@
         border-color: #e85b50;
     }
 
+    /* Slide de rango de precions con noUiSlider */
+    /* Base del Slider */
+    .noUi-target {
+      background-color: #B2B2B2;
+      height: 10px;
+      border-radius: 5px;
+    }
+
+    /* Conexión entre las manijas */
+    .noUi-connect {
+      background-color: <?php echo COLOR_FONDO; ?>;
+      /* Tu color de elección para la barra activa */
+    }
+
+    /* Manijas del Slider */
+    .noUi-handle {
+      outline: none;
+      top: -5px;
+      /* Ajusta esta propiedad para cambiar la posición vertical de la manija */
+      border: 1px solid #D3D3D3;
+      /* Borde de la manija */
+      background-color: white;
+      border-radius: 50%;
+      width: 19px !important;
+      /* Ancho de la manija */
+      height: 19px !important;
+      /* Altura de la manija */
+      box-shadow: none;
+      cursor: pointer;
+      background-image: none !important;
+    }
+
+    .noUi-handle::after,
+    .noUi-handle::before {
+      content: none !important;
+      /* Elimina el contenido de los pseudo-elementos */
+    }
+
+    /* Tooltips (los que muestran los valores encima de las manijas) */
+    .noUi-tooltip {
+      display: none;
+      /* Oculta el tooltip por defecto de noUiSlider */
+    }
     /* CSS filtros */
 </style>
