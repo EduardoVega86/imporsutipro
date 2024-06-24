@@ -67,6 +67,52 @@ class Guias extends Controller
         echo json_encode($datos);
     }
 
+    public function generarServientrega()
+    {
+        $nombreOrigen = $_POST['nombreO'];
+        $ciudadOrigen = $_POST['ciudadO'];
+        $direccionOrigen = $_POST['direccionO'];
+        $telefonoOrigen = $_POST['celularO'];
+        $referenciaOrigen = $_POST['referenciaO'];
+        $celularOrigen = $telefonoOrigen;
+        $nombreDestino = $_POST['nombre'];
+        $ciudadDestino = $_POST['ciudad'];
+        $direccionDestino = $_POST['calle_principal'] . " y " . $_POST['calle_secundaria'];
+        $telefonoDestino = $_POST['telefono'];
+        $celularDestino = $telefonoDestino;
+        $referenciaDestino = $_POST['referencia'];
+        $postal = "";
+        $identificacion  = "";
+        $contiene = $_POST['contiene'];
+        $peso = 2;
+        $valor_seguro = 0;
+        $valor_declarado = 0;
+        $tamanio = 2;
+        $cod = $_POST['recaudo'];
+        $costoflete = $_POST['costo_flete'] ?? 0;
+        $costo_producto = $_POST['total_venta'];
+        $tipo_cobro = 0;
+        $comentario = $_POST['observacion'];
+        $fecha = date("Y-m-d");
+        $extras = "";
+        $numero_factura = $_POST['numero_factura'];
+
+        $flete = $_POST['flete'];
+        $seguro = $_POST['seguro'];
+
+        $comision = $_POST['comision'];
+        $otros = $_POST['otros'];
+        $impuestos = $_POST['impuestos'];
+
+        if ($cod == 1) {
+            $response = $this->model->generarServientrega($nombreOrigen, $ciudadOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras, $flete, $seguro, $comision, $otros, $impuestos);
+        } else {
+            $response = $this->model->generarServientregaSinRecaudo($nombreOrigen, $ciudadOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras, $flete, $seguro, $comision, $otros, $impuestos);
+        }
+        echo json_encode($response);
+    }
+
+
     private function obtenerDestinatario()
     {
         $id_producto = $_POST['id_inventario'];

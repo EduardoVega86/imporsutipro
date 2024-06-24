@@ -227,4 +227,10 @@ XML;
 
         return $data;
     }
+    public function obtenerNombre($codigo, $nombre)
+    {
+        $sql = "SELECT $nombre FROM ciudad_cotizacion WHERE id_cotizacion = '$codigo'";
+        $nombre = $this->select($sql);
+        return $nombre[0][$nombre];
+    }
 }

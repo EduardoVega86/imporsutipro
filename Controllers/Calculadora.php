@@ -31,6 +31,13 @@ class Calculadora extends Controller
         $provinciaD = $_POST['provinciaD'];
         $monto_factura = $_POST['monto_factura'];
         $ciudadD = $_POST['ciudadD'];
+
+        $ciudadD = $this->model->obtenerNombre($ciudadD, "ciudad");
+        $provinciaD = $this->model->obtenerNombre($provinciaD, "provincia");
+        $ciudadO = $this->model->obtenerNombre($ciudadO, "ciudad");
+
+
+
         $tarifas = $this->model->calcularServi($ciudadO, $ciudadD, $provinciaD, $monto_factura);
         echo json_encode($tarifas);
     }
