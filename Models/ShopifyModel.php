@@ -254,7 +254,7 @@ class ShopifyModel extends Query
 
     public function guardarConfiguracion($data)
     {
-        $sql = "INSERT INTO configuracion_shopify (id_plataforma, nombre, apellido, principal, secundario, provincia, ciudad, codigo_postal, pais, telefono, email, total, descuento) VALUES (?, ?, ?, ? ,?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO configuracion_shopify (`nombre`, `apellido`, `principal`, `secundaria`, `provincia`, `ciudad`, `codigo_postal`, `pais`, `telefono`, `email`, `total`, `discount`, `id_plataforma`) VALUES (?, ?, ?, ? ,?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $response = $this->insert($sql, $data);
         if ($response == 1) {
             $response["status"] = "200";
