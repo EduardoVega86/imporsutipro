@@ -14,11 +14,8 @@
                         <label class="form-check-label" for="favoritosSwitch">Favoritos</label>
                     </div>
                 </div>
-                <div class="col-md-2 mb-3 mb-md-0">
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="privadosSwitch">
-                        <label class="form-check-label" for="privadosSwitch">Privados</label>
-                    </div>
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <input type="text" class="form-control" placeholder="Código o Nombre">
                 </div>
                 <div class="col-md-2 mb-3 mb-md-0">
                     <select id="tipo_proveedor" class="form-select me-2">
