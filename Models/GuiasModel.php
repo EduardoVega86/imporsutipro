@@ -420,7 +420,7 @@ class GuiasModel extends Query
         curl_close($ch);
 
         // Mostrar la respuesta
-        echo $response;
+        return $response;
     }
 
     public function obtenerNombre($codigo, $nombre)
