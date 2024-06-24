@@ -301,7 +301,7 @@ $(document).ready(function () {
     formData_ServiTarifa.append("provinciaD", provincia);
 
     $.ajax({
-      url: SERVERURL + "pedidos/buscarProductosBodega/" + id_producto,
+      url: SERVERURL + "calculadora/calcularServi",
       type: "POST",
       data: formData_ServiTarifa,
       processData: false, // No procesar los datos
