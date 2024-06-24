@@ -121,7 +121,6 @@ class Guias extends Controller
         if (isset($response["id"])) {
             $response["status"] = 200;
             $response2 = $this->model->actualizarGuia($numero_factura, $response["id"], $nombreDestino, $ciudad, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $cod, $costo_producto, $comentario, $_SESSION["id"], $_POST['calle_principal'], $_POST['calle_secundaria'], $contiene, $provincia, $costoflete, "SERVIENTREGA");
-            print_r(json_encode($response2));
         }
         echo json_encode($response);
     }

@@ -350,6 +350,77 @@ class GuiasModel extends Query
         $razon_social_remitente = "IMPORCOMEX S.A.";
         $razon_zocial_destinatario = "Entrega a Domicilio";
         $url = 'https://swservicli.servientrega.com.ec:5052/api/GuiaRecaudo';
+        $data = array(
+            "id_tipo_logistica" => 1,
+            "detalle_envio_1" => "",
+            "detalle_envio_2" => "",
+            "detalle_envio_3" => "",
+            "id_ciudad_origen" => $ciudadOrigen,
+            "id_ciudad_destino" => $ciudadDestino,
+            "id_destinatario_ne_cl" => "",
+            "razon_social_desti_ne" =>  $razon_zocial_destinatario,
+            "nombre_destinatario_ne" => $nombreDestino,
+            "apellido_destinatar_ne" =>   "",
+            "direccion1_destinat_ne" => $direccionDestino . " - Referencia: " . $referenciaDestino,
+            "sector_destinat_ne" => "",
+            "telefono1_destinat_ne" => $telefonoDestino,
+            "telefono2_destinat_ne" => "",
+            "codigo_postal_dest_ne" => "",
+            "id_remitente_cl" => "001remi",
+            "razon_social_remite" => $razon_social_remitente,
+            "nombre_remitente" => $nombreDestino,
+            "apellido_remite" =>   "",
+            "direccion1_remite" => $direccionOrigen,
+            "sector_remite" => "",
+            "telefono1_remite" => $telefonoOrigen,
+            "telefono2_remite" => "",
+            "codigo_postal_remi" => "",
+            "id_producto" => 2,
+            "contenido" => $contiene,
+            "numero_piezas" => 1,
+            "valor_mercancia" => $costo_producto,
+            "valor_asegurado" => 0,
+            "largo" => 2,
+            "ancho" => 50,
+            "alto" => 50,
+            "peso_fisico" => 2,
+            "login_creacion" => "integracion.api.1",
+            "password" => "54321"
+
+        );
+
+        // Convertir los datos al formato JSON
+        $jsonData = json_encode($data);
+
+        // Inicializar cURL
+        $ch = curl_init($url);
+
+        // Configura opciones de cURL
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        // Ignora la verificación de SSL
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+
+        // Configurar las opciones de cURL para la solicitud POST
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        // Omitir la verificación de SSL si es necesario (no recomendado para producción)
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+        // Ejecutar la solicitud
+        $response = curl_exec($ch);
+
+        // Verificar si ocurrió algún error durante la solicitud
+        if (curl_errno($ch)) {
+            throw new Exception(curl_error($ch));
+        }
+
+        // Cerrar la sesión cURL
+        curl_close($ch);
+
+        // Mostrar la respuesta
+        echo $response;
     }
 
     public function obtenerNombre($codigo, $nombre)
