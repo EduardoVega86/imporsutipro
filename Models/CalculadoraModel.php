@@ -218,11 +218,11 @@ XML;
         }
 
         $data = [
-            "flete" => round($flete, 2),
-            "seguro" => round($seguro, 2),
-            "comision" => round($comision, 2),
-            "otros" => round($otros, 2),
-            "impuestos" => round($impuestos, 2)
+            "flete" =>  number_format($flete, 2, '.', ''),
+            "seguro" =>  number_format($seguro, 2, '.', ''),
+            "comision" => number_format($comision, 2, '.', ''),
+            "otros" =>  number_format($otros, 2, '.', ''),
+            "impuestos" =>  number_format($impuestos, 2, '.', '')
         ];
 
         return $data;
