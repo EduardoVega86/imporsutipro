@@ -28,7 +28,7 @@
                             <option value="3">Categoría 3</option>
                         </select>
                     </div>
-                    <div style="margin-left: auto;">
+                    <div class="boton_favoritos">
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="favoritosSwitch">
                             <label class="form-check-label" for="favoritosSwitch">Favoritos</label>
