@@ -227,4 +227,48 @@
         text-align: center !important;
         vertical-align: middle !important;
     }
+
+    /* CSS Filtros */
+    .caja {
+        background-color: #ffffff;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-check-input:checked {
+        background-color: #ff6f61;
+        border-color: #ff6f61;
+    }
+
+    .form-check-label {
+        color: #495057;
+    }
+
+    .form-select,
+    .form-range,
+    .btn-outline-secondary,
+    .btn-warning {
+        border-radius: 5px;
+    }
+
+    .btn-outline-secondary {
+        color: #6c757d;
+        border-color: #6c757d;
+    }
+
+    .btn-outline-secondary:hover {
+        background-color: #6c757d;
+        color: white;
+    }
+
+    .btn-warning {
+        background-color: #ff6f61;
+        border-color: #ff6f61;
+    }
+
+    .btn-warning:hover {
+        background-color: #e85b50;
+        border-color: #e85b50;
+    }
 </style>
