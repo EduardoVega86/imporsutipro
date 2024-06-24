@@ -159,6 +159,7 @@ XML;
                 "impuestos" => 0
             ];
         }
+        print_r($response);
 
         // Decodificar la respuesta HTML
         $decodedResponse = html_entity_decode($response);
@@ -180,6 +181,7 @@ XML;
         }
 
         // Extraer el contenido de <Result>
+
         $xpath = new DOMXPath($dom);
         $xpath->registerNamespace('soap', 'http://schemas.xmlsoap.org/soap/envelope/');
         $xpath->registerNamespace('ns1', 'https://servientrega-ecuador.appsiscore.com/app/ws/');
