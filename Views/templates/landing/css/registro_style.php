@@ -35,7 +35,7 @@
     }
 
     .btn-primary {
-        background-color: #11143b;
+        background-color: <?php echo COLOR_BOTON_LOGIN;?>;
         border: none;
     }
 
