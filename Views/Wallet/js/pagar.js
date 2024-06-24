@@ -395,7 +395,7 @@ const listHistorialPago = async () => {
                     <td>${pago.tipo}</td>
                     <td>${pago.motivo}</td>
                     <td>${pago.monto}</td>
-                    <td>${pago.id_responsable}</td>
+                    <td>${pago.nombre}</td>
                     <td>${pago.fecha}</td>
                 </tr>`;
     });
