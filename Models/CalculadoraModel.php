@@ -218,11 +218,11 @@ XML;
         }
 
         $data = [
-            "flete" => floatval($flete, 2),
-            "seguro" =>  floatval($seguro, 2),
-            "comision" => floatval($comision, 2),
-            "otros" =>  floatval($otros, 2),
-            "impuestos" => floatval($impuestos, 2)
+            "flete" => round($flete, 2),
+            "seguro" => round($seguro, 2),
+            "comision" => round($comision, 2),
+            "otros" => round($otros, 2),
+            "impuestos" => round($impuestos, 2)
         ];
 
         return $data;
