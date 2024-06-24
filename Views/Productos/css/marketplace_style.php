@@ -275,11 +275,13 @@
     .caja_filtros{
         display: flex;
         flex-direction: column;
+        gap: 20px;
     }
 
     .primer_seccionFiltro {
         display: flex;
         flex-direction: row;
+        gap: 20px;
     }
 
     /* Slide de rango de precions con noUiSlider */
