@@ -202,19 +202,19 @@ XML;
         $flete = $seguro = $comision = $otros = $impuestos = 0;
 
         if ($resultDom->getElementsByTagName('flete')->item(0) !== null) {
-            $flete = (float) $resultDom->getElementsByTagName('flete')->item(0)->nodeValue;
+            $flete = round((float) $resultDom->getElementsByTagName('flete')->item(0)->nodeValue, 2);
         }
         if ($resultDom->getElementsByTagName('seguro')->item(0) !== null) {
-            $seguro = (float) $resultDom->getElementsByTagName('seguro')->item(0)->nodeValue;
+            $seguro = round((float) $resultDom->getElementsByTagName('seguro')->item(0)->nodeValue, 2);
         }
         if ($resultDom->getElementsByTagName('valor_comision')->item(0) !== null) {
-            $comision = (float) $resultDom->getElementsByTagName('valor_comision')->item(0)->nodeValue;
+            $comision = round((float) $resultDom->getElementsByTagName('valor_comision')->item(0)->nodeValue, 2);
         }
         if ($resultDom->getElementsByTagName('otros')->item(0) !== null) {
-            $otros = (float) $resultDom->getElementsByTagName('otros')->item(0)->nodeValue;
+            $otros = round((float) $resultDom->getElementsByTagName('otros')->item(0)->nodeValue, 2);
         }
         if ($resultDom->getElementsByTagName('impuesto')->item(0) !== null) {
-            $impuestos = (float) $resultDom->getElementsByTagName('impuesto')->item(0)->nodeValue;
+            $impuestos = round((float) $resultDom->getElementsByTagName('impuesto')->item(0)->nodeValue, 2);
         }
 
         $data = [
