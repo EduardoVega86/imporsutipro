@@ -117,7 +117,7 @@ class CalculadoraModel extends Query
         $url = "https://servientrega-ecuador.appsiscore.com/app/ws/cotizador_ser_recaudo.php?wsdl";
 
         $xml = <<<XML
-    <soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ws="https://servientrega-ecuador.appsiscore.com/app/ws/">
+<soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ws="https://servientrega-ecuador.appsiscore.com/app/ws/">
     <soapenv:Header/>
     <soapenv:Body>
         <ws:Consultar soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
@@ -135,8 +135,8 @@ class CalculadoraModel extends Query
             <pwd xsi:type="xsd:string">Rtcom-ex9912</pwd>
         </ws:Consultar>
     </soapenv:Body>
-    </soapenv:Envelope>
-    XML;
+</soapenv:Envelope>
+XML;
 
         $ch = curl_init($url);
 
@@ -146,10 +146,11 @@ class CalculadoraModel extends Query
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $response = curl_exec($ch);
+        $curlError = curl_error($ch);
         curl_close($ch);
 
         if ($response === false) {
-            echo "CURL Error: " . curl_error($ch);
+            echo "CURL Error: " . $curlError;
             return [
                 "flete" => 0,
                 "seguro" => 0,
@@ -182,9 +183,9 @@ class CalculadoraModel extends Query
         $xpath = new DOMXPath($dom);
         $xpath->registerNamespace('soap', 'http://schemas.xmlsoap.org/soap/envelope/');
         $xpath->registerNamespace('ns1', 'https://servientrega-ecuador.appsiscore.com/app/ws/');
-        $resultNode = $xpath->query('//soap:Body/ns1:ConsultarResponse/Result')->item(0);
+        $resultNode = $xpath->query('//soap:Body/ns1:ConsultarResponse/ConsultarResult')->item(0);
         if (!$resultNode) {
-            echo "No se encontró la etiqueta <Result>";
+            echo "No se encontró la etiqueta <ConsultarResult>";
             return [
                 "flete" => 0,
                 "seguro" => 0,
@@ -196,25 +197,22 @@ class CalculadoraModel extends Query
 
         $result = $resultNode->nodeValue;
 
-        // Decodificar entidades HTML del resultado
-        $resultDecoded = html_entity_decode($result);
-
         // Parsear manualmente el contenido de <Result>
         $flete = $seguro = $comision = $otros = $impuestos = 0;
 
-        if (preg_match('/<flete>(.*?)<\/flete>/', $resultDecoded, $matches)) {
+        if (preg_match('/<flete>(.*?)<\/flete>/', $result, $matches)) {
             $flete = (float)$matches[1];
         }
-        if (preg_match('/<seguro>(.*?)<\/seguro>/', $resultDecoded, $matches)) {
+        if (preg_match('/<seguro>(.*?)<\/seguro>/', $result, $matches)) {
             $seguro = (float)$matches[1];
         }
-        if (preg_match('/<valor_comision>(.*?)<\/valor_comision>/', $resultDecoded, $matches)) {
+        if (preg_match('/<valor_comision>(.*?)<\/valor_comision>/', $result, $matches)) {
             $comision = (float)$matches[1];
         }
-        if (preg_match('/<otros>(.*?)<\/otros>/', $resultDecoded, $matches)) {
+        if (preg_match('/<otros>(.*?)<\/otros>/', $result, $matches)) {
             $otros = (float)$matches[1];
         }
-        if (preg_match('/<impuesto>(.*?)<\/impuesto>/', $resultDecoded, $matches)) {
+        if (preg_match('/<impuesto>(.*?)<\/impuesto>/', $result, $matches)) {
             $impuestos = (float)$matches[1];
         }
 
