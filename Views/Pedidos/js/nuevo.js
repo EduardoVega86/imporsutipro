@@ -1,6 +1,7 @@
 let dataTableNuevoPedido;
 let dataTableNuevoPedidoIsInitialized = false;
 let eliminado = false;
+let generar_guiaTransportadora;
 
 const dataTableNuevoPedidoOptions = {
   paging: false,
@@ -314,7 +315,7 @@ $(document).ready(function () {
         success: function (response) {
           response = JSON.parse(response);
 
-          /* $("#price_servientrega").text(response.servientrega); */
+          $("#price_servientrega").text(response.servientrega);
           /* $("#price_gintracom").text(response.gintracom); */
           /* $("#price_speed").text(response.speed); */
           $("#price_laar").text(response.laar);
@@ -535,7 +536,7 @@ function generar_guia() {
 
   // Realiza la solicitud AJAX
   if (transportadora_selected == 1) {
-    generar_guia = "generarlaar";
+    generar_guiaTransportadora = "generarlaar";
   } else {
   }
 
@@ -581,7 +582,7 @@ function generar_guia() {
       } else if (response.status == 200) {
         formData.append("numero_factura", response.numero_factura);
         $.ajax({
-          url: "" + SERVERURL + "/guias/" + generar_guia,
+          url: "" + SERVERURL + "/guias/" + generar_guiaTransportadora,
           type: "POST",
           data: formData,
           processData: false,

@@ -1,6 +1,7 @@
 let dataTableNuevoPedido;
 let dataTableNuevoPedidoIsInitialized = false;
 let eliminado = false;
+let generar_guiaTransportadora;
 // Obtener el valor del id_factura desde la URL
 const url = window.location.href;
 const id_factura = url.split("/").pop();
@@ -404,7 +405,7 @@ $(document).ready(function () {
         success: function (response) {
           response = JSON.parse(response);
 
-          /* $("#price_servientrega").text(response.servientrega); */
+          $("#price_servientrega").text(response.servientrega);
           /* $("#price_gintracom").text(response.gintracom); */
           /* $("#price_speed").text(response.speed); */
           $("#price_laar").text(response.laar);
@@ -638,7 +639,7 @@ function generar_guia() {
 
   // Realiza la solicitud AJAX
   if (transportadora_selected == 1) {
-    generar_guia = "generarlaar";
+    generar_guiaTransportadora = "generarlaar";
   } else {
   }
 
@@ -656,7 +657,7 @@ function generar_guia() {
 
   formData.append("numero_factura", numero_factura);
   $.ajax({
-    url: "" + SERVERURL + "/guias/" + generar_guia,
+    url: "" + SERVERURL + "/guias/" + generar_guiaTransportadora,
     type: "POST",
     data: formData,
     processData: false,
