@@ -1,4 +1,9 @@
 <?php
+require_once 'PHPMailer/PHPMailer.php';
+require_once 'PHPMailer/SMTP.php';
+require_once 'PHPMailer/Exception.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
 
 class WalletModel extends Query
 {
@@ -406,7 +411,29 @@ class WalletModel extends Query
     public function enviarMensaje($mensaje)
     {
         if ($mensaje == "solitud") {
-            $mensaje = "Se ha solicitado un pago";
+            require_once 'PHPMailer/Mail.php';
+            $mail = new PHPMailer();
+            $mail->isSMTP();
+            $mail->SMTPDebug = $smtp_debug;
+            $mail->Host = $smtp_host;
+            $mail->SMTPAuth = true;
+            $mail->Username = $smtp_user;
+            $mail->Password = $smtp_pass;
+            $mail->Port = 465;
+            $mail->SMTPSecure = $smtp_secure;
+            $mail->isHTML(true);
+            $mail->CharSet = 'UTF-8';
+            $mail->setFrom($smtp_from, $smtp_from_name);
+            $mail->addAddress($correo);
+            $mail->Subject = 'Registro en Imporsuitpro';
+            $mail->Body = $message_body;
+            // $this->crearSubdominio($tienda);
+
+            if ($mail->send()) {
+                //echo "Correo enviado";
+            } else {
+                //  echo "Error al enviar el correo: " . $mail->ErrorInfo;
+            }
         } else if ($mensaje == "pago") {
             $mensaje = "Se ha realizado un pago";
         }
