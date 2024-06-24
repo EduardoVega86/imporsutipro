@@ -1,7 +1,7 @@
 <?php require_once './Views/templates/header.php'; ?>
 <?php require_once './Views/Wallet/css/pagar_style.php'; ?>
 
-
+<?php require_once './Views/Wallet/Modales/solicitar_pago.php'; ?>
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
         <h2 class="text-center mb-4">Pagar Wallet</h2>
@@ -97,7 +97,7 @@
             </div>
 
             <div class="right gap-2">
-                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#solicitar">
+                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#solicitar_pagoModal">
                     Solicitar Pago
                 </button>
                 <h3 style="text-align: center; padding-top:5px;">Tabla de Pagos</h3>
