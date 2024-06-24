@@ -229,7 +229,12 @@ XML;
     }
     public function obtenerNombre($codigo, $nombre)
     {
-        $sql = "SELECT $nombre FROM ciudad_cotizacion WHERE id_cotizacion = '$codigo'";
+        if ($nombre == "ciudad") {
+            $sql = "SELECT $nombre FROM ciudad_cotizacion WHERE id_cotizacion = '$codigo'";
+        } else {
+            $sql = "SELECT $nombre FROM ciudad_cotizacion WHERE codigo_provincia_laar = '$codigo' limit 1";
+        }
+
         $nombre = $this->select($sql);
         return $nombre[0];
     }
