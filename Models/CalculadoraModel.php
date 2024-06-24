@@ -231,6 +231,6 @@ XML;
     {
         $sql = "SELECT $nombre FROM ciudad_cotizacion WHERE id_cotizacion = '$codigo'";
         $nombre = $this->select($sql);
-        return $nombre[0][$nombre];
+        return $nombre[0];
     }
 }
