@@ -423,16 +423,16 @@ function agregar_nuevoPedido() {
   event.preventDefault();
   let transportadora_selected = $("#transportadora_selected").val();
   if (transportadora_selected == "servientrega") {
-    transportadora_selected = 3;
+    transportadora_selected = 2;
   }
   if (transportadora_selected == "laar") {
     transportadora_selected = 1;
   }
   if (transportadora_selected == "speed") {
-    transportadora_selected = 2;
+    transportadora_selected = 4;
   }
   if (transportadora_selected == "gintracom") {
-    transportadora_selected = 4;
+    transportadora_selected = 3;
   }
 
   // Crea un objeto FormData
@@ -511,16 +511,16 @@ function generar_guia() {
   event.preventDefault();
   let transportadora_selected = $("#transportadora_selected").val();
   if (transportadora_selected == "servientrega") {
-    transportadora_selected = 3;
+    transportadora_selected = 2;
   }
   if (transportadora_selected == "laar") {
     transportadora_selected = 1;
   }
   if (transportadora_selected == "speed") {
-    transportadora_selected = 2;
+    transportadora_selected = 4;
   }
   if (transportadora_selected == "gintracom") {
-    transportadora_selected = 4;
+    transportadora_selected = 3;
   }
 
   // Crea un objeto FormData
@@ -562,7 +562,7 @@ function generar_guia() {
   // Realiza la solicitud AJAX
   if (transportadora_selected == 1) {
     generar_guiaTransportadora = "generarlaar";
-  } else if (transportadora_selected == 3) {
+  } else if (transportadora_selected == 2) {
     generar_guiaTransportadora = "generarServientrega";
   }
 
@@ -608,7 +608,7 @@ function generar_guia() {
       } else if (response.status == 200) {
         formData.append("numero_factura", response.numero_factura);
 
-        if (transportadora_selected == 3) {
+        if (transportadora_selected == 2) {
           formData.append("flete", $('#flete').val()); 
           formData.append("seguro", $('#seguro').val()); 
           formData.append("comision", $('#comision').val()); 
