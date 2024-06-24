@@ -180,7 +180,7 @@ XML;
 
         // Extraer el contenido de <Result>
         $xpath = new DOMXPath($dom);
-        print_r($xpath->query('//soap:Body/ns1:ConsultarResponse/Result')->item(0));
+        print_r($xpath->query('//soap:Body/ns1:ConsultarResponse/Result'));
         $xpath->registerNamespace('soap', 'http://schemas.xmlsoap.org/soap/envelope/');
         $xpath->registerNamespace('ns1', 'https://servientrega-ecuador.appsiscore.com/app/ws/');
         $resultNode = $xpath->query('//soap:Body/ns1:ConsultarResponse/Result')->item(0);
