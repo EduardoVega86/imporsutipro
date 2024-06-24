@@ -343,4 +343,23 @@ class GuiasModel extends Query
         // Mostrar la respuesta
         return $response;
     }
+
+    public function generarServientregaSinRecaudo($nombreOrigen, $ciudadOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras, $flete, $seguro, $comision, $otros, $impuestos)
+    {
+        $razon_social_remitente = "IMPORCOMEX S.A.";
+        $razon_zocial_destinatario = "Entrega a Domicilio";
+        $url = 'https://swservicli.servientrega.com.ec:5052/api/GuiaRecaudo';
+    }
+
+    public function obtenerNombre($codigo, $nombre)
+    {
+        if ($nombre == "ciudad") {
+            $sql = "SELECT $nombre FROM ciudad_cotizacion WHERE id_cotizacion = '$codigo'";
+        } else {
+            $sql = "SELECT $nombre FROM ciudad_cotizacion WHERE codigo_provincia_laar = '$codigo' limit 1";
+        }
+
+        $nombre = $this->select($sql);
+        return $nombre;
+    }
 }

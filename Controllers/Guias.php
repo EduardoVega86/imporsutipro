@@ -71,6 +71,10 @@ class Guias extends Controller
     {
         $nombreOrigen = $_POST['nombreO'];
         $ciudadOrigen = $_POST['ciudadO'];
+
+        $ciudadOrigen = $this->model->obtenerNombre($ciudadOrigen, "ciudad")[0]['ciudad'];
+
+
         $direccionOrigen = $_POST['direccionO'];
         $telefonoOrigen = $_POST['celularO'];
         $referenciaOrigen = $_POST['referenciaO'];
@@ -109,6 +113,7 @@ class Guias extends Controller
         } else {
             $response = $this->model->generarServientregaSinRecaudo($nombreOrigen, $ciudadOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras, $flete, $seguro, $comision, $otros, $impuestos);
         }
+
         echo json_encode($response);
     }
 
