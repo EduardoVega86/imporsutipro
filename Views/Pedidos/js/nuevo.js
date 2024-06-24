@@ -562,7 +562,8 @@ function generar_guia() {
   // Realiza la solicitud AJAX
   if (transportadora_selected == 1) {
     generar_guiaTransportadora = "generarlaar";
-  } else {
+  } else if (transportadora_selected == 3) {
+    generar_guiaTransportadora = "generarServientrega";
   }
 
   // Mostrar alerta de carga antes de realizar la solicitud AJAX
@@ -606,6 +607,15 @@ function generar_guia() {
         });
       } else if (response.status == 200) {
         formData.append("numero_factura", response.numero_factura);
+
+        if (transportadora_selected == 3) {
+          formData.append("flete", $('#flete').val()); 
+          formData.append("seguro", $('#seguro').val()); 
+          formData.append("comision", $('#comision').val()); 
+          formData.append("otros", $('#otros').val()); 
+          formData.append("impuestos", $('#impuestos').val());  
+        }
+
         $.ajax({
           url: "" + SERVERURL + "/guias/" + generar_guiaTransportadora,
           type: "POST",
