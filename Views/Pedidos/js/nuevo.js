@@ -307,6 +307,7 @@ $(document).ready(function () {
       processData: false, // No procesar los datos
       contentType: false, // No establecer ningún tipo de contenido
       success: function (response_serviTarifa) {
+        console.log("flete: "+response_serviTarifa.flete)
         $("#flete").val(response_serviTarifa.flete);
         $("#seguro").val(response_serviTarifa.seguro);
         $("#comision").val(response_serviTarifa.comision);
