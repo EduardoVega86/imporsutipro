@@ -8,8 +8,9 @@
         <h2 class="text-center mb-4">Pagar Wallet</h2>
 
         <div class="left_right gap-2">
-            <form action="enlace">
+            <form>
                 <input type="hidden" id="enlace_tienda" name="enlace_tienda" value="<?php echo ENLACE; ?>">
+                <!-- Otros campos de formulario pueden ir aquí -->
             </form>
             <div class="table-responsive left">
                 <div class="card text-center">
