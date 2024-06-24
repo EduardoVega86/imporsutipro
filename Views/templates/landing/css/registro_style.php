@@ -40,7 +40,7 @@
     }
 
     .btn-primary:hover {
-        background-color: #0a0b29;
+        background-color: <?php echo COLOR_HOVER_LOGIN;?>;
     }
 
     .imagen_logo {
@@ -48,7 +48,7 @@
     }
 
     .header-notice {
-        background-color: #000;
+        background-color: <?php echo COLOR_BOTON_LOGIN;?>;
         color: #fff;
         text-align: center;
         padding: 10px 0;
