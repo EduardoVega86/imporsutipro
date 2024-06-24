@@ -57,7 +57,7 @@ $color_hover = $matriz['color_hover'];
 $color_letra_hover = $matriz['color_letra_hover'];
 $banner_inicio = $matriz['banner_inicio'];
 $dominio = $matriz['dominio'];
-$login_imagen = $matriz['login_imagen'];
+$login_image = $matriz['login_image'];
 
 
 const LAAR_USER = "import.uio.api";
@@ -78,4 +78,4 @@ define("COLOR_HOVER", $color_hover);
 define("COLOR_LETRA_HOVER", $color_letra_hover);
 define("BANNER_INICIO", $banner_inicio);
 define("DOMINIO", $dominio);
-define("LOGIN_IMAGEN", $login_imagen);
+define("LOGIN_IMAGE", $login_image);
