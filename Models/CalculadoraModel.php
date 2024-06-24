@@ -160,12 +160,10 @@ XML;
             ];
         }
 
-        // Decodificar la respuesta HTML
-        $decodedResponse = html_entity_decode($response);
         // Cargar la respuesta en DOMDocument
         $dom = new DOMDocument();
         libxml_use_internal_errors(true);
-        $dom->loadXML($decodedResponse);
+        $dom->loadXML($response);
         if (libxml_get_errors()) {
             echo "Failed loading XML";
             libxml_clear_errors();
@@ -180,7 +178,6 @@ XML;
 
         // Extraer el contenido de <Result>
         $xpath = new DOMXPath($dom);
-
         $xpath->registerNamespace('soap', 'http://schemas.xmlsoap.org/soap/envelope/');
         $xpath->registerNamespace('ns1', 'https://servientrega-ecuador.appsiscore.com/app/ws/');
         $resultNode = $xpath->query('//soap:Body/ns1:ConsultarResponse/Result')->item(0);
@@ -196,25 +193,28 @@ XML;
         }
 
         $result = html_entity_decode($resultNode->nodeValue);
-        print_r($result);
 
-        // Parsear manualmente el contenido de <Result>
+        // Cargar el contenido del nodo <Result> en un nuevo DOMDocument
+        $resultDom = new DOMDocument();
+        $resultDom->loadXML($result);
+
+        // Extraer valores del <ConsultarResult>
         $flete = $seguro = $comision = $otros = $impuestos = 0;
 
-        if (preg_match('/<flete>(.*?)<\/flete>/', $result, $matches)) {
-            $flete = (float)$matches[1];
+        if ($resultDom->getElementsByTagName('flete')->item(0) !== null) {
+            $flete = (float) $resultDom->getElementsByTagName('flete')->item(0)->nodeValue;
         }
-        if (preg_match('/<seguro>(.*?)<\/seguro>/', $result, $matches)) {
-            $seguro = (float)$matches[1];
+        if ($resultDom->getElementsByTagName('seguro')->item(0) !== null) {
+            $seguro = (float) $resultDom->getElementsByTagName('seguro')->item(0)->nodeValue;
         }
-        if (preg_match('/<valor_comision>(.*?)<\/valor_comision>/', $result, $matches)) {
-            $comision = (float)$matches[1];
+        if ($resultDom->getElementsByTagName('valor_comision')->item(0) !== null) {
+            $comision = (float) $resultDom->getElementsByTagName('valor_comision')->item(0)->nodeValue;
         }
-        if (preg_match('/<otros>(.*?)<\/otros>/', $result, $matches)) {
-            $otros = (float)$matches[1];
+        if ($resultDom->getElementsByTagName('otros')->item(0) !== null) {
+            $otros = (float) $resultDom->getElementsByTagName('otros')->item(0)->nodeValue;
         }
-        if (preg_match('/<impuesto>(.*?)<\/impuesto>/', $result, $matches)) {
-            $impuestos = (float)$matches[1];
+        if ($resultDom->getElementsByTagName('impuesto')->item(0) !== null) {
+            $impuestos = (float) $resultDom->getElementsByTagName('impuesto')->item(0)->nodeValue;
         }
 
         $data = [
