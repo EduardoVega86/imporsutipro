@@ -162,7 +162,7 @@ XML;
 
         // Decodificar la respuesta HTML
         $decodedResponse = html_entity_decode($response);
-
+        print_r($decodedResponse);
         // Cargar la respuesta en DOMDocument
         $dom = new DOMDocument();
         libxml_use_internal_errors(true);
