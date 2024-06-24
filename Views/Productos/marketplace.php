@@ -6,26 +6,46 @@
 
 <div class="custom-container-fluid mt-4">
     <div class="row mb-3">
-        <div class="col-md-4 mb-3 mb-md-0">
-            <input type="text" class="form-control" placeholder="Código o Nombre">
+        <div class="col-md-2 mb-3 mb-md-0">
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="favoritosSwitch">
+                <label class="form-check-label" for="favoritosSwitch">Favoritos</label>
+            </div>
         </div>
-        <div class="col-md-4 mb-3 mb-md-0">
+        <div class="col-md-2 mb-3 mb-md-0">
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="privadosSwitch">
+                <label class="form-check-label" for="privadosSwitch">Privados</label>
+            </div>
+        </div>
+        <div class="col-md-2 mb-3 mb-md-0">
+            <select id="tipo_proveedor" class="form-select me-2">
+                <option selected value="">Tipo de proveedor</option>
+                <option value="1">Proveedor 1</option>
+                <option value="2">Proveedor 2</option>
+                <option value="3">Proveedor 3</option>
+            </select>
+        </div>
+        <div class="col-md-2 mb-3 mb-md-0 d-flex">
+            <input type="number" class="form-control me-2" placeholder="0">
+            <input type="number" class="form-control" placeholder="1,000,000">
+        </div>
+        <div class="col-md-2 mb-3 mb-md-0">
             <select id="categoria_filtroMarketplace" class="form-select me-2">
-                <option selected value="">-- Seleccionar Categorías --</option>
+                <option selected value="">Categorías</option>
+                <option value="1">Categoría 1</option>
+                <option value="2">Categoría 2</option>
+                <option value="3">Categoría 3</option>
             </select>
         </div>
-        <div class="col-md-3 mb-3 mb-md-0">
-            <select class="form-control">
-                <option>Selecciona una tienda</option>
-                <option>Opción 1</option>
-                <option>Opción 2</option>
-                <option>Opción 3</option>
-            </select>
+        <div class="col-md-1">
+            <button class="btn btn-outline-secondary w-100"><i class="fa fa-sliders-h"></i> Aplicar filtros</button>
         </div>
         <div class="col-md-1">
             <button class="btn btn-warning w-100"><i class="fa fa-search"></i></button>
         </div>
     </div>
+
     <div id="card-container" class="card-container">
         <!-- Tarjetas de productos se insertarán aquí -->
     </div>
