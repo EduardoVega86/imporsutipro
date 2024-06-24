@@ -144,6 +144,13 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                     </div>
                     <input type="hidden" id="costo_flete" name="costo_flete">
                     <input type="hidden" id="transportadora_selected" name="transportadora_selected">
+
+                    <!-- inputs con informacion servientrega -->
+                    <input type="hidden" id="flete" name="flete">
+                    <input type="hidden" id="seguro" name="seguro">
+                    <input type="hidden" id="comision" name="comision">
+                    <input type="hidden" id="otros" name="otros">
+                    <input type="hidden" id="impuestos" name="impuestos">
                 </div>
                 <form>
                     <div class="mb-3">
