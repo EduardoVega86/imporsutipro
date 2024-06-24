@@ -97,6 +97,9 @@
             </div>
 
             <div class="right gap-2">
+                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#solicitar">
+                    Solicitar Pago
+                </button>
                 <h3 style="text-align: center; padding-top:5px;">Tabla de Pagos</h3>
                 <div class="table-responsive">
                     <table id="datatable_pagos" class="table table-striped">
