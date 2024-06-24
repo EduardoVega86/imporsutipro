@@ -1,5 +1,4 @@
-// Obtener el valor del parámetro 'tienda'
-let tienda;
+const tienda = $('#enlace_tienda').val();
 
 var pagos_global;
 
@@ -13,9 +12,7 @@ $(document).ready(function () {
     url: SERVERURL + "pedidos/info",
     type: "GET",
     dataType: "json",
-    success: function (response) {
-        tienda = response.enlace;
-    },
+    success: function (response) {},
     error: function (error) {
       console.error("Error al obtener la lista de bodegas:", error);
     },

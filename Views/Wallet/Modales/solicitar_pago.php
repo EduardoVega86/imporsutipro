@@ -57,6 +57,7 @@
                         </select>
                     </div>
                 </form>
+                <input type="hidden" id="enlace_tienda" name="enlace_tienda" value="<?php echo ENLACE;?>">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
