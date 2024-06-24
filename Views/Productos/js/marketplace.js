@@ -360,7 +360,7 @@ document.addEventListener("DOMContentLoaded", function () {
       min: 0,
       max: 5000,
     },
-    step: 10000,
+    step: 50,
     format: wNumb({
       decimals: 0,
       thousand: ",",
