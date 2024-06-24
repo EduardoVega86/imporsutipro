@@ -89,9 +89,9 @@ if (session_status() != PHP_SESSION_NONE) {
     if (isset($_SESSION['id_plataforma'])) {
         $id_plataforma = $_SESSION['id_plataforma'];
         $enlace = $_SESSION['enlace'];
+        define("ID_PLATAFORMA", $id_plataforma);
+        define("ENLACE", $enlace);
     } else {
         $id_plataforma = 0;
     }
 }
-define("ID_PLATAFORMA", $id_plataforma);
-define("ENLACE", $enlace);
