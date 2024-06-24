@@ -354,11 +354,11 @@ document.addEventListener("DOMContentLoaded", function () {
   var slider = document.getElementById("price-range-slider");
 
   noUiSlider.create(slider, {
-    start: [0, 1000000],
+    start: [0, 5000],
     connect: true,
     range: {
       min: 0,
-      max: 1000000,
+      max: 5000,
     },
     step: 10000,
     format: wNumb({
