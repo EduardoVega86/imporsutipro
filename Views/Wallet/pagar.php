@@ -125,12 +125,12 @@
 
                         <thead>
                             <tr>
-                                <th class="centered">Numero documento</th>
-                                <th class="centered">Fecha</th>
+                                <th class="centered">#</th>
                                 <th class="centered">Tipo</th>
-                                <th class="centered">Valor</th>
-                                <th class="centered">Forma de pago</th>
-                                <th class="centered">Recibo</th>
+                                <th class="centered">Motivo</th>
+                                <th class="centered">Monto</th>
+                                <th class="centered">Responsable</th>
+                                <th class="centered">Fecha</th>
                             </tr>
                         </thead>
                         <tbody id="tableBody_historial_pago"></tbody>
