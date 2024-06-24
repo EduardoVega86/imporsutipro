@@ -6,7 +6,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const cardContainer = document.getElementById("card-container");
   const pagination = document.getElementById("pagination");
-  const categoriaFiltro = document.getElementById("categoria_filtroMarketplace");
+  const categoriaFiltro = document.getElementById(
+    "categoria_filtroMarketplace"
+  );
 
   async function fetchProducts() {
     try {
@@ -28,11 +30,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     paginatedProducts.forEach(async (product) => {
       try {
-        const response = await fetch(SERVERURL + "marketplace/obtener_producto/" + product.id_producto);
+        const response = await fetch(
+          SERVERURL + "marketplace/obtener_producto/" + product.id_producto
+        );
         const productDetails = await response.json();
 
         if (productDetails && productDetails.length > 0) {
-          const { costo_producto, pvp, saldo_stock, url_imporsuit } = productDetails[0];
+          const { costo_producto, pvp, saldo_stock, url_imporsuit } =
+            productDetails[0];
 
           let boton_enviarCliente = ``;
           if (product.producto_variable == 0) {
@@ -44,24 +49,34 @@ document.addEventListener("DOMContentLoaded", function () {
           const card = document.createElement("div");
           card.className = "card card-custom";
           card.innerHTML = `
-            <img src="${SERVERURL}${productDetails[0].image_path}" class="card-img-top" alt="Product Image">
+            <img src="${SERVERURL}${
+            productDetails[0].image_path
+          }" class="card-img-top" alt="Product Image">
             <div class="card-body text-center d-flex flex-column justify-content-between">
                 <div>
                     <h5 class="card-title">${product.nombre_producto}</h5>
                     <p class="card-text">Stock: <strong style="color:green">${saldo_stock}</strong></p>
-                    <p class="card-text">Precio Proveedor: <strong>$${productDetails[0].pcp}</strong></p>
+                    <p class="card-text">Precio Proveedor: <strong>$${
+                      productDetails[0].pcp
+                    }</strong></p>
                     <p class="card-text">Precio Sugerido: <strong>$${pvp}</strong></p>
-                    <p class="card-text">Proveedor: <a href="${url_imporsuit}" target="_blank" style="font-size: 15px;">${procesarPlataforma(url_imporsuit)}</a></p>
+                    <p class="card-text">Proveedor: <a href="${url_imporsuit}" target="_blank" style="font-size: 15px;">${procesarPlataforma(
+            url_imporsuit
+          )}</a></p>
                 </div>
                 <div>
-                    <button class="btn btn-description" onclick="agregarModal_marketplace(${product.id_producto})">Descripción</button>
+                    <button class="btn btn-description" onclick="agregarModal_marketplace(${
+                      product.id_producto
+                    })">Descripción</button>
                     ${boton_enviarCliente}
                 </div>
             </div>
           `;
           cardContainer.appendChild(card);
         } else {
-          console.error("Error: La respuesta de la API no contiene los datos esperados.");
+          console.error(
+            "Error: La respuesta de la API no contiene los datos esperados."
+          );
         }
       } catch (error) {
         console.error("Error al obtener los detalles del producto:", error);
@@ -163,7 +178,6 @@ document.addEventListener("DOMContentLoaded", function () {
   fetchProducts();
 });
 
-
 //agregar informacion al modal descripcion marketplace
 function agregarModal_marketplace(id) {
   $.ajax({
@@ -225,14 +239,14 @@ function procesarPlataforma(url) {
 }
 
 //abrir modal de seleccion de producto con atributo especifico
-function abrir_modalSeleccionAtributo(id){
+function abrir_modalSeleccionAtributo(id) {
   $("#id_productoSeleccionado").val(id);
   initDataTableSeleccionProductoAtributo();
   $("#seleccionProdcutoAtributoModal").modal("show");
 }
 
 //enviar cliente
-function enviar_cliente(id, sku, pvp,id_inventario) {
+function enviar_cliente(id, sku, pvp, id_inventario) {
   // Crear un objeto FormData y agregar los datos
   const formData = new FormData();
   formData.append("cantidad", 1);
@@ -259,11 +273,7 @@ function enviar_cliente(id, sku, pvp,id_inventario) {
         });
       } else if (response2.status == 200) {
         window.location.href =
-          SERVERURL +
-          "Pedidos/nuevo?id_producto=" +
-          id +
-          "&sku=" +
-          sku; 
+          SERVERURL + "Pedidos/nuevo?id_producto=" + id + "&sku=" + sku;
       }
     },
     error: function (xhr, status, error) {
@@ -339,36 +349,34 @@ $(document).ready(function () {
 // Ejecutar la función cuando la página se haya cargado
 window.addEventListener("load", vaciarTmpPedidos);
 
-
 /* Filtros */
-document.addEventListener('DOMContentLoaded', function() {
-  var slider = document.getElementById('price-range-slider');
+document.addEventListener("DOMContentLoaded", function () {
+  var slider = document.getElementById("price-range-slider");
 
   noUiSlider.create(slider, {
-      start: [0, 5000],
-      connect: true,
-      range: {
-          'min': 0,
-          'max': 5000
-      },
-      step: 10000,
-      format: wNumb({
-          decimals: 0,
-          thousand: ',',
-          prefix: '$'
-      })
+    start: [0, 1000000],
+    connect: true,
+    range: {
+      min: 0,
+      max: 1000000,
+    },
+    step: 10000,
+    format: wNumb({
+      decimals: 0,
+      thousand: ",",
+      prefix: "$",
+    }),
   });
 
-  var priceMin = document.getElementById('price-min');
-  var priceMax = document.getElementById('price-max');
+  var priceMin = document.getElementById("price-min");
+  var priceMax = document.getElementById("price-max");
 
-  slider.noUiSlider.on('update', function(values, handle) {
-      if (handle === 0) {
-          priceMin.value = values[0];
-      } else {
-          priceMax.value = values[1];
-      }
+  slider.noUiSlider.on("update", function (values, handle) {
+    if (handle === 0) {
+      priceMin.value = values[0];
+    } else {
+      priceMax.value = values[1];
+    }
   });
 });
-
 /* Fin Filtros */
