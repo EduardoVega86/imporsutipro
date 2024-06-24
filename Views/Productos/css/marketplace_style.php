@@ -272,6 +272,16 @@
         border-color: #e85b50;
     }
 
+    .caja_filtros{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .primer_seccionFiltro {
+        display: flex;
+        flex-direction: row;
+    }
+
     /* Slide de rango de precions con noUiSlider */
     /* Base del Slider */
     .noUi-target {
