@@ -28,7 +28,7 @@
                             <option value="3">Categoría 3</option>
                         </select>
                     </div>
-                    <div class="col-md-2 mb-3 mb-md-0">
+                    <div style="margin-left: auto;">
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="favoritosSwitch">
                             <label class="form-check-label" for="favoritosSwitch">Favoritos</label>
@@ -44,7 +44,7 @@
                             <input type="text" id="price-max" class="form-control" readonly>
                         </div>
                     </div>
-                    <div class="col-md-1">
+                    <div class="col-md-1" style="align-content: center;">
                         <button class="btn btn-outline-secondary w-100"><i class="fa fa-sliders-h"></i> Aplicar filtros</button>
                     </div>
                 </div>
