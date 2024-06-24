@@ -349,7 +349,7 @@ class GuiasModel extends Query
     {
         $razon_social_remitente = "IMPORCOMEX S.A.";
         $razon_zocial_destinatario = "Entrega a Domicilio";
-        $url = 'https://swservicli.servientrega.com.ec:5052/api/GuiaRecaudo';
+        $url = 'https://swservicli.servientrega.com.ec:5052/api/guiawebs';
         $data = array(
             "id_tipo_logistica" => 1,
             "detalle_envio_1" => "",
