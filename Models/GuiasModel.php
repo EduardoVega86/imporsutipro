@@ -368,7 +368,7 @@ class GuiasModel extends Query
             "codigo_postal_dest_ne" => "",
             "id_remitente_cl" => "001remi",
             "razon_social_remite" => $razon_social_remitente,
-            "nombre_remitente" => $nombreDestino,
+            "nombre_remitente" => $nombreOrigen,
             "apellido_remite" =>   "",
             "direccion1_remite" => $direccionOrigen,
             "sector_remite" => "",
