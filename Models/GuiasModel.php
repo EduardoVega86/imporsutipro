@@ -279,7 +279,7 @@ class GuiasModel extends Query
             "RAZON_SOCIAL_REMITE" => $razon_social_remitente,
             "NOMBRE_REMITENTE" => "$nombreOrigen",
             "APELLIDO_REMITE" =>    "",
-            "DIRECCION1_REMITE" => "$direccionOrigen ",
+            "DIRECCION1_REMITE" => "$direccionOrigen",
             "SECTOR_REMITE" => "",
             "TELEFONO1_REMITE" => $telefonoOrigen,
             "TELEFONO2_REMITE" => "",
