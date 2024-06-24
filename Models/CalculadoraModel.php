@@ -146,6 +146,8 @@ XML;
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $response = curl_exec($ch);
+
+        print_r($response);
         $curlError = curl_error($ch);
         curl_close($ch);
 
@@ -162,7 +164,7 @@ XML;
 
         // Decodificar la respuesta HTML
         $decodedResponse = html_entity_decode($response);
-
+        print_r($decodedResponse);
         // Cargar la respuesta en DOMDocument
         $dom = new DOMDocument();
         libxml_use_internal_errors(true);
