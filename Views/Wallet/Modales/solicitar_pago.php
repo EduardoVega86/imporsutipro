@@ -45,7 +45,15 @@
             </div>
             <div class="modal-body">
                 <form id="solicitar_pago">
-                    
+                    <div class="mb-3">
+                        <label for="monto" class="form-label">Monto:</label>
+                        <input type="text" class="form-control" id="monto" placeholder="Ingresar monto">
+                    </div>
+
+                    <label for="cuenta" class="form-label">Elegir cuenta:</label>
+                    <select class="form-select" id="cuenta">
+                        <option value="0">-- Seleccione una cuenta --</option>
+                    </select>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
