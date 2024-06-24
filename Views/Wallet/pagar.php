@@ -13,6 +13,9 @@
                     <div class="card-body">
                         <img src="" id="image_tienda" width="100px" class="rounded-circle mb-3" alt="Profile Picture">
                         <h5 class="card-title"><a href="#" id="tienda_url"><span id="tienda_span"></span></a></h5>
+                        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#solicitar_pagoModal">
+                            Solicitar Pago
+                        </button>
                         <button class="btn btn-primary mb-3" id="regresar">Regresar</button>
 
                         <div class="row text-start">
@@ -98,9 +101,6 @@
             </div>
 
             <div class="right gap-2">
-                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#solicitar_pagoModal">
-                    Solicitar Pago
-                </button>
                 <h3 style="text-align: center; padding-top:5px;">Tabla de Pagos</h3>
                 <div class="table-responsive">
                     <table id="datatable_pagos" class="table table-striped">
