@@ -395,4 +395,11 @@ class WalletModel extends Query
         $response =  $this->select($sql);
         return $response;
     }
+
+    public function obtenerCuentas($plataforma)
+    {
+        $sql = "SELECT * FROM datos_banco_usuarios WHERE id_plataforma = '$plataforma'";
+        $response =  $this->select($sql);
+        return $response;
+    }
 }

@@ -178,4 +178,11 @@ class Wallet extends Controller
         $response = $this->model->obtenerHistorial($tienda);
         echo json_encode($response);
     }
+
+    public function obtenerCuentas()
+    {
+        $id_plataforma = $_SESSION['id_plataforma'];
+        $response = $this->model->obtenerCuentas($id_plataforma);
+        echo json_encode($response);
+    }
 }
