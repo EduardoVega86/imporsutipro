@@ -2,7 +2,7 @@
 <?php require_once './Views/templates/landing/css/registro_style.php'; ?>
 
 <div class="header-notice">
-    ¡No desaproveches esta oportunidad, únete a IMPORSUIT!
+    ¡No desaproveches esta oportunidad, únete a <?php echo MARCA; ?>!
 </div>
 <div class="d-flex flex-column" style="padding: 20px;">
     <div class="imagen_logo">

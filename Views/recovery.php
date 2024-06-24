@@ -7,7 +7,7 @@
     </div>
     <div class="container">
         <div class="header">
-            <h1>IMPORSUIT</h1>
+            <h1><?php echo MARCA; ?></h1>
         </div>
         <form id="multiStepForm">
             <div class="form-group">
