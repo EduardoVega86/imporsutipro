@@ -339,6 +339,17 @@ $(document).ready(function() {
     dataType: "json",
     success: function (response) {
       console.log(response)
+      // Asegúrate de que la respuesta es un array
+      if (Array.isArray(response)) {
+        response.forEach(function (bodega) {
+          // Agrega una nueva opción al select por cada bodega
+          $("#bodega_inventarioVariable").append(
+            new Option(bodega.nombre, bodega.id)
+          );
+        });
+      } else {
+        console.log("La respuesta de la API no es un array:", response);
+      }
     },
     error: function (error) {
       console.error("Error al obtener la lista de bodegas:", error);
