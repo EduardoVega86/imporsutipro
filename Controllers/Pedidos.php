@@ -211,8 +211,6 @@ class Pedidos extends Controller
 
     public function info()
     {
-        define("ENLACE", $_SESSION["enlace"]);
-        echo json_encode(ENLACE);
         print_r($_SESSION);
     }
 

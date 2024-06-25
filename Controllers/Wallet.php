@@ -12,10 +12,10 @@ class Wallet extends Controller
 
     public function index()
     {
-        $this->views->render($this, "index");
         if ($_SESSION["id_plataforma"] != 1167) {
             header("Location: /wallet/billetera");
         }
+        $this->views->render($this, "index");
     }
 
     public function billetera()
