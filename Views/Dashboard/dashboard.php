@@ -4,6 +4,13 @@
 <div class="custom-container-fluid">
 
     <div class="banner_estadisticas">
+        <div class="flex-fill">
+            <h6>Seleccione el rango de fechas:</h6>
+            <div class="input-group">
+                <input type="text" class="form-control" id="daterange">
+                <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+            </div>
+        </div>
         <div class="stats-container">
             <div class="d-flex flex-row">
                 <div class="stat-box">
