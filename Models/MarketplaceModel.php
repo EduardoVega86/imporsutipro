@@ -33,9 +33,10 @@ class MarketplaceModel extends Query
         }
         
         if ($favorito== 0){
-            $favorito_filtro = " AND pf.id_producto IS NOT NULL  ";
+                $favorito_filtro = " ";
         } else {
-            $favorito_filtro = " ";
+            $favorito_filtro = " AND pf.id_producto IS NOT NULL  ";
+        
         }
         
         $id_matriz = $this->obtenerMatriz();
@@ -58,7 +59,7 @@ LEFT JOIN productos_favoritos pf ON pf.id_producto = p.id_producto
 WHERE (p.drogshipin = 1 OR p.id_plataforma = $plataforma) 
     AND ((p.drogshipin = 1 AND ib.id_plataforma = p.id_plataforma) OR (ib.id_plataforma = p.id_plataforma))
     AND plat.id_matriz =  $id_matriz $where $favorito_filtro" ;
-        echo $sql;
+        //echo $sql;
         return $this->select($sql);
     }
 
