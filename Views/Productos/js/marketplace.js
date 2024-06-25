@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
             productDetails[0].image_path
           }" class="card-img-top" alt="Product Image">
           <button class="btn btn-heart ${
-            product.Es_Favorito ? "clicked" : ""
+            product.Es_Favorito ? "" : ""
           }" onclick="handleHeartClick(${product.id_producto}, ${
             product.Es_Favorito
           })">
