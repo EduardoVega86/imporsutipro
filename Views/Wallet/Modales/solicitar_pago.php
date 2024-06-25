@@ -80,18 +80,18 @@
             data: JSON.stringify(formData),
             contentType: 'application/json',
             success: function(response) {
-                if (data.status == 400) {
+                if (response.status == 400) {
                     Swal.fire({
                         icon: 'error',
-                        title: data.title,
-                        text: data.message
+                        title: response.title,
+                        text: response.message
                     });
-                } else if (data.status == 200) {
+                } else if (response.status == 200) {
 
                     Swal.fire({
                         icon: 'success',
-                        title: data.title,
-                        text: data.message,
+                        title: response.title,
+                        text: response.message,
                         showConfirmButton: false,
                         timer: 2000
                     }).then(() => {
