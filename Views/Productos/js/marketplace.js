@@ -15,6 +15,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   async function fetchProducts() {
     try {
+      // Limpiar contenedor de tarjetas antes de agregar nuevas
+      cardContainer.innerHTML = "";
+
       const response = await fetch(
         `${SERVERURL}marketplace/obtener_productos`,
         {
