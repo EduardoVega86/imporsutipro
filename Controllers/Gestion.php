@@ -13,6 +13,7 @@ class Gestion extends Controller
 
         $esEntregado = false;
         $esDevolucion = false;
+        $notificar = false;
 
         // Regla para Entregado
         if ($estadoActualCodigo == 7) {
@@ -44,12 +45,24 @@ class Gestion extends Controller
             }
         }
 
+        // Verificar novedades no coincidentes para notificación
+        foreach ($novedades as $novedad) {
+            if (!in_array($novedad['codigoTipoNovedad'], [42, 43, 92, 96])) {
+                $notificar = true;
+                break;
+            }
+        }
+
         if ($esEntregado) {
             $this->model->actualizarEstado(7, $noGuia);
         } elseif ($esDevolucion) {
             $this->model->actualizarEstado(9, $noGuia);
         } else {
             $response = $this->model->actualizarEstado($estadoActualCodigo, $noGuia);
+        }
+
+        if ($notificar) {
+            $this->model->nofiticar($novedades, $noGuia);
         }
     }
 }

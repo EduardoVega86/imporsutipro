@@ -6,7 +6,7 @@ $smtp_secure = 'ssl';
 $smtp_user = 'info@imporfactoryusa.com';
 $smtp_pass = 'Mark2demasiado.';
 $smtp_from = $smtp_user;
-$smtp_from_name = 'ImporSuit';
+$smtp_from_name = 'ImporsuitPro';
 $smtp_subjet = 'Novedad de pedido';
 $message_body_pedido = '<!DOCTYPE html>
 <html lang="es">
@@ -147,7 +147,7 @@ $message_body_pedido = '<!DOCTYPE html>
             </article>
             <article>
                 <p>Estimado usuario, nos comunicamos con usted para darle a conocer que ha recibido una novedad sobre una guia de su tienda.</p>
-                <p>La guia es la siguiente: ' . $no_guia . ' </p>
+                <p>La guia es la siguiente: ' . $guia . ' </p>
                 
 
             </article>
