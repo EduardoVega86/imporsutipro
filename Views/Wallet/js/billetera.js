@@ -1,4 +1,4 @@
-console.log("js: "+tienda);
+const tienda = $('#enlace_tienda').val();
 
 var pagos_global;
 

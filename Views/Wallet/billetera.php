@@ -1,5 +1,5 @@
 <?php require_once './Views/templates/header.php'; ?>
-<?php require_once './Views/Wallet/css/billetera_style.php'; ?>
+<?php require_once './Views/Wallet/css/pagar_style.php'; ?>
 
 <?php require_once './Views/Wallet/Modales/solicitar_pago.php'; ?>
 
@@ -8,6 +8,7 @@
         <h2 class="text-center mb-4">Pagar Wallet</h2>
 
         <div class="left_right gap-2">
+            
             <div class="table-responsive left">
                 <div class="card text-center">
                     <div class="card-body">
@@ -176,10 +177,5 @@
         </div>
     </div>
 </div>
-
-<script>
-    const tienda = "<?php echo ENLACE; ?>";
-    console.log("php"+tienda);
-</script>
-<script src="<?php echo SERVERURL ?>/Views/Wallet/js/billetera.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/Wallet/js/pagar.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
