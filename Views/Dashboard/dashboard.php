@@ -4,14 +4,14 @@
 <div class="custom-container-fluid">
 
     <div class="banner_estadisticas">
-        <div class="flex-fill">
-            <h6>Seleccione el rango de fechas:</h6>
-            <div class="input-group">
-                <input type="text" class="form-control" id="daterange">
-                <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></span>
-            </div>
-        </div>
         <div class="stats-container">
+            <div class="flex-fill">
+                <h6>Seleccione el rango de fechas:</h6>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="daterange">
+                    <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                </div>
+            </div>
             <div class="d-flex flex-row">
                 <div class="stat-box">
                     <h3>5.00</h3>
@@ -117,6 +117,7 @@
 
 </div>
 
+<script src="<?php echo SERVERURL ?>/Views/Pedidos/js/dashboard.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     var ctx = document.getElementById('salesChart').getContext('2d');
