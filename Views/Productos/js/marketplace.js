@@ -37,7 +37,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   const displayProducts = (products, page = 1, perPage = productsPerPage) => {
-    cardContainer.innerHTML = "";
     const start = (page - 1) * perPage;
     const end = start + perPage;
     const paginatedProducts = products.slice(start, end);
@@ -179,14 +178,26 @@ document.addEventListener("DOMContentLoaded", function () {
     nextPageItem.classList.toggle("disabled", currentPage === totalPages);
   }
 
+  // Función de debounce para retrasar la ejecución hasta que el usuario deje de escribir
+  function debounce(func, wait) {
+    let timeout;
+    return function (...args) {
+      const context = this;
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(context, args), wait);
+    };
+  }
+
   fetchProducts();
 
-  $("#buscar_nombre").on("input", function () {
+  $("#buscar_nombre").on("input", debounce(function () {
     var q = $("#buscar_nombre").val();
     formData_filtro.set("nombre", q);
+    currentPage = 1; // Reset to the first page
     fetchProducts();
-  });
+  }, 300)); // 300 ms de espera antes de ejecutar la función
 });
+
 
 //agregar informacion al modal descripcion marketplace
 function agregarModal_marketplace(id) {
