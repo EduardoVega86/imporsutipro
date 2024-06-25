@@ -3,13 +3,14 @@ document.addEventListener("DOMContentLoaded", function () {
   let currentPage = 1;
   let products = [];
   let filteredProducts = [];
+  let sentencia_sql="";
 
   const cardContainer = document.getElementById("card-container");
   const pagination = document.getElementById("pagination");
 
   async function fetchProducts() {
     try {
-      const response = await fetch(SERVERURL + "marketplace/obtener_productos");
+      const response = await fetch(SERVERURL + "marketplace/obtener_productos"+sentencia_sql);
       products = await response.json();
       filteredProducts = products; // Initially, no filter is applied
       displayProducts(filteredProducts, currentPage, productsPerPage);
