@@ -35,7 +35,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   const displayProducts = (products, page = 1, perPage = productsPerPage) => {
-    cardContainer.innerHTML = "";
     const start = (page - 1) * perPage;
     const end = start + perPage;
     const paginatedProducts = products.slice(start, end);
@@ -185,6 +184,7 @@ document.addEventListener("DOMContentLoaded", function () {
     fetchProducts();
   });
 });
+
 
 //agregar informacion al modal descripcion marketplace
 function agregarModal_marketplace(id) {
