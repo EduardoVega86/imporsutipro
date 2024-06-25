@@ -104,7 +104,7 @@
                         });
 
                         $('#imagen_productoModal').modal('hide');
-                        initDataTableProductos();
+                      //  initDataTableProductos();
                     }
 
                 },
