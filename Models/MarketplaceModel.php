@@ -168,7 +168,7 @@ WHERE (p.drogshipin = 1 OR p.id_plataforma = $plataforma)
      public function agregarFavoritos($id_producto, $plataforma, $favorito)
     {
           $response = $this->initialResponse();
-         if($favorito==1){
+         if($favorito==0){
          
         $sql = "DELETE FROM productos_favoritos WHERE id_producto = ? AND id_plataforma = ?";
         $data = [$id_producto, $plataforma];   
