@@ -152,7 +152,7 @@ class Wallet extends Controller
         $valor = $_POST['valor'];
         $puedeSolicitar = $this->model->puedeSolicitar($_SESSION["enlace"], $valor);
         if ($puedeSolicitar == false) {
-            echo json_encode(["status" => 400, "message" => "Ya tienes una solicitud de pago pendiente, por favor espera a que sea procesada."]);
+            echo json_encode(["status" => 400, "message" => "No puedes solicitar un pago mayor al saldo disponible en tu billetera o ya tienes una solicitud pendiente"]);
             return;
         }
         $fecha = date("Y-m-d H:i:s");
