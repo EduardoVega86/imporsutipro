@@ -186,7 +186,7 @@ WHERE (p.drogshipin = 1 OR p.id_plataforma = $plataforma)
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = $eliminar_producto['message'];
+            $response['message'] = $favorito['message'];
         }
              
              
