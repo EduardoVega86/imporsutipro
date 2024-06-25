@@ -8,7 +8,7 @@ class MarketplaceModel extends Query
 
     ///productos
 
-    public function obtener_productos($plataforma, $filtro)
+    public function obtener_productos($plataforma )
     {
         $id_matriz = $this->obtenerMatriz();
         $id_matriz = $id_matriz[0]['idmatriz'];
