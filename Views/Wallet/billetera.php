@@ -1,5 +1,5 @@
 <?php require_once './Views/templates/header.php'; ?>
-<?php require_once './Views/Wallet/css/pagar_style.php'; ?>
+<?php require_once './Views/Wallet/css/billetera_style.php'; ?>
 
 <?php require_once './Views/Wallet/Modales/solicitar_pago.php'; ?>
 
