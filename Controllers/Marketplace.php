@@ -19,7 +19,13 @@ class Marketplace extends Controller
 
     public function obtener_productos()
     {
-        $response = $this->model->obtener_productos($_SESSION['id_plataforma']);
+        $nombre= $_POST['nombre'];
+        $linea= $_POST['linea'];
+        $plataforma= $_POST['plataforma'];
+        $min= $_POST['min'];
+        $max= $_POST['max'];
+        
+        $response = $this->model->obtener_productos($_SESSION['id_plataforma'], $nombre);
         echo json_encode($response);
     }
 
