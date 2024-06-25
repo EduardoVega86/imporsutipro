@@ -44,5 +44,20 @@ $(function () {
     fecha_inicio = picker.startDate.format("YYYY-MM-DD");
     fecha_fin = picker.endDate.format("YYYY-MM-DD");
 
+    let formData = new FormData();
+    formData.append("fechai", fecha_inicio);
+    formData.append("fechaf", fecha_fin);
+
+    $.ajax({
+      url: SERVERURL + "dashboard/filtroInicial",
+      type: "POST",
+      data: formData,
+      processData: false, // No procesar los datos
+      contentType: false, // No establecer ningún tipo de contenido
+      success: function (response) {},
+      error: function (jqXHR, textStatus, errorThrown) {
+        alert(errorThrown);
+      },
+    });
   });
 });
