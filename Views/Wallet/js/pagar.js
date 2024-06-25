@@ -52,7 +52,7 @@ function cargarDashboard_wallet() {
 }
 
 // TABLAS FACTURAS
-let filtro_facturas = "todos";
+let filtro_facturas = "pendientes";
 let dataTableFacturas;
 let dataTableFacturasIsInitialized = false;
 

@@ -98,7 +98,6 @@ const listFacturas = async () => {
     let content = ``;
     let cod = "";
     let estado_guia = "";
-    let check = "";
     facturas.forEach((factura, index) => {
       let tienda_nombre = procesarPlataforma(factura.tienda);
       if (factura.cod == 1) {
@@ -106,21 +105,10 @@ const listFacturas = async () => {
       } else {
         cod = "Sin Recaudo";
       }
-      check = "";
       if (factura.estado_guia == 7) {
         estado_guia = "Entregado";
-        if (factura.valor_pendiente == 0) {
-          check = "";
-        } else {
-          check = `<input type="checkbox" class="selectCheckbox" data-factura-id_cabecera="${factura.id_cabecera}" data-factura-valor="${factura.monto_recibir}">`;
-        }
       } else if (factura.estado_guia == 9) {
         estado_guia = "Devuelto";
-        if (factura.valor_pendiente == 0) {
-          check = "";
-        } else {
-          check = `<input type="checkbox" class="selectCheckbox" data-factura-id_cabecera="${factura.id_cabecera}" data-factura-valor="${factura.monto_recibir}">`;
-        }
       } else {
         estado_guia = "No acreditable";
       }
