@@ -43,11 +43,13 @@ $(function () {
 
     fecha_inicio = picker.startDate.format("YYYY-MM-DD");
     fecha_fin = picker.endDate.format("YYYY-MM-DD");
+    informacion_dashboard(fecha_inicio, fecha_fin);
+  });
 
+  function informacion_dashboard(fecha_inicio, fecha_fin) {
     let formData = new FormData();
     formData.append("fechai", fecha_inicio);
     formData.append("fechaf", fecha_fin);
-
     $.ajax({
       url: SERVERURL + "dashboard/filtroInicial",
       type: "POST",
@@ -59,5 +61,9 @@ $(function () {
         alert(errorThrown);
       },
     });
+  }
+
+  $(document).ready(function () {
+    informacion_dashboard("", "");
   });
 });
