@@ -83,7 +83,7 @@
             <a href="#" class="dropdown-btn" data-target="#submenu4"><i class='bx bx-cog menu-icon'></i> <span class="menu-text">Configuración</span></a>
             <div class="submenu" id="submenu4">
                 <a href="<?php echo SERVERURL ?>/usuarios/listado"><i class='bx bx-user menu-icon' ></i> <span class="menu-text">Usuarios</span></a>
-                <a href="#"><i class='bx bxs-bank menu-icon'></i> <span class="menu-text">Roles</span></a>
+                <a href="#"><i class='bx bxs-user-detail menu-icon' ></i> <span class="menu-text">Roles</span></a>
             </div>
         </div>
         <div class="footer-text">
