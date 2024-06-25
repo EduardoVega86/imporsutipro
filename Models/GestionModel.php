@@ -29,7 +29,13 @@ class GestionModel extends Query
         $select = $this->select($datos);
     }
 
-    public function notificar($novedades, $guia)
+    public function notificar($novedades, $guia, $plataforma)
+    {
+
+        $this->enviarCorreo($guia);
+    }
+
+    public function enviarCorreo($guia)
     {
         $datos = "SELECT * FROM facturas_cot WHERE numero_guia = '$guia' ";
         $select = $this->select($datos);
