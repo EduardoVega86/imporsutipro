@@ -56,7 +56,8 @@ $(function () {
       data: formData,
       processData: false, // No procesar los datos
       contentType: false, // No establecer ningún tipo de contenido
-      success: function (response) {
+      success: function (response) { 
+        response = JSON.parse(response);
         $("#devoluciones").val(response.devoluciones);
         $("#total_fletes").val(response.envios);
         $("#total_recaudo").val(response.ganancias);
