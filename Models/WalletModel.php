@@ -427,6 +427,13 @@ class WalletModel extends Query
 
     public function enviarMensaje($mensaje, $correo)
     {
+        $datos_usuario = $this->select("SELECT * FROM datos_banco_usuarios WHERE correo = '$correo'");
+        $nombre =  $datos_usuario[0]['nombre'];
+        $banco =  $datos_usuario[0]['banco'];
+        $cedula =  $datos_usuario[0]['cedula'];
+        $numero_cuenta =  $datos_usuario[0]['numero_cuenta'];
+        $tipo_cuenta =  $datos_usuario[0]['tipo_cuenta'];
+
         if ($mensaje == "solicitud") {
             require_once 'PHPMailer/Mail_pago.php';
             $mail = new PHPMailer();
