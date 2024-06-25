@@ -1,11 +1,8 @@
 <?php require_once './Views/templates/header.php'; ?>
 <?php require_once './Views/Wallet/css/pagar_style.php'; ?>
 
-<?php require_once './Views/Wallet/Modales/solicitar_pago.php'; ?>
-
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
-        <h2 class="text-center mb-4">Pagar Wallet</h2>
 
         <div class="left_right gap-2">
             <div class="table-responsive left">
@@ -14,9 +11,6 @@
                         <img src="" id="image_tienda" width="100px" class="rounded-circle mb-3" alt="Profile Picture">
                         <h5 class="card-title"><a href="#" id="tienda_url"><span id="tienda_span"></span></a></h5>
                         <button class="btn btn-primary mb-3" id="regresar"><i class="fa-solid fa-arrow-left"></i> Regresar</button>
-                        <button type="button" class="btn btn-outline-primary mb-3" data-bs-toggle="modal" data-bs-target="#solicitar_pagoModal">
-                            Solicitar Pago
-                        </button>
 
                         <div class="row text-start">
                             <div class="col-12 mb-3">

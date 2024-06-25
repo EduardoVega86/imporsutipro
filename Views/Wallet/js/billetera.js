@@ -40,7 +40,7 @@ function cargarDashboard_wallet() {
 }
 
 // TABLAS FACTURAS
-let filtro_facturas = "todos";
+let filtro_facturas = "pendientes";
 let dataTableFacturas;
 let dataTableFacturasIsInitialized = false;
 
@@ -127,7 +127,6 @@ const listFacturas = async () => {
 
       content += `
                 <tr>
-                    <td>${check}</td>
                     <td>
                     <div><span claas="text-nowrap">${factura.numero_factura}</span></div>
                     <div><span claas="text-nowrap">${factura.guia}</span></div>
@@ -145,7 +144,6 @@ const listFacturas = async () => {
                     <td>${factura.full}</td>
                     <td>${factura.monto_recibir}</td>
                     <td>${factura.valor_pendiente}</td>
-                    <td>${factura.peso}</td>
                     <td>
                     <div class="dropdown">
                     <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -157,13 +155,6 @@ const listFacturas = async () => {
                     </ul>
                     </div>
                     </td>
-
-                    <td><button class="icon-button" style="background-color: green; margin: 0;"><i class="fa-solid fa-pen-to-square" style="margin: 0;"></i></button></td>
-                    <td><button class="icon-button" style="background-color: #FCBF00; margin: 0;"><i class="fa-solid fa-rotate-left" style="margin: 0;"></i></button></td>
-                    <td></td>
-                    <td></td>
-                    <td><button class="icon-button" style="background-color: red; margin: 0;"><i class="fa-solid fa-trash" style="margin: 0;"></i></button></td>
-                    
                 </tr>`;
     });
     document.getElementById("tableBody_facturas").innerHTML = content;

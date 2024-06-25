@@ -5,7 +5,6 @@
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
-        <h2 class="text-center mb-4">Pagar Wallet</h2>
 
         <div class="left_right gap-2">
             
@@ -14,7 +13,6 @@
                     <div class="card-body">
                         <img src="" id="image_tienda" width="100px" class="rounded-circle mb-3" alt="Profile Picture">
                         <h5 class="card-title"><a href="#" id="tienda_url"><span id="tienda_span"></span></a></h5>
-                        <button class="btn btn-primary mb-3" id="regresar"><i class="fa-solid fa-arrow-left"></i> Regresar</button>
                         <button type="button" class="btn btn-outline-primary mb-3" data-bs-toggle="modal" data-bs-target="#solicitar_pagoModal">
                             Solicitar Pago
                         </button>
@@ -143,16 +141,15 @@
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
             <div class="filter-container">
-                <button class="filter-btn active" data-filter="todos">Todas</button>
                 <button class="filter-btn" data-filter="pendientes">Pendientes</button>
                 <button class="filter-btn" data-filter="abonadas">Abonadas</button>
                 <button class="filter-btn" data-filter="devoluciones">Devoluciones</button>
+                <button class="filter-btn active" data-filter="todos">Todas</button>
             </div>
             <table id="datatable_facturas" class="table table-striped">
 
                 <thead>
                     <tr>
-                        <th></th>
                         <th class="centered">Factura</th>
                         <th class="centered">Detalle factura</th>
                         <th class="centered">Estado Guia</th>
@@ -163,13 +160,7 @@
                         <th class="centered">Full Fillment</th>
                         <th class="centered">Monto a recibir</th>
                         <th class="centered">Monto pendiente</th>
-                        <th class="centered">Peso</th>
                         <th class="centered">Guia</th>
-                        <th class="centered">Editar</th>
-                        <th class="centered">Devolucion</th>
-                        <th class="centered">Tipo envio</th>
-                        <th class="centered">Ganancia</th>
-                        <th class="centered">Eliminar</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody_facturas"></tbody>
