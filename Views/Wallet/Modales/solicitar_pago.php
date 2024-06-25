@@ -80,6 +80,7 @@
             data: JSON.stringify(formData),
             contentType: 'application/json',
             success: function(response) {
+                response = JSON.parse(response);
                 if (response.status == 400) {
                     Swal.fire({
                         icon: 'error',
