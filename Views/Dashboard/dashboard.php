@@ -117,7 +117,7 @@
 
 </div>
 
-<script src="<?php echo SERVERURL ?>/Views/dashboard/js/dashboard.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/Dashboard/js/dashboard.js"></script>
 <script>
     var ctx = document.getElementById('salesChart').getContext('2d');
     var salesChart = new Chart(ctx, {
