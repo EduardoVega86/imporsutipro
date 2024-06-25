@@ -79,6 +79,11 @@
                     }
                 });
 
+                cargar_saldoWallet();
+                
+            });
+
+            function cargar_saldoWallet (){
                 $.ajax({
                     url: SERVERURL + "calculadora/saldo",
                     type: "GET",
@@ -90,7 +95,7 @@
                         console.error("Error al obtener la lista de bodegas:", error);
                     },
                 });
-            });
+            }
 
             //funcion cerrar sesion 
             function cerrar_sesion() {
