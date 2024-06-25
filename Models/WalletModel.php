@@ -327,7 +327,7 @@ class WalletModel extends Query
         $matriz = $matriz[0]['idmatriz'];
         $sql = "INSERT INTO solicitudes_pago (`cantidad`, `id_cuenta`, `fecha`, `id_matriz`) VALUES (?, ?, ?, ?)";
         $response =  $this->insert($sql, array($valor, $id_cuenta, $fecha, $matriz));
-        $update = "UPDATE billeteras set solicito = 1, valor_solicitado = $valor WHERE tienda = '$tienda'";
+        $update = "UPDATE billeteras set solicito = 1, valor_solicitud = $valor WHERE tienda = '$tienda'";
         echo $update;
         $response2 =  $this->select($update);
 
