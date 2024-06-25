@@ -117,7 +117,7 @@
 
 </div>
 
-<script src="<?php echo SERVERURL ?>/Views/Pedidos/js/dashboard.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/dashboard/js/dashboard.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     var ctx = document.getElementById('salesChart').getContext('2d');
