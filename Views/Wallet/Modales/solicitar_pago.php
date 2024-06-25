@@ -69,16 +69,17 @@
     // Manejar el envío del formulario
     $('#solicitar_pago').on('submit', function(event) {
         event.preventDefault(); // Evitar el envío normal del formulario
-        var formData = {
-            valor: $('#monto').val(),
-            id_cuenta: $('#cuenta').val()
-        };
+
+        let formData = new FormData();
+        formData.append("valor", $('#monto').val());
+        formData.append("id_cuenta", $('#cuenta').val());
 
         $.ajax({
             url: SERVERURL + 'wallet/solicitarPago',
             method: 'POST',
-            data: JSON.stringify(formData),
-            contentType: 'application/json',
+            data: formData,
+            processData: false, // No procesar los datos
+            contentType: false, // No establecer ningún tipo de contenido
             success: function(response) {
                 response = JSON.parse(response);
                 if (response.status == 400) {
