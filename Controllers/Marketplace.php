@@ -84,7 +84,7 @@ class Marketplace extends Controller
         $id_producto = $_POST['id_producto'];
         
          $favorito = $_POST['favorito'];
-        $response = $this->model->agregarFavoritos($id_producto,$_SESSION['id_plataforma'], $favortio);
+        $response = $this->model->agregarFavoritos($id_producto,$_SESSION['id_plataforma'], $favorito);
        echo json_encode($response);
     }
     
