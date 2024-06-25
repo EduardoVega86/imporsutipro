@@ -1,11 +1,11 @@
-let sentencia_sql="";
 
 document.addEventListener("DOMContentLoaded", function () {
   const productsPerPage = 10;
   let currentPage = 1;
   let products = [];
   let filteredProducts = [];
-
+  let sentencia_sql="";
+  
   const cardContainer = document.getElementById("card-container");
   const pagination = document.getElementById("pagination");
 
@@ -165,9 +165,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   fetchProducts();
-});
 
-$(document).ready(function() {
   $('#buscar_nombre').on('input', function() {
     var q = $('#buscar_nombre').val();
     sentencia_sql += `AND p.nombre_producto LIKE "%${q}%"`;
