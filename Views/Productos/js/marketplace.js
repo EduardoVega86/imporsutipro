@@ -170,6 +170,7 @@ $(document).ready(function() {
   $('#buscar_nombre').on('input', function() {
     var q = $('#buscar_nombre').val();
     sentencia_sql += `AND p.nombre_producto LIKE "%${q}%"`;
+    fetchProducts();
   });
 });
 
