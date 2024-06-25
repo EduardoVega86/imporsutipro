@@ -306,10 +306,10 @@ $(document).ready(function () {
       console.log(response);
       // Asegúrate de que la respuesta es un array
       if (Array.isArray(response)) {
-        response.forEach(function (bodega) {
-          // Agrega una nueva opción al select por cada bodega
-          $("#bodega_inventarioVariable").append(
-            new Option(bodega.nombre, bodega.id)
+        response.forEach(function (cuenta) {
+          
+          $("#cuenta").append(
+            new Option(cuenta.nombre, cuenta.id)
           );
         });
       } else {
@@ -317,7 +317,7 @@ $(document).ready(function () {
       }
     },
     error: function (error) {
-      console.error("Error al obtener la lista de bodegas:", error);
+      console.error("Error al obtener la lista de cuentas:", error);
     },
   });
 });
