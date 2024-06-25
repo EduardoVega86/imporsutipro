@@ -56,12 +56,6 @@
                                                 <option selected>-- Selecciona Categoría --</option>
                                             </select>
                                         </div>
-                                        <div class="form-group">
-                                            <label>Formato:</label>
-                                            <div class="d-flex">
-                                                <img src="https://new.imporsuitpro.com/public/img/formato_pro.jpg" alt="Formato" class="me-2">
-                                            </div>
-                                        </div>
                                     </div>
                                     <div class="d-flex flex-column w-100">
                                         <div class="form-group">
@@ -74,6 +68,12 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                            <label>Formato:</label>
+                                            <div class="d-flex">
+                                                <img src="https://new.imporsuitpro.com/public/img/formato_pro.jpg" alt="Formato" class="me-2" width="350px;">
+                                            </div>
+                                        </div>
                             </div>
                     </div>
                     <div class="tab-pane fade" id="editar-precios-stock" role="tabpanel" aria-labelledby="editar-precios-stock-tab">

@@ -59,12 +59,6 @@
                                                 <option selected>-- Selecciona Categoría --</option>
                                             </select>
                                         </div>
-                                        <div class="form-group">
-                                            <label>Formato:</label>
-                                            <div class="d-flex">
-                                                <img src="https://new.imporsuitpro.com/public/img/formato_pro.jpg" alt="Formato" class="me-2">
-                                            </div>
-                                        </div>
                                     </div>
                                     <div class="d-flex flex-column w-100">
                                         <div class="form-group">
@@ -75,6 +69,12 @@
                                                 <option value="2">Formato 2</option>
                                             </select>
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Formato:</label>
+                                    <div class="d-flex">
+                                        <img src="https://new.imporsuitpro.com/public/img/formato_pro.jpg" alt="Formato" class="me-2" width="350px;">
                                     </div>
                                 </div>
                             </div>
@@ -237,5 +237,4 @@
             });
         });
     });
-
 </script>
