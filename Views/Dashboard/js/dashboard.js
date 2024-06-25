@@ -58,12 +58,12 @@ $(function () {
       contentType: false, // No establecer ningún tipo de contenido
       success: function (response) { 
         response = JSON.parse(response);
-        $("#devoluciones").val(response.devoluciones);
-        $("#total_fletes").val(response.envios);
-        $("#total_recaudo").val(response.ganancias);
-        $("#total_pedidos").val(response.pedidos);
-        $("#total_guias").val(response.total_guias);
-        $("#total_ventas").val(response.ventas);
+        $("#devoluciones").text(response.devoluciones);
+        $("#total_fletes").text(response.envios);
+        $("#total_recaudo").text(response.ganancias);
+        $("#total_pedidos").text(response.pedidos);
+        $("#total_guias").text(response.total_guias);
+        $("#total_ventas").text(response.ventas);
       },
       error: function (jqXHR, textStatus, errorThrown) {
         alert(errorThrown);
