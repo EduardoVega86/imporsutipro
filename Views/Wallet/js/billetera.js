@@ -309,7 +309,7 @@ $(document).ready(function () {
         response.forEach(function (cuenta) {
           
           $("#cuenta").append(
-            new Option(cuenta.nombre, cuenta.id)
+            new Option(`${cuenta.banco}-${cuenta.numero_cuenta}-${cuenta.tipo_cuenta}`, cuenta.id_cuenta)
           );
         });
       } else {
