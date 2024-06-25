@@ -469,12 +469,15 @@ class WalletModel extends Query
         }
     }
 
-    public function puedeSolicitar($tienda)
+    public function puedeSolicitar($tienda, $valor)
     {
         $sql = "SELECT * FROM billeteras WHERE tienda = '$tienda'";
         $response =  $this->select($sql);
         $saldo = $response[0]['saldo'];
         if ($saldo <= 0) {
+            return false;
+        }
+        if ($saldo < $valor) {
             return false;
         }
         $solicito = $response[0]['solicito'];
