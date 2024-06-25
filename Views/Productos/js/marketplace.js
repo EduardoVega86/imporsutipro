@@ -6,9 +6,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const cardContainer = document.getElementById("card-container");
   const pagination = document.getElementById("pagination");
-  const categoriaFiltro = document.getElementById(
-    "categoria_filtroMarketplace"
-  );
 
   async function fetchProducts() {
     try {
@@ -164,18 +161,6 @@ document.addEventListener("DOMContentLoaded", function () {
     previousPageItem.classList.toggle("disabled", currentPage === 1);
     nextPageItem.classList.toggle("disabled", currentPage === totalPages);
   }
-
-  categoriaFiltro.addEventListener("change", function () {
-    const selectedCategory = categoriaFiltro.value;
-    filteredProducts = selectedCategory
-      ? products.filter(
-          (product) => product.id_linea_producto === selectedCategory
-        )
-      : products;
-    currentPage = 1;
-    displayProducts(filteredProducts, currentPage, productsPerPage);
-    createPagination(filteredProducts.length, productsPerPage);
-  });
 
   fetchProducts();
 });
