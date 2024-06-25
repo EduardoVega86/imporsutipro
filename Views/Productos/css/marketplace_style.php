@@ -351,7 +351,7 @@
     right: 10px;
     background: transparent;
     border: none;
-    color: darkred;
+    color: red;
     font-size: 1.5em;
     cursor: pointer;
     transition: transform 0.3s ease;
@@ -371,7 +371,7 @@
 
   .btn-heart.clicked .fas.fa-heart {
     transform: scale(1.3);
-    color: red;
+    color: darkred;
   }
   /* fin boton favoritos */
 </style>
