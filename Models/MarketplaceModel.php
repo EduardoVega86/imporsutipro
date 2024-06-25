@@ -170,11 +170,11 @@ WHERE (p.drogshipin = 1 OR p.id_plataforma = $plataforma)
           $response = $this->initialResponse();
          if($favorito==1){
          
-        $sql = "DELETE FROM producto_favoritos WHERE id_producto = ? AND id_plataforma = ?";
+        $sql = "DELETE FROM productos_favoritos WHERE id_producto = ? AND id_plataforma = ?";
         $data = [$id_producto, $plataforma];   
           $favorito = $this->delete($sql, $data);
          }else{
-           $sql = "INSERT INTO `producto_favoritos` (`id_producto`, `id_plataforma` VALUES (?, ?);";
+           $sql = "INSERT INTO `productos_favoritos` (`id_producto`, `id_plataforma` VALUES (?, ?);";
         $data = [$id_producto, $plataforma];
         $favorito = $this->insert($sql, $data);   
          }
