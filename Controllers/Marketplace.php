@@ -71,4 +71,10 @@ class Marketplace extends Controller
         echo $response;
     }
     
+    public function obtenerProveedores ()
+    {
+        $response = $this->model->obtenerProveedores();
+       echo json_encode($response);
+    }
+    
 }

@@ -156,4 +156,11 @@ and plat.id_matriz = $id_matriz $where" ;
         return $maximo;
         
     }
+    
+    
+    public function obtenerProveedores($id, $plataforma)
+    {
+        $sql = "SELECT nombre_tienda from FROM `plataformas` order by nombre_tienda";;
+        return $this->select($sql);
+    }
 }
