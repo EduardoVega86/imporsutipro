@@ -199,6 +199,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+
 //agregar informacion al modal descripcion marketplace
 function agregarModal_marketplace(id) {
   $.ajax({
