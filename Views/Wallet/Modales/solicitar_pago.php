@@ -75,13 +75,29 @@
         };
 
         $.ajax({
-            url: SERVERURL+'wallet/solicitarPago',
+            url: SERVERURL + 'wallet/solicitarPago',
             method: 'POST',
             data: JSON.stringify(formData),
             contentType: 'application/json',
             success: function(response) {
-                alert('Pago solicitado con éxito');
-                $('#solicitar_pagoModal').modal('hide');
+                if (data.status == 400) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: data.title,
+                        text: data.message
+                    });
+                } else if (data.status == 200) {
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: data.title,
+                        text: data.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    }).then(() => {
+                        $('#solicitar_pagoModal').modal('hide');
+                    });
+                }
             },
             error: function(error) {
                 console.error('Error al solicitar el pago:', error);
