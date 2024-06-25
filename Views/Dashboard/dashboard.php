@@ -118,7 +118,6 @@
 </div>
 
 <script src="<?php echo SERVERURL ?>/Views/dashboard/js/dashboard.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     var ctx = document.getElementById('salesChart').getContext('2d');
     var salesChart = new Chart(ctx, {
@@ -135,11 +134,9 @@
         },
         options: {
             scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
+                y: {
+                    beginAtZero: true
+                }
             }
         }
     });
