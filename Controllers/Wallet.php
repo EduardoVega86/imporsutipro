@@ -148,6 +148,11 @@ class Wallet extends Controller
 
     public function solicitarPago()
     {
+        $puedeSolicitar = $this->model->puedeSolicitar($_SESSION["enlace"]);
+        if ($puedeSolicitar == false) {
+            echo json_encode(["status" => 400, "message" => "Ya tienes una solicitud de pago pendiente, por favor espera a que sea procesada."]);
+            return;
+        }
         $id_cuenta = $_POST['id_cuenta'];
         $valor = $_POST['valor'];
         $fecha = date("Y-m-d H:i:s");

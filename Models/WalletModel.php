@@ -384,6 +384,13 @@ class WalletModel extends Query
         $response =  $this->insert($sql, array($valor, $documento, $forma_pago, $fecha, $imagen, $matriz, $plataforma));
         if ($response == 1) {
             $responses["status"] = 200;
+            $sql = "SELECT * FROM plataformas where id_plataforma = '$plataforma'";
+            $response =  $this->select($sql);
+            $url_imporsuit = $response[0]['url_imporsuit'];
+            $sql = "SELECT * FROM billeteras where tienda = '$url_imporsuit'";
+            $response =  $this->select($sql);
+            $update = "UPDATE billeteras set solicito = 0, valor_solicitado = 0 WHERE tienda = '$url_imporsuit'";
+            $response =  $this->select($update);
         } else {
             $responses["status"] = 400;
             $responses["message"] = $response["message"];
@@ -444,5 +451,20 @@ class WalletModel extends Query
         } else if ($mensaje == "pago") {
             $mensaje = "Se ha realizado un pago";
         }
+    }
+
+    public function puedeSolicitar($tienda)
+    {
+        $sql = "SELECT * FROM billeteras WHERE tienda = '$tienda'";
+        $response =  $this->select($sql);
+        $saldo = $response[0]['saldo'];
+        if ($saldo <= 0) {
+            return false;
+        }
+        $solicito = $response[0]['solicito'];
+        if ($solicito == 1) {
+            return false;
+        }
+        return true;
     }
 }
