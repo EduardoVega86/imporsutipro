@@ -1,5 +1,5 @@
 <?php require_once './Views/templates/header.php'; ?>
-<?php require_once './Views/Wallet/css/pagar_style.php'; ?>
+<?php require_once './Views/Wallet/css/billetera_style.php'; ?>
 
 <?php require_once './Views/Wallet/Modales/solicitar_pago.php'; ?>
 
@@ -181,5 +181,5 @@
     const tienda = "https://tony.imporsuitpro.com";
     console.log("php: "+tienda);
 </script>
-<script src="<?php echo SERVERURL ?>/Views/Wallet/js/pagar.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/Wallet/js/billetera.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
