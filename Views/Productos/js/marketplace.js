@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
   formData_filtro.append("plataforma", "");
   formData_filtro.append("min", "");
   formData_filtro.append("max", "");
+  formData_filtro.append("favorito", "0");
 
   const cardContainer = document.getElementById("card-container");
   const pagination = document.getElementById("pagination");
@@ -102,6 +103,13 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   };
+
+  function handleHeartClick(productId) {
+    const heartButton = event.currentTarget;
+    heartButton.classList.toggle('clicked');
+    // Aquí puedes agregar la lógica adicional que necesites, como una llamada AJAX
+    console.log('Product ID:', productId);
+  }
 
   function createPagination(totalProducts, perPage = productsPerPage) {
     pagination.innerHTML = "";
