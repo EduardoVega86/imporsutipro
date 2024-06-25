@@ -57,7 +57,7 @@ class GestionModel extends Query
         $mail->setFrom($smtp_from, $smtp_from_name);
         $mail->addAddress($correo);
         $mail->Subject = 'Novedad de pedido en Imporsuitpro';
-        $mail->Body = $message_body;
+        $mail->Body = $message_body_pedido;
         // $this->crearSubdominio($tienda);
 
         if ($mail->send()) {
