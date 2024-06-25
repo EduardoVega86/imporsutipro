@@ -425,7 +425,7 @@ class WalletModel extends Query
         return $response;
     }
 
-    public function enviarMensaje($mensaje, $correo)
+    public function enviarMensaje($mensaje, $correo, $cantidad)
     {
         $datos_usuario = $this->select("SELECT * FROM datos_banco_usuarios WHERE correo = '$correo'");
         $nombre =  $datos_usuario[0]['nombre'];
@@ -433,6 +433,12 @@ class WalletModel extends Query
         $cedula =  $datos_usuario[0]['cedula'];
         $numero_cuenta =  $datos_usuario[0]['numero_cuenta'];
         $tipo_cuenta =  $datos_usuario[0]['tipo_cuenta'];
+        $telefono =  $datos_usuario[0]['telefono'];
+        $tienda = $datos_usuario[0]['id_plataforma'];
+
+        $tienda = $this->select("SELECT * FROM plataformas WHERE id_plataforma = '$tienda'");
+        $tienda = $tienda[0]['url_imporsuit'];
+
 
         if ($mensaje == "solicitud") {
             require_once 'PHPMailer/Mail_pago.php';
