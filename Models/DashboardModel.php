@@ -10,7 +10,7 @@ class DashboardModel extends Query
     {
         $sql = "SELECT ROUND(SUM(total_venta),2) as ventas, ROUND(SUM(monto_recibir),2), ROUND(SUM(precio_envio),2) as envios as ganancias FROM `cabecera_cuenta_pagar` WHERE fecha BETWEEN '$fecha_i' AND '$fecha_f' and estado_guia in (7,9) and id_plataforma = $plataforma";
         $response = $this->select($sql);
-
+        echo $sql;
         $sql = "SELECT COUNT(*) as total_guias FROM `cabecera_cuenta_pagar` WHERE fecha BETWEEN '$fecha_i' AND '$fecha_f' and id_plataforma = $plataforma";
         $response2 = $this->select($sql);
 
