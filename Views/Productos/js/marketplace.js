@@ -7,13 +7,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const cardContainer = document.getElementById("card-container");
   const pagination = document.getElementById("pagination");
 
-  const fetchProducts = async (filters = {}) => {
+  async function fetchProducts() {
     try {
-      let queryString = Object.keys(filters)
-        .map(key => key + '=' + filters[key])
-        .join('&');
-        
-      const response = await fetch(SERVERURL + "marketplace/obtener_productos?" + queryString);
+      const response = await fetch(SERVERURL + "marketplace/obtener_productos");
       products = await response.json();
       filteredProducts = products; // Initially, no filter is applied
       displayProducts(filteredProducts, currentPage, productsPerPage);
@@ -85,7 +81,9 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   };
 
-  const createPagination = (totalProducts, perPage = productsPerPage) => {
+  
+
+  function createPagination(totalProducts, perPage = productsPerPage) {
     pagination.innerHTML = "";
     const totalPages = Math.ceil(totalProducts / perPage);
     const maxVisiblePages = 10;
@@ -156,39 +154,13 @@ document.addEventListener("DOMContentLoaded", function () {
     updatePaginationButtons(totalPages);
   }
 
-  const updatePaginationButtons = (totalPages) => {
+  function updatePaginationButtons(totalPages) {
     const previousPageItem = pagination.querySelector(".page-item:first-child");
     const nextPageItem = pagination.querySelector(".page-item:last-child");
 
     previousPageItem.classList.toggle("disabled", currentPage === 1);
     nextPageItem.classList.toggle("disabled", currentPage === totalPages);
   }
-
-  const applyFilters = () => {
-    const name = document.querySelector('.primer_seccionFiltro input[type="text"]').value;
-    const providerType = document.getElementById('tipo_proveedor').value;
-    const category = document.getElementById('categoria_filtroMarketplace').value;
-    const isFavorite = document.getElementById('favoritosSwitch').checked;
-    const priceMin = document.getElementById('price-min').value.replace('$', '').replace(',', '');
-    const priceMax = document.getElementById('price-max').value.replace('$', '').replace(',', '');
-
-    const filters = {
-      nombre_producto: name || '',
-      tipo_proveedor: providerType || '',
-      categoria: category || '',
-      favoritos: isFavorite ? 1 : 0,
-      min_pvp: priceMin || 0,
-      max_pvp: priceMax || 5000
-    };
-
-    fetchProducts(filters);
-  };
-
-  document.querySelectorAll('.caja_filtros input, .caja_filtros select').forEach(filter => {
-    filter.addEventListener('change', applyFilters);
-  });
-
-  document.getElementById('price-range-slider').noUiSlider.on('set', applyFilters);
 
   fetchProducts();
 });
