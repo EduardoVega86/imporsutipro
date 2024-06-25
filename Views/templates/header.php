@@ -23,24 +23,24 @@
 </head>
 
 
-    <!-- footer -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" rel="stylesheet">
-    
-
-    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-    <script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/jszip-3.10.1/dt-2.0.8/af-2.7.0/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/cr-2.0.3/date-1.5.2/fc-5.0.1/fh-4.0.1/kt-2.12.1/r-3.0.2/rg-1.5.0/rr-1.5.0/sc-2.4.3/sb-1.7.1/sp-2.3.1/sl-2.0.3/sr-1.4.1/datatables.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<!-- footer -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" rel="stylesheet">
 
 
-    <?php require_once './Views/templates/css/header_style.php'; ?>
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/jszip-3.10.1/dt-2.0.8/af-2.7.0/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/cr-2.0.3/date-1.5.2/fc-5.0.1/fh-4.0.1/kt-2.12.1/r-3.0.2/rg-1.5.0/rr-1.5.0/sc-2.4.3/sb-1.7.1/sp-2.3.1/sl-2.0.3/sr-1.4.1/datatables.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://kit.fontawesome.com/0022adc953.js" crossorigin="anonymous"></script>
+
+<?php require_once './Views/templates/css/header_style.php'; ?>
 </head>
 
 <body>
@@ -50,37 +50,37 @@
                 <i class='bx bx-menu menu-icon'></i>
             </a>
             <a href="<?php echo SERVERURL ?>dashboard"><i class='bx bx-home menu-icon'></i> <span class="menu-text">Inicio</span></a>
-            <a href="<?php echo SERVERURL ?>Productos/marketplace"><i class='bx bx-shopping-bag menu-icon' ></i> <span class="menu-text">Marketplace</span></a>
+            <a href="<?php echo SERVERURL ?>Productos/marketplace"><i class='bx bx-shopping-bag menu-icon'></i> <span class="menu-text">Marketplace</span></a>
 
-            <a href="#" class="dropdown-btn" data-target="#submenu1"><i class='bx bx-cart menu-icon' ></i> <span class="menu-text">Mis Productos</span></a>
+            <a href="#" class="dropdown-btn" data-target="#submenu1"><i class='bx bx-cart menu-icon'></i> <span class="menu-text">Mis Productos</span></a>
 
             <div class="submenu" id="submenu1">
-                <a href="<?php echo SERVERURL ?>Productos"><i class='bx bxs-store menu-icon' ></i> <span class="menu-text">Listado</span></a>
+                <a href="<?php echo SERVERURL ?>Productos"><i class='bx bxs-store menu-icon'></i> <span class="menu-text">Listado</span></a>
 
-                <a href="<?php echo SERVERURL ?>Productos/categorias"><i class='bx bxs-category menu-icon' ></i> <span class="menu-text">Categorias</span></a>
+                <a href="<?php echo SERVERURL ?>Productos/categorias"><i class='bx bxs-category menu-icon'></i> <span class="menu-text">Categorias</span></a>
 
-                <a href="<?php echo SERVERURL ?>Productos/bodegas"><i class='bx bxs-truck menu-icon' ></i> <span class="menu-text">Bodegas</span></a>
+                <a href="<?php echo SERVERURL ?>Productos/bodegas"><i class='bx bxs-truck menu-icon'></i> <span class="menu-text">Bodegas</span></a>
 
-                <a href="<?php echo SERVERURL ?>Productos/inventario"><i class='bx bx-list-plus menu-icon' ></i> <span class="menu-text">Inventario</span></a>
+                <a href="<?php echo SERVERURL ?>Productos/inventario"><i class='bx bx-list-plus menu-icon'></i> <span class="menu-text">Inventario</span></a>
 
                 <a href="<?php echo SERVERURL ?>Productos/importacion_masiva"><i class='bx bxs-cart-download menu-icon'></i> <span class="menu-text">Importación Masiva</span></a>
 
             </div>
-            <a href="#" class="dropdown-btn" data-target="#submenu2"><i class='bx bx-receipt menu-icon' ></i> <span class="menu-text">Pedidos</span></a>
+            <a href="#" class="dropdown-btn" data-target="#submenu2"><i class='bx bx-receipt menu-icon'></i> <span class="menu-text">Pedidos</span></a>
             <div class="submenu" id="submenu2">
-                <a href="<?php echo SERVERURL ?>Pedidos"><i class='bx bx-history menu-icon' ></i> <span class="menu-text">Historial</span></a>
-                <a href="<?php echo SERVERURL ?>pedidos/guias"><i class='bx bx-archive menu-icon' ></i> <span class="menu-text">Guías</span></a>
+                <a href="<?php echo SERVERURL ?>Pedidos"><i class='bx bx-history menu-icon'></i> <span class="menu-text">Historial</span></a>
+                <a href="<?php echo SERVERURL ?>pedidos/guias"><i class='bx bx-archive menu-icon'></i> <span class="menu-text">Guías</span></a>
                 <a href="#"><i class='bx bx-x menu-icon'></i> <span class="menu-text">Anulados</span></a>
-                <a href="#"><i class='bx bx-info-circle menu-icon' ></i> <span class="menu-text">Novedad</span></a>
-                <a href="<?php echo SERVERURL ?>despacho/despacho"><i class='bx bxs-box menu-icon' ></i> <span class="menu-text">Relacion Despacho</span></a>
-                <a href="<?php echo SERVERURL ?>despacho/devoluciones"><i class='bx bx-box menu-icon' ></i> <span class="menu-text">Ingresar Devolucion</span></a>
+                <a href="#"><i class='bx bx-info-circle menu-icon'></i> <span class="menu-text">Novedad</span></a>
+                <a href="<?php echo SERVERURL ?>despacho/despacho"><i class='bx bxs-box menu-icon'></i> <span class="menu-text">Relacion Despacho</span></a>
+                <a href="<?php echo SERVERURL ?>despacho/devoluciones"><i class='bx bx-box menu-icon'></i> <span class="menu-text">Ingresar Devolucion</span></a>
             </div>
-            <a href="#" class="dropdown-btn" data-target="#submenu3"><i class='bx bx-wallet menu-icon' ></i> <span class="menu-text">Wallet</span></a>
+            <a href="#" class="dropdown-btn" data-target="#submenu3"><i class='bx bx-wallet menu-icon'></i> <span class="menu-text">Wallet</span></a>
             <div class="submenu" id="submenu3">
-                <a href="<?php echo SERVERURL ?>wallet"><i class='bx bx-money-withdraw menu-icon' ></i> <span class="menu-text">Detalle</span></a>
+                <a href="<?php echo SERVERURL ?>wallet"><i class='bx bx-money-withdraw menu-icon'></i> <span class="menu-text">Detalle</span></a>
                 <a href="<?php echo SERVERURL ?>wallet/datos_bancarios"><i class='bx bxs-bank menu-icon'></i> <span class="menu-text">Datos bancarios</span></a>
             </div>
-            <a href="#"><i class='bx bx-cog menu-icon' ></i> <span class="menu-text">Configuración</span></a>
+            <a href="#"><i class='bx bx-cog menu-icon'></i> <span class="menu-text">Configuración</span></a>
         </div>
         <div class="footer-text">
             2024 © <?php echo MARCA; ?>
@@ -99,7 +99,7 @@
                     <img src="https://new.imporsuitpro.com/public/img/img.png" class="profile-pic" id="profilePic" alt="Perfil">
                     <div class="profile-dropdown" id="profileDropdown">
                         <a href="#"><i class='bx bx-user menu-icon'></i> <?php echo $_SESSION["tienda"] ?></a>
-                        <a onclick="cerrar_sesion()"><i class='bx bx-log-out menu-icon' ></i> Cerrar sesión</a>
+                        <a onclick="cerrar_sesion()"><i class='bx bx-log-out menu-icon'></i> Cerrar sesión</a>
                     </div>
                 </div>
             </div>
