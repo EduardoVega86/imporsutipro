@@ -220,6 +220,7 @@ document.addEventListener("DOMContentLoaded", function () {
       priceMax.value = values[1];
     }
   });
+  
   slider.noUiSlider.on("change", function (values) {
     var min = values[0].replace("$", "").replace(",", "");
     var max = values[1].replace("$", "").replace(",", "");
