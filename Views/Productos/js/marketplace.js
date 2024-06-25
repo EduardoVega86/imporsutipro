@@ -1,17 +1,27 @@
-
 document.addEventListener("DOMContentLoaded", function () {
   const productsPerPage = 10;
   let currentPage = 1;
   let products = [];
   let filteredProducts = [];
-  let sentencia_sql="";
-  
+  let formData_filtro = new FormData();
+  formData_filtro.append("nombre", "");
+  formData_filtro.append("linea", "");
+  formData_filtro.append("plataforma", "");
+  formData_filtro.append("min", "");
+  formData_filtro.append("max", "");
+
   const cardContainer = document.getElementById("card-container");
   const pagination = document.getElementById("pagination");
 
   async function fetchProducts() {
     try {
-      const response = await fetch(SERVERURL + "marketplace/obtener_productos/"+sentencia_sql);
+      const response = await fetch(
+        `${SERVERURL}marketplace/obtener_productos`,
+        {
+          method: "POST",
+          body: formData_filtro,
+        }
+      );
       products = await response.json();
       filteredProducts = products; // Initially, no filter is applied
       displayProducts(filteredProducts, currentPage, productsPerPage);
@@ -53,7 +63,9 @@ document.addEventListener("DOMContentLoaded", function () {
           }" class="card-img-top" alt="Product Image">
             <div class="card-body text-center d-flex flex-column justify-content-between">
                 <div>
-                    <h6 class="card-title"><strong>${product.nombre_producto}</strong></h6>
+                    <h6 class="card-title"><strong>${
+                      product.nombre_producto
+                    }</strong></h6>
                     <p class="card-text">Stock: <strong style="color:green">${saldo_stock}</strong></p>
                     <p class="card-text">Precio Proveedor: <strong>$${
                       productDetails[0].pcp
@@ -82,8 +94,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   };
-
-  
 
   function createPagination(totalProducts, perPage = productsPerPage) {
     pagination.innerHTML = "";
@@ -166,9 +176,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   fetchProducts();
 
-  $('#buscar_nombre').on('input', function() {
-    var q = $('#buscar_nombre').val();
-    sentencia_sql += `AND p.nombre_producto LIKE "%${q}%"`;
+  $("#buscar_nombre").on("input", function () {
+    var q = $("#buscar_nombre").val();
+    formData_filtro.set("nombre", q);
     fetchProducts();
   });
 });
@@ -225,7 +235,7 @@ function procesarPlataforma(url) {
   let sinProtocolo = url.replace("https://", "");
 
   // Encontrar la posición del primer punto
-  let primerPunto = sinProtocolo.indexOf('.');
+  let primerPunto = sinProtocolo.indexOf(".");
 
   // Obtener la subcadena desde el inicio hasta el primer punto
   let baseNombre = sinProtocolo.substring(0, primerPunto);
