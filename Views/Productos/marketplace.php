@@ -19,7 +19,7 @@
                     </div>
                     <div class="col-md-2 mb-3 mb-md-0">
                         <select id="categoria_filtroMarketplace" class="form-select me-2">
-                            <option selected value="">Categorías</option>
+                            <option selected value="">Seleccione una categoría</option>
                         </select>
                     </div>
                     <div class="boton_favoritos">
