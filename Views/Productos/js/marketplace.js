@@ -67,11 +67,13 @@ document.addEventListener("DOMContentLoaded", function () {
   <img src="${SERVERURL}${
             productDetails[0].image_path
           }" class="card-img-top" alt="Product Image">
-  <button class="btn btn-heart" onclick="handleHeartClick(${
-    product.id_producto
-  })">
-    <i class="fas fa-heart"></i>
-  </button>
+          <button class="btn btn-heart ${
+            product.Es_Favorito ? "clicked" : ""
+          }" onclick="handleHeartClick(${product.id_producto}, ${
+            product.Es_Favorito
+          })">
+            <i class="fas fa-heart"></i>
+          </button>
   <div class="card-body text-center d-flex flex-column justify-content-between">
     <div>
       <h6 class="card-title"><strong>${product.nombre_producto}</strong></h6>
@@ -104,11 +106,25 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   };
 
-  function handleHeartClick(productId) {
+  function handleHeartClick(productId, esFavorito) {
     const heartButton = event.currentTarget;
-    heartButton.classList.toggle("clicked");
-    // Aquí puedes agregar la lógica adicional que necesites, como una llamada AJAX
-    console.log("Product ID:", productId);
+    const newFavoritoStatus = !heartButton.classList.toggle("clicked");
+
+    $.ajax({
+      url: SERVERURL+"marketplace/agregarFavoritos",
+      type: "POST",
+      data: JSON.stringify({
+        id_producto: productId,
+        Es_Favorito: newFavoritoStatus ? 1 : 0,
+      }),
+      contentType: "application/json",
+      success: function (response) {
+        console.log("Producto actualizado:", response);
+      },
+      error: function (error) {
+        console.error("Error al actualizar el producto:", error);
+      },
+    });
   }
 
   function createPagination(totalProducts, perPage = productsPerPage) {
@@ -304,7 +320,6 @@ document.addEventListener("DOMContentLoaded", function () {
     formData_filtro.set("favorito", estado);
     currentPage = 1; // Reset to the first page
     fetchProducts();
-
   });
 });
 
