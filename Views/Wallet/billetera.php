@@ -177,5 +177,9 @@
         </div>
     </div>
 </div>
+<script>
+    const tienda = "https://tony.imporsuitpro.com";
+    console.log("php: "+tienda);
+</script>
 <script src="<?php echo SERVERURL ?>/Views/Wallet/js/pagar.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
