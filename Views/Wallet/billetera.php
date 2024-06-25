@@ -178,7 +178,7 @@
     </div>
 </div>
 <script>
-    const tienda = <?php echo ENLACE;?>;
+    const tienda = "<?php echo ENLACE;?>";
     console.log("php: "+tienda);
 </script>
 <script src="<?php echo SERVERURL ?>/Views/Wallet/js/billetera.js"></script>
