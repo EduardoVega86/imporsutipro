@@ -84,14 +84,14 @@
                 if (response.status == 400) {
                     Swal.fire({
                         icon: 'error',
-                        title: response.title,
+                        title: "Error",
                         text: response.message
                     });
                 } else if (response.status == 200) {
 
                     Swal.fire({
                         icon: 'success',
-                        title: response.title,
+                        title: "Solicitud realizada con exito",
                         text: response.message,
                         showConfirmButton: false,
                         timer: 2000
