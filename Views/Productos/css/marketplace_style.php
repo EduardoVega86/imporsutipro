@@ -343,4 +343,35 @@
     }
 
     /* CSS filtros */
+
+    /* boton favoritos */
+    .btn-heart {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    color: red;
+    font-size: 1.5em;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  .btn-heart:hover {
+    transform: scale(1.2);
+  }
+
+  .btn-heart:focus {
+    outline: none;
+  }
+
+  .btn-heart .fas.fa-heart {
+    transition: transform 0.3s ease, color 0.3s ease;
+  }
+
+  .btn-heart.clicked .fas.fa-heart {
+    transform: scale(1.3);
+    color: darkred;
+  }
+  /* fin boton favoritos */
 </style>
