@@ -62,8 +62,7 @@
                                         <div class="form-group">
                                             <label>Formato:</label>
                                             <div class="d-flex">
-                                                <img src="formato1.png" alt="Formato 1" class="me-2">
-                                                <img src="formato2.png" alt="Formato 2">
+                                                <img src="https://new.imporsuitpro.com/public/img/formato_pro.jpg" alt="Formato" class="me-2">
                                             </div>
                                         </div>
                                     </div>
