@@ -38,7 +38,7 @@
                     <p>Total Fletes</p>
                 </div>
                 <div class="stat-box">
-                    <h3><span id="total_devoluciones"></span></h3>
+                    <h3><span id="devoluciones"></span></h3>
                     <p>Devoluciones</p>
                 </div>
             </div>
