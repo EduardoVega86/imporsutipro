@@ -166,6 +166,13 @@ document.addEventListener("DOMContentLoaded", function () {
   fetchProducts();
 });
 
+$(document).ready(function() {
+  $('#buscar_nombre').on('input', function() {
+    var q = $('#buscar_nombre').val();
+    sentencia_sql += `AND p.nombre_producto LIKE "%${q}%"`;
+  });
+});
+
 //agregar informacion al modal descripcion marketplace
 function agregarModal_marketplace(id) {
   $.ajax({
