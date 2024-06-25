@@ -276,9 +276,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
   $("#categoria_filtroMarketplace").change(function () {
     var categoria = $("#categoria_filtroMarketplace").val();
-      formData_filtro.set("linea", categoria);
-      currentPage = 1; // Reset to the first page
-      fetchProducts();
+    formData_filtro.set("linea", categoria);
+    currentPage = 1; // Reset to the first page
+    fetchProducts();
+  });
+
+  $("#proveedor_filtroMarketplace").change(function () {
+    var proveedor = $("#proveedor_filtroMarketplace").val();
+    formData_filtro.set("plataforma", proveedor);
+    currentPage = 1; // Reset to the first page
+    fetchProducts();
   });
 });
 
