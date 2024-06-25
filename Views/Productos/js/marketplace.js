@@ -194,10 +194,11 @@ document.addEventListener("DOMContentLoaded", function () {
   /* Filtros */
 
   var slider = document.getElementById("price-range-slider");
+  let data_precioMaximo;
   fetch("" + SERVERURL + "marketplace/obtenerMaximo")
     .then((response) => response)
     .then((data) => {
-      const data_precioMaximo = parseFloat(data);
+      data_precioMaximo = parseFloat(data);
     }).catch((error) => {
       console.error("Error fetching max price:", error);
     });
