@@ -20,6 +20,7 @@ class Wallet extends Controller
 
     public function billetera()
     {
+        define("ENLACE", $_SESSION["enlace"]);
         $this->views->render($this, "billetera");
     }
 
