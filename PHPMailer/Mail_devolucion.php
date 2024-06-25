@@ -140,7 +140,7 @@ $message_body_pedido = '<!DOCTYPE html>
     <div class="container">
         <section class="text-center bg-white rounded-5 mt-5 p-5 shadow-lg border-5 border-top border-primary">
             <article>
-                <h1>ImporSuit</h1>
+                <h1>ImporsuitPro</h1>
             </article>
             <article>
                 <h2>Novedad de pedido</h2>
