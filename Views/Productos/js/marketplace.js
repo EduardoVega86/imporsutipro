@@ -194,74 +194,73 @@ document.addEventListener("DOMContentLoaded", function () {
   /* Filtros */
 
   var slider = document.getElementById("price-range-slider");
-var priceMin = document.getElementById("price-min");
-var priceMax = document.getElementById("price-max");
+  var priceMin = document.getElementById("price-min");
+  var priceMax = document.getElementById("price-max");
 
-fetch("" + SERVERURL + "marketplace/obtenerMaximo")
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    return response.json();
-  })
-  .then((data) => {
-    let data_precioMaximo = parseFloat(data);
-
-    // Create the slider with obtained max price
-    noUiSlider.create(slider, {
-      start: [0, data_precioMaximo],
-      connect: true,
-      range: {
-        min: 0,
-        max: data_precioMaximo,
-      },
-      step: 5,
-      format: wNumb({
-        decimals: 0,
-        thousand: ",",
-        prefix: "$",
-      }),
-    });
-
-    // Update price inputs on slider update
-    slider.noUiSlider.on("update", function (values, handle) {
-      if (handle === 0) {
-        priceMin.value = values[0];
-      } else {
-        priceMax.value = values[1];
+  fetch("" + SERVERURL + "marketplace/obtenerMaximo")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
       }
-    });
+      return response.json();
+    })
+    .then((data) => {
+      let data_precioMaximo = parseFloat(data);
 
-    // Handle price range change
-    slider.noUiSlider.on("change", function (values) {
-      var min = values[0].replace("$", "").replace(",", "");
-      var max = values[1].replace("$", "").replace(",", "");
-      formData_filtro.set("min", min);
-      formData_filtro.set("max", max);
-      currentPage = 1; // Reset to the first page
-      fetchProducts(); // Assuming this function exists to fetch products
-    });
+      // Create the slider with obtained max price
+      noUiSlider.create(slider, {
+        start: [0, data_precioMaximo],
+        connect: true,
+        range: {
+          min: 0,
+          max: data_precioMaximo,
+        },
+        step: 5,
+        format: wNumb({
+          decimals: 0,
+          thousand: ",",
+          prefix: "$",
+        }),
+      });
 
-  })
-  .catch((error) => {
-    console.error("Error fetching max price:", error);
-    // Optionally handle error scenario, e.g., show default slider values
-    // You might want to provide default values in case of failure to fetch max price
-    noUiSlider.create(slider, {
-      start: [0, 1000], // Default values
-      connect: true,
-      range: {
-        min: 0,
-        max: 1000,
-      },
-      step: 5,
-      format: wNumb({
-        decimals: 0,
-        thousand: ",",
-        prefix: "$",
-      }),
+      // Update price inputs on slider update
+      slider.noUiSlider.on("update", function (values, handle) {
+        if (handle === 0) {
+          priceMin.value = values[0];
+        } else {
+          priceMax.value = values[1];
+        }
+      });
+
+      // Handle price range change
+      slider.noUiSlider.on("change", function (values) {
+        var min = values[0].replace("$", "").replace(",", "");
+        var max = values[1].replace("$", "").replace(",", "");
+        formData_filtro.set("min", min);
+        formData_filtro.set("max", max);
+        currentPage = 1; // Reset to the first page
+        fetchProducts(); // Assuming this function exists to fetch products
+      });
+    })
+    .catch((error) => {
+      console.error("Error fetching max price:", error);
+      // Optionally handle error scenario, e.g., show default slider values
+      // You might want to provide default values in case of failure to fetch max price
+      noUiSlider.create(slider, {
+        start: [0, 1000], // Default values
+        connect: true,
+        range: {
+          min: 0,
+          max: 1000,
+        },
+        step: 5,
+        format: wNumb({
+          decimals: 0,
+          thousand: ",",
+          prefix: "$",
+        }),
+      });
     });
-  });
 
   /* Fin Filtros */
 
@@ -274,6 +273,13 @@ fetch("" + SERVERURL + "marketplace/obtenerMaximo")
       fetchProducts();
     }, 300)
   ); // 300 ms de espera antes de ejecutar la función
+
+  $("#categoria_filtroMarketplace").change(function () {
+    var categoria = $("#categoria_filtroMarketplace").val();
+      formData_filtro.set("linea", categoria);
+      currentPage = 1; // Reset to the first page
+      fetchProducts();
+  });
 });
 
 //agregar informacion al modal descripcion marketplace
