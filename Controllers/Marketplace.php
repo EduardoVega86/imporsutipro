@@ -24,8 +24,9 @@ class Marketplace extends Controller
         $plataforma= $_POST['plataforma'];
         $min= $_POST['min'];
         $max= $_POST['max'];
+        $favorito= $_POST['favorito'];
         
-        $response = $this->model->obtener_productos($_SESSION['id_plataforma'], $nombre, $linea, $plataforma, $min, $max);
+        $response = $this->model->obtener_productos($_SESSION['id_plataforma'], $nombre, $linea, $plataforma, $min, $max, $favorito);
         echo json_encode($response);
     }
 
@@ -76,5 +77,14 @@ class Marketplace extends Controller
         $response = $this->model->obtenerProveedores();
        echo json_encode($response);
     }
+    
+    
+     public function agregarFavoritos()
+    {
+         $idproducto = $_POST['id_producto'];
+        $response = $this->model->agregarFavoritos($idproducto,$_SESSION['id_plataforma']);
+       echo json_encode($response);
+    }
+    
     
 }

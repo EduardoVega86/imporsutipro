@@ -8,9 +8,10 @@ class MarketplaceModel extends Query
 
     ///productos
 
-    public function obtener_productos($plataforma, $nombre, $linea, $plataforma_filtro, $min, $max)
+    public function obtener_productos($plataforma, $nombre, $linea, $plataforma_filtro, $min, $max, $favorito)
     {
         $where='';
+        $favorito_filtro='';
         if (isset($nombre) and $nombre!= ''){
             $where .= " and p.nombre_producto like '%$nombre%' ";
         }
@@ -31,33 +32,32 @@ class MarketplaceModel extends Query
             $where .= " and ib.pvp <= $max ";
         }
         
+        if ($favorito== 0){
+            $favorito_filtro = " AND pf.id_producto IS NOT NULL  ";
+        } else {
+            $favorito_filtro = " ";
+        }
+        
         $id_matriz = $this->obtenerMatriz();
         $id_matriz = $id_matriz[0]['idmatriz'];
          
-        $sql = "SELECT DISTINCT p.nombre_producto, p.producto_variable, ib.*, plat.id_matriz
+        $sql = "SELECT DISTINCT p.nombre_producto, p.producto_variable, ib.*, plat.id_matriz,
+       CASE WHEN pf.id_producto IS NULL THEN 0 ELSE 1 END as Es_Favorito
 FROM productos p
 JOIN (
-    SELECT
-        ib.id_producto,
-        MIN(ib.sku) AS min_sku,  
-        ib.id_plataforma,
-        ib.bodega,
-        MIN(ib.id_inventario) AS min_id_inventario
+    SELECT ib.id_producto, MIN(ib.sku) AS min_sku, ib.id_plataforma, ib.bodega, MIN(ib.id_inventario) AS min_id_inventario
     FROM inventario_bodegas ib
     WHERE ib.bodega != 0 AND ib.bodega != 50000
     GROUP BY ib.id_producto, ib.id_plataforma, ib.bodega
-) ib_filtered
-ON p.id_producto = ib_filtered.id_producto
-JOIN inventario_bodegas ib
-ON ib.id_producto = ib_filtered.id_producto
-AND ib.sku = ib_filtered.min_sku 
-AND ib.id_inventario = ib_filtered.min_id_inventario
-JOIN plataformas plat
-ON ib.id_plataforma = plat.id_plataforma
+) ib_filtered ON p.id_producto = ib_filtered.id_producto
+JOIN inventario_bodegas ib ON ib.id_producto = ib_filtered.id_producto
+    AND ib.sku = ib_filtered.min_sku 
+    AND ib.id_inventario = ib_filtered.min_id_inventario
+JOIN plataformas plat ON ib.id_plataforma = plat.id_plataforma
+LEFT JOIN productos_favoritos pf ON pf.id_producto = p.id_producto 
 WHERE (p.drogshipin = 1 OR p.id_plataforma = $plataforma) 
-AND ((p.drogshipin = 1 AND ib.id_plataforma = p.id_plataforma)
-    OR (ib.id_plataforma = p.id_plataforma))
-and plat.id_matriz = $id_matriz $where" ;
+    AND ((p.drogshipin = 1 AND ib.id_plataforma = p.id_plataforma) OR (ib.id_plataforma = p.id_plataforma))
+    AND plat.id_matriz =  $id_matriz $where $favorito_filtro" ;
         //echo $sql;
         return $this->select($sql);
     }
