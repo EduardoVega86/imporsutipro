@@ -194,15 +194,17 @@ document.addEventListener("DOMContentLoaded", function () {
   /* Filtros */
 
   var slider = document.getElementById("price-range-slider");
+  const response_precioMaximo =  fetch("" + SERVERURL + "marketplace/obtenerMaximo");
+  const data_precioMaximo =  response_precioMaximo;
 
   noUiSlider.create(slider, {
-    start: [0, 5000],
+    start: [0, data_precioMaximo],
     connect: true,
     range: {
       min: 0,
-      max: 5000,
+      max: data_precioMaximo,
     },
-    step: 50,
+    step: 5,
     format: wNumb({
       decimals: 0,
       thousand: ",",
@@ -220,7 +222,7 @@ document.addEventListener("DOMContentLoaded", function () {
       priceMax.value = values[1];
     }
   });
-  
+
   slider.noUiSlider.on("change", function (values) {
     var min = values[0].replace("$", "").replace(",", "");
     var max = values[1].replace("$", "").replace(",", "");
