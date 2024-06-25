@@ -80,7 +80,11 @@
                 <a href="<?php echo SERVERURL ?>wallet"><i class='bx bx-money-withdraw menu-icon'></i> <span class="menu-text">Detalle</span></a>
                 <a href="<?php echo SERVERURL ?>wallet/datos_bancarios"><i class='bx bxs-bank menu-icon'></i> <span class="menu-text">Datos bancarios</span></a>
             </div>
-            <a href="#"><i class='bx bx-cog menu-icon'></i> <span class="menu-text">Configuración</span></a>
+            <a href="#" class="dropdown-btn" data-target="#submenu4"><i class='bx bx-cog menu-icon'></i> <span class="menu-text">Configuración</span></a>
+            <div class="submenu" id="submenu4">
+                <a href="<?php echo SERVERURL ?>/usuarios/listado"><i class='bx bx-user menu-icon' ></i> <span class="menu-text">Usuarios</span></a>
+                <a href="#"><i class='bx bxs-bank menu-icon'></i> <span class="menu-text">Roles</span></a>
+            </div>
         </div>
         <div class="footer-text">
             2024 © <?php echo MARCA; ?>
