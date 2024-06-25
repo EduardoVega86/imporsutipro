@@ -12,7 +12,7 @@ class Wallet extends Controller
 
     public function index()
     {
-        if ($_SESSION["id_plataforma"] != 1167) {
+        if ($_SESSION["cargo"] != 10) {
             header("Location: /wallet/billetera");
         }
         $this->views->render($this, "index");
