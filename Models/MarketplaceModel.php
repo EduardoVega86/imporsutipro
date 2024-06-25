@@ -8,7 +8,7 @@ class MarketplaceModel extends Query
 
     ///productos
 
-    public function obtener_productos($plataforma)
+    public function obtener_productos($plataforma, $filtro)
     {
         $id_matriz = $this->obtenerMatriz();
         $id_matriz = $id_matriz[0]['idmatriz'];
@@ -36,7 +36,7 @@ ON ib.id_plataforma = plat.id_plataforma
 WHERE (p.drogshipin = 1 OR p.id_plataforma = $plataforma) 
 AND ((p.drogshipin = 1 AND ib.id_plataforma = p.id_plataforma)
     OR (ib.id_plataforma = p.id_plataforma))
-and plat.id_matriz = $id_matriz";
+and plat.id_matriz = $id_matriz" ;
        // echo $sql;
         return $this->select($sql);
     }

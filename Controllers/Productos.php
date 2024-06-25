@@ -90,6 +90,13 @@ class Productos extends Controller
         $response = $this->model->obtenerProductosCategoria($id, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
+    
+     public function obtener_productos_favoritos($id)
+    {
+        $response = $this->model->obtenerProductosFavoritos($id, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
 
 
 

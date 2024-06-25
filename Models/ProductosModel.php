@@ -17,6 +17,8 @@ WHERE ib.`id_plataforma` = $plataforma
 GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
         return $this->select($sql);
     }
+    
+    
 
     public function agregarProducto($codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $plataforma, $stock_inicial, $bodega, $pcp, $pvp, $pref)
     {
@@ -154,6 +156,13 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
     }
 
     public function obtenerProducto($id, $plataforma)
+    {
+        $sql = "SELECT * FROM productos p inner join inventario_bodegas ib on p.codigo_producto = ib.sku WHERE p.id_producto = $id AND p.id_plataforma = $plataforma";
+        return $this->select($sql);
+    }
+    
+    
+    public function obtenerProductoFavoritos($id, $plataforma)
     {
         $sql = "SELECT * FROM productos p inner join inventario_bodegas ib on p.codigo_producto = ib.sku WHERE p.id_producto = $id AND p.id_plataforma = $plataforma";
         return $this->select($sql);
