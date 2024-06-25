@@ -106,9 +106,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function handleHeartClick(productId) {
     const heartButton = event.currentTarget;
-    heartButton.classList.toggle('clicked');
+    heartButton.classList.toggle("clicked");
     // Aquí puedes agregar la lógica adicional que necesites, como una llamada AJAX
-    console.log('Product ID:', productId);
+    console.log("Product ID:", productId);
   }
 
   function createPagination(totalProducts, perPage = productsPerPage) {
@@ -297,6 +297,14 @@ document.addEventListener("DOMContentLoaded", function () {
     formData_filtro.set("plataforma", proveedor);
     currentPage = 1; // Reset to the first page
     fetchProducts();
+  });
+
+  $("#favoritosSwitch").change(function () {
+    var estado = $(this).is(":checked") ? 1 : 0;
+    formData_filtro.set("favorito", estado);
+    currentPage = 1; // Reset to the first page
+    fetchProducts();
+
   });
 });
 
