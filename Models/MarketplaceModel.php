@@ -160,7 +160,7 @@ and plat.id_matriz = $id_matriz $where" ;
     
     public function obtenerProveedores()
     {
-        $sql = "SELECT nombre_tienda from FROM `plataformas` order by nombre_tienda";
+        $sql = "SELECT nombre_tienda from  `plataformas` order by nombre_tienda";
         return $this->select($sql);
     }
 }
