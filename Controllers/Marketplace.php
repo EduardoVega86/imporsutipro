@@ -65,4 +65,10 @@ class Marketplace extends Controller
         echo json_encode($response);
     }
     
+     public function obtenerMaximo()
+    {
+        $response = $this->model->obtenerMaximo();
+        echo $response;
+    }
+    
 }

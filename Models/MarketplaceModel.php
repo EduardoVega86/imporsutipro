@@ -146,4 +146,14 @@ and plat.id_matriz = $id_matriz $where" ;
         $sql = "delete FROM tmp_cotizacion WHERE session_id='$timestamp'";
         return $this->select($sql);
     }
+    
+    public function obtenerMaximo() {
+        
+         $sql = "SELECT MAX(pvp) precio_maximo FROM inventario_bodegas;";
+         
+        $id_producto = $this->select($sql);
+        $maximo = $id_producto[0]['precio_maximo'];
+        return $maximo;
+        
+    }
 }
