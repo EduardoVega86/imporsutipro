@@ -1,26 +1,9 @@
-console.log("js: "+tienda);
 
 var pagos_global;
 
 // Añadimos un evento que se ejecuta cuando el DOM ha sido completamente cargado
 document.addEventListener("DOMContentLoaded", function () {
   cargarDashboard_wallet();
-});
-
-$(document).ready(function () {
-  $.ajax({
-    url: SERVERURL + "pedidos/info",
-    type: "GET",
-    dataType: "json",
-    success: function (response) {},
-    error: function (error) {
-      console.error("Error al obtener la lista de bodegas:", error);
-    },
-  });
-
-  $("#regresar").click(function () {
-    window.location.href = SERVERURL + "wallet";
-  });
 });
 
 function cargarDashboard_wallet() {
