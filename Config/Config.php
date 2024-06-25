@@ -84,7 +84,7 @@ define("COLOR_BOTON_LOGIN", $color_boton_login);
 define("COLOR_HOVER_LOGIN", $color_hover_login);
 
 print_r(session_status());
-if (session_status() != PHP_SESSION_NONE) {
+if (session_status() == 1) {
 
     if (isset($_SESSION['id_plataforma'])) {
         $id_plataforma = $_SESSION['id_plataforma'];
