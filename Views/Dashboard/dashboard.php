@@ -14,31 +14,31 @@
             </div>
             <div class="d-flex flex-row">
                 <div class="stat-box">
-                    <h3>5.00</h3>
+                    <h3>$ <span id="total_ventas"></span></h3>
                     <p>Total Ventas</p>
                 </div>
                 <div class="stat-box">
-                    <h3>$ 299.98</h3>
+                    <h3><span id="total_pedidos"></span></h3>
                     <p>Total Pedidos</p>
                 </div>
             </div>
             <div class="d-flex flex-row">
                 <div class="stat-box">
-                    <h3>2.00</h3>
+                    <h3><span id="total_guias"></span></h3>
                     <p>Total Guias</p>
                 </div>
                 <div class="stat-box">
-                    <h3>0.00</h3>
+                    <h3><span id="total_recaudo"></span></h3>
                     <p>Total Recaudo</p>
                 </div>
             </div>
             <div class="d-flex flex-row">
                 <div class="stat-box">
-                    <h3>0.00</h3>
+                    <h3><span id="total_fletes"></span></h3>
                     <p>Total Fletes</p>
                 </div>
                 <div class="stat-box">
-                    <h3>0.00</h3>
+                    <h3><span id="total_devoluciones"></span></h3>
                     <p>Devoluciones</p>
                 </div>
             </div>
