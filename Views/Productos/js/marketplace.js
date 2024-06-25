@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   async function fetchProducts() {
     try {
-      const response = await fetch(SERVERURL + "marketplace/obtener_productos"+sentencia_sql);
+      const response = await fetch(SERVERURL + "marketplace/obtener_productos/"+sentencia_sql);
       products = await response.json();
       filteredProducts = products; // Initially, no filter is applied
       displayProducts(filteredProducts, currentPage, productsPerPage);
