@@ -106,27 +106,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   };
 
-  function handleHeartClick(productId, esFavorito) {
-    const heartButton = event.currentTarget;
-    const newFavoritoStatus = !heartButton.classList.toggle("clicked");
-
-    $.ajax({
-      url: SERVERURL+"marketplace/agregarFavoritos",
-      type: "POST",
-      data: JSON.stringify({
-        id_producto: productId,
-        Es_Favorito: newFavoritoStatus ? 1 : 0,
-      }),
-      contentType: "application/json",
-      success: function (response) {
-        console.log("Producto actualizado:", response);
-      },
-      error: function (error) {
-        console.error("Error al actualizar el producto:", error);
-      },
-    });
-  }
-
   function createPagination(totalProducts, perPage = productsPerPage) {
     pagination.innerHTML = "";
     const totalPages = Math.ceil(totalProducts / perPage);
@@ -322,6 +301,27 @@ document.addEventListener("DOMContentLoaded", function () {
     fetchProducts();
   });
 });
+
+function handleHeartClick(productId, esFavorito) {
+  const heartButton = event.currentTarget;
+  const newFavoritoStatus = !heartButton.classList.toggle("clicked");
+
+  $.ajax({
+    url: SERVERURL+"marketplace/agregarFavoritos",
+    type: "POST",
+    data: JSON.stringify({
+      id_producto: productId,
+      Es_Favorito: newFavoritoStatus ? 1 : 0,
+    }),
+    contentType: "application/json",
+    success: function (response) {
+      console.log("Producto actualizado:", response);
+    },
+    error: function (error) {
+      console.error("Error al actualizar el producto:", error);
+    },
+  });
+}
 
 //agregar informacion al modal descripcion marketplace
 function agregarModal_marketplace(id) {
