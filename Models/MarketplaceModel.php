@@ -164,4 +164,34 @@ WHERE (p.drogshipin = 1 OR p.id_plataforma = $plataforma)
         $sql = "SELECT * FROM `plataformas` where proveedor=1";
         return $this->select($sql);
     }
+    
+     public function agregarFavoritos($id_producto, $plataforma, $favorito)
+    {
+          $response = $this->initialResponse();
+         if($favorito==1){
+         
+        $sql = "DELETE FROM producto_favoritos WHERE id_producto = ? AND id_plataforma = ?";
+        $data = [$id_producto, $plataforma];   
+          $favorito = $this->delete($sql, $data);
+         }else{
+           $sql = "INSERT INTO `producto_favoritos` (`id_producto`, `id_plataforma` VALUES (?, ?);";
+        $data = [$id_producto, $plataforma];
+        $favorito = $this->insert($sql, $data);   
+         }
+         
+         if ($favorito == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Producto eliminado correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = $eliminar_producto['message'];
+        }
+             
+             
+             
+     
+    }
+      
 }
