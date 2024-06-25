@@ -219,12 +219,10 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       priceMax.value = values[1];
     }
-
-    var min = values[0];
-    var max = values[1];
-    // Quita el símbolo de dólar solo para las variables que se mandan
-    min = min.replace("$", "").replace(",", ".");
-    max = max.replace("$", "").replace(",", ".");
+  });
+  slider.noUiSlider.on("change", function (values) {
+    var min = values[0].replace("$", "").replace(",", "");
+    var max = values[1].replace("$", "").replace(",", "");
     formData_filtro.set("min", min);
     formData_filtro.set("max", max);
     currentPage = 1; // Reset to the first page
