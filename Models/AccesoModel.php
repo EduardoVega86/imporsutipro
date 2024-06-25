@@ -196,6 +196,17 @@ class AccesoModel extends Query
         return false;
     }
 
+    public function validarToken($token)
+    {
+        $sql = "SELECT * FROM users WHERE token_act = ? AND estado_token = 1";
+        $params = [$token];
+        $result = $this->simple_select($sql, $params);
+        if ($result > 0) {
+            return true;
+        }
+        return false;
+    }
+
     public function recuperar_contrasena($correo)
     {
         $usuario = $this->select("SELECT * FROM users WHERE email_users = '$correo'");
@@ -208,7 +219,8 @@ class AccesoModel extends Query
         $response = $this->update($sql, $data);
 
         if ($response == 1) {
-            require_once 'PHPMailer/Mail.php';
+            $url_change = "https://" . DOMINIO . "/acceso/recovery/" . $token;
+            require_once 'PHPMailer/Mail_recuperar.php';
             $mail = new PHPMailer();
             $mail->isSMTP();
             $mail->SMTPDebug = $smtp_debug;

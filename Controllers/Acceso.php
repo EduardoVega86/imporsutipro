@@ -63,4 +63,11 @@ class Acceso extends Controller
         $correo = $_POST['correo'];
         $response = $this->model->recuperarContrasena($correo);
     }
+
+    public function validarToken()
+    {
+        $token = $_POST['token'];
+        $response = $this->model->validarToken($token);
+        echo json_encode($response);
+    }
 }
