@@ -12,7 +12,7 @@ class MarketplaceModel extends Query
     {
         $where='';
         if (isset($nombre) and $nombre!= ''){
-            $where .= " and p.nombre like '%$nombre%' ";
+            $where .= " and p.nombre_producto like '%$nombre%' ";
         }
         $id_matriz = $this->obtenerMatriz();
         $id_matriz = $id_matriz[0]['idmatriz'];
@@ -22,7 +22,7 @@ FROM productos p
 JOIN (
     SELECT
         ib.id_producto,
-        MIN(ib.sku) AS min_sku,  -- Select the minimum SKU
+        MIN(ib.sku) AS min_sku,  
         ib.id_plataforma,
         ib.bodega,
         MIN(ib.id_inventario) AS min_id_inventario
