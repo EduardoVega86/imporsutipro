@@ -8,12 +8,29 @@ class MarketplaceModel extends Query
 
     ///productos
 
-    public function obtener_productos($plataforma, $nombre)
+    public function obtener_productos($plataforma, $nombre, $linea, $plataforma_filtro, $min, $max)
     {
         $where='';
         if (isset($nombre) and $nombre!= ''){
             $where .= " and p.nombre_producto like '%$nombre%' ";
         }
+        
+        if (isset($linea) and $linea!= ''){
+            $where .= " and p.id_linea_producto = $linea ";
+        }
+        
+        if (isset($plataforma_filtro) and $plataforma_filtro!= ''){
+            $where .= " and p.id_plataforma = $plataforma_filtro ";
+        }
+        
+         if (isset($min) and $min!= ''){
+            $where .= " and ib.pvp >= $min ";
+        }
+        
+        if (isset($max) and $max!= ''){
+            $where .= " and ib.pvp <= $max ";
+        }
+        
         $id_matriz = $this->obtenerMatriz();
         $id_matriz = $id_matriz[0]['idmatriz'];
          
