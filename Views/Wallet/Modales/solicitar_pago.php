@@ -97,6 +97,7 @@
                         showConfirmButton: false,
                         timer: 2000
                     }).then(() => {
+                        cargar_saldoWallet();
                         $('#solicitar_pagoModal').modal('hide');
                     });
                 }
