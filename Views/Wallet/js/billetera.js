@@ -1,4 +1,4 @@
-
+console.log("js: "+tienda);
 
 var pagos_global;
 
