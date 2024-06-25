@@ -122,7 +122,9 @@ class Guias extends Controller
         $response = json_decode($response, true);
         if (isset($response["id"])) {
             $response["status"] = 200;
+            $this->model->aumentarMatriz();
             $response2 = $this->model->actualizarGuia($numero_factura, $response["id"], $nombreDestino, $ciudad, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $cod, $costo_producto, $comentario, $_SESSION["id"], $_POST['calle_principal'], $_POST['calle_secundaria'], $contiene, $provincia, $costoflete, "SERVIENTREGA");
+            $this->model->asignarWallet($numero_factura, $response["id"], $fecha, $nombreDestino, $_SESSION["id_plataforma"], 1, $costo_producto, $cod, $costoflete);
         }
         echo json_encode($response);
     }
