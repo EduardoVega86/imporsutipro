@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
           }" class="card-img-top" alt="Product Image">
             <div class="card-body text-center d-flex flex-column justify-content-between">
                 <div>
-                    <h6 class="card-title">${product.nombre_producto}</h6>
+                    <h6 class="card-title"><strong>${product.nombre_producto}</strong></h6>
                     <p class="card-text">Stock: <strong style="color:green">${saldo_stock}</strong></p>
                     <p class="card-text">Precio Proveedor: <strong>$${
                       productDetails[0].pcp
