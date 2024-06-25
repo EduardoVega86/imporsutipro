@@ -91,7 +91,7 @@
 
                     Swal.fire({
                         icon: 'success',
-                        title: "Solicitud realizada con exito",
+                        title: "Exito",
                         text: response.message,
                         showConfirmButton: false,
                         timer: 2000
