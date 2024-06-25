@@ -222,6 +222,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var min = values[0];
     var max = values[1];
+    // Quita el símbolo de dólar solo para las variables que se mandan
+    min = min.replace("$", "").replace(",", ".");
+    max = max.replace("$", "").replace(",", ".");
     formData_filtro.set("min", min);
     formData_filtro.set("max", max);
     currentPage = 1; // Reset to the first page
