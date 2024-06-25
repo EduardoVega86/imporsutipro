@@ -306,14 +306,15 @@ function handleHeartClick(productId, esFavorito) {
   const heartButton = event.currentTarget;
   const newFavoritoStatus = !heartButton.classList.toggle("clicked");
 
+  let formData_favoritos = new FormData();
+  formData_favoritos.append("id_producto", productId);
+  formData_favoritos.append("favorito", newFavoritoStatus ? 1 : 0);
   $.ajax({
     url: SERVERURL+"marketplace/agregarFavoritos",
     type: "POST",
-    data: JSON.stringify({
-      id_producto: productId,
-      Es_Favorito: newFavoritoStatus ? 1 : 0,
-    }),
-    contentType: "application/json",
+    data: formData_favoritos,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
       console.log("Producto actualizado:", response);
     },
