@@ -70,8 +70,8 @@
     $('#solicitar_pago').on('submit', function(event) {
         event.preventDefault(); // Evitar el envío normal del formulario
         var formData = {
-            monto: $('#monto').val(),
-            cuenta: $('#cuenta').val()
+            valor: $('#monto').val(),
+            id_cuenta: $('#cuenta').val()
         };
 
         $.ajax({
