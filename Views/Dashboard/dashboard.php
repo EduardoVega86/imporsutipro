@@ -5,7 +5,7 @@
 
     <div class="banner_estadisticas">
         <div class="stats-container">
-            <div class="flex-fill">
+            <div class="flex-fill" style="padding: 10px;">
                 <h6>Seleccione el rango de fechas:</h6>
                 <div class="input-group">
                     <input type="text" class="form-control" id="daterange">
