@@ -1,4 +1,7 @@
 <?php
+
+use FontLib\Table\Type\head;
+
 session_start();
 class Pedidos extends Controller
 {
@@ -9,24 +12,32 @@ class Pedidos extends Controller
     ///Vistas
     public function index($filtro = "")
     {
-        $this->isAuth();
+        if (!$this->isAuth()) {
+            header("Location: " . SERVERURL . "login");
+        }
         $data = $this->model->cargarPedidosIngresados($filtro);
         $this->views->render($this, "index", $data);
     }
     public function ingreso($filtro = "")
     {
-        $this->isAuth();
+        if (!$this->isAuth()) {
+            header("Location: " . SERVERURL . "login");
+        }
         $data = $this->model->cargarPedidosIngresados($filtro);
         $this->views->render($this, "index", $data);
     }
     public function guias($filtro = "")
     {
-        $this->isAuth();
+        if (!$this->isAuth()) {
+            header("Location: " . SERVERURL . "login");
+        }
         $this->views->render($this, "guias");
     }
     public function anuladas($filtro = "")
     {
-        $this->isAuth();
+        if (!$this->isAuth()) {
+            header("Location: " . SERVERURL . "login");
+        }
         $data = $this->model->cargarAnuladas($filtro);
         $this->views->render($this, "anuladas");
     }
@@ -37,7 +48,9 @@ class Pedidos extends Controller
     }
     public function ver($id)
     {
-        $this->isAuth();
+        if (!$this->isAuth()) {
+            header("Location: " . SERVERURL . "login");
+        }
         if (empty($id))
             header("Location: " . SERVERURL . "Pedidos");
 
@@ -46,7 +59,9 @@ class Pedidos extends Controller
 
     public function editar($id)
     {
-        $this->isAuth();
+        if (!$this->isAuth()) {
+            header("Location: " . SERVERURL . "login");
+        }
         if (empty($id))
             header("Location: " . SERVERURL . "Pedidos");
 
