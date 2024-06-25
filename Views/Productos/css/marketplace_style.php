@@ -351,14 +351,14 @@
         right: 10px;
         background: transparent;
         border: none;
-        color: red;
+        color: #9C9C9C;
         font-size: 1.5em;
         cursor: pointer;
         transition: transform 0.3s ease, color 0.3s ease;
     }
 
     .btn-heart:hover {
-        color: blue;
+        color: <?php echo COLOR_FAVORITO;?>;
         /* Cambia este color al que desees */
     }
 
