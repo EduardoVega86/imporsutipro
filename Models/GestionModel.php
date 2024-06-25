@@ -40,7 +40,7 @@ class GestionModel extends Query
         $datos = "SELECT * FROM users WHERE id_users = '$id_usuario' ";
         $select = $this->select($datos);
         $data_usuario = $select[0];
-        $correo = $data_usuario['correo'];
+        $correo = $data_usuario['email_users'];
 
         require_once 'PHPMailer/Mail_devolucion.php';
         $mail = new PHPMailer();
@@ -56,8 +56,8 @@ class GestionModel extends Query
         $mail->CharSet = 'UTF-8';
         $mail->setFrom($smtp_from, $smtp_from_name);
         $mail->addAddress($correo);
-        $mail->Subject = 'Solicitud de Pago en Imporsuitpro';
-        $mail->Body = $message_body2;
+        $mail->Subject = 'Novedad de pedido en Imporsuitpro';
+        $mail->Body = $message_body;
         // $this->crearSubdominio($tienda);
 
         if ($mail->send()) {
