@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const productsPerPage = 10;
+  const productsPerPage = 12;
   let currentPage = 1;
   let products = [];
   let filteredProducts = [];
