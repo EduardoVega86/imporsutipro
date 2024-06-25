@@ -179,6 +179,7 @@ WHERE (p.drogshipin = 1 OR p.id_plataforma = $plataforma)
         $favorito = $this->insert($sql, $data);   
          }
          
+         print_r($favorito);
          if ($favorito == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
