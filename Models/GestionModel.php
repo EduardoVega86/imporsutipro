@@ -61,7 +61,7 @@ class GestionModel extends Query
         // $this->crearSubdominio($tienda);
 
         if ($mail->send()) {
-            //echo "Correo enviado";
+            echo "Correo enviado";
         } else {
             //  echo "Error al enviar el correo: " . $mail->ErrorInfo;
         }
