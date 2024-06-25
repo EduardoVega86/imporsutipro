@@ -351,7 +351,7 @@
     right: 10px;
     background: transparent;
     border: none;
-    color: red;
+    color: #9C9C9C;
     font-size: 1.5em;
     cursor: pointer;
     transition: transform 0.3s ease;
