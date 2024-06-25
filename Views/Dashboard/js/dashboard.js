@@ -64,6 +64,19 @@ $(function () {
         $("#total_pedidos").text(response.pedidos);
         $("#total_guias").text(response.total_guias);
         $("#total_ventas").text(response.ventas);
+
+        // Limpia el tbody antes de agregar los nuevos datos
+        $("#facturas-body").empty();
+
+        // Recorre el array de facturas y crea filas de tabla
+        response.facturas.forEach(function(factura) {
+            let row = `<tr>
+                <td>${factura.numero_factura}</td>
+                <td>${factura.fecha_factura}</td>
+                <td>${factura.monto_factura}</td>
+            </tr>`;
+            $("#facturas-body").append(row);
+        });
       },
       error: function (jqXHR, textStatus, errorThrown) {
         alert(errorThrown);

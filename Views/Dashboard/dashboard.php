@@ -61,27 +61,8 @@
                                 <th>Monto</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>COT-005757</td>
-                                <td>01-06-2024</td>
-                                <td>$44.99</td>
-                            </tr>
-                            <tr>
-                                <td>COT-005756</td>
-                                <td>01-06-2024</td>
-                                <td>$45.00</td>
-                            </tr>
-                            <tr>
-                                <td>COT-005755</td>
-                                <td>01-06-2024</td>
-                                <td>$49.99</td>
-                            </tr>
-                            <tr>
-                                <td>COT-005754</td>
-                                <td>01-06-2024</td>
-                                <td>$80.00</td>
-                            </tr>
+                        <tbody id="facturas-body">
+                            <!-- Aquí se cargarán los datos dinámicamente -->
                         </tbody>
                     </table>
                 </div>
