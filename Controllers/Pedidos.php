@@ -9,29 +9,35 @@ class Pedidos extends Controller
     ///Vistas
     public function index($filtro = "")
     {
+        $this->isAuth();
         $data = $this->model->cargarPedidosIngresados($filtro);
         $this->views->render($this, "index", $data);
     }
     public function ingreso($filtro = "")
     {
+        $this->isAuth();
         $data = $this->model->cargarPedidosIngresados($filtro);
         $this->views->render($this, "index", $data);
     }
     public function guias($filtro = "")
     {
+        $this->isAuth();
         $this->views->render($this, "guias");
     }
     public function anuladas($filtro = "")
     {
+        $this->isAuth();
         $data = $this->model->cargarAnuladas($filtro);
         $this->views->render($this, "anuladas");
     }
     public function nuevo()
     {
+
         $this->views->render($this, "nuevo");
     }
     public function ver($id)
     {
+        $this->isAuth();
         if (empty($id))
             header("Location: " . SERVERURL . "Pedidos");
 
@@ -40,6 +46,7 @@ class Pedidos extends Controller
 
     public function editar($id)
     {
+        $this->isAuth();
         if (empty($id))
             header("Location: " . SERVERURL . "Pedidos");
 
@@ -47,6 +54,7 @@ class Pedidos extends Controller
     }
     public function novedades()
     {
+
         $this->views->render($this, "novedades");
     }
 
