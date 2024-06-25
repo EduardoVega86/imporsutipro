@@ -8,10 +8,6 @@
         <h2 class="text-center mb-4">Pagar Wallet</h2>
 
         <div class="left_right gap-2">
-            <form>
-                <input type="hidden" id="enlace_tienda" name="enlace_tienda" value="<?php echo ENLACE; ?>">
-                <!-- Otros campos de formulario pueden ir aquí -->
-            </form>
             <div class="table-responsive left">
                 <div class="card text-center">
                     <div class="card-body">
@@ -180,5 +176,9 @@
         </div>
     </div>
 </div>
-<script src="<?php echo SERVERURL ?>/Views/Wallet/js/pagar.js"></script>
+
+<script>
+    const tienda = "<?php echo ENLACE; ?>";
+</script>
+<script src="<?php echo SERVERURL ?>/Views/Wallet/js/billetera.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
