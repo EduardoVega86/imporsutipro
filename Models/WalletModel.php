@@ -321,12 +321,15 @@ class WalletModel extends Query
         return $responses;
     }
 
-    public function solicitarPago($id_cuenta, $valor, $fecha)
+    public function solicitarPago($id_cuenta, $valor, $fecha, $tienda)
     {
         $matriz = $this->obtenerMatriz();
         $matriz = $matriz[0]['idmatriz'];
-        $sql = "INSERT INTO pagos (`cantidad`, `id_cuenta`, `fecha`, `matriz`) VALUES (?, ?, ?, ?)";
+        $sql = "INSERT INTO solicitudes_pago (`cantidad`, `id_cuenta`, `fecha`, `id_matriz`) VALUES (?, ?, ?, ?)";
         $response =  $this->insert($sql, array($valor, $id_cuenta, $fecha, $matriz));
+        $update = "UPDATE billeteras set solicito = 1, valor_solicitado = $valor WHERE tienda = '$tienda'";
+        $response2 =  $this->select($update);
+
         if ($response == 1) {
             $responses["status"] = 200;
         } else {
