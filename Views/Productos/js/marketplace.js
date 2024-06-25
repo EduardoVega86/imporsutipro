@@ -84,6 +84,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   };
 
+  
+
   function createPagination(totalProducts, perPage = productsPerPage) {
     pagination.innerHTML = "";
     const totalPages = Math.ceil(totalProducts / perPage);
@@ -229,8 +231,11 @@ function procesarPlataforma(url) {
   // Eliminar el "https://"
   let sinProtocolo = url.replace("https://", "");
 
-  // Eliminar ".imporsuitpro.com"
-  let baseNombre = sinProtocolo.replace(".imporsuitpro.com", "");
+  // Encontrar la posición del primer punto
+  let primerPunto = sinProtocolo.indexOf('.');
+
+  // Obtener la subcadena desde el inicio hasta el primer punto
+  let baseNombre = sinProtocolo.substring(0, primerPunto);
 
   // Convertir a mayúsculas
   let resultado = baseNombre.toUpperCase();

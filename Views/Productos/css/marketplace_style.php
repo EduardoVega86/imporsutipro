@@ -67,7 +67,7 @@
     }
 
     .card-text {
-        margin-bottom: 10px;
+        margin-bottom: 1px;
     }
 
 
