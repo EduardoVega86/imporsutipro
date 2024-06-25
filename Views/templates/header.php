@@ -77,8 +77,8 @@
             </div>
             <a href="#" class="dropdown-btn" data-target="#submenu3"><i class='bx bx-wallet menu-icon' ></i> <span class="menu-text">Wallet</span></a>
             <div class="submenu" id="submenu3">
-                <a href="<?php echo SERVERURL ?>wallet"><i class="fa-regular fa-money-bill-trend-up"></i> <span class="menu-text">Detalle</span></a>
-                <a href="<?php echo SERVERURL ?>wallet/datos_bancarios"><i class="fa-solid fa-building-columns"></i> <span class="menu-text">Datos bancarios</span></a>
+                <a href="<?php echo SERVERURL ?>wallet"><i class='bx bx-money-withdraw' ></i> <span class="menu-text">Detalle</span></a>
+                <a href="<?php echo SERVERURL ?>wallet/datos_bancarios"><i class='bx bxs-bank'></i> <span class="menu-text">Datos bancarios</span></a>
             </div>
             <a href="#"><i class='bx bx-cog menu-icon' ></i> <span class="menu-text">Configuración</span></a>
         </div>
