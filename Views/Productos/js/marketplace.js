@@ -195,28 +195,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
   var slider = document.getElementById("price-range-slider");
   let data_precioMaximo;
+
   fetch("" + SERVERURL + "marketplace/obtenerMaximo")
-    .then((response) => response)
+    .then((response) => response.json()) // Assuming the response is JSON
     .then((data) => {
-      data_precioMaximo = parseFloat(data);
-    }).catch((error) => {
+      data_precioMaximo = parseFloat(data.maxPrice); // Assuming the max price is in a property named "maxPrice"
+      noUiSlider.create(slider, {
+        start: [0, data_precioMaximo],
+        connect: true,
+        range: {
+          min: 0,
+          max: data_precioMaximo,
+        },
+        step: 5,
+        format: wNumb({
+          decimals: 0,
+          thousand: ",",
+          prefix: "$",
+        }),
+      });
+    })
+    .catch((error) => {
       console.error("Error fetching max price:", error);
     });
-
-  noUiSlider.create(slider, {
-    start: [0, data_precioMaximo],
-    connect: true,
-    range: {
-      min: 0,
-      max: data_precioMaximo,
-    },
-    step: 5,
-    format: wNumb({
-      decimals: 0,
-      thousand: ",",
-      prefix: "$",
-    }),
-  });
 
   var priceMin = document.getElementById("price-min");
   var priceMax = document.getElementById("price-max");
