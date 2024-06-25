@@ -1,9 +1,10 @@
+let sentencia_sql="";
+
 document.addEventListener("DOMContentLoaded", function () {
   const productsPerPage = 10;
   let currentPage = 1;
   let products = [];
   let filteredProducts = [];
-  let sentencia_sql="";
 
   const cardContainer = document.getElementById("card-container");
   const pagination = document.getElementById("pagination");
