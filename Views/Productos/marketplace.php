@@ -15,17 +15,11 @@
                     <div class="col-md-2 mb-3 mb-md-0">
                         <select id="tipo_proveedor" class="form-select me-2">
                             <option selected value="">Tipo de proveedor</option>
-                            <option value="1">Proveedor 1</option>
-                            <option value="2">Proveedor 2</option>
-                            <option value="3">Proveedor 3</option>
                         </select>
                     </div>
                     <div class="col-md-2 mb-3 mb-md-0">
                         <select id="categoria_filtroMarketplace" class="form-select me-2">
                             <option selected value="">Categorías</option>
-                            <option value="1">Categoría 1</option>
-                            <option value="2">Categoría 2</option>
-                            <option value="3">Categoría 3</option>
                         </select>
                     </div>
                     <div class="boton_favoritos">
