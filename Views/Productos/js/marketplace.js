@@ -195,14 +195,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   var slider = document.getElementById("price-range-slider");
   fetch("" + SERVERURL + "marketplace/obtenerMaximo")
-    .then((response) => response) // Assuming the response is JSON
+    .then((response) => response)
     .then((data) => {
-      const data_precioMaximo = parseFloat(data); // Assuming the max price is in a property named "maxPrice"
-      // ... create noUiSlider with data_precioMaximo
-    })
-    .catch((error) => {
+      const data_precioMaximo = parseFloat(data);
+    }).catch((error) => {
       console.error("Error fetching max price:", error);
-      // Handle the error, e.g., display a message to the user
     });
 
   noUiSlider.create(slider, {
