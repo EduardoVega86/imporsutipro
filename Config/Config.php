@@ -82,14 +82,3 @@ define("DOMINIO", $dominio);
 define("LOGIN_IMAGE", $login_image);
 define("COLOR_BOTON_LOGIN", $color_boton_login);
 define("COLOR_HOVER_LOGIN", $color_hover_login);
-
-print_r(session_status());
-if (session_status() == 1) {
-
-
-    $id_plataforma = $_SESSION['id_plataforma'];
-    $enlace = $_SESSION['enlace'];
-    echo $enlace;
-    define("ID_PLATAFORMA", $id_plataforma);
-    define("ENLACE", $enlace);
-}
