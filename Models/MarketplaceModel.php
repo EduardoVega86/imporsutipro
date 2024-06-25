@@ -11,7 +11,7 @@ class MarketplaceModel extends Query
     public function obtener_productos($plataforma, $nombre)
     {
         $where='';
-        if (isset($nombre)){
+        if (isset($nombre) and $nombre!= ''){
             $where .= " and p.nombre like '%$nombre%' ";
         }
         $id_matriz = $this->obtenerMatriz();
@@ -41,7 +41,7 @@ WHERE (p.drogshipin = 1 OR p.id_plataforma = $plataforma)
 AND ((p.drogshipin = 1 AND ib.id_plataforma = p.id_plataforma)
     OR (ib.id_plataforma = p.id_plataforma))
 and plat.id_matriz = $id_matriz $where" ;
-       // echo $sql;
+        echo $sql;
         return $this->select($sql);
     }
 
