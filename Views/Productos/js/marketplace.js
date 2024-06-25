@@ -37,6 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   const displayProducts = (products, page = 1, perPage = productsPerPage) => {
+    cardContainer.innerHTML = ""; // Limpiar el contenedor de productos
     const start = (page - 1) * perPage;
     const end = start + perPage;
     const paginatedProducts = products.slice(start, end);
@@ -190,15 +191,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
   fetchProducts();
 
-  $("#buscar_nombre").on("input", debounce(function () {
-    var q = $("#buscar_nombre").val();
-    formData_filtro.set("nombre", q);
-    currentPage = 1; // Reset to the first page
-    fetchProducts();
-  }, 300)); // 300 ms de espera antes de ejecutar la función
+  $("#buscar_nombre").on(
+    "input",
+    debounce(function () {
+      var q = $("#buscar_nombre").val();
+      formData_filtro.set("nombre", q);
+      currentPage = 1; // Reset to the first page
+      fetchProducts();
+    }, 300)
+  ); // 300 ms de espera antes de ejecutar la función
 });
-
-
 
 //agregar informacion al modal descripcion marketplace
 function agregarModal_marketplace(id) {
