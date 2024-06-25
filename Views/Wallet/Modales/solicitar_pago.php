@@ -60,8 +60,33 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-primary" form="solicitar_pago">Guardar</button>
+                <button type="submit" class="btn btn-primary" form="solicitar_pago">Solicitar</button>
             </div>
         </div>
     </div>
 </div>
+<script>
+    // Manejar el envío del formulario
+    $('#solicitar_pago').on('submit', function(event) {
+        event.preventDefault(); // Evitar el envío normal del formulario
+        var formData = {
+            monto: $('#monto').val(),
+            cuenta: $('#cuenta').val()
+        };
+
+        $.ajax({
+            url: SERVERURL+'wallet/solicitarPago',
+            method: 'POST',
+            data: JSON.stringify(formData),
+            contentType: 'application/json',
+            success: function(response) {
+                alert('Pago solicitado con éxito');
+                $('#solicitar_pagoModal').modal('hide');
+            },
+            error: function(error) {
+                console.error('Error al solicitar el pago:', error);
+                alert('Hubo un error al solicitar el pago.');
+            }
+        });
+    });
+</script>
