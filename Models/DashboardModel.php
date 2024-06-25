@@ -6,7 +6,7 @@ class DashboardModel extends Query
         parent::__construct();
     }
 
-    public function filtroInicial($fecha_i, $fecha_f, $plataforma)
+    public function filtroInicial($fecha_i, $fecha_f, $plataforma, $id_plataforma)
     {
         // Consulta para ventas, ganancias, envíos y total de guías
         $sql = "SELECT 
@@ -34,7 +34,7 @@ class DashboardModel extends Query
                     COUNT(*) as pedidos 
                 FROM facturas_cot 
                 WHERE fecha_factura BETWEEN '$fecha_i' AND '$fecha_f' 
-                AND tienda = '$plataforma'";
+                AND id_plataforma = '$id_plataforma'";
         $response4 = $this->select($sql);
 
         $ventas = $response[0]['ventas'] ?? 0;
