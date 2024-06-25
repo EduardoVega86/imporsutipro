@@ -451,6 +451,29 @@ $(document).ready(function () {
       console.error("Error al obtener la lista de categorias:", error);
     },
   });
+
+  // Realiza la solicitud AJAX para obtener la lista de proveedores
+  $.ajax({
+    url: SERVERURL + "marketplace/obtenerProveedores",
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+      // Asegúrate de que la respuesta es un array
+      if (Array.isArray(response)) {
+        response.forEach(function (proveedor) {
+          // Agrega una nueva opción al select por cada proveedor
+          $("#proveedor_filtroMarketplace").append(
+            new Option(proveedor.nombre_plataforma, proveedor.id_plataforma)
+          );
+        });
+      } else {
+        console.log("La respuesta de la API no es un array:", response);
+      }
+    },
+    error: function (error) {
+      console.error("Error al obtener la lista de proveedores:", error);
+    },
+  });
 });
 
 // Ejecutar la función cuando la página se haya cargado

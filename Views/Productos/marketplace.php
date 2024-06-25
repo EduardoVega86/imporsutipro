@@ -13,8 +13,8 @@
                         <input type="text" class="form-control" placeholder="Nombre" id="buscar_nombre">
                     </div>
                     <div class="col-md-2 mb-3 mb-md-0">
-                        <select id="tipo_proveedor" class="form-select me-2">
-                            <option selected value="">Tipo de proveedor</option>
+                        <select id="proveedor_filtroMarketplace" class="form-select me-2">
+                            <option selected value="">Seleccione un proveedor</option>
                         </select>
                     </div>
                     <div class="col-md-2 mb-3 mb-md-0">
