@@ -195,7 +195,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   var slider = document.getElementById("price-range-slider");
   const response_precioMaximo =  fetch("" + SERVERURL + "marketplace/obtenerMaximo");
-  const data_precioMaximo =  parseFloat(response_precioMaximo);
+  const data_precioMaximo = typeof response_precioMaximo === 'string' ? parseFloat(response_precioMaximo) : response_precioMaximo;
 
   noUiSlider.create(slider, {
     start: [0, data_precioMaximo],
