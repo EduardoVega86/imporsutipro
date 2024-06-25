@@ -358,7 +358,7 @@
   }
 
   .btn-heart:hover {
-    transform: scale(1.2);
+    transform: <?php echo COLOR_FAVORITO;?>;
   }
 
   .btn-heart:focus {
