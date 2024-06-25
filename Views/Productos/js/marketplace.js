@@ -191,6 +191,44 @@ document.addEventListener("DOMContentLoaded", function () {
 
   fetchProducts();
 
+  /* Filtros */
+
+  var slider = document.getElementById("price-range-slider");
+
+  noUiSlider.create(slider, {
+    start: [0, 5000],
+    connect: true,
+    range: {
+      min: 0,
+      max: 5000,
+    },
+    step: 50,
+    format: wNumb({
+      decimals: 0,
+      thousand: ",",
+      prefix: "$",
+    }),
+  });
+
+  var priceMin = document.getElementById("price-min");
+  var priceMax = document.getElementById("price-max");
+
+  slider.noUiSlider.on("update", function (values, handle) {
+    if (handle === 0) {
+      priceMin.value = values[0];
+    } else {
+      priceMax.value = values[1];
+    }
+
+    var min = values[0];
+    var max = values[1];
+    formData_filtro.set("min", min);
+    formData_filtro.set("max", max);
+    currentPage = 1; // Reset to the first page
+    fetchProducts();
+  });
+  /* Fin Filtros */
+
   $("#buscar_nombre").on(
     "input",
     debounce(function () {
@@ -375,35 +413,3 @@ $(document).ready(function () {
 
 // Ejecutar la función cuando la página se haya cargado
 window.addEventListener("load", vaciarTmpPedidos);
-
-/* Filtros */
-document.addEventListener("DOMContentLoaded", function () {
-  var slider = document.getElementById("price-range-slider");
-
-  noUiSlider.create(slider, {
-    start: [0, 5000],
-    connect: true,
-    range: {
-      min: 0,
-      max: 5000,
-    },
-    step: 50,
-    format: wNumb({
-      decimals: 0,
-      thousand: ",",
-      prefix: "$",
-    }),
-  });
-
-  var priceMin = document.getElementById("price-min");
-  var priceMax = document.getElementById("price-max");
-
-  slider.noUiSlider.on("update", function (values, handle) {
-    if (handle === 0) {
-      priceMin.value = values[0];
-    } else {
-      priceMax.value = values[1];
-    }
-  });
-});
-/* Fin Filtros */
