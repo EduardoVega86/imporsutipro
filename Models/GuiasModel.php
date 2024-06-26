@@ -473,6 +473,9 @@ class GuiasModel extends Query
         $direccionDestino = $_POST['calle_principal'] . " y " . $_POST['calle_secundaria'] . " Referencia: " . $_POST['referencia'];
         $telefonoDestino = $_POST['telefono'];
 
+        $contiene = $_POST['contiene'];
+
+        preg_match_all('/(.*?)x(\d+)/', $contiene, $matches, PREG_SET_ORDER);
 
         $url = "https://ec.gintracom.site/web/import-suite/pedido";
         $data = array(
@@ -490,6 +493,11 @@ class GuiasModel extends Query
                 "ciudad" => $ciudadDestino,
                 "direccion" => $direccionDestino
             ),
+            "cant_paquetes" => "1",
+            "peso_total" => "2.00",
+            "documento_venta" => $numero_factura,
+            "observacion" => $_POST['observacion'],
+
         );
     }
 

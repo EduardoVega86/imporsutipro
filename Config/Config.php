@@ -84,3 +84,4 @@ define("LOGIN_IMAGE", $login_image);
 define("COLOR_BOTON_LOGIN", $color_boton_login);
 define("COLOR_HOVER_LOGIN", $color_hover_login);
 define("COLOR_FAVORITO", $color_favorito);
+define("URL_MATRIZ", $url_matriz);

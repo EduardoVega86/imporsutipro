@@ -221,7 +221,7 @@ class AccesoModel extends Query
         $response = $this->update($sql, $data);
 
         if ($response == 1) {
-            $url_change = "https://" . DOMINIO . "/acceso/recovery/" . $token;
+            $url_change = URL_MATRIZ . "/acceso/recovery/" . $token;
             require_once 'PHPMailer/Mail_recuperar.php';
             $mail = new PHPMailer();
             $mail->isSMTP();
