@@ -350,14 +350,12 @@
     top: 10px;
     right: 10px;
     background: transparent;
-    border: 2px solid white; /* Borde blanco */
-    border-radius: 50%; /* Para redondear el borde */
-    padding: 3px; /* Ajuste para espacio interno del borde */
+    border: none;
     color: grey; /* Color apagado */
     font-size: 1.5em;
     cursor: pointer;
     transition: transform 0.3s ease, color 0.3s ease;
-
+    
   }
 
   .btn-heart.clicked {
