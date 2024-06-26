@@ -22,7 +22,7 @@
         </div>
         <div id="token_valido" class="hidden">
             <div class="d-flex flex-column">
-                <i class="fa-solid fa-face-frown"></i>
+                <i class="fa-solid fa-face-frown" style="font-size: 60px;"></i>
                 <h1>TOKEN NO VALIDO</h1>
             </div>
             <a href="<?php echo SERVERURL ?>login" class="forgot-password">
