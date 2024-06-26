@@ -355,7 +355,6 @@
     font-size: 1.5em;
     cursor: pointer;
     transition: transform 0.3s ease, color 0.3s ease;
-    
   }
 
   .btn-heart.clicked {
