@@ -9,7 +9,7 @@
         <div class="header">
             <h1><?php echo MARCA; ?></h1>
         </div>
-        <form id="cambiar_contrasena">
+        <div class="hidden" id="cambiar_contrasena">
             <div class="form-group">
                 <label for="contrasena">Contraseña</label>
                 <input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="Contraseña">
@@ -19,10 +19,16 @@
                 <input type="password" class="form-control" id="repetir-contrasena" name="repetir-contrasena" placeholder="Repetir Contraseña">
             </div>
             <button type="button" class="btn btn-primary w-100" id="sendEmailButton"><i class="fa-solid fa-key"></i> Cambiar contraseña</button>
+        </div>
+        <div id="token_valido">
+            <div class="d-flex flex-column">
+                <i class='bx bx-sad' style="font-size: 60px;"></i>
+                <h1>TOKEN NO VALIDO</h1>
+            </div>
             <a href="<?php echo SERVERURL ?>login" class="forgot-password">
                 <i class="fa-solid fa-arrow-left"></i> Volver
             </a>
-        </form>
+        </div>
     </div>
 </div>
 <script>
