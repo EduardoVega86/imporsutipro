@@ -409,7 +409,7 @@ class InventariosModel extends Query
       //  echo $id_factura;
         
         $tmp_cotizaciones = $this->select("SELECT * FROM detalle_fact_cot WHERE id_factura = $id_factura");
-        $detalle_sql_despacho = "INSERT INTO `historial_depacho` (`id_pedido`, `guia`, `id_producto`, `sku`, `cantidad`, `id_usuario`) VALUES (?, ?, ?, ?, ?, ?)";
+        $detalle_sql_despacho = "INSERT INTO `historial_depacho` (`id_pedido`, `guia`, `id_producto`, `sku`, `cantidad`, `id_usuario`, `id_plataforma`) VALUES (?, ?, ?, ?, ?, ?, ?)";
        // $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $detalle_sql_historial = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         //print_r($tmp_cotizaciones);
@@ -423,7 +423,8 @@ class InventariosModel extends Query
                     $tmp['id_producto'],
                     $tmp['sku'],
                     $tmp['cantidad'],
-                    $id_usuario
+                    $id_usuario,
+                    $plataforma
                 );
                 $guardar_detalle = $this->insert($detalle_sql_despacho, $despacho_data);
                 $nota='Se elimina '.$tmp['cantidad'].' productos(s) del inventario -DESPACHO GUIA-';
