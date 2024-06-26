@@ -197,6 +197,10 @@ function abrirModal_infoTienda(tienda) {
 }
 
 function procesarPlataforma(url) {
+  if((url == null) || (url == "")){
+    let respuesta_error = "La tienda ya no existe";
+    return respuesta_error;
+  }
   // Eliminar el "https://"
   let sinProtocolo = url.replace("https://", "");
 
