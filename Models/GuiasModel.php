@@ -454,40 +454,23 @@ class GuiasModel extends Query
 
     //gintracom
 
-    public function generarGintracom($nombreOrigen, $ciudadOrigen, $provinciaOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $provinciaDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras, $numero_factura)
+    public function generarGintracom($nombreOrigen, $ciudadOrigen, $provinciaOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $provinciaDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras, $numero_factura, $monto_factura)
     {
 
-        $nombreOrigen = $_POST['nombreO'];
-        $ciudadOrigen = $_POST['ciudadO'];
-        $provinciaOrigen = $_POST['provinciaO'];
         $provinciaOrigen = $this->obtenerNombre($provinciaOrigen, "codigo_provincia_gintracom")[0]['codigo_provincia_gintracom'];
         $ciudadOrigen = $this->obtenerNombre($ciudadOrigen, "codigo_ciudad_gintracom")[0]['codigo_ciudad_gintracom'];
-        $direccionOrigen = $_POST['direccionO'] . " Referencia: " . $_POST['referenciaO'];
-        $telefonoOrigen = $_POST['telefonoO'];
 
-        $numero_factura = $_POST['numero_factura'];
-        $nombreDestino = $_POST['nombre'];
-        $ciudadDestino = $_POST['ciudad'];
         $ciudadDestino = $this->obtenerNombre($ciudadDestino, "codigo_ciudad_gintracom")[0]['codigo_ciudad_gintracom'];
-        $provincia = $_POST['provincia'];
-        $direccionDestino = $_POST['calle_principal'] . " y " . $_POST['calle_secundaria'] . " Referencia: " . $_POST['referencia'];
-        $telefonoDestino = $_POST['telefono'];
 
-        $contiene = $_POST['contiene'];
-
-        $monto_factura = $_POST['monto_factura'];
-
-        $recaudo = $_POST['recaudo'];
-
-        $recaudo = $recaudo == "1" ? true : false;
+        $recaudo = $cod == "1" ? true : false;
 
         preg_match_all('/(.*?)x(\d+)/', $contiene, $matches, PREG_SET_ORDER);
 
         $resultado_final = [];
         foreach ($matches as $match) {
-            $nombre = trim($match[1]);
+            $nombreP = trim($match[1]);
             $cantidad = trim($match[2]);
-            $resultado_final[] = "$cantidad * $nombre";
+            $resultado_final[] = "$cantidad * $nombreP";
         }
 
         $contiene = implode(" | ", $resultado_final);
@@ -504,7 +487,7 @@ class GuiasModel extends Query
             "destinatario" => array(
                 "nombre" => $nombreDestino,
                 "telefono" => $telefonoDestino,
-                "provincia" => $provincia,
+                "provincia" => $provinciaDestino,
                 "ciudad" => $ciudadDestino,
                 "direccion" => $direccionDestino
             ),
