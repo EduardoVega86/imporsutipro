@@ -54,13 +54,28 @@ const listAtributosInventario = async () => {
                 <tr>
                     <td>${atributo.nombre_atributo}</td>
                     <td>${tags}</td>
-                    <td><input id="agregar_atributo_${index}" name="agregar_atributo" class="form-control agregar_atributo" type="text" data-atributo-id="${atributo.id_atributo}"></td>
+                    <td><input id="agregar_atributo_InvVariable_${index}" name="agregar_atributo_InvVariable" class="form-control agregar_atributo_InvVariable" type="text" data-atributo-id="${atributo.id_atributo}"></td>
                 </tr>`;
     });
 
     document.getElementById("tableBody_inventarioVariable").innerHTML = content;
 
-    
+    // Agregar event listeners a todos los inputs recién creados
+    document.querySelectorAll(".agregar_atributo_InvVariable").forEach((input) => {
+      input.addEventListener("keypress", async (event) => {
+        if (event.key === "Enter") {
+          event.preventDefault(); // Previene el comportamiento por defecto del Enter
+          const atributoId = event.target.getAttribute("data-atributo-id");
+          const valor = event.target.value;
+
+          if (valor.trim() !== "") {
+            await agregarCaracteristicaInventario(atributoId, valor);
+            event.target.value = ""; // Clear the input after submission
+            await listAtributosInventario(); // Refresh the list of attributes
+          }
+        }
+      });
+    });
 
     // Agregar event listeners a todos los botones de eliminar etiqueta
     document.querySelectorAll(".remove-tag").forEach((span) => {
