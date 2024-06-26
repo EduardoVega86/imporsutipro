@@ -72,11 +72,11 @@ class Acceso extends Controller
         echo json_encode($response);
     }
 
-    public function cambiarContraseña()
+    public function cambiarContrasena()
     {
         $token = $_POST['token'];
         $contrasena = $_POST['contrasena'];
-        $response = $this->model->cambiarContraseña($token, $contrasena);
+        $response = $this->model->cambiarContrasena($token, $contrasena);
         echo json_encode($response);
     }
 }

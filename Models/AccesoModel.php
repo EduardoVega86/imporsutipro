@@ -260,7 +260,7 @@ class AccesoModel extends Query
         return $response;
     }
 
-    public function cambiarContraseña($token, $contrasena)
+    public function cambiarContrasena($token, $contrasena)
     {
         $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
         $sql = "UPDATE users SET con_users = ?, token_act = '', estado_token = 0 WHERE token_act = ?";
