@@ -92,16 +92,32 @@
             let formData = new FormData();
             formData.append("contrasena", contrasena);
             formData.append("token", token);
-            
+
             $.ajax({
-                url: '<?php echo SERVERURL; ?>acceso/cambiarContrasena',
+                url: '<?php echo SERVERURL; ?>acceso/cambiarContraseña',
                 type: 'POST',
                 data: formData,
                 processData: false, // No procesar los datos
                 contentType: false, // No establecer ningún tipo de contenido
                 success: function(response) {
-                    // Maneja la respuesta de la API aquí
-                    alert('Contraseña cambiada exitosamente');
+                    if (data.status == 500) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: data.title,
+                            text: data.message
+                        });
+                    } else if (data.status == 200) {
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: data.title,
+                            text: data.message,
+                            showConfirmButton: false,
+                            timer: 2000
+                        }).then(() => {
+                            window.location.href = '' + SERVERURL + 'login';
+                        });
+                    }
                 },
                 error: function(error) {
                     // Maneja el error aquí
