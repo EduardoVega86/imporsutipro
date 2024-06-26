@@ -259,4 +259,24 @@ class AccesoModel extends Query
 
         return $response;
     }
+
+    public function cambiarContraseña($token, $contrasena)
+    {
+        $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
+        $sql = "UPDATE users SET con_users = ?, token_act = '', estado_token = 0 WHERE token_act = ?";
+        $data = [$contrasena, $token];
+        $response = $this->update($sql, $data);
+        if ($response == 1) {
+            $response = $this->initialResponse();
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Contraseña actualizada correctamente';
+        } else {
+            $response = $this->initialResponse();
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al actualizar la contraseña';
+        }
+        return $response;
+    }
 }
