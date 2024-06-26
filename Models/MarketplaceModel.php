@@ -56,8 +56,7 @@ JOIN inventario_bodegas ib ON ib.id_producto = ib_filtered.id_producto
     AND ib.id_inventario = ib_filtered.min_id_inventario
 JOIN plataformas plat ON ib.id_plataforma = plat.id_plataforma
 LEFT JOIN productos_favoritos pf ON pf.id_producto = p.id_producto
-WHERE (p.drogshipin = 1 OR p.id_plataforma = $plataforma) 
-    AND plat.id_matriz  =  $id_matriz $where $favorito_filtro" ;
+WHERE (p.drogshipin = 1 OR p.id_plataforma = $plataforma) $where $favorito_filtro" ;
         //echo $sql;
         return $this->select($sql);
     }
