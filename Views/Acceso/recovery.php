@@ -20,7 +20,7 @@
             </div>
             <button type="button" class="btn btn-primary w-100" id="sendEmailButton"><i class="fa-solid fa-key"></i> Cambiar contraseña</button>
         </div>
-        <div id="token_valido" class="hidden">
+        <div id="token_valido" class="hidden" style="text-align-last: center;">
             <div class="d-flex flex-column">
                 <i class="fa-solid fa-face-frown" style="font-size: 60px;"></i>
                 <h1>TOKEN NO VALIDO</h1>
