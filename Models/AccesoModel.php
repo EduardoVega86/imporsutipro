@@ -255,5 +255,8 @@ class AccesoModel extends Query
             $response['title'] = 'Error';
             $response['message'] = 'Error al actualizar el token';
         }
+
+
+        return $response;
     }
 }
