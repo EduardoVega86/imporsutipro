@@ -168,14 +168,15 @@ WHERE (p.drogshipin = 1 OR p.id_plataforma = $plataforma)
     {
           $response = $this->initialResponse();
          if($favorito==0){
-         
+         $sql = "INSERT INTO `productos_favoritos` (`id_producto`, `id_plataforma`) VALUES (?, ?);";
+        $data = [$id_producto, $plataforma];
+        $favorito = $this->insert($sql, $data);  
+         }else{
+            
         $sql = "DELETE FROM productos_favoritos WHERE id_producto = ? AND id_plataforma = ?";
         $data = [$id_producto, $plataforma];   
-          $favorito = $this->delete($sql, $data);
-         }else{
-           $sql = "INSERT INTO `productos_favoritos` (`id_producto`, `id_plataforma`) VALUES (?, ?);";
-        $data = [$id_producto, $plataforma];
-        $favorito = $this->insert($sql, $data);   
+          $favorito = $this->delete($sql, $data); 
+            
          }
          
          print_r($favorito);
@@ -189,8 +190,7 @@ WHERE (p.drogshipin = 1 OR p.id_plataforma = $plataforma)
             $response['message'] = $favorito['message'];
         }
              
-             
-             
+          return $response;  
      
     }
       
