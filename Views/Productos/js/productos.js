@@ -10,7 +10,7 @@ function getFecha() {
 }
 const dataTableProductosOptions = {
   columnDefs: [{ className: "centered", targets: [0, 1, 2, 3, 4, 5, 6] }],
-  pageLength: 10,
+  pageLength: 25,
   destroy: true,
   responsive: true,
   autoWidth: true,
