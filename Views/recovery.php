@@ -35,8 +35,25 @@
                 processData: false, // No procesar los datos
                 contentType: false, // No establecer ningún tipo de contenido
                 success: function(response) {
-                    // Maneja la respuesta de la API aquí
-                    alert('Correo enviado exitosamente');
+                    response = JSON.parse(response);
+                    if (response.status == 500) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: response.title,
+                        text: response.message
+                    });
+                } else if (response.status == 200) {
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: response.title,
+                        text: response.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    }).then(() => {
+                        window.location.href = '' + SERVERURL + 'dashboard';
+                    });
+                }
                 },
                 error: function(error) {
                     // Maneja el error aquí
