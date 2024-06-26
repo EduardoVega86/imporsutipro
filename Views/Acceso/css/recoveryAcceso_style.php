@@ -70,4 +70,8 @@
     .forgot-password:hover {
         color: #333;
     }
+
+    .hidden{
+        display: none;
+    }
 </style>
