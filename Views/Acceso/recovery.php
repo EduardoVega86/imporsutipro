@@ -27,30 +27,28 @@
 </div>
 <script>
     $(document).ready(function() {
-        $('#sendEmailButton').click(function() {
-            // Obtener la URL actual de la página
-            var url_1 = window.location.href;
+        // Obtener la URL actual de la página
+        var url_1 = window.location.href;
 
-            // Extraer el token de la URL
-            var token = url_1.substring(url_1.lastIndexOf('/') + 1);
+        // Extraer el token de la URL
+        var token = url_1.substring(url_1.lastIndexOf('/') + 1);
 
-            let formData = new FormData();
-            formData.append("token", token);
-            $.ajax({
-                url: SERVERURL + 'acceso/validarToken',
-                type: 'POST',
-                data: formData,
-                processData: false, // No procesar los datos
-                contentType: false, // No establecer ningún tipo de contenido
-                success: function(response) {
-                    // Maneja la respuesta de la API aquí
-                    alert('Correo enviado exitosamente');
-                },
-                error: function(error) {
-                    // Maneja el error aquí
-                    alert('Hubo un error al enviar el correo');
-                }
-            });
+        let formData = new FormData();
+        formData.append("token", token);
+        $.ajax({
+            url: SERVERURL + 'acceso/validarToken',
+            type: 'POST',
+            data: formData,
+            processData: false, // No procesar los datos
+            contentType: false, // No establecer ningún tipo de contenido
+            success: function(response) {
+                // Maneja la respuesta de la API aquí
+                alert('Correo enviado exitosamente');
+            },
+            error: function(error) {
+                // Maneja el error aquí
+                alert('Hubo un error al enviar el correo');
+            }
         });
     });
 </script>
