@@ -18,7 +18,7 @@
                 <label for="repetir-contrasena">Repetir Contraseña</label>
                 <input type="password" class="form-control" id="repetir-contrasena" name="repetir-contrasena" placeholder="Repetir Contraseña">
             </div>
-            <button type="button" class="btn btn-primary w-100" id="sendEmailButton"> <box-icon name='envelope' color='#ffff' type='solid'></box-icon> Enviar correo</button>
+            <button type="button" class="btn btn-primary w-100" id="sendEmailButton"><i class="fa-solid fa-key"></i> Cambiar contraseña</button>
             <a href="<?php echo SERVERURL ?>login" class="forgot-password">
                 <i class="fa-solid fa-arrow-left"></i> Volver
             </a>
