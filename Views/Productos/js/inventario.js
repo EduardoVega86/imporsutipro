@@ -84,9 +84,10 @@ let dataTableStockIndividualIsInitialized = false;
 
 const dataTableStockIndividualOptions = {
   columnDefs: [
-    { className: "centered", targets: [0, 1, 2, 3] },
+    { className: "centered", targets: [0, 1, 2, 3, 4] },
     { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
   ],
+  order: [[0, 'desc']], // Ordenar por la primera columna (fecha) en orden descendente
   pageLength: 10,
   destroy: true,
   responsive: true,
@@ -159,6 +160,7 @@ const listStockIndividual = async (id_inventario) => {
     alert(ex);
   }
 };
+
 
 function seleccionar_cambiarInventario(id_inventario) {
   let formData = new FormData();

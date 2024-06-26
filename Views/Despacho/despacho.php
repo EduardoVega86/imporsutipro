@@ -28,13 +28,13 @@
             success: function(response) {
                 if (response.status == 500) {
                     toastr.error(
-                        ""+ response.message,
+                        "" + response.message,
                         "NOTIFICACIÓN", {
                             positionClass: "toast-bottom-center"
                         }
                     );
                 } else if (response.status == 200) {
-                    toastr.success(""+ response.message, "NOTIFICACIÓN", {
+                    toastr.success("" + response.message, "NOTIFICACIÓN", {
                         positionClass: "toast-bottom-center",
                     });
 
@@ -78,7 +78,7 @@
                     toastr.success("Guía eliminada exitosamente", "NOTIFICACIÓN", {
                         positionClass: "toast-bottom-center",
                     });
-                } else if (response.status == 500){
+                } else if (response.status == 500) {
                     toastr.error("No se pudo eliminar la guía: " + response.message, "NOTIFICACIÓN", {
                         positionClass: "toast-bottom-center",
                     });
@@ -106,7 +106,8 @@
         var guias = [];
         var listItems = document.querySelectorAll('#guidesList .list-group-item');
         listItems.forEach(function(item) {
-            guias.push(item.textContent);
+            var numeroGuia = item.childNodes[0].textContent.trim(); // Obtener solo el número de guía
+            guias.push(numeroGuia);
         });
         var guiasJSON = JSON.stringify(guias, null, 2);
         console.log(guiasJSON);
@@ -116,12 +117,12 @@
 
         $.ajax({
             type: "POST",
-            url: SERVERURL + "/Manifiestos/generarManifiesto", 
+            url: SERVERURL + "/Manifiestos/generarManifiesto",
             data: formData,
             processData: false,
             contentType: false,
             dataType: "json",
-            success: function (response) {
+            success: function(response) {
                 if (response.status == 200) {
                     const link = document.createElement("a");
                     link.href = response.download;
@@ -131,7 +132,7 @@
                     document.body.removeChild(link);
                 }
             },
-            error: function (xhr, status, error) {
+            error: function(xhr, status, error) {
                 console.error("Error en la solicitud AJAX:", error);
                 alert("Hubo un problema al obtener la información de la categoría");
             },
