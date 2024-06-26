@@ -148,10 +148,12 @@ const agregarCaracteristicaInventario = async (atributoId, valor) => {
     );
 
     if (response.ok) {
-      alert("Característica agregada exitosamente");
+      /* alert("Característica agregada exitosamente"); */
     } else {
       const error = await response.json();
-      alert("Error al agregar la característica: " + error.message);
+      toastr.error("ERROR AL ELIMINAR: " + error.message, "NOTIFICACIÓN", {
+        positionClass: "toast-bottom-center",
+      });
     }
   } catch (ex) {
     alert("Error al conectarse a la API: " + ex.message);
@@ -172,10 +174,14 @@ const eliminarCaracteristicaInventario = async (variedadoId) => {
     );
 
     if (response.ok) {
-      alert("Característica eliminada exitosamente");
+      toastr.success("SE ELIMINO CORRECTAMENTE CORRECTAMENTE", "NOTIFICACIÓN", {
+        positionClass: "toast-bottom-center",
+      });
     } else {
       const error = await response.json();
-      alert("Error al eliminar la característica: " + error.message);
+      toastr.error("ERROR AL ELIMINAR: " + error.message, "NOTIFICACIÓN", {
+        positionClass: "toast-bottom-center",
+      });
     }
   } catch (ex) {
     alert("Error al conectarse a la API: " + ex.message);
