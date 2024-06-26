@@ -50,7 +50,6 @@ const listHistorialPedidos = async () => {
     const historialPedidos = await response.json();
 
     let content = ``;
-    let impresiones = "";
     historialPedidos.forEach((historialPedido, index) => {
       let transporte = historialPedido.id_transporte;
       console.log(transporte);
@@ -70,13 +69,6 @@ const listHistorialPedidos = async () => {
       } else if (transporte == 0) {
         transporte_content =
           '<span text-nowrap style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">Guia no enviada</span>';
-      }
-
-      //impresiones
-      if (historialPedido.impreso == 0) {
-        impresiones = `<box-icon name='printer' color= "red"></box-icon>`;
-      } else {
-        impresiones = `<box-icon name='printer' color= "green"></box-icon>`;
       }
 
       //tomar solo la ciudad
@@ -100,12 +92,6 @@ const listHistorialPedidos = async () => {
                     <td>${historialPedido.provinciaa}-${ciudad}</td>
                     <td><span class="link-like" id="plataformaLink" onclick="abrirModal_infoTienda('${historialPedido.plataforma}')">${plataforma}</span></td>
                     <td>${transporte_content}</td>
-                    <td>
-                        <a class="w-100" href="https://wa.me/${formatPhoneNumber(
-                          historialPedido.telefono
-                        )}" style="font-size: 40px;" target="_blank"><box-icon type='logo' name='whatsapp-square' color="green"></box-icon></a>
-                    </td>
-                    <td>${impresiones}</td>
                     <td>
                         <button class="btn btn-sm btn-primary" onclick="boton_editarPedido(${
                           historialPedido.id_factura
