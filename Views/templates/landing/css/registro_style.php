@@ -74,4 +74,21 @@
             opacity: 1;
         }
     }
+
+    .forgot-password {
+        display: flex;
+        align-items: center;
+        color: #666;
+        text-decoration: none;
+        justify-content: center;
+        margin-top: 15px;
+    }
+
+    .forgot-password i {
+        margin-right: 5px;
+    }
+
+    .forgot-password:hover {
+        color: #333;
+    }
 </style>
