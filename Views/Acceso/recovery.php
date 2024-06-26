@@ -1,5 +1,5 @@
-<?php require_once './Views/templates/landing/header.php'; ?>
-<?php require_once './Views/templates/landing/css/recoveryAcceso_style.php'; ?>
+<?php require_once './Views/templates/header.php'; ?>
+<?php require_once './Views/Dashboard/css/recoveryAcceso_style.php'; ?>
 
 <div class="d-flex flex-column" style="width: 700px;">
     <div class="imagen_logo">
@@ -51,4 +51,4 @@
     });
 </script>
 
-<?php require_once './Views/templates/landing/footer.php'; ?>
+<?php require_once './Views/templates/footer.php'; ?>
