@@ -91,6 +91,8 @@
 
             let formData = new FormData();
             formData.append("contrasena", contrasena);
+            formData.append("token", token);
+            
             $.ajax({
                 url: '<?php echo SERVERURL; ?>acceso/cambiarContrasena',
                 type: 'POST',
