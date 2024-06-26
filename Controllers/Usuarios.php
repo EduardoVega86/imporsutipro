@@ -36,6 +36,11 @@ class Usuarios extends Controller
         $this->views->render($this, "listado");
     }
     
+         public function tienda_online()
+    {
+        $this->views->render($this, "tienda_online");
+    }
+    
     
     
     
