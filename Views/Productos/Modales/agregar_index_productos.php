@@ -212,7 +212,7 @@
                 processData: false,
                 contentType: false,
                 success: function(response) {
-                    response = JSON.parse(response);
+                    
                     // Mostrar alerta de éxito
                     if (response.status == 500) {
                         toastr.error(
