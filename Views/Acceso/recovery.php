@@ -94,7 +94,7 @@
             formData.append("token", token);
 
             $.ajax({
-                url: '<?php echo SERVERURL; ?>acceso/cambiarContraseña',
+                url: '<?php echo SERVERURL; ?>acceso/cambiarContrasena',
                 type: 'POST',
                 data: formData,
                 processData: false, // No procesar los datos
