@@ -454,7 +454,7 @@ class GuiasModel extends Query
 
     //gintracom
 
-    public function generarGintracom()
+    public function generarGintracom($nombreOrigen, $ciudadOrigen, $provinciaOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $provinciaDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras, $numero_factura)
     {
 
         $nombreOrigen = $_POST['nombreO'];
@@ -475,7 +475,22 @@ class GuiasModel extends Query
 
         $contiene = $_POST['contiene'];
 
+        $monto_factura = $_POST['monto_factura'];
+
+        $recaudo = $_POST['recaudo'];
+
+        $recaudo = $recaudo == "1" ? true : false;
+
         preg_match_all('/(.*?)x(\d+)/', $contiene, $matches, PREG_SET_ORDER);
+
+        $resultado_final = [];
+        foreach ($matches as $match) {
+            $nombre = trim($match[1]);
+            $cantidad = trim($match[2]);
+            $resultado_final[] = "$cantidad * $nombre";
+        }
+
+        $contiene = implode(" | ", $resultado_final);
 
         $url = "https://ec.gintracom.site/web/import-suite/pedido";
         $data = array(
@@ -497,8 +512,46 @@ class GuiasModel extends Query
             "peso_total" => "2.00",
             "documento_venta" => $numero_factura,
             "observacion" => $_POST['observacion'],
-
+            "contenido" => $contiene,
+            "fecha" => date("Y-m-d H:i:s"),
+            "declarado" => $monto_factura,
+            "con_recaudo" => $recaudo
         );
+
+        // Convertir los datos al formato JSON
+        $jsonData = json_encode($data);
+
+        // Inicializar cURL
+        $ch = curl_init($url);
+
+        // Configura opciones de cURL
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+
+        $usuario = "importsuite";
+        $password = "ab5b809caf73b2c1abb0e4586a336c3a";
+
+        $credenciales = base64_encode("$usuario:$password");
+        $headers = array(
+            'Content-Type: application/json',
+            'Authorization: Basic ' . $credenciales
+        );
+
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        // Ejecutar la solicitud
+        $response = curl_exec($ch);
+
+        // Verificar si ocurrió algún error durante la solicitud
+        if (curl_errno($ch)) {
+            throw new Exception(curl_error($ch));
+        }
+
+        // Cerrar la sesión cURL
+        curl_close($ch);
+
+        return $response;
     }
 
     public function aumentarMatriz()
