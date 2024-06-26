@@ -358,11 +358,11 @@
   }
 
   .btn-heart.clicked {
-    color: red; /* Color encendido */
+    color: <?php echo COLOR_FAVORITO;?>; /* Color encendido */
   }
 
   .btn-heart:hover {
-    color: blue; /* Cambia este color al que desees */
+    color: <?php echo COLOR_FAVORITO;?>; /* Cambia este color al que desees */
   }
 
   .btn-heart:focus {
