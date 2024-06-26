@@ -375,7 +375,7 @@
 
   .btn-heart.clicked .fas.fa-heart {
     transform: scale(1.3);
-    color: darkred;
+    color: <?php echo COLOR_FAVORITO;?>;
   }
 
     /* fin boton favoritos */
