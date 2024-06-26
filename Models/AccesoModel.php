@@ -237,7 +237,7 @@ class AccesoModel extends Query
             $mail->setFrom($smtp_from, $smtp_from_name);
             $mail->addAddress($correo);
             $mail->Subject = 'Recuperación de contraseña';
-            $mail->Body = 'Para recuperar tu contraseña, haz clic en el siguiente enlace: <a href="' . SERVERURL . 'recovery/' . $token . '">Recuperar contraseña</a>';
+            $mail->Body =  $message_body;
             if ($mail->send()) {
                 $response = $this->initialResponse();
                 $response['status'] = 200;
