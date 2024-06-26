@@ -18,7 +18,8 @@
                 <label for="repetir-contrasena">Repetir Contraseña</label>
                 <input type="password" class="form-control" id="repetir-contrasena" name="repetir-contrasena" placeholder="Repetir Contraseña">
             </div>
-            <button type="button" class="btn btn-primary w-100" id="sendEmailButton"><i class="fa-solid fa-key"></i> Cambiar contraseña</button>
+            <div id="password-error" style="color: red; display: none;">Las contraseñas no coinciden.</div>
+            <button type="button" class="btn btn-primary w-100" id="btnCambiar_contrasena"><i class="fa-solid fa-key"></i> Cambiar contraseña</button>
         </div>
         <div id="token_valido" class="hidden" style="text-align-last: center;">
             <div class="d-flex flex-column">
@@ -61,6 +62,50 @@
                 // Maneja el error aquí
                 alert('Hubo un error al validar el token');
             }
+        });
+
+        // Validar las contraseñas en tiempo real
+        $('#contrasena, #repetir_contrasena').on('input', function() {
+            var contrasena = $('#contrasena').val();
+            var repetirContrasena = $('#repetir_contrasena').val();
+
+            if (contrasena !== repetirContrasena) {
+                $('#password-error').show();
+            } else {
+                $('#password-error').hide();
+            }
+        });
+
+        $('#btnCambiar_contrasena').click(function() {
+            var contrasena = $('#contrasena').val();
+            var repetirContrasena = $('#repetir_contrasena').val();
+
+            if (contrasena !== repetirContrasena) {
+                Swal.fire({
+                    icon: 'error',
+                    title: "Error",
+                    text: "Las contraseñas no coinciden"
+                });
+                return;
+            }
+
+            let formData = new FormData();
+            formData.append("contrasena", contrasena);
+            $.ajax({
+                url: '<?php echo SERVERURL; ?>acceso/cambiarContrasena',
+                type: 'POST',
+                data: formData,
+                processData: false, // No procesar los datos
+                contentType: false, // No establecer ningún tipo de contenido
+                success: function(response) {
+                    // Maneja la respuesta de la API aquí
+                    alert('Contraseña cambiada exitosamente');
+                },
+                error: function(error) {
+                    // Maneja el error aquí
+                    alert('Hubo un error al cambiar la contraseña');
+                }
+            });
         });
     });
 </script>
