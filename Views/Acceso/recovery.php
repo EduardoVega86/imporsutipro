@@ -28,12 +28,16 @@
 <script>
     $(document).ready(function() {
         $('#sendEmailButton').click(function() {
-            var email = $('#email').val();
+            // Obtener la URL actual de la página
+            var url_1 = window.location.href;
+
+            // Extraer el token de la URL
+            var token = url_1.substring(url_1.lastIndexOf('/') + 1);
 
             let formData = new FormData();
-            formData.append("correo", email);
+            formData.append("token", token);
             $.ajax({
-                url: SERVERURL + 'acceso/recuperar_contrasena',
+                url: SERVERURL + 'acceso/validarToken',
                 type: 'POST',
                 data: formData,
                 processData: false, // No procesar los datos
