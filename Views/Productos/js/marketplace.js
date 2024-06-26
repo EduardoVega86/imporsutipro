@@ -42,58 +42,52 @@ document.addEventListener("DOMContentLoaded", function () {
     const start = (page - 1) * perPage;
     const end = start + perPage;
     const paginatedProducts = products.slice(start, end);
-
+  
     paginatedProducts.forEach(async (product) => {
       try {
         const response = await fetch(
           SERVERURL + "marketplace/obtener_producto/" + product.id_producto
         );
         const productDetails = await response.json();
-
+  
         if (productDetails && productDetails.length > 0) {
           const { costo_producto, pvp, saldo_stock, url_imporsuit } =
             productDetails[0];
-
+  
           let boton_enviarCliente = ``;
           if (product.producto_variable == 0) {
             boton_enviarCliente = `<button class="btn btn-import" onclick="enviar_cliente(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})">Enviar a cliente</button>`;
           } else if (product.producto_variable == 1) {
             boton_enviarCliente = `<button class="btn btn-import" onclick="abrir_modalSeleccionAtributo(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})">Enviar a cliente</button>`;
           }
-
+  
+          const esFavorito = product.Es_Favorito === "1"; // Conversión a booleano
+  
           const card = document.createElement("div");
           card.className = "card card-custom position-relative";
           card.innerHTML = `
-  <img src="${SERVERURL}${
-            productDetails[0].image_path
-          }" class="card-img-top" alt="Product Image">
-          <button class="btn btn-heart ${
-            product.Es_Favorito ? "" : ""
-          }" onclick="handleHeartClick(${product.id_producto}, ${
-            product.Es_Favorito
-          })">
-            <i class="fas fa-heart"></i>
-          </button>
-  <div class="card-body text-center d-flex flex-column justify-content-between">
-    <div>
-      <h6 class="card-title"><strong>${product.nombre_producto}</strong></h6>
-      <p class="card-text">Stock: <strong style="color:green">${saldo_stock}</strong></p>
-      <p class="card-text">Precio Proveedor: <strong>$${
-        productDetails[0].pcp
-      }</strong></p>
-      <p class="card-text">Precio Sugerido: <strong>$${pvp}</strong></p>
-      <p class="card-text">Proveedor: <a href="${url_imporsuit}" target="_blank" style="font-size: 15px;">${procesarPlataforma(
-            url_imporsuit
-          )}</a></p>
-    </div>
-    <div>
-      <button class="btn btn-description" onclick="agregarModal_marketplace(${
-        product.id_producto
-      })">Descripción</button>
-      ${boton_enviarCliente}
-    </div>
-  </div>
-`;
+            <img src="${SERVERURL}${productDetails[0].image_path}" class="card-img-top" alt="Product Image">
+            <button class="btn btn-heart ${esFavorito ? "clicked" : ""}" onclick="handleHeartClick(${product.id_producto}, ${esFavorito})">
+              <i class="fas fa-heart"></i>
+            </button>
+            <div class="card-body text-center d-flex flex-column justify-content-between">
+              <div>
+                <h6 class="card-title"><strong>${product.nombre_producto}</strong></h6>
+                <p class="card-text">Stock: <strong style="color:green">${saldo_stock}</strong></p>
+                <p class="card-text">Precio Proveedor: <strong>$${
+                  productDetails[0].pcp
+                }</strong></p>
+                <p class="card-text">Precio Sugerido: <strong>$${pvp}</strong></p>
+                <p class="card-text">Proveedor: <a href="${url_imporsuit}" target="_blank" style="font-size: 15px;">${procesarPlataforma(
+                  url_imporsuit
+                )}</a></p>
+              </div>
+              <div>
+                <button class="btn btn-description" onclick="agregarModal_marketplace(${product.id_producto})">Descripción</button>
+                ${boton_enviarCliente}
+              </div>
+            </div>
+          `;
           cardContainer.appendChild(card);
         } else {
           console.error(
@@ -302,6 +296,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+// Función para manejar el clic en el botón de corazón
 function handleHeartClick(productId, esFavorito) {
   const heartButton = event.currentTarget;
   const newFavoritoStatus = !heartButton.classList.toggle("clicked");
@@ -309,8 +304,9 @@ function handleHeartClick(productId, esFavorito) {
   let formData_favoritos = new FormData();
   formData_favoritos.append("id_producto", productId);
   formData_favoritos.append("favorito", newFavoritoStatus ? 1 : 0);
+  
   $.ajax({
-    url: SERVERURL+"marketplace/agregarFavoritos",
+    url: SERVERURL + "marketplace/agregarFavoritos",
     type: "POST",
     data: formData_favoritos,
     processData: false, // No procesar los datos
