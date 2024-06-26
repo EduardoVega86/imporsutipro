@@ -179,11 +179,11 @@ WHERE (p.drogshipin = 1 OR p.id_plataforma = $plataforma)
             
          }
          
-         print_r($favorito);
+       //  print_r($favorito);
          if ($favorito == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
-            $response['message'] = 'Producto eliminado correctamente';
+            $response['message'] = 'Producto agregado correctamente';
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
