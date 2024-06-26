@@ -47,7 +47,7 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
                 $data = [$codigo_producto, $id_producto, $producto_variable, 50000, $pcp, $pvp, $pref, $stock_inicial, $stock_inicial, $plataforma];
             }
             $insertar_producto = $this->insert($sql, $data);
-            print_r($insertar_producto);
+           // print_r($insertar_producto);
         } else {
             //bodega inicial
             $sql_bodega = "SELECT * FROM bodega WHERE id_plataforma = $plataforma limit 1";
