@@ -80,6 +80,9 @@
                 <button type="submit" class="btn btn-primary w-100">Enviar</button>
             </div>
         </form>
+        <a href="<?php echo SERVERURL ?>login" class="forgot-password">
+                <i class="fa-solid fa-arrow-left"></i> Volver
+            </a>
     </div>
 </div>
 
