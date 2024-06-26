@@ -15,8 +15,8 @@
                 <input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="Contraseña">
             </div>
             <div class="form-group">
-                <label for="repetir-contrasena">Repetir Contraseña</label>
-                <input type="password" class="form-control" id="repetir-contrasena" name="repetir-contrasena" placeholder="Repetir Contraseña">
+                <label for="repetir_contrasena">Repetir Contraseña</label>
+                <input type="password" class="form-control" id="repetir_contrasena" name="repetir_contrasena" placeholder="Repetir Contraseña">
             </div>
             <div id="password-error" style="color: red; display: none;">Las contraseñas no coinciden.</div>
             <button type="button" class="btn btn-primary w-100" id="btnCambiar_contrasena"><i class="fa-solid fa-key"></i> Cambiar contraseña</button>
