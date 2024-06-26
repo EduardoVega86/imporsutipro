@@ -20,9 +20,9 @@
             </div>
             <button type="button" class="btn btn-primary w-100" id="sendEmailButton"><i class="fa-solid fa-key"></i> Cambiar contraseña</button>
         </div>
-        <div id="token_valido">
+        <div id="token_valido" class="hidden">
             <div class="d-flex flex-column">
-                <i class='bx bx-sad' style="font-size: 60px;"></i>
+                <i class="fa-solid fa-face-frown"></i>
                 <h1>TOKEN NO VALIDO</h1>
             </div>
             <a href="<?php echo SERVERURL ?>login" class="forgot-password">
@@ -41,19 +41,25 @@
 
         let formData = new FormData();
         formData.append("token", token);
+
         $.ajax({
-            url: SERVERURL + 'acceso/validarToken',
+            url: '<?php echo SERVERURL; ?>acceso/validarToken',
             type: 'POST',
             data: formData,
             processData: false, // No procesar los datos
             contentType: false, // No establecer ningún tipo de contenido
             success: function(response) {
-                // Maneja la respuesta de la API aquí
-                alert('Correo enviado exitosamente');
+                if (response === 'true') {
+                    $('#cambiar_contrasena').removeClass('hidden');
+                    $('#token_valido').addClass('hidden');
+                } else {
+                    $('#cambiar_contrasena').addClass('hidden');
+                    $('#token_valido').removeClass('hidden');
+                }
             },
             error: function(error) {
                 // Maneja el error aquí
-                alert('Hubo un error al enviar el correo');
+                alert('Hubo un error al validar el token');
             }
         });
     });
