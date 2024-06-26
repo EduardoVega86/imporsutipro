@@ -452,6 +452,47 @@ class GuiasModel extends Query
         return $nombre;
     }
 
+    //gintracom
+
+    public function generarGintracom()
+    {
+
+        $nombreOrigen = $_POST['nombreO'];
+        $ciudadOrigen = $_POST['ciudadO'];
+        $provinciaOrigen = $_POST['provinciaO'];
+        $provinciaOrigen = $this->obtenerNombre($provinciaOrigen, "codigo_provincia_gintracom")[0]['codigo_provincia_gintracom'];
+        $ciudadOrigen = $this->obtenerNombre($ciudadOrigen, "codigo_ciudad_gintracom")[0]['codigo_ciudad_gintracom'];
+        $direccionOrigen = $_POST['direccionO'] . " Referencia: " . $_POST['referenciaO'];
+        $telefonoOrigen = $_POST['telefonoO'];
+
+        $numero_factura = $_POST['numero_factura'];
+        $nombreDestino = $_POST['nombre'];
+        $ciudadDestino = $_POST['ciudad'];
+        $ciudadDestino = $this->obtenerNombre($ciudadDestino, "codigo_ciudad_gintracom")[0]['codigo_ciudad_gintracom'];
+        $provincia = $_POST['provincia'];
+        $direccionDestino = $_POST['calle_principal'] . " y " . $_POST['calle_secundaria'] . " Referencia: " . $_POST['referencia'];
+        $telefonoDestino = $_POST['telefono'];
+
+
+        $url = "https://ec.gintracom.site/web/import-suite/pedido";
+        $data = array(
+            "remitente" => array(
+                "nombre" => $nombreOrigen,
+                "telefono" => $telefonoOrigen,
+                "provincia" => $provinciaOrigen,
+                "ciudad" => $ciudadOrigen,
+                "direccion" => $direccionOrigen
+            ),
+            "destinatario" => array(
+                "nombre" => $nombreDestino,
+                "telefono" => $telefonoDestino,
+                "provincia" => $provincia,
+                "ciudad" => $ciudadDestino,
+                "direccion" => $direccionDestino
+            ),
+        );
+    }
+
     public function aumentarMatriz()
     {
         $this->update("UPDATE matriz set guia_generadas = guia_generadas + 1 WHERE idmatriz = ?", array(MATRIZ));
