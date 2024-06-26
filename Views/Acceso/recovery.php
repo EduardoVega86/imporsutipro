@@ -1,4 +1,4 @@
-<?php require_once './Views/templates/header.php'; ?>
+<?php require_once './Views/templates/landing/header.php'; ?>
 <?php require_once './Views/Acceso/css/recoveryAcceso_style.php'; ?>
 
 <div class="d-flex flex-column" style="width: 700px;">
@@ -51,4 +51,4 @@
     });
 </script>
 
-<?php require_once './Views/templates/footer.php'; ?>
+<?php require_once './Views/templates/landing/footer.php'; ?>
