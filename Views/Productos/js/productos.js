@@ -381,6 +381,7 @@ function editarProducto(id) {
           $("#editar_descripcion").val(data.descripcion_producto);
           $("#editar_categoria").val(data.id_linea_producto);
           $("#editar_bodega").val(data.bodega);
+          $("#editar_producto_variable").val(data.id_variante);
           $("#editar_formato_pagina").val(data.formato);
           $("#editar_ultimo_costo").val(data.costo_producto);
           $("#editar_precio_proveedor").val(data.pcp);
