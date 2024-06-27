@@ -15,8 +15,6 @@
         <h2 class="text-center mb-4">Productos</h2>
         <div class="filtros_producos justify-content-between align-items-center mb-3">
             <div class="primerSeccion_filtros">
-                <button class="btn btn-outline-secondary me-2" id="subidaMasiva_marketplace"><i class="fas fa-file-alt"></i> Subida masiva Marketplace</button>
-
                 <select id="categoria_filtro" class="form-select me-2">
                     <option selected value="">-- Seleccionar Categorías --</option>
                 </select>
@@ -30,7 +28,7 @@
                 </div>
             </div>
             <div class="d-flex">
-
+                <button class="btn btn-outline-secondary me-2" id="subidaMasiva_marketplace"><i class="fas fa-file-alt"></i> Subir Marketplace</button>
                 <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#atributosModal"><i class="fas fa-list"></i> Atributos</button>
                 <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_productoModal"><i class="fas fa-plus"></i> Agregar</button>
             </div>
