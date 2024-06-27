@@ -74,9 +74,9 @@
                 <!-- <button class="btn btn-primary">Ver todas las Ventas</button> -->
             </div>
             <!-- fin de tabla ultimos pedidos -->
-            <div class="content-box">
+            <div class="content-box" id="pie-chart-container">
                 <h4>Distribución de estados de guías de envío</h4>
-                <canvas id="pastelChart" style="width: 200px; height:200px"></canvas>
+                <canvas id="pastelChart"></canvas>
             </div>
         </div>
     </div>
