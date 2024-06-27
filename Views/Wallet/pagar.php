@@ -153,7 +153,7 @@
                         <th class="centered">Venta total</th>
                         <th class="centered">Costo</th>
                         <th class="centered">Precio envio</th>
-                        <th class="centered">Full Fillment</th>
+                        <th class="centered">Fulfillment</th>
                         <th class="centered">Monto a recibir</th>
                         <th class="centered">Monto pendiente</th>
                         <th class="centered">Peso</th>
