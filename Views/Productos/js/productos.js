@@ -142,9 +142,9 @@ const listProductos = async () => {
     let producto_variable = "";
     productos.forEach((producto, index) => {
       if (!producto.image_path) {
-        cargar_imagen = `<i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${producto.id_producto})"></i>`;
+        cargar_imagen = `<i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${producto.id_producto},"${SERVERURL}${producto.image_path}")"></i>`;
       } else {
-        cargar_imagen = `<img src="${SERVERURL}${producto.image_path}" class="icon-button" onclick="agregar_imagenProducto(${producto.id_producto})" alt="Agregar imagen" width="50px">`;
+        cargar_imagen = `<img src="${SERVERURL}${producto.image_path}" class="icon-button" onclick="agregar_imagenProducto(${producto.id_producto},"${SERVERURL}${producto.image_path}")" alt="Agregar imagen" width="50px">`;
       }
       if (producto.drogshipin == 0) {
         subir_marketplace = `<box-icon name='cloud-upload' id="icono_subida_${producto.id_producto}" onclick="subir_marketplace(${producto.id_producto})"></box-icon>`;
@@ -170,7 +170,7 @@ const listProductos = async () => {
                     <td>${producto.pvp}</td>
                     <td>${producto.pref}</td>
                     <td>logo landing</td>
-                    <td><i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${producto.id_producto})"></i></td>
+                    <td><i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${producto.id_producto}, "${SERVERURL}${producto.image_path}")"></i></td>
                     <td>${subir_marketplace}</td>
                     <td>${producto_variable}</td>
                     <td>
@@ -465,6 +465,13 @@ function bajar_marketplace(id) {
 
 function agregar_imagenProducto(id, imagen) {
   $("#id_imagenproducto").val(id);
+
+  if (imagen) {
+    $("#imagePreview").attr("src", imagen).show();
+  } else {
+    $("#imagePreview").hide();
+  }
+
   $("#imagen_productoModal").modal("show");
 }
 window.addEventListener("load", async () => {
