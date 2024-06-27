@@ -65,20 +65,6 @@
         max-width: calc(50% - 40px);
     }
 
-    #pie-chart-container {
-        width: 300px;
-        /* Ajusta el ancho según tu preferencia */
-        height: 300px;
-        /* Ajusta la altura según tu preferencia */
-        margin: 0 auto;
-        /* Centrar el contenedor si es necesario */
-    }
-
-    #pie-chart-container canvas {
-        width: 100% !important;
-        height: 100% !important;
-    }
-
     .table-responsive {
         max-height: 200px;
         overflow-y: auto;
