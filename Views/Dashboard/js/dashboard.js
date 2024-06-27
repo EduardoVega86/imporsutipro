@@ -93,6 +93,9 @@ $(function () {
         let enviosData = response.ventas_diarias.map((venta) =>
           venta.envios !== null ? venta.envios : 0
         );
+        let cantidadData = response.ventas_diarias.map((venta) =>
+          venta.cantidad !== null ? venta.cantidad : 0
+        );
 
         // Destruir el gráfico existente si ya hay uno
         if (salesChart) {
@@ -102,7 +105,7 @@ $(function () {
         // Crear el nuevo gráfico con Chart.js
         let ctx = document.getElementById("salesChart").getContext("2d");
         salesChart = new Chart(ctx, {
-          type: "line", // Cambiado a 'line' para gráfico de líneas
+          type: "line", // Gráfico de líneas
           data: {
             labels: labels,
             datasets: [
@@ -110,6 +113,7 @@ $(function () {
                 label: "Ventas",
                 data: ventasData,
                 borderColor: "rgba(75, 192, 192, 1)",
+                backgroundColor: "rgba(75, 192, 192, 0.2)",
                 borderWidth: 1,
                 fill: false,
                 tension: 0.1,
@@ -118,6 +122,7 @@ $(function () {
                 label: "Ganancias",
                 data: gananciasData,
                 borderColor: "rgba(54, 162, 235, 1)",
+                backgroundColor: "rgba(54, 162, 235, 0.2)",
                 borderWidth: 1,
                 fill: false,
                 tension: 0.1,
@@ -126,6 +131,16 @@ $(function () {
                 label: "Envíos",
                 data: enviosData,
                 borderColor: "rgba(255, 206, 86, 1)",
+                backgroundColor: "rgba(255, 206, 86, 0.2)",
+                borderWidth: 1,
+                fill: false,
+                tension: 0.1,
+              },
+              {
+                label: "Cantidad",
+                data: cantidadData,
+                borderColor: "rgba(153, 102, 255, 1)",
+                backgroundColor: "rgba(153, 102, 255, 0.2)",
                 borderWidth: 1,
                 fill: false,
                 tension: 0.1,
