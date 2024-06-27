@@ -29,6 +29,14 @@
         text-align: center !important;
         vertical-align: middle !important;
     }
+
+    .btn-excel{
+        background-color: #198754;
+    }
+
+    .btn-csv{
+        background-color: #198754;
+    }
 </style>
 <style>
     .filtros_producos {

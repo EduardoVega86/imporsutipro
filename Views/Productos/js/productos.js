@@ -20,7 +20,7 @@ const dataTableProductosOptions = {
   buttons: [
     {
       extend: "excelHtml5",
-      text: 'Excel <i class="fa-solid fa-file-excel" style="color: #2e8500;"></i>',
+      text: 'Excel <i class="fa-solid fa-file-excel"></i>',
       title: "Panel de Control: Usuarios",
       titleAttr: "Exportar a Excel",
       exportOptions: {
@@ -28,10 +28,11 @@ const dataTableProductosOptions = {
       },
       filename: "Productos" + "_" + getFecha(),
       footer: true,
+      className: 'btn-excel' // Agrega una clase personalizada para Excel
     },
     {
       extend: "csvHtml5",
-      text: 'CSV <i class="fa-solid fa-file-csv" style="color: #2e8500;"></i>',
+      text: 'CSV <i class="fa-solid fa-file-csv"></i>',
       title: "Panel de Control: Productos",
       titleAttr: "Exportar a CSV",
       exportOptions: {
@@ -39,6 +40,7 @@ const dataTableProductosOptions = {
       },
       filename: "Productos" + "_" + getFecha(),
       footer: true,
+      className: 'btn-csv' // Agrega una clase personalizada para CSV
     },
   ],
   language: {
