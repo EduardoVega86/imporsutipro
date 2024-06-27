@@ -189,6 +189,20 @@ function enviar_cliente(id, sku, pvp, id_inventario) {
   });
 }
 
+// Función para vaciar temporalmente los pedidos
+const vaciarTmpPedidos = async () => {
+  try {
+    const response = await fetch("" + SERVERURL + "marketplace/vaciarTmp");
+    if (!response.ok) {
+      throw new Error("Error al vaciar los pedidos temporales");
+    }
+    const data = await response.json();
+    console.log("Respuesta de vaciarTmp:", data);
+  } catch (error) {
+    console.error("Error al hacer la solicitud:", error);
+  }
+};
+
 //subida Masiva
 function customizeButtons() {
   document.querySelectorAll(".buttons-html5").forEach((element) => {
@@ -564,3 +578,6 @@ function abrir_modalInventarioVariable(id) {
   initDataTableDetalleInventario();
   $("#inventario_variableModal").modal("show");
 }
+
+// Ejecutar la función cuando la página se haya cargado
+window.addEventListener("load", vaciarTmpPedidos);
