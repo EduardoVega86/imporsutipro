@@ -197,23 +197,7 @@ document
           data: { id: id }, // Enviar el ID como un objeto
           dataType: "json", // Asegurarse de que la respuesta se trata como JSON
           success: function (response) {
-            // Mostrar alerta de éxito
-            if (response.status == 500) {
-              toastr.error(
-                "EL PRODUCTO NO SE AGREGRO AL MARKETPLACE CORRECTAMENTE",
-                "NOTIFICACIÓN",
-                {
-                  positionClass: "toast-bottom-center",
-                }
-              );
-            } else if (response.status == 200) {
-              toastr.success("PRODUCTO AGREGADO CORRECTAMENTE", "NOTIFICACIÓN", {
-                positionClass: "toast-bottom-center",
-              });
-              /* initDataTableProductos(); */
-              /* $("#icono_subida_" + id).hide(); */
-              reloadDataTableProductos();
-            }
+            
           },
           error: function (xhr, status, error) {
             console.error("Error en la solicitud AJAX:", error);
@@ -221,8 +205,11 @@ document
           },
         });
       }
+      toastr.success("Subida masiva completada", "NOTIFICACIÓN", {
+        positionClass: "toast-bottom-center",
+      });
+      reloadDataTableProductos();
 
-      alert("Subida masiva completada");
     } else {
       alert("No hay productos seleccionados");
     }
