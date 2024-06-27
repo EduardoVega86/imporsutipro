@@ -76,7 +76,7 @@
             <!-- fin de tabla ultimos pedidos -->
             <div class="content-box">
                 <h4>Distribución de estados de guías de envío</h4>
-                <canvas id="pastelChart"></canvas>
+                <canvas id="pastelChart" style="width: 200px; height:200px"></canvas>
             </div>
         </div>
     </div>
