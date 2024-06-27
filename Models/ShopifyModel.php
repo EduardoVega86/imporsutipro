@@ -68,7 +68,7 @@ class ShopifyModel extends Query
         // Procesar cada producto en lineItems
         $productos = [];
         foreach ($lineItems as $item) {
-            $id_producto_venta = $item['sku'] ?? 4874;
+            $id_producto_venta = $item['sku'] == "" ? $item['sku'] : 4874;
 
             // Obtener información de la bodega
             echo $id_producto_venta;
