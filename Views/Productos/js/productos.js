@@ -191,33 +191,35 @@ document
 
     if (ids.length > 0) {
       for (let id of ids) {
-        try {
-          const response = await fetch(
-            SERVERURL + "productos/subir_marketplace",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ id: id }), // Enviamos cada id individualmente
+        $.ajax({
+          type: "POST",
+          url: SERVERURL + "productos/subir_marketplace",
+          data: { id: id }, // Enviar el ID como un objeto
+          dataType: "json", // Asegurarse de que la respuesta se trata como JSON
+          success: function (response) {
+            // Mostrar alerta de éxito
+            if (response.status == 500) {
+              toastr.error(
+                "EL PRODUCTO NO SE AGREGRO AL MARKETPLACE CORRECTAMENTE",
+                "NOTIFICACIÓN",
+                {
+                  positionClass: "toast-bottom-center",
+                }
+              );
+            } else if (response.status == 200) {
+              toastr.success("PRODUCTO AGREGADO CORRECTAMENTE", "NOTIFICACIÓN", {
+                positionClass: "toast-bottom-center",
+              });
+              /* initDataTableProductos(); */
+              /* $("#icono_subida_" + id).hide(); */
+              reloadDataTableProductos();
             }
-          );
-
-          const result = await response.json();
-
-          if (result.status !== 200) {
-            alert(
-              "Error en la subida del producto con id: " +
-                id +
-                " - " +
-                result.message
-            );
-          }
-        } catch (error) {
-          alert(
-            "Error en la subida del producto con id: " + id + " - " + error
-          );
-        }
+          },
+          error: function (xhr, status, error) {
+            console.error("Error en la solicitud AJAX:", error);
+            alert("Hubo un problema al subir al marketplace");
+          },
+        });
       }
 
       alert("Subida masiva completada");
