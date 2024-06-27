@@ -143,7 +143,7 @@
                             toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
                                 positionClass: "toast-bottom-center",
                             });
-                            $('#imagen_productoModal').modal('hide');
+                            
                             reloadDataTableProductos();
                         }
                     },
@@ -172,7 +172,7 @@
                             toastr.success("IMÁGENES AGREGADAS CORRECTAMENTE", "NOTIFICACIÓN", {
                                 positionClass: "toast-bottom-center",
                             });
-                            $('#imagen_productoModal').modal('hide');
+                            
                             reloadDataTableProductos();
                         }
                     },
