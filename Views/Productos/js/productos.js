@@ -28,7 +28,7 @@ const dataTableProductosOptions = {
       },
       filename: "Productos" + "_" + getFecha(),
       footer: true,
-      className: 'btn-excel' // Agrega una clase personalizada para Excel
+      className: "btn-excel", // Agrega una clase personalizada para Excel
     },
     {
       extend: "csvHtml5",
@@ -40,7 +40,7 @@ const dataTableProductosOptions = {
       },
       filename: "Productos" + "_" + getFecha(),
       footer: true,
-      className: 'btn-csv' // Agrega una clase personalizada para CSV
+      className: "btn-csv", // Agrega una clase personalizada para CSV
     },
   ],
   language: {
@@ -142,11 +142,13 @@ const listProductos = async () => {
     let cargar_imagen = "";
     let subir_marketplace = "";
     let producto_variable = "";
+    let enlace_imagen = "";
     productos.forEach((producto, index) => {
+      enlace_imagen = obtenerURLImagen(producto.image_path,SERVERURL);
       if (!producto.image_path) {
-        cargar_imagen = `<i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${producto.id_producto},'${SERVERURL}${producto.image_path}')"></i>`;
+        cargar_imagen = `<i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${producto.id_producto},'${enlace_imagen}')"></i>`;
       } else {
-        cargar_imagen = `<img src="${SERVERURL}${producto.image_path}" class="icon-button" onclick="agregar_imagenProducto(${producto.id_producto},'${SERVERURL}${producto.image_path}')" alt="Agregar imagen" width="50px">`;
+        cargar_imagen = `<img src="${enlace_imagen}" class="icon-button" onclick="agregar_imagenProducto(${producto.id_producto},'${enlace_imagen}')" alt="Agregar imagen" width="50px">`;
       }
       if (producto.drogshipin == 0) {
         subir_marketplace = `<box-icon name='cloud-upload' id="icono_subida_${producto.id_producto}" onclick="subir_marketplace(${producto.id_producto})"></box-icon>`;
@@ -172,7 +174,7 @@ const listProductos = async () => {
                     <td>${producto.pvp}</td>
                     <td>${producto.pref}</td>
                     <td>logo landing</td>
-                    <td><i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${producto.id_producto}, '${SERVERURL}${producto.image_path}')"></i></td>
+                    <td><i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${producto.id_producto}, '${enlace_imagen}')"></i></td>
                     <td>${subir_marketplace}</td>
                     <td>${producto_variable}</td>
                     <td>
@@ -341,6 +343,17 @@ const filtrarProductosPorCategoria = async (categoriaId) => {
     alert(ex);
   }
 };
+
+function obtenerURLImagen(imagePath, serverURL) {
+  // Verificar si el imagePath ya es una URL completa
+  if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
+    // Si ya es una URL completa, retornar solo el imagePath
+    return imagePath;
+  } else {
+    // Si no es una URL completa, agregar el SERVERURL al inicio
+    return `${serverURL}${imagePath}`;
+  }
+}
 
 function editarProducto(id) {
   $.ajax({
