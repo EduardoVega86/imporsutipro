@@ -137,7 +137,6 @@ const listProductos = async () => {
                     <td>logo landing</td>
                     <td><i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${producto.id_producto}, '${enlace_imagen}')"></i></td>
                     <td>${subir_marketplace}</td>
-                    <td>${subir_marketplace}</td>
                     <td><i class="fa-regular fa-paper-plane" onclick="enviar_cliente(${producto.id_producto},'${producto.sku}',${producto.pvp},${producto.id_inventario})""></i></td>
                     <td>
                         <button class="btn btn-sm btn-primary" onclick="editarProducto(${producto.id_producto})"><i class="fa-solid fa-pencil"></i>Editar</button>
