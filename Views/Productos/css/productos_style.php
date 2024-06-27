@@ -30,12 +30,19 @@
         vertical-align: middle !important;
     }
 
+    .btn-excel, .btn-csv {
+    background-color: #198754; /* Color verde para Excel */
+    color: white;
+    padding: 5px 10px; /* Ajusta el padding para reducir el tamaño */
+    margin: 0; /* Elimina el margen */
+    border: none; /* Elimina el borde */
+  }
+
   .buttons-csv, .buttons-excel {
     padding: 2px 10px !important; /* Ajusta el padding para reducir el tamaño superior e inferior */
     margin: 0 !important; /* Elimina el margen */
     background-color: #198754 !important; /* Color verde para Excel */
     color: white !important;
-    border: none !important; /* Elimina el borde */
     border-radius: 0 !important; /* Elimina los bordes redondeados si los hubiera */
   }
   .buttons-csv .fa-file-csv, .buttons-excel .fa-file-excel {
