@@ -1,5 +1,6 @@
 let dataTableProductos;
 let dataTableProductosIsInitialized = false;
+
 function getFecha() {
   let fecha = new Date();
   let mes = fecha.getMonth() + 1;
@@ -8,6 +9,7 @@ function getFecha() {
   let fechaHoy = anio + "-" + mes + "-" + dia;
   return fechaHoy;
 }
+
 const dataTableProductosOptions = {
   columnDefs: [{ className: "centered", targets: [0, 1, 2, 3, 4, 5, 6] }],
   pageLength: 25,
@@ -28,7 +30,7 @@ const dataTableProductosOptions = {
       },
       filename: "Productos" + "_" + getFecha(),
       footer: true,
-      className: "btn-excel", // Agrega una clase personalizada para Excel
+      className: "btn-excel",
     },
     {
       extend: "csvHtml5",
@@ -40,7 +42,7 @@ const dataTableProductosOptions = {
       },
       filename: "Productos" + "_" + getFecha(),
       footer: true,
-      className: "btn-csv", // Agrega una clase personalizada para CSV
+      className: "btn-csv",
     },
   ],
   language: {
@@ -61,90 +63,43 @@ const dataTableProductosOptions = {
 };
 
 const reloadDataTableProductos = async () => {
-  // Guarda el estado de paginación actual
   const currentPage = dataTableProductos.page();
-
-  // Destruye el DataTable existente
   dataTableProductos.destroy();
-
-  // Recarga los datos
   await listProductos();
-
-  // Inicializa el DataTable nuevamente
   dataTableProductos = $("#datatable_productos").DataTable(
     dataTableProductosOptions
   );
-
-  // Restablece el estado de paginación
   dataTableProductos.page(currentPage).draw(false);
-
   dataTableProductosIsInitialized = true;
-
-  document.querySelectorAll(".buttons-html5").forEach((element) => {
-    // Remueve las clases de bootstrap
-    element.classList.remove(
-      "btn",
-      "btn-secondary",
-      "buttons-excel",
-      "buttons-html5"
-    );
-    element.classList.add(
-      "btn",
-      "btn-primary",
-      "px-2",
-      "py-1",
-      "rounded",
-      "mx-1"
-    );
-  });
+  customizeButtons();
 };
 
 const initDataTableProductos = async () => {
   if (dataTableProductosIsInitialized) {
     dataTableProductos.destroy();
   }
-
   await listProductos();
-
   dataTableProductos = $("#datatable_productos").DataTable(
     dataTableProductosOptions
   );
-
   dataTableProductosIsInitialized = true;
-
-  document.querySelectorAll(".buttons-html5").forEach((element) => {
-    // remueve las clases de bootstrap
-    element.classList.remove(
-      "btn",
-      "btn-secondary",
-      "buttons-excel",
-      "buttons-html5"
-    );
-    element.classList.add(
-      "btn",
-      "btn-primary",
-      "px-2",
-      "py-1",
-      "rounded",
-      "mx-1"
-    );
-  });
+  customizeButtons();
+  document
+    .getElementById("selectAll")
+    .addEventListener("change", toggleSelectAll);
 };
 
 const listProductos = async () => {
   try {
-    const response = await fetch(
-      "" + SERVERURL + "productos/obtener_productos"
-    );
+    const response = await fetch("" + SERVERURL + "productos/obtener_productos");
     const productos = await response.json();
-
     let content = ``;
     let cargar_imagen = "";
     let subir_marketplace = "";
     let producto_variable = "";
     let enlace_imagen = "";
     productos.forEach((producto, index) => {
-      enlace_imagen = obtenerURLImagen(producto.image_path,SERVERURL);
+      enlace_imagen = obtenerURLImagen(producto.image_path, SERVERURL);
       if (!producto.image_path) {
         cargar_imagen = `<i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${producto.id_producto},'${enlace_imagen}')"></i>`;
       } else {
@@ -163,6 +118,7 @@ const listProductos = async () => {
       }
       content += `
                 <tr>
+                    <td><input type="checkbox" class="selectCheckbox" data-id="${producto.id_producto}"></td>
                     <td>${producto.id_producto}</td>
                     <td>${cargar_imagen}</td>
                     <td>${producto.codigo_producto}</td>
@@ -188,6 +144,47 @@ const listProductos = async () => {
     alert(ex);
   }
 };
+
+//subida Masiva
+
+function customizeButtons() {
+  document.querySelectorAll(".buttons-html5").forEach((element) => {
+    element.classList.remove("btn", "btn-secondary", "buttons-excel", "buttons-html5");
+    element.classList.add("btn", "btn-primary", "px-2", "py-1", "rounded", "mx-1");
+  });
+}
+
+function toggleSelectAll() {
+  const selectAllCheckbox = document.getElementById("selectAll");
+  const checkboxes = document.querySelectorAll(".selectCheckbox");
+  checkboxes.forEach((checkbox) => (checkbox.checked = selectAllCheckbox.checked));
+}
+
+document.getElementById("subidaMasiva_marketplace").addEventListener("click", async () => {
+  const selectedCheckboxes = document.querySelectorAll(".selectCheckbox:checked");
+  const ids = Array.from(selectedCheckboxes).map((checkbox) => checkbox.getAttribute("data-id"));
+  if (ids.length > 0) {
+    try {
+      const response = await fetch("" + SERVERURL + "productos/subir_marketplace_masivo", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ids: ids }),
+      });
+      const result = await response.json();
+      if (result.success) {
+        alert("Subida masiva exitosa");
+      } else {
+        alert("Error en la subida masiva");
+      }
+    } catch (error) {
+      alert("Error en la subida masiva: " + error);
+    }
+  } else {
+    alert("No hay productos seleccionados");
+  }
+});
 
 function eliminarProducto(id) {
   $.ajax({

@@ -29,6 +29,9 @@
             </div>
             <div class="d-flex">
                 <!-- <button class="btn btn-outline-secondary me-2"><i class="fas fa-file-alt"></i> Reporte</button> -->
+                <div style="padding-top: 20px;">
+                    <button id="subidaMasiva_marketplace" class="btn btn-success">Subida masiva a Marketplace</button>
+                </div>
                 <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#atributosModal"><i class="fas fa-list"></i> Atributos</button>
                 <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_productoModal"><i class="fas fa-plus"></i> Agregar</button>
             </div>
@@ -38,6 +41,7 @@
             <table id="datatable_productos" class="table table-striped">
                 <thead>
                     <tr>
+                        <th class="centered"><input type="checkbox" id="selectAll"></th>
                         <th class="text-nowrap">ID</th>
                         <th class="text-nowrap"></th>
                         <th class="text-nowrap">Código</th>
