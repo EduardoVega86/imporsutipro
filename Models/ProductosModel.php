@@ -596,6 +596,31 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
         return $response;
     }
 
+    public function SubirMarketplaceMasivo($ids, $plataforma)
+{
+    $response = ['status' => 200, 'title' => 'Peticion exitosa', 'message' => 'Productos actualizados correctamente'];
+    
+    try {
+        $this->beginTransaction();
+        foreach ($ids as $id) {
+            $sql = "UPDATE `productos` SET  `drogshipin` = ? WHERE `id_producto` = ? AND `id_plataforma` = ?";
+            $data = [1, $id, $plataforma];
+            $editar_producto = $this->update($sql, $data);
+            if ($editar_producto != 1) {
+                throw new Exception('Error al actualizar el producto con ID: ' . $id);
+            }
+        }
+        $this->commit();
+    } catch (Exception $e) {
+        $this->rollback();
+        $response['status'] = 500;
+        $response['title'] = 'Error';
+        $response['message'] = $e->getMessage();
+    }
+
+    return $response;
+}
+
     public function listarCategoriasMarketplace()
     {
         $sql = "SELECT * FROM pla WHERE id_linea = $id AND id_plataforma = $plataforma";
