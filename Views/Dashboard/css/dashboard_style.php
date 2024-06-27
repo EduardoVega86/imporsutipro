@@ -63,15 +63,7 @@
         margin: 10px;
         flex: 1 1 calc(50% - 40px);
         max-width: calc(50% - 40px);
-        box-sizing: border-box;
     }
-
-    .content-box canvas {
-        width: 100% !important;
-        height: 400px !important;
-        /* Puedes ajustar la altura según sea necesario */
-    }
-
 
     .table-responsive {
         max-height: 200px;
