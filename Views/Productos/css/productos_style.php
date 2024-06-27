@@ -30,15 +30,14 @@
         vertical-align: middle !important;
     }
 
-    .btn-excel{
-        background-color: #198754;
-        border: #198754;
-    }
-
-    .btn-csv{
-        background-color: #198754;
-        border: #198754;
-    }
+    .btn-excel, .btn-csv {
+    background-color: #198754; /* Color verde para Excel */
+    color: white;
+    padding: 5px 10px; /* Ajusta el padding para reducir el tamaño */
+    margin: 0; /* Elimina el margen */
+    border-radius: 0; /* Elimina los bordes redondeados si los hubiera */
+    border: none; /* Elimina el borde */
+  }
 </style>
 <style>
     .filtros_producos {
