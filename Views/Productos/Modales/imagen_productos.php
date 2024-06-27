@@ -44,18 +44,40 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="imageForm" enctype="multipart/form-data">
-                    <input type="hidden" id="id_imagenproducto" name="id_producto">
-                    <div class="form-group">
-                        <label for="imageInput">Imagen</label>
-                        <input type="file" class="form-control-file" id="imageInput" accept="image/*" name="imagen">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="principal-tab" data-bs-toggle="tab" data-bs-target="#principal" type="button" role="tab" aria-controls="principal" aria-selected="true">Imagen Principal</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="adicionales-tab" data-bs-toggle="tab" data-bs-target="#adicionales" type="button" role="tab" aria-controls="adicionales" aria-selected="false">Imágenes Adicionales</button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="principal" role="tabpanel" aria-labelledby="principal-tab">
+                        <form id="imageFormPrincipal" enctype="multipart/form-data">
+                            <input type="hidden" id="id_imagenproducto" name="id_producto">
+                            <div class="form-group mt-3">
+                                <label for="imageInputPrincipal">Imagen Principal</label>
+                                <input type="file" class="form-control-file" id="imageInputPrincipal" accept="image/*" name="imagen">
+                            </div>
+                            <img id="imagePreviewPrincipal" class="image-preview mt-2" src="" alt="Preview" width="200px">
+                        </form>
                     </div>
-                    <img id="imagePreview" class="image-preview" src="" alt="Preview" width="200px">
+                    <div class="tab-pane fade" id="adicionales" role="tabpanel" aria-labelledby="adicionales-tab">
+                        <form id="imageFormAdicionales" enctype="multipart/form-data">
+                            <input type="hidden" id="id_imagenproducto" name="id_producto">
+                            <div class="form-group mt-3">
+                                <label for="imageInputAdicionales">Imágenes Adicionales</label>
+                                <input type="file" class="form-control-file" id="imageInputAdicionales" accept="image/*" name="imagen[]" multiple>
+                            </div>
+                            <div id="imagePreviewAdicionales" class="mt-2"></div>
+                        </form>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             </div>
-            </form>
         </div>
     </div>
 </div>
@@ -103,7 +125,7 @@
                         toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
                             positionClass: "toast-bottom-center",
                         });
-                        
+
                         //  initDataTableProductos();
                         reloadDataTableProductos();
                     }
