@@ -73,9 +73,7 @@ const initDataTableProductos = async () => {
 
   await listProductos();
 
-  dataTableProductos = $("#datatable_productos").DataTable(
-    dataTableProductosOptions
-  );
+  dataTableProductos = $("#datatable_productos").DataTable(dataTableProductosOptions);
 
   dataTableProductosIsInitialized = true;
 
@@ -127,7 +125,7 @@ const listProductos = async () => {
       content += `
                 <tr id="producto_${producto.id_producto}">
                     <td>${producto.id_producto}</td>
-                    <td class="imagen_producto">${cargar_imagen}</td>
+                    <td id="imagen_producto_${producto.id_producto}">${cargar_imagen}</td>
                     <td>${producto.codigo_producto}</td>
                     <td>${producto.nombre_producto}</td>
                     <td>${producto.destacado}</td>
