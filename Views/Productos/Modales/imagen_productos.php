@@ -34,6 +34,12 @@
         border-color: #ffc107;
         color: white;
     }
+
+    .image-preview-container img {
+        width: 100px;
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
 </style>
 
 <div class="modal fade" id="imagen_productoModal" tabindex="-1" aria-labelledby="imagen_productoModalLabel" aria-hidden="true">
@@ -67,10 +73,10 @@
                         <form id="imageFormAdicionales" enctype="multipart/form-data">
                             <input type="hidden" id="id_imagenproducto" name="id_producto">
                             <div class="form-group mt-3">
-                                <label for="imageInputAdicionales">Imágenes Adicionales</label>
+                                <label for="imageInputAdicionales">Imágenes Adicionales (Máximo 4)</label>
                                 <input type="file" class="form-control-file" id="imageInputAdicionales" accept="image/*" name="imagen[]" multiple>
                             </div>
-                            <div id="imagePreviewAdicionales" class="mt-2"></div>
+                            <div id="imagePreviewAdicionales" class="image-preview-container mt-2 d-flex flex-wrap"></div>
                         </form>
                     </div>
                 </div>
@@ -84,57 +90,96 @@
 
 <script>
     $(document).ready(function() {
-        $('#imageInput').change(function() {
-            const file = this.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    $('#imagePreview').attr('src', e.target.result);
-                    $('#imagePreview').show();
-                    // Enviar el formulario automáticamente
-                    $('#imageForm').submit();
-                }
-                reader.readAsDataURL(file);
-            } else {
-                $('#imagePreview').hide();
-            }
-        });
-
-        $('#imageForm').submit(function(event) {
-            event.preventDefault(); // Evita el envío del formulario por defecto
-
-            var formData = new FormData(this); // Crea un objeto FormData a partir del formulario
-
-            $.ajax({
-                url: SERVERURL + 'Productos/guardar_imagen_productos', // Cambia esta ruta por la ruta correcta a tu controlador
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(response) {
-                    response = JSON.parse(response);
-                    // Mostrar alerta de éxito
-                    if (response.status == 500) {
-                        toastr.error(
-                            "LA IMAGEN NO SE AGREGRO CORRECTAMENTE",
-                            "NOTIFICACIÓN", {
-                                positionClass: "toast-bottom-center"
-                            }
-                        );
-                    } else if (response.status == 200) {
-                        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
-                            positionClass: "toast-bottom-center",
-                        });
-
-                        //  initDataTableProductos();
-                        reloadDataTableProductos();
+            $('#imageInputPrincipal').change(function() {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#imagePreviewPrincipal').attr('src', e.target.result);
+                        $('#imagePreviewPrincipal').show();
+                        $('#imageFormPrincipal').submit();
                     }
-
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    alert('Error al guardar la imagen: ' + textStatus);
+                    reader.readAsDataURL(file);
+                } else {
+                    $('#imagePreviewPrincipal').hide();
                 }
             });
+
+            $('#imageInputAdicionales').change(function() {
+                const files = this.files;
+                $('#imagePreviewAdicionales').html('');
+                if (files.length > 0) {
+                    if (files.length > 4) {
+                        alert('Puedes subir un máximo de 4 imágenes.');
+                        return;
+                    }
+                    for (let i = 0; i < files.length; i++) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            $('#imagePreviewAdicionales').append('<img src="' + e.target.result + '" alt="Preview" class="me-2 mb-2">');
+                        }
+                        reader.readAsDataURL(files[i]);
+                    }
+                    $('#imageFormAdicionales').submit();
+                }
+            });
+
+            $('#imageFormPrincipal').submit(function(event) {
+                event.preventDefault();
+                var formData = new FormData(this);
+                $.ajax({
+                    url: SERVERURL + 'Productos/guardar_imagen_productos', // Cambia esta ruta por la ruta correcta a tu controlador
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        response = JSON.parse(response);
+                        if (response.status == 500) {
+                            toastr.error("LA IMAGEN NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
+                                positionClass: "toast-bottom-center"
+                            });
+                        } else if (response.status == 200) {
+                            toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+                                positionClass: "toast-bottom-center",
+                            });
+                            $('#imagen_productoModal').modal('hide');
+                            reloadDataTableProductos();
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        alert('Error al guardar la imagen: ' + textStatus);
+                    }
+                });
+            });
+
+            $('#imageFormAdicionales').submit(function(event) {
+                event.preventDefault();
+                var formData = new FormData(this);
+                $.ajax({
+                    url: SERVERURL + 'Productos/guardar_imagenes_adicionales', // Cambia esta ruta por la ruta correcta a tu controlador
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        response = JSON.parse(response);
+                        if (response.status == 500) {
+                            toastr.error("LAS IMÁGENES NO SE AGREGARON CORRECTAMENTE", "NOTIFICACIÓN", {
+                                positionClass: "toast-bottom-center"
+                            });
+                        } else if (response.status == 200) {
+                            toastr.success("IMÁGENES AGREGADAS CORRECTAMENTE", "NOTIFICACIÓN", {
+                                positionClass: "toast-bottom-center",
+                            });
+                            $('#imagen_productoModal').modal('hide');
+                            reloadDataTableProductos();
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        alert('Error al guardar las imágenes: ' + textStatus);
+                    }
+                });
+            });
         });
-    });
 </script>
