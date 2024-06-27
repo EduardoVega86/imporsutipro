@@ -92,8 +92,6 @@ class DashboardModel extends Query
                     END as estado_descripcion
                 FROM 
                     facturas_cot
-                WHERE 
-                    fecha_factura BETWEEN DATE_FORMAT(NOW(), '%Y-%m-01') AND LAST_DAY(NOW())
             ) subquery
             GROUP BY 
                 estado_descripcion
