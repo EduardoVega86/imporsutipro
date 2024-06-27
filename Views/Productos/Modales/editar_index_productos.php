@@ -195,6 +195,7 @@
 
                         $('#editar_productoModal').modal('hide');
                        // initDataTableProductos();
+                       reloadDataTableProductos();
                     }
                 },
                 error: function(error) {
