@@ -121,7 +121,7 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
             $data_insert = [$codigo_producto, $id, 0, $bodega, $pcp, $pvp, $pref, 0, 0, $id, $plataforma];
             $insertar_producto_ = $this->update($sql_insert, $data_insert);
         }
-
+        print_r($insertar_producto_);
         if ($editar_producto == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
