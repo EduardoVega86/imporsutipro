@@ -537,6 +537,26 @@ class GuiasModel extends Query
         return $response;
     }
 
+    //speed
+
+    public function generarSpeed($nombreO, $ciudadOrigen, $direccionO, $telefonoO, $nombre, $ciudadDestino, $direccion, $telefono, $celular, $referencia, $contiene, $fecha, $numero_factura)
+    {
+        $url = "https://speed.imporsuitpro.com/guias/crear";
+        $data = array(
+            "nombreO" => $nombreO,
+            "ciudadO" => $ciudadOrigen,
+            "direccionO" => $direccionO,
+            "nombre" => $nombre,
+            "ciudad" => $ciudadDestino,
+            "direccion" => $direccion,
+            "telefono" => $telefono,
+            "celular" => $celular,
+            "referencia" => $referencia,
+            "contiene" => $contiene,
+            "fecha" => $fecha,
+            "numero_factura" => $numero_factura
+        );
+    }
     public function aumentarMatriz()
     {
         $this->update("UPDATE matriz set guia_generadas = guia_generadas + 1 WHERE idmatriz = ?", array(MATRIZ));

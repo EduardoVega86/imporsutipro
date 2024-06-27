@@ -174,6 +174,31 @@ class Guias extends Controller
         print_r($response);
     }
 
+    public function generarSpeed()
+    {
+        $nombreO = $_POST['nombreO'];
+        $ciudadO = $_POST['ciudadO'];
+        $ciudadOrigen = $this->model->obtenerNombre($ciudadO, "ciudad")[0]['ciudad'];
+        $direccionO = $_POST['direccionO'];
+        $telefonoO = $_POST['celularO'];
+
+        $nombre = $_POST['nombre'];
+        $ciudad = $_POST['ciudad'];
+        $ciudadDestino = $this->model->obtenerNombre($ciudad, "ciudad")[0]['ciudad'];
+        $direccion = $_POST['calle_principal'] . " y " . $_POST['calle_secundaria'];
+        $telefono = $_POST['telefono'];
+        $celular = $telefono;
+        $referencia = $_POST['referencia'];
+
+        $contiene = $_POST['contiene'];
+
+        $fecha = date("Y-m-d H:i:s");
+
+        $numero_factura = $_POST['numero_factura'];
+
+        $response = $this->model->generarSpeed($nombreO, $ciudadOrigen, $direccionO, $telefonoO, $nombre, $ciudadDestino, $direccion, $telefono, $celular, $referencia, $contiene, $fecha, $numero_factura);
+    }
+
 
     private function obtenerDestinatario()
     {

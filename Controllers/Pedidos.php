@@ -43,7 +43,9 @@ class Pedidos extends Controller
     }
     public function nuevo()
     {
-
+        if (!$this->isAuth()) {
+            header("Location: " . SERVERURL . "login");
+        }
         $this->views->render($this, "nuevo");
     }
     public function ver($id)
@@ -69,7 +71,9 @@ class Pedidos extends Controller
     }
     public function novedades()
     {
-
+        if (!$this->isAuth()) {
+            header("Location: " . SERVERURL . "login");
+        }
         $this->views->render($this, "novedades");
     }
 
@@ -149,6 +153,76 @@ class Pedidos extends Controller
         $id_transporte = $_POST['id_transporte'] ?? 0;
 
         $response = $this->model->nuevo_pedido($fecha_factura, $id_usuario, $monto_factura, $estado_factura, $nombre_cliente, $telefono_cliente, $c_principal, $ciudad_cot, $c_secundaria, $referencia, $observacion, $guia_enviada, $transporte, $identificacion, $celular, $dueño_id, $dropshipping, $id_plataforma, $dueño_id, $importado, $plataforma_importa, $cod, $estado_guia_sistema, $impreso, $facturada, $factura_numero, $numero_guia, $anulada, $identificacionO, $celularO, $nombreO, $ciudadO, $provinciaO, $direccionO, $referenciaO, $numeroCasaO, $valor_segura, $no_piezas, $tipo_servicio, $peso, $contiene, $costo_flete, $costo_producto, $comentario, $id_transporte, $provincia);
+
+        echo json_encode($response);
+    }
+    public function nuevo_pedido_shopify()
+    {
+
+        $fecha_factura = date("Y-m-d H:i:s");
+        $id_usuario = $_SESSION['id'] ?? 0;
+        $monto_factura = $_POST['total_venta'];
+        $estado_factura = 1;
+        $nombre_cliente = $_POST['nombre'];
+        $telefono_cliente = $_POST['telefono'];
+        $c_principal = $_POST['calle_principal'];
+        $ciudad_cot = $_POST['ciudad'];
+        $c_secundaria = $_POST['calle_secundaria'];
+        $provincia = $_POST['provincia'];
+        $referencia = $_POST['referencia'];
+        $observacion    = $_POST['observacion'];
+        $guia_enviada = 0;
+        $transporte = $_POST['transporte'];
+        $identificacion = $_POST['identificacion'] ?? "";
+        $celular = $_POST['celular'] ?? $telefono_cliente;
+        ///
+
+        $id_producto_venta = $_POST['id_producto_venta'];
+
+        $dropshipping = $_POST['dropshipping'] ?? 0;
+        $id_plataforma = $_SESSION['id_plataforma'] ?? $_POST['id_plataforma'];
+        $dueño_id = $this->obtener_propietario($id_producto_venta);
+
+        if ($dueño_id == $id_plataforma) {
+            $dropshipping = 0;
+        } else {
+            $dropshipping = 1;
+        }
+
+        $importado = $_POST['importado'] ?? 0;
+        $plataforma_importa = $_POST['plataforma_importa'] ?? 0;
+        $cod = $_POST['recaudo'] ?? 0;
+        $estado_guia_sistema = 1;
+        $impreso = 0;
+        $facturada = 0;
+        $factura_numero = 0;
+        $numero_guia = 0;
+        $anulada = 0;
+        $id_plataforma = $_SESSION['id_plataforma'] ?? $_POST['id_plataforma'];
+
+        ///origen
+        $identificacionO = $_POST['identificacionO'] ?? "";
+        $celularO = $_POST['celularO'] ?? $telefono_cliente;
+        $nombreO = $_POST['nombreO'];
+        $ciudadO = $_POST['ciudadO'] ?? 0;
+        $provinciaO = $_POST['provinciaO'] ?? 0;
+        $direccionO = $_POST['direccionO'] ?? "vacio";
+        $referenciaO = $_POST['referenciaO'];
+        $numeroCasaO = $_POST['numeroCasaO'] ?? 0;
+
+        $valor_segura = $_POST['valor_segura'] ?? 0;
+        $no_piezas = $_POST['no_piezas'] ?? 1;
+        $tipo_servicio = "201202002002013";
+        $peso = "2";
+        $contiene = $_POST['contiene'] ?? "";
+        $costo_flete = $_POST['costo_flete'] ?? 0;
+        $costo_producto = $_POST['costo_producto'] ?? 0;
+        $comentario = $_POST['comentario'] ?? "";
+        $id_transporte = $_POST['id_transporte'] ?? 0;
+
+        $productos = $_POST['productos'];
+
+        $response = $this->model->nuevo_pedido_shopify($fecha_factura, $id_usuario, $monto_factura, $estado_factura, $nombre_cliente, $telefono_cliente, $c_principal, $ciudad_cot, $c_secundaria, $referencia, $observacion, $guia_enviada, $transporte, $identificacion, $celular, $dueño_id, $dropshipping, $id_plataforma, $dueño_id, $importado, $plataforma_importa, $cod, $estado_guia_sistema, $impreso, $facturada, $factura_numero, $numero_guia, $anulada, $identificacionO, $celularO, $nombreO, $ciudadO, $provinciaO, $direccionO, $referenciaO, $numeroCasaO, $valor_segura, $no_piezas, $tipo_servicio, $peso, $contiene, $costo_flete, $costo_producto, $comentario, $id_transporte, $provincia, $productos);
 
         echo json_encode($response);
     }

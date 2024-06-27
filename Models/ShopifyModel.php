@@ -66,8 +66,9 @@ class ShopifyModel extends Query
         $contiene = "";
         $costo_producto = 0;
         // Procesar cada producto en lineItems
+        $productos = [];
         foreach ($lineItems as $item) {
-            $id_producto_venta = $item['sku'];
+            $id_producto_venta = $item['sku'] ?? 4874;
 
             // Obtener información de la bodega
             $datos_telefono = $this->obtenerBodegaInventario($id_producto_venta);
@@ -89,6 +90,12 @@ class ShopifyModel extends Query
             $costo_producto += $item['price'] * $item['quantity'];
             $id_transporte = 0;
 
+            $productos[] = [
+                'id_producto_venta' => $id_producto_venta,
+                'nombre' => $item['name'],
+                'cantidad' => $item['quantity'],
+                'precio' => $item['price'],
+            ];
             // Aquí puedes añadir el código para guardar la orden en la base de datos
         }
         $comentario = "Orden creada desde Shopify";
@@ -98,7 +105,7 @@ class ShopifyModel extends Query
         // Aquí se pueden continuar los procesos necesarios para la orden
         ///iniciar curl
         $ch = curl_init();
-        $url = "https://new.imporsuitpro.com/pedidos/nuevo_pedido";
+        $url = "https://new.imporsuitpro.com/pedidos/nuevo_pedido_shopify";
 
         $data = array(
             'fecha_factura' => date("Y-m-d H:i:s"),
@@ -157,6 +164,7 @@ class ShopifyModel extends Query
             'transporte' => $transporte,
             'importado' => $importado,
             'id_producto_venta' => $id_producto_venta,
+            'productos' => $productos,
         );
 
         $data = http_build_query($data);
@@ -168,6 +176,18 @@ class ShopifyModel extends Query
         curl_close($ch);
 
         print_r($response);
+        $datos = json_decode($response, true);
+        $numero_factura = $datos['numero_factura'];
+
+        // obtener datos del producto
+        $ch = curl_init();
+        $url = SERVERURL . "marketplace/obtener_producto/" . $id_producto_venta;
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        $datos = json_decode($response, true);
+
         // Como guardar en base de datos, enviar notificaciones, etc.
     }
 
