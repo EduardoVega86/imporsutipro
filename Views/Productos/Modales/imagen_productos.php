@@ -89,73 +89,47 @@
 </div>
 
 <script>
+    var additionalImages = [];
+
     $(document).ready(function() {
-            $('#imageInputPrincipal').change(function() {
-                const file = this.files[0];
-                if (file) {
+        $('#imageInputPrincipal').change(function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#imagePreviewPrincipal').attr('src', e.target.result);
+                    $('#imagePreviewPrincipal').show();
+                    $('#imageFormPrincipal').submit();
+                }
+                reader.readAsDataURL(file);
+            } else {
+                $('#imagePreviewPrincipal').hide();
+            }
+        });
+
+        $('#imageInputAdicionales').change(function() {
+            const files = this.files;
+            if (files.length > 0) {
+                if (additionalImages.length + files.length > 4) {
+                    alert('Puedes subir un máximo de 4 imágenes en total.');
+                    return;
+                }
+
+                for (let i = 0; i < files.length; i++) {
+                    additionalImages.push(files[i]);
                     const reader = new FileReader();
                     reader.onload = function(e) {
-                        $('#imagePreviewPrincipal').attr('src', e.target.result);
-                        $('#imagePreviewPrincipal').show();
-                        $('#imageFormPrincipal').submit();
+                        $('#imagePreviewAdicionales').append('<img src="' + e.target.result + '" alt="Preview" class="me-2 mb-2">');
                     }
-                    reader.readAsDataURL(file);
-                } else {
-                    $('#imagePreviewPrincipal').hide();
+                    reader.readAsDataURL(files[i]);
                 }
-            });
 
-            $('#imageInputAdicionales').change(function() {
-                const files = this.files;
-                $('#imagePreviewAdicionales').html('');
-                if (files.length > 0) {
-                    if (files.length > 4) {
-                        alert('Puedes subir un máximo de 4 imágenes.');
-                        return;
-                    }
-                    for (let i = 0; i < files.length; i++) {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            $('#imagePreviewAdicionales').append('<img src="' + e.target.result + '" alt="Preview" class="me-2 mb-2">');
-                        }
-                        reader.readAsDataURL(files[i]);
-                    }
-                    $('#imageFormAdicionales').submit();
-                }
-            });
-
-            $('#imageFormPrincipal').submit(function(event) {
-                event.preventDefault();
-                var formData = new FormData(this);
-                $.ajax({
-                    url: SERVERURL + 'Productos/guardar_imagen_productos', // Cambia esta ruta por la ruta correcta a tu controlador
-                    type: 'POST',
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function(response) {
-                        response = JSON.parse(response);
-                        if (response.status == 500) {
-                            toastr.error("LA IMAGEN NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
-                                positionClass: "toast-bottom-center"
-                            });
-                        } else if (response.status == 200) {
-                            toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
-                                positionClass: "toast-bottom-center",
-                            });
-                            
-                            reloadDataTableProductos();
-                        }
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        alert('Error al guardar la imagen: ' + textStatus);
-                    }
+                // Crear un nuevo FormData con todas las imágenes acumuladas
+                var formData = new FormData();
+                additionalImages.forEach((file, index) => {
+                    formData.append('imagen[]', file, file.name);
                 });
-            });
 
-            $('#imageFormAdicionales').submit(function(event) {
-                event.preventDefault();
-                var formData = new FormData(this);
                 $.ajax({
                     url: SERVERURL + 'Productos/guardar_imagenes_adicionales', // Cambia esta ruta por la ruta correcta a tu controlador
                     type: 'POST',
@@ -172,7 +146,7 @@
                             toastr.success("IMÁGENES AGREGADAS CORRECTAMENTE", "NOTIFICACIÓN", {
                                 positionClass: "toast-bottom-center",
                             });
-                            
+                            $('#imagen_productoModal').modal('hide');
                             reloadDataTableProductos();
                         }
                     },
@@ -180,6 +154,36 @@
                         alert('Error al guardar las imágenes: ' + textStatus);
                     }
                 });
+            }
+        });
+
+        $('#imageFormPrincipal').submit(function(event) {
+            event.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                url: SERVERURL + 'Productos/guardar_imagen_productos', // Cambia esta ruta por la ruta correcta a tu controlador
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    response = JSON.parse(response);
+                    if (response.status == 500) {
+                        toastr.error("LA IMAGEN NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
+                            positionClass: "toast-bottom-center"
+                        });
+                    } else if (response.status == 200) {
+                        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+                            positionClass: "toast-bottom-center",
+                        });
+                        $('#imagen_productoModal').modal('hide');
+                        reloadDataTableProductos();
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert('Error al guardar la imagen: ' + textStatus);
+                }
             });
         });
+    });
 </script>
