@@ -10,23 +10,14 @@ function getFecha() {
 }
 const dataTableProductosOptions = {
   columnDefs: [{ className: "centered", targets: [0, 1, 2, 3, 4, 5, 6] }],
-  pageLength: 2,
-  /* lengthMenu: [3, 5, 10, 20], */
+  pageLength: 25,
+  lengthMenu: [25, 50, 100, 200],
   destroy: true,
   responsive: true,
   autoWidth: true,
   bAutoWidth: true,
   dom: '<"d-flex w-full justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
   buttons: [
-    {
-      extend: "copyHtml5",
-      text: '<i class="bx bx-copy"></i>',
-      titleAttr: "Copiar",
-      className: "btn btn-primary btn-sm",
-      exportOptions: {
-        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-      },
-    },
     {
       extend: "excelHtml5",
       text: 'Excel <i class="fa-solid fa-file-excel" style="color: #2e8500;"></i>',
@@ -472,7 +463,7 @@ function bajar_marketplace(id) {
   });
 }
 
-function agregar_imagenProducto(id) {
+function agregar_imagenProducto(id, imagen) {
   $("#id_imagenproducto").val(id);
   $("#imagen_productoModal").modal("show");
 }
