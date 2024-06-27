@@ -316,6 +316,12 @@ class Productos extends Controller
 
     public function subir_marketplace_masivo()
     {
+        // Verificar que 'ids' esté en la solicitud POST y no esté vacío
+        if (!isset($_POST['ids']) || empty($_POST['ids'])) {
+            echo json_encode(['status' => 400, 'title' => 'Error', 'message' => 'No se recibieron IDs de productos']);
+            return;
+        }
+
         $ids = $_POST['ids'];
         $response = $this->model->SubirMarketplaceMasivo($ids, $_SESSION['id_plataforma']);
         echo json_encode($response);

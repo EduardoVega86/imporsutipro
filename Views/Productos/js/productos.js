@@ -191,7 +191,7 @@ document
     if (ids.length > 0) {
       try {
         const response = await fetch(
-          "" + SERVERURL + "productos/subir_marketplace_masivo",
+          SERVERURL + "productos/subir_marketplace_masivo",
           {
             method: "POST",
             headers: {
@@ -201,10 +201,10 @@ document
           }
         );
         const result = await response.json();
-        if (result.success) {
+        if (result.status === 200) {
           alert("Subida masiva exitosa");
         } else {
-          alert("Error en la subida masiva");
+          alert("Error en la subida masiva: " + result.message);
         }
       } catch (error) {
         alert("Error en la subida masiva: " + error);
