@@ -38,9 +38,6 @@
     border: none; /* Elimina el borde */
   }
   
-  .buttons-csv .fa-file-csv, .buttons-excel .fa-file-excel {
-    margin-left: 5px; /* Ajusta el margen entre el icono y el texto si es necesario */
-  }
 </style>
 <style>
     .filtros_producos {
