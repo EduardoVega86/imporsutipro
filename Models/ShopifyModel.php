@@ -68,7 +68,7 @@ class ShopifyModel extends Query
         // Procesar cada producto en lineItems
         $productos = [];
         foreach ($lineItems as $item) {
-            if (empty($item['sku'] || $item['sku'] == null || $item['sku'] == "")) {
+            if (empty($item['sku']) || $item['sku'] == null || $item['sku'] == "") {
                 $id_producto_venta = 4874;
             } else {
                 $id_producto_venta = $item['sku'];
