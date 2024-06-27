@@ -109,7 +109,7 @@ class ShopifyModel extends Query
 
         $data = array(
             'fecha_factura' => date("Y-m-d H:i:s"),
-            'id_usuario' => 1,
+            'id_usuario' => 1176,
             'monto_factura' => $total_venta,
             'estado_factura' => 1,
             'nombre_cliente' => $nombre,
@@ -123,7 +123,7 @@ class ShopifyModel extends Query
             'transporte' => $transporte,
             'identificacion' => "",
             'celular' => $telefono,
-            'dueño_id' => 1,
+            'dueño_id' => $plataforma,
             'dropshipping' => 0,
             'id_plataforma' =>  $plataforma,
             'importado' => $importado,
@@ -176,7 +176,7 @@ class ShopifyModel extends Query
         curl_close($ch);
 
         print_r($response);
-        $datos = json_decode($response, true);
+        /*  $datos = json_decode($response, true);
         $numero_factura = $datos['numero_factura'];
 
         // obtener datos del producto
@@ -187,7 +187,7 @@ class ShopifyModel extends Query
         $response = curl_exec($ch);
         curl_close($ch);
         $datos = json_decode($response, true);
-
+ */
         // Como guardar en base de datos, enviar notificaciones, etc.
     }
 
