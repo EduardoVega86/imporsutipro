@@ -418,7 +418,8 @@ function subir_marketplace(id) {
           positionClass: "toast-bottom-center",
         });
         /* initDataTableProductos(); */
-        $("#icono_subida_" + id).hide();
+        /* $("#icono_subida_" + id).hide(); */
+        reloadDataTableProductos();
       }
     },
     error: function (xhr, status, error) {
@@ -453,7 +454,8 @@ function bajar_marketplace(id) {
           }
         );
         /* initDataTableProductos(); */
-        $("#icono_bajada_" + id).hide();
+        /* $("#icono_bajada_" + id).hide(); */
+        reloadDataTableProductos();
       }
     },
     error: function (xhr, status, error) {
