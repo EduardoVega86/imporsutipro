@@ -51,6 +51,11 @@
     <div class="tablas_estaditicas">
         <div class="content-container">
             <div class="content-box">
+                <h4>Ventas del Último Mes</h4>
+                <canvas id="salesChart"></canvas>
+            </div>
+            <!-- tabla ultimos pedidos -->
+            <div class="content-box">
                 <h4>Últimos Pedidos</h4>
                 <div class="table-responsive">
                     <table class="table">
@@ -66,12 +71,9 @@
                         </tbody>
                     </table>
                 </div>
-                <button class="btn btn-primary">Ver todas las Ventas</button>
+                <!-- <button class="btn btn-primary">Ver todas las Ventas</button> -->
             </div>
-            <div class="content-box">
-                <h4>Ventas del Último Mes</h4>
-                <canvas id="salesChart"></canvas>
-            </div>
+            <!-- fin de tabla ultimos pedidos -->
             <div class="content-box">
                 <h4>Visitas</h4>
                 <table class="table">
