@@ -71,6 +71,7 @@ class ShopifyModel extends Query
             $id_producto_venta = $item['sku'] ?? 4874;
 
             // Obtener información de la bodega
+            echo $id_producto_venta;
             $datos_telefono = $this->obtenerBodegaInventario($id_producto_venta);
             $bodega = $datos_telefono[0];
 
