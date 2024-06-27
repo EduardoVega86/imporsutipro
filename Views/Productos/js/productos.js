@@ -11,7 +11,10 @@ function getFecha() {
 }
 
 const dataTableProductosOptions = {
-  columnDefs: [{ className: "centered", targets: [0, 1, 2, 3, 4, 5, 6] }],
+  columnDefs: [
+    { className: "centered", targets: [0, 1, 2, 3, 4, 5, 6] },
+    { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
+  ],
   pageLength: 25,
   lengthMenu: [25, 50, 100, 200],
   destroy: true,
@@ -91,7 +94,9 @@ const initDataTableProductos = async () => {
 
 const listProductos = async () => {
   try {
-    const response = await fetch("" + SERVERURL + "productos/obtener_productos");
+    const response = await fetch(
+      "" + SERVERURL + "productos/obtener_productos"
+    );
     const productos = await response.json();
     let content = ``;
     let cargar_imagen = "";
@@ -149,42 +154,65 @@ const listProductos = async () => {
 
 function customizeButtons() {
   document.querySelectorAll(".buttons-html5").forEach((element) => {
-    element.classList.remove("btn", "btn-secondary", "buttons-excel", "buttons-html5");
-    element.classList.add("btn", "btn-primary", "px-2", "py-1", "rounded", "mx-1");
+    element.classList.remove(
+      "btn",
+      "btn-secondary",
+      "buttons-excel",
+      "buttons-html5"
+    );
+    element.classList.add(
+      "btn",
+      "btn-primary",
+      "px-2",
+      "py-1",
+      "rounded",
+      "mx-1"
+    );
   });
 }
 
 function toggleSelectAll() {
   const selectAllCheckbox = document.getElementById("selectAll");
   const checkboxes = document.querySelectorAll(".selectCheckbox");
-  checkboxes.forEach((checkbox) => (checkbox.checked = selectAllCheckbox.checked));
+  checkboxes.forEach(
+    (checkbox) => (checkbox.checked = selectAllCheckbox.checked)
+  );
 }
 
-document.getElementById("subidaMasiva_marketplace").addEventListener("click", async () => {
-  const selectedCheckboxes = document.querySelectorAll(".selectCheckbox:checked");
-  const ids = Array.from(selectedCheckboxes).map((checkbox) => checkbox.getAttribute("data-id"));
-  if (ids.length > 0) {
-    try {
-      const response = await fetch("" + SERVERURL + "productos/subir_marketplace_masivo", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ids: ids }),
-      });
-      const result = await response.json();
-      if (result.success) {
-        alert("Subida masiva exitosa");
-      } else {
-        alert("Error en la subida masiva");
+document
+  .getElementById("subidaMasiva_marketplace")
+  .addEventListener("click", async () => {
+    const selectedCheckboxes = document.querySelectorAll(
+      ".selectCheckbox:checked"
+    );
+    const ids = Array.from(selectedCheckboxes).map((checkbox) =>
+      checkbox.getAttribute("data-id")
+    );
+    if (ids.length > 0) {
+      try {
+        const response = await fetch(
+          "" + SERVERURL + "productos/subir_marketplace_masivo",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ ids: ids }),
+          }
+        );
+        const result = await response.json();
+        if (result.success) {
+          alert("Subida masiva exitosa");
+        } else {
+          alert("Error en la subida masiva");
+        }
+      } catch (error) {
+        alert("Error en la subida masiva: " + error);
       }
-    } catch (error) {
-      alert("Error en la subida masiva: " + error);
+    } else {
+      alert("No hay productos seleccionados");
     }
-  } else {
-    alert("No hay productos seleccionados");
-  }
-});
+  });
 
 function eliminarProducto(id) {
   $.ajax({
