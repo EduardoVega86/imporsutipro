@@ -75,25 +75,8 @@
             </div>
             <!-- fin de tabla ultimos pedidos -->
             <div class="content-box">
-                <h4>Visitas</h4>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Pagina</th>
-                            <th>Visitas</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Catalogo</td>
-                            <td>20000</td>
-                        </tr>
-                        <tr>
-                            <td>Productos</td>
-                            <td>20000</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <h4>Distribución de estados de guías de envío</h4>
+                <canvas id="pastelChart"></canvas>
             </div>
         </div>
     </div>
