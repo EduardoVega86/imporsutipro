@@ -188,27 +188,39 @@ document
     const ids = Array.from(selectedCheckboxes).map((checkbox) =>
       checkbox.getAttribute("data-id")
     );
+
     if (ids.length > 0) {
-      try {
-        const response = await fetch(
-          SERVERURL + "productos/subir_marketplace_masivo",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ ids: ids }),
+      for (let id of ids) {
+        try {
+          const response = await fetch(
+            SERVERURL + "productos/subir_marketplace",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ id: id }), // Enviamos cada id individualmente
+            }
+          );
+
+          const result = await response.json();
+
+          if (result.status !== 200) {
+            alert(
+              "Error en la subida del producto con id: " +
+                id +
+                " - " +
+                result.message
+            );
           }
-        );
-        const result = await response.json();
-        if (result.status === 200) {
-          alert("Subida masiva exitosa");
-        } else {
-          alert("Error en la subida masiva: " + result.message);
+        } catch (error) {
+          alert(
+            "Error en la subida del producto con id: " + id + " - " + error
+          );
         }
-      } catch (error) {
-        alert("Error en la subida masiva: " + error);
       }
+
+      alert("Subida masiva completada");
     } else {
       alert("No hay productos seleccionados");
     }
