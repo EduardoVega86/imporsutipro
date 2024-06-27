@@ -182,7 +182,7 @@ class PedidosModel extends Query
 
 
             // Insertar cada registro de tmp_cotizacion en detalle_cotizacion
-            $detalle_sql = "INSERT INTO detalle_fact_cot (numero_factura, id_factura, id_producto, cantidad, desc_venta, precio_venta, id_plataforma , sku, id_inventario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $detalle_sql = "INSERT INTO detalle_fact_cot (numero_factura, id_factura, id_producto, cantidad, desc_venta, precio_venta, id_plataforma , sku, id_inventario, descripcion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             foreach ($$productos as $tmp) {
                 //buscar producto 
                 $id_producto = $tmp['id_producto_venta'];
@@ -199,18 +199,30 @@ class PedidosModel extends Query
                     $id_plataforma = 1;
                     $sku = "1000D";
                     $id_inventario = 1628;
+                } else {
+                    $id_bodega = $id_bodega[0]['bodega'];
+                    $sql = "SELECT * FROM inventario_bodegas WHERE bodega = $id_bodega";
+                    $id_inventario = $this->select($sql);
+                    $id_inventario = $id_inventario[0]['id_inventario'];
+                    $id_plataforma = $id_bodega[0]['id_plataforma'];
+                    $sku = $id_bodega[0]['sku'];
+                    $nombre = $tmp['nombre'];
+                    $cantidad = $tmp['cantidad'];
+                    $descuento = 0;
+                    $precio = $tmp['precio'];
                 }
                 //  echo 'enta';
                 $detalle_data = array(
                     $nueva_factura,
                     $factura_id,
-                    $tmp['id_producto'],
-                    $tmp['cantidad_tmp'],
-                    $tmp['desc_tmp'],
-                    $tmp['precio_tmp'],
-                    $tmp['id_plataforma'],
-                    $tmp['sku'],
-                    $tmp['id_inventario']
+                    $id_producto,
+                    $cantidad,
+                    $descuento,
+                    $precio,
+                    $id_plataforma,
+                    $sku,
+                    $id_inventario,
+                    $nombre
                 );
                 $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
                 // print_r($guardar_detalle);
