@@ -1,5 +1,6 @@
 let fecha_inicio = "";
 let fecha_fin = "";
+
 $(function () {
   $("#daterange").daterangepicker({
     opens: "right",
@@ -46,6 +47,9 @@ $(function () {
     informacion_dashboard(fecha_inicio, fecha_fin);
   });
 
+  // Variable global para almacenar la referencia al gráfico
+  let salesChart;
+
   function informacion_dashboard(fecha_inicio, fecha_fin) {
     let formData = new FormData();
     formData.append("fechai", fecha_inicio);
@@ -56,7 +60,7 @@ $(function () {
       data: formData,
       processData: false, // No procesar los datos
       contentType: false, // No establecer ningún tipo de contenido
-      success: function (response) { 
+      success: function (response) {
         response = JSON.parse(response);
         $("#devoluciones").text(response.devoluciones);
         $("#total_fletes").text(response.envios);
@@ -64,63 +68,77 @@ $(function () {
         $("#total_pedidos").text(response.pedidos);
         $("#total_guias").text(response.total_guias);
         $("#total_ventas").text(response.ventas);
-  
+
         // Limpia el tbody antes de agregar los nuevos datos
         $("#facturas-body").empty();
-  
+
         // Recorre el array de facturas y crea filas de tabla
-        response.facturas.forEach(function(factura) {
-            let row = `<tr>
+        response.facturas.forEach(function (factura) {
+          let row = `<tr>
                 <td>${factura.numero_factura}</td>
                 <td>${factura.fecha_factura}</td>
                 <td>${factura.monto_factura}</td>
             </tr>`;
-            $("#facturas-body").append(row);
+          $("#facturas-body").append(row);
         });
-  
+
         // Preparar los datos para el gráfico
-        let labels = response.ventas_diarias.map(venta => venta.dia);
-        let ventasData = response.ventas_diarias.map(venta => venta.ventas !== null ? venta.ventas : 0);
-        let gananciasData = response.ventas_diarias.map(venta => venta.ganancias !== null ? venta.ganancias : 0);
-        let enviosData = response.ventas_diarias.map(venta => venta.envios !== null ? venta.envios : 0);
-  
-        // Crear el gráfico con Chart.js
-        let ctx = document.getElementById('salesChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: [
-                    {
-                        label: 'Ventas',
-                        data: ventasData,
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'Ganancias',
-                        data: gananciasData,
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'Envíos',
-                        data: enviosData,
-                        backgroundColor: 'rgba(255, 206, 86, 0.2)',
-                        borderColor: 'rgba(255, 206, 86, 1)',
-                        borderWidth: 1
-                    }
-                ]
+        let labels = response.ventas_diarias.map((venta) => venta.dia);
+        let ventasData = response.ventas_diarias.map((venta) =>
+          venta.ventas !== null ? venta.ventas : 0
+        );
+        let gananciasData = response.ventas_diarias.map((venta) =>
+          venta.ganancias !== null ? venta.ganancias : 0
+        );
+        let enviosData = response.ventas_diarias.map((venta) =>
+          venta.envios !== null ? venta.envios : 0
+        );
+
+        // Destruir el gráfico existente si ya hay uno
+        if (salesChart) {
+          salesChart.destroy();
+        }
+
+        // Crear el nuevo gráfico con Chart.js
+        let ctx = document.getElementById("salesChart").getContext("2d");
+        salesChart = new Chart(ctx, {
+          type: "line", // Cambiado a 'line' para gráfico de líneas
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: "Ventas",
+                data: ventasData,
+                borderColor: "rgba(75, 192, 192, 1)",
+                borderWidth: 1,
+                fill: false,
+                tension: 0.1,
+              },
+              {
+                label: "Ganancias",
+                data: gananciasData,
+                borderColor: "rgba(54, 162, 235, 1)",
+                borderWidth: 1,
+                fill: false,
+                tension: 0.1,
+              },
+              {
+                label: "Envíos",
+                data: enviosData,
+                borderColor: "rgba(255, 206, 86, 1)",
+                borderWidth: 1,
+                fill: false,
+                tension: 0.1,
+              },
+            ],
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
+              },
             },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
+          },
         });
       },
       error: function (jqXHR, textStatus, errorThrown) {
