@@ -103,8 +103,7 @@
                         toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
                             positionClass: "toast-bottom-center",
                         });
-
-                        $('#imagen_productoModal').modal('hide');
+                        
                         //  initDataTableProductos();
                         reloadDataTableProductos();
                     }
