@@ -328,9 +328,28 @@ class Productos extends Controller
         }
 
         $ids = $data['ids'];
-        $response = $this->model->SubirMarketplaceMasivo($ids, $_SESSION['id_plataforma']);
-        echo json_encode($response);
+        $responses = [];
+
+        foreach ($ids as $id) {
+            $responses[] = $this->model->SubirMarketplace($id, $_SESSION['id_plataforma']);
+        }
+
+        // Verificar si todas las actualizaciones fueron exitosas
+        $allSuccessful = true;
+        foreach ($responses as $response) {
+            if ($response['status'] !== 200) {
+                $allSuccessful = false;
+                break;
+            }
+        }
+
+        if ($allSuccessful) {
+            echo json_encode(['status' => 200, 'title' => 'Peticion exitosa', 'message' => 'Todos los productos fueron actualizados correctamente']);
+        } else {
+            echo json_encode(['status' => 500, 'title' => 'Error', 'message' => 'Ocurrieron errores al actualizar algunos productos', 'details' => $responses]);
+        }
     }
+
 
     public function bajar_marketplace()
     {

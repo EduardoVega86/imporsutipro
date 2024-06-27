@@ -17,8 +17,8 @@ WHERE ib.`id_plataforma` = $plataforma
 GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
         return $this->select($sql);
     }
-
-
+    
+    
 
     public function agregarProducto($codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $plataforma, $stock_inicial, $bodega, $pcp, $pvp, $pref)
     {
@@ -34,10 +34,10 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
         $id_producto = $this->select($sql_id);
         $id_producto = $id_producto[0]['id_producto'];
         if ($inv_producto == 1) {
-            //echo $producto_variable;
+           //echo $producto_variable;
 
             if ($producto_variable == 0) {
-
+                
                 // echo 'con invetario';
                 $sql = "INSERT INTO inventario_bodegas (sku, id_producto, id_variante, bodega, pcp, pvp, pref, stock_inicial, saldo_stock, id_plataforma) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 $data = [$codigo_producto, $id_producto, 0, $bodega, $pcp, $pvp, $pref, $stock_inicial, $stock_inicial, $plataforma];
@@ -47,7 +47,7 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
                 $data = [$codigo_producto, $id_producto, $producto_variable, 50000, $pcp, $pvp, $pref, $stock_inicial, $stock_inicial, $plataforma];
             }
             $insertar_producto = $this->insert($sql, $data);
-            // print_r($insertar_producto);
+           // print_r($insertar_producto);
         } else {
             //bodega inicial
             $sql_bodega = "SELECT * FROM bodega WHERE id_plataforma = $plataforma limit 1";
@@ -59,7 +59,7 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
         }
         // print_r($insertar_producto);
         if ($insertar_producto == 1) {
-            //echo $codigo_producto;
+//echo $codigo_producto;
             $id_usuario = $_SESSION['id'];
             $id_inventario = $this->buscar_inventario($id_producto, $codigo_producto);
             $referencia = 'STOCK INICIAL';
@@ -160,8 +160,8 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
         $sql = "SELECT * FROM productos p inner join inventario_bodegas ib on p.codigo_producto = ib.sku WHERE p.id_producto = $id AND p.id_plataforma = $plataforma";
         return $this->select($sql);
     }
-
-
+    
+    
     public function obtenerProductoFavoritos($id, $plataforma)
     {
         $sql = "SELECT * FROM productos p inner join inventario_bodegas ib on p.codigo_producto = ib.sku WHERE p.id_producto = $id AND p.id_plataforma = $plataforma";
@@ -470,52 +470,56 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
         }
         return $response;
     }
-
-    public function agregarVariable($id_variedad, $id_producto, $sku, $bodega, $pcp, $pvp, $stock, $plataforma, $pref)
+    
+     public function agregarVariable($id_variedad, $id_producto, $sku, $bodega, $pcp, $pvp, $stock, $plataforma, $pref)
     {
         $response = $this->initialResponse();
-
-
-        $inicial_variable = $this->select("SELECT id_inventario FROM inventario_bodegas WHERE id_producto = '$id_producto' and bodega=50000");
-
-        //print_r($cantidad_tmp);
-        if (empty($inicial_variable)) {
-            $sql = "INSERT INTO inventario_bodegas (id_producto, sku, id_variante, bodega, pcp, pvp, stock_inicial, saldo_stock, id_plataforma, pref) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            $data = [$id_producto, $sku, $id_variedad, $bodega, $pcp, $pvp, $stock, $stock, $plataforma, $pref];
-            $insertar_caracteristica = $this->insert($sql, $data);
-        } else {
-            // print_r($inicial_variable);
-            $id_inventario = $inicial_variable[0]["id_inventario"];
-            $sql = "UPDATE `inventario_bodegas` SET  `sku`=?, `bodega`=? ,`pcp`=? ,`pvp`=? ,`stock_inicial`=? ,`saldo_stock`=?, `id_variante`=?  WHERE `id_inventario` = ?";
-            $data = [$sku, $bodega, $pcp, $pvp, $stock, $stock, $id_variedad, $id_inventario];
-            $insertar_caracteristica = $this->update($sql, $data);
-        }
-
-
+        
+        
+         $inicial_variable= $this->select("SELECT id_inventario FROM inventario_bodegas WHERE id_producto = '$id_producto' and bodega=50000" );
+                   
+          //print_r($cantidad_tmp);
+          if (empty($inicial_variable)){
+                $sql = "INSERT INTO inventario_bodegas (id_producto, sku, id_variante, bodega, pcp, pvp, stock_inicial, saldo_stock, id_plataforma, pref) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $data = [$id_producto, $sku, $id_variedad, $bodega, $pcp, $pvp, $stock, $stock, $plataforma, $pref];
+        $insertar_caracteristica = $this->insert($sql, $data);
+        
+        
+        
+          }else{
+             // print_r($inicial_variable);
+               $id_inventario = $inicial_variable[0]["id_inventario"];
+               $sql = "UPDATE `inventario_bodegas` SET  `sku`=?, `bodega`=? ,`pcp`=? ,`pvp`=? ,`stock_inicial`=? ,`saldo_stock`=?, `id_variante`=?  WHERE `id_inventario` = ?";
+                $data = [$sku, $bodega ,$pcp ,$pvp ,$stock ,$stock ,$id_variedad, $id_inventario];
+               $insertar_caracteristica = $this->update($sql, $data);
+        
+          }
+              
+          
         //  print_r($insertar_caracteristica);
         if ($insertar_caracteristica == 1) {
-            $id_usuario = $_SESSION['id'];
-
+        $id_usuario=$_SESSION['id'];
+       
             $referencia = 'STOCK INICIAL';
             $nota = "Se agrego $stock_inicial productos(s) al inventario";
-            $id_inventario = $this->buscar_inventario($id_producto, $sku);
-            $nota = "Se agrego $cantidad productos(s) al inventario";
-            $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            $data = [$id_usuario, $inventario, $plataforma, $sku,  $nota, $referencia, $cantidad, 1, $id_bodega, $id_producto];
-            $insertar_historial = $this->insert($sql, $data);
+               $id_inventario = $this->buscar_inventario($id_producto, $sku);
+        $nota= "Se agrego $cantidad productos(s) al inventario";
+        $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $data = [$id_usuario, $inventario, $plataforma, $sku,  $nota, $referencia, $cantidad, 1, $id_bodega ,$id_producto];
+        $insertar_historial = $this->insert($sql, $data);
 
-            if ($insertar_historial == 1) {
-                $response['status'] = 200;
-                $response['title'] = 'Peticion exitosa';
-                $response['message'] = 'Producto agregado correctamente';
-                if ($insertar_producto_ === 1) {
-                    $response['message'] = 'Producto y stock agregado correctamente';
-                }
-            } else {
-                $response['status'] = 500;
-                $response['title'] = 'Error';
-                $response['message'] = 'Error al agregar el historial';
+        if ($insertar_historial == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Producto agregado correctamente';
+            if ($insertar_producto_ === 1) {
+                $response['message'] = 'Producto y stock agregado correctamente';
             }
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al agregar el historial';
+        }
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
@@ -526,9 +530,9 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
 
     public function listarCaracteristicas($plataforma)
     {
-
+        
         $sql = "SELECT * FROM variedades WHERE id_plataforma = $plataforma";
-
+       
         return $this->select($sql);
     }
 
@@ -592,89 +596,57 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
         return $response;
     }
 
-    public function SubirMarketplaceMasivo($ids, $plataforma)
-    {
-        $response = ['status' => 200, 'title' => 'Peticion exitosa', 'message' => 'Productos actualizados correctamente'];
-
-        // Asegúrate de que $ids sea un array
-        if (!is_array($ids) || empty($ids)) {
-            $response['status'] = 400;
-            $response['title'] = 'Error';
-            $response['message'] = 'El parámetro ids debe ser un array no vacío';
-            return $response;
-        }
-
-        try {
-            foreach ($ids as $id) {
-                $sql = "UPDATE `productos` SET `drogshipin` = ? WHERE `id_producto` = ? AND `id_plataforma` = ?";
-                $data = [1, $id, $plataforma];
-                $editar_producto = $this->update($sql, $data);
-
-                if ($editar_producto != 1) {
-                    throw new Exception('Error al actualizar el producto con ID: ' . $id);
-                }
-            }
-        } catch (Exception $e) {
-            $response['status'] = 500;
-            $response['title'] = 'Error';
-            $response['message'] = $e->getMessage();
-        }
-
-        return $response;
-    }
-
-
     public function listarCategoriasMarketplace()
     {
         $sql = "SELECT * FROM pla WHERE id_linea = $id AND id_plataforma = $plataforma";
         return $this->select($sql);
     }
-
+    
     public function mostrarVariedades($id_producto)
     {
-        // echo $id_producto;
+       // echo $id_producto;
         $sql = "select * from inventario_bodegas ib, productos p, variedades v, atributos a, bodega b where ib.id_producto=$id_producto and ib.id_producto=p.id_producto and ib.id_variante=v.id_variedad and v.id_atributo=a.id_atributo and ib.bodega=b.id";
-
+       
         return $this->select($sql);
     }
-
+    
     public function consultarMaximo($id_producto)
     {
-
+       
         $sql = "SELECT sku FROM inventario_bodegas WHERE id_producto = $id_producto ORDER BY  CASE  WHEN sku LIKE '%-%' THEN CAST(SUBSTRING_INDEX(sku, '-', -1) AS UNSIGNED)
         ELSE 0 END DESC, sku DESC LIMIT 1;";
-
-
-
+       
+       
+        
         $id_producto = $this->select($sql);
         $codigo_producto = $id_producto[0]['sku'];
-
-        $codigo_nuevo = $this->aumentarCodigo($codigo_producto);
+     
+        $codigo_nuevo=$this->aumentarCodigo($codigo_producto);
         echo $codigo_nuevo;
         //return $codigo_nuevo;
     }
+    
+function aumentarCodigo($codigo) {
+    // Verificar si el código contiene un guion
+    //echo $codigo.'ad';
+    if (strpos($codigo, '-') !== false) {
+        // Si contiene un guion, extraer la parte numérica después del guion
+        $partes = explode('-', $codigo);
+        $numero = intval(end($partes)) + 1;
+        // Unir las partes con el nuevo número
+        array_pop($partes);
+        $nuevoCodigo = implode('-', $partes) . '-' . $numero;
+    } else {
+        // Si no contiene un guion, agregar -1 al final
+        $nuevoCodigo = $codigo . '-1';
+    }
+//echo $nuevoCodigo;
+    return $nuevoCodigo;
+}
 
-    function aumentarCodigo($codigo)
+ public function importacion_masiva($plataforma)
     {
-        // Verificar si el código contiene un guion
-        //echo $codigo.'ad';
-        if (strpos($codigo, '-') !== false) {
-            // Si contiene un guion, extraer la parte numérica después del guion
-            $partes = explode('-', $codigo);
-            $numero = intval(end($partes)) + 1;
-            // Unir las partes con el nuevo número
-            array_pop($partes);
-            $nuevoCodigo = implode('-', $partes) . '-' . $numero;
-        } else {
-            // Si no contiene un guion, agregar -1 al final
-            $nuevoCodigo = $codigo . '-1';
-        }
-        //echo $nuevoCodigo;
-        return $nuevoCodigo;
+     //print_r($plataforma);
     }
 
-    public function importacion_masiva($plataforma)
-    {
-        //print_r($plataforma);
-    }
 }
