@@ -100,9 +100,7 @@ const initDataTableProductos = async () => {
 
 const listProductos = async () => {
   try {
-    const response = await fetch(
-      "" + SERVERURL + "productos/obtener_productos"
-    );
+    const response = await fetch("" + SERVERURL + "productos/obtener_productos");
     const productos = await response.json();
 
     let content = ``;
@@ -115,21 +113,21 @@ const listProductos = async () => {
       } else {
         cargar_imagen = `<img src="${SERVERURL}${producto.image_path}" class="icon-button" onclick="agregar_imagenProducto(${producto.id_producto})" alt="Agregar imagen" width="50px">`;
       }
-      if (producto.drogshipin == 0){
+      if (producto.drogshipin == 0) {
         subir_marketplace = `<box-icon name='cloud-upload' id="icono_subida_${producto.id_producto}" onclick="subir_marketplace(${producto.id_producto})"></box-icon>`;
       } else {
         subir_marketplace = `<box-icon name='cloud-download' id="icono_bajada_${producto.id_producto}" onclick="bajar_marketplace(${producto.id_producto})"></box-icon>`;
       }
 
-      if (producto.producto_variable == 0){
+      if (producto.producto_variable == 0) {
         producto_variable = ``;
       } else {
         producto_variable = `<img src="https://new.imporsuitpro.com/public/img/atributos.png" width="30px" id="buscar_traking" alt="buscar_traking" onclick="abrir_modalInventarioVariable(${producto.id_producto})">`;
       }
       content += `
-                <tr>
+                <tr id="producto_${producto.id_producto}">
                     <td>${producto.id_producto}</td>
-                    <td>${cargar_imagen}</td>
+                    <td class="imagen_producto">${cargar_imagen}</td>
                     <td>${producto.codigo_producto}</td>
                     <td>${producto.nombre_producto}</td>
                     <td>${producto.destacado}</td>
