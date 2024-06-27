@@ -46,8 +46,6 @@ const initDataTable = async () => {
 
 const listGuias = async () => {
   try {
-    
-
     const formData = new FormData();
     formData.append("fecha_inicio", fecha_inicio);
     formData.append("fecha_fin", fecha_fin);
@@ -67,18 +65,18 @@ const listGuias = async () => {
     guias.forEach((guia, index) => {
       let transporte = guia.transporte;
       let transporte_content = "";
-      let ruta_descarga ="";
-      let ruta_traking="";
+      let ruta_descarga = "";
+      let ruta_traking = "";
       if (transporte == "SERVIENTREGA") {
         transporte_content =
           '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SERVIENTREGA</span>';
-          ruta_descarga= `https://guias.imporsuit.com/Servientrega/Guia/${guia.numero_guia}`;
-          ruta_traking= `https://www.servientrega.com.ec/Tracking/?guia=${guia.numero_guia}&tipo=${guia.numero_guia}`;
+        ruta_descarga = `https://guias.imporsuit.com/Servientrega/Guia/${guia.numero_guia}`;
+        ruta_traking = `https://www.servientrega.com.ec/Tracking/?guia=${guia.numero_guia}&tipo=${guia.numero_guia}`;
       } else if (transporte == "LAAR") {
         transporte_content =
           '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">LAAR</span>';
-          ruta_descarga= `https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${guia.numero_guia}`;
-          ruta_traking= `https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${guia.numero_guia}`;
+        ruta_descarga = `https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${guia.numero_guia}`;
+        ruta_traking = `https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${guia.numero_guia}`;
       } else if (transporte == "SPEED") {
         transporte_content =
           '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
@@ -132,7 +130,9 @@ const listGuias = async () => {
                       <span class="w-100 text-nowrap ${span_estado}">${estado_guia}</span>
                      </div>
                      <div>
-                      <a class="w-100" href="${ruta_descarga}" target="_blank">${guia.numero_guia}</a>
+                      <a class="w-100" href="${ruta_descarga}" target="_blank">${
+        guia.numero_guia
+      }</a>
                      </div>
                      <div style="position: relative; display: inline-block;">
                       <a href="${ruta_traking}" target="_blank" style="vertical-align: middle;">
@@ -197,7 +197,7 @@ function abrirModal_infoTienda(tienda) {
 }
 
 function procesarPlataforma(url) {
-  if((url == null) || (url == "")){
+  if (url == null || url == "") {
     let respuesta_error = "La tienda ya no existe";
     return respuesta_error;
   }
@@ -205,7 +205,7 @@ function procesarPlataforma(url) {
   let sinProtocolo = url.replace("https://", "");
 
   // Encontrar la posición del primer punto
-  let primerPunto = sinProtocolo.indexOf('.');
+  let primerPunto = sinProtocolo.indexOf(".");
 
   // Obtener la subcadena desde el inicio hasta el primer punto
   let baseNombre = sinProtocolo.substring(0, primerPunto);
@@ -293,7 +293,6 @@ document.getElementById("imprimir_guias").addEventListener("click", () => {
         text: "Creando lista de productos",
         allowOutsideClick: false,
         showConfirmButton: false,
-        timer: 2000,
         willOpen: () => {
           Swal.showLoading();
         },
@@ -307,6 +306,9 @@ document.getElementById("imprimir_guias").addEventListener("click", () => {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+
+        // Cerrar el Swal después de hacer clic en el enlace
+        Swal.close();
       }
     },
     error: function (xhr, status, error) {
