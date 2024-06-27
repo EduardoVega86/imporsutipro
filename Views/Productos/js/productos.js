@@ -137,7 +137,8 @@ const listProductos = async () => {
                     <td>logo landing</td>
                     <td><i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${producto.id_producto}, '${enlace_imagen}')"></i></td>
                     <td>${subir_marketplace}</td>
-                    <td>${producto_variable}</td>
+                    <td>${subir_marketplace}</td>
+                    <td><i class="fa-regular fa-paper-plane" onclick="enviar_cliente(${producto.id_producto},'${producto.sku}',${producto.pvp},${producto.id_inventario})""></i></td>
                     <td>
                         <button class="btn btn-sm btn-primary" onclick="editarProducto(${producto.id_producto})"><i class="fa-solid fa-pencil"></i>Editar</button>
                         <button class="btn btn-sm btn-danger" onclick="eliminarProducto(${producto.id_producto})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
@@ -150,8 +151,45 @@ const listProductos = async () => {
   }
 };
 
-//subida Masiva
+//enviar cliente
+function enviar_cliente(id, sku, pvp, id_inventario) {
+  // Crear un objeto FormData y agregar los datos
+  const formData = new FormData();
+  formData.append("cantidad", 1);
+  formData.append("precio", pvp);
+  formData.append("id_producto", id);
+  formData.append("sku", sku);
+  formData.append("id_inventario", id_inventario);
 
+  $.ajax({
+    type: "POST",
+    url: "" + SERVERURL + "marketplace/agregarTmp",
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function (response2) {
+      response2 = JSON.parse(response2);
+      console.log(response2);
+      console.log(response2[0]);
+      if (response2.status == 500) {
+        Swal.fire({
+          icon: "error",
+          title: response2.title,
+          text: response2.message,
+        });
+      } else if (response2.status == 200) {
+        window.location.href =
+          SERVERURL + "Pedidos/nuevo?id_producto=" + id + "&sku=" + sku;
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al agregar el producto temporalmente");
+    },
+  });
+}
+
+//subida Masiva
 function customizeButtons() {
   document.querySelectorAll(".buttons-html5").forEach((element) => {
     element.classList.remove(
