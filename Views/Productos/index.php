@@ -52,7 +52,6 @@
                         <th class="text-nowrap">Landing</th>
                         <th class="text-nowrap">Imagenes</th>
                         <th class="text-nowrap">Enviar a Marketplace</th>
-                        <th class="text-nowrap">Envias a cliente</th>
                         <th class="text-nowrap">Atributos</th>
                         <th class="text-nowrap">Acciones</th>
                     </tr>
