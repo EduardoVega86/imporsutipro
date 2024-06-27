@@ -65,6 +65,7 @@ class CalculadoraModel extends Query
             }
         }
 
+
         if ($ciudad == "QUITO") {
             $tarifas["speed"] = 5.5;
         } else if ($ciudad == "VALLE DE LOS CHILLOS") {
@@ -87,6 +88,10 @@ class CalculadoraModel extends Query
         if ($matriz == 2) {
             $tarifas['laar'] = 5.99;
         }
+
+        $tarifas['laar'] = number_format($tarifas['laar'], 2, '.', '');
+        $tarifas['servientrega'] = number_format($tarifas['servientrega'], 2, '.', '');
+        $tarifas['gintracom'] = number_format($tarifas['gintracom'], 2, '.', '');
 
         return $tarifas;
     }
