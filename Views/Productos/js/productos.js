@@ -66,6 +66,45 @@ const dataTableProductosOptions = {
   },
 };
 
+const reloadDataTableProductos = async () => {
+  // Guarda el estado de paginación actual
+  const currentPage = dataTableProductos.page();
+
+  // Destruye el DataTable existente
+  dataTableProductos.destroy();
+
+  // Recarga los datos
+  await listProductos();
+
+  // Inicializa el DataTable nuevamente
+  dataTableProductos = $("#datatable_productos").DataTable(
+    dataTableProductosOptions
+  );
+
+  // Restablece el estado de paginación
+  dataTableProductos.page(currentPage).draw(false);
+
+  dataTableProductosIsInitialized = true;
+
+  document.querySelectorAll(".buttons-html5").forEach((element) => {
+    // Remueve las clases de bootstrap
+    element.classList.remove(
+      "btn",
+      "btn-secondary",
+      "buttons-excel",
+      "buttons-html5"
+    );
+    element.classList.add(
+      "btn",
+      "btn-primary",
+      "px-2",
+      "py-1",
+      "rounded",
+      "mx-1"
+    );
+  });
+};
+
 const initDataTableProductos = async () => {
   if (dataTableProductosIsInitialized) {
     dataTableProductos.destroy();
@@ -73,7 +112,9 @@ const initDataTableProductos = async () => {
 
   await listProductos();
 
-  dataTableProductos = $("#datatable_productos").DataTable(dataTableProductosOptions);
+  dataTableProductos = $("#datatable_productos").DataTable(
+    dataTableProductosOptions
+  );
 
   dataTableProductosIsInitialized = true;
 
@@ -98,7 +139,9 @@ const initDataTableProductos = async () => {
 
 const listProductos = async () => {
   try {
-    const response = await fetch("" + SERVERURL + "productos/obtener_productos");
+    const response = await fetch(
+      "" + SERVERURL + "productos/obtener_productos"
+    );
     const productos = await response.json();
 
     let content = ``;
@@ -123,9 +166,9 @@ const listProductos = async () => {
         producto_variable = `<img src="https://new.imporsuitpro.com/public/img/atributos.png" width="30px" id="buscar_traking" alt="buscar_traking" onclick="abrir_modalInventarioVariable(${producto.id_producto})">`;
       }
       content += `
-                <tr id="producto_${producto.id_producto}">
+                <tr>
                     <td>${producto.id_producto}</td>
-                    <td id="imagen_producto_${producto.id_producto}">${cargar_imagen}</td>
+                    <td>${cargar_imagen}</td>
                     <td>${producto.codigo_producto}</td>
                     <td>${producto.nombre_producto}</td>
                     <td>${producto.destacado}</td>
@@ -241,43 +284,42 @@ $(document).ready(function () {
   });
 
   // Evento change para el select de categoría y filtrar por categorias
-  $('#categoria_filtro').change(function () {
+  $("#categoria_filtro").change(function () {
     let categoriaId = $(this).val();
     filtrarProductosPorCategoria(categoriaId);
   });
 });
 
-
-//filtrar por categorias 
+//filtrar por categorias
 const filtrarProductosPorCategoria = async (categoriaId) => {
-    try {
-      const response = await fetch(
-        `${SERVERURL}productos/obtener_productos_categoria/${categoriaId}`  // falta que me creen esta api
-      );
-      const productos = await response.json();
-  
-      let content = ``;
-      let cargar_imagen = "";
-      let subir_marketplace = "";
-      let producto_variable = "";
-      productos.forEach((producto, index) => {
-        if (!producto.image_path) {
-          cargar_imagen = `<i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${producto.id_producto})"></i>`;
-        } else {
-          cargar_imagen = `<img src="${SERVERURL}${producto.image_path}" class="icon-button" onclick="agregar_imagenProducto(${producto.id_producto})" alt="Agregar imagen" width="50px">`;
-        }
-        if (producto.drogshipin == 0){
-          subir_marketplace = `<box-icon name='cloud-upload' id="icono_subida_${producto.id_producto}" onclick="subir_marketplace(${producto.id_producto})"></box-icon>`;
-        } else {
-          subir_marketplace = `<box-icon name='cloud-download' id="icono_bajada_${producto.id_producto}" onclick="bajar_marketplace(${producto.id_producto})"></box-icon>`;
-        }
+  try {
+    const response = await fetch(
+      `${SERVERURL}productos/obtener_productos_categoria/${categoriaId}` // falta que me creen esta api
+    );
+    const productos = await response.json();
 
-        if (producto.producto_variable == 0){
-          producto_variable = ``;
-        } else {
-          producto_variable = `<img src="https://new.imporsuitpro.com/public/img/atributos.png" width="30px" id="buscar_traking" alt="buscar_traking" onclick="abrir_modalInventarioVariable(${producto.id_producto})">`;
-        }
-        content += `
+    let content = ``;
+    let cargar_imagen = "";
+    let subir_marketplace = "";
+    let producto_variable = "";
+    productos.forEach((producto, index) => {
+      if (!producto.image_path) {
+        cargar_imagen = `<i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${producto.id_producto})"></i>`;
+      } else {
+        cargar_imagen = `<img src="${SERVERURL}${producto.image_path}" class="icon-button" onclick="agregar_imagenProducto(${producto.id_producto})" alt="Agregar imagen" width="50px">`;
+      }
+      if (producto.drogshipin == 0) {
+        subir_marketplace = `<box-icon name='cloud-upload' id="icono_subida_${producto.id_producto}" onclick="subir_marketplace(${producto.id_producto})"></box-icon>`;
+      } else {
+        subir_marketplace = `<box-icon name='cloud-download' id="icono_bajada_${producto.id_producto}" onclick="bajar_marketplace(${producto.id_producto})"></box-icon>`;
+      }
+
+      if (producto.producto_variable == 0) {
+        producto_variable = ``;
+      } else {
+        producto_variable = `<img src="https://new.imporsuitpro.com/public/img/atributos.png" width="30px" id="buscar_traking" alt="buscar_traking" onclick="abrir_modalInventarioVariable(${producto.id_producto})">`;
+      }
+      content += `
                   <tr>
                       <td>${producto.id_producto}</td>
                       <td>${cargar_imagen}</td>
@@ -298,15 +340,13 @@ const filtrarProductosPorCategoria = async (categoriaId) => {
                           <button class="btn btn-sm btn-danger" onclick="eliminarProducto(${producto.id_producto})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
                       </td>
                   </tr>`;
-      });
-      document.getElementById("tableBody_productos").innerHTML = content;
-      dataTableProductos.clear().rows.add($(content)).draw(); // Actualiza la DataTable
-    } catch (ex) {
-      alert(ex);
-    }
-  };
-  
-
+    });
+    document.getElementById("tableBody_productos").innerHTML = content;
+    dataTableProductos.clear().rows.add($(content)).draw(); // Actualiza la DataTable
+  } catch (ex) {
+    alert(ex);
+  }
+};
 
 function editarProducto(id) {
   $.ajax({
@@ -364,7 +404,7 @@ function editarProducto(id) {
   });
 }
 
-function subir_marketplace(id){
+function subir_marketplace(id) {
   $.ajax({
     type: "POST",
     url: SERVERURL + "productos/subir_marketplace",
@@ -374,18 +414,19 @@ function subir_marketplace(id){
       // Mostrar alerta de éxito
       if (response.status == 500) {
         toastr.error(
-            "EL PRODUCTO NO SE AGREGRO AL MARKETPLACE CORRECTAMENTE",
-            "NOTIFICACIÓN", {
-                positionClass: "toast-bottom-center"
-            }
-        );
-    } else if (response.status == 200) {
-        toastr.success("PRODUCTO AGREGADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          "EL PRODUCTO NO SE AGREGRO AL MARKETPLACE CORRECTAMENTE",
+          "NOTIFICACIÓN",
+          {
             positionClass: "toast-bottom-center",
+          }
+        );
+      } else if (response.status == 200) {
+        toastr.success("PRODUCTO AGREGADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
         });
         /* initDataTableProductos(); */
-        $('#icono_subida_'+id).hide();
-    }
+        $("#icono_subida_" + id).hide();
+      }
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
@@ -394,7 +435,7 @@ function subir_marketplace(id){
   });
 }
 
-function bajar_marketplace(id){
+function bajar_marketplace(id) {
   $.ajax({
     type: "POST",
     url: SERVERURL + "productos/bajar_marketplace",
@@ -404,18 +445,23 @@ function bajar_marketplace(id){
       // Mostrar alerta de éxito
       if (response.status == 500) {
         toastr.error(
-            "EL PRODUCTO NO SE BAJO DEL MARKETPLACE CORRECTAMENTE",
-            "NOTIFICACIÓN", {
-                positionClass: "toast-bottom-center"
-            }
-        );
-    } else if (response.status == 200) {
-        toastr.success("PRODUCTO BAJADO DEL MARKETPLACE CORRECTAMENTE", "NOTIFICACIÓN", {
+          "EL PRODUCTO NO SE BAJO DEL MARKETPLACE CORRECTAMENTE",
+          "NOTIFICACIÓN",
+          {
             positionClass: "toast-bottom-center",
-        });
+          }
+        );
+      } else if (response.status == 200) {
+        toastr.success(
+          "PRODUCTO BAJADO DEL MARKETPLACE CORRECTAMENTE",
+          "NOTIFICACIÓN",
+          {
+            positionClass: "toast-bottom-center",
+          }
+        );
         /* initDataTableProductos(); */
-        $('#icono_bajada_'+id).hide();
-    }
+        $("#icono_bajada_" + id).hide();
+      }
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
@@ -423,7 +469,6 @@ function bajar_marketplace(id){
     },
   });
 }
-
 
 function agregar_imagenProducto(id) {
   $("#id_imagenproducto").val(id);
@@ -433,8 +478,7 @@ window.addEventListener("load", async () => {
   await initDataTableProductos();
 });
 
-
-function abrir_modalInventarioVariable(id){
+function abrir_modalInventarioVariable(id) {
   $("#id_productoVariable").val(id);
   initDataTableDetalleInventario();
   $("#inventario_variableModal").modal("show");

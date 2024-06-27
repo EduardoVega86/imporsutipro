@@ -104,10 +104,8 @@
                         });
 
                         $('#imagen_productoModal').modal('hide');
-                        // Actualizar la imagen del producto en la tabla sin recargar toda la tabla
-                        let productoID = response.producto_id; // Asegúrate de que el ID del producto esté en la respuesta
-                        let nuevaImagen = `<img src="${SERVERURL}${response.image_path}" class="icon-button" onclick="agregar_imagenProducto(${productoID})" alt="Agregar imagen" width="50px">`;
-                        $(`#imagen_producto_${productoID}`).html(nuevaImagen);
+                        //  initDataTableProductos();
+                        reloadDataTableProductos();
                     }
 
                 },
