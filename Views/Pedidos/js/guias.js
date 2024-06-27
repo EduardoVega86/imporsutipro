@@ -308,6 +308,7 @@ document.getElementById("imprimir_guias").addEventListener("click", () => {
         document.body.removeChild(link);
 
         // Cerrar el Swal después de hacer clic en el enlace
+        initDataTable();
         Swal.close();
       }
     },
