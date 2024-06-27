@@ -66,9 +66,9 @@
     }
 
     #pie-chart-container {
-        width: 400px;
+        width: 200px;
         /* Ajusta el ancho según tu preferencia */
-        height: 400px;
+        height: 200px;
         /* Ajusta la altura según tu preferencia */
         margin: 0 auto;
         /* Centrar el contenedor si es necesario */
