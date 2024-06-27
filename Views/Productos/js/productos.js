@@ -111,7 +111,7 @@ const listProductos = async () => {
         cargar_imagen = `<img src="${enlace_imagen}" class="icon-button" onclick="agregar_imagenProducto(${producto.id_producto},'${enlace_imagen}')" alt="Agregar imagen" width="50px">`;
       }
       if (producto.drogshipin == 0) {
-        subir_marketplace = `<box-icon name='cloud-upload' color='#E3BC1C' id="icono_subida_${producto.id_producto}" onclick="subir_marketplace(${producto.id_producto})"></box-icon>`;
+        subir_marketplace = `<box-icon name='cloud-upload' color='#54DD10' id="icono_subida_${producto.id_producto}" onclick="subir_marketplace(${producto.id_producto})"></box-icon>`;
       } else {
         subir_marketplace = `<box-icon name='cloud-download' color='red' id="icono_bajada_${producto.id_producto}" onclick="bajar_marketplace(${producto.id_producto})"></box-icon>`;
       }
