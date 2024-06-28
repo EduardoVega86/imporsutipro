@@ -155,7 +155,6 @@ class Guias extends Controller
         $nombreDestino = $_POST['nombre'];
         $ciudadDestino = $_POST['ciudad'];
 
-        $ciudad = $_POST['ciudad'];
 
         $ciudadDestino = $this->model->obtenerNombre($ciudadDestino, "codigo_ciudad_gintracom")[0]['codigo_ciudad_gintracom'];
 
@@ -188,7 +187,7 @@ class Guias extends Controller
         if (isset($response["guia"])) {
             $response["status"] = 200;
             $this->model->aumentarMatriz();
-            $response2 = $this->model->actualizarGuia($numero_factura, $response["guia"], $nombreDestino, $ciudad, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $cod, $costo_producto, $comentario, $_SESSION["id"], $_POST['calle_principal'], $_POST['calle_secundaria'], $contiene, $provincia, $costoflete, "GINTRACOM");
+            $response2 = $this->model->actualizarGuia($numero_factura, $response["guia"], $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $cod, $costo_producto, $comentario, $_SESSION["id"], $_POST['calle_principal'], $_POST['calle_secundaria'], $contiene, $provincia, $costoflete, "GINTRACOM");
             $this->model->asignarWallet($numero_factura, $response["guia"], $fecha, $nombreDestino, $_SESSION["id_plataforma"], 1, $costo_producto, $cod, $costoflete);
         }
         echo json_encode($response);
