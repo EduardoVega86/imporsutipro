@@ -156,9 +156,10 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
         return $response;
     }
 
-    public function obtenerProducto($id, $plataforma)
+   public function obtenerProducto($id, $plataforma)
     {
-        $sql = "SELECT * FROM productos p inner join inventario_bodegas ib on p.codigo_producto = ib.sku WHERE p.id_producto = $id AND p.id_plataforma = $plataforma";
+        $sql = "SELECT * FROM `productos` p, inventario_bodegas ib where p.id_producto=$id and p.id_producto=ib.id_producto limit 1;";
+      // echo $sql;
         return $this->select($sql);
     }
     
