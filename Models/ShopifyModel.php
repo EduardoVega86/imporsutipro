@@ -77,7 +77,7 @@ class ShopifyModel extends Query
             // Obtener información de la bodega
             echo $id_producto_venta;
             $datos_telefono = $this->obtenerBodegaInventario($id_producto_venta);
-
+            print_r($datos_telefono);
             $bodega = $datos_telefono[0];
 
             $celularO =  $bodega['contacto'];
