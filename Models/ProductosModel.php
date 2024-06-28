@@ -486,10 +486,10 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
     
      public function agregarVariable($id_variedad, $id_producto, $sku, $bodega, $pcp, $pvp, $stock, $plataforma, $pref)
     {
+         
+       //  echo $bodega;
         $response = $this->initialResponse();
-        
-        
-         $inicial_variable= $this->select("SELECT id_inventario FROM inventario_bodegas WHERE id_producto = '$id_producto' and bodega=50000" );
+        $inicial_variable= $this->select("SELECT id_inventario FROM inventario_bodegas WHERE id_producto = '$id_producto' and bodega=50000" );
                    
           //print_r($cantidad_tmp);
           if (empty($inicial_variable)){
@@ -509,7 +509,7 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
           }
               
           
-          print_r($insertar_caracteristica);
+         // print_r($insertar_caracteristica);
         if ($insertar_caracteristica == 1) {
         $id_usuario=$_SESSION['id'];
        $cantidad=$stock;
@@ -518,7 +518,7 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
                $id_inventario = $this->buscar_inventario($id_producto, $sku);
         $nota= "Se agrego $cantidad productos(s) al inventario";
         $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $data = [$id_usuario, $id_inventario, $plataforma, $sku,  $nota, $referencia, $cantidad, 1, $id_bodega ,$id_producto];
+        $data = [$id_usuario, $id_inventario, $plataforma, $sku,  $nota, $referencia, $cantidad, 1, $bodega ,$id_producto];
         $insertar_historial = $this->insert($sql, $data);
 
         if ($insertar_historial == 1) {
