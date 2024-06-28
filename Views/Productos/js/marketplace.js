@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const productsPerPage = 12;
+  const initialProductsPerPage = 24;
+  const additionalProductsPerPage = 4;
   let currentPage = 1;
   let products = [];
   let filteredProducts = [];
@@ -24,13 +25,13 @@ document.addEventListener("DOMContentLoaded", function () {
       );
       products = await response.json();
       filteredProducts = products; // Initially, no filter is applied
-      displayProducts(filteredProducts, currentPage, productsPerPage);
+      displayProducts(filteredProducts, currentPage, initialProductsPerPage);
     } catch (error) {
       console.error("Error al obtener los productos:", error);
     }
   }
 
-  const displayProducts = (products, page = 1, perPage = productsPerPage) => {
+  const displayProducts = (products, page = 1, perPage) => {
     const start = (page - 1) * perPage;
     const end = start + perPage;
     const paginatedProducts = products.slice(start, end);
@@ -222,7 +223,7 @@ document.addEventListener("DOMContentLoaded", function () {
   window.addEventListener("scroll", () => {
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
       currentPage++;
-      displayProducts(filteredProducts, currentPage, productsPerPage);
+      displayProducts(filteredProducts, currentPage, additionalProductsPerPage);
     }
   });
 });
