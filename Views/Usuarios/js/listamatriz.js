@@ -32,22 +32,25 @@ const initDataTableListaUsuarioMatriz = async () => {
 
   await listListaUsuarioMatriz();
 
-  dataTableListaUsuarioMatriz = $("#datatable_lista_usuarioMatriz").DataTable(dataTableListaUsuarioMatrizOptions);
+  dataTableListaUsuarioMatriz = $("#datatable_lista_usuarioMatriz").DataTable(
+    dataTableListaUsuarioMatrizOptions
+  );
 
   dataTableListaUsuarioMatrizIsInitialized = true;
 };
 
 const listListaUsuarioMatriz = async () => {
   try {
-    const response = await fetch("" + SERVERURL + "usuarios/obtener_usuarios_matriz");
+    const response = await fetch(
+      "" + SERVERURL + "usuarios/obtener_usuarios_matriz"
+    );
     const listaUsuarioMatriz = await response.json();
 
     let content = ``;
 
     listaUsuarioMatriz.forEach((usuario, index) => {
-
       // Verifica el valor de usuario.proveedor y ajusta el checkbox en consecuencia
-      const checkboxState = usuario.proveedor === 1 ? 'checked' : '';
+      const checkboxState = usuario.proveedor === 1 ? "checked" : "";
 
       content += `
                 <tr>
@@ -56,11 +59,15 @@ const listListaUsuarioMatriz = async () => {
                     <td>${usuario.usuario_users}</td>
                     <td>${usuario.email_users}</td>
                     <td>
-                    <a href="https://wa.me/${formatPhoneNumber(usuario.whatsapp)}" target="_blank" style="font-size: 45px; vertical-align: middle; margin-left: 10px;" target="_blank">
+                    <a href="https://wa.me/${formatPhoneNumber(
+                      usuario.whatsapp
+                    )}" target="_blank" style="font-size: 45px; vertical-align: middle; margin-left: 10px;" target="_blank">
                     <i class='bx bxl-whatsapp-square' style="color: green;"></i>
                     </a></td>
                     <td>${usuario.nombre_tienda}</td>
-                    <td><input type="checkbox" class="selectCheckbox" data-id="${usuario.id_users}" ${checkboxState}></td>
+                    <td><input type="checkbox" class="selectCheckbox" data-id="${
+                      usuario.id_users
+                    }" ${checkboxState}></td>
                     <td>${usuario.date_added}</td>
                     <td>
                     <div class="dropdown">
@@ -68,18 +75,20 @@ const listListaUsuarioMatriz = async () => {
                         <i class="fa-solid fa-gear"></i>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" style="cursor: pointer;" href="${SERVERURL}wallet/pagar?tienda=${usuario.tienda}"><i class='bx bx-wallet'></i>Pagar</a></li>
+                        <li><a class="dropdown-item" style="cursor: pointer;" href="${SERVERURL}wallet/pagar?tienda=${
+        usuario.tienda
+      }"><i class='bx bx-wallet'></i>Pagar</a></li>
                     </ul>
                     </div>
                     </td>
                 </tr>`;
     });
-    document.getElementById("tableBody_lista_usuarioMatriz").innerHTML = content;
+    document.getElementById("tableBody_lista_usuarioMatriz").innerHTML =
+      content;
   } catch (ex) {
     alert(ex);
   }
 };
-
 
 window.addEventListener("load", async () => {
   await initDataTableListaUsuarioMatriz();
