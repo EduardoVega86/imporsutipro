@@ -77,6 +77,7 @@ class ShopifyModel extends Query
             // Obtener información de la bodega
             echo $id_producto_venta;
             $datos_telefono = $this->obtenerBodegaInventario($id_producto_venta);
+
             $bodega = $datos_telefono[0];
 
             $celularO =  $bodega['contacto'];
@@ -109,7 +110,7 @@ class ShopifyModel extends Query
 
         // Aquí se pueden continuar los procesos necesarios para la orden
         ///iniciar curl
-        $ch = curl_init();
+        /* $ch = curl_init();
         $url = "https://new.imporsuitpro.com/pedidos/nuevo_pedido_shopify";
 
         $data = array(
@@ -180,7 +181,7 @@ class ShopifyModel extends Query
         $response = curl_exec($ch);
         curl_close($ch);
 
-        print_r($response);
+        print_r($response); */
         /*  $datos = json_decode($response, true);
         $numero_factura = $datos['numero_factura'];
 
