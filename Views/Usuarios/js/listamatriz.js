@@ -100,7 +100,7 @@ const toggleProveedor = async (userId, isChecked) => {
   formData.append("proveedor", proveedorValue);
 
   try {
-    const response = await fetch(`${SERVERURL}usuarios/actualizar_proveedor`, {
+    const response = await fetch(`${SERVERURL}usuarios/agregarProveedor`, {
       method: "POST",
       body: formData,
     });
