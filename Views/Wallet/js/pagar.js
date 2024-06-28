@@ -29,32 +29,24 @@ function cargarDashboard_wallet() {
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
-      try {
-        response = JSON.parse(response);
+      response = JSON.parse(response);
 
-        pagos_global = response.pagos;
-        initDataTablePagos();
-        $("#image_tienda").attr(
-          "src",
-          SERVERURL + "public/img/profile_wallet.png"
-        );
-        $("#tienda_span").text(tienda);
+      pagos_global = response.pagos;
+      initDataTablePagos();
+      $("#image_tienda").attr(
+        "src",
+        SERVERURL + "public/img/profile_wallet.png"
+      );
+      $("#tienda_span").text(tienda);
 
-        $("#totalVentas_wallet").text(response.ventas);
-        $("#utilidadGenerada_wallet").text(response.utilidad);
-        $("#descuentoDevolucion_wallet").text(response.devoluciones);
-        $("#retirosAcreditados_wallet").text(response.abonos_registrados);
-        $("#saldoBilletera_wallet").text(response.saldo);
-      } catch (e) {
-        console.error("Error parsing JSON response: ", e);
-        console.error("Server response: ", response);
-        alert("Error parsing server response. Check console for details.");
-      }
+      $("#totalVentas_wallet").text(response.ventas);
+      $("#utilidadGenerada_wallet").text(response.utilidad);
+      $("#descuentoDevolucion_wallet").text(response.devoluciones);
+      $("#retirosAcreditados_wallet").text(response.abonos_registrados);
+      $("#saldoBilletera_wallet").text(response.saldo);
     },
     error: function (jqXHR, textStatus, errorThrown) {
-      console.error("AJAX error: ", textStatus, errorThrown);
-      console.error("Server response: ", jqXHR.responseText);
-      alert("Error contacting server. Check console for details.");
+      alert(errorThrown);
     },
   });
 }
