@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
   formData_filtro.append("favorito", "0");
 
   const cardContainer = document.getElementById("card-container");
+  let isLoading = false;
 
   async function fetchProducts() {
     try {
@@ -25,18 +26,18 @@ document.addEventListener("DOMContentLoaded", function () {
       );
       products = await response.json();
       filteredProducts = products; // Initially, no filter is applied
-      displayProducts(filteredProducts, currentPage, initialProductsPerPage);
+      displayProducts(filteredProducts, 1, initialProductsPerPage);
     } catch (error) {
       console.error("Error al obtener los productos:", error);
     }
   }
 
-  const displayProducts = (products, page = 1, perPage) => {
+  const displayProducts = async (products, page = 1, perPage) => {
     const start = (page - 1) * perPage;
     const end = start + perPage;
     const paginatedProducts = products.slice(start, end);
 
-    paginatedProducts.forEach(async (product) => {
+    for (const product of paginatedProducts) {
       try {
         const response = await fetch(
           SERVERURL + "marketplace/obtener_producto/" + product.id_producto
@@ -90,7 +91,8 @@ document.addEventListener("DOMContentLoaded", function () {
       } catch (error) {
         console.error("Error al obtener los detalles del producto:", error);
       }
-    });
+    }
+    isLoading = false;
   };
 
   // Función de debounce para retrasar la ejecución hasta que el usuario deje de escribir
@@ -211,12 +213,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Implementación del scroll infinito
   window.addEventListener("scroll", () => {
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight && !isLoading) {
+      isLoading = true;
       currentPage++;
       displayProducts(filteredProducts, currentPage, additionalProductsPerPage);
     }
   });
 });
+
 
 // Función para manejar el clic en el botón de corazón
 function handleHeartClick(productId, esFavorito) {
