@@ -92,13 +92,10 @@ const listGuias = async () => {
       var span_estado = estado.span_estado;
       var estado_guia = estado.estado_guia;
 
-      // Verificar si guia.ciudad es null o undefined
-      if (guia.ciudad) {
-        // tomar solo la ciudad
-        let ciudadCompleta = guia.ciudad;
-        let ciudadArray = ciudadCompleta.split("/");
-        let ciudad = ciudadArray[0];
-      }
+      //tomar solo la ciudad
+      let ciudadCompleta = guia.ciudad;
+      let ciudadArray = ciudadCompleta.split("/");
+      let ciudad = ciudadArray[0];
 
       if (guia.estado_guia_sistema == 14) {
         novedad = `<button class="btn btn_novedades" onclick="controlar_novedad('${guia.numero_guia}')">Controlar Novedad</button>`;
