@@ -20,9 +20,24 @@ class Novedades extends Controller
         return $data;
     }
 
-    public function solventarNovedad()
+    public function solventarNovedadLaar()
     {
-        $data = file_get_contents('php://input');
+        $guia = $_POST['guia'];
+        $ciudad = $_POST['ciudad'];
+        $nombre = $_POST['nombre'];
+        $cedula = 0;
+        $callePrincipal = $_POST['callePrincipal'];
+        $calleSecundaria = $_POST['calleSecundaria'];
+        $numeracion = $_POST['numeracion'];
+        $referencia = $_POST['referencia'];
+        $telefono = $_POST['telefono'];
+        $celular = $_POST['celular'];
+        $observacion  = $_POST['observacion'];
+        $correo = "";
+
+        $isDevolucion = $_POST['isDevolucion'];
+        $nombreA = "IMPORSUIT";
+        $observacionA = $_POST['observacionA'];
         $data = json_decode($data, true);
     }
 }

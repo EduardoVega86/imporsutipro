@@ -67,6 +67,12 @@ class Guias extends Controller
         echo json_encode($datos);
     }
 
+    public function tokenLaar()
+    {
+        $response = $this->model->tokenLaar();
+        echo $response;
+    }
+
     public function generarServientrega()
     {
         $nombreOrigen = $_POST['nombreO'];
