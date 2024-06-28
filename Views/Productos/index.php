@@ -48,11 +48,11 @@
                         <th class="text-nowrap">Costo</th>
                         <th class="text-nowrap">P. Proveedor</th>
                         <th class="text-nowrap">PVP</th>
-                        <th class="text-nowrap">Precio Referencial</th>
+                        <th class="text-wrap">Precio Referencial</th>
                         <th class="text-nowrap">Landing</th>
                         <th class="text-nowrap">Imagenes</th>
-                        <th class="text-nowrap text-wrap">Enviar a Marketplace</th>
-                        <th class="text-nowrap">Enviar a cliente</th>
+                        <th class="text-wrap">Enviar a Marketplace</th>
+                        <th class="text-wrap">Enviar a cliente</th>
                         <th class="text-nowrap">Atributos</th>
                         <th class="text-nowrap">Acciones</th>
                     </tr>
