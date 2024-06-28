@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <div class="card-id-container" onclick="copyToClipboard(${
           product.id_producto
         })">
-            <span class="card-id">Codigo: ${product.id_producto}</span>
+            <span class="card-id">ID: ${product.id_producto}</span>
         </div>
         <img src="${SERVERURL}${
             productDetails[0].image_path
