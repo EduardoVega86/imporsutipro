@@ -8,6 +8,8 @@
     }
 
     .card-custom {
+        position: relative;
+        /* Añadir esto para posicionar el span absolutamente */
         border-radius: 15px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         transition: transform 0.3s, box-shadow 0.3s;
@@ -53,6 +55,28 @@
         /* Center the buttons */
         width: 80%;
     }
+
+    /* Estilos para el ID del producto */
+    .card-id-container {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: rgba(255, 255, 255, 0.8);
+        /* Fondo blanco semi-transparente */
+        border-radius: 5px;
+        padding: 5px 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        cursor: pointer;
+        z-index: 10;
+        /* Asegura que el span esté por encima de la imagen */
+    }
+
+    .card-id {
+        font-size: 14px;
+        font-weight: bold;
+        color: #333;
+    }
+
 
     .btn-description {
         background-color: #00aaff;
@@ -346,37 +370,40 @@
 
     /* boton favoritos */
     .btn-heart {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: transparent;
-    border: none;
-    color: grey; /* Color apagado */
-    font-size: 1.5em;
-    cursor: pointer;
-    transition: transform 0.3s ease, color 0.3s ease;
-  }
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: transparent;
+        border: none;
+        color: grey;
+        /* Color apagado */
+        font-size: 1.5em;
+        cursor: pointer;
+        transition: transform 0.3s ease, color 0.3s ease;
+    }
 
-  .btn-heart.clicked {
-    color: <?php echo COLOR_FAVORITO;?>; /* Color encendido */
-  }
+    .btn-heart.clicked {
+        color: <?php echo COLOR_FAVORITO; ?>;
+        /* Color encendido */
+    }
 
-  .btn-heart:hover {
-    color: <?php echo COLOR_FAVORITO;?>; /* Cambia este color al que desees */
-  }
+    .btn-heart:hover {
+        color: <?php echo COLOR_FAVORITO; ?>;
+        /* Cambia este color al que desees */
+    }
 
-  .btn-heart:focus {
-    outline: none;
-  }
+    .btn-heart:focus {
+        outline: none;
+    }
 
-  .btn-heart .fas.fa-heart {
-    transition: transform 0.3s ease, color 0.3s ease;
-  }
+    .btn-heart .fas.fa-heart {
+        transition: transform 0.3s ease, color 0.3s ease;
+    }
 
-  .btn-heart.clicked .fas.fa-heart {
-    transform: scale(1.3);
-    color: <?php echo COLOR_FAVORITO;?>;
-  }
+    .btn-heart.clicked .fas.fa-heart {
+        transform: scale(1.3);
+        color: <?php echo COLOR_FAVORITO; ?>;
+    }
 
     /* fin boton favoritos */
 </style>
