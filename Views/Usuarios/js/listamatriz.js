@@ -68,7 +68,7 @@ const listListaUsuarioMatriz = async () => {
                     <td><input type="checkbox" class="selectCheckbox" data-id="${
                       usuario.id_users
                     }" ${checkboxState} onclick="toggleProveedor(${
-        usuario.id_users
+        usuario.id_plataforma
       }, this.checked)"></td>
                     <td>${usuario.date_added}</td>
                     <td>
@@ -96,7 +96,7 @@ const listListaUsuarioMatriz = async () => {
 const toggleProveedor = async (userId, isChecked) => {
   const proveedorValue = isChecked ? 1 : 0;
   try {
-    const response = await fetch(`${SERVERURL}usuarios/actualizar_proveedor`, {
+    const response = await fetch(`${SERVERURL}usuarios/agregarProveedor`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
