@@ -406,9 +406,14 @@ class WalletModel extends Query
     {
         $sql = "SELECT * FROM billeteras WHERE tienda = '$tienda'";
         $response =  $this->select($sql);
-        $plataforma = $response[0]['id_billetera'];
-        $sql = "SELECT hb.*, u.nombre_users as nombre FROM historial_billetera hb INNER join users u on u.id_users = hb.id_responsable WHERE hb.id_billetera = '$plataforma'";
-        $response =  $this->select($sql);
+        if (!empty($response)) {
+
+            $plataforma = $response[0]['id_billetera'];
+            $sql = "SELECT hb.*, u.nombre_users as nombre FROM historial_billetera hb INNER join users u on u.id_users = hb.id_responsable WHERE hb.id_billetera = '$plataforma'";
+            $response =  $this->select($sql);
+        } else {
+            $response = [];
+        }
         return $response;
     }
 

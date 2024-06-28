@@ -535,8 +535,12 @@ class GuiasModel extends Query
 
     //speed
 
-    public function generarSpeed($nombreO, $ciudadOrigen, $direccionO, $telefonoO, $nombre, $ciudadDestino, $direccion, $telefono, $celular, $referencia, $contiene, $fecha, $numero_factura)
+    public function generarSpeed($nombreO, $ciudadOrigen, $direccionO, $telefonoO, $nombre, $ciudadDestino, $direccion, $telefono, $celular, $referencia, $contiene, $fecha, $numero_factura, $plataforma)
     {
+        $sql = "SELECT url_imporsuit FROM plataformas WHERE id_plataforma = '$plataforma'";
+        $url = $this->select($sql);
+        $url = $url[0]['url_imporsuit'];
+
         $url = "https://guias.imporsuitpro.com/Speed/crear";
         $data = array(
             "nombreO" => $nombreO,
@@ -551,7 +555,8 @@ class GuiasModel extends Query
             "referencia" => $referencia,
             "contiene" => $contiene,
             "fecha" => $fecha,
-            "numero_factura" => $numero_factura
+            "numero_factura" => $numero_factura,
+            "url" => $url
         );
     }
     public function aumentarMatriz()

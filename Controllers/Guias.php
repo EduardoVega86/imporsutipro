@@ -216,7 +216,9 @@ class Guias extends Controller
 
         $numero_factura = $_POST['numero_factura'];
 
-        $response = $this->model->generarSpeed($nombreO, $ciudadOrigen, $direccionO, $telefonoO, $nombre, $ciudadDestino, $direccion, $telefono, $celular, $referencia, $contiene, $fecha, $numero_factura);
+        $recaudo = $_POST['recaudo'];
+
+        $response = $this->model->generarSpeed($nombreO, $ciudadOrigen, $direccionO, $telefonoO, $nombre, $ciudadDestino, $direccion, $telefono, $celular, $referencia, $contiene, $fecha, $numero_factura, $_SESSION["id_plataforma"]);
     }
 
 
