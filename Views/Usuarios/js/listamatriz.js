@@ -47,7 +47,7 @@ const listListaUsuarioMatriz = async () => {
     listaUsuarioMatriz.forEach((usuario, index) => {
 
       // Verifica el valor de usuario.proveedor y ajusta el checkbox en consecuencia
-      const checkboxState = usuario.proveedor === 1 ? '' : 'disabled';
+      const checkboxState = usuario.proveedor === 1 ? 'checked' : '';
 
       content += `
                 <tr>
@@ -79,6 +79,7 @@ const listListaUsuarioMatriz = async () => {
     alert(ex);
   }
 };
+
 
 window.addEventListener("load", async () => {
   await initDataTableListaUsuarioMatriz();
