@@ -18,15 +18,20 @@ class CalculadoraModel extends Query
         } else {
             $tarifas['laar'] = $precio_laar[0]['precio'];
         }
-        if ($precio_servientrega[0]['precio'] == null || empty($precio_servientrega[0]['precio'])) {
-            $precio_servientrega[0]['precio'] = 0;
-        } else {
-            $tarifas['servientrega'] = $precio_servientrega[0]['precio'];
+        if (isset($precio_servientrega[0]['precio'])) {
+            if ($precio_servientrega[0]['precio'] == null || empty($precio_servientrega[0]['precio'])) {
+                $precio_servientrega[0]['precio'] = 0;
+            } else {
+                $tarifas['servientrega'] = $precio_servientrega[0]['precio'];
+            }
         }
-        if ($precio_gintracom[0]['precio'] == null || empty($precio_gintracom[0]['precio'])) {
-            $precio_gintracom[0]['precio'] = 0;
-        } else {
-            $tarifas['gintracom'] = $precio_gintracom[0]['precio'];
+        if (isset($precio_gintracom[0]['precio'])) {
+
+            if ($precio_gintracom[0]['precio'] == null || empty($precio_gintracom[0]['precio'])) {
+                $precio_gintracom[0]['precio'] = 0;
+            } else {
+                $tarifas['gintracom'] = $precio_gintracom[0]['precio'];
+            }
         }
 
         $matriz = $this->obtenerMatriz();
