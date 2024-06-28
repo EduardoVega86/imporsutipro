@@ -239,7 +239,12 @@ document.addEventListener("DOMContentLoaded", function () {
 function copyToClipboard(id) {
   navigator.clipboard.writeText(id).then(
     function () {
-      alert("ID copiado al portapapeles: " + id);
+      toastr.error(
+        "ID DEL PRODUCTO COPIADO: "+id,
+        "NOTIFICACIÓN", {
+            positionClass: "toast-bottom-center"
+        }
+    );
     },
     function (err) {
       console.error("Error al copiar al portapapeles: ", err);
