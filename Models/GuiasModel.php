@@ -537,11 +537,12 @@ class GuiasModel extends Query
 
     public function generarSpeed($nombreO, $ciudadOrigen, $direccionO, $telefonoO, $nombre, $ciudadDestino, $direccion, $telefono, $celular, $referencia, $contiene, $fecha, $numero_factura)
     {
-        $url = "https://speed.imporsuitpro.com/guias/crear";
+        $url = "https://guias.imporsuitpro.com/Speed/crear";
         $data = array(
             "nombreO" => $nombreO,
             "ciudadO" => $ciudadOrigen,
             "direccionO" => $direccionO,
+            "telefonoO" => $telefonoO,
             "nombre" => $nombre,
             "ciudad" => $ciudadDestino,
             "direccion" => $direccion,
