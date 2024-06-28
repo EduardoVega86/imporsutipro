@@ -5,8 +5,7 @@ class Guias extends Controller
     public function __construct()
     {
         parent::__construct();
-        if (!$this->isAuth())
-            header("Location:  " . SERVERURL . "login");
+
         /* if (!$this->hasPermission(2)) {
             header("Location: /dashboard");
         } */
@@ -214,6 +213,8 @@ class Guias extends Controller
 
     public function anularGuia()
     {
+        if (!$this->isAuth())
+            header("Location:  " . SERVERURL . "login");
         $id = $_POST['guia'];
         $datos = $this->model->anularGuia($id);
         echo json_encode($datos);
@@ -221,6 +222,8 @@ class Guias extends Controller
 
     public function obtenerTiendas()
     {
+        if (!$this->isAuth())
+            header("Location:  " . SERVERURL . "login");
         $datos = $this->model->obtenerTiendas();
         echo json_encode($datos);
     }
