@@ -95,16 +95,14 @@ const listListaUsuarioMatriz = async () => {
 // Función para manejar el evento click del checkbox
 const toggleProveedor = async (userId, isChecked) => {
   const proveedorValue = isChecked ? 1 : 0;
+  const formData = new FormData();
+  formData.append("id_users", userId);
+  formData.append("proveedor", proveedorValue);
+
   try {
-    const response = await fetch(`${SERVERURL}usuarios/agregarProveedor`, {
+    const response = await fetch(`${SERVERURL}usuarios/actualizar_proveedor`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        id_users: userId,
-        proveedor: proveedorValue,
-      }),
+      body: formData,
     });
 
     if (!response.ok) {
