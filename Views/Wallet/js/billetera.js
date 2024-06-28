@@ -20,7 +20,21 @@ function cargarDashboard_wallet() {
       response = JSON.parse(response);
 
       pagos_global = response.pagos;
-      initDataTablePagos();
+
+      if (!Array.isArray(pagos_global)) {
+        throw new Error("Datos de pagos_global no válidos");
+      }
+
+      // Solo inicializar DataTable si pagos_global no está vacío
+      if (pagos_global.length > 0) {
+        initDataTablePagos();
+      } else {
+        console.log("No hay pagos disponibles para mostrar en la tabla.");
+        document.getElementById(
+          "tableBody_pagos"
+        ).innerHTML = `<tr><td colspan="6" class="text-center">No hay pagos disponibles</td></tr>`;
+      }
+      
       $("#image_tienda").attr(
         "src",
         SERVERURL + "public/img/profile_wallet.png"
