@@ -30,19 +30,19 @@ const dataTableInventarioOptions = {
       exportOptions: {
         columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
       },
-      filename: "Productos" + "_" + getFecha(),
+      filename: "Inventario" + "_" + getFecha(),
       footer: true,
       className: "btn-excel",
     },
     {
       extend: "csvHtml5",
       text: 'CSV <i class="fa-solid fa-file-csv"></i>',
-      title: "Panel de Control: Productos",
+      title: "Panel de Control: Inventario",
       titleAttr: "Exportar a CSV",
       exportOptions: {
         columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
       },
-      filename: "Productos" + "_" + getFecha(),
+      filename: "Inventario" + "_" + getFecha(),
       footer: true,
       className: "btn-csv",
     },
