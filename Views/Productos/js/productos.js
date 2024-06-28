@@ -248,9 +248,7 @@ document
           url: SERVERURL + "productos/subir_marketplace",
           data: { id: id }, // Enviar el ID como un objeto
           dataType: "json", // Asegurarse de que la respuesta se trata como JSON
-          success: function (response) {
-            
-          },
+          success: function (response) {},
           error: function (xhr, status, error) {
             console.error("Error en la solicitud AJAX:", error);
             alert("Hubo un problema al subir al marketplace");
@@ -261,7 +259,6 @@ document
         positionClass: "toast-bottom-center",
       });
       reloadDataTableProductos();
-
     } else {
       alert("No hay productos seleccionados");
     }
@@ -423,13 +420,20 @@ const filtrarProductosPorCategoria = async (categoriaId) => {
 };
 
 function obtenerURLImagen(imagePath, serverURL) {
-  // Verificar si el imagePath ya es una URL completa
-  if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
-    // Si ya es una URL completa, retornar solo el imagePath
-    return imagePath;
+  // Verificar si el imagePath no es null
+  if (imagePath) {
+    // Verificar si el imagePath ya es una URL completa
+    if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
+      // Si ya es una URL completa, retornar solo el imagePath
+      return imagePath;
+    } else {
+      // Si no es una URL completa, agregar el serverURL al inicio
+      return `${serverURL}${imagePath}`;
+    }
   } else {
-    // Si no es una URL completa, agregar el SERVERURL al inicio
-    return `${serverURL}${imagePath}`;
+    // Manejar el caso cuando imagePath es null
+    console.error("imagePath es null o undefined");
+    return null; // o un valor por defecto si prefieres
   }
 }
 
