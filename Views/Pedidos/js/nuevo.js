@@ -336,7 +336,7 @@ $(document).ready(function () {
               response = JSON.parse(response);
 
               $("#price_servientrega").text(response.servientrega);
-              /* $("#price_gintracom").text(response.gintracom); */
+              $("#price_gintracom").text(response.gintracom);
               /* $("#price_speed").text(response.speed); */
               $("#price_laar").text(response.laar);
             },
@@ -561,9 +561,11 @@ function generar_guia() {
 
   // Realiza la solicitud AJAX
   if (transportadora_selected == 1) {
-    generar_guiaTransportadora = "generarlaar";
+    generar_guiaTransportadora = "generarLaar";
   } else if (transportadora_selected == 2) {
     generar_guiaTransportadora = "generarServientrega";
+  } else if (transportadora_selected == 3) {
+    generar_guiaTransportadora = "generarGintracom";
   }
 
   // Mostrar alerta de carga antes de realizar la solicitud AJAX
