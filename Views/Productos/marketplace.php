@@ -49,11 +49,7 @@
     <div id="card-container" class="card-container">
         <!-- Tarjetas de productos se insertarán aquí -->
     </div>
-    <nav aria-label="Page navigation" style="padding-bottom: 10px;">
-        <ul class="pagination justify-content-center" id="pagination">
-            <!-- Botones de paginación se insertarán aquí -->
-        </ul>
-    </nav>
+    
 </div>
 
 
