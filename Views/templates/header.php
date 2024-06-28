@@ -82,8 +82,16 @@
             </div>
             <a href="#" class="dropdown-btn" data-target="#submenu4"><i class='bx bx-cog menu-icon'></i> <span class="menu-text">Configuración</span></a>
             <div class="submenu" id="submenu4">
-                <a href="<?php echo SERVERURL ?>usuarios/listado"><i class='bx bx-user menu-icon' ></i> <span class="menu-text">Usuarios</span></a>
-                <a href="#"><i class='bx bxs-user-detail menu-icon' ></i> <span class="menu-text">Roles</span></a>
+                <?php if ($_SESSION['cargo'] == 10) { ?>
+                    <a href="<?php echo SERVERURL ?>usuarios/listamatriz"><i class='bx bx-user menu-icon'></i> <span class="menu-text">Usuarios</span></a>
+                <?php
+                } else {
+                ?>
+                <a href="<?php echo SERVERURL ?>usuarios/listado"><i class='bx bx-user menu-icon'></i> <span class="menu-text">Usuarios</span></a>
+                <?php
+                }
+                ?>
+                <a href="#"><i class='bx bxs-user-detail menu-icon'></i> <span class="menu-text">Roles</span></a>
                 <a href="<?php echo SERVERURL ?>shopify/constructor"><i class="fa-brands fa-shopify menu-icon"></i> <span class="menu-text">Shopify</span></a>
             </div>
         </div>
