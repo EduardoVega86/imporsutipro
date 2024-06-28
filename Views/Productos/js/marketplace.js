@@ -26,6 +26,8 @@ document.addEventListener("DOMContentLoaded", function () {
       );
       products = await response.json();
       filteredProducts = products; // Initially, no filter is applied
+      currentPage = 1;
+      cardContainer.innerHTML = ""; // Clear the container
       displayProducts(filteredProducts, 1, initialProductsPerPage);
     } catch (error) {
       console.error("Error al obtener los productos:", error);
@@ -113,7 +115,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var priceMin = document.getElementById("price-min");
   var priceMax = document.getElementById("price-max");
 
-  fetch("" + SERVERURL + "marketplace/obtenerMaximo")
+  fetch(`${SERVERURL}marketplace/obtenerMaximo`)
     .then((response) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -154,14 +156,12 @@ document.addEventListener("DOMContentLoaded", function () {
         var max = values[1].replace("$", "").replace(",", "");
         formData_filtro.set("min", min);
         formData_filtro.set("max", max);
-        currentPage = 1; // Reset to the first page
-        fetchProducts(); // Assuming this function exists to fetch products
+        fetchProducts(); // Reset and fetch products based on new filter
       });
     })
     .catch((error) => {
       console.error("Error fetching max price:", error);
       // Optionally handle error scenario, e.g., show default slider values
-      // You might want to provide default values in case of failure to fetch max price
       noUiSlider.create(slider, {
         start: [0, 1000], // Default values
         connect: true,
@@ -185,41 +185,37 @@ document.addEventListener("DOMContentLoaded", function () {
     debounce(function () {
       var q = $("#buscar_nombre").val();
       formData_filtro.set("nombre", q);
-      currentPage = 1; // Reset to the first page
-      fetchProducts();
+      fetchProducts(); // Reset and fetch products based on new filter
     }, 300)
   ); // 300 ms de espera antes de ejecutar la función
 
   $("#categoria_filtroMarketplace").change(function () {
     var categoria = $("#categoria_filtroMarketplace").val();
     formData_filtro.set("linea", categoria);
-    currentPage = 1; // Reset to the first page
-    fetchProducts();
+    fetchProducts(); // Reset and fetch products based on new filter
   });
 
   $("#proveedor_filtroMarketplace").change(function () {
     var proveedor = $("#proveedor_filtroMarketplace").val();
     formData_filtro.set("plataforma", proveedor);
-    currentPage = 1; // Reset to the first page
-    fetchProducts();
+    fetchProducts(); // Reset and fetch products based on new filter
   });
 
   $("#favoritosSwitch").change(function () {
     var estado = $(this).is(":checked") ? 1 : 0;
     formData_filtro.set("favorito", estado);
-    currentPage = 1; // Reset to the first page
-    fetchProducts();
+    fetchProducts(); // Reset and fetch products based on new filter
   });
 
   // Implementación del scroll infinito
   window.addEventListener("scroll", () => {
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight && !isLoading) {
       isLoading = true;
-      currentPage++;
-      displayProducts(filteredProducts, currentPage, additionalProductsPerPage);
+      displayProducts(filteredProducts, ++currentPage, additionalProductsPerPage);
     }
   });
 });
+
 
 
 // Función para manejar el clic en el botón de corazón
