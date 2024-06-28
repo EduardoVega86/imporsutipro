@@ -15,6 +15,7 @@ FROM `inventario_bodegas` AS ib
 INNER JOIN `productos` AS p ON p.`id_producto` = ib.`id_producto`
 WHERE ib.`id_plataforma` = $plataforma
 GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
+        echo $sql;
         return $this->select($sql);
     }
     
