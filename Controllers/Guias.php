@@ -68,7 +68,7 @@ class Guias extends Controller
 
     public function tokenLaar()
     {
-        $response = $this->model->tokenLaar();
+        $response = $this->model->laarToken();
         echo $response;
     }
 
