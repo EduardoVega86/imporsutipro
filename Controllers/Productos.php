@@ -78,6 +78,12 @@ class Productos extends Controller
         $response = $this->model->obtener_productos($_SESSION['id_plataforma']);
         echo json_encode($response);
     }
+    
+     public function obtener_productos_inventario()
+    {
+        $response = $this->model->obtener_productos_inventario($_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
 
     public function obtener_producto($id)
     {

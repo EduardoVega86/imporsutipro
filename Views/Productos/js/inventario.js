@@ -52,7 +52,7 @@ const initDataTableInventario = async () => {
 const listInventario = async () => {
   try {
     const response = await fetch(
-      "" + SERVERURL + "productos/obtener_productos"
+      "" + SERVERURL + "productos/obtener_productos_inventario"
     );
     const inventarios = await response.json();
 
