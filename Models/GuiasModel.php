@@ -440,7 +440,7 @@ class GuiasModel extends Query
     {
         // Definir la tabla y la condición base
         $table = "ciudad_cotizacion";
-        $condition = ($nombre === "ciudad" || $nombre === "codigo_ciudad_servientrega" || $nombre === "codigo_provincia_gintracom" || $nombre === "codigo_ciudad_gintracom")
+        $condition = ($nombre === "ciudad" || $nombre === "codigo_ciudad_servientrega" || $nombre === "codigo_ciudad_gintracom")
             ? "id_cotizacion = '$codigo'"
             : "codigo_provincia_laar = '$codigo' limit 1";
 
