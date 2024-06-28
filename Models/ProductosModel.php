@@ -111,7 +111,6 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
                 $sql = "UPDATE inventario_bodegas SET sku = ?, id_producto = ?, id_variante = ?, bodega = ?, pcp = ?, pvp = ?, pref = ?, stock_inicial = ?, saldo_stock = ? WHERE id_producto = ? AND id_plataforma = ?";
                 $data = [$codigo_producto, $id, $producto_variable, $bodega, $pcp, $pvp, $pref, $stock_inicial, $stock_inicial, $id, $plataforma];
             }
-            
             $editar_producto_ = $this->update($sql, $data);
         } else {
             $sql_bodega = "SELECT * FROM bodega WHERE id_plataforma = $plataforma limit 1";
@@ -122,7 +121,7 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
             $data_insert = [$codigo_producto, $id, 0, $bodega, $pcp, $pvp, $pref, 0, 0, $id, $plataforma];
             $insertar_producto_ = $this->update($sql_insert, $data_insert);
         }
-        print_r($editar_producto);
+       // print_r($insertar_producto_);
         if ($editar_producto == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
