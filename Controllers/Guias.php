@@ -14,6 +14,8 @@ class Guias extends Controller
 
     public function generarLaar()
     {
+        if (!$this->isAuth())
+            header("Location:  " . SERVERURL . "login");
         /// remitente
         $nombreOrigen = $_POST['nombreO'];
         $ciudad = $_POST['ciudadO'];
@@ -74,6 +76,8 @@ class Guias extends Controller
 
     public function generarServientrega()
     {
+        if (!$this->isAuth())
+            header("Location:  " . SERVERURL . "login");
         $nombreOrigen = $_POST['nombreO'];
         $ciudadOrigen = $_POST['ciudadO'];
         $ciudad = $_POST['ciudad'];
@@ -136,6 +140,8 @@ class Guias extends Controller
 
     public function generarGintracom()
     {
+        if (!$this->isAuth())
+            header("Location:  " . SERVERURL . "login");
         $nombreOrigen = $_POST['nombreO'];
         $ciudadOrigen = $_POST['ciudadO'];
         $provinciaOrigen = $_POST['provinciaO'];
