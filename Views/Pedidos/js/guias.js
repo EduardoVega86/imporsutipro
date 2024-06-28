@@ -136,7 +136,7 @@ const listGuias = async () => {
                      </div>
                      <div style="position: relative; display: inline-block;">
                       <a href="${ruta_traking}" target="_blank" style="vertical-align: middle;">
-                        <img src="https://new.imporsuitpro.com/public/img/tracking.png" width="30px" id="buscar_traking" alt="buscar_traking">
+                        <img src="https://new.imporsuitpro.com/public/img/tracking.png" width="40px" id="buscar_traking" alt="buscar_traking">
                       </a>
                       <a href="https://wa.me/${formatPhoneNumber(
                         guia.telefono

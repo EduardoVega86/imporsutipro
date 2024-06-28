@@ -44,14 +44,14 @@
                     if (response.status == 500) {
                         Swal.fire({
                             icon: 'error',
-                            title: data.title,
-                            text: data.message
+                            title: response.title,
+                            text: response.message
                         });
                     } else if (response.status == 200) {
                         Swal.fire({
                             icon: 'success',
-                            title: data.title,
-                            text: data.message,
+                            title: response.title,
+                            text: response.message,
                             showConfirmButton: false,
                             timer: 2000
                         });

@@ -457,6 +457,7 @@ class GuiasModel extends Query
     public function generarGintracom($nombreOrigen, $ciudadOrigen, $provinciaOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $provinciaDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras, $numero_factura, $monto_factura)
     {
 
+
         $recaudo = $cod == "1" ? true : false;
 
         preg_match_all('/(.*?)x(\d+)/', $contiene, $matches, PREG_SET_ORDER);
@@ -536,11 +537,12 @@ class GuiasModel extends Query
 
     public function generarSpeed($nombreO, $ciudadOrigen, $direccionO, $telefonoO, $nombre, $ciudadDestino, $direccion, $telefono, $celular, $referencia, $contiene, $fecha, $numero_factura)
     {
-        $url = "https://speed.imporsuitpro.com/guias/crear";
+        $url = "https://guias.imporsuitpro.com/Speed/crear";
         $data = array(
             "nombreO" => $nombreO,
             "ciudadO" => $ciudadOrigen,
             "direccionO" => $direccionO,
+            "telefonoO" => $telefonoO,
             "nombre" => $nombre,
             "ciudad" => $ciudadDestino,
             "direccion" => $direccion,

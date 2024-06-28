@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const productsPerPage = 12;
+  const initialProductsPerPage = 24;
+  const additionalProductsPerPage = 4;
   let currentPage = 1;
   let products = [];
   let filteredProducts = [];
@@ -12,15 +13,10 @@ document.addEventListener("DOMContentLoaded", function () {
   formData_filtro.append("favorito", "0");
 
   const cardContainer = document.getElementById("card-container");
-  const pagination = document.getElementById("pagination");
+  let isLoading = false;
 
   async function fetchProducts() {
     try {
-      // Limpiar contenedor de tarjetas y resetear estados antes de agregar nuevas
-      cardContainer.innerHTML = "";
-      products = [];
-      filteredProducts = [];
-
       const response = await fetch(
         `${SERVERURL}marketplace/obtener_productos`,
         {
@@ -30,39 +26,37 @@ document.addEventListener("DOMContentLoaded", function () {
       );
       products = await response.json();
       filteredProducts = products; // Initially, no filter is applied
-      displayProducts(filteredProducts, currentPage, productsPerPage);
-      createPagination(filteredProducts.length, productsPerPage);
+      displayProducts(filteredProducts, 1, initialProductsPerPage);
     } catch (error) {
       console.error("Error al obtener los productos:", error);
     }
   }
 
-  const displayProducts = (products, page = 1, perPage = productsPerPage) => {
-    cardContainer.innerHTML = ""; // Limpiar el contenedor de productos
+  const displayProducts = async (products, page = 1, perPage) => {
     const start = (page - 1) * perPage;
     const end = start + perPage;
     const paginatedProducts = products.slice(start, end);
-  
-    paginatedProducts.forEach(async (product) => {
+
+    for (const product of paginatedProducts) {
       try {
         const response = await fetch(
           SERVERURL + "marketplace/obtener_producto/" + product.id_producto
         );
         const productDetails = await response.json();
-  
+
         if (productDetails && productDetails.length > 0) {
           const { costo_producto, pvp, saldo_stock, url_imporsuit } =
             productDetails[0];
-  
+
           let boton_enviarCliente = ``;
           if (product.producto_variable == 0) {
             boton_enviarCliente = `<button class="btn btn-import" onclick="enviar_cliente(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})">Enviar a cliente</button>`;
           } else if (product.producto_variable == 1) {
             boton_enviarCliente = `<button class="btn btn-import" onclick="abrir_modalSeleccionAtributo(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})">Enviar a cliente</button>`;
           }
-  
+
           const esFavorito = product.Es_Favorito === "1"; // Conversión a booleano
-  
+
           const card = document.createElement("div");
           card.className = "card card-custom position-relative";
           card.innerHTML = `
@@ -97,87 +91,9 @@ document.addEventListener("DOMContentLoaded", function () {
       } catch (error) {
         console.error("Error al obtener los detalles del producto:", error);
       }
-    });
+    }
+    isLoading = false;
   };
-
-  function createPagination(totalProducts, perPage = productsPerPage) {
-    pagination.innerHTML = "";
-    const totalPages = Math.ceil(totalProducts / perPage);
-    const maxVisiblePages = 10;
-    let startPage, endPage;
-
-    if (totalPages <= maxVisiblePages) {
-      startPage = 1;
-      endPage = totalPages;
-    } else {
-      if (currentPage <= Math.ceil(maxVisiblePages / 2)) {
-        startPage = 1;
-        endPage = maxVisiblePages;
-      } else if (currentPage + Math.floor(maxVisiblePages / 2) >= totalPages) {
-        startPage = totalPages - maxVisiblePages + 1;
-        endPage = totalPages;
-      } else {
-        startPage = currentPage - Math.floor(maxVisiblePages / 2);
-        endPage = currentPage + Math.floor(maxVisiblePages / 2);
-      }
-    }
-
-    const previousPageItem = document.createElement("li");
-    previousPageItem.className = "page-item";
-    previousPageItem.innerHTML = `
-      <button class="page-link" aria-label="Previous">
-        <span aria-hidden="true">&laquo;</span>
-      </button>
-    `;
-    previousPageItem.addEventListener("click", function () {
-      if (currentPage > 1) {
-        currentPage--;
-        displayProducts(filteredProducts, currentPage, productsPerPage);
-        createPagination(totalProducts, perPage);
-      }
-    });
-    pagination.appendChild(previousPageItem);
-
-    for (let i = startPage; i <= endPage; i++) {
-      const pageItem = document.createElement("li");
-      pageItem.className = `page-item ${i === currentPage ? "active" : ""}`;
-      pageItem.innerHTML = `
-        <button class="page-link">${i}</button>
-      `;
-      pageItem.addEventListener("click", function () {
-        currentPage = i;
-        displayProducts(filteredProducts, currentPage, productsPerPage);
-        createPagination(totalProducts, perPage);
-      });
-      pagination.appendChild(pageItem);
-    }
-
-    const nextPageItem = document.createElement("li");
-    nextPageItem.className = "page-item";
-    nextPageItem.innerHTML = `
-      <button class="page-link" aria-label="Next">
-        <span aria-hidden="true">&raquo;</span>
-      </button>
-    `;
-    nextPageItem.addEventListener("click", function () {
-      if (currentPage < totalPages) {
-        currentPage++;
-        displayProducts(filteredProducts, currentPage, productsPerPage);
-        createPagination(totalProducts, perPage);
-      }
-    });
-    pagination.appendChild(nextPageItem);
-
-    updatePaginationButtons(totalPages);
-  }
-
-  function updatePaginationButtons(totalPages) {
-    const previousPageItem = pagination.querySelector(".page-item:first-child");
-    const nextPageItem = pagination.querySelector(".page-item:last-child");
-
-    previousPageItem.classList.toggle("disabled", currentPage === 1);
-    nextPageItem.classList.toggle("disabled", currentPage === totalPages);
-  }
 
   // Función de debounce para retrasar la ejecución hasta que el usuario deje de escribir
   function debounce(func, wait) {
@@ -294,7 +210,17 @@ document.addEventListener("DOMContentLoaded", function () {
     currentPage = 1; // Reset to the first page
     fetchProducts();
   });
+
+  // Implementación del scroll infinito
+  window.addEventListener("scroll", () => {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight && !isLoading) {
+      isLoading = true;
+      currentPage++;
+      displayProducts(filteredProducts, currentPage, additionalProductsPerPage);
+    }
+  });
 });
+
 
 // Función para manejar el clic en el botón de corazón
 function handleHeartClick(productId, esFavorito) {

@@ -41,37 +41,8 @@
             </div>
             <div class="modal-body">
                 <div class="d-flex flex-column">
-                    <div class="d-flex flex-row">
-                        <input type="hidden" id="id_productoVariable" name="id_productoVariable" value="0">
-                        <table id="datatable_inventarioVariable" class="table table-striped w-100">
-                            <thead>
-                                <tr>
-                                    <th class="centered">Atributo</th>
-                                    <th class="centered">Valor</th>
-                                    <th class="centered"></th>
-                                </tr>
-                            </thead>
-                            <tbody id="tableBody_inventarioVariable"></tbody>
-                        </table>
-                        <div class="vertical-line"></div>
-                        <table id="datatable_detalleInventario" class="table table-bordered table-striped table-hover w-100">
-                            <thead>
-                                <tr>
-                                    <th class="text-nowrap">Atributo</th>
-                                    <th class="text-nowrap">SKU</th>
-                                    <th class="text-nowrap">P. Proveedor</th>
-                                    <th class="text-nowrap">P. de Venta</th>
-                                    <th class="text-nowrap">P. Referencial</th>
-                                    <th class="text-nowrap">Bodega</th>
-                                    <th class="text-nowrap">Stock inicial</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tableBody_detalleInventario"></tbody>
-                        </table>
-                    </div>
-                    <hr class="custom-hr">
-                    <div id="inputs_guardarAtributos">
-                        <div class="d-flex flex-row">
+                    <div id="inputs_guardarAtributos" style="padding-top: 15px; padding-bottom: 15px;">
+                        <div class="d-flex flex-row" style="padding-bottom: 15px;">
                             <input type="hidden" id="id_variedadTemporadal" name="id_variedadTemporadal">
                             <div class="d-flex flex-column">
                                 <label for="valor">Valor</label>
@@ -106,6 +77,36 @@
                         </div>
                         <button type="button" class="btn btn-success" onclick="agregar_variedad()">Agregar</button>
                     </div>
+                    <hr class="custom-hr">
+                    <div class="d-flex flex-row">
+                        <input type="hidden" id="id_productoVariable" name="id_productoVariable" value="0">
+                        <table id="datatable_inventarioVariable" class="table table-striped w-100">
+                            <thead>
+                                <tr>
+                                    <th class="centered">Atributo</th>
+                                    <th class="centered">Valor</th>
+                                    <th class="centered"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody_inventarioVariable"></tbody>
+                        </table>
+                        <div class="vertical-line"></div>
+                        <table id="datatable_detalleInventario" class="table table-bordered table-striped table-hover w-100">
+                            <thead>
+                                <tr>
+                                    <th class="text-nowrap">Atributo</th>
+                                    <th class="text-nowrap">SKU</th>
+                                    <th class="text-nowrap">P. Proveedor</th>
+                                    <th class="text-nowrap">P. de Venta</th>
+                                    <th class="text-nowrap">P. Referencial</th>
+                                    <th class="text-nowrap">Bodega</th>
+                                    <th class="text-nowrap">Stock inicial</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody_detalleInventario"></tbody>
+                        </table>
+                    </div>
+
                 </div>
             </div>
             <div class="modal-footer">
