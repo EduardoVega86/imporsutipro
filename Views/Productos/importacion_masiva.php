@@ -42,19 +42,19 @@
                 success: function(response) {
                     response = JSON.parse(response);
                     if (response.status == 500) {
-                        toastr.error(
-                            "LOS PRODUCTOS NO SE AGREGARON CORRECTAMENTE",
-                            "NOTIFICACIÓN", {
-                                positionClass: "toast-bottom-center"
-                            }
-                        );
-                    } else if (response.status == 200) {
-                        toastr.success("PRODUCTOS AGREGADOS CORRECTAMENTE", "NOTIFICACIÓN", {
-                            positionClass: "toast-bottom-center",
+                        Swal.fire({
+                            icon: 'error',
+                            title: data.title,
+                            text: data.message
                         });
-
-                        $('#imagen_categoriaModal').modal('hide');
-                        initDataTable();
+                    } else if (response.status == 200) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: data.title,
+                            text: data.message,
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
                     }
                 },
                 error: function() {
