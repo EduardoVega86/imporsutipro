@@ -61,13 +61,15 @@ const listListaUsuarioMatriz = async () => {
                     <td>
                     <a href="https://wa.me/${formatPhoneNumber(
                       usuario.whatsapp
-                    )}" target="_blank" style="font-size: 45px; vertical-align: middle; margin-left: 10px;" target="_blank">
+                    )}" target="_blank" style="font-size: 45px; vertical-align: middle; margin-left: 10px;">
                     <i class='bx bxl-whatsapp-square' style="color: green;"></i>
                     </a></td>
                     <td>${usuario.nombre_tienda}</td>
                     <td><input type="checkbox" class="selectCheckbox" data-id="${
                       usuario.id_users
-                    }" ${checkboxState}></td>
+                    }" ${checkboxState} onclick="toggleProveedor(${
+        usuario.id_users
+      }, this.checked)"></td>
                     <td>${usuario.date_added}</td>
                     <td>
                     <div class="dropdown">
@@ -87,6 +89,33 @@ const listListaUsuarioMatriz = async () => {
       content;
   } catch (ex) {
     alert(ex);
+  }
+};
+
+// Función para manejar el evento click del checkbox
+const toggleProveedor = async (userId, isChecked) => {
+  const proveedorValue = isChecked ? 1 : 0;
+  try {
+    const response = await fetch(`${SERVERURL}usuarios/actualizar_proveedor`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id_users: userId,
+        proveedor: proveedorValue,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Error al actualizar el proveedor");
+    }
+
+    const result = await response.json();
+    console.log("Proveedor actualizado:", result);
+  } catch (error) {
+    console.error("Error:", error);
+    alert("Hubo un error al actualizar el proveedor");
   }
 };
 
