@@ -96,7 +96,7 @@ const listListaUsuarioMatriz = async () => {
 const toggleProveedor = async (userId, isChecked) => {
   const proveedorValue = isChecked ? 1 : 0;
   const formData = new FormData();
-  formData.append("id_users", userId);
+  formData.append("id_plataforma", userId);
   formData.append("proveedor", proveedorValue);
 
   try {
