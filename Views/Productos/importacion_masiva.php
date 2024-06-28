@@ -40,6 +40,7 @@
                 contentType: false, // Necesario para que jQuery no añada un tipo de contenido
                 processData: false, // Necesario para que jQuery no convierta los datos a una cadena
                 success: function(response) {
+                    response = JSON.parse(response);
                     if (response.status == 500) {
                         toastr.error(
                             "LOS PRODUCTOS NO SE AGREGARON CORRECTAMENTE",
