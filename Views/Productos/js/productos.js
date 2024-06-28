@@ -122,7 +122,8 @@ const listProductos = async () => {
         enviaCliente = `<i class="fa-regular fa-paper-plane" onclick="enviar_cliente(${producto.id_producto},'${producto.sku}',${producto.pvp},${producto.id_inventario})""></i>`;
       } else {
         producto_variable = `<img src="https://new.imporsuitpro.com/public/img/atributos.png" width="30px" id="buscar_traking" alt="buscar_traking" onclick="abrir_modalInventarioVariable(${producto.id_producto})">`;
-        enviaCliente = `<i style="color:red;" class="fa-regular fa-paper-plane" onclick="notificacionNoBodega()""></i>`;
+        enviaCliente = `<i style="color:red;" class="fa-regular fa-paper-plane" onclick="abrir_modalSeleccionAtributo(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})"></i>`;
+        
       }
       content += `
                 <tr>
@@ -154,14 +155,11 @@ const listProductos = async () => {
   }
 };
 
-
-function notificacionNoBodega(){
-  toastr.error(
-    "Este producto es variable y no tiene  bodega",
-    "NOTIFICACIÓN", {
-        positionClass: "toast-bottom-center"
-    }
-);
+//abrir modal de seleccion de producto con atributo especifico
+function abrir_modalSeleccionAtributo(id) {
+  $("#id_productoSeleccionado").val(id);
+  initDataTableSeleccionProductoAtributo();
+  $("#seleccionProdcutoAtributoModal").modal("show");
 }
 
 //enviar cliente

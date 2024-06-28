@@ -8,6 +8,7 @@
 <?php require_once './Views/Productos/Modales/editar_index_productos.php'; ?>
 <?php require_once './Views/Productos/Modales/imagen_productos.php'; ?>
 <?php require_once './Views/Productos/Modales/inventario_variable_index.php'; ?>
+<?php require_once './Views/Productos/Modales/Seleccion_productoAtributo.php'; ?>
 
 
 <div class="custom-container-fluid">
@@ -65,4 +66,5 @@
 <script src="<?php echo SERVERURL ?>/Views/Productos/js/listado.js"></script>
 <script src="<?php echo SERVERURL ?>/Views/Productos/js/productos.js"></script>
 <script src="<?php echo SERVERURL ?>/Views/Productos/js/inventario_variable.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/Productos/js/tablaSeleccion_Producto.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
