@@ -62,11 +62,19 @@ document.addEventListener("DOMContentLoaded", function () {
           const card = document.createElement("div");
           card.className = "card card-custom position-relative";
           card.innerHTML = `
-    <div class="card-id-container" onclick="copyToClipboard(${product.id_producto})">
-        <span class="card-id">${product.id_producto}</span>
+    <div class="image-container">
+        <div class="card-id-container" onclick="copyToClipboard(${
+          product.id_producto
+        })">
+            <span class="card-id">${product.id_producto}</span>
+        </div>
+        <img src="${SERVERURL}${
+            productDetails[0].image_path
+          }" class="card-img-top" alt="Product Image">
     </div>
-    <img src="${SERVERURL}${productDetails[0].image_path}" class="card-img-top" alt="Product Image">
-    <button class="btn btn-heart ${esFavorito ? "clicked" : ""}" onclick="handleHeartClick(${product.id_producto}, ${esFavorito})">
+    <button class="btn btn-heart ${
+      esFavorito ? "clicked" : ""
+    }" onclick="handleHeartClick(${product.id_producto}, ${esFavorito})">
       <i class="fas fa-heart"></i>
     </button>
     <div class="card-body text-center d-flex flex-column justify-content-between">
@@ -78,11 +86,13 @@ document.addEventListener("DOMContentLoaded", function () {
         }</strong></p>
         <p class="card-text">Precio Sugerido: <strong>$${pvp}</strong></p>
         <p class="card-text">Proveedor: <a href="${url_imporsuit}" target="_blank" style="font-size: 15px;">${procesarPlataforma(
-          url_imporsuit
-        )}</a></p>
+            url_imporsuit
+          )}</a></p>
       </div>
       <div>
-        <button class="btn btn-description" onclick="agregarModal_marketplace(${product.id_producto})">Descripción</button>
+        <button class="btn btn-description" onclick="agregarModal_marketplace(${
+          product.id_producto
+        })">Descripción</button>
         ${boton_enviarCliente}
       </div>
     </div>
@@ -212,19 +222,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Implementación del scroll infinito
   window.addEventListener("scroll", () => {
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight && !isLoading) {
+    if (
+      window.innerHeight + window.scrollY >= document.body.offsetHeight &&
+      !isLoading
+    ) {
       isLoading = true;
-      displayProducts(filteredProducts, ++currentPage, additionalProductsPerPage);
+      displayProducts(
+        filteredProducts,
+        ++currentPage,
+        additionalProductsPerPage
+      );
     }
   });
 });
 
 function copyToClipboard(id) {
-  navigator.clipboard.writeText(id).then(function() {
-      alert('ID copiado al portapapeles: ' + id);
-  }, function(err) {
-      console.error('Error al copiar al portapapeles: ', err);
-  });
+  navigator.clipboard.writeText(id).then(
+    function () {
+      alert("ID copiado al portapapeles: " + id);
+    },
+    function (err) {
+      console.error("Error al copiar al portapapeles: ", err);
+    }
+  );
 }
 
 // Función para manejar el clic en el botón de corazón
@@ -235,7 +255,7 @@ function handleHeartClick(productId, esFavorito) {
   let formData_favoritos = new FormData();
   formData_favoritos.append("id_producto", productId);
   formData_favoritos.append("favorito", newFavoritoStatus ? 1 : 0);
-  
+
   $.ajax({
     url: SERVERURL + "marketplace/agregarFavoritos",
     type: "POST",
