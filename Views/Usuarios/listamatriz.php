@@ -17,6 +17,7 @@
                         <th class="centered">Email</th>
                         <th class="centered">Telefono</th>
                         <th class="centered">Tienda</th>
+                        <th class="centered"></th>
                         <th class="centered">Agregado</th>
                         <th class="centered">Acciones</th>
                     </tr>

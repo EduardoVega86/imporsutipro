@@ -46,6 +46,9 @@ const listListaUsuarioMatriz = async () => {
 
     listaUsuarioMatriz.forEach((usuario, index) => {
 
+      // Verifica el valor de usuario.proveedor y ajusta el checkbox en consecuencia
+      const checkboxState = usuario.proveedor === 1 ? '' : 'disabled';
+
       content += `
                 <tr>
                     <td>${usuario.id_users}</td>
@@ -57,6 +60,7 @@ const listListaUsuarioMatriz = async () => {
                     <i class='bx bxl-whatsapp-square' style="color: green;"></i>
                     </a></td>
                     <td>${usuario.nombre_tienda}</td>
+                    <td><input type="checkbox" class="selectCheckbox" data-id="${usuario.id_users}" ${checkboxState}></td>
                     <td>${usuario.date_added}</td>
                     <td>
                     <div class="dropdown">
