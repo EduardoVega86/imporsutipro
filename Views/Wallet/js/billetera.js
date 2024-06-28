@@ -1,21 +1,9 @@
-// Obtener la URL actual
-const urlActual = window.location.href;
-// Crear un objeto URL
-const url = new URL(urlActual);
-// Obtener el valor del parámetro 'tienda'
-const tienda = url.searchParams.get("tienda");
 
 var pagos_global;
 
 // Añadimos un evento que se ejecuta cuando el DOM ha sido completamente cargado
 document.addEventListener("DOMContentLoaded", function () {
   cargarDashboard_wallet();
-});
-
-$(document).ready(function () {
-  $("#regresar").click(function () {
-    window.location.href = SERVERURL + "wallet";
-  });
 });
 
 function cargarDashboard_wallet() {
@@ -29,33 +17,24 @@ function cargarDashboard_wallet() {
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
-      try {
-        response = JSON.parse(response);
-        pagos_global = response.pagos;
+      response = JSON.parse(response);
 
-        if (!Array.isArray(pagos_global)) {
-          throw new Error("Datos de pagos_global no válidos");
-        }
+      pagos_global = response.pagos;
+      initDataTablePagos();
+      $("#image_tienda").attr(
+        "src",
+        SERVERURL + "public/img/profile_wallet.png"
+      );
+      $("#tienda_span").text(tienda);
 
-        initDataTablePagos();
-        $("#image_tienda").attr(
-          "src",
-          SERVERURL + "public/img/profile_wallet.png"
-        );
-        $("#tienda_span").text(tienda);
-
-        $("#totalVentas_wallet").text(response.ventas);
-        $("#utilidadGenerada_wallet").text(response.utilidad);
-        $("#descuentoDevolucion_wallet").text(response.devoluciones);
-        $("#retirosAcreditados_wallet").text(response.abonos_registrados);
-        $("#saldoBilletera_wallet").text(response.saldo);
-      } catch (ex) {
-        console.error("Error al procesar la respuesta:", ex);
-        alert("Error en los datos recibidos del servidor.");
-      }
+      $("#totalVentas_wallet").text(response.ventas);
+      $("#utilidadGenerada_wallet").text(response.utilidad);
+      $("#descuentoDevolucion_wallet").text(response.devoluciones);
+      $("#retirosAcreditados_wallet").text(response.abonos_registrados);
+      $("#saldoBilletera_wallet").text(response.saldo);
     },
     error: function (jqXHR, textStatus, errorThrown) {
-      alert("Error en la solicitud AJAX: " + errorThrown);
+      alert(errorThrown);
     },
   });
 }
@@ -97,7 +76,9 @@ const initDataTableFacturas = async () => {
 
   await listFacturas();
 
-  dataTableFacturas = $("#datatable_facturas").DataTable(dataTableFacturasOptions);
+  dataTableFacturas = $("#datatable_facturas").DataTable(
+    dataTableFacturasOptions
+  );
 
   dataTableFacturasIsInitialized = true;
 };
@@ -117,7 +98,6 @@ const listFacturas = async () => {
     let content = ``;
     let cod = "";
     let estado_guia = "";
-    let check = "";
     facturas.forEach((factura, index) => {
       let tienda_nombre = procesarPlataforma(factura.tienda);
       if (factura.cod == 1) {
@@ -125,28 +105,16 @@ const listFacturas = async () => {
       } else {
         cod = "Sin Recaudo";
       }
-      check = "";
       if (factura.estado_guia == 7) {
         estado_guia = "Entregado";
-        if (factura.valor_pendiente == 0){
-          check = "";
-        }else{
-          check = `<input type="checkbox" class="selectCheckbox" data-factura-id_cabecera="${factura.id_cabecera}" data-factura-valor="${factura.monto_recibir}">`;
-        }
       } else if (factura.estado_guia == 9) {
         estado_guia = "Devuelto";
-        if (factura.valor_pendiente == 0){
-          check = "";
-        }else{
-          check = `<input type="checkbox" class="selectCheckbox" data-factura-id_cabecera="${factura.id_cabecera}" data-factura-valor="${factura.monto_recibir}">`; 
-        }
       } else {
         estado_guia = "No acreditable";
       }
 
       content += `
                 <tr>
-                    <td>${check}</td>
                     <td>
                     <div><span claas="text-nowrap">${factura.numero_factura}</span></div>
                     <div><span claas="text-nowrap">${factura.guia}</span></div>
@@ -164,7 +132,6 @@ const listFacturas = async () => {
                     <td>${factura.full}</td>
                     <td>${factura.monto_recibir}</td>
                     <td>${factura.valor_pendiente}</td>
-                    <td>${factura.peso}</td>
                     <td>
                     <div class="dropdown">
                     <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -176,11 +143,6 @@ const listFacturas = async () => {
                     </ul>
                     </div>
                     </td>
-                    <td><button class="icon-button" style="background-color: green; margin: 0;"><i class="fa-solid fa-pen-to-square" style="margin: 0;"></i></button></td>
-                    <td><button class="icon-button" style="background-color: #FCBF00; margin: 0;"><i class="fa-solid fa-rotate-left" style="margin: 0;"></i></button></td>
-                    <td></td>
-                    <td></td>
-                    <td><button class="icon-button" style="background-color: red; margin: 0;"><i class="fa-solid fa-trash" style="margin: 0;"></i></button></td>
                 </tr>`;
     });
     document.getElementById("tableBody_facturas").innerHTML = content;
@@ -208,18 +170,23 @@ const listFacturas = async () => {
               response = JSON.parse(response);
               if (response.status == 500) {
                 toastr.error(
-                    "EL ABONADO NO SE AGREGRO CORRECTAMENTE",
-                    "NOTIFICACIÓN", {
-                        positionClass: "toast-bottom-center"
-                    }
-                );
-            } else if (response.status == 200) {
-                toastr.success("ABONADO AGREGADO CORRECTAMENTE", "NOTIFICACIÓN", {
+                  "EL ABONADO NO SE AGREGRO CORRECTAMENTE",
+                  "NOTIFICACIÓN",
+                  {
                     positionClass: "toast-bottom-center",
-                });
+                  }
+                );
+              } else if (response.status == 200) {
+                toastr.success(
+                  "ABONADO AGREGADO CORRECTAMENTE",
+                  "NOTIFICACIÓN",
+                  {
+                    positionClass: "toast-bottom-center",
+                  }
+                );
 
                 initDataTableFacturas();
-            }
+              }
             },
             error: function (jqXHR, textStatus, errorThrown) {
               alert(errorThrown);
@@ -297,49 +264,40 @@ const initDataTablePagos = async () => {
 const listPagos = async () => {
   try {
     const pagos = pagos_global;
-
-    // Verificar si pagos_global es válido
-    if (!pagos || !Array.isArray(pagos)) {
-      throw new Error("Datos de pagos_global no válidos");
-    }
-
     let content = ``;
     let tipo = "";
+    console.log("pagos: " + pagos);
+    pagos.forEach((pago, index) => {
+      console.log("pago1" + pago.fecha);
 
-    if (pagos.length === 0) {
-      content = `<tr><td colspan="6" class="text-center">No hay pagos disponibles</td></tr>`;
-    } else {
-      pagos.forEach((pago, index) => {
-        console.log("pago1", pago.fecha);
-
-        if (pago.recargo == 0) {
-          tipo = "Pago de Billetera";
-        } else {
-          tipo = "Recargo de Billetera";
-        }
-        content += `
-                  <tr>
-                      <td>${pago.numero_documento}</td>
-                      <td>${pago.fecha}</td>
-                      <td>${tipo}</td>
-                      <td>${pago.valor}</td>
-                      <td>${pago.forma_pago}</td>
-                      <td></td>
-                  </tr>`;
-      });
-    }
+      if (pago.recargo == 0) {
+        tipo = "Pago de Billetera";
+      } else {
+        tipo = "Recargo de Billetera";
+      }
+      content += `
+                <tr>
+                    <td>${pago.numero_documento}</td>
+                    <td>${pago.fecha}</td>
+                    <td>${tipo}</td>
+                    <td>${pago.valor}</td>
+                    <td>${pago.forma_pago}</td>
+                    <td></td>
+                </tr>`;
+    });
     document.getElementById("tableBody_pagos").innerHTML = content;
   } catch (ex) {
-    console.error("Error:", ex);
-    alert(ex.message);
+    alert(ex);
   }
 };
 
-$(document).ready(function() {
-  $('.filter-btn').on('click', function() {
-    $('.filter-btn').removeClass('active');
-    $(this).addClass('active');
-    filtro_facturas = $(this).data('filter'); // Actualizar variable con el filtro seleccionado
+$(document).ready(function () {
+  $(".filter-btn").on("click", function () {
+    $(".filter-btn").removeClass("active");
+    $(this).addClass("active");
+
+    filtro_facturas = $(this).data("filter"); // Actualizar variable con el filtro seleccionado
+
     initDataTableFacturas();
   });
 
@@ -351,10 +309,10 @@ $(document).ready(function() {
       console.log(response);
       // Asegúrate de que la respuesta es un array
       if (Array.isArray(response)) {
-        response.forEach(function (bodega) {
-          // Agrega una nueva opción al select por cada bodega
-          $("#bodega_inventarioVariable").append(
-            new Option(bodega.nombre, bodega.id)
+        response.forEach(function (cuenta) {
+          
+          $("#cuenta").append(
+            new Option(`${cuenta.banco}- ${cuenta.numero_cuenta} -${cuenta.tipo_cuenta}`, cuenta.id_cuenta)
           );
         });
       } else {
@@ -362,7 +320,7 @@ $(document).ready(function() {
       }
     },
     error: function (error) {
-      console.error("Error al obtener la lista de bodegas:", error);
+      console.error("Error al obtener la lista de cuentas:", error);
     },
   });
 });
@@ -402,7 +360,9 @@ const initDataTableHistorialPago = async () => {
 
   await listHistorialPago();
 
-  dataTableHistorialPago = $("#datatable_historial_pago").DataTable(dataTableHistorialPagoOptions);
+  dataTableHistorialPago = $("#datatable_historial_pago").DataTable(
+    dataTableHistorialPagoOptions
+  );
 
   dataTableHistorialPagoIsInitialized = true;
 };
