@@ -42,7 +42,7 @@
             <div class="modal-body">
                 <div class="d-flex flex-column">
                     <div id="inputs_guardarAtributos" style="padding-top: 15px; padding-bottom: 15px;">
-                        <div class="d-flex flex-row">
+                        <div class="d-flex flex-row" style="padding-bottom: 15px;">
                             <input type="hidden" id="id_variedadTemporadal" name="id_variedadTemporadal">
                             <div class="d-flex flex-column">
                                 <label for="valor">Valor</label>
@@ -75,7 +75,7 @@
                                 <input type="text" class="form-control" id="stockInicial_guardar">
                             </div>
                         </div>
-                        <button type="button" class="btn btn-success" onclick="agregar_variedad()" style="padding-top: 10px;">Agregar</button>
+                        <button type="button" class="btn btn-success" onclick="agregar_variedad()">Agregar</button>
                     </div>
                     <hr class="custom-hr">
                     <div class="d-flex flex-row">
