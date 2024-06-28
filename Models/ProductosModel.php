@@ -224,6 +224,10 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
         }
         return $response;
     }
+    
+    
+    
+    
 
     public function obtener_productos_bodegas($id_bodega, $plataforma)
     {
