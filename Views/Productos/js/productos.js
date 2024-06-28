@@ -407,15 +407,8 @@ const filtrarProductosPorCategoria = async (categoriaId) => {
                       <td>${subir_marketplace})</td>
                       <td>${producto_variable}</td>
                       <td>
-                          <div class="dropdown">
-                           <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-gear"></i>
-                           </button>
-                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="editarProducto(${producto.id_producto})"><i class="fa-solid fa-pencil"></i> Editar</span></li>
-                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="eliminarProducto(${producto.id_producto})"><i class="fa-solid fa-trash-can"></i> Eliminar</span></li>
-                          </ul>
-                        </div>
+                          <button class="btn btn-sm btn-primary" onclick="editarProducto(${producto.id_producto})"><i class="fa-solid fa-pencil"></i>Editar</button>
+                          <button class="btn btn-sm btn-danger" onclick="eliminarProducto(${producto.id_producto})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
                       </td>
                   </tr>`;
     });
