@@ -114,7 +114,9 @@ const toggleProveedor = async (userId, isChecked) => {
     }
 
     const result = await response.json();
-    console.log("Proveedor actualizado:", result);
+    toastr.success("PROVEEDOR ACTUALIZADO CORECTAMENTE", "NOTIFICACIÓN", {
+      positionClass: "toast-bottom-center",
+    });
   } catch (error) {
     console.error("Error:", error);
     alert("Hubo un error al actualizar el proveedor");
