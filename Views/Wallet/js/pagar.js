@@ -230,7 +230,7 @@ const listFacturas = async () => {
       });
     });
   } catch (ex) {
-    alert(ex);
+    
   }
 };
 
