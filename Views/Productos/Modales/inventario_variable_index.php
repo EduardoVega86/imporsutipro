@@ -41,7 +41,7 @@
             </div>
             <div class="modal-body">
                 <div class="d-flex flex-column">
-                    <div id="inputs_guardarAtributos" style="padding-top: 15px;">
+                    <div id="inputs_guardarAtributos" style="padding-top: 15px; padding-bottom: 15px;">
                         <div class="d-flex flex-row">
                             <input type="hidden" id="id_variedadTemporadal" name="id_variedadTemporadal">
                             <div class="d-flex flex-column">

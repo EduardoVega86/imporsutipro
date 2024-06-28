@@ -279,7 +279,6 @@ class Productos extends Controller
         $aplica_iva = $_POST['aplica_iva'] ?? 0;
         $estado_producto = $_POST['estado_producto'] ?? 1;
         $date_added = date("Y-m-d H:i:s");
-        $image_path = "";
         $id_imp_producto = $_POST['id_imp_producto'] ?? 0;
         $pagina_web = $_POST['pagina_web'] ?? 0;
         $formato = $_POST['formato'];
@@ -294,7 +293,7 @@ class Productos extends Controller
         $pref = $_POST['pref'] ?? 0;
 
         
-        $response = $this->model->editarProducto($id, $codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $_SESSION['id_plataforma'], $stock_inicial, $bodega, $pcp, $pvp, $pref);
+        $response = $this->model->editarProducto($id, $codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $_SESSION['id_plataforma'], $stock_inicial, $bodega, $pcp, $pvp, $pref);
 
         echo json_encode($response);
     }
