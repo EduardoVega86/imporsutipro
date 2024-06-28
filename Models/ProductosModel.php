@@ -21,12 +21,8 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
     
      public function obtener_productos_inventario($plataforma)
     {
-        $sql = "SELECT *
-FROM productos p
-LEFT JOIN inventario_bodegas ib ON p.id_producto = ib.id_producto AND ib.id_plataforma = 1192
-LEFT JOIN variedades v ON ib.id_variante = v.id_variedad
-WHERE ib.id_plataforma = $plataforma";
-        echo $sql;
+        $sql = "SELECT * FROM productos p LEFT JOIN inventario_bodegas ib ON p.id_producto = ib.id_producto AND ib.id_plataforma = $plataforma LEFT JOIN variedades v ON ib.id_variante = v.id_variedad WHERE ib.id_plataforma = $plataforma";
+      //  echo $sql;
         return $this->select($sql);
     }
     
