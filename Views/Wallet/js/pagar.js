@@ -29,33 +29,38 @@ function cargarDashboard_wallet() {
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
-      try {
-        response = JSON.parse(response);
-        pagos_global = response.pagos;
+      response = JSON.parse(response);
 
-        if (!Array.isArray(pagos_global)) {
-          throw new Error("Datos de pagos_global no válidos");
-        }
+      pagos_global = response.pagos;
 
-        initDataTablePagos();
-        $("#image_tienda").attr(
-          "src",
-          SERVERURL + "public/img/profile_wallet.png"
-        );
-        $("#tienda_span").text(tienda);
-
-        $("#totalVentas_wallet").text(response.ventas);
-        $("#utilidadGenerada_wallet").text(response.utilidad);
-        $("#descuentoDevolucion_wallet").text(response.devoluciones);
-        $("#retirosAcreditados_wallet").text(response.abonos_registrados);
-        $("#saldoBilletera_wallet").text(response.saldo);
-      } catch (ex) {
-        console.error("Error al procesar la respuesta:", ex);
-        alert("Error en los datos recibidos del servidor.");
+      if (!Array.isArray(pagos_global)) {
+        throw new Error("Datos de pagos_global no válidos");
       }
+
+      // Solo inicializar DataTable si pagos_global no está vacío
+      if (pagos_global.length > 0) {
+        initDataTablePagos();
+      } else {
+        console.log("No hay pagos disponibles para mostrar en la tabla.");
+        document.getElementById(
+          "tableBody_pagos"
+        ).innerHTML = `<tr><td colspan="6" class="text-center">No hay pagos disponibles</td></tr>`;
+      }
+
+      $("#image_tienda").attr(
+        "src",
+        SERVERURL + "public/img/profile_wallet.png"
+      );
+      $("#tienda_span").text(tienda);
+
+      $("#totalVentas_wallet").text(response.ventas);
+      $("#utilidadGenerada_wallet").text(response.utilidad);
+      $("#descuentoDevolucion_wallet").text(response.devoluciones);
+      $("#retirosAcreditados_wallet").text(response.abonos_registrados);
+      $("#saldoBilletera_wallet").text(response.saldo);
     },
     error: function (jqXHR, textStatus, errorThrown) {
-      alert("Error en la solicitud AJAX: " + errorThrown);
+      alert(errorThrown);
     },
   });
 }
@@ -178,11 +183,13 @@ const listFacturas = async () => {
                     </ul>
                     </div>
                     </td>
+
                     <td><button class="icon-button" style="background-color: green; margin: 0;"><i class="fa-solid fa-pen-to-square" style="margin: 0;"></i></button></td>
                     <td><button class="icon-button" style="background-color: #FCBF00; margin: 0;"><i class="fa-solid fa-rotate-left" style="margin: 0;"></i></button></td>
                     <td></td>
                     <td></td>
                     <td><button class="icon-button" style="background-color: red; margin: 0;"><i class="fa-solid fa-trash" style="margin: 0;"></i></button></td>
+                    
                 </tr>`;
     });
     document.getElementById("tableBody_facturas").innerHTML = content;
@@ -304,41 +311,30 @@ const initDataTablePagos = async () => {
 const listPagos = async () => {
   try {
     const pagos = pagos_global;
-
-    // Verificar si pagos_global es válido
-    if (!pagos || !Array.isArray(pagos)) {
-      throw new Error("Datos de pagos_global no válidos");
-    }
-
     let content = ``;
     let tipo = "";
+    console.log("pagos: " + pagos);
+    pagos.forEach((pago, index) => {
+      console.log("pago1" + pago.fecha);
 
-    if (pagos.length === 0) {
-      content = `<tr><td colspan="6" class="text-center">No hay pagos disponibles</td></tr>`;
-    } else {
-      pagos.forEach((pago, index) => {
-        console.log("pago1", pago.fecha);
-
-        if (pago.recargo == 0) {
-          tipo = "Pago de Billetera";
-        } else {
-          tipo = "Recargo de Billetera";
-        }
-        content += `
-                  <tr>
-                      <td>${pago.numero_documento}</td>
-                      <td>${pago.fecha}</td>
-                      <td>${tipo}</td>
-                      <td>${pago.valor}</td>
-                      <td>${pago.forma_pago}</td>
-                      <td></td>
-                  </tr>`;
-      });
-    }
+      if (pago.recargo == 0) {
+        tipo = "Pago de Billetera";
+      } else {
+        tipo = "Recargo de Billetera";
+      }
+      content += `
+                <tr>
+                    <td>${pago.numero_documento}</td>
+                    <td>${pago.fecha}</td>
+                    <td>${tipo}</td>
+                    <td>${pago.valor}</td>
+                    <td>${pago.forma_pago}</td>
+                    <td></td>
+                </tr>`;
+    });
     document.getElementById("tableBody_pagos").innerHTML = content;
   } catch (ex) {
-    console.error("Error:", ex);
-    alert(ex.message);
+    alert(ex);
   }
 };
 
@@ -346,7 +342,9 @@ $(document).ready(function () {
   $(".filter-btn").on("click", function () {
     $(".filter-btn").removeClass("active");
     $(this).addClass("active");
+
     filtro_facturas = $(this).data("filter"); // Actualizar variable con el filtro seleccionado
+
     initDataTableFacturas();
   });
 
