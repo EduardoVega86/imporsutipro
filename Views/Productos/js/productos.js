@@ -103,6 +103,7 @@ const listProductos = async () => {
     let subir_marketplace = "";
     let producto_variable = "";
     let enlace_imagen = "";
+    let enviaCliente= "";
     productos.forEach((producto, index) => {
       enlace_imagen = obtenerURLImagen(producto.image_path, SERVERURL);
       if (!producto.image_path) {
@@ -118,8 +119,10 @@ const listProductos = async () => {
 
       if (producto.producto_variable == 0) {
         producto_variable = ``;
+        enviaCliente = `<i style="color:red;" class="fa-regular fa-paper-plane" onclick="notificacionNoBodega()""></i>`;
       } else {
         producto_variable = `<img src="https://new.imporsuitpro.com/public/img/atributos.png" width="30px" id="buscar_traking" alt="buscar_traking" onclick="abrir_modalInventarioVariable(${producto.id_producto})">`;
+        enviaCliente = `<i class="fa-regular fa-paper-plane" onclick="enviar_cliente(${producto.id_producto},'${producto.sku}',${producto.pvp},${producto.id_inventario})""></i>`;
       }
       content += `
                 <tr>
@@ -137,7 +140,7 @@ const listProductos = async () => {
                     <td>logo landing</td>
                     <td><i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${producto.id_producto}, '${enlace_imagen}')"></i></td>
                     <td>${subir_marketplace}</td>
-                    <td><i class="fa-regular fa-paper-plane" onclick="enviar_cliente(${producto.id_producto},'${producto.sku}',${producto.pvp},${producto.id_inventario})""></i></td>
+                    <td>${enviaCliente}</td>
                     <td>${producto_variable}</td>
                     <td>
                         <button class="btn btn-sm btn-primary" onclick="editarProducto(${producto.id_producto})"><i class="fa-solid fa-pencil"></i>Editar</button>
@@ -150,6 +153,16 @@ const listProductos = async () => {
     alert(ex);
   }
 };
+
+
+function notificacionNoBodega(){
+  toastr.error(
+    "Este producto es variable y no tiene  bodega",
+    "NOTIFICACIÓN", {
+        positionClass: "toast-bottom-center"
+    }
+);
+}
 
 //enviar cliente
 function enviar_cliente(id, sku, pvp, id_inventario) {
