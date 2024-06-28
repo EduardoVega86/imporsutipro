@@ -22,6 +22,7 @@ class Novedades extends Controller
 
     public function solventarNovedadLaar()
     {
+        $id_novedad = $_POST['id_novedad'];
         $guia = $_POST['guia'];
         $ciudad = $_POST['ciudad'];
         $nombre = $_POST['nombre'];
@@ -38,6 +39,26 @@ class Novedades extends Controller
         $isDevolucion = $_POST['isDevolucion'];
         $nombreA = "IMPORSUIT";
         $observacionA = $_POST['observacionA'];
-        $data = json_decode($data, true);
+
+        $data = $this->model->solventarNovedadLaar($guia, $ciudad, $nombre, $cedula, $callePrincipal, $calleSecundaria, $numeracion, $referencia, $telefono, $celular, $observacion, $correo, $isDevolucion, $nombreA, $observacionA, $id_novedad);
+        $response = array(
+            "status" => 200,
+            "message" => "Novedad solventada"
+        );
+        echo json_encode($response);
+    }
+
+    public function solventarNovedadServientrega()
+    {
+        $guia = $_POST['guia'];
+        $observacion = $_POST['observacion'];
+        $id_novedad = $_POST['id_novedad'];
+
+        $data = $this->model->solventarNovedadServientrega($guia, $observacion, $id_novedad);
+        $response = array(
+            "status" => 200,
+            "message" => "Novedad solventada"
+        );
+        echo json_encode($response);
     }
 }
