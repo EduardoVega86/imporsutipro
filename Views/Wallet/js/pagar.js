@@ -105,6 +105,14 @@ const listFacturas = async () => {
       method: "POST",
       body: formData,
     });
+
+    // Check if the response is JSON
+    const contentType = response.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+      const textResponse = await response.text(); // Read the response as text
+      throw new Error(`Expected JSON, got: ${textResponse}`);
+    }
+
     const facturas = await response.json();
 
     let content = ``;
@@ -200,36 +208,47 @@ const listFacturas = async () => {
             processData: false, // No procesar los datos
             contentType: false, // No establecer ningún tipo de contenido
             success: function (response) {
-              response = JSON.parse(response);
-              if (response.status == 500) {
-                toastr.error(
-                  "EL ABONADO NO SE AGREGRO CORRECTAMENTE",
-                  "NOTIFICACIÓN",
-                  {
-                    positionClass: "toast-bottom-center",
-                  }
-                );
-              } else if (response.status == 200) {
-                toastr.success(
-                  "ABONADO AGREGADO CORRECTAMENTE",
-                  "NOTIFICACIÓN",
-                  {
-                    positionClass: "toast-bottom-center",
-                  }
-                );
+              try {
+                response = JSON.parse(response);
+                if (response.status == 500) {
+                  toastr.error(
+                    "EL ABONADO NO SE AGREGRO CORRECTAMENTE",
+                    "NOTIFICACIÓN",
+                    {
+                      positionClass: "toast-bottom-center",
+                    }
+                  );
+                } else if (response.status == 200) {
+                  toastr.success(
+                    "ABONADO AGREGADO CORRECTAMENTE",
+                    "NOTIFICACIÓN",
+                    {
+                      positionClass: "toast-bottom-center",
+                    }
+                  );
 
-                initDataTableFacturas();
+                  initDataTableFacturas();
+                }
+              } catch (e) {
+                console.error("Error parsing JSON response: ", e);
+                console.error("Server response: ", response);
+                alert(
+                  "Error parsing server response. Check console for details."
+                );
               }
             },
             error: function (jqXHR, textStatus, errorThrown) {
-              alert(errorThrown);
+              console.error("AJAX error: ", textStatus, errorThrown);
+              console.error("Server response: ", jqXHR.responseText);
+              alert("Error contacting server. Check console for details.");
             },
           });
         }
       });
     });
   } catch (ex) {
-    alert(ex);
+    console.error("Error in listFacturas: ", ex);
+    alert(ex.message);
   }
 };
 
