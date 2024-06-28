@@ -108,6 +108,16 @@ class Usuarios extends Controller
         echo json_encode($response);
     }
     
+    
+      public function agregarProveedor()
+    {
+        $id_plataforma = $_POST['id_plataforma'];
+        $proveedor = $_POST['proveedor'];
+        $response = $this->model->agregarProveedor($id_plataforma, $proveedor);
+        echo json_encode($response);
+    }
+    
+    
     public function importarExcel()
     {
         
