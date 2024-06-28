@@ -75,7 +75,7 @@
                                 <input type="text" class="form-control" id="stockInicial_guardar">
                             </div>
                         </div>
-                        <button type="button" class="btn btn-success" onclick="agregar_variedad()">Agregar</button>
+                        <button type="button" class="btn btn-success" onclick="agregar_variedad()" style="padding-top: 10px;">Agregar</button>
                     </div>
                     <hr class="custom-hr">
                     <div class="d-flex flex-row">
