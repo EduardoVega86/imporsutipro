@@ -195,6 +195,8 @@ class Guias extends Controller
 
     public function generarSpeed()
     {
+        if (!$this->isAuth())
+            header("Location:  " . SERVERURL . "login");
         $nombreO = $_POST['nombreO'];
         $ciudadO = $_POST['ciudadO'];
         $ciudadOrigen = $this->model->obtenerNombre($ciudadO, "ciudad")[0]['ciudad'];
