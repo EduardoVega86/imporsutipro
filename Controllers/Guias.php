@@ -200,6 +200,7 @@ class Guias extends Controller
         $ciudadOrigen = $this->model->obtenerNombre($ciudadO, "ciudad")[0]['ciudad'];
         $direccionO = $_POST['direccionO'];
         $telefonoO = $_POST['telefonoO'];
+        $referenciaO = $_POST['referenciaO'];
 
 
         $nombre = $_POST['nombre'];
@@ -218,7 +219,12 @@ class Guias extends Controller
 
         $recaudo = $_POST['recaudo'];
 
-        $response = $this->model->generarSpeed($nombreO, $ciudadOrigen, $direccionO, $telefonoO, $nombre, $ciudadDestino, $direccion, $telefono, $celular, $referencia, $contiene, $fecha, $numero_factura, $_SESSION["id_plataforma"]);
+        $observacion = $_POST['observacion'];
+
+        $monto_factura = $_POST['total_venta'];
+
+        $response = $this->model->generarSpeed($nombreO, $ciudadOrigen, $direccionO, $telefonoO, $referenciaO, $nombre, $ciudadDestino, $direccion, $telefono, $celular, $referencia, $contiene, $fecha, $numero_factura, $_SESSION["id_plataforma"], $observacion, $recaudo, $monto_factura);
+        echo $response;
     }
 
 

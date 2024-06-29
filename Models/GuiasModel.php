@@ -535,7 +535,7 @@ class GuiasModel extends Query
 
     //speed
 
-    public function generarSpeed($nombreO, $ciudadOrigen, $direccionO, $telefonoO, $nombre, $ciudadDestino, $direccion, $telefono, $celular, $referencia, $contiene, $fecha, $numero_factura, $plataforma)
+    public function generarSpeed($nombreO, $ciudadOrigen, $direccionO, $telefonoO, $referenciaO, $nombre, $ciudadDestino, $direccion, $telefono, $celular, $referencia, $contiene, $fecha, $numero_factura, $plataforma, $observacion, $recaudo, $monto_factura)
     {
         $sql = "SELECT url_imporsuit FROM plataformas WHERE id_plataforma = '$plataforma'";
         $url = $this->select($sql);
@@ -547,17 +547,39 @@ class GuiasModel extends Query
             "ciudadO" => $ciudadOrigen,
             "direccionO" => $direccionO,
             "telefonoO" => $telefonoO,
+            "referenciaO" => $referenciaO,
             "nombre" => $nombre,
             "ciudad" => $ciudadDestino,
             "direccion" => $direccion,
             "telefono" => $telefono,
-            "celular" => $celular,
-            "referencia" => $referencia,
+            "referenciaD" => $referencia,
             "contiene" => $contiene,
             "fecha" => $fecha,
             "numero_factura" => $numero_factura,
-            "url" => $url
+            "url" => $url,
+            "observacion" => $observacion,
+            "recaudo" => $recaudo,
+            "monto_factura" => $monto_factura
         );
+
+        // Enviar los datos en formdata
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        // Ejecutar la solicitud
+        $response = curl_exec($ch);
+
+        // Verificar si ocurrió algún error durante la solicitud
+        if (curl_errno($ch)) {
+            throw new Exception(curl_error($ch));
+        }
+
+        // Cerrar la sesión cURL
+        curl_close($ch);
+
+        return $response;
     }
     public function aumentarMatriz()
     {
