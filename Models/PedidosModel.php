@@ -394,10 +394,19 @@ class PedidosModel extends Query
 
     public function actualizarTmp($id_tmp, $descuento, $precio, $cantidad)
     {
-        $sql = "UPDATE tmp_cotizacion SET desc_tmp = ?, precio_tmp = ? , cantidad_tmp = ?  WHERE id_tmp = ?";
-        $data = [$descuento, $precio, $cantidad, $id_tmp];
-        $responses = $this->update($sql, $data);
-        print_r($responses);
+        $sql_consulta = $this->select( "SELECT * FROM tmp_cotizacion WHERE id_tmp=$id_tmp");
+        $id = $sql_consulta[0]['id_tmp'];
+        $desc_tmp = $sql_consulta[0]['desc_tmp'];
+        $precio_tmp = $sql_consulta[0]['precio_tmp'];
+        $cantidad_tmp = $sql_consulta[0]['cantidad_tmp'];
+        if (($desc_tmp == $descuento) && ($precio_tmp == $precio) && ($cantidad_tmp == $cantidad)){
+            $responses = 1;
+        }else{
+            $sql = "UPDATE tmp_cotizacion SET desc_tmp = ?, precio_tmp = ? , cantidad_tmp = ?  WHERE id_tmp = ?";
+            $data = [$descuento, $precio, $cantidad, $id_tmp];
+            $responses = $this->update($sql, $data);
+        }
+        
         if ($responses == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
