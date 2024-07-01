@@ -145,14 +145,16 @@ const listNuevoPedido = async () => {
   }
 };
 
-function recalcular(id, idPrecio, idDescuento) {
+function recalcular(id, idPrecio, idDescuento, idCantidad) {
   const precio = parseFloat(document.getElementById(idPrecio).value);
   const descuento = parseFloat(document.getElementById(idDescuento).value);
+  const cantidad = parseFloat(document.getElementById(idCantidad).value);
 
   const ffrm = new FormData();
   ffrm.append("id", id);
   ffrm.append("precio", precio);
   ffrm.append("descuento", descuento);
+  ffrm.append("cantidad", cantidad);
 
   fetch("" + SERVERURL + "pedidos/actualizarTmp/" + id, {
     method: "POST",
@@ -180,6 +182,7 @@ function recalcular(id, idPrecio, idDescuento) {
       alert("Hubo un problema al actualizar el producto");
     });
 }
+
 
 function validar_direccion() {
   // Obtener los parámetros de la URL
