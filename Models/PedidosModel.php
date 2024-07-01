@@ -65,32 +65,15 @@ WHERE
 
     $params = [];
 
-    if (!empty($fecha_inicio) && !empty($fecha_fin)) {
-        $sql .= " AND fecha_factura BETWEEN ? AND ?";
-        $params[] = $fecha_inicio;
-        $params[] = $fecha_fin;
-    }
-
-    if (!empty($transportadora)) {
-        $sql .= " AND transportadora = ?";
-        $params[] = $transportadora;
-    }
-
-    if (!empty($estado)) {
-        $sql .= " AND estado_guia_sistema = ?";
-        $params[] = $estado;
-    }
-
-    if ($impreso === 0 || $impreso === 1) {
-        $sql .= " AND impreso = ?";
-        $params[] = $impreso;
-    }
+    
 
     // Mueve la cláusula ORDER BY al final de la consulta
     $sql .= " ORDER BY fc.numero_factura DESC;";
 
     echo $sql;
+    
     return $this->select($sql, $params);
+    
 }
 
 
