@@ -14,7 +14,7 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
             <div class="col-md-3">
                 <h3 class="portlet-title">
                     Editar Dirección
-                    <button class="btn btn-danger" onclick="colocarMarcadorUbicacionActual()">Usar ubicación actual</button>
+                    <!-- <button class="btn btn-danger" onclick="colocarMarcadorUbicacionActual()">Usar ubicación actual</button> -->
 
                 </h3>
                 <form id="formularioDatos_editar" method="post">
@@ -25,8 +25,8 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
 
                             <input id="nombre" name="nombre" class="form-control " type="text" placeholder="Nombre de la Bodega" required>
                             <br>
-                            <input id="direccion" name="direccion" class="form-control " type="text" placeholder="Ingresa una dirección">
-                            <br>
+                            <!-- <input id="direccion" name="direccion" class="form-control " type="text" placeholder="Ingresa una dirección">
+                            <br> -->
 
 
                             <div>
@@ -45,17 +45,17 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
                                 </div>
                             </div>
                             <br>
-                            <input readonly id="direccion_completa" name="direccion_completa" class="form-control" type="text" placeholder="Ingresa una dirección">
-                            <br>
+                            <!-- <input readonly id="direccion_completa" name="direccion_completa" class="form-control" type="text" placeholder="Ingresa una dirección">
+                            <br> -->
                             <input id="calle_principal" name="calle_principal" class="form-control " type="text" placeholder="Ingrese calle principal">
                             <br>
                             <input id="calle_secundaria" name="calle_secundaria" class="form-control " type="text" placeholder="Ingrese calle secundaria">
                             <br>
+                            <input id="numero_casa" name="numero_casa" class="form-control " type="text" placeholder="Numero de Casa">
+                            <br>
                             <input id="nombre_contacto" name="nombre_contacto" class="form-control " type="text" placeholder="Ingrese Contacto">
                             <br>
                             <input id="telefono" name="telefono" class="form-control " type="text" placeholder="Telefono de contacto">
-                            <br>
-                            <input id="numero_casa" name="numero_casa" class="form-control " type="text" placeholder="Numero de Casa">
                             <br>
                             <input id="referencia" name="referencia" class="form-control " type="text" placeholder="Ingrese referencia">
                             <div class="input-group">
@@ -66,7 +66,7 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
                             </div>
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <!-- <div class="form-group row">
                         <div class="col-md-12">
                             <div class="input-group">
 
@@ -74,7 +74,7 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
                                 <input readonly id="longitud" name="longitud" class="form-control" type="text" placeholder="Longitud">
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="form-group row">
                         <div class="col-md-12">
                             <div class="input-group">
