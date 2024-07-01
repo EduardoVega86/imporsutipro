@@ -59,6 +59,8 @@ class GuiasModel extends Query
             )
         );
 
+        print_r($datos);
+
         //iniciar curl
         $token = $this->laarToken();
         $ch = curl_init(LAAR_ENDPOINT);

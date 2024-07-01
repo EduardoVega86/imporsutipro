@@ -47,6 +47,7 @@ class Guias extends Controller
         $valor_declarado = 0;
         $tamanio = "";
         $cod = $_POST['recaudo'];
+        print_r($cod);
         $costoflete = $_POST['costo_flete'] ?? 0;
         $costo_producto = $_POST['total_venta'];
         $tipo_cobro = 0;
