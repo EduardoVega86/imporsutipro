@@ -392,10 +392,10 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
-    public function actualizarTmp($id_tmp, $descuento, $precio)
+    public function actualizarTmp($id_tmp, $descuento, $precio, $cantidad)
     {
-        $sql = "UPDATE tmp_cotizacion SET desc_tmp = ?, precio_tmp = ? WHERE id_tmp = ?";
-        $data = [$descuento, $precio, $id_tmp];
+        $sql = "UPDATE tmp_cotizacion SET desc_tmp = ?, precio_tmp = ? , cantidad_tmp = ?  WHERE id_tmp = ?";
+        $data = [$descuento, $precio, $cantidad, $id_tmp];
         $responses = $this->update($sql, $data);
         if ($responses == 1) {
             $response['status'] = 200;
