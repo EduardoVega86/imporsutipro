@@ -386,12 +386,21 @@ function anular_guiaServi(numero_guia) {
     type: "POST",
     url: "https://guias.imporsuitpro.com/Servientrega/Anular/" + numero_guia,
     dataType: "json",
-    success: function (response) {},
-    error: function (xhr, status, error) {
+    success: function(response) {
+      console.log("Respuesta de la API:", response);
+    },
+    error: function(xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
+      console.error("Estado de la respuesta:", status);
+      console.error("Detalles del error:", xhr.responseText);
       alert("Hubo un problema al anular la guia de Servientrega");
     },
+    complete: function(xhr, status) {
+      console.log("Solicitud completada con estado:", status);
+      console.log("Respuesta completa:", xhr);
+    }
   });
+  
 }
 
 //fin anular guia
