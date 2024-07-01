@@ -397,6 +397,7 @@ class PedidosModel extends Query
         $sql = "UPDATE tmp_cotizacion SET desc_tmp = ?, precio_tmp = ? , cantidad_tmp = ?  WHERE id_tmp = ?";
         $data = [$descuento, $precio, $cantidad, $id_tmp];
         $responses = $this->update($sql, $data);
+        print_r($responses);
         if ($responses == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
