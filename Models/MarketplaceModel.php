@@ -167,7 +167,7 @@ WHERE (p.drogshipin = 1) $where $favorito_filtro" ;
     
     public function obtenerMaximo() {
         
-         $sql = "SELECT MAX(pvp) precio_maximo FROM inventario_bodegas;";
+         $sql = "SELECT MAX(pvp) precio_maximo FROM inventario_bodegas ib, productos p WHERE p.id_producto= ib.id_producto and p.drogshipin=1;";
          
         $id_producto = $this->select($sql);
         $maximo = $id_producto[0]['precio_maximo'];
