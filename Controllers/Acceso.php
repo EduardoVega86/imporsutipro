@@ -42,7 +42,7 @@ class Acceso extends Controller
         echo json_encode($response);
     }
 
-    public function referido($id)
+    public function referido_token($id)
     {
         $data = json_decode(file_get_contents("php://input"), true);
         //print_r($data);
