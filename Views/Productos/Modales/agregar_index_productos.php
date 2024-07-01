@@ -179,6 +179,18 @@
 
     //enviar datos a base de datos
     $(document).ready(function() {
+        // Función para reiniciar el formulario
+        function resetForm() {
+            $('#agregar_producto_form')[0].reset();
+            $('#bodega-field').addClass('hidden-field');
+            $('#precio-referencial-valor').prop('disabled', true);
+        }
+
+        // Evento para reiniciar el formulario cuando se cierre el modal
+        $('#agregar_productoModal').on('hidden.bs.modal', function() {
+            resetForm();
+        });
+
         $('#agregar_producto_form').submit(function(event) {
             event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
 
@@ -194,7 +206,6 @@
             formData.append('aplica_iva', 1); // Suponiendo que siempre aplica IVA
             formData.append('estado_producto', 1); // Suponiendo que el estado es activo
             formData.append('date_added', new Date().toISOString().split('T')[0]);
-            formData.append('image_path', ''); // Asumiendo que no hay imagen por ahora
             formData.append('formato', $('#formato-pagina').val());
             formData.append('drogshipin', 0); // Suponiendo que no es dropshipping
             formData.append('destacado', 0); // Suponiendo que no es destacado
