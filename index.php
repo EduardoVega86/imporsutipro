@@ -11,7 +11,7 @@ if ($rute == "registro") {
 } else if ($rute == "recovery") {
     $rute = "Acceso/recovery";
 } else if ($rute == "referido") {
-    $rute = "Acceso/referido";
+    $rute = "Home/referido";
 }
 $array = explode('/', $rute);
 $controller = $array[0];
