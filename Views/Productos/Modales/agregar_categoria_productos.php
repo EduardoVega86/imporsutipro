@@ -94,6 +94,14 @@
 </div>
 <script>
     $(document).ready(function() {
+
+        // Agregar evento para reiniciar el formulario cuando se cierre el modal
+        $('#agregar_categoriaModal').on('hidden.bs.modal', function() {
+            $(this).find('form')[0].reset();
+            $(this).find('.form-group').removeClass('has-error');
+            $(this).find('.help-block').remove();
+        });
+
         $('#guardarCategoria').click(function() {
             var formData = $('#agregar_categoriaForm').serialize();
 
@@ -119,9 +127,7 @@
                             timer: 2000
                         }).then(() => {
                             // Cerrar el modal
-                            $('#agregar_categoriaModal').modal('hide').on('hidden.bs.modal', function() {
-                                $(this).find('form')[0].reset();
-                            });
+                            $('#agregar_categoriaModal').modal('hide');
                             // Recargar la DataTable
                             initDataTable();
                         });
