@@ -190,7 +190,7 @@ function recalcular(id, idPrecio, idDescuento, idCantidad) {
         );
       }
       // Retraso de 1 segundo antes de ejecutar initDataTableNuevoPedido
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       await initDataTableNuevoPedido();
     })
     .catch((error) => {
@@ -668,9 +668,7 @@ function generar_guia() {
                 timer: 2000,
               }).then(() => {
                 vaciarTmpPedidos();
-                if (generar_guiaTransportadora !== "generarSpeed"){
-                  window.location.href = "" + SERVERURL + "Pedidos/guias";
-                }
+                window.location.href = "" + SERVERURL + "Pedidos/guias";
               });
             }
           },
