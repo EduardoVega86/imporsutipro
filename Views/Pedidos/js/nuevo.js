@@ -413,7 +413,6 @@ function cargarCiudades() {
       method: "GET",
       success: function (response) {
         let ciudades = JSON.parse(response);
-        console.log("Ciudades recibidas:", ciudades); // Verificar los datos en la consola del navegador
         let ciudadSelect = $("#ciudad");
         ciudadSelect.empty();
         ciudadSelect.append('<option value="">Ciudad *</option>'); // Añadir opción por defecto
