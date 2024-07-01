@@ -43,5 +43,10 @@ class Home extends Controller
     {
         $this->views->render($this, "pedidos_ingresados");
     }
+
+    public function referido()
+    {
+        $this->views->render($this, "referido");
+    }
     ///Funciones
 }
