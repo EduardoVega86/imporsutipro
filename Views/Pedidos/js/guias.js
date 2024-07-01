@@ -357,7 +357,7 @@ function anular_guiaLaar(numero_guia) {
 
   $.ajax({
     url: SERVERURL + "guias/anularGuia",
-    type: "POST",
+    type: "GET",
     data: formData,
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
@@ -384,7 +384,7 @@ function anular_guiaLaar(numero_guia) {
 
 function anular_guiaServi(numero_guia) {
   $.ajax({
-    type: "POST",
+    type: "GET",
     url: "https://guias.imporsuitpro.com/Servientrega/Anular/" + numero_guia,
     dataType: "json",
     success: function (response) {
