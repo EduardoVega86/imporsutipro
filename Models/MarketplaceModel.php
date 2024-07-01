@@ -76,7 +76,7 @@ LEFT JOIN productos_favoritos pf ON pf.id_producto = p.id_producto
 WHERE (p.drogshipin = 1) $where $favorito_filtro" ;
         
         
-        //echo $sql;
+        //çecho $sql;
         return $this->select($sql);
     }
 
