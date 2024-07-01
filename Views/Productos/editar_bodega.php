@@ -215,13 +215,19 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
         infowindow = new google.maps.InfoWindow();
 
         map = new google.maps.Map(document.getElementById('mapa'), {
-            center: { lat: -0.1806532, lng: -78.4678382 },
+            center: {
+                lat: -0.1806532,
+                lng: -78.4678382
+            },
             zoom: 15
         });
 
         marker = new google.maps.Marker({
             map: map,
-            position: { lat: -0.1806532, lng: -78.4678382 },
+            position: {
+                lat: -0.1806532,
+                lng: -78.4678382
+            },
             draggable: true,
             title: "Arrástrame para seleccionar una ubicación"
         });
@@ -255,7 +261,9 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
     }
 
     function actualizarDireccionDesdeLatLng(latlng) {
-        geocoder.geocode({ 'location': latlng }, function(results, status) {
+        geocoder.geocode({
+            'location': latlng
+        }, function(results, status) {
             if (status === 'OK' && results[0]) {
                 actualizarMapaYMarcador(latlng, results[0].formatted_address);
             } else {
@@ -290,6 +298,8 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
 
     var bodegaId = <?php echo json_encode($bodega_id); ?>;
 
+
+    //seccion relleno de inputs
     $(document).ready(function() {
         // Inicializar Select2 en los selectores
         $('#provincia').select2({
@@ -301,13 +311,13 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
             placeholder: 'Ciudad *',
             allowClear: true
         });
-        
+
         cargarProvincias();
         cargarDatosBodega();
     });
 
     function cargarProvincias() {
-        $.ajax({
+        return $.ajax({
             url: '<?php echo SERVERURL; ?>Ubicaciones/obtenerProvincias',
             method: 'GET',
             success: function(response) {
@@ -355,6 +365,7 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
     }
 
     function cargarDatosBodega() {
+        const bodegaId = $('#id').val();
         const url = '<?php echo SERVERURL; ?>Productos/obtenerBodega/' + bodegaId;
 
         fetch(url)
@@ -363,8 +374,15 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
                 if (data.length > 0) {
                     const bodega = data[0];
                     $("#nombre").val(bodega.nombre);
-                    $("#provincia").val(bodega[0].provincia).change();
-                    cargarCiudades(bodega.provincia, bodega.localidad);
+                    $("#provincia").val(bodega.provincia).change();
+
+                    cargarProvincias().then(() => {
+                        $("#provincia").val(bodega.provincia).change();
+                        cargarCiudades(bodega.provincia).then(() => {
+                            $("#ciudad_entrega").val(bodega.localidad).change();
+                        });
+                    });
+
                     $("#direccion_completa").val(bodega.direccion);
                     $("#nombre_contacto").val(bodega.responsable);
                     $("#numero_casa").val(bodega.num_casa);
@@ -376,6 +394,7 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
             })
             .catch(error => console.error('Error:', error));
     }
+
 
     document.getElementById("formularioDatos_editar").addEventListener("submit", function(event) {
         event.preventDefault();
