@@ -20,8 +20,8 @@
 
                             <input id="nombre" name="nombre" class="form-control " type="text" placeholder="Nombre de la Bodega" required>
                             <br>
-                            <input id="direccion" name="direccion" class="form-control " type="text" placeholder="Ingresa una dirección">
-                            <br>
+                            <!-- <input id="direccion" name="direccion" class="form-control " type="text" placeholder="Ingresa una dirección">
+                            <br> -->
 
 
                             <div>
@@ -39,8 +39,8 @@
                                     </select>
                                 </div>
                             </div>
-                            <br>
-                            <input readonly id="direccion_completa" name="direccion_completa" class="form-control" type="text" placeholder="Direccion referencia">
+                            <!-- <br>
+                            <input readonly id="direccion_completa" name="direccion_completa" class="form-control" type="text" placeholder="Direccion referencia"> -->
                             <br>
                             <input id="calle_principal" name="calle_principal" class="form-control " type="text" placeholder="Ingrese calle principal">
                             <br>
