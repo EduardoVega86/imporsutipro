@@ -57,15 +57,15 @@
                             </div>
                         </div>
                     </div>
-                   <!--  <div class="form-group row">
+                    <div class="form-group row">
                         <div class="col-md-12">
                             <div class="input-group">
 
-                                <input readonly id="latitud" name="latitud" class="form-control" type="text" placeholder="Latitud">
-                                <input readonly id="longitud" name="longitud" class="form-control" type="text" placeholder="Longitud">
+                                <input readonly id="latitud" name="latitud" class="form-control" type="hidden" placeholder="Latitud">
+                                <input readonly id="longitud" name="longitud" class="form-control" type="hidden" placeholder="Longitud">
                             </div>
                         </div>
-                    </div> -->
+                    </div>
                     <div class="form-group row">
                         <div class="col-md-12">
                             <div class="input-group">
