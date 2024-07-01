@@ -363,7 +363,7 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
                 if (data.length > 0) {
                     const bodega = data[0];
                     $("#nombre").val(bodega.nombre);
-                    $("#provincia").val(response[0].provincia).change();
+                    $("#provincia").val(bodega[0].provincia).change();
                     cargarCiudades(bodega.provincia, bodega.localidad);
                     $("#direccion_completa").val(bodega.direccion);
                     $("#nombre_contacto").val(bodega.responsable);
