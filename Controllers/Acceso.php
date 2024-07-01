@@ -12,6 +12,11 @@ class Acceso extends Controller
         $this->views->render($this, "recovery");
     }
 
+    public function referido($id)
+    {
+        $this->views->render($this, "referido", $id);
+    }
+
 
 
     ///Funciones
