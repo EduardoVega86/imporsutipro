@@ -166,7 +166,7 @@ const listGuias = async () => {
                     </td>
                     <td>${guia.provinciaa}-${ciudad}</td>
                     <td><span class="link-like" id="plataformaLink" onclick="abrirModal_infoTienda('${
-                      guia.plataforma
+                      guia.id_plataforma
                     }')">${plataforma}</span></td>
                     <td>${transporte_content}</td>
                     <td>

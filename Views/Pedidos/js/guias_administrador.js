@@ -107,7 +107,6 @@ const listGuias = async () => {
         novedad = `<button class="btn btn_novedades" onclick="controlar_novedad('${guia.numero_guia}')">Controlar Novedad</button>`;
       }
 
-      let plataforma = procesarPlataforma(guia.plataforma);
       if (guia.impreso == 0) {
         impresiones = `<box-icon name='printer' color= "red"></box-icon>`;
       } else {
@@ -127,8 +126,17 @@ const listGuias = async () => {
                     </td>
                     <td>${guia.provinciaa}-${ciudad}</td>
                     <td><span class="link-like" id="plataformaLink" onclick="abrirModal_infoTienda('${
-                      guia.plataforma
-                    }')">${plataforma}</span></td>
+                      guia.id_plataforma
+                    }')">${guia.tienda}</span></td>
+                    
+                    <td><span class="link-like" id="plataformaLink" onclick="abrirModal_infoTienda('${
+                        guia.proveedor
+                      }')">${guia.nombre_proveedor}</span></td>
+
+                      <td><span class="link-like" id="plataformaLink" onclick="abrirModal_infoTienda('${
+                        guia.id_bodega
+                      }')">${guia.nombre_bodega}</span></td>
+
                     <td>${transporte_content}</td>
                     <td>
                      <div style="text-align: center;">
