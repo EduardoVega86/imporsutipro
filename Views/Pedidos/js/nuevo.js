@@ -91,7 +91,7 @@ const listNuevoPedido = async () => {
       dropshipping = nuevoPedido.drogshipin;
       costo_producto =
         costo_producto +
-        parseFloat(nuevoPedido.costo_producto) *
+        parseFloat(nuevoPedido.pcp) *
           parseFloat(nuevoPedido.cantidad_tmp);
 
           console.log(costo_producto);
