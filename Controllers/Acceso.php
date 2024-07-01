@@ -14,7 +14,7 @@ class Acceso extends Controller
 
     public function referido($id)
     {
-        $this->views->render($this, "referido", $id);
+        $this->views->render($this, "referido");
     }
 
 
