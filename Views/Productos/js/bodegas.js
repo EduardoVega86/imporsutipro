@@ -73,7 +73,7 @@ const listBodegas = async () => {
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <li><span class="dropdown-item" style="cursor: pointer;" onclick="ver_inventario(${bodega.id})"><i class='bx bxs-file-find'></i>Ver Inventario</span></li>
                         <li><span class="dropdown-item" style="cursor: pointer;" onclick="editar_bodegas(${bodega.id})"><i class="fa-solid fa-pencil"></i>Editar</span></li>
-                        <li><span class="dropdown-item" style="cursor: pointer;"><i class="fa-solid fa-trash-can"></i>Eliminar</span></li>
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="eliminarBodega(${bodega.id})"><i class="fa-solid fa-trash-can"></i>Eliminar</span></li>
                     </ul>
                     </div>
                     </td>
@@ -102,8 +102,43 @@ async function cargarCiudad(id_ciudad) {
   }
 }
 
-function ver_inventario(id_bodega){
-  window.location.href = SERVERURL + "Productos/inventario_bodega?id_producto=" + id_bodega; 
+function eliminarProducto(id) {
+  $.ajax({
+    type: "POST",
+    url: SERVERURL + "productos/eliminarBodega",
+    data: { id: id }, // Enviar el ID como un objeto
+    dataType: "json", // Asegurarse de que la respuesta se trata como JSON
+    success: function (response) {
+      // Mostrar alerta de éxito
+      if (response.status == 500) {
+        Swal.fire({
+          icon: "error",
+          title: response.title,
+          text: response.message,
+        });
+      } else {
+        Swal.fire({
+          icon: "success",
+          title: response.title,
+          text: response.message,
+          showConfirmButton: false,
+          timer: 2000,
+        }).then(() => {
+          // Recargar la DataTable
+          initDataTableProductos();
+        });
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al eliminar la categoría");
+    },
+  });
+}
+
+function ver_inventario(id_bodega) {
+  window.location.href =
+    SERVERURL + "Productos/inventario_bodega?id_producto=" + id_bodega;
 }
 
 window.addEventListener("load", async () => {
