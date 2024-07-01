@@ -130,7 +130,7 @@ function eliminarBodega(id) {
           timer: 2000,
         }).then(() => {
           // Recargar la DataTable
-          initDataTableProductos();
+          initDataTable();
         });
       }
     },
