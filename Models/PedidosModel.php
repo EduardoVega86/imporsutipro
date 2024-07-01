@@ -38,7 +38,7 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
-    public function cargarGuiasAdministrador($plataforma, $fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso)
+    public function cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso)
     {
         $sql = "SELECT fc.*, cc.ciudad, cc.provincia AS provinciaa FROM facturas_cot fc LEFT JOIN ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot WHERE TRIM(fc.numero_guia) <> '' AND fc.numero_guia IS NOT NULL AND fc.numero_guia <> '0' AND fc.anulada = 0; ";
 
