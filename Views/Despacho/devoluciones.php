@@ -14,8 +14,10 @@
     </div>
     <div class="guides-list-container mt-4" style="margin-right: auto; margin-left: 30px;">
         <h2>Guías Ingresadas</h2>
+        <button id="generarImpresionBtn" class="btn btn-success">Generar Impresion</button>
         <ul id="guidesList" class="list-group"></ul>
     </div>
+    
 </div>
 
 <script>
@@ -65,5 +67,43 @@
 
     // Escuchar el evento 'click' del botón
     document.getElementById('devolucionBtn').addEventListener('click', ejecutarDevolucion);
+    
+    
+     function generarImpresion() {
+        var guias = [];
+        var listItems = document.querySelectorAll('#guidesList .list-group-item');
+        listItems.forEach(function(item) {
+            var numeroGuia = item.childNodes[0].textContent.trim(); // Obtener solo el número de guía
+            guias.push(numeroGuia);
+        });
+        var guiasJSON = JSON.stringify(guias, null, 2);
+        console.log(guiasJSON);
+
+        let formData = new FormData();
+        formData.append("guias", guiasJSON);
+
+        $.ajax({
+            type: "POST",
+            url: SERVERURL + "/Manifiestos/generarDevolucion",
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: "json",
+            success: function(response) {
+                if (response.status == 200) {
+                    const link = document.createElement("a");
+                    link.href = response.download;
+                    link.download = "";
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error en la solicitud AJAX:", error);
+                alert("Hubo un problema al obtener la información de la categoría");
+            },
+        });
+    }
 </script>
 <?php require_once './Views/templates/footer.php'; ?>

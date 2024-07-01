@@ -34,4 +34,15 @@ class Manifiestos extends Controller
 
        echo json_encode($html);
     }
+    
+     public function generarDevolucion()
+    {
+        $arreglo = $_POST['guias'];
+        $arreglo = json_decode($arreglo, true);
+        //print_r($arreglo);
+        //devuelve el html
+        $html =    $this->model->generarDevolucionGuias($arreglo);
+
+       echo json_encode($html);
+    }
 }
