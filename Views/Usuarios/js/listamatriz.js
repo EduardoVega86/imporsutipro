@@ -47,10 +47,14 @@ const listListaUsuarioMatriz = async () => {
     const listaUsuarioMatriz = await response.json();
 
     let content = ``;
-
+    let checkboxState = "";
     listaUsuarioMatriz.forEach((usuario, index) => {
       // Verifica el valor de usuario.proveedor y ajusta el checkbox en consecuencia
-      const checkboxState = usuario.proveedor === 1 ? "checked" : "";
+      if (usuario.proveedor == 1) {
+        checkboxState = "checked";
+      } else {
+        checkboxState = "";
+      }
 
       content += `
                 <tr>
