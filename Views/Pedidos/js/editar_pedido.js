@@ -79,7 +79,7 @@ const listNuevoPedido = async () => {
       dropshipping = nuevoPedido.drogshipin;
       costo_producto =
         costo_producto +
-        parseFloat(nuevoPedido.costo_producto) *
+        parseFloat(nuevoPedido.pcp) *
           parseFloat(nuevoPedido.cantidad);
 
       contiene += `${nuevoPedido.nombre_producto} X${nuevoPedido.cantidad} `;
