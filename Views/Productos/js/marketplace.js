@@ -454,7 +454,7 @@ $(document).ready(function () {
         response.forEach(function (proveedor) {
           // Agrega una nueva opción al select por cada proveedor
           $("#proveedor_filtroMarketplace").append(
-            new Option(proveedor.nombre_tienda, proveedor.id_plataforma)
+            new Option(proveedor.nombre_tienda.toUpperCase(), proveedor.id_plataforma)
           );
         });
       } else {
