@@ -366,17 +366,14 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
             .then(data => {
                 if (data.length > 0) {
                     const bodega = data[0];
-                    document.getElementById('nombre').value = bodega.nombre;
-                    document.getElementById('direccion').value = bodega.direccion;
-                    document.getElementById('provincia').value = bodega.provincia;
+                    $("#nombre").val(bodega.nombre);
+                    $("#provincia").val(response[0].provincia).change();
                     cargarCiudades(bodega.provincia, bodega.localidad);
-                    document.getElementById('direccion_completa').value = bodega.direccion;
-                    document.getElementById('nombre_contacto').value = bodega.responsable;
-                    document.getElementById('telefono').value = bodega.contacto;
-                    document.getElementById('numero_casa').value = bodega.num_casa;
-                    document.getElementById('referencia').value = bodega.referencia;
-                    document.getElementById('latitud').value = bodega.latitud;
-                    document.getElementById('longitud').value = bodega.longitud;
+                    $("#direccion_completa").val(bodega.direccion);
+                    $("#nombre_contacto").val(bodega.responsable);
+                    $("#numero_casa").val(bodega.num_casa);
+                    $("#referencia").val(bodega.referencia);
+                    
                 } else {
                     console.error('Error al cargar los datos de la bodega:', data.message);
                 }
