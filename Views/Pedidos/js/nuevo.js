@@ -110,16 +110,12 @@ const listNuevoPedido = async () => {
       content += `
                 <tr>
                     <td>${nuevoPedido.id_tmp}</td>
-                    <td>
-                    <input 
-                    type="text" 
-                     onblur='recalcular("${
-                    nuevoPedido.id_tmp
-                     }", "cantidad_nuevoPedido_${index}", "descuento_nuevoPedido_${index}")' 
-                    id="cantidad_nuevoPedido_${index}" 
-                    class="form-control prec" 
-                    value="${nuevoPedido.cantidad_tmp}">
-                    </td>
+                    <td><input type="text" onblur='recalcular("${
+                      nuevoPedido.id_tmp
+                    }", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}", "cantidad_nuevoPedido_${index}")' id="cantidad_nuevoPedido_${index}" 
+    class="form-control prec" 
+    value="${nuevoPedido.cantidad_tmp}">
+</td>
                     <td>${nuevoPedido.nombre_producto}</td>
                     <td><input type="text" onblur='recalcular("${
                       nuevoPedido.id_tmp
