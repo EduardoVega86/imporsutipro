@@ -389,7 +389,7 @@ function anular_guiaServi(numero_guia) {
     success: function (response) {},
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al obtener la información de la categoría");
+      alert("Hubo un problema al anular la guia de Servientrega");
     },
   });
 }
