@@ -87,4 +87,12 @@ class TiendaModel extends Query
             throw new Exception('Error al añadir el dominio: ' . $responseData['cpanelresult']['data'][0]['reason']);
         }
     }
+    
+     public function informaciontienda($plataforma)
+    {
+        $sql = "SELECT * FROM plataformas WHERE id_plataforma = $plataforma";
+        
+        return $this->select($sql);
+    }
+    
 }

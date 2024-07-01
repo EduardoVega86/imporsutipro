@@ -26,4 +26,13 @@ class Tienda extends Controller
         $nombre = $_POST['nombre'];
         $response = $this->model->crearDominio($nombre, $_SESSION['id_plataforma']);
     }
+    
+    
+    
+    public function informaciontienda()
+    {        //$nombre = $_POST['nombre'];
+        $response = $this->model->informaciontienda($_SESSION['id_plataforma']);
+       echo json_encode($response);
+       
+    }
 }
