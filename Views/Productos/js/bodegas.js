@@ -103,11 +103,15 @@ async function cargarCiudad(id_ciudad) {
 }
 
 function eliminarProducto(id) {
+  let formData = new FormData();
+  formData.append("id", id); // Añadir el SKU al FormData
+
   $.ajax({
     type: "POST",
     url: SERVERURL + "productos/eliminarBodega",
-    data: { id: id }, // Enviar el ID como un objeto
-    dataType: "json", // Asegurarse de que la respuesta se trata como JSON
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
       // Mostrar alerta de éxito
       if (response.status == 500) {
