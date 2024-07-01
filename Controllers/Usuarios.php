@@ -200,5 +200,16 @@ class Usuarios extends Controller
     echo json_encode($response);
     }
     
-   
+     public function guardar_imagen_logo()
+    {
+
+        $response = $this->model->guardar_imagen_logo($_FILES['imagen'], $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+      public function guardar_imagen_favicon()
+    {
+
+        $response = $this->model->guardar_imagen_favicon($_FILES['imagen'], $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
 }
