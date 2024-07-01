@@ -117,12 +117,26 @@ const listNuevoPedido = async () => {
     value="${nuevoPedido.cantidad_tmp}">
 </td>
                     <td>${nuevoPedido.nombre_producto}</td>
-                    <td><input type="text" onblur='recalcular("${
-                      nuevoPedido.id_tmp
-                    }", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}")' id="precio_nuevoPedido_${index}" class="form-control prec" value="${precio}"></td>
-                    <td><input type="text" onblur='recalcular("${
-                      nuevoPedido.id_tmp
-                    }", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}")' id="descuento_nuevoPedido_${index}" class="form-control desc" value="${descuento}"></td>
+                    <td>
+  <input 
+    type="text" 
+    onblur='recalcular("${
+      nuevoPedido.id_tmp
+    }", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}", "cantidad_nuevoPedido_${index}")' 
+    id="precio_nuevoPedido_${index}" 
+    class="form-control prec" 
+    value="${precio}">
+</td>
+<td>
+  <input 
+    type="text" 
+    onblur='recalcular("${
+      nuevoPedido.id_tmp
+    }", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}", "cantidad_nuevoPedido_${index}")' 
+    id="descuento_nuevoPedido_${index}" 
+    class="form-control desc" 
+    value="${descuento}">
+</td>
                     <td><span class='tota' id="precioFinal_nuevoPedido_${index}">${precioFinal.toFixed(
         2
       )}</span></td>
@@ -182,7 +196,6 @@ function recalcular(id, idPrecio, idDescuento, idCantidad) {
       alert("Hubo un problema al actualizar el producto");
     });
 }
-
 
 function validar_direccion() {
   // Obtener los parámetros de la URL
