@@ -61,9 +61,7 @@ WHERE
     TRIM(fc.numero_guia) <> '' 
     AND fc.numero_guia IS NOT NULL 
     AND fc.numero_guia <> '0' 
-    AND fc.anulada = 0  
-ORDER BY 
-    fc.id_factura DESC;";
+    AND fc.anulada = 0 ";
 
     $params = [];
 
