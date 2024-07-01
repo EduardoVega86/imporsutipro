@@ -8,6 +8,11 @@
 
         <div class="contenido contenido_mapa">
             <div class="col-md-3">
+                <h3 class="portlet-title">
+                    Agregar Dirección
+                    <!-- <button class="btn btn-danger" onclick="colocarMarcadorUbicacionActual()">Usar ubicación actual</button> -->
+
+                </h3>
                 <form id="formularioDatos" method="post">
 
                     <div class="form-group row">
@@ -56,7 +61,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="form-group row">
+                   <!--  <div class="form-group row">
                         <div class="col-md-12">
                             <div class="input-group">
 
