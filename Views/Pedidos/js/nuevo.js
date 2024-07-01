@@ -337,7 +337,7 @@ $(document).ready(function () {
 
               $("#price_servientrega").text(response.servientrega);
               $("#price_gintracom").text(response.gintracom);
-              /* $("#price_speed").text(response.speed); */
+              $("#price_speed").text(response.speed);
               $("#price_laar").text(response.laar);
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -522,6 +522,9 @@ function generar_guia() {
   if (transportadora_selected == "gintracom") {
     transportadora_selected = 3;
   }
+  if (transportadora_selected == "speed") {
+    transportadora_selected = 3;
+  }
 
   // Crea un objeto FormData
   var formData = new FormData();
@@ -566,6 +569,8 @@ function generar_guia() {
     generar_guiaTransportadora = "generarServientrega";
   } else if (transportadora_selected == 3) {
     generar_guiaTransportadora = "generarGintracom";
+  } else if (transportadora_selected == 4) {
+    generar_guiaTransportadora = "generarSpeed";
   }
 
   // Mostrar alerta de carga antes de realizar la solicitud AJAX

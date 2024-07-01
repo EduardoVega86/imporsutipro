@@ -427,7 +427,7 @@ $(document).ready(function () {
 
               $("#price_servientrega").text(response.servientrega);
               $("#price_gintracom").text(response.gintracom);
-              /* $("#price_speed").text(response.speed); */
+              $("#price_speed").text(response.speed);
               $("#price_laar").text(response.laar);
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -519,95 +519,6 @@ function cargarCiudades() {
   }
 }
 
-/* 
-//agregar funcion pedido
-function agregar_nuevoPedido() {
-  // Evita que el formulario se envíe de la forma tradicional
-  event.preventDefault();
-  let transportadora_selected = $("#transportadora_selected").val();
-  if (transportadora_selected == "servientrega") {
-    transportadora_selected = 3;
-  }
-  if (transportadora_selected == "laar") {
-    transportadora_selected = 1;
-  }
-  if (transportadora_selected == "speed") {
-    transportadora_selected = 2;
-  }
-  if (transportadora_selected == "gintracom") {
-    transportadora_selected = 4;
-  }
-
-  // Crea un objeto FormData
-  var formData = new FormData();
-  var montoTotal = document.getElementById("monto_total").innerText;
-  formData.append("total_venta", montoTotal);
-  formData.append("nombre", $("#nombre").val());
-  formData.append("telefono", $("#telefono").val());
-  formData.append("calle_principal", $("#calle_principal").val());
-  formData.append("calle_secundaria", $("#calle_secundaria").val());
-  formData.append("referencia", $("#referencia").val());
-  formData.append("ciudad", $("#ciudad").val());
-  formData.append("provincia", $("#provincia").val());
-  formData.append("identificacion", 0);
-  formData.append("observacion", $("#observacion").val());
-  formData.append("transporte", 0);
-  formData.append("celular", $("#telefono").val()); // Asegúrate de obtener el valor correcto
-  formData.append("id_producto_venta", id_producto_venta);
-  formData.append("dropshipping", dropshipping);
-  formData.append("importado", 0);
-  formData.append("id_propietario", id_propietario_bodega);
-  formData.append("identificacionO", 0);
-  formData.append("celularO", celular_bodega);
-  formData.append("nombreO", nombre_bodega); // Corregir nombre de variable
-  formData.append("ciudadO", ciudad_bodega);
-  formData.append("provinciaO", provincia_bodega);
-  formData.append("direccionO", direccion_bodega);
-  formData.append("referenciaO", referencia_bodega); // Corregir nombre de variable
-  formData.append("numeroCasaO", numeroCasa_bodega);
-  formData.append("valor_seguro", 0); // Corregir nombre de variable
-  formData.append("no_piezas", 1);
-  formData.append("contiene", contiene);
-  formData.append("costo_flete", $("#costo_flete").val());
-  formData.append("costo_producto", costo_producto);
-  formData.append("comentario", "Enviado por x");
-  formData.append("id_transporte", transportadora_selected);
-
-  // Realiza la solicitud AJAX
-  $.ajax({
-    url: "" + SERVERURL + "/pedidos/nuevo_pedido",
-    type: "POST",
-    data: formData,
-    processData: false,
-    contentType: false,
-    success: function (response) {
-      response = JSON.parse(response);
-      if (response.status == 500) {
-        Swal.fire({
-          icon: "error",
-          title: response.title,
-          text: response.message,
-        });
-      } else if (response.status == 200) {
-        Swal.fire({
-          icon: "success",
-          title: response.title,
-          text: response.message,
-          showConfirmButton: false,
-          timer: 2000,
-        }).then(() => {
-          vaciarTmpPedidos();
-          window.location.href = "" + SERVERURL + "Pedidos";
-        });
-      }
-    },
-    error: function (error) {
-      alert("Hubo un error al agregar el producto");
-      console.log(error);
-    },
-  });
-} */
-
 function generar_guia() {
   //   alert()
   // Evita que el formulario se envíe de la forma tradicional
@@ -669,6 +580,8 @@ function generar_guia() {
     generar_guiaTransportadora = "generarServientrega";
   } else if (transportadora_selected == 3) {
     generar_guiaTransportadora = "generarGintracom";
+  } else if (transportadora_selected == 4) {
+    generar_guiaTransportadora = "generarSpeed";
   }
 
   // Mostrar alerta de carga antes de realizar la solicitud AJAX
