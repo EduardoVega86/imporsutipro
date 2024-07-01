@@ -40,13 +40,7 @@ class PedidosModel extends Query
 
     public function cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso)
     {
-        $sql = "SELECT fc.*, cc.ciudad, cc.provincia AS provinciaa 
-            FROM facturas_cot fc 
-            LEFT JOIN ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot 
-            WHERE TRIM(fc.numero_guia) <> '' 
-            AND fc.numero_guia IS NOT NULL 
-            AND fc.numero_guia <> '0' 
-            AND fc.anulada = 0";
+        $sql = "SELECT fc.*, cc.ciudad, cc.provincia AS provinciaa, p.url_imporsuit as tienda FROM facturas_cot fc LEFT JOIN ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot LEFT JOIN plataformas p on p.id_plataforma = fc.id_plataforma WHERE TRIM(fc.numero_guia) <> '' AND fc.numero_guia IS NOT NULL AND fc.numero_guia <> '0' AND fc.anulada = 0 ORDER BY `fc`.`numero_factura` DESC";
 
         $params = [];
 
