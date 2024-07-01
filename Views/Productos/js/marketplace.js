@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const additionalProductsPerPage = 4;
   let currentPage = 1;
   let products = [];
-  let filteredProducts = [];
+  let displayedProducts = new Set();
   let formData_filtro = new FormData();
   formData_filtro.append("nombre", "");
   formData_filtro.append("linea", "");
@@ -13,9 +13,14 @@ document.addEventListener("DOMContentLoaded", function () {
   formData_filtro.append("favorito", "0");
 
   const cardContainer = document.getElementById("card-container");
+  const loadingIndicator = document.createElement("div");
+  loadingIndicator.id = "loading-indicator";
+  loadingIndicator.innerHTML = "Cargando...";
+  loadingIndicator.style.display = "none";
+  cardContainer.appendChild(loadingIndicator);
   let isLoading = false;
 
-  async function fetchProducts() {
+  async function fetchProducts(reset = true) {
     try {
       const response = await fetch(
         `${SERVERURL}marketplace/obtener_productos`,
@@ -24,22 +29,31 @@ document.addEventListener("DOMContentLoaded", function () {
           body: formData_filtro,
         }
       );
-      products = await response.json();
-      filteredProducts = products; // Initially, no filter is applied
-      currentPage = 1;
-      cardContainer.innerHTML = ""; // Clear the container
-      displayProducts(filteredProducts, 1, initialProductsPerPage);
+      const newProducts = await response.json();
+      
+      if (reset) {
+        products = newProducts;
+        displayedProducts.clear();
+        cardContainer.innerHTML = ""; // Clear the container
+      } else {
+        products = [...products, ...newProducts];
+      }
+
+      displayProducts(products, currentPage, reset ? initialProductsPerPage : additionalProductsPerPage);
     } catch (error) {
       console.error("Error al obtener los productos:", error);
     }
   }
 
-  const displayProducts = async (products, page = 1, perPage) => {
+  const displayProducts = async (products, page, perPage) => {
     const start = (page - 1) * perPage;
     const end = start + perPage;
     const paginatedProducts = products.slice(start, end);
 
     for (const product of paginatedProducts) {
+      if (displayedProducts.has(product.id_producto)) continue;
+      displayedProducts.add(product.id_producto);
+      
       try {
         const response = await fetch(
           SERVERURL + "marketplace/obtener_producto/" + product.id_producto
@@ -62,41 +76,29 @@ document.addEventListener("DOMContentLoaded", function () {
           const card = document.createElement("div");
           card.className = "card card-custom position-relative";
           card.innerHTML = `
-    <div class="image-container">
-        <div class="card-id-container" onclick="copyToClipboard(${
-          product.id_producto
-        })">
-            <span class="card-id">ID: ${product.id_producto}</span>
-        </div>
-        <img src="${SERVERURL}${
-            productDetails[0].image_path
-          }" class="card-img-top" alt="Product Image">
-    </div>
-    <button class="btn btn-heart ${
-      esFavorito ? "clicked" : ""
-    }" onclick="handleHeartClick(${product.id_producto}, ${esFavorito})">
-      <i class="fas fa-heart"></i>
-    </button>
-    <div class="card-body text-center d-flex flex-column justify-content-between">
-      <div>
-        <h6 class="card-title"><strong>${product.nombre_producto}</strong></h6>
-        <p class="card-text">Stock: <strong style="color:green">${saldo_stock}</strong></p>
-        <p class="card-text">Precio Proveedor: <strong>$${
-          productDetails[0].pcp
-        }</strong></p>
-        <p class="card-text">Precio Sugerido: <strong>$${pvp}</strong></p>
-        <p class="card-text">Proveedor: <a href="${url_imporsuit}" target="_blank" style="font-size: 15px;">${procesarPlataforma(
-            url_imporsuit
-          )}</a></p>
-      </div>
-      <div>
-        <button class="btn btn-description" onclick="agregarModal_marketplace(${
-          product.id_producto
-        })">Descripción</button>
-        ${boton_enviarCliente}
-      </div>
-    </div>
-  `;
+            <div class="image-container">
+                <div class="card-id-container" onclick="copyToClipboard(${product.id_producto})">
+                    <span class="card-id">ID: ${product.id_producto}</span>
+                </div>
+                <img src="${SERVERURL}${productDetails[0].image_path}" class="card-img-top" alt="Product Image">
+            </div>
+            <button class="btn btn-heart ${esFavorito ? "clicked" : ""}" onclick="handleHeartClick(${product.id_producto}, ${esFavorito})">
+              <i class="fas fa-heart"></i>
+            </button>
+            <div class="card-body text-center d-flex flex-column justify-content-between">
+              <div>
+                <h6 class="card-title"><strong>${product.nombre_producto}</strong></h6>
+                <p class="card-text">Stock: <strong style="color:green">${saldo_stock}</strong></p>
+                <p class="card-text">Precio Proveedor: <strong>$${productDetails[0].pcp}</strong></p>
+                <p class="card-text">Precio Sugerido: <strong>$${pvp}</strong></p>
+                <p class="card-text">Proveedor: <a href="${url_imporsuit}" target="_blank" style="font-size: 15px;">${procesarPlataforma(url_imporsuit)}</a></p>
+              </div>
+              <div>
+                <button class="btn btn-description" onclick="agregarModal_marketplace(${product.id_producto})">Descripción</button>
+                ${boton_enviarCliente}
+              </div>
+            </div>
+          `;
           cardContainer.appendChild(card);
         } else {
           console.error(
@@ -108,6 +110,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
     isLoading = false;
+    loadingIndicator.style.display = "none";
   };
 
   // Función de debounce para retrasar la ejecución hasta que el usuario deje de escribir
@@ -227,14 +230,13 @@ document.addEventListener("DOMContentLoaded", function () {
       !isLoading
     ) {
       isLoading = true;
-      displayProducts(
-        filteredProducts,
-        ++currentPage,
-        additionalProductsPerPage
-      );
+      loadingIndicator.style.display = "block";
+      currentPage++;
+      displayProducts(products, currentPage, additionalProductsPerPage);
     }
   });
 });
+
 
 function copyToClipboard(id) {
   navigator.clipboard.writeText(id).then(
