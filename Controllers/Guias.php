@@ -226,7 +226,16 @@ class Guias extends Controller
         $monto_factura = $_POST['total_venta'];
 
         $response = $this->model->generarSpeed($nombreO, $ciudadOrigen, $direccionO, $telefonoO, $referenciaO, $nombre, $ciudadDestino, $direccion, $telefono, $celular, $referencia, $contiene, $fecha, $numero_factura, $_SESSION["id_plataforma"], $observacion, $recaudo, $monto_factura);
-        echo $response;
+
+        $response = json_decode($response, true);
+
+        if (isset($response["guia"])) {
+            $response["status"] = 200;
+            $this->model->aumentarMatriz();
+            $response2 = $this->model->actualizarGuia($numero_factura, $response["guia"], $nombre, $ciudad, $direccion, $telefono, $celular, $referencia, $recaudo, $monto_factura, $observacion, $_SESSION["id"], $_POST['calle_principal'], $_POST['calle_secundaria'], $contiene, $ciudad, 0, "SPEED");
+            $this->model->asignarWallet($numero_factura, $response["guia"], $fecha, $nombre, $_SESSION["id_plataforma"], 1, $monto_factura, $recaudo, 0);
+        }
+        echo json_encode($response);
     }
 
 
