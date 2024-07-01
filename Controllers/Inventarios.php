@@ -151,5 +151,13 @@ class Inventarios extends Controller
          print_r($response);
         echo json_encode($response);  
     }
+    
+    public function listar_despachos()
+    {
+     // $id_inventario = $_POST['id_inventario'];
+      $response = $this->model->listar_despachos($_SESSION['id_plataforma']);
+        // print_r($response);
+      echo json_encode($response);  
+    }
            
 }
