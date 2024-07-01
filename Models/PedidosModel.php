@@ -48,13 +48,16 @@ class PedidosModel extends Query
     cc.provincia AS provinciaa, 
     p.nombre_tienda AS tienda,
     b.nombre AS nombre_bodega, 
-    b.direccion AS direccion_bodega
+    b.direccion AS direccion_bodega,
+    tp.nombre_tienda AS nombre_proveedor -- Nombre del proveedor
 FROM 
     facturas_cot fc
 LEFT JOIN 
     ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot
 LEFT JOIN 
     plataformas p ON p.id_plataforma = fc.id_plataforma
+LEFT JOIN 
+    plataformas tp ON tp.id_plataforma = fc.id_propietario -- Unión adicional para obtener el nombre del proveedor
 LEFT JOIN 
     bodega b ON b.id = fc.id_bodega
 WHERE 
