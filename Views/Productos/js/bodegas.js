@@ -102,7 +102,7 @@ async function cargarCiudad(id_ciudad) {
   }
 }
 
-function eliminarProducto(id) {
+function eliminarBodega(id) {
   let formData = new FormData();
   formData.append("id", id); // Añadir el SKU al FormData
 
