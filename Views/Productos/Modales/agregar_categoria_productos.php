@@ -60,7 +60,21 @@
                             <option value="0">NO</option>
                         </select>
                     </div>
+                    <!-- <div class="form-group">
+                        <label for="tipo">Tipo:</label>
+                        <select class="form-control" id="tipo" name="tipo">
+                            <option value="1">PRINCIPAL</option>
+                            <option value="0">SECUNDARIO</option>
+                        </select>
+                    </div> -->
                     <input type="hidden" id="tipo" name="tipo" value="1">
+                    <!-- <div class="form-group">
+                        <label for="padre">Categoria Principal:</label>
+                        <select class="form-control" id="padre" name="padre">
+                            <option value="0">-- Selecciona --</option>
+                            
+                        </select>
+                    </div> -->
                     <input type="hidden" id="padre" name="padre" value="0">
                     <div class="form-group">
                         <label for="estado">Estado:</label>
@@ -78,16 +92,8 @@
         </div>
     </div>
 </div>
-
 <script>
     $(document).ready(function() {
-        // Agregar evento para reiniciar el formulario cuando se cierre el modal
-        $('#agregar_categoriaModal').on('hidden.bs.modal', function() {
-            $(this).find('form')[0].reset();
-            $(this).find('.form-group').removeClass('has-error');
-            $(this).find('.help-block').remove();
-        });
-
         $('#guardarCategoria').click(function() {
             var formData = $('#agregar_categoriaForm').serialize();
 
@@ -97,6 +103,7 @@
                 data: formData,
                 dataType: 'json',
                 success: function(response) {
+                    // Mostrar alerta de éxito
                     if (response.status == 500) {
                         Swal.fire({
                             icon: 'error',
@@ -112,8 +119,7 @@
                             timer: 2000
                         }).then(() => {
                             // Cerrar el modal
-                            var modal = bootstrap.Modal.getInstance(document.getElementById('agregar_categoriaModal'));
-                            modal.hide();
+                            $('#agregar_categoriaModal').modal('hide');
                             // Recargar la DataTable
                             initDataTable();
                         });
