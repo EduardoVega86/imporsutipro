@@ -93,7 +93,8 @@ const listNuevoPedido = async () => {
         costo_producto +
         parseFloat(nuevoPedido.costo_producto) *
           parseFloat(nuevoPedido.cantidad_tmp);
- 
+
+          console.log(costo_producto);
       contiene += `${nuevoPedido.nombre_producto} X${nuevoPedido.cantidad_tmp} `;
 
       precio_costo = parseFloat(nuevoPedido.precio_tmp);
