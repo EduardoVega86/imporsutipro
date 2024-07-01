@@ -668,7 +668,9 @@ function generar_guia() {
                 timer: 2000,
               }).then(() => {
                 vaciarTmpPedidos();
-                window.location.href = "" + SERVERURL + "Pedidos/guias";
+                if (generar_guiaTransportadora !== "generarSpeed"){
+                  window.location.href = "" + SERVERURL + "Pedidos/guias";
+                }
               });
             }
           },
