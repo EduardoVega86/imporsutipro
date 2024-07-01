@@ -146,7 +146,7 @@ document.addEventListener("DOMContentLoaded", function () {
           min: 0,
           max: data_precioMaximo,
         },
-        step: 5,
+        step: 1,
         format: wNumb({
           decimals: 0,
           thousand: ",",
