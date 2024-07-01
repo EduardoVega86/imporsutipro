@@ -385,7 +385,6 @@ function anular_guiaServi(numero_guia) {
   $.ajax({
     type: "POST",
     url: "https://guias.imporsuitpro.com/Servientrega/Anular/" + numero_guia,
-    data: { id: id },
     dataType: "json",
     success: function (response) {},
     error: function (xhr, status, error) {
