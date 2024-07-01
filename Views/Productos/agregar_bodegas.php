@@ -46,11 +46,11 @@
                             <br>
                             <input id="calle_secundaria" name="calle_secundaria" class="form-control " type="text" placeholder="Ingrese calle secundaria">
                             <br>
+                            <input id="numero_casa" name="numero_casa" class="form-control " type="text" placeholder="Numero de Casa">
+                            <br>
                             <input id="nombre_contacto" name="nombre_contacto" class="form-control " type="text" placeholder="Ingrese Contacto">
                             <br>
                             <input id="telefono" name="telefono" class="form-control " type="text" placeholder="Telefono de contacto">
-                            <br>
-                            <input id="numero_casa" name="numero_casa" class="form-control " type="text" placeholder="Numero de Casa">
                             <br>
                             <input id="referencia" name="referencia" class="form-control " type="text" placeholder="Ingrese referencia">
                             <div class="input-group">
