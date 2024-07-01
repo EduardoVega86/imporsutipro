@@ -119,7 +119,9 @@
                             timer: 2000
                         }).then(() => {
                             // Cerrar el modal
-                            $('#agregar_categoriaModal').modal('hide');
+                            $('#agregar_categoriaModal').modal('hide').on('hidden.bs.modal', function() {
+                                $(this).find('form')[0].reset();
+                            });
                             // Recargar la DataTable
                             initDataTable();
                         });
