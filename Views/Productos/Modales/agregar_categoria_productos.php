@@ -60,21 +60,7 @@
                             <option value="0">NO</option>
                         </select>
                     </div>
-                    <!-- <div class="form-group">
-                        <label for="tipo">Tipo:</label>
-                        <select class="form-control" id="tipo" name="tipo">
-                            <option value="1">PRINCIPAL</option>
-                            <option value="0">SECUNDARIO</option>
-                        </select>
-                    </div> -->
                     <input type="hidden" id="tipo" name="tipo" value="1">
-                    <!-- <div class="form-group">
-                        <label for="padre">Categoria Principal:</label>
-                        <select class="form-control" id="padre" name="padre">
-                            <option value="0">-- Selecciona --</option>
-                            
-                        </select>
-                    </div> -->
                     <input type="hidden" id="padre" name="padre" value="0">
                     <div class="form-group">
                         <label for="estado">Estado:</label>
@@ -94,7 +80,6 @@
 </div>
 <script>
     $(document).ready(function() {
-
         // Agregar evento para reiniciar el formulario cuando se cierre el modal
         $('#agregar_categoriaModal').on('hidden.bs.modal', function() {
             $(this).find('form')[0].reset();
