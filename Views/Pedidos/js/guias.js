@@ -381,28 +381,16 @@ function anular_guiaLaar(numero_guia) {
   });
 }
 
-function anular_guiaServi(numero_guia){
-
+function anular_guiaServi(numero_guia) {
   $.ajax({
-    url: "https://guias.imporsuitpro.com/Servientrega/Anular/"+numero_guia,
     type: "POST",
-    success: function (response) {
-      response = JSON.parse(response);
-      if (response.status == 500) {
-        toastr.error("LA GUIA NO SE ANULO CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-      } else if (response.status == 200) {
-        toastr.success("GUIA ANULADA CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-
-        $("#imagen_categoriaModal").modal("hide");
-        initDataTable();
-      }
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      alert(errorThrown);
+    url: "https://guias.imporsuitpro.com/Servientrega/Anular/" + numero_guia,
+    data: { id: id },
+    dataType: "json",
+    success: function (response) {},
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al obtener la información de la categoría");
     },
   });
 }
