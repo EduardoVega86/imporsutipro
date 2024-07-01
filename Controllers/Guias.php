@@ -55,6 +55,7 @@ class Guias extends Controller
         $extras = "";
 
         $numero_factura = $_POST['numero_factura'];
+        echo $costo_producto;
 
         $datos = $this->model->generarLaar($nombreOrigen, $ciudadOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras);
         $datos = json_decode($datos, true);
