@@ -50,6 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
           const { costo_producto, pvp, saldo_stock, url_imporsuit } =
             productDetails[0];
 
+          pvp = pvp.toFixed(2);
           let boton_enviarCliente = ``;
           if (product.producto_variable == 0) {
             boton_enviarCliente = `<button class="btn btn-import" onclick="enviar_cliente(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})">Enviar a cliente</button>`;
@@ -84,7 +85,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <p class="card-text">Precio Proveedor: <strong>$${
           productDetails[0].pcp
         }</strong></p>
-        <p class="card-text">Precio Sugerido: <strong>$${pvp.toFixed(2)}</strong></p>
+        <p class="card-text">Precio Sugerido: <strong>$${pvp}</strong></p>
         <p class="card-text">Proveedor: <a href="${url_imporsuit}" target="_blank" style="font-size: 15px;">${procesarPlataforma(
             url_imporsuit
           )}</a></p>
