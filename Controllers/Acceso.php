@@ -95,4 +95,11 @@ class Acceso extends Controller
         $response = $this->model->cambiarContrasena($token, $contrasena);
         echo json_encode($response);
     }
+
+    public function validarRefiere()
+    {
+        $id_referido = $_POST['id_referido'];
+        $response = $this->model->validarRefiere($id_referido);
+        echo json_encode($response);
+    }
 }

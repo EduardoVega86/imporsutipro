@@ -52,7 +52,7 @@ class GuiasModel extends Query
             "contiene" => "$contiene",
             "tamanio" => "$tamanio",
             "cod" => $cod,
-            "costoflete" => "$costoflete",
+            "costoflete" => 0,
             "costoproducto" => $costo_producto,
             "tipoCobro" => "$tipo_cobro",
             "comentario" => "$comentario",
@@ -147,7 +147,7 @@ class GuiasModel extends Query
                 $id_transporte = 4;
                 break;
         }
-        $sql =  "UPDATE `facturas_cot` SET `id_usuario`=?,`monto_factura`=?,`nombre`=?,`telefono`=?,`provincia`=?,`c_principal`=?,`ciudad_cot`=?,`c_secundaria`=?,`referencia`=?,`observacion`=?,`guia_enviada`=1,`transporte`='$transp',`celular`=?,`estado_guia_sistema`=2,`numero_guia`=?,`cod`=?,`contiene`=?,`comentario`=?,`id_transporte`=$id_transporte, `costo_flete` =$costo_flete WHERE `numero_factura`=?";
+        $sql =  "UPDATE `facturas_cot` SET `id_usuario`=?,`monto_factura`=?,`nombre`=?,`telefono`=?,`provincia`=?,`c_principal`=?,`ciudad_cot`=?,`c_secundaria`=?,`referencia`=?,`observacion`=?,`guia_enviada`=1,`transporte`='$transp',`celular`=?,`estado_guia_sistema`=2,`numero_guia`=?,`cod`=?,`contiene`=?,`comentario`=?,`id_transporte`='$id_transporte', `costo_flete` =$costo_flete WHERE `numero_factura`=?";
         $data = array($usuario, $costo_producto, $nombreDestino, $telefonoDestino, $provincia, $calle_principal, $ciudadDestino, $calle_secundaria, $referenciaDestino, $comentario, $celularDestino, $guia, $cod, $contiene, $comentario, $numero_factura);
         $response = $this->insert($sql, $data);
         return $response;
