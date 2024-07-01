@@ -89,10 +89,10 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
                     <input class="btn btn-primary" type="submit" value="Guardar">
                 </form>
             </div>
-            <div class="col-md-9">
+            <!-- <div class="col-md-9">
                 <div id="mapa" style="height: 100%;"></div>
                 <div id="infoDireccion"></div>
-            </div>
+            </div> -->
         </div>
         <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGulcdBtz_Mydtmu432GtzJz82J_yb-rs&libraries=places&callback=initMap"></script>
         <script>
