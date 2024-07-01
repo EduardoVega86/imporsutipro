@@ -545,9 +545,6 @@ function generar_guia() {
   if (transportadora_selected == "gintracom") {
     transportadora_selected = 3;
   }
-  if (transportadora_selected == "speed") {
-    transportadora_selected = 3;
-  }
 
   // Crea un objeto FormData
   var formData = new FormData();
