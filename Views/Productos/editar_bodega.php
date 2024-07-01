@@ -47,10 +47,6 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
                             <br>
                             <input id="direccion_completa" name="direccion_completa" class="form-control" type="text" placeholder="Ingresa una dirección">
                             <br>
-                            <input id="calle_principal" name="calle_principal" class="form-control " type="text" placeholder="Ingrese calle principal">
-                            <br>
-                            <input id="calle_secundaria" name="calle_secundaria" class="form-control " type="text" placeholder="Ingrese calle secundaria">
-                            <br>
                             <input id="numero_casa" name="numero_casa" class="form-control " type="text" placeholder="Numero de Casa">
                             <br>
                             <input id="nombre_contacto" name="nombre_contacto" class="form-control " type="text" placeholder="Ingrese Contacto">
@@ -373,7 +369,7 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
                     $("#nombre_contacto").val(bodega.responsable);
                     $("#numero_casa").val(bodega.num_casa);
                     $("#referencia").val(bodega.referencia);
-                    
+
                 } else {
                     console.error('Error al cargar los datos de la bodega:', data.message);
                 }
