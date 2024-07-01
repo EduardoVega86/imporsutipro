@@ -398,4 +398,15 @@ class AccesoModel extends Query
         }
         return $response;
     }
+
+    public function validarRefiere($id)
+    {
+        $sql = "SELECT * FROM users WHERE id_users = ?";
+        $params = [$id];
+        $result = $this->simple_select($sql, $params);
+        if ($result > 0) {
+            return true;
+        }
+        return false;
+    }
 }
