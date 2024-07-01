@@ -45,7 +45,7 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
                                 </div>
                             </div>
                             <br>
-                            <input readonly id="direccion_completa" name="direccion_completa" class="form-control" type="text" placeholder="Ingresa una dirección">
+                            <input id="direccion_completa" name="direccion_completa" class="form-control" type="text" placeholder="Ingresa una dirección">
                             <br>
                             <input id="calle_principal" name="calle_principal" class="form-control " type="text" placeholder="Ingrese calle principal">
                             <br>

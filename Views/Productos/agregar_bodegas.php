@@ -40,7 +40,7 @@
                                 </div>
                             </div>
                             <br>
-                            <input readonly id="direccion_completa" name="direccion_completa" class="form-control" type="text" placeholder="Direccion referencia" required>
+                            <input id="direccion_completa" name="direccion_completa" class="form-control" type="text" placeholder="Direccion referencia" required>
                             <br>
                             <input id="numero_casa" name="numero_casa" class="form-control " type="text" placeholder="Numero de Casa">
                             <br>
