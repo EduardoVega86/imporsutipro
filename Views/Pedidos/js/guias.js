@@ -88,6 +88,7 @@ const listGuias = async () => {
           '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>';
         ruta_descarga = `https://guias.imporsuitpro.com/Gintracom/label/${guia.numero_guia}`;
         ruta_traking = `https://ec.gintracom.site/web/site/tracking`;
+        funcion_anular = `anular_guiaGintracom('${guia.numero_guia}')`;
       } else {
         transporte_content =
           '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">Guia no enviada</span>';
@@ -402,7 +403,7 @@ function anular_guiaServi(numero_guia) {
   });
 }
 
-function anular_guiaServi(numero_guia) {
+function anular_guiaGintracom(numero_guia) {
   $.ajax({
     type: "POST",
     url: "https://guias.imporsuitpro.com/Gintracom/anular/" + numero_guia,
