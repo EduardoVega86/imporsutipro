@@ -438,7 +438,7 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
         // codigo para eliminar categoria
         $response = $this->initialResponse();
 
-        $sql = "DELETE FROM bodega WHERE id_bodega = ? AND id_plataforma = ?";
+        $sql = "DELETE FROM bodega WHERE id = ? AND id_plataforma = ?";
         $data = [$id, $plataforma];
         $eliminar_categoria = $this->delete($sql, $data);
         if ($eliminar_categoria == 1) {
