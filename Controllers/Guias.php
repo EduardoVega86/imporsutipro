@@ -82,7 +82,7 @@ class Guias extends Controller
         $nombreOrigen = $_POST['nombreO'];
         $ciudadOrigen = $_POST['ciudadO'];
         $ciudad = $_POST['ciudad'];
-        $ciudadOrigen = $this->model->obtenerNombre($ciudadOrigen, "codigo_ciudad_gintracom")[0]['codigo_ciudad_gintracom'];
+        $ciudadOrigen = $this->model->obtenerNombre($ciudadOrigen, "codigo_ciudad_servientrega")[0]['codigo_ciudad_servientrega'];
 
 
         $direccionOrigen = $_POST['direccionO'];
