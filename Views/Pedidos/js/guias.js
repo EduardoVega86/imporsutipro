@@ -83,6 +83,9 @@ const listGuias = async () => {
       } else if (transporte == 4) {
         transporte_content =
           '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
+        ruta_descarga = `https://guias.imporsuitpro.com/Speed/descargar/${guia.numero_guia}`;
+        ruta_traking = ``;
+        funcion_anular = ``;
       } else if (transporte == 3) {
         transporte_content =
           '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>';
@@ -388,13 +391,13 @@ function anular_guiaServi(numero_guia) {
     url: "https://guias.imporsuitpro.com/Servientrega/Anular/" + numero_guia,
     dataType: "json",
     success: function (response) {
-      if (response.msj == "LA GUÍA NO PUEDE SER ANULADA, PORQUE ESTA SIENDO PROCESADA"){
-        toastr.error(
-          ""+response.msj,
-          "NOTIFICACIÓN", {
-              positionClass: "toast-bottom-center"
-          }
-      );
+      if (
+        response.msj ==
+        "LA GUÍA NO PUEDE SER ANULADA, PORQUE ESTA SIENDO PROCESADA"
+      ) {
+        toastr.error("" + response.msj, "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
       }
       console.log("Respuesta de la API:", response);
     },
