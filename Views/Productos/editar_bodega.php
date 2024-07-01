@@ -312,8 +312,9 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
             allowClear: true
         });
 
-        cargarProvincias();
-        cargarDatosBodega();
+        cargarProvincias().then(() => {
+            cargarDatosBodega();
+        });
     });
 
     function cargarProvincias() {
@@ -329,6 +330,11 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
                 provincias.forEach(function(provincia) {
                     provinciaSelect.append(`<option value="${provincia.codigo_provincia}">${provincia.provincia}</option>`);
                 });
+
+                $('#provincia').select2({
+                    placeholder: 'Provincia *',
+                    allowClear: true
+                });
             },
             error: function(error) {
                 console.log('Error al cargar provincias:', error);
@@ -336,10 +342,9 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
         });
     }
 
-    function cargarCiudades() {
-        let provinciaId = $('#provincia').val();
+    function cargarCiudades(provinciaId, ciudadId = null) {
         if (provinciaId) {
-            $.ajax({
+            return $.ajax({
                 url: '<?php echo SERVERURL; ?>Ubicaciones/obtenerCiudades/' + provinciaId,
                 method: 'GET',
                 success: function(response) {
@@ -353,14 +358,25 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
                         ciudadSelect.append(`<option value="${ciudad.id_cotizacion}">${ciudad.ciudad}</option>`);
                     });
 
-                    ciudadSelect.prop('disabled', false);
+                    if (ciudadId) {
+                        ciudadSelect.val(ciudadId).trigger('change');
+                    }
+
+                    ciudadSelect.prop('disabled', false).select2({
+                        placeholder: 'Ciudad *',
+                        allowClear: true
+                    });
                 },
                 error: function(error) {
                     console.log('Error al cargar ciudades:', error);
                 }
             });
         } else {
-            $('#ciudad_entrega').empty().append('<option value="">Ciudad *</option>').prop('disabled', true);
+            $('#ciudad_entrega').empty().append('<option value="">Ciudad *</option>').prop('disabled', true).select2({
+                placeholder: 'Ciudad *',
+                allowClear: true
+            });
+            return $.Deferred().resolve(); // Return a resolved promise for consistency
         }
     }
 
@@ -374,19 +390,15 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
                 if (data.length > 0) {
                     const bodega = data[0];
                     $("#nombre").val(bodega.nombre);
-                    $("#provincia").val(bodega.provincia).change();
 
                     cargarProvincias().then(() => {
-                        $("#provincia").val(bodega.provincia).change();
-                        cargarCiudades(bodega.provincia).then(() => {
-                            $("#ciudad_entrega").val(bodega.localidad).change();
-                        });
+                        $("#provincia").val(bodega.provincia).trigger('change');
+                        cargarCiudades(bodega.provincia, bodega.localidad);
                     });
 
                     $("#direccion_completa").val(bodega.direccion);
                     $("#nombre_contacto").val(bodega.responsable);
                     $("#numero_casa").val(bodega.num_casa);
-                    $("#telefono").val(bodega.contacto);
                     $("#referencia").val(bodega.referencia);
 
                 } else {
@@ -395,6 +407,7 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
             })
             .catch(error => console.error('Error:', error));
     }
+
 
 
     document.getElementById("formularioDatos_editar").addEventListener("submit", function(event) {
