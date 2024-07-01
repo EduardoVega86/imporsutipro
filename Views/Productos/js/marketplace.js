@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <p class="card-text">Precio Proveedor: <strong>$${
           productDetails[0].pcp
         }</strong></p>
-        <p class="card-text">Precio Sugerido: <strong>$${pvp}</strong></p>
+        <p class="card-text">Precio Sugerido: <strong>$${pvp.toFixed(2)}</strong></p>
         <p class="card-text">Proveedor: <a href="${url_imporsuit}" target="_blank" style="font-size: 15px;">${procesarPlataforma(
             url_imporsuit
           )}</a></p>
