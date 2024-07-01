@@ -399,6 +399,7 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
                     $("#direccion_completa").val(bodega.direccion);
                     $("#nombre_contacto").val(bodega.responsable);
                     $("#numero_casa").val(bodega.num_casa);
+                    $("#telefono").val(bodega.contacto);
                     $("#referencia").val(bodega.referencia);
 
                 } else {
