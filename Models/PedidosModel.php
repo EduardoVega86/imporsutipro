@@ -404,7 +404,7 @@ class PedidosModel extends Query
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = 'Error al actualizar el producto';
+            $response['message'] = $responses["message"];
         }
         return $response;
     }
