@@ -458,7 +458,15 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
 
     public function listarBodegas($plataforma)
     {
-        $sql = "SELECT * FROM bodega WHERE id_plataforma in ('$plataforma') or global = 1";
+        $id_matriz = $this->obtenerMatriz();
+        $id_matriz = $id_matriz[0]['idmatriz'];
+        
+        $sql = "SELECT DISTINCT b.*, p.*
+FROM bodega b
+JOIN plataformas p ON b.id_plataforma = p.id_plataforma
+WHERE b.id_plataforma = $plataforma
+   OR (b.global = 1 AND p.id_matriz = $id_matriz)";
+        //echo $sql;
         return $this->select($sql);
     }
 
