@@ -63,26 +63,31 @@ const listGuias = async () => {
     let impresiones = "";
     let novedad = "";
     guias.forEach((guia, index) => {
-      let transporte = guia.transporte;
+      let transporte = guia.id_transporte;
       let transporte_content = "";
       let ruta_descarga = "";
       let ruta_traking = "";
-      if (transporte == "SERVIENTREGA") {
+      let funcion_anular = "";
+      if (transporte == 2) {
         transporte_content =
           '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SERVIENTREGA</span>';
-        ruta_descarga = `https://guias.imporsuit.com/Servientrega/Guia/${guia.numero_guia}`;
-        ruta_traking = `https://www.servientrega.com.ec/Tracking/?guia=${guia.numero_guia}&tipo=${guia.numero_guia}`;
-      } else if (transporte == "LAAR") {
+        ruta_descarga = `https://guias.imporsuitpro.com/Servientrega/Guia/${guia.numero_guia}`;
+        ruta_traking = `https://www.servientrega.com.ec/Tracking/?guia=${guia.numero_guia}&tipo=GUIA`;
+        funcion_anular = `anular_guiaServi('${guia.numero_guia}')`;
+      } else if (transporte == 1) {
         transporte_content =
           '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">LAAR</span>';
         ruta_descarga = `https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${guia.numero_guia}`;
         ruta_traking = `https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${guia.numero_guia}`;
-      } else if (transporte == "SPEED") {
+        funcion_anular = `anular_guiaLaar('${guia.numero_guia}')`;
+      } else if (transporte == 4) {
         transporte_content =
           '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
-      } else if (transporte == "GINTRACOM") {
+      } else if (transporte == 3) {
         transporte_content =
           '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>';
+        ruta_descarga = `https://guias.imporsuitpro.com/Gintracom/label/${guia.numero_guia}`;
+        ruta_traking = `https://ec.gintracom.site/web/site/tracking`;
       } else {
         transporte_content =
           '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">Guia no enviada</span>';
@@ -156,9 +161,7 @@ const listGuias = async () => {
                         <i class="fa-solid fa-gear"></i>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="anular_guia('${
-                          guia.numero_guia
-                        }')">Anular</span></li>
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="${funcion_anular}">Anular</span></li>
                         <li><span class="dropdown-item" style="cursor: pointer;">Información</span></li>
                     </ul>
                 </div>
@@ -347,8 +350,7 @@ function formatPhoneNumber(number) {
 }
 
 //anular guia
-function anular_guia(numero_guia) {
-  console.log("se jecuto la funcion");
+function anular_guiaLaar(numero_guia) {
   let formData = new FormData();
   formData.append("guia", numero_guia);
 
@@ -378,6 +380,34 @@ function anular_guia(numero_guia) {
     },
   });
 }
+
+function anular_guiaServi(numero_guia){
+
+  $.ajax({
+    url: "https://guias.imporsuitpro.com/Servientrega/Anular/"+numero_guia,
+    type: "POST",
+    success: function (response) {
+      response = JSON.parse(response);
+      if (response.status == 500) {
+        toastr.error("LA GUIA NO SE ANULO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("GUIA ANULADA CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+
+        $("#imagen_categoriaModal").modal("hide");
+        initDataTable();
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+}
+
+//fin anular guia
 //modal novedades
 function controlar_novedad(numero_guia) {
   $("#numero_guiaNovedad").val(numero_guia);
