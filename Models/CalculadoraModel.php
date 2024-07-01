@@ -3,7 +3,7 @@ class CalculadoraModel extends Query
 {
     public function obtenerTarifas($ciudad, $provincia, $monto_factura, $recuado)
     {
-        
+
         $select = $this->select("SELECT * FROM ciudad_cotizacion WHERE id_cotizacion = '$ciudad' ");
         $tarifas = [];
         $trayecto_laar = $select[0]['trayecto_laar'];
@@ -14,7 +14,7 @@ class CalculadoraModel extends Query
         $precio_servientrega = $this->select("SELECT * from cobertura_servientrega WHERE tipo_cobertura = '$trayecto_servientrega' ");
         $precio_gintracom = $this->select("SELECT * from cobertura_gintracom WHERE trayecto = '$trayecto_gintracom' ");
 
-        if ($precio_laar[0]['precio'] == null || empty($precio_laar[0]['precio'])) {
+        if (empty($precio_laar[0]['precio'])) {
             $precio_laar[0]['precio'] = 0;
         } else {
             $tarifas['laar'] = $precio_laar[0]['precio'];

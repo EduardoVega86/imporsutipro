@@ -39,42 +39,45 @@ class PedidosModel extends Query
     }
 
     public function cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso)
-    {
-        $sql = "SELECT fc.*, cc.ciudad, cc.provincia AS provinciaa 
+{
+    $sql = "SELECT fc.*, cc.ciudad, cc.provincia AS provinciaa, p.url_imporsuit as tienda 
             FROM facturas_cot fc 
             LEFT JOIN ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot 
+            LEFT JOIN plataformas p on p.id_plataforma = fc.id_plataforma 
             WHERE TRIM(fc.numero_guia) <> '' 
             AND fc.numero_guia IS NOT NULL 
             AND fc.numero_guia <> '0' 
             AND fc.anulada = 0";
 
-        $params = [];
+    $params = [];
 
-        if (!empty($fecha_inicio) && !empty($fecha_fin)) {
-            $sql .= " AND fecha_factura BETWEEN ? AND ?";
-            $params[] = $fecha_inicio;
-            $params[] = $fecha_fin;
-        }
-
-        if (!empty($transportadora)) {
-            $sql .= " AND transportadora = ?";
-            $params[] = $transportadora;
-        }
-
-        if (!empty($estado)) {
-            $sql .= " AND estado_guia_sistema = ?";
-            $params[] = $estado;
-        }
-
-        if ($impreso === 0 || $impreso === 1) {
-            $sql .= " AND impreso = ?";
-            $params[] = $impreso;
-        }
-
-        $sql .= " ORDER BY fc.numero_factura DESC;";
-
-        return $this->select($sql, $params);
+    if (!empty($fecha_inicio) && !empty($fecha_fin)) {
+        $sql .= " AND fecha_factura BETWEEN ? AND ?";
+        $params[] = $fecha_inicio;
+        $params[] = $fecha_fin;
     }
+
+    if (!empty($transportadora)) {
+        $sql .= " AND transportadora = ?";
+        $params[] = $transportadora;
+    }
+
+    if (!empty($estado)) {
+        $sql .= " AND estado_guia_sistema = ?";
+        $params[] = $estado;
+    }
+
+    if ($impreso === 0 || $impreso === 1) {
+        $sql .= " AND impreso = ?";
+        $params[] = $impreso;
+    }
+
+    // Mueve la cláusula ORDER BY al final de la consulta
+    $sql .= " ORDER BY fc.numero_factura DESC;";
+
+    return $this->select($sql, $params);
+}
+
 
 
     public function cargarAnuladas($filtro)

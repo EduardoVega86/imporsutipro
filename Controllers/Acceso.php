@@ -42,6 +42,22 @@ class Acceso extends Controller
         echo json_encode($response);
     }
 
+    public function referido($id)
+    {
+        $data = json_decode(file_get_contents("php://input"), true);
+        //print_r($data);
+        $nombre = $data['nombre'];
+        $correo = $data['correo'];
+        $pais = $data['pais'];
+        $telefono = $data['telefono'];
+        $contrasena = $data['contrasena'];
+        $tienda = $data['tienda'];
+
+        $response = $this->model->registro_referido($nombre, $correo, $pais, $telefono, $contrasena, $tienda, $id);
+
+        echo json_encode($response);
+    }
+
     public function logout()
     {
         session_start();
