@@ -84,7 +84,7 @@ const listGuias = async () => {
         transporte_content =
           '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
         ruta_descarga = `https://guias.imporsuitpro.com/Speed/descargar/${guia.numero_guia}`;
-        ruta_traking = ``;
+        ruta_traking = ``; 
         funcion_anular = ``;
       } else if (transporte == 3) {
         transporte_content =
