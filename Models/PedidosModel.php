@@ -38,6 +38,31 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
+    public function cargarGuiasAdministrador($plataforma, $fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso)
+    {
+        $sql = "SELECT fc.*, cc.ciudad, cc.provincia AS provinciaa FROM facturas_cot fc LEFT JOIN ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot WHERE TRIM(fc.numero_guia) <> '' AND fc.numero_guia IS NOT NULL AND fc.numero_guia <> '0' AND fc.anulada = 0; ";
+
+        if (!empty($fecha_inicio) && !empty($fecha_fin)) {
+            $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+        }
+
+        if (!empty($transportadora)) {
+            $sql .= " AND transportadora = '$transportadora'";
+        }
+
+        if (!empty($estado)) {
+            $sql .= " AND estado_guia_sistema = '$estado'";
+        }
+
+        if ($impreso == 0 || $impreso == 1) {
+            $sql .= " AND impreso = '$impreso'";
+        }
+
+        $sql .= " ORDER BY fc.numero_factura DESC;";
+
+        return $this->select($sql);
+    }
+
     public function cargarAnuladas($filtro)
     {
         $sql = "SELECT * FROM facturas_cot where anulado = 1";

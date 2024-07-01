@@ -1,5 +1,5 @@
 <?php require_once './Views/templates/header.php'; ?>
-<?php require_once './Views/Pedidos/css/guias_style.php'; ?>
+<?php require_once './Views/Pedidos/css/guias_administrador_style.php'; ?>
 
 
 <?php require_once './Views/Pedidos/Modales/informacion_plataforma.php'; ?>
@@ -142,5 +142,5 @@
         });
     });
 </script>
-<script src="<?php echo SERVERURL ?>/Views/Pedidos/js/guias.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/Pedidos/js/guias_administrador.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
