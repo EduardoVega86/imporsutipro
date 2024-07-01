@@ -110,7 +110,16 @@ const listNuevoPedido = async () => {
       content += `
                 <tr>
                     <td>${nuevoPedido.id_tmp}</td>
-                    <td>${nuevoPedido.cantidad_tmp}</td>
+                    <td>
+                    <input 
+                    type="text" 
+                     onblur='recalcular("${
+                    nuevoPedido.id_tmp
+                     }", "cantidad_nuevoPedido_${index}", "descuento_nuevoPedido_${index}")' 
+                    id="cantidad_nuevoPedido_${index}" 
+                    class="form-control prec" 
+                    value="${nuevoPedido.cantidad_tmp}">
+                    </td>
                     <td>${nuevoPedido.nombre_producto}</td>
                     <td><input type="text" onblur='recalcular("${
                       nuevoPedido.id_tmp
@@ -140,14 +149,16 @@ const listNuevoPedido = async () => {
   }
 };
 
-function recalcular(id, idPrecio, idDescuento) {
+function recalcular(id, idPrecio, idDescuento, idCantidad) {
   const precio = parseFloat(document.getElementById(idPrecio).value);
   const descuento = parseFloat(document.getElementById(idDescuento).value);
+  const cantidad = parseFloat(document.getElementById(idCantidad).value);
 
   const ffrm = new FormData();
   ffrm.append("id", id);
   ffrm.append("precio", precio);
   ffrm.append("descuento", descuento);
+  ffrm.append("cantidad", cantidad);
 
   fetch("" + SERVERURL + "pedidos/actualizarTmp/" + id, {
     method: "POST",
@@ -307,7 +318,7 @@ $(document).ready(function () {
       processData: false, // No procesar los datos
       contentType: false, // No establecer ningún tipo de contenido
       success: function (response_serviTarifa) {
-        response_serviTarifa = JSON.parse(response_serviTarifa)
+        response_serviTarifa = JSON.parse(response_serviTarifa);
         $("#flete").val(response_serviTarifa.flete);
         $("#seguro").val(response_serviTarifa.seguro);
         $("#comision").val(response_serviTarifa.comision);
@@ -616,11 +627,11 @@ function generar_guia() {
         formData.append("numero_factura", response.numero_factura);
 
         if (transportadora_selected == 2) {
-          formData.append("flete", $('#flete').val()); 
-          formData.append("seguro", $('#seguro').val()); 
-          formData.append("comision", $('#comision').val()); 
-          formData.append("otros", $('#otros').val()); 
-          formData.append("impuestos", $('#impuestos').val());  
+          formData.append("flete", $("#flete").val());
+          formData.append("seguro", $("#seguro").val());
+          formData.append("comision", $("#comision").val());
+          formData.append("otros", $("#otros").val());
+          formData.append("impuestos", $("#impuestos").val());
         }
 
         $.ajax({
