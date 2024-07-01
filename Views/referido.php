@@ -9,9 +9,6 @@
         <img src="<?php echo LOGIN_IMAGE; ?>" alt="IMORSUIT" width="300px" height="150px">
     </div>
     <div class="container">
-        <div id="validarToken">
-            <button type="button" class="btn btn-primary w-100" onclick="validarToken()">Validar Token</button>
-        </div>
         <div id="registrar" style="display: none;">
             <div class="header">
                 <p>¿Estás listo para unirte al mundo del ecommerce? ¡Comencemos!😉</p>
@@ -249,28 +246,42 @@
             });
     }
 
-    function validarToken() {
-        $.ajax({
-            url: 'acceso/validarRefiere',
-            type: 'POST',
-            dataType: 'json',
-            data: {
-                token: 'tu_token_aqui' // Reemplaza con el token real que quieras validar
-            },
-            success: function(response) {
-                if (response === true) {
-                    $('#registrar').show();
-                    $('#token_valido').hide();
-                } else {
-                    $('#token_valido').show();
-                    $('#registrar').hide();
+    $(document).ready(function() {
+        function getQueryParam(param) {
+            var urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        function validarToken(token) {
+            $.ajax({
+                url: 'acceso/validarRefiere',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    token: token // Utiliza el token obtenido de la URL
+                },
+                success: function(response) {
+                    if (response === true) {
+                        $('#registrar').show();
+                        $('#token_valido').hide();
+                    } else {
+                        $('#token_valido').show();
+                        $('#registrar').hide();
+                    }
+                },
+                error: function() {
+                    alert('Error en la validación del token');
                 }
-            },
-            error: function() {
-                alert('Error en la validación del token');
-            }
-        });
-    }
+            });
+        }
+
+        var token = getQueryParam('token');
+        if (token) {
+            validarToken(token);
+        } else {
+            $('#token_valido').show();
+        }
+    });
 </script>
 
 <?php require_once './Views/templates/landing/footer.php'; ?>
