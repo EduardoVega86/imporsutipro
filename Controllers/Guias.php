@@ -182,7 +182,6 @@ class Guias extends Controller
         $numero_factura = $_POST['numero_factura'];
         $monto_factura = $_POST['total_venta'];
 
-
         $response = $this->model->generarGintracom($nombreOrigen, $ciudadOrigen, $provinciaOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $provinciaDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras, $numero_factura, $monto_factura);
         $response = json_decode($response, true);
         if (isset($response["guia"])) {
