@@ -149,16 +149,14 @@ const listNuevoPedido = async () => {
   }
 };
 
-function recalcular(id, idPrecio, idDescuento, idCantidad) {
+function recalcular(id, idPrecio, idDescuento) {
   const precio = parseFloat(document.getElementById(idPrecio).value);
   const descuento = parseFloat(document.getElementById(idDescuento).value);
-  const cantidad = parseFloat(document.getElementById(idCantidad).value);
 
   const ffrm = new FormData();
   ffrm.append("id", id);
   ffrm.append("precio", precio);
   ffrm.append("descuento", descuento);
-  ffrm.append("cantidad", cantidad);
 
   fetch("" + SERVERURL + "pedidos/actualizarTmp/" + id, {
     method: "POST",
