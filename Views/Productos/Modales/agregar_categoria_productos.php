@@ -78,6 +78,7 @@
         </div>
     </div>
 </div>
+
 <script>
     $(document).ready(function() {
         // Agregar evento para reiniciar el formulario cuando se cierre el modal
@@ -96,7 +97,6 @@
                 data: formData,
                 dataType: 'json',
                 success: function(response) {
-                    // Mostrar alerta de éxito
                     if (response.status == 500) {
                         Swal.fire({
                             icon: 'error',
@@ -112,7 +112,8 @@
                             timer: 2000
                         }).then(() => {
                             // Cerrar el modal
-                            $('#agregar_categoriaModal').modal('hide');
+                            var modal = bootstrap.Modal.getInstance(document.getElementById('agregar_categoriaModal'));
+                            modal.hide();
                             // Recargar la DataTable
                             initDataTable();
                         });
