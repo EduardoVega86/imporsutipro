@@ -13,9 +13,9 @@ class Referidos extends Controller
     {
         $this->views->render($this, "index");
     }
-    public function referido()
+    public function referidos()
     {
-        $this->views->render($this, "referido");
+        $this->views->render($this, "referidos");
     }
 
     ///funciones
