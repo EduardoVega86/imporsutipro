@@ -75,6 +75,7 @@ const listNuevoPedido = async () => {
     let total = 0;
     let precio_costo = 0;
     costo_producto = 0;
+    contiene = "";
     nuevosPedidos.forEach((nuevoPedido, index) => {
       if (nuevosPedidos_bodega.length > 0 && nuevosPedidos_bodega[0]) {
         celular_bodega = nuevosPedidos_bodega[0].contacto;
@@ -92,7 +93,7 @@ const listNuevoPedido = async () => {
         costo_producto +
         parseFloat(nuevoPedido.costo_producto) *
           parseFloat(nuevoPedido.cantidad_tmp);
-
+ 
       contiene += `${nuevoPedido.nombre_producto} X${nuevoPedido.cantidad_tmp} `;
 
       precio_costo = parseFloat(nuevoPedido.precio_tmp);
