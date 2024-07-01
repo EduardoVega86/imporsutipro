@@ -70,8 +70,8 @@
             <div class="submenu" id="submenu2">
                 <a href="<?php echo SERVERURL ?>Pedidos"><i class='bx bx-history menu-icon'></i> <span class="menu-text">Historial</span></a>
                 <a href="<?php echo SERVERURL ?>pedidos/guias"><i class='bx bx-archive menu-icon'></i> <span class="menu-text">Guías</span></a>
-                <a href="#"><i class='bx bx-x menu-icon'></i> <span class="menu-text">Anulados</span></a>
-                <a href="#"><i class='bx bx-info-circle menu-icon'></i> <span class="menu-text">Novedad</span></a>
+                <!-- <a href="#"><i class='bx bx-x menu-icon'></i> <span class="menu-text">Anulados</span></a>
+                <a href="#"><i class='bx bx-info-circle menu-icon'></i> <span class="menu-text">Novedad</span></a> -->
                 <a href="<?php echo SERVERURL ?>despacho/despacho"><i class='bx bxs-box menu-icon'></i> <span class="menu-text">Relacion Despacho</span></a>
                 <a href="<?php echo SERVERURL ?>despacho/devoluciones"><i class='bx bx-box menu-icon'></i> <span class="menu-text">Ingresar Devolucion</span></a>
             </div>
