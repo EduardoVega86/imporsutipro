@@ -458,6 +458,7 @@ class GuiasModel extends Query
 
 
         // Ejecutar la consulta y devolver el resultado
+        echo $sql;
         $nombre = $this->select($sql);
         return $nombre;
     }
