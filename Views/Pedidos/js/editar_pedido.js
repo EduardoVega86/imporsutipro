@@ -79,8 +79,7 @@ const listNuevoPedido = async () => {
       dropshipping = nuevoPedido.drogshipin;
       costo_producto =
         costo_producto +
-        parseFloat(nuevoPedido.pcp) *
-          parseFloat(nuevoPedido.cantidad);
+        parseFloat(nuevoPedido.pcp) * parseFloat(nuevoPedido.cantidad);
 
       contiene += `${nuevoPedido.nombre_producto} X${nuevoPedido.cantidad} `;
 
@@ -521,6 +520,9 @@ function cargarCiudades() {
 }
 
 function generar_guia() {
+  var button = document.getElementById("generarGuiaBtn");
+  button.disabled = true; // Desactivar el botón
+
   //   alert()
   // Evita que el formulario se envíe de la forma tradicional
   event.preventDefault();
