@@ -165,6 +165,19 @@ class ManifiestosModel extends Query
         return $reponse;
     }
 
+     public function cambiarImpreso($arreglo)
+    {
+          if (count($arreglo) == 0) return;
+        if (count($arreglo) > 0) {
+             $string = "('" . implode("','", $arreglo) . "')";
+             $update = "UPDATE facturas_cot SET impreso = 1 WHERE numero_factura IN $string";
+            $this->select($update);
+
+            
+        }
+         
+     }
+     
     public function generarManifiesto($arreglo)
     {
 
@@ -184,9 +197,7 @@ class ManifiestosModel extends Query
                 return $guia['numero_guia'];
             }, $guias);
 
-            $update = "UPDATE facturas_cot SET impreso = 1 WHERE numero_factura IN $string";
-            $this->select($update);
-
+           
 
             $resumen = $this->select($sql);
             $html = $this->generarTablaHTML($resumen);
