@@ -70,7 +70,8 @@ document
     const transportadoraValue = transportadoraSelect.value;
 
     if (transportadoraValue !== "-- Selecciona Transportadora --") {
-      const url = SERVERURL+`despacho/despacho?transportadora=${transportadoraValue}`;
+      const url =
+        SERVERURL + `despacho/despacho?transportadora=${transportadoraValue}`;
       window.location.href = url;
     } else {
       alert("Por favor selecciona una transportadora.");
@@ -79,4 +80,30 @@ document
 
 window.addEventListener("load", async () => {
   await initDataTableListaDespachos();
+});
+
+//cargar select de bodegas
+$(document).ready(function () {
+  // Realiza la solicitud AJAX para obtener la lista de bodegas
+  $.ajax({
+    url: SERVERURL + "productos/listar_bodegas",
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+      // Asegúrate de que la respuesta es un array
+      if (Array.isArray(response)) {
+        response.forEach(function (bodega) {
+          // Agrega una nueva opción al select por cada bodega
+          $("#select_bodega").append(
+            new Option(bodega.nombre, bodega.id)
+          );
+        });
+      } else {
+        console.log("La respuesta de la API no es un array:", response);
+      }
+    },
+    error: function (error) {
+      console.error("Error al obtener la lista de bodegas:", error);
+    },
+  });
 });
