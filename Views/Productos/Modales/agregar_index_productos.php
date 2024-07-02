@@ -191,8 +191,12 @@
             resetForm();
         });
 
-        $('#agregar_producto_form').submit(function(event) {
+        $('#agregar_producto_form').on('submit', function(event) {
+            // Deshabilitar el botón "Guardar"
             $('#agregar_producto_form button[type="submit"]').prop('disabled', true);
+        });
+
+        $('#agregar_producto_form').submit(function(event) {
             event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
 
             // Crea un objeto FormData
