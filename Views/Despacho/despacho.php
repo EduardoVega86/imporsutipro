@@ -37,7 +37,6 @@
                     toastr.success("" + response.message, "NOTIFICACIÓN", {
                         positionClass: "toast-bottom-center",
                     });
-
                     agregarGuia(numeroGuia);
                 }
             },
@@ -50,6 +49,17 @@
 
     // Función para agregar una guía a la lista
     function agregarGuia(numeroGuia) {
+        // Verificar si la guía ya está en la lista
+        var guiasExistentes = document.querySelectorAll('#guidesList .list-group-item');
+        for (var i = 0; i < guiasExistentes.length; i++) {
+            if (guiasExistentes[i].childNodes[0].textContent.trim() === numeroGuia) {
+                toastr.warning("La guía ya está en la lista", "NOTIFICACIÓN", {
+                    positionClass: "toast-bottom-center",
+                });
+                return; // No agregar la guía si ya existe
+            }
+        }
+
         var listItem = document.createElement('li');
         listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
         listItem.textContent = numeroGuia;
