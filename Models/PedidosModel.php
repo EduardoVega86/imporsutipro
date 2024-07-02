@@ -103,14 +103,6 @@ WHERE
             $sql .= " AND transportadora = '$transportadora'";
         }
 
-        if (!empty($estado)) {
-            $sql .= " AND estado_guia_sistema = '$estado'";
-        }
-
-        if ($impreso == 0 || $impreso == 1) {
-            $sql .= " AND impreso = '$impreso'";
-        }
-
         $sql .= " ORDER BY fc.numero_factura DESC;";
 
         return $this->select($sql);
