@@ -7,6 +7,11 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 class GestionModel extends Query
 {
+    public function capturador($json)
+    {
+        $this->insert("INSERT INTO laar (json) VALUES (?)", [$json]);
+    }
+
     public function actualizarEstado($estado, $guia)
     {
         $sql = "UPDATE facturas_cot set estado_guia_sistema = '$estado' WHERE numero_guia = '$guia' ";
