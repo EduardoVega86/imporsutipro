@@ -577,9 +577,9 @@ function agregar_imagenProducto(id, imagen) {
   $("#id_imagenproducto").val(id);
 
   if (imagen) {
-    $("#imagePreview").attr("src", imagen).show();
+    $("#imagePreviewPrincipal").attr("src", imagen).show();
   } else {
-    $("#imagePreview").hide();
+    $("#imagePreviewPrincipal").hide();
   }
 
   $("#imagen_productoModal").modal("show");
