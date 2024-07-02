@@ -578,6 +578,7 @@ class GuiasModel extends Query
 
         // Ejecutar la solicitud
         $response = curl_exec($ch);
+        echo json_decode($response);
 
         // Verificar si ocurrió algún error durante la solicitud
         if (curl_errno($ch)) {
