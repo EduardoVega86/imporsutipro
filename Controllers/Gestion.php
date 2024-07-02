@@ -15,6 +15,7 @@ class Gestion extends Controller
     public function laar()
     {
         $json = file_get_contents('php://input');
+        $this->model->capturador($json);
         $data = json_decode($json, true);
 
         $estadoActualCodigo = $data['estadoActualCodigo'];

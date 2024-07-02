@@ -6,6 +6,11 @@ class ShopifyModel extends Query
         parent::__construct();
     }
 
+    public function capturador($json)
+    {
+        $this->insert("INSERT INTO laar (json) VALUES (?)", [$json]);
+    }
+
     public function gestionarRequest($plataforma, $data)
     {
         $data = json_decode($data, true);
