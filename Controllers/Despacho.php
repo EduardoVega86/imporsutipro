@@ -58,7 +58,7 @@ class Despacho extends Controller
 
     public function listarDespachos()
     {
-        $data = $this->model->listarDespachos();
+        $data = $this->model->listarDespachos($_SESSION['id_plataforma']);
         echo json_encode($data);
     }
 
