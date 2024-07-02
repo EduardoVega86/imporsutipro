@@ -75,7 +75,7 @@
                                 <th class="centered">Numero referido</th>
                                 <th class="centered">Guia</th>
                                 <th class="centered">Monto</th>
-                                <th class="centered">Fecha</th><
+                                <th class="centered">Fecha</th>
                             </tr>
                         </thead>
                         <tbody id="tableBody_pagos"></tbody>
