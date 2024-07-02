@@ -315,6 +315,12 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
         cargarProvincias().then(() => {
             cargarDatosBodega();
         });
+
+        // Actualizar el evento change del selector de provincia
+        $('#provincia').change(function() {
+            const provinciaId = $(this).val();
+            cargarCiudades(provinciaId);
+        });
     });
 
     function cargarProvincias() {
@@ -379,6 +385,36 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
             return $.Deferred().resolve(); // Return a resolved promise for consistency
         }
     }
+
+    function cargarDatosBodega() {
+        const bodegaId = $('#id').val();
+        const url = '<?php echo SERVERURL; ?>Productos/obtenerBodega/' + bodegaId;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                if (data.length > 0) {
+                    const bodega = data[0];
+                    $("#nombre").val(bodega.nombre);
+
+                    cargarProvincias().then(() => {
+                        $("#provincia").val(bodega.provincia).trigger('change');
+                        cargarCiudades(bodega.provincia, bodega.localidad);
+                    });
+
+                    $("#direccion_completa").val(bodega.direccion);
+                    $("#nombre_contacto").val(bodega.responsable);
+                    $("#numero_casa").val(bodega.num_casa);
+                    $("#telefono").val(bodega.contacto);
+                    $("#referencia").val(bodega.referencia);
+
+                } else {
+                    console.error('Error al cargar los datos de la bodega:', data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
 
     function cargarDatosBodega() {
         const bodegaId = $('#id').val();
