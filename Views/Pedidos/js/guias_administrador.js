@@ -368,7 +368,7 @@ function anular_guiaLaar(numero_guia) {
 
   $.ajax({
     url: SERVERURL + "guias/anularGuia",
-    type: "GET",
+    type: "POST",
     data: formData,
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
