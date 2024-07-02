@@ -1,21 +1,17 @@
 <?php require_once './Views/templates/header.php'; ?>
-<?php require_once './Views/Pedidos/css/guias_style.php'; ?>
+<?php require_once './Views/Pedidos/css/lista_despachos_style.php'; ?>
 
-
-<?php require_once './Views/Pedidos/Modales/informacion_plataforma.php'; ?>
-<?php require_once './Views/Pedidos/Modales/novedades.php'; ?>
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
         <h2 class="text-center mb-4">Guias</h2>
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
-            <table id="datatable_guias" class="table table-striped">
+            <table id="datatable_lista_despachos" class="table table-striped">
                 <!-- <caption>
                     DataTable.js Demo
                 </caption> -->
                 <thead>
                     <tr>
-                        <th class="centered"><input type="checkbox" id="selectAll"></th>
                         <th class="centered"># Orden</th>
                         <th class="centered">Detalle</th>
                         <th class="centered">Cliente</th>
@@ -27,10 +23,10 @@
                         <th class="centered">Acciones</th>
                     </tr>
                 </thead>
-                <tbody id="tableBody_guias"></tbody>
+                <tbody id="tableBody_lista_despachos"></tbody>
             </table>
         </div>
     </div>
 </div>
-<script src="<?php echo SERVERURL ?>/Views/Pedidos/js/guias.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/Pedidos/js/lista_despachos.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
