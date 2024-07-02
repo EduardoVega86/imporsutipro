@@ -13,7 +13,9 @@
     <div class="guides-list-container mt-4" style="margin-right: auto; margin-left: 30px;">
         <h2>Guías Ingresadas</h2>
         <ul id="guidesList" class="list-group"></ul>
-        <button id="generarImpresionBtn" class="btn btn-success">Generar Impresion</button>
+        <div style="padding-top:10px;">
+            <button id="generarImpresionBtn" class="btn btn-success">Generar Impresion</button>
+        </div>
     </div>
 </div>
 
