@@ -48,11 +48,12 @@ const listListaDespachos = async () => {
 
       content += `
                 <tr>
-                    <td>${despacho.ventas}</td>
-                    <td>${despacho.utilidad}</td>
-                    <td>${despacho.utilidad}</td>
-                    <td>${despacho.utilidad}</td>
-                    <td>${despacho.utilidad}</td>
+                    <td>${despacho.id_despacho}</td>
+                    <td>${despacho.id_usuario}</td>
+                    <td>${despacho.id_plataforma}</td>
+                    <td>${despacho.id_transportadora}</td>
+                    <td>${despacho.id_bodega}</td>
+                    <td>${despacho.fecha_hora}</td>
                 </tr>`;
     });
     document.getElementById("tableBody_lista_despachos").innerHTML = content;
