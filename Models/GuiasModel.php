@@ -596,34 +596,4 @@ class GuiasModel extends Query
     {
         $this->update("UPDATE matriz set guia_generadas = guia_generadas + 1 WHERE idmatriz = ?", array(MATRIZ));
     }
-
-
-    public function masivo()
-    {
-        $sql = "SELECT * FROM facturas_cot WHERE numero_guia like 'IMP%';";
-        $guias = $this->select($sql);
-        foreach ($guias as $guia) {
-            $this->verificar($guia['numero_guia']);
-        }
-    }
-
-    public function verificar($guia)
-    {
-        $ch = curl_init("https://api.laarcourier.com:9727/guias/" . $guia);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Authorization: Bearer ' . $this->laarToken()
-        ));
-        $response = curl_exec($ch);
-
-        $url = "https://new.imporsuitpro.com/gestion/laar";
-        $ch2 = curl_init($url);
-        curl_setopt($ch2, CURLOPT_POST, 1);
-        curl_setopt($ch2, CURLOPT_POSTFIELDS, $response);
-        curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
-        $response2 = curl_exec($ch2);
-        curl_close($ch2);
-        curl_close($ch);
-        echo $response2;
-    }
 }
