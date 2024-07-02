@@ -24,6 +24,17 @@ class Wallet extends Controller
         $this->views->render($this, "billetera");
     }
 
+    public function editar($id)
+    {
+        $total_venta = $_POST['total_venta'];
+        $precio_envio = $_POST['precio_envio'];
+        $full = $_POST['full'];
+        $costo = $_POST['costo'];
+
+        $response = $this->model->editar($id, $total_venta, $precio_envio, $full, $costo);
+        echo json_encode($response);
+    }
+
     public function pagar()
     {
         $tienda = $_GET['tienda'];

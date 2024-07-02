@@ -52,6 +52,13 @@ class WalletModel extends Query
         return json_encode($datos_tienda);
     }
 
+    public function editar($id_cabecera, $total_venta, $precio_envio, $full, $costo)
+    {
+        $monto_recibir = $total_venta - $costo - $full - $precio_envio;
+        $sql = "UPDATE cabecera_cuenta_pagar set total_venta = ?, precio_envio = ?, full = ?, costo = ?, monto_recibir = ?, total_pendiente = ? WHERE id_cabecera = ?";
+        $response =  $this->update($sql, array($total_venta, $precio_envio, $full, $costo, $monto_recibir, $monto_recibir, $id_cabecera));
+        return $response;
+    }
     public function obtenerDatos($tienda)
     {
         $datos_facturas_entregadas = $this->select("SELECT SUM(monto_recibir) as utilidad, sum(total_ventas) as ventas FROM cabecera_cuenta_pagar WHERE tienda = '$tienda' and visto = 1");
