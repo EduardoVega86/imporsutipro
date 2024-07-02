@@ -448,7 +448,20 @@ function anular_guiaGintracom(numero_guia) {
     type: "POST",
     url: "https://guias.imporsuitpro.com/Gintracom/anular/" + numero_guia,
     dataType: "json",
-    success: function (response) {},
+    success: function (response) {
+      if (response == 1) {
+        toastr.success("GUIA ANULADA CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+
+        $("#imagen_categoriaModal").modal("hide");
+        initDataTable();
+      } else {
+        toastr.error("LA GUIA NO SE ANULO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      }
+    },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
       alert("Hubo un problema al obtener la información de la categoría");
