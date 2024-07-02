@@ -64,7 +64,7 @@ class Despacho extends Controller
 
     public function listarDevoluciones()
     {
-        $data = $this->model->listarDevoluciones();
+        $data = $this->model->listarDevoluciones($_SESSION['id_plataforma']);
         echo json_encode($data);
     }
 
