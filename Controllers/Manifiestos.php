@@ -24,13 +24,44 @@ class Manifiestos extends Controller
         echo json_encode($html);
     }
 
+//    public function generarManifiesto()
+//    {
+//        $arreglo = $_POST['guias'];
+//        $arreglo = json_decode($arreglo, true);
+//        //print_r($arreglo);
+//        //devuelve el html
+//        $html =    $this->model->generarManifiestoGuias($arreglo);
+//
+//       echo json_encode($html);
+//    }
+    
     public function generarManifiesto()
     {
         $arreglo = $_POST['guias'];
+        $transportadora = $_POST['transportadora'];
         $arreglo = json_decode($arreglo, true);
+        $transportadora=1;
+        $bodega=35;
+        echo count($arreglo);
+        if (count($arreglo)>0){
+          $id_cabecera =    $this->model->guardarCabecera($bodega,$transportadora,$_SESSION['id_plataforma']);
+       // echo $id_cabecera;
+    $resultados = [];
+    foreach ($arreglo as $guia) {
+        // Llama a la función del modelo para cada guía
+        $resultado = $this->model->despacho_guia($guia, $_SESSION['id_plataforma'],  $id_cabecera);
+        // Puedes almacenar los resultados si es necesario
+        $resultados[] = $resultado;
+    }
+   // print_r($resultados);
+    
+    
+        $html =    $this->model->generarManifiestoGuias($arreglo);  
+        }
         //print_r($arreglo);
         //devuelve el html
-        $html =    $this->model->generarManifiestoGuias($arreglo);
+        // Itera sobre cada elemento del arreglo
+       
 
        echo json_encode($html);
     }
