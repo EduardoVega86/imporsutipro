@@ -455,7 +455,7 @@ class GuiasModel extends Query
 
         // Construir la consulta SQL
         $sql = "SELECT $nombre FROM $table WHERE $condition";
-        echo $sql;
+
 
         // Ejecutar la consulta y devolver el resultado
         $nombre = $this->select($sql);
