@@ -213,7 +213,7 @@ class ManifiestosModel extends Query
                     if (strpos($guia, "IMP") === 0 || strpos($guia, "MKP") === 0) {
                         $pdf_content = file_get_contents("https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=" . $guia);
                     } else if (is_numeric($guia)) {
-                        $pdf_content = file_get_contents("https://guias.imporsuit.com/Servientrega/Guia/" . $guia);
+                        $pdf_content = file_get_contents("https://guias.imporsuitpro.com/Servientrega/Guia/" . $guia);
                     } else if (strpos($guia, "I00") === 0) {
                         $pdf_content = file_get_contents("https://guias.imporsuitpro.com/Gintracom/label/" . $guia);
                     } else if (strpos($guia, "SPD") === 0) {
