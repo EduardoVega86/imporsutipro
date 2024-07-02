@@ -54,7 +54,7 @@
 
     @media (max-width: 768px){
         .selects{
-            
+            flex-direction: column;
         }
     }
 </style>

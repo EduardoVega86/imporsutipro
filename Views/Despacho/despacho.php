@@ -31,6 +31,9 @@
     // Obtener el valor del parámetro "transportadora"
     var transportadora = getParameterByName('transportadora');
 
+    // Obtener el valor del parámetro "bodega"
+    var bodega = getParameterByName('bodega');
+
     function ejecutarDespacho() {
         var numeroGuia = document.getElementById('numeroGuia').value;
 
