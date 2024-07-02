@@ -492,12 +492,12 @@ class InventariosModel extends Query
         return $response;
     }
     
-    public function despacho_guia2($num_guia, $plataforma)
+    public function despacho_guia2($num_guia, $plataforma, $transportadora)
     {
      
         $response = $this->initialResponse();
       
-         $sql_factura = "SELECT * FROM facturas_cot WHERE numero_guia = '$num_guia'";
+         $sql_factura = "SELECT * FROM facturas_cot WHERE numero_guia = '$num_guia' and id_transporte=$transportadora ";
        //  echo $sql_factura;
             $factura = $this->select($sql_factura);
             $id_factura = $factura[0]['id_factura'];

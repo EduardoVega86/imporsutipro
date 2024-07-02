@@ -104,8 +104,8 @@ class Inventarios extends Controller
      public function generarDespacho($num_guia)
     {
        
-       
-        $response = $this->model->despacho_guia2($num_guia, $_SESSION['id_plataforma']);
+       $transportadora= $_POST['transportadora'];
+        $response = $this->model->despacho_guia2($num_guia, $_SESSION['id_plataforma'], $transportadora);
         // print_r($response);
         echo json_encode($response);
     }
