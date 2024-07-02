@@ -312,12 +312,6 @@ $id_bodega= $_POST['id_propietario']; //CODIGO DE LA BODEGA
         echo json_encode($data);
     }
 
-    public function obtener_guiasAnuladas()
-    {
-        $data = $this->model->cargarGuiasAnuladas($_SESSION['id_plataforma']);
-        echo json_encode($data);
-    }
-
     public function obtener_guiasAnuladas_admin()
     {
         $data = $this->model->cargarGuiasAnuladas_admin();
