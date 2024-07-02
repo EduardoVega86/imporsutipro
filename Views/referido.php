@@ -254,7 +254,7 @@
 
         function validarToken(token) {
             $.ajax({
-                url: 'acceso/validarRefiere',
+                url: SERVERURL+'acceso/validarRefiere',
                 type: 'POST',
                 dataType: 'json',
                 data: {
