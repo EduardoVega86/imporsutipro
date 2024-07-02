@@ -314,7 +314,10 @@ $id_bodega= $_POST['id_propietario']; //CODIGO DE LA BODEGA
 
     public function obtener_guiasAnuladas_admin()
     {
-        $data = $this->model->cargarGuiasAnuladas_admin();
+        $fecha_inicio = $_POST['fecha_inicio'] ?? "";
+        $fecha_fin = $_POST['fecha_fin'] ?? "";
+        $transportadora = $_POST['transportadora'] ?? "";
+        $data = $this->model->cargarGuiasAnuladas_admin($fecha_inicio, $fecha_fin, $transportadora);
         echo json_encode($data);
     }
 
