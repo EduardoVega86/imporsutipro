@@ -102,6 +102,9 @@ const listGuias = async () => {
       let ciudadCompleta = guia.ciudad;
       let ciudadArray = ciudadCompleta.split("/");
       let ciudad = ciudadArray[0];
+      let tiendaMayusculas = `${guia.tienda}`.toUpperCase();
+      let nombre_proveedorMayusculas = `${guia.nombre_proveedor}`.toUpperCase();
+      let nombre_bodegaMayusculas = `${guia.nombre_bodega}`.toUpperCase();
 
       if (guia.estado_guia_sistema == 14) {
         novedad = `<button class="btn btn_novedades" onclick="controlar_novedad('${guia.numero_guia}')">Controlar Novedad</button>`;
@@ -127,15 +130,15 @@ const listGuias = async () => {
                     <td>${guia.provinciaa}-${ciudad}</td>
                     <td><span class="link-like" id="plataformaLink" onclick="abrirModal_infoTienda('${
                       guia.id_plataforma
-                    }')">${guia.tienda}</span></td>
+                    }')">${tiendaMayusculas}</span></td>
                     
                     <td><span class="link-like" id="plataformaLink" onclick="abrirModal_infoTienda('${
                         guia.proveedor
-                      }')">${guia.nombre_proveedor}</span></td>
+                      }')">${nombre_proveedorMayusculas}</span></td>
 
                       <td><span class="link-like" id="plataformaLink" onclick="abrirModal_infoTienda('${
                         guia.id_bodega
-                      }')">${guia.nombre_bodega}</span></td>
+                      }')">${nombre_bodegaMayusculas}</span></td>
 
                     <td>${transporte_content}</td>
                     <td>
