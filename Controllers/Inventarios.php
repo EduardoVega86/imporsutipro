@@ -105,7 +105,7 @@ class Inventarios extends Controller
     {
        
        
-        $response = $this->model->despacho_guia($num_guia, $_SESSION['id_plataforma']);
+        $response = $this->model->despacho_guia2($num_guia, $_SESSION['id_plataforma']);
         // print_r($response);
         echo json_encode($response);
     }

@@ -15,4 +15,11 @@ class DespachoModel extends Query
         return $this->select($sql);
     }
     
+     public function listarDevoluciones($plataforma)
+    {
+        $sql = "SELECT * FROM `cabecera_devolucion` where id_bodega in (select id from bodega where id_plataforma=$plataforma); ";
+      // echo $sql; 
+        return $this->select($sql);
+    }
+    
 }
