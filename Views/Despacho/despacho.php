@@ -18,6 +18,17 @@
 </div>
 
 <script>
+    // Función para obtener el valor de un parámetro de la URL
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+
+    // Obtener el valor del parámetro "transportadora"
+    var transportadora = getParameterByName('transportadora');
+
     function ejecutarDespacho() {
         var numeroGuia = document.getElementById('numeroGuia').value;
 
@@ -32,10 +43,15 @@
             }
         }
 
+        let formData = new FormData();
+        formData.append("transportadora", transportadora);
+
         $.ajax({
             type: "POST",
             url: SERVERURL + "Inventarios/generarDespacho/" + numeroGuia,
-            dataType: "json",
+            data: formData,
+            processData: false, // No procesar los datos
+            contentType: false, // No establecer ningún tipo de contenido
             success: function(response) {
                 if (response.status == 500) {
                     toastr.error(
