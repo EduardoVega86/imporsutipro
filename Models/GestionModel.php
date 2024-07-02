@@ -11,9 +11,8 @@ class GestionModel extends Query
     {
         $sql = "UPDATE facturas_cot set estado_guia_sistema = '$estado' WHERE numero_guia = '$guia' ";
         $response =  $this->select($sql);
-        if ($estado == 7) {
-            $this->EnviarWalletEntrega($estado, $guia);
-        }
+        $update = "UPDATE cabecera_cuenta_pagar set estado_guia = '$estado' WHERE guia = '$guia' ";
+        $response =  $this->select($update);
     }
 
     public function entregada($estado, $guia)
