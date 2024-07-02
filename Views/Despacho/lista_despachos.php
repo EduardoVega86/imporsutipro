@@ -5,7 +5,7 @@
     <div class="container mt-5" style="max-width: 1600px;">
         <h2 class="text-center mb-4">Guias</h2>
         <div>
-            <div class="d-flex flex-row w-40">
+            <div class="d-flex flex-row">
                 <div class="form-group">
                     <label for="transportadora">Transportadora:</label>
                     <select class="form-select" id="transportadora">
@@ -16,7 +16,7 @@
                         <option value="3">Gintracom</option>
                     </select>
                 </div>
-                <div class="form-group w-100 hidden-field" id="bodega-field">
+                <div class="form-group" id="bodega-field">
                     <label for="bodega">Bodega:</label>
                     <select class="form-select" id="select_bodega">
                         <option value="0" selected>-- Selecciona Bodega --</option>
