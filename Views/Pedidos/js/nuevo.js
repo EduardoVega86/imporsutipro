@@ -295,7 +295,8 @@ $(document).ready(function () {
       priceValue !== "--" &&
       priceValue !== "" &&
       priceValue !== "0" &&
-      priceValue !== "Proximamente"
+      priceValue !== "Proximamente" &&
+      priceValue !== "Mantenimiento"
     ) {
       $("#costo_flete").val(priceValue);
       $("#transportadora_selected").val(selectedCompany);
@@ -360,7 +361,7 @@ $(document).ready(function () {
               response = JSON.parse(response);
 
               $("#price_servientrega").text(response.servientrega);
-              $("#price_gintracom").text(response.gintracom);
+              /* $("#price_gintracom").text(response.gintracom); */
               $("#price_speed").text(response.speed);
               $("#price_laar").text(response.laar);
             },
