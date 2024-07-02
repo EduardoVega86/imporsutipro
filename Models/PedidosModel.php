@@ -42,7 +42,7 @@ WHERE
     AND fc.anulada = 0  
     AND (fc.id_plataforma = $plataforma OR fc.id_propietario = $plataforma OR b.id_plataforma = $plataforma)
 ";
-//echo $sql;
+        //echo $sql;
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
             $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
         }
@@ -65,8 +65,8 @@ WHERE
     }
 
     public function cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso)
-{
-    $sql = "SELECT 
+    {
+        $sql = "SELECT 
     fc.*, 
     fc.id_plataforma AS tienda_venta, 
     fc.id_propietario AS proveedor,
@@ -92,36 +92,35 @@ WHERE
     AND fc.numero_guia <> '0' 
     AND fc.anulada = 0 ";
 
-    $params = [];
+        $params = [];
 
-    if (!empty($fecha_inicio) && !empty($fecha_fin)) {
-        $sql .= " AND fecha_factura BETWEEN ? AND ?";
-        $params[] = $fecha_inicio;
-        $params[] = $fecha_fin;
+        if (!empty($fecha_inicio) && !empty($fecha_fin)) {
+            $sql .= " AND fecha_factura BETWEEN ? AND ?";
+            $params[] = $fecha_inicio;
+            $params[] = $fecha_fin;
+        }
+
+        if (!empty($transportadora)) {
+            $sql .= " AND transportadora = ?";
+            $params[] = $transportadora;
+        }
+
+        if (!empty($estado)) {
+            $sql .= " AND estado_guia_sistema = ?";
+            $params[] = $estado;
+        }
+
+        if ($impreso === 0 || $impreso === 1) {
+            $sql .= " AND impreso = ?";
+            $params[] = $impreso;
+        }
+
+        // Mueve la cláusula ORDER BY al final de la consulta
+        $sql .= " ORDER BY fc.numero_factura DESC;";
+
+        //echo $sql;
+        return $this->select($sql, $params);
     }
-
-    if (!empty($transportadora)) {
-        $sql .= " AND transportadora = ?";
-        $params[] = $transportadora;
-    }
-
-    if (!empty($estado)) {
-        $sql .= " AND estado_guia_sistema = ?";
-        $params[] = $estado;
-    }
-
-    if ($impreso === 0 || $impreso === 1) {
-        $sql .= " AND impreso = ?";
-        $params[] = $impreso;
-    }
-
-    // Mueve la cláusula ORDER BY al final de la consulta
-    $sql .= " ORDER BY fc.numero_factura DESC;";
-
-    //echo $sql;
-    return $this->select($sql, $params);
-    
-}
 
 
 
@@ -442,19 +441,19 @@ WHERE
 
     public function actualizarTmp($id_tmp, $descuento, $precio, $cantidad)
     {
-        $sql_consulta = $this->select( "SELECT * FROM tmp_cotizacion WHERE id_tmp=$id_tmp");
+        $sql_consulta = $this->select("SELECT * FROM tmp_cotizacion WHERE id_tmp=$id_tmp");
         $id = $sql_consulta[0]['id_tmp'];
         $desc_tmp = $sql_consulta[0]['desc_tmp'];
         $precio_tmp = $sql_consulta[0]['precio_tmp'];
         $cantidad_tmp = $sql_consulta[0]['cantidad_tmp'];
-        if (($desc_tmp == $descuento) && ($precio_tmp == $precio) && ($cantidad_tmp == $cantidad)){
+        if (($desc_tmp == $descuento) && ($precio_tmp == $precio) && ($cantidad_tmp == $cantidad)) {
             $responses = 1;
-        }else{
+        } else {
             $sql = "UPDATE tmp_cotizacion SET desc_tmp = ?, precio_tmp = ? , cantidad_tmp = ?  WHERE id_tmp = ?";
             $data = [$descuento, $precio, $cantidad, $id_tmp];
             $responses = $this->update($sql, $data);
         }
-        
+
         if ($responses == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
