@@ -500,13 +500,16 @@ class InventariosModel extends Query
          $sql_factura = "SELECT * FROM facturas_cot WHERE numero_guia = '$num_guia' and id_transporte=$transportadora ";
        //  echo $sql_factura;
             $factura = $this->select($sql_factura);
-            $id_factura = $factura[0]['id_factura'];
+           if ( count($factura)>0){
+                $id_factura = $factura[0]['id_factura'];
             $estado_factura = $factura[0]['estado_factura'];
             
             $sql_plataforma_bodega = "SELECT b.id_plataforma FROM `detalle_fact_cot` dfc, inventario_bodegas  ib, bodega b where ib.bodega=b.id and id_factura=$id_factura and dfc.id_inventario=ib.id_inventario GROUP by bodega";
             //  echo $sql_factura;$id_factura
             $plataforma_bodega = $this->select($sql_plataforma_bodega);
             $id_plataforma_bodega = $plataforma_bodega[0]['id_plataforma'];
+          
+           
           //echo $plataforma;
                 if($id_plataforma_bodega==$plataforma) {
             if($estado_factura==1){
@@ -537,6 +540,11 @@ class InventariosModel extends Query
             $response['title'] = 'Error';
             $response['message'] = 'La guía no pertenece a esta bodega';  
         }
+         }else{
+             $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'No se encontro la guia';     
+           }
         return $response;
     }
     
