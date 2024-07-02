@@ -490,7 +490,7 @@ class Productos extends Controller
             // Aquí puedes procesar los datos del Excel
             $fila=0;
             $agregados=0;
-            echo count($data);
+            //echo count($data);
             foreach ($data as $row) {
                // echo $fila;
                 if($fila>0){
