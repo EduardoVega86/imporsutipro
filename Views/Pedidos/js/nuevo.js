@@ -447,11 +447,6 @@ function handleButtonClick(buttonId, callback) {
 
   // Ejecutar la función asociada al botón
   callback();
-
-  // Rehabilitar el botón después de 2 segundos
-  setTimeout(function () {
-    button.disabled = false;
-  }, 2000);
 }
 
 //agregar funcion pedido
