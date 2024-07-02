@@ -140,7 +140,7 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                     </div>
                     <div class="img-container text-center transportadora" data-company="gintracom">
                         <img src="<?php echo SERVERURL; ?>/public/img/GINTRACOM.jpg" alt="Gintracom">
-                        <div class="price-tag" data-price-id="price_gintracom">$<span id="price_gintracom">--</span></div>
+                        <div class="price-tag" data-price-id="price_gintracom"><span id="price_gintracom">Mantenimiento</span></div>
                     </div>
                     <input type="hidden" id="costo_flete" name="costo_flete">
                     <input type="hidden" id="transportadora_selected" name="transportadora_selected">
