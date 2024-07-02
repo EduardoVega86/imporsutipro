@@ -39,7 +39,7 @@ const initDataTableListaDevoluciones = async () => {
 
 const listListaDevoluciones = async () => {
   try {
-    const response = await fetch("" + SERVERURL + "wallet/obtenerDatos");
+    const response = await fetch("" + SERVERURL + "despacho/listarDevoluciones");
     const listaDevoluciones = await response.json();
 
     let content = ``;

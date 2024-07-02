@@ -39,7 +39,7 @@ const initDataTableListaDespachos = async () => {
 
 const listListaDespachos = async () => {
   try {
-    const response = await fetch("" + SERVERURL + "wallet/obtenerDatos");
+    const response = await fetch("" + SERVERURL + "despacho/listarDespachos");
     const listaDespachos = await response.json();
 
     let content = ``;
