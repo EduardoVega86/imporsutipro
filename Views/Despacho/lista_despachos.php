@@ -12,15 +12,12 @@
                 </caption> -->
                 <thead>
                     <tr>
-                        <th class="centered"># Orden</th>
-                        <th class="centered">Detalle</th>
-                        <th class="centered">Cliente</th>
-                        <th class="centered">Destino</th>
-                        <th class="centered">Tienda</th>
-                        <th class="centered">Transportadora</th>
-                        <th class="centered">Estado</th>
-                        <th class="centered">Impreso</th>
-                        <th class="centered">Acciones</th>
+                        <th class="centered">ID despacho</th>
+                        <th class="centered">ID usuario</th>
+                        <th class="centered">ID plataforma</th>
+                        <th class="centered">ID transportadora</th>
+                        <th class="centered">ID bodega</th>
+                        <th class="centered">Fecha y hora</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody_lista_despachos"></tbody>
