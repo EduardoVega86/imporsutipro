@@ -27,7 +27,7 @@ class Wallet extends Controller
     public function pagar()
     {
         $tienda = $_GET['tienda'];
-        if ($_SESSION["id_plataforma"] != 1167) {
+        if ($_SESSION["cargo"] != 10) {
             header("Location: /wallet/billetera");
         }
         $existe = $this->model->existeTienda($tienda);
