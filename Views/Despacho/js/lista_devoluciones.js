@@ -32,40 +32,31 @@ const initDataTableListaDevoluciones = async () => {
 
   await listListaDevoluciones();
 
-  dataTableListaDevoluciones = $("#datatable_lista_devoluciones").DataTable(dataTableListaDevolucionesOptions);
+  dataTableListaDevoluciones = $("#datatable_lista_devoluciones").DataTable(
+    dataTableListaDevolucionesOptions
+  );
 
   dataTableListaDevolucionesIsInitialized = true;
 };
 
 const listListaDevoluciones = async () => {
   try {
-    const response = await fetch("" + SERVERURL + "despacho/listarDevoluciones");
+    const response = await fetch(
+      "" + SERVERURL + "despacho/listarDevoluciones"
+    );
     const listaDevoluciones = await response.json();
 
     let content = ``;
 
     listaDevoluciones.forEach((devolucion, index) => {
-
       content += `
                 <tr>
-                    <td><a class="dropdown-item link-like" href="${SERVERURL}wallet/pagar?tienda=${devolucion.tienda}">${devolucion.tienda}</a></td>
-                    <td>${devolucion.ventas}</td>
-                    <td>${devolucion.utilidad}</td>
-                    <td>${devolucion.count_visto_0}</td>
-                    <td>
-                    <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel_general('${devolucion.tienda}')">Descargar Excel general</button>
-                    <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel('${devolucion.tienda}')">Descargar Excel</button>
-                    </td>
-                    <td>
-                    <div class="dropdown">
-                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-gear"></i>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" style="cursor: pointer;" href="${SERVERURL}wallet/pagar?tienda=${devolucion.tienda}"><i class='bx bx-wallet'></i>Pagar</a></li>
-                    </ul>
-                    </div>
-                    </td>
+                <td>${devolucion.id_relacion_devolucion}</td>
+                <td>${devolucion.id_usuario}</td>
+                <td>${devolucion.id_plataforma}</td>
+                <td>${devolucion.id_transportadora}</td>
+                <td>${devolucion.id_bodega}</td>
+                <td>${devolucion.fecha_hora}</td>
                 </tr>`;
     });
     document.getElementById("tableBody_lista_devoluciones").innerHTML = content;
@@ -73,6 +64,20 @@ const listListaDevoluciones = async () => {
     alert(ex);
   }
 };
+
+document
+  .getElementById("generarDespachoBtn")
+  .addEventListener("click", function () {
+    const transportadoraSelect = document.getElementById("transportadora");
+    const transportadoraValue = transportadoraSelect.value;
+
+    if (transportadoraValue !== "-- Selecciona Transportadora --") {
+      const url = `https://new.imporsuitpro.com/despacho/despacho?transportadora=${transportadoraValue}`;
+      window.location.href = url;
+    } else {
+      alert("Por favor selecciona una transportadora.");
+    }
+  });
 
 window.addEventListener("load", async () => {
   await initDataTableListaDevoluciones();
