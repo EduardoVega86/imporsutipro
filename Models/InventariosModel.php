@@ -501,7 +501,7 @@ class InventariosModel extends Query
        //  echo $sql_factura;
             $factura = $this->select($sql_factura);
            if ( count($factura)>0){
-                $id_factura = $factura[0]['id_factura'];
+            $id_factura = $factura[0]['id_factura'];
             $estado_factura = $factura[0]['estado_factura'];
             
             $sql_plataforma_bodega = "SELECT b.id_plataforma FROM `detalle_fact_cot` dfc, inventario_bodegas  ib, bodega b where ib.bodega=b.id and id_factura=$id_factura and dfc.id_inventario=ib.id_inventario GROUP by bodega";

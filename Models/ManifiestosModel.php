@@ -88,7 +88,7 @@ class ManifiestosModel extends Query
         return $reponse;
     }
     
-    public function generarManifiestoGuias($arreglo, $transportadora)
+    public function generarManifiestoGuias($arreglo)
     {
         if (count($arreglo) == 0) return;
 
