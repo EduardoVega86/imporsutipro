@@ -296,7 +296,7 @@ $id_bodega= $_POST['id_propietario']; //CODIGO DE LA BODEGA
         $fecha_fin = $_POST['fecha_fin'] ?? "";
         $transportadora = $_POST['transportadora'] ?? "";
     
-        $data = $this->model->cargarGuias($_SESSION['id_plataforma'], $fecha_inicio, $fecha_fin, $transportadora);
+        $data = $this->model->cargarGuiasAnuladas($_SESSION['id_plataforma'], $fecha_inicio, $fecha_fin, $transportadora);
         echo json_encode($data);
     }
     
