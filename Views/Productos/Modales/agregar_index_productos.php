@@ -192,6 +192,7 @@
         });
 
         $('#agregar_producto_form').submit(function(event) {
+            $('#agregar_producto_form button[type="submit"]').prop('disabled', true);
             event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
 
             // Crea un objeto FormData
