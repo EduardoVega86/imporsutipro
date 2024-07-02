@@ -72,7 +72,7 @@ document
     const transportadoraValue = transportadoraSelect.value;
 
     if (transportadoraValue !== "-- Selecciona Transportadora --") {
-      const url = SERVERURL+`/despacho/devoluciones?transportadora=${transportadoraValue}`;
+      const url = SERVERURL+`despacho/devoluciones?transportadora=${transportadoraValue}`;
       window.location.href = url;
     } else {
       alert("Por favor selecciona una transportadora.");
