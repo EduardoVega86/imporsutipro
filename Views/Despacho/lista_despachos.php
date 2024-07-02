@@ -1,5 +1,5 @@
 <?php require_once './Views/templates/header.php'; ?>
-<?php require_once './Views/Pedidos/css/lista_despachos_style.php'; ?>
+<?php require_once './Views/Despacho/css/lista_despachos_style.php'; ?>
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
@@ -28,5 +28,5 @@
         </div>
     </div>
 </div>
-<script src="<?php echo SERVERURL ?>/Views/Pedidos/js/lista_despachos.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/Despacho/js/lista_despachos.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
