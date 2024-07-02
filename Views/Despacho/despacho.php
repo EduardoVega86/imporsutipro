@@ -95,26 +95,9 @@
 
     // Función para eliminar una guía de la lista
     function eliminarGuia(numeroGuia, listItem) {
-        $.ajax({
-            type: "POST",
-            url: SERVERURL + "Inventarios/devolverDespacho/" + numeroGuia,
-            dataType: "json",
-            success: function(response) {
-                if (response.status == 200) {
-                    listItem.remove();
-                    toastr.success("Guía eliminada exitosamente", "NOTIFICACIÓN", {
-                        positionClass: "toast-bottom-center",
-                    });
-                } else if (response.status == 500) {
-                    toastr.error("No se pudo eliminar la guía: " + response.message, "NOTIFICACIÓN", {
-                        positionClass: "toast-bottom-center",
-                    });
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error("Error en la solicitud AJAX:", error);
-                alert("Hubo un problema al intentar eliminar la guía");
-            },
+        listItem.remove();
+        toastr.success("Guía eliminada exitosamente", "NOTIFICACIÓN", {
+            positionClass: "toast-bottom-center",
         });
     }
 
