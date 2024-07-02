@@ -67,12 +67,19 @@ class ShopifyModel extends Query
         $costo_producto = 0;
         // Procesar cada producto en lineItems
         $productos = [];
+
+        // Recorre los items y verifica las condiciones necesarias
         foreach ($lineItems as $item) {
-            if (empty($item['sku']) || $item['sku'] == null || $item['sku'] == "") {
-                $id_producto_venta = 4874;
-            } else {
-                $id_producto_venta = $item['sku'];
+            if (empty($item['sku'])) {
+                // Si solo hay un ítem y no tiene SKU, detiene el proceso
+                if (count($lineItems) == 1) {
+                    die("Proceso detenido: el único ítem no tiene SKU.");
+                }
+                // Si el SKU está vacío, salta al siguiente ítem
+                continue;
             }
+
+            $id_producto_venta = $item['sku'];
 
             // Obtener información de la bodega
             echo $id_producto_venta;
@@ -80,12 +87,12 @@ class ShopifyModel extends Query
             print_r($datos_telefono);
             $bodega = $datos_telefono[0];
 
-            $celularO =  $bodega['contacto'];
+            $celularO = $bodega['contacto'];
             $nombreO = $bodega['nombre'];
-            $ciudadO    = $bodega['localidad'];
+            $ciudadO = $bodega['localidad'];
             $provinciaO = $bodega['provincia'];
-            $direccionO     = $bodega['direccion'];
-            $referenciaO   = $bodega['referencia'] ?? " ";
+            $direccionO = $bodega['direccion'];
+            $referenciaO = $bodega['referencia'] ?? " ";
             $numeroCasaO = $bodega['num_casa'] ?? " ";
             $valor_segura = 0;
 
@@ -102,6 +109,7 @@ class ShopifyModel extends Query
                 'cantidad' => $item['quantity'],
                 'precio' => $item['price'],
             ];
+
             // Aquí puedes añadir el código para guardar la orden en la base de datos
         }
         $comentario = "Orden creada desde Shopify";
@@ -110,7 +118,7 @@ class ShopifyModel extends Query
 
         // Aquí se pueden continuar los procesos necesarios para la orden
         ///iniciar curl
-        /* $ch = curl_init();
+        $ch = curl_init();
         $url = "https://new.imporsuitpro.com/pedidos/nuevo_pedido_shopify";
 
         $data = array(
@@ -181,7 +189,7 @@ class ShopifyModel extends Query
         $response = curl_exec($ch);
         curl_close($ch);
 
-        print_r($response); */
+        print_r($response);
         /*  $datos = json_decode($response, true);
         $numero_factura = $datos['numero_factura'];
 
