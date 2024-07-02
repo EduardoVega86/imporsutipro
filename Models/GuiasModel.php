@@ -452,8 +452,10 @@ class GuiasModel extends Query
             ? "id_cotizacion = '$codigo'"
             : "codigo_provincia_laar = '$codigo' limit 1";
 
+
         // Construir la consulta SQL
         $sql = "SELECT $nombre FROM $table WHERE $condition";
+        echo $sql;
 
         // Ejecutar la consulta y devolver el resultado
         $nombre = $this->select($sql);
