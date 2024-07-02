@@ -58,7 +58,7 @@
                                 </div>
                             </div>
                             <div class="col-12 mb-3">
-                                <button class="btn btn-primary mb-3" id="regresar"><i class="fa-solid fa-arrow-left"></i> Regresar</button>
+                                <button class="btn btn-primary mb-3" id="generar_referido"><i class="fa-solid fa-arrow-left"></i> Regenerar Referido</button>
                             </div>
                         </div>
 
