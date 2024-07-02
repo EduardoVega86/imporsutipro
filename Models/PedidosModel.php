@@ -108,6 +108,54 @@ WHERE
         return $this->select($sql);
     }
     
+    public function cargarGuiasAnuladas_admin($fecha_inicio, $fecha_fin, $transportadora)
+    {
+        $sql = "SELECT 
+    fc.*, 
+    fc.id_plataforma AS tienda_venta, 
+    fc.id_propietario AS proveedor,
+    cc.ciudad, 
+    cc.provincia AS provinciaa, 
+    p.nombre_tienda AS tienda,
+    b.nombre AS nombre_bodega, 
+    b.direccion AS direccion_bodega,
+    tp.nombre_tienda AS nombre_proveedor -- Nombre del proveedor
+FROM 
+    facturas_cot fc
+LEFT JOIN 
+    ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot
+LEFT JOIN 
+    plataformas p ON p.id_plataforma = fc.id_plataforma
+LEFT JOIN 
+    plataformas tp ON tp.id_plataforma = fc.id_propietario -- Unión adicional para obtener el nombre del proveedor
+LEFT JOIN 
+    bodega b ON b.id = fc.id_bodega
+WHERE 
+    TRIM(fc.numero_guia) <> '' 
+    AND fc.numero_guia IS NOT NULL 
+    AND fc.numero_guia <> '0' 
+    AND fc.anulada = 0 ";
+
+        $params = [];
+
+        if (!empty($fecha_inicio) && !empty($fecha_fin)) {
+            $sql .= " AND fecha_factura BETWEEN ? AND ?";
+            $params[] = $fecha_inicio;
+            $params[] = $fecha_fin;
+        }
+
+        if (!empty($transportadora)) {
+            $sql .= " AND transportadora = ?";
+            $params[] = $transportadora;
+        }
+
+        // Mueve la cláusula ORDER BY al final de la consulta
+        $sql .= " ORDER BY fc.numero_factura DESC;";
+
+        //echo $sql;
+        return $this->select($sql, $params);
+    }
+
     public function cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso)
     {
         $sql = "SELECT 
