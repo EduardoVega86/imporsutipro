@@ -119,10 +119,10 @@ const listProductos = async () => {
 
       if (producto.producto_variable == 0) {
         producto_variable = ``;
-        enviaCliente = `<i class="fa-regular fa-paper-plane" onclick="enviar_cliente(${producto.id_producto},'${producto.sku}',${producto.pvp},${producto.id_inventario})""></i>`;
+        enviaCliente = `<i class="fa-regular fa-paper-plane" style='cursor:pointer' onclick="enviar_cliente(${producto.id_producto},'${producto.sku}',${producto.pvp},${producto.id_inventario})""></i>`;
       } else {
         producto_variable = `<img src="https://new.imporsuitpro.com/public/img/atributos.png" width="30px" id="buscar_traking" alt="buscar_traking" onclick="abrir_modalInventarioVariable(${producto.id_producto})">`;
-        enviaCliente = `<i style="color:red;" class="fa-regular fa-paper-plane" onclick="abrir_modalSeleccionAtributo(${producto.id_producto},'${producto.sku}',${producto.pvp},${producto.id_inventario})"></i>`;
+        enviaCliente = `<i style="color:red;" style='cursor:pointer' class="fa-regular fa-paper-plane" onclick="abrir_modalSeleccionAtributo(${producto.id_producto},'${producto.sku}',${producto.pvp},${producto.id_inventario})"></i>`;
         
       }
       content += `
