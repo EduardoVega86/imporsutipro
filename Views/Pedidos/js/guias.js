@@ -283,7 +283,7 @@ function validar_estado(estado) {
   } else if (estado == 7) {
     span_estado = "badge_green";
     estado_guia = "Entregado";
-  } else if (estado == 8) {
+  } else if (estado == 8 || estado == 101) {
     span_estado = "badge_danger";
     estado_guia = "Anulado";
   } else if (estado == 11) {
