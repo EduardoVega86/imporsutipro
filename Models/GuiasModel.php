@@ -570,8 +570,6 @@ class GuiasModel extends Query
             "monto_factura" => $monto_factura
         );
 
-        echo json_encode($data);
-
         // Enviar los datos en formdata
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -583,7 +581,7 @@ class GuiasModel extends Query
 
         // Verificar si ocurrió algún error durante la solicitud
         if (curl_errno($ch)) {
-            throw new Exception(curl_error($ch));
+            echo 'Error en la solicitud cURL: ' . curl_error($ch);
         }
 
         // Cerrar la sesión cURL
