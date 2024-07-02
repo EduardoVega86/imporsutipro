@@ -74,6 +74,7 @@ class WalletModel extends Query
         return $data;
     }
 
+
     public function obtenerFacturas($tienda, $filtro)
     {
         if ($filtro == 'pendientes') {
@@ -131,6 +132,17 @@ class WalletModel extends Query
 
             $sql = "INSERT INTO cabecera_cuenta_pagar (`tienda`, `numero_factura`, `guia`, `costo`, `monto_recibir`, `valor_pendiente`, `estado_guia`, `visto`, `full`, `fecha`, `cliente`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $response =  $this->insert($sql, array($proveedor, $numero_factura . '-P', $guia, $costo, $costo - $full, $costo - $full, 7, 0, $full, $fecha, $cliente));
+        }
+
+        ///buscar si es referido de alguien
+
+        $sql = "SELECT * from plataformas where url_imporsuit = '$tienda'";
+        $response34 =  $this->select($sql);
+
+        if (isset($response34[0]["refiere"])) {
+            $id = $response34[0]["refiere"];
+            $sql = "SELECT * from plataformas where id_plataforma = '$id'";
+            $response =  $this->select($sql);
         }
 
         $responses["status"] = 200;
