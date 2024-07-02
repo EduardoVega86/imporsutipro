@@ -91,10 +91,9 @@ const listNuevoPedido = async () => {
       dropshipping = nuevoPedido.drogshipin;
       costo_producto =
         costo_producto +
-        parseFloat(nuevoPedido.pcp) *
-          parseFloat(nuevoPedido.cantidad_tmp);
+        parseFloat(nuevoPedido.pcp) * parseFloat(nuevoPedido.cantidad_tmp);
 
-          console.log(costo_producto);
+      console.log(costo_producto);
       contiene += `${nuevoPedido.nombre_producto} X${nuevoPedido.cantidad_tmp} `;
 
       precio_costo = parseFloat(nuevoPedido.precio_tmp);
@@ -439,6 +438,19 @@ function cargarCiudades() {
       .prop("disabled", true)
       .trigger("change.select2"); // Refrescar Select2 para mostrar el estado deshabilitado
   }
+}
+
+function handleButtonClick(buttonId, callback) {
+  var button = document.getElementById(buttonId);
+  button.disabled = true; // Desactivar el botón
+
+  // Ejecutar la función asociada al botón
+  callback();
+
+  // Rehabilitar el botón después de 2 segundos
+  setTimeout(function () {
+    button.disabled = false;
+  }, 2000);
 }
 
 //agregar funcion pedido

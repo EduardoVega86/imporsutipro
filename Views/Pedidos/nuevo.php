@@ -160,7 +160,7 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                             <option value="2">Sin Recaudo</option>
                         </select>
                     </div>
-                   <!--  <div class="mb-3">
+                    <!--  <div class="mb-3">
                         <label class="form-check-label" for="extras">extra</label>
                         <select class="form-control">
                             <option>Selecciona un Extras</option>
@@ -170,8 +170,8 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                     </div> -->
                 </form>
                 <div class="d-flex justify-content-between">
-                    <button type="button" id="guardarPedidoBtn" class="btn btn-success btn-custom" onclick="agregar_nuevoPedido()">Guardar Pedido</button>
-                    <button type="button" id="generarGuiaBtn" class="btn btn-danger btn-custom" onclick="generar_guia()">Generar Guía</button>
+                    <button type="button" id="guardarPedidoBtn" class="btn btn-success btn-custom" onclick="handleButtonClick('guardarPedidoBtn', agregar_nuevoPedido)">Guardar Pedido</button>
+                    <button type="button" id="generarGuiaBtn" class="btn btn-danger btn-custom" onclick="handleButtonClick('generarGuiaBtn', generar_guia)">Generar Guía</button>
                 </div>
 
             </div>
