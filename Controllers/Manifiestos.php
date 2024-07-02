@@ -38,7 +38,7 @@ class Manifiestos extends Controller
     public function generarManifiesto()
     {
         $arreglo = $_POST['guias'];
-        $transportadora = $_POST['transportadora'];
+       // $transportadora = $_POST['transportadora'];
         $arreglo = json_decode($arreglo, true);
         $transportadora=1;
         $bodega=35;
