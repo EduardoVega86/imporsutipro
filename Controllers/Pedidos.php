@@ -295,9 +295,8 @@ $id_bodega= $_POST['id_propietario']; //CODIGO DE LA BODEGA
         $fecha_inicio = $_POST['fecha_inicio'] ?? "";
         $fecha_fin = $_POST['fecha_fin'] ?? "";
         $transportadora = $_POST['transportadora'] ?? "";
-        $estado = $_POST['estado'] ?? "";
-        $impreso = $_POST['impreso'] ?? "";
-        $data = $this->model->cargarGuiasAnuladas($_SESSION['id_plataforma'], $fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso);
+    
+        $data = $this->model->cargarGuias($_SESSION['id_plataforma'], $fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso);
         echo json_encode($data);
     }
     
@@ -307,8 +306,9 @@ $id_bodega= $_POST['id_propietario']; //CODIGO DE LA BODEGA
         $fecha_inicio = $_POST['fecha_inicio'] ?? "";
         $fecha_fin = $_POST['fecha_fin'] ?? "";
         $transportadora = $_POST['transportadora'] ?? "";
-      
-        $data = $this->model->cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora);
+        $estado = $_POST['estado'] ?? "";
+        $impreso = $_POST['impreso'] ?? "";
+        $data = $this->model->cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso);
         echo json_encode($data);
     }
 
