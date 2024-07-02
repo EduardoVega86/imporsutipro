@@ -42,7 +42,7 @@ class Manifiestos extends Controller
         $arreglo = json_decode($arreglo, true);
         $transportadora=1;
         $bodega=35;
-        echo count($arreglo);
+       // echo count($arreglo);
         if (count($arreglo)>0){
           $id_cabecera =    $this->model->guardarCabecera($bodega,$transportadora,$_SESSION['id_plataforma']);
        // echo $id_cabecera;
