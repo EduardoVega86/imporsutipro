@@ -18,6 +18,16 @@ class Despacho extends Controller
     {
         $this->views->render($this, "despacho");
     }
+    
+     public function lista_despachos()
+    {
+        $this->views->render($this, "lista_despachos");
+    }
+    
+     public function lista_devoluciones()
+    {
+        $this->views->render($this, "lista_devoluciones");
+    }
 
     public function devoluciones()
     {
