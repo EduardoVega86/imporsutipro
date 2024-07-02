@@ -442,8 +442,10 @@ function cargarCiudades() {
 }
 
 function handleButtonClick(buttonId, callback) {
-  var button = document.getElementById(buttonId);
+  var button = document.getElementById('guardarPedidoBtn');
+  var button2 = document.getElementById('generarGuiaBtn');
   button.disabled = true; // Desactivar el botón
+  button2.disabled = true; // Desactivar el botón
 
   // Ejecutar la función asociada al botón
   callback();
