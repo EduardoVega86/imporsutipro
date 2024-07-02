@@ -2,6 +2,12 @@
 
 class Gestion extends Controller
 {
+
+    public function masivo()
+    {
+        $response = $this->model->masivo();
+    }
+
     public function laar()
     {
         $json = file_get_contents('php://input');
