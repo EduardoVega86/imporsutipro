@@ -32,7 +32,9 @@ const initDataTableListaDespachos = async () => {
 
   await listListaDespachos();
 
-  dataTableListaDespachos = $("#datatable_lista_despachos").DataTable(dataTableListaDespachosOptions);
+  dataTableListaDespachos = $("#datatable_lista_despachos").DataTable(
+    dataTableListaDespachosOptions
+  );
 
   dataTableListaDespachosIsInitialized = true;
 };
@@ -45,16 +47,15 @@ const listListaDespachos = async () => {
     let content = ``;
 
     listaDespachos.forEach((despacho, index) => {
-
       content += `
-                <tr>
-                    <td>${despacho.id_despacho}</td>
-                    <td>${despacho.id_usuario}</td>
-                    <td>${despacho.id_plataforma}</td>
-                    <td>${despacho.id_transportadora}</td>
-                    <td>${despacho.id_bodega}</td>
-                    <td>${despacho.fecha_hora}</td>
-                </tr>`;
+                  <tr>
+                      <td>${despacho.id_relacion_despacho}</td>
+                      <td>${despacho.id_usuario}</td>
+                      <td>${despacho.id_plataforma}</td>
+                      <td>${despacho.id_transportadora}</td>
+                      <td>${despacho.id_bodega}</td>
+                      <td>${despacho.fecha_hora}</td>
+                  </tr>`;
     });
     document.getElementById("tableBody_lista_despachos").innerHTML = content;
   } catch (ex) {
