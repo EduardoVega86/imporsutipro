@@ -362,7 +362,7 @@ $(document).ready(function () {
 
               $("#price_servientrega").text(response.servientrega);
               $("#price_gintracom").text(response.gintracom);
-              $("#price_speed").text(response.speed);
+              /* $("#price_speed").text(response.speed); */
               $("#price_laar").text(response.laar);
             },
             error: function (jqXHR, textStatus, errorThrown) {

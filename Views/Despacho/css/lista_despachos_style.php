@@ -46,4 +46,15 @@
     .btn-group {
         align-content: center;
     }
+
+    .selects {
+        display: flex;
+        flex-direction: row;
+    }
+
+    @media (max-width: 768px){
+        .selects{
+            
+        }
+    }
 </style>

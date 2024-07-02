@@ -5,7 +5,7 @@
     <div class="container mt-5" style="max-width: 1600px;">
         <h2 class="text-center mb-4">Guias</h2>
         <div>
-            <div class="d-flex flex-row">
+            <div class="selects">
                 <div class="form-group">
                     <label for="transportadora">Transportadora:</label>
                     <select class="form-select" id="transportadora">
