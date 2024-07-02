@@ -63,6 +63,20 @@ const listListaDespachos = async () => {
   }
 };
 
+document
+  .getElementById("generarDespachoBtn")
+  .addEventListener("click", function () {
+    const transportadoraSelect = document.getElementById("transportadora");
+    const transportadoraValue = transportadoraSelect.value;
+
+    if (transportadoraValue !== "-- Selecciona Transportadora --") {
+      const url = `https://new.imporsuitpro.com/despacho/despacho?transportadora=${transportadoraValue}`;
+      window.location.href = url;
+    } else {
+      alert("Por favor selecciona una transportadora.");
+    }
+  });
+
 window.addEventListener("load", async () => {
   await initDataTableListaDespachos();
 });
