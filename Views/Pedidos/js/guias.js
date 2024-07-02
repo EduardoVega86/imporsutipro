@@ -449,7 +449,7 @@ function anular_guiaGintracom(numero_guia) {
     url: "https://guias.imporsuitpro.com/Gintracom/anular/" + numero_guia,
     dataType: "json",
     success: function (response) {
-      if (response == 1) {
+      if (response == "1") {
         toastr.success("GUIA ANULADA CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
