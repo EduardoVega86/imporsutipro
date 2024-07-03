@@ -3,11 +3,6 @@
         margin-bottom: 15px;
     }
 
-    /* .modal-header {
-        background-color: #343a40;
-        color: white;
-    } */
-
     .hidden-tab {
         display: none !important;
     }
@@ -192,12 +187,10 @@
         });
 
         $('#agregar_producto_form').on('submit', function(event) {
+            event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
+
             // Deshabilitar el botón "Guardar"
             $('#agregar_producto_form button[type="submit"]').prop('disabled', true);
-        });
-
-        $('#agregar_producto_form').submit(function(event) {
-            event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
 
             // Crea un objeto FormData
             var formData = new FormData();
@@ -249,6 +242,9 @@
                 error: function(error) {
                     alert('Hubo un error al agregar el producto');
                     console.log(error);
+                },
+                complete: function() {
+                    $('#agregar_producto_form button[type="submit"]').prop('disabled', false);
                 }
             });
         });
