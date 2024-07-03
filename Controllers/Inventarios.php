@@ -105,7 +105,8 @@ class Inventarios extends Controller
     {
        
        $transportadora= $_POST['transportadora'];
-       $response = $this->model->despacho_guia2($num_guia, $_SESSION['id_plataforma'], $transportadora);
+        $bodega= $_POST['bodega'];
+       $response = $this->model->despacho_guia2($num_guia, $_SESSION['id_plataforma'], $transportadora, $bodega);
         // print_r($response);
         echo json_encode($response);
     }
