@@ -218,7 +218,9 @@ class GuiasModel extends Query
         $costo = $this->select("SELECT costo_producto FROM facturas_cot WHERE numero_factura = '$numero_factura'");
         $costo_o = $costo[0]['costo_producto'];
 
-
+        if ($id_plataforma == $id_plataforma_producto) {
+            $costo_o = 0;
+        }
 
         $monto_recibir = $costo_producto - $precio_envio - $full - $costo_o;
 
