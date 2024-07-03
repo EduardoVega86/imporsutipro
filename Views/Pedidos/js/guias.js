@@ -248,7 +248,7 @@ function ver_detalle_cot(id_factura) {
   formData.append("id_factura", id_factura); // Añadir el SKU al FormData
 
   $.ajax({
-    url: SERVERURL + "productos/obtenerDetalle",
+    url: SERVERURL + "Pedidos/obtenerDetalle",
     type: "POST",
     data: formData,
     processData: false, // No procesar los datos
