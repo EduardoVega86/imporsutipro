@@ -17,26 +17,54 @@
         <button id="generarImpresionBtn" class="btn btn-success">Generar Impresion</button>
         <ul id="guidesList" class="list-group"></ul>
     </div>
-    
+
 </div>
 
 <script>
+    // Función para obtener el valor de un parámetro de la URL
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+
+    // Obtener el valor del parámetro "transportadora"
+    var transportadora = getParameterByName('transportadora');
+
     function ejecutarDevolucion() {
         var numeroGuia = document.getElementById('numeroGuiaDevolucion').value;
+
+        // Verificar si la guía ya está en la lista
+        var guiasExistentes = document.querySelectorAll('#guidesList .list-group-item');
+        for (var i = 0; i < guiasExistentes.length; i++) {
+            if (guiasExistentes[i].childNodes[0].textContent.trim() === numeroGuia) {
+                toastr.warning("La guía ya está en la lista", "NOTIFICACIÓN", {
+                    positionClass: "toast-bottom-center",
+                });
+                return; // No agregar la guía si ya existe
+            }
+        }
+
+        let formData = new FormData();
+        formData.append("transportadora", transportadora);
+
         $.ajax({
             type: "POST",
             url: SERVERURL + "Inventarios/generarDevolucion/" + numeroGuia,
-            dataType: "json",
+            data: formData,
+            processData: false, // No procesar los datos
+            contentType: false, // No establecer ningún tipo de contenido
             success: function(response) {
                 if (response.status == 500) {
                     toastr.error(
-                        ""+response.message,
+                        "" + response.message,
                         "NOTIFICACIÓN", {
                             positionClass: "toast-bottom-center"
                         }
                     );
                 } else if (response.status == 200) {
-                    toastr.success(""+response.message, "NOTIFICACIÓN", {
+                    toastr.success("" + response.message, "NOTIFICACIÓN", {
                         positionClass: "toast-bottom-center",
                     });
 
@@ -67,9 +95,9 @@
 
     // Escuchar el evento 'click' del botón
     document.getElementById('devolucionBtn').addEventListener('click', ejecutarDevolucion);
-    
-    
-     function generarImpresion() {
+
+
+    function generarImpresion() {
         var guias = [];
         var listItems = document.querySelectorAll('#guidesList .list-group-item');
         listItems.forEach(function(item) {
