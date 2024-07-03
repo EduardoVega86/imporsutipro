@@ -78,8 +78,8 @@ document.addEventListener("DOMContentLoaded", function () {
         );
       }, 500); // Add a delay of 500ms
     } catch (error) {
-      if (error.name === 'AbortError') {
-        console.log('Fetch request canceled');
+      if (error.name === "AbortError") {
+        console.log("Fetch request canceled");
       } else {
         console.error("Error al obtener los productos:", error);
       }
@@ -298,8 +298,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
-
-
 
 function copyToClipboard(id) {
   navigator.clipboard.writeText(id).then(
