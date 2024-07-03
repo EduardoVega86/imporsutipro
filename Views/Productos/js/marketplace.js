@@ -19,20 +19,11 @@ document.addEventListener("DOMContentLoaded", function () {
   loadingIndicator.style.display = "none";
   cardContainer.appendChild(loadingIndicator);
   let isLoading = false;
-  let currentFetchController = null;
 
   async function fetchProducts(reset = true) {
-    if (currentFetchController) {
-      currentFetchController.abort(); // Cancel the previous request if any
-    }
-
-    currentFetchController = new AbortController();
-    const { signal } = currentFetchController;
-
     if (reset) {
       loadingIndicator.style.display = "block";
       cardContainer.innerHTML = ""; // Clear the container immediately
-      displayedProducts.clear(); // Clear the displayed products set
     }
 
     try {
@@ -41,13 +32,13 @@ document.addEventListener("DOMContentLoaded", function () {
         {
           method: "POST",
           body: formData_filtro,
-          signal,
         }
       );
       const newProducts = await response.json();
 
       if (reset) {
         products = newProducts;
+        displayedProducts.clear();
         currentPage = 1; // Reset the current page
       } else {
         products = [...products, ...newProducts];
@@ -61,14 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
         );
       }, 500); // Add a delay of 500ms
     } catch (error) {
-      if (error.name === "AbortError") {
-        console.log("Fetch request canceled");
-      } else {
-        console.error("Error al obtener los productos:", error);
-      }
-    } finally {
-      isLoading = false;
-      loadingIndicator.style.display = "none";
+      console.error("Error al obtener los productos:", error);
     }
   }
 
