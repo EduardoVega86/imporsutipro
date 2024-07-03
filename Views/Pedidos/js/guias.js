@@ -108,9 +108,7 @@ const listGuias = async () => {
       if (transporte == 2) {
         transporte_content =
           '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SERVIENTREGA</span>';
-        ruta_descarga = `<a href="javascript:void(0)" class="w-100" onclick="imprimirServi(${guia.numero_guia})" target="_blank">
-        ${guia.numero_guia}
-    </a>`;
+        ruta_descarga = `<button class="btn btn-link w-100 text-left" onclick="imprimirServi(${guia.numero_guia}, event)">${guia.numero_guia} </button>`;
         ruta_traking = `https://www.servientrega.com.ec/Tracking/?guia=${guia.numero_guia}&tipo=GUIA`;
         funcion_anular = `anular_guiaServi('${guia.numero_guia}')`;
         estado = validar_estadoServi(guia.estado_guia_sistema);
