@@ -311,7 +311,7 @@ function ver_detalle_cot(id_factura) {
         // Agregar la fila del total
         let totalRowHtml = `
           <tr class="custom-total-row">
-            <td colspan="4" class="text-right">Total</td>
+            <td colspan="3" class="text-right">Total</td>
             <td>${total.toFixed(2)}</td>
           </tr>
         `;
