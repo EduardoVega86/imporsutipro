@@ -272,6 +272,7 @@ function ver_detalle_cot(id_factura) {
       $("#tipoEnvio_detalleFac").val('Sin Recaudo');
       }
 
+      $("#detalles_facturaModal").modal("show");
     },
     error: function (error) {
       console.error("Error al obtener la lista de bodegas:", error);
