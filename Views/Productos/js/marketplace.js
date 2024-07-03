@@ -21,6 +21,22 @@ document.addEventListener("DOMContentLoaded", function () {
   let isLoading = false;
   let currentFetchController = null;
 
+  async function clearAndFetchProducts() {
+    // Cancel any ongoing fetch
+    if (currentFetchController) {
+      currentFetchController.abort();
+    }
+
+    // Clear previous products
+    cardContainer.innerHTML = "";
+    displayedProducts.clear();
+    products = [];
+    currentPage = 1;
+
+    // Fetch new products after a brief delay to ensure clearing is done
+    setTimeout(() => fetchProducts(true), 100);
+  }
+
   async function fetchProducts(reset = true) {
     if (currentFetchController) {
       currentFetchController.abort(); // Cancel the previous request if any
@@ -62,8 +78,8 @@ document.addEventListener("DOMContentLoaded", function () {
         );
       }, 500); // Add a delay of 500ms
     } catch (error) {
-      if (error.name === "AbortError") {
-        console.log("Fetch request canceled");
+      if (error.name === 'AbortError') {
+        console.log('Fetch request canceled');
       } else {
         console.error("Error al obtener los productos:", error);
       }
@@ -218,7 +234,7 @@ document.addEventListener("DOMContentLoaded", function () {
         var max = values[1].replace("$", "").replace(",", "");
         formData_filtro.set("min", min);
         formData_filtro.set("max", max);
-        fetchProducts(); // Reset and fetch products based on new filter
+        clearAndFetchProducts(); // Reset and fetch products based on new filter
       });
     })
     .catch((error) => {
@@ -247,26 +263,26 @@ document.addEventListener("DOMContentLoaded", function () {
     debounce(function () {
       var q = $("#buscar_nombre").val();
       formData_filtro.set("nombre", q);
-      fetchProducts(); // Reset and fetch products based on new filter
+      clearAndFetchProducts(); // Reset and fetch products based on new filter
     }, 300)
   ); // 300 ms de espera antes de ejecutar la función
 
   $("#categoria_filtroMarketplace").change(function () {
     var categoria = $("#categoria_filtroMarketplace").val();
     formData_filtro.set("linea", categoria);
-    fetchProducts(); // Reset and fetch products based on new filter
+    clearAndFetchProducts(); // Reset and fetch products based on new filter
   });
 
   $("#proveedor_filtroMarketplace").change(function () {
     var proveedor = $("#proveedor_filtroMarketplace").val();
     formData_filtro.set("plataforma", proveedor);
-    fetchProducts(); // Reset and fetch products based on new filter
+    clearAndFetchProducts(); // Reset and fetch products based on new filter
   });
 
   $("#favoritosSwitch").change(function () {
     var estado = $(this).is(":checked") ? 1 : 0;
     formData_filtro.set("favorito", estado);
-    fetchProducts(); // Reset and fetch products based on new filter
+    clearAndFetchProducts(); // Reset and fetch products based on new filter
   });
 
   // Implementación del scroll infinito
@@ -282,6 +298,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
+
 
 function copyToClipboard(id) {
   navigator.clipboard.writeText(id).then(
