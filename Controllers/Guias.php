@@ -59,7 +59,7 @@ class Guias extends Controller
         $datos = $this->model->generarLaar($nombreOrigen, $ciudadOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras);
         $datos = json_decode($datos, true);
         if (!empty($datos["guia"])) {
-            $this->model->actualizarGuia($numero_factura, $datos["guia"], $nombreDestino, $ciudad, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $cod, $costo_producto, $comentario, $_SESSION["id"], $calle_principal, $calle_secundaria, $contiene, $provincia, $costoflete, "LAAR");
+            $this->model->actualizarGuia($numero_factura, $datos["guia"], $nombreDestino, $ciudad, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $cod, $costo_producto, $comentario, $_SESSION["id"], $calle_principal, $calle_secundaria, $contiene, $provincia, $costoflete, "LAAR", 2);
             $datos["status"] = "200";
             $this->model->asignarWallet($numero_factura, $datos["guia"], $fecha, $nombreDestino, $_SESSION["id_plataforma"], 1, $costo_producto, $cod, $costoflete);
         } else {
@@ -132,7 +132,7 @@ class Guias extends Controller
         if (isset($response["id"])) {
             $response["status"] = 200;
             $this->model->aumentarMatriz();
-            $response2 = $this->model->actualizarGuia($numero_factura, $response["id"], $nombreDestino, $ciudad, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $cod, $costo_producto, $comentario, $_SESSION["id"], $_POST['calle_principal'], $_POST['calle_secundaria'], $contiene, $provincia, $costoflete, "SERVIENTREGA");
+            $response2 = $this->model->actualizarGuia($numero_factura, $response["id"], $nombreDestino, $ciudad, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $cod, $costo_producto, $comentario, $_SESSION["id"], $_POST['calle_principal'], $_POST['calle_secundaria'], $contiene, $provincia, $costoflete, "SERVIENTREGA", 100);
             $this->model->asignarWallet($numero_factura, $response["id"], $fecha, $nombreDestino, $_SESSION["id_plataforma"], 1, $costo_producto, $cod, $costoflete);
         }
         echo json_encode($response);
@@ -186,7 +186,7 @@ class Guias extends Controller
         if (isset($response["guia"])) {
             $response["status"] = 200;
             $this->model->aumentarMatriz();
-            $response2 = $this->model->actualizarGuia($numero_factura, $response["guia"], $nombreDestino, $ciudad, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $cod, $costo_producto, $comentario, $_SESSION["id"], $_POST['calle_principal'], $_POST['calle_secundaria'], $contiene, $provincia, $costoflete, "GINTRACOM");
+            $response2 = $this->model->actualizarGuia($numero_factura, $response["guia"], $nombreDestino, $ciudad, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $cod, $costo_producto, $comentario, $_SESSION["id"], $_POST['calle_principal'], $_POST['calle_secundaria'], $contiene, $provincia, $costoflete, "GINTRACOM", 1);
             $this->model->asignarWallet($numero_factura, $response["guia"], $fecha, $nombreDestino, $_SESSION["id_plataforma"], 1, $costo_producto, $cod, $costoflete);
         }
 
@@ -232,7 +232,7 @@ class Guias extends Controller
         if (isset($response["guia"])) {
             $response["status"] = 200;
             $this->model->aumentarMatriz();
-            $response2 = $this->model->actualizarGuia($numero_factura, $response["guia"], $nombre, $ciudad, $direccion, $telefono, $celular, $referencia, $recaudo, $monto_factura, $observacion, $_SESSION["id"], $_POST['calle_principal'], $_POST['calle_secundaria'], $contiene, $ciudad, 0, "SPEED");
+            $response2 = $this->model->actualizarGuia($numero_factura, $response["guia"], $nombre, $ciudad, $direccion, $telefono, $celular, $referencia, $recaudo, $monto_factura, $observacion, $_SESSION["id"], $_POST['calle_principal'], $_POST['calle_secundaria'], $contiene, $ciudad, 0, "SPEED", 2);
             $this->model->asignarWallet($numero_factura, $response["guia"], $fecha, $nombre, $_SESSION["id_plataforma"], 1, $monto_factura, $recaudo, 0);
         }
         echo json_encode($response);
