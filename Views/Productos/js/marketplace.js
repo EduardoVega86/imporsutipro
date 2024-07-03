@@ -21,6 +21,11 @@ document.addEventListener("DOMContentLoaded", function () {
   let isLoading = false;
 
   async function fetchProducts(reset = true) {
+    if (reset) {
+      loadingIndicator.style.display = "block";
+      cardContainer.innerHTML = ""; // Clear the container immediately
+    }
+
     try {
       const response = await fetch(
         `${SERVERURL}marketplace/obtener_productos`,
@@ -34,17 +39,18 @@ document.addEventListener("DOMContentLoaded", function () {
       if (reset) {
         products = newProducts;
         displayedProducts.clear();
-        cardContainer.innerHTML = ""; // Clear the container
         currentPage = 1; // Reset the current page
       } else {
         products = [...products, ...newProducts];
       }
 
-      displayProducts(
-        products,
-        currentPage,
-        reset ? initialProductsPerPage : additionalProductsPerPage
-      );
+      setTimeout(() => {
+        displayProducts(
+          products,
+          currentPage,
+          reset ? initialProductsPerPage : additionalProductsPerPage
+        );
+      }, 500); // Add a delay of 500ms
     } catch (error) {
       console.error("Error al obtener los productos:", error);
     }
