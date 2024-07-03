@@ -883,11 +883,13 @@ class ManifiestosModel extends Query
         $data = [$id_usuario, $plataforma, $transportadora, $bodega, $fecha_actual];
         // Ejecuta la inserción
         $insertar_producto = $this->insert($sql, $data);
-
+        
+        //print_r($insertar_producto);
+        
         $sql_id = "SELECT id_relacion_despacho FROM cabecera_relacion_despacho WHERE id_usuario = $id_usuario "
             . "and id_transportadora = $transportadora and id_bodega = $bodega and fecha_hora = '$fecha_actual' ";
         $stock = $this->select($sql_id);
-        echo $sql_id;
+        //echo $sql_id;
         $lastInsertId = $stock[0]['id_relacion_despacho'];
 
         // Obtiene el ID del último registro insertado
