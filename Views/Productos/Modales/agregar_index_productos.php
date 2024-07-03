@@ -189,11 +189,8 @@
         // Evento para reiniciar el formulario cuando se cierre el modal
         $('#agregar_productoModal').on('hidden.bs.modal', function() {
             resetForm();
-        });
-
-        $('#agregar_producto_form').on('submit', function(event) {
-            // Deshabilitar el botón "Guardar"
-            $('#agregar_producto_form button[type="submit"]').prop('disabled', true);
+            var button = document.getElementById('guardar_producto');
+            button.disabled = false; // Desactivar el botón
         });
 
         $('#agregar_producto_form').submit(function(event) {
