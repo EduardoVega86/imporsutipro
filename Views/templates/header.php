@@ -59,13 +59,24 @@
 
                 <a href="<?php echo SERVERURL ?>Productos/categorias"><i class='bx bxs-category menu-icon'></i> <span class="menu-text">Categorias</span></a>
 
-                <a href="<?php echo SERVERURL ?>Productos/bodegas"><i class='bx bxs-truck menu-icon'></i> <span class="menu-text">Bodegas</span></a>
-
-                <a href="<?php echo SERVERURL ?>Productos/inventario"><i class='bx bx-list-plus menu-icon'></i> <span class="menu-text">Inventario</span></a>
-
+          
                 <a href="<?php echo SERVERURL ?>Productos/importacion_masiva"><i class='bx bxs-cart-download menu-icon'></i> <span class="menu-text">Importación Masiva</span></a>
 
             </div>
+            
+            <a href="#" class="dropdown-btn" data-target="#submenu_inventario"><i class='bx bx-list-plus menu-icon'></i> <span class="menu-text">Inventarios</span></a>
+
+            <div class="submenu" id="submenu_inventario">
+              
+
+                <a href="<?php echo SERVERURL ?>Productos/bodegas"><i class='bx bxs-truck menu-icon'></i> <span class="menu-text">Bodegas</span></a>
+
+                <a href="<?php echo SERVERURL ?>Productos/inventario"><i class='bx bx-list-plus menu-icon'></i> <span class="menu-text">Inventario</span></a>
+        <a href="<?php echo SERVERURL ?>despacho/lista_despachos"><i class='bx bxs-box menu-icon'></i> <span class="menu-text">Relacion Despacho</span></a>
+                <a href="<?php echo SERVERURL ?>despacho/lista_devoluciones"><i class='bx bx-box menu-icon'></i> <span class="menu-text">Devoluciones</span></a>
+    
+            </div>
+            
             <a href="#" class="dropdown-btn" data-target="#submenu2"><i class='bx bx-receipt menu-icon'></i> <span class="menu-text">Pedidos</span></a>
             <div class="submenu" id="submenu2">
                 <a href="<?php echo SERVERURL ?>Pedidos"><i class='bx bx-history menu-icon'></i> <span class="menu-text">Historial</span></a>
@@ -80,9 +91,7 @@
                 ?>
                 <a href="<?php echo SERVERURL ?>pedidos/anuladas"><i class='bx bx-x menu-icon'></i> <span class="menu-text">Anulados</span></a>
                 <!-- <a href="#"><i class='bx bx-info-circle menu-icon'></i> <span class="menu-text">Novedad</span></a> -->
-                <a href="<?php echo SERVERURL ?>despacho/lista_despachos"><i class='bx bxs-box menu-icon'></i> <span class="menu-text">Relacion Despacho</span></a>
-                <a href="<?php echo SERVERURL ?>despacho/lista_devoluciones"><i class='bx bx-box menu-icon'></i> <span class="menu-text">Devoluciones</span></a>
-            </div>
+                        </div>
             <a href="#" class="dropdown-btn" data-target="#submenu3"><i class='bx bx-wallet menu-icon'></i> <span class="menu-text">Wallet</span></a>
             <div class="submenu" id="submenu3">
                 <a href="<?php echo SERVERURL ?>wallet"><i class="fa-solid fa-money-bill-trend-up menu-icon"></i> <span class="menu-text">Detalle</span></a>
