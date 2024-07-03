@@ -158,7 +158,11 @@ const listGuias = async () => {
                       guia.numero_factura
                     }"></td>
                     <td>${guia.numero_factura}</td>
-                    <td>${guia.fecha_factura}</td>
+                    <td>
+                    <div><button onclick="ver_detalle_cot('${
+                      guia.id_factura
+                    }')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>
+                    <div>${guia.fecha_factura}</td></div>
                     <td>
                         <div><strong>${guia.nombre}</strong></div>
                         <div>${guia.c_principal} y ${guia.c_secundaria}</div>
@@ -235,6 +239,18 @@ function abrirModal_infoTienda(tienda) {
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
+    },
+  });
+}
+
+function ver_detalle_cot(id_factura) {
+  $.ajax({
+    url: SERVERURL + "productos/listar_bodegas",
+    type: "GET",
+    dataType: "json",
+    success: function (response) {},
+    error: function (error) {
+      console.error("Error al obtener la lista de bodegas:", error);
     },
   });
 }
