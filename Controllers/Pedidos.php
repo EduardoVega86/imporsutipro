@@ -418,6 +418,15 @@ $id_bodega= $_POST['id_propietario']; //CODIGO DE LA BODEGA
         echo json_encode($response);
     }
 
+    
+        public function obtenerDetalle()
+    {
+        $id_factura = $_POST['id_factura'];
+       
+        $response = $this->model->obtenerDetalleFactura($id_factura, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+    
     public function eliminarDescripcion($id_detalle)
     {
 
