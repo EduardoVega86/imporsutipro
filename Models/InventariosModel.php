@@ -498,7 +498,7 @@ class InventariosModel extends Query
         $response = $this->initialResponse();
       
          $sql_factura = "SELECT * FROM facturas_cot WHERE numero_guia = '$num_guia' and id_transporte=$transportadora ";
-       //  echo $sql_factura;
+         echo $sql_factura;
             $factura = $this->select($sql_factura);
            if ( count($factura)>0){
             $id_factura = $factura[0]['id_factura'];
