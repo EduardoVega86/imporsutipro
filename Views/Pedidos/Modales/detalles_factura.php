@@ -72,15 +72,15 @@
             <div class="modal-body">
                 <div class="informacion_producto">
                     <h3 class="mb-3" style="text-decoration:underline;"><strong>Información</strong></h3>
-                    <p class="texto_modal"><strong>Orden para:</strong> <span id="id_novedad"></span></p>
-                    <p class="texto_modal"><strong>Dirección:</strong> <span id="numero_guiaNovedad"></span></p>
-                    <p class="texto_modal"><strong>Teléfono:</strong> <span id="cliente_novedad"></span></p>
-                    <p class="texto_modal"><strong># Orden:</strong> <span id="estado_novedad"></span></p>
-                    <p class="texto_modal"><strong>Fecha:</strong> <span id="transportadora_novedad"></span></p>
-                    <p class="texto_modal"><strong>Compañia de envío:</strong> <span id="novedad" class="text-success"></span></p>
-                    <p class="texto_modal"><strong>Tipo de envio:</strong> <span id="solucion_novedad" class="text-success"></span></p>
+                    <p class="texto_modal"><strong>Orden para:</strong> <span id="ordePara_detalleFac"></span></p>
+                    <p class="texto_modal"><strong>Dirección:</strong> <span id="direccion_detalleFac"></span></p>
+                    <p class="texto_modal"><strong>Teléfono:</strong> <span id="telefono_detalleFac"></span></p>
+                    <p class="texto_modal"><strong># Orden:</strong> <span id="numOrden_detalleFac"></span></p>
+                    <p class="texto_modal"><strong>Fecha:</strong> <span id="fecha_detalleFac"></span></p>
+                    <p class="texto_modal"><strong>Compañia de envío:</strong> <span id="companiaEnvio_detalleFac"></span></p>
+                    <p class="texto_modal"><strong>Tipo de envio:</strong> <span id="tipoEnvio_detalleFac"></span></p>
                 </div>
-                
+
             </div>
         </div>
     </div>
