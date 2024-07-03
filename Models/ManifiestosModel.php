@@ -897,4 +897,7 @@ class ManifiestosModel extends Query
         // Devuelve el ID generado
         return $lastInsertId;
     }
+    
+    
+    
 }
