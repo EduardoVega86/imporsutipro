@@ -485,7 +485,7 @@ class GuiasModel extends Query
         $contiene = implode(" | ", $resultado_final);
 
         echo $contiene;
-        /*
+
         $url = "https://ec.gintracom.site/web/import-suite/pedido";
         $data = array(
             "remitente" => array(
@@ -546,7 +546,6 @@ class GuiasModel extends Query
         curl_close($ch);
 
         return $response;
-        */
     }
 
     //speed
