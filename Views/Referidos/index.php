@@ -11,6 +11,9 @@
                         <img src="" id="image_tienda" width="100px" class="rounded-circle mb-3" alt="Profile Picture">
                         <h5 class="card-title"><a href="#" id="tienda_url"><span id="tienda_span"></span></a></h5>
 
+                        <div class="col-12 mb-3">
+                                <button class="btn btn-primary mb-3" id="generar_referido"><i class="fa-solid fa-arrow-left"></i> Generar link Referido</button>
+                            </div>
                         <div class="row text-start">
                             <div class="col-12 mb-3">
                                 <div class="card">
@@ -56,9 +59,6 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <button class="btn btn-primary mb-3" id="generar_referido"><i class="fa-solid fa-arrow-left"></i> Regenerar Referido</button>
                             </div>
                         </div>
 
