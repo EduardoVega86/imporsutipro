@@ -96,8 +96,8 @@
                             <tr>
                                 <td><span id="facturaTabla_detalleFac"></span></td>
                                 <td><span id="productoTabla_detalleFac"></span></td>
-                                <td><span id="cantidadTabla_detalleFac"></span><</td>
-                                <td><span id="PrecioTabla_detalleFac"></span><</td>
+                                <td><span id="cantidadTabla_detalleFac"></span></td>
+                                <td><span id="PrecioTabla_detalleFac"></span></td>
                                 <td>29.76</td>
                             </tr>
                             <tr class="custom-total-row">
