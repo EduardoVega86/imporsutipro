@@ -473,7 +473,7 @@ class GuiasModel extends Query
 
         $recaudo = $cod == "1" ? true : false;
 
-        preg_match_all('/(.*?)x(\d+)/', $contiene, $matches, PREG_SET_ORDER);
+        preg_match_all('/(.*?)X(\d+)/', $contiene, $matches, PREG_SET_ORDER);
 
         $resultado_final = [];
         foreach ($matches as $match) {
