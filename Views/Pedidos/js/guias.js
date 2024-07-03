@@ -248,7 +248,7 @@ function abrirModal_infoTienda(tienda) {
 
 function ver_detalle_cot(id_factura) {
   let formData = new FormData();
-  formData.append("id_factura", id_factura); // Añadir el SKU al FormData
+  formData.append("id_factura", id_factura);
 
   $.ajax({
     url: SERVERURL + "Pedidos/obtenerDetalle",
@@ -257,22 +257,13 @@ function ver_detalle_cot(id_factura) {
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
-      // Ensure the response is parsed as JSON
-      let data = typeof response === "string" ? JSON.parse(response) : response;
-
-      // Check if data is an array and has at least one element
-      if (Array.isArray(data) && data.length > 0) {
-        console.log(data[0].c_principal); // Accessing the 'c_principal' property
-      } else {
-        console.error("Unexpected response format:", data);
-      }
+      console.log(response[0].c_principal);
     },
     error: function (error) {
       console.error("Error al obtener la lista de bodegas:", error);
     },
   });
 }
-
 
 function procesarPlataforma(url) {
   if (url == null || url == "") {
