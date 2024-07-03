@@ -40,8 +40,8 @@ class Manifiestos extends Controller
         $arreglo = $_POST['guias'];
        // $transportadora = $_POST['transportadora'];
         $arreglo = json_decode($arreglo, true);
-        $transportadora=1;
-        $bodega=35;
+        $transportadora=$_POST['transportadora'];
+        $bodega=$_POST['bodega'];
        // echo count($arreglo);
         if (count($arreglo)>0){
           $id_cabecera =    $this->model->guardarCabecera($bodega,$transportadora,$_SESSION['id_plataforma']);
