@@ -192,7 +192,7 @@ const listGuias = async () => {
                       <span class="w-100 text-nowrap ${span_estado}">${estado_guia}</span>
                      </div>
                      <div>
-                      <a class="w-100" href="${ruta_descarga}" ${imprimirServi} target="_blank">${
+                      <a class="w-100" ${ruta_descarga} ${imprimirServi} target="_blank">${
         guia.numero_guia
       }</a>
                      </div>
