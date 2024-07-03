@@ -88,7 +88,7 @@ class ManifiestosModel extends Query
         return $reponse;
     }
 
-    public function generarManifiestoGuias($arreglo)
+    public function generarManifiestoGuias($arreglo, $id_cabecera)
     {
         if (count($arreglo) == 0) return;
 
@@ -133,7 +133,7 @@ class ManifiestosModel extends Query
         $dompdf->render();
 
         // Ruta del archivo PDF
-        $combinedPdfPath = $this->generateUniqueFilename('Manifiesto-', __DIR__ . '/manifiestos');
+        $combinedPdfPath = $this->generateUniqueFilename('RelacionDespacho-', __DIR__ . '/manifiestos');
         $tempName = explode('-', $combinedPdfPath);
         $tempName[0] = str_replace(__DIR__ . '/manifiestos/', '', $tempName[0]);
         $lastNumber = glob(__DIR__ . '/manifiestos/' . $tempName[0] . '-*');
@@ -161,6 +161,8 @@ class ManifiestosModel extends Query
             "status" => "200"
         ];
 
+         $update = "UPDATE cabecera_relacion_despacho SET url_documento = '$new_url' WHERE id_relacion_despacho = $id_cabecera";
+         $this->select($update);
 
         return $reponse;
     }
