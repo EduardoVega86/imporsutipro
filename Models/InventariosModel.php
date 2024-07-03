@@ -492,7 +492,7 @@ class InventariosModel extends Query
         return $response;
     }
     
-    public function despacho_guia2($num_guia, $plataforma, $transportadora)
+    public function despacho_guia2($num_guia, $plataforma, $transportadora, $bodega)
     {
      
         $response = $this->initialResponse();
