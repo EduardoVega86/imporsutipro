@@ -260,16 +260,16 @@ function ver_detalle_cot(id_factura) {
       response = JSON.parse(response);
       console.log(response[0].c_principal);
      
-      $("#ordePara_detalleFac").val(response.nombre);
-      $("#direccion_detalleFac").val(`${response.c_principal},${response.c_secundaria}`);
-      $("#telefono_detalleFac").val(response.telefono);
-      $("#numOrden_detalleFac").val(response.numero_factura);
-      $("#fecha_detalleFac").val(response.fecha_factura);
-      $("#companiaEnvio_detalleFac").val(response.transporte);
+      $("#ordePara_detalleFac").text(response.nombre);
+      $("#direccion_detalleFac").text(`${response.c_principal},${response.c_secundaria}`);
+      $("#telefono_detalleFac").text(response.telefono);
+      $("#numOrden_detalleFac").text(response.numero_factura);
+      $("#fecha_detalleFac").text(response.fecha_factura);
+      $("#companiaEnvio_detalleFac").text(response.transporte);
       if (response.cod == 1){
-      $("#tipoEnvio_detalleFac").val('Con Recaudo');
+      $("#tipoEnvio_detalleFac").text('Con Recaudo');
       } else {
-      $("#tipoEnvio_detalleFac").val('Sin Recaudo');
+      $("#tipoEnvio_detalleFac").text('Sin Recaudo');
       }
 
       $("#detalles_facturaModal").modal("show");
