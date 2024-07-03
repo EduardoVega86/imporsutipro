@@ -20,18 +20,10 @@ document.addEventListener("DOMContentLoaded", function () {
   cardContainer.appendChild(loadingIndicator);
   let isLoading = false;
 
-  async function clearProductList() {
-    return new Promise((resolve) => {
-      cardContainer.innerHTML = ""; // Clear the container immediately
-      displayedProducts.clear(); // Clear the displayed products set
-      resolve();
-    });
-  }
-
   async function fetchProducts(reset = true) {
     if (reset) {
       loadingIndicator.style.display = "block";
-      await clearProductList(); // Ensure the list is cleared before fetching new data
+      cardContainer.innerHTML = ""; // Clear the container immediately
     }
 
     try {
@@ -46,16 +38,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (reset) {
         products = newProducts;
+        displayedProducts.clear();
         currentPage = 1; // Reset the current page
       } else {
         products = [...products, ...newProducts];
       }
 
-      displayProducts(
-        products,
-        currentPage,
-        reset ? initialProductsPerPage : additionalProductsPerPage
-      );
+      setTimeout(() => {
+        displayProducts(
+          products,
+          currentPage,
+          reset ? initialProductsPerPage : additionalProductsPerPage
+        );
+      }, 500); // Add a delay of 500ms
     } catch (error) {
       console.error("Error al obtener los productos:", error);
     }
