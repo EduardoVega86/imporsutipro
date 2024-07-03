@@ -102,13 +102,15 @@ const listGuias = async () => {
       let transporte = guia.id_transporte;
       let transporte_content = "";
       let ruta_descarga = "";
+      let imprimirServi = "";
       let ruta_traking = "";
       let funcion_anular = "";
       let select_speed = "";
       if (transporte == 2) {
         transporte_content =
           '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SERVIENTREGA</span>';
-        ruta_descarga = `https://guias.imporsuitpro.com/Servientrega/Guia/${guia.numero_guia}`;
+        imprimirServi = `onclick="imprimirServi(${guia.numero_guia})"`;
+        ruta_descarga = "#";
         ruta_traking = `https://www.servientrega.com.ec/Tracking/?guia=${guia.numero_guia}&tipo=GUIA`;
         funcion_anular = `anular_guiaServi('${guia.numero_guia}')`;
         estado = validar_estadoServi(guia.estado_guia_sistema);
@@ -191,7 +193,7 @@ const listGuias = async () => {
                       <span class="w-100 text-nowrap ${span_estado}">${estado_guia}</span>
                      </div>
                      <div>
-                      <a class="w-100" href="${ruta_descarga}" target="_blank">${
+                      <a class="w-100" href="${ruta_descarga}" ${imprimirServi} target="_blank">${
         guia.numero_guia
       }</a>
                      </div>
@@ -258,6 +260,18 @@ function abrirModal_infoTienda(tienda) {
   });
 }
 
+function imprimirServi(numero_guia) {
+  $.ajax({
+    url: "https://guias.imporsuitpro.com/Servientrega/guias/"+numero_guia,
+    type: "GET",
+    dataType: "json",
+    success: function (response) {},
+    error: function (error) {
+      console.error("Error al obtener la lista de bodegas:", error);
+    },
+  });
+}
+
 function ver_detalle_cot(id_factura) {
   let formData = new FormData();
   formData.append("id_factura", id_factura);
@@ -270,17 +284,19 @@ function ver_detalle_cot(id_factura) {
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
       response = JSON.parse(response);
-     
+
       $("#ordePara_detalleFac").text(response[0].nombre);
-      $("#direccion_detalleFac").text(`${response[0].c_principal},${response[0].c_secundaria}`);
+      $("#direccion_detalleFac").text(
+        `${response[0].c_principal},${response[0].c_secundaria}`
+      );
       $("#telefono_detalleFac").text(response[0].telefono);
       $("#numOrden_detalleFac").text(response[0].numero_factura);
       $("#fecha_detalleFac").text(response[0].fecha_factura);
       $("#companiaEnvio_detalleFac").text(response[0].transporte);
-      if (response[0].cod == 1){
-      $("#tipoEnvio_detalleFac").text('Con Recaudo');
+      if (response[0].cod == 1) {
+        $("#tipoEnvio_detalleFac").text("Con Recaudo");
       } else {
-      $("#tipoEnvio_detalleFac").text('Sin Recaudo');
+        $("#tipoEnvio_detalleFac").text("Sin Recaudo");
       }
 
       $("#detalles_facturaModal").modal("show");
@@ -393,10 +409,10 @@ function validar_estadoServi(estado) {
   } else if (estado >= 300 && estado <= 317) {
     span_estado = "badge_warning";
     estado_guia = "Procesamiento";
-  }  else if (estado >= 400 && estado <= 403) {
+  } else if (estado >= 400 && estado <= 403) {
     span_estado = "badge_green";
     estado_guia = "Entregado";
-  }  else if (estado >= 318 && estado <= 351) {
+  } else if (estado >= 318 && estado <= 351) {
     span_estado = "badge_danger";
     estado_guia = "Con novedad";
   } else if (estado >= 500 && estado <= 502) {
