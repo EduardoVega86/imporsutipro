@@ -259,8 +259,15 @@ function ver_detalle_cot(id_factura) {
     success: function (response) {
       response = JSON.parse(response);
       console.log(response[0].c_principal);
+     
+      $("#ordePara_detalleFac").val(response.id_linea);
+      $("#direccion_detalleFac").val(response.id_linea);
+      $("#telefono_detalleFac").val(response.id_linea);
+      $("#numOrden_detalleFac").val(response.id_linea);
+      $("#fecha_detalleFac").val(response.id_linea);
+      $("#companiaEnvio_detalleFac").val(response.id_linea);
+      $("#tipoEnvio_detalleFac").val(response.id_linea);
 
-      console.log('info'+response.c_principal);
     },
     error: function (error) {
       console.error("Error al obtener la lista de bodegas:", error);
