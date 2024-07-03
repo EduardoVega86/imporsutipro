@@ -50,6 +50,8 @@
 
         let formData = new FormData();
         formData.append("transportadora", transportadora);
+        formData.append("bodega", bodega);
+        
 
         $.ajax({
             type: "POST",
