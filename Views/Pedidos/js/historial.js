@@ -73,9 +73,11 @@ const listHistorialPedidos = async () => {
 
       //tomar solo la ciudad
       let ciudadCompleta = historialPedido.ciudad;
-      console.log(ciudadCompleta);
-      let ciudadArray = ciudadCompleta.split("/");
-      let ciudad = ciudadArray[0];
+      let ciudad = "";
+      if (ciudadCompleta !== null){
+        let ciudadArray = ciudadCompleta.split("/");
+        ciudad = ciudadArray[0];
+      }
 
       let plataforma = procesarPlataforma(historialPedido.plataforma);
 
