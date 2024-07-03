@@ -73,6 +73,7 @@ const listHistorialPedidos = async () => {
 
       //tomar solo la ciudad
       let ciudadCompleta = historialPedido.ciudad;
+      console.log(ciudadCompleta);
       let ciudadArray = ciudadCompleta.split("/");
       let ciudad = ciudadArray[0];
 
