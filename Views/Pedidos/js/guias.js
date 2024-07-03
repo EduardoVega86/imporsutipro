@@ -127,7 +127,7 @@ const listGuias = async () => {
         funcion_anular = ``;
         estado = validar_estadoSpeed(guia.estado_guia_sistema);
         select_speed = `
-                    <select class="form-select" id="select_estadoSpeed">
+                    <select class="form-select" style="max-width: 130px;" id="select_estadoSpeed">
                         <option value="0" selected>-- Selecciona estado --</option>
                         <option value="2" selected>Generado</option>
                         <option value="3" selected>Transito</option>
@@ -205,7 +205,7 @@ const listGuias = async () => {
                       <i class='bx bxl-whatsapp-square' style="color: green;"></i>
                       </a>
                      </div>
-                     <div>
+                     <div style="text-align: -webkit-center;">
                      ${select_speed}
                      </div>
                      <div>
