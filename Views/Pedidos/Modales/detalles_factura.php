@@ -94,8 +94,8 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>COT-000328</td>
-                                <td>BBBB</td>
+                                <td><span id="facturaTabla_detalleFac"></span></td>
+                                <td><span id="productoTabla_detalleFac"></span></td>
                                 <td>1.00</td>
                                 <td>29.76</td>
                                 <td>29.76</td>
