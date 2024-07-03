@@ -666,7 +666,7 @@ WHERE
     
      public function obtenerDetalleFactura($id_factura, $plataforma)
     {
-        $sql = "SELECT * FROM plataformas WHERE url_imporsuit = '$tienda'select * from facturas_cot fc, detalle_fact_cot dfc where fc.id_factura=dfc.id_factura and fc.id_factura=$id_factura";
+        $sql = "select * from facturas_cot fc, detalle_fact_cot dfc where fc.id_factura=dfc.id_factura and fc.id_factura=$id_factura";
         return $this->select($sql);
     }
 }
