@@ -76,8 +76,10 @@ class ShopifyModel extends Query
                 if (count($lineItems) == 1) {
                     die("Proceso detenido: el único ítem no tiene SKU.");
                 }
+
                 // Si el SKU está vacío, salta al siguiente ítem
                 continue;
+                $observacion .= ", SKU vacío: " . $item['name'] . " x" . $item['quantity'] . " ";
             }
 
             $id_producto_venta = $item['sku'];

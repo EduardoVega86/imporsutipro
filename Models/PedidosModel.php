@@ -64,7 +64,7 @@ WHERE
         return $this->select($sql);
     }
 
-    
+
     public function cargarGuiasAnuladas($plataforma, $fecha_inicio, $fecha_fin, $transportadora)
     {
         $sql = "SELECT 
@@ -107,7 +107,7 @@ WHERE
 
         return $this->select($sql);
     }
-    
+
     public function cargarGuiasAnuladas_admin($fecha_inicio, $fecha_fin, $transportadora)
     {
         $sql = "SELECT 
@@ -366,29 +366,18 @@ WHERE
                 $id_producto = $tmp['id_producto_venta'];
                 $sql = "SELECT * FROM inventario_bodegas WHERE id_producto = $id_producto";
                 $id_bodega = $this->select($sql);
-                if (empty($id_bodega)) {
-                    $numero_factura;
-                    $factura_id;
-                    $id_producto = 4874;
-                    $cantidad = $tmp['cantidad'];
-                    $descuento = 0;
-                    $precio = $tmp['precio'];
-                    $nombre = $tmp['nombre'];
-                    $id_plataforma = 1;
-                    $sku = "1000D";
-                    $id_inventario = 1628;
-                } else {
-                    $id_bodega = $id_bodega[0]['bodega'];
-                    $sql = "SELECT * FROM inventario_bodegas WHERE bodega = $id_bodega";
-                    $id_inventario = $this->select($sql);
-                    $id_inventario = $id_inventario[0]['id_inventario'];
-                    $id_plataforma = $id_bodega[0]['id_plataforma'];
-                    $sku = $id_bodega[0]['sku'];
-                    $nombre = $tmp['nombre'];
-                    $cantidad = $tmp['cantidad'];
-                    $descuento = 0;
-                    $precio = $tmp['precio'];
-                }
+
+                $id_bodega = $id_bodega[0]['bodega'];
+                $sql = "SELECT * FROM inventario_bodegas WHERE bodega = $id_bodega";
+                $id_inventario = $this->select($sql);
+                $id_inventario = $id_inventario[0]['id_inventario'];
+                $id_plataforma = $id_bodega[0]['id_plataforma'];
+                $sku = $id_bodega[0]['sku'];
+                $nombre = $tmp['nombre'];
+                $cantidad = $tmp['cantidad'];
+                $descuento = 0;
+                $precio = $tmp['precio'];
+
                 //  echo 'enta';
                 $detalle_data = array(
                     $nueva_factura,
@@ -403,6 +392,7 @@ WHERE
                     $nombre
                 );
                 $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
+                print_r($guardar_detalle);
                 // print_r($guardar_detalle);
             }
 
@@ -663,8 +653,8 @@ WHERE
         $sql = "SELECT * FROM plataformas WHERE url_imporsuit = '$tienda'";
         return $this->select($sql);
     }
-    
-     public function obtenerDetalleFactura($id_factura, $plataforma)
+
+    public function obtenerDetalleFactura($id_factura, $plataforma)
     {
         $sql = "select * from facturas_cot fc, detalle_fact_cot dfc where fc.id_factura=dfc.id_factura and fc.id_factura=$id_factura";
         return $this->select($sql);

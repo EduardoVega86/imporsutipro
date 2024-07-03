@@ -158,9 +158,9 @@ class Pedidos extends Controller
         $costo_producto = $_POST['costo_producto'] ?? 0;
         $comentario = $_POST['comentario'] ?? "";
         $id_transporte = $_POST['id_transporte'] ?? 0;
-$id_bodega= $_POST['id_propietario']; //CODIGO DE LA BODEGA
+        $id_bodega = $_POST['id_propietario']; //CODIGO DE LA BODEGA
         $response = $this->model->nuevo_pedido($fecha_factura, $id_usuario, $monto_factura, $estado_factura, $nombre_cliente, $telefono_cliente, $c_principal, $ciudad_cot, $c_secundaria, $referencia, $observacion, $guia_enviada, $transporte, $identificacion, $celular, $dueño_id, $dropshipping, $id_plataforma, $dueño_id, $importado, $plataforma_importa, $cod, $estado_guia_sistema, $impreso, $facturada, $factura_numero, $numero_guia, $anulada, $identificacionO, $celularO, $nombreO, $ciudadO, $provinciaO, $direccionO, $referenciaO, $numeroCasaO, $valor_segura, $no_piezas, $tipo_servicio, $peso, $contiene, $costo_flete, $costo_producto, $comentario, $id_transporte, $provincia, $id_bodega);
- 
+
         echo json_encode($response);
     }
     public function nuevo_pedido_shopify()
@@ -289,17 +289,17 @@ $id_bodega= $_POST['id_propietario']; //CODIGO DE LA BODEGA
         $data = $this->model->cargarGuias($_SESSION['id_plataforma'], $fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso);
         echo json_encode($data);
     }
-    
-     public function obtener_guias_anuladas()
+
+    public function obtener_guias_anuladas()
     {
         $fecha_inicio = $_POST['fecha_inicio'] ?? "";
         $fecha_fin = $_POST['fecha_fin'] ?? "";
         $transportadora = $_POST['transportadora'] ?? "";
-    
+
         $data = $this->model->cargarGuiasAnuladas($_SESSION['id_plataforma'], $fecha_inicio, $fecha_fin, $transportadora);
         echo json_encode($data);
     }
-    
+
 
     public function obtener_guiasAdministrador()
     {
@@ -418,15 +418,15 @@ $id_bodega= $_POST['id_propietario']; //CODIGO DE LA BODEGA
         echo json_encode($response);
     }
 
-    
-        public function obtenerDetalle()
+
+    public function obtenerDetalle()
     {
         $id_factura = $_POST['id_factura'];
-       
+
         $response = $this->model->obtenerDetalleFactura($id_factura, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
-    
+
     public function eliminarDescripcion($id_detalle)
     {
 
