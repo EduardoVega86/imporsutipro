@@ -257,16 +257,22 @@ function ver_detalle_cot(id_factura) {
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
-      // Parse the response as JSON if necessary
+      // Ensure the response is parsed as JSON
       let data = typeof response === "string" ? JSON.parse(response) : response;
-      console.log(data[0].c_principal);
-      // You can access other properties similarly
+
+      // Check if data is an array and has at least one element
+      if (Array.isArray(data) && data.length > 0) {
+        console.log(data[0].c_principal); // Accessing the 'c_principal' property
+      } else {
+        console.error("Unexpected response format:", data);
+      }
     },
     error: function (error) {
       console.error("Error al obtener la lista de bodegas:", error);
     },
   });
 }
+
 
 function procesarPlataforma(url) {
   if (url == null || url == "") {
