@@ -403,6 +403,100 @@ function validar_estadoServi(estado) {
   };
 }
 
+function validar_estadoGintracom(estado) {
+  var span_estado = "";
+  var estado_guia = "";
+  if (estado == 1) {
+    span_estado = "badge_danger";
+    estado_guia = "Anulado";
+  } else if (estado == 2) {
+    span_estado = "badge_purple";
+    estado_guia = "Por recolectar";
+  } else if (estado == 3) {
+    span_estado = "badge_purple";
+    estado_guia = "Por recolectar";
+  } else if (estado == 4) {
+    span_estado = "badge_purple";
+    estado_guia = "Por recolectar";
+  } else if (estado == 5) {
+    span_estado = "badge_warning";
+    estado_guia = "En transito";
+  } else if (estado == 6) {
+    span_estado = "badge_purple";
+    estado_guia = "Por recolectar";
+  } else if (estado == 7) {
+    span_estado = "badge_green";
+    estado_guia = "Entregado";
+  } else if (estado == 8) {
+    span_estado = "badge_danger";
+    estado_guia = "Anulado";
+  } else if (estado == 11) {
+    span_estado = "badge_warning";
+    estado_guia = "En transito";
+  } else if (estado == 12) {
+    span_estado = "badge_warning";
+    estado_guia = "En transito";
+  } else if (estado == 14) {
+    span_estado = "badge_danger";
+    estado_guia = "Con novedad";
+  } else if (estado == 9) {
+    span_estado = "badge_danger";
+    estado_guia = "Devuelto";
+  }
+
+  return {
+    span_estado: span_estado,
+    estado_guia: estado_guia,
+  };
+}
+
+function validar_estadoSpeed(estado) {
+  var span_estado = "";
+  var estado_guia = "";
+  if (estado == 1) {
+    span_estado = "badge_danger";
+    estado_guia = "Anulado";
+  } else if (estado == 2) {
+    span_estado = "badge_purple";
+    estado_guia = "Por recolectar";
+  } else if (estado == 3) {
+    span_estado = "badge_purple";
+    estado_guia = "Por recolectar";
+  } else if (estado == 4) {
+    span_estado = "badge_purple";
+    estado_guia = "Por recolectar";
+  } else if (estado == 5) {
+    span_estado = "badge_warning";
+    estado_guia = "En transito";
+  } else if (estado == 6) {
+    span_estado = "badge_purple";
+    estado_guia = "Por recolectar";
+  } else if (estado == 7) {
+    span_estado = "badge_green";
+    estado_guia = "Entregado";
+  } else if (estado == 8) {
+    span_estado = "badge_danger";
+    estado_guia = "Anulado";
+  } else if (estado == 11) {
+    span_estado = "badge_warning";
+    estado_guia = "En transito";
+  } else if (estado == 12) {
+    span_estado = "badge_warning";
+    estado_guia = "En transito";
+  } else if (estado == 14) {
+    span_estado = "badge_danger";
+    estado_guia = "Con novedad";
+  } else if (estado == 9) {
+    span_estado = "badge_danger";
+    estado_guia = "Devuelto";
+  }
+
+  return {
+    span_estado: span_estado,
+    estado_guia: estado_guia,
+  };
+}
+
 // Function to handle the click event for sending selected items
 document.getElementById("imprimir_guias").addEventListener("click", () => {
   const selectedGuias = [];
