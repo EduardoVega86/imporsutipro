@@ -294,15 +294,14 @@ function ver_detalle_cot(id_factura) {
         let total = 0; // Variable para calcular el total
 
         response.forEach(function(detalle) {
-          let subtotal = detalle.cantidad * detalle.precio;
+          let subtotal = detalle.cantidad * detalle.precio_venta;
           total += subtotal;
 
           let rowHtml = `
             <tr>
-              <td>${detalle.numero_factura}</td>
-              <td>${detalle.producto}</td>
+              <td>${detalle.nombre_producto}</td>
               <td>${detalle.cantidad}</td>
-              <td>${detalle.precio}</td>
+              <td>${detalle.precio_venta}</td>
               <td>${subtotal.toFixed(2)}</td>
             </tr>
           `;
