@@ -104,6 +104,7 @@ const listGuias = async () => {
       let ruta_descarga = "";
       let ruta_traking = "";
       let funcion_anular = "";
+      let select_speed = "";
       if (transporte == 2) {
         transporte_content =
           '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SERVIENTREGA</span>';
@@ -125,6 +126,15 @@ const listGuias = async () => {
         ruta_traking = ``;
         funcion_anular = ``;
         estado = validar_estadoSpeed(guia.estado_guia_sistema);
+        select_speed = `<div>
+                    <select class="form-select" id="select_estadoSpeed">
+                        <option value="0" selected>-- Selecciona estado --</option>
+                        <option value="2" selected>Generado</option>
+                        <option value="3" selected>Transito</option>
+                        <option value="7" selected>Entregado</option>
+                        <option value="9" selected>Devuelto</option>
+                    </select>
+        </div>`;
       } else if (transporte == 3) {
         transporte_content =
           '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>';
