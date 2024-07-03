@@ -64,27 +64,35 @@ const listListaDespachos = async () => {
   }
 };
 
-document.getElementById("generarDespachoBtn").addEventListener("click", function () {
-  const transportadoraSelect = document.getElementById("transportadora");
-  const bodegaSelect = document.getElementById("select_bodega");
-  const transportadoraValue = transportadoraSelect.value;
-  const bodegaValue = bodegaSelect.value;
+document
+  .getElementById("generarDespachoBtn")
+  .addEventListener("click", function () {
+    const transportadoraSelect = document.getElementById("transportadora");
+    const bodegaSelect = document.getElementById("select_bodega");
+    const transportadoraValue = transportadoraSelect.value;
+    const bodegaValue = bodegaSelect.value;
 
-  if (transportadoraValue !== "-- Selecciona Transportadora --") {
-    if (bodegaValue !== "-- Selecciona Bodega --") {
-      const url = SERVERURL + `despacho/despacho?transportadora=${transportadoraValue}&bodega=${bodegaValue}`;
-      window.location.href = url;
+    if (transportadoraValue !== "-- Selecciona Transportadora --") {
+      if (bodegaValue !== "-- Selecciona Bodega --") {
+        const url =
+          SERVERURL +
+          `despacho/despacho?transportadora=${transportadoraValue}&bodega=${bodegaValue}`;
+        window.location.href = url;
+      } else {
+        alert("Por favor selecciona una bodega.");
+      }
     } else {
-      alert("Por favor selecciona una bodega.");
+      alert("Por favor selecciona una transportadora.");
     }
-  } else {
-    alert("Por favor selecciona una transportadora.");
-  }
-});
+  });
 
 window.addEventListener("load", async () => {
   await initDataTableListaDespachos();
 });
+
+function descargar_pdf(id) {
+  console.log(id);
+}
 
 //cargar select de bodegas
 $(document).ready(function () {
@@ -98,9 +106,7 @@ $(document).ready(function () {
       if (Array.isArray(response)) {
         response.forEach(function (bodega) {
           // Agrega una nueva opción al select por cada bodega
-          $("#select_bodega").append(
-            new Option(bodega.nombre, bodega.id)
-          );
+          $("#select_bodega").append(new Option(bodega.nombre, bodega.id));
         });
       } else {
         console.log("La respuesta de la API no es un array:", response);
