@@ -300,6 +300,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+
 function copyToClipboard(id) {
   navigator.clipboard.writeText(id).then(
     function () {
