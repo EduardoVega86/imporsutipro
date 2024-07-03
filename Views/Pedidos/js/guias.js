@@ -261,10 +261,14 @@ function abrirModal_infoTienda(tienda) {
 }
 
 function imprimirServi(numero_guia) {
+  let formData = new FormData();
+
+  formData.append("nombre", marca); // Añadir el SKU al FormData
   $.ajax({
-    url: "https://guias.imporsuitpro.com/Servientrega/guias/"+numero_guia,
-    type: "GET",
-    dataType: "json",
+    url: "https://guias.imporsuitpro.com/Servientrega/guias/" + numero_guia,
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {},
     error: function (error) {
       console.error("Error al obtener la lista de bodegas:", error);

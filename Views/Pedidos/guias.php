@@ -108,6 +108,7 @@
 <script>
     let fecha_inicio = "";
     let fecha_fin = "";
+    const marca = <?php echo MARCA?>;
     $(function() {
         $('#daterange').daterangepicker({
             opens: 'right',
