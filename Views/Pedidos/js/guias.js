@@ -261,7 +261,7 @@ function abrirModal_infoTienda(tienda) {
 function imprimirServi(numero_guia) {
   let formData = new FormData();
 
-  formData.append("nombre", marca); // Añadir el SKU al FormData
+  formData.append("nombre", MARCA);
   $.ajax({
     url: "https://guias.imporsuitpro.com/Servientrega/guias/" + numero_guia,
     data: formData,

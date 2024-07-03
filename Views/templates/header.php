@@ -137,4 +137,5 @@
         <!-- Aquí va el contenido de la página -->
         <script>
             const SERVERURL = "<?php echo SERVERURL ?>";
+            const MARCA = "<?php echo MARCA?>";
         </script>
