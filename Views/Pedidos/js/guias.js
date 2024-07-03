@@ -108,7 +108,7 @@ const listGuias = async () => {
       if (transporte == 2) {
         transporte_content =
           '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SERVIENTREGA</span>';
-        ruta_descarga = `<button class="btn btn-link w-100 text-left" onclick="imprimirServi(${guia.numero_guia}, event)">${guia.numero_guia} </button>`;
+        ruta_descarga = `<a class="w-100" href="https://guias.imporsuitpro.com/Servientrega/guias/${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
         ruta_traking = `https://www.servientrega.com.ec/Tracking/?guia=${guia.numero_guia}&tipo=GUIA`;
         funcion_anular = `anular_guiaServi('${guia.numero_guia}')`;
         estado = validar_estadoServi(guia.estado_guia_sistema);
@@ -254,22 +254,6 @@ function abrirModal_infoTienda(tienda) {
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
-    },
-  });
-}
-
-function imprimirServi(numero_guia) {
-  let formData = new FormData();
-
-  formData.append("nombre", MARCA);
-  $.ajax({
-    url: "https://guias.imporsuitpro.com/Servientrega/guias/" + numero_guia,
-    data: formData,
-    processData: false, // No procesar los datos
-    contentType: false, // No establecer ningún tipo de contenido
-    success: function (response) {},
-    error: function (error) {
-      console.error("Error al obtener la lista de bodegas:", error);
     },
   });
 }
