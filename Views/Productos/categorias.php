@@ -21,6 +21,7 @@
                 </caption> -->
                 <thead>
                     <tr>
+                        <th class="centered">ID</th>
                         <th class="centered">Nombre</th>
                         <th class="centered">Imagen</th>
                         <th class="centered">Online</th>
