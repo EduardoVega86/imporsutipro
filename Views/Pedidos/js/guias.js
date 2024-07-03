@@ -110,30 +110,33 @@ const listGuias = async () => {
         ruta_descarga = `https://guias.imporsuitpro.com/Servientrega/Guia/${guia.numero_guia}`;
         ruta_traking = `https://www.servientrega.com.ec/Tracking/?guia=${guia.numero_guia}&tipo=GUIA`;
         funcion_anular = `anular_guiaServi('${guia.numero_guia}')`;
+        estado = validar_estadoServi(guia.estado_guia_sistema);
       } else if (transporte == 1) {
         transporte_content =
           '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">LAAR</span>';
         ruta_descarga = `https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${guia.numero_guia}`;
         ruta_traking = `https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${guia.numero_guia}`;
         funcion_anular = `anular_guiaLaar('${guia.numero_guia}')`;
+        estado = validar_estadoLaar(guia.estado_guia_sistema);
       } else if (transporte == 4) {
         transporte_content =
           '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
         ruta_descarga = `https://guias.imporsuitpro.com/Speed/descargar/${guia.numero_guia}`;
         ruta_traking = ``;
         funcion_anular = ``;
+        estado = validar_estadoSpeed(guia.estado_guia_sistema);
       } else if (transporte == 3) {
         transporte_content =
           '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>';
         ruta_descarga = `https://guias.imporsuitpro.com/Gintracom/label/${guia.numero_guia}`;
         ruta_traking = `https://ec.gintracom.site/web/site/tracking`;
         funcion_anular = `anular_guiaGintracom('${guia.numero_guia}')`;
+        estado = validar_estadoGintracom(guia.estado_guia_sistema);
       } else {
         transporte_content =
           '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">Guia no enviada</span>';
       }
 
-      estado = validar_estado(guia.estado_guia_sistema);
       var span_estado = estado.span_estado;
       var estado_guia = estado.estado_guia;
 
@@ -282,7 +285,7 @@ function procesarPlataforma(url) {
   return resultado;
 }
 
-function validar_estado(estado) {
+function validar_estadoLaar(estado) {
   var span_estado = "";
   var estado_guia = "";
   if (estado == 1) {
@@ -306,7 +309,7 @@ function validar_estado(estado) {
   } else if (estado == 7) {
     span_estado = "badge_green";
     estado_guia = "Entregado";
-  } else if (estado == 8 || estado == 101) {
+  } else if (estado == 8) {
     span_estado = "badge_danger";
     estado_guia = "Anulado";
   } else if (estado == 11) {
@@ -319,6 +322,77 @@ function validar_estado(estado) {
     span_estado = "badge_danger";
     estado_guia = "Con novedad";
   } else if (estado == 9) {
+    span_estado = "badge_danger";
+    estado_guia = "Devuelto";
+  }
+
+  return {
+    span_estado: span_estado,
+    estado_guia: estado_guia,
+  };
+}
+
+function ver_detalle_cot(id_factura) {
+  let formData = new FormData();
+  formData.append("id_factura", id_factura); // Añadir el SKU al FormData
+
+  $.ajax({
+    url: SERVERURL + "Pedidos/obtenerDetalle",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    success: function (response) {
+      console.log(response[0].c_principal);
+    },
+    error: function (error) {
+      console.error("Error al obtener la lista de bodegas:", error);
+    },
+  });
+}
+
+function procesarPlataforma(url) {
+  if (url == null || url == "") {
+    let respuesta_error = "La tienda ya no existe";
+    return respuesta_error;
+  }
+  // Eliminar el "https://"
+  let sinProtocolo = url.replace("https://", "");
+
+  // Encontrar la posición del primer punto
+  let primerPunto = sinProtocolo.indexOf(".");
+
+  // Obtener la subcadena desde el inicio hasta el primer punto
+  let baseNombre = sinProtocolo.substring(0, primerPunto);
+
+  // Convertir a mayúsculas
+  let resultado = baseNombre.toUpperCase();
+
+  return resultado;
+}
+
+function validar_estadoServi(estado) {
+  var span_estado = "";
+  var estado_guia = "";
+  if (estado == 101) {
+    span_estado = "badge_danger";
+    estado_guia = "Anulado";
+  } else if (estado == 100 || estado == 102 || estado == 103) {
+    span_estado = "badge_generado";
+    estado_guia = "Generado";
+  } else if (estado == 200 || estado == 201 || estado == 202) {
+    span_estado = "badge_purple";
+    estado_guia = "Recolectado";
+  } else if (estado >= 300 && estado <= 317) {
+    span_estado = "badge_warning";
+    estado_guia = "Procesamiento";
+  }  else if (estado >= 400 && estado <= 403) {
+    span_estado = "badge_green";
+    estado_guia = "Entregado";
+  }  else if (estado >= 318 && estado <= 351) {
+    span_estado = "badge_danger";
+    estado_guia = "Con novedad";
+  } else if (estado >= 500 && estado <= 502) {
     span_estado = "badge_danger";
     estado_guia = "Devuelto";
   }

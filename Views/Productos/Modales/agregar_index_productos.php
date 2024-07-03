@@ -3,6 +3,11 @@
         margin-bottom: 15px;
     }
 
+    /* .modal-header {
+        background-color: #343a40;
+        color: white;
+    } */
+
     .hidden-tab {
         display: none !important;
     }
@@ -133,7 +138,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button type="submit" class="btn btn-primary" id="guardar_producto">Guardar</button>
             </div>
             </form>
         </div>
@@ -187,10 +192,15 @@
         });
 
         $('#agregar_producto_form').on('submit', function(event) {
-            event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
-
             // Deshabilitar el botón "Guardar"
             $('#agregar_producto_form button[type="submit"]').prop('disabled', true);
+        });
+
+        $('#agregar_producto_form').submit(function(event) {
+            event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
+
+            var button = document.getElementById('guardar_producto');
+            button.disabled = true; // Desactivar el botón
 
             // Crea un objeto FormData
             var formData = new FormData();
@@ -242,9 +252,6 @@
                 error: function(error) {
                     alert('Hubo un error al agregar el producto');
                     console.log(error);
-                },
-                complete: function() {
-                    $('#agregar_producto_form button[type="submit"]').prop('disabled', false);
                 }
             });
         });
