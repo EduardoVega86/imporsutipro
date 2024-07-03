@@ -58,6 +58,7 @@ var id_propietario_bodega = "";
 var id_producto_venta = "";
 var dropshipping = "";
 var contiene = "";
+var contieneGintracom = "";
 var costo_producto = 0;
 
 const listNuevoPedido = async () => {
@@ -81,7 +82,8 @@ const listNuevoPedido = async () => {
         costo_producto +
         parseFloat(nuevoPedido.pcp) * parseFloat(nuevoPedido.cantidad);
 
-      contiene += `${nuevoPedido.nombre_producto} X${nuevoPedido.cantidad} `;
+      contiene += `${nuevoPedido.cantidad_tmp} x ${nuevoPedido.nombre_producto}`;
+      contieneGintracom += `${nuevoPedido.nombre_producto} X${nuevoPedido.cantidad_tmp} `;
 
       precio_costo = parseFloat(nuevoPedido.precio_venta);
 
@@ -570,7 +572,11 @@ function generar_guia() {
   formData.append("numeroCasaO", numeroCasa_bodega);
   formData.append("valor_seguro", 0); // Corregir nombre de variable
   formData.append("no_piezas", 1);
-  formData.append("contiene", contiene);
+  if (transportadora_selected == 3) {
+    formData.append("contiene", contieneGintracom);
+  }else {
+    formData.append("contiene", contiene);
+  }
   formData.append("costo_flete", $("#costo_flete").val());
   formData.append("costo_producto", costo_producto);
   formData.append("comentario", "Enviado por x");
