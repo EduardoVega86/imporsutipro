@@ -110,21 +110,20 @@ const listGuias = async () => {
         transporte_content =
           '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SERVIENTREGA</span>';
         imprimirServi = `onclick="imprimirServi(${guia.numero_guia})"`;
-        ruta_descarga = "#";
         ruta_traking = `https://www.servientrega.com.ec/Tracking/?guia=${guia.numero_guia}&tipo=GUIA`;
         funcion_anular = `anular_guiaServi('${guia.numero_guia}')`;
         estado = validar_estadoServi(guia.estado_guia_sistema);
       } else if (transporte == 1) {
         transporte_content =
           '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">LAAR</span>';
-        ruta_descarga = `https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${guia.numero_guia}`;
+        ruta_descarga = `href="https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${guia.numero_guia}"`;
         ruta_traking = `https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${guia.numero_guia}`;
         funcion_anular = `anular_guiaLaar('${guia.numero_guia}')`;
         estado = validar_estadoLaar(guia.estado_guia_sistema);
       } else if (transporte == 4) {
         transporte_content =
           '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
-        ruta_descarga = `https://guias.imporsuitpro.com/Speed/descargar/${guia.numero_guia}`;
+        ruta_descarga = `href="https://guias.imporsuitpro.com/Speed/descargar/${guia.numero_guia}"`;
         ruta_traking = ``;
         funcion_anular = ``;
         estado = validar_estadoSpeed(guia.estado_guia_sistema);
@@ -139,7 +138,7 @@ const listGuias = async () => {
       } else if (transporte == 3) {
         transporte_content =
           '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>';
-        ruta_descarga = `https://guias.imporsuitpro.com/Gintracom/label/${guia.numero_guia}`;
+        ruta_descarga = `href="https://guias.imporsuitpro.com/Gintracom/label/${guia.numero_guia}"`;
         ruta_traking = `https://ec.gintracom.site/web/site/tracking`;
         funcion_anular = `anular_guiaGintracom('${guia.numero_guia}')`;
         estado = validar_estadoGintracom(guia.estado_guia_sistema);
@@ -269,7 +268,9 @@ function imprimirServi(numero_guia) {
     data: formData,
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
-    success: function (response) {},
+    success: function (response) {
+
+    },
     error: function (error) {
       console.error("Error al obtener la lista de bodegas:", error);
     },
