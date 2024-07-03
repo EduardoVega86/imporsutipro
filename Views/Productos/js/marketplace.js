@@ -258,6 +258,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   /* Fin Filtros */
 
+  const handleSelectChange = debounce(function () {
+    clearAndFetchProducts();
+  }, 300);
+
   $("#buscar_nombre").on(
     "input",
     debounce(function () {
@@ -270,13 +274,13 @@ document.addEventListener("DOMContentLoaded", function () {
   $("#categoria_filtroMarketplace").change(function () {
     var categoria = $("#categoria_filtroMarketplace").val();
     formData_filtro.set("linea", categoria);
-    clearAndFetchProducts(); // Reset and fetch products based on new filter
+    handleSelectChange();
   });
 
   $("#proveedor_filtroMarketplace").change(function () {
     var proveedor = $("#proveedor_filtroMarketplace").val();
     formData_filtro.set("plataforma", proveedor);
-    clearAndFetchProducts(); // Reset and fetch products based on new filter
+    handleSelectChange();
   });
 
   $("#favoritosSwitch").change(function () {
