@@ -271,6 +271,7 @@ function ver_detalle_cot(id_factura) {
     success: function (response) {
       response = JSON.parse(response);
 
+      // Mostrar los detalles principales de la primera factura
       $("#ordePara_detalleFac").text(response[0].nombre);
       $("#direccion_detalleFac").text(
         `${response[0].c_principal},${response[0].c_secundaria}`
@@ -285,6 +286,39 @@ function ver_detalle_cot(id_factura) {
         $("#tipoEnvio_detalleFac").text("Sin Recaudo");
       }
 
+      // Verificar si la respuesta tiene elementos y llenar la tabla
+      if (response.length > 0) {
+        let tableBody = $("#tabla_body");
+        tableBody.empty(); // Limpiar cualquier contenido previo
+
+        let total = 0; // Variable para calcular el total
+
+        response.forEach(function(detalle) {
+          let subtotal = detalle.cantidad * detalle.precio;
+          total += subtotal;
+
+          let rowHtml = `
+            <tr>
+              <td>${detalle.numero_factura}</td>
+              <td>${detalle.producto}</td>
+              <td>${detalle.cantidad}</td>
+              <td>${detalle.precio}</td>
+              <td>${subtotal.toFixed(2)}</td>
+            </tr>
+          `;
+          tableBody.append(rowHtml);
+        });
+
+        // Agregar la fila del total
+        let totalRowHtml = `
+          <tr class="custom-total-row">
+            <td colspan="4" class="text-right">Total</td>
+            <td>${total.toFixed(2)}</td>
+          </tr>
+        `;
+        tableBody.append(totalRowHtml);
+      }
+
       $("#detalles_facturaModal").modal("show");
     },
     error: function (error) {
@@ -292,6 +326,7 @@ function ver_detalle_cot(id_factura) {
     },
   });
 }
+
 
 function procesarPlataforma(url) {
   if (url == null || url == "") {

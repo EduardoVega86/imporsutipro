@@ -92,21 +92,22 @@
                                 <th>Subtotal</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="tabla_body">
                             <tr>
                                 <td><span id="facturaTabla_detalleFac"></span></td>
                                 <td><span id="productoTabla_detalleFac"></span></td>
                                 <td><span id="cantidadTabla_detalleFac"></span></td>
                                 <td><span id="PrecioTabla_detalleFac"></span></td>
-                                <td>29.76</td>
+                                <td></td>
                             </tr>
                             <tr class="custom-total-row">
                                 <td colspan="4" class="text-right">Total</td>
-                                <td>29.76</td>
+                                <td></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
