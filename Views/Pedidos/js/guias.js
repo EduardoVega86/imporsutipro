@@ -335,25 +335,6 @@ function validar_estadoLaar(estado) {
   };
 }
 
-function ver_detalle_cot(id_factura) {
-  let formData = new FormData();
-  formData.append("id_factura", id_factura); // Añadir el SKU al FormData
-
-  $.ajax({
-    url: SERVERURL + "Pedidos/obtenerDetalle",
-    type: "POST",
-    data: formData,
-    processData: false, // No procesar los datos
-    contentType: false, // No establecer ningún tipo de contenido
-    success: function (response) {
-      console.log(response[0].c_principal);
-    },
-    error: function (error) {
-      console.error("Error al obtener la lista de bodegas:", error);
-    },
-  });
-}
-
 function procesarPlataforma(url) {
   if (url == null || url == "") {
     let respuesta_error = "La tienda ya no existe";
