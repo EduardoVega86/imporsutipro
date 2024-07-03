@@ -244,10 +244,15 @@ function abrirModal_infoTienda(tienda) {
 }
 
 function ver_detalle_cot(id_factura) {
+  let formData = new FormData();
+  formData.append("id_factura", id_factura); // Añadir el SKU al FormData
+
   $.ajax({
-    url: SERVERURL + "productos/listar_bodegas",
-    type: "GET",
-    dataType: "json",
+    url: SERVERURL + "productos/obtenerDetalle",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {},
     error: function (error) {
       console.error("Error al obtener la lista de bodegas:", error);
