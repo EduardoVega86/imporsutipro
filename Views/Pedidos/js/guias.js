@@ -257,7 +257,10 @@ function ver_detalle_cot(id_factura) {
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
+      response = JSON.parse(response);
       console.log(response[0].c_principal);
+
+      console.log(response.c_principal);
     },
     error: function (error) {
       console.error("Error al obtener la lista de bodegas:", error);
