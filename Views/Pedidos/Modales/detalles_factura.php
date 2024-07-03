@@ -71,7 +71,7 @@
             </div>
             <div class="modal-body">
                 <div class="informacion_producto">
-                    <h3 class="mb-3" style="text-decoration:underline;"><strong>Información</strong></h3>
+                    <h3 class="mb-3" style="text-decoration:underline;"><strong>Detalle Factura</strong></h3>
                     <p class="texto_modal"><strong>Orden para:</strong> <span id="ordePara_detalleFac"></span></p>
                     <p class="texto_modal"><strong>Dirección:</strong> <span id="direccion_detalleFac"></span></p>
                     <p class="texto_modal"><strong>Teléfono:</strong> <span id="telefono_detalleFac"></span></p>
@@ -81,6 +81,32 @@
                     <p class="texto_modal"><strong>Tipo de envio:</strong> <span id="tipoEnvio_detalleFac"></span></p>
                 </div>
 
+                <div>
+                    <table class="custom-table">
+                        <thead>
+                            <tr>
+                                <th>Factura</th>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                                <th>Precio</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>COT-000328</td>
+                                <td>BBBB</td>
+                                <td>1.00</td>
+                                <td>29.76</td>
+                                <td>29.76</td>
+                            </tr>
+                            <tr class="custom-total-row">
+                                <td colspan="4" class="text-right">Total</td>
+                                <td>29.76</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
