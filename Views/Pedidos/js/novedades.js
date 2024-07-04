@@ -68,7 +68,7 @@ const listNovedades = async () => {
                     <td></td>
                     <td>${novedad.estado_novedad}</td>
                     <td>
-                    <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel_general('${novedad.tienda}')">Gestionar</button>
+                    <button id="downloadExcel" class="btn btn-success" onclick="gestionar_novedad('${novedad.guia_novedad}')">Gestionar</button>
                     </td>
                     <td><a href="${novedad.tracking}" target="_blank" style="vertical-align: middle;">
                     <img src="https://new.imporsuitpro.com/public/img/tracking.png" width="40px" id="buscar_traking" alt="buscar_traking">
@@ -84,3 +84,21 @@ const listNovedades = async () => {
 window.addEventListener("load", async () => {
   await initDataTableNovedades();
 });
+
+function gestionar_novedad(guia_novedad){
+
+    $.ajax({
+        url: SERVERURL + "novedades/datos/" + guia_novedad,
+        type: "GET",
+        dataType: "json",
+        success: function (response) {
+          console.log("1: "+response.tracking);
+          console.log("2: "+response[0].tracking);
+          response = JSON.parse(response);
+          console.log("3: "+response.tracking);
+        },
+        error: function (error) {
+          console.error("Error al obtener la lista de bodegas:", error);
+        },
+      });
+}
