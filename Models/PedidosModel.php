@@ -16,32 +16,32 @@ class PedidosModel extends Query
     public function cargarGuias($plataforma, $fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso)
     {
         $sql = "SELECT 
-    fc.*, 
-    fc.id_plataforma AS tienda_venta, 
-    fc.id_propietario AS proveedor,
-    cc.ciudad, 
-    cc.provincia AS provinciaa, 
-    p.url_imporsuit AS plataforma,
-    pp.url_imporsuit AS proveedor_plataforma, -- Nombre del proveedor
-    b.nombre AS nombre_bodega, 
-    b.direccion AS direccion_bodega
-FROM 
-    facturas_cot fc
-LEFT JOIN 
-    ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot
-LEFT JOIN 
-    plataformas p ON p.id_plataforma = fc.id_plataforma
-LEFT JOIN 
-    plataformas pp ON pp.id_plataforma = fc.id_propietario -- Unión adicional para obtener el nombre del proveedor
-LEFT JOIN 
-    bodega b ON b.id = fc.id_bodega -- Unión con la tabla bodega
-WHERE 
-    TRIM(fc.numero_guia) <> '' 
-    AND fc.numero_guia IS NOT NULL 
-    AND fc.numero_guia <> '0' 
-    AND fc.anulada = 0  
-    AND (fc.id_plataforma = $plataforma OR fc.id_propietario = $plataforma OR b.id_plataforma = $plataforma)
-";
+        fc.*, 
+        fc.id_plataforma AS tienda_venta, 
+        fc.id_propietario AS proveedor,
+        cc.ciudad, 
+        cc.provincia AS provinciaa, 
+        p.url_imporsuit AS plataforma,
+        pp.url_imporsuit AS proveedor_plataforma, -- Nombre del proveedor
+        b.nombre AS nombre_bodega, 
+        b.direccion AS direccion_bodega
+            FROM 
+                facturas_cot fc
+            LEFT JOIN 
+                ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot
+            LEFT JOIN 
+                plataformas p ON p.id_plataforma = fc.id_plataforma
+            LEFT JOIN 
+                plataformas pp ON pp.id_plataforma = fc.id_propietario -- Unión adicional para obtener el nombre del proveedor
+            LEFT JOIN 
+                bodega b ON b.id = fc.id_bodega -- Unión con la tabla bodega
+            WHERE 
+                TRIM(fc.numero_guia) <> '' 
+                AND fc.numero_guia IS NOT NULL 
+                AND fc.numero_guia <> '0' 
+                AND fc.anulada = 0  
+                AND (fc.id_plataforma = $plataforma OR fc.id_propietario = $plataforma OR b.id_plataforma = $plataforma)
+            ";
         //echo $sql;
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
             $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
@@ -68,32 +68,32 @@ WHERE
     public function cargarGuiasAnuladas($plataforma, $fecha_inicio, $fecha_fin, $transportadora)
     {
         $sql = "SELECT 
-    fc.*, 
-    fc.id_plataforma AS tienda_venta, 
-    fc.id_propietario AS proveedor,
-    cc.ciudad, 
-    cc.provincia AS provinciaa, 
-    p.url_imporsuit AS plataforma,
-    pp.url_imporsuit AS proveedor_plataforma, -- Nombre del proveedor
-    b.nombre AS nombre_bodega, 
-    b.direccion AS direccion_bodega
-FROM 
-    facturas_cot fc
-LEFT JOIN 
-    ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot
-LEFT JOIN 
-    plataformas p ON p.id_plataforma = fc.id_plataforma
-LEFT JOIN 
-    plataformas pp ON pp.id_plataforma = fc.id_propietario -- Unión adicional para obtener el nombre del proveedor
-LEFT JOIN 
-    bodega b ON b.id = fc.id_bodega -- Unión con la tabla bodega
-WHERE 
-    TRIM(fc.numero_guia) <> '' 
-    AND fc.numero_guia IS NOT NULL 
-    AND fc.numero_guia <> '0' 
-    AND fc.anulada = 1  
-    AND (fc.id_plataforma = $plataforma OR fc.id_propietario = $plataforma OR b.id_plataforma = $plataforma)
-";
+            fc.*, 
+            fc.id_plataforma AS tienda_venta, 
+            fc.id_propietario AS proveedor,
+            cc.ciudad, 
+            cc.provincia AS provinciaa, 
+            p.url_imporsuit AS plataforma,
+            pp.url_imporsuit AS proveedor_plataforma, -- Nombre del proveedor
+            b.nombre AS nombre_bodega, 
+            b.direccion AS direccion_bodega
+                FROM 
+                    facturas_cot fc
+                LEFT JOIN 
+                    ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot
+                LEFT JOIN 
+                    plataformas p ON p.id_plataforma = fc.id_plataforma
+                LEFT JOIN 
+                    plataformas pp ON pp.id_plataforma = fc.id_propietario -- Unión adicional para obtener el nombre del proveedor
+                LEFT JOIN 
+                    bodega b ON b.id = fc.id_bodega -- Unión con la tabla bodega
+                WHERE 
+            TRIM(fc.numero_guia) <> '' 
+            AND fc.numero_guia IS NOT NULL 
+            AND fc.numero_guia <> '0' 
+            AND fc.anulada = 1  
+            AND (fc.id_plataforma = $plataforma OR fc.id_propietario = $plataforma OR b.id_plataforma = $plataforma)
+        ";
         //echo $sql;
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
             $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
@@ -111,30 +111,30 @@ WHERE
     public function cargarGuiasAnuladas_admin($fecha_inicio, $fecha_fin, $transportadora)
     {
         $sql = "SELECT 
-    fc.*, 
-    fc.id_plataforma AS tienda_venta, 
-    fc.id_propietario AS proveedor,
-    cc.ciudad, 
-    cc.provincia AS provinciaa, 
-    p.nombre_tienda AS tienda,
-    b.nombre AS nombre_bodega, 
-    b.direccion AS direccion_bodega,
-    tp.nombre_tienda AS nombre_proveedor -- Nombre del proveedor
-FROM 
-    facturas_cot fc
-LEFT JOIN 
-    ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot
-LEFT JOIN 
-    plataformas p ON p.id_plataforma = fc.id_plataforma
-LEFT JOIN 
-    plataformas tp ON tp.id_plataforma = fc.id_propietario -- Unión adicional para obtener el nombre del proveedor
-LEFT JOIN 
-    bodega b ON b.id = fc.id_bodega
-WHERE 
-    TRIM(fc.numero_guia) <> '' 
-    AND fc.numero_guia IS NOT NULL 
-    AND fc.numero_guia <> '0' 
-    AND fc.anulada = 0 ";
+                fc.*, 
+                fc.id_plataforma AS tienda_venta, 
+                fc.id_propietario AS proveedor,
+                cc.ciudad, 
+                cc.provincia AS provinciaa, 
+                p.nombre_tienda AS tienda,
+                b.nombre AS nombre_bodega, 
+                b.direccion AS direccion_bodega,
+                tp.nombre_tienda AS nombre_proveedor -- Nombre del proveedor
+            FROM 
+                facturas_cot fc
+            LEFT JOIN 
+                ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot
+            LEFT JOIN 
+                plataformas p ON p.id_plataforma = fc.id_plataforma
+            LEFT JOIN 
+                plataformas tp ON tp.id_plataforma = fc.id_propietario -- Unión adicional para obtener el nombre del proveedor
+            LEFT JOIN 
+                bodega b ON b.id = fc.id_bodega
+            WHERE 
+                TRIM(fc.numero_guia) <> '' 
+                AND fc.numero_guia IS NOT NULL 
+                AND fc.numero_guia <> '0' 
+                AND fc.anulada = 0 ";
 
         $params = [];
 
@@ -159,30 +159,30 @@ WHERE
     public function cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso)
     {
         $sql = "SELECT 
-    fc.*, 
-    fc.id_plataforma AS tienda_venta, 
-    fc.id_propietario AS proveedor,
-    cc.ciudad, 
-    cc.provincia AS provinciaa, 
-    p.nombre_tienda AS tienda,
-    b.nombre AS nombre_bodega, 
-    b.direccion AS direccion_bodega,
-    tp.nombre_tienda AS nombre_proveedor -- Nombre del proveedor
-FROM 
-    facturas_cot fc
-LEFT JOIN 
-    ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot
-LEFT JOIN 
-    plataformas p ON p.id_plataforma = fc.id_plataforma
-LEFT JOIN 
-    plataformas tp ON tp.id_plataforma = fc.id_propietario -- Unión adicional para obtener el nombre del proveedor
-LEFT JOIN 
-    bodega b ON b.id = fc.id_bodega
-WHERE 
-    TRIM(fc.numero_guia) <> '' 
-    AND fc.numero_guia IS NOT NULL 
-    AND fc.numero_guia <> '0' 
-    AND fc.anulada = 0 ";
+            fc.*, 
+            fc.id_plataforma AS tienda_venta, 
+            fc.id_propietario AS proveedor,
+            cc.ciudad, 
+            cc.provincia AS provinciaa, 
+            p.nombre_tienda AS tienda,
+            b.nombre AS nombre_bodega, 
+            b.direccion AS direccion_bodega,
+            tp.nombre_tienda AS nombre_proveedor -- Nombre del proveedor
+        FROM 
+            facturas_cot fc
+        LEFT JOIN 
+            ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot
+        LEFT JOIN 
+            plataformas p ON p.id_plataforma = fc.id_plataforma
+        LEFT JOIN 
+            plataformas tp ON tp.id_plataforma = fc.id_propietario -- Unión adicional para obtener el nombre del proveedor
+        LEFT JOIN 
+            bodega b ON b.id = fc.id_bodega
+        WHERE 
+            TRIM(fc.numero_guia) <> '' 
+            AND fc.numero_guia IS NOT NULL 
+            AND fc.numero_guia <> '0' 
+            AND fc.anulada = 0 ";
 
         $params = [];
 
@@ -356,12 +356,12 @@ WHERE
 
 
         if ($responses === 1) {
-
-
-
             // Insertar cada registro de tmp_cotizacion en detalle_cotizacion
             $detalle_sql = "INSERT INTO detalle_fact_cot (numero_factura, id_factura, id_producto, cantidad, desc_venta, precio_venta, id_plataforma , sku, id_inventario, descripcion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            foreach ($$productos as $tmp) {
+            $id_factura = $this->select("SELECT id_factura FROM facturas_cot WHERE numero_factura = '$nueva_factura'");
+            $factura_id = $id_factura[0]['id_factura'];
+
+            foreach ($productos as $tmp) {
                 //buscar producto 
                 $id_producto = $tmp['id_producto_venta'];
                 $sql = "SELECT * FROM inventario_bodegas WHERE id_producto = $id_producto";
@@ -377,7 +377,6 @@ WHERE
                 $cantidad = $tmp['cantidad'];
                 $descuento = 0;
                 $precio = $tmp['precio'];
-
                 //  echo 'enta';
                 $detalle_data = array(
                     $nueva_factura,
