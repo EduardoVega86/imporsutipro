@@ -70,7 +70,9 @@ const listNovedades = async () => {
                     <td>
                     <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel_general('${novedad.tienda}')">Gestionar</button>
                     </td>
-                    <td>${novedad.tracking}</td>
+                    <td><a href="${novedad.tracking}" target="_blank" style="vertical-align: middle;">
+                    <img src="https://new.imporsuitpro.com/public/img/tracking.png" width="40px" id="buscar_traking" alt="buscar_traking">
+                  </a></td>
                 </tr>`;
     });
     document.getElementById("tableBody_novedades").innerHTML = content;
