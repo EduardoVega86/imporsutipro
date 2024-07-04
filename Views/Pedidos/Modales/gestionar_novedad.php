@@ -94,7 +94,11 @@
                     </div>
 
                     <div id="seccion_laar">
-                        
+                        <div style="padding-bottom: 5px;">
+                            <label for="observacion_nov">Observacion:</label>
+                            <input type="text" class="form-control" id="observacion_nov">
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="enviar_serviNovedad()">Enviar</button>
                     </div>
                 </div>
             </div>
