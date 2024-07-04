@@ -79,10 +79,14 @@ document
           `despacho/despacho?transportadora=${transportadoraValue}&bodega=${bodegaValue}`;
         window.location.href = url;
       } else {
-        alert("Por favor selecciona una bodega.");
+        toastr.error("Por favor selecciona una bodega.", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
       }
     } else {
-      alert("Por favor selecciona una transportadora.");
+      toastr.error("Por favor selecciona una transportadora.", "NOTIFICACIÓN", {
+        positionClass: "toast-bottom-center",
+      });
     }
   });
 
