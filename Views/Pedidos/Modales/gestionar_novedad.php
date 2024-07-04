@@ -86,6 +86,8 @@
                         <div>
                             <label for="observacion_nov">Observacion:</label>
                             <input type="text" class="form-control" id="observacion_nov">
+
+                            <button type="button" class="btn btn-primary" onclick="enviar_serviNovedad()">Enviar</button>
                         </div>
                     </div>
 
