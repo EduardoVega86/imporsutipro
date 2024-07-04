@@ -81,7 +81,7 @@ class WalletModel extends Query
 
     public function obtenerDatos($tienda)
     {
-        $datos_facturas_entregadas = $this->select("SELECT SUM(monto_recibir) as utilidad, sum(total_ventas) as ventas FROM cabecera_cuenta_pagar WHERE tienda = '$tienda' and visto = 1");
+        $datos_facturas_entregadas = $this->select("SELECT SUM(monto_recibir) as utilidad, sum(total_venta) as ventas FROM cabecera_cuenta_pagar WHERE tienda = '$tienda' and visto = 1");
         $datos_facturas_devueltas = $this->select("SELECT SUM(monto_recibir) as devoluciones FROM cabecera_cuenta_pagar WHERE tienda = '$tienda' and visto = 1 and estado_guia = 9");
         $guias_pendientes = $this->select("SELECT COUNT(*) as guias_pendientes FROM cabecera_cuenta_pagar WHERE tienda = '$tienda' and visto = 0");
         $pagos = $this->select("SELECT * FROM `pagos` WHERE tienda = '$tienda'");
