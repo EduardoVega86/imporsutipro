@@ -48,7 +48,7 @@ class PedidosModel extends Query
         }
 
         if (!empty($transportadora)) {
-            $sql .= " AND transportadora = '$transportadora'";
+            $sql .= " AND id_transporte = '$transportadora'";
         }
 
         if (!empty($estado)) {
