@@ -1,6 +1,7 @@
 <?php
 require_once 'vendor/autoload.php';
-
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
 
 use Dompdf\Dompdf;
 use setasign\Fpdi\Fpdi;
@@ -161,8 +162,8 @@ class ManifiestosModel extends Query
             "status" => "200"
         ];
 
-         $update = "UPDATE cabecera_relacion_despacho SET url_documento = '$new_url' WHERE id_relacion_despacho = $id_cabecera";
-         $this->select($update);
+        $update = "UPDATE cabecera_relacion_despacho SET url_documento = '$new_url' WHERE id_relacion_despacho = $id_cabecera";
+        $this->select($update);
 
         return $reponse;
     }
@@ -883,9 +884,9 @@ class ManifiestosModel extends Query
         $data = [$id_usuario, $plataforma, $transportadora, $bodega, $fecha_actual];
         // Ejecuta la inserción
         $insertar_producto = $this->insert($sql, $data);
-        
+
         //print_r($insertar_producto);
-        
+
         $sql_id = "SELECT id_relacion_despacho FROM cabecera_relacion_despacho WHERE id_usuario = $id_usuario "
             . "and id_transportadora = $transportadora and id_bodega = $bodega and fecha_hora = '$fecha_actual' ";
         $stock = $this->select($sql_id);
@@ -897,7 +898,4 @@ class ManifiestosModel extends Query
         // Devuelve el ID generado
         return $lastInsertId;
     }
-    
-    
-    
 }
