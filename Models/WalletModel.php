@@ -105,7 +105,7 @@ class WalletModel extends Query
     public function obtenerFacturas($tienda, $filtro)
     {
         if ($filtro == 'pendientes') {
-            $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE tienda = '$tienda' and valor_pendiente != 0 ORDER BY `cabecera_cuenta_pagar`.`estado_guia` DESC, `cabecera_cuenta_pagar`.`fecha` DESC";
+            $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE tienda = '$tienda' AND valor_pendiente != 0 ORDER BY FIELD(estado_guia, 7, 9) DESC, estado_guia DESC, fecha DESC;";
         } else if ($filtro == 'abonadas') {
             $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE tienda = '$tienda' and valor_pendiente = 0 ORDER BY `cabecera_cuenta_pagar`.`estado_guia` DESC, `cabecera_cuenta_pagar`.`fecha` DESC";
         } else if ($filtro == 'devoluciones') {
