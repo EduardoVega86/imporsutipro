@@ -82,7 +82,6 @@
                         <p class="texto_modal"><strong>Estado:</strong> <span id="estado_gestionarNov"></span></p>
                         <p class="texto_modal"><strong>Transportadora:</strong> <span id="transportadora_gestionarNov"></span></p>
                         <p class="texto_modal"><strong>Novedad:</strong> <span id="novedad_gestionarNov"></span></p>
-                        <p class="texto_modal"><strong>Solución:</strong> <span id="solucion_gestionarNov"></span></p>
                         <p class="texto_modal"><strong>Tracking:</strong> <a id="tracking_gestionarNov" target="_blank">Ver tracking</a></p>
                     </div>
 
