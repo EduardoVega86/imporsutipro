@@ -365,14 +365,14 @@ class PedidosModel extends Query
                 //buscar producto 
                 $id_producto = $tmp['id_producto_venta'];
                 $sql = "SELECT * FROM inventario_bodegas WHERE id_producto = $id_producto";
-                $id_bodega = $this->select($sql);
+                $id_bodegas = $this->select($sql);
 
-                $id_bodega = $id_bodega[0]['bodega'];
+                $id_bodega = $id_bodegas[0]['bodega'];
                 $sql = "SELECT * FROM inventario_bodegas WHERE bodega = $id_bodega";
-                $id_inventario = $this->select($sql);
-                $id_inventario = $id_inventario[0]['id_inventario'];
-                $id_plataforma = $id_bodega[0]['id_plataforma'];
-                $sku = $id_bodega[0]['sku'];
+                $id_inventarios = $this->select($sql);
+                $id_inventario = $id_inventarios[0]['id_inventario'];
+                $id_plataforma = $id_bodegas[0]['id_plataforma'];
+                $sku = $id_bodegas[0]['sku'];
                 $nombre = $tmp['nombre'];
                 $cantidad = $tmp['cantidad'];
                 $descuento = 0;
