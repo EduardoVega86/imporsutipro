@@ -62,11 +62,11 @@
         }
     }
 </style>
-<div class="modal fade" id="detalles_facturaModal" tabindex="-1" aria-labelledby="detalles_facturaModalLabel" aria-hidden="true">
+<div class="modal fade" id="gestionar_novedadModal" tabindex="-1" aria-labelledby="gestionar_novedadModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="detalles_facturaModalLabel"><i class="fas fa-edit"></i> Novedad</h5>
+                <h5 class="modal-title" id="gestionar_novedadModalLabel"><i class="fas fa-edit"></i> Novedad</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">

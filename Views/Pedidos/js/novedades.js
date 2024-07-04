@@ -108,6 +108,8 @@ function gestionar_novedad(guia_novedad) {
       $("#transportadora_gestionarNov").text(transportadora);
       $("#novedad_gestionarNov").text(response.novedad[0].novedad);
       $("#tracking_gestionarNov").text(response.novedad[0].tracking);
+
+      $("#gestionar_novedadModal").modal("show");
     },
     error: function (error) {
       console.error("Error al obtener la lista de bodegas:", error);
