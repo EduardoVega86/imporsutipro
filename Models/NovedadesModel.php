@@ -107,4 +107,9 @@ class NovedadesModel extends Query
 
         return $response;
     }
+    public function datos($guia)
+    {
+        $sql = "SELECT * FROM facturas_cot WHERE numero_guia = '$guia'";
+        return $this->select($sql);
+    }
 }

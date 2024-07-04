@@ -600,10 +600,4 @@ class GuiasModel extends Query
     {
         $this->update("UPDATE matriz set guia_generadas = guia_generadas + 1 WHERE idmatriz = ?", array(MATRIZ));
     }
-
-    public function datos($guia)
-    {
-        $sql = "SELECT * FROM facturas_cot WHERE numero_guia = '$guia'";
-        return $this->select($sql);
-    }
 }
