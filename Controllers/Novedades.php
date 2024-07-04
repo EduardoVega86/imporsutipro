@@ -17,7 +17,7 @@ class Novedades extends Controller
     public function cargarNovedades()
     {
         $data = $this->model->cargarNovedades($_SESSION['id_plataforma']);
-        return $data;
+        echo json_encode($data);
     }
 
     public function solventarNovedadLaar()
