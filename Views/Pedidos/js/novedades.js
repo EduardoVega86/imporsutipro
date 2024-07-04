@@ -39,7 +39,7 @@ const initDataTableNovedades = async () => {
 
 const listNovedades = async () => {
   try {
-    const response = await fetch("" + SERVERURL + "wallet/obtenerDatos");
+    const response = await fetch("" + SERVERURL + "novedades/cargarNovedades");
     const novedades = await response.json();
 
     let content = ``;
