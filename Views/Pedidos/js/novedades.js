@@ -32,7 +32,9 @@ const initDataTableNovedades = async () => {
 
   await listNovedades();
 
-  dataTableNovedades = $("#datatable_novedades").DataTable(dataTableNovedadesOptions);
+  dataTableNovedades = $("#datatable_novedades").DataTable(
+    dataTableNovedadesOptions
+  );
 
   dataTableNovedadesIsInitialized = true;
 };
@@ -43,28 +45,32 @@ const listNovedades = async () => {
     const novedades = await response.json();
 
     let content = ``;
-
+    let transportadora = ``;
     novedades.forEach((novedad, index) => {
+        if (novedad.guia_novedad.includes("I")){
+            transportadora = "GINTRACOM";
+        } else if (novedad.guia_novedad.includes("IMP")){
+            transportadora = "LAAR";
+        } else if (novedad.guia_novedad.includes("SPD")){
+            transportadora = "SPEED";
+        } else {
+            transportadora = "SERVIENTREGA";
+        }
 
       content += `
                 <tr>
-                    <td>${novedad.ventas}</td>
-                    <td>${novedad.utilidad}</td>
-                    <td>${novedad.count_visto_0}</td>
+                    <td>${novedad.id_novedad}</td>
+                    <td>${novedad.guia_novedad}</td>
+                    <td>${novedad.fecha}</td>
+                    <td>${transportadora}</td>
+                    <td>${novedad.cliente_novedad}</td>
+                    <td>${novedad.novedad}</td>
+                    <td></td>
+                    <td>${novedad.estado_novedad}</td>
                     <td>
-                    <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel_general('${novedad.tienda}')">Descargar Excel general</button>
-                    <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel('${novedad.tienda}')">Descargar Excel</button>
+                    <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel_general('${novedad.tienda}')">Gestionar</button>
                     </td>
-                    <td>
-                    <div class="dropdown">
-                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-gear"></i>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" style="cursor: pointer;" href="${SERVERURL}wallet/pagar?tienda=${novedad.tienda}"><i class='bx bx-wallet'></i>Pagar</a></li>
-                    </ul>
-                    </div>
-                    </td>
+                    <td>${novedad.tracking}</td>
                 </tr>`;
     });
     document.getElementById("tableBody_novedades").innerHTML = content;
