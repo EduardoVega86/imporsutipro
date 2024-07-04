@@ -293,7 +293,7 @@ class ShopifyModel extends Query
     {
         $sql = "REPLACE INTO configuracion_shopify (`nombre`, `apellido`, `principal`, `secundaria`, `provincia`, `ciudad`, `codigo_postal`, `pais`, `telefono`, `email`, `total`, `discount`, `id_plataforma`) VALUES (?, ?, ?, ? ,?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $response = $this->insert($sql, [$nombre, $apellido, $principal, $secundario, $provincia, $ciudad, $codigo_postal, $pais, $telefono, $email, $total, $descuento, $id_plataforma]);
-        if ($response == 2) {
+        if ($response == 2 || $response == 1) {
             $responses["status"] = 200;
             $responses["message"] = "Configuracion guardada correctamente";
         } else {
