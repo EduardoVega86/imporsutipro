@@ -78,8 +78,8 @@ class ShopifyModel extends Query
                 }
 
                 // Si el SKU está vacío, salta al siguiente ítem
-                continue;
                 $observacion .= ", SKU vacío: " . $item['name'] . " x" . $item['quantity'] . " ";
+                continue;
             }
 
             $id_producto_venta = $item['sku'];
