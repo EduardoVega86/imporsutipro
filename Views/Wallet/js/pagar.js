@@ -180,7 +180,7 @@ const listFacturas = async () => {
                     <i class='bx bxs-truck' ></i>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" style="cursor: pointer;" href="${url_tracking}">Traking</a></li>
+                        <li><a class="dropdown-item" style="cursor: pointer;" href="${url_tracking}" target="_blank">Traking</a></li>
                         <li><a class="dropdown-item" style="cursor: pointer;" href="${url_descargar}">Ticket</a></li>
                     </ul>
                     </div>
