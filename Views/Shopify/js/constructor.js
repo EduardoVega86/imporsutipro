@@ -209,7 +209,22 @@ document.addEventListener("DOMContentLoaded", function () {
       processData: false,
       contentType: false,
       success: function (response) {
-        console.log("Datos enviados correctamente:", response);
+        response = JSON.parse(response);
+        if (response.status == 500) {
+          Swal.fire({
+            icon: "error",
+            title: response.title,
+            text: response.message,
+          });
+        } else if (response.status == 200) {
+          Swal.fire({
+            icon: "success",
+            title: response.title,
+            text: response.message,
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        }
       },
       error: function (error) {
         console.error("Error al enviar los datos:", error);
