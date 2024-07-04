@@ -92,11 +92,9 @@ function gestionar_novedad(guia_novedad){
         type: "GET",
         dataType: "json",
         success: function (response) {
-          console.log("1: "+response.numero_factura);
-          console.log("2: "+response[0].numero_factura);
-          response = JSON.parse(response);
-          console.log("3: "+response.numero_factura);
-          console.log("4: "+response[0].numero_factura);
+          console.log("2: "+response.novedad[0].cliente_novedad);
+          /* $("#id_gestionarNov").val(response[0].id_linea); */
+
         },
         error: function (error) {
           console.error("Error al obtener la lista de bodegas:", error);
