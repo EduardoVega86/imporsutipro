@@ -19,7 +19,7 @@
                 <label for="fileInput">Seleccionar archivo:</label>
                 <input type="file" class="form-control-file" id="fileInput" name="file" required>
             </div>
-            <button type="submit" class="btn btn-success">Enviar</button>
+            <button id="enviar_importacion" type="submit" class="btn btn-success">Enviar</button>
         </form>
     </div>
 </div>
@@ -27,6 +27,15 @@
 <script>
     $(document).ready(function() {
         $('#uploadForm').on('submit', function(e) {
+
+            var button = document.getElementById("enviar_importacion");
+            button.disabled = true; // Desactivar el botón
+
+            // Activar el botón después de 5 segundos (5000 milisegundos)
+            setTimeout(function() {
+                button.disabled = false;
+            }, 5000);
+
             e.preventDefault(); // Prevenir el envío normal del formulario
 
             var formData = new FormData();

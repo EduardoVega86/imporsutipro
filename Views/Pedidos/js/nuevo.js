@@ -681,7 +681,7 @@ function generar_guia() {
                 title: "Error al creat guia",
               });
               var button2 = document.getElementById("generarGuiaBtn");
-              button2.disabled = false; // Desactivar el botón
+              button2.disabled = false;
             } else if (response.status == 200) {
               Swal.fire({
                 icon: "success",
