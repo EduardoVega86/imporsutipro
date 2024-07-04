@@ -65,9 +65,14 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
                     <div class="form-group row">
                         <div class="col-md-12">
                             <div class="input-group">
-
-                                <input readonly id="latitud" name="latitud" class="form-control" type="hidden" placeholder="Latitud" value="0"> <!-- temporalmente value 0 -->
-                                <input readonly id="longitud" name="longitud" class="form-control" type="hidden" placeholder="Longitud" value="0"> <!-- temporalmente value 0 -->
+                                <div>
+                                    <label for="latitud">Latitud:</label>
+                                    <input readonly id="latitud" name="latitud" class="form-control" type="hidden" placeholder="Latitud" value="0"> <!-- temporalmente value 0 -->
+                                </div>
+                                <div>
+                                    <label for="longitud">Longitud:</label>
+                                    <input readonly id="longitud" name="longitud" class="form-control" type="hidden" placeholder="Longitud" value="0"> <!-- temporalmente value 0 -->
+                                </div>
                             </div>
                         </div>
                     </div>
