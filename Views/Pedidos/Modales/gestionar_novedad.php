@@ -85,7 +85,7 @@
                         <p class="texto_modal"><strong>Tracking:</strong> <a id="tracking_gestionarNov" target="_blank">Ver tracking</a></p>
                     </div>
 
-                    <div id="seccion_servientrega">
+                    <div id="seccion_servientrega" style="display: none;">
                         <div style="padding-bottom: 5px;">
                             <label for="observacion_nov">Observacion:</label>
                             <input type="text" class="form-control" id="observacion_nov">
@@ -93,7 +93,7 @@
                         <button type="button" class="btn btn-primary" onclick="enviar_serviNovedad()">Enviar</button>
                     </div>
 
-                    <div id="seccion_laar">
+                    <div id="seccion_laar" style="display: none;">
                         <div style="padding-bottom: 5px;">
                             <label for="observacion_nov">Observacion:</label>
                             <input type="text" class="form-control" id="observacion_nov">

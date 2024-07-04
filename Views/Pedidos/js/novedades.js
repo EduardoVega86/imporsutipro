@@ -94,12 +94,20 @@ function gestionar_novedad(guia_novedad) {
     success: function (response) {
       if (response.novedad[0].guia_novedad.includes("I")) {
         transportadora = "GINTRACOM";
+        $("#seccion_laar").hide();
+        $("#seccion_servientrega").hide();
       } else if (response.novedad[0].guia_novedad.includes("IMP")) {
         transportadora = "LAAR";
+        $("#seccion_laar").show();
+        $("#seccion_servientrega").hide();
       } else if (response.novedad[0].guia_novedad.includes("SPD")) {
         transportadora = "SPEED";
+        $("#seccion_laar").hide();
+        $("#seccion_servientrega").hide();
       } else {
         transportadora = "SERVIENTREGA";
+        $("#seccion_laar").hide();
+        $("#seccion_servientrega").show();
       }
 
       $("#id_gestionarNov").text(response.novedad[0].id_novedad);
