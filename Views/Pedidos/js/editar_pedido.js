@@ -82,8 +82,8 @@ const listNuevoPedido = async () => {
         costo_producto +
         parseFloat(nuevoPedido.pcp) * parseFloat(nuevoPedido.cantidad);
 
-      contiene += `${nuevoPedido.cantidad_tmp} x ${nuevoPedido.nombre_producto}`;
-      contieneGintracom += `${nuevoPedido.nombre_producto} X${nuevoPedido.cantidad_tmp} `;
+      contiene += `${nuevoPedido.cantidad} x ${nuevoPedido.nombre_producto}`;
+      contieneGintracom += `${nuevoPedido.nombre_producto} X${nuevoPedido.cantidad} `;
 
       precio_costo = parseFloat(nuevoPedido.precio_venta);
 
