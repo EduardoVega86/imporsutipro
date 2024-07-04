@@ -3,7 +3,7 @@
 
 
 <?php require_once './Views/Pedidos/Modales/informacion_plataforma.php'; ?>
-<?php require_once './Views/Pedidos/Modales/novedades.php'; ?>
+<?php require_once './Views/Pedidos/Modales/novedades_guiaModal.php'; ?>
 <?php require_once './Views/Pedidos/Modales/detalles_factura.php'; ?>
 
 <div class="custom-container-fluid">
