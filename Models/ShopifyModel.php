@@ -78,7 +78,7 @@ class ShopifyModel extends Query
                 }
 
                 // Si el SKU está vacío, salta al siguiente ítem
-                $observacion .= ", SKU vacío: " . $item['name'] . " x" . $item['quantity'] . ": " . $item['price'] . " ";
+                $observacion .= ", SKU vacío: " . $item['name'] . " x" . $item['quantity'] . ": $" . $item['price'] . " ";
                 continue;
             }
 
