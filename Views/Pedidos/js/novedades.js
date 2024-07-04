@@ -167,3 +167,61 @@ function enviar_serviNovedad() {
     },
   });
 }
+
+function enviar_laarNovedad() {
+    var guia = $("#numero_guia").val();
+    var id_novedad = $('#id_novedad').val();
+    var ciudad = $('#ciudad_novedadesServi').val();
+    var nombre_novedadesServi = $('#nombre_novedadesServi').val();
+    var callePrincipal_novedadesServi = $('#callePrincipal_novedadesServi').val();
+    var calleSecundaria_novedadesServi = $('#calleSecundaria_novedadesServi').val();
+    var numeracion_novedadesServi = $('#numeracion_novedadesServi').val();
+    var referencia_novedadesServi = $('#referencia_novedadesServi').val();
+    var telefono_novedadesServi = $('#telefono_novedadesServi').val();
+    var celular_novedadesServi = $('#celular_novedadesServi').val();
+    var observacion_novedadesServi = $('#observacion_novedadesServi').val();
+    var observacionA = $('#observacionA').val();
+  
+    let formData = new FormData();
+    formData.append("guia", guia);
+    formData.append("observacionA", observacionA);
+    formData.append("id_novedad", id_novedad);
+    formData.append("ciudad", ciudad_novedadesServi);
+    formData.append("nombre", nombre_novedadesServi);
+    formData.append("callePrincipal", callePrincipal_novedadesServi);
+    formData.append("calleSecundaria", calleSecundaria_novedadesServi);
+    formData.append("numeracion", numeracion_novedadesServi);
+    formData.append("referencia", referencia_novedadesServi);
+    formData.append("telefono", telefono_novedadesServi);
+    formData.append("celular    ", celular_novedadesServi);
+    formData.append("observacion    ", observacion_novedadesServi);
+  
+    $.ajax({
+      url: SERVERURL + "novedades/solventarNovedadLaar",
+      type: "POST",
+      data: formData,
+      processData: false, // No procesar los datos
+      contentType: false, // No establecer ningún tipo de contenido
+      success: function (response) {
+          response = JSON.parse(response);
+          if (response.status == 500) {
+              toastr.error(
+                  "Novedad no enviada CORRECTAMENTE",
+                  "NOTIFICACIÓN", {
+                      positionClass: "toast-bottom-center"
+                  }
+              );
+          } else if (response.status == 200) {
+              toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
+                  positionClass: "toast-bottom-center",
+              });
+  
+              $('#gestionar_novedadModal').modal('hide');
+              initDataTableNovedades();
+          }
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        alert(errorThrown);
+      },
+    });
+  }

@@ -95,10 +95,38 @@
 
                     <div id="seccion_laar" style="display: none;">
                         <div style="padding-bottom: 5px;">
-                            <label for="observacion_nov">Observacion:</label>
-                            <input type="text" class="form-control" id="observacion_nov">
+                            <label for="ciudad_novedadesServi">Ciudad:</label>
+                            <input type="text" class="form-control" id="ciudad_novedadesServi">
+                            <br>
+                            <label for="nombre_novedadesServi">Nombre:</label>
+                            <input type="text" class="form-control" id="nombre_novedadesServi">
+                            <br>
+                            <label for="callePrincipal_novedadesServi">Calle Principal:</label>
+                            <input type="text" class="form-control" id="callePrincipal_novedadesServi">
+                            <br>
+                            <label for="calleSecundaria_novedadesServi">Calle Secundaria:</label>
+                            <input type="text" class="form-control" id="calleSecundaria_novedadesServi">
+                            <br>
+                            <label for="numeracion_novedadesServi">Numeracion:</label>
+                            <input type="text" class="form-control" id="numeracion_novedadesServi">
+                            <br>
+                            <label for="referencia_novedadesServi">Referencia:</label>
+                            <input type="text" class="form-control" id="referencia_novedadesServi">
+                            <br>
+                            <label for="telefono_novedadesServi">Telefono:</label>
+                            <input type="text" class="form-control" id="telefono_novedadesServi">
+                            <br>
+                            <label for="celular_novedadesServi">Celular:</label>
+                            <input type="text" class="form-control" id="celular_novedadesServi">
+                            <br>
+                            <label for="observacion_novedadesServi">Observacion:</label>
+                            <input type="text" class="form-control" id="observacion_novedadesServi">
+                            <br>
+                            <label for="observacionA">Solucion a la Novedad:</label>
+                            <input type="text" class="form-control" id="observacionA">
+
                         </div>
-                        <button type="button" class="btn btn-primary" onclick="enviar_serviNovedad()">Enviar</button>
+                        <button type="button" class="btn btn-primary" onclick="enviar_laarNovedad()">Enviar</button>
                     </div>
                 </div>
             </div>
