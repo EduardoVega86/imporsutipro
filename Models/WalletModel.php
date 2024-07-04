@@ -65,6 +65,20 @@ class WalletModel extends Query
         }
         return $responses;
     }
+
+    public function cambiarEstado($id_cabecera, $estado)
+    {
+        $sql = "UPDATE cabecera_cuenta_pagar set estado_guia = ? WHERE id_cabecera = ?";
+        $response =  $this->update($sql, array($estado, $id_cabecera));
+        if ($response == 1) {
+            $responses["status"] = 200;
+        } else {
+            $responses["status"] = 400;
+            $responses["message"] = $response["message"];
+        }
+        return $responses;
+    }
+
     public function obtenerDatos($tienda)
     {
         $datos_facturas_entregadas = $this->select("SELECT SUM(monto_recibir) as utilidad, sum(total_ventas) as ventas FROM cabecera_cuenta_pagar WHERE tienda = '$tienda' and visto = 1");

@@ -35,6 +35,15 @@ class Wallet extends Controller
         echo json_encode($response);
     }
 
+    public function cambiarEstado()
+    {
+        $id = $_POST['id'];
+        $estado = $_POST['estado'];
+
+        $response = $this->model->cambiarEstado($id, $estado);
+        echo json_encode($response);
+    }
+
     public function pagar()
     {
         $tienda = $_GET['tienda'];
