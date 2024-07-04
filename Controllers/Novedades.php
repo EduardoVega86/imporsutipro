@@ -61,4 +61,10 @@ class Novedades extends Controller
         );
         echo json_encode($response);
     }
+
+    public function datos($guia)
+    {
+        $data = $this->model->datos($guia);
+        echo json_encode($data);
+    }
 }
