@@ -23,6 +23,7 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
                     <div class="form-group row">
                         <div class="col-md-12">
 
+                            <label for="nombre">Nombre de la Bodega:</label>
                             <input id="nombre" name="nombre" class="form-control " type="text" placeholder="Nombre de la Bodega" required>
                             <br>
                             <!-- <input id="direccion" name="direccion" class="form-control " type="text" placeholder="Ingresa una dirección">
@@ -30,14 +31,14 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
 
 
                             <div>
-                                <span class="help-block">Provincia </span>
+                                <span class="help-block">Provincia: </span>
                                 <select class="datos form-control" id="provincia" name="provincia" onchange="cargarCiudades()" required>
                                     <option value="">Provincia *</option>
                                 </select>
                             </div>
                             <br>
                             <div>
-                                <span class="help-block">Ciudad </span>
+                                <span class="help-block">Ciudad: </span>
                                 <div id="div_ciudad">
                                     <select class="datos form-control" id="ciudad_entrega" name="ciudad_entrega" required disabled>
                                         <option value="">Ciudad *</option>
@@ -45,14 +46,19 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
                                 </div>
                             </div>
                             <br>
+                            <label for="direccion_completa">Dirección:</label>
                             <input id="direccion_completa" name="direccion_completa" class="form-control" type="text" placeholder="Ingresa una dirección">
                             <br>
+                            <label for="numero_casa">Numero de Casa:</label>
                             <input id="numero_casa" name="numero_casa" class="form-control " type="text" placeholder="Numero de Casa">
                             <br>
+                            <label for="nombre_contacto">Ingrese Contacto:</label>
                             <input id="nombre_contacto" name="nombre_contacto" class="form-control " type="text" placeholder="Ingrese Contacto">
                             <br>
+                            <label for="telefono">Telefono de contacto:</label>
                             <input id="telefono" name="telefono" class="form-control " type="text" placeholder="Telefono de contacto">
                             <br>
+                            <label for="referencia">Referencia:</label>
                             <input id="referencia" name="referencia" class="form-control " type="text" placeholder="Ingrese referencia">
                             <div class="input-group">
 
@@ -66,11 +72,11 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
                         <div class="col-md-12">
                             <div class="input-group">
                                 <div>
-                                    <label for="latitud">Latitud:</label>
+                                    <!-- <label for="latitud">Latitud:</label> -->
                                     <input readonly id="latitud" name="latitud" class="form-control" type="hidden" placeholder="Latitud" value="0"> <!-- temporalmente value 0 -->
                                 </div>
                                 <div>
-                                    <label for="longitud">Longitud:</label>
+                                    <!-- <label for="longitud">Longitud:</label> -->
                                     <input readonly id="longitud" name="longitud" class="form-control" type="hidden" placeholder="Longitud" value="0"> <!-- temporalmente value 0 -->
                                 </div>
                             </div>
