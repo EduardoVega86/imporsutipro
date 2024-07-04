@@ -446,8 +446,8 @@ function cargarCiudades() {
 }
 
 function handleButtonClick(buttonId, callback) {
-  var button = document.getElementById('guardarPedidoBtn');
-  var button2 = document.getElementById('generarGuiaBtn');
+  var button = document.getElementById("guardarPedidoBtn");
+  var button2 = document.getElementById("generarGuiaBtn");
   button.disabled = true; // Desactivar el botón
   button2.disabled = true; // Desactivar el botón
 
@@ -504,7 +504,7 @@ function agregar_nuevoPedido() {
   formData.append("no_piezas", 1);
   if (transportadora_selected == 3) {
     formData.append("contiene", contieneGintracom);
-  }else {
+  } else {
     formData.append("contiene", contiene);
   }
   formData.append("costo_flete", 0);
@@ -597,7 +597,7 @@ function generar_guia() {
   formData.append("no_piezas", 1);
   if (transportadora_selected == 3) {
     formData.append("contiene", contieneGintracom);
-  }else {
+  } else {
     formData.append("contiene", contiene);
   }
   formData.append("costo_flete", $("#costo_flete").val());
@@ -680,6 +680,8 @@ function generar_guia() {
                 icon: "error",
                 title: "Error al creat guia",
               });
+              var button2 = document.getElementById("generarGuiaBtn");
+              button2.disabled = false; // Desactivar el botón
             } else if (response.status == 200) {
               Swal.fire({
                 icon: "success",
