@@ -107,7 +107,7 @@ function gestionar_novedad(guia_novedad) {
       $("#estado_gestionarNov").text(response.novedad[0].estado_novedad);
       $("#transportadora_gestionarNov").text(transportadora);
       $("#novedad_gestionarNov").text(response.novedad[0].novedad);
-      $("#tracking_gestionarNov").text(response.novedad[0].tracking);
+      $("#tracking_gestionarNov").attr("href", response.novedad[0].tracking);
 
       $("#gestionar_novedadModal").modal("show");
     },
