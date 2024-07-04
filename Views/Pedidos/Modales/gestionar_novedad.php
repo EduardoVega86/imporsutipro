@@ -73,6 +73,10 @@
                 <div class="d-flex flex-row">
                     <div class="informacion_producto">
                         <h3 class="mb-3" style="text-decoration:underline;"><strong>Detalle Novedad</strong></h3>
+
+                        <input type="hidden" id="numero_guia" name="numero_guia">
+                        <input type="hidden" id="id_novedad" name="id_novedad">
+
                         <p class="texto_modal"><strong>ID:</strong> <span id="id_gestionarNov"></span></p>
                         <p class="texto_modal"><strong>Cliente:</strong> <span id="cliente_gestionarNov"></span></p>
                         <p class="texto_modal"><strong>Estado:</strong> <span id="estado_gestionarNov"></span></p>
@@ -83,12 +87,11 @@
                     </div>
 
                     <div id="seccion_servientrega">
-                        <div>
+                        <div style="padding-bottom: 5px;">
                             <label for="observacion_nov">Observacion:</label>
                             <input type="text" class="form-control" id="observacion_nov">
-
-                            <button type="button" class="btn btn-primary" onclick="enviar_serviNovedad()">Enviar</button>
                         </div>
+                        <button type="button" class="btn btn-primary" onclick="enviar_serviNovedad()">Enviar</button>
                     </div>
 
                     <div id="seccion_laar">

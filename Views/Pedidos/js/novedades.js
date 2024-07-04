@@ -109,10 +109,36 @@ function gestionar_novedad(guia_novedad) {
       $("#novedad_gestionarNov").text(response.novedad[0].novedad);
       $("#tracking_gestionarNov").attr("href", response.novedad[0].tracking);
 
+      $("#id_novedad").text(response.novedad[0].id_novedad);
+      $("#numero_guia").text(response.novedad[0].guia_novedad);
+
       $("#gestionar_novedadModal").modal("show");
     },
     error: function (error) {
       console.error("Error al obtener la lista de bodegas:", error);
+    },
+  });
+}
+
+function enviar_serviNovedad() {
+  var guia = $("#numero_guia").val();
+  var observacion = $('#observacion_nov').val();
+  var id_novedad = $('#id_novedad').val();
+
+  let formData = new FormData();
+  formData.append("guia", guia);
+  formData.append("observacion", observacion);
+  formData.append("id_novedad", id_novedad);
+
+  $.ajax({
+    url: SERVERURL + "pedidos/buscarProductosBodega/" + id_producto,
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    success: function (response) {},
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
     },
   });
 }
