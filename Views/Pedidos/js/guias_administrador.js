@@ -231,7 +231,7 @@ function procesarPlataforma(url) {
   return resultado;
 }
 
-function validar_estado(estado) {
+function validar_estadoLaar(estado) {
   var span_estado = "";
   var estado_guia = "";
   if (estado == 1) {
@@ -255,7 +255,133 @@ function validar_estado(estado) {
   } else if (estado == 7) {
     span_estado = "badge_green";
     estado_guia = "Entregado";
-  } else if (estado == 8 || estado == 101) {
+  } else if (estado == 8) {
+    span_estado = "badge_danger";
+    estado_guia = "Anulado";
+  } else if (estado == 11) {
+    span_estado = "badge_warning";
+    estado_guia = "En transito";
+  } else if (estado == 12) {
+    span_estado = "badge_warning";
+    estado_guia = "En transito";
+  } else if (estado == 14) {
+    span_estado = "badge_danger";
+    estado_guia = "Con novedad";
+  } else if (estado == 9) {
+    span_estado = "badge_danger";
+    estado_guia = "Devuelto";
+  }
+
+  return {
+    span_estado: span_estado,
+    estado_guia: estado_guia,
+  };
+}
+
+function validar_estadoServi(estado) {
+  var span_estado = "";
+  var estado_guia = "";
+  if (estado == 101) {
+    span_estado = "badge_danger";
+    estado_guia = "Anulado";
+  } else if (estado == 100 || estado == 102 || estado == 103) {
+    span_estado = "badge_generado";
+    estado_guia = "Generado";
+  } else if (estado == 200 || estado == 201 || estado == 202) {
+    span_estado = "badge_purple";
+    estado_guia = "Recolectado";
+  } else if (estado >= 300 && estado <= 317) {
+    span_estado = "badge_warning";
+    estado_guia = "Procesamiento";
+  } else if (estado >= 400 && estado <= 403) {
+    span_estado = "badge_green";
+    estado_guia = "Entregado";
+  } else if (estado >= 318 && estado <= 351) {
+    span_estado = "badge_danger";
+    estado_guia = "Con novedad";
+  } else if (estado >= 500 && estado <= 502) {
+    span_estado = "badge_danger";
+    estado_guia = "Devuelto";
+  }
+
+  return {
+    span_estado: span_estado,
+    estado_guia: estado_guia,
+  };
+}
+
+function validar_estadoGintracom(estado) {
+  var span_estado = "";
+  var estado_guia = "";
+  if (estado == 1) {
+    span_estado = "badge_danger";
+    estado_guia = "Anulado";
+  } else if (estado == 2) {
+    span_estado = "badge_purple";
+    estado_guia = "Por recolectar";
+  } else if (estado == 3) {
+    span_estado = "badge_purple";
+    estado_guia = "Por recolectar";
+  } else if (estado == 4) {
+    span_estado = "badge_purple";
+    estado_guia = "Por recolectar";
+  } else if (estado == 5) {
+    span_estado = "badge_warning";
+    estado_guia = "En transito";
+  } else if (estado == 6) {
+    span_estado = "badge_purple";
+    estado_guia = "Por recolectar";
+  } else if (estado == 7) {
+    span_estado = "badge_green";
+    estado_guia = "Entregado";
+  } else if (estado == 8) {
+    span_estado = "badge_danger";
+    estado_guia = "Anulado";
+  } else if (estado == 11) {
+    span_estado = "badge_warning";
+    estado_guia = "En transito";
+  } else if (estado == 12) {
+    span_estado = "badge_warning";
+    estado_guia = "En transito";
+  } else if (estado == 14) {
+    span_estado = "badge_danger";
+    estado_guia = "Con novedad";
+  } else if (estado == 9) {
+    span_estado = "badge_danger";
+    estado_guia = "Devuelto";
+  }
+
+  return {
+    span_estado: span_estado,
+    estado_guia: estado_guia,
+  };
+}
+
+function validar_estadoSpeed(estado) {
+  var span_estado = "";
+  var estado_guia = "";
+  if (estado == 1) {
+    span_estado = "badge_danger";
+    estado_guia = "Anulado";
+  } else if (estado == 2) {
+    span_estado = "badge_purple";
+    estado_guia = "Por recolectar";
+  } else if (estado == 3) {
+    span_estado = "badge_purple";
+    estado_guia = "Por recolectar";
+  } else if (estado == 4) {
+    span_estado = "badge_purple";
+    estado_guia = "Por recolectar";
+  } else if (estado == 5) {
+    span_estado = "badge_warning";
+    estado_guia = "En transito";
+  } else if (estado == 6) {
+    span_estado = "badge_purple";
+    estado_guia = "Por recolectar";
+  } else if (estado == 7) {
+    span_estado = "badge_green";
+    estado_guia = "Entregado";
+  } else if (estado == 8) {
     span_estado = "badge_danger";
     estado_guia = "Anulado";
   } else if (estado == 11) {

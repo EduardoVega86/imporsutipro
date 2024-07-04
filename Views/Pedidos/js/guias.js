@@ -293,7 +293,7 @@ function ver_detalle_cot(id_factura) {
 
         let total = 0; // Variable para calcular el total
 
-        response.forEach(function(detalle) {
+        response.forEach(function (detalle) {
           let subtotal = detalle.cantidad * detalle.precio_venta;
           total += subtotal;
 
@@ -325,7 +325,6 @@ function ver_detalle_cot(id_factura) {
     },
   });
 }
-
 
 function procesarPlataforma(url) {
   if (url == null || url == "") {
@@ -583,6 +582,21 @@ document.getElementById("imprimir_guias").addEventListener("click", () => {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+
+        let formData_cambiarImpreso = new FormData();
+        formData_cambiarImpreso.append("guias", selectedGuiasJson); // Añadir el SKU al FormData
+
+        $.ajax({
+          url: SERVERURL + "Manifiestos/cambiarImpreso",
+          type: "POST", // Cambiar a POST para enviar FormData
+          data: formData_cambiarImpreso,
+          processData: false, // No procesar los datos
+          contentType: false, // No establecer ningún tipo de contenido
+          success: function (response) {},
+          error: function (jqXHR, textStatus, errorThrown) {
+            alert(errorThrown);
+          },
+        });
 
         // Cerrar el Swal después de hacer clic en el enlace
         initDataTable();
