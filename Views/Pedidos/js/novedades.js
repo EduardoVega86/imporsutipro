@@ -131,7 +131,7 @@ function enviar_serviNovedad() {
   formData.append("id_novedad", id_novedad);
 
   $.ajax({
-    url: SERVERURL + "pedidos/buscarProductosBodega/" + id_producto,
+    url: SERVERURL + "novedades/solventarNovedadServientrega",
     type: "POST",
     data: formData,
     processData: false, // No procesar los datos
