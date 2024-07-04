@@ -72,8 +72,8 @@ document
     const transportadoraValue = transportadoraSelect.value;
     const bodegaValue = bodegaSelect.value;
 
-    if (transportadoraValue !== "-- Selecciona Transportadora --") {
-      if (bodegaValue !== "-- Selecciona Bodega --") {
+    if (transportadoraValue !== "") {
+      if (bodegaValue !== "") {
         const url =
           SERVERURL +
           `despacho/despacho?transportadora=${transportadoraValue}&bodega=${bodegaValue}`;

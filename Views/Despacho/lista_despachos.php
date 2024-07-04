@@ -19,7 +19,7 @@
                 <div class="form-group" id="bodega-field">
                     <label for="bodega">Bodega:</label>
                     <select class="form-select" id="select_bodega">
-                        <option value="0" selected>-- Selecciona Bodega --</option>
+                        <option value="0" selected> Selecciona Bodega</option>
                     </select>
                 </div>
             </div>
