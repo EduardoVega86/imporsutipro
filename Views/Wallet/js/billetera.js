@@ -115,12 +115,12 @@ const listFacturas = async () => {
         estado_guia = "No acreditable";
       }
 
-      if (factura.guia.includes("I")) {
-        url_tracking = `https://ec.gintracom.site/web/site/tracking`;
-        url_descargar = `https://guias.imporsuitpro.com/Gintracom/label/${factura.guia}`;
-      } else if (factura.guia.includes("IMP")) {
+      if (factura.guia.includes("IMP")) {
         url_tracking = `https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${factura.guia}`;
         url_descargar = `https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${factura.guia}`;
+      } else if (factura.guia.includes("I")) {
+        url_tracking = `https://ec.gintracom.site/web/site/tracking`;
+        url_descargar = `https://guias.imporsuitpro.com/Gintracom/label/${factura.guia}`;
       } else if (factura.guia.includes("SPD")) {
         url_tracking = ``;
         url_descargar = `https://guias.imporsuitpro.com/Speed/descargar/${factura.guia}`;
