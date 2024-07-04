@@ -47,15 +47,15 @@ const listNovedades = async () => {
     let content = ``;
     let transportadora = ``;
     novedades.forEach((novedad, index) => {
-        if (novedad.guia_novedad.includes("I")){
-            transportadora = "GINTRACOM";
-        } else if (novedad.guia_novedad.includes("IMP")){
-            transportadora = "LAAR";
-        } else if (novedad.guia_novedad.includes("SPD")){
-            transportadora = "SPEED";
-        } else {
-            transportadora = "SERVIENTREGA";
-        }
+      if (novedad.guia_novedad.includes("I")) {
+        transportadora = "GINTRACOM";
+      } else if (novedad.guia_novedad.includes("IMP")) {
+        transportadora = "LAAR";
+      } else if (novedad.guia_novedad.includes("SPD")) {
+        transportadora = "SPEED";
+      } else {
+        transportadora = "SERVIENTREGA";
+      }
 
       content += `
                 <tr>
@@ -85,19 +85,32 @@ window.addEventListener("load", async () => {
   await initDataTableNovedades();
 });
 
-function gestionar_novedad(guia_novedad){
+function gestionar_novedad(guia_novedad) {
+  let transportadora = "";
+  $.ajax({
+    url: SERVERURL + "novedades/datos/" + guia_novedad,
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+      if (response.novedad[0].guia_novedad.includes("I")) {
+        transportadora = "GINTRACOM";
+      } else if (response.novedad[0].guia_novedad.includes("IMP")) {
+        transportadora = "LAAR";
+      } else if (response.novedad[0].guia_novedad.includes("SPD")) {
+        transportadora = "SPEED";
+      } else {
+        transportadora = "SERVIENTREGA";
+      }
 
-    $.ajax({
-        url: SERVERURL + "novedades/datos/" + guia_novedad,
-        type: "GET",
-        dataType: "json",
-        success: function (response) {
-          console.log("2: "+response.novedad[0].cliente_novedad);
-          /* $("#id_gestionarNov").val(response[0].id_linea); */
-
-        },
-        error: function (error) {
-          console.error("Error al obtener la lista de bodegas:", error);
-        },
-      });
+      $("#id_gestionarNov").text(response.novedad[0].id_novedad);
+      $("#cliente_gestionarNov").text(response.novedad[0].cliente_novedad);
+      $("#estado_gestionarNov").text(response.novedad[0].estado_novedad);
+      $("#transportadora_gestionarNov").text(transportadora);
+      $("#novedad_gestionarNov").text(response.novedad[0].novedad);
+      $("#tracking_gestionarNov").text(response.novedad[0].tracking);
+    },
+    error: function (error) {
+      console.error("Error al obtener la lista de bodegas:", error);
+    },
+  });
 }
