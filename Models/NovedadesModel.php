@@ -110,6 +110,13 @@ class NovedadesModel extends Query
     public function datos($guia)
     {
         $sql = "SELECT * FROM facturas_cot WHERE numero_guia = '$guia'";
-        return $this->select($sql);
+        $data1 = $this->select($sql);
+        $sql = "SELECT * FROM novedades WHERE guia_novedad = '$guia'";
+        $data2 = $this->select($sql);
+        $data = array(
+            "factura" => $data1,
+            "novedad" => $data2
+        );
+        return $data;
     }
 }
