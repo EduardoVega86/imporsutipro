@@ -52,11 +52,31 @@ class WalletModel extends Query
         return json_encode($datos_tienda);
     }
 
+    public function obtenerCabecera($id_cabecera)
+    {
+        $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE id_cabecera = ?";
+        $response =  $this->select($sql, array($id_cabecera));
+        return $response;
+    }
+
     public function editar($id_cabecera, $total_venta, $precio_envio, $full, $costo)
     {
         $monto_recibir = $total_venta - $costo - $full - $precio_envio;
         $sql = "UPDATE cabecera_cuenta_pagar set total_venta = ?, precio_envio = ?, full = ?, costo = ?, monto_recibir = ?, total_pendiente = ? WHERE id_cabecera = ?";
         $response =  $this->update($sql, array($total_venta, $precio_envio, $full, $costo, $monto_recibir, $monto_recibir, $id_cabecera));
+        if ($response == 1) {
+            $responses["status"] = 200;
+        } else {
+            $responses["status"] = 400;
+            $responses["message"] = $response["message"];
+        }
+        return $responses;
+    }
+
+    public function eliminar($id_cabecera)
+    {
+        $sql = "DELETE FROM cabecera_cuenta_pagar WHERE id_cabecera = ?";
+        $response =  $this->delete($sql, array($id_cabecera));
         if ($response == 1) {
             $responses["status"] = 200;
         } else {
@@ -530,5 +550,17 @@ class WalletModel extends Query
             return false;
         }
         return true;
+    }
+
+    public function devolucion($id)
+    {
+        $sql = "UPDATE cabecera_cuenta_pagar set estado_guia = 9, monto_recibir=(precio_envio + full) * -1, valor_pendiente=(precio_envio + full) * -1 WHERE id_cabecera = ?;";
+        $response =  $this->update($sql, array($id));
+        if ($response == 1) {
+            $responses["status"] = 200;
+        } else {
+            $responses["status"] = 400;
+            $responses["message"] = $response["message"];
+        }
     }
 }

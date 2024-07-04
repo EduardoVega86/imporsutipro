@@ -34,10 +34,21 @@ class Wallet extends Controller
         $response = $this->model->editar($id, $total_venta, $precio_envio, $full, $costo);
         echo json_encode($response);
     }
+    public function obtenerCabecera($id)
+    {
+        $response = $this->model->obtenerCabecera($id);
+        echo json_encode($response);
+    }
+
+    public  function  eliminar($id)
+    {
+        $response = $this->model->eliminar($id);
+        echo json_encode($response);
+    }
 
     public function cambiarEstado()
     {
-        $id = $_POST['id'];
+        $id = $_POST['id_cabecera'];
         $estado = $_POST['estado'];
 
         $response = $this->model->cambiarEstado($id, $estado);
@@ -214,6 +225,12 @@ class Wallet extends Controller
     {
         $id_plataforma = $_SESSION['id_plataforma'];
         $response = $this->model->obtenerCuentas($id_plataforma);
+        echo json_encode($response);
+    }
+
+    public function devolucion($id)
+    {
+        $response = $this->model->devolucion($id);
         echo json_encode($response);
     }
 }

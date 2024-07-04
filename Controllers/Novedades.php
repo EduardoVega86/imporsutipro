@@ -36,7 +36,7 @@ class Novedades extends Controller
         $observacion  = $_POST['observacion'];
         $correo = "";
 
-        $isDevolucion = $_POST['isDevolucion'];
+        $isDevolucion = false;
         $nombreA = "IMPORSUIT";
         $observacionA = $_POST['observacionA'];
 
