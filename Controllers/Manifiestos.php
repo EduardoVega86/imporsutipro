@@ -38,6 +38,7 @@ class Manifiestos extends Controller
      public function cambiarImpreso()
     {
         $arreglo = $_POST['guias'];
+         $arreglo = json_decode($arreglo, true);
         $resultado = $this->model->cambiarImpreso($arreglo);
         // Puedes almacenar los resultados si es necesario
         $resultados[] = $resultado;
