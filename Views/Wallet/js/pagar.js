@@ -111,6 +111,8 @@ const listFacturas = async () => {
     let cod = "";
     let estado_guia = "";
     let check = "";
+    let url_tracking = "";
+    let url_descargar = "";
     facturas.forEach((factura, index) => {
       let tienda_nombre = procesarPlataforma(factura.tienda);
       if (factura.cod == 1) {
@@ -121,29 +123,41 @@ const listFacturas = async () => {
       check = "";
       if (factura.estado_guia == 7) {
         estado_guia = "Entregado";
-        if (factura.valor_pendiente == 0){
+        if (factura.valor_pendiente == 0) {
           check = "";
-        }else{
+        } else {
           check = `<input type="checkbox" class="selectCheckbox" data-factura-id_cabecera="${factura.id_cabecera}" data-factura-valor="${factura.monto_recibir}">`;
         }
       } else if (factura.estado_guia == 9) {
         estado_guia = "Devuelto";
-        if (factura.valor_pendiente == 0){
+        if (factura.valor_pendiente == 0) {
           check = "";
-        }else{
-          check = `<input type="checkbox" class="selectCheckbox" data-factura-id_cabecera="${factura.id_cabecera}" data-factura-valor="${factura.monto_recibir}">`; 
+        } else {
+          check = `<input type="checkbox" class="selectCheckbox" data-factura-id_cabecera="${factura.id_cabecera}" data-factura-valor="${factura.monto_recibir}">`;
         }
       } else {
         estado_guia = "No acreditable";
+      }
+
+      if (factura.guia.includes("I")) {
+        url_tracking = `https://ec.gintracom.site/web/site/tracking`;
+        url_descargar = `https://guias.imporsuitpro.com/Gintracom/label/${guia.numero_guia}`;
+      } else if (factura.guia.includes("IMP")) {
+        url_tracking = `https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${factura.guia}`;
+        url_descargar = `https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${factura.guia}`;
+      } else if (factura.guia.includes("SPD")) {
+        url_tracking = ``;
+        url_descargar = `https://guias.imporsuitpro.com/Speed/descargar/${guia.numero_guia}`;
+      } else {
+        url_tracking = `https://www.servientrega.com.ec/Tracking/?guia=${guia.numero_guia}&tipo=GUIA`;
+        url_descargar = `https://guias.imporsuitpro.com/Servientrega/guia/${guia.numero_guia}`;
       }
 
       content += `
                 <tr>
                     <td>${check}</td>
                     <td>
-                    <div><span claas="text-nowrap">${
-                      factura.numero_factura
-                    }</span></div>
+                    <div><span claas="text-nowrap">${factura.numero_factura}</span></div>
                     <div><span claas="text-nowrap">${factura.guia}</span></div>
                     <div><span class="w-100 text-nowrap" style="background-color:#7B57EC; color:white; padding:5px; border-radius:0.3rem;">${cod}</span></div>
                     </td>
@@ -166,12 +180,8 @@ const listFacturas = async () => {
                     <i class='bx bxs-truck' ></i>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" style="cursor: pointer;" href="https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${
-                          factura.guia
-                        }">Traking</a></li>
-                        <li><a class="dropdown-item" style="cursor: pointer;" href="https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${
-                          factura.guia
-                        }">Ticket</a></li>
+                        <li><a class="dropdown-item" style="cursor: pointer;" href="${url_tracking}">Traking</a></li>
+                        <li><a class="dropdown-item" style="cursor: pointer;" href="${url_descargar}">Ticket</a></li>
                     </ul>
                     </div>
                     </td>
@@ -209,18 +219,23 @@ const listFacturas = async () => {
               response = JSON.parse(response);
               if (response.status == 500) {
                 toastr.error(
-                    "EL ABONADO NO SE AGREGRO CORRECTAMENTE",
-                    "NOTIFICACIÓN", {
-                        positionClass: "toast-bottom-center"
-                    }
-                );
-            } else if (response.status == 200) {
-                toastr.success("ABONADO AGREGADO CORRECTAMENTE", "NOTIFICACIÓN", {
+                  "EL ABONADO NO SE AGREGRO CORRECTAMENTE",
+                  "NOTIFICACIÓN",
+                  {
                     positionClass: "toast-bottom-center",
-                });
+                  }
+                );
+              } else if (response.status == 200) {
+                toastr.success(
+                  "ABONADO AGREGADO CORRECTAMENTE",
+                  "NOTIFICACIÓN",
+                  {
+                    positionClass: "toast-bottom-center",
+                  }
+                );
 
                 initDataTableFacturas();
-            }
+              }
             },
             error: function (jqXHR, textStatus, errorThrown) {
               alert(errorThrown);
@@ -239,7 +254,7 @@ function procesarPlataforma(url) {
   let sinProtocolo = url.replace("https://", "");
 
   // Encontrar la posición del primer punto
-  let primerPunto = sinProtocolo.indexOf('.');
+  let primerPunto = sinProtocolo.indexOf(".");
 
   // Obtener la subcadena desde el inicio hasta el primer punto
   let baseNombre = sinProtocolo.substring(0, primerPunto);
@@ -325,15 +340,14 @@ const listPagos = async () => {
   }
 };
 
-$(document).ready(function() {
+$(document).ready(function () {
+  $(".filter-btn").on("click", function () {
+    $(".filter-btn").removeClass("active");
+    $(this).addClass("active");
 
-  $('.filter-btn').on('click', function() {
-    $('.filter-btn').removeClass('active');
-    $(this).addClass('active');
+    filtro_facturas = $(this).data("filter"); // Actualizar variable con el filtro seleccionado
 
-    filtro_facturas = $(this).data('filter'); // Actualizar variable con el filtro seleccionado
-
-    initDataTableFacturas()
+    initDataTableFacturas();
   });
 
   $.ajax({
@@ -341,7 +355,7 @@ $(document).ready(function() {
     type: "GET",
     dataType: "json",
     success: function (response) {
-      console.log(response)
+      console.log(response);
       // Asegúrate de que la respuesta es un array
       if (Array.isArray(response)) {
         response.forEach(function (bodega) {
@@ -358,7 +372,6 @@ $(document).ready(function() {
       console.error("Error al obtener la lista de bodegas:", error);
     },
   });
-
 });
 
 //TABLA DE HISTORIAL PAGOS
@@ -396,7 +409,9 @@ const initDataTableHistorialPago = async () => {
 
   await listHistorialPago();
 
-  dataTableHistorialPago = $("#datatable_historial_pago").DataTable(dataTableHistorialPagoOptions);
+  dataTableHistorialPago = $("#datatable_historial_pago").DataTable(
+    dataTableHistorialPagoOptions
+  );
 
   dataTableHistorialPagoIsInitialized = true;
 };
@@ -415,7 +430,6 @@ const listHistorialPago = async () => {
     let content = ``;
 
     historialPago.forEach((pago, index) => {
-
       content += `
                 <tr>
                     <td>${pago.id_historial}</td>
