@@ -35,6 +35,13 @@ class Manifiestos extends Controller
 //       echo json_encode($html);
 //    }
     
+     public function cambiarImpreso()
+    {
+        $arreglo = $_POST['guias'];
+         $resultado = $this->model->cambiarImpreso($guia);
+        // Puedes almacenar los resultados si es necesario
+        $resultados[] = $resultado;
+     }
     public function generarManifiesto()
     {
         $arreglo = $_POST['guias'];
