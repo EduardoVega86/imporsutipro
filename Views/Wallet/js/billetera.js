@@ -98,6 +98,8 @@ const listFacturas = async () => {
     let content = ``;
     let cod = "";
     let estado_guia = "";
+    let url_tracking = "";
+    let url_descargar = "";
     facturas.forEach((factura, index) => {
       let tienda_nombre = procesarPlataforma(factura.tienda);
       if (factura.cod == 1) {
@@ -111,6 +113,20 @@ const listFacturas = async () => {
         estado_guia = "Devuelto";
       } else {
         estado_guia = "No acreditable";
+      }
+
+      if (factura.guia.includes("I")) {
+        url_tracking = `https://ec.gintracom.site/web/site/tracking`;
+        url_descargar = `https://guias.imporsuitpro.com/Gintracom/label/${factura.guia}`;
+      } else if (factura.guia.includes("IMP")) {
+        url_tracking = `https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${factura.guia}`;
+        url_descargar = `https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${factura.guia}`;
+      } else if (factura.guia.includes("SPD")) {
+        url_tracking = ``;
+        url_descargar = `https://guias.imporsuitpro.com/Speed/descargar/${factura.guia}`;
+      } else {
+        url_tracking = `https://www.servientrega.com.ec/Tracking/?guia=${factura.guia}&tipo=GUIA`;
+        url_descargar = `https://guias.imporsuitpro.com/Servientrega/guia/${factura.guia}`;
       }
 
       content += `
@@ -138,8 +154,8 @@ const listFacturas = async () => {
                     <i class='bx bxs-truck' ></i>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" style="cursor: pointer;" href="https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${factura.guia}">Traking</a></li>
-                        <li><a class="dropdown-item" style="cursor: pointer;" href="https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${factura.guia}">Ticket</a></li>
+                        <li><a class="dropdown-item" style="cursor: pointer;" href="${url_tracking}">Traking</a></li>
+                        <li><a class="dropdown-item" style="cursor: pointer;" href="${url_descargar}">Ticket</a></li>
                     </ul>
                     </div>
                     </td>
