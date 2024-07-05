@@ -20,7 +20,6 @@
                         <th class="centered">Tienda</th>
                         <th class="centered"></th>
                         <th class="centered">Agregado</th>
-                        <th class="centered">Fecha</th>
                         <th class="centered">Acciones</th>
                     </tr>
                 </thead>
