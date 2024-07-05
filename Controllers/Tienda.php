@@ -35,4 +35,6 @@ class Tienda extends Controller
        echo json_encode($response);
        
     }
+    
+    
 }
