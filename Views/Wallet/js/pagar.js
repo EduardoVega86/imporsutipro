@@ -189,7 +189,7 @@ const listFacturas = async () => {
                     <td><button class="icon-button" style="background-color: #FCBF00; margin: 0;"><i class="fa-solid fa-rotate-left" style="margin: 0;"></i></button></td>
                     <td></td>
                     <td></td>
-                    <td><button class="icon-button" style="background-color: red; margin: 0;"><i class="fa-solid fa-trash" style="margin: 0;"></i></button></td>
+                    <td><button class="icon-button" style="background-color: red; margin: 0;" onclick="eliminar_wallet(${factura.id_cabecera})"><i class="fa-solid fa-trash" style="margin: 0;"></i></button></td>
                     
                 </tr>`;
     });
@@ -260,6 +260,31 @@ function abrirModal_editarCabecera(id_cabecera) {
       $("#fulfilmentEditar_Wallet").val(response[0].full);
 
       $("#editar_walletModal").modal("show");
+    },
+    error: function (error) {
+      console.error("Error al obtener la lista de bodegas:", error);
+    },
+  });
+}
+
+function eliminar_wallet(id_cabecera) {
+  $.ajax({
+    url: SERVERURL + "wallet/eliminar/" + id_cabecera,
+    type: "POST",
+    dataType: "json",
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("NO SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+
+        $("#imagen_categoriaModal").modal("hide");
+        initDataTable();
+      }
     },
     error: function (error) {
       console.error("Error al obtener la lista de bodegas:", error);
