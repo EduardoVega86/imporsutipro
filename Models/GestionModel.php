@@ -48,8 +48,10 @@ class GestionModel extends Query
             }
             $sql = "SELECT * FROM detalle_novedad WHERE guia_novedad = '$guia' AND codigo_novedad = " . $novedad['codigoTipoNovedad'] . "' ";
             $response = $this->select($sql);
+            print_r($response);
 
             if (count($response) == 0) {
+                echo "entre";
                 $sql = "INSERT INTO detalle_novedad (`codigo_novedad`, `guia_novedad`, `nombre_novedad`, `detalle_novedad`, `observacion`) VALUES ('$guia', " . $novedad['codigoTipoNovedad'] . ", '" . $novedad['descripcion'] . "')";
                 $response = $this->select($sql);
                 $avisar = true;
