@@ -722,3 +722,8 @@ const vaciarTmpPedidos = async () => {
 };
 
 //Generar guia
+// Desactivar el botón al iniciar la página
+document.addEventListener("DOMContentLoaded", function() {
+  var button2 = document.getElementById("generarGuiaBtn");
+  button2.disabled = true;
+});
