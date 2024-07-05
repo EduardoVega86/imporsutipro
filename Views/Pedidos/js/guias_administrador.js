@@ -68,33 +68,50 @@ const listGuias = async () => {
       let ruta_descarga = "";
       let ruta_traking = "";
       let funcion_anular = "";
+      let select_speed = "";
       if (transporte == 2) {
         transporte_content =
           '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SERVIENTREGA</span>';
-        ruta_descarga = `https://guias.imporsuitpro.com/Servientrega/Guia/${guia.numero_guia}`;
+        ruta_descarga = `<a class="w-100" href="https://guias.imporsuitpro.com/Servientrega/guia/${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
         ruta_traking = `https://www.servientrega.com.ec/Tracking/?guia=${guia.numero_guia}&tipo=GUIA`;
         funcion_anular = `anular_guiaServi('${guia.numero_guia}')`;
+        estado = validar_estadoServi(guia.estado_guia_sistema);
       } else if (transporte == 1) {
         transporte_content =
           '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">LAAR</span>';
-        ruta_descarga = `https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${guia.numero_guia}`;
+
+        ruta_descarga = `<a class="w-100" href="https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
+
         ruta_traking = `https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${guia.numero_guia}`;
         funcion_anular = `anular_guiaLaar('${guia.numero_guia}')`;
+        estado = validar_estadoLaar(guia.estado_guia_sistema);
       } else if (transporte == 4) {
         transporte_content =
           '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
+        ruta_descarga = `<a class="w-100" href="https://guias.imporsuitpro.com/Speed/descargar/${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
+        ruta_traking = ``;
+        funcion_anular = ``;
+        estado = validar_estadoSpeed(guia.estado_guia_sistema);
+        select_speed = `
+                    <select class="form-select" style="max-width: 130px;" id="select_estadoSpeed">
+                        <option value="0" selected>-- Selecciona estado --</option>
+                        <option value="2" selected>Generado</option>
+                        <option value="3" selected>Transito</option>
+                        <option value="7" selected>Entregado</option>
+                        <option value="9" selected>Devuelto</option>
+                    </select>`;
       } else if (transporte == 3) {
         transporte_content =
           '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>';
-        ruta_descarga = `https://guias.imporsuitpro.com/Gintracom/label/${guia.numero_guia}`;
+        ruta_descarga = `<a class="w-100" href="https://guias.imporsuitpro.com/Gintracom/label/${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
         ruta_traking = `https://ec.gintracom.site/web/site/tracking`;
         funcion_anular = `anular_guiaGintracom('${guia.numero_guia}')`;
+        estado = validar_estadoGintracom(guia.estado_guia_sistema);
       } else {
         transporte_content =
           '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">Guia no enviada</span>';
       }
 
-      estado = validar_estado(guia.estado_guia_sistema);
       var span_estado = estado.span_estado;
       var estado_guia = estado.estado_guia;
 
@@ -102,14 +119,12 @@ const listGuias = async () => {
       let ciudadCompleta = guia.ciudad;
       let ciudadArray = ciudadCompleta.split("/");
       let ciudad = ciudadArray[0];
-      let tiendaMayusculas = `${guia.tienda}`.toUpperCase();
-      let nombre_proveedorMayusculas = `${guia.nombre_proveedor}`.toUpperCase();
-      let nombre_bodegaMayusculas = `${guia.nombre_bodega}`.toUpperCase();
 
       if (guia.estado_guia_sistema == 14) {
         novedad = `<button class="btn btn_novedades" onclick="controlar_novedad('${guia.numero_guia}')">Controlar Novedad</button>`;
       }
 
+      let plataforma = procesarPlataforma(guia.plataforma);
       if (guia.impreso == 0) {
         impresiones = `<box-icon name='printer' color= "red"></box-icon>`;
       } else {
@@ -121,7 +136,11 @@ const listGuias = async () => {
                       guia.numero_factura
                     }"></td>
                     <td>${guia.numero_factura}</td>
-                    <td>${guia.fecha_factura}</td>
+                    <td>
+                    <div><button onclick="ver_detalle_cot('${
+                      guia.id_factura
+                    }')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>
+                    <div>${guia.fecha_factura}</td></div>
                     <td>
                         <div><strong>${guia.nombre}</strong></div>
                         <div>${guia.c_principal} y ${guia.c_secundaria}</div>
@@ -129,17 +148,8 @@ const listGuias = async () => {
                     </td>
                     <td>${guia.provinciaa}-${ciudad}</td>
                     <td><span class="link-like" id="plataformaLink" onclick="abrirModal_infoTienda('${
-                      guia.id_plataforma
-                    }')">${tiendaMayusculas}</span></td>
-                    
-                    <td><span class="link-like" id="plataformaLink" onclick="abrirModal_infoTienda('${
-                        guia.proveedor
-                      }')">${nombre_proveedorMayusculas}</span></td>
-
-                      <td><span class="link-like" id="plataformaLink" onclick="abrirModal_infoTienda('${
-                        guia.id_bodega
-                      }')">${nombre_bodegaMayusculas}</span></td>
-
+                      guia.plataforma
+                    }')">${plataforma}</span></td>
                     <td>${transporte_content}</td>
                     <td>
                      <div style="text-align: center;">
@@ -147,9 +157,7 @@ const listGuias = async () => {
                       <span class="w-100 text-nowrap ${span_estado}">${estado_guia}</span>
                      </div>
                      <div>
-                      <a class="w-100" href="${ruta_descarga}" target="_blank">${
-        guia.numero_guia
-      }</a>
+                     ${ruta_descarga}
                      </div>
                      <div style="position: relative; display: inline-block;">
                       <a href="${ruta_traking}" target="_blank" style="vertical-align: middle;">
@@ -159,7 +167,10 @@ const listGuias = async () => {
                         guia.telefono
                       )}" target="_blank" style="font-size: 45px; vertical-align: middle; margin-left: 10px;" target="_blank">
                       <i class='bx bxl-whatsapp-square' style="color: green;"></i>
-                      </a>
+                      </a>/*  */
+                     </div>
+                     <div style="text-align: -webkit-center;">
+                     ${select_speed}
                      </div>
                      <div>
                      ${novedad}
