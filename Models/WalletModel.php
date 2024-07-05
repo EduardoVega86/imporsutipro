@@ -54,8 +54,8 @@ class WalletModel extends Query
 
     public function obtenerCabecera($id_cabecera)
     {
-        $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE id_cabecera = ?";
-        $response =  $this->select($sql, array($id_cabecera));
+        $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE id_cabecera = $id_cabecera";
+        $response =  $this->select($sql);
         return $response;
     }
 
@@ -463,7 +463,7 @@ class WalletModel extends Query
 
     public function obtenerHistorial($tienda)
     {
-        $sql = "SELECT * FROM billeteras WHERE tienda = '$tienda' ORDER BY id_historial DESC";
+        $sql = "SELECT * FROM billeteras WHERE tienda = '$tienda'";
         $response =  $this->select($sql);
         if (!empty($response)) {
 

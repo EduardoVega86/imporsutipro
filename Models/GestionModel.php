@@ -35,11 +35,13 @@ class GestionModel extends Query
 
     public function notificar($novedades, $guia, $plataforma)
     {
-        $this->enviarCorreo($guia);
         $avisar = false;
         $nombre = "";
         foreach ($novedades as $novedad) {
-
+            if ($novedad['codigoTipoNovedad'] == 42 || $novedad['codigoTipoNovedad'] == 43 || $novedad['codigoTipoNovedad'] == 92 || $novedad['codigoTipoNovedad'] == 96) {
+                $avisar = false;
+                break;
+            }
             $sql = "SELECT * FROM detalle_novedad WHERE guia_novedad = '$guia' AND codigo_novedad = " . $novedad['codigoTipoNovedad'] . "' ";
             $response = $this->select($sql);
 
@@ -49,6 +51,10 @@ class GestionModel extends Query
                 $avisar = true;
                 $nombre = $novedad['descripcion'];
             }
+        }
+
+        if ($avisar) {
+            $this->enviarCorreo($guia);
         }
     }
 
