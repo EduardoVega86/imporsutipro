@@ -167,7 +167,7 @@ const listGuias = async () => {
                         guia.telefono
                       )}" target="_blank" style="font-size: 45px; vertical-align: middle; margin-left: 10px;" target="_blank">
                       <i class='bx bxl-whatsapp-square' style="color: green;"></i>
-                      </a>/*  */
+                      </a>
                      </div>
                      <div style="text-align: -webkit-center;">
                      ${select_speed}
