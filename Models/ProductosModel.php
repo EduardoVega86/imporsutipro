@@ -491,7 +491,7 @@ WHERE b.id_plataforma = $plataforma";
         }
         
         
-        echo $sql;
+        //echo $sql;
         return $this->select($sql);
     }
 
