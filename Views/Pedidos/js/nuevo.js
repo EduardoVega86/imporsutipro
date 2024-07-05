@@ -347,7 +347,7 @@ $(document).ready(function () {
         success: function (response) {
           response = JSON.parse(response);
 
-          /* $("#price_servientrega").text(response.servientrega); */
+          $("#price_servientrega").text(response.servientrega);
           $("#price_gintracom").text(response.gintracom);
           $("#price_speed").text(response.speed);
           $("#price_laar").text(response.laar);
