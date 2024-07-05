@@ -254,6 +254,11 @@ function abrirModal_editarCabecera(id_cabecera) {
     type: "GET",
     dataType: "json",
     success: function (response) {
+      $("#total_ventasEditar_Wallet").val(response[0].total_venta);
+      $("#monto_recibirEditar_Wallet").val(response[0].monto_recibir);
+      $("#precio_envioEditar_Wallet").val(response[0].precio_envio);
+      $("#fulfilmentEditar_Wallet").val(response[0].full);
+
       $("#editar_walletModal").modal("show");
     },
     error: function (error) {
