@@ -248,8 +248,18 @@ const listFacturas = async () => {
   }
 };
 
-function abrirModal_editarCabecera(){
-  $("#editar_walletModal").modal("show");
+function abrirModal_editarCabecera(id_cabecera) {
+  $.ajax({
+    url: SERVERURL + "wallet/obtenerCabecera/"+id_cabecera,
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+      $("#editar_walletModal").modal("show");
+    },
+    error: function (error) {
+      console.error("Error al obtener la lista de bodegas:", error);
+    },
+  });
 }
 
 function procesarPlataforma(url) {

@@ -46,20 +46,20 @@
             <div class="modal-body">
                 <form id="editar_wallet">
                     <div class="mb-3">
-                        <label for="total_ventas" class="form-label">total ventas:</label>
-                        <input type="text" class="form-control" id="total_ventas" placeholder="Ingresar total ventas">
+                        <label for="total_ventasEditar_Wallet" class="form-label">total ventas:</label>
+                        <input type="text" class="form-control" id="total_ventasEditar_Wallet" placeholder="Ingresar total ventas">
                     </div>
                     <div class="mb-3">
-                        <label for="monto_recibir" class="form-label">monto a recibir:</label>
-                        <input type="text" class="form-control" id="monto_recibir" placeholder="Ingresar monto a recibir">
+                        <label for="monto_recibirEditar_Wallet" class="form-label">monto a recibir:</label>
+                        <input type="text" class="form-control" id="monto_recibirEditar_Wallet" placeholder="Ingresar monto a recibir">
                     </div>
                     <div class="mb-3">
-                        <label for="precio_envio" class="form-label">precio de envio:</label>
-                        <input type="text" class="form-control" id="precio_envio" placeholder="Ingresar precio de envio">
+                        <label for="precio_envioEditar_Wallet" class="form-label">precio de envio:</label>
+                        <input type="text" class="form-control" id="precio_envioEditar_Wallet" placeholder="Ingresar precio de envio">
                     </div>
                     <div class="mb-3">
-                        <label for="fulfilment" class="form-label">Fulfilment:</label>
-                        <input type="text" class="form-control" id="fulfilment" placeholder="Ingresar fulfilment">
+                        <label for="fulfilmentEditar_Wallet" class="form-label">Fulfilment:</label>
+                        <input type="text" class="form-control" id="fulfilmentEditar_Wallet" placeholder="Ingresar fulfilment">
                     </div>
                 </form>
             </div>
