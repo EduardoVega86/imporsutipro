@@ -51,7 +51,7 @@
         let formData = new FormData();
         formData.append("transportadora", transportadora);
         formData.append("bodega", bodega);
-        
+
 
         $.ajax({
             type: "POST",
@@ -120,6 +120,9 @@
 
     // Función para generar JSON con la lista de guías y imprimirlo en consola
     function generarImpresion() {
+        var button = document.getElementById("generarImpresionBtn");
+        button.disabled = true; // Desactivar el botón
+
         var guias = [];
         var listItems = document.querySelectorAll('#guidesList .list-group-item');
         listItems.forEach(function(item) {
@@ -149,6 +152,9 @@
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
+
+                    button.disabled = false;
+                    window.location.href = '' + SERVERURL + 'despacho/lista_despachos';
                 }
             },
             error: function(xhr, status, error) {
