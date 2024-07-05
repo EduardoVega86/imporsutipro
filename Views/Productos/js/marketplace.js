@@ -149,7 +149,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   productDetails[0].pcp
                 }</strong></p>
                 <p class="card-text">Precio Sugerido: <strong>$${pvp}</strong></p>
-                <p class="card-text">Proveedor: <a href="#" onclick="abrirModal_infoTienda('${url_imporsuit}')" style="font-size: 15px;">${product.nombre_tienda}</a></p>
+                <p class="card-text">Proveedor: <a href="#" onclick="abrirModal_infoTienda('${url_imporsuit}')" style="font-size: 15px;">${procesarPlataforma(url_imporsuit)}</a></p>
               </div>
               <div>
                 <button class="btn btn-description" onclick="agregarModal_marketplace(${
