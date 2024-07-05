@@ -62,7 +62,7 @@ class GestionModel extends Query
                 $detalle = $novedad['nombreTipoNovedad'];
                 $observacion = $novedad['observacion'];
 
-                $response = $this->insert("INSERT INTO detalle_novedad (codigo_novedad, guia_novedad, nombre_novedad, detalle_novedad, observacion) VALUES (?, ?, ?, ?, ?)", [$codigo, $guia, $nombre, $detalle, $observacion]);
+                $response = $this->insert("INSERT INTO detalle_novedad (codigo_novedad, guia_novedad, nombre_novedad, detalle_novedad, observacion, id_plataforma) VALUES (?, ?, ?, ?, ?)", [$codigo, $guia, $nombre, $detalle, $observacion, $id_plataforma]);
                 print_r($response);
             }
         }
