@@ -55,8 +55,7 @@ class GestionModel extends Query
 
             if (count($response) == 0) {
                 echo "entre";
-                $sql = "INSERT INTO detalle_novedad (`codigo_novedad`, `guia_novedad`, `nombre_novedad`, `detalle_novedad`, `observacion`) VALUES ('$guia', " . $novedad['codigoTipoNovedad'] . ", '" . $novedad['descripcion'] . "')";
-                $response = $this->select($sql);
+
                 $avisar = true;
                 $codigo = $novedad["codigoTipoNovedad"];
                 $nombre = $novedad['nombreDetalleNovedad'];
