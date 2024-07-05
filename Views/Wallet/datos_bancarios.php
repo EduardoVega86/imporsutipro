@@ -101,11 +101,11 @@
                             <div class="accordion-body">
                                 <form id="datos_facturacion">
                                     <div class="mb-3">
-                                        <label for="tipo_cuenta" class="form-label">Tipo de cuenta:</label>
+                                        <label for="tipo_cuenta" class="form-label">Forma de pago:</label>
                                         <select class="form-select" id="tipo_cuenta">
-                                            <option value="0">-- Seleccione un tipo de cuenta --</option>
-                                            <option value="Ahorros">Ahorros</option>
-                                            <option value="Corriente">Corriente</option>
+                                            <option value="0">-- Seleccione una forma de pago --</option>
+                                            <option value="USDT">USDT</option>
+                                            <option value="PAYONEER">PAYONEER</option>
                                         </select>
                                         </select>
                                     </div>
