@@ -149,9 +149,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   productDetails[0].pcp
                 }</strong></p>
                 <p class="card-text">Precio Sugerido: <strong>$${pvp}</strong></p>
-                <p class="card-text">Proveedor: <a href="${url_imporsuit}" target="_blank" style="font-size: 15px;">${procesarPlataforma(
-            url_imporsuit
-          )}</a></p>
+                <p class="card-text">Proveedor: <a href="#" onclick="abrirModal_infoTienda('${url_imporsuit}')" style="font-size: 15px;">${procesarPlataforma(url_imporsuit)}</a></p>
               </div>
               <div>
                 <button class="btn btn-description" onclick="agregarModal_marketplace(${
@@ -539,3 +537,29 @@ $(document).ready(function () {
 
 // Ejecutar la función cuando la página se haya cargado
 window.addEventListener("load", vaciarTmpPedidos);
+
+/* abrir modal */
+function abrirModal_infoTienda(tienda) {
+  let formData = new FormData();
+  formData.append("tienda", tienda);
+
+  $.ajax({
+    url: SERVERURL + "pedidos/datosPlataformas",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    success: function (response) {
+      response = JSON.parse(response);
+      $("#nombreTienda").val(response[0].nombre_tienda);
+      $("#telefonoTienda").val(response[0].whatsapp);
+      $("#correoTienda").val(response[0].email);
+      $("#enlaceTienda").val(response[0].url_imporsuit);
+
+      $("#infoTiendaModal").modal("show");
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+}
