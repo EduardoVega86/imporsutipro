@@ -315,3 +315,7 @@ function eliminar_datofacturacion(id_facturacion) {
     },
   });
 }
+
+$(document).ready(function () {
+  $("#banco").select2();
+});

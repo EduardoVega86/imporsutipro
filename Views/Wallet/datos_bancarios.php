@@ -27,6 +27,34 @@
                                             <option value="Bolivariano">Banco Bolivariano</option>
                                             <option value="Pacifico">Banco Pacifico</option>
                                             <option value="Solidario">Banco Solidario</option>
+                                            <option value="Internacional">Banco Internacional</option>
+                                            <option value="Machala">Banco de Machala</option>
+                                            <option value="Amazonas">Banco Amazonas</option>
+                                            <option value="Rumiñahui">Banco Rumiñahui</option>
+                                            <option value="ProCredit">Banco ProCredit</option>
+                                            <option value="Diners_Club">Banco Diners Club</option>
+                                            <option value="Austro">Banco del Austro</option>
+                                            <option value="Nacional_de_Fomento">Banco Nacional de Fomento</option>
+                                            <option value="Loja">Banco de Loja</option>
+                                            <option value="Capital">Banco Capital</option>
+                                            <option value="FINCA">Banco FINCA</option>
+                                            <option value="Litoral">Banco Litoral</option>
+                                            <option value="Cooperativas_de_Ahorro_y_Crédito_de_Ecuador">Cooperativas de Ahorro y Crédito de Ecuador</option>
+                                            <option value="Policía_Nacional">Cooperativa Policía Nacional</option>
+                                            <option value="JEP_Jardín_Azuayo">Cooperativa JEP (Jardín Azuayo)</option>
+                                            <option value="COOPMEGO">Cooperativa COOPMEGO</option>
+                                            <option value="29_de_Octubre">Cooperativa 29 de Octubre</option>
+                                            <option value="9_de_Octubre">Cooperativa 9 de Octubre</option>
+                                            <option value="Alianza_del_Valle">Cooperativa Alianza del Valle</option>
+                                            <option value="San_Francisco_de_Asís">Cooperativa San Francisco de Asís</option>
+                                            <option value="Oscus">Cooperativa Oscus</option>
+                                            <option value="15_de_Abril">Cooperativa 15 de Abril</option>
+                                            <option value="Tulcán">Cooperativa Tulcán</option>
+                                            <option value="Atuntaqui">Cooperativa Atuntaqui</option>
+                                            <option value="Santa_Ana">Cooperativa Santa Ana</option>
+                                            <option value="Mushuc_Runa">Cooperativa Mushuc Runa</option>
+                                            <option value="Calceta">Cooperativa Calceta</option>
+                                            <option value="Andalucía">Cooperativa Andalucía</option>
                                         </select>
                                     </div>
                                     <div class="mb-3">
@@ -63,13 +91,37 @@
                             </div>
                         </div>
                     </div>
+                    <!-- forma de pago -->
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingTwo">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                Datos de Facturación
+                                Elegir formas de pago
                             </button>
                         </h2>
                         <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#acordion_datosBancarios">
+                            <div class="accordion-body">
+                                <form id="datos_facturacion">
+                                    <div class="mb-3">
+                                        <label for="tipo_cuenta" class="form-label">Tipo de cuenta:</label>
+                                        <select class="form-select" id="tipo_cuenta">
+                                            <option value="0">-- Seleccione un tipo de cuenta --</option>
+                                            <option value="Ahorros">Ahorros</option>
+                                            <option value="Corriente">Corriente</option>
+                                        </select>
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Fin forma de pago -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTres">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTres" aria-expanded="false" aria-controls="collapseTres">
+                                Datos de Facturación
+                            </button>
+                        </h2>
+                        <div id="collapseTres" class="accordion-collapse collapse" aria-labelledby="headingTres" data-bs-parent="#acordion_datosBancarios">
                             <div class="accordion-body">
                                 <form id="datos_facturacion">
                                     <div class="mb-3">
