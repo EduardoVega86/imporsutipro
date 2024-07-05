@@ -254,6 +254,48 @@ $(document).ready(function () {
   });
 });
 
+//enviar forma de pago
+$("#info_formaPago").on("submit", function (event) {
+  event.preventDefault();
+
+  var formData = {
+    tipo: $("#forma_pago").val(),
+    cuenta: $("#cuenta_formaPago").val(),
+  };
+
+  $.ajax({
+    url: SERVERURL + "wallet/agregarOtroPago",
+    type: "POST",
+    data: formData,
+    dataType: "json",
+    success: function (response) {
+      if (response.status == 400) {
+        toastr.error(
+          "DATOS BANCARIOS NO SE AGREGARON CORRECTAMENTE",
+          "NOTIFICACIÓN",
+          {
+            positionClass: "toast-bottom-center",
+          }
+        );
+      } else if (response.status == 200) {
+        toastr.success(
+          "DATOS BANCARIOS SE AGREGARON CORRECTAMENTE",
+          "NOTIFICACIÓN",
+          {
+            positionClass: "toast-bottom-center",
+          }
+        );
+
+        initDataTableDatosBancarios();
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      console.error(textStatus, errorThrown);
+      alert("Error al guardar los datos");
+    },
+  });
+});
+
 //eliminar dato bancario
 function eliminar_datoBancario(id_cuenta) {
   let formData = new FormData();

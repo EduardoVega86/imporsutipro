@@ -99,16 +99,20 @@
                         </h2>
                         <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#acordion_datosBancarios">
                             <div class="accordion-body">
-                                <form id="datos_facturacion">
+                                <form id="info_formaPago">
                                     <div class="mb-3">
-                                        <label for="tipo_cuenta" class="form-label">Forma de pago:</label>
-                                        <select class="form-select" id="tipo_cuenta">
+                                        <label for="forma_pago" class="form-label">Forma de pago:</label>
+                                        <select class="form-select" id="forma_pago">
                                             <option value="0">-- Seleccione una forma de pago --</option>
                                             <option value="USDT">USDT</option>
                                             <option value="PAYONEER">PAYONEER</option>
                                         </select>
-                                        </select>
                                     </div>
+                                    <div class="mb-3">
+                                        <label for="cuenta_formaPago" class="form-label">Cuenta:</label>
+                                        <input type="text" class="form-control" id="cuenta_formaPago" placeholder="ingrese la cuenta">
+                                    </div>
+                                    <button type="submit" class="btn btn-success">Enviar datos</button>
                                 </form>
                             </div>
                         </div>
