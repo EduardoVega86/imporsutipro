@@ -67,4 +67,16 @@ class Novedades extends Controller
         $data = $this->model->datos($guia);
         echo json_encode($data);
     }
+
+    public function solventarNovedadGintracom()
+    {
+        $tipo = $_POST['tipo'];
+        $guia = $_POST['guia'];
+        $observacion = $_POST['observacion'];
+        $id_novedad = $_POST['id_novedad'];
+        $recaudo = $_POST['recaudo'] == "" ? 0 : $_POST['recaudo'];
+        $fecha = $_POST['fecha'];
+
+        $data = $this->model->solventarNovedadGintracom($tipo, $guia, $observacion, $id_novedad, $recaudo, $fecha);
+    }
 }

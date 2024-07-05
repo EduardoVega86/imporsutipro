@@ -119,4 +119,39 @@ class NovedadesModel extends Query
         );
         return $data;
     }
+
+    public function solventarNovedadGintracom($tipo, $guia, $observacion, $id_novedad, $recaudo, $fecha)
+    {
+        $data = array(
+            "guia" => $guia,
+            "observacion" => $observacion,
+        );
+
+        if ($tipo == "ofrecer") {
+            $data["solucion"] = "Volver a Ofrecer";
+            $data["fecha_entrega"] = $fecha;
+        } else if ($tipo == "rechazar") {
+            $data["solucion"] = "Efectuar devolución";
+            $data["fecha_entrega"] = $fecha;
+        } else if ($tipo == "recaudo") {
+            $data["solucion"] = "Ajustar Recaudo";
+            $data["recaudo"] = $recaudo;
+            $data["fecha_entrega"] = $fecha;
+        }
+
+        $data = json_encode($data);
+        $url = "https://ec.gintracom.site/web/import-suite/solucion";
+        $username = "importsuite";
+        $password = "ab5b809caf73b2c1abb0e4586a336c3a";
+
+        $hashed = base64_encode($username . ":" . $password);
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Authorization : Basic ' . $hashed));
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        $response = curl_exec($ch);
+        $response = json_decode($response, true);
+    }
 }
