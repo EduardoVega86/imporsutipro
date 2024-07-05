@@ -33,8 +33,12 @@ class GestionModel extends Query
         $select = $this->select($datos);
     }
 
-    public function notificar($novedades, $guia, $plataforma)
+    public function notificar($novedades, $guia)
     {
+        $id_plataforma = $this->select("SELECT id_plataforma FROM facturas_cot WHERE numero_guia = '$guia' ")[0]['id_plataforma'];
+        echo $id_plataforma;
+
+
         $avisar = false;
         $nombre = "";
         foreach ($novedades as $novedad) {
