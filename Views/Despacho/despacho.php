@@ -52,7 +52,6 @@
         formData.append("transportadora", transportadora);
         formData.append("bodega", bodega);
 
-
         $.ajax({
             type: "POST",
             url: SERVERURL + "Inventarios/generarDespacho/" + numeroGuia,
@@ -98,6 +97,11 @@
 
         listItem.appendChild(deleteBtn);
         document.getElementById('guidesList').appendChild(listItem);
+
+        // Limpiar el campo de entrada y enfocar el cursor
+        var inputGuia = document.getElementById('numeroGuia');
+        inputGuia.value = '';
+        inputGuia.focus();
     }
 
     // Función para eliminar una guía de la lista
