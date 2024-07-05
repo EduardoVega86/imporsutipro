@@ -94,7 +94,12 @@ class Usuarios extends Controller
         $contrasena = $_POST['contrasena'];
         $id_usuario = $_POST['id_usuario'];
         $response = $this->model->resetearContrasena($id_usuario,  $contrasena);
-        echo json_encode($response);
+        if ($response == 1) {
+            $responses = array('status' => 200, 'title' => 'Peticion exitosa', 'message' => 'Contraseña actualizada correctamente');
+        } else {
+            $responses = array('status' => 500, 'title' => 'Error', 'message' => $response['message']);
+        }
+        return $responses;
     }
 
     public function obtener_usuarios_matriz()
