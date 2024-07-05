@@ -475,7 +475,7 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
         
         $sql_full="select full_f from plataformas where id_plataforma=$plataforma";
         $bodega_full = $this->select($sql_full);
-        $full_filme = $bodega[0]['full_f'];
+        $full_filme = $bodega_full[0]['full_f'];
         
         if($full_filme==0){
          $sql = "SELECT DISTINCT b.*, p.*
