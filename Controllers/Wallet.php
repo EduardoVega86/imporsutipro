@@ -34,6 +34,17 @@ class Wallet extends Controller
         $response = $this->model->editar($id, $total_venta, $precio_envio, $full, $costo);
         echo json_encode($response);
     }
+
+    public function solicitudes()
+    {
+        if ($_SESSION["cargo"] != 10) {
+            header("Location: /wallet/billetera");
+        }
+        $this->views->render($this, "solicitudes");
+    }
+
+    //funciones
+
     public function obtenerCabecera($id)
     {
         $response = $this->model->obtenerCabecera($id);
@@ -188,7 +199,7 @@ class Wallet extends Controller
         }
         $fecha = date("Y-m-d H:i:s");
 
-        $response = $this->model->solicitarPago($id_cuenta, $valor, $fecha, $_SESSION["enlace"]);
+        $response = $this->model->solicitarPago($id_cuenta, $valor, $fecha, $_SESSION["enlace"], $_SESSION["id_plataforma"]);
         if ($response["status"] == 200) {
             $correo = $this->model->obtenerCorreo($_SESSION["id"]);
             $this->model->enviarMensaje("solicitud", $correo[0]["email_users"], $valor);
@@ -254,6 +265,13 @@ class Wallet extends Controller
     public function obtenerOtroPago()
     {
         $response = $this->model->obtenerOtroPago($_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
+
+    public function obtenerSolicitudes()
+    {
+        $response = $this->model->obtenerSolicitudes();
         echo json_encode($response);
     }
 }
