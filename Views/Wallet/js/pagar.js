@@ -469,11 +469,15 @@ const listHistorialPago = async () => {
     alert("Error al obtener historialPago: " + ex.message);
 
     // Registra el texto de la respuesta para depuración
-    try {
-      const errorText = await ex.response.text();
-      console.error("Texto de respuesta:", errorText);
-    } catch (innerEx) {
-      console.error("No se pudo analizar el texto de la respuesta:", innerEx);
+    if (ex.response) {
+      try {
+        const errorText = await ex.response.text();
+        console.error("Texto de respuesta:", errorText);
+      } catch (innerEx) {
+        console.error("No se pudo analizar el texto de la respuesta:", innerEx);
+      }
+    } else {
+      console.error("No hay respuesta en la excepción.");
     }
   }
 };
