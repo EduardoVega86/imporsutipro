@@ -250,7 +250,7 @@ const listFacturas = async () => {
 
 function abrirModal_editarCabecera(id_cabecera) {
   $.ajax({
-    url: SERVERURL + "wallet/obtenerCabecera/"+id_cabecera,
+    url: SERVERURL + "wallet/obtenerCabecera/" + id_cabecera,
     type: "GET",
     dataType: "json",
     success: function (response) {
@@ -438,6 +438,15 @@ const listHistorialPago = async () => {
       method: "POST",
       body: formData,
     });
+
+    // Verifica si la respuesta no es OK
+    if (!response.ok) {
+      throw new Error(
+        `Error del servidor: ${response.status} ${response.statusText}`
+      );
+    }
+
+    // Analiza la respuesta como JSON
     const historialPago = await response.json();
 
     let content = ``;
@@ -453,9 +462,19 @@ const listHistorialPago = async () => {
                     <td>${pago.fecha}</td>
                 </tr>`;
     });
+
     document.getElementById("tableBody_historial_pago").innerHTML = content;
   } catch (ex) {
-    alert(ex);
+    console.error("Error al obtener historialPago:", ex);
+    alert("Error al obtener historialPago: " + ex.message);
+
+    // Registra el texto de la respuesta para depuración
+    try {
+      const errorText = await ex.response.text();
+      console.error("Texto de respuesta:", errorText);
+    } catch (innerEx) {
+      console.error("No se pudo analizar el texto de la respuesta:", innerEx);
+    }
   }
 };
 
