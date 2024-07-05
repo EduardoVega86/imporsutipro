@@ -213,13 +213,13 @@ document.addEventListener("DOMContentLoaded", function () {
         if (response.status == 500) {
           Swal.fire({
             icon: "error",
-            title: "Guardado Correctamente",
+            title: "Error al guardar",
             text: response.message,
           });
         } else if (response.status == 200) {
           Swal.fire({
             icon: "success",
-            title: "Error al guardar",
+            title: "Guardado Correctamente",
             text: response.message,
             showConfirmButton: false,
             timer: 2000,
