@@ -64,7 +64,6 @@
                                             <option value="Ahorros">Ahorros</option>
                                             <option value="Corriente">Corriente</option>
                                         </select>
-                                        </select>
                                     </div>
                                     <div class="mb-3">
                                         <label for="numero_cuenta" class="form-label">Número de cuenta:</label>
