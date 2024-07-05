@@ -45,6 +45,7 @@
             </div>
             <div class="modal-body">
                 <form id="cambiarClave_usuario">
+                    <input type="hidden" id="id_usuarioCambiar" name="id_usuarioCambiar">
                     <div class="form-group">
                         <label for="contrasena">Contraseña</label>
                         <input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="Contraseña">
@@ -84,30 +85,45 @@
     $("#cambiarClave_usuario").on("submit", function(event) {
         event.preventDefault(); // Evita el envío normal del formulario
 
-        const password = $("#contrasena").val();
-        const confirmPassword = $("#repetir-contrasena").val();
+        let password = $("#contrasena").val();
+        let confirmPassword = $("#repetir-contrasena").val();
+        let id_usuario = $("#id_usuarioCambiar").val();
 
         if (password !== confirmPassword) {
             $("#password-error").show();
             return;
         }
 
+        let formData = new FormData();
+        formData.append("contrasena", password);
+        formData.append("id_usuario", id_usuario);
+
         $.ajax({
-            url: 'URL_DE_TU_API', // Reemplaza esto con la URL de tu API
+            url: SERVERURL + 'Usuarios/resetearContrasena', // Reemplaza esto con la URL de tu API
             method: 'POST',
-            data: {
-                contrasena: password,
-                // Puedes agregar más datos aquí si es necesario
-            },
+            data: formData,
+            processData: false, // No procesar los datos
+            contentType: false, // No establecer ningún tipo de contenido
             success: function(response) {
-                // Maneja la respuesta de éxito aquí
-                console.log("Éxito:", response);
-                // Puedes agregar código para mostrar un mensaje de éxito o cerrar el modal
+                response = JSON.parse(response);
+                if (response.status == 500) {
+                    toastr.error(
+                        "LA IMAGEN NO SE AGREGRO CORRECTAMENTE",
+                        "NOTIFICACIÓN", {
+                            positionClass: "toast-bottom-center"
+                        }
+                    );
+                } else if (response.status == 200) {
+                    toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+                        positionClass: "toast-bottom-center",
+                    });
+
+                    $('#cambiarClave_usuarioModal').modal('hide');
+                    initDataTableListaUsuarioMatriz();
+                }
             },
             error: function(xhr, status, error) {
-                // Maneja el error aquí
                 console.log("Error:", error);
-                // Puedes agregar código para mostrar un mensaje de error al usuario
             }
         });
     });

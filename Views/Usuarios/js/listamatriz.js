@@ -140,5 +140,7 @@ function formatPhoneNumber(number) {
 }
 
 function editarUsuario(id) {
+  $("#id_usuarioCambiar").val(id);
+  
   $("#cambiarClave_usuarioModal").modal("show");
 }
