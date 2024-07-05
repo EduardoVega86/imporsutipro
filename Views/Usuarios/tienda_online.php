@@ -35,7 +35,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <h1>INFORMACION DE LA TIENDA</h1>
+                    <h3 style="text-align-last: center;">INFORMACION DE LA TIENDA</h3>
                     <div class="form-group mb-3">
                         <label for="nombre_tienda">Nombre de la tienda:</label>
                         <input type="text" class="form-control" id="nombre_tienda" name="nombre_tienda">
