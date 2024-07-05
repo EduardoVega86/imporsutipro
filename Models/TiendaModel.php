@@ -122,4 +122,33 @@ class TiendaModel extends Query
         
         return $this->select($sql);
     }
+    
+    
+    public function insertarCatacteristica($plataforma)
+    {
+        $sql = "SELECT * FROM caracteristicas_tienda WHERE id_plataforma = $plataforma";
+        
+        return $this->select($sql);
+    }
+    
+    public function agregarCaracteristicas($nombre , $plataforma)
+    {
+        // codigo para agregar categoria
+        $response = $this->initialResponse();
+
+        $sql = "INSERT INTO caracteristicas_tienda (nombre_linea, descripcion_linea, estado_linea, date_added, online, imagen, tipo, padre, id_plataforma) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $data = [$nombre_linea, $descripcion_linea, $estado_linea, $date_added, $online, $imagen, $tipo, $padre, $plataforma];
+        $insertar_categoria = $this->insert($sql, $data);
+        if ($insertar_categoria == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Categoria agregada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] =  $insertar_categoria['message'];
+        }
+        return $response;
+    }
+    
 }
