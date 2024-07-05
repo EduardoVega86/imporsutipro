@@ -40,6 +40,7 @@ class UsuariosModel extends Query
         $sql = " UPDATE `users` SET `con_users` =? WHERE `id_users` = ?";
         $data = [$contrasena, $id_usuario];
         $editar_producto = $this->update($sql, $data);
+        return $editar_producto;
     }
     public function registro($nombre, $correo, $pais, $telefono, $contrasena, $tienda)
     {
