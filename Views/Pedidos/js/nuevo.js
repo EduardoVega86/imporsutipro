@@ -290,9 +290,6 @@ $(document).ready(function () {
   $("#provincia").on("change", cargarCiudades);
 
   $(".transportadora").click(function () {
-    var button2 = document.getElementById("generarGuiaBtn");
-    button2.disabled = false;
-    
     var priceSpan = $(this).find(".price-tag span");
     var priceValue = priceSpan.text().trim();
     var selectedCompany = $(this).data("company");
@@ -305,6 +302,9 @@ $(document).ready(function () {
       priceValue !== "Proximamente" &&
       priceValue !== "Mantenimiento"
     ) {
+      var button2 = document.getElementById("generarGuiaBtn");
+      button2.disabled = false;
+
       $("#costo_flete").val(priceValue);
       $("#transportadora_selected").val(selectedCompany);
 
@@ -726,7 +726,7 @@ const vaciarTmpPedidos = async () => {
 };
 
 // Desactivar el botón al iniciar la página
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   var button2 = document.getElementById("generarGuiaBtn");
   button2.disabled = true;
 });
