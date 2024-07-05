@@ -563,4 +563,35 @@ class WalletModel extends Query
             $responses["message"] = $response["message"];
         }
     }
+
+    public function agregarOtroPago($tipo, $cuenta, $plataforma)
+    {
+        $sql = "INSERT INTO `metodo_pagos`(`tipo`, `cuenta`, `id_plataforma`) VALUES (?, ?, ?)";
+        $response =  $this->insert($sql, array($tipo, $cuenta, $plataforma));
+        if ($response == 1) {
+            $responses["status"] = 200;
+        } else {
+            $responses["status"] = 400;
+            $responses["message"] = $response["message"];
+        }
+    }
+
+    public function obtenerMetodos($plataforma)
+    {
+        $sql = "SELECT * FROM metodo_pagos WHERE id_plataforma = '$plataforma'";
+        $response =  $this->select($sql);
+        return $response;
+    }
+
+    public function eliminarMetodo($id)
+    {
+        $sql = "DELETE FROM metodo_pagos WHERE id_metodo = ?";
+        $response =  $this->delete($sql, array($id));
+        if ($response == 1) {
+            $responses["status"] = 200;
+        } else {
+            $responses["status"] = 400;
+            $responses["message"] = $response["message"];
+        }
+    }
 }

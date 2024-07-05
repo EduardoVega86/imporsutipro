@@ -233,4 +233,27 @@ class Wallet extends Controller
         $response = $this->model->devolucion($id);
         echo json_encode($response);
     }
+
+    public function agregarOtroPago()
+    {
+        $tipo = $_POST['tipo'];
+        $cuenta = $_POST['cuenta'];
+
+        $response = $this->model->agregarOtroPago($tipo, $cuenta, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
+    public function eliminarOtroPago()
+    {
+        $id = $_POST['id'];
+
+        $response = $this->model->eliminarOtroPago($id);
+        echo json_encode($response);
+    }
+
+    public function obtenerOtroPago()
+    {
+        $response = $this->model->obtenerOtroPago($_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
 }
