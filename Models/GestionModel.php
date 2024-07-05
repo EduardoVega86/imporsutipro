@@ -49,7 +49,7 @@ class GestionModel extends Query
                 $avisar = false;
                 break;
             }
-            $sql = "SELECT * FROM detalle_novedad WHERE guia_novedad = '$guia' AND codigo_novedad = " . $novedad['codigoTipoNovedad'] . "' ";
+            $sql = "SELECT * FROM detalle_novedad WHERE guia_novedad = '$guia' AND codigo_novedad = '" . $novedad['codigoTipoNovedad'] . "' ";
             $response = $this->select($sql);
             print_r($response);
 
