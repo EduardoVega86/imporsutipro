@@ -141,11 +141,12 @@ const listGuias = async () => {
       let ciudadArray = ciudadCompleta.split("/");
       let ciudad = ciudadArray[0];
 
-      if (guia.estado_guia_sistema == 14) {
+      novedad = "";
+      if (guia.estado_guia_sistema == 14 && transporte == 1) {
         novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
-      } else if (guia.estado_guia_sistema == 6) {
+      } else if (guia.estado_guia_sistema == 6 && transporte == 3) {
         novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
-      } if (guia.estado_guia_sistema >= 318 && guia.estado_guia_sistema <= 351) {
+      } if ((guia.estado_guia_sistema >= 318 && guia.estado_guia_sistema <= 351) && transporte == 2) {
         novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
       }
 
