@@ -95,4 +95,31 @@ class TiendaModel extends Query
         return $this->select($sql);
     }
     
+    public function caracteristicastienda($plataforma)
+    {
+        $sql = "SELECT * FROM caracteristicas_tienda WHERE id_plataforma = $plataforma";
+        
+        return $this->select($sql);
+    }
+    
+     public function bannertienda($plataforma)
+    {
+        $sql = "SELECT * FROM banner_adicional WHERE id_plataforma = $plataforma";
+        
+        return $this->select($sql);
+    }
+    
+    public function testimoniostienda($plataforma)
+    {
+        $sql = "SELECT * FROM testimonios WHERE id_plataforma = $plataforma";
+        
+        return $this->select($sql);
+    }
+    
+    public function horizontaltienda($plataforma)
+    {
+        $sql = "SELECT * FROM horizontal WHERE id_plataforma = $plataforma";
+        
+        return $this->select($sql);
+    }
 }

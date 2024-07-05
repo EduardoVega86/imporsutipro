@@ -36,5 +36,37 @@ class Tienda extends Controller
        
     }
     
+     public function caracteristicastienda()
+    {        //$nombre = $_POST['nombre'];
+        $response = $this->model->caracteristicastienda($_SESSION['id_plataforma']);
+       echo json_encode($response);
+       
+    }
+    
+    public function bannertienda()
+    {        //$nombre = $_POST['nombre'];
+        $response = $this->model->bannertienda($_SESSION['id_plataforma']);
+       echo json_encode($response);
+       
+    }
+    
+    public function testimoniostienda()
+    {        //$nombre = $_POST['nombre'];
+        $response = $this->model->testimoniostienda($_SESSION['id_plataforma']);
+       echo json_encode($response);
+       
+    }
+    
+      public function horizontaltienda()
+    {        //$nombre = $_POST['nombre'];
+        $response = $this->model->horisontaltienda($_SESSION['id_plataforma']);
+       echo json_encode($response);
+       
+    }
+    
+    
+    
+    
+    
     
 }
