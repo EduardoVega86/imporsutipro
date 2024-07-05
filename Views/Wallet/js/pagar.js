@@ -440,14 +440,10 @@ const listHistorialPago = async () => {
     });
 
     // Verifica si la respuesta no es OK
-    if (!response.ok) {
-      throw new Error(
-        `Error del servidor: ${response.status} ${response.statusText}`
-      );
-    }
-
-    // Analiza la respuesta como JSON
+    if (response.ok) {
+      // Analiza la respuesta como JSON
     const historialPago = await response.json();
+    }
 
     let content = ``;
 
@@ -469,15 +465,11 @@ const listHistorialPago = async () => {
     alert("Error al obtener historialPago: " + ex.message);
 
     // Registra el texto de la respuesta para depuración
-    if (ex.response) {
-      try {
-        const errorText = await ex.response.text();
-        console.error("Texto de respuesta:", errorText);
-      } catch (innerEx) {
-        console.error("No se pudo analizar el texto de la respuesta:", innerEx);
-      }
-    } else {
-      console.error("No hay respuesta en la excepción.");
+    try {
+      const errorText = await ex.response.text();
+      console.error("Texto de respuesta:", errorText);
+    } catch (innerEx) {
+      console.error("No se pudo analizar el texto de la respuesta:", innerEx);
     }
   }
 };
