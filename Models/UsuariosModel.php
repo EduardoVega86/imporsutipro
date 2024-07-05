@@ -13,39 +13,37 @@ class UsuariosModel extends Query
         $sql = "SELECT ib.*, p.* FROM `inventario_bodegas` AS ib INNER JOIN `productos` AS p ON p.`id_producto` = ib.`id_producto` WHERE ib.`id_plataforma` = $plataforma";
         return $this->select($sql);
     }
-    
+
     public function obtener_usuarios_matriz()
     {
         $id_matriz = $this->obtenerMatriz();
         $id_matriz = $id_matriz[0]['idmatriz'];
-       // echo $id_matriz;
+        // echo $id_matriz;
         $sql = "SELECT * FROM  usuario_plataforma, users, plataformas WHERE usuario_plataforma.id_usuario=users.id_users AND plataformas.id_plataforma=usuario_plataforma.id_plataforma and plataformas.id_matriz=$id_matriz;";
         return $this->select($sql);
     }
-    
-     public function obtener_usuarios_plataforma($plataforma)
+
+    public function obtener_usuarios_plataforma($plataforma)
     {
-       // $id_matriz = $this->obtenerMatriz();
+        // $id_matriz = $this->obtenerMatriz();
         $sql = "SELECT * FROM  usuario_plataforma, users, plataformas WHERE usuario_plataforma.id_usuario=users.id_users AND plataformas.id_plataforma=usuario_plataforma.id_plataforma and plataformas.id_plataforma=$plataforma;";
         return $this->select($sql);
     }
 
     //ususarios
-    
-    
+
+
     public function resetearContrasena($id_usuario, $contrasena)
     {
-         $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
-         
-         $sql = " UPDATE `users` SET `con_users` =? WHERE `id_users` = ?";
-         $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
-        $data = [$contrasena, $id_usuario ];
+        $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
+
+        $sql = " UPDATE `users` SET `con_users` =? WHERE `id_users` = ?";
+        $data = [$contrasena, $id_usuario];
         $editar_producto = $this->update($sql, $data);
-        
     }
-     public function registro($nombre, $correo, $pais, $telefono, $contrasena, $tienda)
+    public function registro($nombre, $correo, $pais, $telefono, $contrasena, $tienda)
     {
-       //echo 'asd';
+        //echo 'asd';
         //Inicia la respuesta
         $response = $this->initialResponse();
 
@@ -57,7 +55,7 @@ class UsuariosModel extends Query
         $timestamp = time();
         $uniqueId = uniqid();
         $tienda = $prefix . $timestamp . '_' . $uniqueId;
-    
+
         $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
         $sql = "INSERT INTO users (nombre_users, email_users, con_users, usuario_users, date_added, cargo_users) VALUES (?, ?, ?, ?, ?, ?)";
         //   echo $sql;
@@ -114,7 +112,7 @@ class UsuariosModel extends Query
                             $response['message'] = 'Usuario registrado correctamente';
                             $response['data'] = ['id' => $id[0]['id_users'], 'idPlataforma' => $idPlataforma[0]['id_plataforma']];
                             //session_start();
-                                                   
+
 
                         }
                     }
@@ -138,12 +136,12 @@ class UsuariosModel extends Query
 
         return $response;
     }
-    
+
     public function agregarProveedor($plataforma, $proveedor)
     {
-          $response = $this->initialResponse();
-          
-          $sql = "UPDATE `plataformas` SET `proveedor` = ? WHERE `plataformas`.`id_plataforma` = ?";
+        $response = $this->initialResponse();
+
+        $sql = "UPDATE `plataformas` SET `proveedor` = ? WHERE `plataformas`.`id_plataforma` = ?";
         $data = [$proveedor, $plataforma];
         $editar_plataforma = $this->update($sql, $data);
         //print_r($editar_producto);
@@ -156,12 +154,11 @@ class UsuariosModel extends Query
             $response['title'] = 'Error';
             // $response['message'] = $editar_producto['message'];
         }
-        return $response; 
-     
+        return $response;
     }
-    
-    
-     public function guardar_imagen_logo($imagen, $plataforma)
+
+
+    public function guardar_imagen_logo($imagen, $plataforma)
     {
         $response = $this->initialResponse();
         $target_dir = "public/img/logos_tienda/";
@@ -215,9 +212,9 @@ class UsuariosModel extends Query
         }
         return $response;
     }
-    
-    
-     public function guardar_imagen_favicon($imagen, $plataforma)
+
+
+    public function guardar_imagen_favicon($imagen, $plataforma)
     {
         $response = $this->initialResponse();
         $target_dir = "public/img/favicon/";
