@@ -441,9 +441,11 @@ const listHistorialPago = async () => {
 
     // Verifica si la respuesta no es OK
     if (response.ok) {
-      // Analiza la respuesta como JSON
-    const historialPago = await response.json();
+      return;
     }
+
+    // Analiza la respuesta como JSON
+    const historialPago = await response.json();
 
     let content = ``;
 
