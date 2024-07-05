@@ -87,6 +87,7 @@ const listListaUsuarioMatriz = async () => {
                     </ul>
                     </div>
                     </td>
+                    <td><button class="btn btn-sm btn-primary" onclick="editarUsuario(${usuario.id_users})"><i class="fa-solid fa-pencil"></i>Editar</button></td>
                 </tr>`;
     });
     document.getElementById("tableBody_lista_usuarioMatriz").innerHTML =
