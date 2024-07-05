@@ -3,6 +3,9 @@ require_once 'PHPMailer/PHPMailer.php';
 require_once 'PHPMailer/SMTP.php';
 require_once 'PHPMailer/Exception.php';
 
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+
 use PHPMailer\PHPMailer\PHPMailer;
 
 class GestionModel extends Query
