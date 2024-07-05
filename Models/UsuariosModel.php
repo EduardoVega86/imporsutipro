@@ -33,6 +33,8 @@ class UsuariosModel extends Query
     //ususarios
 
 
+
+
     public function resetearContrasena($id_usuario, $contrasena)
     {
         $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
