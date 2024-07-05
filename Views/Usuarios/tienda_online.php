@@ -35,29 +35,30 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
+                    <h1>INFORMACION DE LA TIENDA</h1>
                     <div class="form-group mb-3">
-                        <label for="nombre_tienda">NOMBRE DE LA TIENDA</label>
-                        <input type="text" class="form-control" id="nombre_tienda" name="nombre_tienda" value="IMPORSUIT">
+                        <label for="nombre_tienda">Nombre de la tienda:</label>
+                        <input type="text" class="form-control" id="nombre_tienda" name="nombre_tienda">
                     </div>
                     <div class="form-group mb-3">
-                        <label for="descripcion_tienda">DESCRIPCION</label>
-                        <input type="text" class="form-control" id="descripcion_tienda" name="descripcion_tienda" value="IMPORTADORA">
+                        <label for="descripcion_tienda">Descripción:</label>
+                        <input type="text" class="form-control" id="descripcion_tienda" name="descripcion_tienda">
                     </div>
                     <div class="form-group mb-3">
                         <label for="ruc_tienda">RUC</label>
-                        <input type="text" class="form-control" id="ruc_tienda" name="ruc_tienda" value="111111111001">
+                        <input type="text" class="form-control" id="ruc_tienda" name="ruc_tienda">
                     </div>
                     <div class="form-group mb-3">
-                        <label for="telefono_tienda">TELEFONO</label>
-                        <input type="text" class="form-control" id="telefono_tienda" name="telefono_tienda" value="+593981702066">
+                        <label for="telefono_tienda">Telefono:</label>
+                        <input type="text" class="form-control" id="telefono_tienda" name="telefono_tienda">
                     </div>
                     <div class="form-group mb-3">
-                        <label for="email_tienda">EMAIL</label>
-                        <input type="email" class="form-control" id="email_tienda" name="email_tienda" value="ventas@imporshop.app">
+                        <label for="email_tienda">Email:</label>
+                        <input type="email" class="form-control" id="email_tienda" name="email_tienda">
                     </div>
                     <div class="form-group mb-3">
-                        <label for="direccion_tienda">DIRECCIÓN</label>
-                        <input type="text" class="form-control" id="direccion_tienda" name="direccion_tienda" value="SU DIRECCION">
+                        <label for="direccion_tienda">Dirección:</label>
+                        <input type="text" class="form-control" id="direccion_tienda" name="direccion_tienda">
                     </div>
                     <div class="form-group mb-3">
                         <label for="pais_tienda">-- Elige un país --</label>
