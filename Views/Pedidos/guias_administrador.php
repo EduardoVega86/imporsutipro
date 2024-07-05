@@ -86,14 +86,12 @@
                 </caption> -->
                 <thead>
                     <tr>
-                        <th class="centered"><input type="checkbox" id="selectAll"></th>
+                    <th class="centered"><input type="checkbox" id="selectAll"></th>
                         <th class="centered"># Orden</th>
                         <th class="centered">Detalle</th>
                         <th class="centered">Cliente</th>
                         <th class="centered">Destino</th>
-                        <th class="centered">Tienda Venta</th>
-                        <th class="centered">Proveedor</th>
-                        <th class="centered">Bodega</th>
+                        <th class="centered">Tienda</th>
                         <th class="centered">Transportadora</th>
                         <th class="centered">Estado</th>
                         <th class="centered">Impreso</th>
