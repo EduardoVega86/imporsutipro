@@ -156,6 +156,7 @@ const listGuias = async () => {
       let ciudadArray = ciudadCompleta.split("/");
       let ciudad = ciudadArray[0];
 
+      novedad = "";
       if (guia.estado_guia_sistema == 14) {
         novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
       } else if (guia.estado_guia_sistema == 6) {
