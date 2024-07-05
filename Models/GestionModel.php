@@ -67,7 +67,7 @@ class GestionModel extends Query
         }
 
         if ($avisar) {
-            $this->enviarCorreo($guia);
+            //$this->enviarCorreo($guia);
         }
     }
 
