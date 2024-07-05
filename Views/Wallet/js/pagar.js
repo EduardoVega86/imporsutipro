@@ -259,6 +259,7 @@ function abrirModal_editarCabecera(id_cabecera) {
       $("#precio_envioEditar_Wallet").val(response[0].precio_envio);
       $("#fulfilmentEditar_Wallet").val(response[0].full);
 
+      initDataTableFacturas();
       $("#editar_walletModal").modal("show");
     },
     error: function (error) {
