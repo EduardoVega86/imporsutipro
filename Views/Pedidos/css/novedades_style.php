@@ -179,4 +179,16 @@
     }
 
     /* fin de tabla detalle factura */
+
+    .btn_novedades {
+        background-color: #1337EC;
+        border-color: #1337EC;
+        color: white;
+    }
+
+    .btn_novedades:hover {
+        background-color: #102BB4;
+        border-color: #102BB4;
+        color: white;
+    }
 </style>

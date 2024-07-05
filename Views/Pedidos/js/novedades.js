@@ -68,7 +68,7 @@ const listNovedades = async () => {
                     <td></td>
                     <td>${novedad.estado_novedad}</td>
                     <td>
-                    <button id="downloadExcel" class="btn btn-success" onclick="gestionar_novedad('${novedad.guia_novedad}')">Gestionar</button>
+                    <button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${novedad.guia_novedad}')">Gestionar</button>
                     </td>
                     <td><a href="${novedad.tracking}" target="_blank" style="vertical-align: middle;">
                     <img src="https://new.imporsuitpro.com/public/img/tracking.png" width="40px" id="buscar_traking" alt="buscar_traking">
