@@ -55,7 +55,7 @@ const listListaDespachos = async () => {
                       <td>${despacho.id_transportadora}</td>
                       <td>${despacho.id_bodega}</td>
                       <td>${despacho.fecha_hora}</td>
-                      <td><i class='bx bxs-file-pdf' style="color:red;" onclick="descargar_pdf(${despacho.id_relacion_despacho})"></i></td>
+                      <td><a href="${despacho.url_documento}" download><i class='bx bxs-file-pdf' style="color:red;"></i></a></td>
                   </tr>`;
     });
     document.getElementById("tableBody_lista_despachos").innerHTML = content;
