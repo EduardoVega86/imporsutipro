@@ -1,6 +1,7 @@
 <?php require_once './Views/templates/header.php'; ?>
 <?php require_once './Views/Usuarios/css/listamatriz_style.php'; ?>
 
+<?php require_once './Views/Usuarios/Modales/cambiarClave_usuario.php'; ?>
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
         <h2 class="text-center mb-4">Lista de Usuarios Matriz</h2>

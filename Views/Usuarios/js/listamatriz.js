@@ -75,19 +75,9 @@ const listListaUsuarioMatriz = async () => {
         usuario.id_plataforma
       }, this.checked)"></td>
                     <td>${usuario.date_added}</td>
-                    <td>
-                    <div class="dropdown">
-                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-gear"></i>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" style="cursor: pointer;" href="${SERVERURL}wallet/pagar?tienda=${
-        usuario.tienda
-      }"><i class='bx bx-wallet'></i>Pagar</a></li>
-                    </ul>
-                    </div>
-                    </td>
-                    <td><button class="btn btn-sm btn-primary" onclick="editarUsuario(${usuario.id_users})"><i class="fa-solid fa-pencil"></i>Editar</button></td>
+                    <td><button class="btn btn-sm btn-primary" onclick="editarUsuario(${
+                      usuario.id_users
+                    })"><i class="fa-solid fa-pencil"></i>Cambiar Contraseña</button></td>
                 </tr>`;
     });
     document.getElementById("tableBody_lista_usuarioMatriz").innerHTML =
@@ -147,4 +137,8 @@ function formatPhoneNumber(number) {
   }
 
   return number;
+}
+
+function editarUsuario(id) {
+  $("#cambiarClave_usuarioModal").modal("show");
 }
