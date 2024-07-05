@@ -354,6 +354,9 @@ $(document).ready(function () {
   });
 
   $(".transportadora").click(function () {
+    var button2 = document.getElementById("generarGuiaBtn");
+    button2.disabled = false;
+
     var priceSpan = $(this).find(".price-tag span");
     var priceValue = priceSpan.text().trim();
     var selectedCompany = $(this).data("company");
@@ -521,6 +524,8 @@ function cargarCiudades() {
   }
 }
 
+//Generar guia
+
 function generar_guia() {
   var button = document.getElementById("generarGuiaBtn");
   button.disabled = true; // Desactivar el botón
@@ -663,4 +668,8 @@ const vaciarTmpPedidos = async () => {
   }
 };
 
-//Generar guia
+// Desactivar el botón al iniciar la página
+document.addEventListener("DOMContentLoaded", function () {
+  var button2 = document.getElementById("generarGuiaBtn");
+  button2.disabled = true;
+});
