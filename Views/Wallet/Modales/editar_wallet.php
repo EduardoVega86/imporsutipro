@@ -46,26 +46,26 @@
             <div class="modal-body">
                 <form id="editar_wallet">
                     <div class="mb-3">
-                        <label for="monto" class="form-label">Monto:</label>
-                        <input type="text" class="form-control" id="monto" placeholder="Ingresar monto">
+                        <label for="total_ventas" class="form-label">total ventas:</label>
+                        <input type="text" class="form-control" id="total_ventas" placeholder="Ingresar total ventas">
                     </div>
                     <div class="mb-3">
-                        <label for="monto" class="form-label">Monto:</label>
-                        <input type="text" class="form-control" id="monto" placeholder="Ingresar monto">
+                        <label for="monto_recibir" class="form-label">monto a recibir:</label>
+                        <input type="text" class="form-control" id="monto_recibir" placeholder="Ingresar monto a recibir">
                     </div>
                     <div class="mb-3">
-                        <label for="monto" class="form-label">Monto:</label>
-                        <input type="text" class="form-control" id="monto" placeholder="Ingresar monto">
+                        <label for="precio_envio" class="form-label">precio de envio:</label>
+                        <input type="text" class="form-control" id="precio_envio" placeholder="Ingresar precio de envio">
                     </div>
                     <div class="mb-3">
-                        <label for="monto" class="form-label">Monto:</label>
-                        <input type="text" class="form-control" id="monto" placeholder="Ingresar monto">
+                        <label for="fulfilment" class="form-label">Fulfilment:</label>
+                        <input type="text" class="form-control" id="fulfilment" placeholder="Ingresar fulfilment">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-primary" form="editar_wallet">Solicitar</button>
+                <button type="submit" class="btn btn-primary" form="editar_wallet">Editar</button>
             </div>
         </div>
     </div>
