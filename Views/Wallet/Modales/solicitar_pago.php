@@ -131,4 +131,8 @@
             }
         });
     });
+
+    function elegirCuenta(){
+        
+    }
 </script>
