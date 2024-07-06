@@ -66,9 +66,20 @@ class GestionModel extends Query
                 print_r($response);
             }
         }
-
         if ($avisar) {
-            //$this->enviarCorreo($guia);
+
+            $sql = "INSERT INTO novedades (guia_novedad, cliente_novedad, estado_novedad, novedad, tracking, fecha, id_plataforma) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            if (strpos($guia, 'IMP') == 0) {
+                $tracking = "https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia=" . $guia;
+            } else if (strpos($guia, 'I00') == 0) {
+                $tracking = "https://ec.gintracom.site/web/site/tracking";
+            } else if (is_numeric($guia)) {
+                $tracking = "https://www.servientrega.com.ec/Tracking/?guia=" . $guia . "&tipo=GUI";
+            }
+            $response = $this->insert($sql, [$guia, $nombre, $codigo, $nombre, $tracking, $novedad["fechaNovedad"], $id_plataforma]);
+            if ($avisar) {
+                //$this->enviarCorreo($guia);
+            }
         }
     }
 
