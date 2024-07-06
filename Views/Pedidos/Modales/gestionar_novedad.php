@@ -165,6 +165,9 @@
         $('#datepicker').daterangepicker({
             singleDatePicker: true,
             minDate: moment().add(1, 'days'), // Deshabilita días anteriores y el día actual
+            locale: {
+                format: 'YYYY-MM-DD' // Establece el formato de fecha
+            },
             isInvalidDate: function(date) {
                 // Deshabilitar fines de semana
                 var day = date.day();
