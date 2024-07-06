@@ -133,6 +133,11 @@
     });
 
     function elegirCuenta(){
-        
+        $("#elegir_cuenta").show();
+        $("#forma_pago").hide();
+    }
+    function formaPago(){
+        $("#elegir_cuenta").hide();
+        $("#forma_pago").show();
     }
 </script>
