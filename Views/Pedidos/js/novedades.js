@@ -153,9 +153,13 @@ function enviar_gintraNovedad() {
   var id_novedad = $("#id_novedad").val();
   var tipo = $("#tipo_gintracom").val();
   var recaudo = "";
-
+  var fecha = "";
+  
   if (tipo == "recaudo") {
-    var recaudo = $("#Valor_recaudar").val();
+    recaudo = $("#Valor_recaudar").val();
+  }
+  if (tipo !== "rechazar") {
+    fecha = $("#datepicker").val();
   }
 
   let formData = new FormData();
@@ -164,6 +168,7 @@ function enviar_gintraNovedad() {
   formData.append("id_novedad", id_novedad);
   formData.append("tipo", tipo);
   formData.append("recaudo", recaudo);
+  formData.append("fecha", fecha);
 
   $.ajax({
     url: SERVERURL + "novedades/solventarNovedadGintracom",
