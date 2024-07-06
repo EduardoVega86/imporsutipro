@@ -10,17 +10,20 @@ class WalletModel extends Query
 
     public function obtenerTiendas()
     {
+        $id_matriz = $this->obtenerMatriz();
+        $id_matriz = $id_matriz[0]['idmatriz'];
         $datos_tienda = $this->select("-- Crear una lista de todas las tiendas
                                         WITH todas_tiendas AS (
                                             SELECT DISTINCT tienda
-                                            FROM cabecera_cuenta_pagar
-                                        )
-
+                                            FROM cabecera_cuenta_pagar where id_matriz = $id_matriz
+										)
                                         -- Contar cuántos registros tienen visto = 0 por tienda
                                         , count_visto_0 AS (
                                             SELECT tienda, COUNT(*) AS count_visto_0, id_plataforma
                                             FROM cabecera_cuenta_pagar
                                             WHERE visto = 0
+                                            and id_matriz = $id_matriz
+                                            
                                             GROUP BY id_plataforma
                                         )
 
@@ -32,6 +35,7 @@ class WalletModel extends Query
                                                 ROUND(SUM(total_venta), 2) AS ventas
                                             FROM cabecera_cuenta_pagar
                                             WHERE visto = 1
+                                            and id_matriz = $id_matriz
                                             GROUP BY id_plataforma
                                         )
                                         
