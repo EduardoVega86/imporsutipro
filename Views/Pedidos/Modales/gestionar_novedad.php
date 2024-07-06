@@ -162,12 +162,13 @@
 </div>
 <script>
     $(function() {
-        $("#datepicker").datepicker({
-            minDate: 1, // No permitir seleccionar el día actual y días anteriores
-            beforeShowDay: function(date) {
-                var day = date.getDay();
-                // No permitir seleccionar fines de semana (0: Domingo, 6: Sábado)
-                return [(day != 0 && day != 6)];
+        $('#datepicker').daterangepicker({
+            singleDatePicker: true,
+            minDate: moment().add(1, 'days'), // Deshabilita días anteriores y el día actual
+            isInvalidDate: function(date) {
+                // Deshabilitar fines de semana
+                var day = date.day();
+                return (day === 0 || day === 6);
             }
         });
     });
