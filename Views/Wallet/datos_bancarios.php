@@ -112,7 +112,9 @@
                                         <label for="cuenta_formaPago" class="form-label">Cuenta:</label>
                                         <input type="text" class="form-control" id="cuenta_formaPago" placeholder="ingrese la cuenta">
                                     </div>
-                                    
+                                    <div class="alert alert-warning" role="alert">
+                                        <strong>Atención:</strong> Usted es responsable de proporcionar una cuenta válida y correcta. Asegúrese de que la información proporcionada sea precisa para evitar problemas en las transacciones.
+                                    </div>
                                     <button type="submit" class="btn btn-success">Enviar datos</button>
                                 </form>
                             </div>
