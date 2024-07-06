@@ -66,6 +66,7 @@ class GestionModel extends Query
                 print_r($response);
             }
         }
+        echo $avisar;
         if ($avisar) {
 
             $sql = "INSERT INTO novedades (guia_novedad, cliente_novedad, estado_novedad, novedad, tracking, fecha, id_plataforma) VALUES (?, ?, ?, ?, ?, ?, ?)";
