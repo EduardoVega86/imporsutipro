@@ -80,16 +80,38 @@
                 });
 
                 cargar_saldoWallet();
-                
+
+                // Ejecutar la función al cargar la página
+                sigue_logeado();
+
+                // Ejecutar la función cada 60 segundos
+                setInterval(sigue_logeado, 60000);
             });
 
-            function cargar_saldoWallet (){
+            function cargar_saldoWallet() {
                 $.ajax({
                     url: SERVERURL + "calculadora/saldo",
                     type: "GET",
                     dataType: "json",
                     success: function(response) {
                         $("#precio_wallet").text(parseFloat(response).toFixed(2));
+                    },
+                    error: function(error) {
+                        console.error("Error al obtener la lista de bodegas:", error);
+                    },
+                });
+            }
+
+            function sigue_logeado() {
+                $.ajax({
+                    url: SERVERURL + "usuarios/sigue_logeado",
+                    type: "GET",
+                    dataType: "json",
+                    success: function(response) {
+                        response = JSON.parse(response);
+                        if (response.status == 400 || response.status == 500) {
+                            location.reload(); // Recargar la página
+                        }
                     },
                     error: function(error) {
                         console.error("Error al obtener la lista de bodegas:", error);
