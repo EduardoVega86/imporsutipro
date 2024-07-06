@@ -222,7 +222,7 @@ class Usuarios extends Controller
             $tiempo_restante = $_SESSION['session_lifetime'] - $tiempo_transcurrido;
 
             if ($tiempo_restante <= 0) {
-                echo json_encode(['status' => 500, 'message' => 'Sesion expirada']);
+                echo json_encode(['status' => 400, 'message' => 'Sesion expirada']);
             } else {
                 echo json_encode(['status' => 200, 'message' => 'Sesion activa', 'tiempo_restante' => $tiempo_restante]);
             }
