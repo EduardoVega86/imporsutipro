@@ -136,7 +136,7 @@ $(document).ready(function () {
     var tipo = $("#tipo_gintracom").val();
     if (tipo == "recaudo") {
       $("#valor_recaudoGintra").show();
-    } else if (tipo == rechazar){
+    } else if (tipo == "rechazar"){
       $("#valor_recaudoGintra").hide();
       $("#fecha_gintra").hide();
     }else{
