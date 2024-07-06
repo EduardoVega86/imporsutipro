@@ -143,6 +143,9 @@
                             <label for="Solucion_novedad ">Solucion a novedad:</label>
                             <input type="text" class="form-control" id="Solucion_novedad ">
                         </div>
+                        <div id="fecha_gintra">
+                            <input type="text" id="datepicker">
+                        </div>
                         <div style="padding-bottom: 5px; display: none;" id="valor_recaudoGintra">
                             <label for="Valor_recaudar">Valor a recaudar:</label>
                             <input type="text" class="form-control" id="Valor_recaudar">
@@ -157,3 +160,15 @@
         </div>
     </div>
 </div>
+<script>
+    $(function() {
+        $("#datepicker").datepicker({
+            minDate: 1, // No permitir seleccionar el día actual y días anteriores
+            beforeShowDay: function(date) {
+                var day = date.getDay();
+                // No permitir seleccionar fines de semana (0: Domingo, 6: Sábado)
+                return [(day != 0 && day != 6)];
+            }
+        });
+    });
+</script>
