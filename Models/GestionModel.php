@@ -77,6 +77,7 @@ class GestionModel extends Query
                 $tracking = "https://www.servientrega.com.ec/Tracking/?guia=" . $guia . "&tipo=GUI";
             }
             $response = $this->insert($sql, [$guia, $nombre, $codigo, $nombre, $tracking, $novedad["fechaNovedad"], $id_plataforma]);
+            print_r($response);
             if ($avisar) {
                 //$this->enviarCorreo($guia);
             }
