@@ -217,11 +217,17 @@ class Usuarios extends Controller
 
     public function sigue_logeado()
     {
-        $tiempo_restante = time() - $_SESSION['login_time'];
-        if ($tiempo_restante <= 0) {
-            echo json_encode(['status' => 500, 'message' => 'Sesion expirada']);
+        if (isset($_SESSION['login_time']) && isset($_SESSION['session_lifetime'])) {
+            $tiempo_transcurrido = time() - $_SESSION['login_time'];
+            $tiempo_restante = $_SESSION['session_lifetime'] - $tiempo_transcurrido;
+
+            if ($tiempo_restante <= 0) {
+                echo json_encode(['status' => 500, 'message' => 'Sesion expirada']);
+            } else {
+                echo json_encode(['status' => 200, 'message' => 'Sesion activa', 'tiempo_restante' => $tiempo_restante]);
+            }
         } else {
-            echo json_encode(['status' => 200, 'message' => 'Sesion activa', 'tiempo_restante' => $tiempo_restante]);
+            echo json_encode(['status' => 500, 'message' => 'Sesion no iniciada']);
         }
     }
 }
