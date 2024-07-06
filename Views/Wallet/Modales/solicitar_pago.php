@@ -74,8 +74,8 @@
                     </div>
 
                     <div class="mb-3" id="forma_pago" style="display: none;">
-                        <label for="formaPago" class="form-label">Elegir forma de pago:</label>
-                        <select class="form-select" id="formaPago">
+                        <label for="formadePago" class="form-label">Elegir forma de pago:</label>
+                        <select class="form-select" id="formadePago">
                             <option value="0">-- Seleccione una cuenta --</option>
                         </select>
                     </div>
