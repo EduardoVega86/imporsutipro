@@ -63,8 +63,8 @@
                     </div>
 
                     <div class="d-flex flex-row">
-                    <button id="downloadExcel" class="btn bnt_elegir" onclick="elegirCuenta()">Elegir cuenta</button>
-                    <button id="downloadExcel" class="btn bnt_elegir" onclick="formaPago()">Elegir forma depago</button>
+                    <button type="button" class="btn bnt_elegir" onclick="elegirCuenta()">Elegir cuenta</button>
+                    <button type="button" class="btn bnt_elegir" onclick="formaPago()">Elegir forma depago</button>
                     </div>
                     <div class="mb-3" id="elegir_cuenta" style="display: none;">
                         <label for="cuenta" class="form-label">Elegir cuenta:</label>
