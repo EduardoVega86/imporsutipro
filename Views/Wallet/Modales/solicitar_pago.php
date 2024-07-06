@@ -34,6 +34,18 @@
         border-color: #ffc107;
         color: white;
     }
+
+    .bnt_elegir {
+        background-color: #1337EC;
+        border-color: #1337EC;
+        color: white;
+    }
+
+    .bnt_elegir:hover {
+        background-color: #102BB4;
+        border-color: #102BB4;
+        color: white;
+    }
 </style>
 
 <div class="modal fade" id="solicitar_pagoModal" tabindex="-1" aria-labelledby="solicitar_pagoModalLabel" aria-hidden="true">
@@ -50,9 +62,20 @@
                         <input type="text" class="form-control" id="monto" placeholder="Ingresar monto">
                     </div>
 
-                    <div class="mb-3">
+                    <div class="d-flex flex-row">
+                    <button id="downloadExcel" class="btn bnt_elegir" onclick="elegirCuenta()">Elegir cuenta</button>
+                    <button id="downloadExcel" class="btn bnt_elegir" onclick="formaPago()">Elegir forma depago</button>
+                    </div>
+                    <div class="mb-3" id="elegir_cuenta" style="display: none;">
                         <label for="cuenta" class="form-label">Elegir cuenta:</label>
                         <select class="form-select" id="cuenta">
+                            <option value="0">-- Seleccione una cuenta --</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3" id="forma_pago" style="display: none;">
+                        <label for="formaPago" class="form-label">Elegir forma de pago:</label>
+                        <select class="form-select" id="formaPago">
                             <option value="0">-- Seleccione una cuenta --</option>
                         </select>
                     </div>
