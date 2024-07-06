@@ -18,10 +18,10 @@ class WalletModel extends Query
 
                                         -- Contar cuántos registros tienen visto = 0 por tienda
                                         , count_visto_0 AS (
-                                            SELECT tienda, COUNT(*) AS count_visto_0
+                                            SELECT tienda, COUNT(*) AS count_visto_0, id_plataforma
                                             FROM cabecera_cuenta_pagar
                                             WHERE visto = 0
-                                            GROUP BY tienda
+                                            GROUP BY id_plataforma
                                         )
 
                                         -- Calcular la suma de monto_recibir y total_venta por tienda cuando visto = 1
@@ -32,12 +32,17 @@ class WalletModel extends Query
                                                 ROUND(SUM(total_venta), 2) AS ventas
                                             FROM cabecera_cuenta_pagar
                                             WHERE visto = 1
-                                            GROUP BY tienda
+                                            GROUP BY id_plataforma
                                         )
+                                        
+                                        , plataformas AS (
+                                            SELECT DISTINCT url_imporsuit, id_plataforma
+                                            FROM plataformas)
 
                                         -- Combinar todos los resultados y ordenar por count_visto_0 de mayor a menor
                                         SELECT 
-                                            t.tienda,
+                                        	t.tienda,
+                                            p.url_imporsuit, p.id_plataforma,
                                             COALESCE(cv0.count_visto_0, 0) AS count_visto_0,
                                             COALESCE(sv1.utilidad, 0) AS utilidad,
                                             COALESCE(sv1.ventas, 0) AS ventas
@@ -47,6 +52,8 @@ class WalletModel extends Query
                                             count_visto_0 cv0 ON t.tienda = cv0.tienda
                                         LEFT JOIN 
                                             sum_visto_1 sv1 ON t.tienda = sv1.tienda
+                                        LEFT JOIN 
+											plataformas p ON p.id_plataforma = cv0.id_plataforma
                                         ORDER BY 
                                             count_visto_0 DESC;");
         return json_encode($datos_tienda);
@@ -180,6 +187,8 @@ class WalletModel extends Query
             $matriz = $matriz[0]['idmatriz'];
             $sql = "INSERT INTO cabecera_cuenta_pagar (`tienda`, `numero_factura`, `guia`, `costo`, `monto_recibir`, `valor_pendiente`, `estado_guia`, `visto`, `full`, `fecha`, `cliente`, `id_plataforma`,`id_matriz`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $response =  $this->insert($sql, array($proveedor, $numero_factura . '-P', $guia, $costo, $costo - $full, $costo - $full, 7, 0, $full, $fecha, $cliente, $id_plataforma, $matriz));
+            if ($full > 0) {
+            }
         }
 
         ///buscar si es referido de alguien
@@ -464,7 +473,7 @@ class WalletModel extends Query
 
     public function obtenerHistorial($tienda)
     {
-        $sql = "SELECT * FROM billeteras WHERE tienda = '$tienda'";
+        $sql = "SELECT * FROM billeteras WHERE id_plataforma = '$tienda'";
         $response =  $this->select($sql);
         if (!empty($response)) {
 
