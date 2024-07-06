@@ -211,8 +211,6 @@ class AccesoModel extends Query
                             $_SESSION['matriz'] = $id_matriz;
                             $_SESSION["enlace"] = "https://" . $tienda . "." . DOMINIO;
                             $_SESSION['cargo'] = 1;
-                            $_SESSION["session_lifetime"] = 3600;
-
                             //enviar correo
                             $url_change = "https://" . $tienda . "." . DOMINIO;
                             require_once 'PHPMailer/Mail.php';
@@ -289,7 +287,6 @@ class AccesoModel extends Query
                 $_SESSION["enlace"] = "https://" . $nombre_tienda[0]['nombre_tienda'] . "." . DOMINIO;
                 $_SESSION['matriz'] = $this->obtenerMatriz();
                 $_SESSION['cargo'] = $datos_usuario[0]['cargo_users'];
-                $_SESSION["session_lifetime"] = 3600;
             } else {
                 $response = $this->initialResponse();
                 $response['status'] = 401;
