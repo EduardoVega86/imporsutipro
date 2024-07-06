@@ -161,7 +161,12 @@ const listGuias = async () => {
         novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
       } else if (guia.estado_guia_sistema == 6 && transporte == 3) {
         novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
-      } if ((guia.estado_guia_sistema >= 318 && guia.estado_guia_sistema <= 351) && transporte == 2) {
+      }
+      if (
+        guia.estado_guia_sistema >= 318 &&
+        guia.estado_guia_sistema <= 351 &&
+        transporte == 2
+      ) {
         novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
       }
 
@@ -453,7 +458,7 @@ function validar_estadoServi(estado) {
 function validar_estadoGintracom(estado) {
   var span_estado = "";
   var estado_guia = "";
-  
+
   if (estado == 1) {
     span_estado = "badge_generado";
     estado_guia = "Generada";
@@ -493,7 +498,7 @@ function validar_estadoGintracom(estado) {
   } else if (estado == 13) {
     span_estado = "badge_danger";
     estado_guia = "Devolucion en tránsito";
-  } 
+  }
 
   return {
     span_estado: span_estado,
@@ -739,18 +744,22 @@ function gestionar_novedad(guia_novedad) {
         transportadora = "LAAR";
         $("#seccion_laar").show();
         $("#seccion_servientrega").hide();
+        $("#seccion_gintracom").hide();
       } else if (response.novedad[0].guia_novedad.includes("I")) {
         transportadora = "GINTRACOM";
         $("#seccion_laar").hide();
         $("#seccion_servientrega").hide();
+        $("#seccion_gintracom").show();
       } else if (response.novedad[0].guia_novedad.includes("SPD")) {
         transportadora = "SPEED";
         $("#seccion_laar").hide();
         $("#seccion_servientrega").hide();
+        $("#seccion_gintracom").hide();
       } else {
         transportadora = "SERVIENTREGA";
         $("#seccion_laar").hide();
         $("#seccion_servientrega").show();
+        $("#seccion_gintracom").hide();
       }
 
       $("#id_gestionarNov").text(response.novedad[0].id_novedad);
@@ -767,6 +776,71 @@ function gestionar_novedad(guia_novedad) {
     },
     error: function (error) {
       console.error("Error al obtener la lista de bodegas:", error);
+    },
+  });
+}
+$(document).ready(function () {
+  $("#tipo_gintracom").change(function () {
+    var tipo = $("#tipo_gintracom").val();
+    if (tipo == "recaudo") {
+      $("#valor_recaudoGintra").show();
+      $("#fecha_gintra").show();
+    } else if (tipo == "rechazar") {
+      $("#valor_recaudoGintra").hide();
+      $("#fecha_gintra").hide();
+    } else {
+      $("#valor_recaudoGintra").hide();
+      $("#fecha_gintra").show();
+    }
+  });
+});
+
+function enviar_gintraNovedad() {
+  var guia = $("#numero_guia").val();
+  var observacion = $("#Solucion_novedad").val();
+  var id_novedad = $("#id_novedad").val();
+  var tipo = $("#tipo_gintracom").val();
+  var recaudo = "";
+  var fecha = "";
+
+  if (tipo == "recaudo") {
+    recaudo = $("#Valor_recaudar").val();
+  }
+  if (tipo !== "rechazar") {
+    fecha = $("#datepicker").val();
+  }
+
+  let formData = new FormData();
+  formData.append("guia", guia);
+  formData.append("observacion", observacion);
+  formData.append("id_novedad", id_novedad);
+  formData.append("tipo", tipo);
+  formData.append("recaudo", recaudo);
+  formData.append("fecha", fecha);
+
+  $.ajax({
+    url: SERVERURL + "novedades/solventarNovedadGintracom",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    success: function (response) {
+      response = JSON.parse(response);
+      if (response.status == 500) {
+        toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+
+        $("#gestionar_novedadModal").modal("hide");
+        initDataTableNovedades();
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
     },
   });
 }

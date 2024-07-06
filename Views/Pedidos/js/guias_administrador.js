@@ -53,10 +53,13 @@ const listGuias = async () => {
     formData.append("transportadora", $("#transporte").val());
     formData.append("impreso", $("#impresion").val());
 
-    const response = await fetch(`${SERVERURL}pedidos/obtener_guiasAdministrador`, {
-      method: "POST",
-      body: formData,
-    });
+    const response = await fetch(
+      `${SERVERURL}pedidos/obtener_guiasAdministrador`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
     const guias = await response.json();
 
     let content = ``;
@@ -125,7 +128,12 @@ const listGuias = async () => {
         novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
       } else if (guia.estado_guia_sistema == 6 && transporte == 3) {
         novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
-      } if ((guia.estado_guia_sistema >= 318 && guia.estado_guia_sistema <= 351) && transporte == 2) {
+      }
+      if (
+        guia.estado_guia_sistema >= 318 &&
+        guia.estado_guia_sistema <= 351 &&
+        transporte == 2
+      ) {
         novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
       }
 
@@ -152,7 +160,9 @@ const listGuias = async () => {
                         <div>telf: ${guia.telefono}</div>
                     </td>
                     <td>${guia.provinciaa}-${ciudad}</td>
-                    <td><span class="link-like" id="plataformaLink">${guia.tienda}</span></td>
+                    <td><span class="link-like" id="plataformaLink">${
+                      guia.tienda
+                    }</span></td>
                     <td>${transporte_content}</td>
                     <td>
                      <div style="text-align: center;">
@@ -593,18 +603,22 @@ function gestionar_novedad(guia_novedad) {
         transportadora = "LAAR";
         $("#seccion_laar").show();
         $("#seccion_servientrega").hide();
+        $("#seccion_gintracom").hide();
       } else if (response.novedad[0].guia_novedad.includes("I")) {
         transportadora = "GINTRACOM";
         $("#seccion_laar").hide();
         $("#seccion_servientrega").hide();
+        $("#seccion_gintracom").show();
       } else if (response.novedad[0].guia_novedad.includes("SPD")) {
         transportadora = "SPEED";
         $("#seccion_laar").hide();
         $("#seccion_servientrega").hide();
+        $("#seccion_gintracom").hide();
       } else {
         transportadora = "SERVIENTREGA";
         $("#seccion_laar").hide();
         $("#seccion_servientrega").show();
+        $("#seccion_gintracom").hide();
       }
 
       $("#id_gestionarNov").text(response.novedad[0].id_novedad);
@@ -621,6 +635,71 @@ function gestionar_novedad(guia_novedad) {
     },
     error: function (error) {
       console.error("Error al obtener la lista de bodegas:", error);
+    },
+  });
+}
+$(document).ready(function () {
+  $("#tipo_gintracom").change(function () {
+    var tipo = $("#tipo_gintracom").val();
+    if (tipo == "recaudo") {
+      $("#valor_recaudoGintra").show();
+      $("#fecha_gintra").show();
+    } else if (tipo == "rechazar") {
+      $("#valor_recaudoGintra").hide();
+      $("#fecha_gintra").hide();
+    } else {
+      $("#valor_recaudoGintra").hide();
+      $("#fecha_gintra").show();
+    }
+  });
+});
+
+function enviar_gintraNovedad() {
+  var guia = $("#numero_guia").val();
+  var observacion = $("#Solucion_novedad").val();
+  var id_novedad = $("#id_novedad").val();
+  var tipo = $("#tipo_gintracom").val();
+  var recaudo = "";
+  var fecha = "";
+
+  if (tipo == "recaudo") {
+    recaudo = $("#Valor_recaudar").val();
+  }
+  if (tipo !== "rechazar") {
+    fecha = $("#datepicker").val();
+  }
+
+  let formData = new FormData();
+  formData.append("guia", guia);
+  formData.append("observacion", observacion);
+  formData.append("id_novedad", id_novedad);
+  formData.append("tipo", tipo);
+  formData.append("recaudo", recaudo);
+  formData.append("fecha", fecha);
+
+  $.ajax({
+    url: SERVERURL + "novedades/solventarNovedadGintracom",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    success: function (response) {
+      response = JSON.parse(response);
+      if (response.status == 500) {
+        toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+
+        $("#gestionar_novedadModal").modal("hide");
+        initDataTableNovedades();
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
     },
   });
 }
