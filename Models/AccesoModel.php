@@ -123,7 +123,7 @@ class AccesoModel extends Query
                     $response['message'] = "Error al crear el perfil";
                 }
             } else {
-                $response['message'] = "Error al crear la plataforma! Intentelo nuevamente";
+                $response['message'] = $insertar_plataforma["message"];
                 //$borrar_usuario=$this->delete($sql, $data);
             }
 
