@@ -214,4 +214,14 @@ class Usuarios extends Controller
         $response = $this->model->guardar_imagen_favicon($_FILES['imagen'], $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
+
+    public function sigue_logeado()
+    {
+        $tiempo_restante = time() - $_SESSION['login_time'];
+        if ($tiempo_restante <= 0) {
+            echo json_encode(['status' => 500, 'message' => 'Sesion expirada']);
+        } else {
+            echo json_encode(['status' => 200, 'message' => 'Sesion activa']);
+        }
+    }
 }
