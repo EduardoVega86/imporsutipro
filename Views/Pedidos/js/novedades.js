@@ -136,8 +136,13 @@ $(document).ready(function () {
     var tipo = $("#tipo_gintracom").val();
     if (tipo == "recaudo") {
       $("#valor_recaudoGintra").show();
-    } else {
+      $("#fecha_gintra").show();
+    } else if (tipo == rechazar){
       $("#valor_recaudoGintra").hide();
+      $("#fecha_gintra").hide();
+    }else{
+      $("#valor_recaudoGintra").hide();
+      $("#fecha_gintra").show();
     }
   });
 });

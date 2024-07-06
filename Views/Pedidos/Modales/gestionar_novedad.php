@@ -143,7 +143,7 @@
                             <label for="Solucion_novedad ">Solucion a novedad:</label>
                             <input type="text" class="form-control" id="Solucion_novedad ">
                         </div>
-                        <div id="fecha_gintra">
+                        <div style="padding-bottom: 5px; display: none;" id="fecha_gintra">
                             <input type="text" id="datepicker">
                         </div>
                         <div style="padding-bottom: 5px; display: none;" id="valor_recaudoGintra">
