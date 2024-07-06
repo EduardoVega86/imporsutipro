@@ -108,7 +108,7 @@ class CalculadoraModel extends Query
         $select = $this->select("SELECT * FROM plataformas WHERE id_plataforma = '$plataforma' ");
         $url = $select[0]['url_imporsuit'];
 
-        $billetera = $this->select("SELECT * FROM billeteras WHERE tienda = '$url' ");
+        $billetera = $this->select("SELECT * FROM billeteras WHERE id_plataforma = '$plataforma'");
         if (empty($billetera)) {
             $saldo = 0;
         } else {
