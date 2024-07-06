@@ -117,6 +117,8 @@ class WalletModel extends Query
         $guias_pendientes = $this->select("SELECT COUNT(*) as guias_pendientes FROM cabecera_cuenta_pagar WHERE id_plataforma = '$tienda' and visto = 0");
         $pagos = $this->select("SELECT * FROM `pagos` WHERE id_plataforma = '$tienda'");
         $abonos_registrados = $this->select("SELECT ROUND(SUM(valor),2) as pagos  FROM `pagos` WHERE id_plataforma = '$tienda' and recargo = 0");
+        $plataforma_url = $this->select("SELECT url_imporsuit FROM plataformas WHERE id_plataforma = '$tienda'");
+
 
         $billtera = $this->select("SELECT saldo FROM billeteras WHERE id_plataforma = '$tienda'");
         $data = [
@@ -126,7 +128,8 @@ class WalletModel extends Query
             'guias_pendientes' => $guias_pendientes[0]['guias_pendientes'] ?? 0,
             'pagos' => $pagos ?? 0,
             'abonos_registrados' => $abonos_registrados[0]['pagos'] ?? 0,
-            'saldo' => $billtera[0]['saldo'] ?? 0
+            'saldo' => $billtera[0]['saldo'] ?? 0,
+            'plataforma_url' => $plataforma_url[0]['url_imporsuit'] ?? 0
         ];
 
         return $data;
