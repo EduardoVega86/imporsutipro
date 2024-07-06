@@ -62,7 +62,7 @@
                         <input type="text" class="form-control" id="monto" placeholder="Ingresar monto">
                     </div>
 
-                    <div class="d-flex flex-row">
+                    <div class="d-flex flex-row gap-3">
                     <button type="button" class="btn bnt_elegir" onclick="elegirCuenta()">Elegir cuenta</button>
                     <button type="button" class="btn bnt_elegir" onclick="formaPago()">Elegir forma de pago</button>
                     </div>
