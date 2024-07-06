@@ -174,7 +174,7 @@ class WalletModel extends Query
 
         $id_plataforma = $this->select("SELECT id_plataforma FROM plataformas WHERE url_imporsuit = '$proveedor'")[0]['id_plataforma'];
 
-        if ($proveedor != NULL || $proveedor != $tienda) {
+        if ($proveedor != NULL && $proveedor != $tienda) {
             $full = $this->buscarFull($numero_factura, $id_plataforma);
 
             $sql = "INSERT INTO cabecera_cuenta_pagar (`tienda`, `numero_factura`, `guia`, `costo`, `monto_recibir`, `valor_pendiente`, `estado_guia`, `visto`, `full`, `fecha`, `cliente`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
