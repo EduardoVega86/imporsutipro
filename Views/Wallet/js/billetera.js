@@ -25,7 +25,7 @@ function cargarDashboard_wallet() {
         "src",
         SERVERURL + "public/img/profile_wallet.png"
       );
-      $("#tienda_span").text(tienda);
+      $("#tienda_span").text(response.plataforma_url);
 
       $("#totalVentas_wallet").text(response.ventas);
       $("#utilidadGenerada_wallet").text(response.utilidad);
