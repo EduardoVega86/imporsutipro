@@ -221,7 +221,7 @@ class Usuarios extends Controller
         if ($tiempo_restante <= 0) {
             echo json_encode(['status' => 500, 'message' => 'Sesion expirada']);
         } else {
-            echo json_encode(['status' => 200, 'message' => 'Sesion activa']);
+            echo json_encode(['status' => 200, 'message' => 'Sesion activa', 'tiempo_restante' => $tiempo_restante]);
         }
     }
 }
