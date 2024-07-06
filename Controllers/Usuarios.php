@@ -215,7 +215,7 @@ class Usuarios extends Controller
         echo json_encode($response);
     }
 
-    /* public function sigue_logeado()
+    public function sigue_logeado()
     {
         if (isset($_SESSION['login_time']) && isset($_SESSION['session_lifetime'])) {
             $tiempo_transcurrido = time() - $_SESSION['login_time'];
@@ -229,5 +229,5 @@ class Usuarios extends Controller
         } else {
             echo json_encode(['status' => 500, 'message' => 'Sesion no iniciada']);
         }
-    } */
+    }
 }
