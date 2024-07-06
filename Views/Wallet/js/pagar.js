@@ -470,7 +470,10 @@ const listHistorialPago = async () => {
       body: formData,
     });
 
-    
+    // Verifica si la respuesta no es OK
+    if (!response.ok) {
+      return;
+    }
 
     console.log("sin json: "+ response);
     // Analiza la respuesta como JSON
