@@ -112,6 +112,7 @@
                                         <label for="cuenta_formaPago" class="form-label">Cuenta:</label>
                                         <input type="text" class="form-control" id="cuenta_formaPago" placeholder="ingrese la cuenta">
                                     </div>
+                                    
                                     <button type="submit" class="btn btn-success">Enviar datos</button>
                                 </form>
                             </div>

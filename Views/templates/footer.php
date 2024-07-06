@@ -82,10 +82,9 @@
                 cargar_saldoWallet();
 
                 // Ejecutar la función al cargar la página
-                sigue_logeado();
-
                 // Ejecutar la función cada 60 segundos
-                setInterval(sigue_logeado, 60000);
+                /* sigue_logeado();
+                setInterval(sigue_logeado, 60000); */
             });
 
             function cargar_saldoWallet() {
