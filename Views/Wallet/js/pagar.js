@@ -475,8 +475,11 @@ const listHistorialPago = async () => {
       return;
     }
 
+    console.log("sin json: "+ response);
     // Analiza la respuesta como JSON
     const historialPago = await response.json();
+
+    console.log("json: "+historialPago);
 
     let content = ``;
 
