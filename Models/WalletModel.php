@@ -120,7 +120,7 @@ class WalletModel extends Query
         $plataforma_url = $this->select("SELECT url_imporsuit FROM plataformas WHERE id_plataforma = '$tienda'");
 
 
-        $billtera = $this->select("SELECT saldo FROM billeteras WHERE id_plataforma = '$tienda'");
+        $billtera = $this->select("SELECT ROUND(saldo,2) FROM billeteras WHERE id_plataforma = '$tienda'");
         $data = [
             'utilidad' => $datos_facturas_entregadas[0]['utilidad'] ?? 0,
             'ventas' => $datos_facturas_entregadas[0]['ventas'] ?? 0,
