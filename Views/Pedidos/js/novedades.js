@@ -96,18 +96,22 @@ function gestionar_novedad(guia_novedad) {
         transportadora = "LAAR";
         $("#seccion_laar").show();
         $("#seccion_servientrega").hide();
+        $("#seccion_gintracom").hide();
       } else if (response.novedad[0].guia_novedad.includes("I")) {
         transportadora = "GINTRACOM";
         $("#seccion_laar").hide();
         $("#seccion_servientrega").hide();
+        $("#seccion_gintracom").show();
       } else if (response.novedad[0].guia_novedad.includes("SPD")) {
         transportadora = "SPEED";
         $("#seccion_laar").hide();
         $("#seccion_servientrega").hide();
+        $("#seccion_gintracom").hide();
       } else {
         transportadora = "SERVIENTREGA";
         $("#seccion_laar").hide();
         $("#seccion_servientrega").show();
+        $("#seccion_gintracom").hide();
       }
 
       $("#id_gestionarNov").text(response.novedad[0].id_novedad);
@@ -124,6 +128,61 @@ function gestionar_novedad(guia_novedad) {
     },
     error: function (error) {
       console.error("Error al obtener la lista de bodegas:", error);
+    },
+  });
+}
+$(document).ready(function () {
+  $("#tipo_gintracom").change(function () {
+    var tipo = $("#tipo_gintracom").val();
+    if (tipo == "recaudo") {
+      $("#valor_recaudoGintra").show();
+    } else {
+      $("#valor_recaudoGintra").hide();
+    }
+  });
+});
+
+function enviar_gintraNovedad() {
+  var guia = $("#numero_guia").val();
+  var observacion = $("#Solucion_novedad").val();
+  var id_novedad = $("#id_novedad").val();
+  var tipo = $("#tipo_gintracom").val();
+  var recaudo = "";
+
+  if (tipo == "recaudo") {
+    var recaudo = $("#Valor_recaudar").val();
+  }
+
+  let formData = new FormData();
+  formData.append("guia", guia);
+  formData.append("observacion", observacion);
+  formData.append("id_novedad", id_novedad);
+  formData.append("tipo", tipo);
+  formData.append("recaudo", recaudo);
+
+  $.ajax({
+    url: SERVERURL + "novedades/solventarNovedadGintracom",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    success: function (response) {
+      response = JSON.parse(response);
+      if (response.status == 500) {
+        toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+
+        $("#gestionar_novedadModal").modal("hide");
+        initDataTableNovedades();
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
     },
   });
 }
