@@ -478,12 +478,11 @@ class WalletModel extends Query
     public function obtenerHistorial($tienda)
     {
         $sql = "SELECT * FROM billeteras WHERE id_plataforma = '$tienda'";
-        echo $sql;
+
         $response =  $this->select($sql);
         if (!empty($response)) {
 
             $plataforma = $response[0]['id_billetera'];
-            echo $plataforma;
             $sql = "SELECT hb.*, u.nombre_users as nombre FROM historial_billetera hb INNER join users u on u.id_users = hb.id_responsable WHERE hb.id_billetera = '$plataforma'";
             $response =  $this->select($sql);
         } else {
