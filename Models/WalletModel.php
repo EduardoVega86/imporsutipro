@@ -580,6 +580,7 @@ class WalletModel extends Query
             $responses["status"] = 400;
             $responses["message"] = $response["message"];
         }
+        return $responses;
     }
 
     public function agregarOtroPago($tipo, $cuenta, $plataforma)
