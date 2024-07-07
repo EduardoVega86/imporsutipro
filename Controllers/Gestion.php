@@ -73,7 +73,7 @@ class Gestion extends Controller
         }
 
         if ($notificar) {
-            $this->model->notificar($novedades, $noGuia);
+            //    $this->model->notificar($novedades, $noGuia);
         }
     }
 }
