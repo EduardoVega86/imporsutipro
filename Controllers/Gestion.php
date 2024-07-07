@@ -15,8 +15,12 @@ class Gestion extends Controller
     public function laar()
     {
         $json = file_get_contents('php://input');
-        $this->model->capturador($json);
         $data = json_decode($json, true);
+
+        // Eliminar el campo 'imagenes' si existe
+        if (isset($data['imagenes'])) {
+            unset($data['imagenes']);
+        }
 
         $estadoActualCodigo = $data['estadoActualCodigo'];
         $novedades = $data['novedades'];
