@@ -15,31 +15,39 @@ FROM `inventario_bodegas` AS ib
 INNER JOIN `productos` AS p ON p.`id_producto` = ib.`id_producto`
 WHERE ib.`id_plataforma` = $plataforma
 GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
-        
+
         return $this->select($sql);
     }
-    
-     public function obtener_productos_inventario($plataforma)
+
+    public function obtener_productos_inventario($plataforma)
     {
         $sql = "SELECT * FROM productos p LEFT JOIN inventario_bodegas ib ON p.id_producto = ib.id_producto AND ib.id_plataforma = $plataforma LEFT JOIN variedades v ON ib.id_variante = v.id_variedad WHERE ib.id_plataforma = $plataforma";
-      //  echo $sql;
+        //  echo $sql;
         return $this->select($sql);
     }
-    
-    
+
+    /* tienda online */
+    public function obtener_infoTiendaOnline($plataforma)
+    {   
+        $sql = "SELECT * FROM plataformas pl, perfil pe WHERE pl.id_plataforma=$plataforma and pe.id_plataforma=pl.id_plataforma;";
+
+        return $this->select($sql);
+    }
+    /* Fin tienda online */
+
 
     public function agregarProducto($codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $plataforma, $stock_inicial, $bodega, $pcp, $pvp, $pref)
     {
         $response = $this->initialResponse();
-      //  echo $descripcion_producto;
+        //  echo $descripcion_producto;
         //echo '------';
-        
-       // $descripcion_producto = "<p><strong>2 EN 1 x 100 CAPSULAS</strong></p><p>- Mejora la atención y la memoria.</p><p>- Mejora el rendimiento cerebral.</p><p>- Reduce la capacidad de concentración.</p><p>- Mejora la función cognitiva.</p>";
-       // echo $descripcion_producto;
+
+        // $descripcion_producto = "<p><strong>2 EN 1 x 100 CAPSULAS</strong></p><p>- Mejora la atención y la memoria.</p><p>- Mejora el rendimiento cerebral.</p><p>- Reduce la capacidad de concentración.</p><p>- Mejora la función cognitiva.</p>";
+        // echo $descripcion_producto;
         $sql = "INSERT INTO productos (codigo_producto, nombre_producto, descripcion_producto, id_linea_producto, inv_producto, producto_variable, costo_producto, aplica_iva, estado_producto, date_added, image_path, id_imp_producto, pagina_web, formato, drogshipin, destacado, id_plataforma) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $data = [$codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $plataforma];
         $insertar_producto = $this->insert($sql, $data);
-        
+
 
         if (!$pref) {
             $pref = 0;
@@ -48,10 +56,10 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
         $id_producto = $this->select($sql_id);
         $id_producto = $id_producto[0]['id_producto'];
         if ($inv_producto == 1) {
-           //echo $producto_variable;
+            //echo $producto_variable;
 
             if ($producto_variable == 0) {
-                
+
                 // echo 'con invetario';
                 $sql = "INSERT INTO inventario_bodegas (sku, id_producto, id_variante, bodega, pcp, pvp, pref, stock_inicial, saldo_stock, id_plataforma) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 $data = [$codigo_producto, $id_producto, 0, $bodega, $pcp, $pvp, $pref, $stock_inicial, $stock_inicial, $plataforma];
@@ -61,7 +69,7 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
                 $data = [$codigo_producto, $id_producto, $producto_variable, 50000, $pcp, $pvp, $pref, $stock_inicial, $stock_inicial, $plataforma];
             }
             $insertar_producto = $this->insert($sql, $data);
-           // print_r($insertar_producto);
+            // print_r($insertar_producto);
         } else {
             //bodega inicial
             $sql_bodega = "SELECT * FROM bodega WHERE id_plataforma = $plataforma limit 1";
@@ -73,7 +81,7 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
         }
         // print_r($insertar_producto);
         if ($insertar_producto == 1) {
-//echo $codigo_producto;
+            //echo $codigo_producto;
             $id_usuario = $_SESSION['id'];
             $id_inventario = $this->buscar_inventario($id_producto, $codigo_producto);
             $referencia = 'STOCK INICIAL';
@@ -135,7 +143,7 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
             $data_insert = [$codigo_producto, $id, 0, $bodega, $pcp, $pvp, $pref, 0, 0, $id, $plataforma];
             $insertar_producto_ = $this->update($sql_insert, $data_insert);
         }
-       // print_r($insertar_producto_);
+        // print_r($insertar_producto_);
         if ($editar_producto == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
@@ -169,14 +177,14 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
         return $response;
     }
 
-   public function obtenerProducto($id, $plataforma)
+    public function obtenerProducto($id, $plataforma)
     {
         $sql = "SELECT * FROM `productos` p, inventario_bodegas ib where p.id_producto=$id and p.id_producto=ib.id_producto limit 1;";
-      // echo $sql;
+        // echo $sql;
         return $this->select($sql);
     }
-    
-    
+
+
     public function obtenerProductoFavoritos($id, $plataforma)
     {
         $sql = "SELECT * FROM productos p inner join inventario_bodegas ib on p.codigo_producto = ib.sku WHERE p.id_producto = $id AND p.id_plataforma = $plataforma";
@@ -237,10 +245,10 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
         }
         return $response;
     }
-    
-    
-    
-    
+
+
+
+
 
     public function obtener_productos_bodegas($id_bodega, $plataforma)
     {
@@ -466,31 +474,31 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
     {
         $id_matriz = $this->obtenerMatriz();
         $id_matriz = $id_matriz[0]['idmatriz'];
-        
-//        $sql = "SELECT DISTINCT b.*, p.*
-//FROM bodega b
-//JOIN plataformas p ON b.id_plataforma = p.id_plataforma
-//WHERE b.id_plataforma = $plataforma
-//   OR (b.global = 1 AND p.id_matriz = $id_matriz)";
-        
-        $sql_full="select full_f from plataformas where id_plataforma=$plataforma";
+
+        //        $sql = "SELECT DISTINCT b.*, p.*
+        //FROM bodega b
+        //JOIN plataformas p ON b.id_plataforma = p.id_plataforma
+        //WHERE b.id_plataforma = $plataforma
+        //   OR (b.global = 1 AND p.id_matriz = $id_matriz)";
+
+        $sql_full = "select full_f from plataformas where id_plataforma=$plataforma";
         $bodega_full = $this->select($sql_full);
         $full_filme = $bodega_full[0]['full_f'];
-        
-        if($full_filme==0){
-         $sql = "SELECT DISTINCT b.*, p.*
+
+        if ($full_filme == 0) {
+            $sql = "SELECT DISTINCT b.*, p.*
 FROM bodega b
 JOIN plataformas p ON b.id_plataforma = p.id_plataforma
-WHERE b.id_plataforma = $plataforma";   
-        }else{
-               $sql = "SELECT DISTINCT b.*, p.*
+WHERE b.id_plataforma = $plataforma";
+        } else {
+            $sql = "SELECT DISTINCT b.*, p.*
                 FROM bodega b
                 JOIN plataformas p ON b.id_plataforma = p.id_plataforma
                 WHERE b.id_plataforma = $plataforma
-                OR (b.global = 1 AND p.id_matriz = $id_matriz)";  
+                OR (b.global = 1 AND p.id_matriz = $id_matriz)";
         }
-        
-        
+
+
         //echo $sql;
         return $this->select($sql);
     }
@@ -516,56 +524,52 @@ WHERE b.id_plataforma = $plataforma";
         }
         return $response;
     }
-    
-     public function agregarVariable($id_variedad, $id_producto, $sku, $bodega, $pcp, $pvp, $stock, $plataforma, $pref)
+
+    public function agregarVariable($id_variedad, $id_producto, $sku, $bodega, $pcp, $pvp, $stock, $plataforma, $pref)
     {
-         
-       //  echo $bodega;
+
+        //  echo $bodega;
         $response = $this->initialResponse();
-        $inicial_variable= $this->select("SELECT id_inventario FROM inventario_bodegas WHERE id_producto = '$id_producto' and bodega=50000" );
-                   
-          //print_r($cantidad_tmp);
-          if (empty($inicial_variable)){
-                $sql = "INSERT INTO inventario_bodegas (id_producto, sku, id_variante, bodega, pcp, pvp, stock_inicial, saldo_stock, id_plataforma, pref) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $data = [$id_producto, $sku, $id_variedad, $bodega, $pcp, $pvp, $stock, $stock, $plataforma, $pref];
-        $insertar_caracteristica = $this->insert($sql, $data);
-        
-        
-        
-          }else{
-             // print_r($inicial_variable);
-               $id_inventario = $inicial_variable[0]["id_inventario"];
-               $sql = "UPDATE `inventario_bodegas` SET  `sku`=?, `bodega`=? ,`pcp`=? ,`pvp`=? ,`stock_inicial`=? ,`saldo_stock`=?, `id_variante`=?  WHERE `id_inventario` = ?";
-                $data = [$sku, $bodega ,$pcp ,$pvp ,$stock ,$stock ,$id_variedad, $id_inventario];
-               $insertar_caracteristica = $this->update($sql, $data);
-        
-          }
-              
-          
-         // print_r($insertar_caracteristica);
+        $inicial_variable = $this->select("SELECT id_inventario FROM inventario_bodegas WHERE id_producto = '$id_producto' and bodega=50000");
+
+        //print_r($cantidad_tmp);
+        if (empty($inicial_variable)) {
+            $sql = "INSERT INTO inventario_bodegas (id_producto, sku, id_variante, bodega, pcp, pvp, stock_inicial, saldo_stock, id_plataforma, pref) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $data = [$id_producto, $sku, $id_variedad, $bodega, $pcp, $pvp, $stock, $stock, $plataforma, $pref];
+            $insertar_caracteristica = $this->insert($sql, $data);
+        } else {
+            // print_r($inicial_variable);
+            $id_inventario = $inicial_variable[0]["id_inventario"];
+            $sql = "UPDATE `inventario_bodegas` SET  `sku`=?, `bodega`=? ,`pcp`=? ,`pvp`=? ,`stock_inicial`=? ,`saldo_stock`=?, `id_variante`=?  WHERE `id_inventario` = ?";
+            $data = [$sku, $bodega, $pcp, $pvp, $stock, $stock, $id_variedad, $id_inventario];
+            $insertar_caracteristica = $this->update($sql, $data);
+        }
+
+
+        // print_r($insertar_caracteristica);
         if ($insertar_caracteristica == 1) {
-        $id_usuario=$_SESSION['id'];
-       $cantidad=$stock;
+            $id_usuario = $_SESSION['id'];
+            $cantidad = $stock;
             $referencia = 'STOCK INICIAL';
             $nota = "Se agrego $stock productos(s) al inventario";
-               $id_inventario = $this->buscar_inventario($id_producto, $sku);
-        $nota= "Se agrego $cantidad productos(s) al inventario";
-        $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $data = [$id_usuario, $id_inventario, $plataforma, $sku,  $nota, $referencia, $cantidad, 1, $bodega ,$id_producto];
-        $insertar_historial = $this->insert($sql, $data);
+            $id_inventario = $this->buscar_inventario($id_producto, $sku);
+            $nota = "Se agrego $cantidad productos(s) al inventario";
+            $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $data = [$id_usuario, $id_inventario, $plataforma, $sku,  $nota, $referencia, $cantidad, 1, $bodega, $id_producto];
+            $insertar_historial = $this->insert($sql, $data);
 
-        if ($insertar_historial == 1) {
-            $response['status'] = 200;
-            $response['title'] = 'Peticion exitosa';
-            $response['message'] = 'Producto agregado correctamente';
-            if ($insertar_producto_ === 1) {
-                $response['message'] = 'Producto y stock agregado correctamente';
+            if ($insertar_historial == 1) {
+                $response['status'] = 200;
+                $response['title'] = 'Peticion exitosa';
+                $response['message'] = 'Producto agregado correctamente';
+                if ($insertar_producto_ === 1) {
+                    $response['message'] = 'Producto y stock agregado correctamente';
+                }
+            } else {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'Error al agregar el historial';
             }
-        } else {
-            $response['status'] = 500;
-            $response['title'] = 'Error';
-            $response['message'] = 'Error al agregar el historial';
-        }
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
@@ -576,9 +580,9 @@ WHERE b.id_plataforma = $plataforma";
 
     public function listarCaracteristicas($plataforma)
     {
-        
+
         $sql = "SELECT * FROM variedades WHERE id_plataforma = $plataforma";
-       
+
         return $this->select($sql);
     }
 
@@ -647,52 +651,52 @@ WHERE b.id_plataforma = $plataforma";
         $sql = "SELECT * FROM pla WHERE id_linea = $id AND id_plataforma = $plataforma";
         return $this->select($sql);
     }
-    
+
     public function mostrarVariedades($id_producto)
     {
-       // echo $id_producto;
+        // echo $id_producto;
         $sql = "select * from inventario_bodegas ib, productos p, variedades v, atributos a, bodega b where ib.id_producto=$id_producto and ib.id_producto=p.id_producto and ib.id_variante=v.id_variedad and v.id_atributo=a.id_atributo and ib.bodega=b.id";
-       
+
         return $this->select($sql);
     }
-    
+
     public function consultarMaximo($id_producto)
     {
-       
+
         $sql = "SELECT sku FROM inventario_bodegas WHERE id_producto = $id_producto ORDER BY  CASE  WHEN sku LIKE '%-%' THEN CAST(SUBSTRING_INDEX(sku, '-', -1) AS UNSIGNED)
         ELSE 0 END DESC, sku DESC LIMIT 1;";
-       
-       
-        
+
+
+
         $id_producto = $this->select($sql);
         $codigo_producto = $id_producto[0]['sku'];
-     
-        $codigo_nuevo=$this->aumentarCodigo($codigo_producto);
+
+        $codigo_nuevo = $this->aumentarCodigo($codigo_producto);
         echo $codigo_nuevo;
         //return $codigo_nuevo;
     }
-    
-function aumentarCodigo($codigo) {
-    // Verificar si el código contiene un guion
-    //echo $codigo.'ad';
-    if (strpos($codigo, '-') !== false) {
-        // Si contiene un guion, extraer la parte numérica después del guion
-        $partes = explode('-', $codigo);
-        $numero = intval(end($partes)) + 1;
-        // Unir las partes con el nuevo número
-        array_pop($partes);
-        $nuevoCodigo = implode('-', $partes) . '-' . $numero;
-    } else {
-        // Si no contiene un guion, agregar -1 al final
-        $nuevoCodigo = $codigo . '-1';
-    }
-//echo $nuevoCodigo;
-    return $nuevoCodigo;
-}
 
- public function importacion_masiva($plataforma)
+    function aumentarCodigo($codigo)
     {
-     //print_r($plataforma);
+        // Verificar si el código contiene un guion
+        //echo $codigo.'ad';
+        if (strpos($codigo, '-') !== false) {
+            // Si contiene un guion, extraer la parte numérica después del guion
+            $partes = explode('-', $codigo);
+            $numero = intval(end($partes)) + 1;
+            // Unir las partes con el nuevo número
+            array_pop($partes);
+            $nuevoCodigo = implode('-', $partes) . '-' . $numero;
+        } else {
+            // Si no contiene un guion, agregar -1 al final
+            $nuevoCodigo = $codigo . '-1';
+        }
+        //echo $nuevoCodigo;
+        return $nuevoCodigo;
     }
 
+    public function importacion_masiva($plataforma)
+    {
+        //print_r($plataforma);
+    }
 }

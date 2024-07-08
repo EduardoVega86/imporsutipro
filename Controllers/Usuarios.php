@@ -232,9 +232,10 @@ class Usuarios extends Controller
     }
 
     /* tienda online */
-    public function obtener_productos()
+    public function obtener_infoTiendaOnline()
     {
-        $response = $this->model->obtener_productos($_SESSION['id_plataforma']);
+        $response = $this->model->obtener_infoTiendaOnline($_SESSION['id_plataforma']);
         echo json_encode($response);
     }
+    /* fin tienda online */
 }
