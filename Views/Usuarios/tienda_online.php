@@ -27,7 +27,7 @@
                                         <div class="mb-3">
                                             <input type="file" class="form-control" id="imageInputPrincipal" accept="image/*" name="imagen">
                                         </div>
-                                        <img id="imagePreviewPrincipal" class="image-preview mb-3" src="" alt="Preview" width="200px">
+                                        <img id="imagen_logo" class="image-preview mb-3" src="" alt="Preview" width="200px">
                                     </form>
                                     <h5 class="card-title">FAVICON</h5>
                                     <form id="imageFormFavicon" enctype="multipart/form-data">
@@ -228,7 +228,7 @@
         if (input.files && input.files[0]) {
             var reader = new FileReader();
             reader.onload = function(e) {
-                $('#imagePreviewPrincipal').attr('src', e.target.result);
+                $('#imagen_logo').attr('src', e.target.result);
             }
             reader.readAsDataURL(input.files[0]);
         }
@@ -293,18 +293,22 @@
 
     $(document).ready(function() {
 
+        cargarInfoTienda_inicial();
+    });
+    
+    function cargarInfoTienda_inicial(){
         $.ajax({
             url: SERVERURL + "Usuarios/obtener_infoTiendaOnline",
             type: "GET",
             dataType: "json",
             success: function(response) {
                 $("#nombre_tienda").val(response[0].nombre_tienda);
+                $('#imagen_logo').attr('src', SERVERURL+response[0].logo_url);
             },
             error: function(error) {
                 console.error("Error al obtener la lista de bodegas:", error);
             },
         });
-    });
-    
+    }
 </script>
 <?php require_once './Views/templates/footer.php'; ?>
