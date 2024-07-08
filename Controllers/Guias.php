@@ -265,7 +265,7 @@ class Guias extends Controller
 
     public function anularServi_temporal($id)
     {
-        $response = $this->model->anularServi_temporal($id, $_SESSION['id_plataforma']);
+        $response = $this->model->anularServi_temporal($id);
         echo json_encode($response);
     }
 }

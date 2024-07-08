@@ -467,8 +467,8 @@ class GuiasModel extends Query
 
     public function anularServi_temporal($id, $plataforma)
     {
-        $sql = "UPDATE `facturas_cot` SET  `estado_guia_sistema` = ? WHERE `id_producto` = ? AND `id_plataforma` = ?";
-        $data = [101, $id, $plataforma];
+        $sql = "UPDATE `facturas_cot` SET  `estado_guia_sistema` = ? WHERE `numero_guia` = ? ";
+        $data = [101, $id];
         $editar_producto = $this->update($sql, $data);
         //print_r($editar_producto);
         if ($editar_producto == 1) {
