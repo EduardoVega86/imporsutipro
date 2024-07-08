@@ -290,7 +290,7 @@ class WalletModel extends Query
 
         $sql = "INSERT INTO billeteras (`tienda`, `saldo`, `id_plataforma`) VALUES (?, ?, ?)";
         $response =  $this->insert($sql, array($url_imporsuit, 0, $tienda));
-        $responses["status"] = 200;
+        print_r($response);
         return json_encode($responses);
     }
 
