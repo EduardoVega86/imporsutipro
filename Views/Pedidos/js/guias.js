@@ -128,7 +128,7 @@ const listGuias = async () => {
         ruta_traking = ``;
         funcion_anular = ``;
         estado = validar_estadoSpeed(guia.estado_guia_sistema);
-        if (CARGO == 10){
+        if (CARGO == 10) {
           select_speed = `
           <select class="form-select" style="max-width: 130px;" id="select_estadoSpeed">
               <option value="0" selected>-- Selecciona estado --</option>
@@ -138,7 +138,6 @@ const listGuias = async () => {
               <option value="9" selected>Devuelto</option>
           </select>`;
         }
-        
       } else if (transporte == 3) {
         transporte_content =
           '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>';
@@ -687,10 +686,9 @@ function anular_guiaLaar(numero_guia) {
 }
 
 function anular_guiaServi(numero_guia) {
-  $.ajax({
+  /* $.ajax({
     type: "GET",
-    /* url: "https://guias.imporsuitpro.com/Servientrega/Anular/" + numero_guia, */
-    url: SERVERURL+"Guias/anularServi_temporal/"+numero_guia,
+    url: "https://guias.imporsuitpro.com/Servientrega/Anular/" + numero_guia,
     dataType: "json",
     success: function (response) {
       if (
@@ -702,6 +700,29 @@ function anular_guiaServi(numero_guia) {
         });
       }
       console.log("Respuesta de la API:", response);
+    },
+    error: function (xhr, status, error) {
+      alert("Hubo un problema al anular la guia de Servientrega");
+    },
+  }); */
+
+  $.ajax({
+    type: "GET",
+    /* url: "https://guias.imporsuitpro.com/Servientrega/Anular/" + numero_guia, */
+    url: SERVERURL + "Guias/anularServi_temporal/" + numero_guia,
+    dataType: "json",
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("LA IMAGEN NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+
+        initDataTable();
+      }
     },
     error: function (xhr, status, error) {
       alert("Hubo un problema al anular la guia de Servientrega");
