@@ -186,7 +186,7 @@ const listFacturas = async () => {
                     </div>
                     </td>
                     <td><button class="icon-button" style="background-color: green; margin: 0;" onclick="abrirModal_editarCabecera(${factura.id_cabecera})"><i class="fa-solid fa-pen-to-square" style="margin: 0;"></i></button></td>
-                    <td><button class="icon-button" style="background-color: #FCBF00; margin: 0;"><i class="fa-solid fa-rotate-left" style="margin: 0;"></i></button></td>
+                    <td><button class="icon-button" style="background-color: #FCBF00; margin: 0;" onclick="devolucion(${factura.id_cabecera})"><i class="fa-solid fa-rotate-left" style="margin: 0;"></i></button></td>
                     <td></td>
                     <td></td>
                     <td><button class="icon-button" style="background-color: red; margin: 0;" onclick="eliminar_wallet(${factura.id_cabecera})"><i class="fa-solid fa-trash" style="margin: 0;"></i></button></td>
@@ -264,6 +264,31 @@ function abrirModal_editarCabecera(id_cabecera) {
     },
     error: function (error) {
       console.error("Error al obtener la lista de bodegas:", error);
+    },
+  });
+}
+
+function devolucion(id_cabecera) {
+  $.ajax({
+    type: "POST",
+    url: SERVERURL + "wallet/devolucion/" + id_cabecera,
+    dataType: "json",
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("LA IMAGEN NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+
+        initDataTableFacturas();
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al obtener la información de la categoría");
     },
   });
 }
@@ -475,11 +500,11 @@ const listHistorialPago = async () => {
       return;
     }
 
-    console.log("sin json: "+ response);
+    console.log("sin json: " + response);
     // Analiza la respuesta como JSON
     const historialPago = await response.json();
 
-    console.log("json: "+historialPago);
+    console.log("json: " + historialPago);
 
     let content = ``;
 
