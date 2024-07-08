@@ -278,7 +278,7 @@ class WalletModel extends Query
 
     public function existeTienda($tienda)
     {
-        $sql = "SELECT * FROM billeteras WHERE tienda = '$tienda'";
+        $sql = "SELECT * FROM billeteras WHERE id_billetera = '$tienda'";
         $response =  $this->select($sql);
         return $response;
     }
