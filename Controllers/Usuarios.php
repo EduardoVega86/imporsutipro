@@ -230,4 +230,11 @@ class Usuarios extends Controller
             echo json_encode(['status' => 500, 'message' => 'Sesion no iniciada']);
         }
     }
+
+    /* tienda online */
+    public function obtener_productos()
+    {
+        $response = $this->model->obtener_productos($_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
 }

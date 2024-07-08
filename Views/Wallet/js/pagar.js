@@ -149,7 +149,7 @@ const listFacturas = async () => {
         url_tracking = ``;
         url_descargar = `https://guias.imporsuitpro.com/Speed/descargar/${factura.guia}`;
       } else {
-        url_tracking = `https://www.servientrega.com.ec/Tracking/?guia=${factura.guia}&tipo=GUIA`;
+        url_tracking = `https://servientrega-ecuador.appsiscore.com/app/app-cliente/cons_publica.php?guia=${factura.guia}&Request=Buscar+`;
         url_descargar = `https://guias.imporsuitpro.com/Servientrega/guia/${factura.guia}`;
       }
 
