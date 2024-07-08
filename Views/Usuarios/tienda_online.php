@@ -12,7 +12,7 @@
     <div class="accordion" id="accordionExample">
         <div class="accordion-item">
             <h2 class="accordion-header" id="headingOne">
-                <button class="accordion-button" style="" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                     CONFIGURACIÓN PRINCIPAL
                 </button>
             </h2>
@@ -298,8 +298,7 @@
             type: "GET",
             dataType: "json",
             success: function(response) {
-                
-                response[0].nombre_tienda
+                $("#nombre_tienda").val(response[0].nombre_tienda);
             },
             error: function(error) {
                 console.error("Error al obtener la lista de bodegas:", error);
