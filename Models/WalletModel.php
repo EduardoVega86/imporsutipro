@@ -285,8 +285,11 @@ class WalletModel extends Query
 
     public function crearBilletera($tienda)
     {
-        $sql = "INSERT INTO billeteras (`tienda`, `saldo`) VALUES (?, ?)";
-        $response =  $this->insert($sql, array($tienda, 0));
+        $url_imporsuit = $this->select("SELECT url_imporsuit FROM plataformas WHERE id_plataforma = '$tienda'");
+        $url_imporsuit = $url_imporsuit[0]['url_imporsuit'];
+
+        $sql = "INSERT INTO billeteras (`tienda`, `saldo`, `id_plataforma`) VALUES (?, ?, ?)";
+        $response =  $this->insert($sql, array($url_imporsuit, 0, $tienda));
         $responses["status"] = 200;
         return json_encode($responses);
     }
