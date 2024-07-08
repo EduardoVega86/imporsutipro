@@ -72,7 +72,7 @@ class ShopifyModel extends Query
         $productos = [];
 
 
-
+        $suma = 0;
         // Recorre los items y verifica las condiciones necesarias
         foreach ($lineItems as $item) {
             if (empty($item['sku'])) {
@@ -82,7 +82,7 @@ class ShopifyModel extends Query
                 }
 
                 // Si el SKU está vacío, salta al siguiente ítem
-                $observacion .= ", SKU vacío: " . $item['name'] . " x" . $item['quantity'] . ": $" . $item['price'] . " ";
+                $observacion .= ", SKU vacío: " . $item['name'] . " x" . $item['quantity'] . ": $" . $item['price'] . "";
                 continue;
             }
 
@@ -110,6 +110,7 @@ class ShopifyModel extends Query
             $costo_flete = 0;
             $costo_producto += $item['price'] * $item['quantity'];
             $id_transporte = 0;
+            $suma = $suma + $item['price'] * $item['quantity'];
 
             $productos[] = [
                 'id_producto_venta' => $id_producto_venta,
@@ -120,6 +121,16 @@ class ShopifyModel extends Query
 
             // Aquí puedes añadir el código para guardar la orden en la base de datos
         }
+        if (count($productos) > 0) {
+            $productos[0]['precio'] = $productos[0]['precio'] + $suma;
+        }
+
+        $discount = $data['discount'];
+
+        if ($discount > 0) {
+            $productos[0]['precio'] = $productos[0]['precio'] - $discount;
+        }
+
         $comentario = "Orden creada desde Shopify";
 
         $contiene = trim($contiene); // Eliminar el espacio extra al final
