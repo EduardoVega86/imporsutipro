@@ -33,7 +33,14 @@ class UsuariosModel extends Query
     //ususarios
 
 
+    /* tienda online */
+    public function obtener_infoTiendaOnline($plataforma)
+    {
+        $sql = "SELECT * FROM plataformas pl, perfil pe WHERE pl.id_plataforma=$plataforma and pe.id_plataforma=pl.id_plataforma;";
 
+        return $this->select($sql);
+    }
+    /* Fin tienda online */
 
     public function resetearContrasena($id_usuario, $contrasena)
     {
