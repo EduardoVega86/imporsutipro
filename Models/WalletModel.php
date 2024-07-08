@@ -73,7 +73,7 @@ class WalletModel extends Query
     public function editar($id_cabecera, $total_venta, $precio_envio, $full, $costo)
     {
         $monto_recibir = $total_venta - $costo - $full - $precio_envio;
-        $sql = "UPDATE cabecera_cuenta_pagar set total_venta = ?, precio_envio = ?, full = ?, costo = ?, monto_recibir = ?, total_pendiente = ? WHERE id_cabecera = ?";
+        $sql = "UPDATE cabecera_cuenta_pagar set total_venta = ?, precio_envio = ?, full = ?, costo = ?, monto_recibir = ?, valor_pendiente = ? WHERE id_cabecera = ?";
         $response =  $this->update($sql, array($total_venta, $precio_envio, $full, $costo, $monto_recibir, $monto_recibir, $id_cabecera));
         if ($response == 1) {
             $responses["status"] = 200;
@@ -581,7 +581,7 @@ class WalletModel extends Query
             $responses["message"] = $response["message"];
         }
         return $responses;
-    }
+}    }
 
     public function agregarOtroPago($tipo, $cuenta, $plataforma)
     {
