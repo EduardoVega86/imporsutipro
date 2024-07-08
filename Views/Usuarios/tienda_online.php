@@ -298,7 +298,8 @@
             type: "GET",
             dataType: "json",
             success: function(response) {
-                console.log(response)
+                
+                response[0].nombre_tienda
             },
             error: function(error) {
                 console.error("Error al obtener la lista de bodegas:", error);
