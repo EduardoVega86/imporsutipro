@@ -121,7 +121,7 @@ class ShopifyModel extends Query
 
             // Aquí puedes añadir el código para guardar la orde    n en la base de datos
         }
-        $suma;
+        echo $suma;
         if (count($productos) > 0) {
             $productos[0]['precio'] = $productos[0]['precio'] + $suma;
         }
