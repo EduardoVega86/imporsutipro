@@ -83,6 +83,8 @@ class ShopifyModel extends Query
 
                 // Si el SKU está vacío, salta al siguiente ítem
                 $observacion .= ", SKU vacío: " . $item['name'] . " x" . $item['quantity'] . ": $" . $item['price'] . "";
+                $suma = $suma + ($item['price'] * $item['quantity']);
+
                 continue;
             }
 
@@ -110,7 +112,6 @@ class ShopifyModel extends Query
             $costo_flete = 0;
             $costo_producto += $item['price'] * $item['quantity'];
             $id_transporte = 0;
-            $suma = $suma + ($item['price'] * $item['quantity']);
 
             $productos[] = [
                 'id_producto_venta' => $id_producto_venta,
