@@ -45,13 +45,14 @@
             </div>
             <div class="modal-body">
                 <form id="editar_wallet">
+                    <input type="hidden" id="id_cabeceraEditarWallet" name="id_cabeceraEditarWallet">
                     <div class="mb-3">
                         <label for="total_ventasEditar_Wallet" class="form-label">total ventas:</label>
                         <input type="text" class="form-control" id="total_ventasEditar_Wallet" placeholder="Ingresar total ventas">
                     </div>
                     <div class="mb-3">
-                        <label for="monto_recibirEditar_Wallet" class="form-label">monto a recibir:</label>
-                        <input type="text" class="form-control" id="monto_recibirEditar_Wallet" placeholder="Ingresar monto a recibir">
+                        <label for="costoEditar_Wallet" class="form-label">costo:</label>
+                        <input type="text" class="form-control" id="costoEditar_Wallet" placeholder="Ingresar monto a recibir">
                     </div>
                     <div class="mb-3">
                         <label for="precio_envioEditar_Wallet" class="form-label">precio de envio:</label>
@@ -65,52 +66,51 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-primary" form="editar_wallet">Editar</button>
+                <button type="button" class="btn btn-primary" form="editar_wallet" onclick="editarWallet()">Editar</button>
             </div>
         </div>
     </div>
 </div>
 <script>
-    // Manejar el envío del formulario
-    $('#solicitar_pago').on('submit', function(event) {
-        event.preventDefault(); // Evitar el envío normal del formulario
+    function editarWallet() {
+        var id_cabeceraEditarWallet = $('#id_cabeceraEditarWallet').val();
+        var total_ventasEditar_Wallet = $('#total_ventasEditar_Wallet').val();
+        var costoEditar_Wallet = $('#costoEditar_Wallet').val();
+        var precio_envioEditar_Wallet = $('#precio_envioEditar_Wallet').val();
+        var fulfilmentEditar_Wallet = $('#fulfilmentEditar_Wallet').val();
 
         let formData = new FormData();
-        formData.append("valor", $('#monto').val());
-        formData.append("id_cuenta", $('#cuenta').val());
+        formData.append("total_venta", total_ventasEditar_Wallet);
+        formData.append("precio_envio", precio_envioEditar_Wallet);
+        formData.append("full", fulfilmentEditar_Wallet);
+        formData.append("costo", costoEditar_Wallet);
 
         $.ajax({
-            url: SERVERURL + 'wallet/solicitarPago',
-            method: 'POST',
+            url: SERVERURL + "wallet/editar/" + id_cabeceraEditarWallet,
+            type: "POST",
             data: formData,
             processData: false, // No procesar los datos
             contentType: false, // No establecer ningún tipo de contenido
             success: function(response) {
-                response = JSON.parse(response);
-                if (response.status == 400) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: "Error",
-                        text: response.message
-                    });
+                if (response.status == 500) {
+                    toastr.error(
+                        "LA IMAGEN NO SE AGREGRO CORRECTAMENTE",
+                        "NOTIFICACIÓN", {
+                            positionClass: "toast-bottom-center"
+                        }
+                    );
                 } else if (response.status == 200) {
-
-                    Swal.fire({
-                        icon: 'success',
-                        title: "Exito",
-                        text: response.message,
-                        showConfirmButton: false,
-                        timer: 2000
-                    }).then(() => {
-                        cargar_saldoWallet();
-                        $('#solicitar_pagoModal').modal('hide');
+                    toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+                        positionClass: "toast-bottom-center",
                     });
+
+                    initDataTableFacturas();
+                    $('#editar_walletModal').modal('hide');
                 }
             },
-            error: function(error) {
-                console.error('Error al solicitar el pago:', error);
-                alert('Hubo un error al solicitar el pago.');
-            }
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert(errorThrown);
+            },
         });
-    });
+    }
 </script>

@@ -255,15 +255,16 @@ function abrirModal_editarCabecera(id_cabecera) {
     dataType: "json",
     success: function (response) {
       $("#total_ventasEditar_Wallet").val(response[0].total_venta);
-      $("#monto_recibirEditar_Wallet").val(response[0].monto_recibir);
+      $("#costoEditar_Wallet").val(response[0].costo);
       $("#precio_envioEditar_Wallet").val(response[0].precio_envio);
       $("#fulfilmentEditar_Wallet").val(response[0].full);
+      $("#id_cabeceraEditarWallet").val(id_cabecera);
 
       initDataTableFacturas();
       $("#editar_walletModal").modal("show");
     },
     error: function (error) {
-      console.error("Error al obtener la lista de bodegas:", error);
+      console.error("Error al obtener la informacion:", error);
     },
   });
 }
