@@ -27,7 +27,7 @@
                                         <div class="mb-3">
                                             <input type="file" class="form-control" id="imageInputPrincipal" accept="image/*" name="imagen">
                                         </div>
-                                        <img id="imagen_logo" class="image-preview mb-3" src="" alt="Preview" width="200px">
+                                        <img id="imagen_logo" class="image-preview mb-3" src="" alt="Preview" width="50%">
                                     </form>
                                     <h5 class="card-title">FAVICON</h5>
                                     <form id="imageFormFavicon" enctype="multipart/form-data">
