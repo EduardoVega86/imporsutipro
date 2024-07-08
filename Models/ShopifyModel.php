@@ -13,6 +13,7 @@ class ShopifyModel extends Query
         $configuraciones = $this->obtenerConfiguracion($plataforma);
         $configuraciones = $configuraciones[0];
         $resultados = [];
+
         foreach ($configuraciones as $key => $value) {
             $resultados[$key] = $this->obtenerData($data, $value);
         }
@@ -31,9 +32,9 @@ class ShopifyModel extends Query
         }
 
         // Mostrar resultados (para depuración)
-        var_dump($resultados);
+        /*   var_dump($resultados);
         var_dump($lineItems);
-
+ */
         // Gestión de creación de orden
         $orden = $this->crearOrden($resultados, $lineItems, $plataforma);
     }
@@ -41,6 +42,7 @@ class ShopifyModel extends Query
     public function crearOrden($data, $lineItems, $plataforma)
     {
         $total_venta = $data['total'];
+        print_r($data["total"]);
         $nombre = $data['nombre'] . " " . $data['apellido'];
         $telefono = $data['telefono'];
         // Quitar el + de la cadena
@@ -69,6 +71,8 @@ class ShopifyModel extends Query
         // Procesar cada producto en lineItems
         $productos = [];
 
+
+
         // Recorre los items y verifica las condiciones necesarias
         foreach ($lineItems as $item) {
             if (empty($item['sku'])) {
@@ -81,6 +85,7 @@ class ShopifyModel extends Query
                 $observacion .= ", SKU vacío: " . $item['name'] . " x" . $item['quantity'] . ": $" . $item['price'] . " ";
                 continue;
             }
+
 
             $id_producto_venta = $item['sku'];
 
@@ -192,7 +197,7 @@ class ShopifyModel extends Query
         $response = curl_exec($ch);
         curl_close($ch);
 
-        print_r($response);
+        //print_r($response);
         /*  $datos = json_decode($response, true);
         $numero_factura = $datos['numero_factura'];
 
