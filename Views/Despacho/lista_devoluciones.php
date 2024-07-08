@@ -17,7 +17,7 @@
                     </select>
                 </div>
             </div>
-            <button id="generarDespachoBtn" class="btn btn-success">Generar despacho</button>
+            <button id="generarDevolucionBtn" class="btn btn-success">Generar devolución</button>
         </div>
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
@@ -27,7 +27,7 @@
                 </caption> -->
                 <thead>
                     <tr>
-                        <th class="centered">ID despacho</th>
+                        <th class="centered">ID devolucion</th>
                         <th class="centered">ID usuario</th>
                         <th class="centered">ID plataforma</th>
                         <th class="centered">ID transportadora</th>
