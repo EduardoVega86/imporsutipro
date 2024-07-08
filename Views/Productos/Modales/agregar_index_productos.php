@@ -119,14 +119,14 @@
                                         <option value="0">No</option>
                                     </select>
                                 </div>
-                                <div class="form-group w-100">
+                                <!-- <div class="form-group w-100">
                                     <label for="producto-privado">Producto privado:</label>
                                     <select class="form-select" id="producto-privado">
                                         <option selected>-- Selecciona --</option>
                                         <option value="1">Sí</option>
                                         <option value="0">No</option>
                                     </select>
-                                </div>
+                                </div> -->
                             </div>
                             <div class="d-flex flex-row gap-3">
                                 <div class="form-group w-100">
