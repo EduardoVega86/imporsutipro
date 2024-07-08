@@ -581,7 +581,7 @@ class WalletModel extends Query
             $responses["message"] = $response["message"];
         }
         return $responses;
-}    }
+    }
 
     public function agregarOtroPago($tipo, $cuenta, $plataforma)
     {
