@@ -262,4 +262,10 @@ class Guias extends Controller
         $datos = $this->model->obtenerTiendas();
         echo json_encode($datos);
     }
+
+    public function anularServi_temporal($id)
+    {
+        $response = $this->model->anularServi_temporal($id, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
 }

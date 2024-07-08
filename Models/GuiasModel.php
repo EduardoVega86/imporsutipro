@@ -465,6 +465,24 @@ class GuiasModel extends Query
         return $nombre;
     }
 
+    public function anularServi_temporal($id, $plataforma)
+    {
+        $sql = "UPDATE `facturas_cot` SET  `estado_guia_sistema` = ? WHERE `id_producto` = ? AND `id_plataforma` = ?";
+        $data = [101, $id, $plataforma];
+        $editar_producto = $this->update($sql, $data);
+        //print_r($editar_producto);
+        if ($editar_producto == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Categoria editada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            // $response['message'] = $editar_producto['message'];
+        }
+        return $response;
+    }
+
     //gintracom
 
     public function generarGintracom($nombreOrigen, $ciudadOrigen, $provinciaOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $provinciaDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras, $numero_factura, $monto_factura)
