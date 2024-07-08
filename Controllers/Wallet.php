@@ -75,7 +75,7 @@ class Wallet extends Controller
         $existe = $this->model->existeTienda($tienda);
 
         if (empty($existe)) {
-            $this->model->crearBilletera($tienda);
+            return $this->model->crearBilletera($tienda);
         }
 
         $this->views->render($this, "pagar");
