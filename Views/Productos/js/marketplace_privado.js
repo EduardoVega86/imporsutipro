@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     try {
       const response = await fetch(
-        `${SERVERURL}marketplace/obtener_productos`,
+        `${SERVERURL}marketplace/obtener_productos_privados`,
         {
           method: "POST",
           body: formData_filtro,
