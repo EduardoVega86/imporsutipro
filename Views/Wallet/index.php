@@ -4,7 +4,7 @@
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
-        <h2 class="text-center mb-4">Dellate</h2>
+        <h2 class="text-center mb-4">Detalle</h2>
 
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
