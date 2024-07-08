@@ -138,4 +138,5 @@
         <script>
             const SERVERURL = "<?php echo SERVERURL ?>";
             const MARCA = "<?php echo MARCA?>";
+            const CARGO = <?php echo $_SESSION['cargo']; ?>
         </script>
