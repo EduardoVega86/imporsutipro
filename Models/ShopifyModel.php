@@ -110,7 +110,7 @@ class ShopifyModel extends Query
             $costo_flete = 0;
             $costo_producto += $item['price'] * $item['quantity'];
             $id_transporte = 0;
-            $suma = $suma + $item['price'] * $item['quantity'];
+            $suma = $suma + ($item['price'] * $item['quantity']);
 
             $productos[] = [
                 'id_producto_venta' => $id_producto_venta,
@@ -119,8 +119,9 @@ class ShopifyModel extends Query
                 'precio' => $item['price'],
             ];
 
-            // Aquí puedes añadir el código para guardar la orden en la base de datos
+            // Aquí puedes añadir el código para guardar la orde    n en la base de datos
         }
+        $suma;
         if (count($productos) > 0) {
             $productos[0]['precio'] = $productos[0]['precio'] + $suma;
         }
