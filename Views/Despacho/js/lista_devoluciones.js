@@ -66,7 +66,7 @@ const listListaDevoluciones = async () => {
 };
 
 document
-  .getElementById("generarDevolucionBtn")
+  .getElementById("generarDespachoBtn")
   .addEventListener("click", function () {
     const transportadoraSelect = document.getElementById("transportadora");
     const transportadoraValue = transportadoraSelect.value;

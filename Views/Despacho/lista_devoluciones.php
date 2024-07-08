@@ -17,7 +17,7 @@
                     </select>
                 </div>
             </div>
-            <button id="generarDevolucionBtn" class="btn btn-success">Generar devolución</button>
+            <button id="generarDespachoBtn" class="btn btn-success">Generar devolucion</button>
         </div>
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
