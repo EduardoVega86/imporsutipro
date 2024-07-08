@@ -1,11 +1,18 @@
 <?php require_once './Views/templates/header.php'; ?>
 <?php require_once './Views/Usuarios/css/tiendaOnline_style.php'; ?>
 
+<style>
+  .accordion-button   {
+      background-color: #171931 !important; 
+      color: white !important;
+      }
+</style>
+    
 <div class="custom-container-fluid mt-4">
     <div class="accordion" id="accordionExample">
         <div class="accordion-item">
             <h2 class="accordion-header" id="headingOne">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                <button class="accordion-button" style="" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                     CONFIGURACIÓN PRINCIPAL
                 </button>
             </h2>
