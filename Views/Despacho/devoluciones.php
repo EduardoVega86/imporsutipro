@@ -85,6 +85,11 @@
         listItem.className = 'list-group-item';
         listItem.textContent = numeroGuia;
         document.getElementById('guidesList').appendChild(listItem);
+
+        // Limpiar el campo de entrada y enfocar el cursor
+        var inputGuia = document.getElementById('numeroGuia');
+        inputGuia.value = '';
+        inputGuia.focus();
     }
 
     // Escuchar el evento 'keypress' del input
