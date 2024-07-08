@@ -2,12 +2,12 @@
 <?php require_once './Views/Usuarios/css/tiendaOnline_style.php'; ?>
 
 <style>
-  .accordion-button   {
-      background-color: #171931 !important; 
-      color: white !important;
-      }
+    .accordion-button {
+        background-color: #171931 !important;
+        color: white !important;
+    }
 </style>
-    
+
 <div class="custom-container-fluid mt-4">
     <div class="accordion" id="accordionExample">
         <div class="accordion-item">
@@ -18,66 +18,66 @@
             </h2>
             <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                <div class="row">
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-body text-center">
-                    <h5 class="card-title">LOGO DE LA EMPRESA</h5>
-                    <form id="imageFormPrincipal" enctype="multipart/form-data">
-                        <div class="mb-3">
-                            <input type="file" class="form-control" id="imageInputPrincipal" accept="image/*" name="imagen">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">LOGO DE LA EMPRESA</h5>
+                                    <form id="imageFormPrincipal" enctype="multipart/form-data">
+                                        <div class="mb-3">
+                                            <input type="file" class="form-control" id="imageInputPrincipal" accept="image/*" name="imagen">
+                                        </div>
+                                        <img id="imagePreviewPrincipal" class="image-preview mb-3" src="" alt="Preview" width="200px">
+                                    </form>
+                                    <h5 class="card-title">FAVICON</h5>
+                                    <form id="imageFormFavicon" enctype="multipart/form-data">
+                                        <div class="mb-3">
+                                            <input type="file" class="form-control" id="imageInputFav" accept="image/*" name="imagenFav">
+                                        </div>
+                                        <img id="imagePreviewFav" class="image-preview mb-3" src="" alt="Preview" width="200px">
+                                    </form>
+                                </div>
+                            </div>
                         </div>
-                        <img id="imagePreviewPrincipal" class="image-preview mb-3" src="" alt="Preview" width="200px">
-                    </form>
-                    <h5 class="card-title">FAVICON</h5>
-                    <form id="imageFormFavicon" enctype="multipart/form-data">
-                        <div class="mb-3">
-                            <input type="file" class="form-control" id="imageInputFav" accept="image/*" name="imagenFav">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h3 style="text-align-last: center;">INFORMACION DE LA TIENDA</h3>
+                                    <div class="form-group mb-3">
+                                        <label for="nombre_tienda">Nombre de la tienda:</label>
+                                        <input type="text" class="form-control" id="nombre_tienda" name="nombre_tienda">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="descripcion_tienda">Descripción:</label>
+                                        <input type="text" class="form-control" id="descripcion_tienda" name="descripcion_tienda">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="ruc_tienda">RUC</label>
+                                        <input type="text" class="form-control" id="ruc_tienda" name="ruc_tienda">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="telefono_tienda">Telefono:</label>
+                                        <input type="text" class="form-control" id="telefono_tienda" name="telefono_tienda">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="email_tienda">Email:</label>
+                                        <input type="email" class="form-control" id="email_tienda" name="email_tienda">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="direccion_tienda">Dirección:</label>
+                                        <input type="text" class="form-control" id="direccion_tienda" name="direccion_tienda">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="pais_tienda">-- Elige un país --</label>
+                                        <select class="form-select" id="pais_tienda" name="pais_tienda">
+                                            <option selected>Ecuador</option>
+                                            <!-- Agrega más opciones según sea necesario -->
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <img id="imagePreviewFav" class="image-preview mb-3" src="" alt="Preview" width="200px">
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h3 style="text-align-last: center;">INFORMACION DE LA TIENDA</h3>
-                    <div class="form-group mb-3">
-                        <label for="nombre_tienda">Nombre de la tienda:</label>
-                        <input type="text" class="form-control" id="nombre_tienda" name="nombre_tienda">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="descripcion_tienda">Descripción:</label>
-                        <input type="text" class="form-control" id="descripcion_tienda" name="descripcion_tienda">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="ruc_tienda">RUC</label>
-                        <input type="text" class="form-control" id="ruc_tienda" name="ruc_tienda">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="telefono_tienda">Telefono:</label>
-                        <input type="text" class="form-control" id="telefono_tienda" name="telefono_tienda">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="email_tienda">Email:</label>
-                        <input type="email" class="form-control" id="email_tienda" name="email_tienda">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="direccion_tienda">Dirección:</label>
-                        <input type="text" class="form-control" id="direccion_tienda" name="direccion_tienda">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="pais_tienda">-- Elige un país --</label>
-                        <select class="form-select" id="pais_tienda" name="pais_tienda">
-                            <option selected>Ecuador</option>
-                            <!-- Agrega más opciones según sea necesario -->
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- <div class="col-md-3">
+                        <!-- <div class="col-md-3">
             <div class="card">
                 <div class="card-body">
                     <div class="form-check mb-3">
@@ -149,7 +149,7 @@
                 </div>
             </div>
         </div> -->
-    </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -290,5 +290,21 @@
             }
         });
     });
+
+    $(document).ready(function() {
+
+        $.ajax({
+            url: SERVERURL + "Usuarios/obtener_infoTiendaOnline",
+            type: "GET",
+            dataType: "json",
+            success: function(response) {
+                console.log(response)
+            },
+            error: function(error) {
+                console.error("Error al obtener la lista de bodegas:", error);
+            },
+        });
+    });
+    
 </script>
 <?php require_once './Views/templates/footer.php'; ?>
