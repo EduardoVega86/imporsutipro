@@ -465,7 +465,7 @@ class GuiasModel extends Query
         return $nombre;
     }
 
-    public function anularServi_temporal($id, $plataforma)
+    public function anularServi_temporal($id)
     {
         $sql = "UPDATE `facturas_cot` SET  `estado_guia_sistema` = ? WHERE `numero_guia` = ? ";
         $data = [101, $id];
