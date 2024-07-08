@@ -188,7 +188,6 @@
 
         // Evento para reiniciar el formulario cuando se cierre el modal
         $('#agregar_productoModal').on('hidden.bs.modal', function() {
-            resetForm();
             var button = document.getElementById('guardar_producto');
             button.disabled = false; // Desactivar el botón
         });
@@ -243,6 +242,7 @@
                         });
 
                         $('#agregar_productoModal').modal('hide');
+                        resetForm();
                         initDataTableProductos();
                     }
                 },
