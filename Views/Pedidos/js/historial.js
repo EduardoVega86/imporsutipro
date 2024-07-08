@@ -79,7 +79,12 @@ const listHistorialPedidos = async () => {
         ciudad = ciudadArray[0];
       }
 
-      let plataforma = procesarPlataforma(historialPedido.plataforma);
+      let plataforma = "";
+      if (historialPedido.plataforma == "" || historialPedido.plataforma == null){
+        plataforma = "";
+      } else{
+        plataforma = procesarPlataforma(historialPedido.plataforma);
+      }
 
       content += `
                 <tr>
