@@ -90,7 +90,7 @@ class TiendaModel extends Query
     
      public function informaciontienda($plataforma)
     {
-        $sql = "SELECT * FROM plataformas WHERE id_plataforma = $plataforma";
+        $sql = "SELECT * FROM plataformas pl, perfil pe WHERE pl.id_plataforma=$plataforma and pe.id_plataforma=pl.id_plataforma";
         
         return $this->select($sql);
     }
