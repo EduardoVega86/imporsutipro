@@ -485,6 +485,7 @@ class PedidosModel extends Query
         $id_bodega = $id_bodega_buscar[0]['bodega'];
 
         $sql = "SELECT * FROM inventario_bodegas , productos WHERE bodega=$id_bodega and productos.id_producto=inventario_bodegas.id_producto";
+        echo $sql;
         return $this->select($sql);
     }
 

@@ -53,6 +53,11 @@ class Productos extends Controller
     {
         $this->views->render($this, "marketplace");
     }
+    
+    public function marketplace_privado()
+    {
+        $this->views->render($this, "marketplace_privado");
+    }
 
     public function inventario()
     {
