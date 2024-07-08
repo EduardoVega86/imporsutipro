@@ -690,7 +690,7 @@ function anular_guiaServi(numero_guia) {
   $.ajax({
     type: "GET",
     /* url: "https://guias.imporsuitpro.com/Servientrega/Anular/" + numero_guia, */
-    url: SERVERURL+"anularServi_temporal"+numero_guia,
+    url: SERVERURL+"anularServi_temporal/"+numero_guia,
     dataType: "json",
     success: function (response) {
       if (
