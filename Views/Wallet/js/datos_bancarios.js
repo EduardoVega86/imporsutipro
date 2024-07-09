@@ -149,7 +149,7 @@ window.addEventListener("load", async () => {
   await initDataTableDatosFacturacion();
 });
 
-let dataTableObtenerOtroPago;
+/* let dataTableObtenerOtroPago;
 let dataTableObtenerOtroPagoIsInitialized = false;
 
 const dataTableObtenerOtroPagoOptions = {
@@ -227,7 +227,7 @@ const listObtenerOtroPago = async () => {
 
 window.addEventListener("load", async () => {
   await initDataTableObtenerOtroPago();
-});
+}); */
 
 
 //FUNCIONES PARA ENVIO DE INFORMACION
