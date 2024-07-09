@@ -106,11 +106,14 @@
         // Agregar el archivo de comprobante
         let comprobante = $('#comprobante')[0].files[0];
         if (comprobante) {
-            formData.append('comprobante', comprobante);
+            formData.append('imagen', comprobante);
+            formData.append('valor', $('#monto').val());
+            formData.append('documento', $('#numero_documento').val());
+            formData.append('forma_pago', $('#forma_pago').val());
         }
 
         $.ajax({
-            url: SERVERURL + 'wallet/solicitarPago',
+            url: SERVERURL + 'wallet/pagarFactura',
             method: 'POST',
             data: formData,
             processData: false, // No procesar los datos
