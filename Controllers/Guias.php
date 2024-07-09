@@ -268,4 +268,10 @@ class Guias extends Controller
         $response = $this->model->anularServi_temporal($id);
         echo json_encode($response);
     }
+
+    public function anularSpeed_temporal($id)
+    {
+        $response = $this->model->anularSpeed_temporal($id);
+        echo json_encode($response);
+    }
 }

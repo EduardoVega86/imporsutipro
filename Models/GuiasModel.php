@@ -471,6 +471,24 @@ class GuiasModel extends Query
     public function anularServi_temporal($id)
     {
         $sql = "UPDATE `facturas_cot` SET  `estado_guia_sistema` = ?, `anulada` = ? WHERE `numero_guia` = ? ";
+        $data = [8, 1, $id];
+        $editar_producto = $this->update($sql, $data);
+        //print_r($editar_producto);
+        if ($editar_producto == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Categoria editada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            // $response['message'] = $editar_producto['message'];
+        }
+        return $response;
+    }
+
+    public function anularSpeed_temporal($id)
+    {
+        $sql = "UPDATE `facturas_cot` SET  `estado_guia_sistema` = ?, `anulada` = ? WHERE `numero_guia` = ? ";
         $data = [101, 1, $id];
         $editar_producto = $this->update($sql, $data);
         //print_r($editar_producto);
