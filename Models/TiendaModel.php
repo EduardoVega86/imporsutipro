@@ -115,6 +115,20 @@ class TiendaModel extends Query
         
         return $this->select($sql);
     }
+
+    public function categoriastienda($id_plataforma)
+    {
+        $sql = "SELECT * FROM lineas WHERE tipo='1' AND online=1";
+        
+        return $this->select($sql);
+    }
+
+    public function obtener_idPlataforma($url)
+    {
+        $sql = "SELECT * FROM lineas WHERE tipo='1' AND online=1";
+        
+        return $this->select($sql);
+    }
     
     public function horizontaltienda($plataforma)
     {

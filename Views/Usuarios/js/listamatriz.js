@@ -58,6 +58,11 @@ const listListaUsuarioMatriz = async () => {
 
       content += `
                 <tr>
+                    <td><input type="checkbox" class="selectCheckbox" data-id="${
+                    usuario.id_users
+                    }" ${checkboxState} onclick="toggleProveedor(${
+                     usuario.id_plataforma
+                    }, this.checked)"></td>
                     <td>${usuario.id_users}</td>
                     <td>${usuario.nombre_users}</td>
                     <td>${usuario.usuario_users}</td>
@@ -69,11 +74,6 @@ const listListaUsuarioMatriz = async () => {
                     <i class='bx bxl-whatsapp-square' style="color: green;"></i>
                     </a></td>
                     <td>${usuario.nombre_tienda}</td>
-                    <td><input type="checkbox" class="selectCheckbox" data-id="${
-                      usuario.id_users
-                    }" ${checkboxState} onclick="toggleProveedor(${
-        usuario.id_plataforma
-      }, this.checked)"></td>
                     <td>${usuario.date_added}</td>
                     <td><button class="btn btn-sm btn-primary" onclick="editarUsuario(${
                       usuario.id_users
@@ -141,6 +141,6 @@ function formatPhoneNumber(number) {
 
 function editarUsuario(id) {
   $("#id_usuarioCambiar").val(id);
-  
+
   $("#cambiarClave_usuarioModal").modal("show");
 }
