@@ -60,15 +60,7 @@ class Tienda extends Controller
     public function categoriastienda()
     {   
         $id_plataforma = $_POST['id_plataforma'];
-        $response = $this->model->categoriastienda();
-        echo json_encode($response);
-       
-    }
-
-    public function obtener_idPlataforma()
-    {   
-        $url = $_POST['url'];
-        $response = $this->model->obtener_idPlataforma();
+        $response = $this->model->categoriastienda($id_plataforma);
         echo json_encode($response);
        
     }
