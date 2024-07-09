@@ -118,7 +118,12 @@ class Wallet extends Controller
         echo json_encode($datos);
     }
 
-
+    public function verificarPago()
+    {
+        $id_solicitud = $_POST['id_solicitud'];
+        $datos = $this->model->verificarPago($id_solicitud);
+        echo json_encode($datos);
+    }
 
     public function reversarAbono()
     {

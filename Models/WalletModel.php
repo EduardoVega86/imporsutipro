@@ -634,4 +634,16 @@ class WalletModel extends Query
         $response =  $this->select($sql);
         return $response;
     }
+
+    public function verificarPago($id_solicitud)
+    {
+        $sql = "UPDATE solicitudes_pago set visto = 1 WHERE id_solicitud = ?";
+        $response =  $this->update($sql, array($id_solicitud));
+        if ($response == 1) {
+            $responses["status"] = 200;
+        } else {
+            $responses["status"] = 400;
+            $responses["message"] = $response["message"];
+        }
+    }
 }
