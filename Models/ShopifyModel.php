@@ -49,6 +49,8 @@ class ShopifyModel extends Query
         $telefono = str_replace("+", "", $telefono);
         $calle_principal = $data['principal'];
         $calle_secundaria = $data['secundario'] ?? "";
+
+        var_dump($calle_secundaria);
         $provincia = $data['provincia'];
         $provincia = $this->obtenerProvincia($provincia);
         $provincia = $provincia[0]['codigo_provincia'];
