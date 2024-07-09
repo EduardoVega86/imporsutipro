@@ -125,7 +125,7 @@ class TiendaModel extends Query
 
     public function obtener_idPlataforma($url)
     {
-        $sql = "SELECT * FROM lineas WHERE tipo='1' AND online=1";
+        $sql = "SELECT * FROM `plataformas` WHERE url_imporsuit LIKE '%$url%';";
         
         return $this->select($sql);
     }
