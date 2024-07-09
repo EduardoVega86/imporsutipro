@@ -45,10 +45,20 @@ const listSolicitudes = async () => {
     const solicitudes = await response.json();
 
     let content = ``;
-
+    let checkboxState = "";
     solicitudes.forEach((solicitud, index) => {
+        if (solicitud.visto == 1) {
+            checkboxState = "checked";
+          } else {
+            checkboxState = "";
+          }
       content += `
                 <tr>
+                    <td><input type="checkbox" class="selectCheckbox" data-id="${
+                        solicitud.id_solicitud
+                    }" ${checkboxState} onclick="toggleSolicitud(${
+                        solicitud.id_solicitud
+                    }, this.checked)"></td>
                     <td>${solicitud.nombre}</td>
                     <td>${solicitud.correo}</td>
                     <td>${solicitud.cedula}</td>
@@ -70,6 +80,31 @@ const listSolicitudes = async () => {
     alert(ex);
   }
 };
+
+// Función para manejar el evento click del checkbox
+const toggleSolicitud = async (userId, isChecked) => {
+    const proveedorValue = isChecked ? 1 : 0;
+    const formData = new FormData();
+    formData.append("id_plataforma", userId);
+    formData.append("proveedor", proveedorValue);
+  
+    try {
+      const response = await fetch(`${SERVERURL}usuarios/agregarProveedor`, {
+        method: "POST",
+        body: formData,
+      });
+  
+      if (!response.ok) {
+        throw new Error("Error al actualizar el proveedor");
+      }
+  
+      const result = await response.json();
+      console.log("Proveedor actualizado:", result);
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Hubo un error al actualizar el proveedor");
+    }
+  };
 
 function Pagar(id_plataforma){
     window.location.href = '' + SERVERURL + 'wallet/pagar?tienda='+id_plataforma;
