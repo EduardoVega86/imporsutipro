@@ -48,7 +48,7 @@ const listSolicitudes = async () => {
     let checkboxState = "";
     solicitudes.forEach((solicitud, index) => {
         if (solicitud.visto == 1) {
-            checkboxState = "checked";
+            checkboxState = "checked disable";
           } else {
             checkboxState = "";
           }
@@ -85,24 +85,23 @@ const listSolicitudes = async () => {
 const toggleSolicitud = async (userId, isChecked) => {
     const proveedorValue = isChecked ? 1 : 0;
     const formData = new FormData();
-    formData.append("id_plataforma", userId);
-    formData.append("proveedor", proveedorValue);
+    formData.append("id_solicitud", userId);
   
     try {
-      const response = await fetch(`${SERVERURL}usuarios/agregarProveedor`, {
+      const response = await fetch(`${SERVERURL}wallet/verificarPago`, {
         method: "POST",
         body: formData,
       });
   
       if (!response.ok) {
-        throw new Error("Error al actualizar el proveedor");
+        throw new Error("Error al actualizar el solicitud");
       }
   
       const result = await response.json();
-      console.log("Proveedor actualizado:", result);
+      console.log("solicitud actualizado:", result);
     } catch (error) {
       console.error("Error:", error);
-      alert("Hubo un error al actualizar el proveedor");
+      alert("Hubo un error al actualizar el solicitud");
     }
   };
 
