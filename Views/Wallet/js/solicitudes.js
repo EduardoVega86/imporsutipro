@@ -32,7 +32,9 @@ const initDataTableSolicitudes = async () => {
 
   await listSolicitudes();
 
-  dataTableSolicitudes = $("#datatable_solicitudes").DataTable(dataTableSolicitudesOptions);
+  dataTableSolicitudes = $("#datatable_solicitudes").DataTable(
+    dataTableSolicitudesOptions
+  );
 
   dataTableSolicitudesIsInitialized = true;
 };
@@ -45,15 +47,20 @@ const listSolicitudes = async () => {
     let content = ``;
 
     solicitudes.forEach((solicitud, index) => {
-
       content += `
                 <tr>
-                    <td>${solicitud.ventas}</td>
-                    <td>${solicitud.utilidad}</td>
-                    <td>${solicitud.count_visto_0}</td>
+                    <td>${solicitud.nombre}</td>
+                    <td>${solicitud.correo}</td>
+                    <td>${solicitud.cedula}</td>
+                    <td>${solicitud.fecha}</td>
+                    <td>${solicitud.telefono}</td>
+                    <td>${solicitud.tipo_cuenta}</td>
+                    <td>${solicitud.banco}</td>
+                    <td>${solicitud.numero_cuenta}</td>
+                    <td>${solicitud.cantidad}</td>
                     <td>
-                    <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel_general('${solicitud.tienda}')">Descargar Excel general</button>
-                    <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel('${solicitud.tienda}')">Descargar Excel</button>
+                        <button class="btn btn-sm btn-primary" onclick="Pagar(${solicitud.id_plataforma})"><i class="fa-solid fa-sack-dollar"></i>Pagar</button>
+                        <button class="btn btn-sm btn-danger" onclick="eliminarSolicitud(${solicitud.id_solicitud})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
                     </td>
 
                 </tr>`;
@@ -64,6 +71,9 @@ const listSolicitudes = async () => {
   }
 };
 
+function Pagar(id_plataforma){
+    window.location.href = '' + SERVERURL + 'wallet/pagar?tienda='+id_plataforma;
+}
 window.addEventListener("load", async () => {
   await initDataTableSolicitudes();
 });

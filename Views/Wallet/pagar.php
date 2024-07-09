@@ -2,6 +2,7 @@
 <?php require_once './Views/Wallet/css/pagar_style.php'; ?>
 
 <?php require_once './Views/Wallet/Modales/editar_wallet.php'; ?>
+<?php require_once './Views/Wallet/Modales/realizar_pagoModal.php'; ?>
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
 
@@ -12,6 +13,7 @@
                         <img src="" id="image_tienda" width="100px" class="rounded-circle mb-3" alt="Profile Picture">
                         <h5 class="card-title"><a href="#" id="tienda_url"><span id="tienda_span"></span></a></h5>
                         <button class="btn btn-primary mb-3" id="regresar"><i class="fa-solid fa-arrow-left"></i> Regresar</button>
+                        <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#realizar_pagoModal"><i class="fa-solid fa-sack-dollar"></i> Pagar</button>
 
                         <div class="row text-start">
                             <div class="col-12 mb-3">

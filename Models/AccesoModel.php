@@ -173,7 +173,7 @@ class AccesoModel extends Query
                 $sql = "INSERT INTO `perfil` ( `nombre_empresa`,`telefono`, `whatsapp`,  `id_plataforma`) VALUES (?,?,?,?)";
                 $data = [$tienda, $telefono, $telefono, $idPlataforma[0]['id_plataforma']];
                 $insertar_perfil = $this->insert($sql, $data);
-                // print_r($insertar_perfil);
+                print_r($insertar_perfil);
                 if ($insertar_perfil == 1) {
 
                     $sql = "INSERT INTO usuario_plataforma (id_usuario, id_plataforma) VALUES (?, ?)";
