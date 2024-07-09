@@ -6,6 +6,7 @@ const dataTableOptions = {
     { className: "centered", targets: [1, 2, 3, 4, 5, 6, 7, 8, 9] },
     { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
   ],
+  order: [[2, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
   pageLength: 10,
   destroy: true,
   responsive: true,
