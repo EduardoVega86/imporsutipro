@@ -59,7 +59,6 @@ const listSolicitudes = async () => {
                     <td>${solicitud.cantidad}</td>
                     <td>
                     <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel_general('${solicitud.tienda}')">Descargar Excel general</button>
-                    <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel('${solicitud.tienda}')">Descargar Excel</button>
                     </td>
 
                 </tr>`;
