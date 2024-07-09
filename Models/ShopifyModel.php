@@ -75,6 +75,7 @@ class ShopifyModel extends Query
 
 
         $suma = 0;
+        $costo = 0;
         // Recorre los items y verifica las condiciones necesarias
         foreach ($lineItems as $item) {
             if (empty($item['sku'])) {
@@ -96,6 +97,9 @@ class ShopifyModel extends Query
             // Obtener información de la bodega
             echo $id_producto_venta;
             $datos_telefono = $this->obtenerBodegaInventario($id_producto_venta);
+
+            $product_costo = $this->obtenerCosto($id_producto_venta);
+            $costo += $product_costo;
             print_r($datos_telefono);
             $bodega = $datos_telefono[0];
 
@@ -136,6 +140,8 @@ class ShopifyModel extends Query
         }
 
         $comentario = "Orden creada desde Shopify";
+
+
 
         $contiene = trim($contiene); // Eliminar el espacio extra al final
 
@@ -186,7 +192,7 @@ class ShopifyModel extends Query
             'peso' => "2",
             'contiene' => $contiene,
             'costo_flete' => $costo_flete,
-            'costo_producto' => $costo_producto,
+            'costo_producto' => $costo,
             'comentario' => $comentario,
             'id_transporte' => $id_transporte,
             'provincia' => $provincia,
@@ -340,6 +346,13 @@ class ShopifyModel extends Query
             );
         }
         return $response;
+    }
+
+    public function obtenerCosto($id_producto_venta)
+    {
+        $sql = "SELECT * FROM inventario_bodegas WHERE id_producto = $id_producto_venta";
+        $response = $this->select($sql);
+        return $response[0]['pcp'];
     }
 
     public function agregarJson($id_plataforma, $data)
