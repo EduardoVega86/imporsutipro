@@ -16,15 +16,15 @@
                 </caption> -->
                 <thead>
                     <tr>
-                        <th class="centered"><input type="checkbox" id="selectAll"></th>
-                        <th class="centered"># Orden</th>
-                        <th class="centered">Detalle</th>
-                        <th class="centered">Cliente</th>
-                        <th class="centered">Destino</th>
-                        <th class="centered">Tienda</th>
-                        <th class="centered">Transportadora</th>
-                        <th class="centered">Estado</th>
-                        <th class="centered">Impreso</th>
+                        <th class="centered">Nombre</th>
+                        <th class="centered">Correo</th>
+                        <th class="centered">Cedula</th>
+                        <th class="centered">Fecha solicitud</th>
+                        <th class="centered">Telefono</th>
+                        <th class="centered">Tipo de cuenta</th>
+                        <th class="centered">Banco</th>
+                        <th class="centered">Numero de cuenta</th>
+                        <th class="centered">Cantidad</th>
                         <th class="centered">Acciones</th>
                     </tr>
                 </thead>
