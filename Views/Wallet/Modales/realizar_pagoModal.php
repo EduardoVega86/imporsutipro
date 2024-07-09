@@ -101,7 +101,7 @@
     $('#realizar_pago').on('submit', function(event) {
         event.preventDefault(); // Evitar el envío normal del formulario
 
-        let formData = new FormData(this); // Crear el FormData directamente del formulario
+        let formData = new FormData(); // Crear el FormData directamente del formulario
 
         // Agregar el archivo de comprobante
         let comprobante = $('#comprobante')[0].files[0];
