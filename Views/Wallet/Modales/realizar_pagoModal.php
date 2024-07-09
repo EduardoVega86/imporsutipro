@@ -63,9 +63,17 @@
                     </div>
 
                     <div class="mb-3">
+                        <label for="numero_documento" class="form-label">Numero de documento:</label>
+                        <input type="text" class="form-control" id="numero_documento" placeholder="Ingresar Numero documento">
+                    </div>
+
+                    <div class="mb-3">
                         <label for="forma_pago" class="form-label">Elegir forma de pago:</label>
                         <select class="form-select" id="forma_pago">
                             <option value="0">-- Seleccione una forma de pago --</option>
+                            <option value="transferencia_bancaria">Transferencia Bancaria</option>
+                            <option value="USDT">USDT</option>
+                            <option value="PAYONEER">PAYONEER</option>
                         </select>
                     </div>
 
@@ -122,11 +130,12 @@
         });
     });
 
-    function elegirCuenta(){
+    function elegirCuenta() {
         $("#elegir_cuenta").show();
         $("#forma_pago").hide();
     }
-    function formaPago(){
+
+    function formaPago() {
         $("#elegir_cuenta").hide();
         $("#forma_pago").show();
     }
