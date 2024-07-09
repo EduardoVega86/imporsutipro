@@ -32,7 +32,9 @@ const initDataTableSolicitudes = async () => {
 
   await listSolicitudes();
 
-  dataTableSolicitudes = $("#datatable_solicitudes").DataTable(dataTableSolicitudesOptions);
+  dataTableSolicitudes = $("#datatable_solicitudes").DataTable(
+    dataTableSolicitudesOptions
+  );
 
   dataTableSolicitudesIsInitialized = true;
 };
@@ -45,7 +47,6 @@ const listSolicitudes = async () => {
     let content = ``;
 
     solicitudes.forEach((solicitud, index) => {
-
       content += `
                 <tr>
                     <td>${solicitud.nombre}</td>
@@ -58,7 +59,8 @@ const listSolicitudes = async () => {
                     <td>${solicitud.numero_cuenta}</td>
                     <td>${solicitud.cantidad}</td>
                     <td>
-                    <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel_general('${solicitud.tienda}')">Descargar Excel general</button>
+                        <button class="btn btn-sm btn-primary" onclick="Pagar(${producto.id_plataforma})"><i class="fa-solid fa-pencil"></i>Pagar</button>
+                        <button class="btn btn-sm btn-danger" onclick="eliminarSolicitud(${producto.id_solicitud})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
                     </td>
 
                 </tr>`;
@@ -69,6 +71,9 @@ const listSolicitudes = async () => {
   }
 };
 
+function Pagar(id_plataforma){
+    window.location.href = '' + SERVERURL + 'wallet/pagar?tienda='+id_plataforma;
+}
 window.addEventListener("load", async () => {
   await initDataTableSolicitudes();
 });
