@@ -169,11 +169,10 @@ class AccesoModel extends Query
 
             if ($insertar_plataforma == 1) {
                 $idPlataforma = $this->select("SELECT id_plataforma FROM plataformas WHERE email = '$correo'");
-                print_r($idPlataforma);
+                //print_r($idPlataforma);
                 $sql = "INSERT INTO `perfil` ( `nombre_empresa`,`telefono`, `whatsapp`,  `id_plataforma`) VALUES (?,?,?,?)";
                 $data = [$tienda, $telefono, $telefono, $idPlataforma[0]['id_plataforma']];
                 $insertar_perfil = $this->insert($sql, $data);
-                echo 'asdasddas';
                 print_r($insertar_perfil);
                 if ($insertar_perfil == 1) {
 
@@ -242,7 +241,7 @@ class AccesoModel extends Query
                         }
                     }
                 } else {
-                    $response['message'] = "Error al creareee el perfil";
+                    $response['message'] = "Error al crear el perfil";
                 }
             } else {
                 $response['message'] = "Error al crear la plataforma! Intentelo nuevamente";
