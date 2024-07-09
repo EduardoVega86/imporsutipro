@@ -48,7 +48,7 @@ class ShopifyModel extends Query
         // Quitar el + de la cadena
         $telefono = str_replace("+", "", $telefono);
         $calle_principal = $data['principal'];
-        $calle_secundaria = $data['secundario'] ?? "";
+        $calle_secundaria = $data['secundaria'] ?? "";
 
         var_dump($calle_secundaria);
         $provincia = $data['provincia'];
