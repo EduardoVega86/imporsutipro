@@ -190,7 +190,7 @@ const initDataTableObtenerOtroPago = async () => {
 
 const listObtenerOtroPago = async () => {
   try {
-    const response = await fetch("" + SERVERURL + "wallet/obtenerDatos");
+    const response = await fetch("" + SERVERURL + "wallet/obtenerOtroPago");
     const obtenerOtroPago = await response.json();
 
     let content = ``;
