@@ -213,6 +213,7 @@ class GuiasModel extends Query
 
         if ($tienda_venta == $proveedor) {
             $proveedor = null;
+            $id_plataforma_bodega = null;
         }
 
         $costo = $this->select("SELECT costo_producto FROM facturas_cot WHERE numero_factura = '$numero_factura'");
@@ -222,10 +223,12 @@ class GuiasModel extends Query
             $costo_o = 0;
         }
 
+
+
         $monto_recibir = $costo_producto - $precio_envio - $full - $costo_o;
 
-        $insert_wallet = "INSERT INTO cabecera_cuenta_pagar (numero_factura, fecha, cliente, tienda, proveedor, estado_guia, total_venta, costo, precio_envio, monto_recibir, valor_cobrado, valor_pendiente, full, guia, cod, id_matriz, id_plataforma) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        $data = array($numero_factura, $fecha, $nombreDestino, $tienda_venta, $proveedor, $estado, $costo_producto, $costo_o, $precio_envio, $monto_recibir, 0, $monto_recibir, $full, $guia, $cod, $id_matriz, $id_plataforma);
+        $insert_wallet = "INSERT INTO cabecera_cuenta_pagar (numero_factura, fecha, cliente, tienda, proveedor, estado_guia, total_venta, costo, precio_envio, monto_recibir, valor_cobrado, valor_pendiente, full, guia, cod, id_matriz, id_plataforma, id_proveedor) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        $data = array($numero_factura, $fecha, $nombreDestino, $tienda_venta, $proveedor, $estado, $costo_producto, $costo_o, $precio_envio, $monto_recibir, 0, $monto_recibir, $full, $guia, $cod, $id_matriz, $id_plataforma, $id_plataforma_bodega);
         $response = $this->insert($insert_wallet, $data);
     }
 
@@ -468,7 +471,7 @@ class GuiasModel extends Query
     public function anularServi_temporal($id)
     {
         $sql = "UPDATE `facturas_cot` SET  `estado_guia_sistema` = ?, `anulada` = ? WHERE `numero_guia` = ? ";
-        $data = [101,1, $id];
+        $data = [101, 1, $id];
         $editar_producto = $this->update($sql, $data);
         //print_r($editar_producto);
         if ($editar_producto == 1) {
