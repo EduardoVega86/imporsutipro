@@ -73,7 +73,7 @@
                             <option value="0">-- Seleccione una forma de pago --</option>
                             <option value="transferencia_bancaria">Transferencia Bancaria</option>
                             <option value="cheque">Cheque</option>
-                            <option value="efectivo">efectivo</option>
+                            <option value="efectivo">Efectivo</option>
                             <option value="giro">Giro</option>
                             <option value="USDT">USDT</option>
                             <option value="PAYONEER">PAYONEER</option>
@@ -81,23 +81,33 @@
                         </select>
                     </div>
 
+                    <div class="mb-3">
+                        <label for="comprobante" class="form-label">Agregar Comprobante:</label>
+                        <input type="file" class="form-control" id="comprobante" name="comprobante">
+                    </div>
+
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-primary" form="realizar_pago">pagar</button>
+                <button type="submit" class="btn btn-primary" form="realizar_pago">Pagar</button>
             </div>
         </div>
     </div>
 </div>
+
 <script>
     // Manejar el envío del formulario
     $('#realizar_pago').on('submit', function(event) {
         event.preventDefault(); // Evitar el envío normal del formulario
 
-        let formData = new FormData();
-        formData.append("valor", $('#monto').val());
-        formData.append("id_cuenta", $('#cuenta').val());
+        let formData = new FormData(this); // Crear el FormData directamente del formulario
+
+        // Agregar el archivo de comprobante
+        let comprobante = $('#comprobante')[0].files[0];
+        if (comprobante) {
+            formData.append('comprobante', comprobante);
+        }
 
         $.ajax({
             url: SERVERURL + 'wallet/solicitarPago',
@@ -114,7 +124,6 @@
                         text: response.message
                     });
                 } else if (response.status == 200) {
-
                     Swal.fire({
                         icon: 'success',
                         title: "Exito",
@@ -133,14 +142,4 @@
             }
         });
     });
-
-    function elegirCuenta() {
-        $("#elegir_cuenta").show();
-        $("#forma_pago").hide();
-    }
-
-    function formaPago() {
-        $("#elegir_cuenta").hide();
-        $("#forma_pago").show();
-    }
 </script>
