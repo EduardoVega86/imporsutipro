@@ -166,14 +166,16 @@ class WalletModel extends Query
         $numero_factura = $response[0]['numero_factura'];
         $fecha = $response[0]['fecha'];
         $cliente = $response[0]['cliente'];
-
+        $id_plataforma = $response[0]['id_plataforma'];
+        $Id_proveedor = $response[0]['id_proveedor'];
+        $guia = $response[0]['guia'];
         if ($saldo === 0) {
             return;
         }
         $sql_update = "UPDATE cabecera_cuenta_pagar set valor_pendiente = 0, visto = 1 WHERE id_cabecera = ?";
         $response =  $this->update($sql_update, array($id_cabecera));
 
-        $sql = "UPDATE billeteras set saldo = saldo + $valor WHERE tienda = ?";
+        $sql = "UPDATE billeteras set saldo = saldo + $valor WHERE  id_plataforma = ?";
         $response =  $this->update($sql,  array($tienda));
 
         $id_billetera = $this->select("SELECT id_billetera FROM billeteras WHERE tienda = '$tienda'")[0]['id_billetera'];
@@ -193,8 +195,12 @@ class WalletModel extends Query
             $matriz = $this->obtenerMatriz();
             $matriz = $matriz[0]['idmatriz'];
             $sql = "INSERT INTO cabecera_cuenta_pagar (`tienda`, `numero_factura`, `guia`, `costo`, `monto_recibir`, `valor_pendiente`, `estado_guia`, `visto`, `full`, `fecha`, `cliente`, `id_plataforma`,`id_matriz`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            $response =  $this->insert($sql, array($proveedor, $numero_factura . '-P', $guia, $costo, $costo - $full, $costo - $full, 7, 0, $full, $fecha, $cliente, $id_plataforma, $matriz));
+            $response =  $this->insert($sql, array($proveedor, $numero_factura . '-P', $guia, $costo, $costo - $full, 0, 7, 0, $full, $fecha, $cliente, $id_plataforma, $matriz));
+            $update = "UPDATE billeteras set saldo = saldo + ($costo-$full) WHERE id_plataforma = '$proveedor'";
+            $response =  $this->select($update);
+
             if ($full > 0) {
+                $factura = $this->select("SELECT * FROM facturas_cot WHERE numero_factura = '$numero_factura'");
             }
         }
 
@@ -405,7 +411,7 @@ class WalletModel extends Query
         $matriz = $this->obtenerMatriz();
         $matriz = $matriz[0]['idmatriz'];
         $sql = "INSERT INTO solicitudes_pago (`cantidad`, `id_cuenta`, `fecha`, `id_matriz`, `id_plataforma`) VALUES (?, ?, ?, ?, ?)";
-        $response =  $this->insert($sql, array($valor, $id_cuenta, $fecha, $matriz));
+        $response =  $this->insert($sql, array($valor, $id_cuenta, $fecha, $matriz, $plataforma));
         $update = "UPDATE billeteras set solicito = 1, valor_solicitud = $valor WHERE id_plataforma = '$plataforma'";
         $response2 =  $this->select($update);
 
