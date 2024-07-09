@@ -118,6 +118,8 @@ class Wallet extends Controller
         echo json_encode($datos);
     }
 
+
+
     public function reversarAbono()
     {
         $id_cabecera = $_POST['id_cabecera'];
