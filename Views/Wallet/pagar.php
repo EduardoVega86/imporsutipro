@@ -38,7 +38,7 @@
                                             <div class="d-flex align-items-center">
                                                 <i class="bi bi-currency-dollar fs-1 text-success"></i>
                                                 <div class="ms-3">
-                                                    <p class="mb-0">UTILIDAD GENERADA</p>
+                                                    <p class="mb-0">HISTORICO DE GANACIAS</p>
                                                     <h3 class="text-success">$<span id="utilidadGenerada_wallet"></span></h3>
                                                 </div>
                                             </div>
