@@ -22,4 +22,13 @@ class DespachoModel extends Query
         return $this->select($sql);
     }
     
+    
+     public function obtenerbodega($bodega)
+    {
+        $sql = "SELECT * FROM `bodega` where id = $bodega";
+      // echo $sql; 
+        return $this->select($sql);
+    }
+    
+    
 }

@@ -73,4 +73,10 @@ class Despacho extends Controller
         $data = $this->model->listarDevolucionesDespacho($despacho);
         echo json_encode($data);
     }
+    
+     public function obtenerBodega($bodega)
+    {
+        $data = $this->model->obtenerbodega($bodega);
+        echo json_encode($data);
+    }
 }
