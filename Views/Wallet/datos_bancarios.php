@@ -199,6 +199,25 @@
                         </table>
                     </div>
                 </div>
+                <div>
+                <h3 style="text-align: center; padding-top:5px;">Lista de datos de Facturación</h3>
+                    <div class="table-responsive">
+                        <table id="datatable_obtenerOtroPago" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="centered">ID</th>
+                                    <th class="centered">Razón Social</th>
+                                    <th class="centered">RUC</th>
+                                    <th class="centered">Dirección</th>
+                                    <th class="centered">Correo</th>
+                                    <th class="centered">Telefono</th>
+                                    <th class="centered">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody_obtenerOtroPago"></tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
