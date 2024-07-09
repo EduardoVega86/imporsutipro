@@ -241,7 +241,7 @@ class AccesoModel extends Query
                         }
                     }
                 } else {
-                    $response['message'] = "Error al crear el perfil";
+                    $response['message'] = "Error al creareee el perfil";
                 }
             } else {
                 $response['message'] = "Error al crear la plataforma! Intentelo nuevamente";
