@@ -635,6 +635,8 @@ class WalletModel extends Query
         return $response;
     }
 
+
+
     public function verificarPago($id_solicitud)
     {
         $sql = "UPDATE solicitudes_pago set visto = 1 WHERE id_solicitud = ?";
