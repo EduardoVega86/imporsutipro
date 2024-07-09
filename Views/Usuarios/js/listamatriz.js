@@ -48,6 +48,7 @@ const listListaUsuarioMatriz = async () => {
 
     let content = ``;
     let checkboxState = "";
+    let checkboxStateFull = "";
     listaUsuarioMatriz.forEach((usuario, index) => {
       // Verifica el valor de usuario.proveedor y ajusta el checkbox en consecuencia
       if (usuario.proveedor == 1) {
@@ -56,13 +57,14 @@ const listListaUsuarioMatriz = async () => {
         checkboxState = "";
       }
 
+      if (usuario.full_f == 1) {
+        checkboxStateFull = "checked";
+      } else {
+        checkboxStateFull = "";
+      }
+
       content += `
                 <tr>
-                    <td><input type="checkbox" class="selectCheckbox" data-id="${
-                    usuario.id_users
-                    }" ${checkboxState} onclick="toggleProveedor(${
-                     usuario.id_plataforma
-                    }, this.checked)"></td>
                     <td>${usuario.id_users}</td>
                     <td>${usuario.nombre_users}</td>
                     <td>${usuario.usuario_users}</td>
@@ -74,6 +76,16 @@ const listListaUsuarioMatriz = async () => {
                     <i class='bx bxl-whatsapp-square' style="color: green;"></i>
                     </a></td>
                     <td>${usuario.nombre_tienda}</td>
+                    <td><input type="checkbox" class="selectCheckbox" data-id="${
+                      usuario.id_users
+                    }" ${checkboxState} onclick="toggleProveedor(${
+                    usuario.id_plataforma
+                    }, this.checked)"></td>
+                    <td><input type="checkbox" class="selectCheckbox" data-id="${
+                      usuario.id_users
+                    }" ${checkboxStateFull} onclick="toggleFull(${
+                    usuario.id_plataforma
+                    }, this.checked)"></td>
                     <td>${usuario.date_added}</td>
                     <td><button class="btn btn-sm btn-primary" onclick="editarUsuario(${
                       usuario.id_users
@@ -112,6 +124,30 @@ const toggleProveedor = async (userId, isChecked) => {
   }
 };
 
+const toggleFull = async (userId, isChecked) => {
+  const fullValue = isChecked ? 1 : 0;
+  const formData = new FormData();
+  formData.append("id_plataforma", userId);
+  formData.append("proveedor", fullValue);
+
+  try {
+    const response = await fetch(`${SERVERURL}usuarios/agregarFull`, {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error("Error al actualizar el fullfilment");
+    }
+
+    const result = await response.json();
+    console.log("fullfilment actualizado:", result);
+  } catch (error) {
+    console.error("Error:", error);
+    alert("Hubo un error al actualizar el fullfilment");
+  }
+};
+
 window.addEventListener("load", async () => {
   await initDataTableListaUsuarioMatriz();
 });
@@ -141,6 +177,6 @@ function formatPhoneNumber(number) {
 
 function editarUsuario(id) {
   $("#id_usuarioCambiar").val(id);
-
+  
   $("#cambiarClave_usuarioModal").modal("show");
 }

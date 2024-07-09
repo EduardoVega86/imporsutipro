@@ -12,13 +12,14 @@
             <table id="datatable_lista_usuarioMatriz" class="table table-striped">
                 <thead>
                     <tr>
-                        <th class="centered">Proveedor</th>
                         <th class="centered">ID</th>
                         <th class="centered">Nombres</th>
                         <th class="centered">Usuario</th>
                         <th class="centered">Email</th>
                         <th class="centered">Telefono</th>
                         <th class="centered">Tienda</th>
+                        <th class="centered">Proveedor</th>
+                        <th class="centered">FullFilment</th>
                         <th class="centered">Agregado</th>
                         <th class="centered">Acciones</th>
                     </tr>
