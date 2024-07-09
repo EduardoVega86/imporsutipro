@@ -155,11 +155,11 @@ JOIN
 JOIN 
     producto_privado pp 
     ON p.id_producto = pp.id_producto 
-    AND pp.id_plataforma = 1192
+    AND pp.id_plataforma = $plataforma
 LEFT JOIN 
     productos_favoritos pf 
     ON pf.id_producto = p.id_producto 
-    AND pf.id_plataforma = 1192 
+    AND pf.id_plataforma = $plataforma 
 WHERE 
     p.drogshipin = 1 
     AND p.producto_privado = 1 
@@ -168,7 +168,7 @@ WHERE
 " ;
         
         
-      // echo $sql;
+      //echo $sql;
         return $this->select($sql);
     }
 

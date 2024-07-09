@@ -72,8 +72,12 @@
                         <select class="form-select" id="forma_pago">
                             <option value="0">-- Seleccione una forma de pago --</option>
                             <option value="transferencia_bancaria">Transferencia Bancaria</option>
+                            <option value="cheque">Cheque</option>
+                            <option value="efectivo">efectivo</option>
+                            <option value="giro">Giro</option>
                             <option value="USDT">USDT</option>
                             <option value="PAYONEER">PAYONEER</option>
+                            <option value="otro">Otro</option>
                         </select>
                     </div>
 
