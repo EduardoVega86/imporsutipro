@@ -48,9 +48,15 @@ const listSolicitudes = async () => {
 
       content += `
                 <tr>
-                    <td>${solicitud.ventas}</td>
-                    <td>${solicitud.utilidad}</td>
-                    <td>${solicitud.count_visto_0}</td>
+                    <td>${solicitud.nombre}</td>
+                    <td>${solicitud.correo}</td>
+                    <td>${solicitud.cedula}</td>
+                    <td>${solicitud.fecha}</td>
+                    <td>${solicitud.telefono}</td>
+                    <td>${solicitud.tipo_cuenta}</td>
+                    <td>${solicitud.banco}</td>
+                    <td>${solicitud.numero_cuenta}</td>
+                    <td>${solicitud.cantidad}</td>
                     <td>
                     <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel_general('${solicitud.tienda}')">Descargar Excel general</button>
                     <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel('${solicitud.tienda}')">Descargar Excel</button>
