@@ -176,7 +176,7 @@ class WalletModel extends Query
         $response =  $this->update($sql_update, array($id_cabecera));
 
         $sql = "UPDATE billeteras set saldo = saldo + $valor WHERE  id_plataforma = ?";
-        $response =  $this->update($sql,  array($tienda));
+        $response =  $this->update($sql,  array($id_plataforma));
 
         $id_billetera = $this->select("SELECT id_billetera FROM billeteras WHERE tienda = '$tienda'")[0]['id_billetera'];
 
