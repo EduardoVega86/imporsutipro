@@ -48,7 +48,7 @@ const listSolicitudes = async () => {
     let checkboxState = "";
     solicitudes.forEach((solicitud, index) => {
         if (solicitud.visto == 1) {
-            checkboxState = "checked disable";
+            checkboxState = "checked disabled";
           } else {
             checkboxState = "";
           }
