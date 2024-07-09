@@ -10,7 +10,7 @@
 
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
-            <table id="datatable_guias" class="table table-striped">
+            <table id="datatable_solicitudes" class="table table-striped">
                 <!-- <caption>
                     DataTable.js Demo
                 </caption> -->
@@ -28,7 +28,7 @@
                         <th class="centered">Acciones</th>
                     </tr>
                 </thead>
-                <tbody id="tableBody_guias"></tbody>
+                <tbody id="tableBody_solicitudes"></tbody>
             </table>
         </div>
     </div>
