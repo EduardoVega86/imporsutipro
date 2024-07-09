@@ -62,23 +62,13 @@
                         <input type="text" class="form-control" id="monto" placeholder="Ingresar monto">
                     </div>
 
-                    <div class="d-flex flex-row gap-3">
-                    <button type="button" class="btn bnt_elegir" onclick="elegirCuenta()">Elegir cuenta</button>
-                    <button type="button" class="btn bnt_elegir" onclick="formaPago()">Elegir forma de pago</button>
-                    </div>
-                    <div class="mb-3" id="elegir_cuenta" style="display: none;">
-                        <label for="cuenta" class="form-label">Elegir cuenta:</label>
-                        <select class="form-select" id="cuenta">
-                            <option value="0">-- Seleccione una cuenta --</option>
+                    <div class="mb-3">
+                        <label for="forma_pago" class="form-label">Elegir forma de pago:</label>
+                        <select class="form-select" id="forma_pago">
+                            <option value="0">-- Seleccione una forma de pago --</option>
                         </select>
                     </div>
 
-                    <div class="mb-3" id="forma_pago" style="display: none;">
-                        <label for="formadePago" class="form-label">Elegir forma de pago:</label>
-                        <select class="form-select" id="formadePago">
-                            <option value="0">-- Seleccione una cuenta --</option>
-                        </select>
-                    </div>
                 </form>
             </div>
             <div class="modal-footer">
