@@ -129,26 +129,60 @@ class GestionModel extends Query
     {
         $sql = "SELECT * FROM facturas_cot WHERE numero_guia like 'IMP%';";
         $guias = $this->select($sql);
-        foreach ($guias as $guia) {
-            $this->verificar($guia['numero_guia']);
+
+        // Procesar en lotes
+        $batch_size = 10; // Tamaño del lote
+        $delay = 1; // Retraso en segundos entre lotes
+        $total_guias = count($guias);
+        $batches = ceil($total_guias / $batch_size);
+
+        for ($i = 0; $i < $batches; $i++) {
+            $batch_guias = array_slice($guias, $i * $batch_size, $batch_size);
+            foreach ($batch_guias as $guia) {
+                $this->verificar($guia['numero_guia']);
+            }
+            // Añadir un retraso entre lotes
+            sleep($delay);
         }
     }
 
     public function verificar($guia)
     {
+        // Inicializar cURL para la primera solicitud
         $ch = curl_init("https://api.laarcourier.com:9727/guias/" . $guia);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $response = curl_exec($ch);
 
+        if ($response === false) {
+            // Manejar errores en la solicitud
+            $error_msg = curl_error($ch);
+            curl_close($ch);
+            echo "Error en la solicitud: $error_msg";
+            return;
+        }
+
+        // Inicializar cURL para la segunda solicitud
         $url = "https://new.imporsuitpro.com/gestion/laar";
         $ch2 = curl_init($url);
         curl_setopt($ch2, CURLOPT_POST, 1);
         curl_setopt($ch2, CURLOPT_POSTFIELDS, $response);
         curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
+
         $response2 = curl_exec($ch2);
+
+        if ($response2 === false) {
+            // Manejar errores en la segunda solicitud
+            $error_msg2 = curl_error($ch2);
+            curl_close($ch2);
+            curl_close($ch);
+            echo "Error en la segunda solicitud: $error_msg2";
+            return;
+        }
+
         curl_close($ch2);
         curl_close($ch);
+
         echo $response2;
     }
 }
