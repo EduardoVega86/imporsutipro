@@ -59,7 +59,7 @@ const listSolicitudes = async () => {
                     <td>${solicitud.numero_cuenta}</td>
                     <td>${solicitud.cantidad}</td>
                     <td>
-                        <button class="btn btn-sm btn-primary" onclick="Pagar(${solicitud.id_plataforma})"><i class="fa-solid fa-pencil"></i>Pagar</button>
+                        <button class="btn btn-sm btn-primary" onclick="Pagar(${solicitud.id_plataforma})"><i class="fa-solid fa-sack-dollar"></i>Pagar</button>
                         <button class="btn btn-sm btn-danger" onclick="eliminarSolicitud(${solicitud.id_solicitud})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
                     </td>
 
