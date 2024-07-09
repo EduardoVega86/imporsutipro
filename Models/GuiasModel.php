@@ -213,7 +213,7 @@ class GuiasModel extends Query
 
         if ($tienda_venta == $proveedor) {
             $proveedor = null;
-            $id_plataforma_bodega = null;
+            $id_plataforma_producto = null;
         }
 
         $costo = $this->select("SELECT costo_producto FROM facturas_cot WHERE numero_factura = '$numero_factura'");
@@ -228,7 +228,7 @@ class GuiasModel extends Query
         $monto_recibir = $costo_producto - $precio_envio - $full - $costo_o;
 
         $insert_wallet = "INSERT INTO cabecera_cuenta_pagar (numero_factura, fecha, cliente, tienda, proveedor, estado_guia, total_venta, costo, precio_envio, monto_recibir, valor_cobrado, valor_pendiente, full, guia, cod, id_matriz, id_plataforma, id_proveedor) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        $data = array($numero_factura, $fecha, $nombreDestino, $tienda_venta, $proveedor, $estado, $costo_producto, $costo_o, $precio_envio, $monto_recibir, 0, $monto_recibir, $full, $guia, $cod, $id_matriz, $id_plataforma, $id_plataforma_bodega);
+        $data = array($numero_factura, $fecha, $nombreDestino, $tienda_venta, $proveedor, $estado, $costo_producto, $costo_o, $precio_envio, $monto_recibir, 0, $monto_recibir, $full, $guia, $cod, $id_matriz, $id_plataforma, $id_plataforma_producto);
         $response = $this->insert($insert_wallet, $data);
     }
 
