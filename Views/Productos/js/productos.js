@@ -15,6 +15,7 @@ const dataTableProductosOptions = {
     { className: "centered", targets: [0, 1, 2, 3, 4, 5, 6] },
     { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
   ],
+  order: [[2, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
   pageLength: 25,
   lengthMenu: [25, 50, 100, 200],
   destroy: true,
