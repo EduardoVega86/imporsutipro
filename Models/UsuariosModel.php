@@ -97,8 +97,7 @@ class UsuariosModel extends Query
                 $sql = "INSERT INTO `perfil` ( `nombre_empresa`,`telefono`, `whatsapp`,  `id_plataforma`) VALUES (?,?,?,?)";
                 $data = [$tienda, $telefono, $telefono, $idPlataforma[0]['id_plataforma']];
                 $insertar_perfil = $this->insert($sql, $data);
-                echo 'funcion';
-                 print_r($insertar_perfil);
+                // print_r($insertar_perfil);
                 if ($insertar_perfil == 1) {
 
                     $sql = "INSERT INTO usuario_plataforma (id_usuario, id_plataforma) VALUES (?, ?)";
@@ -173,26 +172,6 @@ class UsuariosModel extends Query
         return $response;
     }
 
-    
-     public function agregarFull($plataforma, $proveedor)
-    {
-        $response = $this->initialResponse();
-
-        $sql = "UPDATE `plataformas` SET `full_f` = ? WHERE `plataformas`.`id_plataforma` = ?";
-        $data = [$proveedor, $plataforma];
-        $editar_plataforma = $this->update($sql, $data);
-        //print_r($editar_producto);
-        if ($editar_plataforma == 1) {
-            $response['status'] = 200;
-            $response['title'] = 'Peticion exitosa';
-            $response['message'] = 'Categoria editada correctamente';
-        } else {
-            $response['status'] = 500;
-            $response['title'] = 'Error';
-            // $response['message'] = $editar_producto['message'];
-        }
-        return $response;
-    }
 
     public function guardar_imagen_logo($imagen, $plataforma)
     {
