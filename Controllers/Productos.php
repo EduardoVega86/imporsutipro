@@ -88,7 +88,7 @@ class Productos extends Controller
         $response = $this->model->obtener_productos($_SESSION['id_plataforma']);
         echo json_encode($response);
     }
-<<<<<<< HEAD
+
     
     public function obtener_productos_tienda()
     {
@@ -96,11 +96,9 @@ class Productos extends Controller
         echo json_encode($response);
     }
     
-     public function obtener_productos_inventario()
-=======
 
     public function obtener_productos_inventario()
->>>>>>> 8ec4f235b3c371c187cc02d7fddc0074e9c1deee
+
     {
         $response = $this->model->obtener_productos_inventario($_SESSION['id_plataforma']);
         echo json_encode($response);
