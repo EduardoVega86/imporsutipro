@@ -659,4 +659,10 @@ class PedidosModel extends Query
         $sql = "select * from facturas_cot fc, detalle_fact_cot dfc, productos p where dfc.id_producto=p.id_producto and fc.id_factura=dfc.id_factura and fc.id_factura=$id_factura";
         return $this->select($sql);
     }
+
+    public function obtenerDetalleWallet($numero_factura)
+    {
+        $sql = "select * from facturas_cot fc, detalle_fact_cot dfc, productos p where dfc.id_producto=p.id_producto and fc.id_factura=dfc.id_factura and fc.numero_factura = '$numero_factura';";
+        return $this->select($sql);
+    }
 }

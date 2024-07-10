@@ -427,6 +427,13 @@ class Pedidos extends Controller
         echo json_encode($response);
     }
 
+    public function obtenerDetalleWallet()
+    {
+        $numero_factura = $_POST['numero_factura'];
+        $response = $this->model->obtenerDetalleWallet($numero_factura);
+        echo json_encode($response);
+    }
+
     public function eliminarDescripcion($id_detalle)
     {
 
