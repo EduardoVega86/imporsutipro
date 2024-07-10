@@ -94,7 +94,7 @@ const listGuias = async () => {
           '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
         ruta_descarga = `<a class="w-100" href="https://guias.imporsuitpro.com/Speed/descargar/${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
         ruta_traking = ``;
-        funcion_anular = ``;
+        funcion_anular = `anular_guiaSpeed('${guia.numero_guia}')`;
         estado = validar_estadoSpeed(guia.estado_guia_sistema);
         select_speed = `
                     <select class="form-select select-estado-speed" style="max-width: 130px;" data-numero-guia="${guia.numero_guia}">
@@ -233,6 +233,29 @@ document.addEventListener('change', async (event) => {
   }
 });
 
+function anular_guiaSpeed(numero_guia) {
+  $.ajax({
+    type: "GET",
+    url: "https://guias.imporsuitpro.com/Speed/anular/" + numero_guia,
+    dataType: "json",
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("LA IMAGEN NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+
+        initDataTable();
+      }
+    },
+    error: function (xhr, status, error) {
+      alert("Hubo un problema al anular la guia de Servientrega");
+    },
+  });
+}
 
 function abrirModal_infoTienda(tienda) {
   let formData = new FormData();
