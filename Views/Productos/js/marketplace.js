@@ -201,32 +201,36 @@ document.addEventListener("DOMContentLoaded", function () {
   fetchProducts();
 
   // JavaScript para manejar el click del botón "+" y cambiar el estado
-function toggleAddToStore(productId, isAdded) {
-  $.ajax({
-    url: '/api/toggleAddToStore', // Cambia esta URL a la de tu API
-    method: 'POST',
-    data: {
-      id: productId,
-      added: !isAdded
-    },
-    success: function(response) {
-      // Suponiendo que la respuesta contiene el nuevo estado de agregado
-      const newIsAdded = response.added;
+  function toggleAddToStore(productId, isAdded) {
+    $.ajax({
+      url: "/api/toggleAddToStore", // Cambia esta URL a la de tu API
+      method: "POST",
+      data: {
+        id: productId,
+        added: !isAdded,
+      },
+      success: function (response) {
+        // Suponiendo que la respuesta contiene el nuevo estado de agregado
+        const newIsAdded = response.added;
 
-      const addButton = document.querySelector(`.add-to-store-button[onclick="toggleAddToStore(${productId}, ${isAdded})"]`);
-      if (newIsAdded) {
-        addButton.classList.add('added');
-        addButton.querySelector('.add-to-store-text').textContent = 'Quitar de tienda';
-      } else {
-        addButton.classList.remove('added');
-        addButton.querySelector('.add-to-store-text').textContent = 'Añadir a tienda';
-      }
-    },
-    error: function(error) {
-      console.error('Error al actualizar el estado del producto:', error);
-    }
-  });
-}
+        const addButton = document.querySelector(
+          `.add-to-store-button[onclick="toggleAddToStore(${productId}, ${isAdded})"]`
+        );
+        if (newIsAdded) {
+          addButton.classList.add("added");
+          addButton.querySelector(".add-to-store-text").textContent =
+            "Quitar de tienda";
+        } else {
+          addButton.classList.remove("added");
+          addButton.querySelector(".add-to-store-text").textContent =
+            "Añadir a tienda";
+        }
+      },
+      error: function (error) {
+        console.error("Error al actualizar el estado del producto:", error);
+      },
+    });
+  }
 
   /* Filtros */
 

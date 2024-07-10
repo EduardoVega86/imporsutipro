@@ -409,10 +409,10 @@
 .add-to-store-button {
   position: absolute;
   bottom: 10px;
-  left: 10px;
-  background-color: #F7F7F7;
+  right: 10px;
+  background-color: white;
   color: black;
-  border: none;
+  border: 1px solid black;
   border-radius: 0.3rem;
   width: 30px;
   height: 30px;
@@ -434,7 +434,7 @@
 
 .add-to-store-button .add-to-store-text {
   display: none;
-  margin-left: 10px;
+  margin-right: 10px;
   white-space: nowrap;
   transition: opacity 0.3s ease;
 }
@@ -448,8 +448,6 @@
   width: auto;
   padding: 5px 10px;
   border-radius: 0.3rem;
-  background-color: green;
-  color: white;
 }
 
     /* Fin de boton añadir tienda */
