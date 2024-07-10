@@ -220,10 +220,10 @@ document.addEventListener('change', async (event) => {
       });
       const result = await response.json();
       if (result == 200){
-        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+        toastr.success("ESTADO ACTUALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
       });
-      
+
       initDataTable();
       }
     } catch (error) {
