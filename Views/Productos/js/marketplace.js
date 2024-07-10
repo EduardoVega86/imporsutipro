@@ -352,7 +352,7 @@ function agregarModal_marketplace(id) {
         // Llenar los elementos <span> del modal con los datos recibidos
         $("#codigo_producto").text(data.codigo_producto);
         $("#nombre_producto").text(data.nombre_producto);
-        $("#precio_proveedor").text(data.costo_producto);
+        $("#precio_proveedor").text(data.pcp);
         $("#precio_sugerido").text(data.pvp);
         $("#stock").text(data.saldo_stock);
         $("#nombre_proveedor").text(data.contacto);
