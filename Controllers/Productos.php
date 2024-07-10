@@ -76,7 +76,7 @@ class Productos extends Controller
 
     public function productos_tienda()
     {
-        $this->views->render($this, "productos_tiendas");
+        $this->views->render($this, "productos_tienda");
     }
 
 
