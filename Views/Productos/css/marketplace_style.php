@@ -400,4 +400,52 @@
   }
 
     /* fin boton favoritos */
+
+    /* boton añadir a tienda */
+    .image-container {
+  position: relative;
+}
+
+.add-to-store-button {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background-color: white;
+  color: black;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.add-to-store-button.added {
+  background-color: green;
+  color: white;
+}
+
+.add-to-store-button .plus-icon {
+  font-size: 20px;
+}
+
+.add-to-store-button .add-to-store-text {
+  display: none;
+  margin-left: 10px;
+  white-space: nowrap;
+  transition: opacity 0.3s ease;
+}
+
+.add-to-store-button:hover .add-to-store-text {
+  display: block;
+  opacity: 1;
+}
+
+.add-to-store-button:hover {
+  width: auto;
+  padding: 5px 10px;
+}
+    /* Fin de boton añadir tienda */
 </style>
