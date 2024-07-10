@@ -351,7 +351,7 @@ $(document).ready(function () {
       if (Array.isArray(response)) {
         response.forEach(function (cuenta) {
           
-          $("#cuenta").append(
+          $("#formadePago").append(
             new Option(cuenta.tipo, cuenta.id_pago)
           );
         });
