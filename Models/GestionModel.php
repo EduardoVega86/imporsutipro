@@ -131,7 +131,7 @@ class GestionModel extends Query
     }
     public function masivo()
     {
-        $sql = "SELECT * FROM facturas_cot WHERE numero_guia like 'IMP%';";
+        $sql = "SELECT * FROM facturas_cot WHERE numero_guia like 'IMP%' and estado_guia_sistema != 8 ORDER BY `numero_factura` DESC";
         $guias = $this->select($sql);
 
         // Procesar en lotes
