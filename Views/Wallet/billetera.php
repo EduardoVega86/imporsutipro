@@ -40,7 +40,7 @@
                                             <div class="d-flex align-items-center">
                                                 <i class="bi bi-currency-dollar fs-1 text-success"></i>
                                                 <div class="ms-3">
-                                                    <p class="mb-0">UTILIDAD GENERADA</p>
+                                                    <p class="mb-0">HISTORICO DE GANANCIAS</p>
                                                     <h3 class="text-success">$<span id="utilidadGenerada_wallet"></span></h3>
                                                 </div>
                                             </div>
@@ -101,7 +101,7 @@
 
             <div class="right gap-2">
 
-                <h3 style="text-align: center; padding-top:5px;">Tabla de Pagos</h3>
+                <h3 style="text-align: center; padding-top:5px;">Historial de Pagos</h3>
                 <div class="table-responsive">
                     <table id="datatable_pagos" class="table table-striped">
 
@@ -118,7 +118,7 @@
                         <tbody id="tableBody_pagos"></tbody>
                     </table>
                 </div>
-                <h3 style="text-align: center; padding-top:5px;">Tabla Historial de Pagos</h3>
+                <h3 style="text-align: center; padding-top:5px;">Historial de acreditación</h3>
                 <div class="table-responsive">
                     <table id="datatable_historial_pago" class="table table-striped">
 

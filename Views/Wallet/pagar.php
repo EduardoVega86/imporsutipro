@@ -99,7 +99,7 @@
 
             <div class="right gap-2">
 
-                <h3 style="text-align: center; padding-top:5px;">Tabla de Pagos</h3>
+                <h3 style="text-align: center; padding-top:5px;">Historial de pagos</h3>
                 <div class="table-responsive">
                     <table id="datatable_pagos" class="table table-striped">
 
@@ -116,7 +116,7 @@
                         <tbody id="tableBody_pagos"></tbody>
                     </table>
                 </div>
-                <h3 style="text-align: center; padding-top:5px;">Tabla Historial de Pagos</h3>
+                <h3 style="text-align: center; padding-top:5px;">Historial de acreditación</h3>
                 <div class="table-responsive">
                     <table id="datatable_historial_pago" class="table table-striped">
 
