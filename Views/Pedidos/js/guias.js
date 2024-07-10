@@ -710,8 +710,7 @@ function anular_guiaServi(numero_guia) {
 function anular_guiaSpeed(numero_guia) {
   $.ajax({
     type: "GET",
-    /* url: "https://guias.imporsuitpro.com/Servientrega/Anular/" + numero_guia, */
-    url: SERVERURL + "Guias/anularSpeed_temporal/" + numero_guia,
+    url: "https://guias.imporsuitpro.com/Speed/anular/" + numero_guia,
     dataType: "json",
     success: function (response) {
       if (response.status == 500) {
