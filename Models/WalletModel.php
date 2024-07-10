@@ -469,8 +469,8 @@ class WalletModel extends Query
     {
         $matriz = $this->obtenerMatriz();
         $matriz = $matriz[0]['idmatriz'];
-        $sql = "INSERT INTO pagos (`valor`, `numero_documento`, `forma_pago`, `fecha`, `imagen`, `id_matriz`, `id_plataforma`) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        $response =  $this->insert($sql, array($valor, $documento, $forma_pago, $fecha, $imagen, $matriz, $plataforma));
+        $sql = "INSERT INTO pagos (`valor`, `numero_documento`, `forma_pago`, `fecha`, `imagen`, `id_plataforma`) VALUES ( ?, ?, ?, ?, ?, ?)";
+        $response =  $this->insert($sql, array($valor, $documento, $forma_pago, $fecha, $imagen,  $plataforma));
         if ($response == 1) {
             $responses["status"] = 200;
             $sql = "SELECT * FROM plataformas where id_plataforma = '$plataforma'";
