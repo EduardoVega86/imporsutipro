@@ -219,7 +219,7 @@ document.addEventListener('change', async (event) => {
         body: formData
       });
       const result = await response.json();
-      if (result == 200){
+      if (result.status == 200){
         toastr.success("ESTADO ACTUALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
       });
