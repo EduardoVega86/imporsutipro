@@ -224,15 +224,15 @@ const listGuias = async () => {
       select.addEventListener("change", async (event) => {
         const numeroGuia = event.target.getAttribute("data-numero-guia");
         const nuevoEstado = event.target.value;
+        const formData = new FormData();
+        formData.append("estado", nuevoEstado);
+
         try {
           const response = await fetch(
             `https://guias.imporsuitpro.com/Speed/estado/${numeroGuia}`,
             {
               method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ estado: nuevoEstado }),
+              body: formData,
             }
           );
           const result = await response.json();
