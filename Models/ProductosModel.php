@@ -21,7 +21,7 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
 
     public function obtener_productos_tienda($plataforma)
     {
-        $sql = "SELECT productos_tienda = $plataforma";
+        $sql = "SELECT * from productos_tienda  where id_plataforma= $plataforma";
 
         return $this->select($sql);
     }
