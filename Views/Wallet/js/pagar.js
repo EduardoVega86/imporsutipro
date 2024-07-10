@@ -139,19 +139,19 @@ const listFacturas = async () => {
       if (factura.guia.includes("IMP")) {
         url_tracking = `https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${factura.guia}`;
         url_descargar = `https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${factura.guia}`;
-        estado = validar_estadoLaar(factura.guia);
+        estado = validar_estadoLaar(factura.estado_guia);
       } else if (factura.guia.includes("I")) {
         url_tracking = `https://ec.gintracom.site/web/site/tracking`;
         url_descargar = `https://guias.imporsuitpro.com/Gintracom/label/${factura.guia}`;
-        estado = validar_estadoGintracom(factura.guia);
+        estado = validar_estadoGintracom(factura.estado_guia);
       } else if (factura.guia.includes("SPD")) {
         url_tracking = ``;
         url_descargar = `https://guias.imporsuitpro.com/Speed/descargar/${factura.guia}`;
-        estado = validar_estadoSpeed(factura.guia);
+        estado = validar_estadoSpeed(factura.estado_guia);
       } else {
         url_tracking = `https://servientrega-ecuador.appsiscore.com/app/app-cliente/cons_publica.php?guia=${factura.guia}&Request=Buscar+`;
         url_descargar = `https://guias.imporsuitpro.com/Servientrega/guia/${factura.guia}`;
-        estado = validar_estadoServi(factura.guia);
+        estado = validar_estadoServi(factura.estado_guia);
       }
 
       console.log("estados"+estado)
