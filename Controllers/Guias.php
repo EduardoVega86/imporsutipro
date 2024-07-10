@@ -28,6 +28,7 @@ class Guias extends Controller
         $nombreDestino = $_POST['nombre'];
         $ciudadDestino = $_POST['ciudad'];
         $provincia = $_POST['provincia'];
+        $ciudad_D = $_POST['ciudad'];
         $ciudadDestino = $this->model->obtenerCiudadLaar($ciudadDestino);
         $direccionDestino = $_POST['calle_principal'] . " y " . $_POST['calle_secundaria'];
 
@@ -59,7 +60,7 @@ class Guias extends Controller
         $datos = $this->model->generarLaar($nombreOrigen, $ciudadOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras);
         $datos = json_decode($datos, true);
         if (!empty($datos["guia"])) {
-            $this->model->actualizarGuia($numero_factura, $datos["guia"], $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $cod, $costo_producto, $comentario, $_SESSION["id"], $calle_principal, $calle_secundaria, $contiene, $provincia, $costoflete, "LAAR", 2);
+            $this->model->actualizarGuia($numero_factura, $datos["guia"], $nombreDestino, $ciudad_D, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $cod, $costo_producto, $comentario, $_SESSION["id"], $calle_principal, $calle_secundaria, $contiene, $provincia, $costoflete, "LAAR", 2);
 
             $datos["status"] = "200";
             $this->model->asignarWallet($numero_factura, $datos["guia"], $fecha, $nombreDestino, $_SESSION["id_plataforma"], 1, $costo_producto, $cod, $costoflete);
