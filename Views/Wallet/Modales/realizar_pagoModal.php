@@ -57,6 +57,7 @@
             </div>
             <div class="modal-body">
                 <form id="realizar_pago">
+                    <input type="hidden" id="id_plataforma" name="id_plataforma">
                     <div class="mb-3">
                         <label for="monto" class="form-label">Monto:</label>
                         <input type="text" class="form-control" id="monto" placeholder="Ingresar monto">

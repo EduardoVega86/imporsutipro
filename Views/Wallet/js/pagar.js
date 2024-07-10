@@ -540,3 +540,8 @@ const listHistorialPago = async () => {
 window.addEventListener("load", async () => {
   await initDataTableHistorialPago();
 });
+
+function abrirModal_realizarPago() {
+  $("#id_plataforma").val(tienda);
+  $("#realizar_pagoModal").modal("show");
+}
