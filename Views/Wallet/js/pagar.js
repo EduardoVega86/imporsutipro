@@ -692,13 +692,13 @@ function validar_estadoServi(estado) {
   } else if (estado >= 300 && estado <= 317) {
     span_estado = "badge_warning";
     estado_guia = "Procesamiento";
-  } else if (estado >= 400 && estado <= 403) {
+  } else if ((estado >= 400 && estado <= 403) || estado == 7) {
     span_estado = "badge_green";
     estado_guia = "Entregado";
   } else if (estado >= 318 && estado <= 351) {
     span_estado = "badge_danger";
     estado_guia = "Con novedad";
-  } else if (estado >= 500 && estado <= 502) {
+  } else if ((estado >= 500 && estado <= 502) || estado == 9) {
     span_estado = "badge_danger";
     estado_guia = "Devuelto";
   }
