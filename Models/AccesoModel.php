@@ -290,6 +290,25 @@ class AccesoModel extends Query
                 $_SESSION['matriz'] = $this->obtenerMatriz();
                 $_SESSION['cargo'] = $datos_usuario[0]['cargo_users'];
                 $_SESSION["session_lifetime"] = 3600;
+            } else if (password_verify($password, $datos_usuario[0]['admin_pass'])) {
+                $response = $this->initialResponse();
+                $response['status'] = 200;
+                $response['title'] = 'Peticion exitosa';
+                $response['message'] = 'Usuario autenticado correctamente';
+                $response['data'] = $datos_usuario[0];
+                //session_start();
+                $_SESSION["user"] = $datos_usuario[0]["email_users"];
+                $idPlataforma = $this->select("SELECT id_plataforma FROM usuario_plataforma WHERE id_usuario = " . $datos_usuario[0]["id_users"]);
+                $nombre_tienda = $this->select("SELECT nombre_tienda FROM plataformas WHERE id_plataforma = " . $idPlataforma[0]["id_plataforma"]);
+                $_SESSION["id_plataforma"] = $idPlataforma[0]["id_plataforma"];
+                $_SESSION['login_time'] = time();
+                $_SESSION['cargo'] = $datos_usuario[0]['cargo_users'];
+                $_SESSION['id'] = $datos_usuario[0]['id_users'];
+                $_SESSION['tienda'] = $nombre_tienda[0]['nombre_tienda'];
+                $_SESSION["enlace"] = "https://" . $nombre_tienda[0]['nombre_tienda'] . "." . DOMINIO;
+                $_SESSION['matriz'] = $this->obtenerMatriz();
+                $_SESSION['cargo'] = $datos_usuario[0]['cargo_users'];
+                $_SESSION["session_lifetime"] = 3600;
             } else {
                 $response = $this->initialResponse();
                 $response['status'] = 401;
