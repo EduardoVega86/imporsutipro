@@ -649,4 +649,11 @@ class WalletModel extends Query
         }
         return $responses;
     }
+
+    public function obtenerOtroPago($id_platafor)
+    {
+        $sql = "SELECT * FROM metodo_pagos WHERE id_plataforma = '$id_platafor'";
+        $response =  $this->select($sql);
+        return $response;
+    }
 }

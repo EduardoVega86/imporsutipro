@@ -44,6 +44,10 @@ class GestionModel extends Query
 
         $avisar = false;
         $nombre = "";
+        $sql = "SELECT * FROM facturas_cot WHERE numero_guia = '$guia' ";
+        $response = $this->select($sql);
+        $nombreC = $response[0]['nombre'];
+
         foreach ($novedades as $novedad) {
             if ($novedad['codigoTipoNovedad'] == 42 || $novedad['codigoTipoNovedad'] == 43 || $novedad['codigoTipoNovedad'] == 92 || $novedad['codigoTipoNovedad'] == 96) {
                 $avisar = false;
@@ -78,7 +82,7 @@ class GestionModel extends Query
             } else if (is_numeric($guia)) {
                 $tracking = "https://www.servientrega.com.ec/Tracking/?guia=" . $guia . "&tipo=GUI";
             }
-            $response = $this->insert($sql, [$guia, $nombre, $codigo, $nombre, $tracking, $novedad["fechaNovedad"], $id_plataforma]);
+            $response = $this->insert($sql, [$guia, $nombreC, $codigo, $detalle, $tracking, $novedad["fechaNovedad"], $id_plataforma]);
             print_r($response);
             if ($avisar) {
                 //$this->enviarCorreo($guia);
