@@ -340,6 +340,29 @@ $(document).ready(function () {
       console.error("Error al obtener la lista de cuentas:", error);
     },
   });
+
+  $.ajax({
+    url: SERVERURL + "wallet/obtenerOtroPago",
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+      console.log(response);
+      // Asegúrate de que la respuesta es un array
+      if (Array.isArray(response)) {
+        response.forEach(function (cuenta) {
+          
+          $("#cuenta").append(
+            new Option(`${cuenta.banco}- ${cuenta.numero_cuenta} -${cuenta.tipo_cuenta}`, cuenta.id_cuenta)
+          );
+        });
+      } else {
+        console.log("La respuesta de la API no es un array:", response);
+      }
+    },
+    error: function (error) {
+      console.error("Error al obtener la lista de cuentas:", error);
+    },
+  });
 });
 
 //TABLA DE HISTORIAL PAGOS

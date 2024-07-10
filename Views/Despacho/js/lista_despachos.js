@@ -6,6 +6,7 @@ const dataTableListaDespachosOptions = {
     { className: "centered", targets: [0, 1, 2, 3, 4, 5] },
     { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
   ],
+  order: [[5, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
   pageLength: 10,
   destroy: true,
   language: {
