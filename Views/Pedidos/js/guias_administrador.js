@@ -73,6 +73,7 @@ const listGuias = async () => {
       let ruta_traking = "";
       let funcion_anular = "";
       let select_speed = "";
+      let drogshipin = "";
       if (transporte == 2) {
         transporte_content =
           '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SERVIENTREGA</span>';
@@ -119,6 +120,12 @@ const listGuias = async () => {
       var span_estado = estado.span_estado;
       var estado_guia = estado.estado_guia;
 
+      if (guia.drogshipin == 0){
+        drogshipin = "Local";
+      } else if (drogshipin == 1){
+        drogshipin = "Drogshipin";
+      }
+
       //tomar solo la ciudad
       let ciudadCompleta = guia.ciudad;
       let ciudadArray = ciudadCompleta.split("/");
@@ -147,7 +154,14 @@ const listGuias = async () => {
       content += `
                 <tr>
                     <td><input type="checkbox" class="selectCheckbox" data-id="${guia.numero_factura}"></td>
-                    <td>${guia.numero_factura}</td>
+                    <td>
+                    <div>
+                    ${guia.numero_factura}
+                    </div>
+                    <div>
+                    ${drogshipin}
+                    </div>
+                    </td>
                     <td>
                     <div><button onclick="ver_detalle_cot('${guia.id_factura}')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>
                     <div>${guia.fecha_factura}</td></div>
@@ -158,6 +172,7 @@ const listGuias = async () => {
                     </td>
                     <td>${guia.provinciaa}-${ciudad}</td>
                     <td><span class="link-like" id="plataformaLink">${guia.tienda}</span></td>
+                    <td><span class="link-like" id="plataformaLink">${guia.nombre_proveedor}</span></td>
                     <td>${transporte_content}</td>
                     <td>
                      <div style="text-align: center;">
