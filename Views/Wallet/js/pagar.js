@@ -156,6 +156,7 @@ const listFacturas = async () => {
 
       console.log("estados"+estado)
       var span_estado = estado.span_estado;
+      console.log(span_estado);
       var estado_guia = estado.estado_guia;
 
       content += `
