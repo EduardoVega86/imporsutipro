@@ -223,8 +223,6 @@ document.addEventListener('change', async (event) => {
         toastr.success("ESTADO ACTUALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
       });
-
-      initDataTable();
       }
     } catch (error) {
       console.error('Error al conectar con la API', error);
