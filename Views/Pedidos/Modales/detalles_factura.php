@@ -61,6 +61,30 @@
             width: 100%;
         }
     }
+
+    /* tabla de detalle factura */
+    .custom-table {
+        width: 100%;
+        margin: 20px 0;
+        border-collapse: collapse;
+    }
+
+    .custom-table thead th {
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        padding: 8px;
+    }
+
+    .custom-table tbody td {
+        border: 1px solid #dee2e6;
+        padding: 8px;
+    }
+
+    .custom-total-row {
+        font-weight: bold;
+    }
+
+    /* fin de tabla detalle factura */
 </style>
 <div class="modal fade" id="detalles_facturaModal" tabindex="-1" aria-labelledby="detalles_facturaModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
