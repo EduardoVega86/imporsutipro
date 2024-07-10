@@ -219,10 +219,12 @@ document.addEventListener('change', async (event) => {
         body: formData
       });
       const result = await response.json();
-      if (result.success) {
-        alert('Estado actualizado correctamente');
-      } else {
-        alert('Error al actualizar el estado');
+      if (result == 200){
+        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+      });
+      
+      initDataTable();
       }
     } catch (error) {
       console.error('Error al conectar con la API', error);
