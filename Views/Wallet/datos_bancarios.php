@@ -187,11 +187,8 @@
                             <thead>
                                 <tr>
                                     <th class="centered">ID</th>
-                                    <th class="centered">Razón Social</th>
-                                    <th class="centered">RUC</th>
-                                    <th class="centered">Dirección</th>
-                                    <th class="centered">Correo</th>
-                                    <th class="centered">Telefono</th>
+                                    <th class="centered">Cuenta</th>
+                                    <th class="centered">Tipo</th>
                                     <th class="centered">Acción</th>
                                 </tr>
                             </thead>

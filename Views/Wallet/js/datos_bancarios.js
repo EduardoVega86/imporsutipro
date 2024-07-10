@@ -183,7 +183,9 @@ const initDataTableObtenerOtroPago = async () => {
 
   await listObtenerOtroPago();
 
-  dataTableObtenerOtroPago = $("#datatable_obtenerOtroPago").DataTable(dataTableObtenerOtroPagoOptions);
+  dataTableObtenerOtroPago = $("#datatable_obtenerOtroPago").DataTable(
+    dataTableObtenerOtroPagoOptions
+  );
 
   dataTableObtenerOtroPagoIsInitialized = true;
 };
@@ -196,26 +198,13 @@ const listObtenerOtroPago = async () => {
     let content = ``;
 
     obtenerOtroPago.forEach((pago, index) => {
-
       content += `
                 <tr>
-                    <td><a class="dropdown-item link-like" href="${SERVERURL}wallet/pagar?tienda=${pago.tienda}">${pago.tienda}</a></td>
-                    <td>${pago.ventas}</td>
-                    <td>${pago.utilidad}</td>
-                    <td>${pago.count_visto_0}</td>
+                    <td>${pago.id_pago}</td>
+                    <td>${pago.cuenta}</td>
+                    <td>${pago.tipo}</td>
                     <td>
-                    <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel_general('${pago.tienda}')">Descargar Excel general</button>
-                    <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel('${pago.tienda}')">Descargar Excel</button>
-                    </td>
-                    <td>
-                    <div class="dropdown">
-                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-gear"></i>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" style="cursor: pointer;" href="${SERVERURL}wallet/pagar?tienda=${pago.tienda}"><i class='bx bx-wallet'></i>Pagar</a></li>
-                    </ul>
-                    </div>
+                        <button class="btn btn-sm btn-danger" onclick="eliminarForma_pago(${pago.id_pago})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
                     </td>
                 </tr>`;
     });
@@ -229,6 +218,42 @@ window.addEventListener("load", async () => {
   await initDataTableObtenerOtroPago();
 });
 
+function eliminarForma_pago(id) {
+  let formData = new FormData();
+  formData.append("id", id);
+  $.ajax({
+    type: "POST",
+    url: SERVERURL + "wallet/eliminarOtroPago",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    success: function (response) {
+      // Mostrar alerta de éxito
+      if (response.status == 500) {
+        Swal.fire({
+          icon: "error",
+          title: response.title,
+          text: response.message,
+        });
+      } else {
+        Swal.fire({
+          icon: "success",
+          title: response.title,
+          text: response.message,
+          showConfirmButton: false,
+          timer: 2000,
+        }).then(() => {
+          // Recargar la DataTable
+          initDataTableProductos();
+        });
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al eliminar la categoría");
+    },
+  });
+}
 
 //FUNCIONES PARA ENVIO DE INFORMACION
 $(document).ready(function () {
