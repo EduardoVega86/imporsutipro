@@ -412,7 +412,8 @@
   left: 10px;
   background-color: white;
   color: black;
-  border-radius: 50%;
+  border: 1px solid black;
+  border-radius: 0.3rem;
   width: 30px;
   height: 30px;
   display: flex;
@@ -446,6 +447,8 @@
 .add-to-store-button:hover {
   width: auto;
   padding: 5px 10px;
+  border-radius: 0.3rem;
 }
+
     /* Fin de boton añadir tienda */
 </style>
