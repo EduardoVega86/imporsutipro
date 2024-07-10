@@ -216,10 +216,6 @@ class GuiasModel extends Query
         $tienda_venta = $this->select("SELECT url_imporsuit FROM plataformas WHERE id_plataforma = '$id_plataforma'");
         $tienda_venta = $tienda_venta[0]['url_imporsuit'];
 
-        if ($tienda_venta == $proveedor) {
-            $proveedor = null;
-            $id_plataforma_producto = null;
-        }
 
         $costo = $this->select("SELECT costo_producto FROM facturas_cot WHERE numero_factura = '$numero_factura'");
         $costo_o = $costo[0]['costo_producto'];
@@ -229,6 +225,10 @@ class GuiasModel extends Query
         }
 
 
+        if ($tienda_venta == $proveedor) {
+            $proveedor = null;
+            $id_plataforma_producto = null;
+        }
 
         $monto_recibir = $costo_producto - $precio_envio - $full - $costo_o;
 
