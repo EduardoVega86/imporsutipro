@@ -53,7 +53,7 @@ class Productos extends Controller
     {
         $this->views->render($this, "marketplace");
     }
-    
+
     public function marketplace_privado()
     {
         $this->views->render($this, "marketplace_privado");
@@ -74,6 +74,11 @@ class Productos extends Controller
         $this->views->render($this, "importacion_masiva");
     }
 
+    public function productos_tienda()
+    {
+        $this->views->render($this, "productos_tiendas");
+    }
+
 
 
     ///Funciones
@@ -83,8 +88,8 @@ class Productos extends Controller
         $response = $this->model->obtener_productos($_SESSION['id_plataforma']);
         echo json_encode($response);
     }
-    
-     public function obtener_productos_inventario()
+
+    public function obtener_productos_inventario()
     {
         $response = $this->model->obtener_productos_inventario($_SESSION['id_plataforma']);
         echo json_encode($response);
@@ -101,8 +106,8 @@ class Productos extends Controller
         $response = $this->model->obtenerProductosCategoria($id, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
-    
-     public function obtener_productos_favoritos($id)
+
+    public function obtener_productos_favoritos($id)
     {
         $response = $this->model->obtenerProductosFavoritos($id, $_SESSION['id_plataforma']);
         echo json_encode($response);
@@ -225,51 +230,51 @@ class Productos extends Controller
     }
 
 
-    public function guardar_imagenes_adicionales()    {
+    public function guardar_imagenes_adicionales()
+    {
         if (isset($_FILES['images'])) {
-    $totalFiles = count($_FILES['images']['name']);
+            $totalFiles = count($_FILES['images']['name']);
 
-    for ($i = 0; $i < $totalFiles; $i++) {
-      $fileName = $_FILES['images']['name'][$i];
-      $fileTmpName = $_FILES['images']['tmp_name'][$i];
-      $fileSize = $_FILES['images']['size'][$i];
-      $fileError = $_FILES['images']['error'][$i];
-      $fileType = $_FILES['images']['type'][$i];
+            for ($i = 0; $i < $totalFiles; $i++) {
+                $fileName = $_FILES['images']['name'][$i];
+                $fileTmpName = $_FILES['images']['tmp_name'][$i];
+                $fileSize = $_FILES['images']['size'][$i];
+                $fileError = $_FILES['images']['error'][$i];
+                $fileType = $_FILES['images']['type'][$i];
 
-      $fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
-      $allowed = array('jpg', 'jpeg', 'png', 'gif');
+                $fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+                $allowed = array('jpg', 'jpeg', 'png', 'gif');
 
-      if (in_array($fileExt, $allowed)) {
-        if ($fileError === 0) {
-          if ($fileSize < 5000000) { // Limitar tamaño de archivo a 5MB
-            $fileNewName = uniqid('', true) . "." . $fileExt;
-            $fileDestination = 'uploads/' . $fileNewName;
+                if (in_array($fileExt, $allowed)) {
+                    if ($fileError === 0) {
+                        if ($fileSize < 5000000) { // Limitar tamaño de archivo a 5MB
+                            $fileNewName = uniqid('', true) . "." . $fileExt;
+                            $fileDestination = 'uploads/' . $fileNewName;
 
-            if (move_uploaded_file($fileTmpName, $fileDestination)) {
-              $response[] = "Imagen $fileName subida exitosamente.";
-            } else {
-              $response[] = "Error al subir la imagen $fileName.";
+                            if (move_uploaded_file($fileTmpName, $fileDestination)) {
+                                $response[] = "Imagen $fileName subida exitosamente.";
+                            } else {
+                                $response[] = "Error al subir la imagen $fileName.";
+                            }
+                        } else {
+                            $response[] = "La imagen $fileName es demasiado grande.";
+                        }
+                    } else {
+                        $response[] = "Error al subir la imagen $fileName.";
+                    }
+                } else {
+                    $response[] = "Tipo de archivo no permitido para la imagen $fileName.";
+                }
             }
-          } else {
-            $response[] = "La imagen $fileName es demasiado grande.";
-          }
         } else {
-          $response[] = "Error al subir la imagen $fileName.";
+            $response[] = "No se enviaron imágenes.";
         }
-      } else {
-        $response[] = "Tipo de archivo no permitido para la imagen $fileName.";
-      }
+        echo json_encode($response);
     }
-  } else {
-    $response[] = "No se enviaron imágenes.";
-  }
-  echo json_encode($response);
 
-}
 
- 
-    
-     public function guardar_imagen_productos()
+
+    public function guardar_imagen_productos()
     {
 
         $response = $this->model->guardar_imagen_productos($_FILES['imagen'], $_POST['id_producto'], $_SESSION['id_plataforma']);
@@ -318,7 +323,7 @@ class Productos extends Controller
 
 
         $response = $this->model->agregarProducto($codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $_SESSION['id_plataforma'], $stock_inicial, $bodega, $pcp, $pvp, $pref);
-//echo 'asds';
+        //echo 'asds';
         echo json_encode($response);
     }
 
@@ -348,7 +353,7 @@ class Productos extends Controller
         $pvp = $_POST['pvp'] ?? 0;
         $pref = $_POST['pref'] ?? 0;
 
-        
+
         $response = $this->model->editarProducto($id, $codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $_SESSION['id_plataforma'], $stock_inicial, $bodega, $pcp, $pvp, $pref);
 
         echo json_encode($response);
@@ -467,80 +472,79 @@ class Productos extends Controller
         // print_r($response);
         echo json_encode($response);
     }
-    
+
     public function importarExcel()
     {
-        
-    // Obtener el ID de inventario desde el formulario
-    $id_inventario = $_POST['id_bodega'];
-    
-    // Verificar y manejar el archivo subido
-    if (isset($_FILES['archivo']) && $_FILES['archivo']['error'] === UPLOAD_ERR_OK) {
-        $fileTmpPath = $_FILES['archivo']['tmp_name'];
-        $fileName = $_FILES['archivo']['name'];
-        $fileSize = $_FILES['archivo']['size'];
-        $fileType = $_FILES['archivo']['type'];
-        $fileNameCmps = explode(".", $fileName);
-        $fileExtension = strtolower(end($fileNameCmps));
 
-        // Permitir solo archivos Excel
-        $allowedfileExtensions = array('xlsx', 'xls');
-        if (in_array($fileExtension, $allowedfileExtensions)) {
-            $inputFileType = PHPExcel_IOFactory::identify($fileTmpPath);
-            $objReader = PHPExcel_IOFactory::createReader($inputFileType);
-            $spreadsheet = $objReader->load($fileTmpPath);
-            $sheet = $spreadsheet->getActiveSheet();
-            $data = $sheet->toArray();
- $date_added = date("Y-m-d H:i:s");
-            // Aquí puedes procesar los datos del Excel
-            $fila=0;
-            $agregados=0;
-            //echo count($data);
-            foreach ($data as $row) {
-               // echo $fila;
-                if($fila>0){
-                
-                   //print_r ($data[$fila]); 
-                 //  $response = $this->model->agregarProducto($codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $_SESSION['id_plataforma'], $stock_inicial, $bodega, $pcp, $pvp, $pref);
-               $response = $this->model->agregarProducto($data[$fila][0], $data[$fila][1], $data[$fila][2], $data[$fila][3], $data[$fila][4], $data[$fila][5], $data[$fila][6], '1', '1', $date_added, $data[$fila][7], '1', '1', '1', '0', '0', $_SESSION['id_plataforma'], $data[$fila][8], $id_inventario, $data[$fila][9], $data[$fila][10], $data[$fila][11]);
-             // echo $response ['status'];
-              if ($response ['status']==200){
-               $agregados=$agregados+1;   
-              }
-               //print_r($response);
-               
-               // echo $data[$fila][0];
-                //echo 'fila';
+        // Obtener el ID de inventario desde el formulario
+        $id_inventario = $_POST['id_bodega'];
+
+        // Verificar y manejar el archivo subido
+        if (isset($_FILES['archivo']) && $_FILES['archivo']['error'] === UPLOAD_ERR_OK) {
+            $fileTmpPath = $_FILES['archivo']['tmp_name'];
+            $fileName = $_FILES['archivo']['name'];
+            $fileSize = $_FILES['archivo']['size'];
+            $fileType = $_FILES['archivo']['type'];
+            $fileNameCmps = explode(".", $fileName);
+            $fileExtension = strtolower(end($fileNameCmps));
+
+            // Permitir solo archivos Excel
+            $allowedfileExtensions = array('xlsx', 'xls');
+            if (in_array($fileExtension, $allowedfileExtensions)) {
+                $inputFileType = PHPExcel_IOFactory::identify($fileTmpPath);
+                $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+                $spreadsheet = $objReader->load($fileTmpPath);
+                $sheet = $spreadsheet->getActiveSheet();
+                $data = $sheet->toArray();
+                $date_added = date("Y-m-d H:i:s");
+                // Aquí puedes procesar los datos del Excel
+                $fila = 0;
+                $agregados = 0;
+                //echo count($data);
+                foreach ($data as $row) {
+                    // echo $fila;
+                    if ($fila > 0) {
+
+                        //print_r ($data[$fila]); 
+                        //  $response = $this->model->agregarProducto($codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $_SESSION['id_plataforma'], $stock_inicial, $bodega, $pcp, $pvp, $pref);
+                        $response = $this->model->agregarProducto($data[$fila][0], $data[$fila][1], $data[$fila][2], $data[$fila][3], $data[$fila][4], $data[$fila][5], $data[$fila][6], '1', '1', $date_added, $data[$fila][7], '1', '1', '1', '0', '0', $_SESSION['id_plataforma'], $data[$fila][8], $id_inventario, $data[$fila][9], $data[$fila][10], $data[$fila][11]);
+                        // echo $response ['status'];
+                        if ($response['status'] == 200) {
+                            $agregados = $agregados + 1;
+                        }
+                        //print_r($response);
+
+                        // echo $data[$fila][0];
+                        //echo 'fila';
+                    }
+                    // $row es un array que contiene todas las celdas de una fila
+                    //  print_r($row); // Ejemplo de impresión de la fila
+                    $fila++;
                 }
-                // $row es un array que contiene todas las celdas de una fila
-              //  print_r($row); // Ejemplo de impresión de la fila
-                $fila++;
-            }
-            if ($agregados>0){
-                $response['status'] = 200;
-            $response['title'] = 'Peticion exitosa';
-            $response['message'] = $agregados.' productos importados correctamente';
-            }else{
+                if ($agregados > 0) {
+                    $response['status'] = 200;
+                    $response['title'] = 'Peticion exitosa';
+                    $response['message'] = $agregados . ' productos importados correctamente';
+                } else {
+                    $response['status'] = 500;
+                    $response['title'] = 'Peticion exitosa';
+                    $response['message'] = 'NO se agregaron productos, revise el archvio e inténtelo nuevamente';
+                }
+                // Puedes almacenar la información procesada en la base de datos o manejarla como desees
+                //$response = $this->model->importacion_masiva($data);
+                // echo json_encode($response);
+            } else {
                 $response['status'] = 500;
-            $response['title'] = 'Peticion exitosa';
-            $response['message'] = 'NO se agregaron productos, revise el archvio e inténtelo nuevamente'; 
+                $response['title'] = 'Error';
+                $response['message'] = 'Solo se permiten archivos Excel (xlsx, xls).';
+                // return json_encode(['error' => 'Solo se permiten archivos Excel (xlsx, xls).']);
             }
-            // Puedes almacenar la información procesada en la base de datos o manejarla como desees
-            //$response = $this->model->importacion_masiva($data);
-           // echo json_encode($response);
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = 'Solo se permiten archivos Excel (xlsx, xls).';
-           // return json_encode(['error' => 'Solo se permiten archivos Excel (xlsx, xls).']);
-        }
-    } else {
-         $response['status'] = 500;
-            $response['title'] = 'Error';
             $response['message'] = 'Error al subir el archivo.';
-        //echo json_encode(['error' => 'Error al subir el archivo.']);
+            //echo json_encode(['error' => 'Error al subir el archivo.']);
+        }
+        echo json_encode($response);
     }
-    echo json_encode($response);
-    }
-    
 }
