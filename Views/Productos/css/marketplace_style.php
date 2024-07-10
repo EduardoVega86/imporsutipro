@@ -448,6 +448,8 @@
   width: auto;
   padding: 5px 10px;
   border-radius: 0.3rem;
+  background-color: green;
+  color: white;
 }
 
     /* Fin de boton añadir tienda */
