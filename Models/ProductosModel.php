@@ -19,6 +19,12 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
         return $this->select($sql);
     }
 
+    public function obtener_productos_tienda($plataforma)
+    {
+        $sql = "SELECT productos_tienda = $plataforma";
+
+        return $this->select($sql);
+    }
     public function obtener_productos_inventario($plataforma)
     {
         $sql = "SELECT * FROM productos p LEFT JOIN inventario_bodegas ib ON p.id_producto = ib.id_producto AND ib.id_plataforma = $plataforma LEFT JOIN variedades v ON ib.id_variante = v.id_variedad WHERE ib.id_plataforma = $plataforma";
