@@ -111,6 +111,7 @@
             formData.append('valor', $('#monto').val());
             formData.append('documento', $('#numero_documento').val());
             formData.append('forma_pago', $('#forma_pago').val());
+            formData.append('id_plataforma', $('#id_plataforma').val());
         }
 
         $.ajax({
