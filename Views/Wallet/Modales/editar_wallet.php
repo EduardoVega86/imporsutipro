@@ -94,13 +94,21 @@
             success: function(response) {
                 if (response.status == 500) {
                     toastr.error(
-                        "LA IMAGEN NO SE AGREGRO CORRECTAMENTE",
+                        "ERROR AL EDITAR",
                         "NOTIFICACIÓN", {
                             positionClass: "toast-bottom-center"
                         }
                     );
                 } else if (response.status == 200) {
-                    toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+                    toastr.success("SE EDITO CORRECTAMENTE", "NOTIFICACIÓN", {
+                        positionClass: "toast-bottom-center",
+                    });
+
+                    initDataTableFacturas();
+                    $('#editar_walletModal').modal('hide');
+                }
+                else if (response.status == 201) {
+                    toastr.warning("NO SE EDITO CORRECTAMENTE", "NOTIFICACIÓN", {
                         positionClass: "toast-bottom-center",
                     });
 
