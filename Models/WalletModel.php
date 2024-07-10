@@ -425,7 +425,7 @@ class WalletModel extends Query
         return $responses;
     }
 
-    public function subirImage($imagen)
+    public function subirImagen($imagen)
     {
         $response = $this->initialResponse();
         $target_dir = "public/img/pagos/";
