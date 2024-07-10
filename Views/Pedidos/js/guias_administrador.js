@@ -199,37 +199,37 @@ const listGuias = async () => {
     });
     document.getElementById("tableBody_guias").innerHTML = content;
 
-    // Add event listeners to select elements
-    document.querySelectorAll('.select-estado-speed').forEach(select => {
-      select.addEventListener('change', async (event) => {
-        const numeroGuia = event.target.getAttribute('data-numero-guia');
-        const nuevoEstado = event.target.value;
-        console.log(`Cambiando estado para la guía ${numeroGuia} a ${nuevoEstado}`);
-        const formData = new FormData();
-        formData.append("estado", nuevoEstado);
-
-        try {
-          const response = await fetch(`https://guias.imporsuitpro.com/Speed/estado/${numeroGuia}`, {
-            method: 'POST',
-            body: formData
-          });
-          const result = await response.json();
-          if (result.success) {
-            alert('Estado actualizado correctamente');
-          } else {
-            alert('Error al actualizar el estado');
-          }
-        } catch (error) {
-          console.error('Error al conectar con la API', error);
-          alert('Error al conectar con la API');
-        }
-      });
-    });
-
   } catch (ex) {
     alert(ex);
   }
 };
+
+// Event delegation for select change
+document.addEventListener('change', async (event) => {
+  if (event.target && event.target.classList.contains('select-estado-speed')) {
+    const numeroGuia = event.target.getAttribute('data-numero-guia');
+    const nuevoEstado = event.target.value;
+    console.log(`Cambiando estado para la guía ${numeroGuia} a ${nuevoEstado}`);
+    const formData = new FormData();
+    formData.append("estado", nuevoEstado);
+
+    try {
+      const response = await fetch(`https://guias.imporsuitpro.com/Speed/estado/${numeroGuia}`, {
+        method: 'POST',
+        body: formData
+      });
+      const result = await response.json();
+      if (result.success) {
+        alert('Estado actualizado correctamente');
+      } else {
+        alert('Error al actualizar el estado');
+      }
+    } catch (error) {
+      console.error('Error al conectar con la API', error);
+      alert('Error al conectar con la API');
+    }
+  }
+});
 
 
 function abrirModal_infoTienda(tienda) {
