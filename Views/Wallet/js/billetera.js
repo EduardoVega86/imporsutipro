@@ -352,7 +352,7 @@ $(document).ready(function () {
         response.forEach(function (cuenta) {
           
           $("#formadePago").append(
-            new Option(cuenta.tipo, cuenta.id_pago)
+            new Option(`${cuenta.tipo}- ${cuenta.cuenta}`, cuenta.id_pago)
           );
         });
       } else {
