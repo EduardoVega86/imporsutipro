@@ -13,7 +13,7 @@
                         <img src="" id="image_tienda" width="100px" class="rounded-circle mb-3" alt="Profile Picture">
                         <h5 class="card-title"><a href="#" id="tienda_url"><span id="tienda_span"></span></a></h5>
                         <button class="btn btn-primary mb-3" id="regresar"><i class="fa-solid fa-arrow-left"></i> Regresar</button>
-                        <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#realizar_pagoModal"><i class="fa-solid fa-sack-dollar"></i> Pagar</button>
+                        <button class="btn btn-primary mb-3" data-bs-toggle="modal" onclick="abrirModal_realizarPago()"></i> Pagar</button>
 
                         <div class="row text-start">
                             <div class="col-12 mb-3">
@@ -38,7 +38,7 @@
                                             <div class="d-flex align-items-center">
                                                 <i class="bi bi-currency-dollar fs-1 text-success"></i>
                                                 <div class="ms-3">
-                                                    <p class="mb-0">UTILIDAD GENERADA</p>
+                                                    <p class="mb-0">HISTORICO DE GANACIAS</p>
                                                     <h3 class="text-success">$<span id="utilidadGenerada_wallet"></span></h3>
                                                 </div>
                                             </div>
@@ -99,7 +99,7 @@
 
             <div class="right gap-2">
 
-                <h3 style="text-align: center; padding-top:5px;">Tabla de Pagos</h3>
+                <h3 style="text-align: center; padding-top:5px;">Historial de pagos</h3>
                 <div class="table-responsive">
                     <table id="datatable_pagos" class="table table-striped">
 
@@ -116,7 +116,7 @@
                         <tbody id="tableBody_pagos"></tbody>
                     </table>
                 </div>
-                <h3 style="text-align: center; padding-top:5px;">Tabla Historial de Pagos</h3>
+                <h3 style="text-align: center; padding-top:5px;">Historial de acreditación</h3>
                 <div class="table-responsive">
                     <table id="datatable_historial_pago" class="table table-striped">
 

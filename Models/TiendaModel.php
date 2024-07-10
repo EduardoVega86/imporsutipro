@@ -122,6 +122,20 @@ class TiendaModel extends Query
         
         return $this->select($sql);
     }
+
+    public function destacadostienda($id_plataforma)
+    {
+        $sql = "SELECT * FROM productos WHERE destacado=1 AND id_plataforma = $id_plataforma;";
+        
+        return $this->select($sql);
+    }
+
+    public function iconostienda($id_plataforma)
+    {
+        $sql = "SELECT * FROM caracteristicas_tienda WHERE (accion=1 or accion=2 or accion=3) AND id_plataforma = $id_plataforma;";
+        
+        return $this->select($sql);
+    }
     
     public function horizontaltienda($plataforma)
     {

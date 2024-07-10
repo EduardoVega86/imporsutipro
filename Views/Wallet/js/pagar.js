@@ -61,6 +61,7 @@ const dataTableFacturasOptions = {
     { className: "centered", targets: [1, 2, 3, 4, 5] },
     { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
   ],
+  order: [[1, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
   pageLength: 10,
   destroy: true,
   responsive: true,
@@ -453,6 +454,7 @@ const dataTableHistorialPagoOptions = {
     { className: "centered", targets: [0, 1, 2, 3, 4] },
     { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
   ],
+  order: [[0, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
   pageLength: 10,
   destroy: true,
   language: {
@@ -539,3 +541,8 @@ const listHistorialPago = async () => {
 window.addEventListener("load", async () => {
   await initDataTableHistorialPago();
 });
+
+function abrirModal_realizarPago() {
+  $("#id_plataforma").val(tienda);
+  $("#realizar_pagoModal").modal("show");
+}

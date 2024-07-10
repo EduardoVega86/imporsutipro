@@ -221,11 +221,12 @@ class Wallet extends Controller
         $forma_pago = $_POST['forma_pago'];
         $fecha = date("Y-m-d H:i:s");
         $imagen = $_FILES['imagen'];
+        $id_plataforma = $_POST['id_plataforma'];
 
         $subirImagen = $this->model->subirImagen($imagen);
 
         if ($subirImagen['status'] == 1) {
-            $response = $this->model->pagarFactura($valor, $documento, $forma_pago, $fecha, $subirImagen['dir'], $_SESSION['id_plataforma']);
+            $response = $this->model->pagarFactura($valor, $documento, $forma_pago, $fecha, $subirImagen['dir'], $id_plataforma);
             echo json_encode($response);
         } else {
             echo json_encode($subirImagen);

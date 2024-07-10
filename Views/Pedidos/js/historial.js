@@ -10,6 +10,7 @@ const dataTableHistorialOptions = {
     /* { searchable: false, targets: [1] } */
     //{ width: "50%", targets: [0] }
   ],
+  order: [[1, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
   pageLength: 10,
   destroy: true,
   responsive: true,

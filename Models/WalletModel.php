@@ -176,7 +176,7 @@ class WalletModel extends Query
         $response =  $this->update($sql_update, array($id_cabecera));
 
         $sql = "UPDATE billeteras set saldo = saldo + $valor WHERE  id_plataforma = ?";
-        $response =  $this->update($sql,  array($tienda));
+        $response =  $this->update($sql,  array($id_plataforma));
 
         $id_billetera = $this->select("SELECT id_billetera FROM billeteras WHERE tienda = '$tienda'")[0]['id_billetera'];
 
@@ -425,7 +425,7 @@ class WalletModel extends Query
         return $responses;
     }
 
-    public function subirImage($imagen)
+    public function subirImagen($imagen)
     {
         $response = $this->initialResponse();
         $target_dir = "public/img/pagos/";
@@ -469,16 +469,12 @@ class WalletModel extends Query
     {
         $matriz = $this->obtenerMatriz();
         $matriz = $matriz[0]['idmatriz'];
-        $sql = "INSERT INTO pagos (`valor`, `numero_documento`, `forma_pago`, `fecha`, `imagen`, `id_matriz`, `id_plataforma`) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        $response =  $this->insert($sql, array($valor, $documento, $forma_pago, $fecha, $imagen, $matriz, $plataforma));
+        $sql = "INSERT INTO pagos (`valor`, `numero_documento`, `forma_pago`, `fecha`, `imagen`, `id_plataforma`) VALUES ( ?, ?, ?, ?, ?, ?)";
+        $response =  $this->insert($sql, array($valor, $documento, $forma_pago, $fecha, $imagen,  $plataforma));
         if ($response == 1) {
             $responses["status"] = 200;
-            $sql = "SELECT * FROM plataformas where id_plataforma = '$plataforma'";
-            $response =  $this->select($sql);
-            $url_imporsuit = $response[0]['url_imporsuit'];
-            $sql = "SELECT * FROM billeteras where tienda = '$url_imporsuit'";
-            $response =  $this->select($sql);
-            $update = "UPDATE billeteras set solicito = 0, valor_solicitado = 0 WHERE tienda = '$url_imporsuit'";
+
+            $update = "UPDATE billeteras set solicito = 0, valor_solicitud = 0, saldo = saldo - $valor WHERE id_plataforma = '$plataforma'";
             $response =  $this->select($update);
         } else {
             $responses["status"] = 400;
@@ -648,5 +644,12 @@ class WalletModel extends Query
             $responses["message"] = $response["message"];
         }
         return $responses;
+    }
+
+    public function obtenerOtroPago($id_platafor)
+    {
+        $sql = "SELECT * FROM metodo_pagos WHERE id_plataforma = '$id_platafor'";
+        $response =  $this->select($sql);
+        return $response;
     }
 }

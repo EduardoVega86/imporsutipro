@@ -190,6 +190,11 @@ class GuiasModel extends Query
         $id_plataforma_bodega = $bodega[0]['id_plataforma'];
         $valor_full = $bodega[0]['full_filme'];
 
+        $existe_full = 0;
+        if ($valor_full > 0) {
+            $existe_full = 1;
+        }
+
         $buscar_producto = "SELECT * FROM productos WHERE id_producto = '$id_producto'";
         $producto = $this->select($buscar_producto);
         $id_plataforma_producto = $producto[0]['id_plataforma'];
@@ -211,10 +216,6 @@ class GuiasModel extends Query
         $tienda_venta = $this->select("SELECT url_imporsuit FROM plataformas WHERE id_plataforma = '$id_plataforma'");
         $tienda_venta = $tienda_venta[0]['url_imporsuit'];
 
-        if ($tienda_venta == $proveedor) {
-            $proveedor = null;
-            $id_plataforma_producto = null;
-        }
 
         $costo = $this->select("SELECT costo_producto FROM facturas_cot WHERE numero_factura = '$numero_factura'");
         $costo_o = $costo[0]['costo_producto'];
@@ -224,11 +225,35 @@ class GuiasModel extends Query
         }
 
 
+        if ($tienda_venta == $proveedor) {
+            $proveedor = null;
+            $id_plataforma_producto = null;
+        }
 
         $monto_recibir = $costo_producto - $precio_envio - $full - $costo_o;
 
-        $insert_wallet = "INSERT INTO cabecera_cuenta_pagar (numero_factura, fecha, cliente, tienda, proveedor, estado_guia, total_venta, costo, precio_envio, monto_recibir, valor_cobrado, valor_pendiente, full, guia, cod, id_matriz, id_plataforma, id_proveedor) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        $data = array($numero_factura, $fecha, $nombreDestino, $tienda_venta, $proveedor, $estado, $costo_producto, $costo_o, $precio_envio, $monto_recibir, 0, $monto_recibir, $full, $guia, $cod, $id_matriz, $id_plataforma, $id_plataforma_producto);
+
+        //buscar si es referido 
+        $buscar_referido = "SELECT * FROM plataformas WHERE id_plataforma = '$id_plataforma'";
+        $refiere = $this->select($buscar_referido);
+        $id_referido = $refiere[0]['refiere'];
+        if (!empty($id_referido) && $id_referido != null) {
+            $id_referido = $id_referido;
+        } else {
+            $id_referido = 0;
+        }
+
+        if ($existe_full == 1) {
+            $id_plataforma_bodega = $id_plataforma_producto;
+        } else {
+            $id_plataforma_bodega = 0;
+        }
+
+
+
+
+        $insert_wallet = "INSERT INTO cabecera_cuenta_pagar (numero_factura, fecha, cliente, tienda, proveedor, estado_guia, total_venta, costo, precio_envio, monto_recibir, valor_cobrado, valor_pendiente, full, guia, cod, id_matriz, id_plataforma, id_proveedor, id_full, id_referido) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        $data = array($numero_factura, $fecha, $nombreDestino, $tienda_venta, $proveedor, $estado, $costo_producto, $costo_o, $precio_envio, $monto_recibir, 0, $monto_recibir, $full, $guia, $cod, $id_matriz, $id_plataforma, $id_plataforma_producto, $id_plataforma_bodega, $id_referido);
         $response = $this->insert($insert_wallet, $data);
     }
 
@@ -522,8 +547,6 @@ class GuiasModel extends Query
         }
 
         $contiene = implode(" | ", $resultado_final);
-
-        echo $contiene;
 
         $url = "https://ec.gintracom.site/web/import-suite/pedido";
         $data = array(
