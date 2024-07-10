@@ -410,7 +410,7 @@
   position: absolute;
   bottom: 10px;
   left: 10px;
-  background-color: white;
+  background-color: #EAE5E4;
   color: black;
   border: none;
   border-radius: 0.3rem;
