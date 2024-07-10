@@ -138,6 +138,7 @@
                     }).then(() => {
                         cargar_saldoWallet();
                         initDataTableFacturas();
+                        cargarDashboard_wallet();
                         $('#realizar_pagoModal').modal('hide');
                     });
                 }

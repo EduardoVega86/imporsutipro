@@ -235,6 +235,8 @@ const listFacturas = async () => {
                 );
 
                 initDataTableFacturas();
+                cargarDashboard_wallet();
+                initDataTableHistorialPago();
               }
             },
             error: function (jqXHR, textStatus, errorThrown) {
