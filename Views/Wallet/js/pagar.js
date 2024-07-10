@@ -177,8 +177,8 @@ const listFacturas = async () => {
                     <td>${factura.costo}</td>
                     <td>${factura.precio_envio}</td>
                     <td>${factura.full}</td>
-                    <td>${factura.monto_recibir}</td>
-                    <td>${factura.valor_pendiente}</td>
+                    <td>${factura.monto_recibir.toFixed(2)}</td>
+                    <td>${factura.valor_pendiente.toFixed(2)}</td>
                     <td>${factura.peso}</td>
                     <td>
                     <div class="dropdown">
