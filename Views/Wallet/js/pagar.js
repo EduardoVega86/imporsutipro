@@ -113,7 +113,6 @@ const listFacturas = async () => {
     let check = "";
     let url_tracking = "";
     let url_descargar = "";
-    let estado = "";
     facturas.forEach((factura, index) => {
       let tienda_nombre = procesarPlataforma(factura.tienda);
       if (factura.cod == 1) {
