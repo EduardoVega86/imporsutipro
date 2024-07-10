@@ -475,10 +475,8 @@ class WalletModel extends Query
             $responses["status"] = 200;
             $sql = "SELECT * FROM plataformas where id_plataforma = '$plataforma'";
             $response =  $this->select($sql);
-            $url_imporsuit = $response[0]['url_imporsuit'];
-            $sql = "SELECT * FROM billeteras where tienda = '$url_imporsuit'";
-            $response =  $this->select($sql);
-            $update = "UPDATE billeteras set solicito = 0, valor_solicitado = 0 WHERE tienda = '$url_imporsuit'";
+
+            $update = "UPDATE billeteras set solicito = 0, valor_solicitado = 0, saldo = saldo - valor WHERE id_plataforma = '$plataforma'";
             $response =  $this->select($update);
         } else {
             $responses["status"] = 400;
