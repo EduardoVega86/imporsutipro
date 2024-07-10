@@ -97,24 +97,12 @@ const listGuias = async () => {
         funcion_anular = ``;
         estado = validar_estadoSpeed(guia.estado_guia_sistema);
         select_speed = `
-                    <select class="form-select select-estado-speed" style="max-width: 130px;" data-numero-guia="${
-                      guia.numero_guia
-                    }">
-                        <option value="0" ${
-                          guia.estado_guia_sistema == 0 ? "selected" : ""
-                        }>-- Selecciona estado --</option>
-                        <option value="2" ${
-                          guia.estado_guia_sistema == 2 ? "selected" : ""
-                        }>Generado</option>
-                        <option value="3" ${
-                          guia.estado_guia_sistema == 3 ? "selected" : ""
-                        }>Transito</option>
-                        <option value="7" ${
-                          guia.estado_guia_sistema == 7 ? "selected" : ""
-                        }>Entregado</option>
-                        <option value="9" ${
-                          guia.estado_guia_sistema == 9 ? "selected" : ""
-                        }>Devuelto</option>
+                    <select class="form-select select-estado-speed" style="max-width: 130px;" data-numero-guia="${guia.numero_guia}">
+                        <option value="0" ${guia.estado_guia_sistema == 0 ? 'selected' : ''}>-- Selecciona estado --</option>
+                        <option value="2" ${guia.estado_guia_sistema == 2 ? 'selected' : ''}>Generado</option>
+                        <option value="3" ${guia.estado_guia_sistema == 3 ? 'selected' : ''}>Transito</option>
+                        <option value="7" ${guia.estado_guia_sistema == 7 ? 'selected' : ''}>Entregado</option>
+                        <option value="9" ${guia.estado_guia_sistema == 9 ? 'selected' : ''}>Devuelto</option>
                     </select>`;
       } else if (transporte == 3) {
         transporte_content =
@@ -158,14 +146,10 @@ const listGuias = async () => {
       }
       content += `
                 <tr>
-                    <td><input type="checkbox" class="selectCheckbox" data-id="${
-                      guia.numero_factura
-                    }"></td>
+                    <td><input type="checkbox" class="selectCheckbox" data-id="${guia.numero_factura}"></td>
                     <td>${guia.numero_factura}</td>
                     <td>
-                    <div><button onclick="ver_detalle_cot('${
-                      guia.id_factura
-                    }')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>
+                    <div><button onclick="ver_detalle_cot('${guia.id_factura}')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>
                     <div>${guia.fecha_factura}</td></div>
                     <td>
                         <div><strong>${guia.nombre}</strong></div>
@@ -173,9 +157,7 @@ const listGuias = async () => {
                         <div>telf: ${guia.telefono}</div>
                     </td>
                     <td>${guia.provinciaa}-${ciudad}</td>
-                    <td><span class="link-like" id="plataformaLink">${
-                      guia.tienda
-                    }</span></td>
+                    <td><span class="link-like" id="plataformaLink">${guia.tienda}</span></td>
                     <td>${transporte_content}</td>
                     <td>
                      <div style="text-align: center;">
@@ -189,9 +171,7 @@ const listGuias = async () => {
                       <a href="${ruta_traking}" target="_blank" style="vertical-align: middle;">
                         <img src="https://new.imporsuitpro.com/public/img/tracking.png" width="40px" id="buscar_traking" alt="buscar_traking">
                       </a>
-                      <a href="https://wa.me/${formatPhoneNumber(
-                        guia.telefono
-                      )}" target="_blank" style="font-size: 45px; vertical-align: middle; margin-left: 10px;" target="_blank">
+                      <a href="https://wa.me/${formatPhoneNumber(guia.telefono)}" target="_blank" style="font-size: 45px; vertical-align: middle; margin-left: 10px;" target="_blank">
                       <i class='bx bxl-whatsapp-square' style="color: green;"></i>
                       </a>
                      </div>
@@ -220,36 +200,37 @@ const listGuias = async () => {
     document.getElementById("tableBody_guias").innerHTML = content;
 
     // Add event listeners to select elements
-    document.querySelectorAll(".select-estado-speed").forEach((select) => {
-      select.addEventListener("change", async (event) => {
-        const numeroGuia = event.target.getAttribute("data-numero-guia");
+    document.querySelectorAll('.select-estado-speed').forEach(select => {
+      select.addEventListener('change', async (event) => {
+        const numeroGuia = event.target.getAttribute('data-numero-guia');
         const nuevoEstado = event.target.value;
+        console.log(`Cambiando estado para la guía ${numeroGuia} a ${nuevoEstado}`);
         const formData = new FormData();
         formData.append("estado", nuevoEstado);
 
         try {
-          const response = await fetch(
-            `https://guias.imporsuitpro.com/Speed/estado/${numeroGuia}`,
-            {
-              method: "POST",
-              body: formData,
-            }
-          );
+          const response = await fetch(`https://guias.imporsuitpro.com/Speed/estado/${numeroGuia}`, {
+            method: 'POST',
+            body: formData
+          });
           const result = await response.json();
           if (result.success) {
-            alert("Estado actualizado correctamente");
+            alert('Estado actualizado correctamente');
           } else {
-            alert("Error al actualizar el estado");
+            alert('Error al actualizar el estado');
           }
         } catch (error) {
-          alert("Error al conectar con la API");
+          console.error('Error al conectar con la API', error);
+          alert('Error al conectar con la API');
         }
       });
     });
+
   } catch (ex) {
     alert(ex);
   }
 };
+
 
 function abrirModal_infoTienda(tienda) {
   let formData = new FormData();
