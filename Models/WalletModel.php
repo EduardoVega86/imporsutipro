@@ -75,6 +75,7 @@ class WalletModel extends Query
         $monto_recibir = $total_venta - $costo - $full - $precio_envio;
         $sql = "UPDATE cabecera_cuenta_pagar set total_venta = ?, precio_envio = ?, full = ?, costo = ?, monto_recibir = ?, valor_pendiente = ? WHERE id_cabecera = ?";
         $response =  $this->update($sql, array($total_venta, $precio_envio, $full, $costo, $monto_recibir, $monto_recibir, $id_cabecera));
+        print_r($response);
         if ($response == 1) {
             $responses["status"] = 200;
         } else {
