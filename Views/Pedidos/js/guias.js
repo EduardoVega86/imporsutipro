@@ -663,43 +663,37 @@ function anular_guiaLaar(numero_guia) {
 }
 
 function anular_guiaServi(numero_guia) {
-  /* $.ajax({
+  $.ajax({
     type: "GET",
     url: "https://guias.imporsuitpro.com/Servientrega/Anular/" + numero_guia,
     dataType: "json",
     success: function (response) {
-      if (
-        response.msj ==
-        "LA GUÍA NO PUEDE SER ANULADA, PORQUE ESTA SIENDO PROCESADA"
-      ) {
-        toastr.error("" + response.msj, "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-      }
-      console.log("Respuesta de la API:", response);
-    },
-    error: function (xhr, status, error) {
-      alert("Hubo un problema al anular la guia de Servientrega");
-    },
-  }); */
+      $.ajax({
+        type: "GET",
+        /* url: "https://guias.imporsuitpro.com/Servientrega/Anular/" + numero_guia, */
+        url: SERVERURL + "Guias/anularServi_temporal/" + numero_guia,
+        dataType: "json",
+        success: function (response) {
+          if (response.status == 500) {
+            toastr.error(
+              "LA IMAGEN NO SE AGREGRO CORRECTAMENTE",
+              "NOTIFICACIÓN",
+              {
+                positionClass: "toast-bottom-center",
+              }
+            );
+          } else if (response.status == 200) {
+            toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+              positionClass: "toast-bottom-center",
+            });
 
-  $.ajax({
-    type: "GET",
-    /* url: "https://guias.imporsuitpro.com/Servientrega/Anular/" + numero_guia, */
-    url: SERVERURL + "Guias/anularServi_temporal/" + numero_guia,
-    dataType: "json",
-    success: function (response) {
-      if (response.status == 500) {
-        toastr.error("LA IMAGEN NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-      } else if (response.status == 200) {
-        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-
-        initDataTable();
-      }
+            initDataTable();
+          }
+        },
+        error: function (xhr, status, error) {
+          alert("Hubo un problema al anular la guia de Servientrega");
+        },
+      });
     },
     error: function (xhr, status, error) {
       alert("Hubo un problema al anular la guia de Servientrega");
