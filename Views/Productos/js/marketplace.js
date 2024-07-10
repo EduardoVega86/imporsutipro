@@ -123,31 +123,53 @@ document.addEventListener("DOMContentLoaded", function () {
             ? productDetails[0].image_path
             : `${SERVERURL}${productDetails[0].image_path}`;
 
-            card.innerHTML = `
+          card.innerHTML = `
             <div class="image-container position-relative">
-              <div class="card-id-container" onclick="copyToClipboard(${product.id_producto})">
+              <div class="card-id-container" onclick="copyToClipboard(${
+                product.id_producto
+              })">
                 <span class="card-id">ID: ${product.id_producto}</span>
               </div>
               <img src="${imagePath}" class="card-img-top" alt="Product Image">
-              <div class="add-to-store-button ${product.agregadoTienda ? 'added' : ''}" 
-                   onclick="toggleAddToStore(${product.id_producto}, ${product.agregadoTienda})">
+              <div class="add-to-store-button ${
+                product.agregadoTienda ? "added" : ""
+              }" 
+                   onclick="toggleAddToStore(${product.id_producto}, ${
+            product.agregadoTienda
+          })">
                 <span class="plus-icon">+</span>
-                <span class="add-to-store-text">${product.agregadoTienda ? 'Quitar de tienda' : 'Añadir a tienda'}</span>
+                <span class="add-to-store-text">${
+                  product.agregadoTienda
+                    ? "Quitar de tienda"
+                    : "Añadir a tienda"
+                }</span>
               </div>
             </div>
-            <button class="btn btn-heart ${esFavorito ? "clicked" : ""}" onclick="handleHeartClick(${product.id_producto}, ${esFavorito})">
+            <button class="btn btn-heart ${
+              esFavorito ? "clicked" : ""
+            }" onclick="handleHeartClick(${
+            product.id_producto
+          }, ${esFavorito})">
               <i class="fas fa-heart"></i>
             </button>
             <div class="card-body text-center d-flex flex-column justify-content-between">
               <div>
-                <h6 class="card-title"><strong>${product.nombre_producto}</strong></h6>
+                <h6 class="card-title"><strong>${
+                  product.nombre_producto
+                }</strong></h6>
                 <p class="card-text">Stock: <strong style="color:green">${saldo_stock}</strong></p>
-                <p class="card-text">Precio Proveedor: <strong>${productDetails[0].pcp}</strong></p>
+                <p class="card-text">Precio Proveedor: <strong>${
+                  productDetails[0].pcp
+                }</strong></p>
                 <p class="card-text">Precio Sugerido: <strong>$${pvp}</strong></p>
-                <p class="card-text">Proveedor: <a href="#" onclick="abrirModal_infoTienda('${url_imporsuit}')" style="font-size: 15px;">${productDetails[0].nombre_tienda}</a></p>
+                <p class="card-text">Proveedor: <a href="#" onclick="abrirModal_infoTienda('${url_imporsuit}')" style="font-size: 15px;">${
+            productDetails[0].nombre_tienda
+          }</a></p>
               </div>
               <div>
-                <button class="btn btn-description" onclick="agregarModal_marketplace(${product.id_producto})">Descripción</button>
+                <button class="btn btn-description" onclick="agregarModal_marketplace(${
+                  product.id_producto
+                })">Descripción</button>
                 ${boton_enviarCliente}
               </div>
             </div>
@@ -166,22 +188,6 @@ document.addEventListener("DOMContentLoaded", function () {
     loadingIndicator.style.display = "none";
   };
 
-  // JavaScript para manejar el click del botón "+" y cambiar el estado
-function toggleAddToStore(productId, isAdded) {
-  // Lógica para añadir o quitar el producto de la tienda
-  // Este código dependerá de cómo manejes el estado en tu aplicación
-  // Aquí solo se muestra un ejemplo de cómo cambiar las clases
-
-  const addButton = document.querySelector(`.add-to-store-button[onclick="toggleAddToStore(${productId}, ${isAdded})"]`);
-  if (isAdded) {
-    addButton.classList.remove('added');
-    addButton.querySelector('.add-to-store-text').textContent = 'Añadir a tienda';
-  } else {
-    addButton.classList.add('added');
-    addButton.querySelector('.add-to-store-text').textContent = 'Quitar de tienda';
-  }
-}
-
   // Función de debounce para retrasar la ejecución hasta que el usuario deje de escribir
   function debounce(func, wait) {
     let timeout;
@@ -193,6 +199,34 @@ function toggleAddToStore(productId, isAdded) {
   }
 
   fetchProducts();
+
+  // JavaScript para manejar el click del botón "+" y cambiar el estado
+function toggleAddToStore(productId, isAdded) {
+  $.ajax({
+    url: '/api/toggleAddToStore', // Cambia esta URL a la de tu API
+    method: 'POST',
+    data: {
+      id: productId,
+      added: !isAdded
+    },
+    success: function(response) {
+      // Suponiendo que la respuesta contiene el nuevo estado de agregado
+      const newIsAdded = response.added;
+
+      const addButton = document.querySelector(`.add-to-store-button[onclick="toggleAddToStore(${productId}, ${isAdded})"]`);
+      if (newIsAdded) {
+        addButton.classList.add('added');
+        addButton.querySelector('.add-to-store-text').textContent = 'Quitar de tienda';
+      } else {
+        addButton.classList.remove('added');
+        addButton.querySelector('.add-to-store-text').textContent = 'Añadir a tienda';
+      }
+    },
+    error: function(error) {
+      console.error('Error al actualizar el estado del producto:', error);
+    }
+  });
+}
 
   /* Filtros */
 
