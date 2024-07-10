@@ -69,6 +69,14 @@ class Tienda extends Controller
         echo json_encode($response);
        
     }
+
+    public function iconostienda()
+    {   
+        $id_plataforma = $_POST['id_plataforma'];
+        $response = $this->model->iconostienda($id_plataforma);
+        echo json_encode($response);
+       
+    }
     
       public function horizontaltienda()
     {        //$nombre = $_POST['nombre'];
