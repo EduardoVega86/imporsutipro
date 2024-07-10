@@ -155,6 +155,7 @@ const listFacturas = async () => {
         estado = validar_estadoServi(factura.guia);
       }
 
+      console.log("estados"+estado)
       var span_estado = estado.span_estado;
       var estado_guia = estado.estado_guia;
 
