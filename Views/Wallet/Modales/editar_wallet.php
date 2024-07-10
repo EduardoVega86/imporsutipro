@@ -95,7 +95,7 @@
                 response = JSON.parse(response);
                 if (response.status == 500) {
                     toastr.error(
-                        "ERROR AL EDITAR",
+                        "NO SE EDITO CORRECTAMENTE",
                         "NOTIFICACIÓN", {
                             positionClass: "toast-bottom-center"
                         }
@@ -109,12 +109,9 @@
                     $('#editar_walletModal').modal('hide');
                 }
                 else if (response.status == 201) {
-                    toastr.warning("NO SE EDITO CORRECTAMENTE", "NOTIFICACIÓN", {
+                    toastr.warning("NO SE REALIZO NINGUN CAMBIO", "NOTIFICACIÓN", {
                         positionClass: "toast-bottom-center",
                     });
-
-                    initDataTableFacturas();
-                    $('#editar_walletModal').modal('hide');
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
