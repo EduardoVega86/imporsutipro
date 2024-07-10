@@ -412,6 +412,7 @@
   left: 10px;
   background-color: white;
   color: black;
+  border: none;
   border-radius: 0.3rem;
   width: 30px;
   height: 30px;
