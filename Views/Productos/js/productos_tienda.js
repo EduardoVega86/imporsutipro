@@ -96,7 +96,7 @@ const initDataTableProductos = async () => {
 const listProductos = async () => {
   try {
     const response = await fetch(
-      "" + SERVERURL + "productos/obtener_productos"
+      "" + SERVERURL + "productos/obtener_productos_tienda"
     );
     const productos = await response.json();
     let content = ``;
