@@ -2,6 +2,7 @@
 <?php require_once './Views/Wallet/css/pagar_style.php'; ?>
 
 <?php require_once './Views/Wallet/Modales/editar_wallet.php'; ?>
+<?php require_once './Views/Pedidos/Modales/detalles_factura.php'; ?>
 <?php require_once './Views/Wallet/Modales/realizar_pagoModal.php'; ?>
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
