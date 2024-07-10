@@ -410,9 +410,9 @@
   position: absolute;
   bottom: 10px;
   right: 10px;
-  background-color: white;
+  background-color: #F7F7F7;
   color: black;
-  border: 1px solid black;
+  border: none;
   border-radius: 0.3rem;
   width: 30px;
   height: 30px;
@@ -448,6 +448,8 @@
   width: auto;
   padding: 5px 10px;
   border-radius: 0.3rem;
+  background-color: green;
+  color: white;
 }
 
     /* Fin de boton añadir tienda */
