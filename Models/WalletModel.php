@@ -512,7 +512,7 @@ class WalletModel extends Query
 
     public function obtenerCorreo($id)
     {
-        $sql = "SELECT email_users FROM users WHERE id_users = '$id'";
+        $sql = "SELECT correo from datos_banco_usuarios where id_plataforma = '$id'";
         $response =  $this->select($sql);
         return $response;
     }
