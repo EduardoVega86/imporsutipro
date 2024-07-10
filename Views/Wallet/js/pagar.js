@@ -112,6 +112,7 @@ const listFacturas = async () => {
     let check = "";
     let url_tracking = "";
     let url_descargar = "";
+    let acreditable = "";
     facturas.forEach((factura, index) => {
       let tienda_nombre = procesarPlataforma(factura.tienda);
       if (factura.cod == 1) {
@@ -126,13 +127,16 @@ const listFacturas = async () => {
         } else {
           check = `<input type="checkbox" class="selectCheckbox" data-factura-id_cabecera="${factura.id_cabecera}" data-factura-valor="${factura.monto_recibir}">`;
         }
+        acreditable = "acreditable"; 
       } else if (factura.estado_guia == 9) {
         if (factura.valor_pendiente == 0) {
           check = "";
         } else {
           check = `<input type="checkbox" class="selectCheckbox" data-factura-id_cabecera="${factura.id_cabecera}" data-factura-valor="${factura.monto_recibir}">`;
         }
+        acreditable = "acreditable"
       } else {
+        acreditable = "No acreditable"
       }
 
       if (factura.guia.includes("IMP")) {
@@ -171,7 +175,10 @@ const listFacturas = async () => {
                     <div>${factura.fecha}</div>
                     <div><button onclick="ver_detalle_cot('${factura.numero_factura}')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>
                     </td>
-                    <td><span class="w-100 text-nowrap ${span_estado}">${estado_guia}</span></td>
+                    <td>
+                    <div><span class="w-100 text-nowrap ${span_estado}">${estado_guia}</span></div>
+                    <div>${acreditable}</div>
+                    </td>
                     <td>${tienda_nombre}</td>
                     <td>${factura.total_venta}</td>
                     <td>${factura.costo}</td>
