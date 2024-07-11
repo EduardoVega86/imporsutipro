@@ -199,6 +199,7 @@ class Wallet extends Controller
     {
         $id_cuenta = $_POST['id_cuenta'];
         $valor = $_POST['valor'];
+        $otro = $_POST['otro'] ?? 0;
         $puedeSolicitar = $this->model->puedeSolicitar($_SESSION["enlace"], $valor);
         if ($puedeSolicitar == false) {
             echo json_encode(["status" => 400, "message" => "No puedes solicitar un pago mayor al saldo disponible en tu billetera o ya tienes una solicitud pendiente"]);
@@ -206,7 +207,7 @@ class Wallet extends Controller
         }
         $fecha = date("Y-m-d H:i:s");
 
-        $response = $this->model->solicitarPago($id_cuenta, $valor, $fecha, $_SESSION["enlace"], $_SESSION["id_plataforma"]);
+        $response = $this->model->solicitarPago($id_cuenta, $valor, $fecha, $_SESSION["enlace"], $_SESSION["id_plataforma"], $otro);
         if ($response["status"] == 200) {
             $correo = $this->model->obtenerCorreo($_SESSION["id_plataforma"]);
             $this->model->enviarMensaje("solicitud", $correo[0]["correo"], $valor);
