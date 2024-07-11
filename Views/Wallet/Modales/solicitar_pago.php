@@ -57,26 +57,27 @@
             </div>
             <div class="modal-body">
                 <form id="solicitar_pago">
+                    <input type="hidden" id="otroId" name="otroId">
                     <div class="mb-3">
                         <label for="monto" class="form-label">Monto:</label>
                         <input type="text" class="form-control" id="monto" placeholder="Ingresar monto">
                     </div>
 
                     <div class="d-flex flex-row gap-3">
-                    <button type="button" class="btn bnt_elegir" onclick="elegirCuenta()">Elegir cuenta bancaria</button>
-                    <button type="button" class="btn bnt_elegir" onclick="formaPago()">Elegir otra forma de pago</button>
+                        <button type="button" class="btn bnt_elegir" onclick="elegirCuenta()">Elegir cuenta bancaria</button>
+                        <button type="button" class="btn bnt_elegir" onclick="formaPago()">Elegir otra forma de pago</button>
                     </div>
                     <div class="mb-3" id="elegir_cuenta" style="display: none;">
                         <label for="cuenta" class="form-label">Elegir cuenta:</label>
                         <select class="form-select" id="cuenta">
-                            <option value="0">-- Seleccione una cuenta --</option>
+                            <option value="">-- Seleccione una cuenta --</option>
                         </select>
                     </div>
 
                     <div class="mb-3" id="forma_pago" style="display: none;">
                         <label for="formadePago" class="form-label">Elegir forma de pago:</label>
                         <select class="form-select" id="formadePago">
-                            <option value="0">-- Seleccione una cuenta --</option>
+                            <option value="">-- Seleccione una cuenta --</option>
                         </select>
                     </div>
                 </form>
@@ -95,7 +96,12 @@
 
         let formData = new FormData();
         formData.append("valor", $('#monto').val());
-        formData.append("id_cuenta", $('#cuenta').val());
+        if ($('#cuenta').val() == ""){
+            formData.append("id_cuenta", $('#formadePago').val());
+        }else{
+            formData.append("id_cuenta", $('#cuenta').val());
+        }
+        formData.append("otro", $('#otroId').val());
 
         $.ajax({
             url: SERVERURL + 'wallet/solicitarPago',
@@ -132,12 +138,15 @@
         });
     });
 
-    function elegirCuenta(){
+    function elegirCuenta() {
         $("#elegir_cuenta").show();
         $("#forma_pago").hide();
+        $("#otroId").val(0);
     }
-    function formaPago(){
+
+    function formaPago() {
         $("#elegir_cuenta").hide();
         $("#forma_pago").show();
+        $("#otroId").val(1);
     }
 </script>
