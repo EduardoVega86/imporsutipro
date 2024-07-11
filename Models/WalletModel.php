@@ -215,7 +215,7 @@ class WalletModel extends Query
 
                 //historial de billetera
 
-                $id_billetera = $this->select("SELECT id_billetera FROM billeteras WHERE tienda = '$proveedor'")[0]['id_billetera'];
+                $id_billetera = $this->select("SELECT id_billetera FROM billeteras WHERE id_plataforma = '$Id_proveedor'")[0]['id_billetera'];
                 $sql = "INSERT INTO historial_billetera (`id_billetera`, `id_responsable`, `tipo`, `motivo`, `monto`, `fecha`) VALUES (?, ?, ?, ?, ?, ?)";
                 $response =  $this->insert($sql, array($id_billetera, $usuario, "ENTRADA", "Se acredito a la billetera la guia: $guia", $costo - $full, date("Y-m-d H:i:s")));
 
