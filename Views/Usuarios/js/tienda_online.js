@@ -91,6 +91,7 @@ function editar_banner(id) {
     data: formData,
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
+    dataType: "json",
     success: function (response) {
         console.log("opc 1:"+response.id);
         console.log("opc 2:"+response[0].id);
