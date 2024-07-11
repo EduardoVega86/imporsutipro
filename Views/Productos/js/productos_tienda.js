@@ -101,47 +101,22 @@ const listProductos = async () => {
     const productos = await response.json();
     let content = ``;
     let cargar_imagen = "";
-    let subir_marketplace = "";
-    let producto_variable = "";
     let enlace_imagen = "";
-    let enviaCliente = "";
     productos.forEach((producto, index) => {
-      enlace_imagen = obtenerURLImagen(producto.image_path, SERVERURL);
+      enlace_imagen = obtenerURLImagen(producto.imagen_principal, SERVERURL);
       if (!producto.image_path) {
         cargar_imagen = `<i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${producto.id_producto},'${enlace_imagen}')"></i>`;
       } else {
         cargar_imagen = `<img src="${enlace_imagen}" class="icon-button" onclick="agregar_imagenProducto(${producto.id_producto},'${enlace_imagen}')" alt="Agregar imagen" width="50px">`;
       }
-      if (producto.drogshipin == 0) {
-        subir_marketplace = `<box-icon name='cloud-upload' style='cursor:pointer'  color='#54DD10' id="icono_subida_${producto.id_producto}" onclick="subir_marketplace(${producto.id_producto})"></box-icon></br><span>Agregar</span>`;
-      } else {
-        subir_marketplace = `<box-icon name='cloud-download' style='cursor:pointer' color='red' id="icono_bajada_${producto.id_producto}" onclick="bajar_marketplace(${producto.id_producto})"></box-icon></br><span>Quitar</span>`;
-      }
-
-      if (producto.producto_variable == 0) {
-        producto_variable = ``;
-        enviaCliente = `<i class="fa-regular fa-paper-plane" style='cursor:pointer' onclick="enviar_cliente(${producto.id_producto},'${producto.sku}',${producto.pvp},${producto.id_inventario})""></i>`;
-      } else {
-        producto_variable = `<img src="https://new.imporsuitpro.com/public/img/atributos.png" width="30px" id="buscar_traking" alt="buscar_traking" onclick="abrir_modalInventarioVariable(${producto.id_producto})">`;
-        enviaCliente = `<i style="color:red;" style='cursor:pointer' class="fa-regular fa-paper-plane" onclick="abrir_modalSeleccionAtributo(${producto.id_producto},'${producto.sku}',${producto.pvp},${producto.id_inventario})"></i>`;
-      }
+      
       content += `
                 <tr>
-                    <td>${producto.id_producto}</td>
-                    <td>${cargar_imagen}</td>
-                    <td>${producto.codigo_producto}</td>
                     <td>${producto.nombre_producto}</td>
+                    <td>${cargar_imagen}</td>
                     <td>${producto.destacado}</td>
-                    <td>${producto.saldo_stock}</td>
-                    <td>${producto.costo_producto}</td>
-                    <td>${producto.pcp}</td>
                     <td>${producto.pvp}</td>
                     <td>${producto.pref}</td>
-                    <td>logo landing</td>
-                    <td><i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${producto.id_producto}, '${enlace_imagen}')"></i></td>
-                    <td>${subir_marketplace}</td>
-                    <td>${enviaCliente}</td>
-                    <td>${producto_variable}</td>
                     <td>
                         <button class="btn btn-sm btn-primary" onclick="editarProducto(${producto.id_producto})"><i class="fa-solid fa-pencil"></i>Editar</button>
                         <button class="btn btn-sm btn-danger" onclick="eliminarProducto(${producto.id_producto})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
@@ -196,40 +171,6 @@ function enviar_cliente(id, sku, pvp, id_inventario) {
       console.error("Error en la solicitud AJAX:", error);
       alert("Hubo un problema al agregar el producto temporalmente");
     },
-  });
-}
-
-// Función para vaciar temporalmente los pedidos
-const vaciarTmpPedidos = async () => {
-  try {
-    const response = await fetch("" + SERVERURL + "marketplace/vaciarTmp");
-    if (!response.ok) {
-      throw new Error("Error al vaciar los pedidos temporales");
-    }
-    const data = await response.json();
-    console.log("Respuesta de vaciarTmp:", data);
-  } catch (error) {
-    console.error("Error al hacer la solicitud:", error);
-  }
-};
-
-//subida Masiva
-function customizeButtons() {
-  document.querySelectorAll(".buttons-html5").forEach((element) => {
-    element.classList.remove(
-      "btn",
-      "btn-secondary",
-      "buttons-excel",
-      "buttons-html5"
-    );
-    element.classList.add(
-      "btn",
-      "btn-primary",
-      "px-2",
-      "py-1",
-      "rounded",
-      "mx-1"
-    );
   });
 }
 
@@ -330,64 +271,6 @@ $(document).ready(function () {
   });
 });
 
-//filtrar por categorias
-const filtrarProductosPorCategoria = async (categoriaId) => {
-  try {
-    const response = await fetch(
-      `${SERVERURL}productos/obtener_productos_categoria/${categoriaId}` // falta que me creen esta api
-    );
-    const productos = await response.json();
-
-    let content = ``;
-    let cargar_imagen = "";
-    let subir_marketplace = "";
-    let producto_variable = "";
-    productos.forEach((producto, index) => {
-      if (!producto.image_path) {
-        cargar_imagen = `<i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${producto.id_producto})"></i>`;
-      } else {
-        cargar_imagen = `<img src="${SERVERURL}${producto.image_path}" class="icon-button" onclick="agregar_imagenProducto(${producto.id_producto})" alt="Agregar imagen" width="50px">`;
-      }
-      if (producto.drogshipin == 0) {
-        subir_marketplace = `<box-icon name='cloud-upload' id="icono_subida_${producto.id_producto}" onclick="subir_marketplace(${producto.id_producto})"></box-icon>`;
-      } else {
-        subir_marketplace = `<box-icon name='cloud-download' id="icono_bajada_${producto.id_producto}" onclick="bajar_marketplace(${producto.id_producto})"></box-icon>`;
-      }
-
-      if (producto.producto_variable == 0) {
-        producto_variable = ``;
-      } else {
-        producto_variable = `<img src="https://new.imporsuitpro.com/public/img/atributos.png" width="30px" id="buscar_traking" alt="buscar_traking" onclick="abrir_modalInventarioVariable(${producto.id_producto})">`;
-      }
-      content += `
-                  <tr>
-                      <td>${producto.id_producto}</td>
-                      <td>${cargar_imagen}</td>
-                      <td>${producto.codigo_producto}</td>
-                      <td>${producto.nombre_producto}</td>
-                      <td>${producto.destacado}</td>
-                      <td>${producto.saldo_stock}</td>
-                      <td>${producto.costo_producto}</td>
-                      <td>${producto.pcp}</td>
-                      <td>${producto.pvp}</td>
-                      <td>${producto.pref}</td>
-                      <td>logo landing</td>
-                      <td>logo agregar imagen</td>
-                      <td>${subir_marketplace})</td>
-                      <td>${producto_variable}</td>
-                      <td>
-                          <button class="btn btn-sm btn-primary" onclick="editarProducto(${producto.id_producto})"><i class="fa-solid fa-pencil"></i>Editar</button>
-                          <button class="btn btn-sm btn-danger" onclick="eliminarProducto(${producto.id_producto})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
-                      </td>
-                  </tr>`;
-    });
-    document.getElementById("tableBody_productos").innerHTML = content;
-    dataTableProductos.clear().rows.add($(content)).draw(); // Actualiza la DataTable
-  } catch (ex) {
-    alert(ex);
-  }
-};
-
 function obtenerURLImagen(imagePath, serverURL) {
   // Verificar si el imagePath no es null
   if (imagePath) {
@@ -463,74 +346,6 @@ function editarProducto(id) {
   });
 }
 
-function subir_marketplace(id) {
-  $.ajax({
-    type: "POST",
-    url: SERVERURL + "productos/subir_marketplace",
-    data: { id: id }, // Enviar el ID como un objeto
-    dataType: "json", // Asegurarse de que la respuesta se trata como JSON
-    success: function (response) {
-      // Mostrar alerta de éxito
-      if (response.status == 500) {
-        toastr.error(
-          "EL PRODUCTO NO SE AGREGRO AL MARKETPLACE CORRECTAMENTE",
-          "NOTIFICACIÓN",
-          {
-            positionClass: "toast-bottom-center",
-          }
-        );
-      } else if (response.status == 200) {
-        toastr.success("PRODUCTO AGREGADO CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-        /* initDataTableProductos(); */
-        /* $("#icono_subida_" + id).hide(); */
-        reloadDataTableProductos();
-      }
-    },
-    error: function (xhr, status, error) {
-      console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al subir al marketplace");
-    },
-  });
-}
-
-function bajar_marketplace(id) {
-  $.ajax({
-    type: "POST",
-    url: SERVERURL + "productos/bajar_marketplace",
-    data: { id: id }, // Enviar el ID como un objeto
-    dataType: "json", // Asegurarse de que la respuesta se trata como JSON
-    success: function (response) {
-      // Mostrar alerta de éxito
-      if (response.status == 500) {
-        toastr.error(
-          "EL PRODUCTO NO SE BAJO DEL MARKETPLACE CORRECTAMENTE",
-          "NOTIFICACIÓN",
-          {
-            positionClass: "toast-bottom-center",
-          }
-        );
-      } else if (response.status == 200) {
-        toastr.success(
-          "PRODUCTO BAJADO DEL MARKETPLACE CORRECTAMENTE",
-          "NOTIFICACIÓN",
-          {
-            positionClass: "toast-bottom-center",
-          }
-        );
-        /* initDataTableProductos(); */
-        /* $("#icono_bajada_" + id).hide(); */
-        reloadDataTableProductos();
-      }
-    },
-    error: function (xhr, status, error) {
-      console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al subir al marketplace");
-    },
-  });
-}
-
 function agregar_imagenProducto(id, imagen) {
   $("#id_imagenproducto").val(id);
 
@@ -545,12 +360,3 @@ function agregar_imagenProducto(id, imagen) {
 window.addEventListener("load", async () => {
   await initDataTableProductos();
 });
-
-function abrir_modalInventarioVariable(id) {
-  $("#id_productoVariable").val(id);
-  initDataTableDetalleInventario();
-  $("#inventario_variableModal").modal("show");
-}
-
-// Ejecutar la función cuando la página se haya cargado
-window.addEventListener("load", vaciarTmpPedidos);

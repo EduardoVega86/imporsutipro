@@ -3,12 +3,8 @@
 
 
 <!-- llamada de modales -->
-<?php require_once './Views/Productos/Modales/atributos_index_productos.php'; ?>
-<?php require_once './Views/Productos/Modales/agregar_index_productos.php'; ?>
 <?php require_once './Views/Productos/Modales/editar_index_productos.php'; ?>
 <?php require_once './Views/Productos/Modales/imagen_productos.php'; ?>
-<?php require_once './Views/Productos/Modales/inventario_variable_index.php'; ?>
-<?php require_once './Views/Productos/Modales/Seleccion_productoAtributo.php'; ?>
 
 
 <div class="custom-container-fluid">
@@ -39,21 +35,11 @@
             <table id="datatable_productos" class="table table-striped">
                 <thead>
                     <tr>
-                        <th class="text-nowrap">ID</th>
+                        <th class="text-nowrap">Nombre</th>
                         <th class="text-nowrap"></th>
-                        <th class="text-nowrap">Código</th>
-                        <th class="text-nowrap">Producto</th>
                         <th class="text-nowrap">Destacado</th>
-                        <th class="text-nowrap">Existencia</th>
-                        <th class="text-nowrap">Costo</th>
-                        <th class="text-nowrap">P. Proveedor</th>
                         <th class="text-nowrap">PVP</th>
-                        <th class="text-wrap">Precio Referencial</th>
-                        <th class="text-nowrap">Landing</th>
-                        <th class="text-nowrap">Imagenes</th>
-                        <th class="text-wrap">Marketplace</th>
-                        <th class="text-wrap">Enviar a cliente</th>
-                        <th class="text-nowrap">Atributos</th>
+                        <th class="text-nowrap">P. Ref</th>
                         <th class="text-nowrap">Acciones</th>
                     </tr>
                 </thead>
@@ -62,8 +48,7 @@
         </div>
     </div>
 </div>
-<script src="<?php echo SERVERURL ?>/Views/Productos/js/listado.js"></script>
+
 <script src="<?php echo SERVERURL ?>/Views/Productos/js/productos_tienda.js"></script>
-<script src="<?php echo SERVERURL ?>/Views/Productos/js/inventario_variable.js"></script>
-<script src="<?php echo SERVERURL ?>/Views/Productos/js/tablaSeleccion_Producto.js"></script>
+
 <?php require_once './Views/templates/footer.php'; ?>
