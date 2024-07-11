@@ -417,7 +417,7 @@
         bottom: 10px;
         right: 10px;
         background-color: green;
-        color: black;
+        color: white;
         border: none;
         border-radius: 0.3rem;
         width: 30px;
