@@ -148,27 +148,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const card = document.createElement("div");
     card.className = "card card-custom position-relative";
-    const imagePath =
-      productDetails.image_path &&
-      productDetails.image_path.includes("http") &&
-      checkImage(productDetails.image_path)
-        ? productDetails.image_path
-        : productDetails.image_path
-        ? `${SERVERURL}${productDetails.image_path}`
-        : "/public/img/broken-image.png";
+    // Usar la función para obtener la URL de la imagen
+    const imagePath = obtenerURLImagen(productDetails.image_path, SERVERURL);
 
-    function checkImage(url) {
-      const img = new Image();
-      img.src = url;
-      img.onerror = function () {
-        return false;
-      };
-      img.onload = function () {
-        return true;
-      };
-    }
-
-    // Uso en el contexto adecuado
     const productImage = new Image();
     productImage.src = imagePath;
 
@@ -246,6 +228,24 @@ document.addEventListener("DOMContentLoaded", function () {
       toggleAddToStore(productId, isAdded);
     }
   });
+
+  function obtenerURLImagen(imagePath, serverURL) {
+    // Verificar si el imagePath no es null
+    if (imagePath) {
+      // Verificar si el imagePath ya es una URL completa
+      if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
+        // Si ya es una URL completa, retornar solo el imagePath
+        return imagePath;
+      } else {
+        // Si no es una URL completa, agregar el serverURL al inicio
+        return `${serverURL}${imagePath}`;
+      }
+    } else {
+      // Manejar el caso cuando imagePath es null
+      console.error("imagePath es null o undefined");
+      return '/public/img/broken-image.png'; // Ruta de imagen por defecto
+    }
+  }
 
   function toggleAddToStore(productId, isAdded) {
     let formData = new FormData();
