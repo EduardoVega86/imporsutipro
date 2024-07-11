@@ -461,7 +461,7 @@
     /* Fin de boton añadir tienda */
 
     .boton_mas {
-        font-size: 20px;
+        font-size: 15px;
         border-radius: 0.3rem;
         background-color: #007bff;
         /* Color de fondo */
