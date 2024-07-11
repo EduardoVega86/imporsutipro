@@ -244,7 +244,6 @@ class GuiasModel extends Query
         }
 
         if ($existe_full == 1) {
-            $id_plataforma_bodega = $id_plataforma_producto;
         } else {
             $id_plataforma_bodega = 0;
         }
