@@ -17,11 +17,19 @@ document.addEventListener("DOMContentLoaded", function () {
   const loadMoreButton = document.getElementById("load-more");
   let isLoading = false;
   let currentFetchController = null;
+  let isDisplaying = false;
+  let currentDisplayTask = null;
 
   async function clearAndFetchProducts() {
     // Cancel any ongoing fetch
     if (currentFetchController) {
       currentFetchController.abort();
+    }
+
+    // Cancel any ongoing display task
+    if (currentDisplayTask) {
+      clearTimeout(currentDisplayTask);
+      isDisplaying = false;
     }
 
     // Clear previous products
@@ -88,13 +96,16 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  const displayProducts = async (products, page, perPage) => {
+  const displayProducts = (products, page, perPage) => {
+    isDisplaying = true;
     const start = (page - 1) * perPage;
     const end = start + perPage;
     const paginatedProducts = products.slice(start, end);
 
-    for (const product of paginatedProducts) {
-      if (displayedProducts.has(product.id_producto)) continue;
+    const displayTask = async (product) => {
+      if (!isDisplaying) return;
+
+      if (displayedProducts.has(product.id_producto)) return;
       displayedProducts.add(product.id_producto);
 
       try {
@@ -179,8 +190,14 @@ document.addEventListener("DOMContentLoaded", function () {
       } catch (error) {
         console.error("Error al obtener los detalles del producto:", error);
       }
-    }
-    isLoading = false;
+    };
+
+    // Display products one by one
+    paginatedProducts.forEach((product, index) => {
+      currentDisplayTask = setTimeout(() => displayTask(product), index * 50); // Adjust delay as needed
+    });
+
+    isDisplaying = false;
     loadingIndicator.style.display = "none";
   };
 
