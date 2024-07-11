@@ -32,18 +32,18 @@
                         <input type="text" class="form-control" id="titulo" placeholder="Título">
                     </div>
                     <div class="col-md-6">
-                        <label for="textoSlider" class="form-label">Texto del slider</label>
-                        <textarea class="form-control" id="textoSlider" rows="3" placeholder="Texto del slider"></textarea>
+                        <label for="texto_banner" class="form-label">Texto del slider</label>
+                        <textarea class="form-control" id="texto_banner" rows="3" placeholder="Texto del slider"></textarea>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="boton" class="form-label">Botón</label>
-                        <input type="text" class="form-control" id="boton" placeholder="Texto del botón">
+                        <label for="texto_boton" class="form-label">Botón</label>
+                        <input type="text" class="form-control" id="texto_boton" placeholder="Texto del botón">
                     </div>
                     <div class="col-md-6">
-                        <label for="enlaceBoton" class="form-label">Enlace Botón</label>
-                        <input type="text" class="form-control" id="enlaceBoton" placeholder="URL del botón">
+                        <label for="enlace_boton" class="form-label">Enlace Botón</label>
+                        <input type="text" class="form-control" id="enlace_boton" placeholder="URL del botón">
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -72,7 +72,7 @@
     $(document).ready(function() {
         // Función para reiniciar el formulario
         function resetForm() {
-            $('#agregar_producto_form')[0].reset();
+            $('#agregar_banner_form')[0].reset();
             $('#bodega-field').addClass('hidden-field');
             $('#precio-referencial-valor').prop('disabled', true);
         }
@@ -83,7 +83,7 @@
             button.disabled = false; // Desactivar el botón
         });
 
-        $('#agregar_producto_form').submit(function(event) {
+        $('#agregar_banner_form').submit(function(event) {
             event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
 
             var button = document.getElementById('guardar_producto');
@@ -91,28 +91,15 @@
 
             // Crea un objeto FormData
             var formData = new FormData();
-            formData.append('codigo_producto', $('#codigo').val());
-            formData.append('nombre_producto', $('#nombre').val());
-            formData.append('descripcion_producto', $('#descripcion').val());
-            formData.append('id_linea_producto', $('#categoria').val());
-            formData.append('inv_producto', $('#maneja-inventario').val());
-            formData.append('producto_variable', $('#producto-variable').val());
-            formData.append('costo_producto', $('#costo').val());
-            formData.append('aplica_iva', 1); // Suponiendo que siempre aplica IVA
-            formData.append('estado_producto', 1); // Suponiendo que el estado es activo
-            formData.append('date_added', new Date().toISOString().split('T')[0]);
-            formData.append('formato', $('#formato-pagina').val());
-            formData.append('drogshipin', 0); // Suponiendo que no es dropshipping
-            formData.append('destacado', 0); // Suponiendo que no es destacado
-            formData.append('stock_inicial', $('#stock-inicial').val());
-            formData.append('bodega', $('#bodega').val());
-            formData.append('pcp', $('#precio-proveedor').val());
-            formData.append('pvp', $('#precio-venta').val());
-            formData.append('pref', $('#precio-referencial-valor').val());
+            formData.append('titulo', $('#titulo').val());
+            formData.append('texto_banner', $('#texto_banner').val());
+            formData.append('texto_boton', $('#texto_boton').val());
+            formData.append('enlace_boton', $('#enlaceBoton').val());
+            formData.append('alineacion', $('#alineacion').val());
 
             // Realiza la solicitud AJAX
             $.ajax({
-                url: '' + SERVERURL + 'productos/agregar_producto',
+                url: '' + SERVERURL + 'Tienda/agregarBanner',
                 type: 'POST',
                 data: formData,
                 processData: false,
