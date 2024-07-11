@@ -32,16 +32,6 @@ class UsuariosModel extends Query
 
     //ususarios
 
-
-    /* tienda online */
-    public function obtener_infoTiendaOnline($plataforma)
-    {
-        $sql = "SELECT * FROM plataformas pl, perfil pe WHERE pl.id_plataforma=$plataforma and pe.id_plataforma=pl.id_plataforma;";
-
-        return $this->select($sql);
-    }
-    /* Fin tienda online */
-
     public function resetearContrasena($id_usuario, $contrasena)
     {
         $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
@@ -283,4 +273,33 @@ class UsuariosModel extends Query
         }
         return $response;
     }
+
+    /* tienda online */
+    public function obtener_infoTiendaOnline($plataforma)
+    {
+        $sql = "SELECT * FROM plataformas pl, perfil pe WHERE pl.id_plataforma=$plataforma and pe.id_plataforma=pl.id_plataforma;";
+
+        return $this->select($sql);
+    }
+
+    public function agregarBanner($titulo, $texto_banner, $texto_boton, $enlace_boton, $alineacion, $imagen, $plataforma)
+    {
+        // codigo para agregar categoria
+        $response = $this->initialResponse();
+
+        $sql = "INSERT INTO `banner_adicional` (`titulo`,`texto_banner`,`texto_boton`,`enlace_boton`,`alineacion`, `id_plataforma`) VALUES (?, ?, ?, ?, ?, ?)";
+        $data = [$titulo, $texto_banner, $texto_boton, $enlace_boton, $alineacion, $plataforma];
+        $insertar_categoria = $this->insert($sql, $data);
+        if ($insertar_categoria == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Categoria agregada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = $insertar_categoria['message'];
+        }
+        return $response;
+    }
+    /* Fin tienda online */
 }

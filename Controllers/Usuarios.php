@@ -245,5 +245,18 @@ class Usuarios extends Controller
         $response = $this->model->obtener_infoTiendaOnline($_SESSION['id_plataforma']);
         echo json_encode($response);
     }
+
+     public function agregarBanner()
+     {
+         $titulo = $_POST['titulo'];
+         $texto_banner = $_POST['texto_banner'];
+         $texto_boton = $_POST['texto_boton'];
+         $enlace_boton = $_POST['enlace_boton'];
+         $alineacion = $_POST['alineacion'];
+         /* $imagen = $_FILES['imagen']; */
+         $imagen = "";
+         $response = $this->model->agregarBanner($titulo, $texto_banner, $texto_boton, $enlace_boton, $alineacion, $imagen, $_SESSION['id_plataforma']);
+         echo json_encode($response);
+     }
     /* fin tienda online */
 }

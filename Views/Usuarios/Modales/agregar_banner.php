@@ -99,7 +99,7 @@
 
             // Realiza la solicitud AJAX
             $.ajax({
-                url: '' + SERVERURL + 'Tienda/agregarBanner',
+                url: '' + SERVERURL + 'Usuarios/agregarBanner',
                 type: 'POST',
                 data: formData,
                 processData: false,
