@@ -558,11 +558,11 @@ class Productos extends Controller
     }
     
     
-    public function importar_productos_tienda($id_producto)
+    public function importar_productos_tienda()
     {
 
         // Obtener el ID de inventario desde el formulario
-      $id_inventario = $_POST['id_producto'];
+      $id_producto = $_POST['id_producto'];
 
        $response = $this->model->importar_productos_tienda($id_producto, $_SESSION['id_plataforma']);
        echo json_encode($response);

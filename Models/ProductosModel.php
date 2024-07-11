@@ -26,7 +26,7 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
         return $this->select($sql);
     }
     
-      public function importar_productos_tienda($plataforma, $id_producto)
+      public function importar_productos_tienda($id_producto, $plataforma)
     {
           
               $inicial_variable = $this->select("SELECT id_inventario FROM inventario_bodegas WHERE id_producto = '$id_producto' and bodega=50000");
@@ -45,10 +45,10 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
                     $plataforma,
                     $id_producto,
                     $inv['nombre_producto'],
-                    $tmp['image_path'],
-                    $tmp['pvp'],
-                    $tmp['id_inventario'],
-                    $tmp['id_linea_producto']
+                    $inv['image_path'],
+                    $inv['pvp'],
+                    $inv['id_inventario'],
+                    $inv['id_linea_producto']
                 );
                 $guardar_detalle = $this->insert($detalle_sql, $detalle_data); 
               
