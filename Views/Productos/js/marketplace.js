@@ -204,7 +204,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Tu función toggleAddToStore permanece igual
   function toggleAddToStore(productId, isAdded) {
     $.ajax({
-      url: SERVERURL + "/Producto/importar_productos_tienda", // Cambia esta URL a la de tu API
+      url: SERVERURL + "Productos/importar_productos_tienda", // Cambia esta URL a la de tu API
       method: "POST",
       data: {
         id: productId,
