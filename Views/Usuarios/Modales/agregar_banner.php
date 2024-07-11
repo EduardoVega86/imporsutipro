@@ -78,7 +78,7 @@
         }
 
         // Evento para reiniciar el formulario cuando se cierre el modal
-        $('#agregar_productoModal').on('hidden.bs.modal', function() {
+        $('#agregar_bannerModal').on('hidden.bs.modal', function() {
             var button = document.getElementById('guardar_banner');
             button.disabled = false; // Desactivar el botón
         });
@@ -119,9 +119,9 @@
                             positionClass: "toast-bottom-center",
                         });
 
-                        $('#agregar_productoModal').modal('hide');
+                        $('#agregar_bannerModal').modal('hide');
                         resetForm();
-                        initDataTableProductos();
+                        initDataTableBanner();
                     }
                 },
                 error: function(error) {
