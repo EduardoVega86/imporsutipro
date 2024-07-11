@@ -92,7 +92,7 @@ const listCategorias = async () => {
         }
       }
 
-      if (categoria.global == 1) {
+      if (categoria.global == 1 && ID_PLATAFOMRA == categoria.id_plataforma) {
         botones_accion = ``;
       } else {
         botones_accion = `<button class="btn btn-sm btn-primary" onclick="editar_categoria(${categoria.id_linea})"><i class="fa-solid fa-pencil"></i>Editar</button>
