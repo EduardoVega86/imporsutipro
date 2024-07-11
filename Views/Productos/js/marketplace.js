@@ -150,13 +150,12 @@ document.addEventListener("DOMContentLoaded", function () {
     card.className = "card card-custom position-relative";
     // Usar la función para obtener la URL de la imagen
     const imagePath = obtenerURLImagen(productDetails.image_path, SERVERURL);
+    let validador_imagen = 1;
+    validador_imagen = verificarImagen(imagePath);
 
-    const productImage = new Image();
-    productImage.src = imagePath;
-
-    productImage.onerror = function () {
-      productImage.src = "/public/img/broken-image.png";
-    };
+    if (validador_imagen == 0){
+      imagePath = SERVERURL+"public/img/broken-image.png";
+    }
 
     card.innerHTML = `
       <div class="image-container position-relative">
@@ -243,9 +242,22 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       // Manejar el caso cuando imagePath es null
       console.error("imagePath es null o undefined");
-      return '/public/img/broken-image.png'; // Ruta de imagen por defecto
+      return SERVERURL+"public/img/broken-image.png"; // Ruta de imagen por defecto
     }
   }
+
+  async function verificarImagen(url) {
+    try {
+        const response = await fetch(url, { method: 'HEAD' });
+        if (response.ok) {
+            return 1; // La imagen existe
+        } else {
+            return 0; // La imagen no existe
+        }
+    } catch (error) {
+        return 0; // La imagen no existe
+    }
+}
 
   function toggleAddToStore(productId, isAdded) {
     let formData = new FormData();
