@@ -39,7 +39,7 @@ const initDataTableBanner = async () => {
 
 const listBanner = async () => {
   try {
-    const response = await fetch("" + SERVERURL + "wallet/obtenerDatos");
+    const response = await fetch("" + SERVERURL + "Usuarios/obtener_bannertienda");
     const banner = await response.json();
 
     let content = ``;
