@@ -68,8 +68,8 @@ const listBanner = async () => {
                         <i class="fa-solid fa-gear"></i>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="editar_bodegas(${bodega.id})"><i class="fa-solid fa-pencil"></i>Editar</span></li>
-                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="eliminarBodega(${bodega.id})"><i class="fa-solid fa-trash-can"></i>Eliminar</span></li>
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="editar_banner(${item.id})"><i class="fa-solid fa-pencil"></i>Editar</span></li>
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="eliminarBanner(${item.id})"><i class="fa-solid fa-trash-can"></i>Eliminar</span></li>
                     </ul>
                     </div>
                     </td>
@@ -80,6 +80,38 @@ const listBanner = async () => {
     alert(ex);
   }
 };
+
+function eliminarBanner(id) {
+  let formData = new FormData();
+  formData.append("id", id);
+
+  $.ajax({
+    type: "POST",
+    url: SERVERURL + "Usuarios/eliminarBanner",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    success: function (response) {
+      response = JSON.parse(response);
+      // Mostrar alerta de éxito
+      if (response.status == 500) {
+        toastr.error("NO SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else {
+        toastr.success("SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+
+        initDataTableBanner();
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al eliminar la categoría");
+    },
+  });
+}
 
 window.addEventListener("load", async () => {
   await initDataTableBanner();

@@ -263,5 +263,12 @@ class Usuarios extends Controller
          $response = $this->model->agregarBanner($titulo, $texto_banner, $texto_boton, $enlace_boton, $alineacion, $imagen, $_SESSION['id_plataforma']);
          echo json_encode($response);
      }
+     
+     public function eliminarBanner()
+    {
+        $id = $_POST['id'];
+        $response = $this->model->eliminarBanner($id, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
     /* fin tienda online */
 }
