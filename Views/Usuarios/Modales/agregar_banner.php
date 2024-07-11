@@ -79,14 +79,14 @@
 
         // Evento para reiniciar el formulario cuando se cierre el modal
         $('#agregar_productoModal').on('hidden.bs.modal', function() {
-            var button = document.getElementById('guardar_producto');
+            var button = document.getElementById('guardar_banner');
             button.disabled = false; // Desactivar el botón
         });
 
         $('#agregar_banner_form').submit(function(event) {
             event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
 
-            var button = document.getElementById('guardar_producto');
+            var button = document.getElementById('guardar_banner');
             button.disabled = true; // Desactivar el botón
 
             // Crea un objeto FormData
