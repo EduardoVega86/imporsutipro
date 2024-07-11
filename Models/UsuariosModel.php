@@ -350,6 +350,79 @@ class UsuariosModel extends Query
         return $response;
     }
 
+    public function editarBanner($id, $titulo, $texto_banner, $texto_boton, $enlace_boton, $alineacion, $imagen, $plataforma)
+    {
+        $response = $this->initialResponse();
+        $target_dir = "public/img/banner/";
+        $target_file = "";
+        $uploadOk = 1;
+        $imageFileType = "";
+
+        if ($imagen && $imagen["tmp_name"]) {
+            $target_file = $target_dir . basename($imagen["name"]);
+            $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+            $check = getimagesize($imagen["tmp_name"]);
+
+            if ($check !== false) {
+                $uploadOk = 1;
+            } else {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'El archivo no es una imagen';
+                $uploadOk = 0;
+            }
+
+            if ($imagen["size"] > 500000) {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'El archivo es muy grande';
+                $uploadOk = 0;
+            }
+
+            if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'Solo se permiten archivos JPG, JPEG, PNG';
+                $uploadOk = 0;
+            }
+        }
+
+        if ($uploadOk == 1 && $imagen && $imagen["tmp_name"]) {
+            if (move_uploaded_file($imagen["tmp_name"], $target_file)) {
+                $response['status'] = 200;
+                $response['title'] = 'Peticion exitosa';
+                $response['message'] = 'Imagen subida correctamente';
+                $response['data'] = $target_file;
+
+                $sql = "UPDATE `banner_adicional` SET `fondo_banner`=?, `titulo`=?, `texto_banner`=?, `texto_boton`=?, `enlace_boton`=?, `alineacion`=?, `id_plataforma`=? WHERE `id`=?";
+                $data = [$target_file, $titulo, $texto_banner, $texto_boton, $enlace_boton, $alineacion, $plataforma, $id];
+            } else {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'Error al subir la imagen';
+                return $response;
+            }
+        } else {
+            $sql = "UPDATE `banner_adicional` SET `titulo`=?, `texto_banner`=?, `texto_boton`=?, `enlace_boton`=?, `alineacion`=?, `id_plataforma`=? WHERE `id`=?";
+            $data = [$titulo, $texto_banner, $texto_boton, $enlace_boton, $alineacion, $plataforma, $id];
+        }
+
+        $actualizar_banner = $this->update($sql, $data);
+
+        if ($actualizar_banner == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Banner actualizado correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al actualizar el banner';
+        }
+
+        return $response;
+    }
+
+
     public function eliminarBanner($id, $plataforma)
     {
         // codigo para eliminar categoria
