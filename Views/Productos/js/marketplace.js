@@ -233,6 +233,7 @@ document.addEventListener("DOMContentLoaded", function () {
       processData: false,
       contentType: false,
       success: function (response) {
+        response = JSON.parse(response);
         if (response.status == 500) {
           toastr.warning(
               ""+response.message,
