@@ -32,8 +32,8 @@
                         <input type="text" class="form-control" id="titulo" placeholder="Título">
                     </div>
                     <div class="col-md-6">
-                        <label for="texto_banner" class="form-label">Texto del slider</label>
-                        <textarea class="form-control" id="texto_banner" rows="3" placeholder="Texto del slider"></textarea>
+                        <label for="texto_banner" class="form-label">Texto del banner</label>
+                        <textarea class="form-control" id="texto_banner" rows="3" placeholder="Texto del banner"></textarea>
                     </div>
                 </div>
                 <div class="row mb-3">
