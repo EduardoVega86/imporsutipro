@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const initialProductsPerPage = 24;
-  const additionalProductsPerPage = 24;
+  const initialProductsPerPage = 48;
+  const additionalProductsPerPage = 48;
   let currentPage = 1;
   let products = [];
   let displayedProducts = new Set();
