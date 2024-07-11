@@ -52,7 +52,7 @@
     </div>
     <div style="padding: 10px;">
         <div id="loading-indicator" style="display: none;">Cargando...</div>
-        <button id="load-more" class="boton_mas" style="display: none;">Ver más</button>
+        <button id="load-more" class="boton_mas" style="display: none;">Ver más...</button>
     </div>
 
 </div>
