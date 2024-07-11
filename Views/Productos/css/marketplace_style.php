@@ -451,6 +451,14 @@
   background-color: green;
   color: white;
 }
-
     /* Fin de boton añadir tienda */
+
+    .boton_mas{
+        font-size:20px;
+        border-radius: 0.3rem;
+    }
+    .boton_mas :hover{
+        background-color: #007bff;
+        color: white;
+    }
 </style>
