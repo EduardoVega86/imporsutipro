@@ -21,7 +21,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editar_bannerModalLabel"><i class="fas fa-edit"></i> Nuevo Banner</h5>
+                <h5 class="modal-title" id="editar_bannerModalLabel"><i class="fas fa-edit"></i> Editar Banner</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -64,7 +64,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary" id="guardar_banner">Guardar</button>
+                        <button type="submit" class="btn btn-primary" id="actualizar_banner">Actualizar</button>
                     </div>
                 </form>
             </div>
@@ -84,7 +84,7 @@
 
         // Evento para reiniciar el formulario cuando se cierre el modal
         $('#editar_bannerModal').on('hidden.bs.modal', function() {
-            var button = document.getElementById('guardar_banner');
+            var button = document.getElementById('actualizar_banner');
             button.disabled = false; // Desactivar el botón
             resetForm();
         });
@@ -101,7 +101,7 @@
         $('#editar_banner_form').submit(function(event) {
             event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
 
-            var button = document.getElementById('guardar_banner');
+            var button = document.getElementById('actualizar_banner');
             button.disabled = true; // Desactivar el botón
 
             // Crea un objeto FormData
