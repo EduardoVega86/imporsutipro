@@ -13,7 +13,7 @@
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
-        <h2 class="text-center mb-4">Productos</h2>
+        <h2 class="text-center mb-4">Productos de Tienda</h2>
         <!-- <div class="filtros_producos justify-content-between align-items-center mb-3">
             <div class="primerSeccion_filtros">
                 <select id="categoria_filtro" class="form-select me-2">
