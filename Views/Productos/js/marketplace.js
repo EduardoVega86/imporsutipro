@@ -191,9 +191,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
   fetchProducts();
 
-  cardContainer.addEventListener("click", function(event) {
+  cardContainer.addEventListener("click", function (event) {
     const target = event.target;
-    if (target.classList.contains("add-to-store-button") || target.closest(".add-to-store-button")) {
+    if (
+      target.classList.contains("add-to-store-button") ||
+      target.closest(".add-to-store-button")
+    ) {
       const button = target.closest(".add-to-store-button");
       const productId = button.getAttribute("data-product-id");
       const isAdded = button.classList.contains("added");
@@ -203,23 +206,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Tu función toggleAddToStore permanece igual
   function toggleAddToStore(productId, isAdded) {
+    let formData = new FormData();
+    formData.append("id_producto", productId);
     $.ajax({
       url: SERVERURL + "Productos/importar_productos_tienda", // Cambia esta URL a la de tu API
       method: "POST",
-      data: {
-        id: productId,
-      },
+      data: formData,
+      processData: false, // No procesar los datos
+      contentType: false, // No establecer ningún tipo de contenido
       success: function (response) {
         // Suponiendo que la respuesta contiene el nuevo estado de agregado
         const newIsAdded = response.added;
 
-        const addButton = document.querySelector(`.add-to-store-button[data-product-id="${productId}"]`);
+        const addButton = document.querySelector(
+          `.add-to-store-button[data-product-id="${productId}"]`
+        );
         if (newIsAdded) {
           addButton.classList.add("added");
-          addButton.querySelector(".add-to-store-text").textContent = "Quitar de tienda";
+          addButton.querySelector(".add-to-store-text").textContent =
+            "Quitar de tienda";
         } else {
           addButton.classList.remove("added");
-          addButton.querySelector(".add-to-store-text").textContent = "Añadir a tienda";
+          addButton.querySelector(".add-to-store-text").textContent =
+            "Añadir a tienda";
         }
       },
       error: function (error) {
