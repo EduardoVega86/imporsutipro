@@ -164,7 +164,7 @@ document.addEventListener("DOMContentLoaded", function () {
       ${boton_enviarCliente}
     </div>
   </div>
-`;
+  `;
           cardContainer.appendChild(card);
         } else {
           console.error(
@@ -209,7 +209,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let formData = new FormData();
     formData.append("id_producto", productId);
     $.ajax({
-      url: SERVERURL + "Productos/importar_productos_tienda", // Cambia esta URL a la de tu API
+      url: SERVERURL + "Productos/importar_productos_tienda",
       method: "POST",
       data: formData,
       processData: false, // No procesar los datos
