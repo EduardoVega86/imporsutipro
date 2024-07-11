@@ -52,7 +52,7 @@
     </div>
     <div style="padding: 10px;">
         <div id="loading-indicator" style="display: none;">Cargando...</div>
-        <button id="load-more" style="display: none; font-size:20px;"><i class="fa-solid fa-plus"></i></button>
+        <button id="load-more" style="display: none; font-size:20px; border-radius: 30px;"><i class="fa-solid fa-plus"></i></button>
     </div>
 
 </div>
