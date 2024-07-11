@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   const initialProductsPerPage = 24;
-  const additionalProductsPerPage = 4;
+  const additionalProductsPerPage = 24;
   let currentPage = 1;
   let products = [];
   let displayedProducts = new Set();
@@ -13,11 +13,8 @@ document.addEventListener("DOMContentLoaded", function () {
   formData_filtro.append("favorito", "0");
 
   const cardContainer = document.getElementById("card-container");
-  const loadingIndicator = document.createElement("div");
-  loadingIndicator.id = "loading-indicator";
-  loadingIndicator.innerHTML = "Cargando...";
-  loadingIndicator.style.display = "none";
-  cardContainer.appendChild(loadingIndicator);
+  const loadingIndicator = document.getElementById("loading-indicator");
+  const loadMoreButton = document.getElementById("load-more");
   let isLoading = false;
   let currentFetchController = null;
 
@@ -86,6 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
     } finally {
       isLoading = false;
       loadingIndicator.style.display = "none";
+      loadMoreButton.style.display = products.length ? "block" : "none";
     }
   }
 
@@ -124,47 +122,49 @@ document.addEventListener("DOMContentLoaded", function () {
             : `${SERVERURL}${productDetails[0].image_path}`;
 
           card.innerHTML = `
-  <div class="image-container position-relative">
-    <div class="card-id-container" onclick="copyToClipboard(${
-      product.id_producto
-    })">
-      <span class="card-id">ID: ${product.id_producto}</span>
-    </div>
-    <img src="${imagePath}" class="card-img-top" alt="Product Image">
-    <div class="add-to-store-button ${
-      product.agregadoTienda ? "added" : ""
-    }" data-product-id="${product.id_producto}">
-      <span class="plus-icon">+</span>
-      <span class="add-to-store-text">${
-        product.agregadoTienda ? "Quitar de tienda" : "Añadir a tienda"
-      }</span>
-    </div>
-  </div>
-  <button class="btn btn-heart ${
-    esFavorito ? "clicked" : ""
-  }" onclick="handleHeartClick(${product.id_producto}, ${esFavorito})">
-    <i class="fas fa-heart"></i>
-  </button>
-  <div class="card-body text-center d-flex flex-column justify-content-between">
-    <div>
-      <h6 class="card-title"><strong>${product.nombre_producto}</strong></h6>
-      <p class="card-text">Stock: <strong style="color:green">${saldo_stock}</strong></p>
-      <p class="card-text">Precio Proveedor: <strong>${
-        productDetails[0].pcp
-      }</strong></p>
-      <p class="card-text">Precio Sugerido: <strong>$${pvp}</strong></p>
-      <p class="card-text">Proveedor: <a href="#" onclick="abrirModal_infoTienda('${url_imporsuit}')" style="font-size: 15px;">${
+          <div class="image-container position-relative">
+            <div class="card-id-container" onclick="copyToClipboard(${
+              product.id_producto
+            })">
+              <span class="card-id">ID: ${product.id_producto}</span>
+            </div>
+            <img src="${imagePath}" class="card-img-top" alt="Product Image">
+            <div class="add-to-store-button ${
+              product.agregadoTienda ? "added" : ""
+            }" data-product-id="${product.id_producto}">
+              <span class="plus-icon">+</span>
+              <span class="add-to-store-text">${
+                product.agregadoTienda ? "Quitar de tienda" : "Añadir a tienda"
+              }</span>
+            </div>
+          </div>
+          <button class="btn btn-heart ${
+            esFavorito ? "clicked" : ""
+          }" onclick="handleHeartClick(${product.id_producto}, ${esFavorito})">
+            <i class="fas fa-heart"></i>
+          </button>
+          <div class="card-body text-center d-flex flex-column justify-content-between">
+            <div>
+              <h6 class="card-title"><strong>${
+                product.nombre_producto
+              }</strong></h6>
+              <p class="card-text">Stock: <strong style="color:green">${saldo_stock}</strong></p>
+              <p class="card-text">Precio Proveedor: <strong>${
+                productDetails[0].pcp
+              }</strong></p>
+              <p class="card-text">Precio Sugerido: <strong>$${pvp}</strong></p>
+              <p class="card-text">Proveedor: <a href="#" onclick="abrirModal_infoTienda('${url_imporsuit}')" style="font-size: 15px;">${
             productDetails[0].nombre_tienda
           }</a></p>
-    </div>
-    <div>
-      <button class="btn btn-description" onclick="agregarModal_marketplace(${
-        product.id_producto
-      })">Descripción</button>
-      ${boton_enviarCliente}
-    </div>
-  </div>
-  `;
+            </div>
+            <div>
+              <button class="btn btn-description" onclick="agregarModal_marketplace(${
+                product.id_producto
+              })">Descripción</button>
+              ${boton_enviarCliente}
+            </div>
+          </div>
+          `;
           cardContainer.appendChild(card);
         } else {
           console.error(
@@ -179,7 +179,6 @@ document.addEventListener("DOMContentLoaded", function () {
     loadingIndicator.style.display = "none";
   };
 
-  // Función de debounce para retrasar la ejecución hasta que el usuario deje de escribir
   function debounce(func, wait) {
     let timeout;
     return function (...args) {
@@ -204,7 +203,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Tu función toggleAddToStore permanece igual
   function toggleAddToStore(productId, isAdded) {
     let formData = new FormData();
     formData.append("id_producto", productId);
@@ -212,10 +210,9 @@ document.addEventListener("DOMContentLoaded", function () {
       url: SERVERURL + "Productos/importar_productos_tienda",
       method: "POST",
       data: formData,
-      processData: false, // No procesar los datos
-      contentType: false, // No establecer ningún tipo de contenido
+      processData: false,
+      contentType: false,
       success: function (response) {
-        // Suponiendo que la respuesta contiene el nuevo estado de agregado
         const newIsAdded = response.added;
 
         const addButton = document.querySelector(
@@ -253,7 +250,6 @@ document.addEventListener("DOMContentLoaded", function () {
     .then((data) => {
       let data_precioMaximo = parseFloat(data);
 
-      // Create the slider with obtained max price
       noUiSlider.create(slider, {
         start: [0, data_precioMaximo],
         connect: true,
@@ -269,7 +265,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }),
       });
 
-      // Update price inputs on slider update
       slider.noUiSlider.on("update", function (values, handle) {
         if (handle === 0) {
           priceMin.value = values[0];
@@ -278,7 +273,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
 
-      // Handle price range change
       slider.noUiSlider.on("change", function (values) {
         var min = values[0].replace("$", "").replace(",", "");
         var max = values[1].replace("$", "").replace(",", "");
@@ -289,9 +283,8 @@ document.addEventListener("DOMContentLoaded", function () {
     })
     .catch((error) => {
       console.error("Error fetching max price:", error);
-      // Optionally handle error scenario, e.g., show default slider values
       noUiSlider.create(slider, {
-        start: [0, 1000], // Default values
+        start: [0, 1000],
         connect: true,
         range: {
           min: 0,
@@ -319,7 +312,7 @@ document.addEventListener("DOMContentLoaded", function () {
       formData_filtro.set("nombre", q);
       clearAndFetchProducts(); // Reset and fetch products based on new filter
     }, 300)
-  ); // 300 ms de espera antes de ejecutar la función
+  );
 
   $("#categoria_filtroMarketplace").change(function () {
     var categoria = $("#categoria_filtroMarketplace").val();
@@ -339,16 +332,12 @@ document.addEventListener("DOMContentLoaded", function () {
     clearAndFetchProducts(); // Reset and fetch products based on new filter
   });
 
-  // Implementación del scroll infinito
-  window.addEventListener("scroll", () => {
-    if (
-      window.innerHeight + window.scrollY >= document.body.offsetHeight &&
-      !isLoading
-    ) {
+  loadMoreButton.addEventListener("click", () => {
+    if (!isLoading) {
       isLoading = true;
       loadingIndicator.style.display = "block";
       currentPage++;
-      displayProducts(products, currentPage, additionalProductsPerPage);
+      fetchProducts(false);
     }
   });
 });
