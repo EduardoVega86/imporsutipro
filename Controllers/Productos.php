@@ -556,4 +556,15 @@ class Productos extends Controller
         }
         echo json_encode($response);
     }
+    
+    
+    public function importar_productos_tienda($id_producto)
+    {
+
+        // Obtener el ID de inventario desde el formulario
+     // $id_inventario = $_POST['id_bodega'];
+
+       $response = $this->model->importar_productos_tienda($id_producto, $_SESSION['id_plataforma']);
+       echo json_encode($response);
+    }
 }
