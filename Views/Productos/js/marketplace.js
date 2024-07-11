@@ -248,7 +248,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   async function verificarImagen(url) {
     try {
-        const response = await fetch(url, { method: 'HEAD' });
+        const response = await fetch(url);
         if (response.ok) {
             return 1; // La imagen existe
         } else {
