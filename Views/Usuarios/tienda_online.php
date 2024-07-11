@@ -1,12 +1,7 @@
 <?php require_once './Views/templates/header.php'; ?>
 <?php require_once './Views/Usuarios/css/tiendaOnline_style.php'; ?>
 
-<style>
-    .accordion-button {
-        background-color: #171931 !important;
-        color: white !important;
-    }
-</style>
+<?php require_once './Views/Usuarios/Modales/agregar_banner.php'; ?>
 
 <div class="custom-container-fluid mt-4">
     <div class="accordion" id="accordionExample">
@@ -163,7 +158,7 @@
                 <div class="accordion-body">
                     <div class="justify-content-between align-items-center mb-3">
                         <div class="d-flex">
-                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_bannetModal"><i class="fas fa-plus"></i> Agregar</button>
+                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_bannerModal"><i class="fas fa-plus"></i> Agregar</button>
                         </div>
                     </div>
                     <div class="table-responsive">
