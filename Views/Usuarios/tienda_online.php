@@ -2,6 +2,7 @@
 <?php require_once './Views/Usuarios/css/tiendaOnline_style.php'; ?>
 
 <?php require_once './Views/Usuarios/Modales/agregar_banner.php'; ?>
+<?php require_once './Views/Usuarios/Modales/editar_banner.php'; ?>
 
 <div class="custom-container-fluid mt-4">
     <div class="accordion" id="accordionExample">

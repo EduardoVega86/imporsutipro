@@ -81,6 +81,26 @@ const listBanner = async () => {
   }
 };
 
+function editar_banner(id) {
+  let formData = new FormData();
+  formData.append("id", id);
+
+  $.ajax({
+    url: SERVERURL + "Usuarios/obtener_bannertiendaID",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    success: function (response) {
+      $("#id_banner").val(id);
+      $("#editar_bannerModal").modal("show");
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+}
+
 function eliminarBanner(id) {
   let formData = new FormData();
   formData.append("id", id);

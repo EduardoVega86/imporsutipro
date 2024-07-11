@@ -289,6 +289,12 @@ class UsuariosModel extends Query
         return $this->select($sql);
     }
 
+    public function obtener_bannertiendaID($id, $plataforma)
+    {
+        $sql = "SELECT * FROM banner_adicional WHERE id_plataforma = $plataforma AND id = $id";
+        return $this->select($sql);
+    }
+
     public function agregarBanner($titulo, $texto_banner, $texto_boton, $enlace_boton, $alineacion, $imagen, $plataforma)
     {
         $response = $this->initialResponse();
