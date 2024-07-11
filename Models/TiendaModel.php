@@ -196,4 +196,25 @@ class TiendaModel extends Query
         return $response;
     }
     
+    /* funciones tiena online */
+    public function agregarBanner($titulo, $texto_banner, $texto_boton, $enlace_boton, $alineacion, $imagen, $plataforma)
+    {
+        // codigo para agregar categoria
+        $response = $this->initialResponse();
+
+        $sql = "INSERT INTO `banner_adicional` (`titulo`,`texto_banner`,`texto_boton`,`enlace_boton`,`alineacion`, `id_plataforma`) VALUES (?, ?, ?, ?, ?, ?)";
+        $data = [$titulo, $texto_banner, $texto_boton, $enlace_boton, $alineacion, $plataforma];
+        $insertar_categoria = $this->insert($sql, $data);
+        if ($insertar_categoria == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Categoria agregada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = $insertar_categoria['message'];
+        }
+        return $response;
+    }
+    /* Fin funciones tienda online */
 }
