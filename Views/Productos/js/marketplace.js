@@ -233,20 +233,18 @@ document.addEventListener("DOMContentLoaded", function () {
       processData: false,
       contentType: false,
       success: function (response) {
-        const newIsAdded = response.added;
-
-        const addButton = document.querySelector(
-          `.add-to-store-button[data-product-id="${productId}"]`
-        );
-        if (newIsAdded) {
-          addButton.classList.add("added");
-          addButton.querySelector(".add-to-store-text").textContent =
-            "Quitar de tienda";
-        } else {
-          addButton.classList.remove("added");
-          addButton.querySelector(".add-to-store-text").textContent =
-            "Añadir a tienda";
-        }
+        if (response.status == 500) {
+          toastr.warning(
+              ""+response.message,
+              "NOTIFICACIÓN", {
+                  positionClass: "toast-bottom-center"
+              }
+          );
+      } else if (response.status == 200) {
+          toastr.success(""+response.message, "NOTIFICACIÓN", {
+              positionClass: "toast-bottom-center",
+          });
+      }
       },
       error: function (error) {
         console.error("Error al actualizar el estado del producto:", error);
