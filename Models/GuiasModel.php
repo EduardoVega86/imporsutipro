@@ -255,13 +255,13 @@ class GuiasModel extends Query
             $id_plataforma_bodega = 0;
         }
 
-        if ($id_plataforma_bodega != $id_plataforma_producto) {
+        /*  if ($id_plataforma_bodega != $id_plataforma_producto) {
             $this->notificarGuia($id_plataforma_producto, $numero_factura, $guia);
             if ($existe_full == 1) {
                 $this->notificarGuia($id_plataforma_bodega, $numero_factura, $guia);
             }
         }
-
+ */
 
         $insert_wallet = "INSERT INTO cabecera_cuenta_pagar (numero_factura, fecha, cliente, tienda, proveedor, estado_guia, total_venta, costo, precio_envio, monto_recibir, valor_cobrado, valor_pendiente, full, guia, cod, id_matriz, id_plataforma, id_proveedor, id_full, id_referido) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         $data = array($numero_factura, $fecha, $nombreDestino, $tienda_venta, $proveedor, $estado, $costo_producto, $costo_o, $precio_envio, $monto_recibir, 0, $monto_recibir, $full, $guia, $cod, $id_matriz, $id_plataforma, $id_plataforma_producto, $id_plataforma_bodega, $id_referido);
