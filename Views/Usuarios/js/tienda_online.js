@@ -39,20 +39,21 @@ const initDataTableBanner = async () => {
 
 const listBanner = async () => {
   try {
-    const response = await fetch("" + SERVERURL + "Usuarios/obtener_bannertienda");
+    const response = await fetch(
+      "" + SERVERURL + "Usuarios/obtener_bannertienda"
+    );
     const banner = await response.json();
 
     let content = ``;
     let alineacion = "";
     banner.forEach((item, index) => {
-
-        if (item.alineacion == 1){
-            alineacion = "izquierda";
-        } else if (item.alineacion == 2){
-            alineacion = "centro";
-        } else if (item.alineacion == 3){
-            alineacion = "derecha";
-        }
+      if (item.alineacion == 1) {
+        alineacion = "izquierda";
+      } else if (item.alineacion == 2) {
+        alineacion = "centro";
+      } else if (item.alineacion == 3) {
+        alineacion = "derecha";
+      }
       content += `
                 <tr>
                     <td><img src="${SERVERURL}${item.fondo_banner}" class="img-responsive" alt="profile-image" width="100px"></td>
@@ -67,7 +68,8 @@ const listBanner = async () => {
                         <i class="fa-solid fa-gear"></i>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" style="cursor: pointer;" href="${SERVERURL}wallet/pagar?tienda=${item.tienda}"><i class='bx bx-wallet'></i>Pagar</a></li>
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="editar_bodegas(${bodega.id})"><i class="fa-solid fa-pencil"></i>Editar</span></li>
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="eliminarBodega(${bodega.id})"><i class="fa-solid fa-trash-can"></i>Eliminar</span></li>
                     </ul>
                     </div>
                     </td>
