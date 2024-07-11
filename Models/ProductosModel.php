@@ -29,17 +29,19 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
       public function importar_productos_tienda($id_producto, $plataforma)
     {
           
-              $inicial_variable = $this->select("SELECT id_inventario FROM inventario_bodegas WHERE id_producto = '$id_producto' and bodega=50000");
+              $inicial_variable = $this->select("SELECT * from productos_tienda  where id_plataforma= $plataforma and id_producto=$id_producto");
 
-        //print_r($cantidad_tmp);
+       // print_r($inicial_variable);
+        $ingreso_tienda=0;
         if (empty($inicial_variable)) {
-               $sql = "SELECT * from productos_tienda  where id_plataforma= $plataforma and id_producto=$id_producto";
+              // $sql = "SELECT * from productos_tienda  where id_plataforma= $plataforma and id_producto=$id_producto";
 
-         $inventario = $this->select("SELECT * FROM inventario_bodega ib, productos p WHERE id_producto = $id_producto and ib.id_producto=p.id_producto");
+              // echo "SELECT * FROM inventario_bodegas ib, productos p WHERE pid_producto = $id_producto and ib.id_producto=p.id_producto";
+         $inventario = $this->select("SELECT * FROM inventario_bodegas ib, productos p WHERE p.id_producto = $id_producto and ib.id_producto=p.id_producto");
 
             // Insertar cada registro de tmp_cotizacion en detalle_cotizacion
             $detalle_sql = "INSERT INTO `productos_tienda` (`id_plataforma`, `id_producto`, `nombre_producto`, `imagen_principal`, `pvp`, `id_inventario`, `id_categoria`) VALUES ( ?, ?, ?, ?, ?, ?, ?)";
-            $ingreso_tienda=0;
+            
             foreach ($inventario as $inv) {
               $detalle_data = array(
                     $plataforma,
@@ -53,28 +55,24 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
                 $guardar_detalle = $this->insert($detalle_sql, $detalle_data); 
               
                 if($guardar_detalle==1){
-                    $ingreso_tienda=$ingreso_tienda+1;
+                      $response['status'] = 200;
+              $response['title'] = 'Peticion exitosa';
+              $response['message'] = 'Producto agregado correctamente';
                 }
+                
+          
                 
             }
         } else {
              $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = 'Ya tiene este producto en su tienda.';
+            $response['message'] = 'El producto ya existe en su tienda.';
         }
         
-         if ($ingreso_tienda > 0) {
-              $response['status'] = 200;
-              $response['title'] = 'Peticion exitosa';
-              $response['message'] = 'Producto agregado correctamente';
-         }else{
-           $response['status'] = 500;
-            $response['title'] = 'Error';
-            $response['message'] = 'Error al importar el producto.';  
-         }
+       
         
      
-        return $this->select($sql);
+        return $response;
     }
     
     public function obtener_productos_inventario($plataforma)
