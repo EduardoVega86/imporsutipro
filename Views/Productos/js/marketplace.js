@@ -134,9 +134,7 @@ document.addEventListener("DOMContentLoaded", function () {
               <div class="add-to-store-button ${
                 product.agregadoTienda ? "added" : ""
               }" 
-                   onclick="toggleAddToStore(${product.id_producto}, ${
-            product.agregadoTienda
-          })">
+                   onclick="toggleAddToStore(${product.id_producto})">
                 <span class="plus-icon">+</span>
                 <span class="add-to-store-text">${
                   product.agregadoTienda
@@ -201,7 +199,7 @@ document.addEventListener("DOMContentLoaded", function () {
   fetchProducts();
 
   // JavaScript para manejar el click del botón "+" y cambiar el estado
-  function toggleAddToStore(productId, isAdded) {
+  function toggleAddToStore(productId) {
     $.ajax({
       url: SERVERURL+"/Producto/importar_productos_tienda", // Cambia esta URL a la de tu API
       method: "POST",
@@ -209,12 +207,9 @@ document.addEventListener("DOMContentLoaded", function () {
         id: productId,
       },
       success: function (response) {
-        // Suponiendo que la respuesta contiene el nuevo estado de agregado
-        const newIsAdded = response.added;
+        
 
-        const addButton = document.querySelector(
-          `.add-to-store-button[onclick="toggleAddToStore(${productId}, ${isAdded})"]`
-        );
+        
         if (newIsAdded) {
           addButton.classList.add("added");
           addButton.querySelector(".add-to-store-text").textContent =
