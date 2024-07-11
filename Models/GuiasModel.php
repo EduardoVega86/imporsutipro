@@ -1,6 +1,13 @@
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
+
+require_once 'PHPMailer/PHPMailer.php';
+require_once 'PHPMailer/SMTP.php';
+require_once 'PHPMailer/Exception.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+
 class GuiasModel extends Query
 {
     public function __construct()
@@ -248,12 +255,50 @@ class GuiasModel extends Query
             $id_plataforma_bodega = 0;
         }
 
-
+        if ($id_plataforma_bodega != $id_plataforma_producto) {
+            $this->notificarGuia($id_plataforma_producto, $numero_factura, $guia);
+            if ($existe_full == 1) {
+                $this->notificarGuia($id_plataforma_bodega, $numero_factura, $guia);
+            }
+        }
 
 
         $insert_wallet = "INSERT INTO cabecera_cuenta_pagar (numero_factura, fecha, cliente, tienda, proveedor, estado_guia, total_venta, costo, precio_envio, monto_recibir, valor_cobrado, valor_pendiente, full, guia, cod, id_matriz, id_plataforma, id_proveedor, id_full, id_referido) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         $data = array($numero_factura, $fecha, $nombreDestino, $tienda_venta, $proveedor, $estado, $costo_producto, $costo_o, $precio_envio, $monto_recibir, 0, $monto_recibir, $full, $guia, $cod, $id_matriz, $id_plataforma, $id_plataforma_producto, $id_plataforma_bodega, $id_referido);
         $response = $this->insert($insert_wallet, $data);
+    }
+
+    public function notificarGuia($id_plataforma, $numero_factura, $guia)
+    {
+        $buscar_plataforma = "SELECT * FROM plataformas WHERE id_plataforma = '$id_plataforma'";
+        $plataforma = $this->select($buscar_plataforma);
+        $correo = $plataforma[0]['correo'];
+
+        require_once 'PHPMailer/Mail_guia.php';
+        $mail = new PHPMailer();
+        $mail->isSMTP();
+        $mail->SMTPDebug = $smtp_debug;
+        $mail->Host = $smtp_host;
+        $mail->SMTPAuth = true;
+        $mail->Username = $smtp_user;
+        $mail->Password = $smtp_pass;
+        $mail->Port = 465;
+        $mail->SMTPSecure = $smtp_secure;
+        $mail->isHTML(true);
+        $mail->CharSet = 'UTF-8';
+        $mail->setFrom($smtp_from, $smtp_from_name);
+        $mail->addAddress($correo);
+        $mail->Subject = 'Generación de guía';
+        $mail->Body = $message_body;
+
+
+        if (!$mail->send()) {
+            /*     echo 'El mensaje no pudo ser enviado.';
+            echo 'Mailer Error: ' . $mail->ErrorInfo;
+         */
+        } else {
+            //    echo 'El mensaje ha sido enviado';
+        }
     }
 
     public function anularGuia($id)
