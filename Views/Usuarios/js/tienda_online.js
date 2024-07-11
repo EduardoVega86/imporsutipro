@@ -92,7 +92,13 @@ function editar_banner(id) {
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
-      $("#id_banner").val(id);
+      $("#id_banner").val(response[0].id);
+      $("#titulo_editar").val(response[0].titulo);
+      $("#texto_banner_editar").val(response[0].texto_banner);
+      $("#texto_boton_editar").val(response[0].texto_boton);
+      $("#enlace_boton_editar").val(response[0].enlace_boton);
+      $("#alineacion_editar").val(response[0].alineacion).change();
+      $("#preview-imagen-editar").attr("src",SERVERURL + response[0].fondo_banner).show();
       $("#editar_bannerModal").modal("show");
     },
     error: function (jqXHR, textStatus, errorThrown) {
