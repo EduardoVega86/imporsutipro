@@ -110,7 +110,8 @@ class Tienda extends Controller
         $texto_boton = $_POST['texto_boton'];
         $enlace_boton = $_POST['enlace_boton'];
         $alineacion = $_POST['alineacion'];
-        $imagen = $_FILES['imagen'];
+        /* $imagen = $_FILES['imagen']; */
+        $imagen = "";
         $response = $this->model->agregarBanner($titulo, $texto_banner, $texto_boton, $enlace_boton, $alineacion, $imagen, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
