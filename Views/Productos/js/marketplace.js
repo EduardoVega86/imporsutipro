@@ -203,11 +203,10 @@ document.addEventListener("DOMContentLoaded", function () {
   // JavaScript para manejar el click del botón "+" y cambiar el estado
   function toggleAddToStore(productId, isAdded) {
     $.ajax({
-      url: "/api/toggleAddToStore", // Cambia esta URL a la de tu API
+      url: SERVERURL+"/Producto/importar_productos_tienda", // Cambia esta URL a la de tu API
       method: "POST",
       data: {
         id: productId,
-        added: !isAdded,
       },
       success: function (response) {
         // Suponiendo que la respuesta contiene el nuevo estado de agregado
