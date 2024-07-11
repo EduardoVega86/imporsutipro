@@ -24,14 +24,15 @@ document.addEventListener("DOMContentLoaded", function () {
       currentFetchController.abort();
     }
 
-    // Clear previous products
-    cardContainer.innerHTML = "";
-    displayedProducts.clear();
-    products = [];
-    currentPage = 1;
+    // Clear previous products after a brief delay to ensure cancellation is done
+    setTimeout(() => {
+      cardContainer.innerHTML = "";
+      displayedProducts.clear();
+      products = [];
+      currentPage = 1;
 
-    // Fetch new products after a brief delay to ensure clearing is done
-    setTimeout(() => fetchProducts(true), 100);
+      fetchProducts(true);
+    }, 100);
   }
 
   async function fetchProducts(reset = true) {
