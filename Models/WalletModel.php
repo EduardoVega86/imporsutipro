@@ -218,10 +218,8 @@ class WalletModel extends Query
                 $id_billetera = $this->select("SELECT id_billetera FROM billeteras WHERE id_plataforma = '$Id_proveedor'")[0]['id_billetera'];
                 $sql = "INSERT INTO historial_billetera (`id_billetera`, `id_responsable`, `tipo`, `motivo`, `monto`, `fecha`) VALUES (?, ?, ?, ?, ?, ?)";
                 $response =  $this->insert($sql, array($id_billetera, $usuario, "ENTRADA", "Se acredito a la billetera la guia: $guia", $costo - $full, date("Y-m-d H:i:s")));
-                print_r($response);
                 $update = "UPDATE billeteras set saldo = saldo + ($costo-$full) WHERE id_plataforma = '$Id_proveedor'";
                 $response =  $this->select($update);
-                print_r($response);
                 if ($full > 0) {
                     $factura = $this->select("SELECT * FROM facturas_cot WHERE numero_factura = '$numero_factura'");
                 }
