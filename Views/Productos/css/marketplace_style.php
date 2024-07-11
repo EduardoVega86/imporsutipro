@@ -463,10 +463,32 @@
     .boton_mas {
         font-size: 20px;
         border-radius: 0.3rem;
+        background-color: #007bff;
+        /* Color de fondo */
+        color: #fff;
+        /* Color de texto */
+        padding: 10px 20px;
+        /* Espaciado interno */
+        border: none;
+        /* Sin borde */
+        cursor: pointer;
+        /* Cursor de mano */
+        transition: background-color 0.3s, transform 0.3s;
+        /* Transiciones suaves */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        /* Sombra */
+        display: flex;
+        /* Centrado del texto */
+        align-items: center;
+        /* Centrado del texto */
+        justify-content: center;
+        /* Centrado del texto */
     }
 
-    .boton_mas :hover {
-        background-color: #007bff;
-        color: white;
+    .boton_mas:hover {
+        background-color: #0056b3;
+        /* Color de fondo al pasar el cursor */
+        transform: translateY(-2px);
+        /* Efecto de elevación */
     }
 </style>
