@@ -161,7 +161,38 @@
             </h2>
             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                    Contenido de Banner.
+                    <div class="justify-content-between align-items-center mb-3">
+                        <div class="d-flex">
+                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_productoModal"><i class="fas fa-plus"></i> Agregar</button>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <!-- <table class="table table-bordered table-striped table-hover"> -->
+                        <table id="datatable_productos" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="centered"><input type="checkbox" id="selectAll"></th>
+                                    <th class="text-nowrap">ID</th>
+                                    <th class="text-nowrap"></th>
+                                    <th class="text-nowrap">Código</th>
+                                    <th class="text-nowrap">Producto</th>
+                                    <th class="text-nowrap">Destacado</th>
+                                    <th class="text-nowrap">Existencia</th>
+                                    <th class="text-nowrap">Costo</th>
+                                    <th class="text-nowrap">P. Proveedor</th>
+                                    <th class="text-nowrap">PVP</th>
+                                    <th class="text-wrap">Precio Referencial</th>
+                                    <th class="text-nowrap">Landing</th>
+                                    <th class="text-nowrap">Imagenes</th>
+                                    <th class="text-wrap">Marketplace</th>
+                                    <th class="text-wrap">Enviar a cliente</th>
+                                    <th class="text-nowrap">Atributos</th>
+                                    <th class="text-nowrap">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody_productos"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -295,15 +326,15 @@
 
         cargarInfoTienda_inicial();
     });
-    
-    function cargarInfoTienda_inicial(){
+
+    function cargarInfoTienda_inicial() {
         $.ajax({
             url: SERVERURL + "Usuarios/obtener_infoTiendaOnline",
             type: "GET",
             dataType: "json",
             success: function(response) {
                 $("#nombre_tienda").val(response[0].nombre_tienda);
-                $('#imagen_logo').attr('src', SERVERURL+response[0].logo_url);
+                $('#imagen_logo').attr('src', SERVERURL + response[0].logo_url);
             },
             error: function(error) {
                 console.error("Error al obtener la lista de bodegas:", error);
