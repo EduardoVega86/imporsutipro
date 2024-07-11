@@ -173,6 +173,7 @@ class WalletModel extends Query
         $id_plataforma = $response[0]['id_plataforma'];
         $Id_proveedor = $response[0]['id_proveedor'];
         $guia = $response[0]['guia'];
+        $estado_guia = $response[0]['estado_guia'];
         if ($saldo === 0) {
             return;
         }
@@ -193,18 +194,21 @@ class WalletModel extends Query
         }
 
         $id_plataforma = $this->select("SELECT id_plataforma FROM plataformas WHERE url_imporsuit = '$proveedor'")[0]['id_plataforma'];
+        if ($estado_guia == 7) {
 
-        if ($proveedor != NULL && $proveedor != $tienda) {
-            $full = $this->buscarFull($numero_factura, $id_plataforma);
-            $matriz = $this->obtenerMatriz();
-            $matriz = $matriz[0]['idmatriz'];
-            $sql = "INSERT INTO cabecera_cuenta_pagar (`tienda`, `numero_factura`, `guia`, `costo`, `monto_recibir`, `valor_pendiente`, `estado_guia`, `visto`, `full`, `fecha`, `cliente`, `id_plataforma`,`id_matriz`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            $response =  $this->insert($sql, array($proveedor, $numero_factura . '-P', $guia, $costo, $costo - $full, 0, 7, 0, $full, $fecha, $cliente, $id_plataforma, $matriz));
-            $update = "UPDATE billeteras set saldo = saldo + ($costo-$full) WHERE id_plataforma = '$proveedor'";
-            $response =  $this->select($update);
+            if ($proveedor != NULL && $proveedor != $tienda) {
+                $full = $this->buscarFull($numero_factura, $id_plataforma);
+                $matriz = $this->obtenerMatriz();
+                $matriz = $matriz[0]['idmatriz'];
 
-            if ($full > 0) {
-                $factura = $this->select("SELECT * FROM facturas_cot WHERE numero_factura = '$numero_factura'");
+                $sql = "INSERT INTO cabecera_cuenta_pagar (`tienda`, `numero_factura`, `guia`, `costo`, `monto_recibir`, `valor_pendiente`, `estado_guia`, `visto`, `full`, `fecha`, `cliente`, `id_plataforma`,`id_matriz`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                $response =  $this->insert($sql, array($proveedor, $numero_factura . '-P', $guia, $costo, $costo - $full, 0, 7, 1, $full, $fecha, $cliente, $id_plataforma, $matriz));
+                $update = "UPDATE billeteras set saldo = saldo + ($costo-$full) WHERE id_plataforma = '$proveedor'";
+                $response =  $this->select($update);
+
+                if ($full > 0) {
+                    $factura = $this->select("SELECT * FROM facturas_cot WHERE numero_factura = '$numero_factura'");
+                }
             }
         }
 
