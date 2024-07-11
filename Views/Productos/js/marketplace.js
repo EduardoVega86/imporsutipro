@@ -24,15 +24,18 @@ document.addEventListener("DOMContentLoaded", function () {
       currentFetchController.abort();
     }
 
-    // Clear previous products after a brief delay to ensure cancellation is done
-    setTimeout(() => {
-      cardContainer.innerHTML = "";
-      displayedProducts.clear();
-      products = [];
-      currentPage = 1;
+    // Clear previous products
+    clearProductList();
 
-      fetchProducts(true);
-    }, 100);
+    // Fetch new products after a brief delay to ensure clearing is done
+    setTimeout(() => fetchProducts(true), 100);
+  }
+
+  function clearProductList() {
+    cardContainer.innerHTML = "";
+    displayedProducts.clear();
+    products = [];
+    currentPage = 1;
   }
 
   async function fetchProducts(reset = true) {
@@ -46,8 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (reset) {
       isLoading = true; // Prevent further actions until the list is reset
       loadingIndicator.style.display = "block";
-      cardContainer.innerHTML = ""; // Clear the container immediately
-      displayedProducts.clear(); // Clear the displayed products set
+      clearProductList(); // Clear the container immediately
     }
 
     try {
