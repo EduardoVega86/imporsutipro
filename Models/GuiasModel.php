@@ -272,7 +272,7 @@ class GuiasModel extends Query
     {
         $buscar_plataforma = "SELECT * FROM plataformas WHERE id_plataforma = '$id_plataforma'";
         $plataforma = $this->select($buscar_plataforma);
-        $correo = $plataforma[0]['correo'];
+        $correo = $plataforma[0]['email'];
 
         require_once 'PHPMailer/Mail_guia.php';
         $mail = new PHPMailer();

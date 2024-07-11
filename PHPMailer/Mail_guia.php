@@ -10,37 +10,6 @@ $smtp_from = $smtp_user;
 $smtp_from_name = 'ImporSuit';
 
 
-switch ($nombreDia) {
-    case 'Monday':
-        $nombreDia = 'Lunes';
-        break;
-
-    case 'Tuesday':
-        $nombreDia = 'Martes';
-        break;
-
-    case 'Wednesday':
-        $nombreDia = 'Miércoles';
-        break;
-
-    case 'Thursday':
-        $nombreDia = 'Jueves';
-        break;
-
-    case 'Friday':
-        $nombreDia = 'Viernes';
-        break;
-
-    case 'Saturday':
-        $nombreDia = 'Sábado';
-        break;
-
-    case 'Sunday':
-        $nombreDia = 'Domingo';
-        break;
-}
-
-
 $message_body = '<!DOCTYPE html>
 <html lang="es">
 

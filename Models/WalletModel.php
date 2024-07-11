@@ -22,7 +22,6 @@ class WalletModel extends Query
                                             SELECT tienda, COUNT(*) AS count_visto_0, id_plataforma
                                             FROM cabecera_cuenta_pagar
                                             WHERE visto = 0
-                                            and estado_guia in (7, 9)
                                             and id_matriz = $id_matriz
                                             
                                             GROUP BY id_plataforma
@@ -61,6 +60,7 @@ class WalletModel extends Query
 											plataformas p ON p.id_plataforma = cv0.id_plataforma
                                         ORDER BY 
                                             count_visto_0 DESC;");
+
         return json_encode($datos_tienda);
     }
 
