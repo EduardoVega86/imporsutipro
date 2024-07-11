@@ -50,9 +50,9 @@
                     <div class="col-md-6">
                         <label for="alineacion" class="form-label">Alineación</label>
                         <select class="form-select" id="alineacion">
-                            <option value="izquierda">Izquierda</option>
-                            <option value="centro">Centro</option>
-                            <option value="derecha">Derecha</option>
+                            <option value="1">Izquierda</option>
+                            <option value="2">Centro</option>
+                            <option value="3">Derecha</option>
                         </select>
                     </div>
                 </div>
