@@ -50,8 +50,10 @@
     <div id="card-container" class="card-container">
         <!-- Tarjetas de productos se insertarán aquí -->
     </div>
-    <div id="loading-indicator" style="display: none;">Cargando...</div>
-    <button id="load-more" style="display: none; font-size:15px;"><i class="fa-solid fa-plus"></i></button>
+    <div style="padding: 10px;">
+        <div id="loading-indicator" style="display: none;">Cargando...</div>
+        <button id="load-more" style="display: none; font-size:20px;"><i class="fa-solid fa-plus"></i></button>
+    </div>
 
 </div>
 
