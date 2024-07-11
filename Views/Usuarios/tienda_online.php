@@ -163,15 +163,14 @@
                 <div class="accordion-body">
                     <div class="justify-content-between align-items-center mb-3">
                         <div class="d-flex">
-                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_productoModal"><i class="fas fa-plus"></i> Agregar</button>
+                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_bannetModal"><i class="fas fa-plus"></i> Agregar</button>
                         </div>
                     </div>
                     <div class="table-responsive">
                         <!-- <table class="table table-bordered table-striped table-hover"> -->
-                        <table id="datatable_productos" class="table table-striped">
+                        <table id="datatable_banner" class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th class="centered"><input type="checkbox" id="selectAll"></th>
                                     <th class="text-nowrap">ID</th>
                                     <th class="text-nowrap"></th>
                                     <th class="text-nowrap">Código</th>
@@ -190,7 +189,7 @@
                                     <th class="text-nowrap">Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody id="tableBody_productos"></tbody>
+                            <tbody id="tableBody_banner"></tbody>
                         </table>
                     </div>
                 </div>
@@ -248,7 +247,7 @@
 </div>
 
 
-<!-- <script src="<?php echo SERVERURL ?>/Views/Productos/js/marketplace.js"></script> -->
+<script src="<?php echo SERVERURL ?>/Views/Usuarios/js/tienda_online.js"></script>
 
 <script>
     $('#imageInputPrincipal').on('change', function(event) {
