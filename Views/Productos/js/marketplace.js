@@ -17,8 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const loadMoreButton = document.getElementById("load-more");
   let isLoading = false;
   let currentFetchController = null;
-  let isDisplaying = false;
-  let currentDisplayTask = null;
+  let currentDisplayController = null;
 
   async function clearAndFetchProducts() {
     // Cancel any ongoing fetch
@@ -27,9 +26,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Cancel any ongoing display task
-    if (currentDisplayTask) {
-      clearTimeout(currentDisplayTask);
-      isDisplaying = false;
+    if (currentDisplayController) {
+      currentDisplayController.abort();
     }
 
     // Clear previous products
@@ -97,109 +95,109 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   const displayProducts = (products, page, perPage) => {
-    isDisplaying = true;
+    if (currentDisplayController) {
+      currentDisplayController.abort();
+    }
+
+    currentDisplayController = new AbortController();
+    const { signal } = currentDisplayController;
+
     const start = (page - 1) * perPage;
     const end = start + perPage;
     const paginatedProducts = products.slice(start, end);
 
-    const displayTask = async (product) => {
-      if (!isDisplaying) return;
-
+    paginatedProducts.forEach((product) => {
       if (displayedProducts.has(product.id_producto)) return;
       displayedProducts.add(product.id_producto);
 
-      try {
-        const response = await fetch(
-          SERVERURL + "marketplace/obtener_producto/" + product.id_producto
-        );
-        const productDetails = await response.json();
-
-        if (productDetails && productDetails.length > 0) {
-          const { costo_producto, pvp, saldo_stock, url_imporsuit } =
-            productDetails[0];
-
-          let boton_enviarCliente = ``;
-          if (product.producto_variable == 0) {
-            boton_enviarCliente = `<button class="btn btn-import" onclick="enviar_cliente(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})">Enviar a cliente</button>`;
-          } else if (product.producto_variable == 1) {
-            boton_enviarCliente = `<button class="btn btn-import" onclick="abrir_modalSeleccionAtributo(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})">Enviar a cliente</button>`;
+      fetchProductDetails(product.id_producto, signal)
+        .then((productDetails) => {
+          if (productDetails) {
+            createProductCard(product, productDetails[0]);
           }
-
-          const esFavorito = product.Es_Favorito === "1"; // Conversión a booleano
-
-          const card = document.createElement("div");
-          card.className = "card card-custom position-relative";
-          const imagePath = productDetails[0].image_path.includes("http")
-            ? productDetails[0].image_path
-            : `${SERVERURL}${productDetails[0].image_path}`;
-
-          card.innerHTML = `
-            <div class="image-container position-relative">
-              <div class="card-id-container" onclick="copyToClipboard(${
-                product.id_producto
-              })">
-                <span class="card-id">ID: ${product.id_producto}</span>
-              </div>
-              <img src="${imagePath}" class="card-img-top" alt="Product Image">
-              <div class="add-to-store-button ${
-                product.agregadoTienda ? "added" : ""
-              }" data-product-id="${product.id_producto}">
-                <span class="plus-icon">+</span>
-                <span class="add-to-store-text">${
-                  product.agregadoTienda
-                    ? "Quitar de tienda"
-                    : "Añadir a tienda"
-                }</span>
-              </div>
-            </div>
-            <button class="btn btn-heart ${
-              esFavorito ? "clicked" : ""
-            }" onclick="handleHeartClick(${
-            product.id_producto
-          }, ${esFavorito})">
-              <i class="fas fa-heart"></i>
-            </button>
-            <div class="card-body text-center d-flex flex-column justify-content-between">
-              <div>
-                <h6 class="card-title"><strong>${
-                  product.nombre_producto
-                }</strong></h6>
-                <p class="card-text">Stock: <strong style="color:green">${saldo_stock}</strong></p>
-                <p class="card-text">Precio Proveedor: <strong>${
-                  productDetails[0].pcp
-                }</strong></p>
-                <p class="card-text">Precio Sugerido: <strong>$${pvp}</strong></p>
-                <p class="card-text">Proveedor: <a href="#" onclick="abrirModal_infoTienda('${url_imporsuit}')" style="font-size: 15px;">${
-            productDetails[0].nombre_tienda
-          }</a></p>
-              </div>
-              <div>
-                <button class="btn btn-description" onclick="agregarModal_marketplace(${
-                  product.id_producto
-                })">Descripción</button>
-                ${boton_enviarCliente}
-              </div>
-            </div>
-          `;
-          cardContainer.appendChild(card);
-        } else {
-          console.error(
-            "Error: La respuesta de la API no contiene los datos esperados."
-          );
-        }
-      } catch (error) {
-        console.error("Error al obtener los detalles del producto:", error);
-      }
-    };
-
-    // Display products one by one
-    paginatedProducts.forEach((product, index) => {
-      currentDisplayTask = setTimeout(() => displayTask(product), index * 50); // Adjust delay as needed
+        })
+        .catch((error) => {
+          if (error.name === "AbortError") {
+            console.log("Display task canceled");
+          } else {
+            console.error("Error al obtener los detalles del producto:", error);
+          }
+        });
     });
-
-    isDisplaying = false;
-    loadingIndicator.style.display = "none";
   };
+
+  async function fetchProductDetails(productId, signal) {
+    const response = await fetch(
+      SERVERURL + "marketplace/obtener_producto/" + productId,
+      { signal }
+    );
+    return await response.json();
+  }
+
+  function createProductCard(product, productDetails) {
+    const { costo_producto, pvp, saldo_stock, url_imporsuit } = productDetails;
+
+    let boton_enviarCliente = ``;
+    if (product.producto_variable == 0) {
+      boton_enviarCliente = `<button class="btn btn-import" onclick="enviar_cliente(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})">Enviar a cliente</button>`;
+    } else if (product.producto_variable == 1) {
+      boton_enviarCliente = `<button class="btn btn-import" onclick="abrir_modalSeleccionAtributo(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})">Enviar a cliente</button>`;
+    }
+
+    const esFavorito = product.Es_Favorito === "1"; // Conversión a booleano
+
+    const card = document.createElement("div");
+    card.className = "card card-custom position-relative";
+    const imagePath = productDetails.image_path.includes("http")
+      ? productDetails.image_path
+      : `${SERVERURL}${productDetails.image_path}`;
+
+    card.innerHTML = `
+      <div class="image-container position-relative">
+        <div class="card-id-container" onclick="copyToClipboard(${
+          product.id_producto
+        })">
+          <span class="card-id">ID: ${product.id_producto}</span>
+        </div>
+        <img src="${imagePath}" class="card-img-top" alt="Product Image">
+        <div class="add-to-store-button ${
+          product.agregadoTienda ? "added" : ""
+        }" data-product-id="${product.id_producto}">
+          <span class="plus-icon">+</span>
+          <span class="add-to-store-text">${
+            product.agregadoTienda ? "Quitar de tienda" : "Añadir a tienda"
+          }</span>
+        </div>
+      </div>
+      <button class="btn btn-heart ${
+        esFavorito ? "clicked" : ""
+      }" onclick="handleHeartClick(${product.id_producto}, ${esFavorito})">
+        <i class="fas fa-heart"></i>
+      </button>
+      <div class="card-body text-center d-flex flex-column justify-content-between">
+        <div>
+          <h6 class="card-title"><strong>${
+            product.nombre_producto
+          }</strong></h6>
+          <p class="card-text">Stock: <strong style="color:green">${saldo_stock}</strong></p>
+          <p class="card-text">Precio Proveedor: <strong>${
+            productDetails.pcp
+          }</strong></p>
+          <p class="card-text">Precio Sugerido: <strong>$${pvp}</strong></p>
+          <p class="card-text">Proveedor: <a href="#" onclick="abrirModal_infoTienda('${url_imporsuit}')" style="font-size: 15px;">${
+      productDetails.nombre_tienda
+    }</a></p>
+        </div>
+        <div>
+          <button class="btn btn-description" onclick="agregarModal_marketplace(${
+            product.id_producto
+          })">Descripción</button>
+          ${boton_enviarCliente}
+        </div>
+      </div>
+    `;
+    cardContainer.appendChild(card);
+  }
 
   function debounce(func, wait) {
     let timeout;
