@@ -22,6 +22,7 @@ class WalletModel extends Query
                                             SELECT tienda, COUNT(*) AS count_visto_0, id_plataforma
                                             FROM cabecera_cuenta_pagar
                                             WHERE visto = 0
+                                            and estado_guia in (7, 9)
                                             and id_matriz = $id_matriz
                                             
                                             GROUP BY id_plataforma
@@ -211,6 +212,13 @@ class WalletModel extends Query
 
                 $sql = "INSERT INTO cabecera_cuenta_pagar (`tienda`, `numero_factura`, `guia`, `costo`, `monto_recibir`, `valor_pendiente`, `estado_guia`, `visto`, `full`, `fecha`, `cliente`, `id_plataforma`,`id_matriz`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 $response =  $this->insert($sql, array($proveedor, $numero_factura . '-P', $guia, $costo, $costo - $full, 0, 7, 1, $full, $fecha, $cliente, $id_plataforma, $matriz));
+
+                //historial de billetera
+
+                $id_billetera = $this->select("SELECT id_billetera FROM billeteras WHERE tienda = $proveedor")[0]['id_billetera'];
+                $sql = "INSERT INTO historial_billetera (`id_billetera`, `id_responsable`, `tipo`, `motivo`, `monto`, `fecha`) VALUES (?, ?, ?, ?, ?, ?)";
+                $response =  $this->insert($sql, array($id_billetera, $usuario, "ENTRADA", "Se acredito a la billetera la guia: $guia", $costo - $full, date("Y-m-d H:i:s")));
+
                 $update = "UPDATE billeteras set saldo = saldo + ($costo-$full) WHERE id_plataforma = '$proveedor'";
                 $response =  $this->select($update);
 
