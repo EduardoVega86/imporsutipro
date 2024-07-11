@@ -416,7 +416,7 @@
         position: absolute;
         bottom: 10px;
         right: 10px;
-        background-color: #F7F7F7;
+        background-color: #07E300;
         color: black;
         border: none;
         border-radius: 0.3rem;

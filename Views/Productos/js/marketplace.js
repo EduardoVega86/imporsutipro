@@ -148,9 +148,33 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const card = document.createElement("div");
     card.className = "card card-custom position-relative";
-    const imagePath = productDetails.image_path.includes("http")
-      ? productDetails.image_path
-      : `${SERVERURL}${productDetails.image_path}`;
+    const imagePath =
+      productDetails.image_path &&
+      productDetails.image_path.includes("http") &&
+      checkImage(productDetails.image_path)
+        ? productDetails.image_path
+        : productDetails.image_path
+        ? `${SERVERURL}${productDetails.image_path}`
+        : "/public/img/broken-image.png";
+
+    function checkImage(url) {
+      const img = new Image();
+      img.src = url;
+      img.onerror = function () {
+        return false;
+      };
+      img.onload = function () {
+        return true;
+      };
+    }
+
+    // Uso en el contexto adecuado
+    const productImage = new Image();
+    productImage.src = imagePath;
+
+    productImage.onerror = function () {
+      productImage.src = "/public/img/broken-image.png";
+    };
 
     card.innerHTML = `
       <div class="image-container position-relative">
@@ -235,17 +259,14 @@ document.addEventListener("DOMContentLoaded", function () {
       success: function (response) {
         response = JSON.parse(response);
         if (response.status == 500) {
-          toastr.warning(
-              ""+response.message,
-              "NOTIFICACIÓN", {
-                  positionClass: "toast-bottom-center"
-              }
-          );
-      } else if (response.status == 200) {
-          toastr.success(""+response.message, "NOTIFICACIÓN", {
-              positionClass: "toast-bottom-center",
+          toastr.warning("" + response.message, "NOTIFICACIÓN", {
+            positionClass: "toast-bottom-center",
           });
-      }
+        } else if (response.status == 200) {
+          toastr.success("" + response.message, "NOTIFICACIÓN", {
+            positionClass: "toast-bottom-center",
+          });
+        }
       },
       error: function (error) {
         console.error("Error al actualizar el estado del producto:", error);
