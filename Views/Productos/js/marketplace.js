@@ -124,54 +124,47 @@ document.addEventListener("DOMContentLoaded", function () {
             : `${SERVERURL}${productDetails[0].image_path}`;
 
           card.innerHTML = `
-            <div class="image-container position-relative">
-              <div class="card-id-container" onclick="copyToClipboard(${
-                product.id_producto
-              })">
-                <span class="card-id">ID: ${product.id_producto}</span>
-              </div>
-              <img src="${imagePath}" class="card-img-top" alt="Product Image">
-              <div class="add-to-store-button ${
-                product.agregadoTienda ? "added" : ""
-              }" 
-                   onclick="toggleAddToStore(${product.id_producto})">
-                <span class="plus-icon">+</span>
-                <span class="add-to-store-text">${
-                  product.agregadoTienda
-                    ? "Quitar de tienda"
-                    : "Añadir a tienda"
-                }</span>
-              </div>
-            </div>
-            <button class="btn btn-heart ${
-              esFavorito ? "clicked" : ""
-            }" onclick="handleHeartClick(${
-            product.id_producto
-          }, ${esFavorito})">
-              <i class="fas fa-heart"></i>
-            </button>
-            <div class="card-body text-center d-flex flex-column justify-content-between">
-              <div>
-                <h6 class="card-title"><strong>${
-                  product.nombre_producto
-                }</strong></h6>
-                <p class="card-text">Stock: <strong style="color:green">${saldo_stock}</strong></p>
-                <p class="card-text">Precio Proveedor: <strong>${
-                  productDetails[0].pcp
-                }</strong></p>
-                <p class="card-text">Precio Sugerido: <strong>$${pvp}</strong></p>
-                <p class="card-text">Proveedor: <a href="#" onclick="abrirModal_infoTienda('${url_imporsuit}')" style="font-size: 15px;">${
+  <div class="image-container position-relative">
+    <div class="card-id-container" onclick="copyToClipboard(${
+      product.id_producto
+    })">
+      <span class="card-id">ID: ${product.id_producto}</span>
+    </div>
+    <img src="${imagePath}" class="card-img-top" alt="Product Image">
+    <div class="add-to-store-button ${
+      product.agregadoTienda ? "added" : ""
+    }" data-product-id="${product.id_producto}">
+      <span class="plus-icon">+</span>
+      <span class="add-to-store-text">${
+        product.agregadoTienda ? "Quitar de tienda" : "Añadir a tienda"
+      }</span>
+    </div>
+  </div>
+  <button class="btn btn-heart ${
+    esFavorito ? "clicked" : ""
+  }" onclick="handleHeartClick(${product.id_producto}, ${esFavorito})">
+    <i class="fas fa-heart"></i>
+  </button>
+  <div class="card-body text-center d-flex flex-column justify-content-between">
+    <div>
+      <h6 class="card-title"><strong>${product.nombre_producto}</strong></h6>
+      <p class="card-text">Stock: <strong style="color:green">${saldo_stock}</strong></p>
+      <p class="card-text">Precio Proveedor: <strong>${
+        productDetails[0].pcp
+      }</strong></p>
+      <p class="card-text">Precio Sugerido: <strong>$${pvp}</strong></p>
+      <p class="card-text">Proveedor: <a href="#" onclick="abrirModal_infoTienda('${url_imporsuit}')" style="font-size: 15px;">${
             productDetails[0].nombre_tienda
           }</a></p>
-              </div>
-              <div>
-                <button class="btn btn-description" onclick="agregarModal_marketplace(${
-                  product.id_producto
-                })">Descripción</button>
-                ${boton_enviarCliente}
-              </div>
-            </div>
-          `;
+    </div>
+    <div>
+      <button class="btn btn-description" onclick="agregarModal_marketplace(${
+        product.id_producto
+      })">Descripción</button>
+      ${boton_enviarCliente}
+    </div>
+  </div>
+`;
           cardContainer.appendChild(card);
         } else {
           console.error(
@@ -198,26 +191,35 @@ document.addEventListener("DOMContentLoaded", function () {
 
   fetchProducts();
 
-  // JavaScript para manejar el click del botón "+" y cambiar el estado
-  function toggleAddToStore(productId) {
+  cardContainer.addEventListener("click", function(event) {
+    const target = event.target;
+    if (target.classList.contains("add-to-store-button") || target.closest(".add-to-store-button")) {
+      const button = target.closest(".add-to-store-button");
+      const productId = button.getAttribute("data-product-id");
+      const isAdded = button.classList.contains("added");
+      toggleAddToStore(productId, isAdded);
+    }
+  });
+
+  // Tu función toggleAddToStore permanece igual
+  function toggleAddToStore(productId, isAdded) {
     $.ajax({
-      url: SERVERURL+"/Producto/importar_productos_tienda", // Cambia esta URL a la de tu API
+      url: SERVERURL + "/Producto/importar_productos_tienda", // Cambia esta URL a la de tu API
       method: "POST",
       data: {
         id: productId,
       },
       success: function (response) {
-        
+        // Suponiendo que la respuesta contiene el nuevo estado de agregado
+        const newIsAdded = response.added;
 
-        
+        const addButton = document.querySelector(`.add-to-store-button[data-product-id="${productId}"]`);
         if (newIsAdded) {
           addButton.classList.add("added");
-          addButton.querySelector(".add-to-store-text").textContent =
-            "Quitar de tienda";
+          addButton.querySelector(".add-to-store-text").textContent = "Quitar de tienda";
         } else {
           addButton.classList.remove("added");
-          addButton.querySelector(".add-to-store-text").textContent =
-            "Añadir a tienda";
+          addButton.querySelector(".add-to-store-text").textContent = "Añadir a tienda";
         }
       },
       error: function (error) {
