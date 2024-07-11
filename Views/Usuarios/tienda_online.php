@@ -166,21 +166,12 @@
                         <table id="datatable_productos" class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th class="text-nowrap">ID</th>
-                                    <th class="text-nowrap"></th>
-                                    <th class="text-nowrap">Código</th>
-                                    <th class="text-nowrap">Producto</th>
-                                    <th class="text-nowrap">Destacado</th>
-                                    <th class="text-nowrap">Existencia</th>
-                                    <th class="text-nowrap">Costo</th>
-                                    <th class="text-nowrap">P. Proveedor</th>
-                                    <th class="text-nowrap">PVP</th>
-                                    <th class="text-wrap">Precio Referencial</th>
-                                    <th class="text-nowrap">Landing</th>
-                                    <th class="text-nowrap">Imagenes</th>
-                                    <th class="text-wrap">Marketplace</th>
-                                    <th class="text-wrap">Enviar a cliente</th>
-                                    <th class="text-nowrap">Atributos</th>
+                                    <th class="text-nowrap">Fondo Banner</th>
+                                    <th class="text-nowrap">Título</th>
+                                    <th class="text-nowrap">Texto Banner</th>
+                                    <th class="text-nowrap">Texto Boton</th>
+                                    <th class="text-nowrap">Enlace Boton</th>
+                                    <th class="text-nowrap">Alineacion</th>
                                     <th class="text-nowrap">Acciones</th>
                                 </tr>
                             </thead>

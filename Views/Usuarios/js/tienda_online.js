@@ -43,19 +43,24 @@ const listBanner = async () => {
     const banner = await response.json();
 
     let content = ``;
-
+    let alineacion = "";
     banner.forEach((item, index) => {
 
+        if (item.alineacion == 1){
+            alineacion = "izquierda";
+        } else if (item.alineacion == 2){
+            alineacion = "centro";
+        } else if (item.alineacion == 3){
+            alineacion = "derecha";
+        }
       content += `
                 <tr>
-                    <td><a class="dropdown-item link-like" href="${SERVERURL}wallet/pagar?tienda=${item.tienda}">${item.tienda}</a></td>
-                    <td>${item.ventas}</td>
-                    <td>${item.utilidad}</td>
-                    <td>${item.count_visto_0}</td>
-                    <td>
-                    <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel_general('${item.tienda}')">Descargar Excel general</button>
-                    <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel('${item.tienda}')">Descargar Excel</button>
-                    </td>
+                    <td><img src="${SERVERURL}${item.fondo_banner}" class="img-responsive" alt="profile-image" width="100px"></td>
+                    <td>${item.titulo}</td>
+                    <td>${item.texto_banner}</td>
+                    <td>${item.texto_boton}</td>
+                    <td>${item.enlace_boton}</td>
+                    <td>${alineacion}</td>
                     <td>
                     <div class="dropdown">
                     <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
