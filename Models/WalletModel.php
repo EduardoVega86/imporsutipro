@@ -201,6 +201,14 @@ class WalletModel extends Query
                 $matriz = $this->obtenerMatriz();
                 $matriz = $matriz[0]['idmatriz'];
 
+                //verificar si existe billtera
+
+                $sql = "SELECT * FROM billeteras WHERE id_plataforma = '$proveedor'";
+                $response =  $this->select($sql);
+                if (count($response) == 0) {
+                    $this->crearBilletera($proveedor);
+                }
+
                 $sql = "INSERT INTO cabecera_cuenta_pagar (`tienda`, `numero_factura`, `guia`, `costo`, `monto_recibir`, `valor_pendiente`, `estado_guia`, `visto`, `full`, `fecha`, `cliente`, `id_plataforma`,`id_matriz`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 $response =  $this->insert($sql, array($proveedor, $numero_factura . '-P', $guia, $costo, $costo - $full, 0, 7, 1, $full, $fecha, $cliente, $id_plataforma, $matriz));
                 $update = "UPDATE billeteras set saldo = saldo + ($costo-$full) WHERE id_plataforma = '$proveedor'";
