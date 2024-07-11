@@ -423,6 +423,7 @@ class UsuariosModel extends Query
     }
 
 
+
     public function eliminarBanner($id, $plataforma)
     {
         // codigo para eliminar categoria

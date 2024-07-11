@@ -106,6 +106,7 @@
 
             // Crea un objeto FormData
             var formData = new FormData();
+            formData.append('id_banner', $('#id_banner').val());
             formData.append('titulo', $('#titulo').val());
             formData.append('texto_banner', $('#texto_banner').val());
             formData.append('texto_boton', $('#texto_boton').val());

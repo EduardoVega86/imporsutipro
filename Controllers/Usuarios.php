@@ -118,8 +118,8 @@ class Usuarios extends Controller
         $response = $this->model->agregarProveedor($id_plataforma, $proveedor);
         echo json_encode($response);
     }
-    
-     public function agregarFull()
+
+    public function agregarFull()
     {
         $id_plataforma = $_POST['id_plataforma'];
         $proveedor = $_POST['proveedor'];
@@ -249,42 +249,44 @@ class Usuarios extends Controller
     public function obtener_bannertienda()
     {
         $response = $this->model->obtener_bannertienda($_SESSION['id_plataforma']);
-       echo json_encode($response);
+        echo json_encode($response);
     }
 
     public function obtener_bannertiendaID()
     {
         $id = $_POST['id'];
         $response = $this->model->obtener_bannertiendaID($id, $_SESSION['id_plataforma']);
-       echo json_encode($response);
+        echo json_encode($response);
     }
 
-     public function agregarBanner()
-     {
-         $titulo = $_POST['titulo'];
-         $texto_banner = $_POST['texto_banner'];
-         $texto_boton = $_POST['texto_boton'];
-         $enlace_boton = $_POST['enlace_boton'];
-         $alineacion = $_POST['alineacion'];
-         $imagen = $_FILES['imagen'];
-         $response = $this->model->agregarBanner($titulo, $texto_banner, $texto_boton, $enlace_boton, $alineacion, $imagen, $_SESSION['id_plataforma']);
-         echo json_encode($response);
-     }
+    public function agregarBanner()
+    {
+        $titulo = $_POST['titulo'];
+        $texto_banner = $_POST['texto_banner'];
+        $texto_boton = $_POST['texto_boton'];
+        $enlace_boton = $_POST['enlace_boton'];
+        $alineacion = $_POST['alineacion'];
+        $imagen = $_FILES['imagen'];
+        $response = $this->model->agregarBanner($titulo, $texto_banner, $texto_boton, $enlace_boton, $alineacion, $imagen, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
 
-     public function editarBanner()
-     {
-         $titulo = $_POST['titulo'];
-         $texto_banner = $_POST['texto_banner'];
-         $texto_boton = $_POST['texto_boton'];
-         $enlace_boton = $_POST['enlace_boton'];
-         $alineacion = $_POST['alineacion'];
-         $imagen = $_FILES['imagen'];
-         
-         $response = $this->model->editarBanner($titulo, $texto_banner, $texto_boton, $enlace_boton, $alineacion, $imagen, $_SESSION['id_plataforma']);
-         echo json_encode($response);
-     }
-     
-     public function eliminarBanner()
+    public function editarBanner()
+    {
+        $id_banner = $_POST['id_banner'];
+        $titulo = $_POST['titulo'];
+        $texto_banner = $_POST['texto_banner'];
+        $texto_boton = $_POST['texto_boton'];
+        $enlace_boton = $_POST['enlace_boton'];
+        $alineacion = $_POST['alineacion'];
+        $imagen = isset($_FILES['imagen']) ? $_FILES['imagen'] : null;
+
+        $response = $this->model->editarBanner($id_banner, $titulo, $texto_banner, $texto_boton, $enlace_boton, $alineacion, $imagen, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
+
+    public function eliminarBanner()
     {
         $id = $_POST['id'];
         $response = $this->model->eliminarBanner($id, $_SESSION['id_plataforma']);
