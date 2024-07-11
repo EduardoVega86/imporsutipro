@@ -104,7 +104,7 @@ const listProductos = async () => {
     let subir_marketplace = "";
     let producto_variable = "";
     let enlace_imagen = "";
-    let enviaCliente= "";
+    let enviaCliente = "";
     productos.forEach((producto, index) => {
       enlace_imagen = obtenerURLImagen(producto.image_path, SERVERURL);
       if (!producto.image_path) {
@@ -124,11 +124,9 @@ const listProductos = async () => {
       } else {
         producto_variable = `<img src="https://new.imporsuitpro.com/public/img/atributos.png" width="30px" id="buscar_traking" alt="buscar_traking" onclick="abrir_modalInventarioVariable(${producto.id_producto})">`;
         enviaCliente = `<i style="color:red;" style='cursor:pointer' class="fa-regular fa-paper-plane" onclick="abrir_modalSeleccionAtributo(${producto.id_producto},'${producto.sku}',${producto.pvp},${producto.id_inventario})"></i>`;
-        
       }
       content += `
                 <tr>
-                    <td><input type="checkbox" class="selectCheckbox" data-id="${producto.id_producto}"></td>
                     <td>${producto.id_producto}</td>
                     <td>${cargar_imagen}</td>
                     <td>${producto.codigo_producto}</td>
@@ -234,47 +232,6 @@ function customizeButtons() {
     );
   });
 }
-
-function toggleSelectAll() {
-  const selectAllCheckbox = document.getElementById("selectAll");
-  const checkboxes = document.querySelectorAll(".selectCheckbox");
-  checkboxes.forEach(
-    (checkbox) => (checkbox.checked = selectAllCheckbox.checked)
-  );
-}
-
-document
-  .getElementById("subidaMasiva_marketplace")
-  .addEventListener("click", async () => {
-    const selectedCheckboxes = document.querySelectorAll(
-      ".selectCheckbox:checked"
-    );
-    const ids = Array.from(selectedCheckboxes).map((checkbox) =>
-      checkbox.getAttribute("data-id")
-    );
-
-    if (ids.length > 0) {
-      for (let id of ids) {
-        $.ajax({
-          type: "POST",
-          url: SERVERURL + "productos/subir_marketplace",
-          data: { id: id }, // Enviar el ID como un objeto
-          dataType: "json", // Asegurarse de que la respuesta se trata como JSON
-          success: function (response) {},
-          error: function (xhr, status, error) {
-            console.error("Error en la solicitud AJAX:", error);
-            alert("Hubo un problema al subir al marketplace");
-          },
-        });
-      }
-      toastr.success("Subida masiva completada", "NOTIFICACIÓN", {
-        positionClass: "toast-bottom-center",
-      });
-      reloadDataTableProductos();
-    } else {
-      alert("No hay productos seleccionados");
-    }
-  });
 
 function eliminarProducto(id) {
   $.ajax({

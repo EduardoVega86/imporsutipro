@@ -14,7 +14,7 @@
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
         <h2 class="text-center mb-4">Productos</h2>
-        <div class="filtros_producos justify-content-between align-items-center mb-3">
+        <!-- <div class="filtros_producos justify-content-between align-items-center mb-3">
             <div class="primerSeccion_filtros">
                 <select id="categoria_filtro" class="form-select me-2">
                     <option selected value="">-- Seleccionar Categorías --</option>
@@ -33,13 +33,12 @@
                 <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#atributosModal"><i class="fas fa-list"></i> Atributos</button>
                 <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_productoModal"><i class="fas fa-plus"></i> Agregar</button>
             </div>
-        </div>
+        </div> -->
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
             <table id="datatable_productos" class="table table-striped">
                 <thead>
                     <tr>
-                        <th class="centered"><input type="checkbox" id="selectAll"></th>
                         <th class="text-nowrap">ID</th>
                         <th class="text-nowrap"></th>
                         <th class="text-nowrap">Código</th>
