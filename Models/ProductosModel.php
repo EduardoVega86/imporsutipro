@@ -173,10 +173,12 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
         $sql = "UPDATE `productos_tienda` SET `nombre_producto`=?,"
                 . "`pvp_tienda`=?,`id_categoria`=?,"
                 . "`pref`=? WHERE id_producto_tienda=?";
-        $data = [$nombre, $pvp_tienda, $id_categoria, $id_categoria, $pref];
+       // echo $sql;
+        $data = [$nombre, $pvp_tienda, $id_categoria,  $pref, $id_producto_tienda];
+      //  print_r($data);
         $editar_producto = $this->update($sql, $data);
 
-        // print_r($insertar_producto_);
+        //print_r($editar_producto);
         if ($editar_producto == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
