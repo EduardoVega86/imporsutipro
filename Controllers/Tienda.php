@@ -95,7 +95,7 @@ class Tienda extends Controller
         $precio_minimo = $_POST['precio_minimo'];
         $precio_maximo = $_POST['precio_maximo'];
         
-        $response = $this->model->obtener_productos_tienda($id_plataforma, $id_categoria, $precio_maximo, $precio_minimo);
+        $response = $this->model->obtener_productos_tienda_filtro($id_plataforma, $id_categoria, $precio_maximo, $precio_minimo);
         echo json_encode($response);
     }
     
