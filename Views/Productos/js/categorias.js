@@ -78,23 +78,21 @@ const listCategorias = async () => {
           '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">Activo</span>';
       }
 
-      let id_plataforma = obtenerIdPlataforma();
-
       if (!categoria.imagen) {
-        if (categoria.global == 1 && categoria.id_plataforma == id_plataforma) {
+        if (categoria.global == 1) {
           cargar_imagen = ``;
         } else {
           cargar_imagen = `<i class="bx bxs-camera-plus" onclick="agregar_imagenCategoria(${categoria.id_linea})"></i>`;
         }
       } else {
-        if (categoria.global == 1 && categoria.id_plataforma == id_plataforma) {
+        if (categoria.global == 1) {
           cargar_imagen = ``;
         } else {
           cargar_imagen = `<img src="${SERVERURL}${categoria.imagen}" class="icon-button" onclick="agregar_imagenCategoria(${categoria.id_linea})" alt="Agregar imagen" width="50px">`;
         }
       }
 
-      if (categoria.global == 1 && categoria.id_plataforma == id_plataforma) {
+      if (categoria.global == 1) {
         botones_accion = ``;
       } else {
         botones_accion = `<button class="btn btn-sm btn-primary" onclick="editar_categoria(${categoria.id_linea})"><i class="fa-solid fa-pencil"></i>Editar</button>
@@ -119,20 +117,6 @@ const listCategorias = async () => {
     alert(ex);
   }
 };
-
-function obtenerIdPlataforma(){
-  $.ajax({
-    url: SERVERURL + "pedidos/info",
-    type: "GET",
-    dataType: "json",
-    success: function (response) {
-      return response[0].id_plataforma;
-    },
-    error: function (error) {
-      console.error("Error al obtener la lista de bodegas:", error);
-    },
-  });
-}
 
 function eliminar_categoria(id) {
   $.ajax({
