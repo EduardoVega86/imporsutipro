@@ -12,7 +12,7 @@ function getFecha() {
 
 const dataTableProductosOptions = {
   columnDefs: [
-    { className: "centered", targets: [0, 1, 2, 3, 4, 5, 6] },
+    { className: "centered", targets: [0, 1, 2, 3, 4, 5] },
     { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
   ],
   order: [[2, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
@@ -30,7 +30,7 @@ const dataTableProductosOptions = {
       title: "Panel de Control: Usuarios",
       titleAttr: "Exportar a Excel",
       exportOptions: {
-        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        columns: [0, 1, 2, 3, 4, 5],
       },
       filename: "Productos" + "_" + getFecha(),
       footer: true,
@@ -42,7 +42,7 @@ const dataTableProductosOptions = {
       title: "Panel de Control: Productos",
       titleAttr: "Exportar a CSV",
       exportOptions: {
-        columns: [0, 1, 2, 3, 4],
+        columns: [0, 1, 2, 3, 4, 5],
       },
       filename: "Productos" + "_" + getFecha(),
       footer: true,
