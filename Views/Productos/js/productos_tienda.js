@@ -102,28 +102,53 @@ const listProductos = async () => {
     let content = ``;
     let cargar_imagen = "";
     let enlace_imagen = "";
-    productos.forEach((producto, index) => {
+
+    productos.forEach((producto) => {
       enlace_imagen = obtenerURLImagen(producto.imagen_principal, SERVERURL);
       if (!producto.image_path) {
         cargar_imagen = `<i class="bx bxs-camera-plus"></i>`;
       } else {
         cargar_imagen = `<img src="${enlace_imagen}" class="icon-button" alt="Agregar imagen" width="50px">`;
       }
-      
+
+      const destacadoBtn = producto.destacado
+        ? `<button class="btn-destacado-si" onclick="toggleDestacado(${producto.id_producto_tienda}, 0)">SI</button>`
+        : `<button class="btn-destacado-no" onclick="toggleDestacado(${producto.id_producto_tienda}, 1)">NO</button>`;
+
       content += `
-                <tr>
-                    <td>${producto.nombre_producto}</td>
-                    <td>${cargar_imagen}</td>
-                    <td>${producto.destacado}</td>
-                    <td>${producto.pvp}</td>
-                    <td>${producto.pref}</td>
-                    <td>
-                        <button class="btn btn-sm btn-primary" onclick="editarProducto(${producto.id_producto_tienda})"><i class="fa-solid fa-pencil"></i>Editar</button>
-                        <button class="btn btn-sm btn-danger" onclick="eliminarProducto(${producto.id_producto_tienda})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
-                    </td>
-                </tr>`;
+          <tr>
+            <td>${producto.nombre_producto}</td>
+            <td>${cargar_imagen}</td>
+            <td>${destacadoBtn}</td>
+            <td>${producto.pvp}</td>
+            <td>${producto.pref}</td>
+            <td>
+              <button class="btn btn-sm btn-primary" onclick="editarProducto(${producto.id_producto_tienda})"><i class="fa-solid fa-pencil"></i> Editar</button>
+              <button class="btn btn-sm btn-danger" onclick="eliminarProducto(${producto.id_producto_tienda})"><i class="fa-solid fa-trash-can"></i> Borrar</button>
+            </td>
+          </tr>`;
     });
     document.getElementById("tableBody_productos").innerHTML = content;
+  } catch (ex) {
+    alert(ex);
+  }
+};
+
+const toggleDestacado = async (idProducto, nuevoEstado) => {
+  try {
+    const response = await fetch(`${SERVERURL}productos/toggle_destacado`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id: idProducto, destacado: nuevoEstado }),
+    });
+
+    if (response.ok) {
+      listProductos(); // Actualizar la lista de productos
+    } else {
+      alert("Error al actualizar el estado destacado");
+    }
   } catch (ex) {
     alert(ex);
   }
@@ -225,16 +250,15 @@ function editarProducto(id) {
       if (response && response.length > 0) {
         const data = response[0];
 
-          // Llenar los inputs del modal con los datos recibidos
-          $("#editar_id_producto").val(data.id_producto_tienda);
-          $("#editar_nombre_productoTienda").val(data.nombre_producto);
-          $("#editar_pvpTienda").val(data.pvp);
-          $("#editar_prefTienda").val(data.pref);
-          $("#editar_categoria").val(response[0].id_categoria).change();
+        // Llenar los inputs del modal con los datos recibidos
+        $("#editar_id_producto").val(data.id_producto_tienda);
+        $("#editar_nombre_productoTienda").val(data.nombre_producto);
+        $("#editar_pvpTienda").val(data.pvp);
+        $("#editar_prefTienda").val(data.pref);
+        $("#editar_categoria").val(response[0].id_categoria).change();
 
-          // Abrir el modal
-          $("#editar_productoTiendaModal").modal("show");
-        
+        // Abrir el modal
+        $("#editar_productoTiendaModal").modal("show");
       } else {
         console.error("La respuesta está vacía o tiene un formato incorrecto.");
       }
