@@ -105,9 +105,9 @@ const listProductos = async () => {
     productos.forEach((producto, index) => {
       enlace_imagen = obtenerURLImagen(producto.imagen_principal, SERVERURL);
       if (!producto.image_path) {
-        cargar_imagen = `<i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${producto.id_producto},'${enlace_imagen}')"></i>`;
+        cargar_imagen = `<i class="bx bxs-camera-plus"></i>`;
       } else {
-        cargar_imagen = `<img src="${enlace_imagen}" class="icon-button" onclick="agregar_imagenProducto(${producto.id_producto},'${enlace_imagen}')" alt="Agregar imagen" width="50px">`;
+        cargar_imagen = `<img src="${enlace_imagen}" class="icon-button" alt="Agregar imagen" width="50px">`;
       }
       
       content += `
