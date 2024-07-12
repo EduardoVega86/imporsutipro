@@ -497,17 +497,26 @@ echo $file;
         $content = file_get_contents($file);
 
         // Reemplaza el texto específico
-        $newContent = str_replace('tony', 'nuevo_texto', $content);
+        $newContent = str_replace('tony', $nombre_tienda, $content);
 
         // Escribe el contenido modificado de nuevo en el archivo
         file_put_contents($file, $newContent);
 
-        echo "El archivo ha sido actualizado.";
+      
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Dominio creado correctamente';
+     
+           
+        
     } else {
-        echo "El archivo config.php no se encuentra en la carpeta config.";
+         $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Problema al crear subdominio';
+      
     }
     
-        echo 'generado correctamente;';
+       
     }
 }
 
