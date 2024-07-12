@@ -226,11 +226,11 @@ function editarProducto(id) {
         const data = response[0];
 
           // Llenar los inputs del modal con los datos recibidos
-          $("#editar_id_producto").val(data.id_producto);
-          $("#editar_nombre_productoTienda").val(data.codigo_producto);
-          $("#editar_pvpTienda").val(data.nombre_producto);
-          $("#prefTienda").val(data.descripcion_producto);
-          $("#editar_categoria").val(response[0].provincia).change();
+          $("#editar_id_producto").val(data.id_producto_tienda);
+          $("#editar_nombre_productoTienda").val(data.nombre_producto);
+          $("#editar_pvpTienda").val(data.pvp);
+          $("#prefTienda").val(data.pref);
+          $("#editar_categoria").val(response[0].id_categoria).change();
 
           // Abrir el modal
           $("#editar_productoTiendaModal").modal("show");
