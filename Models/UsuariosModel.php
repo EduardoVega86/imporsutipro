@@ -469,6 +469,7 @@ class UsuariosModel extends Query
         'checkout' => 1,
     ];
     
+    $direccion="/home/$cpanelUsername/public_html/$nombre_tienda";
     $url_repositorio="/home/$cpanelUsername/public_html/$nombre_tienda";
     
     // Verifica que el método `cpanelRequest` esté definido y maneja errores
@@ -487,7 +488,26 @@ class UsuariosModel extends Query
     if ($response === false) {
         throw new Exception("Error al crear el subdominio.");
     }else{
-        echo 'generado correctamente;;';
+        
+        $file = $direccion . '/config/config.php';
+
+    // Verifica si el archivo existe antes de intentar leerlo
+    if (file_exists($file)) {
+        // Lee el contenido del archivo
+        $content = file_get_contents($file);
+
+        // Reemplaza el texto específico
+        $newContent = str_replace('@', 'nuevo_texto', $content);
+
+        // Escribe el contenido modificado de nuevo en el archivo
+        file_put_contents($file, $newContent);
+
+        echo "El archivo ha sido actualizado.";
+    } else {
+        echo "El archivo config.php no se encuentra en la carpeta config.";
+    }
+    
+        echo 'generado correctamente;';
     }
 }
 
