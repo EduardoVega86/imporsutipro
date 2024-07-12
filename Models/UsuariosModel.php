@@ -489,7 +489,7 @@ class UsuariosModel extends Query
     }
 }
 
- public function cpanelRequest($url, $username, $password, $postFields = null, $url_repositorio)
+ public function cpanelRequest($url, $username, $password, $postFields = null)
     {
      
         global $verificador;
