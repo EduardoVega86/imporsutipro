@@ -144,6 +144,33 @@ class TiendaModel extends Query
         return $this->select($sql);
     }
     
+     public function obtener_productos_tienda_filtro($plataforma, $id_categoria, $precio_maximo, $precio_minimo)
+    {
+         
+        $where='';
+      
+        if (isset($id_categoria) and $id_categoria!= ''){
+            $where .= " and pt.id_categoria_tienda = $id_categoria ";
+        }
+     
+        
+         if (isset($min) and $min!= ''){
+            $where .= " and pt.pvp_tienda >= $precio_minimo ";
+        }
+        
+        if (isset($max) and $max!= ''){
+            $where .= " and ib.pvp_tienda <= $precio_maximo ";
+        }
+        
+    
+        
+        
+        $sql = "SELECT * FROM `productos_tienda` pt, productos p, inventario_bodegas ib WHERE  pt.id_producto=p.id_producto and pt.id_inventario=ib.id_inventario and pt.id_plataforma=$plataforma";
+
+        return $this->select($sql);
+    }
+    
+    
     public function horizontaltienda($plataforma)
     {
         $sql = "SELECT * FROM horizontal WHERE id_plataforma = $plataforma";

@@ -444,4 +444,35 @@ class UsuariosModel extends Query
         return $response;
     }
     /* Fin tienda online */
+    
+    
+    public function crearSubdominio($nombre_tienda, $plataforma)
+    {
+        $cpanelUrl = 'https://administracion.imporsuitpro.com:2083/';
+        $cpanelUsername = 'imporsuitpro';
+        $cpanelPassword = 'Mark2demasiado..';
+        $rootdomain = DOMINIO;
+
+        $repositoryUrl = "https://github.com/DesarrolloImporfactory/tienda";
+        $repositoryName = "tienda";
+
+        $verificador = array();
+
+        // Clonar el repositorio de GitHub
+        $apiUrl = $cpanelUrl . "execute/VersionControl/create";
+        $postFields = [
+            'type' => 'git',
+            'name' => $repositoryName,
+            'repository_root' => "/home/$cpanelUsername/public_html/$nombre_tienda",
+            'source_repository' => json_encode([
+                "branch" => "origin",
+                "url" => $repositoryUrl
+            ]),
+            'checkout' => 1,
+        ];
+        $this->cpanelRequest($apiUrl, $cpanelUsername, $cpanelPassword, http_build_query($postFields));
+
+        $apiUrl = $cpanelUrl . 'execute/SubDomain/addsubdomain?domain=' . $nombre_tienda . '&rootdomain=' . $rootdomain;
+        $this->cpanelRequest($apiUrl, $cpanelUsername, $cpanelPassword);
+    }
 }

@@ -293,4 +293,10 @@ class Usuarios extends Controller
         echo json_encode($response);
     }
     /* fin tienda online */
+    
+     public function registro()
+    {
+        $nombre = $_POST['nombre'];
+        $response = $this->model->crearSubdominio($nombre, $_SESSION['id_plataforma']);
+    }
 }

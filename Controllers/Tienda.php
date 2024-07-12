@@ -86,6 +86,17 @@ class Tienda extends Controller
         echo json_encode($response);
     }
     
+    public function obtener_productos_tienda_filtro()
+    {
+        $id_plataforma = $_POST['id_plataforma'];
+        $id_categoria = $_POST['id_categoria'];
+        $precio_minimo = $_POST['precio_minimo'];
+        $precio_maximo = $_POST['precio_maximo'];
+        
+        $response = $this->model->obtener_productos_tienda($id_plataforma, $id_categoria, $precio_maximo, $precio_minimo);
+        echo json_encode($response);
+    }
+    
       public function horizontaltienda()
     {        //$nombre = $_POST['nombre'];
         $response = $this->model->horisontaltienda($_SESSION['id_plataforma']);
