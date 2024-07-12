@@ -166,7 +166,7 @@ class TiendaModel extends Query
         
         
         $sql = "SELECT * FROM `productos_tienda` pt, productos p, inventario_bodegas ib WHERE  pt.id_producto=p.id_producto and pt.id_inventario=ib.id_inventario and pt.id_plataforma=$plataforma";
-        echo $sql;
+        //echo $sql;
         return $this->select($sql);
     }
     
