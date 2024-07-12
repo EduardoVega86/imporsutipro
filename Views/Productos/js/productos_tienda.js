@@ -137,7 +137,7 @@ const listProductos = async () => {
 const toggleDestacado = async (idProducto, nuevoEstado) => {
     try {
       const formData = new FormData();
-      formData.append('id', idProducto);
+      formData.append('id_producto_tienda', idProducto);
       formData.append('destacado', nuevoEstado);
   
       const response = await fetch(`${SERVERURL}productos/agregarDestacado`, {
