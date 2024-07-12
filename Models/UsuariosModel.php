@@ -489,7 +489,7 @@ class UsuariosModel extends Query
         throw new Exception("Error al crear el subdominio.");
     }else{
         
-        $file = $direccion . '/config/config.php';
+        $file = $direccion . '/Config/Config.php';
 echo $file;
     // Verifica si el archivo existe antes de intentar leerlo
     if (file_exists($file)) {
