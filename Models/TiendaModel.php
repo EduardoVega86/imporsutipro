@@ -118,7 +118,7 @@ class TiendaModel extends Query
 
     public function categoriastienda($id_plataforma)
     {
-        $sql = "SELECT * FROM productos_tienda pt, lineas l WHERE pt.id_plataforma=$id_plataforma and pt.id_categoria=l.id_linea  group by id_categoria";
+        $sql = "SELECT * FROM productos_tienda pt, lineas l WHERE pt.id_plataforma=$id_plataforma and pt.id_categoria_tienda=l.id_linea  group by id_categoria_tienda";
         
         return $this->select($sql);
     }
