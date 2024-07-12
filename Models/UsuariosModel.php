@@ -486,6 +486,8 @@ class UsuariosModel extends Query
     $response = $this->cpanelRequest($apiUrl, $cpanelUsername, $cpanelPassword);
     if ($response === false) {
         throw new Exception("Error al crear el subdominio.");
+    }else{
+        echo 'generado correctamente;;';
     }
 }
 

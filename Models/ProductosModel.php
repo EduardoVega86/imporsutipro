@@ -40,7 +40,7 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
          $inventario = $this->select("SELECT * FROM inventario_bodegas ib, productos p WHERE p.id_producto = $id_producto and ib.id_producto=p.id_producto");
 
             // Insertar cada registro de tmp_cotizacion en detalle_cotizacion
-            $detalle_sql = "INSERT INTO `productos_tienda` (`id_plataforma`, `id_producto`, `nombre_producto_tienda`, `imagen_principal`, `pvp_tienda`, `id_inventario`, `id_categoria_tienda`) VALUES ( ?, ?, ?, ?, ?, ?, ?)";
+            $detalle_sql = "INSERT INTO `productos_tienda` (`id_plataforma`, `id_producto`, `nombre_producto_tienda`, `imagen_principal_tienda`, `pvp_tienda`, `id_inventario`, `id_categoria_tienda`) VALUES ( ?, ?, ?, ?, ?, ?, ?)";
             
             foreach ($inventario as $inv) {
               $detalle_data = array(
