@@ -135,24 +135,25 @@ const listProductos = async () => {
 };
 
 const toggleDestacado = async (idProducto, nuevoEstado) => {
-  try {
-    const response = await fetch(`${SERVERURL}productos/toggle_destacado`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id: idProducto, destacado: nuevoEstado }),
-    });
-
-    if (response.ok) {
-      listProductos(); // Actualizar la lista de productos
-    } else {
-      alert("Error al actualizar el estado destacado");
+    try {
+      const formData = new FormData();
+      formData.append('id', idProducto);
+      formData.append('destacado', nuevoEstado);
+  
+      const response = await fetch(`${SERVERURL}productos/toggle_destacado`, {
+        method: 'POST',
+        body: formData
+      });
+  
+      if (response.ok) {
+        listProductos(); // Actualizar la lista de productos
+      } else {
+        alert('Error al actualizar el estado destacado');
+      }
+    } catch (ex) {
+      alert(ex);
     }
-  } catch (ex) {
-    alert(ex);
-  }
-};
+  };
 
 //abrir modal de seleccion de producto con atributo especifico
 function abrir_modalSeleccionAtributo(id) {
