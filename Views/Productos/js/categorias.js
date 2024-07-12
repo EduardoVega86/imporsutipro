@@ -78,6 +78,18 @@ const listCategorias = async () => {
           '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">Activo</span>';
       }
 
+      // Realiza la solicitud AJAX para obtener la lista de bodegas
+      $.ajax({
+        url: SERVERURL + "Pedido/info",
+        type: "GET",
+        success: function (response) {
+          console.log(response);
+        },
+        error: function (error) {
+          console.error("Error al obtener la lista de bodegas:", error);
+        },
+      });
+
       if (!categoria.imagen) {
         if (categoria.global == 1) {
           cargar_imagen = ``;

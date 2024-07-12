@@ -36,6 +36,7 @@ if ($result->num_rows > 0) {
     echo "0 results";
 }
 
+$mysqli->close();
 
 $id_matriz = $matriz['idmatriz'];
 $color_fondo = $matriz['color_fondo_login'];
@@ -67,25 +68,6 @@ const LAAR_ENDPOINT_AUTH = "https://api.laarcourier.com:9727/authenticate";
 const LAAR_ENDPOINT = "https://api.laarcourier.com:9727/guias/contado";
 const LLAR_ENDPOINT_CANCEL = 'https://api.laarcourier.com:9727/guias/anular/';
 
-
-// devolver el host antes de new
-$hostAntiguo = $_SERVER['HTTP_HOST'];
-$hostNuevo = str_replace("imporsuitpro.com", "", $hostAntiguo);
-
-$recuperado = str_replace("new.", "", $hostNuevo);
-$url_actual = "https://" . $recuperado . "imporsuitpro.com";
-
-$id_plataforma = "SELECT * FROM plataformas where url_imporsuit = '$url_actual'";
-$result = $mysqli->query($id_plataforma);
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $id_plataforma = $row['id_plataforma'];
-    }
-} else {
-    echo "0 resultss";
-}
-$mysqli->close();
-
 ///obtener matriz 
 
 define("COLOR_FONDO", $color_fondo);
@@ -103,4 +85,3 @@ define("COLOR_BOTON_LOGIN", $color_boton_login);
 define("COLOR_HOVER_LOGIN", $color_hover_login);
 define("COLOR_FAVORITO", $color_favorito);
 define("URL_MATRIZ", $url_matriz);
-define("ID_PLATAFORMA", $id_plataforma);
