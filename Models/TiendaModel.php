@@ -144,7 +144,7 @@ class TiendaModel extends Query
         return $this->select($sql);
     }
     
-     public function obtener_productos_tienda_filtro($plataforma, $id_categoria, $precio_maximo, $precio_minimo)
+     public function obtener_productos_tienda_filtro1($plataforma, $id_categoria, $precio_maximo, $precio_minimo)
     {
          
         $where='';
