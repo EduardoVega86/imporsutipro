@@ -487,4 +487,26 @@ class UsuariosModel extends Query
     }
 }
 
+ public function cpanelRequest($url, $username, $password, $postFields = null)
+    {
+        global $verificador;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+        if ($postFields !== null) {
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
+        }
+        $response = curl_exec($ch);
+        if (curl_errno($ch)) {
+            echo 'Error en la solicitud cURL: ' . curl_error($ch);
+        } else {
+            $responseData = json_decode($response, true);
+        }
+        curl_close($ch);
+    }
+    
+
 }
