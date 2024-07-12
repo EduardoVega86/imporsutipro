@@ -155,7 +155,7 @@ function crear_tienda() {
   formData.append("nombre", nombre_tienda); // Añadir el SKU al FormData
 
   $.ajax({
-    url: SERVERURL + "Tienda/registro",
+    url: SERVERURL + "Usuarios/registro",
     type: "POST", 
     data: formData,
     processData: false, // No procesar los datos
