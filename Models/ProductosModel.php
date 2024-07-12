@@ -40,7 +40,7 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
          $inventario = $this->select("SELECT * FROM inventario_bodegas ib, productos p WHERE p.id_producto = $id_producto and ib.id_producto=p.id_producto");
 
             // Insertar cada registro de tmp_cotizacion en detalle_cotizacion
-            $detalle_sql = "INSERT INTO `productos_tienda` (`id_plataforma`, `id_producto`, `nombre_producto`, `imagen_principal`, `pvp`, `id_inventario`, `id_categoria`) VALUES ( ?, ?, ?, ?, ?, ?, ?)";
+            $detalle_sql = "INSERT INTO `productos_tienda` (`id_plataforma`, `id_producto`, `nombre_producto`, `imagen_principal`, `pvp_tienda`, `id_inventario`, `id_categoria`) VALUES ( ?, ?, ?, ?, ?, ?, ?)";
             
             foreach ($inventario as $inv) {
               $detalle_data = array(
@@ -165,6 +165,34 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
         $id_invetario = $invetario[0]['id_inventario'];
         return $id_invetario;
     }
+    
+    
+    public function editarProductoTienda($id_producto_tienda, $nombre, $pvp_tienda, $id_categoria, $pref  )
+    {
+        $response = $this->initialResponse();
+        $sql = "UPDATE `productos_tienda` SET `nombre_producto`=?,"
+                . "`pvp_tienda`=?,`id_categoria`=?,"
+                . "`pref`=? WHERE id_producto_tienda=?";
+        $data = [$nombre, $pvp_tienda, $id_categoria, $id_linea_producto, $pref];
+        $editar_producto = $this->update($sql, $data);
+
+        // print_r($insertar_producto_);
+        if ($editar_producto == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Producto editado correctamente';
+            if ($editar_producto_ === 1) {
+                $response['message'] = 'Producto y stock editado correctamente';
+            }
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = $editar_producto['message'];
+        }
+        return $response;
+    }
+    
+    
     public function editarProducto($id, $codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $plataforma, $stock_inicial, $bodega, $pcp, $pvp, $pref)
     {
         $response = $this->initialResponse();

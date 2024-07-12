@@ -367,6 +367,21 @@ class Productos extends Controller
 
         echo json_encode($response);
     }
+    
+    public function editarProductoTienda()
+    {
+        $id = $_POST['id_producto_tienda'];
+        $nombre = $_POST['nombre'];
+         $pvp_tienda = $_POST['$pvp_tienda'];
+          $id_categoria = $_POST['$id_categoria'];
+     
+        $pref = $_POST['pref'] ?? 0;
+
+
+        $response = $this->model->editarProductoTienda($id_producto_tienda, $nombre, $pvp_tienda, $id_categoria, $pref  );
+
+        echo json_encode($response);
+    }
 
     public function eliminar_producto()
     {
