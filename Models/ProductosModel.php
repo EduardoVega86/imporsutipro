@@ -181,9 +181,7 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
             $response['message'] = 'Producto editado correctamente';
-            if ($editar_producto_ === 1) {
-                $response['message'] = 'Producto y stock editado correctamente';
-            }
+            
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
@@ -781,5 +779,26 @@ WHERE b.id_plataforma = $plataforma";
     public function importacion_masiva($plataforma)
     {
         //print_r($plataforma);
+    }
+    
+    
+    public function agregarProveedor($id_producto_tienda, $destacado)
+    {
+        $response = $this->initialResponse();
+
+        $sql = "UPDATE `productos_tienda` SET `destacado` = ? WHERE `id_producto_tienda` = ?";
+        $data = [$destacado, $id_producto_tienda];
+        $editar_plataforma = $this->update($sql, $data);
+        //print_r($editar_producto);
+        if ($editar_plataforma == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Categoria editada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            // $response['message'] = $editar_producto['message'];
+        }
+        return $response;
     }
 }

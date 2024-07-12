@@ -588,4 +588,13 @@ class Productos extends Controller
        $response = $this->model->importar_productos_tienda($id_producto, $_SESSION['id_plataforma']);
        echo json_encode($response);
     }
+    
+    
+     public function agregarDestacado()
+    {
+        $id_producto_tienda = $_POST['id_producto_tienda'];
+        $destacado = $_POST['destacado'];
+        $response = $this->model->agregarDestacado($id_producto_tienda, $destacado);
+        echo json_encode($response);
+    }
 }
