@@ -80,7 +80,7 @@ const listCategorias = async () => {
 
       // Realiza la solicitud AJAX para obtener la lista de bodegas
       $.ajax({
-        url: SERVERURL + "Pedido/info",
+        url: SERVERURL + "Pedidos/info",
         type: "GET",
         success: function (response) {
           console.log(response);
