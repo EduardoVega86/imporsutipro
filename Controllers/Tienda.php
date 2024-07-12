@@ -48,8 +48,9 @@ class Tienda extends Controller
     }
     
     public function testimoniostienda()
-    {        //$nombre = $_POST['nombre'];
-        $response = $this->model->testimoniostienda($_SESSION['id_plataforma']);
+    {        
+        $id_plataforma = $_POST['id_plataforma'];
+        $response = $this->model->testimoniostienda($id_plataforma);
        echo json_encode($response);
        
     }
