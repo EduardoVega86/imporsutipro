@@ -490,7 +490,18 @@ class UsuariosModel extends Query
     }else{
         
         $file = $direccion . '/Config/Config.php';
-echo $file;
+        
+        
+        $sql = " UPDATE `users` SET `con_users` =? WHERE `id_users` = ?";
+        $data = [$contrasena, $id_usuario];
+        $editar_producto = $this->update($sql, $data);
+        print_r($editar_producto);
+        if ($editar_producto == 1) {
+            $responses = array('status' => 200, 'title' => 'Peticion exitosa', 'message' => 'Contraseña actualizada correctamente');
+        } else {
+            $responses = array('status' => 500, 'title' => 'Error', 'message' => $editar_producto['message']);
+        }
+//echo $file;
     // Verifica si el archivo existe antes de intentar leerlo
     if (file_exists($file)) {
         // Lee el contenido del archivo
