@@ -494,7 +494,7 @@ class UsuariosModel extends Query
      
         global $verificador;
         
-        echo 'repor'.$url_carpeta;
+        echo 'repor'.$url_carpeta.'asd';
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -511,7 +511,7 @@ class UsuariosModel extends Query
             $responseData = json_decode($response, true);
         }
         
-        $file = $url_repositorio . '/config/config.php';
+        $file = $url_carpeta . '/config/config.php';
 
     // Verifica si el archivo existe antes de intentar leerlo
     if (file_exists($file)) {
