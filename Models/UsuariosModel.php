@@ -446,33 +446,45 @@ class UsuariosModel extends Query
     /* Fin tienda online */
     
     
-    public function crearSubdominio($nombre_tienda, $plataforma)
-    {
-        $cpanelUrl = 'https://administracion.imporsuitpro.com:2083/';
-        $cpanelUsername = 'imporsuitpro';
-        $cpanelPassword = 'Mark2demasiado..';
-        $rootdomain = DOMINIO;
+   public function crearSubdominio($nombre_tienda, $plataforma)
+{
+    $cpanelUrl = 'https://administracion.imporsuitpro.com:2083/';
+    $cpanelUsername = 'imporsuitpro';
+    $cpanelPassword = 'Mark2demasiado..';
+    $rootdomain = DOMINIO;
 
-        $repositoryUrl = "https://github.com/DesarrolloImporfactory/tienda";
-        $repositoryName = "tienda";
+    $repositoryUrl = "https://github.com/DesarrolloImporfactory/tienda";
+    $repositoryName = "tienda";
 
-        $verificador = array();
-
-        // Clonar el repositorio de GitHub
-        $apiUrl = $cpanelUrl . "execute/VersionControl/create";
-        $postFields = [
-            'type' => 'git',
-            'name' => $repositoryName,
-            'repository_root' => "/home/$cpanelUsername/public_html/$nombre_tienda",
-            'source_repository' => json_encode([
-                "branch" => "origin",
-                "url" => $repositoryUrl
-            ]),
-            'checkout' => 1,
-        ];
-        $this->cpanelRequest($apiUrl, $cpanelUsername, $cpanelPassword, http_build_query($postFields));
-
-        $apiUrl = $cpanelUrl . 'execute/SubDomain/addsubdomain?domain=' . $nombre_tienda . '&rootdomain=' . $rootdomain;
-        $this->cpanelRequest($apiUrl, $cpanelUsername, $cpanelPassword);
+    // Clonar el repositorio de GitHub
+    $apiUrl = $cpanelUrl . "execute/VersionControl/create";
+    $postFields = [
+        'type' => 'git',
+        'name' => $repositoryName,
+        'repository_root' => "/home/$cpanelUsername/public_html/$nombre_tienda",
+        'source_repository' => json_encode([
+            "branch" => "origin",
+            "url" => $repositoryUrl
+        ]),
+        'checkout' => 1,
+    ];
+    
+    // Verifica que el método `cpanelRequest` esté definido y maneja errores
+    if (method_exists($this, 'cpanelRequest')) {
+        $response = $this->cpanelRequest($apiUrl, $cpanelUsername, $cpanelPassword, http_build_query($postFields));
+        if ($response === false) {
+            throw new Exception("Error al clonar el repositorio de GitHub.");
+        }
+    } else {
+        throw new Exception("El método cpanelRequest no está definido.");
     }
+
+    // Crear subdominio
+    $apiUrl = $cpanelUrl . 'execute/SubDomain/addsubdomain?domain=' . $nombre_tienda . '&rootdomain=' . $rootdomain;
+    $response = $this->cpanelRequest($apiUrl, $cpanelUsername, $cpanelPassword);
+    if ($response === false) {
+        throw new Exception("Error al crear el subdominio.");
+    }
+}
+
 }
