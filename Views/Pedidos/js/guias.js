@@ -379,7 +379,7 @@ function validar_estadoLaar(estado) {
     estado_guia = "En transito";
   } else if (estado == 6) {
     span_estado = "badge_purple";
-    estado_guia = "Por recolectar";
+    estado_guia = "Zona de entrega";
   } else if (estado == 7) {
     span_estado = "badge_green";
     estado_guia = "Entregado";

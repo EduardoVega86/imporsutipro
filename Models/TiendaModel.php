@@ -136,6 +136,13 @@ class TiendaModel extends Query
         
         return $this->select($sql);
     }
+
+    public function obtener_productos_tienda($plataforma,$id_producto_tienda)
+    {
+        $sql = "SELECT * FROM `productos_tienda` WHERE id_plataforma=$plataforma AND id_producto_tienda = $id_producto_tienda";
+
+        return $this->select($sql);
+    }
     
     public function horizontaltienda($plataforma)
     {
@@ -195,5 +202,5 @@ class TiendaModel extends Query
         }
         return $response;
     }
-    
+
 }
