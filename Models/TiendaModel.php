@@ -125,7 +125,7 @@ class TiendaModel extends Query
 
     public function destacadostienda($id_plataforma)
     {
-        $sql = "SELECT * FROM productos WHERE destacado=1 AND id_plataforma = $id_plataforma;";
+        $sql = "SELECT * FROM productos_tienda WHERE destacado=1 AND id_plataforma = $id_plataforma;";
         
         return $this->select($sql);
     }
