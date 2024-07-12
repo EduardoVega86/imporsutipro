@@ -42,7 +42,7 @@ const dataTableProductosOptions = {
       title: "Panel de Control: Productos",
       titleAttr: "Exportar a CSV",
       exportOptions: {
-        columns: [0, 1, 2, 3, 4, 5],
+        columns: [0, 1, 2, 3, 4],
       },
       filename: "Productos" + "_" + getFecha(),
       footer: true,
