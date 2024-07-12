@@ -102,28 +102,53 @@ const listProductos = async () => {
     let content = ``;
     let cargar_imagen = "";
     let enlace_imagen = "";
-    productos.forEach((producto, index) => {
+
+    productos.forEach((producto) => {
       enlace_imagen = obtenerURLImagen(producto.imagen_principal, SERVERURL);
       if (!producto.image_path) {
         cargar_imagen = `<i class="bx bxs-camera-plus"></i>`;
       } else {
         cargar_imagen = `<img src="${enlace_imagen}" class="icon-button" alt="Agregar imagen" width="50px">`;
       }
-      
+
+      const destacadoBtn = producto.destacado
+        ? `<button class="btn-destacado-si" onclick="toggleDestacado(${producto.id_producto_tienda}, 0)">SI</button>`
+        : `<button class="btn-destacado-no" onclick="toggleDestacado(${producto.id_producto_tienda}, 1)">NO</button>`;
+
       content += `
-                <tr>
-                    <td>${producto.nombre_producto}</td>
-                    <td>${cargar_imagen}</td>
-                    <td>${producto.destacado}</td>
-                    <td>${producto.pvp}</td>
-                    <td>${producto.pref}</td>
-                    <td>
-                        <button class="btn btn-sm btn-primary" onclick="editarProducto(${producto.id_producto})"><i class="fa-solid fa-pencil"></i>Editar</button>
-                        <button class="btn btn-sm btn-danger" onclick="eliminarProducto(${producto.id_producto})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
-                    </td>
-                </tr>`;
+          <tr>
+            <td>${producto.nombre_producto}</td>
+            <td>${cargar_imagen}</td>
+            <td>${destacadoBtn}</td>
+            <td>${producto.pvp}</td>
+            <td>${producto.pref}</td>
+            <td>
+              <button class="btn btn-sm btn-primary" onclick="editarProducto(${producto.id_producto_tienda})"><i class="fa-solid fa-pencil"></i> Editar</button>
+              <button class="btn btn-sm btn-danger" onclick="eliminarProducto(${producto.id_producto_tienda})"><i class="fa-solid fa-trash-can"></i> Borrar</button>
+            </td>
+          </tr>`;
     });
     document.getElementById("tableBody_productos").innerHTML = content;
+  } catch (ex) {
+    alert(ex);
+  }
+};
+
+const toggleDestacado = async (idProducto, nuevoEstado) => {
+  try {
+    const response = await fetch(`${SERVERURL}productos/toggle_destacado`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id: idProducto, destacado: nuevoEstado }),
+    });
+
+    if (response.ok) {
+      listProductos(); // Actualizar la lista de productos
+    } else {
+      alert("Error al actualizar el estado destacado");
+    }
   } catch (ex) {
     alert(ex);
   }
@@ -134,44 +159,6 @@ function abrir_modalSeleccionAtributo(id) {
   $("#id_productoSeleccionado").val(id);
   initDataTableSeleccionProductoAtributo();
   $("#seleccionProdcutoAtributoModal").modal("show");
-}
-
-//enviar cliente
-function enviar_cliente(id, sku, pvp, id_inventario) {
-  // Crear un objeto FormData y agregar los datos
-  const formData = new FormData();
-  formData.append("cantidad", 1);
-  formData.append("precio", pvp);
-  formData.append("id_producto", id);
-  formData.append("sku", sku);
-  formData.append("id_inventario", id_inventario);
-
-  $.ajax({
-    type: "POST",
-    url: "" + SERVERURL + "marketplace/agregarTmp",
-    data: formData,
-    processData: false,
-    contentType: false,
-    success: function (response2) {
-      response2 = JSON.parse(response2);
-      console.log(response2);
-      console.log(response2[0]);
-      if (response2.status == 500) {
-        Swal.fire({
-          icon: "error",
-          title: response2.title,
-          text: response2.message,
-        });
-      } else if (response2.status == 200) {
-        window.location.href =
-          SERVERURL + "Pedidos/nuevo?id_producto=" + id + "&sku=" + sku;
-      }
-    },
-    error: function (xhr, status, error) {
-      console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al agregar el producto temporalmente");
-    },
-  });
 }
 
 function eliminarProducto(id) {
@@ -220,13 +207,7 @@ $(document).ready(function () {
       if (Array.isArray(response)) {
         response.forEach(function (categoria) {
           // Agrega una nueva opción al select por cada categoria
-          $("#categoria").append(
-            new Option(categoria.nombre_linea, categoria.id_linea)
-          );
           $("#editar_categoria").append(
-            new Option(categoria.nombre_linea, categoria.id_linea)
-          );
-          $("#categoria_filtro").append(
             new Option(categoria.nombre_linea, categoria.id_linea)
           );
         });
@@ -237,37 +218,6 @@ $(document).ready(function () {
     error: function (error) {
       console.error("Error al obtener la lista de categorias:", error);
     },
-  });
-});
-
-//cargar select de bodega
-$(document).ready(function () {
-  // Realiza la solicitud AJAX para obtener la lista de bodegas
-  $.ajax({
-    url: SERVERURL + "productos/listar_bodegas",
-    type: "GET",
-    dataType: "json",
-    success: function (response) {
-      // Asegúrate de que la respuesta es un array
-      if (Array.isArray(response)) {
-        response.forEach(function (bodega) {
-          // Agrega una nueva opción al select por cada bodega
-          $("#bodega").append(new Option(bodega.nombre, bodega.id));
-          $("#editar_bodega").append(new Option(bodega.nombre, bodega.id));
-        });
-      } else {
-        console.log("La respuesta de la API no es un array:", response);
-      }
-    },
-    error: function (error) {
-      console.error("Error al obtener la lista de bodegas:", error);
-    },
-  });
-
-  // Evento change para el select de categoría y filtrar por categorias
-  $("#categoria_filtro").change(function () {
-    let categoriaId = $(this).val();
-    filtrarProductosPorCategoria(categoriaId);
   });
 });
 
@@ -292,49 +242,23 @@ function obtenerURLImagen(imagePath, serverURL) {
 function editarProducto(id) {
   $.ajax({
     type: "GET",
-    url: SERVERURL + "productos/obtener_producto/" + id,
+    url: SERVERURL + "productos/obtener_producto_tienda/" + id,
     dataType: "json",
     success: function (response) {
-      console.log(response); // Depuración: Mostrar la respuesta en la consola
+      console.log(response);
 
       if (response && response.length > 0) {
         const data = response[0];
 
-        if (
-          $("#editar_codigo").length > 0 &&
-          $("#editar_nombre").length > 0 &&
-          $("#editar_descripcion").length > 0 &&
-          $("#editar_categoria").length > 0 &&
-          $("#editar_formato_pagina").length > 0 &&
-          $("#editar_ultimo_costo").length > 0 &&
-          $("#editar_precio_proveedor").length > 0 &&
-          $("#editar_precio_venta").length > 0 &&
-          $("#editar_precio_referencial").length > 0 &&
-          $("#editar_maneja_inventario").length > 0 &&
-          $("#editar_stock_inicial").length > 0
-        ) {
-          console.log("Elementos encontrados, actualizando valores...");
-          // Llenar los inputs del modal con los datos recibidos
-          $("#editar_id_producto").val(data.id_producto);
-          $("#editar_codigo").val(data.codigo_producto);
-          $("#editar_nombre").val(data.nombre_producto);
-          $("#editar_descripcion").val(data.descripcion_producto);
-          $("#editar_categoria").val(data.id_linea_producto);
-          $("#editar_bodega").val(data.bodega);
-          $("#editar_producto_variable").val(data.id_variante);
-          $("#editar_formato_pagina").val(data.formato);
-          $("#editar_ultimo_costo").val(data.costo_producto);
-          $("#editar_precio_proveedor").val(data.pcp);
-          $("#editar_precio_venta").val(data.pvp);
-          $("#editar_precio_referencial").val(data.pref);
-          $("#editar_maneja_inventario").val(data.inv_producto);
-          $("#editar_stock_inicial").val(data.stock_inicial);
+        // Llenar los inputs del modal con los datos recibidos
+        $("#editar_id_producto").val(data.id_producto_tienda);
+        $("#editar_nombre_productoTienda").val(data.nombre_producto);
+        $("#editar_pvpTienda").val(data.pvp);
+        $("#editar_prefTienda").val(data.pref);
+        $("#editar_categoria").val(response[0].id_categoria).change();
 
-          // Abrir el modal
-          $("#editar_productoModal").modal("show");
-        } else {
-          console.error("Uno o más elementos no se encontraron en el DOM.");
-        }
+        // Abrir el modal
+        $("#editar_productoTiendaModal").modal("show");
       } else {
         console.error("La respuesta está vacía o tiene un formato incorrecto.");
       }
@@ -346,17 +270,6 @@ function editarProducto(id) {
   });
 }
 
-function agregar_imagenProducto(id, imagen) {
-  $("#id_imagenproducto").val(id);
-
-  if (imagen) {
-    $("#imagePreviewPrincipal").attr("src", imagen).show();
-  } else {
-    $("#imagePreviewPrincipal").hide();
-  }
-
-  $("#imagen_productoModal").modal("show");
-}
 window.addEventListener("load", async () => {
   await initDataTableProductos();
 });

@@ -68,4 +68,33 @@
             gap: 5px;
         }
     }
+
+    /* destacados */
+    .btn-destacado-si {
+        background-color: green;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-destacado-si:hover {
+        background-color: darkgreen;
+    }
+
+    .btn-destacado-no {
+        background-color: red;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-destacado-no:hover {
+        background-color: darkred;
+    }
 </style>
