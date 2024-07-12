@@ -120,7 +120,7 @@ const listProductos = async () => {
             <td>${producto.nombre_producto_tienda}</td>
             <td>${cargar_imagen}</td>
             <td>${destacadoBtn}</td>
-            <td>${producto.pvp_tiedna}</td>
+            <td>${producto.pvp_tienda}</td>
             <td>${producto.pref_tienda}</td>
             <td>
               <button class="btn btn-sm btn-primary" onclick="editarProducto(${producto.id_producto_tienda})"><i class="fa-solid fa-pencil"></i> Editar</button>
