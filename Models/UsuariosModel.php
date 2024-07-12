@@ -491,8 +491,10 @@ class UsuariosModel extends Query
 
  public function cpanelRequest($url, $username, $password, $postFields = null)
     {
+     
         global $verificador;
         
+        echo $url;
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
