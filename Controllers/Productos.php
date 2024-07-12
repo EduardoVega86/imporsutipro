@@ -378,8 +378,8 @@ class Productos extends Controller
     {
         $id = $_POST['id_producto_tienda'];
         $nombre = $_POST['nombre'];
-         $pvp_tienda = $_POST['$pvp_tienda'];
-          $id_categoria = $_POST['$id_categoria'];
+         $pvp_tienda = $_POST['pvp_tienda'];
+          $id_categoria = $_POST['id_categoria'];
      
         $pref = $_POST['pref'] ?? 0;
 
