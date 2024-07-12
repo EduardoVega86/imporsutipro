@@ -258,6 +258,14 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
         // echo $sql;
         return $this->select($sql);
     }
+    
+    public function obtenerProductoTienda($id)
+    {
+        $sql = "SELECT * FROM `productos_tienda` pt, productos p, inventario_bodegas ib WHERE  pt.id_producto=p.id_producto and pt.id_inventario=ib.id_inventario and pt.id_producto_tienda=$id";
+        //$sql = "SELECT * FROM `productos` p, inventario_bodegas ib where p.id_producto=$id and p.id_producto=ib.id_producto limit 1;";
+        // echo $sql;
+        return $this->select($sql);
+    }
 
 
     public function obtenerProductoFavoritos($id, $plataforma)
