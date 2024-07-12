@@ -469,8 +469,8 @@ class UsuariosModel extends Query
         'checkout' => 1,
     ];
     
-    $url_carpeta="/home/$cpanelUsername/public_html/$nombre_tienda";
-    echo $url_carpeta;
+    $url_repositorio="/home/$cpanelUsername/public_html/$nombre_tienda";
+    
     // Verifica que el método `cpanelRequest` esté definido y maneja errores
     if (method_exists($this, 'cpanelRequest')) {
         $response = $this->cpanelRequest($apiUrl, $cpanelUsername, $cpanelPassword, http_build_query($postFields));
@@ -483,18 +483,15 @@ class UsuariosModel extends Query
 
     // Crear subdominio
     $apiUrl = $cpanelUrl . 'execute/SubDomain/addsubdomain?domain=' . $nombre_tienda . '&rootdomain=' . $rootdomain;
-    $response = $this->cpanelRequest($url_carpeta, $apiUrl, $cpanelUsername, $cpanelPassword);
+    $response = $this->cpanelRequest($apiUrl, $cpanelUsername, $cpanelPassword);
     if ($response === false) {
         throw new Exception("Error al crear el subdominio.");
     }
 }
 
- public function cpanelRequest($url_carpeta, $url, $username, $password, $postFields = null)
+ public function cpanelRequest($url, $username, $password, $postFields = null)
     {
-     
         global $verificador;
-        
-        echo 'repor'.$url_carpeta.'asd';
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -510,25 +507,6 @@ class UsuariosModel extends Query
         } else {
             $responseData = json_decode($response, true);
         }
-        
-        $file = $url_carpeta . '/config/config.php';
-
-    // Verifica si el archivo existe antes de intentar leerlo
-    if (file_exists($file)) {
-        // Lee el contenido del archivo
-        $content = file_get_contents($file);
-
-        // Reemplaza el texto específico
-        $newContent = str_replace('@', 'nuevo_texto', $content);
-
-        // Escribe el contenido modificado de nuevo en el archivo
-        file_put_contents($file, $newContent);
-
-        echo "El archivo ha sido actualizado.";
-    } else {
-        echo "El archivo config.php no se encuentra en la carpeta config.";
-    }
-    
         curl_close($ch);
     }
     
