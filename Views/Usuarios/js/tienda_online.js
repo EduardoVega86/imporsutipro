@@ -145,3 +145,7 @@ function eliminarBanner(id) {
 window.addEventListener("load", async () => {
   await initDataTableBanner();
 });
+
+function crear_tienda (){
+    $("#nombre_tienda").val(data.id_linea);
+}
