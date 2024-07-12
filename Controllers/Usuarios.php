@@ -298,5 +298,7 @@ class Usuarios extends Controller
     {
         $nombre = $_POST['nombre'];
         $response = $this->model->crearSubdominio($nombre, $_SESSION['id_plataforma']);
+                echo json_encode($response);
+
     }
 }
