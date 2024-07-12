@@ -469,8 +469,8 @@ class UsuariosModel extends Query
         'checkout' => 1,
     ];
     
-    $url_repositorio="/home/$cpanelUsername/public_html/$nombre_tienda";
-    echo $url_repositorio;
+    $url_carpeta="/home/$cpanelUsername/public_html/$nombre_tienda";
+    echo $url_carpeta;
     // Verifica que el método `cpanelRequest` esté definido y maneja errores
     if (method_exists($this, 'cpanelRequest')) {
         $response = $this->cpanelRequest($apiUrl, $cpanelUsername, $cpanelPassword, http_build_query($postFields));
@@ -483,18 +483,18 @@ class UsuariosModel extends Query
 
     // Crear subdominio
     $apiUrl = $cpanelUrl . 'execute/SubDomain/addsubdomain?domain=' . $nombre_tienda . '&rootdomain=' . $rootdomain;
-    $response = $this->cpanelRequest($url_repositorio, $apiUrl, $cpanelUsername, $cpanelPassword);
+    $response = $this->cpanelRequest($url_carpeta, $apiUrl, $cpanelUsername, $cpanelPassword);
     if ($response === false) {
         throw new Exception("Error al crear el subdominio.");
     }
 }
 
- public function cpanelRequest($url_repositorio, $url, $username, $password, $postFields = null)
+ public function cpanelRequest($url_carpeta, $url, $username, $password, $postFields = null)
     {
      
         global $verificador;
         
-        echo 'repor'.$url_repositorio;
+        echo 'repor'.$url_carpeta;
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
