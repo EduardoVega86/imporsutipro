@@ -483,7 +483,7 @@ class UsuariosModel extends Query
 
     // Crear subdominio
     $apiUrl = $cpanelUrl . 'execute/SubDomain/addsubdomain?domain=' . $nombre_tienda . '&rootdomain=' . $rootdomain;
-    $response = $this->cpanelRequest($apiUrl, $cpanelUsername, $cpanelPassword, $url_repositorio);
+    $response = $this->cpanelRequest($url_repositorio, $apiUrl, $cpanelUsername, $cpanelPassword);
     if ($response === false) {
         throw new Exception("Error al crear el subdominio.");
     }
