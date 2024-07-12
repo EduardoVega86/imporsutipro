@@ -483,18 +483,18 @@ class UsuariosModel extends Query
 
     // Crear subdominio
     $apiUrl = $cpanelUrl . 'execute/SubDomain/addsubdomain?domain=' . $nombre_tienda . '&rootdomain=' . $rootdomain;
-    $response = $this->cpanelRequest($apiUrl, $cpanelUsername, $cpanelPassword);
+    $response = $this->cpanelRequest($apiUrl, $cpanelUsername, $cpanelPassword, $url_repositorio);
     if ($response === false) {
         throw new Exception("Error al crear el subdominio.");
     }
 }
 
- public function cpanelRequest($url, $username, $password, $postFields = null)
+ public function cpanelRequest($url, $username, $password, $postFields = null, $url_repositorio)
     {
      
         global $verificador;
         
-        echo $url;
+        echo $url_repositorio;
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -511,7 +511,7 @@ class UsuariosModel extends Query
             $responseData = json_decode($response, true);
         }
         
-        $file = __DIR__ . '/config/config.php';
+        $file = $url_repositorio . '/config/config.php';
 
     // Verifica si el archivo existe antes de intentar leerlo
     if (file_exists($file)) {
