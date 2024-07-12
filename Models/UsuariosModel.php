@@ -497,7 +497,7 @@ echo $file;
         $content = file_get_contents($file);
 
         // Reemplaza el texto específico
-        $newContent = str_replace('@', 'nuevo_texto', $content);
+        $newContent = str_replace('tony', 'nuevo_texto', $content);
 
         // Escribe el contenido modificado de nuevo en el archivo
         file_put_contents($file, $newContent);
