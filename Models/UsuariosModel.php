@@ -470,7 +470,7 @@ class UsuariosModel extends Query
     ];
     
     $url_repositorio="/home/$cpanelUsername/public_html/$nombre_tienda";
-    
+    echo $url_repositorio;
     // Verifica que el método `cpanelRequest` esté definido y maneja errores
     if (method_exists($this, 'cpanelRequest')) {
         $response = $this->cpanelRequest($apiUrl, $cpanelUsername, $cpanelPassword, http_build_query($postFields));
