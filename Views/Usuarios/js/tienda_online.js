@@ -93,15 +93,17 @@ function editar_banner(id) {
     contentType: false, // No establecer ningún tipo de contenido
     dataType: "json",
     success: function (response) {
-        console.log("opc 1:"+response.id);
-        console.log("opc 2:"+response[0].id);
+      console.log("opc 1:" + response.id);
+      console.log("opc 2:" + response[0].id);
       $("#id_banner").val(response[0].id);
       $("#titulo_editar").val(response[0].titulo);
       $("#texto_banner_editar").val(response[0].texto_banner);
       $("#texto_boton_editar").val(response[0].texto_boton);
       $("#enlace_boton_editar").val(response[0].enlace_boton);
       $("#alineacion_editar").val(response[0].alineacion).change();
-      $("#preview-imagen-editar").attr("src",SERVERURL + response[0].fondo_banner).show();
+      $("#preview-imagen-editar")
+        .attr("src", SERVERURL + response[0].fondo_banner)
+        .show();
       $("#editar_bannerModal").modal("show");
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -146,6 +148,21 @@ window.addEventListener("load", async () => {
   await initDataTableBanner();
 });
 
-function crear_tienda (){
-    $("#nombre_tienda").val(data.id_linea);
+function crear_tienda() {
+  var nombre_tienda = $('#nombre_tienda').val();
+
+  let formData = new FormData();
+  formData.append("nombre", nombre_tienda); // Añadir el SKU al FormData
+
+  $.ajax({
+    url: SERVERURL + "Tienda/registro",
+    type: "POST", 
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    success: function (response) {},
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
 }
