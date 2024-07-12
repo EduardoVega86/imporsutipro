@@ -149,7 +149,7 @@ class TiendaModel extends Query
          
         $where='';
       
-        if (isset($id_categoria) and $id_categoria!= ''){
+        if (isset($id_categoria) and $id_categoria!= '' and $id_categoria != null){
             $where .= " and pt.id_categoria_tienda = $id_categoria ";
         }
      
