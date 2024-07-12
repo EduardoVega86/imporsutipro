@@ -217,7 +217,7 @@ function obtenerURLImagen(imagePath, serverURL) {
 function editarProducto(id) {
   $.ajax({
     type: "GET",
-    url: SERVERURL + "productos/obtener_producto/" + id,
+    url: SERVERURL + "productos/obtener_producto_tienda/" + id,
     dataType: "json",
     success: function (response) {
       console.log(response);
@@ -227,22 +227,13 @@ function editarProducto(id) {
 
           // Llenar los inputs del modal con los datos recibidos
           $("#editar_id_producto").val(data.id_producto);
-          $("#editar_codigo").val(data.codigo_producto);
-          $("#editar_nombre").val(data.nombre_producto);
-          $("#editar_descripcion").val(data.descripcion_producto);
-          $("#editar_categoria").val(data.id_linea_producto);
-          $("#editar_bodega").val(data.bodega);
-          $("#editar_producto_variable").val(data.id_variante);
-          $("#editar_formato_pagina").val(data.formato);
-          $("#editar_ultimo_costo").val(data.costo_producto);
-          $("#editar_precio_proveedor").val(data.pcp);
-          $("#editar_precio_venta").val(data.pvp);
-          $("#editar_precio_referencial").val(data.pref);
-          $("#editar_maneja_inventario").val(data.inv_producto);
-          $("#editar_stock_inicial").val(data.stock_inicial);
+          $("#editar_nombre_productoTienda").val(data.codigo_producto);
+          $("#editar_pvpTienda").val(data.nombre_producto);
+          $("#prefTienda").val(data.descripcion_producto);
+          $("#editar_categoria").val(response[0].provincia).change();
 
           // Abrir el modal
-          $("#editar_productoModal").modal("show");
+          $("#editar_productoTiendaModal").modal("show");
         
       } else {
         console.error("La respuesta está vacía o tiene un formato incorrecto.");
