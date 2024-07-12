@@ -490,9 +490,9 @@ class UsuariosModel extends Query
     }else{
         
         $file = $direccion . '/Config/Config.php';
+        $url_tienda='http://'.$nombre_tienda.'/imporsuitpro.com';
         
-        
-        $sql = " UPDATE `users` SET `con_users` =? WHERE `id_users` = ?";
+        $sql = " UPDATE `plataformas` SET `url_imporsuit` =? WHERE `id_plataforma` = ?";
         $data = [$contrasena, $id_usuario];
         $editar_producto = $this->update($sql, $data);
         print_r($editar_producto);
