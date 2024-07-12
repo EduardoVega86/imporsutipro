@@ -784,7 +784,7 @@ WHERE b.id_plataforma = $plataforma";
     }
     
     
-    public function agregarProveedor($id_producto_tienda, $destacado)
+    public function agregarDestacado($id_producto_tienda, $destacado)
     {
         $response = $this->initialResponse();
 
