@@ -173,7 +173,7 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
         $sql = "UPDATE `productos_tienda` SET `nombre_producto`=?,"
                 . "`pvp_tienda`=?,`id_categoria`=?,"
                 . "`pref`=? WHERE id_producto_tienda=?";
-        $data = [$nombre, $pvp_tienda, $id_categoria, $id_linea_producto, $pref];
+        $data = [$nombre, $pvp_tienda, $id_categoria, $id_categoria, $pref];
         $editar_producto = $this->update($sql, $data);
 
         // print_r($insertar_producto_);
