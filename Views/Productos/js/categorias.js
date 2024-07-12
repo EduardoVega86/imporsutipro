@@ -78,33 +78,21 @@ const listCategorias = async () => {
           '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">Activo</span>';
       }
 
-      // Realiza la solicitud AJAX para obtener la lista de bodegas
-      $.ajax({
-        url: SERVERURL + "Pedidos/info",
-        type: "GET",
-        success: function (response) {
-          console.log(response);
-        },
-        error: function (error) {
-          console.error("Error al obtener la lista de bodegas:", error);
-        },
-      });
-
       if (!categoria.imagen) {
-        if (categoria.global == 1) {
+        if (categoria.global == 1 && categoria.id_plataforma == ID_PLATAFORMA) {
           cargar_imagen = ``;
         } else {
           cargar_imagen = `<i class="bx bxs-camera-plus" onclick="agregar_imagenCategoria(${categoria.id_linea})"></i>`;
         }
       } else {
-        if (categoria.global == 1) {
+        if (categoria.global == 1 && categoria.id_plataforma == ID_PLATAFORMA) {
           cargar_imagen = ``;
         } else {
           cargar_imagen = `<img src="${SERVERURL}${categoria.imagen}" class="icon-button" onclick="agregar_imagenCategoria(${categoria.id_linea})" alt="Agregar imagen" width="50px">`;
         }
       }
 
-      if (categoria.global == 1) {
+      if (categoria.global == 1 && categoria.id_plataforma == ID_PLATAFORMA) {
         botones_accion = ``;
       } else {
         botones_accion = `<button class="btn btn-sm btn-primary" onclick="editar_categoria(${categoria.id_linea})"><i class="fa-solid fa-pencil"></i>Editar</button>
