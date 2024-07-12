@@ -254,7 +254,7 @@ function editarProducto(id) {
         // Llenar los inputs del modal con los datos recibidos
         $("#editar_id_producto").val(data.id_producto_tienda);
         $("#editar_nombre_productoTienda").val(data.nombre_producto_tienda);
-        $("#editar_pvpTienda").val(data.pvp_tiedna);
+        $("#editar_pvpTienda").val(data.pvp_tienda);
         $("#editar_prefTienda").val(data.pref_tienda);
         $("#editar_categoria").val(response[0].id_categoria_tienda).change();
 
