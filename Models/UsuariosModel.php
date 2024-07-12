@@ -490,7 +490,7 @@ class UsuariosModel extends Query
     }else{
         
         $file = $direccion . '/Config/Config.php';
-echo $file;
+//echo $file;
     // Verifica si el archivo existe antes de intentar leerlo
     if (file_exists($file)) {
         // Lee el contenido del archivo
