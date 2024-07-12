@@ -36,7 +36,6 @@ if ($result->num_rows > 0) {
     echo "0 results";
 }
 
-$mysqli->close();
 
 $id_matriz = $matriz['idmatriz'];
 $color_fondo = $matriz['color_fondo_login'];
