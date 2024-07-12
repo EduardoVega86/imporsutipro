@@ -91,8 +91,8 @@
             formData.append("id_producto_tienda", editar_id_producto);
             formData.append("nombre", editar_nombre_productoTienda);
             formData.append("pvp_tienda", editar_pvpTienda);
-            formData.append("id_categoria", editar_prefTienda);
-            formData.append("pref", editar_categoria);
+            formData.append("id_categoria", editar_categoria);
+            formData.append("pref", editar_prefTienda);
 
             $.ajax({
                 type: 'POST',

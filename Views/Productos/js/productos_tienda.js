@@ -229,7 +229,7 @@ function editarProducto(id) {
           $("#editar_id_producto").val(data.id_producto_tienda);
           $("#editar_nombre_productoTienda").val(data.nombre_producto);
           $("#editar_pvpTienda").val(data.pvp);
-          $("#prefTienda").val(data.pref);
+          $("#editar_prefTienda").val(data.pref);
           $("#editar_categoria").val(response[0].id_categoria).change();
 
           // Abrir el modal
