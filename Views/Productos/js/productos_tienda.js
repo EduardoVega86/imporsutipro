@@ -140,7 +140,7 @@ const toggleDestacado = async (idProducto, nuevoEstado) => {
       formData.append('id', idProducto);
       formData.append('destacado', nuevoEstado);
   
-      const response = await fetch(`${SERVERURL}productos/toggle_destacado`, {
+      const response = await fetch(`${SERVERURL}productos/agregarDestacado`, {
         method: 'POST',
         body: formData
       });
