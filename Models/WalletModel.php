@@ -12,54 +12,7 @@ class WalletModel extends Query
     {
         $id_matriz = $this->obtenerMatriz();
         $id_matriz = $id_matriz[0]['idmatriz'];
-        $datos_tienda = $this->select("-- Crear una lista de todas las tiendas
-                                        WITH todas_tiendas AS (
-                                            SELECT DISTINCT tienda
-                                            FROM cabecera_cuenta_pagar where id_matriz = $id_matriz
-										)
-                                        -- Contar cuántos registros tienen visto = 0 por tienda
-                                        , count_visto_0 AS (
-                                            SELECT tienda, COUNT(*) AS count_visto_0, id_plataforma
-                                            FROM cabecera_cuenta_pagar
-                                            WHERE visto = 0
-                                            and id_matriz = $id_matriz
-                                            
-                                            GROUP BY id_plataforma
-                                        )
-
-                                        -- Calcular la suma de monto_recibir y total_venta por tienda cuando visto = 1
-                                        , sum_visto_1 AS (
-                                            SELECT 
-                                                tienda, 
-                                                ROUND(SUM(monto_recibir), 2) AS utilidad, 
-                                                ROUND(SUM(total_venta), 2) AS ventas
-                                            FROM cabecera_cuenta_pagar
-                                            WHERE visto = 1
-                                            and id_matriz = $id_matriz
-                                            GROUP BY id_plataforma
-                                        )
-                                        
-                                        , plataformas AS (
-                                            SELECT DISTINCT url_imporsuit, id_plataforma
-                                            FROM plataformas)
-
-                                        -- Combinar todos los resultados y ordenar por count_visto_0 de mayor a menor
-                                        SELECT 
-                                        	t.tienda,
-                                            p.url_imporsuit, p.id_plataforma,
-                                            COALESCE(cv0.count_visto_0, 0) AS count_visto_0,
-                                            COALESCE(sv1.utilidad, 0) AS utilidad,
-                                            COALESCE(sv1.ventas, 0) AS ventas
-                                        FROM 
-                                            todas_tiendas t
-                                        LEFT JOIN 
-                                            count_visto_0 cv0 ON t.tienda = cv0.tienda
-                                        LEFT JOIN 
-                                            sum_visto_1 sv1 ON t.tienda = sv1.tienda
-                                        LEFT JOIN 
-											plataformas p ON p.id_plataforma = cv0.id_plataforma
-                                        ORDER BY 
-                                            count_visto_0 DESC;");
+        $datos_tienda = $this->select("SELECT ccp.id_plataforma, p.url_imporsuit, (SELECT COUNT(*) FROM cabecera_cuenta_pagar ccp2 WHERE ccp2.id_plataforma = ccp.id_plataforma AND ccp2.estado_guia IN (7, 9) AND ccp2.visto = 0 AND ccp2.id_matriz = 1) AS count_visto_0, ROUND(SUM(CASE WHEN ccp.estado_guia IN (7, 9) AND ccp.visto = 1 AND ccp.id_matriz = 1 THEN ccp.total_venta ELSE 0 END), 2) AS ventas, ROUND(SUM(CASE WHEN ccp.estado_guia IN (7, 9) AND ccp.visto = 1 AND ccp.id_matriz = 1 THEN ccp.monto_recibir ELSE 0 END), 2) AS utilidad FROM cabecera_cuenta_pagar ccp INNER JOIN plataformas p ON p.id_plataforma = ccp.id_plataforma WHERE ccp.id_matriz = 1 GROUP BY ccp.id_plataforma, p.url_imporsuit ORDER BY count_visto_0 DESC;");
 
         return json_encode($datos_tienda);
     }
