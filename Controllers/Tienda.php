@@ -41,8 +41,9 @@ class Tienda extends Controller
     }
     
     public function bannertienda()
-    {        //$nombre = $_POST['nombre'];
-        $response = $this->model->bannertienda($_SESSION['id_plataforma']);
+    {
+        $id_plataforma = $_POST['id_plataforma'];
+        $response = $this->model->bannertienda($id_plataforma);
        echo json_encode($response);
        
     }
