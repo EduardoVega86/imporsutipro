@@ -3,9 +3,7 @@
 
 
 <!-- llamada de modales -->
-<?php require_once './Views/Productos/Modales/editar_index_productos.php'; ?>
-<?php require_once './Views/Productos/Modales/imagen_productos.php'; ?>
-
+<?php require_once './Views/Productos/Modales/editar_productoTienda.php'; ?>
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">

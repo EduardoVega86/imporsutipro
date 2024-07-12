@@ -376,7 +376,7 @@ class Productos extends Controller
     
     public function editarProductoTienda()
     {
-        $id = $_POST['id_producto_tienda'];
+        $id_producto_tienda = $_POST['id_producto_tienda'];
         $nombre = $_POST['nombre'];
          $pvp_tienda = $_POST['$pvp_tienda'];
           $id_categoria = $_POST['$id_categoria'];

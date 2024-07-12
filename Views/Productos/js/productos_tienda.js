@@ -136,44 +136,6 @@ function abrir_modalSeleccionAtributo(id) {
   $("#seleccionProdcutoAtributoModal").modal("show");
 }
 
-//enviar cliente
-function enviar_cliente(id, sku, pvp, id_inventario) {
-  // Crear un objeto FormData y agregar los datos
-  const formData = new FormData();
-  formData.append("cantidad", 1);
-  formData.append("precio", pvp);
-  formData.append("id_producto", id);
-  formData.append("sku", sku);
-  formData.append("id_inventario", id_inventario);
-
-  $.ajax({
-    type: "POST",
-    url: "" + SERVERURL + "marketplace/agregarTmp",
-    data: formData,
-    processData: false,
-    contentType: false,
-    success: function (response2) {
-      response2 = JSON.parse(response2);
-      console.log(response2);
-      console.log(response2[0]);
-      if (response2.status == 500) {
-        Swal.fire({
-          icon: "error",
-          title: response2.title,
-          text: response2.message,
-        });
-      } else if (response2.status == 200) {
-        window.location.href =
-          SERVERURL + "Pedidos/nuevo?id_producto=" + id + "&sku=" + sku;
-      }
-    },
-    error: function (xhr, status, error) {
-      console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al agregar el producto temporalmente");
-    },
-  });
-}
-
 function eliminarProducto(id) {
   $.ajax({
     type: "POST",
@@ -220,13 +182,7 @@ $(document).ready(function () {
       if (Array.isArray(response)) {
         response.forEach(function (categoria) {
           // Agrega una nueva opción al select por cada categoria
-          $("#categoria").append(
-            new Option(categoria.nombre_linea, categoria.id_linea)
-          );
           $("#editar_categoria").append(
-            new Option(categoria.nombre_linea, categoria.id_linea)
-          );
-          $("#categoria_filtro").append(
             new Option(categoria.nombre_linea, categoria.id_linea)
           );
         });
@@ -237,37 +193,6 @@ $(document).ready(function () {
     error: function (error) {
       console.error("Error al obtener la lista de categorias:", error);
     },
-  });
-});
-
-//cargar select de bodega
-$(document).ready(function () {
-  // Realiza la solicitud AJAX para obtener la lista de bodegas
-  $.ajax({
-    url: SERVERURL + "productos/listar_bodegas",
-    type: "GET",
-    dataType: "json",
-    success: function (response) {
-      // Asegúrate de que la respuesta es un array
-      if (Array.isArray(response)) {
-        response.forEach(function (bodega) {
-          // Agrega una nueva opción al select por cada bodega
-          $("#bodega").append(new Option(bodega.nombre, bodega.id));
-          $("#editar_bodega").append(new Option(bodega.nombre, bodega.id));
-        });
-      } else {
-        console.log("La respuesta de la API no es un array:", response);
-      }
-    },
-    error: function (error) {
-      console.error("Error al obtener la lista de bodegas:", error);
-    },
-  });
-
-  // Evento change para el select de categoría y filtrar por categorias
-  $("#categoria_filtro").change(function () {
-    let categoriaId = $(this).val();
-    filtrarProductosPorCategoria(categoriaId);
   });
 });
 
@@ -295,25 +220,11 @@ function editarProducto(id) {
     url: SERVERURL + "productos/obtener_producto/" + id,
     dataType: "json",
     success: function (response) {
-      console.log(response); // Depuración: Mostrar la respuesta en la consola
+      console.log(response);
 
       if (response && response.length > 0) {
         const data = response[0];
 
-        if (
-          $("#editar_codigo").length > 0 &&
-          $("#editar_nombre").length > 0 &&
-          $("#editar_descripcion").length > 0 &&
-          $("#editar_categoria").length > 0 &&
-          $("#editar_formato_pagina").length > 0 &&
-          $("#editar_ultimo_costo").length > 0 &&
-          $("#editar_precio_proveedor").length > 0 &&
-          $("#editar_precio_venta").length > 0 &&
-          $("#editar_precio_referencial").length > 0 &&
-          $("#editar_maneja_inventario").length > 0 &&
-          $("#editar_stock_inicial").length > 0
-        ) {
-          console.log("Elementos encontrados, actualizando valores...");
           // Llenar los inputs del modal con los datos recibidos
           $("#editar_id_producto").val(data.id_producto);
           $("#editar_codigo").val(data.codigo_producto);
@@ -332,9 +243,7 @@ function editarProducto(id) {
 
           // Abrir el modal
           $("#editar_productoModal").modal("show");
-        } else {
-          console.error("Uno o más elementos no se encontraron en el DOM.");
-        }
+        
       } else {
         console.error("La respuesta está vacía o tiene un formato incorrecto.");
       }
@@ -346,17 +255,6 @@ function editarProducto(id) {
   });
 }
 
-function agregar_imagenProducto(id, imagen) {
-  $("#id_imagenproducto").val(id);
-
-  if (imagen) {
-    $("#imagePreviewPrincipal").attr("src", imagen).show();
-  } else {
-    $("#imagePreviewPrincipal").hide();
-  }
-
-  $("#imagen_productoModal").modal("show");
-}
 window.addEventListener("load", async () => {
   await initDataTableProductos();
 });
