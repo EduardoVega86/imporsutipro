@@ -111,17 +111,17 @@ const listProductos = async () => {
         cargar_imagen = `<img src="${enlace_imagen}" class="icon-button" alt="Agregar imagen" width="50px">`;
       }
 
-      const destacadoBtn = producto.destacado
+      const destacadoBtn = producto.destacado_tienda
         ? `<button class="btn-destacado-si" onclick="toggleDestacado(${producto.id_producto_tienda}, 0)">SI</button>`
         : `<button class="btn-destacado-no" onclick="toggleDestacado(${producto.id_producto_tienda}, 1)">NO</button>`;
 
       content += `
           <tr>
-            <td>${producto.nombre_producto}</td>
+            <td>${producto.nombre_producto_tienda}</td>
             <td>${cargar_imagen}</td>
             <td>${destacadoBtn}</td>
-            <td>${producto.pvp}</td>
-            <td>${producto.pref}</td>
+            <td>${producto.pvp_tiedna}</td>
+            <td>${producto.pref_tienda}</td>
             <td>
               <button class="btn btn-sm btn-primary" onclick="editarProducto(${producto.id_producto_tienda})"><i class="fa-solid fa-pencil"></i> Editar</button>
               <button class="btn btn-sm btn-danger" onclick="eliminarProducto(${producto.id_producto_tienda})"><i class="fa-solid fa-trash-can"></i> Borrar</button>
