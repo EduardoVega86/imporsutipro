@@ -40,7 +40,7 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
          $inventario = $this->select("SELECT * FROM inventario_bodegas ib, productos p WHERE p.id_producto = $id_producto and ib.id_producto=p.id_producto");
 
             // Insertar cada registro de tmp_cotizacion en detalle_cotizacion
-            $detalle_sql = "INSERT INTO `productos_tienda` (`id_plataforma`, `id_producto`, `nombre_producto_tienda`, `imagen_principal`, `pvp_tienda`, `id_inventario`, `id_categoria`) VALUES ( ?, ?, ?, ?, ?, ?, ?)";
+            $detalle_sql = "INSERT INTO `productos_tienda` (`id_plataforma`, `id_producto`, `nombre_producto_tienda`, `imagen_principal`, `pvp_tienda`, `id_inventario`, `id_categoria_tienda`) VALUES ( ?, ?, ?, ?, ?, ?, ?)";
             
             foreach ($inventario as $inv) {
               $detalle_data = array(
@@ -171,7 +171,7 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
     {
         $response = $this->initialResponse();
         $sql = "UPDATE `productos_tienda` SET `nombre_producto_tienda`=?,"
-                . "`pvp_tienda`=?,`id_categoria`=?,"
+                . "`pvp_tienda`=?,`id_categoria_tienda`=?,"
                 . "`pref_tienda`=? WHERE id_producto_tienda=?";
        // echo $sql;
         $data = [$nombre, $pvp_tienda, $id_categoria,  $pref, $id_producto_tienda];
@@ -788,7 +788,7 @@ WHERE b.id_plataforma = $plataforma";
     {
         $response = $this->initialResponse();
 
-        $sql = "UPDATE `productos_tienda` SET `destacado` = ? WHERE `id_producto_tienda` = ?";
+        $sql = "UPDATE `productos_tienda` SET `destacado_tienda` = ? WHERE `id_producto_tienda` = ?";
         $data = [$destacado, $id_producto_tienda];
         $editar_plataforma = $this->update($sql, $data);
         //print_r($editar_producto);
