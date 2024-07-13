@@ -509,7 +509,7 @@ class UsuariosModel extends Query
         // Escribe el contenido modificado de nuevo en el archivo
         file_put_contents($file, $newContent);
 
-             $url_tienda='http://'.$nombre_tienda.'.imporsuitpro.com';
+             $url_tienda='https://'.$nombre_tienda.'.imporsuitpro.com';
         
         $sql = " UPDATE `plataformas` SET `url_imporsuit` =?, `tienda_creada` =?  WHERE `id_plataforma` = ?";
         $data = [$url_tienda, 1, $plataforma];
