@@ -439,7 +439,7 @@
                 
                 
                 $("#texto_cabecera").val(response[0].texto_cabecera);
-                alert(response[0].texto_boton);
+               // alert(response[0].texto_boton);
                 
                 $("#texto_footer").val(response[0].texto_footer);
                 $("#texto_precio").val(response[0].texto_precio);
@@ -448,7 +448,7 @@
                 $("#texto_boton1").val(response[0].texto_boton);
                 
                 $("#ruc_tienda").val(response[0].ruc_tienda);
-                alert(response[0].whatsapp)
+              //  alert(response[0].whatsapp)
       $("#whatsapp").val(response[0].whatsapp);
       
       $("#email").val(response[0].email);
