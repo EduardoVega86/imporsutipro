@@ -289,7 +289,7 @@ class TiendaModel extends Query
         )";
 
         $data = array(
-            $nueva_factura, $fecha_factura, $precio_producto, 1,
+            $nueva_factura, $date_added, $precio_producto, 1,
             $nombre, $telefono, $calle_principal, $ciudad, $calle_secundaria,
             $referencia, $observacion, 0, 0, 0, $telefono,
             $producto_plataforma, $drop, $id_plataforma,  0,
