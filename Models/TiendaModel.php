@@ -333,7 +333,7 @@ class TiendaModel extends Query
                     $nombre
                 );
                 $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
-                print_r($guardar_detalle);
+               // print_r($guardar_detalle);
                 // print_r($guardar_detalle);
           
 
