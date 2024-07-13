@@ -317,10 +317,7 @@ class TiendaModel extends Query
                 //buscar producto 
               
                 $sku = $sku;
-                $nombre = $tmp['nombre'];
-                $cantidad = $tmp['cantidad'];
-                $descuento = 0;
-                $precio = $tmp['precio'];
+               
                 //  echo 'enta';
                 $detalle_data = array(
                     $nueva_factura,
