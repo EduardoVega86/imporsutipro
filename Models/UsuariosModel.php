@@ -507,7 +507,7 @@ echo $file;
         echo "El archivo config.php no se encuentra en la carpeta config.";
     }
     
-        echo 'generado correctamente;';
+       
     }
 }
 
