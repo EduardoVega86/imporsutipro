@@ -245,7 +245,7 @@ class TiendaModel extends Query
         $sql_producto = "SELECT * FROM productos_tienda WHERE id_producto_tienda = $id_producto limit 1";
         $producto = $this->select($sql_producto);
         $producto = $producto[0]['id_producto'];
-        echo $producto;
+        //echo $producto;
         
         $sql_datos_producto = "SELECT * FROM productos WHERE id_producto = $producto ";
        // echo $sql_datos_producto;
@@ -307,7 +307,7 @@ class TiendaModel extends Query
 
         $responses = $this->insert($sql, $data);
 
-        print_r($responses);
+       // print_r($responses);
         if ($responses === 1) {
             // Insertar cada registro de tmp_cotizacion en detalle_cotizacion
             $detalle_sql = "INSERT INTO detalle_fact_cot (numero_factura, id_factura, id_producto, cantidad, desc_venta, precio_venta, id_plataforma , sku, id_inventario, descripcion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
