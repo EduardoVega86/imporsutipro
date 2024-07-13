@@ -102,7 +102,7 @@ class Tienda extends Controller
      public function obtener_informacion_tienda()
     {
       
-        $precio_maximo = $_POST['id_plataforma'];
+        $id_plataforma = $_POST['id_plataforma'];
         $response = $this->model->obtener_informacion_tienda($id_plataforma);
         echo json_encode($response);
     }
