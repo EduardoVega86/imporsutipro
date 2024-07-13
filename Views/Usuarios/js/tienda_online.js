@@ -183,7 +183,13 @@ function editar_banner(id) {
       $("#texto_banner_editar").val(response[0].texto_banner);
       $("#texto_boton_editar").val(response[0].texto_boton);
       $("#enlace_boton_editar").val(response[0].enlace_boton);
+      
+            $("#ruc_tienda").val(response[0].ruc_tienda);
+            $("#whatsap").val(response[0].whatsap);
+            $("#email").val(response[0].email);
+                        
       $("#alineacion_editar").val(response[0].alineacion).change();
+      
       $("#preview-imagen-editar")
         .attr("src", SERVERURL + response[0].fondo_banner)
         .show();

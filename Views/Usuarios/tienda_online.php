@@ -107,10 +107,7 @@
                                         <button class="btn btn-success" onclick="crear_tienda()"><i class="fa-solid fa-shop"></i> Crear tienda</button>
 
                                     </div>
-                                    <div class="form-group mb-3">
-                                        <label for="descripcion_tienda">Descripción:</label>
-                                        <input type="text" class="form-control" id="descripcion_tienda" name="descripcion_tienda">
-                                    </div>
+                                    
                                     <div class="form-group mb-3">
                                         <label for="ruc_tienda">RUC</label>
                                         <input type="text" class="form-control" id="ruc_tienda" name="ruc_tienda">
