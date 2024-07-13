@@ -110,7 +110,9 @@
                 <?php
                 } else {
                 ?>
+                    <a href="<?php echo SERVERURL ?>usuarios/tienda_online"><i class='bx bx-home menu-icon'></i> <span class="menu-text">Tienda Online</span></a>
                 <a href="<?php echo SERVERURL ?>usuarios/listado"><i class='bx bx-user menu-icon'></i> <span class="menu-text">Usuarios</span></a>
+                 
                 <?php
                 }
                 ?>
