@@ -247,12 +247,14 @@ class TiendaModel extends Query
         $producto = $producto[0]['id_producto'];
         
         $sql_datos_producto = "SELECT * FROM productos WHERE id_producto = $producto ";
-        echo $sql_datos_producto;
+       // echo $sql_datos_producto;
         $datos_producto = $this->select($sql_datos_producto);
         $producto_plataforma = $datos_producto[0]['id_plataforma'];
             
         
          $sql_datos_bodega = "SELECT * FROM inventario_bodegas WHERE id_inventario = $id_inventario ";
+         
+         echo $sql_datos_bodega;
         $datos_bodega = $this->select($sql_datos_bodega);
         $bodega = $datos_bodega[0]['bodega'];
         
