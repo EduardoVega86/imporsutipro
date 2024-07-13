@@ -449,7 +449,7 @@
                 
                 $("#ruc_tienda").val(response[0].ruc_tienda);
                 
-                alert(response[0].ruc_tienda)
+                alert(response[0].tienda_creada)
               //  alert(response[0].whatsapp)
       $("#whatsapp").val(response[0].whatsapp);
       
