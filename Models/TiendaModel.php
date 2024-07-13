@@ -87,107 +87,107 @@ class TiendaModel extends Query
             throw new Exception('Error al añadir el dominio: ' . $responseData['cpanelresult']['data'][0]['reason']);
         }
     }
-    
-     public function informaciontienda($plataforma)
+
+    public function informaciontienda($plataforma)
     {
         $sql = "SELECT * FROM plataformas pl, perfil pe WHERE pl.id_plataforma=$plataforma and pe.id_plataforma=pl.id_plataforma";
-        
+
         return $this->select($sql);
     }
-    
+
     public function caracteristicastienda($plataforma)
     {
         $sql = "SELECT * FROM caracteristicas_tienda WHERE id_plataforma = $plataforma";
-        
+
         return $this->select($sql);
     }
-    
-     public function bannertienda($plataforma)
+
+    public function bannertienda($plataforma)
     {
         $sql = "SELECT * FROM banner_adicional WHERE id_plataforma = $plataforma";
-        
+
         return $this->select($sql);
     }
-    
+
     public function testimoniostienda($plataforma)
     {
         $sql = "SELECT * FROM testimonios WHERE id_plataforma = $plataforma";
-        
+
         return $this->select($sql);
     }
 
     public function categoriastienda($id_plataforma)
     {
         $sql = "SELECT * FROM productos_tienda pt, lineas l WHERE pt.id_plataforma=$id_plataforma and pt.id_categoria_tienda=l.id_linea  group by id_categoria_tienda";
-        
+
         return $this->select($sql);
     }
 
     public function destacadostienda($id_plataforma)
     {
         $sql = "SELECT * FROM productos_tienda WHERE destacado_tienda=1 AND id_plataforma = $id_plataforma;";
-        
+
         return $this->select($sql);
     }
 
     public function iconostienda($id_plataforma)
     {
         $sql = "SELECT * FROM caracteristicas_tienda WHERE (accion=1 or accion=2 or accion=3) AND id_plataforma = $id_plataforma;";
-        
+
         return $this->select($sql);
     }
 
-    public function obtener_productos_tienda($plataforma,$id_producto_tienda)
+    public function obtener_productos_tienda($plataforma, $id_producto_tienda)
     {
         $sql = "SELECT * FROM `productos_tienda` WHERE id_plataforma=$plataforma AND id_producto_tienda = $id_producto_tienda";
 
         return $this->select($sql);
     }
-    
-     public function obtener_productos_tienda_filtro($plataforma, $id_categoria, $precio_maximo, $precio_minimo)
+
+    public function obtener_productos_tienda_filtro($plataforma, $id_categoria, $precio_maximo, $precio_minimo)
     {
-         
-        $where='';
-      
-        if (isset($id_categoria) and $id_categoria!= ''){
+
+        $where = '';
+
+        if (isset($id_categoria) and $id_categoria != '') {
             echo 'asd';
             $where .= " and pt.id_categoria_tienda = $id_categoria ";
         }
-     
-        
-         if (isset($min) and $min!= ''){
+
+
+        if (isset($precio_minimo) and $precio_minimo != '') {
             $where .= " and pt.pvp_tienda >= $precio_minimo ";
         }
-        
-        if (isset($max) and $max!= ''){
+
+        if (isset($precio_maximo) and $precio_maximo != '') {
             $where .= " and ib.pvp_tienda <= $precio_maximo ";
         }
-        
-    
-        
-        
+
+
+
+
         $sql = "SELECT * FROM `productos_tienda` pt, productos p, inventario_bodegas ib WHERE  pt.id_producto=p.id_producto and pt.id_inventario=ib.id_inventario and pt.id_plataforma=$plataforma $where";
         //echo $sql;
         return $this->select($sql);
     }
-    
-    
+
+
     public function horizontaltienda($plataforma)
     {
         $sql = "SELECT * FROM horizontal WHERE id_plataforma = $plataforma";
-        
+
         return $this->select($sql);
     }
-    
-    
+
+
     public function insertarCatacteristica($plataforma)
     {
         $sql = "SELECT * FROM caracteristicas_tienda WHERE id_plataforma = $plataforma";
-        
+
         return $this->select($sql);
     }
-    
-    public function agregarCaracteristicas($nombre , $plataforma)
+
+    public function agregarCaracteristicas($nombre, $plataforma)
     {
         // codigo para agregar categoria
         $response = $this->initialResponse();
@@ -206,15 +206,15 @@ class TiendaModel extends Query
         }
         return $response;
     }
-    
-    public function actualizar_tienda($nombre_tienda, $descripcion_tienda, $ruc_tienda,$telefono_tienda, $email_tienda, $direccion_tienda, $pais_tienda,$paltaforma)
+
+    public function actualizar_tienda($nombre_tienda, $descripcion_tienda, $ruc_tienda, $telefono_tienda, $email_tienda, $direccion_tienda, $pais_tienda, $paltaforma)
     {
         $response = $this->initialResponse();
         $sql = "UPDATE `plataformas` SET `nombre_tienda` = ?, `nombre_tienda` = ? , `cedula_facturacion` = ?, `whatsapp` = ?, `email` = ?  WHERE `plataformas`.`id_plataforma` = ? ";
         $data = [$codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $id, $plataforma];
         $editar_producto = $this->update($sql, $data);
 
-      
+
         // print_r($insertar_producto_);
         if ($editar_producto == 1) {
             $response['status'] = 200;
@@ -230,12 +230,11 @@ class TiendaModel extends Query
         }
         return $response;
     }
-    
-     public function obtener_informacion_tienda($plataforma)
+
+    public function obtener_informacion_tienda($plataforma)
     {
         $sql = "SELECT * FROM plataformas pl, perfil pe WHERE pl.id_plataforma=$plataforma and pl.id_plataforma= pe.id_plataforma";
 
         return $this->select($sql);
     }
-
 }
