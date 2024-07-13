@@ -114,15 +114,15 @@
                                     </div>
                                     <div class="form-group mb-3">
                                         <label for="telefono_tienda">Telefono:</label>
-                                        <input type="text" class="form-control" id="telefono_tienda" name="telefono_tienda">
+                                        <input type="text" class="form-control" id="whatsapp" name="whatsapp">
                                     </div>
                                     <div class="form-group mb-3">
                                         <label for="email_tienda">Email:</label>
-                                        <input type="email" class="form-control" id="email_tienda" name="email_tienda">
+                                        <input type="email" class="form-control" id="email" name="email">
                                     </div>
                                     <div class="form-group mb-3">
                                         <label for="direccion_tienda">Dirección:</label>
-                                        <input type="text" class="form-control" id="direccion_tienda" name="direccion_tienda">
+                                        <input type="text" class="form-control" id="direccion" name="direccion">
                                     </div>
                                     <div class="form-group mb-3">
                                         <label for="pais_tienda">-- Elige un país --</label>
@@ -435,6 +435,13 @@
                 $("#color_botones").val(response[0].color_botones);
                 $("#texto_boton1").val(response[0].texto_boton);
                 
+                $("#ruc_tienda").val(response[0].ruc_tienda);
+                alert(response[0].whatsapp)
+      $("#whatsapp").val(response[0].whatsapp);
+      
+      $("#email").val(response[0].email);
+      
+      $("#direccion").val(response[0].direccion);
                 
                 
                 $('#imagen_logo').attr('src', SERVERURL + response[0].logo_url);
