@@ -359,4 +359,21 @@ class TiendaModel extends Query
 
         return $response;
     }
+    
+    function incrementarNumeroFactura($factura)
+    {
+        // Separar el prefijo del número de serie
+        $partes = explode('-', $factura);
+        $prefijo = $partes[0];
+        $serial = $partes[1];
+
+        // Convertir el número de serie a un entero, incrementarlo, y formatearlo con ceros a la izquierda
+        $nuevoSerial = str_pad((int)$serial + 1, strlen($serial), '0', STR_PAD_LEFT);
+
+        // Unir el prefijo con el nuevo número de serie
+        $nuevaFactura = $prefijo . '-' . $nuevoSerial;
+
+        return $nuevaFactura;
+    }
+
 }
