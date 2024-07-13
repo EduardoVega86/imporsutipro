@@ -3,7 +3,67 @@
 
 <?php require_once './Views/Usuarios/Modales/agregar_banner.php'; ?>
 <?php require_once './Views/Usuarios/Modales/editar_banner.php'; ?>
-
+  <style>
+       
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            background: #ffffff;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            padding: 30px;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .section h2 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .inputs {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .input-box {
+            flex: 1 1 calc(33.333% - 20px);
+            min-width: 100px;
+            max-width: 200px;
+            height: 150px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .input-box input {
+            width: 80%;
+            height: 80%;
+            border: none;
+            outline: none;
+            border-radius: 8px;
+            cursor: pointer;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        .input-box input::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+        .input-box input::-webkit-color-swatch {
+            border: none;
+            border-radius: 8px;
+        }
+        .input-label {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
 <div class="custom-container-fluid mt-4">
 
     <div class="accordion" id="accordionExample">
@@ -168,12 +228,12 @@
                     </div>
                     <div class="table-responsive">
                         <!-- <table class="table table-bordered table-striped table-hover"> -->
-                        <table id="datatable_banner" class="table table-striped">
+                        <table id="datatable_banner" width="100%" class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th class="text-nowrap">Fondo Banner</th>
-                                    <th class="text-nowrap">Título</th>
-                                    <th class="text-nowrap">Texto Banner</th>
+                                    <th class="text-nowrap">Titulo</th>
+                                    <th class="text-nowrap">Icono</th>
+                                    <th class="text-nowrap">Subtexto</th>
                                     <th class="text-nowrap">Texto Boton</th>
                                     <th class="text-nowrap">Enlace Boton</th>
                                     <th class="text-nowrap">Alineacion</th>
@@ -194,7 +254,19 @@
             </h2>
             <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                    Contenido de Iconos.
+                  <div class="table-responsive">
+                        <!-- <table class="table table-bordered table-striped table-hover"> -->
+                        <table id="datatable_caracteristicas" width="100%" class="table table-striped">
+                            <thead>
+                                <tr>
+                                     <th class="text-nowrap">Titulo</th>
+                                    <th class="text-nowrap">Icono</th>
+                                    <th class="text-nowrap">Subtexto</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody_caracteristicas"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -206,7 +278,38 @@
             </h2>
             <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                    Contenido de Colores.
+                 <div class="container">
+        <div class="section">
+            <h2>Elementos</h2>
+            <div class="inputs">
+                <div class="input-box">
+                    <input onchange="cambiarcolor('color_botones',this.value)" id="color_botones" name="color_botones" type="color" value="#ff0000">
+                    <div class="input-label">Botones</div>
+                </div>
+                <div class="input-box">
+                    <input onchange="cambiarcolor('color',this.value)" id="color" name="color" onchange="cambiarcolor()" type="color" value="#000000">
+                    <div class="input-label">Barra Superior</div>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <h2>Textos</h2>
+            <div class="inputs">
+                <div class="input-box">
+                    <input onchange="cambiarcolor('texto_cabecera',this.value)" id="texto_cabecera" name="texto_cabecera" type="color" value="#ffffff">
+                    <div class="input-label">Cabecera</div>
+                </div>
+                <div class="input-box">
+                    <input onchange="cambiarcolor('texto_boton',this.value)" id="texto_boton1" name="texto_boton1" type="color" value="#ffffff">
+                    <div class="input-label">Botones</div>
+                </div>
+                <div class="input-box">
+                    <input onchange="cambiarcolor('texto_precio',this.value)" id="texto_precio" name="texto_precio" type="color" value="#000000">
+                    <div class="input-label">Texto Precio</div>
+                </div>
+            </div>
+        </div>
+    </div>
                 </div>
             </div>
         </div>
@@ -324,12 +427,64 @@
             dataType: "json",
             success: function(response) {
                 $("#nombre_tienda").val(response[0].nombre_tienda);
+                
+                
+                $("#texto_cabecera").val(response[0].texto_cabecera);
+                alert(response[0].texto_boton);
+                
+                $("#texto_footer").val(response[0].texto_footer);
+                $("#texto_precio").val(response[0].texto_precio);
+                $("#color").val(response[0].color);
+                $("#color_botones").val(response[0].color_botones);
+                $("#texto_boton1").val(response[0].texto_boton);
+                
+                
+                
                 $('#imagen_logo').attr('src', SERVERURL + response[0].logo_url);
             },
             error: function(error) {
                 console.error("Error al obtener la lista de bodegas:", error);
             },
         });
+    }
+    
+    function cambiarcolor(campo, valor) {
+        
+        const formData = new FormData();
+  formData.append("campo", campo);
+  formData.append("valor", valor);
+ 
+
+  $.ajax({
+    type: "POST",
+    url: "" + SERVERURL + "Usuarios/cambiarcolor",
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function (response2) {
+      response2 = JSON.parse(response2);
+      console.log(response2);
+      console.log(response2[0]);
+      if (response2.status == 200) {
+        Swal.fire({
+          icon: "error",
+          title: 'Exito',
+          text: 'Color cambiado correctamente',
+        });
+      } else if (response2.status == 200) {
+         Swal.fire({
+          icon: "error",
+          title: response2.title,
+          text: response2.message,
+        });
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al agregar el producto temporalmente");
+    },
+  });
+  
     }
 </script>
 <?php require_once './Views/templates/footer.php'; ?>

@@ -288,6 +288,13 @@ class UsuariosModel extends Query
 
         return $this->select($sql);
     }
+    
+    public function obtener_caracteristicas($plataforma)
+    {
+        $sql = "SELECT * FROM caracteristicas_tienda WHERE id_plataforma = $plataforma";
+
+        return $this->select($sql);
+    }
 
     public function obtener_bannertiendaID($id, $plataforma)
     {
@@ -545,4 +552,21 @@ class UsuariosModel extends Query
     }
     
 
+     public function cambiarcolortienda($campo, $valor, $plataforma)
+    {
+       // $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
+
+        $sql = "UPDATE `perfil` SET $campo =? WHERE `id_plataforma` = ?";
+        echo $sql;
+        $data = [$valor, $plataforma];
+        $editar_perfil = $this->update($sql, $data);
+        print_r($editar_perfil);
+        if ($editar_perfil == 1) {
+            $responses = array('status' => 200, 'title' => 'Peticion exitosa', 'message' => 'Contraseña actualizada correctamente');
+        } else {
+            $responses = array('status' => 500, 'title' => 'Error', 'message' => $editar_perfil['message']);
+        }
+        return $responses;
+    }
+    
 }

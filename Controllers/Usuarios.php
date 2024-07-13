@@ -251,6 +251,12 @@ class Usuarios extends Controller
         $response = $this->model->obtener_bannertienda($_SESSION['id_plataforma']);
         echo json_encode($response);
     }
+    
+    public function obtener_caracteristica()
+    {
+        $response = $this->model->obtener_caracteristicas($_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
 
     public function obtener_bannertiendaID()
     {
@@ -298,6 +304,15 @@ class Usuarios extends Controller
     {
         $nombre = $_POST['nombre'];
         $response = $this->model->crearSubdominio($nombre, $_SESSION['id_plataforma']);
+                echo json_encode($response);
+
+    }
+    
+     public function cambiarcolor()
+    {
+        $campo = $_POST['campo'];
+        $valor = $_POST['valor'];
+        $response = $this->model->cambiarcolortienda($campo, $valor, $_SESSION['id_plataforma']);
                 echo json_encode($response);
 
     }
