@@ -448,6 +448,8 @@
                 $("#texto_boton1").val(response[0].texto_boton);
                 
                 $("#ruc_tienda").val(response[0].ruc_tienda);
+                
+                alert(response[0].ruc_tienda)
               //  alert(response[0].whatsapp)
       $("#whatsapp").val(response[0].whatsapp);
       
