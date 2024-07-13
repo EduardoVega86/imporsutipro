@@ -490,7 +490,7 @@ class UsuariosModel extends Query
     }else{
         
         $file = $direccion . '/Config/Config.php';
-echo $file;
+//echo $file;
     // Verifica si el archivo existe antes de intentar leerlo
     if (file_exists($file)) {
         // Lee el contenido del archivo
@@ -502,6 +502,18 @@ echo $file;
         // Escribe el contenido modificado de nuevo en el archivo
         file_put_contents($file, $newContent);
 
+             $url_tienda='http://'.$nombre_tienda.'/imporsuitpro.com';
+        
+        $sql = " UPDATE `plataformas` SET `url_imporsuit` =? WHERE `id_plataforma` = ?";
+        $data = [$url_tienda, $plataforma];
+        $editar_producto = $this->update($sql, $data);
+        print_r($editar_producto);
+        if ($editar_producto == 1) {
+            $responses = array('status' => 200, 'title' => 'Peticion exitosa', 'message' => 'Contraseña actualizada correctamente');
+        } else {
+            $responses = array('status' => 500, 'title' => 'Error', 'message' => $editar_producto['message']);
+        }
+        
         echo "El archivo ha sido actualizado.";
     } else {
         echo "El archivo config.php no se encuentra en la carpeta config.";
