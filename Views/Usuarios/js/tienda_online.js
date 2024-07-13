@@ -166,3 +166,47 @@ function crear_tienda() {
     },
   });
 }
+
+function validateStoreName(callback) {
+    const input = document.getElementById('nombre_tienda');
+    const label = document.querySelector('label[for="nombre_tienda"]');
+    const errorDiv = document.getElementById('tienda-error');
+    const regex = /^[a-zA-Z]*$/;
+
+    input.value = input.value.toLowerCase();
+
+    if (!regex.test(input.value)) {
+        label.classList.remove("text-green-500");
+        label.classList.add("text-red-500", "border-red-500");
+        errorDiv.textContent = "El nombre de la tienda no puede contener espacios ni caracteres especiales como (/, ^, *, $, @, \\)";
+        errorDiv.style.display = "block";
+        input.value = input.value.slice(0, -1);
+        callback(false);
+        return;
+    }
+
+    fetch('Acceso/validar_tiendas.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            tienda: input.value
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.exists) {
+            errorDiv.textContent = "Esta tienda ya existe.";
+            errorDiv.style.display = "block";
+            callback(false);
+        } else {
+            errorDiv.style.display = "none";
+            callback(true);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        callback(false);
+    });
+}

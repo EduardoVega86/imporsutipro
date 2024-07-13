@@ -43,7 +43,9 @@
                                     <div class="form-group mb-3">
                                         <label for="nombre_tienda">Nombre de la tienda:</label>
                                         <input type="text" class="form-control" id="nombre_tienda" name="nombre_tienda">
+                                        <div id="tienda-error" style="color: red; display: none;">Esta tienda ya existe.</div>
                                         <button class="btn btn-success" onclick="crear_tienda()"><i class="fa-solid fa-shop"></i> Crear tienda</button>
+
                                     </div>
                                     <div class="form-group mb-3">
                                         <label for="descripcion_tienda">Descripción:</label>
