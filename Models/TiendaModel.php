@@ -322,7 +322,7 @@ class TiendaModel extends Query
                 $detalle_data = array(
                     $nueva_factura,
                     $factura_id,
-                    $id_producto,
+                    $producto,
                     1,
                     0,
                     $precio_producto,
