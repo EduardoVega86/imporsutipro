@@ -87,12 +87,12 @@
                                         <img id="imagen_logo" class="image-preview mb-3" src="" alt="Preview" width="50%">
                                     </form>
                                     <h5 class="card-title">FAVICON</h5>
-                                    <form id="imageFormFavicon" enctype="multipart/form-data">
+                                    <!--form id="imageFormFavicon" enctype="multipart/form-data">
                                         <div class="mb-3">
                                             <input type="file" class="form-control" id="imageInputFav" accept="image/*" name="imagenFav">
                                         </div>
                                         <img id="imagePreviewFav" class="image-preview mb-3" src="" alt="Preview" width="200px">
-                                    </form>
+                                    </form-->
                                 </div>
                             </div>
                         </div>
@@ -383,9 +383,21 @@
     });
 
 
-    $('#imageFormFavicon').submit(function(event) {
+    $('#imageInputFav').on('change', function(event) {
         event.preventDefault();
-        var formData = new FormData(this);
+
+        // Mostrar vista previa de la imagen seleccionada
+        var input = event.target;
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#imagen_logo').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+
+        // Crear un FormData y enviar la imagen mediante AJAX
+        var formData = new FormData($('#imageFormFavicon')[0]);
         $.ajax({
             url: SERVERURL + 'Usuarios/guardar_imagen_favicon', // Cambia esta ruta por la ruta correcta a tu controlador
             type: 'POST',
@@ -411,7 +423,7 @@
             }
         });
     });
-
+    
     $(document).ready(function() {
 
         cargarInfoTienda_inicial();
