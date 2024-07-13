@@ -312,7 +312,7 @@ class TiendaModel extends Query
             $id_factura = $this->select("SELECT id_factura FROM facturas_cot WHERE numero_factura = '$nueva_factura'");
             $factura_id = $id_factura[0]['id_factura'];
 
-            foreach ($productos as $tmp) {
+          
                 //buscar producto 
                 $id_producto = $tmp['id_producto_venta'];
                 $sql = "SELECT * FROM inventario_bodegas WHERE id_producto = $id_producto";
@@ -344,7 +344,7 @@ class TiendaModel extends Query
                 $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
                 print_r($guardar_detalle);
                 // print_r($guardar_detalle);
-            }
+          
 
 
             $response['status'] = 200;
