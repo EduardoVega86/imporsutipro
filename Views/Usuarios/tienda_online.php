@@ -454,7 +454,7 @@
                 
               if(response[0].tienda_creada == 1) {
     $("#nombre_tienda").prop("readonly", true);
-    $("#tienda-creada").html('<a href="' + response[0].url_imporsuit + '" target="_blank">Enlace</a>');
+    $("#tienda-creada").html('<a href="' + response[0].url_imporsuit + '" target="_blank">Ver mi tienda</a>');
     //crear_tienda
     $("#crear_tienda").css('display', 'none');
 }
