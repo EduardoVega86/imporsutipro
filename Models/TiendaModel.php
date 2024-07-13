@@ -293,7 +293,7 @@ class TiendaModel extends Query
             $nombre, $telefono, $calle_principal, $ciudad, $calle_secundaria,
             $referencia, $observacion, 0, 0, 0, $telefono,
             $producto_plataforma, $drop, $id_plataforma,  0,
-            '', '', '', 0, 0,
+            0, 0, 0, 0, 0,
             0, '',  '', '', '', '',
             '', '', '', 0, 0, 0,
             0, '', 0, 0, 0, 0, 0, $bodega
