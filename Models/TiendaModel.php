@@ -281,7 +281,7 @@ class TiendaModel extends Query
             referencia, observacion, guia_enviada, transporte, identificacion, celular, 
             id_propietario, drogshipin, id_plataforma, importado, 
             plataforma_importa, cod, estado_guia_sistema, impreso, facturada, 
-            anulada, identificacionO, nombreO, ciudadO, provinciaO, provincia,
+            anulada, identificacionO, nombreO, ciudadO,  provincia,
             direccionO, referenciaO, numeroCasaO, valor_seguro, no_piezas, tipo_servicio, 
             peso, contiene, costo_flete, costo_producto, comentario, id_transporte, telefonoO, id_bodega
         ) VALUES (
@@ -295,7 +295,7 @@ class TiendaModel extends Query
             $producto_plataforma, $drop, $id_plataforma,  0,
             0, 0, 0, 0, 0,
             0, '',  '', '', '', '',
-            '', '', '', 0, 0, 0,
+            0, 0,  0, 0, 0,
             0, '', 0, 0, 0, 0, 0, $bodega
         );
 
