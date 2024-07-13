@@ -103,7 +103,6 @@ class Tienda extends Controller
     {
       
         $precio_maximo = $_POST['id_pltaforma'];
-        
         $response = $this->model->obtener_informacion_tienda($id_plataforma);
         echo json_encode($response);
     }
