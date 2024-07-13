@@ -160,14 +160,13 @@ class TiendaModel extends Query
         }
 
         if (isset($precio_maximo) and $precio_maximo != '') {
-            $where .= " and ib.pvp_tienda <= $precio_maximo ";
+            $where .= " and pt.pvp_tienda <= $precio_maximo ";
         }
 
 
 
 
         $sql = "SELECT * FROM `productos_tienda` pt, productos p, inventario_bodegas ib WHERE  pt.id_producto=p.id_producto and pt.id_inventario=ib.id_inventario and pt.id_plataforma=$plataforma $where";
-        echo $sql;
         return $this->select($sql);
     }
 
