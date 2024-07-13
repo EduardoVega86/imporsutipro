@@ -230,5 +230,12 @@ class TiendaModel extends Query
         }
         return $response;
     }
+    
+     public function obtener_informacion_tienda($plataforma)
+    {
+        $sql = "SELECT * FROM plataformas pl, perfil pe WHERE pl.id_plataforma=$plataforma and pl.id_plataforma= pe.id_plataforma";
+
+        return $this->select($sql);
+    }
 
 }

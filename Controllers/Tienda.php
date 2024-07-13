@@ -99,6 +99,15 @@ class Tienda extends Controller
         echo json_encode($response);
     }
     
+     public function obtener_informacion_tienda()
+    {
+      
+        $precio_maximo = $_POST['id_pltaforma'];
+        
+        $response = $this->model->obtener_informacion_tienda($id_plataforma);
+        echo json_encode($response);
+    }
+    
       public function horizontaltienda()
     {        //$nombre = $_POST['nombre'];
         $response = $this->model->horisontaltienda($_SESSION['id_plataforma']);
