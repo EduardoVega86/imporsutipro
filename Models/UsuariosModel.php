@@ -490,7 +490,7 @@ class UsuariosModel extends Query
     }else{
         
         $file = $direccion . '/Config/Config.php';
-//echo $file;
+echo $file;
     // Verifica si el archivo existe antes de intentar leerlo
     if (file_exists($file)) {
         // Lee el contenido del archivo
@@ -502,21 +502,12 @@ class UsuariosModel extends Query
         // Escribe el contenido modificado de nuevo en el archivo
         file_put_contents($file, $newContent);
 
-      
-            $response['status'] = 200;
-            $response['title'] = 'Peticion exitosa';
-            $response['message'] = 'Dominio creado correctamente';
-     
-           
-        
+        echo "El archivo ha sido actualizado.";
     } else {
-         $response['status'] = 500;
-            $response['title'] = 'Error';
-            $response['message'] = 'Problema al crear subdominio';
-      
+        echo "El archivo config.php no se encuentra en la carpeta config.";
     }
     
-       
+        echo 'generado correctamente;';
     }
 }
 
