@@ -245,6 +245,7 @@ class TiendaModel extends Query
         $sql_producto = "SELECT * FROM productos_tienda WHERE id_producto_tienda = $id_producto limit 1";
         $producto = $this->select($sql_producto);
         $producto = $producto[0]['id_producto'];
+        echo $producto;
         
         $sql_datos_producto = "SELECT * FROM productos WHERE id_producto = $producto ";
        // echo $sql_datos_producto;
