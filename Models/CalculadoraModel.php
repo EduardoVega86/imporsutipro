@@ -49,7 +49,7 @@ class CalculadoraModel extends Query
                 $tarifas['laar'] = $tarifas['laar'];
             }
         }
-        if ($trayecto_gintracom === "0" || $trayecto_gintracom === null) {
+        if ($trayecto_gintracom === "0" || $trayecto_gintracom === null || empty($trayecto_gintracom)) {
             $tarifas['gintracom'] = 0;
         } else {
             if ($recuado === "1") {
