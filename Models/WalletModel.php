@@ -128,6 +128,8 @@ class WalletModel extends Query
         $Id_proveedor = $response[0]['id_proveedor'];
         $guia = $response[0]['guia'];
         $estado_guia = $response[0]['estado_guia'];
+
+        $id_full = $response[0]['id_full'] ?? 0;
         if ($saldo === 0) {
             return;
         }
@@ -175,7 +177,26 @@ class WalletModel extends Query
                 $update = "UPDATE billeteras set saldo = saldo + ($costo-$full) WHERE id_plataforma = '$Id_proveedor'";
                 $response =  $this->select($update);
                 if ($full > 0) {
-                    $factura = $this->select("SELECT * FROM facturas_cot WHERE numero_factura = '$numero_factura'");
+                    if ($id_full != 0) {
+                        $sql = "SELECT * FROM billeteras WHERE id_plataforma = '$id_full'";
+                        $response =  $this->select($sql);
+                        if (count($response) == 0) {
+                            $this->crearBilletera($id_full);
+
+                            $id_billetera = $this->select("SELECT id_billetera FROM billeteras WHERE id_plataforma = '$id_full'")[0]['id_billetera'];
+                            $sql = "INSERT INTO historial_billetera (`id_billetera`, `id_responsable`, `tipo`, `motivo`, `monto`, `fecha`) VALUES (?, ?, ?, ?, ?, ?)";
+                            $response =  $this->insert($sql, array($id_billetera, $usuario, "ENTRADA", "Se acredito a la billetera la guia: $guia", $full, date("Y-m-d H:i:s")));
+                            $update = "UPDATE billeteras set saldo = saldo + $full WHERE id_plataforma = '$id_full'";
+                            $response =  $this->select($update);
+
+                            $sql  = "SELECT * from plataformas where id_plataforma = '$id_full'";
+                            $response =  $this->select($sql);
+                            $tienda_f = $response[0]['url_imporsuit'];
+
+                            $insert = "INSERT INTO cabecera_cuenta_pagar (`tienda`, `numero_factura`, `guia`, `costo`, `monto_recibir`, `valor_pendiente`, `estado_guia`, `visto`, `full`, `fecha`, `cliente`, `id_plataforma`,`id_matriz`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                            $response =  $this->insert($insert, array($tienda_f, $numero_factura . '-F', $guia, $full, $full, 0, 7, 1, 0, $fecha, $cliente, $id_full, $matriz));
+                        }
+                    }
                 }
             }
         }
