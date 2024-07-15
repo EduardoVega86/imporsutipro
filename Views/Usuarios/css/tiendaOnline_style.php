@@ -76,4 +76,29 @@
     }
 
     /* fin tabla */
+
+    .boton-flotante {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 15px 25px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 50px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        font-size: 16px;
+        display: none;
+        /* Oculto por defecto */
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.3s ease;
+    }
+
+    .boton-flotante.mostrar {
+        display: inline-block;
+        opacity: 1;
+        transform: translateY(0);
+    }
 </style>

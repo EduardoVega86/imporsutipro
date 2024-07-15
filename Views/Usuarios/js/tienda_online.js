@@ -370,7 +370,9 @@ const initDataTableTestimonios = async () => {
 
 const listTestimonios = async () => {
   try {
-    const response = await fetch("" + SERVERURL + "Usuarios/obtener_testimonios");
+    const response = await fetch(
+      "" + SERVERURL + "Usuarios/obtener_testimonios"
+    );
     const testimonios = await response.json();
 
     let content = ``;
@@ -407,5 +409,35 @@ const listTestimonios = async () => {
 window.addEventListener("load", async () => {
   await initDataTableTestimonios();
 });
-
 /* Fin tabla de testimonios */
+
+/* boton flotante de actualizar */
+document.addEventListener("DOMContentLoaded", () => {
+  const botonFlotante = document.getElementById("botonFlotante");
+  const inputs = document.querySelectorAll(
+    "input.cambio, textarea.cambio, select.cambio"
+  );
+
+  let cambiosRealizados = false;
+
+  inputs.forEach((input) => {
+    input.addEventListener("input", () => {
+      cambiosRealizados = true;
+      mostrarBoton();
+    });
+  });
+
+  function mostrarBoton() {
+    if (cambiosRealizados) {
+      botonFlotante.classList.add("mostrar");
+    }
+  }
+
+  botonFlotante.addEventListener("click", () => {
+    // Lógica para guardar cambios
+    alert("Cambios guardados");
+    cambiosRealizados = false;
+    botonFlotante.classList.remove("mostrar");
+  });
+});
+/* Fin boton flotante de actualizar */
