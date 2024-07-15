@@ -112,7 +112,6 @@
                 } else {
                 ?>
                     <a href="<?php echo SERVERURL ?>usuarios/listado"><i class='bx bx-user menu-icon'></i> <span class="menu-text">Usuarios</span></a>
-
                 <?php
                 }
                 ?>
