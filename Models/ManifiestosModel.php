@@ -357,7 +357,7 @@ class ManifiestosModel extends Query
     }
 
    
-   public function generarTablaManifiesto($data, $bodega_nombre, $direccion, $telefono, $responsable)
+  public function generarTablaManifiesto($data, $bodega_nombre, $direccion, $telefono, $responsable)
 {
     $fecha = date('Y-m-d H:i:s'); // Obtén la fecha y hora actual
     $generator = new BarcodeGeneratorHTML();
@@ -366,7 +366,7 @@ class ManifiestosModel extends Query
     $sql_usuario = "SELECT nombre_users FROM users WHERE id_users = $id_usuario";
     $usuario = $this->select($sql_usuario);
     $nombre_usuario = $usuario[0]['nombre_users'];
-
+ 
     $html = '
     <style>
         table {
@@ -476,6 +476,7 @@ class ManifiestosModel extends Query
 
     return $html;
 }
+
 
 
     public function generarTablaDescripcion($facturas)
