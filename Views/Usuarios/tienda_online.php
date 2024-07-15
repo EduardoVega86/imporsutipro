@@ -335,7 +335,7 @@
                     </div>
                     <div class="table-responsive">
                         <!-- <table class="table table-bordered table-striped table-hover"> -->
-                        <table id="datatable_banner" width="100%" class="table table-striped">
+                        <table id="datatable_testimonios" width="100%" class="table table-striped">
                             <thead>
                                 <tr>
                                     <th class="text-nowrap">Titulo</th>
@@ -347,7 +347,7 @@
                                     <th class="text-nowrap">Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody id="tableBody_banner"></tbody>
+                            <tbody id="tableBody_testimonios"></tbody>
                         </table>
                     </div>
                 </div>

@@ -370,7 +370,7 @@ const initDataTableTestimonios = async () => {
 
 const listTestimonios = async () => {
   try {
-    const response = await fetch("" + SERVERURL + "wallet/obtenerDatos");
+    const response = await fetch("" + SERVERURL + "Tienda/testimoniostienda");
     const testimonios = await response.json();
 
     let content = ``;
