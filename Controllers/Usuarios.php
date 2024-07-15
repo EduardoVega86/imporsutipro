@@ -314,6 +314,13 @@ class Usuarios extends Controller
         $response = $this->model->agregarTestimonios($nombre, $testimonio, $imagen, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
+    
+    public function eliminarTestimonio()
+    {
+        $id = $_POST['id'];
+        $response = $this->model->eliminarTestimonio($id, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
     /* fin tienda online */
 
     public function registro()

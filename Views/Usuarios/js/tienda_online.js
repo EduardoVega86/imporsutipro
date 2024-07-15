@@ -380,21 +380,18 @@ const listTestimonios = async () => {
     testimonios.forEach((testimonio, index) => {
       content += `
                 <tr>
-                    <td><a class="dropdown-item link-like" href="${SERVERURL}wallet/pagar?tienda=${testimonio.tienda}">${testimonio.tienda}</a></td>
-                    <td>${testimonio.ventas}</td>
-                    <td>${testimonio.utilidad}</td>
-                    <td>${testimonio.count_visto_0}</td>
-                    <td>
-                    <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel_general('${testimonio.tienda}')">Descargar Excel general</button>
-                    <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel('${testimonio.tienda}')">Descargar Excel</button>
-                    </td>
+                    <td><img src="${SERVERURL}${testimonio.imagen}" class="img-responsive" alt="profile-image" width="100px"></td>
+                    <td>${testimonio.nombre}</td>
+                    <td>${testimonio.testimonio}</td>
+                    <td>${testimonio.date_added}</td>
                     <td>
                     <div class="dropdown">
                     <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fa-solid fa-gear"></i>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" style="cursor: pointer;" href="${SERVERURL}wallet/pagar?tienda=${testimonio.tienda}"><i class='bx bx-wallet'></i>Pagar</a></li>
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="editarTestimonio(${testimonio.id_testimonio})"><i class="fa-solid fa-pencil"></i>Editar</span></li>
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="eliminarTestimonio(${testimonio.id_testimonio})"><i class="fa-solid fa-trash-can"></i>Eliminar</span></li>
                     </ul>
                     </div>
                     </td>
@@ -409,6 +406,38 @@ const listTestimonios = async () => {
 window.addEventListener("load", async () => {
   await initDataTableTestimonios();
 });
+
+function eliminarTestimonio(id) {
+  let formData = new FormData();
+  formData.append("id", id);
+
+  $.ajax({
+    type: "POST",
+    url: SERVERURL + "Usuarios/eliminarBanner",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    success: function (response) {
+      response = JSON.parse(response);
+      // Mostrar alerta de éxito
+      if (response.status == 500) {
+        toastr.error("NO SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else {
+        toastr.success("SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+
+        initDataTableTestimonios();
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al eliminar la categoría");
+    },
+  });
+}
 /* Fin tabla de testimonios */
 
 /* boton flotante de actualizar */

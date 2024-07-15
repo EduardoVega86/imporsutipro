@@ -113,7 +113,7 @@
 
                         $('#agregar_testimonioModal').modal('hide');
                         resetForm();
-                        initDataTabletestimonio();
+                        initDataTableTestimonios();
                     }
                 },
                 error: function(error) {

@@ -495,7 +495,7 @@ class UsuariosModel extends Query
                 $sql = "INSERT INTO `testimonios` (`imagen`,`nombre`,`testimonio`,`id_plataforma`,`status`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?)";
                 $data = [$target_file, $nombre, $testimonio, $plataforma, 1, 0];
                 $insertar_testimonio = $this->insert($sql, $data);
-                
+
                 if ($insertar_testimonio == 1) {
                     $response['status'] = 200;
                     $response['title'] = 'Peticion exitosa';
@@ -510,6 +510,26 @@ class UsuariosModel extends Query
                 $response['title'] = 'Error';
                 $response['message'] = 'Error al subir la imagen';
             }
+        }
+        return $response;
+    }
+
+    public function eliminarTestimonio($id, $plataforma)
+    {
+        // codigo para eliminar categoria
+        $response = $this->initialResponse();
+
+        $sql = "DELETE FROM testimonios WHERE id_testimonio = ? AND id_plataforma = ?";
+        $data = [$id, $plataforma];
+        $eliminar_categoria = $this->delete($sql, $data);
+        if ($eliminar_categoria == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Categoria eliminada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = $eliminar_categoria['message'];
         }
         return $response;
     }

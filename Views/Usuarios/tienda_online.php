@@ -341,12 +341,10 @@
                         <table id="datatable_testimonios" width="100%" class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th class="text-nowrap">Titulo</th>
-                                    <th class="text-nowrap">Icono</th>
-                                    <th class="text-nowrap">Subtexto</th>
-                                    <th class="text-nowrap">Texto Boton</th>
-                                    <th class="text-nowrap">Enlace Boton</th>
-                                    <th class="text-nowrap">Alineacion</th>
+                                    <th class="text-nowrap">Imagen</th>
+                                    <th class="text-nowrap">Nombre</th>
+                                    <th class="text-nowrap">Testimonio</th>
+                                    <th class="text-nowrap">Fecha</th>
                                     <th class="text-nowrap">Acciones</th>
                                 </tr>
                             </thead>
