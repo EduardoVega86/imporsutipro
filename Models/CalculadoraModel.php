@@ -45,8 +45,14 @@ class CalculadoraModel extends Query
             if ($recuado === "1") {
 
                 $tarifas['laar'] = $tarifas['laar'] + $previo;
+                if ($matriz == 2) {
+                    $tarifas['laar'] = 5.99;
+                }
             } else {
                 $tarifas['laar'] = $tarifas['laar'];
+                if ($matriz == 2) {
+                    $tarifas['laar'] = 5.99;
+                }
             }
         }
         if ($trayecto_gintracom === "0" || $trayecto_gintracom === null || empty($trayecto_gintracom)) {
@@ -91,9 +97,7 @@ class CalculadoraModel extends Query
         } else {
             $tarifas["speed"] = 0;
         }
-        if ($matriz == 2) {
-            $tarifas['laar'] = 5.99;
-        }
+
 
         $tarifas['laar'] = number_format($tarifas['laar'], 2, '.', '');
         $tarifas['servientrega'] = number_format($tarifas['servientrega'], 2, '.', '');
