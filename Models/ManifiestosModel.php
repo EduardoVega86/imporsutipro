@@ -440,8 +440,8 @@ class ManifiestosModel extends Query
     </table>
     <table>
         <tr>
-            <th style="width:10%">#</th>
-            <th style="width:20%">Guia</th>
+            <th style="width:5%">#</th>
+            <th style="width:25%">Guia</th>
             <th style="width:20%">Cliente</th>
             <th style="width:20%">Contiene</th>
             <th style="width:20%">Productos</th>
