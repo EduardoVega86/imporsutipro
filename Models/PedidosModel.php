@@ -214,8 +214,6 @@ class PedidosModel extends Query
         return $this->select($sql, $params);
     }
 
-
-
     public function cargarAnuladas($filtro)
     {
         $sql = "SELECT * FROM facturas_cot where anulado = 1";
@@ -474,10 +472,6 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
-
-
-
-
     public function buscarProductosBodega($producto, $sku, $plataforma)
     {
 
@@ -488,7 +482,6 @@ class PedidosModel extends Query
         //echo $sql;
         return $this->select($sql);
     }
-
 
     public function cambiarPrecio($id_tmp, $precio, $descuento)
     {
@@ -508,8 +501,6 @@ class PedidosModel extends Query
 
         return $response;
     }
-
-
 
     public function recuperarOrigenBodega($producto, $sku, $plataforma)
     {
@@ -581,8 +572,6 @@ class PedidosModel extends Query
 
         return $nuevaFactura;
     }
-
-
     //editar pedido
 
     public function verPedido($id)
@@ -596,7 +585,6 @@ class PedidosModel extends Query
         $sql = "SELECT *, (SELECT ciudad FROM ciudad_cotizacion where id_cotizacion = ciudad_cot) as ciudad,(SELECT provincia FROM ciudad_cotizacion where id_cotizacion = ciudad_cot) as provinciaa,(SELECT url_imporsuit from plataformas where id_plataforma = id_propietario) as plataforma FROM facturas_cot WHERE anulada = 0 AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0') and id_plataforma = '$plataforma' ORDER BY numero_factura DESC;";
         return $this->select($sql);
     }
-
 
     public function datosPedido($id)
     {
@@ -613,7 +601,6 @@ class PedidosModel extends Query
     public function agregarDetalle($id_producto, $cantidad, $precio,  $plataforma, $sku, $id_factura)
     {
         //verificar productos
-
         $timestamp = session_id();
         $cantidad_tmp = $this->select("SELECT * FROM detalle_fact_cot WHERE id_factura = '$id_factura' and id_producto=$id_producto and sku=$sku");
         //print_r($cantidad_tmp);
@@ -632,9 +619,7 @@ class PedidosModel extends Query
             $insertar_caracteristica = $this->update($sql, $data);
             //print_r($insertar_caracteristica);
         }
-
         // print_r($insertar_caracteristica);
-
 
         if ($insertar_caracteristica == 1) {
             $response['status'] = 200;

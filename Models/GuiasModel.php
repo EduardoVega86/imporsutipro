@@ -184,6 +184,7 @@ class GuiasModel extends Query
         $buscar_detalle = "SELECT * FROM detalle_fact_cot WHERE numero_factura = '$numero_factura'";
         $respueta_detalle = $this->select($buscar_detalle);
         $id_inventario = $respueta_detalle[0]['id_inventario'];
+        $cantidad = $respueta_detalle[0]['cantidad'];
 
 
 
@@ -212,7 +213,7 @@ class GuiasModel extends Query
         if ($id_plataforma_bodega == $id_plataforma_producto) {
             $full = 0;
         } else if ($id_plataforma_producto == $id_plataforma) {
-            $full = $valor_full;
+            $full = $valor_full * $cantidad;
         } else {
             $full = 0;
         }
