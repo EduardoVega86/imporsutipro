@@ -310,9 +310,8 @@ class Usuarios extends Controller
     {
         $nombre = $_POST['nombre'];
         $testimonio = $_POST['testimonio'];
-        $fecha = date('Y-m-d H:i:s');
         $imagen = $_FILES['imagen'];
-        $response = $this->model->agregarTestimonios($nombre, $testimonio, $fecha, $imagen, $_SESSION['id_plataforma']);
+        $response = $this->model->agregarTestimonios($nombre, $testimonio, $imagen, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
     /* fin tienda online */

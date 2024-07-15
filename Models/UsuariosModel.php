@@ -458,7 +458,7 @@ class UsuariosModel extends Query
         return $this->select($sql);
     }
 
-    public function agregarTestimonios($nombre, $testimonio, $fecha, $imagen, $plataforma)
+    public function agregarTestimonios($nombre, $testimonio, $imagen, $plataforma)
     {
         $response = $this->initialResponse();
         $target_dir = "public/img/testimonios/";
@@ -492,8 +492,8 @@ class UsuariosModel extends Query
                 $response['message'] = 'Imagen subida correctamente';
                 $response['data'] = $target_file;
 
-                $sql = "INSERT INTO `testimonios` (`imagen`,`nombre`,`testimonio`,`date_added`, `id_plataforma`,`status`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?)";
-                $data = [$target_file, $nombre, $testimonio, $fecha, $plataforma, 1, 0];
+                $sql = "INSERT INTO `testimonios` (`imagen`,`nombre`,`testimonio`, `id_plataforma`,`status`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                $data = [$target_file, $nombre, $testimonio, $plataforma, 1, 0];
                 $insertar_banner = $this->insert($sql, $data);
                 if ($insertar_banner == 1) {
                     $response['status'] = 200;
