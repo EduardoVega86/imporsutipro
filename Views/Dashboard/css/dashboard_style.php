@@ -86,6 +86,11 @@
         flex-direction: row;
     }
 
+    #pastelChart{
+        max-width: 300px;
+        max-height: 300px;
+    }
+
     /* responsive */
     @media (max-width: 768px) {
         .banner_estadisticas {
