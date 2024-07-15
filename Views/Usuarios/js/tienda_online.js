@@ -413,7 +413,7 @@ function eliminarTestimonio(id) {
 
   $.ajax({
     type: "POST",
-    url: SERVERURL + "Usuarios/eliminarBanner",
+    url: SERVERURL + "Usuarios/eliminarTestimonio",
     data: formData,
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
