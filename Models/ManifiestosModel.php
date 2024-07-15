@@ -292,56 +292,29 @@ class ManifiestosModel extends Query
         $pdf->Output('F', $outputPath);
     }
 
-    public function generarTablaHTML($data)
-    {
-        
-         $id_usuario = $_SESSION['id'];
+   public function generarTablaHTML($data)
+{
+    $id_usuario = $_SESSION['id'];
     $sql_usuario = "SELECT nombre_users FROM users WHERE id_users = $id_usuario";
     $usuario = $this->select($sql_usuario);
     $nombre_usuario = $usuario[0]['nombre_users'];
-      $fecha = date('Y-m-d H:i:s'); // Obtén la fecha y hora actual
-        $html = '
-        <style>
-            table {
-                width: 100%;
-                border-collapse: collapse;
-            }
-            th, td {
-                border: 1px solid black;
-                padding: 8px;
-                text-align: left;
-            }
-            th {
-                background-color: #f2f2f2;
-            }
-            @media screen and (max-width: 600px) {
-                table, thead, tbody, th, td, tr {
-                    display: block;
-                    width: 100%;
-                }
-                th, td {
-                    box-sizing: border-box;
-                    width: 100%;
-                    text-align: right;
-                }
-                tr {
-                    margin-bottom: 15px;
-                }
-                td {
-                    text-align: right;
-                    padding-left: 50%;
-                    position: relative;
-                }
-                td:before {
-                    content: attr(data-label);
-                    position: absolute;
-                    left: 10px;
-                    width: calc(50% - 10px);
-                    padding-right: 10px;
-                    white-space: nowrap;
-                    text-align: left;
-                }
-                   .footer {
+    $fecha = date('Y-m-d H:i:s'); // Obtén la fecha y hora actual
+
+    $html = '
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .footer {
             position: fixed;
             bottom: 20px;
             left: 0;
@@ -353,29 +326,58 @@ class ManifiestosModel extends Query
             border: 1px solid #000;
             margin: 10px auto;
         }
+        @media screen and (max-width: 600px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
+                width: 100%;
             }
-        </style>
-        
-<p style="text-align: center; font-size: 20px;"><strong> LISTA DE COMPRAS</strong></p>
-    <p style="text-align: center; font-size: 12px;">IMPRESO POR '. strtoupper($nombre_usuario).'</p>
-    <p style="text-align: center; font-size: 12px;">' . $fecha. '</p>
-        
-        <table>
-            <tr>
-                <th>ID Producto</th>
-                <th>Nombre Producto</th>
-                <th>Cantidad</th>
-                <th>Variedad</th>
-            </tr>';
-        foreach ($data as $row) {
-            $html .= '<tr>';
-            $html .= '<td data-label="ID Producto">' . htmlspecialchars($row['id_producto']) . '</td>';
-            $html .= '<td data-label="Nombre Producto">' . htmlspecialchars($row['nombre_producto']) . '</td>';
-            $html .= '<td data-label="Cantidad">' . htmlspecialchars($row['cantidad']) . '</td>';
-            $html .= '<td data-label="Variedad">' . htmlspecialchars($row['variedad'] ?? "Sin variedad") . '</td>';
-            $html .= '</tr>';
+            th, td {
+                box-sizing: border-box;
+                width: 100%;
+                text-align: right;
+            }
+            tr {
+                margin-bottom: 15px;
+            }
+            td {
+                text-align: right;
+                padding-left: 50%;
+                position: relative;
+            }
+            td:before {
+                content: attr(data-label);
+                position: absolute;
+                left: 10px;
+                width: calc(50% - 10px);
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+            }
         }
-         $html .= '
+    </style>
+    
+    <p style="text-align: center; font-size: 20px;"><strong> LISTA DE COMPRAS</strong></p>
+    <p style="text-align: center; font-size: 12px;">IMPRESO POR ' . strtoupper($nombre_usuario) . '</p>
+    <p style="text-align: center; font-size: 12px;">' . $fecha . '</p>
+    
+    <table>
+        <tr>
+            <th>ID Producto</th>
+            <th>Nombre Producto</th>
+            <th>Cantidad</th>
+            <th>Variedad</th>
+        </tr>';
+
+    foreach ($data as $row) {
+        $html .= '<tr>';
+        $html .= '<td data-label="ID Producto">' . htmlspecialchars($row['id_producto']) . '</td>';
+        $html .= '<td data-label="Nombre Producto">' . htmlspecialchars($row['nombre_producto']) . '</td>';
+        $html .= '<td data-label="Cantidad">' . htmlspecialchars($row['cantidad']) . '</td>';
+        $html .= '<td data-label="Variedad">' . htmlspecialchars($row['variedad'] ?? "Sin variedad") . '</td>';
+        $html .= '</tr>';
+    }
+
+    $html .= '
     </table>
     <div class="footer">
         <hr>
@@ -383,8 +385,8 @@ class ManifiestosModel extends Query
     </div>';
 
     return $html;
-        return $html;
-    }
+}
+
 
    
   public function generarTablaManifiesto($data, $bodega_nombre, $direccion, $telefono, $responsable, $transportadora)
