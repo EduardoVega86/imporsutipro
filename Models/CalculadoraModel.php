@@ -61,7 +61,7 @@ class CalculadoraModel extends Query
         if ($previo < 1.25) {
             $previo = 1.25;
         }
-        if ($trayecto_servientrega === "0" || $trayecto_servientrega === null) {
+        if ($trayecto_servientrega === "0" || $trayecto_servientrega === null || empty($trayecto_servientrega)) {
             $tarifas['servientrega'] = 0;
         } else {
             if ($recuado === "1") {
