@@ -281,7 +281,7 @@ function validateStoreName(callback) {
     return;
   }
 
-  fetch("Acceso/validar_tiendas", {
+  fetch(SERVERURL+"Acceso/validar_tiendas", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
