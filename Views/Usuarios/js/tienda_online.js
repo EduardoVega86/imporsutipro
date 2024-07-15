@@ -64,7 +64,6 @@ const initDataTableBanner = async () => {
   dataTableBannerIsInitialized = true;
 };
 
-
 const initDataTableCaracteristicas = async () => {
   if (dataTableCaracteristicasIsInitialized) {
     dataTableCaracteristicas.destroy();
@@ -72,7 +71,9 @@ const initDataTableCaracteristicas = async () => {
 
   await listCaracteristicas();
 
-  dataTableCaracteristicas = $("#datatable_caracteristicas").DataTable(dataTableCaracteristicasOptions);
+  dataTableCaracteristicas = $("#datatable_caracteristicas").DataTable(
+    dataTableCaracteristicasOptions
+  );
 
   dataTableBannerIsInitialized = true;
 };
@@ -120,7 +121,6 @@ const listBanner = async () => {
     alert(ex);
   }
 };
-
 
 const listCaracteristicas = async () => {
   try {
@@ -233,14 +233,14 @@ window.addEventListener("load", async () => {
 });
 
 function crear_tienda() {
-  var nombre_tienda = $('#nombre_tienda').val();
+  var nombre_tienda = $("#nombre_tienda").val();
 
   let formData = new FormData();
   formData.append("nombre", nombre_tienda); // Añadir el SKU al FormData
 
   $.ajax({
     url: SERVERURL + "Usuarios/registro",
-    type: "POST", 
+    type: "POST",
     data: formData,
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
@@ -251,59 +251,71 @@ function crear_tienda() {
   });
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+  const input = document.getElementById("nombre_tienda");
+  input.addEventListener("input", function () {
+    validateStoreName(function (isValid) {
+      if (!isValid) {
+        // Handle invalid case if needed
+      }
+    });
+  });
+});
+
 function validateStoreName(callback) {
-    const input = document.getElementById('nombre_tienda');
-    const label = document.querySelector('label[for="nombre_tienda"]');
-    const errorDiv = document.getElementById('tienda-error');
-    const regex = /^[a-zA-Z]*$/;
+  const input = document.getElementById("nombre_tienda");
+  const label = document.querySelector('label[for="nombre_tienda"]');
+  const errorDiv = document.getElementById("tienda-error");
+  const regex = /^[a-zA-Z]*$/;
 
-    input.value = input.value.toLowerCase();
+  input.value = input.value.toLowerCase();
 
-    if (!regex.test(input.value)) {
-        label.classList.remove("text-green-500");
-        label.classList.add("text-red-500", "border-red-500");
-        errorDiv.textContent = "El nombre de la tienda no puede contener espacios ni caracteres especiales como (/, ^, *, $, @, \\)";
+  if (!regex.test(input.value)) {
+    label.classList.remove("text-green-500");
+    label.classList.add("text-red-500", "border-red-500");
+    errorDiv.textContent =
+      "El nombre de la tienda no puede contener espacios ni caracteres especiales como (/, ^, *, $, @, \\)";
+    errorDiv.style.display = "block";
+    input.value = input.value.slice(0, -1);
+    callback(false);
+    return;
+  }
+
+  fetch("Acceso/validar_tiendas.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      tienda: input.value,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.exists) {
+        errorDiv.textContent = "Esta tienda ya existe.";
         errorDiv.style.display = "block";
-        input.value = input.value.slice(0, -1);
         callback(false);
-        return;
-    }
-
-    fetch('Acceso/validar_tiendas.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            tienda: input.value
-        })
+      } else {
+        errorDiv.style.display = "none";
+        callback(true);
+      }
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.exists) {
-            errorDiv.textContent = "Esta tienda ya existe.";
-            errorDiv.style.display = "block";
-            callback(false);
-        } else {
-            errorDiv.style.display = "none";
-            callback(true);
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        callback(false);
+    .catch((error) => {
+      console.error("Error:", error);
+      callback(false);
     });
 }
 
 function crear_tienda() {
-  var nombre_tienda = $('#nombre_tienda').val();
+  var nombre_tienda = $("#nombre_tienda").val();
 
   let formData = new FormData();
   formData.append("nombre", nombre_tienda); // Añadir el SKU al FormData
 
   $.ajax({
     url: SERVERURL + "Usuarios/registro",
-    type: "POST", 
+    type: "POST",
     data: formData,
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
@@ -313,6 +325,3 @@ function crear_tienda() {
     },
   });
 }
-
-
-
