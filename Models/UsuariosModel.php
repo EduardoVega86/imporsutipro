@@ -511,8 +511,8 @@ class UsuariosModel extends Query
 
              $url_tienda='https://'.$nombre_tienda.'.imporsuitpro.com';
         
-        $sql = " UPDATE `plataformas` SET `url_imporsuit` =?, `tienda_creada` =?  WHERE `id_plataforma` = ?";
-        $data = [$url_tienda, 1, $plataforma];
+        $sql = " UPDATE `plataformas` SET `url_imporsuit` =?, `tienda_creada` =?  `nombre_tienda` =?  WHERE `id_plataforma` = ?";
+        $data = [$url_tienda, 1, $nombre_tienda,  $plataforma];
         $editar_producto = $this->update($sql, $data);
         print_r($editar_producto);
         if ($editar_producto == 1) {
