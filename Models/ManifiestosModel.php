@@ -363,7 +363,14 @@ class ManifiestosModel extends Query
             $html .= '<td data-label="Variedad">' . htmlspecialchars($row['variedad'] ?? "Sin variedad") . '</td>';
             $html .= '</tr>';
         }
-        $html .= '</table>';
+         $html .= '
+    </table>
+    <div class="footer">
+        <hr>
+        <p>' . $nombre_usuario . '</p>
+    </div>';
+
+    return $html;
         return $html;
     }
 
