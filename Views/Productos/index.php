@@ -55,6 +55,7 @@
                         <th class="text-wrap">Marketplace</th>
                         <th class="text-wrap">Enviar a cliente</th>
                         <th class="text-nowrap">Atributos</th>
+                        <th class="text-nowrap">Enviar a Tienda</th>
                         <th class="text-nowrap">Acciones</th>
                     </tr>
                 </thead>
