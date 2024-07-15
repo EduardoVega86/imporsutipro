@@ -94,6 +94,7 @@
         opacity: 0;
         transform: translateY(20px);
         transition: all 0.3s ease;
+        z-index: 3;
     }
 
     .boton-flotante.mostrar {
