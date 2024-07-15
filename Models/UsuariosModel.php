@@ -492,18 +492,18 @@ class UsuariosModel extends Query
                 $response['message'] = 'Imagen subida correctamente';
                 $response['data'] = $target_file;
 
-                $sql = "INSERT INTO `testimonios` (`imagen`,`nombre`,`testimonio`, `id_plataforma`,`status`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?)";
+                $sql = "INSERT INTO `testimonios` (`imagen`,`nombre`,`testimonio`,`id_plataforma`,`status`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?)";
                 $data = [$target_file, $nombre, $testimonio, $plataforma, 1, 0];
-                $insertar_banner = $this->insert($sql, $data);
+                $insertar_testimonio = $this->insert($sql, $data);
                 echo $sql;
-                if ($insertar_banner == 1) {
+                if ($insertar_testimonio == 1) {
                     $response['status'] = 200;
                     $response['title'] = 'Peticion exitosa';
                     $response['message'] = 'Imagen subida correctamente';
                 } else {
                     $response['status'] = 500;
                     $response['title'] = 'Error';
-                    $response['message'] = 'Error al subir la imagen2';
+                    $response['message'] = $insertar_testimonio["message"];
                 }
             } else {
                 $response['status'] = 500;
