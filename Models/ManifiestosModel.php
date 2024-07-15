@@ -223,7 +223,7 @@ class ManifiestosModel extends Query
             if (is_array($guias)) {
                 $downloadedPdfs = [$first];
                 foreach ($guias as $guia) {
-                    if (strpos($guia, "IMP") === 0 || strpos($guia, "MKP") === 0) {
+                    if (strpos($guia, "IMP") === 0 || strpos($guia, "MKP") === 0 || strpos($guia, "EIZ") === 0) {
                         $pdf_content = file_get_contents("https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=" . $guia);
                     } else if (is_numeric($guia)) {
                         $pdf_content = file_get_contents("https://guias.imporsuitpro.com/Servientrega/Guia/" . $guia);
@@ -337,6 +337,7 @@ class ManifiestosModel extends Query
                 }
             }
         </style>
+        
         <table>
             <tr>
                 <th>ID Producto</th>
@@ -368,7 +369,7 @@ class ManifiestosModel extends Query
     $nombre_usuario = $usuario[0]['nombre_users'];
   switch ($transportadora) {
         case 1:
-            $transportadora_nombre = 'LARR';
+            $transportadora_nombre = 'LARR COURRIER';
             break;
         case 2:
             $transportadora_nombre = 'SERVIENTREGA';
