@@ -58,8 +58,6 @@
         // Función para reiniciar el formulario
         function resetForm() {
             $('#agregar_testimonio_form')[0].reset();
-            $('#bodega-field').addClass('hidden-field');
-            $('#precio-referencial-valor').prop('disabled', true);
             $('#preview-imagen-testimonio').attr('src', '#').hide();
         }
 
