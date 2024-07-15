@@ -89,7 +89,7 @@ class ManifiestosModel extends Query
         return $reponse;
     }
 
-    public function generarManifiestoGuias($arreglo, $id_cabecera)
+    public function generarManifiestoGuias($arreglo, $id_cabecera, $transportadora)
     {
         if (count($arreglo) == 0) return;
 
@@ -122,10 +122,10 @@ class ManifiestosModel extends Query
         $direccion = $bodega[0]['direccion'];
         $id_bodega = $bodega[0]['id'];
 
-
+        
 
         // $html ='<h3 style="text-align: center;>tecto</h3>';
-        $html = $this->generarTablaManifiesto($resumen, $bodega_nombre, $direccion, $telefono, $responsable);
+        $html = $this->generarTablaManifiesto($resumen, $bodega_nombre, $direccion, $telefono, $responsable, $transportadora);
         //echo $html;
         // Generar el PDF con Dompdf
         $dompdf = new Dompdf();
@@ -357,7 +357,7 @@ class ManifiestosModel extends Query
     }
 
    
-  public function generarTablaManifiesto($data, $bodega_nombre, $direccion, $telefono, $responsable)
+  public function generarTablaManifiesto($data, $bodega_nombre, $direccion, $telefono, $responsable, $transportadora)
 {
     $fecha = date('Y-m-d H:i:s'); // Obtén la fecha y hora actual
     $generator = new BarcodeGeneratorHTML();
@@ -366,7 +366,24 @@ class ManifiestosModel extends Query
     $sql_usuario = "SELECT nombre_users FROM users WHERE id_users = $id_usuario";
     $usuario = $this->select($sql_usuario);
     $nombre_usuario = $usuario[0]['nombre_users'];
- 
+  switch ($transportadora) {
+        case 1:
+            $transportadora_nombre = 'LARR';
+            break;
+        case 2:
+            $transportadora_nombre = 'SERVIENTREGA';
+            break;
+        case 3:
+            $transportadora_nombre = 'GINTRACOM';
+            break;
+        case 4:
+            $transportadora_nombre = 'SPEED';
+            break;
+        default:
+            $transportadora_nombre = 'DESCONOCIDA';
+            break;
+    }
+    
     $html = '
     <style>
         table {
@@ -432,6 +449,7 @@ class ManifiestosModel extends Query
     <p style="text-align: center; font-size: 12px;">' . strtoupper($responsable) . ' / ' . strtoupper($telefono) . '</p>
     <table>
         <tr>
+         <th>' . $transportadora_nombre . '</th>
             <th>Responsable</th>
             <th>' . $nombre_usuario . '</th>
             <th>Fecha</th>
