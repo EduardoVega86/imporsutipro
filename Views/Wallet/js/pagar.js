@@ -206,7 +206,7 @@ const listFacturas = async () => {
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <li><a class="dropdown-item" style="cursor: pointer;" onclick="devolucion(${factura.id_cabecera})">Devolucion</a></li>
-                        <li><a class="dropdown-item" style="cursor: pointer;" href="${url_descargar}">Entregar</a></li>
+                        <li><a class="dropdown-item" style="cursor: pointer;" onclick="entregar(${factura.id_cabecera})">Entregar</a></li>
                     </ul>
                     </div>
                     </td>
@@ -298,6 +298,31 @@ function devolucion(id_cabecera) {
   $.ajax({
     type: "POST",
     url: SERVERURL + "wallet/devolucion/" + id_cabecera,
+    dataType: "json",
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("LA IMAGEN NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+
+        initDataTableFacturas();
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al obtener la información de la categoría");
+    },
+  });
+}
+
+function entregar(id_cabecera) {
+  $.ajax({
+    type: "POST",
+    url: SERVERURL + "wallet/entregar/" + id_cabecera,
     dataType: "json",
     success: function (response) {
       if (response.status == 500) {
