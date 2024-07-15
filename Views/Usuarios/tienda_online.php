@@ -143,7 +143,7 @@
                                             <!-- Agrega más opciones según sea necesario -->
                                         </select>
                                     </div>
-                                    <button id="botonFlotante_actualizar" class="boton-flotante">Guardar Cambios</button>
+                                    <button id="botonFlotante" class="boton-flotante">Guardar Cambios</button>
                                 </div>
                             </div>
                         </div>

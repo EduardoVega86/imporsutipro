@@ -447,6 +447,11 @@ document.addEventListener("DOMContentLoaded", () => {
     "input.cambio, textarea.cambio, select.cambio"
   );
 
+  if (!botonFlotante) {
+    console.error("El botón flotante no se encontró en el DOM");
+    return;
+  }
+
   let cambiosRealizados = false;
 
   inputs.forEach((input) => {
@@ -469,4 +474,5 @@ document.addEventListener("DOMContentLoaded", () => {
     botonFlotante.classList.remove("mostrar");
   });
 });
+
 /* Fin boton flotante de actualizar */
