@@ -377,6 +377,7 @@ class ManifiestosModel extends Query
                 border: 1px solid black;
                 padding: 8px;
                 text-align: left;
+                font-size:8px;
             }
             th {
                 background-color: #f2f2f2;
