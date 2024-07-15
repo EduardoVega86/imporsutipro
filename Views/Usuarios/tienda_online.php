@@ -332,7 +332,7 @@
                 <div class="accordion-body">
                     <div class="justify-content-between align-items-center mb-3">
                         <div class="d-flex">
-                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_bannerModal"><i class="fas fa-plus"></i> Agregar</button>
+                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_testimonioModal"><i class="fas fa-plus"></i> Agregar</button>
                         </div>
                     </div>
                     <div class="table-responsive">
