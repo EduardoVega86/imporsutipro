@@ -294,6 +294,12 @@ class ManifiestosModel extends Query
 
     public function generarTablaHTML($data)
     {
+        
+         $id_usuario = $_SESSION['id'];
+    $sql_usuario = "SELECT nombre_users FROM users WHERE id_users = $id_usuario";
+    $usuario = $this->select($sql_usuario);
+    $nombre_usuario = $usuario[0]['nombre_users'];
+    
         $html = '
         <style>
             table {
@@ -337,6 +343,10 @@ class ManifiestosModel extends Query
                 }
             }
         </style>
+        
+<p style="text-align: center; font-size: 20px;"><strong> LISTA DE COMPRAS</strong></p>
+    <p style="text-align: center; font-size: 12px;">IMPRESO POR</p>
+    <p style="text-align: center; font-size: 12px;">' . strtoupper($nombre_usuario). '</p>
         
         <table>
             <tr>
