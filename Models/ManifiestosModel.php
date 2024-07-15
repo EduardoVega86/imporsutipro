@@ -564,7 +564,7 @@ class ManifiestosModel extends Query
             $codigoBarras = $generator->getBarcode($row['numero_guia'], $generator::TYPE_CODE_128);
             $html .= '<tr>';
             $html .= '<td data-label="ID Producto">' . $numero . '</td>';
-            $html .= '<td data-label="Documento">' . $codigoBarras . '</br>' . htmlspecialchars($row['numero_guia']) . '</td>';
+            $html .= '<td style="width:30px; font-size=8px;" data-label="Documento">' . $codigoBarras . '</br>' . htmlspecialchars($row['numero_guia']) . '</td>';
             $html .= '<td data-label="Cliente">' . htmlspecialchars($row['nombre']) . '</td>';
             $html .= '<td data-label="Direccion">' . htmlspecialchars($row['c_principal']) . ' ' . htmlspecialchars($row['c_secundaria']) . '</td>';
             $html .= '<td data-label="No Productos"> ' . htmlspecialchars($row['numero_productos']) . '</td>';
