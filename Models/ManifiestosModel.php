@@ -384,7 +384,7 @@ class ManifiestosModel extends Query
         .barcode {
             display: block;
             margin: 0 auto;
-            width: 150px; /* Ajusta el tamaño según sea necesario */
+            width: 100px; /* Ajusta el tamaño según sea necesario */
             height: auto;
         }
         .footer {
@@ -477,6 +477,7 @@ class ManifiestosModel extends Query
 
     return $html;
 }
+
 
 
 
