@@ -82,7 +82,7 @@
         bottom: 20px;
         right: 20px;
         padding: 15px 25px;
-        background-color: #007bff;
+        background-color: #E64747;
         color: white;
         border: none;
         border-radius: 50px;
