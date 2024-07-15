@@ -69,7 +69,7 @@
                             <img id="imagePreviewPrincipal" class="image-preview mt-2" src="" alt="Preview" width="200px">
                         </form>
                     </div>
-                    <div class="tab-pane fade" id="adicionales" role="tabpanel" aria-labelledby="adicionales-tab">
+                   <!--  <div class="tab-pane fade" id="adicionales" role="tabpanel" aria-labelledby="adicionales-tab">
                         <form id="imageFormAdicionales" enctype="multipart/form-data">
                             <input type="hidden" id="id_imagenproducto" name="id_producto">
                             <div class="form-group mt-3">
@@ -78,7 +78,7 @@
                             </div>
                             <div id="imagePreviewAdicionales" class="image-preview-container mt-2 d-flex flex-wrap"></div>
                         </form>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="modal-footer">
