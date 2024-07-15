@@ -374,8 +374,8 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
         // codigo para editar categoria
         $response = $this->initialResponse();
 
-        $sql = "UPDATE lineas SET nombre_linea = ?, descripcion_linea = ?, estado_linea = ?, date_added = ?, online = ?, imagen = ?, tipo = ?, padre = ? WHERE id_linea = ? AND id_plataforma = ?";
-        $data = [$nombre_linea, $descripcion_linea, $estado_linea, $date_added, $online, $imagen, $tipo, $padre, $id, $plataforma];
+        $sql = "UPDATE lineas SET nombre_linea = ?, descripcion_linea = ?, estado_linea = ?, date_added = ?, online = ?, tipo = ?, padre = ? WHERE id_linea = ? AND id_plataforma = ?";
+        $data = [$nombre_linea, $descripcion_linea, $estado_linea, $date_added, $online,  $tipo, $padre, $id, $plataforma];
         $editar_categoria = $this->update($sql, $data);
         if ($editar_categoria == 1) {
             $response['status'] = 200;
