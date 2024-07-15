@@ -159,22 +159,22 @@ $(function () {
 
         // Definir los colores para cada estado
         const estadoColors = {
-          Anulado: "rgba(255, 99, 132, 0.2)",
-          "En Transito": "rgba(54, 162, 235, 0.2)",
-          Entregado: "rgba(255, 206, 86, 0.2)",
-          Generado: "rgba(75, 192, 192, 0.2)",
-          Otro: "rgba(153, 102, 255, 0.2)",
-          "Por Recolectar": "rgba(201, 203, 207, 0.2)",
+          "Anulado": "rgba(255, 0, 0, 0.2)", // rojo
+          "En Transito": "rgba(255, 255, 0, 0.2)", // amarillo
+          "Entregado": "rgba(144, 238, 144, 0.2)", // verde claro
+          "Generado": "rgba(0, 0, 255, 0.2)", // azul
+          "Otro": "rgba(128, 128, 128, 0.2)", // gris
+          "Por Recolectar": "rgba(128, 0, 128, 0.2)" // morado
         };
-
+        
         // Definir los colores del borde para cada estado
         const estadoBorderColors = {
-          Anulado: "rgba(255, 99, 132, 1)",
-          "En Transito": "rgba(54, 162, 235, 1)",
-          Entregado: "rgba(255, 206, 86, 1)",
-          Generado: "rgba(75, 192, 192, 1)",
-          Otro: "rgba(153, 102, 255, 1)",
-          "Por Recolectar": "rgba(201, 203, 207, 1)",
+          "Anulado": "rgba(255, 0, 0, 1)", // rojo
+          "En Transito": "rgba(255, 255, 0, 1)", // amarillo
+          "Entregado": "rgba(144, 238, 144, 1)", // verde claro
+          "Generado": "rgba(0, 0, 255, 1)", // azul
+          "Otro": "rgba(128, 128, 128, 1)", // gris
+          "Por Recolectar": "rgba(128, 0, 128, 1)" // morado
         };
 
         // Preparar los datos para el gráfico de pastel
