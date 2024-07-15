@@ -163,6 +163,7 @@ class WalletModel extends Query
                     $this->crearBilletera($proveedor);
                 }
 
+
                 $sql = "INSERT INTO cabecera_cuenta_pagar (`tienda`, `numero_factura`, `guia`, `costo`, `monto_recibir`, `valor_pendiente`, `estado_guia`, `visto`, `full`, `fecha`, `cliente`, `id_plataforma`,`id_matriz`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 $response =  $this->insert($sql, array($proveedor, $numero_factura . '-P', $guia, $costo, $costo - $full, 0, 7, 1, $full, $fecha, $cliente, $id_plataforma, $matriz));
 
@@ -286,6 +287,7 @@ class WalletModel extends Query
     {
         $buscar_detalle = $this->select("SELECT * FROM detalle_fact_cot WHERE numero_factura = '$numero_factura'");
         $id_inventario = $buscar_detalle[0]['id_inventario'];
+        $cantidad = $buscar_detalle[0]['cantidad'];
 
         $buscar_inventario = $this->select("SELECT * FROM inventario_bodegas WHERE id_inventario = '$id_inventario'");
         $id_producto = $buscar_inventario[0]['id_producto'];
@@ -301,7 +303,7 @@ class WalletModel extends Query
         if ($id__producto == $id__bodega) {
             $full = 0;
         } else if ($id__producto == $id_plataforma) {
-            $full =  $valor_full;
+            $full =  $valor_full * $cantidad;
         } else {
             $full = 0;
         }
