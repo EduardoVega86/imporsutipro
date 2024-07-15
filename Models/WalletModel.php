@@ -303,7 +303,7 @@ class WalletModel extends Query
         if ($id__producto == $id__bodega) {
             $full = 0;
         } else if ($id__producto == $id_plataforma) {
-            $full =  $valor_full * $cantidad;
+            $full =  $valor_full;
         } else {
             $full = 0;
         }

@@ -213,7 +213,7 @@ class GuiasModel extends Query
         if ($id_plataforma_bodega == $id_plataforma_producto) {
             $full = 0;
         } else if ($id_plataforma_producto == $id_plataforma) {
-            $full = $valor_full * $cantidad;
+            $full = $valor_full;
         } else {
             $full = 0;
         }
