@@ -8,6 +8,7 @@ const dataTableOptions = {
   ],
   order: [[2, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
   pageLength: 10,
+  lengthMenu: [25, 50, 100, 200],
   destroy: true,
   responsive: true,
   language: {

@@ -3,67 +3,74 @@
 
 <?php require_once './Views/Usuarios/Modales/agregar_banner.php'; ?>
 <?php require_once './Views/Usuarios/Modales/editar_banner.php'; ?>
-  <style>
-       
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            background: #ffffff;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-            border-radius: 12px;
-            padding: 30px;
-        }
-        .section {
-            margin-bottom: 30px;
-        }
-        .section h2 {
-            color: #333;
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-        .inputs {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-        .input-box {
-            flex: 1 1 calc(33.333% - 20px);
-            min-width: 100px;
-            max-width: 200px;
-            height: 150px;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-        .input-box input {
-            width: 80%;
-            height: 80%;
-            border: none;
-            outline: none;
-            border-radius: 8px;
-            cursor: pointer;
-            -webkit-appearance: none;
-            appearance: none;
-        }
-        .input-box input::-webkit-color-swatch-wrapper {
-            padding: 0;
-        }
-        .input-box input::-webkit-color-swatch {
-            border: none;
-            border-radius: 8px;
-        }
-        .input-label {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 14px;
-            font-weight: bold;
-            color: #333;
-        }
-    </style>
+<style>
+    .container {
+        width: 90%;
+        max-width: 1200px;
+        background: #ffffff;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        padding: 30px;
+    }
+
+    .section {
+        margin-bottom: 30px;
+    }
+
+    .section h2 {
+        color: #333;
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .inputs {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .input-box {
+        flex: 1 1 calc(33.333% - 20px);
+        min-width: 100px;
+        max-width: 200px;
+        height: 150px;
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    .input-box input {
+        width: 80%;
+        height: 80%;
+        border: none;
+        outline: none;
+        border-radius: 8px;
+        cursor: pointer;
+        -webkit-appearance: none;
+        appearance: none;
+    }
+
+    .input-box input::-webkit-color-swatch-wrapper {
+        padding: 0;
+    }
+
+    .input-box input::-webkit-color-swatch {
+        border: none;
+        border-radius: 8px;
+    }
+
+    .input-label {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 14px;
+        font-weight: bold;
+        color: #333;
+    }
+</style>
 <div class="custom-container-fluid mt-4">
 
     <div class="accordion" id="accordionExample">
@@ -103,14 +110,14 @@
                                     <div class="form-group mb-3">
                                         <label for="nombre_tienda">Nombre de la tienda:</label>
                                         <input type="text" class="form-control" id="nombre_tienda" name="nombre_tienda">
-                                        
+
                                         <div id="tienda-error" style="color: red; display: none;">Esta tienda ya existe.</div>
                                         <div id="tienda-creada" style="color: red;"></div>
-                                        
+
                                         <button id="crear_tienda" class="btn btn-success" onclick="crear_tienda()"><i class="fa-solid fa-shop"></i> Crear tienda</button>
 
                                     </div>
-                                    
+
                                     <div class="form-group mb-3">
                                         <label for="ruc_tienda">RUC</label>
                                         <input type="text" class="form-control" id="ruc_tienda" name="ruc_tienda">
@@ -254,12 +261,12 @@
             </h2>
             <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                  <div class="table-responsive">
+                    <div class="table-responsive">
                         <!-- <table class="table table-bordered table-striped table-hover"> -->
                         <table id="datatable_caracteristicas" width="100%" class="table table-striped">
                             <thead>
                                 <tr>
-                                     <th class="text-nowrap">Titulo</th>
+                                    <th class="text-nowrap">Titulo</th>
                                     <th class="text-nowrap">Icono</th>
                                     <th class="text-nowrap">Subtexto</th>
                                 </tr>
@@ -278,38 +285,38 @@
             </h2>
             <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                 <div class="container">
-        <div class="section">
-            <h2>Elementos</h2>
-            <div class="inputs">
-                <div class="input-box">
-                    <input onchange="cambiarcolor('color_botones',this.value)" id="color_botones" name="color_botones" type="color" value="#ff0000">
-                    <div class="input-label">Botones</div>
-                </div>
-                <div class="input-box">
-                    <input onchange="cambiarcolor('color',this.value)" id="color" name="color" onchange="cambiarcolor()" type="color" value="#000000">
-                    <div class="input-label">Barra Superior</div>
-                </div>
-            </div>
-        </div>
-        <div class="section">
-            <h2>Textos</h2>
-            <div class="inputs">
-                <div class="input-box">
-                    <input onchange="cambiarcolor('texto_cabecera',this.value)" id="texto_cabecera" name="texto_cabecera" type="color" value="#ffffff">
-                    <div class="input-label">Cabecera</div>
-                </div>
-                <div class="input-box">
-                    <input onchange="cambiarcolor('texto_boton',this.value)" id="texto_boton1" name="texto_boton1" type="color" value="#ffffff">
-                    <div class="input-label">Botones</div>
-                </div>
-                <div class="input-box">
-                    <input onchange="cambiarcolor('texto_precio',this.value)" id="texto_precio" name="texto_precio" type="color" value="#000000">
-                    <div class="input-label">Texto Precio</div>
-                </div>
-            </div>
-        </div>
-    </div>
+                    <div class="container">
+                        <div class="section">
+                            <h2>Elementos</h2>
+                            <div class="inputs">
+                                <div class="input-box">
+                                    <input onchange="cambiarcolor('color_botones',this.value)" id="color_botones" name="color_botones" type="color" value="#ff0000">
+                                    <div class="input-label">Botones</div>
+                                </div>
+                                <div class="input-box">
+                                    <input onchange="cambiarcolor('color',this.value)" id="color" name="color" onchange="cambiarcolor()" type="color" value="#000000">
+                                    <div class="input-label">Barra Superior</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section">
+                            <h2>Textos</h2>
+                            <div class="inputs">
+                                <div class="input-box">
+                                    <input onchange="cambiarcolor('texto_cabecera',this.value)" id="texto_cabecera" name="texto_cabecera" type="color" value="#ffffff">
+                                    <div class="input-label">Cabecera</div>
+                                </div>
+                                <div class="input-box">
+                                    <input onchange="cambiarcolor('texto_boton',this.value)" id="texto_boton1" name="texto_boton1" type="color" value="#ffffff">
+                                    <div class="input-label">Botones</div>
+                                </div>
+                                <div class="input-box">
+                                    <input onchange="cambiarcolor('texto_precio',this.value)" id="texto_precio" name="texto_precio" type="color" value="#000000">
+                                    <div class="input-label">Texto Precio</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -321,7 +328,28 @@
             </h2>
             <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                    Contenido de Testimonios.
+                    <div class="justify-content-between align-items-center mb-3">
+                        <div class="d-flex">
+                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_bannerModal"><i class="fas fa-plus"></i> Agregar</button>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <!-- <table class="table table-bordered table-striped table-hover"> -->
+                        <table id="datatable_banner" width="100%" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="text-nowrap">Titulo</th>
+                                    <th class="text-nowrap">Icono</th>
+                                    <th class="text-nowrap">Subtexto</th>
+                                    <th class="text-nowrap">Texto Boton</th>
+                                    <th class="text-nowrap">Enlace Boton</th>
+                                    <th class="text-nowrap">Alineacion</th>
+                                    <th class="text-nowrap">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody_banner"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -426,7 +454,7 @@
             }
         });
     });
-    
+
     $(document).ready(function() {
 
         cargarInfoTienda_inicial();
@@ -439,34 +467,34 @@
             dataType: "json",
             success: function(response) {
                 $("#nombre_tienda").val(response[0].nombre_tienda);
-                
-                
+
+
                 $("#texto_cabecera").val(response[0].texto_cabecera);
-               // alert(response[0].texto_boton);
-                
+                // alert(response[0].texto_boton);
+
                 $("#texto_footer").val(response[0].texto_footer);
                 $("#texto_precio").val(response[0].texto_precio);
                 $("#color").val(response[0].color);
                 $("#color_botones").val(response[0].color_botones);
                 $("#texto_boton1").val(response[0].texto_boton);
-                
-                $("#ruc_tienda").val(response[0].ruc_tienda);
-                
-              if(response[0].tienda_creada == 1) {
-    $("#nombre_tienda").prop("readonly", true);
-    $("#tienda-creada").html('<a href="' + response[0].url_imporsuit + '" target="_blank">Ver mi tienda</a>');
-    //crear_tienda
-    $("#crear_tienda").css('display', 'none');
-}
 
-              //  alert(response[0].whatsapp)
-      $("#whatsapp").val(response[0].whatsapp);
-      
-      $("#email").val(response[0].email);
-      
-      $("#direccion").val(response[0].direccion);
-                
-                
+                $("#ruc_tienda").val(response[0].ruc_tienda);
+
+                if (response[0].tienda_creada == 1) {
+                    $("#nombre_tienda").prop("readonly", true);
+                    $("#tienda-creada").html('<a href="' + response[0].url_imporsuit + '" target="_blank">Ver mi tienda</a>');
+                    //crear_tienda
+                    $("#crear_tienda").css('display', 'none');
+                }
+
+                //  alert(response[0].whatsapp)
+                $("#whatsapp").val(response[0].whatsapp);
+
+                $("#email").val(response[0].email);
+
+                $("#direccion").val(response[0].direccion);
+
+
                 $('#imagen_logo').attr('src', SERVERURL + response[0].logo_url);
             },
             error: function(error) {
@@ -474,44 +502,44 @@
             },
         });
     }
-    
-    function cambiarcolor(campo, valor) {
-        
-        const formData = new FormData();
-  formData.append("campo", campo);
-  formData.append("valor", valor);
- 
 
-  $.ajax({
-    type: "POST",
-    url: "" + SERVERURL + "Usuarios/cambiarcolor",
-    data: formData,
-    processData: false,
-    contentType: false,
-    success: function (response2) {
-      response2 = JSON.parse(response2);
-      console.log(response2);
-      console.log(response2[0]);
-      if (response2.status == 200) {
-        Swal.fire({
-          icon: "error",
-          title: 'Exito',
-          text: 'Color cambiado correctamente',
+    function cambiarcolor(campo, valor) {
+
+        const formData = new FormData();
+        formData.append("campo", campo);
+        formData.append("valor", valor);
+
+
+        $.ajax({
+            type: "POST",
+            url: "" + SERVERURL + "Usuarios/cambiarcolor",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response2) {
+                response2 = JSON.parse(response2);
+                console.log(response2);
+                console.log(response2[0]);
+                if (response2.status == 200) {
+                    Swal.fire({
+                        icon: "error",
+                        title: 'Exito',
+                        text: 'Color cambiado correctamente',
+                    });
+                } else if (response2.status == 200) {
+                    Swal.fire({
+                        icon: "error",
+                        title: response2.title,
+                        text: response2.message,
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error en la solicitud AJAX:", error);
+                alert("Hubo un problema al agregar el producto temporalmente");
+            },
         });
-      } else if (response2.status == 200) {
-         Swal.fire({
-          icon: "error",
-          title: response2.title,
-          text: response2.message,
-        });
-      }
-    },
-    error: function (xhr, status, error) {
-      console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al agregar el producto temporalmente");
-    },
-  });
-  
+
     }
 </script>
 <?php require_once './Views/templates/footer.php'; ?>

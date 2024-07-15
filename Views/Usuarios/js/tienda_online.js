@@ -281,7 +281,7 @@ function validateStoreName(callback) {
     return;
   }
 
-  fetch(SERVERURL+"Acceso/validar_tiendas", {
+  fetch(SERVERURL + "Acceso/validar_tiendas", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -325,3 +325,87 @@ function crear_tienda() {
     },
   });
 }
+
+/* tabla de Testimonio */
+let dataTableTestimonios;
+let dataTableTestimoniosIsInitialized = false;
+
+const dataTableTestimoniosOptions = {
+  columnDefs: [
+    { className: "centered", targets: [1, 2, 3, 4, 5] },
+    { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
+  ],
+  pageLength: 10,
+  destroy: true,
+  language: {
+    lengthMenu: "Mostrar _MENU_ registros por página",
+    zeroRecords: "Ningún usuario encontrado",
+    info: "Mostrando de _START_ a _END_ de un total de _TOTAL_ registros",
+    infoEmpty: "Ningún usuario encontrado",
+    infoFiltered: "(filtrados desde _MAX_ registros totales)",
+    search: "Buscar:",
+    loadingRecords: "Cargando...",
+    paginate: {
+      first: "Primero",
+      last: "Último",
+      next: "Siguiente",
+      previous: "Anterior",
+    },
+  },
+};
+
+const initDataTableTestimonios = async () => {
+  if (dataTableTestimoniosIsInitialized) {
+    dataTableTestimonios.destroy();
+  }
+
+  await listTestimonios();
+
+  dataTableTestimonios = $("#datatable_testimonios").DataTable(
+    dataTableTestimoniosOptions
+  );
+
+  dataTableTestimoniosIsInitialized = true;
+};
+
+const listTestimonios = async () => {
+  try {
+    const response = await fetch("" + SERVERURL + "wallet/obtenerDatos");
+    const testimonios = await response.json();
+
+    let content = ``;
+
+    testimonios.forEach((testimonio, index) => {
+      content += `
+                <tr>
+                    <td><a class="dropdown-item link-like" href="${SERVERURL}wallet/pagar?tienda=${testimonio.tienda}">${testimonio.tienda}</a></td>
+                    <td>${testimonio.ventas}</td>
+                    <td>${testimonio.utilidad}</td>
+                    <td>${testimonio.count_visto_0}</td>
+                    <td>
+                    <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel_general('${testimonio.tienda}')">Descargar Excel general</button>
+                    <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel('${testimonio.tienda}')">Descargar Excel</button>
+                    </td>
+                    <td>
+                    <div class="dropdown">
+                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-gear"></i>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" style="cursor: pointer;" href="${SERVERURL}wallet/pagar?tienda=${testimonio.tienda}"><i class='bx bx-wallet'></i>Pagar</a></li>
+                    </ul>
+                    </div>
+                    </td>
+                </tr>`;
+    });
+    document.getElementById("tableBody_testimonios").innerHTML = content;
+  } catch (ex) {
+    alert(ex);
+  }
+};
+
+window.addEventListener("load", async () => {
+  await initDataTableTestimonios();
+});
+
+/* Fin tabla de testimonios */
