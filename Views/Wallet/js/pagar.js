@@ -127,16 +127,16 @@ const listFacturas = async () => {
         } else {
           check = `<input type="checkbox" class="selectCheckbox" data-factura-id_cabecera="${factura.id_cabecera}" data-factura-valor="${factura.monto_recibir}">`;
         }
-        acreditable = "acreditable"; 
+        acreditable = "acreditable";
       } else if (factura.estado_guia == 9) {
         if (factura.valor_pendiente == 0) {
           check = "";
         } else {
           check = `<input type="checkbox" class="selectCheckbox" data-factura-id_cabecera="${factura.id_cabecera}" data-factura-valor="${factura.monto_recibir}">`;
         }
-        acreditable = "acreditable"
+        acreditable = "acreditable";
       } else {
-        acreditable = "No acreditable"
+        acreditable = "No acreditable";
       }
 
       if (factura.guia.includes("IMP")) {
@@ -157,7 +157,7 @@ const listFacturas = async () => {
         estado = validar_estadoServi(factura.estado_guia);
       }
 
-      console.log("estados"+estado)
+      console.log("estados" + estado);
       var span_estado = estado.span_estado;
       console.log(span_estado);
       var estado_guia = estado.estado_guia;
@@ -199,7 +199,17 @@ const listFacturas = async () => {
                     </div>
                     </td>
                     <td><button class="icon-button" style="background-color: green; margin: 0;" onclick="abrirModal_editarCabecera(${factura.id_cabecera})"><i class="fa-solid fa-pen-to-square" style="margin: 0;"></i></button></td>
-                    <td><button class="icon-button" style="background-color: #FCBF00; margin: 0;" onclick="devolucion(${factura.id_cabecera})"><i class="fa-solid fa-rotate-left" style="margin: 0;"></i></button></td>
+                    <td>
+                    <div class="dropdown">
+                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-solid fa-rotate-left" style="margin: 0;"></i>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" style="cursor: pointer;" onclick="devolucion(${factura.id_cabecera})">Devolucion</a></li>
+                        <li><a class="dropdown-item" style="cursor: pointer;" href="${url_descargar}">Entregar</a></li>
+                    </ul>
+                    </div>
+                    </td>
                     <td></td>
                     <td></td>
                     <td><button class="icon-button" style="background-color: red; margin: 0;" onclick="eliminar_wallet(${factura.id_cabecera})"><i class="fa-solid fa-trash" style="margin: 0;"></i></button></td>
