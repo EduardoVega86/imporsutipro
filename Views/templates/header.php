@@ -56,28 +56,28 @@
 
             <div class="submenu" id="submenu1">
                 <a href="<?php echo SERVERURL ?>Productos"><i class='bx bxs-store menu-icon'></i> <span class="menu-text">Listado</span></a>
-                 <a href="<?php echo SERVERURL ?>Productos/marketplace_privado"><i class='bx bxs-box menu-icon'></i> <span class="menu-text">Producto Privados</span></a>
+                <a href="<?php echo SERVERURL ?>Productos/marketplace_privado"><i class='bx bxs-box menu-icon'></i> <span class="menu-text">Producto Privados</span></a>
 
                 <a href="<?php echo SERVERURL ?>Productos/categorias"><i class='bx bxs-category menu-icon'></i> <span class="menu-text">Categorias</span></a>
 
-          
+
                 <a href="<?php echo SERVERURL ?>Productos/importacion_masiva"><i class='bx bxs-cart-download menu-icon'></i> <span class="menu-text">Importación Masiva</span></a>
 
             </div>
-            
+
             <a href="#" class="dropdown-btn" data-target="#submenu_inventario"><i class='bx bx-list-plus menu-icon'></i> <span class="menu-text">Inventarios</span></a>
 
             <div class="submenu" id="submenu_inventario">
-              
+
 
                 <a href="<?php echo SERVERURL ?>Productos/bodegas"><i class='bx bxs-truck menu-icon'></i> <span class="menu-text">Bodegas</span></a>
 
                 <a href="<?php echo SERVERURL ?>Productos/inventario"><i class='bx bx-list-plus menu-icon'></i> <span class="menu-text">Inventario</span></a>
-        <a href="<?php echo SERVERURL ?>despacho/lista_despachos"><i class='bx bxs-box menu-icon'></i> <span class="menu-text">Relacion Despacho</span></a>
+                <a href="<?php echo SERVERURL ?>despacho/lista_despachos"><i class='bx bxs-box menu-icon'></i> <span class="menu-text">Relacion Despacho</span></a>
                 <a href="<?php echo SERVERURL ?>despacho/lista_devoluciones"><i class='bx bx-box menu-icon'></i> <span class="menu-text">Devoluciones</span></a>
-    
+
             </div>
-            
+
             <a href="#" class="dropdown-btn" data-target="#submenu2"><i class='bx bx-receipt menu-icon'></i> <span class="menu-text">Pedidos</span></a>
             <div class="submenu" id="submenu2">
                 <a href="<?php echo SERVERURL ?>Pedidos"><i class='bx bx-history menu-icon'></i> <span class="menu-text">Historial</span></a>
@@ -86,33 +86,33 @@
                 <?php
                 } else {
                 ?>
-                <a href="<?php echo SERVERURL ?>pedidos/guias"><i class='bx bx-archive menu-icon'></i> <span class="menu-text">Guías</span></a>
+                    <a href="<?php echo SERVERURL ?>pedidos/guias"><i class='bx bx-archive menu-icon'></i> <span class="menu-text">Guías</span></a>
                 <?php
                 }
                 ?>
                 <a href="<?php echo SERVERURL ?>pedidos/anuladas"><i class='bx bx-x menu-icon'></i> <span class="menu-text">Anulados</span></a>
                 <a href="<?php echo SERVERURL ?>pedidos/novedades"><i class='bx bx-info-circle menu-icon'></i> <span class="menu-text">Novedades</span></a>
-                        </div>
+            </div>
             <a href="#" class="dropdown-btn" data-target="#submenu3"><i class='bx bx-wallet menu-icon'></i> <span class="menu-text">Wallet</span></a>
             <div class="submenu" id="submenu3">
                 <a href="<?php echo SERVERURL ?>wallet"><i class="fa-solid fa-money-bill-trend-up menu-icon"></i> <span class="menu-text">Detalle</span></a>
                 <a href="<?php echo SERVERURL ?>wallet/datos_bancarios"><i class='bx bxs-bank menu-icon'></i> <span class="menu-text">Datos bancarios</span></a>
                 <?php if ($_SESSION['cargo'] == 10) { ?>
-                <a href="<?php echo SERVERURL ?>wallet/solicitudes"><i class="fa-solid fa-clipboard-list menu-icon"></i> <span class="menu-text">Solicitudes</span></a>
+                    <a href="<?php echo SERVERURL ?>wallet/solicitudes"><i class="fa-solid fa-clipboard-list menu-icon"></i> <span class="menu-text">Solicitudes</span></a>
                 <?php
                 }
                 ?>
             </div>
             <a href="#" class="dropdown-btn" data-target="#submenu4"><i class='bx bx-cog menu-icon'></i> <span class="menu-text">Configuración</span></a>
             <div class="submenu" id="submenu4">
+                <a href="<?php echo SERVERURL ?>usuarios/tienda_online"><i class='bx bxs-store menu-icon'></i> <span class="menu-text">Tienda Online</span></a>
                 <?php if ($_SESSION['cargo'] == 10) { ?>
                     <a href="<?php echo SERVERURL ?>usuarios/listamatriz"><i class='bx bx-user menu-icon'></i> <span class="menu-text">Usuarios</span></a>
                 <?php
                 } else {
                 ?>
-                    <a href="<?php echo SERVERURL ?>usuarios/tienda_online"><i class='bx bxs-store menu-icon'></i> <span class="menu-text">Tienda Online</span></a>
-                <a href="<?php echo SERVERURL ?>usuarios/listado"><i class='bx bx-user menu-icon'></i> <span class="menu-text">Usuarios</span></a>
-                 
+                    <a href="<?php echo SERVERURL ?>usuarios/listado"><i class='bx bx-user menu-icon'></i> <span class="menu-text">Usuarios</span></a>
+
                 <?php
                 }
                 ?>
@@ -145,7 +145,7 @@
         <!-- Aquí va el contenido de la página -->
         <script>
             const SERVERURL = "<?php echo SERVERURL ?>";
-            const MARCA = "<?php echo MARCA?>";
+            const MARCA = "<?php echo MARCA ?>";
             const CARGO = <?php echo $_SESSION['cargo']; ?>;
             const ID_PLATAFORMA = <?php echo $_SESSION['id_plataforma']; ?>;
         </script>
