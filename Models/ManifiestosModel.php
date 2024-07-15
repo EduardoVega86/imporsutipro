@@ -482,103 +482,126 @@ class ManifiestosModel extends Query
 
 
 
-    public function generarTablaManifiestoDev($data, $bodega_nombre, $direccion, $telefono, $responsable)
-    {
-        $fecha = date('Y-m-d H:i:s'); // Obtén la fecha y hora actual
-        $generator = new BarcodeGeneratorHTML();
+    public function generarTablaManifiesto($data, $bodega_nombre, $direccion, $telefono, $responsable)
+{
+    $fecha = date('Y-m-d H:i:s'); // Obtén la fecha y hora actual
+    $generator = new BarcodeGeneratorHTML();
 
-        $id_usuario = $_SESSION['id'];
-        $sql_usuario = "SELECT nombre_users FROM users WHERE id_users = $id_usuario";
-        $usuario = $this->select($sql_usuario);
-        $nombre_usuario = $usuario[0]['nombre_users'];
+    $id_usuario = $_SESSION['id'];
+    $sql_usuario = "SELECT nombre_users FROM users WHERE id_users = $id_usuario";
+    $usuario = $this->select($sql_usuario);
+    $nombre_usuario = $usuario[0]['nombre_users'];
 
-
-        $html = '
-        <style>
-            table {
+    $html = '
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+            font-size: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .barcode img {
+            width: 100px; /* Ajusta el tamaño según sea necesario */
+            height: auto;
+        }
+        .footer {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+        }
+        hr {
+            width: 200px;
+            border: 1px solid #000;
+            margin: 10px auto;
+        }
+        @media screen and (max-width: 600px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
                 width: 100%;
-                border-collapse: collapse;
             }
             th, td {
-                border: 1px solid black;
-                padding: 8px;
+                box-sizing: border-box;
+                width: 100%;
+                text-align: right;
+            }
+            tr {
+                margin-bottom: 15px;
+            }
+            td {
+                text-align: right;
+                padding-left: 50%;
+                position: relative;
+            }
+            td:before {
+                content: attr(data-label);
+                position: absolute;
+                left: 10px;
+                width: calc(50% - 10px);
+                padding-right: 10px;
+                white-space: nowrap;
                 text-align: left;
             }
-            th {
-                background-color: #f2f2f2;
-            }
-            @media screen and (max-width: 600px) {
-                table, thead, tbody, th, td, tr {
-                    display: block;
-                    width: 100%;
-                }
-                th, td {
-                    box-sizing: border-box;
-                    width: 100%;
-                    text-align: right;
-                }
-                tr {
-                    margin-bottom: 15px;
-                }
-                td {
-                    text-align: right;
-                    padding-left: 50%;
-                    position: relative;
-                }
-                td:before {
-                    content: attr(data-label);
-                    position: absolute;
-                    left: 10px;
-                    width: calc(50% - 10px);
-                    padding-right: 10px;
-                    white-space: nowrap;
-                    text-align: left;
-                }
-            }
-        </style>
-         <p style="text-align: center; font-size:20px"><strong>' . strtoupper($bodega_nombre) . '</strong></p>
-             
- <p style="text-align: center; font-size:12px">' . strtoupper($direccion) . '</p>
-     <p style="text-align: center; font-size:12px">' . strtoupper($responsable) . ' / ' . strtoupper($telefono) . '</p>
-         
-        <table>
-         <tr>
-         <th>Responsable Devolucion</th>
-         <th>' . $nombre_usuario . '</th>
-                <th>Fecha</th>
-                <th>' . $fecha . '</th>
-               
-            </tr>
-          </table>
-        <table>
-            <tr>
-                <th>Numero</th>
-                <th>Guia</th>
-                <th>Cliente</th>
-                 <th>Dirección</th>
-                <th>Productos</th>
-                <th>Monto a cobrar</th>
-            </tr>';
-        $numero = 1;
-        foreach ($data as $row) {
-            $codigoBarras = $generator->getBarcode($row['numero_guia'], $generator::TYPE_CODE_128);
-            $html .= '<tr>';
-            $html .= '<td data-label="ID Producto">' . $numero . '</td>';
-            $html .= '<td style="width:30px; font-size=8px;" data-label="Documento">' . $codigoBarras . '</br>' . htmlspecialchars($row['numero_guia']) . '</td>';
-            $html .= '<td data-label="Cliente">' . htmlspecialchars($row['nombre']) . '</td>';
-            $html .= '<td data-label="Direccion">' . htmlspecialchars($row['c_principal']) . ' ' . htmlspecialchars($row['c_secundaria']) . '</td>';
-            $html .= '<td data-label="No Productos"> ' . htmlspecialchars($row['numero_productos']) . '</td>';
-            if ($row['cod'] == 1) {
-                $monto_cobrar = htmlspecialchars($row['monto_factura']);
-            } else {
-                $monto_cobrar = 0;
-            }
-            $html .= '<td data-label="Monto a Cobrar">$ ' . number_format($monto_cobrar, 2) . '</td>';
-            $html .= '</tr>';
         }
-        $html .= '</table>';
-        return $html;
+    </style>
+    <p style="text-align: center; font-size: 20px;"><strong>' . strtoupper($bodega_nombre) . '</strong></p>
+    <p style="text-align: center; font-size: 12px;">' . strtoupper($direccion) . '</p>
+    <p style="text-align: center; font-size: 12px;">' . strtoupper($responsable) . ' / ' . strtoupper($telefono) . '</p>
+    <table>
+        <tr>
+            <th>Responsable</th>
+            <th>' . $nombre_usuario . '</th>
+            <th>Fecha</th>
+            <th>' . $fecha . '</th>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th>Numero</th>
+            <th>Guia</th>
+            <th>Cliente</th>
+            <th>Dirección</th>
+            <th>Productos</th>
+            <th>Monto a cobrar</th>
+        </tr>';
+
+    $numero = 1;
+    foreach ($data as $row) {
+        $codigoBarras = $generator->getBarcode($row['numero_guia'], $generator::TYPE_CODE_128);
+        $html .= '<tr>';
+        $html .= '<td data-label="ID Producto">' . $numero . '</td>';
+        $html .= '<td data-label="Documento"><div class="barcode">' . $codigoBarras . '</div><br>' . htmlspecialchars($row['numero_guia']) . '</td>';
+        $html .= '<td data-label="Cliente">' . htmlspecialchars($row['nombre']) . '</td>';
+        $html .= '<td data-label="Direccion">' . htmlspecialchars($row['c_principal']) . ' ' . htmlspecialchars($row['c_secundaria']) . '</td>';
+        $html .= '<td data-label="No Productos">' . htmlspecialchars($row['numero_productos']) . '</td>';
+        if ($row['cod'] == 1) {
+            $monto_cobrar = htmlspecialchars($row['monto_factura']);
+        } else {
+            $monto_cobrar = 0;
+        }
+        $html .= '<td data-label="Monto a Cobrar">$ ' . number_format($monto_cobrar, 2) . '</td>';
+        $html .= '</tr>';
+        $numero++;
     }
+
+    $html .= '
+    </table>
+    <div class="footer">
+        <hr>
+        <p>' . $nombre_usuario . '</p>
+    </div>';
+
+    return $html;
+}
+
 
     public function generarTablaDescripcion($facturas)
     {
