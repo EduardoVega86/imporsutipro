@@ -63,10 +63,13 @@
 
                 <a href="<?php echo SERVERURL ?>Productos/importacion_masiva"><i class='bx bxs-cart-download menu-icon'></i> <span class="menu-text">Importación Masiva</span></a>
                 
-                <a href="<?php echo SERVERURL ?>Productos/productos_tienda"><i class='bx bxs-store menu-icon'></i> <span class="menu-text">Productos Tienda</span></a>
-
+               
             </div>
-
+ <a href="#" class="dropdown-btn" data-target="#tienda"><i class='bx bx-store menu-icon'></i> <span class="menu-text">Tienda Online</span></a>
+ <div class="submenu" id="tienda">
+  <a href="<?php echo SERVERURL ?>Productos/productos_tienda"><i class='bx bxs-cart menu-icon'></i> <span class="menu-text">Productos Tienda</span></a>
+ <a href="<?php echo SERVERURL ?>usuarios/tienda_online"><i class='bx bxs-store menu-icon'></i> <span class="menu-text">Tienda Online</span></a>
+  </div>
             <a href="#" class="dropdown-btn" data-target="#submenu_inventario"><i class='bx bx-list-plus menu-icon'></i> <span class="menu-text">Inventarios</span></a>
 
             <div class="submenu" id="submenu_inventario">
