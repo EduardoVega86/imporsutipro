@@ -251,7 +251,7 @@ class Usuarios extends Controller
         $response = $this->model->obtener_bannertienda($_SESSION['id_plataforma']);
         echo json_encode($response);
     }
-    
+
     public function obtener_caracteristica()
     {
         $response = $this->model->obtener_caracteristicas($_SESSION['id_plataforma']);
@@ -300,28 +300,35 @@ class Usuarios extends Controller
     }
 
     public function obtener_testimonios()
-    {        
-        
+    {
+
         $response = $this->model->obtener_testimonios($_SESSION['id_plataforma']);
-       echo json_encode($response);
-       
+        echo json_encode($response);
+    }
+
+    public function agregarTestimonios()
+    {
+        $nombre = $_POST['nombre'];
+        $testimonio = $_POST['testimonio'];
+        $fecha = date('Y-m-d H:i:s');
+        $imagen = $_FILES['imagen'];
+        $response = $this->model->agregarTestimonios($nombre, $testimonio, $fecha, $imagen, $_SESSION['id_plataforma']);
+        echo json_encode($response);
     }
     /* fin tienda online */
-    
-     public function registro()
+
+    public function registro()
     {
         $nombre = $_POST['nombre'];
         $response = $this->model->crearSubdominio($nombre, $_SESSION['id_plataforma']);
-                echo json_encode($response);
-
+        echo json_encode($response);
     }
-    
-     public function cambiarcolor()
+
+    public function cambiarcolor()
     {
         $campo = $_POST['campo'];
         $valor = $_POST['valor'];
         $response = $this->model->cambiarcolortienda($campo, $valor, $_SESSION['id_plataforma']);
-                echo json_encode($response);
-
+        echo json_encode($response);
     }
 }
