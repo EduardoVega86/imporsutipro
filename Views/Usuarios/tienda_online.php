@@ -122,23 +122,23 @@
 
                                     <div class="form-group mb-3">
                                         <label for="ruc_tienda">RUC</label>
-                                        <input type="text" class="form-control" id="ruc_tienda" name="ruc_tienda">
+                                        <input type="text" class="form-control cambio" id="ruc_tienda" name="ruc_tienda">
                                     </div>
                                     <div class="form-group mb-3">
                                         <label for="telefono_tienda">Telefono:</label>
-                                        <input type="text" class="form-control" id="whatsapp" name="whatsapp">
+                                        <input type="text" class="form-control cambio" id="whatsapp" name="whatsapp">
                                     </div>
                                     <div class="form-group mb-3">
                                         <label for="email_tienda">Email:</label>
-                                        <input type="email" class="form-control" id="email" name="email">
+                                        <input type="email" class="form-control cambio" id="email" name="email">
                                     </div>
                                     <div class="form-group mb-3">
                                         <label for="direccion_tienda">Dirección:</label>
-                                        <input type="text" class="form-control" id="direccion" name="direccion">
+                                        <input type="text" class="form-control cambio" id="direccion" name="direccion">
                                     </div>
                                     <div class="form-group mb-3">
                                         <label for="pais_tienda">-- Elige un país --</label>
-                                        <select class="form-select" id="pais_tienda" name="pais_tienda">
+                                        <select class="form-select cambio" id="pais_tienda" name="pais_tienda">
                                             <option selected>Ecuador</option>
                                             <!-- Agrega más opciones según sea necesario -->
                                         </select>
