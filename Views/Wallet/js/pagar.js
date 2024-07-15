@@ -201,7 +201,7 @@ const listFacturas = async () => {
                     <td><button class="icon-button" style="background-color: green; margin: 0;" onclick="abrirModal_editarCabecera(${factura.id_cabecera})"><i class="fa-solid fa-pen-to-square" style="margin: 0;"></i></button></td>
                     <td>
                     <div class="dropdown">
-                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #000000 border-color: #000000">
+                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #000000 !important; border-color: #000000 !important;">
                     <i class='bx bxs-cog'></i>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
