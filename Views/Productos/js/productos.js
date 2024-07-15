@@ -68,12 +68,14 @@ const dataTableProductosOptions = {
 
 const reloadDataTableProductos = async () => {
   const currentPage = dataTableProductos.page();
+  const currentLength = dataTableProductos.page.len(); // Guardar la longitud actual
   dataTableProductos.destroy();
   await listProductos();
   dataTableProductos = $("#datatable_productos").DataTable(
     dataTableProductosOptions
   );
-  dataTableProductos.page(currentPage).draw(false);
+  dataTableProductos.page.len(currentLength).draw(); // Restaurar la longitud seleccionada
+  dataTableProductos.page(currentPage).draw(false); // Restaurar la página actual
   dataTableProductosIsInitialized = true;
   customizeButtons();
 };
@@ -104,7 +106,7 @@ const listProductos = async () => {
     let subir_marketplace = "";
     let producto_variable = "";
     let enlace_imagen = "";
-    let enviaCliente= "";
+    let enviaCliente = "";
     productos.forEach((producto, index) => {
       enlace_imagen = obtenerURLImagen(producto.image_path, SERVERURL);
       if (!producto.image_path) {
@@ -124,7 +126,6 @@ const listProductos = async () => {
       } else {
         producto_variable = `<img src="https://new.imporsuitpro.com/public/img/atributos.png" width="30px" id="buscar_traking" alt="buscar_traking" onclick="abrir_modalInventarioVariable(${producto.id_producto})">`;
         enviaCliente = `<i style="color:red;" style='cursor:pointer' class="fa-regular fa-paper-plane" onclick="abrir_modalSeleccionAtributo(${producto.id_producto},'${producto.sku}',${producto.pvp},${producto.id_inventario})"></i>`;
-        
       }
       content += `
                 <tr>
