@@ -288,7 +288,7 @@ class UsuariosModel extends Query
 
         return $this->select($sql);
     }
-    
+
     public function obtener_caracteristicas($plataforma)
     {
         $sql = "SELECT * FROM caracteristicas_tienda WHERE id_plataforma = $plataforma";
@@ -450,87 +450,92 @@ class UsuariosModel extends Query
         }
         return $response;
     }
+
+    public function obtener_testimonios($plataforma)
+    {
+        $sql = "SELECT * FROM testimonios WHERE id_plataforma = $plataforma";
+
+        return $this->select($sql);
+    }
     /* Fin tienda online */
-    
-    
-   public function crearSubdominio($nombre_tienda, $plataforma)
-{
-    $cpanelUrl = 'https://administracion.imporsuitpro.com:2083/';
-    $cpanelUsername = 'imporsuitpro';
-    $cpanelPassword = 'Mark2demasiado..';
-    $rootdomain = DOMINIO;
 
-    $repositoryUrl = "https://github.com/DesarrolloImporfactory/tienda";
-    $repositoryName = "tienda";
 
-    // Clonar el repositorio de GitHub
-    $apiUrl = $cpanelUrl . "execute/VersionControl/create";
-    $postFields = [
-        'type' => 'git',
-        'name' => $repositoryName,
-        'repository_root' => "/home/$cpanelUsername/public_html/$nombre_tienda",
-        'source_repository' => json_encode([
-            "branch" => "origin",
-            "url" => $repositoryUrl
-        ]),
-        'checkout' => 1,
-    ];
-    
-    $direccion="/home/$cpanelUsername/public_html/$nombre_tienda";
-    $url_repositorio="/home/$cpanelUsername/public_html/$nombre_tienda";
-    
-    // Verifica que el método `cpanelRequest` esté definido y maneja errores
-    if (method_exists($this, 'cpanelRequest')) {
-        $response = $this->cpanelRequest($apiUrl, $cpanelUsername, $cpanelPassword, http_build_query($postFields));
-        if ($response === false) {
-            throw new Exception("Error al clonar el repositorio de GitHub.");
-        }
-    } else {
-        throw new Exception("El método cpanelRequest no está definido.");
-    }
+    public function crearSubdominio($nombre_tienda, $plataforma)
+    {
+        $cpanelUrl = 'https://administracion.imporsuitpro.com:2083/';
+        $cpanelUsername = 'imporsuitpro';
+        $cpanelPassword = 'Mark2demasiado..';
+        $rootdomain = DOMINIO;
 
-    // Crear subdominio
-    $apiUrl = $cpanelUrl . 'execute/SubDomain/addsubdomain?domain=' . $nombre_tienda . '&rootdomain=' . $rootdomain;
-    $response = $this->cpanelRequest($apiUrl, $cpanelUsername, $cpanelPassword);
-    if ($response === false) {
-        throw new Exception("Error al crear el subdominio.");
-    }else{
-        
-        $file = $direccion . '/Config/Config.php';
-//echo $file;
-    // Verifica si el archivo existe antes de intentar leerlo
-    if (file_exists($file)) {
-        // Lee el contenido del archivo
-        $content = file_get_contents($file);
+        $repositoryUrl = "https://github.com/DesarrolloImporfactory/tienda";
+        $repositoryName = "tienda";
 
-        // Reemplaza el texto específico
-        $newContent = str_replace('tony', $nombre_tienda, $content);
+        // Clonar el repositorio de GitHub
+        $apiUrl = $cpanelUrl . "execute/VersionControl/create";
+        $postFields = [
+            'type' => 'git',
+            'name' => $repositoryName,
+            'repository_root' => "/home/$cpanelUsername/public_html/$nombre_tienda",
+            'source_repository' => json_encode([
+                "branch" => "origin",
+                "url" => $repositoryUrl
+            ]),
+            'checkout' => 1,
+        ];
 
-        // Escribe el contenido modificado de nuevo en el archivo
-        file_put_contents($file, $newContent);
+        $direccion = "/home/$cpanelUsername/public_html/$nombre_tienda";
+        $url_repositorio = "/home/$cpanelUsername/public_html/$nombre_tienda";
 
-             $url_tienda='https://'.$nombre_tienda.'.imporsuitpro.com';
-        
-        $sql = " UPDATE `plataformas` SET `url_imporsuit` =?, `tienda_creada` =? , `nombre_tienda` =?  WHERE `id_plataforma` = ?";
-        $data = [$url_tienda, 1, $nombre_tienda,  $plataforma];
-        $editar_producto = $this->update($sql, $data);
-        print_r($editar_producto);
-        if ($editar_producto == 1) {
-            $responses = array('status' => 200, 'title' => 'Peticion exitosa', 'message' => 'Contraseña actualizada correctamente');
+        // Verifica que el método `cpanelRequest` esté definido y maneja errores
+        if (method_exists($this, 'cpanelRequest')) {
+            $response = $this->cpanelRequest($apiUrl, $cpanelUsername, $cpanelPassword, http_build_query($postFields));
+            if ($response === false) {
+                throw new Exception("Error al clonar el repositorio de GitHub.");
+            }
         } else {
-            $responses = array('status' => 500, 'title' => 'Error', 'message' => $editar_producto['message']);
+            throw new Exception("El método cpanelRequest no está definido.");
         }
-        
-        echo "El archivo ha sido actualizado.";
-    } else {
-        echo "El archivo config.php no se encuentra en la carpeta config.";
-    }
-    
-       
-    }
-}
 
- public function cpanelRequest($url, $username, $password, $postFields = null)
+        // Crear subdominio
+        $apiUrl = $cpanelUrl . 'execute/SubDomain/addsubdomain?domain=' . $nombre_tienda . '&rootdomain=' . $rootdomain;
+        $response = $this->cpanelRequest($apiUrl, $cpanelUsername, $cpanelPassword);
+        if ($response === false) {
+            throw new Exception("Error al crear el subdominio.");
+        } else {
+
+            $file = $direccion . '/Config/Config.php';
+            //echo $file;
+            // Verifica si el archivo existe antes de intentar leerlo
+            if (file_exists($file)) {
+                // Lee el contenido del archivo
+                $content = file_get_contents($file);
+
+                // Reemplaza el texto específico
+                $newContent = str_replace('tony', $nombre_tienda, $content);
+
+                // Escribe el contenido modificado de nuevo en el archivo
+                file_put_contents($file, $newContent);
+
+                $url_tienda = 'https://' . $nombre_tienda . '.imporsuitpro.com';
+
+                $sql = " UPDATE `plataformas` SET `url_imporsuit` =?, `tienda_creada` =? , `nombre_tienda` =?  WHERE `id_plataforma` = ?";
+                $data = [$url_tienda, 1, $nombre_tienda,  $plataforma];
+                $editar_producto = $this->update($sql, $data);
+                print_r($editar_producto);
+                if ($editar_producto == 1) {
+                    $responses = array('status' => 200, 'title' => 'Peticion exitosa', 'message' => 'Contraseña actualizada correctamente');
+                } else {
+                    $responses = array('status' => 500, 'title' => 'Error', 'message' => $editar_producto['message']);
+                }
+
+                echo "El archivo ha sido actualizado.";
+            } else {
+                echo "El archivo config.php no se encuentra en la carpeta config.";
+            }
+        }
+    }
+
+    public function cpanelRequest($url, $username, $password, $postFields = null)
     {
         global $verificador;
         $ch = curl_init();
@@ -550,11 +555,11 @@ class UsuariosModel extends Query
         }
         curl_close($ch);
     }
-    
 
-     public function cambiarcolortienda($campo, $valor, $plataforma)
+
+    public function cambiarcolortienda($campo, $valor, $plataforma)
     {
-       // $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
+        // $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
 
         $sql = "UPDATE `perfil` SET $campo =? WHERE `id_plataforma` = ?";
         //echo $sql;
@@ -568,5 +573,4 @@ class UsuariosModel extends Query
         }
         return $responses;
     }
-    
 }

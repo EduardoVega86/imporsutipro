@@ -298,6 +298,14 @@ class Usuarios extends Controller
         $response = $this->model->eliminarBanner($id, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
+
+    public function obtener_testimonios()
+    {        
+        
+        $response = $this->model->obtener_testimonios($_SESSION['id_plataforma']);
+       echo json_encode($response);
+       
+    }
     /* fin tienda online */
     
      public function registro()
