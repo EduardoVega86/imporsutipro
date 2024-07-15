@@ -440,12 +440,12 @@ class ManifiestosModel extends Query
     </table>
     <table>
         <tr>
-            <th>Numero</th>
-            <th>Guia</th>
-            <th>Cliente</th>
-            <th>Dirección</th>
-            <th>Productos</th>
-            <th>Monto a cobrar</th>
+            <th style="width:10%">#</th>
+            <th style="width:20%">Guia</th>
+            <th style="width:20%">Cliente</th>
+            <th style="width:20%">Contiene</th>
+            <th style="width:20%">Productos</th>
+            <th style="width:10%">Monto a cobrar</th>
         </tr>';
 
     $numero = 1;
