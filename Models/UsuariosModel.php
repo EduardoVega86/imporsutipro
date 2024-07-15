@@ -495,6 +495,7 @@ class UsuariosModel extends Query
                 $sql = "INSERT INTO `testimonios` (`imagen`,`nombre`,`testimonio`,`id_plataforma`,`status`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?)";
                 $data = [$target_file, $nombre, $testimonio, $plataforma, 1, 0];
                 $insertar_testimonio = $this->insert($sql, $data);
+                echo $sql;
                 if ($insertar_testimonio == 1) {
                     $response['status'] = 200;
                     $response['title'] = 'Peticion exitosa';
