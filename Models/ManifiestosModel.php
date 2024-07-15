@@ -505,7 +505,7 @@ class ManifiestosModel extends Query
         $html .= '<td data-label="ID Producto">' . $numero . '</td>';
         $html .= '<td data-label="Documento"><div class="barcode">' . $codigoBarras . '</div><br>' . htmlspecialchars($row['numero_guia']) . '</td>';
         $html .= '<td data-label="Cliente">' . htmlspecialchars($row['nombre']) . '</td>';
-        $html .= '<td data-label="Direccion">' . htmlspecialchars($row['c_principal']) . ' ' . htmlspecialchars($row['c_secundaria']) . '</td>';
+        $html .= '<td data-label="Contiene">' . htmlspecialchars($row['contiene']) . '</td>';
         $html .= '<td data-label="No Productos">' . htmlspecialchars($row['numero_productos']) . '</td>';
         if ($row['cod'] == 1) {
             $monto_cobrar = htmlspecialchars($row['monto_factura']);
