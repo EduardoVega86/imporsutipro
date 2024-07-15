@@ -299,7 +299,7 @@ class ManifiestosModel extends Query
     $sql_usuario = "SELECT nombre_users FROM users WHERE id_users = $id_usuario";
     $usuario = $this->select($sql_usuario);
     $nombre_usuario = $usuario[0]['nombre_users'];
-    
+      $fecha = date('Y-m-d H:i:s'); // Obtén la fecha y hora actual
         $html = '
         <style>
             table {
@@ -345,8 +345,8 @@ class ManifiestosModel extends Query
         </style>
         
 <p style="text-align: center; font-size: 20px;"><strong> LISTA DE COMPRAS</strong></p>
-    <p style="text-align: center; font-size: 12px;">IMPRESO POR</p>
-    <p style="text-align: center; font-size: 12px;">' . strtoupper($nombre_usuario). '</p>
+    <p style="text-align: center; font-size: 12px;">IMPRESO POR '. strtoupper($nombre_usuario).'</p>
+    <p style="text-align: center; font-size: 12px;">' . $fecha. '</p>
         
         <table>
             <tr>
