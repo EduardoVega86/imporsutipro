@@ -494,8 +494,8 @@ class ManifiestosModel extends Query
             <th style="width:25%">Guia</th>
             <th style="width:20%">Cliente</th>
             <th style="width:20%">Contiene</th>
-            <th style="width:20%">Productos</th>
-            <th style="width:10%">Monto a cobrar</th>
+            <th style="width:10%">Productos</th>
+            <th style="width:20%">Monto a cobrar</th>
         </tr>';
 
     $numero = 1;
