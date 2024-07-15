@@ -293,7 +293,6 @@ class WalletModel extends Query
 
         $sql = "INSERT INTO billeteras (`tienda`, `saldo`, `id_plataforma`) VALUES (?, ?, ?)";
         $response =  $this->insert($sql, array($url_imporsuit, 0, $tienda));
-        print_r($response);
         return json_encode($response);
     }
 
@@ -576,6 +575,19 @@ class WalletModel extends Query
     public function devolucion($id)
     {
         $sql = "UPDATE cabecera_cuenta_pagar set estado_guia = 9, monto_recibir=(precio_envio + full) * -1, valor_pendiente=(precio_envio + full) * -1 WHERE id_cabecera = ?;";
+        $response =  $this->update($sql, array($id));
+        if ($response == 1) {
+            $responses["status"] = 200;
+        } else {
+            $responses["status"] = 400;
+            $responses["message"] = $response["message"];
+        }
+        return $responses;
+    }
+
+    public function entregar($id)
+    {
+        $sql = "UPDATE cabecera_cuenta_pagar set estado_guia = 7, monto_recibir=(total_venta - costo - precio_envio - full, valor_pendiente=(total_venta - costo - precio_envio - full)  WHERE id_cabecera = ?;";
         $response =  $this->update($sql, array($id));
         if ($response == 1) {
             $responses["status"] = 200;
