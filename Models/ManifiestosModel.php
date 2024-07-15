@@ -341,6 +341,18 @@ class ManifiestosModel extends Query
                     white-space: nowrap;
                     text-align: left;
                 }
+                   .footer {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+        }
+        hr {
+            width: 200px;
+            border: 1px solid #000;
+            margin: 10px auto;
+        }
             }
         </style>
         
