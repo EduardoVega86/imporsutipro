@@ -62,6 +62,8 @@
 
 
                 <a href="<?php echo SERVERURL ?>Productos/importacion_masiva"><i class='bx bxs-cart-download menu-icon'></i> <span class="menu-text">Importación Masiva</span></a>
+                
+                <a href="<?php echo SERVERURL ?>Productos/productos_tienda"><i class='bx bxs-cart-download menu-icon'></i> <span class="menu-text">Productos Tienda</span></a>
 
             </div>
 
