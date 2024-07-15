@@ -99,7 +99,18 @@
 
     .boton-flotante.mostrar {
         display: inline-block;
-        opacity: 1;
-        transform: translateY(0);
+        animation: aparecer 0.5s forwards;
+    }
+
+    @keyframes aparecer {
+        0% {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 </style>
