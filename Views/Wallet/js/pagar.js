@@ -634,8 +634,8 @@ function validar_estadoLaar(estado) {
   var span_estado = "";
   var estado_guia = "";
   if (estado == 1) {
-    span_estado = "badge_danger";
-    estado_guia = "Anulado";
+    span_estado = "badge_purple";
+    estado_guia = "Generado";
   } else if (estado == 2) {
     span_estado = "badge_purple";
     estado_guia = "Por recolectar";
