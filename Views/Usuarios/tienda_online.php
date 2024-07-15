@@ -3,6 +3,8 @@
 
 <?php require_once './Views/Usuarios/Modales/agregar_banner.php'; ?>
 <?php require_once './Views/Usuarios/Modales/editar_banner.php'; ?>
+<?php require_once './Views/Usuarios/Modales/agregar_testimonio.php'; ?>
+
 <style>
     .container {
         width: 90%;
