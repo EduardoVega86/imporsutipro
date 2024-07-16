@@ -588,7 +588,8 @@ class PedidosModel extends Query
 
     public function datosPedido($id)
     {
-        $sql = "SELECT * FROM `detalle_fact_cot`, productos, inventario_bodegas WHERE id_factura=$id and detalle_fact_cot.id_producto=productos.id_producto and detalle_fact_cot.sku=productos.codigo_producto and inventario_bodegas.sku=detalle_fact_cot.sku and inventario_bodegas.id_producto=detalle_fact_cot.id_producto";
+        $sql = "SELECT * FROM `detalle_fact_cot`, productos, inventario_bodegas WHERE id_factura=$id and detalle_fact_cot.id_producto=productos.id_producto and detalle_fact_cot.id_inventario=inventario_bodegas.id_inventario";
+       //echo $sql;
         return $this->select($sql);
     }
 
