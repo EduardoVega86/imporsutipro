@@ -108,7 +108,7 @@
     $('#agregar_productoModal').on('hidden.bs.modal', function() {
         resetForm();
         var button = document.getElementById('guardar_producto');
-        button.disabled = false; // Desactivar el botón
+        button.disabled = false; // activar el botón
     });
 
     // Manejar el envío del formulario
