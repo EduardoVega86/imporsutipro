@@ -142,7 +142,7 @@ $message_body = '<!DOCTYPE html>
     <div class="container">
         <section class="text-center bg-white rounded-5 mt-5 p-5 shadow-lg border-5 border-top border-primary">
             <article>
-                <h1>Imporsuitpro</h1>
+                <h1>' . MARCA . '</h1>
             </article>
             <article>
                 <h2>Registro exitoso</h2>
