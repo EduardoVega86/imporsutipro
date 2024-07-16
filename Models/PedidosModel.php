@@ -210,7 +210,7 @@ class PedidosModel extends Query
         // Mueve la cláusula ORDER BY al final de la consulta
         $sql .= " ORDER BY fc.numero_factura DESC;";
 
-        echo $sql;
+        //echo $sql;
         return $this->select($sql, $params);
     }
 
