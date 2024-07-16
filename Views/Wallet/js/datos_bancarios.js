@@ -371,7 +371,7 @@ $("#info_formaPago").on("submit", function (event) {
     correo: $("#correo_titular_formaPago").val(),
     cedula: $("#cedula_titular_formaPago").val(),
     telefono: $("#telefono_titular_formaPago").val(),
-    cedula: $("#cuenta_formaPago").val(),
+    red: $("#red_transferencia").val(),
   };
 
   $.ajax({
