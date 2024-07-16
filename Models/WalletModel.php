@@ -183,7 +183,6 @@ class WalletModel extends Query
                         $sql = "SELECT * FROM billeteras WHERE id_plataforma = '$id_full'";
                         $response =  $this->select($sql);
                         if (count($response) == 0) {
-                            echo "crear";
                             $this->crearBilletera($id_full);
 
                             $id_billetera = $this->select("SELECT id_billetera FROM billeteras WHERE id_plataforma = '$id_full'")[0]['id_billetera'];
@@ -199,7 +198,6 @@ class WalletModel extends Query
                             $insert = "INSERT INTO cabecera_cuenta_pagar (`tienda`, `numero_factura`, `guia`, `costo`, `monto_recibir`, `valor_pendiente`, `estado_guia`, `visto`, `full`, `fecha`, `cliente`, `id_plataforma`,`id_matriz`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                             $response =  $this->insert($insert, array($tienda_f, $numero_factura . '-F', $guia, $full, $full, 0, 7, 1, 0, $fecha, $cliente, $id_full, $matriz));
                         } else {
-                            echo "existe";
                             $id_billetera = $this->select("SELECT id_billetera FROM billeteras WHERE id_plataforma = '$id_full'")[0]['id_billetera'];
                             $sql = "INSERT INTO historial_billetera (`id_billetera`, `id_responsable`, `tipo`, `motivo`, `monto`, `fecha`) VALUES (?, ?, ?, ?, ?, ?)";
                             $response =  $this->insert($sql, array($id_billetera, $usuario, "ENTRADA", "Se acredito a la billetera la guia: $guia", $full, date("Y-m-d H:i:s")));
@@ -214,21 +212,16 @@ class WalletModel extends Query
                     }
                 }
             } else {
-                echo "no";
                 $full = $this->buscarFull($numero_factura, $id_plataforma);
                 echo $numero_factura . " " . $id_plataforma . " " . $full;
                 $matriz = $this->obtenerMatriz();
                 $matriz = $matriz[0]['idmatriz'];
                 if ($full > 0) {
-                    echo "no2";
                     if ($id_full != 0) {
-                        echo "no3";
                         $sql = "SELECT * FROM billeteras WHERE id_plataforma = '$id_full'";
                         $response =  $this->select($sql);
-                        echo count($response);
                         if (count($response) == 0) {
                             $this->crearBilletera($id_full);
-                            echo "crear";
                             $id_billetera = $this->select("SELECT id_billetera FROM billeteras WHERE id_plataforma = '$id_full'")[0]['id_billetera'];
                             $sql = "INSERT INTO historial_billetera (`id_billetera`, `id_responsable`, `tipo`, `motivo`, `monto`, `fecha`) VALUES (?, ?, ?, ?, ?, ?)";
                             $response =  $this->insert($sql, array($id_billetera, $usuario, "ENTRADA", "Se acredito a la billetera la guia: $guia", $full, date("Y-m-d H:i:s")));
@@ -241,9 +234,7 @@ class WalletModel extends Query
 
                             $insert = "INSERT INTO cabecera_cuenta_pagar (`tienda`, `numero_factura`, `guia`, `costo`, `monto_recibir`, `valor_pendiente`, `estado_guia`, `visto`, `full`, `fecha`, `cliente`, `id_plataforma`,`id_matriz`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                             $response =  $this->insert($insert, array($tienda_f, $numero_factura . '-F', $guia, $full, $full, 0, 7, 1, 0, $fecha, $cliente, $id_full, $matriz));
-                            print_r($response);
                         } else {
-                            echo "existe";
                             $id_billetera = $this->select("SELECT id_billetera FROM billeteras WHERE id_plataforma = '$id_full'")[0]['id_billetera'];
                             $sql = "INSERT INTO historial_billetera (`id_billetera`, `id_responsable`, `tipo`, `motivo`, `monto`, `fecha`) VALUES (?, ?, ?, ?, ?, ?)";
                             $response =  $this->insert($sql, array($id_billetera, $usuario, "ENTRADA", "Se acredito a la billetera la guia: $guia", $full, date("Y-m-d H:i:s")));
@@ -254,8 +245,44 @@ class WalletModel extends Query
                             $tienda_f = $response[0]['url_imporsuit'];
                             $insert = "INSERT INTO cabecera_cuenta_pagar (`tienda`, `numero_factura`, `guia`, `costo`, `monto_recibir`, `valor_pendiente`, `estado_guia`, `visto`, `full`, `fecha`, `cliente`, `id_plataforma`,`id_matriz`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                             $response =  $this->insert($insert, array($tienda_f, $numero_factura . '-F', $guia, $full, $full, 0, 7, 1, 0, $fecha, $cliente, $id_full, $matriz));
-                            print_r($response);
                         }
+                    }
+                }
+            }
+        } else if ($estado_guia == 9) {
+            $full = $this->buscarFull($numero_factura, $id_plataforma);
+            echo $numero_factura . " " . $id_plataforma . " " . $full;
+            $matriz = $this->obtenerMatriz();
+            $matriz = $matriz[0]['idmatriz'];
+            if ($full > 0) {
+                if ($id_full != 0) {
+                    $sql = "SELECT * FROM billeteras WHERE id_plataforma = '$id_full'";
+                    $response =  $this->select($sql);
+                    if (count($response) == 0) {
+                        $this->crearBilletera($id_full);
+                        $id_billetera = $this->select("SELECT id_billetera FROM billeteras WHERE id_plataforma = '$id_full'")[0]['id_billetera'];
+                        $sql = "INSERT INTO historial_billetera (`id_billetera`, `id_responsable`, `tipo`, `motivo`, `monto`, `fecha`) VALUES (?, ?, ?, ?, ?, ?)";
+                        $response =  $this->insert($sql, array($id_billetera, $usuario, "ENTRADA", "Se acredito a la billetera la guia: $guia", $full, date("Y-m-d H:i:s")));
+                        $update = "UPDATE billeteras set saldo = saldo + $full WHERE id_plataforma = '$id_full'";
+                        $response =  $this->select($update);
+
+                        $sql  = "SELECT * from plataformas where id_plataforma = '$id_full'";
+                        $response =  $this->select($sql);
+                        $tienda_f = $response[0]['url_imporsuit'];
+
+                        $insert = "INSERT INTO cabecera_cuenta_pagar (`tienda`, `numero_factura`, `guia`, `costo`, `monto_recibir`, `valor_pendiente`, `estado_guia`, `visto`, `full`, `fecha`, `cliente`, `id_plataforma`,`id_matriz`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        $response =  $this->insert($insert, array($tienda_f, $numero_factura . '-F', $guia, $full, $full, 0, 7, 1, 0, $fecha, $cliente, $id_full, $matriz));
+                    } else {
+                        $id_billetera = $this->select("SELECT id_billetera FROM billeteras WHERE id_plataforma = '$id_full'")[0]['id_billetera'];
+                        $sql = "INSERT INTO historial_billetera (`id_billetera`, `id_responsable`, `tipo`, `motivo`, `monto`, `fecha`) VALUES (?, ?, ?, ?, ?, ?)";
+                        $response =  $this->insert($sql, array($id_billetera, $usuario, "ENTRADA", "Se acredito a la billetera la guia: $guia", $full, date("Y-m-d H:i:s")));
+                        $update = "UPDATE billeteras set saldo = saldo + $full WHERE id_plataforma = '$id_full'";
+                        $response =  $this->select($update);
+                        $sql  = "SELECT * from plataformas where id_plataforma = '$id_full'";
+                        $response =  $this->select($sql);
+                        $tienda_f = $response[0]['url_imporsuit'];
+                        $insert = "INSERT INTO cabecera_cuenta_pagar (`tienda`, `numero_factura`, `guia`, `costo`, `monto_recibir`, `valor_pendiente`, `estado_guia`, `visto`, `full`, `fecha`, `cliente`, `id_plataforma`,`id_matriz`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        $response =  $this->insert($insert, array($tienda_f, $numero_factura . '-F', $guia, $full, $full, 0, 7, 1, 0, $fecha, $cliente, $id_full, $matriz));
                     }
                 }
             }
