@@ -385,7 +385,7 @@ class WalletModel extends Query
         } else {
             $full = 0;
         }
-
+        echo $full;
         return $full;
     }
 
