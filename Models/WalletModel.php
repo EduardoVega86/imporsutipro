@@ -271,7 +271,7 @@ class WalletModel extends Query
                         $tienda_f = $response[0]['url_imporsuit'];
 
                         $insert = "INSERT INTO cabecera_cuenta_pagar (`tienda`, `numero_factura`, `guia`, `costo`, `monto_recibir`, `valor_pendiente`, `estado_guia`, `visto`, `full`, `fecha`, `cliente`, `id_plataforma`,`id_matriz`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                        $response =  $this->insert($insert, array($tienda_f, $numero_factura . '-F', $guia, $full, $full, 0, 7, 1, 0, $fecha, $cliente, $id_full, $matriz));
+                        $response =  $this->insert($insert, array($tienda_f, $numero_factura . '-F', $guia, $full, $full, 0, 9, 1, 0, $fecha, $cliente, $id_full, $matriz));
                     } else {
                         $id_billetera = $this->select("SELECT id_billetera FROM billeteras WHERE id_plataforma = '$id_full'")[0]['id_billetera'];
                         $sql = "INSERT INTO historial_billetera (`id_billetera`, `id_responsable`, `tipo`, `motivo`, `monto`, `fecha`) VALUES (?, ?, ?, ?, ?, ?)";
@@ -282,7 +282,7 @@ class WalletModel extends Query
                         $response =  $this->select($sql);
                         $tienda_f = $response[0]['url_imporsuit'];
                         $insert = "INSERT INTO cabecera_cuenta_pagar (`tienda`, `numero_factura`, `guia`, `costo`, `monto_recibir`, `valor_pendiente`, `estado_guia`, `visto`, `full`, `fecha`, `cliente`, `id_plataforma`,`id_matriz`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                        $response =  $this->insert($insert, array($tienda_f, $numero_factura . '-F', $guia, $full, $full, 0, 7, 1, 0, $fecha, $cliente, $id_full, $matriz));
+                        $response =  $this->insert($insert, array($tienda_f, $numero_factura . '-F', $guia, $full, $full, 0, 9, 1, 0, $fecha, $cliente, $id_full, $matriz));
                     }
                 }
             }
