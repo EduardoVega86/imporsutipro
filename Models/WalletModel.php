@@ -214,12 +214,16 @@ class WalletModel extends Query
             } else {
                 echo "no";
                 $full = $this->buscarFull($numero_factura, $id_plataforma);
+                print_r($full);
                 $matriz = $this->obtenerMatriz();
                 $matriz = $matriz[0]['idmatriz'];
                 if ($full > 0) {
+                    echo "no2";
                     if ($id_full != 0) {
+                        echo "no3";
                         $sql = "SELECT * FROM billeteras WHERE id_plataforma = '$id_full'";
                         $response =  $this->select($sql);
+                        echo count($response);
                         if (count($response) == 0) {
                             $this->crearBilletera($id_full);
                             echo "crear";
