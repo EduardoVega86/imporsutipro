@@ -115,9 +115,12 @@
 
                                         <div id="tienda-error" style="color: red; display: none;">Esta tienda ya existe.</div>
                                         <div id="tienda-creada" style="color: red;"></div>
+                                        <div class="alert alert-warning" id="seccion_nosePermiteTMP" style="display: none;" role="alert">
+                                            <strong>Atención:</strong> Cambie su nombre de tienda, para proceder con la creación.
+                                        </div>
                                         <div id="seccion_creacionTienda">
                                             <div class="alert alert-warning" role="alert">
-                                                <strong>Atención:</strong> Usted es responsable de proporcionar una cuenta válida y correcta. Asegúrese de que la información proporcionada sea precisa para evitar problemas en las transacciones.
+                                                <strong>Atención:</strong> Antes de darle al boton "Crear tienda", verifique que el nombre de la tienda sea el deseado, ya que no se permitiran cambios de nombre en la tienda.
                                             </div>
                                             <button id="crear_tienda" class="btn btn-success" onclick="crear_tienda()"><i class="fa-solid fa-shop"></i> Crear tienda</button>
                                         </div>
@@ -461,7 +464,14 @@
     });
 
     $(document).ready(function() {
-
+        var texto_nombreTienda = $('nombre_tienda').val();
+        if (texto_nombreTienda.include("TMP_")) {
+            $("#seccion_nosePermiteTMP").show();
+            $("#seccion_creacionTienda").hide();
+        } else{
+            $("#seccion_nosePermiteTMP").hide();
+            $("#seccion_creacionTienda").show();
+        }
         cargarInfoTienda_inicial();
     });
 

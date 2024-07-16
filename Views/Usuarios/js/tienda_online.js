@@ -296,9 +296,11 @@ function validateStoreName(callback) {
         errorDiv.textContent = "Esta tienda ya existe.";
         errorDiv.style.display = "block";
         callback(false);
+        $("#seccion_creacionTienda").hide();
       } else {
         errorDiv.style.display = "none";
         callback(true);
+        $("#seccion_creacionTienda").show();
       }
     })
     .catch((error) => {
