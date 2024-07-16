@@ -193,7 +193,7 @@ class PedidosModel extends Query
         }
 
         if (!empty($transportadora)) {
-            $sql .= " AND transportadora = ?";
+            $sql .= " AND transporte = ?";
             $params[] = $transportadora;
         }
 
