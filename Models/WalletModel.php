@@ -148,8 +148,10 @@ class WalletModel extends Query
 
             $response =  $this->insert($sql, array($id_billetera, $usuario, "ENTRADA", "Se acredito a la billetera la guia: $guia", $valor, date("Y-m-d H:i:s")));
         }
+        if ($proveedor != NULL) {
 
-        $id_plataforma = $this->select("SELECT id_plataforma FROM plataformas WHERE url_imporsuit = '$proveedor'")[0]['id_plataforma'] ?? NULL;
+            $id_plataforma = $this->select("SELECT id_plataforma FROM plataformas WHERE url_imporsuit = '$proveedor'")[0]['id_plataforma'] ?? NULL;
+        }
         if ($estado_guia == 7) {
 
             if ($proveedor != NULL && $proveedor != $tienda) {
