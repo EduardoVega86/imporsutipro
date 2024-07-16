@@ -169,6 +169,7 @@ function editar_banner(id) {
   formData.append("id", id);
  
  
+ 
   $.ajax({
     url: SERVERURL + "Usuarios/obtener_bannertiendaID",
     type: "POST",
