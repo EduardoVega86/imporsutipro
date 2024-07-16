@@ -367,6 +367,11 @@ $("#info_formaPago").on("submit", function (event) {
   var formData = {
     tipo: $("#forma_pago").val(),
     cuenta: $("#cuenta_formaPago").val(),
+    nombre: $("#nombre_titular_formaPago").val(),
+    correo: $("#correo_titular_formaPago").val(),
+    cedula: $("#cedula_titular_formaPago").val(),
+    telefono: $("#telefono_titular_formaPago").val(),
+    cedula: $("#cuenta_formaPago").val(),
   };
 
   $.ajax({

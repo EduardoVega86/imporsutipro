@@ -109,8 +109,33 @@
                                         </select>
                                     </div>
                                     <div class="mb-3">
+                                        <label for="red_transferencia" class="form-label">Red de transferencia:</label>
+                                        <select class="form-select" id="red_transferencia">
+                                            <option value="0">-- Seleccione una forma de pago --</option>
+                                            <option value="TRX">Tron (TRC20)</option>
+                                            <option value="BSC">BNB Smart Chain (BEP20)</option>
+                                            <option value="ETH">Ethereum (ERC20)</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
                                         <label for="cuenta_formaPago" class="form-label">Cuenta:</label>
                                         <input type="text" class="form-control" id="cuenta_formaPago" placeholder="ingrese la cuenta">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="nombre_titular_formaPago" class="form-label">Nombre del Titular:</label>
+                                        <input type="text" class="form-control" id="nombre_titular_formaPago" placeholder="Nombre del titular">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="cedula_titular_formaPago" class="form-label">Cédula del Titular:</label>
+                                        <input type="text" class="form-control" id="cedula_titular_formaPago" placeholder="Cédula del titular">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="correo_titular_formaPago" class="form-label">Correo del Titular:</label>
+                                        <input type="email" class="form-control" id="correo_titular_formaPago" placeholder="Correo del titular">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="telefono_titular_formaPago" class="form-label">Teléfono del Titular:</label>
+                                        <input type="text" class="form-control" id="telefono_titular_formaPago" placeholder="Teléfono del titular">
                                     </div>
                                     <div class="alert alert-warning" role="alert">
                                         <strong>Atención:</strong> Usted es responsable de proporcionar una cuenta válida y correcta. Asegúrese de que la información proporcionada sea precisa para evitar problemas en las transacciones.
@@ -215,7 +240,7 @@
                         </table>
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </div>
