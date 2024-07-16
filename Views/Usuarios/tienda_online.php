@@ -377,9 +377,11 @@
 </div>
 
 
-<script src="<?php echo SERVERURL ?>/Views/Usuarios/js/tienda_online.js"></script>
+
 
 <script>
+    var texto_nombreTienda = $('nombre_tienda').val();
+
     $('#imageInputPrincipal').on('change', function(event) {
         event.preventDefault();
 
@@ -462,7 +464,7 @@
             }
         });
     });
-    var texto_nombreTienda = $('nombre_tienda').val();
+
     $(document).ready(function() {
 
         if (texto_nombreTienda.include("TMP_")) {
@@ -558,4 +560,5 @@
 
     }
 </script>
+<script src="<?php echo SERVERURL ?>/Views/Usuarios/js/tienda_online.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
