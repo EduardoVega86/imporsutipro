@@ -462,13 +462,13 @@
             }
         });
     });
-
+    var texto_nombreTienda = $('nombre_tienda').val();
     $(document).ready(function() {
-        var texto_nombreTienda = $('nombre_tienda').val();
+
         if (texto_nombreTienda.include("TMP_")) {
             $("#seccion_nosePermiteTMP").show();
             $("#seccion_creacionTienda").hide();
-        } else{
+        } else {
             $("#seccion_nosePermiteTMP").hide();
             $("#seccion_creacionTienda").show();
         }
@@ -481,7 +481,7 @@
             type: "GET",
             dataType: "json",
             success: function(response) {
-                
+
                 $("#nombre_tienda").val(response[0].nombre_tienda);
 
 
