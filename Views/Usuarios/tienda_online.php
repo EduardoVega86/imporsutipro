@@ -115,8 +115,12 @@
 
                                         <div id="tienda-error" style="color: red; display: none;">Esta tienda ya existe.</div>
                                         <div id="tienda-creada" style="color: red;"></div>
-
-                                        <button id="crear_tienda" class="btn btn-success" onclick="crear_tienda()"><i class="fa-solid fa-shop"></i> Crear tienda</button>
+                                        <div id="seccion_creacionTienda">
+                                            <div class="alert alert-warning" role="alert">
+                                                <strong>Atención:</strong> Usted es responsable de proporcionar una cuenta válida y correcta. Asegúrese de que la información proporcionada sea precisa para evitar problemas en las transacciones.
+                                            </div>
+                                            <button id="crear_tienda" class="btn btn-success" onclick="crear_tienda()"><i class="fa-solid fa-shop"></i> Crear tienda</button>
+                                        </div>
 
                                     </div>
 
