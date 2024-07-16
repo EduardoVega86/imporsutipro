@@ -214,7 +214,7 @@ class WalletModel extends Query
             } else {
                 echo "no";
                 $full = $this->buscarFull($numero_factura, $id_plataforma);
-                print_r($full);
+                echo $numero_factura . " " . $id_plataforma . " " . $full;
                 $matriz = $this->obtenerMatriz();
                 $matriz = $matriz[0]['idmatriz'];
                 if ($full > 0) {
