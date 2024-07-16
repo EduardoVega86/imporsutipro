@@ -190,7 +190,7 @@ class PedidosModel extends Query
         }
 
         if (!empty($transportadora)) {
-            $sql .= " AND transporte = $transportadora";
+            $sql .= " AND transporte = '$transportadora'";
         }
 
         if (!empty($estado)) {
