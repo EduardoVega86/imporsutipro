@@ -98,8 +98,24 @@
 </div>
 
 <script>
+    // Función para reiniciar el formulario
+    function resetForm() {
+        $('#realizar_pago')[0].reset();
+
+    }
+
+    // Evento para reiniciar el formulario cuando se cierre el modal
+    $('#agregar_productoModal').on('hidden.bs.modal', function() {
+        resetForm();
+        var button = document.getElementById('guardar_producto');
+        button.disabled = false; // Desactivar el botón
+    });
+
     // Manejar el envío del formulario
     $('#realizar_pago').on('submit', function(event) {
+
+        var button = document.getElementById('guardar_producto');
+        button.disabled = true; // Desactivar el botón
         event.preventDefault(); // Evitar el envío normal del formulario
 
         let formData = new FormData(); // Crear el FormData directamente del formulario
