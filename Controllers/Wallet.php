@@ -264,8 +264,14 @@ class Wallet extends Controller
     {
         $tipo = $_POST['tipo'];
         $cuenta = $_POST['cuenta'];
+        $nombre     = $_POST['nombre'];
+        $telefono   = $_POST['telefono'];
+        $cedula    = $_POST['cedula'];
+        $correo    = $_POST['correo'];
 
-        $response = $this->model->agregarOtroPago($tipo, $cuenta, $_SESSION['id_plataforma']);
+
+
+        $response = $this->model->agregarOtroPago($tipo, $cuenta, $_SESSION['id_plataforma'], $nombre, $telefono, $cedula, $correo);
         echo json_encode($response);
     }
 

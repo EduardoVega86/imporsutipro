@@ -598,10 +598,10 @@ class WalletModel extends Query
         return $responses;
     }
 
-    public function agregarOtroPago($tipo, $cuenta, $plataforma)
+    public function agregarOtroPago($tipo, $cuenta, $plataforma, $nombre, $telefono, $cedula, $correo)
     {
-        $sql = "INSERT INTO `metodo_pagos`(`tipo`, `cuenta`, `id_plataforma`) VALUES (?, ?, ?)";
-        $response =  $this->insert($sql, array($tipo, $cuenta, $plataforma));
+        $sql = "INSERT INTO `metodo_pagos`(`tipo`, `cuenta`, `id_plataforma`, `nombre`, `telefono`, `cedula`, `correo`) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $response =  $this->insert($sql, array($tipo, $cuenta, $plataforma, $nombre, $telefono, $cedula, $correo));
         if ($response == 1) {
             $responses["status"] = 200;
         } else {
