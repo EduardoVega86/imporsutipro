@@ -7,7 +7,7 @@ $smtp_secure = 'ssl';
 $smtp_user = 'info@imporfactoryusa.com';
 $smtp_pass = 'Mark2demasiado.';
 $smtp_from = $smtp_user;
-$smtp_from_name = 'Imporsuitpro';
+$smtp_from_name = MARCA;
 
 
 $message_body = '<!DOCTYPE html>
@@ -149,9 +149,7 @@ $message_body = '<!DOCTYPE html>
             </article>
             <article>
                 <p>Estimado usuario, este correo es para validar que tu cuenta ha sido creada correctamente:</p>
-                <p><a class="btn btn-success" href="' . $url_change . '">Ir a Tienda</a></p>
-                <p>Si el enlace no funciona, copie y pegue la siguiente dirección en su navegador:</p>
-                <p>' . $url_change . '</p>
+              
                 <p>Bienvenido a nuestra comunidad.</p>
             </article>
         </section>
