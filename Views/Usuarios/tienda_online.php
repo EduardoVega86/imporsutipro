@@ -481,6 +481,7 @@
             type: "GET",
             dataType: "json",
             success: function(response) {
+                
                 $("#nombre_tienda").val(response[0].nombre_tienda);
 
 
