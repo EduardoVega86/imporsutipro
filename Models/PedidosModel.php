@@ -184,34 +184,28 @@ class PedidosModel extends Query
             AND fc.numero_guia <> '0' 
             AND fc.anulada = 0 ";
 
-        $params = [];
 
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
-            $sql .= " AND fecha_factura BETWEEN ? AND ?";
-            $params[] = $fecha_inicio;
-            $params[] = $fecha_fin;
+            $sql .= " AND fecha_factura BETWEEN $fecha_inicio AND $fecha_fin";
         }
 
         if (!empty($transportadora)) {
-            $sql .= " AND transporte = ?";
-            $params[] = $transportadora;
+            $sql .= " AND transporte = $transportadora";
         }
 
         if (!empty($estado)) {
-            $sql .= " AND estado_guia_sistema = ?";
-            $params[] = $estado;
+            $sql .= " AND estado_guia_sistema = $estado";
         }
 
         if ($impreso === 0 || $impreso === 1) {
-            $sql .= " AND impreso = ?";
-            $params[] = $impreso;
+            $sql .= " AND impreso = $impreso";
         }
 
         // Mueve la cláusula ORDER BY al final de la consulta
         $sql .= " ORDER BY fc.numero_factura DESC;";
 
         echo $sql;
-        return $this->select($sql, $params);
+        return $this->select($sql);
     }
 
     public function cargarAnuladas($filtro)
