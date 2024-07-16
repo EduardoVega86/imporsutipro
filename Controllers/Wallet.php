@@ -268,11 +268,19 @@ class Wallet extends Controller
         $telefono   = $_POST['telefono'];
         $cedula    = $_POST['cedula'];
         $correo    = $_POST['correo'];
+        $red = $_POST['red'];
 
 
 
-        $response = $this->model->agregarOtroPago($tipo, $cuenta, $_SESSION['id_plataforma'], $nombre, $telefono, $cedula, $correo);
+        $response = $this->model->agregarOtroPago($tipo, $cuenta, $_SESSION['id_plataforma'], $nombre, $telefono, $cedula, $correo, $red);
         echo json_encode($response);
+    }
+
+    public function buscarFull()
+    {
+        $numero_factura = $_POST['numero_factura'];
+        $id_plataforma = $_SESSION['id_plataforma'];
+        $response = $this->model->buscarFull($numero_factura, $id_plataforma);
     }
 
     public function eliminarOtroPago()
