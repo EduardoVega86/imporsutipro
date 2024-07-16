@@ -167,7 +167,7 @@ const listCaracteristicas = async () => {
 function editar_banner(id) {
   let formData = new FormData();
   formData.append("id", id);
-
+ 
   $.ajax({
     url: SERVERURL + "Usuarios/obtener_bannertiendaID",
     type: "POST",
