@@ -108,7 +108,7 @@ class AccesoModel extends Query
                             $mail->CharSet = 'UTF-8';
                             $mail->setFrom($smtp_from, $smtp_from_name);
                             $mail->addAddress($correo);
-                            $mail->Subject = 'Registro en Imporsuitpro';
+                            $mail->Subject = 'Registro en ' . MARCA;
                             $mail->Body = $message_body;
                             // $this->crearSubdominio($tienda);
 
