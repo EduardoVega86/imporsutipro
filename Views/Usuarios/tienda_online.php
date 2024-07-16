@@ -465,8 +465,9 @@
         });
     });
 
-    $(document).ready(function() {
  
+    $(document).ready(function() {
+  
         /* if (texto_nombreTienda.include("TMP_")) {
             $("#seccion_nosePermiteTMP").show();
             $("#seccion_creacionTienda").hide();
