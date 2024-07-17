@@ -104,7 +104,7 @@
                 <a href="<?php echo SERVERURL ?>wallet/datos_bancarios"><i class='bx bxs-bank menu-icon'></i> <span class="menu-text">Datos bancarios</span></a>
                 <?php if ($_SESSION['cargo'] == 10) { ?>
                     <a href="<?php echo SERVERURL ?>wallet/solicitudes"><i class="fa-solid fa-clipboard-list menu-icon"></i> <span class="menu-text">Solicitudes</span></a>
-                    <a href="<?php echo SERVERURL ?>wallet/auditoria"><i class="fa-solid fa-search menu-icon"></i> <span class="menu-text">Auditoria</span></a>
+                    <a href="<?php echo SERVERURL ?>wallet/auditoria_guias"><i class="fa-solid fa-search menu-icon"></i> <span class="menu-text">Auditoria</span></a>
                 <?php
                 }
                 ?> 
