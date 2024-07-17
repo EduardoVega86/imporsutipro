@@ -466,18 +466,6 @@
 
     $(document).ready(function() {
         cargarInfoTienda_inicial();
-
-        var texto_nombreTienda = $('#nombre_tienda').val();
-        console.log("Nombre" + texto_nombreTienda);
-
-        if (texto_nombreTienda.includes("TMP_") || texto_nombreTienda.includes("tmp_")) {
-            $("#seccion_nosePermiteTMP").show();
-            $("#seccion_creacionTienda").hide();
-        } else {
-            $("#seccion_nosePermiteTMP").hide();
-            $("#seccion_creacionTienda").show();
-        }
-
     });
 
     function cargarInfoTienda_inicial() {
@@ -486,45 +474,50 @@
             type: "GET",
             dataType: "json",
             success: function(response) {
-
                 $("#nombre_tienda").val(response[0].nombre_tienda);
                 // Actualiza el atributo 'value' del input con el mismo valor
                 $("#nombre_tienda").attr('value', response[0].nombre_tienda);
 
                 $("#texto_cabecera").val(response[0].texto_cabecera);
-
-                // alert(response[0].texto_boton);
-
                 $("#texto_footer").val(response[0].texto_footer);
                 $("#texto_precio").val(response[0].texto_precio);
                 $("#color").val(response[0].color);
                 $("#color_botones").val(response[0].color_botones);
                 $("#texto_boton1").val(response[0].texto_boton);
-
                 $("#ruc_tienda").val(response[0].ruc_tienda);
 
                 if (response[0].tienda_creada == 1) {
                     $("#nombre_tienda").prop("readonly", true);
                     $("#tienda-creada").html('<a href="' + response[0].url_imporsuit + '" target="_blank">Ver mi tienda</a>');
-                    //crear_tienda
                     $("#crear_tienda").css('display', 'none');
                 }
 
-                //  alert(response[0].whatsapp)
                 $("#whatsapp").val(response[0].whatsapp);
-
                 $("#email").val(response[0].email);
-
                 $("#direccion").val(response[0].direccion);
-
-
                 $('#imagen_logo').attr('src', SERVERURL + response[0].logo_url);
+
+                // Mover la lógica de verificación aquí
+                verificarNombreTienda(response[0].nombre_tienda);
             },
             error: function(error) {
                 console.error("Error al obtener la lista de bodegas:", error);
             },
         });
     }
+
+    function verificarNombreTienda(nombreTienda) {
+        console.log("Nombre: " + nombreTienda);
+
+        if (nombreTienda.includes("TMP_") || nombreTienda.includes("tmp_")) {
+            $("#seccion_nosePermiteTMP").show();
+            $("#seccion_creacionTienda").hide();
+        } else {
+            $("#seccion_nosePermiteTMP").hide();
+            $("#seccion_creacionTienda").show();
+        }
+    }
+
 
     function cambiarcolor(campo, valor) {
 
