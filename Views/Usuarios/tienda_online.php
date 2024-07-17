@@ -380,8 +380,6 @@
 
 
 <script>
-    /* var texto_nombreTienda = $('nombre_tienda').val(); */
-
     $('#imageInputPrincipal').on('change', function(event) {
         event.preventDefault();
 
@@ -465,20 +463,20 @@
         });
     });
 
- 
+
     $(document).ready(function() {
+        cargarInfoTienda_inicial();
         
-        
-        
-  
-        /* if (texto_nombreTienda.include("TMP_")) {
+        var texto_nombreTienda = $('nombre_tienda').val();
+
+        if (texto_nombreTienda.include("TMP_")) {
             $("#seccion_nosePermiteTMP").show();
             $("#seccion_creacionTienda").hide();
         } else {
             $("#seccion_nosePermiteTMP").hide();
             $("#seccion_creacionTienda").show();
-        } */
-        cargarInfoTienda_inicial();
+        }
+
     });
 
     function cargarInfoTienda_inicial() {
