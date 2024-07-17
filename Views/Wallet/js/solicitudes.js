@@ -191,12 +191,12 @@ const listAuditoria = async (estado) => {
 
       content += `
                 <tr>
-                <td><input type="checkbox" class="selectCheckbox" data-id="${item.numero_factura}"></td>
                     <td>${item.numero_factura}</td>
                     <td>${item.numero_guia}</td>
                     <td>${codBtn}</td>
                     <td>${item.monto_factura}</td>
                     <td>${item.costo_flete}</td>
+                    <td><input type="checkbox" class="selectCheckbox" data-id="${item.numero_factura}"></td>
                 </tr>`;
     });
     document.getElementById("tableBody_auditoria").innerHTML = content;
