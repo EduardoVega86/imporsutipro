@@ -105,7 +105,7 @@ const listProductos = async () => {
 
     productos.forEach((producto) => {
       enlace_imagen = obtenerURLImagen(producto.imagen_principal_tienda, SERVERURL);
-      if (!producto.image_path) {
+      if (!producto.imagen_principal_tienda) {
         cargar_imagen = `<i class="bx bxs-camera-plus"></i>`;
       } else {
         cargar_imagen = `<img src="${enlace_imagen}" class="icon-button" alt="Agregar imagen" width="50px">`;
