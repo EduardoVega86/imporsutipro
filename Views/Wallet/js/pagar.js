@@ -3,7 +3,7 @@ const urlActual = window.location.href;
 // Crear un objeto URL
 const url = new URL(urlActual);
 // Obtener el valor del parámetro 'tienda'
-const tienda = url.searchParams.get("id_plataforma");
+const tienda = url.searchParams.get("tienda");
 
 var pagos_global;
 
