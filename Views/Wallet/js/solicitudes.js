@@ -169,8 +169,15 @@ const initDataTableAuditoria = async (estado) => {
 
 const listAuditoria = async (estado) => {
   try {
+    const formData = new FormData();
+    formData.append("estado", estado);
+
     const response = await fetch(
-      "" + SERVERURL + "wallet/obtenerGuiasAuditoria/" + estado
+      "" + SERVERURL + "wallet/obtenerGuiasAuditoria/",
+      {
+        method: "POST",
+        body: formData,
+      }
     );
     const auditoria = await response.json();
 
