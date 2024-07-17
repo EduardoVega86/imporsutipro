@@ -470,7 +470,7 @@
         var texto_nombreTienda = $('#nombre_tienda').val();
         console.log("Nombre" + texto_nombreTienda);
 
-        if (texto_nombreTienda.include("TMP_") || texto_nombreTienda.include("tmp_")) {
+        if (texto_nombreTienda.includes("TMP_") || texto_nombreTienda.includes("tmp_")) {
             $("#seccion_nosePermiteTMP").show();
             $("#seccion_creacionTienda").hide();
         } else {
