@@ -466,10 +466,10 @@
 
     $(document).ready(function() {
         cargarInfoTienda_inicial();
-        
+
         var texto_nombreTienda = $('nombre_tienda').val();
 
-        if (texto_nombreTienda.include("TMP_")) {
+        if (texto_nombreTienda.include("TMP_") || texto_nombreTienda.include("tmp_") ) {
             $("#seccion_nosePermiteTMP").show();
             $("#seccion_creacionTienda").hide();
         } else {
