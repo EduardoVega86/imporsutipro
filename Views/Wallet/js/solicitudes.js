@@ -107,7 +107,7 @@ const toggleSolicitud = async (userId, isChecked) => {
   };
 
 function Pagar(id_plataforma){
-    window.location.href = '' + SERVERURL + 'wallet/pagar?tienda='+id_plataforma;
+    window.location.href = '' + SERVERURL + 'wallet/pagar?id_plataforma='+id_plataforma;
 }
 window.addEventListener("load", async () => {
   await initDataTableSolicitudes();
