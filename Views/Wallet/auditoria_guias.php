@@ -18,22 +18,10 @@
                     <tr>
                         <th></th>
                         <th class="centered">Factura</th>
-                        <th class="centered">Detalle factura</th>
-                        <th class="centered">Estado Guia</th>
-                        <th class="centered">Tienda</th>
-                        <th class="centered">Venta total</th>
-                        <th class="centered">Costo</th>
-                        <th class="centered">Precio envio</th>
-                        <th class="centered">Fulfillment</th>
-                        <th class="centered">Monto a recibir</th>
-                        <th class="centered">Monto pendiente</th>
-                        <th class="centered">Peso</th>
-                        <th class="centered">Guia</th>
-                        <th class="centered">Editar</th>
-                        <th class="centered">Devolucion</th>
-                        <th class="centered">Tipo envio</th>
-                        <th class="centered">Ganancia</th>
-                        <th class="centered">Eliminar</th>
+                        <th class="centered">Numero Guia</th>
+                        <th class="centered">COD</th>
+                        <th class="centered">Monto Factura</th>
+                        <th class="centered">Costo flete</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody_auditoria"></tbody>
