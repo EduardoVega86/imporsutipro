@@ -68,7 +68,7 @@ class Wallet extends Controller
 
     public function pagar()
     {
-        $tienda = $_GET['tienda'];
+        $tienda = $_GET['id_plataforma'];
         if ($_SESSION["cargo"] != 10) {
             header("Location: /wallet/billetera");
         }
