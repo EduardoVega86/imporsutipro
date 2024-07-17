@@ -14,7 +14,7 @@
                 <button class="filter-btn" data-filter="devoluciones">Devoluciones</button>
                 <button class="filter-btn" data-filter="todos">Todas</button>
             </div>
-            <table id="datatable_facturas" class="table table-striped">
+            <table id="datatable_auditoria" class="table table-striped">
 
                 <thead>
                     <tr>
@@ -38,7 +38,7 @@
                         <th class="centered">Eliminar</th>
                     </tr>
                 </thead>
-                <tbody id="tableBody_facturas"></tbody>
+                <tbody id="tableBody_auditoria"></tbody>
             </table>
         </div>
     </div>
