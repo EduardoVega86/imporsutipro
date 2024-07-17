@@ -104,7 +104,7 @@ const listProductos = async () => {
     let enlace_imagen = "";
 
     productos.forEach((producto) => {
-      enlace_imagen = obtenerURLImagen(producto.imagen_principal, SERVERURL);
+      enlace_imagen = obtenerURLImagen(producto.imagen_principal_tienda, SERVERURL);
       if (!producto.image_path) {
         cargar_imagen = `<i class="bx bxs-camera-plus"></i>`;
       } else {

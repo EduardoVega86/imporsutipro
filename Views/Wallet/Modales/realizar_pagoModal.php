@@ -129,7 +129,7 @@
             formData.append('forma_pago', $('#forma_pago').val());
             formData.append('id_plataforma', $('#id_plataforma').val());
         }
-
+        
         $.ajax({
             url: SERVERURL + 'wallet/pagarFactura',
             method: 'POST',
