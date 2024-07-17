@@ -756,4 +756,21 @@ class WalletModel extends Query
         $response =  $this->select($sql);
         return $response;
     }
+    
+    public function habilitarAuditoria($guia, $estado)
+    {
+        $response = $this->initialResponse();
+         
+       $sql = "UPDATE facturas_cot set valida_transportadora = ? WHERE numero_guia = ?";
+       $response =  $this->update($sql, array($estado, $guia ));
+         if ($response == 1) {
+             $sql = "INSERT INTO auditoria_guia (`guia`, `usuario`) VALUES (?, ?)";
+             $response =  $this->insert($sql, array($id_billetera, $usuario));
+            
+        } else {
+            $responses["status"] = 400;
+            $responses["message"] = $response["message"];
+        }
+       return $response;
+    }
 }
