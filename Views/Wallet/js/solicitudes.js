@@ -184,6 +184,11 @@ const listAuditoria = async (estado) => {
     let content = ``;
 
     auditoria.forEach((item, index) => {
+
+      const codBtn = item.cod
+        ? `<button class="btn-cod-si">SI</button>`
+        : `<button class="btn-cod-no">NO</button>`;
+
       content += `
                 <tr>
                 <td><input type="checkbox" class="selectCheckbox" data-id="${item.numero_factura}"></td>

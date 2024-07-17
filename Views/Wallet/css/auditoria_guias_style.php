@@ -142,4 +142,33 @@
         padding: 4px;
         border-radius: 0.3rem;
     }
+
+    /* boton si y no  */
+    .btn-cod-si {
+        background-color: green;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-cod-si:hover {
+        background-color: darkgreen;
+    }
+
+    .btn-cod-no {
+        background-color: red;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-cod-no:hover {
+        background-color: darkred;
+    }
 </style>
