@@ -173,7 +173,7 @@ const listAuditoria = async (estado) => {
     formData.append("estado", estado);
 
     const response = await fetch(
-      "" + SERVERURL + "wallet/obtenerGuiasAuditoria/",
+      "" + SERVERURL + "wallet/obtenerGuiasAuditoria",
       {
         method: "POST",
         body: formData,
