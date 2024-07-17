@@ -468,9 +468,9 @@
         cargarInfoTienda_inicial();
 
         var texto_nombreTienda = $('nombre_tienda').val();
-        console.log("Nombre"+texto_nombreTienda);
+        console.log("Nombre" + texto_nombreTienda);
 
-        if (texto_nombreTienda.include("TMP_") || texto_nombreTienda.include("tmp_") ) {
+        if (texto_nombreTienda.include("TMP_") || texto_nombreTienda.include("tmp_")) {
             $("#seccion_nosePermiteTMP").show();
             $("#seccion_creacionTienda").hide();
         } else {
@@ -488,9 +488,11 @@
             success: function(response) {
 
                 $("#nombre_tienda").val(response[0].nombre_tienda);
-
+                // Actualiza el atributo 'value' del input con el mismo valor
+                $("#nombre_tienda").attr('value', response[0].nombre_tienda);
 
                 $("#texto_cabecera").val(response[0].texto_cabecera);
+
                 // alert(response[0].texto_boton);
 
                 $("#texto_footer").val(response[0].texto_footer);
