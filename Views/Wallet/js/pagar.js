@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 $(document).ready(function () {
-  console.log(SERVERURL);
   $("#regresar").click(function () {
     window.location.href = SERVERURL + "wallet";
   });
