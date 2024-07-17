@@ -467,7 +467,7 @@
     $(document).ready(function() {
         cargarInfoTienda_inicial();
 
-        var texto_nombreTienda = $('nombre_tienda').val();
+        var texto_nombreTienda = $('#nombre_tienda').val();
         console.log("Nombre" + texto_nombreTienda);
 
         if (texto_nombreTienda.include("TMP_") || texto_nombreTienda.include("tmp_")) {
