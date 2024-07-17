@@ -490,7 +490,7 @@
                     $("#nombre_tienda").prop("readonly", true);
                     $("#tienda-creada").html('<a href="' + response[0].url_imporsuit + '" target="_blank">Ver mi tienda</a>');
                     $("#crear_tienda").css('display', 'none');
-                    $("#seccion_nosePermiteTMP").css('display', 'none');
+                    $("#seccion_nosePermiteTMP").hide();
                 }
 
                 $("#whatsapp").val(response[0].whatsapp);
@@ -500,6 +500,9 @@
 
                 // Mover la lógica de verificación aquí
                 verificarNombreTienda(response[0].nombre_tienda);
+                if (response[0].tienda_creada == 1) {
+                    $("#seccion_nosePermiteTMP").hide();
+                }
             },
             error: function(error) {
                 console.error("Error al obtener la lista de bodegas:", error);
