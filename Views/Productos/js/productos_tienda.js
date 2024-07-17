@@ -123,8 +123,8 @@ const listProductos = async () => {
             <td>${producto.pvp_tienda}</td>
             <td>${producto.pref_tienda}</td>
             <td>
-              <button class="btn btn-sm btn-primary" onclick="editarProducto(${producto.id_producto_tienda})"><i class="fa-solid fa-pencil"></i> Editar</button>
-              <button class="btn btn-sm btn-danger" onclick="eliminarProducto(${producto.id_producto_tienda})"><i class="fa-solid fa-trash-can"></i> Borrar</button>
+              <button class="btn btn-sm btn-primary" onclick="editarProducto_tienda(${producto.id_producto_tienda})"><i class="fa-solid fa-pencil"></i> Editar</button>
+              <button class="btn btn-sm btn-danger" onclick="eliminarProducto_tienda(${producto.id_producto_tienda})"><i class="fa-solid fa-trash-can"></i> Borrar</button>
             </td>
           </tr>`;
     });
@@ -162,7 +162,7 @@ function abrir_modalSeleccionAtributo(id) {
   $("#seleccionProdcutoAtributoModal").modal("show");
 }
 
-function eliminarProducto(id) {
+function eliminarProducto_tienda(id) {
   $.ajax({
     type: "POST",
     url: SERVERURL + "productos/eliminar_producto_tienda/"+id,
@@ -239,7 +239,7 @@ function obtenerURLImagen(imagePath, serverURL) {
   }
 }
 
-function editarProducto(id) {
+function editarProducto_tienda(id) {
   $.ajax({
     type: "GET",
     url: SERVERURL + "productos/obtener_producto_tienda/" + id,
