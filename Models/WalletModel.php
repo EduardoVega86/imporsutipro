@@ -753,7 +753,7 @@ class WalletModel extends Query
      public function obtenerGuiasAuditoria($estado)
     {
         $sql = "SELECT * FROM facturas_cot fc where  estado_guia_sistema in (9,7,500,501,502,400,401,402,403,8,13) and valida_transportadora=$estado order BY fecha_factura";
-        echo $sql;
+        //echo $sql;
         $response =  $this->select($sql);
         return $response;
     }
