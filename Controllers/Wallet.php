@@ -314,7 +314,7 @@ class Wallet extends Controller
     
     public function obtenerGuiasAuditoria($estado)
     {
-        $response = $this->model->obtenerGuiasAuditoria();
+        $response = $this->model->obtenerGuiasAuditoria($estado);
         echo json_encode($response);
     }
     
