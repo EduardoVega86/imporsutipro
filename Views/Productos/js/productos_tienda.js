@@ -165,8 +165,7 @@ function abrir_modalSeleccionAtributo(id) {
 function eliminarProducto(id) {
   $.ajax({
     type: "POST",
-    url: SERVERURL + "productos/eliminar_producto",
-    data: { id: id }, // Enviar el ID como un objeto
+    url: SERVERURL + "productos/eliminar_producto_tienda/"+id,
     dataType: "json", // Asegurarse de que la respuesta se trata como JSON
     success: function (response) {
       // Mostrar alerta de éxito

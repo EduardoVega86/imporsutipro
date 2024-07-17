@@ -116,6 +116,12 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
+    public function eliminar_producto_tienda($id)
+    {
+        $response = $this->model->eliminar_producto_tienda($id,$_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
     public function obtener_productos_categoria($id)
     {
         $response = $this->model->obtenerProductosCategoria($id, $_SESSION['id_plataforma']);

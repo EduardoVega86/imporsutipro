@@ -25,25 +25,25 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
 
         return $this->select($sql);
     }
-    
-      public function importar_productos_tienda($id_producto, $plataforma)
+
+    public function importar_productos_tienda($id_producto, $plataforma)
     {
-          
-              $inicial_variable = $this->select("SELECT * from productos_tienda  where id_plataforma= $plataforma and id_producto=$id_producto");
 
-       // print_r($inicial_variable);
-        $ingreso_tienda=0;
+        $inicial_variable = $this->select("SELECT * from productos_tienda  where id_plataforma= $plataforma and id_producto=$id_producto");
+
+        // print_r($inicial_variable);
+        $ingreso_tienda = 0;
         if (empty($inicial_variable)) {
-              // $sql = "SELECT * from productos_tienda  where id_plataforma= $plataforma and id_producto=$id_producto";
+            // $sql = "SELECT * from productos_tienda  where id_plataforma= $plataforma and id_producto=$id_producto";
 
-              // echo "SELECT * FROM inventario_bodegas ib, productos p WHERE pid_producto = $id_producto and ib.id_producto=p.id_producto";
-         $inventario = $this->select("SELECT * FROM inventario_bodegas ib, productos p WHERE p.id_producto = $id_producto and ib.id_producto=p.id_producto");
+            // echo "SELECT * FROM inventario_bodegas ib, productos p WHERE pid_producto = $id_producto and ib.id_producto=p.id_producto";
+            $inventario = $this->select("SELECT * FROM inventario_bodegas ib, productos p WHERE p.id_producto = $id_producto and ib.id_producto=p.id_producto");
 
             // Insertar cada registro de tmp_cotizacion en detalle_cotizacion
             $detalle_sql = "INSERT INTO `productos_tienda` (`id_plataforma`, `id_producto`, `nombre_producto_tienda`, `imagen_principal_tienda`, `pvp_tienda`, `id_inventario`, `id_categoria_tienda`, `descripcion_tienda` ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)";
-            
+
             foreach ($inventario as $inv) {
-              $detalle_data = array(
+                $detalle_data = array(
                     $plataforma,
                     $id_producto,
                     $inv['nombre_producto'],
@@ -53,29 +53,26 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
                     $inv['id_linea_producto'],
                     $inv['descripcion_producto']
                 );
-                $guardar_detalle = $this->insert($detalle_sql, $detalle_data); 
-              
-                if($guardar_detalle==1){
-                      $response['status'] = 200;
-              $response['title'] = 'Peticion exitosa';
-              $response['message'] = 'Producto agregado correctamente';
+                $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
+
+                if ($guardar_detalle == 1) {
+                    $response['status'] = 200;
+                    $response['title'] = 'Peticion exitosa';
+                    $response['message'] = 'Producto agregado correctamente';
                 }
-                
-          
-                
             }
         } else {
-             $response['status'] = 500;
+            $response['status'] = 500;
             $response['title'] = 'Error';
             $response['message'] = 'El producto ya existe en su tienda.';
         }
-        
-       
-        
-     
+
+
+
+
         return $response;
     }
-    
+
     public function obtener_productos_inventario($plataforma)
     {
         $sql = "SELECT * FROM productos p LEFT JOIN inventario_bodegas ib ON p.id_producto = ib.id_producto AND ib.id_plataforma = $plataforma LEFT JOIN variedades v ON ib.id_variante = v.id_variedad WHERE ib.id_plataforma = $plataforma";
@@ -166,17 +163,17 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
         $id_invetario = $invetario[0]['id_inventario'];
         return $id_invetario;
     }
-    
-    
-    public function editarProductoTienda($id_producto_tienda, $nombre, $pvp_tienda, $id_categoria, $pref  )
+
+
+    public function editarProductoTienda($id_producto_tienda, $nombre, $pvp_tienda, $id_categoria, $pref)
     {
         $response = $this->initialResponse();
         $sql = "UPDATE `productos_tienda` SET `nombre_producto_tienda`=?,"
-                . "`pvp_tienda`=?,`id_categoria_tienda`=?,"
-                . "`pref_tienda`=? WHERE id_producto_tienda=?";
-       // echo $sql;
+            . "`pvp_tienda`=?,`id_categoria_tienda`=?,"
+            . "`pref_tienda`=? WHERE id_producto_tienda=?";
+        // echo $sql;
         $data = [$nombre, $pvp_tienda, $id_categoria,  $pref, $id_producto_tienda];
-      //  print_r($data);
+        //  print_r($data);
         $editar_producto = $this->update($sql, $data);
 
         print_r($editar_producto);
@@ -184,7 +181,6 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
             $response['message'] = 'Producto editado correctamente';
-            
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
@@ -192,8 +188,8 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
         }
         return $response;
     }
-    
-    
+
+
     public function editarProducto($id, $codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $plataforma, $stock_inicial, $bodega, $pcp, $pvp, $pref)
     {
         $response = $this->initialResponse();
@@ -259,13 +255,31 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
         // echo $sql;
         return $this->select($sql);
     }
-    
+
     public function obtenerProductoTienda($id)
     {
         $sql = "SELECT * FROM `productos_tienda` pt, productos p, inventario_bodegas ib WHERE  pt.id_producto=p.id_producto and pt.id_inventario=ib.id_inventario and pt.id_producto_tienda=$id";
         //$sql = "SELECT * FROM `productos` p, inventario_bodegas ib where p.id_producto=$id and p.id_producto=ib.id_producto limit 1;";
         // echo $sql;
         return $this->select($sql);
+    }
+
+    public function eliminar_producto_tienda($id, $plataforma)
+    {
+        $response = $this->initialResponse();
+        $sql = "DELETE FROM productos_tienda WHERE id_producto_tienda = ? AND id_plataforma = ?";
+        $data = [$id, $plataforma];
+        $eliminar_producto = $this->delete($sql, $data);
+        if ($eliminar_producto == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Producto eliminado correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = $eliminar_producto['message'];
+        }
+        return $response;
     }
 
 
@@ -783,8 +797,8 @@ WHERE b.id_plataforma = $plataforma";
     {
         //print_r($plataforma);
     }
-    
-    
+
+
     public function agregarDestacado($id_producto_tienda, $destacado)
     {
         $response = $this->initialResponse();
