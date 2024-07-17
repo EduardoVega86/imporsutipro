@@ -490,6 +490,7 @@
                     $("#nombre_tienda").prop("readonly", true);
                     $("#tienda-creada").html('<a href="' + response[0].url_imporsuit + '" target="_blank">Ver mi tienda</a>');
                     $("#crear_tienda").css('display', 'none');
+                    $("#seccion_nosePermiteTMP").hide();
                 }
 
                 $("#whatsapp").val(response[0].whatsapp);
@@ -507,7 +508,6 @@
     }
 
     function verificarNombreTienda(nombreTienda) {
-        console.log("Nombre: " + nombreTienda);
 
         if (nombreTienda.includes("TMP_") || nombreTienda.includes("tmp_")) {
             $("#seccion_nosePermiteTMP").show();
