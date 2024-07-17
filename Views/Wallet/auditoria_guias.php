@@ -8,26 +8,37 @@
 
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
-            <table id="datatable_solicitudes" class="table table-striped">
-                <!-- <caption>
-                    DataTable.js Demo
-                </caption> -->
+            <div class="filter-container">
+                <button class="filter-btn active" data-filter="pendientes">Pendientes</button>
+                <button class="filter-btn" data-filter="abonadas">Abonadas</button>
+                <button class="filter-btn" data-filter="devoluciones">Devoluciones</button>
+                <button class="filter-btn" data-filter="todos">Todas</button>
+            </div>
+            <table id="datatable_facturas" class="table table-striped">
+
                 <thead>
                     <tr>
-                        <th class="centered"></th>
-                        <th class="centered">Nombre</th>
-                        <th class="centered">Correo</th>
-                        <th class="centered">Cedula</th>
-                        <th class="centered">Fecha solicitud</th>
-                        <th class="centered">Telefono</th>
-                        <th class="centered">Tipo de cuenta</th>
-                        <th class="centered">Banco</th>
-                        <th class="centered">Numero de cuenta</th>
-                        <th class="centered">Cantidad</th>
-                        <th class="centered">Acciones</th>
+                        <th></th>
+                        <th class="centered">Factura</th>
+                        <th class="centered">Detalle factura</th>
+                        <th class="centered">Estado Guia</th>
+                        <th class="centered">Tienda</th>
+                        <th class="centered">Venta total</th>
+                        <th class="centered">Costo</th>
+                        <th class="centered">Precio envio</th>
+                        <th class="centered">Fulfillment</th>
+                        <th class="centered">Monto a recibir</th>
+                        <th class="centered">Monto pendiente</th>
+                        <th class="centered">Peso</th>
+                        <th class="centered">Guia</th>
+                        <th class="centered">Editar</th>
+                        <th class="centered">Devolucion</th>
+                        <th class="centered">Tipo envio</th>
+                        <th class="centered">Ganancia</th>
+                        <th class="centered">Eliminar</th>
                     </tr>
                 </thead>
-                <tbody id="tableBody_solicitudes"></tbody>
+                <tbody id="tableBody_facturas"></tbody>
             </table>
         </div>
     </div>
