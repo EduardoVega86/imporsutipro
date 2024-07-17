@@ -468,6 +468,7 @@
         cargarInfoTienda_inicial();
 
         var texto_nombreTienda = $('nombre_tienda').val();
+        console.log("Nombre"+texto_nombreTienda);
 
         if (texto_nombreTienda.include("TMP_") || texto_nombreTienda.include("tmp_") ) {
             $("#seccion_nosePermiteTMP").show();
