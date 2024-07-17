@@ -107,7 +107,7 @@
                     <a href="<?php echo SERVERURL ?>wallet/auditoria"><i class="fa-solid fa-clipboard-list menu-icon"></i> <span class="menu-text">Auditoria</span></a>
                 <?php
                 }
-                ?>
+                ?> 
             </div>
             <a href="#" class="dropdown-btn" data-target="#submenu4"><i class='bx bx-cog menu-icon'></i> <span class="menu-text">Configuración</span></a>
             <div class="submenu" id="submenu4">
