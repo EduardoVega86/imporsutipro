@@ -48,18 +48,14 @@ const listSolicitudes = async () => {
     let content = ``;
     let checkboxState = "";
     solicitudes.forEach((solicitud, index) => {
-        if (solicitud.visto == 1) {
-            checkboxState = "checked disabled";
-          } else {
-            checkboxState = "";
-          }
+      if (solicitud.visto == 1) {
+        checkboxState = "checked disabled";
+      } else {
+        checkboxState = "";
+      }
       content += `
                 <tr>
-                    <td><input type="checkbox" class="selectCheckbox" data-id="${
-                        solicitud.id_solicitud
-                    }" ${checkboxState} onclick="toggleSolicitud(${
-                        solicitud.id_solicitud
-                    }, this.checked)"></td>
+                    <td><input type="checkbox" class="selectCheckbox" data-id="${solicitud.id_solicitud}" ${checkboxState} onclick="toggleSolicitud(${solicitud.id_solicitud}, this.checked)"></td>
                     <td>${solicitud.nombre}</td>
                     <td>${solicitud.correo}</td>
                     <td>${solicitud.cedula}</td>
@@ -84,44 +80,51 @@ const listSolicitudes = async () => {
 
 // Función para manejar el evento click del checkbox
 const toggleSolicitud = async (userId, isChecked) => {
-    const proveedorValue = isChecked ? 1 : 0;
-    const formData = new FormData();
-    formData.append("id_solicitud", userId);
-  
-    try {
-      const response = await fetch(`${SERVERURL}wallet/verificarPago`, {
-        method: "POST",
-        body: formData,
-      });
-  
-      if (!response.ok) {
-        throw new Error("Error al actualizar el solicitud");
-      }
-  
-      const result = await response.json();
-      initDataTableSolicitudes();
-    } catch (error) {
-      console.error("Error:", error);
-      alert("Hubo un error al actualizar el solicitud");
-    }
-  };
+  const proveedorValue = isChecked ? 1 : 0;
+  const formData = new FormData();
+  formData.append("id_solicitud", userId);
 
-function Pagar(id_plataforma){
-    window.location.href = '' + SERVERURL + 'wallet/pagar?id_plataforma='+id_plataforma;
+  try {
+    const response = await fetch(`${SERVERURL}wallet/verificarPago`, {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error("Error al actualizar el solicitud");
+    }
+
+    const result = await response.json();
+    initDataTableSolicitudes();
+  } catch (error) {
+    console.error("Error:", error);
+    alert("Hubo un error al actualizar el solicitud");
+  }
+};
+
+function Pagar(id_plataforma) {
+  window.location.href =
+    "" + SERVERURL + "wallet/pagar?id_plataforma=" + id_plataforma;
 }
 window.addEventListener("load", async () => {
   await initDataTableSolicitudes();
 });
 
-
 //audtiroria tempral
 $(document).ready(function () {
+  $(".filter-btn").on("click", function () {
+    $(".filter-btn").removeClass("active");
+    $(this).addClass("active");
 
+    var filtro_facturas = $(this).data("filter"); // Actualizar variable con el filtro seleccionado
+
+    initDataTableAuditoria(filtro_facturas);
+  });
 });
 
 window.addEventListener("load", async () => {
-    await initDataTableAuditoria(0);
-  });
+  await initDataTableAuditoria(0);
+});
 
 let dataTableAuditoria;
 let dataTableAuditoriaIsInitialized = false;
@@ -157,20 +160,23 @@ const initDataTableAuditoria = async (estado) => {
 
   await listAuditoria(estado);
 
-  dataTableAuditoria = $("#datatable_auditoria").DataTable(dataTableAuditoriaOptions);
+  dataTableAuditoria = $("#datatable_auditoria").DataTable(
+    dataTableAuditoriaOptions
+  );
 
   dataTableAuditoriaIsInitialized = true;
 };
 
 const listAuditoria = async (estado) => {
   try {
-    const response = await fetch("" + SERVERURL + "wallet/obtenerGuiasAuditoria"+estado);
+    const response = await fetch(
+      "" + SERVERURL + "wallet/obtenerGuiasAuditoria/" + estado
+    );
     const auditoria = await response.json();
 
     let content = ``;
 
     auditoria.forEach((item, index) => {
-
       content += `
                 <tr>
                     <td><a class="dropdown-item link-like" href="${SERVERURL}wallet/pagar?tienda=${item.tienda}">${item.tienda}</a></td>
