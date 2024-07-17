@@ -27,7 +27,7 @@ class Wallet extends Controller
     
      public function auditoria_guias()
     {
-        define("ENLACE", $_SESSION["id_plataforma"]);
+       // define("ENLACE", $_SESSION["id_plataforma"]);
         $this->views->render($this, "auditoria_guias");
     }
     
