@@ -458,15 +458,13 @@ function agregarModal_marketplace(id) {
           "https://wa.me/" + formatPhoneNumber(data.whatsapp)
         );
 
-
-        var imagen = obtenerURLImagen(data.image_path,SERVERURL);
         // Actualizar la imagenes del modal
-        
-        $("#imagen_principal").attr("src", imagen);
+        $("#imagen_principal").attr("src", SERVERURL + "" + data.image_path);
         $("#imagen_principalPequena").attr(
           "src",
-          imagen
+          SERVERURL + "" + data.image_path
         );
+
         // Abrir el modal
         $("#descripcion_productModal").modal("show");
       } else {
