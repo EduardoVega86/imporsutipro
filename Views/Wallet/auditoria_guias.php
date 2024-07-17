@@ -33,5 +33,5 @@
     </div>
 </div>
 
-<script src="<?php echo SERVERURL ?>/Views/Wallet/js/auditoria_guias.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/Wallet/js/solicitudes.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
