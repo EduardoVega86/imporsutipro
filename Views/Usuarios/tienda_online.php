@@ -500,9 +500,6 @@
 
                 // Mover la lógica de verificación aquí
                 verificarNombreTienda(response[0].nombre_tienda);
-                if (response[0].tienda_creada == 1) {
-                    $("#seccion_nosePermiteTMP").hide();
-                }
             },
             error: function(error) {
                 console.error("Error al obtener la lista de bodegas:", error);
