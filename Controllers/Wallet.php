@@ -312,9 +312,10 @@ class Wallet extends Controller
         echo json_encode($response);
     }
     
-    public function obtenerGuiasAuditoria($estado)
+    public function obtenerGuiasAuditoria()
     {
-        echo $estado;
+        //echo $estado;
+        $estado = $_POST['estado'];
         $response = $this->model->obtenerGuiasAuditoria($estado);
         echo json_encode($response);
     }
