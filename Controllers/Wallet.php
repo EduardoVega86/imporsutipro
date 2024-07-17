@@ -24,6 +24,13 @@ class Wallet extends Controller
         $this->views->render($this, "billetera");
     }
 
+    
+     public function auditoria()
+    {
+        define("ENLACE", $_SESSION["id_plataforma"]);
+        $this->views->render($this, "auditoria_guias");
+    }
+    
     public function editar($id)
     {
         $total_venta = $_POST['total_venta'];
@@ -68,7 +75,7 @@ class Wallet extends Controller
 
     public function pagar()
     {
-        $tienda = $_GET['id_plataforma'];
+        $tienda = $_GET['tienda'];
         if ($_SESSION["cargo"] != 10) {
             header("Location: /wallet/billetera");
         }
@@ -301,6 +308,12 @@ class Wallet extends Controller
     public function obtenerSolicitudes()
     {
         $response = $this->model->obtenerSolicitudes();
+        echo json_encode($response);
+    }
+    
+    public function obtenerGuiasAuditoria($estado)
+    {
+        $response = $this->model->obtenerGuiasAuditoria();
         echo json_encode($response);
     }
 }
