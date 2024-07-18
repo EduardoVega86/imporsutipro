@@ -496,6 +496,7 @@
                 $("#color").val(response[0].color);
                 $("#color_botones").val(response[0].color_botones);
                 $("#texto_boton1").val(response[0].texto_boton);
+                alert(response[0].cedula_facturacion);
                 $("#ruc").val(response[0].cedula_facturacion);
 
                 if (response[0].tienda_creada == 1) {
