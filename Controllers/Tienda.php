@@ -114,23 +114,7 @@ class Tienda extends Controller
        
     }
     
-    public function actualizar_plataforma()
-    {        
-//$nombre = $_POST['nombre'];
-     // $nombre_tienda=   $_POST['nombre_tienda'];
-     
-      $ruc_tienda=     $_POST['ruc'];
-       $telefono_tienda=     $_POST['telefono_tienda'];
-      $email_tienda=    $_POST['email_tienda'];
-       $direccion_tienda=   $_POST['direccion_tienda'];
-      $pais_tienda=    $_POST['pais_tienda'];  
-      $facebook=    $_POST['facebook'];  
-      $instagram=    $_POST['instagram'];  
-      $tiktok=    $_POST['tiktok'];  
-      $response = $this->model->actualizar_tienda($nombre_tienda,  $ruc_tienda,$telefono_tienda, $email_tienda, $direccion_tienda, $pais_tienda, $_SESSION['id_plataforma'], $facebook, $instagram, $tiktok);
-       echo json_encode($response);
-       
-    }
+   
     
     
     

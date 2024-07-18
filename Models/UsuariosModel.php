@@ -727,4 +727,32 @@ class UsuariosModel extends Query
         }
         return $responses;
     }
+    
+    public function actualizar_tienda($ruc_tienda, $telefono_tienda, $email_tienda, $direccion_tienda, $pais_tienda, $plataforma, $facebook, $instagram, $tiktok)
+    {
+        $response = $this->initialResponse();
+        $sql = "UPDATE `plataformas` SET  `cedula_facturacion` = ?, `correo_facturacion` = ?, `direccion_facturacion` = ?, `whatsapp` = ?   WHERE `plataformas`.`id_plataforma` = ? ";
+        $data = [$ruc_tienda, $email_tienda, $direccion_tienda, $telefono_tienda, $plataforma];
+        $editar_plataforma = $this->update($sql, $data);
+
+        $sql = "UPDATE `perfil` SET  `facebook` = ?, `instagram` = ?, `tiktok` = ?   WHERE `perfil`.`id_plataforma` = ? ";
+        $data = [$facebook, $instagram, $tiktok, $plataforma];
+        $editar_perfil = $this->update($sql, $data);
+
+
+        // print_r($insertar_producto_);
+        if ($editar_plataforma == 1 && $editar_perfil) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Producto editado correctamente';
+            if ($editar_producto_ === 1) {
+                $response['message'] = 'Producto y stock editado correctamente';
+            }
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = $editar_producto['message'];
+        }
+        return $response;
+    }
 }
