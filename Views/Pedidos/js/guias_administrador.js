@@ -470,7 +470,7 @@ function validar_estadoGintracom(estado) {
   var estado_guia = "";
 
   if (estado == 1) {
-    span_estado = "badge_generado";
+    span_estado = "badge_purple";
     estado_guia = "Generada";
   } else if (estado == 2) {
     span_estado = "badge_warning";
