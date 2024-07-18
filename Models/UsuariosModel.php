@@ -743,6 +743,7 @@ class UsuariosModel extends Query
 //print_r($editar_perfil);c
 //
 //
+//
         // print_r($insertar_producto_);
         if ($editar_plataforma == 1 && $editar_perfil) {
             $response['status'] = 200;
