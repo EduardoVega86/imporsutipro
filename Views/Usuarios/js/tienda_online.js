@@ -451,16 +451,13 @@ function editarTestimonio(id) {
     contentType: false, // No establecer ningún tipo de contenido
     dataType: "json",
     success: function (response) {
-      $("#id_testimonio").val(response[0].id);
-      $("#titulo_editar").val(response[0].titulo);
-      $("#texto_banner_editar").val(response[0].texto_banner);
-      $("#texto_boton_editar").val(response[0].texto_boton);
-      $("#enlace_boton_editar").val(response[0].enlace_boton);
-      $("#alineacion_editar").val(response[0].alineacion).change();
+      $("#id_testimonio").val(response[0].id_testimonio);
+      $("#nombre_testimonioEditar").val(response[0].nombre);
+      $("#testimonio_testimonioEditar").val(response[0].testimonio);
       $("#preview-imagen-testimonioEditar")
         .attr("src", SERVERURL + response[0].fondo_banner)
         .show();
-      $("#editar_bannerModal").modal("show");
+      $("#editar_testimonioModal").modal("show");
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
