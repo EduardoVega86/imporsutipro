@@ -107,6 +107,85 @@ function Pagar(id_plataforma) {
     "" + SERVERURL + "wallet/pagar?id_plataforma=" + id_plataforma;
 }
 
+let dataTableOtrasFormasPago;
+let dataTableOtrasFormasPagoIsInitialized = false;
+
+const dataTableOtrasFormasPagoOptions = {
+  columnDefs: [
+    { className: "centered", targets: [1, 2, 3, 4, 5] },
+    { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
+  ],
+  pageLength: 10,
+  destroy: true,
+  language: {
+    lengthMenu: "Mostrar _MENU_ registros por página",
+    zeroRecords: "Ningún usuario encontrado",
+    info: "Mostrando de _START_ a _END_ de un total de _TOTAL_ registros",
+    infoEmpty: "Ningún usuario encontrado",
+    infoFiltered: "(filtrados desde _MAX_ registros totales)",
+    search: "Buscar:",
+    loadingRecords: "Cargando...",
+    paginate: {
+      first: "Primero",
+      last: "Último",
+      next: "Siguiente",
+      previous: "Anterior",
+    },
+  },
+};
+
+const initDataTableOtrasFormasPago = async () => {
+  if (dataTableOtrasFormasPagoIsInitialized) {
+    dataTableOtrasFormasPago.destroy();
+  }
+
+  await listOtrasFormasPago();
+
+  dataTableOtrasFormasPago = $("#datatable_otrasFormas_pago").DataTable(
+    dataTableOtrasFormasPagoOptions
+  );
+
+  dataTableOtrasFormasPagoIsInitialized = true;
+};
+
+const listOtrasFormasPago = async () => {
+  try {
+    const response = await fetch("" + SERVERURL + "wallet/obtenerSolicitudes_otrasFormasPago");
+    const otrasFormasPago = await response.json();
+
+    let content = ``;
+    let checkboxState = "";
+    otrasFormasPago.forEach((pago, index) => {
+      if (pago.visto == 1) {
+        checkboxState = "checked disabled";
+      } else {
+        checkboxState = "";
+      }
+
+      content += `
+                <tr>
+                    <td><input type="checkbox" class="selectCheckbox" data-id="${pago.id_solicitud}" ${checkboxState} onclick="toggleSolicitud(${pago.id_solicitud}, this.checked)"></td>
+                    <td>${pago.nombre}</td>
+                    <td>${pago.correo}</td>
+                    <td>${pago.cedula}</td>
+                    <td>${pago.fecha}</td>
+                    <td>${pago.telefono}</td>
+                    <td>${pago.tipo}</td>
+                    <td>${pago.red}</td>
+                    <td>${pago.cuenta}</td>
+                    <td>${pago.cantidad}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" onclick="Pagar(${pago.id_plataforma})"><i class="fa-solid fa-sack-dollar"></i>Pagar</button>
+                        <button class="btn btn-sm btn-danger" onclick="eliminarSolicitud(${pago.id_solicitud})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
+                    </td>
+                </tr>`;
+    });
+    document.getElementById("tableBody_otrasFormas_pago").innerHTML = content;
+  } catch (ex) {
+    alert(ex);
+  }
+};
+
 //audtiroria tempral
 $(document).ready(function () {
   $(".filter-btn").on("click", function () {

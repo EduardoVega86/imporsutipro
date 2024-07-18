@@ -311,6 +311,12 @@ class Wallet extends Controller
         $response = $this->model->obtenerSolicitudes();
         echo json_encode($response);
     }
+
+    public function obtenerSolicitudes_otrasFormasPago()
+    {
+        $response = $this->model->obtenerSolicitudes_otrasFormasPago();
+        echo json_encode($response);
+    }
     
     public function obtenerGuiasAuditoria()
     {
