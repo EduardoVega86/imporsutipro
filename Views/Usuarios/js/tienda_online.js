@@ -495,9 +495,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
   botonFlotante.addEventListener("click", () => {
     // Lógica para guardar cambios
-    alert("Cambios guardados");
-    cambiosRealizados = false;
-    botonFlotante.classList.remove("mostrar");
+
+    let formData = new FormData();
+    formData.append("ruc_tienda", $("#ruc_tienda").val());
+    formData.append("whatsapp", $("#whatsapp").val());
+    formData.append("email", $("#email").val());
+    formData.append("direccion", $("#direccion").val());
+    formData.append("pais_tienda", $("#pais_tienda").val());
+    formData.append("instagram", $("#instagram").val());
+    formData.append("tiktok", $("#tiktok").val());
+    formData.append("facebook", $("#facebook").val());
+
+    $.ajax({
+      url: SERVERURL + "pedidos/buscarProductosBodega",
+      type: "POST",
+      data: formData,
+      processData: false, // No procesar los datos
+      contentType: false, // No establecer ningún tipo de contenido
+      success: function (response) {
+        if (response.status == 500) {
+          toastr.error("NO SE ACTUALIZO CORRECTAMENTE", "NOTIFICACIÓN", {
+            positionClass: "toast-bottom-center",
+          });
+        } else if (response.status == 200) {
+          toastr.success("SE ACTUALIZO CORRECTAMENTE", "NOTIFICACIÓN", {
+            positionClass: "toast-bottom-center",
+          });
+
+          cambiosRealizados = false;
+          botonFlotante.classList.remove("mostrar");
+        }
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        alert(errorThrown);
+      },
+    });
   });
 });
 

@@ -510,6 +510,10 @@
                 $("#direccion").val(response[0].direccion);
                 $('#imagen_logo').attr('src', SERVERURL + response[0].logo_url);
 
+                $("#instagram").val(response[0].instagram);
+                $("#tiktok").val(response[0].tiktok);
+                $("#facebook").val(response[0].facebook);
+
                 // Mover la lógica de verificación aquí
                 verificarNombreTienda(response[0].nombre_tienda);
             },
