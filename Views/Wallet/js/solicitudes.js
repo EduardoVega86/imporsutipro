@@ -220,7 +220,7 @@ const handleCheckboxClick = async (facturaId, isChecked) => {
     formData.append("numero_guia", facturaId);
     formData.append("estado", isChecked);
 
-    const response = await fetch(SERVERURL + "api/actualizarEstadoCheckbox", {
+    const response = await fetch(SERVERURL + "Wallet/habilitarAuditoria", {
       method: "POST",
       body: formData,
     });
