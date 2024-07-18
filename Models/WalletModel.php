@@ -750,9 +750,16 @@ class WalletModel extends Query
         return $response;
     }
     
-     public function obtenerGuiasAuditoria($estado)
+     public function obtenerGuiasAuditoria($estado, $transportadora)
     {
-        $sql = "SELECT * FROM facturas_cot fc where  estado_guia_sistema in (9,7,500,501,502,400,401,402,403,8,13) and valida_transportadora=$estado order BY fecha_factura";
+         $where='';
+         
+         if ($transportadora != 0 ){
+          $where=" and id_transporte=$transportadora";  
+         }else{
+          $where="";     
+         }
+        $sql = "SELECT * FROM facturas_cot fc where  estado_guia_sistema in (9,7,500,501,502,400,401,402,403,8,13) and valida_transportadora=$estado $where order BY fecha_factura";
         //echo $sql;
         $response =  $this->select($sql);
         return $response;

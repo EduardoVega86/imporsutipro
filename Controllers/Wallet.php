@@ -316,7 +316,8 @@ class Wallet extends Controller
     {
         //echo $estado;
         $estado = $_POST['estado'];
-        $response = $this->model->obtenerGuiasAuditoria($estado);
+         $transportadora = $_POST['transportadora'];
+        $response = $this->model->obtenerGuiasAuditoria($estado, $transportadora);
         echo json_encode($response);
     }
     
@@ -325,6 +326,7 @@ class Wallet extends Controller
         
         $guia = $_POST['numero_guia'];
         $estado = $_POST['estado'];
+       
         
         $response = $this->model->habilitarAuditoria($guia, $estado);
         echo json_encode($response);
