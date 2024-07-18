@@ -369,7 +369,18 @@
             </h2>
             <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                    Contenido de Redes Sociales / Footer.
+                    <div class="mb-3">
+                        <label for="instagram" class="form-label">Instagram</label>
+                        <input type="text" class="form-control cambio" id="instagram" placeholder="Ingrese su Instagram">
+                    </div>
+                    <div class="mb-3">
+                        <label for="tiktok" class="form-label">TikTok</label>
+                        <input type="text" class="form-control cambio" id="tiktok" placeholder="Ingrese su TikTok">
+                    </div>
+                    <div class="mb-3">
+                        <label for="facebook" class="form-label">Facebook</label>
+                        <input type="text" class="form-control cambio" id="facebook" placeholder="Ingrese su Facebook">
+                    </div>
                 </div>
             </div>
         </div>

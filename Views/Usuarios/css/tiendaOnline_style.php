@@ -113,4 +113,31 @@
             transform: translateY(0);
         }
     }
+
+    .form-label {
+        font-weight: bold;
+        color: #007bff;
+        transition: color 0.3s ease-in-out;
+    }
+
+    .form-control {
+        border: 2px solid #007bff;
+        transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+
+    .form-control:focus {
+        border-color: #0056b3;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+        transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        transform: scale(1.05);
+    }
 </style>
