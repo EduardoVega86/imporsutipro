@@ -7,7 +7,7 @@ const dataTableSolicitudesOptions = {
     { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
   ],
   order: [[0, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
-  pageLength: 10,
+  pageLength: 5,
   destroy: true,
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
@@ -116,7 +116,7 @@ const dataTableOtrasFormasPagoOptions = {
     { className: "centered", targets: [1, 2, 3, 4, 5] },
     { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
   ],
-  pageLength: 10,
+  pageLength: 5,
   destroy: true,
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
