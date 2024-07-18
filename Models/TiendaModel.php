@@ -219,7 +219,7 @@ class TiendaModel extends Query
 
 
         // print_r($insertar_producto_);
-        if ($editar_plataforma == 1 and $editar_perfil) {
+        if ($editar_plataforma == 1 && $editar_perfil) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
             $response['message'] = 'Producto editado correctamente';
