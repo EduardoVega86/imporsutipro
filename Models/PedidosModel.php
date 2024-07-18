@@ -22,7 +22,7 @@ class PedidosModel extends Query
         cc.ciudad, 
         cc.provincia AS provinciaa, 
         p.url_imporsuit AS plataforma,
-        pp.url_imporsuit AS proveedor_plataforma, -- Nombre del proveedor
+        pp.url_imporsuit AS proveedor_plataforma, 
         b.nombre AS nombre_bodega, 
         b.direccion AS direccion_bodega
             FROM 
@@ -34,7 +34,7 @@ class PedidosModel extends Query
             LEFT JOIN 
                 plataformas pp ON pp.id_plataforma = fc.id_propietario -- Unión adicional para obtener el nombre del proveedor
             LEFT JOIN 
-                bodega b ON b.id = fc.id_bodega -- Unión con la tabla bodega
+                bodega b ON b.id = fc.id_bodega
             WHERE 
                 TRIM(fc.numero_guia) <> '' 
                 AND fc.numero_guia IS NOT NULL 
@@ -42,7 +42,7 @@ class PedidosModel extends Query
                 AND fc.anulada = 0  
                 AND (fc.id_plataforma = $plataforma OR fc.id_propietario = $plataforma OR b.id_plataforma = $plataforma)
             ";
-        //echo $sql;
+       
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
             $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
         }
@@ -55,12 +55,15 @@ class PedidosModel extends Query
             $sql .= " AND estado_guia_sistema = '$estado'";
         }
 
-        if ($impreso == 0 || $impreso == 1) {
+        if (!empty($impreso)) {
+          if ($impreso == 0 || $impreso == 1 ) {
             $sql .= " AND impreso = '$impreso'";
+        }  
         }
+        
 
         $sql .= " ORDER BY fc.numero_factura DESC;";
-
+ //echo $sql;
         return $this->select($sql);
     }
 
