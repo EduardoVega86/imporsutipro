@@ -96,6 +96,7 @@ const toggleSolicitud = async (userId, isChecked) => {
 
     const result = await response.json();
     initDataTableSolicitudes();
+    initDataTableOtrasFormasPago();
   } catch (error) {
     console.error("Error:", error);
     alert("Hubo un error al actualizar el solicitud");
