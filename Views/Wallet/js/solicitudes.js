@@ -194,7 +194,7 @@ const listAuditoria = async (estado, id_transporte) => {
                   <td>${codBtn}</td>
                   <td>${item.monto_factura}</td>
                   <td>${item.costo_flete}</td>
-                  <td><input type="checkbox" class="selectCheckbox" data-id="${item.numero_factura}"></td>
+                  <td><input type="checkbox" class="selectCheckbox" data-id="${item.numero_guia}"></td>
               </tr>`;
     });
 
@@ -217,8 +217,8 @@ const listAuditoria = async (estado, id_transporte) => {
 const handleCheckboxClick = async (facturaId, isChecked) => {
   try {
     const formData = new FormData();
-    formData.append("facturaId", facturaId);
-    formData.append("checked", isChecked);
+    formData.append("numero_guia", facturaId);
+    formData.append("estado", isChecked);
 
     const response = await fetch(SERVERURL + "api/actualizarEstadoCheckbox", {
       method: "POST",
