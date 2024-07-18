@@ -323,7 +323,7 @@ class Wallet extends Controller
     public function habilitarAuditoria()
     {
         
-        $id_factura = $_POST['id_factura'];
+        $guia = $_POST['numero_guia'];
         $estado = $_POST['estado'];
         
         $response = $this->model->habilitarAuditoria($guia, $estado);
