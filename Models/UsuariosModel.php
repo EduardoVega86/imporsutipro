@@ -731,15 +731,15 @@ class UsuariosModel extends Query
     public function actualizar_tienda($ruc_tienda, $telefono_tienda, $email_tienda, $direccion_tienda, $pais_tienda, $plataforma, $facebook, $instagram, $tiktok)
     {
         $response = $this->initialResponse();
-        $sql = "UPDATE `plataformas` SET  `cedula_facturacion` = ?, `correo_facturacion` = ?, `direccion_facturacion` = ?, `whatsapp` = ?   WHERE `plataformas`.`id_plataforma` = ? ";
+        $sql = "UPDATE `plataformas` SET  `cedula_facturacion` = ?, `correo_facturacion` = ?, `direccion_facturacion` = ?, `whatsapp` = ?   WHERE `id_plataforma` = ? ";
         $data = [$ruc_tienda, $email_tienda, $direccion_tienda, $telefono_tienda, $plataforma];
         $editar_plataforma = $this->update($sql, $data);
-
+        
         $sql = "UPDATE `perfil` SET  `facebook` = ?, `instagram` = ?, `tiktok` = ?   WHERE `perfil`.`id_plataforma` = ? ";
         $data = [$facebook, $instagram, $tiktok, $plataforma];
         $editar_perfil = $this->update($sql, $data);
 
-
+//print_r($editar_perfil);
         // print_r($insertar_producto_);
         if ($editar_plataforma == 1 && $editar_perfil) {
             $response['status'] = 200;
