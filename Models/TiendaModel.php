@@ -206,16 +206,20 @@ class TiendaModel extends Query
         return $response;
     }
 
-    public function actualizar_tienda($nombre_tienda, $descripcion_tienda, $ruc_tienda, $telefono_tienda, $email_tienda, $direccion_tienda, $pais_tienda, $paltaforma)
+    public function actualizar_tienda($ruc_tienda, $telefono_tienda, $email_tienda, $direccion_tienda, $pais_tienda, $plataforma, $facebook, $instagram, $tiktok)
     {
         $response = $this->initialResponse();
-        $sql = "UPDATE `plataformas` SET `nombre_tienda` = ?, `nombre_tienda` = ? , `cedula_facturacion` = ?, `whatsapp` = ?, `email` = ?  WHERE `plataformas`.`id_plataforma` = ? ";
-        $data = [$codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $id, $plataforma];
-        $editar_producto = $this->update($sql, $data);
+        $sql = "UPDATE `plataformas` SET  `cedula_facturacion` = ?, `correo_facturacion` = ?, `direccion_facturacion` = ?, `whatsapp` = ?   WHERE `plataformas`.`id_plataforma` = ? ";
+        $data = [$ruc_tienda, $email_tienda, $direccion_tienda, $telefono_tienda, $plataforma];
+        $editar_plataforma = $this->update($sql, $data);
+
+        $sql = "UPDATE `perfil` SET  `facebook` = ?, `instagram` = ?, `tiktok` = ?   WHERE `perfil`.`id_plataforma` = ? ";
+        $data = [$facebook, $instagram, $tiktok, $plataforma];
+        $editar_perfil = $this->update($sql, $data);
 
 
         // print_r($insertar_producto_);
-        if ($editar_producto == 1) {
+        if ($editar_plataforma == 1 and $editar_perfil) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
             $response['message'] = 'Producto editado correctamente';
