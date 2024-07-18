@@ -114,8 +114,15 @@ $(document).ready(function () {
     $(this).addClass("active");
 
     var filtro_facturas = $(this).data("filter"); // Actualizar variable con el filtro seleccionado
-    var id_transportadora = $('#transporte').val();
-    initDataTableAuditoria(filtro_facturas,id_transportadora);
+    var id_transportadora = $("#transporte").val();
+    initDataTableAuditoria(filtro_facturas, id_transportadora);
+  });
+
+  // Añadir event listener al select para el evento change
+  $("#transporte").on("change", function () {
+    var id_transportadora = $(this).val();
+    var filtro_facturas = $(".filter-btn.active").data("filter"); // Obtener el filtro activo
+    initDataTableAuditoria(filtro_facturas, id_transportadora);
   });
 });
 
@@ -146,12 +153,12 @@ const dataTableAuditoriaOptions = {
   },
 };
 
-const initDataTableAuditoria = async (estado,id_transporte) => {
+const initDataTableAuditoria = async (estado, id_transporte) => {
   if (dataTableAuditoriaIsInitialized) {
     dataTableAuditoria.destroy();
   }
 
-  await listAuditoria(estado,id_transporte);
+  await listAuditoria(estado, id_transporte);
 
   dataTableAuditoria = $("#datatable_auditoria").DataTable(
     dataTableAuditoriaOptions
@@ -160,41 +167,67 @@ const initDataTableAuditoria = async (estado,id_transporte) => {
   dataTableAuditoriaIsInitialized = true;
 };
 
-const listAuditoria = async (estado,id_transporte) => {
+const listAuditoria = async (estado, id_transporte) => {
   try {
     const formData = new FormData();
     formData.append("estado", estado);
     formData.append("transportadora", id_transporte);
 
-    const response = await fetch(
-      "" + SERVERURL + "wallet/obtenerGuiasAuditoria",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+    const response = await fetch(SERVERURL + "wallet/obtenerGuiasAuditoria", {
+      method: "POST",
+      body: formData,
+    });
+
     const auditoria = await response.json();
 
     let content = ``;
 
     auditoria.forEach((item, index) => {
-
       const codBtn = item.cod
         ? `<button class="btn-cod-si">SI</button>`
         : `<button class="btn-cod-no">NO</button>`;
 
       content += `
-                <tr>
-                    <td>${item.numero_factura}</td>
-                    <td>${item.numero_guia}</td>
-                    <td>${codBtn}</td>
-                    <td>${item.monto_factura}</td>
-                    <td>${item.costo_flete}</td>
-                    <td><input type="checkbox" class="selectCheckbox" data-id="${item.numero_factura}"></td>
-                </tr>`;
+              <tr>
+                  <td>${item.numero_factura}</td>
+                  <td>${item.numero_guia}</td>
+                  <td>${codBtn}</td>
+                  <td>${item.monto_factura}</td>
+                  <td>${item.costo_flete}</td>
+                  <td><input type="checkbox" class="selectCheckbox" data-id="${item.numero_factura}"></td>
+              </tr>`;
     });
+
     document.getElementById("tableBody_auditoria").innerHTML = content;
+
+    // Añadir event listeners a los checkboxes
+    const checkboxes = document.querySelectorAll(".selectCheckbox");
+    checkboxes.forEach((checkbox) => {
+      checkbox.addEventListener("click", async (event) => {
+        const facturaId = event.target.getAttribute("data-id");
+        const isChecked = event.target.checked ? 1 : 0; // Convertir a 1 o 0
+        await handleCheckboxClick(facturaId, isChecked);
+      });
+    });
   } catch (ex) {
     alert(ex);
+  }
+};
+
+const handleCheckboxClick = async (facturaId, isChecked) => {
+  try {
+    const formData = new FormData();
+    formData.append("facturaId", facturaId);
+    formData.append("checked", isChecked);
+
+    const response = await fetch(SERVERURL + "api/actualizarEstadoCheckbox", {
+      method: "POST",
+      body: formData,
+    });
+
+    const result = await response.json();
+    console.log(result); // Manejar la respuesta de la API
+  } catch (error) {
+    console.error("Error:", error);
   }
 };
