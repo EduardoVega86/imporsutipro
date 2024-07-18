@@ -60,8 +60,6 @@
         // Función para reiniciar el formulario
         function resetForm() {
             $('#editar_testimonio_form')[0].reset();
-            $('#bodega-field').addClass('hidden-field');
-            $('#precio-referencial-valor').prop('disabled', true);
             $('#preview-imagen-testimonioEditar').attr('src', '#').hide();
         }
 
@@ -90,11 +88,8 @@
             // Crea un objeto FormData
             var formData = new FormData();
             formData.append('id_testimonio', $('#id_testimonio').val());
-            formData.append('titulo', $('#titulo_editar').val());
-            formData.append('texto_testimonio', $('#texto_testimonio_editar').val());
-            formData.append('texto_boton', $('#texto_boton_editar').val());
-            formData.append('enlace_boton', $('#enlace_boton_editar').val());
-            formData.append('alineacion', $('#alineacion_editar').val());
+            formData.append('nombre', $('#nombre_testimonioEditar').val());
+            formData.append('testimonio', $('#testimonio_testimonioEditar').val());
             formData.append('imagen', $('#imagen_testimonioEditar')[0].files[0]);
 
             // Realiza la solicitud AJAX

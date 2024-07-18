@@ -328,6 +328,17 @@ class Usuarios extends Controller
         $response = $this->model->eliminarTestimonio($id, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
+
+    public function editarTestimonio()
+    {
+        $id_testimonio = $_POST['id_testimonio'];
+        $nombre = $_POST['nombre'];
+        $testimonio = $_POST['testimonio'];
+        $imagen = isset($_FILES['imagen']) ? $_FILES['imagen'] : null;
+
+        $response = $this->model->editarTestimonio($id_testimonio, $nombre, $testimonio, $imagen, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
     /* fin tienda online */
 
     public function registro()

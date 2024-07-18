@@ -539,6 +539,78 @@ class UsuariosModel extends Query
         }
         return $response;
     }
+
+    public function editarTestimonio($id_testimonio, $nombre, $testimonio, $imagen, $plataforma)
+    {
+        $response = $this->initialResponse();
+        $target_dir = "public/img/testimonios/";
+        $target_file = "";
+        $uploadOk = 1;
+        $imageFileType = "";
+
+        if ($imagen && $imagen["tmp_name"]) {
+            $target_file = $target_dir . basename($imagen["name"]);
+            $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+            $check = getimagesize($imagen["tmp_name"]);
+
+            if ($check !== false) {
+                $uploadOk = 1;
+            } else {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'El archivo no es una imagen';
+                $uploadOk = 0;
+            }
+
+            if ($imagen["size"] > 500000) {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'El archivo es muy grande';
+                $uploadOk = 0;
+            }
+
+            if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'Solo se permiten archivos JPG, JPEG, PNG';
+                $uploadOk = 0;
+            }
+        }
+
+        if ($uploadOk == 1 && $imagen && $imagen["tmp_name"]) {
+            if (move_uploaded_file($imagen["tmp_name"], $target_file)) {
+                $response['status'] = 200;
+                $response['title'] = 'Peticion exitosa';
+                $response['message'] = 'Imagen subida correctamente';
+                $response['data'] = $target_file;
+
+                $sql = "UPDATE `testimonios` SET `imagen`=?, `nombre`=?, `testimonio`=? WHERE `id_testimonio`=?";
+                $data = [$target_file, $nombre, $testimonio, $id_testimonio];
+            } else {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'Error al subir la imagen';
+                return $response;
+            }
+        } else {
+            $sql = "UPDATE `testimonios` SET `nombre`=?, `testimonio`=? WHERE `id_testimonio`=?";
+            $data = [$nombre, $testimonio, $id_testimonio];
+        }
+
+        $actualizar_testimonio = $this->update($sql, $data);
+
+        if ($actualizar_testimonio == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'testimonio actualizado correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al actualizar el testimonio';
+        }
+
+        return $response;
+    }
     /* Fin tienda online */
 
 
