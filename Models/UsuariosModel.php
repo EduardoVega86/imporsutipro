@@ -745,9 +745,7 @@ class UsuariosModel extends Query
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
             $response['message'] = 'Producto editado correctamente';
-            if ($editar_producto_ === 1) {
-                $response['message'] = 'Producto y stock editado correctamente';
-            }
+          
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
