@@ -150,7 +150,7 @@
                                             <!-- Agrega más opciones según sea necesario -->
                                         </select>
                                     </div>
-                                    <button id="botonFlotante" class="boton-flotante">Guardar Cambios</button>
+
                                 </div>
                             </div>
                         </div>
@@ -381,6 +381,7 @@
                         <label for="facebook" class="form-label">Facebook</label>
                         <input type="text" class="form-control cambio" id="facebook" placeholder="Ingrese su Facebook">
                     </div>
+                    <button id="botonFlotante" class="boton-flotante">Guardar Cambios</button>
                 </div>
             </div>
         </div>
