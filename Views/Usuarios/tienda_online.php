@@ -146,7 +146,7 @@
                                     <div class="form-group mb-3">
                                         <label for="pais_tienda">-- Elige un país --</label>
                                         <select class="form-select cambio" id="pais_tienda" name="pais_tienda">
-                                            <option selected>Ecuador</option>
+                                            <option selected value="EC">Ecuador</option>
                                             <!-- Agrega más opciones según sea necesario -->
                                         </select>
                                     </div>
@@ -381,11 +381,11 @@
                         <label for="facebook" class="form-label">Facebook</label>
                         <input type="text" class="form-control cambio" id="facebook" placeholder="Ingrese su Facebook">
                     </div>
-                    <button id="botonFlotante" class="boton-flotante">Guardar Cambios</button>
                 </div>
             </div>
         </div>
     </div>
+    <button id="botonFlotante" class="boton-flotante">Guardar Cambios</button>
 </div>
 
 

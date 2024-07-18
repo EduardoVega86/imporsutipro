@@ -24,7 +24,7 @@ const dataTableSolicitudesOptions = {
       previous: "Anterior",
     },
   },
-};
+};  
 
 const initDataTableSolicitudes = async () => {
   if (dataTableSolicitudesIsInitialized) {
@@ -276,6 +276,8 @@ const listAuditoria = async (estado, id_transporte) => {
                   <td>${item.numero_guia}</td>
                   <td>${codBtn}</td>
                   <td>${item.monto_factura}</td>
+                  <td>${item.costo_flete}</td>
+                  <td>${item.costo_flete}</td>
                   <td>${item.costo_flete}</td>
                   <td><input type="checkbox" class="selectCheckbox" data-id="${item.numero_guia}" ${check}></td>
               </tr>`;

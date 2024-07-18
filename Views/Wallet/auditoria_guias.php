@@ -38,7 +38,9 @@
                         <th class="centered">Numero Guia</th>
                         <th class="centered">COD</th>
                         <th class="centered">Monto Factura</th>
+                        <th class="centered">Valor flete</th>
                         <th class="centered">Costo flete</th>
+                        <th class="centered">Valor cod</th>
                         <th></th>
                     </tr>
                 </thead>
