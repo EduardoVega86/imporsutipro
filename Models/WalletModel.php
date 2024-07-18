@@ -774,11 +774,17 @@ class WalletModel extends Query
          if ($response == 1) {
              $sql = "INSERT INTO auditoria_guia (`guia`, `usuario`) VALUES (?, ?)";
              $response =  $this->insert($sql, array($guia, $usuario));
-            
+             if ($response == 1) {
+                $responses["status"] = 200;
+            $responses["message"] = 'Exito'; 
+             }else{
+            $responses["status"] = 400;
+            $responses["message"] = $response["message"];
+             }
         } else {
             $responses["status"] = 400;
             $responses["message"] = $response["message"];
         }
-       return $response;
+       return $responses;
     }
 }
