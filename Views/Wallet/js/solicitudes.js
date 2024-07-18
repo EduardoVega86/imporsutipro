@@ -117,13 +117,13 @@ $(document).ready(function () {
     $(this).addClass("active");
 
     var filtro_facturas = $(this).data("filter"); // Actualizar variable con el filtro seleccionado
-
-    initDataTableAuditoria(filtro_facturas);
+    var id_transportadora = $('#transporte').val();
+    initDataTableAuditoria(filtro_facturas,id_transportadora);
   });
 });
 
 window.addEventListener("load", async () => {
-  await initDataTableAuditoria(0);
+  await initDataTableAuditoria(0,0);
 });
 
 let dataTableAuditoria;
@@ -153,12 +153,12 @@ const dataTableAuditoriaOptions = {
   },
 };
 
-const initDataTableAuditoria = async (estado) => {
+const initDataTableAuditoria = async (estado,id_transporte) => {
   if (dataTableAuditoriaIsInitialized) {
     dataTableAuditoria.destroy();
   }
 
-  await listAuditoria(estado);
+  await listAuditoria(estado,id_transporte);
 
   dataTableAuditoria = $("#datatable_auditoria").DataTable(
     dataTableAuditoriaOptions
@@ -167,10 +167,11 @@ const initDataTableAuditoria = async (estado) => {
   dataTableAuditoriaIsInitialized = true;
 };
 
-const listAuditoria = async (estado) => {
+const listAuditoria = async (estado,id_transporte) => {
   try {
     const formData = new FormData();
     formData.append("estado", estado);
+    formData.append("transportadora", id_transporte);
 
     const response = await fetch(
       "" + SERVERURL + "wallet/obtenerGuiasAuditoria",
