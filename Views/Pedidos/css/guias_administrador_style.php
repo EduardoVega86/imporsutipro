@@ -45,6 +45,13 @@
         border-radius: 0.3rem;
     }
 
+    .badge_generado {
+        background-color: #54DD10;
+        color: white;
+        padding: 4px;
+        border-radius: 0.3rem;
+    }
+
     .badge_warning {
         background-color: #F2CC0E;
         color: white;
