@@ -235,9 +235,9 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
     {
         $response = $this->initialResponse();
         
-        $inicial_prod = $this->select("SELECT * from productos  where id_producto= $id");
+        $inicial_prod = $this->select("SELECT * from detalle_fact_cot  where id_producto= $id");
 
-        // print_r($inicial_variable);
+        //print_r($inicial_prod);
         $ingreso_tienda = 0;
         if (empty($inicial_prod)) {
             
@@ -257,7 +257,7 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
         }else{
              $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = 'El producto ya tienes guias vinculadas';
+            $response['message'] = 'El producto ya tienes pedidos vinculados';
         }
         return $response;
     }
