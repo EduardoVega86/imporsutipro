@@ -187,6 +187,9 @@ const listAuditoria = async (estado, id_transporte) => {
         ? `<button class="btn-cod-si">SI</button>`
         : `<button class="btn-cod-no">NO</button>`;
 
+      // Determinar si el checkbox debe estar marcado
+      let check = item.valida_transportadora == 1 ? "checked" : "";
+
       content += `
               <tr>
                   <td>${item.numero_factura}</td>
@@ -194,7 +197,7 @@ const listAuditoria = async (estado, id_transporte) => {
                   <td>${codBtn}</td>
                   <td>${item.monto_factura}</td>
                   <td>${item.costo_flete}</td>
-                  <td><input type="checkbox" class="selectCheckbox" data-id="${item.numero_guia}"></td>
+                  <td><input type="checkbox" class="selectCheckbox" data-id="${item.numero_guia}" ${check}></td>
               </tr>`;
     });
 
