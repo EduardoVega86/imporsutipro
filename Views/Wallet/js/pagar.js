@@ -719,7 +719,7 @@ function validar_estadoServi(estado) {
     span_estado = "badge_danger";
     estado_guia = "Anulado";
   } else if (estado == 100 || estado == 102 || estado == 103) {
-    span_estado = "badge_generado";
+    span_estado = "badge_purple";
     estado_guia = "Generado";
   } else if (estado == 200 || estado == 201 || estado == 202) {
     span_estado = "badge_purple";
