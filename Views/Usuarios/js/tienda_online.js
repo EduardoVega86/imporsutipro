@@ -507,7 +507,7 @@ document.addEventListener("DOMContentLoaded", () => {
     formData.append("facebook", $("#facebook").val());
 
     $.ajax({
-      url: SERVERURL + "pedidos/buscarProductosBodega",
+      url: SERVERURL + "Usuarios/actualizar_plataforma",
       type: "POST",
       data: formData,
       processData: false, // No procesar los datos
