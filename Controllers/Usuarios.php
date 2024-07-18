@@ -305,6 +305,13 @@ class Usuarios extends Controller
         $response = $this->model->obtener_testimonios($_SESSION['id_plataforma']);
         echo json_encode($response);
     }
+    
+    public function obtener_testimoniotiendaID()
+    {
+        $id = $_POST['id'];
+        $response = $this->model->obtener_testimoniotiendaID($id, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
 
     public function agregarTestimonios()
     {

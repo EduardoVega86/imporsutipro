@@ -458,6 +458,12 @@ class UsuariosModel extends Query
         return $this->select($sql);
     }
 
+    public function obtener_testimoniotiendaID($id, $plataforma)
+    {
+        $sql = "SELECT * FROM testimonios WHERE id_plataforma = $plataforma AND id_testimonio = $id";
+        return $this->select($sql);
+    }
+
     public function agregarTestimonios($nombre, $testimonio, $imagen, $plataforma)
     {
         $response = $this->initialResponse();

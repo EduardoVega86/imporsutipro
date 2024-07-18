@@ -438,6 +438,35 @@ function eliminarTestimonio(id) {
     },
   });
 }
+
+function editarTestimonio(id) {
+  let formData = new FormData();
+  formData.append("id", id);
+
+  $.ajax({
+    url: SERVERURL + "Usuarios/obtener_testimoniotiendaID",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    dataType: "json",
+    success: function (response) {
+      $("#id_testimonio").val(response[0].id);
+      $("#titulo_editar").val(response[0].titulo);
+      $("#texto_banner_editar").val(response[0].texto_banner);
+      $("#texto_boton_editar").val(response[0].texto_boton);
+      $("#enlace_boton_editar").val(response[0].enlace_boton);
+      $("#alineacion_editar").val(response[0].alineacion).change();
+      $("#preview-imagen-testimonioEditar")
+        .attr("src", SERVERURL + response[0].fondo_banner)
+        .show();
+      $("#editar_bannerModal").modal("show");
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+}
 /* Fin tabla de testimonios */
 
 /* boton flotante de actualizar */
