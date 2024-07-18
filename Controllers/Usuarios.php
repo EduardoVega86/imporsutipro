@@ -369,7 +369,7 @@ class Usuarios extends Controller
       $facebook=    $_POST['facebook'];  
       $instagram=    $_POST['instagram'];  
       $tiktok=    $_POST['tiktok'];  
-      $response = $this->model->actualizar_tienda($nombre_tienda,  $ruc_tienda,$telefono_tienda, $email_tienda, $direccion_tienda, $pais_tienda, $_SESSION['id_plataforma'], $facebook, $instagram, $tiktok);
+      $response = $this->model->actualizar_tienda($ruc_tienda,$telefono_tienda, $email_tienda, $direccion_tienda, $pais_tienda, $_SESSION['id_plataforma'], $facebook, $instagram, $tiktok);
        echo json_encode($response);
        
     }
