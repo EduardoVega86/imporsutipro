@@ -5,7 +5,25 @@
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
         <h2 class="text-center mb-4">Auditoria</h2>
+<div class="d-flex flex-column justify-content-between">
+            
 
+            <div class="segunda_seccionFiltro">
+                
+                <div style="width: 100%;">
+                    <label for="inputPassword3" class="col-sm-2 col-form-label">Transportadora</label>
+                    <div>
+                        <select name="transporte" id="transporte" class="form-control">
+                            <option value=""> Seleccione Transportadora</option>
+                            <option value="LAAR">Laar</option>
+                            <option value="SPEED">Speed</option>
+                            <option value="SERVIENTREGA">Servientrega</option>
+                            <option value="GINTRACOM">Gintracom</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
             <div class="filter-container">
