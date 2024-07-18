@@ -751,7 +751,7 @@ class UsuariosModel extends Query
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = $editar_producto['message'];
+            $response['message'] = $editar_plataforma['message'];
         }
         return $response;
     }
