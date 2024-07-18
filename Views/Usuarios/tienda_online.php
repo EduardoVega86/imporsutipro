@@ -392,6 +392,10 @@
 
 
 <script>
+    $(document).ready(function() {
+        cargarInfoTienda_inicial();
+    });
+    
     $('#imageInputPrincipal').on('change', function(event) {
         event.preventDefault();
 
@@ -473,11 +477,6 @@
                 alert('Error al guardar la imagen: ' + textStatus);
             }
         });
-    });
-
-
-    $(document).ready(function() {
-        cargarInfoTienda_inicial();
     });
 
     function cargarInfoTienda_inicial() {
