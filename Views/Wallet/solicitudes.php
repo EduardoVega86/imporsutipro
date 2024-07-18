@@ -36,4 +36,9 @@
 </div>
 
 <script src="<?php echo SERVERURL ?>/Views/Wallet/js/solicitudes.js"></script>
+<script>
+    window.addEventListener("load", async () => {
+        await initDataTableSolicitudes();
+    });
+</script>
 <?php require_once './Views/templates/footer.php'; ?>

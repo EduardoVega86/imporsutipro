@@ -106,9 +106,6 @@ function Pagar(id_plataforma) {
   window.location.href =
     "" + SERVERURL + "wallet/pagar?id_plataforma=" + id_plataforma;
 }
-window.addEventListener("load", async () => {
-  await initDataTableSolicitudes();
-});
 
 //audtiroria tempral
 $(document).ready(function () {
@@ -120,10 +117,6 @@ $(document).ready(function () {
     var id_transportadora = $('#transporte').val();
     initDataTableAuditoria(filtro_facturas,id_transportadora);
   });
-});
-
-window.addEventListener("load", async () => {
-  await initDataTableAuditoria(0,0);
 });
 
 let dataTableAuditoria;
