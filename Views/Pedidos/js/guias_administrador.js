@@ -468,42 +468,46 @@ function validar_estadoServi(estado) {
 function validar_estadoGintracom(estado) {
   var span_estado = "";
   var estado_guia = "";
+
   if (estado == 1) {
-    span_estado = "badge_danger";
-    estado_guia = "Anulado";
+    span_estado = "badge_generado";
+    estado_guia = "Generada";
   } else if (estado == 2) {
-    span_estado = "badge_purple";
-    estado_guia = "Por recolectar";
+    span_estado = "badge_warning";
+    estado_guia = "Picking";
   } else if (estado == 3) {
-    span_estado = "badge_purple";
-    estado_guia = "Por recolectar";
+    span_estado = "badge_warning";
+    estado_guia = "Packing";
   } else if (estado == 4) {
-    span_estado = "badge_purple";
-    estado_guia = "Por recolectar";
+    span_estado = "badge_warning";
+    estado_guia = "En tránsito";
   } else if (estado == 5) {
     span_estado = "badge_warning";
-    estado_guia = "En transito";
+    estado_guia = "En reparto";
   } else if (estado == 6) {
     span_estado = "badge_purple";
-    estado_guia = "Por recolectar";
+    estado_guia = "Novedad";
   } else if (estado == 7) {
     span_estado = "badge_green";
-    estado_guia = "Entregado";
+    estado_guia = "Entregada";
   } else if (estado == 8) {
     span_estado = "badge_danger";
-    estado_guia = "Anulado";
-  } else if (estado == 11) {
-    span_estado = "badge_warning";
-    estado_guia = "En transito";
-  } else if (estado == 12) {
-    span_estado = "badge_warning";
-    estado_guia = "En transito";
-  } else if (estado == 14) {
-    span_estado = "badge_danger";
-    estado_guia = "Con novedad";
+    estado_guia = "Devolucion";
   } else if (estado == 9) {
     span_estado = "badge_danger";
-    estado_guia = "Devuelto";
+    estado_guia = "Devolución Entregada a Origen";
+  } else if (estado == 10) {
+    span_estado = "badge_danger";
+    estado_guia = "Cancelada por transportadora";
+  } else if (estado == 11) {
+    span_estado = "badge_danger";
+    estado_guia = "Indemnización";
+  } else if (estado == 12) {
+    span_estado = "badge_danger";
+    estado_guia = "Anulada";
+  } else if (estado == 13) {
+    span_estado = "badge_danger";
+    estado_guia = "Devolucion en tránsito";
   }
 
   return {
