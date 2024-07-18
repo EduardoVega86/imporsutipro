@@ -234,6 +234,14 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
     public function eliminarProducto($id, $plataforma)
     {
         $response = $this->initialResponse();
+        
+        $inicial_prod = $this->select("SELECT * from productos  where id_producto= $id");
+
+        // print_r($inicial_variable);
+        $ingreso_tienda = 0;
+        if (empty($inicial_prod)) {
+            
+        
         $sql = "DELETE FROM productos WHERE id_producto = ? AND id_plataforma = ?";
         $data = [$id, $plataforma];
         $eliminar_producto = $this->delete($sql, $data);
@@ -245,6 +253,11 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
             $response['status'] = 500;
             $response['title'] = 'Error';
             $response['message'] = $eliminar_producto['message'];
+        }
+        }else{
+             $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'El producto ya tienes guias vinculadas';
         }
         return $response;
     }
