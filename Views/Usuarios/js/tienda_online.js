@@ -497,7 +497,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Lógica para guardar cambios
 
     let formData = new FormData();
-    formData.append("ruc", $("#ruc_tienda").val());
+    formData.append("ruc", $("#ruc").val());
     formData.append("telefono_tienda", $("#whatsapp").val());
     formData.append("email_tienda", $("#email").val());
     formData.append("direccion_tienda", $("#direccion").val());

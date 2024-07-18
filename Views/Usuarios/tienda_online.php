@@ -128,8 +128,8 @@
                                     </div>
 
                                     <div class="form-group mb-3">
-                                        <label for="ruc_tienda">RUC</label>
-                                        <input type="text" class="form-control cambio" id="ruc_tienda" name="ruc_tienda">
+                                        <label for="ruc">RUC</label>
+                                        <input type="text" class="form-control cambio" id="ruc" name="ruc">
                                     </div>
                                     <div class="form-group mb-3">
                                         <label for="telefono_tienda">Telefono:</label>
@@ -496,7 +496,7 @@
                 $("#color").val(response[0].color);
                 $("#color_botones").val(response[0].color_botones);
                 $("#texto_boton1").val(response[0].texto_boton);
-                $("#ruc_tienda").val(response[0].cedula_facturacion);
+                $("#ruc").val(response[0].cedula_facturacion);
 
                 if (response[0].tienda_creada == 1) {
                     $("#nombre_tienda").prop("readonly", true);
