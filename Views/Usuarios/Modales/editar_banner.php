@@ -107,16 +107,16 @@
             // Crea un objeto FormData
             var formData = new FormData();
             formData.append('id_banner', $('#id_banner').val());
-            formData.append('titulo', $('#titulo').val());
-            formData.append('texto_banner', $('#texto_banner').val());
-            formData.append('texto_boton', $('#texto_boton').val());
-            formData.append('enlace_boton', $('#enlace_boton').val());
-            formData.append('alineacion', $('#alineacion').val());
+            formData.append('titulo', $('#titulo_editar').val());
+            formData.append('texto_banner', $('#texto_banner_editar').val());
+            formData.append('texto_boton', $('#texto_boton_editar').val());
+            formData.append('enlace_boton', $('#enlace_boton_editar').val());
+            formData.append('alineacion', $('#alineacion_editar').val());
             formData.append('imagen', $('#imagen_editar')[0].files[0]);
 
             // Realiza la solicitud AJAX
             $.ajax({
-                url: '' + SERVERURL + 'Usuarios/editarBanner',
+                url: SERVERURL + 'Usuarios/editarBanner',
                 type: 'POST',
                 data: formData,
                 processData: false,
@@ -147,5 +147,6 @@
                 }
             });
         });
+
     });
 </script>

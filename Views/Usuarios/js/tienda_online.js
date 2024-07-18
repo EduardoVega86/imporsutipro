@@ -176,8 +176,6 @@ function editar_banner(id) {
     contentType: false, // No establecer ningún tipo de contenido
     dataType: "json",
     success: function (response) {
-      console.log("opc 1:" + response.id);
-      console.log("opc 2:" + response[0].id);
       $("#id_banner").val(response[0].id);
       $("#titulo_editar").val(response[0].titulo);
       $("#texto_banner_editar").val(response[0].texto_banner);
