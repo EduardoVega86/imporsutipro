@@ -455,7 +455,7 @@ function editarTestimonio(id) {
       $("#nombre_testimonioEditar").val(response[0].nombre);
       $("#testimonio_testimonioEditar").val(response[0].testimonio);
       $("#preview-imagen-testimonioEditar")
-        .attr("src", SERVERURL + response[0].fondo_banner)
+        .attr("src", SERVERURL + response[0].imagen)
         .show();
       $("#editar_testimonioModal").modal("show");
     },
