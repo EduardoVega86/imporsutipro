@@ -127,7 +127,7 @@
     .bx {
         font-size: 1.5rem;
         /* Tamaño del icono */
-        color: #757575;
+        /* color: #757575; */
         /* Color del icono */
     }
 
