@@ -398,71 +398,7 @@ $(document).ready(function () {
     },
   });
 
-  // Evento change para el select de categoría y filtrar por categorias
-  $("#categoria_filtro").change(function () {
-    let categoriaId = $(this).val();
-    filtrarProductosPorCategoria(categoriaId);
-  });
 });
-
-//filtrar por categorias
-const filtrarProductosPorCategoria = async (categoriaId) => {
-  try {
-    const response = await fetch(
-      `${SERVERURL}productos/obtener_productos_categoria/${categoriaId}` // falta que me creen esta api
-    );
-    const productos = await response.json();
-
-    let content = ``;
-    let cargar_imagen = "";
-    let subir_marketplace = "";
-    let producto_variable = "";
-    productos.forEach((producto, index) => {
-      if (!producto.image_path) {
-        cargar_imagen = `<i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${producto.id_producto})"></i>`;
-      } else {
-        cargar_imagen = `<img src="${SERVERURL}${producto.image_path}" class="icon-button" onclick="agregar_imagenProducto(${producto.id_producto})" alt="Agregar imagen" width="50px">`;
-      }
-
-      if (producto.drogshipin == 0) {
-        subir_marketplace = `<box-icon name='cloud-upload' id="icono_subida_${producto.id_producto}" onclick="subir_marketplace(${producto.id_producto})"></box-icon>`;
-      } else {
-        subir_marketplace = `<box-icon name='cloud-download' id="icono_bajada_${producto.id_producto}" onclick="bajar_marketplace(${producto.id_producto})"></box-icon>`;
-      }
-
-      if (producto.producto_variable == 0) {
-        producto_variable = ``;
-      } else {
-        producto_variable = `<img src="https://new.imporsuitpro.com/public/img/atributos.png" width="30px" id="buscar_traking" alt="buscar_traking" onclick="abrir_modalInventarioVariable(${producto.id_producto})">`;
-      }
-      content += `
-                  <tr>
-                      <td>${producto.id_producto}</td>
-                      <td>${cargar_imagen}</td>
-                      <td>${producto.codigo_producto}</td>
-                      <td>${producto.nombre_producto}</td>
-                      <td>${producto.destacado}</td>
-                      <td>${producto.saldo_stock}</td>
-                      <td>${producto.costo_producto}</td>
-                      <td>${producto.pcp}</td>
-                      <td>${producto.pvp}</td>
-                      <td>${producto.pref}</td>
-                      <td>logo landing</td>
-                      <td>logo agregar imagen</td>
-                      <td>${subir_marketplace})</td>
-                      <td>${producto_variable}</td>
-                      <td>
-                          <button class="btn btn-sm btn-primary" onclick="editarProducto(${producto.id_producto})"><i class="fa-solid fa-pencil"></i>Editar</button>
-                          <button class="btn btn-sm btn-danger" onclick="eliminarProducto(${producto.id_producto})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
-                      </td>
-                  </tr>`;
-    });
-    document.getElementById("tableBody_productos").innerHTML = content;
-    dataTableProductos.clear().rows.add($(content)).draw(); // Actualiza la DataTable
-  } catch (ex) {
-    alert(ex);
-  }
-};
 
 function obtenerURLImagen(imagePath, serverURL) {
   // Verificar si el imagePath no es null
