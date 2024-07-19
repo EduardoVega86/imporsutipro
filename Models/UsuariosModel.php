@@ -744,7 +744,7 @@ class UsuariosModel extends Query
         $nombreArchivo = $idplataforma . '_modal.json';
 
         // Crear la ruta completa para el archivo en la carpeta modales
-        $carpetaModales = __DIR__ . '/../../storage/modales';
+        $carpetaModales = '/modales';
         $rutaArchivo = $carpetaModales . '/' . $nombreArchivo;
 
         // Verificar si el archivo ya existe
