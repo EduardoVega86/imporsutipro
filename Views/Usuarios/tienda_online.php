@@ -575,4 +575,5 @@
     }
 </script>
 <script src="<?php echo SERVERURL ?>/Views/Usuarios/js/tienda_online.js"></script>
+hola
 <?php require_once './Views/templates/footer.php'; ?>
