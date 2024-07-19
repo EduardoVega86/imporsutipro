@@ -402,6 +402,20 @@ $(document).ready(function () {
   });
 });
 
+function cargarInfoTienda_inicial() {
+  $.ajax({
+    url: SERVERURL + "Usuarios/obtener_infoTiendaOnline",
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+      return response[0].proveedor;
+    },
+    error: function (error) {
+      console.error("Error al obtener la lista de bodegas:", error);
+    },
+  });
+}
+
 //filtrar por categorias
 const filtrarProductosPorCategoria = async (categoriaId) => {
   try {
@@ -415,15 +429,19 @@ const filtrarProductosPorCategoria = async (categoriaId) => {
     let subir_marketplace = "";
     let producto_variable = "";
     productos.forEach((producto, index) => {
+      let proveedor = cargarInfoTienda_inicial();
+
       if (!producto.image_path) {
         cargar_imagen = `<i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${producto.id_producto})"></i>`;
       } else {
         cargar_imagen = `<img src="${SERVERURL}${producto.image_path}" class="icon-button" onclick="agregar_imagenProducto(${producto.id_producto})" alt="Agregar imagen" width="50px">`;
       }
-      if (producto.drogshipin == 0) {
-        subir_marketplace = `<box-icon name='cloud-upload' id="icono_subida_${producto.id_producto}" onclick="subir_marketplace(${producto.id_producto})"></box-icon>`;
-      } else {
-        subir_marketplace = `<box-icon name='cloud-download' id="icono_bajada_${producto.id_producto}" onclick="bajar_marketplace(${producto.id_producto})"></box-icon>`;
+      if (proveedor == 1) {
+        if (producto.drogshipin == 0) {
+          subir_marketplace = `<box-icon name='cloud-upload' id="icono_subida_${producto.id_producto}" onclick="subir_marketplace(${producto.id_producto})"></box-icon>`;
+        } else {
+          subir_marketplace = `<box-icon name='cloud-download' id="icono_bajada_${producto.id_producto}" onclick="bajar_marketplace(${producto.id_producto})"></box-icon>`;
+        }
       }
 
       if (producto.producto_variable == 0) {

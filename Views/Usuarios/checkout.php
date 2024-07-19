@@ -1001,6 +1001,9 @@
 
     // Funcion para boton guardar
 
+    const fs = require('fs');
+    const path = require('path');
+
     function saveFormState() {
         var itemList = [];
 
@@ -1046,17 +1049,19 @@
             itemList.push(item);
         });
 
-        // Enviar la información al servidor
-        $.ajax({
-            url: '../ajax/actualizar_checkout.php',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(itemList),
-            success: function(response) {
-                alert('Los cambios han sido guardados.');
-            },
-            error: function(xhr, status, error) {
+        // Convertir a JSON
+        var jsonData = JSON.stringify(itemList);
+
+        // Ruta donde deseas guardar el archivo JSON
+        var filePath = path.join(__dirname, '../json/checkout.json');
+
+        // Escribir el archivo JSON
+        fs.writeFile(filePath, jsonData, 'utf8', function(err) {
+            if (err) {
                 alert('Ha ocurrido un error al guardar los cambios.');
+                console.error('Error al escribir el archivo:', err);
+            } else {
+                alert('Los cambios han sido guardados.');
             }
         });
     }
@@ -1163,40 +1168,5 @@
             $('#' + previewId).html("<i class='" + iconClass + "'></i>");
         });
     }
-
-    //Provincias y Ciudades
-    function cargar_provincia_pedido() {
-        var id_provincia = $('#provinica option:selected').text();
-        $.ajax({
-            url: "../ajax/cargar_ciudad_pedido_checkout.php",
-            type: "POST",
-            data: {
-                provinica: id_provincia,
-            },
-            dataType: 'text',
-            success: function(data) {
-                $('#div_ciudad').html(data);
-                actualizarSelect();
-            }
-        });
-    }
-
-    function actualizarSelect() {
-        $('#ciudad_entrega').select2('destroy');
-        $('#ciudad_entrega').select2({
-            placeholder: "Selecciona una opción",
-            allowClear: true
-        });
-    }
-
-    function seleccionarProvincia() {
-        var id_provincia = $('#ciudad_entrega').val();
-        let recaudo = $('#cod').val();
-    }
-
-    $("#ciudad_entrega").select2({
-        placeholder: "Selecciona una opción",
-        allowClear: true,
-    });
 </script>
 <?php require_once './Views/templates/footer.php'; ?>
