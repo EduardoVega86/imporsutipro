@@ -108,6 +108,7 @@ const listProductos = async () => {
     let enlace_imagen = "";
     let enviaCliente = "";
     let proveedor = cargarInfoTienda_inicial();
+    console.log("proveedor:"+proveedor);
     productos.forEach((producto, index) => {
       enlace_imagen = obtenerURLImagen(producto.image_path, SERVERURL);
       if (!producto.image_path) {
