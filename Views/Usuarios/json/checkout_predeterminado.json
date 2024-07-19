@@ -1,0 +1,133 @@
+[
+    {
+        "id_elemento": "codigosDescuento",
+        "posicion": 3,
+        "estado": "0",
+        "content": {
+            "descuentos": "Descuentos",
+            "etiqueta_descuento": "Codigo de descuento",
+            "textoBtn_aplicar": "Aplicar",
+            "colorBtn_aplicar": "#00ff59"
+        }
+    },
+    {
+        "id_elemento": "tituloFormulario",
+        "posicion": 0,
+        "estado": "1",
+        "content": {
+            "texto_titulo": "Complete el formulario",
+            "colorTxt_titulo": "#000000"
+        }
+    },
+    {
+        "id_elemento": "codigosDescuento_temporal",
+        "posicion": 1,
+        "estado": "1",
+        "content": {
+            "descuentos": "",
+            "etiqueta_descuento": "",
+            "textoBtn_aplicar": "",
+            "colorBtn_aplicar": "#000000"
+        }
+    },
+    {
+        "id_elemento": "tarifasEnvio",
+        "posicion": 2,
+        "estado": "1",
+        "content": {
+            "titulo_tarifa": "Método de envío",
+            "gratis": "Gratis"
+        }
+    },
+    {
+        "id_elemento": "nombresApellidos",
+        "posicion": 3,
+        "estado": "1",
+        "content": {
+            "txt_nombresApellidos": "Nombre y Apellido",
+            "icono_nombresApellidos": "bx bxs-user"
+        }
+    },
+    {
+        "id_elemento": "telefono",
+        "posicion": 4,
+        "estado": "1",
+        "content": {
+            "txt_telefono": "Teléfono",
+            "icono_telefono": "bx bxs-phone-call"
+        }
+    },
+    {
+        "id_elemento": "calle_principal",
+        "posicion": 5,
+        "estado": "1",
+        "content": {
+            "titulo_calle_principal": "Calle Principal",
+            "txt_calle_principal": "Dirección"
+        }
+    },
+    {
+        "id_elemento": "calle_secundaria",
+        "posicion": 6,
+        "estado": "1",
+        "content": {
+            "titulo_calle_secundaria": "Calle Secundaria",
+            "txt_calle_secundaria": "Calle secundaria"
+        }
+    },
+    {
+        "id_elemento": "barrio_referencia",
+        "posicion": 7,
+        "estado": "1",
+        "content": {
+            "titulo_barrio_referencia": "Barrio o referencia",
+            "txt_barrio_referencia": "Barrio o Referencia"
+        }
+    },
+    {
+        "id_elemento": "provincia",
+        "posicion": 8,
+        "estado": "1",
+        "content": {
+            "titulo_provincia": "Provincia"
+        }
+    },
+    {
+        "id_elemento": "ciudad",
+        "posicion": 9,
+        "estado": "1",
+        "content": {
+            "titulo_ciudad": "Ciudad"
+        }
+    },
+    {
+        "id_elemento": "comentario",
+        "posicion": 10,
+        "estado": "1",
+        "content": {
+            "titulo_comentario": "Comentario",
+            "txt_comentario": "Comentario"
+        }
+    },
+    {
+        "id_elemento": "btn_comprar",
+        "posicion": 11,
+        "estado": "1",
+        "content": {
+            "textoBtn_comprar": "COMPRAR AHORAA!",
+            "colorBtn_comprar": "#00b30c",
+            "animacionBtn_comprar": "pulse"
+        }
+    },
+    {
+        "id_elemento": "resumenTotal",
+        "posicion": 12,
+        "estado": "1",
+        "content": {
+            "subtotal": "",
+            "envio": "",
+            "total": "",
+            "impuestos": "off"
+        }
+    }
+]

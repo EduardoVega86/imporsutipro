@@ -589,7 +589,7 @@
                         <div class="">
                             <select class="datos form-control " onchange="cargar_provincia_pedido()" id="provinica" name="provinica" required>
                                 <option value="">Provincia *</option>
-                                
+
                             </select>
                         </div>
                     </div>
@@ -641,4 +641,562 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        $(".UpperCase").on("keypress", function() {
+            $input = $(this);
+            setTimeout(function() {
+                $input.val($input.val().toUpperCase());
+            }, 50);
+        })
+    })
+
+
+    // Espera a que el documento esté listo
+    $(document).ready(function() {
+        // Maneja el evento clic del botón de editar
+        $('.edit-btn').click(function() {
+            // Encuentra la sección de edición más cercana y alterna la clase 'hidden'
+            $(this).closest('.list-group-item').find('.edit-section').toggleClass('hidden');
+        });
+    });
+
+    // dejar de visualizar o no un codigo
+    $(document).ready(function() {
+        $('.toggle-visibility').click(function() {
+            var listItem = $(this).closest('.list-group-item');
+            var listItemID = listItem.attr('id');
+            var previewItem = $('#previewContainer').find('#' + listItemID + 'Preview');
+
+            // Toggle de visibilidad en la vista previa
+            previewItem.toggle();
+
+            // Cambio del estado y actualización en JSON
+            var estadoActual = previewItem.is(':visible') ? '1' : '0';
+            listItem.data('estado', estadoActual); // Guardar el estado como data attribute
+
+            // Cambiar el ícono dependiendo de la visibilidad
+            $(this).find('i').toggleClass('fa-eye fa-eye-slash');
+        });
+    });
+
+    //Flechas de arriba y abajo
+    $(document).ready(function() {
+        // Mover elemento hacia arriba
+        $('.move-up').click(function() {
+            var listItem = $(this).closest('.list-group-item');
+            var listItemID = listItem.attr('id'); // Asegúrate de que cada list-group-item tenga un id único.
+
+            // Mueve el elemento en la columna de la izquierda
+            listItem.prev().before(listItem);
+
+            // Ahora mueve el elemento correspondiente en la columna de la derecha
+            var previewItem = $('#previewContainer').find('#' + listItemID + 'Preview');
+            previewItem.prev().before(previewItem);
+        });
+
+        // Mover elemento hacia abajo
+        $('.move-down').click(function() {
+            var listItem = $(this).closest('.list-group-item');
+            var listItemID = listItem.attr('id'); // Asegúrate de que cada list-group-item tenga un id único.
+
+            // Mueve el elemento en la columna de la izquierda
+            listItem.next().after(listItem);
+
+            // Ahora mueve el elemento correspondiente en la columna de la derecha
+            var previewItem = $('#previewContainer').find('#' + listItemID + 'Preview');
+            previewItem.next().after(previewItem);
+        });
+
+        //cambiar animacion de boton comprar en tiempo real
+
+        $('#animacionBtn_comprar').change(function() {
+            var animacionSeleccionada = $(this).val();
+            var btnPreview = $('#textoBtn_comprarPreview'); // El ID del botón en el preview
+
+            // Limpiar clases de animación antes de aplicar la nueva
+            btnPreview.removeClass('bounce shake pulse');
+            if (animacionSeleccionada) {
+                btnPreview.addClass(animacionSeleccionada);
+            }
+        });
+
+        // Evento para cambiar el color del texto del título
+        $('#colorTxt_titulo').on('change', function() {
+            $('#texto_tituloPreview').css('color', $(this).val());
+        });
+
+        // Cambiar el color del botón Aplicar en tiempo real
+        $('#colorBtn_aplicar').on('change', function() {
+            $('#textoBtn_aplicarPreview').css('background-color', $(this).val());
+        });
+
+        // Cambiar el color del botón comprar en tiempo real
+        $('#colorBtn_comprar').on('change', function() {
+            console.log("Evento change disparado para colorBtn_comprar");
+            $('#textoBtn_comprarPreview').css('background-color', $(this).val());
+        });
+    });
+    //PREVIEW
+    document.addEventListener('DOMContentLoaded', () => {
+        // Asumiendo que tienes un input con id='texto_titulo'
+        const tituloInput = document.getElementById('texto_titulo');
+        tituloInput.addEventListener('input', function() {
+            document.getElementById('texto_tituloPreview').textContent = this.value;
+        });
+
+        // Asume que tienes otro input para la descripción con id='subtotal'
+        const subtotalInput = document.getElementById('subtotal');
+        subtotalInput.addEventListener('input', function() {
+            document.getElementById('subtotalPreview').textContent = this.value;
+        });
+
+        // Repite el proceso para otros campos de entrada
+        const envioInput = document.getElementById('envio');
+        envioInput.addEventListener('input', function() {
+            document.getElementById('envioPreview').textContent = this.value;
+        });
+
+        const totalInput = document.getElementById('total');
+        totalInput.addEventListener('input', function() {
+            document.getElementById('totalPreview').textContent = this.value;
+        });
+
+        const titulo_tarifaInput = document.getElementById('titulo_tarifa');
+        titulo_tarifaInput.addEventListener('input', function() {
+            document.getElementById('titulo_tarifaPreview').textContent = this.value;
+        });
+
+        const gratisInput = document.getElementById('gratis');
+        gratisInput.addEventListener('input', function() {
+            document.getElementById('gratisPreview').textContent = this.value;
+        });
+
+        const descuentosInput = document.getElementById('descuentos');
+        descuentosInput.addEventListener('input', function() {
+            document.getElementById('descuentosPreview').textContent = this.value;
+        });
+
+        // Asegurarse que los elementos están correctamente enlazados con los eventos de actualización
+        const etiqueta_descuentoInput = document.getElementById('etiqueta_descuento');
+        const textoBtn_aplicarInput = document.getElementById('textoBtn_aplicar');
+
+        etiqueta_descuentoInput.addEventListener('input', function() {
+            var previewInput = document.getElementById('etiqueta_descuentoPreview');
+            previewInput.placeholder = this.value; // Cambiando el placeholder en lugar de textContent
+        });
+
+        textoBtn_aplicarInput.addEventListener('input', function() {
+            document.getElementById('textoBtn_aplicarPreview').textContent = this.value;
+        });
+
+        const txt_nombresApellidosInput = document.getElementById('txt_nombresApellidos');
+        txt_nombresApellidosInput.addEventListener('input', function() {
+            var previewInput = document.getElementById('txt_nombresApellidosPreview');
+            previewInput.placeholder = this.value; // Cambiando el placeholder en lugar de textContent
+        });
+
+        const txt_telefonoInput = document.getElementById('txt_telefono');
+        txt_telefonoInput.addEventListener('input', function() {
+            var previewInput = document.getElementById('txt_telefonoPreview');
+            previewInput.placeholder = this.value; // Cambiando el placeholder en lugar de textContent
+        });
+
+        const titulo_calle_principalInput = document.getElementById('titulo_calle_principal');
+        titulo_calle_principalInput.addEventListener('input', function() {
+            document.getElementById('titulo_calle_principalPreview').textContent = this.value;
+        });
+
+        const txt_calle_principalInput = document.getElementById('txt_calle_principal');
+        txt_calle_principalInput.addEventListener('input', function() {
+            var previewInput = document.getElementById('txt_calle_principalPreview');
+            previewInput.placeholder = this.value; // Cambiando el placeholder en lugar de textContent
+        });
+
+        const titulo_calle_secundariaInput = document.getElementById('titulo_calle_secundaria');
+        titulo_calle_secundariaInput.addEventListener('input', function() {
+            document.getElementById('titulo_calle_secundariaPreview').textContent = this.value;
+        });
+
+        const txt_calle_secundariaInput = document.getElementById('txt_calle_secundaria');
+        txt_calle_secundariaInput.addEventListener('input', function() {
+            var previewInput = document.getElementById('txt_calle_secundariaPreview');
+            previewInput.placeholder = this.value; // Cambiando el placeholder en lugar de textContent
+        });
+
+        const titulo_barrio_referenciaInput = document.getElementById('titulo_barrio_referencia');
+        titulo_barrio_referenciaInput.addEventListener('input', function() {
+            document.getElementById('titulo_barrio_referenciaPreview').textContent = this.value;
+        });
+
+        const txt_barrio_referenciaInput = document.getElementById('txt_barrio_referencia');
+        txt_barrio_referenciaInput.addEventListener('input', function() {
+            var previewInput = document.getElementById('txt_barrio_referenciaPreview');
+            previewInput.placeholder = this.value; // Cambiando el placeholder en lugar de textContent
+        });
+
+        const titulo_comentarioInput = document.getElementById('titulo_comentario');
+        titulo_comentarioInput.addEventListener('input', function() {
+            document.getElementById('titulo_comentarioPreview').textContent = this.value;
+        });
+
+        const txt_comentarioInput = document.getElementById('txt_comentario');
+        txt_comentarioInput.addEventListener('input', function() {
+            var previewInput = document.getElementById('txt_comentarioPreview');
+            previewInput.placeholder = this.value; // Cambiando el placeholder en lugar de textContent
+        });
+
+        const titulo_provinciaInput = document.getElementById('titulo_provincia');
+        titulo_provinciaInput.addEventListener('input', function() {
+            document.getElementById('titulo_provinciaPreview').textContent = this.value;
+        });
+
+        const titulo_ciudadInput = document.getElementById('titulo_ciudad');
+        titulo_ciudadInput.addEventListener('input', function() {
+            document.getElementById('titulo_ciudadPreview').textContent = this.value;
+        });
+
+        const textoBtn_comprarInput = document.getElementById('textoBtn_comprar');
+        textoBtn_comprarInput.addEventListener('input', function() {
+            document.getElementById('textoBtn_comprarPreview').textContent = this.value;
+        });
+
+    });
+
+    // Funcion para que consuma los datos de checkout.json y los utilice
+
+    document.addEventListener('DOMContentLoaded', function() {
+        loadAndSetInitialData();
+    });
+
+    function loadAndSetInitialData() {
+        $.getJSON('../json/checkout.json', function(data) {
+            data.forEach(item => {
+                processItem(item);
+            });
+        }).fail(handleLoadingError);
+    }
+
+    function processItem(item) {
+        Object.keys(item.content).forEach(key => {
+            updateFieldAndPreview(key, item.content[key], item.id_elemento);
+        });
+        toggleVisibility(item.estado, item.id_elemento);
+        reorderElements(item.id_elemento, item.posicion);
+    }
+
+    function updateFieldAndPreview(key, value, id_elemento) {
+        const field = $('#' + key);
+        const previewField = $('#' + key + 'Preview');
+
+        // Aplicar valor al campo y disparar evento change para asegurar cualquier lógica de UI
+        updateFieldValue(field, value);
+
+        // Si el elemento es un input, actualiza el placeholder; si es otro elemento (como label), actualiza su texto
+        if (previewField.is('input')) {
+            previewField.attr('placeholder', value);
+        } else {
+            previewField.text(value);
+        }
+        // Específico para animaciones y colores
+        if (key === 'animacionBtn_comprar') {
+            const btnPreview = $('#textoBtn_comprarPreview');
+            btnPreview.removeClass('bounce shake pulse');
+            btnPreview.addClass(value);
+        } else if (key.startsWith('color')) {
+            // Asegurarse de que se actualice el color directamente en la vista previa adecuadamente
+            applyColor(key, value, previewField);
+        } else if (key.includes('txt_')) {
+            previewField.attr('placeholder', value);
+        } else if (key.includes('icono')) {
+            previewField.html("<i class='" + value + "'></i>");
+        } else {
+            previewField.text(value);
+        }
+    }
+
+    function applyColor(key, value, previewField) {
+        if (key === 'colorBtn_comprar') {
+            // Aplicar el color directamente al botón de compra en la vista previa
+            $('#textoBtn_comprarPreview').css('background-color', value);
+        } else if (key === 'colorTxt_titulo') {
+            $('#texto_tituloPreview').css('color', value);
+        } else {
+            // Aplica color general si es necesario a otros elementos
+            previewField.css('color', value);
+        }
+    }
+
+    function updateFieldValue(field, value) {
+        if (field.is(':checkbox')) {
+            field.prop('checked', value === 'on');
+        } else {
+            field.val(value).change(); // Trigger change for preview updates
+        }
+    }
+
+    function updatePreviewField(key, previewField, value) {
+        if (!previewField.length) {
+            console.warn('No preview field found for', key);
+            return;
+        }
+
+        if (key.includes('txt_')) {
+            previewField.attr('placeholder', value);
+        } else if (key.includes('icono')) {
+            previewField.html("<i class='" + value + "'></i>");
+        } else {
+            previewField.text(value);
+        }
+    }
+
+    function toggleVisibility(state, id_elemento) {
+        const preview = $('#' + id_elemento + 'Preview');
+        const toggleButton = $('#' + id_elemento).find('.toggle-visibility i');
+
+        // Actualiza la visibilidad del elemento
+        if (state === '0') {
+            preview.hide();
+            toggleButton.removeClass('fa-eye').addClass('fa-eye-slash');
+        } else {
+            preview.show();
+            toggleButton.removeClass('fa-eye-slash').addClass('fa-eye');
+        }
+    }
+
+    function reorderElements(id_elemento, position) {
+        const element = $('#' + id_elemento);
+        const preview = $('#' + id_elemento + 'Preview');
+        reorderElement(element, position, '.list-group');
+        reorderElement(preview, position, '#previewContainer');
+    }
+
+    function reorderElement(element, position, containerSelector) {
+        if (element.index() !== position) {
+            element.detach();
+            position === 0 ? $(containerSelector).prepend(element) : $(containerSelector).children().eq(position - 1).after(element);
+        }
+    }
+
+    function updateTextAlignment(value) {
+        const textAlign = value === '1' ? 'left' : value === '2' ? 'center' : 'right';
+        $('#tituloFormularioPreview').css('text-align', textAlign);
+    }
+
+    function updateColor(key, value) {
+        if (key === 'colorTxt_titulo') {
+            $('#texto_tituloPreview').css('color', value);
+        } else if (key === 'colorBtn_aplicar') {
+            $('#textoBtn_aplicarPreview').css('background-color', value);
+        } else if (key === 'colorBtn_comprar') {
+            $('#textoBtn_comprarPreview').css('background-color', value);
+        }
+    }
+
+
+    function handleLoadingError(jqXHR, textStatus, errorThrown) {
+        console.error('Error loading JSON:', textStatus, errorThrown);
+    }
+
+
+    // Funcion para boton guardar
+
+    function saveFormState() {
+        var itemList = [];
+
+        // Asegurarte de que siempre incluyes el elemento 'codigosDescuento'
+        var defaultCodigosDescuento = {
+            "id_elemento": "codigosDescuento",
+            "posicion": 3,
+            "estado": "0",
+            "content": {
+                "descuentos": "Descuentos",
+                "etiqueta_descuento": "Codigo de descuento",
+                "textoBtn_aplicar": "Aplicar",
+                "colorBtn_aplicar": "#00ff59"
+            }
+        };
+
+        // Agregar el elemento por defecto al inicio del arreglo
+        itemList.push(defaultCodigosDescuento);
+
+        // Iterar sobre cada elemento en el DOM
+        $('.list-group-item').each(function(index) {
+            var item = {
+                id_elemento: $(this).attr('id'),
+                posicion: index,
+                estado: $(this).data('estado') || '1', // Usar '1' como valor por defecto
+                content: {}
+            };
+
+            // Capturar valores de inputs, selects, y checkboxes
+            $(this).find('input, select').each(function() {
+                var key = this.id;
+                var value = $(this).is(':checkbox') ? ($(this).is(':checked') ? 'on' : 'off') : $(this).val();
+                item.content[key] = value;
+            });
+
+            // Captura íconos activos y animaciones
+            $(this).find('.icon-btn.active i, .animation-select').each(function() {
+                var iconKey = $(this).closest('.btn-group').attr('id') || $(this).attr('id'); // Asume que el btn-group o select tiene un ID
+                var iconClass = $(this).attr('class') || $(this).val(); // Guarda la clase o el valor seleccionado
+                item.content[iconKey] = iconClass;
+            });
+
+            itemList.push(item);
+        });
+
+        // Enviar la información al servidor
+        $.ajax({
+            url: '../ajax/actualizar_checkout.php',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(itemList),
+            success: function(response) {
+                alert('Los cambios han sido guardados.');
+            },
+            error: function(xhr, status, error) {
+                alert('Ha ocurrido un error al guardar los cambios.');
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        $('#saveFormState').click(saveFormState);
+    });
+
+    // Funcion para guardar sin el default
+    /* function saveFormState() {
+        var itemList = [];
+        $('.list-group-item').each(function(index) {
+            var item = {
+                id_elemento: $(this).attr('id'),
+                posicion: index,
+                estado: $(this).data('estado') || '1', // Usar '1' como valor por defecto
+                content: {}
+            };
+
+            // Capturar valores de inputs, selects, y checkboxes
+            $(this).find('input, select').each(function() {
+                var key = this.id;
+                var value = $(this).is(':checkbox') ? ($(this).is(':checked') ? 'on' : 'off') : $(this).val();
+                item.content[key] = value;
+            });
+
+            // Generalización para capturar íconos activos
+            $(this).find('.icon-btn.active i').each(function() {
+                var iconKey = $(this).closest('.btn-group').attr('id'); // Asume que el btn-group tiene un ID
+                var iconClass = $(this).attr('class');
+                item.content[iconKey] = iconClass;
+            });
+
+            itemList.push(item);
+        });
+
+        // Enviar la información al servidor
+        $.ajax({
+            url: '../ajax/actualizar_checkout.php',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(itemList),
+            success: function(response) {
+                alert('Los cambios han sido guardados.');
+            },
+            error: function(xhr, status, error) {
+                alert('Ha ocurrido un error al guardar los cambios.');
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        $('#saveFormState').click(saveFormState);
+    }); */
+
+    // accion del select
+    document.addEventListener('DOMContentLoaded', function() {
+        // Asumiendo que el select ya existe cuando carga la página
+        const alineacionTituloSelect = document.getElementById('alineacion_titulo');
+        alineacionTituloSelect.addEventListener('change', function() {
+            const tituloPreview = document.getElementById('tituloFormularioPreview');
+            switch (this.value) {
+                case '1': // Izquierda
+                    tituloPreview.style.textAlign = 'left';
+                    break;
+                case '2': // Centro
+                    tituloPreview.style.textAlign = 'center';
+                    break;
+                case '3': // Derecha
+                    tituloPreview.style.textAlign = 'right';
+                    break;
+            }
+        });
+
+
+    });
+    //boton de inconos
+    $(document).ready(function() {
+        /*
+        // Cambiar la visibilidad del grupo de botones basado en el checkbox
+        $('#mostrarIcon_nombresApellidos').change(function() {
+            if ($(this).is(':checked')) {
+                $('#icono_nombresApellidos').show();
+            } else {
+                $('#icono_nombresApellidos').hide();
+            }
+        });
+        */
+
+        // Evento de clic en cada botón de íconos
+        setupIconButtons('icono_nombresApellidos', 'icono_nombresApellidosPreview');
+        setupIconButtons('icono_telefono', 'icono_telefonoPreview');
+    });
+    // funcion generalizada para iconos
+    function setupIconButtons(containerId, previewId) {
+        // Agrega evento de clic a cada botón de ícono dentro del contenedor especificado
+        $('#' + containerId + ' .icon-btn').click(function(event) {
+            event.preventDefault();
+            // Elimina la clase 'active' de todos los botones y la añade al botón actualmente clickeado
+            $('#' + containerId + ' .icon-btn').removeClass('active');
+            $(this).addClass('active');
+            // Obtiene el valor del ícono seleccionado y actualiza el ícono en la vista previa
+            var iconClass = $(this).find('i').attr('class');
+            $('#' + previewId).html("<i class='" + iconClass + "'></i>");
+        });
+    }
+
+    //Provincias y Ciudades
+    function cargar_provincia_pedido() {
+        var id_provincia = $('#provinica option:selected').text();
+        $.ajax({
+            url: "../ajax/cargar_ciudad_pedido_checkout.php",
+            type: "POST",
+            data: {
+                provinica: id_provincia,
+            },
+            dataType: 'text',
+            success: function(data) {
+                $('#div_ciudad').html(data);
+                actualizarSelect();
+            }
+        });
+    }
+
+    function actualizarSelect() {
+        $('#ciudad_entrega').select2('destroy');
+        $('#ciudad_entrega').select2({
+            placeholder: "Selecciona una opción",
+            allowClear: true
+        });
+    }
+
+    function seleccionarProvincia() {
+        var id_provincia = $('#ciudad_entrega').val();
+        let recaudo = $('#cod').val();
+    }
+
+    $("#ciudad_entrega").select2({
+        placeholder: "Selecciona una opción",
+        allowClear: true,
+    });
+</script>
 <?php require_once './Views/templates/footer.php'; ?>
