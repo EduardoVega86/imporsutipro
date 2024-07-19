@@ -115,38 +115,30 @@ const listProductos = async () => {
       dataType: "json",
       success: function (response) {
         proveedor = response[0].proveedor;
-        console.log(response[0].proveedor);
-        console.log(response.proveedor);
-      },
-      error: function (error) {
-        console.error("Error al obtener la lista de bodegas:", error);
-      },
-    });
+        console.log("proveedor:" + proveedor);
+        productos.forEach((producto, index) => {
+          enlace_imagen = obtenerURLImagen(producto.image_path, SERVERURL);
+          if (!producto.image_path) {
+            cargar_imagen = `<i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${producto.id_producto},'${enlace_imagen}')"></i>`;
+          } else {
+            cargar_imagen = `<img src="${enlace_imagen}" class="icon-button" onclick="agregar_imagenProducto(${producto.id_producto},'${enlace_imagen}')" alt="Agregar imagen" width="50px">`;
+          }
+          if (proveedor == 1) {
+            if (producto.drogshipin == 0) {
+              subir_marketplace = `<box-icon name='cloud-upload' style='cursor:pointer'  color='#54DD10' id="icono_subida_${producto.id_producto}" onclick="subir_marketplace(${producto.id_producto})"></box-icon></br><span>Agregar</span>`;
+            } else {
+              subir_marketplace = `<box-icon name='cloud-download' style='cursor:pointer' color='red' id="icono_bajada_${producto.id_producto}" onclick="bajar_marketplace(${producto.id_producto})"></box-icon></br><span>Quitar</span>`;
+            }
+          }
 
-    console.log("proveedor:"+proveedor);
-    productos.forEach((producto, index) => {
-      enlace_imagen = obtenerURLImagen(producto.image_path, SERVERURL);
-      if (!producto.image_path) {
-        cargar_imagen = `<i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${producto.id_producto},'${enlace_imagen}')"></i>`;
-      } else {
-        cargar_imagen = `<img src="${enlace_imagen}" class="icon-button" onclick="agregar_imagenProducto(${producto.id_producto},'${enlace_imagen}')" alt="Agregar imagen" width="50px">`;
-      }
-      if (proveedor == 1) {
-        if (producto.drogshipin == 0) {
-          subir_marketplace = `<box-icon name='cloud-upload' style='cursor:pointer'  color='#54DD10' id="icono_subida_${producto.id_producto}" onclick="subir_marketplace(${producto.id_producto})"></box-icon></br><span>Agregar</span>`;
-        } else {
-          subir_marketplace = `<box-icon name='cloud-download' style='cursor:pointer' color='red' id="icono_bajada_${producto.id_producto}" onclick="bajar_marketplace(${producto.id_producto})"></box-icon></br><span>Quitar</span>`;
-        }
-      }
-
-      if (producto.producto_variable == 0) {
-        producto_variable = ``;
-        enviaCliente = `<i class="fa-regular fa-paper-plane" style='cursor:pointer' onclick="enviar_cliente(${producto.id_producto},'${producto.sku}',${producto.pvp},${producto.id_inventario})""></i>`;
-      } else {
-        producto_variable = `<img src="https://new.imporsuitpro.com/public/img/atributos.png" width="30px" id="buscar_traking" alt="buscar_traking" onclick="abrir_modalInventarioVariable(${producto.id_producto})">`;
-        enviaCliente = `<i style="color:red;" style='cursor:pointer' class="fa-regular fa-paper-plane" onclick="abrir_modalSeleccionAtributo(${producto.id_producto},'${producto.sku}',${producto.pvp},${producto.id_inventario})"></i>`;
-      }
-      content += `
+          if (producto.producto_variable == 0) {
+            producto_variable = ``;
+            enviaCliente = `<i class="fa-regular fa-paper-plane" style='cursor:pointer' onclick="enviar_cliente(${producto.id_producto},'${producto.sku}',${producto.pvp},${producto.id_inventario})""></i>`;
+          } else {
+            producto_variable = `<img src="https://new.imporsuitpro.com/public/img/atributos.png" width="30px" id="buscar_traking" alt="buscar_traking" onclick="abrir_modalInventarioVariable(${producto.id_producto})">`;
+            enviaCliente = `<i style="color:red;" style='cursor:pointer' class="fa-regular fa-paper-plane" onclick="abrir_modalSeleccionAtributo(${producto.id_producto},'${producto.sku}',${producto.pvp},${producto.id_inventario})"></i>`;
+          }
+          content += `
                 <tr>
                     <td><input type="checkbox" class="selectCheckbox" data-id="${producto.id_producto}"></td>
                     <td>${producto.id_producto}</td>
@@ -170,8 +162,13 @@ const listProductos = async () => {
                         <button class="btn btn-sm btn-danger" onclick="eliminarProducto(${producto.id_producto})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
                     </td>
                 </tr>`;
+        });
+        document.getElementById("tableBody_productos").innerHTML = content;
+      },
+      error: function (error) {
+        console.error("Error al obtener la lista de bodegas:", error);
+      },
     });
-    document.getElementById("tableBody_productos").innerHTML = content;
   } catch (ex) {
     alert(ex);
   }
@@ -413,7 +410,6 @@ $(document).ready(function () {
       console.error("Error al obtener la lista de bodegas:", error);
     },
   });
-
 });
 
 function obtenerURLImagen(imagePath, serverURL) {
