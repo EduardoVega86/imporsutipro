@@ -107,7 +107,20 @@ const listProductos = async () => {
     let producto_variable = "";
     let enlace_imagen = "";
     let enviaCliente = "";
-    let proveedor = cargarInfoTienda_inicial();
+    let proveedor = "";
+
+    $.ajax({
+      url: SERVERURL + "Usuarios/obtener_infoTiendaOnline",
+      type: "GET",
+      dataType: "json",
+      success: function (response) {
+        proveedor = response[0].proveedor;
+      },
+      error: function (error) {
+        console.error("Error al obtener la lista de bodegas:", error);
+      },
+    });
+
     console.log("proveedor:"+proveedor);
     productos.forEach((producto, index) => {
       enlace_imagen = obtenerURLImagen(producto.image_path, SERVERURL);
@@ -417,20 +430,6 @@ function obtenerURLImagen(imagePath, serverURL) {
     console.error("imagePath es null o undefined");
     return null; // o un valor por defecto si prefieres
   }
-}
-
-function cargarInfoTienda_inicial() {
-  $.ajax({
-    url: SERVERURL + "Usuarios/obtener_infoTiendaOnline",
-    type: "GET",
-    dataType: "json",
-    success: function (response) {
-      return response[0].proveedor;
-    },
-    error: function (error) {
-      console.error("Error al obtener la lista de bodegas:", error);
-    },
-  });
 }
 
 function editarProducto(id) {
