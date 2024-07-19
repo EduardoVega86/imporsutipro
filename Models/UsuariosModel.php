@@ -739,12 +739,10 @@ class UsuariosModel extends Query
         $data = [$facebook, $instagram, $tiktok, $plataforma];
         $editar_perfil = $this->update($sql, $data);
 
+        echo $sql;
+
         
-//print_r($editar_perfil);c
-//
-//
-//
-        // print_r($insertar_producto_);
+
         if ($editar_plataforma == 1 && $editar_perfil) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
