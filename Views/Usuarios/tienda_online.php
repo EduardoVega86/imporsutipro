@@ -128,8 +128,8 @@
                                     </div>
 
                                     <div class="form-group mb-3">
-                                        <label for="ruc">RUC</label>
-                                        <input type="text" class="form-control cambio" id="ruc" name="ruc">
+                                        <label for="ruc_tienda">RUC</label>
+                                        <input type="text" class="form-control cambio" id="ruc_tienda" name="ruc_tienda">
                                     </div>
                                     <div class="form-group mb-3">
                                         <label for="telefono_tienda">Telefono:</label>
@@ -486,41 +486,36 @@
             type: "GET",
             dataType: "json",
             success: function(response) {
-                console.log(response); // Para verificar la respuesta
-                if (response && response.length > 0) {
-                    $("#nombre_tienda").val(response[0].nombre_tienda);
-                    $("#nombre_tienda").attr('value', response[0].nombre_tienda);
+                $("#nombre_tienda").val(response[0].nombre_tienda);
+                // Actualiza el atributo 'value' del input con el mismo valor
+                $("#nombre_tienda").attr('value', response[0].nombre_tienda);
 
-                    $("#texto_cabecera").val(response[0].texto_cabecera);
-                    $("#texto_footer").val(response[0].texto_footer);
-                    $("#texto_precio").val(response[0].texto_precio);
-                    $("#color").val(response[0].color);
-                    $("#color_botones").val(response[0].color_botones);
-                    $("#texto_boton1").val(response[0].texto_boton);
-                    alert(response[0].cedula_facturacion);
-                    $("#ruc").val(response[0].cedula_facturacion);
+                $("#texto_cabecera").val(response[0].texto_cabecera);
+                $("#texto_footer").val(response[0].texto_footer);
+                $("#texto_precio").val(response[0].texto_precio);
+                $("#color").val(response[0].color);
+                $("#color_botones").val(response[0].color_botones);
+                $("#texto_boton1").val(response[0].texto_boton);
+                $("#ruc_tienda").val(response[0].cedula_facturacion);
 
-                    if (response[0].tienda_creada == 1) {
-                        $("#nombre_tienda").prop("readonly", true);
-                        $("#tienda-creada").html('<a href="' + response[0].url_imporsuit + '" target="_blank">Ver mi tienda</a>');
-                        $("#crear_tienda").css('display', 'none');
-                        $("#seccion_nosePermiteTMP").hide();
-                    }
-
-                    $("#whatsapp").val(response[0].whatsapp);
-                    $("#email").val(response[0].email);
-                    $("#direccion").val(response[0].direccion);
-                    $('#imagen_logo').attr('src', SERVERURL + response[0].logo_url);
-
-                    $("#instagram").val(response[0].instagram);
-                    $("#tiktok").val(response[0].tiktok);
-                    $("#facebook").val(response[0].facebook);
-
-                    // Mover la lógica de verificación aquí
-                    verificarNombreTienda(response[0].nombre_tienda);
-                } else {
-                    console.error("La respuesta no contiene datos.");
+                if (response[0].tienda_creada == 1) {
+                    $("#nombre_tienda").prop("readonly", true);
+                    $("#tienda-creada").html('<a href="' + response[0].url_imporsuit + '" target="_blank">Ver mi tienda</a>');
+                    $("#crear_tienda").css('display', 'none');
+                    $("#seccion_nosePermiteTMP").hide();
                 }
+
+                $("#whatsapp").val(response[0].whatsapp);
+                $("#email").val(response[0].email);
+                $("#direccion").val(response[0].direccion);
+                $('#imagen_logo').attr('src', SERVERURL + response[0].logo_url);
+
+                $("#instagram").val(response[0].instagram);
+                $("#tiktok").val(response[0].tiktok);
+                $("#facebook").val(response[0].facebook);
+
+                // Mover la lógica de verificación aquí
+                verificarNombreTienda(response[0].nombre_tienda);
             },
             error: function(error) {
                 console.error("Error al obtener la lista de bodegas:", error);
