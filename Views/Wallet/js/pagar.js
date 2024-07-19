@@ -519,7 +519,11 @@ const listPagos = async () => {
                     <td>${tipo}</td>
                     <td>${pago.valor}</td>
                     <td>${pago.forma_pago}</td>
-                    <td></td>
+                    <td>
+                    <a href="${SERVERURL}${pago.imagen}" class="icon-link" target="_blank">
+                    <i class="fas fa-receipt"></i>
+                    </a>
+                    </td>
                 </tr>`;
     });
     document.getElementById("tableBody_pagos").innerHTML = content;
