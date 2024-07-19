@@ -402,20 +402,6 @@ $(document).ready(function () {
   });
 });
 
-function cargarInfoTienda_inicial() {
-  $.ajax({
-    url: SERVERURL + "Usuarios/obtener_infoTiendaOnline",
-    type: "GET",
-    dataType: "json",
-    success: function (response) {
-      return response[0].proveedor;
-    },
-    error: function (error) {
-      console.error("Error al obtener la lista de bodegas:", error);
-    },
-  });
-}
-
 //filtrar por categorias
 const filtrarProductosPorCategoria = async (categoriaId) => {
   try {
@@ -494,6 +480,20 @@ function obtenerURLImagen(imagePath, serverURL) {
     console.error("imagePath es null o undefined");
     return null; // o un valor por defecto si prefieres
   }
+}
+
+function cargarInfoTienda_inicial() {
+  $.ajax({
+    url: SERVERURL + "Usuarios/obtener_infoTiendaOnline",
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+      return response[0].proveedor;
+    },
+    error: function (error) {
+      console.error("Error al obtener la lista de bodegas:", error);
+    },
+  });
 }
 
 function editarProducto(id) {
