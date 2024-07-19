@@ -738,4 +738,39 @@ class UsuariosModel extends Query
 
         return $response;
     }
+    
+    function crear_json(){ {
+        // Crear el nombre del archivo usando el $idplataforma
+        $nombreArchivo = $idplataforma . '_modal.json';
+
+        // Crear la ruta completa para el archivo en la carpeta modales
+        $rutaArchivo = storage_path('modales/' . $nombreArchivo);
+
+        // Verificar si el archivo ya existe
+        if (File::exists($rutaArchivo)) {
+            return 'El archivo ya existe: ' . $nombreArchivo;
+        }
+
+        // Obtener los datos que quieres incluir en el JSON
+        $datos = [
+            'id' => $idplataforma,
+            'nombre' => 'Ejemplo de plataforma',
+            // Otros datos que necesites
+        ];
+
+        // Convertir los datos a JSON
+        $json = json_encode($datos, JSON_PRETTY_PRINT);
+
+        // Verificar si la carpeta 'modales' existe, si no, crearla
+        if (!File::exists(storage_path('modales'))) {
+            File::makeDirectory(storage_path('modales'), 0755, true);
+        }
+
+        // Guardar el archivo en el sistema de archivos
+        file_put_contents($rutaArchivo, $json);
+
+        return 'Archivo JSON creado: ' . $nombreArchivo;
+    }
+    }
+    
 }

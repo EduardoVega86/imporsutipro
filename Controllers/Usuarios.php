@@ -377,4 +377,9 @@ class Usuarios extends Controller
        echo json_encode($response);
        
     }
+    
+    function crear_json(){
+           $response = $this->model->crear_json($_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
 }
