@@ -55,7 +55,9 @@ class PedidosModel extends Query
             $sql .= " AND estado_guia_sistema = '$estado'";
         }
 
-       if (isset($impreso)){
+        //echo $impreso;
+       if ($impreso !== null && $impreso !== '') {
+
            
        
           if ($impreso == 0 || $impreso == 1 ) {
