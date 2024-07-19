@@ -733,7 +733,7 @@ class UsuariosModel extends Query
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = 'Hubo un error al editar el producto';
+            $response['message'] = $editar_plataforma;
         }
 
         return $response;
