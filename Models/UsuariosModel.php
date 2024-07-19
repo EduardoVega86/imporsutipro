@@ -739,13 +739,16 @@ class UsuariosModel extends Query
         return $response;
     }
     
-    function crear_json($idplataforma) {
+   function crear_json($idplataforma) {
     // Crear el nombre del archivo usando el $idplataforma
     $nombreArchivo = $idplataforma . '_modal.json';
 
     // Crear la ruta completa para el archivo en la carpeta modales
-    $carpetaModales = __DIR__ . 'modales';
+    $carpetaModales = __DIR__ . '/../../modales';
     $rutaArchivo = $carpetaModales . '/' . $nombreArchivo;
+
+    // Mensaje de depuración
+    echo 'Ruta del archivo JSON: ' . $rutaArchivo . '<br>';
 
     // Verificar si el archivo ya existe
     if (file_exists($rutaArchivo)) {
@@ -776,6 +779,9 @@ class UsuariosModel extends Query
 
     return 'Archivo JSON creado: ' . $nombreArchivo;
 }
+
+
+
 
     
 }
