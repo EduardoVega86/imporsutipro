@@ -115,6 +115,8 @@ const listProductos = async () => {
       dataType: "json",
       success: function (response) {
         proveedor = response[0].proveedor;
+        console.log(response[0].proveedor);
+        console.log(response.proveedor);
       },
       error: function (error) {
         console.error("Error al obtener la lista de bodegas:", error);
