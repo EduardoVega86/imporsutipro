@@ -739,38 +739,43 @@ class UsuariosModel extends Query
         return $response;
     }
     
-    function crear_json($idplataforma){
-        // Crear el nombre del archivo usando el $idplataforma
-        $nombreArchivo = $idplataforma . '_modal.json';
+    function crear_json($idplataforma) {
+    // Crear el nombre del archivo usando el $idplataforma
+    $nombreArchivo = $idplataforma . '_modal.json';
 
-        // Crear la ruta completa para el archivo en la carpeta modales
-        $carpetaModales = '/modales';
-        $rutaArchivo = $carpetaModales . '/' . $nombreArchivo;
+    // Crear la ruta completa para el archivo en la carpeta modales
+    $carpetaModales = __DIR__ . '/../../modales';
+    $rutaArchivo = $carpetaModales . '/' . $nombreArchivo;
 
-        // Verificar si el archivo ya existe
-        if (file_exists($rutaArchivo)) {
-            return 'El archivo ya existe: ' . $nombreArchivo;
-        }
-
-        // Obtener los datos que quieres incluir en el JSON
-        $datos = [
-            'id' => $idplataforma,
-            'nombre' => 'Ejemplo de plataforma',
-            // Otros datos que necesites
-        ];
-
-        // Convertir los datos a JSON
-        $json = json_encode($datos, JSON_PRETTY_PRINT);
-
-        // Verificar si la carpeta 'modales' existe, si no, crearla
-        if (!is_dir($carpetaModales)) {
-            mkdir($carpetaModales, 0755, true);
-        }
-
-        // Guardar el archivo en el sistema de archivos
-        file_put_contents($rutaArchivo, $json);
-
-        return 'Archivo JSON creado: ' . $nombreArchivo;
+    // Verificar si el archivo ya existe
+    if (file_exists($rutaArchivo)) {
+        return 'El archivo ya existe: ' . $nombreArchivo;
     }
+
+    // Obtener los datos que quieres incluir en el JSON
+    $datos = [
+        'id' => $idplataforma,
+        'nombre' => 'Ejemplo de plataforma',
+        // Otros datos que necesites
+    ];
+
+    // Convertir los datos a JSON
+    $json = json_encode($datos, JSON_PRETTY_PRINT);
+
+    // Verificar si la carpeta 'modales' existe, si no, crearla
+    if (!is_dir($carpetaModales)) {
+        if (!mkdir($carpetaModales, 0755, true)) {
+            return 'Error al crear el directorio: ' . $carpetaModales;
+        }
+    }
+
+    // Guardar el archivo en el sistema de archivos
+    if (file_put_contents($rutaArchivo, $json) === false) {
+        return 'Error al escribir el archivo: ' . $rutaArchivo;
+    }
+
+    return 'Archivo JSON creado: ' . $nombreArchivo;
+}
+
     
 }
