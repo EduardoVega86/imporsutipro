@@ -32,7 +32,7 @@ class PedidosModel extends Query
             LEFT JOIN 
                 plataformas p ON p.id_plataforma = fc.id_plataforma
             LEFT JOIN 
-                plataformas pp ON pp.id_plataforma = fc.id_propietario -- Unión adicional para obtener el nombre del proveedor
+                plataformas pp ON pp.id_plataforma = fc.id_propietario 
             LEFT JOIN 
                 bodega b ON b.id = fc.id_bodega
             WHERE 
@@ -55,11 +55,14 @@ class PedidosModel extends Query
             $sql .= " AND estado_guia_sistema = '$estado'";
         }
 
-        if (!empty($impreso)) {
+       if (isset($impreso)){
+           
+       
           if ($impreso == 0 || $impreso == 1 ) {
             $sql .= " AND impreso = '$impreso'";
-        }  
         }
+        }
+        
         
 
         $sql .= " ORDER BY fc.numero_factura DESC;";
