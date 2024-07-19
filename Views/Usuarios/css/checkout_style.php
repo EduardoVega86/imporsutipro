@@ -123,13 +123,7 @@
         /* Remueve el borde izquierdo donde se unen el ícono y el input */
     }
 
-    /* Ajusta el tamaño y el color del icono según sea necesario */
-    .bx {
-        font-size: 1.5rem;
-        /* Tamaño del icono */
-        /* color: #757575; */
-        /* Color del icono */
-    }
+    
 
     .icon-btn.active i {
         color: white;
