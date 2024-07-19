@@ -416,7 +416,8 @@ const filtrarProductosPorCategoria = async (categoriaId) => {
     let producto_variable = "";
     productos.forEach((producto, index) => {
       let proveedor = cargarInfoTienda_inicial();
-
+      console.log(proveedor);
+      
       if (!producto.image_path) {
         cargar_imagen = `<i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${producto.id_producto})"></i>`;
       } else {
