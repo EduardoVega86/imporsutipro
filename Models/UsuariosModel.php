@@ -725,7 +725,6 @@ class UsuariosModel extends Query
         $data = [$facebook, $instagram, $tiktok, $plataforma];
         $editar_perfil = $this->update($sql, $data);
 
-        echo $sql;
         // Verificar si ambas actualizaciones fueron exitosas
         if ($editar_plataforma == 1 && $editar_perfil == 1) {
             $response['status'] = 200;
