@@ -40,6 +40,10 @@ class Usuarios extends Controller
     {
         $this->views->render($this, "tienda_online");
     }
+    public function checkout()
+    {
+        $this->views->render($this, "checkout");
+    }
 
 
 
