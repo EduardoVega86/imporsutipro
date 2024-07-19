@@ -1106,7 +1106,6 @@
                 processData: false, // No procesar los datos
                 contentType: false, // No establecer ningún tipo de contenido
                 success: function(response) {
-                    response = JSON.parse(response)
                     if (response.status == 500) {
                         toastr.error("NO SE ACTUALIZO CORRECTAMENTE", "NOTIFICACIÓN", {
                             positionClass: "toast-bottom-center",
