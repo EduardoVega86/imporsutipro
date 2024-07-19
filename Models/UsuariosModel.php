@@ -739,7 +739,7 @@ class UsuariosModel extends Query
         return $response;
     }
     
-    function crear_json(){ {
+    function crear_json($idplataforma){ {
         // Crear el nombre del archivo usando el $idplataforma
         $nombreArchivo = $idplataforma . '_modal.json';
 
