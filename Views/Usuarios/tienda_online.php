@@ -141,7 +141,7 @@
                                     </div>
                                     <div class="form-group mb-3">
                                         <label for="direccion_tienda">Dirección:</label>
-                                        <input type="text" class="form-control cambio" id="direccion" name="direccion">
+                                        <input type="text" class="form-control cambio" id="direccion_tienda" name="direccion_tienda">
                                     </div>
                                     <div class="form-group mb-3">
                                         <label for="pais_tienda">-- Elige un país --</label>
@@ -507,7 +507,7 @@
 
                 $("#whatsapp").val(response[0].whatsapp);
                 $("#email").val(response[0].email);
-                $("#direccion").val(response[0].direccion);
+                $("#direccion_tienda").val(response[0].direccion);
                 $('#imagen_logo').attr('src', SERVERURL + response[0].logo_url);
 
                 $("#instagram").val(response[0].instagram);
@@ -1093,7 +1093,7 @@
 
             formData.append("telefono_tienda", $("#whatsapp").val());
             formData.append("email_tienda", $("#email").val());
-            formData.append("direccion_tienda", $("#direccion").val());
+            formData.append("direccion_tienda", $("#direccion_tienda").val());
             formData.append("pais_tienda", $("#pais_tienda").val());
             formData.append("instagram", $("#instagram").val());
             formData.append("tiktok", $("#tiktok").val());
