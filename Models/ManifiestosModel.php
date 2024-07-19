@@ -389,7 +389,7 @@ GROUP BY dfc.id_producto,
         $html .= '<td data-label="ID Producto">' . htmlspecialchars($row['id_producto']) . '</td>';
         $html .= '<td data-label="Nombre Producto">' . htmlspecialchars($row['nombre_producto']) . '</td>';
         $html .= '<td data-label="Cantidad">' . htmlspecialchars($row['cantidad']) . '</td>';
-       $html .= '<td data-label="Cantidad">' . htmlspecialchars($row['cantidad']) . '</td>';
+       $html .= '<td data-label="Bodega">' . htmlspecialchars($row['nombre']) . '</td>';
         $html .= '<td data-label="Variedad">' . htmlspecialchars($row['variedad'] ?? "Sin variedad") . '</td>';
         $html .= '</tr>';
     }
