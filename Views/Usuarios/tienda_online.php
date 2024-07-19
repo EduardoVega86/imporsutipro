@@ -507,7 +507,7 @@
 
                 $("#whatsapp").val(response[0].whatsapp);
                 $("#email").val(response[0].email);
-                $("#direccion_tienda").val(response[0].direccion);
+                $("#direccion_tienda").val(response[0].direccion_facturacion);
                 $('#imagen_logo').attr('src', SERVERURL + response[0].logo_url);
 
                 $("#instagram").val(response[0].instagram);
