@@ -734,7 +734,7 @@ class UsuariosModel extends Query
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = $editar_perfil;
+            $response['message'] = $response["message"];
         }
 
         return $response;
