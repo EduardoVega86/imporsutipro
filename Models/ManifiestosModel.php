@@ -192,7 +192,7 @@ class ManifiestosModel extends Query
        SUM(dfc.cantidad) AS cantidad, 
        ib.*, 
        v.*, 
-       b.nombre -- Suponiendo que el nombre de la bodega es 'nombre_bodega'
+       b.nombre 
 FROM detalle_fact_cot dfc
 LEFT JOIN productos p ON dfc.id_producto = p.id_producto
 LEFT JOIN inventario_bodegas ib ON dfc.id_inventario = ib.id_inventario
@@ -204,7 +204,7 @@ GROUP BY dfc.id_producto,
          ib.id_inventario, 
          v.id_variedad, 
          b.id ";
-            //echo $sql;
+           // echo $sql;
 
             $sql_guias = "SELECT numero_guia FROM facturas_cot WHERE numero_factura IN $string";
             $guias = $this->select($sql_guias);
@@ -389,7 +389,7 @@ GROUP BY dfc.id_producto,
         $html .= '<td data-label="ID Producto">' . htmlspecialchars($row['id_producto']) . '</td>';
         $html .= '<td data-label="Nombre Producto">' . htmlspecialchars($row['nombre_producto']) . '</td>';
         $html .= '<td data-label="Cantidad">' . htmlspecialchars($row['cantidad']) . '</td>';
-        $html .= '<td data-label="Cantidad">' . htmlspecialchars($row['nombre']) . '</td>';
+       $html .= '<td data-label="Cantidad">' . htmlspecialchars($row['cantidad']) . '</td>';
         $html .= '<td data-label="Variedad">' . htmlspecialchars($row['variedad'] ?? "Sin variedad") . '</td>';
         $html .= '</tr>';
     }
