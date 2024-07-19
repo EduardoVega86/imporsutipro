@@ -187,9 +187,24 @@ class ManifiestosModel extends Query
 
             $string = "('" . implode("','", $arreglo) . "')";
             // echo $string;
-            $sql = "SELECT dfc.id_producto, p.nombre_producto, sum(dfc.cantidad) AS cantidad, ib.*, v.* FROM detalle_fact_cot dfc LEFT JOIN productos p ON dfc.id_producto = p.id_producto LEFT JOIN inventario_bodegas ib ON dfc.id_inventario = ib.id_inventario LEFT JOIN variedades v ON ib.id_variante = v.id_variedad "
-                . "WHERE dfc.numero_factura IN $string GROUP BY dfc.id_producto, p.nombre_producto, ib.id_inventario, v.id_variedad;  ";
-            // echo $sql;
+            $sql = "SELECT dfc.id_producto, 
+       p.nombre_producto, 
+       SUM(dfc.cantidad) AS cantidad, 
+       ib.*, 
+       v.*, 
+       b.nombre -- Suponiendo que el nombre de la bodega es 'nombre_bodega'
+FROM detalle_fact_cot dfc
+LEFT JOIN productos p ON dfc.id_producto = p.id_producto
+LEFT JOIN inventario_bodegas ib ON dfc.id_inventario = ib.id_inventario
+LEFT JOIN variedades v ON ib.id_variante = v.id_variedad
+LEFT JOIN bodega b ON ib.bodega = b.id 
+WHERE dfc.numero_factura IN $string
+GROUP BY dfc.id_producto, 
+         p.nombre_producto, 
+         ib.id_inventario, 
+         v.id_variedad, 
+         b.id ";
+            //echo $sql;
 
             $sql_guias = "SELECT numero_guia FROM facturas_cot WHERE numero_factura IN $string";
             $guias = $this->select($sql_guias);
@@ -365,6 +380,7 @@ class ManifiestosModel extends Query
             <th>ID Producto</th>
             <th>Nombre Producto</th>
             <th>Cantidad</th>
+             <th>Bodega</th>
             <th>Variedad</th>
         </tr>';
 
@@ -373,6 +389,7 @@ class ManifiestosModel extends Query
         $html .= '<td data-label="ID Producto">' . htmlspecialchars($row['id_producto']) . '</td>';
         $html .= '<td data-label="Nombre Producto">' . htmlspecialchars($row['nombre_producto']) . '</td>';
         $html .= '<td data-label="Cantidad">' . htmlspecialchars($row['cantidad']) . '</td>';
+        $html .= '<td data-label="Cantidad">' . htmlspecialchars($row['nombre']) . '</td>';
         $html .= '<td data-label="Variedad">' . htmlspecialchars($row['variedad'] ?? "Sin variedad") . '</td>';
         $html .= '</tr>';
     }
