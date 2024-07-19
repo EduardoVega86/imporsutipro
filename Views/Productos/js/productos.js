@@ -107,6 +107,7 @@ const listProductos = async () => {
     let producto_variable = "";
     let enlace_imagen = "";
     let enviaCliente = "";
+    let proveedor = cargarInfoTienda_inicial();
     productos.forEach((producto, index) => {
       enlace_imagen = obtenerURLImagen(producto.image_path, SERVERURL);
       if (!producto.image_path) {
@@ -114,10 +115,12 @@ const listProductos = async () => {
       } else {
         cargar_imagen = `<img src="${enlace_imagen}" class="icon-button" onclick="agregar_imagenProducto(${producto.id_producto},'${enlace_imagen}')" alt="Agregar imagen" width="50px">`;
       }
-      if (producto.drogshipin == 0) {
-        subir_marketplace = `<box-icon name='cloud-upload' style='cursor:pointer'  color='#54DD10' id="icono_subida_${producto.id_producto}" onclick="subir_marketplace(${producto.id_producto})"></box-icon></br><span>Agregar</span>`;
-      } else {
-        subir_marketplace = `<box-icon name='cloud-download' style='cursor:pointer' color='red' id="icono_bajada_${producto.id_producto}" onclick="bajar_marketplace(${producto.id_producto})"></box-icon></br><span>Quitar</span>`;
+      if (proveedor == 1) {
+        if (producto.drogshipin == 0) {
+          subir_marketplace = `<box-icon name='cloud-upload' style='cursor:pointer'  color='#54DD10' id="icono_subida_${producto.id_producto}" onclick="subir_marketplace(${producto.id_producto})"></box-icon></br><span>Agregar</span>`;
+        } else {
+          subir_marketplace = `<box-icon name='cloud-download' style='cursor:pointer' color='red' id="icono_bajada_${producto.id_producto}" onclick="bajar_marketplace(${producto.id_producto})"></box-icon></br><span>Quitar</span>`;
+        }
       }
 
       if (producto.producto_variable == 0) {
@@ -414,22 +417,17 @@ const filtrarProductosPorCategoria = async (categoriaId) => {
     let cargar_imagen = "";
     let subir_marketplace = "";
     let producto_variable = "";
-    let proveedor = cargarInfoTienda_inicial();
     productos.forEach((producto, index) => {
-
-      console.log("proveedor"+proveedor);
-
       if (!producto.image_path) {
         cargar_imagen = `<i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${producto.id_producto})"></i>`;
       } else {
         cargar_imagen = `<img src="${SERVERURL}${producto.image_path}" class="icon-button" onclick="agregar_imagenProducto(${producto.id_producto})" alt="Agregar imagen" width="50px">`;
       }
-      if (proveedor == 1) {
-        if (producto.drogshipin == 0) {
-          subir_marketplace = `<box-icon name='cloud-upload' id="icono_subida_${producto.id_producto}" onclick="subir_marketplace(${producto.id_producto})"></box-icon>`;
-        } else {
-          subir_marketplace = `<box-icon name='cloud-download' id="icono_bajada_${producto.id_producto}" onclick="bajar_marketplace(${producto.id_producto})"></box-icon>`;
-        }
+
+      if (producto.drogshipin == 0) {
+        subir_marketplace = `<box-icon name='cloud-upload' id="icono_subida_${producto.id_producto}" onclick="subir_marketplace(${producto.id_producto})"></box-icon>`;
+      } else {
+        subir_marketplace = `<box-icon name='cloud-download' id="icono_bajada_${producto.id_producto}" onclick="bajar_marketplace(${producto.id_producto})"></box-icon>`;
       }
 
       if (producto.producto_variable == 0) {
