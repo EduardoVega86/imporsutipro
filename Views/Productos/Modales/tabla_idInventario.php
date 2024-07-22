@@ -48,7 +48,7 @@
                             <th class="centered">Descripcion</th>
                             <th class="centered">Precio Proveedor</th>
                             <th class="centered">Precio de Venta</th>
-                            <th class="centered"></th>
+                            <th class="centered">ID inventario</th>
                         </tr>
                     </thead>
                     <tbody id="tableBody_tabla_idInventario"></tbody>
