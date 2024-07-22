@@ -188,7 +188,7 @@ class Pedidos extends Controller
 
         $dropshipping = $_POST['dropshipping'] ?? 0;
         $id_plataforma = $_SESSION['id_plataforma'] ?? $_POST['id_plataforma'];
-        $dueño_id = $this->obtener_propietario($id_producto_venta);
+        $dueño_id = $this->obtenerDestinatarioShopify($id_producto_venta);
 
         if ($dueño_id == $id_plataforma) {
             $dropshipping = 0;
@@ -305,6 +305,11 @@ class Pedidos extends Controller
     public function obtener_propietario($id_producto)
     {
         $datos = $this->model->obtenerDestinatario($id_producto);
+        return  $datos;
+    }
+    public function obtenerDestinatarioShopify($id_producto)
+    {
+        $datos = $this->model->obtenerDestinatarioShopify($id_producto);
         return  $datos;
     }
 
