@@ -1003,8 +1003,8 @@
 
     function saveFormState() {
         var itemList = [];
+        var id_plataforma = "tu_id_plataforma"; // Aquí debes establecer el valor real de tu id_plataforma
 
-        // Asegurarte de que siempre incluyes el elemento 'codigosDescuento'
         var defaultCodigosDescuento = {
             "id_elemento": "codigosDescuento",
             "posicion": 3,
@@ -1017,41 +1017,49 @@
             }
         };
 
-        // Agregar el elemento por defecto al inicio del arreglo
         itemList.push(defaultCodigosDescuento);
 
-        // Iterar sobre cada elemento en el DOM
         $('.list-group-item').each(function(index) {
             var item = {
                 id_elemento: $(this).attr('id'),
                 posicion: index,
-                estado: $(this).data('estado') || '1', // Usar '1' como valor por defecto
+                estado: $(this).data('estado') || '1',
                 content: {}
             };
 
-            // Capturar valores de inputs, selects, y checkboxes
             $(this).find('input, select').each(function() {
                 var key = this.id;
                 var value = $(this).is(':checkbox') ? ($(this).is(':checked') ? 'on' : 'off') : $(this).val();
                 item.content[key] = value;
             });
 
-            // Captura íconos activos y animaciones
-            $(this).find('.icon-btn.active i, .animation-select').each(function() {
-                var iconKey = $(this).closest('.btn-group').attr('id') || $(this).attr('id'); // Asume que el btn-group o select tiene un ID
-                var iconClass = $(this).attr('class') || $(this).val(); // Guarda la clase o el valor seleccionado
+            $(this).find('.icon-btn.active i').each(function() {
+                var iconKey = $(this).closest('.btn-group').attr('id') || $(this).closest('.form-group').attr('id');
+                var iconClass = $(this).attr('class');
                 item.content[iconKey] = iconClass;
+            });
+
+            $(this).find('.animation-select').each(function() {
+                var animationKey = this.id;
+                var animationValue = $(this).val();
+                item.content[animationKey] = animationValue;
             });
 
             itemList.push(item);
         });
+
+        // Incluye id_plataforma en los datos enviados
+        var dataToSend = {
+            id_plataforma: id_plataforma,
+            items: itemList
+        };
 
         // Enviar la información al servidor
         $.ajax({
             url: '../ajax/actualizar_checkout.php',
             type: 'POST',
             contentType: 'application/json',
-            data: JSON.stringify(itemList),
+            data: JSON.stringify(dataToSend),
             success: function(response) {
                 alert('Los cambios han sido guardados.');
             },
