@@ -870,7 +870,8 @@
     });
 
     function loadAndSetInitialData() {
-        $.getJSON('../json/checkout.json', function(data) {
+        id_plataforma = <?php echo $_SESSION["id_plataforma"]; ?>
+        $.getJSON(SERVERURL+'Models/modales/'+ id_plataforma +'_modal.json', function(data) {
             data.forEach(item => {
                 processItem(item);
             });
@@ -1003,7 +1004,7 @@
 
     function saveFormState() {
         var itemList = [];
-        var id_plataforma = ;
+        var id_plataforma = <?php echo $_SESSION["id_plataforma"]; ?>
 
         var defaultCodigosDescuento = {
             "id_elemento": "codigosDescuento",
@@ -1056,7 +1057,7 @@
 
         // Enviar la información al servidor
         $.ajax({
-            url: '../ajax/actualizar_checkout.php',
+            url: SERVERURL + 'Usuarios/ajax/actualizar_checkout.php',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(dataToSend),
