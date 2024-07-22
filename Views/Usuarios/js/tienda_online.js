@@ -1,3 +1,182 @@
+$("#imageInputPrincipal").on("change", function (event) {
+  event.preventDefault();
+
+  // Mostrar vista previa de la imagen seleccionada
+  var input = event.target;
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      $("#imagen_logo").attr("src", e.target.result);
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+
+  // Crear un FormData y enviar la imagen mediante AJAX
+  var formData = new FormData($("#imageFormPrincipal")[0]);
+  $.ajax({
+    url: SERVERURL + "Usuarios/guardar_imagen_logo", // Cambia esta ruta por la ruta correcta a tu controlador
+    type: "POST",
+    data: formData,
+    contentType: false,
+    processData: false,
+    success: function (response) {
+      response = JSON.parse(response);
+      if (response.status == 500) {
+        toastr.error("LA IMAGEN NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+        $("#imagen_productoModal").modal("hide");
+        reloadDataTableProductos();
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert("Error al guardar la imagen: " + textStatus);
+    },
+  });
+});
+
+$("#imageInputFav").on("change", function (event) {
+  event.preventDefault();
+
+  // Mostrar vista previa de la imagen seleccionada
+  var input = event.target;
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      $("#imagen_logo").attr("src", e.target.result);
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+
+  // Crear un FormData y enviar la imagen mediante AJAX
+  var formData = new FormData($("#imageFormFavicon")[0]);
+  $.ajax({
+    url: SERVERURL + "Usuarios/guardar_imagen_favicon", // Cambia esta ruta por la ruta correcta a tu controlador
+    type: "POST",
+    data: formData,
+    contentType: false,
+    processData: false,
+    success: function (response) {
+      response = JSON.parse(response);
+      if (response.status == 500) {
+        toastr.error("LA IMAGEN NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+        $("#imagen_productoModal").modal("hide");
+        reloadDataTableProductos();
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert("Error al guardar la imagen: " + textStatus);
+    },
+  });
+});
+
+$(document).ready(function () {
+  cargarInfoTienda_inicial();
+});
+
+function cargarInfoTienda_inicial() {
+  $.ajax({
+    url: SERVERURL + "Usuarios/obtener_infoTiendaOnline",
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+      $("#nombre_tienda").val(response[0].nombre_tienda);
+      // Actualiza el atributo 'value' del input con el mismo valor
+      $("#nombre_tienda").attr("value", response[0].nombre_tienda);
+
+      $("#texto_cabecera").val(response[0].texto_cabecera);
+      $("#texto_footer").val(response[0].texto_footer);
+      $("#texto_precio").val(response[0].texto_precio);
+      $("#color").val(response[0].color);
+      $("#color_botones").val(response[0].color_botones);
+      $("#texto_boton1").val(response[0].texto_boton);
+      $("#ruc").val(response[0].cedula_facturacion);
+
+      if (response[0].tienda_creada == 1) {
+        $("#nombre_tienda").prop("readonly", true);
+        $("#tienda-creada").html(
+          '<a href="' +
+            response[0].url_imporsuit +
+            '" target="_blank">Ver mi tienda</a>'
+        );
+        $("#crear_tienda").css("display", "none");
+        $("#seccion_nosePermiteTMP").hide();
+      }
+
+      $("#whatsapp").val(response[0].whatsapp);
+      $("#email").val(response[0].email);
+      $("#direccion_tienda").val(response[0].direccion_facturacion);
+      $("#imagen_logo").attr("src", SERVERURL + response[0].logo_url);
+
+      $("#instagram").val(response[0].instagram);
+      $("#tiktok").val(response[0].tiktok);
+      $("#facebook").val(response[0].facebook);
+
+      // Mover la lógica de verificación aquí
+      verificarNombreTienda(response[0].nombre_tienda);
+    },
+    error: function (error) {
+      console.error("Error al obtener la lista de bodegas:", error);
+    },
+  });
+}
+
+function verificarNombreTienda(nombreTienda) {
+  if (nombreTienda.includes("TMP_") || nombreTienda.includes("tmp_")) {
+    $("#seccion_nosePermiteTMP").show();
+    $("#seccion_creacionTienda").hide();
+  } else {
+    $("#seccion_nosePermiteTMP").hide();
+    $("#seccion_creacionTienda").show();
+  }
+}
+
+function cambiarcolor(campo, valor) {
+  const formData = new FormData();
+  formData.append("campo", campo);
+  formData.append("valor", valor);
+
+  $.ajax({
+    type: "POST",
+    url: "" + SERVERURL + "Usuarios/cambiarcolor",
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function (response2) {
+      response2 = JSON.parse(response2);
+      console.log(response2);
+      console.log(response2[0]);
+      if (response2.status == 200) {
+        Swal.fire({
+          icon: "error",
+          title: "Exito",
+          text: "Color cambiado correctamente",
+        });
+      } else if (response2.status == 200) {
+        Swal.fire({
+          icon: "error",
+          title: response2.title,
+          text: response2.message,
+        });
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al agregar el producto temporalmente");
+    },
+  });
+}
+
 let dataTableBanner;
 let dataTableBannerIsInitialized = false;
 
@@ -6,10 +185,15 @@ let dataTableCaracteristicasIsInitialized = false;
 
 const dataTableBannerOptions = {
   columnDefs: [
-    { className: "centered", targets: [1, 2, 3, 4, 5] },
-    { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
+    {
+      className: "centered",
+      targets: [1, 2, 3, 4, 5],
+    },
+    {
+      orderable: false,
+      targets: 0,
+    }, //ocultar para columna 0 el ordenar columna
   ],
-  
   pageLength: 10,
   destroy: true,
   language: {
@@ -31,8 +215,14 @@ const dataTableBannerOptions = {
 
 const dataTableCaracteristicasOptions = {
   columnDefs: [
-    { className: "centered", targets: [1, 2, 3] },
-    { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
+    {
+      className: "centered",
+      targets: [1, 2, 3],
+    },
+    {
+      orderable: false,
+      targets: 0,
+    }, //ocultar para columna 0 el ordenar columna
   ],
   pageLength: 10,
   destroy: true,
@@ -97,25 +287,25 @@ const listBanner = async () => {
         alineacion = "derecha";
       }
       content += `
-                <tr>
-                    <td><img src="${SERVERURL}${item.fondo_banner}" class="img-responsive" alt="profile-image" width="100px"></td>
-                    <td>${item.titulo}</td>
-                    <td>${item.texto_banner}</td>
-                    <td>${item.texto_boton}</td>
-                    <td>${item.enlace_boton}</td>
-                    <td>${alineacion}</td>
-                    <td>
-                    <div class="dropdown">
-                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-gear"></i>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="editar_banner(${item.id})"><i class="fa-solid fa-pencil"></i>Editar</span></li>
-                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="eliminarBanner(${item.id})"><i class="fa-solid fa-trash-can"></i>Eliminar</span></li>
-                    </ul>
-                    </div>
-                    </td>
-                </tr>`;
+          <tr>
+              <td><img src="${SERVERURL}${item.fondo_banner}" class="img-responsive" alt="profile-image" width="100px"></td>
+              <td>${item.titulo}</td>
+              <td>${item.texto_banner}</td>
+              <td>${item.texto_boton}</td>
+              <td>${item.enlace_boton}</td>
+              <td>${alineacion}</td>
+              <td>
+              <div class="dropdown">
+              <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fa-solid fa-gear"></i>
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <li><span class="dropdown-item" style="cursor: pointer;" onclick="editar_banner(${item.id})"><i class="fa-solid fa-pencil"></i>Editar</span></li>
+                  <li><span class="dropdown-item" style="cursor: pointer;" onclick="eliminarBanner(${item.id})"><i class="fa-solid fa-trash-can"></i>Eliminar</span></li>
+              </ul>
+              </div>
+              </td>
+          </tr>`;
     });
     document.getElementById("tableBody_banner").innerHTML = content;
   } catch (ex) {
@@ -141,23 +331,23 @@ const listCaracteristicas = async () => {
         alineacion = "derecha";
       }
       content += `
-                <tr>
-                    
-                    <td>${item.texto}</td>
-                    <td>${item.icon_text}</td>
-                    <td>${item.subtexto_icon}</td>
-                    <td>
-                    <div class="dropdown">
-                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-gear"></i>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="editar_caracteristica(${item.id})"><i class="fa-solid fa-pencil"></i>Editar</span></li>
-                        
-                    </ul>
-                    </div>
-                    </td>
-                </tr>`;
+          <tr>
+              
+              <td>${item.texto}</td>
+              <td>${item.icon_text}</td>
+              <td>${item.subtexto_icon}</td>
+              <td>
+              <div class="dropdown">
+              <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fa-solid fa-gear"></i>
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <li><span class="dropdown-item" style="cursor: pointer;" onclick="editar_caracteristica(${item.id})"><i class="fa-solid fa-pencil"></i>Editar</span></li>
+                  
+              </ul>
+              </div>
+              </td>
+          </tr>`;
     });
     document.getElementById("tableBody_caracteristicas").innerHTML = content;
   } catch (ex) {
@@ -333,8 +523,14 @@ let dataTableTestimoniosIsInitialized = false;
 
 const dataTableTestimoniosOptions = {
   columnDefs: [
-    { className: "centered", targets: [1, 2, 3, 4] },
-    { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
+    {
+      className: "centered",
+      targets: [1, 2, 3, 4],
+    },
+    {
+      orderable: false,
+      targets: 0,
+    }, //ocultar para columna 0 el ordenar columna
   ],
   pageLength: 10,
   destroy: true,
@@ -380,23 +576,23 @@ const listTestimonios = async () => {
 
     testimonios.forEach((testimonio, index) => {
       content += `
-                <tr>
-                    <td><img src="${SERVERURL}${testimonio.imagen}" class="img-responsive" alt="profile-image" width="100px"></td>
-                    <td>${testimonio.nombre}</td>
-                    <td>${testimonio.testimonio}</td>
-                    <td>${testimonio.date_added}</td>
-                    <td>
-                    <div class="dropdown">
-                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-gear"></i>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="editarTestimonio(${testimonio.id_testimonio})"><i class="fa-solid fa-pencil"></i>Editar</span></li>
-                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="eliminarTestimonio(${testimonio.id_testimonio})"><i class="fa-solid fa-trash-can"></i>Eliminar</span></li>
-                    </ul>
-                    </div>
-                    </td>
-                </tr>`;
+          <tr>
+              <td><img src="${SERVERURL}${testimonio.imagen}" class="img-responsive" alt="profile-image" width="100px"></td>
+              <td>${testimonio.nombre}</td>
+              <td>${testimonio.testimonio}</td>
+              <td>${testimonio.date_added}</td>
+              <td>
+              <div class="dropdown">
+              <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fa-solid fa-gear"></i>
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <li><span class="dropdown-item" style="cursor: pointer;" onclick="editarTestimonio(${testimonio.id_testimonio})"><i class="fa-solid fa-pencil"></i>Editar</span></li>
+                  <li><span class="dropdown-item" style="cursor: pointer;" onclick="eliminarTestimonio(${testimonio.id_testimonio})"><i class="fa-solid fa-trash-can"></i>Eliminar</span></li>
+              </ul>
+              </div>
+              </td>
+          </tr>`;
     });
     document.getElementById("tableBody_testimonios").innerHTML = content;
   } catch (ex) {
@@ -499,10 +695,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let formData = new FormData();
     formData.append("ruc", $("#ruc").val());
-    
+
     formData.append("telefono_tienda", $("#whatsapp").val());
     formData.append("email_tienda", $("#email").val());
-    formData.append("direccion_tienda", $("#direccion").val());
+    formData.append("direccion_tienda", $("#direccion_tienda").val());
     formData.append("pais_tienda", $("#pais_tienda").val());
     formData.append("instagram", $("#instagram").val());
     formData.append("tiktok", $("#tiktok").val());
@@ -515,7 +711,7 @@ document.addEventListener("DOMContentLoaded", () => {
       processData: false, // No procesar los datos
       contentType: false, // No establecer ningún tipo de contenido
       success: function (response) {
-        response = JSON.parse(response)
+        response = JSON.parse(response);
         if (response.status == 500) {
           toastr.error("NO SE ACTUALIZO CORRECTAMENTE", "NOTIFICACIÓN", {
             positionClass: "toast-bottom-center",
