@@ -1003,7 +1003,7 @@
 
     function saveFormState() {
         var itemList = [];
-        var id_plataforma = "tu_id_plataforma"; // Aquí debes establecer el valor real de tu id_plataforma
+        var id_plataforma = ;
 
         var defaultCodigosDescuento = {
             "id_elemento": "codigosDescuento",
