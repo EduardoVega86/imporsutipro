@@ -126,7 +126,7 @@ const listTablaIdInventario = async () => {
                     <td> ${inventario.nombre_atributo} ${inventario.variedad}</td>
                     <td>$ ${inventario.pcp}</td>
                     <td>$ ${inventario.pvp}</td>
-                    <td>$ ${inventario.id_inventario}</td>
+                    <td>${inventario.id_inventario}</td>
                 </tr>`;
     });
     document.getElementById("tableBody_tabla_idInventario").innerHTML = content;
