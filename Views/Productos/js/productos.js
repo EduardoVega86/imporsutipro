@@ -143,6 +143,7 @@ const listProductos = async () => {
             <span>Ver</span>
             </div>`;
           }
+          
           content += `
                 <tr>
                     <td><input type="checkbox" class="selectCheckbox" data-id="${producto.id_producto}"></td>
