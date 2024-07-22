@@ -370,7 +370,7 @@ class PedidosModel extends Query
                 $id_bodega = $id_bodegas[0]['bodega'];
                 $sql = "SELECT * FROM inventario_bodegas WHERE bodega = $id_bodega";
                 $id_inventarios = $this->select($sql);
-                $id_inventario = $id_inventarios[0]['id_inventario'];
+                $id_inventario = $id_inventarios[0]['id_producto'];
                 $id_plataforma = $id_bodegas[0]['id_plataforma'];
                 $sku = $id_bodegas[0]['sku'];
                 $nombre = $tmp['nombre'];
