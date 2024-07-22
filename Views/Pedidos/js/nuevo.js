@@ -96,18 +96,18 @@ const listNuevoPedido = async () => {
         costo_producto +
         parseFloat(nuevoPedido.pcp) * parseFloat(nuevoPedido.cantidad_tmp);
 
-      console.log(costo_producto);
-      contiene += ` ${nuevoPedido.cantidad_tmp} x ${nuevoPedido.nombre_producto}`;
-      contieneGintracom += ` ${nuevoPedido.nombre_producto} X${nuevoPedido.cantidad_tmp} `;
+      /* console.log(costo_producto); */
+      if (nuevoPedido.variedad != null){
+        variedad = `${nuevoPedido.variedad}`;
+      }
+
+      contiene += ` ${nuevoPedido.cantidad_tmp} x ${nuevoPedido.nombre_producto} ${variedad}`;
+      contieneGintracom += ` ${nuevoPedido.nombre_producto} ${variedad} X${nuevoPedido.cantidad_tmp} `;
 
       precio_costo = parseFloat(nuevoPedido.precio_tmp);
 
       if (!validar_direccion()) {
         return;
-      }
-
-      if (nuevoPedido.variedad != null){
-        variedad = `${nuevoPedido.variedad}`;
       }
 
       const precio = parseFloat(nuevoPedido.precio_tmp);
