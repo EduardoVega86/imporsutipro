@@ -110,11 +110,11 @@ const initDataTableTablaIdInventario = async () => {
 };
 
 const listTablaIdInventario = async () => {
-  var id_productoSeleccionado = $("#id_productoSeleccionado").val();
+  var id_productoIventario = $("#id_productoIventario").val();
 
   try {
     const response = await fetch(
-      "" + SERVERURL + "productos/mostrarVariedades/" + id_productoSeleccionado
+      "" + SERVERURL + "productos/mostrarVariedades/" + id_productoIventario
     );
     const tablaIdInventario = await response.json();
 
