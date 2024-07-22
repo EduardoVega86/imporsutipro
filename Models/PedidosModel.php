@@ -368,9 +368,8 @@ class PedidosModel extends Query
                 $id_bodegas = $this->select($sql);
 
                 $id_bodega = $id_bodegas[0]['bodega'];
-                $sql = "SELECT * FROM inventario_bodegas WHERE bodega = $id_bodega";
-                $id_inventarios = $this->select($sql);
                 $id_inventario = $id_bodegas[0]['id_producto'];
+                echo $id_inventario;
                 $id_plataforma = $id_bodegas[0]['id_plataforma'];
                 $sku = $id_bodegas[0]['sku'];
                 $nombre = $tmp['nombre'];
