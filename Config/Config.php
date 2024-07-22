@@ -36,18 +36,6 @@ if ($result->num_rows > 0) {
     echo "0 results";
 }
 
-// devolver id_plataforma
-
-$id_plataforma = "SELECT * FROM plataformas where url_imporsuit = '$url_actual'";
-$result = $mysqli->query($id_plataforma);
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $id_plataforma = $row['id_plataforma'];
-    }
-} else {
-    echo "0 resultss";
-}
-
 $mysqli->close();
 
 $id_matriz = $matriz['idmatriz'];
@@ -97,4 +85,3 @@ define("COLOR_BOTON_LOGIN", $color_boton_login);
 define("COLOR_HOVER_LOGIN", $color_hover_login);
 define("COLOR_FAVORITO", $color_favorito);
 define("URL_MATRIZ", $url_matriz);
-define("ID_PLATAFORMA", $id_plataforma);
