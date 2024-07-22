@@ -109,10 +109,17 @@ document.addEventListener("DOMContentLoaded", function () {
             productDetails[0];
 
           let boton_enviarCliente = ``;
+          let botonId_inventario = ``;
           if (product.producto_variable == 0) {
             boton_enviarCliente = `<button class="btn btn-import" onclick="enviar_cliente(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})">Enviar a cliente</button>`;
+            botonId_inventario = `<div class="card-id-container" onclick="copyToClipboard(${product.id_inventario})">
+            <span class="card-id">ID: ${product.id_inventario}</span>
+            </div>`;
           } else if (product.producto_variable == 1) {
             boton_enviarCliente = `<button class="btn btn-import" onclick="abrir_modalSeleccionAtributo(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})">Enviar a cliente</button>`;
+            botonId_inventario = `<div class="card-id-container" onclick="abrir_modal_idInventario(${product.id_producto})">
+            <span class="card-id">Ver IDs de producto variable </span>
+            </div>`;
           }
 
           const esFavorito = product.Es_Favorito === "1"; // Conversión a booleano
@@ -125,11 +132,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
           card.innerHTML = `
             <div class="image-container">
-                <div class="card-id-container" onclick="copyToClipboard(${
-                  product.id_producto
-                })">
-                    <span class="card-id">ID: ${product.id_producto}</span>
-                </div>
+               ${botonId_inventario}
                 <img src="${imagePath}" class="card-img-top" alt="Product Image">
             </div>
             <button class="btn btn-heart ${
@@ -149,7 +152,9 @@ document.addEventListener("DOMContentLoaded", function () {
                   productDetails[0].pcp
                 }</strong></p>
                 <p class="card-text">Precio Sugerido: <strong>$${pvp}</strong></p>
-                <p class="card-text">Proveedor: <a href="#" onclick="abrirModal_infoTienda('${url_imporsuit}')" style="font-size: 15px;">${productDetails[0].nombre_tienda}</a></p>
+                <p class="card-text">Proveedor: <a href="#" onclick="abrirModal_infoTienda('${url_imporsuit}')" style="font-size: 15px;">${
+            productDetails[0].nombre_tienda
+          }</a></p>
               </div>
               <div>
                 <button class="btn btn-description" onclick="agregarModal_marketplace(${
