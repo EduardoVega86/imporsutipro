@@ -364,7 +364,7 @@ class PedidosModel extends Query
             foreach ($productos as $tmp) {
                 //buscar producto 
                 $id_producto = $tmp['id_producto_venta'];
-                $sql = "SELECT * FROM inventario_bodegas WHERE id_producto = $id_producto";
+                $sql = "SELECT * FROM inventario_bodegas WHERE id_inventario = $id_producto";
                 $id_bodegas = $this->select($sql);
 
                 $id_bodega = $id_bodegas[0]['bodega'];
