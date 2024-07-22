@@ -97,6 +97,7 @@ const listNuevoPedido = async () => {
         parseFloat(nuevoPedido.pcp) * parseFloat(nuevoPedido.cantidad_tmp);
 
       /* console.log(costo_producto); */
+      variedad = "";
       if (nuevoPedido.variedad != null){
         variedad = `${nuevoPedido.variedad}`;
       }
