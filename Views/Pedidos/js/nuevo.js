@@ -78,6 +78,7 @@ const listNuevoPedido = async () => {
     costo_producto = 0;
     contiene = "";
     contieneGintracom = "";
+    let variedad = "";
     nuevosPedidos.forEach((nuevoPedido, index) => {
       if (nuevosPedidos_bodega.length > 0 && nuevosPedidos_bodega[0]) {
         celular_bodega = nuevosPedidos_bodega[0].contacto;
@@ -105,6 +106,10 @@ const listNuevoPedido = async () => {
         return;
       }
 
+      if (nuevoPedido.variedad != null){
+        variedad = `+ ${nuevoPedido.variedad}`;
+      }
+
       const precio = parseFloat(nuevoPedido.precio_tmp);
       const descuento = parseFloat(nuevoPedido.desc_tmp);
       const cantidad = parseFloat(nuevoPedido.cantidad_tmp);
@@ -120,7 +125,7 @@ const listNuevoPedido = async () => {
     class="form-control prec" 
     value="${nuevoPedido.cantidad_tmp}">
 </td>
-                    <td>${nuevoPedido.nombre_producto}</td>
+                    <td>${nuevoPedido.nombre_producto} ${variedad}</td>
                     <td>
   <input 
     type="text" 
