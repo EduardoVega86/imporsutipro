@@ -139,7 +139,7 @@ const listProductos = async () => {
           } else {
             producto_variable = `<img src="https://new.imporsuitpro.com/public/img/atributos.png" width="30px" id="buscar_traking" alt="buscar_traking" onclick="abrir_modalInventarioVariable(${producto.id_producto})">`;
             enviaCliente = `<i style="color:red;" style='cursor:pointer' class="fa-regular fa-paper-plane" onclick="abrir_modalSeleccionAtributo(${producto.id_producto},'${producto.sku}',${producto.pvp},${producto.id_inventario})"></i>`;
-            botonId_inventario = `<div class="card-id-container" onclick="abrir_modal_idInventario(${product.id_producto})">
+            botonId_inventario = `<div class="card-id-container" onclick="abrir_modal_idInventario(${producto.id_producto})">
             <span class="card-id">Ver IDs de producto variable </span>
             </div>`;
           }
