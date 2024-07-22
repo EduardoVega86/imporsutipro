@@ -871,7 +871,8 @@
 
     function loadAndSetInitialData() {
         id_plataforma = <?php echo $_SESSION["id_plataforma"]; ?>
-        $.getJSON(SERVERURL+'Models/modales/'+ id_plataforma +'_modal.json', function(data) {
+        server = SERVERURL;
+        $.getJSON(server +'Models/modales/'+ id_plataforma +'_modal.json', function(data) {
             data.forEach(item => {
                 processItem(item);
             });
