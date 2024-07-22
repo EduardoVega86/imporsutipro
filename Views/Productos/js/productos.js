@@ -6,16 +6,16 @@ function getFecha() {
   let mes = fecha.getMonth() + 1;
   let dia = fecha.getDate();
   let anio = fecha.getFullYear();
-  let fechaHoy = anio + "-" + mes + "-" + dia;
+  let fechaHoy = `${anio}-${mes}-${dia}`;
   return fechaHoy;
 }
 
 const dataTableProductosOptions = {
   columnDefs: [
     { className: "centered", targets: [0, 1, 2, 3, 4, 5, 6] },
-    { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
+    { orderable: false, targets: 0 },
   ],
-  order: [[2, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
+  order: [[2, "desc"]],
   pageLength: 25,
   lengthMenu: [25, 50, 100, 200],
   destroy: true,
@@ -32,7 +32,7 @@ const dataTableProductosOptions = {
       exportOptions: {
         columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
       },
-      filename: "Productos" + "_" + getFecha(),
+      filename: `Productos_${getFecha()}`,
       footer: true,
       className: "btn-excel",
     },
@@ -44,7 +44,7 @@ const dataTableProductosOptions = {
       exportOptions: {
         columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
       },
-      filename: "Productos" + "_" + getFecha(),
+      filename: `Productos_${getFecha()}`,
       footer: true,
       className: "btn-csv",
     },
@@ -68,14 +68,14 @@ const dataTableProductosOptions = {
 
 const reloadDataTableProductos = async () => {
   const currentPage = dataTableProductos.page();
-  const currentLength = dataTableProductos.page.len(); // Guardar la longitud actual
+  const currentLength = dataTableProductos.page.len();
   dataTableProductos.destroy();
   await listProductos();
   dataTableProductos = $("#datatable_productos").DataTable(
     dataTableProductosOptions
   );
-  dataTableProductos.page.len(currentLength).draw(); // Restaurar la longitud seleccionada
-  dataTableProductos.page(currentPage).draw(false); // Restaurar la página actual
+  dataTableProductos.page.len(currentLength).draw();
+  dataTableProductos.page(currentPage).draw(false);
   dataTableProductosIsInitialized = true;
   customizeButtons();
 };
@@ -97,80 +97,71 @@ const initDataTableProductos = async () => {
 
 const listProductos = async () => {
   try {
-    const response = await fetch(
-      "" + SERVERURL + "productos/obtener_productos"
-    );
+    const response = await fetch(SERVERURL + "productos/obtener_productos");
     const productos = await response.json();
     let content = ``;
-    let cargar_imagen = "";
-    let subir_marketplace = "";
-    let producto_variable = "";
-    let enlace_imagen = "";
-    let enviaCliente = "";
-    let proveedor = "";
 
-    $.ajax({
+    const infoTiendaResponse = await $.ajax({
       url: SERVERURL + "Usuarios/obtener_infoTiendaOnline",
       type: "GET",
       dataType: "json",
-      success: function (response) {
-        proveedor = response[0].proveedor;
-        console.log("proveedor:" + proveedor);
-        productos.forEach((producto, index) => {
-          enlace_imagen = obtenerURLImagen(producto.image_path, SERVERURL);
-          if (!producto.image_path) {
-            cargar_imagen = `<i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${producto.id_producto},'${enlace_imagen}')"></i>`;
-          } else {
-            cargar_imagen = `<img src="${enlace_imagen}" class="icon-button" onclick="agregar_imagenProducto(${producto.id_producto},'${enlace_imagen}')" alt="Agregar imagen" width="50px">`;
-          }
-          if (proveedor == 1) {
-            if (producto.drogshipin == 0) {
-              subir_marketplace = `<box-icon name='cloud-upload' style='cursor:pointer'  color='#54DD10' id="icono_subida_${producto.id_producto}" onclick="subir_marketplace(${producto.id_producto})"></box-icon></br><span>Agregar</span>`;
-            } else {
-              subir_marketplace = `<box-icon name='cloud-download' style='cursor:pointer' color='red' id="icono_bajada_${producto.id_producto}" onclick="bajar_marketplace(${producto.id_producto})"></box-icon></br><span>Quitar</span>`;
-            }
-          }
-
-          if (producto.producto_variable == 0) {
-            producto_variable = ``;
-            enviaCliente = `<i class="fa-regular fa-paper-plane" style='cursor:pointer' onclick="enviar_cliente(${producto.id_producto},'${producto.sku}',${producto.pvp},${producto.id_inventario})""></i>`;
-          } else {
-            producto_variable = `<img src="https://new.imporsuitpro.com/public/img/atributos.png" width="30px" id="buscar_traking" alt="buscar_traking" onclick="abrir_modalInventarioVariable(${producto.id_producto})">`;
-            enviaCliente = `<i style="color:red;" style='cursor:pointer' class="fa-regular fa-paper-plane" onclick="abrir_modalSeleccionAtributo(${producto.id_producto},'${producto.sku}',${producto.pvp},${producto.id_inventario})"></i>`;
-          }
-          content += `
-                <tr>
-                    <td><input type="checkbox" class="selectCheckbox" data-id="${producto.id_producto}"></td>
-                    <td>${producto.id_producto}</td>
-                    <td>${cargar_imagen}</td>
-                    <td>${producto.codigo_producto}</td>
-                    <td>${producto.nombre_producto}</td>
-                    <td>${producto.destacado}</td>
-                    <td>${producto.saldo_stock}</td>
-                    <td>${producto.costo_producto}</td>
-                    <td>${producto.pcp}</td>
-                    <td>${producto.pvp}</td>
-                    <td>${producto.pref}</td>
-                    <td>logo landing</td>
-                    <td><i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${producto.id_producto}, '${enlace_imagen}')"></i></td>
-                    <td>${subir_marketplace}</td>
-                    <td>${enviaCliente}</td>
-                    <td>${producto_variable}</td>
-                    <td><i class="fa-solid fa-store" style='cursor:pointer' onclick="importar_productos_tienda(${producto.id_producto})""></i></td>
-                    <td>
-                        <button class="btn btn-sm btn-primary" onclick="editarProducto(${producto.id_producto})"><i class="fa-solid fa-pencil"></i>Editar</button>
-                        <button class="btn btn-sm btn-danger" onclick="eliminarProducto(${producto.id_producto})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
-                    </td>
-                </tr>`;
-        });
-        document.getElementById("tableBody_productos").innerHTML = content;
-      },
-      error: function (error) {
-        console.error("Error al obtener la lista de bodegas:", error);
-      },
     });
-  } catch (ex) {
-    alert(ex);
+
+    const proveedor = infoTiendaResponse[0].proveedor;
+    productos.forEach((producto) => {
+      const enlace_imagen = obtenerURLImagen(producto.image_path, SERVERURL);
+      let cargar_imagen = producto.image_path
+        ? `<img src="${enlace_imagen}" class="icon-button" onclick="agregar_imagenProducto(${producto.id_producto},'${enlace_imagen}')" alt="Agregar imagen" width="50px">`
+        : `<i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${producto.id_producto},'${enlace_imagen}')"></i>`;
+
+      let subir_marketplace =
+        proveedor == 1
+          ? producto.drogshipin == 0
+            ? `<box-icon name='cloud-upload' style='cursor:pointer' color='#54DD10' id="icono_subida_${producto.id_producto}" onclick="subir_marketplace(${producto.id_producto})"></box-icon></br><span>Agregar</span>`
+            : `<box-icon name='cloud-download' style='cursor:pointer' color='red' id="icono_bajada_${producto.id_producto}" onclick="bajar_marketplace(${producto.id_producto})"></box-icon></br><span>Quitar</span>`
+          : ``;
+
+      let producto_variable, enviaCliente, botonId_inventario;
+      if (producto.producto_variable == 0) {
+        producto_variable = ``;
+        enviaCliente = `<i class="fa-regular fa-paper-plane" style='cursor:pointer' onclick="enviar_cliente(${producto.id_producto},'${producto.sku}',${producto.pvp},${producto.id_inventario})"></i>`;
+        botonId_inventario = `${producto.id_producto}`;
+      } else {
+        producto_variable = `<img src="https://new.imporsuitpro.com/public/img/atributos.png" width="30px" id="buscar_traking" alt="buscar_traking" onclick="abrir_modalInventarioVariable(${producto.id_producto})">`;
+        enviaCliente = `<i style="color:red;" class="fa-regular fa-paper-plane" style='cursor:pointer' onclick="abrir_modalSeleccionAtributo(${producto.id_producto},'${producto.sku}',${producto.pvp},${producto.id_inventario})"></i>`;
+        botonId_inventario = `<div class="btn btn-warning" onclick="abrir_modal_idInventario(${producto.id_producto})"><span>Ver</span></div>`;
+      }
+
+      content += `
+        <tr>
+          <td><input type="checkbox" class="selectCheckbox" data-id="${producto.id_producto}"></td>
+          <td>${botonId_inventario}</td>
+          <td>${cargar_imagen}</td>
+          <td>${producto.codigo_producto}</td>
+          <td>${producto.nombre_producto}</td>
+          <td>${producto.destacado}</td>
+          <td>${producto.saldo_stock}</td>
+          <td>${producto.costo_producto}</td>
+          <td>${producto.pcp}</td>
+          <td>${producto.pvp}</td>
+          <td>${producto.pref}</td>
+          <td>logo landing</td>
+          <td>${cargar_imagen}</td>
+          <td>${subir_marketplace}</td>
+          <td>${enviaCliente}</td>
+          <td>${producto_variable}</td>
+          <td><i class="fa-solid fa-store" style='cursor:pointer' onclick="importar_productos_tienda(${producto.id_producto})"></i></td>
+          <td>
+            <button class="btn btn-sm btn-primary" onclick="editarProducto(${producto.id_producto})"><i class="fa-solid fa-pencil"></i>Editar</button>
+            <button class="btn btn-sm btn-danger" onclick="eliminarProducto(${producto.id_producto})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
+          </td>
+        </tr>`;
+    });
+
+    document.getElementById("tableBody_productos").innerHTML = content;
+  } catch (error) {
+    console.error("Error al obtener la lista de productos:", error);
+    alert("Error al obtener la lista de productos");
   }
 };
 
@@ -179,6 +170,12 @@ function abrir_modalSeleccionAtributo(id) {
   $("#id_productoSeleccionado").val(id);
   initDataTableSeleccionProductoAtributo();
   $("#seleccionProdcutoAtributoModal").modal("show");
+}
+
+function abrir_modal_idInventario(id) {
+  $("#id_productoIventario").val(id);
+  initDataTableTablaIdInventario();
+  $("#tabla_idInventarioModal").modal("show");
 }
 
 //enviar cliente
