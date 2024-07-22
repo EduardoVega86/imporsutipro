@@ -181,7 +181,6 @@ function abrir_modalSeleccionAtributo(id) {
   $("#seleccionProdcutoAtributoModal").modal("show");
 }
 
-
 //enviar cliente
 function enviar_cliente(id, sku, pvp, id_inventario) {
   // Crear un objeto FormData y agregar los datos

@@ -9,7 +9,6 @@
 <?php require_once './Views/Productos/Modales/imagen_productos.php'; ?>
 <?php require_once './Views/Productos/Modales/inventario_variable_index.php'; ?>
 <?php require_once './Views/Productos/Modales/Seleccion_productoAtributo.php'; ?>
-<?php require_once './Views/Productos/Modales/tabla_idInventario.php'; ?>
 
 
 <div class="custom-container-fluid">
