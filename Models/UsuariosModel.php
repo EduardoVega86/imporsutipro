@@ -726,7 +726,7 @@ class UsuariosModel extends Query
         $editar_perfil = $this->update($sql, $data);
 
         // Verificar si ambas actualizaciones fueron exitosas
-        if ($editar_plataforma == 1) {
+        if ($editar_plataforma == 1 || $editar_perfil == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
             $response['message'] = 'Producto editado correctamente';
