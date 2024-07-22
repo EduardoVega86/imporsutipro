@@ -74,6 +74,7 @@ const listNuevoPedido = async () => {
     let total = 0;
     let precio_costo = 0;
     costo_producto = 0;
+    let variedad = "";
     nuevosPedidos.forEach((nuevoPedido, index) => {
       numero_factura = nuevoPedido.numero_factura;
       id_producto_venta = nuevoPedido.id_producto;
@@ -82,8 +83,12 @@ const listNuevoPedido = async () => {
         costo_producto +
         parseFloat(nuevoPedido.pcp) * parseFloat(nuevoPedido.cantidad);
 
-      contiene += ` ${nuevoPedido.cantidad} x ${nuevoPedido.nombre_producto}`;
-      contieneGintracom += ` ${nuevoPedido.nombre_producto} X${nuevoPedido.cantidad} `;
+      variedad = "";
+      if (nuevoPedido.variedad != null) {
+        variedad = `${nuevoPedido.variedad}`;
+      }
+      contiene += ` ${nuevoPedido.cantidad} x ${nuevoPedido.nombre_producto} ${variedad}`;
+      contieneGintracom += ` ${nuevoPedido.nombre_producto} ${variedad} X${nuevoPedido.cantidad} `;
 
       precio_costo = parseFloat(nuevoPedido.precio_venta);
 
@@ -107,7 +112,7 @@ const listNuevoPedido = async () => {
       }"></input>
                     <td>${nuevoPedido.id_producto}</td>
                     <td>${nuevoPedido.cantidad}</td>
-                    <td>${nuevoPedido.nombre_producto}</td>
+                    <td>${nuevoPedido.nombre_producto} ${variedad}</td>
                     <td><input type="text" onblur='recalcular("${
                       nuevoPedido.id_detalle
                     }", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}")' id="precio_nuevoPedido_${index}" class="form-control prec" value="${precio}"></td>
