@@ -141,7 +141,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let botonId_inventario = ``;
     if (product.producto_variable == 0) {
       boton_enviarCliente = `<button class="btn btn-import" onclick="enviar_cliente(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})">Enviar a cliente</button>`;
-      botonId_inventario = `<div class="card-id-container" onclick="copyToClipboard(${product.id_producto})">
+      botonId_inventario = `<div class="card-id-container" onclick="copyToClipboard(${product.id_inventario})">
         <span class="card-id">ID: ${product.id_inventario}</span>
       </div>`;
     } else if (product.producto_variable == 1) {
