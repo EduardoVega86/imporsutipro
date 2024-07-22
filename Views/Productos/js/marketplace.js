@@ -147,7 +147,7 @@ document.addEventListener("DOMContentLoaded", function () {
     } else if (product.producto_variable == 1) {
       boton_enviarCliente = `<button class="btn btn-import" onclick="abrir_modalSeleccionAtributo(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})">Enviar a cliente</button>`;
       botonId_inventario = `<div class="card-id-container" onclick="abrir_modal_idInventario(${product.id_producto})">
-      <span class="card-id">Ver IDs </span>
+      <span class="card-id">Ver IDs de producto variable </span>
     </div>`;
     }
 
