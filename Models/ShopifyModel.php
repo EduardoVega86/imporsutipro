@@ -112,6 +112,8 @@ class ShopifyModel extends Query
             $numeroCasaO = $bodega['num_casa'] ?? " ";
             $valor_segura = 0;
 
+            $id_bodega = $bodega['id'];
+
             $no_piezas = $item['quantity'];
             $contiene .= $item['name'] . " x" . $item['quantity'] . " ";
 
@@ -208,6 +210,7 @@ class ShopifyModel extends Query
             'importado' => $importado,
             'id_producto_venta' => $id_producto_venta,
             'productos' => $productos,
+            'id_bodega' => $id_bodega,
         );
 
         $data = http_build_query($data);
@@ -236,7 +239,7 @@ class ShopifyModel extends Query
 
     public function obtenerBodegaInventario($id_producto_venta)
     {
-        $sql = "SELECT * FROM inventario_bodegas WHERE id_producto = $id_producto_venta";
+        $sql = "SELECT * FROM inventario_bodegas WHERE id_inventario = $id_producto_venta";
         echo $sql;
         $response = $this->select($sql);
         $bodega = $response[0]['bodega'];
@@ -350,7 +353,7 @@ class ShopifyModel extends Query
 
     public function obtenerCosto($id_producto_venta)
     {
-        $sql = "SELECT * FROM inventario_bodegas WHERE id_producto = $id_producto_venta";
+        $sql = "SELECT * FROM inventario_bodegas WHERE id_inventario = $id_producto_venta";
         $response = $this->select($sql);
         return $response[0]['pcp'];
     }
