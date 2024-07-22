@@ -138,10 +138,17 @@ document.addEventListener("DOMContentLoaded", function () {
     const { costo_producto, pvp, saldo_stock, url_imporsuit } = productDetails;
 
     let boton_enviarCliente = ``;
+    let botonId_inventario = ``;
     if (product.producto_variable == 0) {
       boton_enviarCliente = `<button class="btn btn-import" onclick="enviar_cliente(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})">Enviar a cliente</button>`;
+      botonId_inventario = `<div class="card-id-container" onclick="copyToClipboard(${product.id_producto})">
+        <span class="card-id">ID: ${product.id_inventario}</span>
+      </div>`;
     } else if (product.producto_variable == 1) {
       boton_enviarCliente = `<button class="btn btn-import" onclick="abrir_modalSeleccionAtributo(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})">Enviar a cliente</button>`;
+      botonId_inventario = `<div class="card-id-container" onclick="abrir_modal_idInventario(${product.id_producto})">
+      <span class="card-id">Ver IDs </span>
+    </div>`;
     }
 
     const esFavorito = product.Es_Favorito === "1"; // Conversión a booleano
@@ -153,17 +160,13 @@ document.addEventListener("DOMContentLoaded", function () {
     let validador_imagen = 1;
     validador_imagen = verificarImagen(imagePath);
 
-    if (validador_imagen == 0){
-      imagePath = SERVERURL+"public/img/broken-image.png";
+    if (validador_imagen == 0) {
+      imagePath = SERVERURL + "public/img/broken-image.png";
     }
 
     card.innerHTML = `
       <div class="image-container position-relative">
-        <div class="card-id-container" onclick="copyToClipboard(${
-          product.id_producto
-        })">
-          <span class="card-id">ID: ${product.id_producto}</span>
-        </div>
+        ${botonId_inventario}
         <img src="${imagePath}" class="card-img-top" alt="Product Image">
         <div class="add-to-store-button ${
           product.agregadoTienda ? "added" : ""
@@ -230,16 +233,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
   async function verificarImagen(url) {
     try {
-        const response = await fetch(url);
-        if (response.ok) {
-            return 1; // La imagen existe
-        } else {
-            return 0; // La imagen no existe
-        }
-    } catch (error) {
+      const response = await fetch(url);
+      if (response.ok) {
+        return 1; // La imagen existe
+      } else {
         return 0; // La imagen no existe
+      }
+    } catch (error) {
+      return 0; // La imagen no existe
     }
-}
+  }
 
   function toggleAddToStore(productId, isAdded) {
     let formData = new FormData();
@@ -440,15 +443,11 @@ function agregarModal_marketplace(id) {
           "https://wa.me/" + formatPhoneNumber(data.whatsapp)
         );
 
-
-        var imagen_descripcion = obtenerURLImagen(data.image_path,SERVERURL);
+        var imagen_descripcion = obtenerURLImagen(data.image_path, SERVERURL);
         // Actualizar la imagenes del modal
-        
+
         $("#imagen_principal").attr("src", imagen_descripcion);
-        $("#imagen_principalPequena").attr(
-          "src",
-          imagen_descripcion
-        );
+        $("#imagen_principalPequena").attr("src", imagen_descripcion);
         // Abrir el modal
         $("#descripcion_productModal").modal("show");
       } else {
@@ -483,6 +482,12 @@ function abrir_modalSeleccionAtributo(id) {
   $("#id_productoSeleccionado").val(id);
   initDataTableSeleccionProductoAtributo();
   $("#seleccionProdcutoAtributoModal").modal("show");
+}
+
+function abrir_modal_idInventario(id) {
+  $("#id_productoIventario").val(id);
+  initDataTableTablaIdInventario();
+  $("#tabla_idInventarioModal").modal("show");
 }
 
 //enviar cliente
@@ -655,6 +660,6 @@ function obtenerURLImagen(imagePath, serverURL) {
   } else {
     // Manejar el caso cuando imagePath es null
     console.error("imagePath es null o undefined");
-    return SERVERURL+"public/img/broken-image.png"; // Ruta de imagen por defecto
+    return SERVERURL + "public/img/broken-image.png"; // Ruta de imagen por defecto
   }
 }

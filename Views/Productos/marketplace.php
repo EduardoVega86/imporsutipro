@@ -3,6 +3,7 @@
 
 <?php require_once './Views/Productos/Modales/descripcion_marketplace.php'; ?>
 <?php require_once './Views/Productos/Modales/Seleccion_productoAtributo.php'; ?>
+<?php require_once './Views/Productos/Modales/tabla_idInventario.php'; ?>
 <?php require_once './Views/Pedidos/Modales/informacion_plataforma.php'; ?>
 
 <div class="custom-container-fluid mt-4" style="text-align: -webkit-center;">
