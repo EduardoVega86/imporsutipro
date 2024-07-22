@@ -380,13 +380,13 @@ class PedidosModel extends Query
                 $detalle_data = array(
                     $nueva_factura,
                     $factura_id,
-                    $id_producto,
+                    $id_inventario,
                     $cantidad,
                     $descuento,
                     $precio,
                     $id_plataforma,
                     $sku,
-                    $id_inventario,
+                    $id_producto,
                     $nombre
                 );
                 $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
