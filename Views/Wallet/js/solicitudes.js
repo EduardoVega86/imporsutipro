@@ -9,6 +9,33 @@ const dataTableSolicitudesOptions = {
   order: [[0, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
   pageLength: 5,
   destroy: true,
+  dom: '<"d-flex w-full justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
+  buttons: [
+    {
+      extend: "excelHtml5",
+      text: 'Excel <i class="fa-solid fa-file-excel"></i>',
+      title: "Panel de Control: Usuarios",
+      titleAttr: "Exportar a Excel",
+      exportOptions: {
+        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      },
+      filename: "Productos" + "_" + getFecha(),
+      footer: true,
+      className: "btn-excel",
+    },
+    {
+      extend: "csvHtml5",
+      text: 'CSV <i class="fa-solid fa-file-csv"></i>',
+      title: "Panel de Control: Productos",
+      titleAttr: "Exportar a CSV",
+      exportOptions: {
+        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      },
+      filename: "Productos" + "_" + getFecha(),
+      footer: true,
+      className: "btn-csv",
+    },
+  ],
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
     zeroRecords: "Ningún usuario encontrado",
@@ -24,7 +51,7 @@ const dataTableSolicitudesOptions = {
       previous: "Anterior",
     },
   },
-};  
+};
 
 const initDataTableSolicitudes = async () => {
   if (dataTableSolicitudesIsInitialized) {
@@ -118,6 +145,33 @@ const dataTableOtrasFormasPagoOptions = {
   ],
   pageLength: 5,
   destroy: true,
+  dom: '<"d-flex w-full justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
+  buttons: [
+    {
+      extend: "excelHtml5",
+      text: 'Excel <i class="fa-solid fa-file-excel"></i>',
+      title: "Panel de Control: Usuarios",
+      titleAttr: "Exportar a Excel",
+      exportOptions: {
+        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      },
+      filename: "Productos" + "_" + getFecha(),
+      footer: true,
+      className: "btn-excel",
+    },
+    {
+      extend: "csvHtml5",
+      text: 'CSV <i class="fa-solid fa-file-csv"></i>',
+      title: "Panel de Control: Productos",
+      titleAttr: "Exportar a CSV",
+      exportOptions: {
+        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      },
+      filename: "Productos" + "_" + getFecha(),
+      footer: true,
+      className: "btn-csv",
+    },
+  ],
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
     zeroRecords: "Ningún usuario encontrado",
@@ -151,7 +205,9 @@ const initDataTableOtrasFormasPago = async () => {
 
 const listOtrasFormasPago = async () => {
   try {
-    const response = await fetch("" + SERVERURL + "wallet/obtenerSolicitudes_otrasFormasPago");
+    const response = await fetch(
+      "" + SERVERURL + "wallet/obtenerSolicitudes_otrasFormasPago"
+    );
     const otrasFormasPago = await response.json();
 
     let content = ``;
