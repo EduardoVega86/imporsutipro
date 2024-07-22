@@ -107,7 +107,7 @@ const listNuevoPedido = async () => {
       }
 
       if (nuevoPedido.variedad != null){
-        variedad = `+ ${nuevoPedido.variedad}`;
+        variedad = `${nuevoPedido.variedad}`;
       }
 
       const precio = parseFloat(nuevoPedido.precio_tmp);
