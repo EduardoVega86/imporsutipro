@@ -422,7 +422,13 @@ class PedidosModel extends Query
     {
         $tmp = session_id();
         // echo $tmp;
-        $sql = "SELECT * FROM `tmp_cotizacion` tmp, inventario_bodegas ib, productos p WHERE session_id='$tmp' and tmp.id_inventario=ib.id_inventario and tmp.id_producto=p.id_producto";
+        $sql = "SELECT * 
+FROM `tmp_cotizacion` tmp
+LEFT JOIN `inventario_bodegas` ib ON tmp.id_inventario = ib.id_inventario
+LEFT JOIN `productos` p ON tmp.id_producto = p.id_producto
+LEFT JOIN `variedades` v ON ib.id_variante = v.id_variedad
+WHERE tmp.session_id = '$tmp'";
+        //echo $sql;
         return $this->select($sql);
     }
 
@@ -590,7 +596,12 @@ class PedidosModel extends Query
 
     public function datosPedido($id)
     {
-        $sql = "SELECT * FROM `detalle_fact_cot`, productos, inventario_bodegas WHERE id_factura=$id and detalle_fact_cot.id_producto=productos.id_producto and detalle_fact_cot.id_inventario=inventario_bodegas.id_inventario";
+        $sql = "SELECT * 
+FROM `detalle_fact_cot`
+LEFT JOIN `productos` ON detalle_fact_cot.id_producto = productos.id_producto
+LEFT JOIN `inventario_bodegas` ON detalle_fact_cot.id_inventario = inventario_bodegas.id_inventario
+LEFT JOIN `variedades` ON inventario_bodegas.id_variante = variedades.id_variedad
+WHERE detalle_fact_cot.id_factura = $id;";
        //echo $sql;
         return $this->select($sql);
     }
