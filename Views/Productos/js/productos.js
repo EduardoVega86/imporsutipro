@@ -108,7 +108,6 @@ const listProductos = async () => {
     let enlace_imagen = "";
     let enviaCliente = "";
     let proveedor = "";
-    let botonId_inventario = ``;
 
     $.ajax({
       url: SERVERURL + "Usuarios/obtener_infoTiendaOnline",
@@ -135,19 +134,14 @@ const listProductos = async () => {
           if (producto.producto_variable == 0) {
             producto_variable = ``;
             enviaCliente = `<i class="fa-regular fa-paper-plane" style='cursor:pointer' onclick="enviar_cliente(${producto.id_producto},'${producto.sku}',${producto.pvp},${producto.id_inventario})""></i>`;
-            botonId_inventario = `${producto.id_producto}`;
           } else {
             producto_variable = `<img src="https://new.imporsuitpro.com/public/img/atributos.png" width="30px" id="buscar_traking" alt="buscar_traking" onclick="abrir_modalInventarioVariable(${producto.id_producto})">`;
             enviaCliente = `<i style="color:red;" style='cursor:pointer' class="fa-regular fa-paper-plane" onclick="abrir_modalSeleccionAtributo(${producto.id_producto},'${producto.sku}',${producto.pvp},${producto.id_inventario})"></i>`;
-            botonId_inventario = `<div class="btn btn-warning" onclick="abrir_modal_idInventario(${producto.id_producto})">
-            <span>Ver</span>
-            </div>`;
           }
-          
           content += `
                 <tr>
                     <td><input type="checkbox" class="selectCheckbox" data-id="${producto.id_producto}"></td>
-                    <td>${botonId_inventario}</td>
+                    <td>${producto.id_producto}</td>
                     <td>${cargar_imagen}</td>
                     <td>${producto.codigo_producto}</td>
                     <td>${producto.nombre_producto}</td>
@@ -187,11 +181,6 @@ function abrir_modalSeleccionAtributo(id) {
   $("#seleccionProdcutoAtributoModal").modal("show");
 }
 
-function abrir_modal_idInventario(id) {
-  $("#id_productoIventario").val(id);
-  initDataTableTablaIdInventario();
-  $("#tabla_idInventarioModal").modal("show");
-}
 
 //enviar cliente
 function enviar_cliente(id, sku, pvp, id_inventario) {
