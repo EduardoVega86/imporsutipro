@@ -1001,9 +1001,6 @@
 
     // Funcion para boton guardar
 
-    const fs = require('fs');
-    const path = require('path');
-
     function saveFormState() {
         var itemList = [];
 
@@ -1049,19 +1046,17 @@
             itemList.push(item);
         });
 
-        // Convertir a JSON
-        var jsonData = JSON.stringify(itemList);
-
-        // Ruta donde deseas guardar el archivo JSON
-        var filePath = path.join(__dirname, '../json/checkout.json');
-
-        // Escribir el archivo JSON
-        fs.writeFile(filePath, jsonData, 'utf8', function(err) {
-            if (err) {
-                alert('Ha ocurrido un error al guardar los cambios.');
-                console.error('Error al escribir el archivo:', err);
-            } else {
+        // Enviar la información al servidor
+        $.ajax({
+            url: '../ajax/actualizar_checkout.php',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(itemList),
+            success: function(response) {
                 alert('Los cambios han sido guardados.');
+            },
+            error: function(xhr, status, error) {
+                alert('Ha ocurrido un error al guardar los cambios.');
             }
         });
     }
