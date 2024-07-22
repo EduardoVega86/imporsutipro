@@ -42,7 +42,7 @@ class PedidosModel extends Query
                 AND fc.anulada = 0  
                 AND (fc.id_plataforma = $plataforma OR fc.id_propietario = $plataforma OR b.id_plataforma = $plataforma)
             ";
-       
+
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
             $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
         }
@@ -56,19 +56,19 @@ class PedidosModel extends Query
         }
 
         //echo $impreso;
-       if ($impreso !== null && $impreso !== '') {
+        if ($impreso !== null && $impreso !== '') {
 
-           
-       
-          if ($impreso == 0 || $impreso == 1 ) {
-            $sql .= " AND impreso = '$impreso'";
+
+
+            if ($impreso == 0 || $impreso == 1) {
+                $sql .= " AND impreso = '$impreso'";
+            }
         }
-        }
-        
-        
+
+
 
         $sql .= " ORDER BY fc.numero_factura DESC;";
- //echo $sql;
+        //echo $sql;
         return $this->select($sql);
     }
 
@@ -309,7 +309,7 @@ class PedidosModel extends Query
 
         return $response;
     }
-    public function nuevo_pedido_shopify($fecha_factura, $id_usuario, $monto_factura, $estado_factura, $nombre_cliente, $telefono_cliente, $c_principal, $ciudad_cot, $c_secundaria, $referencia, $observacion, $guia_enviada, $transporte, $identificacion, $celular, $id_producto_venta, $dropshipping, $id_plataforma, $dueño_id, $importado, $plataforma_importa, $cod, $estado_guia_sistema, $impreso, $facturada, $factura_numero, $numero_guia, $anulada, $identificacionO, $celularO, $nombreO, $ciudadO, $provinciaO, $direccionO, $referenciaO, $numeroCasaO, $valor_segura, $no_piezas, $tipo_servicio, $peso, $contiene, $costo_flete, $costo_producto, $comentario, $id_transporte, $provincia, $productos)
+    public function nuevo_pedido_shopify($fecha_factura, $id_usuario, $monto_factura, $estado_factura, $nombre_cliente, $telefono_cliente, $c_principal, $ciudad_cot, $c_secundaria, $referencia, $observacion, $guia_enviada, $transporte, $identificacion, $celular, $id_producto_venta, $dropshipping, $id_plataforma, $dueño_id, $importado, $plataforma_importa, $cod, $estado_guia_sistema, $impreso, $facturada, $factura_numero, $numero_guia, $anulada, $identificacionO, $celularO, $nombreO, $ciudadO, $provinciaO, $direccionO, $referenciaO, $numeroCasaO, $valor_segura, $no_piezas, $tipo_servicio, $peso, $contiene, $costo_flete, $costo_producto, $comentario, $id_transporte, $provincia, $productos, $id_bodega)
     {
         $tmp = session_id();
         $response = $this->initialResponse();
@@ -332,9 +332,9 @@ class PedidosModel extends Query
             plataforma_importa, cod, estado_guia_sistema, impreso, facturada, 
             anulada, identificacionO, nombreO, ciudadO, provinciaO, provincia,
             direccionO, referenciaO, numeroCasaO, valor_seguro, no_piezas, tipo_servicio, 
-            peso, contiene, costo_flete, costo_producto, comentario, id_transporte, telefonoO
+            peso, contiene, costo_flete, costo_producto, comentario, id_transporte, telefonoO, id_bodega
         ) VALUES (
-            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
         )";
 
         $data = array(
@@ -345,7 +345,7 @@ class PedidosModel extends Query
             $plataforma_importa, $cod, $estado_guia_sistema, $impreso, $facturada,
             $anulada, $identificacionO,  $nombreO, $ciudadO, $provinciaO, $provincia,
             $direccionO, $referenciaO, $numeroCasaO, $valor_segura, $no_piezas, $tipo_servicio,
-            $peso, $contiene, $costo_flete, $costo_producto, $comentario, $id_transporte, $celularO
+            $peso, $contiene, $costo_flete, $costo_producto, $comentario, $id_transporte, $celularO,    $id_bodega
         );
 
         if (substr_count($sql, '?') !== count($data)) {
@@ -602,7 +602,7 @@ LEFT JOIN `productos` ON detalle_fact_cot.id_producto = productos.id_producto
 LEFT JOIN `inventario_bodegas` ON detalle_fact_cot.id_inventario = inventario_bodegas.id_inventario
 LEFT JOIN `variedades` ON inventario_bodegas.id_variante = variedades.id_variedad
 WHERE detalle_fact_cot.id_factura = $id;";
-       //echo $sql;
+        //echo $sql;
         return $this->select($sql);
     }
 
