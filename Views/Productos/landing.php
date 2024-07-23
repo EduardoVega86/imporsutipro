@@ -1,6 +1,7 @@
 <?php require_once './Views/templates/header.php'; ?>
 <?php
-$productoExiste = $this->verificarProducto($data['id']);
+print_r($data);
+$productoExiste =  $data->productoExiste();
 if ($productoExiste == 0) {
 ?>
 

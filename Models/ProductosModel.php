@@ -831,7 +831,6 @@ WHERE b.id_plataforma = $plataforma";
         }
         return $response;
     }
-
     public function verificarProducto($id)
     {
         $sql = "SELECT * FROM `productos` WHERE id_producto = $id";

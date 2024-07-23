@@ -6,9 +6,11 @@ require 'vendor/autoload.php';
 
 class Productos extends Controller
 {
+    private $server;
     public function __construct()
     {
         parent::__construct();
+        $this->server = new Controller;
         if (!$this->isAuth())
             header("Location:  " . SERVERURL . "login");
         /* if (!$this->hasPermission(2)) {
@@ -81,7 +83,7 @@ class Productos extends Controller
 
     public function landing($id)
     {
-        $this->views->render($this, "landing");
+        $this->views->render($this, "landing", $this->server);
     }
 
 
