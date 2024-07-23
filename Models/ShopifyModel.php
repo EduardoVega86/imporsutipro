@@ -123,7 +123,7 @@ class ShopifyModel extends Query
 
             $productos[] = [
                 'id_producto_venta' => $id_producto_venta,
-                'nombre' =>  $this->removeEmojis($item['name']),
+                'nombre' =>  $this->remove_emoji($item['name']),
                 'cantidad' => $item['quantity'],
                 'precio' => $item['price'],
             ];
@@ -147,7 +147,7 @@ class ShopifyModel extends Query
 
         $contiene = trim($contiene); // Eliminar el espacio extra al final
         //si tiene emojis o caracteres especiales elimina los emojis
-        $contiene = $this->removeEmojis($contiene);
+        $contiene = $this->remove_emoji($contiene);
 
 
 
@@ -323,13 +323,37 @@ class ShopifyModel extends Query
         return $responses;
     }
 
-    function removeEmojis($text)
+    function remove_emoji($string)
     {
-        // Expresión regular para capturar emojis
-        $regex = '/[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{1F700}-\x{1F77F}]|[\x{1F780}-\x{1F7FF}]|[\x{1F800}-\x{1F8FF}]|[\x{1F900}-\x{1F9FF}]|[\x{1FA00}-\x{1FA6F}]|[\x{1FA70}-\x{1FAFF}]|[\x{1FB00}-\x{1FBFF}]|[\x{2600}-\x{26FF}]|[\x{2700}-\x{27BF}]|[\x{1F1E6}-\x{1F1FF}]|[\x{2B50}-\x{2B50}]|[\x{1F004}-\x{1F004}]|[\x{1F0CF}-\x{1F0CF}]|[\x{2B06}-\x{2B07}]|[\x{27A1}-\x{27A1}]|[\x{2934}-\x{2935}]|[\x{2B05}-\x{2B07}]|[\x{2194}-\x{2199}]|[\x{21A9}-\x{21AA}]|[\x{25AA}-\x{25AB}]|[\x{25B6}-\x{25C0}]|[\x{25FB}-\x{25FE}]|[\x{2B1B}-\x{2B1C}]|[\x{25FC}-\x{25FD}]|[\x{2B50}-\x{2B55}]|[\x{261D}-\x{261D}]|[\x{270C}-\x{270D}]|[\x{270F}-\x{270F}]|[\x{2712}-\x{2712}]|[\x{2714}-\x{2714}]|[\x{2716}-\x{2716}]|[\x{2733}-\x{2734}]|[\x{2744}-\x{2744}]|[\x{2747}-\x{2747}]|[\x{274C}-\x{274C}]|[\x{274E}-\x{274E}]|[\x{2753}-\x{2755}]|[\x{2757}-\x{2757}]|[\x{2764}-\x{2764}]|[\x{2795}-\x{2797}]|[\x{27B0}-\x{27B0}]|[\x{27BF}-\x{27BF}]|[\x{2B05}-\x{2B07}]|[\x{2194}-\x{2199}]|[\x{21A9}-\x{21AA}]|[\x{23E9}-\x{23F3}]|[\x{23F8}-\x{23FA}]|[\x{24C2}-\x{24C2}]|[\x{25AA}-\x{25AB}]|[\x{25B6}-\x{25C0}]|[\x{25FB}-\x{25FE}]|[\x{2B1B}-\x{2B1C}]|[\x{2600}-\x{26FF}]|[\x{2705}-\x{2705}]|[\x{2708}-\x{2709}]|[\x{270F}-\x{270F}]|[\x{2712}-\x{2712}]|[\x{2714}-\x{2714}]|[\x{2716}-\x{2716}]|[\x{2733}-\x{2734}]|[\x{2744}-\x{2744}]|[\x{2747}-\x{2747}]|[\x{274C}-\x{274C}]|[\x{274E}-\x{274E}]|[\x{2753}-\x{2755}]|[\x{2757}-\x{2757}]|[\x{2764}-\x{2764}]|[\x{2795}-\x{2797}]|[\x{27B0}-\x{27B0}]|[\x{27BF}-\x{27BF}]|[\x{2B50}-\x{2B50}]|[\x{2B55}-\x{2B55}]|[\x{1F004}-\x{1F004}]|[\x{1F0CF}-\x{1F0CF}]|[\x{2934}-\x{2935}]|[\x{2B05}-\x{2B07}]|[\x{2194}-\x{2199}]|[\x{21A9}-\x{21AA}]|[\x{25AA}-\x{25AB}]|[\x{25B6}-\x{25C0}]|[\x{25FB}-\x{25FE}]|[\x{2B1B}-\x{2B1C}]|[\x{2B50}-\x{2B55}]|[\x{261D}-\x{261D}]|[\x{270A}-\x{270B}]|[\x{2753}-\x{2755}]|[\x{2757}-\x{2757}]|[\x{2764}-\x{2764}]|[\x{2795}-\x{2797}]|[\x{27B0}-\x{27B0}]|[\x{27BF}-\x{27BF}]|[\x{2B50}-\x{2B50}]|[\x{2B55}-\x{2B55}]|[\x{1F004}-\x{1F004}]|[\x{1F0CF}-\x{1F0CF}]|[\x{2934}-\x{2935}]|[\x{2B05}-\x{2B07}]|[\x{2194}-\x{2199}]|[\x{21A9}-\x{21AA}]|[\x{23E9}-\x{23F3}]|[\x{23F8}-\x{23FA}]|[\x{24C2}-\x{24C2}]|[\x{25AA}-\x{25AB}]|[\x{25B6}-\x{25C0}]|[\x{25FB}-\x{25FE}]|[\x{2B1B}-\x{2B1C}]|[\x{2600}-\x{26FF}]|[\x{2705}-\x{2705}]|[\x{2708}-\x{2709}]|[\x{270F}-\x{270F}]|[\x{2712}-\x{2712}]|[\x{2714}-\x{2714}]|[\x{2716}-\x{2716}]|[\x{2733}-\x{2734}]|[\x{2744}-\x{2744}]|[\x{2747}-\x{2747}]|[\x{274C}-\x{274C}]|[\x{274E}-\x{274E}]|[\x{2753}-\x{2755}]|[\x{2757}-\x{2757}]|[\x{2764}-\x{2764}]|[\x{2795}-\x{2797}]|[\x{27B0}-\x{27B0}]|[\x{27BF}-\x{27BF}]|[\x{2B50}-\x{2B50}]|[\x{2B55}-\x{2B55}]|[\x{1F004}-\x{1F004}]|[\x{1F0CF}-\x{1F0CF}]|[\x{2934}-\x{2935}]|[\x{2B05}-\x{2B07}]|[\x{2194}-\x{2199}]|[\x{21A9}-\x{21AA}]|[\x{23E9}-\x{23F3}]|[\x{23F8}-\x{23FA}]|[\x{24C2}-\x{24C2}]|[\x{25AA}-\x{25AB}]|[\x{25B6}-\x{25C0}]|[\x{25FB}-\x{25FE}]|[\x{2B1B}-\x{2B1C}]|[\x{2600}-\x{26FF}]|[\x{2705}-\x{2705}]|[\x{2708}-\x{2709}]|[\x{270F}-\x{270F}]|[\x{2712}-\x{2712}]|[\x{2714}-\x{2714}]|[\x{2716}-\x{2716}]|[\x{2733}-\x{2734}]|[\x{2744}-\x{2744}]|[\x{2747}-\x{2747}]|[\x{274C}-\x{274C}]|[\x{274E}-\x{274E}]|[\x{2753}-\x{2755}]|[\x{2757}-\x{2757}]|[\x{2764}-\x{2764}]|[\x{2795}-\x{2797}]|[\x{27B0}-\x{27B0}]|[\x{27BF}-\x{27BF}]|[\x{2B50}-\x{2B50}]|[\x{2B55}-\x{2B55}]|[\x{1F004}-\x{1F004}]|[\x{1F0CF}-\x{1F0CF}]|[\x{2934}-\x{2935}]|[\x{2B05}-\x{2B07}]|[\x{2194}-\x{2199}]|[\x{21A9}-\x{21AA}]|[\x{23E9}-\x{23F3}]|[\x{23F8}-\x{23FA}]|[\x{24C2}-\x{24C2}]|[\x{25AA}-\x{25AB}]|[\x{25B6}-\x{25C0}]|[\x{25FB}-\x{25FE}]|[\x{2B1B}-\x{2B1C}]|[\x{2600}-\x{26FF}]|[\x{2705}-\x{2705}]|[\x{2708}-\x{2709}]|[\x{270F}-\x{270F}]|[\x{2712}-\x{2712}]|[\x{2714}-\x{2714}]|[\x{2716}-\x{2716}]|[\x{2733}-\x{2734}]|[\x{2744}-\x{2744}]|[\x{2747}-\x{2747}]|[\x{274C}-\x{274C}]|[\x{274E}-\x{274E}]|[\x{2753}-\x{2755}]|[\x{2757}-\x{2757}]|[\x{2764}-\x{2764}]|[\x{2795}-\x{2797}]|[\x{27B0}-\x{27B0}]|[\x{27BF}-\x{27BF}]|[\x{2B50}-\x{2B50}]|[\x{2B55}-\x{2B55}]|[\x{1F004}-\x{1F004}]|[\x{1F0CF}-\x{1F0CF}]|[\x{2934}-\x{2935}]|[\x{2B05}-\x{2B07}]|[\x{2194}-\x{2199}]|[\x{21A9}-\x{21AA}]|[\x{23E9}-\x{23F3}]|[\x{23F8}-\x{23FA}]|[\x{24C2}-\x{24C2}]|[\x{25AA}-\x{25AB}]|[\x{25B6}-\x{25C0}]|[\x{25FB}-\x{25FE}]|[\x{2B1B}-\x{2B1C}]|[\x{2600}-\x{26FF}]|[\x{2705}-\x{2705}]|[\x{2708}-\x{2709}]|[\x{270F}-\x{270F}]|[\x{2712}-\x{2712}]|[\x{2714}-\x{2714}]|[\x{2716}-\x{2716}]|[\x{2733}-\x{2734}]|[\x{2744}-\x{2744}]|[\x{2747}-\x{2747}]|[\x{274C}-\x{274C}]|[\x{274E}-\x{274E}]|[\x{2753}-\x{2755}]|[\x{2757}-\x{2757}]/';
+        // Match Enclosed Alphanumeric Supplement
+        $regex_alphanumeric = '/[\x{1F100}-\x{1F1FF}]/u';
+        $clear_string = preg_replace($regex_alphanumeric, '', $string);
 
-        // Eliminar emojis del texto
-        return preg_replace($regex, '', $text);
+        // Match Miscellaneous Symbols and Pictographs
+        $regex_symbols = '/[\x{1F300}-\x{1F5FF}]/u';
+        $clear_string = preg_replace($regex_symbols, '', $clear_string);
+
+        // Match Emoticons
+        $regex_emoticons = '/[\x{1F600}-\x{1F64F}]/u';
+        $clear_string = preg_replace($regex_emoticons, '', $clear_string);
+
+        // Match Transport And Map Symbols
+        $regex_transport = '/[\x{1F680}-\x{1F6FF}]/u';
+        $clear_string = preg_replace($regex_transport, '', $clear_string);
+
+        // Match Supplemental Symbols and Pictographs
+        $regex_supplemental = '/[\x{1F900}-\x{1F9FF}]/u';
+        $clear_string = preg_replace($regex_supplemental, '', $clear_string);
+
+        // Match Miscellaneous Symbols
+        $regex_misc = '/[\x{2600}-\x{26FF}]/u';
+        $clear_string = preg_replace($regex_misc, '', $clear_string);
+
+        // Match Dingbats
+        $regex_dingbats = '/[\x{2700}-\x{27BF}]/u';
+        $clear_string = preg_replace($regex_dingbats, '', $clear_string);
+
+        return $clear_string;
     }
 
     public function guardarConfiguracion($nombre, $apellido, $principal, $secundario, $provincia, $ciudad, $codigo_postal, $pais, $telefono, $email, $total, $descuento, $id_plataforma)
