@@ -643,6 +643,7 @@
 </div>
 <script>
     $(document).ready(function() {
+        
         $.ajax({
             type: "POST",
             url: SERVERURL + "Usuarios/crear_json",
@@ -655,6 +656,7 @@
                 console.error("Error en la solicitud AJAX:", error);
                 console.log("Estado:", status);
                 console.log("XHR:", xhr);
+                alert("Hubo un problema al obtener la información de la categoría");
             }
         });
     });
