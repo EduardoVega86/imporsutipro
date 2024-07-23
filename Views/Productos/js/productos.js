@@ -148,7 +148,7 @@ const listProductos = async () => {
           <td>${producto.pvp}</td>
           <td>${producto.pref}</td>
         <td><a href='${
-          SERVERURL + "productos/landing/" + id_producto
+          SERVERURL + "productos/landing/" + producto.id_producto
         }' role='button'><i class="fa-solid fa-laptop-code"></i></a></td>
           <td><i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${
             producto.id_producto
