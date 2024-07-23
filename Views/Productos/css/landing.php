@@ -3,7 +3,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 50%;
+        width: 100%;
     }
 
     .accept-btn {
