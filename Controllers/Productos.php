@@ -6,11 +6,9 @@ require 'vendor/autoload.php';
 
 class Productos extends Controller
 {
-    private $server;
     public function __construct()
     {
         parent::__construct();
-        $this->server = new Productos();
         if (!$this->isAuth())
             header("Location:  " . SERVERURL . "login");
         /* if (!$this->hasPermission(2)) {
