@@ -643,6 +643,22 @@
 </div>
 <script>
     $(document).ready(function() {
+        $.ajax({
+            type: "POST",
+            url: SERVERURL + "Usuarios/crear_json",
+            data: {
+                id: id
+            },
+            dataType: "json",
+            success: function(response) {
+
+            },
+            error: function(xhr, status, error) {
+                console.error("Error en la solicitud AJAX:", error);
+                alert("Hubo un problema al obtener la información de la categoría");
+            },
+        });
+
         $(".UpperCase").on("keypress", function() {
             $input = $(this);
             setTimeout(function() {

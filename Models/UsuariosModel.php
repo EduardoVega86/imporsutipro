@@ -773,43 +773,77 @@ class UsuariosModel extends Query
         if (file_exists($rutaArchivo)) {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = 'EL archvio ya existe';
+            $response['message'] = 'El archivo ya existe';
+            return $response;
         }
 
-        // Obtener los datos que quieres incluir en el JSON
-        $datos = [
-            'id' => $idplataforma,
-            'nombre' => 'Ejemplo de plataforma',
-            // Otros datos que necesites
-        ];
+        // Ruta del archivo JSON fuente
+        $filename = $_SERVER['DOCUMENT_ROOT'] . '/Models/modales/checkout.json';
 
-        // Convertir los datos a JSON
+        // Verificar si el archivo fuente existe
+        if (!file_exists($filename)) {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'El archivo fuente no existe';
+            return $response;
+        }
+
+        // Leer el contenido del archivo JSON fuente
+        $jsonData = file_get_contents($filename);
+        if ($jsonData === false) {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al leer el archivo fuente';
+            return $response;
+        }
+
+        // Decodificar el contenido JSON
+        $datos = json_decode($jsonData, true);
+        if ($datos === null) {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al decodificar el JSON';
+            return $response;
+        }
+
+        // Agregar el id de la plataforma a los datos
+        $datos['id'] = $idplataforma;
+
+        // Convertir los datos a JSON con formato
         $json = json_encode($datos, JSON_PRETTY_PRINT);
 
         // Verificar si la carpeta 'modales' existe, si no, crearla
         if (!is_dir($carpetaModales)) {
             if (!mkdir($carpetaModales, 0755, true)) {
-                return 'Error al crear el directorio: ' . $carpetaModales;
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'Error al crear el directorio: ' . $carpetaModales;
+                return $response;
             }
         }
 
         // Guardar el archivo en el sistema de archivos
         if (file_put_contents($rutaArchivo, $json) === false) {
-            return 'Error al escribir el archivo: ' . $rutaArchivo;
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al escribir el archivo: ' . $rutaArchivo;
+            return $response;
         }
 
         $response['status'] = 200;
-        $response['title'] = 'Exito';
-        $response['message'] = 'Archvio JSON creado';
+        $response['title'] = 'Éxito';
+        $response['message'] = 'Archivo JSON creado';
 
         return $response;
     }
 
 
-    public function actualizar_checkout($items, $id_plataforma) {
+
+    public function actualizar_checkout($items, $id_plataforma)
+    {
         // Define la ruta de archivo correcta en el sistema de archivos del servidor
         $filename = $_SERVER['DOCUMENT_ROOT'] . '/Models/modales/' . $id_plataforma . '_modal.json';
-    
+
         if (file_put_contents($filename, json_encode($items))) {
             return ['success' => true, 'message' => "Estado guardado correctamente. ID Plataforma: $id_plataforma"];
         } else {
@@ -817,6 +851,4 @@ class UsuariosModel extends Query
             return ['success' => false, 'message' => 'Error al guardar el estado'];
         }
     }
-    
-    
 }
