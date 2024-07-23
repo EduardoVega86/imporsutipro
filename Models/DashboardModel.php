@@ -16,7 +16,7 @@ class DashboardModel extends Query
                    
                 FROM cabecera_cuenta_pagar 
                 WHERE fecha BETWEEN '$fecha_i' AND '$fecha_f' 
-                AND tienda = '$plataforma' 
+                AND id_plataforma = '$id_plataforma' 
                 AND estado_guia IN (7, 9)";
         $response = $this->select($sql);
 
@@ -24,7 +24,7 @@ class DashboardModel extends Query
                     COUNT(*) as total_guias 
                 FROM cabecera_cuenta_pagar 
                 WHERE fecha BETWEEN '$fecha_i' AND '$fecha_f' 
-                AND tienda = '$plataforma' 
+                AND id_plataforma = '$id_plataforma' 
                 ;";
 
         $response2 = $this->select($sql);
@@ -35,7 +35,7 @@ class DashboardModel extends Query
                 FROM cabecera_cuenta_pagar 
                 WHERE fecha BETWEEN '$fecha_i' AND '$fecha_f' 
                 AND estado_guia = 9 
-                AND tienda = '$plataforma'";
+                AND id_plataforma = '$id_plataforma'";
         $response3 = $this->select($sql);
 
         // Consulta para pedidos
@@ -59,7 +59,7 @@ class DashboardModel extends Query
             cabecera_cuenta_pagar 
         WHERE 
             fecha BETWEEN DATE_FORMAT(NOW(), '%Y-%m-01') AND LAST_DAY(NOW()) 
-            AND tienda LIKE '%$plataforma%' 
+            AND id_plataforma LIKE '%$id_plataforma%' 
             AND estado_guia = 7 
         GROUP BY 
             dia 
