@@ -1,6 +1,7 @@
 <?php require_once './Views/templates/header.php'; ?>
 <?php
 print_r($data);
+
 $productoExiste =  $data->productoExiste();
 
 if ($productoExiste == 0) {
