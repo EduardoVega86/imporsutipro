@@ -10,6 +10,7 @@
 <?php require_once './Views/Productos/Modales/inventario_variable_index.php'; ?>
 <?php require_once './Views/Productos/Modales/Seleccion_productoAtributo.php'; ?>
 <?php require_once './Views/Productos/Modales/tabla_idInventario.php'; ?>
+<?php require_once './Views/Productos/Modales/landing_block_editor.php'; ?>
 
 
 <div class="custom-container-fluid">
