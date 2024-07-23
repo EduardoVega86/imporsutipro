@@ -654,6 +654,9 @@ function obtenerURLImagen(imagePath, serverURL) {
       // Si ya es una URL completa, retornar solo el imagePath
       return imagePath;
     } else {
+      if (imagePath.includes("../../")){
+        return SERVERURL + "public/img/broken-image.png"; // Ruta de imagen por defecto
+      }
       // Si no es una URL completa, agregar el serverURL al inicio
       return `${serverURL}${imagePath}`;
     }
