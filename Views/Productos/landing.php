@@ -97,7 +97,23 @@ if ($data == 0) {
                     success: function(response) {
                         console.log('Archivo enviado:', fileName);
                         response = JSON.parse(response);
-                        console.log('URL del archivo:', response);
+                        if (response.status === 200) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Landing guardado',
+                                text: 'El archivo se ha guardado correctamente',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error al guardar el landing',
+                                text: 'Ocurrió un error al guardar el archivo',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        }
                     },
                     error: function(xhr, status, error) {
                         console.error('Error al enviar el archivo:', error);
