@@ -12,7 +12,7 @@ class DashboardModel extends Query
         $sql = "SELECT 
                     ROUND(SUM(total_venta),2) as ventas, 
                     ROUND(SUM(monto_recibir),2) as ganancias, 
-                    ROUND(SUM(precio_envio),2) as envios,
+                    ROUND(SUM(precio_envio),2) as envios
                    
                 FROM cabecera_cuenta_pagar 
                 WHERE fecha BETWEEN '$fecha_i' AND '$fecha_f' 
