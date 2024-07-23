@@ -807,7 +807,8 @@ class UsuariosModel extends Query
 
 
     public function actualizar_checkout($items, $id_plataforma) {
-        $filename = SERVERURL . 'Models/modales/' . $id_plataforma . '_modal.json';
+        // Define la ruta de archivo correcta en el sistema de archivos del servidor
+        $filename = $_SERVER['DOCUMENT_ROOT'] . '/Models/modales/' . $id_plataforma . '_modal.json';
     
         if (file_put_contents($filename, json_encode($items))) {
             return ['success' => true, 'message' => "Estado guardado correctamente. ID Plataforma: $id_plataforma"];
@@ -816,5 +817,6 @@ class UsuariosModel extends Query
             return ['success' => false, 'message' => 'Error al guardar el estado'];
         }
     }
+    
     
 }
