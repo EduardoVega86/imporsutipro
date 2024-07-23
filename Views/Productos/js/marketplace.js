@@ -647,22 +647,30 @@ function abrirModal_infoTienda(tienda) {
 }
 
 function obtenerURLImagen(imagePath, serverURL) {
-  // Verificar si el imagePath no es null
+  // Verificar si el imagePath no es null o undefined
   if (imagePath) {
+    // Limpiar espacios en blanco al inicio y al final
+    imagePath = imagePath.trim();
+
     // Verificar si el imagePath ya es una URL completa
     if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
       // Si ya es una URL completa, retornar solo el imagePath
       return imagePath;
     } else {
-      if (imagePath.includes("../../")){
-        return SERVERURL + "public/img/broken-image.png"; // Ruta de imagen por defecto
+      // Verificar si el imagePath incluye rutas relativas inválidas
+      if (
+        imagePath.includes("../") ||
+        imagePath.includes("..\\") ||
+        imagePath === ""
+      ) {
+        return serverURL + "public/img/broken-image.png"; // Ruta de imagen por defecto
       }
       // Si no es una URL completa, agregar el serverURL al inicio
       return `${serverURL}${imagePath}`;
     }
   } else {
-    // Manejar el caso cuando imagePath es null
+    // Manejar el caso cuando imagePath es null o undefined
     console.error("imagePath es null o undefined");
-    return SERVERURL + "public/img/broken-image.png"; // Ruta de imagen por defecto
+    return serverURL + "public/img/broken-image.png"; // Ruta de imagen por defecto
   }
 }
