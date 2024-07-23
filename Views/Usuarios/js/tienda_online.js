@@ -59,6 +59,7 @@ $("#imageInputFav").on("change", function (event) {
     type: "POST",
     data: formData,
     contentType: false,
+    
     processData: false,
     success: function (response) {
       response = JSON.parse(response);
