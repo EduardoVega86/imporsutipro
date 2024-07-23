@@ -120,6 +120,7 @@
         /* Remueve el borde derecho del span */
         border-radius: 0.25rem 0 0 0.25rem;
         /* Ajusta el radio del borde */
+        height: 100%;
     }
 
     .form-group .input-group .form-control {
@@ -131,10 +132,6 @@
         /* Ajusta el radio del borde */
         padding-left: 10px;
         /* Ajusta el espacio a la izquierda del texto */
-    }
-
-    .input-group-prepend{
-        height: 100%;
     }
 
     .icon-btn.active i {
