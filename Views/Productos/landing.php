@@ -96,7 +96,8 @@ if ($data == 0) {
                     processData: false,
                     success: function(response) {
                         console.log('Archivo enviado:', fileName);
-                        console.log('Respuesta del servidor:', response);
+                        response = JSON.parse(response);
+                        console.log('URL del archivo:', response);
                     },
                     error: function(xhr, status, error) {
                         console.error('Error al enviar el archivo:', error);
