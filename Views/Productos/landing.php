@@ -69,33 +69,39 @@ if ($data == 0) {
                 const editorContent = $('#summernote').summernote('code');
 
                 const fullHtmlContent = `<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generated HTML</title>
-</head>
-<body>
-${editorContent}
-</body>
-</html>`;
+                <html lang="es">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Generated HTML</title>
+                </head>
+                <body>
+                ${editorContent}
+                </body>
+                </html>`;
 
                 const blob = new Blob([fullHtmlContent], {
                     type: 'text/html'
                 });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                const fileName = 'generated.html';
+                const fileName = "landing_" + Math.floor(Math.random() * 100000000000) + '.html';
 
-                a.href = url;
-                a.download = fileName;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
+                const formData = new FormData();
+                formData.append('file', blob, fileName);
 
-                URL.revokeObjectURL(url);
-
-                console.log('Archivo generado:', fileName);
+                $.ajax({
+                    url: 'https://imagenes.imporsuitpro.com/landing', // Cambia esta URL al script PHP que manejará la subida del archivo
+                    method: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        console.log('Archivo enviado:', fileName);
+                        console.log('Respuesta del servidor:', response);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error al enviar el archivo:', error);
+                    }
+                });
 
                 $('#html-output').text(fullHtmlContent);
             });
