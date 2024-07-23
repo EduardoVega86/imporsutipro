@@ -643,10 +643,6 @@
 </div>
 <script>
     $(document).ready(function() {
-        console.log("Documento listo"); // Verifica que el documento está listo
-
-        console.log("Iniciando solicitud AJAX"); // Verifica que la solicitud AJAX se está iniciando
-
         $.ajax({
             type: "POST",
             url: SERVERURL + "Usuarios/crear_json",
