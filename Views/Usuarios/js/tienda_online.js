@@ -113,6 +113,7 @@ function cargarInfoTienda_inicial() {
       $("#email").val(response[0].email);
       $("#direccion_tienda").val(response[0].direccion_facturacion);
       $("#imagen_logo").attr("src", SERVERURL + response[0].logo_url);
+      $("#imagePreviewFav").attr("src", SERVERURL + response[0].favicon);
 
       $("#instagram").val(response[0].instagram);
       $("#tiktok").val(response[0].tiktok);
