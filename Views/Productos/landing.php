@@ -2,6 +2,7 @@
 <?php
 print_r($data);
 $productoExiste =  $data->productoExiste();
+
 if ($productoExiste == 0) {
 ?>
 
