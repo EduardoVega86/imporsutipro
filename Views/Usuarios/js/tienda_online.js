@@ -29,8 +29,6 @@ $("#imageInputPrincipal").on("change", function (event) {
         toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
-        $("#imagen_productoModal").modal("hide");
-        reloadDataTableProductos();
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -70,8 +68,6 @@ $("#imageInputFav").on("change", function (event) {
         toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
-        $("#imagen_productoModal").modal("hide");
-        reloadDataTableProductos();
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
