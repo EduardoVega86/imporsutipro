@@ -220,107 +220,79 @@ class UsuariosModel extends Query
 
 
     public function guardar_imagen_favicon($imagen, $plataforma)
-    {
-        $response = $this->initialResponse();
-        $target_dir = "public/img/favicon_tienda/";
-        $target_file = $target_dir . basename($imagen["name"]);
-        $uploadOk = 1;
-        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+{
+    $response = $this->initialResponse();
+    $target_dir = "public/img/favicon_tienda/";
+    $target_file = $target_dir . basename($imagen["name"]);
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
-        if (!empty($imagen["tmp_name"])) {
-            $check = getimagesize($imagen["tmp_name"]);
-            if ($check !== false) {
-                $uploadOk = 1;
-            } else {
-                $response['status'] = 500;
-                $response['title'] = 'Error';
-                $response['message'] = 'El archivo no es una imagen';
-                $uploadOk = 0;
-            }
+    // Verificar si el archivo es una imagen real o falsa
+    if (!empty($imagen["tmp_name"])) {
+        $check = getimagesize($imagen["tmp_name"]);
+        if ($check !== false) {
+            $uploadOk = 1;
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = 'El archivo no fue cargado correctamente';
+            $response['message'] = 'El archivo no es una imagen';
             $uploadOk = 0;
         }
-
-        if ($imagen["size"] > 500000) {
-            $response['status'] = 500;
-            $response['title'] = 'Error';
-            $response['message'] = 'El archivo es muy grande';
-            $uploadOk = 0;
-        }
-
-        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
-            $response['status'] = 500;
-            $response['title'] = 'Error';
-            $response['message'] = 'Solo se permiten archivos JPG, JPEG, PNG';
-            $uploadOk = 0;
-        }
-
-        if ($uploadOk) {
-            if (move_uploaded_file($imagen["tmp_name"], $target_file)) {
-                $sql = "UPDATE perfil SET favicon  = ? WHERE id_plataforma = ?";
-                $data = [$target_file,  $plataforma];
-                $editar_imagen = $this->update($sql, $data);
-
-                if ($editar_imagen == 1) {
-                    $response['status'] = 200;
-                    $response['title'] = 'Peticion exitosa';
-                    $response['message'] = 'Imagen subida correctamente';
-                    $response['data'] = $target_file;
-                } else {
-                    $response['status'] = 500;
-                    $response['title'] = 'Error';
-                    $response['message'] = 'Error al actualizar la base de datos';
-                }
-            } else {
-                // Agregar más detalles de depuración
-                $error_message = 'Error desconocido';
-                switch ($imagen['error']) {
-                    case UPLOAD_ERR_INI_SIZE:
-                        $error_message = 'El archivo excede el tamaño permitido por la directiva upload_max_filesize en php.ini';
-                        break;
-                    case UPLOAD_ERR_FORM_SIZE:
-                        $error_message = 'El archivo excede el tamaño permitido por la directiva MAX_FILE_SIZE especificada en el formulario HTML';
-                        break;
-                    case UPLOAD_ERR_PARTIAL:
-                        $error_message = 'El archivo solo fue parcialmente cargado';
-                        break;
-                    case UPLOAD_ERR_NO_FILE:
-                        $error_message = 'No se cargó ningún archivo';
-                        break;
-                    case UPLOAD_ERR_NO_TMP_DIR:
-                        $error_message = 'Falta la carpeta temporal';
-                        break;
-                    case UPLOAD_ERR_CANT_WRITE:
-                        $error_message = 'No se pudo escribir el archivo en el disco';
-                        break;
-                    case UPLOAD_ERR_EXTENSION:
-                        $error_message = 'Una extensión de PHP detuvo la carga del archivo';
-                        break;
-                }
-
-                $response['status'] = 500;
-                $response['title'] = 'Error';
-                $response['message'] = 'Error al mover el archivo subido';
-                $response['debug'] = [
-                    'error_code' => $imagen['error'], // Código de error del archivo subido
-                    'error_message' => $error_message, // Mensaje de error más detallado
-                    'tmp_name' => $imagen["tmp_name"], // Verifica si existe el archivo temporal
-                    'target_file' => $target_file, // Verifica el destino
-                    'is_uploaded_file' => is_uploaded_file($imagen["tmp_name"]), // Verifica si es un archivo subido válido
-                    'file_exists' => file_exists($imagen["tmp_name"]) // Verifica si el archivo temporal existe
-                ];
-            }
-        } else {
-            $response['status'] = 500;
-            $response['title'] = 'Error';
-            $response['message'] = 'Error al subir la imagen';
-        }
-
-        return $response;
+    } else {
+        $response['status'] = 500;
+        $response['title'] = 'Error';
+        $response['message'] = 'El archivo no fue cargado correctamente';
+        $uploadOk = 0;
     }
+
+    // Verificar el tamaño del archivo
+    if ($imagen["size"] > 500000) {
+        $response['status'] = 500;
+        $response['title'] = 'Error';
+        $response['message'] = 'El archivo es muy grande';
+        $uploadOk = 0;
+    }
+
+    // Permitir solo ciertos formatos de archivo
+    if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+        $response['status'] = 500;
+        $response['title'] = 'Error';
+        $response['message'] = 'Solo se permiten archivos JPG, JPEG, PNG';
+        $uploadOk = 0;
+    }
+
+    // Verificar si $uploadOk es 0 por un error
+    if ($uploadOk == 0) {
+        $response['status'] = 500;
+        $response['title'] = 'Error';
+        $response['message'] = 'Error al subir la imagen';
+    // Si todo está bien, intenta subir el archivo
+    } else {
+        if (move_uploaded_file($imagen["tmp_name"], $target_file)) {
+            $sql = "UPDATE perfil SET favicon  = ? WHERE id_plataforma = ?";
+            $data = [$target_file,  $plataforma];
+            $editar_imagen = $this->update($sql, $data);
+
+            if ($editar_imagen == 1) {
+                $response['status'] = 200;
+                $response['title'] = 'Peticion exitosa';
+                $response['message'] = 'Imagen subida correctamente';
+                $response['data'] = $target_file;
+            } else {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'Error al actualizar la base de datos';
+            }
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al mover el archivo subido';
+        }
+    }
+
+    return $response;
+}
+
 
 
 
