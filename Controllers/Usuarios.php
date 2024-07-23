@@ -383,10 +383,18 @@ class Usuarios extends Controller
         echo json_encode($response);
     }
 
-    public function actualizar_chckout()
-    {
-        $items = $_POST['items'];
-        $response = $this->model->actualizar_chckout($items, $_SESSION['id_plataforma']);
-        echo json_encode($response);
-    }
+    public function actualizar_checkout() {
+        $data = json_decode(file_get_contents("php://input"), true);
+    
+        if (!empty($data)) {
+            $items = $data['items'];
+            $id_plataforma = $_SESSION['id_plataforma'];
+    
+            $response = $this->model->actualizar_checkout($items, $id_plataforma);
+            echo json_encode($response);
+        } else {
+            header("HTTP/1.1 400 Bad Request");
+            echo json_encode(['error' => 'No hay datos recibidos']);
+        }
+    }    
 }

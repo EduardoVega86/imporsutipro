@@ -1049,16 +1049,16 @@
             itemList.push(item);
         });
 
-        let formData = new FormData();
-        formData.append("items", itemList); // Añadir el SKU al FormData
+        let data = {
+            items: itemList
+        };
 
         // Enviar la información al servidor
         $.ajax({
-            url: SERVERURL + 'Usuarios/ajax/actualizar_checkout.php',
+            url: SERVERURL + 'Usuarios/actualizar_checkout.php',
             type: 'POST',
-            data: formData,
-            processData: false, // No procesar los datos
-            contentType: false, // No establecer ningún tipo de contenido
+            data: JSON.stringify(data),
+            contentType: 'application/json',
             success: function(response) {
                 alert('Los cambios han sido guardados.');
             },
@@ -1067,6 +1067,7 @@
             }
         });
     }
+
 
     $(document).ready(function() {
         $('#saveFormState').click(saveFormState);
