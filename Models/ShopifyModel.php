@@ -123,7 +123,7 @@ class ShopifyModel extends Query
 
             $productos[] = [
                 'id_producto_venta' => $id_producto_venta,
-                'nombre' => $item['name'],
+                'nombre' =>  $this->removeEmojis($item['name']),
                 'cantidad' => $item['quantity'],
                 'precio' => $item['price'],
             ];
@@ -148,9 +148,8 @@ class ShopifyModel extends Query
         $contiene = trim($contiene); // Eliminar el espacio extra al final
         //si tiene emojis o caracteres especiales elimina los emojis
         $contiene = $this->removeEmojis($contiene);
-        echo $nombre;
-        $nombre = $this->removeEmojis($nombre);
-        echo $nombre;
+
+
 
 
         // Aquí se pueden continuar los procesos necesarios para la orden
