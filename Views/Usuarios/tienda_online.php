@@ -101,7 +101,7 @@
                                         <div class="mb-3">
                                             <input type="file" class="form-control" id="imageInputFav" accept=".jpg,.jpeg,.png" name="imagen">
                                         </div>
-                                        <img id="imagePreviewFav" class="image-preview mb-3" src="" alt="Preview" width="200px">
+                                        <img id="imagePreviewFav" class="image-preview mb-3" src="" alt="Preview" width="50%">
                                     </form>
                                 </div>
                             </div>
