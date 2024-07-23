@@ -125,14 +125,22 @@ const listFacturas = async () => {
         if (factura.valor_pendiente == 0) {
           check = "";
         } else {
-          check = `<input type="checkbox" class="selectCheckbox" data-factura-id_cabecera="${factura.id_cabecera}" data-factura-valor="${factura.monto_recibir}">`;
+          if (filtro_facturas == "pendientes"){
+            check = `<input type="checkbox" class="selectCheckbox" data-factura-id_cabecera="${factura.id_cabecera}" data-factura-valor="${factura.monto_recibir}">`;
+          } else {
+            check = "";
+          }
         }
         acreditable = "acreditable";
       } else if (factura.estado_guia == 9) {
         if (factura.valor_pendiente == 0) {
           check = "";
         } else {
-          check = `<input type="checkbox" class="selectCheckbox" data-factura-id_cabecera="${factura.id_cabecera}" data-factura-valor="${factura.monto_recibir}">`;
+          if (filtro_facturas == "pendientes") {
+            check = `<input type="checkbox" class="selectCheckbox" data-factura-id_cabecera="${factura.id_cabecera}" data-factura-valor="${factura.monto_recibir}">`;
+          } else {
+            check = "";
+          }
         }
         acreditable = "acreditable";
       } else {
