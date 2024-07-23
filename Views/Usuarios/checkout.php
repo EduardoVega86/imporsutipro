@@ -1055,7 +1055,7 @@
 
         // Enviar la información al servidor
         $.ajax({
-            url: SERVERURL + 'Usuarios/actualizar_checkout.php',
+            url: SERVERURL + 'Usuarios/actualizar_checkout',
             type: 'POST',
             data: JSON.stringify(data),
             contentType: 'application/json',
