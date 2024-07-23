@@ -44,6 +44,11 @@ class Usuarios extends Controller
     {
         $this->views->render($this, "checkout");
     }
+    
+     public function actualizacionMasiva_tiendas()
+    {
+        $this->views->render($this, "actualizacionMasiva_tiendas");
+    }
 
 
 
