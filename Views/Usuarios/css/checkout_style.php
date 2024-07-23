@@ -113,7 +113,10 @@
     .input-group-text {
         background: transparent;
         padding-right: 0;
-        /* Remover el espacio a la derecha del ícono si es necesario */
+        padding-left: 0;
+        /* Ajustar el espacio a la izquierda del ícono si es necesario */
+        border: none;
+        /* Remueve el borde del span */
     }
 
     .form-group .input-group .form-control {
@@ -121,9 +124,13 @@
         /* Ajusta al color de borde deseado */
         border-left: none;
         /* Remueve el borde izquierdo donde se unen el ícono y el input */
+        border-radius: 0.25rem;
+        /* Ajusta el radio del borde si es necesario */
+        padding-left: 0.5rem;
+        /* Ajusta el espacio a la izquierda del texto */
     }
 
-    
+
 
     .icon-btn.active i {
         color: white;
