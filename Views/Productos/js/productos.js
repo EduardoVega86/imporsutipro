@@ -146,7 +146,7 @@ const listProductos = async () => {
           <td>${producto.pvp}</td>
           <td>${producto.pref}</td>
           <td>logo landing</td>
-          <td>${cargar_imagen}</td>
+          <td><i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${producto.id_producto},'${enlace_imagen}')"></i></td>
           <td>${subir_marketplace}</td>
           <td>${enviaCliente}</td>
           <td>${producto_variable}</td>
