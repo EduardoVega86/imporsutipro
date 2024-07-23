@@ -643,7 +643,7 @@ class WalletModel extends Query
 
     public function puedeSolicitar($tienda, $valor)
     {
-        $sql = "SELECT * FROM billeteras WHERE tienda = '$tienda'";
+        $sql = "SELECT * FROM billeteras WHERE id_plataforma = '$tienda'";
         $response =  $this->select($sql);
         $saldo = $response[0]['saldo'];
         if ($saldo <= 0) {
@@ -759,16 +759,16 @@ class WalletModel extends Query
         $response =  $this->select($sql);
         return $response;
     }
-    
-     public function obtenerGuiasAuditoria($estado, $transportadora)
+
+    public function obtenerGuiasAuditoria($estado, $transportadora)
     {
-         $where='';
-         
-         if ($transportadora != 0 ){
-          $where=" and id_transporte=$transportadora";  
-         }else{
-          $where="";     
-         }
+        $where = '';
+
+        if ($transportadora != 0) {
+            $where = " and id_transporte=$transportadora";
+        } else {
+            $where = "";
+        }
         $sql = "SELECT 
     fc.numero_factura,
     fc.numero_guia,
@@ -912,27 +912,27 @@ ORDER BY
         $response =  $this->select($sql);
         return $response;
     }
-    
+
     public function habilitarAuditoria($guia, $estado)
     {
         $response = $this->initialResponse();
-         $usuario=$_SESSION['id'];
-       $sql = "UPDATE facturas_cot set valida_transportadora = ? WHERE numero_guia = ?";
-       $response =  $this->update($sql, array($estado, $guia ));
-         if ($response == 1) {
-             $sql = "INSERT INTO auditoria_guia (`guia`, `usuario`) VALUES (?, ?)";
-             $response =  $this->insert($sql, array($guia, $usuario));
-             if ($response == 1) {
+        $usuario = $_SESSION['id'];
+        $sql = "UPDATE facturas_cot set valida_transportadora = ? WHERE numero_guia = ?";
+        $response =  $this->update($sql, array($estado, $guia));
+        if ($response == 1) {
+            $sql = "INSERT INTO auditoria_guia (`guia`, `usuario`) VALUES (?, ?)";
+            $response =  $this->insert($sql, array($guia, $usuario));
+            if ($response == 1) {
                 $responses["status"] = 200;
-            $responses["message"] = 'Exito'; 
-             }else{
-            $responses["status"] = 400;
-            $responses["message"] = $response["message"];
-             }
+                $responses["message"] = 'Exito';
+            } else {
+                $responses["status"] = 400;
+                $responses["message"] = $response["message"];
+            }
         } else {
             $responses["status"] = 400;
             $responses["message"] = $response["message"];
         }
-       return $responses;
+        return $responses;
     }
 }

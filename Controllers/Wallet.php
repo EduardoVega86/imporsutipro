@@ -208,7 +208,7 @@ class Wallet extends Controller
         $id_cuenta = $_POST['id_cuenta'];
         $valor = $_POST['valor'];
         $otro = $_POST['otro'] ?? 0;
-        $puedeSolicitar = $this->model->puedeSolicitar($_SESSION["enlace"], $valor);
+        $puedeSolicitar = $this->model->puedeSolicitar($_SESSION["id_plataforma"], $valor);
         if ($puedeSolicitar == false) {
             echo json_encode(["status" => 400, "message" => "No puedes solicitar un pago mayor al saldo disponible en tu billetera o ya tienes una solicitud pendiente"]);
             return;
@@ -317,23 +317,23 @@ class Wallet extends Controller
         $response = $this->model->obtenerSolicitudes_otrasFormasPago();
         echo json_encode($response);
     }
-    
+
     public function obtenerGuiasAuditoria()
     {
         //echo $estado;
         $estado = $_POST['estado'];
-         $transportadora = $_POST['transportadora'];
+        $transportadora = $_POST['transportadora'];
         $response = $this->model->obtenerGuiasAuditoria($estado, $transportadora);
         echo json_encode($response);
     }
-    
+
     public function habilitarAuditoria()
     {
-        
+
         $guia = $_POST['numero_guia'];
         $estado = $_POST['estado'];
-       
-        
+
+
         $response = $this->model->habilitarAuditoria($guia, $estado);
         echo json_encode($response);
     }
