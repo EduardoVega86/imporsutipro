@@ -22,7 +22,7 @@ if ($data == 0) {
             <div class="col-12">
                 <h3 class="text-center">Landing</h3>
                 <div class="editor-container">
-                    <textarea id="text-editor"></textarea>
+                    <textarea id="summernote"></textarea>
                     <button class="accept-btn" id="accept-btn">Aceptar</button>
                     <div class="html-output" id="html-output"></div>
                 </div>
@@ -32,21 +32,72 @@ if ($data == 0) {
 }
     ?>
     <script>
-        tinymce.init({
-            selector: '#text-editor',
-            menubar: false,
-            plugins: [
-                'advlist autolink lists link image charmap print preview anchor',
-                'searchreplace visualblocks code fullscreen',
-                'insertdatetime media table paste code help wordcount'
-            ],
-            toolbar: 'undo redo | formatselect | image | media | link | code | table | bold italic backcolor | \
-                              alignleft aligncenter alignright alignjustify | \
-                              bullist numlist outdent indent | removeformat | help'
-        });
+        $(document).ready(function() {
+            $('#summernote').summernote({
+                height: 300,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'italic', 'underline', 'clear']],
+                    ['fontname', ['fontname']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['fullscreen', 'codeview', 'help']]
+                ],
+                callbacks: {
+                    onImageUpload: function(files) {
+                        const formData = new FormData();
+                        formData.append('file', files[0]);
 
-        document.getElementById('accept-btn').addEventListener('click', () => {
-            const editorContent = tinymce.get('text-editor').getContent();
-            document.getElementById('html-output').innerHTML = editorContent;
+                        $.ajax({
+                            url: 'https://imagenes.imporsuitpro.com/subir',
+                            method: 'POST',
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            success: function(url) {
+                                $('#summernote').summernote('editor.insertImage', "https://imagenes.imporsuitpro.com/" + url);
+                            }
+                        });
+                    }
+                }
+            });
+
+            $('#accept-btn').click(function() {
+                const editorContent = $('#summernote').summernote('code');
+
+                const fullHtmlContent = `<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generated HTML</title>
+</head>
+<body>
+${editorContent}
+</body>
+</html>`;
+
+                const blob = new Blob([fullHtmlContent], {
+                    type: 'text/html'
+                });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                const fileName = 'generated.html';
+
+                a.href = url;
+                a.download = fileName;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+
+                URL.revokeObjectURL(url);
+
+                console.log('Archivo generado:', fileName);
+
+                $('#html-output').text(fullHtmlContent);
+            });
         });
-        <?php require_once './Views/templates/footer.php'; ?>
+    </script>
+    <?php require_once './Views/templates/footer.php'; ?>
