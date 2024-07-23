@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.5.0/nouislider.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.css" rel="stylesheet">
 </head>
 
 
@@ -62,14 +63,14 @@
 
 
                 <a href="<?php echo SERVERURL ?>Productos/importacion_masiva"><i class='bx bxs-cart-download menu-icon'></i> <span class="menu-text">Importación Masiva</span></a>
-                
-               
+
+
             </div>
- <a href="#" class="dropdown-btn" data-target="#tienda"><i class='bx bx-store menu-icon'></i> <span class="menu-text">Tienda Online</span></a>
- <div class="submenu" id="tienda">
-  <a href="<?php echo SERVERURL ?>Productos/productos_tienda"><i class='bx bxs-cart menu-icon'></i> <span class="menu-text">Productos Tienda</span></a>
- <a href="<?php echo SERVERURL ?>usuarios/tienda_online"><i class='bx bxs-store menu-icon'></i> <span class="menu-text">Tienda Online</span></a>
-  </div>
+            <a href="#" class="dropdown-btn" data-target="#tienda"><i class='bx bx-store menu-icon'></i> <span class="menu-text">Tienda Online</span></a>
+            <div class="submenu" id="tienda">
+                <a href="<?php echo SERVERURL ?>Productos/productos_tienda"><i class='bx bxs-cart menu-icon'></i> <span class="menu-text">Productos Tienda</span></a>
+                <a href="<?php echo SERVERURL ?>usuarios/tienda_online"><i class='bx bxs-store menu-icon'></i> <span class="menu-text">Tienda Online</span></a>
+            </div>
             <a href="#" class="dropdown-btn" data-target="#submenu_inventario"><i class='bx bx-list-plus menu-icon'></i> <span class="menu-text">Inventarios</span></a>
 
             <div class="submenu" id="submenu_inventario">
@@ -107,7 +108,7 @@
                     <a href="<?php echo SERVERURL ?>wallet/auditoria_guias"><i class="fa-solid fa-search menu-icon"></i> <span class="menu-text">Auditoria</span></a>
                 <?php
                 }
-                ?> 
+                ?>
             </div>
             <a href="#" class="dropdown-btn" data-target="#submenu4"><i class='bx bx-cog menu-icon'></i> <span class="menu-text">Configuración</span></a>
             <div class="submenu" id="submenu4">
@@ -121,7 +122,7 @@
                 <?php
                 }
                 ?>
-                    
+
                 <!--a href="#"><i class='bx bxs-user-detail menu-icon'></i> <span class="menu-text">Roles</span></a-->
                 <a href="<?php echo SERVERURL ?>shopify/constructor"><i class="fa-brands fa-shopify menu-icon"></i> <span class="menu-text">Shopify</span></a>
             </div>
@@ -138,8 +139,8 @@
             <div class="container-fluid">
                 <a class="navbar-brand img_logo" href="<?php echo SERVERURL ?>dashboard"><img src="<?php echo IMAGEN_LOGO; ?>" alt="IMORSUIT" width="100px" height="44px"></a>
                 <div class="navbar-right">
-                <?php if (MARCA == "IMPORSUIT"){ ?>
-                    <a class="nav-link" href="#"><box-icon type='solid' name='videos' color="<?php echo COLOR_LETRAS; ?>"></box-icon> Tutoriales</a>
+                    <?php if (MARCA == "IMPORSUIT") { ?>
+                        <a class="nav-link" href="#"><box-icon type='solid' name='videos' color="<?php echo COLOR_LETRAS; ?>"></box-icon> Tutoriales</a>
                     <?php } ?>
                     <span class="navbar-text"><box-icon name='wallet' color="<?php echo COLOR_LETRAS; ?>"></box-icon> $<span id="precio_wallet"></span></span>
                     <img src="https://new.imporsuitpro.com/public/img/img.png" class="profile-pic" id="profilePic" alt="Perfil">
