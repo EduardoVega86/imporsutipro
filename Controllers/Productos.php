@@ -81,7 +81,9 @@ class Productos extends Controller
 
     public function landing($id)
     {
-        $this->views->render($this, "landing", $this->server);
+        $existe_producto = $this->model->verificarProducto($id);
+
+        $this->views->render($this, "landing", $existe_producto);
     }
 
 
