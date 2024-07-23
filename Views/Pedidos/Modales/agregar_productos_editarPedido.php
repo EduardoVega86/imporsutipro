@@ -25,7 +25,7 @@
             <div class="modal-body">
                 <div class="table-responsive">
                     <!-- <table class="table table-bordered table-striped table-hover"> -->
-                    <table id="datatable_nuevosPedidos" class="table table-striped">
+                    <table id="datatable_nuevosPedidos" width="100%" class="table table-striped">
                         <!-- <caption>
                     DataTable.js Demo
                 </caption> -->
