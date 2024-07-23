@@ -223,7 +223,7 @@ class Usuarios extends Controller
     public function guardar_imagen_favicon()
     {
 
-        $response = $this->model->guardar_imagen_favicon($_FILES['imagen'], $_SESSION['id_plataforma']);
+        $response = $this->model->guardar_imagen_favicon($_FILES['imageFormFavicon'], $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
 
