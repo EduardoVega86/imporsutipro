@@ -10,7 +10,7 @@ class Productos extends Controller
     public function __construct()
     {
         parent::__construct();
-        $this->server = new Controller;
+        $this->server = new Productos();
         if (!$this->isAuth())
             header("Location:  " . SERVERURL . "login");
         /* if (!$this->hasPermission(2)) {
