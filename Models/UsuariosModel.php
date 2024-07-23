@@ -767,7 +767,7 @@ class UsuariosModel extends Query
         $rutaArchivo = $carpetaModales . '/' . $nombreArchivo;
 
         // Mensaje de depuración
-        echo 'Ruta del archivo JSON: ' . $rutaArchivo . '<br>';
+        /* echo 'Ruta del archivo JSON: ' . $rutaArchivo . '<br>'; */
 
         // Verificar si el archivo ya existe
         if (file_exists($rutaArchivo)) {
