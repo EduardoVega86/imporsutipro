@@ -643,22 +643,28 @@
 </div>
 <script>
     $(document).ready(function() {
+        console.log("Documento listo"); // Verifica que el documento está listo
+
+        console.log("Iniciando solicitud AJAX"); // Verifica que la solicitud AJAX se está iniciando
+
         $.ajax({
             type: "POST",
             url: SERVERURL + "Usuarios/crear_json",
-            data: {
-                id: id
-            },
             dataType: "json",
             success: function(response) {
-
+                console.log("Respuesta recibida:", response); // Verifica la respuesta
+                // Aquí manejas la respuesta del servidor
             },
             error: function(xhr, status, error) {
                 console.error("Error en la solicitud AJAX:", error);
+                console.log("Estado:", status);
+                console.log("XHR:", xhr);
                 alert("Hubo un problema al obtener la información de la categoría");
-            },
+            }
         });
+    });
 
+    $(document).ready(function() {
         $(".UpperCase").on("keypress", function() {
             $input = $(this);
             setTimeout(function() {
