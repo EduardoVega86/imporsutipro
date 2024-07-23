@@ -79,6 +79,11 @@ class Productos extends Controller
         $this->views->render($this, "productos_tienda");
     }
 
+    public function landing($id)
+    {
+        $this->views->render($this, "landing");
+    }
+
 
 
     ///Funciones
@@ -89,13 +94,13 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
-    
+
     public function obtener_productos_tienda()
     {
         $response = $this->model->obtener_productos_tienda($_SESSION['id_plataforma']);
         echo json_encode($response);
     }
-    
+
 
     public function obtener_productos_inventario()
 
@@ -109,8 +114,8 @@ class Productos extends Controller
         $response = $this->model->obtenerProducto($id, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
-    
-     public function obtener_producto_tienda($id)
+
+    public function obtener_producto_tienda($id)
     {
         $response = $this->model->obtenerProductoTienda($id);
         echo json_encode($response);
@@ -118,7 +123,7 @@ class Productos extends Controller
 
     public function eliminar_producto_tienda($id)
     {
-        $response = $this->model->eliminar_producto_tienda($id,$_SESSION['id_plataforma']);
+        $response = $this->model->eliminar_producto_tienda($id, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
 
@@ -379,18 +384,18 @@ class Productos extends Controller
 
         echo json_encode($response);
     }
-    
+
     public function editarProductoTienda()
     {
         $id_producto_tienda = $_POST['id_producto_tienda'];
         $nombre = $_POST['nombre'];
-         $pvp_tienda = $_POST['pvp_tienda'];
-          $id_categoria = $_POST['id_categoria'];
-     
+        $pvp_tienda = $_POST['pvp_tienda'];
+        $id_categoria = $_POST['id_categoria'];
+
         $pref = $_POST['pref'] ?? 0;
 
 
-        $response = $this->model->editarProductoTienda($id_producto_tienda, $nombre, $pvp_tienda, $id_categoria, $pref  );
+        $response = $this->model->editarProductoTienda($id_producto_tienda, $nombre, $pvp_tienda, $id_categoria, $pref);
 
         echo json_encode($response);
     }
@@ -583,24 +588,30 @@ class Productos extends Controller
         }
         echo json_encode($response);
     }
-    
-    
+
+
     public function importar_productos_tienda()
     {
 
         // Obtener el ID de inventario desde el formulario
-      $id_producto = $_POST['id_producto'];
+        $id_producto = $_POST['id_producto'];
 
-       $response = $this->model->importar_productos_tienda($id_producto, $_SESSION['id_plataforma']);
-       echo json_encode($response);
+        $response = $this->model->importar_productos_tienda($id_producto, $_SESSION['id_plataforma']);
+        echo json_encode($response);
     }
-    
-    
-     public function agregarDestacado()
+
+
+    public function agregarDestacado()
     {
         $id_producto_tienda = $_POST['id_producto_tienda'];
         $destacado = $_POST['destacado'];
         $response = $this->model->agregarDestacado($id_producto_tienda, $destacado);
+        echo json_encode($response);
+    }
+
+    public function verificarProducto($id)
+    {
+        $response = $this->model->verificarProducto($id);
         echo json_encode($response);
     }
 }

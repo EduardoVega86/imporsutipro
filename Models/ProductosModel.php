@@ -234,28 +234,28 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
     public function eliminarProducto($id, $plataforma)
     {
         $response = $this->initialResponse();
-        
+
         $inicial_prod = $this->select("SELECT * from detalle_fact_cot  where id_producto= $id");
 
         //print_r($inicial_prod);
         $ingreso_tienda = 0;
         if (empty($inicial_prod)) {
-            
-        
-        $sql = "DELETE FROM productos WHERE id_producto = ? AND id_plataforma = ?";
-        $data = [$id, $plataforma];
-        $eliminar_producto = $this->delete($sql, $data);
-        if ($eliminar_producto == 1) {
-            $response['status'] = 200;
-            $response['title'] = 'Peticion exitosa';
-            $response['message'] = 'Producto eliminado correctamente';
+
+
+            $sql = "DELETE FROM productos WHERE id_producto = ? AND id_plataforma = ?";
+            $data = [$id, $plataforma];
+            $eliminar_producto = $this->delete($sql, $data);
+            if ($eliminar_producto == 1) {
+                $response['status'] = 200;
+                $response['title'] = 'Peticion exitosa';
+                $response['message'] = 'Producto eliminado correctamente';
+            } else {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = $eliminar_producto['message'];
+            }
         } else {
             $response['status'] = 500;
-            $response['title'] = 'Error';
-            $response['message'] = $eliminar_producto['message'];
-        }
-        }else{
-             $response['status'] = 500;
             $response['title'] = 'Error';
             $response['message'] = 'El producto ya tienes pedidos vinculados';
         }
@@ -830,5 +830,16 @@ WHERE b.id_plataforma = $plataforma";
             // $response['message'] = $editar_producto['message'];
         }
         return $response;
+    }
+
+    public function verificarProducto($id)
+    {
+        $sql = "SELECT * FROM `productos` WHERE id_producto = $id";
+        $response =  $this->select($sql);
+        if (empty($response)) {
+            return 0;
+        } else {
+            return 1;
+        }
     }
 }

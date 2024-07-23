@@ -134,7 +134,9 @@ const listProductos = async () => {
 
       content += `
         <tr>
-          <td><input type="checkbox" class="selectCheckbox" data-id="${producto.id_producto}"></td>
+          <td><input type="checkbox" class="selectCheckbox" data-id="${
+            producto.id_producto
+          }"></td>
           <td>${botonId_inventario}</td>
           <td>${cargar_imagen}</td>
           <td>${producto.codigo_producto}</td>
@@ -145,15 +147,25 @@ const listProductos = async () => {
           <td>${producto.pcp}</td>
           <td>${producto.pvp}</td>
           <td>${producto.pref}</td>
-          <td><span role='button' id='landing_${producto.id_producto}'><i class="fa-solid fa-laptop-code"></i></span></td>
-          <td><i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${producto.id_producto},'${enlace_imagen}')"></i></td>
+        <td><a href='${
+          SERVERURL + "productos/landing/" + id_producto
+        }' role='button'><i class="fa-solid fa-laptop-code"></i></a></td>
+          <td><i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${
+            producto.id_producto
+          },'${enlace_imagen}')"></i></td>
           <td>${subir_marketplace}</td>
           <td>${enviaCliente}</td>
           <td>${producto_variable}</td>
-          <td><i class="fa-solid fa-store" style='cursor:pointer' onclick="importar_productos_tienda(${producto.id_producto})"></i></td>
+          <td><i class="fa-solid fa-store" style='cursor:pointer' onclick="importar_productos_tienda(${
+            producto.id_producto
+          })"></i></td>
           <td>
-            <button class="btn btn-sm btn-primary" onclick="editarProducto(${producto.id_producto})"><i class="fa-solid fa-pencil"></i>Editar</button>
-            <button class="btn btn-sm btn-danger" onclick="eliminarProducto(${producto.id_producto})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
+            <button class="btn btn-sm btn-primary" onclick="editarProducto(${
+              producto.id_producto
+            })"><i class="fa-solid fa-pencil"></i>Editar</button>
+            <button class="btn btn-sm btn-danger" onclick="eliminarProducto(${
+              producto.id_producto
+            })"><i class="fa-solid fa-trash-can"></i>Borrar</button>
           </td>
         </tr>`;
     });
