@@ -133,6 +133,10 @@
         /* Ajusta el espacio a la izquierda del texto */
     }
 
+    .input-group-prepend{
+        height: 100%;
+    }
+
     .icon-btn.active i {
         color: white;
         /* O puedes usar #FFFFFF */
