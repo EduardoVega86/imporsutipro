@@ -220,15 +220,13 @@ class UsuariosModel extends Query
 
 
     public function guardar_imagen_favicon($imagen, $plataforma)
-{
-    $response = $this->initialResponse();
-    $target_dir = "public/img/favicon_tienda/";
-    $target_file = $target_dir . basename($imagen["name"]);
-    $uploadOk = 1;
-    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+    {
+        $response = $this->initialResponse();
+        $target_dir = "public/img/favicon_tienda/";
+        $target_file = $target_dir . basename($imagen["name"]);
+        $uploadOk = 1;
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
-    // Verificar si el archivo es una imagen real o falsa
-    if (!empty($imagen["tmp_name"])) {
         $check = getimagesize($imagen["tmp_name"]);
         if ($check !== false) {
             $uploadOk = 1;
@@ -238,63 +236,47 @@ class UsuariosModel extends Query
             $response['message'] = 'El archivo no es una imagen';
             $uploadOk = 0;
         }
-    } else {
-        $response['status'] = 500;
-        $response['title'] = 'Error';
-        $response['message'] = 'El archivo no fue cargado correctamente';
-        $uploadOk = 0;
-    }
 
-    // Verificar el tamaño del archivo
-    if ($imagen["size"] > 500000) {
-        $response['status'] = 500;
-        $response['title'] = 'Error';
-        $response['message'] = 'El archivo es muy grande';
-        $uploadOk = 0;
-    }
+        if ($imagen["size"] > 500000) {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'El archivo es muy grande';
+            $uploadOk = 0;
+        }
 
-    // Permitir solo ciertos formatos de archivo
-    if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
-        $response['status'] = 500;
-        $response['title'] = 'Error';
-        $response['message'] = 'Solo se permiten archivos JPG, JPEG, PNG';
-        $uploadOk = 0;
-    }
-
-    // Verificar si $uploadOk es 0 por un error
-    if ($uploadOk == 0) {
-        $response['status'] = 500;
-        $response['title'] = 'Error';
-        $response['message'] = 'Error al subir la imagen';
-    // Si todo está bien, intenta subir el archivo
-    } else {
-        if (move_uploaded_file($imagen["tmp_name"], $target_file)) {
-            $sql = "UPDATE perfil SET favicon  = ? WHERE id_plataforma = ?";
-            $data = [$target_file,  $plataforma];
-            $editar_imagen = $this->update($sql, $data);
-
-            if ($editar_imagen == 1) {
+        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Solo se permiten archivos JPG, JPEG, PNG';
+            $uploadOk = 0;
+        } else {
+            if (move_uploaded_file($imagen["tmp_name"], $target_file)) {
                 $response['status'] = 200;
                 $response['title'] = 'Peticion exitosa';
                 $response['message'] = 'Imagen subida correctamente';
                 $response['data'] = $target_file;
+
+                $sql = "UPDATE perfil SET favicon = ? WHERE id_plataforma = ?";
+                $data = [$target_file, $plataforma];
+                $editar_imagen = $this->update($sql, $data);
+                if ($editar_imagen == 1) {
+                    $response['status'] = 200;
+                    $response['title'] = 'Peticion exitosa';
+                    $response['message'] = 'Imagen subida correctamente';
+                } else {
+                    $response['status'] = 500;
+                    $response['title'] = 'Error';
+                    $response['message'] = 'Error al subir la imagen';
+                }
             } else {
                 $response['status'] = 500;
                 $response['title'] = 'Error';
-                $response['message'] = 'Error al actualizar la base de datos';
+                $response['message'] = 'Error al subir la imagen';
             }
-        } else {
-            $response['status'] = 500;
-            $response['title'] = 'Error';
-            $response['message'] = 'Error al mover el archivo subido';
         }
+
+        return $response;
     }
-
-    return $response;
-}
-
-
-
 
 
     /* tienda online */
