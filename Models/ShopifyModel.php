@@ -146,7 +146,7 @@ class ShopifyModel extends Query
 
 
         $contiene = trim($contiene); // Eliminar el espacio extra al final
-
+        print_r($contiene);
         //si tiene emojis o caracteres especiales elimina los emojis
 
 
