@@ -871,8 +871,8 @@
 
     function loadAndSetInitialData() {
         id_plataforma = <?php echo $_SESSION["id_plataforma"]; ?>
-        
-        $.getJSON(SERVERURL+'Models/modales/'+ id_plataforma +'_modal.json', function(data) {
+
+        $.getJSON(SERVERURL + 'Models/modales/' + id_plataforma + '_modal.json', function(data) {
             data.forEach(item => {
                 processItem(item);
             });
@@ -1005,7 +1005,6 @@
 
     function saveFormState() {
         var itemList = [];
-        var id_plataforma = <?php echo $_SESSION["id_plataforma"]; ?>
 
         var defaultCodigosDescuento = {
             "id_elemento": "codigosDescuento",
@@ -1050,18 +1049,16 @@
             itemList.push(item);
         });
 
-        // Incluye id_plataforma en los datos enviados
-        var dataToSend = {
-            id_plataforma: id_plataforma,
-            items: itemList
-        };
+        let formData = new FormData();
+        formData.append("items", itemList); // Añadir el SKU al FormData
 
         // Enviar la información al servidor
         $.ajax({
             url: SERVERURL + 'Usuarios/ajax/actualizar_checkout.php',
             type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(dataToSend),
+            data: formData,
+            processData: false, // No procesar los datos
+            contentType: false, // No establecer ningún tipo de contenido
             success: function(response) {
                 alert('Los cambios han sido guardados.');
             },

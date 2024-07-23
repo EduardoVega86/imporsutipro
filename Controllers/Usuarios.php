@@ -382,4 +382,11 @@ class Usuarios extends Controller
            $response = $this->model->crear_json($_SESSION['id_plataforma']);
         echo json_encode($response);
     }
+
+    public function actualizar_chckout()
+    {
+        $items = $_POST['items'];
+        $response = $this->model->actualizar_chckout($items, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
 }
