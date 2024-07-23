@@ -258,20 +258,31 @@ class UsuariosModel extends Query
             $uploadOk = 0;
         }
 
-        if ($uploadOk && move_uploaded_file($imagen["tmp_name"], $target_file)) {
-            $sql = "UPDATE perfil SET favicon  = ? WHERE id_plataforma = ?";
-            $data = [$target_file,  $plataforma];
-            $editar_imagen = $this->update($sql, $data);
+        if ($uploadOk) {
+            if (move_uploaded_file($imagen["tmp_name"], $target_file)) {
+                $sql = "UPDATE perfil SET favicon  = ? WHERE id_plataforma = ?";
+                $data = [$target_file,  $plataforma];
+                $editar_imagen = $this->update($sql, $data);
 
-            if ($editar_imagen == 1) {
-                $response['status'] = 200;
-                $response['title'] = 'Peticion exitosa';
-                $response['message'] = 'Imagen subida correctamente';
-                $response['data'] = $target_file;
+                if ($editar_imagen == 1) {
+                    $response['status'] = 200;
+                    $response['title'] = 'Peticion exitosa';
+                    $response['message'] = 'Imagen subida correctamente';
+                    $response['data'] = $target_file;
+                } else {
+                    $response['status'] = 500;
+                    $response['title'] = 'Error';
+                    $response['message'] = 'Error al actualizar la base de datos';
+                }
             } else {
                 $response['status'] = 500;
                 $response['title'] = 'Error';
-                $response['message'] = 'Error al subir la imagen';
+                $response['message'] = 'Error al mover el archivo subido';
+                $response['debug'] = [
+                    'error_code' => $_FILES['imagen']['error'], // Agrega información de error
+                    'tmp_name' => $imagen["tmp_name"], // Verifica si existe el archivo temporal
+                    'target_file' => $target_file // Verifica el destino
+                ];
             }
         } else {
             $response['status'] = 500;
@@ -281,6 +292,7 @@ class UsuariosModel extends Query
 
         return $response;
     }
+
 
 
     /* tienda online */
