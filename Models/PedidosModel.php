@@ -554,10 +554,10 @@ WHERE tmp.session_id = '$tmp'";
         return $response;
     }
 
-    public function actualizarDetalle($id_detalle, $descuento, $precio)
+    public function actualizarDetalle($id_detalle, $descuento, $precio, $cantidad)
     {
-        $sql = "UPDATE detalle_fact_cot SET desc_venta = ?, precio_venta = ? WHERE id_detalle = ?";
-        $data = [$descuento, $precio, $id_detalle];
+        $sql = "UPDATE detalle_fact_cot SET desc_venta = ?, precio_venta = ?, cantidad = ? WHERE id_detalle = ?";
+        $data = [$descuento, $precio, $cantidad, $id_detalle];
         $responses = $this->update($sql, $data);
         //print_r($responses);
         if ($responses == 1) {
