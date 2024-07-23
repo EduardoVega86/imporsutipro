@@ -767,7 +767,7 @@ class UsuariosModel extends Query
         $rutaArchivo = $carpetaModales . '/' . $nombreArchivo;
 
         // Mensaje de depuración
-        /* echo 'Ruta del archivo JSON: ' . $rutaArchivo . '<br>'; */
+        echo 'Ruta del archivo JSON: ' . $rutaArchivo . '<br>';
 
         // Verificar si el archivo ya existe
         if (file_exists($rutaArchivo)) {
@@ -778,7 +778,7 @@ class UsuariosModel extends Query
         }
 
         // Ruta del archivo JSON fuente
-        $filename = $_SERVER['DOCUMENT_ROOT'] . '/Models/modales/checkout.json';
+        $filename = $_SERVER['DOCUMENT_ROOT'] . '/Views/Usuarios/json/checkout.json';
 
         // Verificar si el archivo fuente existe
         if (!file_exists($filename)) {
@@ -797,20 +797,14 @@ class UsuariosModel extends Query
             return $response;
         }
 
-        // Decodificar el contenido JSON
+        // Decodificar el contenido JSON como array
         $datos = json_decode($jsonData, true);
-        if ($datos === null) {
+        if ($datos === null || !is_array($datos)) {
             $response['status'] = 500;
             $response['title'] = 'Error';
             $response['message'] = 'Error al decodificar el JSON';
             return $response;
         }
-
-        // Agregar el id de la plataforma a los datos
-        $datos['id'] = $idplataforma;
-
-        // Convertir los datos a JSON con formato
-        $json = json_encode($datos, JSON_PRETTY_PRINT);
 
         // Verificar si la carpeta 'modales' existe, si no, crearla
         if (!is_dir($carpetaModales)) {
@@ -823,7 +817,7 @@ class UsuariosModel extends Query
         }
 
         // Guardar el archivo en el sistema de archivos
-        if (file_put_contents($rutaArchivo, $json) === false) {
+        if (file_put_contents($rutaArchivo, json_encode($datos, JSON_PRETTY_PRINT)) === false) {
             $response['status'] = 500;
             $response['title'] = 'Error';
             $response['message'] = 'Error al escribir el archivo: ' . $rutaArchivo;
@@ -836,8 +830,6 @@ class UsuariosModel extends Query
 
         return $response;
     }
-
-
 
     public function actualizar_checkout($items, $id_plataforma)
     {
