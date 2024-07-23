@@ -412,4 +412,10 @@ class Usuarios extends Controller
             echo json_encode(['error' => 'No hay datos recibidos']);
         }
     }
+    
+     public function actualizacionMasivaTiendas()
+    {
+       $response = $this->model->actualizacionMasivaTiendas();
+        echo json_encode($response);
+    }
 }
