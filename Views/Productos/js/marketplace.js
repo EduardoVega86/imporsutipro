@@ -658,7 +658,8 @@ function obtenerURLImagen(imagePath, serverURL) {
       if (
         imagePath.includes("../") ||
         imagePath.includes("..\\") ||
-        imagePath === ""
+        imagePath === "" ||
+        imagePath === "."
       ) {
         return serverURL + "public/img/broken-image.png"; // Ruta de imagen por defecto
       }
