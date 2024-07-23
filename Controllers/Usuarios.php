@@ -222,10 +222,19 @@ class Usuarios extends Controller
     }
     public function guardar_imagen_favicon()
     {
-
-        $response = $this->model->guardar_imagen_favicon($_FILES['imagen'], $_SESSION['id_plataforma']);
-        echo json_encode($response);
+        if (isset($_FILES['imagen']) && isset($_SESSION['id_plataforma'])) {
+            $response = $this->model->guardar_imagen_favicon($_FILES['imagen'], $_SESSION['id_plataforma']);
+            echo json_encode($response);
+        } else {
+            $response = [
+                'status' => 500,
+                'title' => 'Error',
+                'message' => 'Datos faltantes o incorrectos'
+            ];
+            echo json_encode($response);
+        }
     }
+
 
     public function sigue_logeado()
     {
@@ -309,7 +318,7 @@ class Usuarios extends Controller
         $response = $this->model->obtener_testimonios($_SESSION['id_plataforma']);
         echo json_encode($response);
     }
-    
+
     public function obtener_testimoniotiendaID()
     {
         $id = $_POST['id'];
@@ -325,7 +334,7 @@ class Usuarios extends Controller
         $response = $this->model->agregarTestimonios($nombre, $testimonio, $imagen, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
-    
+
     public function eliminarTestimonio()
     {
         $id = $_POST['id'];
@@ -359,42 +368,43 @@ class Usuarios extends Controller
         $response = $this->model->cambiarcolortienda($campo, $valor, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
-    
-     public function actualizar_plataforma()
-    {        
-//$nombre = $_POST['nombre'];
-     // $nombre_tienda=   $_POST['nombre_tienda'];
-     
-      $ruc_tienda=     $_POST['ruc'];
-       $telefono_tienda=     $_POST['telefono_tienda'];
-      $email_tienda=    $_POST['email_tienda'];
-       $direccion_tienda=   $_POST['direccion_tienda'];
-      $pais_tienda=    $_POST['pais_tienda'];  
-      $facebook=    $_POST['facebook'];  
-      $instagram=    $_POST['instagram'];  
-      $tiktok=    $_POST['tiktok'];  
-      $response = $this->model->actualizar_tienda($ruc_tienda,$telefono_tienda, $email_tienda, $direccion_tienda, $pais_tienda, $_SESSION['id_plataforma'], $facebook, $instagram, $tiktok);
-       echo json_encode($response);
-       
-    }
-    
-    function crear_json(){
-           $response = $this->model->crear_json($_SESSION['id_plataforma']);
+
+    public function actualizar_plataforma()
+    {
+        //$nombre = $_POST['nombre'];
+        // $nombre_tienda=   $_POST['nombre_tienda'];
+
+        $ruc_tienda =     $_POST['ruc'];
+        $telefono_tienda =     $_POST['telefono_tienda'];
+        $email_tienda =    $_POST['email_tienda'];
+        $direccion_tienda =   $_POST['direccion_tienda'];
+        $pais_tienda =    $_POST['pais_tienda'];
+        $facebook =    $_POST['facebook'];
+        $instagram =    $_POST['instagram'];
+        $tiktok =    $_POST['tiktok'];
+        $response = $this->model->actualizar_tienda($ruc_tienda, $telefono_tienda, $email_tienda, $direccion_tienda, $pais_tienda, $_SESSION['id_plataforma'], $facebook, $instagram, $tiktok);
         echo json_encode($response);
     }
 
-    public function actualizar_checkout() {
+    function crear_json()
+    {
+        $response = $this->model->crear_json($_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
+    public function actualizar_checkout()
+    {
         $data = json_decode(file_get_contents("php://input"), true);
-    
+
         if (!empty($data)) {
             $items = $data['items'];
             $id_plataforma = $_SESSION['id_plataforma'];
-    
+
             $response = $this->model->actualizar_checkout($items, $id_plataforma);
             echo json_encode($response);
         } else {
             header("HTTP/1.1 400 Bad Request");
             echo json_encode(['error' => 'No hay datos recibidos']);
         }
-    }    
+    }
 }
