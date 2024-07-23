@@ -649,9 +649,6 @@ function abrirModal_infoTienda(tienda) {
 function obtenerURLImagen(imagePath, serverURL) {
   // Verificar si el imagePath no es null o undefined
   if (imagePath) {
-    // Limpiar espacios en blanco al inicio y al final
-    imagePath = imagePath.trim();
-
     // Verificar si el imagePath ya es una URL completa
     if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
       // Si ya es una URL completa, retornar solo el imagePath
