@@ -111,7 +111,12 @@ const listNuevoPedido = async () => {
         nuevoPedido.sku
       }"></input>
                     <td>${nuevoPedido.id_producto}</td>
-                    <td>${nuevoPedido.cantidad}</td>
+                    <td><input type="text" onblur='recalcular("${
+                      nuevoPedido.id_tmp
+                    }", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}", "cantidad_nuevoPedido_${index}")' id="cantidad_nuevoPedido_${index}" 
+    class="form-control prec" 
+    value="${nuevoPedido.cantidad_tmp}">
+</td>
                     <td>${nuevoPedido.nombre_producto} ${variedad}</td>
                     <td><input type="text" onblur='recalcular("${
                       nuevoPedido.id_detalle
@@ -141,16 +146,18 @@ const listNuevoPedido = async () => {
   }
 };
 
-function recalcular(id, idPrecio, idDescuento) {
+function recalcular(id, idPrecio, idDescuento, idCantidad) {
   const precio = parseFloat(document.getElementById(idPrecio).value);
   const descuento = parseFloat(document.getElementById(idDescuento).value);
+  const cantidad = parseFloat(document.getElementById(idCantidad).value);
 
   const ffrm = new FormData();
   ffrm.append("id", id);
   ffrm.append("precio", precio);
   ffrm.append("descuento", descuento);
+  ffrm.append("cantidad", cantidad);
 
-  fetch("" + SERVERURL + "pedidos/actualizarDetalle/" + id, {
+  fetch("" + SERVERURL + "pedidos/actualizarTmp/" + id, {
     method: "POST",
     body: ffrm,
   })
@@ -169,7 +176,13 @@ function recalcular(id, idPrecio, idDescuento) {
           }
         );
       }
+      // Retraso de 1 segundo antes de ejecutar initDataTableNuevoPedido
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       await initDataTableNuevoPedido();
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      alert("Hubo un problema al actualizar el producto");
     });
 }
 

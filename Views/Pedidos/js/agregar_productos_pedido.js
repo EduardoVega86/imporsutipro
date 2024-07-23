@@ -74,9 +74,10 @@ const listNuevosPedidos = () => {
       if (Array.isArray(nuevosPedidos)) {
         let content = ``;
         nuevosPedidos.forEach((nuevoPedido, index) => {
+          let imagen = obtenerURLImagen(nuevoPedido.image_path,SERVERURL);
           content += `
                         <tr>
-                            <td><img src="${SERVERURL}${nuevoPedido.image_path}" class="icon-button" width="50px"></td>
+                            <td><img src="${imagen}" class="icon-button" width="50px"></td>
                             <td>${nuevoPedido.id_producto}</td>
                             <td>${nuevoPedido.nombre_producto}</td>
                             <td>${nuevoPedido.stock_inicial}</td>
@@ -98,6 +99,33 @@ const listNuevosPedidos = () => {
     },
   });
 };
+
+function obtenerURLImagen(imagePath, serverURL) {
+  // Verificar si el imagePath no es null o undefined
+  if (imagePath) {
+    // Verificar si el imagePath ya es una URL completa
+    if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
+      // Si ya es una URL completa, retornar solo el imagePath
+      return imagePath;
+    } else {
+      // Verificar si el imagePath incluye rutas relativas inválidas
+      if (
+        imagePath.includes("../") ||
+        imagePath.includes("..\\") ||
+        imagePath === "" ||
+        imagePath === "."
+      ) {
+        return serverURL + "public/img/broken-image.png"; // Ruta de imagen por defecto
+      }
+      // Si no es una URL completa, agregar el serverURL al inicio
+      return `${serverURL}${imagePath}`;
+    }
+  } else {
+    // Manejar el caso cuando imagePath es null o undefined
+    console.error("imagePath es null o undefined");
+    return serverURL + "public/img/broken-image.png"; // Ruta de imagen por defecto
+  }
+}
 
 // Abrir modal
 function buscar_productos_nuevoPedido() {
