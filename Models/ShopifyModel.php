@@ -148,7 +148,7 @@ class ShopifyModel extends Query
         $contiene = trim($contiene); // Eliminar el espacio extra al final
 
         //si tiene emojis o caracteres especiales elimina los emojis
-        $contiene = preg_replace('/[^\x20-\x7E]/', '', $contiene);
+
 
         // Aquí se pueden continuar los procesos necesarios para la orden
         ///iniciar curl
