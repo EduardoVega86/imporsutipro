@@ -279,9 +279,11 @@ class UsuariosModel extends Query
                 $response['title'] = 'Error';
                 $response['message'] = 'Error al mover el archivo subido';
                 $response['debug'] = [
-                    'error_code' => $_FILES['imagen']['error'], // Agrega información de error
+                    'error_code' => $imagen['error'], // Código de error del archivo subido
                     'tmp_name' => $imagen["tmp_name"], // Verifica si existe el archivo temporal
-                    'target_file' => $target_file // Verifica el destino
+                    'target_file' => $target_file, // Verifica el destino
+                    'is_uploaded_file' => is_uploaded_file($imagen["tmp_name"]), // Verifica si es un archivo subido válido
+                    'file_exists' => file_exists($imagen["tmp_name"]) // Verifica si el archivo temporal existe
                 ];
             }
         } else {
