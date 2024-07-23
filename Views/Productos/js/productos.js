@@ -134,7 +134,7 @@ const listProductos = async () => {
 
       content += `
         <tr>
-          <td><input type="checkbox" class="selectCheckbox" data-id="${producto.id_inventario}"></td>
+          <td><input type="checkbox" class="selectCheckbox" data-id="${producto.id_producto}"></td>
           <td>${botonId_inventario}</td>
           <td>${cargar_imagen}</td>
           <td>${producto.codigo_producto}</td>
