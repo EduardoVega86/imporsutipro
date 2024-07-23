@@ -275,11 +275,38 @@ class UsuariosModel extends Query
                     $response['message'] = 'Error al actualizar la base de datos';
                 }
             } else {
+                // Agregar más detalles de depuración
+                $error_message = 'Error desconocido';
+                switch ($imagen['error']) {
+                    case UPLOAD_ERR_INI_SIZE:
+                        $error_message = 'El archivo excede el tamaño permitido por la directiva upload_max_filesize en php.ini';
+                        break;
+                    case UPLOAD_ERR_FORM_SIZE:
+                        $error_message = 'El archivo excede el tamaño permitido por la directiva MAX_FILE_SIZE especificada en el formulario HTML';
+                        break;
+                    case UPLOAD_ERR_PARTIAL:
+                        $error_message = 'El archivo solo fue parcialmente cargado';
+                        break;
+                    case UPLOAD_ERR_NO_FILE:
+                        $error_message = 'No se cargó ningún archivo';
+                        break;
+                    case UPLOAD_ERR_NO_TMP_DIR:
+                        $error_message = 'Falta la carpeta temporal';
+                        break;
+                    case UPLOAD_ERR_CANT_WRITE:
+                        $error_message = 'No se pudo escribir el archivo en el disco';
+                        break;
+                    case UPLOAD_ERR_EXTENSION:
+                        $error_message = 'Una extensión de PHP detuvo la carga del archivo';
+                        break;
+                }
+
                 $response['status'] = 500;
                 $response['title'] = 'Error';
                 $response['message'] = 'Error al mover el archivo subido';
                 $response['debug'] = [
                     'error_code' => $imagen['error'], // Código de error del archivo subido
+                    'error_message' => $error_message, // Mensaje de error más detallado
                     'tmp_name' => $imagen["tmp_name"], // Verifica si existe el archivo temporal
                     'target_file' => $target_file, // Verifica el destino
                     'is_uploaded_file' => is_uploaded_file($imagen["tmp_name"]), // Verifica si es un archivo subido válido
@@ -294,6 +321,7 @@ class UsuariosModel extends Query
 
         return $response;
     }
+
 
 
 
