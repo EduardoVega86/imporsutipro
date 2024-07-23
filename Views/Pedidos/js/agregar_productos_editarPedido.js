@@ -77,7 +77,7 @@ const listNuevosPedidos = () => {
           let imagen = obtenerURLImagen(nuevoPedido.image_path,SERVERURL);
           content += `
                         <tr>
-                            <td>${imagen}</td>
+                            <td><img src="${imagen}" class="icon-button" width="50px"></td>
                             <td>${nuevoPedido.id_producto}</td>
                             <td>${nuevoPedido.nombre_producto}</td>
                             <td>${nuevoPedido.stock_inicial}</td>
