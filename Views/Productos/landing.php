@@ -88,6 +88,7 @@ if ($data == 0) {
                                 response = response.replace(/\\b/g, "\b");
                                 response = response.replace(/\\f/g, "\f");
                                 response = response.replace(/\\'/g, "'");
+                                response = response.replace('\\', '');
                                 $('#summernote').summernote('code', response);
                             }
                         });
