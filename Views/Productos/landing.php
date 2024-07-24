@@ -66,9 +66,13 @@ if ($data == 0) {
             });
 
             $('#accept-btn').click(function() {
+                //obtener id_producto
+                const id_producto = location.href.split("/").pop()
+
                 //existe landing?
+
                 const existeLanding = $.ajax({
-                    url: 'https://imagenes.imporsuitpro.com/productos/existeLanding/' + <?php echo $data['id_producto'] ?>,
+                    url: 'https://imagenes.imporsuitpro.com/productos/existeLanding/' + id_producto,
                     method: 'GET',
                     async: false
                 }).responseText;
