@@ -93,7 +93,7 @@ const listHistorialPedidos = async () => {
                     <td>${historialPedido.fecha_factura}</td>
                     <td>
                         <div><strong>${historialPedido.nombre}</strong></div>
-                        <div>${historialPedido.c_principal} y ${
+                        <div>${historialPedido.c_principal} - ${
         historialPedido.c_secundaria
       }</div>
                         <div>telf: ${historialPedido.telefono}</div>
