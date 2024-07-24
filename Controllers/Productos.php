@@ -394,7 +394,12 @@ class Productos extends Controller
         $pvp_tienda = $_POST['pvp_tienda'];
         $id_categoria = $_POST['id_categoria'];
 
-        $pref = $_POST['pref'] ?? 0;
+        if($_POST['pref']==null || $_POST['pref']==''){
+            $pref=0;
+        }else{
+            $pref = $_POST['pref'] ?? 0; 
+        }
+       
 
 
         $response = $this->model->editarProductoTienda($id_producto_tienda, $nombre, $pvp_tienda, $id_categoria, $pref);
