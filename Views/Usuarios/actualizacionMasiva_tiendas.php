@@ -14,8 +14,25 @@
         <h2>Guías Ingresadas</h2>
         <ul id="guidesList" class="list-group"></ul>
         <div style="padding-top:10px;">
-            <button id="generarImpresionBtn" class="btn btn-success">Generar Impresion</button>
+            <button id="generarImpresionBtn" class="btn btn-success" onclick="actualizar()">Generar Impresion</button>
         </div>
     </div>
 </div>
+
+<script>
+    function actualizar() {
+        $.ajax({
+            type: "POST",
+            url: SERVERURL + "productos/listarCategoria",
+            dataType: "json",
+            success: function(response) {
+                
+            },
+            error: function(xhr, status, error) {
+                console.error("Error en la solicitud AJAX:", error);
+                alert("Hubo un problema al obtener la información de la categoría");
+            },
+        });
+    }
+</script>
 <?php require_once './Views/templates/footer.php'; ?>
