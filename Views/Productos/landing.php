@@ -79,16 +79,7 @@ if ($data == 0) {
                                     }
                                 });
                                 //eliminar los escapes 
-                                response = response.replace(/\\n/g, "\n");
-                                response = response.replace(/\\'/g, "'");
-                                response = response.replace(/\\"/g, '"');
-                                response = response.replace(/\\&/g, "&");
-                                response = response.replace(/\\r/g, "\r");
-                                response = response.replace(/\\t/g, "\t");
-                                response = response.replace(/\\b/g, "\b");
-                                response = response.replace(/\\f/g, "\f");
-                                response = response.replace(/\\'/g, "'");
-                                response = response.replace("<!DOCTYPE html>", "");
+
                                 $('#summernote').summernote('code', response);
                             }
                         });
