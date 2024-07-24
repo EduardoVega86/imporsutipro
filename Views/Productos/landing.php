@@ -18,7 +18,7 @@ if ($data == 0) {
 <?php
 } else {
 ?>
-    <div class="container">
+    <div class="container py-5">
         <div class="row">
             <div class="col-12">
                 <h3 class="text-center">Landing</h3>
@@ -66,6 +66,14 @@ if ($data == 0) {
             });
 
             $('#accept-btn').click(function() {
+                //existe landing?
+                const existeLanding = $.ajax({
+                    url: 'https://imagenes.imporsuitpro.com/productos/existeLanding/' + <?php echo $data['id_producto'] ?>,
+                    method: 'GET',
+                    async: false
+                }).responseText;
+
+
                 const editorContent = $('#summernote').summernote('code');
 
                 const fullHtmlContent = `<!DOCTYPE html>

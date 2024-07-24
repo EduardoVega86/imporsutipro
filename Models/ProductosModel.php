@@ -841,4 +841,15 @@ WHERE b.id_plataforma = $plataforma";
             return 1;
         }
     }
+
+    public function existeLanding($id)
+    {
+        $sql = "SELECT * FROM `landing` WHERE id_producto = $id";
+        $response =  $this->select($sql);
+        if (empty($response)) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
 }
