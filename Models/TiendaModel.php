@@ -267,6 +267,7 @@ class TiendaModel extends Query
         $nombreO = $datos_origen[0]['nombre'];
         $direccionO = $datos_origen[0]['direccion'];
         
+        echo $bodega.'-'.$direccionO;
        
         
         $date_added     = date("Y-m-d H:i:s");
