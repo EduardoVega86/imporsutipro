@@ -165,7 +165,7 @@ function boton_editarPedido(id) {
 function boton_eliminarPedido(id_factura){
     $.ajax({
         type: "POST",
-        url: SERVERURL + "Pedidos/eliminarPedido"+id_factura,
+        url: SERVERURL + "Pedidos/eliminarPedido/"+id_factura,
         dataType: "json",
         success: function (response) {
           if (response.status == 500) {
