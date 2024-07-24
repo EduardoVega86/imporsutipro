@@ -90,6 +90,7 @@ if ($data == 0) {
                                 response = response.replace(/\\'/g, "'");
                                 response = response.replace(/\\/g, "");
 
+                                response = response.slice(1, -1);
                                 $('#summernote').summernote('code', response);
                             }
                         });
