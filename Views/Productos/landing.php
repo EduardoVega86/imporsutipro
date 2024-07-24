@@ -34,19 +34,18 @@ if ($data == 0) {
     ?>
     <script>
         $(document).ready(function() {
-            const id_producto = location.href.split("/").pop();
-
             $.ajax({
-                url: 'https://new.imporsuitpro.com/productos/existeLanding/' + id_producto,
+                url: 'https://new.imporsuitpro.com/productos/existeLanding/' + location.href.split("/").pop(),
                 method: 'GET',
                 success: function(response) {
                     let formDATA = new FormData();
-                    formDATA.append('id_producto', id_producto);
-
+                    formDATA.append('id_producto', location.href.split("/").pop());
                     if (response == 1) {
                         $.ajax({
                             url: 'https://imagenes.imporsuitpro.com/obtenerLanding',
-                            data: formDATA,
+                            data: {
+                                id_producto: location.href.split("/").pop()
+                            },
                             method: 'POST',
                             success: function(response) {
                                 $('#summernote').summernote({
@@ -79,7 +78,9 @@ if ($data == 0) {
                                         }
                                     }
                                 });
-                                $('#summernote').summernote('code', response); // Aquí no se debe escapar el contenido HTML.
+                                //eliminar los escapes 
+                                response = response.replace(/\\n/g, "\n");
+                                $('#summernote').summernote('code', response);
                             }
                         });
                     } else {
@@ -117,73 +118,131 @@ if ($data == 0) {
                 }
             });
 
+
             $('#accept-btn').click(function() {
-                const id_producto = location.href.split("/").pop();
+                //obtener id_producto
+                const id_producto = location.href.split("/").pop()
+
+                //existe landing?
+
                 const existeLanding = $.ajax({
                     url: 'https://new.imporsuitpro.com/productos/existeLanding/' + id_producto,
                     method: 'GET',
                     async: false
                 }).responseText;
 
-                const editorContent = $('#summernote').summernote('code');
-                const fullHtmlContent = `<!DOCTYPE html>
-        <html lang="es">
-        <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Generated HTML</title>
-        </head>
-        <body>
-        ${editorContent}
-        </body>
-        </html>`;
-
-                const formData = new FormData();
                 if (existeLanding == 0) {
+
+
+                    const editorContent = $('#summernote').summernote('code');
+
+                    const fullHtmlContent = `<!DOCTYPE html>
+                    <html lang="es">
+                    <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Generated HTML</title>
+                    </head>
+                    <body>
+                    ${editorContent}
+                    </body>
+                    </html>`;
+
                     const blob = new Blob([fullHtmlContent], {
                         type: 'text/html'
                     });
                     const fileName = "landing_" + Math.floor(Math.random() * 100000000000) + '.html';
+
+                    const formData = new FormData();
                     formData.append('file', blob, fileName);
-                } else {
-                    formData.append('html', fullHtmlContent);
-                }
-                formData.append('id_producto', id_producto);
+                    formData.append('id_producto', id_producto);
 
-                const url = existeLanding == 0 ? 'https://imagenes.imporsuitpro.com/landing' : 'https://imagenes.imporsuitpro.com/editarLanding';
-
-                $.ajax({
-                    url: url,
-                    method: 'POST',
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function(response) {
-                        console.log('Archivo enviado');
-                        response = JSON.parse(response);
-                        if (response.status === 200) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Landing guardado',
-                                text: 'El archivo se ha guardado correctamente',
-                                showConfirmButton: false,
-                                timer: 1500
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error al guardar el landing',
-                                text: 'Ocurrió un error al guardar el archivo',
-                                showConfirmButton: false,
-                                timer: 1500
-                            });
+                    $.ajax({
+                        url: 'https://imagenes.imporsuitpro.com/landing', // Cambia esta URL al script PHP que manejará la subida del archivo
+                        method: 'POST',
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function(response) {
+                            console.log('Archivo enviado:', fileName);
+                            response = JSON.parse(response);
+                            if (response.status === 200) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Landing guardado',
+                                    text: 'El archivo se ha guardado correctamente',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error al guardar el landing',
+                                    text: 'Ocurrió un error al guardar el archivo',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error al enviar el archivo:', error);
                         }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error al enviar el archivo:', error);
-                    }
-                });
-                $('#html-output').text(fullHtmlContent);
+                    });
+                    $('#html-output').text(fullHtmlContent);
+                } else {
+                    const editorContent = $('#summernote').summernote('code');
+
+                    const fullHtmlContent = `<!DOCTYPE html>
+                    <html lang="es">
+                    <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Generated HTML</title>
+                    </head>
+                    <body>
+                    ${editorContent}
+                    </body>
+                    </html>`;
+
+
+                    const formData = new FormData();
+                    formData.append('html', fullHtmlContent);
+                    formData.append('id_producto', id_producto);
+
+                    $.ajax({
+                        url: 'https://imagenes.imporsuitpro.com/editarLanding', // Cambia esta URL al script PHP que manejará la subida del archivo
+                        method: 'POST',
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function(response) {
+                            console.log('Archivo enviado:', fileName);
+                            response = JSON.parse(response);
+                            if (response.status === 200) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Landing guardado',
+                                    text: 'El archivo se ha guardado correctamente',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error al guardar el landing',
+                                    text: 'Ocurrió un error al guardar el archivo',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error al enviar el archivo:', error);
+                        }
+                    });
+                    $('#html-output').text(fullHtmlContent);
+
+                }
             });
         });
     </script>
