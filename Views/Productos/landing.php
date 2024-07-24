@@ -40,7 +40,7 @@ if ($data == 0) {
                 success: function(response) {
                     if (response == 1) {
                         $.ajax({
-                            url: 'https://new.imporsuitpro.com/productos/obtenerLanding/' + location.href.split("/").pop(),
+                            url: 'https://imagenes.imporsuitpro.com/obtenerLanding/' + location.href.split("/").pop(),
                             method: 'GET',
                             success: function(response) {
                                 $('#summernote').summernote({
