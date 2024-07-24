@@ -44,7 +44,7 @@ if ($data == 0) {
                             data: {
                                 id_producto: location.href.split("/").pop()
                             },
-                            method: 'GET',
+                            method: 'POST',
                             success: function(response) {
                                 $('#summernote').summernote({
                                     height: 300,
