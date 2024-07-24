@@ -35,7 +35,7 @@ if ($data == 0) {
     <script>
         $(document).ready(function() {
             $.ajax({
-                url: 'https://imagenes.imporsuitpro.com/productos/existeLanding/' + location.href.split("/").pop(),
+                url: 'https://imagenes.imporsuitpro.com/existeLanding/' + location.href.split("/").pop(),
                 method: 'GET',
                 success: function(response) {
                     if (response == 1) {
