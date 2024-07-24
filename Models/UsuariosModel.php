@@ -744,8 +744,8 @@ class UsuariosModel extends Query
         $editar_plataforma = $this->update($sql, $data);
 
         // Actualizar información en la tabla `perfil`
-        $sql = "UPDATE `perfil` SET `facebook` = ?, `instagram` = ?, `tiktok` = ? WHERE `perfil`.`id_plataforma` = ?";
-        $data = [$facebook, $instagram, $tiktok, $plataforma];
+        $sql = "UPDATE `perfil` SET `facebook` = ?, `instagram` = ?, `tiktok` = ?, `whatsapp` = ? WHERE `perfil`.`id_plataforma` = ?";
+        $data = [$facebook, $instagram, $tiktok, $plataforma, $telefono_tienda];
         $editar_perfil = $this->update($sql, $data);
 
         // Verificar si ambas actualizaciones fueron exitosas
