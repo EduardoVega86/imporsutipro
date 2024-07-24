@@ -365,7 +365,7 @@ class ShopifyModel extends Query
             $responses["message"] = "Configuracion guardada correctamente";
         } else {
             $responses["status"] = 500;
-            $responses["message"] = "Error al guardar la configuracion";
+            $responses["message"] = $response["message"];
         }
         return $responses;
     }
