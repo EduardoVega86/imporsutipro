@@ -116,7 +116,7 @@
             <div class="submenu" id="submenu4">
                 <?php if ($_SESSION['cargo'] == 10) { ?>
                     <a href="<?php echo SERVERURL ?>usuarios/listamatriz"><i class='bx bx-user menu-icon'></i> <span class="menu-text">Usuarios</span></a>
-                     <a href="<?php echo SERVERURL ?>usuarios/actualizacionMasiva_tiendas"><i class='bx bx-user menu-icon'></i> <span class="menu-text">Actualizacion Masiva</span></a>
+                    <a href="<?php echo SERVERURL ?>usuarios/actualizacionMasiva_tiendas"><i class='bx bx-user menu-icon'></i> <span class="menu-text">Actualizacion Masiva</span></a>
                 <?php
                 } else {
                 ?>
@@ -140,9 +140,9 @@
             <div class="container-fluid">
                 <a class="navbar-brand img_logo" href="<?php echo SERVERURL ?>dashboard"><img src="<?php echo IMAGEN_LOGO; ?>" alt="IMORSUIT" width="100px" height="44px"></a>
                 <div class="navbar-right">
-                    <?php if (MARCA == "IMPORSUIT") { ?>
+                    <!--  <?php if (MARCA == "IMPORSUIT") { ?>
                         <a class="nav-link" href="https://danielbonilla522-9.funnels.mastertools.com/#primeros-pasos" target="_blank"><box-icon type='solid' name='videos' color="<?php echo COLOR_LETRAS; ?>"></box-icon> Tutoriales</a>
-                    <?php } ?>
+                    <?php } ?> -->
                     <span class="navbar-text"><box-icon name='wallet' color="<?php echo COLOR_LETRAS; ?>"></box-icon> $<span id="precio_wallet"></span></span>
                     <img src="https://new.imporsuitpro.com/public/img/img.png" class="profile-pic" id="profilePic" alt="Perfil">
                     <div class="profile-dropdown" id="profileDropdown">
