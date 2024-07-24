@@ -11,7 +11,7 @@ const dataTableOptions = {
     //{ width: "50%", targets: [0] }
   ],
   order: [[0, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
-  pageLength: 10,
+  pageLength: 25,
   destroy: true,
   responsive: true,
   language: {
