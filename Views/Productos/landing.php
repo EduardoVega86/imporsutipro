@@ -34,6 +34,51 @@ if ($data == 0) {
     ?>
     <script>
         $(document).ready(function() {
+            $.ajax({
+                url: 'https://new.imporsuitpro.com/productos/existeLanding/' + location.href.split("/").pop(),
+                method: 'GET',
+                success: function(response) {
+                    if (response == 1) {
+                        $.ajax({
+                            url: 'https://new.imporsuitpro.com/productos/obtenerLanding/' + location.href.split("/").pop(),
+                            method: 'GET',
+                            success: function(response) {
+                                $('#summernote').summernote({
+                                    height: 300,
+                                    toolbar: [
+                                        ['style', ['style']],
+                                        ['font', ['bold', 'italic', 'underline', 'clear']],
+                                        ['fontname', ['fontname']],
+                                        ['color', ['color']],
+                                        ['para', ['ul', 'ol', 'paragraph']],
+                                        ['table', ['table']],
+                                        ['insert', ['link', 'picture', 'video']],
+                                        ['view', ['fullscreen', 'codeview', 'help']]
+                                    ],
+                                    callbacks: {
+                                        onImageUpload: function(files) {
+                                            const formData = new FormData();
+                                            formData.append('file', files[0]);
+
+                                            $.ajax({
+                                                url: 'https://imagenes.imporsuitpro.com/subir',
+                                                method: 'POST',
+                                                data: formData,
+                                                contentType: false,
+                                                processData: false,
+                                                success: function(url) {
+                                                    $('#summernote').summernote('editor.insertImage', "https://imagenes.imporsuitpro.com/" + url);
+                                                }
+                                            });
+                                        }
+                                    }
+                                });
+                                $('#summernote').summernote('code', response);
+                            }
+                        });
+                    }
+                }
+            });
             $('#summernote').summernote({
                 height: 300,
                 toolbar: [
