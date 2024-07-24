@@ -101,6 +101,7 @@ if ($data == 0) {
 
                     const formData = new FormData();
                     formData.append('file', blob, fileName);
+                    formData.append('id_producto', id_producto);
 
                     $.ajax({
                         url: 'https://imagenes.imporsuitpro.com/landing', // Cambia esta URL al script PHP que manejará la subida del archivo
