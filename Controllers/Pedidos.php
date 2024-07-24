@@ -269,6 +269,11 @@ class Pedidos extends Controller
         echo json_encode($data);
     }
 
+    public function eliminarPedido($id_tmp){
+        $response = $this->model->eliminarPedido($id_tmp);
+        echo json_encode($response);
+    }
+
     public function verPedido($id)
     {
         $data = $this->model->cargarPedido($id);

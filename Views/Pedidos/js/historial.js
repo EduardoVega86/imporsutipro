@@ -105,7 +105,9 @@ const listHistorialPedidos = async () => {
                         <button class="btn btn-sm btn-primary" onclick="boton_editarPedido(${
                           historialPedido.id_factura
                         })"><i class="fa-solid fa-pencil"></i></button>
-                        <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash-can"></i></button>
+                        <button class="btn btn-sm btn-danger" onclick="boton_eliminarPedido(${
+                          historialPedido.id_factura
+                        })"><i class="fa-solid fa-trash-can"></i></button>
                     </td>
                 </tr>`;
     });
@@ -158,6 +160,34 @@ function abrirModal_infoTienda(tienda){
 
 function boton_editarPedido(id) {
   window.location.href = "" + SERVERURL + "Pedidos/editar/" + id;
+}
+
+function boton_eliminarPedido(id_factura){
+    $.ajax({
+        type: "POST",
+        url: SERVERURL + "Pedidos/eliminarPedido"+id_factura,
+        dataType: "json",
+        success: function (response) {
+          if (response.status == 500) {
+            toastr.error(
+                "LA IMAGEN NO SE AGREGRO CORRECTAMENTE",
+                "NOTIFICACIÓN", {
+                    positionClass: "toast-bottom-center"
+                }
+            );
+        } else if (response.status == 200) {
+            toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+                positionClass: "toast-bottom-center",
+            });
+
+            initDataTableHistorial();
+        }
+        },
+        error: function (xhr, status, error) {
+          console.error("Error en la solicitud AJAX:", error);
+          alert("Hubo un problema al obtener la información de la categoría");
+        },
+      });
 }
 
 window.addEventListener("load", async () => {

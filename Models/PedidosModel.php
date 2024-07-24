@@ -601,6 +601,25 @@ WHERE tmp.session_id = '$tmp'";
         return $this->select($sql);
     }
 
+    public function eliminarPedido($id_factura)
+    {
+        $sql = "DELETE FROM facturas_cot WHERE id_factura = ?";
+        $data = [$id_factura];
+
+        $eliminar_pedido = $this->delete($sql, $data);
+
+        if ($eliminar_pedido == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Pedido eliminado correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al eliminar la Pedido';
+        }
+        return $response;
+    }
+
     public function datosPedido($id)
     {
         $sql = "SELECT * 
