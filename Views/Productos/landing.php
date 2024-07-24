@@ -76,63 +76,117 @@ if ($data == 0) {
                     method: 'GET',
                     async: false
                 }).responseText;
-                console.log(existeLanding);
 
-                /* const editorContent = $('#summernote').summernote('code');
+                if (existeLanding == 0) {
 
-                const fullHtmlContent = `<!DOCTYPE html>
-                <html lang="es">
-                <head>
+
+                    const editorContent = $('#summernote').summernote('code');
+
+                    const fullHtmlContent = `<!DOCTYPE html>
+                    <html lang="es">
+                    <head>
                     <meta charset="UTF-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
                     <title>Generated HTML</title>
-                </head>
-                <body>
-                ${editorContent}
-                </body>
-                </html>`;
+                    </head>
+                    <body>
+                    ${editorContent}
+                    </body>
+                    </html>`;
 
-                const blob = new Blob([fullHtmlContent], {
-                    type: 'text/html'
-                });
-                const fileName = "landing_" + Math.floor(Math.random() * 100000000000) + '.html';
+                    const blob = new Blob([fullHtmlContent], {
+                        type: 'text/html'
+                    });
+                    const fileName = "landing_" + Math.floor(Math.random() * 100000000000) + '.html';
 
-                const formData = new FormData();
-                formData.append('file', blob, fileName);
+                    const formData = new FormData();
+                    formData.append('file', blob, fileName);
 
-                $.ajax({
-                    url: 'https://imagenes.imporsuitpro.com/landing', // Cambia esta URL al script PHP que manejará la subida del archivo
-                    method: 'POST',
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function(response) {
-                        console.log('Archivo enviado:', fileName);
-                        response = JSON.parse(response);
-                        if (response.status === 200) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Landing guardado',
-                                text: 'El archivo se ha guardado correctamente',
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error al guardar el landing',
-                                text: 'Ocurrió un error al guardar el archivo',
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
+                    $.ajax({
+                        url: 'https://imagenes.imporsuitpro.com/landing', // Cambia esta URL al script PHP que manejará la subida del archivo
+                        method: 'POST',
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function(response) {
+                            console.log('Archivo enviado:', fileName);
+                            response = JSON.parse(response);
+                            if (response.status === 200) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Landing guardado',
+                                    text: 'El archivo se ha guardado correctamente',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error al guardar el landing',
+                                    text: 'Ocurrió un error al guardar el archivo',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error al enviar el archivo:', error);
                         }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error al enviar el archivo:', error);
-                    }
-                });
+                    });
+                } else {
+                    const editorContent = $('#summernote').summernote('code');
 
-                $('#html-output').text(fullHtmlContent); */
+                    const fullHtmlContent = `<!DOCTYPE html>
+                    <html lang="es">
+                    <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Generated HTML</title>
+                    </head>
+                    <body>
+                    ${editorContent}
+                    </body>
+                    </html>`;
+
+
+                    const formData = new FormData();
+                    formData.append('html', fullHtmlContent);
+                    formData.append('id_producto', id_producto);
+
+                    $.ajax({
+                        url: 'https://imagenes.imporsuitpro.com/editarLanding', // Cambia esta URL al script PHP que manejará la subida del archivo
+                        method: 'POST',
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function(response) {
+                            console.log('Archivo enviado:', fileName);
+                            response = JSON.parse(response);
+                            if (response.status === 200) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Landing guardado',
+                                    text: 'El archivo se ha guardado correctamente',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error al guardar el landing',
+                                    text: 'Ocurrió un error al guardar el archivo',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error al enviar el archivo:', error);
+                        }
+                    });
+                }
+
+                $('#html-output').text(fullHtmlContent);
             });
         });
     </script>
