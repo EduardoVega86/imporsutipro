@@ -134,6 +134,7 @@ if ($data == 0) {
                             console.error('Error al enviar el archivo:', error);
                         }
                     });
+                    $('#html-output').text(fullHtmlContent);
                 } else {
                     const editorContent = $('#summernote').summernote('code');
 
@@ -185,9 +186,9 @@ if ($data == 0) {
                             console.error('Error al enviar el archivo:', error);
                         }
                     });
-                }
+                    $('#html-output').text(fullHtmlContent);
 
-                $('#html-output').text(fullHtmlContent);
+                }
             });
         });
     </script>
