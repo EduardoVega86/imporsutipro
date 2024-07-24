@@ -676,7 +676,6 @@ class WalletModel extends Query
     {
         $sql = "UPDATE cabecera_cuenta_pagar set estado_guia = 7, monto_recibir=(total_venta - costo - precio_envio - full), valor_pendiente=(total_venta - costo - precio_envio - full)  WHERE id_cabecera = ?;";
         $response =  $this->update($sql, array($id));
-        echo    $response;
         if ($response == 1) {
             $responses["status"] = 200;
         } else {
