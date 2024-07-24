@@ -76,6 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
     fillSelectWithKeys("select-email", data);
     fillSelectWithKeys("select-total", data);
     fillSelectWithKeys("select-descuento", data);
+    fillSelectWithKeys("select-referencia", data);
   }
 
   function fillSelectWithKeys(selectId, data) {
@@ -193,6 +194,7 @@ document.addEventListener("DOMContentLoaded", function () {
       "select-email",
       "select-total",
       "select-descuento",
+      "select-referencia",
     ];
 
     selectIds.forEach((selectId) => {

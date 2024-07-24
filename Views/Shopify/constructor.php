@@ -123,6 +123,12 @@
                                 <option value="" selected>-- Seleccione Descuento --</option>
                             </select>
                         </div>
+                        <div class="form-group w-100 hidden-field">
+                            <label for="select-referencia">Referencia:</label>
+                            <select class="form-select" id="select-referencia">
+                                <option value="" selected>-- Seleccione Descuento --</option>
+                            </select>
+                        </div>
                         <button id="send-button" class="btn btn-primary">Enviar datos</button>
                     </div>
                 </div>
