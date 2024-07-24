@@ -34,7 +34,7 @@ class ShopifyModel extends Query
         // Mostrar resultados (para depuración)
         /*   var_dump($resultados);
         var_dump($lineItems);
- */
+        */
         // Gestión de creación de orden
         $orden = $this->crearOrden($resultados, $lineItems, $plataforma);
     }
@@ -238,7 +238,7 @@ class ShopifyModel extends Query
         $response = curl_exec($ch);
         curl_close($ch);
         $datos = json_decode($response, true);
- */
+        */
         // Como guardar en base de datos, enviar notificaciones, etc.
     }
 
@@ -356,10 +356,10 @@ class ShopifyModel extends Query
         return $clear_string;
     }
 
-    public function guardarConfiguracion($nombre, $apellido, $principal, $secundario, $provincia, $ciudad, $codigo_postal, $pais, $telefono, $email, $total, $descuento, $id_plataforma)
+    public function guardarConfiguracion($nombre, $apellido, $principal, $secundario, $provincia, $ciudad, $codigo_postal, $pais, $telefono, $email, $total, $descuento, $referencia, $id_plataforma)
     {
-        $sql = "REPLACE INTO configuracion_shopify (`nombre`, `apellido`, `principal`, `secundaria`, `provincia`, `ciudad`, `codigo_postal`, `pais`, `telefono`, `email`, `total`, `discount`, `id_plataforma`) VALUES (?, ?, ?, ? ,?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $response = $this->insert($sql, [$nombre, $apellido, $principal, $secundario, $provincia, $ciudad, $codigo_postal, $pais, $telefono, $email, $total, $descuento, $id_plataforma]);
+        $sql = "REPLACE INTO configuracion_shopify (`nombre`, `apellido`, `principal`, `secundaria`, `provincia`, `ciudad`, `codigo_postal`, `pais`, `telefono`, `email`, `total`, `discount`, `referencia`, `id_plataforma`) VALUES (?, ?, ?, ?, ? ,?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $response = $this->insert($sql, [$nombre, $apellido, $principal, $secundario, $provincia, $ciudad, $codigo_postal, $pais, $telefono, $email, $total, $descuento, $referencia, $id_plataforma]);
         if ($response == 2 || $response == 1) {
             $responses["status"] = 200;
             $responses["message"] = "Configuracion guardada correctamente";
