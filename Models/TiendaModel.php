@@ -267,7 +267,7 @@ class TiendaModel extends Query
         $nombreO = $datos_origen[0]['nombre'];
         $direccionO = $datos_origen[0]['direccion'];
         
-        echo $bodega.'-'.$direccionO;
+        echo $bodega.'-'.$direccionO.'--'.$ciudadO.'---'.$nombreO;
        
         
         $date_added     = date("Y-m-d H:i:s");
@@ -306,8 +306,8 @@ class TiendaModel extends Query
             $referencia, $observacion, 0, 0, 0, $telefono,
             $producto_plataforma, $drop, $id_plataforma,  0,
             'tienda_online', 0, 0, 0, 0,
-            0, '',  $nombreO, $ciudadO, $provincia, '',
-            $direccionO, 0,  0, 0, 0,
+            0, '',  $nombreO, $ciudadO, $provincia, 
+            $direccionO, 0,  0, 0, 0,0,
             0, '', 0, 0, 0, 0, 0, $bodega
         );
 
