@@ -61,7 +61,7 @@ class ShopifyModel extends Query
         } else {
             $ciudad = 0;
         }
-        $referencia = "Referencia: ";
+        $referencia = "Referencia: " . $data["referencia"];
         $observacion = "Ciudad: " . $data["ciudad"];
         $transporte = 0;
         $importado = 0;
