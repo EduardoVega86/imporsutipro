@@ -1,4 +1,3 @@
-
 <?php
 class Manifiestos extends Controller
 {
