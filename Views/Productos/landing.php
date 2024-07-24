@@ -38,12 +38,12 @@ if ($data == 0) {
                 url: 'https://new.imporsuitpro.com/productos/existeLanding/' + location.href.split("/").pop(),
                 method: 'GET',
                 success: function(response) {
+                    let formDATA = new FormData();
+                    formDATA.append('id_producto', location.href.split("/").pop());
                     if (response == 1) {
                         $.ajax({
                             url: 'https://imagenes.imporsuitpro.com/obtenerLanding',
-                            data: {
-                                id_producto: location.href.split("/").pop()
-                            },
+                            data: formDATA,
                             method: 'POST',
                             success: function(response) {
                                 $('#summernote').summernote({
