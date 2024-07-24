@@ -111,9 +111,13 @@ const listProductos = async () => {
         cargar_imagen = `<img src="${enlace_imagen}" class="icon-button" alt="Agregar imagen" width="50px">`;
       }
 
-      const destacadoBtn = producto.destacado_tienda
-        ? `<button class="btn-destacado-si" onclick="toggleDestacado(${producto.id_producto_tienda}, 0)">SI</button>`
-        : `<button class="btn-destacado-no" onclick="toggleDestacado(${producto.id_producto_tienda}, 1)">NO</button>`;
+      let destacadoBtn = "";
+      if (producto.destacado_tienda = 0){
+        destacadoBtn = `<button class="btn-destacado-no" onclick="toggleDestacado(${producto.id_producto_tienda}, 1)">NO</button>`;
+      } else if (producto.destacado_tienda = 1){
+        destacadoBtn = `<button class="btn-destacado-si" onclick="toggleDestacado(${producto.id_producto_tienda}, 0)">SI</button>`
+      }
+      
 
       content += `
           <tr>
