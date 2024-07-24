@@ -218,17 +218,14 @@ class TiendaModel extends Query
 
 
         // print_r($insertar_producto_);
-        if ($editar_plataforma == 1 && $editar_perfil) {
+        if ($editar_plataforma == 1 || $editar_perfil == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
             $response['message'] = 'Producto editado correctamente';
-            if ($editar_producto_ === 1) {
-                $response['message'] = 'Producto y stock editado correctamente';
-            }
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = $editar_producto['message'];
+            $response['message'] = 'error';
         }
         return $response;
     }
