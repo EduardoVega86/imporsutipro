@@ -112,9 +112,9 @@ const listProductos = async () => {
       }
 
       let destacadoBtn = "";
-      if (producto.destacado_tienda = 0){
+      if (producto.destacado_tienda == 0){
         destacadoBtn = `<button class="btn-destacado-no" onclick="toggleDestacado(${producto.id_producto_tienda}, 1)">NO</button>`;
-      } else if (producto.destacado_tienda = 1){
+      } else if (producto.destacado_tienda == 1){
         destacadoBtn = `<button class="btn-destacado-si" onclick="toggleDestacado(${producto.id_producto_tienda}, 0)">SI</button>`
       }
       
