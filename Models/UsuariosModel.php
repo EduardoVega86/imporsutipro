@@ -849,4 +849,32 @@ class UsuariosModel extends Query
             return ['success' => false, 'message' => 'Error al guardar el estado'];
         }
     }
+    
+    public function actualizacionMasivaTiendas()
+{
+    $tmp_plataformas = $this->select("SELECT * FROM plataformas WHERE tienda_creada = 1");
+    $respuestas_exitosas = []; // Arreglo para almacenar las respuestas exitosas
+    
+    foreach ($tmp_plataformas as $tmp) {
+        $url = $tmp['url_imporsuit'] . '/Utils/actualizar';
+        
+        // Realizar la solicitud GET a la URL
+        $response = @file_get_contents($url); // El '@' suprime los errores para manejarlos manualmente
+        
+        if ($response !== false) {
+            // La solicitud fue exitosa, almacenar la respuesta
+            $respuestas_exitosas[] = $response;
+            echo "Solicitud exitosa a $url<br>";
+        } else {
+            // La solicitud falló, manejar el error según sea necesario
+            echo "Error al solicitar $url<br>";
+        }
+        
+        // Puedes ajustar el tiempo de espera entre solicitudes si es necesario
+       // usleep(500000); // Espera 500ms (0.5 segundos) antes de la siguiente solicitud
+    }
+    
+    // Ahora $respuestas_exitosas contiene solo las respuestas exitosas
+    var_dump($respuestas_exitosas);
+}
 }

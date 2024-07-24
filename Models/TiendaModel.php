@@ -258,7 +258,16 @@ class TiendaModel extends Query
         // echo $sql_datos_bodega;
         $datos_bodega = $this->select($sql_datos_bodega);
         $bodega = $datos_bodega[0]['bodega'];
-         $sku = $datos_bodega[0]['sku'];
+        $sku = $datos_bodega[0]['sku'];
+        
+         // echo $sql_datos_bodega;
+        $sql_datos_origen = "SELECT * FROM bodega WHERE id = $bodega ";
+        $datos_origen = $this->select($sql_datos_origen);
+        $ciudadO = $datos_origen[0]['localidad'];
+        $nombreO = $datos_origen[0]['nombre'];
+        $direccionO = $datos_origen[0]['direccion'];
+        
+       
         
         $date_added     = date("Y-m-d H:i:s");
 
@@ -295,9 +304,9 @@ class TiendaModel extends Query
             $nombre, $telefono, $calle_principal, $ciudad, $calle_secundaria,
             $referencia, $observacion, 0, 0, 0, $telefono,
             $producto_plataforma, $drop, $id_plataforma,  0,
-            0, 0, 0, 0, 0,
-            0, '',  '', '', $provincia, '',
-            0, 0,  0, 0, 0,
+            'tienda_online', 0, 0, 0, 0,
+            0, '',  $nombreO, $ciudadO, $provincia, '',
+            $direccionO, 0,  0, 0, 0,
             0, '', 0, 0, 0, 0, 0, $bodega
         );
 
