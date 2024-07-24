@@ -48,8 +48,6 @@ if ($data == 0) {
                             },
                             method: 'POST',
                             success: function(response) {
-                                response = JSON.parse(response);
-                                response = response.data;
                                 $('#summernote').summernote({
                                     height: 300,
                                     toolbar: [
@@ -80,22 +78,17 @@ if ($data == 0) {
                                         }
                                     }
                                 });
-                                //eliminar los escapes 
-                                response = response.replace(/\\n/g, "\n");
-                                response = response.replace(/\\'/g, "'");
-                                response = response.replace(/\\"/g, '"');
-                                response = response.replace(/\\&/g, "&");
-                                response = response.replace(/\\r/g, "\r");
-                                response = response.replace(/\\t/g, "\t");
-                                response = response.replace(/\\b/g, "\b");
-                                response = response.replace(/\\f/g, "\f");
-                                response = response.replace(/\\'/g, "'");
-                                response = response.replace(/\\/g, "");
 
-                                response = response.slice(1, -1);
-                                $('#summernote').summernote('code', response);
+                                // Parse JSON response
+                                let jsonResponse = JSON.parse(response);
+
+                                // Decode HTML entities
+                                let decodedHTML = $('<textarea/>').html(jsonResponse.data).text();
+
+                                $('#summernote').summernote('code', decodedHTML);
                             }
                         });
+
                     } else {
                         $('#summernote').summernote({
                             height: 300,
