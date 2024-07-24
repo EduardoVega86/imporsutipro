@@ -76,39 +76,41 @@ if ($data == 0) {
                                 $('#summernote').summernote('code', response);
                             }
                         });
-                    }
-                }
-            });
-            $('#summernote').summernote({
-                height: 300,
-                toolbar: [
-                    ['style', ['style']],
-                    ['font', ['bold', 'italic', 'underline', 'clear']],
-                    ['fontname', ['fontname']],
-                    ['color', ['color']],
-                    ['para', ['ul', 'ol', 'paragraph']],
-                    ['table', ['table']],
-                    ['insert', ['link', 'picture', 'video']],
-                    ['view', ['fullscreen', 'codeview', 'help']]
-                ],
-                callbacks: {
-                    onImageUpload: function(files) {
-                        const formData = new FormData();
-                        formData.append('file', files[0]);
+                    } else {
+                        $('#summernote').summernote({
+                            height: 300,
+                            toolbar: [
+                                ['style', ['style']],
+                                ['font', ['bold', 'italic', 'underline', 'clear']],
+                                ['fontname', ['fontname']],
+                                ['color', ['color']],
+                                ['para', ['ul', 'ol', 'paragraph']],
+                                ['table', ['table']],
+                                ['insert', ['link', 'picture', 'video']],
+                                ['view', ['fullscreen', 'codeview', 'help']]
+                            ],
+                            callbacks: {
+                                onImageUpload: function(files) {
+                                    const formData = new FormData();
+                                    formData.append('file', files[0]);
 
-                        $.ajax({
-                            url: 'https://imagenes.imporsuitpro.com/subir',
-                            method: 'POST',
-                            data: formData,
-                            contentType: false,
-                            processData: false,
-                            success: function(url) {
-                                $('#summernote').summernote('editor.insertImage', "https://imagenes.imporsuitpro.com/" + url);
+                                    $.ajax({
+                                        url: 'https://imagenes.imporsuitpro.com/subir',
+                                        method: 'POST',
+                                        data: formData,
+                                        contentType: false,
+                                        processData: false,
+                                        success: function(url) {
+                                            $('#summernote').summernote('editor.insertImage', "https://imagenes.imporsuitpro.com/" + url);
+                                        }
+                                    });
+                                }
                             }
                         });
                     }
                 }
             });
+
 
             $('#accept-btn').click(function() {
                 //obtener id_producto
