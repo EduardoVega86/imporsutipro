@@ -72,9 +72,9 @@ if ($data == 0) {
                     method: 'GET',
                     async: false
                 }).responseText;
+                console.log(existeLanding);
 
-
-                const editorContent = $('#summernote').summernote('code');
+                /* const editorContent = $('#summernote').summernote('code');
 
                 const fullHtmlContent = `<!DOCTYPE html>
                 <html lang="es">
@@ -128,7 +128,7 @@ if ($data == 0) {
                     }
                 });
 
-                $('#html-output').text(fullHtmlContent);
+                $('#html-output').text(fullHtmlContent); */
             });
         });
     </script>
