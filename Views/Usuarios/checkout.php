@@ -1060,7 +1060,9 @@
             data: JSON.stringify(data),
             contentType: 'application/json',
             success: function(response) {
-                alert('Los cambios han sido guardados.');
+                toastr.success("LOS CAMBIOS HAN SIDO GUARDADPS", "NOTIFICACIÓN", {
+                    positionClass: "toast-bottom-center",
+                });
             },
             error: function(xhr, status, error) {
                 alert('Ha ocurrido un error al guardar los cambios.');
