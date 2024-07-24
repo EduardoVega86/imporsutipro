@@ -740,11 +740,12 @@ class UsuariosModel extends Query
         // Actualizar información en la tabla `plataformas`
         $sql = "UPDATE `plataformas` SET `cedula_facturacion` = ?, `correo_facturacion` = ?, `direccion_facturacion` = ?, `whatsapp` = ? WHERE `id_plataforma` = ?";
         $data = [$ruc_tienda, $email_tienda, $direccion_tienda, $telefono_tienda, $plataforma];
+        
         $editar_plataforma = $this->update($sql, $data);
 
         // Actualizar información en la tabla `perfil`
         $sql = "UPDATE `perfil` SET `facebook` = ?, `instagram` = ?, `tiktok` = ?, `whatsapp` = ? WHERE `perfil`.`id_plataforma` = ?";
-        $data = [$facebook, $instagram, $tiktok, $plataforma, $telefono_tienda];
+        $data = [$facebook, $instagram, $tiktok, $telefono_tienda, $plataforma];
         $editar_perfil = $this->update($sql, $data);
 
         // Verificar si ambas actualizaciones fueron exitosas
