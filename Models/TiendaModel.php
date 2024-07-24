@@ -236,40 +236,40 @@ class TiendaModel extends Query
 
         return $this->select($sql);
     }
-    
-    public function guardar_pedido($id_plataforma,$id_producto, $precio_producto, $nombre, $telefono, $provincia, $ciudad, $calle_principal, $calle_secundaria, $referencia, $observacion, $id_inventario)
+
+    public function guardar_pedido($id_plataforma, $id_producto, $precio_producto, $nombre, $telefono, $provincia, $ciudad, $calle_principal, $calle_secundaria, $referencia, $observacion, $id_inventario)
     {
-       // $tmp = session_id();
+        // $tmp = session_id();
         //$response = $this->initialResponse();
-        
+
         $sql_producto = "SELECT * FROM productos_tienda WHERE id_producto_tienda = $id_producto limit 1";
         $producto = $this->select($sql_producto);
         $producto = $producto[0]['id_producto'];
         //echo $producto;
-        
+
         $sql_datos_producto = "SELECT * FROM productos WHERE id_producto = $producto ";
-       // echo $sql_datos_producto;
+        // echo $sql_datos_producto;
         $datos_producto = $this->select($sql_datos_producto);
         $producto_plataforma = $datos_producto[0]['id_plataforma'];
-            
-        
-         $sql_datos_bodega = "SELECT * FROM inventario_bodegas WHERE id_inventario = $id_inventario ";
-         
+
+
+        $sql_datos_bodega = "SELECT * FROM inventario_bodegas WHERE id_inventario = $id_inventario ";
+
         // echo $sql_datos_bodega;
         $datos_bodega = $this->select($sql_datos_bodega);
         $bodega = $datos_bodega[0]['bodega'];
         $sku = $datos_bodega[0]['sku'];
-        
-         // echo $sql_datos_bodega;
+
+        // echo $sql_datos_bodega;
         $sql_datos_origen = "SELECT * FROM bodega WHERE id = $bodega ";
         $datos_origen = $this->select($sql_datos_origen);
         $ciudadO = $datos_origen[0]['localidad'];
         $nombreO = $datos_origen[0]['nombre'];
         $direccionO = $datos_origen[0]['direccion'];
-        
+
         //echo $bodega.'-'.$direccionO.'--'.$ciudadO.'---'.$nombreO;
-       
-        
+
+
         $date_added     = date("Y-m-d H:i:s");
 
         $ultima_factura = $this->select("SELECT MAX(numero_factura) as factura_numero FROM facturas_cot");
@@ -280,12 +280,12 @@ class TiendaModel extends Query
         $nueva_factura = $this->incrementarNumeroFactura($factura_numero);
 
 
-        if($producto_plataforma==$id_plataforma){
-            $drop=0;
-        }else{
-           $drop=1; 
+        if ($producto_plataforma == $id_plataforma) {
+            $drop = 0;
+        } else {
+            $drop = 1;
         }
-        
+
         $response = $this->initialResponse();
         $sql = "INSERT INTO facturas_cot (
             numero_factura, fecha_factura, monto_factura, estado_factura, 
@@ -306,8 +306,8 @@ class TiendaModel extends Query
             $referencia, $observacion, 0, 0, 0, $telefono,
             $producto_plataforma, $drop, $id_plataforma,  0,
             'tienda_online', 0, 0, 0, 0,
-            0, '',  $nombreO, $ciudadO, $provincia, 
-            $direccionO, 0,  0, 0, 0,0,
+            0, '',  $nombreO, $ciudadO, $provincia,
+            $direccionO, 0,  0, 0, 0, 0,
             0, '', 0, 0, 0, 0, 0, $bodega
         );
 
@@ -317,35 +317,35 @@ class TiendaModel extends Query
 
         $responses = $this->insert($sql, $data);
 
-       // print_r($responses);
+        // print_r($responses);
         if ($responses === 1) {
             // Insertar cada registro de tmp_cotizacion en detalle_cotizacion
             $detalle_sql = "INSERT INTO detalle_fact_cot (numero_factura, id_factura, id_producto, cantidad, desc_venta, precio_venta, id_plataforma , sku, id_inventario, descripcion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $id_factura = $this->select("SELECT id_factura FROM facturas_cot WHERE numero_factura = '$nueva_factura'");
             $factura_id = $id_factura[0]['id_factura'];
 
-          
-                //buscar producto 
-              
-                $sku = $sku;
-               
-                //  echo 'enta';
-                $detalle_data = array(
-                    $nueva_factura,
-                    $factura_id,
-                    $producto,
-                    1,
-                    0,
-                    $precio_producto,
-                    $id_plataforma,
-                    $sku,
-                    $id_inventario,
-                    $nombre
-                );
-                $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
-               // print_r($guardar_detalle);
-                // print_r($guardar_detalle);
-          
+
+            //buscar producto 
+
+            $sku = $sku;
+
+            //  echo 'enta';
+            $detalle_data = array(
+                $nueva_factura,
+                $factura_id,
+                $producto,
+                1,
+                0,
+                $precio_producto,
+                $id_plataforma,
+                $sku,
+                $id_inventario,
+                $nombre
+            );
+            $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
+            // print_r($guardar_detalle);
+            // print_r($guardar_detalle);
+
 
 
             $response['status'] = 200;
@@ -360,7 +360,7 @@ class TiendaModel extends Query
 
         return $response;
     }
-    
+
     function incrementarNumeroFactura($factura)
     {
         // Separar el prefijo del número de serie
@@ -377,4 +377,28 @@ class TiendaModel extends Query
         return $nuevaFactura;
     }
 
+    public function crearPixel($plataforma, $nombre, $pixel)
+    {
+        $response = $this->initialResponse();
+        $sql = "INSERT INTO pixel (nombre, pixel, id_plataforma) VALUES (?, ?, ?)";
+        $data = [$nombre, $pixel, $plataforma];
+        $insertar_pixel = $this->insert($sql, $data);
+        if ($insertar_pixel == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Pixel agregado correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] =  $insertar_pixel['message'];
+        }
+        return $response;
+    }
+
+    public function obtenerPixeles($plataforma)
+    {
+        $sql = "SELECT * FROM pixel WHERE id_plataforma = $plataforma";
+
+        return $this->select($sql);
+    }
 }
