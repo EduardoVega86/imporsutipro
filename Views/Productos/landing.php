@@ -48,6 +48,8 @@ if ($data == 0) {
                             },
                             method: 'POST',
                             success: function(response) {
+                                response = JSON.parse(response);
+                                response = response.data;
                                 $('#summernote').summernote({
                                     height: 300,
                                     toolbar: [
