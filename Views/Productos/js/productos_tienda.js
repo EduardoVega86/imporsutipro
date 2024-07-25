@@ -124,6 +124,7 @@ const listProductos = async () => {
             <td>${producto.nombre_producto_tienda}</td>
             <td>${cargar_imagen}</td>
             <td>${destacadoBtn}</td>
+            <td><a href='' role='button'><i class="fa-solid fa-laptop-code"></i></a></td>
             <td>${producto.pvp_tienda}</td>
             <td>${producto.pref_tienda}</td>
             <td>
