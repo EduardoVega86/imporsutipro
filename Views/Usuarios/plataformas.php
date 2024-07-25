@@ -3,9 +3,8 @@
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
-        <h2 class="text-center mb-4">Lista de Usuarios Matriz</h2>
+        <h2 class="text-center mb-4">Lista de Plataformas</h2>
 
-        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_productoModal"><i class="fas fa-plus"></i> Agregar</button>
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
             <table id="datatable_plataformas" class="table table-striped">
