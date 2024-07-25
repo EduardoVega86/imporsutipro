@@ -145,6 +145,9 @@
                         </div>
                         <div style="padding-bottom: 5px;" id="fecha_gintra">
                             <label for="Solucion_novedad ">Fecha para gestionar novedad:</label>
+                            <div class="alert alert-warning" role="alert">
+                                <strong>Atención:</strong> Gintracom no recibe novedades los días domingo.
+                            </div>
                             <input type="text" id="datepicker">
                         </div>
                         <div style="padding-bottom: 5px; display: none;" id="valor_recaudoGintra">
@@ -172,7 +175,7 @@
             isInvalidDate: function(date) {
                 // Deshabilitar fines de semana
                 var day = date.day();
-                return (day === 0 || day === 6);
+                return (day === 0);
             }
         });
     });
