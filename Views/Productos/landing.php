@@ -49,17 +49,7 @@ if ($data == 0) {
                             method: 'POST',
                             success: function(response) {
                                 $('#summernote').summernote({
-                                    height: 300,
-                                    toolbar: [
-                                        ['style', ['style']],
-                                        ['font', ['bold', 'italic', 'underline', 'clear']],
-                                        ['fontname', ['fontname']],
-                                        ['color', ['color']],
-                                        ['para', ['ul', 'ol', 'paragraph']],
-                                        ['table', ['table']],
-                                        ['insert', ['link', 'picture', 'video']],
-                                        ['view', ['fullscreen', 'codeview', 'help']]
-                                    ],
+
                                     callbacks: {
                                         onImageUpload: function(files) {
                                             const formData = new FormData();
@@ -91,17 +81,7 @@ if ($data == 0) {
 
                     } else {
                         $('#summernote').summernote({
-                            height: 300,
-                            toolbar: [
-                                ['style', ['style']],
-                                ['font', ['bold', 'italic', 'underline', 'clear']],
-                                ['fontname', ['fontname']],
-                                ['color', ['color']],
-                                ['para', ['ul', 'ol', 'paragraph']],
-                                ['table', ['table']],
-                                ['insert', ['link', 'picture', 'video']],
-                                ['view', ['fullscreen', 'codeview', 'help']]
-                            ],
+
                             callbacks: {
                                 onImageUpload: function(files) {
                                     const formData = new FormData();
