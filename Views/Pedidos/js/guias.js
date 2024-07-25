@@ -106,6 +106,7 @@ const listGuias = async () => {
       let ruta_traking = "";
       let funcion_anular = "";
       let select_speed = "";
+      let despachado = "";
       if (transporte == 2) {
         transporte_content =
           '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SERVIENTREGA</span>';
@@ -179,6 +180,13 @@ const listGuias = async () => {
       } else {
         impresiones = `<box-icon name='printer' color= "#28E418"></box-icon>`;
       }
+
+      despachado = "";
+      if (guia.estado_factura == 2){
+        despachado = `<i class='bx bx-check' style="color:green;"></i>`;
+      } else if (guia.estado_factura == 1){
+        despachado = `<i class='bx bx-check' style="color:red;"></i>`;
+      }
       content += `
                 <tr>
                     <td><input type="checkbox" class="selectCheckbox" data-id="${
@@ -226,6 +234,7 @@ const listGuias = async () => {
                      </div>
                      </div>
                     </td>
+                    <td>${despachado}</td>
                     <td>${impresiones}</td>
                     <td>
                     <div class="dropdown">
