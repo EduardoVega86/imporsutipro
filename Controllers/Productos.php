@@ -117,6 +117,12 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
+    public function obtener_bodegas()
+    {
+        $response = $this->model->obtener_bodegas($_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
     public function obtener_producto_tienda($id)
     {
         $response = $this->model->obtenerProductoTienda($id);

@@ -364,8 +364,48 @@ function eliminarProducto(id) {
   });
 }
 
+/* Validador de bodega */
+function validador_bodega() {
+  $.ajax({
+    url: SERVERURL + "productos/obtener_bodegas",
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+      response.forEach(function (bodega) {
+        if (
+          bodega.localidad == null ||
+          bodega.provincia == null ||
+          bodega.direccion == null
+        ) {
+          // Bloquear los botones
+          const agregar_productoBtn = document.getElementById("agregar_producto");
+
+          agregar_productoBtn.disabled = true;
+
+          // Crear el tooltip
+          toastr.error(
+            "Su bodega "+bodega.nombre+" no contiene datos de dirección y no pueden agregar Productos",
+            "NOTIFICACIÓN",
+            {
+              positionClass: "toast-bottom-center",
+            }
+          );
+
+        }
+      });
+    },
+    error: function (error) {
+      console.error("Error al obtener la lista de categorias:", error);
+    },
+  });
+}
+/* Fin Validador de bodega */
+
 //cargar select categoria
 $(document).ready(function () {
+  /* Validador de bodega */
+  validador_bodega();
+
   // Realiza la solicitud AJAX para obtener la lista de categorias
   $.ajax({
     url: SERVERURL + "productos/cargar_categorias",
