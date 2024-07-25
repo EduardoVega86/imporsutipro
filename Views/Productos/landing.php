@@ -36,7 +36,7 @@ if ($data == 0) {
         $(document).ready(function() {
 
             $('#summernote').summernote();
-            $.ajax({
+            /*  $.ajax({
                 url: 'https://new.imporsuitpro.com/productos/existeLanding/' + location.href.split("/").pop(),
                 method: 'GET',
                 success: function(response) {
@@ -105,7 +105,7 @@ if ($data == 0) {
                     }
                 }
             });
-
+ */
 
             $('#accept-btn').click(function() {
                 //obtener id_producto
