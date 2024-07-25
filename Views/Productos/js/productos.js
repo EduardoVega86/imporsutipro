@@ -121,6 +121,10 @@ const listProductos = async () => {
             : `<box-icon name='cloud-download' style='cursor:pointer' color='red' id="icono_bajada_${producto.id_producto}" onclick="bajar_marketplace(${producto.id_producto})"></box-icon></br><span>Quitar</span>`
           : ``;
 
+      let subir_marketplace_checkBox = proveedor == 1 ? `<input type="checkbox" class="selectCheckbox" data-id="${
+        producto.id_producto
+      }">` : ``;
+
       let producto_variable, enviaCliente, botonId_inventario;
       if (producto.producto_variable == 0) {
         producto_variable = ``;
@@ -134,9 +138,7 @@ const listProductos = async () => {
 
       content += `
         <tr>
-          <td><input type="checkbox" class="selectCheckbox" data-id="${
-            producto.id_producto
-          }"></td>
+          <td>${subir_marketplace_checkBox}</td>
           <td>${botonId_inventario}</td>
           <td>${cargar_imagen}</td>
           <td>${producto.codigo_producto}</td>
