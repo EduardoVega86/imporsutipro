@@ -108,6 +108,12 @@ const listProductos = async () => {
     });
 
     const proveedor = infoTiendaResponse[0].proveedor;
+    const full_f = infoTiendaResponse[0].full_f;
+    /* Validador de bodega */
+    if (full_f == 0) {
+      validador_bodega();
+    }
+
     productos.forEach((producto) => {
       const enlace_imagen = obtenerURLImagen(producto.image_path, SERVERURL);
       let cargar_imagen = producto.image_path
@@ -121,9 +127,10 @@ const listProductos = async () => {
             : `<box-icon name='cloud-download' style='cursor:pointer' color='red' id="icono_bajada_${producto.id_producto}" onclick="bajar_marketplace(${producto.id_producto})"></box-icon></br><span>Quitar</span>`
           : ``;
 
-      let subir_marketplace_checkBox = proveedor == 1 ? `<input type="checkbox" class="selectCheckbox" data-id="${
-        producto.id_producto
-      }">` : ``;
+      let subir_marketplace_checkBox =
+        proveedor == 1
+          ? `<input type="checkbox" class="selectCheckbox" data-id="${producto.id_producto}">`
+          : ``;
 
       let producto_variable, enviaCliente, botonId_inventario;
       if (producto.producto_variable == 0) {
@@ -380,19 +387,21 @@ function validador_bodega() {
           bodega.direccion == null
         ) {
           // Bloquear los botones
-          const agregar_productoBtn = document.getElementById("agregar_producto");
+          const agregar_productoBtn =
+            document.getElementById("agregar_producto");
 
           agregar_productoBtn.disabled = true;
 
           // Crear el tooltip
           toastr.error(
-            "Su bodega "+bodega.nombre+" no contiene datos de dirección y no pueden agregar Productos",
+            "Su bodega " +
+              bodega.nombre +
+              " no contiene datos de dirección y no pueden agregar Productos",
             "NOTIFICACIÓN",
             {
               positionClass: "toast-bottom-center",
             }
           );
-
         }
       });
     },
@@ -405,9 +414,6 @@ function validador_bodega() {
 
 //cargar select categoria
 $(document).ready(function () {
-  /* Validador de bodega */
-  validador_bodega();
-
   // Realiza la solicitud AJAX para obtener la lista de categorias
   $.ajax({
     url: SERVERURL + "productos/cargar_categorias",
