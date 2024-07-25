@@ -139,16 +139,16 @@
                                 <option value="recaudo">Ajustar recaudo</option>
                             </select>
                         </div>
-                        <div style="padding-bottom: 5px;">
+                        <div style="padding-bottom: 10px;">
                             <label for="Solucion_novedad ">Solucion a novedad:</label>
                             <input type="text" class="form-control" id="Solucion_novedad ">
                         </div>
                         <div style="padding-bottom: 5px;" id="fecha_gintra">
                             <label for="Solucion_novedad ">Fecha para gestionar novedad:</label>
                             <input type="text" id="datepicker">
-                            <div class="alert alert-warning" role="alert">
-                                <strong>Atención:</strong> Gintracom no recibe novedades los días domingo.
-                            </div>
+                        </div>
+                        <div class="alert alert-warning" role="alert">
+                            <strong>Atención:</strong> Gintracom no recibe novedades los días domingo.
                         </div>
                         <div style="padding-bottom: 5px; display: none;" id="valor_recaudoGintra">
                             <label for="Valor_recaudar">Valor a recaudar:</label>
