@@ -61,7 +61,7 @@ const listPlataformas = async () => {
                     <td>${plataforma.whatsapp}</td>
                     <td>${plataforma.url_imporsuit}</td>
                     <td>${plataforma.email}</td>
-                    <td><input type="checkbox" class="selectCheckbox" data-id="${usuario.id_users}" ${checkboxState} onclick="toggleProveedor(${usuario.id_plataforma}, this.checked)"></td>
+                    <td><input type="checkbox" class="selectCheckbox" data-id="${plataforma.id_users}" ${checkboxState} onclick="toggleProveedor(${plataforma.id_plataforma}, this.checked)"></td>
                 </tr>`;
     });
     document.getElementById("tableBody_plataformas").innerHTML = content;
