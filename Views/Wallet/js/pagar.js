@@ -177,7 +177,7 @@ const listFacturas = async () => {
       var span_estado = estado.span_estado;
       console.log(span_estado);
       var estado_guia = estado.estado_guia;
-      if (filtro_facturas == "pendientes" && factura.visto == 0) {
+      if ((filtro_facturas == "pendientes") && (factura.visto == 0)) {
       content += `
                 <tr>
                     <td>${check}</td>
