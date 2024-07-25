@@ -147,7 +147,7 @@
                     <img src="https://new.imporsuitpro.com/public/img/img.png" class="profile-pic" id="profilePic" alt="Perfil">
                     <div class="profile-dropdown" id="profileDropdown">
                         <a href="#"><i class='bx bx-user menu-icon'></i> <?php echo $_SESSION["tienda"] ?></a>
-                        <a onclick="cerrar_sesion()"><i class='bx bx-log-out menu-icon'></i> Cerrar sesión</a>
+                        <a onclick="cerrar_sesion()" style="cursor:pointer"><i class='bx bx-log-out menu-icon'></i> Cerrar sesión</a>
                     </div>
                 </div>
             </div>
