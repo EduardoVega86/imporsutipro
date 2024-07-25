@@ -392,6 +392,15 @@ function validador_bodega() {
 
           agregar_productoBtn.disabled = true;
 
+          Swal.fire({
+            icon: "error",
+            title: "Falta bodega",
+            text: "Su bodega " + bodega.nombre + " no contiene datos de dirección y no pueden agregar Productos",
+            showConfirmButton: false,
+            timer: 2000,
+          }).then(() => {
+            window.location.href = "" + SERVERURL + "Productos/bodegas";
+          });
           // Crear el tooltip
           toastr.error(
             "Su bodega " +
