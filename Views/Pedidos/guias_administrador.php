@@ -48,12 +48,24 @@
                     <div>
                         <select name="estado_q" class="form-control" id="estado_q">
                             <option value=""> Seleccione Estado </option>
-                            <option value="8"> Anulado </option>
-                            <option value="2"> Por Recolectar </option>
-                            <option value="5"> En Transito </option>
-                            <option value="7"> Entregado </option>
-                            <option value="14"> Con Novedad </option>
-                            <option value="9"> Devuelto </option>
+                            <option value="(estado_guia_sistema in (100,102,103) and id_transporte=2)
+                            OR (estado_guia_sistema in (1,2,3,4) and id_transporte=1)
+                            or (estado_guia_sistema in (1,2,3) and id_transporte=3)
+                            or (estado_guia_sistema in (2) and id_transporte=4)"> Generada </option>
+                            <option value="(estado_guia_sistema BETWEEN 200 AND 202 and id_transporte=2)
+                            OR (estado_guia_sistema in (5,11,12,6) and id_transporte=1)
+                            OR (estado_guia_sistema in (5,4) and id_transporte=3)
+                            OR (estado_guia_sistema in (3) and id_transporte=4)"> En Transito </option>
+                            <option value="(estado_guia_sistema BETWEEN 400 AND 403   and id_transporte=2)
+                            OR  (estado_guia_sistema in (4)  and id_transporte=1)
+                            OR  (estado_guia_sistema in (7)  and id_transporte=3)"> Entregada </option>
+                            <option value="(estado_guia_sistema BETWEEN 320 AND 351 and id_transporte=2)
+                            OR  (estado_guia_sistema in (14) and id_transporte=1)
+                            OR  (estado_guia_sistema in (6) and id_transporte=3)"> Novedad </option>
+                            <option value="estado_guia_sistema BETWEEN 500 AND 502
+                            OR estado_guia_sistema in (9) 
+                            OR (estado_guia_sistema in (3) and id_transporte=4)
+                            OR (estado_guia_sistema in (8,9,13) and id_transporte=3)"> Devolucion </option>
                         </select>
                     </div>
                 </div>
@@ -87,7 +99,7 @@
                 </caption> -->
                 <thead>
                     <tr>
-                    <th class="centered"><input type="checkbox" id="selectAll"></th>
+                        <th class="centered"><input type="checkbox" id="selectAll"></th>
                         <th class="centered"># Orden</th>
                         <th class="centered">Detalle</th>
                         <th class="centered">Cliente</th>
