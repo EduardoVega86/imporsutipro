@@ -173,66 +173,66 @@ const listFacturas = async () => {
         estado = validar_estadoServi(factura.estado_guia);
       }
 
-      console.log("estados" + estado);
       var span_estado = estado.span_estado;
-      console.log(span_estado);
       var estado_guia = estado.estado_guia;
-      console.log("filto: "+ filtro_facturas)
-      if ((filtro_facturas == "pendientes") && (factura.visto == 0)) {
-      content += `
-                <tr>
-                    <td>${check}</td>
-                    <td>
-                    <div><span claas="text-nowrap">${factura.numero_factura}</span></div>
-                    <div><span claas="text-nowrap">${factura.guia}</span></div>
-                    <div><span class="w-100 text-nowrap" style="background-color:#7B57EC; color:white; padding:5px; border-radius:0.3rem;">${cod}</span></div>
-                    </td>
-                    <td>
-                    <div>${factura.cliente}</div>
-                    <div>${factura.fecha}</div>
-                    <div><button onclick="ver_detalle_cot('${factura.numero_factura}')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>
-                    </td>
-                    <td>
-                    <div><span class="w-100 text-nowrap ${span_estado}">${estado_guia}</span></div>
-                    <div>${acreditable}</div>
-                    </td>
-                    <td>${tienda_nombre}</td>
-                    <td>${factura.total_venta}</td>
-                    <td>${factura.costo}</td>
-                    <td>${factura.precio_envio}</td>
-                    <td>${factura.full}</td>
-                    <td>${factura.monto_recibir}</td>
-                    <td>${factura.valor_pendiente}</td>
-                    <td>${factura.peso}</td>
-                    <td>
-                    <div class="dropdown">
-                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class='bx bxs-truck' ></i>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" style="cursor: pointer;" href="${url_tracking}" target="_blank">Tracking</a></li>
-                        <li><a class="dropdown-item" style="cursor: pointer;" href="${url_descargar}">Ticket</a></li>
-                    </ul>
-                    </div>
-                    </td>
-                    <td><button class="icon-button" style="background-color: green; margin: 0;" onclick="abrirModal_editarCabecera(${factura.id_cabecera})"><i class="fa-solid fa-pen-to-square" style="margin: 0;"></i></button></td>
-                    <td>
-                    <div class="dropdown">
-                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #000000 !important; border-color: #000000 !important;">
-                    <i class='bx bxs-cog'></i>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" style="cursor: pointer;" onclick="devolucion(${factura.id_cabecera})">Devolucion</a></li>
-                        <li><a class="dropdown-item" style="cursor: pointer;" onclick="entregar(${factura.id_cabecera})">Entregar</a></li>
-                    </ul>
-                    </div>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td><button class="icon-button" style="background-color: red; margin: 0;" onclick="eliminar_wallet(${factura.id_cabecera})"><i class="fa-solid fa-trash" style="margin: 0;"></i></button></td>
-                    
-                </tr>`;
-    }
+
+      if (filtro_facturas == "pendientes" && factura.visto == 1) {
+        content += ``;
+      } else {
+        content += `
+      <tr>
+          <td>${check}</td>
+          <td>
+          <div><span claas="text-nowrap">${factura.numero_factura}</span></div>
+          <div><span claas="text-nowrap">${factura.guia}</span></div>
+          <div><span class="w-100 text-nowrap" style="background-color:#7B57EC; color:white; padding:5px; border-radius:0.3rem;">${cod}</span></div>
+          </td>
+          <td>
+          <div>${factura.cliente}</div>
+          <div>${factura.fecha}</div>
+          <div><button onclick="ver_detalle_cot('${factura.numero_factura}')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>
+          </td>
+          <td>
+          <div><span class="w-100 text-nowrap ${span_estado}">${estado_guia}</span></div>
+          <div>${acreditable}</div>
+          </td>
+          <td>${tienda_nombre}</td>
+          <td>${factura.total_venta}</td>
+          <td>${factura.costo}</td>
+          <td>${factura.precio_envio}</td>
+          <td>${factura.full}</td>
+          <td>${factura.monto_recibir}</td>
+          <td>${factura.valor_pendiente}</td>
+          <td>${factura.peso}</td>
+          <td>
+          <div class="dropdown">
+          <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class='bx bxs-truck' ></i>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <li><a class="dropdown-item" style="cursor: pointer;" href="${url_tracking}" target="_blank">Tracking</a></li>
+              <li><a class="dropdown-item" style="cursor: pointer;" href="${url_descargar}">Ticket</a></li>
+          </ul>
+          </div>
+          </td>
+          <td><button class="icon-button" style="background-color: green; margin: 0;" onclick="abrirModal_editarCabecera(${factura.id_cabecera})"><i class="fa-solid fa-pen-to-square" style="margin: 0;"></i></button></td>
+          <td>
+          <div class="dropdown">
+          <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #000000 !important; border-color: #000000 !important;">
+          <i class='bx bxs-cog'></i>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <li><a class="dropdown-item" style="cursor: pointer;" onclick="devolucion(${factura.id_cabecera})">Devolucion</a></li>
+              <li><a class="dropdown-item" style="cursor: pointer;" onclick="entregar(${factura.id_cabecera})">Entregar</a></li>
+          </ul>
+          </div>
+          </td>
+          <td></td>
+          <td></td>
+          <td><button class="icon-button" style="background-color: red; margin: 0;" onclick="eliminar_wallet(${factura.id_cabecera})"><i class="fa-solid fa-trash" style="margin: 0;"></i></button></td>
+          
+      </tr>`;
+      }
     });
     document.getElementById("tableBody_facturas").innerHTML = content;
 
