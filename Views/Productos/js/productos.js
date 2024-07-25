@@ -371,6 +371,7 @@ function validador_bodega() {
     type: "GET",
     dataType: "json",
     success: function (response) {
+      console.log("Se ejecuto");
       response.forEach(function (bodega) {
         if (
           bodega.localidad == null ||
