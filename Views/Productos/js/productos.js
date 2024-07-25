@@ -394,14 +394,14 @@ function validador_bodega() {
 
           Swal.fire({
             icon: "error",
-            title: "Falta bodega",
+            title: "Error bodega",
             text: "Su bodega " + bodega.nombre + " no contiene datos de dirección y no pueden agregar Productos",
             showConfirmButton: false,
             timer: 2000,
           }).then(() => {
             window.location.href = "" + SERVERURL + "Productos/bodegas";
           });
-          
+
         }
       });
     },
