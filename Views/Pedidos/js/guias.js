@@ -183,9 +183,9 @@ const listGuias = async () => {
 
       despachado = "";
       if (guia.estado_factura == 2){
-        despachado = `<i class='bx bx-check' style="color:green;"></i>`;
+        despachado = `<i class='bx bx-check' style="color:green; font-size: 30px;"></i>`;
       } else if (guia.estado_factura == 1){
-        despachado = `<i class='bx bx-check' style="color:red;"></i>`;
+        despachado = `<i class='bx bx-check' style="color:red; font-size: 30px;"></i>`;
       }
       content += `
                 <tr>
