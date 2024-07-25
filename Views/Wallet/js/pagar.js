@@ -125,8 +125,12 @@ const listFacturas = async () => {
         if (factura.valor_pendiente == 0) {
           check = "";
         } else {
-          if (filtro_facturas == "pendientes"){
-            check = `<input type="checkbox" class="selectCheckbox" data-factura-id_cabecera="${factura.id_cabecera}" data-factura-valor="${factura.monto_recibir}">`;
+          if (filtro_facturas == "pendientes") {
+            if (factura.visto == 1) {
+              check = "";
+            } else {
+              check = `<input type="checkbox" class="selectCheckbox" data-factura-id_cabecera="${factura.id_cabecera}" data-factura-valor="${factura.monto_recibir}">`;
+            }
           } else {
             check = "";
           }
@@ -137,7 +141,11 @@ const listFacturas = async () => {
           check = "";
         } else {
           if (filtro_facturas == "pendientes") {
-            check = `<input type="checkbox" class="selectCheckbox" data-factura-id_cabecera="${factura.id_cabecera}" data-factura-valor="${factura.monto_recibir}">`;
+            if (factura.visto == 1) {
+              check = "";
+            } else {
+              check = `<input type="checkbox" class="selectCheckbox" data-factura-id_cabecera="${factura.id_cabecera}" data-factura-valor="${factura.monto_recibir}">`;
+            }
           } else {
             check = "";
           }
