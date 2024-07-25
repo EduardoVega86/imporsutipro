@@ -34,6 +34,8 @@ if ($data == 0) {
     ?>
     <script>
         $(document).ready(function() {
+
+            $('#summernote').summernote();
             $.ajax({
                 url: 'https://new.imporsuitpro.com/productos/existeLanding/' + location.href.split("/").pop(),
                 method: 'GET',
