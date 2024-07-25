@@ -108,6 +108,7 @@
                         <th class="centered">Proveedor</th>
                         <th class="centered">Transportadora</th>
                         <th class="centered">Estado</th>
+                        <th class="centered">Despachado</th>
                         <th class="centered">Impreso</th>
                         <th class="centered">Acciones</th>
                     </tr>
