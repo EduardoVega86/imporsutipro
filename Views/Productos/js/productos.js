@@ -401,16 +401,7 @@ function validador_bodega() {
           }).then(() => {
             window.location.href = "" + SERVERURL + "Productos/bodegas";
           });
-          // Crear el tooltip
-          toastr.error(
-            "Su bodega " +
-              bodega.nombre +
-              " no contiene datos de dirección y no pueden agregar Productos",
-            "NOTIFICACIÓN",
-            {
-              positionClass: "toast-bottom-center",
-            }
-          );
+          
         }
       });
     },
