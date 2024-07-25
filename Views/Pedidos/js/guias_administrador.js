@@ -75,6 +75,7 @@ const listGuias = async () => {
       let funcion_anular = "";
       let select_speed = "";
       let drogshipin = "";
+      let despachado = "";
       if (transporte == 2) {
         transporte_content =
           '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SERVIENTREGA</span>';
@@ -152,6 +153,14 @@ const listGuias = async () => {
       } else {
         impresiones = `<box-icon name='printer' color= "#28E418"></box-icon>`;
       }
+
+      despachado = "";
+      if (guia.estado_factura == 2){
+        despachado = `<i class='bx bx-check' style="color:green; font-size: 30px;"></i>`;
+      } else if (guia.estado_factura == 1){
+        despachado = `<i class='bx bx-check' style="color:red; font-size: 30px;"></i>`;
+      }
+
       content += `
                 <tr>
                     <td><input type="checkbox" class="selectCheckbox" data-id="${guia.numero_factura}"></td>
@@ -199,6 +208,7 @@ const listGuias = async () => {
                      </div>
                      </div>
                     </td>
+                    <td>${despachado}</td>
                     <td>${impresiones}</td>
                     <td>
                     <div class="dropdown">
