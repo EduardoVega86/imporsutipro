@@ -1,6 +1,7 @@
 <?php require_once './Views/templates/header.php'; ?>
 
 <?php require_once './Views/Productos/css/landing.php'; ?>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <?php
 if ($data == 0) {
