@@ -23,6 +23,12 @@ class UsuariosModel extends Query
         return $this->select($sql);
     }
 
+    public function obtener_plataformas()
+    {
+        $sql = "SELECT * FROM plataformas;";
+        return $this->select($sql);
+    }
+
     public function obtener_usuarios_plataforma($plataforma)
     {
         // $id_matriz = $this->obtenerMatriz();
@@ -740,7 +746,7 @@ class UsuariosModel extends Query
         // Actualizar información en la tabla `plataformas`
         $sql = "UPDATE `plataformas` SET `cedula_facturacion` = ?, `correo_facturacion` = ?, `direccion_facturacion` = ?, `whatsapp` = ? WHERE `id_plataforma` = ?";
         $data = [$ruc_tienda, $email_tienda, $direccion_tienda, $telefono_tienda, $plataforma];
-        
+
         $editar_plataforma = $this->update($sql, $data);
 
         // Actualizar información en la tabla `perfil`

@@ -36,6 +36,11 @@ class Usuarios extends Controller
         $this->views->render($this, "listado");
     }
 
+    public function plataformas()
+    {
+        $this->views->render($this, "plataformas");
+    }
+
     public function tienda_online()
     {
         $this->views->render($this, "tienda_online");
@@ -110,6 +115,12 @@ class Usuarios extends Controller
     public function obtener_usuarios_matriz()
     {
         $response = $this->model->obtener_usuarios_matriz();
+        echo json_encode($response);
+    }
+
+    public function obtener_plataformas()
+    {
+        $response = $this->model->obtener_plataformas();
         echo json_encode($response);
     }
 
