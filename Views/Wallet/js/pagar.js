@@ -177,7 +177,7 @@ const listFacturas = async () => {
       var span_estado = estado.span_estado;
       console.log(span_estado);
       var estado_guia = estado.estado_guia;
-
+      if (filtro_facturas == "pendientes" && factura.visto == 0) {
       content += `
                 <tr>
                     <td>${check}</td>
@@ -231,6 +231,7 @@ const listFacturas = async () => {
                     <td><button class="icon-button" style="background-color: red; margin: 0;" onclick="eliminar_wallet(${factura.id_cabecera})"><i class="fa-solid fa-trash" style="margin: 0;"></i></button></td>
                     
                 </tr>`;
+    }
     });
     document.getElementById("tableBody_facturas").innerHTML = content;
 
