@@ -48,7 +48,7 @@ const listPlataformas = async () => {
 
     plataformas.forEach((plataforma, index) => {
       // Verifica el valor de usuario.proveedor y ajusta el checkbox en consecuencia
-      if (usuario.proveedor == 1) {
+      if (plataforma.proveedor == 1) {
         checkboxState = "checked";
       } else {
         checkboxState = "";
@@ -67,6 +67,31 @@ const listPlataformas = async () => {
     document.getElementById("tableBody_plataformas").innerHTML = content;
   } catch (ex) {
     alert(ex);
+  }
+};
+
+// Función para manejar el evento click del checkbox
+const toggleProveedor = async (userId, isChecked) => {
+  const proveedorValue = isChecked ? 1 : 0;
+  const formData = new FormData();
+  formData.append("id_plataforma", userId);
+  formData.append("proveedor", proveedorValue);
+
+  try {
+    const response = await fetch(`${SERVERURL}usuarios/agregarProveedor`, {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error("Error al actualizar el proveedor");
+    }
+
+    const result = await response.json();
+    console.log("Proveedor actualizado:", result);
+  } catch (error) {
+    console.error("Error:", error);
+    alert("Hubo un error al actualizar el proveedor");
   }
 };
 
