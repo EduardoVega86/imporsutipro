@@ -41,7 +41,7 @@ const initDataTablePlataformas = async () => {
 
 const listPlataformas = async () => {
   try {
-    const response = await fetch("" + SERVERURL + "wallet/obtenerDatos");
+    const response = await fetch("" + SERVERURL + "wallet/obtener_plataformas");
     const plataformas = await response.json();
 
     let content = ``;
