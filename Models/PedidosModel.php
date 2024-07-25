@@ -52,7 +52,7 @@ class PedidosModel extends Query
         }
 
         if (!empty($estado)) {
-            $sql .= " AND estado_guia_sistema = '$estado'";
+            $sql .= " AND ($estado)";
         }
 
         //echo $impreso;
