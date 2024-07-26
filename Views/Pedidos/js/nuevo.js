@@ -98,7 +98,7 @@ const listNuevoPedido = async () => {
 
       /* console.log(costo_producto); */
       variedad = "";
-      if (nuevoPedido.variedad != null){
+      if (nuevoPedido.variedad != null) {
         variedad = `${nuevoPedido.variedad}`;
       }
 
@@ -319,6 +319,26 @@ $(document).ready(function () {
 
       // Add 'selected' class to the clicked transportadora
       $(this).addClass("selected");
+
+      const urlParams_calcular = new URLSearchParams(window.location.search);
+      const idProducto_calcular = urlParams.get("id_producto");
+      let formData = new FormData();
+      formData.append("id_producto", idProducto_calcular);
+      formData.append("total", idProducto_calcular);
+      formData.append("tarifa", priceValue);
+      formData.append("costo", idProducto_calcular);
+
+      $.ajax({
+        url: SERVERURL + "calculadora/calcularGuiaDirecta",
+        type: "POST", // Cambiar a POST para enviar FormData
+        data: formData,
+        processData: false, // No procesar los datos
+        contentType: false, // No establecer ningún tipo de contenido
+        success: function (response) {},
+        error: function (jqXHR, textStatus, errorThrown) {
+          alert(errorThrown);
+        },
+      });
     } else {
       toastr.error("ESTA TRANSPORTADORA NO TIENE COBERTURA", "NOTIFICACIÓN", {
         positionClass: "toast-bottom-center",
