@@ -224,7 +224,9 @@
                 invalidTabs = [...new Set(invalidTabs)];
                 invalidTabs.forEach(function(tab) {
                     $('#' + tab).tab('show');
-                    toastr.error('Por favor, complete todos los campos requeridos en esta sección.', 'Error de Validación', { positionClass: 'toast-bottom-center' });
+                    toastr.error('Por favor, complete todos los campos requeridos en esta sección.', 'Error de Validación', {
+                        positionClass: 'toast-bottom-center'
+                    });
                 });
                 button.disabled = false;
                 return;
