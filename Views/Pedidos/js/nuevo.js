@@ -347,10 +347,10 @@ $(document).ready(function () {
         success: function (response) {
           if (response.generar == false){
             button2.disabled = true;
-            $("#elegir_cuenta").show();
+            $("#alerta_valoresContra").show();
           }else{
             button2.disabled = false;
-            $("#forma_pago").hide();
+            $("#alerta_valoresContra").hide();
           }
         },
         error: function (jqXHR, textStatus, errorThrown) {

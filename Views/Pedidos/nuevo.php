@@ -65,7 +65,11 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                 </div>
             </div>
             <div>
-                <div class="alert alert-warning" role="alert" style="display: none;">
+                <h3 class="mb-3" style="text-decoration:underline;"><strong>Información de la venta</strong></h3>
+                <p class="texto_infoVenta"><strong>Código del Producto:</strong> <span id="codigo_producto"></span></p>
+                <p class="texto_infoVenta"><strong>Nombre Producto:</strong> <span id="nombre_producto"></span></p>
+                <p class="texto_infoVenta"><strong>Precio Proveedor:</strong> <span id="precio_proveedor"></span></p>
+                <div class="alert alert-warning" role="alert" style="display: none;" id="alerta_valoresContra">
                     <strong>Atención:</strong> No pude generar esta guia porque el vosto de la misma tiene valores en contra.
                 </div>
             </div>
