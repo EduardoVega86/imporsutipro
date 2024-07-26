@@ -46,8 +46,8 @@ LEFT JOIN
     plataforma_matriz pm 
 ON 
     p.id_plataforma = pm.id_plataforma 
-    and p.proveedor=1
-    AND pm.id_matriz = $id_matriz";
+    AND pm.id_matriz = $id_matriz WHERE 
+    p.proveedor = 1";
         return $this->select($sql);
     }
 
