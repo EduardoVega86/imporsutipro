@@ -329,11 +329,11 @@ $(document).ready(function () {
       const urlParams_calcular = new URLSearchParams(window.location.search);
       const idProducto_calcular = urlParams_calcular.get("id_producto");
 
-      var monto_total = $('#monto_total').val();
+      var monto_total_general = $('#monto_total').val();
 
       let formData = new FormData();
       formData.append("id_producto", idProducto_calcular);
-      formData.append("total", monto_total);
+      formData.append("total", monto_total_general);
       formData.append("tarifa", priceValue);
       formData.append("costo", costo_general);
 
