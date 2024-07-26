@@ -346,10 +346,10 @@ $(document).ready(function () {
         dataType: "json",
         success: function (response) {
 
-          $("#montoVenta_infoVenta").val(response.total);
-          $("#costo_infoVenta").val(response.costo);
-          $("#precioEnvio_infoVenta").val(response.tarifa);
-          $("#total_infoVenta").val(response.resultante);
+          $("#montoVenta_infoVenta").text(response.total);
+          $("#costo_infoVenta").text(response.costo);
+          $("#precioEnvio_infoVenta").text(response.tarifa);
+          $("#total_infoVenta").text(response.resultante);
 
           if (response.generar == false){
             button2.disabled = true;
