@@ -274,7 +274,7 @@ XML;
             $resultante = $resultante;
         }
 
-        if ($resultante == 0) {
+        if ($resultante <= 0) {
             $generar = false;
         } else {
             $generar = true;
