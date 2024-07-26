@@ -263,6 +263,36 @@ window.addEventListener("load", async () => {
 });
 
 $(document).ready(function () {
+  /* Verificacion de saldo en contra */
+  $.ajax({
+    url: SERVERURL + "calculadora/saldo",
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+      var saldo = parseFloat(response).toFixed(2);
+
+      var button2 = document.getElementById("generarGuiaBtn");
+
+      if (saldo < 0) {
+        button2.disabled = true;
+        Swal.fire({
+          icon: "error",
+          title: "No puede realizar guias",
+          text: "No puede realizar guias porque tiene registrado un saldo negativo.",
+          showConfirmButton: false,
+          timer: 2000,
+        }).then(() => {
+          window.location.href = "" + SERVERURL + "dashboard";
+        });
+        
+      }
+    },
+    error: function (error) {
+      console.error("Error al obtener la lista de bodegas:", error);
+    },
+  });
+  /* Fin verificacion de saldo en contra */
+  
   // Inicializar Select2 en los selects
   $("#provincia").select2({
     placeholder: "Selecciona una opción",
