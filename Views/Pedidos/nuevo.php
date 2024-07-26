@@ -64,6 +64,11 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
 
                 </div>
             </div>
+            <div>
+                <div class="alert alert-warning" role="alert">
+                    <strong>Atención:</strong> No pude generar esta guia porque el vosto de la misma tiene valores en contra.
+                </div>
+            </div>
         </div>
 
         <div class="col-md-6 right-column">

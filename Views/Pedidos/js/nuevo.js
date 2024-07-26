@@ -343,7 +343,16 @@ $(document).ready(function () {
         data: formData,
         processData: false, // No procesar los datos
         contentType: false, // No establecer ningún tipo de contenido
-        success: function (response) {},
+        dataType: "json",
+        success: function (response) {
+          if (response.generar == false){
+            button2.disabled = true;
+            $("#elegir_cuenta").show();
+          }else{
+            button2.disabled = false;
+            $("#forma_pago").hide();
+          }
+        },
         error: function (jqXHR, textStatus, errorThrown) {
           alert(errorThrown);
         },
