@@ -42,6 +42,7 @@ class Calculadora extends Controller
 
     public function calcularGuiaDirecta()
     {
+        $this->isAuth();
         $id_producto = $_POST['id_producto'];
         $total = $_POST['total'];
         $tarifa = $_POST['tarifa'];
