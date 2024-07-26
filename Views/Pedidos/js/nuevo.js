@@ -298,8 +298,6 @@ $(document).ready(function () {
 
       if (saldo < 0){
         button2.disabled = true;
-      } else {
-        button2.disabled = false;
       }
     },
     error: function (error) {
