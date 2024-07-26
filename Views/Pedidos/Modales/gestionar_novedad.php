@@ -140,11 +140,11 @@
                             </select>
                         </div>
                         <div style="padding-bottom: 10px;">
-                            <label for="Solucion_novedad ">Solucion a novedad:</label>
-                            <input type="text" class="form-control" id="Solucion_novedad ">
+                            <label for="Solucion_novedad">Solucion a novedad:</label>
+                            <input type="text" class="form-control" id="Solucion_novedad">
                         </div>
                         <div style="padding-bottom: 5px;" id="fecha_gintra">
-                            <label for="Solucion_novedad ">Fecha para gestionar novedad:</label>
+                            <label for="fecha">Fecha para gestionar novedad:</label>
                             <input type="text" id="datepicker">
                         </div>
                         <div class="alert alert-warning" role="alert">
