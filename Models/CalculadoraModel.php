@@ -270,7 +270,6 @@ XML;
         }
         $resultante = $total - $costo - $tarifa;
         if ($resultante < 0) {
-            $resultante = 0;
         } else {
             $resultante = $resultante;
         }
@@ -280,6 +279,9 @@ XML;
         } else {
             $generar = true;
         }
+
+        // $inventario = $this->select("SELECT * FROM inventario_bodegas WHERE id_producto = '$id_producto';");
+
 
         $data = [
             "total" => number_format($total, 2, '.', ''),

@@ -68,7 +68,7 @@ class PedidosModel extends Query
 
 
         $sql .= " ORDER BY fc.numero_factura DESC;";
-      // echo $sql;
+        // echo $sql;
         return $this->select($sql);
     }
 
@@ -623,11 +623,11 @@ WHERE tmp.session_id = '$tmp'";
     public function datosPedido($id)
     {
         $sql = "SELECT * 
-FROM `detalle_fact_cot`
-LEFT JOIN `productos` ON detalle_fact_cot.id_producto = productos.id_producto
-LEFT JOIN `inventario_bodegas` ON detalle_fact_cot.id_inventario = inventario_bodegas.id_inventario
-LEFT JOIN `variedades` ON inventario_bodegas.id_variante = variedades.id_variedad
-WHERE detalle_fact_cot.id_factura = $id;";
+        FROM `detalle_fact_cot`
+        LEFT JOIN `productos` ON detalle_fact_cot.id_producto = productos.id_producto
+        LEFT JOIN `inventario_bodegas` ON detalle_fact_cot.id_inventario = inventario_bodegas.id_inventario
+        LEFT JOIN `variedades` ON inventario_bodegas.id_variante = variedades.id_variedad
+        WHERE detalle_fact_cot.id_factura = $id;";
         //echo $sql;
         return $this->select($sql);
     }
