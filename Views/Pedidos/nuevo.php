@@ -64,7 +64,7 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
 
                 </div>
             </div>
-            <div>
+            <div style="padding-top: 40px;">
                 <h3 class="mb-3" style="text-decoration:underline;"><strong>Información de la venta</strong></h3>
                 <p class="texto_infoVenta"><strong>Código del Producto:</strong> <span id="codigo_producto"></span></p>
                 <p class="texto_infoVenta"><strong>Nombre Producto:</strong> <span id="nombre_producto"></span></p>
