@@ -65,7 +65,7 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                 </div>
             </div>
             <div>
-                <div class="alert alert-warning" role="alert">
+                <div class="alert alert-warning" role="alert" style="display: none;">
                     <strong>Atención:</strong> No pude generar esta guia porque el vosto de la misma tiene valores en contra.
                 </div>
             </div>
