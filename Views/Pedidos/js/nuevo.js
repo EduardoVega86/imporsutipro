@@ -115,7 +115,8 @@ const listNuevoPedido = async () => {
         return;
       }
 
-      costo_general = costo_general + (nuevoPedido.pcp * nuevoPedido.cantidad_tmp);
+      costo_general =
+        costo_general + nuevoPedido.pcp * nuevoPedido.cantidad_tmp;
 
       const precio = parseFloat(nuevoPedido.precio_tmp);
       const descuento = parseFloat(nuevoPedido.desc_tmp);
@@ -285,6 +286,28 @@ window.addEventListener("load", async () => {
 
 //cargar selelct ciudades y provincias
 $(document).ready(function () {
+  /* Verificacion de saldo en contra */
+  $.ajax({
+    url: SERVERURL + "calculadora/saldo",
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+      var saldo = parseFloat(response).toFixed(2);
+
+      var button2 = document.getElementById("generarGuiaBtn");
+
+      if (saldo < 0){
+        button2.disabled = true;
+      } else {
+        button2.disabled = false;
+      }
+    },
+    error: function (error) {
+      console.error("Error al obtener la lista de bodegas:", error);
+    },
+  });
+  /* Fin verificacion de saldo en contra */
+
   // Inicializar Select2 en los selects
   $("#provincia").select2({
     placeholder: "Selecciona una opción",
@@ -345,16 +368,15 @@ $(document).ready(function () {
         contentType: false, // No establecer ningún tipo de contenido
         dataType: "json",
         success: function (response) {
-
           $("#montoVenta_infoVenta").text(response.total);
           $("#costo_infoVenta").text(response.costo);
           $("#precioEnvio_infoVenta").text(response.tarifa);
           $("#total_infoVenta").text(response.resultante);
 
-          if (response.generar == false){
+          if (response.generar == false) {
             button2.disabled = true;
             $("#alerta_valoresContra").show();
-          }else{
+          } else {
             button2.disabled = false;
             $("#alerta_valoresContra").hide();
           }
