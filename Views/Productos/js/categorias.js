@@ -187,7 +187,7 @@ function editar_categoria(id) {
           $("#imagePreview")
             .attr("src", SERVERURL + data.imagen)
             .show();
-
+            console.log(SERVERURL + data.imagen);
           // Abrir el modal
           $("#editar_categoriaModal").modal("show");
         } else {
