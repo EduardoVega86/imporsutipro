@@ -139,6 +139,8 @@ class NovedadesModel extends Query
             $data["fecha_entrega"] = $fecha;
         }
 
+        print_r($data);
+
         $data = json_encode($data);
         $url = "https://ec.gintracom.site/web/import-suite/solucion";
         $username = "importsuite";
