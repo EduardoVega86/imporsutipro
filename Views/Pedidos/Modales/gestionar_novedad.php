@@ -141,7 +141,7 @@
                         </div>
                         <div style="padding-bottom: 10px;">
                             <label for="Solucion_novedad">Solucion a novedad:</label>
-                            <input type="text" class="form-control" id="Solucion_novedad">
+                            <input type="text" class="form-control" id="Solucion_novedad" maxlength="50">
                         </div>
                         <div style="padding-bottom: 5px;" id="fecha_gintra">
                             <label for="fecha">Fecha para gestionar novedad:</label>
