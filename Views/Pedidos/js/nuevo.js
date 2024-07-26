@@ -330,7 +330,7 @@ $(document).ready(function () {
       const idProducto_calcular = urlParams_calcular.get("id_producto");
 
       var monto_total_general = $('#monto_total').val();
-
+      console.log(monto_total_general);
       let formData = new FormData();
       formData.append("id_producto", idProducto_calcular);
       formData.append("total", monto_total_general);
