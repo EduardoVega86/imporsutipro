@@ -28,9 +28,9 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
 
     public function importar_productos_tienda($id_producto, $plataforma)
     {
-
+$response = $this->initialResponse();
         $inicial_variable = $this->select("SELECT * from productos_tienda  where id_plataforma= $plataforma and id_producto=$id_producto");
-
+//echo "SELECT * from productos_tienda  where id_plataforma= $plataforma and id_producto=$id_producto";
         // print_r($inicial_variable);
         $ingreso_tienda = 0;
         if (empty($inicial_variable)) {
