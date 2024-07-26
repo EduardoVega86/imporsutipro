@@ -307,6 +307,7 @@ $(document).ready(function () {
         }).then(() => {
           window.location.href = "" + SERVERURL + "dashboard";
         });
+        
       }
     },
     error: function (error) {
