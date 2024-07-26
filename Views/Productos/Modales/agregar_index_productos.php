@@ -64,7 +64,7 @@
                                         <div class="form-group">
                                             <label for="formato-pagina">Formato Página Productos:</label>
                                             <select class="form-select" id="formato-pagina" required>
-                                                <option selected>-- Selecciona --</option>
+                                                <option selected value="">-- Selecciona --</option>
                                                 <option value="1">Formato 1</option>
                                                 <option value="2">Formato 2</option>
                                             </select>
