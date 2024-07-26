@@ -296,8 +296,13 @@ $(document).ready(function () {
 
       var button2 = document.getElementById("generarGuiaBtn");
 
-      if (saldo < 0){
+      if (saldo < 0) {
         button2.disabled = true;
+        Swal.fire({
+          icon: "error",
+          title: "No puede realizar guias",
+          text: "No puede realizar guias porque tiene registrado un saldo negativo.",
+        });
       }
     },
     error: function (error) {
