@@ -254,4 +254,32 @@ XML;
         $nombre = $this->select($sql);
         return $nombre;
     }
+
+    public function calcularGuiaDirecta($id_producto, $total, $tarifa, $id_plataforma, $costo)
+    {
+        $producto = $this->select("SELECT * FROM productos WHERE id_producto = '$id_producto'");
+        $plataforma = $producto[0]['id_plataforma'];
+        if ($id_plataforma == $plataforma) {
+            $costo = 0;
+        }
+        $resultante = $total - $costo - $tarifa;
+        if ($resultante < 0) {
+            $resultante = 0;
+        }
+
+        if ($resultante == 0) {
+            $generar = false;
+        } else {
+            $generar = true;
+        }
+
+        $data = [
+            "total" => number_format($total, 2, '.', ''),
+            "tarifa" => number_format($tarifa, 2, '.', ''),
+            "costo" => number_format($costo, 2, '.', ''),
+            "resultante" => number_format($resultante, 2, '.', ''),
+            "generar" => $generar
+        ];
+        return $data;
+    }
 }
