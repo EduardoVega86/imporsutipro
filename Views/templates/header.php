@@ -115,6 +115,7 @@
             <a href="#" class="dropdown-btn" data-target="#submenu4"><i class='bx bx-cog menu-icon'></i> <span class="menu-text">Configuración</span></a>
             <div class="submenu" id="submenu4">
                 <?php if ($_SESSION['cargo'] == 10) { ?>
+                <a href="<?php echo SERVERURL ?>usuarios/plataformas"><i class='bx bx-box menu-icon'></i> <span class="menu-text">Plataformas Marketplace</span></a>
                     <a href="<?php echo SERVERURL ?>usuarios/listamatriz"><i class='bx bx-user menu-icon'></i> <span class="menu-text">Usuarios</span></a>
                     <a href="<?php echo SERVERURL ?>usuarios/actualizacionMasiva_tiendas"><i class='bx bx-user menu-icon'></i> <span class="menu-text">Actualizacion Masiva</span></a>
                 <?php
