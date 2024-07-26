@@ -345,6 +345,12 @@ $(document).ready(function () {
         contentType: false, // No establecer ningún tipo de contenido
         dataType: "json",
         success: function (response) {
+
+          $("#montoVenta_infoVenta").val(response.total);
+          $("#costo_infoVenta").val(response.costo);
+          $("#precioEnvio_infoVenta").val(response.tarifa);
+          $("#total_infoVenta").val(response.resultante);
+
           if (response.generar == false){
             button2.disabled = true;
             $("#alerta_valoresContra").show();
