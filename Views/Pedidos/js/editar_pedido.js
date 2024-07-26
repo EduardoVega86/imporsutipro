@@ -81,6 +81,8 @@ const listNuevoPedido = async () => {
     costo_general = 0;
 
     nuevosPedidos.forEach((nuevoPedido, index) => {
+      $("#id_producto_temporal").val(nuevoPedido.id_producto);
+
       numero_factura = nuevoPedido.numero_factura;
       id_producto_venta = nuevoPedido.id_producto;
       dropshipping = nuevoPedido.drogshipin;
