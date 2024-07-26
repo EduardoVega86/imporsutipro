@@ -327,7 +327,7 @@ $(document).ready(function () {
       $(this).addClass("selected");
 
       const urlParams_calcular = new URLSearchParams(window.location.search);
-      const idProducto_calcular = urlParams.get("id_producto");
+      const idProducto_calcular = urlParams_calcular.get("id_producto");
 
       var monto_total = $('#monto_total').val();
 
