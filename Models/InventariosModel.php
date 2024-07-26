@@ -222,7 +222,7 @@ class InventariosModel extends Query
         if ($uploadOk == 0) {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = 'Error al subir la imagen1';
+            $response['message'] = 'Error al subir la imagen';
         } else {
             if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
                 $response['status'] = 200;
@@ -240,12 +240,12 @@ class InventariosModel extends Query
                 } else {
                     $response['status'] = 500;
                     $response['title'] = 'Error';
-                    $response['message'] = 'Error al subir la imagen2';
+                    $response['message'] = 'Error al subir la imagen';
                 }
             } else {
                 $response['status'] = 500;
                 $response['title'] = 'Error';
-                $response['message'] = 'Error al subir la imagen3';
+                $response['message'] = 'Error al subir la imagen';
             }
         }
         return $response;

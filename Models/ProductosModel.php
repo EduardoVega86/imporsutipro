@@ -489,7 +489,7 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
         if ($uploadOk == 0) {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = 'Error al subir la imagen';
+            $response['message'] = 'Error al subir la imagen1';
         } else {
             if (move_uploaded_file($imagen["tmp_name"], $target_file)) {
                 $response['status'] = 200;
@@ -507,12 +507,12 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
                 } else {
                     $response['status'] = 500;
                     $response['title'] = 'Error';
-                    $response['message'] = 'Error al subir la imagen';
+                    $response['message'] = 'Error al subir la imagen2';
                 }
             } else {
                 $response['status'] = 500;
                 $response['title'] = 'Error';
-                $response['message'] = 'Error al subir la imagen';
+                $response['message'] = 'Error al subir la imagen3';
             }
         }
         return $response;
