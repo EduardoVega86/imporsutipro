@@ -40,9 +40,10 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
             $inventario = $this->select("SELECT * FROM inventario_bodegas ib, productos p WHERE p.id_producto = $id_producto and ib.id_producto=p.id_producto");
 
             // Insertar cada registro de tmp_cotizacion en detalle_cotizacion
-            $detalle_sql = "INSERT INTO `productos_tienda` (`id_plataforma`, `id_producto`, `nombre_producto_tienda`, `imagen_principal_tienda`, `pvp_tienda`, `id_inventario`, `id_categoria_tienda`, `descripcion_tienda` ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)";
+            $detalle_sql = "INSERT INTO `productos_tienda` (`id_plataforma`, `id_producto`, `nombre_producto_tienda`, `imagen_principal_tienda`, `pvp_tienda`, `id_inventario`, `id_categoria_tienda`, `descripcion_tienda`, `landing_tienda` ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             foreach ($inventario as $inv) {
+                echo $inv['landing'];
                 $detalle_data = array(
                     $plataforma,
                     $id_producto,
@@ -51,10 +52,11 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
                     $inv['pvp'],
                     $inv['id_inventario'],
                     $inv['id_linea_producto'],
-                    $inv['descripcion_producto']
+                    $inv['descripcion_producto'],
+                    $inv['landing']
                 );
                 $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
-
+               // print_r($guardar_detalle);
                 if ($guardar_detalle == 1) {
                     $response['status'] = 200;
                     $response['title'] = 'Peticion exitosa';
@@ -176,7 +178,7 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
         //  print_r($data);
         $editar_producto = $this->update($sql, $data);
         $pref = $pref ?? 0;
-        print_r($editar_producto);
+       // print_r($editar_producto);
         if ($editar_producto == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
