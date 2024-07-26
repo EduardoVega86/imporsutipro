@@ -56,6 +56,7 @@ var dropshipping = "";
 var contiene = "";
 var contieneGintracom = "";
 var costo_producto = 0;
+var costo_general = 0;
 
 const listNuevoPedido = async () => {
   try {
@@ -79,6 +80,9 @@ const listNuevoPedido = async () => {
     contiene = "";
     contieneGintracom = "";
     let variedad = "";
+
+    costo_general = 0;
+
     nuevosPedidos.forEach((nuevoPedido, index) => {
       if (nuevosPedidos_bodega.length > 0 && nuevosPedidos_bodega[0]) {
         celular_bodega = nuevosPedidos_bodega[0].contacto;
@@ -110,6 +114,8 @@ const listNuevoPedido = async () => {
       if (!validar_direccion()) {
         return;
       }
+
+      costo_general = costo_general + nuevoPedido.pcp;
 
       const precio = parseFloat(nuevoPedido.precio_tmp);
       const descuento = parseFloat(nuevoPedido.desc_tmp);
@@ -322,11 +328,14 @@ $(document).ready(function () {
 
       const urlParams_calcular = new URLSearchParams(window.location.search);
       const idProducto_calcular = urlParams.get("id_producto");
+
+      var monto_total = $('#monto_total').val();
+
       let formData = new FormData();
       formData.append("id_producto", idProducto_calcular);
-      formData.append("total", idProducto_calcular);
+      formData.append("total", monto_total);
       formData.append("tarifa", priceValue);
-      formData.append("costo", idProducto_calcular);
+      formData.append("costo", costo_general);
 
       $.ajax({
         url: SERVERURL + "calculadora/calcularGuiaDirecta",
