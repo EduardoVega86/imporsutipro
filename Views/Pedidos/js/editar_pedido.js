@@ -77,7 +77,7 @@ const listNuevoPedido = async () => {
     let precio_costo = 0;
     costo_producto = 0;
     let variedad = "";
-    
+
     costo_general = 0;
 
     nuevosPedidos.forEach((nuevoPedido, index) => {
@@ -102,7 +102,7 @@ const listNuevoPedido = async () => {
         return; // Salir de la función si la validación falla
       }
 
-      costo_general = costo_general + nuevoPedido.pcp;
+      costo_general = costo_general + nuevoPedido.pcp * nuevoPedido.cantidad;
 
       const precio = parseFloat(nuevoPedido.precio_venta);
       const descuento = parseFloat(nuevoPedido.desc_venta);
@@ -405,7 +405,7 @@ $(document).ready(function () {
       const urlParams_calcular = new URLSearchParams(window.location.search);
       const idProducto_calcular = urlParams_calcular.get("id_producto");
 
-      var monto_total = $("#monto_total").val();
+      var monto_total_general = $("#monto_total").text().trim();
 
       let formData = new FormData();
       formData.append("id_producto", idProducto_calcular);
@@ -419,7 +419,21 @@ $(document).ready(function () {
         data: formData,
         processData: false, // No procesar los datos
         contentType: false, // No establecer ningún tipo de contenido
-        success: function (response) {},
+        dataType: "json",
+        success: function (response) {
+          $("#montoVenta_infoVenta").text(response.total);
+          $("#costo_infoVenta").text(response.costo);
+          $("#precioEnvio_infoVenta").text(response.tarifa);
+          $("#total_infoVenta").text(response.resultante);
+
+          if (response.generar == false) {
+            button2.disabled = true;
+            $("#alerta_valoresContra").show();
+          } else {
+            button2.disabled = false;
+            $("#alerta_valoresContra").hide();
+          }
+        },
         error: function (jqXHR, textStatus, errorThrown) {
           alert(errorThrown);
         },
