@@ -138,6 +138,14 @@ class Usuarios extends Controller
         $response = $this->model->agregarProveedor($id_plataforma, $proveedor);
         echo json_encode($response);
     }
+    
+     public function quitarTienda()
+    {
+        $id_plataforma = $_POST['id_plataforma'];
+        
+        $response = $this->model->quitarTienda($id_plataforma);
+        echo json_encode($response);
+    }
 
     public function agregarFull()
     {

@@ -46,24 +46,21 @@ const listPlataformas = async () => {
 
     let content = ``;
 
-    plataformas.forEach((plataforma, index) => {
-      // Verifica el valor de usuario.proveedor y ajusta el checkbox en consecuencia
-      if (plataforma.proveedor == 1) {
-        checkboxState = "checked";
-      } else {
-        checkboxState = "";
-      }
+    plataformas.forEach((plataforma) => {
+      // Verifica el valor de plataforma.Existe y ajusta el checkbox en consecuencia
+      const checkboxState = plataforma.Existe == 1 ? "checked" : "";
       content += `
-                <tr>
-                    <td>${plataforma.id_plataforma}</td>
-                    <td>${plataforma.nombre_tienda}</td>
-                    <td>${plataforma.contacto}</td>
-                    <td>${plataforma.whatsapp}</td>
-                    <td>${plataforma.url_imporsuit}</td>
-                    <td>${plataforma.email}</td>
-                    <td><input type="checkbox" class="selectCheckbox" data-id="${plataforma.id_users}" ${checkboxState} onclick="toggleProveedor(${plataforma.id_plataforma}, this.checked)"></td>
-                </tr>`;
+        <tr>
+          <td>${plataforma.id_plataforma}</td>
+          <td>${plataforma.nombre_tienda}</td>
+          <td>${plataforma.contacto}</td>
+          <td>${plataforma.whatsapp}</td>
+          <td>${plataforma.url_imporsuit}</td>
+          <td>${plataforma.email}</td>
+          <td><input type="checkbox" class="selectCheckbox" data-id="${plataforma.id_plataforma}" ${checkboxState} onclick="toggleProveedor(${plataforma.id_plataforma}, this.checked)"></td>
+        </tr>`;
     });
+
     document.getElementById("tableBody_plataformas").innerHTML = content;
   } catch (ex) {
     alert(ex);
@@ -71,14 +68,14 @@ const listPlataformas = async () => {
 };
 
 // Función para manejar el evento click del checkbox
-const toggleProveedor = async (userId, isChecked) => {
+const toggleProveedor = async (idPlataforma, isChecked) => {
   const proveedorValue = isChecked ? 1 : 0;
   const formData = new FormData();
-  formData.append("id_plataforma", userId);
-  formData.append("proveedor", proveedorValue);
+  formData.append("id_plataforma", idPlataforma);  // Añadir id_plataforma
+  //formData.append("proveedor", proveedorValue);
 
   try {
-    const response = await fetch(`${SERVERURL}usuarios/agregarProveedor`, {
+    const response = await fetch(`${SERVERURL}usuarios/quitarTienda`, {
       method: "POST",
       body: formData,
     });
@@ -94,6 +91,7 @@ const toggleProveedor = async (userId, isChecked) => {
     alert("Hubo un error al actualizar el proveedor");
   }
 };
+
 
 window.addEventListener("load", async () => {
   await initDataTablePlataformas();

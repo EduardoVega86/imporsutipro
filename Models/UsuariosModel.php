@@ -25,7 +25,28 @@ class UsuariosModel extends Query
 
     public function obtener_plataformas()
     {
-        $sql = "SELECT * FROM plataformas;";
+        $id_matriz = $this->obtenerMatriz();
+        $id_matriz = $id_matriz[0]['idmatriz'];
+        $sql = "SELECT 
+    p.id_plataforma, 
+    p.id_matriz, 
+    p.nombre_tienda,
+    p.url_imporsuit,
+    p.whatsapp,
+    p.email,
+    p.contacto,
+    (select marca from matriz WHERE idmatriz=p.id_matriz) as matriz,
+    CASE 
+        WHEN pm.id_plataforma IS NOT NULL THEN 1 
+        ELSE 0 
+    END AS Existe
+FROM 
+    plataformas p
+LEFT JOIN 
+    plataforma_matriz pm 
+ON 
+    p.id_plataforma = pm.id_plataforma 
+    AND pm.id_matriz = $id_matriz";
         return $this->select($sql);
     }
 
@@ -167,6 +188,54 @@ class UsuariosModel extends Query
         }
         return $response;
     }
+    
+    public function quitarTienda($plataforma)
+{
+    $response = $this->initialResponse();
+
+    // Obtén el id_matriz
+    $id_matriz = $this->obtenerMatriz();
+    $id_matriz = $id_matriz[0]['idmatriz'];
+
+    // Verifica si el registro ya existe en la tabla plataforma_matriz
+    $registroExistente = $this->select(
+        "SELECT * FROM plataforma_matriz WHERE id_plataforma = $plataforma AND id_matriz = $id_matriz"
+    );
+
+    if (!empty($registroExistente)) {
+        // El registro existe, entonces elimínalo
+        $sql = "DELETE FROM plataforma_matriz WHERE id_plataforma = ? AND id_matriz = ?";
+        $data = [$plataforma, $id_matriz];
+        $eliminar = $this->delete($sql, $data);
+
+        if ($eliminar=1) {
+            $response['status'] = 200;
+            $response['title'] = 'Petición exitosa';
+            $response['message'] = 'Registro eliminado correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'No se pudo eliminar el registro';
+        }
+    } else {
+        // El registro no existe, entonces agrégalo
+        $sql = "INSERT INTO plataforma_matriz (id_plataforma, id_matriz) VALUES (?, ?)";
+                    $data = [$plataforma, $id_matriz];
+                    $insertar_relacion = $this->insert($sql, $data);
+
+        if ($insertar_relacion==1) {
+            $response['status'] = 200;
+            $response['title'] = 'Petición exitosa';
+            $response['message'] = 'Registro agregado correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'No se pudo agregar el registro';
+        }
+    }
+
+    return $response;
+}
 
 
     public function guardar_imagen_logo($imagen, $plataforma)
