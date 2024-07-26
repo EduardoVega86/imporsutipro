@@ -56,7 +56,7 @@
                                         <div class="form-group">
                                             <label for="categoria">Categoría:</label>
                                             <select class="form-select" id="categoria">
-                                                <option selected>-- Selecciona Categoría --</option>
+                                                <option selected value="">-- Selecciona Categoría --</option>
                                             </select>
                                         </div>
                                     </div>
@@ -106,7 +106,7 @@
                                 <div class="form-group w-100">
                                     <label for="maneja-inventario">Maneja Inventario:</label>
                                     <select class="form-select" id="maneja-inventario" required>
-                                        <option selected>-- Selecciona --</option>
+                                        <option selected value="">-- Selecciona --</option>
                                         <option value="1">Sí</option>
                                         <option value="0">No</option>
                                     </select>
@@ -114,7 +114,7 @@
                                 <div class="form-group w-100">
                                     <label for="producto-variable">Producto Variable:</label>
                                     <select class="form-select" id="producto-variable" required>
-                                        <option selected>-- Selecciona --</option>
+                                        <option selected value="">-- Selecciona --</option>
                                         <option value="1">Sí</option>
                                         <option value="0">No</option>
                                     </select>
@@ -202,6 +202,40 @@
 
         $('#agregar_producto_form').submit(function(event) {
             event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
+
+            var maneja_inventario = $('#maneja-inventario').val();
+            var producto_variable = $('#producto-variable').val();
+            var categoria = $('#categoria').val();
+
+            if (maneja_inventario == "") {
+                toastr.error(
+                    "Falta llenar Manjero de Inventario",
+                    "NOTIFICACIÓN", {
+                        positionClass: "toast-bottom-center"
+                    }
+                );
+                return
+            }
+
+            if (producto_variable == "") {
+                toastr.error(
+                    "Falta llenar Producto Variable",
+                    "NOTIFICACIÓN", {
+                        positionClass: "toast-bottom-center"
+                    }
+                );
+                return
+            }
+
+            if (categoria == "") {
+                toastr.error(
+                    "Falta llenar la categoria",
+                    "NOTIFICACIÓN", {
+                        positionClass: "toast-bottom-center"
+                    }
+                );
+                return
+            }
 
             var button = document.getElementById('guardar_producto');
             button.disabled = true; // Desactivar el botón
