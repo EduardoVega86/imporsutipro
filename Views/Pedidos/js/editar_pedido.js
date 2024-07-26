@@ -434,8 +434,7 @@ $(document).ready(function () {
       // Add 'selected' class to the clicked transportadora
       $(this).addClass("selected");
 
-      /* const urlParams_calcular = new URLSearchParams(window.location.search);
-      const idProducto_calcular = urlParams_calcular.get("id_producto");
+      const idProducto_calcular = $("#id_producto_temporal").val();
 
       var monto_total_general = $("#monto_total").text().trim();
 
@@ -469,7 +468,7 @@ $(document).ready(function () {
         error: function (jqXHR, textStatus, errorThrown) {
           alert(errorThrown);
         },
-      }); */
+      });
     } else {
       toastr.error("ESTA TRANSPORTADORA NO TIENE COBERTURA", "NOTIFICACIÓN", {
         positionClass: "toast-bottom-center",
