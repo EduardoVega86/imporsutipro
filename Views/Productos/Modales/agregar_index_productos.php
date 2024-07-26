@@ -44,7 +44,7 @@
                                     </div>
                                     <div class="form-group w-100">
                                         <label for="nombre">Nombre:</label>
-                                        <input type="text" class="form-control" id="nombre">
+                                        <input type="text" class="form-control" id="nombre" required>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -55,16 +55,16 @@
                                     <div class="d-flex flex-column w-100">
                                         <div class="form-group">
                                             <label for="categoria">Categoría:</label>
-                                            <select class="form-select" id="categoria">
-                                                <option selected>-- Selecciona Categoría --</option>
+                                            <select class="form-select" id="categoria" required>
+                                                <option selected value="">-- Selecciona Categoría --</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="d-flex flex-column w-100">
                                         <div class="form-group">
                                             <label for="formato-pagina">Formato Página Productos:</label>
-                                            <select class="form-select" id="formato-pagina">
-                                                <option selected>-- Selecciona --</option>
+                                            <select class="form-select" id="formato-pagina" required>
+                                                <option selected value="">-- Selecciona --</option>
                                                 <option value="1">Formato 1</option>
                                                 <option value="2">Formato 2</option>
                                             </select>
@@ -84,17 +84,17 @@
                             <div class="d-flex flex-row gap-3">
                                 <div class="form-group w-100">
                                     <label for="costo">Costo:</label>
-                                    <input type="text" class="form-control" id="costo">
+                                    <input type="text" class="form-control" id="costo" required>
                                 </div>
                                 <div class="form-group w-100">
                                     <label for="precio-proveedor">Precio Proveedor:</label>
-                                    <input type="text" class="form-control" id="precio-proveedor">
+                                    <input type="text" class="form-control" id="precio-proveedor" required>
                                 </div>
                             </div>
                             <div class="d-flex flex-row gap-3">
                                 <div class="form-group w-100">
                                     <label for="precio-venta">Precio de Venta (Sugerido):</label>
-                                    <input type="text" class="form-control" id="precio-venta">
+                                    <input type="text" class="form-control" id="precio-venta" required>
                                 </div>
                                 <div class="form-group w-100">
                                     <label for="precio-referencial">¿Precio Referencial?</label>
@@ -105,16 +105,16 @@
                             <div class="d-flex flex-row gap-3">
                                 <div class="form-group w-100">
                                     <label for="maneja-inventario">Maneja Inventario:</label>
-                                    <select class="form-select" id="maneja-inventario">
-                                        <option selected>-- Selecciona --</option>
+                                    <select class="form-select" id="maneja-inventario" required>
+                                        <option selected value="">-- Selecciona --</option>
                                         <option value="1">Sí</option>
                                         <option value="0">No</option>
                                     </select>
                                 </div>
                                 <div class="form-group w-100">
                                     <label for="producto-variable">Producto Variable:</label>
-                                    <select class="form-select" id="producto-variable">
-                                        <option selected>-- Selecciona --</option>
+                                    <select class="form-select" id="producto-variable" required>
+                                        <option selected value="">-- Selecciona --</option>
                                         <option value="1">Sí</option>
                                         <option value="0">No</option>
                                     </select>
@@ -131,7 +131,7 @@
                             <div class="d-flex flex-row gap-3">
                                 <div class="form-group w-100">
                                     <label for="stock-inicial">Stock Inicial:</label>
-                                    <input type="text" class="form-control" id="stock-inicial">
+                                    <input type="text" class="form-control" id="stock-inicial" required>
                                 </div>
                                 <div class="form-group w-100 hidden-field" id="bodega-field">
                                     <label for="bodega">Bodega:</label>
@@ -202,6 +202,40 @@
 
         $('#agregar_producto_form').submit(function(event) {
             event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
+
+            var maneja_inventario = $('#maneja-inventario').val();
+            var producto_variable = $('#producto-variable').val();
+            var categoria = $('#categoria').val();
+
+            if (maneja_inventario == "") {
+                toastr.error(
+                    "Falta llenar Manjero de Inventario",
+                    "NOTIFICACIÓN", {
+                        positionClass: "toast-bottom-center"
+                    }
+                );
+                return
+            }
+
+            if (producto_variable == "") {
+                toastr.error(
+                    "Falta llenar Producto Variable",
+                    "NOTIFICACIÓN", {
+                        positionClass: "toast-bottom-center"
+                    }
+                );
+                return
+            }
+
+            if (categoria == "") {
+                toastr.error(
+                    "Falta llenar la categoria",
+                    "NOTIFICACIÓN", {
+                        positionClass: "toast-bottom-center"
+                    }
+                );
+                return
+            }
 
             var button = document.getElementById('guardar_producto');
             button.disabled = true; // Desactivar el botón

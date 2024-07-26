@@ -78,5 +78,6 @@ class Novedades extends Controller
         $fecha = $_POST['fecha'];
 
         $data = $this->model->solventarNovedadGintracom($tipo, $guia, $observacion, $id_novedad, $recaudo, $fecha);
+        echo $data;
     }
 }

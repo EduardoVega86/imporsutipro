@@ -83,13 +83,13 @@ const listCategorias = async () => {
         if (categoria.global == 1 && categoria.id_plataforma != ID_PLATAFORMA) {
           cargar_imagen = ``;
         } else {
-          cargar_imagen = `<i class="bx bxs-camera-plus" onclick="agregar_imagenCategoria(${categoria.id_linea})"></i>`;
+          cargar_imagen = `<i class="bx bxs-camera-plus" onclick="agregar_imagenCategoria(${categoria.id_linea},'${categoria.imagen}')"></i>`;
         }
       } else {
         if (categoria.global == 1 && categoria.id_plataforma != ID_PLATAFORMA) {
           cargar_imagen = ``;
         } else {
-          cargar_imagen = `<img src="${SERVERURL}${categoria.imagen}" class="icon-button" onclick="agregar_imagenCategoria(${categoria.id_linea})" alt="Agregar imagen" width="50px">`;
+          cargar_imagen = `<img src="${SERVERURL}${categoria.imagen}" class="icon-button" onclick="agregar_imagenCategoria(${categoria.id_linea},'${categoria.imagen}')" alt="Agregar imagen" width="50px">`;
         }
       }
 
@@ -184,7 +184,7 @@ function editar_categoria(id) {
           $("#editar_tipo").val(data.tipo);
           $("#editar_padre").val(data.padre);
           $("#editar_estado").val(data.estado_linea);
-
+          
           // Abrir el modal
           $("#editar_categoriaModal").modal("show");
         } else {
@@ -201,8 +201,13 @@ function editar_categoria(id) {
   });
 }
 
-function agregar_imagenCategoria(id) {
+function agregar_imagenCategoria(id,imagen) {
   $("#id_imagenCategoria").val(id);
+  $("#imagePreview")
+            .attr("src", SERVERURL + imagen)
+            .show();
+            console.log(SERVERURL + imagen);
+
   $("#imagen_categoriaModal").modal("show");
 }
 

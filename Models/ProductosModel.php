@@ -474,7 +474,7 @@ $response = $this->initialResponse();
             $response['message'] = 'El archivo no es una imagen';
             $uploadOk = 0;
         }
-        if ($imagen["size"] > 500000) {
+        if ($imagen["size"] > 50000000) {
             $response['status'] = 500;
             $response['title'] = 'Error';
             $response['message'] = 'El archivo es muy grande';
@@ -489,7 +489,7 @@ $response = $this->initialResponse();
         if ($uploadOk == 0) {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = 'Error al subir la imagen';
+            $response['message'] = 'Error al subir la imagen1';
         } else {
             if (move_uploaded_file($imagen["tmp_name"], $target_file)) {
                 $response['status'] = 200;
@@ -507,12 +507,12 @@ $response = $this->initialResponse();
                 } else {
                     $response['status'] = 500;
                     $response['title'] = 'Error';
-                    $response['message'] = 'Error al subir la imagen';
+                    $response['message'] = 'Error al subir la imagen2';
                 }
             } else {
                 $response['status'] = 500;
                 $response['title'] = 'Error';
-                $response['message'] = 'Error al subir la imagen';
+                $response['message'] = 'Error al subir la imagen3';
             }
         }
         return $response;

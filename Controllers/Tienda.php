@@ -22,14 +22,11 @@ class Tienda extends Controller
         $response = $this->model->crearSubdominio($nombre, $_SESSION['id_plataforma']);
     }
 
-
     public function dominio()
     {
         $nombre = $_POST['nombre'];
         $response = $this->model->crearDominio($nombre, $_SESSION['id_plataforma']);
     }
-
-
 
     public function informaciontienda()
     {        //$nombre = $_POST['nombre'];
@@ -99,7 +96,6 @@ class Tienda extends Controller
 
     public function obtener_informacion_tienda()
     {
-
         $id_plataforma = $_POST['id_plataforma'];
         $response = $this->model->obtener_informacion_tienda($id_plataforma);
         echo json_encode($response);
@@ -110,7 +106,6 @@ class Tienda extends Controller
         $response = $this->model->horisontaltienda($_SESSION['id_plataforma']);
         echo json_encode($response);
     }
-
 
     public function crearPixel()
     {
@@ -127,8 +122,6 @@ class Tienda extends Controller
         $response = $this->model->obtenerPixeles($id_plataforma);
         echo json_encode($response);
     }
-
-
 
     public function guardar_pedido()
     {        //$nombre = $_POST['nombre'];
