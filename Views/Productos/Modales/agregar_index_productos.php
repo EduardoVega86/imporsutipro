@@ -55,7 +55,7 @@
                                     <div class="d-flex flex-column w-100">
                                         <div class="form-group">
                                             <label for="categoria">Categoría:</label>
-                                            <select class="form-select" id="categoria" required>
+                                            <select class="form-select" id="categoria">
                                                 <option selected>-- Selecciona Categoría --</option>
                                             </select>
                                         </div>
@@ -63,7 +63,7 @@
                                     <div class="d-flex flex-column w-100">
                                         <div class="form-group">
                                             <label for="formato-pagina">Formato Página Productos:</label>
-                                            <select class="form-select" id="formato-pagina" required>
+                                            <select class="form-select" id="formato-pagina">
                                                 <option selected>-- Selecciona --</option>
                                                 <option value="1">Formato 1</option>
                                                 <option value="2">Formato 2</option>
@@ -119,6 +119,14 @@
                                         <option value="0">No</option>
                                     </select>
                                 </div>
+                                <!-- <div class="form-group w-100">
+                                    <label for="producto-privado">Producto privado:</label>
+                                    <select class="form-select" id="producto-privado">
+                                        <option selected>-- Selecciona --</option>
+                                        <option value="1">Sí</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                </div> -->
                             </div>
                             <div class="d-flex flex-row gap-3">
                                 <div class="form-group w-100">
@@ -127,7 +135,7 @@
                                 </div>
                                 <div class="form-group w-100 hidden-field" id="bodega-field">
                                     <label for="bodega">Bodega:</label>
-                                    <select class="form-select" id="bodega" required>
+                                    <select class="form-select" id="bodega">
                                         <option value="0" selected>-- Selecciona Bodega --</option>
                                     </select>
                                 </div>
@@ -153,8 +161,9 @@
         const precioReferencialCheckbox = document.getElementById('precio-referencial');
         const precioReferencialInput = document.getElementById('precio-referencial-valor');
 
+
         function toggleBodegaField() {
-            if (manejaInventarioSelect.value === '1' && productoVariableSelect.value === '0') {
+            if (manejaInventarioSelect.value === '1' && productoVariableSelect.value === '0') { // 1 para "Sí" y 2 para "No"
                 bodegaField.classList.remove('hidden-field');
             } else {
                 bodegaField.classList.add('hidden-field');
@@ -172,57 +181,32 @@
         manejaInventarioSelect.addEventListener('change', toggleBodegaField);
         precioReferencialCheckbox.addEventListener('change', togglePrecioReferencialInput);
 
-        toggleBodegaField();
-        togglePrecioReferencialInput();
+        toggleBodegaField(); // Llama a la función al cargar la página para ajustar la visibilidad inicial
+        togglePrecioReferencialInput(); // Llama a la función al cargar la página para ajustar la visibilidad inicial
     });
 
+    //enviar datos a base de datos
     $(document).ready(function() {
+        // Función para reiniciar el formulario
         function resetForm() {
             $('#agregar_producto_form')[0].reset();
             $('#bodega-field').addClass('hidden-field');
             $('#precio-referencial-valor').prop('disabled', true);
         }
 
+        // Evento para reiniciar el formulario cuando se cierre el modal
         $('#agregar_productoModal').on('hidden.bs.modal', function() {
             var button = document.getElementById('guardar_producto');
-            button.disabled = false;
+            button.disabled = false; // Desactivar el botón
         });
 
         $('#agregar_producto_form').submit(function(event) {
-            event.preventDefault();
+            event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
 
             var button = document.getElementById('guardar_producto');
-            button.disabled = true;
+            button.disabled = true; // Desactivar el botón
 
-            var valid = true;
-            var invalidTabs = [];
-
-            $('#datos-basicos').find('input, select').each(function() {
-                if (!this.checkValidity()) {
-                    valid = false;
-                    invalidTabs.push('datos-basicos-tab');
-                }
-            });
-
-            $('#precios-stock').find('input, select').each(function() {
-                if (!this.checkValidity()) {
-                    valid = false;
-                    invalidTabs.push('precios-stock-tab');
-                }
-            });
-
-            if (!valid) {
-                invalidTabs = [...new Set(invalidTabs)];
-                invalidTabs.forEach(function(tab) {
-                    $('#' + tab).tab('show');
-                    toastr.error('Por favor, complete todos los campos requeridos en esta sección.', 'Error de Validación', {
-                        positionClass: 'toast-bottom-center'
-                    });
-                });
-                button.disabled = false;
-                return;
-            }
-
+            // Crea un objeto FormData
             var formData = new FormData();
             formData.append('codigo_producto', $('#codigo').val());
             formData.append('nombre_producto', $('#nombre').val());
@@ -231,18 +215,19 @@
             formData.append('inv_producto', $('#maneja-inventario').val());
             formData.append('producto_variable', $('#producto-variable').val());
             formData.append('costo_producto', $('#costo').val());
-            formData.append('aplica_iva', 1);
-            formData.append('estado_producto', 1);
+            formData.append('aplica_iva', 1); // Suponiendo que siempre aplica IVA
+            formData.append('estado_producto', 1); // Suponiendo que el estado es activo
             formData.append('date_added', new Date().toISOString().split('T')[0]);
             formData.append('formato', $('#formato-pagina').val());
-            formData.append('drogshipin', 0);
-            formData.append('destacado', 0);
+            formData.append('drogshipin', 0); // Suponiendo que no es dropshipping
+            formData.append('destacado', 0); // Suponiendo que no es destacado
             formData.append('stock_inicial', $('#stock-inicial').val());
             formData.append('bodega', $('#bodega').val());
             formData.append('pcp', $('#precio-proveedor').val());
             formData.append('pvp', $('#precio-venta').val());
             formData.append('pref', $('#precio-referencial-valor').val());
 
+            // Realiza la solicitud AJAX
             $.ajax({
                 url: '' + SERVERURL + 'productos/agregar_producto',
                 type: 'POST',
@@ -251,6 +236,7 @@
                 contentType: false,
                 success: function(response) {
                     response = JSON.parse(response);
+                    // Mostrar alerta de éxito
                     if (response.status == 500) {
                         toastr.error(
                             "EL PRODUCTO NO SE AGREGRO CORRECTAMENTE",
