@@ -474,7 +474,7 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
             $response['message'] = 'El archivo no es una imagen';
             $uploadOk = 0;
         }
-        if ($imagen["size"] > 500000) {
+        if ($imagen["size"] > 50000000) {
             $response['status'] = 500;
             $response['title'] = 'Error';
             $response['message'] = 'El archivo es muy grande';
