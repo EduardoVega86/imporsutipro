@@ -83,13 +83,13 @@ const listCategorias = async () => {
         if (categoria.global == 1 && categoria.id_plataforma != ID_PLATAFORMA) {
           cargar_imagen = ``;
         } else {
-          cargar_imagen = `<i class="bx bxs-camera-plus" onclick="agregar_imagenCategoria(${categoria.id_linea},${categoria.imagen})"></i>`;
+          cargar_imagen = `<i class="bx bxs-camera-plus" onclick="agregar_imagenCategoria(${categoria.id_linea},'${categoria.imagen}')"></i>`;
         }
       } else {
         if (categoria.global == 1 && categoria.id_plataforma != ID_PLATAFORMA) {
           cargar_imagen = ``;
         } else {
-          cargar_imagen = `<img src="${SERVERURL}${categoria.imagen}" class="icon-button" onclick="agregar_imagenCategoria(${categoria.id_linea},${categoria.imagen})" alt="Agregar imagen" width="50px">`;
+          cargar_imagen = `<img src="${SERVERURL}${categoria.imagen}" class="icon-button" onclick="agregar_imagenCategoria(${categoria.id_linea},'${categoria.imagen}')" alt="Agregar imagen" width="50px">`;
         }
       }
 
