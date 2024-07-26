@@ -3,11 +3,6 @@
         margin-bottom: 15px;
     }
 
-    /* .modal-header {
-        background-color: #343a40;
-        color: white;
-    } */
-
     .hidden-tab {
         display: none !important;
     }
@@ -55,7 +50,7 @@
                                     <div class="d-flex flex-column w-100">
                                         <div class="form-group">
                                             <label for="categoria">Categoría:</label>
-                                            <select class="form-select" id="categoria">
+                                            <select class="form-select" id="categoria" required>
                                                 <option selected>-- Selecciona Categoría --</option>
                                             </select>
                                         </div>
@@ -63,7 +58,7 @@
                                     <div class="d-flex flex-column w-100">
                                         <div class="form-group">
                                             <label for="formato-pagina">Formato Página Productos:</label>
-                                            <select class="form-select" id="formato-pagina">
+                                            <select class="form-select" id="formato-pagina" required>
                                                 <option selected>-- Selecciona --</option>
                                                 <option value="1">Formato 1</option>
                                                 <option value="2">Formato 2</option>
@@ -135,7 +130,7 @@
                                 </div>
                                 <div class="form-group w-100 hidden-field" id="bodega-field">
                                     <label for="bodega">Bodega:</label>
-                                    <select class="form-select" id="bodega">
+                                    <select class="form-select" id="bodega" required>
                                         <option value="0" selected>-- Selecciona Bodega --</option>
                                     </select>
                                 </div>
@@ -160,7 +155,6 @@
         const bodegaField = document.getElementById('bodega-field');
         const precioReferencialCheckbox = document.getElementById('precio-referencial');
         const precioReferencialInput = document.getElementById('precio-referencial-valor');
-
 
         function toggleBodegaField() {
             if (manejaInventarioSelect.value === '1' && productoVariableSelect.value === '0') { // 1 para "Sí" y 2 para "No"
@@ -205,6 +199,36 @@
 
             var button = document.getElementById('guardar_producto');
             button.disabled = true; // Desactivar el botón
+
+            var valid = true;
+            var invalidTabs = [];
+
+            // Validar todos los campos requeridos en Datos Básicos
+            $('#datos-basicos').find('input, select').each(function() {
+                if (!this.checkValidity()) {
+                    valid = false;
+                    invalidTabs.push('datos-basicos-tab');
+                }
+            });
+
+            // Validar todos los campos requeridos en Precios y Stock
+            $('#precios-stock').find('input, select').each(function() {
+                if (!this.checkValidity()) {
+                    valid = false;
+                    invalidTabs.push('precios-stock-tab');
+                }
+            });
+
+            // Si hay campos inválidos, mostrar alerta y seleccionar la pestaña correspondiente
+            if (!valid) {
+                invalidTabs = [...new Set(invalidTabs)];
+                invalidTabs.forEach(function(tab) {
+                    $('#' + tab).tab('show');
+                    toastr.error('Por favor, complete todos los campos requeridos en esta sección.', 'Error de Validación', { positionClass: 'toast-bottom-center' });
+                });
+                button.disabled = false;
+                return;
+            }
 
             // Crea un objeto FormData
             var formData = new FormData();
