@@ -271,6 +271,8 @@ XML;
         $resultante = $total - $costo - $tarifa;
         if ($resultante < 0) {
             $resultante = 0;
+        } else {
+            $resultante = $resultante;
         }
 
         if ($resultante == 0) {
