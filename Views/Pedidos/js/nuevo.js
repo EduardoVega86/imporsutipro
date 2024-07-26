@@ -115,7 +115,7 @@ const listNuevoPedido = async () => {
         return;
       }
 
-      costo_general = costo_general + nuevoPedido.pcp;
+      costo_general = costo_general + (nuevoPedido.pcp * nuevoPedido.cantidad_tmp);
 
       const precio = parseFloat(nuevoPedido.precio_tmp);
       const descuento = parseFloat(nuevoPedido.desc_tmp);
@@ -330,7 +330,7 @@ $(document).ready(function () {
       const idProducto_calcular = urlParams_calcular.get("id_producto");
 
       var monto_total_general = $("#monto_total").text().trim();
-      
+
       let formData = new FormData();
       formData.append("id_producto", idProducto_calcular);
       formData.append("total", monto_total_general);
