@@ -44,7 +44,7 @@
                                     </div>
                                     <div class="form-group w-100">
                                         <label for="nombre">Nombre:</label>
-                                        <input type="text" class="form-control" id="nombre">
+                                        <input type="text" class="form-control" id="nombre" required>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -88,13 +88,13 @@
                                 </div>
                                 <div class="form-group w-100">
                                     <label for="precio-proveedor">Precio Proveedor:</label>
-                                    <input type="text" class="form-control" id="precio-proveedor">
+                                    <input type="text" class="form-control" id="precio-proveedor" required>
                                 </div>
                             </div>
                             <div class="d-flex flex-row gap-3">
                                 <div class="form-group w-100">
                                     <label for="precio-venta">Precio de Venta (Sugerido):</label>
-                                    <input type="text" class="form-control" id="precio-venta">
+                                    <input type="text" class="form-control" id="precio-venta" required>
                                 </div>
                                 <div class="form-group w-100">
                                     <label for="precio-referencial">¿Precio Referencial?</label>
@@ -105,7 +105,7 @@
                             <div class="d-flex flex-row gap-3">
                                 <div class="form-group w-100">
                                     <label for="maneja-inventario">Maneja Inventario:</label>
-                                    <select class="form-select" id="maneja-inventario">
+                                    <select class="form-select" id="maneja-inventario" required>
                                         <option selected>-- Selecciona --</option>
                                         <option value="1">Sí</option>
                                         <option value="0">No</option>
@@ -113,7 +113,7 @@
                                 </div>
                                 <div class="form-group w-100">
                                     <label for="producto-variable">Producto Variable:</label>
-                                    <select class="form-select" id="producto-variable">
+                                    <select class="form-select" id="producto-variable" required>
                                         <option selected>-- Selecciona --</option>
                                         <option value="1">Sí</option>
                                         <option value="0">No</option>
@@ -131,11 +131,11 @@
                             <div class="d-flex flex-row gap-3">
                                 <div class="form-group w-100">
                                     <label for="stock-inicial">Stock Inicial:</label>
-                                    <input type="text" class="form-control" id="stock-inicial">
+                                    <input type="text" class="form-control" id="stock-inicial" required>
                                 </div>
                                 <div class="form-group w-100 hidden-field" id="bodega-field">
                                     <label for="bodega">Bodega:</label>
-                                    <select class="form-select" id="bodega">
+                                    <select class="form-select" id="bodega" required>
                                         <option value="0" selected>-- Selecciona Bodega --</option>
                                     </select>
                                 </div>
