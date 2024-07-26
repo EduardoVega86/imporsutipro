@@ -153,5 +153,7 @@ class NovedadesModel extends Query
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         $response = curl_exec($ch);
         $response = json_decode($response, true);
+
+        return $response;
     }
 }
