@@ -61,6 +61,8 @@ var contiene = "";
 var contieneGintracom = "";
 var costo_producto = 0;
 
+var costo_general = 0;
+
 const listNuevoPedido = async () => {
   try {
     const response = await fetch(
@@ -75,6 +77,9 @@ const listNuevoPedido = async () => {
     let precio_costo = 0;
     costo_producto = 0;
     let variedad = "";
+    
+    costo_general = 0;
+
     nuevosPedidos.forEach((nuevoPedido, index) => {
       numero_factura = nuevoPedido.numero_factura;
       id_producto_venta = nuevoPedido.id_producto;
@@ -96,6 +101,8 @@ const listNuevoPedido = async () => {
       if (!validar_direccion()) {
         return; // Salir de la función si la validación falla
       }
+
+      costo_general = costo_general + nuevoPedido.pcp;
 
       const precio = parseFloat(nuevoPedido.precio_venta);
       const descuento = parseFloat(nuevoPedido.desc_venta);
@@ -394,6 +401,29 @@ $(document).ready(function () {
 
       // Add 'selected' class to the clicked transportadora
       $(this).addClass("selected");
+
+      const urlParams_calcular = new URLSearchParams(window.location.search);
+      const idProducto_calcular = urlParams_calcular.get("id_producto");
+
+      var monto_total = $("#monto_total").val();
+
+      let formData = new FormData();
+      formData.append("id_producto", idProducto_calcular);
+      formData.append("total", monto_total);
+      formData.append("tarifa", priceValue);
+      formData.append("costo", costo_general);
+
+      $.ajax({
+        url: SERVERURL + "calculadora/calcularGuiaDirecta",
+        type: "POST", // Cambiar a POST para enviar FormData
+        data: formData,
+        processData: false, // No procesar los datos
+        contentType: false, // No establecer ningún tipo de contenido
+        success: function (response) {},
+        error: function (jqXHR, textStatus, errorThrown) {
+          alert(errorThrown);
+        },
+      });
     } else {
       toastr.error("ESTA TRANSPORTADORA NO TIENE COBERTURA", "NOTIFICACIÓN", {
         positionClass: "toast-bottom-center",
