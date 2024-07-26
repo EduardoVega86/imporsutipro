@@ -302,6 +302,10 @@ $(document).ready(function () {
           icon: "error",
           title: "No puede realizar guias",
           text: "No puede realizar guias porque tiene registrado un saldo negativo.",
+          showConfirmButton: false,
+          timer: 2000,
+        }).then(() => {
+          window.location.href = "" + SERVERURL + "dashboard";
         });
       }
     },
