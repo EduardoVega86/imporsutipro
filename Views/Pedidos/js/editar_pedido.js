@@ -292,7 +292,7 @@ $(document).ready(function () {
     },
   });
   /* Fin verificacion de saldo en contra */
-  
+
   // Inicializar Select2 en los selects
   $("#provincia").select2({
     placeholder: "Selecciona una opción",
@@ -432,14 +432,14 @@ $(document).ready(function () {
       // Add 'selected' class to the clicked transportadora
       $(this).addClass("selected");
 
-      const urlParams_calcular = new URLSearchParams(window.location.search);
+      /* const urlParams_calcular = new URLSearchParams(window.location.search);
       const idProducto_calcular = urlParams_calcular.get("id_producto");
 
       var monto_total_general = $("#monto_total").text().trim();
 
       let formData = new FormData();
       formData.append("id_producto", idProducto_calcular);
-      formData.append("total", monto_total);
+      formData.append("total", monto_total_general);
       formData.append("tarifa", priceValue);
       formData.append("costo", costo_general);
 
@@ -467,7 +467,7 @@ $(document).ready(function () {
         error: function (jqXHR, textStatus, errorThrown) {
           alert(errorThrown);
         },
-      });
+      }); */
     } else {
       toastr.error("ESTA TRANSPORTADORA NO TIENE COBERTURA", "NOTIFICACIÓN", {
         positionClass: "toast-bottom-center",
