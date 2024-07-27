@@ -52,7 +52,7 @@ class ShopifyModel extends Query
 
         var_dump($calle_secundaria);
         $provincia = $data['provincia'];
-        if ($provincia = "SANTO DOMINGO DE LOS TSACHILAS") {
+        if ($provincia == "SANTO DOMINGO DE LOS TSACHILAS") {
             $provincia = "SANTO DOMINGO";
         }
         $provincia = $this->obtenerProvincia($provincia);
