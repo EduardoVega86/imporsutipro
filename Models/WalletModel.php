@@ -137,6 +137,10 @@ class WalletModel extends Query
 
             return;
         }
+
+        if ($estado_guia == 7 && $valor < 0) {
+            return;
+        }
         $sql_update = "UPDATE cabecera_cuenta_pagar set valor_pendiente = 0, visto = 1 WHERE id_cabecera = ?";
         $response =  $this->update($sql_update, array($id_cabecera));
 

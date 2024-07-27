@@ -64,6 +64,16 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
 
                 </div>
             </div>
+            <div style="padding-top: 40px;">
+                <h3 class="mb-3" style="text-decoration:underline;"><strong>Información de la venta</strong></h3>
+                <p class="texto_infoVenta"><strong>Monto de Venta:</strong> <span id="montoVenta_infoVenta"></span></p>
+                <p class="texto_infoVenta"><strong>Costo:</strong> <span id="costo_infoVenta"></span></p>
+                <p class="texto_infoVenta"><strong>Precio de envio:</strong> <span id="precioEnvio_infoVenta"></span></p>
+                <p class="texto_infoVenta"><strong>Total:</strong> <span id="total_infoVenta"></span></p>
+                <div class="alert alert-warning" role="alert" style="display: none;" id="alerta_valoresContra">
+                    <strong>Atención:</strong> No puede generar esta guia porque el costo de la misma tiene valores en contra.
+                </div>
+            </div>
         </div>
 
         <div class="col-md-6 right-column">
@@ -144,6 +154,7 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                     </div>
                     <input type="hidden" id="costo_flete" name="costo_flete">
                     <input type="hidden" id="transportadora_selected" name="transportadora_selected">
+                    <input type="hidden" id="id_producto_temporal" name="id_producto_temporal">
 
                     <!-- inputs con informacion servientrega -->
                     <input type="hidden" id="flete" name="flete">

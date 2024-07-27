@@ -41,7 +41,9 @@ const initDataTablePlataformas = async () => {
 
 const listPlataformas = async () => {
   try {
-    const response = await fetch("" + SERVERURL + "Usuarios/obtener_plataformas");
+    const response = await fetch(
+      "" + SERVERURL + "Usuarios/obtener_plataformas"
+    );
     const plataformas = await response.json();
 
     let content = ``;
@@ -71,7 +73,7 @@ const listPlataformas = async () => {
 const toggleProveedor = async (idPlataforma, isChecked) => {
   const proveedorValue = isChecked ? 1 : 0;
   const formData = new FormData();
-  formData.append("id_plataforma", idPlataforma);  // Añadir id_plataforma
+  formData.append("id_plataforma", idPlataforma); // Añadir id_plataforma
   //formData.append("proveedor", proveedorValue);
 
   try {
@@ -85,13 +87,23 @@ const toggleProveedor = async (idPlataforma, isChecked) => {
     }
 
     const result = await response.json();
-    console.log("Proveedor actualizado:", result);
+    if (result.status == 500) {
+      toastr.error("El registro no se quito correctamente", "NOTIFICACIÓN", {
+        positionClass: "toast-bottom-center",
+      });
+    } else if (result.status == 200) {
+      toastr.success("El registros se quito correctamente", "NOTIFICACIÓN", {
+        positionClass: "toast-bottom-center",
+      });
+
+      $("#imagen_categoriaModal").modal("hide");
+      initDataTable();
+    }
   } catch (error) {
     console.error("Error:", error);
     alert("Hubo un error al actualizar el proveedor");
   }
 };
-
 
 window.addEventListener("load", async () => {
   await initDataTablePlataformas();

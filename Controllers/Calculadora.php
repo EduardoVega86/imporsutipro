@@ -39,4 +39,16 @@ class Calculadora extends Controller
         $tarifas = $this->model->calcularServi($ciudadO, $ciudadD, $provinciaD, $monto_factura);
         echo json_encode($tarifas);
     }
+
+    public function calcularGuiaDirecta()
+    {
+        $this->isAuth();
+        $id_producto = $_POST['id_producto'];
+        $total = $_POST['total'];
+        $tarifa = $_POST['tarifa'];
+        $costo = $_POST['costo'];
+
+        $tarifas = $this->model->calcularGuiaDirecta($id_producto, $total, $tarifa, $_SESSION['id_plataforma'], $costo);
+        echo json_encode($tarifas);
+    }
 }

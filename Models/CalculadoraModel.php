@@ -254,4 +254,42 @@ XML;
         $nombre = $this->select($sql);
         return $nombre;
     }
+
+    public function calcularGuiaDirecta($id_producto, $total, $tarifa, $id_plataforma, $costo)
+    {
+        // transforma todo a float
+        $total = (float) $total;
+        $tarifa = (float) $tarifa;
+        $costo = (float) $costo;
+
+
+        $producto = $this->select("SELECT * FROM productos WHERE id_producto = '$id_producto'");
+        $plataforma = $producto[0]['id_plataforma'];
+        if ($id_plataforma == $plataforma) {
+            $costo = 0;
+        }
+        $resultante = $total - $costo - $tarifa;
+        if ($resultante < 0) {
+        } else {
+            $resultante = $resultante;
+        }
+
+        if ($resultante <= 0) {
+            $generar = false;
+        } else {
+            $generar = true;
+        }
+
+        // $inventario = $this->select("SELECT * FROM inventario_bodegas WHERE id_producto = '$id_producto';");
+
+
+        $data = [
+            "total" => number_format($total, 2, '.', ''),
+            "tarifa" => number_format($tarifa, 2, '.', ''),
+            "costo" => number_format($costo, 2, '.', ''),
+            "resultante" => number_format($resultante, 2, '.', ''),
+            "generar" => $generar
+        ];
+        return $data;
+    }
 }

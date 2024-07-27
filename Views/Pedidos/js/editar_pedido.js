@@ -61,6 +61,8 @@ var contiene = "";
 var contieneGintracom = "";
 var costo_producto = 0;
 
+var costo_general = 0;
+
 const listNuevoPedido = async () => {
   try {
     const response = await fetch(
@@ -75,7 +77,12 @@ const listNuevoPedido = async () => {
     let precio_costo = 0;
     costo_producto = 0;
     let variedad = "";
+
+    costo_general = 0;
+
     nuevosPedidos.forEach((nuevoPedido, index) => {
+      $("#id_producto_temporal").val(nuevoPedido.id_producto);
+
       numero_factura = nuevoPedido.numero_factura;
       id_producto_venta = nuevoPedido.id_producto;
       dropshipping = nuevoPedido.drogshipin;
@@ -96,6 +103,8 @@ const listNuevoPedido = async () => {
       if (!validar_direccion()) {
         return; // Salir de la función si la validación falla
       }
+
+      costo_general = costo_general + nuevoPedido.pcp * nuevoPedido.cantidad;
 
       const precio = parseFloat(nuevoPedido.precio_venta);
       const descuento = parseFloat(nuevoPedido.desc_venta);
@@ -256,6 +265,36 @@ window.addEventListener("load", async () => {
 });
 
 $(document).ready(function () {
+  /* Verificacion de saldo en contra */
+  $.ajax({
+    url: SERVERURL + "calculadora/saldo",
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+      var saldo = parseFloat(response).toFixed(2);
+
+      var button2 = document.getElementById("generarGuiaBtn");
+
+      if (saldo < 0) {
+        button2.disabled = true;
+        Swal.fire({
+          icon: "error",
+          title: "No puede realizar guias",
+          text: "No puede realizar guias porque tiene registrado un saldo negativo.",
+          showConfirmButton: false,
+          timer: 2000,
+        }).then(() => {
+          window.location.href = "" + SERVERURL + "dashboard";
+        });
+        
+      }
+    },
+    error: function (error) {
+      console.error("Error al obtener la lista de bodegas:", error);
+    },
+  });
+  /* Fin verificacion de saldo en contra */
+
   // Inicializar Select2 en los selects
   $("#provincia").select2({
     placeholder: "Selecciona una opción",
@@ -394,6 +433,42 @@ $(document).ready(function () {
 
       // Add 'selected' class to the clicked transportadora
       $(this).addClass("selected");
+
+      const idProducto_calcular = $("#id_producto_temporal").val();
+
+      var monto_total_general = $("#monto_total").text().trim();
+
+      let formData = new FormData();
+      formData.append("id_producto", idProducto_calcular);
+      formData.append("total", monto_total_general);
+      formData.append("tarifa", priceValue);
+      formData.append("costo", costo_general);
+
+      $.ajax({
+        url: SERVERURL + "calculadora/calcularGuiaDirecta",
+        type: "POST", // Cambiar a POST para enviar FormData
+        data: formData,
+        processData: false, // No procesar los datos
+        contentType: false, // No establecer ningún tipo de contenido
+        dataType: "json",
+        success: function (response) {
+          $("#montoVenta_infoVenta").text(response.total);
+          $("#costo_infoVenta").text(response.costo);
+          $("#precioEnvio_infoVenta").text(response.tarifa);
+          $("#total_infoVenta").text(response.resultante);
+
+          if (response.generar == false) {
+            button2.disabled = true;
+            $("#alerta_valoresContra").show();
+          } else {
+            button2.disabled = false;
+            $("#alerta_valoresContra").hide();
+          }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          alert(errorThrown);
+        },
+      });
     } else {
       toastr.error("ESTA TRANSPORTADORA NO TIENE COBERTURA", "NOTIFICACIÓN", {
         positionClass: "toast-bottom-center",

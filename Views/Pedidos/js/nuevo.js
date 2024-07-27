@@ -56,6 +56,7 @@ var dropshipping = "";
 var contiene = "";
 var contieneGintracom = "";
 var costo_producto = 0;
+var costo_general = 0;
 
 const listNuevoPedido = async () => {
   try {
@@ -79,6 +80,9 @@ const listNuevoPedido = async () => {
     contiene = "";
     contieneGintracom = "";
     let variedad = "";
+
+    costo_general = 0;
+
     nuevosPedidos.forEach((nuevoPedido, index) => {
       if (nuevosPedidos_bodega.length > 0 && nuevosPedidos_bodega[0]) {
         celular_bodega = nuevosPedidos_bodega[0].contacto;
@@ -98,7 +102,7 @@ const listNuevoPedido = async () => {
 
       /* console.log(costo_producto); */
       variedad = "";
-      if (nuevoPedido.variedad != null){
+      if (nuevoPedido.variedad != null) {
         variedad = `${nuevoPedido.variedad}`;
       }
 
@@ -110,6 +114,9 @@ const listNuevoPedido = async () => {
       if (!validar_direccion()) {
         return;
       }
+
+      costo_general =
+        costo_general + nuevoPedido.pcp * nuevoPedido.cantidad_tmp;
 
       const precio = parseFloat(nuevoPedido.precio_tmp);
       const descuento = parseFloat(nuevoPedido.desc_tmp);
@@ -279,6 +286,36 @@ window.addEventListener("load", async () => {
 
 //cargar selelct ciudades y provincias
 $(document).ready(function () {
+  /* Verificacion de saldo en contra */
+  $.ajax({
+    url: SERVERURL + "calculadora/saldo",
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+      var saldo = parseFloat(response).toFixed(2);
+
+      var button2 = document.getElementById("generarGuiaBtn");
+
+      if (saldo < 0) {
+        button2.disabled = true;
+        Swal.fire({
+          icon: "error",
+          title: "No puede realizar guias",
+          text: "No puede realizar guias porque tiene registrado un saldo negativo.",
+          showConfirmButton: false,
+          timer: 2000,
+        }).then(() => {
+          window.location.href = "" + SERVERURL + "dashboard";
+        });
+        
+      }
+    },
+    error: function (error) {
+      console.error("Error al obtener la lista de bodegas:", error);
+    },
+  });
+  /* Fin verificacion de saldo en contra */
+
   // Inicializar Select2 en los selects
   $("#provincia").select2({
     placeholder: "Selecciona una opción",
@@ -319,6 +356,43 @@ $(document).ready(function () {
 
       // Add 'selected' class to the clicked transportadora
       $(this).addClass("selected");
+
+      const urlParams_calcular = new URLSearchParams(window.location.search);
+      const idProducto_calcular = urlParams_calcular.get("id_producto");
+
+      var monto_total_general = $("#monto_total").text().trim();
+
+      let formData = new FormData();
+      formData.append("id_producto", idProducto_calcular);
+      formData.append("total", monto_total_general);
+      formData.append("tarifa", priceValue);
+      formData.append("costo", costo_general);
+
+      $.ajax({
+        url: SERVERURL + "calculadora/calcularGuiaDirecta",
+        type: "POST", // Cambiar a POST para enviar FormData
+        data: formData,
+        processData: false, // No procesar los datos
+        contentType: false, // No establecer ningún tipo de contenido
+        dataType: "json",
+        success: function (response) {
+          $("#montoVenta_infoVenta").text(response.total);
+          $("#costo_infoVenta").text(response.costo);
+          $("#precioEnvio_infoVenta").text(response.tarifa);
+          $("#total_infoVenta").text(response.resultante);
+
+          if (response.generar == false) {
+            button2.disabled = true;
+            $("#alerta_valoresContra").show();
+          } else {
+            button2.disabled = false;
+            $("#alerta_valoresContra").hide();
+          }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          alert(errorThrown);
+        },
+      });
     } else {
       toastr.error("ESTA TRANSPORTADORA NO TIENE COBERTURA", "NOTIFICACIÓN", {
         positionClass: "toast-bottom-center",
