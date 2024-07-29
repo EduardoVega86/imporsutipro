@@ -123,6 +123,13 @@ class Tienda extends Controller
         echo json_encode($response);
     }
 
+    public function eliminarPixel()
+    {
+        $id_pixel = $_POST['id_pixel'];
+        $response = $this->model->eliminarPixel($id_pixel);
+        echo json_encode($response);
+    }
+
     public function guardar_pedido()
     {        //$nombre = $_POST['nombre'];
         $id_plataforma =   $_POST['id_plataforma'];
