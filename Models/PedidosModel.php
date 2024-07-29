@@ -688,6 +688,12 @@ WHERE tmp.session_id = '$tmp'";
     public function obtenerDetalleWallet($numero_factura)
     {
         $sql = "select * from facturas_cot fc, detalle_fact_cot dfc, productos p where dfc.id_producto=p.id_producto and fc.id_factura=dfc.id_factura and fc.numero_factura = '$numero_factura';";
-        return $this->select($sql);
+        $response = $this->select($sql);
+
+        //obtener url de la plataforma
+        $url = $this->select("SELECT url_imporsuit FROM plataformas WHERE id_plataforma = " . $response[0]['id_plataforma']);
+        $response[0]['url_imporsuit'] = $url[0]['url_imporsuit'];
+
+        return $response;
     }
 }
