@@ -411,11 +411,11 @@ function ver_detalle_cot(numero_factura) {
         $("#companiaEnvio_detalleFac").text(response[0].transporte);
         if (response[0].cod == 1) {
           $("#tipoEnvio_detalleFac").html(
-            "Con Recaudo <br><strong>Tienda:s</strong> " + response[0].url
+            "Con Recaudo <br><strong>Tiendas:</strong> " + response[0].url
           );
         } else {
           $("#tipoEnvio_detalleFac").html(
-            "Sin Recaudo <br><strong>Tienda:s</strong> " + response[0].url
+            "Sin Recaudo <br><strong>Tiendas:</strong> " + response[0].url
           );
         }
 
