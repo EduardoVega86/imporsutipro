@@ -83,13 +83,14 @@
 
             // Crea un objeto FormData
             var formData = new FormData();
+            formData.append('id_horizontal', $('#id_horizontal').val());
             formData.append('texto', $('#texto_flotanteEditar').val());
             formData.append('estado', $('#visible_flotanteEditar').val());
             formData.append('posicion', $('#posicion_flotanteEditar').val());
 
             // Realiza la solicitud AJAX
             $.ajax({
-                url: SERVERURL + 'Usuarios/editarhorizontal',
+                url: SERVERURL + 'Usuarios/editarHorizontal',
                 type: 'POST',
                 data: formData,
                 processData: false,

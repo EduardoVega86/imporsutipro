@@ -336,28 +336,6 @@ class Usuarios extends Controller
         echo json_encode($response);
     }
 
-    public function obtener_horizontalTienda()
-    {
-        $response = $this->model->obtener_horizontalTienda($_SESSION['id_plataforma']);
-        echo json_encode($response);
-    }
-
-    public function obtener_horizontaltiendaID()
-    {
-        $id = $_POST['id_horizontal'];
-        $response = $this->model->obtener_horizontaltiendaID($id, $_SESSION['id_plataforma']);
-        echo json_encode($response);
-    }
-    public function agregarHorizontal()
-    {
-        $texto = $_POST['texto'];
-        $estado = $_POST['estado'];
-        $posicion = $_POST['posicion'];
-
-        $response = $this->model->agregarHorizontal($texto, $estado, $posicion, $_SESSION['id_plataforma']);
-        echo json_encode($response);
-    }
-
     public function obtener_testimonios()
     {
 
@@ -396,6 +374,39 @@ class Usuarios extends Controller
         $imagen = isset($_FILES['imagen']) ? $_FILES['imagen'] : null;
 
         $response = $this->model->editarTestimonio($id_testimonio, $nombre, $testimonio, $imagen, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
+    public function obtener_horizontalTienda()
+    {
+        $response = $this->model->obtener_horizontalTienda($_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
+    public function obtener_horizontaltiendaID()
+    {
+        $id = $_POST['id_horizontal'];
+        $response = $this->model->obtener_horizontaltiendaID($id, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+    public function agregarHorizontal()
+    {
+        $texto = $_POST['texto'];
+        $estado = $_POST['estado'];
+        $posicion = $_POST['posicion'];
+
+        $response = $this->model->agregarHorizontal($texto, $estado, $posicion, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
+    public function editarHorizontal()
+    {
+        $id_horizontal = $_POST['id_horizontal'];
+        $texto = $_POST['texto'];
+        $estado = $_POST['estado'];
+        $posicion = $_POST['posicion'];
+
+        $response = $this->model->editarHorizontal($id_horizontal, $texto, $estado, $posicion, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
     /* fin tienda online */

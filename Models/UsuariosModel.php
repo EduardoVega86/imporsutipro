@@ -726,6 +726,26 @@ ON
         }
         return $response;
     }
+
+    public function editarHorizontal($id_horizontal, $texto, $estado, $posicion, $plataforma)
+    {
+        // codigo para editar categoria
+        $response = $this->initialResponse();
+
+        $sql = "UPDATE horizontal SET texto = ?, estado = ?, posicion = ? WHERE id_horizontal = ? AND id_plataforma = ?";
+        $data = [$texto, $estado, $posicion, $id_horizontal, $plataforma];
+        $editar_horizontal = $this->update($sql, $data);
+        if ($editar_horizontal == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'horizontal editada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al editar la horizontal';
+        }
+        return $response;
+    }
     /* Fin tienda online */
 
 
