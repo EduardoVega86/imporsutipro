@@ -41,5 +41,5 @@
     </div>
 </div>
 
-<script src="<?php echo SERVERURL ?>/Views/integraciones/js/integraciones.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/Integraciones/js/integraciones.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
