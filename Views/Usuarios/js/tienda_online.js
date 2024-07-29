@@ -774,7 +774,9 @@ const initDataTableHorizonal = async () => {
 
 const listHorizonal = async () => {
   try {
-    const response = await fetch("" + SERVERURL + "Usuarios/obtener_horizontalTienda");
+    const response = await fetch(
+      "" + SERVERURL + "Usuarios/obtener_horizontalTienda"
+    );
     const horizonal = await response.json();
 
     let content = ``;
@@ -791,8 +793,8 @@ const listHorizonal = async () => {
                         <i class="fa-solid fa-gear"></i>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" style="cursor: pointer;" onclick="editar_horizontal()"><i class='bx bx-wallet'></i>Editar</a></li>
-                        <li><a class="dropdown-item" style="cursor: pointer;" onclick="eliminar_horizontal()"><i class='bx bx-wallet'></i>Eliminar</a></li>
+                        <li><a class="dropdown-item" style="cursor: pointer;" onclick="editar_horizontal(${item.id_horizontal})"><i class='bx bx-wallet'></i>Editar</a></li>
+                        <li><a class="dropdown-item" style="cursor: pointer;" onclick="eliminar_horizontal(${item.id_horizontal})"><i class='bx bx-wallet'></i>Eliminar</a></li>
                     </ul>
                     </div>
                     </td>
@@ -807,5 +809,30 @@ const listHorizonal = async () => {
 window.addEventListener("load", async () => {
   await initDataTableHorizonal();
 });
+
+function editar_horizontal(id) {
+  let formData = new FormData();
+  formData.append("id_horizontal", id);
+
+  $.ajax({
+    url: SERVERURL + "Usuarios/obtener_horizontaltiendaID",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    dataType: "json",
+    success: function (response) {
+      $("#id_horizontal").val(response[0].id_horizontal);
+      $("#texto_flotanteEditar").val(response[0].texto);
+      $("#visible_flotanteEditar").val(response[0].estado);
+      $("#posicion_flotanteEditar").val(response[0].posicion);
+
+      $("#editar_horizontalModal").modal("show");
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+}
 
 /* Fin tabla horizontal */

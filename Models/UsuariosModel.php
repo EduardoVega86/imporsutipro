@@ -370,13 +370,6 @@ ON
         return $this->select($sql);
     }
 
-    public function obtener_horizontalTienda($plataforma)
-    {
-        $sql = "SELECT * FROM horizontal WHERE id_plataforma = $plataforma";
-
-        return $this->select($sql);
-    }
-
     public function obtener_caracteristicas($plataforma)
     {
         $sql = "SELECT * FROM caracteristicas_tienda WHERE id_plataforma = $plataforma";
@@ -539,25 +532,6 @@ ON
         return $response;
     }
 
-    public function agregarHorizontal($texto, $estado, $posicion, $plataforma)
-    {
-        // codigo para agregar categoria
-        $response = $this->initialResponse();
-
-        $sql = "INSERT INTO `horizontal` (`texto`,`estado`,`posicion`,`id_plataforma`) VALUES (?, ?, ?, ?)";
-        $data = [$texto, $estado, $posicion, $plataforma];
-        $insertar_flotante = $this->insert($sql, $data);
-        if ($insertar_flotante == 1) {
-            $response['status'] = 200;
-            $response['title'] = 'Peticion exitosa';
-            $response['message'] = 'flotante agregada correctamente';
-        } else {
-            $response['status'] = 500;
-            $response['title'] = 'Error';
-            $response['message'] = $insertar_flotante['message'];
-        }
-        return $response;
-    }
 
     public function obtener_testimonios($plataforma)
     {
@@ -717,6 +691,39 @@ ON
             $response['message'] = 'Error al actualizar el testimonio';
         }
 
+        return $response;
+    }
+
+    public function obtener_horizontalTienda($plataforma)
+    {
+        $sql = "SELECT * FROM horizontal WHERE id_plataforma = $plataforma";
+
+        return $this->select($sql);
+    }
+
+    public function obtener_horizontaltiendaID($id, $plataforma)
+    {
+        $sql = "SELECT * FROM horizontal WHERE id_plataforma = $plataforma AND id_horizontal = $id";
+        return $this->select($sql);
+    }
+
+    public function agregarHorizontal($texto, $estado, $posicion, $plataforma)
+    {
+        // codigo para agregar categoria
+        $response = $this->initialResponse();
+
+        $sql = "INSERT INTO `horizontal` (`texto`,`estado`,`posicion`,`id_plataforma`) VALUES (?, ?, ?, ?)";
+        $data = [$texto, $estado, $posicion, $plataforma];
+        $insertar_flotante = $this->insert($sql, $data);
+        if ($insertar_flotante == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'flotante agregada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = $insertar_flotante['message'];
+        }
         return $response;
     }
     /* Fin tienda online */

@@ -6,6 +6,7 @@
 <?php require_once './Views/Usuarios/Modales/agregar_testimonio.php'; ?>
 <?php require_once './Views/Usuarios/Modales/editar_testimonio.php'; ?>
 <?php require_once './Views/Usuarios/Modales/agregar_horizontal.php'; ?>
+<?php require_once './Views/Usuarios/Modales/editar_horizontal.php'; ?>
 
 <style>
     .container {
