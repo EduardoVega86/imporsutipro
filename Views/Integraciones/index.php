@@ -41,4 +41,5 @@
     </div>
 </div>
 
+<script src="<?php echo SERVERURL ?>/Views/Pedidos/js/nuevo.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
