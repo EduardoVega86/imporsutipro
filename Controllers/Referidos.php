@@ -30,7 +30,7 @@ class Referidos extends Controller
 
     public function  crearReferido()
     {
-        $data = $this->model->crearReferido($_SESSION['id']);
+        $data = $this->model->crearReferido($_SESSION['id_plataforma']);
         echo json_encode($data);
     }
 
