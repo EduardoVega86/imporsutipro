@@ -174,10 +174,9 @@
                                         <table id="datatable_horizonal" width="100%" class="table table-striped">
                                             <thead>
                                                 <tr>
-                                                    <th class="text-nowrap">Imagen</th>
-                                                    <th class="text-nowrap">Nombre</th>
-                                                    <th class="text-nowrap">Testimonio</th>
-                                                    <th class="text-nowrap">Fecha</th>
+                                                    <th class="text-nowrap">Texto</th>
+                                                    <th class="text-nowrap">Posicion</th>
+                                                    <th class="text-nowrap">Visible</th>
                                                     <th class="text-nowrap">Acciones</th>
                                                 </tr>
                                             </thead>

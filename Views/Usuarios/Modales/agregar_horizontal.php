@@ -41,8 +41,8 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="ubicacion_flotante" class="form-label">Ubicación</label>
-                            <select class="form-select" id="ubicacion_flotante">
+                            <label for="posicion_flotante" class="form-label">Ubicación</label>
+                            <select class="form-select" id="posicion_flotante">
                                 <option value="1">Arriba</option>
                                 <option value="2">Abajo</option>
                             </select>
@@ -82,7 +82,7 @@
             var formData = new FormData();
             formData.append('texto', $('#texto_flotante').val());
             formData.append('estado', $('#visible_flotante').val());
-            formData.append('posicion', $('#ubicacion_flotante').val());
+            formData.append('posicion', $('#posicion_flotante').val());
 
             // Realiza la solicitud AJAX
             $.ajax({
