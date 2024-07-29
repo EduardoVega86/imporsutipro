@@ -47,7 +47,7 @@ const listNovedades = async () => {
     let content = ``;
     let transportadora = ``;
     novedades.forEach((novedad, index) => {
-      if (novedad.guia_novedad.includes("IMP")) {
+      if (novedad.guia_novedad.includes("IMP") || novedad.guia_novedad.includes("MKP")) {
         transportadora = "LAAR";
       } else if (novedad.guia_novedad.includes("I")) {
         transportadora = "GINTRACOM";

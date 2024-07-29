@@ -155,7 +155,7 @@ const listFacturas = async () => {
         acreditable = "No acreditable";
       }
 
-      if (factura.guia.includes("IMP")) {
+      if (factura.guia.includes("IMP") || factura.guia.includes("MKP")) {
         url_tracking = `https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${factura.guia}`;
         url_descargar = `https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${factura.guia}`;
         estado = validar_estadoLaar(factura.estado_guia);
