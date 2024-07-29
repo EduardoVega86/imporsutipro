@@ -157,61 +157,35 @@
                         <div class="col-md-3">
                             <div class="card">
                                 <div class="card-body">
-                                    <div class="form-check mb-3">
+                                    <!-- <div class="form-check mb-3">
                                         <input class="form-check-input" type="checkbox" value="" id="habilitarTextoFlotante" checked>
                                         <label class="form-check-label" for="habilitarTextoFlotante">
                                             Habilitar texto flotante
                                         </label>
+                                    </div> -->
+
+                                    <div class="justify-content-between align-items-center mb-3">
+                                        <div class="d-flex">
+                                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_testimonioModal"><i class="fas fa-plus"></i> Agregar</button>
+                                        </div>
                                     </div>
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>Id</th>
-                                                <th>Nombre</th>
-                                                <th>Posición</th>
-                                                <th>Estado</th>
-                                                <th>Acciones</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>34</td>
-                                                <td>COMPRA AHORA!!</td>
-                                                <td>Barra superior</td>
-                                                <td><span class="badge bg-success">Activo</span></td>
-                                                <td>
-                                                    <div class="btn-group" role="group">
-                                                        <button type="button" class="btn btn-warning btn-sm"><i class="bi bi-gear"></i></button>
-                                                        <button type="button" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>36</td>
-                                                <td>COMPRA AHORA!!</td>
-                                                <td>Barra inferior</td>
-                                                <td><span class="badge bg-success">Activo</span></td>
-                                                <td>
-                                                    <div class="btn-group" role="group">
-                                                        <button type="button" class="btn btn-warning btn-sm"><i class="bi bi-gear"></i></button>
-                                                        <button type="button" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <nav>
-                                        <ul class="pagination">
-                                            <li class="page-item disabled">
-                                                <a class="page-link" href="#" tabindex="-1">Anterior</a>
-                                            </li>
-                                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                            <li class="page-item">
-                                                <a class="page-link" href="#">Siguiente</a>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                    <div class="form-check mb-3">
+                                    <div class="table-responsive">
+                                        <!-- <table class="table table-bordered table-striped table-hover"> -->
+                                        <table id="datatable_horizonal" width="100%" class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-nowrap">Imagen</th>
+                                                    <th class="text-nowrap">Nombre</th>
+                                                    <th class="text-nowrap">Testimonio</th>
+                                                    <th class="text-nowrap">Fecha</th>
+                                                    <th class="text-nowrap">Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tableBody_horizonal"></tbody>
+                                        </table>
+                                    </div>
+
+                                    <!-- <div class="form-check mb-3">
                                         <input class="form-check-input" type="checkbox" value="" id="habilitarEnvioGratis">
                                         <label class="form-check-label" for="habilitarEnvioGratis">
                                             Habilitar Envío Gratis en botón comprar ahora
@@ -222,7 +196,7 @@
                                         <label class="form-check-label" for="habilitarBotonWhatsapp">
                                             Habilitar Botón de whatsapp
                                         </label>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>

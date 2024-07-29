@@ -730,3 +730,82 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* Fin boton flotante de actualizar */
+/* Tabla  horizontal */
+let dataTableHorizonal;
+let dataTableHorizonalIsInitialized = false;
+
+const dataTableHorizonalOptions = {
+  columnDefs: [
+    { className: "centered", targets: [1, 2, 3, 4, 5] },
+    { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
+  ],
+  pageLength: 10,
+  destroy: true,
+  language: {
+    lengthMenu: "Mostrar _MENU_ registros por página",
+    zeroRecords: "Ningún usuario encontrado",
+    info: "Mostrando de _START_ a _END_ de un total de _TOTAL_ registros",
+    infoEmpty: "Ningún usuario encontrado",
+    infoFiltered: "(filtrados desde _MAX_ registros totales)",
+    search: "Buscar:",
+    loadingRecords: "Cargando...",
+    paginate: {
+      first: "Primero",
+      last: "Último",
+      next: "Siguiente",
+      previous: "Anterior",
+    },
+  },
+};
+
+const initDataTableHorizonal = async () => {
+  if (dataTableHorizonalIsInitialized) {
+    dataTableHorizonal.destroy();
+  }
+
+  await listHorizonal();
+
+  dataTableHorizonal = $("#datatable_horizonal").DataTable(
+    dataTableHorizonalOptions
+  );
+
+  dataTableHorizonalIsInitialized = true;
+};
+
+const listHorizonal = async () => {
+  try {
+    const response = await fetch("" + SERVERURL + "Usuarios/obtener_horizontalTienda");
+    const horizonal = await response.json();
+
+    let content = ``;
+
+    horizonal.forEach((item, index) => {
+      content += `
+                <tr>
+                    <td>${item.texto}</td>
+                    <td>${item.posicion}</td>
+                    <td>${item.estado}</td>
+                    <td>
+                    <div class="dropdown">
+                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-gear"></i>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" style="cursor: pointer;" onclick="editar_horizontal()"><i class='bx bx-wallet'></i>Editar</a></li>
+                        <li><a class="dropdown-item" style="cursor: pointer;" onclick="eliminar_horizontal()"><i class='bx bx-wallet'></i>Eliminar</a></li>
+                    </ul>
+                    </div>
+                    </td>
+                </tr>`;
+    });
+    document.getElementById("tableBody_horizonal").innerHTML = content;
+  } catch (ex) {
+    alert(ex);
+  }
+};
+
+window.addEventListener("load", async () => {
+  await initDataTableHorizonal();
+});
+
+/* Fin tabla horizontal */

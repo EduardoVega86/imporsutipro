@@ -289,6 +289,12 @@ class Usuarios extends Controller
         echo json_encode($response);
     }
 
+    public function obtener_horizontalTienda()
+    {
+        $response = $this->model->obtener_horizontalTienda($_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
     public function obtener_caracteristica()
     {
         $response = $this->model->obtener_caracteristicas($_SESSION['id_plataforma']);
@@ -333,6 +339,16 @@ class Usuarios extends Controller
     {
         $id = $_POST['id'];
         $response = $this->model->eliminarBanner($id, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
+    public function agregarHorizontal()
+    {
+        $texto = $_POST['texto'];
+        $estado = $_POST['estado'];
+        $posicion = $_POST['posicion'];
+
+        $response = $this->model->agregarHorizontal($texto, $estado, $posicion, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
 
