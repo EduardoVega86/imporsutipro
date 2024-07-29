@@ -32,6 +32,8 @@ class ReferidosModel extends Query
     }
 
 
+
+
     public function crearReferido($id)
     {
         $sql = "UPDATE plataformas set token_referido = ? WHERE id_plataforma = ?";

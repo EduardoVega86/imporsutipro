@@ -115,7 +115,8 @@ class Tienda extends Controller
         $id_plataforma = $_SESSION['id_plataforma'];
         $nombre = $_POST['nombre'];
         $pixel = $_POST['pixel'];
-        $response = $this->model->crearPixel($id_plataforma, $nombre, $pixel);
+        $tipo = $_POST['tipo'];
+        $response = $this->model->crearPixel($id_plataforma, $nombre, $pixel, $tipo);
         echo json_encode($response);
     }
 
@@ -129,10 +130,24 @@ class Tienda extends Controller
         echo json_encode($response);
     }
 
+    public function actualizarPixel()
+    {
+        if (!$this->isAuth())
+            header("Location:  " . SERVERURL . "login");
+        $id_pixel = $_POST['id_pixel'];
+        $nombre = $_POST['nombre'];
+        $pixel = $_POST['pixel'];
+        $tipo = $_POST['tipo'];
+        $response = $this->model->actualizarPixel($nombre, $pixel, $tipo, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
     public function obtenerPixel()
     {
+        if (!$this->isAuth())
+            header("Location:  " . SERVERURL . "login");
         $tipo = $_POST['tipo'];
-        $response = $this->model->obtenerPixel($tipo);
+        $response = $this->model->obtenerPixel($tipo, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
 

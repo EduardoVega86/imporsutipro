@@ -406,6 +406,12 @@ class TiendaModel extends Query
     {
         $sql = "SELECT * FROM pixel WHERE id_plataforma = $plataforma";
 
+        return $this->select($sql);
+    }
+
+    public function obtenerPixel($tipo, $plataforma)
+    {
+        $sql = "SELECT * FROM pixel WHERE tipo = $tipo AND id_plataforma = $plataforma";
         $response =  $this->select($sql);
         if (empty($response)) {
             return 0;
@@ -414,11 +420,22 @@ class TiendaModel extends Query
         }
     }
 
-    public function obtenerPixel($tipo, $plataforma)
+    public function actualizarPixel($nombre, $pixel, $tipo, $plataforma)
     {
-        $sql = "SELECT * FROM pixel WHERE tipo = $tipo AND id_plataforma = $plataforma";
-
-        return $this->select($sql);
+        $response = $this->initialResponse();
+        $sql = "UPDATE pixel SET nombre = ?, pixel = ?, tipo = ? WHERE id_plataforma = ? and tipo = ?";
+        $data = [$nombre, $pixel, $tipo, $plataforma, $tipo];
+        $actualizar_pixel = $this->update($sql, $data);
+        if ($actualizar_pixel == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Pixel actualizado correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] =  $actualizar_pixel['message'];
+        }
+        return $response;
     }
 
     public function eliminarPixel($id_pixel)
