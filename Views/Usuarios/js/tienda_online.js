@@ -835,4 +835,35 @@ function editar_horizontal(id) {
   });
 }
 
+function eliminar_horizontal(id) {
+  let formData = new FormData();
+  formData.append("id_horizontal", id);
+
+  $.ajax({
+    type: "POST",
+    url: SERVERURL + "Usuarios/eliminarHorizontal",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    success: function (response) {
+      response = JSON.parse(response);
+      // Mostrar alerta de éxito
+      if (response.status == 500) {
+        toastr.error("NO SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else {
+        toastr.success("SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+
+        initDataTableBanner();
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al eliminar la categoría");
+    },
+  });
+}
 /* Fin tabla horizontal */
