@@ -53,12 +53,14 @@
 
             // Crea un objeto FormData
             var formData = new FormData();
-            formData.append('id_horizontal', $('#id_horizontal').val());
+            formData.append('nombre', "TIKTOK");
+            formData.append('pixel', $('#script_tiktok').val());
+            formData.append('tipo', 2);
 
 
             // Realiza la solicitud AJAX
             $.ajax({
-                url: SERVERURL + 'Usuarios/editarHorizontal',
+                url: SERVERURL + 'tienda/actualizarPixel',
                 type: 'POST',
                 data: formData,
                 processData: false,
