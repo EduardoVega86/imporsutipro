@@ -109,6 +109,7 @@ class Tienda extends Controller
 
     public function crearPixel()
     {
+        $this->isAuth();
         $id_plataforma = $_SESSION['id_plataforma'];
         $nombre = $_POST['nombre'];
         $pixel = $_POST['pixel'];
@@ -118,6 +119,8 @@ class Tienda extends Controller
 
     public function obtenerPixeles()
     {
+        $this->isAuth();
+
         $id_plataforma = $_SESSION['id_plataforma'];
         $response = $this->model->obtenerPixeles($id_plataforma);
         echo json_encode($response);
