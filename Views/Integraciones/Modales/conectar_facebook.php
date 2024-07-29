@@ -21,7 +21,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="conectar_facebookModalLabel"><i class="fas fa-edit"></i> Editar Horizontal</h5>
+                <h5 class="modal-title" id="conectar_facebookModalLabel"><i class="fas fa-edit"></i> Ingresar Pixel</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -53,12 +53,14 @@
 
             // Crea un objeto FormData
             var formData = new FormData();
-            formData.append('id_horizontal', $('#id_horizontal').val());
+            formData.append('nombre', "FACEBOOK");
+            formData.append('pixel', $('#script_facebook').val());
+            formData.append('tipo', 1);
 
 
             // Realiza la solicitud AJAX
             $.ajax({
-                url: SERVERURL + 'Usuarios/editarHorizontal',
+                url: SERVERURL + 'tienda/actualizarPixel',
                 type: 'POST',
                 data: formData,
                 processData: false,
@@ -79,8 +81,6 @@
                         });
 
                         $('#conectar_facebookModal').modal('hide');
-                        resetForm();
-                        initDataTableHorizonal();
                     }
                 },
                 error: function(error) {
