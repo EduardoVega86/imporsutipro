@@ -5,6 +5,7 @@
 <?php require_once './Views/Usuarios/Modales/editar_banner.php'; ?>
 <?php require_once './Views/Usuarios/Modales/agregar_testimonio.php'; ?>
 <?php require_once './Views/Usuarios/Modales/editar_testimonio.php'; ?>
+<?php require_once './Views/Usuarios/Modales/agregar_horizontal.php'; ?>
 
 <style>
     .container {
@@ -166,7 +167,7 @@
 
                                     <div class="justify-content-between align-items-center mb-3">
                                         <div class="d-flex">
-                                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_testimonioModal"><i class="fas fa-plus"></i> Agregar</button>
+                                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_horizontalModal"><i class="fas fa-plus"></i> Agregar</button>
                                         </div>
                                     </div>
                                     <div class="table-responsive">
