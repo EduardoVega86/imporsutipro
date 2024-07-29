@@ -16,9 +16,8 @@ class ReferidosModel extends Query
     public function crearBilletera($id)
     {
         // Consulta para verificar si ya existe una billetera para la plataforma dada
-        $sql = "SELECT * FROM billetera_referidos WHERE id_plataforma = ?";
-        $data = array($id);
-        $result = $this->select($sql, $data);
+        $sql = "SELECT * FROM billetera_referidos WHERE id_plataforma = $id";
+        $result = $this->select($sql);
 
         var_dump($result);
 
