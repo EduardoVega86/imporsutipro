@@ -857,7 +857,7 @@ function eliminar_horizontal(id) {
           positionClass: "toast-bottom-center",
         });
 
-        initDataTableBanner();
+        initDataTableHorizonal();
       }
     },
     error: function (xhr, status, error) {
