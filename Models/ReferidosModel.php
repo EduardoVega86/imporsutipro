@@ -19,8 +19,6 @@ class ReferidosModel extends Query
         $sql = "SELECT * FROM billetera_referidos WHERE id_plataforma = $id";
         $result = $this->select($sql);
 
-        var_dump($result);
-
         // Si no existe una billetera, crea una nueva
         if (empty($result)) {
             $sql = "INSERT INTO billetera_referidos (`saldo`, `id_plataforma`) VALUES (?, ?)";

@@ -129,6 +129,13 @@ class Tienda extends Controller
         echo json_encode($response);
     }
 
+    public function obtenerPixel()
+    {
+        $tipo = $_POST['tipo'];
+        $response = $this->model->obtenerPixel($tipo);
+        echo json_encode($response);
+    }
+
     public function eliminarPixel()
     {
         $id_pixel = $_POST['id_pixel'];

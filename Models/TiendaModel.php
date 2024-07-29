@@ -384,11 +384,11 @@ class TiendaModel extends Query
         return $nuevaFactura;
     }
 
-    public function crearPixel($plataforma, $nombre, $pixel)
+    public function crearPixel($plataforma, $nombre, $pixel, $tipo)
     {
         $response = $this->initialResponse();
-        $sql = "INSERT INTO pixel (nombre, pixel, id_plataforma) VALUES (?, ?, ?)";
-        $data = [$nombre, $pixel, $plataforma];
+        $sql = "INSERT INTO pixel (nombre, pixel, id_plataforma, tipo) VALUES (?, ?, ?, ?)";
+        $data = [$nombre, $pixel, $plataforma, $tipo];
         $insertar_pixel = $this->insert($sql, $data);
         if ($insertar_pixel == 1) {
             $response['status'] = 200;
@@ -405,6 +405,18 @@ class TiendaModel extends Query
     public function obtenerPixeles($plataforma)
     {
         $sql = "SELECT * FROM pixel WHERE id_plataforma = $plataforma";
+
+        $response =  $this->select($sql);
+        if (empty($response)) {
+            return 0;
+        } else {
+            return $response;
+        }
+    }
+
+    public function obtenerPixel($tipo, $plataforma)
+    {
+        $sql = "SELECT * FROM pixel WHERE tipo = $tipo AND id_plataforma = $plataforma";
 
         return $this->select($sql);
     }
