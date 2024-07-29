@@ -410,12 +410,12 @@ function ver_detalle_cot(numero_factura) {
         $("#fecha_detalleFac").text(response[0].fecha_factura);
         $("#companiaEnvio_detalleFac").text(response[0].transporte);
         if (response[0].cod == 1) {
-          $("#tipoEnvio_detalleFac").text(
-            "Con Recaudo \n<strong>Tienda</strong> " + response[0].url
+          $("#tipoEnvio_detalleFac").html(
+            "Con Recaudo <br><strong>Tienda</strong> " + response[0].url
           );
         } else {
-          $("#tipoEnvio_detalleFac").text(
-            "Sin Recaudo \n<strong>Tienda</strong> " + response[0].url
+          $("#tipoEnvio_detalleFac").html(
+            "Sin Recaudo <br><strong>Tienda</strong> " + response[0].url
           );
         }
 
@@ -431,23 +431,23 @@ function ver_detalle_cot(numero_factura) {
             total += subtotal;
 
             let rowHtml = `
-            <tr>
-              <td>${detalle.nombre_producto}</td>
-              <td>${detalle.cantidad}</td>
-              <td>${detalle.precio_venta}</td>
-              <td>${subtotal.toFixed(2)}</td>
-            </tr>
-          `;
+              <tr>
+                <td>${detalle.nombre_producto}</td>
+                <td>${detalle.cantidad}</td>
+                <td>${detalle.precio_venta}</td>
+                <td>${subtotal.toFixed(2)}</td>
+              </tr>
+            `;
             tableBody.append(rowHtml);
           });
 
           // Agregar la fila del total
           let totalRowHtml = `
-          <tr class="custom-total-row">
-            <td colspan="3" class="text-right">Total</td>
-            <td>${total.toFixed(2)}</td>
-          </tr>
-        `;
+            <tr class="custom-total-row">
+              <td colspan="3" class="text-right">Total</td>
+              <td>${total.toFixed(2)}</td>
+            </tr>
+          `;
           tableBody.append(totalRowHtml);
         }
 
