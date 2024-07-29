@@ -108,7 +108,7 @@
 
                         $('#agregar_horizontalModal').modal('hide');
                         resetForm();
-                        initDataTablehorizontal();
+                        initDataTableHorizonal();
                     }
                 },
                 error: function(error) {
