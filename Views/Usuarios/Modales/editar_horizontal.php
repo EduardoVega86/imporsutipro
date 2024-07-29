@@ -112,7 +112,7 @@
 
                         $('#editar_horizontalModal').modal('hide');
                         resetForm();
-                        initDataTablehorizontals();
+                        initDataTableHorizonal();
                     }
                 },
                 error: function(error) {
