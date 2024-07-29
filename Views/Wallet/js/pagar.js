@@ -391,7 +391,68 @@ function ver_detalle_cot(numero_factura) {
   let formData = new FormData();
   formData.append("numero_factura", numero_factura);
   if (numero_factura.includes("-F")) {
-    console.log("XD");
+    $.ajax({
+      url: SERVERURL + "wallet/buscarTienda",
+      type: "POST",
+      data: formData,
+      processData: false, // No procesar los datos
+      contentType: false, // No establecer ningún tipo de contenido
+      success: function (response) {
+        response = JSON.parse(response);
+
+        // Mostrar los detalles principales de la primera factura
+        $("#ordePara_detalleFac").text(response[0].nombre);
+        $("#direccion_detalleFac").text(
+          `${response[0].c_principal},${response[0].c_secundaria}`
+        );
+        $("#telefono_detalleFac").text(response[0].telefono);
+        $("#numOrden_detalleFac").text(response[0].numero_factura);
+        $("#fecha_detalleFac").text(response[0].fecha_factura);
+        $("#companiaEnvio_detalleFac").text(response[0].transporte);
+        if (response[0].cod == 1) {
+          $("#tipoEnvio_detalleFac").text("Con Recaudo");
+        } else {
+          $("#tipoEnvio_detalleFac").text("Sin Recaudo");
+        }
+
+        // Verificar si la respuesta tiene elementos y llenar la tabla
+        if (response.length > 0) {
+          let tableBody = $("#tabla_body");
+          tableBody.empty(); // Limpiar cualquier contenido previo
+
+          let total = 0; // Variable para calcular el total
+
+          response.forEach(function (detalle) {
+            let subtotal = detalle.cantidad * detalle.precio_venta;
+            total += subtotal;
+
+            let rowHtml = `
+            <tr>
+              <td>${detalle.nombre_producto}</td>
+              <td>${detalle.cantidad}</td>
+              <td>${detalle.precio_venta}</td>
+              <td>${subtotal.toFixed(2)}</td>
+            </tr>
+          `;
+            tableBody.append(rowHtml);
+          });
+
+          // Agregar la fila del total
+          let totalRowHtml = `
+          <tr class="custom-total-row">
+            <td colspan="3" class="text-right">Total</td>
+            <td>${total.toFixed(2)}</td>
+          </tr>
+        `;
+          tableBody.append(totalRowHtml);
+        }
+
+        $("#detalles_facturaModal").modal("show");
+      },
+      error: function (error) {
+        console.error("Error al obtener la lista de bodegas:", error);
+      },
+    });
   } else {
     $.ajax({
       url: SERVERURL + "Pedidos/obtenerDetalleWallet",
