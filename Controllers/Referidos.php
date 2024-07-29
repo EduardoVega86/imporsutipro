@@ -11,7 +11,8 @@ class Referidos extends Controller
     }
     public function index()
     {
-        $this->crearBilletera($_SESSION['id_plataforma']);
+        $xd = $this->crearBilletera($_SESSION['id_plataforma']);
+        print_r($xd);
         $this->views->render($this, "index");
     }
     public function referidos()
