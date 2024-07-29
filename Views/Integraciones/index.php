@@ -1,6 +1,6 @@
 <?php require_once './Views/templates/header.php'; ?>
+<?php require_once './Views/Integraciones/css/intregraciones_style.php'; ?>
 
-<?php require_once './Views/Integraciones/css/intregaciones_style.php'; ?>
 
 <div class="custom-container-fluid mt-4">
     <div class="row justify-content-center">
