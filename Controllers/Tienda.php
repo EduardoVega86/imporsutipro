@@ -109,7 +109,8 @@ class Tienda extends Controller
 
     public function crearPixel()
     {
-        $this->isAuth();
+        if (!$this->isAuth())
+            header("Location:  " . SERVERURL . "login");
         $id_plataforma = $_SESSION['id_plataforma'];
         $nombre = $_POST['nombre'];
         $pixel = $_POST['pixel'];
@@ -119,7 +120,8 @@ class Tienda extends Controller
 
     public function obtenerPixeles()
     {
-        $this->isAuth();
+        if (!$this->isAuth())
+            header("Location:  " . SERVERURL . "login");
 
         $id_plataforma = $_SESSION['id_plataforma'];
         $response = $this->model->obtenerPixeles($id_plataforma);
