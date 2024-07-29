@@ -13,7 +13,7 @@
                 <h5 class="card-title">Facebook</h5>
                 <p class="card-text">Manten actualizadas tus campañas con nuestra api.</p>
                 <p class="status disconnected">Desconectado</p>
-                <button class="btn btn-primary">Conectar</button>
+                <button class="btn btn-primary" onclick="abrirmodal_facebook()">Conectar</button>
             </div>
         </div>
 
@@ -24,7 +24,7 @@
                 <h5 class="card-title">TikTok</h5>
                 <p class="card-text">Manten actualizadas tus campañas con nuestra api.</p>
                 <p class="status connected">Conectado</p>
-                <button class="btn btn-primary">Conectar</button>
+                <button class="btn btn-primary" onclick="abrirmodal_tiktok()">Conectar</button>
             </div>
         </div>
 
