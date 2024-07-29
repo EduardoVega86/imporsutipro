@@ -410,9 +410,13 @@ function ver_detalle_cot(numero_factura) {
         $("#fecha_detalleFac").text(response[0].fecha_factura);
         $("#companiaEnvio_detalleFac").text(response[0].transporte);
         if (response[0].cod == 1) {
-          $("#tipoEnvio_detalleFac").text("Con Recaudo");
+          $("#tipoEnvio_detalleFac").text(
+            "Con Recaudo \n<strong>Tienda</strong> " + response[0].url
+          );
         } else {
-          $("#tipoEnvio_detalleFac").text("Sin Recaudo");
+          $("#tipoEnvio_detalleFac").text(
+            "Sin Recaudo \n<strong>Tienda</strong> " + response[0].url
+          );
         }
 
         // Verificar si la respuesta tiene elementos y llenar la tabla
