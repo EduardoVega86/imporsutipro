@@ -409,6 +409,13 @@ class Usuarios extends Controller
         $response = $this->model->editarHorizontal($id_horizontal, $texto, $estado, $posicion, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
+
+    public function eliminarHorizontal()
+    {
+        $id = $_POST['id_horizontal'];
+        $response = $this->model->eliminarHorizontal($id, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
     /* fin tienda online */
 
     public function registro()
