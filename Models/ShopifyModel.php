@@ -394,6 +394,7 @@ class ShopifyModel extends Query
 
     public function obtenerCosto($id_producto_venta)
     {
+        echo "<br> id producto venta: " . $id_producto_venta;
         $sql = "SELECT * FROM inventario_bodegas WHERE id_inventario = $id_producto_venta";
         $response = $this->select($sql);
         return $response[0]['pcp'];
