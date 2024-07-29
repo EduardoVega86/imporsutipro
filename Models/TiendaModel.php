@@ -237,6 +237,13 @@ class TiendaModel extends Query
         return $this->select($sql);
     }
 
+    public function obtener_horizontalTienda($plataforma)
+    {
+        $sql = "SELECT * FROM horizontal WHERE id_plataforma = $plataforma";
+
+        return $this->select($sql);
+    }
+
     public function guardar_pedido($id_plataforma, $id_producto, $precio_producto, $nombre, $telefono, $provincia, $ciudad, $calle_principal, $calle_secundaria, $referencia, $observacion, $id_inventario)
     {
         // $tmp = session_id();

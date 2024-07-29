@@ -101,9 +101,10 @@ class Tienda extends Controller
         echo json_encode($response);
     }
 
-    public function horizontaltienda()
-    {        //$nombre = $_POST['nombre'];
-        $response = $this->model->horisontaltienda($_SESSION['id_plataforma']);
+    public function obtener_horizontalTienda()
+    {
+        $id_plataforma = $_POST['id_plataforma'];
+        $response = $this->model->obtener_horizontalTienda($id_plataforma);
         echo json_encode($response);
     }
 
