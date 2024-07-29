@@ -401,4 +401,22 @@ class TiendaModel extends Query
 
         return $this->select($sql);
     }
+
+    public function eliminarPixel($id_pixel)
+    {
+        $response = $this->initialResponse();
+        $sql = "DELETE FROM pixel WHERE id_pixel = ?";
+        $data = [$id_pixel];
+        $eliminar_pixel = $this->delete($sql, $data);
+        if ($eliminar_pixel == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Pixel eliminado correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] =  $eliminar_pixel['message'];
+        }
+        return $response;
+    }
 }
