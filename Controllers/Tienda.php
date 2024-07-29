@@ -134,7 +134,6 @@ class Tienda extends Controller
     {
         if (!$this->isAuth())
             header("Location:  " . SERVERURL . "login");
-        $id_pixel = $_POST['id_pixel'];
         $nombre = $_POST['nombre'];
         $pixel = $_POST['pixel'];
         $tipo = $_POST['tipo'];
