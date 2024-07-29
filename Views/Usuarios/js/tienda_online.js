@@ -824,8 +824,8 @@ function editar_horizontal(id) {
     success: function (response) {
       $("#id_horizontal").val(response[0].id_horizontal);
       $("#texto_flotanteEditar").val(response[0].texto);
-      $("#visible_flotanteEditar").val(response[0].estado);
-      $("#posicion_flotanteEditar").val(response[0].posicion);
+      $("#visible_flotanteEditar").val(response[0].estado).change();
+      $("#posicion_flotanteEditar").val(response[0].posicion).change();
 
       $("#editar_horizontalModal").modal("show");
     },
