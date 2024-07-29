@@ -1,5 +1,5 @@
 <?php require_once './Views/templates/header.php'; ?>
-<?php require_once './Views/Integraciones/css/intregraciones_style.php'; ?>
+<?php require_once './Views/Integraciones/css/integraciones_style.php'; ?>
 
 
 <div class="custom-container-fluid mt-4">
