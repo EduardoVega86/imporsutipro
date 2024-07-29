@@ -239,7 +239,7 @@ class TiendaModel extends Query
 
     public function obtener_horizontalTienda($plataforma)
     {
-        $sql = "SELECT * FROM horizontal WHERE id_plataforma = $plataforma";
+        $sql = "SELECT * FROM horizontal WHERE id_plataforma = $plataforma ORDER BY id_horizontal ASC;";
 
         return $this->select($sql);
     }
