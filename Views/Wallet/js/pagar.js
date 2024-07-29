@@ -390,7 +390,7 @@ function eliminar_wallet(id_cabecera) {
 function ver_detalle_cot(numero_factura) {
   let formData = new FormData();
   formData.append("numero_factura", numero_factura);
-  if (numero_factura.contains("-F")) {
+  if (numero_factura.includes("-F")) {
     console.log("XD");
   } else {
     $.ajax({
