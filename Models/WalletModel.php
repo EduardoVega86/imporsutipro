@@ -12,7 +12,7 @@ class WalletModel extends Query
     {
         $id_matriz = $this->obtenerMatriz();
         $id_matriz = $id_matriz[0]['idmatriz'];
-        $datos_tienda = $this->select("SELECT ccp.id_plataforma, p.url_imporsuit as tienda, (SELECT COUNT(*) FROM cabecera_cuenta_pagar ccp2 WHERE ccp2.id_plataforma = ccp.id_plataforma AND ccp2.estado_guia IN (7, 9) AND ccp2.visto = 0 AND ccp2.id_matriz = 1) AS count_visto_0, ROUND(SUM(CASE WHEN ccp.estado_guia IN (7, 9) AND ccp.visto = 1 AND ccp.id_matriz = 1 THEN ccp.total_venta ELSE 0 END), 2) AS ventas, ROUND(SUM(CASE WHEN ccp.estado_guia IN (7, 9) AND ccp.visto = 1 AND ccp.id_matriz = 1 THEN ccp.monto_recibir ELSE 0 END), 2) AS utilidad FROM cabecera_cuenta_pagar ccp INNER JOIN plataformas p ON p.id_plataforma = ccp.id_plataforma WHERE ccp.id_matriz = $id_matriz GROUP BY ccp.id_plataforma, p.url_imporsuit ORDER BY count_visto_0 DESC;");
+        $datos_tienda = $this->select("SELECT ccp.id_plataforma, p.url_imporsuit as tienda, (SELECT COUNT(*) FROM cabecera_cuenta_pagar ccp2 WHERE ccp2.id_plataforma = ccp.id_plataforma AND ccp2.estado_guia IN (7, 9) AND ccp2.visto = 0 AND ccp2.id_matriz = 1) AS count_visto_0, ROUND(SUM(CASE WHEN ccp.estado_guia IN (7, 9) AND ccp.visto = 1 AND ccp.id_matriz = 1 THEN ccp.total_venta ELSE 0 END), 2) AS ventas, ROUND(SUM(CASE WHEN ccp.estado_guia IN (7, 9) AND ccp.visto = 1 AND ccp.id_matriz = 1 THEN ccp.monto_recibir ELSE 0 END), 2) AS utilidad FROM cabecera_cuenta_pagar ccp INNER JOIN plataformas p ON p.id_plataforma = ccp.id_plataforma GROUP BY ccp.id_plataforma, p.url_imporsuit ORDER BY count_visto_0 DESC;");
 
         return json_encode($datos_tienda);
     }
