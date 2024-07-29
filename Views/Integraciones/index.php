@@ -1,6 +1,8 @@
 <?php require_once './Views/templates/header.php'; ?>
 <?php require_once './Views/Integraciones/css/integraciones_style.php'; ?>
 
+<?php require_once './Views/Integraciones/Modales/conectar_facebook.php'; ?>
+<?php require_once './Views/Integraciones/Modales/conectar_tiktok.php'; ?>
 
 <div class="custom-container-fluid mt-4">
     <div class="row justify-content-center">
