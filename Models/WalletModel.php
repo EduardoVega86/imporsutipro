@@ -956,7 +956,7 @@ class WalletModel extends Query
 
         $sql = "select * from facturas_cot fc, detalle_fact_cot dfc, productos p where dfc.id_producto=p.id_producto and fc.id_factura=dfc.id_factura and fc.numero_factura = '$numero_factura';";
         $response2 =  $this->select($sql);
-        $response2[0]['url'] = $response[0]['url_imporsuit'];
+        $response2[0]['url'] = $response[0]['nombre_tienda'];
 
         return $response2;
     }
