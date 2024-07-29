@@ -337,4 +337,11 @@ class Wallet extends Controller
         $response = $this->model->habilitarAuditoria($guia, $estado);
         echo json_encode($response);
     }
+
+    public function buscarTienda()
+    {
+        $numero_factura = $_POST['numero_factura'];
+        $response = $this->model->buscarTienda($numero_factura);
+        echo json_encode($response);
+    }
 }

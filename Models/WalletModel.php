@@ -943,4 +943,15 @@ class WalletModel extends Query
         }
         return $responses;
     }
+
+    public function buscarTienda($numero_factura)
+    {
+        $numero_factura = str_replace("-F", "", $numero_factura);
+        $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE numero_factura = '$numero_factura'";
+        $response =  $this->select($sql);
+        $id_plataforma = $response[0]['id_plataforma'];
+        $sql = "SELECT * FROM plataformas WHERE id_plataforma = '$id_plataforma'";
+        $response =  $this->select($sql);
+        return $response;
+    }
 }
