@@ -798,14 +798,14 @@ ON
             ]),
         ];
 
-        // Verifica que el método `cpanelRequest` esté definido y maneja errores
         if (method_exists($this, 'cpanelRequest')) {
-
             $response = $this->cpanelRequest($apiUrl, $cpanelUsername, $cpanelPassword, http_build_query($postFields));
 
-
-            if ($response === false || isset($response['errors'])) {
-                throw new Exception("Error al clonar el repositorio de GitHub.");
+            // Depuración: Verificar la respuesta de la API
+            if ($response === false) {
+                throw new Exception("Error al clonar el repositorio de GitHub: La solicitud cURL falló.");
+            } elseif (isset($response['errors'])) {
+                throw new Exception("Error al clonar el repositorio de GitHub: " . implode(", ", $response['errors']));
             }
         } else {
             throw new Exception("El método cpanelRequest no está definido.");
@@ -813,57 +813,57 @@ ON
 
         // Depuración: Listar los archivos en el directorio clonado
         $files = scandir($direccion);
+        error_log("Archivos en el directorio $direccion después de clonar: " . implode(", ", $files));
 
         // Crear subdominio
         $apiUrl = $cpanelUrl . 'execute/SubDomain/addsubdomain?domain=' . $nombre_tienda . '&rootdomain=' . $rootdomain;
         $response = $this->cpanelRequest($apiUrl, $cpanelUsername, $cpanelPassword);
         if ($response === false) {
             throw new Exception("Error al crear el subdominio.");
-        } else {
-            $file = $direccion . '/Config/Config.php';
-
-            // Depuración: Verificar la existencia del directorio y sus permisos
-            if (!file_exists($direccion)) {
-                throw new Exception("El directorio $direccion no existe.");
-            } elseif (!is_readable($direccion)) {
-                throw new Exception("El directorio $direccion no es accesible.");
-            }
-
-            // Depuración: Verificar la existencia del archivo y sus permisos
-            if (!file_exists($file)) {
-                throw new Exception("El archivo $file no existe.");
-            } elseif (!is_readable($file)) {
-                throw new Exception("El archivo $file no es accesible.");
-            }
-
-            // Lee el contenido del archivo
-            $content = file_get_contents($file);
-
-            // Reemplaza el texto específico
-            $newContent = str_replace('tony', $nombre_tienda, $content);
-
-            // Escribe el contenido modificado de nuevo en el archivo
-            file_put_contents($file, $newContent);
-
-            $url_tienda = 'https://' . $nombre_tienda . '.imporsuitpro.com';
-
-            $sql = "UPDATE `plataformas` SET `url_imporsuit` = ?, `tienda_creada` = ?, `nombre_tienda` = ? WHERE `id_plataforma` = ?";
-            $data = [$url_tienda, 1, $nombre_tienda, $plataforma];
-            $editar_producto = $this->update($sql, $data);
-            
-            if ($editar_producto == 1) {
-                $responses = array('status' => 200, 'title' => 'Peticion exitosa', 'message' => 'Contraseña actualizada correctamente');
-            } else {
-                $responses = array('status' => 500, 'title' => 'Error', 'message' => $editar_producto['message']);
-            }
-
-            return $responses;
         }
+
+        $file = $direccion . '/Config/Config.php';
+
+        // Depuración: Verificar la existencia del directorio y sus permisos
+        if (!file_exists($direccion)) {
+            throw new Exception("El directorio $direccion no existe.");
+        } elseif (!is_readable($direccion)) {
+            throw new Exception("El directorio $direccion no es accesible.");
+        }
+
+        // Depuración: Verificar la existencia del archivo y sus permisos
+        if (!file_exists($file)) {
+            throw new Exception("El archivo $file no existe.");
+        } elseif (!is_readable($file)) {
+            throw new Exception("El archivo $file no es accesible.");
+        }
+
+        // Lee el contenido del archivo
+        $content = file_get_contents($file);
+
+        // Reemplaza el texto específico
+        $newContent = str_replace('tony', $nombre_tienda, $content);
+
+        // Escribe el contenido modificado de nuevo en el archivo
+        file_put_contents($file, $newContent);
+
+        $url_tienda = 'https://' . $nombre_tienda . '.imporsuitpro.com';
+
+        $sql = "UPDATE `plataformas` SET `url_imporsuit` = ?, `tienda_creada` = ?, `nombre_tienda` = ? WHERE `id_plataforma` = ?";
+        $data = [$url_tienda, 1, $nombre_tienda, $plataforma];
+        $editar_producto = $this->update($sql, $data);
+
+        if ($editar_producto == 1) {
+            $responses = array('status' => 200, 'title' => 'Peticion exitosa', 'message' => 'Subdominio creado y configurado correctamente');
+        } else {
+            $responses = array('status' => 500, 'title' => 'Error', 'message' => $editar_producto['message']);
+        }
+
+        return $responses;
     }
 
     public function cpanelRequest($url, $username, $password, $postFields = null)
     {
-        global $verificador;
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -875,7 +875,7 @@ ON
         }
         $response = curl_exec($ch);
         if (curl_errno($ch)) {
-            echo 'Error en la solicitud cURL: ' . curl_error($ch);
+            error_log('Error en la solicitud cURL: ' . curl_error($ch));
         } else {
             $responseData = json_decode($response, true);
             return $responseData;
@@ -883,6 +883,7 @@ ON
         curl_close($ch);
         return false;
     }
+
 
 
 
