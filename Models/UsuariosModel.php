@@ -781,7 +781,31 @@ ON
 
         $direccion = "/home/$cpanelUsername/public_html/$nombre_tienda";
 
-        // Eliminar el directorio si ya existe y está bajo control de versiones
+        // Intentar eliminar cualquier referencia al repositorio utilizando la API de cPanel
+        $listRepoApiUrl = $cpanelUrl . "execute/VersionControl/list";
+        $listRepoResponse = $this->cpanelRequest($listRepoApiUrl, $cpanelUsername, $cpanelPassword);
+
+        if ($listRepoResponse !== false && isset($listRepoResponse['data'])) {
+            foreach ($listRepoResponse['data'] as $repo) {
+                if ($repo['repository_root'] === $direccion) {
+                    $removeRepoApiUrl = $cpanelUrl . "execute/VersionControl/delete";
+                    $removeRepoPostFields = [
+                        'type' => 'git',
+                        'repository_root' => $direccion,
+                    ];
+                    echo "Eliminando referencia al repositorio en cPanel...\n";
+                    $removeRepoResponse = $this->cpanelRequest($removeRepoApiUrl, $cpanelUsername, $cpanelPassword, http_build_query($removeRepoPostFields));
+                    if ($removeRepoResponse === false || isset($removeRepoResponse['errors'])) {
+                        echo "Errores al intentar eliminar el repositorio usando la API de cPanel:\n";
+                        print_r($removeRepoResponse['errors']);
+                    } else {
+                        echo "Repositorio eliminado exitosamente usando la API de cPanel.\n";
+                    }
+                }
+            }
+        }
+
+        // Eliminar el directorio manualmente si aún existe
         if (file_exists($direccion)) {
             $this->deleteDirectory($direccion);
         }
