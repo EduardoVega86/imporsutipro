@@ -367,12 +367,28 @@ class AccesoModel extends Query
 
     public function recuperar_contrasena($correo, $recaptchaToken)
     {
-        $recaptchaSecret = '6Lf3xBoqAAAAAKI2IDD9XVlu_DSb8uTuUc1Sooa1'; // Sustituye con tu clave secreta de reCAPTCHA
 
-        $recaptchaResponse = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=$recaptchaSecret&response=$recaptchaToken");
-        print_r($recaptchaResponse);
+        // Obtener el access token
+        $accessToken = $this->getRecaptchaAccessToken();
+
+        // Validar el token de reCAPTCHA
+        $recaptchaResponse = file_get_contents("https://recaptchaenterprise.googleapis.com/v1/projects/imporsuit-1722355326478/assessments?key=$accessToken", false, stream_context_create([
+            'http' => [
+                'method' => 'POST',
+                'header' => 'Content-Type: application/json',
+                'content' => json_encode([
+                    'event' => [
+                        'token' => $recaptchaToken,
+                        'siteKey' => '6Lf3xBoqAAAAAKI2IDD9XVlu_DSb8uTuUc1Sooa1',
+                        'expectedAction' => 'RECOVER_PASSWORD'
+                    ]
+                ])
+            ]
+        ]));
         $recaptchaResult = json_decode($recaptchaResponse, true);
-        if ($recaptchaResult['success'] && $recaptchaResult['score'] > 0.5) {
+
+        if ($recaptchaResult['tokenProperties']['valid'] && $recaptchaResult['riskAnalysis']['score'] > 0.5) {
+            // Proceder con la lógica de recuperación de contraseña
             $usuario = $this->select("SELECT * FROM users WHERE email_users = '$correo'");
 
             if (count($usuario) > 0) {
@@ -383,7 +399,6 @@ class AccesoModel extends Query
             $response = $this->update($sql, $data);
             $validador = new EmailValidator();
             if ($validador->isValid($correo, new DNSCheckValidation())) {
-
                 if ($response == 1) {
                     $url_change = URL_MATRIZ . "/acceso/recovery/" . $token;
                     require_once 'PHPMailer/Mail_recuperar.php';
@@ -401,7 +416,7 @@ class AccesoModel extends Query
                     $mail->setFrom($smtp_from, $smtp_from_name);
                     $mail->addAddress($correo);
                     $mail->Subject = 'Recuperación de contraseña';
-                    $mail->Body =  $message_body;
+                    $mail->Body = $message_body;
                     if ($mail->send()) {
                         $response = $this->initialResponse();
                         $response['status'] = 200;
@@ -426,15 +441,13 @@ class AccesoModel extends Query
                 $response['title'] = 'Error';
                 $response['message'] = 'El correo no es valido';
             }
-
-
-            return $response;
         } else {
             $response = $this->initialResponse();
             $response['status'] = 500;
             $response['title'] = 'Error';
             $response['message'] = 'Error de reCAPTCHA: no válido o puntuación baja';
         }
+
         return $response;
     }
 
