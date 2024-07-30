@@ -368,12 +368,12 @@ class AccesoModel extends Query
 
     public function recuperar_contrasena($correo, $recaptchaToken)
     {
-
         // Obtener el access token
         $accessToken = $this->getRecaptchaAccessToken();
+        echo "Access Token: $accessToken"; // Verificar el Access Token
 
         // Validar el token de reCAPTCHA
-        $url = "https://recaptchaenterprise.googleapis.com/v1/projects/imporsuit-1722355326478/assessments?key=$accessToken";
+        $url = "https://recaptchaenterprise.googleapis.com/v1/projects/YOUR_PROJECT_ID/assessments";
         $data = [
             'event' => [
                 'token' => $recaptchaToken,
@@ -384,19 +384,20 @@ class AccesoModel extends Query
 
         $options = [
             'http' => [
-                'header'  => "Content-Type: application/json\r\n",
+                'header'  => "Authorization: Bearer $accessToken\r\nContent-Type: application/json\r\n",
                 'method'  => 'POST',
                 'content' => json_encode($data),
             ],
         ];
         $context  = stream_context_create($options);
         $recaptchaResponse = file_get_contents($url, false, $context);
-
         if ($recaptchaResponse === FALSE) {
             die('Error');
         }
+        echo "reCAPTCHA Response: $recaptchaResponse"; // Verificar la respuesta de reCAPTCHA
 
         $recaptchaResult = json_decode($recaptchaResponse, true);
+        print_r($recaptchaResult); // Imprimir la respuesta de reCAPTCHA
 
         if ($recaptchaResult['tokenProperties']['valid'] && $recaptchaResult['riskAnalysis']['score'] > 0.5) {
             // Proceder con la lógica de recuperación de contraseña
