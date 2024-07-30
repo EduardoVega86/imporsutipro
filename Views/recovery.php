@@ -15,6 +15,10 @@
                 <label for="email">Restablecer contraseña</label>
                 <input type="text" class="form-control" id="email" placeholder="Email">
             </div>
+
+            <div style="display: none;">
+                <input type="text" id="dunk" name="dunk" value="">
+            </div>
             <button type="button" class="btn btn-primary w-100" id="sendEmailButton">
                 <box-icon name='envelope' color='#ffff' type='solid'></box-icon> Enviar correo
             </button>
