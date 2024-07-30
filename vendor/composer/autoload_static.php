@@ -44,6 +44,7 @@ class ComposerStaticInit394db9ff3e8bed461b3131f49f543b23
         'D' => 
         array (
             'Dompdf\\' => 7,
+            'Doctrine\\Deprecations\\' => 22,
             'Doctrine\\Common\\Lexer\\' => 22,
         ),
     );
@@ -92,6 +93,10 @@ class ComposerStaticInit394db9ff3e8bed461b3131f49f543b23
         'Dompdf\\' => 
         array (
             0 => __DIR__ . '/..' . '/dompdf/dompdf/src',
+        ),
+        'Doctrine\\Deprecations\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/deprecations/lib/Doctrine/Deprecations',
         ),
         'Doctrine\\Common\\Lexer\\' => 
         array (
