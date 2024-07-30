@@ -512,25 +512,6 @@ function validateStoreName(callback) {
     });
 }
 
-function crear_tienda() {
-  var nombre_tienda = $("#nombre_tienda").val();
-
-  let formData = new FormData();
-  formData.append("nombre", nombre_tienda); // Añadir el SKU al FormData
-
-  $.ajax({
-    url: SERVERURL + "Usuarios/registro",
-    type: "POST",
-    data: formData,
-    processData: false, // No procesar los datos
-    contentType: false, // No establecer ningún tipo de contenido
-    success: function (response) {},
-    error: function (jqXHR, textStatus, errorThrown) {
-      alert(errorThrown);
-    },
-  });
-}
-
 /* tabla de Testimonio */
 let dataTableTestimonios;
 let dataTableTestimoniosIsInitialized = false;
