@@ -437,19 +437,6 @@ function crear_tienda() {
 
       var nombre_tienda = $("#nombre_tienda").val();
 
-      // Inicia la llamada a la API inmediatamente
-      let formData = new FormData();
-      formData.append("nombre", nombre_tienda);
-
-      let apiCall = $.ajax({
-        url: SERVERURL + "Usuarios/registro",
-        type: "POST",
-        data: formData,
-        processData: false,
-        contentType: false,
-        dataType: "json",
-      });
-
       // Muestra mensajes cada 10 segundos durante 2 minutos
       const mensajes = [
         "Esto tardará 2 minutos aproximadamente",
@@ -465,14 +452,32 @@ function crear_tienda() {
 
       let mensajeIndex = 0;
 
-      const intervalId = setInterval(() => {
+      // Inicia la llamada a la API inmediatamente
+      let formData = new FormData();
+      formData.append("nombre", nombre_tienda);
+
+      let apiCall = $.ajax({
+        url: SERVERURL + "Usuarios/registro",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: "json",
+      });
+
+      // Actualiza el mensaje inmediatamente y luego cada 10 segundos
+      const updateMessage = () => {
         if (mensajeIndex < mensajes.length) {
           Swal.update({
             html: `<p>¡No se podrá cambiar el nombre de tu tienda en un futuro!</p><p id='mensaje-informativo'>${mensajes[mensajeIndex]}</p>`,
           });
           mensajeIndex++;
         }
-      }, 10000); // 10 segundos
+      };
+
+      updateMessage(); // Muestra el primer mensaje inmediatamente
+
+      const intervalId = setInterval(updateMessage, 10000); // 10 segundos
 
       // Espera 2 minutos (120 segundos)
       await new Promise((resolve) => setTimeout(resolve, 120000));
