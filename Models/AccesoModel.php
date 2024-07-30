@@ -5,7 +5,7 @@ require_once 'PHPMailer/Exception.php';
 require 'vendor/autoload.php'; // Asumiendo que estás usando Composer
 
 use Egulias\EmailValidator\EmailValidator;
-use Egulias\EmailValidator\Validation\RFCValidation;
+use Egulias\EmailValidator\Validation\DNSCheckValidation;
 use PHPMailer\PHPMailer\PHPMailer;
 
 class AccesoModel extends Query
@@ -365,7 +365,7 @@ class AccesoModel extends Query
         $data = [$token, $correo];
         $response = $this->update($sql, $data);
         $validador = new EmailValidator();
-        if ($validador->isValid($correo, new RFCValidation())) {
+        if ($validador->isValid($correo, new DNSCheckValidation())) {
 
             if ($response == 1) {
                 $url_change = URL_MATRIZ . "/acceso/recovery/" . $token;
