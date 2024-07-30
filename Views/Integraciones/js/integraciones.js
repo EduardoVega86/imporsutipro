@@ -13,6 +13,8 @@ function abrirmodal_facebook() {
         $("#id_estado_facebook").val(0);
       }else{
         $("#id_estado_facebook").val(1);
+        console.log(response.pixel);
+        console.log(response[0].pixel);
         $("#script_facebook").val(response[0].pixel);
       }
       $("#conectar_facebookModal").modal("show");
