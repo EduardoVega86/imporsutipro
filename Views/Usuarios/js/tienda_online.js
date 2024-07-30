@@ -421,7 +421,7 @@ window.addEventListener("load", async () => {
 function crear_tienda() {
   Swal.fire({
     title: "¿Estás seguro del nombre de tu tienda?",
-    text: "¡No se podra cambiar el nombre de tu tienda en un futuro!",
+    text: "¡No se podrá cambiar el nombre de tu tienda en un futuro!",
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: "¡Sí, Crear tienda!",
@@ -430,6 +430,30 @@ function crear_tienda() {
     showLoaderOnConfirm: true,
     preConfirm: async () => {
       var nombre_tienda = $("#nombre_tienda").val();
+
+      // Muestra mensajes cada 10 segundos durante 1 minuto
+      const mensajes = [
+        "Esto tardará unos minutos",
+        "Se está creando su banner",
+        "Estamos configurando su tienda",
+        "Preparando todo para usted",
+        "Últimos ajustes, casi listo"
+      ];
+
+      let mensajeIndex = 0;
+
+      const intervalId = setInterval(() => {
+        if (mensajeIndex < mensajes.length) {
+          Swal.getContent().querySelector('div').innerText = mensajes[mensajeIndex];
+          mensajeIndex++;
+        }
+      }, 10000); // 10 segundos
+
+      // Espera 1 minuto (60 segundos)
+      await new Promise(resolve => setTimeout(resolve, 60000));
+
+      // Limpia el intervalo después de 1 minuto
+      clearInterval(intervalId);
 
       let formData = new FormData();
       formData.append("nombre", nombre_tienda);
