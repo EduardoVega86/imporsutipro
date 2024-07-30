@@ -786,18 +786,32 @@ ON
             mkdir($direccion, 0777, true);
         }
 
-        // Clonar el repositorio de GitHub utilizando exec
-        $cloneCommand = "git clone $repositoryUrl $direccion";
-        echo "Ejecutando comando: $cloneCommand\n";
-        exec($cloneCommand, $output, $return_var);
+        // Clonar el repositorio de GitHub usando cPanel API
+        $apiUrl = $cpanelUrl . "execute/VersionControl/create";
+        $postFields = [
+            'type' => 'git',
+            'name' => $repositoryName,
+            'repository_root' => $direccion,
+            'source_repository' => $repositoryUrl,
+            'branch' => 'main', // Asegúrate de especificar la rama correcta
+        ];
 
-        // Mostrar salida y estado del comando de clonación
-        echo "Salida del comando de clonación:\n";
-        print_r($output);
-        echo "Estado del comando de clonación: $return_var\n";
+        // Verifica que el método `cpanelRequest` esté definido y maneja errores
+        if (method_exists($this, 'cpanelRequest')) {
+            echo "Enviando solicitud a la API de cPanel...\n";
+            $response = $this->cpanelRequest($apiUrl, $cpanelUsername, $cpanelPassword, http_build_query($postFields));
 
-        if ($return_var !== 0) {
-            throw new Exception("Error al clonar el repositorio de GitHub. Código de retorno: $return_var");
+            // Depuración: Mostrar la respuesta de la API
+            echo "Respuesta de la API de clonación:\n";
+            print_r($response);
+
+            if ($response === false || isset($response['errors'])) {
+                throw new Exception("Error al clonar el repositorio de GitHub.");
+            } else {
+                echo "Repositorio clonado con éxito.\n";
+            }
+        } else {
+            throw new Exception("El método cpanelRequest no está definido.");
         }
 
         // Depuración: Listar los archivos en el directorio clonado
@@ -856,7 +870,6 @@ ON
         }
     }
 
-
     public function cpanelRequest($url, $username, $password, $postFields = null)
     {
         global $verificador;
@@ -874,9 +887,12 @@ ON
             echo 'Error en la solicitud cURL: ' . curl_error($ch);
         } else {
             $responseData = json_decode($response, true);
+            return $responseData;
         }
         curl_close($ch);
+        return false;
     }
+
 
     public function cambiarcolortienda($campo, $valor, $plataforma)
     {
