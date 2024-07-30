@@ -803,11 +803,19 @@ ON
             echo "Enviando solicitud a la API de cPanel...\n";
             $response = $this->cpanelRequest($apiUrl, $cpanelUsername, $cpanelPassword, http_build_query($postFields));
 
-            if ($response === false || isset($response['errors'])) {
-                throw new Exception("Error al clonar el repositorio de GitHub.");
-            } else {
-                echo "Repositorio clonado con éxito.\n";
+            // Mejor manejo de errores y depuración
+            if ($response === false) {
+                throw new Exception("Error al realizar la solicitud cURL.");
             }
+            if (isset($response['errors']) && !empty($response['errors'])) {
+                echo "Errores de la API de cPanel:\n";
+                print_r($response['errors']);
+                throw new Exception("Error al clonar el repositorio de GitHub: " . implode(', ', $response['errors']));
+            }
+            if ($response['status'] === 0) {
+                throw new Exception("Error al clonar el repositorio de GitHub. Estado: " . $response['status']);
+            }
+            echo "Repositorio clonado con éxito.\n";
         } else {
             throw new Exception("El método cpanelRequest no está definido.");
         }
@@ -888,6 +896,7 @@ ON
         curl_close($ch);
         return false;
     }
+
 
 
 
