@@ -417,7 +417,13 @@ class AccesoModel extends Query
 
 
             return $response;
+        } else {
+            $response = $this->initialResponse();
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error de reCAPTCHA: no válido o puntuación baja';
         }
+        return $response;
     }
 
     public function cambiarContrasena($token, $contrasena)
