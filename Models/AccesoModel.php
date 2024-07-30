@@ -373,19 +373,29 @@ class AccesoModel extends Query
         $accessToken = $this->getRecaptchaAccessToken();
 
         // Validar el token de reCAPTCHA
-        $recaptchaResponse = file_get_contents("https://recaptchaenterprise.googleapis.com/v1/projects/imporsuit-1722355326478/assessments?key=$accessToken", false, stream_context_create([
-            'http' => [
-                'method' => 'POST',
-                'header' => 'Content-Type: application/json',
-                'content' => json_encode([
-                    'event' => [
-                        'token' => $recaptchaToken,
-                        'siteKey' => '6Lf3xBoqAAAAAKI2IDD9XVlu_DSb8uTuUc1Sooa1',
-                        'expectedAction' => 'RECOVER_PASSWORD'
-                    ]
-                ])
+        $url = "https://recaptchaenterprise.googleapis.com/v1/projects/imporsuit-1722355326478/assessments?key=$accessToken";
+        $data = [
+            'event' => [
+                'token' => $recaptchaToken,
+                'siteKey' => '6Lf3xBoqAAAAAKI2IDD9XVlu_DSb8uTuUc1Sooa1',
+                'expectedAction' => 'RECOVER_PASSWORD'
             ]
-        ]));
+        ];
+
+        $options = [
+            'http' => [
+                'header'  => "Content-Type: application/json\r\n",
+                'method'  => 'POST',
+                'content' => json_encode($data),
+            ],
+        ];
+        $context  = stream_context_create($options);
+        $recaptchaResponse = file_get_contents($url, false, $context);
+
+        if ($recaptchaResponse === FALSE) {
+            die('Error');
+        }
+
         $recaptchaResult = json_decode($recaptchaResponse, true);
 
         if ($recaptchaResult['tokenProperties']['valid'] && $recaptchaResult['riskAnalysis']['score'] > 0.5) {
