@@ -420,11 +420,11 @@ window.addEventListener("load", async () => {
 
 function crear_tienda() {
   Swal.fire({
-    title: "¿Estás seguro?",
-    text: "¡Se actualizará el sistema!",
+    title: "¿Estás seguro del nombre de tu tienda?",
+    text: "¡No se podra cambiar el nombre de tu tienda en un futuro!",
     icon: "warning",
     showCancelButton: true,
-    confirmButtonText: "¡Sí, actualizar!",
+    confirmButtonText: "¡Sí, Crear tienda!",
     cancelButtonText: "¡No, cancelar!",
     reverseButtons: true,
     showLoaderOnConfirm: true,
