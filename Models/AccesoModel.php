@@ -421,15 +421,4 @@ class AccesoModel extends Query
         }
         return $response;
     }
-
-    public function validarRefiere($id)
-    {
-        $sql = "SELECT * FROM plataformas WHERE token_referido = ?";
-        $params = [$id];
-        $result = $this->simple_select($sql, $params);
-        if ($result > 0) {
-            return true;
-        }
-        return false;
-    }
 }
