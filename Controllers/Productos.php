@@ -85,6 +85,13 @@ class Productos extends Controller
 
         $this->views->render($this, "landing", $existe_producto);
     }
+    
+     public function landingTienda($id)
+    {
+        $existe_producto = $this->model->verificarProducto($id);
+
+        $this->views->render($this, "landing", $existe_producto);
+    }
 
 
 
@@ -627,10 +634,22 @@ class Productos extends Controller
         $response = $this->model->verificarProducto($id);
         echo json_encode($response);
     }
+    
+    public function verificarProductoTienda($id)
+    {
+        $response = $this->model->verificarProducto($id);
+        echo json_encode($response);
+    }
 
     public function existeLanding($id)
     {
         $response = $this->model->existeLanding($id);
+        echo json_encode($response);
+    }
+    
+     public function existeLandingTienda($id)
+    {
+        $response = $this->model->existeLandingTienda($id);
         echo json_encode($response);
     }
 }
