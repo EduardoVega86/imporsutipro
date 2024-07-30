@@ -79,7 +79,9 @@ class Acceso extends Controller
     public function recuperar_contrasena()
     {
         $correo = $_POST['correo'];
-        $response = $this->model->recuperar_contrasena($correo);
+        $recaptchaToken = $_POST['recaptchaToken'];
+
+        $response = $this->model->recuperar_contrasena($correo, $recaptchaToken);
         echo json_encode($response);
     }
 
