@@ -421,7 +421,7 @@ window.addEventListener("load", async () => {
 function crear_tienda() {
   Swal.fire({
     title: "¿Estás seguro del nombre de tu tienda?",
-    text: "¡No se podrá cambiar el nombre de tu tienda en un futuro!",
+    html: "<p>¡No se podrá cambiar el nombre de tu tienda en un futuro!</p><p id='mensaje-informativo'></p>",
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: "¡Sí, Crear tienda!",
@@ -431,13 +431,32 @@ function crear_tienda() {
     preConfirm: async () => {
       var nombre_tienda = $("#nombre_tienda").val();
 
-      // Muestra mensajes cada 10 segundos durante 1 minuto
+      // Muestra mensajes cada 10 segundos durante 4 minutos
       const mensajes = [
         "Esto tardará unos minutos",
         "Se está creando su banner",
         "Estamos configurando su tienda",
         "Preparando todo para usted",
         "Últimos ajustes, casi listo",
+        "Esto tardará unos minutos",
+        "Se está creando su banner",
+        "Estamos configurando su tienda",
+        "Preparando todo para usted",
+        "Últimos ajustes, casi listo",
+        "Esto tardará unos minutos",
+        "Se está creando su banner",
+        "Estamos configurando su tienda",
+        "Preparando todo para usted",
+        "Últimos ajustes, casi listo",
+        "Esto tardará unos minutos",
+        "Se está creando su banner",
+        "Estamos configurando su tienda",
+        "Preparando todo para usted",
+        "Últimos ajustes, casi listo",
+        "Gracias por su paciencia",
+        "Estamos finalizando el proceso",
+        "Su tienda está casi lista",
+        "Finalizando los últimos detalles",
       ];
 
       let mensajeIndex = 0;
@@ -445,16 +464,16 @@ function crear_tienda() {
       const intervalId = setInterval(() => {
         if (mensajeIndex < mensajes.length) {
           Swal.update({
-            text: mensajes[mensajeIndex],
+            html: `<p>¡No se podrá cambiar el nombre de tu tienda en un futuro!</p><p id='mensaje-informativo'>${mensajes[mensajeIndex]}</p>`,
           });
           mensajeIndex++;
         }
       }, 10000); // 10 segundos
 
-      // Espera 1 minuto (60 segundos)
-      await new Promise((resolve) => setTimeout(resolve, 120000));
+      // Espera 4 minutos (240 segundos)
+      await new Promise((resolve) => setTimeout(resolve, 240000));
 
-      // Limpia el intervalo después de 1 minuto
+      // Limpia el intervalo después de 4 minutos
       clearInterval(intervalId);
 
       let formData = new FormData();
@@ -489,6 +508,13 @@ function crear_tienda() {
         },
       });
     },
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.update({
+        showConfirmButton: false,
+        showCancelButton: false,
+      });
+    }
   });
 }
 
