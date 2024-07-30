@@ -432,7 +432,6 @@ function crear_tienda() {
     contentType: false, // No establecer ningún tipo de contenido
     dataType: "json",
     success: function (response) {
-      
       console.log("1"+response.status);
       response= JSON.parse(response);
       console.log("2"+response.status);
