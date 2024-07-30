@@ -430,7 +430,20 @@ function crear_tienda() {
     data: formData,
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
-    success: function (response) {},
+    dataType: "json",
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("LA IMAGEN NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+
+        location.reload();
+      }
+    },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
     },
