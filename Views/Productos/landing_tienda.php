@@ -168,7 +168,7 @@ if ($data == 0) {
                     formData.append('id_producto', id_producto);
 
                     $.ajax({
-                        url: 'https://imagenes.imporsuitpro.com/landing', // Cambia esta URL al script PHP que manejará la subida del archivo
+                        url: 'https://imagenes.imporsuitpro.com/landingTienda', // Cambia esta URL al script PHP que manejará la subida del archivo
                         method: 'POST',
                         data: formData,
                         contentType: false,
@@ -220,7 +220,7 @@ if ($data == 0) {
                     formData.append('id_producto', id_producto);
 
                     $.ajax({
-                        url: 'https://imagenes.imporsuitpro.com/editarLanding', // Cambia esta URL al script PHP que manejará la subida del archivo
+                        url: 'https://imagenes.imporsuitpro.com/editarLandingTienda', // Cambia esta URL al script PHP que manejará la subida del archivo
                         method: 'POST',
                         data: formData,
                         contentType: false,

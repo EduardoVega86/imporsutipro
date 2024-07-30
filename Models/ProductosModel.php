@@ -879,7 +879,7 @@ WHERE b.id_plataforma = $plataforma";
          $landing = $this->select($sql);
         $landing = $landing[0]['landig_tienda'];
         
-    if($landing=='' || ($landing)) {
+    if($landing=='') {
             return 0;
         } else {
             return 1;
