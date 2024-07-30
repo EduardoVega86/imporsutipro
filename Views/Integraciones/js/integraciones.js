@@ -9,7 +9,11 @@ function abrirmodal_facebook() {
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
-      $("#script_facebook").val(response[0].pixel);
+      if (response == 0){
+        $("#id_estado_facebook").val(0);
+      }else{
+        $("#id_estado_facebook").val(1);
+      }
       $("#conectar_facebookModal").modal("show");
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -29,7 +33,11 @@ function abrirmodal_tiktok() {
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
-      $("#script_tiktok").val(response[0].pixel);
+        if (response == 0){
+            $("#id_estado_tiktok").val(0);
+          }else{
+            $("#id_estado_tiktok").val(1);
+          }
       $("#conectar_tiktokModal").modal("show");
     },
     error: function (jqXHR, textStatus, errorThrown) {
