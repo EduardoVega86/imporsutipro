@@ -786,7 +786,7 @@ ON
             'name' => $repositoryName,
             'repository_root' => "/home/$cpanelUsername/public_html/$nombre_tienda",
             'source_repository' => json_encode([
-                "branch" => "main",
+                "branch" => "origin",
                 "url" => $repositoryUrl
             ]),
             'checkout' => 1,
@@ -806,10 +806,24 @@ ON
                 // Depuración: Mostrar la respuesta de la API
                 echo "Respuesta de la API de clonación:\n";
                 print_r($response);
+
+                // Verificar si hay errores en la respuesta
+                if (isset($response['errors']) && !empty($response['errors'])) {
+                    echo "Errores de la API:\n";
+                    print_r($response['errors']);
+                    throw new Exception("Errores durante la clonación del repositorio.");
+                }
             }
         } else {
             throw new Exception("El método cpanelRequest no está definido.");
         }
+
+        $direccion = "/home/$cpanelUsername/public_html/$nombre_tienda";
+
+        // Depuración: Listar los archivos en el directorio clonado
+        echo "Contenido del directorio $direccion:\n";
+        $files = scandir($direccion);
+        print_r($files);
 
         // Crear subdominio
         $apiUrl = $cpanelUrl . 'execute/SubDomain/addsubdomain?domain=' . $nombre_tienda . '&rootdomain=' . $rootdomain;
@@ -817,8 +831,6 @@ ON
         if ($response === false) {
             throw new Exception("Error al crear el subdominio.");
         } else {
-
-            $direccion = "/home/$cpanelUsername/public_html/$nombre_tienda";
             $file = $direccion . '/Config/Config.php';
 
             // Depuración: Verificar la existencia del directorio y sus permisos
