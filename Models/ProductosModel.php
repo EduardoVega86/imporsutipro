@@ -851,6 +851,17 @@ WHERE b.id_plataforma = $plataforma";
         }
     }
 
+    public function verificarProductoTienda($id)
+    {
+        $sql = "SELECT * FROM `productos_tienda` WHERE id_producto_tienda = $id";
+        $response =  $this->select($sql);
+        if (empty($response)) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+    
     public function existeLanding($id)
     {
         $sql = "SELECT * FROM `landing` WHERE id_producto = $id";
