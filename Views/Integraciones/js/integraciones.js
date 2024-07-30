@@ -8,6 +8,7 @@ function abrirmodal_facebook() {
     data: formData,
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
+    dataType: "json",
     success: function (response) {
       if (response == 0){
         $("#id_estado_facebook").val(0);
