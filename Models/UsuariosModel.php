@@ -792,14 +792,20 @@ ON
             'checkout' => 1,
         ];
 
-        $direccion = "/home/$cpanelUsername/public_html/$nombre_tienda";
-        $url_repositorio = "/home/$cpanelUsername/public_html/$nombre_tienda";
+        // Depuración: Mostrar los detalles de la solicitud
+        echo "URL de API: $apiUrl\n";
+        echo "Campos de POST:\n";
+        print_r($postFields);
 
         // Verifica que el método `cpanelRequest` esté definido y maneja errores
         if (method_exists($this, 'cpanelRequest')) {
             $response = $this->cpanelRequest($apiUrl, $cpanelUsername, $cpanelPassword, http_build_query($postFields));
             if ($response === false) {
                 throw new Exception("Error al clonar el repositorio de GitHub.");
+            } else {
+                // Depuración: Mostrar la respuesta de la API
+                echo "Respuesta de la API de clonación:\n";
+                print_r($response);
             }
         } else {
             throw new Exception("El método cpanelRequest no está definido.");
@@ -812,35 +818,49 @@ ON
             throw new Exception("Error al crear el subdominio.");
         } else {
 
+            $direccion = "/home/$cpanelUsername/public_html/$nombre_tienda";
             $file = $direccion . '/Config/Config.php';
-            //echo $file;
-            // Verifica si el archivo existe antes de intentar leerlo
-            if (file_exists($file)) {
-                // Lee el contenido del archivo
-                $content = file_get_contents($file);
 
-                // Reemplaza el texto específico
-                $newContent = str_replace('tony', $nombre_tienda, $content);
-
-                // Escribe el contenido modificado de nuevo en el archivo
-                file_put_contents($file, $newContent);
-
-                $url_tienda = 'https://' . $nombre_tienda . '.imporsuitpro.com';
-
-                $sql = " UPDATE `plataformas` SET `url_imporsuit` =?, `tienda_creada` =? , `nombre_tienda` =?  WHERE `id_plataforma` = ?";
-                $data = [$url_tienda, 1, $nombre_tienda,  $plataforma];
-                $editar_producto = $this->update($sql, $data);
-                print_r($editar_producto);
-                if ($editar_producto == 1) {
-                    $responses = array('status' => 200, 'title' => 'Peticion exitosa', 'message' => 'Contraseña actualizada correctamente');
-                } else {
-                    $responses = array('status' => 500, 'title' => 'Error', 'message' => $editar_producto['message']);
-                }
-
-                echo "El archivo ha sido actualizado.";
+            // Depuración: Verificar la existencia del directorio y sus permisos
+            if (!file_exists($direccion)) {
+                throw new Exception("El directorio $direccion no existe.");
+            } elseif (!is_readable($direccion)) {
+                throw new Exception("El directorio $direccion no es accesible.");
             } else {
-                echo "El archivo config.php no se encuentra en la carpeta config.";
+                echo "El directorio existe y es accesible.\n";
             }
+
+            // Depuración: Verificar la existencia del archivo y sus permisos
+            if (!file_exists($file)) {
+                throw new Exception("El archivo $file no existe.");
+            } elseif (!is_readable($file)) {
+                throw new Exception("El archivo $file no es accesible.");
+            } else {
+                echo "El archivo existe y es accesible.\n";
+            }
+
+            // Lee el contenido del archivo
+            $content = file_get_contents($file);
+
+            // Reemplaza el texto específico
+            $newContent = str_replace('tony', $nombre_tienda, $content);
+
+            // Escribe el contenido modificado de nuevo en el archivo
+            file_put_contents($file, $newContent);
+
+            $url_tienda = 'https://' . $nombre_tienda . '.imporsuitpro.com';
+
+            $sql = "UPDATE `plataformas` SET `url_imporsuit` = ?, `tienda_creada` = ?, `nombre_tienda` = ? WHERE `id_plataforma` = ?";
+            $data = [$url_tienda, 1, $nombre_tienda, $plataforma];
+            $editar_producto = $this->update($sql, $data);
+            print_r($editar_producto);
+            if ($editar_producto == 1) {
+                $responses = array('status' => 200, 'title' => 'Peticion exitosa', 'message' => 'Contraseña actualizada correctamente');
+            } else {
+                $responses = array('status' => 500, 'title' => 'Error', 'message' => $editar_producto['message']);
+            }
+
+            echo "El archivo ha sido actualizado.";
         }
     }
 
