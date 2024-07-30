@@ -13,8 +13,8 @@ if ($rute == "registro") {
     $rute = "Home/login";
 } else if ($rute == "recovery") {
     $rute = "Acceso/recovery";
-} else if ($rute == "refers") {
-    $rute = "Home/refers";
+} else if (strpos($rute, "refers") === 0) {
+    $rute = str_replace("refers", "Home/refers", $rute);
 }
 $array = explode('/', $rute);
 $controller = $array[0];
