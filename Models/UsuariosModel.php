@@ -786,7 +786,7 @@ ON
             'name' => $repositoryName,
             'repository_root' => "/home/$cpanelUsername/public_html/$nombre_tienda",
             'source_repository' => json_encode([
-                "branch" => "origin",
+                "branch" => "main",
                 "url" => $repositoryUrl
             ]),
             'checkout' => 1,
