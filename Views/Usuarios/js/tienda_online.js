@@ -421,7 +421,7 @@ window.addEventListener("load", async () => {
 function crear_tienda() {
   Swal.fire({
     title: "¿Estás seguro del nombre de tu tienda?",
-    html: "<p>¡No se podrá cambiar el nombre de tu tienda en un futuro!</p><p id='mensaje-informativo'></p>",
+    html: "<p>¡No se podrá cambiar el nombre de tu tienda en un futuro!</p><p id='mensaje-informativo'></p><div class='loader'></div>",
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: "¡Sí, Crear tienda!",
@@ -469,7 +469,7 @@ function crear_tienda() {
       const updateMessage = () => {
         if (mensajeIndex < mensajes.length) {
           Swal.update({
-            html: `<p>¡No se podrá cambiar el nombre de tu tienda en un futuro!</p><p id='mensaje-informativo'>${mensajes[mensajeIndex]}</p>`,
+            html: `<p>¡No se podrá cambiar el nombre de tu tienda en un futuro!</p><p id='mensaje-informativo'>${mensajes[mensajeIndex]}</p><div class='loader'></div>`,
           });
           mensajeIndex++;
         }
