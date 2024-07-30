@@ -374,7 +374,7 @@ class AccesoModel extends Query
 
 
         // Validar el token de reCAPTCHA
-        $url = "https://recaptchaenterprise.googleapis.com/v1/projects/imporsuit-1722355326478/assessments?key=$accessToken";
+        $url = "https://recaptchaenterprise.googleapis.com/v1/projects/imporsuit-1722355326478/assessments?key=AIzaSyC1HNIMTEQLLIYN67z0ECyA8ygz0_Nd0_Q";
         $data = [
             'event' => [
                 'token' => $recaptchaToken,
