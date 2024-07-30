@@ -781,10 +781,13 @@ ON
 
         $direccion = "/home/$cpanelUsername/public_html/$nombre_tienda";
 
-        // Crear el directorio si no existe
-        if (!file_exists($direccion)) {
-            mkdir($direccion, 0777, true);
+        // Eliminar el directorio si ya existe y está bajo control de versiones
+        if (file_exists($direccion)) {
+            $this->deleteDirectory($direccion);
         }
+
+        // Crear el directorio
+        mkdir($direccion, 0777, true);
 
         // Clonar el repositorio de GitHub usando cPanel API
         $apiUrl = $cpanelUrl . "execute/VersionControl/create";
@@ -874,6 +877,25 @@ ON
         }
     }
 
+    private function deleteDirectory($dir)
+    {
+        if (!file_exists($dir)) {
+            return true;
+        }
+        if (!is_dir($dir)) {
+            return unlink($dir);
+        }
+        foreach (scandir($dir) as $item) {
+            if ($item == '.' || $item == '..') {
+                continue;
+            }
+            if (!$this->deleteDirectory($dir . DIRECTORY_SEPARATOR . $item)) {
+                return false;
+            }
+        }
+        return rmdir($dir);
+    }
+
     public function cpanelRequest($url, $username, $password, $postFields = null)
     {
         global $verificador;
@@ -896,6 +918,7 @@ ON
         curl_close($ch);
         return false;
     }
+
 
 
 
