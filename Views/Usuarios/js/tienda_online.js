@@ -505,7 +505,7 @@ function crear_tienda() {
             Swal.showValidationMessage(`Request failed: ${errorThrown}`);
           }
         )
-        .finally(() => {
+        .always(() => {
           // Recargar la página después de que termine el tiempo de carga y la API haya respondido
           location.reload();
         });
