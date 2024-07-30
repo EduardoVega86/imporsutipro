@@ -359,6 +359,7 @@ class AccesoModel extends Query
         $recaptchaSecret = '6Lf3xBoqAAAAAKI2IDD9XVlu_DSb8uTuUc1Sooa1'; // Sustituye con tu clave secreta de reCAPTCHA
 
         $recaptchaResponse = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=$recaptchaSecret&response=$recaptchaToken");
+        print_r($recaptchaResponse);
         $recaptchaResult = json_decode($recaptchaResponse, true);
         if ($recaptchaResult['success'] && $recaptchaResult['score'] > 0.5) {
             $usuario = $this->select("SELECT * FROM users WHERE email_users = '$correo'");
