@@ -419,33 +419,49 @@ window.addEventListener("load", async () => {
 });
 
 function crear_tienda() {
-  var nombre_tienda = $("#nombre_tienda").val();
+  Swal.fire({
+    title: "¿Estás seguro?",
+    text: "¡Se actualizará el sistema!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "¡Sí, actualizar!",
+    cancelButtonText: "¡No, cancelar!",
+    reverseButtons: true,
+    showLoaderOnConfirm: true,
+    preConfirm: async () => {
+      var nombre_tienda = $("#nombre_tienda").val();
 
-  let formData = new FormData();
-  formData.append("nombre", nombre_tienda); // Añadir el SKU al FormData
+      let formData = new FormData();
+      formData.append("nombre", nombre_tienda);
 
-  $.ajax({
-    url: SERVERURL + "Usuarios/registro",
-    type: "POST",
-    data: formData,
-    processData: false, // No procesar los datos
-    contentType: false, // No establecer ningún tipo de contenido
-    dataType: "json",
-    success: function (response) {
-      if (response.status == 500) {
-        toastr.error("LA IMAGEN NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-      } else if (response.status == 200) {
-        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
+      return $.ajax({
+        url: SERVERURL + "Usuarios/registro",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: "json",
+        success: function (response) {
+          if (response.status == 500) {
+            toastr.error(
+              "LA IMAGEN NO SE AGREGÓ CORRECTAMENTE",
+              "NOTIFICACIÓN",
+              {
+                positionClass: "toast-bottom-center",
+              }
+            );
+          } else if (response.status == 200) {
+            toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+              positionClass: "toast-bottom-center",
+            });
 
-        location.reload();
-      }
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      alert(errorThrown);
+            location.reload();
+          }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          Swal.showValidationMessage(`Request failed: ${errorThrown}`);
+        },
+      });
     },
   });
 }
