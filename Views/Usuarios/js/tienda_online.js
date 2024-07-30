@@ -437,20 +437,22 @@ function crear_tienda() {
         "Se está creando su banner",
         "Estamos configurando su tienda",
         "Preparando todo para usted",
-        "Últimos ajustes, casi listo"
+        "Últimos ajustes, casi listo",
       ];
 
       let mensajeIndex = 0;
 
       const intervalId = setInterval(() => {
         if (mensajeIndex < mensajes.length) {
-          Swal.getContent().querySelector('div').innerText = mensajes[mensajeIndex];
+          Swal.update({
+            text: mensajes[mensajeIndex],
+          });
           mensajeIndex++;
         }
-      }, 10000); // 10 segundos
+      }, 20000); // 10 segundos
 
       // Espera 1 minuto (60 segundos)
-      await new Promise(resolve => setTimeout(resolve, 60000));
+      await new Promise((resolve) => setTimeout(resolve, 60000));
 
       // Limpia el intervalo después de 1 minuto
       clearInterval(intervalId);
