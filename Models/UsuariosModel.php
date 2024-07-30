@@ -802,6 +802,8 @@ ON
             $response = $this->cpanelRequest($apiUrl, $cpanelUsername, $cpanelPassword, http_build_query($postFields));
 
             // Depuración: Verificar la respuesta de la API
+            error_log("Respuesta de cPanel API para clonar el repositorio: " . json_encode($response));
+
             if ($response === false) {
                 throw new Exception("Error al clonar el repositorio de GitHub: La solicitud cURL falló.");
             } elseif (isset($response['errors'])) {
@@ -883,8 +885,6 @@ ON
         curl_close($ch);
         return false;
     }
-
-
 
 
     public function cambiarcolortienda($campo, $valor, $plataforma)
