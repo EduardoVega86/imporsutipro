@@ -100,6 +100,7 @@ function estado_tiktok() {
 }
 
 $(document).ready(function () {
+  console.log("hola");
   estado_facebook();
   estado_tiktok();
 
