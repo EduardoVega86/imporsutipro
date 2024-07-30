@@ -781,13 +781,10 @@ ON
 
         $direccion = "/home/$cpanelUsername/public_html/$nombre_tienda";
 
-        // Eliminar el directorio si ya existe y está bajo control de versiones
-        if (file_exists($direccion)) {
-            $this->deleteDirectory($direccion);
+        // Crear el directorio si no existe
+        if (!file_exists($direccion)) {
+            mkdir($direccion, 0777, true);
         }
-
-        // Crear el directorio
-        mkdir($direccion, 0777, true);
 
         // Clonar el repositorio de GitHub usando cPanel API
         $apiUrl = $cpanelUrl . "execute/VersionControl/create";
@@ -806,25 +803,23 @@ ON
             echo "Enviando solicitud a la API de cPanel...\n";
             $response = $this->cpanelRequest($apiUrl, $cpanelUsername, $cpanelPassword, http_build_query($postFields));
 
-            // Mejor manejo de errores y depuración
-            if ($response === false) {
-                throw new Exception("Error al realizar la solicitud cURL.");
+            // Depuración: Mostrar la respuesta de la API
+            echo "Respuesta de la API de clonación:\n";
+            print_r($response);
+
+            if ($response === false || isset($response['errors'])) {
+                throw new Exception("Error al clonar el repositorio de GitHub.");
+            } else {
+                echo "Repositorio clonado con éxito.\n";
             }
-            if (isset($response['errors']) && !empty($response['errors'])) {
-                echo "Errores de la API de cPanel:\n";
-                print_r($response['errors']);
-                throw new Exception("Error al clonar el repositorio de GitHub: " . implode(', ', $response['errors']));
-            }
-            if ($response['status'] === 0) {
-                throw new Exception("Error al clonar el repositorio de GitHub. Estado: " . $response['status']);
-            }
-            echo "Repositorio clonado con éxito.\n";
         } else {
             throw new Exception("El método cpanelRequest no está definido.");
         }
 
         // Depuración: Listar los archivos en el directorio clonado
+        echo "Contenido del directorio $direccion:\n";
         $files = scandir($direccion);
+        print_r($files);
 
         // Crear subdominio
         $apiUrl = $cpanelUrl . 'execute/SubDomain/addsubdomain?domain=' . $nombre_tienda . '&rootdomain=' . $rootdomain;
@@ -868,32 +863,13 @@ ON
             $editar_producto = $this->update($sql, $data);
             print_r($editar_producto);
             if ($editar_producto == 1) {
-                $responses = array('status' => 200, 'title' => 'Peticion exitosa', 'message' => 'Tienda creada correctamente');
+                $responses = array('status' => 200, 'title' => 'Peticion exitosa', 'message' => 'Contraseña actualizada correctamente');
             } else {
                 $responses = array('status' => 500, 'title' => 'Error', 'message' => $editar_producto['message']);
             }
 
-            return $responses;
+            echo "El archivo ha sido actualizado.";
         }
-    }
-
-    private function deleteDirectory($dir)
-    {
-        if (!file_exists($dir)) {
-            return true;
-        }
-        if (!is_dir($dir)) {
-            return unlink($dir);
-        }
-        foreach (scandir($dir) as $item) {
-            if ($item == '.' || $item == '..') {
-                continue;
-            }
-            if (!$this->deleteDirectory($dir . DIRECTORY_SEPARATOR . $item)) {
-                return false;
-            }
-        }
-        return rmdir($dir);
     }
 
     public function cpanelRequest($url, $username, $password, $postFields = null)
@@ -918,8 +894,6 @@ ON
         curl_close($ch);
         return false;
     }
-
-
 
 
 
