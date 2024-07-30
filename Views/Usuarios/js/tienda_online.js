@@ -433,7 +433,7 @@ function crear_tienda() {
 
       // Muestra mensajes cada 10 segundos durante 4 minutos
       const mensajes = [
-        "Esto tardará unos minutos",
+        "Esto tardará 4 minutos aproximadamente",
         "Se está creando su banner",
         "Estamos configurando su tienda",
         "Preparando todo para usted",
