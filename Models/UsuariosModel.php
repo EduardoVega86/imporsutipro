@@ -779,46 +779,26 @@ ON
         $repositoryUrl = "https://github.com/DesarrolloImporfactory/tienda";
         $repositoryName = "tienda";
 
-        // Clonar el repositorio de GitHub
-        $apiUrl = $cpanelUrl . "execute/VersionControl/create";
-        $postFields = [
-            'type' => 'git',
-            'name' => $repositoryName,
-            'repository_root' => "/home/$cpanelUsername/public_html/$nombre_tienda",
-            'source_repository' => json_encode([
-                "branch" => "origin",
-                "url" => $repositoryUrl
-            ]),
-            'checkout' => 1,
-        ];
+        $direccion = "/home/$cpanelUsername/public_html/$nombre_tienda";
 
-        // Depuración: Mostrar los detalles de la solicitud
-        echo "URL de API: $apiUrl\n";
-        echo "Campos de POST:\n";
-        print_r($postFields);
-
-        // Verifica que el método `cpanelRequest` esté definido y maneja errores
-        if (method_exists($this, 'cpanelRequest')) {
-            $response = $this->cpanelRequest($apiUrl, $cpanelUsername, $cpanelPassword, http_build_query($postFields));
-            if ($response === false) {
-                throw new Exception("Error al clonar el repositorio de GitHub.");
-            } else {
-                // Depuración: Mostrar la respuesta de la API
-                echo "Respuesta de la API de clonación:\n";
-                print_r($response);
-
-                // Verificar si hay errores en la respuesta
-                if (isset($response['errors']) && !empty($response['errors'])) {
-                    echo "Errores de la API:\n";
-                    print_r($response['errors']);
-                    throw new Exception("Errores durante la clonación del repositorio.");
-                }
-            }
-        } else {
-            throw new Exception("El método cpanelRequest no está definido.");
+        // Crear el directorio si no existe
+        if (!file_exists($direccion)) {
+            mkdir($direccion, 0777, true);
         }
 
-        $direccion = "/home/$cpanelUsername/public_html/$nombre_tienda";
+        // Clonar el repositorio de GitHub utilizando exec
+        $cloneCommand = "git clone $repositoryUrl $direccion";
+        echo "Ejecutando comando: $cloneCommand\n";
+        exec($cloneCommand, $output, $return_var);
+
+        // Mostrar salida y estado del comando de clonación
+        echo "Salida del comando de clonación:\n";
+        print_r($output);
+        echo "Estado del comando de clonación: $return_var\n";
+
+        if ($return_var !== 0) {
+            throw new Exception("Error al clonar el repositorio de GitHub. Código de retorno: $return_var");
+        }
 
         // Depuración: Listar los archivos en el directorio clonado
         echo "Contenido del directorio $direccion:\n";
@@ -875,6 +855,7 @@ ON
             echo "El archivo ha sido actualizado.";
         }
     }
+
 
     public function cpanelRequest($url, $username, $password, $postFields = null)
     {
