@@ -44,9 +44,14 @@ class Home extends Controller
         $this->views->render($this, "pedidos_ingresados");
     }
 
-    public function referido()
+    public function refers($id)
     {
-        $this->views->render($this, "referido");
+        $ver = $this->model->validarRefiere($id);
+        if ($ver) {
+            $this->views->render($this, "refers");
+        } else {
+            $this->views->render($this, "refers_error");
+        }
     }
     ///Funciones
 }

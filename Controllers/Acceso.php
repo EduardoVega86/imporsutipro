@@ -11,9 +11,15 @@ class Acceso extends Controller
     {
         $this->views->render($this, "recovery");
     }
-
-
-
+    public function referido($id)
+    {
+        $ver = $this->model->validarRefiere($id);
+        if ($ver) {
+            $this->views->render($this, "referido");
+        } else {
+            $this->views->render($this, "referido_error");
+        }
+    }
 
     ///Funciones
     public function login()
