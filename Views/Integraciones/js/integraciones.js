@@ -13,6 +13,7 @@ function abrirmodal_facebook() {
         $("#id_estado_facebook").val(0);
       }else{
         $("#id_estado_facebook").val(1);
+        $("#script_facebook").val(response[0].pixel);
       }
       $("#conectar_facebookModal").modal("show");
     },
@@ -37,6 +38,8 @@ function abrirmodal_tiktok() {
             $("#id_estado_tiktok").val(0);
           }else{
             $("#id_estado_tiktok").val(1);
+
+            $("#script_tiktok").val(response[0].pixel);
           }
       $("#conectar_tiktokModal").modal("show");
     },
