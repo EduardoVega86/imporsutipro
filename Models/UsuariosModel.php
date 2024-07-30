@@ -803,10 +803,6 @@ ON
             echo "Enviando solicitud a la API de cPanel...\n";
             $response = $this->cpanelRequest($apiUrl, $cpanelUsername, $cpanelPassword, http_build_query($postFields));
 
-            // Depuración: Mostrar la respuesta de la API
-            echo "Respuesta de la API de clonación:\n";
-            print_r($response);
-
             if ($response === false || isset($response['errors'])) {
                 throw new Exception("Error al clonar el repositorio de GitHub.");
             } else {
@@ -817,9 +813,7 @@ ON
         }
 
         // Depuración: Listar los archivos en el directorio clonado
-        echo "Contenido del directorio $direccion:\n";
         $files = scandir($direccion);
-        print_r($files);
 
         // Crear subdominio
         $apiUrl = $cpanelUrl . 'execute/SubDomain/addsubdomain?domain=' . $nombre_tienda . '&rootdomain=' . $rootdomain;
@@ -863,12 +857,12 @@ ON
             $editar_producto = $this->update($sql, $data);
             print_r($editar_producto);
             if ($editar_producto == 1) {
-                $responses = array('status' => 200, 'title' => 'Peticion exitosa', 'message' => 'Contraseña actualizada correctamente');
+                $responses = array('status' => 200, 'title' => 'Peticion exitosa', 'message' => 'Tienda creada correctamente');
             } else {
                 $responses = array('status' => 500, 'title' => 'Error', 'message' => $editar_producto['message']);
             }
 
-            echo "El archivo ha sido actualizado.";
+            return $responses;
         }
     }
 
