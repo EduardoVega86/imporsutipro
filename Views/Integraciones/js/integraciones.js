@@ -100,7 +100,6 @@ function estado_tiktok() {
 }
 
 $(document).ready(function () {
-  console.log("hola");
   estado_facebook();
   estado_tiktok();
 
@@ -108,6 +107,7 @@ $(document).ready(function () {
   var estado_conectado_tiktok = $("#conectado_tiktok").val();
 
   //facebook
+  console.log("estado: "+estado_conectado_facebook);
   if (estado_conectado_facebook == 0) {
     $("#desconectarFacebook").show();
     $("#conectarFacebook").hide();
