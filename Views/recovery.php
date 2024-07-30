@@ -15,7 +15,9 @@
                 <label for="email">Restablecer contraseña</label>
                 <input type="text" class="form-control" id="email" placeholder="Email">
             </div>
-            <button type="button" class="btn btn-primary w-100" class="g-recaptcha" data-sitekey="6Lf3xBoqAAAAAKI2IDD9XVlu_DSb8uTuUc1Sooa1" data-callback='onSubmit' data-action='submit' id="sendEmailButton"> <box-icon name='envelope' color='#ffff' type='solid'></box-icon> Enviar correo</button>
+            <button type="button" class="btn btn-primary w-100" id="sendEmailButton">
+                <box-icon name='envelope' color='#ffff' type='solid'></box-icon> Enviar correo
+            </button>
             <a href="<?php echo SERVERURL ?>login" class="forgot-password">
                 <i class="fa-solid fa-arrow-left"></i> Volver
             </a>
