@@ -10,9 +10,9 @@ function abrirmodal_facebook() {
     contentType: false, // No establecer ningún tipo de contenido
     dataType: "json",
     success: function (response) {
-      if (response == 0){
+      if (response == 0) {
         $("#id_estado_facebook").val(0);
-      }else{
+      } else {
         $("#id_estado_facebook").val(1);
         console.log(response.pixel);
         console.log(response[0].pixel);
@@ -27,7 +27,7 @@ function abrirmodal_facebook() {
 }
 
 function abrirmodal_tiktok() {
-    let formData = new FormData();
+  let formData = new FormData();
   formData.append("tipo", 2); // Añadir el SKU al FormData
 
   $.ajax({
@@ -37,13 +37,13 @@ function abrirmodal_tiktok() {
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
-        if (response == 0){
-            $("#id_estado_tiktok").val(0);
-          }else{
-            $("#id_estado_tiktok").val(1);
+      if (response == 0) {
+        $("#id_estado_tiktok").val(0);
+      } else {
+        $("#id_estado_tiktok").val(1);
 
-            $("#script_tiktok").val(response[0].pixel);
-          }
+        $("#script_tiktok").val(response[0].pixel);
+      }
       $("#conectar_tiktokModal").modal("show");
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -51,3 +51,75 @@ function abrirmodal_tiktok() {
     },
   });
 }
+
+function estado_facebook() {
+  let formData = new FormData();
+  formData.append("tipo", 1); // Añadir el SKU al FormData
+
+  $.ajax({
+    url: SERVERURL + "tienda/obtenerPixel",
+    type: "POST", // Cambiar a POST para enviar FormData
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    dataType: "json",
+    success: function (response) {
+      if (response == 0) {
+        $("#conectado_facebook").val(0);
+      } else {
+        $("#conectado_facebook").val(1);
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+}
+
+function estado_tiktok() {
+  let formData = new FormData();
+  formData.append("tipo", 2); // Añadir el SKU al FormData
+
+  $.ajax({
+    url: SERVERURL + "tienda/obtenerPixel",
+    type: "POST", // Cambiar a POST para enviar FormData
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    success: function (response) {
+      if (response == 0) {
+        $("#conectado_tiktok").val(0);
+      } else {
+        $("#conectado_tiktok").val(1);
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+}
+
+$(document).ready(function () {
+  estado_facebook();
+  estado_tiktok();
+
+  var estado_conectado_facebook = $("#conectado_facebook").val();
+  var estado_conectado_tiktok = $("#conectado_tiktok").val();
+
+  //facebook
+  if (estado_conectado_facebook == 0) {
+    $("#desconectarFacebook").show();
+    $("#conectarFacebook").hide();
+  } else {
+    $("#conectarFacebook").show();
+    $("#desconectarFacebook").hide();
+  }
+  //tiktok
+  if (estado_conectado_tiktok == 0) {
+    $("#desconectarTiktok").show();
+    $("#conectarTiktok").hide();
+  } else {
+    $("#conectarTiktok").show();
+    $("#desconectarTiktok").hide();
+  }
+});

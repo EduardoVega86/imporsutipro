@@ -12,7 +12,14 @@
                 <img src="https://cdn.worldvectorlogo.com/logos/x-logo.svg" alt="Facebook Logo">
                 <h5 class="card-title">Facebook</h5>
                 <p class="card-text">Manten actualizadas tus campañas con nuestra api.</p>
-                <p class="status disconnected">Desconectado</p>
+                <input type="hidden" id="conectado_facebook" name="conectado_facebook">
+                <div id="conectarFacebook" style="display: none;">
+                    <p class="status connected">Conectado</p>
+                </div>
+                <div id="desconectarFacebook" style="display: none;">
+                    <p class="status disconnected">Desconectado</p>
+                </div>
+
                 <button class="btn btn-primary" onclick="abrirmodal_facebook()">Conectar</button>
             </div>
         </div>
@@ -23,7 +30,15 @@
                 <img src="https://cdn.worldvectorlogo.com/logos/tiktok-icon-1.svg" alt="TikTok Logo">
                 <h5 class="card-title">TikTok</h5>
                 <p class="card-text">Manten actualizadas tus campañas con nuestra api.</p>
-                <p class="status connected">Conectado</p>
+                <input type="hidden" id="conectado_tiktok" name="conectado_tiktok">
+
+                <div id="conectarTiktok" style="display: none;">
+                    <p class="status connected">Conectado</p>
+                </div>
+                <div id="desconectarTiktok" style="display: none;">
+                    <p class="status disconnected">Desconectado</p>
+                </div>
+
                 <button class="btn btn-primary" onclick="abrirmodal_tiktok()">Conectar</button>
             </div>
         </div>
