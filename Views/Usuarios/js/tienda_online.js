@@ -449,10 +449,10 @@ function crear_tienda() {
           });
           mensajeIndex++;
         }
-      }, 20000); // 10 segundos
+      }, 10000); // 10 segundos
 
       // Espera 1 minuto (60 segundos)
-      await new Promise((resolve) => setTimeout(resolve, 60000));
+      await new Promise((resolve) => setTimeout(resolve, 120000));
 
       // Limpia el intervalo después de 1 minuto
       clearInterval(intervalId);
