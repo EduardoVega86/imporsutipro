@@ -800,26 +800,19 @@ ON
 
         // Verifica que el método `cpanelRequest` esté definido y maneja errores
         if (method_exists($this, 'cpanelRequest')) {
-            echo "Enviando solicitud a la API de cPanel...\n";
+
             $response = $this->cpanelRequest($apiUrl, $cpanelUsername, $cpanelPassword, http_build_query($postFields));
 
-            // Depuración: Mostrar la respuesta de la API
-            echo "Respuesta de la API de clonación:\n";
-            print_r($response);
 
             if ($response === false || isset($response['errors'])) {
                 throw new Exception("Error al clonar el repositorio de GitHub.");
-            } else {
-                echo "Repositorio clonado con éxito.\n";
             }
         } else {
             throw new Exception("El método cpanelRequest no está definido.");
         }
 
         // Depuración: Listar los archivos en el directorio clonado
-        echo "Contenido del directorio $direccion:\n";
         $files = scandir($direccion);
-        print_r($files);
 
         // Crear subdominio
         $apiUrl = $cpanelUrl . 'execute/SubDomain/addsubdomain?domain=' . $nombre_tienda . '&rootdomain=' . $rootdomain;
@@ -834,8 +827,6 @@ ON
                 throw new Exception("El directorio $direccion no existe.");
             } elseif (!is_readable($direccion)) {
                 throw new Exception("El directorio $direccion no es accesible.");
-            } else {
-                echo "El directorio existe y es accesible.\n";
             }
 
             // Depuración: Verificar la existencia del archivo y sus permisos
@@ -843,8 +834,6 @@ ON
                 throw new Exception("El archivo $file no existe.");
             } elseif (!is_readable($file)) {
                 throw new Exception("El archivo $file no es accesible.");
-            } else {
-                echo "El archivo existe y es accesible.\n";
             }
 
             // Lee el contenido del archivo
@@ -861,14 +850,14 @@ ON
             $sql = "UPDATE `plataformas` SET `url_imporsuit` = ?, `tienda_creada` = ?, `nombre_tienda` = ? WHERE `id_plataforma` = ?";
             $data = [$url_tienda, 1, $nombre_tienda, $plataforma];
             $editar_producto = $this->update($sql, $data);
-            print_r($editar_producto);
+            
             if ($editar_producto == 1) {
                 $responses = array('status' => 200, 'title' => 'Peticion exitosa', 'message' => 'Contraseña actualizada correctamente');
             } else {
                 $responses = array('status' => 500, 'title' => 'Error', 'message' => $editar_producto['message']);
             }
 
-            echo "El archivo ha sido actualizado.";
+            return $responses;
         }
     }
 
