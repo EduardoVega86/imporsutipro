@@ -2,7 +2,10 @@
 require_once 'PHPMailer/PHPMailer.php';
 require_once 'PHPMailer/SMTP.php';
 require_once 'PHPMailer/Exception.php';
+require 'vendor/autoload.php'; // Asumiendo que estás usando Composer
 
+use Egulias\EmailValidator\EmailValidator;
+use Egulias\EmailValidator\Validation\RFCValidation;
 use PHPMailer\PHPMailer\PHPMailer;
 
 class AccesoModel extends Query
@@ -361,42 +364,50 @@ class AccesoModel extends Query
         $sql = "UPDATE users SET token_act = ?, estado_token = 1 WHERE email_users = ?";
         $data = [$token, $correo];
         $response = $this->update($sql, $data);
+        $validador = new EmailValidator();
+        if ($validador->isValid($correo, new RFCValidation())) {
 
-        if ($response == 1) {
-            $url_change = URL_MATRIZ . "/acceso/recovery/" . $token;
-            require_once 'PHPMailer/Mail_recuperar.php';
-            $mail = new PHPMailer();
-            $mail->isSMTP();
-            $mail->SMTPDebug = 3;
-            $mail->Host = $smtp_host;
-            $mail->SMTPAuth = true;
-            $mail->Username = $smtp_user;
-            $mail->Password = $smtp_pass;
-            $mail->Port = 465;
-            $mail->SMTPSecure = $smtp_secure;
-            $mail->isHTML(true);
-            $mail->CharSet = 'UTF-8';
-            $mail->setFrom($smtp_from, $smtp_from_name);
-            $mail->addAddress($correo);
-            $mail->Subject = 'Recuperación de contraseña';
-            $mail->Body =  $message_body;
-            if ($mail->send()) {
-                $response = $this->initialResponse();
-                $response['status'] = 200;
-                $response['title'] = 'Peticion exitosa';
-                $response['message'] = 'Correo enviado correctamente';
+            if ($response == 1) {
+                $url_change = URL_MATRIZ . "/acceso/recovery/" . $token;
+                require_once 'PHPMailer/Mail_recuperar.php';
+                $mail = new PHPMailer();
+                $mail->isSMTP();
+                $mail->SMTPDebug = 3;
+                $mail->Host = $smtp_host;
+                $mail->SMTPAuth = true;
+                $mail->Username = $smtp_user;
+                $mail->Password = $smtp_pass;
+                $mail->Port = 465;
+                $mail->SMTPSecure = $smtp_secure;
+                $mail->isHTML(true);
+                $mail->CharSet = 'UTF-8';
+                $mail->setFrom($smtp_from, $smtp_from_name);
+                $mail->addAddress($correo);
+                $mail->Subject = 'Recuperación de contraseña';
+                $mail->Body =  $message_body;
+                if ($mail->send()) {
+                    $response = $this->initialResponse();
+                    $response['status'] = 200;
+                    $response['title'] = 'Peticion exitosa';
+                    $response['message'] = 'Correo enviado correctamente';
+                } else {
+                    $response = $this->initialResponse();
+                    $response['status'] = 500;
+                    $response['title'] = 'Error';
+                    $response['message'] = 'Error al enviar el correo: ' . $mail->ErrorInfo;
+                    print_r($mail);
+                }
             } else {
                 $response = $this->initialResponse();
                 $response['status'] = 500;
                 $response['title'] = 'Error';
-                $response['message'] = 'Error al enviar el correo: ' . $mail->ErrorInfo;
-                print_r($mail);
+                $response['message'] = 'Error al actualizar el token';
             }
         } else {
             $response = $this->initialResponse();
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = 'Error al actualizar el token';
+            $response['message'] = 'El correo no es valido';
         }
 
 

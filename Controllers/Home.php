@@ -47,7 +47,6 @@ class Home extends Controller
     public function refers($id)
     {
         $ver = $this->model->validarRefiere($id);
-        echo $ver;
         if ($ver) {
             $this->views->render($this, "refers");
         } else {
