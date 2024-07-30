@@ -792,8 +792,10 @@ ON
             'type' => 'git',
             'name' => $repositoryName,
             'repository_root' => $direccion,
-            'source_repository' => $repositoryUrl,
-            'branch' => 'main', // Asegúrate de especificar la rama correcta
+            'source_repository' => json_encode([
+                "url" => $repositoryUrl,
+                "branch" => "main"
+            ]),
         ];
 
         // Verifica que el método `cpanelRequest` esté definido y maneja errores
@@ -892,6 +894,7 @@ ON
         curl_close($ch);
         return false;
     }
+
 
 
     public function cambiarcolortienda($campo, $valor, $plataforma)
