@@ -817,12 +817,9 @@ ON
         } else {
             $file = $direccion . '/Config/Config.php';
 
-            if (!file_exists($direccion) || !is_readable($direccion)) {
-                return array('status' => 500, 'title' => 'Error', 'message' => 'El directorio no existe o no es accesible.');
-            }
-
-            if (!file_exists($file) || !is_readable($file)) {
-                return array('status' => 500, 'title' => 'Error', 'message' => 'El archivo no existe o no es accesible.');
+            // Verificar y crear el archivo si no existe
+            if (!file_exists($file)) {
+                file_put_contents($file, "<?php\n// Configuración de la tienda\n");
             }
 
             // Lee el contenido del archivo
