@@ -102,9 +102,9 @@ function estado_tiktok() {
 $(document).ready(function () {
   estado_facebook();
   estado_tiktok();
-
-  var estado_conectado_facebook = $("#conectado_facebook").val();
-  var estado_conectado_tiktok = $("#conectado_tiktok").val();
+  
+  var estado_conectado_facebook = $('#conectado_facebook').val();
+  var estado_conectado_tiktok = $('#conectado_tiktok').val();
 
   //facebook
   console.log("estado: "+estado_conectado_facebook);
