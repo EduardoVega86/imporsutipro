@@ -367,7 +367,7 @@ class AccesoModel extends Query
             require_once 'PHPMailer/Mail_recuperar.php';
             $mail = new PHPMailer();
             $mail->isSMTP();
-            $mail->SMTPDebug = $smtp_debug;
+            $mail->SMTPDebug = 3;
             $mail->Host = $smtp_host;
             $mail->SMTPAuth = true;
             $mail->Username = $smtp_user;
@@ -390,6 +390,7 @@ class AccesoModel extends Query
                 $response['status'] = 500;
                 $response['title'] = 'Error';
                 $response['message'] = 'Error al enviar el correo: ' . $mail->ErrorInfo;
+                print_r($mail);
             }
         } else {
             $response = $this->initialResponse();
