@@ -429,26 +429,30 @@ function crear_tienda() {
     reverseButtons: true,
     showLoaderOnConfirm: true,
     preConfirm: async () => {
+      // Oculta los botones de confirmación y cancelación
+      Swal.update({
+        showConfirmButton: false,
+        showCancelButton: false,
+      });
+
       var nombre_tienda = $("#nombre_tienda").val();
 
-      // Muestra mensajes cada 10 segundos durante 4 minutos
+      // Inicia la llamada a la API inmediatamente
+      let formData = new FormData();
+      formData.append("nombre", nombre_tienda);
+
+      let apiCall = $.ajax({
+        url: SERVERURL + "Usuarios/registro",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: "json",
+      });
+
+      // Muestra mensajes cada 10 segundos durante 2 minutos
       const mensajes = [
-        "Esto tardará 4 minutos aproximadamente",
-        "Se está creando su banner",
-        "Estamos configurando su tienda",
-        "Preparando todo para usted",
-        "Últimos ajustes, casi listo",
-        "Esto tardará unos minutos",
-        "Se está creando su banner",
-        "Estamos configurando su tienda",
-        "Preparando todo para usted",
-        "Últimos ajustes, casi listo",
-        "Esto tardará unos minutos",
-        "Se está creando su banner",
-        "Estamos configurando su tienda",
-        "Preparando todo para usted",
-        "Últimos ajustes, casi listo",
-        "Esto tardará unos minutos",
+        "Esto tardará 2 minutos aproximadamente",
         "Se está creando su banner",
         "Estamos configurando su tienda",
         "Preparando todo para usted",
@@ -470,51 +474,42 @@ function crear_tienda() {
         }
       }, 10000); // 10 segundos
 
-      // Espera 4 minutos (240 segundos)
-      await new Promise((resolve) => setTimeout(resolve, 240000));
+      // Espera 2 minutos (120 segundos)
+      await new Promise((resolve) => setTimeout(resolve, 120000));
 
-      // Limpia el intervalo después de 4 minutos
+      // Limpia el intervalo después de 2 minutos
       clearInterval(intervalId);
 
-      let formData = new FormData();
-      formData.append("nombre", nombre_tienda);
-
-      return $.ajax({
-        url: SERVERURL + "Usuarios/registro",
-        type: "POST",
-        data: formData,
-        processData: false,
-        contentType: false,
-        dataType: "json",
-        success: function (response) {
-          if (response.status == 500) {
-            toastr.error(
-              "LA IMAGEN NO SE AGREGÓ CORRECTAMENTE",
-              "NOTIFICACIÓN",
-              {
+      // Espera la respuesta de la API
+      return apiCall
+        .then(
+          function (response) {
+            if (response.status == 500) {
+              toastr.error(
+                "LA IMAGEN NO SE AGREGÓ CORRECTAMENTE",
+                "NOTIFICACIÓN",
+                {
+                  positionClass: "toast-bottom-center",
+                }
+              );
+              Swal.showValidationMessage(
+                `Error: La imagen no se agregó correctamente`
+              );
+            } else if (response.status == 200) {
+              toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
                 positionClass: "toast-bottom-center",
-              }
-            );
-          } else if (response.status == 200) {
-            toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
-              positionClass: "toast-bottom-center",
-            });
-
-            location.reload();
+              });
+            }
+          },
+          function (jqXHR, textStatus, errorThrown) {
+            Swal.showValidationMessage(`Request failed: ${errorThrown}`);
           }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-          Swal.showValidationMessage(`Request failed: ${errorThrown}`);
-        },
-      });
+        )
+        .finally(() => {
+          // Recargar la página después de que termine el tiempo de carga y la API haya respondido
+          location.reload();
+        });
     },
-  }).then((result) => {
-    if (result.isConfirmed) {
-      Swal.update({
-        showConfirmButton: false,
-        showCancelButton: false,
-      });
-    }
   });
 }
 
