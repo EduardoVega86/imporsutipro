@@ -798,53 +798,31 @@ ON
             ]),
         ];
 
-        // Verifica que el método `cpanelRequest` esté definido y maneja errores
         if (method_exists($this, 'cpanelRequest')) {
-            echo "Enviando solicitud a la API de cPanel...\n";
             $response = $this->cpanelRequest($apiUrl, $cpanelUsername, $cpanelPassword, http_build_query($postFields));
 
-            // Depuración: Mostrar la respuesta de la API
-            echo "Respuesta de la API de clonación:\n";
-            print_r($response);
-
             if ($response === false || isset($response['errors'])) {
-                throw new Exception("Error al clonar el repositorio de GitHub.");
-            } else {
-                echo "Repositorio clonado con éxito.\n";
+                return array('status' => 500, 'title' => 'Error', 'message' => 'Error al clonar el repositorio de GitHub.');
             }
         } else {
-            throw new Exception("El método cpanelRequest no está definido.");
+            return array('status' => 500, 'title' => 'Error', 'message' => 'El método cpanelRequest no está definido.');
         }
-
-        // Depuración: Listar los archivos en el directorio clonado
-        echo "Contenido del directorio $direccion:\n";
-        $files = scandir($direccion);
-        print_r($files);
 
         // Crear subdominio
         $apiUrl = $cpanelUrl . 'execute/SubDomain/addsubdomain?domain=' . $nombre_tienda . '&rootdomain=' . $rootdomain;
         $response = $this->cpanelRequest($apiUrl, $cpanelUsername, $cpanelPassword);
+
         if ($response === false) {
-            throw new Exception("Error al crear el subdominio.");
+            return array('status' => 500, 'title' => 'Error', 'message' => 'Error al crear el subdominio.');
         } else {
             $file = $direccion . '/Config/Config.php';
 
-            // Depuración: Verificar la existencia del directorio y sus permisos
-            if (!file_exists($direccion)) {
-                throw new Exception("El directorio $direccion no existe.");
-            } elseif (!is_readable($direccion)) {
-                throw new Exception("El directorio $direccion no es accesible.");
-            } else {
-                echo "El directorio existe y es accesible.\n";
+            if (!file_exists($direccion) || !is_readable($direccion)) {
+                return array('status' => 500, 'title' => 'Error', 'message' => 'El directorio no existe o no es accesible.');
             }
 
-            // Depuración: Verificar la existencia del archivo y sus permisos
-            if (!file_exists($file)) {
-                throw new Exception("El archivo $file no existe.");
-            } elseif (!is_readable($file)) {
-                throw new Exception("El archivo $file no es accesible.");
-            } else {
-                echo "El archivo existe y es accesible.\n";
+            if (!file_exists($file) || !is_readable($file)) {
+                return array('status' => 500, 'title' => 'Error', 'message' => 'El archivo no existe o no es accesible.');
             }
 
             // Lee el contenido del archivo
@@ -861,14 +839,12 @@ ON
             $sql = "UPDATE `plataformas` SET `url_imporsuit` = ?, `tienda_creada` = ?, `nombre_tienda` = ? WHERE `id_plataforma` = ?";
             $data = [$url_tienda, 1, $nombre_tienda, $plataforma];
             $editar_producto = $this->update($sql, $data);
-            print_r($editar_producto);
-            if ($editar_producto == 1) {
-                $responses = array('status' => 200, 'title' => 'Peticion exitosa', 'message' => 'Contraseña actualizada correctamente');
-            } else {
-                $responses = array('status' => 500, 'title' => 'Error', 'message' => $editar_producto['message']);
-            }
 
-            echo "El archivo ha sido actualizado.";
+            if ($editar_producto == 1) {
+                return array('status' => 200, 'title' => 'Peticion exitosa', 'message' => 'Contraseña actualizada correctamente');
+            } else {
+                return array('status' => 500, 'title' => 'Error', 'message' => $editar_producto['message']);
+            }
         }
     }
 
