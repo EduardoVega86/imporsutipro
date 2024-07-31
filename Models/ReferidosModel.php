@@ -71,4 +71,14 @@ class ReferidosModel extends Query
         $sql = "SELECT saldo FROM billetera_referidos WHERE id_plataforma = $plataforma";
         return $this->select($sql);
     }
+
+    public function esReferido($id)
+    {
+        $sql = "SELECT * FROM plataformas WHERE token_referido = $id";
+        $result = $this->select($sql);
+        if (empty($result)) {
+            return false;
+        }
+        return true;
+    }
 }
