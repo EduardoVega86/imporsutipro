@@ -909,11 +909,12 @@ class WalletModel extends Query
             )
             ELSE NULL
         END), 2) AS utilidad,
-    pt.valor_pago -- Aquí se agrega la columna de la tabla pagos_transportadora
+    pt.valor,
+    pt.comision
 FROM 
     facturas_cot fc
 LEFT JOIN 
-    pagos_transportadora pt ON fc.numero_guia = pt.numero_guia
+    pagos_transportadora pt ON fc.numero_guia = pt.guia
 WHERE 
     fc.estado_guia_sistema IN (9, 7, 500, 501, 502, 400, 401, 402, 403, 13) 
     AND fc.valida_transportadora = $estado $where
