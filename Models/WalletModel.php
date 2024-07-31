@@ -976,7 +976,7 @@ class WalletModel extends Query
 
             
       
-        // print_r($insertar_producto);
+         print_r($insertar_producto);
         if ($insertar_producto == 1) {
               $response['message'] = 'Producto y stock agregado correctamente';
 
