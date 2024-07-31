@@ -79,11 +79,10 @@ const initDataTableReferidos = async () => {
 
 const listReferidos = async () => {
   try {
-    const referidos = await referidos_principal;
 
     let content = ``;
 
-    referidos.forEach((referido, index) => {
+    referidos_principal.forEach((referido, index) => {
       content += `
                 <tr>
                     <td>${referido.id_plataforma}</td>
@@ -147,11 +146,10 @@ const initDataTableGuiasReferidos = async () => {
 
 const listGuiasReferidos = async () => {
   try {
-    const guiasReferidos = await cabeceras_principal;
 
     let content = ``;
 
-    guiasReferidos.forEach((guia, index) => {
+    cabeceras_principal.forEach((guia, index) => {
       content += `
                 <tr>
                     <td>${guia.id_referido}</td>
