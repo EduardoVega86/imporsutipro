@@ -222,11 +222,7 @@ const listOtrasFormasPago = async () => {
       content += `
                 <tr>
                     <td><input type="checkbox" class="selectCheckbox" data-id="${pago.id_solicitud}" ${checkboxState} onclick="toggleSolicitud(${pago.id_solicitud}, this.checked)"></td>
-                    <td>${pago.nombre}</td>
-                    <td>${pago.correo}</td>
-                    <td>${pago.cedula}</td>
                     <td>${pago.fecha}</td>
-                    <td>${pago.telefono}</td>
                     <td>${pago.tipo}</td>
                     <td>${pago.red}</td>
                     <td>${pago.cuenta}</td>
