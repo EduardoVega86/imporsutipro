@@ -1,3 +1,15 @@
+$(document).ready(function () {
+  $.ajax({
+    url: SERVERURL + "referidos/getReferidos",
+    type: "GET",
+    dataType: "json",
+    success: function (response) {},
+    error: function (error) {
+      console.error("Error al obtener la lista de bodegas:", error);
+    },
+  });
+});
+
 let dataTableGuiasReferidos;
 let dataTableGuiasReferidosIsInitialized = false;
 
@@ -32,7 +44,9 @@ const initDataTableGuiasReferidos = async () => {
 
   await listGuiasReferidos();
 
-  dataTableGuiasReferidos = $("#datatable_guias_referidos").DataTable(dataTableGuiasReferidosOptions);
+  dataTableGuiasReferidos = $("#datatable_guias_referidos").DataTable(
+    dataTableGuiasReferidosOptions
+  );
 
   dataTableGuiasReferidosIsInitialized = true;
 };
@@ -45,7 +59,6 @@ const listGuiasReferidos = async () => {
     let content = ``;
 
     guiasReferidos.forEach((guia, index) => {
-
       content += `
                 <tr>
                     <td><a class="dropdown-item link-like" href="${SERVERURL}wallet/pagar?tienda=${guia.tienda}">${guia.tienda}</a></td>

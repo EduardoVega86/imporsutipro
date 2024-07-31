@@ -45,21 +45,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 mb-3">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="d-flex align-items-center">
-                                                <i class="bi bi-cash-coin fs-1 text-danger"></i>
-                                                <div class="ms-3">
-                                                    <p class="mb-0">DESCUENTO DEVOLUCIÓN</p>
-                                                    <h3 class="text-danger">$<span id="descuentoDevolucion_wallet"></span></h3>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
 
                     </div>
