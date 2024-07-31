@@ -387,7 +387,7 @@ class AccesoModel extends Query
                     require_once 'PHPMailer/Mail_recuperar.php';
                     $mail = new PHPMailer();
                     $mail->isSMTP();
-                    $mail->SMTPDebug = 3;
+                    $mail->SMTPDebug = 1;
                     $mail->Host = $smtp_host;
                     $mail->SMTPAuth = true;
                     $mail->Username = $smtp_user;
