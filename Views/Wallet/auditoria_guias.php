@@ -8,16 +8,24 @@
         <div class="d-flex flex-column justify-content-between">
 
 <div class="filter-container">
-                <button class="filter-btn active" data-filter="0">Subir pagos</button>
-                <select name="transporte" id="transporte" class="form-control">
+               <form id="uploadForm" enctype="multipart/form-data">
+
+            <div class="form-group w-100 hidden-field" id="bodega-field">
+                <label for="bodega">Bodega:</label>
+                <select name="transporte_importacion" id="transporte_importacion" class="form-control">
                             <option value="0"> Seleccione Transportadora</option>
                             <option value="1">Laar</option>
                             <option value="4">Speed</option>
                             <option value="2">Servientrega</option>
                             <option value="3">Gintracom</option>
                         </select>
-               <label for="fileInput">Seleccionar archivo:</label>
+            </div>
+            <div class="form-group">
+                <label for="fileInput">Seleccionar archivo:</label>
                 <input type="file" class="form-control-file" id="fileInput" name="file" required>
+            </div>
+            <button id="enviar_importacion" type="submit" class="btn btn-success">Cargar</button>
+        </form>
             </div>
             <div class="segunda_seccionFiltro">
 
