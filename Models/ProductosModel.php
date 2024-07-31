@@ -43,7 +43,7 @@ $response = $this->initialResponse();
             $detalle_sql = "INSERT INTO `productos_tienda` (`id_plataforma`, `id_producto`, `nombre_producto_tienda`, `imagen_principal_tienda`, `pvp_tienda`, `id_inventario`, `id_categoria_tienda`, `descripcion_tienda`, `landing_tienda` ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             foreach ($inventario as $inv) {
-                echo $inv['landing'];
+                //echo $inv['landing'];
                 $detalle_data = array(
                     $plataforma,
                     $id_producto,
@@ -877,7 +877,9 @@ WHERE b.id_plataforma = $plataforma";
     
      public function existeLandingTienda($id)
     {
+         
         $sql = "SELECT * FROM `producto_tienda` WHERE id_producto_tienda = $id";
+        echo $sql;
          $landing = $this->select($sql);
         $landing = $landing[0]['landing_tienda'];
         
