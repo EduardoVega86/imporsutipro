@@ -26,7 +26,22 @@
                                                 <i class="bi bi-cart-fill fs-1 text-primary"></i>
                                                 <div class="ms-3">
                                                     <p class="mb-0">Cantidad de referidos</p>
-                                                    <h3 class="text-primary">$<span id="totalVentas_wallet"></span></h3>
+                                                    <h3 class="text-primary"><span id="cantidad_referidos"></span></h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="d-flex align-items-center">
+                                                <i class="bi bi-cart-fill fs-1 text-primary"></i>
+                                                <div class="ms-3">
+                                                    <p class="mb-0">Ganacia Historico</p>
+                                                    <h3 class="text-primary">$<span id="ganancia_historico_referidos"></span></h3>
                                                 </div>
                                             </div>
                                         </div>
@@ -41,7 +56,7 @@
                                                 <i class="bi bi-currency-dollar fs-1 text-success"></i>
                                                 <div class="ms-3">
                                                     <p class="mb-0">Ganancias con Referidos</p>
-                                                    <h3 class="text-success">$<span id="utilidadGenerada_wallet"></span></h3>
+                                                    <h3 class="text-success">$<span id="ganancias_referidos"></span></h3>
                                                 </div>
                                             </div>
                                         </div>

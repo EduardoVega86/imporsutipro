@@ -10,6 +10,10 @@ $(document).ready(function () {
     success: function (response) {
       cabeceras_principal = response.cabeceras;
       referidos_principal = response.referidos;
+
+      $("#cantidad_referidos").text(response.cantidad);
+      $("#ganancia_historico_referidos").text(response.ganancias);
+      $("#ganancias_referidos").text(response.saldo);
     },
     error: function (error) {
       console.error("Error al obtener la lista de bodegas:", error);
