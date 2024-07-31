@@ -296,7 +296,7 @@ $(document).ready(function () {
 
       var button2 = document.getElementById("generarGuiaBtn");
 
-      if (saldo < 0) {
+      if (saldo < -10) {
         button2.disabled = true;
         Swal.fire({
           icon: "error",
