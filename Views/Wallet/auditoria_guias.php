@@ -24,7 +24,8 @@
                 </div>
                 <div class="filter-container">
                 <button class="filter-btn active" data-filter="0">Pendientes</button>
-               
+               <label for="fileInput">Seleccionar archivo:</label>
+                <input type="file" class="form-control-file" id="fileInput" name="file" required>
             </div>
             </div>
         </div>
