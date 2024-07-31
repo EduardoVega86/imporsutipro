@@ -842,12 +842,24 @@ const listHorizonal = async () => {
     const horizonal = await response.json();
 
     let content = ``;
-
+    let posicion = ``;
+    let visible = ``;
     horizonal.forEach((item, index) => {
+      if (item.posicion == 1) {
+        posicion = `Arriba`;
+      } else if (item.posicion == 2) {
+        posicion = `Abajo`;
+      }
+
+      if (item.estado == 0) {
+        visible = `NO`;
+      } else if (item.estado == 1) {
+        visible = `SI`;
+      }
       content += `
                 <tr>
                     <td>${item.texto}</td>
-                    <td>${item.posicion}</td>
+                    <td>${posicion}</td>
                     <td>${item.estado}</td>
                     <td>
                     <div class="dropdown">
