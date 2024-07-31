@@ -43,7 +43,7 @@ if ($data == 0) {
                 method: 'GET',
                 success: function(response) {
                     let formDATA = new FormData();
-                    formDATA.append('id_producto', location.href.split("/").pop());
+                    formDATA.append('id_producto_tienda', location.href.split("/").pop());
                     if (response == 1) {
                         $.ajax({
                             url: 'https://imagenes.imporsuitpro.com/obtenerLandingTienda',
