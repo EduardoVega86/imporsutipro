@@ -93,7 +93,6 @@ class WalletModel extends Query
         return $data;
     }
 
-
     public function obtenerFacturas($id_plataforma, $filtro)
     {
         if ($filtro == 'pendientes') {
@@ -746,8 +745,6 @@ class WalletModel extends Query
         return $response;
     }
 
-
-
     public function verificarPago($id_solicitud)
     {
         $sql = "UPDATE solicitudes_pago set visto = 1 WHERE id_solicitud = ?";
@@ -977,9 +974,6 @@ class WalletModel extends Query
         $sql = "INSERT INTO pagos_transportadora (id_transportadora, guia, valor, comision,  fecha) VALUES (?, ?, ?, ?, ?)";
         $data = [$transportadora, $guia, $valor, $comision, $fecha];
         $insertar_producto = $this->insert($sql, $data);
-
-
-
 
         print_r($insertar_producto);
         if ($insertar_producto == 1) {
