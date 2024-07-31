@@ -637,7 +637,7 @@ class Productos extends Controller
     
     public function verificarProductoTienda($id)
     {
-        $response = $this->model->verificarProducto($id);
+        $response = $this->model->verificarProductoTienda($id);
         echo json_encode($response);
     }
 
