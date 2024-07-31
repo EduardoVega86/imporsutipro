@@ -198,7 +198,8 @@
 
         // Extraer la sección después de 'refers/'
         let refersValue = url_principal.substring(position);
-        const url = '<?php echo SERVERURL; ?>acceso/referido_token'; // Asegúrate de definir SERVERURL en tu backend PHP
+
+        const url = '<?php echo SERVERURL; ?>acceso/referido_token/' + refersValue; // Asegúrate de definir SERVERURL en tu backend PHP
 
         fetch(url, {
                 method: 'POST',
