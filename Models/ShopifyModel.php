@@ -6,10 +6,10 @@ class ShopifyModel extends Query
         parent::__construct();
     }
 
-
     public function gestionarRequest($plataforma, $data)
     {
         $data = json_decode($data, true);
+        $order_number = $data['order_number'];
         $configuraciones = $this->obtenerConfiguracion($plataforma);
         $configuraciones = $configuraciones[0];
         $resultados = [];
@@ -36,10 +36,10 @@ class ShopifyModel extends Query
         var_dump($lineItems);
         */
         // Gestión de creación de orden
-        $orden = $this->crearOrden($resultados, $lineItems, $plataforma);
+        $orden = $this->crearOrden($resultados, $lineItems, $plataforma, $order_number);
     }
 
-    public function crearOrden($data, $lineItems, $plataforma)
+    public function crearOrden($data, $lineItems, $plataforma, $order_number)
     {
         $total_venta = $data['total'];
         print_r($data["total"]);
@@ -144,7 +144,7 @@ class ShopifyModel extends Query
             $productos[0]['precio'] = $productos[0]['precio'] - $discount;
         }
 
-        $comentario = "Orden creada desde Shopify";
+        $comentario = "Orden creada desde Shopify, número de orden: " . $order_number;
 
 
 
