@@ -83,8 +83,6 @@
                             });
 
                             $('#conectar_tiktokModal').modal('hide');
-                            resetForm();
-                            initDataTableHorizonal();
                         }
                     },
                     error: function(error) {

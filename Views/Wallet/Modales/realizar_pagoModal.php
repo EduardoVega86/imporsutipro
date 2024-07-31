@@ -113,6 +113,7 @@
 
     // Manejar el envío del formulario
     $('#realizar_pago').on('submit', function(event) {
+        event.preventDefault();
 
         /* var button = document.getElementById('guardar_producto');
         button.disabled = true; // Desactivar el botón
