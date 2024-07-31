@@ -15,7 +15,9 @@ function generar_referido(){
     url: SERVERURL + "referidos/crearReferido",
     type: "GET",
     dataType: "json",
-    success: function (response) {},
+    success: function (response) {
+      $("#link_referido").show();
+    },
     error: function (error) {
       console.error("Error al obtener la lista de bodegas:", error);
     },

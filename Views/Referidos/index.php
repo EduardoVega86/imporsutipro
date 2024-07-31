@@ -12,8 +12,11 @@
                         <h5 class="card-title"><a href="#" id="tienda_url"><span id="tienda_span"></span></a></h5>
 
                         <div class="col-12 mb-3">
-                                <button class="btn btn-primary mb-3" onclick="generar_referido()"><i class="fa-solid fa-arrow-left"></i> Generar link Referido</button>
+                            <button class="btn btn-primary mb-3" onclick="generar_referido()"><i class="fa-solid fa-arrow-left"></i> Generar link Referido</button>
+                            <div id="link_referido" style="display: none;">
+                                <input type="text" class="form-control" value="<?php echo SERVERURL."refers/".$_SESSION['id_plataforma']; ?>" disabled>
                             </div>
+                        </div>
                         <div class="row text-start">
                             <div class="col-12 mb-3">
                                 <div class="card">
