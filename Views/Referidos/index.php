@@ -108,10 +108,10 @@
     </div>
 </div>
 <script>
-    $(document).ready(function () {
-        if (referido_generado){
+    $(document).ready(function() {
+        if (referido_generado) {
             $("#link_referido").show();
-        }else{
+        } else {
             $("#link_referido").hide();
         }
     })
