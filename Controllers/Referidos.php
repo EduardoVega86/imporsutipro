@@ -41,10 +41,9 @@ class Referidos extends Controller
 
     public function solicitar_pago()
     {
-        $data = json_decode(file_get_contents("php://input"), true);
-        $monto = $data['monto'];
-        $cuenta = $data['cuenta'];
-        $otro = $data['otro'];
+        $monto = $_POST['monto'];
+        $cuenta = $_POST['cuenta'];
+        $otro = $_POST['otro'];
         $plataforma = $_SESSION['id_plataforma'];
         $response = $this->model->solicitar_pago($monto, $cuenta, $plataforma, $otro);
         echo json_encode($response);

@@ -272,15 +272,11 @@ class Wallet extends Controller
     {
         $tipo = $_POST['tipo'];
         $cuenta = $_POST['cuenta'];
-        $nombre     = $_POST['nombre'];
-        $telefono   = $_POST['telefono'];
-        $cedula    = $_POST['cedula'];
-        $correo    = $_POST['correo'];
         $red = $_POST['red'];
 
 
 
-        $response = $this->model->agregarOtroPago($tipo, $cuenta, $_SESSION['id_plataforma'], $nombre, $telefono, $cedula, $correo, $red);
+        $response = $this->model->agregarOtroPago($tipo, $cuenta, $_SESSION['id_plataforma'], $red);
         echo json_encode($response);
     }
 
@@ -344,7 +340,7 @@ class Wallet extends Controller
         $response = $this->model->buscarTienda($numero_factura);
         echo json_encode($response);
     }
-    
+
     public function importarExcel()
     {
 
@@ -419,5 +415,4 @@ class Wallet extends Controller
         }
         echo json_encode($response);
     }
-    
 }
