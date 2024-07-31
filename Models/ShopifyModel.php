@@ -152,7 +152,7 @@ class ShopifyModel extends Query
         //si tiene emojis o caracteres especiales elimina los emojis
         $contiene = $this->remove_emoji($contiene);
 
-
+        $observacion .= " Numero de orden: " . $order_number;
 
 
         // Aquí se pueden continuar los procesos necesarios para la orden
