@@ -248,7 +248,7 @@ function eliminarForma_pago(id) {
           timer: 2000,
         }).then(() => {
           // Recargar la DataTable
-          initDataTableProductos();
+          initDataTableObtenerOtroPago();
         });
       }
     },
@@ -397,7 +397,7 @@ $("#info_formaPago").on("submit", function (event) {
           }
         );
 
-        initDataTableDatosBancarios();
+        initDataTableObtenerOtroPago();
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
