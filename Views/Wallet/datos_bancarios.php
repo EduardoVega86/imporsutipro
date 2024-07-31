@@ -198,10 +198,7 @@
                                     <th class="centered">ID</th>
                                     <th class="centered">Cuenta</th>
                                     <th class="centered">Tipo</th>
-                                    <th class="centered">Nombre</th>
-                                    <th class="centered">Cedula</th>
-                                    <th class="centered">Correo</th>
-                                    <th class="centered">Telefono</th>
+                                    <th class="centered">Red</th>
                                     <th class="centered">Acción</th>
                                 </tr>
                             </thead>
