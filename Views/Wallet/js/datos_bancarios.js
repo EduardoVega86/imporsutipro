@@ -240,7 +240,7 @@ function eliminarForma_pago(id) {
           title: response.title,
           text: response.message,
         });
-      } else {
+      } else if (response.status == 500){
         Swal.fire({
           icon: "success",
           title: response.title,
