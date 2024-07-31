@@ -61,6 +61,7 @@ $login_image = $matriz['login_image'];
 $color_boton_login  = $matriz['color_boton_login'];
 $color_hover_login = $matriz['color_hover_login'];
 $color_favorito = $matriz['color_favorito'];
+$transportadora_imagen = $matriz['transportadora_imagen'];
 
 const LAAR_USER = "import.uio.api";
 const LAAR_PASSWORD = "Imp@rt*23";
@@ -85,3 +86,4 @@ define("COLOR_BOTON_LOGIN", $color_boton_login);
 define("COLOR_HOVER_LOGIN", $color_hover_login);
 define("COLOR_FAVORITO", $color_favorito);
 define("URL_MATRIZ", $url_matriz);
+define("TRANSPORTADORA_IMAGEN", $transportadora_imagen);
