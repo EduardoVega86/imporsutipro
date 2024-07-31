@@ -28,6 +28,7 @@ class Referidos extends Controller
         $gananciasTotal = $this->model->getGananciasTotal($_SESSION['id_plataforma']);
         $gananciasTotal = $gananciasTotal[0]['total'];
         $saldoActual = $this->model->getSaldoActual($_SESSION['id_plataforma']);
+        $saldoActual = $saldoActual[0]['saldo'];
         $data = array(
             "referidos" => $referidos,
             "cantidad" => count($referidos),
