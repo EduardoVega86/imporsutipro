@@ -330,6 +330,7 @@ const listAuditoria = async (estado, id_transporte) => {
               <tr>
                   <td>${item.numero_factura}</td>
                   <td>${item.numero_guia}</td>
+           <td>${item.id_transporte}</td>
                   <td>${codBtn}</td>
                   <td>${item.monto_factura}</td>
                   <td>${item.costo_flete}</td>
