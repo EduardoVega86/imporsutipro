@@ -657,7 +657,7 @@ class GuiasModel extends Query
 
     //speed
 
-    public function generarSpeed($nombreO, $ciudadOrigen, $direccionO, $telefonoO, $referenciaO, $nombre, $ciudadDestino, $direccion, $telefono, $celular, $referencia, $contiene, $fecha, $numero_factura, $plataforma, $observacion, $recaudo, $monto_factura)
+    public function generarSpeed($nombreO, $ciudadOrigen, $direccionO, $telefonoO, $referenciaO, $nombre, $ciudadDestino, $direccion, $telefono, $celular, $referencia, $contiene, $fecha, $numero_factura, $plataforma, $observacion, $recaudo, $monto_factura, $matriz)
     {
         $sql = "SELECT url_imporsuit FROM plataformas WHERE id_plataforma = '$plataforma'";
         $url = $this->select($sql);
@@ -681,7 +681,8 @@ class GuiasModel extends Query
             "url" => $url,
             "observacion" => $observacion,
             "recaudo" => $recaudo,
-            "monto_factura" => $monto_factura
+            "monto_factura" => $monto_factura,
+            "matriz" => $matriz
         );
 
         // Enviar los datos en formdata
