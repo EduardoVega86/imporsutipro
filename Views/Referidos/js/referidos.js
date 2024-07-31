@@ -79,7 +79,6 @@ const initDataTableReferidos = async () => {
 
 const listReferidos = async () => {
   try {
-    
     const referidos = await referidos_principal;
 
     let content = ``;
@@ -87,24 +86,11 @@ const listReferidos = async () => {
     referidos.forEach((referido, index) => {
       content += `
                 <tr>
-                    <td><a class="dropdown-item link-like" href="${SERVERURL}wallet/pagar?tienda=${referido.tienda}">${referido.tienda}</a></td>
-                    <td>${referido.ventas}</td>
-                    <td>${referido.utilidad}</td>
-                    <td>${referido.count_visto_0}</td>
-                    <td>
-                    <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel_general('${referido.tienda}')">Descargar Excel general</button>
-                    <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel('${referido.tienda}')">Descargar Excel</button>
-                    </td>
-                    <td>
-                    <div class="dropdown">
-                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-gear"></i>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" style="cursor: pointer;" href="${SERVERURL}wallet/pagar?tienda=${referido.tienda}"><i class='bx bx-wallet'></i>Pagar</a></li>
-                    </ul>
-                    </div>
-                    </td>
+                    <td>${referido.id_plataforma}</td>
+                    <td>${referido.nombre_tienda}</td>
+                    <td>${referido.url_imporsuit}</td>
+                    <td>${referido.whatsapp}</td>      
+                    <td>${referido.fecha_ingreso}</td>      
                 </tr>`;
     });
     document.getElementById("tableBody_referidos").innerHTML = content;
@@ -161,7 +147,6 @@ const initDataTableGuiasReferidos = async () => {
 
 const listGuiasReferidos = async () => {
   try {
-  
     const guiasReferidos = await cabeceras_principal;
 
     let content = ``;
@@ -169,24 +154,10 @@ const listGuiasReferidos = async () => {
     guiasReferidos.forEach((guia, index) => {
       content += `
                 <tr>
-                    <td><a class="dropdown-item link-like" href="${SERVERURL}wallet/pagar?tienda=${guia.tienda}">${guia.tienda}</a></td>
-                    <td>${guia.ventas}</td>
-                    <td>${guia.utilidad}</td>
-                    <td>${guia.count_visto_0}</td>
-                    <td>
-                    <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel_general('${guia.tienda}')">Descargar Excel general</button>
-                    <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel('${guia.tienda}')">Descargar Excel</button>
-                    </td>
-                    <td>
-                    <div class="dropdown">
-                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-gear"></i>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" style="cursor: pointer;" href="${SERVERURL}wallet/pagar?tienda=${guia.tienda}"><i class='bx bx-wallet'></i>Pagar</a></li>
-                    </ul>
-                    </div>
-                    </td>
+                    <td>${guia.id_referido}</td>
+                    <td>${guia.guia}</td>
+                    <td>${guia.monto}</td>
+                    <td>${guia.fecha}</td>
                 </tr>`;
     });
     document.getElementById("tableBody_guias_referidos").innerHTML = content;

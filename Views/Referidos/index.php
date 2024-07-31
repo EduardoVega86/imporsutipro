@@ -72,21 +72,22 @@
             <div class="right gap-2">
                 <h3 style="text-align: center; padding-top:5px;">Referidos</h3>
                 <div class="table-responsive">
-                    <table id="datatable_pagos" class="table table-striped">
+                    <table id="datatable_referidos" class="table table-striped">
                         <thead>
                             <tr>
-                                <th class="centered">Numero referido</th>
-                                <th class="centered">Guia</th>
-                                <th class="centered">Monto</th>
+                                <th class="centered">ID</th>
+                                <th class="centered">Nombre tienda</th>
+                                <th class="centered">URL</th>
+                                <th class="centered">Telefono</th>
                                 <th class="centered">Fecha</th>
                             </tr>
                         </thead>
-                        <tbody id="tableBody_pagos"></tbody>
+                        <tbody id="tableBody_referidos"></tbody>
                     </table>
                 </div>
                 <h3 style="text-align: center; padding-top:5px;">Guias Referidos</h3>
                 <div class="table-responsive">
-                    <table id="datatable_pagos" class="table table-striped">
+                    <table id="datatable_guias_referidos" class="table table-striped">
                         <thead>
                             <tr>
                                 <th class="centered">Numero referido</th>
@@ -95,7 +96,7 @@
                                 <th class="centered">Fecha</th>
                             </tr>
                         </thead>
-                        <tbody id="tableBody_pagos"></tbody>
+                        <tbody id="tableBody_guias_referidos"></tbody>
                     </table>
                 </div>
             </div>
