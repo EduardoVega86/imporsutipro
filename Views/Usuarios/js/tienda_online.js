@@ -860,7 +860,7 @@ const listHorizonal = async () => {
                 <tr>
                     <td>${item.texto}</td>
                     <td>${posicion}</td>
-                    <td>${item.estado}</td>
+                    <td>${visible}</td>
                     <td>
                     <div class="dropdown">
                     <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
