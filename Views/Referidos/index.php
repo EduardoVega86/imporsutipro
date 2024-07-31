@@ -107,5 +107,14 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        if (referido_generado){
+            $("#link_referido").show();
+        }else{
+            $("#link_referido").hide();
+        }
+    })
+</script>
 <script src="<?php echo SERVERURL ?>/Views/Referidos/js/referidos.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
