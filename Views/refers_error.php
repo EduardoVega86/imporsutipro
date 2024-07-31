@@ -9,7 +9,7 @@
         <img src="<?php echo LOGIN_IMAGE; ?>" alt="IMORSUIT" width="300px" height="150px">
     </div>
     <div class="container">
-        <div id="token_valido" class="hidden" style="text-align-last: center; display: none;">
+        <div id="token_valido" class="hidden" style="text-align-last: center;">
             <div class="d-flex flex-column">
                 <i class="fa-solid fa-face-frown" style="font-size: 60px;"></i>
                 <h1>TOKEN NO VALIDO</h1>

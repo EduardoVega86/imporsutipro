@@ -9,7 +9,7 @@
         <img src="<?php echo LOGIN_IMAGE; ?>" alt="IMORSUIT" width="300px" height="150px">
     </div>
     <div class="container">
-        <div id="registrar" style="display: none;">
+        <div id="registrar">
             <div class="header">
                 <p>¿Estás listo para unirte al mundo del ecommerce? ¡Comencemos!😉</p>
             </div>
