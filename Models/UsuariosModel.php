@@ -1049,4 +1049,42 @@ ON
         // Ahora $respuestas_exitosas contiene solo las respuestas exitosas
         var_dump($respuestas_exitosas);
     }
+
+    public function agregar_usuario($nombre, $correo, $contrasena, $id_plataforma)
+    {
+        //Inicia la respuesta
+        $response = $this->initialResponse();
+
+        //Se general el usuario
+        $date_added       = date("Y-m-d H:i:s");
+
+        $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
+        $sql = "INSERT INTO users (nombre_users, email_users, con_users, usuario_users, date_added, cargo_users) VALUES (?, ?, ?, ?, ?, ?)";
+        //   echo $sql;
+        $data = [$nombre, $correo, $contrasena, $correo, $date_added, 1];
+        $insertar_usuario = $this->insert($sql, $data);
+        //print_r($insertar_usuario);
+        //echo 'erro'.$insertar_usuario;;
+        if ($insertar_usuario == 1) {
+            $id = $this->select("SELECT id_users FROM users WHERE usuario_users = '$correo'");
+
+            $sql = "INSERT INTO usuario_plataforma (id_usuario, id_plataforma) VALUES (?, ?)";
+            $data = [$id[0]['id_users'], $id_plataforma];
+            $insertar_relacion = $this->insert($sql, $data);
+
+            if ($insertar_relacion == 1) {
+                $response = array('status' => 200, 'title' => 'Peticion exitosa', 'message' => 'Usuario agregado correctamente');
+            } else {
+                $response = array('status' => 500, 'title' => 'Error', 'message' => 'Error al agregar usuario');
+            }
+        } else {
+
+            $response['message'] = "El usuario $correo ya existe en la base de datos, intente con otro correo electrónico!";
+            //$id = $this->select("SELECT users_id FROM users WHERE correo = '$correo'");
+
+        }
+
+
+        return $response;
+    }
 }

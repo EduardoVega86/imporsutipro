@@ -477,4 +477,21 @@ class Usuarios extends Controller
        $response = $this->model->actualizacionMasivaTiendas();
         echo json_encode($response);
     }
+
+    public function agregar_usuario()
+    {
+        $data = json_decode(file_get_contents("php://input"), true);
+        //print_r($data);
+        $nombre = $data['nombre'];
+        $correo = $data['correo'];
+        $pais = $data['pais'];
+        $telefono = $data['telefono'];
+        $contrasena = $data['contrasena'];
+        $tienda = $data['tienda'];
+        $id_plataforma = $_SESSION['id_plataforma'];
+
+        $response = $this->model->agregar_usuario($nombre, $correo, $contrasena, $id_plataforma);
+
+        echo json_encode($response);
+    }
 }
