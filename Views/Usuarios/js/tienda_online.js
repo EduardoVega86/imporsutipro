@@ -867,8 +867,8 @@ const listHorizonal = async () => {
                         <i class="fa-solid fa-gear"></i>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" style="cursor: pointer;" onclick="editar_horizontal(${item.id_horizontal})"><i class='bx bx-wallet'></i>Editar</a></li>
-                        <li><a class="dropdown-item" style="cursor: pointer;" onclick="eliminar_horizontal(${item.id_horizontal})"><i class='bx bx-wallet'></i>Eliminar</a></li>
+                        <li><a class="dropdown-item" style="cursor: pointer;" onclick="editar_horizontal(${item.id_horizontal})"><i class='fa-solid fa-pencil'></i>Editar</a></li>
+                        <li><a class="dropdown-item" style="cursor: pointer;" onclick="eliminar_horizontal(${item.id_horizontal})"><i class='fa-solid fa-trash-can'></i>Eliminar</a></li>
                     </ul>
                     </div>
                     </td>
