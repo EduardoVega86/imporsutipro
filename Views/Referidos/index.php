@@ -1,6 +1,10 @@
 <?php require_once './Views/templates/header.php'; ?>
 <?php require_once './Views/Referidos/css/referidos_style.php'; ?>
 
+<script>
+    const referido_generado = <?php echo $data; ?>
+</script>
+
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
 
