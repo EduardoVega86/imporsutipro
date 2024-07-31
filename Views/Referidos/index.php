@@ -14,7 +14,7 @@
                         <div class="col-12 mb-3">
                             <button class="btn btn-primary mb-3" onclick="generar_referido()"><i class="fa-solid fa-arrow-left"></i> Generar link Referido</button>
                             <div id="link_referido" style="display: none;">
-                                <input type="text" class="form-control" value="<?php echo SERVERURL."refers/".$_SESSION['id_plataforma']; ?>" disabled>
+                                <input type="text" class="form-control" value="<?php echo SERVERURL . "refers/" . $_SESSION['id_plataforma']; ?>" disabled>
                             </div>
                         </div>
                         <div class="row text-start">
@@ -55,6 +55,20 @@
             </div>
 
             <div class="right gap-2">
+                <h3 style="text-align: center; padding-top:5px;">Referidos</h3>
+                <div class="table-responsive">
+                    <table id="datatable_pagos" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th class="centered">Numero referido</th>
+                                <th class="centered">Guia</th>
+                                <th class="centered">Monto</th>
+                                <th class="centered">Fecha</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody_pagos"></tbody>
+                    </table>
+                </div>
                 <h3 style="text-align: center; padding-top:5px;">Guias Referidos</h3>
                 <div class="table-responsive">
                     <table id="datatable_pagos" class="table table-striped">
