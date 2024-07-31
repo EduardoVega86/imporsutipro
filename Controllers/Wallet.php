@@ -1,5 +1,5 @@
 <?php
-
+require 'vendor/autoload.php';
 class Wallet extends Controller
 {
     public function __construct()
