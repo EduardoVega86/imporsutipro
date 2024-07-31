@@ -35,7 +35,6 @@
 
             let formData = new FormData();
             formData.append("correo", email);
-            formData.append("recaptchaToken", token); // Añadir el token de reCAPTCHA
 
             $.ajax({
                 url: SERVERURL + 'acceso/recuperar_contrasena',
