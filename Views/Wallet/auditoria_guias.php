@@ -7,7 +7,18 @@
         <h2 class="text-center mb-4">Auditoria</h2>
         <div class="d-flex flex-column justify-content-between">
 
-
+<div class="filter-container">
+                <button class="filter-btn active" data-filter="0">Subir pagos</button>
+                <select name="transporte" id="transporte" class="form-control">
+                            <option value="0"> Seleccione Transportadora</option>
+                            <option value="1">Laar</option>
+                            <option value="4">Speed</option>
+                            <option value="2">Servientrega</option>
+                            <option value="3">Gintracom</option>
+                        </select>
+               <label for="fileInput">Seleccionar archivo:</label>
+                <input type="file" class="form-control-file" id="fileInput" name="file" required>
+            </div>
             <div class="segunda_seccionFiltro">
 
                 <div style="width: 100%;">
@@ -22,11 +33,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="filter-container">
-                <button class="filter-btn active" data-filter="0">Pendientes</button>
-               <label for="fileInput">Seleccionar archivo:</label>
-                <input type="file" class="form-control-file" id="fileInput" name="file" required>
-            </div>
+                
             </div>
         </div>
         <div class="table-responsive">
