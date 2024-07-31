@@ -9,62 +9,6 @@
         <img src="<?php echo LOGIN_IMAGE; ?>" alt="IMORSUIT" width="300px" height="150px">
     </div>
     <div class="container">
-        <div id="registrar" style="display: none;">
-            <div class="header">
-                <p>¿Estás listo para unirte al mundo del ecommerce? ¡Comencemos!😉</p>
-            </div>
-            <form id="multiStepForm">
-                <!-- Step 1 -->
-                <div class="step step-active">
-                    <div class="form-group">
-                        <label for="nombre">Nombre</label>
-                        <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre">
-                    </div>
-                    <div class="form-group">
-                        <label for="correo">Email</label>
-                        <input type="email" class="form-control" id="correo" name="correo" placeholder="Email">
-                    </div>
-                    <div id="email-error" style="color: red; display: none;">Formato de correo inválido.</div>
-                    <div class="d-flex flex-row">
-                        <div class="form-group" style="width: 35%;">
-                            <label for="pais">País</label>
-                            <select class="form-control" id="pais" name="pais">
-                                <option selected="selected" value="EC"> 🇪🇨 Ecuador (+593)</option>
-                                <!-- Más opciones -->
-                            </select>
-                        </div>
-                        <div class="form-group" style="width: 65%;">
-                            <label for="telefono">Teléfono</label>
-                            <input type="text" class="form-control" id="telefono" name="telefono" placeholder="Teléfono">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="contrasena">Contraseña</label>
-                        <input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="Contraseña">
-                    </div>
-                    <div class="form-group">
-                        <label for="repetir-contrasena">Repetir Contraseña</label>
-                        <input type="password" class="form-control" id="repetir-contrasena" name="repetir-contrasena" placeholder="Repetir Contraseña">
-                    </div>
-                    <div id="password-error" style="color: red; display: none;">Las contraseñas no coinciden.</div>
-                    <button type="button" class="btn btn-primary w-100" onclick="validateEmailAndPassword()">Siguiente</button>
-                </div>
-
-                <!-- Step 2 -->
-                <div class="step">
-                    <div class="form-group">
-                        <label for="tienda">Nombre de tu tienda</label>
-                        <input type="text" class="form-control" id="tienda" name="tienda" placeholder="Tienda" oninput="validateStoreName()" required>
-                        <div id="tienda-error" style="color: red; display: none;">Esta tienda ya existe.</div>
-                    </div>
-                    <button type="button" class="btn btn-secondary w-100 mb-2" onclick="prevStep()">Anterior</button>
-                    <button type="submit" class="btn btn-primary w-100">Enviar</button>
-                </div>
-            </form>
-            <a href="<?php echo SERVERURL ?>login" class="forgot-password">
-                <i class="fa-solid fa-arrow-left"></i> Volver
-            </a>
-        </div>
         <div id="token_valido" class="hidden" style="text-align-last: center; display: none;">
             <div class="d-flex flex-column">
                 <i class="fa-solid fa-face-frown" style="font-size: 60px;"></i>
@@ -250,36 +194,6 @@
         function getQueryParam(param) {
             var urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(param);
-        }
-
-        function validarToken(token) {
-            $.ajax({
-                url: SERVERURL+'acceso/validarRefiere',
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                    token: token // Utiliza el token obtenido de la URL
-                },
-                success: function(response) {
-                    if (response === true) {
-                        $('#registrar').show();
-                        $('#token_valido').hide();
-                    } else {
-                        $('#token_valido').show();
-                        $('#registrar').hide();
-                    }
-                },
-                error: function() {
-                    alert('Error en la validación del token');
-                }
-            });
-        }
-
-        var token = getQueryParam('token');
-        if (token) {
-            validarToken(token);
-        } else {
-            $('#token_valido').show();
         }
     });
 </script>
