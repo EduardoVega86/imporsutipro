@@ -15,6 +15,11 @@ $(document).ready(function () {
       $("#ganancia_historico_referidos").text(response.ganancias);
       $("#ganancias_referidos").text(response.saldo);
 
+      $("#image_tienda").attr(
+        "src",
+        SERVERURL + "public/img/profile_wallet.png"
+      );
+
       // Inicializar las tablas después de cargar los datos
       initDataTableReferidos();
       initDataTableGuiasReferidos();
