@@ -29,7 +29,7 @@
                                             <div class="d-flex align-items-center">
                                                 <i class="bi bi-cart-fill fs-1 text-primary"></i>
                                                 <div class="ms-3">
-                                                    <p class="mb-0">Cantidad de referidos</p>
+                                                    <p class="mb-0"><strong>Cantidad de referidos:</strong></p>
                                                     <h3 class="text-primary"><span id="cantidad_referidos"></span></h3>
                                                 </div>
                                             </div>
@@ -44,7 +44,7 @@
                                             <div class="d-flex align-items-center">
                                                 <i class="bi bi-cart-fill fs-1 text-primary"></i>
                                                 <div class="ms-3">
-                                                    <p class="mb-0">Ganacia Historico</p>
+                                                    <p class="mb-0"><strong>Ganacia Historico:</strong></p>
                                                     <h3 class="text-primary">$<span id="ganancia_historico_referidos"></span></h3>
                                                 </div>
                                             </div>
@@ -59,7 +59,7 @@
                                             <div class="d-flex align-items-center">
                                                 <i class="bi bi-currency-dollar fs-1 text-success"></i>
                                                 <div class="ms-3">
-                                                    <p class="mb-0">Ganancias con Referidos</p>
+                                                    <p class="mb-0"><strong>Ganancias con Referidos:</strong></p>
                                                     <h3 class="text-success">$<span id="ganancias_referidos"></span></h3>
                                                 </div>
                                             </div>
