@@ -70,7 +70,7 @@
             </div>
 
             <div class="right gap-2">
-                <h3 style="text-align: center; padding-top:5px;">Referidos</h3>
+                <h3 style="text-align: center; padding-top:5px;">Lista de Referidos</h3>
                 <div class="table-responsive">
                     <table id="datatable_referidos" class="table table-striped">
                         <thead>
