@@ -11,9 +11,6 @@ class Acceso extends Controller
     {
         $this->views->render($this, "recovery");
     }
-    public function referido()
-    {
-    }
 
     ///Funciones
     public function login()

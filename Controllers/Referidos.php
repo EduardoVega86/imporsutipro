@@ -12,7 +12,6 @@ class Referidos extends Controller
     public function index()
     {
         $xd = $this->crearBilletera($_SESSION['id_plataforma']);
-        print_r($xd);
         $this->views->render($this, "index");
     }
     public function referidos()
@@ -24,7 +23,7 @@ class Referidos extends Controller
 
     public function getReferidos()
     {
-        $referidos = $this->model->getReferidos();
+        $referidos = $this->model->getReferidos($_SESSION['id_plataforma']);
         echo json_encode($referidos);
     }
 

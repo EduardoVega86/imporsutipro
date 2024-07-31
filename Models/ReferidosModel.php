@@ -8,9 +8,15 @@ class ReferidosModel extends Query
         parent::__construct();
     }
 
-    public function getReferidos()
+    public function getReferidos($plataforma)
     {
-        $sql = "SELECT * FROM referidos";
+        $sql = "SELECT * FROM plataformas where refiere = $plataforma";
+        return $this->select($sql);
+    }
+
+    public function getReferidosMarketplace()
+    {
+        $sql = "SELECT * FROM plataformas where referido = 1";
         return $this->select($sql);
     }
     public function crearBilletera($id)
