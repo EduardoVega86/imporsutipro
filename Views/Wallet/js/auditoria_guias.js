@@ -74,6 +74,31 @@ const listAuditoria = async (estado, id_transporte) => {
     let content = ``;
 
     auditoria.forEach((item, index) => {
+      let transporte = item.id_transporte;
+      let transporte_content = "";
+      let estado = "";
+
+      if (transporte == 2) {
+        transporte_content =
+          '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SERVIENTREGA</span>';
+        estado = validar_estadoServi(item.estado_guia_sistema);
+      } else if (transporte == 1) {
+        transporte_content =
+          '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">LAAR</span>';
+        estado = validar_estadoLaar(item.estado_guia_sistema);
+      } else if (transporte == 4) {
+        transporte_content =
+          '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
+        estado = validar_estadoSpeed(item.estado_guia_sistema);
+      } else if (transporte == 3) {
+        transporte_content =
+          '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>';
+        estado = validar_estadoGintracom(item.estado_guia_sistema);
+      } else {
+        transporte_content =
+          '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">Guia no enviada</span>';
+      }
+
       const codBtn = item.cod
         ? `<button class="btn-cod-si">SI</button>`
         : `<button class="btn-cod-no">NO</button>`;
@@ -134,3 +159,156 @@ const handleCheckboxClick = async (facturaId, isChecked) => {
     console.error("Error:", error);
   }
 };
+
+function validar_estadoLaar(estado) {
+  var span_estado = "";
+  var estado_guia = "";
+  if (estado == 1) {
+    span_estado = "badge_purple";
+    estado_guia = "Generado";
+  } else if (estado == 2) {
+    span_estado = "badge_purple";
+    estado_guia = "Por recolectar";
+  } else if (estado == 3) {
+    span_estado = "badge_purple";
+    estado_guia = "Por recolectar";
+  } else if (estado == 4) {
+    span_estado = "badge_purple";
+    estado_guia = "Por recolectar";
+  } else if (estado == 5) {
+    span_estado = "badge_warning";
+    estado_guia = "En transito";
+  } else if (estado == 6) {
+    span_estado = "badge_warning";
+    estado_guia = "Zona de entrega";
+  } else if (estado == 7) {
+    span_estado = "badge_green";
+    estado_guia = "Entregado";
+  } else if (estado == 8) {
+    span_estado = "badge_danger";
+    estado_guia = "Anulado";
+  } else if (estado == 11) {
+    span_estado = "badge_warning";
+    estado_guia = "En transito";
+  } else if (estado == 12) {
+    span_estado = "badge_warning";
+    estado_guia = "En transito";
+  } else if (estado == 14) {
+    span_estado = "badge_danger";
+    estado_guia = "Con novedad";
+  } else if (estado == 9) {
+    span_estado = "badge_danger";
+    estado_guia = "Devuelto";
+  }
+
+  return {
+    span_estado: span_estado,
+    estado_guia: estado_guia,
+  };
+}
+
+function validar_estadoServi(estado) {
+  var span_estado = "";
+  var estado_guia = "";
+  if (estado == 101) {
+    span_estado = "badge_danger";
+    estado_guia = "Anulado";
+  } else if (estado == 100 || estado == 102 || estado == 103) {
+    span_estado = "badge_purple";
+    estado_guia = "Generado";
+  } else if (estado == 200 || estado == 201 || estado == 202) {
+    span_estado = "badge_purple";
+    estado_guia = "Recolectado";
+  } else if (estado >= 300 && estado <= 317) {
+    span_estado = "badge_warning";
+    estado_guia = "Procesamiento";
+  } else if (estado >= 400 && estado <= 403) {
+    span_estado = "badge_green";
+    estado_guia = "Entregado";
+  } else if (estado >= 318 && estado <= 351) {
+    span_estado = "badge_danger";
+    estado_guia = "Con novedad";
+  } else if (estado >= 500 && estado <= 502) {
+    span_estado = "badge_danger";
+    estado_guia = "Devuelto";
+  }
+
+  return {
+    span_estado: span_estado,
+    estado_guia: estado_guia,
+  };
+}
+
+function validar_estadoGintracom(estado) {
+  var span_estado = "";
+  var estado_guia = "";
+
+  if (estado == 1) {
+    span_estado = "badge_generado";
+    estado_guia = "Generada";
+  } else if (estado == 2) {
+    span_estado = "badge_warning";
+    estado_guia = "Picking";
+  } else if (estado == 3) {
+    span_estado = "badge_warning";
+    estado_guia = "Packing";
+  } else if (estado == 4) {
+    span_estado = "badge_warning";
+    estado_guia = "En tránsito";
+  } else if (estado == 5) {
+    span_estado = "badge_warning";
+    estado_guia = "En reparto";
+  } else if (estado == 6) {
+    span_estado = "badge_purple";
+    estado_guia = "Novedad";
+  } else if (estado == 7) {
+    span_estado = "badge_green";
+    estado_guia = "Entregada";
+  } else if (estado == 8) {
+    span_estado = "badge_danger";
+    estado_guia = "Devolucion";
+  } else if (estado == 9) {
+    span_estado = "badge_danger";
+    estado_guia = "Devolución Entregada a Origen";
+  } else if (estado == 10) {
+    span_estado = "badge_danger";
+    estado_guia = "Cancelada por transportadora";
+  } else if (estado == 11) {
+    span_estado = "badge_danger";
+    estado_guia = "Indemnización";
+  } else if (estado == 12) {
+    span_estado = "badge_danger";
+    estado_guia = "Anulada";
+  } else if (estado == 13) {
+    span_estado = "badge_danger";
+    estado_guia = "Devolucion en tránsito";
+  }
+
+  return {
+    span_estado: span_estado,
+    estado_guia: estado_guia,
+  };
+}
+
+function validar_estadoSpeed(estado) {
+  var span_estado = "";
+  var estado_guia = "";
+  if (estado == 2) {
+    span_estado = "badge_purple";
+    estado_guia = "generado";
+  } else if (estado == 3) {
+    span_estado = "badge_warning";
+    estado_guia = "En transito";
+  } else if (estado == 7) {
+    span_estado = "badge_green";
+    estado_guia = "Entregado";
+  } else if (estado == 9) {
+    span_estado = "badge_danger";
+    estado_guia = "Devuelto";
+  }
+
+  return {
+    span_estado: span_estado,
+    estado_guia: estado_guia,
+  };
+}
