@@ -629,6 +629,7 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
+    
     public function verificarProducto($id)
     {
         $response = $this->model->verificarProducto($id);

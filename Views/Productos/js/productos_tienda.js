@@ -125,7 +125,7 @@ const listProductos = async () => {
             <td>${cargar_imagen}</td>
             <td>${destacadoBtn}</td>
             <td><a href='${
-              SERVERURL + "productos/landing_tienda/" + producto.id_producto
+              SERVERURL + "productos/landing_tienda/" + producto.id_producto_tienda
             }' role='button'><i class="fa-solid fa-laptop-code" style="font-size:25px;"></i></a></td>
             <td>${producto.pvp_tienda}</td>
             <td>${producto.pref_tienda}</td>
