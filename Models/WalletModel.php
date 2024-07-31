@@ -778,144 +778,147 @@ class WalletModel extends Query
             $where = "";
         }
         $sql = "SELECT 
-            fc.numero_factura,
-            fc.numero_guia,
-            fc.cod,
-            fc.estado_guia_sistema,
-            fc.monto_factura,
-            fc.id_transporte,
-            fc.costo_flete,
-            FORMAT(
-                CASE 
-                    WHEN fc.id_transporte = 1 THEN (
-                        SELECT cl.precio
-                        FROM cobertura_laar cl
-                        JOIN ciudad_cotizacion cc ON cl.tipo_cobertura = cc.trayecto_laar COLLATE utf8mb4_general_ci
-                        WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
-                        LIMIT 1
-                    )
-                    WHEN fc.id_transporte = 2 THEN (
-                        SELECT cs.precio
-                        FROM cobertura_servientrega cs
-                        JOIN ciudad_cotizacion cc ON cs.tipo_cobertura = cc.trayecto_servientrega COLLATE utf8mb4_general_ci
-                        WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
-                        LIMIT 1
-                    )
-                    WHEN fc.id_transporte = 3 THEN (
-                        SELECT cg.precio
-                        FROM cobertura_gintracom cg
-                        JOIN ciudad_cotizacion cc ON cg.trayecto = cc.trayecto_gintracom COLLATE utf8mb4_general_ci
-                        WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
-                        LIMIT 1
-                    )
-                    ELSE NULL
-                END, 2) AS precio,
-            FORMAT(
-                CASE 
-                    WHEN fc.id_transporte = 1 THEN (
-                        SELECT cl.costo
-                        FROM cobertura_laar cl
-                        JOIN ciudad_cotizacion cc ON cl.tipo_cobertura = cc.trayecto_laar COLLATE utf8mb4_general_ci
-                        WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
-                        LIMIT 1
-                    )
-                    WHEN fc.id_transporte = 2 THEN (
-                        SELECT cs.costo
-                        FROM cobertura_servientrega cs
-                        JOIN ciudad_cotizacion cc ON cs.tipo_cobertura = cc.trayecto_servientrega COLLATE utf8mb4_general_ci
-                        WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
-                        LIMIT 1
-                    )
-                    WHEN fc.id_transporte = 3 THEN (
-                        SELECT cg.costo
-                        FROM cobertura_gintracom cg
-                        JOIN ciudad_cotizacion cc ON cg.trayecto = cc.trayecto_gintracom COLLATE utf8mb4_general_ci
-                        WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
-                        LIMIT 1
-                    )
-                    ELSE NULL
-                END, 2) AS costo,
-            FORMAT(fc.costo_flete - 
-                CASE 
-                    WHEN fc.id_transporte = 1 THEN (
-                        SELECT cl.precio
-                        FROM cobertura_laar cl
-                        JOIN ciudad_cotizacion cc ON cl.tipo_cobertura = cc.trayecto_laar COLLATE utf8mb4_general_ci
-                        WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
-                        LIMIT 1
-                    )
-                    WHEN fc.id_transporte = 2 THEN (
-                        SELECT cs.precio
-                        FROM cobertura_servientrega cs
-                        JOIN ciudad_cotizacion cc ON cs.tipo_cobertura = cc.trayecto_servientrega COLLATE utf8mb4_general_ci
-                        WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
-                        LIMIT 1
-                    )
-                    WHEN fc.id_transporte = 3 THEN (
-                        SELECT cg.precio
-                        FROM cobertura_gintracom cg
-                        JOIN ciudad_cotizacion cc ON cg.trayecto = cc.trayecto_gintracom COLLATE utf8mb4_general_ci
-                        WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
-                        LIMIT 1
-                    )
-                    ELSE NULL
-                END, 2) AS valor_cod,
-            FORMAT(
-                (CASE 
-                    WHEN fc.id_transporte = 1 THEN (
-                        SELECT cl.precio
-                        FROM cobertura_laar cl
-                        JOIN ciudad_cotizacion cc ON cl.tipo_cobertura = cc.trayecto_laar COLLATE utf8mb4_general_ci
-                        WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
-                        LIMIT 1
-                    )
-                    WHEN fc.id_transporte = 2 THEN (
-                        SELECT cs.precio
-                        FROM cobertura_servientrega cs
-                        JOIN ciudad_cotizacion cc ON cs.tipo_cobertura = cc.trayecto_servientrega COLLATE utf8mb4_general_ci
-                        WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
-                        LIMIT 1
-                    )
-                    WHEN fc.id_transporte = 3 THEN (
-                        SELECT cg.precio
-                        FROM cobertura_gintracom cg
-                        JOIN ciudad_cotizacion cc ON cg.trayecto = cc.trayecto_gintracom COLLATE utf8mb4_general_ci
-                        WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
-                        LIMIT 1
-                    )
-                    ELSE NULL
-                END -
-                CASE 
-                    WHEN fc.id_transporte = 1 THEN (
-                        SELECT cl.costo
-                        FROM cobertura_laar cl
-                        JOIN ciudad_cotizacion cc ON cl.tipo_cobertura = cc.trayecto_laar COLLATE utf8mb4_general_ci
-                        WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
-                        LIMIT 1
-                    )
-                    WHEN fc.id_transporte = 2 THEN (
-                        SELECT cs.costo
-                        FROM cobertura_servientrega cs
-                        JOIN ciudad_cotizacion cc ON cs.tipo_cobertura = cc.trayecto_servientrega COLLATE utf8mb4_general_ci
-                        WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
-                        LIMIT 1
-                    )
-                    WHEN fc.id_transporte = 3 THEN (
-                        SELECT cg.costo
-                        FROM cobertura_gintracom cg
-                        JOIN ciudad_cotizacion cc ON cg.trayecto = cc.trayecto_gintracom COLLATE utf8mb4_general_ci
-                        WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
-                        LIMIT 1
-                    )
-                    ELSE NULL
-                END), 2) AS utilidad
-        FROM 
-            facturas_cot fc
-        WHERE 
-            fc.estado_guia_sistema IN (9, 7, 500, 501, 502, 400, 401, 402, 403, 13) 
-            AND fc.valida_transportadora = $estado $where
-        ORDER BY 
-            fc.fecha_factura; ";
+    fc.numero_factura,
+    fc.numero_guia,
+    fc.cod,
+    fc.estado_guia_sistema,
+    fc.monto_factura,
+    fc.id_transporte,
+    fc.costo_flete,
+    FORMAT(
+        CASE 
+            WHEN fc.id_transporte = 1 THEN (
+                SELECT cl.precio
+                FROM cobertura_laar cl
+                JOIN ciudad_cotizacion cc ON cl.tipo_cobertura = cc.trayecto_laar COLLATE utf8mb4_general_ci
+                WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
+                LIMIT 1
+            )
+            WHEN fc.id_transporte = 2 THEN (
+                SELECT cs.precio
+                FROM cobertura_servientrega cs
+                JOIN ciudad_cotizacion cc ON cs.tipo_cobertura = cc.trayecto_servientrega COLLATE utf8mb4_general_ci
+                WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
+                LIMIT 1
+            )
+            WHEN fc.id_transporte = 3 THEN (
+                SELECT cg.precio
+                FROM cobertura_gintracom cg
+                JOIN ciudad_cotizacion cc ON cg.trayecto = cc.trayecto_gintracom COLLATE utf8mb4_general_ci
+                WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
+                LIMIT 1
+            )
+            ELSE NULL
+        END, 2) AS precio,
+    FORMAT(
+        CASE 
+            WHEN fc.id_transporte = 1 THEN (
+                SELECT cl.costo
+                FROM cobertura_laar cl
+                JOIN ciudad_cotizacion cc ON cl.tipo_cobertura = cc.trayecto_laar COLLATE utf8mb4_general_ci
+                WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
+                LIMIT 1
+            )
+            WHEN fc.id_transporte = 2 THEN (
+                SELECT cs.costo
+                FROM cobertura_servientrega cs
+                JOIN ciudad_cotizacion cc ON cs.tipo_cobertura = cc.trayecto_servientrega COLLATE utf8mb4_general_ci
+                WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
+                LIMIT 1
+            )
+            WHEN fc.id_transporte = 3 THEN (
+                SELECT cg.costo
+                FROM cobertura_gintracom cg
+                JOIN ciudad_cotizacion cc ON cg.trayecto = cc.trayecto_gintracom COLLATE utf8mb4_general_ci
+                WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
+                LIMIT 1
+            )
+            ELSE NULL
+        END, 2) AS costo,
+    FORMAT(fc.costo_flete - 
+        CASE 
+            WHEN fc.id_transporte = 1 THEN (
+                SELECT cl.precio
+                FROM cobertura_laar cl
+                JOIN ciudad_cotizacion cc ON cl.tipo_cobertura = cc.trayecto_laar COLLATE utf8mb4_general_ci
+                WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
+                LIMIT 1
+            )
+            WHEN fc.id_transporte = 2 THEN (
+                SELECT cs.precio
+                FROM cobertura_servientrega cs
+                JOIN ciudad_cotizacion cc ON cs.tipo_cobertura = cc.trayecto_servientrega COLLATE utf8mb4_general_ci
+                WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
+                LIMIT 1
+            )
+            WHEN fc.id_transporte = 3 THEN (
+                SELECT cg.precio
+                FROM cobertura_gintracom cg
+                JOIN ciudad_cotizacion cc ON cg.trayecto = cc.trayecto_gintracom COLLATE utf8mb4_general_ci
+                WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
+                LIMIT 1
+            )
+            ELSE NULL
+        END, 2) AS valor_cod,
+    FORMAT(
+        (CASE 
+            WHEN fc.id_transporte = 1 THEN (
+                SELECT cl.precio
+                FROM cobertura_laar cl
+                JOIN ciudad_cotizacion cc ON cl.tipo_cobertura = cc.trayecto_laar COLLATE utf8mb4_general_ci
+                WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
+                LIMIT 1
+            )
+            WHEN fc.id_transporte = 2 THEN (
+                SELECT cs.precio
+                FROM cobertura_servientrega cs
+                JOIN ciudad_cotizacion cc ON cs.tipo_cobertura = cc.trayecto_servientrega COLLATE utf8mb4_general_ci
+                WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
+                LIMIT 1
+            )
+            WHEN fc.id_transporte = 3 THEN (
+                SELECT cg.precio
+                FROM cobertura_gintracom cg
+                JOIN ciudad_cotizacion cc ON cg.trayecto = cc.trayecto_gintracom COLLATE utf8mb4_general_ci
+                WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
+                LIMIT 1
+            )
+            ELSE NULL
+        END -
+        CASE 
+            WHEN fc.id_transporte = 1 THEN (
+                SELECT cl.costo
+                FROM cobertura_laar cl
+                JOIN ciudad_cotizacion cc ON cl.tipo_cobertura = cc.trayecto_laar COLLATE utf8mb4_general_ci
+                WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
+                LIMIT 1
+            )
+            WHEN fc.id_transporte = 2 THEN (
+                SELECT cs.costo
+                FROM cobertura_servientrega cs
+                JOIN ciudad_cotizacion cc ON cs.tipo_cobertura = cc.trayecto_servientrega COLLATE utf8mb4_general_ci
+                WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
+                LIMIT 1
+            )
+            WHEN fc.id_transporte = 3 THEN (
+                SELECT cg.costo
+                FROM cobertura_gintracom cg
+                JOIN ciudad_cotizacion cc ON cg.trayecto = cc.trayecto_gintracom COLLATE utf8mb4_general_ci
+                WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
+                LIMIT 1
+            )
+            ELSE NULL
+        END), 2) AS utilidad,
+    pt.valor_pago -- Aquí se agrega la columna de la tabla pagos_transportadora
+FROM 
+    facturas_cot fc
+LEFT JOIN 
+    pagos_transportadora pt ON fc.numero_guia = pt.numero_guia
+WHERE 
+    fc.estado_guia_sistema IN (9, 7, 500, 501, 502, 400, 401, 402, 403, 13) 
+    AND fc.valida_transportadora = $estado $where
+ORDER BY 
+    fc.fecha_factura;";
         //echo $sql;
         $response =  $this->select($sql);
         return $response;
