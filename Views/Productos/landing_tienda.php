@@ -136,7 +136,7 @@ if ($data == 0) {
                 //existe landing?
 
                 const existeLanding = $.ajax({
-                    url: 'https://new.imporsuitpro.com/productos/existeLanding2/' + id_producto,
+                    url: 'https://new.imporsuitpro.com/productos/existeLandingTienda2/' + id_producto,
                     method: 'GET',
                     async: false
                 }).responseText;
