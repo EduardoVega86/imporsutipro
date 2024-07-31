@@ -80,7 +80,7 @@ const initDataTableReferidos = async () => {
 const listReferidos = async () => {
   try {
     
-    const referidos = await referidos_principal.json();
+    const referidos = await referidos_principal;
 
     let content = ``;
 
@@ -162,7 +162,7 @@ const initDataTableGuiasReferidos = async () => {
 const listGuiasReferidos = async () => {
   try {
   
-    const guiasReferidos = await cabeceras_principal.json();
+    const guiasReferidos = await cabeceras_principal;
 
     let content = ``;
 
