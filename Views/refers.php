@@ -35,7 +35,7 @@
                         </div>
                         <div class="form-group" style="width: 65%;">
                             <label for="telefono">Teléfono</label>
-                            <input type="text" class="form-control" id="telefono" name="telefono" placeholder="Teléfono">
+                            <input type="text" class="form-control" id="telefono" name="telefono" placeholder="Ejemplo:0999999999">
                         </div>
                     </div>
                     <div class="form-group">

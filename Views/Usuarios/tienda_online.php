@@ -135,7 +135,7 @@
                                     </div>
                                     <div class="form-group mb-3">
                                         <label for="telefono_tienda">Telefono:</label>
-                                        <input type="text" class="form-control cambio" id="whatsapp" name="whatsapp">
+                                        <input type="text" class="form-control cambio" id="whatsapp" name="whatsapp" placeholder="Ejemplo:0999999999">
                                     </div>
                                     <div class="form-group mb-3">
                                         <label for="email_tienda">Email:</label>
