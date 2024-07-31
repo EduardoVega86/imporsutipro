@@ -99,6 +99,9 @@ const listAuditoria = async (estado, id_transporte) => {
           '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">Guia no enviada</span>';
       }
 
+      var span_estado = estado.span_estado;
+      var estado_guia = estado.estado_guia;
+
       const codBtn = item.cod
         ? `<button class="btn-cod-si">SI</button>`
         : `<button class="btn-cod-no">NO</button>`;
@@ -110,9 +113,9 @@ const listAuditoria = async (estado, id_transporte) => {
               <tr>
                   <td>${item.numero_factura}</td>
                   <td>${item.numero_guia}</td>
-          <td>${item.estado_guia_sistema}</td>
+          <td><span class="w-100 text-nowrap ${span_estado}">${estado_guia}</span></td>
           <td>${item.drogshipin}</td>
-           <td>${item.id_transporte}</td>
+           <td>${transporte_content}</td>
                   <td>${codBtn}</td>
                   <td>${item.monto_factura}</td>
                   <td>${item.costo_flete}</td>
