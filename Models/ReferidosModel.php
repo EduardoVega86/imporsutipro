@@ -65,4 +65,10 @@ class ReferidosModel extends Query
         $sql = "SELECT SUM(monto) as total FROM cabecera_cuenta_referidos WHERE id_plataforma = $plataforma";
         return $this->select($sql);
     }
+
+    public function getSaldoActual($plataforma)
+    {
+        $sql = "SELECT saldo FROM billetera_referidos WHERE id_plataforma = $plataforma";
+        return $this->select($sql);
+    }
 }

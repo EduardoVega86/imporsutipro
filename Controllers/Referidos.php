@@ -27,11 +27,13 @@ class Referidos extends Controller
         $cabeceras = $this->model->getCabecerasReferencias($_SESSION['id_plataforma']);
         $gananciasTotal = $this->model->getGananciasTotal($_SESSION['id_plataforma']);
         $gananciasTotal = $gananciasTotal[0]['total'];
+        $saldoActual = $this->model->getSaldoActual($_SESSION['id_plataforma']);
         $data = array(
             "referidos" => $referidos,
             "cantidad" => count($referidos),
             "cabeceras" => $cabeceras,
-            "ganancias" => $gananciasTotal
+            "ganancias" => $gananciasTotal,
+            "saldo" => $saldoActual
         );
         echo json_encode($data);
     }
