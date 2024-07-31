@@ -19,6 +19,7 @@ class ReferidosModel extends Query
         $sql = "SELECT * FROM plataformas where referido = 1";
         return $this->select($sql);
     }
+
     public function crearBilletera($id)
     {
         // Consulta para verificar si ya existe una billetera para la plataforma dada
@@ -37,13 +38,19 @@ class ReferidosModel extends Query
         return false; // O algún mensaje que haga sentido en tu lógica de negocio
     }
 
-
-
-
     public function crearReferido($id)
     {
         $sql = "UPDATE plataformas set token_referido = ? WHERE id_plataforma = ?";
         $data = array($id, $id);
         return $this->update($sql, $data);
+    }
+
+    public function solicitar_pago($monto, $cuenta, $plataforma, $otro)
+    {
+        $id_matriz =  $this->obtenerMatriz();
+        $id_matriz = $id_matriz[0]['id_matriz'];
+        $sql = "INSERT INTO solicitudes_pago_referidos (cantidad, id_cuenta,id_matriz, id_plataforma, otro) VALUES (?, ?, ?, ?, ?)";
+        $data = array($monto, $cuenta, $id_matriz, $plataforma, $otro);
+        return $this->insert($sql, $data);
     }
 }

@@ -693,10 +693,10 @@ class WalletModel extends Query
         return $responses;
     }
 
-    public function agregarOtroPago($tipo, $cuenta, $plataforma, $nombre, $telefono, $cedula, $correo, $red)
+    public function agregarOtroPago($tipo, $cuenta, $plataforma, $red)
     {
-        $sql = "INSERT INTO `metodo_pagos`(`tipo`, `cuenta`, `id_plataforma`, `nombre`, `telefono`, `cedula`, `correo`, `red`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        $response =  $this->insert($sql, array($tipo, $cuenta, $plataforma, $nombre, $telefono, $cedula, $correo, $red));
+        $sql = "INSERT INTO `metodo_pagos`(`tipo`, `cuenta`, `id_plataforma`, `red`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $response =  $this->insert($sql, array($tipo, $cuenta, $plataforma, $red));
         if ($response == 1) {
             $responses["status"] = 200;
         } else {
@@ -965,8 +965,8 @@ ORDER BY
 
         return $response2;
     }
-    
-     public function agregarAuditoria($guia, $fecha, $valor, $comision, $transportadora)
+
+    public function agregarAuditoria($guia, $fecha, $valor, $comision, $transportadora)
     {
         $response = $this->initialResponse();
         //  echo $descripcion_producto;
@@ -979,18 +979,16 @@ ORDER BY
         $insertar_producto = $this->insert($sql, $data);
 
 
-            
-      
-         print_r($insertar_producto);
+
+
+        print_r($insertar_producto);
         if ($insertar_producto == 1) {
-              $response['message'] = 'Producto y stock agregado correctamente';
+            $response['message'] = 'Producto y stock agregado correctamente';
 
 
-                $response['status'] = 200;
-                $response['title'] = 'Peticion exitosa';
-                $response['message'] = 'Producto agregado correctamente';
-    
-            
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Producto agregado correctamente';
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
