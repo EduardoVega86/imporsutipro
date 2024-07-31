@@ -127,6 +127,7 @@
                 ?>
                 <!--a href="#"><i class='bx bxs-user-detail menu-icon'></i> <span class="menu-text">Roles</span></a-->
                 <a href="<?php echo SERVERURL ?>shopify/constructor"><i class="fa-brands fa-shopify menu-icon"></i> <span class="menu-text">Shopify</span></a>
+                <a href="<?php echo SERVERURL ?>integraciones"><i class="fa-solid fa-globe menu-icon"></i> <span class="menu-text">Integraciones</span></a>
             </div>
         </div>
         <div class="footer-text">
