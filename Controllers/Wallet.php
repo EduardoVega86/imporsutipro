@@ -384,7 +384,7 @@ class Wallet extends Controller
                         if ($response['status'] == 200) {
                             $agregados = $agregados + 1;
                         }
-                        //print_r($response);
+                        print_r($response);
 
                         // echo $data[$fila][0];
                         //echo 'fila';
