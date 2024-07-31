@@ -879,7 +879,7 @@ WHERE b.id_plataforma = $plataforma";
     {
         $sql = "SELECT * FROM `producto_tienda` WHERE id_producto_tienda = $id";
          $landing = $this->select($sql);
-        $landing = $landing[0]['landig_tienda'];
+        $landing = $landing[0]['landing_tienda'];
         
     if($landing=='') {
             return 0;
