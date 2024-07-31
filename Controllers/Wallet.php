@@ -374,7 +374,7 @@ class Wallet extends Controller
                 $agregados = 0;
                 //echo count($data);
                 foreach ($data as $row) {
-                    // echo $fila;
+                     echo $fila;
                     if ($fila > 0) {
 
                         //print_r ($data[$fila]); 
