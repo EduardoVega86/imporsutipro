@@ -122,10 +122,7 @@ class Tienda extends Controller
 
     public function obtenerPixeles()
     {
-        if (!$this->isAuth())
-            header("Location:  " . SERVERURL . "login");
-
-        $id_plataforma = $_SESSION['id_plataforma'];
+        $id_plataforma = $_POST['id_plataforma'];
         $response = $this->model->obtenerPixeles($id_plataforma);
         echo json_encode($response);
     }
