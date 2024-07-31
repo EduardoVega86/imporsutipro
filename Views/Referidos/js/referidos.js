@@ -14,6 +14,10 @@ $(document).ready(function () {
       $("#cantidad_referidos").text(response.cantidad);
       $("#ganancia_historico_referidos").text(response.ganancias);
       $("#ganancias_referidos").text(response.saldo);
+
+      // Inicializar las tablas después de cargar los datos
+      initDataTableReferidos();
+      initDataTableGuiasReferidos();
     },
     error: function (error) {
       console.error("Error al obtener la lista de bodegas:", error);
@@ -63,12 +67,12 @@ const dataTableReferidosOptions = {
   },
 };
 
-const initDataTableReferidos = async () => {
+const initDataTableReferidos = () => {
   if (dataTableReferidosIsInitialized) {
     dataTableReferidos.destroy();
   }
 
-  await listReferidos();
+  listReferidos();
 
   dataTableReferidos = $("#datatable_referidos").DataTable(
     dataTableReferidosOptions
@@ -77,9 +81,8 @@ const initDataTableReferidos = async () => {
   dataTableReferidosIsInitialized = true;
 };
 
-const listReferidos = async () => {
+const listReferidos = () => {
   try {
-
     let content = ``;
 
     referidos_principal.forEach((referido, index) => {
@@ -98,11 +101,7 @@ const listReferidos = async () => {
   }
 };
 
-window.addEventListener("load", async () => {
-  await initDataTableReferidos();
-});
-
-//TABLA GUIAS REFERIDOS
+// TABLA GUIAS REFERIDOS
 let dataTableGuiasReferidos;
 let dataTableGuiasReferidosIsInitialized = false;
 
@@ -130,12 +129,12 @@ const dataTableGuiasReferidosOptions = {
   },
 };
 
-const initDataTableGuiasReferidos = async () => {
+const initDataTableGuiasReferidos = () => {
   if (dataTableGuiasReferidosIsInitialized) {
     dataTableGuiasReferidos.destroy();
   }
 
-  await listGuiasReferidos();
+  listGuiasReferidos();
 
   dataTableGuiasReferidos = $("#datatable_guias_referidos").DataTable(
     dataTableGuiasReferidosOptions
@@ -144,9 +143,8 @@ const initDataTableGuiasReferidos = async () => {
   dataTableGuiasReferidosIsInitialized = true;
 };
 
-const listGuiasReferidos = async () => {
+const listGuiasReferidos = () => {
   try {
-
     let content = ``;
 
     cabeceras_principal.forEach((guia, index) => {
@@ -164,6 +162,7 @@ const listGuiasReferidos = async () => {
   }
 };
 
-window.addEventListener("load", async () => {
-  await initDataTableGuiasReferidos();
+// Asegurarse de que las tablas se inicializan solo después de cargar los datos
+$(window).on("load", async () => {
+  // Los datos se cargarán y las tablas se inicializarán automáticamente después de recibir la respuesta en el $.ajax
 });
