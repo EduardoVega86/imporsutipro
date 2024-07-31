@@ -154,7 +154,7 @@
                         timer: 2000
                     }).then(() => {
                         cargar_saldoWallet();
-                        initDataTableFacturas();
+                        initDataTablePagos();
                         cargarDashboard_wallet();
                         $('#realizar_pagoModal').modal('hide');
                     });
