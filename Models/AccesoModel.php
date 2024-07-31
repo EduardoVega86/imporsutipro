@@ -366,11 +366,11 @@ class AccesoModel extends Query
         return false;
     }
 
-    public function recuperar_contrasena($correo, $recaptchaToken)
+    public function recuperar_contrasena($correo)
     {
 
         $usuario = $this->select("SELECT * FROM users WHERE email_users = '$correo'");
-
+        $token = null;
         if (count($usuario) > 0) {
             $token = md5(uniqid(mt_rand(), true)); // Asegurarse de que el token se genere aquí
         }
