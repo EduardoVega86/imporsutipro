@@ -969,7 +969,7 @@ class WalletModel extends Query
 
         // $descripcion_producto = "<p><strong>2 EN 1 x 100 CAPSULAS</strong></p><p>- Mejora la atención y la memoria.</p><p>- Mejora el rendimiento cerebral.</p><p>- Reduce la capacidad de concentración.</p><p>- Mejora la función cognitiva.</p>";
         // echo $descripcion_producto;
-        $sql = "INSERT INTO productos (id_trasportadora, guia, valor, fecha) VALUES (?, ?, ?, ?)";
+        $sql = "INSERT INTO productos (id_trasportadora, guia, valor, comision,  fecha) VALUES (?, ?, ?, ?, ?)";
         $data = [$transportadora, $guia, $valor, $comision, $fecha];
         $insertar_producto = $this->insert($sql, $data);
 
