@@ -960,4 +960,38 @@ class WalletModel extends Query
 
         return $response2;
     }
+    
+     public function agregarAuditoria($guia, $fecha, $valor, $comision, $transportadora)
+    {
+        $response = $this->initialResponse();
+        //  echo $descripcion_producto;
+        //echo '------';
+
+        // $descripcion_producto = "<p><strong>2 EN 1 x 100 CAPSULAS</strong></p><p>- Mejora la atención y la memoria.</p><p>- Mejora el rendimiento cerebral.</p><p>- Reduce la capacidad de concentración.</p><p>- Mejora la función cognitiva.</p>";
+        // echo $descripcion_producto;
+        $sql = "INSERT INTO productos (id_trasportadora, guia, valor, fecha) VALUES (?, ?, ?, ?)";
+        $data = [$transportadora, $guia, $valor, $comision, $fecha];
+        $insertar_producto = $this->insert($sql, $data);
+
+
+            
+      
+        // print_r($insertar_producto);
+        if ($insertar_producto == 1) {
+              $response['message'] = 'Producto y stock agregado correctamente';
+
+
+                $response['status'] = 200;
+                $response['title'] = 'Peticion exitosa';
+                $response['message'] = 'Producto agregado correctamente';
+    
+            
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al agregar el producto';
+        }
+
+        return $response;
+    }
 }

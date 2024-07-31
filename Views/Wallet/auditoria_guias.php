@@ -11,7 +11,7 @@
                <form id="uploadForm" enctype="multipart/form-data">
 
             <div class="form-group w-100 hidden-field" id="bodega-field">
-                <label for="bodega">Bodega:</label>
+                <label for="bodega">Transportadora carga:</label>
                 <select name="transporte_importacion" id="transporte_importacion" class="form-control">
                             <option value="0"> Seleccione Transportadora</option>
                             <option value="1">Laar</option>
@@ -72,6 +72,54 @@
 
 <script src="<?php echo SERVERURL ?>/Views/Wallet/js/solicitudes.js"></script>
 <script>
+     $(document).ready(function() {
+        $('#uploadForm').on('submit', function(e) {
+
+            var button = document.getElementById("enviar_importacion");
+            button.disabled = true; // Desactivar el botón
+
+            // Activar el botón después de 5 segundos (5000 milisegundos)
+            setTimeout(function() {
+                button.disabled = false;
+            }, 5000);
+
+            e.preventDefault(); // Prevenir el envío normal del formulario
+
+            var formData = new FormData();
+            formData.append('archivo', $('#fileInput')[0].files[0]); // Añadir archivo al FormData
+            formData.append('id_transportadora', $('#bodega_importacionMasiva').val()); // Añadir ID de bodega al FormData
+
+            $.ajax({
+                url: '<?php echo SERVERURL; ?>Wallet/importarExcel', // Ruta del controlador que manejará el archivo
+                type: 'POST',
+                data: formData,
+                contentType: false, // Necesario para que jQuery no añada un tipo de contenido
+                processData: false, // Necesario para que jQuery no convierta los datos a una cadena
+                success: function(response) {
+                    response = JSON.parse(response);
+                    if (response.status == 500) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: response.title,
+                            text: response.message
+                        });
+                    } else if (response.status == 200) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: response.title,
+                            text: response.message,
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                    }
+                },
+                error: function() {
+                    alert('Error al subir el archivo');
+                }
+            });
+        });
+    });
+    
     window.addEventListener("load", async () => {
         await initDataTableAuditoria(0, 0);
     });
