@@ -653,4 +653,10 @@ class Productos extends Controller
         $response = $this->model->existeLandingTienda($id);
         echo json_encode($response);
     }
+    
+     public function existeLandingTienda2($id)
+    {
+        $response = $this->model->existeLandingTienda2($id);
+        echo json_encode($response);
+    }
 }

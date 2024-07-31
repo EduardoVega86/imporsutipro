@@ -902,4 +902,18 @@ WHERE b.id_plataforma = $plataforma";
             return 1;
         }
     }
+     public function existeLandingTienda2($id)
+    {
+
+        $sql = "SELECT * FROM `productos_tienda` WHERE id_producto_tienda = $id";
+        //echo $sql;
+        $landing = $this->select($sql);
+        $landing = $landing[0]['landing_tienda'];
+
+        if ($landing == '') {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
 }
