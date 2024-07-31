@@ -997,4 +997,17 @@ ORDER BY
 
         return $response;
     }
+
+    public function eliminarOtroPago($id)
+    {
+        $sql = "DELETE FROM solicitudes_pago WHERE id_solicitud = ?";
+        $response =  $this->delete($sql, array($id));
+        if ($response == 1) {
+            $responses["status"] = 200;
+        } else {
+            $responses["status"] = 400;
+            $responses["message"] = $response["message"];
+        }
+        return $responses;
+    }
 }

@@ -291,7 +291,7 @@ class Wallet extends Controller
     {
         $id = $_POST['id'];
 
-        $response = $this->model->eliminarOtroPago($id);
+        $response = $this->model->eliminarMetodo($id);
         echo json_encode($response);
     }
 
