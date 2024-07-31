@@ -368,106 +368,69 @@ class AccesoModel extends Query
 
     public function recuperar_contrasena($correo, $recaptchaToken)
     {
-        // Obtener el access token
-        $accessToken = $this->getRecaptchaAccessToken();
-        echo "Access Token: $accessToken"; // Verificar el Access Token
 
-        // Validar el token de reCAPTCHA
-        $url = "https://recaptchaenterprise.googleapis.com/v1/projects/imporsuit-1722355326478/assessments?key=AIzaSyC1HNIMTEQLLIYN67z0ECyA8ygz0_Nd0_Q";
-        $data = [
-            'event' => [
-                'token' => $recaptchaToken,
-                'siteKey' => '6Lf3xBoqAAAAAKI2IDD9XVlu_DSb8uTuUc1Sooa1',
-                'expectedAction' => 'RECOVER_PASSWORD'
-            ]
-        ];
+        $usuario = $this->select("SELECT * FROM users WHERE email_users = '$correo'");
 
-        $options = [
-            'http' => [
-                'header'  => "Authorization: Bearer $accessToken\r\nContent-Type: application/json\r\n",
-                'method'  => 'POST',
-                'content' => json_encode($data),
-            ],
-        ];
-        $context  = stream_context_create($options);
-        $recaptchaResponse = file_get_contents($url, false, $context);
-        if ($recaptchaResponse === FALSE) {
-            die('Error');
+        if (count($usuario) > 0) {
+            $token = md5(uniqid(mt_rand(), true)); // Asegurarse de que el token se genere aquí
         }
-        echo "reCAPTCHA Response: $recaptchaResponse"; // Verificar la respuesta de reCAPTCHA
 
-        $recaptchaResult = json_decode($recaptchaResponse, true);
-        print_r($recaptchaResult); // Imprimir la respuesta de reCAPTCHA
-
-        if ($recaptchaResult['tokenProperties']['valid'] && $recaptchaResult['riskAnalysis']['score'] > 0.5) {
-            // Proceder con la lógica de recuperación de contraseña
-            $usuario = $this->select("SELECT * FROM users WHERE email_users = '$correo'");
-
-            if (count($usuario) > 0) {
-                $token = md5(uniqid(mt_rand(), true)); // Asegurarse de que el token se genere aquí
-            }
-
-            // Verificar que el token está definido
-            if (isset($token)) {
-                $sql = "UPDATE users SET token_act = ?, estado_token = 1 WHERE email_users = ?";
-                $data = [$token, $correo];
-                $response = $this->update($sql, $data);
-                $validador = new EmailValidator();
-                if ($validador->isValid($correo, new DNSCheckValidation())) {
-                    if ($response == 1) {
-                        $url_change = URL_MATRIZ . "/acceso/recovery/" . $token;
-                        require_once 'PHPMailer/Mail_recuperar.php';
-                        $mail = new PHPMailer();
-                        $mail->isSMTP();
-                        $mail->SMTPDebug = 3;
-                        $mail->Host = $smtp_host;
-                        $mail->SMTPAuth = true;
-                        $mail->Username = $smtp_user;
-                        $mail->Password = $smtp_pass;
-                        $mail->Port = 465;
-                        $mail->SMTPSecure = $smtp_secure;
-                        $mail->isHTML(true);
-                        $mail->CharSet = 'UTF-8';
-                        $mail->setFrom($smtp_from, $smtp_from_name);
-                        $mail->addAddress($correo);
-                        $mail->Subject = 'Recuperación de contraseña';
-                        $mail->Body = $message_body;
-                        if ($mail->send()) {
-                            $response = $this->initialResponse();
-                            $response['status'] = 200;
-                            $response['title'] = 'Peticion exitosa';
-                            $response['message'] = 'Correo enviado correctamente';
-                        } else {
-                            $response = $this->initialResponse();
-                            $response['status'] = 500;
-                            $response['title'] = 'Error';
-                            $response['message'] = 'Error al enviar el correo: ' . $mail->ErrorInfo;
-                            print_r($mail);
-                        }
+        // Verificar que el token está definido
+        if (isset($token)) {
+            $sql = "UPDATE users SET token_act = ?, estado_token = 1 WHERE email_users = ?";
+            $data = [$token, $correo];
+            $response = $this->update($sql, $data);
+            $validador = new EmailValidator();
+            if ($validador->isValid($correo, new DNSCheckValidation())) {
+                if ($response == 1) {
+                    $url_change = URL_MATRIZ . "/acceso/recovery/" . $token;
+                    require_once 'PHPMailer/Mail_recuperar.php';
+                    $mail = new PHPMailer();
+                    $mail->isSMTP();
+                    $mail->SMTPDebug = 3;
+                    $mail->Host = $smtp_host;
+                    $mail->SMTPAuth = true;
+                    $mail->Username = $smtp_user;
+                    $mail->Password = $smtp_pass;
+                    $mail->Port = 465;
+                    $mail->SMTPSecure = $smtp_secure;
+                    $mail->isHTML(true);
+                    $mail->CharSet = 'UTF-8';
+                    $mail->setFrom($smtp_from, $smtp_from_name);
+                    $mail->addAddress($correo);
+                    $mail->Subject = 'Recuperación de contraseña';
+                    $mail->Body = $message_body;
+                    if ($mail->send()) {
+                        $response = $this->initialResponse();
+                        $response['status'] = 200;
+                        $response['title'] = 'Peticion exitosa';
+                        $response['message'] = 'Correo enviado correctamente';
                     } else {
                         $response = $this->initialResponse();
                         $response['status'] = 500;
                         $response['title'] = 'Error';
-                        $response['message'] = 'Error al actualizar el token';
+                        $response['message'] = 'Error al enviar el correo: ' . $mail->ErrorInfo;
+                        print_r($mail);
                     }
                 } else {
                     $response = $this->initialResponse();
                     $response['status'] = 500;
                     $response['title'] = 'Error';
-                    $response['message'] = 'El correo no es valido';
+                    $response['message'] = 'Error al actualizar el token';
                 }
             } else {
                 $response = $this->initialResponse();
                 $response['status'] = 500;
                 $response['title'] = 'Error';
-                $response['message'] = 'Error al generar el token';
+                $response['message'] = 'El correo no es valido';
             }
         } else {
             $response = $this->initialResponse();
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = 'Error de reCAPTCHA: no válido o puntuación baja';
+            $response['message'] = 'Error al generar el token';
         }
+
 
         return $response;
     }
