@@ -336,6 +336,7 @@ const listAuditoria = async (estado, id_transporte) => {
                   <td>${item.costo_flete}</td>
                   <td>${item.costo_flete}</td>
                   <td>${item.costo_flete}</td>
+          <td>${item.valor}</td>
                   <td><input type="checkbox" class="selectCheckbox" data-id="${item.numero_guia}" ${check}></td>
               </tr>`;
     });

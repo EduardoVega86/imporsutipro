@@ -62,6 +62,7 @@
                         <th class="centered">Valor flete</th>
                         <th class="centered">Costo flete</th>
                         <th class="centered">Valor cod</th>
+                        <th class="centered">Valor importado</th>
                         <th></th>
                     </tr>
                 </thead>
