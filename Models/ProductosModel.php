@@ -905,7 +905,7 @@ WHERE b.id_plataforma = $plataforma";
      public function existeLandingTienda2($id)
     {
 
-        $sql = "SELECT * FROM `productos_tienda` WHERE id_producto_tienda = $id";
+        $sql = "SELECT * FROM `productos_tienda` WHERE id_producto_tienda = $id and landing_propia=1";
         //echo $sql;
         $landing = $this->select($sql);
         $landing = $landing[0]['landing_tienda'];
