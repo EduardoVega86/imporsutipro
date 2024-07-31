@@ -64,6 +64,7 @@ class Shopify extends Controller
         $descuento = $_POST["descuento"];
         $referencia = $_POST["referencia"];
 
+
         $response = $this->model->guardarConfiguracion($nombre, $apellido, $principal, $secundario, $provincia, $ciudad, $codigo_postal, $pais, $telefono, $email, $total, $descuento, $referencia, $_SESSION["id_plataforma"]);
         echo json_encode($response);
     }
