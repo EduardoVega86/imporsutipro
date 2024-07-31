@@ -231,6 +231,7 @@ function eliminarForma_pago(id) {
     data: formData,
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
+    dataType: "json",
     success: function (response) {
       // Mostrar alerta de éxito
       if (response.status == 500) {
