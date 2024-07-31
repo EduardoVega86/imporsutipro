@@ -9,7 +9,7 @@
         <!-- Facebook -->
         <div class="col-md-4">
             <div class="card-custom">
-                <img src="https://cdn.worldvectorlogo.com/logos/x-logo.svg" alt="Facebook Logo">
+                <img src="<?php echo SERVERURL; ?>/public/img/facebook.png" alt="Facebook Logo">
                 <h5 class="card-title">Facebook</h5>
                 <p class="card-text">Manten actualizadas tus campañas con nuestra api.</p>
                 <input type="hidden" id="conectado_facebook" name="conectado_facebook">
@@ -27,7 +27,7 @@
         <!-- TikTok -->
         <div class="col-md-4">
             <div class="card-custom">
-                <img src="https://cdn.worldvectorlogo.com/logos/tiktok-icon-1.svg" alt="TikTok Logo">
+                <img src="<?php echo SERVERURL; ?>/public/img/tiktok.png" alt="TikTok Logo">
                 <h5 class="card-title">TikTok</h5>
                 <p class="card-text">Manten actualizadas tus campañas con nuestra api.</p>
                 <input type="hidden" id="conectado_tiktok" name="conectado_tiktok">
