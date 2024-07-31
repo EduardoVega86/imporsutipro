@@ -56,13 +56,17 @@
                     <tr>
                         <th class="centered">Factura</th>
                         <th class="centered">Numero Guia</th>
+                        <th class="centered">Dropshippin</th>
                         <th class="centered">Transportadora</th>
                         <th class="centered">COD</th>
                         <th class="centered">Monto Factura</th>
                         <th class="centered">Valor flete</th>
+                        <th class="centered">Solo flete</th>
                         <th class="centered">Costo flete</th>
                         <th class="centered">Valor cod</th>
-                        <th class="centered">Valor importado</th>
+                        <th class="centered">Utilidad</th>
+                        <th class="centered">Valor Recaudo</th>
+                         <th class="centered">Cod Transportadora</th>
                         <th></th>
                     </tr>
                 </thead>

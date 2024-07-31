@@ -780,6 +780,7 @@ class WalletModel extends Query
         $sql = "SELECT 
     fc.numero_factura,
     fc.numero_guia,
+    fc.drogshipin,
     fc.cod,
     fc.estado_guia_sistema,
     fc.monto_factura,
