@@ -55,8 +55,8 @@
                 <thead>
                     <tr>
                         <th class="centered">Factura</th>
-                        <th class="centered">Numero Guia</th
-                         <th class="centered">TRANSPORTADORA</th>
+                        <th class="centered">Numero Guia</th>
+                        <th class="centered">Transportadora</th>
                         <th class="centered">COD</th>
                         <th class="centered">Monto Factura</th>
                         <th class="centered">Valor flete</th>
