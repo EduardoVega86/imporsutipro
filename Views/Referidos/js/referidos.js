@@ -10,6 +10,18 @@ $(document).ready(function () {
   });
 });
 
+function generar_referido(){
+  $.ajax({
+    url: SERVERURL + "referidos/crearReferido",
+    type: "GET",
+    dataType: "json",
+    success: function (response) {},
+    error: function (error) {
+      console.error("Error al obtener la lista de bodegas:", error);
+    },
+  });
+}
+
 let dataTableGuiasReferidos;
 let dataTableGuiasReferidosIsInitialized = false;
 
