@@ -41,7 +41,7 @@ let dataTableReferidosIsInitialized = false;
 
 const dataTableReferidosOptions = {
   columnDefs: [
-    { className: "centered", targets: [1, 2, 3, 4, 5] },
+    { className: "centered", targets: [0, 1, 2, 3, 4] },
     { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
   ],
   pageLength: 10,
@@ -109,7 +109,7 @@ let dataTableGuiasReferidosIsInitialized = false;
 
 const dataTableGuiasReferidosOptions = {
   columnDefs: [
-    { className: "centered", targets: [1, 2, 3, 4, 5] },
+    { className: "centered", targets: [0, 1, 2, 3] },
     { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
   ],
   pageLength: 10,
