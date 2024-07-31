@@ -22,6 +22,10 @@
                         </select>
                     </div>
                 </div>
+                <div class="filter-container">
+                <button class="filter-btn active" data-filter="0">Pendientes</button>
+               
+            </div>
             </div>
         </div>
         <div class="table-responsive">
