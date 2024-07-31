@@ -715,7 +715,7 @@ class WalletModel extends Query
 
     public function eliminarMetodo($id)
     {
-        $sql = "DELETE FROM metodo_pagos WHERE id_metodo = ?";
+        $sql = "DELETE FROM metodo_pagos WHERE id_pago = ?";
         $response =  $this->delete($sql, array($id));
         if ($response == 1) {
             $responses["status"] = 200;
