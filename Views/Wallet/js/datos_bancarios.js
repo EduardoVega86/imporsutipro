@@ -203,10 +203,7 @@ const listObtenerOtroPago = async () => {
                     <td>${pago.id_pago}</td>
                     <td>${pago.cuenta}</td>
                     <td>${pago.tipo}</td>
-                    <td>${pago.nombre}</td>
-                    <td>${pago.cedula}</td>
-                    <td>${pago.correo}</td>
-                    <td>${pago.telefono}</td>
+                    <td>${pago.red}</td>
                     <td>
                         <button class="btn btn-sm btn-danger" onclick="eliminarForma_pago(${pago.id_pago})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
                     </td>
