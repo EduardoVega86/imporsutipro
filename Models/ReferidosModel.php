@@ -59,4 +59,10 @@ class ReferidosModel extends Query
         $sql = "SELECT * FROM cabecera_cuenta_referidos WHERE id_plataforma = $plataforma";
         return $this->select($sql);
     }
+
+    public function getGananciasTotal($plataforma)
+    {
+        $sql = "SELECT SUM(monto) as total FROM cabecera_cuenta_referidos WHERE id_plataforma = $plataforma";
+        return $this->select($sql);
+    }
 }
