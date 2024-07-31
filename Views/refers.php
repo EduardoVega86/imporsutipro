@@ -190,8 +190,15 @@
         formData.forEach((value, key) => {
             data[key] = value;
         });
+        // Obtener la URL completa del navegador
+        let url_principal = window.location.href;
 
-        const url = '<?php echo SERVERURL; ?>Acceso/registro'; // Asegúrate de definir SERVERURL en tu backend PHP
+        // Buscar la posición de 'refers/' en la URL
+        let position = url_principal.indexOf('refers/') + 'refers/'.length;
+
+        // Extraer la sección después de 'refers/'
+        let refersValue = url_principal.substring(position);
+        const url = '<?php echo SERVERURL; ?>acceso/referido_token'; // Asegúrate de definir SERVERURL en tu backend PHP
 
         fetch(url, {
                 method: 'POST',
