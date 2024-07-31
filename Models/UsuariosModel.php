@@ -243,9 +243,21 @@ ON
     {
         $response = $this->initialResponse();
         $target_dir = "public/img/logos_tienda/";
-        $target_file = $target_dir . basename($imagen["name"]);
+        $imageFileType = strtolower(pathinfo($imagen["name"], PATHINFO_EXTENSION));
+
+        // Generar un nombre de archivo único
+        $unique_name = uniqid('', true) . '.' . $imageFileType;
+        $target_file = $target_dir . $unique_name;
+
+        // Verificar si el archivo existe y agregar un diferenciador si es necesario
+        $original_target_file = $target_file;
+        $counter = 1;
+        while (file_exists($target_file)) {
+            $target_file = $target_dir . uniqid('', true) . '.' . $imageFileType;
+            $counter++;
+        }
+
         $uploadOk = 1;
-        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
         $check = getimagesize($imagen["tmp_name"]);
         if ($check !== false) {
             $uploadOk = 1;
@@ -267,14 +279,14 @@ ON
             $response['message'] = 'Solo se permiten archivos JPG, JPEG, PNG';
             $uploadOk = 0;
         } else {
-            if (move_uploaded_file($imagen["tmp_name"], $target_file)) {
+            if ($uploadOk == 1 && move_uploaded_file($imagen["tmp_name"], $target_file)) {
                 $response['status'] = 200;
                 $response['title'] = 'Peticion exitosa';
                 $response['message'] = 'Imagen subida correctamente';
                 $response['data'] = $target_file;
 
-                $sql = "UPDATE perfil SET logo_url  = ? WHERE id_plataforma = ?";
-                $data = [$target_file,  $plataforma];
+                $sql = "UPDATE perfil SET logo_url = ? WHERE id_plataforma = ?";
+                $data = [$target_file, $plataforma];
                 $editar_imagen = $this->update($sql, $data);
                 if ($editar_imagen == 1) {
                     $response['status'] = 200;
@@ -295,14 +307,26 @@ ON
     }
 
 
+
     public function guardar_imagen_favicon($imagen, $plataforma)
     {
         $response = $this->initialResponse();
         $target_dir = "public/img/favicon_tienda/";
-        $target_file = $target_dir . basename($imagen["name"]);
-        $uploadOk = 1;
-        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        $imageFileType = strtolower(pathinfo($imagen["name"], PATHINFO_EXTENSION));
 
+        // Generar un nombre de archivo único
+        $unique_name = uniqid('', true) . '.' . $imageFileType;
+        $target_file = $target_dir . $unique_name;
+
+        // Verificar si el archivo existe y agregar un diferenciador si es necesario
+        $original_target_file = $target_file;
+        $counter = 1;
+        while (file_exists($target_file)) {
+            $target_file = $target_dir . uniqid('', true) . '.' . $imageFileType;
+            $counter++;
+        }
+
+        $uploadOk = 1;
         $check = getimagesize($imagen["tmp_name"]);
         if ($check !== false) {
             $uploadOk = 1;
@@ -326,7 +350,7 @@ ON
             $response['message'] = 'Solo se permiten archivos JPG, JPEG, PNG';
             $uploadOk = 0;
         } else {
-            if (move_uploaded_file($imagen["tmp_name"], $target_file)) {
+            if ($uploadOk == 1 && move_uploaded_file($imagen["tmp_name"], $target_file)) {
                 $response['status'] = 200;
                 $response['title'] = 'Peticion exitosa';
                 $response['message'] = 'Imagen subida correctamente';
@@ -353,6 +377,7 @@ ON
 
         return $response;
     }
+
 
 
     /* tienda online */

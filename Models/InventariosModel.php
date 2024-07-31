@@ -92,11 +92,11 @@ class InventariosModel extends Query
         return $response;
     }
 
-    public function guardar_imagen_productos()
+    public function guardar_imagen_productos($imagen, $id_producto, $plataforma)
     {
         $response = $this->initialResponse();
         $target_dir = "public/img/productos/";
-        $imageFileType = strtolower(pathinfo($_FILES["file"]["name"], PATHINFO_EXTENSION));
+        $imageFileType = strtolower(pathinfo($imagen["name"], PATHINFO_EXTENSION));
 
         // Generar un nombre de archivo único
         $unique_name = uniqid('', true) . '.' . $imageFileType;
@@ -111,7 +111,7 @@ class InventariosModel extends Query
         }
 
         $uploadOk = 1;
-        $check = getimagesize($_FILES["file"]["tmp_name"]);
+        $check = getimagesize($imagen["tmp_name"]);
         if ($check !== false) {
             $uploadOk = 1;
         } else {
@@ -120,7 +120,7 @@ class InventariosModel extends Query
             $response['message'] = 'El archivo no es una imagen';
             $uploadOk = 0;
         }
-        if ($_FILES["file"]["size"] > 500000) {
+        if ($imagen["size"] > 500000) {
             $response['status'] = 500;
             $response['title'] = 'Error';
             $response['message'] = 'El archivo es muy grande';
@@ -131,17 +131,25 @@ class InventariosModel extends Query
             $response['title'] = 'Error';
             $response['message'] = 'Solo se permiten archivos JPG, JPEG, PNG';
             $uploadOk = 0;
-        }
-        if ($uploadOk == 0) {
-            $response['status'] = 500;
-            $response['title'] = 'Error';
-            $response['message'] = 'Error al subir la imagen';
         } else {
-            if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
+            if (move_uploaded_file($imagen["tmp_name"], $target_file)) {
                 $response['status'] = 200;
                 $response['title'] = 'Peticion exitosa';
                 $response['message'] = 'Imagen subida correctamente';
                 $response['data'] = $target_file;
+
+                $sql = "UPDATE productos SET image_path = ? WHERE id_producto = ? AND id_plataforma = ?";
+                $data = [$target_file, $id_producto, $plataforma];
+                $editar_imagen = $this->update($sql, $data);
+                if ($editar_imagen == 1) {
+                    $response['status'] = 200;
+                    $response['title'] = 'Peticion exitosa';
+                    $response['message'] = 'Imagen subida correctamente';
+                } else {
+                    $response['status'] = 500;
+                    $response['title'] = 'Error';
+                    $response['message'] = 'Error al subir la imagen';
+                }
             } else {
                 $response['status'] = 500;
                 $response['title'] = 'Error';
@@ -150,6 +158,7 @@ class InventariosModel extends Query
         }
         return $response;
     }
+
 
 
     public function obtener_productos_bodegas($id_bodega, $plataforma)

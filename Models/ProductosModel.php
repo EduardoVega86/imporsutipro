@@ -28,9 +28,9 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
 
     public function importar_productos_tienda($id_producto, $plataforma)
     {
-$response = $this->initialResponse();
+        $response = $this->initialResponse();
         $inicial_variable = $this->select("SELECT * from productos_tienda  where id_plataforma= $plataforma and id_producto=$id_producto");
-//echo "SELECT * from productos_tienda  where id_plataforma= $plataforma and id_producto=$id_producto";
+        //echo "SELECT * from productos_tienda  where id_plataforma= $plataforma and id_producto=$id_producto";
         // print_r($inicial_variable);
         $ingreso_tienda = 0;
         if (empty($inicial_variable)) {
@@ -56,7 +56,7 @@ $response = $this->initialResponse();
                     $inv['landing']
                 );
                 $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
-               // print_r($guardar_detalle);
+                // print_r($guardar_detalle);
                 if ($guardar_detalle == 1) {
                     $response['status'] = 200;
                     $response['title'] = 'Peticion exitosa';
@@ -178,7 +178,7 @@ $response = $this->initialResponse();
         //  print_r($data);
         $editar_producto = $this->update($sql, $data);
         $pref = $pref ?? 0;
-       // print_r($editar_producto);
+        // print_r($editar_producto);
         if ($editar_producto == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
@@ -462,9 +462,21 @@ $response = $this->initialResponse();
     {
         $response = $this->initialResponse();
         $target_dir = "public/img/categorias/";
-        $target_file = $target_dir . basename($imagen["name"]);
+        $imageFileType = strtolower(pathinfo($imagen["name"], PATHINFO_EXTENSION));
+
+        // Generar un nombre de archivo único
+        $unique_name = uniqid('', true) . '.' . $imageFileType;
+        $target_file = $target_dir . $unique_name;
+
+        // Verificar si el archivo existe y agregar un diferenciador si es necesario
+        $original_target_file = $target_file;
+        $counter = 1;
+        while (file_exists($target_file)) {
+            $target_file = $target_dir . uniqid('', true) . '.' . $imageFileType;
+            $counter++;
+        }
+
         $uploadOk = 1;
-        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
         $check = getimagesize($imagen["tmp_name"]);
         if ($check !== false) {
             $uploadOk = 1;
@@ -474,7 +486,7 @@ $response = $this->initialResponse();
             $response['message'] = 'El archivo no es una imagen';
             $uploadOk = 0;
         }
-        if ($imagen["size"] > 50000000) {
+        if ($imagen["size"] > 50000000) { // Asegúrate de que este límite de tamaño sea correcto para tu caso de uso
             $response['status'] = 500;
             $response['title'] = 'Error';
             $response['message'] = 'El archivo es muy grande';
@@ -489,7 +501,7 @@ $response = $this->initialResponse();
         if ($uploadOk == 0) {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = 'Error al subir la imagen1';
+            $response['message'] = 'Error al subir la imagen';
         } else {
             if (move_uploaded_file($imagen["tmp_name"], $target_file)) {
                 $response['status'] = 200;
@@ -507,16 +519,17 @@ $response = $this->initialResponse();
                 } else {
                     $response['status'] = 500;
                     $response['title'] = 'Error';
-                    $response['message'] = 'Error al subir la imagen2';
+                    $response['message'] = 'Error al subir la imagen';
                 }
             } else {
                 $response['status'] = 500;
                 $response['title'] = 'Error';
-                $response['message'] = 'Error al subir la imagen3';
+                $response['message'] = 'Error al subir la imagen';
             }
         }
         return $response;
     }
+
 
     ///bodegas
 
@@ -853,9 +866,9 @@ WHERE b.id_plataforma = $plataforma";
 
     public function verificarProductoTienda($id)
     {
-        
+
         $sql = "SELECT * FROM `productos_tienda` WHERE id_producto_tienda = $id";
-       // echo $sql;
+        // echo $sql;
         $response =  $this->select($sql);
         if (empty($response)) {
             return 0;
@@ -863,7 +876,7 @@ WHERE b.id_plataforma = $plataforma";
             return 1;
         }
     }
-    
+
     public function existeLanding($id)
     {
         $sql = "SELECT * FROM `landing` WHERE id_producto = $id";
@@ -874,16 +887,16 @@ WHERE b.id_plataforma = $plataforma";
             return 1;
         }
     }
-    
-     public function existeLandingTienda($id)
+
+    public function existeLandingTienda($id)
     {
-         
+
         $sql = "SELECT * FROM `productos_tienda` WHERE id_producto_tienda = $id";
         //echo $sql;
-         $landing = $this->select($sql);
+        $landing = $this->select($sql);
         $landing = $landing[0]['landing_tienda'];
-        
-    if($landing=='') {
+
+        if ($landing == '') {
             return 0;
         } else {
             return 1;
