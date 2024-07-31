@@ -855,7 +855,7 @@ WHERE b.id_plataforma = $plataforma";
     {
         
         $sql = "SELECT * FROM `productos_tienda` WHERE id_producto_tienda = $id";
-        echo $sql;
+       // echo $sql;
         $response =  $this->select($sql);
         if (empty($response)) {
             return 0;
