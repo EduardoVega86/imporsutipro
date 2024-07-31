@@ -24,7 +24,12 @@ class Referidos extends Controller
     public function getReferidos()
     {
         $referidos = $this->model->getReferidos($_SESSION['id_plataforma']);
-        echo json_encode($referidos);
+        $cabeceras = $this->model->getCabecerasReferencias($_SESSION['id_plataforma']);
+        $data = array(
+            "referidos" => $referidos,
+            "cabeceras" => $cabeceras
+        );
+        echo json_encode($data);
     }
 
     public function  crearReferido()

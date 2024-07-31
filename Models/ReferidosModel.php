@@ -53,4 +53,10 @@ class ReferidosModel extends Query
         $data = array($monto, $cuenta, $id_matriz, $plataforma, $otro);
         return $this->insert($sql, $data);
     }
+
+    public function getCabecerasReferencias($plataforma)
+    {
+        $sql = "SELECT * FROM cabecera_cuenta_referidos WHERE id_plataforma = $plataforma";
+        return $this->select($sql);
+    }
 }
