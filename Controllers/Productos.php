@@ -659,4 +659,11 @@ class Productos extends Controller
         $response = $this->model->existeLandingTienda2($id);
         echo json_encode($response);
     }
+    
+     public function habilitarPrivado($id)
+    {
+           $estado = $_POST['estado'];
+        $response = $this->model->habilitarPrivado($id, $estado);
+        echo json_encode($response);
+    }
 }

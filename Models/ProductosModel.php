@@ -913,4 +913,23 @@ WHERE b.id_plataforma = $plataforma";
             return 1;
         }
     }
+    
+    public function habilitarPrivado($id, $estado)
+    {
+
+       $sql = "UPDATE `productos` SET  `producto_privado` = ? WHERE `id_producto` = ? ";
+        $data = [$estado, $plataforma];
+        $editar_producto = $this->update($sql, $data);
+        //print_r($editar_producto);
+        if ($editar_producto == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Categoria editada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            // $response['message'] = $editar_producto['message'];
+        }
+        return $response;
+    }
 }
