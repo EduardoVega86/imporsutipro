@@ -395,6 +395,7 @@ function editar_caracteristica(id) {
     contentType: false, // No establecer ningún tipo de contenido
     dataType: "json",
     success: function (response) {
+      $("#id_icono").val(response[0].id);
       $("#texto_icono").val(response[0].texto);
       $("#subTexto_icono").val(response[0].subtexto_icon);
       $("#enale_icono").val(response[0].enlace_icon);

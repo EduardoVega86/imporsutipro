@@ -15,7 +15,6 @@
     .hidden-field {
         display: none;
     }
-
 </style>
 
 <div class="modal fade" id="editar_iconoModal" tabindex="-1" aria-labelledby="editar_iconoModalLabel" aria-hidden="true">
@@ -28,6 +27,7 @@
             <div class="modal-body">
                 <form id="editar_icono_form" enctype="multipart/form-data">
                     <div class="row mb-3">
+                        <input type="hidden" id="id_icono" name="id_icono">
                         <div class="col-md-6">
                             <label for="texto_icono" class="form-label">Texto Icono:</label>
                             <input type="text" class="form-control" id="texto_icono" rows="3" placeholder="Texto del icono"></input>
@@ -79,13 +79,15 @@
 
             // Crea un objeto FormData
             var formData = new FormData();
-            formData.append('texto', $('#texto_flotante').val());
-            formData.append('estado', $('#visible_flotante').val());
-            formData.append('posicion', $('#posicion_flotante').val());
+            formData.append('id', $('#id_icono').val());
+            formData.append('texto', $('#texto_icono').val());
+            formData.append('subtexto_icon', $('#subTexto_icono').val());
+            formData.append('enale_icon', $('#enale_icono').val());
+            formData.append('icon_text', $('#icono').val());
 
             // Realiza la solicitud AJAX
             $.ajax({
-                url: '' + SERVERURL + 'Usuarios/editaricono',
+                url: '' + SERVERURL + 'Usuarios/editarIcono',
                 type: 'POST',
                 data: formData,
                 processData: false,
@@ -95,19 +97,19 @@
                     // Mostrar alerta de éxito
                     if (response.status == 500) {
                         toastr.error(
-                            "EL FLOTANTE NO SE AGREGRO CORRECTAMENTE",
+                            "EL ICONO NO SE AGREGRO CORRECTAMENTE",
                             "NOTIFICACIÓN", {
                                 positionClass: "toast-bottom-center"
                             }
                         );
                     } else if (response.status == 200) {
-                        toastr.success("FLOTANTE AGREGADO CORRECTAMENTE", "NOTIFICACIÓN", {
+                        toastr.success("ICONO ACTUALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
                             positionClass: "toast-bottom-center",
                         });
 
                         $('#editar_iconoModal').modal('hide');
                         resetForm();
-                        initDataTableHorizonal();
+                        initDataTableCaracteristicas();
                     }
                 },
                 error: function(error) {
