@@ -43,7 +43,7 @@
                     <tr>
                         <th class="centered"><input type="checkbox" id="selectAll"></th>
                         <th class="text-nowrap">ID</th>
-                        <th class="text-nowrap"></th>
+                        <th class="text-nowrap">Imagenes</th>
                         <th class="text-nowrap">Código</th>
                         <th class="text-nowrap">Producto</th>
                         <th class="text-nowrap">Destacado</th>
@@ -53,7 +53,6 @@
                         <th class="text-nowrap">PVP</th>
                         <th class="text-wrap">Precio Referencial</th>
                         <th class="text-nowrap">Landing</th>
-                        <th class="text-nowrap">Imagenes</th>
                         <th class="text-wrap">Marketplace</th>
                         <th class="text-wrap">Enviar a cliente</th>
                         <th class="text-nowrap">Atributos</th>
