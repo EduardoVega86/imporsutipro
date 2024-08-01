@@ -364,9 +364,9 @@ function editar_caracteristica(id) {
     contentType: false, // No establecer ningún tipo de contenido
     dataType: "json",
     success: function (response) {
-      $("#editar_id_linea").val(response[0].id_linea);
-      $("#editar_id_linea").val(response[0].id_linea);
-      $("#editar_id_linea").val(response[0].id_linea);
+      $("#texto_icono").val(response[0].texto);
+      $("#subTexto_icono").val(response[0].subtexto_icon);
+      $("#enale_icono").val(response[0].enlace_icon);
 
       $("#editar_iconoModal").modal("show");
     },
