@@ -2,7 +2,7 @@
 <?php require_once './Views/Referidos/css/referidos_style.php'; ?>
 
 <script>
-    const referido_generado = <?php echo $data; ?>
+
 </script>
 
 <div class="custom-container-fluid">
