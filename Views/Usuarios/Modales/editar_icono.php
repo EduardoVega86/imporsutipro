@@ -29,7 +29,7 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label for="texto_icono" class="form-label">Texto Icono:</label>
-                            <textarea class="form-control" id="texto_icono" rows="3" placeholder="Texto del icono"></textarea>
+                            <input type="text" class="form-control" id="texto_icono" rows="3" placeholder="Texto del icono"></input>
                         </div>
                         <div class="col-md-6">
                             <label for="subTexto_icono" class="form-label">Sub-texto Icono</label>
@@ -37,13 +37,12 @@
                         </div>
                         <div class="col-md-6">
                             <label for="enale_icono" class="form-label">Enlace Icono:</label>
-                            <textarea class="form-control" id="enale_icono" rows="3" placeholder="URL"></textarea>
+                            <input type="text" class="form-control" id="enale_icono" rows="3" placeholder="URL"></input>
                         </div>
                         <div class="col-md-6">
                             <label for="icono" class="form-label">Icono:</label>
                             <select class="form-select" id="icono">
-                                <option value="1">Si</option>
-                                <option value="0">No</option>
+                                <option selected value="">-- Selecciona Icono --</option>
                             </select>
                         </div>
                     </div>
