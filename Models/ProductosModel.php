@@ -18,6 +18,17 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
 
         return $this->select($sql);
     }
+    
+      public function obtener_productos_privados($plataforma)
+    {
+        $sql = "SELECT ib.*, p.*
+FROM `inventario_bodegas` AS ib
+INNER JOIN `productos` AS p ON p.`id_producto` = ib.`id_producto`
+WHERE ib.`id_plataforma` = $plataforma and producto_privado=1
+GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
+
+        return $this->select($sql);
+    }
 
     public function obtener_productos_tienda($plataforma)
     {
