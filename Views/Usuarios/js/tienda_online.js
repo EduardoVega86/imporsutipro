@@ -352,6 +352,26 @@ const listCaracteristicas = async () => {
   }
 };
 
+function editar_caracteristica(id) {
+  let formData = new FormData();
+  formData.append("id", id); // Añadir el SKU al FormData
+
+  $.ajax({
+    url: SERVERURL + "Usuarios/obtener_caracteristica_id",
+    type: "POST", // Cambiar a POST para enviar FormData
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    dataType: "json",
+    success: function (response) {
+      $("#editar_iconoModal").modal("show");
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+}
+
 function editar_banner(id) {
   let formData = new FormData();
   formData.append("id", id);

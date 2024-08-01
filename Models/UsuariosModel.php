@@ -402,6 +402,13 @@ ON
         return $this->select($sql);
     }
 
+    public function obtener_caracteristica_ids($id, $plataforma)
+    {
+        $sql = "SELECT * FROM caracteristicas_tienda WHERE id_plataforma = $plataforma AND id = $id";
+
+        return $this->select($sql);
+    }
+
     public function obtener_bannertiendaID($id, $plataforma)
     {
         $sql = "SELECT * FROM banner_adicional WHERE id_plataforma = $plataforma AND id = $id";

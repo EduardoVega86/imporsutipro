@@ -295,6 +295,13 @@ class Usuarios extends Controller
         echo json_encode($response);
     }
 
+    public function obtener_caracteristica_id()
+    {
+        $id = $_POST['id'];
+        $response = $this->model->obtener_caracteristica_ids($id, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
     public function obtener_bannertiendaID()
     {
         $id = $_POST['id'];

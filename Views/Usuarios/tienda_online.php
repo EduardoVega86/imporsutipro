@@ -7,6 +7,7 @@
 <?php require_once './Views/Usuarios/Modales/editar_testimonio.php'; ?>
 <?php require_once './Views/Usuarios/Modales/agregar_horizontal.php'; ?>
 <?php require_once './Views/Usuarios/Modales/editar_horizontal.php'; ?>
+<?php require_once './Views/Usuarios/Modales/editar_icono.php'; ?>
 
 <style>
     .container {
