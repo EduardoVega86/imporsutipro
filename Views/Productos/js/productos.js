@@ -133,8 +133,15 @@ const listProductos = async () => {
           ? `<input type="checkbox" class="selectCheckbox" data-id="${producto.id_producto}">`
           : ``;
 
+      let check_privado = "";
+
       // Nuevo checkbox para agregar_privado
-      let agregar_privado_checkBox = `<input type="checkbox" class="agregarPrivadoCheckbox" data-id="${producto.id_producto}" onchange="toggleAgregarPrivado(this)">`; // Añadido el evento onchange
+      if (producto.producto_privado == 1) {
+        check_privado = "checked";
+      } else {
+        check_privado = "";
+      }
+      let agregar_privado_checkBox = `<input type="checkbox" class="agregarPrivadoCheckbox" data-id="${producto.id_producto}" onchange="toggleAgregarPrivado(this)" ${check_privado}>`; // Añadido el evento onchange
 
       let producto_variable, enviaCliente, botonId_inventario;
       if (producto.producto_variable == 0) {
