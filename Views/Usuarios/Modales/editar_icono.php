@@ -15,6 +15,16 @@
     .hidden-field {
         display: none;
     }
+
+    /* Personaliza el aspecto del select */
+    .select2-selection__rendered {
+        display: flex;
+        align-items: center;
+    }
+
+    .select2-selection__rendered i {
+        margin-right: 10px;
+    }
 </style>
 
 <div class="modal fade" id="editar_iconoModal" tabindex="-1" aria-labelledby="editar_iconoModalLabel" aria-hidden="true">

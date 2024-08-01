@@ -78,6 +78,40 @@ $("#imageInputFav").on("change", function (event) {
 
 $(document).ready(function () {
   cargarInfoTienda_inicial();
+
+  // Cargar el archivo JSON
+  $.getJSON(SERVERURL+"Views/Usuarios/json/iconos.json", function (data) {
+    // Iterar sobre los datos y agregar opciones al select
+    $.each(data, function (index, item) {
+      $("#icono").append(
+        $("<option>", {
+          value: item["icon-name"],
+          text: item["icon-name"],
+        })
+      );
+    });
+
+    // Inicializar Select2 con formato personalizado
+    $("#icono").select2({
+      templateResult: formatIcon, // Formato para la lista de resultados
+      templateSelection: formatIcon, // Formato para el elemento seleccionado
+    });
+  });
+
+  // Función para formatear las opciones con icono y texto
+  function formatIcon(icon) {
+    if (!icon.id) {
+      return icon.text;
+    }
+    var $icon = $(
+      '<span><i class="fa ' +
+        icon.id +
+        '" aria-hidden="true"></i> ' +
+        icon.text +
+        "</span>"
+    );
+    return $icon;
+  }
 });
 
 function cargarInfoTienda_inicial() {
