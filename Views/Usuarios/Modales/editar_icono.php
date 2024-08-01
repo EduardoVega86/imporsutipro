@@ -37,8 +37,8 @@
                             <textarea class="form-control" id="subTexto_icono" rows="3" placeholder="Escriba el sub-texto"></textarea>
                         </div>
                         <div class="col-md-6">
-                            <label for="enale_icono" class="form-label">Enlace Icono:</label>
-                            <input type="text" class="form-control" id="enale_icono" rows="3" placeholder="URL"></input>
+                            <label for="enlace_icono" class="form-label">Enlace Icono:</label>
+                            <input type="text" class="form-control" id="enlace_icono" rows="3" placeholder="URL"></input>
                         </div>
                         <div class="col-md-6">
                             <label for="icono" class="form-label">Icono:</label>
@@ -82,7 +82,7 @@
             formData.append('id', $('#id_icono').val());
             formData.append('texto', $('#texto_icono').val());
             formData.append('subtexto_icon', $('#subTexto_icono').val());
-            formData.append('enale_icon', $('#enale_icono').val());
+            formData.append('enlace_icon', $('#enlace_icono').val());
             formData.append('icon_text', $('#icono').val());
 
             // Realiza la solicitud AJAX

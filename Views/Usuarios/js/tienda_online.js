@@ -398,7 +398,7 @@ function editar_caracteristica(id) {
       $("#id_icono").val(response[0].id);
       $("#texto_icono").val(response[0].texto);
       $("#subTexto_icono").val(response[0].subtexto_icon);
-      $("#enale_icono").val(response[0].enlace_icon);
+      $("#enlace_icono").val(response[0].enlace_icon);
       $("#icono").val(response[0].icon_text).change();
 
       $("#editar_iconoModal").modal("show");
