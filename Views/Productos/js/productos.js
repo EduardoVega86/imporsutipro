@@ -197,11 +197,17 @@ function toggleAgregarPrivado(checkbox) {
   const isChecked = checkbox.checked;
   const estado = isChecked ? 0 : 1; // Si está marcado, enviar 0; si no, enviar 1
 
+  let formData = new FormData();
+  formData.append("id_producto", productId);
+  formData.append("estado", estado);
+
   // Llamada AJAX para enviar el estado a la API
   $.ajax({
     type: "POST",
-    url: SERVERURL + "productos/habilitarPrivado", // Endpoint de la API
-    data: { id: productId, estado: estado }, // Enviar el ID y el estado
+    url: SERVERURL + "productos/habilitarPrivado",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
     dataType: "json",
     success: function (response) {
       console.log("Estado actualizado correctamente", response);
