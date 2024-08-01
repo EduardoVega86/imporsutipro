@@ -667,4 +667,12 @@ class Productos extends Controller
         $response = $this->model->habilitarPrivado($id, $estado);
         echo json_encode($response);
     }
+    
+     public function agregarPrivadoPlataforma()
+    {
+         $id = $_POST['id_producto'];
+           $plataforma = $_POST['id_plataforma'];
+        $response = $this->model->habilitarPrivado($id, $plataforma);
+        echo json_encode($response);
+    }
 }

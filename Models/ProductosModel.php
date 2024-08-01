@@ -932,4 +932,25 @@ WHERE b.id_plataforma = $plataforma";
         }
         return $response;
     }
+    
+     public function habilitarPrivado($id, $plataforma)
+    {
+
+     $sql = "INSERT INTO producto_privado (id_producto, plataforma) VALUES (?, ?)";
+            $data = [$id, $plataforma];
+            $insertar_caracteristica = $this->insert($sql, $data);
+        //print_r($editar_producto);
+        if ($insertar_caracteristica == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Producto agregado correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            // $response['message'] = $editar_producto['message'];
+        }
+        return $response;
+    }
+    
+     
 }
