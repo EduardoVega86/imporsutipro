@@ -130,7 +130,7 @@
 
                         $('#agregar_usuarioModal').modal('hide');
                         resetForm();
-                        initDataTableHorizonal();
+                        initDataTableObtenerUsuariosPlataforma();
                     }
                 },
                 error: function(error) {
