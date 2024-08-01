@@ -660,8 +660,9 @@ class Productos extends Controller
         echo json_encode($response);
     }
     
-     public function habilitarPrivado($id)
+     public function habilitarPrivado()
     {
+         $id = $_POST['id_producto'];
            $estado = $_POST['estado'];
         $response = $this->model->habilitarPrivado($id, $estado);
         echo json_encode($response);
