@@ -361,7 +361,7 @@ const listCaracteristicas = async () => {
       content += `
           <tr>
               <td>${item.texto}</td>
-              <td>${item.icon_text}</td>
+              <td><i class="fa ${item.icon_text} fa-2x"></i></td>
               <td>${item.subtexto_icon}</td>
               <td>${item.enlace_icon}</td>
               <td>
