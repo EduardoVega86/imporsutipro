@@ -124,8 +124,13 @@ const listGuias = async () => {
         funcion_anular = `anular_guiaLaar('${guia.numero_guia}')`;
         estado = validar_estadoLaar(guia.estado_guia_sistema);
       } else if (transporte == 4) {
-        transporte_content =
-          '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
+        if (MATRIZ == 2) {
+          transporte_content =
+            '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">Merkalogistic</span>';
+        } else if (MATRIZ == 1) {
+          transporte_content =
+            '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
+        }
         ruta_descarga = `<a class="w-100" href="https://guias.imporsuitpro.com/Speed/descargar/${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
         ruta_traking = ``;
         funcion_anular = `anular_guiaSpeed('${guia.numero_guia}')`;
@@ -182,9 +187,9 @@ const listGuias = async () => {
       }
 
       despachado = "";
-      if (guia.estado_factura == 2){
+      if (guia.estado_factura == 2) {
         despachado = `<i class='bx bx-check' style="color:#28E418; font-size: 30px;"></i>`;
-      } else if (guia.estado_factura == 1){
+      } else if (guia.estado_factura == 1) {
         despachado = `<i class='bx bx-x' style="color:red; font-size: 30px;"></i>`;
       }
       content += `
@@ -676,9 +681,7 @@ function anular_guiaServi(numero_guia) {
     type: "GET",
     url: "https://guias.imporsuitpro.com/Servientrega/Anular/" + numero_guia,
     dataType: "json",
-    success: function (response) {
-      
-    },
+    success: function (response) {},
     error: function (xhr, status, error) {
       /* alert("Hubo un problema al anular la guia de Servientrega"); */
     },
@@ -690,13 +693,9 @@ function anular_guiaServi(numero_guia) {
     dataType: "json",
     success: function (response) {
       if (response.status == 500) {
-        toastr.error(
-          "LA IMAGEN NO SE AGREGRO CORRECTAMENTE",
-          "NOTIFICACIÓN",
-          {
-            positionClass: "toast-bottom-center",
-          }
-        );
+        toastr.error("LA IMAGEN NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
       } else if (response.status == 200) {
         toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
@@ -770,7 +769,10 @@ function gestionar_novedad(guia_novedad) {
     type: "GET",
     dataType: "json",
     success: function (response) {
-      if (response.novedad[0].guia_novedad.includes("IMP") || response.novedad[0].guia_novedad.includes("MKP")) {
+      if (
+        response.novedad[0].guia_novedad.includes("IMP") ||
+        response.novedad[0].guia_novedad.includes("MKP")
+      ) {
         transportadora = "LAAR";
         $("#seccion_laar").show();
         $("#seccion_servientrega").hide();
