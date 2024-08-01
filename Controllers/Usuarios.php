@@ -302,6 +302,18 @@ class Usuarios extends Controller
         echo json_encode($response);
     }
 
+    public function editarIcono()
+    {
+        $id = $_POST['id'];
+        $texto = $_POST['texto'];
+        $subtexto_icon = $_POST['subtexto_icon'];
+        $enlace_icon = $_POST['enlace_icon'];
+        $icon_text = $_POST['icon_text'];
+
+        $response = $this->model->editarIcono($id, $texto, $subtexto_icon, $enlace_icon, $icon_text, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
     public function obtener_bannertiendaID()
     {
         $id = $_POST['id'];

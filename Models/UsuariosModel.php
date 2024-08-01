@@ -409,6 +409,30 @@ ON
         return $this->select($sql);
     }
 
+    public function editarIcono($id, $texto, $subtexto_icon, $enlace_icon, $icon_text, $id_plataforma)
+    {
+        $response = $this->initialResponse();
+        $sql = "UPDATE `caracteristicas_tienda` SET `texto`=?,"
+            . "`subtexto_icon`=?,`enlace_icon`=?,"
+            . "`icon_text`=? WHERE id_plataforma = ? AND id = ?;";
+        // echo $sql;
+        $data = [$texto, $subtexto_icon, $enlace_icon,  $icon_text, $id_plataforma, $id];
+        //  print_r($data);
+        $editar_icono = $this->update($sql, $data);
+        
+        // print_r($editar_icono);
+        if ($editar_icono == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Icono editado correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = $editar_icono['message'];
+        }
+        return $response;
+    }
+
     public function obtener_bannertiendaID($id, $plataforma)
     {
         $sql = "SELECT * FROM banner_adicional WHERE id_plataforma = $plataforma AND id = $id";
