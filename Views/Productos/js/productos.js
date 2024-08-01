@@ -167,12 +167,6 @@ const listProductos = async () => {
           <td>${producto.pcp}</td>
           <td>${producto.pvp}</td>
           <td>${producto.pref}</td>
-        <td><a href='${
-          SERVERURL + "productos/landing/" + producto.id_producto
-        }' role='button'><i class="fa-solid fa-laptop-code" style="font-size:25px;"></i></a></td>
-          <td><i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${
-            producto.id_producto
-          },'${enlace_imagen}')"></i></td>
           <td>${subir_marketplace}</td>
           <td>${enviaCliente}</td>
           <td>${producto_variable}</td>
