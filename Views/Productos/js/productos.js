@@ -199,7 +199,7 @@ const listProductos = async () => {
 function toggleAgregarPrivado(checkbox) {
   const productId = checkbox.getAttribute("data-id");
   const isChecked = checkbox.checked;
-  const estado = isChecked ? 0 : 1; // Si está marcado, enviar 0; si no, enviar 1
+  const estado = isChecked ? 1 : 0; // Si está marcado, enviar 1; si no, enviar 0
 
   let formData = new FormData();
   formData.append("id_producto", productId);
