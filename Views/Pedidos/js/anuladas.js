@@ -117,8 +117,13 @@ const listGuias = async () => {
         ruta_traking = `https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${guia.numero_guia}`;
         funcion_anular = `anular_guiaLaar('${guia.numero_guia}')`;
       } else if (transporte == 4) {
-        transporte_content =
-          '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
+        if (MATRIZ == 2) {
+          transporte_content =
+            '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">MerkaLogistic</span>';
+        } else if (MATRIZ == 1) {
+          transporte_content =
+            '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
+        }
         ruta_descarga = `https://guias.imporsuitpro.com/Speed/descargar/${guia.numero_guia}`;
         ruta_traking = ``;
         funcion_anular = ``;
@@ -488,7 +493,10 @@ function gestionar_novedad(guia_novedad) {
     type: "GET",
     dataType: "json",
     success: function (response) {
-      if (response.novedad[0].guia_novedad.includes("IMP") || response.novedad[0].guia_novedad.includes("MKP")) {
+      if (
+        response.novedad[0].guia_novedad.includes("IMP") ||
+        response.novedad[0].guia_novedad.includes("MKP")
+      ) {
         transportadora = "LAAR";
         $("#seccion_laar").show();
         $("#seccion_servientrega").hide();

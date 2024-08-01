@@ -126,7 +126,7 @@ const listGuias = async () => {
       } else if (transporte == 4) {
         if (MATRIZ == 2) {
           transporte_content =
-            '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">Merkalogistic</span>';
+            '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">MerkaLogistic</span>';
         } else if (MATRIZ == 1) {
           transporte_content =
             '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';

@@ -60,8 +60,13 @@ const listGuias = async () => {
         transporte_content =
           '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">LAAR</span>';
       } else if (transporte == 4) {
-        transporte_content =
-          '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
+        if (MATRIZ == 2) {
+          transporte_content =
+            '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">MerkaLogistic</span>';
+        } else if (MATRIZ == 1) {
+          transporte_content =
+            '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
+        }
       } else if (transporte == 3) {
         transporte_content =
           '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>';

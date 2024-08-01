@@ -93,8 +93,13 @@ const listGuias = async () => {
         funcion_anular = `anular_guiaLaar('${guia.numero_guia}')`;
         estado = validar_estadoLaar(guia.estado_guia_sistema);
       } else if (transporte == 4) {
-        transporte_content =
-          '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
+        if (MATRIZ == 2) {
+          transporte_content =
+            '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">MerkaLogistic</span>';
+        } else if (MATRIZ == 1) {
+          transporte_content =
+            '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
+        }
         ruta_descarga = `<a class="w-100" href="https://guias.imporsuitpro.com/Speed/descargar/${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
         ruta_traking = ``;
         funcion_anular = `anular_guiaSpeed('${guia.numero_guia}')`;
