@@ -480,11 +480,11 @@ class Usuarios extends Controller
 
     public function agregar_usuario()
     {
-        $data = json_decode(file_get_contents("php://input"), true);
+
         //print_r($data);
-        $nombre = $data['nombre'];
-        $correo = $data['correo'];
-        $contrasena = $data['contrasena'];
+        $nombre = $_POST['nombre'];
+        $correo = $_POST['correo'];
+        $contrasena = $_POST['contrasena'];
         $id_plataforma = $_SESSION['id_plataforma'];
 
         $response = $this->model->agregar_usuario($nombre, $correo, $contrasena, $id_plataforma);
