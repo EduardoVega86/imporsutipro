@@ -31,9 +31,11 @@ class ReferidosModel extends Query
             $sql = "INSERT INTO billetera_referidos (`saldo`, `id_plataforma`) VALUES (?, ?)";
             $data = array(0, $id);
             $this->insert($sql, $data);
+            return true;
         }
 
         // Retorna algún valor o mensaje si la billetera ya existe
+        return false; // O algún mensaje que haga sentido en tu lógica de negocio
     }
 
     public function crearReferido($id)
