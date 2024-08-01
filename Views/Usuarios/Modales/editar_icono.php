@@ -16,21 +16,6 @@
         display: none;
     }
 
-    /* Personaliza el aspecto del select */
-    .select2-container .select2-selection--single .select2-selection__rendered {
-        display: flex;
-        align-items: center;
-    }
-
-    .select2-container .select2-results__option {
-        display: flex;
-        align-items: center;
-    }
-
-    .select2-container .select2-results__option i {
-        margin-right: 8px;
-        /* Espacio entre el icono y el texto */
-    }
 </style>
 
 <div class="modal fade" id="editar_iconoModal" tabindex="-1" aria-labelledby="editar_iconoModalLabel" aria-hidden="true">
