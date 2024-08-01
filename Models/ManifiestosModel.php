@@ -244,7 +244,7 @@ GROUP BY dfc.id_producto,
                         $pdf_content = file_get_contents("https://guias.imporsuitpro.com/Servientrega/Guia/" . $guia);
                     } else if (strpos($guia, "I00") === 0) {
                         $pdf_content = file_get_contents("https://guias.imporsuitpro.com/Gintracom/label/" . $guia);
-                    } else if (strpos($guia, "SPD") === 0 && strpos($guia, "MKL") === 0) {
+                    } else if (strpos($guia, "SPD") === 0 || strpos($guia, "MKL") === 0) {
                         $pdf_content = file_get_contents("https://guias.imporsuitpro.com/Speed/descargar/" . $guia);
                     }
                     if ($pdf_content === false) {
