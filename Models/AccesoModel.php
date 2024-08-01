@@ -286,6 +286,27 @@ class AccesoModel extends Query
         return $response;
     }
 
+    public function bienvenida()
+    {
+        $correo = "jeimyjara@hotmail.com";
+        require_once 'PHPMailer/Mail_bienvenida.php';
+        $mail = new PHPMailer();
+        $mail->isSMTP();
+        $mail->SMTPDebug = $smtp_debug;
+        $mail->Host = $smtp_host;
+        $mail->SMTPAuth = true;
+        $mail->Username = $smtp_user;
+        $mail->Password = $smtp_pass;
+        $mail->Port = 465;
+        $mail->SMTPSecure = $smtp_secure;
+        $mail->isHTML(true);
+        $mail->CharSet = 'UTF-8';
+        $mail->setFrom($smtp_from, $smtp_from_name);
+        $mail->addAddress($correo);
+        $mail->Subject = 'Registro en ' . MARCA;
+        $mail->Body = $message_body;
+    }
+
     public function login($usuario, $password)
     {
         ini_set('session.gc_maxlifetime', 3600);
