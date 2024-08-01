@@ -91,8 +91,9 @@ $(document).ready(function () {
       );
     });
 
-    // Inicializar Select2 con formato personalizado
+    // Inicializar Select2 dentro del modal
     $("#icono").select2({
+      dropdownParent: $("#myModal"), // Asigna el dropdown al modal
       templateResult: formatIcon, // Formato para la lista de resultados
       templateSelection: formatIcon, // Formato para el elemento seleccionado
     });

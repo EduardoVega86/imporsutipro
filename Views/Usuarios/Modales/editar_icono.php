@@ -42,7 +42,7 @@
                         </div>
                         <div class="col-md-6">
                             <label for="icono" class="form-label">Icono:</label>
-                            <select class="form-select" id="icono">
+                            <select class="form-select" id="icono" style="width: 100%;">
                                 <option selected value="">-- Selecciona Icono --</option>
                             </select>
                         </div>
