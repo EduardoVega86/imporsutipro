@@ -27,7 +27,7 @@ $message_body = '
             </td>
         </tr>
         <tr>
-            <td bgcolor="#ffffff" style="padding: 40px 30px 40px 30px;">
+                       <td style="padding: 40px 30px 40px 30px; background-color: #ffffff">
                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
                     <tr>
                         <td style="color: #191731; font-family: Arial, sans-serif; font-size: 24px;">
