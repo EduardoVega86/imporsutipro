@@ -918,7 +918,7 @@ WHERE b.id_plataforma = $plataforma";
     {
 
        $sql = "UPDATE `productos` SET  `producto_privado` = ? WHERE `id_producto` = ? ";
-        $data = [$estado, $plataforma];
+        $data = [$estado, $estado];
         $editar_producto = $this->update($sql, $data);
         //print_r($editar_producto);
         if ($editar_producto == 1) {
