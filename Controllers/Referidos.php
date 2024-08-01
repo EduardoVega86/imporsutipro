@@ -11,7 +11,7 @@ class Referidos extends Controller
     }
     public function index()
     {
-        //$xd = $this->crearBilletera($_SESSION['id_plataforma']);
+        $this->crearBilletera($_SESSION['id_plataforma']);
         $data = $this->model->esReferido($_SESSION['id_plataforma']);
 
         $this->views->render($this, "index", $data);
