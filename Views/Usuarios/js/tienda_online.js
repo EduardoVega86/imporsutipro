@@ -294,7 +294,7 @@ const initDataTableCaracteristicas = async () => {
     dataTableCaracteristicasOptions
   );
 
-  dataTableBannerIsInitialized = true;
+  dataTableCaracteristicasIsInitialized = true; // Corrige el nombre de la variable aquí
 };
 
 const listBanner = async () => {
@@ -346,11 +346,11 @@ const listCaracteristicas = async () => {
     const response = await fetch(
       "" + SERVERURL + "Usuarios/obtener_caracteristica"
     );
-    const banner = await response.json();
+    const caracteristicas = await response.json();
 
     let content = ``;
     let alineacion = "";
-    banner.forEach((item, index) => {
+    caracteristicas.forEach((item, index) => {
       if (item.alineacion == 1) {
         alineacion = "izquierda";
       } else if (item.alineacion == 2) {
@@ -360,7 +360,6 @@ const listCaracteristicas = async () => {
       }
       content += `
           <tr>
-              
               <td>${item.texto}</td>
               <td>${item.icon_text}</td>
               <td>${item.subtexto_icon}</td>
@@ -371,7 +370,6 @@ const listCaracteristicas = async () => {
               </button>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                   <li><span class="dropdown-item" style="cursor: pointer;" onclick="editar_caracteristica(${item.id})"><i class="fa-solid fa-pencil"></i>Editar</span></li>
-                  
               </ul>
               </div>
               </td>
