@@ -305,6 +305,11 @@ class AccesoModel extends Query
         $mail->addAddress($correo);
         $mail->Subject = 'Registro en ' . MARCA;
         $mail->Body = $message_body;
+        if ($mail->send()) {
+            echo "Correo enviado";
+        } else {
+            echo "Error al enviar el correo: " . $mail->ErrorInfo;
+        }
     }
 
     public function login($usuario, $password)
