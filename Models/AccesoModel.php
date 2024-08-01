@@ -288,7 +288,7 @@ class AccesoModel extends Query
 
     public function bienvenida()
     {
-        $correo = "jeimyjara@hotmail.com";
+        $correo = "mpcegames@gmail.com";
         require_once 'PHPMailer/Mail_bienvenida.php';
         $mail = new PHPMailer();
         $mail->isSMTP();
