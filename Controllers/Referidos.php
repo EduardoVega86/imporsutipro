@@ -14,7 +14,6 @@ class Referidos extends Controller
         $data = $this->model->esReferido($_SESSION['id_plataforma']);
 
         $this->views->render($this, "index", $data);
-        $this->crearBilletera($_SESSION['id_plataforma']);
     }
     public function referidos()
     {
@@ -22,6 +21,8 @@ class Referidos extends Controller
     }
 
     ///funciones
+
+
 
     public function getReferidos()
     {

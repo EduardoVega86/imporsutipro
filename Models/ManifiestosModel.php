@@ -122,7 +122,7 @@ class ManifiestosModel extends Query
         $direccion = $bodega[0]['direccion'];
         $id_bodega = $bodega[0]['id'];
 
-        
+
 
         // $html ='<h3 style="text-align: center;>tecto</h3>';
         $html = $this->generarTablaManifiesto($resumen, $bodega_nombre, $direccion, $telefono, $responsable, $transportadora);
@@ -168,14 +168,14 @@ class ManifiestosModel extends Query
         return $reponse;
     }
 
-    
+
     public function cambiarImpreso($arreglo)
     {
-         $string = "('" . implode("','", $arreglo) . "')";
-         if (count($arreglo) == 0) return;
+        $string = "('" . implode("','", $arreglo) . "')";
+        if (count($arreglo) == 0) return;
         if (count($arreglo) > 0) {
-           $update = "UPDATE facturas_cot SET impreso = 1 WHERE numero_factura IN $string";
-           $this->select($update); 
+            $update = "UPDATE facturas_cot SET impreso = 1 WHERE numero_factura IN $string";
+            $this->select($update);
         }
     }
     public function generarManifiesto($arreglo)
@@ -204,7 +204,7 @@ GROUP BY dfc.id_producto,
          ib.id_inventario, 
          v.id_variedad, 
          b.id ";
-           // echo $sql;
+            // echo $sql;
 
             $sql_guias = "SELECT numero_guia FROM facturas_cot WHERE numero_factura IN $string";
             $guias = $this->select($sql_guias);
@@ -212,8 +212,8 @@ GROUP BY dfc.id_producto,
                 return $guia['numero_guia'];
             }, $guias);
 
-//            $update = "UPDATE facturas_cot SET impreso = 1 WHERE numero_factura IN $string";
-//            $this->select($update);
+            //            $update = "UPDATE facturas_cot SET impreso = 1 WHERE numero_factura IN $string";
+            //            $this->select($update);
 
 
             $resumen = $this->select($sql);
@@ -244,7 +244,7 @@ GROUP BY dfc.id_producto,
                         $pdf_content = file_get_contents("https://guias.imporsuitpro.com/Servientrega/Guia/" . $guia);
                     } else if (strpos($guia, "I00") === 0) {
                         $pdf_content = file_get_contents("https://guias.imporsuitpro.com/Gintracom/label/" . $guia);
-                    } else if (strpos($guia, "SPD") === 0) {
+                    } else if (strpos($guia, "SPD") === 0 && strpos($guia, "MKL") === 0) {
                         $pdf_content = file_get_contents("https://guias.imporsuitpro.com/Speed/descargar/" . $guia);
                     }
                     if ($pdf_content === false) {
@@ -307,15 +307,15 @@ GROUP BY dfc.id_producto,
         $pdf->Output('F', $outputPath);
     }
 
-   public function generarTablaHTML($data)
-{
-    $id_usuario = $_SESSION['id'];
-    $sql_usuario = "SELECT nombre_users FROM users WHERE id_users = $id_usuario";
-    $usuario = $this->select($sql_usuario);
-    $nombre_usuario = $usuario[0]['nombre_users'];
-    $fecha = date('Y-m-d H:i:s'); // Obtén la fecha y hora actual
+    public function generarTablaHTML($data)
+    {
+        $id_usuario = $_SESSION['id'];
+        $sql_usuario = "SELECT nombre_users FROM users WHERE id_users = $id_usuario";
+        $usuario = $this->select($sql_usuario);
+        $nombre_usuario = $usuario[0]['nombre_users'];
+        $fecha = date('Y-m-d H:i:s'); // Obtén la fecha y hora actual
 
-    $html = '
+        $html = '
     <style>
         table {
             width: 100%;
@@ -384,56 +384,56 @@ GROUP BY dfc.id_producto,
             <th>Variedad</th>
         </tr>';
 
-    foreach ($data as $row) {
-        $html .= '<tr>';
-        $html .= '<td data-label="ID Producto">' . htmlspecialchars($row['id_producto']) . '</td>';
-        $html .= '<td data-label="Nombre Producto">' . htmlspecialchars($row['nombre_producto']) . '</td>';
-        $html .= '<td data-label="Cantidad">' . htmlspecialchars($row['cantidad']) . '</td>';
-       $html .= '<td data-label="Bodega">' . htmlspecialchars($row['nombre']) . '</td>';
-        $html .= '<td data-label="Variedad">' . htmlspecialchars($row['variedad'] ?? "Sin variedad") . '</td>';
-        $html .= '</tr>';
-    }
+        foreach ($data as $row) {
+            $html .= '<tr>';
+            $html .= '<td data-label="ID Producto">' . htmlspecialchars($row['id_producto']) . '</td>';
+            $html .= '<td data-label="Nombre Producto">' . htmlspecialchars($row['nombre_producto']) . '</td>';
+            $html .= '<td data-label="Cantidad">' . htmlspecialchars($row['cantidad']) . '</td>';
+            $html .= '<td data-label="Bodega">' . htmlspecialchars($row['nombre']) . '</td>';
+            $html .= '<td data-label="Variedad">' . htmlspecialchars($row['variedad'] ?? "Sin variedad") . '</td>';
+            $html .= '</tr>';
+        }
 
-    $html .= '
+        $html .= '
     </table>
     <div class="footer">
         <hr>
         <p>' . $nombre_usuario . '</p>
     </div>';
 
-    return $html;
-}
-
-
-   
-  public function generarTablaManifiesto($data, $bodega_nombre, $direccion, $telefono, $responsable, $transportadora)
-{
-    $fecha = date('Y-m-d H:i:s'); // Obtén la fecha y hora actual
-    $generator = new BarcodeGeneratorHTML();
-
-    $id_usuario = $_SESSION['id'];
-    $sql_usuario = "SELECT nombre_users FROM users WHERE id_users = $id_usuario";
-    $usuario = $this->select($sql_usuario);
-    $nombre_usuario = $usuario[0]['nombre_users'];
-  switch ($transportadora) {
-        case 1:
-            $transportadora_nombre = 'LARR COURRIER';
-            break;
-        case 2:
-            $transportadora_nombre = 'SERVIENTREGA';
-            break;
-        case 3:
-            $transportadora_nombre = 'GINTRACOM';
-            break;
-        case 4:
-            $transportadora_nombre = 'SPEED';
-            break;
-        default:
-            $transportadora_nombre = 'DESCONOCIDA';
-            break;
+        return $html;
     }
-    
-    $html = '
+
+
+
+    public function generarTablaManifiesto($data, $bodega_nombre, $direccion, $telefono, $responsable, $transportadora)
+    {
+        $fecha = date('Y-m-d H:i:s'); // Obtén la fecha y hora actual
+        $generator = new BarcodeGeneratorHTML();
+
+        $id_usuario = $_SESSION['id'];
+        $sql_usuario = "SELECT nombre_users FROM users WHERE id_users = $id_usuario";
+        $usuario = $this->select($sql_usuario);
+        $nombre_usuario = $usuario[0]['nombre_users'];
+        switch ($transportadora) {
+            case 1:
+                $transportadora_nombre = 'LARR COURRIER';
+                break;
+            case 2:
+                $transportadora_nombre = 'SERVIENTREGA';
+                break;
+            case 3:
+                $transportadora_nombre = 'GINTRACOM';
+                break;
+            case 4:
+                $transportadora_nombre = 'SPEED';
+                break;
+            default:
+                $transportadora_nombre = 'DESCONOCIDA';
+                break;
+        }
+
+        $html = '
     <style>
         table {
             width: 100%;
@@ -515,34 +515,34 @@ GROUP BY dfc.id_producto,
             <th style="width:20%">Monto a cobrar</th>
         </tr>';
 
-    $numero = 1;
-    foreach ($data as $row) {
-        $codigoBarras = $generator->getBarcode($row['numero_guia'], $generator::TYPE_CODE_128);
-        $html .= '<tr>';
-        $html .= '<td data-label="ID Producto">' . $numero . '</td>';
-        $html .= '<td data-label="Documento"><div class="barcode">' . $codigoBarras . '</div><br>' . htmlspecialchars($row['numero_guia']) . '</td>';
-        $html .= '<td data-label="Cliente">' . htmlspecialchars($row['nombre']) . '</td>';
-        $html .= '<td data-label="Contiene">' . htmlspecialchars($row['contiene']) . '</td>';
-        $html .= '<td data-label="No Productos">' . htmlspecialchars($row['numero_productos']) . '</td>';
-        if ($row['cod'] == 1) {
-            $monto_cobrar = htmlspecialchars($row['monto_factura']);
-        } else {
-            $monto_cobrar = 0;
+        $numero = 1;
+        foreach ($data as $row) {
+            $codigoBarras = $generator->getBarcode($row['numero_guia'], $generator::TYPE_CODE_128);
+            $html .= '<tr>';
+            $html .= '<td data-label="ID Producto">' . $numero . '</td>';
+            $html .= '<td data-label="Documento"><div class="barcode">' . $codigoBarras . '</div><br>' . htmlspecialchars($row['numero_guia']) . '</td>';
+            $html .= '<td data-label="Cliente">' . htmlspecialchars($row['nombre']) . '</td>';
+            $html .= '<td data-label="Contiene">' . htmlspecialchars($row['contiene']) . '</td>';
+            $html .= '<td data-label="No Productos">' . htmlspecialchars($row['numero_productos']) . '</td>';
+            if ($row['cod'] == 1) {
+                $monto_cobrar = htmlspecialchars($row['monto_factura']);
+            } else {
+                $monto_cobrar = 0;
+            }
+            $html .= '<td data-label="Monto a Cobrar">$ ' . number_format($monto_cobrar, 2) . '</td>';
+            $html .= '</tr>';
+            $numero++;
         }
-        $html .= '<td data-label="Monto a Cobrar">$ ' . number_format($monto_cobrar, 2) . '</td>';
-        $html .= '</tr>';
-        $numero++;
-    }
 
-    $html .= '
+        $html .= '
     </table>
     <div class="footer">
         <hr>
         <p>' . $nombre_usuario . '</p>
     </div>';
 
-    return $html;
-}
+        return $html;
+    }
 
 
 
