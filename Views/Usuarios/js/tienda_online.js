@@ -363,6 +363,7 @@ const listCaracteristicas = async () => {
               <td>${item.texto}</td>
               <td>${item.icon_text}</td>
               <td>${item.subtexto_icon}</td>
+              <td>${item.enlace_icon}</td>
               <td>
               <div class="dropdown">
               <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">

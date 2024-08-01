@@ -255,6 +255,8 @@
                                     <th class="text-nowrap">Titulo</th>
                                     <th class="text-nowrap">Icono</th>
                                     <th class="text-nowrap">Subtexto</th>
+                                    <th class="text-nowrap">Enlace</th>
+                                    <th class="text-nowrap">Acción</th>
                                 </tr>
                             </thead>
                             <tbody id="tableBody_caracteristicas"></tbody>
