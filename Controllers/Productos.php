@@ -672,7 +672,7 @@ class Productos extends Controller
     {
          $id = $_POST['id_producto'];
            $plataforma = $_POST['id_plataforma'];
-        $response = $this->model->habilitarPrivado($id, $plataforma);
+        $response = $this->model->agregarPrivadoPlataforma($id, $plataforma);
         echo json_encode($response);
     }
 }

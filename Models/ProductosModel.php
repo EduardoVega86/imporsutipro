@@ -933,7 +933,7 @@ WHERE b.id_plataforma = $plataforma";
         return $response;
     }
     
-     public function habilitarPrivado($id, $plataforma)
+     public function agregarPrivadoPlataforma($id, $plataforma)
     {
 
      $sql = "INSERT INTO producto_privado (id_producto, plataforma) VALUES (?, ?)";
