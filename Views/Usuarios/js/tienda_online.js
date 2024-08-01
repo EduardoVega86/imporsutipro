@@ -80,7 +80,7 @@ $(document).ready(function () {
   cargarInfoTienda_inicial();
 
   // Cargar el archivo JSON
-  $.getJSON(SERVERURL+"Views/Usuarios/json/iconos.json", function (data) {
+  $.getJSON(SERVERURL + "Views/Usuarios/json/iconos.json", function (data) {
     // Iterar sobre los datos y agregar opciones al select
     $.each(data, function (index, item) {
       $("#icono").append(
@@ -104,11 +104,7 @@ $(document).ready(function () {
       return icon.text;
     }
     var $icon = $(
-      '<span><i class="fa ' +
-        icon.id +
-        '" aria-hidden="true"></i> ' +
-        icon.text +
-        "</span>"
+      '<span><i class="fa ' + icon.id + '"></i> ' + icon.text + "</span>"
     );
     return $icon;
   }
