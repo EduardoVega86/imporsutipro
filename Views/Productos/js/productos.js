@@ -109,6 +109,7 @@ const listProductos = async () => {
 
     const proveedor = infoTiendaResponse[0].proveedor;
     const full_f = infoTiendaResponse[0].full_f;
+
     /* Validador de bodega */
     if (full_f == 0) {
       validador_bodega();
@@ -131,6 +132,9 @@ const listProductos = async () => {
         proveedor == 1
           ? `<input type="checkbox" class="selectCheckbox" data-id="${producto.id_producto}">`
           : ``;
+
+      // Nuevo checkbox para agregar_privado
+      let agregar_privado_checkBox = `<input type="checkbox" class="agregarPrivadoCheckbox" data-id="${producto.id_producto}" onchange="toggleAgregarPrivado(this)">`; // Añadido el evento onchange
 
       let producto_variable, enviaCliente, botonId_inventario;
       if (producto.producto_variable == 0) {
@@ -168,6 +172,7 @@ const listProductos = async () => {
           <td><i class="fa-solid fa-store" style='cursor:pointer' onclick="importar_productos_tienda(${
             producto.id_producto
           })"></i></td>
+          <td>${agregar_privado_checkBox}</td> <!-- Añadido nuevo checkbox -->
           <td>
             <button class="btn btn-sm btn-primary" onclick="editarProducto(${
               producto.id_producto
@@ -185,6 +190,35 @@ const listProductos = async () => {
     alert("Error al obtener la lista de productos");
   }
 };
+
+// Función para manejar el evento de cambio del checkbox agregar_privado
+function toggleAgregarPrivado(checkbox) {
+  const productId = checkbox.getAttribute("data-id");
+  const isChecked = checkbox.checked;
+  const estado = isChecked ? 0 : 1; // Si está marcado, enviar 0; si no, enviar 1
+
+  // Llamada AJAX para enviar el estado a la API
+  $.ajax({
+    type: "POST",
+    url: SERVERURL + "productos/habilitarPrivado", // Endpoint de la API
+    data: { id: productId, estado: estado }, // Enviar el ID y el estado
+    dataType: "json",
+    success: function (response) {
+      console.log("Estado actualizado correctamente", response);
+      toastr.success(
+        "El estado del producto ha sido actualizado",
+        "NOTIFICACIÓN",
+        {
+          positionClass: "toast-bottom-center",
+        }
+      );
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al actualizar el estado del producto");
+    },
+  });
+}
 
 //abrir modal de seleccion de producto con atributo especifico
 function abrir_modalSeleccionAtributo(id) {
@@ -395,13 +429,15 @@ function validador_bodega() {
           Swal.fire({
             icon: "error",
             title: "Error bodega",
-            text: "Su bodega " + bodega.nombre + " no contiene datos de dirección y no pueden agregar Productos",
+            text:
+              "Su bodega " +
+              bodega.nombre +
+              " no contiene datos de dirección y no pueden agregar Productos",
             showConfirmButton: false,
             timer: 2000,
           }).then(() => {
             window.location.href = "" + SERVERURL + "Productos/bodegas";
           });
-
         }
       });
     },

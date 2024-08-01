@@ -58,6 +58,7 @@
                         <th class="text-wrap">Enviar a cliente</th>
                         <th class="text-nowrap">Atributos</th>
                         <th class="text-nowrap">Enviar a Tienda</th>
+                        <th>Agregar Privado</th> <!-- Añadir columna para el checkbox de agregar_privado -->
                         <th class="text-nowrap">Acciones</th>
                     </tr>
                 </thead>
