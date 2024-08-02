@@ -474,7 +474,7 @@ window.addEventListener("load", async () => {
   await initDataTableCaracteristicas();
 });
 
-(function crear_tienda() {
+function crear_tienda() {
   Swal.fire({
     title: "¿Estás seguro del nombre de tu tienda?",
     html: "<p>¡No se podrá cambiar el nombre de tu tienda en un futuro!</p><p id='mensaje-informativo'></p><div class='loader'></div>",
@@ -587,7 +587,7 @@ window.addEventListener("load", async () => {
         });
     },
   });
-})();
+}
 
 document.addEventListener("DOMContentLoaded", function () {
   const input = document.getElementById("nombre_tienda");
