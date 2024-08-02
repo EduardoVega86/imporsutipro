@@ -224,8 +224,10 @@ document.addEventListener("DOMContentLoaded", function () {
             title: "Guardado Correctamente",
             text: response.message,
             showConfirmButton: false,
-            timer: 2000,
-          });
+            timer: 2000
+          }).then(() => {
+            window.location.href = '' + SERVERURL + 'shopify/constructor_vista';
+        });
         }
       },
       error: function (error) {
