@@ -77,6 +77,7 @@ class Shopify extends Controller
 
     public function obtenerConfiguracion()
     {
+        $this->isAuth();
         $response = $this->model->obtenerConfiguracion($_SESSION["id_plataforma"]);
         echo json_encode($response);
     }
