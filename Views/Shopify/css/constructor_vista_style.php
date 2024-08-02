@@ -5,7 +5,7 @@
         align-items: center;
         height: 100vh;
         background-color: #f0f0f0;
-        padding-left: 30px;
+        padding: 30px;
         overflow: hidden;
     }
 
@@ -15,8 +15,7 @@
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         text-align: left;
-        /* Cambiado a izquierda para mejor lectura */
-        min-width: 50%;
+        min-width: 60%;
         max-height: 80vh;
         overflow-y: auto;
     }
@@ -25,14 +24,12 @@
         color: <?php echo COLOR_LETRAS; ?>;
         margin-bottom: 20px;
         text-align: center;
-        /* Alineado al centro para títulos */
     }
 
     .datos_shopify {
         color: #333;
-        /* Texto más oscuro para mejor contraste */
         font-family: Arial, sans-serif;
-        /* Fuente legible */
+        line-height: 1.5;
     }
 
     .config-item {
@@ -41,58 +38,60 @@
         border: 1px solid #ddd;
         border-radius: 5px;
         background-color: #fff;
-        /* Fondo blanco para destacar el texto */
     }
 
     .config-item ul {
         padding-left: 20px;
-        /* Sangría para listas anidadas */
+        list-style: none;
+        /* Eliminar viñetas predeterminadas */
+        margin: 0;
     }
 
     .config-item li {
-        margin-bottom: 5px;
-        padding-left: 10px;
-        border-left: 2px solid #eee;
-        /* Línea vertical para indicar anidación */
+        margin-bottom: 8px;
+        padding-left: 20px;
+        border-left: 3px solid #ddd;
         position: relative;
+        font-size: 14px;
+        /* Ajustar el tamaño de la fuente */
     }
 
     .config-item li::before {
         content: '';
         position: absolute;
-        left: -2px;
-        top: 10px;
+        left: -8px;
+        top: 8px;
         height: 10px;
         width: 10px;
         border-radius: 50%;
         background-color: #007bff;
-        /* Puntos de color para subniveles */
     }
 
-    .config-item strong {
-        color: #007bff;
-        /* Azul para claves */
-        font-weight: bold;
+    .config-item li>strong {
+        font-weight: 600;
+        color: #333;
+        /* Color de clave más oscuro */
+        margin-right: 5px;
     }
 
-    .config-item p {
-        margin-bottom: 10px;
+    .config-item li span {
+        color: #555;
+        /* Color de valor más claro */
+    }
+
+    .config-item .nested {
+        margin-left: 20px;
+        border-left: 2px dashed #ccc;
+        padding-left: 10px;
     }
 
     @media (max-width: 768px) {
         .full-screen-container {
             flex-direction: column;
-            gap: 10px;
-            height: 60vh;
-        }
-
-        .json_informacion {
-            min-height: 400px;
-            width: 80%;
+            height: 70vh;
         }
     }
 
-    /* Estilos adicionales para manejar información JSON */
     .json_informacion {
         max-height: 600px;
         overflow-y: auto;
@@ -106,108 +105,5 @@
         white-space: pre-wrap;
         font-family: monospace;
         color: #333;
-    }
-
-    .generacion_enlace {
-        display: none;
-    }
-
-    .loading-animation {
-        display: none;
-        text-align: center;
-        margin-top: 20px;
-    }
-
-    .spinner-border {
-        width: 3rem;
-        height: 3rem;
-    }
-
-    .img-container {
-        cursor: pointer;
-    }
-
-    #json-informacion {
-        display: none;
-    }
-
-    /* Estilos para aplicaciones */
-    .aplicacion {
-        position: relative;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        border-radius: 10px;
-        overflow: hidden;
-        padding: 10px;
-        background-color: #f8f9fa;
-        display: inline-block;
-    }
-
-    .aplicacion img {
-        max-width: 100px;
-        transition: filter 0.3s ease;
-        filter: grayscale(100%);
-    }
-
-    .aplicacion:hover {
-        transform: scale(1.1);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    .aplicacion:hover img {
-        filter: grayscale(0%);
-    }
-
-    .name-tag {
-        position: absolute;
-        bottom: 10px;
-        left: 50%;
-        transform: translate(-50%, 0);
-        background-color: rgba(0, 0, 0, 0.7);
-        color: white;
-        padding: 3px 6px;
-        border-radius: 3px;
-        font-size: 12px;
-        transition: transform 0.3s ease, background-color 0.3s ease;
-    }
-
-    .aplicacion:hover .name-tag {
-        transform: translate(-50%, 0) scale(1.2);
-        background-color: rgba(0, 0, 0, 0.9);
-    }
-
-    .aplicacion.selected {
-        border: 2px solid #007bff;
-        box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
-    }
-
-    .aplicacion.selected img {
-        filter: grayscale(0%);
-    }
-
-    .aplicacion.selected .name-tag {
-        background-color: rgba(0, 123, 255, 0.9);
-        transform: translate(-50%, 0) scale(1.2);
-    }
-
-    .form-group {
-        margin-bottom: 15px;
-    }
-
-    .form-group label {
-        display: block;
-        color: black;
-        /* Cambiado a negro */
-        margin-bottom: 5px;
-    }
-
-    .form-group input {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ced4da;
-        border-radius: 4px;
-    }
-
-    .form-group input::placeholder {
-        color: #6c757d;
     }
 </style>
