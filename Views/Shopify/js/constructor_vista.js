@@ -31,7 +31,10 @@ document.addEventListener("DOMContentLoaded", function () {
     for (let key in obj) {
       if (obj.hasOwnProperty(key)) {
         const value = obj[key];
-        const formattedKey = `<strong>${key.replace("/", ":</strong> <span>")}`;
+        const formattedKey = `<strong>${key.replace(
+          "/",
+          ":</strong> <span>"
+        )}</span>`;
 
         if (typeof value === "object" && value !== null) {
           html += `<li>${formattedKey}:<ul class="nested">${generateHtmlFromJson(

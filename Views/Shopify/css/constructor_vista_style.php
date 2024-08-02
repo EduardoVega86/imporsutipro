@@ -28,8 +28,8 @@
 
     .datos_shopify {
         color: #333;
-        font-family: Arial, sans-serif;
-        line-height: 1.5;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
     }
 
     .config-item {
@@ -38,50 +38,63 @@
         border: 1px solid #ddd;
         border-radius: 5px;
         background-color: #fff;
+        transition: box-shadow 0.3s ease;
+    }
+
+    .config-item:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
 
     .config-item ul {
         padding-left: 20px;
         list-style: none;
-        /* Eliminar viñetas predeterminadas */
         margin: 0;
+        border-left: 3px solid #ddd;
+        /* Linea para jerarquía */
     }
 
     .config-item li {
-        margin-bottom: 8px;
-        padding-left: 20px;
-        border-left: 3px solid #ddd;
+        margin-bottom: 10px;
         position: relative;
         font-size: 14px;
-        /* Ajustar el tamaño de la fuente */
+        padding-left: 10px;
     }
 
     .config-item li::before {
         content: '';
         position: absolute;
-        left: -8px;
-        top: 8px;
-        height: 10px;
-        width: 10px;
+        left: -6px;
+        top: 10px;
+        height: 12px;
+        width: 12px;
         border-radius: 50%;
+        background-color: transparent;
+        /* Eliminamos el color azul */
+        border: 2px solid #007bff;
+        /* Añadimos un borde azul claro */
+        transition: background-color 0.3s ease;
+    }
+
+    .config-item li:hover::before {
         background-color: #007bff;
+        /* Color de fondo azul al hacer hover */
     }
 
     .config-item li>strong {
         font-weight: 600;
-        color: #333;
+        color: #222;
         /* Color de clave más oscuro */
         margin-right: 5px;
     }
 
     .config-item li span {
         color: #555;
-        /* Color de valor más claro */
     }
 
     .config-item .nested {
         margin-left: 20px;
         border-left: 2px dashed #ccc;
+        /* Linea discontinua para subniveles */
         padding-left: 10px;
     }
 
