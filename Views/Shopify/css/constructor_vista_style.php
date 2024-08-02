@@ -58,32 +58,26 @@
         /* Aumentamos el margen inferior */
         position: relative;
         font-size: 14px;
-        padding-left: 25px;
-        /* Aumentamos el padding para dar espacio al círculo */
-        display: flex;
-        align-items: center;
+        padding-left: 10px;
     }
 
     .config-item li::before {
         content: '';
         position: absolute;
-        left: 0px;
-        /* Ajusta la posición del círculo */
-        top: 50%;
-        transform: translateY(-50%);
-        height: 10px;
-        width: 10px;
+        left: -10px;
+        /* Separación del borde izquierdo */
+        top: 5px;
+        /* Ajusta la posición vertical para centrado */
+        height: 12px;
+        width: 12px;
         border-radius: 50%;
-        background-color: #007bff;
-        /* Fondo azul del círculo */
-        margin-right: 10px;
-        /* Espaciado entre el círculo y el texto */
+        background-color: transparent;
+        border: 2px solid #007bff;
         transition: background-color 0.3s ease;
     }
 
     .config-item li:hover::before {
-        background-color: #0056b3;
-        /* Color más oscuro al hacer hover */
+        background-color: #007bff;
     }
 
     .config-item li>strong {
