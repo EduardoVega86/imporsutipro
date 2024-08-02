@@ -1,4 +1,22 @@
 document.addEventListener("DOMContentLoaded", function () {
+  // Realizar solicitud AJAX al cargar la página
+  $.ajax({
+    url: SERVERURL + "shopify/obtenerConfiguracion",
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+      if (response && response.length > 0) {
+        const configData = response[0];
+        fillSelectsWithConfig(configData);
+      } else {
+        console.log("No se recibió información de configuración.");
+      }
+    },
+    error: function (error) {
+      console.error("Error al obtener la configuración inicial:", error);
+    },
+  });
+
   // Event listener para el contenedor que activa la generación del enlace
   document
     .getElementById("trigger-container")
@@ -77,6 +95,27 @@ document.addEventListener("DOMContentLoaded", function () {
     fillSelectWithKeys("select-total", data);
     fillSelectWithKeys("select-descuento", data);
     fillSelectWithKeys("select-referencia", data);
+  }
+
+  // Nueva función para llenar selects con la configuración recibida
+  function fillSelectsWithConfig(configData) {
+    for (const key in configData) {
+      if (configData.hasOwnProperty(key)) {
+        const selectId = `select-${key}`;
+        const select = document.getElementById(selectId);
+        if (select) {
+          select.innerHTML = '<option value="" selected>-- Seleccione --</option>';
+          const option = document.createElement("option");
+          option.value = configData[key];
+          option.text = configData[key];
+          option.selected = true;
+          select.appendChild(option);
+          $(`#${selectId}`).select2({ width: "100%" });
+        } else {
+          console.error(`No se encontró el elemento select con id ${selectId}.`);
+        }
+      }
+    }
   }
 
   function fillSelectWithKeys(selectId, data) {
