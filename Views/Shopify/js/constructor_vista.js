@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Función para mostrar los datos en el DOM
     function displayData(data) {
-        const container = document.querySelector('.custom-container-fluid');
+        const container = document.querySelector('.datos_shopify');
         container.innerHTML = ''; // Limpiamos el contenido previo
 
         data.forEach(config => {

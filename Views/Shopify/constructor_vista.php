@@ -4,7 +4,9 @@
 <div class="full-screen-container">
     <div class="custom-container-fluid mt-4">
         <h1>Integraciones</h1>
-        
+    </div>
+    <div class="datos_shopify">
+
     </div>
 
 </div>
