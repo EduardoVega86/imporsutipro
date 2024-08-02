@@ -490,6 +490,7 @@ function crear_tienda() {
       // Oculta los botones de confirmación y cancelación y elimina el título y mensaje inicial
       Swal.update({
         title: "", // Elimina el título
+        icon: "",
         html: "<div id='gif-container'></div>", // Remueve el mensaje inicial y añade un contenedor para los GIFs
         showConfirmButton: false,
         showCancelButton: false,
