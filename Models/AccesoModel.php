@@ -308,7 +308,7 @@ class AccesoModel extends Query
         $mail2->CharSet = 'UTF-8';
         $mail2->setFrom($smtp_from, $smtp_from_name);
         $mail2->addAddress($correo);
-        $mail2->Subject = 'Registro en ' . MARCA;
+        $mail2->Subject = 'Bienvenido a ' . MARCA;
         $mail2->Body = $message_body;
         if ($mail2->send()) {
             //echo "Correo enviado";
