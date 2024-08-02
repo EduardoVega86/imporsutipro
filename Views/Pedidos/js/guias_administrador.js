@@ -2,27 +2,14 @@ let dataTable;
 let dataTableIsInitialized = false;
 
 const dataTableOptions = {
-  processing: true,   // Muestra un indicador de carga
-  serverSide: true,   // Habilita el procesamiento del lado del servidor
-  ajax: {
-    url: `${SERVERURL}pedidos/obtener_guiasAdministrador`, // URL del endpoint
-    type: 'POST', // Método de petición
-    data: function(d) {
-      // Añadir parámetros adicionales al request
-      d.fecha_inicio = fecha_inicio;
-      d.fecha_fin = fecha_fin;
-      d.estado = $("#estado_q").val();
-      d.transportadora = $("#transporte").val();
-      d.impreso = $("#impresion").val();
-    }
-  },
   columnDefs: [
     { className: "centered", targets: [1, 2, 3, 4, 5, 6, 7, 8, 9] },
-    { orderable: false, targets: 0 }, // Desactivar el ordenado para la primera columna
+    { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
   ],
   order: [[2, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
   pageLength: 25,
   lengthMenu: [25, 50, 100, 200],
+  destroy: true,
   responsive: true,
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
@@ -46,11 +33,13 @@ const initDataTable = async () => {
     dataTable.destroy();
   }
 
-  // No es necesario llamar a listGuias() ya que DataTables lo hará automáticamente
+  await listGuias();
+
   dataTable = $("#datatable_guias").DataTable(dataTableOptions);
+
   dataTableIsInitialized = true;
 
-  // Manejar el checkbox de selección de todos
+  // Handle select all checkbox
   document.getElementById("selectAll").addEventListener("change", function () {
     const checkboxes = document.querySelectorAll(".selectCheckbox");
     checkboxes.forEach((checkbox) => (checkbox.checked = this.checked));
