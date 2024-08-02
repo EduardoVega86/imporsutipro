@@ -23,11 +23,12 @@ $message_body = '
     <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse;">
         <tr>
             <td align="center" bgcolor="#191731" style="padding: 40px 0 30px 0;">
-                <img src="https://tiendas.imporsuitpro.com/imgs/LOGOS-IMPORSUIT.png" alt="Logo" width="300" height="120" style="display: block;">
+                <img src="https://tiendas.imporsuitpro.com/imgs/LOGOS-IMPORSUIT.png" alt="Logo" width="300" height="120"
+                    style="display: block;">
             </td>
         </tr>
         <tr>
-                       <td style="padding: 40px 30px 40px 30px; background-color: #ffffff">
+            <td style="padding: 40px 30px 40px 30px; background-color: #ffffff">
                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
                     <tr>
                         <td style="color: #191731; font-family: Arial, sans-serif; font-size: 24px;">
@@ -35,24 +36,38 @@ $message_body = '
                         </td>
                     </tr>
                     <tr>
-                        <td style="padding: 20px 0 30px 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;">
-                            Hola Suiter 👋🏻 queremos darte la bienvenida a la Comunidad de ECOMMERCE
-                            en IMPORSUIT. 🚀
-                            Para acompañarte de la mejor manera, queremos entregarte estos tutoriales en donde
-                            encontraras material muy útil para crear tu ecommerce exitoso. 😁
+                        <td
+                            style="padding: 20px 0 30px 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;">
+                            Hola Suiter 👋🏻 queremos darte la bienvenida a la Comunidad de IMPORSUIT.
+                            🚀 Para acompañarte de la mejor manera, queremos entregarte estos tutoriales en donde
+                            encontraras material muy útil para crear tu ecommerce exitoso. 🔥
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            Para acceder a los tutoriales, haz clic en el siguiente botón:
+                            Para acceder a los tutoriales, 👇🏼 haz clic en el siguiente botón:
 
                         </td>
                     </tr>
                     <tr>
 
                         <td style="padding: 20px 0 30px;">
-                            <a href="https://danielbonilla522-9.funnels.mastertools.com/" target="_blank" style="background-color: #191731; color: #ffffff; padding: 10px 20px; text-decoration: none; border-radius: 5px; margin-top: 20px; display: inline-block;">Ver
+                            <a href="https://danielbonilla522-9.funnels.mastertools.com/" target="_blank"
+                                style="background-color: #191731; color: #ffffff; padding: 10px 20px; text-decoration: none; border-radius: 5px; margin-top: 20px; display: inline-block;">Ver
                                 tutoriales</a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            Puedes acceder a la plataforma de IMPORSUIT a través del siguiente botón:
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 20px 0 30px;">
+                            <a href="https://new.imporsuitpro.com" target="_blank"
+                                style="background-color: #191731; color: #ffffff; padding: 10px 20px; text-decoration: none; border-radius: 5px; margin-top: 20px; display: inline-block;">Ir
+                                a Imporsuit</a>
                         </td>
                     </tr>
                 </table>
@@ -64,36 +79,34 @@ $message_body = '
                     <tr>
                         <td style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">
                             &copy; 2024 Todos los derechos reservados.<br>
-                            Si no deseas recibir más correos, <a target="_blank" href="https://new.imporsuitpro.com" style="color: #ffffff;">haz clic
+                            <a target="_blank" href="https://new.imporsuitpro.com" style="color: #ffffff;">haz clic
                                 aquí para
                                 ir a Imporsuit</a>.
                         </td>
                         <td align="right">
-                            <table border="0" cellpadding="0" cellspacing="0">
-                                <tr>
-                                    <td>
-                                        <a href="https://www.facebook.com/profile.php?id=61562089709806" target="_blank">
-                                            <img src="https://tiendas.imporsuitpro.com/fb.png" alt="Facebook" width="38" height="38" style="display: block;">
-                                        </a>
-                                    </td>
-                                    <td style="font-size: 0; line-height: 0;" width="20">
-                                        &nbsp;
-                                    </td>
-                                    <td>
-                                        <a href="https://www.tiktok.com/@imporfactoryllc" target="_blank">
-                                            <img src="https://tiendas.imporsuitpro.com/tiktok.png" alt="Tiktok" width="38" height="38" style="display: block;">
-                                        </a>
-                                    </td>
-                                    <td style="font-size: 0; line-height: 0;" width="20">
-                                        &nbsp;
-                                    </td>
-                                    <td>
-                                        <a href="https://www.instagram.com/imporsuit/" target="_blank">
-                                            <img src="https://tiendas.imporsuitpro.com/instagram.png" alt="Instagram" width="38" height="38" style="display: block;">
-                                        </a>
-                                    </td>
-                                </tr>
-                            </table>
+                            <a href="https://wa.link/0k7y6r" target="_blank">
+
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td style="color: #ffffff;">
+                                            Soporte: &nbsp;
+                                        </td>
+
+                                        <td>
+
+                                            <img src="https://tiendas.imporsuitpro.com/ws.png" alt="Facebook" width="38"
+                                                height="38" style="display: block;">
+
+
+                                        </td>
+
+                                        <td style="color: #ffffff;">
+                                            &nbsp;+593998979214
+                                        </td>
+
+                                    </tr>
+                                </table>
+                            </a>
                         </td>
                     </tr>
                 </table>

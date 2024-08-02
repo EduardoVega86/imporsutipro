@@ -260,6 +260,9 @@ class AccesoModel extends Query
 
                             if ($mail->send()) {
                                 //echo "Correo enviado";
+                                if (MATRIZ == 1) {
+                                    $this->bienvenida();
+                                }
                             } else {
                                 //  echo "Error al enviar el correo: " . $mail->ErrorInfo;
                             }
