@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
       let html = '<ul class="nested">';
   
       parts.forEach((part) => {
-        html += `<li style="padding-left: 5px;"><strong>${part}</strong></li>`;
+        html += `<li style="padding-left: 5px;">${part}</li>`;
       });
   
       html += "</ul>";
