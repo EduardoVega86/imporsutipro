@@ -64,6 +64,11 @@ class Productos extends Controller
         $this->views->render($this, "inventario");
     }
 
+    public function gestion_privados()
+    {
+        $this->views->render($this, "gestion_privados");
+    }
+
     public function inventario_bodega()
     {
         $this->views->render($this, "inventario_bodega");
