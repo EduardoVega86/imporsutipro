@@ -485,10 +485,11 @@ function crear_tienda() {
     reverseButtons: true,
     showLoaderOnConfirm: true,
     preConfirm: async () => {
-      // Oculta los botones de confirmación y cancelación
+      // Oculta los botones de confirmación y cancelación y elimina el mensaje inicial
       Swal.update({
         showConfirmButton: false,
         showCancelButton: false,
+        html: "<div id='gif-container'></div>", // Remueve el mensaje inicial y añade un contenedor para los GIFs
       });
 
       var nombre_tienda = $("#nombre_tienda").val();
@@ -530,15 +531,15 @@ function crear_tienda() {
         dataType: "json",
       });
 
-      // Función para actualizar el mensaje y el GIF
-      const updateMessageAndGif = () => {
+      // Función para actualizar el GIF y el mensaje
+      const updateGifAndMessage = () => {
         if (mensajeIndex < mensajes.length) {
           Swal.update({
             html: `
-              <img src='${gifs[gifIndex]}' alt='Loading...' style='width:100px;height:100px;'><br>
-              <p>¡No se podrá cambiar el nombre de tu tienda en un futuro!</p>
-              <p id='mensaje-informativo'>${mensajes[mensajeIndex]}</p>
-              <div class='loader'></div>
+              <div id='gif-container'>
+                <img src='${gifs[gifIndex]}' alt='Loading...' style='width:200px;height:200px;'><br>
+                <p id='mensaje-informativo'>${mensajes[mensajeIndex]}</p>
+              </div>
             `,
           });
           mensajeIndex++;
@@ -546,9 +547,9 @@ function crear_tienda() {
         }
       };
 
-      updateMessageAndGif(); // Muestra el primer mensaje y GIF inmediatamente
+      updateGifAndMessage(); // Muestra el primer GIF y mensaje inmediatamente
 
-      const intervalId = setInterval(updateMessageAndGif, 10000); // 10 segundos
+      const intervalId = setInterval(updateGifAndMessage, 10000); // 10 segundos
 
       // Espera 2 minutos (120 segundos)
       await new Promise((resolve) => setTimeout(resolve, 120000));
