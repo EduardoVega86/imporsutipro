@@ -180,6 +180,6 @@ class Tienda extends Controller
         $dominio = $_POST['dominio'];
         $subdominio = $_POST['subdominio'];
 
-        $response = $this->model->agregarDominioConSubdominioExistente($dominio, $subdominio, $_SESSION['id_plataforma']);
+        $response = $this->model->agregarDominioConSubdominioExistente($dominio, $subdominio);
     }
 }
