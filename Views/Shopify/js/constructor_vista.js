@@ -31,10 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
     for (let key in obj) {
       if (obj.hasOwnProperty(key)) {
         const value = obj[key];
-        const formattedKey = `<strong>${key.replace(
-          "/",
-          ":</strong> <span>"
-        )}</span>`;
+        const formattedKey = `<strong>${key}</strong>`;
 
         if (typeof value === "object" && value !== null) {
           html += `<li>${formattedKey}:<ul class="nested">${generateHtmlFromJson(
@@ -42,8 +39,10 @@ document.addEventListener("DOMContentLoaded", function () {
             level + 1
           )}</ul></li>`;
         } else if (typeof value === "string" && value.includes("/")) {
-          html += `<li>${formattedKey}:</li>`;
-          html += formatComplexString(value, level);
+          html += `<li>${formattedKey}: ${formatComplexString(
+            value,
+            level
+          )}</li>`;
         } else {
           html += `<li>${formattedKey}: <span>${value}</span></li>`;
         }
