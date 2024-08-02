@@ -269,8 +269,7 @@ class Pedidos extends Controller
         echo json_encode($data);
     }
 
-    public function eliminarPedido($id_factura)
-    {
+    public function eliminarPedido($id_factura){
         $response = $this->model->eliminarPedido($id_factura);
         echo json_encode($response);
     }
@@ -343,37 +342,13 @@ class Pedidos extends Controller
 
     public function obtener_guiasAdministrador()
     {
-        // Parámetros de DataTable
-        $draw = intval($_POST['draw']);
-        $start = intval($_POST['start']);
-        $length = intval($_POST['length']);
-        $search = $_POST['search']['value']; // Valor de búsqueda
-
-        // Otros filtros personalizados
         $fecha_inicio = $_POST['fecha_inicio'] ?? "";
         $fecha_fin = $_POST['fecha_fin'] ?? "";
         $transportadora = $_POST['transportadora'] ?? "";
         $estado = $_POST['estado'] ?? "";
         $impreso = $_POST['impreso'] ?? "";
-
-        // Obtener datos paginados y filtrados del modelo
-        $data = $this->model->cargarGuiasAdministrador($start, $length, $search, $fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso);
-
-        // Obtener el número total de registros (sin filtros)
-        $totalRecords = $this->model->countAllGuias();
-
-        // Obtener el número de registros filtrados
-        $filteredRecords = $this->model->countFilteredGuias($search, $fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso);
-
-        // Formato de respuesta para DataTable
-        $response = [
-            "draw" => $draw,
-            "recordsTotal" => $totalRecords,
-            "recordsFiltered" => $filteredRecords,
-            "data" => $data
-        ];
-
-        echo json_encode($response);
+        $data = $this->model->cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso);
+        echo json_encode($data);
     }
 
     public function obtener_guiasAnuladas_admin()
