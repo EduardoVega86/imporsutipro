@@ -4,11 +4,10 @@
 <div class="full-screen-container">
     <div class="custom-container-fluid mt-4">
         <h1>Integraciones</h1>
-    </div>
-    <div class="datos_shopify" style="color:white;">
+        <div class="datos_shopify" style="color:white;">
 
+        </div>
     </div>
-
 </div>
 
 <script src="<?php echo SERVERURL ?>/Views/Shopify/js/constructor_vista.js"></script>
