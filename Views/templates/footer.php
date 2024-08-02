@@ -91,7 +91,7 @@
                     url: SERVERURL + "Usuarios/crear_json",
                     dataType: "json",
                     success: function(response) {
-                        console.log("Respuesta recibida:", response); // Verifica la respuesta
+                        /* console.log("Respuesta recibida:", response);  */
                         // Aquí manejas la respuesta del servidor
                     },
                     error: function(xhr, status, error) {
