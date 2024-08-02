@@ -292,22 +292,22 @@ class AccesoModel extends Query
     public function bienvenida($correo)
     {
         require_once 'PHPMailer/Mail_bienvenida.php';
-        $mail = new PHPMailer();
-        $mail->isSMTP();
-        $mail->SMTPDebug = $smtp_debug;
-        $mail->Host = $smtp_host;
-        $mail->SMTPAuth = true;
-        $mail->Username = $smtp_user;
-        $mail->Password = $smtp_pass;
-        $mail->Port = 465;
-        $mail->SMTPSecure = $smtp_secure;
-        $mail->isHTML(true);
-        $mail->CharSet = 'UTF-8';
-        $mail->setFrom($smtp_from, $smtp_from_name);
-        $mail->addAddress($correo);
-        $mail->Subject = 'Registro en ' . MARCA;
-        $mail->Body = $message_body;
-        if ($mail->send()) {
+        $mail2 = new PHPMailer();
+        $mail2->isSMTP();
+        $mail2->SMTPDebug = $smtp_debug;
+        $mail2->Host = $smtp_host;
+        $mail2->SMTPAuth = true;
+        $mail2->Username = $smtp_user;
+        $mail2->Password = $smtp_pass;
+        $mail2->Port = 465;
+        $mail2->SMTPSecure = $smtp_secure;
+        $mail2->isHTML(true);
+        $mail2->CharSet = 'UTF-8';
+        $mail2->setFrom($smtp_from, $smtp_from_name);
+        $mail2->addAddress($correo);
+        $mail2->Subject = 'Registro en ' . MARCA;
+        $mail2->Body = $message_body;
+        if ($mail2->send()) {
             echo "Correo enviado";
         } else {
             echo "Error al enviar el correo: " . $mail->ErrorInfo;
