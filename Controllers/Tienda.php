@@ -174,4 +174,12 @@ class Tienda extends Controller
         $response = $this->model->guardar_pedido($id_plataforma, $id_producto, $precio_producto, $nombre, $telefono, $provincia, $ciudad, $calle_principal, $calle_secundaria, $referencia, $observacion, $id_inventario);
         echo json_encode($response);
     }
+
+    public function anadir_dominio()
+    {
+        $dominio = $_POST['dominio'];
+        $subdominio = $_POST['subdominio'];
+
+        $response = $this->model->agregarDominioConSubdominioExistente($dominio, $subdominio, $_SESSION['id_plataforma']);
+    }
 }

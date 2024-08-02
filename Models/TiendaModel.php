@@ -31,6 +31,27 @@ class TiendaModel extends Query
         $this->cpanelRequest($apiUrl, $cpanelUsername, $cpanelPassword);
     }
 
+    public function agregarDominioConSubdominioExistente($dominio, $subdominio)
+    {
+        // Configuración de cPanel
+        $cpanelUrl = 'https://administracion.imporsuitpro.com:2083/';
+        $cpanelUsername = 'imporsuitpro';
+        $cpanelPassword = 'Mark2demasiado..';
+        $rootdomain = 'imporsuitpro.com';
+
+        // El subdominio y su carpeta ya existen
+        $directorio = $dominio; // Carpeta ya creada con el subdominio
+
+        // URL de la API para agregar el dominio utilizando la carpeta del subdominio
+        $apiUrlDominio = $cpanelUrl . 'json-api/cpanel?cpanel_jsonapi_apiversion=2&cpanel_jsonapi_module=AddonDomain&cpanel_jsonapi_func=addaddondomain&newdomain=' . $dominio . '&dir=' . $directorio . '&subdomain=' . $subdominio;
+
+        // Ejecutar solicitud para agregar el dominio
+        $this->cpanelRequest($apiUrlDominio, $cpanelUsername, $cpanelPassword);
+
+        // Configurar los archivos en la carpeta del dominio
+        //$this->configurarArchivosDominio($dominio, $nombre);
+    }
+
     public function cpanelRequest($url, $username, $password, $postFields = null)
     {
         global $verificador;
