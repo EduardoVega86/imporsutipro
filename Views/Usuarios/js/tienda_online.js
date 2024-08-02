@@ -541,7 +541,7 @@ function crear_tienda() {
           Swal.update({
             html: `
               <div id='gif-container'>
-                <img src='${gifs[gifIndex]}' alt='Loading...' style='width:200px;height:200px;'><br>
+                <img src='${gifs[gifIndex]}' alt='Loading...' style='width:300px;height:300px;'><br>
                 <p id='mensaje-informativo'>${mensajes[mensajeIndex]}</p>
               </div>
             `,
