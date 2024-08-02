@@ -311,9 +311,9 @@ class AccesoModel extends Query
         $mail2->Subject = 'Registro en ' . MARCA;
         $mail2->Body = $message_body;
         if ($mail2->send()) {
-            echo "Correo enviado";
+            //echo "Correo enviado";
         } else {
-            echo "Error al enviar el correo: " . $mail->ErrorInfo;
+            //echo "Error al enviar el correo: " . $mail->ErrorInfo;
         }
     }
 
