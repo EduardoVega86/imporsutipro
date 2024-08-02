@@ -474,7 +474,7 @@ window.addEventListener("load", async () => {
   await initDataTableCaracteristicas();
 });
 
-function crear_tienda() {
+(function crear_tienda() {
   Swal.fire({
     title: "¿Estás seguro del nombre de tu tienda?",
     html: "<p>¡No se podrá cambiar el nombre de tu tienda en un futuro!</p><p id='mensaje-informativo'></p><div class='loader'></div>",
@@ -506,7 +506,16 @@ function crear_tienda() {
         "Finalizando los últimos detalles",
       ];
 
+      // Array con URLs de los GIFs
+      const gifs = [
+        SERVERURL+"public/img/gif/ICONOS_1.gif",
+        SERVERURL+"public/img/gif/ICONOS_2.gif",
+        SERVERURL+"public/img/gif/ICONOS_3.gif",
+        SERVERURL+"public/img/gif/ICONOS_4.gif",
+      ];
+
       let mensajeIndex = 0;
+      let gifIndex = 0;
 
       // Inicia la llamada a la API inmediatamente
       let formData = new FormData();
@@ -521,19 +530,25 @@ function crear_tienda() {
         dataType: "json",
       });
 
-      // Actualiza el mensaje inmediatamente y luego cada 10 segundos
-      const updateMessage = () => {
+      // Función para actualizar el mensaje y el GIF
+      const updateMessageAndGif = () => {
         if (mensajeIndex < mensajes.length) {
           Swal.update({
-            html: `<p>¡No se podrá cambiar el nombre de tu tienda en un futuro!</p><p id='mensaje-informativo'>${mensajes[mensajeIndex]}</p><div class='loader'></div>`,
+            html: `
+              <img src='${gifs[gifIndex]}' alt='Loading...' style='width:100px;height:100px;'><br>
+              <p>¡No se podrá cambiar el nombre de tu tienda en un futuro!</p>
+              <p id='mensaje-informativo'>${mensajes[mensajeIndex]}</p>
+              <div class='loader'></div>
+            `,
           });
           mensajeIndex++;
+          gifIndex = (gifIndex + 1) % gifs.length; // Avanza al siguiente GIF, vuelve al primero si es el último
         }
       };
 
-      updateMessage(); // Muestra el primer mensaje inmediatamente
+      updateMessageAndGif(); // Muestra el primer mensaje y GIF inmediatamente
 
-      const intervalId = setInterval(updateMessage, 10000); // 10 segundos
+      const intervalId = setInterval(updateMessageAndGif, 10000); // 10 segundos
 
       // Espera 2 minutos (120 segundos)
       await new Promise((resolve) => setTimeout(resolve, 120000));
@@ -572,7 +587,7 @@ function crear_tienda() {
         });
     },
   });
-}
+})();
 
 document.addEventListener("DOMContentLoaded", function () {
   const input = document.getElementById("nombre_tienda");
