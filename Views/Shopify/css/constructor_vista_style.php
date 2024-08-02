@@ -50,11 +50,12 @@
         list-style: none;
         margin: 0;
         border-left: 3px solid #ddd;
-        /* Linea para jerarquía */
+        /* Línea para jerarquía */
     }
 
     .config-item li {
-        margin-bottom: 10px;
+        margin-bottom: 15px;
+        /* Aumentamos el margen inferior */
         position: relative;
         font-size: 14px;
         padding-left: 10px;
@@ -63,27 +64,25 @@
     .config-item li::before {
         content: '';
         position: absolute;
-        left: -6px;
-        top: 10px;
+        left: -10px;
+        /* Separación del borde izquierdo */
+        top: 5px;
+        /* Ajusta la posición vertical para centrado */
         height: 12px;
         width: 12px;
         border-radius: 50%;
         background-color: transparent;
-        /* Eliminamos el color azul */
         border: 2px solid #007bff;
-        /* Añadimos un borde azul claro */
         transition: background-color 0.3s ease;
     }
 
     .config-item li:hover::before {
         background-color: #007bff;
-        /* Color de fondo azul al hacer hover */
     }
 
     .config-item li>strong {
         font-weight: 600;
         color: #222;
-        /* Color de clave más oscuro */
         margin-right: 5px;
     }
 
@@ -94,7 +93,6 @@
     .config-item .nested {
         margin-left: 20px;
         border-left: 2px dashed #ccc;
-        /* Linea discontinua para subniveles */
         padding-left: 10px;
     }
 
