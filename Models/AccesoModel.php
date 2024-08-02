@@ -261,7 +261,7 @@ class AccesoModel extends Query
                             if ($mail->send()) {
                                 //echo "Correo enviado";
                                 if (MATRIZ == 1) {
-                                    $this->bienvenida();
+                                    $this->bienvenida($correo);
                                 }
                             } else {
                                 //  echo "Error al enviar el correo: " . $mail->ErrorInfo;
@@ -289,9 +289,8 @@ class AccesoModel extends Query
         return $response;
     }
 
-    public function bienvenida()
+    public function bienvenida($correo)
     {
-        $correo = "mpcegames@gmail.com";
         require_once 'PHPMailer/Mail_bienvenida.php';
         $mail = new PHPMailer();
         $mail->isSMTP();
