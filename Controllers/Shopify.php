@@ -75,6 +75,33 @@ class Shopify extends Controller
         echo json_encode($response);
     }
 
+    public function obtenerConfiguracion()
+    {
+        $response = $this->model->obtenerConfiguracion($_SESSION["id_plataforma"]);
+        echo json_encode($response);
+    }
+
+    public function modificarConfiguracion()
+    {
+        $this->isAuth();
+        $nombre = $_POST["nombre"];
+        $apellido = $_POST["apellido"];
+        $principal = $_POST["principal"];
+        $secundario = $_POST["secundario"];
+        $provincia = $_POST["provincia"];
+        $ciudad = $_POST["ciudad"];
+        $codigo_postal = $_POST["codigo_postal"];
+        $pais = $_POST["pais"];
+        $telefono = $_POST["telefono"];
+        $email = $_POST["email"];
+        $total = $_POST["total"];
+        $descuento = $_POST["descuento"];
+        $referencia = $_POST["referencia"];
+
+        $response = $this->model->modificarConfiguracion($nombre, $apellido, $principal, $secundario, $provincia, $ciudad, $codigo_postal, $pais, $telefono, $email, $total, $descuento, $referencia, $_SESSION["id_plataforma"]);
+        echo json_encode($response);
+    }
+
     public function ultimoJson()
     {
         $this->isAuth();

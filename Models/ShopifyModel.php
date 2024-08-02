@@ -420,4 +420,21 @@ class ShopifyModel extends Query
         $response = $this->select($sql);
         return $response;
     }
+
+    public function modificarConfiguracion($nombre, $apellido, $principal, $secundario, $provincia, $ciudad, $codigo_postal, $pais, $telefono, $email, $total, $descuento, $referencia, $plataforma)
+    {
+        $sql = "UPDATE configuracion_shopify SET nombre = ?, apellido = ?, principal = ?, secundaria = ?, provincia = ?, ciudad = ?, codigo_postal = ?, pais = ?, telefono = ?, email = ?, total = ?, discount = ?, referencia = ? WHERE id_plataforma = ?";
+        $response = $this->update($sql, [$nombre, $apellido, $principal, $secundario, $provincia, $ciudad, $codigo_postal, $pais, $telefono, $email, $total, $descuento, $referencia, $plataforma]);
+        if ($response == 1) {
+            $responses["status"] = 200;
+            $responses["message"] = "Configuracion modificada correctamente";
+        } else if ($response == 0) {
+            $responses["status"] = 202;
+            $responses["message"] = "No se ha modificado la configuracion";
+        } else {
+            $responses["status"] = 500;
+            $responses["message"] = $response["message"];
+        }
+        return $responses;
+    }
 }
