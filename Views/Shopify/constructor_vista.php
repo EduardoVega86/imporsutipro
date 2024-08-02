@@ -3,7 +3,7 @@
 
 <div class="full-screen-container">
     <div class="custom-container-fluid mt-4">
-        <h1>Integraciones</h1>
+        <h1>Datos Shopify</h1>
         <div class="datos_shopify" style="color:white;">
             <!-- Los datos JSON se insertan aquí -->
         </div>
