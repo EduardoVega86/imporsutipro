@@ -29,6 +29,12 @@ class Shopify extends Controller
         $this->views->render($this, "constructor");
     }
 
+    public function constructor_vista()
+    {
+        $this->isAuth();
+        $this->views->render($this, "constructor_vista");
+    }
+
     public function configuracion()
     {
         $this->views->render($this, "configuracion");
