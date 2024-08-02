@@ -164,56 +164,111 @@ class PedidosModel extends Query
         return $this->select($sql, $params);
     }
 
-    public function cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso)
-    {
+    public function cargarGuiasAdministrador($start, $length, $search, $fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso) {
         $sql = "SELECT 
-            fc.*, 
-            fc.id_plataforma AS tienda_venta, 
-            fc.id_propietario AS proveedor,
-            cc.ciudad, 
-            cc.provincia AS provinciaa, 
-            p.nombre_tienda AS tienda,
-            b.nombre AS nombre_bodega, 
-            b.direccion AS direccion_bodega,
-            tp.nombre_tienda AS nombre_proveedor
-        FROM 
-            facturas_cot fc
-        LEFT JOIN 
-            ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot
-        LEFT JOIN 
-            plataformas p ON p.id_plataforma = fc.id_plataforma
-        LEFT JOIN 
-            plataformas tp ON tp.id_plataforma = fc.id_propietario
-        LEFT JOIN 
-            bodega b ON b.id = fc.id_bodega
-        WHERE 
-            TRIM(fc.numero_guia) <> '' 
-            AND fc.numero_guia IS NOT NULL 
-            AND fc.numero_guia <> '0' 
-            AND fc.anulada = 0 ";
-
-
-        if (!empty($fecha_inicio) && !empty($fecha_fin)) {
-            $sql .= " AND fecha_factura BETWEEN $fecha_inicio AND $fecha_fin";
+                    fc.*, 
+                    fc.id_plataforma AS tienda_venta, 
+                    fc.id_propietario AS proveedor,
+                    cc.ciudad, 
+                    cc.provincia AS provinciaa, 
+                    p.nombre_tienda AS tienda,
+                    b.nombre AS nombre_bodega, 
+                    b.direccion AS direccion_bodega,
+                    tp.nombre_tienda AS nombre_proveedor
+                FROM 
+                    facturas_cot fc
+                LEFT JOIN 
+                    ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot
+                LEFT JOIN 
+                    plataformas p ON p.id_plataforma = fc.id_plataforma
+                LEFT JOIN 
+                    plataformas tp ON tp.id_plataforma = fc.id_propietario
+                LEFT JOIN 
+                    bodega b ON b.id = fc.id_bodega
+                WHERE 
+                    TRIM(fc.numero_guia) <> '' 
+                    AND fc.numero_guia IS NOT NULL 
+                    AND fc.numero_guia <> '0' 
+                    AND fc.anulada = 0 ";
+    
+        // Filtros de búsqueda globales
+        if (!empty($search)) {
+            $sql .= " AND (fc.nombre LIKE '%$search%' OR 
+                           fc.ciudad LIKE '%$search%' OR 
+                           fc.numero_guia LIKE '%$search%' OR 
+                           fc.numero_factura LIKE '%$search%' OR 
+                           p.nombre_tienda LIKE '%$search%' OR
+                           tp.nombre_tienda LIKE '%$search%') ";
         }
-
+    
+        // Filtros adicionales
+        if (!empty($fecha_inicio) && !empty($fecha_fin)) {
+            $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+        }
+    
         if (!empty($transportadora)) {
             $sql .= " AND transporte = '$transportadora'";
         }
-
+    
         if (!empty($estado)) {
             $sql .= " AND ($estado)";
         }
-
-        if ($impreso == 0 || $impreso == 1) {
+    
+        if ($impreso === '0' || $impreso === '1') {
             $sql .= " AND impreso = $impreso";
         }
-
-        // Mueve la cláusula ORDER BY al final de la consulta
-        $sql .= " ORDER BY fc.numero_factura DESC;";
-
-        //echo $sql;
+    
+        // Orden y límites para paginación
+        $sql .= " ORDER BY fc.numero_factura DESC LIMIT $start, $length";
+    
         return $this->select($sql);
+    }
+    
+    public function countAllGuias() {
+        $sql = "SELECT COUNT(*) as total FROM facturas_cot WHERE TRIM(numero_guia) <> '' AND numero_guia IS NOT NULL AND numero_guia <> '0' AND anulada = 0";
+        $result = $this->select($sql);
+        return $result[0]['total'];
+    }
+    
+    public function countFilteredGuias($search, $fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso) {
+        $sql = "SELECT COUNT(*) as total FROM facturas_cot 
+                LEFT JOIN ciudad_cotizacion cc ON cc.id_cotizacion = facturas_cot.ciudad_cot
+                LEFT JOIN plataformas p ON p.id_plataforma = facturas_cot.id_plataforma
+                LEFT JOIN plataformas tp ON tp.id_plataforma = facturas_cot.id_propietario
+                WHERE TRIM(numero_guia) <> '' 
+                    AND numero_guia IS NOT NULL 
+                    AND numero_guia <> '0' 
+                    AND anulada = 0 ";
+    
+        // Filtros de búsqueda globales
+        if (!empty($search)) {
+            $sql .= " AND (facturas_cot.nombre LIKE '%$search%' OR 
+                           facturas_cot.ciudad LIKE '%$search%' OR 
+                           facturas_cot.numero_guia LIKE '%$search%' OR 
+                           facturas_cot.numero_factura LIKE '%$search%' OR 
+                           p.nombre_tienda LIKE '%$search%' OR
+                           tp.nombre_tienda LIKE '%$search%') ";
+        }
+    
+        // Filtros adicionales
+        if (!empty($fecha_inicio) && !empty($fecha_fin)) {
+            $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+        }
+    
+        if (!empty($transportadora)) {
+            $sql .= " AND transporte = '$transportadora'";
+        }
+    
+        if (!empty($estado)) {
+            $sql .= " AND ($estado)";
+        }
+    
+        if ($impreso === '0' || $impreso === '1') {
+            $sql .= " AND impreso = $impreso";
+        }
+    
+        $result = $this->select($sql);
+        return $result[0]['total'];
     }
 
     public function cargarAnuladas($filtro)
