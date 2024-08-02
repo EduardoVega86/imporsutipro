@@ -484,12 +484,15 @@ function crear_tienda() {
     cancelButtonText: "¡No, cancelar!",
     reverseButtons: true,
     showLoaderOnConfirm: true,
+    allowOutsideClick: false, // No permitir cerrar el diálogo al hacer clic fuera
+    allowEscapeKey: false, // No permitir cerrar el diálogo con la tecla Escape
     preConfirm: async () => {
-      // Oculta los botones de confirmación y cancelación y elimina el mensaje inicial
+      // Oculta los botones de confirmación y cancelación y elimina el título y mensaje inicial
       Swal.update({
+        title: "", // Elimina el título
+        html: "<div id='gif-container'></div>", // Remueve el mensaje inicial y añade un contenedor para los GIFs
         showConfirmButton: false,
         showCancelButton: false,
-        html: "<div id='gif-container'></div>", // Remueve el mensaje inicial y añade un contenedor para los GIFs
       });
 
       var nombre_tienda = $("#nombre_tienda").val();
@@ -509,10 +512,10 @@ function crear_tienda() {
 
       // Array con URLs de los GIFs
       const gifs = [
-        SERVERURL+"public/img/gif/ICONOS_1.gif",
-        SERVERURL+"public/img/gif/ICONOS_2.gif",
-        SERVERURL+"public/img/gif/ICONOS_3.gif",
-        SERVERURL+"public/img/gif/ICONOS_4.gif",
+        SERVERURL + "public/img/gif/ICONOS_1.gif",
+        SERVERURL + "public/img/gif/ICONOS_2.gif",
+        SERVERURL + "public/img/gif/ICONOS_3.gif",
+        SERVERURL + "public/img/gif/ICONOS_4.gif",
       ];
 
       let mensajeIndex = 0;
