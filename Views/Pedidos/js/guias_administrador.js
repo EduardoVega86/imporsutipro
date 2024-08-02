@@ -2,30 +2,14 @@ let dataTable;
 let dataTableIsInitialized = false;
 
 const dataTableOptions = {
-  ajax: {
-    url: `${SERVERURL}pedidos/obtener_guiasAdministrador`,
-    type: 'POST',
-    dataSrc: '', // Asume que el JSON del servidor es un array simple
-    data: function () {
-      return {
-        fecha_inicio: fecha_inicio,
-        fecha_fin: fecha_fin,
-        estado: $("#estado_q").val(),
-        transportadora: $("#transporte").val(),
-        impreso: $("#impresion").val()
-      };
-    }
-  },
-  deferRender: true, // Habilitar el renderizado diferido
-  scrollY: 400, // Altura del área de desplazamiento
-  scroller: true, // Habilitar el desplazamiento infinito
   columnDefs: [
     { className: "centered", targets: [1, 2, 3, 4, 5, 6, 7, 8, 9] },
-    { orderable: false, targets: 0 }
+    { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
   ],
-  order: [[2, "desc"]],
+  order: [[2, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
   pageLength: 25,
   lengthMenu: [25, 50, 100, 200],
+  destroy: true,
   responsive: true,
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
@@ -39,9 +23,9 @@ const dataTableOptions = {
       first: "Primero",
       last: "Último",
       next: "Siguiente",
-      previous: "Anterior"
-    }
-  }
+      previous: "Anterior",
+    },
+  },
 };
 
 const initDataTable = async () => {
@@ -49,9 +33,13 @@ const initDataTable = async () => {
     dataTable.destroy();
   }
 
+  await listGuias();
+
   dataTable = $("#datatable_guias").DataTable(dataTableOptions);
+
   dataTableIsInitialized = true;
 
+  // Handle select all checkbox
   document.getElementById("selectAll").addEventListener("change", function () {
     const checkboxes = document.querySelectorAll(".selectCheckbox");
     checkboxes.forEach((checkbox) => (checkbox.checked = this.checked));
