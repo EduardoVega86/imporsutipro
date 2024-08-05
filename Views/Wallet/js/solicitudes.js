@@ -219,7 +219,7 @@ const listOtrasFormasPago = async () => {
       } else {
         checkboxState = "";
       }
-      let nombre_tienda= obtener_nombreTineda(pago.id_plataforma);
+      let nombre_tienda = obtener_nombreTineda(pago.id_plataforma);
 
       content += `
                 <tr>
@@ -242,7 +242,7 @@ const listOtrasFormasPago = async () => {
   }
 };
 
-function obtener_nombreTineda(id_plataforma){
+function obtener_nombreTineda(id_plataforma) {
   let formData = new FormData();
   formData.append("id_plataforma", id_plataforma);
 
@@ -254,7 +254,8 @@ function obtener_nombreTineda(id_plataforma){
     contentType: false,
     dataType: "json",
     success: function (response) {
-      return response[0].nombre_tienda;
+      let nombre = response[0].nombre_tienda;
+      return nombre;
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
