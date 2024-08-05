@@ -947,7 +947,7 @@ WHERE b.id_plataforma = $plataforma";
      public function agregarPrivadoPlataforma($id, $plataforma)
     {
 
-     $sql = "INSERT INTO producto_privado (id_producto, plataforma) VALUES (?, ?)";
+     $sql = "INSERT INTO producto_privado (id_producto, id_plataforma) VALUES (?, ?)";
             $data = [$id, $plataforma];
             $insertar_caracteristica = $this->insert($sql, $data);
         //print_r($editar_producto);
