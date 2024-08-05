@@ -34,7 +34,7 @@
                     <div id="informacion_tienda" style="display: none;">
                         <!-- <input type="hidden" id="id_producto" name="id_producto"> -->
 
-                        <img src="tu-imagen.png" alt="Producto" id="image_tienda">
+                        <img src="tu-imagen.png" alt="Producto" id="image_tienda" style="padding-top:5px;">
                         <h6 style="padding-top: 5px;"><strong><span id="nombre_tienda"></span></strong></h6>
                         <hr>
                         <label for="url:"><strong>URL: </strong><span id="url"></span></label> 
