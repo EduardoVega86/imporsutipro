@@ -9,7 +9,7 @@
         <div class="left_right gap-2">
             <div class="table-responsive left">
                 <!-- <table class="table table-bordered table-striped table-hover"> -->
-                <table id="datatable_inventario" class="table table-striped">
+                <table id="datatable_inventario" class="table table-striped" style="min-width: 100%;">
                     <thead>
                         <tr>
                             <th class="centered">ID</th>
