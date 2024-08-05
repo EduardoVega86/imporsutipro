@@ -57,11 +57,11 @@
                 </caption> -->
                         <thead>
                             <tr>
-                                <th class="centered">Fecha</th>
-                                <th class="centered">Descripcion</th>
-                                <th class="centered">Referencia</th>
-                                <th class="centered">Tipo</th>
-                                <th class="centered">Total</th>
+                                <th class="centered">Nombre tienda</th>
+                                <th class="centered">Correo</th>
+                                <th class="centered">Telefono</th>
+                                <th class="centered">URL</th>
+                                <th class="centered">Accción</th>
                             </tr>
                         </thead>
                         <tbody id="tableBody_stockIndividual"></tbody>

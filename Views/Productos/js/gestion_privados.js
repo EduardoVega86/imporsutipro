@@ -183,21 +183,13 @@ const listStockIndividual = async (id_producto) => {
     let content = ``;
     let tipo = "";
     stockIndividuals.forEach((stockIndividual, index) => {
-      console.log("1 " + stockIndividual.tipo_historial);
-
-      if (stockIndividual.tipo_historial == 1) {
-        tipo = `<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">Entrada</span>`;
-      } else {
-        tipo = `<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">Salida</span>`;
-      }
-
       content += `
         <tr>
-        <td>${stockIndividual.fecha_historial}</td>
-      <td>${stockIndividual.nota_historial}</td>
-      <td>${stockIndividual.referencia_historial}</td>
-      <td>${tipo}</td>
-      <td>${stockIndividual.cantidad_historial}</td>
+        <td>${stockIndividual.nombre_tienda}</td>
+      <td>${stockIndividual.email}</td>
+      <td>${stockIndividual.whatsapp}</td>
+      <td>${stockIndividual.url_imporsuit}</td>
+      <button class="btn btn-sm btn-danger" onclick="eliminar_tiendaProductoPrivado(${stockIndividual.id_producto_privado})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
         </tr>`;
     });
     document.getElementById("tableBody_stockIndividual").innerHTML = content;
@@ -282,18 +274,14 @@ function agregar_tienda() {
     dataType: "json",
     success: function (response) {
       if (response.status == 500) {
-        toastr.error(
-          "LA TIENDA NO SE AGREGRO CORRECTAMENTE",
-          "NOTIFICACIÓN",
-          {
-            positionClass: "toast-bottom-center",
-          }
-        );
+        toastr.error("LA TIENDA NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
       } else if (response.status == 200) {
         toastr.success("TIENDA AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
-        initDataTableStockIndividual();
+        initDataTableStockIndividual(id_producto_privado);
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
