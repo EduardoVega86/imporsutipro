@@ -65,8 +65,8 @@ const listInventario = async () => {
       } else {
         cargarImagen = `<img src="${SERVERURL}${inventario.image_path}" class="icon-button" alt="Agregar imagen" width="50px">`;
       }
-      
-      if (inventario.variedad == null){
+
+      if (inventario.variedad == null) {
         variedad = "";
       } else {
         variedad = inventario.variedad;
@@ -152,12 +152,12 @@ const dataTableStockIndividualOptions = {
   },
 };
 
-const initDataTableStockIndividual = async (id_inventario) => {
+const initDataTableStockIndividual = async (id_producto) => {
   if (dataTableStockIndividualIsInitialized) {
     dataTableStockIndividual.destroy();
   }
 
-  await listStockIndividual(id_inventario);
+  await listStockIndividual(id_producto);
 
   dataTableStockIndividual = $("#datatable_stockIndividual").DataTable(
     dataTableStockIndividualOptions
@@ -166,12 +166,12 @@ const initDataTableStockIndividual = async (id_inventario) => {
   dataTableStockIndividualIsInitialized = true;
 };
 
-const listStockIndividual = async (id_inventario) => {
+const listStockIndividual = async (id_producto) => {
   try {
     const formData = new FormData();
-    formData.append("id_inventario", id_inventario);
+    formData.append("id_producto", id_producto);
 
-    const response = await fetch(`${SERVERURL}inventarios/obtenerHistorial`, {
+    const response = await fetch(`${SERVERURL}Productos/obtener_tiendas_productosPrivados`, {
       method: "POST",
       body: formData,
     });
@@ -203,48 +203,7 @@ const listStockIndividual = async (id_inventario) => {
   }
 };
 
-function seleccionar_cambiarInventario(id_inventario) {
-  let formData = new FormData();
-  formData.append("id_inventario", id_inventario); // Añadir el ID del inventario al FormData
-  $("#id_inventarioStock").val(id_inventario);
-
-  $.ajax({
-    url: SERVERURL + "inventarios/obtenerInventario",
-    type: "POST",
-    data: formData,
-    processData: false, // No procesar los datos
-    contentType: false, // No establecer ningún tipo de contenido
-    dataType: "json", // Asegúrate de recibir datos JSON
-    success: function (response) {
-      $("#existencia_stock").text(response[0].saldo_stock);
-
-      $("#skuStock").val(response[0].sku);
-      $("#id_productoStock").val(response[0].id_producto);
-      $("#id_bodegaStock").val(response[0].bodega);
-
-      var id_producto = response[0].id_producto;
-
-      // ajax para consultar imagen de producto
-      $.ajax({
-        url: SERVERURL + "productos/obtener_producto/" + id_producto,
-        type: "GET",
-        dataType: "json",
-        success: function (response2) {
-          $("#nombreeProducto_stock").text(response2[0].nombre_producto);
-          $("#image_stock").attr("src", SERVERURL + response2[0].image_path);
-
-          initDataTableStockIndividual(id_inventario);
-          document
-            .getElementById("inventarioSection")
-            .classList.remove("hidden");
-        },
-        error: function (error) {
-          console.error("Error al obtener la imagen del producto:", error);
-        },
-      });
-    },
-    error: function (error) {
-      console.error("Error al obtener la información del inventario:", error);
-    },
-  });
+function seleccionar_cambiarInventario(id_producto) {
+  initDataTableStockIndividual(id_producto);
+  document.getElementById("inventarioSection").classList.remove("hidden");
 }

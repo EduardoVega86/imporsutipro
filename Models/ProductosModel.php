@@ -968,4 +968,10 @@ WHERE b.id_plataforma = $plataforma";
         $sql = "SELECT * FROM `productos` WHERE producto_privado=1 AND id_plataforma=$plataforma;";
         return $this->select($sql);
     }
+
+    public function obtener_tiendas_productosPrivados($id, $plataforma)
+    {
+        $sql = "SELECT * FROM `productos` WHERE producto_privado=1 AND id_plataforma=$plataforma;";
+        return $this->select($sql);
+    }
 }
