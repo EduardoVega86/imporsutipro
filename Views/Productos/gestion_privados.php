@@ -3,7 +3,7 @@
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
-        <h2 class="text-center mb-4">Ajuste de Inventario</h2>
+        <h2 class="text-center mb-4">Gestion de Productos Privados</h2>
         <!-- <div class="filtros_producos justify-content-between align-items-center mb-3"></div>
         </div> -->
         <div class="left_right gap-2">
