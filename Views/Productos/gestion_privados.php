@@ -31,17 +31,16 @@
                             <option value="0" selected> Selecciona tiendas</option>
                         </select>
                     </div>
-                    <div id="informacion_tienda" style="display: none;">
-                        <!-- <input type="hidden" id="id_producto" name="id_producto"> -->
-
-                        <img src="tu-imagen.png" alt="Producto" id="image_tienda" style="padding-top:10px;padding-bottom:10px;">
-                        <h6 style="padding-top: 5px;"><strong><span id="nombre_tienda"></span></strong></h6>
+                    <div id="informacion_tienda" style="display: none; max-width: 300px; margin: 0 auto; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                        <img src="tu-imagen.png" alt="Producto" id="image_tienda" style="width: 100%; padding-top: 10px; padding-bottom: 10px;">
+                        <h6 style="padding-top: 5px; text-align: center;"><strong><span id="nombre_tienda"></span></strong></h6>
                         <hr>
-                        <label for="url:"><strong>URL: </strong><span id="url"></span></label> 
-                        <label for="telefono:"><strong>Telefono: </strong><span id="telefono"></span></label> 
-                        <label for="correo:"><strong>Correo: </strong><span id="correo"></span></label> 
-
-                        <button class="btn btn-add" onclick="agregar_stock()">Agregar Stock</button>
+                        <div style="display: flex; flex-direction: column; gap: 10px;">
+                            <label for="url"><strong>URL: </strong><span id="url"></span></label>
+                            <label for="telefono"><strong>Teléfono: </strong><span id="telefono"></span></label>
+                            <label for="correo"><strong>Correo: </strong><span id="correo"></span></label>
+                        </div>
+                        <button class="btn btn-add" onclick="agregar_stock()" style="width: 100%; margin-top: 10px;">Agregar Stock</button>
                     </div>
                 </div>
                 <div class="table-responsive">
