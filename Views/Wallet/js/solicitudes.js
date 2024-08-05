@@ -260,7 +260,7 @@ function obtener_nombreTineda(id_plataforma) {
       dataType: "json",
       success: function (response) {
         let nombre = response[0].nombre_tienda;
-        console.log("Nombre tienda: " + nombre);
+        
         resolve(nombre);
       },
       error: function (jqXHR, textStatus, errorThrown) {
