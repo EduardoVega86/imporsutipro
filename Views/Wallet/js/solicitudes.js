@@ -255,6 +255,7 @@ function obtener_nombreTineda(id_plataforma) {
     dataType: "json",
     success: function (response) {
       let nombre = response[0].nombre_tienda;
+      console.log("Nombre tienda: "+nombre)
       return nombre;
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -262,6 +263,7 @@ function obtener_nombreTineda(id_plataforma) {
     },
   });
 }
+
 function getFecha() {
   let fecha = new Date();
   let mes = fecha.getMonth() + 1;
