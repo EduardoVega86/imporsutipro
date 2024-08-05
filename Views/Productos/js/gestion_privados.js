@@ -253,7 +253,7 @@ $(document).ready(function () {
       dataType: "json",
       success: function (response) {
 
-        $("#image_tienda").attr("src", SERVERURL + response[0].log_url);
+        $("#image_tienda").attr("src", SERVERURL + response[0].logo_url);
         $("#nombre_tienda").text(response[0].nombre_tienda);
         $("#url").text(response[0].url_imporsuit);
         $("#telefono").text(response[0].whatsapp);
