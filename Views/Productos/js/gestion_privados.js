@@ -239,6 +239,7 @@ $(document).ready(function () {
 
   $("#select_tiendas").change(function () {
     var id_plataformaTienda = $("#select_tiendas").val();
+    $("#seccion_laar").show();
 
     let formData = new FormData();
     formData.append("id_plataforma", id_plataformaTienda);

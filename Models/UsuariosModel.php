@@ -381,7 +381,7 @@ ON
 
     public function obtener_tiendas($plataforma)
     {
-        $sql = "SELECT id_plataformas, nombre_tienda FROM plataformas WHERE";
+        $sql = "SELECT id_plataformas, nombre_tienda FROM plataformas";
 
         return $this->select($sql);
     }

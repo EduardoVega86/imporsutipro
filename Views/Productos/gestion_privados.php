@@ -31,7 +31,7 @@
                             <option value="0" selected> Selecciona tiendas</option>
                         </select>
                     </div>
-                    <div id="informacion_tienda">
+                    <div id="informacion_tienda" style="display: none;">
                         <input type="hidden" id="id_inventarioStock" name="id_inventarioStock">
 
                         <img src="tu-imagen.png" alt="Producto" id="image_stock">
