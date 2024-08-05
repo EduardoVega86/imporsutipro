@@ -52,7 +52,7 @@ const initDataTableInventario = async () => {
 const listInventario = async () => {
   try {
     const response = await fetch(
-      "" + SERVERURL + "productos/obtener_productos_inventario"
+      "" + SERVERURL + "productos/obtener_productosPrivados_tienda"
     );
     const inventarios = await response.json();
 
@@ -173,7 +173,7 @@ const listStockIndividual = async (id_inventario) => {
     const formData = new FormData();
     formData.append("id_inventario", id_inventario);
 
-    const response = await fetch(`${SERVERURL}Productos/obtener_productosPrivados_tienda`, {
+    const response = await fetch(`${SERVERURL}inventarios/obtenerHistorial`, {
       method: "POST",
       body: formData,
     });
