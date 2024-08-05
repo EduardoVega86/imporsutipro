@@ -23,6 +23,22 @@
                 </table>
             </div>
             <div class="right gap-2 hidden" id="inventarioSection">
+                <div class="card" style="height: 550px; padding:10px">
+                    <input type="hidden" id="id_inventarioStock" name="id_inventarioStock">
+                    <input type="hidden" id="skuStock" name="skuStock">
+                    <input type="hidden" id="id_productoStock" name="id_productoStock">
+                    <input type="hidden" id="id_bodegaStock" name="id_bodegaStock">
+
+                    <img src="tu-imagen.png" alt="Producto" id="image_stock">
+                    <h6 style="padding-top: 5px;"><strong><span id="nombreeProducto_stock"></span></strong></h6>
+                    <div class="stock">Existencia: <span id="existencia_stock"></span></div>
+                    <hr>
+                    <label for="cantidad:">Cantidad:</label>
+                    <input type="text" class="form-control" id="cantidadStock" placeholder="Ingresar cantidad">
+                    <label for="referencia:">Referencia:</label>
+                    <input type="text" class="form-control" id="referencistock" placeholder="Ingresar referencia">
+                    <button class="btn btn-add" onclick="agregar_stock()" style="display: none;">Agregar Stock</button>
+                </div>
                 <div class="table-responsive">
                     <!-- <table class="table table-bordered table-striped table-hover"> -->
                     <table id="datatable_stockIndividual" class="table table-striped">
