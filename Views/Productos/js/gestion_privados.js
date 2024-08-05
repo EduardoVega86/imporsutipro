@@ -78,8 +78,6 @@ const listInventario = async () => {
       <td>${cargarImagen}</td>
       <td>${inventario.codigo_producto}</td>
       <td>${inventario.nombre_producto}</td>
-      <td>${variedad}</td>
-      <td>${inventario.saldo_stock}</td>
       <td>
           <button class="btn btn-sm btn-primary" onclick="seleccionar_cambiarInventario(${inventario.id_inventario})"><i class="fa-solid fa-pencil"></i>Ajustar</button>
       </td>
