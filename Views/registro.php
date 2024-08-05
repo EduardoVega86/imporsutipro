@@ -77,7 +77,7 @@
                     <div id="tienda-error" style="color: red; display: none;">Esta tienda ya existe.</div>
                 </div>
                 <button type="button" class="btn btn-secondary w-100 mb-2" onclick="prevStep()">Anterior</button>
-                <button type="submit" class="btn btn-primary w-100">Enviar</button>
+                <button type="submit" class="btn btn-primary w-100" id="enviar_btn">Enviar</button>
             </div>
         </form>
         <a href="<?php echo SERVERURL ?>login" class="forgot-password">
@@ -155,9 +155,13 @@
     document.getElementById("multiStepForm").addEventListener("submit", function(event) {
         event.preventDefault();
 
+        var button = document.getElementById('enviar_btn');
+        button.disabled = true; // Desactivar el botón
         validateStoreName(function(isValid) {
             if (isValid) {
                 enviarFormulario();
+            } else {
+                button.disabled = false; // Activar el botón
             }
         });
     });
@@ -226,6 +230,10 @@
             })
             .then(data => {
                 console.log('Success:', data);
+
+                var button = document.getElementById('enviar_btn');
+                button.disabled = false; //ACTIVAR BOTON
+
                 if (data.status == 500) {
                     Swal.fire({
                         icon: 'error',
