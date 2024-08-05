@@ -37,9 +37,9 @@
                         <img src="tu-imagen.png" alt="Producto" id="image_tienda">
                         <h6 style="padding-top: 5px;"><strong><span id="nombre_tienda"></span></strong></h6>
                         <hr>
-                        <label for="cantidad:"><strong>URL: </strong><span id="url"></span></label> 
-                        <label for="cantidad:"><strong>Telefono: </strong><span id="telefono"></span></label> 
-                        <label for="cantidad:"><strong>Correo: </strong><span id="correo"></span></label> 
+                        <label for="url:"><strong>URL: </strong><span id="url"></span></label> 
+                        <label for="telefono:"><strong>Telefono: </strong><span id="telefono"></span></label> 
+                        <label for="correo:"><strong>Correo: </strong><span id="correo"></span></label> 
 
                         <button class="btn btn-add" onclick="agregar_stock()">Agregar Stock</button>
                     </div>
