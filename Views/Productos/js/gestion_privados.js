@@ -207,7 +207,7 @@ const listStockIndividual = async (id_producto) => {
 };
 
 function seleccionar_cambiarInventario(id_producto) {
-  $("#id_producto").val(id_producto);
+  $("#id_producto_privado").val(id_producto);
   initDataTableStockIndividual(id_producto);
   document.getElementById("inventarioSection").classList.remove("hidden");
 }
