@@ -51,7 +51,7 @@
                 </div>
                 <div class="table-responsive">
                     <!-- <table class="table table-bordered table-striped table-hover"> -->
-                    <table id="datatable_stockIndividual" class="table table-striped">
+                    <table id="datatable_stockIndividual" class="table table-striped" style="min-width: 100%;">
                         <!-- <caption>
                     DataTable.js Demo
                 </caption> -->
