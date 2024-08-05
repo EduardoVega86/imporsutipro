@@ -686,4 +686,10 @@ class Productos extends Controller
         $response = $this->model->agregarPrivadoPlataforma($id, $plataforma);
         echo json_encode($response);
     }
+
+    public function obtener_productosPrivados_tienda()
+    {
+        $response = $this->model->obtener_productosPrivados_tienda($_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
 }
