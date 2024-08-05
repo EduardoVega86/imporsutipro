@@ -90,8 +90,8 @@ class Productos extends Controller
 
         $this->views->render($this, "landing", $existe_producto);
     }
-    
-     public function landing_tienda($id)
+
+    public function landing_tienda($id)
     {
         $existe_producto = $this->model->verificarProductoTienda($id);
 
@@ -107,8 +107,8 @@ class Productos extends Controller
         $response = $this->model->obtener_productos($_SESSION['id_plataforma']);
         echo json_encode($response);
     }
-    
-     public function obtener_productos_privados()
+
+    public function obtener_productos_privados()
     {
         $response = $this->model->obtener_productos_privados($_SESSION['id_plataforma']);
         echo json_encode($response);
@@ -418,12 +418,12 @@ class Productos extends Controller
         $pvp_tienda = $_POST['pvp_tienda'];
         $id_categoria = $_POST['id_categoria'];
 
-        if($_POST['pref']==null || $_POST['pref']==''){
-            $pref=0;
-        }else{
-            $pref = $_POST['pref'] ?? 0; 
+        if ($_POST['pref'] == null || $_POST['pref'] == '') {
+            $pref = 0;
+        } else {
+            $pref = $_POST['pref'] ?? 0;
         }
-       
+
 
 
         $response = $this->model->editarProductoTienda($id_producto_tienda, $nombre, $pvp_tienda, $id_categoria, $pref);
@@ -640,13 +640,13 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
-    
+
     public function verificarProducto($id)
     {
         $response = $this->model->verificarProducto($id);
         echo json_encode($response);
     }
-    
+
     public function verificarProductoTienda($id)
     {
         $response = $this->model->verificarProductoTienda($id);
@@ -658,31 +658,31 @@ class Productos extends Controller
         $response = $this->model->existeLanding($id);
         echo json_encode($response);
     }
-    
-     public function existeLandingTienda($id)
+
+    public function existeLandingTienda($id)
     {
         $response = $this->model->existeLandingTienda($id);
         echo json_encode($response);
     }
-    
-     public function existeLandingTienda2($id)
+
+    public function existeLandingTienda2($id)
     {
         $response = $this->model->existeLandingTienda2($id);
         echo json_encode($response);
     }
-    
-     public function habilitarPrivado()
+
+    public function habilitarPrivado()
     {
-         $id = $_POST['id_producto'];
-           $estado = $_POST['estado'];
+        $id = $_POST['id_producto'];
+        $estado = $_POST['estado'];
         $response = $this->model->habilitarPrivado($id, $estado);
         echo json_encode($response);
     }
-    
-     public function agregarPrivadoPlataforma()
+
+    public function agregarPrivadoPlataforma()
     {
-         $id = $_POST['id_producto'];
-           $plataforma = $_POST['id_plataforma'];
+        $id = $_POST['id_producto'];
+        $plataforma = $_POST['id_plataforma'];
         $response = $this->model->agregarPrivadoPlataforma($id, $plataforma);
         echo json_encode($response);
     }
