@@ -163,7 +163,7 @@ const listStockIndividual = async (id_producto) => {
       <td>${stockIndividual.whatsapp}</td>
       <td>${stockIndividual.url_imporsuit}</td>
       <td>
-      <button class="btn btn-sm btn-danger" onclick="eliminar_tiendaProductoPrivado(${stockIndividual.id_producto_privado})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
+      <button class="btn btn-sm btn-danger" onclick="eliminar_tiendaProductoPrivado(${stockIndividual.id_producto_privado}, ${id_producto})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
       </td>
         </tr>`;
     });
