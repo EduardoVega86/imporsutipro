@@ -219,10 +219,12 @@ const listOtrasFormasPago = async () => {
       } else {
         checkboxState = "";
       }
+      let nombre_tienda= obtener_nombreTineda(pago.id_plataforma);
 
       content += `
                 <tr>
                     <td><input type="checkbox" class="selectCheckbox" data-id="${pago.id_solicitud}" ${checkboxState} onclick="toggleSolicitud(${pago.id_solicitud}, this.checked)"></td>
+                    <td>${nombre_tienda}</td>
                     <td>${pago.fecha}</td>
                     <td>${pago.tipo}</td>
                     <td>${pago.red}</td>
@@ -240,6 +242,25 @@ const listOtrasFormasPago = async () => {
   }
 };
 
+function obtener_nombreTineda(id_plataforma){
+  let formData = new FormData();
+  formData.append("id_plataforma", id_plataforma);
+
+  $.ajax({
+    url: SERVERURL + "Usuarios/obtener_infoTienda_privada",
+    type: "POST",
+    data: formData,
+    processData: false,
+    contentType: false,
+    dataType: "json",
+    success: function (response) {
+      return response[0].nombre_tienda;
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+}
 function getFecha() {
   let fecha = new Date();
   let mes = fecha.getMonth() + 1;

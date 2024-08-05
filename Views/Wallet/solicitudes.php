@@ -44,6 +44,7 @@
                 <thead>
                     <tr>
                         <th class="centered"></th>
+                        <th class="centered">Nombre tienda</th>
                         <th class="centered">Fecha solicitud</th>
                         <th class="centered">Tipo</th>
                         <th class="centered">Red</th>
