@@ -263,41 +263,41 @@ $(document).ready(function () {
       },
     });
   });
-
-  function agregar_tienda() {
-    var id_plataformaTienda = $("#select_tiendas").val();
-    var id_producto_privado = $("#id_producto_privado").val();
-
-    let formData = new FormData();
-    formData.append("id_plataforma", id_plataformaTienda);
-    formData.append("id_producto", id_producto_privado);
-
-    $.ajax({
-      url: SERVERURL + "Productos/agregarPrivadoPlataforma",
-      type: "POST", // Cambiar a POST para enviar FormData
-      data: formData,
-      processData: false, // No procesar los datos
-      contentType: false, // No establecer ningún tipo de contenido
-      dataType: "json",
-      success: function (response) {
-        if (response.status == 500) {
-          toastr.error(
-            "LA TIENDA NO SE AGREGRO CORRECTAMENTE",
-            "NOTIFICACIÓN",
-            {
-              positionClass: "toast-bottom-center",
-            }
-          );
-        } else if (response.status == 200) {
-          toastr.success("TIENDA AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
-            positionClass: "toast-bottom-center",
-          });
-          initDataTableStockIndividual();
-        }
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-        alert(errorThrown);
-      },
-    });
-  }
 });
+
+function agregar_tienda() {
+  var id_plataformaTienda = $("#select_tiendas").val();
+  var id_producto_privado = $("#id_producto_privado").val();
+
+  let formData = new FormData();
+  formData.append("id_plataforma", id_plataformaTienda);
+  formData.append("id_producto", id_producto_privado);
+
+  $.ajax({
+    url: SERVERURL + "Productos/agregarPrivadoPlataforma",
+    type: "POST", // Cambiar a POST para enviar FormData
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    dataType: "json",
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error(
+          "LA TIENDA NO SE AGREGRO CORRECTAMENTE",
+          "NOTIFICACIÓN",
+          {
+            positionClass: "toast-bottom-center",
+          }
+        );
+      } else if (response.status == 200) {
+        toastr.success("TIENDA AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+        initDataTableStockIndividual();
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+}
