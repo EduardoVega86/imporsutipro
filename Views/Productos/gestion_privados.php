@@ -25,7 +25,7 @@
             <div class="right gap-2 hidden" id="inventarioSection">
                 <div class="card" style="height: 550px; padding: 10px;">
                     <div class="form-group" id="tiendas-field">
-                        <input type="hidden" id="id_producto" name="id_producto">
+                        <input type="hidden" id="id_producto_privado" name="id_producto_privado">
                         <label for="tiendas">Tiendas:</label>
                         <select class="form-select" id="select_tiendas">
                             <option value="0" selected>Selecciona tiendas</option>
@@ -46,7 +46,7 @@
                             <label for="correo"><strong>Correo: </strong><span id="correo"></span></label>
                         </div>
 
-                        <button class="btn btn-primary btn-block mt-3" onclick="agregar_stock()">Agregar Stock</button>
+                        <button class="btn btn-primary btn-block mt-3" onclick="agregar_tienda()">Agregar tienda</button>
                     </div>
                 </div>
                 <div class="table-responsive">
