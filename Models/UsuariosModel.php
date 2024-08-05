@@ -379,6 +379,12 @@ ON
     }
 
 
+    public function obtener_tiendas($plataforma)
+    {
+        $sql = "SELECT id_plataformas, nombre_tienda FROM plataformas WHERE";
+
+        return $this->select($sql);
+    }
 
     /* tienda online */
     public function obtener_infoTiendaOnline($plataforma)

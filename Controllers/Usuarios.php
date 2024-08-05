@@ -276,6 +276,19 @@ class Usuarios extends Controller
         }
     }
 
+    public function obtener_tiendas()
+    {
+        $response = $this->model->obtener_tiendas();
+        echo json_encode($response);
+    }
+
+    public function obtener_infoTienda_privada()
+    {
+        $id_plataforma = $_POST['id_plataforma'];
+        $response = $this->model->obtener_infoTiendaOnline($id_plataforma);
+        echo json_encode($response);
+    }
+
     /* tienda online */
     public function obtener_infoTiendaOnline()
     {

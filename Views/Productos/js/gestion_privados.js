@@ -171,10 +171,13 @@ const listStockIndividual = async (id_producto) => {
     const formData = new FormData();
     formData.append("id_producto", id_producto);
 
-    const response = await fetch(`${SERVERURL}Productos/obtener_tiendas_productosPrivados`, {
-      method: "POST",
-      body: formData,
-    });
+    const response = await fetch(
+      `${SERVERURL}Productos/obtener_tiendas_productosPrivados`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
     const stockIndividuals = await response.json();
 
     let content = ``;
@@ -204,6 +207,59 @@ const listStockIndividual = async (id_producto) => {
 };
 
 function seleccionar_cambiarInventario(id_producto) {
+  $("#id_producto").val(id_producto);
   initDataTableStockIndividual(id_producto);
   document.getElementById("inventarioSection").classList.remove("hidden");
 }
+
+//cargar select de tiendas
+$(document).ready(function () {
+  // Realiza la solicitud AJAX para obtener la lista de bodegas
+  $.ajax({
+    url: SERVERURL + "Usuarios/obtener_tiendas",
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+      // Asegúrate de que la respuesta es un array
+      if (Array.isArray(response)) {
+        response.forEach(function (tiendas) {
+          // Agrega una nueva opción al select por cada tiendas
+          $("#select_tiendas").append(
+            new Option(tiendas.nombre_tienda, tiendas.id_plataforma)
+          );
+        });
+      } else {
+        console.log("La respuesta de la API no es un array:", response);
+      }
+    },
+    error: function (error) {
+      console.error("Error al obtener la lista de tiendas:", error);
+    },
+  });
+
+  $("#select_tiendas").change(function () {
+    var id_plataformaTienda = $("#select_tiendas").val();
+
+    let formData = new FormData();
+    formData.append("id_plataforma", id_plataformaTienda);
+
+    $.ajax({
+      url: SERVERURL + "Usuarios/obtener_infoTienda_privada",
+      type: "POST",
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function (response) {
+        response = JSON.parse(response);
+
+        $("#price_servientrega").text(response.servientrega);
+        $("#price_gintracom").text(response.gintracom);
+        $("#price_speed").text(response.speed);
+        $("#price_laar").text(response.laar);
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        alert(errorThrown);
+      },
+    });
+  });
+});
