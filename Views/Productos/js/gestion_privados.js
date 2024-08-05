@@ -232,6 +232,35 @@ $(document).ready(function () {
   });
 });
 
+function eliminar_tiendaProductoPrivado(id_producto_privado, id_privado) {
+  let formData = new FormData();
+  formData.append("id_privado", id_privado);
+
+  $.ajax({
+    url: SERVERURL + "Productos/eliminarPrivadoPlataforma",
+    type: "POST", // Cambiar a POST para enviar FormData
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    dataType: "json",
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("LA TIENDA NO SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("TIENDA ELIMINADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+        initDataTableStockIndividual(id_producto_privado);
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+}
+
 function agregar_tienda() {
   var id_plataformaTienda = $("#select_tiendas").val();
   var id_producto_privado = $("#id_producto_privado").val();

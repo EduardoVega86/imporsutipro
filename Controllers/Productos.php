@@ -699,4 +699,11 @@ class Productos extends Controller
         $response = $this->model->obtener_tiendas_productosPrivados($id);
         echo json_encode($response);
     }
+
+    public function eliminarPrivadoPlataforma($id)
+    {
+        $response = $this->model->eliminarPrivadoPlataforma($id);
+        echo json_encode($response);
+    }
+    
 }
