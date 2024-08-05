@@ -696,7 +696,7 @@ class Productos extends Controller
     public function obtener_tiendas_productosPrivados()
     {
         $id = $_POST['id_producto'];
-        $response = $this->model->obtener_tiendas_productosPrivados($id ,$_SESSION['id_plataforma']);
+        $response = $this->model->obtener_tiendas_productosPrivados($id);
         echo json_encode($response);
     }
 }

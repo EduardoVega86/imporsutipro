@@ -969,9 +969,9 @@ WHERE b.id_plataforma = $plataforma";
         return $this->select($sql);
     }
 
-    public function obtener_tiendas_productosPrivados($id, $plataforma)
+    public function obtener_tiendas_productosPrivados($id)
     {
-        $sql = "SELECT * FROM `productos` WHERE producto_privado=1 AND id_plataforma=$plataforma;";
+        $sql = "SELECT * FROM plataformas INNER JOIN producto_privado ON plataformas.id_plataforma = producto_privado.id_plataforma AND producto_privado.id_producto = $id;";
         return $this->select($sql);
     }
 }
