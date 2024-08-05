@@ -227,7 +227,7 @@ const listOtrasFormasPago = async () => {
       content += `
                 <tr>
                     <td><input type="checkbox" class="selectCheckbox" data-id="${pago.id_solicitud}" ${checkboxState} onclick="toggleSolicitud(${pago.id_solicitud}, this.checked)"></td>
-                    <td>${nombre_tienda}</td>
+                    <td style:"text-transform: uppercase;">${nombre_tienda}</td>
                     <td>${pago.fecha}</td>
                     <td>${pago.tipo}</td>
                     <td>${pago.red}</td>
@@ -260,7 +260,7 @@ function obtener_nombreTineda(id_plataforma) {
       dataType: "json",
       success: function (response) {
         let nombre = response[0].nombre_tienda;
-        
+
         resolve(nombre);
       },
       error: function (jqXHR, textStatus, errorThrown) {
