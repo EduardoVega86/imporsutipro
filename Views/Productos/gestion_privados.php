@@ -25,24 +25,23 @@
             <div class="right gap-2 hidden" id="inventarioSection">
                 <div class="card" style="height: 550px; padding:10px">
                     <div class="form-group" id="tiendas-field">
-                        <input type="hidden" id="id_inventarioStock" name="id_producto">
+                        <input type="hidden" id="id_producto" name="id_producto">
                         <label for="tiendas">Tiendas:</label>
                         <select class="form-select" id="select_tiendas">
                             <option value="0" selected> Selecciona tiendas</option>
                         </select>
                     </div>
                     <div id="informacion_tienda" style="display: none;">
-                        <input type="hidden" id="id_inventarioStock" name="id_inventarioStock">
+                        <!-- <input type="hidden" id="id_producto" name="id_producto"> -->
 
-                        <img src="tu-imagen.png" alt="Producto" id="image_stock">
-                        <h6 style="padding-top: 5px;"><strong><span id="nombreeProducto_stock"></span></strong></h6>
-                        <div class="stock">Existencia: <span id="existencia_stock"></span></div>
+                        <img src="tu-imagen.png" alt="Producto" id="image_tienda">
+                        <h6 style="padding-top: 5px;"><strong><span id="nombre_tienda"></span></strong></h6>
                         <hr>
-                        <label for="cantidad:">Cantidad:</label>
-                        <input type="text" class="form-control" id="cantidadStock" placeholder="Ingresar cantidad">
-                        <label for="referencia:">Referencia:</label>
-                        <input type="text" class="form-control" id="referencistock" placeholder="Ingresar referencia">
-                        <button class="btn btn-add" onclick="agregar_stock()" style="display: none;">Agregar Stock</button>
+                        <label for="cantidad:"><strong>URL: </strong><span id="url"></span></label> 
+                        <label for="cantidad:"><strong>Telefono: </strong><span id="telefono"></span></label> 
+                        <label for="cantidad:"><strong>Correo: </strong><span id="correo"></span></label> 
+
+                        <button class="btn btn-add" onclick="agregar_stock()">Agregar Stock</button>
                     </div>
                 </div>
                 <div class="table-responsive">

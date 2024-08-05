@@ -250,13 +250,14 @@ $(document).ready(function () {
       data: formData,
       processData: false,
       contentType: false,
+      dataType: "json",
       success: function (response) {
-        response = JSON.parse(response);
 
-        $("#price_servientrega").text(response.servientrega);
-        $("#price_gintracom").text(response.gintracom);
-        $("#price_speed").text(response.speed);
-        $("#price_laar").text(response.laar);
+        $("#image_stock").attr("src", SERVERURL + response[0].log_url);
+        $("#nombre_tienda").text(response[0].nombre_tienda);
+        $("#url").text(response[0].url_imporsuit);
+        $("#telefono").text(response[0].whatsapp);
+        $("#correo").text(response[0].email);
       },
       error: function (jqXHR, textStatus, errorThrown) {
         alert(errorThrown);
