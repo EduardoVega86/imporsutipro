@@ -207,19 +207,22 @@ const initDataTableOtrasFormasPago = async () => {
 const listOtrasFormasPago = async () => {
   try {
     const response = await fetch(
-      "" + SERVERURL + "wallet/obtenerSolicitudes_otrasFormasPago"
+      SERVERURL + "wallet/obtenerSolicitudes_otrasFormasPago"
     );
     const otrasFormasPago = await response.json();
 
     let content = ``;
     let checkboxState = "";
-    otrasFormasPago.forEach((pago, index) => {
+
+    for (const pago of otrasFormasPago) {
       if (pago.visto == 1) {
         checkboxState = "checked disabled";
       } else {
         checkboxState = "";
       }
-      let nombre_tienda = obtener_nombreTineda(pago.id_plataforma);
+
+      // Espera a que obtener_nombreTineda devuelva el nombre de la tienda
+      let nombre_tienda = await obtener_nombreTineda(pago.id_plataforma);
 
       content += `
                 <tr>
@@ -235,7 +238,8 @@ const listOtrasFormasPago = async () => {
                         <button class="btn btn-sm btn-danger" onclick="eliminarSolicitud(${pago.id_solicitud})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
                     </td>
                 </tr>`;
-    });
+    }
+
     document.getElementById("tableBody_otrasFormas_pago").innerHTML = content;
   } catch (ex) {
     alert(ex);
@@ -243,24 +247,26 @@ const listOtrasFormasPago = async () => {
 };
 
 function obtener_nombreTineda(id_plataforma) {
-  let formData = new FormData();
-  formData.append("id_plataforma", id_plataforma);
+  return new Promise((resolve, reject) => {
+    let formData = new FormData();
+    formData.append("id_plataforma", id_plataforma);
 
-  $.ajax({
-    url: SERVERURL + "Usuarios/obtener_infoTienda_privada",
-    type: "POST",
-    data: formData,
-    processData: false,
-    contentType: false,
-    dataType: "json",
-    success: function (response) {
-      let nombre = response[0].nombre_tienda;
-      console.log("Nombre tienda: "+nombre)
-      return nombre;
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      alert(errorThrown);
-    },
+    $.ajax({
+      url: SERVERURL + "Usuarios/obtener_infoTienda_privada",
+      type: "POST",
+      data: formData,
+      processData: false,
+      contentType: false,
+      dataType: "json",
+      success: function (response) {
+        let nombre = response[0].nombre_tienda;
+        console.log("Nombre tienda: " + nombre);
+        resolve(nombre);
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        reject(errorThrown);
+      },
+    });
   });
 }
 
