@@ -41,7 +41,7 @@
                                             <option value="Litoral">Banco Litoral</option>
                                             <option value="Cooperativas_de_Ahorro_y_Crédito_de_Ecuador">Cooperativas de Ahorro y Crédito de Ecuador</option>
                                             <option value="Policía_Nacional">Cooperativa Policía Nacional</option>
-                                            <option value="JEP_Jardín_Azuayo">Cooperativa JEP (Jardín Azuayo)</option>
+                                            <option value="JEP">Cooperativa JEP</option>
                                             <option value="COOPMEGO">Cooperativa COOPMEGO</option>
                                             <option value="29_de_Octubre">Cooperativa 29 de Octubre</option>
                                             <option value="9_de_Octubre">Cooperativa 9 de Octubre</option>
