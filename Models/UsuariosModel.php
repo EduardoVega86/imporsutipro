@@ -379,7 +379,7 @@ ON
     }
 
 
-    public function obtener_tiendas($plataforma)
+    public function obtener_tiendas()
     {
         $sql = "SELECT id_plataforma, nombre_tienda FROM plataformas";
 
