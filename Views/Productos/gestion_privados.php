@@ -23,7 +23,7 @@
                 </table>
             </div>
             <div class="right gap-2 hidden" id="inventarioSection">
-                <div class="card" style="height: 550px; padding: 10px;">
+                <div class="card" style="height: auto; padding: 10px;">
                     <div class="form-group" id="tiendas-field">
                         <input type="hidden" id="id_producto_privado" name="id_producto_privado">
                         <label for="tiendas">Tiendas:</label>
