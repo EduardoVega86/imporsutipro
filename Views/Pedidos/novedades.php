@@ -74,6 +74,31 @@
             <button id="imprimir_guias" class="btn btn-success">Generar Impresion</button>
         </div> -->
 
+        <h2 class="text-center mb-4">Novedades Gestionadas</h2>
+        <div class="table-responsive">
+            <!-- <table class="table table-bordered table-striped table-hover"> -->
+            <table id="datatable_novedades_gestionadas" class="table table-striped">
+                <!-- <caption>
+                    DataTable.js Demo
+                </caption> -->
+                <thead>
+                    <tr>
+                        <th class="centered">Orden</th>
+                        <th class="centered"># de Guia</th>
+                        <th class="centered">Fecha</th>
+                        <th class="centered">Transportadora</th>
+                        <th class="centered">Cliente</th>
+                        <th class="centered">Novedad</th>
+                        <th class="centered">Medida tomada</th>
+                        <th class="centered">Estado</th>
+                        <th class="centered">Solución</th>
+                        <th class="centered">Tracking</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody_novedades_gestionadas"></tbody>
+            </table>
+        </div>
+
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
             <table id="datatable_novedades" class="table table-striped">
