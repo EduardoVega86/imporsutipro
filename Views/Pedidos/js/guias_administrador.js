@@ -11,6 +11,33 @@ const dataTableOptions = {
   lengthMenu: [25, 50, 100, 200],
   destroy: true,
   responsive: true,
+  dom: '<"d-flex w-full justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
+  buttons: [
+    {
+      extend: "excelHtml5",
+      text: 'Excel <i class="fa-solid fa-file-excel"></i>',
+      title: "Panel de Control: Usuarios",
+      titleAttr: "Exportar a Excel",
+      exportOptions: {
+        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+      },
+      filename: "Productos" + "_" + getFecha(),
+      footer: true,
+      className: "btn-excel",
+    },
+    {
+      extend: "csvHtml5",
+      text: 'CSV <i class="fa-solid fa-file-csv"></i>',
+      title: "Panel de Control: Productos",
+      titleAttr: "Exportar a CSV",
+      exportOptions: {
+        columns: [1, 2, 3, 4, 5, 6, 7, 8],
+      },
+      filename: "Productos" + "_" + getFecha(),
+      footer: true,
+      className: "btn-csv",
+    },
+  ],
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
     zeroRecords: "Ningún usuario encontrado",
@@ -105,12 +132,24 @@ const listGuias = async () => {
         funcion_anular = `anular_guiaSpeed('${guia.numero_guia}')`;
         estado = validar_estadoSpeed(guia.estado_guia_sistema);
         select_speed = `
-                    <select class="form-select select-estado-speed" style="max-width: 130px;" data-numero-guia="${guia.numero_guia}">
-                        <option value="0" ${guia.estado_guia_sistema == 0 ? 'selected' : ''}>-- Selecciona estado --</option>
-                        <option value="2" ${guia.estado_guia_sistema == 2 ? 'selected' : ''}>Generado</option>
-                        <option value="3" ${guia.estado_guia_sistema == 3 ? 'selected' : ''}>Transito</option>
-                        <option value="7" ${guia.estado_guia_sistema == 7 ? 'selected' : ''}>Entregado</option>
-                        <option value="9" ${guia.estado_guia_sistema == 9 ? 'selected' : ''}>Devuelto</option>
+                    <select class="form-select select-estado-speed" style="max-width: 130px;" data-numero-guia="${
+                      guia.numero_guia
+                    }">
+                        <option value="0" ${
+                          guia.estado_guia_sistema == 0 ? "selected" : ""
+                        }>-- Selecciona estado --</option>
+                        <option value="2" ${
+                          guia.estado_guia_sistema == 2 ? "selected" : ""
+                        }>Generado</option>
+                        <option value="3" ${
+                          guia.estado_guia_sistema == 3 ? "selected" : ""
+                        }>Transito</option>
+                        <option value="7" ${
+                          guia.estado_guia_sistema == 7 ? "selected" : ""
+                        }>Entregado</option>
+                        <option value="9" ${
+                          guia.estado_guia_sistema == 9 ? "selected" : ""
+                        }>Devuelto</option>
                     </select>`;
       } else if (transporte == 3) {
         transporte_content =
@@ -127,9 +166,9 @@ const listGuias = async () => {
       var span_estado = estado.span_estado;
       var estado_guia = estado.estado_guia;
 
-      if (guia.drogshipin == 0){
+      if (guia.drogshipin == 0) {
         drogshipin = "Local";
-      } else if (drogshipin == 1){
+      } else if (drogshipin == 1) {
         drogshipin = "Drogshipin";
       }
 
@@ -160,15 +199,17 @@ const listGuias = async () => {
       }
 
       despachado = "";
-      if (guia.estado_factura == 2){
+      if (guia.estado_factura == 2) {
         despachado = `<i class='bx bx-check' style="color:#28E418; font-size: 30px;"></i>`;
-      } else if (guia.estado_factura == 1){
+      } else if (guia.estado_factura == 1) {
         despachado = `<i class='bx bx-x' style="color:red; font-size: 30px;"></i>`;
       }
 
       content += `
                 <tr>
-                    <td><input type="checkbox" class="selectCheckbox" data-id="${guia.numero_factura}"></td>
+                    <td><input type="checkbox" class="selectCheckbox" data-id="${
+                      guia.numero_factura
+                    }"></td>
                     <td>
                     <div>
                     ${guia.numero_factura}
@@ -178,7 +219,9 @@ const listGuias = async () => {
                     </div>
                     </td>
                     <td>
-                    <div><button onclick="ver_detalle_cot('${guia.id_factura}')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>
+                    <div><button onclick="ver_detalle_cot('${
+                      guia.id_factura
+                    }')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>
                     <div>${guia.fecha_factura}</td></div>
                     <td>
                         <div><strong>${guia.nombre}</strong></div>
@@ -186,8 +229,12 @@ const listGuias = async () => {
                         <div>telf: ${guia.telefono}</div>
                     </td>
                     <td>${guia.provinciaa}-${ciudad}</td>
-                    <td><span class="link-like" id="plataformaLink">${guia.tienda}</span></td>
-                    <td><span class="link-like" id="plataformaLink">${guia.nombre_proveedor}</span></td>
+                    <td><span class="link-like" id="plataformaLink">${
+                      guia.tienda
+                    }</span></td>
+                    <td><span class="link-like" id="plataformaLink">${
+                      guia.nombre_proveedor
+                    }</span></td>
                     <td>${transporte_content}</td>
                     <td>
                      <div style="text-align: center;">
@@ -201,7 +248,9 @@ const listGuias = async () => {
                       <a href="${ruta_traking}" target="_blank" style="vertical-align: middle;">
                         <img src="https://new.imporsuitpro.com/public/img/tracking.png" width="40px" id="buscar_traking" alt="buscar_traking">
                       </a>
-                      <a href="https://wa.me/${formatPhoneNumber(guia.telefono)}" target="_blank" style="font-size: 45px; vertical-align: middle; margin-left: 10px;" target="_blank">
+                      <a href="https://wa.me/${formatPhoneNumber(
+                        guia.telefono
+                      )}" target="_blank" style="font-size: 45px; vertical-align: middle; margin-left: 10px;" target="_blank">
                       <i class='bx bxl-whatsapp-square' style="color: green;"></i>
                       </a>
                      </div>
@@ -229,37 +278,39 @@ const listGuias = async () => {
                 </tr>`;
     });
     document.getElementById("tableBody_guias").innerHTML = content;
-
   } catch (ex) {
     alert(ex);
   }
 };
 
 // Event delegation for select change
-document.addEventListener('change', async (event) => {
-  if (event.target && event.target.classList.contains('select-estado-speed')) {
-    const numeroGuia = event.target.getAttribute('data-numero-guia');
+document.addEventListener("change", async (event) => {
+  if (event.target && event.target.classList.contains("select-estado-speed")) {
+    const numeroGuia = event.target.getAttribute("data-numero-guia");
     const nuevoEstado = event.target.value;
     console.log(`Cambiando estado para la guía ${numeroGuia} a ${nuevoEstado}`);
     const formData = new FormData();
     formData.append("estado", nuevoEstado);
 
     try {
-      const response = await fetch(`https://guias.imporsuitpro.com/Speed/estado/${numeroGuia}`, {
-        method: 'POST',
-        body: formData
-      });
+      const response = await fetch(
+        `https://guias.imporsuitpro.com/Speed/estado/${numeroGuia}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
       const result = await response.json();
-      if (result.status == 200){
+      if (result.status == 200) {
         toastr.success("ESTADO ACTUALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
-      });
+        });
 
-      initDataTable();
+        initDataTable();
       }
     } catch (error) {
-      console.error('Error al conectar con la API', error);
-      alert('Error al conectar con la API');
+      console.error("Error al conectar con la API", error);
+      alert("Error al conectar con la API");
     }
   }
 });
@@ -674,9 +725,7 @@ function anular_guiaServi(numero_guia) {
     type: "GET",
     url: "https://guias.imporsuitpro.com/Servientrega/Anular/" + numero_guia,
     dataType: "json",
-    success: function (response) {
-      
-    },
+    success: function (response) {},
     error: function (xhr, status, error) {
       /* alert("Hubo un problema al anular la guia de Servientrega"); */
     },
@@ -689,13 +738,9 @@ function anular_guiaServi(numero_guia) {
     dataType: "json",
     success: function (response) {
       if (response.status == 500) {
-        toastr.error(
-          "LA IMAGEN NO SE AGREGRO CORRECTAMENTE",
-          "NOTIFICACIÓN",
-          {
-            positionClass: "toast-bottom-center",
-          }
-        );
+        toastr.error("LA IMAGEN NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
       } else if (response.status == 200) {
         toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
@@ -745,7 +790,10 @@ function gestionar_novedad(guia_novedad) {
     type: "GET",
     dataType: "json",
     success: function (response) {
-      if (response.novedad[0].guia_novedad.includes("IMP") || response.novedad[0].guia_novedad.includes("MKP")) {
+      if (
+        response.novedad[0].guia_novedad.includes("IMP") ||
+        response.novedad[0].guia_novedad.includes("MKP")
+      ) {
         transportadora = "LAAR";
         $("#seccion_laar").show();
         $("#seccion_servientrega").hide();
