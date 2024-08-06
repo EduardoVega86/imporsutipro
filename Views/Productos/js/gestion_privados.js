@@ -248,7 +248,7 @@ $(document).ready(function () {
 
 function eliminar_tiendaProductoPrivado(id_producto_privado, id_privado) {
   let formData = new FormData();
-  formData.append("id_privado", id_privado);
+  formData.append("id_privado", id_producto_privado);
 
   $.ajax({
     url: SERVERURL + "Productos/eliminarPrivadoPlataforma",
@@ -266,7 +266,7 @@ function eliminar_tiendaProductoPrivado(id_producto_privado, id_privado) {
         toastr.success("TIENDA ELIMINADO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
-        initDataTableStockIndividual(id_producto_privado);
+        initDataTableStockIndividual(id_privado);
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
