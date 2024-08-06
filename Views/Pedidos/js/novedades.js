@@ -377,24 +377,10 @@ const listNovedadesGestionadas = async () => {
 
       content += `
                 <tr>
-                    <td><a class="dropdown-item link-like" href="${SERVERURL}wallet/pagar?tienda=${novedad.tienda}">${novedad.tienda}</a></td>
-                    <td>${novedad.ventas}</td>
-                    <td>${novedad.utilidad}</td>
-                    <td>${novedad.count_visto_0}</td>
-                    <td>
-                    <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel_general('${novedad.tienda}')">Descargar Excel general</button>
-                    <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel('${novedad.tienda}')">Descargar Excel</button>
-                    </td>
-                    <td>
-                    <div class="dropdown">
-                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-gear"></i>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" style="cursor: pointer;" href="${SERVERURL}wallet/pagar?tienda=${novedad.tienda}"><i class='bx bx-wallet'></i>Pagar</a></li>
-                    </ul>
-                    </div>
-                    </td>
+                    <td>${novedad.guia}</td>
+                    <td>${novedad.fecha}</td>
+                    <td>${novedad.medida}</td>
+                    <td></td>
                 </tr>`;
     });
     document.getElementById("tableBody_novedades_gestionadas").innerHTML = content;

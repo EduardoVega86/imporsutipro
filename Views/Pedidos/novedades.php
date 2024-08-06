@@ -107,16 +107,10 @@
                 </caption> -->
                 <thead>
                     <tr>
-                        <th class="centered">Orden</th>
                         <th class="centered"># de Guia</th>
                         <th class="centered">Fecha</th>
-                        <th class="centered">Transportadora</th>
-                        <th class="centered">Cliente</th>
-                        <th class="centered">Novedad</th>
-                        <th class="centered">Medida tomada</th>
-                        <th class="centered">Estado</th>
-                        <th class="centered">Solución</th>
-                        <th class="centered">Tracking</th>
+                        <th class="centered">Medida</th>
+                        <th class="centered">Responsable</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody_novedades_gestionadas"></tbody>
