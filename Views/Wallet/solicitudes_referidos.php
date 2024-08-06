@@ -1,12 +1,12 @@
 <?php require_once './Views/templates/header.php'; ?>
-<?php require_once './Views/Wallet/css/solicitudes_style.php'; ?>
+<?php require_once './Views/Wallet/css/solicitudes_referidos_style.php'; ?>
 
 
 <?php require_once './Views/Pedidos/Modales/informacion_plataforma.php'; ?>
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
-        <h2 class="text-center mb-4">Solicitudes Datos Bancarios</h2>
+        <h2 class="text-center mb-4">Solicitudes Referidos Datos Bancarios</h2>
 
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
@@ -33,7 +33,7 @@
             </table>
         </div>
 
-        <h2 class="text-center mb-4">Solicitudes Otras formas de Pago</h2>
+        <h2 class="text-center mb-4">Solicitudes Referidos otras formas de Pago</h2>
 
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
@@ -59,7 +59,7 @@
     </div>
 </div>
 
-<script src="<?php echo SERVERURL ?>/Views/Wallet/js/solicitudes.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/Wallet/js/solicitudes_referidos.js"></script>
 <script>
     window.addEventListener("load", async () => {
         await initDataTableSolicitudes();
