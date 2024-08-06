@@ -18,7 +18,7 @@
                         <h5 class="card-title"><a href="#" id="tienda_url"><span id="tienda_span"></span></a></h5>
 
                         <div class="col-12 mb-3">
-                            <div class="d-flex flex-row">
+                            <div class="d-flex flex-row gap-5" style="justify-content: center;">
                             <button class="btn btn-primary mb-3" onclick="generar_referido()"><i class="fa-solid fa-arrow-left"></i> Generar link Referido</button>
                             <button type="button" class="btn btn-outline-primary mb-3" data-bs-toggle="modal" data-bs-target="#solicitar_pago_referidoModal">
                                 Solicitar Pago
