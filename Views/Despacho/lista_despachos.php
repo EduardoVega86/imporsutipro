@@ -3,7 +3,7 @@
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
-        <h2 class="text-center mb-4">Lista despacho</h2>
+        <h2 class="text-center mb-4">Lista Despacho</h2>
         <div>
             <div class="selects">
                 <div class="form-group">
