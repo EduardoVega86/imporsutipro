@@ -207,7 +207,7 @@ const initDataTableOtrasFormasPago = async () => {
 const listOtrasFormasPago = async () => {
   try {
     const response = await fetch(
-      SERVERURL + "wallet/obtenerSolicitudes_otrasFormasPagosReferidos"
+      SERVERURL + "wallet/obtenerSolicitudes_otrasFormasPago_Referidos"
     );
     const otrasFormasPago = await response.json();
 
