@@ -34,6 +34,9 @@
                 <button class="btn btn-outline-secondary me-2" id="subidaMasiva_marketplace"><i class="fas fa-file-alt"></i> Subir Marketplace</button>
                 <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#atributosModal"><i class="fas fa-list"></i> Atributos</button>
                 <button id="agregar_producto" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_productoModal"><i class="fas fa-plus"></i> Agregar</button>
+                <button class="btn btn-custom me-2" onclick="window.location.href='<?php echo SERVERURL;?>Productos/gestion_privados">
+                    <i class="fas fa-arrow-right"></i> Visitar Sitio
+                </button>
             </div>
         </div>
         <div class="table-responsive">

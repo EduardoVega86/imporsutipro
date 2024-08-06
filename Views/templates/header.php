@@ -59,7 +59,6 @@
             <div class="submenu" id="submenu1">
                 <a href="<?php echo SERVERURL ?>Productos"><i class='bx bxs-store menu-icon'></i> <span class="menu-text">Listado</span></a>
                 <a href="<?php echo SERVERURL ?>Productos/marketplace_privado"><i class='bx bxs-box menu-icon'></i> <span class="menu-text">Producto Privados</span></a>
-                <a href="<?php echo SERVERURL ?>Productos/gestion_privados"><i class='bx bxs-box menu-icon'></i> <span class="menu-text">Gestionar Productos Privados</span></a>
                 <a href="<?php echo SERVERURL ?>Productos/categorias"><i class='bx bxs-category menu-icon'></i> <span class="menu-text">Categorias</span></a>
 
 
