@@ -700,8 +700,9 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
-    public function eliminarPrivadoPlataforma($id)
+    public function eliminarPrivadoPlataforma()
     {
+        $id = $_POST['id_privado'];
         $response = $this->model->eliminarPrivadoPlataforma($id);
         echo json_encode($response);
     }
