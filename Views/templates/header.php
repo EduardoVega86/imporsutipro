@@ -61,7 +61,6 @@
                 <a href="<?php echo SERVERURL ?>Productos/marketplace_privado"><i class='bx bxs-box menu-icon'></i> <span class="menu-text">Producto Privados</span></a>
                 <a href="<?php echo SERVERURL ?>Productos/categorias"><i class='bx bxs-category menu-icon'></i> <span class="menu-text">Categorias</span></a>
 
-
                 <a href="<?php echo SERVERURL ?>Productos/importacion_masiva"><i class='bx bxs-cart-download menu-icon'></i> <span class="menu-text">Importación Masiva</span></a>
 
 
