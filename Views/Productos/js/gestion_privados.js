@@ -179,7 +179,7 @@ function seleccionar_cambiarInventario(id_producto) {
   document.getElementById("inventarioSection").classList.remove("hidden");
 }
 
-// Cargar select de tiendas
+//cargar select de tiendas
 $(document).ready(function () {
   // Realiza la solicitud AJAX para obtener la lista de bodegas
   $.ajax({
@@ -199,7 +199,7 @@ $(document).ready(function () {
         // Inicializa Select2 en el elemento select
         $("#select_tiendas").select2({
           placeholder: "Selecciona una tienda", // Placeholder opcional
-          allowClear: true // Permite limpiar la selección
+          allowClear: true, // Permite limpiar la selección
         });
       } else {
         console.log("La respuesta de la API no es un array:", response);
@@ -209,7 +209,6 @@ $(document).ready(function () {
       console.error("Error al obtener la lista de tiendas:", error);
     },
   });
-});
 
   $("#select_tiendas").change(function () {
     var id_plataformaTienda = $("#select_tiendas").val();
@@ -226,9 +225,12 @@ $(document).ready(function () {
       contentType: false,
       dataType: "json",
       success: function (response) {
-        if (response[0].logo_url == null){
-          console.log("entro en la funcion null")
-          $("#image_tienda").attr("src", SERVERURL + "public/img/broken-image.png");
+        if (response[0].logo_url == null) {
+          console.log("entro en la funcion null");
+          $("#image_tienda").attr(
+            "src",
+            SERVERURL + "public/img/broken-image.png"
+          );
         } else {
           $("#image_tienda").attr("src", SERVERURL + response[0].logo_url);
         }
