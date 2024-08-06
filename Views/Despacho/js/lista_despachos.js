@@ -9,6 +9,33 @@ const dataTableListaDespachosOptions = {
   order: [[5, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
   pageLength: 10,
   destroy: true,
+  dom: '<"d-flex w-full justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
+  buttons: [
+    {
+      extend: "excelHtml5",
+      text: 'Excel <i class="fa-solid fa-file-excel"></i>',
+      title: "Panel de Control: Usuarios",
+      titleAttr: "Exportar a Excel",
+      exportOptions: {
+        columns: [0, 1, 2, 3, 4, 5],
+      },
+      filename: "Productos" + "_" + getFecha(),
+      footer: true,
+      className: "btn-excel",
+    },
+    {
+      extend: "csvHtml5",
+      text: 'CSV <i class="fa-solid fa-file-csv"></i>',
+      title: "Panel de Control: Productos",
+      titleAttr: "Exportar a CSV",
+      exportOptions: {
+        columns: [0, 1, 2, 3, 4, 5],
+      },
+      filename: "Productos" + "_" + getFecha(),
+      footer: true,
+      className: "btn-csv",
+    },
+  ],
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
     zeroRecords: "Ningún usuario encontrado",
@@ -25,6 +52,15 @@ const dataTableListaDespachosOptions = {
     },
   },
 };
+
+function getFecha() {
+  let fecha = new Date();
+  let mes = fecha.getMonth() + 1;
+  let dia = fecha.getDate();
+  let anio = fecha.getFullYear();
+  let fechaHoy = anio + "-" + mes + "-" + dia;
+  return fechaHoy;
+}
 
 const initDataTableListaDespachos = async () => {
   if (dataTableListaDespachosIsInitialized) {
