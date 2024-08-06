@@ -415,4 +415,17 @@ class Wallet extends Controller
         }
         echo json_encode($response);
     }
+
+    public function solicitudesReferidos()
+    {
+        $response =  $this->model->solicitudesReferidos();
+        echo json_encode($response);
+    }
+
+    public function aprobarSolicitud()
+    {
+        $id_solicitud = $_POST['id_solicitud'];
+        $response = $this->model->aprobarSolicitud($id_solicitud);
+        echo json_encode($response);
+    }
 }

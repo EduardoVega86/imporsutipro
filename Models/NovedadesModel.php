@@ -168,7 +168,7 @@ class NovedadesModel extends Query
 
     public function cargarHistorial($plataforma)
     {
-        $sql = "SELECT * FROM historial_novedad where id_plataforma = '$plataforma'";
+        $sql = "SELECT *, (SELECT nombre_users from users where id_users = id_responsable) as nombre_responsable FROM historial_novedad where id_plataforma = '$plataforma';";
         $response = $this->select($sql);
         return $response;
     }

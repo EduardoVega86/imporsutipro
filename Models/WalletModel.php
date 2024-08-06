@@ -1008,4 +1008,24 @@ class WalletModel extends Query
         }
         return $responses;
     }
+
+    public function solicitudesReferidos()
+    {
+        $sql = "SELECT * FROM solicitudes_pago_referidos";
+        $response =  $this->select($sql);
+        return $response;
+    }
+
+    public function aprobarSolicitud($id_solicitud)
+    {
+        $sql = "UPDATE solicitudes_pago_referidos set visto = 1 WHERE id_solicitud = ?";
+        $response =  $this->update($sql, array($id_solicitud));
+        if ($response == 1) {
+            $responses["status"] = 200;
+        } else {
+            $responses["status"] = 400;
+            $responses["message"] = $response["message"];
+        }
+        return $responses;
+    }
 }
