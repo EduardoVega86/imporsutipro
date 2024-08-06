@@ -1,6 +1,8 @@
 <?php require_once './Views/templates/header.php'; ?>
 <?php require_once './Views/Referidos/css/referidos_style.php'; ?>
 
+<?php require_once './Views/Wallet/Modales/solicitar_pago.php'; ?>
+
 <script>
     const referido_generado = <?php echo $data; ?>
 </script>
@@ -16,7 +18,12 @@
                         <h5 class="card-title"><a href="#" id="tienda_url"><span id="tienda_span"></span></a></h5>
 
                         <div class="col-12 mb-3">
+                            <div class="d-flex flex-row">
                             <button class="btn btn-primary mb-3" onclick="generar_referido()"><i class="fa-solid fa-arrow-left"></i> Generar link Referido</button>
+                            <button type="button" class="btn btn-outline-primary mb-3" data-bs-toggle="modal" data-bs-target="#solicitar_pago_referidoModal">
+                                Solicitar Pago
+                            </button>
+                            </div>
                             <div id="link_referido" style="display: none;">
                                 <input type="text" class="form-control" value="<?php echo SERVERURL . "refers/" . $_SESSION['id_plataforma']; ?>" disabled>
                             </div>
