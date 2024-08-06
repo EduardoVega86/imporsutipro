@@ -165,4 +165,11 @@ class NovedadesModel extends Query
         $response = $this->insert($sql, $data);
         return $response;
     }
+
+    public function cargarHistorial($plataforma)
+    {
+        $sql = "SELECT * FROM historial_novedad where id_plataforma = '$plataforma'";
+        $response = $this->select($sql);
+        return $response;
+    }
 }
