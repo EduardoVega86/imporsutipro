@@ -220,6 +220,7 @@ $(document).ready(function () {
       dataType: "json",
       success: function (response) {
         if (response[0].logo_url == null){
+          console.log("entro en la funcion null")
           $("#image_tienda").attr("src", SERVERURL + "public/img/broken-image.png");
         } else {
           $("#image_tienda").attr("src", SERVERURL + response[0].logo_url);
