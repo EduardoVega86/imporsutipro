@@ -219,6 +219,11 @@ $(document).ready(function () {
       contentType: false,
       dataType: "json",
       success: function (response) {
+        if (response[0].logo_url == null){
+          $("#image_tienda").attr("src", SERVERURL + "public/img/broken-image.png");
+        } else {
+          $("#image_tienda").attr("src", SERVERURL + response[0].logo_url);
+        }
         $("#image_tienda").attr("src", SERVERURL + response[0].logo_url);
         $("#nombre_tienda").text(response[0].nombre_tienda);
         $("#url").text(response[0].url_imporsuit);
