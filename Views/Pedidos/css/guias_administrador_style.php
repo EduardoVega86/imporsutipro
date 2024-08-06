@@ -42,6 +42,10 @@
         border: none;
         /* Elimina el borde */
     }
+    
+    .btn-group {
+        align-content: center;
+    }
 
     /* Diseños de estados guias */
     .badge_danger {
