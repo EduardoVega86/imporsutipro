@@ -77,6 +77,8 @@ const listAuditoria = async (estado, id_transporte) => {
       let transporte = item.id_transporte;
       let transporte_content = "";
       let estado = "";
+      let url_tracking = "";
+      let url_descargar = "";
 
       if (transporte == 2) {
         transporte_content =
@@ -114,6 +116,20 @@ const listAuditoria = async (estado, id_transporte) => {
       // Determinar si el checkbox debe estar marcado
       let check = item.valida_transportadora == 1 ? "checked" : "";
 
+      if (item.numero_guia.includes("IMP") || item.numero_guia.includes("MKP")) {
+        url_tracking = `https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${item.numero_guia}`;
+        url_descargar = `https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${item.numero_guia}`;
+      } else if (item.numero_guia.includes("I")) {
+        url_tracking = `https://ec.gintracom.site/web/site/tracking`;
+        url_descargar = `https://guias.imporsuitpro.com/Gintracom/label/${item.numero_guia}`;
+      } else if (item.numero_guia.includes("SPD")) {
+        url_tracking = ``;
+        url_descargar = `https://guias.imporsuitpro.com/Speed/descargar/${item.numero_guia}`;
+      } else {
+        url_tracking = `https://www.servientrega.com.ec/Tracking/?guia=${item.numero_guia}&tipo=GUIA`;
+        url_descargar = `https://guias.imporsuitpro.com/Servientrega/guia/${item.numero_guia}`;
+      }
+
       content += `
               <tr>
                   <td>${item.numero_factura}</td>
@@ -128,6 +144,18 @@ const listAuditoria = async (estado, id_transporte) => {
                   <td>${item.costo}</td>
                  <td>${item.valor_cod}</td>
            <td>${item.utilidad}</td>
+           <td>
+           <div class="dropdown">
+                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class='bx bxs-truck' ></i>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" style="cursor: pointer;" href="${url_tracking}" target="_blank">Traking</a></li>
+                        <li><a class="dropdown-item" style="cursor: pointer;" href="${url_descargar}">Ticket</a></li>
+                    </ul>
+                    </div>
+                    </td>
+           </td>
           <td>${item.valor}</td>
            <td>${item.comision}</td>
                   <td><input type="checkbox" class="selectCheckbox" data-id="${item.numero_guia}" ${check}></td>
