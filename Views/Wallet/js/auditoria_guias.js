@@ -125,10 +125,10 @@ const listAuditoria = async (estado, id_transporte) => {
           '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">LAAR</span>';
         estado = validar_estadoLaar(item.estado_guia_sistema);
       } else if (transporte == 4) {
-        if (MATRIZ == 2) {
+        if (item.numero_guia.includes("MKL")) {
           transporte_content =
             '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">MerkaLogistic</span>';
-        } else if (MATRIZ == 1) {
+        } else if (item.numero_guia.includes("SPD") ) {
           transporte_content =
             '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
         }

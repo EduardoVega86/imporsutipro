@@ -124,10 +124,10 @@ const listGuias = async () => {
         funcion_anular = `anular_guiaLaar('${guia.numero_guia}')`;
         estado = validar_estadoLaar(guia.estado_guia_sistema);
       } else if (transporte == 4) {
-        if (MATRIZ == 2) {
+        if (guia.numero_guia.includes("MKL")) {
           transporte_content =
             '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">MerkaLogistic</span>';
-        } else if (MATRIZ == 1) {
+        } else if (guia.numero_guia.includes("SPD")) {
           transporte_content =
             '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
         }
