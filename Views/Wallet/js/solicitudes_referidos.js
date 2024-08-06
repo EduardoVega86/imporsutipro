@@ -69,7 +69,7 @@ const initDataTableSolicitudes = async () => {
 
 const listSolicitudes = async () => {
   try {
-    const response = await fetch("" + SERVERURL + "wallet/obtenerSolicitudes");
+    const response = await fetch("" + SERVERURL + "wallet/solicitudesReferidos");
     const solicitudes = await response.json();
 
     let content = ``;
