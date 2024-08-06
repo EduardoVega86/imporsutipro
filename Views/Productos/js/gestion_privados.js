@@ -225,7 +225,7 @@ $(document).ready(function () {
       contentType: false,
       dataType: "json",
       success: function (response) {
-        if (response[0].logo_url == null) {
+        if (response[0].logo_url === null) {
           console.log("entro en la funcion: "+response[0].logo_url);
           $("#image_tienda").attr(
             "src",
