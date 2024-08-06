@@ -179,7 +179,7 @@ function seleccionar_cambiarInventario(id_producto) {
   document.getElementById("inventarioSection").classList.remove("hidden");
 }
 
-//cargar select de tiendas
+// Cargar select de tiendas
 $(document).ready(function () {
   // Realiza la solicitud AJAX para obtener la lista de bodegas
   $.ajax({
@@ -190,10 +190,16 @@ $(document).ready(function () {
       // Asegúrate de que la respuesta es un array
       if (Array.isArray(response)) {
         response.forEach(function (tiendas) {
-          // Agrega una nueva opción al select por cada tiendas
+          // Agrega una nueva opción al select por cada tienda
           $("#select_tiendas").append(
             new Option(tiendas.nombre_tienda, tiendas.id_plataforma)
           );
+        });
+
+        // Inicializa Select2 en el elemento select
+        $("#select_tiendas").select2({
+          placeholder: "Selecciona una tienda", // Placeholder opcional
+          allowClear: true // Permite limpiar la selección
         });
       } else {
         console.log("La respuesta de la API no es un array:", response);
@@ -203,6 +209,7 @@ $(document).ready(function () {
       console.error("Error al obtener la lista de tiendas:", error);
     },
   });
+});
 
   $("#select_tiendas").change(function () {
     var id_plataformaTienda = $("#select_tiendas").val();
