@@ -128,7 +128,7 @@ function gestionar_novedad(guia_novedad) {
     type: "GET",
     dataType: "json",
     success: function (response) {
-      if (response.novedad[0].guia_novedad.includes("IMP")) {
+      if (response.novedad[0].guia_novedad.includes("IMP") || response.guia_novedad.includes("MKP")) {
         transportadora = "LAAR";
         $("#seccion_laar").show();
         $("#seccion_servientrega").hide();
