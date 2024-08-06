@@ -1,7 +1,7 @@
 <?php require_once './Views/templates/header.php'; ?>
 <?php require_once './Views/Referidos/css/referidos_style.php'; ?>
 
-<?php require_once './Views/Wallet/Modales/solicitar_pago_referido.php'; ?>
+<?php require_once './Views/Referidos/Modales/solicitar_pago_referido.php'; ?>
 
 <script>
     const referido_generado = <?php echo $data; ?>
