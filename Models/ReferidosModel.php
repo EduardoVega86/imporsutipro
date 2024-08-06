@@ -51,7 +51,19 @@ class ReferidosModel extends Query
         $id_matriz = $id_matriz[0]['idmatriz'];
         $sql = "INSERT INTO solicitudes_pago_referidos (cantidad, id_cuenta,id_matriz, id_plataforma, otro) VALUES (?, ?, ?, ?, ?)";
         $data = array($monto, $cuenta, $id_matriz, $plataforma, $otro);
-        return $this->insert($sql, $data);
+        $respuesta = $this->insert($sql, $data);
+        if ($respuesta == 1) {
+            $response = array(
+                "status" => 200,
+                "message" => "Solicitud de pago realizada"
+            );
+        } else {
+            $response = array(
+                "status" => 500,
+                "message" => "Error al realizar la solicitud de pago"
+            );
+        }
+        return $response;
     }
 
     public function getCabecerasReferencias($plataforma)
