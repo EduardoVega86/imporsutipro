@@ -22,8 +22,6 @@ class Referidos extends Controller
 
     ///funciones
 
-
-
     public function getReferidos()
     {
         $referidos = $this->model->getReferidos($_SESSION['id_plataforma']);

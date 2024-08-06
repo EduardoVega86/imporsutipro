@@ -137,6 +137,10 @@ class WalletModel extends Query
             return;
         }
 
+        $sql_es_cod = "SELECT * FROM `facturas_cot` WHERE numero_factura = '$numero_factura'";
+        $response =  $this->select($sql_es_cod);
+
+
         if ($estado_guia == 7 && $valor < 0) {
             return;
         }
