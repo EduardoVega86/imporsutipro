@@ -68,4 +68,22 @@
             gap: 5px;
         }
     }
+
+    .btn-outline-custom {
+        border: 2px solid #4B0082; /* Borde púrpura */
+        color: #4B0082; /* Texto púrpura */
+        background-color: transparent; /* Fondo transparente */
+        border-radius: 5px; /* Esquinas ligeramente redondeadas */
+        transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease; /* Transiciones para hover */
+    }
+
+    .btn-outline-custom:hover {
+        background-color: #4B0082; /* Fondo púrpura al hacer hover */
+        color: #ffffff; /* Texto blanco al hacer hover */
+        transform: scale(1.05); /* Aumento de tamaño al hacer hover */
+    }
+
+    .btn-outline-custom i {
+        margin-right: 8px; /* Espacio entre el icono y el texto */
+    }
 </style>
