@@ -95,11 +95,11 @@
         event.preventDefault(); // Evitar el envío normal del formulario
 
         let formData = new FormData();
-        formData.append("valor", $('#monto').val());
+        formData.append("monto", $('#monto').val());
         if ($('#cuenta').val() == ""){
-            formData.append("id_cuenta", $('#formadePago').val());
+            formData.append("cuenta", $('#formadePago').val());
         }else{
-            formData.append("id_cuenta", $('#cuenta').val());
+            formData.append("cuenta", $('#cuenta').val());
         }
         formData.append("otro", $('#otroId').val());
 
