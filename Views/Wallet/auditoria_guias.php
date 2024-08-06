@@ -66,6 +66,7 @@
                         <th class="centered">Costo flete</th>
                         <th class="centered">Valor cod</th>
                         <th class="centered">Utilidad</th>
+                        <th class="centered">Guia</th>
                         <th class="centered">Valor Recaudo</th>
                          <th class="centered">Cod Transportadora</th>
                         <th></th>
