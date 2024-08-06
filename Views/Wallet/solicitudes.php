@@ -56,6 +56,30 @@
                 <tbody id="tableBody_otrasFormas_pago"></tbody>
             </table>
         </div>
+
+        <h2 class="text-center mb-4">Solicitudes de referidos</h2>
+
+        <div class="table-responsive">
+            <!-- <table class="table table-bordered table-striped table-hover"> -->
+            <table id="datatable_otrasFormas_pago" class="table table-striped">
+                <!-- <caption>
+                    DataTable.js Demo
+                </caption> -->
+                <thead>
+                    <tr>
+                        <th class="centered"></th>
+                        <th class="centered">Nombre tienda</th>
+                        <th class="centered">Fecha solicitud</th>
+                        <th class="centered">Tipo</th>
+                        <th class="centered">Red</th>
+                        <th class="centered">Numero de cuenta</th>
+                        <th class="centered">Cantidad</th>
+                        <th class="centered">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody_otrasFormas_pago"></tbody>
+            </table>
+        </div>
     </div>
 </div>
 
