@@ -45,6 +45,7 @@ class Novedades extends Controller
             "status" => 200,
             "message" => "Novedad solventada"
         );
+        $this->historial($guia, $_SESSION['id_plataforma'], $id_novedad, $observacionA, $_SESSION['id']);
         echo json_encode($response);
     }
 
@@ -59,6 +60,7 @@ class Novedades extends Controller
             "status" => 200,
             "message" => "Novedad solventada"
         );
+        $this->historial($guia, $_SESSION['id_plataforma'], $id_novedad, $observacion, $_SESSION['id']);
         echo json_encode($response);
     }
 
@@ -78,6 +80,13 @@ class Novedades extends Controller
         $fecha = $_POST['fecha'];
 
         $data = $this->model->solventarNovedadGintracom($tipo, $guia, $observacion, $id_novedad, $recaudo, $fecha);
+        $this->historial($guia, $_SESSION['id_plataforma'], $id_novedad, $observacion, $_SESSION['id']);
+
         echo $data;
+    }
+
+    public function historial($guia, $id_plataforma, $id_novedad, $medida, $id_usuario)
+    {
+        $this->model->historial($guia, $id_plataforma, $id_novedad, $medida, $id_usuario);
     }
 }

@@ -157,4 +157,12 @@ class NovedadesModel extends Query
         curl_close($ch);
         return $response;
     }
+
+    public function historial($guia, $id_plataforma, $id_novedad, $medida, $id_usuario)
+    {
+        $sql = "INSERT INTO `historial_novedad`(`id_responsable`, `guia`, `medida`, `id_plataforma`, `id_novedad`) VALUES (?, ?, ?, ?, ?)";
+        $data = array($id_usuario, $guia, $medida, $id_plataforma, $id_novedad);
+        $response = $this->insert($sql, $data);
+        return $response;
+    }
 }
