@@ -21,19 +21,19 @@ const dataTableOptions = {
       exportOptions: {
         columns: [1, 2, 3, 4, 5, 6, 7, 8],
       },
-      filename: "Productos" + "_" + getFecha(),
+      filename: "guias" + "_" + getFecha(),
       footer: true,
       className: "btn-excel",
     },
     {
       extend: "csvHtml5",
       text: 'CSV <i class="fa-solid fa-file-csv"></i>',
-      title: "Panel de Control: Productos",
+      title: "Panel de Control: guias",
       titleAttr: "Exportar a CSV",
       exportOptions: {
         columns: [1, 2, 3, 4, 5, 6, 7, 8],
       },
-      filename: "Productos" + "_" + getFecha(),
+      filename: "guias" + "_" + getFecha(),
       footer: true,
       className: "btn-csv",
     },
