@@ -380,7 +380,7 @@ const listNovedadesGestionadas = async () => {
                     <td>${novedad.guia}</td>
                     <td>${novedad.fecha}</td>
                     <td>${novedad.medida}</td>
-                    <td></td>
+                    <td>${novedad.nombre_responsable}</td>
                 </tr>`;
     });
     document.getElementById("tableBody_novedades_gestionadas").innerHTML = content;
