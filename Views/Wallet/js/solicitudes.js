@@ -322,7 +322,7 @@ const initDataTableSolicitudesReferidos = async () => {
 
 const listSolicitudesReferidos = async () => {
   try {
-    const response = await fetch("" + SERVERURL + "wallet/obtenerDatos");
+    const response = await fetch("" + SERVERURL + "wallet/solicitudesReferidos");
     const solicitudesReferidos = await response.json();
 
     let content = ``;
