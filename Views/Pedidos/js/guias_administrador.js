@@ -55,6 +55,15 @@ const dataTableOptions = {
   },
 };
 
+function getFecha() {
+  let fecha = new Date();
+  let mes = fecha.getMonth() + 1;
+  let dia = fecha.getDate();
+  let anio = fecha.getFullYear();
+  let fechaHoy = anio + "-" + mes + "-" + dia;
+  return fechaHoy;
+}
+
 const initDataTable = async () => {
   if (dataTableIsInitialized) {
     dataTable.destroy();
