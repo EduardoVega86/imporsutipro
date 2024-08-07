@@ -2,7 +2,7 @@
 <?php require_once './Views/Wallet/css/auditoria_guias_style.php'; ?>
 
 <div class="custom-container-fluid">
-    <div class="container mt-5" style="max-width: 1600px;">
+    <div class="container mt-5" style="max-width: 80%;">
         <h2 class="text-center mb-4">Auditoria</h2>
         <div class="stats-container">
             <div class="flex-fill" style="padding: 10px;">
