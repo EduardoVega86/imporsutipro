@@ -8,7 +8,7 @@
 
             <div class="left gap-2">
                 <button class="btn btn-success" onclick="crearTarifa()">
-                    <i class="fas fa-plus icon-button"></i>Crear Tarifa
+                    <i class="fas fa-plus"></i>Crear Tarifa
                 </button>
                 <h3 style="text-align: center; padding-top:5px;">Bitacora de Tarifas</h3>
                 <div class="table-responsive">
