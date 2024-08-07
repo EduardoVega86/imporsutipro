@@ -950,6 +950,41 @@ ORDER BY
         $response =  $this->select($sql);
         return $response;
     }
+    
+    public function obtenerTotalGuiasAuditoria($estado, $transportadora)
+    {
+        $where = '';
+
+        if ($transportadora != 0) {
+            $where = " and id_transporte=$transportadora";
+        } else {
+            $where = "";
+        }
+        $sql = "SELECT 
+    SUM(pt.valor) AS suma_valor,
+    SUM(ccp.monto_recibir) AS suma_monto_recibir,
+    SUM(ccp.valor_pendiente) AS suma_valor_pendiente
+FROM 
+    facturas_cot fc
+LEFT JOIN 
+    pagos_transportadora pt ON fc.numero_guia = pt.guia
+LEFT JOIN (
+    SELECT 
+        guia,
+        SUM(monto_recibir) AS monto_recibir,
+        SUM(valor_pendiente) AS valor_pendiente
+    FROM 
+        cabecera_cuenta_pagar
+    GROUP BY 
+        guia
+) ccp ON fc.numero_guia = ccp.guia
+WHERE 
+    fc.estado_guia_sistema IN (9, 7, 500, 501, 502, 400, 401, 402, 403, 13) 
+    AND fc.valida_transportadora = = $estado $where";
+        //echo $sql;
+        $response =  $this->select($sql);
+        return $response;
+    }
 
     public function habilitarAuditoria($guia, $estado)
     {

@@ -145,6 +145,45 @@ ON
                             $response['message'] = 'Usuario registrado correctamente';
                             $response['data'] = ['id' => $id[0]['id_users'], 'idPlataforma' => $idPlataforma[0]['id_plataforma']];
                             //session_start();
+                            
+                              $webhookData = [
+        'tienda' => $tienda,
+        'nombre' => $nombre,
+        'telefono' => $telefono,
+        'fecha' => date('Y-m-d H:i:s')
+    ];
+
+    // URL del webhook
+    $webhookUrl = 'https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjUwNTY0MDYzNTA0M2M1MjY0NTUzZDUxMzUi_pc';
+
+    // Inicializar cURL
+    $ch = curl_init($webhookUrl);
+
+    // Configurar opciones de cURL
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($webhookData));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Content-Type: application/x-www-form-urlencoded'
+    ]);
+
+    // Ejecutar la solicitud cURL
+    $response = curl_exec($ch);
+
+    // Verificar si hubo errores
+    if ($response === false) {
+        $error = curl_error($ch);
+        // Manejar el error
+        echo "Error al enviar la solicitud: $error";
+    } else {
+        // Manejar la respuesta
+        echo "Solicitud enviada correctamente. Respuesta: $response";
+    }
+
+    // Cerrar cURL
+    curl_close($ch);
+    
+    //fin webhook
 
 
                         }
