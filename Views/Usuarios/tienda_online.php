@@ -122,7 +122,7 @@
                                         <div class="alert alert-warning" id="seccion_nosePermiteTMP" style="display: none;" role="alert">
                                             <strong>Atención:</strong> Cambie su nombre de tienda, para proceder con la creación.
                                         </div>
-                                        <div id="seccion_creacionTienda">
+                                        <div id="seccion_creacionTienda" style="display: none;">
                                             <div class="alert alert-warning" role="alert">
                                                 <strong>Atención:</strong> Antes de darle al boton "Crear tienda", verifique que el nombre de la tienda sea el deseado, ya que no se permitiran cambios de nombre en la tienda.
                                             </div>
