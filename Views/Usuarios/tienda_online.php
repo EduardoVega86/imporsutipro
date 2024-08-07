@@ -8,6 +8,7 @@
 <?php require_once './Views/Usuarios/Modales/agregar_horizontal.php'; ?>
 <?php require_once './Views/Usuarios/Modales/editar_horizontal.php'; ?>
 <?php require_once './Views/Usuarios/Modales/editar_icono.php'; ?>
+<?php require_once './Views/Usuarios/Modales/agregar_dominio.php'; ?>
 
 <style>
     .container {
@@ -106,6 +107,12 @@
                                         </div>
                                         <img id="imagePreviewFav" class="image-preview mb-3" src="" alt="Preview" width="50%">
                                     </form>
+
+                                    <div class="justify-content-between align-items-center mb-3">
+                                        <div class="d-flex">
+                                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_dominioModal"><i class="fas fa-plus"></i> Agregar Dominio Propio</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
