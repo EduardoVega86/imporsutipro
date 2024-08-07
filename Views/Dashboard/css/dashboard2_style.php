@@ -190,7 +190,7 @@
 
     /* Estilos específicos para Ciudades_entrega */
     .content-box1.ciudades_entrega .progress {
-        background: greenyellow;
+        background: #2bc506;
     }
 
     .content-box1.ciudades_entrega .quantity {
@@ -199,7 +199,7 @@
 
     /* Estilos específicos para Productos_entrega */
     .content-box1.productos_entrega .progress {
-        background: greenyellow;
+        background: #2bc506;
     }
 
     .content-box1.productos_entrega .quantity {
