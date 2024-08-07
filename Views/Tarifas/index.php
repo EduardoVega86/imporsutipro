@@ -19,6 +19,7 @@
                                 <th class="centered">Nombre</th>
                                 <th class="centered">Descripción</th>
                                 <th class="centered">Tarifa</th>
+                                <th class="centered">Opciones</th>
 
                             </tr>
                         </thead>
