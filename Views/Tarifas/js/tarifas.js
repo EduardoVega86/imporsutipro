@@ -8,8 +8,8 @@ const initDataTable = async () => {
     data: data,
     columns: [
       { data: "nombre" },
-      { data: "precio" },
       { data: "descripcion" },
+      { data: "precio" },
       {
         data: null,
         render: (data, type, row) => {
