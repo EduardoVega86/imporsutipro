@@ -72,4 +72,10 @@ class Referidos extends Controller
         $tarifas = $this->model->getTarifas();
         echo json_encode($tarifas);
     }
+
+    public function refiere()
+    {
+        $response = $this->model->refiere($_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
 }

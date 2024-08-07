@@ -90,6 +90,12 @@ class ReferidosModel extends Query
         return $this->select($sql);
     }
 
+    public function refiere($plataforma)
+    {
+        $sql = "SELECT * FROM plataformas WHERE token_referido = $plataforma";
+        return $this->select($sql);
+    }
+
     public function getSaldoActual($plataforma)
     {
         $sql = "SELECT saldo FROM billetera_referidos WHERE id_plataforma = $plataforma";
