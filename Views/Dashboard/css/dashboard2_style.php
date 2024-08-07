@@ -86,7 +86,7 @@
         flex-direction: row;
     }
 
-    #pastelChart{
+    #pastelChart {
         max-width: 300px;
         max-height: 300px;
     }
@@ -117,5 +117,43 @@
         .slider-container img {
             width: 100%;
         }
+    }
+
+
+    .product {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 10px;
+    }
+
+    .product-info {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 5px;
+    }
+
+    .product-icon {
+        width: 24px;
+        height: 24px;
+        margin-right: 10px;
+    }
+
+    .quantity {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .progress-bar {
+        height: 10px;
+        background: #eee;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+
+    .progress {
+        height: 100%;
+        background: red;
+        border-radius: 5px;
     }
 </style>

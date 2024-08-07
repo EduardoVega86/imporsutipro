@@ -235,4 +235,18 @@ $(function () {
   $(document).ready(function () {
     informacion_dashboard("", "");
   });
+
+  // Función para actualizar la barra de progreso
+function updateProgressBar(productElement, quantity, percentage) {
+    const quantityElement = productElement.querySelector('.quantity');
+    const progressElement = productElement.querySelector('.progress');
+    
+    quantityElement.textContent = `${quantity} (${percentage.toFixed(2)}%)`;
+    progressElement.style.width = `${percentage}%`;
+}
+
+// Ejemplo de uso:
+const productElements = document.querySelectorAll('.product');
+updateProgressBar(productElements[0], 10, 50); // Actualiza el primer producto con una cantidad de 10 y un 50%
+updateProgressBar(productElements[1], 5, 25);  // Actualiza el segundo producto con una cantidad de 5 y un 25%
 });

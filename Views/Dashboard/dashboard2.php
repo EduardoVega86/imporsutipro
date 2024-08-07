@@ -83,14 +83,40 @@
 
     <div class="tablas_estaditicas">
         <div class="content-container">
-            <div class="d-flex flex-row">
-                <div class="stat-box">
-                    <h3>$ <span id="total_ventas"></span></h3>
-                    <p>Ticket Promedio</p>
+            <div class="d-flex flex-column">
+                <div class="d-flex flex-row">
+                    <div class="stat-box">
+                        <h3>$ <span id="total_ventas"></span></h3>
+                        <p>Ticket Promedio</p>
+                    </div>
+                    <div class="stat-box">
+                        <h3>$ <span id="total_ventas"></span></h3>
+                        <p>Flete Promedio</p>
+                    </div>
                 </div>
-                <div class="stat-box">
-                    <h3>$ <span id="total_ventas"></span></h3>
-                    <p>Flete Promedio</p>
+                <!-- card -->
+                <div class="content-box">
+                    <h4>Productos por cantidad</h4>
+                    <div class="product">
+                        <div class="product-info">
+                            <img src="path-to-icon" alt="icon" class="product-icon">
+                            <span>Otros</span>
+                            <span class="quantity">0 (0.00%)</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                    <div class="product">
+                        <div class="product-info">
+                            <img src="path-to-icon" alt="icon" class="product-icon">
+                            <span>Otros</span>
+                            <span class="quantity">0 (0.00%)</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 0%;"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
