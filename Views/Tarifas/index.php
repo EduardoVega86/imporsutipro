@@ -8,40 +8,22 @@
 
             <div class="left gap-2">
 
-                <h3 style="text-align: center; padding-top:5px;">Historial de pagos</h3>
+                <h3 style="text-align: center; padding-top:5px;">Tarifas</h3>
                 <div class="table-responsive">
                     <table id="datatable_pagos" class="table table-striped">
 
                         <thead>
                             <tr>
-                                <th class="centered">Numero documento</th>
-                                <th class="centered">Fecha</th>
-                                <th class="centered">Tipo</th>
-                                <th class="centered">Valor</th>
-                                <th class="centered">Forma de pago</th>
-                                <th class="centered">Recibo</th>
+                                <th class="centered">Nombre</th>
+                                <th class="centered">Descripción</th>
+                                <th class="centered">Tarifa</th>
+
                             </tr>
                         </thead>
                         <tbody id="tableBody_pagos"></tbody>
                     </table>
                 </div>
-                <h3 style="text-align: center; padding-top:5px;">Historial de acreditación</h3>
-                <div class="table-responsive">
-                    <table id="datatable_historial_pago" class="table table-striped">
 
-                        <thead>
-                            <tr>
-                                <th class="centered">#</th>
-                                <th class="centered">Tipo</th>
-                                <th class="centered">Motivo</th>
-                                <th class="centered">Monto</th>
-                                <th class="centered">Responsable</th>
-                                <th class="centered">Fecha</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tableBody_historial_pago"></tbody>
-                    </table>
-                </div>
             </div>
 
 
@@ -62,23 +44,6 @@
                             </tr>
                         </thead>
                         <tbody id="tableBody_pagos"></tbody>
-                    </table>
-                </div>
-                <h3 style="text-align: center; padding-top:5px;">Historial de acreditación</h3>
-                <div class="table-responsive">
-                    <table id="datatable_historial_pago" class="table table-striped">
-
-                        <thead>
-                            <tr>
-                                <th class="centered">#</th>
-                                <th class="centered">Tipo</th>
-                                <th class="centered">Motivo</th>
-                                <th class="centered">Monto</th>
-                                <th class="centered">Responsable</th>
-                                <th class="centered">Fecha</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tableBody_historial_pago"></tbody>
                     </table>
                 </div>
             </div>
