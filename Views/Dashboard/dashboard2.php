@@ -119,6 +119,46 @@
                     </div>
                 </div>
             </div>
+            <div class="content-box">
+                <h4>Ventas del Último Mes</h4>
+                <canvas id="salesChart"></canvas>
+            </div>
+            <div class="d-flex flex-column">
+                <div class="d-flex flex-row">
+                    <div class="stat-box">
+                        <h3>$ <span id="total_ventas"></span></h3>
+                        <p>Devolucion Promedio</p>
+                    </div>
+                    <div class="stat-box">
+                        <h3> <span id="total_ventas"></span></h3>
+                        <p>Tiempo Promedio Entrega</p>
+                    </div>
+                </div>
+                <!-- card -->
+                <div class="content-box1">
+                    <h4>Ciudades con mas despachos</h4>
+                    <div class="product">
+                        <div class="product-info">
+                            <img src="path-to-icon" alt="icon" class="product-icon">
+                            <span>Otros</span>
+                            <span class="quantity">0 (0.00%)</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                    <div class="product">
+                        <div class="product-info">
+                            <img src="path-to-icon" alt="icon" class="product-icon">
+                            <span>Otros</span>
+                            <span class="quantity">0 (0.00%)</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
