@@ -114,6 +114,11 @@
             max-width: calc(105% - 40px);
         }
 
+        .content-box1 {
+            width: 100%;
+            max-width: calc(105% - 40px);
+        }
+
         .slider-container img {
             width: 100%;
         }
