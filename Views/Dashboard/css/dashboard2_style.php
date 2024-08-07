@@ -127,7 +127,6 @@
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
         padding: 20px;
         margin: 10px;
-        flex: 1 1 calc(50% - 40px);
     }
 
     .product {
