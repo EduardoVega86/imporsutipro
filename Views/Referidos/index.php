@@ -3,10 +3,6 @@
 
 <?php require_once './Views/Referidos/Modales/solicitar_pago_referido.php'; ?>
 
-<script>
-    const referido_generado = <?php echo $data; ?>
-</script>
-
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
 
@@ -19,10 +15,10 @@
 
                         <div class="col-12 mb-3">
                             <div class="d-flex flex-row gap-2" style="justify-content: center;">
-                            <button class="btn btn-primary mb-3" onclick="generar_referido()"><i class="fa-solid fa-arrow-left"></i> Generar link Referido</button>
-                            <button type="button" class="btn btn-outline-primary mb-3" data-bs-toggle="modal" data-bs-target="#solicitar_pago_referidoModal">
-                                Solicitar Pago
-                            </button>
+                                <button class="btn btn-primary mb-3" onclick="generar_referido()"><i class="fa-solid fa-arrow-left"></i> Generar link Referido</button>
+                                <button type="button" class="btn btn-outline-primary mb-3" data-bs-toggle="modal" data-bs-target="#solicitar_pago_referidoModal">
+                                    Solicitar Pago
+                                </button>
                             </div>
                             <div id="link_referido" style="display: none;">
                                 <input type="text" class="form-control" value="<?php echo SERVERURL . "refers/" . $_SESSION['id_plataforma']; ?>" disabled>
@@ -116,11 +112,22 @@
 </div>
 <script>
     $(document).ready(function() {
-        if (referido_generado) {
-            $("#link_referido").show();
-        } else {
-            $("#link_referido").hide();
-        }
+        //validador
+        $.ajax({
+            url: SERVERURL + "referidos/crearReferido",
+            type: "GET",
+            dataType: "json",
+            success: function(response) {
+                if (response.status == 200) {
+                    $("#link_referido").show();
+                } else {
+                    $("#link_referido").hide();
+                }
+            },
+            error: function(error) {
+                console.error("Error al obtener la lista de bodegas:", error);
+            },
+        });
     })
 </script>
 <script src="<?php echo SERVERURL ?>/Views/Referidos/js/referidos.js"></script>
