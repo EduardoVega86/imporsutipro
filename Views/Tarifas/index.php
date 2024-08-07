@@ -7,10 +7,12 @@
 
 
             <div class="left gap-2">
-
-                <h3 style="text-align: center; padding-top:5px;">Tarifas</h3>
+                <button class="btn btn-success" onclick="crearTarifa()">
+                    <i class="fas fa-plus icon-button"></i>Crear Tarifa
+                </button>
+                <h3 style="text-align: center; padding-top:5px;">Bitacora de Tarifas</h3>
                 <div class="table-responsive">
-                    <table id="datatable_pagos" class="table table-striped">
+                    <table id="datatable_tarifas" class="table table-striped">
 
                         <thead>
                             <tr>
@@ -20,7 +22,7 @@
 
                             </tr>
                         </thead>
-                        <tbody id="tableBody_pagos"></tbody>
+                        <tbody id="tableBody_tarifas"></tbody>
                     </table>
                 </div>
 
@@ -29,9 +31,9 @@
 
             <div class="right gap-2">
 
-                <h3 style="text-align: center; padding-top:5px;">Historial de pagos</h3>
+                <h3 style="text-align: center; padding-top:5px;">Historial de tarifas</h3>
                 <div class="table-responsive">
-                    <table id="datatable_pagos" class="table table-striped">
+                    <table id="datatable_tarifas" class="table table-striped">
 
                         <thead>
                             <tr>
@@ -43,7 +45,7 @@
                                 <th class="centered">Recibo</th>
                             </tr>
                         </thead>
-                        <tbody id="tableBody_pagos"></tbody>
+                        <tbody id="tableBody_tarifas"></tbody>
                     </table>
                 </div>
             </div>
@@ -51,5 +53,6 @@
     </div>
 
 </div>
+<script src="<?php echo SERVERURL ?>/Views/Tarifas/js/tarifas.js"></script>
 
 <?php require_once './Views/templates/footer.php'; ?>
