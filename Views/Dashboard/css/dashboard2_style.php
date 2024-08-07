@@ -120,14 +120,17 @@
     }
 
 
+    /* Estilos comunes */
     .content-box1 {
-        background: #fff;
+        background: #f9f9f9;
         border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
         padding: 20px;
         margin: 10px;
         flex: 1 1 calc(50% - 40px);
+        max-width: calc(50% - 40px);
     }
+
     .product {
         display: flex;
         flex-direction: column;
@@ -161,7 +164,24 @@
 
     .progress {
         height: 100%;
-        background: red;
         border-radius: 5px;
+    }
+
+    /* Estilos específicos para Ciudades */
+    .content-box1.ciudades .progress {
+        background: blue;
+    }
+
+    .content-box1.ciudades .quantity {
+        color: #555;
+    }
+
+    /* Estilos específicos para Productos */
+    .content-box1.productos .progress {
+        background: red;
+    }
+
+    .content-box1.productos .quantity {
+        color: #333;
     }
 </style>

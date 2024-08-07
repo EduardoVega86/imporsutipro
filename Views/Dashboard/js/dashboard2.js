@@ -159,22 +159,22 @@ $(function () {
 
         // Definir los colores para cada estado
         const estadoColors = {
-          "Anulado": "rgba(255, 0, 0, 0.2)", // rojo
+          Anulado: "rgba(255, 0, 0, 0.2)", // rojo
           "En Transito": "rgba(255, 255, 0, 0.2)", // amarillo
-          "Entregado": "rgba(144, 238, 144, 0.2)", // verde claro
-          "Generado": "rgba(0, 0, 255, 0.2)", // azul
-          "Otro": "rgba(128, 128, 128, 0.2)", // gris
-          "Por Recolectar": "rgba(128, 0, 128, 0.2)" // morado
+          Entregado: "rgba(144, 238, 144, 0.2)", // verde claro
+          Generado: "rgba(0, 0, 255, 0.2)", // azul
+          Otro: "rgba(128, 128, 128, 0.2)", // gris
+          "Por Recolectar": "rgba(128, 0, 128, 0.2)", // morado
         };
-        
+
         // Definir los colores del borde para cada estado
         const estadoBorderColors = {
-          "Anulado": "rgba(255, 0, 0, 1)", // rojo
+          Anulado: "rgba(255, 0, 0, 1)", // rojo
           "En Transito": "rgba(255, 255, 0, 1)", // amarillo
-          "Entregado": "rgba(144, 238, 144, 1)", // verde claro
-          "Generado": "rgba(0, 0, 255, 1)", // azul
-          "Otro": "rgba(128, 128, 128, 1)", // gris
-          "Por Recolectar": "rgba(128, 0, 128, 1)" // morado
+          Entregado: "rgba(144, 238, 144, 1)", // verde claro
+          Generado: "rgba(0, 0, 255, 1)", // azul
+          Otro: "rgba(128, 128, 128, 1)", // gris
+          "Por Recolectar": "rgba(128, 0, 128, 1)", // morado
         };
 
         // Preparar los datos para el gráfico de pastel
@@ -236,17 +236,37 @@ $(function () {
     informacion_dashboard("", "");
   });
 
-  // Función para actualizar la barra de progreso
-function updateProgressBar(productElement, quantity, percentage) {
-    const quantityElement = productElement.querySelector('.quantity');
-    const progressElement = productElement.querySelector('.progress');
-    
+  /* funcion ciudades con mas despachos */
+  // Función para actualizar la barra de progreso en "Ciudades con más despachos"
+  function updateCityProgressBar(productElement, quantity, percentage) {
+    const quantityElement = productElement.querySelector(".quantity");
+    const progressElement = productElement.querySelector(".progress");
+
     quantityElement.textContent = `${quantity} (${percentage.toFixed(2)}%)`;
     progressElement.style.width = `${percentage}%`;
-}
+  }
 
-// Ejemplo de uso:
-const productElements = document.querySelectorAll('.product');
-updateProgressBar(productElements[0], 10, 50); // Actualiza el primer producto con una cantidad de 10 y un 50%
-updateProgressBar(productElements[1], 5, 25);  // Actualiza el segundo producto con una cantidad de 5 y un 25%
+  // Actualización de ejemplo para "Ciudades con más despachos"
+  const cityProductElements = document.querySelectorAll(
+    ".content-box1.ciudades .product"
+  );
+  updateCityProgressBar(cityProductElements[0], 20, 50); // Actualiza la primera ciudad con una cantidad de 20 y un 50%
+  updateCityProgressBar(cityProductElements[1], 10, 25); // Actualiza la segunda ciudad con una cantidad de 10 y un 25%
+
+  /* funcion productos por cantidad */
+  // Función para actualizar la barra de progreso en "Productos por cantidad"
+  function updateProductProgressBar(productElement, quantity, percentage) {
+    const quantityElement = productElement.querySelector(".quantity");
+    const progressElement = productElement.querySelector(".progress");
+
+    quantityElement.textContent = `${quantity} (${percentage.toFixed(2)}%)`;
+    progressElement.style.width = `${percentage}%`;
+  }
+
+  // Actualización de ejemplo para "Productos por cantidad"
+  const productElements = document.querySelectorAll(
+    ".content-box1.productos .product"
+  );
+  updateProductProgressBar(productElements[0], 30, 60); // Actualiza el primer producto con una cantidad de 30 y un 60%
+  updateProductProgressBar(productElements[1], 15, 40); // Actualiza el segundo producto con una cantidad de 15 y un 40%
 });
