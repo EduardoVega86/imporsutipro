@@ -14,8 +14,8 @@ const initDataTable = async () => {
         data: null,
         render: (data, type, row) => {
           return `
-                        <a href="${urlActual}/editar/${row.id}" class="btn btn-success">Editar</a>
-                        <button class="btn btn-danger" onclick="eliminarTarifa(${row.id})">Eliminar</button>
+                        <a href="${urlActual}/editar/${row.id_tarifa}" class="btn btn-success">Editar</a>
+                        <button class="btn btn-danger" onclick="eliminarTarifa(${row.id_tarifa})">Eliminar</button>
                     `;
         },
       },
