@@ -152,6 +152,12 @@ function cargarInfoTienda_inicial() {
 
       // Mover la lógica de verificación aquí
       verificarNombreTienda(response[0].nombre_tienda);
+
+      if (response[0].tienda_creada == 1){
+        $("#seccion_creacionTienda").hide();
+      }else if (response[0].tienda_creada == 0){
+        $("#seccion_creacionTienda").show();
+      }
     },
     error: function (error) {
       console.error("Error al obtener la lista de bodegas:", error);
