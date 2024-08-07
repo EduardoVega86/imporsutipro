@@ -79,7 +79,11 @@
     }
 </style>
 <div class="custom-container-fluid mt-4">
-
+    <div class="justify-content-between align-items-center mb-3">
+        <div class="d-flex">
+            <button class="btn btn-success" onclick="abrir_agregar_dominio()"><i class="fas fa-plus"></i> Agregar Dominio Propio</button>
+        </div>
+    </div>
     <div class="accordion" id="accordionExample">
         <div class="accordion-item">
             <h2 class="accordion-header" id="headingOne">
@@ -107,12 +111,6 @@
                                         </div>
                                         <img id="imagePreviewFav" class="image-preview mb-3" src="" alt="Preview" width="50%">
                                     </form>
-
-                                    <div class="justify-content-between align-items-center mb-3">
-                                        <div class="d-flex">
-                                            <button class="btn btn-success" onclick="abrir_agregar_dominio()"><i class="fas fa-plus"></i> Agregar Dominio Propio</button>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
