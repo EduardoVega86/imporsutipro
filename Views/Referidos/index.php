@@ -118,7 +118,7 @@
             type: "GET",
             dataType: "json",
             success: function(response) {
-                if (response.status == 500) {
+                if (response.status == 200) {
                     $("#link_referido").show();
                 } else {
                     $("#link_referido").hide();

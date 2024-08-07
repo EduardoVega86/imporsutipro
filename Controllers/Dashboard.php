@@ -19,6 +19,11 @@ class Dashboard extends Controller
         $this->views->render($this, "dashboard");
     }
 
+    public function dashboard2()
+    {
+        $this->views->render($this, "dashboard2");
+    }
+
     ///Funciones
 
     
