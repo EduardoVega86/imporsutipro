@@ -1,122 +1,191 @@
 <style>
-    body {
-        background-color: #f8f9fa;
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        height: 100vh;
-        overflow-y: auto;
-    }
-
-    .header {
-        text-align: center;
-        margin: 20px 0;
-    }
-
-    .stats-container {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-        margin-bottom: 20px;
-        width: 33%;
-    }
-
-    .stat-box {
-        background: #fff;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        margin: 10px;
-        text-align: center;
-        flex: 1 1 calc(25% - 40px);
-        width: 50%;
-    }
-
-    .stat-box h3 {
-        margin-top: 10px;
-        font-size: 24px;
-    }
-
-    .slider-container {
-        width: 67%;
-        margin-bottom: 20px;
-        align-content: center;
-        text-align: center;
-    }
-
-    .slider-container img {
-        width: 80%;
-        border-radius: 10px;
-    }
-
-    .content-container {
-        display: flex;
-        justify-content: space-between;
+    .table {
+        border-collapse: collapse;
         width: 100%;
     }
 
-    .content-box {
-        background: #fff;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        margin: 10px;
-        flex: 1 1 calc(50% - 40px);
-        max-width: calc(50% - 40px);
+    .table th,
+    .table td {
+        text-align: center;
+        vertical-align: middle;
+        border: 1px solid #ddd;
+        /* Añadir borde a celdas */
     }
 
-    .table-responsive {
-        max-height: 200px;
-        overflow-y: auto;
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: rgba(0, 0, 0, .05);
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: rgba(0, 0, 0, .075);
     }
 
     .table thead th {
-        background: #343a40;
-        color: #fff;
+        background-color: <?php echo COLOR_FONDO; ?>;
+        color: <?php echo COLOR_LETRAS; ?>;
     }
 
-    /* secciones principales  */
-    .banner_estadisticas {
-        display: flex;
-        flex-direction: row;
-    }
-
-    .tablas_estaditicas .content-container {
-        display: flex;
-        flex-direction: row;
-    }
-
-    #pastelChart{
-        max-width: 300px;
-        max-height: 300px;
-    }
-
-    /* responsive */
-    @media (max-width: 768px) {
-        .banner_estadisticas {
-            flex-direction: column-reverse !important;
-        }
-
-        .tablas_estaditicas .content-container {
-            flex-direction: column !important;
-        }
-
-        .stats-container {
-            width: 100%;
-        }
-
-        .slider-container {
-            width: 100%;
-        }
-
-        .content-box {
-            width: 100%;
-            max-width: calc(105% - 40px);
-        }
-
-        .slider-container img {
-            width: 100%;
-        }
+    .centered {
+        text-align: center !important;
+        vertical-align: middle !important;
     }
     
+    .btn-excel,
+    .btn-csv {
+        background-color: #198754;
+        /* Color verde para Excel */
+        color: white;
+        padding: 5px 10px;
+        /* Ajusta el padding para reducir el tamaño */
+        margin: 0;
+        /* Elimina el margen */
+        border: none;
+        /* Elimina el borde */
+    }
+    
+    .btn-group {
+        align-content: center;
+    }
+</style>
+
+<style>
+    /* reponsive de secciones */
+    .left_right {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .left {
+        max-width: 37%;
+    }
+
+    .right {
+        width: 100%;
+        max-width: 63%;
+    }
+
+    @media (max-width: 768px) {
+        .left_right {
+            flex-direction: column;
+        }
+
+        .left {
+            max-width: 100%;
+        }
+
+        .right {
+            max-width: 100%;
+        }
+    }
+
+    /* diseño de iconos con botones */
+    .icon-button {
+        background-color: #007bff;
+        /* Color de fondo azul */
+        border: none;
+        border-radius: 5px;
+        color: white;
+        /* Color del icono */
+        padding: 5px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .icon-button i {
+        margin-right: 5px;
+    }
+
+    .icon-button:hover {
+        background-color: #0056b3;
+        /* Color de fondo al pasar el ratón */
+    }
+
+    .filter-container {
+        margin-bottom: 10px;
+    }
+
+    .filter-btn {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        margin-right: 5px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+
+    .filter-btn:hover {
+        background-color: #0056b3;
+    }
+
+    .filter-btn.active {
+        background-color: #0056b3;
+        font-weight: bold;
+    }
+
+    /* Diseños de estados guias */
+    .badge_danger {
+        background-color: red;
+        color: white;
+        padding: 4px;
+        border-radius: 0.3rem;
+    }
+
+    .badge_purple {
+        background-color: #804BD1;
+        color: white;
+        padding: 4px;
+        border-radius: 0.3rem;
+    }
+
+    .badge_generado {
+        background-color: #54DD10;
+        color: white;
+        padding: 4px;
+        border-radius: 0.3rem;
+    }
+
+    .badge_warning {
+        background-color: #F2CC0E;
+        color: white;
+        padding: 4px;
+        border-radius: 0.3rem;
+    }
+
+    .badge_green {
+        background-color: #59D343;
+        color: white;
+        padding: 4px;
+        border-radius: 0.3rem;
+    }
+
+    /* boton si y no  */
+    .btn-cod-si {
+        background-color: green;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-cod-si:hover {
+        background-color: darkgreen;
+    }
+
+    .btn-cod-no {
+        background-color: red;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-cod-no:hover {
+        background-color: darkred;
+    }
 </style>
