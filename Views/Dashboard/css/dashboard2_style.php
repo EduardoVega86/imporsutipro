@@ -187,4 +187,40 @@
     .content-box1.productos .quantity {
         color: #333;
     }
+
+    /* Estilos específicos para Ciudades_entrega */
+    .content-box1.ciudades_entrega .progress {
+        background: blue;
+    }
+
+    .content-box1.ciudades_entrega .quantity {
+        color: #555;
+    }
+
+    /* Estilos específicos para Productos_entrega */
+    .content-box1.productos_entrega .progress {
+        background: red;
+    }
+
+    .content-box1.productos_entrega .quantity {
+        color: #333;
+    }
+
+    /* Estilos específicos para Ciudades_devolucion */
+    .content-box1.ciudades_devolucion .progress {
+        background: blue;
+    }
+
+    .content-box1.ciudades_devolucion .quantity {
+        color: #555;
+    }
+
+    /* Estilos específicos para Productos_devolucion */
+    .content-box1.productos_devolucion .progress {
+        background: red;
+    }
+
+    .content-box1.productos_devolucion .quantity {
+        color: #333;
+    }
 </style>
