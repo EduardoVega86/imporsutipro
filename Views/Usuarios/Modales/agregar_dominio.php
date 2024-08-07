@@ -33,7 +33,7 @@
                         </div>
                         <div class="col">
                             <label for="subdominio" class="form-label">Subdominio:</label>
-                            <input type="subdominio" class="form-control" id="subdominio" placeholder="Subdominio">
+                            <input type="subdominio" class="form-control" id="subdominio" placeholder="Subdominio" disabled>
                         </div>
                     </div>
                     <div class="modal-footer">

@@ -150,6 +150,9 @@ function cargarInfoTienda_inicial() {
       $("#tiktok").val(response[0].tiktok);
       $("#facebook").val(response[0].facebook);
 
+      $("#dominio").val(response[0].dominio);
+      $("#subdominio").val(response[0].url_imporsuit);
+
       // Mover la lógica de verificación aquí
       verificarNombreTienda(response[0].nombre_tienda);
 
