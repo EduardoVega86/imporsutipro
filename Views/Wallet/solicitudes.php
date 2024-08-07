@@ -7,7 +7,9 @@
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
         <h2 class="text-center mb-4">Solicitudes Datos Bancarios</h2>
-
+        <button class="btn btn-light btn-outline-custom me-2" onclick="window.location.href='<?php echo SERVERURL; ?>wallet/solicitudes_referidos'">
+            <i class="fas fa-arrow-right"></i> Solicitudes de referidos
+        </button>
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
             <table id="datatable_solicitudes" class="table table-striped">
