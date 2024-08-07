@@ -161,6 +161,59 @@
             </div>
         </div>
     </div>
+    <div class="tablas_estaditicas">
+        <div class="content-container">
+            <!-- Sección de Productos por cantidad -->
+            <div class="content-box1 productos">
+                <h4>Productos por cantidad</h4>
+                <div class="product">
+                    <div class="product-info">
+                        <img src="path-to-icon" alt="icon" class="product-icon">
+                        <span>Producto X</span>
+                        <span class="quantity">0 (0.00%)</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 0%;"></div>
+                    </div>
+                </div>
+                <div class="product">
+                    <div class="product-info">
+                        <img src="path-to-icon" alt="icon" class="product-icon">
+                        <span>Producto Y</span>
+                        <span class="quantity">0 (0.00%)</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 0%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de Ciudades con más despachos -->
+            <div class="content-box1 ciudades">
+                <h4>Ciudades con más despachos</h4>
+                <div class="product">
+                    <div class="product-info">
+                        <img src="path-to-icon" alt="icon" class="product-icon">
+                        <span>Ciudad A</span>
+                        <span class="quantity">0 (0.00%)</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 0%;"></div>
+                    </div>
+                </div>
+                <div class="product">
+                    <div class="product-info">
+                        <img src="path-to-icon" alt="icon" class="product-icon">
+                        <span>Ciudad B</span>
+                        <span class="quantity">0 (0.00%)</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 0%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
 
