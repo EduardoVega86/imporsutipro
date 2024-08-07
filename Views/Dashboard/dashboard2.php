@@ -164,7 +164,7 @@
     <div class="tablas_estaditicas">
         <div class="content-container">
             <!-- Sección de Productos por cantidad -->
-            <div class="content-box1 productos">
+            <div class="content-box1 productos" style="width: 50%;">
                 <h4>Productos por cantidad</h4>
                 <div class="product">
                     <div class="product-info">
@@ -189,7 +189,7 @@
             </div>
 
             <!-- Sección de Ciudades con más despachos -->
-            <div class="content-box1 ciudades">
+            <div class="content-box1 ciudades" style="width: 50%;">
                 <h4>Ciudades con más despachos</h4>
                 <div class="product">
                     <div class="product-info">
