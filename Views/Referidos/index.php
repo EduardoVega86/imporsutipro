@@ -114,11 +114,11 @@
     $(document).ready(function() {
         //validador
         $.ajax({
-            url: SERVERURL + "referidos/crearReferido",
+            url: SERVERURL + "referidos/refiere",
             type: "GET",
             dataType: "json",
             success: function(response) {
-                if (response.status == 200) {
+                if (response) {
                     $("#link_referido").show();
                 } else {
                     $("#link_referido").hide();

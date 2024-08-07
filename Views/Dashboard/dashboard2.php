@@ -81,6 +81,21 @@
         </div>
     </div>
 
+    <div class="tablas_estaditicas">
+        <div class="content-container">
+            <div class="d-flex flex-row">
+                <div class="stat-box">
+                    <h3>$ <span id="total_ventas"></span></h3>
+                    <p>Ticket Promedio</p>
+                </div>
+                <div class="stat-box">
+                    <h3>$ <span id="total_ventas"></span></h3>
+                    <p>Flete Promedio</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <script src="<?php echo SERVERURL ?>/Views/Dashboard/js/dashboard2.js"></script>
