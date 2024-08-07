@@ -1023,3 +1023,7 @@ function eliminar_horizontal(id) {
   });
 }
 /* Fin tabla horizontal */
+
+function abrir_agregar_dominio(){
+  $("#agregar_dominioModal").modal("show");
+}

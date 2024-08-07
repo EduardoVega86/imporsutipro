@@ -110,7 +110,7 @@
 
                                     <div class="justify-content-between align-items-center mb-3">
                                         <div class="d-flex">
-                                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_dominioModal"><i class="fas fa-plus"></i> Agregar Dominio Propio</button>
+                                            <button class="btn btn-success" onclick="abrir_agregar_dominio()"><i class="fas fa-plus"></i> Agregar Dominio Propio</button>
                                         </div>
                                     </div>
                                 </div>
