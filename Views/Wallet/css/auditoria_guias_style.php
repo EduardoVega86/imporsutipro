@@ -1,4 +1,14 @@
 <style>
+    .stat-box {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 10px;
+  text-align: center;
+  flex: 1 1 calc(25% - 40px);
+  width: 50%;
+}
     .table {
         border-collapse: collapse;
         width: 100%;
