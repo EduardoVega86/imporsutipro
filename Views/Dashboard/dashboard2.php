@@ -83,7 +83,7 @@
 
     <div class="tablas_estaditicas">
         <div class="content-container">
-            <div class="d-flex flex-column" style="width: 33.33%;">
+            <div class="d-flex flex-column" style="width: 33.33% !important;">
                 <div class="d-flex flex-row">
                     <div class="stat-box">
                         <h3>$ <span id="total_ventas"></span></h3>
@@ -119,11 +119,11 @@
                     </div>
                 </div>
             </div>
-            <div class="content-box1" style="width: 33.33%;">
+            <div class="content-box1" style="width: 33.33% !important;">
                 <h4>Ventas del Último Mes</h4>
                 <canvas id="salesChart"></canvas>
             </div>
-            <div class="d-flex flex-column" style="width: 33.33%;">
+            <div class="d-flex flex-column" style="width: 33.33% !important;">
                 <div class="d-flex flex-row">
                     <div class="stat-box">
                         <h3>$ <span id="total_ventas"></span></h3>
