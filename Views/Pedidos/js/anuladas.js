@@ -114,7 +114,7 @@ const listGuias = async () => {
         transporte_content =
           '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">LAAR</span>';
         ruta_descarga = `https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${guia.numero_guia}`;
-        ruta_traking = `https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${guia.numero_guia}`;
+        ruta_traking = `https://fenixoper.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${guia.numero_guia}`;
         funcion_anular = `anular_guiaLaar('${guia.numero_guia}')`;
       } else if (transporte == 4) {
         if (guia.numero_guia.includes("MKL")) {

@@ -125,7 +125,7 @@ const listGuias = async () => {
 
         ruta_descarga = `<a class="w-100" href="https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
 
-        ruta_traking = `https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${guia.numero_guia}`;
+        ruta_traking = `https://fenixoper.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${guia.numero_guia}`;
         funcion_anular = `anular_guiaLaar('${guia.numero_guia}')`;
         estado = validar_estadoLaar(guia.estado_guia_sistema);
       } else if (transporte == 4) {

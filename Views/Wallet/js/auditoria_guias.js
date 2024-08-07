@@ -153,7 +153,7 @@ const listAuditoria = async (estado, id_transporte) => {
       let check = item.valida_transportadora == 1 ? "checked" : "";
 
       if (item.numero_guia.includes("IMP") || item.numero_guia.includes("MKP")) {
-        url_tracking = `https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${item.numero_guia}`;
+        url_tracking = `https://fenixoper.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${item.numero_guia}`;
         url_descargar = `https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${item.numero_guia}`;
       } else if (item.numero_guia.includes("I")) {
         url_tracking = `https://ec.gintracom.site/web/site/tracking`;
