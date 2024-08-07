@@ -5,6 +5,45 @@
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
         <h2 class="text-center mb-4">Auditoria</h2>
+        <div class="stats-container">
+            <div class="flex-fill" style="padding: 10px;">
+                <h6>Seleccione el rango de fechas:</h6>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="daterange">
+                    <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                </div>
+            </div>
+            <div class="d-flex flex-row">
+                <div class="stat-box">
+                    <h3>$ <span id="total_ventas"></span></h3>
+                    <p>Total Ventas</p>
+                </div>
+                <div class="stat-box">
+                    <h3><span id="total_pedidos"></span></h3>
+                    <p>Total Pedidos</p>
+                </div>
+            </div>
+            <div class="d-flex flex-row">
+                <div class="stat-box">
+                    <h3><span id="total_guias"></span></h3>
+                    <p>Total Guias</p>
+                </div>
+                <div class="stat-box">
+                    <h3><span id="total_recaudo"></span></h3>
+                    <p>Total Recaudo</p>
+                </div>
+            </div>
+            <div class="d-flex flex-row">
+                <div class="stat-box">
+                    <h3><span id="total_fletes"></span></h3>
+                    <p>Total Fletes</p>
+                </div>
+                <div class="stat-box">
+                    <h3><span id="devoluciones"></span></h3>
+                    <p>Devoluciones</p>
+                </div>
+            </div>
+        </div>
         <div class="d-flex flex-column justify-content-between">
 
 <div class="filter-container">

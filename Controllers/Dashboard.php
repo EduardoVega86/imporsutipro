@@ -21,6 +21,7 @@ class Dashboard extends Controller
 
     ///Funciones
 
+    
     public function filtroInicial()
     {
         $fecha_i = $_POST['fecha_i'] ?? date('Y-m-01');
