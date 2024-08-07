@@ -21,4 +21,11 @@ const initDataTable = async () => {
       },
     ],
   });
+
+  $("#datatable_tarifas").on("click", "tr", function () {
+    const data = $("#datatable_tarifas").DataTable().row(this).data();
+    console.log(data);
+  });
 };
+
+initDataTable();
