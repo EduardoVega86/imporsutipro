@@ -122,7 +122,7 @@
 
     /* Estilos comunes */
     .content-box1 {
-        background: #f9f9f9;
+        background: #fff;
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
         padding: 20px;
