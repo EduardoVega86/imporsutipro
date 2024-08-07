@@ -172,7 +172,7 @@
 
     /* Estilos específicos para Ciudades */
     .content-box1.ciudades .progress {
-        background: yellow;
+        background: #f8e100;
     }
 
     .content-box1.ciudades .quantity {
@@ -181,7 +181,7 @@
 
     /* Estilos específicos para Productos */
     .content-box1.productos .progress {
-        background: yellow;
+        background: #f8e100;
     }
 
     .content-box1.productos .quantity {
