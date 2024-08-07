@@ -30,14 +30,13 @@ class Referidos extends Controller
     public function getReferidos()
     {
         $referidos = $this->model->getReferidos($_SESSION['id_plataforma']);
-        echo json_encode($referidos);
         $cabeceras = $this->model->getCabecerasReferencias($_SESSION['id_plataforma']);
         $gananciasTotal = $this->model->getGananciasTotal($_SESSION['id_plataforma']);
         $gananciasTotal = $gananciasTotal[0]['total'];
         $saldoActual = $this->model->getSaldoActual($_SESSION['id_plataforma']);
         $saldoActual = $saldoActual[0]['saldo'];
         $data = array(
-            "referidos" => $referidos,
+            "referidos" => $referidos ?? [],
             "cantidad" => count($referidos),
             "cabeceras" => $cabeceras,
             "ganancias" => $gananciasTotal,
