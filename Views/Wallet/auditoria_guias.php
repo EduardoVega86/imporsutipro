@@ -14,30 +14,30 @@
             </div>
             <div class="d-flex flex-row">
                 <div class="stat-box">
-                    <h3>$ <span id="total_ventas"></span></h3>
+                    <h3>$ <span id="valor_recaudo"></span></h3>
                     <p>Valor recaudado</p>
                 </div>
                
           
                 <div class="stat-box">
-                    <h3>$ <span id="total_guias"></span></h3>
+                    <h3>$ <span id="valor_pagado"></span></h3>
                     <p>Valor Pagado</p>
                 </div>
                 <div class="stat-box">
-                    <h3><span id="total_recaudo"></span></h3>
+                    <h3>$ <span id="por_pagar"></span></h3>
                     <p>Por pagar</p>
                 </div>
       
                 <div class="stat-box">
-                    <h3><span id="total_fletes"></span></h3>
+                    <h3>$ <span id="valor_fletes"></span></h3>
                     <p>Total valor fletes</p>
                 </div>
                 <div class="stat-box">
-                    <h3><span id="devoluciones"></span></h3>
+                    <h3><span id="costo_flete"></span></h3>
                     <p>Total Costo fletes</p>
                 </div>
                  <div class="stat-box">
-                    <h3>$ <span id="total_pedidos"></span></h3>
+                    <h3>$ <span id="total_utilidad"></span></h3>
                     <p>Total Utilidad</p>
                 </div>
             </div>
