@@ -220,9 +220,9 @@ const listFacturas = async () => {
           <td>${check}</td>
           <td>
           <div><span claas="text-nowrap">${factura.numero_factura}</span></div>
-          <div><span claas="text-nowrap">${factura.guia}</span></div>
           <div><span class="w-100 text-nowrap" style="background-color:#7B57EC; color:white; padding:5px; border-radius:0.3rem;">${cod}</span></div>
           </td>
+          <td>${factura.guia}</td>
           <td>
           <div>${factura.cliente}</div>
           <div>${factura.fecha}</div>
