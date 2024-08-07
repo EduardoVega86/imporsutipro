@@ -95,7 +95,7 @@
                     </div>
                 </div>
                 <!-- card -->
-                <div class="content-box">
+                <div class="content-box1">
                     <h4>Productos por cantidad</h4>
                     <div class="product">
                         <div class="product-info">

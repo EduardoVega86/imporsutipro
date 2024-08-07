@@ -120,6 +120,15 @@
     }
 
 
+    .content-box1 {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin: 10px;
+        flex: 1 1 calc(50% - 40px);
+        max-width: calc(50% - 40px);
+    }
     .product {
         display: flex;
         flex-direction: column;
