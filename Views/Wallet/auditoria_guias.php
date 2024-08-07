@@ -1,7 +1,6 @@
 <?php require_once './Views/templates/header.php'; ?>
 <?php require_once './Views/Wallet/css/auditoria_guias_style.php'; ?>
 
-
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
         <h2 class="text-center mb-4">Auditoria</h2>
