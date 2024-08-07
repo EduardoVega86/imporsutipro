@@ -42,7 +42,19 @@ class ReferidosModel extends Query
     {
         $sql = "UPDATE plataformas set token_referido = ? WHERE id_plataforma = ?";
         $data = array($id, $id);
-        return $this->update($sql, $data);
+        $response =  $this->update($sql, $data);
+        if ($response == 1) {
+            $response = array(
+                "status" => 200,
+                "message" => "Referido creado"
+            );
+        } else {
+            $response = array(
+                "status" => 500,
+                "message" => "Error al crear el referido, ya existe"
+            );
+        }
+        return $response;
     }
 
     public function solicitar_pago($monto, $cuenta, $plataforma, $otro)

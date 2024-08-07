@@ -182,4 +182,10 @@ class Tienda extends Controller
 
         $response = $this->model->agregarDominioConSubdominioExistente($dominio, $subdominio);
     }
+
+    public function obtenerDatosTienda()
+    {
+        $response = $this->model->obtenerDatosTienda($_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
 }

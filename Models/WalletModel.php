@@ -950,7 +950,7 @@ ORDER BY
         $response =  $this->select($sql);
         return $response;
     }
-    
+
     public function obtenerTotalGuiasAuditoria($estado, $transportadora)
     {
         $where = '';
@@ -1086,5 +1086,12 @@ WHERE
             $responses["message"] = $response["message"];
         }
         return $responses;
+    }
+
+    public function obtenerDatosTienda($id)
+    {
+        $sql = "SELECT * FROM plataformas WHERE id_plataforma = '$id'";
+        $response =  $this->select($sql);
+        return $response;
     }
 }
