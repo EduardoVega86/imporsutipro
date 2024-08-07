@@ -105,4 +105,29 @@ class ReferidosModel extends Query
         }
         return true;
     }
+
+    public function getTarifas()
+    {
+        $sql = "SELECT * FROM tarifa_referido";
+        return $this->select($sql);
+    }
+
+    public function setTarifa($id_tarifa, $monto)
+    {
+        $sql = "UPDATE tarifa_referido SET tarifa = ? WHERE id_tarifa = ?";
+        $data = array($monto, $id_tarifa);
+        $response = $this->update($sql, $data);
+        if ($response == 1) {
+            $response = array(
+                "status" => 200,
+                "message" => "Tarifa actualizada"
+            );
+        } else {
+            $response = array(
+                "status" => 500,
+                "message" => "Error al actualizar la tarifa"
+            );
+        }
+        return $response;
+    }
 }

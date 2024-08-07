@@ -20,11 +20,17 @@ class Referidos extends Controller
         $this->views->render($this, "referidos");
     }
 
+    public function tarifario()
+    {
+        $this->views->render($this, "tarifario");
+    }
+
     ///funciones
 
     public function getReferidos()
     {
         $referidos = $this->model->getReferidos($_SESSION['id_plataforma']);
+        echo json_encode($referidos);
         $cabeceras = $this->model->getCabecerasReferencias($_SESSION['id_plataforma']);
         $gananciasTotal = $this->model->getGananciasTotal($_SESSION['id_plataforma']);
         $gananciasTotal = $gananciasTotal[0]['total'];
@@ -60,5 +66,11 @@ class Referidos extends Controller
         $plataforma = $_SESSION['id_plataforma'];
         $response = $this->model->solicitar_pago($monto, $cuenta, $plataforma, $otro);
         echo json_encode($response);
+    }
+
+    public function getTarifas()
+    {
+        $tarifas = $this->model->getTarifas();
+        echo json_encode($tarifas);
     }
 }
