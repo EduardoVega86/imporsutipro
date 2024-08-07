@@ -82,6 +82,8 @@
                 
             </div>
         </div>
+         </div>
+        <div class="container mt-5" style="max-width: 100%;">
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
             <div class="filter-container">
