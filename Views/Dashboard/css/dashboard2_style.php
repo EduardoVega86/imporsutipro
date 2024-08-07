@@ -172,7 +172,7 @@
 
     /* Estilos específicos para Ciudades */
     .content-box1.ciudades .progress {
-        background: blue;
+        background: yellow;
     }
 
     .content-box1.ciudades .quantity {
@@ -181,7 +181,7 @@
 
     /* Estilos específicos para Productos */
     .content-box1.productos .progress {
-        background: red;
+        background: yellow;
     }
 
     .content-box1.productos .quantity {
@@ -190,7 +190,7 @@
 
     /* Estilos específicos para Ciudades_entrega */
     .content-box1.ciudades_entrega .progress {
-        background: blue;
+        background: greenyellow;
     }
 
     .content-box1.ciudades_entrega .quantity {
@@ -199,7 +199,7 @@
 
     /* Estilos específicos para Productos_entrega */
     .content-box1.productos_entrega .progress {
-        background: red;
+        background: greenyellow;
     }
 
     .content-box1.productos_entrega .quantity {
@@ -208,7 +208,7 @@
 
     /* Estilos específicos para Ciudades_devolucion */
     .content-box1.ciudades_devolucion .progress {
-        background: blue;
+        background: red;
     }
 
     .content-box1.ciudades_devolucion .quantity {
