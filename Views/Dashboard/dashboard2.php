@@ -14,30 +14,48 @@
             </div>
             <div class="d-flex flex-row">
                 <div class="stat-box">
+                    <div class="icon-container" style="background: linear-gradient(to right, #ff7e5f, #feb47b);">
+                        <i class="fa fa-dollar-sign"></i>
+                    </div>
                     <h3>$ <span id="total_ventas"></span></h3>
                     <p>Total Ventas</p>
                 </div>
                 <div class="stat-box">
+                    <div class="icon-container" style="background: linear-gradient(to right, #6a11cb, #2575fc);">
+                        <i class="fa fa-shopping-cart"></i>
+                    </div>
                     <h3><span id="total_pedidos"></span></h3>
                     <p>Total Pedidos</p>
                 </div>
             </div>
             <div class="d-flex flex-row">
                 <div class="stat-box">
+                    <div class="icon-container" style="background: linear-gradient(to right, #ff512f, #dd2476);">
+                        <i class="fa fa-truck"></i>
+                    </div>
                     <h3><span id="total_guias"></span></h3>
                     <p>Total Guias</p>
                 </div>
                 <div class="stat-box">
+                    <div class="icon-container" style="background: linear-gradient(to right, #43e97b, #38f9d7);">
+                        <i class="fa fa-hand-holding-usd"></i>
+                    </div>
                     <h3><span id="total_recaudo"></span></h3>
                     <p>Total Recaudo</p>
                 </div>
             </div>
             <div class="d-flex flex-row">
                 <div class="stat-box">
+                    <div class="icon-container" style="background: linear-gradient(to right, #f7971e, #ffd200);">
+                        <i class="fa fa-shipping-fast"></i>
+                    </div>
                     <h3><span id="total_fletes"></span></h3>
                     <p>Total Fletes</p>
                 </div>
                 <div class="stat-box">
+                    <div class="icon-container" style="background: linear-gradient(to right, #bdc3c7, #2c3e50);">
+                        <i class="fa fa-undo"></i>
+                    </div>
                     <h3><span id="devoluciones"></span></h3>
                     <p>Devoluciones</p>
                 </div>
