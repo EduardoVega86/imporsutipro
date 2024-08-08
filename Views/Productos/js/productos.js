@@ -12,10 +12,10 @@ function getFecha() {
 
 const dataTableProductosOptions = {
   columnDefs: [
-    { className: "centered", targets: [0, 1, 2, 3, 4, 5, 6] },
+    { className: "centered", targets: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17] },
     { orderable: false, targets: 0 },
   ],
-  order: [[2, "desc"]],
+  order: [[3, "desc"]],  // Ajustar el orden basado en las columnas correctas
   pageLength: 25,
   lengthMenu: [25, 50, 100, 200],
   destroy: true,
@@ -28,9 +28,55 @@ const dataTableProductosOptions = {
     url: SERVERURL + "productos/obtener_productos",
     type: "POST",
     dataSrc: function (json) {
+      console.log("Data recibida:", json);
       return json.data;
     },
   },
+  columns: [
+    { data: 'id_inventario' },
+    { data: 'image_path', render: function(data, type, row) {
+        const enlace_imagen = obtenerURLImagen(data, SERVERURL);
+        return data ? `<img src="${enlace_imagen}" class="icon-button" onclick="agregar_imagenProducto(${row.id_producto},'${enlace_imagen}')" alt="Agregar imagen" width="50px">` : `<i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${row.id_producto},'${enlace_imagen}')"></i>`;
+      }
+    },
+    { data: 'codigo_producto' },
+    { data: 'nombre_producto' },
+    { data: 'destacado' },
+    { data: 'saldo_stock' },
+    { data: 'costo_producto' },
+    { data: 'pcp' },
+    { data: 'pvp' },
+    { data: 'pref' },
+    { data: 'landing', render: function(data, type, row) {
+        return `<a href='${SERVERURL + "productos/landing/" + row.id_producto}' role='button'><i class="fa-solid fa-laptop-code" style="font-size:25px;"></i></a>`;
+      }
+    },
+    { data: 'drogshipin', render: function(data, type, row) {
+        return data == 0 ? `<box-icon name='cloud-upload' style='cursor:pointer' color='#54DD10' id="icono_subida_${row.id_producto}" onclick="subir_marketplace(${row.id_producto})"></box-icon></br><span>Agregar</span>` : `<box-icon name='cloud-download' style='cursor:pointer' color='red' id="icono_bajada_${row.id_producto}" onclick="bajar_marketplace(${row.id_producto})"></box-icon></br><span>Quitar</span>`;
+      }
+    },
+    { data: 'producto_variable', render: function(data, type, row) {
+        return data == 0 ? `<i class="fa-regular fa-paper-plane" style='cursor:pointer' onclick="enviar_cliente(${row.id_producto},'${row.sku}',${row.pvp},${row.id_inventario})"></i>` : `<i style="color:red;" class="fa-regular fa-paper-plane" style='cursor:pointer' onclick="abrir_modalSeleccionAtributo(${row.id_producto},'${row.sku}',${row.pvp},${row.id_inventario})"></i>`;
+      }
+    },
+    { data: 'producto_variable', render: function(data, type, row) {
+        return data == 0 ? `` : `<img src="https://new.imporsuitpro.com/public/img/atributos.png" width="30px" id="buscar_traking" alt="buscar_traking" onclick="abrir_modalInventarioVariable(${row.id_producto})">`;
+      }
+    },
+    { data: 'id_producto', render: function(data, type, row) {
+        return `<div class="btn btn-warning" onclick="abrir_modal_idInventario(${data})"><span>Ver</span></div>`;
+      }
+    },
+    { data: 'producto_privado', render: function(data, type, row) {
+        return `<input type="checkbox" class="agregarPrivadoCheckbox" data-id="${row.id_producto}" onchange="toggleAgregarPrivado(this)" ${data == 1 ? "checked" : ""}>`;
+      }
+    },
+    { data: 'id_producto', render: function(data, type, row) {
+        return `<button class="btn btn-sm btn-primary" onclick="editarProducto(${data})"><i class="fa-solid fa-pencil"></i>Editar</button>
+                <button class="btn btn-sm btn-danger" onclick="eliminarProducto(${data})"><i class="fa-solid fa-trash-can"></i>Borrar</button>`;
+      }
+    },
+  ],
   dom: '<"d-flex w-full justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
   buttons: [
     {
