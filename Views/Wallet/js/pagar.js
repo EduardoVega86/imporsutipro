@@ -192,7 +192,7 @@ const listFacturas = async () => {
       }
 
       if (factura.guia.includes("IMP") || factura.guia.includes("MKP")) {
-        url_tracking = `https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${factura.guia}`;
+        url_tracking = `https://fenixoper.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${factura.guia}`;
         url_descargar = `https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${factura.guia}`;
         estado = validar_estadoLaar(factura.estado_guia);
       } else if (factura.guia.includes("I")) {
@@ -220,7 +220,6 @@ const listFacturas = async () => {
           <td>${check}</td>
           <td>
           <div><span claas="text-nowrap">${factura.numero_factura}</span></div>
-          <div><span claas="text-nowrap">${factura.guia}</span></div>
           <div><span class="w-100 text-nowrap" style="background-color:#7B57EC; color:white; padding:5px; border-radius:0.3rem;">${cod}</span></div>
           </td>
           <td>
@@ -228,6 +227,7 @@ const listFacturas = async () => {
           <div>${factura.fecha}</div>
           <div><button onclick="ver_detalle_cot('${factura.numero_factura}')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>
           </td>
+          <td>${factura.guia}</td>
           <td>
           <div><span class="w-100 text-nowrap ${span_estado}">${estado_guia}</span></div>
           <div>${acreditable}</div>

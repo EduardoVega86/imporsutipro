@@ -152,6 +152,7 @@
                         <th></th>
                         <th class="centered">Factura</th>
                         <th class="centered">Detalle factura</th>
+                        <th class="centered">Numero Guia</th>
                         <th class="centered">Estado Guia</th>
                         <th class="centered">Tienda</th>
                         <th class="centered">Venta total</th>

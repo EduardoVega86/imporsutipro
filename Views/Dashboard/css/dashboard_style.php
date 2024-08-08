@@ -30,11 +30,30 @@
         text-align: center;
         flex: 1 1 calc(25% - 40px);
         width: 50%;
+        position: relative;
+        /* Añadido para el posicionamiento del icono */
+    }
+
+    .icon-container {
+        width: 50px;
+        height: 50px;
+        margin: 0 auto 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        color: #fff;
+        font-size: 24px;
     }
 
     .stat-box h3 {
         margin-top: 10px;
         font-size: 24px;
+    }
+
+    .stat-box p {
+        margin: 0;
+        color: #777;
     }
 
     .slider-container {
@@ -86,7 +105,7 @@
         flex-direction: row;
     }
 
-    #pastelChart{
+    #pastelChart {
         max-width: 300px;
         max-height: 300px;
     }

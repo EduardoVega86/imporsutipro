@@ -1,5 +1,25 @@
-//audtiroria tempral
+function datos_auditoriaPrincial(estado,transportadora) {
+  let formData = new FormData();
+  formData.append("estado", estado);
+  formData.append("transportadora", transportadora);
+  $.ajax({
+    url: SERVERURL + "Wallet/obtenerTotalGuiasAuditoria",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    success: function (response) {},
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+}
+
 $(document).ready(function () {
+  var filtro_facturas_principal = $(this).data("filter"); // Actualizar variable con el filtro seleccionado
+  var id_transportadora_principal = $("#transporte").val();
+  datos_auditoriaPrincial(filtro_facturas_principal, id_transportadora_principal);
+
   $(".filter-btn").on("click", function () {
     $(".filter-btn").removeClass("active");
     $(this).addClass("active");
@@ -7,6 +27,7 @@ $(document).ready(function () {
     var filtro_facturas = $(this).data("filter"); // Actualizar variable con el filtro seleccionado
     var id_transportadora = $("#transporte").val();
     initDataTableAuditoria(filtro_facturas, id_transportadora);
+    datos_auditoriaPrincial(filtro_facturas, id_transportadora);
   });
 
   // Añadir event listener al select para el evento change
@@ -14,6 +35,7 @@ $(document).ready(function () {
     var id_transportadora = $(this).val();
     var filtro_facturas = $(".filter-btn.active").data("filter"); // Obtener el filtro activo
     initDataTableAuditoria(filtro_facturas, id_transportadora);
+    datos_auditoriaPrincial(filtro_facturas, id_transportadora);
   });
 });
 
@@ -128,7 +150,7 @@ const listAuditoria = async (estado, id_transporte) => {
         if (item.numero_guia.includes("MKL")) {
           transporte_content =
             '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">MerkaLogistic</span>';
-        } else if (item.numero_guia.includes("SPD") ) {
+        } else if (item.numero_guia.includes("SPD")) {
           transporte_content =
             '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
         }
@@ -152,8 +174,11 @@ const listAuditoria = async (estado, id_transporte) => {
       // Determinar si el checkbox debe estar marcado
       let check = item.valida_transportadora == 1 ? "checked" : "";
 
-      if (item.numero_guia.includes("IMP") || item.numero_guia.includes("MKP")) {
-        url_tracking = `https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${item.numero_guia}`;
+      if (
+        item.numero_guia.includes("IMP") ||
+        item.numero_guia.includes("MKP")
+      ) {
+        url_tracking = `https://fenixoper.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${item.numero_guia}`;
         url_descargar = `https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${item.numero_guia}`;
       } else if (item.numero_guia.includes("I")) {
         url_tracking = `https://ec.gintracom.site/web/site/tracking`;

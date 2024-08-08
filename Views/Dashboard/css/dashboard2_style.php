@@ -30,11 +30,29 @@
         text-align: center;
         flex: 1 1 calc(25% - 40px);
         width: 50%;
+        position: relative;
+    }
+
+    .icon-container {
+        width: 50px;
+        height: 50px;
+        margin: 0 auto 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        color: #fff;
+        font-size: 24px;
     }
 
     .stat-box h3 {
         margin-top: 10px;
         font-size: 24px;
+    }
+
+    .stat-box p {
+        margin: 0;
+        color: #777;
     }
 
     .slider-container {
@@ -124,7 +142,6 @@
         }
     }
 
-
     /* Estilos comunes */
     .content-box1 {
         background: #fff;
@@ -172,7 +189,7 @@
 
     /* Estilos específicos para Ciudades */
     .content-box1.ciudades .progress {
-        background: blue;
+        background: #f8e100;
     }
 
     .content-box1.ciudades .quantity {
@@ -181,10 +198,46 @@
 
     /* Estilos específicos para Productos */
     .content-box1.productos .progress {
-        background: red;
+        background: #f8e100;
     }
 
     .content-box1.productos .quantity {
+        color: #333;
+    }
+
+    /* Estilos específicos para Ciudades_entrega */
+    .content-box1.ciudades_entrega .progress {
+        background: #2bc506;
+    }
+
+    .content-box1.ciudades_entrega .quantity {
+        color: #555;
+    }
+
+    /* Estilos específicos para Productos_entrega */
+    .content-box1.productos_entrega .progress {
+        background: #2bc506;
+    }
+
+    .content-box1.productos_entrega .quantity {
+        color: #333;
+    }
+
+    /* Estilos específicos para Ciudades_devolucion */
+    .content-box1.ciudades_devolucion .progress {
+        background: red;
+    }
+
+    .content-box1.ciudades_devolucion .quantity {
+        color: #555;
+    }
+
+    /* Estilos específicos para Productos_devolucion */
+    .content-box1.productos_devolucion .progress {
+        background: red;
+    }
+
+    .content-box1.productos_devolucion .quantity {
         color: #333;
     }
 </style>

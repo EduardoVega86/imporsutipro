@@ -76,7 +76,7 @@ class GestionModel extends Query
 
             $sql = "INSERT INTO novedades (guia_novedad, cliente_novedad, estado_novedad, novedad, tracking, fecha, id_plataforma) VALUES (?, ?, ?, ?, ?, ?, ?)";
             if (strpos($guia, 'IMP') == 0) {
-                $tracking = "https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia=" . $guia;
+                $tracking = "https://fenixoper.laarcourier.com/Tracking/Guiacompleta.aspx?guia=" . $guia;
             } else if (strpos($guia, 'I00') == 0) {
                 $tracking = "https://ec.gintracom.site/web/site/tracking";
             } else if (is_numeric($guia)) {
