@@ -191,22 +191,24 @@ const listFacturas = async () => {
         acreditable = "No acreditable";
       }
 
-      if (factura.guia.includes("IMP") || factura.guia.includes("MKP")) {
-        url_tracking = `https://fenixoper.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${factura.guia}`;
-        url_descargar = `https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${factura.guia}`;
-        estado = validar_estadoLaar(factura.estado_guia);
-      } else if (factura.guia.includes("I")) {
-        url_tracking = `https://ec.gintracom.site/web/site/tracking`;
-        url_descargar = `https://guias.imporsuitpro.com/Gintracom/label/${factura.guia}`;
-        estado = validar_estadoGintracom(factura.estado_guia);
-      } else if (factura.guia.includes("SPD")) {
-        url_tracking = ``;
-        url_descargar = `https://guias.imporsuitpro.com/Speed/descargar/${factura.guia}`;
-        estado = validar_estadoSpeed(factura.estado_guia);
-      } else {
-        url_tracking = `https://servientrega-ecuador.appsiscore.com/app/app-cliente/cons_publica.php?guia=${factura.guia}&Request=Buscar+`;
-        url_descargar = `https://guias.imporsuitpro.com/Servientrega/guia/${factura.guia}`;
-        estado = validar_estadoServi(factura.estado_guia);
+      if (factura.guia === null) {
+        if (factura.guia.includes("IMP") || factura.guia.includes("MKP")) {
+          url_tracking = `https://fenixoper.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${factura.guia}`;
+          url_descargar = `https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${factura.guia}`;
+          estado = validar_estadoLaar(factura.estado_guia);
+        } else if (factura.guia.includes("I")) {
+          url_tracking = `https://ec.gintracom.site/web/site/tracking`;
+          url_descargar = `https://guias.imporsuitpro.com/Gintracom/label/${factura.guia}`;
+          estado = validar_estadoGintracom(factura.estado_guia);
+        } else if (factura.guia.includes("SPD")) {
+          url_tracking = ``;
+          url_descargar = `https://guias.imporsuitpro.com/Speed/descargar/${factura.guia}`;
+          estado = validar_estadoSpeed(factura.estado_guia);
+        } else {
+          url_tracking = `https://servientrega-ecuador.appsiscore.com/app/app-cliente/cons_publica.php?guia=${factura.guia}&Request=Buscar+`;
+          url_descargar = `https://guias.imporsuitpro.com/Servientrega/guia/${factura.guia}`;
+          estado = validar_estadoServi(factura.estado_guia);
+        }
       }
 
       var span_estado = estado.span_estado;
@@ -426,47 +428,48 @@ function eliminar_wallet(id_cabecera) {
 function ver_detalle_cot(numero_factura) {
   let formData = new FormData();
   formData.append("numero_factura", numero_factura);
-  if (numero_factura.includes("-F")) {
-    $.ajax({
-      url: SERVERURL + "wallet/buscarTienda",
-      type: "POST",
-      data: formData,
-      processData: false, // No procesar los datos
-      contentType: false, // No establecer ningún tipo de contenido
-      success: function (response) {
-        response = JSON.parse(response);
+  if (numero_factura === null) {
+    if (numero_factura.includes("-F")) {
+      $.ajax({
+        url: SERVERURL + "wallet/buscarTienda",
+        type: "POST",
+        data: formData,
+        processData: false, // No procesar los datos
+        contentType: false, // No establecer ningún tipo de contenido
+        success: function (response) {
+          response = JSON.parse(response);
 
-        // Mostrar los detalles principales de la primera factura
-        $("#ordePara_detalleFac").text(response[0].nombre);
-        $("#direccion_detalleFac").text(
-          `${response[0].c_principal},${response[0].c_secundaria}`
-        );
-        $("#telefono_detalleFac").text(response[0].telefono);
-        $("#numOrden_detalleFac").text(response[0].numero_factura);
-        $("#fecha_detalleFac").text(response[0].fecha_factura);
-        $("#companiaEnvio_detalleFac").text(response[0].transporte);
-        if (response[0].cod == 1) {
-          $("#tipoEnvio_detalleFac").html(
-            "Con Recaudo <br><strong>Tiendas:</strong> " + response[0].url
+          // Mostrar los detalles principales de la primera factura
+          $("#ordePara_detalleFac").text(response[0].nombre);
+          $("#direccion_detalleFac").text(
+            `${response[0].c_principal},${response[0].c_secundaria}`
           );
-        } else {
-          $("#tipoEnvio_detalleFac").html(
-            "Sin Recaudo <br><strong>Tiendas:</strong> " + response[0].url
-          );
-        }
+          $("#telefono_detalleFac").text(response[0].telefono);
+          $("#numOrden_detalleFac").text(response[0].numero_factura);
+          $("#fecha_detalleFac").text(response[0].fecha_factura);
+          $("#companiaEnvio_detalleFac").text(response[0].transporte);
+          if (response[0].cod == 1) {
+            $("#tipoEnvio_detalleFac").html(
+              "Con Recaudo <br><strong>Tiendas:</strong> " + response[0].url
+            );
+          } else {
+            $("#tipoEnvio_detalleFac").html(
+              "Sin Recaudo <br><strong>Tiendas:</strong> " + response[0].url
+            );
+          }
 
-        // Verificar si la respuesta tiene elementos y llenar la tabla
-        if (response.length > 0) {
-          let tableBody = $("#tabla_body");
-          tableBody.empty(); // Limpiar cualquier contenido previo
+          // Verificar si la respuesta tiene elementos y llenar la tabla
+          if (response.length > 0) {
+            let tableBody = $("#tabla_body");
+            tableBody.empty(); // Limpiar cualquier contenido previo
 
-          let total = 0; // Variable para calcular el total
+            let total = 0; // Variable para calcular el total
 
-          response.forEach(function (detalle) {
-            let subtotal = detalle.cantidad * detalle.precio_venta;
-            total += subtotal;
+            response.forEach(function (detalle) {
+              let subtotal = detalle.cantidad * detalle.precio_venta;
+              total += subtotal;
 
-            let rowHtml = `
+              let rowHtml = `
               <tr>
                 <td>${detalle.nombre_producto}</td>
                 <td>${detalle.cantidad}</td>
@@ -474,62 +477,62 @@ function ver_detalle_cot(numero_factura) {
                 <td>${subtotal.toFixed(2)}</td>
               </tr>
             `;
-            tableBody.append(rowHtml);
-          });
+              tableBody.append(rowHtml);
+            });
 
-          // Agregar la fila del total
-          let totalRowHtml = `
+            // Agregar la fila del total
+            let totalRowHtml = `
             <tr class="custom-total-row">
               <td colspan="3" class="text-right">Total</td>
               <td>${total.toFixed(2)}</td>
             </tr>
           `;
-          tableBody.append(totalRowHtml);
-        }
+            tableBody.append(totalRowHtml);
+          }
 
-        $("#detalles_facturaModal").modal("show");
-      },
-      error: function (error) {
-        console.error("Error al obtener la lista de bodegas:", error);
-      },
-    });
-  } else {
-    $.ajax({
-      url: SERVERURL + "Pedidos/obtenerDetalleWallet",
-      type: "POST",
-      data: formData,
-      processData: false, // No procesar los datos
-      contentType: false, // No establecer ningún tipo de contenido
-      success: function (response) {
-        response = JSON.parse(response);
+          $("#detalles_facturaModal").modal("show");
+        },
+        error: function (error) {
+          console.error("Error al obtener la lista de bodegas:", error);
+        },
+      });
+    } else {
+      $.ajax({
+        url: SERVERURL + "Pedidos/obtenerDetalleWallet",
+        type: "POST",
+        data: formData,
+        processData: false, // No procesar los datos
+        contentType: false, // No establecer ningún tipo de contenido
+        success: function (response) {
+          response = JSON.parse(response);
 
-        // Mostrar los detalles principales de la primera factura
-        $("#ordePara_detalleFac").text(response[0].nombre);
-        $("#direccion_detalleFac").text(
-          `${response[0].c_principal},${response[0].c_secundaria}`
-        );
-        $("#telefono_detalleFac").text(response[0].telefono);
-        $("#numOrden_detalleFac").text(response[0].numero_factura);
-        $("#fecha_detalleFac").text(response[0].fecha_factura);
-        $("#companiaEnvio_detalleFac").text(response[0].transporte);
-        if (response[0].cod == 1) {
-          $("#tipoEnvio_detalleFac").text("Con Recaudo");
-        } else {
-          $("#tipoEnvio_detalleFac").text("Sin Recaudo");
-        }
+          // Mostrar los detalles principales de la primera factura
+          $("#ordePara_detalleFac").text(response[0].nombre);
+          $("#direccion_detalleFac").text(
+            `${response[0].c_principal},${response[0].c_secundaria}`
+          );
+          $("#telefono_detalleFac").text(response[0].telefono);
+          $("#numOrden_detalleFac").text(response[0].numero_factura);
+          $("#fecha_detalleFac").text(response[0].fecha_factura);
+          $("#companiaEnvio_detalleFac").text(response[0].transporte);
+          if (response[0].cod == 1) {
+            $("#tipoEnvio_detalleFac").text("Con Recaudo");
+          } else {
+            $("#tipoEnvio_detalleFac").text("Sin Recaudo");
+          }
 
-        // Verificar si la respuesta tiene elementos y llenar la tabla
-        if (response.length > 0) {
-          let tableBody = $("#tabla_body");
-          tableBody.empty(); // Limpiar cualquier contenido previo
+          // Verificar si la respuesta tiene elementos y llenar la tabla
+          if (response.length > 0) {
+            let tableBody = $("#tabla_body");
+            tableBody.empty(); // Limpiar cualquier contenido previo
 
-          let total = 0; // Variable para calcular el total
+            let total = 0; // Variable para calcular el total
 
-          response.forEach(function (detalle) {
-            let subtotal = detalle.cantidad * detalle.precio_venta;
-            total += subtotal;
+            response.forEach(function (detalle) {
+              let subtotal = detalle.cantidad * detalle.precio_venta;
+              total += subtotal;
 
-            let rowHtml = `
+              let rowHtml = `
             <tr>
               <td>${detalle.nombre_producto}</td>
               <td>${detalle.cantidad}</td>
@@ -537,25 +540,26 @@ function ver_detalle_cot(numero_factura) {
               <td>${subtotal.toFixed(2)}</td>
             </tr>
           `;
-            tableBody.append(rowHtml);
-          });
+              tableBody.append(rowHtml);
+            });
 
-          // Agregar la fila del total
-          let totalRowHtml = `
+            // Agregar la fila del total
+            let totalRowHtml = `
           <tr class="custom-total-row">
             <td colspan="3" class="text-right">Total</td>
             <td>${total.toFixed(2)}</td>
           </tr>
         `;
-          tableBody.append(totalRowHtml);
-        }
+            tableBody.append(totalRowHtml);
+          }
 
-        $("#detalles_facturaModal").modal("show");
-      },
-      error: function (error) {
-        console.error("Error al obtener la lista de bodegas:", error);
-      },
-    });
+          $("#detalles_facturaModal").modal("show");
+        },
+        error: function (error) {
+          console.error("Error al obtener la lista de bodegas:", error);
+        },
+      });
+    }
   }
 }
 
