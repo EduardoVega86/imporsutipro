@@ -14,11 +14,15 @@
             </div>
             <div class="d-flex flex-row">
                 <div class="stat-box">
-                    <div class="icon-container" style="background: linear-gradient(to right, #ff7e5f, #feb47b);">
-                        <i class="fa fa-dollar-sign"></i>
+                    <div class="d-flex flex-row">
+                        <div class="icon-container" style="background: linear-gradient(to right, #ff7e5f, #feb47b);">
+                            <i class="fa fa-dollar-sign"></i>
+                        </div>
+                        <div>
+                            <h3>$ <span id="total_ventas"></span></h3>
+                            <p>Total Ventas</p>
+                        </div>
                     </div>
-                    <h3>$ <span id="total_ventas"></span></h3>
-                    <p>Total Ventas</p>
                 </div>
                 <div class="stat-box">
                     <div class="icon-container" style="background: linear-gradient(to right, #6a11cb, #2575fc);">
