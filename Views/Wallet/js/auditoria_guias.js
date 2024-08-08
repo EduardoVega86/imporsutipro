@@ -1,5 +1,9 @@
 //audtiroria tempral
 $(document).ready(function () {
+  var filtro_facturas_principal = $(this).data("filter"); // Actualizar variable con el filtro seleccionado
+    var id_transportadora_principal = $("#transporte").val();
+  datos_auditoriaPrincial(filtro_facturas_principal, id_transportadora_principal);
+
   $(".filter-btn").on("click", function () {
     $(".filter-btn").removeClass("active");
     $(this).addClass("active");
@@ -7,6 +11,7 @@ $(document).ready(function () {
     var filtro_facturas = $(this).data("filter"); // Actualizar variable con el filtro seleccionado
     var id_transportadora = $("#transporte").val();
     initDataTableAuditoria(filtro_facturas, id_transportadora);
+    datos_auditoriaPrincial(filtro_facturas, id_transportadora);
   });
 
   // Añadir event listener al select para el evento change
@@ -14,13 +19,14 @@ $(document).ready(function () {
     var id_transportadora = $(this).val();
     var filtro_facturas = $(".filter-btn.active").data("filter"); // Obtener el filtro activo
     initDataTableAuditoria(filtro_facturas, id_transportadora);
+    datos_auditoriaPrincial(filtro_facturas, id_transportadora);
   });
 });
 
 function datos_auditoriaPrincial(estado,transportadora) {
   let formData = new FormData();
   formData.append("estado", estado);
-  formData.append("sku", estado);
+  formData.append("transportadora", transportadora);
   $.ajax({
     url: SERVERURL + "Wallet/obtenerTotalGuiasAuditoria",
     type: "POST",
