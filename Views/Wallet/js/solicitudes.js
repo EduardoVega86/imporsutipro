@@ -308,8 +308,8 @@ function eliminarSolicitud(id){
           positionClass: "toast-bottom-center",
         });
 
-        $("#imagen_categoriaModal").modal("hide");
-        initDataTable();
+        initDataTableSolicitudes();
+        initDataTableOtrasFormasPago();
       }
     },
     error: function (error) {
