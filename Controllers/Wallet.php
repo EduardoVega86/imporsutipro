@@ -351,6 +351,8 @@ class Wallet extends Controller
         $response = $this->model->obtenerTotalGuiasAuditoria($estado, $transportadora);
         echo json_encode($response);
     }
+    
+    
 
     public function habilitarAuditoria()
     {
