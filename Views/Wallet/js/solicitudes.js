@@ -292,3 +292,28 @@ function getFecha() {
   let fechaHoy = anio + "-" + mes + "-" + dia;
   return fechaHoy;
 }
+
+function eliminarSolicitud(id){
+  $.ajax({
+    url: SERVERURL + "wallet/eliminarSolicitudes/"+id,
+    type: "POST",
+    dataType: "json",
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("NO SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+
+        $("#imagen_categoriaModal").modal("hide");
+        initDataTable();
+      }
+    },
+    error: function (error) {
+      console.error("Error al obtener la lista de bodegas:", error);
+    },
+  });
+}
