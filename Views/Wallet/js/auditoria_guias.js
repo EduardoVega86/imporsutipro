@@ -1,7 +1,23 @@
-//audtiroria tempral
+function datos_auditoriaPrincial(estado,transportadora) {
+  let formData = new FormData();
+  formData.append("estado", estado);
+  formData.append("transportadora", transportadora);
+  $.ajax({
+    url: SERVERURL + "Wallet/obtenerTotalGuiasAuditoria",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    success: function (response) {},
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+}
+
 $(document).ready(function () {
   var filtro_facturas_principal = $(this).data("filter"); // Actualizar variable con el filtro seleccionado
-    var id_transportadora_principal = $("#transporte").val();
+  var id_transportadora_principal = $("#transporte").val();
   datos_auditoriaPrincial(filtro_facturas_principal, id_transportadora_principal);
 
   $(".filter-btn").on("click", function () {
@@ -22,23 +38,6 @@ $(document).ready(function () {
     datos_auditoriaPrincial(filtro_facturas, id_transportadora);
   });
 });
-
-function datos_auditoriaPrincial(estado,transportadora) {
-  let formData = new FormData();
-  formData.append("estado", estado);
-  formData.append("transportadora", transportadora);
-  $.ajax({
-    url: SERVERURL + "Wallet/obtenerTotalGuiasAuditoria",
-    type: "POST",
-    data: formData,
-    processData: false, // No procesar los datos
-    contentType: false, // No establecer ningún tipo de contenido
-    success: function (response) {},
-    error: function (jqXHR, textStatus, errorThrown) {
-      alert(errorThrown);
-    },
-  });
-}
 
 let dataTableAuditoria;
 let dataTableAuditoriaIsInitialized = false;
