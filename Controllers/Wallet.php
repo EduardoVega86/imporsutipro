@@ -340,6 +340,12 @@ class Wallet extends Controller
         echo json_encode($response);
     }
 
+    public function eliminarSolicitudes_referidos($id)
+    {
+        $response = $this->model->eliminarSolicitudes_referidos($id);
+        echo json_encode($response);
+    }
+
     public function obtenerGuiasAuditoria()
     {
         //echo $estado;

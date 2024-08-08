@@ -772,6 +772,19 @@ class WalletModel extends Query
         return $response;
     }
 
+    public function eliminarSolicitudes_referidos($id)
+    {
+        $sql = "DELETE FROM solicitudes_pago_referidos WHERE id_solicitud = ?";
+        $response =  $this->delete($sql, array($id));
+        if ($response == 1) {
+            $responses["status"] = 200;
+        } else {
+            $responses["status"] = 400;
+            $responses["message"] = $response["message"];
+        }
+        return $responses;
+    }
+
     public function verificarPago($id_solicitud)
     {
         $sql = "UPDATE solicitudes_pago set visto = 1 WHERE id_solicitud = ?";
