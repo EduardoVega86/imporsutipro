@@ -23,6 +23,7 @@ class WalletModel extends Query
         $response =  $this->select($sql);
         return $response;
     }
+    
 
     public function editar($id_cabecera, $total_venta, $precio_envio, $full, $costo)
     {
