@@ -250,7 +250,7 @@ const listOtrasFormasPago = async () => {
                     <td>${pago.cantidad}</td>
                     <td>
                         <button class="btn btn-sm btn-primary" onclick="Pagar(${pago.id_plataforma})"><i class="fa-solid fa-sack-dollar"></i>Pagar</button>
-                        <button class="btn btn-sm btn-danger" onclick="eliminarSolicitud(${pago.id_solicitud})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
+                        <button class="btn btn-sm btn-danger" onclick="eliminarSolicitud_FormasPago(${pago.id_solicitud})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
                     </td>
                 </tr>`;
     }
@@ -309,6 +309,29 @@ function eliminarSolicitud(id){
         });
 
         initDataTableSolicitudes();
+      }
+    },
+    error: function (error) {
+      console.error("Error al obtener la lista de bodegas:", error);
+    },
+  });
+}
+
+function eliminarSolicitud_FormasPago(id){
+  $.ajax({
+    url: SERVERURL + "wallet/eliminarSolicitudes/"+id,
+    type: "POST",
+    dataType: "json",
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("NO SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+
         initDataTableOtrasFormasPago();
       }
     },
