@@ -790,7 +790,7 @@ class WalletModel extends Query
         } else {
             $where = "";
         }
-        $sql = "SELECT 
+        $sql = "SELECT DISTINCT
     fc.numero_factura,
     fc.numero_guia,
     fc.drogshipin,
@@ -926,7 +926,18 @@ class WalletModel extends Query
     pt.valor,
     pt.comision,
     ccp.monto_recibir,
-    ccp.valor_pendiente
+    ccp.valor_pendiente,
+    (SELECT SUM(monto)
+        FROM historial_billetera hb
+        WHERE hb.motivo LIKE CONCAT('%', fc.numero_guia, '%')
+    ) AS monto_total_historial,
+    CASE 
+        WHEN (SELECT SUM(monto)
+            FROM historial_billetera hb
+            WHERE hb.motivo LIKE CONCAT('%', fc.numero_guia, '%')
+        ) > fc.monto_factura THEN 1
+        ELSE 0
+    END AS comparacion_historial
 FROM 
     facturas_cot fc
 LEFT JOIN 
@@ -945,7 +956,7 @@ WHERE
     fc.estado_guia_sistema IN (9, 7, 500, 501, 502, 400, 401, 402, 403, 13) 
     AND fc.valida_transportadora = $estado $where
 ORDER BY 
-    fc.fecha_factura;";
+    fc.fecha_factura; ";
         //echo $sql;
         $response =  $this->select($sql);
         return $response;
@@ -960,27 +971,7 @@ ORDER BY
         } else {
             $where = "";
         }
-        $sql = "SELECT 
-    SUM(pt.valor) AS suma_valor,
-    SUM(ccp.monto_recibir) AS suma_monto_recibir,
-    SUM(ccp.valor_pendiente) AS suma_valor_pendiente
-FROM 
-    facturas_cot fc
-LEFT JOIN 
-    pagos_transportadora pt ON fc.numero_guia = pt.guia
-LEFT JOIN (
-    SELECT 
-        guia,
-        SUM(monto_recibir) AS monto_recibir,
-        SUM(valor_pendiente) AS valor_pendiente
-    FROM 
-        cabecera_cuenta_pagar
-    GROUP BY 
-        guia
-) ccp ON fc.numero_guia = ccp.guia
-WHERE 
-    fc.estado_guia_sistema IN (9, 7, 500, 501, 502, 400, 401, 402, 403, 13) 
-    AND fc.valida_transportadora = = $estado $where";
+        $sql = "SELECT SUM(pt.valor) AS suma_valor, SUM(ccp.monto_recibir) AS suma_monto_recibir, SUM( (SELECT SUM(monto) FROM historial_billetera hb WHERE hb.motivo LIKE CONCAT('%', fc.numero_guia, '%') ) ) AS suma_valor_pendiente FROM facturas_cot fc LEFT JOIN pagos_transportadora pt ON fc.numero_guia = pt.guia LEFT JOIN ( SELECT guia, SUM(monto_recibir) AS monto_recibir, SUM(valor_pendiente) AS valor_pendiente FROM cabecera_cuenta_pagar GROUP BY guia ) ccp ON fc.numero_guia = ccp.guia WHERE fc.estado_guia_sistema IN (9, 7, 500, 501, 502, 400, 401, 402, 403, 13) AND fc.valida_transportadora = $estado $where";
         //echo $sql;
         $response =  $this->select($sql);
         return $response;
