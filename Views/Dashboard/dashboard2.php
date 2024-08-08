@@ -105,7 +105,7 @@
                 <div class="d-flex flex-row">
                     <div class="stat-box">
                         <div class="icon-container" style="background: linear-gradient(to right, #bdc3c7, #2c3e50);">
-                            <i class="fa-regular fa-ticket"></i>
+                            <i class="fa-solid fa-ticket"></i>
                         </div>
                         <h3>$ <span id="total_ventas"></span></h3>
                         <p>Ticket Promedio</p>
