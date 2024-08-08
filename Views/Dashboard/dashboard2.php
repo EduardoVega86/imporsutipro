@@ -111,7 +111,7 @@
                         <p>Ticket Promedio</p>
                     </div>
                     <div class="stat-box">
-                        <div class="icon-container" style="background: linear-gradient(to right, #bdc3c7, #2c3e50);">
+                        <div class="icon-container" style="background: linear-gradient(to right, #0dcaf0, #1966b4);">
                             <i class="fa-solid fa-truck-front"></i>
                         </div>
                         <h3>$ <span id="total_ventas"></span></h3>
@@ -150,14 +150,14 @@
             <div class="d-flex flex-column" style="width: 33.33% !important;">
                 <div class="d-flex flex-row">
                     <div class="stat-box">
-                        <div class="icon-container" style="background: linear-gradient(to right, #bdc3c7, #2c3e50);">
+                        <div class="icon-container" style="background: linear-gradient(to right, #c61f1f, #611313);">
                             <i class="fa-solid fa-truck-arrow-right"></i>
                         </div>
                         <h3>$ <span id="total_ventas"></span></h3>
                         <p>Devolucion Promedio</p>
                     </div>
                     <div class="stat-box">
-                        <div class="icon-container" style="background: linear-gradient(to right, #bdc3c7, #2c3e50);">
+                        <div class="icon-container" style="background: linear-gradient(to right, #0ccf4b, #1d692f);">
                             <i class="fa-solid fa-business-time"></i>
                         </div>
                         <h3> <span id="total_ventas"></span></h3>
