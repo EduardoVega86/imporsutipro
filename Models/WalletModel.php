@@ -7,6 +7,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 class WalletModel extends Query
 {
+    
     public function obtenerTiendas()
     {
         $id_matriz = $this->obtenerMatriz();
