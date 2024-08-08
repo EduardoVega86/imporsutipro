@@ -4,7 +4,6 @@ require_once 'PHPMailer/SMTP.php';
 require_once 'PHPMailer/Exception.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
-
 class WalletModel extends Query
 {
 
