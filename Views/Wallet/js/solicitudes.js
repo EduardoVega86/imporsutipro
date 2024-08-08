@@ -143,7 +143,7 @@ const dataTableOtrasFormasPagoOptions = {
     { className: "centered", targets: [1, 2, 3, 4, 5] },
     { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
   ],
-  order: [[0, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
+  order: [[0, "asc"]], // Ordenar por la columna de checkboxes
   pageLength: 5,
   destroy: true,
   dom: '<"d-flex w-full justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
