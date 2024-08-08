@@ -138,10 +138,19 @@ function Pagar(id_plataforma) {
 let dataTableOtrasFormasPago;
 let dataTableOtrasFormasPagoIsInitialized = false;
 
+$.fn.dataTable.ext.order["dom-checkbox"] = function (settings, col) {
+  return this.api()
+    .column(col, { order: "index" })
+    .nodes()
+    .map(function (td, i) {
+      return $('input[type="checkbox"]', td).prop("checked") ? 1 : 0;
+    });
+};
+
 const dataTableOtrasFormasPagoOptions = {
   columnDefs: [
     { className: "centered", targets: [1, 2, 3, 4, 5] },
-    { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
+    { orderable: true, targets: 0, orderDataType: 'dom-checkbox' }, // Aplicar ordenación personalizada
   ],
   order: [[0, "asc"]], // Ordenar por la columna de checkboxes
   pageLength: 5,
