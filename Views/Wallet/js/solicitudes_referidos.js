@@ -296,6 +296,7 @@ function eliminarSolicitud(id) {
         });
 
         initDataTableSolicitudes();
+        
       }
     },
     error: function (error) {
