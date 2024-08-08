@@ -22,6 +22,15 @@ const dataTableProductosOptions = {
   responsive: true,
   autoWidth: true,
   bAutoWidth: true,
+  processing: true, // Muestra un indicador de procesamiento mientras se cargan los datos
+  serverSide: true, // Habilita la carga de datos en el servidor
+  ajax: {
+    url: SERVERURL + "productos/obtener_productos",
+    type: "POST",
+    dataSrc: function (json) {
+      return json.data;
+    },
+  },
   dom: '<"d-flex w-full justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
   buttons: [
     {
@@ -84,7 +93,6 @@ const initDataTableProductos = async () => {
   if (dataTableProductosIsInitialized) {
     dataTableProductos.destroy();
   }
-  await listProductos();
   dataTableProductos = $("#datatable_productos").DataTable(
     dataTableProductosOptions
   );

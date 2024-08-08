@@ -8,18 +8,60 @@ class ProductosModel extends Query
 
     ///productos
 
-    public function obtener_productos($plataforma)
+    public function obtener_productos($plataforma, $start = 0, $length = 25)
     {
         $sql = "SELECT ib.*, p.*
-FROM `inventario_bodegas` AS ib
-INNER JOIN `productos` AS p ON p.`id_producto` = ib.`id_producto`
-WHERE ib.`id_plataforma` = $plataforma
-GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
+                FROM `inventario_bodegas` AS ib
+                INNER JOIN `productos` AS p ON p.`id_producto` = ib.`id_producto`
+                WHERE ib.`id_plataforma` = $plataforma
+                GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`
+                LIMIT $start, $length";
 
         return $this->select($sql);
     }
-    
-      public function obtener_productos_privados($plataforma)
+
+    public function contar_productos($plataforma)
+    {
+        $sql = "SELECT COUNT(*) as total
+                FROM `inventario_bodegas` AS ib
+                INNER JOIN `productos` AS p ON p.`id_producto` = ib.`id_producto`
+                WHERE ib.`id_plataforma` = $plataforma";
+
+        $result = $this->select($sql);
+        return $result[0]['total'];
+    }
+
+    public function obtener_productos_filtrados($plataforma, $start = 0, $length = 25, $searchValue)
+    {
+        $searchValue = "%$searchValue%";
+        $sql = "SELECT ib.*, p.*
+                FROM `inventario_bodegas` AS ib
+                INNER JOIN `productos` AS p ON p.`id_producto` = ib.`id_producto`
+                WHERE ib.`id_plataforma` = $plataforma
+                AND (p.`codigo_producto` LIKE '$searchValue'
+                    OR p.`nombre_producto` LIKE '$searchValue')
+                GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`
+                LIMIT $start, $length";
+
+        return $this->select($sql);
+    }
+
+    public function contar_productos_filtrados($plataforma, $searchValue)
+    {
+        $searchValue = "%$searchValue%";
+        $sql = "SELECT COUNT(*) as total
+                FROM `inventario_bodegas` AS ib
+                INNER JOIN `productos` AS p ON p.`id_producto` = ib.`id_producto`
+                WHERE ib.`id_plataforma` = $plataforma
+                AND (p.`codigo_producto` LIKE '$searchValue'
+                    OR p.`nombre_producto` LIKE '$searchValue')";
+
+        $result = $this->select($sql);
+        return $result[0]['total'];
+    }
+
+
+    public function obtener_productos_privados($plataforma)
     {
         $sql = "SELECT ib.*, p.*
 FROM `inventario_bodegas` AS ib
@@ -913,22 +955,22 @@ WHERE b.id_plataforma = $plataforma";
             return 1;
         }
     }
-     public function existeLandingTienda2($id)
+    public function existeLandingTienda2($id)
     {
 
         $sql = "SELECT * FROM `productos_tienda` WHERE id_producto_tienda = $id and landing_propia=1";
-       $response =  $this->select($sql);
+        $response =  $this->select($sql);
         if (empty($response)) {
             return 0;
         } else {
             return 1;
         }
     }
-    
+
     public function habilitarPrivado($id, $estado)
     {
 
-       $sql = "UPDATE `productos` SET  `producto_privado` = ? WHERE `id_producto` = ? ";
+        $sql = "UPDATE `productos` SET  `producto_privado` = ? WHERE `id_producto` = ? ";
         $data = [$estado, $id];
         $editar_producto = $this->update($sql, $data);
         //print_r($editar_producto);
@@ -943,13 +985,13 @@ WHERE b.id_plataforma = $plataforma";
         }
         return $response;
     }
-    
-     public function agregarPrivadoPlataforma($id, $plataforma)
+
+    public function agregarPrivadoPlataforma($id, $plataforma)
     {
 
-     $sql = "INSERT INTO producto_privado (id_producto, id_plataforma) VALUES (?, ?)";
-            $data = [$id, $plataforma];
-            $insertar_caracteristica = $this->insert($sql, $data);
+        $sql = "INSERT INTO producto_privado (id_producto, id_plataforma) VALUES (?, ?)";
+        $data = [$id, $plataforma];
+        $insertar_caracteristica = $this->insert($sql, $data);
         //print_r($editar_producto);
         if ($insertar_caracteristica == 1) {
             $response['status'] = 200;
@@ -962,7 +1004,7 @@ WHERE b.id_plataforma = $plataforma";
         }
         return $response;
     }
-    
+
     public function obtener_productosPrivados_tienda($plataforma)
     {
         $sql = "SELECT * FROM `productos` WHERE producto_privado=1 AND id_plataforma=$plataforma;";
