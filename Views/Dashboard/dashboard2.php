@@ -104,7 +104,7 @@
             <div class="d-flex flex-column" style="width: 33.33% !important;">
                 <div class="d-flex flex-row">
                     <div class="stat-box">
-                        <div class="icon-container" style="background: linear-gradient(to right, #bdc3c7, #2c3e50);">
+                        <div class="icon-container" style="background: linear-gradient(to right, #7a00d7, #26113a);">
                             <i class="fa-solid fa-ticket"></i>
                         </div>
                         <h3>$ <span id="total_ventas"></span></h3>
