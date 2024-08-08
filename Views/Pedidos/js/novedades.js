@@ -83,7 +83,10 @@ const listNovedades = async () => {
     let content = ``;
     let transportadora = ``;
     novedades.forEach((novedad, index) => {
-      if (novedad.guia_novedad.includes("IMP") || novedad.guia_novedad.includes("MKP")) {
+      if (
+        novedad.guia_novedad.includes("IMP") ||
+        novedad.guia_novedad.includes("MKP")
+      ) {
         transportadora = "LAAR";
       } else if (novedad.guia_novedad.includes("I")) {
         transportadora = "GINTRACOM";
@@ -92,8 +95,8 @@ const listNovedades = async () => {
       } else {
         transportadora = "SERVIENTREGA";
       }
-
-      content += `
+      if (novedad.terminado == 0) {
+        content += `
                 <tr>
                     <td>${novedad.id_novedad}</td>
                     <td>${novedad.guia_novedad}</td>
@@ -110,6 +113,7 @@ const listNovedades = async () => {
                     <img src="https://new.imporsuitpro.com/public/img/tracking.png" width="40px" id="buscar_traking" alt="buscar_traking">
                   </a></td>
                 </tr>`;
+      }
     });
     document.getElementById("tableBody_novedades").innerHTML = content;
   } catch (ex) {
@@ -128,20 +132,26 @@ function gestionar_novedad(guia_novedad) {
     type: "GET",
     dataType: "json",
     success: function (response) {
-      if (response.novedad[0].guia_novedad.includes("IMP") || response.novedad[0].guia_novedad.includes("MKP")) {
+      if (
+        response.novedad[0].guia_novedad.includes("IMP") ||
+        response.novedad[0].guia_novedad.includes("MKP")
+      ) {
         transportadora = "LAAR";
         $("#seccion_laar").show();
         $("#seccion_servientrega").hide();
         $("#seccion_gintracom").hide();
 
         $("#nombre_novedadesServi").val(response.factura[0].nombre);
-        $("#callePrincipal_novedadesServi").val(response.factura[0].c_principal);
-        $("#calleSecundaria_novedadesServi").val(response.factura[0].c_secundaria);
-        
+        $("#callePrincipal_novedadesServi").val(
+          response.factura[0].c_principal
+        );
+        $("#calleSecundaria_novedadesServi").val(
+          response.factura[0].c_secundaria
+        );
+
         $("#referencia_novedadesServi").val(response.factura[0].referencia);
         $("#telefono_novedadesServi").val(response.factura[0].telefono);
         $("#celular_novedadesServi").val(response.factura[0].telefono);
-        
       } else if (response.novedad[0].guia_novedad.includes("I")) {
         transportadora = "GINTRACOM";
         $("#seccion_laar").hide();
@@ -182,10 +192,10 @@ $(document).ready(function () {
     if (tipo == "recaudo") {
       $("#valor_recaudoGintra").show();
       $("#fecha_gintra").show();
-    } else if (tipo == "rechazar"){
+    } else if (tipo == "rechazar") {
       $("#valor_recaudoGintra").hide();
       $("#fecha_gintra").hide();
-    }else{
+    } else {
       $("#valor_recaudoGintra").hide();
       $("#fecha_gintra").show();
     }
@@ -199,7 +209,7 @@ function enviar_gintraNovedad() {
   var tipo = $("#tipo_gintracom").val();
   var recaudo = "";
   var fecha = "";
-  
+
   if (tipo == "recaudo") {
     recaudo = $("#Valor_recaudar").val();
   }
@@ -370,7 +380,9 @@ const initDataTableNovedadesGestionadas = async () => {
 
   await listNovedadesGestionadas();
 
-  dataTableNovedadesGestionadas = $("#datatable_novedades_gestionadas").DataTable(dataTableNovedadesGestionadasOptions);
+  dataTableNovedadesGestionadas = $(
+    "#datatable_novedades_gestionadas"
+  ).DataTable(dataTableNovedadesGestionadasOptions);
 
   dataTableNovedadesGestionadasIsInitialized = true;
 };
@@ -383,7 +395,6 @@ const listNovedadesGestionadas = async () => {
     let content = ``;
 
     novedadesGestionadas.forEach((novedad, index) => {
-
       content += `
                 <tr>
                     <td>${novedad.guia}</td>
@@ -392,7 +403,8 @@ const listNovedadesGestionadas = async () => {
                     <td>${novedad.nombre_responsable}</td>
                 </tr>`;
     });
-    document.getElementById("tableBody_novedades_gestionadas").innerHTML = content;
+    document.getElementById("tableBody_novedades_gestionadas").innerHTML =
+      content;
   } catch (ex) {
     alert(ex);
   }
