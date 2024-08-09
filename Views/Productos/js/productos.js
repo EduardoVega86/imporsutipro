@@ -99,6 +99,7 @@ const listProductos = async () => {
   try {
     const response = await fetch(SERVERURL + "productos/obtener_productos");
     const productos = await response.json();
+    console.log(productos);
     let content = ``;
 
     const infoTiendaResponse = await $.ajax({
