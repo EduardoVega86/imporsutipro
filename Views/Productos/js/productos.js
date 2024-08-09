@@ -116,7 +116,7 @@ const listProductos = async () => {
       validador_bodega();
     }
 
-    productos.forEach((producto) => {
+    productos.data.forEach((producto) => {
       const enlace_imagen = obtenerURLImagen(producto.image_path, SERVERURL);
       let cargar_imagen = producto.image_path
         ? `<img src="${enlace_imagen}" class="icon-button" onclick="agregar_imagenProducto(${producto.id_producto},'${enlace_imagen}')" alt="Agregar imagen" width="50px">`
