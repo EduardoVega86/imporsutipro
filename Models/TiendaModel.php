@@ -68,8 +68,13 @@ class TiendaModel extends Query
 
     public function agregarDominio($dominio, $subdominio)
     {
-        $sql = "UPDATE plataformas SET dominio = ? WHERE url_imporsuit LIKE ?";
-        $data = [$dominio, '%' . $subdominio . '%'];
+        $sql = "SELECT * FROM plataformas WHERE url_imporsuit LIKE '%$subdominio%'";
+        $plataforma = $this->select($sql);
+        $plataforma = $plataforma[0]['id_plataforma'];
+
+
+        $sql = "UPDATE plataformas SET dominio = ? WHERE  id_plataforma = ?";
+        $data = [$dominio, $plataforma];
         $this->simple_select($sql, $data);
     }
 
