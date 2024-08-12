@@ -233,11 +233,11 @@ function enviar_gintraNovedad() {
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
       response = JSON.parse(response);
-      if (response.error === false) {
+      if (response.error === true) {
         toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
-      } else if (response.error === true) {
+      } else if (response.error === false) {
         toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
