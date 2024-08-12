@@ -309,7 +309,7 @@ function enviar_laarNovedad() {
   formData.append("guia", guia);
   formData.append("observacionA", observacionA);
   formData.append("id_novedad", id_novedad);
-  formData.append("ciudad", ciudad_novedadesServi);
+  formData.append("ciudad", ciudad);
   formData.append("nombre", nombre_novedadesServi);
   formData.append("callePrincipal", callePrincipal_novedadesServi);
   formData.append("calleSecundaria", calleSecundaria_novedadesServi);
