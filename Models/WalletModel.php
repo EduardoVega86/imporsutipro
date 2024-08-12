@@ -1164,4 +1164,42 @@ ORDER BY
         }
         return $responses;
     }
+
+    public function guiasAhistorial($numero_guia)
+    {
+        $sql = "SELECT * FROM facturas_cot WHERE numero_guia = '$numero_guia'";
+        $response =  $this->select($sql);
+        $id_plataforma = $response[0]['id_plataforma'];
+        $id_proveedor = $response[0]['id_propietario'];
+        if ($id_proveedor == $id_plataforma) {
+            $id_proveedor = NULL;
+            $url_proveedor = NULL;
+            $this->procesarHistorial($id_plataforma, $numero_guia);
+            $this->procesarHistorial($id_proveedor, $numero_guia);
+        } else {
+            $this->procesarHistorial($id_plataforma, $numero_guia);
+        }
+    }
+
+    public function procesarHistorial($id_plataforma, $numero_guia)
+    {
+
+        $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE guia = '$numero_guia' AND id_plataforma = '$id_plataforma'";
+        $response =  $this->select($sql);
+        $monto_recibir = $response[0]['monto_recibir'];
+
+        $sql = "SELECT * FROM billeteras WHERE id_plataforma = '$id_plataforma'";
+        $response =  $this->select($sql);
+        $id_billetera = $response[0]['id_billetera'];
+
+        $id_responsable = 2314;
+
+        $tipo = $monto_recibir > 0 ? 'ENTRADA' : 'SALIDA';
+        $motivo = $monto_recibir > 0 ? 'Se acredito a la billetera la guia: ' . $numero_guia : 'Se desconto de la billetera la guia: ' . $numero_guia;
+
+        $sql = "INSERT INTO historial_billetera (`id_billetera`, `id_responsable`, `tipo`, `monto`, `motivo`) VALUES (?, ?, ?, ?, ?)";
+        $response =  $this->insert($sql, array($id_billetera, $id_responsable, $tipo, $monto_recibir, $motivo));
+
+        print_r($response);
+    }
 }
