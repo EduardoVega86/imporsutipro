@@ -138,6 +138,10 @@ const listAuditoria = async (estado, id_transporte) => {
     
     let total_valor_flete = 0;
     let total_costo_flete = 0;
+    let valor_costo_flete=0;
+    
+    let valor_cod_flete=0;
+    
 
     auditoria.forEach((item, index) => {
       let transporte = item.id_transporte;
@@ -154,10 +158,23 @@ if (!isNaN(utilidad)) {
 }
 
 let costo_flete = parseFloat(item.costo_flete);
+
+
 if (!isNaN(costo_flete)) {
     total_costo_flete += costo_flete;
 } else {
     console.warn("Valor de utilidad no es un número: ", item.total_costo_flete);
+}
+
+
+let valor_cod = parseFloat(item.valor_cod);
+
+
+let costo = parseFloat(item.costo);
+if (!isNaN(costo)) {
+    valor_costo_flete += costo;
+} else {
+    console.warn("Valor de utilidad no es un número: ", item.valor_costo_flete);
 }
 
       if (transporte == 2) {
@@ -260,13 +277,18 @@ let totalConDosDecimales = total.toFixed(2);
 // Formatear el total con dos decimales
 let valorfletes = total_costo_flete.toFixed(2);
 
+let valor_costo_flete2 = valor_costo_flete.toFixed(2);
+
 
 // Asignar el valor al span en el DOM
-$("#total_utilidad").text(totalConDosDecimales);
+$("#total_utilidad").text(valor_costo_flete2);
 
-    console.log("total: " + totalConDosDecimales);
+    console.log("total: " + valor_costo_flete2);
      $("#total_utilidad").text(totalConDosDecimales);
-      $("valor_fletes").text(valorfletes);
+      $("#valor_fletes").text(valorfletes);
+      
+       $("#costo_flete").text(valor_costo_flete2);
+      
 
     document.getElementById("tableBody_auditoria").innerHTML = content;
 
