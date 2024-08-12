@@ -1133,8 +1133,8 @@ ORDER BY
             $url_proveedor = NULL;
         } else {
             $sql_select = "SELECT * FROM `plataformas` WHERE id_plataforma = '$id_proveedor'";
-            $response =  $this->select($sql_select);
-            $url_proveedor = $response[0]['url_imporsuit'];
+            $response2 =  $this->select($sql_select);
+            $url_proveedor = $response2[0]['url_imporsuit'];
         }
 
         $cliente = $response[0]['nombre'];
