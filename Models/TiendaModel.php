@@ -59,7 +59,7 @@ class TiendaModel extends Query
             $responses = array(
                 'status' => 500,
                 'title' => 'Error',
-                'message' => 'Error al añadir el dominio: ' . json_encode($response)
+                'message' => 'Error al añadir el dominio: ' . $response['cpanelresult']['data'][0]['reason']
             );
         }
         return $responses;
