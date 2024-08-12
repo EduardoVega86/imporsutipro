@@ -232,12 +232,12 @@ function enviar_gintraNovedad() {
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
-      response = JSON.parse(response);
-      if (response.status == 500) {
+
+      if (response.error === false) {
         toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
-      } else if (response.status == 200) {
+      } else if (response.error === true) {
         toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
@@ -326,42 +326,22 @@ function enviar_laarNovedad() {
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
-      console.log("respuesta: ", response);
-
-      // La respuesta ya es un objeto JSON, así que no necesitas parsearlo.
-      if (response.error === true) {
-        toastr.error(
-          response.message || "Novedad no enviada CORRECTAMENTE",
-          "NOTIFICACIÓN",
-          {
-            positionClass: "toast-bottom-center",
-          }
-        );
-      } else if (response.error === false) {
-        toastr.success(
-          response.message || "Novedad enviada CORRECTAMENTE",
-          "NOTIFICACIÓN",
-          {
-            positionClass: "toast-bottom-center",
-          }
-        );
+      response = JSON.parse(response);
+      if (response.status == 500) {
+        toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
 
         $("#gestionar_novedadModal").modal("hide");
         initDataTableNovedades();
-      } else {
-        toastr.error("Respuesta inesperada del servidor", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
-      toastr.error(
-        "Error en la comunicación con el servidor: " + textStatus,
-        "NOTIFICACIÓN",
-        {
-          positionClass: "toast-bottom-center",
-        }
-      );
+      alert(errorThrown);
     },
   });
 }
