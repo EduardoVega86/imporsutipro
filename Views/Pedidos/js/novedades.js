@@ -204,6 +204,9 @@ $(document).ready(function () {
 });
 
 function enviar_gintraNovedad() {
+  var button = document.getElementById("boton_gintra");
+  button.disabled = true; // Desactivar el botón
+
   var guia = $("#numero_guia").val();
   var observacion = $("#Solucion_novedad").val();
   var id_novedad = $("#id_novedad").val();
@@ -235,15 +238,16 @@ function enviar_gintraNovedad() {
     success: function (response) {
       response = JSON.parse(response);
       if (response.error === true) {
-        toastr.error(""+response.message, "NOTIFICACIÓN", {
+        toastr.error("" + response.message, "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
       } else if (response.error === false) {
-        toastr.success(""+response.message, "NOTIFICACIÓN", {
+        toastr.success("" + response.message, "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
 
         $("#gestionar_novedadModal").modal("hide");
+        button.disabled = false;
         initDataTableNovedades();
       }
     },
@@ -254,6 +258,9 @@ function enviar_gintraNovedad() {
 }
 
 function enviar_serviNovedad() {
+  var button = document.getElementById("boton_servi");
+  button.disabled = true; // Desactivar el botón
+
   var guia = $("#numero_guia").val();
   var observacion = $("#observacion_nov").val();
   var id_novedad = $("#id_novedad").val();
@@ -281,6 +288,7 @@ function enviar_serviNovedad() {
         });
 
         $("#gestionar_novedadModal").modal("hide");
+        button.disabled = false;
         initDataTableNovedades();
       }
     },
@@ -291,6 +299,9 @@ function enviar_serviNovedad() {
 }
 
 function enviar_laarNovedad() {
+  var button = document.getElementById("boton_laar");
+  button.disabled = true; // Desactivar el botón
+
   var guia = $("#numero_guia").val();
   var id_novedad = $("#id_novedad").val();
   var ciudad = $("#ciudad_novedadesServi").val();
@@ -338,6 +349,7 @@ function enviar_laarNovedad() {
         });
 
         $("#gestionar_novedadModal").modal("hide");
+        button.disabled = false;
         initDataTableNovedades();
       }
     },
