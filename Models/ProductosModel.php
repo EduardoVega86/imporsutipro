@@ -8,58 +8,16 @@ class ProductosModel extends Query
 
     ///productos
 
-    public function obtener_productos($plataforma, $start = 0, $length = 25)
+    public function obtener_productos($plataforma)
     {
         $sql = "SELECT ib.*, p.*
-                FROM `inventario_bodegas` AS ib
-                INNER JOIN `productos` AS p ON p.`id_producto` = ib.`id_producto`
-                WHERE ib.`id_plataforma` = $plataforma
-                GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`
-                LIMIT $start, $length";
+FROM `inventario_bodegas` AS ib
+INNER JOIN `productos` AS p ON p.`id_producto` = ib.`id_producto`
+WHERE ib.`id_plataforma` = $plataforma
+GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
 
         return $this->select($sql);
     }
-
-    public function contar_productos($plataforma)
-    {
-        $sql = "SELECT COUNT(*) as total
-                FROM `inventario_bodegas` AS ib
-                INNER JOIN `productos` AS p ON p.`id_producto` = ib.`id_producto`
-                WHERE ib.`id_plataforma` = $plataforma";
-
-        $result = $this->select($sql);
-        return $result[0]['total'];
-    }
-
-    public function obtener_productos_filtrados($plataforma, $start = 0, $length = 25, $searchValue)
-    {
-        $searchValue = "%$searchValue%";
-        $sql = "SELECT ib.*, p.*
-                FROM `inventario_bodegas` AS ib
-                INNER JOIN `productos` AS p ON p.`id_producto` = ib.`id_producto`
-                WHERE ib.`id_plataforma` = $plataforma
-                AND (p.`codigo_producto` LIKE '$searchValue'
-                    OR p.`nombre_producto` LIKE '$searchValue')
-                GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`
-                LIMIT $start, $length";
-
-        return $this->select($sql);
-    }
-
-    public function contar_productos_filtrados($plataforma, $searchValue)
-    {
-        $searchValue = "%$searchValue%";
-        $sql = "SELECT COUNT(*) as total
-                FROM `inventario_bodegas` AS ib
-                INNER JOIN `productos` AS p ON p.`id_producto` = ib.`id_producto`
-                WHERE ib.`id_plataforma` = $plataforma
-                AND (p.`codigo_producto` LIKE '$searchValue'
-                    OR p.`nombre_producto` LIKE '$searchValue')";
-
-        $result = $this->select($sql);
-        return $result[0]['total'];
-    }
-
 
     public function obtener_productos_privados($plataforma)
     {

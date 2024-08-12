@@ -706,5 +706,4 @@ class Productos extends Controller
         $response = $this->model->eliminarPrivadoPlataforma($id);
         echo json_encode($response);
     }
-    
 }
