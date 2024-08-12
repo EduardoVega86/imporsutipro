@@ -234,7 +234,7 @@ function enviar_gintraNovedad() {
     success: function (response) {
       response = JSON.parse(response);
       if (response.error === true) {
-        toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
+        toastr.error(""+response.message, "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
       } else if (response.error === false) {
