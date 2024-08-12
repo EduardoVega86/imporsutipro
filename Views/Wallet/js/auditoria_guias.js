@@ -192,6 +192,12 @@ const listAuditoria = async (estado, id_transporte) => {
         url_tracking = `https://www.servientrega.com.ec/Tracking/?guia=${item.numero_guia}&tipo=GUIA`;
         url_descargar = `https://guias.imporsuitpro.com/Servientrega/guia/${item.numero_guia}`;
       }
+      var background='';
+      if (item.monto_recibir != item.monto_total_historial){
+         background=  'style="background-color: #E3BC1C;';
+      }
+     
+      
 
       content += `
               <tr>
