@@ -172,11 +172,12 @@ function cargarInfoTienda_inicial() {
 }
 
 function quitarHTTPS(url) {
-  // Si la URL empieza con 'https://', se elimina
-  if (url.startsWith("https://")) {
-    return url.slice(8); // Eliminar los primeros 8 caracteres (https://)
+  // Verifica si la URL es null o vacía
+  if (!url) {
+    return ""; // Retorna una cadena vacía si la URL es null o vacía
   }
-  return url;
+
+  return url.replace("https://", ""); // Reemplaza 'https://' por una cadena vacía
 }
 
 function verificarNombreTienda(nombreTienda) {
