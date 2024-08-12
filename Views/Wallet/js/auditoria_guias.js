@@ -203,19 +203,19 @@ const listAuditoria = async (estado, id_transporte) => {
 
       content += `
               <tr>
-                  <td>${item.numero_factura}</td>
-                  <td>${item.numero_guia}</td>
-          <td><span class="w-100 text-nowrap ${span_estado}">${estado_guia}</span></td>
-          <td>${item.drogshipin}</td>
-           <td>${transporte_content}</td>
+                  <td ${background} >${item.numero_factura}</td>
+                  <td ${background} >${item.numero_guia}</td>
+          <td ${background}><span class="w-100 text-nowrap ${span_estado}">${estado_guia}</span></td>
+          <td${background} >${item.drogshipin}</td>
+           <td ${background}>${transporte_content}</td>
                   <td>${codBtn}</td>
                   <td>${item.monto_factura}</td>
                   <td>${item.costo_flete}</td>
                   <td>${item.precio}</td>
                   <td>${item.costo}</td>
                  <td>${item.valor_cod}</td>
-           <td>${item.utilidad}</td>
-           <td>
+           <td ${background}>${item.utilidad}</td>
+           <td ${background}>
            <div class="dropdown">
                     <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class='bx bxs-truck' ></i>
@@ -227,11 +227,11 @@ const listAuditoria = async (estado, id_transporte) => {
                     </div>
                     </td>
            </td>
-            <td>${item.monto_recibir}</td>
+            <td ${background}>${item.monto_recibir}</td>
             <td ${background}>${item.monto_total_historial}</td>
-          <td>${item.valor}</td>
-           <td>${item.comision}</td>
-                  <td><input type="checkbox" class="selectCheckbox" data-id="${item.numero_guia}" ${check}></td>
+          <td ${background}>${item.valor}</td>
+           <td ${background}>${item.comision}</td>
+                  <td ${background}><input type="checkbox" class="selectCheckbox" data-id="${item.numero_guia}" ${check}></td>
               </tr>`;
     });
 
