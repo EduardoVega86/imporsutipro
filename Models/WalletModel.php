@@ -818,6 +818,7 @@ class WalletModel extends Query
             $where = " and id_transporte=$transportadora";
         } else {
             $where = "";
+            
         }
         $sql = "SELECT DISTINCT
     fc.numero_factura,
