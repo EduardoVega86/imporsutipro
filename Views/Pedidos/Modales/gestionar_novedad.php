@@ -90,7 +90,7 @@
                             <label for="observacion_nov">Observacion:</label>
                             <input type="text" class="form-control" id="observacion_nov">
                         </div>
-                        <button type="button" class="btn btn-primary" onclick="enviar_serviNovedad()">Enviar</button>
+                        <button type="button" class="btn btn-primary" id="boton_servi" onclick="enviar_serviNovedad()">Enviar</button>
                     </div>
 
                     <div id="seccion_laar" style="display: none;">
@@ -126,7 +126,7 @@
                             <input type="text" class="form-control" id="observacionA">
 
                         </div>
-                        <button type="button" class="btn btn-primary" onclick="enviar_laarNovedad()">Enviar</button>
+                        <button type="button" class="btn btn-primary" id="boton_laar" onclick="enviar_laarNovedad()">Enviar</button>
                     </div>
 
                     <div id="seccion_gintracom" style="display: none;">
@@ -154,7 +154,7 @@
                             <label for="Valor_recaudar">Valor a recaudar:</label>
                             <input type="text" class="form-control" id="Valor_recaudar">
                         </div>
-                        <button type="button" class="btn btn-primary" onclick="enviar_gintraNovedad()">Enviar</button>
+                        <button type="button" class="btn btn-primary" id="boton_gintra" onclick="enviar_gintraNovedad()">Enviar</button>
                     </div>
                 </div>
             </div>

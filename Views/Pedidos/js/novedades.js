@@ -241,6 +241,9 @@ function enviar_gintraNovedad() {
         toastr.error("" + response.message, "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
+
+        button.disabled = false;
+
       } else if (response.error === false) {
         toastr.success("" + response.message, "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
@@ -253,6 +256,7 @@ function enviar_gintraNovedad() {
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
+      button.disabled = false;
     },
   });
 }
@@ -282,6 +286,9 @@ function enviar_serviNovedad() {
         toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
+
+        button.disabled = false;
+
       } else if (response.status == 200) {
         toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
@@ -294,6 +301,7 @@ function enviar_serviNovedad() {
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
+      button.disabled = false;
     },
   });
 }
@@ -343,6 +351,9 @@ function enviar_laarNovedad() {
         toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
+
+        button.disabled = false;
+
       } else if (response.status == 200) {
         toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
@@ -355,6 +366,7 @@ function enviar_laarNovedad() {
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
+      button.disabled = false;
     },
   });
 }
