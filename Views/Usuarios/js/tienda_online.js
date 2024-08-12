@@ -159,9 +159,9 @@ function cargarInfoTienda_inicial() {
       // Mover la lógica de verificación aquí
       verificarNombreTienda(response[0].nombre_tienda);
 
-      if (response[0].tienda_creada == 1){
+      if (response[0].tienda_creada == 1) {
         $("#seccion_creacionTienda").hide();
-      }else if (response[0].tienda_creada == 0){
+      } else if (response[0].tienda_creada == 0) {
         $("#seccion_creacionTienda").show();
       }
     },
@@ -171,12 +171,12 @@ function cargarInfoTienda_inicial() {
   });
 }
 
-function quitarHTTPS($url) {
+function quitarHTTPS(url) {
   // Si la URL empieza con 'https://', se elimina
-  if (strpos($url, 'https://') === 0) {
-      return substr($url, 8); // Eliminar los primeros 8 caracteres (https://)
+  if (url.startsWith("https://")) {
+    return url.slice(8); // Eliminar los primeros 8 caracteres (https://)
   }
-  return $url;
+  return url;
 }
 
 function verificarNombreTienda(nombreTienda) {
@@ -1038,6 +1038,6 @@ function eliminar_horizontal(id) {
 }
 /* Fin tabla horizontal */
 
-function abrir_agregar_dominio(){
+function abrir_agregar_dominio() {
   $("#agregar_dominioModal").modal("show");
 }
