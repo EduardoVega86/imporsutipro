@@ -246,7 +246,7 @@ if (!isNaN(utilidad)) {
     });
 
     console.log("total: " + total);
-    $("total_utilidad").text(total);
+     $("#total_utilidad").text(total);
 
     document.getElementById("tableBody_auditoria").innerHTML = content;
 
