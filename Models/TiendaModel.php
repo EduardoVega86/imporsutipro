@@ -46,12 +46,16 @@ class TiendaModel extends Query
         $apiUrlDominio = $cpanelUrl . 'json-api/cpanel?cpanel_jsonapi_apiversion=2&cpanel_jsonapi_module=AddonDomain&cpanel_jsonapi_func=addaddondomain&newdomain=' . $dominio . '&dir=' . $directorio . '&subdomain=' . $subdominio;
 
         // Ejecutar solicitud para agregar el dominio
-        $est = $this->cpanelRequest($apiUrlDominio, $cpanelUsername, $cpanelPassword);
+        $response = $this->cpanelRequest($apiUrlDominio, $cpanelUsername, $cpanelPassword);
 
-        return $est;
-        // Configurar los archivos en la carpeta del dominio
-        //$this->configurarArchivosDominio($dominio, $nombre);
+        // Analizar la respuesta y devolver true o false
+        if (isset($response['cpanelresult']['data'][0]['result']) && $response['cpanelresult']['data'][0]['result'] == 1) {
+            return true;
+        } else {
+            return false;
+        }
     }
+
 
     public function cpanelRequest($url, $username, $password, $postFields = null)
     {
