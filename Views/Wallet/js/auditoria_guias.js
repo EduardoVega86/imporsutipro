@@ -166,6 +166,8 @@ const listAuditoria = async (estado, id_transporte) => {
 
       var span_estado = estado.span_estado;
       var estado_guia = estado.estado_guia;
+      
+      var background = 'style="background-color: #E3BC1C;';
 
       const codBtn = item.cod
         ? `<button class="btn-cod-si">SI</button>`
@@ -192,7 +194,7 @@ const listAuditoria = async (estado, id_transporte) => {
       }
 
       content += `
-              <tr>
+              <tr ${background}>
                   <td>${item.numero_factura}</td>
                   <td>${item.numero_guia}</td>
           <td><span class="w-100 text-nowrap ${span_estado}">${estado_guia}</span></td>
