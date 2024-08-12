@@ -151,7 +151,10 @@ function cargarInfoTienda_inicial() {
       $("#facebook").val(response[0].facebook);
 
       $("#dominio").val(response[0].dominio);
-      $("#subdominio").val(response[0].url_imporsuit);
+
+      var subdominio = quitarHTTPS(response[0].url_imporsuit);
+
+      $("#subdominio").val(subdominio);
 
       // Mover la lógica de verificación aquí
       verificarNombreTienda(response[0].nombre_tienda);
@@ -166,6 +169,14 @@ function cargarInfoTienda_inicial() {
       console.error("Error al obtener la lista de bodegas:", error);
     },
   });
+}
+
+function quitarHTTPS($url) {
+  // Si la URL empieza con 'https://', se elimina
+  if (strpos($url, 'https://') === 0) {
+      return substr($url, 8); // Eliminar los primeros 8 caracteres (https://)
+  }
+  return $url;
 }
 
 function verificarNombreTienda(nombreTienda) {
