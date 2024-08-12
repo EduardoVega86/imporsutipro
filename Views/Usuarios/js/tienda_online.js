@@ -156,6 +156,14 @@ function cargarInfoTienda_inicial() {
 
       $("#subdominio").val(subdominio);
 
+      if (response[0].plantilla == 1) {
+        $("#colores_plantilla1").show();
+        $("#colores_plantilla2").hide();
+      } else if (response[0].plantilla == 2){
+        $("#colores_plantilla2").show();
+        $("#colores_plantilla1").hide();
+      }
+
       // Mover la lógica de verificación aquí
       verificarNombreTienda(response[0].nombre_tienda);
 
