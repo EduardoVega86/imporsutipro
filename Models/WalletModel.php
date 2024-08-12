@@ -1175,8 +1175,8 @@ ORDER BY
             $id_proveedor = NULL;
             $url_proveedor = NULL;
             $this->procesarHistorial($id_plataforma, $numero_guia);
-            $this->procesarHistorial($id_proveedor, $numero_guia);
         } else {
+            $this->procesarHistorial($id_proveedor, $numero_guia);
             $this->procesarHistorial($id_plataforma, $numero_guia);
         }
     }
