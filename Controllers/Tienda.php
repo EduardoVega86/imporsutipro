@@ -181,6 +181,7 @@ class Tienda extends Controller
         $subdominio = $_POST['subdominio'];
 
         $response = $this->model->agregarDominioConSubdominioExistente($dominio, $subdominio);
+        echo $response;
     }
 
     public function obtenerDatosTienda()

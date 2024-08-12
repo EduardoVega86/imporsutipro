@@ -71,6 +71,7 @@ class TiendaModel extends Query
             $responseData = json_decode($response, true);
         }
         curl_close($ch);
+        return $responseData;
     }
 
     function addAddonDomain($domain, $directory)
@@ -329,14 +330,49 @@ class TiendaModel extends Query
         )";
 
         $data = array(
-            $nueva_factura, $date_added, $precio_producto, 1,
-            $nombre, $telefono, $calle_principal, $ciudad, $calle_secundaria,
-            $referencia, $observacion, 0, 0, 0, $telefono,
-            $producto_plataforma, $drop, $id_plataforma,  0,
-            'tienda_online', 0, 0, 0, 0,
-            0, '',  $nombreO, $ciudadO, $provincia,
-            $direccionO, 0,  0, 0, 0, 0,
-            0, '', 0, 0, 0, 0, 0, $bodega
+            $nueva_factura,
+            $date_added,
+            $precio_producto,
+            1,
+            $nombre,
+            $telefono,
+            $calle_principal,
+            $ciudad,
+            $calle_secundaria,
+            $referencia,
+            $observacion,
+            0,
+            0,
+            0,
+            $telefono,
+            $producto_plataforma,
+            $drop,
+            $id_plataforma,
+            0,
+            'tienda_online',
+            0,
+            0,
+            0,
+            0,
+            0,
+            '',
+            $nombreO,
+            $ciudadO,
+            $provincia,
+            $direccionO,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            '',
+            0,
+            0,
+            0,
+            0,
+            0,
+            $bodega
         );
 
         if (substr_count($sql, '?') !== count($data)) {
