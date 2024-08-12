@@ -16,7 +16,7 @@ class NovedadesModel extends Query
 
     public function solventarNovedad($id_novedad)
     {
-        $sql = "UPDATE novedades SET solventada = 1 WHERE id_novedad = $id_novedad";
+        $sql = "UPDATE novedades SET solucionada = 1 WHERE id_novedad = $id_novedad";
         $response = $this->select($sql);
         return $response;
     }
