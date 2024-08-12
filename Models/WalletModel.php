@@ -1154,7 +1154,7 @@ ORDER BY
         $cod = $response[0]["cod"];
         $numero_factura = $response[0]["numero_factura"];
 
-        $sql_insert = "INSERT INTO `cabecera_cuenta_pagar`(`numero_factura`, `id_plataforma`, `id_proveedor`, `cliente`, `fecha`, `tienda`, `proveedor`, `estado_guia`, `total_venta`, `costo`, `precio_envio`, `monto_recibir`, `valor_pendiente`, `id_matriz`, `cod`, `guia`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        $sql_insert = "INSERT INTO `cabecera_cuenta_pagar`(`numero_factura`, `id_plataforma`, `id_proveedor`, `cliente`, `fecha`, `tienda`, `proveedor`, `estado_guia`, `total_venta`, `costo`, `precio_envio`, `monto_recibir`, `valor_pendiente`, `id_matriz`, `cod`, `guia`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
         $response =  $this->insert($sql_insert, array($numero_factura, $id_plataforma, $id_proveedor, $cliente, $fecha_factura, $url_tienda, $url_proveedor, $estado_guia, $total_venta, $costo, $precio_envio, $monto_recibir, $valor_pendiente, $id_matriz, $cod, $numero_guia));
         if ($response == 1) {
