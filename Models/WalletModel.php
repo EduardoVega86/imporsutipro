@@ -1191,8 +1191,12 @@ ORDER BY
 
         $sql = "SELECT * FROM billeteras WHERE id_plataforma = '$id_plataforma'";
         $response =  $this->select($sql);
-        $id_billetera = $response[0]['id_billetera'];
+        $id_billetera = $response[0]['id_billetera'] ?? 0;
 
+        if ($id_billetera == 0) {
+            $this->crearBilletera($id_plataforma);
+            $response =  $this->select($sql);
+        }
         $id_responsable = 2314;
 
         $tipo = $monto_recibir > 0 ? 'ENTRADA' : 'SALIDA';
