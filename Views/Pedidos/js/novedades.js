@@ -238,7 +238,7 @@ function enviar_gintraNovedad() {
           positionClass: "toast-bottom-center",
         });
       } else if (response.error === false) {
-        toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
+        toastr.success(""+response.message, "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
 
