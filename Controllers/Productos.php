@@ -102,30 +102,9 @@ class Productos extends Controller
 
     ///Funciones
 
-    public function obtener_productos() {
-        // Obtener parámetros de paginación de la solicitud
-        $start = isset($_POST['start']) ? intval($_POST['start']) : 0;
-        $length = isset($_POST['length']) ? intval($_POST['length']) : 25;
-        $searchValue = isset($_POST['search']['value']) ? $_POST['search']['value'] : '';
-    
-        $totalRecords = $this->model->contar_productos($_SESSION['id_plataforma']);
-        $filteredRecords = $totalRecords; // Por defecto, igualar a totalRecords
-    
-        if (!empty($searchValue)) {
-            $productos = $this->model->obtener_productos_filtrados($_SESSION['id_plataforma'], $start, $length, $searchValue);
-            $filteredRecords = $this->model->contar_productos_filtrados($_SESSION['id_plataforma'], $searchValue);
-        } else {
-            $productos = $this->model->obtener_productos($_SESSION['id_plataforma'], $start, $length);
-        }
-    
-        // Formato de respuesta para DataTables
-        $response = [
-            "draw" => isset($_POST['draw']) ? intval($_POST['draw']) : 0,
-            "recordsTotal" => $totalRecords,
-            "recordsFiltered" => $filteredRecords,
-            "data" => $productos
-        ];
-    
+    public function obtener_productos()
+    {
+        $response = $this->model->obtener_productos($_SESSION['id_plataforma']);
         echo json_encode($response);
     }
 
