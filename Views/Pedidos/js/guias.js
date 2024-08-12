@@ -405,7 +405,7 @@ function validar_estadoLaar(estado) {
     estado_guia = "En transito";
   } else if (estado == 12) {
     span_estado = "badge_warning";
-    estado_guia = "En transito";
+    estado_guia = "En transitoa";
   } else if (estado == 14) {
     span_estado = "badge_danger";
     estado_guia = "Con novedad";
