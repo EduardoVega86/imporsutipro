@@ -354,7 +354,7 @@ class Wallet extends Controller
         $response = $this->model->obtenerGuiasAuditoria($estado, $transportadora);
         echo json_encode($response);
     }
-    
+
     public function obtenerTotalGuiasAuditoria()
     {
         //echo $estado;
@@ -363,8 +363,8 @@ class Wallet extends Controller
         $response = $this->model->obtenerTotalGuiasAuditoria($estado, $transportadora);
         echo json_encode($response);
     }
-    
-    
+
+
 
     public function habilitarAuditoria()
     {
@@ -469,6 +469,17 @@ class Wallet extends Controller
     {
         $id_solicitud = $_POST['id_solicitud'];
         $response = $this->model->aprobarSolicitud($id_solicitud);
+        echo json_encode($response);
+    }
+
+
+
+    ///debugs
+
+    public function devolucionAwallet()
+    {
+        $numero_guia = $_POST['numero_guia'];
+        $response = $this->model->devolucionAwallet($numero_guia);
         echo json_encode($response);
     }
 }

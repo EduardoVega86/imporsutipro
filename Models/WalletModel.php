@@ -7,8 +7,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 class WalletModel extends Query
 {
-    
-	
+
+
     public function obtenerTiendas()
     {
         $id_matriz = $this->obtenerMatriz();
@@ -24,8 +24,8 @@ class WalletModel extends Query
         $response =  $this->select($sql);
         return $response;
     }
-    
-    
+
+
 
     public function editar($id_cabecera, $total_venta, $precio_envio, $full, $costo)
     {
@@ -818,7 +818,6 @@ class WalletModel extends Query
             $where = " and id_transporte=$transportadora";
         } else {
             $where = "";
-            
         }
         $sql = "SELECT DISTINCT
     fc.numero_factura,
@@ -1114,5 +1113,24 @@ ORDER BY
         $sql = "SELECT * FROM plataformas WHERE id_plataforma = '$id'";
         $response =  $this->select($sql);
         return $response;
+    }
+
+
+
+
+
+    /////////////////////////////// DEBUGS //////////////////////////////////////
+
+    public function devolucionAwallet($numero_guia)
+    {
+        $sql_select = "SELECT * FROM `facturas_cot` WHERE numero_guia = '$numero_guia'";
+        $response =  $this->select($sql_select);
+        $id_plataforma = $response[0]['id_plataforma'];
+        $id_proveedor = $response[0]['id_propietario'];
+        if ($id_proveedor == $id_plataforma) {
+            $id_proveedor = NULL;
+        }
+
+        $cliente        = $response[0]['cliente'];
     }
 }
