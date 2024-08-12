@@ -251,8 +251,8 @@ let totalConDosDecimales = total.toFixed(2);
 // Asignar el valor al span en el DOM
 $("#total_utilidad").text(totalConDosDecimales);
 
-    console.log("total: " + total);
-     $("#total_utilidad").text(total);
+    console.log("total: " + totalConDosDecimales);
+     $("#total_utilidad").text(totalConDosDecimales);
 
     document.getElementById("tableBody_auditoria").innerHTML = content;
 
