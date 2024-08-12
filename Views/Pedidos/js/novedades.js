@@ -232,7 +232,7 @@ function enviar_gintraNovedad() {
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
-
+      response = JSON.parse(response);
       if (response.error === false) {
         toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
