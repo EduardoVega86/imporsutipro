@@ -328,21 +328,8 @@ function enviar_laarNovedad() {
     success: function (response) {
       console.log("respuesta: ", response);
 
-      // Intentar parsear la respuesta si es un string
-      if (typeof response === "string") {
-        try {
-          response = JSON.parse(response);
-        } catch (e) {
-          console.error("Error parsing JSON: ", e);
-          toastr.error("Respuesta inesperada del servidor", "NOTIFICACIÓN", {
-            positionClass: "toast-bottom-center",
-          });
-          return;
-        }
-      }
-
-      // Manejo de la respuesta dependiendo de 'error' o 'status'
-      if (response.error === true || response.status === 500) {
+      // La respuesta ya es un objeto JSON, así que no necesitas parsearlo.
+      if (response.error === true) {
         toastr.error(
           response.message || "Novedad no enviada CORRECTAMENTE",
           "NOTIFICACIÓN",
@@ -350,7 +337,7 @@ function enviar_laarNovedad() {
             positionClass: "toast-bottom-center",
           }
         );
-      } else if (response.error === false || response.status === 200) {
+      } else if (response.error === false) {
         toastr.success(
           response.message || "Novedad enviada CORRECTAMENTE",
           "NOTIFICACIÓN",
