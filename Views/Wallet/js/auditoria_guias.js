@@ -245,6 +245,12 @@ if (!isNaN(utilidad)) {
               </tr>`;
     });
 
+// Formatear el total con dos decimales
+let totalConDosDecimales = total.toFixed(2);
+
+// Asignar el valor al span en el DOM
+$("#total_utilidad").text(totalConDosDecimales);
+
     console.log("total: " + total);
      $("#total_utilidad").text(total);
 
