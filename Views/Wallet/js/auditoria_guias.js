@@ -135,6 +135,9 @@ const listAuditoria = async (estado, id_transporte) => {
     let content = ``;
 
     let total = 0;
+    
+    let total_valor_flete = 0;
+    let total_costo_flete = 0;
 
     auditoria.forEach((item, index) => {
       let transporte = item.id_transporte;
@@ -148,6 +151,13 @@ if (!isNaN(utilidad)) {
     total += utilidad;
 } else {
     console.warn("Valor de utilidad no es un número: ", item.utilidad);
+}
+
+let costo_flete = parseFloat(item.costo_flete);
+if (!isNaN(costo_flete)) {
+    total_costo_flete += costo_flete;
+} else {
+    console.warn("Valor de utilidad no es un número: ", item.total_costo_flete);
 }
 
       if (transporte == 2) {
@@ -247,12 +257,16 @@ if (!isNaN(utilidad)) {
 
 // Formatear el total con dos decimales
 let totalConDosDecimales = total.toFixed(2);
+// Formatear el total con dos decimales
+let valorfletes = total_costo_flete.toFixed(2);
+
 
 // Asignar el valor al span en el DOM
 $("#total_utilidad").text(totalConDosDecimales);
 
     console.log("total: " + totalConDosDecimales);
      $("#total_utilidad").text(totalConDosDecimales);
+      $("valor_fletes").text(valorfletes);
 
     document.getElementById("tableBody_auditoria").innerHTML = content;
 
