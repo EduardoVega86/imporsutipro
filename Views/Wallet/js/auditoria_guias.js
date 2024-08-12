@@ -194,7 +194,7 @@ const listAuditoria = async (estado, id_transporte) => {
       }
       var background='';
       if (item.monto_recibir != item.monto_total_historial){
-         background=  'style="background-color: #E3BC1C;';
+         background=  'style="background-color: red;';
       }else{
          background=  ''; 
       }
@@ -228,7 +228,7 @@ const listAuditoria = async (estado, id_transporte) => {
                     </td>
            </td>
             <td>${item.monto_recibir}</td>
-            <td>${item.monto_total_historial}</td>
+            <td ${background}>${item.monto_total_historial}</td>
           <td>${item.valor}</td>
            <td>${item.comision}</td>
                   <td><input type="checkbox" class="selectCheckbox" data-id="${item.numero_guia}" ${check}></td>
