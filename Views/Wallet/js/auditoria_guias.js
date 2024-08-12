@@ -194,7 +194,7 @@ const listAuditoria = async (estado, id_transporte) => {
       }
       var background='';
       if (item.monto_recibir != item.monto_total_historial){
-         background=  'style="background-color: red;';
+         background=  'style="background-color: red;"';
       }else{
          background=  ''; 
       }
