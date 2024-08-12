@@ -164,7 +164,6 @@ const listAuditoria = async (estado, id_transporte) => {
           '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">Guia no enviada</span>';
       }
 
-let background='style="background-color: #E3BC1C;';
       var span_estado = estado.span_estado;
       var estado_guia = estado.estado_guia;
 
@@ -192,7 +191,6 @@ let background='style="background-color: #E3BC1C;';
         url_descargar = `https://guias.imporsuitpro.com/Servientrega/guia/${item.numero_guia}`;
       }
 
-if (${item.monto_recibir}==${item.monto_total_historial}
       content += `
               <tr>
                   <td>${item.numero_factura}</td>
