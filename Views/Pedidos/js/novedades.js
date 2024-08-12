@@ -316,8 +316,8 @@ function enviar_laarNovedad() {
   formData.append("numeracion", numeracion_novedadesServi);
   formData.append("referencia", referencia_novedadesServi);
   formData.append("telefono", telefono_novedadesServi);
-  formData.append("celular    ", celular_novedadesServi);
-  formData.append("observacion    ", observacion_novedadesServi);
+  formData.append("celula", celular_novedadesServi);
+  formData.append("observacion", observacion_novedadesServi);
 
   $.ajax({
     url: SERVERURL + "novedades/solventarNovedadLaar",
