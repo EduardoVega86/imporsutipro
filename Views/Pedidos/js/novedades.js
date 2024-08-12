@@ -6,6 +6,7 @@ const dataTableNovedadesOptions = {
     { className: "centered", targets: [1, 2, 3, 4, 5] },
     { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
   ],
+  order: [[2, "desc"]],
   pageLength: 10,
   destroy: true,
   dom: '<"d-flex w-full justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
@@ -354,6 +355,7 @@ const dataTableNovedadesGestionadasOptions = {
     { className: "centered", targets: [0, 1, 2, 3] },
     { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
   ],
+  order: [[1, "desc"]],
   pageLength: 10,
   destroy: true,
   language: {
