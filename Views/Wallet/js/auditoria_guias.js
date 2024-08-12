@@ -130,6 +130,8 @@ const listAuditoria = async (estado, id_transporte) => {
     const auditoria = await response.json();
 
     let content = ``;
+    
+    var total=0;
 
     auditoria.forEach((item, index) => {
       let transporte = item.id_transporte;
@@ -137,7 +139,7 @@ const listAuditoria = async (estado, id_transporte) => {
       let estado = "";
       let url_tracking = "";
       let url_descargar = "";
-
+total=total+item.utilidad;
       if (transporte == 2) {
         transporte_content =
           '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SERVIENTREGA</span>';
@@ -235,6 +237,8 @@ const listAuditoria = async (estado, id_transporte) => {
               </tr>`;
     });
 
+
+$("total_utilidad").text(total);
     document.getElementById("tableBody_auditoria").innerHTML = content;
 
     // Añadir event listeners a los checkboxes
