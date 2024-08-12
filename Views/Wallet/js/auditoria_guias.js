@@ -237,8 +237,9 @@ total=total+item.utilidad;
               </tr>`;
     });
 
-
+        console.log('qwweq: '+total);
 $("total_utilidad").text(total);
+
     document.getElementById("tableBody_auditoria").innerHTML = content;
 
     // Añadir event listeners a los checkboxes
