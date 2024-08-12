@@ -327,11 +327,11 @@ function enviar_laarNovedad() {
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
       response = JSON.parse(response);
-      if (response.status == 500) {
+      if (response.status == 500 || response.error ==true) {
         toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
-      } else if (response.status == 200) {
+      } else if (response.status == 200 || response.error == false) {
         toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
