@@ -55,6 +55,7 @@ class TiendaModel extends Query
                 'title' => 'Peticion exitosa',
                 'message' => 'Dominio agregado correctamente'
             );
+            $this->agregarDominio($dominio, $subdominio);
         } else {
             $responses = array(
                 'status' => 500,
@@ -65,6 +66,12 @@ class TiendaModel extends Query
         return $responses;
     }
 
+    public function agregarDominio($dominio, $subdominio)
+    {
+        $sql = "UPDATE plataformas SET dominio = ? WHERE url_imporsuit = ?";
+        $data = [$dominio, $subdominio];
+        $this->simple_select($sql, $data);
+    }
 
     public function cpanelRequest($url, $username, $password, $postFields = null)
     {
