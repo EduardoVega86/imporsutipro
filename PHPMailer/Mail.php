@@ -1,6 +1,6 @@
 <?php
 
-$smtp_debug = 0;
+$smtp_debug = 2;
 $smtp_host = 'smtp.titan.email';
 $smtp_port = 465;
 $smtp_secure = 'ssl';

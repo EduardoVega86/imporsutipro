@@ -36,7 +36,7 @@ class TiendaModel extends Query
         // Configuración de cPanel
         $cpanelUrl = 'https://administracion.imporsuitpro.com:2083/';
         $cpanelUsername = 'imporsuitpro';
-        $cpanelPassword = 'Mark2demasiado..';
+        $cpanelPassword = 'd.)~Y=}+*!2vVrm5';
         $rootdomain = 'imporsuitpro.com';
 
         // El subdominio y su carpeta ya existen
@@ -46,11 +46,38 @@ class TiendaModel extends Query
         $apiUrlDominio = $cpanelUrl . 'json-api/cpanel?cpanel_jsonapi_apiversion=2&cpanel_jsonapi_module=AddonDomain&cpanel_jsonapi_func=addaddondomain&newdomain=' . $dominio . '&dir=' . $directorio . '&subdomain=' . $subdominio;
 
         // Ejecutar solicitud para agregar el dominio
-        $this->cpanelRequest($apiUrlDominio, $cpanelUsername, $cpanelPassword);
+        $response = $this->cpanelRequest($apiUrlDominio, $cpanelUsername, $cpanelPassword);
 
-        // Configurar los archivos en la carpeta del dominio
-        //$this->configurarArchivosDominio($dominio, $nombre);
+        // Analizar la respuesta y devolver true o false
+        if (isset($response['cpanelresult']['data'][0]['result']) && $response['cpanelresult']['data'][0]['result'] == 1) {
+            $responses = array(
+                'status' => 200,
+                'title' => 'Peticion exitosa',
+                'message' => 'Dominio agregado correctamente'
+            );
+            $this->agregarDominio($dominio, $subdominio);
+        } else {
+            $responses = array(
+                'status' => 500,
+                'title' => 'Error',
+                'message' => 'Error al añadir el dominio: ' . $response['cpanelresult']['data'][0]['reason']
+            );
+        }
+        return $responses;
     }
+
+    public function agregarDominio($dominio, $subdominio)
+    {
+        $sql = "SELECT * FROM plataformas WHERE url_imporsuit LIKE '%$subdominio%'";
+        $plataforma = $this->select($sql);
+        $plataforma = $plataforma[0]['id_plataforma'];
+
+
+        $sql = "UPDATE plataformas SET dominio = ? WHERE  id_plataforma = ?";
+        $data = [$dominio, $plataforma];
+        $this->simple_select($sql, $data);
+    }
+
 
     public function cpanelRequest($url, $username, $password, $postFields = null)
     {
@@ -71,6 +98,7 @@ class TiendaModel extends Query
             $responseData = json_decode($response, true);
         }
         curl_close($ch);
+        return $responseData;
     }
 
     function addAddonDomain($domain, $directory)
@@ -329,14 +357,49 @@ class TiendaModel extends Query
         )";
 
         $data = array(
-            $nueva_factura, $date_added, $precio_producto, 1,
-            $nombre, $telefono, $calle_principal, $ciudad, $calle_secundaria,
-            $referencia, $observacion, 0, 0, 0, $telefono,
-            $producto_plataforma, $drop, $id_plataforma,  0,
-            'tienda_online', 0, 0, 0, 0,
-            0, '',  $nombreO, $ciudadO, $provincia,
-            $direccionO, 0,  0, 0, 0, 0,
-            0, '', 0, 0, 0, 0, 0, $bodega
+            $nueva_factura,
+            $date_added,
+            $precio_producto,
+            1,
+            $nombre,
+            $telefono,
+            $calle_principal,
+            $ciudad,
+            $calle_secundaria,
+            $referencia,
+            $observacion,
+            0,
+            0,
+            0,
+            $telefono,
+            $producto_plataforma,
+            $drop,
+            $id_plataforma,
+            0,
+            'tienda_online',
+            0,
+            0,
+            0,
+            0,
+            0,
+            '',
+            $nombreO,
+            $ciudadO,
+            $provincia,
+            $direccionO,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            '',
+            0,
+            0,
+            0,
+            0,
+            0,
+            $bodega
         );
 
         if (substr_count($sql, '?') !== count($data)) {

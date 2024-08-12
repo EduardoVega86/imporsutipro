@@ -36,6 +36,9 @@
                             <input type="subdominio" class="form-control" id="subdominio" placeholder="Subdominio" disabled>
                         </div>
                     </div>
+                    <div class="alert alert-warning" role="alert">
+                        <strong>Atención:</strong> Es necesario que realices el paso de agregar el record DNS antes de continuar.
+                    </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                         <button type="submit" class="btn btn-primary" id="agregar_dominio">Agregar</button>

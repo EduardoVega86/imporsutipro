@@ -22,15 +22,6 @@ const dataTableProductosOptions = {
   responsive: true,
   autoWidth: true,
   bAutoWidth: true,
-  processing: true, // Muestra un indicador de procesamiento mientras se cargan los datos
-  serverSide: true, // Habilita la carga de datos en el servidor
-  ajax: {
-    url: SERVERURL + "productos/obtener_productos",
-    type: "POST",
-    dataSrc: function (json) {
-      return json.data;
-    },
-  },
   dom: '<"d-flex w-full justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
   buttons: [
     {
@@ -93,6 +84,7 @@ const initDataTableProductos = async () => {
   if (dataTableProductosIsInitialized) {
     dataTableProductos.destroy();
   }
+  await listProductos();
   dataTableProductos = $("#datatable_productos").DataTable(
     dataTableProductosOptions
   );
@@ -107,6 +99,7 @@ const listProductos = async () => {
   try {
     const response = await fetch(SERVERURL + "productos/obtener_productos");
     const productos = await response.json();
+    console.log(productos);
     let content = ``;
 
     const infoTiendaResponse = await $.ajax({
@@ -123,7 +116,7 @@ const listProductos = async () => {
       validador_bodega();
     }
 
-    productos.forEach((producto) => {
+    productos.data.forEach((producto) => {
       const enlace_imagen = obtenerURLImagen(producto.image_path, SERVERURL);
       let cargar_imagen = producto.image_path
         ? `<img src="${enlace_imagen}" class="icon-button" onclick="agregar_imagenProducto(${producto.id_producto},'${enlace_imagen}')" alt="Agregar imagen" width="50px">`

@@ -309,15 +309,15 @@ function enviar_laarNovedad() {
   formData.append("guia", guia);
   formData.append("observacionA", observacionA);
   formData.append("id_novedad", id_novedad);
-  formData.append("ciudad", ciudad_novedadesServi);
+  formData.append("ciudad", ciudad);
   formData.append("nombre", nombre_novedadesServi);
   formData.append("callePrincipal", callePrincipal_novedadesServi);
   formData.append("calleSecundaria", calleSecundaria_novedadesServi);
   formData.append("numeracion", numeracion_novedadesServi);
   formData.append("referencia", referencia_novedadesServi);
   formData.append("telefono", telefono_novedadesServi);
-  formData.append("celular    ", celular_novedadesServi);
-  formData.append("observacion    ", observacion_novedadesServi);
+  formData.append("celular", celular_novedadesServi);
+  formData.append("observacion", observacion_novedadesServi);
 
   $.ajax({
     url: SERVERURL + "novedades/solventarNovedadLaar",

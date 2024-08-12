@@ -270,7 +270,51 @@
                 </div>
             </div>
         </div>
-        <div class="accordion-item">
+        <div class="accordion-item" id="colores_plantilla1" style="display: none;">
+            <h2 class="accordion-header" id="headingFour">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                    COLORES
+                </button>
+            </h2>
+            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <div class="container">
+                        <div class="section">
+                            <h2>Elementos</h2>
+                            <div class="inputs">
+                                <div class="input-box">
+                                    <input onchange="cambiarcolor('color_botones',this.value)" id="color_botones" name="color_botones" type="color" value="#ff0000">
+                                    <div class="input-label">Botones</div>
+                                </div>
+                                <div class="input-box">
+                                    <input onchange="cambiarcolor('color',this.value)" id="color" name="color" onchange="cambiarcolor()" type="color" value="#000000">
+                                    <div class="input-label">Barra Superior</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section">
+                            <h2>Textos</h2>
+                            <div class="inputs">
+                                <div class="input-box">
+                                    <input onchange="cambiarcolor('texto_cabecera',this.value)" id="texto_cabecera" name="texto_cabecera" type="color" value="#ffffff">
+                                    <div class="input-label">Cabecera</div>
+                                </div>
+                                <div class="input-box">
+                                    <input onchange="cambiarcolor('texto_boton',this.value)" id="texto_boton1" name="texto_boton1" type="color" value="#ffffff">
+                                    <div class="input-label">Botones</div>
+                                </div>
+                                <div class="input-box">
+                                    <input onchange="cambiarcolor('texto_precio',this.value)" id="texto_precio" name="texto_precio" type="color" value="#000000">
+                                    <div class="input-label">Texto Precio</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item" id="colores_plantilla2" style="display: none;">
             <h2 class="accordion-header" id="headingFour">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
                     COLORES

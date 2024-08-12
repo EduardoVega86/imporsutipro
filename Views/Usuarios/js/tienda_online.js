@@ -151,14 +151,25 @@ function cargarInfoTienda_inicial() {
       $("#facebook").val(response[0].facebook);
 
       $("#dominio").val(response[0].dominio);
-      $("#subdominio").val(response[0].url_imporsuit);
+
+      var subdominio = quitarHTTPS(response[0].url_imporsuit);
+
+      $("#subdominio").val(subdominio);
+
+      if (response[0].plantilla == 1) {
+        $("#colores_plantilla1").show();
+        $("#colores_plantilla2").hide();
+      } else if (response[0].plantilla == 2){
+        $("#colores_plantilla2").show();
+        $("#colores_plantilla1").hide();
+      }
 
       // Mover la lógica de verificación aquí
       verificarNombreTienda(response[0].nombre_tienda);
 
-      if (response[0].tienda_creada == 1){
+      if (response[0].tienda_creada == 1) {
         $("#seccion_creacionTienda").hide();
-      }else if (response[0].tienda_creada == 0){
+      } else if (response[0].tienda_creada == 0) {
         $("#seccion_creacionTienda").show();
       }
     },
@@ -166,6 +177,15 @@ function cargarInfoTienda_inicial() {
       console.error("Error al obtener la lista de bodegas:", error);
     },
   });
+}
+
+function quitarHTTPS(url) {
+  // Verifica si la URL es null o vacía
+  if (!url) {
+    return ""; // Retorna una cadena vacía si la URL es null o vacía
+  }
+
+  return url.replace("https://", ""); // Reemplaza 'https://' por una cadena vacía
 }
 
 function verificarNombreTienda(nombreTienda) {
@@ -1027,6 +1047,6 @@ function eliminar_horizontal(id) {
 }
 /* Fin tabla horizontal */
 
-function abrir_agregar_dominio(){
+function abrir_agregar_dominio() {
   $("#agregar_dominioModal").modal("show");
 }
