@@ -194,7 +194,7 @@ const listAuditoria = async (estado, id_transporte) => {
       }
 
       content += `
-              <tr ${background}>
+              <tr>
                   <td>${item.numero_factura}</td>
                   <td>${item.numero_guia}</td>
           <td><span class="w-100 text-nowrap ${span_estado}">${estado_guia}</span></td>
