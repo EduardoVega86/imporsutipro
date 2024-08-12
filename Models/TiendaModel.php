@@ -5,7 +5,7 @@ class TiendaModel extends Query
     {
         $cpanelUrl = 'https://administracion.imporsuitpro.com:2083/';
         $cpanelUsername = 'imporsuitpro';
-        $cpanelPassword = 'Mark2demasiado..';
+        $cpanelPassword = 'd.)~Y=}+*!2vVrm5';
         $rootdomain = DOMINIO;
 
         $repositoryUrl = "https://github.com/DesarrolloImporfactory/tienda";
