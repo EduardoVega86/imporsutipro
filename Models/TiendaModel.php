@@ -59,7 +59,7 @@ class TiendaModel extends Query
             $responses = array(
                 'status' => 500,
                 'title' => 'Error',
-                'message' => 'Error al añadir el dominio'
+                'message' => 'Error al añadir el dominio: ' . $response
             );
         }
         return $responses;
