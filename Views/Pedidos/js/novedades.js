@@ -326,7 +326,9 @@ function enviar_laarNovedad() {
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
+      console.log("respuesta: "+response);
       if (response.error) {
+        console.log("respuesta: "+response.error);
         if (response.error == true) {
           toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
             positionClass: "toast-bottom-center",
