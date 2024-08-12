@@ -326,18 +326,33 @@ function enviar_laarNovedad() {
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
-      response = JSON.parse(response);
-      if (response.status == 500 || response.error ==true) {
-        toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-      } else if (response.status == 200 || response.error == false) {
-        toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
+      if (response.error) {
+        if (response.error == true) {
+          toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
+            positionClass: "toast-bottom-center",
+          });
+        } else if (response.error == false) {
+          toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
+            positionClass: "toast-bottom-center",
+          });
 
-        $("#gestionar_novedadModal").modal("hide");
-        initDataTableNovedades();
+          $("#gestionar_novedadModal").modal("hide");
+          initDataTableNovedades();
+        }
+      } else {
+        response = JSON.parse(response);
+        if (response.status == 500 || response.error == true) {
+          toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
+            positionClass: "toast-bottom-center",
+          });
+        } else if (response.status == 200 || response.error == false) {
+          toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
+            positionClass: "toast-bottom-center",
+          });
+
+          $("#gestionar_novedadModal").modal("hide");
+          initDataTableNovedades();
+        }
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
