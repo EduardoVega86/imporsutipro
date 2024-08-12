@@ -1,4 +1,4 @@
-function datos_auditoriaPrincial(estado,transportadora) {
+function datos_auditoriaPrincial(estado, transportadora) {
   let formData = new FormData();
   formData.append("estado", estado);
   formData.append("transportadora", transportadora);
@@ -18,7 +18,10 @@ function datos_auditoriaPrincial(estado,transportadora) {
 $(document).ready(function () {
   var filtro_facturas_principal = $(this).data("filter"); // Actualizar variable con el filtro seleccionado
   var id_transportadora_principal = $("#transporte").val();
-  datos_auditoriaPrincial(filtro_facturas_principal, id_transportadora_principal);
+  datos_auditoriaPrincial(
+    filtro_facturas_principal,
+    id_transportadora_principal
+  );
 
   $(".filter-btn").on("click", function () {
     $(".filter-btn").removeClass("active");
@@ -130,8 +133,8 @@ const listAuditoria = async (estado, id_transporte) => {
     const auditoria = await response.json();
 
     let content = ``;
-    
-    var total=0;
+
+    var total = 0;
 
     auditoria.forEach((item, index) => {
       let transporte = item.id_transporte;
@@ -139,7 +142,7 @@ const listAuditoria = async (estado, id_transporte) => {
       let estado = "";
       let url_tracking = "";
       let url_descargar = "";
-total=total+item.utilidad;
+      total = total + item.utilidad;
       if (transporte == 2) {
         transporte_content =
           '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SERVIENTREGA</span>';
@@ -168,7 +171,7 @@ total=total+item.utilidad;
 
       var span_estado = estado.span_estado;
       var estado_guia = estado.estado_guia;
-      
+
       var background = 'style="background-color: #E3BC1C;';
 
       const codBtn = item.cod
@@ -194,14 +197,12 @@ total=total+item.utilidad;
         url_tracking = `https://www.servientrega.com.ec/Tracking/?guia=${item.numero_guia}&tipo=GUIA`;
         url_descargar = `https://guias.imporsuitpro.com/Servientrega/guia/${item.numero_guia}`;
       }
-      var background='';
-      if (item.monto_recibir != item.monto_total_historial){
-         background=  'style="background-color: red;"';
-      }else{
-         background=  ''; 
+      var background = "";
+      if (item.monto_recibir != item.monto_total_historial) {
+        background = 'style="background-color: red;"';
+      } else {
+        background = "";
       }
-     
-      
 
       content += `
               <tr>
@@ -237,8 +238,8 @@ total=total+item.utilidad;
               </tr>`;
     });
 
-        console.log('qwweq: '+total);
-$("total_utilidad").text(total);
+    console.log("total: " + total);
+    $("total_utilidad").text(total);
 
     document.getElementById("tableBody_auditoria").innerHTML = content;
 
