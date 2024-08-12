@@ -1125,6 +1125,7 @@ ORDER BY
     {
         $sql_select = "SELECT * FROM `facturas_cot` WHERE numero_guia = '$numero_guia'";
         $response =  $this->select($sql_select);
+        print_r($response);
         $id_plataforma = $response[0]['id_plataforma'];
         $id_proveedor = $response[0]['id_propietario'];
         if ($id_proveedor == $id_plataforma) {
