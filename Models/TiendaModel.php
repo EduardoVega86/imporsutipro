@@ -50,10 +50,19 @@ class TiendaModel extends Query
 
         // Analizar la respuesta y devolver true o false
         if (isset($response['cpanelresult']['data'][0]['result']) && $response['cpanelresult']['data'][0]['result'] == 1) {
-            return true;
+            $responses = array(
+                'status' => 200,
+                'title' => 'Peticion exitosa',
+                'message' => 'Dominio agregado correctamente'
+            );
         } else {
-            return false;
+            $responses = array(
+                'status' => 500,
+                'title' => 'Error',
+                'message' => 'Error al añadir el dominio'
+            );
         }
+        return $responses;
     }
 
 
