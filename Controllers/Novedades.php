@@ -33,7 +33,7 @@ class Novedades extends Controller
         $referencia = $_POST['referencia'];
         $telefono = $_POST['telefono'];
         $celular = $_POST['celular'];
-        $observacion  = $_POST['observacion'];
+        $observacion  = $_POST['observacion'] ?? "";
         $correo = "";
 
         $isDevolucion = false;

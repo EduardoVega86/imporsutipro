@@ -53,7 +53,7 @@ class NovedadesModel extends Query
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($ch);
         $response = $response;
-        $token = $response['token'];
+        $token = $response;
 
         $url = "https://api.laarcourier.com:9727/guias/datos/actualizar";
         $ch = curl_init($url);
