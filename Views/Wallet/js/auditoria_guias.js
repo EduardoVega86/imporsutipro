@@ -142,7 +142,7 @@ const listAuditoria = async (estado, id_transporte) => {
       let estado = "";
       let url_tracking = "";
       let url_descargar = "";
-      total = total + + parseFloat(item.utilidad);
+      total = total + parseFloat(item.utilidad);
       if (transporte == 2) {
         transporte_content =
           '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SERVIENTREGA</span>';
