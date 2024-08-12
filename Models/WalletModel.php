@@ -1186,6 +1186,7 @@ ORDER BY
 
         $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE guia = '$numero_guia' AND id_plataforma = '$id_plataforma'";
         $response =  $this->select($sql);
+        print_r($response);
         $monto_recibir = $response[0]['monto_recibir'];
 
         $sql = "SELECT * FROM billeteras WHERE id_plataforma = '$id_plataforma'";
