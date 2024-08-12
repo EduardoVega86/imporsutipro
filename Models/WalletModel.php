@@ -1196,6 +1196,7 @@ ORDER BY
         if ($id_billetera == 0) {
             $this->crearBilletera($id_plataforma);
             $response =  $this->select($sql);
+            $id_billetera = $response[0]['id_billetera'];
         }
         $id_responsable = 2314;
 
