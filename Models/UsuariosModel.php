@@ -145,45 +145,45 @@ ON
                             $response['message'] = 'Usuario registrado correctamente';
                             $response['data'] = ['id' => $id[0]['id_users'], 'idPlataforma' => $idPlataforma[0]['id_plataforma']];
                             //session_start();
-                            
-                              $webhookData = [
-        'tienda' => $tienda,
-        'nombre' => $nombre,
-        'telefono' => $telefono,
-        'fecha' => date('Y-m-d H:i:s')
-    ];
 
-    // URL del webhook
-    $webhookUrl = 'https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjUwNTY0MDYzNTA0M2M1MjY0NTUzZDUxMzUi_pc';
+                            $webhookData = [
+                                'tienda' => $tienda,
+                                'nombre' => $nombre,
+                                'telefono' => $telefono,
+                                'fecha' => date('Y-m-d H:i:s')
+                            ];
 
-    // Inicializar cURL
-    $ch = curl_init($webhookUrl);
+                            // URL del webhook
+                            $webhookUrl = 'https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjUwNTY0MDYzNTA0M2M1MjY0NTUzZDUxMzUi_pc';
 
-    // Configurar opciones de cURL
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($webhookData));
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        'Content-Type: application/x-www-form-urlencoded'
-    ]);
+                            // Inicializar cURL
+                            $ch = curl_init($webhookUrl);
 
-    // Ejecutar la solicitud cURL
-    $response = curl_exec($ch);
+                            // Configurar opciones de cURL
+                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                            curl_setopt($ch, CURLOPT_POST, true);
+                            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($webhookData));
+                            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                                'Content-Type: application/x-www-form-urlencoded'
+                            ]);
 
-    // Verificar si hubo errores
-    if ($response === false) {
-        $error = curl_error($ch);
-        // Manejar el error
-        echo "Error al enviar la solicitud: $error";
-    } else {
-        // Manejar la respuesta
-        echo "Solicitud enviada correctamente. Respuesta: $response";
-    }
+                            // Ejecutar la solicitud cURL
+                            $response = curl_exec($ch);
 
-    // Cerrar cURL
-    curl_close($ch);
-    
-    //fin webhook
+                            // Verificar si hubo errores
+                            if ($response === false) {
+                                $error = curl_error($ch);
+                                // Manejar el error
+                                echo "Error al enviar la solicitud: $error";
+                            } else {
+                                // Manejar la respuesta
+                                echo "Solicitud enviada correctamente. Respuesta: $response";
+                            }
+
+                            // Cerrar cURL
+                            curl_close($ch);
+
+                            //fin webhook
 
 
                         }
@@ -464,7 +464,7 @@ ON
         $data = [$texto, $subtexto_icon, $enlace_icon,  $icon_text, $id_plataforma, $id];
         //  print_r($data);
         $editar_icono = $this->update($sql, $data);
-        
+
         // print_r($editar_icono);
         if ($editar_icono == 1) {
             $response['status'] = 200;
@@ -865,6 +865,130 @@ ON
             $response['title'] = 'Error';
             $response['message'] = $eliminar_categoria['message'];
         }
+        return $response;
+    }
+
+    public function agregarOfertas(
+        $titulo_oferta1,
+        $oferta1,
+        $descripcion_oferta1,
+        $texto_btn_oferta1,
+        $enlace_oferta1,
+        $imagen1,
+        $titulo_oferta2,
+        $oferta2,
+        $descripcion_oferta2,
+        $texto_btn_oferta2,
+        $enlace_oferta2,
+        $imagen2,
+        $plataforma
+    ) {
+        $response = $this->initialResponse();
+        $target_dir = "public/img/ofertas_plantilla2/";
+
+        // Función para procesar cada imagen
+        function procesarImagen($imagen, $target_dir, &$response)
+        {
+            $target_file = $target_dir . basename($imagen["name"]);
+            $uploadOk = 1;
+            $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+            $check = getimagesize($imagen["tmp_name"]);
+            if ($check !== false) {
+                $uploadOk = 1;
+            } else {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'El archivo no es una imagen';
+                $uploadOk = 0;
+            }
+            if ($imagen["size"] > 500000) {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'El archivo es muy grande';
+                $uploadOk = 0;
+            }
+            if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'Solo se permiten archivos JPG, JPEG, PNG';
+                $uploadOk = 0;
+            } else {
+                if (move_uploaded_file($imagen["tmp_name"], $target_file)) {
+                    $response['data'][] = $target_file; // Guardamos la ruta de la imagen en el response
+                    return $target_file; // Retornamos la ruta para su uso en la inserción SQL
+                } else {
+                    $response['status'] = 500;
+                    $response['title'] = 'Error';
+                    $response['message'] = 'Error al subir la imagen';
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        // Procesar ambas imágenes
+        $imagen1_url = procesarImagen($imagen1, $target_dir, $response);
+        $imagen2_url = procesarImagen($imagen2, $target_dir, $response);
+
+        if ($imagen1_url !== false && $imagen2_url !== false) {
+            // Verificar si ya existe un registro con el id_plataforma dado
+            $sql_select = "SELECT * FROM `plantilla_2` WHERE `id_plataforma` = ?";
+            $existing_entry = $this->select($sql_select, [$plataforma]);
+
+            if ($existing_entry) {
+                // Si existe, realizar un UPDATE
+                $sql_update = "UPDATE `plantilla_2` SET 
+                                `titulo_oferta1` = ?, `oferta1` = ?, `descripcion_oferta1` = ?, `texto_btn_oferta1` = ?, `enlace_oferta1` = ?, `imagen_oferta1` = ?, 
+                                `titulo_oferta2` = ?, `oferta2` = ?, `descripcion_oferta2` = ?, `texto_btn_oferta2` = ?, `enlace_oferta2` = ?, `imagen_oferta2` = ?
+                                WHERE `id_plataforma` = ?";
+
+                $data_update = [
+                    $titulo_oferta1, $oferta1, $descripcion_oferta1, $texto_btn_oferta1, $enlace_oferta1, $imagen1_url,
+                    $titulo_oferta2, $oferta2, $descripcion_oferta2, $texto_btn_oferta2, $enlace_oferta2, $imagen2_url,
+                    $plataforma
+                ];
+
+                $actualizar_ofertas = $this->update($sql_update, $data_update);
+                if ($actualizar_ofertas == 1) {
+                    $response['status'] = 200;
+                    $response['title'] = 'Peticion exitosa';
+                    $response['message'] = 'Datos actualizados correctamente';
+                } else {
+                    $response['status'] = 500;
+                    $response['title'] = 'Error';
+                    $response['message'] = 'Error al actualizar los datos en la base de datos';
+                }
+            } else {
+                // Si no existe, realizar un INSERT
+                $sql_insert = "INSERT INTO `plantilla_2` (
+                                `id_plataforma`, `titulo_oferta1`, `oferta1`, `descripcion_oferta1`, `texto_btn_oferta1`, 
+                                `enlace_oferta1`, `imagen_oferta1`, `titulo_oferta2`, `oferta2`, `descripcion_oferta2`, 
+                                `texto_btn_oferta2`, `enlace_oferta2`, `imagen_oferta2`
+                            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+                $data_insert = [
+                    $plataforma, $titulo_oferta1, $oferta1, $descripcion_oferta1, $texto_btn_oferta1,
+                    $enlace_oferta1, $imagen1_url, $titulo_oferta2, $oferta2, $descripcion_oferta2,
+                    $texto_btn_oferta2, $enlace_oferta2, $imagen2_url
+                ];
+
+                $insertar_ofertas = $this->insert($sql_insert, $data_insert);
+                if ($insertar_ofertas == 1) {
+                    $response['status'] = 200;
+                    $response['title'] = 'Peticion exitosa';
+                    $response['message'] = 'Datos insertados correctamente';
+                } else {
+                    $response['status'] = 500;
+                    $response['title'] = 'Error';
+                    $response['message'] = 'Error al insertar los datos en la base de datos';
+                }
+            }
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al procesar las imágenes';
+        }
+
         return $response;
     }
     /* Fin tienda online */

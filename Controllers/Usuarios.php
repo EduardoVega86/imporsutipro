@@ -448,6 +448,24 @@ class Usuarios extends Controller
         $response = $this->model->eliminarHorizontal($id, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
+
+    public function agregarOfertas()
+    {
+        $titulo_oferta1 = $_POST['titulo_oferta1'];
+        $oferta1 = $_POST['oferta1'];
+        $descripcion_oferta1 = $_POST['descripcion_oferta1'];
+        $texto_btn_oferta1 = $_POST['texto_btn_oferta1'];
+        $enlace_oferta1 = $_POST['enlace_oferta1'];
+        $imagen1 = $_FILES['imagen1'];
+        $titulo_oferta2 = $_POST['titulo_oferta2'];
+        $oferta2 = $_POST['oferta2'];
+        $descripcion_oferta2 = $_POST['descripcion_oferta2'];
+        $texto_btn_oferta2 = $_POST['texto_btn_oferta2'];
+        $enlace_oferta2 = $_POST['enlace_oferta2'];
+        $imagen2 = $_FILES['imagen2'];
+        $response = $this->model->agregarOfertas($titulo_oferta1, $oferta1, $descripcion_oferta1, $texto_btn_oferta1, $enlace_oferta1, $imagen1, $titulo_oferta2, $oferta2, $descripcion_oferta2, $texto_btn_oferta2, $enlace_oferta2, $imagen2, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
     /* fin tienda online */
 
     public function registro()
