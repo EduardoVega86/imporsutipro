@@ -104,7 +104,6 @@
 
     .vertical-hr {
         width: 1px;
-        height: 100px;
         background-color: black;
         border: none;
         margin: 0;

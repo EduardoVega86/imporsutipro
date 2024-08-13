@@ -253,7 +253,7 @@
             </h2>
             <div id="collapseOferta_plantilla2" class="accordion-collapse collapse" aria-labelledby="headingOferta_plantilla2" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                    <div class="d-flex flex-row gap-5">
+                    <div class="d-flex flex-row gap-5" style="justify-content: center;">
                         <div class="d-flex flex-column">
                             <h3><strong> OFERTA 1</strong></h3>
                             <div class="mb-3">
@@ -272,7 +272,7 @@
                                 <label for="textoBtn_oferta1" class="form-label">Texto boton oferta 1</label>
                                 <input type="text" class="form-control cambio" id="textoBtn_oferta1" placeholder="Ingrese el texto del boton oferta 1">
                             </div>
-                            <div class="d-flex flex-row">
+                            <div class="d-flex flex-row gap-3">
                                 <div class="input-box">
                                     <input onchange="cambiarcolor('color_btn_oferta1',this.value)" id="color_btn_oferta1" name="color_btn_oferta1" type="color" value="#ffffff">
                                     <div class="input-label">Color boton oferta 1</div>
@@ -307,7 +307,7 @@
                                 <label for="textoBtn_oferta2" class="form-label">Texto boton oferta 2</label>
                                 <input type="text" class="form-control cambio" id="textoBtn_oferta2" placeholder="Ingrese el texto del boton oferta 2">
                             </div>
-                            <div class="d-flex flex-row">
+                            <div class="d-flex flex-row gap-3">
                                 <div class="input-box">
                                     <input onchange="cambiarcolor('color_btn_oferta2',this.value)" id="color_btn_oferta2" name="color_btn_oferta2" type="color" value="#ffffff">
                                     <div class="input-label">Color boton oferta 2</div>
