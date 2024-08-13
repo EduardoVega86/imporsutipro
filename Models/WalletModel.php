@@ -229,7 +229,6 @@ class WalletModel extends Query
                 }
             } else {
                 $full = $this->buscarFull($numero_factura, $id_plataforma);
-                echo $numero_factura . " " . $id_plataforma . " " . $full;
                 $matriz = $this->obtenerMatriz();
                 $matriz = $matriz[0]['idmatriz'];
                 if ($full > 0) {
@@ -267,7 +266,6 @@ class WalletModel extends Query
             }
         } else if ($estado_guia == 9) {
             $full = $this->buscarFull($numero_factura, $id_plataforma);
-            echo $numero_factura . " " . $id_plataforma . " " . $full;
             $matriz = $this->obtenerMatriz();
             $matriz = $matriz[0]['idmatriz'];
             if ($full > 0) {
@@ -430,7 +428,6 @@ class WalletModel extends Query
         } else {
             $full = 0;
         }
-        echo $full;
         return $full;
     }
 
