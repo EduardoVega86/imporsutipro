@@ -14,11 +14,13 @@
             </div-->
             <div class="d-flex flex-row">
                 <div class="stat-box">
+                    <h3>$ <span id="total_venta"></span></h3>
+                    <p>Total venta</p>
+                </div>
+                <div class="stat-box">
                     <h3>$ <span id="valor_recaudo"></span></h3>
                     <p>Valor recaudado</p>
                 </div>
-               
-          
                 <div class="stat-box">
                     <h3>$ <span id="valor_pagado"></span></h3>
                     <p>Valor Pagado</p>
@@ -27,7 +29,7 @@
                     <h3>$ <span id="por_pagar"></span></h3>
                     <p>Por pagar</p>
                 </div>
-      
+
                 <div class="stat-box">
                     <h3>$ <span id="valor_fletes"></span></h3>
                     <p>Total valor fletes</p>
@@ -36,7 +38,7 @@
                     <h3>$ <span id="costo_flete"></span></h3>
                     <p>Total Costo fletes</p>
                 </div>
-                 <div class="stat-box">
+                <div class="stat-box">
                     <h3>$ <span id="total_utilidad"></span></h3>
                     <p>Total Utilidad</p>
                 </div>
@@ -44,25 +46,25 @@
         </div>
         <div class="d-flex flex-column justify-content-between">
 
-<div class="filter-container">
-               <form id="uploadForm" enctype="multipart/form-data">
+            <div class="filter-container">
+                <form id="uploadForm" enctype="multipart/form-data">
 
-            <div class="form-group w-100 hidden-field" id="bodega-field">
-                <label for="bodega">Transportadora carga:</label>
-                <select name="transporte_importacion" id="transporte_importacion" class="form-control">
+                    <div class="form-group w-100 hidden-field" id="bodega-field">
+                        <label for="bodega">Transportadora carga:</label>
+                        <select name="transporte_importacion" id="transporte_importacion" class="form-control">
                             <option value="0"> Seleccione Transportadora</option>
                             <option value="1">Laar</option>
                             <option value="4">Speed</option>
                             <option value="2">Servientrega</option>
                             <option value="3">Gintracom</option>
                         </select>
-            </div>
-            <div class="form-group">
-                <label for="fileInput">Seleccionar archivo:</label>
-                <input type="file" class="form-control-file" id="fileInput" name="file" required>
-            </div>
-            <button id="enviar_importacion" type="submit" class="btn btn-success">Cargar</button>
-        </form>
+                    </div>
+                    <div class="form-group">
+                        <label for="fileInput">Seleccionar archivo:</label>
+                        <input type="file" class="form-control-file" id="fileInput" name="file" required>
+                    </div>
+                    <button id="enviar_importacion" type="submit" class="btn btn-success">Cargar</button>
+                </form>
             </div>
             <div class="segunda_seccionFiltro">
 
@@ -78,11 +80,11 @@
                         </select>
                     </div>
                 </div>
-                
+
             </div>
         </div>
-         </div>
-        <div class="container mt-5" style="max-width: 100%;">
+    </div>
+    <div class="container mt-5" style="max-width: 100%;">
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
             <div class="filter-container">
@@ -95,7 +97,7 @@
                     <tr>
                         <th class="centered">Factura</th>
                         <th class="centered">Numero Guia</th>
-                         <th class="centered">Estado Guia</th>
+                        <th class="centered">Estado Guia</th>
                         <th class="centered">Dropshippin</th>
                         <th class="centered">Transportadora</th>
                         <th class="centered">COD</th>
@@ -109,7 +111,7 @@
                         <th class="centered">Wallet Monto Recibir</th>
                         <th class="centered">Wallet Saldo</th>
                         <th class="centered">Valor Recaudo</th>
-                         <th class="centered">Cod Transportadora</th>
+                        <th class="centered">Cod Transportadora</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -121,7 +123,7 @@
 
 <script src="<?php echo SERVERURL ?>/Views/Wallet/js/auditoria_guias.js"></script>
 <script>
-     $(document).ready(function() {
+    $(document).ready(function() {
         $('#uploadForm').on('submit', function(e) {
 
             var button = document.getElementById("enviar_importacion");
@@ -168,7 +170,7 @@
             });
         });
     });
-    
+
     window.addEventListener("load", async () => {
         await initDataTableAuditoria(0, 0);
     });
