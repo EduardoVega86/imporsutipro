@@ -255,7 +255,7 @@
                 <div class="accordion-body">
                     <div class="d-flex flex-row gap-5" style="justify-content: center;">
                         <div class="d-flex flex-column">
-                            <h3><strong> OFERTA 1</strong></h3>
+                            <h3 style="text-align: center;"><strong> OFERTA 1</strong></h3>
                             <div class="mb-3">
                                 <label for="titulo_oferta1" class="form-label">Titulo oferta 1</label>
                                 <input type="text" class="form-control cambio" id="titulo_oferta1" placeholder="Ingrese el titulo de la oferta 1">
@@ -290,7 +290,7 @@
                         </div>
                         <hr class="vertical-hr">
                         <div class="d-flex flex-column">
-                            <h3><strong> OFERTA 2</strong></h3>
+                            <h3 style="text-align: center;"><strong> OFERTA 2</strong></h3>
                             <div class="mb-3">
                                 <label for="titulo_oferta2" class="form-label">Titulo oferta 2</label>
                                 <input type="text" class="form-control cambio" id="titulo_oferta2" placeholder="Ingrese el titulo de la oferta 2">
