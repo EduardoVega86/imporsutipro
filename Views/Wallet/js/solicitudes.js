@@ -91,13 +91,15 @@ const listSolicitudes = async () => {
         checkboxState = "";
       }
 
-      // Espera a que obtener_nombreTineda devuelva el nombre de la tienda
-      let nombre_tienda = await obtener_nombreTineda(solicitud.id_plataforma);
+      // Verifica el valor de id_plataforma
+      console.log("id_plataforma:", solicitud.id_plataforma);
 
-      content += `
+      try {
+        let nombre_tienda = await obtener_nombreTineda(solicitud.id_plataforma);
+        content += `
                 <tr>
                     <td><input type="checkbox" class="selectCheckbox" data-id="${solicitud.id_solicitud}" ${checkboxState} onclick="toggleSolicitud(${solicitud.id_solicitud}, this.checked)"></td>
-                    <td>${nombre_tienda}</td> <!-- Muestra el nombre de la tienda -->
+                    <td>${nombre_tienda}</td>
                     <td>${solicitud.nombre}</td>
                     <td>${solicitud.correo}</td>
                     <td>${solicitud.cedula}</td>
@@ -112,6 +114,27 @@ const listSolicitudes = async () => {
                         <button class="btn btn-sm btn-danger" onclick="eliminarSolicitud(${solicitud.id_solicitud})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
                     </td>
                 </tr>`;
+      } catch (error) {
+        console.error("Error al obtener el nombre de la tienda:", error);
+        content += `
+                <tr>
+                    <td><input type="checkbox" class="selectCheckbox" data-id="${solicitud.id_solicitud}" ${checkboxState} onclick="toggleSolicitud(${solicitud.id_solicitud}, this.checked)"></td>
+                    <td>Error al obtener nombre</td>
+                    <td>${solicitud.nombre}</td>
+                    <td>${solicitud.correo}</td>
+                    <td>${solicitud.cedula}</td>
+                    <td>${solicitud.fecha}</td>
+                    <td>${solicitud.telefono}</td>
+                    <td>${solicitud.tipo_cuenta}</td>
+                    <td>${solicitud.banco}</td>
+                    <td>${solicitud.numero_cuenta}</td>
+                    <td>${solicitud.cantidad}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" onclick="Pagar(${solicitud.id_plataforma})"><i class="fa-solid fa-sack-dollar"></i>Pagar</button>
+                        <button class="btn btn-sm btn-danger" onclick="eliminarSolicitud(${solicitud.id_solicitud})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
+                    </td>
+                </tr>`;
+      }
     }
 
     document.getElementById("tableBody_solicitudes").innerHTML = content;
