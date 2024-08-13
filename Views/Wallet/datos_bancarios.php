@@ -108,7 +108,7 @@
                                             <option value="PAYONEER">PAYONEER</option>
                                         </select>
                                     </div>
-                                    <div class="mb-3">
+                                    <div class="mb-3" id="select_red" style="display: none;">
                                         <label for="red_transferencia" class="form-label">Red de transferencia:</label>
                                         <select class="form-select" id="red_transferencia">
                                             <option value="0">-- Seleccione una forma de pago --</option>

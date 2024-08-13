@@ -244,6 +244,52 @@
                 </div>
             </div>
         </div>
+        <!-- seccion ofertas plantilla 2 -->
+        <div class="accordion-item" id="seccion_oferta_plantilla2" style="display: none;">
+            <h2 class="accordion-header" id="headingOferta_plantilla2">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOferta_plantilla2" aria-expanded="false" aria-controls="collapseOferta_plantilla2">
+                    SECCION DE OFERTAS
+                </button>
+            </h2>
+            <div id="collapseOferta_plantilla2" class="accordion-collapse collapse" aria-labelledby="headingOferta_plantilla2" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <div class="d-flex flex-column">
+                        <div class="mb-3">
+                            <label for="titulo_oferta1" class="form-label">Titulo oferta 1</label>
+                            <input type="text" class="form-control cambio" id="titulo_oferta1" placeholder="Ingrese el titulo de la oferta 1">
+                        </div>
+                        <div class="mb-3">
+                            <label for="oferta1" class="form-label">Oferta 1</label>
+                            <input type="text" class="form-control cambio" id="oferta1" placeholder="Ingrese el oferta 1">
+                        </div>
+                        <div class="mb-3">
+                            <label for="descipcion_oferta1" class="form-label">Descripción oferta 1</label>
+                            <input type="text" class="form-control cambio" id="descipcion_oferta1" placeholder="Ingrese la descipcion oferta 1">
+                        </div>
+                        <div class="mb-3">
+                            <label for="textoBtn_oferta1" class="form-label">Texto boton oferta 1</label>
+                            <input type="text" class="form-control cambio" id="textoBtn_oferta1" placeholder="Ingrese el texto del boton oferta 1">
+                        </div>
+                        <div class="d-flex flex-row">
+                            <div class="input-box">
+                                <input onchange="cambiarcolor('color_btn_oferta1',this.value)" id="color_btn_oferta1" name="color_btn_oferta1" type="color" value="#ffffff">
+                                <div class="input-label">Color boton oferta 1</div>
+                            </div>
+                            <div class="d-flex flex-column">
+                                <h5 class="card-title">LOGO DE LA EMPRESA</h5>
+                                <form id="imageFormPrincipal" enctype="multipart/form-data">
+                                    <div class="mb-3">
+                                        <input type="file" class="form-control" id="imageInputPrincipal" accept="image/*" name="imagen">
+                                    </div>
+                                    <img id="imagen_logo" class="image-preview mb-3" src="" alt="Preview" width="50%">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Fin seccion ofertas plantilla 2 -->
         <div class="accordion-item">
             <h2 class="accordion-header" id="headingThree">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
@@ -313,7 +359,7 @@
                 </div>
             </div>
         </div>
-
+        <!-- seccion colores plantilla  2 -->
         <div class="accordion-item" id="colores_plantilla2" style="display: none;">
             <h2 class="accordion-header" id="headingFour">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
@@ -357,6 +403,7 @@
                 </div>
             </div>
         </div>
+        <!-- fin seccion colores plantilla  2 -->
         <div class="accordion-item">
             <h2 class="accordion-header" id="headingFive">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">

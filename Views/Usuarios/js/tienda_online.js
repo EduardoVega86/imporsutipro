@@ -159,8 +159,10 @@ function cargarInfoTienda_inicial() {
       if (response[0].plantilla == 1) {
         $("#colores_plantilla1").show();
         $("#colores_plantilla2").hide();
+        $("#seccion_oferta_plantilla2").hide();
       } else if (response[0].plantilla == 2){
         $("#colores_plantilla2").show();
+        $("#seccion_oferta_plantilla2").show();
         $("#colores_plantilla1").hide();
       }
 

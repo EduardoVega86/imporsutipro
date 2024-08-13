@@ -237,7 +237,7 @@ function eliminarForma_pago(id) {
           title: response.title,
           text: response.message,
         });
-      } else if (response.status == 500){
+      } else if (response.status == 500) {
         Swal.fire({
           icon: "success",
           title: response.title,
@@ -359,6 +359,16 @@ $(document).ready(function () {
         alert("Error al guardar los datos");
       },
     });
+  });
+
+  $("#forma_pago").change(function () {
+    var select_formaPago = $("#forma_pago").val();
+
+    if (select_formaPago == "PAYONEER") {
+      $("#select_red").hide();
+    } else {
+      $("#select_red").show();
+    }
   });
 });
 
