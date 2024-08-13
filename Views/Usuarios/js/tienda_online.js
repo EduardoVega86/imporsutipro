@@ -290,8 +290,42 @@ function cambiarcolor(campo, valor) {
     contentType: false,
     success: function (response2) {
       response2 = JSON.parse(response2);
-      console.log(response2);
-      console.log(response2[0]);
+      
+      if (response2.status == 200) {
+        Swal.fire({
+          icon: "error",
+          title: "Exito",
+          text: "Color cambiado correctamente",
+        });
+      } else if (response2.status == 200) {
+        Swal.fire({
+          icon: "error",
+          title: response2.title,
+          text: response2.message,
+        });
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al agregar el producto temporalmente");
+    },
+  });
+}
+
+function cambiarcolor_oferta_plantilla2(campo, valor) {
+  const formData = new FormData();
+  formData.append("campo", campo);
+  formData.append("valor", valor);
+
+  $.ajax({
+    type: "POST",
+    url: "" + SERVERURL + "Usuarios/cambiarcolor_oferta_plantilla2",
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function (response2) {
+      response2 = JSON.parse(response2);
+      
       if (response2.status == 200) {
         Swal.fire({
           icon: "error",

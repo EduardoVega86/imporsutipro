@@ -1135,6 +1135,39 @@ ON
         return $responses;
     }
 
+    public function cambiarcolor_oferta_plantilla2($campo, $valor, $plataforma)
+    {
+        // Primero, comprobar si existe un registro con la plataforma dada
+        $sql_select = "SELECT * FROM `plantilla_2` WHERE `id_plataforma` = ?";
+        $existing_entry = $this->select($sql_select, [$plataforma]);
+
+        if ($existing_entry) {
+            // Si existe, realizar un UPDATE
+            $sql_update = "UPDATE `plantilla_2` SET $campo = ? WHERE `id_plataforma` = ?";
+            $data_update = [$valor, $plataforma];
+            $editar_plantilla_2 = $this->update($sql_update, $data_update);
+
+            if ($editar_plantilla_2 == 1) {
+                $responses = array('status' => 200, 'title' => 'Peticion exitosa', 'message' => 'Actualización realizada correctamente');
+            } else {
+                $responses = array('status' => 500, 'title' => 'Error', 'message' => 'Error al actualizar la base de datos');
+            }
+        } else {
+            // Si no existe, realizar un INSERT
+            $sql_insert = "INSERT INTO `plantilla_2` (`id_plataforma`, $campo) VALUES (?, ?)";
+            $data_insert = [$plataforma, $valor];
+            $insertar_plantilla_2 = $this->insert($sql_insert, $data_insert);
+
+            if ($insertar_plantilla_2 == 1) {
+                $responses = array('status' => 200, 'title' => 'Peticion exitosa', 'message' => 'Inserción realizada correctamente');
+            } else {
+                $responses = array('status' => 500, 'title' => 'Error', 'message' => 'Error al insertar en la base de datos');
+            }
+        }
+
+        return $responses;
+    }
+
 
     public function actualizar_tienda($ruc_tienda, $telefono_tienda, $email_tienda, $direccion_tienda, $pais_tienda, $plataforma, $facebook, $instagram, $tiktok)
     {
