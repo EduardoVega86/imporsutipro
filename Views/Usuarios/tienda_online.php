@@ -419,30 +419,30 @@
                         <div class="section">
                             <h2>Elementos</h2>
                             <div class="inputs">
-                                <div class="input-box">
+                                <div class="input-box d-flex flex-row">
                                     <input onchange="cambiarcolor_oferta_plantilla2('color_botones',this.value)" id="color_botones_plantilla2" name="color_botones_plantilla2" type="color" value="#ff0000">
-                                    <div class="input-label">Botones</div>
+                                    <h5><strong>Botones</strong></h5>
                                 </div>
-                                <div class="input-box">
+                                <div class="input-box d-flex flex-row">
                                     <input onchange="cambiarcolor_oferta_plantilla2('color',this.value)" id="color_plantilla2" name="color_plantilla2" type="color" value="#000000">
-                                    <div class="input-label">Barra Superior</div>
+                                    <h5><strong>Barra Superior</strong></h5>
                                 </div>
                             </div>
                         </div>
                         <div class="section">
                             <h2>Textos</h2>
                             <div class="inputs">
-                                <div class="input-box">
+                                <div class="input-box d-flex flex-row">
                                     <input onchange="cambiarcolor_oferta_plantilla2('texto_cabecera',this.value)" id="texto_cabecera_plantilla2" name="texto_cabecera_plantilla2" type="color" value="#ffffff">
-                                    <div class="input-label">Cabecera</div>
+                                    <h5><strong>Cabecera</strong></h5>
                                 </div>
-                                <div class="input-box">
+                                <div class="input-box d-flex flex-row">
                                     <input onchange="cambiarcolor_oferta_plantilla2('texto_boton',this.value)" id="texto_boton1_plantilla2" name="texto_boton1_plantilla2" type="color" value="#ffffff">
-                                    <div class="input-label">Botones</div>
+                                    <h5><strong>Botones</strong></h5>
                                 </div>
-                                <div class="input-box">
+                                <div class="input-box d-flex flex-row">
                                     <input onchange="cambiarcolor_oferta_plantilla2('texto_precio',this.value)" id="texto_precio_plantilla2" name="texto_precio_plantilla2" type="color" value="#000000">
-                                    <div class="input-label">Texto Precio</div>
+                                    <h5><strong>Texto Precio</strong></h5>
                                 </div>
                             </div>
                         </div>
