@@ -1027,7 +1027,7 @@ ORDER BY
             $where = "";
         }
         $sql = "SELECT 
-    (SELECT SUM(monto_recibir) FROM cabecera_cuenta_pagar) AS total_cabecera_cuenta_pagar,
+    (SELECT SUM(monto) FROM historial_billetera) AS total_cabecera_cuenta_pagar,
     (SELECT SUM(valor) FROM pagos) AS total_pagos,
     (SELECT SUM(monto_recibir) FROM cabecera_cuenta_pagar) - (SELECT SUM(valor) FROM pagos) AS diferencia";
         //echo $sql;

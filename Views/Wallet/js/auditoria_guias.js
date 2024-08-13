@@ -154,6 +154,9 @@ const listAuditoria = async (estado, id_transporte) => {
     let valor_costo_flete = 0;
 
     let valor_cod_flete = 0;
+    
+        let total_recaudado = 0;
+    
 
     auditoria.forEach((item, index) => {
       let transporte = item.id_transporte;
@@ -161,6 +164,18 @@ const listAuditoria = async (estado, id_transporte) => {
       let estado = "";
       let url_tracking = "";
       let url_descargar = "";
+      
+          let valor_recaudado = parseFloat(item.valor);
+     if (!isNaN(valor_recaudado)) {
+        total_recaudado += valor_recaudado;
+      } else {
+        console.warn(
+          "Valor de sdfsdfsd no es un número: ",
+          item.valor_recaudado
+        );
+      }
+      
+      
 
       let utilidad = parseFloat(item.utilidad);
       if (!isNaN(utilidad)) {
@@ -297,7 +312,10 @@ const listAuditoria = async (estado, id_transporte) => {
     // Asignar el valor al span en el DOM
     $("#total_utilidad").text(valor_costo_flete2);
 
-    console.log("total: " + valor_costo_flete2);
+    console.log("totalrec: " + total_recaudado);
+    
+    
+    $("#valor_recaudo").text(total_recaudado);
     $("#total_utilidad").text(totalConDosDecimales);
     $("#valor_fletes").text(valorfletes);
 
