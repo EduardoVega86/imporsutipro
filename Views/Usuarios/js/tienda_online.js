@@ -146,6 +146,8 @@ function cargar_ofertas_plantilla2() {
       $("#textoBtn_oferta1").val(response[0].texto_btn_oferta1);
       $("#enlace_oferta1").val(response[0].enlace_oferta1);
       $("#color_btn_oferta1").val(response[0].color_btn_oferta1);
+      $("#color_texto_oferta1").val(response[0].color_texto_oferta1);
+      $("#color_textoBtn_oferta1").val(response[0].color_textoBtn_oferta1);
 
       if (response[0].imagen_oferta1 === null) {
         $("#imagen_oferta1").attr(
@@ -165,6 +167,8 @@ function cargar_ofertas_plantilla2() {
       $("#textoBtn_oferta2").val(response[0].texto_btn_oferta2);
       $("#enlace_oferta2").val(response[0].enlace_oferta2);
       $("#color_btn_oferta2").val(response[0].color_btn_oferta2);
+      $("#color_texto_oferta2").val(response[0].color_texto_oferta2);
+      $("#color_textoBtn_oferta2").val(response[0].color_textoBtn_oferta2);
 
       /* colores plantilla */
       $("#color_botones_plantilla2").val(response[0].color_botones);
