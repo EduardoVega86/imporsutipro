@@ -433,6 +433,12 @@ ON
         return $this->select($sql);
     }
 
+    public function obtener_ofertas_plantilla2($plataforma)
+    {
+        $sql = "SELECT * FROM plantilla_2 WHERE id_plataforma=$plataforma";
+        return $this->select($sql);
+    }
+
     public function obtener_bannertienda($plataforma)
     {
         $sql = "SELECT * FROM banner_adicional WHERE id_plataforma = $plataforma";

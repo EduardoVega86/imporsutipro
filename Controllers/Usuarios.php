@@ -296,6 +296,12 @@ class Usuarios extends Controller
         echo json_encode($response);
     }
 
+    public function obtener_ofertas_plantilla2()
+    {
+        $response = $this->model->obtener_ofertas_plantilla2($_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
     public function obtener_bannertienda()
     {
         $response = $this->model->obtener_bannertienda($_SESSION['id_plataforma']);

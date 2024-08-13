@@ -111,6 +111,22 @@ $(document).ready(function () {
   }
 });
 
+function cargar_ofertas_plantilla2(){
+  
+  $.ajax({
+    url: SERVERURL + "Usuarios/obtener_ofertas_plantilla2",
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+      
+    },
+    error: function (error) {
+      console.error("Error al obtener la informacion ofertas plantilla 2:", error);
+    },
+  });
+
+}
+
 function cargarInfoTienda_inicial() {
   $.ajax({
     url: SERVERURL + "Usuarios/obtener_infoTiendaOnline",
