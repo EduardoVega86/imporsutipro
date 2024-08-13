@@ -19,6 +19,7 @@
                 <thead>
                     <tr>
                         <th class="centered"></th>
+                        <th class="centered">Nombre Tienda</th>
                         <th class="centered">Nombre</th>
                         <th class="centered">Correo</th>
                         <th class="centered">Cedula</th>
