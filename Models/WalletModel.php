@@ -1026,7 +1026,10 @@ ORDER BY
         } else {
             $where = "";
         }
-        $sql = "SELECT SUM(pt.valor) AS suma_valor, SUM(ccp.monto_recibir) AS suma_monto_recibir, SUM( (SELECT SUM(monto) FROM historial_billetera hb WHERE hb.motivo LIKE CONCAT('%', fc.numero_guia, '%') ) ) AS suma_valor_pendiente FROM facturas_cot fc LEFT JOIN pagos_transportadora pt ON fc.numero_guia = pt.guia LEFT JOIN ( SELECT guia, SUM(monto_recibir) AS monto_recibir, SUM(valor_pendiente) AS valor_pendiente FROM cabecera_cuenta_pagar GROUP BY guia ) ccp ON fc.numero_guia = ccp.guia WHERE fc.estado_guia_sistema IN (9, 7, 500, 501, 502, 400, 401, 402, 403, 13) AND fc.valida_transportadora = $estado $where";
+        $sql = "SELECT 
+    (SELECT SUM(monto_recibir) FROM cabecera_cuenta_pagar) AS total_cabecera_cuenta_pagar,
+    (SELECT SUM(valor) FROM pagos) AS total_pagos,
+    (SELECT SUM(monto_recibir) FROM cabecera_cuenta_pagar) - (SELECT SUM(valor) FROM pagos) AS diferencia";
         //echo $sql;
         $response =  $this->select($sql);
         return $response;
