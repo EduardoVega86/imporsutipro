@@ -539,4 +539,12 @@ class TiendaModel extends Query
         }
         return $response;
     }
+
+    /* Plantilla 2 */
+    public function obtener_ofertas_plantilla2($plataforma)
+    {
+        $sql = "SELECT * FROM plantilla_2 WHERE id_plataforma=$plataforma";
+        return $this->select($sql);
+    }
+    /* Fin plantilla 2 */
 }

@@ -190,4 +190,15 @@ class Tienda extends Controller
         $response = $this->model->obtenerDatosTienda($_SESSION['id_plataforma']);
         echo json_encode($response);
     }
+
+    /* Plantilla 2 */
+
+    public function obtener_ofertas_plantilla2()
+    {
+        $id_plataforma =   $_POST['id_plataforma'];
+        $response = $this->model->obtener_ofertas_plantilla2($id_plataforma);
+        echo json_encode($response);
+    }
+
+    /* Fin plantilla 2 */
 }
