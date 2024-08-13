@@ -1,19 +1,16 @@
 let dataTableSolicitudes;
 let dataTableSolicitudesIsInitialized = false;
 
-$.fn.dataTable.ext.order["dom-checkbox"] = function (settings, col) {
-  return this.api()
-    .column(col, { order: "index" })
-    .nodes()
-    .map(function (td, i) {
-      return $('input[type="checkbox"]', td).prop("checked") ? 1 : 0;
-    });
+$.fn.dataTable.ext.order['dom-checkbox'] = function (settings, col) {
+  return this.api().column(col, { order: 'index' }).nodes().map(function (td, i) {
+    return $('input[type="checkbox"]', td).prop('checked') ? 1 : 0;
+  });
 };
 
 const dataTableSolicitudesOptions = {
   columnDefs: [
     { className: "centered", targets: [1, 2, 3, 4, 5] },
-    { orderable: true, targets: 0, orderDataType: "dom-checkbox" }, // Aplicar ordenación personalizada
+    { orderable: true, targets: 0, orderDataType: 'dom-checkbox' }, // Aplicar ordenación personalizada
   ],
   order: [[0, "asc"]], // Ordenar por la columna de checkboxes
   pageLength: 5,
@@ -78,26 +75,21 @@ const initDataTableSolicitudes = async () => {
 
 const listSolicitudes = async () => {
   try {
-    const response = await fetch(SERVERURL + "wallet/obtenerSolicitudes");
+    const response = await fetch("" + SERVERURL + "wallet/obtenerSolicitudes");
     const solicitudes = await response.json();
 
     let content = ``;
     let checkboxState = "";
-
-    for (const solicitud of solicitudes) {
+    solicitudes.forEach((solicitud, index) => {
       if (solicitud.visto == 1) {
         checkboxState = "checked disabled";
       } else {
         checkboxState = "";
       }
-
-      // Espera a que obtener_nombreTineda devuelva el nombre de la tienda
-      let nombre_tienda = await obtener_nombreTineda(solicitud.id_plataforma);
-
+      
       content += `
                 <tr>
                     <td><input type="checkbox" class="selectCheckbox" data-id="${solicitud.id_solicitud}" ${checkboxState} onclick="toggleSolicitud(${solicitud.id_solicitud}, this.checked)"></td>
-                    <td>${nombre_tienda}</td> <!-- Muestra el nombre de la tienda -->
                     <td>${solicitud.nombre}</td>
                     <td>${solicitud.correo}</td>
                     <td>${solicitud.cedula}</td>
@@ -111,9 +103,9 @@ const listSolicitudes = async () => {
                         <button class="btn btn-sm btn-primary" onclick="Pagar(${solicitud.id_plataforma})"><i class="fa-solid fa-sack-dollar"></i>Pagar</button>
                         <button class="btn btn-sm btn-danger" onclick="eliminarSolicitud(${solicitud.id_solicitud})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
                     </td>
-                </tr>`;
-    }
 
+                </tr>`;
+    });
     document.getElementById("tableBody_solicitudes").innerHTML = content;
   } catch (ex) {
     alert(ex);
@@ -165,7 +157,7 @@ $.fn.dataTable.ext.order["dom-checkbox"] = function (settings, col) {
 const dataTableOtrasFormasPagoOptions = {
   columnDefs: [
     { className: "centered", targets: [1, 2, 3, 4, 5] },
-    { orderable: true, targets: 0, orderDataType: "dom-checkbox" }, // Aplicar ordenación personalizada
+    { orderable: true, targets: 0, orderDataType: 'dom-checkbox' }, // Aplicar ordenación personalizada
   ],
   order: [[0, "asc"]], // Ordenar por la columna de checkboxes
   pageLength: 5,
@@ -302,9 +294,9 @@ function getFecha() {
   return fechaHoy;
 }
 
-function eliminarSolicitud(id) {
+function eliminarSolicitud(id){
   $.ajax({
-    url: SERVERURL + "wallet/eliminarSolicitudes/" + id,
+    url: SERVERURL + "wallet/eliminarSolicitudes/"+id,
     type: "POST",
     dataType: "json",
     success: function (response) {
@@ -326,9 +318,9 @@ function eliminarSolicitud(id) {
   });
 }
 
-function eliminarSolicitud_FormasPago(id) {
+function eliminarSolicitud_FormasPago(id){
   $.ajax({
-    url: SERVERURL + "wallet/eliminarSolicitudes/" + id,
+    url: SERVERURL + "wallet/eliminarSolicitudes/"+id,
     type: "POST",
     dataType: "json",
     success: function (response) {
