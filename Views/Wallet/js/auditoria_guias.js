@@ -8,8 +8,8 @@ function datos_auditoriaPrincial(estado, transportadora) {
     data: formData,
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
+    dataType:"json",
     success: function (response) {
-      console.log("datos: "+response[0].total_cabecera_cuenta_pagar);
       $("#total_venta").text(response[0].total_cabecera_cuenta_pagar);
 
       /* $("#valor_recaudo").text(response[0].diferencia); */
