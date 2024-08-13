@@ -125,7 +125,7 @@ function cargar_ofertas_plantilla2() {
       $("#color_btn_oferta1").val(response[0].color_btn_oferta1);
 
       if (response[0].imagen_oferta1 === null) {
-        $("#imagen_oferta2").attr(
+        $("#imagen_oferta1").attr(
           "src",
           SERVERURL + "public/img/broken-image.png"
         );
