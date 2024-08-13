@@ -280,7 +280,7 @@
                             <div class="d-flex flex-row gap-3">
                                 <div class="input-box d-flex flex-column">
                                     <input onchange="cambiarcolor_oferta_plantilla2('color_btn_oferta1',this.value)" id="color_btn_oferta1" name="color_btn_oferta1" type="color" value="#ffffff">
-                                    <h6><strong>Color boton oferta 1</strong></h6>
+                                    <h6 style="text-align: center;"><strong>Color boton oferta 1</strong></h6>
                                 </div>
                                 <div class="d-flex flex-column">
                                     <h5 class="card-title">Imagen oferta 1</h5>
@@ -319,7 +319,7 @@
                             <div class="d-flex flex-row gap-3">
                                 <div class="input-box d-flex flex-column">
                                     <input onchange="cambiarcolor_oferta_plantilla2('color_btn_oferta2',this.value)" id="color_btn_oferta2" name="color_btn_oferta2" type="color" value="#ffffff">
-                                    <h6><strong>Color boton oferta 2</strong></h6>
+                                    <h6 style="text-align: center;"><strong>Color boton oferta 2</strong></h6>
                                 </div>
                                 <div class="d-flex flex-column">
                                     <h5 class="card-title">Imagen oferta 2</h5>
