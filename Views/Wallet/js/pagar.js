@@ -173,7 +173,7 @@ const listFacturas = async () => {
         }
         acreditable = "acreditable";
       } else if (factura.estado_guia == 9) {
-        if (factura.valor_pendiente == 0) {
+        if (factura.valor_pendiente >= 0 ) {
           check = "";
         } else {
           if (filtro_facturas == "pendientes") {
