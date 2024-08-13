@@ -290,19 +290,17 @@ function cambiarcolor(campo, valor) {
     contentType: false,
     success: function (response2) {
       response2 = JSON.parse(response2);
-      
-      if (response2.status == 200) {
-        Swal.fire({
-          icon: "error",
-          title: "Exito",
-          text: "Color cambiado correctamente",
+
+      if (response.status == 500) {
+        toastr.error("EL COLOR NO SE CAMBIO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
         });
-      } else if (response2.status == 200) {
-        Swal.fire({
-          icon: "error",
-          title: response2.title,
-          text: response2.message,
+      } else if (response.status == 200) {
+        toastr.success("COLOR CAMBIADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
         });
+        $("#imagen_categoriaModal").modal("hide");
+        initDataTable();
       }
     },
     error: function (xhr, status, error) {
@@ -325,19 +323,17 @@ function cambiarcolor_oferta_plantilla2(campo, valor) {
     contentType: false,
     success: function (response2) {
       response2 = JSON.parse(response2);
-      
-      if (response2.status == 200) {
-        Swal.fire({
-          icon: "error",
-          title: "Exito",
-          text: "Color cambiado correctamente",
+
+      if (response.status == 500) {
+        toastr.error("EL COLOR NO SE CAMBIO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
         });
-      } else if (response2.status == 200) {
-        Swal.fire({
-          icon: "error",
-          title: response2.title,
-          text: response2.message,
+      } else if (response.status == 200) {
+        toastr.success("COLOR CAMBIADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
         });
+        $("#imagen_categoriaModal").modal("hide");
+        initDataTable();
       }
     },
     error: function (xhr, status, error) {
@@ -1212,8 +1208,6 @@ function guardar_ofertas_plantilla2() {
         toastr.success("AGREGADO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
-        $("#imagen_categoriaModal").modal("hide");
-        initDataTable();
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
