@@ -93,6 +93,7 @@ const listSolicitudes = async () => {
 
       // Espera a que obtener_nombreTineda devuelva el nombre de la tienda
       let nombre_tienda = await obtener_nombreTineda(solicitud.id_plataforma);
+
       content += `
                 <tr>
                     <td><input type="checkbox" class="selectCheckbox" data-id="${solicitud.id_solicitud}" ${checkboxState} onclick="toggleSolicitud(${solicitud.id_solicitud}, this.checked)"></td>
@@ -110,7 +111,6 @@ const listSolicitudes = async () => {
                         <button class="btn btn-sm btn-primary" onclick="Pagar(${solicitud.id_plataforma})"><i class="fa-solid fa-sack-dollar"></i>Pagar</button>
                         <button class="btn btn-sm btn-danger" onclick="eliminarSolicitud(${solicitud.id_solicitud})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
                     </td>
-
                 </tr>`;
     }
 
