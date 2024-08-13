@@ -253,7 +253,7 @@
             </h2>
             <div id="collapseOferta_plantilla2" class="accordion-collapse collapse" aria-labelledby="headingOferta_plantilla2" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                    <button class="btn btn-success" onclick="guardar_ofertas_plantilla2()"><i class="fas fa-plus"></i>Guardar cambios</button>
+                    <button class="btn btn-success" onclick="guardar_ofertas_plantilla2()"></i>Guardar cambios</button>
                     <div class="d-flex flex-row gap-5" style="justify-content: center;">
                         <div class="d-flex flex-column">
                             <h3 style="text-align: center;"><strong> OFERTA 1</strong></h3>
