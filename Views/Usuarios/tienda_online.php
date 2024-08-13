@@ -288,7 +288,7 @@
                                         <div class="mb-3">
                                             <input type="file" class="form-control" id="imageInputOferta1" accept="image/*" name="imagen">
                                         </div>
-                                        <img id="imagen_oferta1" class="image-preview mb-3" src="" alt="Preview" width="20%">
+                                        <img id="imagen_oferta1" class="image-preview mb-3" src="" alt="Preview" width="30%">
                                     </form>
                                 </div>
                             </div>
@@ -327,7 +327,7 @@
                                         <div class="mb-3">
                                             <input type="file" class="form-control" id="imageInputOferta2" accept="image/*" name="imagen">
                                         </div>
-                                        <img id="imagen_oferta2" class="image-preview mb-3" src="" alt="Preview" width="20%">
+                                        <img id="imagen_oferta2" class="image-preview mb-3" src="" alt="Preview" width="30%">
                                     </form>
                                 </div>
                             </div>
