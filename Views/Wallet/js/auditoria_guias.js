@@ -19,7 +19,7 @@ function datos_auditoriaPrincial(estado, transportadora) {
       $("#por_pagar").text(parseFloat(response[0].diferencia).toFixed(2));
 
       $("#valor_pagado").text(
-        parseFloat(total_pagos[0].total_pagos).toFixed(2)
+        parseFloat(response[0].total_pagos).toFixed(2)
       );
     },
     error: function (jqXHR, textStatus, errorThrown) {
