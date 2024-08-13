@@ -119,7 +119,7 @@ function cargar_ofertas_plantilla2() {
     success: function (response) {
       $("#titulo_oferta1").val(response[0].titulo_oferta1);
       $("#oferta1").val(response[0].oferta1);
-      $("#descipcion_oferta1").val(response[0].descipcion_oferta1);
+      $("#descripcion_oferta1").val(response[0].descripcion_oferta1);
       $("#textoBtn_oferta1").val(response[0].textoBtn_oferta1);
       $("#enlace_oferta1").val(response[0].enlace_oferta1);
       $("#color_btn_oferta1").val(response[0].color_btn_oferta1);
@@ -135,7 +135,7 @@ function cargar_ofertas_plantilla2() {
 
       $("#titulo_oferta2").val(response[0].titulo_oferta2);
       $("#oferta2").val(response[0].oferta2);
-      $("#descipcion_oferta2").val(response[0].descipcion_oferta2);
+      $("#descripcion_oferta2").val(response[0].descripcion_oferta2);
       $("#textoBtn_oferta2").val(response[0].textoBtn_oferta2);
       $("#enlace_oferta2").val(response[0].enlace_oferta2);
       $("#color_btn_oferta2").val(response[0].color_btn_oferta2);
@@ -1104,12 +1104,12 @@ function abrir_agregar_dominio() {
 function guardar_ofertas_plantilla2() {
   var titulo_oferta1 = $("#titulo_oferta1").val();
   var oferta1 = $("#oferta1").val();
-  var descipcion_oferta1 = $("#descipcion_oferta1").val();
+  var descripcion_oferta1 = $("#descripcion_oferta1").val();
   var textoBtn_oferta1 = $("#textoBtn_oferta1").val();
   var enlace_oferta1 = $("#enlace_oferta1").val();
   var titulo_oferta2 = $("#titulo_oferta2").val();
   var oferta2 = $("#oferta2").val();
-  var descipcion_oferta2 = $("#descipcion_oferta2").val();
+  var descripcion_oferta2 = $("#descripcion_oferta2").val();
   var textoBtn_oferta2 = $("#textoBtn_oferta2").val();
   var enlace_oferta2 = $("#enlace_oferta2").val();
 
@@ -1120,12 +1120,12 @@ function guardar_ofertas_plantilla2() {
   let formData = new FormData();
   formData.append("titulo_oferta1", titulo_oferta1);
   formData.append("oferta1", oferta1);
-  formData.append("descipcion_oferta1", descipcion_oferta1);
+  formData.append("descripcion_oferta1", descripcion_oferta1);
   formData.append("textoBtn_oferta1", textoBtn_oferta1);
   formData.append("enlace_oferta1", enlace_oferta1);
   formData.append("titulo_oferta2", titulo_oferta2);
   formData.append("oferta2", oferta2);
-  formData.append("descipcion_oferta2", descipcion_oferta2);
+  formData.append("descripcion_oferta2", descripcion_oferta2);
   formData.append("textoBtn_oferta2", textoBtn_oferta2);
   formData.append("enlace_oferta2", enlace_oferta2);
 

@@ -266,8 +266,8 @@
                                 <input type="text" class="form-control cambio" id="oferta1" placeholder="Ingrese el oferta 1">
                             </div>
                             <div class="mb-3">
-                                <label for="descipcion_oferta1" class="form-label">Descripción oferta 1</label>
-                                <input type="text" class="form-control cambio" id="descipcion_oferta1" placeholder="Ingrese la descipcion oferta 1">
+                                <label for="descripcion_oferta1" class="form-label">Descripción oferta 1</label>
+                                <input type="text" class="form-control cambio" id="descripcion_oferta1" placeholder="Ingrese la descipcion oferta 1">
                             </div>
                             <div class="mb-3">
                                 <label for="textoBtn_oferta1" class="form-label">Texto boton oferta 1</label>
@@ -305,8 +305,8 @@
                                 <input type="text" class="form-control cambio" id="oferta2" placeholder="Ingrese el oferta 2">
                             </div>
                             <div class="mb-3">
-                                <label for="descipcion_oferta2" class="form-label">Descripción oferta 2</label>
-                                <input type="text" class="form-control cambio" id="descipcion_oferta2" placeholder="Ingrese la descipcion oferta 2">
+                                <label for="descripcion_oferta2" class="form-label">Descripción oferta 2</label>
+                                <input type="text" class="form-control cambio" id="descripcion_oferta2" placeholder="Ingrese la descipcion oferta 2">
                             </div>
                             <div class="mb-3">
                                 <label for="textoBtn_oferta2" class="form-label">Texto boton oferta 2</label>
