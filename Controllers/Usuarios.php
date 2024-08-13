@@ -49,8 +49,8 @@ class Usuarios extends Controller
     {
         $this->views->render($this, "checkout");
     }
-    
-     public function actualizacionMasiva_tiendas()
+
+    public function actualizacionMasiva_tiendas()
     {
         $this->views->render($this, "actualizacionMasiva_tiendas");
     }
@@ -138,11 +138,11 @@ class Usuarios extends Controller
         $response = $this->model->agregarProveedor($id_plataforma, $proveedor);
         echo json_encode($response);
     }
-    
-     public function quitarTienda()
+
+    public function quitarTienda()
     {
         $id_plataforma = $_POST['id_plataforma'];
-        
+
         $response = $this->model->quitarTienda($id_plataforma);
         echo json_encode($response);
     }
@@ -457,19 +457,35 @@ class Usuarios extends Controller
 
     public function agregarOfertas()
     {
-        $titulo_oferta1 = $_POST['titulo_oferta1'];
-        $oferta1 = $_POST['oferta1'];
-        $descripcion_oferta1 = $_POST['descripcion_oferta1'];
-        $texto_btn_oferta1 = $_POST['texto_btn_oferta1'];
-        $enlace_oferta1 = $_POST['enlace_oferta1'];
-        $imagen1 = $_FILES['imagen1'];
-        $titulo_oferta2 = $_POST['titulo_oferta2'];
-        $oferta2 = $_POST['oferta2'];
-        $descripcion_oferta2 = $_POST['descripcion_oferta2'];
-        $texto_btn_oferta2 = $_POST['texto_btn_oferta2'];
-        $enlace_oferta2 = $_POST['enlace_oferta2'];
-        $imagen2 = $_FILES['imagen2'];
-        $response = $this->model->agregarOfertas($titulo_oferta1, $oferta1, $descripcion_oferta1, $texto_btn_oferta1, $enlace_oferta1, $imagen1, $titulo_oferta2, $oferta2, $descripcion_oferta2, $texto_btn_oferta2, $enlace_oferta2, $imagen2, $_SESSION['id_plataforma']);
+        $titulo_oferta1 = isset($_POST['titulo_oferta1']) ? $_POST['titulo_oferta1'] : null;
+        $oferta1 = isset($_POST['oferta1']) ? $_POST['oferta1'] : null;
+        $descripcion_oferta1 = isset($_POST['descripcion_oferta1']) ? $_POST['descripcion_oferta1'] : null;
+        $texto_btn_oferta1 = isset($_POST['texto_btn_oferta1']) ? $_POST['texto_btn_oferta1'] : null;
+        $enlace_oferta1 = isset($_POST['enlace_oferta1']) ? $_POST['enlace_oferta1'] : null;
+        $imagen1 = isset($_FILES['imagen1']) ? $_FILES['imagen1'] : null;
+        $titulo_oferta2 = isset($_POST['titulo_oferta2']) ? $_POST['titulo_oferta2'] : null;
+        $oferta2 = isset($_POST['oferta2']) ? $_POST['oferta2'] : null;
+        $descripcion_oferta2 = isset($_POST['descripcion_oferta2']) ? $_POST['descripcion_oferta2'] : null;
+        $texto_btn_oferta2 = isset($_POST['texto_btn_oferta2']) ? $_POST['texto_btn_oferta2'] : null;
+        $enlace_oferta2 = isset($_POST['enlace_oferta2']) ? $_POST['enlace_oferta2'] : null;
+        $imagen2 = isset($_FILES['imagen2']) ? $_FILES['imagen2'] : null;
+
+        $response = $this->model->agregarOfertas(
+            $titulo_oferta1,
+            $oferta1,
+            $descripcion_oferta1,
+            $texto_btn_oferta1,
+            $enlace_oferta1,
+            $imagen1,
+            $titulo_oferta2,
+            $oferta2,
+            $descripcion_oferta2,
+            $texto_btn_oferta2,
+            $enlace_oferta2,
+            $imagen2,
+            $_SESSION['id_plataforma']
+        );
+
         echo json_encode($response);
     }
     /* fin tienda online */
@@ -535,10 +551,10 @@ class Usuarios extends Controller
             echo json_encode(['error' => 'No hay datos recibidos']);
         }
     }
-    
-     public function actualizacionMasivaTiendas()
+
+    public function actualizacionMasivaTiendas()
     {
-       $response = $this->model->actualizacionMasivaTiendas();
+        $response = $this->model->actualizacionMasivaTiendas();
         echo json_encode($response);
     }
 
