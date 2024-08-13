@@ -120,7 +120,7 @@ function cargar_ofertas_plantilla2() {
       $("#titulo_oferta1").val(response[0].titulo_oferta1);
       $("#oferta1").val(response[0].oferta1);
       $("#descripcion_oferta1").val(response[0].descripcion_oferta1);
-      $("#textoBtn_oferta1").val(response[0].textoBtn_oferta1);
+      $("#textoBtn_oferta1").val(response[0].texto_btn_oferta1);
       $("#enlace_oferta1").val(response[0].enlace_oferta1);
       $("#color_btn_oferta1").val(response[0].color_btn_oferta1);
 
@@ -136,7 +136,7 @@ function cargar_ofertas_plantilla2() {
       $("#titulo_oferta2").val(response[0].titulo_oferta2);
       $("#oferta2").val(response[0].oferta2);
       $("#descripcion_oferta2").val(response[0].descripcion_oferta2);
-      $("#textoBtn_oferta2").val(response[0].textoBtn_oferta2);
+      $("#textoBtn_oferta2").val(response[0].texto_btn_oferta2);
       $("#enlace_oferta2").val(response[0].enlace_oferta2);
       $("#color_btn_oferta2").val(response[0].color_btn_oferta2);
 
