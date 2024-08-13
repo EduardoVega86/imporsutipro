@@ -299,8 +299,6 @@ function cambiarcolor(campo, valor) {
         toastr.success("COLOR CAMBIADO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
-        $("#imagen_categoriaModal").modal("hide");
-        initDataTable();
       }
     },
     error: function (xhr, status, error) {
@@ -332,8 +330,6 @@ function cambiarcolor_oferta_plantilla2(campo, valor) {
         toastr.success("COLOR CAMBIADO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
-        $("#imagen_categoriaModal").modal("hide");
-        initDataTable();
       }
     },
     error: function (xhr, status, error) {
