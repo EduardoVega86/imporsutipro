@@ -280,15 +280,15 @@
                             <div class="d-flex flex-row gap-3">
                                 <div class="input-box d-flex flex-column">
                                     <input onchange="cambiarcolor_oferta_plantilla2('color_texto_oferta1',this.value)" id="color_texto_oferta1" name="color_texto_oferta1" type="color" value="#ffffff">
-                                    <h6 style="text-align: center;"><strong>Color texto oferta 1</strong></h6>
+                                    <h7 style="text-align: center;"><strong>Color texto oferta 1</strong></h7>
                                 </div>
                                 <div class="input-box d-flex flex-column">
                                     <input onchange="cambiarcolor_oferta_plantilla2('color_btn_oferta1',this.value)" id="color_btn_oferta1" name="color_btn_oferta1" type="color" value="#ffffff">
-                                    <h6 style="text-align: center;"><strong>Color boton oferta 1</strong></h6>
+                                    <h7 style="text-align: center;"><strong>Color boton oferta 1</strong></h7>
                                 </div>
                                 <div class="input-box d-flex flex-column">
                                     <input onchange="cambiarcolor_oferta_plantilla2('color_textoBtn_oferta1',this.value)" id="color_textoBtn_oferta1" name="color_textoBtn_oferta1" type="color" value="#ffffff">
-                                    <h6 style="text-align: center;"><strong>Color texto boton oferta 1</strong></h6>
+                                    <h7 style="text-align: center;"><strong>Color texto boton oferta 1</strong></h7>
                                 </div>
                                 <div class="d-flex flex-column">
                                     <h5 class="card-title">Imagen oferta 1</h5>
@@ -327,15 +327,15 @@
                             <div class="d-flex flex-row gap-3">
                                 <div class="input-box d-flex flex-column">
                                     <input onchange="cambiarcolor_oferta_plantilla2('color_texto_oferta2',this.value)" id="color_texto_oferta2" name="color_texto_oferta2" type="color" value="#ffffff">
-                                    <h6 style="text-align: center;"><strong>Color texto oferta 2</strong></h6>
+                                    <h7 style="text-align: center;"><strong>Color texto oferta 2</strong></h7>
                                 </div>
                                 <div class="input-box d-flex flex-column">
                                     <input onchange="cambiarcolor_oferta_plantilla2('color_btn_oferta2',this.value)" id="color_btn_oferta2" name="color_btn_oferta2" type="color" value="#ffffff">
-                                    <h6 style="text-align: center;"><strong>Color boton oferta 2</strong></h6>
+                                    <h7 style="text-align: center;"><strong>Color boton oferta 2</strong></h7>
                                 </div>
                                 <div class="input-box d-flex flex-column">
                                     <input onchange="cambiarcolor_oferta_plantilla2('color_textoBtn_oferta2',this.value)" id="color_textoBtn_oferta2" name="color_textoBtn_oferta2" type="color" value="#ffffff">
-                                    <h6 style="text-align: center;"><strong>Color texto boton oferta 2</strong></h6>
+                                    <h7 style="text-align: center;"><strong>Color texto boton oferta 2</strong></h7>
                                 </div>
                                 <div class="d-flex flex-column">
                                     <h5 class="card-title">Imagen oferta 2</h5>
