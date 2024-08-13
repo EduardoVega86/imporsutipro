@@ -126,10 +126,13 @@ class WalletModel extends Query
         $numero_factura = $response[0]['numero_factura'];
         $fecha = $response[0]['fecha'];
         $cliente = $response[0]['cliente'];
+        ////
         $id_plataforma = $response[0]['id_plataforma'];
-        $Id_proveedor = $response[0]['id_proveedor'];
+        $id_proveedor = $response[0]['id_proveedor'];
+        ////
         $guia = $response[0]['guia'];
         $estado_guia = $response[0]['estado_guia'];
+
 
         $id_full = $response[0]['id_full'] ?? 0;
         if ($saldo === 0) {
@@ -162,35 +165,34 @@ class WalletModel extends Query
 
             $response =  $this->insert($sql, array($id_billetera, $usuario, "ENTRADA", "Se acredito a la billetera la guia: $guia", $valor, date("Y-m-d H:i:s")));
         }
-        if ($proveedor != NULL) {
+        /* if ($proveedor != NULL) {
 
-            $id_plataforma = $this->select("SELECT id_plataforma FROM plataformas WHERE url_imporsuit = '$proveedor'")[0]['id_plataforma'] ?? NULL;
-        }
+            $id_plataforma = $this->select("SELECT id_plataforma FROM plataformas WHERE id_plataforma = '$id_proveedor'")[0]['id_plataforma'] ?? NULL;
+        } */
         if ($estado_guia == 7) {
 
-            if ($proveedor != NULL && $proveedor != $tienda) {
-                $full = $this->buscarFull($numero_factura, $id_plataforma);
+            if ($id_proveedor != NULL && $id_proveedor != $id_plataforma) {
+                $full = $this->buscarFull($numero_factura, $id_proveedor);
                 $matriz = $this->obtenerMatriz();
                 $matriz = $matriz[0]['idmatriz'];
 
                 //verificar si existe billtera
 
-                $sql = "SELECT * FROM billeteras WHERE id_plataforma = '$proveedor'";
+                $sql = "SELECT * FROM billeteras WHERE id_plataforma = '$id_proveedor'";
                 $response =  $this->select($sql);
                 if (count($response) == 0) {
-                    $this->crearBilletera($proveedor);
+                    $this->crearBilletera($id_proveedor);
                 }
-
 
                 $sql = "INSERT INTO cabecera_cuenta_pagar (`tienda`, `numero_factura`, `guia`, `costo`, `monto_recibir`, `valor_pendiente`, `estado_guia`, `visto`, `full`, `fecha`, `cliente`, `id_plataforma`,`id_matriz`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 $response =  $this->insert($sql, array($proveedor, $numero_factura . '-P', $guia, $costo, $costo - $full, 0, 7, 1, $full, $fecha, $cliente, $id_plataforma, $matriz));
 
                 //historial de billetera
 
-                $id_billetera = $this->select("SELECT id_billetera FROM billeteras WHERE id_plataforma = '$Id_proveedor'")[0]['id_billetera'];
+                $id_billetera = $this->select("SELECT id_billetera FROM billeteras WHERE id_plataforma = '$id_proveedor'")[0]['id_billetera'];
                 $sql = "INSERT INTO historial_billetera (`id_billetera`, `id_responsable`, `tipo`, `motivo`, `monto`, `fecha`) VALUES (?, ?, ?, ?, ?, ?)";
                 $response =  $this->insert($sql, array($id_billetera, $usuario, "ENTRADA", "Se acredito a la billetera la guia: $guia", $costo - $full, date("Y-m-d H:i:s")));
-                $update = "UPDATE billeteras set saldo = saldo + ($costo-$full) WHERE id_plataforma = '$Id_proveedor'";
+                $update = "UPDATE billeteras set saldo = saldo + ($costo-$full) WHERE id_plataforma = '$id_proveedor'";
                 $response =  $this->select($update);
                 if ($full > 0) {
                     if ($id_full != 0) {
