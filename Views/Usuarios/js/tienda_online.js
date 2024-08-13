@@ -111,20 +111,51 @@ $(document).ready(function () {
   }
 });
 
-function cargar_ofertas_plantilla2(){
-  
+function cargar_ofertas_plantilla2() {
   $.ajax({
     url: SERVERURL + "Usuarios/obtener_ofertas_plantilla2",
     type: "GET",
     dataType: "json",
     success: function (response) {
+      $("#titulo_oferta1").val(response[0].titulo_oferta1);
+      $("#oferta1").val(response[0].oferta1);
+      $("#descipcion_oferta1").val(response[0].descipcion_oferta1);
+      $("#textoBtn_oferta1").val(response[0].textoBtn_oferta1);
+      $("#enlace_oferta1").val(response[0].enlace_oferta1);
+      $("#color_btn_oferta1").val(response[0].color_btn_oferta1);
 
+      if (response[0].imagen_oferta1 === null) {
+        $("#image_tienda").attr(
+          "src",
+          SERVERURL + "public/img/broken-image.png"
+        );
+      } else {
+        $("#imagen_oferta1").attr("src", SERVERURL + response[0].imagen_oferta1);
+      }
+
+      $("#titulo_oferta2").val(response[0].titulo_oferta2);
+      $("#oferta2").val(response[0].oferta2);
+      $("#descipcion_oferta2").val(response[0].descipcion_oferta2);
+      $("#textoBtn_oferta2").val(response[0].textoBtn_oferta2);
+      $("#enlace_oferta2").val(response[0].enlace_oferta2);
+      $("#color_btn_oferta2").val(response[0].color_btn_oferta2);
+
+      if (response[0].imagen_oferta2 === null) {
+        $("#image_tienda").attr(
+          "src",
+          SERVERURL + "public/img/broken-image.png"
+        );
+      } else {
+        $("#imagen_oferta2").attr("src", SERVERURL + response[0].imagen_oferta2);
+      }
     },
     error: function (error) {
-      console.error("Error al obtener la informacion ofertas plantilla 2:", error);
+      console.error(
+        "Error al obtener la informacion ofertas plantilla 2:",
+        error
+      );
     },
   });
-
 }
 
 function cargarInfoTienda_inicial() {
