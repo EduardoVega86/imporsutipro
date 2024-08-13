@@ -375,30 +375,30 @@
                         <div class="section">
                             <h2>Elementos</h2>
                             <div class="inputs">
-                                <div class="input-box">
+                                <div class="input-box d-flex flex-column">
                                     <input onchange="cambiarcolor('color_botones',this.value)" id="color_botones" name="color_botones" type="color" value="#ff0000">
-                                    <div class="input-label">Botones</div>
+                                    <h6><strong>Botones</strong></h6>
                                 </div>
-                                <div class="input-box">
+                                <div class="input-box d-flex flex-column">
                                     <input onchange="cambiarcolor('color',this.value)" id="color" name="color" type="color" value="#000000">
-                                    <div class="input-label">Barra Superior</div>
+                                    <h6><strong>Barra Superior</strong></h6>
                                 </div>
                             </div>
                         </div>
                         <div class="section">
                             <h2>Textos</h2>
                             <div class="inputs">
-                                <div class="input-box">
+                                <div class="input-box d-flex flex-column">
                                     <input onchange="cambiarcolor('texto_cabecera',this.value)" id="texto_cabecera" name="texto_cabecera" type="color" value="#ffffff">
-                                    <div class="input-label">Cabecera</div>
+                                    <h6><strong>Cabecera</strong></h6>
                                 </div>
-                                <div class="input-box">
+                                <div class="input-box d-flex flex-column">
                                     <input onchange="cambiarcolor('texto_boton',this.value)" id="texto_boton1" name="texto_boton1" type="color" value="#ffffff">
-                                    <div class="input-label">Botones</div>
+                                    <h6><strong>Botones</strong></h6>
                                 </div>
-                                <div class="input-box">
+                                <div class="input-box d-flex flex-column">
                                     <input onchange="cambiarcolor('texto_precio',this.value)" id="texto_precio" name="texto_precio" type="color" value="#000000">
-                                    <div class="input-label">Texto Precio</div>
+                                    <h6><strong>Texto Precio</strong></h6>
                                 </div>
                             </div>
                         </div>
