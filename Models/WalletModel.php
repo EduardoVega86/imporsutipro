@@ -828,30 +828,38 @@ class WalletModel extends Query
     fc.id_transporte,
     fc.costo_flete,
     FORMAT(
-        CASE 
-            WHEN fc.id_transporte = 1 THEN (
-                SELECT cl.precio
-                FROM cobertura_laar cl
-                JOIN ciudad_cotizacion cc ON cl.tipo_cobertura = cc.trayecto_laar COLLATE utf8mb4_general_ci
-                WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
-                LIMIT 1
-            )
-            WHEN fc.id_transporte = 2 THEN (
-                SELECT cs.precio
-                FROM cobertura_servientrega cs
-                JOIN ciudad_cotizacion cc ON cs.tipo_cobertura = cc.trayecto_servientrega COLLATE utf8mb4_general_ci
-                WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
-                LIMIT 1
-            )
-            WHEN fc.id_transporte = 3 THEN (
-                SELECT cg.precio
-                FROM cobertura_gintracom cg
-                JOIN ciudad_cotizacion cc ON cg.trayecto = cc.trayecto_gintracom COLLATE utf8mb4_general_ci
-                WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
-                LIMIT 1
-            )
-            ELSE NULL
-        END, 2) AS precio,
+    CASE 
+        WHEN fc.id_transporte = 1 THEN (
+            SELECT cl.precio
+            FROM cobertura_laar cl
+            JOIN ciudad_cotizacion cc 
+                ON cl.tipo_cobertura = cc.trayecto_laar COLLATE utf8mb4_general_ci
+            WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
+            LIMIT 1
+        )
+        WHEN fc.id_transporte = 2 THEN (
+            SELECT cs.precio
+            FROM cobertura_servientrega cs
+            JOIN ciudad_cotizacion cc 
+                ON cs.tipo_cobertura = cc.trayecto_servientrega COLLATE utf8mb4_general_ci
+            WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
+            LIMIT 1
+        )
+        WHEN fc.id_transporte = 3 THEN (
+            SELECT cg.precio
+            FROM cobertura_gintracom cg
+            JOIN ciudad_cotizacion cc 
+                ON cg.trayecto = cc.trayecto_gintracom COLLATE utf8mb4_general_ci
+            WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
+            LIMIT 1
+        )
+        WHEN fc.id_transporte = 4 THEN 
+            CASE 
+                WHEN fc.ciudad_cot = 599 THEN 5.5
+                ELSE 6.5
+            END
+        ELSE NULL
+    END, 2) AS precio,
     FORMAT(
         CASE 
             WHEN fc.id_transporte = 1 THEN (
@@ -875,6 +883,11 @@ class WalletModel extends Query
                 WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
                 LIMIT 1
             )
+             WHEN fc.id_transporte = 4 THEN 
+            CASE 
+                WHEN fc.ciudad_cot = 599 THEN 4
+                ELSE 5
+            END
             ELSE NULL
         END, 2) AS costo,
     FORMAT(fc.costo_flete - 
@@ -900,6 +913,11 @@ class WalletModel extends Query
                 WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
                 LIMIT 1
             )
+            WHEN fc.id_transporte = 4 THEN 
+            CASE 
+                WHEN fc.ciudad_cot = 599 THEN 0
+                ELSE 0
+            END
             ELSE NULL
         END, 2) AS valor_cod,
     FORMAT(
@@ -924,7 +942,11 @@ class WalletModel extends Query
                 JOIN ciudad_cotizacion cc ON cg.trayecto = cc.trayecto_gintracom COLLATE utf8mb4_general_ci
                 WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
                 LIMIT 1
-            )
+            )WHEN fc.id_transporte = 4 THEN 
+            CASE 
+                WHEN fc.ciudad_cot = 599 THEN 5.5
+                ELSE 6.5
+            END
             ELSE NULL
         END -
         CASE 
@@ -949,6 +971,11 @@ class WalletModel extends Query
                 WHERE cc.id_cotizacion COLLATE utf8mb4_general_ci = fc.ciudad_cot COLLATE utf8mb4_general_ci
                 LIMIT 1
             )
+            WHEN fc.id_transporte = 4 THEN 
+            CASE 
+                WHEN fc.ciudad_cot = 599 THEN 4
+                ELSE 5
+            END
             ELSE NULL
         END), 2) AS utilidad,
     pt.valor,
