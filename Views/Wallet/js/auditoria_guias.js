@@ -9,15 +9,15 @@ function datos_auditoriaPrincial(estado, transportadora) {
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
-      $("#total_venta").text(parseFloat(response[0].total_cabecera_cuenta_pagar).toFixed(2));
+      $("#total_venta").text(response[0].total_cabecera_cuenta_pagar);
 
-      /* $("#valor_recaudo").text(parseFloat(response[0].diferencia).toFixed(2)); */
+      /* $("#valor_recaudo").text(response[0].diferencia); */
 
       $("#por_pagar").text(
-        parseFloat(response[0].diferencia).toFixed(2)
+        response[0].diferencia
       );
       $("#valor_pagado").text(
-        parseFloat(total_pagos[0].total_pagos).toFixed(2)
+        total_pagos[0].total_pagos
       );
     },
     error: function (jqXHR, textStatus, errorThrown) {
