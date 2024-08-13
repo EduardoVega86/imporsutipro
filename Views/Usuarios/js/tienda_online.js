@@ -118,7 +118,7 @@ function cargar_ofertas_plantilla2(){
     type: "GET",
     dataType: "json",
     success: function (response) {
-      
+
     },
     error: function (error) {
       console.error("Error al obtener la informacion ofertas plantilla 2:", error);
@@ -177,6 +177,7 @@ function cargarInfoTienda_inicial() {
         $("#colores_plantilla2").hide();
         $("#seccion_oferta_plantilla2").hide();
       } else if (response[0].plantilla == 2) {
+        cargar_ofertas_plantilla2();
         $("#colores_plantilla2").show();
         $("#seccion_oferta_plantilla2").show();
         $("#colores_plantilla1").hide();
