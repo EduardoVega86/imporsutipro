@@ -488,6 +488,28 @@ class Usuarios extends Controller
 
         echo json_encode($response);
     }
+
+    public function agregarPromocion()
+    {
+        $titulo_promocion = isset($_POST['titulo_promocion']) ? $_POST['titulo_promocion'] : null;
+        $precio_promocion = isset($_POST['precio_promocion']) ? $_POST['precio_promocion'] : null;
+        $descripcion_promocion = isset($_POST['descripcion_promocion']) ? $_POST['descripcion_promocion'] : null;
+        $texto_btn_promocion = isset($_POST['texto_btn_promocion']) ? $_POST['texto_btn_promocion'] : null;
+        $enlace_btn_promocion = isset($_POST['enlace_btn_promocion']) ? $_POST['enlace_btn_promocion'] : null;
+        $imagen_promocion = isset($_FILES['imagen_promocion']) ? $_FILES['imagen_promocion'] : null;
+
+        $response = $this->model->agregarPromocion(
+            $titulo_promocion,
+            $precio_promocion,
+            $descripcion_promocion,
+            $texto_btn_promocion,
+            $enlace_btn_promocion,
+            $imagen_promocion,
+            $_SESSION['id_plataforma']
+        );
+
+        echo json_encode($response);
+    }
     /* fin tienda online */
 
     public function registro()

@@ -1012,6 +1012,129 @@ ON
 
         return $response;
     }
+
+    public function agregarPromocion(
+        $titulo_promocion,
+        $precio_promocion,
+        $descripcion_promocion,
+        $texto_btn_promocion,
+        $enlace_btn_promocion,
+        $imagen_promocion,
+        $plataforma
+    ) {
+        $response = $this->initialResponse();
+        $target_dir = "public/img/promociones/";
+
+        // Función para procesar la imagen
+        function procesarImagenPromocion($imagen, $target_dir, &$response)
+        {
+            if (empty($imagen) || $imagen['error'] == UPLOAD_ERR_NO_FILE) {
+                return null; // Retornar null si no se envía una imagen
+            }
+
+            $target_file = $target_dir . basename($imagen["name"]);
+            $uploadOk = 1;
+            $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+            $check = getimagesize($imagen["tmp_name"]);
+            if ($check !== false) {
+                $uploadOk = 1;
+            } else {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'El archivo no es una imagen';
+                $uploadOk = 0;
+            }
+            if ($imagen["size"] > 500000) {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'El archivo es muy grande';
+                $uploadOk = 0;
+            }
+            if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'Solo se permiten archivos JPG, JPEG, PNG';
+                $uploadOk = 0;
+            } else {
+                if (move_uploaded_file($imagen["tmp_name"], $target_file)) {
+                    $response['data'][] = $target_file; // Guardamos la ruta de la imagen en el response
+                    return $target_file; // Retornamos la ruta para su uso en la inserción SQL
+                } else {
+                    $response['status'] = 500;
+                    $response['title'] = 'Error';
+                    $response['message'] = 'Error al subir la imagen';
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        // Procesar la imagen de la promoción
+        $imagen_promocion_url = procesarImagenPromocion($imagen_promocion, $target_dir, $response);
+
+        if ($imagen_promocion_url !== false) {
+            // Verificar si ya existe un registro con el id_plataforma dado
+            $sql_select = "SELECT * FROM `plantilla_2` WHERE `id_plataforma` = ?";
+            $existing_entry = $this->select($sql_select, [$plataforma]);
+
+            if ($existing_entry) {
+                // Si existe, construir la consulta UPDATE dinámicamente
+                $sql_update = "UPDATE `plantilla_2` SET 
+                                `titulo_promocion` = ?, `precio_promocion` = ?, `descripcion_promocion` = ?, `texto_btn_promocion` = ?, `enlace_btn_promocion` = ?";
+
+                $data_update = [
+                    $titulo_promocion, $precio_promocion, $descripcion_promocion, $texto_btn_promocion, $enlace_btn_promocion
+                ];
+
+                if ($imagen_promocion_url !== null) {
+                    $sql_update .= ", `imagen_promocion` = ?";
+                    $data_update[] = $imagen_promocion_url;
+                }
+
+                $sql_update .= " WHERE `id_plataforma` = ?";
+                $data_update[] = $plataforma;
+
+                $actualizar_promocion = $this->update($sql_update, $data_update);
+                if ($actualizar_promocion == 1) {
+                    $response['status'] = 200;
+                    $response['title'] = 'Peticion exitosa';
+                    $response['message'] = 'Datos actualizados correctamente';
+                } else {
+                    $response['status'] = 500;
+                    $response['title'] = 'Error';
+                    $response['message'] = 'Error al actualizar los datos en la base de datos';
+                }
+            } else {
+                // Si no existe, realizar un INSERT
+                $sql_insert = "INSERT INTO `plantilla_2` (
+                                `id_plataforma`, `titulo_promocion`, `precio_promocion`, `descripcion_promocion`, `texto_btn_promocion`, 
+                                `enlace_btn_promocion`, `imagen_promocion`
+                            ) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+                $data_insert = [
+                    $plataforma, $titulo_promocion, $precio_promocion, $descripcion_promocion, $texto_btn_promocion,
+                    $enlace_btn_promocion, $imagen_promocion_url
+                ];
+
+                $insertar_promocion = $this->insert($sql_insert, $data_insert);
+                if ($insertar_promocion == 1) {
+                    $response['status'] = 200;
+                    $response['title'] = 'Peticion exitosa';
+                    $response['message'] = 'Datos insertados correctamente';
+                } else {
+                    $response['status'] = 500;
+                    $response['title'] = 'Error';
+                    $response['message'] = 'Error al insertar los datos en la base de datos';
+                }
+            }
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al procesar la imagen';
+        }
+
+        return $response;
+    }
     /* Fin tienda online */
 
 
