@@ -91,6 +91,18 @@ $(document).ready(function () {
       console.error("Error al obtener la lista de cuentas:", error);
     },
   });
+
+  $.ajax({
+    url: SERVERURL + "referidos/crearBilletera",
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+      
+    },
+    error: function (error) {
+      console.error("Error al obtener la lista de bodegas:", error);
+    },
+  });
 });
 
 // TABLA REFERIDOS
