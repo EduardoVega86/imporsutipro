@@ -109,6 +109,29 @@ $(document).ready(function () {
     );
     return $icon;
   }
+
+  /* vista previa imagenes ofertas*/
+  document
+    .getElementById("imageInputOferta1")
+    .addEventListener("change", function (event) {
+      mostrarVistaPrevia(event, "imagen_oferta1");
+    });
+
+  document
+    .getElementById("imageInputOferta2")
+    .addEventListener("change", function (event) {
+      mostrarVistaPrevia(event, "imagen_oferta2");
+    });
+
+  function mostrarVistaPrevia(event, imageId) {
+    var reader = new FileReader();
+    reader.onload = function () {
+      var output = document.getElementById(imageId);
+      output.src = reader.result;
+    };
+    reader.readAsDataURL(event.target.files[0]);
+  }
+  /* vista previa imagenes ofertas*/
 });
 
 function cargar_ofertas_plantilla2() {
@@ -130,7 +153,10 @@ function cargar_ofertas_plantilla2() {
           SERVERURL + "public/img/broken-image.png"
         );
       } else {
-        $("#imagen_oferta1").attr("src", SERVERURL + response[0].imagen_oferta1);
+        $("#imagen_oferta1").attr(
+          "src",
+          SERVERURL + response[0].imagen_oferta1
+        );
       }
 
       $("#titulo_oferta2").val(response[0].titulo_oferta2);
@@ -146,7 +172,10 @@ function cargar_ofertas_plantilla2() {
           SERVERURL + "public/img/broken-image.png"
         );
       } else {
-        $("#imagen_oferta2").attr("src", SERVERURL + response[0].imagen_oferta2);
+        $("#imagen_oferta2").attr(
+          "src",
+          SERVERURL + response[0].imagen_oferta2
+        );
       }
     },
     error: function (error) {
@@ -1157,26 +1186,4 @@ function guardar_ofertas_plantilla2() {
       alert(errorThrown);
     },
   });
-  /* vista previa imagenes ofertas*/
-  document
-    .getElementById("imageInputOferta1")
-    .addEventListener("change", function (event) {
-      mostrarVistaPrevia(event, "imagen_oferta1");
-    });
-
-  document
-    .getElementById("imageInputOferta2")
-    .addEventListener("change", function (event) {
-      mostrarVistaPrevia(event, "imagen_oferta2");
-    });
-
-  function mostrarVistaPrevia(event, imageId) {
-    var reader = new FileReader();
-    reader.onload = function () {
-      var output = document.getElementById(imageId);
-      output.src = reader.result;
-    };
-    reader.readAsDataURL(event.target.files[0]);
-  }
-  /* vista previa imagenes ofertas*/
 }
