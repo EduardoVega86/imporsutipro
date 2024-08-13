@@ -259,23 +259,23 @@
                             <h3 style="text-align: center;"><strong> OFERTA 1</strong></h3>
                             <div class="mb-3">
                                 <label for="titulo_oferta1" class="form-label">Titulo oferta 1</label>
-                                <input type="text" class="form-control cambio" id="titulo_oferta1" placeholder="Ingrese el titulo de la oferta 1">
+                                <input type="text" class="form-control" id="titulo_oferta1" placeholder="Ingrese el titulo de la oferta 1">
                             </div>
                             <div class="mb-3">
                                 <label for="oferta1" class="form-label">Oferta 1</label>
-                                <input type="text" class="form-control cambio" id="oferta1" placeholder="Ingrese el oferta 1">
+                                <input type="text" class="form-control" id="oferta1" placeholder="Ingrese el oferta 1">
                             </div>
                             <div class="mb-3">
                                 <label for="descripcion_oferta1" class="form-label">Descripción oferta 1</label>
-                                <input type="text" class="form-control cambio" id="descripcion_oferta1" placeholder="Ingrese la descipcion oferta 1">
+                                <input type="text" class="form-control" id="descripcion_oferta1" placeholder="Ingrese la descipcion oferta 1">
                             </div>
                             <div class="mb-3">
                                 <label for="textoBtn_oferta1" class="form-label">Texto boton oferta 1</label>
-                                <input type="text" class="form-control cambio" id="textoBtn_oferta1" placeholder="Ingrese el texto del boton oferta 1">
+                                <input type="text" class="form-control" id="textoBtn_oferta1" placeholder="Ingrese el texto del boton oferta 1">
                             </div>
                             <div class="mb-3">
                                 <label for="enlace_oferta1" class="form-label">Enlace oferta 1</label>
-                                <input type="text" class="form-control cambio" id="enlace_oferta1" placeholder="Ingrese el enlace oferta 1">
+                                <input type="text" class="form-control" id="enlace_oferta1" placeholder="Ingrese el enlace oferta 1">
                             </div>
                             <div class="d-flex flex-row gap-3">
                                 <div class="input-box">
@@ -298,23 +298,23 @@
                             <h3 style="text-align: center;"><strong> OFERTA 2</strong></h3>
                             <div class="mb-3">
                                 <label for="titulo_oferta2" class="form-label">Titulo oferta 2</label>
-                                <input type="text" class="form-control cambio" id="titulo_oferta2" placeholder="Ingrese el titulo de la oferta 2">
+                                <input type="text" class="form-control" id="titulo_oferta2" placeholder="Ingrese el titulo de la oferta 2">
                             </div>
                             <div class="mb-3">
                                 <label for="oferta2" class="form-label">Oferta 2</label>
-                                <input type="text" class="form-control cambio" id="oferta2" placeholder="Ingrese el oferta 2">
+                                <input type="text" class="form-control" id="oferta2" placeholder="Ingrese el oferta 2">
                             </div>
                             <div class="mb-3">
                                 <label for="descripcion_oferta2" class="form-label">Descripción oferta 2</label>
-                                <input type="text" class="form-control cambio" id="descripcion_oferta2" placeholder="Ingrese la descipcion oferta 2">
+                                <input type="text" class="form-control" id="descripcion_oferta2" placeholder="Ingrese la descipcion oferta 2">
                             </div>
                             <div class="mb-3">
                                 <label for="textoBtn_oferta2" class="form-label">Texto boton oferta 2</label>
-                                <input type="text" class="form-control cambio" id="textoBtn_oferta2" placeholder="Ingrese el texto del boton oferta 2">
+                                <input type="text" class="form-control" id="textoBtn_oferta2" placeholder="Ingrese el texto del boton oferta 2">
                             </div>
                             <div class="mb-3">
                                 <label for="enlace_oferta2" class="form-label">Enlace oferta 2</label>
-                                <input type="text" class="form-control cambio" id="enlace_oferta2" placeholder="Ingrese el enlace oferta 2">
+                                <input type="text" class="form-control" id="enlace_oferta2" placeholder="Ingrese el enlace oferta 2">
                             </div>
                             <div class="d-flex flex-row gap-3">
                                 <div class="input-box">
