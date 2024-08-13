@@ -895,6 +895,10 @@ ON
         // Función para procesar cada imagen
         function procesarImagen($imagen, $target_dir, &$response)
         {
+            if (empty($imagen) || $imagen['error'] == UPLOAD_ERR_NO_FILE) {
+                return null; // Retornar null si no se envía una imagen
+            }
+
             $target_file = $target_dir . basename($imagen["name"]);
             $uploadOk = 1;
             $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
@@ -942,17 +946,28 @@ ON
             $existing_entry = $this->select($sql_select, [$plataforma]);
 
             if ($existing_entry) {
-                // Si existe, realizar un UPDATE
+                // Si existe, construir la consulta UPDATE dinámicamente
                 $sql_update = "UPDATE `plantilla_2` SET 
-                                `titulo_oferta1` = ?, `oferta1` = ?, `descripcion_oferta1` = ?, `texto_btn_oferta1` = ?, `enlace_oferta1` = ?, `imagen_oferta1` = ?, 
-                                `titulo_oferta2` = ?, `oferta2` = ?, `descripcion_oferta2` = ?, `texto_btn_oferta2` = ?, `enlace_oferta2` = ?, `imagen_oferta2` = ?
-                                WHERE `id_plataforma` = ?";
+                                `titulo_oferta1` = ?, `oferta1` = ?, `descripcion_oferta1` = ?, `texto_btn_oferta1` = ?, `enlace_oferta1` = ?, 
+                                `titulo_oferta2` = ?, `oferta2` = ?, `descripcion_oferta2` = ?, `texto_btn_oferta2` = ?, `enlace_oferta2` = ?";
 
                 $data_update = [
-                    $titulo_oferta1, $oferta1, $descripcion_oferta1, $texto_btn_oferta1, $enlace_oferta1, $imagen1_url,
-                    $titulo_oferta2, $oferta2, $descripcion_oferta2, $texto_btn_oferta2, $enlace_oferta2, $imagen2_url,
-                    $plataforma
+                    $titulo_oferta1, $oferta1, $descripcion_oferta1, $texto_btn_oferta1, $enlace_oferta1,
+                    $titulo_oferta2, $oferta2, $descripcion_oferta2, $texto_btn_oferta2, $enlace_oferta2
                 ];
+
+                if ($imagen1_url !== null) {
+                    $sql_update .= ", `imagen_oferta1` = ?";
+                    $data_update[] = $imagen1_url;
+                }
+
+                if ($imagen2_url !== null) {
+                    $sql_update .= ", `imagen_oferta2` = ?";
+                    $data_update[] = $imagen2_url;
+                }
+
+                $sql_update .= " WHERE `id_plataforma` = ?";
+                $data_update[] = $plataforma;
 
                 $actualizar_ofertas = $this->update($sql_update, $data_update);
                 if ($actualizar_ofertas == 1) {
