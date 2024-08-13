@@ -420,11 +420,11 @@
                             <h2>Elementos</h2>
                             <div class="inputs">
                                 <div class="input-box">
-                                    <input onchange="cambiarcolor_oferta_plantilla2('color_botones',this.value)" id="color_botones" name="color_botones" type="color" value="#ff0000">
+                                    <input onchange="cambiarcolor_oferta_plantilla2('color_botones',this.value)" id="color_botones_plantilla2" name="color_botones_plantilla2" type="color" value="#ff0000">
                                     <div class="input-label">Botones</div>
                                 </div>
                                 <div class="input-box">
-                                    <input onchange="cambiarcolor_oferta_plantilla2('color',this.value)" id="color" name="color" type="color" value="#000000">
+                                    <input onchange="cambiarcolor_oferta_plantilla2('color',this.value)" id="color_plantilla2" name="color_plantilla2" type="color" value="#000000">
                                     <div class="input-label">Barra Superior</div>
                                 </div>
                             </div>
@@ -433,15 +433,15 @@
                             <h2>Textos</h2>
                             <div class="inputs">
                                 <div class="input-box">
-                                    <input onchange="cambiarcolor_oferta_plantilla2('texto_cabecera',this.value)" id="texto_cabecera" name="texto_cabecera" type="color" value="#ffffff">
+                                    <input onchange="cambiarcolor_oferta_plantilla2('texto_cabecera',this.value)" id="texto_cabecera_plantilla2" name="texto_cabecera_plantilla2" type="color" value="#ffffff">
                                     <div class="input-label">Cabecera</div>
                                 </div>
                                 <div class="input-box">
-                                    <input onchange="cambiarcolor_oferta_plantilla2('texto_boton',this.value)" id="texto_boton1" name="texto_boton1" type="color" value="#ffffff">
+                                    <input onchange="cambiarcolor_oferta_plantilla2('texto_boton',this.value)" id="texto_boton1_plantilla2" name="texto_boton1_plantilla2" type="color" value="#ffffff">
                                     <div class="input-label">Botones</div>
                                 </div>
                                 <div class="input-box">
-                                    <input onchange="cambiarcolor_oferta_plantilla2('texto_precio',this.value)" id="texto_precio" name="texto_precio" type="color" value="#000000">
+                                    <input onchange="cambiarcolor_oferta_plantilla2('texto_precio',this.value)" id="texto_precio_plantilla2" name="texto_precio_plantilla2" type="color" value="#000000">
                                     <div class="input-label">Texto Precio</div>
                                 </div>
                             </div>

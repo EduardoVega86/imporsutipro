@@ -166,6 +166,14 @@ function cargar_ofertas_plantilla2() {
       $("#enlace_oferta2").val(response[0].enlace_oferta2);
       $("#color_btn_oferta2").val(response[0].color_btn_oferta2);
 
+      /* colores plantilla */
+      $("#color_botones_plantilla2").val(response[0].color_botones);
+      $("#color_plantilla2").val(response[0].color);
+      $("#texto_cabecera_plantilla2").val(response[0].texto_cabecera);
+      $("#texto_boton1_plantilla2").val(response[0].texto_boton);
+      $("#texto_precio_plantilla2").val(response[0].texto_precio);
+      /* Fin colores plantilla */
+
       if (response[0].imagen_oferta2 === null) {
         $("#imagen_oferta2").attr(
           "src",
