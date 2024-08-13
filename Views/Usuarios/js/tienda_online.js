@@ -1105,12 +1105,12 @@ function guardar_ofertas_plantilla2() {
   var titulo_oferta1 = $("#titulo_oferta1").val();
   var oferta1 = $("#oferta1").val();
   var descripcion_oferta1 = $("#descripcion_oferta1").val();
-  var textoBtn_oferta1 = $("#textoBtn_oferta1").val();
+  var texto_btn_oferta1 = $("#textoBtn_oferta1").val();
   var enlace_oferta1 = $("#enlace_oferta1").val();
   var titulo_oferta2 = $("#titulo_oferta2").val();
   var oferta2 = $("#oferta2").val();
   var descripcion_oferta2 = $("#descripcion_oferta2").val();
-  var textoBtn_oferta2 = $("#textoBtn_oferta2").val();
+  var texto_btn_oferta2 = $("#textoBtn_oferta2").val();
   var enlace_oferta2 = $("#enlace_oferta2").val();
 
   // Obtener los archivos de las imágenes
@@ -1121,12 +1121,12 @@ function guardar_ofertas_plantilla2() {
   formData.append("titulo_oferta1", titulo_oferta1);
   formData.append("oferta1", oferta1);
   formData.append("descripcion_oferta1", descripcion_oferta1);
-  formData.append("textoBtn_oferta1", textoBtn_oferta1);
+  formData.append("texto_btn_oferta1", texto_btn_oferta1);
   formData.append("enlace_oferta1", enlace_oferta1);
   formData.append("titulo_oferta2", titulo_oferta2);
   formData.append("oferta2", oferta2);
   formData.append("descripcion_oferta2", descripcion_oferta2);
-  formData.append("textoBtn_oferta2", textoBtn_oferta2);
+  formData.append("texto_btn_oferta2", texto_btn_oferta2);
   formData.append("enlace_oferta2", enlace_oferta2);
 
   // Adjuntar las imágenes al FormData
