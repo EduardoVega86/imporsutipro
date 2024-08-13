@@ -253,6 +253,7 @@
             </h2>
             <div id="collapseOferta_plantilla2" class="accordion-collapse collapse" aria-labelledby="headingOferta_plantilla2" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
+                    <button class="btn btn-success" onclick="guardar_ofertas_plantilla2()"><i class="fas fa-plus"></i>Guardar cambios</button>
                     <div class="d-flex flex-row gap-5" style="justify-content: center;">
                         <div class="d-flex flex-column">
                             <h3 style="text-align: center;"><strong> OFERTA 1</strong></h3>
@@ -271,6 +272,10 @@
                             <div class="mb-3">
                                 <label for="textoBtn_oferta1" class="form-label">Texto boton oferta 1</label>
                                 <input type="text" class="form-control cambio" id="textoBtn_oferta1" placeholder="Ingrese el texto del boton oferta 1">
+                            </div>
+                            <div class="mb-3">
+                                <label for="enlace_oferta1" class="form-label">Enlace oferta 1</label>
+                                <input type="text" class="form-control cambio" id="enlace_oferta1" placeholder="Ingrese el enlace oferta 1">
                             </div>
                             <div class="d-flex flex-row gap-3">
                                 <div class="input-box">
@@ -306,6 +311,10 @@
                             <div class="mb-3">
                                 <label for="textoBtn_oferta2" class="form-label">Texto boton oferta 2</label>
                                 <input type="text" class="form-control cambio" id="textoBtn_oferta2" placeholder="Ingrese el texto del boton oferta 2">
+                            </div>
+                            <div class="mb-3">
+                                <label for="enlace_oferta2" class="form-label">Enlace oferta 2</label>
+                                <input type="text" class="form-control cambio" id="enlace_oferta2" placeholder="Ingrese el enlace oferta 2">
                             </div>
                             <div class="d-flex flex-row gap-3">
                                 <div class="input-box">

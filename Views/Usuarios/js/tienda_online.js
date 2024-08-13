@@ -160,7 +160,7 @@ function cargarInfoTienda_inicial() {
         $("#colores_plantilla1").show();
         $("#colores_plantilla2").hide();
         $("#seccion_oferta_plantilla2").hide();
-      } else if (response[0].plantilla == 2){
+      } else if (response[0].plantilla == 2) {
         $("#colores_plantilla2").show();
         $("#seccion_oferta_plantilla2").show();
         $("#colores_plantilla1").hide();
@@ -1051,4 +1051,84 @@ function eliminar_horizontal(id) {
 
 function abrir_agregar_dominio() {
   $("#agregar_dominioModal").modal("show");
+}
+
+function guardar_ofertas_plantilla2() {
+  var titulo_oferta1 = $("#titulo_oferta1").val();
+  var oferta1 = $("#oferta1").val();
+  var descipcion_oferta1 = $("#descipcion_oferta1").val();
+  var textoBtn_oferta1 = $("#textoBtn_oferta1").val();
+  var enlace_oferta1 = $("#enlace_oferta1").val();
+  var titulo_oferta2 = $("#titulo_oferta2").val();
+  var oferta2 = $("#oferta2").val();
+  var descipcion_oferta2 = $("#descipcion_oferta2").val();
+  var textoBtn_oferta2 = $("#textoBtn_oferta2").val();
+  var enlace_oferta2 = $("#enlace_oferta2").val();
+
+  // Obtener los archivos de las imágenes
+  var imagen1 = $("#imageInputOferta1")[0].files[0];
+  var imagen2 = $("#imageInputOferta2")[0].files[0];
+
+  let formData = new FormData();
+  formData.append("titulo_oferta1", titulo_oferta1);
+  formData.append("oferta1", oferta1);
+  formData.append("descipcion_oferta1", descipcion_oferta1);
+  formData.append("textoBtn_oferta1", textoBtn_oferta1);
+  formData.append("enlace_oferta1", enlace_oferta1);
+  formData.append("titulo_oferta2", titulo_oferta2);
+  formData.append("oferta2", oferta2);
+  formData.append("descipcion_oferta2", descipcion_oferta2);
+  formData.append("textoBtn_oferta2", textoBtn_oferta2);
+  formData.append("enlace_oferta2", enlace_oferta2);
+
+  // Adjuntar las imágenes al FormData
+  formData.append("imagen1", imagen1);
+  formData.append("imagen2", imagen2);
+
+  $.ajax({
+    url: SERVERURL + "Usuarios/agregarOfertas",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    dataType: "json",
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("NO SE AGREGÓ CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("AGREGADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+        $("#imagen_categoriaModal").modal("hide");
+        initDataTable();
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+  /* vista previa imagenes ofertas*/
+  document
+    .getElementById("imageInputOferta1")
+    .addEventListener("change", function (event) {
+      mostrarVistaPrevia(event, "imagen_oferta1");
+    });
+
+  document
+    .getElementById("imageInputOferta2")
+    .addEventListener("change", function (event) {
+      mostrarVistaPrevia(event, "imagen_oferta2");
+    });
+
+  function mostrarVistaPrevia(event, imageId) {
+    var reader = new FileReader();
+    reader.onload = function () {
+      var output = document.getElementById(imageId);
+      output.src = reader.result;
+    };
+    reader.readAsDataURL(event.target.files[0]);
+  }
+  /* vista previa imagenes ofertas*/
 }
