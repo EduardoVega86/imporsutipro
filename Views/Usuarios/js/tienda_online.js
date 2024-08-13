@@ -291,11 +291,11 @@ function cambiarcolor(campo, valor) {
     success: function (response2) {
       response2 = JSON.parse(response2);
 
-      if (response.status == 500) {
+      if (response2.status == 500) {
         toastr.error("EL COLOR NO SE CAMBIO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
-      } else if (response.status == 200) {
+      } else if (response2.status == 200) {
         toastr.success("COLOR CAMBIADO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
@@ -322,11 +322,11 @@ function cambiarcolor_oferta_plantilla2(campo, valor) {
     success: function (response2) {
       response2 = JSON.parse(response2);
 
-      if (response.status == 500) {
+      if (response2.status == 500) {
         toastr.error("EL COLOR NO SE CAMBIO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
-      } else if (response.status == 200) {
+      } else if (response2.status == 200) {
         toastr.success("COLOR CAMBIADO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
