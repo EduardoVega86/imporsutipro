@@ -11,9 +11,11 @@ $(document).ready(function () {
       cabeceras_principal = response.cabeceras;
       referidos_principal = response.referidos;
 
-      $("#cantidad_referidos").text(response.cantidad);
-      $("#ganancia_historico_referidos").text(response.ganancias);
-      $("#ganancias_referidos").text(response.saldo);
+      $("#cantidad_referidos").text(parseFloat(response.cantidad).toFixed(2));
+      $("#ganancia_historico_referidos").text(
+        parseFloat(response.ganancias).toFixed(2)
+      );
+      $("#ganancias_referidos").text(parseFloat(response.saldo).toFixed(2));
 
       $("#image_tienda").attr(
         "src",
@@ -45,7 +47,6 @@ function generar_referido() {
 }
 
 $(document).ready(function () {
-
   $.ajax({
     url: SERVERURL + "wallet/obtenerCuentas",
     type: "GET",
@@ -55,9 +56,11 @@ $(document).ready(function () {
       // Asegúrate de que la respuesta es un array
       if (Array.isArray(response)) {
         response.forEach(function (cuenta) {
-          
           $("#cuenta").append(
-            new Option(`${cuenta.banco}- ${cuenta.numero_cuenta} -${cuenta.tipo_cuenta}`, cuenta.id_cuenta)
+            new Option(
+              `${cuenta.banco}- ${cuenta.numero_cuenta} -${cuenta.tipo_cuenta}`,
+              cuenta.id_cuenta
+            )
           );
         });
       } else {
@@ -78,7 +81,6 @@ $(document).ready(function () {
       // Asegúrate de que la respuesta es un array
       if (Array.isArray(response)) {
         response.forEach(function (cuenta) {
-          
           $("#formadePago").append(
             new Option(`${cuenta.tipo}- ${cuenta.cuenta}`, cuenta.id_pago)
           );
@@ -96,9 +98,7 @@ $(document).ready(function () {
     url: SERVERURL + "referidos/crearBilletera",
     type: "GET",
     dataType: "json",
-    success: function (response) {
-      
-    },
+    success: function (response) {},
     error: function (error) {
       console.error("Error al obtener la lista de bodegas:", error);
     },
