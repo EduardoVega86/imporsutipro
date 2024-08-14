@@ -348,7 +348,12 @@ class Usuarios extends Controller
         $enlace_boton = $_POST['enlace_boton'];
         $alineacion = $_POST['alineacion'];
         $imagen = $_FILES['imagen'];
-        $response = $this->model->agregarBanner($titulo, $texto_banner, $texto_boton, $enlace_boton, $alineacion, $imagen, $_SESSION['id_plataforma']);
+
+        $color_texto_banner = $_POST['color_texto_banner'];
+        $color_btn_banner = $_POST['color_btn_banner'];
+        $color_textoBtn_banner = $_POST['color_textoBtn_banner'];
+
+        $response = $this->model->agregarBanner($titulo, $texto_banner, $texto_boton, $enlace_boton, $alineacion, $imagen, $_SESSION['id_plataforma'], $color_texto_banner, $color_btn_banner, $color_textoBtn_banner);
         echo json_encode($response);
     }
 
@@ -362,7 +367,11 @@ class Usuarios extends Controller
         $alineacion = $_POST['alineacion'];
         $imagen = isset($_FILES['imagen']) ? $_FILES['imagen'] : null;
 
-        $response = $this->model->editarBanner($id_banner, $titulo, $texto_banner, $texto_boton, $enlace_boton, $alineacion, $imagen, $_SESSION['id_plataforma']);
+        $color_texto_banner = $_POST['color_texto_banner'];
+        $color_btn_banner = $_POST['color_btn_banner'];
+        $color_textoBtn_banner = $_POST['color_textoBtn_banner'];
+
+        $response = $this->model->editarBanner($id_banner, $titulo, $texto_banner, $texto_boton, $enlace_boton, $alineacion, $imagen, $_SESSION['id_plataforma'], $color_texto_banner, $color_btn_banner, $color_textoBtn_banner);
         echo json_encode($response);
     }
 
@@ -532,15 +541,6 @@ class Usuarios extends Controller
         $campo = $_POST['campo'];
         $valor = $_POST['valor'];
         $response = $this->model->cambiarcolor_oferta_plantilla2($campo, $valor, $_SESSION['id_plataforma']);
-        echo json_encode($response);
-    }
-
-    public function cambiarcolor_banner()
-    {
-        $id_banner = $_POST['id_banner'];
-        $campo = $_POST['campo'];
-        $valor = $_POST['valor'];
-        $response = $this->model->cambiarcolor_banner($id_banner, $campo, $valor, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
 

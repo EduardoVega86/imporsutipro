@@ -64,15 +64,15 @@
                     </div>
                     <div class="row mb-3">
                         <div class="input-box d-flex flex-column">
-                            <input onchange="cambiarcolor_banner('color_texto_banner',this.value)" id="color_texto_banner" name="color_texto_banner" type="color" value="#ff0000">
+                            <input id="color_texto_banner" name="color_texto_banner" type="color" value="#ff0000">
                             <h6><strong>Color texto</strong></h6>
                         </div>
                         <div class="input-box d-flex flex-column">
-                            <input onchange="cambiarcolor_banner('color_btn_banner',this.value)" id="color_btn_banner" name="color_btn_banner" type="color" value="#ff0000">
+                            <input id="color_btn_banner" name="color_btn_banner" type="color" value="#ff0000">
                             <h6><strong>Color boton</strong></h6>
                         </div>
                         <div class="input-box d-flex flex-column">
-                            <input onchange="cambiarcolor_banner('color_textoBtn_banner',this.value)" id="color_textoBtn_banner" name="color_textoBtn_banner" type="color" value="#ff0000">
+                            <input id="color_textoBtn_banner" name="color_textoBtn_banner" type="color" value="#ff0000">
                             <h6><strong>Color texto boton</strong></h6>
                         </div>
                     </div>
@@ -126,6 +126,11 @@
             formData.append('alineacion', $('#alineacion_editar').val());
             formData.append('imagen', $('#imagen_editar')[0].files[0]);
 
+
+            formData.append('color_texto_banner', $('#color_texto_banner').val());
+            formData.append('color_btn_banner', $('#color_btn_banner').val());
+            formData.append('color_textoBtn_banner', $('#color_textoBtn_banner').val());
+
             // Realiza la solicitud AJAX
             $.ajax({
                 url: SERVERURL + 'Usuarios/editarBanner',
@@ -159,38 +164,6 @@
                 }
             });
         });
-
-        function cambiarcolor_banner(campo, valor) {
-            const formData = new FormData();
-            formData.append('id_banner', $('#id_banner').val());
-            formData.append("campo", campo);
-            formData.append("valor", valor);
-
-            $.ajax({
-                type: "POST",
-                url: "" + SERVERURL + "Usuarios/cambiarcolor_banner",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response2) {
-                    response2 = JSON.parse(response2);
-
-                    if (response2.status == 500) {
-                        toastr.error("EL COLOR NO SE CAMBIO CORRECTAMENTE", "NOTIFICACIÓN", {
-                            positionClass: "toast-bottom-center",
-                        });
-                    } else if (response2.status == 200) {
-                        toastr.success("COLOR CAMBIADO CORRECTAMENTE", "NOTIFICACIÓN", {
-                            positionClass: "toast-bottom-center",
-                        });
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error("Error en la solicitud AJAX:", error);
-                    alert("Hubo un problema al agregar el producto temporalmente");
-                },
-            });
-        }
 
     });
 </script>

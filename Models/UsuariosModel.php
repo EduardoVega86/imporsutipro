@@ -490,7 +490,7 @@ ON
         return $this->select($sql);
     }
 
-    public function agregarBanner($titulo, $texto_banner, $texto_boton, $enlace_boton, $alineacion, $imagen, $plataforma)
+    public function agregarBanner($titulo, $texto_banner, $texto_boton, $enlace_boton, $alineacion, $imagen, $plataforma, $color_texto_banner, $color_btn_banner, $color_textoBtn_banner)
     {
         $response = $this->initialResponse();
         $target_dir = "public/img/banner/";
@@ -524,8 +524,8 @@ ON
                 $response['message'] = 'Imagen subida correctamente';
                 $response['data'] = $target_file;
 
-                $sql = "INSERT INTO `banner_adicional` (`fondo_banner`,`titulo`,`texto_banner`,`texto_boton`,`enlace_boton`,`alineacion`, `id_plataforma`) VALUES (?, ?, ?, ?, ?, ?, ?)";
-                $data = [$target_file, $titulo, $texto_banner, $texto_boton, $enlace_boton, $alineacion, $plataforma];
+                $sql = "INSERT INTO `banner_adicional` (`fondo_banner`,`titulo`,`texto_banner`,`texto_boton`,`enlace_boton`,`alineacion`, `id_plataforma`, `color_texto_banner`, `color_btn_banner`, `color_textoBtn_banner`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                $data = [$target_file, $titulo, $texto_banner, $texto_boton, $enlace_boton, $alineacion, $plataforma, $color_texto_banner, $color_btn_banner, $color_textoBtn_banner];
                 $insertar_banner = $this->insert($sql, $data);
                 if ($insertar_banner == 1) {
                     $response['status'] = 200;
@@ -545,7 +545,7 @@ ON
         return $response;
     }
 
-    public function editarBanner($id, $titulo, $texto_banner, $texto_boton, $enlace_boton, $alineacion, $imagen, $plataforma)
+    public function editarBanner($id, $titulo, $texto_banner, $texto_boton, $enlace_boton, $alineacion, $imagen, $plataforma, $color_texto_banner, $color_btn_banner, $color_textoBtn_banner)
     {
         $response = $this->initialResponse();
         $target_dir = "public/img/banner/";
@@ -589,8 +589,8 @@ ON
                 $response['message'] = 'Imagen subida correctamente';
                 $response['data'] = $target_file;
 
-                $sql = "UPDATE `banner_adicional` SET `fondo_banner`=?, `titulo`=?, `texto_banner`=?, `texto_boton`=?, `enlace_boton`=?, `alineacion`=?, `id_plataforma`=? WHERE `id`=?";
-                $data = [$target_file, $titulo, $texto_banner, $texto_boton, $enlace_boton, $alineacion, $plataforma, $id];
+                $sql = "UPDATE `banner_adicional` SET `fondo_banner`=?, `titulo`=?, `texto_banner`=?, `texto_boton`=?, `enlace_boton`=?, `alineacion`=?, `id_plataforma`=?, `color_texto_banner`=?, `color_btn_banner`=?, `color_textoBtn_banner`=? WHERE `id`=?";
+                $data = [$target_file, $titulo, $texto_banner, $texto_boton, $enlace_boton, $alineacion, $plataforma, $color_texto_banner, $color_btn_banner, $color_textoBtn_banner, $id];
             } else {
                 $response['status'] = 500;
                 $response['title'] = 'Error';
@@ -598,8 +598,8 @@ ON
                 return $response;
             }
         } else {
-            $sql = "UPDATE `banner_adicional` SET `titulo`=?, `texto_banner`=?, `texto_boton`=?, `enlace_boton`=?, `alineacion`=?, `id_plataforma`=? WHERE `id`=?";
-            $data = [$titulo, $texto_banner, $texto_boton, $enlace_boton, $alineacion, $plataforma, $id];
+            $sql = "UPDATE `banner_adicional` SET `titulo`=?, `texto_banner`=?, `texto_boton`=?, `enlace_boton`=?, `alineacion`=?, `id_plataforma`=?, `color_texto_banner`=?, `color_btn_banner`=?, `color_textoBtn_banner`=? WHERE `id`=?";
+            $data = [$titulo, $texto_banner, $texto_boton, $enlace_boton, $alineacion, $plataforma, $color_texto_banner, $color_btn_banner, $color_textoBtn_banner, $id];
         }
 
         $actualizar_banner = $this->update($sql, $data);
@@ -1303,23 +1303,6 @@ ON
             }
         }
 
-        return $responses;
-    }
-    
-    public function cambiarcolor_banner($id_banner, $campo, $valor, $plataforma)
-    {
-        // $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
-
-        $sql = "UPDATE `banner_adicional` SET $campo =? WHERE `id_plataforma` = ? AND `id` = ?";
-        //echo $sql;
-        $data = [$valor, $plataforma, $id_banner];
-        $editar_perfil = $this->update($sql, $data);
-        print_r($editar_perfil);
-        if ($editar_perfil == 1) {
-            $responses = array('status' => 200, 'title' => 'Peticion exitosa', 'message' => 'Contraseña actualizada correctamente');
-        } else {
-            $responses = array('status' => 500, 'title' => 'Error', 'message' => $editar_perfil['message']);
-        }
         return $responses;
     }
 
