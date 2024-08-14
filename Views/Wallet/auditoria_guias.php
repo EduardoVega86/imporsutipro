@@ -140,6 +140,19 @@
             formData.append('archivo', $('#fileInput')[0].files[0]); // Añadir archivo al FormData
             formData.append('id_transportadora', $('#transporte_importacion').val()); // Añadir ID de bodega al FormData
 
+            // Mostrar Swal antes de la solicitud AJAX
+            Swal.fire({
+                title: 'Importando...',
+                text: 'Por favor espera mientras se realiza la importación.',
+                icon: 'info',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
             $.ajax({
                 url: '<?php echo SERVERURL; ?>Wallet/importarExcel', // Ruta del controlador que manejará el archivo
                 type: 'POST',
@@ -165,9 +178,14 @@
                     }
                 },
                 error: function() {
-                    alert('Error al subir el archivo');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error al subir el archivo'
+                    });
                 }
             });
+
         });
     });
 
