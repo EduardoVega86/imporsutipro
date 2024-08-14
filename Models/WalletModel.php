@@ -1244,7 +1244,7 @@ ORDER BY
     
      public function guardarArchivo($fileTmpPath, $fileName, $id_transportadora) {
         // Definir la ruta donde se guardará el archivo
-        $uploadDir = __DIR__ .'/transportadoras/';
+        $uploadDir = 'uploads/transportadoras/';
 
         // Obtener la extensión del archivo
         $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
@@ -1280,5 +1280,4 @@ ORDER BY
             ];
         }
     }
-    
 }
