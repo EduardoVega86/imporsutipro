@@ -123,6 +123,12 @@ $(document).ready(function () {
       mostrarVistaPrevia(event, "imagen_oferta2");
     });
 
+    document
+    .getElementById("imageInputPromocion")
+    .addEventListener("change", function (event) {
+      mostrarVistaPrevia(event, "imagen_promocion");
+    });
+
   function mostrarVistaPrevia(event, imageId) {
     var reader = new FileReader();
     reader.onload = function () {
@@ -252,6 +258,7 @@ function cargarInfoTienda_inicial() {
         cargar_ofertas_plantilla2();
         $("#colores_plantilla2").show();
         $("#seccion_oferta_plantilla2").show();
+        $("#seccion_promocion_plantilla2").show();
         $("#colores_plantilla1").hide();
       }
 
