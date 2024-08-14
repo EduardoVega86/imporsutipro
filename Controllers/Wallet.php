@@ -403,7 +403,7 @@ class Wallet extends Controller
             $fileExtension = strtolower(end($fileNameCmps));
 
             // Permitir solo archivos Excel
-              $guardarArchivoResponse = $model->guardarArchivo($fileTmpPath, $fileName, $transportadora);
+              $guardarArchivoResponse = $this->model->guardarArchivo($fileTmpPath, $fileName, $transportadora);
 
         if ($guardarArchivoResponse['status'] === 200) {
             // El archivo se guardó correctamente, puedes continuar con la importación de datos
