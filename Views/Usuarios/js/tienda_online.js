@@ -604,9 +604,9 @@ function editar_banner(id) {
       $("#enlace_boton_editar").val(response[0].enlace_boton);
       $("#alineacion_editar").val(response[0].alineacion).change();
 
-      $("#color_texto_banner").val(response[0].color_texto_banner);
-      $("#color_btn_banner").val(response[0].color_btn_banner);
-      $("#color_textoBtn_banner").val(response[0].color_textoBtn_banner);
+      $("#color_texto_banner_editar").val(response[0].color_texto_banner);
+      $("#color_btn_banner_editar").val(response[0].color_btn_banner);
+      $("#color_textoBtn_banner_editar").val(response[0].color_textoBtn_banner);
 
       $("#preview-imagen-editar")
         .attr("src", SERVERURL + response[0].fondo_banner)
