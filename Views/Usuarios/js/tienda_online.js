@@ -195,6 +195,30 @@ function cargar_ofertas_plantilla2() {
           SERVERURL + response[0].imagen_oferta2
         );
       }
+
+      /* promociones */
+      $("#titulo_promocion").val(response[0].titulo_promocion);
+      $("#precio_promocion").val(response[0].precio_promocion);
+      $("#descripcion_promocion").val(response[0].descripcion_promocion);
+      $("#texto_btn_promocion").val(response[0].texto_btn_promocion);
+      $("#enlace_btn_promocion").val(response[0].enlace_btn_promocion);
+      $("#color_btn_promocion").val(response[0].color_btn_promocion);
+      $("#color_fondo_promocion").val(response[0].color_fondo_promocion);
+      $("#color_letra_promocion").val(response[0].color_letra_promocion);
+      $("#color_letraBtn_promocion").val(response[0].color_letraBtn_promocion);
+
+      if (response[0].imagen_promocion === null) {
+        $("#imagen_promocion").attr(
+          "src",
+          SERVERURL + "public/img/broken-image.png"
+        );
+      } else {
+        $("#imagen_promocion").attr(
+          "src",
+          SERVERURL + response[0].imagen_promocion
+        );
+      }
+      /* fin promociones */
     },
     error: function (error) {
       console.error(
