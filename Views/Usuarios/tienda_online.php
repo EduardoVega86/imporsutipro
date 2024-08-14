@@ -358,7 +358,7 @@
         <div class="accordion-item" id="seccion_promocion_plantilla2" style="display: none;">
             <h2 class="accordion-header" id="headingPromocion_plantilla2">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePromocion_plantilla2" aria-expanded="false" aria-controls="collapsePromocion_plantilla2">
-                    SECCION DE PROMCION
+                    SECCION DE PROMOCIÓN
                 </button>
             </h2>
             <div id="collapsePromocion_plantilla2" class="accordion-collapse collapse" aria-labelledby="headingPromocion_plantilla2" data-bs-parent="#accordionExample">
@@ -366,10 +366,10 @@
                     <button class="btn btn-success" onclick="guardar_promocion_plantilla2()"></i>Guardar cambios</button>
                     <div class="d-flex flex-row gap-5" style="justify-content: center;">
                         <div class="d-flex flex-column">
-                            <h3 style="text-align: center;"><strong> Datos Promocion</strong></h3>
+                            <h3 style="text-align: center;"><strong> Datos Promoción</strong></h3>
                             <div class="mb-3">
                                 <label for="titulo_promocion" class="form-label">Titulo promoción</label>
-                                <input type="text" class="form-control" id="titulo_promocion" placeholder="Ingrese el titulo de la promocion">
+                                <input type="text" class="form-control" id="titulo_promocion" placeholder="Ingrese el titulo de la promoción">
                             </div>
                             <div class="mb-3">
                                 <label for="precio_promocion" class="form-label">Precio promoción</label>

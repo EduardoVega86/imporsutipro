@@ -123,7 +123,7 @@ $(document).ready(function () {
       mostrarVistaPrevia(event, "imagen_oferta2");
     });
 
-    document
+  document
     .getElementById("imageInputPromocion")
     .addEventListener("change", function (event) {
       mostrarVistaPrevia(event, "imagen_promocion");
@@ -1209,6 +1209,50 @@ function guardar_ofertas_plantilla2() {
 
   $.ajax({
     url: SERVERURL + "Usuarios/agregarOfertas",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    dataType: "json",
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("NO SE AGREGÓ CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("AGREGADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+}
+
+function guardar_promocion_plantilla2() {
+  var titulo_promocion = $("#titulo_promocion").val();
+  var precio_promocion = $("#precio_promocion").val();
+  var descripcion_promocion = $("#descripcion_promocion").val();
+  var texto_btn_promocion = $("#texto_btn_promocion").val();
+  var enlace_btn_promocion = $("#enlace_btn_promocion").val();
+
+  // Obtener los archivos de las imágenes
+  var imagen = $("#imageInputPromocion")[0].files[0];
+
+  let formData = new FormData();
+  formData.append("titulo_promocion", titulo_promocion);
+  formData.append("precio_promocion", precio_promocion);
+  formData.append("descripcion_promocion", descripcion_promocion);
+  formData.append("texto_btn_promocion", texto_btn_promocion);
+  formData.append("enlace_btn_promocion", enlace_btn_promocion);
+
+  // Adjuntar las imágenes al FormData
+  formData.append("imagen_promocion", imagen);
+
+  $.ajax({
+    url: SERVERURL + "Usuarios/agregarPromocion",
     type: "POST",
     data: formData,
     processData: false, // No procesar los datos
