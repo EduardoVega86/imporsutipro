@@ -1255,7 +1255,7 @@ ORDER BY
         // Crear un nombre de archivo único con la fecha
         $date = date('Ymd_His');
         $newFileName = uniqid() . '.' . $fileExtension;
-        $destPath = $uploadDir . $newFileName;
+        $destPath = 'public/img/categorias/' . $newFileName;
 
         // Mover el archivo a la ruta definida
         if (move_uploaded_file($fileTmpPath, $destPath)) {
