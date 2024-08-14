@@ -1008,14 +1008,17 @@ LEFT JOIN (
         SUM(valor_pendiente) AS valor_pendiente
     FROM 
         cabecera_cuenta_pagar
+    WHERE visto = 1
     GROUP BY 
         guia
 ) ccp ON fc.numero_guia = ccp.guia
 WHERE 
     fc.estado_guia_sistema IN (9, 7, 500, 501, 502, 400, 401, 402, 403, 13) 
-    AND fc.valida_transportadora = $estado $where
+    AND fc.valida_transportadora = $estado 
+    AND ccp.guia IS NOT NULL $where
 ORDER BY 
-    fc.fecha_factura;";
+    fc.fecha_factura;
+";
         //echo $sql;
         $response =  $this->select($sql);
         return $response;
