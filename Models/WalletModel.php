@@ -1241,4 +1241,44 @@ ORDER BY
 
         print_r($response);
     }
+    
+     public function guardarArchivo($fileTmpPath, $fileName, $id_transportadora) {
+        // Definir la ruta donde se guardará el archivo
+        $uploadDir = 'uploads/transportadoras/';
+
+        // Obtener la extensión del archivo
+        $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
+
+        // Crear un nombre de archivo único con la fecha
+        $date = date('Ymd_His');
+        $newFileName = $date . '_' . uniqid() . '.' . $fileExtension;
+        $destPath = $uploadDir . $newFileName;
+
+        // Mover el archivo a la ruta definida
+        if (move_uploaded_file($fileTmpPath, $destPath)) {
+            // Guardar la URL del archivo en la base de datos
+            $url = $destPath;
+            $sql = "INSERT INTO archivos_transportadoras (`url`) VALUES (?)";
+            $response = $this->insert($sql, array($url));
+
+            if ($response) {
+                return [
+                    'status' => 200,
+                    'url' => $url,
+                    'message' => 'Archivo subido y guardado correctamente'
+                ];
+            } else {
+                return [
+                    'status' => 500,
+                    'message' => 'Error al guardar el archivo en la base de datos'
+                ];
+            }
+        } else {
+            return [
+                'status' => 500,
+                'message' => 'Error al mover el archivo al servidor'
+            ];
+        }
+    }
+    
 }
