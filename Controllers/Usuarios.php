@@ -537,9 +537,10 @@ class Usuarios extends Controller
 
     public function cambiarcolor_banner()
     {
+        $id_banner = $_POST['id_banner'];
         $campo = $_POST['campo'];
         $valor = $_POST['valor'];
-        $response = $this->model->cambiarcolor_banner($campo, $valor, $_SESSION['id_plataforma']);
+        $response = $this->model->cambiarcolor_banner($id_banner, $campo, $valor, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
 

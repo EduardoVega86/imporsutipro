@@ -1306,13 +1306,13 @@ ON
         return $responses;
     }
     
-    public function cambiarcolor_banner($campo, $valor, $plataforma)
+    public function cambiarcolor_banner($id_banner, $campo, $valor, $plataforma)
     {
         // $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
 
-        $sql = "UPDATE `banner_adicional` SET $campo =? WHERE `id_plataforma` = ?";
+        $sql = "UPDATE `banner_adicional` SET $campo =? WHERE `id_plataforma` = ? AND `id` = ?";
         //echo $sql;
-        $data = [$valor, $plataforma];
+        $data = [$valor, $plataforma, $id_banner];
         $editar_perfil = $this->update($sql, $data);
         print_r($editar_perfil);
         if ($editar_perfil == 1) {
