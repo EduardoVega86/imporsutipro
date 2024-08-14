@@ -1246,6 +1246,8 @@ ORDER BY
     }
     
      public function guardarArchivo($fileTmpPath, $fileName, $id_transportadora) {
+         
+         echo $fileTmpPath;
         // Definir la ruta donde se guardará el archivo
       //  $uploadDir = 'uploads/transportadoras/';
  $uploadDir = "public/img/categorias/";
