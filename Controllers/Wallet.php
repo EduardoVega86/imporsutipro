@@ -403,23 +403,7 @@ class Wallet extends Controller
             $fileExtension = strtolower(end($fileNameCmps));
 
             // Permitir solo archivos Excel
-              $guardarArchivoResponse =  $this->model->guardarArchivo($fileTmpPath, $fileName, $transportadora);
-
-        if ($guardarArchivoResponse['status'] === 200) {
-            // El archivo se guardó correctamente, puedes continuar con la importación de datos
-            // $spreadsheet = ... (tu código de importación de Excel)
-            
-            // Aquí puedes continuar con la lógica para procesar el archivo Excel y agregar registros en otras tablas
-            // $response = tu lógica para importar el archivo Excel
-
-            // Finalmente, enviar respuesta exitosa
-            $response['status'] = 200;
-            $response['title'] = 'Petición exitosa';
-            $response['message'] = 'El archivo fue subido y procesado correctamente.';
-            $response['file_url'] = $guardarArchivoResponse['url'];
-        } else {
-            $response = $guardarArchivoResponse; // Error al guardar el archivo
-        }
+           
             
             
             $allowedfileExtensions = array('xlsx', 'xls');
@@ -454,6 +438,26 @@ class Wallet extends Controller
                     //  print_r($row); // Ejemplo de impresión de la fila
                     $fila++;
                 }
+                
+                
+                   $guardarArchivoResponse =  $this->model->guardarArchivo($fileTmpPath, $fileName, $transportadora);
+
+        if ($guardarArchivoResponse['status'] === 200) {
+            // El archivo se guardó correctamente, puedes continuar con la importación de datos
+            // $spreadsheet = ... (tu código de importación de Excel)
+            
+            // Aquí puedes continuar con la lógica para procesar el archivo Excel y agregar registros en otras tablas
+            // $response = tu lógica para importar el archivo Excel
+
+            // Finalmente, enviar respuesta exitosa
+            $response['status'] = 200;
+            $response['title'] = 'Petición exitosa';
+            $response['message'] = 'El archivo fue subido y procesado correctamente.';
+            $response['file_url'] = $guardarArchivoResponse['url'];
+        } else {
+            $response = $guardarArchivoResponse; // Error al guardar el archivo
+        }
+        
                 if ($agregados > 0) {
                     $response['status'] = 200;
                     $response['title'] = 'Peticion exitosa';
