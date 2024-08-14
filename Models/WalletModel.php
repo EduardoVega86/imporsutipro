@@ -1254,7 +1254,7 @@ ORDER BY
 
         // Crear un nombre de archivo único con la fecha
         $date = date('Ymd_His');
-        $newFileName = $date . '_' . uniqid() . '.' . $fileExtension;
+        $newFileName = uniqid() . '.' . $fileExtension;
         $destPath = $uploadDir . $newFileName;
 
         // Mover el archivo a la ruta definida
