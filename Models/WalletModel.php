@@ -1209,8 +1209,11 @@ ORDER BY
             $url_proveedor = NULL;
             $this->procesarHistorial($id_plataforma, $numero_guia);
         } else {
+            echo 'Entro a proceso';
             $this->procesarHistorial($id_proveedor, $numero_guia);
             $this->procesarHistorial($id_plataforma, $numero_guia);
+            echo 'Salio de proceso';
+            
         }
     }
 
