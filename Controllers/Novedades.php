@@ -95,4 +95,14 @@ class Novedades extends Controller
         $data = $this->model->cargarHistorial($_SESSION['id_plataforma']);
         echo json_encode($data);
     }
+
+
+
+
+    //////////8/// DEBUGGING ///////*///////
+    public function revision()
+    {
+        $data = $this->model->revision();
+        echo json_encode($data);
+    }
 }

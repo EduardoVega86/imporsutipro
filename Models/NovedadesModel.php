@@ -175,4 +175,29 @@ class NovedadesModel extends Query
         $response = $this->select($sql);
         return $response;
     }
+
+
+
+
+
+
+
+    //////////8/// DEBUGGING ///////*///////
+    public function revision()
+    {
+        $sql = "SELECT * FROM novedades where terminado= 0 and guia_novedad like 'IMP%";
+
+        $response = $this->select($sql);
+
+        ///debugging
+        $url = "https://api.laarcourier.com:9727/guias/";
+        foreach ($response as $r) {
+            $guia = $r['guia_novedad'];
+            $ch = curl_init($url . $guia);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $response = curl_exec($ch);
+            $response = json_decode($response, true);
+        }
+        return $response;
+    }
 }
