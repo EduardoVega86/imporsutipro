@@ -373,19 +373,19 @@
                             </div>
                             <div class="mb-3">
                                 <label for="precio_promocion" class="form-label">Precio promoción</label>
-                                <input type="text" class="form-control" id="precio_promocion" placeholder="Ingrese el promocion">
+                                <input type="text" class="form-control" id="precio_promocion" placeholder="Ingrese el promoción">
                             </div>
                             <div class="mb-3">
                                 <label for="descripcion_promocion" class="form-label">Descripción promoción</label>
-                                <input type="text" class="form-control" id="descripcion_promocion" placeholder="Ingrese la descipcion promocion">
+                                <input type="text" class="form-control" id="descripcion_promocion" placeholder="Ingrese la descipcion promoción">
                             </div>
                             <div class="mb-3">
                                 <label for="texto_btn_promocion" class="form-label">Texto boton promoción</label>
-                                <input type="text" class="form-control" id="texto_btn_promocion" placeholder="Ingrese el texto del boton promocion">
+                                <input type="text" class="form-control" id="texto_btn_promocion" placeholder="Ingrese el texto del boton promoción">
                             </div>
                             <div class="mb-3">
                                 <label for="enlace_btn_promocion" class="form-label">Enlace promoción</label>
-                                <input type="text" class="form-control" id="enlace_btn_promocion" placeholder="Ingrese el enlace promocion">
+                                <input type="text" class="form-control" id="enlace_btn_promocion" placeholder="Ingrese el enlace promoción">
                             </div>
                             <div class="d-flex flex-row gap-3">
                                 <div class="d-flex flex-column">

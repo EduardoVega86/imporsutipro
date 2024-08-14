@@ -1023,7 +1023,7 @@ ON
         $plataforma
     ) {
         $response = $this->initialResponse();
-        $target_dir = "public/img/promociones/";
+        $target_dir = "public/img/promocion/";
 
         // Función para procesar la imagen
         function procesarImagenPromocion($imagen, $target_dir, &$response)
