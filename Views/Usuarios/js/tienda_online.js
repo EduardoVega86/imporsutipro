@@ -155,6 +155,11 @@ function cargar_ofertas_plantilla2() {
       $("#color_texto_oferta1").val(response[0].color_texto_oferta1);
       $("#color_textoBtn_oferta1").val(response[0].color_textoBtn_oferta1);
 
+      $("#color_hover_cabecera_plantilla2").val(response[0].color_hover_cabecera);
+      $("#color_cabecera_plantilla2").val(response[0].color_cabecera);
+      $("#color_texto_cabecera_plantilla2").val(response[0].color_texto_cabecera);
+      $("#color_texto_precio_plantilla2").val(response[0].color_texto_precio);
+
       if (response[0].imagen_oferta1 === null) {
         $("#imagen_oferta1").attr(
           "src",
