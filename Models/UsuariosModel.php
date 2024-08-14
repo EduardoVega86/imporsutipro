@@ -1305,7 +1305,23 @@ ON
 
         return $responses;
     }
+    
+    public function cambiarcolor_banner($campo, $valor, $plataforma)
+    {
+        // $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
 
+        $sql = "UPDATE `banner_adicional` SET $campo =? WHERE `id_plataforma` = ?";
+        //echo $sql;
+        $data = [$valor, $plataforma];
+        $editar_perfil = $this->update($sql, $data);
+        print_r($editar_perfil);
+        if ($editar_perfil == 1) {
+            $responses = array('status' => 200, 'title' => 'Peticion exitosa', 'message' => 'Contraseña actualizada correctamente');
+        } else {
+            $responses = array('status' => 500, 'title' => 'Error', 'message' => $editar_perfil['message']);
+        }
+        return $responses;
+    }
 
     public function actualizar_tienda($ruc_tienda, $telefono_tienda, $email_tienda, $direccion_tienda, $pais_tienda, $plataforma, $facebook, $instagram, $tiktok)
     {

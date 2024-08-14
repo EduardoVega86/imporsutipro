@@ -382,6 +382,37 @@ function cambiarcolor_oferta_plantilla2(campo, valor) {
   });
 }
 
+function cambiarcolor_banner(campo, valor) {
+  const formData = new FormData();
+  formData.append("campo", campo);
+  formData.append("valor", valor);
+
+  $.ajax({
+    type: "POST",
+    url: "" + SERVERURL + "Usuarios/cambiarcolor_banner",
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function (response2) {
+      response2 = JSON.parse(response2);
+
+      if (response2.status == 500) {
+        toastr.error("EL COLOR NO SE CAMBIO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response2.status == 200) {
+        toastr.success("COLOR CAMBIADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al agregar el producto temporalmente");
+    },
+  });
+}
+
 let dataTableBanner;
 let dataTableBannerIsInitialized = false;
 

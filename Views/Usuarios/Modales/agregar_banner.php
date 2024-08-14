@@ -63,15 +63,15 @@
                     </div>
                     <div class="row mb-3">
                         <div class="input-box d-flex flex-column">
-                            <input onchange="cambiarcolor('color_texto_banner',this.value)" id="color_texto_banner" name="color_texto_banner" type="color" value="#ff0000">
+                            <input onchange="cambiarcolor_banner('color_texto_banner',this.value)" id="color_texto_banner" name="color_texto_banner" type="color" value="#ff0000">
                             <h6><strong>Color texto</strong></h6>
                         </div>
                         <div class="input-box d-flex flex-column">
-                            <input onchange="cambiarcolor('color_btn_banner',this.value)" id="color_btn_banner" name="color_btn_banner" type="color" value="#ff0000">
+                            <input onchange="cambiarcolor_banner('color_btn_banner',this.value)" id="color_btn_banner" name="color_btn_banner" type="color" value="#ff0000">
                             <h6><strong>Color boton</strong></h6>
                         </div>
                         <div class="input-box d-flex flex-column">
-                            <input onchange="cambiarcolor('color_textoBtn_banner',this.value)" id="color_textoBtn_banner" name="color_textoBtn_banner" type="color" value="#ff0000">
+                            <input onchange="cambiarcolor_banner('color_textoBtn_banner',this.value)" id="color_textoBtn_banner" name="color_textoBtn_banner" type="color" value="#ff0000">
                             <h6><strong>Color texto boton</strong></h6>
                         </div>
                     </div>

@@ -535,6 +535,14 @@ class Usuarios extends Controller
         echo json_encode($response);
     }
 
+    public function cambiarcolor_banner()
+    {
+        $campo = $_POST['campo'];
+        $valor = $_POST['valor'];
+        $response = $this->model->cambiarcolor_banner($campo, $valor, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
     public function actualizar_plataforma()
     {
         //$nombre = $_POST['nombre'];
