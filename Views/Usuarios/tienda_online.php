@@ -406,21 +406,21 @@
                                 <div class="d-flex flex-row">
                                     <div class="input-box d-flex flex-column">
                                         <input onchange="cambiarcolor_oferta_plantilla2('color_btn_promocion',this.value)" id="color_btn_promocion" name="color_btn_promocion" type="color" value="#ffffff">
-                                        <h7 style="text-align: center;"><strong>Color texto oferta 2</strong></h7>
+                                        <h7 style="text-align: center;"><strong>Color boton</strong></h7>
                                     </div>
                                     <div class="input-box d-flex flex-column">
                                         <input onchange="cambiarcolor_oferta_plantilla2('color_fondo_promocion',this.value)" id="color_fondo_promocion" name="color_fondo_promocion" type="color" value="#ffffff">
-                                        <h7 style="text-align: center;"><strong>Color boton oferta 2</strong></h7>
+                                        <h7 style="text-align: center;"><strong>Color fondo</strong></h7>
                                     </div>
                                 </div>
                                 <div class="d-flex flex-row">
                                     <div class="input-box d-flex flex-column">
                                         <input onchange="cambiarcolor_oferta_plantilla2('color_letra_promocion',this.value)" id="color_letra_promocion" name="color_letra_promocion" type="color" value="#ffffff">
-                                        <h7 style="text-align: center;"><strong>Color texto boton oferta 2</strong></h7>
+                                        <h7 style="text-align: center;"><strong>Color texto promocion</strong></h7>
                                     </div>
                                     <div class="input-box d-flex flex-column">
                                         <input onchange="cambiarcolor_oferta_plantilla2('color_letraBtn_promocion',this.value)" id="color_letraBtn_promocion" name="color_letraBtn_promocion" type="color" value="#ffffff">
-                                        <h7 style="text-align: center;"><strong>Color texto boton oferta 2</strong></h7>
+                                        <h7 style="text-align: center;"><strong>Color texto boton</strong></h7>
                                     </div>
                                 </div>
 
