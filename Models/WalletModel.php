@@ -149,7 +149,7 @@ class WalletModel extends Query
         $cod_factura = $response[0]['cod'];
 
 
-        if ($cod_factura == 0 && $estado_guia == 7) {
+        if ($cod_factura != 1 && $estado_guia == 7) {
         } else
         if ($estado_guia == 7 && $valor < 0) {
             return;
