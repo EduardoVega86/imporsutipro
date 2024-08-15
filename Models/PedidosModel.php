@@ -164,7 +164,7 @@ class PedidosModel extends Query
         return $this->select($sql, $params);
     }
 
-    public function cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $inicio, $final)
+    public function cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso)
     {
         $sql = "SELECT 
             fc.*, 
