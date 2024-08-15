@@ -269,7 +269,8 @@ class Pedidos extends Controller
         echo json_encode($data);
     }
 
-    public function eliminarPedido($id_factura){
+    public function eliminarPedido($id_factura)
+    {
         $response = $this->model->eliminarPedido($id_factura);
         echo json_encode($response);
     }
@@ -347,7 +348,9 @@ class Pedidos extends Controller
         $transportadora = $_POST['transportadora'] ?? "";
         $estado = $_POST['estado'] ?? "";
         $impreso = $_POST['impreso'] ?? "";
-        $data = $this->model->cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso);
+        $start = $_POST['start'] ?? 0;
+        $length = $_POST['length'] ?? 25;
+        $data = $this->model->cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $start, $length);
         echo json_encode($data);
     }
 
