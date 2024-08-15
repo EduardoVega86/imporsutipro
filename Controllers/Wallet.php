@@ -461,7 +461,7 @@ class Wallet extends Controller
                 if ($agregados > 0) {
                     $response['status'] = 200;
                     $response['title'] = 'Peticion exitosa';
-                    $response['message'] = $agregados . ' productos importados correctamente';
+                    $response['message'] = $agregados . ' registros importados correctamente';
                 } else {
                     $response['status'] = 500;
                     $response['title'] = 'Peticion exitosa';
