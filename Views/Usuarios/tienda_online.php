@@ -94,7 +94,7 @@
             <div class="price-tag" data-price-id="price_template3"><span id="price_template3">Plantilla3</span></div>
         </div>
         <div class="img-container text-center plantilla" data-template="template4">
-            <img src="<?php echo SERVERURL; ?>/public/img/SPEED.jpg" alt="Template4">
+            <img src="<?php echo SERVERURL; ?>/public/img/GINTRACOM.jpg" alt="Template4">
             <div class="price-tag" data-price-id="price_template4"><span id="price_template4">Plantilla4</span></div>
         </div>
         <input type="hidden" id="costo_plantilla" name="costo_plantilla">
