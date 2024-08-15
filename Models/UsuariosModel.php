@@ -943,9 +943,9 @@ ON
         if ($imagen1_url !== false && $imagen2_url !== false) {
             // Verificar si ya existe un registro con el id_plataforma dado
             $sql_select = "SELECT * FROM `plantilla_2` WHERE `id_plataforma` = ?";
-            $existing_entry = $this->select($sql_select, [$plataforma]);
+            $existing_entry = $this->simple_select($sql_select, [$plataforma]);
 
-            if (count($existing_entry) > 0) {
+            if ($existing_entry > 0) {
                 // Si existe, construir la consulta UPDATE dinámicamente
                 $sql_update = "UPDATE `plantilla_2` SET 
                                 `titulo_oferta1` = ?, `oferta1` = ?, `descripcion_oferta1` = ?, `texto_btn_oferta1` = ?, `enlace_oferta1` = ?, 
@@ -1075,9 +1075,9 @@ ON
         if ($imagen_promocion_url !== false) {
             // Verificar si ya existe un registro con el id_plataforma dado
             $sql_select = "SELECT * FROM `plantilla_2` WHERE `id_plataforma` = ?";
-            $existing_entry = $this->select($sql_select, [$plataforma]);
+            $existing_entry = $this->simple_select($sql_select, [$plataforma]);
 
-            if (count($existing_entry) > 0) {
+            if ($existing_entry > 0) {
                 // Si existe, construir la consulta UPDATE dinámicamente
                 $sql_update = "UPDATE `plantilla_2` SET 
                                 `titulo_promocion` = ?, `precio_promocion` = ?, `descripcion_promocion` = ?, `texto_btn_promocion` = ?, `enlace_btn_promocion` = ?";
@@ -1278,7 +1278,6 @@ ON
         // Primero, comprobar si existe un registro con la plataforma dada
         $sql_select = "SELECT * FROM `plantilla_2` WHERE `id_plataforma` = ?";
         $existing_entry = $this->simple_select($sql_select, [$plataforma]);
-
         
         if ($existing_entry > 0) {
             // Si existe, realizar un UPDATE
