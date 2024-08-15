@@ -163,10 +163,11 @@ $.fn.dataTable.ext.order["dom-checkbox"] = function (settings, col) {
 
 const dataTableOtrasFormasPagoOptions = {
   columnDefs: [
-    { className: "centered", targets: [1, 2, 3, 4, 5] },
-    { orderable: true, targets: 0, orderDataType: "dom-checkbox" }, // Aplicar ordenación personalizada
+    { className: "centered", targets: [1, 2, 3, 4, 5, 6] },
+    { orderable: true, targets: 0, orderDataType: "dom-checkbox" }, // Ordenar por la columna de checkboxes
+    { type: 'date', targets: 2 }, // La columna de fecha tiene el índice 2 en este caso
   ],
-  order: [[0, "asc"]], // Ordenar por la columna de checkboxes
+  order: [[0, "asc"], [2, "asc"]], // Ordenar primero por checkbox, luego por fecha de forma ascendente
   pageLength: 5,
   destroy: true,
   dom: '<"d-flex w-full justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
