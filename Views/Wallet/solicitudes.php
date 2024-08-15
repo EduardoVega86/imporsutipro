@@ -19,6 +19,7 @@
                 <thead>
                     <tr>
                         <th class="centered"></th>
+                        <th class="centered">ID</th>
                         <th class="centered">Nombre</th>
                         <th class="centered">Correo</th>
                         <th class="centered">Cedula</th>
@@ -46,6 +47,7 @@
                 <thead>
                     <tr>
                         <th class="centered"></th>
+                        <th class="centered">ID</th>
                         <th class="centered">Nombre tienda</th>
                         <th class="centered">Fecha solicitud</th>
                         <th class="centered">Tipo</th>

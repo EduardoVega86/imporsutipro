@@ -97,6 +97,7 @@ const listSolicitudes = async () => {
       content += `
                 <tr>
                     <td><input type="checkbox" class="selectCheckbox" data-id="${solicitud.id_solicitud}" ${checkboxState} onclick="toggleSolicitud(${solicitud.id_solicitud}, this.checked)"></td>
+                    <td>${solicitud.id_solicitud}</td>
                     <td>${solicitud.nombre}</td>
                     <td>${solicitud.correo}</td>
                     <td>${solicitud.cedula}</td>
@@ -251,6 +252,7 @@ const listOtrasFormasPago = async () => {
       content += `
                 <tr>
                     <td><input type="checkbox" class="selectCheckbox" data-id="${pago.id_solicitud}" ${checkboxState} onclick="toggleSolicitud(${pago.id_solicitud}, this.checked)"></td>
+                    <td>${pago.id_solicitud}</td>
                     <td>${nombre_tienda}</td>
                     <td>${pago.fecha}</td>
                     <td>${pago.tipo}</td>
