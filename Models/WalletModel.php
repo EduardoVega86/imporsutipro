@@ -1094,7 +1094,7 @@ class WalletModel extends Query
         $data = [$transportadora, $guia, $valor, $comision, $fecha];
         $insertar_producto = $this->insert($sql, $data);
 
-        print_r($insertar_producto);
+        //print_r($insertar_producto);
         if ($insertar_producto == 1) {
             $response['message'] = 'Producto y stock agregado correctamente';
 
