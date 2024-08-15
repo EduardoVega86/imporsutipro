@@ -97,7 +97,6 @@
             <img src="<?php echo SERVERURL; ?>/public/img/TEMPLATE4.jpg" alt="Template4">
             <div class="price-tag" data-price-id="price_template4"><span id="price_template4">Plantilla4</span></div>
         </div> -->
-        <input type="hidden" id="costo_plantilla" name="costo_plantilla">
         <input type="hidden" id="plantilla_selected" name="plantilla_selected">
     </div>
 

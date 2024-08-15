@@ -146,7 +146,6 @@ $(document).ready(function () {
     var selectedTemplate = $(this).data("template");
 
     // Actualiza los valores de los inputs hidden
-    $("#costo_plantilla").val(priceValue);
     $("#plantilla_selected").val(selectedTemplate);
 
     // Remueve la clase 'selected' de todas las plantillas
