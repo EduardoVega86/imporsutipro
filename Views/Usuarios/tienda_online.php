@@ -223,6 +223,9 @@
                         <div class="d-flex">
                             <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_bannerModal"><i class="fas fa-plus"></i> Agregar</button>
                         </div>
+                        <div class="alert alert-warning" role="alert">
+                                        <strong>Atención:</strong> las dimensines de la imagen deben ser 2550x860 y en formato .png, .jpg, .jpeg
+                                    </div>
                     </div>
                     <div class="table-responsive">
                         <!-- <table class="table table-bordered table-striped table-hover"> -->
@@ -292,6 +295,9 @@
                                 </div>
                                 <div class="d-flex flex-column">
                                     <h5 class="card-title">Imagen oferta 1</h5>
+                                    <div class="alert alert-warning" role="alert">
+                                        <strong>Atención:</strong> las dimensines de la imagen deben ser 893x468 y en formato .png, .jpg, .jpeg
+                                    </div>
                                     <form id="imageFormOferta1" enctype="multipart/form-data">
                                         <div class="mb-3">
                                             <input type="file" class="form-control" id="imageInputOferta1" accept="image/*" name="imagen">
@@ -339,6 +345,9 @@
                                 </div>
                                 <div class="d-flex flex-column">
                                     <h5 class="card-title">Imagen oferta 2</h5>
+                                    <div class="alert alert-warning" role="alert">
+                                        <strong>Atención:</strong> las dimensines de la imagen deben ser 893x468 y en formato .png, .jpg, .jpeg
+                                    </div>
                                     <form id="imageFormOferta2" enctype="multipart/form-data">
                                         <div class="mb-3">
                                             <input type="file" class="form-control" id="imageInputOferta2" accept="image/*" name="imagen">
@@ -390,6 +399,9 @@
                             <div class="d-flex flex-row gap-3">
                                 <div class="d-flex flex-column">
                                     <h5 class="card-title">Imagen promoción</h5>
+                                    <div class="alert alert-warning" role="alert">
+                                        <strong>Atención:</strong> las dimensines de la imagen deben ser 1825x600 y en formato .png, .jpg, .jpeg
+                                    </div>
                                     <form id="imageFormPromocion" enctype="multipart/form-data">
                                         <div class="mb-3">
                                             <input type="file" class="form-control" id="imageInputPromocion" accept="image/*" name="imagen">
