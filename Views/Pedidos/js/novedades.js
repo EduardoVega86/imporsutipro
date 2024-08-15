@@ -175,7 +175,9 @@ function gestionar_novedad(guia_novedad) {
       $("#estado_gestionarNov").text(response.novedad[0].estado_novedad);
       $("#transportadora_gestionarNov").text(transportadora);
       $("#novedad_gestionarNov").text(response.novedad[0].novedad);
-      $("#tracking_gestionarNov").attr("href", response.novedad[0].tracking);
+      if (response.novedad[0].tracking.includes("https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia=")){
+        $("#tracking_gestionarNov").attr("href", "https://fenixoper.laarcourier.com/Tracking/Guiacompleta.aspx?guia="+response.novedad[0].guia_novedad);
+      }
 
       $("#id_novedad").val(response.novedad[0].id_novedad);
       $("#numero_guia").val(response.novedad[0].guia_novedad);

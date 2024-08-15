@@ -72,12 +72,15 @@
                     <div class="tab-pane fade" id="adicionales" role="tabpanel" aria-labelledby="adicionales-tab">
 
                         <form id="imageFormAdicionales" enctype="multipart/form-data">
-                            <input type="hidden" id="id_imagenproducto" name="id_producto">
+                            <input type="hidden" id="id_imagenproducto2" name="id_producto2">
                             <div class="form-group mt-3">
                                 <label for="imageInputAdicionales">Imágenes Adicionales (Máximo 4)</label>
                                 <input type="file" class="form-control-file" id="imageInputAdicionales" accept="image/*" name="imagen[]" multiple>
                             </div>
-                            <div id="imagePreviewAdicionales" class="image-preview-container mt-2 d-flex flex-wrap"></div>
+                            <div id="imagePreviewAdicionales1" class="image-preview-container mt-2 d-flex flex-wrap"></div>
+                            <div id="imagePreviewAdicionales2" class="image-preview-container mt-2 d-flex flex-wrap"></div>
+                            <div id="imagePreviewAdicionales3" class="image-preview-container mt-2 d-flex flex-wrap"></div>
+                            <div id="imagePreviewAdicionales4" class="image-preview-container mt-2 d-flex flex-wrap"></div>
                         </form>
                     </div>
                 </div>

@@ -282,45 +282,10 @@ class Productos extends Controller
     }
 
 
-    public function guardar_imagenes_adicionales()
+    public function guardar_imagenAdicional_productos()
     {
-        if (isset($_FILES['images'])) {
-            $totalFiles = count($_FILES['images']['name']);
 
-            for ($i = 0; $i < $totalFiles; $i++) {
-                $fileName = $_FILES['images']['name'][$i];
-                $fileTmpName = $_FILES['images']['tmp_name'][$i];
-                $fileSize = $_FILES['images']['size'][$i];
-                $fileError = $_FILES['images']['error'][$i];
-                $fileType = $_FILES['images']['type'][$i];
-
-                $fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
-                $allowed = array('jpg', 'jpeg', 'png', 'gif');
-
-                if (in_array($fileExt, $allowed)) {
-                    if ($fileError === 0) {
-                        if ($fileSize < 5000000) { // Limitar tamaño de archivo a 5MB
-                            $fileNewName = uniqid('', true) . "." . $fileExt;
-                            $fileDestination = 'uploads/' . $fileNewName;
-
-                            if (move_uploaded_file($fileTmpName, $fileDestination)) {
-                                $response[] = "Imagen $fileName subida exitosamente.";
-                            } else {
-                                $response[] = "Error al subir la imagen $fileName.";
-                            }
-                        } else {
-                            $response[] = "La imagen $fileName es demasiado grande.";
-                        }
-                    } else {
-                        $response[] = "Error al subir la imagen $fileName.";
-                    }
-                } else {
-                    $response[] = "Tipo de archivo no permitido para la imagen $fileName.";
-                }
-            }
-        } else {
-            $response[] = "No se enviaron imágenes.";
-        }
+        $response = $this->model->guardar_imagen_productos($_FILES['imagen'], $_POST['id_producto'], $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
 

@@ -660,6 +660,7 @@ function bajar_marketplace(id) {
 
 function agregar_imagenProducto(id, imagen) {
   $("#id_imagenproducto").val(id);
+  $("#id_imagenproducto2").val(id);
 
   if (imagen) {
     $("#imagePreviewPrincipal").attr("src", imagen).show();
