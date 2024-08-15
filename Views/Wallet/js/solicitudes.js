@@ -1,18 +1,25 @@
 let dataTableSolicitudes;
 let dataTableSolicitudesIsInitialized = false;
 
-$.fn.dataTable.ext.order['dom-checkbox'] = function (settings, col) {
-  return this.api().column(col, { order: 'index' }).nodes().map(function (td, i) {
-    return $('input[type="checkbox"]', td).prop('checked') ? 1 : 0;
-  });
+$.fn.dataTable.ext.order["dom-checkbox"] = function (settings, col) {
+  return this.api()
+    .column(col, { order: "index" })
+    .nodes()
+    .map(function (td, i) {
+      return $('input[type="checkbox"]', td).prop("checked") ? 1 : 0;
+    });
 };
 
 const dataTableSolicitudesOptions = {
   columnDefs: [
-    { className: "centered", targets: [1, 2, 3, 4, 5] },
-    { orderable: true, targets: 0, orderDataType: 'dom-checkbox' }, // Aplicar ordenación personalizada
+    { className: "centered", targets: [1, 2, 3, 4, 5, 6, 7, 8, 9] },
+    { orderable: true, targets: 0, orderDataType: "dom-checkbox" }, // Ordenar por la columna de checkboxes
+    { type: "date", targets: 4 }, // Aseguramos que la columna de fecha (índice 4) sea reconocida como fecha
   ],
-  order: [[0, "asc"]], // Ordenar por la columna de checkboxes
+  order: [
+    [0, "asc"],
+    [4, "asc"],
+  ], // Ordenar por la columna de checkboxes (sin check primero) y luego por fecha ascendente
   pageLength: 5,
   destroy: true,
   dom: '<"d-flex w-full justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
@@ -86,7 +93,7 @@ const listSolicitudes = async () => {
       } else {
         checkboxState = "";
       }
-      
+
       content += `
                 <tr>
                     <td><input type="checkbox" class="selectCheckbox" data-id="${solicitud.id_solicitud}" ${checkboxState} onclick="toggleSolicitud(${solicitud.id_solicitud}, this.checked)"></td>
@@ -157,7 +164,7 @@ $.fn.dataTable.ext.order["dom-checkbox"] = function (settings, col) {
 const dataTableOtrasFormasPagoOptions = {
   columnDefs: [
     { className: "centered", targets: [1, 2, 3, 4, 5] },
-    { orderable: true, targets: 0, orderDataType: 'dom-checkbox' }, // Aplicar ordenación personalizada
+    { orderable: true, targets: 0, orderDataType: "dom-checkbox" }, // Aplicar ordenación personalizada
   ],
   order: [[0, "asc"]], // Ordenar por la columna de checkboxes
   pageLength: 5,
@@ -294,9 +301,9 @@ function getFecha() {
   return fechaHoy;
 }
 
-function eliminarSolicitud(id){
+function eliminarSolicitud(id) {
   $.ajax({
-    url: SERVERURL + "wallet/eliminarSolicitudes/"+id,
+    url: SERVERURL + "wallet/eliminarSolicitudes/" + id,
     type: "POST",
     dataType: "json",
     success: function (response) {
@@ -318,9 +325,9 @@ function eliminarSolicitud(id){
   });
 }
 
-function eliminarSolicitud_FormasPago(id){
+function eliminarSolicitud_FormasPago(id) {
   $.ajax({
-    url: SERVERURL + "wallet/eliminarSolicitudes/"+id,
+    url: SERVERURL + "wallet/eliminarSolicitudes/" + id,
     type: "POST",
     dataType: "json",
     success: function (response) {
