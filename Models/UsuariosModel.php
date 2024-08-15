@@ -1279,6 +1279,7 @@ ON
         $sql_select = "SELECT * FROM `plantilla_2` WHERE `id_plataforma` = ?";
         $existing_entry = $this->select($sql_select, [$plataforma]);
 
+        echo count($existing_entry);
         if (count($existing_entry) > 0) {
             // Si existe, realizar un UPDATE
             $sql_update = "UPDATE `plantilla_2` SET $campo = ? WHERE `id_plataforma` = ?";
