@@ -79,6 +79,29 @@
     }
 </style>
 <div class="custom-container-fluid mt-4">
+    <!-- Selector de plantilla -->
+    <div class="d-flex justify-content-around mb-4 flex-wrap gap-4">
+        <div class="img-container text-center plantilla" data-template="template1">
+            <img src="<?php echo SERVERURL; ?>/public/img/TEMPLATE1.jpg" alt="Template1">
+            <div class="price-tag" data-price-id="price_template1"><span id="price_template1">Plantilla1</span></div>
+        </div>
+        <div class="img-container text-center plantilla" data-template="template2">
+            <img src="<?php echo SERVERURL; ?>/public/img/TEMPLATE2.jpg" alt="Template2">
+            <div class="price-tag" data-price-id="price_template2"><span id="price_template2">Plantilla2</span></div>
+        </div>
+        <div class="img-container text-center plantilla" data-template="template3">
+            <img src="<?php echo SERVERURL; ?>/public/img/TEMPLATE3.jpg" alt="Template3">
+            <div class="price-tag" data-price-id="price_template3"><span id="price_template3">Plantilla3</span></div>
+        </div>
+        <div class="img-container text-center plantilla" data-template="template4">
+            <img src="<?php echo SERVERURL; ?>/public/img/TEMPLATE4.jpg" alt="Template4">
+            <div class="price-tag" data-price-id="price_template4"><span id="price_template4">Plantilla4</span></div>
+        </div>
+        <input type="hidden" id="costo_plantilla" name="costo_plantilla">
+        <input type="hidden" id="plantilla_selected" name="plantilla_selected">
+    </div>
+
+    <!-- Fin selector de plantilla -->
     <div class="justify-content-between align-items-center mb-3">
         <div class="d-flex">
             <button class="btn btn-success" onclick="abrir_agregar_dominio()"><i class="fas fa-plus"></i> Agregar Dominio Propio</button>

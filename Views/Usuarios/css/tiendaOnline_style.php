@@ -158,4 +158,64 @@
             width: 100%;
         }
     }
+
+    /* seccion plantillas */
+    .plantilla {
+        position: relative;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 10px;
+        overflow: hidden;
+        padding: 10px;
+        background-color: #f8f9fa;
+        display: inline-block;
+    }
+
+    .plantilla img {
+        max-width: 100px;
+        transition: filter 0.3s ease;
+        filter: grayscale(100%);
+    }
+
+    .plantilla:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .plantilla:hover img {
+        filter: grayscale(0%);
+    }
+
+    .price-tag {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translate(-50%, 0);
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 3px 6px;
+        border-radius: 3px;
+        font-size: 12px;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .plantilla:hover .price-tag {
+        transform: translate(-50%, 0) scale(1.2);
+        background-color: rgba(0, 0, 0, 0.9);
+    }
+
+    .plantilla.selected {
+        border: 2px solid #007bff;
+        box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+    }
+
+    .plantilla.selected img {
+        filter: grayscale(0%);
+    }
+
+    .plantilla.selected .price-tag {
+        background-color: rgba(0, 123, 255, 0.9);
+        transform: translate(-50%, 0) scale(1.2);
+    }
+
+    /* seccion plnatillas */
 </style>
