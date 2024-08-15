@@ -149,6 +149,7 @@ const listFacturas = async () => {
     let url_tracking = "";
     let url_descargar = "";
     let acreditable = "";
+    let estado_entregado="";
     facturas.forEach((factura, index) => {
       let tienda_nombre = procesarPlataforma(factura.tienda);
       if (factura.cod == 1) {
@@ -172,6 +173,7 @@ const listFacturas = async () => {
           }
         }
         acreditable = "acreditable";
+        estado_entregado = `<span class="w-100 text-nowrap badge_green">Entregado</span>`;
       } else if (factura.estado_guia == 9) {
         if (factura.valor_pendiente >= 0 ) {
           check = "";
@@ -187,6 +189,7 @@ const listFacturas = async () => {
           }
         }
         acreditable = "acreditable";
+        estado_entregado = `<span class="w-100 text-nowrap badge_danger">Devolución</span>`;
       } else {
         acreditable = "No acreditable";
       }
@@ -231,6 +234,7 @@ const listFacturas = async () => {
           <td>
           <div><span class="w-100 text-nowrap ${span_estado}">${estado_guia}</span></div>
           <div>${acreditable}</div>
+          <div>${estado_entregado}</div>
           </td>
           <td>${tienda_nombre}</td>
           <td>${factura.total_venta}</td>
