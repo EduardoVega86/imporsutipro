@@ -140,4 +140,22 @@
             transform: rotate(360deg);
         }
     }
+
+    .aviso-banner {
+        width: 40%;
+    }
+
+    .aviso-promocion {
+        width: 40%;
+    }
+
+    @media (max-width: 768px) {
+        .aviso-banner {
+            width: 100%;
+        }
+
+        .aviso-promocion {
+            width: 100%;
+        }
+    }
 </style>
