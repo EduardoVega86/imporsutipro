@@ -164,7 +164,7 @@ class PedidosModel extends Query
         return $this->select($sql, $params);
     }
 
-    public function cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso)
+    public function cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $inicio, $final)
     {
         $sql = "SELECT 
             fc.*, 
@@ -212,6 +212,10 @@ class PedidosModel extends Query
         // Mueve la cláusula ORDER BY al final de la consulta
         $sql .= " ORDER BY fc.numero_factura DESC;";
 
+        if ($inicio !== null && $final !== null) {
+            $sql .= " LIMIT $inicio, $final";
+        }
+
         //echo $sql;
         return $this->select($sql);
     }
@@ -252,14 +256,51 @@ class PedidosModel extends Query
         )";
 
         $data = array(
-            $nueva_factura, $fecha_factura, $id_usuario, $monto_factura, $estado_factura,
-            $nombre_cliente, $telefono_cliente, $c_principal, $ciudad_cot, $c_secundaria,
-            $referencia, $observacion, $guia_enviada, $transporte, $identificacion, $celular,
-            $dueño_id, $dropshipping, $id_plataforma,  $importado,
-            $plataforma_importa, $cod, $estado_guia_sistema, $impreso, $facturada,
-            $anulada, $identificacionO,  $nombreO, $ciudadO, $provinciaO, $provincia,
-            $direccionO, $referenciaO, $numeroCasaO, $valor_segura, $no_piezas, $tipo_servicio,
-            $peso, $contiene, $costo_flete, $costo_producto, $comentario, $id_transporte, $celularO, $id_bodega
+            $nueva_factura,
+            $fecha_factura,
+            $id_usuario,
+            $monto_factura,
+            $estado_factura,
+            $nombre_cliente,
+            $telefono_cliente,
+            $c_principal,
+            $ciudad_cot,
+            $c_secundaria,
+            $referencia,
+            $observacion,
+            $guia_enviada,
+            $transporte,
+            $identificacion,
+            $celular,
+            $dueño_id,
+            $dropshipping,
+            $id_plataforma,
+            $importado,
+            $plataforma_importa,
+            $cod,
+            $estado_guia_sistema,
+            $impreso,
+            $facturada,
+            $anulada,
+            $identificacionO,
+            $nombreO,
+            $ciudadO,
+            $provinciaO,
+            $provincia,
+            $direccionO,
+            $referenciaO,
+            $numeroCasaO,
+            $valor_segura,
+            $no_piezas,
+            $tipo_servicio,
+            $peso,
+            $contiene,
+            $costo_flete,
+            $costo_producto,
+            $comentario,
+            $id_transporte,
+            $celularO,
+            $id_bodega
         );
 
         if (substr_count($sql, '?') !== count($data)) {
@@ -338,14 +379,51 @@ class PedidosModel extends Query
         )";
 
         $data = array(
-            $nueva_factura, $fecha_factura, $id_usuario, $monto_factura, $estado_factura,
-            $nombre_cliente, $telefono_cliente, $c_principal, $ciudad_cot, $c_secundaria,
-            $referencia, $observacion, $guia_enviada, $transporte, $identificacion, $celular,
-            $dueño_id, $dropshipping, $id_plataforma,  $importado,
-            $plataforma_importa, $cod, $estado_guia_sistema, $impreso, $facturada,
-            $anulada, $identificacionO,  $nombreO, $ciudadO, $provinciaO, $provincia,
-            $direccionO, $referenciaO, $numeroCasaO, $valor_segura, $no_piezas, $tipo_servicio,
-            $peso, $contiene, $costo_flete, $costo_producto, $comentario, $id_transporte, $celularO,    $id_bodega
+            $nueva_factura,
+            $fecha_factura,
+            $id_usuario,
+            $monto_factura,
+            $estado_factura,
+            $nombre_cliente,
+            $telefono_cliente,
+            $c_principal,
+            $ciudad_cot,
+            $c_secundaria,
+            $referencia,
+            $observacion,
+            $guia_enviada,
+            $transporte,
+            $identificacion,
+            $celular,
+            $dueño_id,
+            $dropshipping,
+            $id_plataforma,
+            $importado,
+            $plataforma_importa,
+            $cod,
+            $estado_guia_sistema,
+            $impreso,
+            $facturada,
+            $anulada,
+            $identificacionO,
+            $nombreO,
+            $ciudadO,
+            $provinciaO,
+            $provincia,
+            $direccionO,
+            $referenciaO,
+            $numeroCasaO,
+            $valor_segura,
+            $no_piezas,
+            $tipo_servicio,
+            $peso,
+            $contiene,
+            $costo_flete,
+            $costo_producto,
+            $comentario,
+            $id_transporte,
+            $celularO,
+            $id_bodega
         );
 
         if (substr_count($sql, '?') !== count($data)) {

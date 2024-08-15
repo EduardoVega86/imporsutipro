@@ -2,14 +2,26 @@ let dataTable;
 let dataTableIsInitialized = false;
 
 const dataTableOptions = {
+  processing: true, // Muestra el indicador de carga
+  serverSide: true, // Habilita el procesamiento del lado del servidor
+  ajax: {
+    url: `${SERVERURL}pedidos/obtener_guiasAdministrador`, // Cambia esta URL a tu endpoint del servidor
+    type: "POST",
+    data: function (d) {
+      d.fecha_inicio = $("#fecha_inicio").val();
+      d.fecha_fin = $("#fecha_fin").val();
+      d.estado = $("#estado_q").val();
+      d.transportadora = $("#transporte").val();
+      d.impreso = $("#impresion").val();
+    },
+  },
   columnDefs: [
     { className: "centered", targets: [1, 2, 3, 4, 5, 6, 7, 8, 9] },
-    { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
+    { orderable: false, targets: 0 },
   ],
-  order: [[2, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
+  order: [[2, "desc"]],
   pageLength: 25,
   lengthMenu: [25, 50, 100, 200],
-  destroy: true,
   responsive: true,
   dom: '<"d-flex w-full justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
   buttons: [
@@ -21,7 +33,7 @@ const dataTableOptions = {
       exportOptions: {
         columns: [1, 2, 3, 4, 5, 6, 7, 8],
       },
-      filename: "guias" + "_" + getFecha(),
+      filename: "guias_" + getFecha(),
       footer: true,
       className: "btn-excel",
     },
@@ -33,7 +45,7 @@ const dataTableOptions = {
       exportOptions: {
         columns: [1, 2, 3, 4, 5, 6, 7, 8],
       },
-      filename: "guias" + "_" + getFecha(),
+      filename: "guias_" + getFecha(),
       footer: true,
       className: "btn-csv",
     },
@@ -671,7 +683,7 @@ document.getElementById("imprimir_guias").addEventListener("click", () => {
 });
 
 window.addEventListener("load", async () => {
-  await initDataTable();
+  //await initDataTable();
 });
 
 function formatPhoneNumber(number) {
