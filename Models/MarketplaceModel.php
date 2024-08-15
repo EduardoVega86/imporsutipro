@@ -59,12 +59,60 @@ class MarketplaceModel extends Query
 //WHERE (p.drogshipin = 1 OR p.id_plataforma = $plataforma) 
 //    AND plat.id_matriz  =  $id_matriz $where $favorito_filtro" ;
         
-         $sql = "SELECT DISTINCT p.nombre_producto, p.producto_variable, ib.*, plat.id_matriz, CASE WHEN pf.id_producto IS NULL THEN 0 ELSE 1 END as Es_Favorito FROM productos p JOIN ( SELECT ib.id_producto, MIN(ib.sku) AS min_sku, ib.id_plataforma, ib.bodega, MIN(ib.id_inventario) AS min_id_inventario FROM inventario_bodegas ib WHERE ib.bodega != 0 AND ib.bodega != 50000 GROUP BY ib.id_producto, ib.id_plataforma, ib.bodega ) ib_filtered ON p.id_producto = ib_filtered.id_producto JOIN inventario_bodegas ib ON ib.id_producto = ib_filtered.id_producto AND ib.sku = ib_filtered.min_sku AND ib.id_inventario = ib_filtered.min_id_inventario JOIN plataformas plat ON ib.id_plataforma = plat.id_plataforma LEFT JOIN productos_favoritos pf ON pf.id_producto = p.id_producto AND pf.id_plataforma = $plataforma WHERE p.drogshipin = 1 and p.producto_privado=0 $where $favorito_filtro 
-             AND ib.id_plataforma NOT IN (
+         $sql = "SELECT DISTINCT 
+    p.nombre_producto, 
+    p.producto_variable, 
+    ib.*, 
+    plat.id_matriz, 
+    CASE WHEN pf.id_producto IS NULL THEN 0 ELSE 1 END as Es_Favorito 
+FROM 
+    productos p 
+JOIN 
+    (
+        SELECT 
+            ib.id_producto, 
+            MIN(ib.sku) AS min_sku, 
+            ib.id_plataforma, 
+            ib.bodega, 
+            MIN(ib.id_inventario) AS min_id_inventario 
+        FROM 
+            inventario_bodegas ib 
+        WHERE 
+            ib.bodega != 0 
+            AND ib.bodega != 50000 
+            AND ib.saldo_stock > 0  -- Filtrar por saldo_stock mayor a 0
+        GROUP BY 
+            ib.id_producto, 
+            ib.id_plataforma, 
+            ib.bodega
+    ) ib_filtered 
+    ON p.id_producto = ib_filtered.id_producto 
+JOIN 
+    inventario_bodegas ib 
+    ON ib.id_producto = ib_filtered.id_producto 
+    AND ib.sku = ib_filtered.min_sku 
+    AND ib.id_inventario = ib_filtered.min_id_inventario 
+    AND ib.saldo_stock > 0  -- Asegurar que saldo_stock sea mayor a 0
+JOIN 
+    plataformas plat 
+    ON ib.id_plataforma = plat.id_plataforma 
+LEFT JOIN 
+    productos_favoritos pf 
+    ON pf.id_producto = p.id_producto 
+    AND pf.id_plataforma = $plataforma 
+WHERE 
+    p.drogshipin = 1 
+    AND p.producto_privado = 0 
+    $where 
+    $favorito_filtro 
+    AND ib.id_plataforma NOT IN (
         SELECT id_plataforma 
         FROM plataforma_matriz 
-        where id_matriz=$id_matriz
-    ) ORDER BY RAND()" ;
+        WHERE id_matriz = $id_matriz
+    ) 
+ORDER BY 
+    RAND();
+" ;
         
         
         //echo $sql;
