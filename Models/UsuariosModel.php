@@ -1277,10 +1277,10 @@ ON
     {
         // Primero, comprobar si existe un registro con la plataforma dada
         $sql_select = "SELECT * FROM `plantilla_2` WHERE `id_plataforma` = ?";
-        $existing_entry = $this->select($sql_select, [$plataforma]);
+        $existing_entry = $this->simple_select($sql_select, [$plataforma]);
 
-        echo count($existing_entry);
-        if (count($existing_entry) > 0) {
+        
+        if ($existing_entry > 0) {
             // Si existe, realizar un UPDATE
             $sql_update = "UPDATE `plantilla_2` SET $campo = ? WHERE `id_plataforma` = ?";
             $data_update = [$valor, $plataforma];
