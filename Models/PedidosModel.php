@@ -213,7 +213,7 @@ class PedidosModel extends Query
         $sql .= " ORDER BY fc.numero_factura DESC";
 
 
-        $sql .= " LIMIT $inicio, $final";
+        //$sql .= " LIMIT $inicio, $final";
 
 
         //echo $sql;
