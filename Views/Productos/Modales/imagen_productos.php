@@ -108,7 +108,34 @@
             }
         });
 
-        // Manejar el envío del formulario
+        $('#imageInputAdicionales').change(function() {
+            const files = this.files;
+            $('#imagePreviewAdicionales').empty(); // Limpiar las previsualizaciones anteriores
+
+            if (files.length > 4) {
+                alert('No puedes subir más de 4 imágenes');
+                return;
+            }
+
+            Array.from(files).forEach((file, index) => {
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const imagePreview = `
+                        <div class="image-preview-item">
+                            <img src="${e.target.result}" alt="Preview" width="100px">
+                        </div>`;
+                        $('#imagePreviewAdicionales').append(imagePreview);
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // Enviar el formulario automáticamente después de seleccionar imágenes
+            $('#imageFormAdicionales').submit();
+        });
+
+        // Enviar el formulario de imágenes adicionales al servidor
         $('#imageFormAdicionales').submit(function(event) {
             event.preventDefault();
 
@@ -127,7 +154,7 @@
                             positionClass: "toast-bottom-center"
                         });
                         $('#imagen_productoModal').modal('hide');
-                        // Actualizar la vista con las nuevas imágenes si es necesario
+                        // Actualiza el contenido si es necesario
                     } else {
                         toastr.error(response.message, "NOTIFICACIÓN", {
                             positionClass: "toast-bottom-center"
