@@ -138,6 +138,71 @@ $(document).ready(function () {
     reader.readAsDataURL(event.target.files[0]);
   }
   /* vista previa imagenes ofertas*/
+
+  /* selector plantillas */
+  $(".plantilla").click(function () {
+    var priceSpan = $(this).find(".price-tag span");
+    var priceValue = priceSpan.text().trim();
+    var selectedTemplate = $(this).data("template");
+
+    // Habilita el botón si es necesario
+    var button2 = document.getElementById("generarGuiaBtn");
+    button2.disabled = false;
+
+    // Actualiza los valores de los inputs hidden
+    $("#costo_plantilla").val(priceValue);
+    $("#plantilla_selected").val(selectedTemplate);
+
+    // Remueve la clase 'selected' de todas las plantillas
+    $(".plantilla").removeClass("selected");
+
+    // Agrega la clase 'selected' a la plantilla clicada
+    $(this).addClass("selected");
+
+    // Supón que tienes parámetros en la URL
+    const urlParams_calcular = new URLSearchParams(window.location.search);
+    const idProducto_calcular = urlParams_calcular.get("id_producto");
+
+    var monto_total_general = $("#monto_total").text().trim();
+
+    // Prepara los datos para la API
+    let formData = new FormData();
+    formData.append("id_producto", idProducto_calcular);
+    formData.append("total", monto_total_general);
+    formData.append("tarifa", priceValue);
+    formData.append("costo", costo_general);
+
+    // Realiza la petición AJAX para calcular la guía directa
+    $.ajax({
+      url: SERVERURL + "calculadora/calcularGuiaDirecta",
+      type: "POST", // Cambiar a POST para enviar FormData
+      data: formData,
+      processData: false, // No procesar los datos
+      contentType: false, // No establecer ningún tipo de contenido
+      dataType: "json",
+      success: function (response) {
+        // Actualiza los elementos con los valores de respuesta
+        $("#montoVenta_infoVenta").text(response.total);
+        $("#costo_infoVenta").text(response.costo);
+        $("#precioEnvio_infoVenta").text(response.tarifa);
+        $("#total_infoVenta").text(response.resultante);
+
+        // Controla el estado del botón en base a la respuesta
+        if (response.generar == false) {
+          button2.disabled = true;
+          $("#alerta_valoresContra").show();
+        } else {
+          button2.disabled = false;
+          $("#alerta_valoresContra").hide();
+        }
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        alert(errorThrown);
+      },
+    });
+  });
+
+  /* Fin selector plantillas */
 });
 
 function cargar_ofertas_plantilla2() {
@@ -155,9 +220,13 @@ function cargar_ofertas_plantilla2() {
       $("#color_texto_oferta1").val(response[0].color_texto_oferta1);
       $("#color_textoBtn_oferta1").val(response[0].color_textoBtn_oferta1);
 
-      $("#color_hover_cabecera_plantilla2").val(response[0].color_hover_cabecera);
+      $("#color_hover_cabecera_plantilla2").val(
+        response[0].color_hover_cabecera
+      );
       $("#color_cabecera_plantilla2").val(response[0].color_cabecera);
-      $("#color_texto_cabecera_plantilla2").val(response[0].color_texto_cabecera);
+      $("#color_texto_cabecera_plantilla2").val(
+        response[0].color_texto_cabecera
+      );
       $("#color_texto_precio_plantilla2").val(response[0].color_texto_precio);
 
       if (response[0].imagen_oferta1 === null) {

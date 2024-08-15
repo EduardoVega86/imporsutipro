@@ -89,14 +89,14 @@
             <img src="<?php echo SERVERURL; ?>/public/img/TEMPLATE2.jpg" alt="Template2">
             <div class="price-tag" data-price-id="price_template2"><span id="price_template2">Plantilla2</span></div>
         </div>
-        <div class="img-container text-center plantilla" data-template="template3">
+        <!-- <div class="img-container text-center plantilla" data-template="template3">
             <img src="<?php echo SERVERURL; ?>/public/img/TEMPLATE3.jpg" alt="Template3">
             <div class="price-tag" data-price-id="price_template3"><span id="price_template3">Plantilla3</span></div>
         </div>
         <div class="img-container text-center plantilla" data-template="template4">
             <img src="<?php echo SERVERURL; ?>/public/img/TEMPLATE4.jpg" alt="Template4">
             <div class="price-tag" data-price-id="price_template4"><span id="price_template4">Plantilla4</span></div>
-        </div>
+        </div> -->
         <input type="hidden" id="costo_plantilla" name="costo_plantilla">
         <input type="hidden" id="plantilla_selected" name="plantilla_selected">
     </div>
