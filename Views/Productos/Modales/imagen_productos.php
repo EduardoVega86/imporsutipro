@@ -70,7 +70,7 @@
                         </form>
                     </div>
                     <div class="tab-pane fade" id="adicionales" role="tabpanel" aria-labelledby="adicionales-tab">
-                        <!-- <h1>PROXIMAMENTE</h1> -->
+
                         <form id="imageFormAdicionales" enctype="multipart/form-data">
                             <input type="hidden" id="id_imagenproducto" name="id_producto">
                             <div class="form-group mt-3">
@@ -108,54 +108,36 @@
             }
         });
 
-        $('#imageInputAdicionales').change(function() {
-            const files = this.files;
-            if (files.length > 0) {
-                if (additionalImages.length + files.length > 4) {
-                    alert('Puedes subir un máximo de 4 imágenes en total.');
-                    return;
-                }
+        // Manejar el envío del formulario
+        $('#imageFormAdicionales').submit(function(event) {
+            event.preventDefault();
 
-                for (let i = 0; i < files.length; i++) {
-                    additionalImages.push(files[i]);
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        $('#imagePreviewAdicionales').append('<img src="' + e.target.result + '" alt="Preview" class="me-2 mb-2">');
+            var formData = new FormData(this);
+
+            $.ajax({
+                url: SERVERURL + 'Productos/guardar_imagenes_adicionales', // URL para el controlador que guarda las imágenes
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    response = JSON.parse(response);
+                    if (response.status == 200) {
+                        toastr.success(response.message, "NOTIFICACIÓN", {
+                            positionClass: "toast-bottom-center"
+                        });
+                        $('#imagen_productoModal').modal('hide');
+                        // Actualizar la vista con las nuevas imágenes si es necesario
+                    } else {
+                        toastr.error(response.message, "NOTIFICACIÓN", {
+                            positionClass: "toast-bottom-center"
+                        });
                     }
-                    reader.readAsDataURL(files[i]);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert('Error al guardar las imágenes: ' + textStatus);
                 }
-
-                // Crear un nuevo FormData con todas las imágenes acumuladas
-                var formData = new FormData();
-                additionalImages.forEach((file, index) => {
-                    formData.append('imagen[]', file, file.name);
-                });
-
-                $.ajax({
-                    url: SERVERURL + 'Productos/guardar_imagenes_adicionales', // Cambia esta ruta por la ruta correcta a tu controlador
-                    type: 'POST',
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function(response) {
-                        response = JSON.parse(response);
-                        if (response.status == 500) {
-                            toastr.error("LAS IMÁGENES NO SE AGREGARON CORRECTAMENTE", "NOTIFICACIÓN", {
-                                positionClass: "toast-bottom-center"
-                            });
-                        } else if (response.status == 200) {
-                            toastr.success("IMÁGENES AGREGADAS CORRECTAMENTE", "NOTIFICACIÓN", {
-                                positionClass: "toast-bottom-center",
-                            });
-                            $('#imagen_productoModal').modal('hide');
-                            reloadDataTableProductos();
-                        }
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        alert('Error al guardar las imágenes: ' + textStatus);
-                    }
-                });
-            }
+            });
         });
 
         $('#imageFormPrincipal').submit(function(event) {

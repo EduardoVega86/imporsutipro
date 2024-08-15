@@ -377,9 +377,53 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
         return $response;
     }
 
+    public function guardar_imagen_adicional($imagen, $id_producto, $plataforma)
+    {
+        $response = ['status' => 500, 'message' => 'Error al subir la imagen'];
 
+        $target_dir = "public/img/productos/";
+        $target_file = $target_dir . uniqid() . basename($imagen["name"]);
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
+        // Verificar si el archivo es una imagen real
+        $check = getimagesize($imagen["tmp_name"]);
+        if ($check === false) {
+            $response['message'] = 'El archivo no es una imagen';
+            return $response;
+        }
 
+        // Verificar el tamaño del archivo (por ejemplo, 5MB máximo)
+        if ($imagen["size"] > 5000000) {
+            $response['message'] = 'El archivo es muy grande';
+            return $response;
+        }
+
+        // Solo permitir ciertos formatos
+        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+            $response['message'] = 'Solo se permiten archivos JPG, JPEG y PNG';
+            return $response;
+        }
+
+        // Mover el archivo al servidor
+        if (move_uploaded_file($imagen["tmp_name"], $target_file)) {
+            // Registrar la imagen en la base de datos
+            $sql = "INSERT INTO imagenes_adicionales_producto (id_producto, id_plataforma, url) VALUES (?, ?, ?)";
+            $data = [$id_producto, $plataforma, $target_file];
+            $insert = $this->insert($sql, $data);
+
+            if ($insert) {
+                $response['status'] = 200;
+                $response['message'] = 'Imagen subida y registrada correctamente';
+                $response['data'] = $target_file;
+            } else {
+                $response['message'] = 'Error al registrar la imagen en la base de datos';
+            }
+        } else {
+            $response['message'] = 'Error al mover la imagen al servidor';
+        }
+
+        return $response;
+    }
 
     public function obtener_productos_bodegas($id_bodega, $plataforma)
     {
