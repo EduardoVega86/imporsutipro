@@ -99,7 +99,6 @@
         </div> -->
         <input type="hidden" id="plantilla_selected" name="plantilla_selected">
     </div>
-
     <!-- Fin selector de plantilla -->
     <div class="justify-content-between align-items-center mb-3">
         <div class="d-flex">

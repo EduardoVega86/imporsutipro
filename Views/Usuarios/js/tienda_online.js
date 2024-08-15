@@ -345,14 +345,16 @@ function cargarInfoTienda_inicial() {
         $("#colores_plantilla1").show();
         $("#colores_plantilla2").hide();
         $("#seccion_oferta_plantilla2").hide();
+        $("#seccion_promocion_plantilla2").hide();
 
         // Actualiza los valores de los inputs hidden
         $("#plantilla_selected").val("template1");
+
         // Remueve la clase 'selected' de todas las plantillas
         $(".plantilla").removeClass("selected");
-        // Agrega la clase 'selected' a la plantilla clicada
-        $("template1").addClass("selected");
-        
+
+        // Agrega la clase 'selected' a la plantilla correcta
+        $(".plantilla[data-template='template1']").addClass("selected");
       } else if (response[0].plantilla == 2) {
         cargar_ofertas_plantilla2();
         $("#colores_plantilla2").show();
@@ -362,10 +364,12 @@ function cargarInfoTienda_inicial() {
 
         // Actualiza los valores de los inputs hidden
         $("#plantilla_selected").val("template2");
+
         // Remueve la clase 'selected' de todas las plantillas
         $(".plantilla").removeClass("selected");
-        // Agrega la clase 'selected' a la plantilla clicada
-        $("template2").addClass("selected");
+
+        // Agrega la clase 'selected' a la plantilla correcta
+        $(".plantilla[data-template='template2']").addClass("selected");
       }
 
       // Mover la lógica de verificación aquí
