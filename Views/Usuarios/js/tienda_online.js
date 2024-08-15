@@ -145,10 +145,6 @@ $(document).ready(function () {
     var priceValue = priceSpan.text().trim();
     var selectedTemplate = $(this).data("template");
 
-    // Habilita el botón si es necesario
-    var button2 = document.getElementById("generarGuiaBtn");
-    button2.disabled = false;
-
     // Actualiza los valores de los inputs hidden
     $("#costo_plantilla").val(priceValue);
     $("#plantilla_selected").val(selectedTemplate);
@@ -184,8 +180,6 @@ $(document).ready(function () {
         // Actualiza los elementos con los valores de respuesta
         $("#montoVenta_infoVenta").text(response.total);
         $("#costo_infoVenta").text(response.costo);
-        $("#precioEnvio_infoVenta").text(response.tarifa);
-        $("#total_infoVenta").text(response.resultante);
 
         // Controla el estado del botón en base a la respuesta
         if (response.generar == false) {
