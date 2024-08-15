@@ -40,6 +40,13 @@ class Pedidos extends Controller
         }
         $this->views->render($this, "guias_administrador");
     }
+    public function guias_administrador_2($filtro = "")
+    {
+        if (!$this->isAuth()) {
+            header("Location: " . SERVERURL . "login");
+        }
+        $this->views->render($this, "guias_administrador_2");
+    }
     public function anuladas($filtro = "")
     {
         if (!$this->isAuth()) {
