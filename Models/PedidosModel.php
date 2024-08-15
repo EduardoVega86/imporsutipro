@@ -212,9 +212,9 @@ class PedidosModel extends Query
         // Mueve la cláusula ORDER BY al final de la consulta
         $sql .= " ORDER BY fc.numero_factura DESC;";
 
-        if ($inicio !== null && $final !== null) {
-            $sql .= " LIMIT $inicio, $final";
-        }
+
+        $sql .= " LIMIT $inicio, $final";
+
 
         //echo $sql;
         return $this->select($sql);
