@@ -195,7 +195,7 @@ const listGuias = async () => {
       content += `
                 <tr>
                     <td><input type="checkbox" class="selectCheckbox" data-id="${
-                      guia.id_factura
+                      guia.numero_factura
                     }"></td>
                     <td>${guia.numero_factura}</td>
                     <td>
