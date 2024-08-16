@@ -509,6 +509,7 @@ function agregarModal_marketplace(id) {
   });
 }
 
+/* animacion de carusel de imagenes descripcion */
 // Control de flechas para desplazamiento suave
 document
   .getElementById("thumbnails-prev")
@@ -549,6 +550,8 @@ document
     // Resetea la posición inicial
     startX = null;
   });
+
+/* Fin animacion de carusel de imagenes descripcion */
 
 function procesarPlataforma(url) {
   // Eliminar el "https://"
