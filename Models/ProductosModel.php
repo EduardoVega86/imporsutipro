@@ -380,10 +380,8 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
     public function guardar_imagenAdicional_productos($num_imagen, $imagen, $id_producto, $plataforma)
     {
         // Verificar si ya existe un registro con el id_plataforma dado
-        $sql_select = "SELECT * FROM `imagenes_adicionales_producto` WHERE `id_producto = ? AND id_plataforma = ? AND num_imagen = ?";
+        $sql_select = "SELECT * FROM `imagenes_adicionales_producto` WHERE `id_producto` = ? AND `id_plataforma` = ? AND `num_imagen` = ?";
         $existing_entry = $this->simple_select($sql_select, [$id_producto, $plataforma, $num_imagen]);
-
-        echo $existing_entry;
 
         $response = $this->initialResponse();
 
