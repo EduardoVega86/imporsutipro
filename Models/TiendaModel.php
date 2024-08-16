@@ -580,10 +580,13 @@ class TiendaModel extends Query
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL, $url_ssl);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                // Aumentar el timeout a 300 segundos (5 minutos)
+                curl_setopt($ch, CURLOPT_TIMEOUT, 300);
                 $output = curl_exec($ch);
                 curl_close($ch);
                 echo $output;
                 $response3 = json_decode($output, true);
+
                 print_r($response3);
                 if ($response3['status'] == 200) {
                     $response['status'] = 200;
