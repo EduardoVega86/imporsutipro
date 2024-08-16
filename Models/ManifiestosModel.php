@@ -804,7 +804,7 @@ GROUP BY dfc.id_producto,
         $estado_factura = $factura[0]['estado_factura'];
 
         $sql_plataforma_bodega = "SELECT b.id_plataforma FROM `detalle_fact_cot` dfc, inventario_bodegas  ib, bodega b where ib.bodega=b.id and id_factura=$id_factura and dfc.id_inventario=ib.id_inventario GROUP by bodega";
-        //  echo $sql_factura;$id_factura
+          //echo $sql_factura;$id_factura
         $plataforma_bodega = $this->select($sql_plataforma_bodega);
         $id_plataforma_bodega = $plataforma_bodega[0]['id_plataforma'];
 
