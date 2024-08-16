@@ -205,6 +205,10 @@ GROUP BY dfc.id_producto,
          v.id_variedad, 
          b.id ";
             // echo $sql;
+            
+            
+            
+            
 
             $sql_guias = "SELECT numero_guia FROM facturas_cot WHERE numero_factura IN $string";
             $guias = $this->select($sql_guias);
