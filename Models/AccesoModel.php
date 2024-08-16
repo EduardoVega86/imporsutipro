@@ -437,8 +437,9 @@ class AccesoModel extends Query
                     $mail->SMTPAuth = true;
                     $mail->Username = $smtp_user;
                     $mail->Password = $smtp_pass;
-                    $mail->Port = 465;
-                    $mail->SMTPSecure = $smtp_secure;
+                    $mail->SMTPSecure = 'tls';
+                    $mail->Port = 587;
+
                     $mail->isHTML(true);
                     $mail->CharSet = 'UTF-8';
                     $mail->setFrom($smtp_from, $smtp_from_name);
