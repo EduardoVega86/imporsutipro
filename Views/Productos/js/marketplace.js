@@ -416,6 +416,7 @@ function handleHeartClick(productId, esFavorito) {
   });
 }
 
+//agregar informacion al modal descripcion marketplace
 function agregarModal_marketplace(id) {
   $.ajax({
     type: "POST",
@@ -436,14 +437,10 @@ function agregarModal_marketplace(id) {
         $("#telefono_proveedor").text(formatPhoneNumber(data.whatsapp));
         $("#descripcion").text(data.descripcion_producto);
 
-        // Actualizar el enlace con el número de teléfono del proveedor
-        $('a[href^="https://wa.me/"]').attr(
-          "href",
-          "https://wa.me/" + formatPhoneNumber(data.whatsapp)
-        );
-
+        // Obtener la URL de la imagen principal desde la primera llamada AJAX
         var imagen_descripcion = obtenerURLImagen(data.image_path, SERVERURL);
-        // Actualizar la imagen principal del modal
+
+        // Actualizar la imagen principal del carrusel y su miniatura
         $("#imagen_principal").attr("src", imagen_descripcion);
         $("#imagen_principalPequena").attr("src", imagen_descripcion);
 
@@ -460,32 +457,18 @@ function agregarModal_marketplace(id) {
           dataType: "json",
           success: function (response) {
             if (response && response.length > 0) {
-              // Limpiar el carrusel y las miniaturas anteriores
-              $(".carousel-inner").empty();
-              $(".carousel-thumbnails").empty();
-
-              // Añadir la primera imagen como activa
-              $(".carousel-inner").append(`
-                <div class="carousel-item active">
-                  <img src="${imagen_descripcion}" class="d-block w-100 fixed-size-img" alt="Product Image 1">
-                </div>
-              `);
-
-              $(".carousel-thumbnails").append(`
-                <img src="${imagen_descripcion}" class="img-thumbnail mx-1" alt="Thumbnail 1" data-bs-target="#productCarousel" data-bs-slide-to="0">
-              `);
-
-              // Añadir las imágenes adicionales al carrusel
+              // Recorrer las imágenes adicionales y añadirlas al carrusel y a las miniaturas
               response.forEach(function (imgData, index) {
                 var imgURL = obtenerURLImagen(imgData.image_path, SERVERURL);
-                var isActive = index === 0 ? "active" : "";
 
+                // Agregar las imágenes adicionales al carrusel
                 $(".carousel-inner").append(`
-                  <div class="carousel-item ${isActive}">
+                  <div class="carousel-item">
                     <img src="${imgURL}" class="d-block w-100 fixed-size-img" alt="Product Image ${index + 2}">
                   </div>
                 `);
 
+                // Agregar las miniaturas adicionales
                 $(".carousel-thumbnails").append(`
                   <img src="${imgURL}" class="img-thumbnail mx-1" alt="Thumbnail ${index + 2}" data-bs-target="#productCarousel" data-bs-slide-to="${index + 1}">
                 `);
