@@ -145,7 +145,7 @@
             var formData = new FormData(this);
 
             $.ajax({
-                url: SERVERURL + 'Productos/guardar_imagenes_adicionales', // URL para el controlador que guarda las imágenes
+                url: SERVERURL + 'Productos/guardar_imagenAdicional_productos', // URL para el controlador que guarda las imágenes
                 type: 'POST',
                 data: formData,
                 contentType: false,
