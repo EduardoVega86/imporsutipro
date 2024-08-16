@@ -678,11 +678,34 @@ function agregar_imagenProducto(id, imagen) {
   if (imagen) {
     $("#imagePreviewPrincipal").attr("src", imagen).show();
   } else {
-    $("#imagePreviewPrincipal").hide();
+    $("#imagePreviewPrincipal")
+      .attr("src", SERVERURL + "public/img/broken-image.png")
+      .show();
   }
+
+  agregar_imagenes_adicionales(id);
 
   $("#imagen_productoModal").modal("show");
 }
+
+function agregar_imagenes_adicionales(id) {
+
+  let formData = new FormData();
+  formData.append("id_producto", id);
+
+  $.ajax({
+    url: SERVERURL + "Productos/listar_imagenAdicional_productos",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    success: function (response) {},
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+}
+
 window.addEventListener("load", async () => {
   await initDataTableProductos();
 });
