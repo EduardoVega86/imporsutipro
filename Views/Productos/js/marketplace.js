@@ -418,6 +418,10 @@ function handleHeartClick(productId, esFavorito) {
 
 //agregar informacion al modal descripcion marketplace
 function agregarModal_marketplace(id) {
+  // Limpiar el carrusel y las miniaturas antes de agregar nuevas imágenes
+  $(".carousel-inner").html(""); // Limpia todas las imágenes del carrusel
+  $(".carousel-thumbnails").html(""); // Limpia todas las miniaturas del carrusel
+
   $.ajax({
     type: "POST",
     url: SERVERURL + "marketplace/obtener_producto/" + id,
@@ -440,9 +444,16 @@ function agregarModal_marketplace(id) {
         // Obtener la URL de la imagen principal desde la primera llamada AJAX
         var imagen_descripcion = obtenerURLImagen(data.image_path, SERVERURL);
 
-        // Actualizar la imagen principal del carrusel y su miniatura
-        $("#imagen_principal").attr("src", imagen_descripcion);
-        $("#imagen_principalPequena").attr("src", imagen_descripcion);
+        // Agregar la imagen principal al carrusel y su miniatura
+        $(".carousel-inner").append(`
+          <div class="carousel-item active">
+            <img src="${imagen_descripcion}" class="d-block w-100 fixed-size-img" alt="Product Image 1">
+          </div>
+        `);
+
+        $(".carousel-thumbnails").append(`
+          <img src="${imagen_descripcion}" class="img-thumbnail mx-1" alt="Thumbnail 1" data-bs-target="#productCarousel" data-bs-slide-to="0">
+        `);
 
         let formData = new FormData();
         formData.append("id_producto", id);
@@ -478,8 +489,11 @@ function agregarModal_marketplace(id) {
             }
           },
           error: function (jqXHR, textStatus, errorThrown) {
-            console.error("Error al obtener imágenes adicionales:", errorThrown);
-          }
+            console.error(
+              "Error al obtener imágenes adicionales:",
+              errorThrown
+            );
+          },
         });
 
         // Abrir el modal
@@ -491,7 +505,7 @@ function agregarModal_marketplace(id) {
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
       alert("Hubo un problema al obtener la información del producto");
-    }
+    },
   });
 }
 
