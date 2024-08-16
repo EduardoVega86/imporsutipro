@@ -456,7 +456,7 @@ function validador_bodega() {
               bodega.nombre +
               " no contiene datos de dirección y no pueden agregar Productos",
             showConfirmButton: false,
-            timer: 2000,
+            timer: 3000,
           }).then(() => {
             window.location.href = "" + SERVERURL + "Productos/bodegas";
           });
