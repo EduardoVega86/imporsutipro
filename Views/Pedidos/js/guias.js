@@ -184,10 +184,10 @@ const listGuias = async () => {
       let boton_anular = ``;
       if (guia.impreso == 0) {
         impresiones = `<box-icon name='printer' color= "red"></box-icon>`;
-        boton_anular = ``;
+        boton_anular = `<li><span class="dropdown-item" style="cursor: pointer;" onclick="${funcion_anular}">Anular</span></li>`;
       } else {
         impresiones = `<box-icon name='printer' color= "#28E418"></box-icon>`;
-        boton_anular = `<li><span class="dropdown-item" style="cursor: pointer;" onclick="${funcion_anular}">Anular</span></li>`;
+        boton_anular = ``;
       }
 
       despachado = "";
