@@ -139,19 +139,11 @@
 
     /* carrusel */
     /* Imagen principal del carrusel */
-    .fixed-size-img {
-        height: 300px;
-        width: 100%;
-        object-fit: cover;
-        border-radius: 8px;
-        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-        /* Añadido sombra a la imagen principal */
-    }
-
     /* Contenedor de miniaturas */
     .carousel-thumbnails {
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
+        /* Alineamos las miniaturas al principio */
         align-items: center;
         gap: 10px;
         overflow-x: auto;
@@ -160,9 +152,11 @@
         background-color: #f9f9f9;
         scroll-behavior: smooth;
         white-space: nowrap;
-        /* Asegura que las miniaturas estén en una línea */
+        /* Las miniaturas se mantendrán en una sola línea */
         scrollbar-width: thin;
-        /* Estilo de scroll más delgado en navegadores compatibles */
+        /* Scroll más delgado */
+        -webkit-overflow-scrolling: touch;
+        /* Suavizar el desplazamiento en dispositivos móviles */
     }
 
     /* Miniaturas */
@@ -188,20 +182,24 @@
         transform: scale(1.1);
     }
 
-    /* Estilo para las flechas del carrusel */
-    .carousel-control-prev-icon,
-    .carousel-control-next-icon {
-        background-color: rgba(0, 0, 0, 0.5);
-        border-radius: 50%;
-        padding: 10px;
-        width: 40px;
-        height: 40px;
+    /* Evitar que las miniaturas se corten en dispositivos pequeños */
+    .carousel-thumbnails img {
+        min-width: 80px;
+        /* Garantizamos un ancho mínimo para que no se corten */
     }
 
-    .carousel-control-prev-icon:hover,
-    .carousel-control-next-icon:hover {
-        background-color: rgba(0, 0, 0, 0.7);
-        /* Fondo más oscuro al hacer hover */
+    /* Medios de comunicación para dispositivos móviles */
+    @media (max-width: 768px) {
+        .carousel-thumbnails {
+            justify-content: flex-start;
+            /* Asegura que las miniaturas no desaparezcan en móviles */
+        }
+
+        .carousel-thumbnails img {
+            height: 70px;
+            /* Ajuste de tamaño para pantallas más pequeñas */
+            width: 70px;
+        }
     }
 
 
