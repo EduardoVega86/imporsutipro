@@ -554,7 +554,7 @@ class TiendaModel extends Query
 
 
     ///////////////////////////  FUNCIONES DE LA TIENDA  ///////////////////////////
-    public function crearTiendad($tienda, $plataforma)
+    public function crearTienda($tienda, $plataforma)
     {
         ///crear tienda
         $url_crear = "https://activador.comprapor.com/activar/" . $tienda;

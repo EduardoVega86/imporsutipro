@@ -212,7 +212,7 @@ class Tienda extends Controller
     public function crearTienda()
     {
         $nombre = $_POST['nombre'];
-        $response = $this->model->crearTienda($nombre, $_SESSION['id_plataforma']);
+        $response = $this->model->crearTienda($nombre, $_POST['id_plataforma']);
         echo json_encode($response);
     }
 }
