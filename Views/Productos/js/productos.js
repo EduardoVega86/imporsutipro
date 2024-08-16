@@ -699,7 +699,12 @@ function agregar_imagenes_adicionales(id) {
     data: formData,
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
-    success: function (response) {},
+    success: function (response) {
+      $("#imagePreviewAdicional1").attr("src", response[0]).show();
+      $("#imagePreviewAdicional2").attr("src", response[1]).show();
+      $("#imagePreviewAdicional3").attr("src", response[2]).show();
+      $("#imagePreviewAdicional4").attr("src", response[3]).show();
+    },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
     },
