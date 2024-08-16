@@ -590,7 +590,7 @@ class TiendaModel extends Query
                 } else {
                     $response['status'] = 500;
                     $response['title'] = 'Error';
-                    $response['message'] = 'Error al aplicar SSL';
+                    $response['message'] = $response3['message'];
                 }
             } else {
                 $response['status'] = 500;
