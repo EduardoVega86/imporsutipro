@@ -77,7 +77,13 @@ class ManifiestosModel extends Query
 
         // Devolver la respuesta
         $new_url = str_replace("/home/imporsuitpro/public_html/new", "", $combinedPdfPath);
-        $new_url = URL_MATRIZ . $new_url;
+
+        if (URL_MATRIZ == "https://app.merkapro.ec/") {
+            $new_url = "https://new.imporsuitpro.com" . $new_url;
+        } else {
+
+            $new_url = URL_MATRIZ . $new_url;
+        }
 
         $reponse = [
             "url" => $combinedPdfPath,
@@ -263,7 +269,13 @@ GROUP BY dfc.id_producto,
             }
 
             $new_url = str_replace("/home/imporsuitpro/public_html/new", "", $combinedPdfPath);
-            $new_url = URL_MATRIZ . $new_url;
+
+            if (URL_MATRIZ == "https://app.merkapro.ec/") {
+                $new_url = "https://new.imporsuitpro.com" . $new_url;
+            } else {
+
+                $new_url = URL_MATRIZ . $new_url;
+            }
 
             // Devolver la respuesta
             $reponse = [
