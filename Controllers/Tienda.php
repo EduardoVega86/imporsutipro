@@ -40,6 +40,7 @@ class Tienda extends Controller
         echo json_encode($response);
     }
 
+
     public function bannertienda()
     {
         $id_plataforma = $_POST['id_plataforma'];
