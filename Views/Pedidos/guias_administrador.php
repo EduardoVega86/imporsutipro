@@ -153,7 +153,7 @@
     });
 
     $(document).ready(function() {
-        $("#estado_q,#transporte,#impresion").change(function() {
+        $("#tienda_q,#estado_q,#transporte,#impresion").change(function() {
             initDataTable();
         });
     });

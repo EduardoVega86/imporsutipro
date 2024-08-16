@@ -164,7 +164,7 @@ class PedidosModel extends Query
         return $this->select($sql, $params);
     }
 
-    public function cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso)
+    public function cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin)
     {
         $sql = "SELECT 
             fc.*, 
@@ -203,6 +203,10 @@ class PedidosModel extends Query
 
         if (!empty($estado)) {
             $sql .= " AND ($estado)";
+        }
+
+        if ($drogshipin == 0 || $drogshipin == 1) {
+            $sql .= " AND drogshipin = $drogshipin";
         }
 
         if ($impreso == 0 || $impreso == 1) {
