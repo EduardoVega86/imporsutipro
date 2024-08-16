@@ -248,20 +248,6 @@
                 return
             }
 
-            validar_bodega = validar_direccion(bodega);
-
-            if (!validar_bodega) {
-                Swal.fire({
-                    icon: "error",
-                    title: "Bodega no asignada en el producto: " + producto.nombre_producto,
-                    html: `Si desea ver un tutorial de cómo asignar su bodega en un producto dar click en el siguiente enlace: 
-                 <a href="https://tututorial.com" target="_blank" class="btn btn-primary" style="margin-top: 10px;">
-                   Ver Tutorial
-                 </a>`,
-                });
-                return
-            }
-
 
             var button = document.getElementById('guardar_producto');
             button.disabled = true; // Desactivar el botón
@@ -321,41 +307,4 @@
             });
         });
     });
-
-    function validar_direccion(id_bodega) {
-        $.ajax({
-            url: SERVERURL + "productos/obtenerBodega" + id_bodega,
-            type: "GET",
-            dataType: "json",
-            success: function(response) {
-                // Asegúrate de que la respuesta es un array
-                if (Array.isArray(response)) {
-                    response.forEach(function(bodega) {
-                        // Solo realizar la validación si los parámetros están presentes
-                        if (
-                            bodega[0].localidad == null ||
-                            bodega[0].provincia == null ||
-                            bodega[0].direccion == null
-                        ) {
-                            // Crear el tooltip
-                            toastr.error(
-                                "Esta bodega no contiene datos de dirección y no puede generar guias",
-                                "NOTIFICACIÓN", {
-                                    positionClass: "toast-bottom-center",
-                                }
-                            );
-
-                            return false; // Retorna falso para indicar que la validación falló
-                        }
-                        return true; // Retorna verdadero si la validación pasa o los parámetros no están presentes
-                    });
-                } else {
-                    console.log("La respuesta de la API no es un array:", response);
-                }
-            },
-            error: function(error) {
-                console.error("Error al obtener la lista de bodegas:", error);
-            },
-        });
-    }
 </script>
