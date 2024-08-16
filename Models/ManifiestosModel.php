@@ -212,7 +212,7 @@ GROUP BY dfc.id_producto,
          b.id ";
             // echo $sql;
 
-            $sql_guias = "SELECT numero_guia FROM facturas_cot WHERE numero_factura IN $string";
+            $sql_guias = "SELECT numero_guia FROM facturas_cot WHERE id_factura IN $string";
             $guias = $this->select($sql_guias);
             $guias = array_map(function ($guia) {
                 return $guia['numero_guia'];
