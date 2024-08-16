@@ -198,16 +198,13 @@ LEFT JOIN productos p ON dfc.id_producto = p.id_producto
 LEFT JOIN inventario_bodegas ib ON dfc.id_inventario = ib.id_inventario
 LEFT JOIN variedades v ON ib.id_variante = v.id_variedad
 LEFT JOIN bodega b ON ib.bodega = b.id 
-WHERE dfc.id_factura IN $string
+WHERE dfc.numero_factura IN $string
 GROUP BY dfc.id_producto, 
          p.nombre_producto, 
          ib.id_inventario, 
          v.id_variedad, 
          b.id ";
             // echo $sql;
-            
-                 
-            
 
             $sql_guias = "SELECT numero_guia FROM facturas_cot WHERE numero_factura IN $string";
             $guias = $this->select($sql_guias);
