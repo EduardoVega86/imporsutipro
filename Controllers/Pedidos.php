@@ -332,8 +332,9 @@ class Pedidos extends Controller
         $fecha_fin = $_POST['fecha_fin'] ?? "";
         $transportadora = $_POST['transportadora'] ?? "";
         $estado = $_POST['estado'] ?? "";
+        $drogshipin = $_POST['drogshipin'] ?? "";
         $impreso = $_POST['impreso'] ?? "";
-        $data = $this->model->cargarGuias($_SESSION['id_plataforma'], $fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso);
+        $data = $this->model->cargarGuias($_SESSION['id_plataforma'], $fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $$drogshipin);
         echo json_encode($data);
     }
 

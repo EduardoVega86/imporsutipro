@@ -87,6 +87,7 @@ const listGuias = async () => {
     formData.append("fecha_inicio", fecha_inicio);
     formData.append("fecha_fin", fecha_fin);
     formData.append("estado", $("#estado_q").val());
+    formData.append("drogshipin", $("#tienda_q").val());
     formData.append("transportadora", $("#transporte").val());
     formData.append("impreso", $("#impresion").val());
 
