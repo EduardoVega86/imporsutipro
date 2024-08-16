@@ -72,7 +72,7 @@
                     <div class="tab-pane fade" id="adicionales" role="tabpanel" aria-labelledby="adicionales-tab">
                         <div>
                             <form id="imageFormAdicional1" enctype="multipart/form-data">
-                                
+
                                 <div class="form-group mt-3">
                                     <label for="imageInputAdicional1">Imagen Adicional 1</label>
                                     <input type="file" class="form-control-file" id="imageInputAdicional1" accept="image/*" name="imagen">
@@ -82,7 +82,7 @@
                         </div>
                         <div>
                             <form id="imageFormAdicional2" enctype="multipart/form-data">
-                                
+
                                 <div class="form-group mt-3">
                                     <label for="imageInputAdicional2">Imagen Adicional 2</label>
                                     <input type="file" class="form-control-file" id="imageInputAdicional2" accept="image/*" name="imagen">
@@ -92,7 +92,7 @@
                         </div>
                         <div>
                             <form id="imageFormAdicional3" enctype="multipart/form-data">
-                                
+
                                 <div class="form-group mt-3">
                                     <label for="imageInputAdicional3">Imagen Adicional 3</label>
                                     <input type="file" class="form-control-file" id="imageInputAdicional3" accept="image/*" name="imagen">
@@ -102,7 +102,7 @@
                         </div>
                         <div>
                             <form id="imageFormAdicional4" enctype="multipart/form-data">
-                                
+
                                 <div class="form-group mt-3">
                                     <label for="imageInputAdicional4">Imagen Adicional 4</label>
                                     <input type="file" class="form-control-file" id="imageInputAdicional4" accept="image/*" name="imagen">
@@ -185,10 +185,114 @@
 
         $('#imageFormAdicional1').submit(function(event) {
             event.preventDefault();
-            
-            var imagen = $("#imageInputAdicionales")[0].files[0];
+
+            var imagen = $("#imageInputAdicional1")[0].files[0];
 
             let formData = new FormData();
+
+            formData.append("num_imagen", 1);
+            formData.append("id_producto", $('#id_imagenproducto').val());
+            formData.append("imagen", imagen);
+
+            $.ajax({
+                url: SERVERURL + 'Productos/guardar_imagen_productos', // Cambia esta ruta por la ruta correcta a tu controlador
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    response = JSON.parse(response);
+                    if (response.status == 500) {
+                        toastr.error("LA IMAGEN NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
+                            positionClass: "toast-bottom-center"
+                        });
+                    } else if (response.status == 200) {
+                        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+                            positionClass: "toast-bottom-center",
+                        });
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert('Error al guardar la imagen: ' + textStatus);
+                }
+            });
+        });
+        /* Fin imagen adicional 1 */
+        /* imagen adicional 2 */
+        $('#imageInputAdicional2').change(function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#imagePreviewAdicional2').attr('src', e.target.result);
+                    $('#imagePreviewAdicional2').show();
+                    $('#imageFormAdicional2').submit();
+                }
+                reader.readAsDataURL(file);
+            } else {
+                $('#imagePreviewAdicional2').hide();
+            }
+        });
+
+        $('#imageFormAdicional2').submit(function(event) {
+            event.preventDefault();
+
+            var imagen = $("#imageInputAdicional2")[0].files[0];
+
+            let formData = new FormData();
+
+            formData.append("num_imagen", 2);
+            formData.append("id_producto", $('#id_imagenproducto').val());
+            formData.append("imagen", imagen);
+
+            $.ajax({
+                url: SERVERURL + 'Productos/guardar_imagen_productos', // Cambia esta ruta por la ruta correcta a tu controlador
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    response = JSON.parse(response);
+                    if (response.status == 500) {
+                        toastr.error("LA IMAGEN NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
+                            positionClass: "toast-bottom-center"
+                        });
+                    } else if (response.status == 200) {
+                        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+                            positionClass: "toast-bottom-center",
+                        });
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert('Error al guardar la imagen: ' + textStatus);
+                }
+            });
+        });
+        /* Fin imagen adicional 2 */
+        /* imagen adicional 3 */
+        $('#imageInputAdicional3').change(function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#imagePreviewAdicional3').attr('src', e.target.result);
+                    $('#imagePreviewAdicional3').show();
+                    $('#imageFormAdicional3').submit();
+                }
+                reader.readAsDataURL(file);
+            } else {
+                $('#imagePreviewAdicional3').hide();
+            }
+        });
+
+        $('#imageFormAdicional3').submit(function(event) {
+            event.preventDefault();
+            
+            var imagen = $("#imageInputAdicional3")[0].files[0];
+
+            let formData = new FormData();
+            
+            formData.append("num_imagen", 3);
             formData.append("id_producto", $('#id_imagenproducto').val());
             formData.append("imagen", imagen);
             
@@ -208,8 +312,6 @@
                         toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
                             positionClass: "toast-bottom-center",
                         });
-                        $('#imagen_productoModal').modal('hide');
-                        reloadDataTableProductos();
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -217,6 +319,57 @@
                 }
             });
         });
-        /* Fin imagen adicional 1 */
+        /* Fin imagen adicional 3 */
+        /* imagen adicional 4 */
+        $('#imageInputAdicional4').change(function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#imagePreviewAdicional4').attr('src', e.target.result);
+                    $('#imagePreviewAdicional4').show();
+                    $('#imageFormAdicional4').submit();
+                }
+                reader.readAsDataURL(file);
+            } else {
+                $('#imagePreviewAdicional4').hide();
+            }
+        });
+
+        $('#imageFormAdicional4').submit(function(event) {
+            event.preventDefault();
+            
+            var imagen = $("#imageInputAdicional4")[0].files[0];
+
+            let formData = new FormData();
+            
+            formData.append("num_imagen", 4);
+            formData.append("id_producto", $('#id_imagenproducto').val());
+            formData.append("imagen", imagen);
+            
+            $.ajax({
+                url: SERVERURL + 'Productos/guardar_imagen_productos', // Cambia esta ruta por la ruta correcta a tu controlador
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    response = JSON.parse(response);
+                    if (response.status == 500) {
+                        toastr.error("LA IMAGEN NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
+                            positionClass: "toast-bottom-center"
+                        });
+                    } else if (response.status == 200) {
+                        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+                            positionClass: "toast-bottom-center",
+                        });
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert('Error al guardar la imagen: ' + textStatus);
+                }
+            });
+        });
+        /* Fin imagen adicional 4 */
     });
 </script>
