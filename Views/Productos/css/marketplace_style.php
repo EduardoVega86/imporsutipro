@@ -150,16 +150,16 @@
     .carousel-thumbnails-wrapper {
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: space-between;
         gap: 10px;
         margin-top: 20px;
         position: relative;
+        padding: 0 15px;
     }
 
     /* Contenedor de miniaturas */
     .carousel-thumbnails {
         display: flex;
-        justify-content: flex-start;
         align-items: center;
         gap: 10px;
         overflow: hidden;
@@ -168,6 +168,7 @@
         background-color: #f9f9f9;
         width: 80%;
         /* Controla el tamaño de la zona visible de las miniaturas */
+        scroll-behavior: smooth;
     }
 
     /* Miniaturas */
@@ -176,34 +177,34 @@
         width: 80px;
         object-fit: cover;
         cursor: pointer;
-        transition: border 0.3s, transform 0.3s;
+        transition: transform 0.3s;
         border-radius: 4px;
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     }
 
     /* Efecto hover en miniaturas */
     .carousel-thumbnails img:hover {
-        border: 2px solid #007bff;
-        transform: scale(1.05);
+        transform: scale(1.1);
     }
 
     /* Botones de control de miniaturas */
     .thumbnails-control-prev,
     .thumbnails-control-next {
-        background-color: rgba(0, 0, 0, 0.5);
+        background-color: #007bff;
         color: white;
         border: none;
         font-size: 24px;
-        padding: 10px;
+        padding: 12px;
         cursor: pointer;
         border-radius: 50%;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        transition: background-color 0.3s;
+        box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.3s ease, transform 0.3s ease;
     }
 
     .thumbnails-control-prev:hover,
     .thumbnails-control-next:hover {
-        background-color: rgba(0, 0, 0, 0.7);
+        background-color: #0056b3;
+        transform: scale(1.1);
     }
 
     .thumbnails-control-prev {
@@ -213,6 +214,12 @@
     .thumbnails-control-next {
         margin-left: 10px;
     }
+
+    /* Mejoras para el movimiento fluido en dispositivos móviles */
+    .carousel-thumbnails-wrapper {
+        touch-action: pan-x;
+    }
+
 
     .descripcion_producto {
         display: flex;
