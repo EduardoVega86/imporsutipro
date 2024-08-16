@@ -556,46 +556,32 @@ class TiendaModel extends Query
     ///////////////////////////  FUNCIONES DE LA TIENDA  ///////////////////////////
     public function crearTienda($tienda, $plataforma)
     {
+        $maxRetries = 5;  // Número máximo de intentos
+        $retryDelay = 10;  // Tiempo de espera entre intentos en segundos
+
         ///crear tienda
         $url_crear = "https://activador.comprapor.com/activar/" . $tienda;
         $response = $this->initialResponse();
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url_crear);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $output = curl_exec($ch);
-        curl_close($ch);
-        $response1 = json_decode($output, true);
-        if ($response1['status'] == 200) {
+        $response1 = $this->retryRequest($url_crear, $maxRetries, $retryDelay);
+
+        if ($response1 && isset($response1['status']) && $response1['status'] == 200) {
             /// reiniciar servidor
             $url_reiniciar = "https://activador.comprapor.com/reinciarServidor";
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url_reiniciar);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            $output = curl_exec($ch);
-            curl_close($ch);
-            $response2 = json_decode($output, true);
-            if ($response2['status'] == 200) {
+            $response2 = $this->retryRequest($url_reiniciar, $maxRetries, $retryDelay);
+
+            if ($response2 && isset($response2['status']) && $response2['status'] == 200) {
                 /// aplicar SSL
                 $url_ssl = "https://activador.comprapor.com/activarSSL/" . $tienda;
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $url_ssl);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                // Aumentar el timeout a 300 segundos (5 minutos)
-                curl_setopt($ch, CURLOPT_TIMEOUT, 300);
-                $output = curl_exec($ch);
-                curl_close($ch);
-                echo $output;
-                $response3 = json_decode($output, true);
+                $response3 = $this->retryRequest($url_ssl, $maxRetries, $retryDelay, 300);  // Timeout ajustado para SSL
 
-                print_r($response3);
-                if ($response3['status'] == 200) {
+                if ($response3 && isset($response3['status']) && $response3['status'] == 200) {
                     $response['status'] = 200;
                     $response['title'] = 'Peticion exitosa';
                     $response['message'] = 'Tienda creada correctamente';
                 } else {
                     $response['status'] = 500;
                     $response['title'] = 'Error';
-                    $response['message'] = $response3['message'];
+                    $response['message'] = $response3['message'] ?? 'Error desconocido al activar SSL';
                 }
             } else {
                 $response['status'] = 500;
@@ -603,6 +589,36 @@ class TiendaModel extends Query
                 $response['message'] = 'Error al reiniciar el servidor';
             }
         }
+
         return $response;
+    }
+
+    private function retryRequest($url, $maxRetries, $retryDelay, $timeout = 30)
+    {
+        $attempt = 0;
+        $output = null;
+        $response = null;
+
+        while ($attempt < $maxRetries) {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);  // Timeout predeterminado o ajustado
+            $output = curl_exec($ch);
+            curl_close($ch);
+
+            $response = json_decode($output, true);
+
+            // Verificar si se recibió un JSON válido con el estado
+            if ($response && isset($response['status'])) {
+                return $response;
+            }
+
+            // Si no se recibió un JSON válido, esperar antes de reintentar
+            $attempt++;
+            sleep($retryDelay);
+        }
+
+        return $response;  // Devuelve la última respuesta recibida (aunque sea null o incompleta)
     }
 }
