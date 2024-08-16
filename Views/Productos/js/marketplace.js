@@ -416,7 +416,6 @@ function handleHeartClick(productId, esFavorito) {
   });
 }
 
-//agregar informacion al modal descripcion marketplace
 function agregarModal_marketplace(id) {
   $.ajax({
     type: "POST",
@@ -444,10 +443,65 @@ function agregarModal_marketplace(id) {
         );
 
         var imagen_descripcion = obtenerURLImagen(data.image_path, SERVERURL);
-        // Actualizar la imagenes del modal
-
+        // Actualizar la imagen principal del modal
         $("#imagen_principal").attr("src", imagen_descripcion);
         $("#imagen_principalPequena").attr("src", imagen_descripcion);
+
+        let formData = new FormData();
+        formData.append("id_producto", id);
+
+        // Hacer la solicitud para obtener las imágenes adicionales
+        $.ajax({
+          url: SERVERURL + "Productos/listar_imagenAdicional_productos",
+          type: "POST",
+          data: formData,
+          processData: false, // No procesar los datos
+          contentType: false, // No establecer ningún tipo de contenido
+          dataType: "json",
+          success: function (response) {
+            if (response && response.length > 0) {
+              // Limpiar el carrusel y las miniaturas anteriores
+              $(".carousel-inner").empty();
+              $(".carousel-thumbnails").empty();
+
+              // Añadir la primera imagen como activa
+              $(".carousel-inner").append(`
+                <div class="carousel-item active">
+                  <img src="${imagen_descripcion}" class="d-block w-100 fixed-size-img" alt="Product Image 1">
+                </div>
+              `);
+
+              $(".carousel-thumbnails").append(`
+                <img src="${imagen_descripcion}" class="img-thumbnail mx-1" alt="Thumbnail 1" data-bs-target="#productCarousel" data-bs-slide-to="0">
+              `);
+
+              // Añadir las imágenes adicionales al carrusel
+              response.forEach(function (imgData, index) {
+                var imgURL = obtenerURLImagen(imgData.image_path, SERVERURL);
+                var isActive = index === 0 ? "active" : "";
+
+                $(".carousel-inner").append(`
+                  <div class="carousel-item ${isActive}">
+                    <img src="${imgURL}" class="d-block w-100 fixed-size-img" alt="Product Image ${index + 2}">
+                  </div>
+                `);
+
+                $(".carousel-thumbnails").append(`
+                  <img src="${imgURL}" class="img-thumbnail mx-1" alt="Thumbnail ${index + 2}" data-bs-target="#productCarousel" data-bs-slide-to="${index + 1}">
+                `);
+              });
+            } else {
+              console.error("No se encontraron imágenes adicionales.");
+            }
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            console.error(
+              "Error al obtener imágenes adicionales:",
+              errorThrown
+            );
+          },
+        });
+
         // Abrir el modal
         $("#descripcion_productModal").modal("show");
       } else {
