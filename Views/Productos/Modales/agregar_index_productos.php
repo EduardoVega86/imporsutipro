@@ -162,13 +162,13 @@
         const precioReferencialInput = document.getElementById('precio-referencial-valor');
 
 
-        function toggleBodegaField() {
+        /* function toggleBodegaField() {
             if (manejaInventarioSelect.value === '1' && productoVariableSelect.value === '0') { // 1 para "Sí" y 2 para "No"
                 bodegaField.classList.remove('hidden-field');
             } else {
                 bodegaField.classList.add('hidden-field');
             }
-        }
+        } */
 
         function togglePrecioReferencialInput() {
             precioReferencialInput.disabled = !precioReferencialCheckbox.checked;
@@ -178,10 +178,10 @@
             toggleBodegaField();
         });
 
-        manejaInventarioSelect.addEventListener('change', toggleBodegaField);
+        /* manejaInventarioSelect.addEventListener('change', toggleBodegaField); */
         precioReferencialCheckbox.addEventListener('change', togglePrecioReferencialInput);
 
-        toggleBodegaField(); // Llama a la función al cargar la página para ajustar la visibilidad inicial
+        /* toggleBodegaField(); */
         togglePrecioReferencialInput(); // Llama a la función al cargar la página para ajustar la visibilidad inicial
     });
 
