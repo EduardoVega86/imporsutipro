@@ -154,7 +154,7 @@ class ManifiestosModel extends Query
 
         // Devolver la respuesta
         $new_url = str_replace("/home/imporsuitpro/public_html/new", "", $combinedPdfPath);
-        $new_url = "https://new.imporsuitpro.com" . $new_url;
+        $new_url = URL_MATRIZ . $new_url;
 
         $reponse = [
             "url" => $combinedPdfPath,
