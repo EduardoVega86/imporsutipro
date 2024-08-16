@@ -154,9 +154,15 @@ $(document).ready(function () {
     // Agrega la clase 'selected' a la plantilla clicada
     $(this).addClass("selected");
 
+    let plantilla = "";
+    if ((selectedTemplate = "template1")) {
+      plantilla = 1;
+    } else if ((selectedTemplate = "template2")) {
+      plantilla = 2;
+    }
     // Prepara los datos para la API
     let formData = new FormData();
-    formData.append("plantilla_selected", selectedTemplate);
+    formData.append("plantilla_selected", plantilla);
 
     // Realiza la petición AJAX para calcular la guía directa
     $.ajax({
@@ -176,9 +182,13 @@ $(document).ready(function () {
             }
           );
         } else if (response.status == 200) {
-          toastr.success("PLANTILLA SELECCIONADA CORRECTAMENTE", "NOTIFICACIÓN", {
-            positionClass: "toast-bottom-center",
-          });
+          toastr.success(
+            "PLANTILLA SELECCIONADA CORRECTAMENTE",
+            "NOTIFICACIÓN",
+            {
+              positionClass: "toast-bottom-center",
+            }
+          );
           cargarInfoTienda_inicial();
         }
       },
