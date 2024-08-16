@@ -157,8 +157,11 @@ const listProductos = async () => {
       if (producto.bodega == 0) {
         Swal.fire({
           icon: "error",
-          title: "Bodega no asiganada en el producto: "+producto.nombre_producto,
-          text: data.message,
+          title: "Bodega no asignada en el producto: " + producto.nombre_producto,
+          html: `Si desea ver un tutorial de cómo asignar su bodega en un producto dar click en el siguiente enlace: 
+                 <a href="https://tututorial.com" target="_blank" class="btn btn-primary" style="margin-top: 10px;">
+                   Ver Tutorial
+                 </a>`,
         });
       }
 
