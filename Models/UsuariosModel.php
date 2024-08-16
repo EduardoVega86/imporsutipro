@@ -1135,6 +1135,26 @@ ON
 
         return $response;
     }
+
+    public function elegir_plantilla($plantilla, $plataforma)
+    {
+        // codigo para editar categoria
+        $response = $this->initialResponse();
+
+        $sql = "UPDATE perfil SET plantilla = ? WHERE id_plataforma = ?";
+        $data = [$plantilla, $plataforma];
+        $editar_perfil = $this->update($sql, $data);
+        if ($editar_perfil == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'perfil editada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al editar la perfil';
+        }
+        return $response;
+    }
     /* Fin tienda online */
 
 

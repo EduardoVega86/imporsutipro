@@ -154,39 +154,32 @@ $(document).ready(function () {
     // Agrega la clase 'selected' a la plantilla clicada
     $(this).addClass("selected");
 
-    // Supón que tienes parámetros en la URL
-    const urlParams_calcular = new URLSearchParams(window.location.search);
-    const idProducto_calcular = urlParams_calcular.get("id_producto");
-
-    var monto_total_general = $("#monto_total").text().trim();
-
     // Prepara los datos para la API
     let formData = new FormData();
-    formData.append("id_producto", idProducto_calcular);
-    formData.append("total", monto_total_general);
-    formData.append("tarifa", priceValue);
-    formData.append("costo", costo_general);
+    formData.append("plantilla_selected", selectedTemplate);
 
     // Realiza la petición AJAX para calcular la guía directa
     $.ajax({
-      url: SERVERURL + "calculadora/calcularGuiaDirecta",
+      url: SERVERURL + "Usuarios/elegir_plantilla",
       type: "POST", // Cambiar a POST para enviar FormData
       data: formData,
       processData: false, // No procesar los datos
       contentType: false, // No establecer ningún tipo de contenido
       dataType: "json",
       success: function (response) {
-        // Actualiza los elementos con los valores de respuesta
-        $("#montoVenta_infoVenta").text(response.total);
-        $("#costo_infoVenta").text(response.costo);
-
-        // Controla el estado del botón en base a la respuesta
-        if (response.generar == false) {
-          button2.disabled = true;
-          $("#alerta_valoresContra").show();
-        } else {
-          button2.disabled = false;
-          $("#alerta_valoresContra").hide();
+        if (response.status == 500) {
+          toastr.error(
+            "LA PLANTILLA NO SE ELIGÓ CORRECTAMENTE",
+            "NOTIFICACIÓN",
+            {
+              positionClass: "toast-bottom-center",
+            }
+          );
+        } else if (response.status == 200) {
+          toastr.success("PLANTILLA SELECCIONADA CORRECTAMENTE", "NOTIFICACIÓN", {
+            positionClass: "toast-bottom-center",
+          });
+          cargarInfoTienda_inicial();
         }
       },
       error: function (jqXHR, textStatus, errorThrown) {

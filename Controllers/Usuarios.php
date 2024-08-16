@@ -519,6 +519,14 @@ class Usuarios extends Controller
 
         echo json_encode($response);
     }
+    
+    public function elegir_plantilla()
+    {
+        $plantilla = $_POST['plantilla_selected'];
+
+        $response = $this->model->elegir_plantilla($plantilla, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
     /* fin tienda online */
 
     public function registro()
