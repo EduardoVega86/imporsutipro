@@ -201,4 +201,18 @@ class Tienda extends Controller
     }
 
     /* Fin plantilla 2 */
+
+
+
+
+
+
+    /// TIENDA COMPRAPOR /// 
+
+    public function crearTienda()
+    {
+        $nombre = $_POST['nombre'];
+        $response = $this->model->crearTienda($nombre, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
 }

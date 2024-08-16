@@ -547,4 +547,57 @@ class TiendaModel extends Query
         return $this->select($sql);
     }
     /* Fin plantilla 2 */
+
+
+
+
+
+
+    ///////////////////////////  FUNCIONES DE LA TIENDA  ///////////////////////////
+    public function crearTiendad($tienda, $plataforma)
+    {
+        ///crear tienda
+        $url_crear = "https://activador.comprapor.com/activar/" . $tienda;
+        $response = $this->initialResponse();
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url_crear);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        $response1 = json_decode($output, true);
+        if ($response1['status'] == 200) {
+            /// reiniciar servidor
+            $url_reiniciar = "https://activador.comprapor.com/reinciarServidor";
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url_reiniciar);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $output = curl_exec($ch);
+            curl_close($ch);
+            $response2 = json_decode($output, true);
+            if ($response2['status'] == 200) {
+                /// aplicar SSL
+                $url_ssl = "https://activador.comprapor.com/activarSSL/" . $tienda;
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url_ssl);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $output = curl_exec($ch);
+                curl_close($ch);
+                $response3 = json_decode($output, true);
+                if ($response3['status'] == 200) {
+                    $response['status'] = 200;
+                    $response['title'] = 'Peticion exitosa';
+                    $response['message'] = 'Tienda creada correctamente';
+                } else {
+                    $response['status'] = 500;
+                    $response['title'] = 'Error';
+                    $response['message'] = 'Error al aplicar SSL';
+                }
+            } else {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'Error al reiniciar el servidor';
+            }
+        }
+        return $response;
+    }
 }
