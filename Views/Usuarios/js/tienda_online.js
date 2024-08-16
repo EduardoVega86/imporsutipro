@@ -155,9 +155,10 @@ $(document).ready(function () {
     $(this).addClass("selected");
 
     let plantilla = "";
-    if ((selectedTemplate = "template1")) {
+    let plantilla_seleccionada = $('#plantilla_selected').val();
+    if ((plantilla_seleccionada = "template1")) {
       plantilla = 1;
-    } else if ((selectedTemplate = "template2")) {
+    } else if ((plantilla_seleccionada = "template2")) {
       plantilla = 2;
     }
     // Prepara los datos para la API
