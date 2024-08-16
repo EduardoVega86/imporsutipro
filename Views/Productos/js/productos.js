@@ -160,7 +160,7 @@ const listProductos = async () => {
           title:
             "Bodega no asignada en el producto: " + producto.nombre_producto,
           html: `Si desea ver un tutorial de cómo asignar su bodega en un producto dar click en el siguiente enlace: 
-                 <a href="https://tututorial.com" target="_blank" class="btn btn-primary" style="margin-top: 10px;">
+                 <a href="https://youtu.be/HB8COgF_cOQ" target="_blank" class="btn btn-primary" style="margin-top: 10px;">
                    Ver Tutorial
                  </a>`,
         });
@@ -674,7 +674,6 @@ function bajar_marketplace(id) {
 
 function agregar_imagenProducto(id, imagen) {
   $("#id_imagenproducto").val(id);
-  $("#id_imagenproducto2").val(id);
 
   if (imagen) {
     $("#imagePreviewPrincipal").attr("src", imagen).show();

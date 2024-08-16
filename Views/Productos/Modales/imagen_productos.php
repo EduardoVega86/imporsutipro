@@ -70,18 +70,46 @@
                         </form>
                     </div>
                     <div class="tab-pane fade" id="adicionales" role="tabpanel" aria-labelledby="adicionales-tab">
-
-                        <form id="imageFormAdicionales" enctype="multipart/form-data">
-                            <input type="hidden" id="id_imagenproducto2" name="id_producto2">
-                            <div class="form-group mt-3">
-                                <label for="imageInputAdicionales">Imágenes Adicionales (Máximo 4)</label>
-                                <input type="file" class="form-control-file" id="imageInputAdicionales" accept="image/*" name="imagen[]" multiple>
-                            </div>
-                            <div id="imagePreviewAdicionales1" class="image-preview-container mt-2 d-flex flex-wrap"></div>
-                            <div id="imagePreviewAdicionales2" class="image-preview-container mt-2 d-flex flex-wrap"></div>
-                            <div id="imagePreviewAdicionales3" class="image-preview-container mt-2 d-flex flex-wrap"></div>
-                            <div id="imagePreviewAdicionales4" class="image-preview-container mt-2 d-flex flex-wrap"></div>
-                        </form>
+                        <div>
+                            <form id="imageFormAdicional1" enctype="multipart/form-data">
+                                
+                                <div class="form-group mt-3">
+                                    <label for="imageInputAdicional1">Imagen Adicional 1</label>
+                                    <input type="file" class="form-control-file" id="imageInputAdicional1" accept="image/*" name="imagen">
+                                </div>
+                                <img id="imagePreviewAdicional1" class="image-preview mt-2" src="" alt="Preview" width="200px">
+                            </form>
+                        </div>
+                        <div>
+                            <form id="imageFormAdicional2" enctype="multipart/form-data">
+                                
+                                <div class="form-group mt-3">
+                                    <label for="imageInputAdicional2">Imagen Adicional 2</label>
+                                    <input type="file" class="form-control-file" id="imageInputAdicional2" accept="image/*" name="imagen">
+                                </div>
+                                <img id="imagePreviewAdicional2" class="image-preview mt-2" src="" alt="Preview" width="200px">
+                            </form>
+                        </div>
+                        <div>
+                            <form id="imageFormAdicional3" enctype="multipart/form-data">
+                                
+                                <div class="form-group mt-3">
+                                    <label for="imageInputAdicional3">Imagen Adicional 3</label>
+                                    <input type="file" class="form-control-file" id="imageInputAdicional3" accept="image/*" name="imagen">
+                                </div>
+                                <img id="imagePreviewAdicional3" class="image-preview mt-2" src="" alt="Preview" width="200px">
+                            </form>
+                        </div>
+                        <div>
+                            <form id="imageFormAdicional4" enctype="multipart/form-data">
+                                
+                                <div class="form-group mt-3">
+                                    <label for="imageInputAdicional4">Imagen Adicional 4</label>
+                                    <input type="file" class="form-control-file" id="imageInputAdicional4" accept="image/*" name="imagen">
+                                </div>
+                                <img id="imagePreviewAdicional4" class="image-preview mt-2" src="" alt="Preview" width="200px">
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -109,70 +137,6 @@
             } else {
                 $('#imagePreviewPrincipal').hide();
             }
-        });
-
-        $('#imageInputAdicionales').change(function() {
-            const files = this.files;
-            $('#imagePreviewAdicionales').empty(); // Limpiar las previsualizaciones anteriores
-
-            if (files.length > 4) {
-                alert('No puedes subir más de 4 imágenes');
-                return;
-            }
-
-            Array.from(files).forEach((file, index) => {
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const imagePreview = `
-                        <div class="image-preview-item">
-                            <img src="${e.target.result}" alt="Preview" width="100px">
-                        </div>`;
-                        $('#imagePreviewAdicionales').append(imagePreview);
-                    }
-                    reader.readAsDataURL(file);
-                }
-            });
-
-            // Enviar el formulario automáticamente después de seleccionar imágenes
-            $('#imageFormAdicionales').submit();
-        });
-
-        // Enviar el formulario de imágenes adicionales al servidor
-        $('#imageFormAdicionales').submit(function(event) {
-            event.preventDefault();
-            
-            var imagen = $("#imageInputAdicionales")[0].files[0];
-
-            let formData = new FormData();
-            formData.append("id_producto", $('#id_imagenproducto2').val());
-            formData.append("imagen", imagen);
-
-
-            $.ajax({
-                url: SERVERURL + 'Productos/guardar_imagenAdicional_productos', // URL para el controlador que guarda las imágenes
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(response) {
-                    response = JSON.parse(response);
-                    if (response.status == 200) {
-                        toastr.success(response.message, "NOTIFICACIÓN", {
-                            positionClass: "toast-bottom-center"
-                        });
-                        $('#imagen_productoModal').modal('hide');
-                        // Actualiza el contenido si es necesario
-                    } else {
-                        toastr.error(response.message, "NOTIFICACIÓN", {
-                            positionClass: "toast-bottom-center"
-                        });
-                    }
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    alert('Error al guardar las imágenes: ' + textStatus);
-                }
-            });
         });
 
         $('#imageFormPrincipal').submit(function(event) {
@@ -203,5 +167,56 @@
                 }
             });
         });
+        /* imagen adicional 1 */
+        $('#imageInputAdicional1').change(function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#imagePreviewAdicional1').attr('src', e.target.result);
+                    $('#imagePreviewAdicional1').show();
+                    $('#imageFormAdicional1').submit();
+                }
+                reader.readAsDataURL(file);
+            } else {
+                $('#imagePreviewAdicional1').hide();
+            }
+        });
+
+        $('#imageFormAdicional1').submit(function(event) {
+            event.preventDefault();
+            
+            var imagen = $("#imageInputAdicionales")[0].files[0];
+
+            let formData = new FormData();
+            formData.append("id_producto", $('#id_imagenproducto').val());
+            formData.append("imagen", imagen);
+            
+            $.ajax({
+                url: SERVERURL + 'Productos/guardar_imagen_productos', // Cambia esta ruta por la ruta correcta a tu controlador
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    response = JSON.parse(response);
+                    if (response.status == 500) {
+                        toastr.error("LA IMAGEN NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
+                            positionClass: "toast-bottom-center"
+                        });
+                    } else if (response.status == 200) {
+                        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+                            positionClass: "toast-bottom-center",
+                        });
+                        $('#imagen_productoModal').modal('hide');
+                        reloadDataTableProductos();
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert('Error al guardar la imagen: ' + textStatus);
+                }
+            });
+        });
+        /* Fin imagen adicional 1 */
     });
 </script>

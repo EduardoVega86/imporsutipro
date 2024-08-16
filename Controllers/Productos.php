@@ -281,16 +281,6 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
-
-    public function guardar_imagenAdicional_productos()
-    {
-
-        $response = $this->model->guardar_imagenAdicional_productos($_FILES['imagen'], $_POST['id_producto'], $_SESSION['id_plataforma']);
-        echo json_encode($response);
-    }
-
-
-
     public function guardar_imagen_productos()
     {
 
@@ -298,8 +288,12 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
+    public function guardar_imagenAdicional_productos()
+    {
 
-
+        $response = $this->model->guardar_imagenAdicional_productos($_FILES['imagen'], $_POST['id_producto'], $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
 
     public function cargar_categorias()
     {
