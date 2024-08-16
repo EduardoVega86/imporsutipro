@@ -174,9 +174,9 @@
             precioReferencialInput.disabled = !precioReferencialCheckbox.checked;
         }
 
-        productoVariableSelect.addEventListener('change', function() {
+        /* productoVariableSelect.addEventListener('change', function() {
             toggleBodegaField();
-        });
+        }); */
 
         /* manejaInventarioSelect.addEventListener('change', toggleBodegaField); */
         precioReferencialCheckbox.addEventListener('change', togglePrecioReferencialInput);
