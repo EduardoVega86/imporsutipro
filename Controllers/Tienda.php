@@ -41,6 +41,7 @@ class Tienda extends Controller
     }
 
 
+
     public function bannertienda()
     {
         $id_plataforma = $_POST['id_plataforma'];
