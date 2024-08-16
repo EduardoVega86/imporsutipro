@@ -575,6 +575,13 @@ class TiendaModel extends Query
                 $response3 = $this->retryRequest($url_ssl, $maxRetries, $retryDelay, 300);  // Timeout ajustado para SSL
 
                 if ($response3 && isset($response3['status']) && $response3['status'] == 200) {
+
+                    $update = "UPDATE plataformas SET tienda_activa = 1, url_imporsuit = ? WHERE id_plataforma = ?";
+                    $data = [$tienda, $plataforma];
+                    $this->simple_select($update, $data);
+
+
+
                     $response['status'] = 200;
                     $response['title'] = 'Peticion exitosa';
                     $response['message'] = 'Tienda creada correctamente';

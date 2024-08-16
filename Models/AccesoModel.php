@@ -21,6 +21,7 @@ class AccesoModel extends Query
         $accessToken = $client->fetchAccessTokenWithAssertion()['access_token'];
         return $accessToken;
     }
+
     public function registro($nombre, $correo, $pais, $telefono, $contrasena, $tienda)
     {
         ini_set('session.gc_maxlifetime', 3600);
