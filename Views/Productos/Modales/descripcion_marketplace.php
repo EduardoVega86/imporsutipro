@@ -23,11 +23,10 @@
                         <div class="informacion_producto">
                             <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
                                 <div class="carousel-inner">
-                                    <!-- Esta será la primera imagen, que se cargará desde la primera API -->
+                                    <!-- Imagen principal -->
                                     <div class="carousel-item active">
                                         <img src="" class="d-block w-100 fixed-size-img" alt="Product Image 1" id="imagen_principal">
                                     </div>
-                                    <!-- Aquí se agregarán dinámicamente las imágenes adicionales -->
                                 </div>
                                 <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -38,10 +37,20 @@
                                     <span class="visually-hidden">Next</span>
                                 </button>
                             </div>
-                            <div class="carousel-thumbnails mt-2 d-flex justify-content-center">
-                                <!-- Esta es la miniatura de la primera imagen, que también se cargará desde la primera API -->
-                                <img src="" class="img-thumbnail mx-1" alt="Thumbnail 1" data-bs-target="#productCarousel" data-bs-slide-to="0" id="imagen_principalPequena">
-                                <!-- Aquí se agregarán dinámicamente las miniaturas adicionales -->
+
+                            <div class="carousel-thumbnails-wrapper">
+                                <button class="thumbnails-control-prev" id="thumbnails-prev">
+                                    &#8249;
+                                </button>
+
+                                <div class="carousel-thumbnails">
+                                    <!-- Miniaturas de las imágenes -->
+                                    <img src="" class="img-thumbnail mx-1" alt="Thumbnail 1" data-bs-target="#productCarousel" data-bs-slide-to="0" id="imagen_principalPequena">
+                                </div>
+
+                                <button class="thumbnails-control-next" id="thumbnails-next">
+                                    &#8250;
+                                </button>
                             </div>
                         </div>
                     </div>
