@@ -700,10 +700,29 @@ function agregar_imagenes_adicionales(id) {
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
-      $("#imagePreviewAdicional1").attr("src", response[0]).show();
-      $("#imagePreviewAdicional2").attr("src", response[1]).show();
-      $("#imagePreviewAdicional3").attr("src", response[2]).show();
-      $("#imagePreviewAdicional4").attr("src", response[3]).show();
+      if (response[0].url){
+        $("#imagePreviewAdicional1").attr("src", SERVERURL+response[0].url).show();
+      }else{
+        $("#imagePreviewAdicional1").attr("src", SERVERURL + "public/img/broken-image.png").show();        
+      }
+
+      if (response[1].url){
+        $("#imagePreviewAdicional2").attr("src", SERVERURL+response[1].url).show();
+      }else{
+        $("#imagePreviewAdicional2").attr("src", SERVERURL + "public/img/broken-image.png").show();        
+      }
+
+      if (response[2].url){
+        $("#imagePreviewAdicional3").attr("src", SERVERURL+response[2].url).show();
+      }else{
+        $("#imagePreviewAdicional3").attr("src", SERVERURL + "public/img/broken-image.png").show();        
+      }
+
+      if (response[3].url){
+        $("#imagePreviewAdicional4").attr("src", SERVERURL+response[3].url).show();
+      }else{
+        $("#imagePreviewAdicional4").attr("src", SERVERURL + "public/img/broken-image.png").show();        
+      }
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
