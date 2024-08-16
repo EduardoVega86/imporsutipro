@@ -9,7 +9,7 @@ const dataTableSolicitudesOptions = {
   ],
   order: [
     [0, "asc"],
-    [4, "desc"],
+    [5, "desc"],
   ], // Ordenar por la columna de checkboxes (sin check primero) y luego por fecha ascendente
   pageLength: 5,
   destroy: true,
@@ -151,7 +151,7 @@ const dataTableOtrasFormasPagoOptions = {
     { orderable: true, targets: 0, orderDataType: "dom-checkbox" }, // Ordenar por la columna de checkboxes
     { type: 'date', targets: 2 }, // La columna de fecha tiene el índice 2 en este caso
   ],
-  order: [[0, "asc"], [2, "desc"]], // Ordenar primero por checkbox, luego por fecha de forma ascendente
+  order: [[0, "asc"], [3, "desc"]], // Ordenar primero por checkbox, luego por fecha de forma ascendente
   pageLength: 5,
   destroy: true,
   dom: '<"d-flex w-full justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
