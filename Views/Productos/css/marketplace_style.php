@@ -142,28 +142,32 @@
     .fixed-size-img {
         height: 300px;
         width: 100%;
-        /* Asegura que ocupe todo el ancho disponible */
         object-fit: cover;
-        /* La imagen se adapta al contenedor manteniendo su proporción */
         border-radius: 8px;
-        /* Bordes redondeados para un diseño más estilizado */
+    }
+
+    /* Wrapper para las miniaturas con flechas */
+    .carousel-thumbnails-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 20px;
+        position: relative;
     }
 
     /* Contenedor de miniaturas */
     .carousel-thumbnails {
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
         gap: 10px;
-        /* Espacio entre las miniaturas */
-        overflow-x: auto;
-        /* Scroll horizontal si hay muchas miniaturas */
+        overflow: hidden;
         padding: 10px;
         border-radius: 8px;
         background-color: #f9f9f9;
-        /* Fondo suave para destacar las miniaturas */
-        scroll-behavior: smooth;
-        /* Movimiento suave al hacer scroll */
+        width: 80%;
+        /* Controla el tamaño de la zona visible de las miniaturas */
     }
 
     /* Miniaturas */
@@ -173,30 +177,42 @@
         object-fit: cover;
         cursor: pointer;
         transition: border 0.3s, transform 0.3s;
-        /* Animación suave al hacer hover */
         border-radius: 4px;
-        /* Bordes redondeados en miniaturas */
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        /* Sombra suave para destacarlas */
     }
 
     /* Efecto hover en miniaturas */
     .carousel-thumbnails img:hover {
         border: 2px solid #007bff;
         transform: scale(1.05);
-        /* Levemente agrandada al hacer hover */
     }
 
-    /* Opcional: estilo para las flechas del carrusel */
-    .carousel-control-prev-icon,
-    .carousel-control-next-icon {
+    /* Botones de control de miniaturas */
+    .thumbnails-control-prev,
+    .thumbnails-control-next {
         background-color: rgba(0, 0, 0, 0.5);
-        /* Fondo semitransparente */
-        border-radius: 50%;
-        /* Hacer las flechas circulares */
+        color: white;
+        border: none;
+        font-size: 24px;
         padding: 10px;
+        cursor: pointer;
+        border-radius: 50%;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s;
     }
 
+    .thumbnails-control-prev:hover,
+    .thumbnails-control-next:hover {
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    .thumbnails-control-prev {
+        margin-right: 10px;
+    }
+
+    .thumbnails-control-next {
+        margin-left: 10px;
+    }
 
     .descripcion_producto {
         display: flex;
