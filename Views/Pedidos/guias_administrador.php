@@ -36,7 +36,8 @@
                         <label for="tienda_q" class="col-form-label">Proveedor / Dropshipper</label>
                         <select id="tienda_q" class="form-control">
                             <option value="">Selecciona un Proveedor o Dropshipper</option>
-                            
+                            <option value="1">Dropshipper</option>
+                            <option value="0">Local</option>
                         </select>
                     </div>
                 </div>
