@@ -142,33 +142,28 @@
     .fixed-size-img {
         height: 300px;
         width: 100%;
+        /* Asegura que ocupe todo el ancho disponible */
         object-fit: cover;
+        /* La imagen se adapta al contenedor manteniendo su proporción */
         border-radius: 8px;
-    }
-
-    /* Wrapper para las miniaturas con flechas */
-    .carousel-thumbnails-wrapper {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        margin-top: 20px;
-        position: relative;
-        padding: 0 15px;
+        /* Bordes redondeados para un diseño más estilizado */
     }
 
     /* Contenedor de miniaturas */
     .carousel-thumbnails {
         display: flex;
+        justify-content: center;
         align-items: center;
         gap: 10px;
-        overflow: hidden;
+        /* Espacio entre las miniaturas */
+        overflow-x: auto;
+        /* Scroll horizontal si hay muchas miniaturas */
         padding: 10px;
         border-radius: 8px;
         background-color: #f9f9f9;
-        width: 80%;
-        /* Controla el tamaño de la zona visible de las miniaturas */
+        /* Fondo suave para destacar las miniaturas */
         scroll-behavior: smooth;
+        /* Movimiento suave al hacer scroll */
     }
 
     /* Miniaturas */
@@ -177,49 +172,30 @@
         width: 80px;
         object-fit: cover;
         cursor: pointer;
-        transition: transform 0.3s;
+        transition: border 0.3s, transform 0.3s;
+        /* Animación suave al hacer hover */
         border-radius: 4px;
+        /* Bordes redondeados en miniaturas */
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        /* Sombra suave para destacarlas */
     }
 
     /* Efecto hover en miniaturas */
     .carousel-thumbnails img:hover {
-        transform: scale(1.1);
+        border: 2px solid #007bff;
+        transform: scale(1.05);
+        /* Levemente agrandada al hacer hover */
     }
 
-    /* Botones de control de miniaturas */
-    .thumbnails-control-prev,
-    .thumbnails-control-next {
-        background-color: #007bff;
-        color: white;
-        border: none;
-        font-size: 24px;
-        padding: 12px;
-        cursor: pointer;
+    /* Opcional: estilo para las flechas del carrusel */
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        background-color: rgba(0, 0, 0, 0.5);
+        /* Fondo semitransparente */
         border-radius: 50%;
-        box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
-        transition: background-color 0.3s ease, transform 0.3s ease;
+        /* Hacer las flechas circulares */
+        padding: 10px;
     }
-
-    .thumbnails-control-prev:hover,
-    .thumbnails-control-next:hover {
-        background-color: #0056b3;
-        transform: scale(1.1);
-    }
-
-    .thumbnails-control-prev {
-        margin-right: 10px;
-    }
-
-    .thumbnails-control-next {
-        margin-left: 10px;
-    }
-
-    /* Mejoras para el movimiento fluido en dispositivos móviles */
-    .carousel-thumbnails-wrapper {
-        touch-action: pan-x;
-    }
-
 
     .descripcion_producto {
         display: flex;
