@@ -507,7 +507,7 @@ class InventariosModel extends Query
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = 'La guía no pertenece a esta bodega';
+            $response['message'] = 'La guía no pertenece a esta bodega o a esta transportadora';
         }
         return $response;
     }
@@ -536,9 +536,6 @@ class InventariosModel extends Query
             if ($id_plataforma_bodega == $plataforma) {
                 if ($estado_factura == 1) {
                     //  echo $id_factura;
-
-
-
 
 
                     //print_r($tmp_cotizaciones);
