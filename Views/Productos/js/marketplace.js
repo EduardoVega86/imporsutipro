@@ -509,6 +509,20 @@ function agregarModal_marketplace(id) {
   });
 }
 
+document
+  .getElementById("thumbnails-prev")
+  .addEventListener("click", function () {
+    const thumbnailsContainer = document.querySelector(".carousel-thumbnails");
+    thumbnailsContainer.scrollLeft -= 100; // Desplazar a la izquierda 100px
+  });
+
+document
+  .getElementById("thumbnails-next")
+  .addEventListener("click", function () {
+    const thumbnailsContainer = document.querySelector(".carousel-thumbnails");
+    thumbnailsContainer.scrollLeft += 100; // Desplazar a la derecha 100px
+  });
+
 function procesarPlataforma(url) {
   // Eliminar el "https://"
   let sinProtocolo = url.replace("https://", "");
