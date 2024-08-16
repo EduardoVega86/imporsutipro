@@ -576,6 +576,7 @@ class TiendaModel extends Query
 
                 if ($response3 && isset($response3['status']) && $response3['status'] == 200) {
 
+                    $tienda = 'https://' . $tienda . '.comprapor.com';
                     $update = "UPDATE plataformas SET tienda_creada = 1, url_imporsuit = ? WHERE id_plataforma = ?";
                     $data = [$tienda, $plataforma];
                     $this->simple_select($update, $data);
