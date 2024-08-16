@@ -154,6 +154,14 @@ const listProductos = async () => {
         botonId_inventario = `<div class="btn btn-warning" onclick="abrir_modal_idInventario(${producto.id_producto})"><span>Ver</span></div>`;
       }
 
+      if (producto.bodega == 0) {
+        Swal.fire({
+          icon: "error",
+          title: "Bodega no asiganada en el producto: "+producto.nombre_producto,
+          text: data.message,
+        });
+      }
+
       content += `
         <tr>
           <td>${subir_marketplace_checkBox}</td>
