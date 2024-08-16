@@ -141,8 +141,13 @@
         // Enviar el formulario de imágenes adicionales al servidor
         $('#imageFormAdicionales').submit(function(event) {
             event.preventDefault();
+            
+            var imagen = $("#imageInputAdicionales")[0].files[0];
 
-            var formData = new FormData(this);
+            let formData = new FormData();
+            formData.append("id_producto", $('#id_imagenproducto2').val());
+            formData.append("imagen", imagen);
+
 
             $.ajax({
                 url: SERVERURL + 'Productos/guardar_imagenAdicional_productos', // URL para el controlador que guarda las imágenes
