@@ -459,7 +459,7 @@ function agregarModal_marketplace(id) {
             if (response && response.length > 0) {
               // Recorrer las imágenes adicionales y añadirlas al carrusel y a las miniaturas
               response.forEach(function (imgData, index) {
-                var imgURL = obtenerURLImagen(imgData.image_path, SERVERURL);
+                var imgURL = obtenerURLImagen(imgData.url, SERVERURL);
 
                 // Agregar las imágenes adicionales al carrusel
                 $(".carousel-inner").append(`
@@ -478,11 +478,8 @@ function agregarModal_marketplace(id) {
             }
           },
           error: function (jqXHR, textStatus, errorThrown) {
-            console.error(
-              "Error al obtener imágenes adicionales:",
-              errorThrown
-            );
-          },
+            console.error("Error al obtener imágenes adicionales:", errorThrown);
+          }
         });
 
         // Abrir el modal
@@ -494,7 +491,7 @@ function agregarModal_marketplace(id) {
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
       alert("Hubo un problema al obtener la información del producto");
-    },
+    }
   });
 }
 
