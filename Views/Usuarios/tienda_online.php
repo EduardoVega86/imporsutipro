@@ -80,7 +80,7 @@
 </style>
 <div class="custom-container-fluid mt-4">
     <!-- Selector de plantilla -->
-    <div class="d-flex justify-content-around mb-4 flex-wrap gap-4">
+    <div class="d-flex justify-content-around mb-4 flex-wrap gap-4" style="display: none !important;">
         <div class="img-container text-center plantilla" data-template="template1">
             <img src="<?php echo SERVERURL; ?>/public/img/TEMPLATE1.jpg" alt="Template1">
             <div class="price-tag" data-price-id="price_template1"><span id="price_template1">Plantilla1</span></div>
