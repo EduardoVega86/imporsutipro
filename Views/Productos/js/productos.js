@@ -457,6 +457,8 @@ function validador_bodega() {
               " no contiene datos de dirección y no pueden agregar Productos",
             showConfirmButton: false,
             timer: 3000,
+            allowOutsideClick: false, // Evita que se cierre al hacer clic fuera del modal
+            allowEscapeKey: false, // Evita que se cierre al presionar ESC
           }).then(() => {
             window.location.href = "" + SERVERURL + "Productos/bodegas";
           });
