@@ -509,19 +509,49 @@ function agregarModal_marketplace(id) {
   });
 }
 
+/* animacion de carusel de imagenes descripcion */
+// Control de flechas para desplazamiento suave
 document
   .getElementById("thumbnails-prev")
   .addEventListener("click", function () {
     const thumbnailsContainer = document.querySelector(".carousel-thumbnails");
-    thumbnailsContainer.scrollLeft -= 100; // Desplazar a la izquierda 100px
+    thumbnailsContainer.scrollBy({ left: -100, behavior: "smooth" }); // Desplaza hacia la izquierda
   });
 
 document
   .getElementById("thumbnails-next")
   .addEventListener("click", function () {
     const thumbnailsContainer = document.querySelector(".carousel-thumbnails");
-    thumbnailsContainer.scrollLeft += 100; // Desplazar a la derecha 100px
+    thumbnailsContainer.scrollBy({ left: 100, behavior: "smooth" }); // Desplaza hacia la derecha
   });
+
+// Funcionalidad de swipe para dispositivos móviles
+let startX;
+
+document
+  .querySelector(".carousel-thumbnails")
+  .addEventListener("touchstart", function (e) {
+    startX = e.touches[0].clientX;
+  });
+
+document
+  .querySelector(".carousel-thumbnails")
+  .addEventListener("touchmove", function (e) {
+    const moveX = e.touches[0].clientX;
+    const diffX = startX - moveX;
+
+    // Desplazamiento suave según el gesto
+    this.scrollLeft += diffX;
+  });
+
+document
+  .querySelector(".carousel-thumbnails")
+  .addEventListener("touchend", function (e) {
+    // Resetea la posición inicial
+    startX = null;
+  });
+
+/* Fin animacion de carusel de imagenes descripcion */
 
 function procesarPlataforma(url) {
   // Eliminar el "https://"
