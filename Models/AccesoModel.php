@@ -164,6 +164,8 @@ class AccesoModel extends Query
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
+
+
         //Inicia la respuesta
         $response = $this->initialResponse();
 
