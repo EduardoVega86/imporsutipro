@@ -582,6 +582,7 @@ class TiendaModel extends Query
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 $output = curl_exec($ch);
                 curl_close($ch);
+                echo $output;
                 $response3 = json_decode($output, true);
                 print_r($response3);
                 if ($response3['status'] == 200) {
