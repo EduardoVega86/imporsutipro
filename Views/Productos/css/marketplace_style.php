@@ -142,11 +142,10 @@
     .fixed-size-img {
         height: 300px;
         width: 100%;
-        /* Asegura que ocupe todo el ancho disponible */
         object-fit: cover;
-        /* La imagen se adapta al contenedor manteniendo su proporción */
         border-radius: 8px;
-        /* Bordes redondeados para un diseño más estilizado */
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        /* Añadido sombra a la imagen principal */
     }
 
     /* Contenedor de miniaturas */
@@ -155,15 +154,15 @@
         justify-content: center;
         align-items: center;
         gap: 10px;
-        /* Espacio entre las miniaturas */
         overflow-x: auto;
-        /* Scroll horizontal si hay muchas miniaturas */
         padding: 10px;
         border-radius: 8px;
         background-color: #f9f9f9;
-        /* Fondo suave para destacar las miniaturas */
         scroll-behavior: smooth;
-        /* Movimiento suave al hacer scroll */
+        white-space: nowrap;
+        /* Asegura que las miniaturas estén en una línea */
+        scrollbar-width: thin;
+        /* Estilo de scroll más delgado en navegadores compatibles */
     }
 
     /* Miniaturas */
@@ -173,29 +172,38 @@
         object-fit: cover;
         cursor: pointer;
         transition: border 0.3s, transform 0.3s;
-        /* Animación suave al hacer hover */
-        border-radius: 4px;
-        /* Bordes redondeados en miniaturas */
+        border-radius: 8px;
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        /* Sombra suave para destacarlas */
     }
 
     /* Efecto hover en miniaturas */
     .carousel-thumbnails img:hover {
         border: 2px solid #007bff;
         transform: scale(1.05);
-        /* Levemente agrandada al hacer hover */
     }
 
-    /* Opcional: estilo para las flechas del carrusel */
+    /* Miniatura activa */
+    .carousel-thumbnails img.active-thumbnail {
+        border: 3px solid #007bff;
+        transform: scale(1.1);
+    }
+
+    /* Estilo para las flechas del carrusel */
     .carousel-control-prev-icon,
     .carousel-control-next-icon {
         background-color: rgba(0, 0, 0, 0.5);
-        /* Fondo semitransparente */
         border-radius: 50%;
-        /* Hacer las flechas circulares */
         padding: 10px;
+        width: 40px;
+        height: 40px;
     }
+
+    .carousel-control-prev-icon:hover,
+    .carousel-control-next-icon:hover {
+        background-color: rgba(0, 0, 0, 0.7);
+        /* Fondo más oscuro al hacer hover */
+    }
+
 
     .descripcion_producto {
         display: flex;
