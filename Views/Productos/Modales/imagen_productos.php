@@ -72,9 +72,8 @@
                     <div class="tab-pane fade" id="adicionales" role="tabpanel" aria-labelledby="adicionales-tab">
                         <div>
                             <form id="imageFormAdicional1" enctype="multipart/form-data">
-
+                                <h3 for="imageInputAdicional1">Imagen Adicional 1</h3>
                                 <div class="form-group mt-3">
-                                    <label for="imageInputAdicional1">Imagen Adicional 1</label>
                                     <input type="file" class="form-control-file" id="imageInputAdicional1" accept="image/*" name="imagen">
                                 </div>
                                 <img id="imagePreviewAdicional1" class="image-preview mt-2" src="" alt="Preview" width="200px">
@@ -82,9 +81,8 @@
                         </div>
                         <div>
                             <form id="imageFormAdicional2" enctype="multipart/form-data">
-
+                                <h3 for="imageInputAdicional2">Imagen Adicional 2</h3>
                                 <div class="form-group mt-3">
-                                    <label for="imageInputAdicional2">Imagen Adicional 2</label>
                                     <input type="file" class="form-control-file" id="imageInputAdicional2" accept="image/*" name="imagen">
                                 </div>
                                 <img id="imagePreviewAdicional2" class="image-preview mt-2" src="" alt="Preview" width="200px">
@@ -92,9 +90,8 @@
                         </div>
                         <div>
                             <form id="imageFormAdicional3" enctype="multipart/form-data">
-
+                                <h3 for="imageInputAdicional3">Imagen Adicional 3</h3>
                                 <div class="form-group mt-3">
-                                    <label for="imageInputAdicional3">Imagen Adicional 3</label>
                                     <input type="file" class="form-control-file" id="imageInputAdicional3" accept="image/*" name="imagen">
                                 </div>
                                 <img id="imagePreviewAdicional3" class="image-preview mt-2" src="" alt="Preview" width="200px">
@@ -102,9 +99,8 @@
                         </div>
                         <div>
                             <form id="imageFormAdicional4" enctype="multipart/form-data">
-
+                                <h3 for="imageInputAdicional4">Imagen Adicional 4</h3>
                                 <div class="form-group mt-3">
-                                    <label for="imageInputAdicional4">Imagen Adicional 4</label>
                                     <input type="file" class="form-control-file" id="imageInputAdicional4" accept="image/*" name="imagen">
                                 </div>
                                 <img id="imagePreviewAdicional4" class="image-preview mt-2" src="" alt="Preview" width="200px">
@@ -203,7 +199,7 @@
                 success: function(response) {
                     response = JSON.parse(response);
                     if (response.status == 500) {
-                        toastr.error(""+response.menssage, "NOTIFICACIÓN", {
+                        toastr.error("" + response.menssage, "NOTIFICACIÓN", {
                             positionClass: "toast-bottom-center"
                         });
                     } else if (response.status == 200) {
@@ -254,7 +250,7 @@
                 success: function(response) {
                     response = JSON.parse(response);
                     if (response.status == 500) {
-                        toastr.error(""+response.menssage, "NOTIFICACIÓN", {
+                        toastr.error("" + response.menssage, "NOTIFICACIÓN", {
                             positionClass: "toast-bottom-center"
                         });
                     } else if (response.status == 200) {
@@ -287,15 +283,15 @@
 
         $('#imageFormAdicional3').submit(function(event) {
             event.preventDefault();
-            
+
             var imagen = $("#imageInputAdicional3")[0].files[0];
 
             let formData = new FormData();
-            
+
             formData.append("num_imagen", 3);
             formData.append("id_producto", $('#id_imagenproducto').val());
             formData.append("imagen", imagen);
-            
+
             $.ajax({
                 url: SERVERURL + 'Productos/guardar_imagenAdicional_productos', // Cambia esta ruta por la ruta correcta a tu controlador
                 type: 'POST',
@@ -305,7 +301,7 @@
                 success: function(response) {
                     response = JSON.parse(response);
                     if (response.status == 500) {
-                        toastr.error(""+response.menssage, "NOTIFICACIÓN", {
+                        toastr.error("" + response.menssage, "NOTIFICACIÓN", {
                             positionClass: "toast-bottom-center"
                         });
                     } else if (response.status == 200) {
@@ -338,15 +334,15 @@
 
         $('#imageFormAdicional4').submit(function(event) {
             event.preventDefault();
-            
+
             var imagen = $("#imageInputAdicional4")[0].files[0];
 
             let formData = new FormData();
-            
+
             formData.append("num_imagen", 4);
             formData.append("id_producto", $('#id_imagenproducto').val());
             formData.append("imagen", imagen);
-            
+
             $.ajax({
                 url: SERVERURL + 'Productos/guardar_imagenAdicional_productos', // Cambia esta ruta por la ruta correcta a tu controlador
                 type: 'POST',
@@ -356,7 +352,7 @@
                 success: function(response) {
                     response = JSON.parse(response);
                     if (response.status == 500) {
-                        toastr.error(""+response.menssage, "NOTIFICACIÓN", {
+                        toastr.error("" + response.menssage, "NOTIFICACIÓN", {
                             positionClass: "toast-bottom-center"
                         });
                     } else if (response.status == 200) {
