@@ -133,7 +133,7 @@
                                     <label for="stock-inicial">Stock Inicial:</label>
                                     <input type="text" class="form-control" id="stock-inicial" required>
                                 </div>
-                                <div class="form-group w-100 hidden-field" id="bodega-field">
+                                <div class="form-group w-100" id="bodega-field">
                                     <label for="bodega">Bodega:</label>
                                     <select class="form-select" id="bodega">
                                         <option value="0" selected>-- Selecciona Bodega --</option>
