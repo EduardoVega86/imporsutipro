@@ -181,10 +181,13 @@ const listGuias = async () => {
       }
 
       let plataforma = procesarPlataforma(guia.plataforma);
+      let boton_anular = ``;
       if (guia.impreso == 0) {
         impresiones = `<box-icon name='printer' color= "red"></box-icon>`;
+        boton_anular = ``;
       } else {
         impresiones = `<box-icon name='printer' color= "#28E418"></box-icon>`;
+        boton_anular = `<li><span class="dropdown-item" style="cursor: pointer;" onclick="${funcion_anular}">Anular</span></li>`;
       }
 
       despachado = "";
@@ -248,7 +251,7 @@ const listGuias = async () => {
                         <i class="fa-solid fa-gear"></i>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="${funcion_anular}">Anular</span></li>
+                        ${boton_anular}
                         <li><span class="dropdown-item" style="cursor: pointer;">Información</span></li>
                     </ul>
                 </div>
