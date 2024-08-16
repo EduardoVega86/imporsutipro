@@ -689,6 +689,7 @@ function agregar_imagenProducto(id, imagen) {
 }
 
 function agregar_imagenes_adicionales(id) {
+
   let formData = new FormData();
   formData.append("id_producto", id);
 
@@ -699,48 +700,15 @@ function agregar_imagenes_adicionales(id) {
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
-      if (response[0]) {
-        $("#imagePreviewAdicional1")
-          .attr("src", SERVERURL + "ruta/a/imagen1.png")
-          .show(); // Asigna la ruta correcta aquí
-      } else {
-        $("#imagePreviewAdicional1")
-          .attr("src", SERVERURL + "public/img/broken-image.png")
-          .show();
-      }
-
-      // Verificar si existe el elemento en el índice 1
-      if (response[1]) {
-        $("#imagePreviewAdicional2")
-          .attr("src", SERVERURL + "ruta/a/imagen2.png")
-          .show(); // Asigna la ruta correcta aquí
-      } else {
-        $("#imagePreviewAdicional2")
-          .attr("src", SERVERURL + "public/img/broken-image.png")
-          .show();
-      }
-
-      // Verificar si existe el elemento en el índice 2
-      if (response[2]) {
-        $("#imagePreviewAdicional3")
-          .attr("src", SERVERURL + "ruta/a/imagen3.png")
-          .show(); // Asigna la ruta correcta aquí
-      } else {
-        $("#imagePreviewAdicional3")
-          .attr("src", SERVERURL + "public/img/broken-image.png")
-          .show();
-      }
-
-      // Verificar si existe el elemento en el índice 3
-      if (response[3]) {
-        $("#imagePreviewAdicional4")
-          .attr("src", SERVERURL + "ruta/a/imagen4.png")
-          .show(); // Asigna la ruta correcta aquí
-      } else {
-        $("#imagePreviewAdicional4")
-          .attr("src", SERVERURL + "public/img/broken-image.png")
-          .show();
-      }
+  
+        $("#imagePreviewAdicional1").attr("src", SERVERURL+response[0].url).show();
+          
+        $("#imagePreviewAdicional2").attr("src", SERVERURL+response[1].url).show();
+    
+        $("#imagePreviewAdicional3").attr("src", SERVERURL+response[2].url).show();
+    
+        $("#imagePreviewAdicional4").attr("src", SERVERURL+response[3].url).show();
+        
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
