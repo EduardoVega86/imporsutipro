@@ -698,11 +698,12 @@ function agregar_imagenes_adicionales(id) {
     data: formData,
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
+    dataType: "json",
     success: function (response) {
-      console.log("img:"+response[0].url )
+
       if (response[0]) {
         $("#imagePreviewAdicional1")
-          .attr("src", SERVERURL + "ruta/a/imagen1.png")
+          .attr("src", SERVERURL + response[0].url)
           .show(); // Asigna la ruta correcta aquí
       } else {
         $("#imagePreviewAdicional1")
@@ -713,7 +714,7 @@ function agregar_imagenes_adicionales(id) {
       // Verificar si existe el elemento en el índice 1
       if (response[1]) {
         $("#imagePreviewAdicional2")
-          .attr("src", SERVERURL + "ruta/a/imagen2.png")
+          .attr("src", SERVERURL + response[1].url)
           .show(); // Asigna la ruta correcta aquí
       } else {
         $("#imagePreviewAdicional2")
@@ -724,7 +725,7 @@ function agregar_imagenes_adicionales(id) {
       // Verificar si existe el elemento en el índice 2
       if (response[2]) {
         $("#imagePreviewAdicional3")
-          .attr("src", SERVERURL + "ruta/a/imagen3.png")
+          .attr("src", SERVERURL + response[2].url)
           .show(); // Asigna la ruta correcta aquí
       } else {
         $("#imagePreviewAdicional3")
@@ -735,7 +736,7 @@ function agregar_imagenes_adicionales(id) {
       // Verificar si existe el elemento en el índice 3
       if (response[3]) {
         $("#imagePreviewAdicional4")
-          .attr("src", SERVERURL + "ruta/a/imagen4.png")
+          .attr("src", SERVERURL + response[3].url)
           .show(); // Asigna la ruta correcta aquí
       } else {
         $("#imagePreviewAdicional4")
