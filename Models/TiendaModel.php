@@ -583,6 +583,7 @@ class TiendaModel extends Query
                 $output = curl_exec($ch);
                 curl_close($ch);
                 $response3 = json_decode($output, true);
+                print_r($response3);
                 if ($response3['status'] == 200) {
                     $response['status'] = 200;
                     $response['title'] = 'Peticion exitosa';
