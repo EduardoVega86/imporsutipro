@@ -23,15 +23,11 @@
                         <div class="informacion_producto">
                             <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
                                 <div class="carousel-inner">
+                                    <!-- Esta será la primera imagen, que se cargará desde la primera API -->
                                     <div class="carousel-item active">
                                         <img src="" class="d-block w-100 fixed-size-img" alt="Product Image 1" id="imagen_principal">
                                     </div>
-                                    <!-- <div class="carousel-item">
-                                        <img src="https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg" class="d-block w-100 fixed-size-img" alt="Product Image 2">
-                                    </div>
-                                    <div class="carousel-item">
-                                        <img src="https://marketing4ecommerce.net/wp-content/uploads/2024/02/imagen-generada-con-nightcafe-e1708680739301.jpg" class="d-block w-100 fixed-size-img" alt="Product Image 3">
-                                    </div> -->
+                                    <!-- Aquí se agregarán dinámicamente las imágenes adicionales -->
                                 </div>
                                 <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -43,9 +39,9 @@
                                 </button>
                             </div>
                             <div class="carousel-thumbnails mt-2 d-flex justify-content-center">
+                                <!-- Esta es la miniatura de la primera imagen, que también se cargará desde la primera API -->
                                 <img src="" class="img-thumbnail mx-1" alt="Thumbnail 1" data-bs-target="#productCarousel" data-bs-slide-to="0" id="imagen_principalPequena">
-                                <!-- <img src="https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg" class="img-thumbnail mx-1" alt="Thumbnail 2" data-bs-target="#productCarousel" data-bs-slide-to="1">
-                                <img src="https://marketing4ecommerce.net/wp-content/uploads/2024/02/imagen-generada-con-nightcafe-e1708680739301.jpg" class="img-thumbnail mx-1" alt="Thumbnail 3" data-bs-target="#productCarousel" data-bs-slide-to="2"> -->
+                                <!-- Aquí se agregarán dinámicamente las miniaturas adicionales -->
                             </div>
                         </div>
                     </div>

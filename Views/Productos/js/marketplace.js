@@ -437,17 +437,54 @@ function agregarModal_marketplace(id) {
         $("#telefono_proveedor").text(formatPhoneNumber(data.whatsapp));
         $("#descripcion").text(data.descripcion_producto);
 
-        // Actualizar el enlace con el número de teléfono del proveedor
-        $('a[href^="https://wa.me/"]').attr(
-          "href",
-          "https://wa.me/" + formatPhoneNumber(data.whatsapp)
-        );
-
+        // Obtener la URL de la imagen principal desde la primera llamada AJAX
         var imagen_descripcion = obtenerURLImagen(data.image_path, SERVERURL);
-        // Actualizar la imagenes del modal
 
+        // Actualizar la imagen principal del carrusel y su miniatura
         $("#imagen_principal").attr("src", imagen_descripcion);
         $("#imagen_principalPequena").attr("src", imagen_descripcion);
+
+        let formData = new FormData();
+        formData.append("id_producto", id);
+
+        // Hacer la solicitud para obtener las imágenes adicionales
+        $.ajax({
+          url: SERVERURL + "Productos/listar_imagenAdicional_productos",
+          type: "POST",
+          data: formData,
+          processData: false, // No procesar los datos
+          contentType: false, // No establecer ningún tipo de contenido
+          dataType: "json",
+          success: function (response) {
+            if (response && response.length > 0) {
+              // Recorrer las imágenes adicionales y añadirlas al carrusel y a las miniaturas
+              response.forEach(function (imgData, index) {
+                var imgURL = obtenerURLImagen(imgData.image_path, SERVERURL);
+
+                // Agregar las imágenes adicionales al carrusel
+                $(".carousel-inner").append(`
+                  <div class="carousel-item">
+                    <img src="${imgURL}" class="d-block w-100 fixed-size-img" alt="Product Image ${index + 2}">
+                  </div>
+                `);
+
+                // Agregar las miniaturas adicionales
+                $(".carousel-thumbnails").append(`
+                  <img src="${imgURL}" class="img-thumbnail mx-1" alt="Thumbnail ${index + 2}" data-bs-target="#productCarousel" data-bs-slide-to="${index + 1}">
+                `);
+              });
+            } else {
+              console.error("No se encontraron imágenes adicionales.");
+            }
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            console.error(
+              "Error al obtener imágenes adicionales:",
+              errorThrown
+            );
+          },
+        });
+
         // Abrir el modal
         $("#descripcion_productModal").modal("show");
       } else {
