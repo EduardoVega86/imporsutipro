@@ -180,7 +180,7 @@ class ManifiestosModel extends Query
         $string = "('" . implode("','", $arreglo) . "')";
         if (count($arreglo) == 0) return;
         if (count($arreglo) > 0) {
-            $update = "UPDATE facturas_cot SET impreso = 1 WHERE numero_factura IN $string";
+            $update = "UPDATE facturas_cot SET impreso = 1 WHERE id_factura IN $string";
             $this->select($update);
         }
     }
