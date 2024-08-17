@@ -507,7 +507,7 @@ class InventariosModel extends Query
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = 'La guía no pertenece a esta bodega';
+            $response['message'] = 'La guía no pertenece a esta bodega o a esta transportadora';
         }
         return $response;
     }
@@ -517,7 +517,8 @@ class InventariosModel extends Query
 
         $response = $this->initialResponse();
 
-        $sql_factura = "SELECT * FROM facturas_cot WHERE numero_guia = '$num_guia' and id_transporte=$transportadora and id_bodega=$bodega ";
+        $sql_factura = "SELECT * FROM facturas_cot WHERE numero_guia = '$num_guia' and id_transporte=$transportadora and id_bodega in (select id from bodega WHERE id_plataforma=$plataforma) ";
+        //echo $sql_factura;
         //echo $sql_factura;
         $factura = $this->select($sql_factura);
         if (count($factura) > 0) {
@@ -525,7 +526,8 @@ class InventariosModel extends Query
             $estado_factura = $factura[0]['estado_factura'];
 
             $sql_plataforma_bodega = "SELECT b.id_plataforma FROM `detalle_fact_cot` dfc, inventario_bodegas  ib, bodega b where ib.bodega=b.id and id_factura=$id_factura and dfc.id_inventario=ib.id_inventario GROUP by bodega";
-            //  echo $sql_factura;$id_factura
+         // echo $sql_plataforma_bodega;
+            //echo $sql_factura;$id_factura
             $plataforma_bodega = $this->select($sql_plataforma_bodega);
             $id_plataforma_bodega = $plataforma_bodega[0]['id_plataforma'];
 
@@ -534,9 +536,6 @@ class InventariosModel extends Query
             if ($id_plataforma_bodega == $plataforma) {
                 if ($estado_factura == 1) {
                     //  echo $id_factura;
-
-
-
 
 
                     //print_r($tmp_cotizaciones);
@@ -563,7 +562,7 @@ class InventariosModel extends Query
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = 'No se encontro la guia';
+            $response['message'] = 'La guía no pertenece a esta bodega';
         }
         return $response;
     }
