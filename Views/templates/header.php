@@ -78,7 +78,7 @@
 
                 <a href="<?php echo SERVERURL ?>Productos/bodegas"><i class='bx bxs-truck menu-icon'></i> <span class="menu-text">Bodegas</span></a>
 
-                <?php if ($_SESSION['cargo'] !== 5) { ?>
+                <?php if ($_SESSION['cargo'] != 5) { ?>
                     <a href="<?php echo SERVERURL ?>Productos/inventario"><i class='bx bx-list-plus menu-icon'></i> <span class="menu-text">Inventario</span></a>
                 <?php } ?>
                 <a href="<?php echo SERVERURL ?>despacho/lista_despachos"><i class='bx bxs-box menu-icon'></i> <span class="menu-text">Relacion Despacho</span></a>
@@ -101,7 +101,7 @@
                 <a href="<?php echo SERVERURL ?>pedidos/anuladas"><i class='bx bx-x menu-icon'></i> <span class="menu-text">Anulados</span></a>
                 <a href="<?php echo SERVERURL ?>pedidos/novedades"><i class='bx bx-info-circle menu-icon'></i> <span class="menu-text">Novedades</span></a>
             </div>
-            <?php if ($_SESSION['cargo'] !== 5) { ?>
+            <?php if ($_SESSION['cargo'] != 5) { ?>
                 <a href="#" class="dropdown-btn" data-target="#submenu3"><i class='bx bx-wallet menu-icon'></i> <span class="menu-text">Wallet</span></a>
             <?php } ?>
             <div class="submenu" id="submenu3">
@@ -115,7 +115,7 @@
                 }
                 ?>
             </div>
-            <?php if ($_SESSION['cargo'] !== 5) { ?>
+            <?php if ($_SESSION['cargo'] != 5) { ?>
                 <a href="#" class="dropdown-btn" data-target="#submenu4"><i class='bx bx-cog menu-icon'></i> <span class="menu-text">Configuración</span></a>
             <?php } ?>
             
