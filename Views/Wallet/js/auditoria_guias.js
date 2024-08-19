@@ -297,7 +297,7 @@ const listAuditoria = async (estado, id_transporte) => {
                     </div>
                     </td>
            </td>
-            <td ${background}>${item.monto_recibir}</td>
+           <td ${background}>${parseFloat(item.monto_recibir).toFixed(2)}</td>
             <td ${background}>${item.monto_total_historial}</td>
           <td ${background}>${item.valor}</td>
            <td ${background}>${item.comision}</td>
