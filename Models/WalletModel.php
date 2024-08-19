@@ -1276,7 +1276,7 @@ class WalletModel extends Query
             $response =  $this->select($sql);
             $id_billetera = $response[0]['id_billetera'];
         }
-        $id_responsable = 2314;
+        $id_responsable = 2206;
 
         $tipo = $monto_recibir > 0 ? 'ENTRADA' : 'SALIDA';
         $motivo = $monto_recibir > 0 ? 'Se acredito a la billetera la guia: ' . $numero_guia : 'Se desconto de la billetera la guia: ' . $numero_guia;
