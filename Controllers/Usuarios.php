@@ -605,7 +605,7 @@ class Usuarios extends Controller
         $correo = $_POST['correo'];
         $contrasena = $_POST['contrasena'];
         $id_plataforma = $_SESSION['id_plataforma'];
-        $cargo = $_SESSION['cargo'];
+        $cargo = $_POST['cargo'];
 
         $response = $this->model->agregar_usuario($nombre, $correo, $contrasena, $id_plataforma, $cargo);
 
