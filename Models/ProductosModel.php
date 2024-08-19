@@ -638,6 +638,13 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
         return $this->select($sql);
     }
 
+    public function listar_imagenAdicional_productosTienda($id_producto, $plataforma)
+    {
+        $sql = "SELECT * FROM `imagens_adicionales_productoTienda` WHERE id_plataforma = $plataforma AND id_producto = $id_producto";
+        // echo $sql;
+        return $this->select($sql);
+    }
+
     public function obtener_productos_bodegas($id_bodega, $plataforma)
     {
         $sql = "SELECT * FROM inventario_bodegas WHERE id_bodega = $id_bodega and id_plataforma = $plataforma";
