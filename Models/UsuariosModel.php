@@ -1471,7 +1471,7 @@ ON
         var_dump($respuestas_exitosas);
     }
 
-    public function agregar_usuario($nombre, $correo, $contrasena, $id_plataforma)
+    public function agregar_usuario($nombre, $correo, $contrasena, $id_plataforma, $cargo)
     {
         //Inicia la respuesta
         $response = $this->initialResponse();
@@ -1482,7 +1482,7 @@ ON
         $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
         $sql = "INSERT INTO users (nombre_users, email_users, con_users, usuario_users, date_added, cargo_users) VALUES (?, ?, ?, ?, ?, ?)";
         //   echo $sql;
-        $data = [$nombre, $correo, $contrasena, $correo, $date_added, 1];
+        $data = [$nombre, $correo, $contrasena, $correo, $date_added, $cargo];
         $insertar_usuario = $this->insert($sql, $data);
         //print_r($insertar_usuario);
         //echo 'erro'.$insertar_usuario;;
