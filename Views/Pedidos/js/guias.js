@@ -815,6 +815,7 @@ function gestionar_novedad(guia_novedad) {
     },
   });
 }
+
 $(document).ready(function () {
   $("#tipo_gintracom").change(function () {
     var tipo = $("#tipo_gintracom").val();
