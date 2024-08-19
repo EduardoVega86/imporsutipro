@@ -240,7 +240,9 @@ class Productos extends Controller
         $imagen = $_POST['imagen'] ?? '';
         $tipo = $_POST['tipo'] ?? '';
         $padre = $_POST['padre'] ?? 0;
-        $response = $this->model->agregarCategoria($nombre_linea, $descripcion_linea, $estado_linea, $date_added, $online, $imagen, $tipo, $padre, $_SESSION['id_plataforma']);
+        $orden = $_POST['orden'] ?? 0;
+        
+        $response = $this->model->agregarCategoria($nombre_linea, $descripcion_linea, $estado_linea, $date_added, $online, $imagen, $tipo, $padre, $_SESSION['id_plataforma'], $orden);
         echo json_encode($response);
     }
 

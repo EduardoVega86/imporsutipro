@@ -83,6 +83,10 @@
                             <option value="0">Inactivo</option>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label for="orden">Orden en la que aparecerá la categoria:</label>
+                        <input type="text" class="form-control" id="orden" name="orden" placeholder="orden">
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">

@@ -469,13 +469,13 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
 
     ///categorias
 
-    public function agregarCategoria($nombre_linea, $descripcion_linea, $estado_linea, $date_added, $online, $imagen, $tipo, $padre, $plataforma)
+    public function agregarCategoria($nombre_linea, $descripcion_linea, $estado_linea, $date_added, $online, $imagen, $tipo, $padre, $plataforma, $orden)
     {
         // codigo para agregar categoria
         $response = $this->initialResponse();
 
-        $sql = "INSERT INTO lineas (nombre_linea, descripcion_linea, estado_linea, date_added, online, imagen, tipo, padre, id_plataforma) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $data = [$nombre_linea, $descripcion_linea, $estado_linea, $date_added, $online, $imagen, $tipo, $padre, $plataforma];
+        $sql = "INSERT INTO lineas (nombre_linea, descripcion_linea, estado_linea, date_added, online, imagen, tipo, padre, orden, id_plataforma) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $data = [$nombre_linea, $descripcion_linea, $estado_linea, $date_added, $online, $imagen, $tipo, $padre, $orden, $plataforma];
         $insertar_categoria = $this->insert($sql, $data);
         if ($insertar_categoria == 1) {
             $response['status'] = 200;
