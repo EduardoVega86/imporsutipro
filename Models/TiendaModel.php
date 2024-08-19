@@ -604,22 +604,22 @@ class TiendaModel extends Query
     public function modificarTienda($nombre, $antiguo, $plataforma)
     {
         $response = $this->initialResponse();
-        $maxRetries = 5;  // Número máximo de intentos
-        $retryDelay = 10;  // Tiempo de espera entre intentos en segundos
-        ///modificar tienda
-        $url_modificar = "https://activador.comprapor.com/cambiarNombre/" . $nombre;
+        $maxRetries = 5;
+        $retryDelay = 10;
 
-        $response1 = $this->retryRequest($url_modificar, $maxRetries, $retryDelay, 300, $antiguo);
+        // Modificar tienda (envío del parámetro "antiguo" como POST)
+        $url_modificar = "https://activador.comprapor.com/cambiarNombre/" . $nombre;
+        $response1 = $this->retryRequest($url_modificar, $maxRetries, $retryDelay, 300, ['antiguo' => $antiguo]);
 
         if ($response1 && isset($response1['status']) && $response1['status'] == 200) {
-            /// reiniciar servidor
+            // Reiniciar servidor
             $url_reiniciar = "https://activador.comprapor.com/reinciarServidor";
             $response2 = $this->retryRequest($url_reiniciar, $maxRetries, $retryDelay, 300);
 
             if ($response2 && isset($response2['status']) && $response2['status'] == 200) {
-                /// activar ssl al nuevo
+                // Activar SSL
                 $url_ssl = "https://activador.comprapor.com/activarSSL/" . $nombre;
-                $response3 = $this->retryRequest($url_ssl, $maxRetries, $retryDelay, 300);  // Timeout ajustado para SSL
+                $response3 = $this->retryRequest($url_ssl, $maxRetries, $retryDelay, 300);
 
                 if ($response3 && isset($response3['status']) && $response3['status'] == 200) {
                     $tienda = 'https://' . $nombre . '.comprapor.com';
@@ -651,6 +651,7 @@ class TiendaModel extends Query
 
 
 
+
     private function retryRequest($url, $maxRetries, $retryDelay, $timeout = 300, $postData = null)
     {
         $attempt = 0;
@@ -666,7 +667,8 @@ class TiendaModel extends Query
             // Verificar si se están enviando datos POST
             if ($postData !== null) {
                 curl_setopt($ch, CURLOPT_POST, true);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);  // Enviar datos como POST
+                // Asegurarse de que los datos se envían como un arreglo asociativo
+                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));  // Usar http_build_query para formato correcto
             }
 
             $output = curl_exec($ch);
