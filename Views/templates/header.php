@@ -78,7 +78,9 @@
 
                 <a href="<?php echo SERVERURL ?>Productos/bodegas"><i class='bx bxs-truck menu-icon'></i> <span class="menu-text">Bodegas</span></a>
 
-                <a href="<?php echo SERVERURL ?>Productos/inventario"><i class='bx bx-list-plus menu-icon'></i> <span class="menu-text">Inventario</span></a>
+                <?php if ($_SESSION['cargo'] !== 5) { ?>
+                    <a href="<?php echo SERVERURL ?>Productos/inventario"><i class='bx bx-list-plus menu-icon'></i> <span class="menu-text">Inventario</span></a>
+                <?php } ?>
                 <a href="<?php echo SERVERURL ?>despacho/lista_despachos"><i class='bx bxs-box menu-icon'></i> <span class="menu-text">Relacion Despacho</span></a>
                 <a href="<?php echo SERVERURL ?>despacho/lista_devoluciones"><i class='bx bx-box menu-icon'></i> <span class="menu-text">Devoluciones</span></a>
 
@@ -99,7 +101,9 @@
                 <a href="<?php echo SERVERURL ?>pedidos/anuladas"><i class='bx bx-x menu-icon'></i> <span class="menu-text">Anulados</span></a>
                 <a href="<?php echo SERVERURL ?>pedidos/novedades"><i class='bx bx-info-circle menu-icon'></i> <span class="menu-text">Novedades</span></a>
             </div>
-            <a href="#" class="dropdown-btn" data-target="#submenu3"><i class='bx bx-wallet menu-icon'></i> <span class="menu-text">Wallet</span></a>
+            <?php if ($_SESSION['cargo'] !== 5) { ?>
+                <a href="#" class="dropdown-btn" data-target="#submenu3"><i class='bx bx-wallet menu-icon'></i> <span class="menu-text">Wallet</span></a>
+            <?php } ?>
             <div class="submenu" id="submenu3">
                 <a href="<?php echo SERVERURL ?>wallet"><i class="fa-solid fa-money-bill-trend-up menu-icon"></i> <span class="menu-text">Detalle</span></a>
                 <a href="<?php echo SERVERURL ?>wallet/datos_bancarios"><i class='bx bxs-bank menu-icon'></i> <span class="menu-text">Datos bancarios</span></a>
@@ -111,7 +115,10 @@
                 }
                 ?>
             </div>
-            <a href="#" class="dropdown-btn" data-target="#submenu4"><i class='bx bx-cog menu-icon'></i> <span class="menu-text">Configuración</span></a>
+            <?php if ($_SESSION['cargo'] !== 5) { ?>
+                <a href="#" class="dropdown-btn" data-target="#submenu4"><i class='bx bx-cog menu-icon'></i> <span class="menu-text">Configuración</span></a>
+            <?php } ?>
+            
             <div class="submenu" id="submenu4">
                 <?php if ($_SESSION['cargo'] == 10) { ?>
                     <a href="<?php echo SERVERURL ?>usuarios/plataformas"><i class='bx bx-box menu-icon'></i> <span class="menu-text">Plataformas Marketplace</span></a>
@@ -145,7 +152,7 @@
                     <?php if (MARCA == "IMPORSUIT") { ?>
                         <a class="nav-link" href="https://danielbonilla522-9.funnels.mastertools.com/#primeros-pasos" target="_blank"><box-icon type='solid' name='videos' color="<?php echo COLOR_LETRAS; ?>"></box-icon> Tutoriales</a>
                     <?php } ?>
-                    
+
                     <span class="navbar-text"><box-icon name='wallet' color="<?php echo COLOR_LETRAS; ?>"></box-icon> $<span id="precio_wallet"></span></span>
 
                     <!-- Notificación con icono y dropdown -->
