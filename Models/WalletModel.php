@@ -321,10 +321,10 @@ class WalletModel extends Query
     {
         $isFulfilment = $this->buscarFull($cabecera['numero_factura'], $id_proveedor);
         $full = $isFulfilment > 0 ? $isFulfilment : 0;
-
+        $id_full = $full > 0 ? $cabecera['id_full'] : NULL;
         $sql = "INSERT INTO cabecera_cuenta_pagar 
-            (tienda, numero_factura, guia, costo, monto_recibir, valor_pendiente, estado_guia, visto, full, fecha, cliente, id_plataforma, id_matriz) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            (tienda, numero_factura, guia, costo, monto_recibir, valor_pendiente, estado_guia, visto, full, fecha, cliente, id_plataforma, id_matriz, id_full) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $this->insert($sql, [
             $cabecera['proveedor'],
             $cabecera['numero_factura'] . '-P',
@@ -338,7 +338,8 @@ class WalletModel extends Query
             $cabecera['fecha'],
             $cabecera['cliente'],
             $cabecera['id_proveedor'],
-            $cabecera['id_matriz']
+            $cabecera['id_matriz'],
+            $id_full
         ]);
 
         if ($full > 0) {
