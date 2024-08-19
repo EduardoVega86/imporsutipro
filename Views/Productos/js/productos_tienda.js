@@ -75,7 +75,7 @@ const reloadDataTableProductos = async () => {
   );
   dataTableProductos.page(currentPage).draw(false);
   dataTableProductosIsInitialized = true;
-  customizeButtons();
+
 };
 
 const initDataTableProductos = async () => {
@@ -87,7 +87,6 @@ const initDataTableProductos = async () => {
     dataTableProductosOptions
   );
   dataTableProductosIsInitialized = true;
-  customizeButtons();
   document
     .getElementById("selectAll")
     .addEventListener("change", toggleSelectAll);
