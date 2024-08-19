@@ -87,7 +87,7 @@
                     </div>
                     <div class="form-group">
                         <label for="orden_editar">Orden en la que aparecerá la categoria:</label>
-                        <input type="text" class="form-control" id="orden_editar" name="orden_editar" placeholder="orden">
+                        <input type="number" class="form-control" id="orden_editar" name="orden_editar" placeholder="orden" step="1" min="0">
                     </div>
                 </form>
             </div>
