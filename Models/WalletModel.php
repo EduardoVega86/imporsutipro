@@ -274,11 +274,12 @@ class WalletModel extends Query
     }
     private function crearCabeceraFull($cabecera, $id_full)
     {
+        $url_tienda = $this->obtenerEnlace($id_full);
         $sql = "INSERT INTO cabecera_cuenta_pagar 
                 (tienda, numero_factura, guia, costo, monto_recibir, valor_pendiente, estado_guia, visto, full, fecha, cliente, id_plataforma, id_matriz) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $this->insert($sql, [
-            $cabecera['tienda_f'],
+            $url_tienda,
             $cabecera['numero_factura'] . '-F',
             $cabecera['guia'],
             $cabecera['full'],
@@ -290,10 +291,16 @@ class WalletModel extends Query
             $cabecera['fecha'],
             $cabecera['cliente'],
             $id_full,
-            $cabecera['matriz']
+            $cabecera['id_matriz']
         ]);
     }
 
+    private function obtenerEnlace($id_plataforma)
+    {
+        $sql = "SELECT url_imporsuit FROM plataformas WHERE id_plataforma = '$id_plataforma'";
+        $response = $this->select($sql);
+        return $response[0]['url_imporsuit'];
+    }
 
 
     private function existeBilletera($id_plataforma)
