@@ -601,7 +601,54 @@ class TiendaModel extends Query
         return $response;
     }
 
-    private function retryRequest($url, $maxRetries, $retryDelay, $timeout = 30)
+    public function modificarTienda($nombre, $antiguo, $plataforma)
+    {
+        $response = $this->initialResponse();
+        $maxRetries = 5;  // Número máximo de intentos
+        $retryDelay = 10;  // Tiempo de espera entre intentos en segundos
+        ///modificar tienda
+        $url_modificar = "https://activador.comprapor.com/modificar/" . $nombre;
+
+        $response1 = $this->retryRequest($url_modificar, $maxRetries, $retryDelay, 300, $antiguo);
+
+        if ($response1 && isset($response1['status']) && $response1['status'] == 200) {
+            /// reiniciar servidor
+            $url_reiniciar = "https://activador.comprapor.com/reinciarServidor";
+            $response2 = $this->retryRequest($url_reiniciar, $maxRetries, $retryDelay, 300);
+
+            if ($response2 && isset($response2['status']) && $response2['status'] == 200) {
+                /// activar ssl al nuevo
+                $url_ssl = "https://activador.comprapor.com/activarSSL/" . $nombre;
+                $response3 = $this->retryRequest($url_ssl, $maxRetries, $retryDelay, 300);  // Timeout ajustado para SSL
+
+                if ($response3 && isset($response3['status']) && $response3['status'] == 200) {
+                    $tienda = 'https://' . $nombre . '.comprapor.com';
+                    $update = "UPDATE plataformas SET url_imporsuit = ? WHERE id_plataforma = ?";
+                    $data = [$tienda, $plataforma];
+                    $this->simple_select($update, $data);
+
+                    $response['status'] = 200;
+                    $response['title'] = 'Peticion exitosa';
+                    $response['message'] = 'Tienda modificada correctamente';
+                } else {
+                    $response['status'] = 500;
+                    $response['title'] = 'Error';
+                    $response['message'] = $response3['message'] ?? 'Error desconocido al activar SSL';
+                }
+            } else {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'Error al reiniciar el servidor';
+            }
+        }
+
+        return $response;
+    }
+
+
+
+
+    private function retryRequest($url, $maxRetries, $retryDelay, $timeout = 300, $postData = null)
     {
         $attempt = 0;
         $output = null;
@@ -612,6 +659,13 @@ class TiendaModel extends Query
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);  // Timeout predeterminado o ajustado
+
+            // Verificar si se están enviando datos POST
+            if ($postData !== null) {
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);  // Enviar datos como POST
+            }
+
             $output = curl_exec($ch);
             curl_close($ch);
 
