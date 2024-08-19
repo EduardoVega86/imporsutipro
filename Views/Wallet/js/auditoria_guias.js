@@ -298,7 +298,7 @@ const listAuditoria = async (estado, id_transporte) => {
                     </td>
            </td>
            <td ${background}>${parseFloat(item.monto_recibir).toFixed(2)}</td>
-            <td ${background}>${item.monto_total_historial}</td>
+            <td ${background}>${parseFloat(item.monto_total_historial).toFixed(2)}</td>
           <td ${background}>${item.valor}</td>
            <td ${background}>${item.comision}</td>
                   <td><input type="checkbox" class="selectCheckbox" data-id="${item.numero_guia}" ${check}></td>
