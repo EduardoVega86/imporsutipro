@@ -85,6 +85,10 @@
                             <option value="0">Inactivo</option>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label for="orden_editar">Orden en la que aparecerá la categoria:</label>
+                        <input type="text" class="form-control" id="orden_editar" name="orden_editar" placeholder="orden">
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -104,6 +108,7 @@
             var tipo = $('#editar_tipo').val();
             var padre = $('#editar_padre').val();
             var estado = $('#editar_estado').val();
+            var editar = $('#orden_editar').val();
             var imagen = ''; // Asigna el valor apropiado para imagen si es necesario
             var date_added = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
@@ -115,6 +120,7 @@
                 tipo: tipo,
                 padre: padre,
                 estado: estado,
+                editar: editar,
                 imagen: imagen,
                 date_added: date_added
             };
