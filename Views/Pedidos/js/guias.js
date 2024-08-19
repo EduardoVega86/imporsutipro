@@ -832,6 +832,9 @@ $(document).ready(function () {
 });
 
 function enviar_gintraNovedad() {
+  var button = document.getElementById("boton_gintra");
+  button.disabled = true; // Desactivar el botón
+
   var guia = $("#numero_guia").val();
   var observacion = $("#Solucion_novedad").val();
   var id_novedad = $("#id_novedad").val();
@@ -862,26 +865,33 @@ function enviar_gintraNovedad() {
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
       response = JSON.parse(response);
-      if (response.status == 500) {
-        toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
+      if (response.error === true) {
+        toastr.error("" + response.message, "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
-      } else if (response.status == 200) {
-        toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
+
+        button.disabled = false;
+      } else if (response.error === false) {
+        toastr.success("" + response.message, "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
 
         $("#gestionar_novedadModal").modal("hide");
+        button.disabled = false;
         initDataTableNovedades();
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
+      button.disabled = false;
     },
   });
 }
 
 function enviar_serviNovedad() {
+  var button = document.getElementById("boton_servi");
+  button.disabled = true; // Desactivar el botón
+
   var guia = $("#numero_guia").val();
   var observacion = $("#observacion_nov").val();
   var id_novedad = $("#id_novedad").val();
@@ -903,22 +913,29 @@ function enviar_serviNovedad() {
         toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
+
+        button.disabled = false;
       } else if (response.status == 200) {
         toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
 
         $("#gestionar_novedadModal").modal("hide");
-        initDataTable();
+        button.disabled = false;
+        initDataTableNovedades();
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
+      button.disabled = false;
     },
   });
 }
 
 function enviar_laarNovedad() {
+  var button = document.getElementById("boton_laar");
+  button.disabled = true; // Desactivar el botón
+
   var guia = $("#numero_guia").val();
   var id_novedad = $("#id_novedad").val();
   var ciudad = $("#ciudad_novedadesServi").val();
@@ -938,15 +955,15 @@ function enviar_laarNovedad() {
   formData.append("guia", guia);
   formData.append("observacionA", observacionA);
   formData.append("id_novedad", id_novedad);
-  formData.append("ciudad", ciudad_novedadesServi);
+  formData.append("ciudad", ciudad);
   formData.append("nombre", nombre_novedadesServi);
   formData.append("callePrincipal", callePrincipal_novedadesServi);
   formData.append("calleSecundaria", calleSecundaria_novedadesServi);
   formData.append("numeracion", numeracion_novedadesServi);
   formData.append("referencia", referencia_novedadesServi);
   formData.append("telefono", telefono_novedadesServi);
-  formData.append("celular    ", celular_novedadesServi);
-  formData.append("observacion    ", observacion_novedadesServi);
+  formData.append("celular", celular_novedadesServi);
+  formData.append("observacion", observacion_novedadesServi);
 
   $.ajax({
     url: SERVERURL + "novedades/solventarNovedadLaar",
@@ -960,17 +977,21 @@ function enviar_laarNovedad() {
         toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
+
+        button.disabled = false;
       } else if (response.status == 200) {
         toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
 
         $("#gestionar_novedadModal").modal("hide");
-        initDataTable();
+        button.disabled = false;
+        initDataTableNovedades();
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
+      button.disabled = false;
     },
   });
 }
