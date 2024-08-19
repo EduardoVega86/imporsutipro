@@ -607,7 +607,7 @@ class TiendaModel extends Query
         $maxRetries = 5;  // Número máximo de intentos
         $retryDelay = 10;  // Tiempo de espera entre intentos en segundos
         ///modificar tienda
-        $url_modificar = "https://activador.comprapor.com/modificar/" . $nombre;
+        $url_modificar = "https://activador.comprapor.com/modificarTienda/" . $nombre;
 
         $response1 = $this->retryRequest($url_modificar, $maxRetries, $retryDelay, 300, $antiguo);
 
