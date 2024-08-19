@@ -194,7 +194,7 @@ class WalletModel extends Query
     private function actualizarCabecera($id_cabecera)
     {
         $sql = "UPDATE cabecera_cuenta_pagar SET valor_pendiente = 0, visto = 1 WHERE id_cabecera = ?";
-        $this->update($sql, $id_cabecera);
+        $this->update($sql, [$id_cabecera]);
     }
 
     private function actualizarBilletera($id_plataforma, $valor)
