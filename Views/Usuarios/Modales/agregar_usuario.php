@@ -47,14 +47,13 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <!-- <div class="col">
+                        <div class="col">
                             <label for="grupoPermisos" class="form-label">Grupo de permisos:</label>
                             <select class="form-select" id="grupoPermisos">
-                                <option selected>Super Administrador</option>
-                                <option>Cliente</option>
-                                <option>Ventas</option>
+                                <option value="1" selected>Administrador</option>
+                                <option value="5">Ventas</option>
                             </select>
-                        </div> -->
+                        </div>
                     </div>
                     <div class="row mb-3">
 
