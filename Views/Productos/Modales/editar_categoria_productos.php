@@ -108,7 +108,7 @@
             var tipo = $('#editar_tipo').val();
             var padre = $('#editar_padre').val();
             var estado = $('#editar_estado').val();
-            var editar = $('#orden_editar').val();
+            var orden = $('#orden_editar').val();
             var imagen = ''; // Asigna el valor apropiado para imagen si es necesario
             var date_added = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
@@ -120,7 +120,7 @@
                 tipo: tipo,
                 padre: padre,
                 estado: estado,
-                editar: editar,
+                orden: orden,
                 imagen: imagen,
                 date_added: date_added
             };
