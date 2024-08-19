@@ -114,7 +114,7 @@
             <a href="#" class="dropdown-btn" data-target="#submenu4"><i class='bx bx-cog menu-icon'></i> <span class="menu-text">Configuración</span></a>
             <div class="submenu" id="submenu4">
                 <?php if ($_SESSION['cargo'] == 10) { ?>
-                <a href="<?php echo SERVERURL ?>usuarios/plataformas"><i class='bx bx-box menu-icon'></i> <span class="menu-text">Plataformas Marketplace</span></a>
+                    <a href="<?php echo SERVERURL ?>usuarios/plataformas"><i class='bx bx-box menu-icon'></i> <span class="menu-text">Plataformas Marketplace</span></a>
                     <a href="<?php echo SERVERURL ?>usuarios/listamatriz"><i class='bx bx-user menu-icon'></i> <span class="menu-text">Usuarios</span></a>
                     <a href="<?php echo SERVERURL ?>usuarios/actualizacionMasiva_tiendas"><i class='bx bx-user menu-icon'></i> <span class="menu-text">Actualizacion Masiva</span></a>
                 <?php
@@ -145,13 +145,29 @@
                     <?php if (MARCA == "IMPORSUIT") { ?>
                         <a class="nav-link" href="https://danielbonilla522-9.funnels.mastertools.com/#primeros-pasos" target="_blank"><box-icon type='solid' name='videos' color="<?php echo COLOR_LETRAS; ?>"></box-icon> Tutoriales</a>
                     <?php } ?>
+                    
                     <span class="navbar-text"><box-icon name='wallet' color="<?php echo COLOR_LETRAS; ?>"></box-icon> $<span id="precio_wallet"></span></span>
+
+                    <!-- Notificación con icono y dropdown -->
+                    <div class="notification-dropdown">
+                        <span class="navbar-text notification-icon" onclick="toggleNotifications()">
+                            <box-icon type='solid' name='bell' color="<?php echo COLOR_LETRAS; ?>"></box-icon>
+                            <span id="notificaciones" class="badge">3</span> <!-- Número de notificaciones -->
+                        </span>
+                        <div id="notificationList" class="dropdown-menu">
+                            <div class="dropdown-header">Notificaciones</div>
+                            <div class="dropdown-item">Nueva orden recibida</div>
+                            <div class="dropdown-item">Mensaje del soporte</div>
+                            <div class="dropdown-item">Actualización disponible</div>
+                            <div class="dropdown-footer"><a href="#">Ver todas las notificaciones</a></div>
+                        </div>
+                    </div>
+
                     <img src="https://new.imporsuitpro.com/public/img/img.png" class="profile-pic" id="profilePic" alt="Perfil">
                     <div class="profile-dropdown" id="profileDropdown">
                         <a href="#"><i class='bx bx-user menu-icon'></i> <?php echo $_SESSION["tienda"] ?></a>
                         <a onclick="cerrar_sesion()"><i class='bx bx-log-out menu-icon'></i> Cerrar sesión</a>
                     </div>
-                    <span class="navbar-text"><box-icon type='solid' name='bell' color="<?php echo COLOR_LETRAS; ?>"></box-icon><span id="notificaciones"></span></span>
                 </div>
             </div>
         </nav>
