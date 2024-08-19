@@ -184,6 +184,7 @@ function editar_categoria(id) {
           $("#editar_tipo").val(data.tipo);
           $("#editar_padre").val(data.padre);
           $("#editar_estado").val(data.estado_linea);
+          $("#orden_editar").val(data.orden);
           
           // Abrir el modal
           $("#editar_categoriaModal").modal("show");

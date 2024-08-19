@@ -167,7 +167,7 @@ class TiendaModel extends Query
 
     public function categoriastienda($id_plataforma)
     {
-        $sql = "SELECT * FROM productos_tienda pt, lineas l WHERE pt.id_plataforma=$id_plataforma and pt.id_categoria_tienda=l.id_linea  group by id_categoria_tienda";
+        $sql = "SELECT * FROM productos_tienda pt, lineas l WHERE pt.id_plataforma = $id_plataforma AND pt.id_categoria_tienda = l.id_linea  GROUP BY id_categoria_tienda ORDER BY l.orden ASC;";
 
         return $this->select($sql);
     }
@@ -601,7 +601,58 @@ class TiendaModel extends Query
         return $response;
     }
 
-    private function retryRequest($url, $maxRetries, $retryDelay, $timeout = 30)
+    public function modificarTienda($nombre, $antiguo, $plataforma)
+    {
+        $response = $this->initialResponse();
+        $maxRetries = 5;
+        $retryDelay = 10;
+
+        // Modificar tienda (envío del parámetro "antiguo" como POST)
+        $url_modificar = "https://activador.comprapor.com/cambiarNombre/" . $nombre;
+        $response1 = $this->retryRequest($url_modificar, $maxRetries, $retryDelay, 300, ['antiguo' => $antiguo]);
+
+        if ($response1 && isset($response1['status']) && $response1['status'] == 200) {
+            // Reiniciar servidor
+            $url_reiniciar = "https://activador.comprapor.com/reinciarServidor";
+            $response2 = $this->retryRequest($url_reiniciar, $maxRetries, $retryDelay, 300);
+
+            if ($response2 && isset($response2['status']) && $response2['status'] == 200) {
+                // Activar SSL
+                $url_ssl = "https://activador.comprapor.com/activarSSL/" . $nombre;
+                $response3 = $this->retryRequest($url_ssl, $maxRetries, $retryDelay, 300);
+
+                if ($response3 && isset($response3['status']) && $response3['status'] == 200) {
+                    $tienda = 'https://' . $nombre . '.comprapor.com';
+                    $update = "UPDATE plataformas SET url_imporsuit = ? WHERE id_plataforma = ?";
+                    $data = [$tienda, $plataforma];
+                    $this->simple_select($update, $data);
+
+                    $response['status'] = 200;
+                    $response['title'] = 'Peticion exitosa';
+                    $response['message'] = 'Tienda modificada correctamente';
+                } else {
+                    $response['status'] = 500;
+                    $response['title'] = 'Error';
+                    $response['message'] = $response3['message'] ?? 'Error desconocido al activar SSL';
+                }
+            } else {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'Error al reiniciar el servidor';
+            }
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = $response1['message'] ?? 'Error desconocido al modificar el nombre de la tienda';
+        }
+
+        return $response;
+    }
+
+
+
+
+    private function retryRequest($url, $maxRetries, $retryDelay, $timeout = 300, $postData = null)
     {
         $attempt = 0;
         $output = null;
@@ -612,6 +663,14 @@ class TiendaModel extends Query
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);  // Timeout predeterminado o ajustado
+
+            // Verificar si se están enviando datos POST
+            if ($postData !== null) {
+                curl_setopt($ch, CURLOPT_POST, true);
+                // Asegurarse de que los datos se envían como un arreglo asociativo
+                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));  // Usar http_build_query para formato correcto
+            }
+
             $output = curl_exec($ch);
             curl_close($ch);
 
