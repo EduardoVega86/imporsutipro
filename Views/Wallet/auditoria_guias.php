@@ -12,7 +12,7 @@
                     <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></span>
                 </div>
             </div-->
-            <div class="d-flex flex-row">
+            <div class="dashboard_auditoria">
                 <div class="stat-box">
                     <h3>$ <span id="total_venta"></ span></h3>
                     <p>Total venta</p>

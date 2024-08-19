@@ -56,6 +56,21 @@
     .btn-group {
         align-content: center;
     }
+
+    /* dashboard auditoria */
+    .dashboard_auditoria{
+        display: flex;
+        flex-direction: row;
+    }
+    @media (max-width: 768px) {
+        .dashboard_auditoria{
+            flex-direction: column;
+            align-items: center;
+        }
+        .stat-box {
+            width: 100%;
+        }
+    }
 </style>
 
 <style>
