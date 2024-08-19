@@ -328,7 +328,7 @@ class WalletModel extends Query
             $cabecera['fecha'],
             $cabecera['cliente'],
             $cabecera['id_plataforma'],
-            $cabecera['matriz']
+            $cabecera['id_matriz']
         ]);
     }
 
