@@ -151,6 +151,7 @@
                         <a href="#"><i class='bx bx-user menu-icon'></i> <?php echo $_SESSION["tienda"] ?></a>
                         <a onclick="cerrar_sesion()"><i class='bx bx-log-out menu-icon'></i> Cerrar sesión</a>
                     </div>
+                    <span class="navbar-text"><box-icon type='solid' name='bell' color="<?php echo COLOR_LETRAS; ?>"></box-icon><span id="notificaciones"></span></span>
                 </div>
             </div>
         </nav>
