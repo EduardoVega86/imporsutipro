@@ -84,13 +84,15 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid mt-5">
+    <div class="container mt-5" style="max-width: 100%;">
         <div class="table-responsive">
-            <div class="filter-container mb-3">
+            <!-- <table class="table table-bordered table-striped table-hover"> -->
+            <div class="filter-container">
                 <button class="filter-btn active" data-filter="0">Pendientes</button>
                 <button class="filter-btn" data-filter="1">Validados</button>
             </div>
-            <table id="datatable_auditoria" class="table table-striped table-hover">
+            <table id="datatable_auditoria" class="table table-striped">
+
                 <thead>
                     <tr>
                         <th class="centered">Factura</th>

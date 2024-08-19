@@ -1,27 +1,17 @@
 <style>
     .stat-box {
-        background: #fff;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        margin: 10px;
-        text-align: center;
-        flex: 1 1 calc(25% - 40px);
-        width: 50%;
-    }
-
-    .table-responsive {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-    }
-
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 10px;
+  text-align: center;
+  flex: 1 1 calc(25% - 40px);
+  width: 50%;
+}
     .table {
-        table-layout: auto;
-        /* Por defecto, las tablas pueden tomar más espacio si es necesario */
+        border-collapse: collapse;
         width: 100%;
-        max-width: 100%;
-        white-space: nowrap;
-        /* Evita que el contenido dentro de las celdas se divida */
     }
 
     .table th,
@@ -49,7 +39,7 @@
         text-align: center !important;
         vertical-align: middle !important;
     }
-
+    
     .btn-excel,
     .btn-csv {
         background-color: #198754;
@@ -62,7 +52,7 @@
         border: none;
         /* Elimina el borde */
     }
-
+    
     .btn-group {
         align-content: center;
     }
