@@ -309,10 +309,10 @@ const listAuditoria = async (estado, id_transporte) => {
 
     let valor_costo_flete2 = valor_costo_flete.toFixed(2);
 
+    total_recaudado = total_recaudado.toFixed(2);
+
     // Asignar el valor al span en el DOM
     $("#total_utilidad").text(valor_costo_flete2);
-
-    console.log("totalrec: " + total_recaudado);
     
     
     $("#valor_recaudo").text(total_recaudado);
