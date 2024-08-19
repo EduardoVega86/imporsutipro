@@ -12,53 +12,37 @@
                     <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></span>
                 </div>
             </div-->
-            <div class="container mt-5">
-                <div class="row">
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <div class="stat-box">
-                            <h3>$ <span id="total_venta"></span></h3>
-                            <p>Total venta</p>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <div class="stat-box">
-                            <h3>$ <span id="valor_recaudo"></span></h3>
-                            <p>Valor recaudado</p>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <div class="stat-box">
-                            <h3>$ <span id="valor_pagado"></span></h3>
-                            <p>Valor Pagado</p>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <div class="stat-box">
-                            <h3>$ <span id="por_pagar"></span></h3>
-                            <p>Por pagar</p>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <div class="stat-box">
-                            <h3>$ <span id="valor_fletes"></span></h3>
-                            <p>Total valor fletes</p>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <div class="stat-box">
-                            <h3>$ <span id="costo_flete"></span></h3>
-                            <p>Total Costo fletes</p>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <div class="stat-box">
-                            <h3>$ <span id="total_utilidad"></span></h3>
-                            <p>Total Utilidad</p>
-                        </div>
-                    </div>
+            <div class="d-flex flex-row">
+                <div class="stat-box">
+                    <h3>$ <span id="total_venta"></ span></h3>
+                    <p>Total venta</p>
+                </div>
+                <div class="stat-box">
+                    <h3>$ <span id="valor_recaudo"></span></h3>
+                    <p>Valor recaudado</p>
+                </div>
+                <div class="stat-box">
+                    <h3>$ <span id="valor_pagado"></span></h3>
+                    <p>Valor Pagado</p>
+                </div>
+                <div class="stat-box">
+                    <h3>$ <span id="por_pagar"></span></h3>
+                    <p>Por pagar</p>
+                </div>
+
+                <div class="stat-box">
+                    <h3>$ <span id="valor_fletes"></span></h3>
+                    <p>Total valor fletes</p>
+                </div>
+                <div class="stat-box">
+                    <h3>$ <span id="costo_flete"></span></h3>
+                    <p>Total Costo fletes</p>
+                </div>
+                <div class="stat-box">
+                    <h3>$ <span id="total_utilidad"></span></h3>
+                    <p>Total Utilidad</p>
                 </div>
             </div>
-
         </div>
         <div class="d-flex flex-column justify-content-between">
 
