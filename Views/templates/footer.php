@@ -101,12 +101,6 @@
                         alert("Hubo un problema al obtener la información de la categoría");
                     }
                 });
-
-                /* seccion notificaciones */
-                function toggleNotifications() {
-                    document.querySelector('.notification-dropdown').classList.toggle('active');
-                }
-                /* fin seccion notificaciones */
             });
 
             function cargar_saldoWallet() {
@@ -153,6 +147,12 @@
                     }
                 });
             }
+
+            /* seccion notificaciones */
+            function toggleNotifications() {
+                document.querySelector('.notification-dropdown').classList.toggle('active');
+            }
+            /* fin seccion notificaciones */
         </script>
 
         <!-- librerias de filtro fecha -->
