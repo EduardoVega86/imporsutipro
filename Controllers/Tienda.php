@@ -85,6 +85,12 @@ class Tienda extends Controller
         echo json_encode($response);
     }
 
+    public function listar_imagenAdicional_productosTienda()
+    {
+        $response = $this->model->listar_imagenAdicional_productosTienda($_POST['id_producto_tienda'], $_POST['id_plataforma']);
+        echo json_encode($response);
+    }
+
     public function obtener_productos_tienda_filtro()
     {
         $id_plataforma = $_POST['id_plataforma'];
