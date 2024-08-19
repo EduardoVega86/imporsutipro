@@ -477,6 +477,160 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
         return $response;
     }
 
+    public function guardar_imagen_productosTienda($imagen, $id_producto, $plataforma)
+    {
+        $response = $this->initialResponse();
+        $target_dir = "public/img/productos_tienda/";
+        $imageFileType = strtolower(pathinfo($imagen["name"], PATHINFO_EXTENSION));
+
+        // Generar un nombre de archivo único
+        $unique_name = uniqid('', true) . '.' . $imageFileType;
+        $target_file = $target_dir . $unique_name;
+
+        // Verificar si el archivo existe y agregar un diferenciador si es necesario
+        $original_target_file = $target_file;
+        $counter = 1;
+        while (file_exists($target_file)) {
+            $target_file = $target_dir . uniqid('', true) . '.' . $imageFileType;
+            $counter++;
+        }
+
+        $uploadOk = 1;
+        $check = getimagesize($imagen["tmp_name"]);
+        if ($check !== false) {
+            $uploadOk = 1;
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'El archivo no es una imagen';
+            $uploadOk = 0;
+        }
+
+        if ($imagen["size"] > 50000000) { // Tamaño máximo permitido
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'El archivo es muy grande';
+            $uploadOk = 0;
+        }
+
+        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Solo se permiten archivos JPG, JPEG, PNG';
+            $uploadOk = 0;
+        }
+
+        if ($uploadOk == 0) {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al subir la imagen';
+        } else {
+            if (move_uploaded_file($imagen["tmp_name"], $target_file)) {
+                $response['status'] = 200;
+                $response['title'] = 'Peticion exitosa';
+                $response['message'] = 'Imagen subida correctamente';
+                $response['data'] = $target_file;
+
+                $sql = "UPDATE productos_tienda SET imagen_principal_tienda = ? WHERE id_producto_tienda = ? AND id_plataforma = ?";
+                $data = [$target_file, $id_producto, $plataforma];
+                $editar_imagen = $this->update($sql, $data);
+
+                if ($editar_imagen == 1) {
+                    $response['status'] = 200;
+                    $response['title'] = 'Peticion exitosa';
+                    $response['message'] = 'Imagen subida correctamente';
+                } else {
+                    $response['status'] = 500;
+                    $response['title'] = 'Error';
+                    $response['message'] = 'Error al actualizar la base de datos';
+                }
+            } else {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'Error al mover el archivo';
+            }
+        }
+
+        return $response;
+    }
+
+    public function guardar_imagenAdicional_productosTienda($num_imagen, $imagen, $id_producto, $plataforma)
+    {
+        // Verificar si ya existe un registro con el id_plataforma dado
+        $sql_select = "SELECT * FROM `imagens_adicionales_productoTienda` WHERE `id_producto` = ? AND `id_plataforma` = ? AND `num_imagen` = ?";
+        $existing_entry = $this->simple_select($sql_select, [$id_producto, $plataforma, $num_imagen]);
+
+        $response = $this->initialResponse();
+
+        $target_dir = "public/img/productos_tienda/";
+        $target_file = $target_dir . basename($imagen["name"]);
+        $uploadOk = 1;
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        $check = getimagesize($imagen["tmp_name"]);
+
+        if ($check === false) {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'El archivo no es una imagen';
+            return $response;
+        }
+
+        if ($imagen["size"] > 500000) {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'El archivo es muy grande';
+            return $response;
+        }
+
+        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Solo se permiten archivos JPG, JPEG, PNG';
+            return $response;
+        }
+
+        if (!move_uploaded_file($imagen["tmp_name"], $target_file)) {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al subir la imagen';
+            return $response;
+        }
+
+        // Si ya existe, actualizar el registro
+        if ($existing_entry > 0) {
+            $sql = "UPDATE imagens_adicionales_productoTienda SET url = ? WHERE id_producto = ? AND id_plataforma = ? AND num_imagen = ?";
+            $data = [$target_file, $id_producto, $plataforma, $num_imagen];
+            $editar_imagen = $this->update($sql, $data);
+
+            if ($editar_imagen == 1) {
+                $response['status'] = 200;
+                $response['title'] = 'Peticion exitosa';
+                $response['message'] = 'Imagen subida y actualizada correctamente';
+            } else {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'Error al actualizar la imagen';
+            }
+        } else {
+            // Si no existe, insertar el nuevo registro
+            $sql_insert = "INSERT INTO imagens_adicionales_productoTienda (id_plataforma, id_producto, num_imagen, url) VALUES (?, ?, ?, ?)";
+            $data = [$plataforma, $id_producto, $num_imagen, $target_file];
+            $insertar_imagen = $this->insert($sql_insert, $data);
+
+            if ($insertar_imagen == 1) {
+                $response['status'] = 200;
+                $response['title'] = 'Peticion exitosa';
+                $response['message'] = 'Imagen subida e insertada correctamente';
+            } else {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'Error al insertar la imagen';
+            }
+        }
+
+        return $response;
+    }
+
     public function listar_imagenAdicional_productos($id_producto, $plataforma)
     {
         $sql = "SELECT * FROM `imagenes_adicionales_producto` WHERE id_plataforma = $plataforma AND id_producto = $id_producto";
