@@ -62,6 +62,7 @@ const dataTableAuditoriaOptions = {
   columnDefs: [
     { className: "centered", targets: [0, 1, 2, 3, 4] },
     { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
+    { width: "100px", targets: 2 },
   ],
   pageLength: 10,
   destroy: true,
@@ -275,7 +276,7 @@ const listAuditoria = async (estado, id_transporte) => {
               <tr>
                   <td >${item.numero_factura}</td>
                   <td>${item.numero_guia}</td>
-          <td><span class="w-100 text-nowrap ${span_estado}">${estado_guia}</span></td>
+          <td><span class="w-100 ${span_estado}">${estado_guia}</span></td>
           <td>${item.drogshipin}</td>
            <td>${transporte_content}</td>
                   <td>${codBtn}</td>
