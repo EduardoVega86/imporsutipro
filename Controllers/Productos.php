@@ -318,6 +318,12 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
+    public function listar_imagenAdicional_productosTienda()
+    {
+        $response = $this->model->listar_imagenAdicional_productosTienda($_POST['id_producto'], $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
     public function cargar_categorias()
     {
         $response = $this->model->cargarCategorias($_SESSION['id_plataforma']);

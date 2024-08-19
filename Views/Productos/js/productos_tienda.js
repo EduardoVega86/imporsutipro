@@ -302,7 +302,7 @@ function agregar_imagenes_adicionales(id) {
   formData.append("id_producto", id);
 
   $.ajax({
-    url: SERVERURL + "Productos/listar_imagenAdicional_productos",
+    url: SERVERURL + "Productos/listar_imagenAdicional_productosTienda",
     type: "POST",
     data: formData,
     processData: false, // No procesar los datos
