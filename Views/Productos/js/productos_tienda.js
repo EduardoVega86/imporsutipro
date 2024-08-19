@@ -87,9 +87,6 @@ const initDataTableProductos = async () => {
     dataTableProductosOptions
   );
   dataTableProductosIsInitialized = true;
-  document
-    .getElementById("selectAll")
-    .addEventListener("change", toggleSelectAll);
 };
 
 const listProductos = async () => {
