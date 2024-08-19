@@ -190,7 +190,7 @@
             formData.append("imagen", imagen);
 
             $.ajax({
-                url: SERVERURL + 'Productos/guardar_imagenAdicional_productos', // Cambia esta ruta por la ruta correcta a tu controlador
+                url: SERVERURL + 'Productos/guardar_imagenAdicional_productosTienda', // Cambia esta ruta por la ruta correcta a tu controlador
                 type: 'POST',
                 data: formData,
                 contentType: false,
