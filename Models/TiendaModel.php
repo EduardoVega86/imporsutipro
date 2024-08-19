@@ -193,6 +193,13 @@ class TiendaModel extends Query
         return $this->select($sql);
     }
 
+    public function listar_imagenAdicional_productosTienda($id_producto, $plataforma)
+    {
+        $sql = "SELECT * FROM `imagens_adicionales_productoTienda` WHERE id_plataforma = $plataforma AND id_producto = $id_producto";
+        // echo $sql;
+        return $this->select($sql);
+    }
+
     public function obtener_productos_tienda_filtro($plataforma, $id_categoria, $precio_maximo, $precio_minimo)
     {
 
