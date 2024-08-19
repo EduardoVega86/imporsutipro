@@ -210,4 +210,77 @@
             right: 10px;
         }
     }
+
+    /* Badge de notificaciones */
+    .notification-icon {
+        position: relative;
+        cursor: pointer;
+    }
+
+    .badge {
+        position: absolute;
+        top: -5px;
+        right: -10px;
+        background-color: red;
+        color: white;
+        border-radius: 50%;
+        padding: 4px 7px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    /* Dropdown de notificaciones */
+    .notification-dropdown {
+        position: relative;
+    }
+
+    .dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 35px;
+        right: 0;
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        width: 250px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+    }
+
+    .dropdown-header {
+        font-weight: bold;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .dropdown-item {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .dropdown-item:hover {
+        background-color: #f8f8f8;
+    }
+
+    .dropdown-footer {
+        text-align: center;
+        padding: 10px;
+        font-size: 14px;
+        background-color: #f9f9f9;
+    }
+
+    .dropdown-footer a {
+        text-decoration: none;
+        color: #007bff;
+    }
+
+    .dropdown-footer a:hover {
+        text-decoration: underline;
+    }
+
+    /* Mostrar el dropdown cuando se activa */
+    .notification-dropdown.active .dropdown-menu {
+        display: block;
+    }
+    /* Fin Badge de notificaciones */
 </style>

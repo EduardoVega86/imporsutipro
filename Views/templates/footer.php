@@ -147,6 +147,12 @@
                     }
                 });
             }
+
+            /* seccion notificaciones */
+            function toggleNotifications() {
+                document.querySelector('.notification-dropdown').classList.toggle('active');
+            }
+            /* fin seccion notificaciones */
         </script>
 
         <!-- librerias de filtro fecha -->

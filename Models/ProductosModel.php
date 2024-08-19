@@ -326,9 +326,21 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
     {
         $response = $this->initialResponse();
         $target_dir = "public/img/productos/";
-        $target_file = $target_dir . basename($imagen["name"]);
+        $imageFileType = strtolower(pathinfo($imagen["name"], PATHINFO_EXTENSION));
+
+        // Generar un nombre de archivo único
+        $unique_name = uniqid('', true) . '.' . $imageFileType;
+        $target_file = $target_dir . $unique_name;
+
+        // Verificar si el archivo existe y agregar un diferenciador si es necesario
+        $original_target_file = $target_file;
+        $counter = 1;
+        while (file_exists($target_file)) {
+            $target_file = $target_dir . uniqid('', true) . '.' . $imageFileType;
+            $counter++;
+        }
+
         $uploadOk = 1;
-        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
         $check = getimagesize($imagen["tmp_name"]);
         if ($check !== false) {
             $uploadOk = 1;
@@ -338,17 +350,25 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
             $response['message'] = 'El archivo no es una imagen';
             $uploadOk = 0;
         }
-        if ($imagen["size"] > 500000) {
+
+        if ($imagen["size"] > 50000000) { // Tamaño máximo permitido
             $response['status'] = 500;
             $response['title'] = 'Error';
             $response['message'] = 'El archivo es muy grande';
             $uploadOk = 0;
         }
+
         if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
             $response['status'] = 500;
             $response['title'] = 'Error';
             $response['message'] = 'Solo se permiten archivos JPG, JPEG, PNG';
             $uploadOk = 0;
+        }
+
+        if ($uploadOk == 0) {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al subir la imagen';
         } else {
             if (move_uploaded_file($imagen["tmp_name"], $target_file)) {
                 $response['status'] = 200;
@@ -359,6 +379,7 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
                 $sql = "UPDATE productos SET image_path = ? WHERE id_producto = ? AND id_plataforma = ?";
                 $data = [$target_file, $id_producto, $plataforma];
                 $editar_imagen = $this->update($sql, $data);
+
                 if ($editar_imagen == 1) {
                     $response['status'] = 200;
                     $response['title'] = 'Peticion exitosa';
@@ -366,16 +387,18 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
                 } else {
                     $response['status'] = 500;
                     $response['title'] = 'Error';
-                    $response['message'] = 'Error al subir la imagen';
+                    $response['message'] = 'Error al actualizar la base de datos';
                 }
             } else {
                 $response['status'] = 500;
                 $response['title'] = 'Error';
-                $response['message'] = 'Error al subir la imagen';
+                $response['message'] = 'Error al mover el archivo';
             }
         }
+
         return $response;
     }
+
 
     public function guardar_imagenAdicional_productos($num_imagen, $imagen, $id_producto, $plataforma)
     {
@@ -454,7 +477,7 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
         return $response;
     }
 
-    public function listar_imagenAdicional_productos($id_producto ,$plataforma)
+    public function listar_imagenAdicional_productos($id_producto, $plataforma)
     {
         $sql = "SELECT * FROM `imagenes_adicionales_producto` WHERE id_plataforma = $plataforma AND id_producto = $id_producto";
         // echo $sql;
