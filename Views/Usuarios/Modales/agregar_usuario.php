@@ -104,6 +104,7 @@
             formData.append('nombre', $('#nombre').val());
             formData.append('correo', $('#email').val());
             formData.append('contrasena', contrasena);
+            formData.append('cargo', $('#grupoPermisos').val());
 
             // Realiza la solicitud AJAX
             $.ajax({
