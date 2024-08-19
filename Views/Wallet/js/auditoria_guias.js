@@ -65,6 +65,9 @@ const dataTableAuditoriaOptions = {
   ],
   pageLength: 10,
   destroy: true,
+  responsive: true,
+  autoWidth: true,
+  bAutoWidth: true,
   dom: '<"d-flex w-full justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
   buttons: [
     {
