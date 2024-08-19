@@ -249,6 +249,13 @@ class WalletModel extends Query
         $id_billetera_proveedor = $this->obtenerIdBilletera($id_proveedor);
         $this->registrarHistorialBilletera($id_billetera_proveedor, $usuario, $cabecera['costo'], $cabecera['guia']);
 
+        //obtener la  cabecera del proveedor
+        $cabecera_proveedor = $this->select("SELECT * FROM cabecera_cuenta_pagar WHERE id_plataforma = '$id_proveedor' AND numero_factura = '$cabecera[numero_factura]-P'")[0];
+
+        if ($cabecera_proveedor['full'] > 0) {
+            $this->manejarFullfilment($cabecera_proveedor, $usuario);
+        }
+
         // Actualizar saldo en la billetera del proveedor
         $this->actualizarBilletera($id_proveedor, $cabecera['costo']);
     }
@@ -312,6 +319,9 @@ class WalletModel extends Query
 
     private function crearCabeceraProveedor($cabecera, $id_proveedor)
     {
+        $isFulfilment = $this->buscarFull($cabecera['numero_factura'], $cabecera['id_plataforma']);
+        $full = $isFulfilment > 0 ? $isFulfilment : 0;
+
         $sql = "INSERT INTO cabecera_cuenta_pagar 
             (tienda, numero_factura, guia, costo, monto_recibir, valor_pendiente, estado_guia, visto, full, fecha, cliente, id_plataforma, id_matriz) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -324,12 +334,16 @@ class WalletModel extends Query
             0,
             7,
             1,
-            $cabecera['full'],
+            $full,
             $cabecera['fecha'],
             $cabecera['cliente'],
-            $cabecera['id_plataforma'],
+            $cabecera['id_proveedor'],
             $cabecera['id_matriz']
         ]);
+
+        if ($full > 0) {
+            $this->actualizarCabecera($cabecera['id_cabecera']);
+        }
     }
 
     private function registrarHistorialProveedor($cabecera, $usuario, $valor)
