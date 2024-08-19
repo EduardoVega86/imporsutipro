@@ -319,7 +319,7 @@ class WalletModel extends Query
 
     private function crearCabeceraProveedor($cabecera, $id_proveedor)
     {
-        $isFulfilment = $this->buscarFull($cabecera['numero_factura'], $cabecera['id_plataforma']);
+        $isFulfilment = $this->buscarFull($cabecera['numero_factura'], $id_proveedor);
         $full = $isFulfilment > 0 ? $isFulfilment : 0;
 
         $sql = "INSERT INTO cabecera_cuenta_pagar 
