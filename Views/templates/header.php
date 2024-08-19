@@ -75,7 +75,7 @@
             <?php if ($_SESSION['cargo'] != 5) { ?>
             <a href="#" class="dropdown-btn" data-target="#submenu_inventario"><i class='bx bx-list-plus menu-icon'></i> <span class="menu-text">Inventarios</span></a>
             <?php } ?>
-            
+
             <div class="submenu" id="submenu_inventario">
 
 
@@ -101,6 +101,7 @@
                 <a href="<?php echo SERVERURL ?>pedidos/anuladas"><i class='bx bx-x menu-icon'></i> <span class="menu-text">Anulados</span></a>
                 <a href="<?php echo SERVERURL ?>pedidos/novedades"><i class='bx bx-info-circle menu-icon'></i> <span class="menu-text">Novedades</span></a>
             </div>
+
             <?php if ($_SESSION['cargo'] != 5) { ?>
                 <a href="#" class="dropdown-btn" data-target="#submenu3"><i class='bx bx-wallet menu-icon'></i> <span class="menu-text">Wallet</span></a>
             <?php } ?>
@@ -115,10 +116,10 @@
                 }
                 ?>
             </div>
+
             <?php if ($_SESSION['cargo'] != 5) { ?>
                 <a href="#" class="dropdown-btn" data-target="#submenu4"><i class='bx bx-cog menu-icon'></i> <span class="menu-text">Configuración</span></a>
             <?php } ?>
-            
             <div class="submenu" id="submenu4">
                 <?php if ($_SESSION['cargo'] == 10) { ?>
                     <a href="<?php echo SERVERURL ?>usuarios/plataformas"><i class='bx bx-box menu-icon'></i> <span class="menu-text">Plataformas Marketplace</span></a>
