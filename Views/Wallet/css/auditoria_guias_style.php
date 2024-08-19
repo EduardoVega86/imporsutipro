@@ -127,8 +127,6 @@
 
     .filter-container {
         margin-bottom: 10px;
-        display: flex;
-        flex-direction: column;
     }
 
     .filter-btn {

@@ -46,7 +46,7 @@
         </div>
         <div class="d-flex flex-column justify-content-between">
 
-            <div class="filter-container">
+            <div class="filter-container d-flex flex-column">
                 <form id="uploadForm" enctype="multipart/form-data">
 
                     <div class="form-group w-100 hidden-field" id="bodega-field">
