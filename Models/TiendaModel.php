@@ -607,7 +607,7 @@ class TiendaModel extends Query
         $maxRetries = 5;  // Número máximo de intentos
         $retryDelay = 10;  // Tiempo de espera entre intentos en segundos
         ///modificar tienda
-        $url_modificar = "https://activador.comprapor.com/modificarTienda/" . $nombre;
+        $url_modificar = "https://activador.comprapor.com/cambiarNombre/" . $nombre;
 
         $response1 = $this->retryRequest($url_modificar, $maxRetries, $retryDelay, 300, $antiguo);
 
@@ -640,11 +640,14 @@ class TiendaModel extends Query
                 $response['title'] = 'Error';
                 $response['message'] = 'Error al reiniciar el servidor';
             }
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = $response1['message'] ?? 'Error desconocido al modificar el nombre de la tienda';
         }
 
         return $response;
     }
-
 
 
 
