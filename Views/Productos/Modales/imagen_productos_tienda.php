@@ -42,11 +42,11 @@
     }
 </style>
 
-<div class="modal fade" id="imagen_productoModal" tabindex="-1" aria-labelledby="imagen_productoModalLabel" aria-hidden="true">
+<div class="modal fade" id="imagen_producto_tiendaModal" tabindex="-1" aria-labelledby="imagen_producto_tiendaModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="imagen_productoModalLabel"><i class="fas fa-edit"></i> Nueva imagen producto</h5>
+                <h5 class="modal-title" id="imagen_producto_tiendaModalLabel"><i class="fas fa-edit"></i> Nueva imagen producto</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -139,7 +139,7 @@
             event.preventDefault();
             var formData = new FormData(this);
             $.ajax({
-                url: SERVERURL + 'Productos/guardar_imagen_productos', // Cambia esta ruta por la ruta correcta a tu controlador
+                url: SERVERURL + 'Productos/guardar_imagen_productosTienda', // Cambia esta ruta por la ruta correcta a tu controlador
                 type: 'POST',
                 data: formData,
                 contentType: false,

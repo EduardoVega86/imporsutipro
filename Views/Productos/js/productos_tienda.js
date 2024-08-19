@@ -104,20 +104,22 @@ const listProductos = async () => {
     let enlace_imagen = "";
 
     productos.forEach((producto) => {
-      enlace_imagen = obtenerURLImagen(producto.imagen_principal_tienda, SERVERURL);
+      enlace_imagen = obtenerURLImagen(
+        producto.imagen_principal_tienda,
+        SERVERURL
+      );
       if (!producto.imagen_principal_tienda) {
-        cargar_imagen = `<i class="bx bxs-camera-plus"></i>`;
+        cargar_imagen = `<i class="bx bxs-camera-plus" onclick="agregar_imagenProducto(${producto.id_producto_tienda},'${enlace_imagen}')"></i>`;
       } else {
-        cargar_imagen = `<img src="${enlace_imagen}" class="icon-button" alt="Agregar imagen" width="50px">`;
+        cargar_imagen = `<img src="${enlace_imagen}" class="icon-button" onclick="agregar_imagenProducto(${producto.id_producto_tienda},'${enlace_imagen}')" alt="Agregar imagen" width="50px">`;
       }
 
       let destacadoBtn = "";
-      if (producto.destacado_tienda == 0){
+      if (producto.destacado_tienda == 0) {
         destacadoBtn = `<button class="btn-destacado-no" onclick="toggleDestacado(${producto.id_producto_tienda}, 1)">NO</button>`;
-      } else if (producto.destacado_tienda == 1){
-        destacadoBtn = `<button class="btn-destacado-si" onclick="toggleDestacado(${producto.id_producto_tienda}, 0)">SI</button>`
+      } else if (producto.destacado_tienda == 1) {
+        destacadoBtn = `<button class="btn-destacado-si" onclick="toggleDestacado(${producto.id_producto_tienda}, 0)">SI</button>`;
       }
-      
 
       content += `
           <tr>
@@ -125,13 +127,19 @@ const listProductos = async () => {
             <td>${cargar_imagen}</td>
             <td>${destacadoBtn}</td>
             <td><a href='${
-              SERVERURL + "productos/landing_tienda/" + producto.id_producto_tienda
+              SERVERURL +
+              "productos/landing_tienda/" +
+              producto.id_producto_tienda
             }' role='button'><i class="fa-solid fa-laptop-code" style="font-size:25px;"></i></a></td>
             <td>${producto.pvp_tienda}</td>
             <td>${producto.pref_tienda}</td>
             <td>
-              <button class="btn btn-sm btn-primary" onclick="editarProducto_tienda(${producto.id_producto_tienda})"><i class="fa-solid fa-pencil"></i> Editar</button>
-              <button class="btn btn-sm btn-danger" onclick="eliminarProducto_tienda(${producto.id_producto_tienda})"><i class="fa-solid fa-trash-can"></i> Borrar</button>
+              <button class="btn btn-sm btn-primary" onclick="editarProducto_tienda(${
+                producto.id_producto_tienda
+              })"><i class="fa-solid fa-pencil"></i> Editar</button>
+              <button class="btn btn-sm btn-danger" onclick="eliminarProducto_tienda(${
+                producto.id_producto_tienda
+              })"><i class="fa-solid fa-trash-can"></i> Borrar</button>
             </td>
           </tr>`;
     });
@@ -142,25 +150,25 @@ const listProductos = async () => {
 };
 
 const toggleDestacado = async (idProducto, nuevoEstado) => {
-    try {
-      const formData = new FormData();
-      formData.append('id_producto_tienda', idProducto);
-      formData.append('destacado', nuevoEstado);
-  
-      const response = await fetch(`${SERVERURL}productos/agregarDestacado`, {
-        method: 'POST',
-        body: formData
-      });
-  
-      if (response.ok) {
-        listProductos(); // Actualizar la lista de productos
-      } else {
-        alert('Error al actualizar el estado destacado');
-      }
-    } catch (ex) {
-      alert(ex);
+  try {
+    const formData = new FormData();
+    formData.append("id_producto_tienda", idProducto);
+    formData.append("destacado", nuevoEstado);
+
+    const response = await fetch(`${SERVERURL}productos/agregarDestacado`, {
+      method: "POST",
+      body: formData,
+    });
+
+    if (response.ok) {
+      listProductos(); // Actualizar la lista de productos
+    } else {
+      alert("Error al actualizar el estado destacado");
     }
-  };
+  } catch (ex) {
+    alert(ex);
+  }
+};
 
 //abrir modal de seleccion de producto con atributo especifico
 function abrir_modalSeleccionAtributo(id) {
@@ -172,7 +180,7 @@ function abrir_modalSeleccionAtributo(id) {
 function eliminarProducto_tienda(id) {
   $.ajax({
     type: "POST",
-    url: SERVERURL + "productos/eliminar_producto_tienda/"+id,
+    url: SERVERURL + "productos/eliminar_producto_tienda/" + id,
     dataType: "json", // Asegurarse de que la respuesta se trata como JSON
     success: function (response) {
       // Mostrar alerta de éxito
@@ -273,6 +281,83 @@ function editarProducto_tienda(id) {
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
       alert("Hubo un problema al obtener la información del producto");
+    },
+  });
+}
+
+function agregar_imagenProducto(id, imagen) {
+  $("#id_imagenproducto").val(id);
+
+  if (imagen) {
+    $("#imagePreviewPrincipal").attr("src", imagen).show();
+  } else {
+    $("#imagePreviewPrincipal")
+      .attr("src", SERVERURL + "public/img/broken-image.png")
+      .show();
+  }
+
+  agregar_imagenes_adicionales(id);
+
+  $("#imagen_producto_tiendaModal").modal("show");
+}
+
+function agregar_imagenes_adicionales(id) {
+  let formData = new FormData();
+  formData.append("id_producto", id);
+
+  $.ajax({
+    url: SERVERURL + "Productos/listar_imagenAdicional_productos",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    dataType: "json",
+    success: function (response) {
+      if (response[0]) {
+        $("#imagePreviewAdicional1")
+          .attr("src", SERVERURL + response[0].url)
+          .show(); // Asigna la ruta correcta aquí
+      } else {
+        $("#imagePreviewAdicional1")
+          .attr("src", SERVERURL + "public/img/broken-image.png")
+          .show();
+      }
+
+      // Verificar si existe el elemento en el índice 1
+      if (response[1]) {
+        $("#imagePreviewAdicional2")
+          .attr("src", SERVERURL + response[1].url)
+          .show(); // Asigna la ruta correcta aquí
+      } else {
+        $("#imagePreviewAdicional2")
+          .attr("src", SERVERURL + "public/img/broken-image.png")
+          .show();
+      }
+
+      // Verificar si existe el elemento en el índice 2
+      if (response[2]) {
+        $("#imagePreviewAdicional3")
+          .attr("src", SERVERURL + response[2].url)
+          .show(); // Asigna la ruta correcta aquí
+      } else {
+        $("#imagePreviewAdicional3")
+          .attr("src", SERVERURL + "public/img/broken-image.png")
+          .show();
+      }
+
+      // Verificar si existe el elemento en el índice 3
+      if (response[3]) {
+        $("#imagePreviewAdicional4")
+          .attr("src", SERVERURL + response[3].url)
+          .show(); // Asigna la ruta correcta aquí
+      } else {
+        $("#imagePreviewAdicional4")
+          .attr("src", SERVERURL + "public/img/broken-image.png")
+          .show();
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
     },
   });
 }
