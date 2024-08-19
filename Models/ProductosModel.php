@@ -560,6 +560,9 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
         $sql_select = "SELECT * FROM `imagens_adicionales_productoTienda` WHERE `id_producto` = ? AND `id_plataforma` = ? AND `num_imagen` = ?";
         $existing_entry = $this->simple_select($sql_select, [$id_producto, $plataforma, $num_imagen]);
 
+        echo $sql_select;
+
+        echo "hola: " . $existing_entry;
         $response = $this->initialResponse();
 
         $target_dir = "public/img/productos_tienda/";
