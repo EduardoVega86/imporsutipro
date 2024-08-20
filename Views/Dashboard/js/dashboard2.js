@@ -322,7 +322,7 @@ $(function () {
 
   /* funcion productos por entrega */
   // Función para actualizar la barra de progreso en "Productos por entrega"
-  function updateProductProgressBar(productElement, quantity, percentage) {
+  function updateProductProgressBar_entrega(productElement, quantity, percentage) {
     const quantityElement = productElement.querySelector(".quantity");
     const progressElement = productElement.querySelector(".progress");
 
@@ -334,8 +334,8 @@ $(function () {
   const producto_entregaElements = document.querySelectorAll(
     ".content-box1.productos_entrega .product"
   );
-  updateProductProgressBar(producto_entregaElements[0], 30, 60); // Actualiza el primer producto con una cantidad de 30 y un 60%
-  updateProductProgressBar(producto_entregaElements[1], 15, 40); // Actualiza el segundo producto con una cantidad de 15 y un 40%
+  updateProductProgressBar_entrega(producto_entregaElements[0], 30, 60); // Actualiza el primer producto con una cantidad de 30 y un 60%
+  updateProductProgressBar_entrega(producto_entregaElements[1], 15, 40); // Actualiza el segundo producto con una cantidad de 15 y un 40%
 
   /* funcion ciudades con mas entrega */
   // Función para actualizar la barra de progreso en "Ciudades con más entrega"
@@ -356,7 +356,7 @@ $(function () {
 
   /* funcion productos por devolucion */
   // Función para actualizar la barra de progreso en "Productos por devolucion"
-  function updateProductProgressBar(productElement, quantity, percentage) {
+  function updateProductProgressBar_devolucion(productElement, quantity, percentage) {
     const quantityElement = productElement.querySelector(".quantity");
     const progressElement = productElement.querySelector(".progress");
 
@@ -368,8 +368,8 @@ $(function () {
   const producto_devolucionElements = document.querySelectorAll(
     ".content-box1.productos_devolucion .product"
   );
-  updateProductProgressBar(producto_devolucionElements[0], 30, 60); // Actualiza el primer producto con una cantidad de 30 y un 60%
-  updateProductProgressBar(producto_devolucionElements[1], 15, 40); // Actualiza el segundo producto con una cantidad de 15 y un 40%
+  updateProductProgressBar_devolucion(producto_devolucionElements[0], 30, 60); // Actualiza el primer producto con una cantidad de 30 y un 60%
+  updateProductProgressBar_devolucion(producto_devolucionElements[1], 15, 40); // Actualiza el segundo producto con una cantidad de 15 y un 40%
 
   /* funcion ciudades con mas devolucion */
   // Función para actualizar la barra de progreso en "Ciudades con más devolucion"
