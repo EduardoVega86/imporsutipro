@@ -6,7 +6,7 @@ $smtp_secure = 'ssl';
 $smtp_user = 'info@imporfactoryusa.com';
 $smtp_pass = 'Mark2demasiado.';
 $smtp_from = $smtp_user;
-$smtp_from_name = 'ImporsuitPro';
+$smtp_from_name = MARCA;
 $smtp_subjet = 'Novedad de pedido';
 $message_body_pedido = '<!DOCTYPE html>
 <html lang="es">
@@ -140,7 +140,7 @@ $message_body_pedido = '<!DOCTYPE html>
     <div class="container">
         <section class="text-center bg-white rounded-5 mt-5 p-5 shadow-lg border-5 border-top border-primary">
             <article>
-                <h1>ImporsuitPro</h1>
+                <h1>' . MARCA . '</h1>
             </article>
             <article>
                 <h2>Novedad de pedido</h2>
