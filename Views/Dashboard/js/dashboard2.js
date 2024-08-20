@@ -259,7 +259,7 @@ $(function () {
           // Llamamos a la función para actualizar el DOM
           updateProductProgressBar(
             cantidad_despacho,
-            nombre_tienda,
+            nombre_producto,
             imagen,
             porcentaje
           );
@@ -285,7 +285,7 @@ $(function () {
   // Función para actualizar la barra de progreso en "Productos por cantidad"
   function updateProductProgressBar(
     cantidad_despacho,
-    nombre_tienda,
+    nombre_producto,
     imagen,
     porcentaje
   ) {
@@ -296,8 +296,8 @@ $(function () {
     // Creamos la información del producto
     productElement.innerHTML = `
         <div class="product-info">
-            <img src="${SERVERURL}${imagen}" alt="${nombre_tienda}" class="product-icon">
-            <span>${nombre_tienda}</span>
+            <img src="${SERVERURL}${imagen}" alt="${nombre_producto}" class="product-icon">
+            <span>${nombre_producto}</span>
             <span class="quantity">${cantidad_despacho} (${porcentaje.toFixed(
       2
     )}%)</span>
