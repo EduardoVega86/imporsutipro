@@ -241,7 +241,7 @@ $(function () {
         // Supongamos que el API retorna un array de objetos con los datos
         response.productos_despachos.forEach((product) => {
           var  cantidad_despacho = product.cantidad_despachos;
-          var  nombre_tienda = product.nombre_tienda;
+          var  nombre_tienda = product.nombre_producto;
           var  imagen = product.image_path;
           var  porcentaje = calcularPorcentaje(
             product.cantidad_despacho,
@@ -249,7 +249,7 @@ $(function () {
           );
 
           console.log("cantidad_despacho: "+cantidad_despacho);
-          console.log("nombre_tienda: "+nombre_tienda);
+          console.log("nombre_tienda: "+nombre_producto);
           console.log("imagen: "+imagen);
           console.log("porcentaje: "+porcentaje);
 
