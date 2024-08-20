@@ -146,7 +146,7 @@ class PedidosModel extends Query
                 TRIM(fc.numero_guia) <> '' 
                 AND fc.numero_guia IS NOT NULL 
                 AND fc.numero_guia <> '0' 
-                AND fc.anulada = 0 ";
+                AND fc.anulada = 1 ";
 
         $params = [];
 
