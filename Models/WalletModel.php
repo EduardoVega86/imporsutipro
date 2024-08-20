@@ -136,7 +136,7 @@ class WalletModel extends Query
 
         // Verificar el estado de la factura
         $isCodFactura = $this->esCodFactura($cabecera['numero_factura']);
-        if ($isCodFactura && $cabecera['estado_guia'] == 7 && $valor < 0) {
+        if ($isCodFactura && $cabecera['estado_guia'] == 7 && $valor < 0 && $isCodFactura == 1) {
             return $this->errorResponse('La guía no permite transacciones negativas');
         }
 
@@ -172,15 +172,10 @@ class WalletModel extends Query
 
     private function shouldAbortTransaction($estado_guia, $valor, $cod_factura)
     {
-        echo "a";
-        echo $cod_factura != 1 . ' ';
-        echo "b";
-        echo $estado_guia == 7 . ' ';
-        echo "c";
-        echo $valor < 0 . ' ';
+
         // Caso 3: Si la guía está en estado 7, el valor es negativo y no tiene cod_factura o es diferente de 1, permitir.
         if ($estado_guia == 7 && $valor < 0 && $cod_factura != 1) {
-            echo "d";
+
             return false; // No abortar, se permite la transacción
         }
 
