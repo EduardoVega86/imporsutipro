@@ -248,6 +248,11 @@ $(function () {
             total_despachos
           );
 
+          console.log("cantidad_despacho: "+cantidad_despacho);
+          console.log("nombre_tienda: "+nombre_tienda);
+          console.log("imagen: "+imagen);
+          console.log("porcentaje: "+porcentaje);
+
           // Llamamos a la función para actualizar el DOM
           updateProductProgressBar(
             cantidad_despacho,
