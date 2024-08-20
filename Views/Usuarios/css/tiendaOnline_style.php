@@ -232,18 +232,34 @@
         flex-direction: row;
     }
 
+    #imagen_oferta1{
+        width: 30%;
+    }
+
+    #imagen_oferta2{
+        width: 30%;
+    }
+
     @media (max-width: 768px) {
         .oferta {
             flex-direction: column;
         }
 
         .oferta1_color {
-            flex-direction: column;
+            display: block;
         }
 
         .oferta2_color {
-            flex-direction: column;
+            display: block;
         }
+
+        #imagen_oferta1{
+        width: 100%;
+    }
+
+    #imagen_oferta2{
+        width: 100%;
+    }
     }
 
     /* seccion plnatillas */
