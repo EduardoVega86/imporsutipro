@@ -149,7 +149,7 @@ class DashboardModel extends Query
         $ticket_promedio = $response14[0]['promedio_ventas'] ?? 0;
         $devolucion_promedio = $response15[0]['promedio_devoluciones'] ?? 0;
         $flete_promedio = $response16[0]['promedio_flete'] ?? 0;
-        $$datos = [
+        $datos = [
             'ventas' => $ventas,
             'envios' => $envios,
             'ganancias' => $ganancias,
