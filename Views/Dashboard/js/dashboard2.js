@@ -288,7 +288,7 @@ $(function () {
     // Creamos la información del producto
     productElement.innerHTML = `
         <div class="product-info">
-            <img src="${imagen}" alt="${nombre_tienda}" class="product-icon">
+            <img src="${SERVERURL}${imagen}" alt="${nombre_tienda}" class="product-icon">
             <span>${nombre_tienda}</span>
             <span class="quantity">${cantidad_despacho} (${porcentaje.toFixed(
       2
