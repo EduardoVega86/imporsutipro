@@ -121,7 +121,7 @@
                 <!-- Sección de Productos por cantidad -->
                 <div class="content-box1 productos">
                     <h4>Productos por cantidad</h4>
-                    <!-- Aquí se llenarán los productos dinámicamente -->
+                    <div id="products-container"></div>
                 </div>
             </div>
             <div class="content-box1" style="width: 33.33% !important;">

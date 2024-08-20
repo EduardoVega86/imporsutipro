@@ -227,18 +227,33 @@ $(function () {
         });
 
         /* seccion de productos despachados */
-        // Vacía el contenedor antes de llenarlo
-        document.querySelector(".content-box1.productos").innerHTML =
-          "<h4>Productos por cantidad</h4>";
+        let total_despachos = 0;
 
-        // Supongamos que response es un array de productos con su cantidad, nombre, imagen, y porcentaje
+        // Recorremos todos los productos y sumamos aquellos que tengan cantidad_despacho > 0
         response.productos_despachos.forEach((product) => {
-          // Llama a la función para cada producto recibido
+          if (product.cantidad_despacho > 0) {
+            total_despachos += product.cantidad_despacho;
+          }
+        });
+        // Limpiar el contenedor de productos antes de cargar los nuevos
+        document.getElementById("products-container").innerHTML = "";
+
+        // Supongamos que el API retorna un array de objetos con los datos
+        response.productos_despachos.forEach((product) => {
+          const cantidad_despacho = product.cantidad_despachos;
+          const nombre_tienda = product.nombre_tienda;
+          const imagen = product.image_path;
+          const porcentaje = calcularPorcentaje(
+            product.cantidad_despacho,
+            total_despachos
+          );
+
+          // Llamamos a la función para actualizar el DOM
           updateProductProgressBar(
-            product.cantidad_despachos,
-            product.nombre_producto,
-            product.imagen,
-            product.porcentaje
+            cantidad_despacho,
+            nombre_tienda,
+            imagen,
+            porcentaje
           );
         });
         /* Fin seccion de productos despachados */
@@ -253,36 +268,39 @@ $(function () {
     informacion_dashboard("", "");
   });
 
+  // Función para calcular el porcentaje (opcional según el formato de tus datos)
+  function calcularPorcentaje(cantidad, total) {
+    return (cantidad / total) * 100;
+  }
+
   /* funcion productos por cantidad */
   // Función para actualizar la barra de progreso en "Productos por cantidad"
   function updateProductProgressBar(
-    cantidad_despachos,
-    nombre,
+    cantidad_despacho,
+    nombre_tienda,
     imagen,
     porcentaje
   ) {
-    // Crea el contenedor del producto
+    // Creamos el contenedor del producto
     const productElement = document.createElement("div");
     productElement.classList.add("product");
 
-    // Crea el contenido del producto
+    // Creamos la información del producto
     productElement.innerHTML = `
-      <div class="product-info">
-        <img src="${imagen}" alt="icon" class="product-icon">
-        <span>${nombre}</span>
-        <span class="quantity">${cantidad_despachos} (${porcentaje.toFixed(
+        <div class="product-info">
+            <img src="${imagen}" alt="${nombre_tienda}" class="product-icon">
+            <span>${nombre_tienda}</span>
+            <span class="quantity">${cantidad_despacho} (${porcentaje.toFixed(
       2
     )}%)</span>
-      </div>
-      <div class="progress-bar">
-        <div class="progress" style="width: ${porcentaje}%;"></div>
-      </div>
+        </div>
+        <div class="progress-bar">
+            <div class="progress" style="width: ${porcentaje}%;"></div>
+        </div>
     `;
 
-    // Agrega el producto al contenedor principal
-    document
-      .querySelector(".content-box1.productos")
-      .appendChild(productElement);
+    // Añadimos el producto al contenedor principal
+    document.getElementById("products-container").appendChild(productElement);
   }
 
   /* funcion ciudades con mas despachos */
