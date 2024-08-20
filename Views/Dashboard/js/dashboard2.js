@@ -231,27 +231,30 @@ $(function () {
 
         // Recorremos todos los productos y sumamos aquellos que tengan cantidad_despacho > 0
         response.productos_despachos.forEach((product) => {
-          if (product.cantidad_despacho > 0) {
-            total_despachos += product.cantidad_despacho;
+          const cantidad_despacho = parseFloat(product.cantidad_despacho);
+
+          if (cantidad_despacho > 0) {
+            total_despachos += cantidad_despacho;
           }
         });
+
         // Limpiar el contenedor de productos antes de cargar los nuevos
         document.getElementById("products-container").innerHTML = "";
 
         // Supongamos que el API retorna un array de objetos con los datos
         response.productos_despachos.forEach((product) => {
-          var  cantidad_despacho = product.cantidad_despachos;
-          var  nombre_tienda = product.nombre_producto;
-          var  imagen = product.image_path;
-          var  porcentaje = calcularPorcentaje(
-            product.cantidad_despacho,
+          var cantidad_despacho = parseFloat(product.cantidad_despachos);
+          var nombre_tienda = product.nombre_producto;
+          var imagen = product.image_path;
+          var porcentaje = calcularPorcentaje(
+            parseFloat(product.cantidad_despacho),
             total_despachos
           );
 
-          console.log("cantidad_despacho: "+cantidad_despacho);
-          console.log("nombre_tienda: "+nombre_producto);
-          console.log("imagen: "+imagen);
-          console.log("porcentaje: "+porcentaje);
+          console.log("cantidad_despacho: " + cantidad_despacho);
+          console.log("nombre_tienda: " + nombre_producto);
+          console.log("imagen: " + imagen);
+          console.log("porcentaje: " + porcentaje);
 
           // Llamamos a la función para actualizar el DOM
           updateProductProgressBar(
@@ -327,7 +330,11 @@ $(function () {
 
   /* funcion productos por entrega */
   // Función para actualizar la barra de progreso en "Productos por entrega"
-  function updateProductProgressBar_entrega(productElement, quantity, percentage) {
+  function updateProductProgressBar_entrega(
+    productElement,
+    quantity,
+    percentage
+  ) {
     const quantityElement = productElement.querySelector(".quantity");
     const progressElement = productElement.querySelector(".progress");
 
@@ -361,7 +368,11 @@ $(function () {
 
   /* funcion productos por devolucion */
   // Función para actualizar la barra de progreso en "Productos por devolucion"
-  function updateProductProgressBar_devolucion(productElement, quantity, percentage) {
+  function updateProductProgressBar_devolucion(
+    productElement,
+    quantity,
+    percentage
+  ) {
     const quantityElement = productElement.querySelector(".quantity");
     const progressElement = productElement.querySelector(".progress");
 
