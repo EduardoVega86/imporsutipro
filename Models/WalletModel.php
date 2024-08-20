@@ -760,7 +760,7 @@ class WalletModel extends Query
         $id_matriz = $this->obtenerMatriz();
         $id_matriz = $id_matriz[0]['idmatriz'];
 
-        $sql = "SELECT * FROM solicitudes_pago inner join datos_banco_usuarios on solicitudes_pago.id_cuenta = datos_banco_usuarios.id_cuenta"; // where solicitudes_pago.id_matriz = $id_matriz";
+        $sql = "SELECT *, (SELECT nombre_tienda FROM plataformas WHERE id_plataforma = solicitudes_pago.id_plataforma) as nombre_tienda FROM solicitudes_pago inner join datos_banco_usuarios on solicitudes_pago.id_cuenta = datos_banco_usuarios.id_cuenta;"; // where solicitudes_pago.id_matriz = $id_matriz";
         $response =  $this->select($sql);
         return $response;
     }

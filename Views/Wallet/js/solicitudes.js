@@ -98,6 +98,7 @@ const listSolicitudes = async () => {
                 <tr>
                     <td><input type="checkbox" class="selectCheckbox" data-id="${solicitud.id_solicitud}" ${checkboxState} onclick="toggleSolicitud(${solicitud.id_solicitud}, this.checked)"></td>
                     <td>${solicitud.id_solicitud}</td>
+                    <td>${solicitud.nombre_tienda}</td>
                     <td>${solicitud.nombre}</td>
                     <td>${solicitud.correo}</td>
                     <td>${solicitud.cedula}</td>
@@ -246,14 +247,11 @@ const listOtrasFormasPago = async () => {
         checkboxState = "";
       }
 
-      // Espera a que obtener_nombreTineda devuelva el nombre de la tienda
-      let nombre_tienda = await obtener_nombreTineda(pago.id_plataforma);
-
       content += `
                 <tr>
                     <td><input type="checkbox" class="selectCheckbox" data-id="${pago.id_solicitud}" ${checkboxState} onclick="toggleSolicitud(${pago.id_solicitud}, this.checked)"></td>
                     <td>${pago.id_solicitud}</td>
-                    <td>${nombre_tienda}</td>
+                    <td>${pago.nombre_tienda}</td>
                     <td>${pago.fecha}</td>
                     <td>${pago.tipo}</td>
                     <td>${pago.red}</td>
@@ -271,29 +269,6 @@ const listOtrasFormasPago = async () => {
     alert(ex);
   }
 };
-
-function obtener_nombreTineda(id_plataforma) {
-  return new Promise((resolve, reject) => {
-    let formData = new FormData();
-    formData.append("id_plataforma", id_plataforma);
-
-    $.ajax({
-      url: SERVERURL + "Usuarios/obtener_infoTienda_privada",
-      type: "POST",
-      data: formData,
-      processData: false,
-      contentType: false,
-      dataType: "json",
-      success: function (response) {
-        let nombre = response[0].nombre_tienda;
-        resolve(nombre);
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-        reject(errorThrown);
-      },
-    });
-  });
-}
 
 function getFecha() {
   let fecha = new Date();
