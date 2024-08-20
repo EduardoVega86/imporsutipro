@@ -4,21 +4,7 @@
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
         <h2 class="text-center mb-4">Lista Devoluciones</h2>
-        <div>
-            <div class="d-flex flex-column w-100">
-                <div class="form-group">
-                    <label for="transportadora">Transportadora:</label>
-                    <select class="form-select" id="transportadora">
-                        <option value=""> Seleccione Transportadora</option>
-                        <option value="1">Laar</option>
-                        <option value="4">Speed</option>
-                        <option value="2">Servientrega</option>
-                        <option value="3">Gintracom</option>
-                    </select>
-                </div>
-            </div>
-            <button id="generarDespachoBtn" class="btn btn-success">Generar devolucion</button>
-        </div>
+        
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
             <table id="datatable_lista_devoluciones" class="table table-striped">

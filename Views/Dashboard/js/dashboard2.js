@@ -225,6 +225,23 @@ $(function () {
             },
           },
         });
+
+        /* seccion de productos despachados */
+        // Vacía el contenedor antes de llenarlo
+        document.querySelector(".content-box1.productos").innerHTML =
+          "<h4>Productos por cantidad</h4>";
+
+        // Supongamos que response es un array de productos con su cantidad, nombre, imagen, y porcentaje
+        response.productos_despachos.forEach((product) => {
+          // Llama a la función para cada producto recibido
+          updateProductProgressBar(
+            product.cantidad_despachos,
+            product.nombre_producto,
+            product.imagen,
+            product.porcentaje
+          );
+        });
+        /* Fin seccion de productos despachados */
       },
       error: function (jqXHR, textStatus, errorThrown) {
         alert(errorThrown);
@@ -238,20 +255,35 @@ $(function () {
 
   /* funcion productos por cantidad */
   // Función para actualizar la barra de progreso en "Productos por cantidad"
-  function updateProductProgressBar(productElement, quantity, percentage) {
-    const quantityElement = productElement.querySelector(".quantity");
-    const progressElement = productElement.querySelector(".progress");
+  function updateProductProgressBar(
+    cantidad_despachos,
+    nombre,
+    imagen,
+    porcentaje
+  ) {
+    // Crea el contenedor del producto
+    const productElement = document.createElement("div");
+    productElement.classList.add("product");
 
-    quantityElement.textContent = `${quantity} (${percentage.toFixed(2)}%)`;
-    progressElement.style.width = `${percentage}%`;
+    // Crea el contenido del producto
+    productElement.innerHTML = `
+      <div class="product-info">
+        <img src="${imagen}" alt="icon" class="product-icon">
+        <span>${nombre}</span>
+        <span class="quantity">${cantidad_despachos} (${porcentaje.toFixed(
+      2
+    )}%)</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress" style="width: ${porcentaje}%;"></div>
+      </div>
+    `;
+
+    // Agrega el producto al contenedor principal
+    document
+      .querySelector(".content-box1.productos")
+      .appendChild(productElement);
   }
-
-  // Actualización de ejemplo para "Productos por cantidad"
-  const productElements = document.querySelectorAll(
-    ".content-box1.productos .product"
-  );
-  updateProductProgressBar(productElements[0], 30, 60); // Actualiza el primer producto con una cantidad de 30 y un 60%
-  updateProductProgressBar(productElements[1], 15, 40); // Actualiza el segundo producto con una cantidad de 15 y un 40%
 
   /* funcion ciudades con mas despachos */
   // Función para actualizar la barra de progreso en "Ciudades con más despachos"
@@ -304,7 +336,7 @@ $(function () {
   updateCityProgressBar(city_entregaProductElements[0], 20, 50); // Actualiza la primera ciudad con una cantidad de 20 y un 50%
   updateCityProgressBar(city_entregaProductElements[1], 10, 25); // Actualiza la segunda ciudad con una cantidad de 10 y un 25%
 
-   /* funcion productos por devolucion */
+  /* funcion productos por devolucion */
   // Función para actualizar la barra de progreso en "Productos por devolucion"
   function updateProductProgressBar(productElement, quantity, percentage) {
     const quantityElement = productElement.querySelector(".quantity");

@@ -55,6 +55,14 @@ class Pedidos extends Controller
         $data = $this->model->cargarAnuladas($filtro);
         $this->views->render($this, "anuladas");
     }
+    public function anuladas_administrador($filtro = "")
+    {
+        if (!$this->isAuth()) {
+            header("Location: " . SERVERURL . "login");
+        }
+        $data = $this->model->cargarAnuladas($filtro);
+        $this->views->render($this, "anuladas_administrador");
+    }
     public function nuevo()
     {
         if (!$this->isAuth()) {
