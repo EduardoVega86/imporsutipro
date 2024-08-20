@@ -82,27 +82,22 @@ const initDataTableSolicitudes = async () => {
 
 const listSolicitudes = async () => {
   try {
-    const response = await fetch(SERVERURL + "wallet/obtenerSolicitudes");
+    const response = await fetch("" + SERVERURL + "wallet/obtenerSolicitudes");
     const solicitudes = await response.json();
 
     let content = ``;
     let checkboxState = "";
-
-    for (const solicitud of solicitudes) {
+    solicitudes.forEach((solicitud, index) => {
       if (solicitud.visto == 1) {
         checkboxState = "checked disabled";
       } else {
         checkboxState = "";
       }
 
-      // Obtén el nombre de la tienda llamando a obtener_nombreTineda
-      let nombre_tienda = await obtener_nombreTineda(solicitud.id_plataforma);
-
       content += `
                 <tr>
                     <td><input type="checkbox" class="selectCheckbox" data-id="${solicitud.id_solicitud}" ${checkboxState} onclick="toggleSolicitud(${solicitud.id_solicitud}, this.checked)"></td>
                     <td>${solicitud.id_solicitud}</td>
-                    <td>${nombre_tienda}</td> <!-- Aquí se agrega el nombre de la tienda -->
                     <td>${solicitud.nombre}</td>
                     <td>${solicitud.correo}</td>
                     <td>${solicitud.cedula}</td>
@@ -116,9 +111,9 @@ const listSolicitudes = async () => {
                         <button class="btn btn-sm btn-primary" onclick="Pagar(${solicitud.id_plataforma})"><i class="fa-solid fa-sack-dollar"></i>Pagar</button>
                         <button class="btn btn-sm btn-danger" onclick="eliminarSolicitud(${solicitud.id_solicitud})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
                     </td>
-                </tr>`;
-    }
 
+                </tr>`;
+    });
     document.getElementById("tableBody_solicitudes").innerHTML = content;
   } catch (ex) {
     alert(ex);
@@ -171,12 +166,9 @@ const dataTableOtrasFormasPagoOptions = {
   columnDefs: [
     { className: "centered", targets: [1, 2, 3, 4, 5, 6] },
     { orderable: true, targets: 0, orderDataType: "dom-checkbox" }, // Ordenar por la columna de checkboxes
-    { type: "date", targets: 2 }, // La columna de fecha tiene el índice 2 en este caso
+    { type: 'date', targets: 2 }, // La columna de fecha tiene el índice 2 en este caso
   ],
-  order: [
-    [0, "asc"],
-    [3, "desc"],
-  ], // Ordenar primero por checkbox, luego por fecha de forma ascendente
+  order: [[0, "asc"], [3, "desc"]], // Ordenar primero por checkbox, luego por fecha de forma ascendente
   pageLength: 5,
   destroy: true,
   dom: '<"d-flex w-full justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
