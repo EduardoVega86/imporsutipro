@@ -124,6 +124,16 @@ class DashboardModel extends Query
         $sql = "SELECT ct.ciudad, COUNT(fc.ciudad_cot) AS cantidad_entregas FROM facturas_cot fc INNER JOIN ciudad_cotizacion ct ON fc.ciudad_cot = ct.id_cotizacion WHERE fc.estado_guia_sistema IN (9, 500, 501, 502, 503) AND fc.id_plataforma = $id_plataforma GROUP BY ct.ciudad ORDER BY cantidad_entregas DESC LIMIT 5;";
         $response13 = $this->select($sql);
 
+        $sql = "SELECT AVG(fc.monto_factura) AS promedio_ventas FROM facturas_cot fc WHERE fc.estado_guia_sistema NOT IN (1, 2, 8, 9, 12, 500, 501, 502, 503) AND fc.id_plataforma = $id_plataforma;";
+        $response14 = $this->select($sql);
+
+        $sql = "SELECT AVG(fc.monto_factura) AS promedio_devoluciones FROM facturas_cot fc WHERE fc.estado_guia_sistema NOT IN (1, 2, 8, 7 12, 9, 400, 401, 402, 403) AND fc.id_plataforma = $id_plataforma;";
+        $response15 = $this->select($sql);
+
+        $sql = "SELECT AVG(fc.costo_flete) AS promedio_flete FROM facturas_cot fc WHERE fc.estado_guia_sistema NOT IN (1, 2, 8, 12) AND fc.id_plataforma = $id_plataforma;";
+        $response16 = $this->select($sql);
+
+
         $ventas = $response[0]['ventas'] ?? 0;
         $ganancias = $response[0]['ganancias'] ?? 0;
         $envios = $response[0]['envios'] ?? 0;
@@ -136,9 +146,10 @@ class DashboardModel extends Query
         $productos_despachos_devueltos = $response11;
         $ciudades_entregas = $response12;
         $ciudades_devoluciones = $response13;
-
-
-        $datos = [
+        $ticket_promedio = $response14[0]['promedio_ventas'] ?? 0;
+        $devolucion_promedio = $response15[0]['promedio_devoluciones'] ?? 0;
+        $flete_promedio = $response16[0]['promedio_flete'] ?? 0;
+        $$datos = [
             'ventas' => $ventas,
             'envios' => $envios,
             'ganancias' => $ganancias,
