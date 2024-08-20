@@ -573,8 +573,13 @@ class InventariosModel extends Query
         $response = $this->initialResponse();
 
         $sql_factura = "SELECT * FROM facturas_cot WHERE numero_guia = '$num_guia' ";
-        //  echo $sql_factura;
+        // echo $sql_factura;
         $factura = $this->select($sql_factura);
+        
+           
+        if (count($factura) > 0) {
+            
+        
         $id_factura = $factura[0]['id_factura'];
         $estado_factura = $factura[0]['estado_factura'];
 
@@ -663,6 +668,11 @@ class InventariosModel extends Query
             $response['status'] = 500;
             $response['title'] = 'Error';
             $response['message'] = 'La guía no pertenece a esta bodega';
+        }
+        }else{
+           $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'No se encuentra la guía en el sistema';  
         }
         return $response;
     }

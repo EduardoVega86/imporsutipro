@@ -48,6 +48,9 @@ class DashboardModel extends Query
 
         /*         $sql = "SELECT DATE_FORMAT(fecha, '%Y-%m-%d') as dia, ROUND(SUM(total_venta),2) as ventas, ROUND(SUM(monto_recibir),2) as ganancias, ROUND(SUM(precio_envio),2) as envios, COUNT(*) as cantidad FROM cabecera_cuenta_pagar WHERE fecha BETWEEN DATE_FORMAT(LAST_DAY(NOW() - INTERVAL 1 MONTH) + INTERVAL 1 DAY - INTERVAL 1 MONTH, '%Y-%m-%d') AND LAST_DAY(NOW() - INTERVAL 1 MONTH) and tienda like '%$plataforma%' and estado_guia = 7 GROUP BY dia ORDER BY dia;";
         */
+
+
+
         $sql = "
         SELECT 
             DATE_FORMAT(fecha, '%Y-%m-%d') as dia, 
@@ -101,7 +104,34 @@ class DashboardModel extends Query
 
         $response7 = $this->select($sql);
 
+        $sql = "SELECT ct.ciudad, COUNT(fc.ciudad_cot) AS cantidad_pedidos FROM facturas_cot fc INNER JOIN ciudad_cotizacion ct ON ct.id_cotizacion = fc.ciudad_cot WHERE id_plataforma = $id_plataforma AND estado_guia_sistema not in (1,2,100,101,8,12) GROUP BY ct.ciudad ORDER BY cantidad_pedidos DESC LIMIT 5; 
+                    ";
+        $response8 = $this->select($sql);
 
+        $sql = "SELECT p.nombre_producto, COUNT(df.id_inventario) AS cantidad_despachos, df.id_inventario FROM detalle_fact_cot df INNER JOIN inventario_bodegas ib ON df.id_inventario = ib.id_inventario INNER JOIN productos p ON ib.id_producto = p.id_producto where df.id_plataforma = $id_plataforma GROUP BY p.nombre_producto ORDER BY cantidad_despachos DESC LIMIT 5;";
+        $response9 = $this->select($sql);
+
+        $sql = "SELECT p.nombre_producto, COUNT(df.id_inventario) AS cantidad_despachos FROM detalle_fact_cot df INNER JOIN inventario_bodegas ib ON df.id_inventario = ib.id_inventario INNER JOIN productos p ON ib.id_producto = p.id_producto INNER JOIN facturas_cot fc ON df.numero_factura = fc.numero_factura WHERE fc.estado_guia_sistema IN (7, 400, 401, 402, 403) AND fc.id_plataforma = $id_plataforma GROUP BY p.nombre_producto ORDER BY cantidad_despachos DESC LIMIT 5;";
+        $response10 = $this->select($sql);
+
+
+        $sql = "SELECT p.nombre_producto, COUNT(df.id_inventario) AS cantidad_despachos FROM detalle_fact_cot df INNER JOIN inventario_bodegas ib ON df.id_inventario = ib.id_inventario INNER JOIN productos p ON ib.id_producto = p.id_producto INNER JOIN facturas_cot fc ON df.numero_factura = fc.numero_factura WHERE fc.estado_guia_sistema IN (9, 500, 501, 502, 503) AND fc.id_plataforma = $id_plataforma GROUP BY p.nombre_producto ORDER BY cantidad_despachos DESC LIMIT 5;";
+        $response11 = $this->select($sql);
+
+        $sql = "SELECT ct.ciudad, COUNT(fc.ciudad_cot) AS cantidad_entregas FROM facturas_cot fc INNER JOIN ciudad_cotizacion ct ON fc.ciudad_cot = ct.id_cotizacion WHERE fc.estado_guia_sistema IN (7, 400, 401, 402, 403) AND fc.id_plataforma = $id_plataforma GROUP BY ct.ciudad ORDER BY cantidad_entregas DESC LIMIT 5;";
+        $response12 = $this->select($sql);
+
+        $sql = "SELECT ct.ciudad, COUNT(fc.ciudad_cot) AS cantidad_entregas FROM facturas_cot fc INNER JOIN ciudad_cotizacion ct ON fc.ciudad_cot = ct.id_cotizacion WHERE fc.estado_guia_sistema IN (9, 500, 501, 502, 503) AND fc.id_plataforma = $id_plataforma GROUP BY ct.ciudad ORDER BY cantidad_entregas DESC LIMIT 5;";
+        $response13 = $this->select($sql);
+
+        $sql = "SELECT AVG(fc.monto_factura) AS promedio_ventas FROM facturas_cot fc WHERE fc.estado_guia_sistema NOT IN (1, 2, 8, 9, 12, 500, 501, 502, 503) AND fc.id_plataforma = $id_plataforma;";
+        $response14 = $this->select($sql);
+
+        $sql = "SELECT AVG(fc.monto_factura) AS promedio_devoluciones FROM facturas_cot fc WHERE fc.estado_guia_sistema NOT IN (1, 2, 8, 7 12, 9, 400, 401, 402, 403) AND fc.id_plataforma = $id_plataforma;";
+        $response15 = $this->select($sql);
+
+        $sql = "SELECT AVG(fc.costo_flete) AS promedio_flete FROM facturas_cot fc WHERE fc.estado_guia_sistema NOT IN (1, 2, 8, 12) AND fc.id_plataforma = $id_plataforma;";
+        $response16 = $this->select($sql);
 
 
         $ventas = $response[0]['ventas'] ?? 0;
@@ -110,7 +140,15 @@ class DashboardModel extends Query
         $total_guias = $response2[0]['total_guias'] ?? 0;
         $devoluciones = $response3[0]['devoluciones'] ?? 0;
         $pedidos = $response4[0]['pedidos'] ?? 0;
-
+        $ciudad_pedidos = $response8;
+        $productos_despachos = $response9;
+        $productos_despachos_entregados = $response10;
+        $productos_despachos_devueltos = $response11;
+        $ciudades_entregas = $response12;
+        $ciudades_devoluciones = $response13;
+        $ticket_promedio = $response14[0]['promedio_ventas'] ?? 0;
+        $devolucion_promedio = $response15[0]['promedio_devoluciones'] ?? 0;
+        $flete_promedio = $response16[0]['promedio_flete'] ?? 0;
         $datos = [
             'ventas' => $ventas,
             'envios' => $envios,
@@ -120,7 +158,16 @@ class DashboardModel extends Query
             'pedidos' => $pedidos,
             'ventas_diarias' => $response5,
             'facturas' => $response6,
-            'estados' => $response7
+            'estados' => $response7,
+            'ciudad_pedidos' => $ciudad_pedidos,
+            'productos_despachos' => $productos_despachos,
+            'productos_despachos_entregados' => $productos_despachos_entregados,
+            'productos_despachos_devueltos' => $productos_despachos_devueltos,
+            'ciudades_entregas' => $ciudades_entregas,
+            'ciudades_devoluciones' => $ciudades_devoluciones,
+            'ticket_promedio' => $ticket_promedio,
+            'devolucion_promedio' => $devolucion_promedio,
+            'flete_promedio' => $flete_promedio
         ];
 
         return $datos;
