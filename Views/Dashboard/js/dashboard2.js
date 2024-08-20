@@ -1,6 +1,13 @@
 let fecha_inicio = "";
 let fecha_fin = "";
 
+// Selección de elementos del DOM
+const cityProductElements = document.querySelectorAll(".content-box1.ciudades .product");
+const city_devolucionProductElements = document.querySelectorAll(".content-box1.ciudades_devolucion .product");
+const productElements = document.querySelectorAll(".content-box1.productos .product");
+const producto_entregaElements = document.querySelectorAll(".content-box1.productos_entrega .product");
+const producto_devolucionElements = document.querySelectorAll(".content-box1.productos_devolucion .product");
+
 $(function () {
   $("#daterange").daterangepicker({
     opens: "right",
