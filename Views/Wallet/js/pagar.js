@@ -414,7 +414,7 @@ function eliminar_wallet(id_cabecera) {
         });
 
         $("#imagen_categoriaModal").modal("hide");
-        initDataTable();
+        initDataTableFacturas();
       }
     },
     error: function (error) {
