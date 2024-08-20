@@ -86,7 +86,7 @@ class PedidosModel extends Query
             cc.ciudad, 
             cc.provincia AS provinciaa, 
             p.url_imporsuit AS plataforma,
-            pp.url_imporsuit AS proveedor_plataforma, -- Nombre del proveedor
+            pp.url_imporsuit AS proveedor_plataforma,
             b.nombre AS nombre_bodega, 
             b.direccion AS direccion_bodega
                 FROM 
@@ -96,9 +96,9 @@ class PedidosModel extends Query
                 LEFT JOIN 
                     plataformas p ON p.id_plataforma = fc.id_plataforma
                 LEFT JOIN 
-                    plataformas pp ON pp.id_plataforma = fc.id_propietario -- Unión adicional para obtener el nombre del proveedor
+                    plataformas pp ON pp.id_plataforma = fc.id_propietario
                 LEFT JOIN 
-                    bodega b ON b.id = fc.id_bodega -- Unión con la tabla bodega
+                    bodega b ON b.id = fc.id_bodega
                 WHERE 
             TRIM(fc.numero_guia) <> '' 
             AND fc.numero_guia IS NOT NULL 
