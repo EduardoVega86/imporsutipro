@@ -1146,7 +1146,7 @@ class WalletModel extends Query
 
     public function solicitudesReferidos()
     {
-        $sql = "SELECT *, (SELECT nombre_tienda FROM plataformas WHERE id_plataforma = solicitudes_pago_referidos.id_plataforma) as nombre_tienda FROM solicitudes_pago_referidos inner join datos_banco_usuarios on solicitudes_pago_referidos.id_cuenta = datos_banco_usuarios.id_cuenta";;
+        $sql = "SELECT *, (SELECT nombre_tienda FROM plataformas WHERE id_plataforma = solicitudes_pago_referidos.id_plataforma) as nombre_tienda FROM solicitudes_pago_referidos inner join datos_banco_usuarios on solicitudes_pago_referidos.id_cuenta = datos_banco_usuarios.id_cuenta";
         $response =  $this->select($sql);
         return $response;
     }
