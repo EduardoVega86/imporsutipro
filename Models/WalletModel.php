@@ -172,9 +172,9 @@ class WalletModel extends Query
 
     private function shouldAbortTransaction($estado_guia, $valor, $cod_factura)
     {
-        echo $cod_factura;
-        echo $estado_guia;
-        echo $valor;
+        echo $cod_factura . ' ';
+        echo $estado_guia . ' ';
+        echo $valor . ' ';
         // Caso 3: Si la guía está en estado 7, el valor es negativo y no tiene cod_factura o es diferente de 1, permitir.
         if ($estado_guia == 7 && $valor < 0 && $cod_factura != 1) {
             return false; // No abortar, se permite la transacción
