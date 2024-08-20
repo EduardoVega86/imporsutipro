@@ -413,8 +413,7 @@ function eliminar_wallet(id_cabecera) {
           positionClass: "toast-bottom-center",
         });
 
-        $("#imagen_categoriaModal").modal("hide");
-        initDataTable();
+        initDataTableFacturas();
       }
     },
     error: function (error) {
