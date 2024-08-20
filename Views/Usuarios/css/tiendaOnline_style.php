@@ -245,7 +245,7 @@
         flex-direction: row;
     }
 
-    #imagen_promocion{
+    #imagen_promocion {
         width: 30%;
     }
 
@@ -274,9 +274,9 @@
             flex-direction: column;
         }
 
-        #imagen_promocion{
-        width: 100%;
-    }
+        #imagen_promocion {
+            width: 100%;
+        }
     }
 
     /* seccion plnatillas */
