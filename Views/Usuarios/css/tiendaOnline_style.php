@@ -217,5 +217,34 @@
         transform: translate(-50%, 0) scale(1.2);
     }
 
+    .oferta {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .oferta1_color {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .oferta2_color {
+        display: flex;
+        flex-direction: row;
+    }
+
+    @media (max-width: 768px) {
+        .oferta {
+            flex-direction: column;
+        }
+
+        .oferta1_color {
+            flex-direction: column;
+        }
+
+        .oferta2_color {
+            flex-direction: column;
+        }
+    }
+
     /* seccion plnatillas */
 </style>
