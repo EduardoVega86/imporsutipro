@@ -121,26 +121,7 @@
                 <!-- Sección de Productos por cantidad -->
                 <div class="content-box1 productos">
                     <h4>Productos por cantidad</h4>
-                    <div class="product">
-                        <div class="product-info">
-                            <img src="path-to-icon" alt="icon" class="product-icon">
-                            <span>Producto X</span>
-                            <span class="quantity">0 (0.00%)</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress" style="width: 0%;"></div>
-                        </div>
-                    </div>
-                    <div class="product">
-                        <div class="product-info">
-                            <img src="path-to-icon" alt="icon" class="product-icon">
-                            <span>Producto Y</span>
-                            <span class="quantity">0 (0.00%)</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress" style="width: 0%;"></div>
-                        </div>
-                    </div>
+                    <!-- Aquí se llenarán los productos dinámicamente -->
                 </div>
             </div>
             <div class="content-box1" style="width: 33.33% !important;">

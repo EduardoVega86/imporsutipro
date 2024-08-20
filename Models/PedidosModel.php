@@ -106,7 +106,7 @@ class PedidosModel extends Query
             AND fc.anulada = 1  
             AND (fc.id_plataforma = $plataforma OR fc.id_propietario = $plataforma OR b.id_plataforma = $plataforma)
         ";
-        //echo $sql;
+        echo $sql;
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
             $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
         }
