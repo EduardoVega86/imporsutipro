@@ -131,7 +131,7 @@ class PedidosModel extends Query
                 p.nombre_tienda AS tienda,
                 b.nombre AS nombre_bodega, 
                 b.direccion AS direccion_bodega,
-                tp.nombre_tienda AS nombre_proveedor -- Nombre del proveedor
+                tp.nombre_tienda AS nombre_proveedor
             FROM 
                 facturas_cot fc
             LEFT JOIN 
@@ -139,7 +139,7 @@ class PedidosModel extends Query
             LEFT JOIN 
                 plataformas p ON p.id_plataforma = fc.id_plataforma
             LEFT JOIN 
-                plataformas tp ON tp.id_plataforma = fc.id_propietario -- Unión adicional para obtener el nombre del proveedor
+                plataformas tp ON tp.id_plataforma = fc.id_propietario
             LEFT JOIN 
                 bodega b ON b.id = fc.id_bodega
             WHERE 
