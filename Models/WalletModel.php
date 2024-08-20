@@ -760,7 +760,7 @@ class WalletModel extends Query
         $id_matriz = $this->obtenerMatriz();
         $id_matriz = $id_matriz[0]['idmatriz'];
 
-        $sql = "SELECT * FROM solicitudes_pago inner join datos_banco_usuarios on solicitudes_pago.id_cuenta = datos_banco_usuarios.id_cuenta"; // where solicitudes_pago.id_matriz = $id_matriz";
+        $sql = "SELECT *, (SELECT nombre_tienda FROM plataformas WHERE id_plataforma = solicitudes_pago.id_plataforma) as nombre_tienda FROM solicitudes_pago inner join datos_banco_usuarios on solicitudes_pago.id_cuenta = datos_banco_usuarios.id_cuenta;"; // where solicitudes_pago.id_matriz = $id_matriz";
         $response =  $this->select($sql);
         return $response;
     }
@@ -783,7 +783,7 @@ class WalletModel extends Query
         $id_matriz = $this->obtenerMatriz();
         $id_matriz = $id_matriz[0]['idmatriz'];
 
-        $sql = "SELECT * FROM solicitudes_pago inner join metodo_pagos on solicitudes_pago.id_cuenta = metodo_pagos.id_pago;";
+        $sql = "SELECT *, (SELECT nombre_tienda FROM plataformas WHERE id_plataforma = solicitudes_pago.id_plataforma) as nombre_tienda FROM solicitudes_pago inner join metodo_pagos on solicitudes_pago.id_cuenta = metodo_pagos.id_pago;";
         $response =  $this->select($sql);
         return $response;
     }
@@ -793,7 +793,7 @@ class WalletModel extends Query
         $id_matriz = $this->obtenerMatriz();
         $id_matriz = $id_matriz[0]['idmatriz'];
 
-        $sql = "SELECT * FROM solicitudes_pago_referidos inner join metodo_pagos on solicitudes_pago_referidos.id_cuenta = metodo_pagos.id_pago;";
+        $sql = "SELECT *, (SELECT nombre_tienda FROM plataformas WHERE id_plataforma = solicitudes_pago_referidos.id_plataforma) as nombre_tienda FROM solicitudes_pago_referidos inner join metodo_pagos on solicitudes_pago_referidos.id_cuenta = metodo_pagos.id_pago;";
         $response =  $this->select($sql);
         return $response;
     }
@@ -1146,7 +1146,7 @@ class WalletModel extends Query
 
     public function solicitudesReferidos()
     {
-        $sql = "SELECT * FROM solicitudes_pago_referidos inner join datos_banco_usuarios on solicitudes_pago_referidos.id_cuenta = datos_banco_usuarios.id_cuenta";;
+        $sql = "SELECT *, (SELECT nombre_tienda FROM plataformas WHERE id_plataforma = solicitudes_pago_referidos.id_plataforma) as nombre_tienda FROM solicitudes_pago_referidos inner join datos_banco_usuarios on solicitudes_pago_referidos.id_cuenta = datos_banco_usuarios.id_cuenta";
         $response =  $this->select($sql);
         return $response;
     }
