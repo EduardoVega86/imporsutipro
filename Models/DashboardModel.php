@@ -164,7 +164,10 @@ class DashboardModel extends Query
             'productos_despachos_entregados' => $productos_despachos_entregados,
             'productos_despachos_devueltos' => $productos_despachos_devueltos,
             'ciudades_entregas' => $ciudades_entregas,
-            'ciudades_devoluciones' => $ciudades_devoluciones
+            'ciudades_devoluciones' => $ciudades_devoluciones,
+            'ticket_promedio' => $ticket_promedio,
+            'devolucion_promedio' => $devolucion_promedio,
+            'flete_promedio' => $flete_promedio
         ];
 
         return $datos;
