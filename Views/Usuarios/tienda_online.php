@@ -396,7 +396,7 @@
             <div id="collapsePromocion_plantilla2" class="accordion-collapse collapse" aria-labelledby="headingPromocion_plantilla2" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
                     <button class="btn btn-success" onclick="guardar_promocion_plantilla2()"></i>Guardar cambios</button>
-                    <div class="d-flex flex-row gap-5" style="justify-content: center;">
+                    <div class="promocion gap-5" style="justify-content: center;">
                         <div class="d-flex flex-column">
                             <h3 style="text-align: center;"><strong> Datos Promoción</strong></h3>
                             <div class="mb-3">
