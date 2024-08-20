@@ -2,11 +2,21 @@ let fecha_inicio = "";
 let fecha_fin = "";
 
 // Selección de elementos del DOM
-const cityProductElements = document.querySelectorAll(".content-box1.ciudades .product");
-const city_devolucionProductElements = document.querySelectorAll(".content-box1.ciudades_devolucion .product");
-const productElements = document.querySelectorAll(".content-box1.productos .product");
-const producto_entregaElements = document.querySelectorAll(".content-box1.productos_entrega .product");
-const producto_devolucionElements = document.querySelectorAll(".content-box1.productos_devolucion .product");
+const cityProductElements = document.querySelectorAll(
+  ".content-box1.ciudades .product"
+);
+const city_devolucionProductElements = document.querySelectorAll(
+  ".content-box1.ciudades_devolucion .product"
+);
+const productElements = document.querySelectorAll(
+  ".content-box1.productos .product"
+);
+const producto_entregaElements = document.querySelectorAll(
+  ".content-box1.productos_entrega .product"
+);
+const producto_devolucionElements = document.querySelectorAll(
+  ".content-box1.productos_devolucion .product"
+);
 
 $(function () {
   $("#daterange").daterangepicker({
@@ -57,6 +67,24 @@ $(function () {
   // Variables globales para almacenar las referencias a los gráficos
   let salesChart;
   let pastelChart;
+
+  // Función para actualizar la barra de progreso en "Ciudades con más despachos"
+  function updateCityProgressBar(productElement, quantity, percentage) {
+    const quantityElement = productElement.querySelector(".quantity");
+    const progressElement = productElement.querySelector(".progress");
+
+    quantityElement.textContent = `${quantity} (${percentage.toFixed(2)}%)`;
+    progressElement.style.width = `${percentage}%`;
+  }
+
+  // Función para actualizar la barra de progreso en "Productos por cantidad"
+  function updateProductProgressBar(productElement, quantity, percentage) {
+    const quantityElement = productElement.querySelector(".quantity");
+    const progressElement = productElement.querySelector(".progress");
+
+    quantityElement.textContent = `${quantity} (${percentage.toFixed(2)}%)`;
+    progressElement.style.width = `${percentage}%`;
+  }
 
   function informacion_dashboard(fecha_inicio, fecha_fin) {
     let formData = new FormData();
