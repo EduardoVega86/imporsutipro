@@ -280,7 +280,7 @@
             <div id="collapseOferta_plantilla2" class="accordion-collapse collapse" aria-labelledby="headingOferta_plantilla2" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
                     <button class="btn btn-success" onclick="guardar_ofertas_plantilla2()"></i>Guardar cambios</button>
-                    <div class="d-flex flex-row gap-5" style="justify-content: center;">
+                    <div class="oferta gap-5" style="justify-content: center;">
                         <div class="d-flex flex-column">
                             <h3 style="text-align: center;"><strong> OFERTA 1</strong></h3>
                             <div class="mb-3">
@@ -303,7 +303,7 @@
                                 <label for="enlace_oferta1" class="form-label">Enlace oferta 1</label>
                                 <input type="text" class="form-control" id="enlace_oferta1" placeholder="Ingrese el enlace oferta 1">
                             </div>
-                            <div class="d-flex flex-row gap-3">
+                            <div class="oferta1_color gap-3">
                                 <div class="input-box d-flex flex-column">
                                     <input onchange="cambiarcolor_oferta_plantilla2('color_texto_oferta1',this.value)" id="color_texto_oferta1" name="color_texto_oferta1" type="color" value="#ffffff">
                                     <h7 style="text-align: center;"><strong>Color texto oferta 1</strong></h7>
@@ -353,7 +353,7 @@
                                 <label for="enlace_oferta2" class="form-label">Enlace oferta 2</label>
                                 <input type="text" class="form-control" id="enlace_oferta2" placeholder="Ingrese el enlace oferta 2">
                             </div>
-                            <div class="d-flex flex-row gap-3">
+                            <div class="oferta2_color gap-3">
                                 <div class="input-box d-flex flex-column">
                                     <input onchange="cambiarcolor_oferta_plantilla2('color_texto_oferta2',this.value)" id="color_texto_oferta2" name="color_texto_oferta2" type="color" value="#ffffff">
                                     <h7 style="text-align: center;"><strong>Color texto oferta 2</strong></h7>
