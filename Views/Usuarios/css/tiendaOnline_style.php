@@ -232,11 +232,20 @@
         flex-direction: row;
     }
 
-    #imagen_oferta1{
+    #imagen_oferta1 {
         width: 30%;
     }
 
-    #imagen_oferta2{
+    #imagen_oferta2 {
+        width: 30%;
+    }
+
+    .promocion {
+        display: flex;
+        flex-direction: row;
+    }
+
+    #imagen_promocion{
         width: 30%;
     }
 
@@ -253,11 +262,19 @@
             display: block;
         }
 
-        #imagen_oferta1{
-        width: 100%;
-    }
+        #imagen_oferta1 {
+            width: 100%;
+        }
 
-    #imagen_oferta2{
+        #imagen_oferta2 {
+            width: 100%;
+        }
+
+        .promocion {
+            flex-direction: column;
+        }
+
+        #imagen_promocion{
         width: 100%;
     }
     }
