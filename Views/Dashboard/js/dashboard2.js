@@ -63,6 +63,8 @@ $(function () {
       contentType: false, // No establecer ningún tipo de contenido
       success: function (response) {
         response = JSON.parse(response);
+
+        // Actualizar la información general
         $("#devoluciones").text(response.devoluciones);
         $("#total_fletes").text(response.envios);
         $("#total_recaudo").text(response.ganancias);
@@ -83,7 +85,87 @@ $(function () {
           $("#facturas-body").append(row);
         });
 
-        // Preparar los datos para el gráfico de líneas
+        // Actualizar "Ciudades con más despachos"
+        response.ciudad_pedidos.forEach((ciudad, index) => {
+          if (index < cityProductElements.length) {
+            const percentage =
+              (ciudad.cantidad_pedidos / response.pedidos) * 100;
+            updateCityProgressBar(
+              cityProductElements[index],
+              ciudad.cantidad_pedidos,
+              percentage
+            );
+          }
+        });
+
+        // Actualizar "Ciudades con más devoluciones"
+        response.ciudades_devoluciones.forEach((ciudad, index) => {
+          if (index < city_devolucionProductElements.length) {
+            const percentage =
+              (ciudad.cantidad_entregas / response.pedidos) * 100;
+            updateCityProgressBar(
+              city_devolucionProductElements[index],
+              ciudad.cantidad_entregas,
+              percentage
+            );
+          }
+        });
+
+        // Actualizar "Ciudades con más entregas"
+        response.ciudades_entregas.forEach((ciudad, index) => {
+          if (index < city_entregaProductElements.length) {
+            const percentage =
+              (ciudad.cantidad_entregas / response.pedidos) * 100;
+            updateCityProgressBar(
+              city_entregaProductElements[index],
+              ciudad.cantidad_entregas,
+              percentage
+            );
+          }
+        });
+
+        // Actualizar "Productos por despachos"
+        response.productos_despachos.forEach((producto, index) => {
+          if (index < productElements.length) {
+            const percentage =
+              (producto.cantidad_despachos / response.pedidos) * 100;
+            updateProductProgressBar(
+              productElements[index],
+              producto.cantidad_despachos,
+              percentage
+            );
+          }
+        });
+
+        // Actualizar "Productos por devoluciones"
+        response.productos_despachos_devueltos.forEach((producto, index) => {
+          if (index < producto_devolucionElements.length) {
+            const percentage =
+              (producto.cantidad_devueltos / response.pedidos) * 100;
+            updateProductProgressBar(
+              producto_devolucionElements[index],
+              producto.cantidad_devueltos,
+              percentage
+            );
+          }
+        });
+
+        // Actualizar "Productos por entregas"
+        response.productos_despachos_entregados.forEach((producto, index) => {
+          if (index < producto_entregaElements.length) {
+            const percentage =
+              (producto.cantidad_entregados / response.pedidos) * 100;
+            updateProductProgressBar(
+              producto_entregaElements[index],
+              producto.cantidad_entregados,
+              percentage
+            );
+          }
+        });
+
+        // Aquí se puede agregar cualquier otra funcionalidad necesaria (como actualizar gráficos)
+
+        // Gráfico de líneas (Ventas Diarias)
         let labels = response.ventas_diarias.map((venta) => venta.dia);
         let ventasData = response.ventas_diarias.map((venta) =>
           venta.ventas !== null ? venta.ventas : 0
@@ -106,7 +188,7 @@ $(function () {
         // Crear el nuevo gráfico de líneas con Chart.js
         let ctx = document.getElementById("salesChart").getContext("2d");
         salesChart = new Chart(ctx, {
-          type: "line", // Gráfico de líneas
+          type: "line",
           data: {
             labels: labels,
             datasets: [
@@ -157,7 +239,7 @@ $(function () {
           },
         });
 
-        // Definir los colores para cada estado
+        // Gráfico de pastel (Estados)
         const estadoColors = {
           Anulado: "rgba(255, 0, 0, 0.2)", // rojo
           "En Transito": "rgba(255, 255, 0, 0.2)", // amarillo
@@ -167,7 +249,6 @@ $(function () {
           "Por Recolectar": "rgba(128, 0, 128, 0.2)", // morado
         };
 
-        // Definir los colores del borde para cada estado
         const estadoBorderColors = {
           Anulado: "rgba(255, 0, 0, 1)", // rojo
           "En Transito": "rgba(255, 255, 0, 1)", // amarillo
@@ -177,7 +258,6 @@ $(function () {
           "Por Recolectar": "rgba(128, 0, 128, 1)", // morado
         };
 
-        // Preparar los datos para el gráfico de pastel
         let estadosLabels = response.estados.map(
           (estado) => estado.estado_descripcion
         );
@@ -189,15 +269,13 @@ $(function () {
           (label) => estadoBorderColors[label]
         );
 
-        // Destruir el gráfico existente si ya hay uno
         if (pastelChart) {
           pastelChart.destroy();
         }
 
-        // Crear el nuevo gráfico de pastel con Chart.js
         let pastelCtx = document.getElementById("pastelChart").getContext("2d");
         pastelChart = new Chart(pastelCtx, {
-          type: "pie", // Gráfico de pastel
+          type: "pie",
           data: {
             labels: estadosLabels,
             datasets: [
@@ -235,106 +313,4 @@ $(function () {
   $(document).ready(function () {
     informacion_dashboard("", "");
   });
-
-  /* funcion productos por cantidad */
-  // Función para actualizar la barra de progreso en "Productos por cantidad"
-  function updateProductProgressBar(productElement, quantity, percentage) {
-    const quantityElement = productElement.querySelector(".quantity");
-    const progressElement = productElement.querySelector(".progress");
-
-    quantityElement.textContent = `${quantity} (${percentage.toFixed(2)}%)`;
-    progressElement.style.width = `${percentage}%`;
-  }
-
-  // Actualización de ejemplo para "Productos por cantidad"
-  const productElements = document.querySelectorAll(
-    ".content-box1.productos .product"
-  );
-  updateProductProgressBar(productElements[0], 30, 60); // Actualiza el primer producto con una cantidad de 30 y un 60%
-  updateProductProgressBar(productElements[1], 15, 40); // Actualiza el segundo producto con una cantidad de 15 y un 40%
-
-  /* funcion ciudades con mas despachos */
-  // Función para actualizar la barra de progreso en "Ciudades con más despachos"
-  function updateCityProgressBar(productElement, quantity, percentage) {
-    const quantityElement = productElement.querySelector(".quantity");
-    const progressElement = productElement.querySelector(".progress");
-
-    quantityElement.textContent = `${quantity} (${percentage.toFixed(2)}%)`;
-    progressElement.style.width = `${percentage}%`;
-  }
-
-  // Actualización de ejemplo para "Ciudades con más despachos"
-  const cityProductElements = document.querySelectorAll(
-    ".content-box1.ciudades .product"
-  );
-  updateCityProgressBar(cityProductElements[0], 20, 50); // Actualiza la primera ciudad con una cantidad de 20 y un 50%
-  updateCityProgressBar(cityProductElements[1], 10, 25); // Actualiza la segunda ciudad con una cantidad de 10 y un 25%
-
-  /* funcion productos por entrega */
-  // Función para actualizar la barra de progreso en "Productos por entrega"
-  function updateProductProgressBar(productElement, quantity, percentage) {
-    const quantityElement = productElement.querySelector(".quantity");
-    const progressElement = productElement.querySelector(".progress");
-
-    quantityElement.textContent = `${quantity} (${percentage.toFixed(2)}%)`;
-    progressElement.style.width = `${percentage}%`;
-  }
-
-  // Actualización de ejemplo para "Productos por entrega"
-  const producto_entregaElements = document.querySelectorAll(
-    ".content-box1.productos_entrega .product"
-  );
-  updateProductProgressBar(producto_entregaElements[0], 30, 60); // Actualiza el primer producto con una cantidad de 30 y un 60%
-  updateProductProgressBar(producto_entregaElements[1], 15, 40); // Actualiza el segundo producto con una cantidad de 15 y un 40%
-
-  /* funcion ciudades con mas entrega */
-  // Función para actualizar la barra de progreso en "Ciudades con más entrega"
-  function updateCityProgressBar(productElement, quantity, percentage) {
-    const quantityElement = productElement.querySelector(".quantity");
-    const progressElement = productElement.querySelector(".progress");
-
-    quantityElement.textContent = `${quantity} (${percentage.toFixed(2)}%)`;
-    progressElement.style.width = `${percentage}%`;
-  }
-
-  // Actualización de ejemplo para "Ciudades con más entrega"
-  const city_entregaProductElements = document.querySelectorAll(
-    ".content-box1.ciudades_entrega .product"
-  );
-  updateCityProgressBar(city_entregaProductElements[0], 20, 50); // Actualiza la primera ciudad con una cantidad de 20 y un 50%
-  updateCityProgressBar(city_entregaProductElements[1], 10, 25); // Actualiza la segunda ciudad con una cantidad de 10 y un 25%
-
-   /* funcion productos por devolucion */
-  // Función para actualizar la barra de progreso en "Productos por devolucion"
-  function updateProductProgressBar(productElement, quantity, percentage) {
-    const quantityElement = productElement.querySelector(".quantity");
-    const progressElement = productElement.querySelector(".progress");
-
-    quantityElement.textContent = `${quantity} (${percentage.toFixed(2)}%)`;
-    progressElement.style.width = `${percentage}%`;
-  }
-
-  // Actualización de ejemplo para "Productos por devolucion"
-  const producto_devolucionElements = document.querySelectorAll(
-    ".content-box1.productos_devolucion .product"
-  );
-  updateProductProgressBar(producto_devolucionElements[0], 30, 60); // Actualiza el primer producto con una cantidad de 30 y un 60%
-  updateProductProgressBar(producto_devolucionElements[1], 15, 40); // Actualiza el segundo producto con una cantidad de 15 y un 40%
-
-  /* funcion ciudades con mas devolucion */
-  // Función para actualizar la barra de progreso en "Ciudades con más devolucion"
-  function updateCityProgressBar(productElement, quantity, percentage) {
-    const quantityElement = productElement.querySelector(".quantity");
-    const progressElement = productElement.querySelector(".progress");
-
-    quantityElement.textContent = `${quantity} (${percentage.toFixed(2)}%)`;
-    progressElement.style.width = `${percentage}%`;
-  }
-
-  // Actualización de ejemplo para "Ciudades con más devolucion"
-  const city_devolucionProductElements = document.querySelectorAll(
-    ".content-box1.ciudades_devolucion .product"
-  );
-  updateCityProgressBar(city_devolucionProductElements[0], 20, 50); // Actualiza la primera ciudad con una cantidad de 20 y un 50%
-  updateCityProgressBar(city_devolucionProductElements[1], 10, 25); // Actualiza la segunda ciudad con una cantidad de 10 y un 25%
 });
