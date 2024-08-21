@@ -467,7 +467,7 @@ $(function () {
 
   /* funcion ciudades con mas entrega */
   // Función para actualizar la barra de progreso en "Ciudades con más entrega"
-  function updateCityProgressBar(productElement, quantity, percentage) {
+  function updateCityProgressBar_entregar(productElement, quantity, percentage) {
     const quantityElement = productElement.querySelector(".quantity");
     const progressElement = productElement.querySelector(".progress");
 
@@ -479,8 +479,8 @@ $(function () {
   const city_entregaProductElements = document.querySelectorAll(
     ".content-box1.ciudades_entrega .product"
   );
-  updateCityProgressBar(city_entregaProductElements[0], 20, 50); // Actualiza la primera ciudad con una cantidad de 20 y un 50%
-  updateCityProgressBar(city_entregaProductElements[1], 10, 25); // Actualiza la segunda ciudad con una cantidad de 10 y un 25%
+  updateCityProgressBar_entregar(city_entregaProductElements[0], 20, 50); // Actualiza la primera ciudad con una cantidad de 20 y un 50%
+  updateCityProgressBar_entregar(city_entregaProductElements[1], 10, 25); // Actualiza la segunda ciudad con una cantidad de 10 y un 25%
 
   /* funcion productos por devolucion */
   // Función para actualizar la barra de progreso en "Productos por devolucion"
@@ -514,7 +514,7 @@ $(function () {
 
   /* funcion ciudades con mas devolucion */
   // Función para actualizar la barra de progreso en "Ciudades con más devolucion"
-  function updateCityProgressBar(productElement, quantity, percentage) {
+  function updateCityProgressBar_devolucion(productElement, quantity, percentage) {
     const quantityElement = productElement.querySelector(".quantity");
     const progressElement = productElement.querySelector(".progress");
 
@@ -526,6 +526,6 @@ $(function () {
   const city_devolucionProductElements = document.querySelectorAll(
     ".content-box1.ciudades_devolucion .product"
   );
-  updateCityProgressBar(city_devolucionProductElements[0], 20, 50); // Actualiza la primera ciudad con una cantidad de 20 y un 50%
-  updateCityProgressBar(city_devolucionProductElements[1], 10, 25); // Actualiza la segunda ciudad con una cantidad de 10 y un 25%
+  updateCityProgressBar_devolucion(city_devolucionProductElements[0], 20, 50); // Actualiza la primera ciudad con una cantidad de 20 y un 50%
+  updateCityProgressBar_devolucion(city_devolucionProductElements[1], 10, 25); // Actualiza la segunda ciudad con una cantidad de 10 y un 25%
 });
