@@ -330,6 +330,39 @@ $(function () {
           );
         });
         /* Fin seccion de productos devolucion */
+
+        /* seccion de ciudad despachados */
+        let total_despachos_ciudad = 0;
+
+        // Recorremos todos los ciudad y sumamos aquellos que tengan cantidad_despacho > 0
+        response.ciudad_pedidos.forEach((city) => {
+          var cantidad_pedidos = parseFloat(city.cantidad_pedidos);
+
+          if (cantidad_pedidos > 0) {
+            total_despachos_ciudad += cantidad_pedidos;
+          }
+        });
+
+        // Limpiar el contenedor de ciudad antes de cargar los nuevos
+        document.getElementById("ciudadEntregados-container").innerHTML = "";
+
+        // Supongamos que el API retorna un array de objetos con los datos
+        response.ciudad_pedidos.forEach((city) => {
+          var cantidad_pedidos = parseFloat(city.cantidad_pedidos);
+          var ciudad = city.ciudad;
+          var porcentaje = calcularPorcentaje(
+            parseFloat(city.cantidad_pedidos),
+            total_despachos_ciudad
+          );
+
+          // Llamamos a la función para actualizar el DOM
+          updateCityProgressBar(
+            cantidad_pedidos,
+            ciudad,
+            porcentaje
+          );
+        });
+        /* Fin seccion de ciudad despachados */
       },
       error: function (jqXHR, textStatus, errorThrown) {
         alert(errorThrown);
@@ -378,20 +411,29 @@ $(function () {
 
   /* funcion ciudades con mas despachos */
   // Función para actualizar la barra de progreso en "Ciudades con más despachos"
-  function updateCityProgressBar(productElement, quantity, percentage) {
-    const quantityElement = productElement.querySelector(".quantity");
-    const progressElement = productElement.querySelector(".progress");
+  function updateCityProgressBar(cantidad_pedidos,
+    ciudad,
+    porcentaje) {
+    // Creamos el contenedor del producto
+    const productElement = document.createElement("div");
+    productElement.classList.add("product");
 
-    quantityElement.textContent = `${quantity} (${percentage.toFixed(2)}%)`;
-    progressElement.style.width = `${percentage}%`;
+    // Creamos la información del producto
+    productElement.innerHTML = `
+        <div class="product-info">
+            <span>${ciudad}</span>
+            <span class="quantity">${cantidad_pedidos} (${porcentaje.toFixed(
+      2
+    )}%)</span>
+        </div>
+        <div class="progress-bar">
+            <div class="progress" style="width: ${porcentaje}%;"></div>
+        </div>
+    `;
+
+    // Añadimos el producto al contenedor principal
+    document.getElementById("ciudadEntregados-container").appendChild(productElement);
   }
-
-  // Actualización de ejemplo para "Ciudades con más despachos"
-  const cityProductElements = document.querySelectorAll(
-    ".content-box1.ciudades .product"
-  );
-  updateCityProgressBar(cityProductElements[0], 20, 50); // Actualiza la primera ciudad con una cantidad de 20 y un 50%
-  updateCityProgressBar(cityProductElements[1], 10, 25); // Actualiza la segunda ciudad con una cantidad de 10 y un 25%
 
   /* funcion productos por entrega */
   // Función para actualizar la barra de progreso en "Productos por entrega"
