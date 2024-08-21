@@ -1283,6 +1283,7 @@ class WalletModel extends Query
     {
 
         $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE guia = '$numero_guia' AND id_plataforma = '$id_plataforma'";
+        echo $sql;
         $response =  $this->select($sql);
         print_r($response);
         $monto_recibir = $response[0]['monto_recibir'];
