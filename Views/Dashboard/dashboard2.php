@@ -123,6 +123,7 @@
                     <h4>Productos por cantidad</h4>
                     <div id="products-container"></div>
                 </div>
+                <!-- Fin Sección de Productos por cantidad -->
             </div>
             <div class="content-box1" style="width: 33.33% !important;">
                 <h4>Ventas del Último Mes</h4>
@@ -175,30 +176,11 @@
     <div class="tablas_estaditicas">
         <div class="content-container">
             <!-- Sección de productos_entrega por cantidad -->
-            <div class="content-box1 productos_entrega" style="width: 50%;">
-                <h4>Productos entrega por cantidad</h4>
-                <div class="product">
-                    <div class="product-info">
-                        <img src="path-to-icon" alt="icon" class="product-icon">
-                        <span>Producto X</span>
-                        <span class="quantity">0 (0.00%)</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress" style="width: 0%;"></div>
-                    </div>
-                </div>
-                <div class="product">
-                    <div class="product-info">
-                        <img src="path-to-icon" alt="icon" class="product-icon">
-                        <span>Producto Y</span>
-                        <span class="quantity">0 (0.00%)</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress" style="width: 0%;"></div>
-                    </div>
-                </div>
+            <div class="content-box1 productos">
+                <h4>Productos por cantidad</h4>
+                <div id="productsEntregados-container"></div>
             </div>
-
+            <!-- Fin Sección de productos_entrega por cantidad -->
             <!-- Sección de Ciudades_entrega con más despachos -->
             <div class="content-box1 ciudades_entrega" style="width: 50%;">
                 <h4>Ciudades_entrega con más despachos</h4>

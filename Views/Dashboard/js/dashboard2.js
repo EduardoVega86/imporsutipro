@@ -251,8 +251,6 @@ $(function () {
             total_despachos
           );
 
-          console.log("porcentaje: " + porcentaje);
-
           // Llamamos a la función para actualizar el DOM
           updateProductProgressBar(
             cantidad_despachos,
@@ -262,6 +260,41 @@ $(function () {
           );
         });
         /* Fin seccion de productos despachados */
+
+        /* seccion de productos entregados */
+        let total_entregados = 0;
+
+        // Recorremos todos los productos y sumamos aquellos que tengan cantidad_despacho > 0
+        response.productos_despachos_entregados.forEach((product) => {
+          var cantidad_despachos = parseFloat(product.cantidad_despachos);
+
+          if (cantidad_despachos > 0) {
+            total_entregados += cantidad_despachos;
+          }
+        });
+
+        // Limpiar el contenedor de productos antes de cargar los nuevos
+        document.getElementById("products-container").innerHTML = "";
+
+        // Supongamos que el API retorna un array de objetos con los datos
+        response.productos_despachos_entregados.forEach((product) => {
+          var cantidad_despachos = parseFloat(product.cantidad_despachos);
+          var nombre_producto = product.nombre_producto;
+          var imagen = product.image_path;
+          var porcentaje = calcularPorcentaje(
+            parseFloat(product.cantidad_despachos),
+            total_entregados
+          );
+
+          // Llamamos a la función para actualizar el DOM
+          updateProductProgressBar_entrega(
+            cantidad_despachos,
+            nombre_producto,
+            imagen,
+            porcentaje
+          );
+        });
+        /* Fin seccion de productos entregados */
       },
       error: function (jqXHR, textStatus, errorThrown) {
         alert(errorThrown);
@@ -295,7 +328,9 @@ $(function () {
         <div class="product-info">
             <img src="${SERVERURL}${imagen}" alt="${nombre_producto}" class="product-icon">
             <span>${nombre_producto}</span>
-            <span class="quantity">${cantidad_despacho} (${porcentaje.toFixed(2)}%)</span>
+            <span class="quantity">${cantidad_despacho} (${porcentaje.toFixed(
+      2
+    )}%)</span>
         </div>
         <div class="progress-bar">
             <div class="progress" style="width: ${porcentaje}%;"></div>
@@ -326,23 +361,32 @@ $(function () {
   /* funcion productos por entrega */
   // Función para actualizar la barra de progreso en "Productos por entrega"
   function updateProductProgressBar_entrega(
-    productElement,
-    quantity,
-    percentage
+    cantidad_despacho,
+    nombre_producto,
+    imagen,
+    porcentaje
   ) {
-    const quantityElement = productElement.querySelector(".quantity");
-    const progressElement = productElement.querySelector(".progress");
+    // Creamos el contenedor del producto
+    const productElement = document.createElement("div");
+    productElement.classList.add("product");
 
-    quantityElement.textContent = `${quantity} (${percentage.toFixed(2)}%)`;
-    progressElement.style.width = `${percentage}%`;
+    // Creamos la información del producto
+    productElement.innerHTML = `
+        <div class="product-info">
+            <img src="${SERVERURL}${imagen}" alt="${nombre_producto}" class="product-icon">
+            <span>${nombre_producto}</span>
+            <span class="quantity">${cantidad_despacho} (${porcentaje.toFixed(
+      2
+    )}%)</span>
+        </div>
+        <div class="progress-bar">
+            <div class="progress" style="width: ${porcentaje}%;"></div>
+        </div>
+    `;
+
+    // Añadimos el producto al contenedor principal
+    document.getElementById("productsEntregados-container").appendChild(productElement);
   }
-
-  // Actualización de ejemplo para "Productos por entrega"
-  const producto_entregaElements = document.querySelectorAll(
-    ".content-box1.productos_entrega .product"
-  );
-  updateProductProgressBar_entrega(producto_entregaElements[0], 30, 60); // Actualiza el primer producto con una cantidad de 30 y un 60%
-  updateProductProgressBar_entrega(producto_entregaElements[1], 15, 40); // Actualiza el segundo producto con una cantidad de 15 y un 40%
 
   /* funcion ciudades con mas entrega */
   // Función para actualizar la barra de progreso en "Ciudades con más entrega"
