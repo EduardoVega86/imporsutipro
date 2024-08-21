@@ -164,7 +164,7 @@
             <!-- Fin Sección de productos_entrega por cantidad -->
             <!-- Sección de Ciudades_entrega con más despachos -->
             <div class="content-box1 ciudades_entrega" style="width: 50%;">
-                <h4>Ciudades_entrega con más despachos</h4>
+                <h4>Ciudades con mayores entregadas</h4>
                 <div id="ciudadesEntregadas-container"></div>
             </div>
         </div>
@@ -180,27 +180,8 @@
 
             <!-- Sección de Ciudades_devolucion con más despachos -->
             <div class="content-box1 ciudades_devolucion" style="width: 50%;">
-                <h4>Ciudades_devolucion con más despachos</h4>
-                <div class="product">
-                    <div class="product-info">
-                        <img src="path-to-icon" alt="icon" class="product-icon">
-                        <span>Ciudad A</span>
-                        <span class="quantity">0 (0.00%)</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress" style="width: 0%;"></div>
-                    </div>
-                </div>
-                <div class="product">
-                    <div class="product-info">
-                        <img src="path-to-icon" alt="icon" class="product-icon">
-                        <span>Ciudad B</span>
-                        <span class="quantity">0 (0.00%)</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress" style="width: 0%;"></div>
-                    </div>
-                </div>
+                <h4>Ciudades con mayores devoluciones</h4>
+                <div id="ciudadesDevolucion-container"></div>
             </div>
         </div>
     </div>
