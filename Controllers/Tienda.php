@@ -1,4 +1,5 @@
 <?php
+session_start();
 class Tienda extends Controller
 {
     public function __construct()
@@ -222,6 +223,12 @@ class Tienda extends Controller
         echo json_encode($response);
     }
 
+    public function buscar_carrito()
+    {
+
+        $response = $this->model->buscar_carrito();
+        echo json_encode($response);
+    }
 
 
     /// TIENDA COMPRAPOR /// 

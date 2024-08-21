@@ -560,7 +560,7 @@ class TiendaModel extends Query
     {
         //verificar productos
         $timestamp = session_id();
-        echo $timestamp;
+
         //echo "SELECT * FROM tmp_cotizacion WHERE session_id = '$timestamp' and id_producto=$id_producto and sku=$sku";
         $cantidad_tmp = $this->select("SELECT * FROM tmp_cotizacion WHERE session_id = '$timestamp' and id_inventario=$id_invetario");
 
@@ -602,6 +602,17 @@ class TiendaModel extends Query
         $invetario = $this->select($sql_invetario);
         $id_invetario = $invetario[0]['id_inventario'];
         return $id_invetario;
+    }
+
+
+    public function buscar_carrito()
+    {
+        $tmp = session_id();
+        // echo $tmp;
+        $sql = "SELECT * FROM `tmp_cotizacion` tmp LEFT JOIN `inventario_bodegas` ib ON tmp.id_inventario = ib.id_inventario 
+        LEFT JOIN `productos` p ON tmp.id_producto = p.id_producto LEFT JOIN `variedades` v ON ib.id_variante = v.id_variedad WHERE tmp.session_id = '$tmp'";
+        //echo $sql;
+        return $this->select($sql);
     }
 
 
