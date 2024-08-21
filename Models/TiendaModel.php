@@ -556,10 +556,9 @@ class TiendaModel extends Query
     /* Fin plantilla 2 */
 
 
-    public function agregar_carrito($id_producto, $cantidad, $precio,  $plataforma, $id_invetario)
+    public function agregar_carrito($id_producto, $cantidad, $precio,  $plataforma, $id_invetario, $timestamp)
     {
-        //verificar productos
-        $timestamp = session_id();
+        
 
         //echo "SELECT * FROM tmp_cotizacion WHERE session_id = '$timestamp' and id_producto=$id_producto and sku=$sku";
         $cantidad_tmp = $this->select("SELECT * FROM tmp_cotizacion WHERE session_id = '$timestamp' and id_inventario=$id_invetario");
