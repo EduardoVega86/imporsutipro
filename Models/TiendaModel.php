@@ -560,7 +560,7 @@ class TiendaModel extends Query
     {
         //verificar productos
         $timestamp = session_id();
-        echo $timestamp;
+        
         //echo "SELECT * FROM tmp_cotizacion WHERE session_id = '$timestamp' and id_producto=$id_producto and sku=$sku";
         $cantidad_tmp = $this->select("SELECT * FROM tmp_cotizacion WHERE session_id = '$timestamp' and id_inventario=$id_invetario");
 
