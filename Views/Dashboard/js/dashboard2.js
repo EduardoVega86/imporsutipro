@@ -274,7 +274,7 @@ $(function () {
         });
 
         // Limpiar el contenedor de productos antes de cargar los nuevos
-        document.getElementById("products-container").innerHTML = "";
+        document.getElementById("productsEntregados-container").innerHTML = "";
 
         // Supongamos que el API retorna un array de objetos con los datos
         response.productos_despachos_entregados.forEach((product) => {
