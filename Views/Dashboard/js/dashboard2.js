@@ -232,6 +232,7 @@ $(function () {
         // Recorremos todos los productos y sumamos aquellos que tengan cantidad_despacho > 0
         response.productos_despachos.forEach((product) => {
           const cantidad_despacho = parseFloat(product.cantidad_despacho);
+          console.log("cantidad_despacho: " + cantidad_despacho);
 
           if (cantidad_despacho > 0) {
             total_despachos += cantidad_despacho;
@@ -251,9 +252,6 @@ $(function () {
             total_despachos
           );
 
-          console.log("cantidad_despacho: " + cantidad_despacho);
-          console.log("nombre_tienda: " + nombre_producto);
-          console.log("imagen: " + imagen);
           console.log("porcentaje: " + porcentaje);
 
           // Llamamos a la función para actualizar el DOM
