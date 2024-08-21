@@ -69,6 +69,15 @@ $(function () {
         $("#total_pedidos").text(response.pedidos);
         $("#total_guias").text(response.total_guias);
         $("#total_ventas").text(response.ventas);
+        $("#ticket_promedio").text(
+          parseFloat(response.ticket_promedio).toFixed(2)
+        );
+        $("#flete_promedio").text(
+          parseFloat(response.flete_promedio).toFixed(2)
+        );
+        $("#devolucion_promedio").text(
+          parseFloat(response.devolucion_promedio).toFixed(2)
+        );
 
         // Limpia el tbody antes de agregar los nuevos datos
         $("#facturas-body").empty();
@@ -231,10 +240,10 @@ $(function () {
 
         // Recorremos todos los productos y sumamos aquellos que tengan cantidad_despacho > 0
         response.productos_despachos.forEach((product) => {
-          var cantidad_despacho = parseFloat(product.cantidad_despachos);
+          var cantidad_despachos = parseFloat(product.cantidad_despachos);
 
-          if (cantidad_despacho > 0) {
-            total_despachos += cantidad_despacho;
+          if (cantidad_despachos > 0) {
+            total_despachos += cantidad_despachos;
           }
         });
 
@@ -243,25 +252,182 @@ $(function () {
 
         // Supongamos que el API retorna un array de objetos con los datos
         response.productos_despachos.forEach((product) => {
-          var cantidad_despacho = parseFloat(product.cantidad_despachos);
+          var cantidad_despachos = parseFloat(product.cantidad_despachos);
           var nombre_producto = product.nombre_producto;
           var imagen = product.image_path;
           var porcentaje = calcularPorcentaje(
-            parseFloat(product.cantidad_despacho),
+            parseFloat(product.cantidad_despachos),
             total_despachos
           );
 
-          console.log("porcentaje: " + porcentaje);
-
           // Llamamos a la función para actualizar el DOM
           updateProductProgressBar(
-            cantidad_despacho,
+            cantidad_despachos,
             nombre_producto,
             imagen,
             porcentaje
           );
         });
         /* Fin seccion de productos despachados */
+
+        /* seccion de productos entregados */
+        let total_entregados = 0;
+
+        // Recorremos todos los productos y sumamos aquellos que tengan cantidad_despacho > 0
+        response.productos_despachos_entregados.forEach((product) => {
+          var cantidad_despachos = parseFloat(product.cantidad_despachos);
+
+          if (cantidad_despachos > 0) {
+            total_entregados += cantidad_despachos;
+          }
+        });
+
+        // Limpiar el contenedor de productos antes de cargar los nuevos
+        document.getElementById("productsEntregados-container").innerHTML = "";
+
+        // Supongamos que el API retorna un array de objetos con los datos
+        response.productos_despachos_entregados.forEach((product) => {
+          var cantidad_despachos = parseFloat(product.cantidad_despachos);
+          var nombre_producto = product.nombre_producto;
+          var imagen = product.image_path;
+          var porcentaje = calcularPorcentaje(
+            parseFloat(product.cantidad_despachos),
+            total_entregados
+          );
+
+          // Llamamos a la función para actualizar el DOM
+          updateProductProgressBar_entrega(
+            cantidad_despachos,
+            nombre_producto,
+            imagen,
+            porcentaje
+          );
+        });
+        /* Fin seccion de productos entregados */
+
+        /* seccion de productos devolucion */
+        let total_devolucion = 0;
+
+        // Recorremos todos los productos y sumamos aquellos que tengan cantidad_despacho > 0
+        response.productos_despachos_devueltos.forEach((product) => {
+          var cantidad_despachos = parseFloat(product.cantidad_despachos);
+
+          if (cantidad_despachos > 0) {
+            total_devolucion += cantidad_despachos;
+          }
+        });
+
+        // Limpiar el contenedor de productos antes de cargar los nuevos
+        document.getElementById("productsDevolucion-container").innerHTML = "";
+
+        // Supongamos que el API retorna un array de objetos con los datos
+        response.productos_despachos_devueltos.forEach((product) => {
+          var cantidad_despachos = parseFloat(product.cantidad_despachos);
+          var nombre_producto = product.nombre_producto;
+          var imagen = product.image_path;
+          var porcentaje = calcularPorcentaje(
+            parseFloat(product.cantidad_despachos),
+            total_devolucion
+          );
+
+          // Llamamos a la función para actualizar el DOM
+          updateProductProgressBar_devolucion(
+            cantidad_despachos,
+            nombre_producto,
+            imagen,
+            porcentaje
+          );
+        });
+        /* Fin seccion de productos devolucion */
+
+        /* seccion de ciudad despachados */
+        let total_despachos_ciudad = 0;
+
+        // Recorremos todos los ciudad y sumamos aquellos que tengan cantidad_despacho > 0
+        response.ciudad_pedidos.forEach((city) => {
+          var cantidad_pedidos = parseFloat(city.cantidad_pedidos);
+
+          if (cantidad_pedidos > 0) {
+            total_despachos_ciudad += cantidad_pedidos;
+          }
+        });
+
+        // Limpiar el contenedor de ciudad antes de cargar los nuevos
+        document.getElementById("ciudades-container").innerHTML = "";
+
+        // Supongamos que el API retorna un array de objetos con los datos
+        response.ciudad_pedidos.forEach((city) => {
+          var cantidad_pedidos = parseFloat(city.cantidad_pedidos);
+          var ciudad = city.ciudad;
+          var porcentaje = calcularPorcentaje(
+            parseFloat(city.cantidad_pedidos),
+            total_despachos_ciudad
+          );
+
+          // Llamamos a la función para actualizar el DOM
+          updateCityProgressBar(cantidad_pedidos, ciudad, porcentaje);
+        });
+        /* Fin seccion de ciudad despachados */
+        /* seccion de ciudad entregado */
+        let total_despachos_ciudad_entregado = 0;
+
+        // Recorremos todos los ciudad y sumamos aquellos que tengan cantidad_despacho > 0
+        response.ciudades_entregas.forEach((city) => {
+          var cantidad_entregas = parseFloat(city.cantidad_entregas);
+
+          if (cantidad_entregas > 0) {
+            total_despachos_ciudad_entregado += cantidad_entregas;
+          }
+        });
+
+        // Limpiar el contenedor de ciudad antes de cargar los nuevos
+        document.getElementById("ciudadesEntregadas-container").innerHTML = "";
+
+        // Supongamos que el API retorna un array de objetos con los datos
+        response.ciudades_entregas.forEach((city) => {
+          var cantidad_entregas = parseFloat(city.cantidad_entregas);
+          var ciudad = city.ciudad;
+          var porcentaje = calcularPorcentaje(
+            parseFloat(city.cantidad_entregas),
+            total_despachos_ciudad_entregado
+          );
+
+          // Llamamos a la función para actualizar el DOM
+          updateCityProgressBar_entregar(cantidad_entregas, ciudad, porcentaje);
+        });
+        /* Fin seccion de ciudad entregado */
+        /* seccion de ciudad devolucion */
+        let total_despachos_ciudad_devolucion = 0;
+
+        // Recorremos todos los ciudad y sumamos aquellos que tengan cantidad_despacho > 0
+        response.ciudades_devoluciones.forEach((city) => {
+          var cantidad_entregas = parseFloat(city.cantidad_entregas);
+
+          if (cantidad_entregas > 0) {
+            total_despachos_ciudad_devolucion += cantidad_entregas;
+          }
+        });
+
+        // Limpiar el contenedor de ciudad antes de cargar los nuevos
+        document.getElementById("ciudadesDevolucion-container").innerHTML = "";
+
+        // Supongamos que el API retorna un array de objetos con los datos
+        response.ciudades_devoluciones.forEach((city) => {
+          var cantidad_entregas = parseFloat(city.cantidad_entregas);
+          var ciudad = city.ciudad;
+          var porcentaje = calcularPorcentaje(
+            parseFloat(city.cantidad_entregas),
+            total_despachos_ciudad_devolucion
+          );
+
+          // Llamamos a la función para actualizar el DOM
+          updateCityProgressBar_devolucion(
+            cantidad_entregas,
+            ciudad,
+            porcentaje
+          );
+        });
+        /* Fin seccion de ciudad devolucion */
       },
       error: function (jqXHR, textStatus, errorThrown) {
         alert(errorThrown);
@@ -295,7 +461,9 @@ $(function () {
         <div class="product-info">
             <img src="${SERVERURL}${imagen}" alt="${nombre_producto}" class="product-icon">
             <span>${nombre_producto}</span>
-            <span class="quantity">${cantidad_despacho} (${porcentaje.toFixed(2)}%)</span>
+            <span class="quantity">${cantidad_despacho} (${porcentaje.toFixed(
+      2
+    )}%)</span>
         </div>
         <div class="progress-bar">
             <div class="progress" style="width: ${porcentaje}%;"></div>
@@ -308,94 +476,149 @@ $(function () {
 
   /* funcion ciudades con mas despachos */
   // Función para actualizar la barra de progreso en "Ciudades con más despachos"
-  function updateCityProgressBar(productElement, quantity, percentage) {
-    const quantityElement = productElement.querySelector(".quantity");
-    const progressElement = productElement.querySelector(".progress");
+  function updateCityProgressBar(cantidad_pedidos, ciudad, porcentaje) {
+    // Creamos el contenedor del producto
+    const productElement = document.createElement("div");
+    productElement.classList.add("product");
 
-    quantityElement.textContent = `${quantity} (${percentage.toFixed(2)}%)`;
-    progressElement.style.width = `${percentage}%`;
+    // Creamos la información del producto
+    productElement.innerHTML = `
+        <div class="product-info">
+            <span>${ciudad}</span>
+            <span class="quantity">${cantidad_pedidos} (${porcentaje.toFixed(
+      2
+    )}%)</span>
+        </div>
+        <div class="progress-bar">
+            <div class="progress" style="width: ${porcentaje}%;"></div>
+        </div>
+    `;
+
+    // Añadimos el producto al contenedor principal
+    document.getElementById("ciudades-container").appendChild(productElement);
   }
-
-  // Actualización de ejemplo para "Ciudades con más despachos"
-  const cityProductElements = document.querySelectorAll(
-    ".content-box1.ciudades .product"
-  );
-  updateCityProgressBar(cityProductElements[0], 20, 50); // Actualiza la primera ciudad con una cantidad de 20 y un 50%
-  updateCityProgressBar(cityProductElements[1], 10, 25); // Actualiza la segunda ciudad con una cantidad de 10 y un 25%
 
   /* funcion productos por entrega */
   // Función para actualizar la barra de progreso en "Productos por entrega"
   function updateProductProgressBar_entrega(
-    productElement,
-    quantity,
-    percentage
+    cantidad_despacho,
+    nombre_producto,
+    imagen,
+    porcentaje
   ) {
-    const quantityElement = productElement.querySelector(".quantity");
-    const progressElement = productElement.querySelector(".progress");
+    // Creamos el contenedor del producto
+    const productElement = document.createElement("div");
+    productElement.classList.add("product");
 
-    quantityElement.textContent = `${quantity} (${percentage.toFixed(2)}%)`;
-    progressElement.style.width = `${percentage}%`;
+    // Creamos la información del producto
+    productElement.innerHTML = `
+        <div class="product-info">
+            <img src="${SERVERURL}${imagen}" alt="${nombre_producto}" class="product-icon">
+            <span>${nombre_producto}</span>
+            <span class="quantity">${cantidad_despacho} (${porcentaje.toFixed(
+      2
+    )}%)</span>
+        </div>
+        <div class="progress-bar">
+            <div class="progress" style="width: ${porcentaje}%;"></div>
+        </div>
+    `;
+
+    // Añadimos el producto al contenedor principal
+    document
+      .getElementById("productsEntregados-container")
+      .appendChild(productElement);
   }
-
-  // Actualización de ejemplo para "Productos por entrega"
-  const producto_entregaElements = document.querySelectorAll(
-    ".content-box1.productos_entrega .product"
-  );
-  updateProductProgressBar_entrega(producto_entregaElements[0], 30, 60); // Actualiza el primer producto con una cantidad de 30 y un 60%
-  updateProductProgressBar_entrega(producto_entregaElements[1], 15, 40); // Actualiza el segundo producto con una cantidad de 15 y un 40%
 
   /* funcion ciudades con mas entrega */
   // Función para actualizar la barra de progreso en "Ciudades con más entrega"
-  function updateCityProgressBar(productElement, quantity, percentage) {
-    const quantityElement = productElement.querySelector(".quantity");
-    const progressElement = productElement.querySelector(".progress");
+  function updateCityProgressBar_entregar(
+    cantidad_entregas,
+    ciudad,
+    porcentaje
+  ) {
+    // Creamos el contenedor del producto
+    const productElement = document.createElement("div");
+    productElement.classList.add("product");
 
-    quantityElement.textContent = `${quantity} (${percentage.toFixed(2)}%)`;
-    progressElement.style.width = `${percentage}%`;
+    // Creamos la información del producto
+    productElement.innerHTML = `
+        <div class="product-info">
+            <span>${ciudad}</span>
+            <span class="quantity">${cantidad_entregas} (${porcentaje.toFixed(
+      2
+    )}%)</span>
+        </div>
+        <div class="progress-bar">
+            <div class="progress" style="width: ${porcentaje}%;"></div>
+        </div>
+    `;
+
+    // Añadimos el producto al contenedor principal
+    document
+      .getElementById("ciudadesEntregadas-container")
+      .appendChild(productElement);
   }
-
-  // Actualización de ejemplo para "Ciudades con más entrega"
-  const city_entregaProductElements = document.querySelectorAll(
-    ".content-box1.ciudades_entrega .product"
-  );
-  updateCityProgressBar(city_entregaProductElements[0], 20, 50); // Actualiza la primera ciudad con una cantidad de 20 y un 50%
-  updateCityProgressBar(city_entregaProductElements[1], 10, 25); // Actualiza la segunda ciudad con una cantidad de 10 y un 25%
 
   /* funcion productos por devolucion */
   // Función para actualizar la barra de progreso en "Productos por devolucion"
   function updateProductProgressBar_devolucion(
-    productElement,
-    quantity,
-    percentage
+    cantidad_despacho,
+    nombre_producto,
+    imagen,
+    porcentaje
   ) {
-    const quantityElement = productElement.querySelector(".quantity");
-    const progressElement = productElement.querySelector(".progress");
+    // Creamos el contenedor del producto
+    const productElement = document.createElement("div");
+    productElement.classList.add("product");
 
-    quantityElement.textContent = `${quantity} (${percentage.toFixed(2)}%)`;
-    progressElement.style.width = `${percentage}%`;
+    // Creamos la información del producto
+    productElement.innerHTML = `
+        <div class="product-info">
+            <img src="${SERVERURL}${imagen}" alt="${nombre_producto}" class="product-icon">
+            <span>${nombre_producto}</span>
+            <span class="quantity">${cantidad_despacho} (${porcentaje.toFixed(
+      2
+    )}%)</span>
+        </div>
+        <div class="progress-bar">
+            <div class="progress" style="width: ${porcentaje}%;"></div>
+        </div>
+    `;
+
+    // Añadimos el producto al contenedor principal
+    document
+      .getElementById("productsDevolucion-container")
+      .appendChild(productElement);
   }
-
-  // Actualización de ejemplo para "Productos por devolucion"
-  const producto_devolucionElements = document.querySelectorAll(
-    ".content-box1.productos_devolucion .product"
-  );
-  updateProductProgressBar_devolucion(producto_devolucionElements[0], 30, 60); // Actualiza el primer producto con una cantidad de 30 y un 60%
-  updateProductProgressBar_devolucion(producto_devolucionElements[1], 15, 40); // Actualiza el segundo producto con una cantidad de 15 y un 40%
 
   /* funcion ciudades con mas devolucion */
   // Función para actualizar la barra de progreso en "Ciudades con más devolucion"
-  function updateCityProgressBar(productElement, quantity, percentage) {
-    const quantityElement = productElement.querySelector(".quantity");
-    const progressElement = productElement.querySelector(".progress");
+  function updateCityProgressBar_devolucion(
+    cantidad_entregas,
+    ciudad,
+    porcentaje
+  ) {
+    // Creamos el contenedor del producto
+    const productElement = document.createElement("div");
+    productElement.classList.add("product");
 
-    quantityElement.textContent = `${quantity} (${percentage.toFixed(2)}%)`;
-    progressElement.style.width = `${percentage}%`;
+    // Creamos la información del producto
+    productElement.innerHTML = `
+        <div class="product-info">
+            <span>${ciudad}</span>
+            <span class="quantity">${cantidad_entregas} (${porcentaje.toFixed(
+      2
+    )}%)</span>
+        </div>
+        <div class="progress-bar">
+            <div class="progress" style="width: ${porcentaje}%;"></div>
+        </div>
+    `;
+
+    // Añadimos el producto al contenedor principal
+    document
+      .getElementById("ciudadesDevolucion-container")
+      .appendChild(productElement);
   }
-
-  // Actualización de ejemplo para "Ciudades con más devolucion"
-  const city_devolucionProductElements = document.querySelectorAll(
-    ".content-box1.ciudades_devolucion .product"
-  );
-  updateCityProgressBar(city_devolucionProductElements[0], 20, 50); // Actualiza la primera ciudad con una cantidad de 20 y un 50%
-  updateCityProgressBar(city_devolucionProductElements[1], 10, 25); // Actualiza la segunda ciudad con una cantidad de 10 y un 25%
 });

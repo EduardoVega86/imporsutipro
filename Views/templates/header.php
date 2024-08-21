@@ -161,7 +161,7 @@
                     <div class="notification-dropdown">
                         <span class="navbar-text notification-icon" onclick="toggleNotifications()">
                             <box-icon type='solid' name='bell' color="<?php echo COLOR_LETRAS; ?>"></box-icon>
-                            <span id="notificaciones" class="badge">3</span> <!-- Número de notificaciones -->
+                            <!-- <span id="notificaciones" class="badge">3</span> --> <!-- Número de notificaciones -->
                         </span>
                         <div id="notificationList" class="dropdown-menu">
                             <div class="dropdown-header">Notificaciones</div>
