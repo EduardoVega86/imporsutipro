@@ -216,10 +216,9 @@ class Tienda extends Controller
         $cantidad = $_POST['cantidad'];
         $precio = $_POST['precio'];
         $id_producto = $_POST['id_producto'];
-        $sku = $_POST['sku'];
         $id_inventario = $_POST['id_inventario'];
         $id_plataforma =   $_POST['id_plataforma'];
-        $response = $this->model->agregar_carrito($id_producto, $cantidad, $precio, $id_plataforma, $sku, $id_inventario);
+        $response = $this->model->agregar_carrito($id_producto, $cantidad, $precio, $id_plataforma, $id_inventario);
         echo json_encode($response);
     }
 
