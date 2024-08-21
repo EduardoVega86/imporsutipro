@@ -165,26 +165,7 @@
             <!-- Sección de Ciudades_entrega con más despachos -->
             <div class="content-box1 ciudades_entrega" style="width: 50%;">
                 <h4>Ciudades_entrega con más despachos</h4>
-                <div class="product">
-                    <div class="product-info">
-                        <img src="path-to-icon" alt="icon" class="product-icon">
-                        <span>Ciudad A</span>
-                        <span class="quantity">0 (0.00%)</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress" style="width: 0%;"></div>
-                    </div>
-                </div>
-                <div class="product">
-                    <div class="product-info">
-                        <img src="path-to-icon" alt="icon" class="product-icon">
-                        <span>Ciudad B</span>
-                        <span class="quantity">0 (0.00%)</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress" style="width: 0%;"></div>
-                    </div>
-                </div>
+                <div id="ciudadesEntregadas-container"></div>
             </div>
         </div>
     </div>
