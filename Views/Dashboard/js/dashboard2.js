@@ -368,10 +368,10 @@ $(function () {
 
         // Recorremos todos los ciudad y sumamos aquellos que tengan cantidad_despacho > 0
         response.ciudades_entregas.forEach((city) => {
-          var cantidad_pedidos = parseFloat(city.cantidad_pedidos);
+          var cantidad_entregas = parseFloat(city.cantidad_entregas);
 
-          if (cantidad_pedidos > 0) {
-            total_despachos_ciudad_entregado += cantidad_pedidos;
+          if (cantidad_entregas > 0) {
+            total_despachos_ciudad_entregado += cantidad_entregas;
           }
         });
 
@@ -380,16 +380,16 @@ $(function () {
 
         // Supongamos que el API retorna un array de objetos con los datos
         response.ciudades_entregas.forEach((city) => {
-          var cantidad_pedidos = parseFloat(city.cantidad_pedidos);
+          var cantidad_entregas = parseFloat(city.cantidad_entregas);
           var ciudad = city.ciudad;
           var porcentaje = calcularPorcentaje(
-            parseFloat(city.cantidad_pedidos),
+            parseFloat(city.cantidad_entregas),
             total_despachos_ciudad_entregado
           );
 
           // Llamamos a la función para actualizar el DOM
           updateCityProgressBar_entregar(
-            cantidad_pedidos,
+            cantidad_entregas,
             ciudad,
             porcentaje
           );
@@ -499,7 +499,7 @@ $(function () {
 
   /* funcion ciudades con mas entrega */
   // Función para actualizar la barra de progreso en "Ciudades con más entrega"
-  function updateCityProgressBar_entregar(cantidad_pedidos,
+  function updateCityProgressBar_entregar(cantidad_entregas,
     ciudad,
     porcentaje) {
     // Creamos el contenedor del producto
@@ -510,7 +510,7 @@ $(function () {
     productElement.innerHTML = `
         <div class="product-info">
             <span>${ciudad}</span>
-            <span class="quantity">${cantidad_pedidos} (${porcentaje.toFixed(
+            <span class="quantity">${cantidad_entregas} (${porcentaje.toFixed(
       2
     )}%)</span>
         </div>
