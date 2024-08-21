@@ -1307,4 +1307,32 @@ class WalletModel extends Query
 
         print_r($response);
     }
+
+    public function guiasAproveedor($plataforma)
+    {
+        $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE id_proveedor = '$plataforma' AND estado_guia = 7 and visto =1";
+    }
+
+    public function guiasAcuadre()
+    {
+        $sql = "SELECT * FROM `cabecera_cuenta_pagar` WHERE guia like 'MKP%' and estado_guia = 7 and numero_factura not like '%-P' and numero_factura not like '%-F' and precio_envio != 5.99;";
+        $response =  $this->select($sql);
+
+        foreach ($response as $key => $value) {
+            $id_cabecera = $value['id_cabecera'];
+            $sql = "UPDATE cabecera_cuenta_pagar set precio_envio = 5.99 , monto_recibir = total_venta - costo - 5.99 - full where id_cabecera = ?";
+            $response =  $this->update($sql, array($id_cabecera));
+        }
+
+        $sql = "SELECT * FROM `cabecera_cuenta_pagar` WHERE guia like 'MKP%' and estado_guia = 9 and numero_factura not like '%-P' and numero_factura not like '%-F' and precio_envio != 5.99;";
+        $response =  $this->select($sql);
+
+        foreach ($response as $key => $value) {
+            $id_cabecera = $value['id_cabecera'];
+            $sql = "UPDATE cabecera_cuenta_pagar set precio_envio = 5.99 , monto_recibir = - 5.99 - full where id_cabecera = ?";
+            $response =  $this->update($sql, array($id_cabecera));
+        }
+
+        return $response;
+    }
 }
