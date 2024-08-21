@@ -851,6 +851,9 @@ class WalletModel extends Query
                 fc.monto_factura,
                 fc.id_transporte,
                 fc.costo_flete,
+                fc.id_plataforma,
+                fc.id_propietario,
+                
                 FORMAT(
                 CASE 
                     WHEN fc.id_transporte = 1 THEN (
@@ -1006,6 +1009,7 @@ class WalletModel extends Query
                 pt.comision,
                 ccp.monto_recibir,
                 ccp.valor_pendiente,
+                ccp.envio_wallet,
                 (SELECT SUM(monto)
                     FROM historial_billetera hb
                     WHERE hb.motivo LIKE CONCAT('%', fc.numero_guia, '%')
@@ -1025,7 +1029,8 @@ class WalletModel extends Query
                 SELECT 
                     guia,
                     SUM(monto_recibir) AS monto_recibir,
-                    SUM(valor_pendiente) AS valor_pendiente
+                    SUM(valor_pendiente) AS valor_pendiente,
+                    SUM(precio_envio) AS envio_wallet
                 FROM 
                     cabecera_cuenta_pagar
                 WHERE visto = 1
@@ -1039,7 +1044,7 @@ class WalletModel extends Query
             ORDER BY 
                 fc.fecha_factura;
             ";
-        //echo $sql;
+       // echo $sql;
         $response =  $this->select($sql);
         return $response;
     }

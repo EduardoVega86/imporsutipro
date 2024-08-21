@@ -266,7 +266,12 @@ const listAuditoria = async (estado, id_transporte) => {
         url_descargar = `https://guias.imporsuitpro.com/Servientrega/guia/${item.numero_guia}`;
       }
       var background = "";
-      if (item.monto_recibir != item.monto_total_historial) {
+  if (
+    (item.monto_recibir != item.monto_total_historial) ||
+    (item.costo_flete != item.envio_wallet) || 
+    (item.drogshipin == 1 && item.id_plataforma == item.id_propietario) ||
+    (item.numero_guia.includes("MKP") && item.id_transporte == 1 && item.costo_flete != 5.99)
+){
         background = 'style="background-color: red;"';
       } else {
         background = "";
@@ -281,6 +286,7 @@ const listAuditoria = async (estado, id_transporte) => {
            <td>${transporte_content}</td>
                   <td>${codBtn}</td>
                   <td>${item.monto_factura}</td>
+             <td>${item.envio_wallet}</td>
                   <td>${item.costo_flete}</td>
                   <td>${item.precio}</td>
                   <td>${item.costo}</td>
