@@ -155,8 +155,7 @@ function enviar_cliente(id, index, sku, pvp, id_inventario) {
     contentType: false,
     success: function (response2) {
       response2 = JSON.parse(response2);
-      console.log(response2);
-      console.log(response2[0]);
+      
       if (response2.status == 500) {
         toastr.error(
           "NO SE AGREGRO CORRECTAMENTE",

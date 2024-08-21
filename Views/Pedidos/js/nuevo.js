@@ -296,7 +296,9 @@ $(document).ready(function () {
 
       var button2 = document.getElementById("generarGuiaBtn");
 
-      if (saldo < -10) {
+      fect
+
+      if (saldo < -10 && ID_PLATAFORMA != 1238) {
         button2.disabled = true;
         Swal.fire({
           icon: "error",
