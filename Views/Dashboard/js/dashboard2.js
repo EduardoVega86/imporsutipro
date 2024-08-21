@@ -69,6 +69,15 @@ $(function () {
         $("#total_pedidos").text(response.pedidos);
         $("#total_guias").text(response.total_guias);
         $("#total_ventas").text(response.ventas);
+        $("#ticket_promedio").text(
+          parseFloat(response.ticket_promedio).toFixed(2)
+        );
+        $("#flete_promedio").text(
+          parseFloat(response.flete_promedio).toFixed(2)
+        );
+        $("#devolucion_promedio").text(
+          parseFloat(response.devolucion_promedio).toFixed(2)
+        );
 
         // Limpia el tbody antes de agregar los nuevos datos
         $("#facturas-body").empty();
@@ -412,7 +421,11 @@ $(function () {
           );
 
           // Llamamos a la función para actualizar el DOM
-          updateCityProgressBar_devolucion(cantidad_entregas, ciudad, porcentaje);
+          updateCityProgressBar_devolucion(
+            cantidad_entregas,
+            ciudad,
+            porcentaje
+          );
         });
         /* Fin seccion de ciudad devolucion */
       },

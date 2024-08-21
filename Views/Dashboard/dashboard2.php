@@ -107,14 +107,14 @@
                         <div class="icon-container" style="background: linear-gradient(to right, #7a00d7, #26113a);">
                             <i class="fa-solid fa-ticket"></i>
                         </div>
-                        <h3>$ <span id="total_ventas"></span></h3>
+                        <h3>$ <span id="ticket_promedio"></span></h3>
                         <p>Ticket Promedio</p>
                     </div>
                     <div class="stat-box">
                         <div class="icon-container" style="background: linear-gradient(to right, #0dcaf0, #1966b4);">
                             <i class="fa-solid fa-truck-front"></i>
                         </div>
-                        <h3>$ <span id="total_ventas"></span></h3>
+                        <h3>$ <span id="flete_promedio"></span></h3>
                         <p>Flete Promedio</p>
                     </div>
                 </div>
@@ -126,7 +126,7 @@
                 <!-- Fin Sección de Productos por cantidad -->
             </div>
             <div class="content-box1" style="width: 33.33% !important;">
-                <h4>Ventas del Último Mes</h4>
+                <h4>Porcentaje de entregas del Último Mes</h4>
                 <canvas id="salesChart"></canvas>
             </div>
             <div class="d-flex flex-column" style="width: 33.33% !important;">
@@ -135,14 +135,14 @@
                         <div class="icon-container" style="background: linear-gradient(to right, #c61f1f, #611313);">
                             <i class="fa-solid fa-truck-arrow-right"></i>
                         </div>
-                        <h3>$ <span id="total_ventas"></span></h3>
+                        <h3>$ <span id="devolucion_promedio"></span></h3>
                         <p>Devolucion Promedio</p>
                     </div>
                     <div class="stat-box">
                         <div class="icon-container" style="background: linear-gradient(to right, #0ccf4b, #1d692f);">
                             <i class="fa-solid fa-business-time"></i>
                         </div>
-                        <h3> <span id="total_ventas"></span></h3>
+                        <h3> <span id="tiempo_promedio_entrega">30 Horas</span></h3>
                         <p>Tiempo Promedio Entrega</p>
                     </div>
                 </div>
