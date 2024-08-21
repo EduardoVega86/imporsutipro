@@ -231,10 +231,10 @@ $(function () {
 
         // Recorremos todos los productos y sumamos aquellos que tengan cantidad_despacho > 0
         response.productos_despachos.forEach((product) => {
-          var cantidad_despacho = parseFloat(product.cantidad_despachos);
+          var cantidad_despachos = parseFloat(product.cantidad_despachos);
 
-          if (cantidad_despacho > 0) {
-            total_despachos += cantidad_despacho;
+          if (cantidad_despachos > 0) {
+            total_despachos += cantidad_despachos;
           }
         });
 
@@ -243,11 +243,11 @@ $(function () {
 
         // Supongamos que el API retorna un array de objetos con los datos
         response.productos_despachos.forEach((product) => {
-          var cantidad_despacho = parseFloat(product.cantidad_despachos);
+          var cantidad_despachos = parseFloat(product.cantidad_despachos);
           var nombre_producto = product.nombre_producto;
           var imagen = product.image_path;
           var porcentaje = calcularPorcentaje(
-            parseFloat(product.cantidad_despacho),
+            parseFloat(product.cantidad_despachos),
             total_despachos
           );
 
@@ -255,7 +255,7 @@ $(function () {
 
           // Llamamos a la función para actualizar el DOM
           updateProductProgressBar(
-            cantidad_despacho,
+            cantidad_despachos,
             nombre_producto,
             imagen,
             porcentaje
