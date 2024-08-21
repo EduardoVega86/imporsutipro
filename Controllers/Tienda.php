@@ -241,4 +241,13 @@ class Tienda extends Controller
         $response = $this->model->modificarTienda($nombre, $antiguo, $_POST['id_plataforma']);
         echo json_encode($response);
     }
+
+    public function anadir_dominio_tienda()
+    {
+        $dominio = $_POST['dominio'];
+        $tienda = $_POST['tienda'];
+        $id_plataforma = $_POST['id_plataforma'];
+        $response = $this->model->agregarDominioConSubdominioExistenteTienda($dominio, $tienda, $id_plataforma);
+        echo json_encode($response);
+    }
 }
