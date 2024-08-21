@@ -231,8 +231,7 @@ $(function () {
 
         // Recorremos todos los productos y sumamos aquellos que tengan cantidad_despacho > 0
         response.productos_despachos.forEach((product) => {
-          var cantidad_despacho = parseFloat(product.cantidad_despacho);
-          console.log("cantidad_despacho: " + cantidad_despacho);
+          var cantidad_despacho = parseFloat(product.cantidad_despachos);
 
           if (cantidad_despacho > 0) {
             total_despachos += cantidad_despacho;
