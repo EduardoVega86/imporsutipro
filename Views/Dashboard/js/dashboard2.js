@@ -295,6 +295,41 @@ $(function () {
           );
         });
         /* Fin seccion de productos entregados */
+
+        /* seccion de productos devolucion */
+        let total_devolucion = 0;
+
+        // Recorremos todos los productos y sumamos aquellos que tengan cantidad_despacho > 0
+        response.productos_despachos_devueltos.forEach((product) => {
+          var cantidad_despachos = parseFloat(product.cantidad_despachos);
+
+          if (cantidad_despachos > 0) {
+            total_devolucion += cantidad_despachos;
+          }
+        });
+
+        // Limpiar el contenedor de productos antes de cargar los nuevos
+        document.getElementById("productsDevolucion-container").innerHTML = "";
+
+        // Supongamos que el API retorna un array de objetos con los datos
+        response.productos_despachos_devueltos.forEach((product) => {
+          var cantidad_despachos = parseFloat(product.cantidad_despachos);
+          var nombre_producto = product.nombre_producto;
+          var imagen = product.image_path;
+          var porcentaje = calcularPorcentaje(
+            parseFloat(product.cantidad_despachos),
+            total_devolucion
+          );
+
+          // Llamamos a la función para actualizar el DOM
+          updateProductProgressBar_devolucion(
+            cantidad_despachos,
+            nombre_producto,
+            imagen,
+            porcentaje
+          );
+        });
+        /* Fin seccion de productos devolucion */
       },
       error: function (jqXHR, textStatus, errorThrown) {
         alert(errorThrown);
@@ -408,23 +443,32 @@ $(function () {
   /* funcion productos por devolucion */
   // Función para actualizar la barra de progreso en "Productos por devolucion"
   function updateProductProgressBar_devolucion(
-    productElement,
-    quantity,
-    percentage
+    cantidad_despacho,
+    nombre_producto,
+    imagen,
+    porcentaje
   ) {
-    const quantityElement = productElement.querySelector(".quantity");
-    const progressElement = productElement.querySelector(".progress");
+    // Creamos el contenedor del producto
+    const productElement = document.createElement("div");
+    productElement.classList.add("product");
 
-    quantityElement.textContent = `${quantity} (${percentage.toFixed(2)}%)`;
-    progressElement.style.width = `${percentage}%`;
+    // Creamos la información del producto
+    productElement.innerHTML = `
+        <div class="product-info">
+            <img src="${SERVERURL}${imagen}" alt="${nombre_producto}" class="product-icon">
+            <span>${nombre_producto}</span>
+            <span class="quantity">${cantidad_despacho} (${porcentaje.toFixed(
+      2
+    )}%)</span>
+        </div>
+        <div class="progress-bar">
+            <div class="progress" style="width: ${porcentaje}%;"></div>
+        </div>
+    `;
+
+    // Añadimos el producto al contenedor principal
+    document.getElementById("productsDevolucion-container").appendChild(productElement);
   }
-
-  // Actualización de ejemplo para "Productos por devolucion"
-  const producto_devolucionElements = document.querySelectorAll(
-    ".content-box1.productos_devolucion .product"
-  );
-  updateProductProgressBar_devolucion(producto_devolucionElements[0], 30, 60); // Actualiza el primer producto con una cantidad de 30 y un 60%
-  updateProductProgressBar_devolucion(producto_devolucionElements[1], 15, 40); // Actualiza el segundo producto con una cantidad de 15 y un 40%
 
   /* funcion ciudades con mas devolucion */
   // Función para actualizar la barra de progreso en "Ciudades con más devolucion"

@@ -177,7 +177,7 @@
         <div class="content-container">
             <!-- Sección de productos_entrega por cantidad -->
             <div class="content-box1 productos_entrega" style="width: 50%;">
-                <h4>Productos por cantidad</h4>
+                <h4>Productos entrega por cantidad</h4>
                 <div id="productsEntregados-container"></div>
             </div>
             <!-- Fin Sección de productos_entrega por cantidad -->
@@ -213,26 +213,7 @@
             <!-- Sección de productos_devolucion por cantidad -->
             <div class="content-box1 productos_devolucion" style="width: 50%;">
                 <h4>Productos devolucion por cantidad</h4>
-                <div class="product">
-                    <div class="product-info">
-                        <img src="path-to-icon" alt="icon" class="product-icon">
-                        <span>Producto X</span>
-                        <span class="quantity">0 (0.00%)</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress" style="width: 0%;"></div>
-                    </div>
-                </div>
-                <div class="product">
-                    <div class="product-info">
-                        <img src="path-to-icon" alt="icon" class="product-icon">
-                        <span>Producto Y</span>
-                        <span class="quantity">0 (0.00%)</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress" style="width: 0%;"></div>
-                    </div>
-                </div>
+                <div id="productsDevolucion-container"></div>
             </div>
 
             <!-- Sección de Ciudades_devolucion con más despachos -->
