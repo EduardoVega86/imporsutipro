@@ -188,56 +188,57 @@
     }
 
     /* Estilos específicos para Ciudades */
-    .content-box1.ciudades .progress {
-        background: #f8e100;
-    }
+.content-box1.ciudades .progress {
+    background: rgba(248, 225, 0, 0.7); /* Amarillo con 70% de opacidad */
+}
 
-    .content-box1.ciudades .quantity {
-        color: #555;
-    }
+.content-box1.ciudades .quantity {
+    color: rgba(85, 85, 85, 0.8); /* Gris oscuro con 80% de opacidad */
+}
 
-    /* Estilos específicos para Productos */
-    .content-box1.productos .progress {
-        background: #f8e100;
-    }
+/* Estilos específicos para Productos */
+.content-box1.productos .progress {
+    background: rgba(248, 225, 0, 0.7); /* Amarillo con 70% de opacidad */
+}
 
-    .content-box1.productos .quantity {
-        color: #333;
-    }
+.content-box1.productos .quantity {
+    color: rgba(51, 51, 51, 0.8); /* Gris más oscuro con 80% de opacidad */
+}
 
-    /* Estilos específicos para Ciudades_entrega */
-    .content-box1.ciudades_entrega .progress {
-        background: #2bc506;
-    }
+/* Estilos específicos para Ciudades_entrega */
+.content-box1.ciudades_entrega .progress {
+    background: rgba(43, 197, 6, 0.7); /* Verde con 70% de opacidad */
+}
 
-    .content-box1.ciudades_entrega .quantity {
-        color: #555;
-    }
+.content-box1.ciudades_entrega .quantity {
+    color: rgba(85, 85, 85, 0.8); /* Gris oscuro con 80% de opacidad */
+}
 
-    /* Estilos específicos para Productos_entrega */
-    .content-box1.productos_entrega .progress {
-        background: #2bc506;
-    }
+/* Estilos específicos para Productos_entrega */
+.content-box1.productos_entrega .progress {
+    background: rgba(43, 197, 6, 0.7); /* Verde con 70% de opacidad */
+}
 
-    .content-box1.productos_entrega .quantity {
-        color: #333;
-    }
+.content-box1.productos_entrega .quantity {
+    color: rgba(51, 51, 51, 0.8); /* Gris más oscuro con 80% de opacidad */
+}
 
-    /* Estilos específicos para Ciudades_devolucion */
-    .content-box1.ciudades_devolucion .progress {
-        background: red;
-    }
+/* Estilos específicos para Ciudades_devolucion */
+.content-box1.ciudades_devolucion .progress {
+    background: rgba(255, 0, 0, 0.7); /* Rojo con 70% de opacidad */
+}
 
-    .content-box1.ciudades_devolucion .quantity {
-        color: #555;
-    }
+.content-box1.ciudades_devolucion .quantity {
+    color: rgba(85, 85, 85, 0.8); /* Gris oscuro con 80% de opacidad */
+}
 
-    /* Estilos específicos para Productos_devolucion */
-    .content-box1.productos_devolucion .progress {
-        background: red;
-    }
+/* Estilos específicos para Productos_devolucion */
+.content-box1.productos_devolucion .progress {
+    background: rgba(255, 0, 0, 0.7); /* Rojo con 70% de opacidad */
+}
 
-    .content-box1.productos_devolucion .quantity {
-        color: #333;
-    }
+.content-box1.productos_devolucion .quantity {
+    color: rgba(51, 51, 51, 0.8); /* Gris más oscuro con 80% de opacidad */
+}
+
 </style>
