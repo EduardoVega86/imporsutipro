@@ -525,7 +525,7 @@ class Wallet extends Controller
 
     public function guiasAcuadre()
     {
-        $response = $this->model->guiasAcuadre($id_plataforma);
+        $response = $this->model->guiasAcuadre();
         echo json_encode($response);
     }
 }

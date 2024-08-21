@@ -1307,7 +1307,6 @@ class WalletModel extends Query
 
         print_r($response);
     }
-
     public function guiasAproveedor($plataforma)
     {
         $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE id_proveedor = '$plataforma' AND estado_guia = 7 and visto =1";
