@@ -176,7 +176,7 @@
     <div class="tablas_estaditicas">
         <div class="content-container">
             <!-- Sección de productos_entrega por cantidad -->
-            <div class="content-box1 productos">
+            <div class="content-box1 productos_entrega" style="width: 50%;">
                 <h4>Productos por cantidad</h4>
                 <div id="productsEntregados-container"></div>
             </div>
