@@ -298,9 +298,7 @@ $(function () {
         <div class="product-info">
             <img src="${SERVERURL}${imagen}" alt="${nombre_producto}" class="product-icon">
             <span>${nombre_producto}</span>
-            <span class="quantity">${cantidad_despacho} (${porcentaje.toFixed(
-      2
-    )}%)</span>
+            <span class="quantity">${cantidad_despacho} (${porcentaje.toFixed(2)}%)</span>
         </div>
         <div class="progress-bar">
             <div class="progress" style="width: ${porcentaje}%;"></div>
