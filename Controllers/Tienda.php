@@ -1,4 +1,5 @@
 <?php
+session_start();
 class Tienda extends Controller
 {
     public function __construct()
