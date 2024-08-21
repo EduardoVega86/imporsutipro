@@ -119,7 +119,7 @@
                     </div>
                 </div>
                 <!-- Sección de Productos por cantidad -->
-                <div class="content-box1 productos">
+                <div class="content-box1 productos" style="height: 100%;">
                     <h4>Productos por cantidad</h4>
                     <div id="products-container"></div>
                 </div>
@@ -147,7 +147,7 @@
                     </div>
                 </div>
                 <!-- Sección de Ciudades con más despachos -->
-                <div class="content-box1 ciudades">
+                <div class="content-box1 ciudades" style="height: 100%;">
                     <h4>Ciudades con más despachos</h4>
                     <div id="ciudades-container"></div>
                 </div>
