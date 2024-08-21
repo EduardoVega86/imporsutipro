@@ -344,7 +344,7 @@ $(function () {
         });
 
         // Limpiar el contenedor de ciudad antes de cargar los nuevos
-        document.getElementById("ciudadEntregados-container").innerHTML = "";
+        document.getElementById("ciudades-container").innerHTML = "";
 
         // Supongamos que el API retorna un array de objetos con los datos
         response.ciudad_pedidos.forEach((city) => {
@@ -432,7 +432,7 @@ $(function () {
     `;
 
     // Añadimos el producto al contenedor principal
-    document.getElementById("ciudadEntregados-container").appendChild(productElement);
+    document.getElementById("ciudades-container").appendChild(productElement);
   }
 
   /* funcion productos por entrega */
