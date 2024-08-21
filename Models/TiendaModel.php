@@ -556,8 +556,54 @@ class TiendaModel extends Query
     /* Fin plantilla 2 */
 
 
+    public function agregar_carrito($id_producto, $cantidad, $precio,  $plataforma, $sku, $id_invetario)
+    {
+        //verificar productos
+        $timestamp = session_id();
+        echo $timestamp;
+        //echo "SELECT * FROM tmp_cotizacion WHERE session_id = '$timestamp' and id_producto=$id_producto and sku=$sku";
+        $cantidad_tmp = $this->select("SELECT * FROM tmp_cotizacion WHERE session_id = '$timestamp' and id_inventario=$id_invetario");
 
+        //print_r($cantidad_tmp);
+        if (empty($cantidad_tmp)) {
+            $id_inventario = $this->obtenerBodegaProducto($id_producto, $sku);
 
+            $sql = "INSERT INTO `tmp_cotizacion` (`id_producto`, `cantidad_tmp`, `precio_tmp`, `session_id`, `id_plataforma`, `sku`, `id_inventario`) VALUES (?, ?, ?, ?, ?, ?, ?);";
+            $data = [$id_producto, $cantidad, $precio, $timestamp, $plataforma, $sku, $id_inventario];
+            $insertar_caracteristica = $this->insert($sql, $data);
+            //print_r($insertar_caracteristica);
+        } else {
+            $cantidad_anterior = $cantidad_tmp[0]["cantidad_tmp"];
+            $cantidad_nueva = $cantidad_anterior + $cantidad;
+            $id_tmp = $cantidad_tmp[0]["id_tmp"];
+            $sql = "UPDATE `tmp_cotizacion` SET  `cantidad_tmp` = ? WHERE `id_tmp` = ?";
+            $data = [$cantidad_nueva, $id_tmp];
+            $insertar_caracteristica = $this->update($sql, $data);
+        }
+
+        //print_r($insertar_caracteristica);
+
+        if ($insertar_caracteristica == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Producto agregado al carrito';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al agregar la caracteristica';
+        }
+        return $response;
+    }
+
+    public function obtenerBodegaProducto($id_producto, $sku)
+    {
+        // echo $sku;
+        $sql_invetario = "SELECT * FROM inventario_bodegas WHERE id_producto = $id_producto and sku='$sku'";
+        //echo $sql_invetario;
+        $invetario = $this->select($sql_invetario);
+        $id_invetario = $invetario[0]['id_inventario'];
+        return $id_invetario;
+    }
 
 
     ///////////////////////////  FUNCIONES DE LA TIENDA  ///////////////////////////
