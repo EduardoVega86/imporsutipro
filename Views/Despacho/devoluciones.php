@@ -29,9 +29,6 @@
         return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
     }
 
-    // Obtener el valor del parámetro "transportadora"
-    var transportadora = getParameterByName('transportadora');
-
     function ejecutarDevolucion() {
         var numeroGuia = document.getElementById('numeroGuiaDevolucion').value;
 
@@ -46,13 +43,10 @@
             }
         }
 
-        let formData = new FormData();
-        formData.append("transportadora", transportadora);
 
         $.ajax({
             type: "POST",
             url: SERVERURL + "Inventarios/generarDevolucion/" + numeroGuia,
-            data: formData,
             processData: false, // No procesar los datos
             contentType: false, // No establecer ningún tipo de contenido
             success: function(response) {
