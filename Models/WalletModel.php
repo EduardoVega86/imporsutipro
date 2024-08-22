@@ -90,6 +90,7 @@ class WalletModel extends Query
         // Realizar la verificación correctamente
         $verificar = ($utilidad - $pagos_registrados) == $saldo_billetera;
 
+
         // Armar el array de datos
         $data = [
             'utilidad' => $utilidad,
@@ -100,7 +101,8 @@ class WalletModel extends Query
             'abonos_registrados' => $pagos_registrados,
             'saldo' => $saldo_billetera,
             'plataforma_url' => $plataforma_url[0]['url_imporsuit'] ?? '',
-            'verificar' => $verificar
+            'verificar' => $verificar,
+            'verificarS' => ($utilidad - $pagos_registrados),
         ];
 
         return $data;
