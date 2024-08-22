@@ -220,7 +220,14 @@ const listFacturas = async () => {
 
       var span_estado = estado.span_estado;
       var estado_guia = estado.estado_guia;
-
+      
+      var nombre_proveedor="";
+      if(!factura.proveedor){
+        nombre_proveedor = "---";
+      } else {
+        nombre_proveedor = procesarPlataforma(factura.proveedor);
+      }
+      
       if (filtro_facturas == "pendientes" && factura.visto == 1) {
         content += ``;
       } else {
@@ -242,6 +249,7 @@ const listFacturas = async () => {
           <div>${acreditable}</div>
           </td>
           <td>${tienda_nombre}</td>
+          <td>${nombre_proveedor}</td>
           <td>${factura.total_venta}</td>
           <td>${factura.costo}</td>
           <td>${factura.precio_envio}</td>
