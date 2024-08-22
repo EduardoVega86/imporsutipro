@@ -34,7 +34,9 @@ const initDataTableDetalleWallet = async () => {
 
   await listDetalleWallet();
 
-  dataTableDetalleWallet = $("#datatable_detalleWallet").DataTable(dataTableDetalleWalletOptions);
+  dataTableDetalleWallet = $("#datatable_detalleWallet").DataTable(
+    dataTableDetalleWalletOptions
+  );
 
   dataTableDetalleWalletIsInitialized = true;
 };
@@ -47,7 +49,6 @@ const listDetalleWallet = async () => {
     let content = ``;
 
     detallesWallet.forEach((detalleWallet, index) => {
-
       content += `
                 <tr>
                     <td><a class="dropdown-item link-like" href="${SERVERURL}wallet/pagar?id_plataforma=${detalleWallet.id_plataforma}">${detalleWallet.tienda}</a></td>
@@ -64,7 +65,7 @@ const listDetalleWallet = async () => {
                         <i class="fa-solid fa-gear"></i>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" style="cursor: pointer;" href="${SERVERURL}wallet/pagar?tienda=${detalleWallet.tienda}"><i class='bx bx-wallet'></i>Pagar</a></li>
+                        <li><a class="dropdown-item" style="cursor: pointer;" href="${SERVERURL}wallet/pagar?id_plataforma=${detalleWallet.id_plataforma}"><i class='bx bx-wallet'></i>Pagar</a></li>
                     </ul>
                     </div>
                     </td>
