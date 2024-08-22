@@ -631,6 +631,23 @@ class TiendaModel extends Query
         return $response;
     }
 
+    public function eliminar_carrito($id_tmp)
+    {
+        $response = $this->initialResponse();
+        $sql = "DELETE FROM tmp_cotizacion WHERE id_tmp = ?";
+        $data = [$id_tmp];
+        $eliminar_pixel = $this->delete($sql, $data);
+        if ($eliminar_pixel == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Pixel eliminado correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] =  $eliminar_pixel['message'];
+        }
+        return $response;
+    }
 
     ///////////////////////////  FUNCIONES DE LA TIENDA  ///////////////////////////
     public function crearTienda($tienda, $plataforma)

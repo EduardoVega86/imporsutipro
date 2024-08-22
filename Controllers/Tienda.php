@@ -237,7 +237,14 @@ class Tienda extends Controller
         $response = $this->model->sumar_carrito($id_tmp,$cantidad_nueva);
         echo json_encode($response);
     }
-    
+
+    public function eliminar_carrito()
+    {
+        $id_tmp = $_POST['id_tmp'];
+        $response = $this->model->eliminar_carrito($id_tmp);
+        echo json_encode($response);
+    }
+
 
 
     /// TIENDA COMPRAPOR /// 
