@@ -86,11 +86,12 @@ class WalletModel extends Query
         $utilidad = (float)($datos_facturas_entregadas[0]['utilidad'] ?? 0);
         $pagos_registrados = (float)($abonos_registrados[0]['pagos'] ?? 0);
         $saldo_billetera = (float)($billtera[0]['saldo'] ?? 0);
+        $saldo_billetera = number_format($saldo_billetera, 2);
 
         // Realizar la verificación correctamente
         $verificar = ($utilidad - $pagos_registrados);
         $verificar = number_format($verificar, 2);
-        $verificar = (float)$verificar == number_format($saldo_billetera, 2) ? true : false;
+        $verificar = (float)$verificar == $saldo_billetera ? true : false;
 
         // Armar el array de datos
         $data = [
