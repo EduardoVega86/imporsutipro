@@ -242,7 +242,7 @@ const listFacturas = async () => {
           <div>${acreditable}</div>
           </td>
           <td>${tienda_nombre}</td>
-          <td>${factura.proveedor ?? '---'}</td>
+          <td>${procesarPlataforma(factura.proveedor) ?? '---'}</td>
           <td>${factura.total_venta}</td>
           <td>${factura.costo}</td>
           <td>${factura.precio_envio}</td>
