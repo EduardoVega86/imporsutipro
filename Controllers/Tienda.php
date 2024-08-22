@@ -230,6 +230,15 @@ class Tienda extends Controller
         echo json_encode($response);
     }
 
+    public function sumar_carrito()
+    {
+        $id_tmp = $_POST['id_tmp'];
+        $cantidad_nueva = $_POST['cantidad_nueva'];
+        $response = $this->model->sumar_carrito($id_tmp,$cantidad_nueva);
+        echo json_encode($response);
+    }
+    
+
 
     /// TIENDA COMPRAPOR /// 
 
