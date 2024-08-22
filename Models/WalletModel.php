@@ -73,31 +73,39 @@ class WalletModel extends Query
 
     public function obtenerDatos($tienda)
     {
+        // Consultas SQL
         $datos_facturas_entregadas = $this->select("SELECT ROUND(SUM(monto_recibir),2) as utilidad, ROUND(sum(total_venta),2) as ventas FROM cabecera_cuenta_pagar WHERE id_plataforma = '$tienda' and visto = 1");
         $datos_facturas_devueltas = $this->select("SELECT ROUND(SUM(monto_recibir),2) as devoluciones FROM cabecera_cuenta_pagar WHERE id_plataforma = '$tienda' and visto = 1 and estado_guia = 9");
         $guias_pendientes = $this->select("SELECT COUNT(*) as guias_pendientes FROM cabecera_cuenta_pagar WHERE id_plataforma = '$tienda' and visto = 0");
         $pagos = $this->select("SELECT * FROM `pagos` WHERE id_plataforma = '$tienda'");
-        $abonos_registrados = $this->select("SELECT ROUND(SUM(valor),2) as pagos  FROM `pagos` WHERE id_plataforma = '$tienda' and recargo = 0");
+        $abonos_registrados = $this->select("SELECT ROUND(SUM(valor),2) as pagos FROM `pagos` WHERE id_plataforma = '$tienda' and recargo = 0");
         $plataforma_url = $this->select("SELECT url_imporsuit FROM plataformas WHERE id_plataforma = '$tienda'");
-
-
-
         $billtera = $this->select("SELECT ROUND(saldo,2) as saldo FROM billeteras WHERE id_plataforma = '$tienda'");
-        $verificar = $datos_facturas_entregadas[0]['utilidad'] ?? 0 - $abonos_registrados[0]['pagos'] ?? 0 == $billtera[0]['saldo'] ?? 0;
+
+        // Garantizar que los valores sean numéricos antes de hacer las operaciones
+        $utilidad = (float)($datos_facturas_entregadas[0]['utilidad'] ?? 0);
+        $pagos_registrados = (float)($abonos_registrados[0]['pagos'] ?? 0);
+        $saldo_billetera = (float)($billtera[0]['saldo'] ?? 0);
+
+        // Realizar la verificación correctamente
+        $verificar = ($utilidad - $pagos_registrados) == $saldo_billetera;
+
+        // Armar el array de datos
         $data = [
-            'utilidad' => $datos_facturas_entregadas[0]['utilidad'] ?? 0,
+            'utilidad' => $utilidad,
             'ventas' => $datos_facturas_entregadas[0]['ventas'] ?? 0,
             'devoluciones' => $datos_facturas_devueltas[0]['devoluciones'] ?? 0,
             'guias_pendientes' => $guias_pendientes[0]['guias_pendientes'] ?? 0,
-            'pagos' => $pagos ?? 0,
-            'abonos_registrados' => $abonos_registrados[0]['pagos'] ?? 0,
-            'saldo' => $billtera[0]['saldo'] ?? 0,
-            'plataforma_url' => $plataforma_url[0]['url_imporsuit'] ?? 0,
+            'pagos' => $pagos ?? [],
+            'abonos_registrados' => $pagos_registrados,
+            'saldo' => $saldo_billetera,
+            'plataforma_url' => $plataforma_url[0]['url_imporsuit'] ?? '',
             'verificar' => $verificar
         ];
 
         return $data;
     }
+
 
     public function obtenerFacturas($id_plataforma, $filtro)
     {
