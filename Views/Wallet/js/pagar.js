@@ -49,6 +49,8 @@ function cargarDashboard_wallet() {
         Swal.fire({
           icon: "error",
           title: "Wallet descuadrada, por favor contactar a Sistemas",
+          showConfirmButton: false,
+          timer: 2000,
         });
       }
     },
