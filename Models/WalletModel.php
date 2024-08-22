@@ -84,7 +84,9 @@ class WalletModel extends Query
 
         // Garantizar que los valores sean numéricos antes de hacer las operaciones
         $utilidad = (float)($datos_facturas_entregadas[0]['utilidad'] ?? 0);
+        $utilidad = number_format($utilidad, 2);
         $pagos_registrados = (float)($abonos_registrados[0]['pagos'] ?? 0);
+        $pagos_registrados = number_format($pagos_registrados, 2);
         $saldo_billetera = (float)($billtera[0]['saldo'] ?? 0);
         $saldo_billetera = number_format($saldo_billetera, 2);
 
