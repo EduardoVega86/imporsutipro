@@ -88,7 +88,9 @@ class WalletModel extends Query
         $saldo_billetera = (float)($billtera[0]['saldo'] ?? 0);
 
         // Realizar la verificación correctamente
-        $verificar = ($utilidad - $pagos_registrados) == $saldo_billetera;
+        $verificar = ($utilidad - $pagos_registrados);
+        $verificar = number_format($verificar, 2);
+        $verificar = (float)$verificar == $saldo_billetera ? true : false;
 
         // Armar el array de datos
         $data = [
@@ -100,7 +102,8 @@ class WalletModel extends Query
             'abonos_registrados' => $pagos_registrados,
             'saldo' => $saldo_billetera,
             'plataforma_url' => $plataforma_url[0]['url_imporsuit'] ?? '',
-            'verificar' => $verificar
+            'verificar' => $verificar,
+            'verificarS' => ($utilidad - $pagos_registrados),
         ];
 
         return $data;
