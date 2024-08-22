@@ -222,7 +222,7 @@ const listFacturas = async () => {
       var estado_guia = estado.estado_guia;
       
       var nombre_proveedor="";
-      if(factura.proveedor == ""){
+      if(!factura.proveedor){
         nombre_proveedor = "---";
       } else {
         nombre_proveedor = procesarPlataforma(factura.proveedor);
