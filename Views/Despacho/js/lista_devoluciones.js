@@ -103,15 +103,8 @@ const listListaDevoluciones = async () => {
 document
   .getElementById("generarDespachoBtn")
   .addEventListener("click", function () {
-    const transportadoraSelect = document.getElementById("transportadora");
-    const transportadoraValue = transportadoraSelect.value;
-
-    if (transportadoraValue !== "-- Selecciona Transportadora --") {
-      const url = SERVERURL+`despacho/devoluciones?transportadora=${transportadoraValue}`;
-      window.location.href = url;
-    } else {
-      alert("Por favor selecciona una transportadora.");
-    }
+    const url = SERVERURL + `despacho/devoluciones`;
+    window.location.href = url;
   });
 
 window.addEventListener("load", async () => {
