@@ -751,7 +751,7 @@ class InventariosModel extends Query
             if ($editar_categoria == 1) {
                 $response['status'] = 200;
                 $response['title'] = 'Peticion exitosa';
-                $response['message'] = 'Despacho Exitoso';
+                $response['message'] = 'Devolucion Exitoso';
             } else {
                 $response['status'] = 500;
                 $response['title'] = 'Error';
