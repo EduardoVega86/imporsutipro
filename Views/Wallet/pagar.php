@@ -155,6 +155,7 @@
                         <th class="centered">Numero Guia</th>
                         <th class="centered">Estado Guia</th>
                         <th class="centered">Tienda</th>
+                        <th class="centered">Proveedor</th>
                         <th class="centered">Venta total</th>
                         <th class="centered">Costo</th>
                         <th class="centered">Precio envio</th>
