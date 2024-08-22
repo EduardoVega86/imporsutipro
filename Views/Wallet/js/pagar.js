@@ -48,7 +48,7 @@ function cargarDashboard_wallet() {
       if (!response.verificar) {
         Swal.fire({
           icon: "error",
-          title: "Tiene descuadrada la wallet, porfavor comunicarse con el personal de IMPOSUIT SA.",
+          title: "Wallet descuadrada, por favor contactar a Sistemas",
         });
       }
     },
