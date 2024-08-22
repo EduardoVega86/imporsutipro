@@ -1317,7 +1317,7 @@ class WalletModel extends Query
         $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE guia = '$guia'";
         $response =  $this->select($sql);
 
-        $sql_insert = "INSERT INTO `cabecera_cuenta_pagar`(`numero_factura`, `id_plataforma`, `cliente`, `fecha`, `tienda`, `estado_guia`, `costo`, `monto_recibir`, `id_matriz`, `cod`, `guia`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+        $sql_insert = "INSERT INTO `cabecera_cuenta_pagar`(`numero_factura`, `id_plataforma`, `cliente`, `fecha`, `tienda`, `estado_guia`, `costo`, `monto_recibir`, `id_matriz`, `cod`, `guia`) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
         $response =  $this->insert($sql_insert, array($response[0]['numero_factura'] . '-P', $response[0]['id_proveedor'], $response[0]['cliente'], $response[0]['fecha'], $response[0]['proveedor'], 7, $response[0]['costo'], $response[0]['costo'], 1, $response[0]['cod'], $guia));
         return $response;
     }
