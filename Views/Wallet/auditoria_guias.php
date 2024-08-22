@@ -102,6 +102,7 @@
                         <th class="centered">Transportadora</th>
                         <th class="centered">COD</th>
                         <th class="centered">Monto Factura</th>
+                        <th class="centered">Flete Wallet</th>
                         <th class="centered">Valor flete</th>
                         <th class="centered">Solo flete</th>
                         <th class="centered">Costo flete</th>

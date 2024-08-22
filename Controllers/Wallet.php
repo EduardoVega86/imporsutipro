@@ -516,10 +516,9 @@ class Wallet extends Controller
         echo json_encode($response);
     }
 
-    public function guiasAproveedor()
+    public function guiasAproveedor($guia)
     {
-        $id_plataforma = $_POST['id_plataforma'];
-        $response = $this->model->guiasAproveedor($id_plataforma);
+        $response = $this->model->guiasAproveedor($guia);
         echo json_encode($response);
     }
 

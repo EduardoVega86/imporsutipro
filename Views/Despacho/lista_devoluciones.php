@@ -4,7 +4,12 @@
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
         <h2 class="text-center mb-4">Lista Devoluciones</h2>
-        
+        <div>
+            <div class="d-flex flex-column w-100">
+             
+            </div>
+            <button id="generarDespachoBtn" class="btn btn-success">Generar devolucion</button>
+        </div>
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
             <table id="datatable_lista_devoluciones" class="table table-striped">

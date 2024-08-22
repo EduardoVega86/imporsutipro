@@ -357,6 +357,18 @@ class Pedidos extends Controller
     }
 
 
+     public function obtener_guias_retraso()
+    {
+        $fecha_inicio = $_POST['fecha_inicio'] ?? "";
+        $fecha_fin = $_POST['fecha_fin'] ?? "";
+        $transportadora = $_POST['transportadora'] ?? "";
+        $estado = $_POST['estado'] ?? "";
+        $drogshipin = $_POST['drogshipin'] ?? "";
+        $impreso = $_POST['impreso'] ?? "";
+        $data = $this->model->cargarGuiasRetraso($_SESSION['id_plataforma'], $fecha_inicio, $fecha_fin, $transportadora, $impreso, $drogshipin);
+        echo json_encode($data);
+    }
+    
     public function obtener_guiasAdministrador()
     {
         $fecha_inicio = $_POST['fecha_inicio'] ?? "";

@@ -73,28 +73,39 @@ class WalletModel extends Query
 
     public function obtenerDatos($tienda)
     {
+        // Consultas SQL
         $datos_facturas_entregadas = $this->select("SELECT ROUND(SUM(monto_recibir),2) as utilidad, ROUND(sum(total_venta),2) as ventas FROM cabecera_cuenta_pagar WHERE id_plataforma = '$tienda' and visto = 1");
         $datos_facturas_devueltas = $this->select("SELECT ROUND(SUM(monto_recibir),2) as devoluciones FROM cabecera_cuenta_pagar WHERE id_plataforma = '$tienda' and visto = 1 and estado_guia = 9");
         $guias_pendientes = $this->select("SELECT COUNT(*) as guias_pendientes FROM cabecera_cuenta_pagar WHERE id_plataforma = '$tienda' and visto = 0");
         $pagos = $this->select("SELECT * FROM `pagos` WHERE id_plataforma = '$tienda'");
-        $abonos_registrados = $this->select("SELECT ROUND(SUM(valor),2) as pagos  FROM `pagos` WHERE id_plataforma = '$tienda' and recargo = 0");
+        $abonos_registrados = $this->select("SELECT ROUND(SUM(valor),2) as pagos FROM `pagos` WHERE id_plataforma = '$tienda' and recargo = 0");
         $plataforma_url = $this->select("SELECT url_imporsuit FROM plataformas WHERE id_plataforma = '$tienda'");
-
-
         $billtera = $this->select("SELECT ROUND(saldo,2) as saldo FROM billeteras WHERE id_plataforma = '$tienda'");
+
+        // Garantizar que los valores sean numéricos antes de hacer las operaciones
+        $utilidad = (float)($datos_facturas_entregadas[0]['utilidad'] ?? 0);
+        $pagos_registrados = (float)($abonos_registrados[0]['pagos'] ?? 0);
+        $saldo_billetera = (float)($billtera[0]['saldo'] ?? 0);
+
+        // Realizar la verificación correctamente
+        $verificar = ($utilidad - $pagos_registrados) == $saldo_billetera;
+
+        // Armar el array de datos
         $data = [
-            'utilidad' => $datos_facturas_entregadas[0]['utilidad'] ?? 0,
+            'utilidad' => $utilidad,
             'ventas' => $datos_facturas_entregadas[0]['ventas'] ?? 0,
             'devoluciones' => $datos_facturas_devueltas[0]['devoluciones'] ?? 0,
             'guias_pendientes' => $guias_pendientes[0]['guias_pendientes'] ?? 0,
-            'pagos' => $pagos ?? 0,
-            'abonos_registrados' => $abonos_registrados[0]['pagos'] ?? 0,
-            'saldo' => $billtera[0]['saldo'] ?? 0,
-            'plataforma_url' => $plataforma_url[0]['url_imporsuit'] ?? 0
+            'pagos' => $pagos ?? [],
+            'abonos_registrados' => $pagos_registrados,
+            'saldo' => $saldo_billetera,
+            'plataforma_url' => $plataforma_url[0]['url_imporsuit'] ?? '',
+            'verificar' => $verificar
         ];
 
         return $data;
     }
+
 
     public function obtenerFacturas($id_plataforma, $filtro)
     {
@@ -851,6 +862,9 @@ class WalletModel extends Query
                 fc.monto_factura,
                 fc.id_transporte,
                 fc.costo_flete,
+                fc.id_plataforma,
+                fc.id_propietario,
+                
                 FORMAT(
                 CASE 
                     WHEN fc.id_transporte = 1 THEN (
@@ -1006,6 +1020,7 @@ class WalletModel extends Query
                 pt.comision,
                 ccp.monto_recibir,
                 ccp.valor_pendiente,
+                ccp.envio_wallet,
                 (SELECT SUM(monto)
                     FROM historial_billetera hb
                     WHERE hb.motivo LIKE CONCAT('%', fc.numero_guia, '%')
@@ -1025,7 +1040,8 @@ class WalletModel extends Query
                 SELECT 
                     guia,
                     SUM(monto_recibir) AS monto_recibir,
-                    SUM(valor_pendiente) AS valor_pendiente
+                    SUM(valor_pendiente) AS valor_pendiente,
+                    SUM(precio_envio) AS envio_wallet
                 FROM 
                     cabecera_cuenta_pagar
                 WHERE visto = 1
@@ -1039,7 +1055,7 @@ class WalletModel extends Query
             ORDER BY 
                 fc.fecha_factura;
             ";
-        //echo $sql;
+        // echo $sql;
         $response =  $this->select($sql);
         return $response;
     }
@@ -1307,11 +1323,15 @@ class WalletModel extends Query
 
         print_r($response);
     }
-    public function guiasAproveedor($plataforma)
+    public function guiasAproveedor($guia)
     {
-        $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE id_proveedor = '$plataforma' AND estado_guia = 7 and visto =1";
-    }
+        $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE guia = '$guia'";
+        $response =  $this->select($sql);
 
+        $sql_insert = "INSERT INTO `cabecera_cuenta_pagar`(`numero_factura`, `id_plataforma`, `cliente`, `fecha`, `tienda`, `estado_guia`, `costo`, `monto_recibir`, `id_matriz`, `cod`, `guia`) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+        $response =  $this->insert($sql_insert, array($response[0]['numero_factura'] . '-P', $response[0]['id_proveedor'], $response[0]['cliente'], $response[0]['fecha'], $response[0]['proveedor'], 7, $response[0]['costo'], $response[0]['costo'], 1, $response[0]['cod'], $guia));
+        return $response;
+    }
     public function guiasAcuadre()
     {
         $sql = "SELECT * FROM `cabecera_cuenta_pagar` WHERE guia like 'MKP%' and estado_guia = 7 and numero_factura not like '%-P' and numero_factura not like '%-F' and precio_envio != 5.99;";

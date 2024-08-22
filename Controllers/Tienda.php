@@ -225,8 +225,8 @@ class Tienda extends Controller
 
     public function buscar_carrito()
     {
-
-        $response = $this->model->buscar_carrito();
+        $timestamp = $_POST['session_id'];
+        $response = $this->model->buscar_carrito($timestamp);
         echo json_encode($response);
     }
 
