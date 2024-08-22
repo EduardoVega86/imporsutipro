@@ -44,6 +44,13 @@ function cargarDashboard_wallet() {
       $("#descuentoDevolucion_wallet").text(response.devoluciones);
       $("#retirosAcreditados_wallet").text(response.abonos_registrados);
       $("#saldoBilletera_wallet").text(response.saldo);
+
+      if (!response.verificar) {
+        Swal.fire({
+          icon: "error",
+          title: "Tiene descuadrada la wallet, porfavor comunicarse con un encargado",
+        });
+      }
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
@@ -173,7 +180,7 @@ const listFacturas = async () => {
         }
         acreditable = "acreditable";
       } else if (factura.estado_guia == 9) {
-        if (factura.valor_pendiente >= 0 ) {
+        if (factura.valor_pendiente >= 0) {
           check = "";
         } else {
           if (filtro_facturas == "pendientes") {
