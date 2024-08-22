@@ -81,7 +81,9 @@ class WalletModel extends Query
         $plataforma_url = $this->select("SELECT url_imporsuit FROM plataformas WHERE id_plataforma = '$tienda'");
 
 
+
         $billtera = $this->select("SELECT ROUND(saldo,2) as saldo FROM billeteras WHERE id_plataforma = '$tienda'");
+        $verificar = $datos_facturas_entregadas[0]['utilidad'] ?? 0 - $abonos_registrados[0]['pagos'] ?? 0 == $billtera[0]['saldo'] ?? 0;
         $data = [
             'utilidad' => $datos_facturas_entregadas[0]['utilidad'] ?? 0,
             'ventas' => $datos_facturas_entregadas[0]['ventas'] ?? 0,
@@ -90,7 +92,8 @@ class WalletModel extends Query
             'pagos' => $pagos ?? 0,
             'abonos_registrados' => $abonos_registrados[0]['pagos'] ?? 0,
             'saldo' => $billtera[0]['saldo'] ?? 0,
-            'plataforma_url' => $plataforma_url[0]['url_imporsuit'] ?? 0
+            'plataforma_url' => $plataforma_url[0]['url_imporsuit'] ?? 0,
+            'verificar' => $verificar
         ];
 
         return $data;
