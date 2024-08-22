@@ -604,9 +604,8 @@ class TiendaModel extends Query
     }
 
 
-    public function buscar_carrito()
+    public function buscar_carrito($tmp)
     {
-        $tmp = session_id();
         // echo $tmp;
         $sql = "SELECT * FROM `tmp_cotizacion` tmp LEFT JOIN `inventario_bodegas` ib ON tmp.id_inventario = ib.id_inventario 
         LEFT JOIN `productos` p ON tmp.id_producto = p.id_producto LEFT JOIN `variedades` v ON ib.id_variante = v.id_variedad WHERE tmp.session_id = '$tmp'";
