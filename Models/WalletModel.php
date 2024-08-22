@@ -74,7 +74,7 @@ class WalletModel extends Query
     public function obtenerDatos($tienda)
     {
         // Consultas SQL
-        $datos_facturas_entregadas = $this->select("SELECT ROUND(SUM(monto_recibir),2) as utilidad, ROUND(sum(total_venta),2) as ventas FROM cabecera_cuenta_pagar WHERE id_plataforma = '$tienda' and visto = 1");
+        $datos_facturas_entregadas = $this->select("SELECT ROUND(SUM(monto_recibir),2) as utilidad, ROUND(SUM(total_venta),2) as ventas FROM cabecera_cuenta_pagar WHERE id_plataforma = '$tienda' and visto = 1");
         $datos_facturas_devueltas = $this->select("SELECT ROUND(SUM(monto_recibir),2) as devoluciones FROM cabecera_cuenta_pagar WHERE id_plataforma = '$tienda' and visto = 1 and estado_guia = 9");
         $guias_pendientes = $this->select("SELECT COUNT(*) as guias_pendientes FROM cabecera_cuenta_pagar WHERE id_plataforma = '$tienda' and visto = 0");
         $pagos = $this->select("SELECT * FROM `pagos` WHERE id_plataforma = '$tienda'");
@@ -83,33 +83,25 @@ class WalletModel extends Query
         $billtera = $this->select("SELECT ROUND(saldo,2) as saldo FROM billeteras WHERE id_plataforma = '$tienda'");
 
         // Garantizar que los valores sean numéricos antes de hacer las operaciones
-        $utilidad = (float)($datos_facturas_entregadas[0]['utilidad'] ?? 0);
-        $utilidad = number_format($utilidad, 2);
-        $utilidad = (float)$utilidad;
-        $pagos_registrados = (float)($abonos_registrados[0]['pagos'] ?? 0);
-        $pagos_registrados = number_format($pagos_registrados, 2);
-        $pagos_registrados = (float)$pagos_registrados;
-        $saldo_billetera = (float)($billtera[0]['saldo'] ?? 0);
-        $saldo_billetera = number_format($saldo_billetera, 2);
-        $saldo_billetera = (float)$saldo_billetera;
+        $utilidad = round((float)($datos_facturas_entregadas[0]['utilidad'] ?? 0), 2);
+        $pagos_registrados = round((float)($abonos_registrados[0]['pagos'] ?? 0), 2);
+        $saldo_billetera = round((float)($billtera[0]['saldo'] ?? 0), 2);
 
         // Realizar la verificación correctamente
-        $verificar = ($utilidad - $pagos_registrados);
-        $verificar = number_format($verificar, 2);
-        $verificar = (float)$verificar == $saldo_billetera ? true : false;
+        $verificar = round($utilidad - $pagos_registrados, 2) == $saldo_billetera;
 
         // Armar el array de datos
         $data = [
             'utilidad' => $utilidad,
-            'ventas' => $datos_facturas_entregadas[0]['ventas'] ?? 0,
-            'devoluciones' => $datos_facturas_devueltas[0]['devoluciones'] ?? 0,
+            'ventas' => round($datos_facturas_entregadas[0]['ventas'] ?? 0, 2),
+            'devoluciones' => round($datos_facturas_devueltas[0]['devoluciones'] ?? 0, 2),
             'guias_pendientes' => $guias_pendientes[0]['guias_pendientes'] ?? 0,
             'pagos' => $pagos ?? [],
             'abonos_registrados' => $pagos_registrados,
             'saldo' => $saldo_billetera,
             'plataforma_url' => $plataforma_url[0]['url_imporsuit'] ?? '',
             'verificar' => $verificar,
-            'verificarS' => ($utilidad - $pagos_registrados),
+            'verificarS' => round($utilidad - $pagos_registrados, 2),
             'verificarB' => $saldo_billetera
         ];
 
