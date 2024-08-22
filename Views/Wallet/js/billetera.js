@@ -1,4 +1,3 @@
-
 var pagos_global;
 
 // Añadimos un evento que se ejecuta cuando el DOM ha sido completamente cargado
@@ -145,26 +144,33 @@ const listFacturas = async () => {
         cod = "Sin Recaudo";
       }
       if (factura.estado_guia == 7) {
-        estado_guia = "Entregado";
+        acreditable = "Entregado";
       } else if (factura.estado_guia == 9) {
-        estado_guia = "Devuelto";
+        acreditable = "Devuelto";
       } else {
-        estado_guia = "No acreditable";
+        acreditable = "No acreditable";
       }
 
       if (factura.guia.includes("IMP") || factura.guia.includes("MKP")) {
         url_tracking = `https://fenixoper.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${factura.guia}`;
         url_descargar = `https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${factura.guia}`;
+        estado = validar_estadoLaar(factura.estado_guia);
       } else if (factura.guia.includes("I")) {
         url_tracking = `https://ec.gintracom.site/web/site/tracking`;
         url_descargar = `https://guias.imporsuitpro.com/Gintracom/label/${factura.guia}`;
+        estado = validar_estadoGintracom(factura.estado_guia);
       } else if (factura.guia.includes("SPD")) {
         url_tracking = ``;
         url_descargar = `https://guias.imporsuitpro.com/Speed/descargar/${factura.guia}`;
+        estado = validar_estadoSpeed(factura.estado_guia);
       } else {
-        url_tracking = `https://www.servientrega.com.ec/Tracking/?guia=${factura.guia}&tipo=GUIA`;
+        url_tracking = `https://servientrega-ecuador.appsiscore.com/app/app-cliente/cons_publica.php?guia=${factura.guia}&Request=Buscar+`;
         url_descargar = `https://guias.imporsuitpro.com/Servientrega/guia/${factura.guia}`;
+        estado = validar_estadoServi(factura.estado_guia);
       }
+
+      var span_estado = estado.span_estado;
+      var estado_guia = estado.estado_guia;
 
       content += `
                 <tr>
@@ -177,7 +183,10 @@ const listFacturas = async () => {
                     <div>${factura.cliente}</div>
                     <div>${factura.fecha}</div>
                     </td>
-                    <td>${estado_guia}</td>
+                    <td>
+                    <div><span class="w-100 text-nowrap ${span_estado}">${estado_guia}</span></div>
+                    <div>${acreditable}</div>
+                    </td>
                     <td>${tienda_nombre}</td>
                     <td>${factura.total_venta}</td>
                     <td>${factura.costo}</td>
@@ -258,7 +267,7 @@ function procesarPlataforma(url) {
   let sinProtocolo = url.replace("https://", "");
 
   // Encontrar la posición del primer punto
-  let primerPunto = sinProtocolo.indexOf('.');
+  let primerPunto = sinProtocolo.indexOf(".");
 
   // Obtener la subcadena desde el inicio hasta el primer punto
   let baseNombre = sinProtocolo.substring(0, primerPunto);
@@ -394,9 +403,11 @@ $(document).ready(function () {
       // Asegúrate de que la respuesta es un array
       if (Array.isArray(response)) {
         response.forEach(function (cuenta) {
-          
           $("#cuenta").append(
-            new Option(`${cuenta.banco}- ${cuenta.numero_cuenta} -${cuenta.tipo_cuenta}`, cuenta.id_cuenta)
+            new Option(
+              `${cuenta.banco}- ${cuenta.numero_cuenta} -${cuenta.tipo_cuenta}`,
+              cuenta.id_cuenta
+            )
           );
         });
       } else {
@@ -417,7 +428,6 @@ $(document).ready(function () {
       // Asegúrate de que la respuesta es un array
       if (Array.isArray(response)) {
         response.forEach(function (cuenta) {
-          
           $("#formadePago").append(
             new Option(`${cuenta.tipo}- ${cuenta.cuenta}`, cuenta.id_pago)
           );
