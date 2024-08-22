@@ -90,7 +90,7 @@ class WalletModel extends Query
         // Realizar la verificación correctamente
         $verificar = ($utilidad - $pagos_registrados);
         $verificar = number_format($verificar, 2);
-        $verificar = (float)$verificar == $saldo_billetera ? true : false;
+        $verificar = (float)$verificar == (float)number_format($saldo_billetera, 2) ? true : false;
 
         // Armar el array de datos
         $data = [
