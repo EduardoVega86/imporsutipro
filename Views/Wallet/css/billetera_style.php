@@ -123,4 +123,40 @@
         background-color: #0056b3;
         font-weight: bold;
     }
+    
+    /* Diseños de estados guias */
+    .badge_danger {
+        background-color: red;
+        color: white;
+        padding: 4px;
+        border-radius: 0.3rem;
+    }
+
+    .badge_purple {
+        background-color: #804BD1;
+        color: white;
+        padding: 4px;
+        border-radius: 0.3rem;
+    }
+
+    .badge_generado {
+        background-color: #54DD10;
+        color: white;
+        padding: 4px;
+        border-radius: 0.3rem;
+    }
+
+    .badge_warning {
+        background-color: #F2CC0E;
+        color: white;
+        padding: 4px;
+        border-radius: 0.3rem;
+    }
+
+    .badge_green {
+        background-color: #59D343;
+        color: white;
+        padding: 4px;
+        border-radius: 0.3rem;
+    }
 </style>

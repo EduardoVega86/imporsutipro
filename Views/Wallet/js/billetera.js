@@ -1,4 +1,3 @@
-
 var pagos_global;
 
 // Añadimos un evento que se ejecuta cuando el DOM ha sido completamente cargado
@@ -145,26 +144,33 @@ const listFacturas = async () => {
         cod = "Sin Recaudo";
       }
       if (factura.estado_guia == 7) {
-        estado_guia = "Entregado";
+        acreditable = "Entregado";
       } else if (factura.estado_guia == 9) {
-        estado_guia = "Devuelto";
+        acreditable = "Devuelto";
       } else {
-        estado_guia = "No acreditable";
+        acreditable = "No acreditable";
       }
 
       if (factura.guia.includes("IMP") || factura.guia.includes("MKP")) {
         url_tracking = `https://fenixoper.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${factura.guia}`;
         url_descargar = `https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${factura.guia}`;
+        estado = validar_estadoLaar(factura.estado_guia);
       } else if (factura.guia.includes("I")) {
         url_tracking = `https://ec.gintracom.site/web/site/tracking`;
         url_descargar = `https://guias.imporsuitpro.com/Gintracom/label/${factura.guia}`;
+        estado = validar_estadoGintracom(factura.estado_guia);
       } else if (factura.guia.includes("SPD")) {
         url_tracking = ``;
         url_descargar = `https://guias.imporsuitpro.com/Speed/descargar/${factura.guia}`;
+        estado = validar_estadoSpeed(factura.estado_guia);
       } else {
-        url_tracking = `https://www.servientrega.com.ec/Tracking/?guia=${factura.guia}&tipo=GUIA`;
+        url_tracking = `https://servientrega-ecuador.appsiscore.com/app/app-cliente/cons_publica.php?guia=${factura.guia}&Request=Buscar+`;
         url_descargar = `https://guias.imporsuitpro.com/Servientrega/guia/${factura.guia}`;
+        estado = validar_estadoServi(factura.estado_guia);
       }
+
+      var span_estado = estado.span_estado;
+      var estado_guia = estado.estado_guia;
 
       content += `
                 <tr>
@@ -177,7 +183,10 @@ const listFacturas = async () => {
                     <div>${factura.cliente}</div>
                     <div>${factura.fecha}</div>
                     </td>
-                    <td>${estado_guia}</td>
+                    <td>
+                    <div><span class="w-100 text-nowrap ${span_estado}">${estado_guia}</span></div>
+                    <div>${acreditable}</div>
+                    </td>
                     <td>${tienda_nombre}</td>
                     <td>${factura.total_venta}</td>
                     <td>${factura.costo}</td>
@@ -258,7 +267,7 @@ function procesarPlataforma(url) {
   let sinProtocolo = url.replace("https://", "");
 
   // Encontrar la posición del primer punto
-  let primerPunto = sinProtocolo.indexOf('.');
+  let primerPunto = sinProtocolo.indexOf(".");
 
   // Obtener la subcadena desde el inicio hasta el primer punto
   let baseNombre = sinProtocolo.substring(0, primerPunto);
@@ -394,9 +403,11 @@ $(document).ready(function () {
       // Asegúrate de que la respuesta es un array
       if (Array.isArray(response)) {
         response.forEach(function (cuenta) {
-          
           $("#cuenta").append(
-            new Option(`${cuenta.banco}- ${cuenta.numero_cuenta} -${cuenta.tipo_cuenta}`, cuenta.id_cuenta)
+            new Option(
+              `${cuenta.banco}- ${cuenta.numero_cuenta} -${cuenta.tipo_cuenta}`,
+              cuenta.id_cuenta
+            )
           );
         });
       } else {
@@ -417,7 +428,6 @@ $(document).ready(function () {
       // Asegúrate de que la respuesta es un array
       if (Array.isArray(response)) {
         response.forEach(function (cuenta) {
-          
           $("#formadePago").append(
             new Option(`${cuenta.tipo}- ${cuenta.cuenta}`, cuenta.id_pago)
           );
@@ -535,3 +545,161 @@ const listHistorialPago = async () => {
 window.addEventListener("load", async () => {
   await initDataTableHistorialPago();
 });
+
+/* validar estado */
+function validar_estadoLaar(estado) {
+  var span_estado = "";
+  var estado_guia = "";
+  if (estado == 1) {
+    span_estado = "badge_purple";
+    estado_guia = "Generado";
+  } else if (estado == 2) {
+    span_estado = "badge_purple";
+    estado_guia = "Por recolectar";
+  } else if (estado == 3) {
+    span_estado = "badge_purple";
+    estado_guia = "Por recolectar";
+  } else if (estado == 4) {
+    span_estado = "badge_purple";
+    estado_guia = "Por recolectar";
+  } else if (estado == 5) {
+    span_estado = "badge_warning";
+    estado_guia = "En transito";
+  } else if (estado == 6) {
+    span_estado = "badge_warning";
+    estado_guia = "Zona de entrega";
+  } else if (estado == 7) {
+    span_estado = "badge_green";
+    estado_guia = "Entregado";
+  } else if (estado == 8) {
+    span_estado = "badge_danger";
+    estado_guia = "Anulado";
+  } else if (estado == 11) {
+    span_estado = "badge_warning";
+    estado_guia = "En transito";
+  } else if (estado == 12) {
+    span_estado = "badge_warning";
+    estado_guia = "En transito";
+  } else if (estado == 14) {
+    span_estado = "badge_danger";
+    estado_guia = "Con novedad";
+  } else if (estado == 9) {
+    span_estado = "badge_danger";
+    estado_guia = "Devuelto";
+  }
+
+  return {
+    span_estado: span_estado,
+    estado_guia: estado_guia,
+  };
+}
+
+function validar_estadoServi(estado) {
+  var span_estado = "";
+  var estado_guia = "";
+  if (estado == 101) {
+    span_estado = "badge_danger";
+    estado_guia = "Anulado";
+  } else if (estado == 100 || estado == 102 || estado == 103) {
+    span_estado = "badge_purple";
+    estado_guia = "Generado";
+  } else if (estado == 200 || estado == 201 || estado == 202) {
+    span_estado = "badge_purple";
+    estado_guia = "Recolectado";
+  } else if (estado >= 300 && estado <= 317) {
+    span_estado = "badge_warning";
+    estado_guia = "Procesamiento";
+  } else if ((estado >= 400 && estado <= 403) || estado == 7) {
+    span_estado = "badge_green";
+    estado_guia = "Entregado";
+  } else if (estado >= 318 && estado <= 351) {
+    span_estado = "badge_danger";
+    estado_guia = "Con novedad";
+  } else if ((estado >= 500 && estado <= 502) || estado == 9) {
+    span_estado = "badge_danger";
+    estado_guia = "Devuelto";
+  }
+
+  return {
+    span_estado: span_estado,
+    estado_guia: estado_guia,
+  };
+}
+
+function validar_estadoGintracom(estado) {
+  var span_estado = "";
+  var estado_guia = "";
+
+  if (estado == 1) {
+    span_estado = "badge_generado";
+    estado_guia = "Generada";
+  } else if (estado == 2) {
+    span_estado = "badge_warning";
+    estado_guia = "Picking";
+  } else if (estado == 3) {
+    span_estado = "badge_warning";
+    estado_guia = "Packing";
+  } else if (estado == 4) {
+    span_estado = "badge_warning";
+    estado_guia = "En tránsito";
+  } else if (estado == 5) {
+    span_estado = "badge_warning";
+    estado_guia = "En reparto";
+  } else if (estado == 6) {
+    span_estado = "badge_purple";
+    estado_guia = "Novedad";
+  } else if (estado == 7) {
+    span_estado = "badge_green";
+    estado_guia = "Entregada";
+  } else if (estado == 8) {
+    span_estado = "badge_danger";
+    estado_guia = "Devolucion";
+  } else if (estado == 9) {
+    span_estado = "badge_danger";
+    estado_guia = "Devolución Entregada a Origen";
+  } else if (estado == 10) {
+    span_estado = "badge_danger";
+    estado_guia = "Cancelada por transportadora";
+  } else if (estado == 11) {
+    span_estado = "badge_danger";
+    estado_guia = "Indemnización";
+  } else if (estado == 12) {
+    span_estado = "badge_danger";
+    estado_guia = "Anulada";
+  } else if (estado == 13) {
+    span_estado = "badge_danger";
+    estado_guia = "Devolucion en tránsito";
+  }
+
+  return {
+    span_estado: span_estado,
+    estado_guia: estado_guia,
+  };
+}
+
+function validar_estadoSpeed(estado) {
+  var span_estado = "";
+  var estado_guia = "";
+  if (estado == 2) {
+    span_estado = "badge_purple";
+    estado_guia = "generado";
+  } else if (estado == 3) {
+    span_estado = "badge_warning";
+    estado_guia = "En transito";
+  } else if (estado == 7) {
+    span_estado = "badge_green";
+    estado_guia = "Entregado";
+  } else if (estado == 9) {
+    span_estado = "badge_danger";
+    estado_guia = "Devuelto";
+  } else if (estado == 1) {
+    span_estado = "badge_purple";
+    estado_guia = "Nuevo";
+  }
+
+  return {
+    span_estado: span_estado,
+    estado_guia: estado_guia,
+  };
+}
+/* Fin validar estado */
