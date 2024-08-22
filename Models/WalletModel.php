@@ -88,8 +88,9 @@ class WalletModel extends Query
         $saldo_billetera = (float)($billtera[0]['saldo'] ?? 0);
 
         // Realizar la verificación correctamente
-        $verificar = ($utilidad - $pagos_registrados) == $saldo_billetera;
-
+        $verificar = ($utilidad - $pagos_registrados);
+        $verificar = number_format($verificar, 2);
+        $verificar = (float)$verificar == $saldo_billetera ? true : false;
 
         // Armar el array de datos
         $data = [
