@@ -476,7 +476,7 @@ class TiendaModel extends Query
     }
 
     /* pedido carrito */
-    public function guardar_pedido_carrito($id_plataforma, $id_producto, $total, $nombre, $telefono, $provincia, $ciudad, $calle_principal, $calle_secundaria, $referencia, $observacion, $id_inventario, $tmp)
+    public function guardar_pedido_carrito($id_plataforma, $id_producto, $total, $nombre, $telefono, $provincia, $ciudad, $calle_principal, $calle_secundaria, $referencia, $observacion, $tmp)
     {
         // $tmp = session_id();
         //$response = $this->initialResponse();
