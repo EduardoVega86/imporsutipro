@@ -594,7 +594,7 @@ class TiendaModel extends Query
 
         // print_r($responses);
         if ($responses === 1) {
-            
+
             $id_factura = $this->select("SELECT id_factura FROM facturas_cot WHERE numero_factura = '$nueva_factura'");
             $factura_id = $id_factura[0]['id_factura'];
 
@@ -884,14 +884,27 @@ class TiendaModel extends Query
                 $response3 = $this->retryRequest($url_ssl, $maxRetries, $retryDelay, 300);
 
                 if ($response3 && isset($response3['status']) && $response3['status'] == 200) {
-                    $tienda = 'https://' . $nombre . '.comprapor.com';
-                    $update = "UPDATE plataformas SET url_imporsuit = ? WHERE id_plataforma = ?";
-                    $data = [$tienda, $plataforma];
-                    $this->simple_select($update, $data);
 
-                    $response['status'] = 200;
-                    $response['title'] = 'Peticion exitosa';
-                    $response['message'] = 'Tienda modificada correctamente';
+                    // Desactivar SSL de la tienda anterior
+                    $url_ssl_antiguo = "https://activador.comprapor.com/eliminarSSL/" . $antiguo;
+                    $response4 = $this->retryRequest($url_ssl_antiguo, $maxRetries, $retryDelay, 300);
+
+                    if ($response4 && isset($response4['status']) && $response4['status'] == 200) {
+
+
+                        $tienda = 'https://' . $nombre . '.comprapor.com';
+                        $update = "UPDATE plataformas SET url_imporsuit = ? WHERE id_plataforma = ?";
+                        $data = [$tienda, $plataforma];
+                        $this->simple_select($update, $data);
+
+                        $response['status'] = 200;
+                        $response['title'] = 'Peticion exitosa';
+                        $response['message'] = 'Tienda modificada correctamente';
+                    } else {
+                        $response['status'] = 500;
+                        $response['title'] = 'Error';
+                        $response['message'] = $response4['message'] ?? 'Error desconocido al desactivar SSL de la tienda anterior';
+                    }
                 } else {
                     $response['status'] = 500;
                     $response['title'] = 'Error';
