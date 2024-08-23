@@ -183,6 +183,29 @@ class Tienda extends Controller
         echo json_encode($response);
     }
 
+    public function guardar_pedido_carrito()
+    {        //$nombre = $_POST['nombre'];
+        $id_plataforma =   $_POST['id_plataforma'];
+        $id_producto =    $_POST['id_producto'];
+        $precio_producto =     $_POST['precio_producto'];
+        $nombre =     $_POST['nombre'];
+        $telefono =    $_POST['telefono'];
+        $provincia =   $_POST['provincia'];
+        $ciudad =    $_POST['ciudad'];
+
+        $calle_principal =   $_POST['calle_principal'];
+        $calle_secundaria =    $_POST['calle_secundaria'];
+
+        $referencia =   $_POST['referencia'];
+        $observacion =    $_POST['observacion'];
+        $id_inventario =    $_POST['id_inventario'];
+
+        $tmp =    $_POST['tmp'];
+
+        $response = $this->model->guardar_pedido_carrito($id_plataforma, $id_producto, $precio_producto, $nombre, $telefono, $provincia, $ciudad, $calle_principal, $calle_secundaria, $referencia, $observacion, $id_inventario, $tmp);
+        echo json_encode($response);
+    }
+
     public function anadir_dominio()
     {
         $dominio = $_POST['dominio'];
