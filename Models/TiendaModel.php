@@ -606,7 +606,7 @@ class TiendaModel extends Query
             // Insertar cada registro de tmp_cotizacion en detalle_cotizacion
             $detalle_sql = "INSERT INTO detalle_fact_cot (numero_factura, id_factura, id_producto, cantidad, desc_venta, precio_venta, id_plataforma , sku, id_inventario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             foreach ($tmp_cotizaciones as $tmp) {
-                  echo 'enta';
+                //  echo 'enta';
                 $detalle_data = array(
                     $nueva_factura,
                     $factura_id,
