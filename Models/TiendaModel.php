@@ -820,7 +820,7 @@ class TiendaModel extends Query
         $eliminar_pixel = $this->delete($sql_delete_carrito, $data);
         print_r($eliminar_pixel);
 
-        if ($eliminar_pixel == 1) {
+        if ($eliminar_pixel > 0) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
             $response['message'] = 'Pixel eliminado correctamente';
