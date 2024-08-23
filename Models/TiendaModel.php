@@ -476,7 +476,7 @@ class TiendaModel extends Query
     }
 
     /* pedido carrito */
-    public function guardar_pedido_carrito($id_plataforma, $id_producto, $precio_producto, $nombre, $telefono, $provincia, $ciudad, $calle_principal, $calle_secundaria, $referencia, $observacion, $id_inventario, $tmp)
+    public function guardar_pedido_carrito($id_plataforma, $id_producto, $total, $nombre, $telefono, $provincia, $ciudad, $calle_principal, $calle_secundaria, $referencia, $observacion, $id_inventario, $tmp)
     {
         // $tmp = session_id();
         //$response = $this->initialResponse();
@@ -484,6 +484,7 @@ class TiendaModel extends Query
         $sql_producto = "SELECT * FROM productos_tienda WHERE id_producto_tienda = $id_producto limit 1";
         $producto = $this->select($sql_producto);
         $producto = $producto[0]['id_producto'];
+        $id_inventario = $producto[0]['id_inventario'];
         //echo $producto;
 
         $sql_datos_producto = "SELECT * FROM productos WHERE id_producto = $producto ";
@@ -542,7 +543,7 @@ class TiendaModel extends Query
         $data = array(
             $nueva_factura,
             $date_added,
-            $precio_producto,
+            $total,
             1,
             $nombre,
             $telefono,
