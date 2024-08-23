@@ -61,9 +61,19 @@ class Referidos extends Controller
     {
         $monto = $_POST['monto'];
         $cuenta = $_POST['cuenta'];
-        $otro = $_POST['otro'];
+        $otro = $_POST['otro'] ?? 0;
         $plataforma = $_SESSION['id_plataforma'];
-        $response = $this->model->solicitar_pago($monto, $cuenta, $plataforma, $otro);
+
+        $puede_solicitar = $this->model->puede_solicitar($monto, $plataforma);
+        if ($puede_solicitar) {
+
+            $response = $this->model->solicitar_pago($monto, $cuenta, $plataforma, $otro);
+        } else {
+            $response = array(
+                "status" => 500,
+                "msg" => "No tienes suficiente saldo para solicitar este monto"
+            );
+        }
         echo json_encode($response);
     }
 

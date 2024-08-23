@@ -111,18 +111,18 @@
             contentType: false, // No establecer ningún tipo de contenido
             success: function(response) {
                 response = JSON.parse(response);
-                if (response.status == 400) {
+                if (response.status == 500) {
                     Swal.fire({
                         icon: 'error',
                         title: "Error",
-                        text: response.message
+                        text: response.msg
                     });
                 } else if (response.status == 200) {
 
                     Swal.fire({
                         icon: 'success',
                         title: "Exito",
-                        text: response.message,
+                        text: response.msg,
                         showConfirmButton: false,
                         timer: 2000
                     }).then(() => {
