@@ -52,43 +52,44 @@ const initDataTableNuevosPedidos = async () => {
 };
 
 const listNuevosPedidos = () => {
-  // Crear una instancia de FormData
   let formData = new FormData();
-  formData.append("sku", sku); // Añadir el SKU al FormData
+  formData.append("sku", sku);
 
   $.ajax({
     url: SERVERURL + "pedidos/buscarProductosBodega/" + id_producto,
-    type: "POST", // Cambiar a POST para enviar FormData
+    type: "POST",
     data: formData,
-    processData: false, // No procesar los datos
-    contentType: false, // No establecer ningún tipo de contenido
+    processData: false,
+    contentType: false,
     success: function (response) {
-      console.log("Respuesta del servidor:", response); // Verificar la respuesta
+      console.log("Respuesta del servidor:", response);
 
-      // Verificar si la respuesta es un JSON y tiene el formato esperado
       let nuevosPedidos = response;
       if (typeof response === "string") {
         nuevosPedidos = JSON.parse(response);
       }
 
       if (Array.isArray(nuevosPedidos)) {
-        let content = ``;
-        nuevosPedidos.forEach((nuevoPedido, index) => {
-          let imagen = obtenerURLImagen(nuevoPedido.image_path,SERVERURL);
-          content += `
-                        <tr>
-                            <td><img src="${imagen}" class="icon-button" width="50px"></td>
-                            <td>${nuevoPedido.id_producto}</td>
-                            <td>${nuevoPedido.nombre_producto}</td>
-                            <td>${nuevoPedido.stock_inicial}</td>
-                            <td><input type="number" class="form-control" value="1" min="1" id="cantidad_${index}"></td>
-                            <td>${nuevoPedido.pvp}</td>
-                            <td>
-                            <button class="btn btn-sm btn-success" onclick="enviar_cliente(${nuevoPedido.id_producto}, ${index},'${nuevoPedido.sku}', ${nuevoPedido.pvp}, ${nuevoPedido.id_inventario})"><i class="fa-solid fa-plus"></i></button>
-                            </td>
-                        </tr>`;
+        // Limpiar cualquier dato anterior en la tabla
+        dataTableNuevosPedidos.clear();
+
+        // Crear un array con los datos en el formato que DataTables espera
+        const datos = nuevosPedidos.map((nuevoPedido, index) => {
+          let imagen = obtenerURLImagen(nuevoPedido.image_path, SERVERURL);
+          return [
+            `<img src="${imagen}" class="icon-button" width="50px">`,
+            nuevoPedido.id_producto,
+            nuevoPedido.nombre_producto,
+            nuevoPedido.stock_inicial,
+            `<input type="number" class="form-control" value="1" min="1" id="cantidad_${index}">`,
+            nuevoPedido.pvp,
+            `<button class="btn btn-sm btn-success" onclick="enviar_cliente(${nuevoPedido.id_producto}, ${index},'${nuevoPedido.sku}', ${nuevoPedido.pvp}, ${nuevoPedido.id_inventario})">
+                <i class="fa-solid fa-plus"></i></button>`,
+          ];
         });
-        document.getElementById("tableBody_nuevosPedidos").innerHTML = content;
+
+        // Añadir los nuevos datos a la tabla
+        dataTableNuevosPedidos.rows.add(datos).draw();
       } else {
         console.error("La respuesta no es un array:", nuevosPedidos);
         alert("Error: La respuesta no tiene el formato esperado.");
@@ -138,7 +139,6 @@ function enviar_cliente(id, index, sku, pvp, id_inventario) {
   // Obtener el valor del input cantidad correspondiente
   let cantidad = $(`#cantidad_${index}`).val();
 
-
   // Crear un objeto FormData y agregar los datos
   const formData = new FormData();
   formData.append("cantidad", cantidad); // Utilizar la cantidad obtenida
@@ -155,18 +155,15 @@ function enviar_cliente(id, index, sku, pvp, id_inventario) {
     contentType: false,
     success: function (response2) {
       response2 = JSON.parse(response2);
-      
+
       if (response2.status == 500) {
-        toastr.error(
-          "NO SE AGREGRO CORRECTAMENTE",
-          "NOTIFICACIÓN", {
-              positionClass: "toast-bottom-center"
-          }
-      );
+        toastr.error("NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
       } else if (response2.status == 200) {
         toastr.success("PRODUCTO AGREGADO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
-      });
+        });
         initDataTableNuevoPedido();
       }
     },
