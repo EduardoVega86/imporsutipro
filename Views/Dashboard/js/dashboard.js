@@ -69,6 +69,15 @@ $(function () {
         $("#total_pedidos").text(response.pedidos);
         $("#total_guias").text(response.total_guias);
         $("#total_ventas").text(response.ventas);
+        $("#ticket_promedio").text(
+          parseFloat(response.ticket_promedio).toFixed(2)
+        );
+        $("#flete_promedio").text(
+          parseFloat(response.flete_promedio).toFixed(2)
+        );
+        $("#devolucion_promedio").text(
+          parseFloat(response.devolucion_promedio).toFixed(2)
+        );
 
         // Limpia el tbody antes de agregar los nuevos datos
         $("#facturas-body").empty();
@@ -159,22 +168,22 @@ $(function () {
 
         // Definir los colores para cada estado
         const estadoColors = {
-          "Anulado": "rgba(255, 0, 0, 0.2)", // rojo
+          Anulado: "rgba(255, 0, 0, 0.2)", // rojo
           "En Transito": "rgba(255, 255, 0, 0.2)", // amarillo
-          "Entregado": "rgba(144, 238, 144, 0.2)", // verde claro
-          "Generado": "rgba(0, 0, 255, 0.2)", // azul
-          "Otro": "rgba(128, 128, 128, 0.2)", // gris
-          "Por Recolectar": "rgba(128, 0, 128, 0.2)" // morado
+          Entregado: "rgba(144, 238, 144, 0.2)", // verde claro
+          Generado: "rgba(0, 0, 255, 0.2)", // azul
+          Otro: "rgba(128, 128, 128, 0.2)", // gris
+          "Por Recolectar": "rgba(128, 0, 128, 0.2)", // morado
         };
-        
+
         // Definir los colores del borde para cada estado
         const estadoBorderColors = {
-          "Anulado": "rgba(255, 0, 0, 1)", // rojo
+          Anulado: "rgba(255, 0, 0, 1)", // rojo
           "En Transito": "rgba(255, 255, 0, 1)", // amarillo
-          "Entregado": "rgba(144, 238, 144, 1)", // verde claro
-          "Generado": "rgba(0, 0, 255, 1)", // azul
-          "Otro": "rgba(128, 128, 128, 1)", // gris
-          "Por Recolectar": "rgba(128, 0, 128, 1)" // morado
+          Entregado: "rgba(144, 238, 144, 1)", // verde claro
+          Generado: "rgba(0, 0, 255, 1)", // azul
+          Otro: "rgba(128, 128, 128, 1)", // gris
+          "Por Recolectar": "rgba(128, 0, 128, 1)", // morado
         };
 
         // Preparar los datos para el gráfico de pastel
@@ -225,6 +234,200 @@ $(function () {
             },
           },
         });
+
+        /* seccion de productos despachados */
+        let total_despachos = 0;
+
+        // Recorremos todos los productos y sumamos aquellos que tengan cantidad_despacho > 0
+        response.productos_despachos.forEach((product) => {
+          var cantidad_despachos = parseFloat(product.cantidad_despachos);
+
+          if (cantidad_despachos > 0) {
+            total_despachos += cantidad_despachos;
+          }
+        });
+
+        // Limpiar el contenedor de productos antes de cargar los nuevos
+        document.getElementById("products-container").innerHTML = "";
+
+        // Supongamos que el API retorna un array de objetos con los datos
+        response.productos_despachos.forEach((product) => {
+          var cantidad_despachos = parseFloat(product.cantidad_despachos);
+          var nombre_producto = product.nombre_producto;
+          var imagen = product.image_path;
+          var porcentaje = calcularPorcentaje(
+            parseFloat(product.cantidad_despachos),
+            total_despachos
+          );
+
+          // Llamamos a la función para actualizar el DOM
+          updateProductProgressBar(
+            cantidad_despachos,
+            nombre_producto,
+            imagen,
+            porcentaje
+          );
+        });
+        /* Fin seccion de productos despachados */
+
+        /* seccion de productos entregados */
+        let total_entregados = 0;
+
+        // Recorremos todos los productos y sumamos aquellos que tengan cantidad_despacho > 0
+        response.productos_despachos_entregados.forEach((product) => {
+          var cantidad_despachos = parseFloat(product.cantidad_despachos);
+
+          if (cantidad_despachos > 0) {
+            total_entregados += cantidad_despachos;
+          }
+        });
+
+        // Limpiar el contenedor de productos antes de cargar los nuevos
+        document.getElementById("productsEntregados-container").innerHTML = "";
+
+        // Supongamos que el API retorna un array de objetos con los datos
+        response.productos_despachos_entregados.forEach((product) => {
+          var cantidad_despachos = parseFloat(product.cantidad_despachos);
+          var nombre_producto = product.nombre_producto;
+          var imagen = product.image_path;
+          var porcentaje = calcularPorcentaje(
+            parseFloat(product.cantidad_despachos),
+            total_entregados
+          );
+
+          // Llamamos a la función para actualizar el DOM
+          updateProductProgressBar_entrega(
+            cantidad_despachos,
+            nombre_producto,
+            imagen,
+            porcentaje
+          );
+        });
+        /* Fin seccion de productos entregados */
+
+        /* seccion de productos devolucion */
+        let total_devolucion = 0;
+
+        // Recorremos todos los productos y sumamos aquellos que tengan cantidad_despacho > 0
+        response.productos_despachos_devueltos.forEach((product) => {
+          var cantidad_despachos = parseFloat(product.cantidad_despachos);
+
+          if (cantidad_despachos > 0) {
+            total_devolucion += cantidad_despachos;
+          }
+        });
+
+        // Limpiar el contenedor de productos antes de cargar los nuevos
+        document.getElementById("productsDevolucion-container").innerHTML = "";
+
+        // Supongamos que el API retorna un array de objetos con los datos
+        response.productos_despachos_devueltos.forEach((product) => {
+          var cantidad_despachos = parseFloat(product.cantidad_despachos);
+          var nombre_producto = product.nombre_producto;
+          var imagen = product.image_path;
+          var porcentaje = calcularPorcentaje(
+            parseFloat(product.cantidad_despachos),
+            total_devolucion
+          );
+
+          // Llamamos a la función para actualizar el DOM
+          updateProductProgressBar_devolucion(
+            cantidad_despachos,
+            nombre_producto,
+            imagen,
+            porcentaje
+          );
+        });
+        /* Fin seccion de productos devolucion */
+
+        /* seccion de ciudad despachados */
+        let total_despachos_ciudad = 0;
+
+        // Recorremos todos los ciudad y sumamos aquellos que tengan cantidad_despacho > 0
+        response.ciudad_pedidos.forEach((city) => {
+          var cantidad_pedidos = parseFloat(city.cantidad_pedidos);
+
+          if (cantidad_pedidos > 0) {
+            total_despachos_ciudad += cantidad_pedidos;
+          }
+        });
+
+        // Limpiar el contenedor de ciudad antes de cargar los nuevos
+        document.getElementById("ciudades-container").innerHTML = "";
+
+        // Supongamos que el API retorna un array de objetos con los datos
+        response.ciudad_pedidos.forEach((city) => {
+          var cantidad_pedidos = parseFloat(city.cantidad_pedidos);
+          var ciudad = city.ciudad;
+          var porcentaje = calcularPorcentaje(
+            parseFloat(city.cantidad_pedidos),
+            total_despachos_ciudad
+          );
+
+          // Llamamos a la función para actualizar el DOM
+          updateCityProgressBar(cantidad_pedidos, ciudad, porcentaje);
+        });
+        /* Fin seccion de ciudad despachados */
+        /* seccion de ciudad entregado */
+        let total_despachos_ciudad_entregado = 0;
+
+        // Recorremos todos los ciudad y sumamos aquellos que tengan cantidad_despacho > 0
+        response.ciudades_entregas.forEach((city) => {
+          var cantidad_entregas = parseFloat(city.cantidad_entregas);
+
+          if (cantidad_entregas > 0) {
+            total_despachos_ciudad_entregado += cantidad_entregas;
+          }
+        });
+
+        // Limpiar el contenedor de ciudad antes de cargar los nuevos
+        document.getElementById("ciudadesEntregadas-container").innerHTML = "";
+
+        // Supongamos que el API retorna un array de objetos con los datos
+        response.ciudades_entregas.forEach((city) => {
+          var cantidad_entregas = parseFloat(city.cantidad_entregas);
+          var ciudad = city.ciudad;
+          var porcentaje = calcularPorcentaje(
+            parseFloat(city.cantidad_entregas),
+            total_despachos_ciudad_entregado
+          );
+
+          // Llamamos a la función para actualizar el DOM
+          updateCityProgressBar_entregar(cantidad_entregas, ciudad, porcentaje);
+        });
+        /* Fin seccion de ciudad entregado */
+        /* seccion de ciudad devolucion */
+        let total_despachos_ciudad_devolucion = 0;
+
+        // Recorremos todos los ciudad y sumamos aquellos que tengan cantidad_despacho > 0
+        response.ciudades_devoluciones.forEach((city) => {
+          var cantidad_entregas = parseFloat(city.cantidad_entregas);
+
+          if (cantidad_entregas > 0) {
+            total_despachos_ciudad_devolucion += cantidad_entregas;
+          }
+        });
+
+        // Limpiar el contenedor de ciudad antes de cargar los nuevos
+        document.getElementById("ciudadesDevolucion-container").innerHTML = "";
+
+        // Supongamos que el API retorna un array de objetos con los datos
+        response.ciudades_devoluciones.forEach((city) => {
+          var cantidad_entregas = parseFloat(city.cantidad_entregas);
+          var ciudad = city.ciudad;
+          var porcentaje = calcularPorcentaje(
+            parseFloat(city.cantidad_entregas),
+            total_despachos_ciudad_devolucion
+          );
+
+          // Llamamos a la función para actualizar el DOM
+          updateCityProgressBar_devolucion(
+            cantidad_entregas,
+            ciudad,
+            porcentaje
+          );
+        });
+        /* Fin seccion de ciudad devolucion */
       },
       error: function (jqXHR, textStatus, errorThrown) {
         alert(errorThrown);
@@ -235,4 +438,187 @@ $(function () {
   $(document).ready(function () {
     informacion_dashboard("", "");
   });
+
+  // Función para calcular el porcentaje (opcional según el formato de tus datos)
+  function calcularPorcentaje(cantidad, total) {
+    return (cantidad / total) * 100;
+  }
+
+  /* funcion productos por cantidad */
+  // Función para actualizar la barra de progreso en "Productos por cantidad"
+  function updateProductProgressBar(
+    cantidad_despacho,
+    nombre_producto,
+    imagen,
+    porcentaje
+  ) {
+    // Creamos el contenedor del producto
+    const productElement = document.createElement("div");
+    productElement.classList.add("product");
+
+    // Creamos la información del producto
+    productElement.innerHTML = `
+        <div class="product-info">
+            <img src="${SERVERURL}${imagen}" alt="${nombre_producto}" class="product-icon">
+            <span>${nombre_producto}</span>
+            <span class="quantity">${cantidad_despacho} (${porcentaje.toFixed(
+      2
+    )}%)</span>
+        </div>
+        <div class="progress-bar">
+            <div class="progress" style="width: ${porcentaje}%;"></div>
+        </div>
+    `;
+
+    // Añadimos el producto al contenedor principal
+    document.getElementById("products-container").appendChild(productElement);
+  }
+
+  /* funcion ciudades con mas despachos */
+  // Función para actualizar la barra de progreso en "Ciudades con más despachos"
+  function updateCityProgressBar(cantidad_pedidos, ciudad, porcentaje) {
+    // Creamos el contenedor del producto
+    const productElement = document.createElement("div");
+    productElement.classList.add("product");
+
+    // Creamos la información del producto
+    productElement.innerHTML = `
+        <div class="product-info">
+            <span>${ciudad}</span>
+            <span class="quantity">${cantidad_pedidos} (${porcentaje.toFixed(
+      2
+    )}%)</span>
+        </div>
+        <div class="progress-bar">
+            <div class="progress" style="width: ${porcentaje}%;"></div>
+        </div>
+    `;
+
+    // Añadimos el producto al contenedor principal
+    document.getElementById("ciudades-container").appendChild(productElement);
+  }
+
+  /* funcion productos por entrega */
+  // Función para actualizar la barra de progreso en "Productos por entrega"
+  function updateProductProgressBar_entrega(
+    cantidad_despacho,
+    nombre_producto,
+    imagen,
+    porcentaje
+  ) {
+    // Creamos el contenedor del producto
+    const productElement = document.createElement("div");
+    productElement.classList.add("product");
+
+    // Creamos la información del producto
+    productElement.innerHTML = `
+        <div class="product-info">
+            <img src="${SERVERURL}${imagen}" alt="${nombre_producto}" class="product-icon">
+            <span>${nombre_producto}</span>
+            <span class="quantity">${cantidad_despacho} (${porcentaje.toFixed(
+      2
+    )}%)</span>
+        </div>
+        <div class="progress-bar">
+            <div class="progress" style="width: ${porcentaje}%;"></div>
+        </div>
+    `;
+
+    // Añadimos el producto al contenedor principal
+    document
+      .getElementById("productsEntregados-container")
+      .appendChild(productElement);
+  }
+
+  /* funcion ciudades con mas entrega */
+  // Función para actualizar la barra de progreso en "Ciudades con más entrega"
+  function updateCityProgressBar_entregar(
+    cantidad_entregas,
+    ciudad,
+    porcentaje
+  ) {
+    // Creamos el contenedor del producto
+    const productElement = document.createElement("div");
+    productElement.classList.add("product");
+
+    // Creamos la información del producto
+    productElement.innerHTML = `
+        <div class="product-info">
+            <span>${ciudad}</span>
+            <span class="quantity">${cantidad_entregas} (${porcentaje.toFixed(
+      2
+    )}%)</span>
+        </div>
+        <div class="progress-bar">
+            <div class="progress" style="width: ${porcentaje}%;"></div>
+        </div>
+    `;
+
+    // Añadimos el producto al contenedor principal
+    document
+      .getElementById("ciudadesEntregadas-container")
+      .appendChild(productElement);
+  }
+
+  /* funcion productos por devolucion */
+  // Función para actualizar la barra de progreso en "Productos por devolucion"
+  function updateProductProgressBar_devolucion(
+    cantidad_despacho,
+    nombre_producto,
+    imagen,
+    porcentaje
+  ) {
+    // Creamos el contenedor del producto
+    const productElement = document.createElement("div");
+    productElement.classList.add("product");
+
+    // Creamos la información del producto
+    productElement.innerHTML = `
+        <div class="product-info">
+            <img src="${SERVERURL}${imagen}" alt="${nombre_producto}" class="product-icon">
+            <span>${nombre_producto}</span>
+            <span class="quantity">${cantidad_despacho} (${porcentaje.toFixed(
+      2
+    )}%)</span>
+        </div>
+        <div class="progress-bar">
+            <div class="progress" style="width: ${porcentaje}%;"></div>
+        </div>
+    `;
+
+    // Añadimos el producto al contenedor principal
+    document
+      .getElementById("productsDevolucion-container")
+      .appendChild(productElement);
+  }
+
+  /* funcion ciudades con mas devolucion */
+  // Función para actualizar la barra de progreso en "Ciudades con más devolucion"
+  function updateCityProgressBar_devolucion(
+    cantidad_entregas,
+    ciudad,
+    porcentaje
+  ) {
+    // Creamos el contenedor del producto
+    const productElement = document.createElement("div");
+    productElement.classList.add("product");
+
+    // Creamos la información del producto
+    productElement.innerHTML = `
+        <div class="product-info">
+            <span>${ciudad}</span>
+            <span class="quantity">${cantidad_entregas} (${porcentaje.toFixed(
+      2
+    )}%)</span>
+        </div>
+        <div class="progress-bar">
+            <div class="progress" style="width: ${porcentaje}%;"></div>
+        </div>
+    `;
+
+    // Añadimos el producto al contenedor principal
+    document
+      .getElementById("ciudadesDevolucion-container")
+      .appendChild(productElement);
+  }
 });
