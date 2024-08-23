@@ -31,7 +31,6 @@
         flex: 1 1 calc(25% - 40px);
         width: 50%;
         position: relative;
-        /* Añadido para el posicionamiento del icono */
     }
 
     .icon-container {
@@ -133,8 +132,113 @@
             max-width: calc(105% - 40px);
         }
 
+        .content-box1 {
+            width: 100%;
+            max-width: calc(105% - 40px);
+        }
+
         .slider-container img {
             width: 100%;
         }
     }
+
+    /* Estilos comunes */
+    .content-box1 {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        padding: 20px;
+        margin: 10px;
+    }
+
+    .product {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 10px;
+    }
+
+    .product-info {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 5px;
+    }
+
+    .product-icon {
+        width: 24px;
+        height: 24px;
+        margin-right: 10px;
+    }
+
+    .quantity {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .progress-bar {
+        height: 10px;
+        background: #eee;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+
+    .progress {
+        height: 100%;
+        border-radius: 5px;
+    }
+
+    /* Estilos específicos para Ciudades */
+.content-box1.ciudades .progress {
+    background: rgba(248, 225, 0, 0.7); /* Amarillo con 70% de opacidad */
+}
+
+.content-box1.ciudades .quantity {
+    color: rgba(85, 85, 85, 0.8); /* Gris oscuro con 80% de opacidad */
+}
+
+/* Estilos específicos para Productos */
+.content-box1.productos .progress {
+    background: rgba(248, 225, 0, 0.7); /* Amarillo con 70% de opacidad */
+}
+
+.content-box1.productos .quantity {
+    color: rgba(51, 51, 51, 0.8); /* Gris más oscuro con 80% de opacidad */
+}
+
+/* Estilos específicos para Ciudades_entrega */
+.content-box1.ciudades_entrega .progress {
+    background: rgba(43, 197, 6, 0.7); /* Verde con 70% de opacidad */
+}
+
+.content-box1.ciudades_entrega .quantity {
+    color: rgba(85, 85, 85, 0.8); /* Gris oscuro con 80% de opacidad */
+}
+
+/* Estilos específicos para Productos_entrega */
+.content-box1.productos_entrega .progress {
+    background: rgba(43, 197, 6, 0.7); /* Verde con 70% de opacidad */
+}
+
+.content-box1.productos_entrega .quantity {
+    color: rgba(51, 51, 51, 0.8); /* Gris más oscuro con 80% de opacidad */
+}
+
+/* Estilos específicos para Ciudades_devolucion */
+.content-box1.ciudades_devolucion .progress {
+    background: rgba(255, 0, 0, 0.7); /* Rojo con 70% de opacidad */
+}
+
+.content-box1.ciudades_devolucion .quantity {
+    color: rgba(85, 85, 85, 0.8); /* Gris oscuro con 80% de opacidad */
+}
+
+/* Estilos específicos para Productos_devolucion */
+.content-box1.productos_devolucion .progress {
+    background: rgba(255, 0, 0, 0.7); /* Rojo con 70% de opacidad */
+}
+
+.content-box1.productos_devolucion .quantity {
+    color: rgba(51, 51, 51, 0.8); /* Gris más oscuro con 80% de opacidad */
+}
+
 </style>
