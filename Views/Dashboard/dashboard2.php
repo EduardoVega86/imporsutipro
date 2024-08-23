@@ -125,10 +125,7 @@
                 </div>
                 <!-- Fin Sección de Productos por cantidad -->
             </div>
-            <div class="content-box1" style="width: 33.33% !important;">
-                <h4>Porcentaje de entregas del Último Mes</h4>
-                <canvas id="salesChart"></canvas>
-            </div>
+            
             <div class="d-flex flex-column" style="width: 33.33% !important;">
                 <div class="d-flex flex-row">
                     <div class="stat-box">
