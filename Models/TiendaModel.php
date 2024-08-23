@@ -886,6 +886,7 @@ class TiendaModel extends Query
                 if ($response3 && isset($response3['status']) && $response3['status'] == 200) {
 
                     // Desactivar SSL de la tienda anterior
+
                     $url_ssl_antiguo = "https://activador.comprapor.com/eliminarSSL/" . $antiguo;
                     $response4 = $this->retryRequest($url_ssl_antiguo, $maxRetries, $retryDelay, 300);
 
