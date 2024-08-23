@@ -238,7 +238,7 @@ class WalletModel extends Query
     private function manejarGuiaCompleta($cabecera, $usuario, $valor)
     {
         // Abono al proveedor si corresponde
-        if ($cabecera['id_proveedor'] && $cabecera['id_proveedor'] != $cabecera['id_plataforma']) {
+        if ($cabecera['id_proveedor'] && $cabecera['id_proveedor'] != $cabecera['id_plataforma'] && $cabecera['estado_guia'] == 7) {
             $this->manejarProveedor($cabecera, $usuario, $valor);
         }
 
