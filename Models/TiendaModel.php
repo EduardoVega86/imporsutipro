@@ -475,6 +475,167 @@ class TiendaModel extends Query
         return $nuevaFactura;
     }
 
+    /* pedido carrito */
+    public function guardar_pedido_carrio($id_plataforma, $id_producto, $precio_producto, $nombre, $telefono, $provincia, $ciudad, $calle_principal, $calle_secundaria, $referencia, $observacion, $id_inventario, $tmp)
+    {
+        // $tmp = session_id();
+        //$response = $this->initialResponse();
+
+        $sql_producto = "SELECT * FROM productos_tienda WHERE id_producto_tienda = $id_producto limit 1";
+        $producto = $this->select($sql_producto);
+        $producto = $producto[0]['id_producto'];
+        //echo $producto;
+
+        $sql_datos_producto = "SELECT * FROM productos WHERE id_producto = $producto ";
+        // echo $sql_datos_producto;
+        $datos_producto = $this->select($sql_datos_producto);
+        $producto_plataforma = $datos_producto[0]['id_plataforma'];
+
+
+        $sql_datos_bodega = "SELECT * FROM inventario_bodegas WHERE id_inventario = $id_inventario ";
+
+        // echo $sql_datos_bodega;
+        $datos_bodega = $this->select($sql_datos_bodega);
+        $bodega = $datos_bodega[0]['bodega'];
+        $sku = $datos_bodega[0]['sku'];
+
+        // echo $sql_datos_bodega;
+        $sql_datos_origen = "SELECT * FROM bodega WHERE id = $bodega ";
+        $datos_origen = $this->select($sql_datos_origen);
+        $ciudadO = $datos_origen[0]['localidad'];
+        $nombreO = $datos_origen[0]['nombre'];
+        $direccionO = $datos_origen[0]['direccion'];
+
+        //echo $bodega.'-'.$direccionO.'--'.$ciudadO.'---'.$nombreO;
+
+
+        $date_added     = date("Y-m-d H:i:s");
+
+        $ultima_factura = $this->select("SELECT MAX(numero_factura) as factura_numero FROM facturas_cot");
+        $factura_numero = $ultima_factura[0]['factura_numero'];
+        if (!$factura_numero || $factura_numero == '') {
+            $factura_numero = 'COT-0000000000';
+        }
+        $nueva_factura = $this->incrementarNumeroFactura($factura_numero);
+
+
+        if ($producto_plataforma == $id_plataforma) {
+            $drop = 0;
+        } else {
+            $drop = 1;
+        }
+
+        $response = $this->initialResponse();
+        $sql = "INSERT INTO facturas_cot (
+            numero_factura, fecha_factura, monto_factura, estado_factura, 
+            nombre, telefono, c_principal, ciudad_cot, c_secundaria, 
+            referencia, observacion, guia_enviada, transporte, identificacion, celular, 
+            id_propietario, drogshipin, id_plataforma, importado, 
+            plataforma_importa, cod, estado_guia_sistema, impreso, facturada, 
+            anulada, identificacionO, nombreO, ciudadO,  provincia,
+            direccionO, referenciaO, numeroCasaO, valor_seguro, no_piezas, tipo_servicio, 
+            peso, contiene, costo_flete, costo_producto, comentario, id_transporte, telefonoO, id_bodega
+        ) VALUES (
+            ?, ?, ?, ?, ?, ?, ?, ?,  ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+        )";
+
+        $data = array(
+            $nueva_factura,
+            $date_added,
+            $precio_producto,
+            1,
+            $nombre,
+            $telefono,
+            $calle_principal,
+            $ciudad,
+            $calle_secundaria,
+            $referencia,
+            $observacion,
+            0,
+            0,
+            0,
+            $telefono,
+            $producto_plataforma,
+            $drop,
+            $id_plataforma,
+            0,
+            'tienda_online',
+            0,
+            0,
+            0,
+            0,
+            0,
+            '',
+            $nombreO,
+            $ciudadO,
+            $provincia,
+            $direccionO,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            '',
+            0,
+            0,
+            0,
+            0,
+            0,
+            $bodega
+        );
+
+        if (substr_count($sql, '?') !== count($data)) {
+            throw new Exception('La cantidad de placeholders en la consulta no coincide con la cantidad de elementos en el array de datos.');
+        }
+
+        $responses = $this->insert($sql, $data);
+
+        // print_r($responses);
+        if ($responses === 1) {
+            
+            $id_factura = $this->select("SELECT id_factura FROM facturas_cot WHERE numero_factura = '$nueva_factura'");
+            $factura_id = $id_factura[0]['id_factura'];
+
+
+            //buscar producto 
+
+            $tmp_cotizaciones = $this->select("SELECT * FROM tmp_cotizacion WHERE session_id = '$tmp'");
+
+            // Insertar cada registro de tmp_cotizacion en detalle_cotizacion
+            $detalle_sql = "INSERT INTO detalle_fact_cot (numero_factura, id_factura, id_producto, cantidad, desc_venta, precio_venta, id_plataforma , sku, id_inventario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            foreach ($tmp_cotizaciones as $tmp) {
+                //  echo 'enta';
+                $detalle_data = array(
+                    $nueva_factura,
+                    $factura_id,
+                    $tmp['id_producto'],
+                    $tmp['cantidad_tmp'],
+                    $tmp['desc_tmp'],
+                    $tmp['precio_tmp'],
+                    $tmp['id_plataforma'],
+                    $tmp['sku'],
+                    $tmp['id_inventario']
+                );
+                $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
+                // print_r($guardar_detalle);
+            }
+
+
+
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = "Pedido creado correctamente";
+            $response["numero_factura"] = $nueva_factura;
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = $responses['message'];
+        }
+
+        return $response;
+    }
+
     public function crearPixel($plataforma, $nombre, $pixel, $tipo)
     {
         $response = $this->initialResponse();
