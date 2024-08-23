@@ -78,6 +78,17 @@ class ReferidosModel extends Query
         return $response;
     }
 
+    public function puede_solicitar($monto, $plataforma)
+    {
+        $sql = "SELECT saldo FROM billetera_referidos WHERE id_plataforma = $plataforma";
+        $saldo = $this->select($sql);
+        $saldo = $saldo[0]['saldo'];
+        if ($saldo >= $monto) {
+            return true;
+        }
+        return false;
+    }
+
     public function getCabecerasReferencias($plataforma)
     {
         $sql = "SELECT * FROM cabecera_cuenta_referidos WHERE id_plataforma = $plataforma";
