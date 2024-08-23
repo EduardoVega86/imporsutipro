@@ -18,7 +18,7 @@ const dataTableSolicitudesOptions = {
   ],
   order: [
     [0, "asc"],
-    [5, "desc"],
+    [6, "desc"],
   ], // Ordenar por la columna de checkboxes (sin check primero) y luego por fecha ascendente
   pageLength: 5,
   destroy: true,
