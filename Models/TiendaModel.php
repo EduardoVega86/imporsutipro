@@ -692,6 +692,10 @@ class TiendaModel extends Query
                 $response['title'] = 'Error';
                 $response['message'] = 'Error al reiniciar el servidor';
             }
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = $response1['message'] ?? 'Error desconocido al crear la tienda';
         }
 
         return $response;
