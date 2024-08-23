@@ -17,6 +17,12 @@ $(document).ready(function () {
       );
       $("#ganancias_referidos").text(parseFloat(response.saldo).toFixed(2));
 
+      if (response.saldo == "0"){
+        $("#boton_solicitar_pago").hide();
+      }else{
+        $("#boton_solicitar_pago").show();
+      }
+
       $("#image_tienda").attr(
         "src",
         SERVERURL + "public/img/profile_wallet.png"

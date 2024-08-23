@@ -619,10 +619,12 @@ class TiendaModel extends Query
                     $tmp['id_inventario']
                 );
                 $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
-                print_r($guardar_detalle);
+                //print_r($guardar_detalle);
             }
 
-
+            $sql_delete_carrito = "DELETE FROM tmp_cotizacion WHERE session_id = ?";
+            $data = [$tmp];
+            $eliminar_pixel = $this->delete($sql_delete_carrito, $data);
 
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
@@ -744,7 +746,7 @@ class TiendaModel extends Query
             $insertar_caracteristica = $this->update($sql, $data);
         }
 
-        
+
         //print_r($insertar_caracteristica);
 
         if ($insertar_caracteristica == 1) {

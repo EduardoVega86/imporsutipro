@@ -16,7 +16,7 @@
                         <div class="col-12 mb-3">
                             <div class="d-flex flex-row gap-2" style="justify-content: center;">
                                 <button class="btn btn-primary mb-3" onclick="generar_referido()"><i class="fa-solid fa-arrow-left"></i> Generar link Referido</button>
-                                <button type="button" class="btn btn-outline-primary mb-3" data-bs-toggle="modal" data-bs-target="#solicitar_pago_referidoModal">
+                                <button type="button" class="btn btn-outline-primary mb-3" data-bs-toggle="modal" data-bs-target="#solicitar_pago_referidoModal" style="display: none;" id="boton_solicitar_pago">
                                     Solicitar Pago
                                 </button>
                             </div>
