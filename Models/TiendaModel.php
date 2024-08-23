@@ -849,7 +849,7 @@ class TiendaModel extends Query
 
             if ($response2 && isset($response2['status']) && $response2['status'] == 200) {
                 /// aplicar SSL
-                $url_ssl = "https://activador.comprapor.com/activarSSL/" . $tienda;
+                $url_ssl = "https://activador.comprapor.com/activarSSL/" . $tienda . '.comprapor.com';
                 $response3 = $this->retryRequest($url_ssl, $maxRetries, $retryDelay, 300);  // Timeout ajustado para SSL
 
                 if ($response3 && isset($response3['status']) && $response3['status'] == 200) {
