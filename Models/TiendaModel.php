@@ -622,7 +622,7 @@ class TiendaModel extends Query
                 //print_r($guardar_detalle);
             }
 
-            $sql_delete_carrito = "DELETE FROM tmp_cotizacion WHERE session_id = ?";
+            $sql_delete_carrito = "DELETE FROM tmp_cotizacion WHERE session_id = '?'";
             $data = [$tmp];
             $eliminar_pixel = $this->delete($sql_delete_carrito, $data);
 
