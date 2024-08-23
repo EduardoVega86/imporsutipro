@@ -731,7 +731,7 @@ class TiendaModel extends Query
         //print_r($cantidad_tmp);
         if (empty($cantidad_tmp)) {
 
-            $sql = "INSERT INTO `tmp_cotizacion` (`id_producto`, `cantidad_tmp`, `precio_tmp`, `session_id`, `id_plataforma`, `id_inventario`, `sku`) VALUES (?, ?, ?, ?, ?, ?);";
+            $sql = "INSERT INTO `tmp_cotizacion` (`id_producto`, `cantidad_tmp`, `precio_tmp`, `session_id`, `id_plataforma`, `id_inventario`, `sku`) VALUES (?, ?, ?, ?, ?, ?, ?);";
             $data = [$id_producto, $cantidad, $precio, $timestamp, $plataforma, $id_invetario, $sku];
             $insertar_caracteristica = $this->insert($sql, $data);
             //print_r($insertar_caracteristica);
@@ -753,7 +753,7 @@ class TiendaModel extends Query
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = 'Error al agregar la caracteristica';
+            $response['message'] = 'Error al agregar al carrito';
         }
         return $response;
     }
