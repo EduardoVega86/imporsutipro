@@ -744,6 +744,7 @@ class TiendaModel extends Query
             $insertar_caracteristica = $this->update($sql, $data);
         }
 
+        
         //print_r($insertar_caracteristica);
 
         if ($insertar_caracteristica == 1) {
