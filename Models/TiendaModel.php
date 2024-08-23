@@ -818,6 +818,7 @@ class TiendaModel extends Query
         $sql_delete_carrito = "DELETE FROM tmp_cotizacion WHERE session_id = ?";
         $data = [$tmp];
         $eliminar_pixel = $this->delete($sql_delete_carrito, $data);
+        print_r($eliminar_pixel);
 
         if ($eliminar_pixel == 1) {
             $response['status'] = 200;
