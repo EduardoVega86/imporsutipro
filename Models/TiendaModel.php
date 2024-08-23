@@ -619,7 +619,7 @@ class TiendaModel extends Query
                     $tmp['id_inventario']
                 );
                 $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
-                print_r($guardar_detalle);
+                //print_r($guardar_detalle);
             }
 
 
@@ -744,7 +744,7 @@ class TiendaModel extends Query
             $insertar_caracteristica = $this->update($sql, $data);
         }
 
-        
+
         //print_r($insertar_caracteristica);
 
         if ($insertar_caracteristica == 1) {
