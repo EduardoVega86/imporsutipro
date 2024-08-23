@@ -20,8 +20,8 @@ $(document).ready(function () {
       if (response.saldo){
         $("#boton_solicitar_pago").show();
       }else{
-
-      } $("#boton_solicitar_pago").hide();
+        $("#boton_solicitar_pago").hide();
+      }
 
       $("#image_tienda").attr(
         "src",
