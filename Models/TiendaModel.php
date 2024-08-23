@@ -721,7 +721,7 @@ class TiendaModel extends Query
     public function agregar_carrito($id_producto, $cantidad, $precio,  $plataforma, $id_invetario, $timestamp)
     {
 
-        $sql_producto = "SELECT * FROM inventario_bodegas WHERE id_invetario = $id_invetario limit 1";
+        $sql_producto = "SELECT * FROM inventario_bodegas WHERE id_inventario = $id_invetario limit 1";
         $producto_consulta = $this->select($sql_producto);
         $sku = $producto_consulta[0]['sku'];
 
