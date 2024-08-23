@@ -387,7 +387,7 @@ AND TIMESTAMPDIFF(HOUR, fc.fecha_factura, NOW()) > 24
         $responses = $this->insert($sql, $data);
 
 
-        if ($responses === 1) {
+        if ($responses == 1) {
 
             $factura_id_result = $this->select("SELECT id_factura FROM facturas_cot WHERE numero_factura = '$nueva_factura'");
             //print_r($factura_id_result);
