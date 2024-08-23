@@ -486,7 +486,6 @@ class TiendaModel extends Query
         $producto = $producto_consulta[0]['id_producto'];
         $id_inventario = $producto_consulta[0]['id_inventario'];
         //echo $producto;
-        print_r($producto);
 
         $sql_datos_producto = "SELECT * FROM productos WHERE id_producto = $producto ";
         // echo $sql_datos_producto;
