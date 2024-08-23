@@ -166,12 +166,12 @@
         border-radius: 10px;
         overflow: hidden;
         padding: 10px;
-        background-color: #f8f9fa;
+        background-color: #e2e2e2;
         display: inline-block;
     }
 
     .plantilla img {
-        max-width: 100px;
+        max-width: 300px;
         transition: filter 0.3s ease;
         filter: grayscale(100%);
     }
