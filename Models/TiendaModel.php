@@ -826,7 +826,7 @@ class TiendaModel extends Query
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] =  $eliminar_pixel['message'];
+            $response['message'] = 'No hay productos en su carrito';
         }
         return $response;
     }
