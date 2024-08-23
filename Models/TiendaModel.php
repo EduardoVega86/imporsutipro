@@ -721,6 +721,9 @@ class TiendaModel extends Query
     public function agregar_carrito($id_producto, $cantidad, $precio,  $plataforma, $id_invetario, $timestamp)
     {
 
+        $sql_producto = "SELECT * FROM inventario_bodegas WHERE id_invetario = $id_invetario limit 1";
+        $producto_consulta = $this->select($sql_producto);
+        $sku = $producto_consulta[0]['sku'];
 
         //echo "SELECT * FROM tmp_cotizacion WHERE session_id = '$timestamp' and id_producto=$id_producto and sku=$sku";
         $cantidad_tmp = $this->select("SELECT * FROM tmp_cotizacion WHERE session_id = '$timestamp' and id_inventario=$id_invetario");
@@ -728,8 +731,8 @@ class TiendaModel extends Query
         //print_r($cantidad_tmp);
         if (empty($cantidad_tmp)) {
 
-            $sql = "INSERT INTO `tmp_cotizacion` (`id_producto`, `cantidad_tmp`, `precio_tmp`, `session_id`, `id_plataforma`, `id_inventario`) VALUES (?, ?, ?, ?, ?, ?);";
-            $data = [$id_producto, $cantidad, $precio, $timestamp, $plataforma, $id_invetario];
+            $sql = "INSERT INTO `tmp_cotizacion` (`id_producto`, `cantidad_tmp`, `precio_tmp`, `session_id`, `id_plataforma`, `id_inventario`, `sku`) VALUES (?, ?, ?, ?, ?, ?);";
+            $data = [$id_producto, $cantidad, $precio, $timestamp, $plataforma, $id_invetario, $sku];
             $insertar_caracteristica = $this->insert($sql, $data);
             //print_r($insertar_caracteristica);
         } else {
