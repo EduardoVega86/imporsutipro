@@ -901,6 +901,7 @@ class TiendaModel extends Query
                         $response['title'] = 'Peticion exitosa';
                         $response['message'] = 'Tienda modificada correctamente';
                     } else {
+
                         $response['status'] = 500;
                         $response['title'] = 'Error';
                         $response['message'] = $response4['message'] ?? 'Error desconocido al desactivar SSL de la tienda anterior';
