@@ -156,7 +156,7 @@ const listAuditoria = async (estado, id_transporte) => {
     let total_valor_flete = 0;
     let total_costo_flete = 0;
     let valor_costo_flete = 0;
-
+//let devuelto = 0;
     let valor_cod_flete = 0;
     
         let total_recaudado = 0;
@@ -239,6 +239,7 @@ const listAuditoria = async (estado, id_transporte) => {
 
       var span_estado = estado.span_estado;
       var estado_guia = estado.estado_guia;
+      var devuelto = estado.devuelto;
 
       var background = 'style="background-color: #E3BC1C;';
 
@@ -270,7 +271,8 @@ const listAuditoria = async (estado, id_transporte) => {
     (item.monto_recibir != item.monto_total_historial) ||
     (item.costo_flete < item.envio_wallet) || 
     (item.drogshipin == 1 && item.id_plataforma == item.id_propietario) ||
-    (item.numero_guia.includes("MKP") && item.id_transporte == 1 && item.costo_flete != 5.99)
+    (item.numero_guia.includes("MKP") && item.id_transporte == 1 && item.costo_flete != 5.99) ||
+    (devuelto == 1 && item.monto_recibir  != (item.costo_flete*-1))
 ){
         background = 'style="background-color: red;"';
       } else {
@@ -318,7 +320,7 @@ const listAuditoria = async (estado, id_transporte) => {
     let valorfletes = total_costo_flete.toFixed(2);
 
     let valor_costo_flete2 = valor_costo_flete.toFixed(2);
-
+    
     total_recaudado = total_recaudado.toFixed(2);
 
     // Asignar el valor al span en el DOM
@@ -368,6 +370,7 @@ const handleCheckboxClick = async (facturaId, isChecked) => {
 function validar_estadoLaar(estado) {
   var span_estado = "";
   var estado_guia = "";
+  var devuelto = 0;
   if (estado == 1) {
     span_estado = "badge_purple";
     estado_guia = "Generado";
@@ -404,17 +407,20 @@ function validar_estadoLaar(estado) {
   } else if (estado == 9) {
     span_estado = "badge_danger";
     estado_guia = "Devuelto";
+    devuelto = 1;
   }
 
   return {
     span_estado: span_estado,
     estado_guia: estado_guia,
+    devuelto: devuelto,
   };
 }
 
 function validar_estadoServi(estado) {
   var span_estado = "";
   var estado_guia = "";
+   var devuelto = 0;
   if (estado == 101) {
     span_estado = "badge_danger";
     estado_guia = "Anulado";
@@ -436,17 +442,20 @@ function validar_estadoServi(estado) {
   } else if (estado >= 500 && estado <= 502) {
     span_estado = "badge_danger";
     estado_guia = "Devuelto";
+    devuelto = 1;
   }
 
   return {
     span_estado: span_estado,
     estado_guia: estado_guia,
+    devuelto: devuelto,
   };
 }
 
 function validar_estadoGintracom(estado) {
   var span_estado = "";
   var estado_guia = "";
+   var devuelto = 0;
 
   if (estado == 1) {
     span_estado = "badge_generado";
@@ -472,9 +481,11 @@ function validar_estadoGintracom(estado) {
   } else if (estado == 8) {
     span_estado = "badge_danger";
     estado_guia = "Devolucion";
+    devuelto = 1;
   } else if (estado == 9) {
     span_estado = "badge_danger";
     estado_guia = "Devolución Entregada a Origen";
+    devuelto = 1;
   } else if (estado == 10) {
     span_estado = "badge_danger";
     estado_guia = "Cancelada por transportadora";
@@ -487,17 +498,20 @@ function validar_estadoGintracom(estado) {
   } else if (estado == 13) {
     span_estado = "badge_danger";
     estado_guia = "Devolucion en tránsito";
+    devuelto = 1;
   }
 
   return {
     span_estado: span_estado,
     estado_guia: estado_guia,
+    devuelto: devuelto,
   };
 }
 
 function validar_estadoSpeed(estado) {
   var span_estado = "";
   var estado_guia = "";
+   var devuelto = 0;
   if (estado == 2) {
     span_estado = "badge_purple";
     estado_guia = "generado";
@@ -510,10 +524,12 @@ function validar_estadoSpeed(estado) {
   } else if (estado == 9) {
     span_estado = "badge_danger";
     estado_guia = "Devuelto";
+    devuelto = 1;
   }
 
   return {
     span_estado: span_estado,
     estado_guia: estado_guia,
+    devuelto: devuelto,
   };
 }
