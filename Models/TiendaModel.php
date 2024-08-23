@@ -897,6 +897,7 @@ class TiendaModel extends Query
                         $data = [$tienda, $plataforma];
                         $this->simple_select($update, $data);
 
+
                         $response['status'] = 200;
                         $response['title'] = 'Peticion exitosa';
                         $response['message'] = 'Tienda modificada correctamente';
