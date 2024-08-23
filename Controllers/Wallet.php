@@ -223,7 +223,7 @@ class Wallet extends Controller
         }
         $fecha = date("Y-m-d H:i:s");
 
-        $response = $this->model->solicitarPago($id_cuenta, $valor, $fecha, $_SESSION["enlace"], $_SESSION["id_plataforma"], $otro);
+        $response = $this->model->solicitarPago($id_cuenta, $valor, $fecha, $_SESSION["id_plataforma"], $otro);
         if ($response["status"] == 200) {
             $correo = $this->model->obtenerCorreo($_SESSION["id_plataforma"]);
             $this->model->enviarMensaje("solicitud", $correo[0]["correo"] ?? '', $valor);

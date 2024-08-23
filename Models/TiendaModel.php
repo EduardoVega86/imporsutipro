@@ -622,10 +622,6 @@ class TiendaModel extends Query
                 //print_r($guardar_detalle);
             }
 
-            $sql_delete_carrito = "DELETE FROM tmp_cotizacion WHERE session_id = ?";
-            $data = [$tmp];
-            $eliminar_pixel = $this->delete($sql_delete_carrito, $data);
-
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
             $response['message'] = "Pedido creado correctamente";
@@ -805,6 +801,24 @@ class TiendaModel extends Query
         $sql = "DELETE FROM tmp_cotizacion WHERE id_tmp = ?";
         $data = [$id_tmp];
         $eliminar_pixel = $this->delete($sql, $data);
+        if ($eliminar_pixel == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Pixel eliminado correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] =  $eliminar_pixel['message'];
+        }
+        return $response;
+    }
+
+    public function limpiar_carrito($tmp)
+    {
+        $sql_delete_carrito = "DELETE FROM tmp_cotizacion WHERE session_id = ?";
+        $data = [$tmp];
+        $eliminar_pixel = $this->delete($sql_delete_carrito, $data);
+
         if ($eliminar_pixel == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';

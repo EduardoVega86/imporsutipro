@@ -155,7 +155,7 @@
         <div class="content-container">
             <!-- Sección de productos_entrega por cantidad -->
             <div class="content-box1 productos_entrega" style="width: 50%;">
-                <h4>Productos entrega por cantidad</h4>
+                <h4>Productos entregados por cantidad</h4>
                 <div id="productsEntregados-container"></div>
             </div>
             <!-- Fin Sección de productos_entrega por cantidad -->
@@ -171,7 +171,7 @@
         <div class="content-container">
             <!-- Sección de productos_devolucion por cantidad -->
             <div class="content-box1 productos_devolucion" style="width: 50%;">
-                <h4>Productos devolucion por cantidad</h4>
+                <h4>Productos devueltos por cantidad</h4>
                 <div id="productsDevolucion-container"></div>
             </div>
 
