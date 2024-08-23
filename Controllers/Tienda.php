@@ -267,6 +267,13 @@ class Tienda extends Controller
         echo json_encode($response);
     }
 
+    public function limpiar_carrito()
+    {
+        $tmp = $_POST['session_id'];
+        $response = $this->model->limpiar_carrito($tmp);
+        echo json_encode($response);
+    }
+
 
 
     /// TIENDA COMPRAPOR /// 
