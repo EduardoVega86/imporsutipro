@@ -188,6 +188,7 @@ class Usuarios extends Controller
                 $timestamp = time();
                 $uniqueId = uniqid();
                 $tienda = $prefix . $timestamp . '_' . $uniqueId;
+                $duplicados = 0;
 
                 foreach ($data as $row) {
                     // echo $fila;
@@ -519,7 +520,7 @@ class Usuarios extends Controller
 
         echo json_encode($response);
     }
-    
+
     public function elegir_plantilla()
     {
         $plantilla = $_POST['plantilla_selected'];

@@ -456,7 +456,7 @@ class PedidosModel extends Query
                 $id_bodega = $id_bodegas[0]['bodega'];
                 $id_inventario = $id_bodegas[0]['id_producto'];
                 echo $id_inventario;
-                $id_plataforma = $id_bodegas[0]['id_plataforma'];
+                $id_plataforma = $id_plataforma;
                 $sku = $id_bodegas[0]['sku'];
                 $nombre = $tmp['nombre'];
                 $cantidad = $tmp['cantidad'];

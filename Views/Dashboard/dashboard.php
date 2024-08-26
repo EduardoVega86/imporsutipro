@@ -101,7 +101,7 @@
 
     <div class="tablas_estaditicas">
         <div class="content-container">
-            <div class="d-flex flex-column" style="width: 50% !important;">
+            <div class="d-flex flex-column seccion_dashboard1">
                 <div class="d-flex flex-row">
                     <div class="stat-box">
                         <div class="icon-container" style="background: linear-gradient(to right, #7a00d7, #26113a);">
@@ -126,7 +126,7 @@
                 <!-- Fin Sección de Productos por cantidad -->
             </div>
 
-            <div class="d-flex flex-column" style="width: 50% !important;">
+            <div class="d-flex flex-column seccion_dashboard1">
                 <div class="d-flex flex-row">
                     <div class="stat-box">
                         <div class="icon-container" style="background: linear-gradient(to right, #c61f1f, #611313);">
@@ -154,13 +154,13 @@
     <div class="tablas_estaditicas">
         <div class="content-container">
             <!-- Sección de productos_entrega por cantidad -->
-            <div class="content-box1 productos_entrega" style="width: 50%;">
+            <div class="content-box1 productos_entrega seccion_dashboard1">
                 <h4>Productos entregados por cantidad</h4>
                 <div id="productsEntregados-container"></div>
             </div>
             <!-- Fin Sección de productos_entrega por cantidad -->
             <!-- Sección de Ciudades_entrega con más despachos -->
-            <div class="content-box1 ciudades_entrega" style="width: 50%;">
+            <div class="content-box1 ciudades_entrega seccion_dashboard1">
                 <h4>Ciudades con mayores entregadas</h4>
                 <div id="ciudadesEntregadas-container"></div>
             </div>
@@ -170,13 +170,13 @@
     <div class="tablas_estaditicas">
         <div class="content-container">
             <!-- Sección de productos_devolucion por cantidad -->
-            <div class="content-box1 productos_devolucion" style="width: 50%;">
+            <div class="content-box1 productos_devolucion seccion_dashboard1">
                 <h4>Productos devueltos por cantidad</h4>
                 <div id="productsDevolucion-container"></div>
             </div>
 
             <!-- Sección de Ciudades_devolucion con más despachos -->
-            <div class="content-box1 ciudades_devolucion" style="width: 50%;">
+            <div class="content-box1 ciudades_devolucion seccion_dashboard1">
                 <h4>Ciudades con mayores devoluciones</h4>
                 <div id="ciudadesDevolucion-container"></div>
             </div>
