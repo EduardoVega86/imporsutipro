@@ -81,7 +81,7 @@
         document.getElementById('guidesList').appendChild(listItem);
 
         // Limpiar el campo de entrada y enfocar el cursor
-        var inputGuia = document.getElementById('numeroGuia');
+        var inputGuia = document.getElementById('numeroGuiaDevolucion');
         inputGuia.value = '';
         inputGuia.focus();
     }
