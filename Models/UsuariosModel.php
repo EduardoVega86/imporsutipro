@@ -512,7 +512,7 @@ ON
             $response['message'] = 'El archivo es muy grande';
             $uploadOk = 0;
         }
-        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
             $response['status'] = 500;
             $response['title'] = 'Error';
             $response['message'] = 'Solo se permiten archivos JPG, JPEG, PNG';
@@ -574,10 +574,10 @@ ON
                 $uploadOk = 0;
             }
 
-            if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+            if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
                 $response['status'] = 500;
                 $response['title'] = 'Error';
-                $response['message'] = 'Solo se permiten archivos JPG, JPEG, PNG';
+                $response['message'] = 'Solo se permiten archivos JPG, JPEG, PNG, GIF';
                 $uploadOk = 0;
             }
         }
