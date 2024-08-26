@@ -518,8 +518,10 @@ class TiendaModel extends Query
             }
             $nueva_factura = $this->incrementarNumeroFactura($factura_numero);
 
-            // Determinar si es un producto de dropshipping
+            // Determinar el id_plataforma del primer producto en el grupo de productos de la bodega
             $producto_plataforma = $productos[0]['id_plataforma'];
+
+            // Determinar si es un producto de dropshipping
             if ($producto_plataforma == $id_plataforma) {
                 $drop = 0;
             } else {
@@ -556,7 +558,7 @@ class TiendaModel extends Query
                 0,
                 0,
                 $telefono,
-                $producto_plataforma,
+                $producto_plataforma, // Se inserta en id_propietario
                 $drop,
                 $id_plataforma,
                 0,
@@ -627,7 +629,6 @@ class TiendaModel extends Query
 
         return $response;
     }
-
 
     public function crearPixel($plataforma, $nombre, $pixel, $tipo)
     {
