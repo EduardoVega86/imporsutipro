@@ -69,7 +69,7 @@ class ShopifyModel extends Query
         $referencia = "Referencia: " . $data["referencia"] ?? "";
         $observacion = "Ciudad: " . $data["ciudad"];
         $transporte = 0;
-        $importado = 0;
+        $importado = 1;
         $plataforma_importa = "Shopify";
         $recaudo = 1;
 
