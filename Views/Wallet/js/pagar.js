@@ -280,7 +280,7 @@ const listFacturas = async () => {
           </ul>
           </div>
           </td>
-          <td></td>
+          <td>${factura.trayecto}</td>
           <td></td>
           <td><button class="icon-button" style="background-color: red; margin: 0;" onclick="eliminar_wallet(${factura.id_cabecera})"><i class="fa-solid fa-trash" style="margin: 0;"></i></button></td>
           
