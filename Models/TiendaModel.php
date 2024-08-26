@@ -900,14 +900,14 @@ class TiendaModel extends Query
 
             if ($response2 && isset($response2['status']) && $response2['status'] == 200) {
                 // Activar SSL
-                $url_ssl = "https://activador.comprapor.com/activarSSL/" . $nombre;
+                $url_ssl = "https://activador.comprapor.com/activarSSL/" . $nombre . '.comprapor.com';
                 $response3 = $this->retryRequest($url_ssl, $maxRetries, $retryDelay, 300);
 
                 if ($response3 && isset($response3['status']) && $response3['status'] == 200) {
 
                     // Desactivar SSL de la tienda anterior
 
-                    $url_ssl_antiguo = "https://activador.comprapor.com/eliminarSSL/" . $antiguo;
+                    $url_ssl_antiguo = "https://activador.comprapor.com/eliminarSSL/" . $antiguo . '.comprapor.com';
                     $response4 = $this->retryRequest($url_ssl_antiguo, $maxRetries, $retryDelay, 300);
 
                     if ($response4 && isset($response4['status']) && $response4['status'] == 200) {
