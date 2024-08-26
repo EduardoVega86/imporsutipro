@@ -296,8 +296,6 @@ $(document).ready(function () {
 
       var button2 = document.getElementById("generarGuiaBtn");
 
-      fect
-
       if (saldo < -10 && ID_PLATAFORMA != 1238) {
         button2.disabled = true;
         Swal.fire({
@@ -309,7 +307,6 @@ $(document).ready(function () {
         }).then(() => {
           window.location.href = "" + SERVERURL + "dashboard";
         });
-        
       }
     },
     error: function (error) {
@@ -338,6 +335,8 @@ $(document).ready(function () {
     var priceSpan = $(this).find(".price-tag span");
     var priceValue = priceSpan.text().trim();
     var selectedCompany = $(this).data("company");
+
+    console.log("selectedCompany: "+selectedCompany);
 
     if (
       priceValue !== "--" &&
