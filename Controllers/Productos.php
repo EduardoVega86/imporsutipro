@@ -84,6 +84,11 @@ class Productos extends Controller
         $this->views->render($this, "productos_tienda");
     }
 
+    public function combos()
+    {
+        $this->views->render($this, "combos");
+    }
+
     public function landing($id)
     {
         $existe_producto = $this->model->verificarProducto($id);
