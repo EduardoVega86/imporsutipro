@@ -950,6 +950,44 @@ class TiendaModel extends Query
         return $response;
     }
 
+    public function agregarDominioConSubdominioExistenteTienda($dominio, $tienda, $plataforma)
+    {
+        $response = $this->initialResponse();
+        $maxRetries = 5;
+        $retryDelay = 10;
+
+        // Agregar dominio con subdominio existente
+        $url_agregar_dominio = "https://activador.comprapor.com/anadirDominio/" . $dominio;
+        $response1 = $this->retryRequest($url_agregar_dominio, $maxRetries, $retryDelay, 300, ['tienda' => $tienda]);
+
+        if ($response1 && isset($response1['status']) && $response1['status'] == 200) {
+            // Activar SSL
+            $url_ssl = "https://activador.comprapor.com/activarSSL/" . $dominio;
+            $response2 = $this->retryRequest($url_ssl, $maxRetries, $retryDelay, 300);
+
+            if ($response2 && isset($response2['status']) && $response2['status'] == 200) {
+                $tienda = 'https://' . $dominio;
+                $update = "UPDATE plataformas SET url_imporsuit = ? WHERE id_plataforma = ?";
+                $data = [$tienda, $plataforma];
+                $this->simple_select($update, $data);
+
+                $response['status'] = 200;
+                $response['title'] = 'Peticion exitosa';
+                $response['message'] = 'Dominio agregado correctamente';
+            } else {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = $response2['message'] ?? 'Error desconocido al activar SSL';
+            }
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = $response1['message'] ?? 'Error desconocido al agregar el dominio';
+        }
+
+        return $response;
+    }
+
     private function retryRequest($url, $maxRetries, $retryDelay, $timeout = 300, $postData = null)
     {
         $attempt = 0;
