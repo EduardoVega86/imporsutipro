@@ -213,9 +213,9 @@ function recalcular(id, idPrecio, idDescuento, idCantidad) {
       /* calcularGuiaDirecta */
       var button2 = document.getElementById("generarGuiaBtn");
 
-      
+
       var priceSpan = $(this).find(".price-tag span");
-      var priceValue = priceSpan.text().trim();
+      var priceValue = $("#costo_flete").val();
 
       const urlParams_calcular = new URLSearchParams(window.location.search);
       const idProducto_calcular = urlParams_calcular.get("id_producto");
