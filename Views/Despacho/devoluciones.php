@@ -98,6 +98,9 @@
 
 
     function generarImpresion() {
+        var button = document.getElementById("generarImpresionBtn");
+        button.disabled = true; // Desactivar el botón
+
         var guias = [];
         var listItems = document.querySelectorAll('#guidesList .list-group-item');
         listItems.forEach(function(item) {
@@ -108,11 +111,13 @@
         console.log(guiasJSON);
 
         let formData = new FormData();
+        formData.append("transportadora", transportadora);
+        formData.append("bodega", bodega);
         formData.append("guias", guiasJSON);
 
         $.ajax({
             type: "POST",
-            url: SERVERURL + "/Manifiestos/generarDevolucion",
+            url: SERVERURL + "/Manifiestos/generarManifiesto",
             data: formData,
             processData: false,
             contentType: false,
@@ -125,6 +130,9 @@
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
+
+                    button.disabled = false;
+                    window.location.href = '' + SERVERURL + 'despacho/lista_despachos';
                 }
             },
             error: function(xhr, status, error) {
@@ -133,5 +141,8 @@
             },
         });
     }
+
+    // Escuchar el evento 'click' del botón de generar impresión
+    document.getElementById('generarImpresionBtn').addEventListener('click', generarImpresion);
 </script>
 <?php require_once './Views/templates/footer.php'; ?>
