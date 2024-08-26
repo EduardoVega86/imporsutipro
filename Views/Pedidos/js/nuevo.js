@@ -211,7 +211,9 @@ function recalcular(id, idPrecio, idDescuento, idCantidad) {
       await initDataTableNuevoPedido();
 
       /* calcularGuiaDirecta */
+      var button2 = document.getElementById("generarGuiaBtn");
 
+      
       var priceSpan = $(this).find(".price-tag span");
       var priceValue = priceSpan.text().trim();
 
