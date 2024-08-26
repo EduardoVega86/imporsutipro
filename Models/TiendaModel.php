@@ -501,12 +501,15 @@ class TiendaModel extends Query
         // Crear una factura para cada bodega
         foreach ($productos_por_bodega as $bodega => $productos) {
 
-            // Obtener la información de la bodega
-            $sql_datos_origen = "SELECT * FROM bodega WHERE id = $bodega";
+            // Obtener la información de la bodega y el id_plataforma desde inventario_bodegas
+            $sql_datos_origen = "SELECT bodega.*, inventario_bodegas.id_plataforma as plataforma_bodega FROM bodega 
+                             JOIN inventario_bodegas ON bodega.id = inventario_bodegas.bodega 
+                             WHERE bodega.id = $bodega LIMIT 1";
             $datos_origen = $this->select($sql_datos_origen);
             $ciudadO = $datos_origen[0]['localidad'];
             $nombreO = $datos_origen[0]['nombre'];
             $direccionO = $datos_origen[0]['direccion'];
+            $plataforma_bodega = $datos_origen[0]['plataforma_bodega'];  // El id_plataforma de la bodega
 
             $date_added = date("Y-m-d H:i:s");
 
@@ -524,7 +527,7 @@ class TiendaModel extends Query
                 $total_bodega += $producto['precio_tmp'] * $producto['cantidad_tmp'];
             }
 
-            // Insertar la factura para esta bodega
+            // Insertar la factura para esta bodega con el id_plataforma correcto desde inventario_bodegas
             $sql = "INSERT INTO facturas_cot (
             numero_factura, fecha_factura, monto_factura, estado_factura, 
             nombre, telefono, c_principal, ciudad_cot, c_secundaria, 
@@ -538,77 +541,67 @@ class TiendaModel extends Query
             ?, ?, ?, ?, ?, ?, ?, ?,  ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
         )";
 
-            // Insertar los productos de la bodega actual en detalle_fact_cot y crear facturas separadas
-            foreach ($productos as $tmp_session) {
+            // Insertar la factura con el id_plataforma de la bodega
+            $data = array(
+                $nueva_factura,
+                $date_added,
+                $total_bodega, // Total de los productos de esta bodega
+                1,
+                $nombre,
+                $telefono,
+                $calle_principal,
+                $ciudad,
+                $calle_secundaria,
+                $referencia,
+                $observacion,
+                0,
+                0,
+                0,
+                $telefono,
+                $plataforma_bodega, // Se inserta en id_propietario el id_plataforma de la bodega
+                0,
+                $id_plataforma, // Esto puede seguir siendo el id_plataforma original, ya que es la plataforma de origen de la compra
+                0,
+                'tienda_online',
+                0,
+                0,
+                0,
+                0,
+                0,
+                '',
+                $nombreO,
+                $ciudadO,
+                $provincia,
+                $direccionO,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                '',
+                0,
+                0,
+                0,
+                0,
+                0,
+                $bodega
+            );
 
-                // Determinar el id_plataforma para cada producto individualmente
-                $producto_plataforma = $tmp_session['id_plataforma'];
-                if ($producto_plataforma == $id_plataforma) {
-                    $drop = 0;
-                } else {
-                    $drop = 1;
-                }
+            if (substr_count($sql, '?') !== count($data)) {
+                throw new Exception('La cantidad de placeholders en la consulta no coincide con la cantidad de elementos en el array de datos.');
+            }
 
-                // Insertar la factura
-                $data = array(
-                    $nueva_factura,
-                    $date_added,
-                    $total_bodega, // Total de los productos de esta bodega
-                    1,
-                    $nombre,
-                    $telefono,
-                    $calle_principal,
-                    $ciudad,
-                    $calle_secundaria,
-                    $referencia,
-                    $observacion,
-                    0,
-                    0,
-                    0,
-                    $telefono,
-                    $producto_plataforma, // Se inserta en id_propietario
-                    $drop,
-                    $id_plataforma,
-                    0,
-                    'tienda_online',
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    '',
-                    $nombreO,
-                    $ciudadO,
-                    $provincia,
-                    $direccionO,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    '',
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    $bodega
-                );
+            $responses = $this->insert($sql, $data);
 
-                if (substr_count($sql, '?') !== count($data)) {
-                    throw new Exception('La cantidad de placeholders en la consulta no coincide con la cantidad de elementos en el array de datos.');
-                }
+            if ($responses === 1) {
 
-                $responses = $this->insert($sql, $data);
+                $id_factura = $this->select("SELECT id_factura FROM facturas_cot WHERE numero_factura = '$nueva_factura'");
+                $factura_id = $id_factura[0]['id_factura'];
 
-                if ($responses === 1) {
-
-                    $id_factura = $this->select("SELECT id_factura FROM facturas_cot WHERE numero_factura = '$nueva_factura'");
-                    $factura_id = $id_factura[0]['id_factura'];
-
-                    // Insertar el detalle de la factura
-                    $detalle_sql = "INSERT INTO detalle_fact_cot (numero_factura, id_factura, id_producto, cantidad, desc_venta, precio_venta, id_plataforma , sku, id_inventario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                // Insertar el detalle de la factura
+                $detalle_sql = "INSERT INTO detalle_fact_cot (numero_factura, id_factura, id_producto, cantidad, desc_venta, precio_venta, id_plataforma , sku, id_inventario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                foreach ($productos as $tmp_session) {
                     $detalle_data = array(
                         $nueva_factura,
                         $factura_id,
@@ -621,18 +614,18 @@ class TiendaModel extends Query
                         $tmp_session['id_inventario']
                     );
                     $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
-                } else {
-                    $response['status'] = 500;
-                    $response['title'] = 'Error';
-                    $response['message'] = $responses['message'];
-                    return $response;
                 }
-            }
 
-            $response['status'] = 200;
-            $response['title'] = 'Peticion exitosa';
-            $response['message'] = "Pedido creado correctamente";
-            $response["numero_factura"] = $nueva_factura;
+                $response['status'] = 200;
+                $response['title'] = 'Peticion exitosa';
+                $response['message'] = "Pedido creado correctamente";
+                $response["numero_factura"] = $nueva_factura;
+            } else {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = $responses['message'];
+                return $response;
+            }
         }
 
         return $response;
