@@ -519,7 +519,7 @@ class TiendaModel extends Query
             $nueva_factura = $this->incrementarNumeroFactura($factura_numero);
 
             // Determinar el id_plataforma del primer producto en el grupo de productos de la bodega
-            $producto_plataforma = $productos[0]['id_plataforma'];
+            $producto_plataforma = $productos['id_plataforma'];
 
             // Determinar si es un producto de dropshipping
             if ($producto_plataforma == $id_plataforma) {
