@@ -638,7 +638,6 @@ class TiendaModel extends Query
         return $response;
     }
 
-
     public function crearPixel($plataforma, $nombre, $pixel, $tipo)
     {
         $response = $this->initialResponse();
