@@ -241,14 +241,14 @@ class TiendaModel extends Query
         return $this->select($sql);
     }
 
-    public function agregarCaracteristicas($nombre, $plataforma)
+    /*   public function agregarCaracteristicas($nombre, $plataforma)
     {
         // codigo para agregar categoria
         $response = $this->initialResponse();
 
         $sql = "INSERT INTO caracteristicas_tienda (nombre_linea, descripcion_linea, estado_linea, date_added, online, imagen, tipo, padre, id_plataforma) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $data = [$nombre_linea, $descripcion_linea, $estado_linea, $date_added, $online, $imagen, $tipo, $padre, $plataforma];
-        $insertar_categoria = $this->insert($sql, $data);
+        //$data = [$nombre_linea, $descripcion_linea, $estado_linea, $date_added, $online, $imagen, $tipo, $padre, $plataforma];
+        //$insertar_categoria = $this->insert($sql, $data);
         if ($insertar_categoria == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
@@ -259,7 +259,7 @@ class TiendaModel extends Query
             $response['message'] =  $insertar_categoria['message'];
         }
         return $response;
-    }
+    } */
 
     public function actualizar_tienda($ruc_tienda, $telefono_tienda, $email_tienda, $direccion_tienda, $pais_tienda, $plataforma, $facebook, $instagram, $tiktok)
     {
@@ -947,9 +947,6 @@ class TiendaModel extends Query
         return $response;
     }
 
-
-
-
     private function retryRequest($url, $maxRetries, $retryDelay, $timeout = 300, $postData = null)
     {
         $attempt = 0;
@@ -976,10 +973,19 @@ class TiendaModel extends Query
 
             // Verificar si se recibió un JSON válido con el estado
             if ($response && isset($response['status'])) {
+                // Si el estado es 500 y el mensaje contiene el error específico, seguir intentando
+                if ($response['status'] == 500 && isset($response['message']) && strpos($response['message'], 'SQLSTATE[HY000] [2002] Operation now in progress') !== false) {
+                    // Si se detecta el error específico, continuar con el siguiente intento
+                    $attempt++;
+                    sleep($retryDelay);
+                    continue;
+                }
+
+                // Si no hay errores específicos, devolver la respuesta
                 return $response;
             }
 
-            // Si no se recibió un JSON válido, esperar antes de reintentar
+            // Si no se recibió un JSON válido o hay otros errores, esperar antes de reintentar
             $attempt++;
             sleep($retryDelay);
         }
