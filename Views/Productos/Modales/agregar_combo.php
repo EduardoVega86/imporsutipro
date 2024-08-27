@@ -28,8 +28,8 @@
                 <form id="agregar_combo_form" enctype="multipart/form-data">
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="titulo" class="form-label">Título</label>
-                            <input type="text" class="form-control" id="titulo" placeholder="Título">
+                            <label for="nombre_combo" class="form-label">Nombre del combo</label>
+                            <input type="text" class="form-control" id="nombre_combo" placeholder="nombre del combo">
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -60,8 +60,6 @@
         // Función para reiniciar el formulario
         function resetForm() {
             $('#agregar_combo_form')[0].reset();
-            $('#bodega-field').addClass('hidden-field');
-            $('#precio-referencial-valor').prop('disabled', true);
             $('#preview-imagen').attr('src', '#').hide();
         }
 
@@ -89,16 +87,9 @@
 
             // Crea un objeto FormData
             var formData = new FormData();
-            formData.append('titulo', $('#titulo').val());
-            formData.append('texto_banner', $('#texto_banner').val());
-            formData.append('texto_boton', $('#texto_boton').val());
-            formData.append('enlace_boton', $('#enlace_boton').val());
-            formData.append('alineacion', $('#alineacion').val());
+            formData.append('nombre', $('#nombre_combo').val());
+            formData.append('id_producto_combo', $('#select_productos').val());
             formData.append('imagen', $('#imagen')[0].files[0]);
-
-            formData.append('color_texto_banner', $('#color_texto_banner').val());
-            formData.append('color_btn_banner', $('#color_btn_banner').val());
-            formData.append('color_textoBtn_banner', $('#color_textoBtn_banner').val());
 
             // Realiza la solicitud AJAX
             $.ajax({
@@ -124,7 +115,7 @@
 
                         $('#agregar_comboModal').modal('hide');
                         resetForm();
-                        initDataTableBanner();
+                        initDataTableCombos();
                     }
                 },
                 error: function(error) {
