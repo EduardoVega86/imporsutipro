@@ -316,7 +316,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function fetchProductos() {
-    fetch('SERVERURL + "productos/obtener_productos"')
+    fetch(SERVERURL + "productos/obtener_productos")
       .then((response) => response.json())
       .then((data) => {
         const selectProductos = $("#select_productos");
