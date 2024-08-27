@@ -1,7 +1,7 @@
 <?php require_once './Views/templates/header.php'; ?>
 <?php require_once './Views/Productos/css/combos_style.php'; ?>
 <?php require_once './Views/Productos/Modales/agregar_combo.php'; ?>
-<?php require_once './Views/Productos/Modales/ediar_combo.php'; ?>
+<?php require_once './Views/Productos/Modales/editar_combo.php'; ?>
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
