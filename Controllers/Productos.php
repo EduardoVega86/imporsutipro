@@ -734,12 +734,13 @@ class Productos extends Controller
         $nombre = $_POST['nombre'];
         $id_producto_combo = $_POST['id_producto_combo'];
         $imagen = $_FILES['imagen'];
+        $id_combo = $_POST['id_combo'];
 
         $response = $this->model->editarcombos(
             $nombre,
             $id_producto_combo,
             $imagen,
-            $_SESSION['id_plataforma']
+            $id_combo
         );
 
         echo json_encode($response);
