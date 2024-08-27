@@ -437,10 +437,6 @@ $(document).ready(function () {
           alert(errorThrown);
         },
       });
-    } else if (priceValue === "No disponible"){
-      toastr.error("ESTA TRANSPORTADORA ESTA EN MANTENIMIENTO", "NOTIFICACIÓN", {
-        positionClass: "toast-bottom-center",
-      });
     } else {
       toastr.error("ESTA TRANSPORTADORA NO TIENE COBERTURA", "NOTIFICACIÓN", {
         positionClass: "toast-bottom-center",
@@ -480,10 +476,8 @@ $(document).ready(function () {
           
           if (MATRIZ != 2){
             $("#price_speed").text(response.speed);
-          } else {
-            $("#price_speed").text("No disponible");
           }
-
+          
           $("#price_laar").text(response.laar);
 
           /* calculador servi */
