@@ -26,6 +26,7 @@
             </div>
             <div class="modal-body">
                 <form id="editar_combo_form" enctype="multipart/form-data">
+                    <input type="hidden" id="id_combo_editar" name="id_combo_editar">
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label for="editar_nombre_combo" class="form-label">Nombre del combo</label>
@@ -88,6 +89,7 @@
             // Crea un objeto FormData
             var formData = new FormData();
             formData.append('nombre', $('#editar_nombre_combo').val());
+            formData.append('id_combo', $('#id_combo_editar').val());
             formData.append('id_producto_combo', $('#select_productos_editar').val());
             formData.append('imagen', $('#imagen_editar')[0].files[0]);
 
@@ -125,5 +127,4 @@
             });
         });
     });
-
 </script>
