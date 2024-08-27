@@ -115,7 +115,7 @@
 
                         $('#agregar_comboModal').modal('hide');
                         resetForm();
-                        initDataTableBanner();
+                        initDataTableCombos();
                     }
                 },
                 error: function(error) {
