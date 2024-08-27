@@ -706,6 +706,13 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
+    public function obtener_combo_id()
+    {
+        $id = $_POST['id'];
+        $response = $this->model->obtener_combo_id($id);
+        echo json_encode($response);
+    }
+
     public function agregarcombos()
     {
         $nombre = $_POST['nombre'];

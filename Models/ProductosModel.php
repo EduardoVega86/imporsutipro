@@ -1281,6 +1281,12 @@ WHERE b.id_plataforma = $plataforma";
         return $this->select($sql);
     }
 
+    public function obtener_combo_id($id)
+    {
+        $sql = "SELECT * FROM `combos` WHERE id=$id;";
+        return $this->select($sql);
+    }
+
     public function agregarcombos($nombre, $id_producto_combo, $imagen, $plataforma)
     {
         $response = $this->initialResponse();
