@@ -254,7 +254,7 @@ const listGuias = async () => {
                         ${boton_anular}
                         <li><span class="dropdown-item" style="cursor: pointer;">Información</span></li>
                     </ul>
-                </div>
+                    </div>
                     </td>
                 </tr>`;
     });

@@ -42,9 +42,7 @@ const initDataTableCombos = async () => {
 
   await listCombos();
 
-  dataTableCombos = $("#datatable_combos").DataTable(
-    dataTableCombosOptions
-  );
+  dataTableCombos = $("#datatable_combos").DataTable(dataTableCombosOptions);
 
   dataTableCombosIsInitialized = true;
 };
@@ -73,7 +71,17 @@ const listCombos = async () => {
       <td>
           <button class="btn btn-sm btn-primary" onclick="seleccionar_combo(${combo.id})"><i class="fa-solid fa-pencil"></i>Ajustar</button>
       </td>
-      <td></td>
+      <td>
+      <div class="dropdown">
+           <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+             <i class="fa-solid fa-gear"></i>
+           </button>
+           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <li><span class="dropdown-item" style="cursor: pointer;" onclick="editar_combo(${combo.id})">Editar</span></li>
+              <li><span class="dropdown-item" style="cursor: pointer;" onclick="eliminar_combo(${combo.id})">Eliminar</span></li>
+           </ul>
+      </div>
+      </td>
       </tr>`;
     });
     document.getElementById("tableBody_combos").innerHTML = content;
@@ -85,6 +93,32 @@ const listCombos = async () => {
 window.addEventListener("load", async () => {
   await initDataTableCombos();
 });
+
+function editar_combo(id_combo) {
+  let formData = new FormData();
+  formData.append("id", id_combo);
+  $.ajax({
+    url: SERVERURL + "Productos/obtener_combo_id",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    dataType: "json",
+    success: function (response) {
+      $("#editar_nombre_combo").val(response[0].nombre);
+      $("#select_productos_editar").val(response[0].id_producto_combo);
+
+      $("#preview-imagen_editar")
+        .attr("src", SERVERURL + response[0].image_path)
+        .show();
+
+      $("#editar_comboModal").modal("show");
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+}
 
 // tabla con informacion de inventario de producto individual
 let dataTableStockIndividual;
@@ -166,9 +200,9 @@ const listStockIndividual = async (id_producto) => {
   }
 };
 
-function seleccionar_cambiarInventario(id_producto) {
-  $("#id_producto_privado").val(id_producto);
-  initDataTableStockIndividual(id_producto);
+function seleccionar_combo(id_combo) {
+  $("#id_producto_privado").val(id_combo);
+  initDataTableStockIndividual(id_combo);
   document.getElementById("inventarioSection").classList.remove("hidden");
 }
 
@@ -239,72 +273,10 @@ $(document).ready(function () {
   });
 });
 
-function eliminar_tiendaProductoPrivado(id_producto_privado, id_privado) {
-  let formData = new FormData();
-  formData.append("id_privado", id_producto_privado);
-
-  $.ajax({
-    url: SERVERURL + "Productos/eliminarPrivadoPlataforma",
-    type: "POST", // Cambiar a POST para enviar FormData
-    data: formData,
-    processData: false, // No procesar los datos
-    contentType: false, // No establecer ningún tipo de contenido
-    dataType: "json",
-    success: function (response) {
-      if (response.status == 500) {
-        toastr.error("LA TIENDA NO SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-      } else if (response.status == 200) {
-        toastr.success("TIENDA ELIMINADO CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-        initDataTableStockIndividual(id_privado);
-      }
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      alert(errorThrown);
-    },
-  });
-}
-
-function agregar_tienda() {
-  var id_plataformaTienda = $("#select_tiendas").val();
-  var id_producto_privado = $("#id_producto_privado").val();
-
-  let formData = new FormData();
-  formData.append("id_plataforma", id_plataformaTienda);
-  formData.append("id_producto", id_producto_privado);
-
-  $.ajax({
-    url: SERVERURL + "Productos/agregarPrivadoPlataforma",
-    type: "POST", // Cambiar a POST para enviar FormData
-    data: formData,
-    processData: false, // No procesar los datos
-    contentType: false, // No establecer ningún tipo de contenido
-    dataType: "json",
-    success: function (response) {
-      if (response.status == 500) {
-        toastr.error("LA TIENDA NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-      } else if (response.status == 200) {
-        toastr.success("TIENDA AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-        initDataTableStockIndividual(id_producto_privado);
-      }
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      alert(errorThrown);
-    },
-  });
-}
-
 /* llenar select de productos */
 document.addEventListener("DOMContentLoaded", () => {
-  // Inicializa Select2 en el select
-  $("#select_productos").select2({
+  // Inicializa Select2 en los selects
+  $("#select_productos, #select_productos_editar").select2({
     placeholder: "--- Elegir producto ---",
     allowClear: true,
     dropdownAutoWidth: true, // Habilita auto width para ajustarse correctamente
@@ -313,9 +285,9 @@ document.addEventListener("DOMContentLoaded", () => {
     dropdownParent: $("#agregar_comboModal"), // Forzar que el dropdown se muestre dentro del modal
   });
 
-  // Cuando se abra el modal, carga los productos
+  // Cuando se abra el modal, carga los productos para ambos selects
   $("#agregar_comboModal").on("shown.bs.modal", function () {
-    fetchProductos();
+    fetchProductos(); // Llamamos una única vez a la función que llena ambos selects
   });
 
   function fetchProductos() {
@@ -323,10 +295,17 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((response) => response.json())
       .then((data) => {
         const selectProductos = $("#select_productos");
-        selectProductos.empty(); // Limpia el select
-        selectProductos.append(new Option("--- Elegir producto ---", ""));
+        const selectProductosEditar = $("#select_productos_editar");
 
-        // Llenar el select con los datos recibidos
+        // Vaciar ambos selects
+        selectProductos.empty();
+        selectProductosEditar.empty();
+
+        // Agregar la opción por defecto a ambos selects
+        selectProductos.append(new Option("--- Elegir producto ---", ""));
+        selectProductosEditar.append(new Option("--- Elegir producto ---", ""));
+
+        // Llenar ambos selects con los datos recibidos
         data.forEach((item) => {
           const option = new Option(
             `${item.nombre_producto} - $${item.pvp}`, // Lo que ves en el select
@@ -335,11 +314,15 @@ document.addEventListener("DOMContentLoaded", () => {
             false // No preseleccionado
           );
           option.setAttribute("data-image", SERVERURL + item.image_path); // Añadir imagen como atributo
-          selectProductos.append(option);
+
+          // Añadir a ambos selects
+          selectProductos.append(option.cloneNode(true)); // Clonamos el nodo para evitar referencia compartida
+          selectProductosEditar.append(option); // Añadimos el original al otro select
         });
 
-        // Refrescar Select2
+        // Refrescar Select2 en ambos selects
         selectProductos.trigger("change");
+        selectProductosEditar.trigger("change");
       })
       .catch((error) => console.error("Error al cargar productos:", error));
   }
@@ -356,13 +339,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     var $product = $(
       `<div class='select2-result-repository clearfix'>
-                <div class='select2-result-repository__avatar'>
-                    <img src='${imgPath}' alt='Imagen del producto' style='width: 50px; height: 50px; margin-right: 10px;'/>
-                </div>
-                <div class='select2-result-repository__meta'>
-                    <div class='select2-result-repository__title'>${product.text}</div>
-                </div>
-            </div>`
+                  <div class='select2-result-repository__avatar'>
+                      <img src='${imgPath}' alt='Imagen del producto' style='width: 50px; height: 50px; margin-right: 10px;'/>
+                  </div>
+                  <div class='select2-result-repository__meta'>
+                      <div class='select2-result-repository__title'>${product.text}</div>
+                  </div>
+              </div>`
     );
 
     return $product;
@@ -372,17 +355,21 @@ document.addEventListener("DOMContentLoaded", () => {
     return product.text || product.nombre_producto;
   }
 
-  // Reposiciona el dropdown de select2 cuando el modal está abierto
-  $("#select_productos").on("select2:open", function () {
-    const modal = $("#agregar_comboModal");
-    const select2Dropdown = $(".select2-container .select2-dropdown");
+  // Reposiciona el dropdown de select2 cuando el modal está abierto para ambos selects
+  $("#select_productos, #select_productos_editar").on(
+    "select2:open",
+    function () {
+      const modal = $("#agregar_comboModal");
+      const select2Dropdown = $(".select2-container .select2-dropdown");
 
-    // Asegura que el dropdown esté correctamente posicionado dentro del modal
-    select2Dropdown.position({
-      my: "top",
-      at: "bottom",
-      of: $("#select_productos"),
-    });
-  });
+      // Asegura que el dropdown esté correctamente posicionado dentro del modal
+      select2Dropdown.position({
+        my: "top",
+        at: "bottom",
+        of: $(this),
+      });
+    }
+  );
 });
+
 /* Fin llenar select productos */
