@@ -286,7 +286,6 @@ $(document).ready(function () {
         }).then(() => {
           window.location.href = "" + SERVERURL + "dashboard";
         });
-        
       }
     },
     error: function (error) {
@@ -505,7 +504,9 @@ $(document).ready(function () {
 
           $("#price_servientrega").text(response.servientrega);
           $("#price_gintracom").text(response.gintracom);
-          $("#price_speed").text(response.speed);
+          if (MATRIZ != 2) {
+            $("#price_speed").text(response.speed);
+          }
           $("#price_laar").text(response.laar);
 
           /* calcular servi */
