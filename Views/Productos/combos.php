@@ -79,5 +79,186 @@
         </div>
     </div>
 </div>
+<script>
+    /* llenar select de productos */
+    document.addEventListener("DOMContentLoaded", () => {
+        // Inicializa Select2 en el select
+        $("#select_productos").select2({
+            placeholder: "--- Elegir producto ---",
+            allowClear: true,
+            dropdownAutoWidth: true, // Habilita auto width para ajustarse correctamente
+            templateResult: formatProduct, // Formato para mostrar los productos en el dropdown
+            templateSelection: formatProductSelection, // Formato para mostrar la selección
+            dropdownParent: $("#agregar_comboModal"), // Forzar que el dropdown se muestre dentro del modal
+        });
+
+        // Cuando se abra el modal, carga los productos
+        $("#agregar_comboModal").on("shown.bs.modal", function() {
+            fetchProductos();
+        });
+
+        function fetchProductos() {
+            fetch(SERVERURL + "productos/obtener_productos")
+                .then((response) => response.json())
+                .then((data) => {
+                    const selectProductos = $("#select_productos");
+                    selectProductos.empty(); // Limpia el select
+                    selectProductos.append(new Option("--- Elegir producto ---", ""));
+
+                    // Llenar el select con los datos recibidos
+                    data.forEach((item) => {
+                        const option = new Option(
+                            `${item.nombre_producto} - $${item.pvp}`, // Lo que ves en el select
+                            item.id_producto, // El valor del option
+                            false, // No seleccionado por defecto
+                            false // No preseleccionado
+                        );
+                        option.setAttribute("data-image", SERVERURL + item.image_path); // Añadir imagen como atributo
+                        selectProductos.append(option);
+                    });
+
+                    // Refrescar Select2
+                    selectProductos.trigger("change");
+                })
+                .catch((error) => console.error("Error al cargar productos:", error));
+        }
+
+        function formatProduct(product) {
+            if (!product.id) {
+                return product.text;
+            }
+
+            // Obtén la imagen desde los datos
+            let imgPath = $(product.element).data("image") ?
+                $(product.element).data("image") :
+                "default-image-path.jpg";
+
+            var $product = $(
+                `<div class='select2-result-repository clearfix'>
+                <div class='select2-result-repository__avatar'>
+                    <img src='${imgPath}' alt='Imagen del producto' style='width: 50px; height: 50px; margin-right: 10px;'/>
+                </div>
+                <div class='select2-result-repository__meta'>
+                    <div class='select2-result-repository__title'>${product.text}</div>
+                </div>
+            </div>`
+            );
+
+            return $product;
+        }
+
+        function formatProductSelection(product) {
+            return product.text || product.nombre_producto;
+        }
+
+        // Reposiciona el dropdown de select2 cuando el modal está abierto
+        $("#select_productos").on("select2:open", function() {
+            const modal = $("#agregar_comboModal");
+            const select2Dropdown = $(".select2-container .select2-dropdown");
+
+            // Asegura que el dropdown esté correctamente posicionado dentro del modal
+            select2Dropdown.position({
+                my: "top",
+                at: "bottom",
+                of: $("#select_productos"),
+            });
+        });
+    });
+    /* Fin llenar select productos */
+    /* llenar select productos editar */
+    document.addEventListener("DOMContentLoaded", () => {
+        // Función para inicializar Select2 en el modal de edición
+        function initializeSelect2() {
+            // Destruir Select2 si ya existe en el select_productos_editar
+            if ($.fn.select2 && $("#select_productos_editar").hasClass("select2-hidden-accessible")) {
+                $("#select_productos_editar").select2('destroy');
+            }
+
+            // Inicializar Select2 en el select_productos_editar
+            $("#select_productos_editar").select2({
+                placeholder: "--- Elegir producto ---",
+                allowClear: true,
+                dropdownAutoWidth: true,
+                templateResult: formatProduct, // Formato para mostrar los productos en el dropdown
+                templateSelection: formatProductSelection, // Formato para mostrar la selección
+                dropdownParent: $("#editar_comboModal") // Especificar el modal correcto
+            });
+        }
+
+        // Llamar a la función de inicialización cuando se abra el modal de edición
+        $("#editar_comboModal").on("shown.bs.modal", function() {
+            fetchProductos(); // Llamar a la función para llenar el select
+        });
+
+        function fetchProductos() {
+            fetch(SERVERURL + "productos/obtener_productos")
+                .then((response) => response.json())
+                .then((data) => {
+                    const selectProductos = $("#select_productos_editar");
+                    selectProductos.empty(); // Limpiar el select
+                    selectProductos.append(new Option("--- Elegir producto ---", ""));
+
+                    // Llenar el select con los datos recibidos
+                    data.forEach((item) => {
+                        const option = new Option(
+                            `${item.nombre_producto} - $${item.pvp}`, // Lo que ves en el select
+                            item.id_producto, // El valor del option
+                            false, // No seleccionado por defecto
+                            false // No preseleccionado
+                        );
+                        option.setAttribute("data-image", SERVERURL + item.image_path); // Añadir imagen como atributo
+                        selectProductos.append(option);
+                    });
+
+                    // Forzar actualización de Select2
+                    initializeSelect2(); // Inicializar Select2 después de llenar el select
+                    selectProductos.trigger("change"); // Asegurar que el select se actualiza correctamente
+                })
+                .catch((error) => console.error("Error al cargar productos:", error));
+        }
+
+        function formatProduct(product) {
+            if (!product.id) {
+                return product.text;
+            }
+
+            // Obtener la imagen desde los datos
+            let imgPath = $(product.element).data("image") ?
+                $(product.element).data("image") :
+                "default-image-path.jpg";
+
+            var $product = $(
+                `<div class='select2-result-repository clearfix'>
+            <div class='select2-result-repository__avatar'>
+                <img src='${imgPath}' alt='Imagen del producto' style='width: 50px; height: 50px; margin-right: 10px;'/>
+            </div>
+            <div class='select2-result-repository__meta'>
+                <div class='select2-result-repository__title'>${product.text}</div>
+            </div>
+        </div>`
+            );
+
+            return $product;
+        }
+
+        function formatProductSelection(product) {
+            return product.text || product.nombre_producto;
+        }
+
+        // Reposicionar el dropdown de Select2 cuando se abre
+        $("#select_productos_editar").on("select2:open", function() {
+            const modal = $("#editar_comboModal");
+            const select2Dropdown = $(".select2-container .select2-dropdown");
+
+            // Asegura que el dropdown esté correctamente posicionado dentro del modal
+            select2Dropdown.position({
+                my: "top",
+                at: "bottom",
+                of: $("#select_productos_editar"),
+            });
+        });
+    });
+    /* Fin llenar select productos editar */
+</script>
 <script src="<?php echo SERVERURL ?>/Views/Productos/js/combos.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
