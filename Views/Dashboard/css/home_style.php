@@ -28,6 +28,7 @@
         width: 20%;
         height: 20%;
         border-radius: 50%;
+        background-color: #171931;
     }
 
     .icon-circle img {
