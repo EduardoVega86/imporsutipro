@@ -33,8 +33,8 @@
                 <div class="mb-3">
                     <div class="card p-3">
                         <div class="card-body d-flex align-items-center">
-                            <div>
-                                <img src="<?php echo SERVERURL; ?>/public/noticias/icono_megafono.png" alt="Icono" class="me-3">
+                            <div class="icon-circle bg-warning d-flex align-items-center justify-content-center me-3">
+                                <img src="<?php echo SERVERURL; ?>/public/noticias/icono_megafono.png" alt="Icono" class="img-fluid">
                             </div>
                             <div>
                                 <h6 class="card-title mb-0">Tu satisfacción es muy importante para nosotros...</h6>
