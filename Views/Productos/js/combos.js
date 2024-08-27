@@ -304,13 +304,14 @@ function agregar_tienda() {
 
 /* llenar select de productos */
 document.addEventListener("DOMContentLoaded", () => {
-  // Inicializa Select2 en el select y asegura que se renderice dentro del modal
+  // Inicializa Select2 en el select
   $("#select_productos").select2({
     placeholder: "--- Elegir producto ---",
     allowClear: true,
+    dropdownAutoWidth: true, // Habilita auto width para ajustarse correctamente
     templateResult: formatProduct, // Formato para mostrar los productos en el dropdown
     templateSelection: formatProductSelection, // Formato para mostrar la selección
-    dropdownParent: $("#agregar_comboModal"), // Asegura que el dropdown se muestre dentro del modal
+    dropdownParent: $("#agregar_comboModal"), // Forzar que el dropdown se muestre dentro del modal
   });
 
   // Cuando se abra el modal, carga los productos
@@ -371,23 +372,18 @@ document.addEventListener("DOMContentLoaded", () => {
   function formatProductSelection(product) {
     return product.text || product.nombre_producto;
   }
-});
 
-function obtenerURLImagen(imagePath, serverURL) {
-    // Verificar si el imagePath no es null
-    if (imagePath) {
-      // Verificar si el imagePath ya es una URL completa
-      if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
-        // Si ya es una URL completa, retornar solo el imagePath
-        return imagePath;
-      } else {
-        // Si no es una URL completa, agregar el serverURL al inicio
-        return `${serverURL}${imagePath}`;
-      }
-    } else {
-      // Manejar el caso cuando imagePath es null
-      console.error("imagePath es null o undefined");
-      return null; // o un valor por defecto si prefieres
-    }
-  }
+  // Reposiciona el dropdown de select2 cuando el modal está abierto
+  $("#select_productos").on("select2:open", function () {
+    const modal = $("#agregar_comboModal");
+    const select2Dropdown = $(".select2-container .select2-dropdown");
+
+    // Asegura que el dropdown esté correctamente posicionado dentro del modal
+    select2Dropdown.position({
+      my: "top",
+      at: "bottom",
+      of: $("#select_productos"),
+    });
+  });
+});
 /* Fin llenar select productos */
