@@ -310,7 +310,7 @@ document.addEventListener("DOMContentLoaded", function () {
     templateSelection: formatProductSelection,
     placeholder: "--- Elegir producto ---",
     allowClear: true,
-    dropdownParent: $("#nuevoComboModal"), // Asegura que el dropdown se muestre dentro del modal
+    dropdownParent: $("#agregar_comboModal"), // Asegura que el dropdown se muestre dentro del modal
   });
 
   // Función para obtener los productos desde la API
@@ -326,7 +326,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return product.text;
     }
 
-    // Si product no tiene las propiedades correctas, regresa texto plano.
+    // Verificar si las propiedades están presentes
     if (!product.image_path || !product.nombre_producto || !product.pvp) {
       return "Información no disponible";
     }
@@ -378,4 +378,5 @@ document.addEventListener("DOMContentLoaded", function () {
   // Llamar a la función para cargar los productos
   cargarProductos();
 });
+
 /* Fin llenar select productos */
