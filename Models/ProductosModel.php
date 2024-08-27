@@ -1346,56 +1346,70 @@ WHERE b.id_plataforma = $plataforma";
     public function editarcombos($nombre, $id_producto_combo, $imagen, $id_combo)
     {
         $response = $this->initialResponse();
-        $target_dir = "public/img/combos/";
-        $target_file = $target_dir . basename($imagen["name"]);
-        $uploadOk = 1;
-        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-        $check = getimagesize($imagen["tmp_name"]);
-        if ($check !== false) {
+
+        // Inicializar la variable que contendrá el target_file
+        $target_file = null;
+
+        // Verificar si se ha proporcionado una imagen
+        if ($imagen['tmp_name'] && $imagen['name']) {
+            $target_dir = "public/img/combos/";
+            $target_file = $target_dir . basename($imagen["name"]);
             $uploadOk = 1;
-        } else {
-            $response['status'] = 500;
-            $response['title'] = 'Error';
-            $response['message'] = 'El archivo no es una imagen';
-            $uploadOk = 0;
-        }
-        if ($imagen["size"] > 500000) {
-            $response['status'] = 500;
-            $response['title'] = 'Error';
-            $response['message'] = 'El archivo es muy grande';
-            $uploadOk = 0;
-        }
-        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
-            $response['status'] = 500;
-            $response['title'] = 'Error';
-            $response['message'] = 'Solo se permiten archivos JPG, JPEG, PNG';
-            $uploadOk = 0;
-        } else {
-            if (move_uploaded_file($imagen["tmp_name"], $target_file)) {
-                $response['status'] = 200;
-                $response['title'] = 'Peticion exitosa';
-                $response['message'] = 'Imagen subida correctamente';
-                $response['data'] = $target_file;
+            $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+            $check = getimagesize($imagen["tmp_name"]);
 
-                $sql = "UPDATE combos SET nombre = ?, id_producto_combo = ?, image_path = ? WHERE id = ?";
-                $data = [$nombre, $id_producto_combo, $target_file, $id_combo];
-                $editar_categoria = $this->update($sql, $data);
-
-                if ($editar_categoria == 1) {
-                    $response['status'] = 200;
-                    $response['title'] = 'Peticion exitosa';
-                    $response['message'] = 'Imagen subida correctamente';
-                } else {
-                    $response['status'] = 500;
-                    $response['title'] = 'Error';
-                    $response['message'] = "Error al actualizar";
-                }
+            if ($check !== false) {
+                $uploadOk = 1;
             } else {
                 $response['status'] = 500;
                 $response['title'] = 'Error';
+                $response['message'] = 'El archivo no es una imagen';
+                $uploadOk = 0;
+            }
+
+            if ($imagen["size"] > 500000) {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'El archivo es muy grande';
+                $uploadOk = 0;
+            }
+
+            if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'Solo se permiten archivos JPG, JPEG, PNG';
+                $uploadOk = 0;
+            }
+
+            if ($uploadOk && !move_uploaded_file($imagen["tmp_name"], $target_file)) {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
                 $response['message'] = 'Error al subir la imagen';
+                return $response;
             }
         }
+
+        // Construir la consulta SQL en función de si hay imagen o no
+        if ($target_file) {
+            $sql = "UPDATE combos SET nombre = ?, id_producto_combo = ?, image_path = ? WHERE id = ?";
+            $data = [$nombre, $id_producto_combo, $target_file, $id_combo];
+        } else {
+            $sql = "UPDATE combos SET nombre = ?, id_producto_combo = ? WHERE id = ?";
+            $data = [$nombre, $id_producto_combo, $id_combo];
+        }
+
+        $editar_categoria = $this->update($sql, $data);
+
+        if ($editar_categoria == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Combo actualizado correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = "Error al actualizar el combo";
+        }
+
         return $response;
     }
 }
