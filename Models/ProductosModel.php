@@ -1277,7 +1277,7 @@ WHERE b.id_plataforma = $plataforma";
 
     public function obtener_combos($plataforma)
     {
-        $sql = "SELECT * FROM `combos` WHERE id_plataforma=$plataforma;";
+        $sql = "SELECT *, (SELECT nombre_producto FROM `productos` WHERE id_producto = combos.id_producto_combo) as nombre_producto FROM `combos` WHERE id_plataforma=$plataforma;";
         return $this->select($sql);
     }
 
