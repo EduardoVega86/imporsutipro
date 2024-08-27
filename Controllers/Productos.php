@@ -728,4 +728,20 @@ class Productos extends Controller
 
         echo json_encode($response);
     }
+
+    public function editarcombos()
+    {
+        $nombre = $_POST['nombre'];
+        $id_producto_combo = $_POST['id_producto_combo'];
+        $imagen = $_FILES['imagen'];
+
+        $response = $this->model->editarcombos(
+            $nombre,
+            $id_producto_combo,
+            $imagen,
+            $_SESSION['id_plataforma']
+        );
+
+        echo json_encode($response);
+    }
 }

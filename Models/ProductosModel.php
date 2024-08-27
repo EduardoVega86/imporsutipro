@@ -1342,4 +1342,60 @@ WHERE b.id_plataforma = $plataforma";
         }
         return $response;
     }
+
+    public function editarcombos($nombre, $id_producto_combo, $imagen, $plataforma)
+    {
+        $response = $this->initialResponse();
+        $target_dir = "public/img/combos/";
+        $target_file = $target_dir . basename($imagen["name"]);
+        $uploadOk = 1;
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        $check = getimagesize($imagen["tmp_name"]);
+        if ($check !== false) {
+            $uploadOk = 1;
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'El archivo no es una imagen';
+            $uploadOk = 0;
+        }
+        if ($imagen["size"] > 500000) {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'El archivo es muy grande';
+            $uploadOk = 0;
+        }
+        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Solo se permiten archivos JPG, JPEG, PNG';
+            $uploadOk = 0;
+        } else {
+            if (move_uploaded_file($imagen["tmp_name"], $target_file)) {
+                $response['status'] = 200;
+                $response['title'] = 'Peticion exitosa';
+                $response['message'] = 'Imagen subida correctamente';
+                $response['data'] = $target_file;
+
+                $sql = "UPDATE lineas SET nombre_linea = ?, descripcion_linea = ?, estado_linea = ?, date_added = ?, online = ?, tipo = ?, padre = ?, orden = ? WHERE id_linea = ? AND id_plataforma = ?";
+                $data = [$nombre_linea, $descripcion_linea, $estado_linea, $date_added, $online,  $tipo, $padre, $orden, $id, $plataforma];
+                $editar_categoria = $this->update($sql, $data);
+
+                if ($editar_categoria == 1) {
+                    $response['status'] = 200;
+                    $response['title'] = 'Peticion exitosa';
+                    $response['message'] = 'Imagen subida correctamente';
+                } else {
+                    $response['status'] = 500;
+                    $response['title'] = 'Error';
+                    $response['message'] = $editar_categoria["message"];
+                }
+            } else {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'Error al subir la imagen';
+            }
+        }
+        return $response;
+    }
 }
