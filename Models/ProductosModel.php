@@ -1347,11 +1347,8 @@ WHERE b.id_plataforma = $plataforma";
     {
         $response = $this->initialResponse();
 
-        // Inicializar la variable que contendrá el target_file
-        $target_file = null;
-
         // Verificar si se ha proporcionado una imagen
-        if ($imagen['tmp_name'] && $imagen['name']) {
+        if (isset($imagen) && isset($imagen['tmp_name']) && $imagen['tmp_name']) {
             $target_dir = "public/img/combos/";
             $target_file = $target_dir . basename($imagen["name"]);
             $uploadOk = 1;
@@ -1387,6 +1384,9 @@ WHERE b.id_plataforma = $plataforma";
                 $response['message'] = 'Error al subir la imagen';
                 return $response;
             }
+        } else {
+            // Si no se proporciona una imagen, omitir el campo image_path en la actualización
+            $target_file = null;
         }
 
         // Construir la consulta SQL en función de si hay imagen o no
