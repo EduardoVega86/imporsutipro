@@ -69,7 +69,6 @@ const listCombos = async () => {
       <td>${combo.id}</td>
       <td>${cargarImagen}</td>
       <td>${combo.nombre}</td>
-      <td></td>
       <td>${combo.nombre_producto}</td>
       <td>
           <button class="btn btn-sm btn-primary" onclick="seleccionar_combo(${combo.id})"><i class="fa-solid fa-pencil"></i>Ajustar</button>
