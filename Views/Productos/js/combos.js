@@ -307,17 +307,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Llenar ambos selects con los datos recibidos
         data.forEach((item) => {
-          const option = new Option(
+          // Crear opción para select_productos
+          const option1 = new Option(
             `${item.nombre_producto} - $${item.pvp}`, // Lo que ves en el select
             item.id_producto, // El valor del option
             false, // No seleccionado por defecto
             false // No preseleccionado
           );
-          option.setAttribute("data-image", SERVERURL + item.image_path); // Añadir imagen como atributo
+          option1.setAttribute("data-image", SERVERURL + item.image_path); // Añadir imagen como atributo
+          selectProductos.append(option1); // Añadir al select_productos
 
-          // Añadir a ambos selects
-          selectProductos.append(option.cloneNode(true)); // Clonamos el nodo para evitar referencia compartida
-          selectProductosEditar.append(option); // Añadimos el original al otro select
+          // Crear opción para select_productos_editar
+          const option2 = new Option(
+            `${item.nombre_producto} - $${item.pvp}`, // Lo que ves en el select
+            item.id_producto, // El valor del option
+            false, // No seleccionado por defecto
+            false // No preseleccionado
+          );
+          option2.setAttribute("data-image", SERVERURL + item.image_path); // Añadir imagen como atributo
+          selectProductosEditar.append(option2); // Añadir al select_productos_editar
         });
 
         // Refrescar Select2 en ambos selects
