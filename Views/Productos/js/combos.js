@@ -304,55 +304,41 @@ function agregar_tienda() {
 
 /* llenar select de productos */
 document.addEventListener("DOMContentLoaded", () => {
+  // Inicializa Select2 en el select
   $("#select_productos").select2({
-    templateResult: formatProduct,
-    templateSelection: formatProductSelection,
     placeholder: "--- Elegir producto ---",
-    minimumInputLength: 1,
-    ajax: {
-      url: 'SERVERURL + "productos/obtener_productos"',
-      dataType: "json",
-      delay: 250,
-      processResults: function (data) {
-        // Format the data for Select2
-        return {
-          results: data.map((item) => ({
-            id: item.id_producto,
-            text: item.nombre_producto,
-            image: item.image_path,
-            price: item.pvp,
-          })),
-        };
-      },
-      cache: true,
-    },
+    allowClear: true,
   });
 
-  function formatProduct(product) {
-    if (!product.id) {
-      return product.text;
-    }
+  // Cuando se abra el modal, carga los productos
+  $("#agregar_comboModal").on("shown.bs.modal", function () {
+    fetchProductos();
+  });
 
-    let imgPath = product.image
-      ? `SERVERURL/${product.image}`
-      : "default-image-path.jpg"; // Fallback image path
+  function fetchProductos() {
+    fetch('SERVERURL + "productos/obtener_productos"')
+      .then((response) => response.json())
+      .then((data) => {
+        const selectProductos = $("#select_productos");
+        selectProductos.empty(); // Limpia el select
+        selectProductos.append(new Option("--- Elegir producto ---", ""));
 
-    var $product = $(`
-            <div class='select2-result-product clearfix'>
-                <div class='select2-result-product__avatar'>
-                    <img src='${imgPath}' style='width:50px; height:50px;'/>
-                </div>
-                <div class='select2-result-product__details'>
-                    <div class='select2-result-product__name'>${product.text}</div>
-                    <div class='select2-result-product__price'>$${product.price}</div>
-                </div>
-            </div>
-        `);
-    return $product;
-  }
+        // Llenar el select con los datos recibidos
+        data.forEach((item) => {
+          const option = new Option(
+            `${item.nombre_producto} - $${item.pvp}`, // Lo que ves en el select
+            item.id_producto, // El valor del option
+            false, // No seleccionado por defecto
+            false // No preseleccionado
+          );
+          option.setAttribute("data-image", item.image_path); // Añadir imagen como atributo
+          selectProductos.append(option);
+        });
 
-  function formatProductSelection(product) {
-    return product.text || product.nombre_producto;
+        // Refrescar Select2
+        selectProductos.trigger("change");
+      })
+      .catch((error) => console.error("Error al cargar productos:", error));
   }
 });
 /* Fin llenar select productos */
