@@ -378,5 +378,4 @@ document.addEventListener("DOMContentLoaded", function () {
   // Llamar a la función para cargar los productos
   cargarProductos();
 });
-
 /* Fin llenar select productos */
