@@ -333,7 +333,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 /* Fin llenar select productos */
 /* llenar select productos editar */
-// Mover la función editar_combo al ámbito global
+// Función para editar el combo
 function editar_combo(id_combo) {
   let formData = new FormData();
   formData.append("id", id_combo);
@@ -409,15 +409,17 @@ function fetchProductos(productoId = null) {
       // Inicializar Select2 nuevamente
       initializeSelect2();
 
-      // Si productoId fue proporcionado, seleccionarlo
+      // Asegurarse de seleccionar el valor después de que Select2 esté completamente listo
       if (productoId) {
-        selectProductos.val(productoId).trigger("change"); // Seleccionar el producto específico
+        setTimeout(() => {
+          selectProductos.val(productoId).trigger("change"); // Seleccionar el producto específico
+        }, 200); // Retraso para asegurar que Select2 esté listo
       }
     })
     .catch((error) => console.error("Error al cargar productos:", error));
 }
 
-// Mover la función formatProduct al ámbito global
+// Funciones auxiliares globales para Select2
 function formatProduct(product) {
   if (!product.id) {
     return product.text;
@@ -430,19 +432,18 @@ function formatProduct(product) {
 
   var $product = $(
     `<div class='select2-result-repository clearfix'>
-        <div class='select2-result-repository__avatar'>
-            <img src='${imgPath}' alt='Imagen del producto' style='width: 50px; height: 50px; margin-right: 10px;'/>
-        </div>
-        <div class='select2-result-repository__meta'>
-            <div class='select2-result-repository__title'>${product.text}</div>
-        </div>
-    </div>`
+            <div class='select2-result-repository__avatar'>
+                <img src='${imgPath}' alt='Imagen del producto' style='width: 50px; height: 50px; margin-right: 10px;'/>
+            </div>
+            <div class='select2-result-repository__meta'>
+                <div class='select2-result-repository__title'>${product.text}</div>
+            </div>
+        </div>`
   );
 
   return $product;
 }
 
-// Mover la función formatProductSelection al ámbito global
 function formatProductSelection(product) {
   return product.text || product.nombre_producto;
 }
