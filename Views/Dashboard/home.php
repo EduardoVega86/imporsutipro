@@ -34,7 +34,7 @@
                     <div class="card p-3">
                         <div class="card-body d-flex align-items-center">
                             <div>
-                                <img src="<?php echo SERVERURL; ?>/public/noticias/icono_megafono.png" alt="Icono" class="me-3">
+                                <img src="icono_megafono.png" alt="Icono" class="me-3">
                             </div>
                             <div>
                                 <h6 class="card-title mb-0">Tu satisfacción es muy importante para nosotros...</h6>
@@ -46,7 +46,7 @@
                 </div>
                 <div class="mb-3">
                     <div class="card module-card">
-                        <img src="imagen_youtube.jpeg" class="card-img-top" alt="Módulo de Garantías">
+                        <img src="<?php echo SERVERURL; ?>/public/noticias/imagen_youtube.jpeg" class="card-img-top" alt="Módulo de Garantías">
                         <div class="card-body">
                             <h5 class="card-title">Conoce nuestro módulo Mis Garantías</h5>
                             <p class="card-text">Gestiona las garantías de tus productos a través del Módulo de
