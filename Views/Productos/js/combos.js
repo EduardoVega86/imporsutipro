@@ -380,7 +380,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Llamar a la función de inicialización cuando se abra el modal de edición
     $("#editar_comboModal").on("shown.bs.modal", function() {
-        console.log("Modal de edición abierto, cargando productos...");
         fetchProductos(); // Llamar a la función para llenar el select
     });
 
