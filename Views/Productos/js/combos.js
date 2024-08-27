@@ -238,55 +238,6 @@ $(document).ready(function () {
       },
     });
   });
-
-  /* llenar select de productos */
-  $("#select_productos").select2({
-    placeholder: "--- Elegir producto ---",
-    ajax: {
-      url: SERVERURL + "productos/obtener_productos",
-      dataType: "json",
-      delay: 250, // Para hacer que la carga sea asincrónica
-      processResults: function (data) {
-        return {
-          results: $.map(data, function (producto) {
-            return {
-              id: producto.id_producto,
-              text: producto.nombre,
-              img: producto.imagen_url,
-              precio: producto.precio,
-            };
-          }),
-        };
-      },
-      cache: true,
-    },
-    templateResult: formatProduct,
-    templateSelection: formatProductSelection,
-    minimumInputLength: 1, // Para empezar a buscar a partir de 1 carácter
-  });
-
-  // Función para mostrar los productos en la lista desplegable
-  function formatProduct(producto) {
-    if (!producto.id) {
-      return producto.text;
-    }
-    var $producto = $(
-      '<span><img src="' +
-        producto.img +
-        '" style="height: 50px; margin-right: 10px;" /> ' +
-        producto.text +
-        " - $" +
-        producto.precio +
-        "</span>"
-    );
-    return $producto;
-  }
-
-  // Función para mostrar el producto seleccionado
-  function formatProductSelection(producto) {
-    return producto.text || producto.id;
-  }
-  /* Fin select productos */
 });
 
 function eliminar_tiendaProductoPrivado(id_producto_privado, id_privado) {
@@ -350,3 +301,54 @@ function agregar_tienda() {
     },
   });
 }
+
+/* llenar select de productos */
+$(document).ready(function () {
+  $("#select_productos").select2({
+    placeholder: "--- Elegir producto ---",
+    ajax: {
+      url: SERVERURL + "productos/obtener_productos",
+      dataType: "json",
+      delay: 250, // Para hacer que la carga sea asincrónica
+      processResults: function (data) {
+        return {
+          results: $.map(data, function (producto) {
+            return {
+              id: producto.id_producto,
+              text: producto.nombre,
+              img: producto.imagen_url,
+              precio: producto.precio,
+            };
+          }),
+        };
+      },
+      cache: true,
+    },
+    templateResult: formatProduct,
+    templateSelection: formatProductSelection,
+    minimumInputLength: 1, // Para empezar a buscar a partir de 1 carácter
+  });
+
+  // Función para mostrar los productos en la lista desplegable
+  function formatProduct(producto) {
+    if (!producto.id) {
+      return producto.text;
+    }
+    var $producto = $(
+      '<span><img src="' +
+        producto.img +
+        '" style="height: 50px; margin-right: 10px;" /> ' +
+        producto.text +
+        " - $" +
+        producto.precio +
+        "</span>"
+    );
+    return $producto;
+  }
+
+  // Función para mostrar el producto seleccionado
+  function formatProductSelection(producto) {
+    return producto.text || producto.id;
+  }
+});
+/* Fin llenar select productos */
