@@ -44,40 +44,42 @@
                         </div>
                     </div>
                 </div>
-                <div class="mb-3">
-                    <div class="card module-card">
-                        <img src="<?php echo SERVERURL; ?>/public/noticias/imagen_youtube.jpeg" class="card-img-top" alt="Módulo de Garantías">
-                        <div class="card-body">
-                            <h5 class="card-title">Conoce nuestro módulo Mis Garantías</h5>
-                            <p class="card-text">Gestiona las garantías de tus productos a través del Módulo de
-                                Garantías. Descubre cómo utilizarlo en nuestro tutorial.</p>
-                            <a href="#" class="btn btn-warning">Ver Ahora</a>
+                <div class="d-flex flex-row">
+                    <div class="mb-3">
+                        <div class="card module-card">
+                            <img src="<?php echo SERVERURL; ?>/public/noticias/imagen_youtube.jpeg" class="card-img-top" alt="Módulo de Garantías">
+                            <div class="card-body">
+                                <h5 class="card-title">Conoce nuestro módulo Mis Garantías</h5>
+                                <p class="card-text">Gestiona las garantías de tus productos a través del Módulo de
+                                    Garantías. Descubre cómo utilizarlo en nuestro tutorial.</p>
+                                <a href="#" class="btn btn-warning">Ver Ahora</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="d-flex flex-column gap-2">
-                    <div class="card">
-                        <div class="card-body d-flex justify-content-between align-items-center">
-                            <span>Dropshipper</span>
-                            <a href="#" class="btn schedule-btn">Agendarme</a>
+                    <div class="d-flex flex-column gap-2">
+                        <div class="card">
+                            <div class="card-body d-flex justify-content-between align-items-center">
+                                <span>Dropshipper</span>
+                                <a href="#" class="btn schedule-btn">Agendarme</a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-body d-flex justify-content-between align-items-center">
-                            <span>Proveedor</span>
-                            <a href="#" class="btn schedule-btn">Agendarme</a>
+                        <div class="card">
+                            <div class="card-body d-flex justify-content-between align-items-center">
+                                <span>Proveedor</span>
+                                <a href="#" class="btn schedule-btn">Agendarme</a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-body d-flex justify-content-between align-items-center">
-                            <span>Emprendedor</span>
-                            <a href="#" class="btn schedule-btn">Agendarme</a>
+                        <div class="card">
+                            <div class="card-body d-flex justify-content-between align-items-center">
+                                <span>Emprendedor</span>
+                                <a href="#" class="btn schedule-btn">Agendarme</a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-body d-flex justify-content-between align-items-center">
-                            <span>Logística</span>
-                            <a href="#" class="btn schedule-btn">Agendarme</a>
+                        <div class="card">
+                            <div class="card-body d-flex justify-content-between align-items-center">
+                                <span>Logística</span>
+                                <a href="#" class="btn schedule-btn">Agendarme</a>
+                            </div>
                         </div>
                     </div>
                 </div>
