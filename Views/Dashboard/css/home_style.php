@@ -25,13 +25,13 @@
         }
 
         .icon-circle {
-        width: 50px;
-        height: 50px;
+        width: 20%;
+        height: 20%;
         border-radius: 50%;
     }
 
     .icon-circle img {
-        max-width: 60%;
+        max-width: 80%;
         max-height: 60%;
     }
     </style>
