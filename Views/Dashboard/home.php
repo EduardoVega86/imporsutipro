@@ -47,7 +47,7 @@
                     </div>
                 </div>
                 <div class="d-flex flex-row gap-3">
-                    <div class="mb-3 col-md-7">
+                    <div class="mb-3 col-md-5">
                         <div class="card module-card">
                             <img src="<?php echo SERVERURL; ?>/public/noticias/imagen_youtube.jpeg" class="card-img-top" alt="Módulo de Garantías">
                             <div class="card-body">
@@ -61,21 +61,21 @@
                     <div class="d-flex flex-column gap-2">
                         <div class="card">
                             <div class="card-body d-flex justify-content-between align-items-center">
-                                <img src="<?php echo SERVERURL; ?>/public/noticias/FULLFILLMENT.png" class="card-img-top" alt="FULLFILLMENT">
+                                <img src="<?php echo SERVERURL; ?>/public/noticias/FULLFILLMENT.png" class="card-img-top" alt="FULLFILLMENT" style="width: 10%;">
                                 <span>FULLFILLMENT</span>
                                 <a href="#" class="btn schedule-btn">Agendarme</a>
                             </div>
                         </div>
                         <div class="card">
                             <div class="card-body d-flex justify-content-between align-items-center">
-                                <img src="<?php echo SERVERURL; ?>/public/noticias/como_vender.png" class="card-img-top" alt="como_vender">
+                                <img src="<?php echo SERVERURL; ?>/public/noticias/como_vender.png" class="card-img-top" alt="como_vender" style="width: 10%;">
                                 <span>COMO EMPEZAR A VENDER</span>
                                 <a href="#" class="btn schedule-btn">Agendarme</a>
                             </div>
                         </div>
                         <div class="card">
                             <div class="card-body d-flex justify-content-between align-items-center">
-                                <img src="<?php echo SERVERURL; ?>/public/noticias/ser_proveedor.png" class="card-img-top" alt="ser_proveedor">
+                                <img src="<?php echo SERVERURL; ?>/public/noticias/ser_proveedor.png" class="card-img-top" alt="ser_proveedor" style="width: 10%;">
                                 <span>QUIERO SER PROVEEDOR</span>
                                 <a href="#" class="btn schedule-btn">Agendarme</a>
                             </div>
