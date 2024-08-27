@@ -105,14 +105,14 @@ function editar_combo(id_combo) {
     contentType: false, // No establecer ningún tipo de contenido
     dataType: "json",
     success: function (response) {
-      $("#editar_nombre_combo").val(response[0].nombre);
-      $("#select_productos_editar").val(response[0].id_producto_combo);
+        $("#editar_nombre_combo").val(response[0].nombre);
+        $("#select_productos_editar").val(response[0].id_producto_combo);
 
-      $("#preview-imagen_editar")
+        $("#preview-imagen_editar")
         .attr("src", SERVERURL + response[0].image_path)
         .show();
 
-      $("#editar_comboModal").modal("show");
+        $("#editar_comboModal").modal("show");
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
@@ -275,29 +275,18 @@ $(document).ready(function () {
 
 /* llenar select de productos */
 document.addEventListener("DOMContentLoaded", () => {
-  // Inicializa Select2 para el select #select_productos
+  // Inicializa Select2 en el select
   $("#select_productos").select2({
     placeholder: "--- Elegir producto ---",
     allowClear: true,
-    dropdownAutoWidth: true,
-    templateResult: formatProduct,
-    templateSelection: formatProductSelection,
-    dropdownParent: $("#agregar_comboModal"),
-  });
-
-  // Inicializa Select2 para el select #select_productos_editar
-  $("#select_productos_editar").select2({
-    placeholder: "--- Elegir producto ---",
-    allowClear: true,
-    dropdownAutoWidth: true,
-    templateResult: formatProduct,
-    templateSelection: formatProductSelection,
-    dropdownParent: $("#agregar_comboModal"),
+    dropdownAutoWidth: true, // Habilita auto width para ajustarse correctamente
+    templateResult: formatProduct, // Formato para mostrar los productos en el dropdown
+    templateSelection: formatProductSelection, // Formato para mostrar la selección
+    dropdownParent: $("#agregar_comboModal"), // Forzar que el dropdown se muestre dentro del modal
   });
 
   // Cuando se abra el modal, carga los productos
   $("#agregar_comboModal").on("shown.bs.modal", function () {
-    console.log("Modal abierto, cargando productos..."); // Debug
     fetchProductos();
   });
 
@@ -305,48 +294,24 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch(SERVERURL + "productos/obtener_productos")
       .then((response) => response.json())
       .then((data) => {
-        console.log("Datos recibidos:", data); // Debug
-
         const selectProductos = $("#select_productos");
-        const selectProductosEditar = $("#select_productos_editar");
-
-        // Limpia ambos selects
-        selectProductos.empty();
-        selectProductosEditar.empty();
-
-        // Añadir la opción por defecto a ambos selects
+        selectProductos.empty(); // Limpia el select
         selectProductos.append(new Option("--- Elegir producto ---", ""));
-        selectProductosEditar.append(new Option("--- Elegir producto ---", ""));
 
-        // Llenar ambos selects con los datos recibidos
+        // Llenar el select con los datos recibidos
         data.forEach((item) => {
-          console.log(`Añadiendo producto: ${item.nombre_producto}`); // Debug para cada producto
-
-          // Crear opción para select_productos
-          const option1 = new Option(
-            `${item.nombre_producto} - $${item.pvp}`,
-            item.id_producto,
-            false,
-            false
+          const option = new Option(
+            `${item.nombre_producto} - $${item.pvp}`, // Lo que ves en el select
+            item.id_producto, // El valor del option
+            false, // No seleccionado por defecto
+            false // No preseleccionado
           );
-          option1.setAttribute("data-image", SERVERURL + item.image_path);
-          selectProductos.append(option1);
-
-          // Crear opción para select_productos_editar
-          const option2 = new Option(
-            `${item.nombre_producto} - $${item.pvp}`,
-            item.id_producto,
-            false,
-            false
-          );
-          option2.setAttribute("data-image", SERVERURL + item.image_path);
-          selectProductosEditar.append(option2);
+          option.setAttribute("data-image", SERVERURL + item.image_path); // Añadir imagen como atributo
+          selectProductos.append(option);
         });
 
-        // Refrescar Select2 en ambos selects
-        selectProductos.trigger("change.select2"); // Forzar actualización del select
-        selectProductosEditar.trigger("change.select2"); // Forzar actualización del select
-        console.log("Selects actualizados."); // Debug
+        // Refrescar Select2
+        selectProductos.trigger("change");
       })
       .catch((error) => console.error("Error al cargar productos:", error));
   }
@@ -363,13 +328,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     var $product = $(
       `<div class='select2-result-repository clearfix'>
-                  <div class='select2-result-repository__avatar'>
-                      <img src='${imgPath}' alt='Imagen del producto' style='width: 50px; height: 50px; margin-right: 10px;'/>
-                  </div>
-                  <div class='select2-result-repository__meta'>
-                      <div class='select2-result-repository__title'>${product.text}</div>
-                  </div>
-              </div>`
+                <div class='select2-result-repository__avatar'>
+                    <img src='${imgPath}' alt='Imagen del producto' style='width: 50px; height: 50px; margin-right: 10px;'/>
+                </div>
+                <div class='select2-result-repository__meta'>
+                    <div class='select2-result-repository__title'>${product.text}</div>
+                </div>
+            </div>`
     );
 
     return $product;
@@ -380,19 +345,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Reposiciona el dropdown de select2 cuando el modal está abierto
-  $("#select_productos, #select_productos_editar").on(
-    "select2:open",
-    function () {
-      const select2Dropdown = $(".select2-container .select2-dropdown");
+  $("#select_productos").on("select2:open", function () {
+    const modal = $("#agregar_comboModal");
+    const select2Dropdown = $(".select2-container .select2-dropdown");
 
-      // Asegura que el dropdown esté correctamente posicionado dentro del modal
-      select2Dropdown.position({
-        my: "top",
-        at: "bottom",
-        of: $(this),
-      });
-    }
-  );
+    // Asegura que el dropdown esté correctamente posicionado dentro del modal
+    select2Dropdown.position({
+      my: "top",
+      at: "bottom",
+      of: $("#select_productos"),
+    });
+  });
 });
-
 /* Fin llenar select productos */
