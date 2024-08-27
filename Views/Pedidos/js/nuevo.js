@@ -437,7 +437,7 @@ $(document).ready(function () {
           alert(errorThrown);
         },
       });
-    } else if (priceValue == "No disponible"){
+    } else if (priceValue !== "No disponible"){
       toastr.error("ESTA TRANSPORTADORA ESTA EN MANTENIMIENTO", "NOTIFICACIÓN", {
         positionClass: "toast-bottom-center",
       });
