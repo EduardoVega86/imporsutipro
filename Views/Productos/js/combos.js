@@ -308,6 +308,8 @@ document.addEventListener("DOMContentLoaded", () => {
   $("#select_productos").select2({
     placeholder: "--- Elegir producto ---",
     allowClear: true,
+    templateResult: formatProduct, // Formato para mostrar los productos en el dropdown
+    templateSelection: formatProductSelection, // Formato para mostrar la selección
   });
 
   // Cuando se abra el modal, carga los productos
@@ -331,7 +333,7 @@ document.addEventListener("DOMContentLoaded", () => {
             false, // No seleccionado por defecto
             false // No preseleccionado
           );
-          option.setAttribute("data-image", item.image_path); // Añadir imagen como atributo
+          option.setAttribute("data-image", SERVERURL + item.image_path); // Añadir imagen como atributo
           selectProductos.append(option);
         });
 
@@ -339,6 +341,34 @@ document.addEventListener("DOMContentLoaded", () => {
         selectProductos.trigger("change");
       })
       .catch((error) => console.error("Error al cargar productos:", error));
+  }
+
+  function formatProduct(product) {
+    if (!product.id) {
+      return product.text;
+    }
+
+    // Obtén la imagen desde los datos
+    let imgPath = $(product.element).data("image")
+      ? $(product.element).data("image")
+      : "default-image-path.jpg";
+
+    var $product = $(
+      `<div class='select2-result-repository clearfix'>
+                <div class='select2-result-repository__avatar'>
+                    <img src='${imgPath}' alt='Imagen del producto'/>
+                </div>
+                <div class='select2-result-repository__meta'>
+                    <div class='select2-result-repository__title'>${product.text}</div>
+                </div>
+            </div>`
+    );
+
+    return $product;
+  }
+
+  function formatProductSelection(product) {
+    return product.text || product.nombre_producto;
   }
 });
 /* Fin llenar select productos */
