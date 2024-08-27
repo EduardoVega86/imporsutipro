@@ -304,12 +304,13 @@ function agregar_tienda() {
 
 /* llenar select de productos */
 document.addEventListener("DOMContentLoaded", () => {
-  // Inicializa Select2 en el select
+  // Inicializa Select2 en el select y asegura que se renderice dentro del modal
   $("#select_productos").select2({
     placeholder: "--- Elegir producto ---",
     allowClear: true,
     templateResult: formatProduct, // Formato para mostrar los productos en el dropdown
     templateSelection: formatProductSelection, // Formato para mostrar la selección
+    dropdownParent: $("#agregar_comboModal"), // Asegura que el dropdown se muestre dentro del modal
   });
 
   // Cuando se abra el modal, carga los productos
@@ -356,7 +357,7 @@ document.addEventListener("DOMContentLoaded", () => {
     var $product = $(
       `<div class='select2-result-repository clearfix'>
                 <div class='select2-result-repository__avatar'>
-                    <img src='${imgPath}' alt='Imagen del producto'/>
+                    <img src='${imgPath}' alt='Imagen del producto' style='width: 50px; height: 50px; margin-right: 10px;'/>
                 </div>
                 <div class='select2-result-repository__meta'>
                     <div class='select2-result-repository__title'>${product.text}</div>
@@ -371,4 +372,22 @@ document.addEventListener("DOMContentLoaded", () => {
     return product.text || product.nombre_producto;
   }
 });
+
+function obtenerURLImagen(imagePath, serverURL) {
+    // Verificar si el imagePath no es null
+    if (imagePath) {
+      // Verificar si el imagePath ya es una URL completa
+      if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
+        // Si ya es una URL completa, retornar solo el imagePath
+        return imagePath;
+      } else {
+        // Si no es una URL completa, agregar el serverURL al inicio
+        return `${serverURL}${imagePath}`;
+      }
+    } else {
+      // Manejar el caso cuando imagePath es null
+      console.error("imagePath es null o undefined");
+      return null; // o un valor por defecto si prefieres
+    }
+  }
 /* Fin llenar select productos */
