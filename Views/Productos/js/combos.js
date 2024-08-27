@@ -344,8 +344,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         // Refrescar Select2 en ambos selects
-        selectProductos.trigger("change");
-        selectProductosEditar.trigger("change");
+        selectProductos.trigger("change.select2"); // Forzar actualización del select
+        selectProductosEditar.trigger("change.select2"); // Forzar actualización del select
         console.log("Selects actualizados."); // Debug
       })
       .catch((error) => console.error("Error al cargar productos:", error));
