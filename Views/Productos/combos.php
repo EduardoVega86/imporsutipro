@@ -1,5 +1,6 @@
 <?php require_once './Views/templates/header.php'; ?>
 <?php require_once './Views/Productos/css/combos_style.php'; ?>
+<?php require_once './Views/Productos/Modales/agregar_combo.php'; ?>
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
@@ -7,12 +8,12 @@
         <!-- <div class="filtros_producos justify-content-between align-items-center mb-3"></div>
         </div> -->
         <div class="left_right gap-2">
-            <div class="justify-content-between align-items-center mb-3">
-                <div class="d-flex">
-                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_comboModal"><i class="fas fa-plus"></i> Agregar</button>
-                </div>
-            </div>
             <div class="table-responsive left">
+                <div class="justify-content-between align-items-center mb-3">
+                    <div class="d-flex">
+                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_comboModal"><i class="fas fa-plus"></i> Agregar</button>
+                    </div>
+                </div>
                 <!-- <table class="table table-bordered table-striped table-hover"> -->
                 <table id="datatable_combos" class="table table-striped" style="min-width: 100%;">
                     <thead>
