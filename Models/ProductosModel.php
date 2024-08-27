@@ -1343,7 +1343,7 @@ WHERE b.id_plataforma = $plataforma";
         return $response;
     }
 
-    public function editarcombos($nombre, $id_producto_combo, $imagen, $plataforma)
+    public function editarcombos($nombre, $id_producto_combo, $imagen, $id_combo)
     {
         $response = $this->initialResponse();
         $target_dir = "public/img/combos/";
@@ -1377,8 +1377,8 @@ WHERE b.id_plataforma = $plataforma";
                 $response['message'] = 'Imagen subida correctamente';
                 $response['data'] = $target_file;
 
-                $sql = "UPDATE lineas SET nombre_linea = ?, descripcion_linea = ?, estado_linea = ?, date_added = ?, online = ?, tipo = ?, padre = ?, orden = ? WHERE id_linea = ? AND id_plataforma = ?";
-                $data = [$nombre_linea, $descripcion_linea, $estado_linea, $date_added, $online,  $tipo, $padre, $orden, $id, $plataforma];
+                $sql = "UPDATE combos SET nombre = ?, id_producto_combo = ?, image_path = ? WHERE id = ?";
+                $data = [$nombre, $id_producto_combo, $target_file, $id_combo];
                 $editar_categoria = $this->update($sql, $data);
 
                 if ($editar_categoria == 1) {
@@ -1388,7 +1388,7 @@ WHERE b.id_plataforma = $plataforma";
                 } else {
                     $response['status'] = 500;
                     $response['title'] = 'Error';
-                    $response['message'] = $editar_categoria["message"];
+                    $response['message'] = "Error al actualizar";
                 }
             } else {
                 $response['status'] = 500;

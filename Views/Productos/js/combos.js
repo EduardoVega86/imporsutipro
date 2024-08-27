@@ -348,6 +348,7 @@ function editar_combo(id_combo) {
     success: function (response) {
       // Asignar los valores en el formulario del modal
       $("#editar_nombre_combo").val(response[0].nombre);
+      $("#id_combo_editar").val(response[0].id);
       $("#preview-imagen_editar")
         .attr("src", SERVERURL + response[0].image_path)
         .show();
