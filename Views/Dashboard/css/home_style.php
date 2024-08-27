@@ -23,4 +23,15 @@
         .schedule-btn:hover {
             background-color: #d67530;
         }
+
+        .icon-circle {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+
+    .icon-circle img {
+        max-width: 60%;
+        max-height: 60%;
+    }
     </style>
