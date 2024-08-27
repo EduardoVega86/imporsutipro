@@ -733,8 +733,14 @@ class Productos extends Controller
     {
         $nombre = $_POST['nombre'];
         $id_producto_combo = $_POST['id_producto_combo'];
-        $imagen = $_FILES['imagen'];
         $id_combo = $_POST['id_combo'];
+
+        // Verificar si se ha subido una imagen
+        if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] == UPLOAD_ERR_OK) {
+            $imagen = $_FILES['imagen'];
+        } else {
+            $imagen = null; // No se subió ninguna imagen
+        }
 
         $response = $this->model->editarcombos(
             $nombre,
