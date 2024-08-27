@@ -5,7 +5,7 @@
 
     <div class="container mt-4">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="slider-container">
                     <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
                         <div class="carousel-inner">
@@ -29,7 +29,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-8">
                 <div class="mb-3">
                     <div class="card p-3">
                         <div class="card-body d-flex align-items-center">
