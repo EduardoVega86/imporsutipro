@@ -128,19 +128,28 @@
 
     /* llenar select productos editar */
     document.addEventListener("DOMContentLoaded", () => {
-        // Inicializa Select2 en el select
-        $("#select_productos_editar").select2({
-            placeholder: "--- Elegir producto ---",
-            allowClear: true,
-            dropdownAutoWidth: true, // Habilita auto width para ajustarse correctamente
-            templateResult: formatProduct, // Formato para mostrar los productos en el dropdown
-            templateSelection: formatProductSelection, // Formato para mostrar la selección
-            dropdownParent: $("#agregar_comboModal"), // Forzar que el dropdown se muestre dentro del modal
-        });
+        // Función para inicializar Select2 en el modal de edición
+        function initializeSelect2() {
+            // Destruir Select2 si ya existe en el select_productos_editar
+            if ($.fn.select2 && $("#select_productos_editar").hasClass("select2-hidden-accessible")) {
+                $("#select_productos_editar").select2('destroy');
+            }
 
-        // Cuando se abra el modal, carga los productos
-        $("#agregar_comboModal").on("shown.bs.modal", function() {
-            fetchProductos();
+            // Inicializar Select2 en el select_productos_editar
+            $("#select_productos_editar").select2({
+                placeholder: "--- Elegir producto ---",
+                allowClear: true,
+                dropdownAutoWidth: true,
+                templateResult: formatProduct, // Formato para mostrar los productos en el dropdown
+                templateSelection: formatProductSelection, // Formato para mostrar la selección
+                dropdownParent: $("#editar_comboModal") // Especificar el modal correcto
+            });
+        }
+
+        // Llamar a la función de inicialización cuando se abra el modal de edición
+        $("#editar_comboModal").on("shown.bs.modal", function() {
+            console.log("Modal de edición abierto, cargando productos...");
+            fetchProductos(); // Llamar a la función para llenar el select
         });
 
         function fetchProductos() {
@@ -148,7 +157,7 @@
                 .then((response) => response.json())
                 .then((data) => {
                     const selectProductos = $("#select_productos_editar");
-                    selectProductos.empty(); // Limpia el select
+                    selectProductos.empty(); // Limpiar el select
                     selectProductos.append(new Option("--- Elegir producto ---", ""));
 
                     // Llenar el select con los datos recibidos
@@ -163,8 +172,9 @@
                         selectProductos.append(option);
                     });
 
-                    // Refrescar Select2
-                    selectProductos.trigger("change");
+                    // Forzar actualización de Select2
+                    initializeSelect2(); // Inicializar Select2 después de llenar el select
+                    selectProductos.trigger("change"); // Asegurar que el select se actualiza correctamente
                 })
                 .catch((error) => console.error("Error al cargar productos:", error));
         }
@@ -174,7 +184,7 @@
                 return product.text;
             }
 
-            // Obtén la imagen desde los datos
+            // Obtener la imagen desde los datos
             let imgPath = $(product.element).data("image") ?
                 $(product.element).data("image") :
                 "default-image-path.jpg";
@@ -197,9 +207,9 @@
             return product.text || product.nombre_producto;
         }
 
-        // Reposiciona el dropdown de select2 cuando el modal está abierto
+        // Reposicionar el dropdown de Select2 cuando se abre
         $("#select_productos_editar").on("select2:open", function() {
-            const modal = $("#agregar_comboModal");
+            const modal = $("#editar_comboModal");
             const select2Dropdown = $(".select2-container .select2-dropdown");
 
             // Asegura que el dropdown esté correctamente posicionado dentro del modal
