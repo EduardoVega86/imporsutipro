@@ -46,7 +46,7 @@
                 </div>
                 <div class="mb-3">
                     <div class="card module-card">
-                        <img src="modulo_garantias.jpg" class="card-img-top" alt="Módulo de Garantías">
+                        <img src="<?php echo SERVERURL; ?>/public/noticias/imagen_youtube.jpeg" class="card-img-top" alt="Módulo de Garantías">
                         <div class="card-body">
                             <h5 class="card-title">Conoce nuestro módulo Mis Garantías</h5>
                             <p class="card-text">Gestiona las garantías de tus productos a través del Módulo de
