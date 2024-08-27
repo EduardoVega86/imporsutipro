@@ -303,73 +303,56 @@ function agregar_tienda() {
 }
 
 /* llenar select de productos */
-document.addEventListener("DOMContentLoaded", function () {
-  // Inicializar Select2 con dropdownParent para que funcione dentro del modal
+document.addEventListener("DOMContentLoaded", () => {
   $("#select_productos").select2({
     templateResult: formatProduct,
     templateSelection: formatProductSelection,
     placeholder: "--- Elegir producto ---",
-    allowClear: true,
-    dropdownParent: $("#agregar_comboModal"), // Asegura que el dropdown se muestre dentro del modal
+    minimumInputLength: 1,
+    ajax: {
+      url: 'SERVERURL + "productos/obtener_productos"',
+      dataType: "json",
+      delay: 250,
+      processResults: function (data) {
+        // Format the data for Select2
+        return {
+          results: data.map((item) => ({
+            id: item.id_producto,
+            text: item.nombre_producto,
+            image: item.image_path,
+            price: item.pvp,
+          })),
+        };
+      },
+      cache: true,
+    },
   });
 
-  // Función para renderizar el producto en el dropdown
   function formatProduct(product) {
     if (!product.id) {
       return product.text;
     }
 
-    // Si no hay datos adicionales, mostramos el valor de "text"
-    const $product = $(
-      `<div class="d-flex align-items-center">
-                <div>
-                    <div>${product.text}</div>
+    let imgPath = product.image
+      ? `SERVERURL/${product.image}`
+      : "default-image-path.jpg"; // Fallback image path
+
+    var $product = $(`
+            <div class='select2-result-product clearfix'>
+                <div class='select2-result-product__avatar'>
+                    <img src='${imgPath}' style='width:50px; height:50px;'/>
                 </div>
-            </div>`
-    );
+                <div class='select2-result-product__details'>
+                    <div class='select2-result-product__name'>${product.text}</div>
+                    <div class='select2-result-product__price'>$${product.price}</div>
+                </div>
+            </div>
+        `);
     return $product;
   }
 
-  // Función para mostrar solo el nombre en la selección
   function formatProductSelection(product) {
-    return product.text || "Producto no disponible";
+    return product.text || product.nombre_producto;
   }
-
-  // Función para obtener los productos desde la API
-  async function obtenerProductos() {
-    const response = await fetch(SERVERURL + "productos/obtener_productos");
-    const data = await response.json();
-
-    // Aquí imprimimos los productos obtenidos para depuración
-    console.log("Productos obtenidos desde la API:", data);
-    return data;
-  }
-
-  // Función para cargar los productos en el select
-  async function cargarProductos() {
-    try {
-      const productos = await obtenerProductos();
-
-      // Agregar las opciones al select
-      productos.forEach((producto) => {
-        // Mostrar información de producto en la consola para depuración
-        console.log("Procesando producto:", producto);
-
-        // Usar el text e id directamente de los datos obtenidos
-        const option = new Option(producto.text, producto.id, false, false);
-
-        $("#select_productos").append(option);
-      });
-
-      // Refrescar el select2 después de agregar las opciones
-      $("#select_productos").trigger("change");
-    } catch (error) {
-      console.error("Error al obtener los productos:", error);
-    }
-  }
-
-  // Llamar a la función para cargar los productos
-  cargarProductos();
 });
-
 /* Fin llenar select productos */
