@@ -355,7 +355,7 @@ function editar_combo(id_combo) {
       // Mostrar el modal
       $("#editar_comboModal").modal("show");
 
-      // Cargar los productos en el select y seleccionar el producto correspondiente
+      // Cargar los productos en el select y luego seleccionar el producto correspondiente
       fetchProductos(response[0].id_producto_combo);
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -392,7 +392,6 @@ function fetchProductos(productoId = null) {
     .then((data) => {
       const selectProductos = $("#select_productos_editar");
       selectProductos.empty(); // Limpiar el select
-      selectProductos.append(new Option("--- Elegir producto ---", ""));
 
       // Llenar el select con los datos recibidos
       data.forEach((item) => {
@@ -406,14 +405,14 @@ function fetchProductos(productoId = null) {
         selectProductos.append(option);
       });
 
-      // Inicializar Select2 nuevamente
+      // Inicializar Select2 después de que los productos hayan sido cargados
       initializeSelect2();
 
-      // Asegurarse de seleccionar el valor después de que Select2 esté completamente listo
+      // Seleccionar el producto después de que Select2 esté completamente inicializado
       if (productoId) {
         setTimeout(() => {
           selectProductos.val(productoId).trigger("change"); // Seleccionar el producto específico
-        }, 200); // Retraso para asegurar que Select2 esté listo
+        }, 300); // Ajusta el tiempo si es necesario
       }
     })
     .catch((error) => console.error("Error al cargar productos:", error));
