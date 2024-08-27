@@ -313,35 +313,17 @@ document.addEventListener("DOMContentLoaded", function () {
     dropdownParent: $("#agregar_comboModal"), // Asegura que el dropdown se muestre dentro del modal
   });
 
-  // Función para obtener los productos desde la API
-  async function obtenerProductos() {
-    const response = await fetch(SERVERURL + "productos/obtener_productos");
-    const data = await response.json();
-
-    // Aquí imprimimos los productos obtenidos para depuración
-    console.log("Productos obtenidos desde la API:", data);
-    return data;
-  }
-
   // Función para renderizar el producto en el dropdown
   function formatProduct(product) {
     if (!product.id) {
       return product.text;
     }
 
-    // Verificar si las propiedades están presentes
-    if (!product.image_path || !product.nombre_producto || !product.pvp) {
-      console.error("Producto faltante información:", product);
-      return "Información no disponible";
-    }
-
-    // Formato de cada opción con imagen, nombre y precio
+    // Si no hay datos adicionales, mostramos el valor de "text"
     const $product = $(
       `<div class="d-flex align-items-center">
-                <img src="${product.image_path}" alt="${product.nombre_producto}" style="width: 50px; height: 50px; margin-right: 10px;">
                 <div>
-                    <div>${product.nombre_producto}</div>
-                    <div class="text-muted">$${product.pvp}</div>
+                    <div>${product.text}</div>
                 </div>
             </div>`
     );
@@ -350,7 +332,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Función para mostrar solo el nombre en la selección
   function formatProductSelection(product) {
-    return product.nombre_producto || product.text || "Producto no disponible";
+    return product.text || "Producto no disponible";
+  }
+
+  // Función para obtener los productos desde la API
+  async function obtenerProductos() {
+    const response = await fetch(SERVERURL + "productos/obtener_productos");
+    const data = await response.json();
+
+    // Aquí imprimimos los productos obtenidos para depuración
+    console.log("Productos obtenidos desde la API:", data);
+    return data;
   }
 
   // Función para cargar los productos en el select
@@ -363,14 +355,8 @@ document.addEventListener("DOMContentLoaded", function () {
         // Mostrar información de producto en la consola para depuración
         console.log("Procesando producto:", producto);
 
-        const option = new Option(
-          producto.nombre_producto,
-          producto.id_producto,
-          false,
-          false
-        );
-        option.dataset.image_path = producto.image_path;
-        option.dataset.pvp = producto.pvp;
+        // Usar el text e id directamente de los datos obtenidos
+        const option = new Option(producto.text, producto.id, false, false);
 
         $("#select_productos").append(option);
       });
