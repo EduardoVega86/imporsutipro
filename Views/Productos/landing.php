@@ -227,7 +227,7 @@ if ($data == 0) {
                         processData: false,
                         dataType: 'json',
                         success: function(response) {
-                            console.log('Archivo enviado:', fileName);
+                            console.log('Archivo enviado:', response);
                             if (response.status === 200) {
                                 Swal.fire({
                                     icon: 'success',
