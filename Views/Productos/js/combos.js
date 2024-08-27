@@ -304,12 +304,13 @@ function agregar_tienda() {
 
 /* llenar select de productos */
 document.addEventListener("DOMContentLoaded", function () {
-  // Inicializar Select2
+  // Inicializar Select2 con dropdownParent para que funcione dentro del modal
   $("#select_productos").select2({
     templateResult: formatProduct,
     templateSelection: formatProductSelection,
     placeholder: "--- Elegir producto ---",
     allowClear: true,
+    dropdownParent: $("#nuevoComboModal"), // Asegura que el dropdown se muestre dentro del modal
   });
 
   // Función para obtener los productos desde la API
@@ -323,6 +324,11 @@ document.addEventListener("DOMContentLoaded", function () {
   function formatProduct(product) {
     if (!product.id) {
       return product.text;
+    }
+
+    // Si product no tiene las propiedades correctas, regresa texto plano.
+    if (!product.image_path || !product.nombre_producto || !product.pvp) {
+      return "Información no disponible";
     }
 
     // Formato de cada opción con imagen, nombre y precio
@@ -340,7 +346,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Función para mostrar solo el nombre en la selección
   function formatProductSelection(product) {
-    return product.nombre_producto || product.text;
+    return product.nombre_producto || product.text || "Producto no disponible";
   }
 
   // Función para cargar los productos en el select
