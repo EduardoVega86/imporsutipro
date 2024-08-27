@@ -42,7 +42,7 @@ const initDataTableInventario = async () => {
 
   await listInventario();
 
-  dataTableInventario = $("#datatable_inventario").DataTable(
+  dataTableInventario = $("#datatable_combos").DataTable(
     dataTableInventarioOptions
   );
 
@@ -51,39 +51,33 @@ const initDataTableInventario = async () => {
 
 const listInventario = async () => {
   try {
-    const response = await fetch(
-      "" + SERVERURL + "productos/obtener_productosPrivados_tienda"
-    );
-    const inventarios = await response.json();
+    const response = await fetch("" + SERVERURL + "productos/obtener_combos");
+    const combos = await response.json();
 
     let content = ``;
     let cargarImagen = "";
     let variedad = "";
-    inventarios.forEach((inventario, index) => {
-      if (!inventario.image_path) {
+    combos.forEach((combo, index) => {
+      if (!combo.image_path) {
         cargarImagen = `<i class="bx bxs-camera-plus"></i>`;
       } else {
-        cargarImagen = `<img src="${SERVERURL}${inventario.image_path}" class="icon-button" alt="Agregar imagen" width="50px">`;
-      }
-
-      if (inventario.variedad == null) {
-        variedad = "";
-      } else {
-        variedad = inventario.variedad;
+        cargarImagen = `<img src="${SERVERURL}${combo.image_path}" class="icon-button" alt="Agregar imagen" width="50px">`;
       }
 
       content += `
       <tr>
-      <td>${inventario.id_producto}</td>
+      <td>${combo.id}</td>
       <td>${cargarImagen}</td>
-      <td>${inventario.codigo_producto}</td>
-      <td>${inventario.nombre_producto}</td>
+      <td>${combo.nombre}</td>
+      <td></td>
+      <td>${combo.nombre_producto}</td>
       <td>
-          <button class="btn btn-sm btn-primary" onclick="seleccionar_cambiarInventario(${inventario.id_producto})"><i class="fa-solid fa-pencil"></i>Ajustar</button>
+          <button class="btn btn-sm btn-primary" onclick="seleccionar_combo(${combo.id})"><i class="fa-solid fa-pencil"></i>Ajustar</button>
       </td>
+      <td></td>
       </tr>`;
     });
-    document.getElementById("tableBody_inventario").innerHTML = content;
+    document.getElementById("tableBody_combos").innerHTML = content;
   } catch (ex) {
     alert(ex);
   }
@@ -233,7 +227,7 @@ $(document).ready(function () {
         } else {
           $("#image_tienda").attr("src", SERVERURL + response[0].logo_url);
         }
-        
+
         $("#nombre_tienda").text(response[0].nombre_tienda);
         $("#url").text(response[0].url_imporsuit);
         $("#telefono").text(response[0].whatsapp);
@@ -244,6 +238,55 @@ $(document).ready(function () {
       },
     });
   });
+
+  /* llenar select de productos */
+  $("#select_productos").select2({
+    placeholder: "--- Elegir producto ---",
+    ajax: {
+      url: SERVERURL + "productos/obtener_productos",
+      dataType: "json",
+      delay: 250, // Para hacer que la carga sea asincrónica
+      processResults: function (data) {
+        return {
+          results: $.map(data, function (producto) {
+            return {
+              id: producto.id_producto,
+              text: producto.nombre,
+              img: producto.imagen_url,
+              precio: producto.precio,
+            };
+          }),
+        };
+      },
+      cache: true,
+    },
+    templateResult: formatProduct,
+    templateSelection: formatProductSelection,
+    minimumInputLength: 1, // Para empezar a buscar a partir de 1 carácter
+  });
+
+  // Función para mostrar los productos en la lista desplegable
+  function formatProduct(producto) {
+    if (!producto.id) {
+      return producto.text;
+    }
+    var $producto = $(
+      '<span><img src="' +
+        producto.img +
+        '" style="height: 50px; margin-right: 10px;" /> ' +
+        producto.text +
+        " - $" +
+        producto.precio +
+        "</span>"
+    );
+    return $producto;
+  }
+
+  // Función para mostrar el producto seleccionado
+  function formatProductSelection(producto) {
+    return producto.text || producto.id;
+  }
+  /* Fin select productos */
 });
 
 function eliminar_tiendaProductoPrivado(id_producto_privado, id_privado) {

@@ -7,19 +7,25 @@
         <!-- <div class="filtros_producos justify-content-between align-items-center mb-3"></div>
         </div> -->
         <div class="left_right gap-2">
+            <div class="justify-content-between align-items-center mb-3">
+                <div class="d-flex">
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_comboModal"><i class="fas fa-plus"></i> Agregar</button>
+                </div>
+            </div>
             <div class="table-responsive left">
                 <!-- <table class="table table-bordered table-striped table-hover"> -->
-                <table id="datatable_inventario" class="table table-striped" style="min-width: 100%;">
+                <table id="datatable_combos" class="table table-striped" style="min-width: 100%;">
                     <thead>
                         <tr>
                             <th class="centered">ID</th>
                             <th class="centered"></th>
-                            <th class="centered">Codigo</th>
-                            <th class="centered">Producto</th>
-                            <th class="centered">Ajustar</th>
+                            <th class="centered">Nombre combo</th>
+                            <th class="centered">Nombre Producto</th>
+                            <th class="centered">Visualizar combo</th>
+                            <th class="centered">Accion</th>
                         </tr>
                     </thead>
-                    <tbody id="tableBody_inventario"></tbody>
+                    <tbody id="tableBody_combos"></tbody>
                 </table>
             </div>
             <div class="right gap-2 hidden" id="inventarioSection">

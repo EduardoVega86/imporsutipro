@@ -38,70 +38,70 @@ GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
     }
 
     public function importar_productos_tienda($id_producto, $plataforma)
-{
-    $response = $this->initialResponse();
-    $inicial_variable = $this->select("SELECT * FROM productos_tienda WHERE id_plataforma = $plataforma AND id_producto = $id_producto");
+    {
+        $response = $this->initialResponse();
+        $inicial_variable = $this->select("SELECT * FROM productos_tienda WHERE id_plataforma = $plataforma AND id_producto = $id_producto");
 
-    if (empty($inicial_variable)) {
-        $inventario = $this->select("SELECT * FROM inventario_bodegas ib, productos p WHERE p.id_producto = $id_producto AND ib.id_producto = p.id_producto");
+        if (empty($inicial_variable)) {
+            $inventario = $this->select("SELECT * FROM inventario_bodegas ib, productos p WHERE p.id_producto = $id_producto AND ib.id_producto = p.id_producto");
 
-        $detalle_sql = "INSERT INTO productos_tienda (id_plataforma, id_producto, nombre_producto_tienda, imagen_principal_tienda, pvp_tienda, id_inventario, id_categoria_tienda, descripcion_tienda, landing_tienda) 
+            $detalle_sql = "INSERT INTO productos_tienda (id_plataforma, id_producto, nombre_producto_tienda, imagen_principal_tienda, pvp_tienda, id_inventario, id_categoria_tienda, descripcion_tienda, landing_tienda) 
                         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        foreach ($inventario as $inv) {
-            $detalle_data = array(
-                $plataforma,
-                $id_producto,
-                $inv['nombre_producto'],
-                $inv['image_path'],
-                $inv['pvp'],
-                $inv['id_inventario'],
-                $inv['id_linea_producto'],
-                $inv['descripcion_producto'],
-                $inv['landing']
-            );
-            $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
+            foreach ($inventario as $inv) {
+                $detalle_data = array(
+                    $plataforma,
+                    $id_producto,
+                    $inv['nombre_producto'],
+                    $inv['image_path'],
+                    $inv['pvp'],
+                    $inv['id_inventario'],
+                    $inv['id_linea_producto'],
+                    $inv['descripcion_producto'],
+                    $inv['landing']
+                );
+                $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
 
-            if ($guardar_detalle == 1) {
-                // Obtener el último ID insertado en productos_tienda
-                $ultimo_id = $this->select("SELECT MAX(id_producto_tienda) as id FROM productos_tienda");
-                $ultimo_id_producto_tienda = $ultimo_id[0]['id'];
+                if ($guardar_detalle == 1) {
+                    // Obtener el último ID insertado en productos_tienda
+                    $ultimo_id = $this->select("SELECT MAX(id_producto_tienda) as id FROM productos_tienda");
+                    $ultimo_id_producto_tienda = $ultimo_id[0]['id'];
 
-                // Imprimir el último ID
-                //echo "El último ID de producto en la tienda es: " . $ultimo_id_producto_tienda;
+                    // Imprimir el último ID
+                    //echo "El último ID de producto en la tienda es: " . $ultimo_id_producto_tienda;
 
-                // Obtener las imágenes adicionales del producto
-                $imagenes_adicionales = $this->select("SELECT * FROM imagenes_adicionales_producto WHERE id_producto = $id_producto");
-//print_r($imagenes_adicionales);
-                // Preparar la consulta de inserción para las imágenes adicionales
-                $insert_img_sql = "INSERT INTO imagens_adicionales_productoTienda (id_producto, num_imagen, url, id_plataforma) VALUES (?, ?, ?, ?)";
+                    // Obtener las imágenes adicionales del producto
+                    $imagenes_adicionales = $this->select("SELECT * FROM imagenes_adicionales_producto WHERE id_producto = $id_producto");
+                    //print_r($imagenes_adicionales);
+                    // Preparar la consulta de inserción para las imágenes adicionales
+                    $insert_img_sql = "INSERT INTO imagens_adicionales_productoTienda (id_producto, num_imagen, url, id_plataforma) VALUES (?, ?, ?, ?)";
 
-                // Insertar cada imagen adicional en la tabla imagenes_adicionales_productoTienda
-                foreach ($imagenes_adicionales as $img) {
-                    
-                    $img_data = [
-                        $ultimo_id_producto_tienda,  // Reemplazar id_producto con el último ID obtenido
-                        $img['num_imagen'],
-                        $img['url'],
-                         $plataforma
-                    ];
-                    $guardar_imagenes=$this->insert($insert_img_sql, $img_data);
-                   // print_r($guardar_imagenes);
+                    // Insertar cada imagen adicional en la tabla imagenes_adicionales_productoTienda
+                    foreach ($imagenes_adicionales as $img) {
+
+                        $img_data = [
+                            $ultimo_id_producto_tienda,  // Reemplazar id_producto con el último ID obtenido
+                            $img['num_imagen'],
+                            $img['url'],
+                            $plataforma
+                        ];
+                        $guardar_imagenes = $this->insert($insert_img_sql, $img_data);
+                        // print_r($guardar_imagenes);
+                    }
+
+                    $response['status'] = 200;
+                    $response['title'] = 'Petición exitosa';
+                    $response['message'] = 'Producto y sus imágenes adicionales agregados correctamente';
                 }
-
-                $response['status'] = 200;
-                $response['title'] = 'Petición exitosa';
-                $response['message'] = 'Producto y sus imágenes adicionales agregados correctamente';
             }
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'El producto ya existe en su tienda.';
         }
-    } else {
-        $response['status'] = 500;
-        $response['title'] = 'Error';
-        $response['message'] = 'El producto ya existe en su tienda.';
-    }
 
-    return $response;
-}
+        return $response;
+    }
 
 
     public function obtener_productos_inventario($plataforma)
@@ -1271,6 +1271,68 @@ WHERE b.id_plataforma = $plataforma";
             $response['status'] = 500;
             $response['title'] = 'Error';
             $response['message'] = $eliminar_producto['message'];
+        }
+        return $response;
+    }
+
+    public function obtener_combos($plataforma)
+    {
+        $sql = "SELECT * FROM `combos` WHERE id_plataforma=$plataforma;";
+        return $this->select($sql);
+    }
+
+    public function agregarcombos($nombre, $id_producto_combo, $imagen, $plataforma)
+    {
+        $response = $this->initialResponse();
+        $target_dir = "public/img/combos/";
+        $target_file = $target_dir . basename($imagen["name"]);
+        $uploadOk = 1;
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        $check = getimagesize($imagen["tmp_name"]);
+        if ($check !== false) {
+            $uploadOk = 1;
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'El archivo no es una imagen';
+            $uploadOk = 0;
+        }
+        if ($imagen["size"] > 500000) {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'El archivo es muy grande';
+            $uploadOk = 0;
+        }
+        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Solo se permiten archivos JPG, JPEG, PNG';
+            $uploadOk = 0;
+        } else {
+            if (move_uploaded_file($imagen["tmp_name"], $target_file)) {
+                $response['status'] = 200;
+                $response['title'] = 'Peticion exitosa';
+                $response['message'] = 'Imagen subida correctamente';
+                $response['data'] = $target_file;
+
+                $sql = "INSERT INTO `combos` (`id_plataforma`,`nombre`,`id_producto_combo`,`image_path`) VALUES (?, ?, ?, ?)";
+                $data = [$plataforma, $nombre, $id_producto_combo, $target_file];
+                $insertar_testimonio = $this->insert($sql, $data);
+
+                if ($insertar_testimonio == 1) {
+                    $response['status'] = 200;
+                    $response['title'] = 'Peticion exitosa';
+                    $response['message'] = 'Imagen subida correctamente';
+                } else {
+                    $response['status'] = 500;
+                    $response['title'] = 'Error';
+                    $response['message'] = $insertar_testimonio["message"];
+                }
+            } else {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'Error al subir la imagen';
+            }
         }
         return $response;
     }

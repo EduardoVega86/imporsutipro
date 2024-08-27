@@ -246,7 +246,7 @@ class Productos extends Controller
         $tipo = $_POST['tipo'] ?? '';
         $padre = $_POST['padre'] ?? 0;
         $orden = $_POST['orden'];
-        
+
         $response = $this->model->agregarCategoria($nombre_linea, $descripcion_linea, $estado_linea, $date_added, $online, $imagen, $tipo, $padre, $_SESSION['id_plataforma'], $orden);
         echo json_encode($response);
     }
@@ -697,6 +697,28 @@ class Productos extends Controller
     {
         $id = $_POST['id_privado'];
         $response = $this->model->eliminarPrivadoPlataforma($id);
+        echo json_encode($response);
+    }
+
+    public function obtener_combos()
+    {
+        $response = $this->model->obtener_combos($_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
+    public function agregarcombos()
+    {
+        $nombre = $_POST['nombre'];
+        $id_producto_combo = $_POST['id_producto_combo'];
+        $imagen = $_FILES['imagen'];
+
+        $response = $this->model->agregarcombos(
+            $nombre,
+            $id_producto_combo,
+            $imagen,
+            $_SESSION['id_plataforma']
+        );
+
         echo json_encode($response);
     }
 }
