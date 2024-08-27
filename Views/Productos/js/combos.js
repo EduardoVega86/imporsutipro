@@ -1,0 +1,389 @@
+let dataTableInventario;
+let dataTableInventarioIsInitialized = false;
+
+function getFecha() {
+  let fecha = new Date();
+  let mes = fecha.getMonth() + 1;
+  let dia = fecha.getDate();
+  let anio = fecha.getFullYear();
+  let fechaHoy = anio + "-" + mes + "-" + dia;
+  return fechaHoy;
+}
+
+const dataTableInventarioOptions = {
+  columnDefs: [
+    { className: "centered", targets: [0, 1, 2, 3, 4] },
+    { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
+  ],
+  pageLength: 10,
+  destroy: true,
+  responsive: true,
+  language: {
+    lengthMenu: "Mostrar _MENU_ registros por página",
+    zeroRecords: "Ningún usuario encontrado",
+    info: "Mostrando de _START_ a _END_ de un total de _TOTAL_ registros",
+    infoEmpty: "Ningún usuario encontrado",
+    infoFiltered: "(filtrados desde _MAX_ registros totales)",
+    search: "Buscar:",
+    loadingRecords: "Cargando...",
+    paginate: {
+      first: "Primero",
+      last: "Último",
+      next: "Siguiente",
+      previous: "Anterior",
+    },
+  },
+};
+
+const initDataTableInventario = async () => {
+  if (dataTableInventarioIsInitialized) {
+    dataTableInventario.destroy();
+  }
+
+  await listInventario();
+
+  dataTableInventario = $("#datatable_combos").DataTable(
+    dataTableInventarioOptions
+  );
+
+  dataTableInventarioIsInitialized = true;
+};
+
+const listInventario = async () => {
+  try {
+    const response = await fetch("" + SERVERURL + "productos/obtener_combos");
+    const combos = await response.json();
+
+    let content = ``;
+    let cargarImagen = "";
+    let variedad = "";
+    combos.forEach((combo, index) => {
+      if (!combo.image_path) {
+        cargarImagen = `<i class="bx bxs-camera-plus"></i>`;
+      } else {
+        cargarImagen = `<img src="${SERVERURL}${combo.image_path}" class="icon-button" alt="Agregar imagen" width="50px">`;
+      }
+
+      content += `
+      <tr>
+      <td>${combo.id}</td>
+      <td>${cargarImagen}</td>
+      <td>${combo.nombre}</td>
+      <td></td>
+      <td>${combo.nombre_producto}</td>
+      <td>
+          <button class="btn btn-sm btn-primary" onclick="seleccionar_combo(${combo.id})"><i class="fa-solid fa-pencil"></i>Ajustar</button>
+      </td>
+      <td></td>
+      </tr>`;
+    });
+    document.getElementById("tableBody_combos").innerHTML = content;
+  } catch (ex) {
+    alert(ex);
+  }
+};
+
+window.addEventListener("load", async () => {
+  await initDataTableInventario();
+});
+
+// tabla con informacion de inventario de producto individual
+let dataTableStockIndividual;
+let dataTableStockIndividualIsInitialized = false;
+
+const dataTableStockIndividualOptions = {
+  columnDefs: [
+    { className: "centered", targets: [0, 1, 2, 3, 4] },
+    { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
+  ],
+  order: [[0, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
+  pageLength: 10,
+  destroy: true,
+  responsive: true,
+  autoWidth: true,
+  bAutoWidth: true,
+  language: {
+    lengthMenu: "Mostrar _MENU_ registros por página",
+    zeroRecords: "Ningún usuario encontrado",
+    info: "Mostrando de _START_ a _END_ de un total de _TOTAL_ registros",
+    infoEmpty: "Ningún usuario encontrado",
+    infoFiltered: "(filtrados desde _MAX_ registros totales)",
+    search: "Buscar:",
+    loadingRecords: "Cargando...",
+    paginate: {
+      first: "Primero",
+      last: "Último",
+      next: "Siguiente",
+      previous: "Anterior",
+    },
+  },
+};
+
+const initDataTableStockIndividual = async (id_producto) => {
+  if (dataTableStockIndividualIsInitialized) {
+    dataTableStockIndividual.destroy();
+  }
+
+  await listStockIndividual(id_producto);
+
+  dataTableStockIndividual = $("#datatable_stockIndividual").DataTable(
+    dataTableStockIndividualOptions
+  );
+
+  dataTableStockIndividualIsInitialized = true;
+};
+
+const listStockIndividual = async (id_producto) => {
+  try {
+    const formData = new FormData();
+    formData.append("id_producto", id_producto);
+
+    const response = await fetch(
+      `${SERVERURL}Productos/obtener_tiendas_productosPrivados`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+    const stockIndividuals = await response.json();
+
+    let content = ``;
+    let tipo = "";
+    stockIndividuals.forEach((stockIndividual, index) => {
+      content += `
+        <tr>
+        <td>${stockIndividual.nombre_tienda}</td>
+      <td>${stockIndividual.email}</td>
+      <td>${stockIndividual.whatsapp}</td>
+      <td>${stockIndividual.url_imporsuit}</td>
+      <td>
+      <button class="btn btn-sm btn-danger" onclick="eliminar_tiendaProductoPrivado(${stockIndividual.id_producto_privado}, ${id_producto})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
+      </td>
+        </tr>`;
+    });
+    document.getElementById("tableBody_stockIndividual").innerHTML = content;
+  } catch (ex) {
+    alert(ex);
+  }
+};
+
+function seleccionar_cambiarInventario(id_producto) {
+  $("#id_producto_privado").val(id_producto);
+  initDataTableStockIndividual(id_producto);
+  document.getElementById("inventarioSection").classList.remove("hidden");
+}
+
+//cargar select de tiendas
+$(document).ready(function () {
+  // Realiza la solicitud AJAX para obtener la lista de bodegas
+  $.ajax({
+    url: SERVERURL + "Usuarios/obtener_tiendas",
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+      // Asegúrate de que la respuesta es un array
+      if (Array.isArray(response)) {
+        response.forEach(function (tiendas) {
+          // Agrega una nueva opción al select por cada tienda
+          $("#select_tiendas").append(
+            new Option(tiendas.nombre_tienda, tiendas.id_plataforma)
+          );
+        });
+
+        // Inicializa Select2 en el elemento select
+        $("#select_tiendas").select2({
+          placeholder: "Selecciona una tienda", // Placeholder opcional
+          allowClear: true, // Permite limpiar la selección
+        });
+      } else {
+        console.log("La respuesta de la API no es un array:", response);
+      }
+    },
+    error: function (error) {
+      console.error("Error al obtener la lista de tiendas:", error);
+    },
+  });
+
+  $("#select_tiendas").change(function () {
+    var id_plataformaTienda = $("#select_tiendas").val();
+    $("#informacion_tienda").show();
+
+    let formData = new FormData();
+    formData.append("id_plataforma", id_plataformaTienda);
+
+    $.ajax({
+      url: SERVERURL + "Usuarios/obtener_infoTienda_privada",
+      type: "POST",
+      data: formData,
+      processData: false,
+      contentType: false,
+      dataType: "json",
+      success: function (response) {
+        if (response[0].logo_url === null) {
+          $("#image_tienda").attr(
+            "src",
+            SERVERURL + "public/img/broken-image.png"
+          );
+        } else {
+          $("#image_tienda").attr("src", SERVERURL + response[0].logo_url);
+        }
+
+        $("#nombre_tienda").text(response[0].nombre_tienda);
+        $("#url").text(response[0].url_imporsuit);
+        $("#telefono").text(response[0].whatsapp);
+        $("#correo").text(response[0].email);
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        alert(errorThrown);
+      },
+    });
+  });
+});
+
+function eliminar_tiendaProductoPrivado(id_producto_privado, id_privado) {
+  let formData = new FormData();
+  formData.append("id_privado", id_producto_privado);
+
+  $.ajax({
+    url: SERVERURL + "Productos/eliminarPrivadoPlataforma",
+    type: "POST", // Cambiar a POST para enviar FormData
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    dataType: "json",
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("LA TIENDA NO SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("TIENDA ELIMINADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+        initDataTableStockIndividual(id_privado);
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+}
+
+function agregar_tienda() {
+  var id_plataformaTienda = $("#select_tiendas").val();
+  var id_producto_privado = $("#id_producto_privado").val();
+
+  let formData = new FormData();
+  formData.append("id_plataforma", id_plataformaTienda);
+  formData.append("id_producto", id_producto_privado);
+
+  $.ajax({
+    url: SERVERURL + "Productos/agregarPrivadoPlataforma",
+    type: "POST", // Cambiar a POST para enviar FormData
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    dataType: "json",
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("LA TIENDA NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("TIENDA AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+        initDataTableStockIndividual(id_producto_privado);
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+}
+
+/* llenar select de productos */
+document.addEventListener("DOMContentLoaded", () => {
+  // Inicializa Select2 en el select
+  $("#select_productos").select2({
+    placeholder: "--- Elegir producto ---",
+    allowClear: true,
+    dropdownAutoWidth: true, // Habilita auto width para ajustarse correctamente
+    templateResult: formatProduct, // Formato para mostrar los productos en el dropdown
+    templateSelection: formatProductSelection, // Formato para mostrar la selección
+    dropdownParent: $("#agregar_comboModal"), // Forzar que el dropdown se muestre dentro del modal
+  });
+
+  // Cuando se abra el modal, carga los productos
+  $("#agregar_comboModal").on("shown.bs.modal", function () {
+    fetchProductos();
+  });
+
+  function fetchProductos() {
+    fetch(SERVERURL + "productos/obtener_productos")
+      .then((response) => response.json())
+      .then((data) => {
+        const selectProductos = $("#select_productos");
+        selectProductos.empty(); // Limpia el select
+        selectProductos.append(new Option("--- Elegir producto ---", ""));
+
+        // Llenar el select con los datos recibidos
+        data.forEach((item) => {
+          const option = new Option(
+            `${item.nombre_producto} - $${item.pvp}`, // Lo que ves en el select
+            item.id_producto, // El valor del option
+            false, // No seleccionado por defecto
+            false // No preseleccionado
+          );
+          option.setAttribute("data-image", SERVERURL + item.image_path); // Añadir imagen como atributo
+          selectProductos.append(option);
+        });
+
+        // Refrescar Select2
+        selectProductos.trigger("change");
+      })
+      .catch((error) => console.error("Error al cargar productos:", error));
+  }
+
+  function formatProduct(product) {
+    if (!product.id) {
+      return product.text;
+    }
+
+    // Obtén la imagen desde los datos
+    let imgPath = $(product.element).data("image")
+      ? $(product.element).data("image")
+      : "default-image-path.jpg";
+
+    var $product = $(
+      `<div class='select2-result-repository clearfix'>
+                <div class='select2-result-repository__avatar'>
+                    <img src='${imgPath}' alt='Imagen del producto' style='width: 50px; height: 50px; margin-right: 10px;'/>
+                </div>
+                <div class='select2-result-repository__meta'>
+                    <div class='select2-result-repository__title'>${product.text}</div>
+                </div>
+            </div>`
+    );
+
+    return $product;
+  }
+
+  function formatProductSelection(product) {
+    return product.text || product.nombre_producto;
+  }
+
+  // Reposiciona el dropdown de select2 cuando el modal está abierto
+  $("#select_productos").on("select2:open", function () {
+    const modal = $("#agregar_comboModal");
+    const select2Dropdown = $(".select2-container .select2-dropdown");
+
+    // Asegura que el dropdown esté correctamente posicionado dentro del modal
+    select2Dropdown.position({
+      my: "top",
+      at: "bottom",
+      of: $("#select_productos"),
+    });
+  });
+});
+/* Fin llenar select productos */
