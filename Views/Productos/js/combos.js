@@ -303,52 +303,73 @@ function agregar_tienda() {
 }
 
 /* llenar select de productos */
-$(document).ready(function () {
+document.addEventListener("DOMContentLoaded", function () {
+  // Inicializar Select2
   $("#select_productos").select2({
-    placeholder: "--- Elegir producto ---",
-    ajax: {
-      url: SERVERURL + "productos/obtener_productos",
-      dataType: "json",
-      delay: 250, // Para hacer que la carga sea asincrónica
-      processResults: function (data) {
-        return {
-          results: $.map(data, function (producto) {
-            return {
-              id: producto.id_producto,
-              text: producto.nombre,
-              img: producto.imagen_url,
-              precio: producto.precio,
-            };
-          }),
-        };
-      },
-      cache: true,
-    },
     templateResult: formatProduct,
     templateSelection: formatProductSelection,
-    minimumInputLength: 1, // Para empezar a buscar a partir de 1 carácter
+    placeholder: "--- Elegir producto ---",
+    allowClear: true,
   });
 
-  // Función para mostrar los productos en la lista desplegable
-  function formatProduct(producto) {
-    if (!producto.id) {
-      return producto.text;
-    }
-    var $producto = $(
-      '<span><img src="' +
-        producto.img +
-        '" style="height: 50px; margin-right: 10px;" /> ' +
-        producto.text +
-        " - $" +
-        producto.precio +
-        "</span>"
-    );
-    return $producto;
+  // Función para obtener los productos desde la API
+  async function obtenerProductos() {
+    const response = await fetch(SERVERURL + "productos/obtener_productos");
+    const data = await response.json();
+    return data;
   }
 
-  // Función para mostrar el producto seleccionado
-  function formatProductSelection(producto) {
-    return producto.text || producto.id;
+  // Función para renderizar el producto en el dropdown
+  function formatProduct(product) {
+    if (!product.id) {
+      return product.text;
+    }
+
+    // Formato de cada opción con imagen, nombre y precio
+    const $product = $(
+      `<div class="d-flex align-items-center">
+                <img src="${product.imagen}" alt="${product.nombre}" style="width: 50px; height: 50px; margin-right: 10px;">
+                <div>
+                    <div>${product.nombre}</div>
+                    <div class="text-muted">$${product.precio}</div>
+                </div>
+            </div>`
+    );
+    return $product;
   }
+
+  // Función para mostrar solo el nombre en la selección
+  function formatProductSelection(product) {
+    return product.nombre || product.text;
+  }
+
+  // Función para cargar los productos en el select
+  async function cargarProductos() {
+    try {
+      const productos = await obtenerProductos();
+
+      // Agregar las opciones al select
+      productos.forEach((producto) => {
+        const option = new Option(
+          producto.nombre,
+          producto.id_producto,
+          false,
+          false
+        );
+        option.dataset.imagen = producto.imagen;
+        option.dataset.precio = producto.precio;
+
+        $("#select_productos").append(option);
+      });
+
+      // Refrescar el select2 después de agregar las opciones
+      $("#select_productos").trigger("change");
+    } catch (error) {
+      console.error("Error al obtener los productos:", error);
+    }
+  }
+
+  // Llamar a la función para cargar los productos
+  cargarProductos();
 });
 /* Fin llenar select productos */

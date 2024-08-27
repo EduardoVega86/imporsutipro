@@ -35,7 +35,7 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label for="select_productos" class="form-label">Producto</label>
-                            <select class="form-select" id="select_productos" style="width: 100%;">
+                            <select class="form-select" id="select_productos" style="width: 100%">
                                 <option value="" selected>--- Elegir producto ---</option>
                             </select>
                         </div>
