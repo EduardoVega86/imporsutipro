@@ -67,7 +67,7 @@
 
         // Evento para reiniciar el formulario cuando se cierre el modal
         $('#agregar_comboModal').on('hidden.bs.modal', function() {
-            var button = document.getElementById('guardar_banner');
+            var button = document.getElementById('guardar_combo');
             button.disabled = false; // Desactivar el botón
             resetForm();
         });
@@ -84,7 +84,7 @@
         $('#agregar_combo_form').submit(function(event) {
             event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
 
-            var button = document.getElementById('guardar_banner');
+            var button = document.getElementById('guardar_combo');
             button.disabled = true; // Desactivar el botón
 
             // Crea un objeto FormData
