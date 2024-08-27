@@ -328,10 +328,10 @@ document.addEventListener("DOMContentLoaded", function () {
     // Formato de cada opción con imagen, nombre y precio
     const $product = $(
       `<div class="d-flex align-items-center">
-                <img src="${product.imagen}" alt="${product.nombre}" style="width: 50px; height: 50px; margin-right: 10px;">
+                <img src="${product.image_path}" alt="${product.nombre_producto}" style="width: 50px; height: 50px; margin-right: 10px;">
                 <div>
-                    <div>${product.nombre}</div>
-                    <div class="text-muted">$${product.precio}</div>
+                    <div>${product.nombre_producto}</div>
+                    <div class="text-muted">$${product.pvp}</div>
                 </div>
             </div>`
     );
@@ -340,7 +340,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Función para mostrar solo el nombre en la selección
   function formatProductSelection(product) {
-    return product.nombre || product.text;
+    return product.nombre_producto || product.text;
   }
 
   // Función para cargar los productos en el select
@@ -351,13 +351,13 @@ document.addEventListener("DOMContentLoaded", function () {
       // Agregar las opciones al select
       productos.forEach((producto) => {
         const option = new Option(
-          producto.nombre,
+          producto.nombre_producto,
           producto.id_producto,
           false,
           false
         );
-        option.dataset.imagen = producto.imagen;
-        option.dataset.precio = producto.precio;
+        option.dataset.image_path = producto.image_path;
+        option.dataset.pvp = producto.pvp;
 
         $("#select_productos").append(option);
       });
