@@ -263,7 +263,7 @@ const listAuditoria = async (estado, id_transporte) => {
         url_tracking = ``;
         url_descargar = `https://guias.imporsuitpro.com/Speed/descargar/${item.numero_guia}`;
       } else {
-        url_tracking = `https://www.servientrega.com.ec/Tracking/?guia=${item.numero_guia}&tipo=GUIA`;
+        url_tracking = `https://servientrega-ecuador.appsiscore.com/app/app-cliente/cons_publica.php?guia=${item.numero_guia}&Request=Buscar+`;
         url_descargar = `https://guias.imporsuitpro.com/Servientrega/guia/${item.numero_guia}`;
       }
       var background = "";
