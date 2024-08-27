@@ -317,6 +317,9 @@ document.addEventListener("DOMContentLoaded", function () {
   async function obtenerProductos() {
     const response = await fetch(SERVERURL + "productos/obtener_productos");
     const data = await response.json();
+
+    // Aquí imprimimos los productos obtenidos para depuración
+    console.log("Productos obtenidos desde la API:", data);
     return data;
   }
 
@@ -328,6 +331,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Verificar si las propiedades están presentes
     if (!product.image_path || !product.nombre_producto || !product.pvp) {
+      console.error("Producto faltante información:", product);
       return "Información no disponible";
     }
 
@@ -356,6 +360,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Agregar las opciones al select
       productos.forEach((producto) => {
+        // Mostrar información de producto en la consola para depuración
+        console.log("Procesando producto:", producto);
+
         const option = new Option(
           producto.nombre_producto,
           producto.id_producto,
@@ -378,4 +385,5 @@ document.addEventListener("DOMContentLoaded", function () {
   // Llamar a la función para cargar los productos
   cargarProductos();
 });
+
 /* Fin llenar select productos */
