@@ -1,5 +1,5 @@
-let dataTableInventario;
-let dataTableInventarioIsInitialized = false;
+let dataTableCombos;
+let dataTableCombosIsInitialized = false;
 
 function getFecha() {
   let fecha = new Date();
@@ -10,7 +10,7 @@ function getFecha() {
   return fechaHoy;
 }
 
-const dataTableInventarioOptions = {
+const dataTableCombosOptions = {
   columnDefs: [
     { className: "centered", targets: [0, 1, 2, 3, 4] },
     { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
@@ -35,21 +35,21 @@ const dataTableInventarioOptions = {
   },
 };
 
-const initDataTableInventario = async () => {
-  if (dataTableInventarioIsInitialized) {
-    dataTableInventario.destroy();
+const initDataTableCombos = async () => {
+  if (dataTableCombosIsInitialized) {
+    dataTableCombos.destroy();
   }
 
-  await listInventario();
+  await listCombos();
 
-  dataTableInventario = $("#datatable_combos").DataTable(
-    dataTableInventarioOptions
+  dataTableCombos = $("#datatable_combos").DataTable(
+    dataTableCombosOptions
   );
 
-  dataTableInventarioIsInitialized = true;
+  dataTableCombosIsInitialized = true;
 };
 
-const listInventario = async () => {
+const listCombos = async () => {
   try {
     const response = await fetch("" + SERVERURL + "productos/obtener_combos");
     const combos = await response.json();
@@ -84,7 +84,7 @@ const listInventario = async () => {
 };
 
 window.addEventListener("load", async () => {
-  await initDataTableInventario();
+  await initDataTableCombos();
 });
 
 // tabla con informacion de inventario de producto individual
