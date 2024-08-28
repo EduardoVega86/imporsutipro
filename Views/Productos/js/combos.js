@@ -251,7 +251,7 @@ function eliminar_combo(id_combo) {
   let formData = new FormData();
   formData.append("id_combo", id_combo);
   $.ajax({
-    url: SERVERURL + "Productos/eliminar_combo",
+    url: SERVERURL + "Productos/eliminarCombo",
     type: "POST",
     data: formData,
     processData: false, // No procesar los datos
@@ -266,7 +266,7 @@ function eliminar_combo(id_combo) {
         toastr.success("COMBO ELIMINADO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
-        
+
         initDataTableCombos();
       }
     },
