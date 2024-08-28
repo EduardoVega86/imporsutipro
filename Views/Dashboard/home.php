@@ -89,6 +89,6 @@
 
 </div>
 
-<!-- <script src="<?php echo SERVERURL ?>/Views/Dashboard/js/home.js"></script> -->
+<script src="<?php echo SERVERURL ?>/Views/Dashboard/js/home.js"></script>
 
 <?php require_once './Views/templates/footer.php'; ?>
