@@ -284,7 +284,7 @@ class PedidosModel extends Query
 
         // añadir detalle con configuracion de html
         foreach ($response as $key => $value) {
-            $response[$key]['detalle'] = '<button type="button" class="btn btn-sm btn-outline-primary"  onclick="verDetalleCot(' . $value['id_factura'] . ')">Ver detalle</button>';
+            $response[$key]['detalle'] = '<button type="button" class="btn btn-sm btn-outline-primary"  onclick="ver_detalle_cot(' . $value['id_factura'] . ')">Ver detalle</button>';
         }
         return $response;
     }
