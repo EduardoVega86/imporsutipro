@@ -292,7 +292,7 @@ class PedidosModel extends Query
 
             $response[$key]['transportadora'] = '<div><span style="background-color: ' . $color . '; color: white; padding: 5px; border-radius: 0.3rem;">' . $value['transporte'] . '</span></div>';
             $estado = $this->validarEstado($value['estado_guia_sistema'], $value['id_transporte']);
-            $response[$key]['estado_guia_sistema'] = '<div><span class="badged ' . $estado['span_estado'] . '">' . $estado['estado_guia'] . '</span></div>';
+            $response[$key]['estado_guia_sistema'] = '<div><span class="badged ' . $estado['span_estado'] . '">' . $estado['estado_guia'] . '</span></br> <span> <a href="' . $estado['link'] . '" target="_blank">' . $value['numero_guia'] . '</a></span></div>';
         }
         return $response;
     }
@@ -303,12 +303,16 @@ class PedidosModel extends Query
         $span_estado = "";
         if ($transportadora == 1) {
             $estado = $this->validar_estadoLaar($guia);
+            $estado['link'] = 'https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=' . $guia;
         } elseif ($transportadora == 2) {
             $estado = $this->validar_estadoServi($guia);
+            $estado['link'] = 'https://guias.imporsuitpro.com/Servientrega/guia/' . $guia;
         } elseif ($transportadora == 3) {
             $estado = $this->validar_estadoGintracom($guia);
+            $estado['link'] = 'https://guias.imporsuitpro.com/Gintracom/label/' . $guia;
         } elseif ($transportadora == 4) {
             $estado = $this->validar_estadoSpeed($guia);
+            $estado['link'] = 'https://guias.imporsuitpro.com/Speed/descargar/' . $guia;
         }
         return $estado;
     }
@@ -349,7 +353,7 @@ class PedidosModel extends Query
 
         return [
             'span_estado' => $span_estado,
-            'estado_guia' => $estado_guia
+            'estado_guia' => $estado_guia,
         ];
     }
 
