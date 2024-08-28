@@ -15,13 +15,13 @@
     }
 
     .schedule-btn {
-        background-color: #f68736;
+        background-color: #171931;
         color: white;
         border-radius: 5px;
     }
 
     .schedule-btn:hover {
-        background-color: #d67530;
+        background-color: #0d6efd;
     }
 
     .icon-circle {

@@ -46,37 +46,43 @@
                         </div>
                     </div>
                 </div>
-                    <div class="mb-3">
-                        <div class="card module-card">
-                            <img src="<?php echo SERVERURL; ?>/public/noticias/imagen_youtube.jpeg" class="card-img-top" alt="Módulo de Garantías">
-                            <div class="card-body">
-                                <a href="#" class="btn btn-warning">Ver Ahora</a>
-                            </div>
+                <div class="mb-3">
+                    <div class="card module-card">
+                        <img src="<?php echo SERVERURL; ?>/public/noticias/imagen_youtube.jpeg" class="card-img-top" alt="Módulo de Garantías">
+                        <div class="card-body">
+                            <a href="#" class="btn btn-warning">Ver Ahora</a>
                         </div>
                     </div>
-                    <div class="d-flex flex-column gap-2 mb-3">
-                        <div class="card">
-                            <div class="card-body d-flex justify-content-between align-items-center">
-                                <img src="<?php echo SERVERURL; ?>/public/noticias/FULLFILLMENT.png" class="card-img-top" alt="FULLFILLMENT" style="width: 10%;">
+                </div>
+                <div class="d-flex flex-column gap-2 mb-3">
+                    <div class="card">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center">
+                                <img src="<?php echo SERVERURL; ?>/public/noticias/FULLFILLMENT.png" alt="FULLFILLMENT" style="width: 7%;" class="me-2">
                                 <span>FULLFILLMENT</span>
-                                <a href="#" class="btn schedule-btn">Agendarme</a>
                             </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-body d-flex justify-content-between align-items-center">
-                                <img src="<?php echo SERVERURL; ?>/public/noticias/como_vender.png" class="card-img-top" alt="como_vender" style="width: 10%;">
-                                <span>COMO EMPEZAR A VENDER</span>
-                                <a href="#" class="btn schedule-btn">Agendarme</a>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-body d-flex justify-content-between align-items-center">
-                                <img src="<?php echo SERVERURL; ?>/public/noticias/ser_proveedor.png" class="card-img-top" alt="ser_proveedor" style="width: 10%;">
-                                <span>QUIERO SER PROVEEDOR</span>
-                                <a href="#" class="btn schedule-btn">Agendarme</a>
-                            </div>
+                            <a href="#" class="btn schedule-btn">Agendarme</a>
                         </div>
                     </div>
+                    <div class="card">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center">
+                                <img src="<?php echo SERVERURL; ?>/public/noticias/como_vender.png" alt="como_vender" style="width: 7%;" class="me-2">
+                                <span>COMO EMPEZAR A VENDER</span>
+                            </div>
+                            <a href="#" class="btn schedule-btn">Agendarme</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center">
+                                <img src="<?php echo SERVERURL; ?>/public/noticias/ser_proveedor.png" alt="ser_proveedor" style="width: 7%;" class="me-2">
+                                <span>QUIERO SER PROVEEDOR</span>
+                            </div>
+                            <a href="#" class="btn schedule-btn">Agendarme</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
