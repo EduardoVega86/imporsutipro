@@ -17,20 +17,131 @@ const dataTableOptions = {
   },
   columns: [
     {
+      data: "numero_factura",
+      render: function (data, type, row) {
+        let drogshipin = row.drogshipin == 0 ? "Local" : "Drogshipin";
+        return `<div>${data}</div><div>${drogshipin}</div>`;
+      },
+    },
+    {
+      data: "fecha_factura",
+      render: function (data, type, row) {
+        return `<button onclick="ver_detalle_cot('${row.id_factura}')" class="btn btn-sm btn-outline-primary">Ver detalle</button><div>${data}</div>`;
+      },
+    },
+    {
+      data: "nombre",
+      render: function (data, type, row) {
+        return `<div><strong>${data}</strong></div><div>${row.c_principal} y ${row.c_secundaria}</div><div>telf: ${row.telefono}</div>`;
+      },
+    },
+    {
+      data: "ciudad",
+      render: function (data, type, row) {
+        let ciudadArray = data.split("/");
+        let ciudad = ciudadArray[0];
+        return `${row.provinciaa}-${ciudad}`;
+      },
+    },
+    { data: "tienda" },
+    { data: "nombre_proveedor" },
+    {
+      data: "id_transporte",
+      render: function (data, type, row) {
+        let transporte_content = "";
+        let ruta_descarga = "";
+        let ruta_traking = "";
+        let funcion_anular = "";
+        let select_speed = "";
+
+        switch (data) {
+          case 2:
+            transporte_content =
+              '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SERVIENTREGA</span>';
+            ruta_descarga = `<a class="w-100" href="https://guias.imporsuitpro.com/Servientrega/guia/${row.numero_guia}" target="_blank">${row.numero_guia}</a>`;
+            ruta_traking = `https://www.servientrega.com.ec/Tracking/?guia=${row.numero_guia}&tipo=GUIA`;
+            funcion_anular = `anular_guiaServi('${row.numero_guia}')`;
+            break;
+          case 1:
+            transporte_content =
+              '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">LAAR</span>';
+            ruta_descarga = `<a class="w-100" href="https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${row.numero_guia}" target="_blank">${row.numero_guia}</a>`;
+            ruta_traking = `https://fenixoper.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${row.numero_guia}`;
+            funcion_anular = `anular_guiaLaar('${row.numero_guia}')`;
+            break;
+          case 4:
+            transporte_content =
+              '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">MerkaLogistic</span>';
+            if (row.numero_guia.includes("MKL")) {
+              ruta_descarga = `<a class="w-100" href="https://guias.imporsuitpro.com/Speed/descargar/${row.numero_guia}" target="_blank">${row.numero_guia}</a>`;
+            }
+            break;
+          case 3:
+            transporte_content =
+              '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>';
+            ruta_descarga = `<a class="w-100" href="https://guias.imporsuitpro.com/Gintracom/label/${row.numero_guia}" target="_blank">${row.numero_guia}</a>`;
+            ruta_traking = `https://ec.gintracom.site/web/site/tracking`;
+            funcion_anular = `anular_guiaGintracom('${row.numero_guia}')`;
+            break;
+          default:
+            transporte_content =
+              '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">Guia no enviada</span>';
+            break;
+        }
+        return `
+                  <div style="text-align: center;">
+                      ${transporte_content}
+                      <div>${ruta_descarga}</div>
+                      <div>${
+                        ruta_traking
+                          ? `<a href="${ruta_traking}" target="_blank"><img src="https://new.imporsuitpro.com/public/img/tracking.png" width="40px"></a>`
+                          : ""
+                      }</div>
+                  </div>
+              `;
+      },
+    },
+    {
+      data: "estado_guia_sistema",
+      render: function (data, type, row) {
+        // Aquí debes implementar la función `validar_estadoServi`, `validar_estadoLaar`, etc.
+        let estado = validar_estado(row.id_transporte, data);
+        return `<span class="w-100 text-nowrap ${estado.span_estado}">${estado.estado_guia}</span>`;
+      },
+    },
+    {
+      data: "estado_factura",
+      render: function (data, type, row) {
+        return data == 2
+          ? `<i class='bx bx-check' style="color:#28E418; font-size: 30px;"></i>`
+          : `<i class='bx bx-x' style="color:red; font-size: 30px;"></i>`;
+      },
+    },
+    {
+      data: "impreso",
+      render: function (data) {
+        return data == 0
+          ? `<box-icon name='printer' color= "red"></box-icon>`
+          : `<box-icon name='printer' color= "#28E418"></box-icon>`;
+      },
+    },
+    {
       data: null,
-      defaultContent: '<input type="checkbox" class="selectCheckbox">',
-    }, // Checkbox column
-    { data: "numero_factura" }, // Corresponds to numero_factura in the API response
-    { data: "detalle" }, // Assuming you have a 'detalle' field in your response
-    { data: "cliente" }, // Assuming you have a 'cliente' field in your response
-    { data: "ciudad" }, // Assuming you have a 'ciudad' field in your response
-    { data: "tienda" }, // Corresponds to 'tienda' in your API response
-    { data: "nombre_proveedor" }, // Corresponds to 'nombre_proveedor' in your API response
-    { data: "transportadora" }, // Corresponds to 'transportadora' in your API response
-    { data: "estado_guia_sistema" }, // Corresponds to 'estado_guia_sistema' in your API response
-    { data: "despachado" }, // Assuming you have a 'despachado' field in your response
-    { data: "impreso" }, // Corresponds to 'impreso' in your API response
-    { data: "acciones" }, // Assuming you handle the 'acciones' column with your own logic
+      render: function (data, type, row) {
+        let funcion_anular = ""; // Asigna la función de anular según el transporte
+        return `
+                  <div class="dropdown">
+                      <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                          <i class="fa-solid fa-gear"></i>
+                      </button>
+                      <ul class="dropdown-menu">
+                          <li><span class="dropdown-item" style="cursor: pointer;" onclick="${funcion_anular}">Anular</span></li>
+                          <li><span class="dropdown-item" style="cursor: pointer;">Información</span></li>
+                      </ul>
+                  </div>
+              `;
+      },
+    },
   ],
   columnDefs: [
     { className: "centered", targets: "_all" },
