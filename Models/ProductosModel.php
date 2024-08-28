@@ -1450,4 +1450,28 @@ WHERE b.id_plataforma = $plataforma";
                 }
         return $response;
     }
+
+    public function obtener_detalle_combo_id($id_combo)
+    {
+        $sql = "SELECT *, (SELECT nombre_producto FROM productos WHERE productos.id_producto = detalle_combo.id_producto)AS nombre_producto FROM `detalle_combo` WHERE id_combo=$id_combo;";
+        return $this->select($sql);
+    }
+
+    public function eliminar_detalleCombo($id)
+    {
+        $response = $this->initialResponse();
+        $sql = "DELETE FROM detalle_combo WHERE id = ?";
+        $data = [$id];
+        $eliminar_combo = $this->delete($sql, $data);
+        if ($eliminar_combo == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Producto eliminado correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = "Error al eliminar el combo";
+        }
+        return $response;
+    }
 }

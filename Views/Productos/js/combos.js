@@ -280,15 +280,117 @@ function mover_producto(id_producto, cantidad) {
     dataType: "json",
     success: function (response) {
       if (response.status == 500) {
-        toastr.error("ERROR AL ASIGNAR EL PRODUCTO CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
+        toastr.error(
+          "ERROR AL ASIGNAR EL PRODUCTO CORRECTAMENTE",
+          "NOTIFICACIÓN",
+          {
+            positionClass: "toast-bottom-center",
+          }
+        );
       } else if (response.status == 200) {
         toastr.success("PRODUCTO ASIGNADO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
-        $("#imagen_categoriaModal").modal("hide");
-        initDataTable();
+
+        initDataTableDetalleCombo();
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+}
+
+/* tabla detalle combo */
+let dataTableDetalleCombo;
+let dataTableDetalleComboIsInitialized = false;
+
+const dataTableDetalleComboOptions = {
+  columnDefs: [
+    { className: "centered", targets: [1, 2, 3, 4, 5] },
+    { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
+  ],
+  pageLength: 10,
+  destroy: true,
+  language: {
+    lengthMenu: "Mostrar _MENU_ registros por página",
+    zeroRecords: "Ningún usuario encontrado",
+    info: "Mostrando de _START_ a _END_ de un total de _TOTAL_ registros",
+    infoEmpty: "Ningún usuario encontrado",
+    infoFiltered: "(filtrados desde _MAX_ registros totales)",
+    search: "Buscar:",
+    loadingRecords: "Cargando...",
+    paginate: {
+      first: "Primero",
+      last: "Último",
+      next: "Siguiente",
+      previous: "Anterior",
+    },
+  },
+};
+
+const initDataTableDetalleCombo = async () => {
+  if (dataTableDetalleComboIsInitialized) {
+    dataTableDetalleCombo.destroy();
+  }
+
+  await listDetalleCombo();
+
+  dataTableDetalleCombo = $("#datatable_detalle_combo").DataTable(
+    dataTableDetalleComboOptions
+  );
+
+  dataTableDetalleComboIsInitialized = true;
+};
+
+const listDetalleCombo = async () => {
+  try {
+    const response = await fetch(
+      SERVERURL + "Productos/obtener_detalle_combo_id"
+    );
+    const detalleCombo = await response.json();
+
+    let content = ``;
+
+    detalleCombo.forEach((combo, index) => {
+      content += `
+                <tr>
+                    <td>${producto.id_producto}</td>
+                    <td>${producto.nombre_producto}</td>
+                    <td>${producto.cantidad}</td>
+                    <td>
+                        <button class="btn btn-sm btn-danger" onclick="eliminar_detalle_combo(${producto.id})"><i class="fas fa-arrow-right"></i></button>
+                    </td>
+                </tr>`;
+    });
+    document.getElementById("tableBody_detalle_combo").innerHTML = content;
+  } catch (ex) {
+    alert(ex);
+  }
+};
+/* fin tabla detalle combo */
+
+function eliminar_detalle_combo(id) {
+  let formData = new FormData();
+  formData.append("id_detalle_combo", id);
+  $.ajax({
+    url: SERVERURL + "Productos/eliminar_detalleCombo",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    dataType: "json",
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("EL COMBO NO SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("COMBO ELIMINADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+
+        initDataTableCombos();
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
