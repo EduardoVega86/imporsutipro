@@ -1416,7 +1416,7 @@ WHERE b.id_plataforma = $plataforma";
     public function eliminarCombo($id)
     {
         $response = $this->initialResponse();
-        $sql = "DELETE FROM producto_privado WHERE id = ?";
+        $sql = "DELETE FROM combos WHERE id = ?";
         $data = [$id];
         $eliminar_combo = $this->delete($sql, $data);
         if ($eliminar_combo == 1) {
