@@ -286,7 +286,7 @@ class PedidosModel extends Query
         foreach ($response as $key => $value) {
             $response[$key]['detalle'] = '<div><button type="button" class="btn btn-sm btn-outline-primary"  onclick="ver_detalle_cot(' . $value['id_factura'] . ')">Ver detalle</button> <span> ' . $value['fecha_factura'] . '</span></div>';
             $response[$key]['checkbox'] = '<input type="checkbox" class="selectCheckbox" data-id="' . $value['id_factura'] . '" >';
-            $response[$key]['cliente'] = '<div><span>' . $value['nombre'] . '</span><span>' . $value['c_principal'] .  ' ' . $value['c_secundaria']  . '</span> <span>Telf: ' . $value['telefono'] . '</span></div>';
+            $response[$key]['cliente'] = '<div><strong>' . $value['nombre'] . '</strong></br><span>' . $value['c_principal'] .  ' ' . $value['c_secundaria']  . '</span></br> <span>Telf: ' . $value['telefono'] . '</span></div>';
         }
         return $response;
     }
