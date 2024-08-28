@@ -1,6 +1,13 @@
 let dataTable;
 let dataTableIsInitialized = false;
-
+function getFecha() {
+  let fecha = new Date();
+  let mes = fecha.getMonth() + 1;
+  let dia = fecha.getDate();
+  let anio = fecha.getFullYear();
+  let fechaHoy = anio + "-" + mes + "-" + dia;
+  return fechaHoy;
+}
 const dataTableOptions = {
   processing: true, // Mostrar indicador de procesamiento
   serverSide: true, // Habilitar la paginación del lado del servidor
