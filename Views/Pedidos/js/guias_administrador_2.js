@@ -78,11 +78,7 @@ const initDataTable = async () => {
   if (dataTableIsInitialized) {
     dataTable.destroy();
   }
-
-  await listGuias();
-
   dataTable = $("#datatable_guias").DataTable(dataTableOptions);
-
   dataTableIsInitialized = true;
 
   // Handle select all checkbox
