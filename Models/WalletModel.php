@@ -113,107 +113,111 @@ class WalletModel extends Query
     {
         // Definir la lógica común de trayecto
         $trayecto_case = "
-            CASE
-                -- LAAR (IMP o MKP)
-                WHEN ccp.guia LIKE 'IMP%' OR ccp.guia LIKE 'MKP%' THEN cc.trayecto_laar
-                
-                -- Servientrega (solo números)
-                WHEN ccp.guia REGEXP '^[0-9]+$' THEN cc.trayecto_servientrega
-                
-                -- Gintracom (comienza con I000)
-                WHEN ccp.guia LIKE 'I000%' THEN cc.trayecto_gintracom
-                
-                -- Speed/Merkalogistic (SPD o MKL)
-                WHEN ccp.guia LIKE 'SPD%' OR ccp.guia LIKE 'MKL%' THEN 
-                    CASE
-                        -- Si la ciudad es QUITO
-                        WHEN cc.ciudad = 'QUITO' THEN 'TL'
-                        -- Si la ciudad es cualquier otra
-                        ELSE 'TS'
-                    END
-                
-                -- Caso predeterminado si no coincide con ninguno de los anteriores
-                ELSE 'Desconocido'
-            END AS trayecto
-        ";
+        CASE
+            -- LAAR (IMP o MKP)
+            WHEN ccp.guia LIKE 'IMP%' OR ccp.guia LIKE 'MKP%' THEN cc.trayecto_laar
+            
+            -- Servientrega (solo números)
+            WHEN ccp.guia REGEXP '^[0-9]+$' THEN cc.trayecto_servientrega
+            
+            -- Gintracom (comienza con I000)
+            WHEN ccp.guia LIKE 'I000%' THEN cc.trayecto_gintracom
+            
+            -- Speed/Merkalogistic (SPD o MKL)
+            WHEN ccp.guia LIKE 'SPD%' OR ccp.guia LIKE 'MKL%' THEN 
+                CASE
+                    -- Si la ciudad es QUITO
+                    WHEN cc.ciudad = 'QUITO' THEN 'TL'
+                    -- Si la ciudad es cualquier otra
+                    ELSE 'TS'
+                END
+            
+            -- Caso predeterminado si no coincide con ninguno de los anteriores
+            ELSE 'Desconocido'
+        END AS trayecto
+    ";
+
+        // Eliminar los sufijos -P y -F en numero_factura antes de comparar
+        $factura_sin_sufijo = "REPLACE(REPLACE(ccp.numero_factura, '-P', ''), '-F', '')";
 
         if ($filtro == 'pendientes') {
             $sql = "SELECT 
-                    ccp.*, 
-                    fc.ciudad_cot, 
-                    cc.ciudad, 
-                    $trayecto_case
-                FROM 
-                    cabecera_cuenta_pagar ccp 
-                INNER JOIN 
-                    facturas_cot fc ON fc.numero_factura = ccp.numero_factura 
-                INNER JOIN 
-                    ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot 
-                WHERE 
-                    ccp.id_plataforma = '$id_plataforma' 
-                    AND ccp.valor_pendiente != 0 
-                ORDER BY 
-                    FIELD(ccp.estado_guia, 7, 9) DESC, 
-                    ccp.estado_guia DESC, 
-                    ccp.fecha DESC;";
+                ccp.*, 
+                fc.ciudad_cot, 
+                cc.ciudad, 
+                $trayecto_case
+            FROM 
+                cabecera_cuenta_pagar ccp 
+            INNER JOIN 
+                facturas_cot fc ON fc.numero_factura = $factura_sin_sufijo 
+            INNER JOIN 
+                ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot 
+            WHERE 
+                ccp.id_plataforma = '$id_plataforma' 
+                AND ccp.valor_pendiente != 0 
+            ORDER BY 
+                FIELD(ccp.estado_guia, 7, 9) DESC, 
+                ccp.estado_guia DESC, 
+                ccp.fecha DESC;";
         } else if ($filtro == 'abonadas') {
             $sql = "SELECT 
-                    ccp.*, 
-                    fc.ciudad_cot, 
-                    cc.ciudad, 
-                    $trayecto_case
-                FROM 
-                    cabecera_cuenta_pagar ccp 
-                INNER JOIN 
-                    facturas_cot fc ON fc.numero_factura = ccp.numero_factura 
-                INNER JOIN 
-                    ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot 
-                WHERE 
-                    ccp.id_plataforma = '$id_plataforma' 
-                    AND ccp.valor_pendiente = 0 
-                ORDER BY 
-                    ccp.estado_guia DESC, 
-                    ccp.fecha DESC;";
+                ccp.*, 
+                fc.ciudad_cot, 
+                cc.ciudad, 
+                $trayecto_case
+            FROM 
+                cabecera_cuenta_pagar ccp 
+            INNER JOIN 
+                facturas_cot fc ON fc.numero_factura = $factura_sin_sufijo 
+            INNER JOIN 
+                ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot 
+            WHERE 
+                ccp.id_plataforma = '$id_plataforma' 
+                AND ccp.valor_pendiente = 0 
+            ORDER BY 
+                ccp.estado_guia DESC, 
+                ccp.fecha DESC;";
         } else if ($filtro == 'devoluciones') {
             $sql = "SELECT 
-                    ccp.*, 
-                    fc.ciudad_cot, 
-                    cc.ciudad, 
-                    $trayecto_case
-                FROM 
-                    cabecera_cuenta_pagar ccp 
-                INNER JOIN 
-                    facturas_cot fc ON fc.numero_factura = ccp.numero_factura 
-                INNER JOIN 
-                    ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot 
-                WHERE 
-                    ccp.id_plataforma = '$id_plataforma' 
-                    AND ccp.estado_guia = 9 
-                ORDER BY 
-                    ccp.estado_guia DESC, 
-                    ccp.fecha DESC;";
+                ccp.*, 
+                fc.ciudad_cot, 
+                cc.ciudad, 
+                $trayecto_case
+            FROM 
+                cabecera_cuenta_pagar ccp 
+            INNER JOIN 
+                facturas_cot fc ON fc.numero_factura = $factura_sin_sufijo 
+            INNER JOIN 
+                ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot 
+            WHERE 
+                ccp.id_plataforma = '$id_plataforma' 
+                AND ccp.estado_guia = 9 
+            ORDER BY 
+                ccp.estado_guia DESC, 
+                ccp.fecha DESC;";
         } else {
             $sql = "SELECT 
-                    ccp.*, 
-                    fc.ciudad_cot, 
-                    cc.ciudad, 
-                    $trayecto_case
-                FROM 
-                    cabecera_cuenta_pagar ccp 
-                INNER JOIN 
-                    facturas_cot fc ON fc.numero_factura = ccp.numero_factura 
-                INNER JOIN 
-                    ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot 
-                WHERE 
-                    ccp.id_plataforma = '$id_plataforma' 
-                ORDER BY 
-                    ccp.estado_guia DESC, 
-                    ccp.fecha DESC;";
+                ccp.*, 
+                fc.ciudad_cot, 
+                cc.ciudad, 
+                $trayecto_case
+            FROM 
+                cabecera_cuenta_pagar ccp 
+            INNER JOIN 
+                facturas_cot fc ON fc.numero_factura = $factura_sin_sufijo 
+            INNER JOIN 
+                ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot 
+            WHERE 
+                ccp.id_plataforma = '$id_plataforma' 
+            ORDER BY 
+                ccp.estado_guia DESC, 
+                ccp.fecha DESC;";
         }
 
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         return $response;
     }
+
 
 
     public function abonarBilletera($id_cabecera, $valor, $usuario)
