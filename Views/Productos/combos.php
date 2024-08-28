@@ -55,6 +55,7 @@
                             <thead>
                                 <tr>
                                     <th class="centered">ID Producto</th>
+                                    <th class="centered"></th>
                                     <th class="centered">Nombre Producto</th>
                                     <th class="centered">Cantidad</th>
                                     <th class="centered">Mover</th>
