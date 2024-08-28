@@ -376,10 +376,10 @@ const listDetalleCombo = async (id_combo) => {
     let content = ``;
     let cargarImagen = "";
     detalleCombo.forEach((combo, index) => {
-        if (!producto.image_path) {
+        if (!combo.image_path) {
             cargarImagen = `<i class="bx bxs-camera-plus"></i>`;
           } else {
-            cargarImagen = `<img src="${SERVERURL}${producto.image_path}" class="icon-button" alt="Agregar imagen" width="50px">`;
+            cargarImagen = `<img src="${SERVERURL}${combo.image_path}" class="icon-button" alt="Agregar imagen" width="50px">`;
           }
       content += `
                 <tr>
