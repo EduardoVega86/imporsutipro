@@ -30,20 +30,20 @@
                     <tbody id="tableBody_combos"></tbody>
                 </table>
             </div>
-            <div class="right gap-2 hidden" id="inventarioSection">
+            <div class="right gap-2 hidden" id="comboSection">
                 <div class="card" style="height: auto; padding: 10px;">
                     <div class="table-responsive">
-                        <table id="datatable_stockIndividual" class="table table-striped" style="min-width: 100%;">
+                        <table id="datatable_asignacion_producto" class="table table-striped" style="min-width: 100%;">
                             <thead>
                                 <tr>
-                                    <th class="centered">Nombre tienda</th>
-                                    <th class="centered">Correo</th>
-                                    <th class="centered">Telefono</th>
-                                    <th class="centered">URL</th>
-                                    <th class="centered">Accción</th>
+                                    <th class="centered">ID prodcuto</th>
+                                    <th class="centered">Nombre Producto</th>
+                                    <th class="centered">Precio</th>
+                                    <th class="centered">Cantidad</th>
+                                    <th class="centered">Mover</th>
                                 </tr>
                             </thead>
-                            <tbody id="tableBody_stockIndividual"></tbody>
+                            <tbody id="tableBody_asignacion_producto"></tbody>
                         </table>
                     </div>
                 </div>

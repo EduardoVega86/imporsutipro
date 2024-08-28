@@ -93,7 +93,6 @@
     .card {
         border: 1px solid #ddd;
         border-radius: 8px;
-        width: 300px;
         padding: 15px;
         text-align: center;
         background-color: #fff;
