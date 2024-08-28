@@ -145,17 +145,17 @@ const listAsignacionProducto = async () => {
 
     asignacionProducto.forEach((producto, index) => {
       content += `
-                <tr>
-                    <td>${producto.id_producto}</td>
-                    <td>${producto.nombre_producto}</td>
-                    <td>${producto.pvp}</td>
-                    <td>
-                    <input type="number" id="cantidad_producto" class="form-control" style="border-radius:0.3rem !important;" id="quantity" value="1" min="1">
-                    </td>
-                    <td>
-                        <button class="btn btn-sm btn-danger" onclick="mover_producto(${producto.id_producto})"><i class="fas fa-arrow-right"></i></button>
-                    </td>
-                </tr>`;
+                  <tr>
+                      <td>${producto.id_producto}</td>
+                      <td>${producto.nombre_producto}</td>
+                      <td>${producto.pvp}</td>
+                      <td>
+                      <input type="number" id="cantidad_producto_${producto.id_producto}" class="form-control" style="border-radius:0.3rem !important;" value="1" min="1">
+                      </td>
+                      <td>
+                          <button class="btn btn-sm btn-danger" onclick="mover_producto(${producto.id_producto}, document.getElementById('cantidad_producto_${producto.id_producto}').value)"><i class="fas fa-arrow-right"></i></button>
+                      </td>
+                  </tr>`;
     });
     document.getElementById("tableBody_asignacion_producto").innerHTML =
       content;
@@ -165,7 +165,7 @@ const listAsignacionProducto = async () => {
 };
 
 function seleccionar_combo(id_combo) {
-  $("#id_producto_privado").val(id_combo);
+  $("#id_combo_seccion").val(id_combo);
   initDataTableAsignacionProducto();
   document.getElementById("comboSection").classList.remove("hidden");
 }
@@ -264,6 +264,10 @@ function eliminar_combo(id_combo) {
       alert(errorThrown);
     },
   });
+}
+
+function mover_producto(id_producto, cantidad) {
+    
 }
 
 /* llenar select de productos */
