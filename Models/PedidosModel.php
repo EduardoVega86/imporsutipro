@@ -228,6 +228,97 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
+    public function cargarGuiasAdministrador2($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $start, $length)
+    {
+        $sql = "SELECT 
+            fc.*, 
+            fc.id_plataforma AS tienda_venta, 
+            fc.id_propietario AS proveedor,
+            cc.ciudad, 
+            cc.provincia AS provinciaa, 
+            p.nombre_tienda AS tienda,
+            b.nombre AS nombre_bodega, 
+            b.direccion AS direccion_bodega,
+            tp.nombre_tienda AS nombre_proveedor
+        FROM 
+            facturas_cot fc
+        LEFT JOIN 
+            ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot
+        LEFT JOIN 
+            plataformas p ON p.id_plataforma = fc.id_plataforma
+        LEFT JOIN 
+            plataformas tp ON tp.id_plataforma = fc.id_propietario
+        LEFT JOIN 
+            bodega b ON b.id = fc.id_bodega
+        WHERE 
+            TRIM(fc.numero_guia) <> '' 
+            AND fc.numero_guia IS NOT NULL 
+            AND fc.numero_guia <> '0' 
+            AND fc.anulada = 0";
+
+        if (!empty($fecha_inicio) && !empty($fecha_fin)) {
+            $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+        }
+
+        if (!empty($transportadora)) {
+            $sql .= " AND transporte = '$transportadora'";
+        }
+
+        if (!empty($estado)) {
+            $sql .= " AND ($estado)";
+        }
+
+        if ($drogshipin == 0 || $drogshipin == 1) {
+            $sql .= " AND drogshipin = $drogshipin";
+        }
+
+        if ($impreso == 0 || $impreso == 1) {
+            $sql .= " AND impreso = $impreso";
+        }
+
+        // Añadir paginación
+        $sql .= " ORDER BY fc.numero_factura DESC LIMIT $start, $length";
+
+        return $this->select($sql);
+    }
+
+    // Método para contar el total de registros
+    public function contarTotalGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin)
+    {
+        $sql = "SELECT COUNT(*) as total FROM facturas_cot fc
+        LEFT JOIN ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot
+        LEFT JOIN plataformas p ON p.id_plataforma = fc.id_plataforma
+        LEFT JOIN plataformas tp ON tp.id_plataforma = fc.id_propietario
+        LEFT JOIN bodega b ON b.id = fc.id_bodega
+        WHERE TRIM(fc.numero_guia) <> '' 
+            AND fc.numero_guia IS NOT NULL 
+            AND fc.numero_guia <> '0' 
+            AND fc.anulada = 0";
+
+        if (!empty($fecha_inicio) && !empty($fecha_fin)) {
+            $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+        }
+
+        if (!empty($transportadora)) {
+            $sql .= " AND transporte = '$transportadora'";
+        }
+
+        if (!empty($estado)) {
+            $sql .= " AND ($estado)";
+        }
+
+        if ($drogshipin == 0 || $drogshipin == 1) {
+            $sql .= " AND drogshipin = $drogshipin";
+        }
+
+        if ($impreso == 0 || $impreso == 1) {
+            $sql .= " AND impreso = $impreso";
+        }
+
+        $result = $this->select($sql);
+        return $result[0]['total'];
+    }
+
     public function cargarAnuladas($filtro)
     {
         $sql = "SELECT * FROM facturas_cot where anulado = 1";

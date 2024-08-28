@@ -357,7 +357,7 @@ class Pedidos extends Controller
     }
 
 
-     public function obtener_guias_retraso()
+    public function obtener_guias_retraso()
     {
         $fecha_inicio = $_POST['fecha_inicio'] ?? "";
         $fecha_fin = $_POST['fecha_fin'] ?? "";
@@ -368,7 +368,7 @@ class Pedidos extends Controller
         $data = $this->model->cargarGuiasRetraso($_SESSION['id_plataforma'], $fecha_inicio, $fecha_fin, $transportadora, $impreso, $drogshipin);
         echo json_encode($data);
     }
-    
+
     public function obtener_guiasAdministrador()
     {
         $fecha_inicio = $_POST['fecha_inicio'] ?? "";
@@ -381,6 +381,32 @@ class Pedidos extends Controller
         $length = $_POST['length'] ?? 25; */
         $data = $this->model->cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin);
         echo json_encode($data);
+    }
+
+    public function obtener_guiasAdministrador2()
+    {
+        $fecha_inicio = $_POST['fecha_inicio'] ?? "";
+        $fecha_fin = $_POST['fecha_fin'] ?? "";
+        $transportadora = $_POST['transportadora'] ?? "";
+        $estado = $_POST['estado'] ?? "";
+        $drogshipin = $_POST['drogshipin'] ?? "";
+        $impreso = $_POST['impreso'] ?? "";
+        $start = $_POST['start'] ?? 0; // Índice de la primera fila a mostrar
+        $length = $_POST['length'] ?? 25; // Número de filas por página
+
+        $data = $this->model->cargarGuiasAdministrador2($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $start, $length);
+
+        // Contar el total de registros sin limit
+        $totalData = $this->model->contarTotalGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin);
+
+        $json_data = [
+            "draw" => intval($_POST['draw']), // Valor incrementado automáticamente por DataTables
+            "recordsTotal" => intval($totalData), // Total de registros sin filtrar
+            "recordsFiltered" => intval($totalData), // Total de registros después de aplicar filtros
+            "data" => $data // Los datos de la página actual
+        ];
+
+        echo json_encode($json_data);
     }
 
     public function obtener_guiasAnuladas_admin()
