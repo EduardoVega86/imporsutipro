@@ -291,8 +291,177 @@ class PedidosModel extends Query
             $color = ($value["id_transporte"] == 1) ? '#E3BC1C' : (($value["id_transporte"] == 2) ? '#28C839' : (($value["id_transporte"] == 3 || $value["id_transporte"] == 4) ? 'red' : ''));
 
             $response[$key]['transportadora'] = '<div><span style="background-color: ' . $color . '; color: white; padding: 5px; border-radius: 0.3rem;">' . $value['transporte'] . '</span></div>';
+            $estado = $this->validarEstado($value['estado_guia_sistema'], $value['id_transporte']);
+            $response[$key]['estado'] = '<div><span class="badge ' . $estado['span_estado'] . '">' . $estado['estado_guia'] . '</span></div>';
         }
         return $response;
+    }
+
+    function validarEstado($guia, $transportadora)
+    {
+        $estado = "";
+        $span_estado = "";
+        if ($transportadora == 1) {
+            $estado = $this->validar_estadoLaar($guia);
+        } elseif ($transportadora == 2) {
+            $estado = $this->validar_estadoServi($guia);
+        } elseif ($transportadora == 3) {
+            $estado = $this->validar_estadoGintracom($guia);
+        } elseif ($transportadora == 4) {
+            $estado = $this->validar_estadoSpeed($guia);
+        }
+        return $estado;
+    }
+
+    function validar_estadoLaar($estado)
+    {
+        $span_estado = "";
+        $estado_guia = "";
+
+        if ($estado == 1) {
+            $span_estado = "badge_purple";
+            $estado_guia = "Generado";
+        } elseif ($estado == 2 || $estado == 3 || $estado == 4) {
+            $span_estado = "badge_purple";
+            $estado_guia = "Por recolectar";
+        } elseif ($estado == 5) {
+            $span_estado = "badge_warning";
+            $estado_guia = "En transito";
+        } elseif ($estado == 6) {
+            $span_estado = "badge_warning";
+            $estado_guia = "Zona de entrega";
+        } elseif ($estado == 7) {
+            $span_estado = "badge_green";
+            $estado_guia = "Entregado";
+        } elseif ($estado == 8) {
+            $span_estado = "badge_danger";
+            $estado_guia = "Anulado";
+        } elseif ($estado == 11 || $estado == 12) {
+            $span_estado = "badge_warning";
+            $estado_guia = "En transito";
+        } elseif ($estado == 14) {
+            $span_estado = "badge_danger";
+            $estado_guia = "Con novedad";
+        } elseif ($estado == 9) {
+            $span_estado = "badge_danger";
+            $estado_guia = "Devuelto";
+        }
+
+        return [
+            'span_estado' => $span_estado,
+            'estado_guia' => $estado_guia
+        ];
+    }
+
+    function validar_estadoServi($estado)
+    {
+        $span_estado = "";
+        $estado_guia = "";
+
+        if ($estado == 101) {
+            $span_estado = "badge_danger";
+            $estado_guia = "Anulado";
+        } elseif ($estado == 100 || $estado == 102 || $estado == 103) {
+            $span_estado = "badge_purple";
+            $estado_guia = "Generado";
+        } elseif ($estado == 200 || $estado == 201 || $estado == 202) {
+            $span_estado = "badge_purple";
+            $estado_guia = "Recolectado";
+        } elseif ($estado >= 300 && $estado <= 317) {
+            $span_estado = "badge_warning";
+            $estado_guia = "Procesamiento";
+        } elseif ($estado >= 400 && $estado <= 403) {
+            $span_estado = "badge_green";
+            $estado_guia = "Entregado";
+        } elseif ($estado >= 318 && $estado <= 351) {
+            $span_estado = "badge_danger";
+            $estado_guia = "Con novedad";
+        } elseif ($estado >= 500 && $estado <= 502) {
+            $span_estado = "badge_danger";
+            $estado_guia = "Devuelto";
+        }
+
+        return [
+            'span_estado' => $span_estado,
+            'estado_guia' => $estado_guia
+        ];
+    }
+
+    function validar_estadoGintracom($estado)
+    {
+        $span_estado = "";
+        $estado_guia = "";
+
+        if ($estado == 1) {
+            $span_estado = "badge_purple";
+            $estado_guia = "Generada";
+        } elseif ($estado == 2) {
+            $span_estado = "badge_warning";
+            $estado_guia = "Picking";
+        } elseif ($estado == 3) {
+            $span_estado = "badge_warning";
+            $estado_guia = "Packing";
+        } elseif ($estado == 4) {
+            $span_estado = "badge_warning";
+            $estado_guia = "En tránsito";
+        } elseif ($estado == 5) {
+            $span_estado = "badge_warning";
+            $estado_guia = "En reparto";
+        } elseif ($estado == 6) {
+            $span_estado = "badge_purple";
+            $estado_guia = "Novedad";
+        } elseif ($estado == 7) {
+            $span_estado = "badge_green";
+            $estado_guia = "Entregada";
+        } elseif ($estado == 8) {
+            $span_estado = "badge_danger";
+            $estado_guia = "Devolucion";
+        } elseif ($estado == 9) {
+            $span_estado = "badge_danger";
+            $estado_guia = "Devolución Entregada a Origen";
+        } elseif ($estado == 10) {
+            $span_estado = "badge_danger";
+            $estado_guia = "Cancelada por transportadora";
+        } elseif ($estado == 11) {
+            $span_estado = "badge_danger";
+            $estado_guia = "Indemnización";
+        } elseif ($estado == 12) {
+            $span_estado = "badge_danger";
+            $estado_guia = "Anulada";
+        } elseif ($estado == 13) {
+            $span_estado = "badge_danger";
+            $estado_guia = "Devolucion en tránsito";
+        }
+
+        return [
+            'span_estado' => $span_estado,
+            'estado_guia' => $estado_guia
+        ];
+    }
+
+    function validar_estadoSpeed($estado)
+    {
+        $span_estado = "";
+        $estado_guia = "";
+
+        if ($estado == 2) {
+            $span_estado = "badge_purple";
+            $estado_guia = "generado";
+        } elseif ($estado == 3) {
+            $span_estado = "badge_warning";
+            $estado_guia = "En transito";
+        } elseif ($estado == 7) {
+            $span_estado = "badge_green";
+            $estado_guia = "Entregado";
+        } elseif ($estado == 9) {
+            $span_estado = "badge_danger";
+            $estado_guia = "Devuelto";
+        }
+
+        return [
+            'span_estado' => $span_estado,
+            'estado_guia' => $estado_guia
+        ];
     }
 
     // Método para contar el total de registros
