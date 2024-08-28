@@ -100,7 +100,7 @@ let dataTableAsignacionProductoIsInitialized = false;
 
 const dataTableAsignacionProductoOptions = {
   columnDefs: [
-    { className: "centered", targets: [1, 2, 3, 4, 5] },
+    { className: "centered", targets: [0, 1, 2, 3, 4] },
     { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
   ],
   pageLength: 10,
@@ -145,17 +145,17 @@ const listAsignacionProducto = async () => {
 
     asignacionProducto.forEach((producto, index) => {
       content += `
-                <tr>
-                    <td>${producto.id_producto}</td>
-                    <td>${producto.nombre_producto}</td>
-                    <td>${producto.pvp}</td>
-                    <td>
-                    <input type="number" id="cantidad_producto" class="form-control" style="border-radius:0.3rem !important;" id="quantity" value="1" min="1">
-                    </td>
-                    <td>
-                        <button class="btn btn-sm btn-danger" onclick="mover_producto(${producto.id_producto})"><i class="fas fa-arrow-right"></i></button>
-                    </td>
-                </tr>`;
+                  <tr>
+                      <td>${producto.id_producto}</td>
+                      <td>${producto.nombre_producto}</td>
+                      <td>${producto.pvp}</td>
+                      <td>
+                      <input type="number" id="cantidad_producto_${producto.id_producto}" class="form-control" style="border-radius:0.3rem !important;" value="1" min="1">
+                      </td>
+                      <td>
+                          <button class="btn btn-sm btn-danger" onclick="mover_producto(${producto.id_producto}, document.getElementById('cantidad_producto_${producto.id_producto}').value)"><i class="fas fa-arrow-right"></i></button>
+                      </td>
+                  </tr>`;
     });
     document.getElementById("tableBody_asignacion_producto").innerHTML =
       content;
@@ -165,7 +165,7 @@ const listAsignacionProducto = async () => {
 };
 
 function seleccionar_combo(id_combo) {
-  $("#id_producto_privado").val(id_combo);
+  $("#id_combo_seccion").val(id_combo);
   initDataTableAsignacionProducto();
   document.getElementById("comboSection").classList.remove("hidden");
 }
@@ -258,6 +258,37 @@ function eliminar_combo(id_combo) {
         });
 
         initDataTableCombos();
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+}
+
+function mover_producto(id_producto, cantidad) {
+  let formData = new FormData();
+  formData.append("id_producto", id_producto);
+  formData.append("cantidad", cantidad);
+  formData.append("id_combo", $("#id_combo_seccion").val());
+  $.ajax({
+    url: SERVERURL + "Productos/agregar_detalle_combo",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    dataType: "json",
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("ERROR AL ASIGNAR EL PRODUCTO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("PRODUCTO ASIGNADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+        $("#imagen_categoriaModal").modal("hide");
+        initDataTable();
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {

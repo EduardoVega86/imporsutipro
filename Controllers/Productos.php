@@ -758,4 +758,15 @@ class Productos extends Controller
         $response = $this->model->eliminarCombo($id);
         echo json_encode($response);
     }
+
+    public function agregar_detalle_combo()
+    {
+        $id_combo = $_POST['id_combo'];
+        $id_producto = $_POST['id_producto'];
+        $cantidad = $_POST['cantidad'];
+
+        $response = $this->model->agregar_detalle_combo($id_combo, $id_producto, $cantidad);
+
+        echo json_encode($response);
+    }
 }

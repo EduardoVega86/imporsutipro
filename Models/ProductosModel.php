@@ -1323,16 +1323,16 @@ WHERE b.id_plataforma = $plataforma";
 
                 $sql = "INSERT INTO `combos` (`id_plataforma`,`nombre`,`id_producto_combo`,`image_path`) VALUES (?, ?, ?, ?)";
                 $data = [$plataforma, $nombre, $id_producto_combo, $target_file];
-                $insertar_testimonio = $this->insert($sql, $data);
+                $insertar_combo = $this->insert($sql, $data);
 
-                if ($insertar_testimonio == 1) {
+                if ($insertar_combo == 1) {
                     $response['status'] = 200;
                     $response['title'] = 'Peticion exitosa';
                     $response['message'] = 'Imagen subida correctamente';
                 } else {
                     $response['status'] = 500;
                     $response['title'] = 'Error';
-                    $response['message'] = $insertar_testimonio["message"];
+                    $response['message'] = "Error al agregar combo";
                 }
             } else {
                 $response['status'] = 500;
@@ -1398,9 +1398,9 @@ WHERE b.id_plataforma = $plataforma";
             $data = [$nombre, $id_producto_combo, $id_combo];
         }
 
-        $editar_categoria = $this->update($sql, $data);
+        $editar_combo = $this->update($sql, $data);
 
-        if ($editar_categoria == 1) {
+        if ($editar_combo == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
             $response['message'] = 'Combo actualizado correctamente';
@@ -1428,6 +1428,26 @@ WHERE b.id_plataforma = $plataforma";
             $response['title'] = 'Error';
             $response['message'] = "Error al eliminar el combo";
         }
+        return $response;
+    }
+
+    public function agregar_detalle_combo($id_combo, $id_producto, $cantidad)
+    {
+        $response = $this->initialResponse();
+
+        $sql = "INSERT INTO `detalle_combo` (`id_combo`,`id_producto`,`cantidad`) VALUES (?, ?, ?)";
+                $data = [$id_combo, $id_producto, $cantidad];
+                $insertar_detalle_combo = $this->insert($sql, $data);
+
+                if ($insertar_detalle_combo == 1) {
+                    $response['status'] = 200;
+                    $response['title'] = 'Peticion exitosa';
+                    $response['message'] = 'Imagen subida correctamente';
+                } else {
+                    $response['status'] = 500;
+                    $response['title'] = 'Error';
+                    $response['message'] = "Error al agregar detalle combo";
+                }
         return $response;
     }
 }

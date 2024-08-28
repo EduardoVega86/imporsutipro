@@ -31,6 +31,7 @@
                 </table>
             </div>
             <div class="right gap-2 hidden" id="comboSection">
+                <input type="hidden" id="id_combo_seccion" name="id_combo_seccion">
                 <div class="card" style="height: auto; padding: 10px;">
                     <div class="table-responsive">
                         <table id="datatable_asignacion_producto" class="table table-striped" style="min-width: 100%;">
