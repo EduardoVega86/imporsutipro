@@ -2,11 +2,25 @@ let dataTable;
 let dataTableIsInitialized = false;
 
 const dataTableOptions = {
+  processing: true, // Mostrar indicador de procesamiento
+  serverSide: true, // Habilitar la paginación del lado del servidor
+  ajax: {
+    url: `${SERVERURL}pedidos/obtener_guiasAdministrador2`,
+    type: "POST",
+    data: function (d) {
+      d.fecha_inicio = fecha_inicio;
+      d.fecha_fin = fecha_fin;
+      d.estado = $("#estado_q").val();
+      d.transportadora = $("#transporte").val();
+      d.impreso = $("#impresion").val();
+      // Agrega cualquier otro parámetro necesario
+    },
+  },
   columnDefs: [
     { className: "centered", targets: [1, 2, 3, 4, 5, 6, 7, 8, 9] },
-    { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
+    { orderable: false, targets: 0 },
   ],
-  order: [[2, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
+  order: [[2, "desc"]],
   pageLength: 25,
   lengthMenu: [25, 50, 100, 200],
   destroy: true,
@@ -16,8 +30,6 @@ const dataTableOptions = {
     {
       extend: "excelHtml5",
       text: 'Excel <i class="fa-solid fa-file-excel"></i>',
-      title: "Panel de Control: Usuarios",
-      titleAttr: "Exportar a Excel",
       exportOptions: {
         columns: [1, 2, 3, 4, 5, 6, 7, 8],
       },
@@ -28,8 +40,6 @@ const dataTableOptions = {
     {
       extend: "csvHtml5",
       text: 'CSV <i class="fa-solid fa-file-csv"></i>',
-      title: "Panel de Control: guias",
-      titleAttr: "Exportar a CSV",
       exportOptions: {
         columns: [1, 2, 3, 4, 5, 6, 7, 8],
       },
@@ -92,7 +102,7 @@ const listGuias = async () => {
     formData.append("impreso", $("#impresion").val());
 
     const response = await fetch(
-      `${SERVERURL}pedidos/obtener_guiasAdministrador`,
+      `${SERVERURL}pedidos/obtener_guiasAdministrador2`,
       {
         method: "POST",
         body: formData,
