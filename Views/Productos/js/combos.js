@@ -166,7 +166,7 @@ const listAsignacionProducto = async () => {
 
 function seleccionar_combo(id_combo) {
   $("#id_producto_privado").val(id_combo);
-
+  initDataTableAsignacionProducto();
   document.getElementById("comboSection").classList.remove("hidden");
 }
 
