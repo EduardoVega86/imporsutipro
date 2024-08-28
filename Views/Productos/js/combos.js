@@ -267,7 +267,34 @@ function eliminar_combo(id_combo) {
 }
 
 function mover_producto(id_producto, cantidad) {
-    
+  let formData = new FormData();
+  formData.append("id_producto", id_producto);
+  formData.append("cantidad", cantidad);
+  formData.append("id_combo", $("#id_combo_seccion").val());
+  $.ajax({
+    url: SERVERURL + "Productos/agregar_detalle_combo",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    dataType: "json",
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("ERROR AL ASIGNAR EL PRODUCTO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("PRODUCTO ASIGNADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+        $("#imagen_categoriaModal").modal("hide");
+        initDataTable();
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
 }
 
 /* llenar select de productos */
