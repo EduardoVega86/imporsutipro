@@ -94,21 +94,17 @@ window.addEventListener("load", async () => {
   await initDataTableCombos();
 });
 
-// tabla con informacion de inventario de producto individual
-let dataTableStockIndividual;
-let dataTableStockIndividualIsInitialized = false;
+// tabla asignacion de productos
+let dataTableAsignacionProducto;
+let dataTableAsignacionProductoIsInitialized = false;
 
-const dataTableStockIndividualOptions = {
+const dataTableAsignacionProductoOptions = {
   columnDefs: [
-    { className: "centered", targets: [0, 1, 2, 3, 4] },
+    { className: "centered", targets: [1, 2, 3, 4, 5] },
     { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
   ],
-  order: [[0, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
   pageLength: 10,
   destroy: true,
-  responsive: true,
-  autoWidth: true,
-  bAutoWidth: true,
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
     zeroRecords: "Ningún usuario encontrado",
@@ -126,49 +122,43 @@ const dataTableStockIndividualOptions = {
   },
 };
 
-const initDataTableStockIndividual = async (id_producto) => {
-  if (dataTableStockIndividualIsInitialized) {
-    dataTableStockIndividual.destroy();
+const initDataTableAsignacionProducto = async () => {
+  if (dataTableAsignacionProductoIsInitialized) {
+    dataTableAsignacionProducto.destroy();
   }
 
-  await listStockIndividual(id_producto);
+  await listAsignacionProducto();
 
-  dataTableStockIndividual = $("#datatable_stockIndividual").DataTable(
-    dataTableStockIndividualOptions
+  dataTableAsignacionProducto = $("#datatable_asignacion_producto").DataTable(
+    dataTableAsignacionProductoOptions
   );
 
-  dataTableStockIndividualIsInitialized = true;
+  dataTableAsignacionProductoIsInitialized = true;
 };
 
-const listStockIndividual = async (id_producto) => {
+const listAsignacionProducto = async () => {
   try {
-    const formData = new FormData();
-    formData.append("id_producto", id_producto);
-
-    const response = await fetch(
-      `${SERVERURL}Productos/obtener_tiendas_productosPrivados`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-    const stockIndividuals = await response.json();
+    const response = await fetch(SERVERURL + "productos/obtener_productos");
+    const asignacionProducto = await response.json();
 
     let content = ``;
-    let tipo = "";
-    stockIndividuals.forEach((stockIndividual, index) => {
+
+    asignacionProducto.forEach((producto, index) => {
       content += `
-        <tr>
-        <td>${stockIndividual.nombre_tienda}</td>
-      <td>${stockIndividual.email}</td>
-      <td>${stockIndividual.whatsapp}</td>
-      <td>${stockIndividual.url_imporsuit}</td>
-      <td>
-      <button class="btn btn-sm btn-danger" onclick="eliminar_tiendaProductoPrivado(${stockIndividual.id_producto_privado}, ${id_producto})"><i class="fa-solid fa-trash-can"></i>Borrar</button>
-      </td>
-        </tr>`;
+                <tr>
+                    <td>${producto.id_producto}</td>
+                    <td>${producto.nombre_producto}</td>
+                    <td>${producto.pvp}</td>
+                    <td>
+                    <input type="number" id="cantidad_producto" class="form-control" style="border-radius:0.3rem !important;" id="quantity" value="1" min="1">
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-danger" onclick="mover_producto(${producto.id_producto})"><i class="fas fa-arrow-right"></i></button>
+                    </td>
+                </tr>`;
     });
-    document.getElementById("tableBody_stockIndividual").innerHTML = content;
+    document.getElementById("tableBody_asignacion_producto").innerHTML =
+      content;
   } catch (ex) {
     alert(ex);
   }
@@ -176,8 +166,8 @@ const listStockIndividual = async (id_producto) => {
 
 function seleccionar_combo(id_combo) {
   $("#id_producto_privado").val(id_combo);
-  initDataTableStockIndividual(id_combo);
-  document.getElementById("inventarioSection").classList.remove("hidden");
+
+  document.getElementById("comboSection").classList.remove("hidden");
 }
 
 //cargar select de tiendas
