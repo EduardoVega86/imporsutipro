@@ -58,8 +58,8 @@
                     <div class="card">
                         <div class="card-body d-flex justify-content-between align-items-center">
                             <div class="align-items-center seccion_agendar">
-                                <img src="<?php echo SERVERURL; ?>/public/noticias/FULLFILLMENT.png" alt="FULLFILLMENT" class="me-2 icono_agendar">
-                                <span>FULLFILLMENT</span>
+                                <img src="<?php echo SERVERURL; ?>/public/noticias/FULFILLMENT.png" alt="FULFILLMENT" class="me-2 icono_agendar">
+                                <span>FULFILLMENT</span>
                             </div>
                             <a href="#" class="btn schedule-btn">Agendarme</a>
                         </div>

@@ -1412,4 +1412,21 @@ WHERE b.id_plataforma = $plataforma";
 
         return $response;
     }
+
+    public function eliminarCombo($id)
+    {
+        $response = $this->initialResponse();
+        $sql = "DELETE FROM combos WHERE id = ?";
+        $data = [$id];
+        $eliminar_combo = $this->delete($sql, $data);
+        if ($eliminar_combo == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Producto eliminado correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = "Error al eliminar el combo";
+        }
+    }
 }

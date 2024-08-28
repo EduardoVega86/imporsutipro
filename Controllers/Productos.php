@@ -751,4 +751,11 @@ class Productos extends Controller
 
         echo json_encode($response);
     }
+
+    public function eliminarCombo()
+    {
+        $id = $_POST['id_combo'];
+        $response = $this->model->eliminarCombo($id);
+        echo json_encode($response);
+    }
 }
