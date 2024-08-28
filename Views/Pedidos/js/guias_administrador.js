@@ -293,6 +293,25 @@ const listGuias = async () => {
   }
 };
 
+const reloadDataTable = async () => {
+  // Verificar si el DataTable está inicializado
+  if (dataTableIsInitialized) {
+    // Guardar el número de página actual y el pageLength seleccionado
+    const currentPage = dataTable.page();
+    const currentLength = dataTable.page.len();
+    
+    // Destruir la tabla antes de recargar
+    dataTable.destroy();
+    dataTableIsInitialized = false;
+
+    // Llamar a la función de inicialización que recargará los datos y reinicializará el DataTable
+    await initDataTable();
+
+    // Establecer el número de página y el pageLength a lo que se guardó antes de la recarga
+    dataTable.page.len(currentLength).page(currentPage).draw(false);
+  }
+};
+
 // Event delegation for select change
 document.addEventListener("change", async (event) => {
   if (event.target && event.target.classList.contains("select-estado-speed")) {
@@ -316,7 +335,7 @@ document.addEventListener("change", async (event) => {
           positionClass: "toast-bottom-center",
         });
 
-        initDataTable();
+        reloadDataTable();
       }
     } catch (error) {
       console.error("Error al conectar con la API", error);
@@ -340,7 +359,7 @@ function anular_guiaSpeed(numero_guia) {
           positionClass: "toast-bottom-center",
         });
 
-        initDataTable();
+        reloadDataTable();
       }
     },
     error: function (xhr, status, error) {
@@ -660,7 +679,7 @@ document.getElementById("imprimir_guias").addEventListener("click", () => {
         document.body.removeChild(link);
 
         // Cerrar el Swal después de hacer clic en el enlace
-        initDataTable();
+        reloadDataTable();
         Swal.close();
       }
     },
@@ -721,7 +740,7 @@ function anular_guiaLaar(numero_guia) {
         });
 
         $("#imagen_categoriaModal").modal("hide");
-        initDataTable();
+        reloadDataTable();
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -756,7 +775,7 @@ function anular_guiaServi(numero_guia) {
           positionClass: "toast-bottom-center",
         });
 
-        initDataTable();
+        reloadDataTable();
       }
     },
     error: function (xhr, status, error) {
@@ -777,7 +796,7 @@ function anular_guiaGintracom(numero_guia) {
         });
 
         $("#imagen_categoriaModal").modal("hide");
-        initDataTable();
+        reloadDataTable();
       } else {
         toastr.error("LA GUIA NO SE ANULO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
