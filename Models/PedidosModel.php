@@ -286,6 +286,7 @@ class PedidosModel extends Query
         foreach ($response as $key => $value) {
             $response[$key]['detalle'] = '<button type="button" class="btn btn-sm btn-outline-primary"  onclick="verDetalleCot(' . $value['id_factura'] . ')">Ver detalle</button>';
         }
+        return $response;
     }
 
     // Método para contar el total de registros
