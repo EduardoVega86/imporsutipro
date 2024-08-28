@@ -113,7 +113,7 @@ const listGuias = async () => {
     let content = ``;
     let impresiones = "";
     let novedad = "";
-    guias.forEach((guia, index) => {
+    guias.data.forEach((guia, index) => {
       let transporte = guia.id_transporte;
       let transporte_content = "";
       let ruta_descarga = "";
