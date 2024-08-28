@@ -144,11 +144,11 @@ const listAsignacionProducto = async () => {
     let content = ``;
     let cargarImagen = ``;
     asignacionProducto.forEach((producto, index) => {
-        if (!combo.image_path) {
-            cargarImagen = `<i class="bx bxs-camera-plus"></i>`;
-          } else {
-            cargarImagen = `<img src="${SERVERURL}${producto.image_path}" class="icon-button" alt="Agregar imagen" width="50px">`;
-          }
+      if (!producto.image_path) {
+        cargarImagen = `<i class="bx bxs-camera-plus"></i>`;
+      } else {
+        cargarImagen = `<img src="${SERVERURL}${producto.image_path}" class="icon-button" alt="Agregar imagen" width="50px">`;
+      }
       content += `
                   <tr>
                       <td>${producto.id_producto}</td>
@@ -156,10 +156,18 @@ const listAsignacionProducto = async () => {
                       <td>${producto.nombre_producto}</td>
                       <td>${producto.pvp}</td>
                       <td>
-                      <input type="number" id="cantidad_producto_${producto.id_producto}" class="form-control" style="border-radius:0.3rem !important;" value="1" min="1">
+                      <input type="number" id="cantidad_producto_${
+                        producto.id_producto
+                      }" class="form-control" style="border-radius:0.3rem !important;" value="1" min="1">
                       </td>
                       <td>
-                          <button class="btn btn-sm btn-danger" onclick="mover_producto(${producto.id_producto}, document.getElementById('cantidad_producto_${producto.id_producto}').value, ${$('#id_combo_seccion').val()})"><i class="fas fa-arrow-right"></i></button>
+                          <button class="btn btn-sm btn-danger" onclick="mover_producto(${
+                            producto.id_producto
+                          }, document.getElementById('cantidad_producto_${
+        producto.id_producto
+      }').value, ${$(
+        "#id_combo_seccion"
+      ).val()})"><i class="fas fa-arrow-right"></i></button>
                       </td>
                   </tr>`;
     });
@@ -366,11 +374,17 @@ const listDetalleCombo = async (id_combo) => {
     const detalleCombo = await response.json();
 
     let content = ``;
-
+    let cargarImagen = "";
     detalleCombo.forEach((combo, index) => {
+        if (!producto.image_path) {
+            cargarImagen = `<i class="bx bxs-camera-plus"></i>`;
+          } else {
+            cargarImagen = `<img src="${SERVERURL}${producto.image_path}" class="icon-button" alt="Agregar imagen" width="50px">`;
+          }
       content += `
                 <tr>
                     <td>${combo.id_producto}</td>
+                    <td>${cargarImagen}</td>
                     <td>${combo.nombre_producto}</td>
                     <td>${combo.cantidad}</td>
                     <td>

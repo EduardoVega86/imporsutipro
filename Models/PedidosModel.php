@@ -279,9 +279,15 @@ class PedidosModel extends Query
         // Añadir paginación
         $sql .= " ORDER BY fc.numero_factura DESC LIMIT $start, $length";
 
-        echo $sql . '<br>';
 
-        return $this->select($sql);
+        $response =  $this->select($sql);
+
+        // añadir detalle con configuracion de html
+        foreach ($response as $key => $value) {
+            $response[$key]['detalle'] = '<button type="button" class="btn btn-sm btn-outline-primary"  onclick="ver_detalle_cot(' . $value['id_factura'] . ')">Ver detalle</button>';
+            $response[$key]['checkbox'] = '<input type="checkbox" class="selectCheckbox" data-id="' . $value['numero_factura'] . '" >';
+        }
+        return $response;
     }
 
     // Método para contar el total de registros

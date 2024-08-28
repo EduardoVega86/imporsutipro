@@ -1453,7 +1453,8 @@ WHERE b.id_plataforma = $plataforma";
 
     public function obtener_detalle_combo_id($id_combo)
     {
-        $sql = "SELECT *, (SELECT nombre_producto FROM productos WHERE productos.id_producto = detalle_combo.id_producto)AS nombre_producto FROM `detalle_combo` WHERE id_combo=$id_combo;";
+        $sql = "SELECT *, (SELECT nombre_producto FROM productos WHERE productos.id_producto = detalle_combo.id_producto)AS nombre_producto,
+         (SELECT image_path FROM productos WHERE productos.id_producto = detalle_combo.id_producto)AS image_path FROM `detalle_combo` WHERE id_combo=$id_combo;";
         return $this->select($sql);
     }
 
