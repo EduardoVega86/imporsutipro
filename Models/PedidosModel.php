@@ -292,7 +292,7 @@ class PedidosModel extends Query
 
             $response[$key]['transportadora'] = '<div><span style="background-color: ' . $color . '; color: white; padding: 5px; border-radius: 0.3rem;">' . $value['transporte'] . '</span></div>';
             $estado = $this->validarEstado($value['estado_guia_sistema'], $value['id_transporte']);
-            $response[$key]['estado'] = '<div><span class="badge ' . $estado['span_estado'] . '">' . $estado['estado_guia'] . '</span></div>';
+            $response[$key]['estado_guia_sistema'] = '<div><span class="badge ' . $estado['span_estado'] . '">' . $estado['estado_guia'] . '</span></div>';
         }
         return $response;
     }
