@@ -17,8 +17,7 @@ const dataTableOptions = {
   },
   columns: [
     {
-      data: null,
-      defaultContent: '<input type="checkbox" class="selectCheckbox">',
+      data: "checkbox",
     }, // Checkbox column
     { data: "numero_factura" }, // Corresponds to numero_factura in the API response
     { data: "detalle" }, // Assuming you have a 'detalle' field in your response
