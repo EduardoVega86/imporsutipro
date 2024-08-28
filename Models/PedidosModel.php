@@ -279,6 +279,8 @@ class PedidosModel extends Query
         // Añadir paginación
         $sql .= " ORDER BY fc.numero_factura DESC LIMIT $start, $length";
 
+        echo $sql . '<br>';
+
         return $this->select($sql);
     }
 
@@ -607,11 +609,11 @@ class PedidosModel extends Query
         $tmp = session_id();
         // echo $tmp;
         $sql = "SELECT * 
-FROM `tmp_cotizacion` tmp
-LEFT JOIN `inventario_bodegas` ib ON tmp.id_inventario = ib.id_inventario
-LEFT JOIN `productos` p ON tmp.id_producto = p.id_producto
-LEFT JOIN `variedades` v ON ib.id_variante = v.id_variedad
-WHERE tmp.session_id = '$tmp'";
+        FROM `tmp_cotizacion` tmp
+        LEFT JOIN `inventario_bodegas` ib ON tmp.id_inventario = ib.id_inventario
+        LEFT JOIN `productos` p ON tmp.id_producto = p.id_producto
+        LEFT JOIN `variedades` v ON ib.id_variante = v.id_variedad
+        WHERE tmp.session_id = '$tmp'";
         //echo $sql;
         return $this->select($sql);
     }
