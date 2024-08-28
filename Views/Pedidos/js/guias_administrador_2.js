@@ -5,7 +5,7 @@ const dataTableOptions = {
   processing: true, // Mostrar indicador de procesamiento
   serverSide: true, // Habilitar la paginación del lado del servidor
   ajax: {
-    url: `${SERVERURL}pedidos/obtener_guiasAdministrador`,
+    url: `${SERVERURL}pedidos/obtener_guiasAdministrador2`,
     type: "POST",
     data: function (d) {
       d.fecha_inicio = fecha_inicio;
