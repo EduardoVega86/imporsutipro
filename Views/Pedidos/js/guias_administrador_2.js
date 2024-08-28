@@ -2,8 +2,8 @@ let dataTable;
 let dataTableIsInitialized = false;
 
 const dataTableOptions = {
-  processing: true, // Mostrar indicador de procesamiento
-  serverSide: true, // Habilitar la paginación del lado del servidor
+  processing: true,
+  serverSide: true,
   ajax: {
     url: `${SERVERURL}pedidos/obtener_guiasAdministrador2`,
     type: "POST",
@@ -13,14 +13,30 @@ const dataTableOptions = {
       d.estado = $("#estado_q").val();
       d.transportadora = $("#transporte").val();
       d.impreso = $("#impresion").val();
-      // Agrega cualquier otro parámetro necesario
     },
   },
-  columnDefs: [
-    { className: "centered", targets: [1, 2, 3, 4, 5, 6, 7, 8, 9] },
-    { orderable: false, targets: 0 },
+  columns: [
+    {
+      data: null,
+      defaultContent: '<input type="checkbox" class="selectCheckbox">',
+    }, // Checkbox column
+    { data: "numero_factura" }, // Corresponds to numero_factura in the API response
+    { data: "detalle" }, // Assuming you have a 'detalle' field in your response
+    { data: "cliente" }, // Assuming you have a 'cliente' field in your response
+    { data: "ciudad" }, // Assuming you have a 'ciudad' field in your response
+    { data: "tienda" }, // Corresponds to 'tienda' in your API response
+    { data: "nombre_proveedor" }, // Corresponds to 'nombre_proveedor' in your API response
+    { data: "transportadora" }, // Corresponds to 'transportadora' in your API response
+    { data: "estado_guia_sistema" }, // Corresponds to 'estado_guia_sistema' in your API response
+    { data: "despachado" }, // Assuming you have a 'despachado' field in your response
+    { data: "impreso" }, // Corresponds to 'impreso' in your API response
+    { data: "acciones" }, // Assuming you handle the 'acciones' column with your own logic
   ],
-  order: [[2, "desc"]],
+  columnDefs: [
+    { className: "centered", targets: "_all" },
+    { orderable: false, targets: 0 }, // Disable ordering on the checkbox column
+  ],
+  order: [[1, "desc"]], // Order by 'numero_factura' by default
   pageLength: 25,
   lengthMenu: [25, 50, 100, 200],
   destroy: true,
@@ -31,7 +47,7 @@ const dataTableOptions = {
       extend: "excelHtml5",
       text: 'Excel <i class="fa-solid fa-file-excel"></i>',
       exportOptions: {
-        columns: [1, 2, 3, 4, 5, 6, 7, 8],
+        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9],
       },
       filename: "guias" + "_" + getFecha(),
       footer: true,
@@ -41,7 +57,7 @@ const dataTableOptions = {
       extend: "csvHtml5",
       text: 'CSV <i class="fa-solid fa-file-csv"></i>',
       exportOptions: {
-        columns: [1, 2, 3, 4, 5, 6, 7, 8],
+        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9],
       },
       filename: "guias" + "_" + getFecha(),
       footer: true,
