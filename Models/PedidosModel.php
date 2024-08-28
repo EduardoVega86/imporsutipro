@@ -284,8 +284,9 @@ class PedidosModel extends Query
 
         // añadir detalle con configuracion de html
         foreach ($response as $key => $value) {
-            $response[$key]['detalle'] = '<div><button type="button" class="btn btn-sm btn-outline-primary"  onclick="ver_detalle_cot(' . $value['id_factura'] . ')">Ver detalle</button> <span class="badge badge-primary"> ' . $value['fecha_factura'] . '</span></div>';
+            $response[$key]['detalle'] = '<div><button type="button" class="btn btn-sm btn-outline-primary"  onclick="ver_detalle_cot(' . $value['id_factura'] . ')">Ver detalle</button> <span> ' . $value['fecha_factura'] . '</span></div>';
             $response[$key]['checkbox'] = '<input type="checkbox" class="selectCheckbox" data-id="' . $value['id_factura'] . '" >';
+            $response[$key]['cliente'] = '<div><span>' . $value['nombre'] . '</span><span>' . $value['c_principal'] .  ' ' . $value['c_secundaria']  . '</span> <span>Telf: ' . $value['telefono'] . '</span></div>';
         }
         return $response;
     }
