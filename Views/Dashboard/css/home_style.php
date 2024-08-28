@@ -46,6 +46,10 @@
         flex-direction: row;
     }
 
+    .icono_agendar {
+        width: 7%;
+    }
+
     @media (max-width: 768px) {
         .megafono {
             flex-direction: column;
@@ -54,5 +58,9 @@
         .seccion_agendar {
             flex-direction: column;
         }
+
+        .icono_agendar {
+        width: 25%;
+    }
     }
 </style>

@@ -58,7 +58,7 @@
                     <div class="card">
                         <div class="card-body d-flex justify-content-between align-items-center">
                             <div class="align-items-center seccion_agendar">
-                                <img src="<?php echo SERVERURL; ?>/public/noticias/FULLFILLMENT.png" alt="FULLFILLMENT" style="width: 7%;" class="me-2">
+                                <img src="<?php echo SERVERURL; ?>/public/noticias/FULLFILLMENT.png" alt="FULLFILLMENT" class="me-2 icono_agendar">
                                 <span>FULLFILLMENT</span>
                             </div>
                             <a href="#" class="btn schedule-btn">Agendarme</a>
@@ -67,7 +67,7 @@
                     <div class="card">
                         <div class="card-body d-flex justify-content-between align-items-center">
                             <div class="align-items-center seccion_agendar">
-                                <img src="<?php echo SERVERURL; ?>/public/noticias/como_vender.png" alt="como_vender" style="width: 7%;" class="me-2">
+                                <img src="<?php echo SERVERURL; ?>/public/noticias/como_vender.png" alt="como_vender" class="me-2 icono_agendar">
                                 <span>COMO EMPEZAR A VENDER</span>
                             </div>
                             <a href="#" class="btn schedule-btn">Agendarme</a>
@@ -76,7 +76,7 @@
                     <div class="card">
                         <div class="card-body d-flex justify-content-between align-items-center">
                             <div class="align-items-center seccion_agendar">
-                                <img src="<?php echo SERVERURL; ?>/public/noticias/ser_proveedor.png" alt="ser_proveedor" style="width: 7%;" class="me-2">
+                                <img src="<?php echo SERVERURL; ?>/public/noticias/ser_proveedor.png" alt="ser_proveedor" class="me-2 icono_agendar">
                                 <span>QUIERO SER PROVEEDOR</span>
                             </div>
                             <a href="#" class="btn schedule-btn">Agendarme</a>
