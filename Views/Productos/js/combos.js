@@ -153,7 +153,7 @@ const listAsignacionProducto = async () => {
                       <input type="number" id="cantidad_producto_${producto.id_producto}" class="form-control" style="border-radius:0.3rem !important;" value="1" min="1">
                       </td>
                       <td>
-                          <button class="btn btn-sm btn-danger" onclick="mover_producto(${producto.id_producto}, document.getElementById('cantidad_producto_${producto.id_producto}').value)"><i class="fas fa-arrow-right"></i></button>
+                          <button class="btn btn-sm btn-danger" onclick="mover_producto(${producto.id_producto}, document.getElementById('cantidad_producto_${producto.id_producto}').value, ${$('#id_combo_seccion').val()})"><i class="fas fa-arrow-right"></i></button>
                       </td>
                   </tr>`;
     });
@@ -167,7 +167,7 @@ const listAsignacionProducto = async () => {
 function seleccionar_combo(id_combo) {
   $("#id_combo_seccion").val(id_combo);
   initDataTableAsignacionProducto();
-  initDataTableDetalleCombo();
+  initDataTableDetalleCombo(id_combo);
   document.getElementById("comboSection").classList.remove("hidden");
 }
 
@@ -267,7 +267,7 @@ function eliminar_combo(id_combo) {
   });
 }
 
-function mover_producto(id_producto, cantidad) {
+function mover_producto(id_producto, cantidad, id_combo) {
   let formData = new FormData();
   formData.append("id_producto", id_producto);
   formData.append("cantidad", cantidad);
@@ -293,7 +293,7 @@ function mover_producto(id_producto, cantidad) {
           positionClass: "toast-bottom-center",
         });
 
-        initDataTableDetalleCombo();
+        initDataTableDetalleCombo(id_combo);
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -308,7 +308,7 @@ let dataTableDetalleComboIsInitialized = false;
 
 const dataTableDetalleComboOptions = {
   columnDefs: [
-    { className: "centered", targets: [1, 2, 3, 4, 5] },
+    { className: "centered", targets: [0, 1, 2, 3] },
     { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
   ],
   pageLength: 10,
@@ -330,12 +330,12 @@ const dataTableDetalleComboOptions = {
   },
 };
 
-const initDataTableDetalleCombo = async () => {
+const initDataTableDetalleCombo = async (id_combo) => {
   if (dataTableDetalleComboIsInitialized) {
     dataTableDetalleCombo.destroy();
   }
 
-  await listDetalleCombo();
+  await listDetalleCombo(id_combo);
 
   dataTableDetalleCombo = $("#datatable_detalle_combo").DataTable(
     dataTableDetalleComboOptions
@@ -344,10 +344,18 @@ const initDataTableDetalleCombo = async () => {
   dataTableDetalleComboIsInitialized = true;
 };
 
-const listDetalleCombo = async () => {
+const listDetalleCombo = async (id_combo) => {
   try {
+    let formData = new FormData();
+    formData.append("id_combo", id_combo);
+
+    // Realizar la solicitud fetch con método POST y enviar el FormData
     const response = await fetch(
-      SERVERURL + "Productos/obtener_detalle_combo_id"
+      SERVERURL + "Productos/obtener_detalle_combo_id",
+      {
+        method: "POST",
+        body: formData,
+      }
     );
     const detalleCombo = await response.json();
 
