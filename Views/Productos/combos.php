@@ -71,20 +71,20 @@
                         </div>
                         <div class="custom-card-body">
                             <div class="custom-product">
-                                <img src="ruta/a/tu-imagen.png" alt="Producto" class="custom-product-image">
+                                <img src="" alt="Producto" id="imagen_combo_preview" class="custom-product-image">
                                 <div class="custom-product-info">
-                                    <span>COMBO AVION +AUDIFONOS</span>
-                                    <span class="custom-discount">Ahorra 20%</span>
+                                    <span id="nombre_combo_preview"></span>
+                                    <span class="custom-discount" id="ahorro_preview" style="display: none;">Ahorra 20%</span>
                                 </div>
                                 <div class="custom-product-price">
-                                    <span class="old-price">$0</span>
-                                    <span class="new-price">$0</span>
+                                    <span class="old-price" id="precio_normal_preview">$0</span>
+                                    <span class="new-price" id="precio_especial_preview">$0</span>
                                 </div>
                             </div>
                             <div class="custom-card-footer">
                                 <div class="custom-summary">
                                     <div>Subtotal</div>
-                                    <div>$0</div>
+                                    <div><span id="subtotal_preview"></span></div>
                                 </div>
                                 <div class="custom-summary">
                                     <div>Envío</div>
@@ -92,7 +92,7 @@
                                 </div>
                                 <div class="custom-total">
                                     <div>Total</div>
-                                    <div class="total-price">$0</div>
+                                    <div class="total-price"><span id="total_preview"></span></div>
                                 </div>
                             </div>
                         </div>
