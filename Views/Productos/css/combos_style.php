@@ -154,13 +154,13 @@
     }
 
     .left {
-        max-width: 37%;
+        max-width: 33.33%;
     }
 
     .right {
         display: flex;
         flex-direction: row;
-        max-width: 63%;
+        max-width: 66.66%;
     }
 
     @media (max-width: 768px) {
