@@ -46,14 +46,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="d-flex flex-row gap-3">
                     <div class="mb-3 col-md-5">
                         <div class="card module-card">
                             <img src="<?php echo SERVERURL; ?>/public/noticias/imagen_youtube.jpeg" class="card-img-top" alt="Módulo de Garantías">
                             <div class="card-body">
-                                <h5 class="card-title">Conoce nuestro módulo Mis Garantías</h5>
-                                <p class="card-text">Gestiona las garantías de tus productos a través del Módulo de
-                                    Garantías. Descubre cómo utilizarlo en nuestro tutorial.</p>
                                 <a href="#" class="btn btn-warning">Ver Ahora</a>
                             </div>
                         </div>
@@ -81,7 +77,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
         </div>
     </div>
