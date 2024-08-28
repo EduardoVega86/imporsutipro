@@ -1428,5 +1428,6 @@ WHERE b.id_plataforma = $plataforma";
             $response['title'] = 'Error';
             $response['message'] = "Error al eliminar el combo";
         }
+        return $response;
     }
 }
