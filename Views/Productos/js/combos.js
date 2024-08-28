@@ -142,11 +142,17 @@ const listAsignacionProducto = async () => {
     const asignacionProducto = await response.json();
 
     let content = ``;
-
+    let cargarImagen = ``;
     asignacionProducto.forEach((producto, index) => {
+        if (!combo.image_path) {
+            cargarImagen = `<i class="bx bxs-camera-plus"></i>`;
+          } else {
+            cargarImagen = `<img src="${SERVERURL}${producto.image_path}" class="icon-button" alt="Agregar imagen" width="50px">`;
+          }
       content += `
                   <tr>
                       <td>${producto.id_producto}</td>
+                      <td>${cargarImagen}</td>
                       <td>${producto.nombre_producto}</td>
                       <td>${producto.pvp}</td>
                       <td>
