@@ -32,7 +32,7 @@
             <div class="col-md-8 mt-3">
                 <div class="mb-3">
                     <div class="card p-3">
-                        <div class="card-body d-flex align-items-center">
+                        <div class="card-body align-items-center megafono">
                             <div class="icon-circle d-flex align-items-center justify-content-center me-3">
                                 <img src="<?php echo SERVERURL; ?>/public/noticias/icono_megafono.png" alt="Icono" class="img-fluid" style="margin: 10%;">
                             </div>
@@ -57,7 +57,7 @@
                 <div class="d-flex flex-column gap-2 mb-3">
                     <div class="card">
                         <div class="card-body d-flex justify-content-between align-items-center">
-                            <div class="d-flex align-items-center">
+                            <div class="align-items-center seccion_agendar">
                                 <img src="<?php echo SERVERURL; ?>/public/noticias/FULLFILLMENT.png" alt="FULLFILLMENT" style="width: 7%;" class="me-2">
                                 <span>FULLFILLMENT</span>
                             </div>
@@ -66,7 +66,7 @@
                     </div>
                     <div class="card">
                         <div class="card-body d-flex justify-content-between align-items-center">
-                            <div class="d-flex align-items-center">
+                            <div class="align-items-center seccion_agendar">
                                 <img src="<?php echo SERVERURL; ?>/public/noticias/como_vender.png" alt="como_vender" style="width: 7%;" class="me-2">
                                 <span>COMO EMPEZAR A VENDER</span>
                             </div>
@@ -75,7 +75,7 @@
                     </div>
                     <div class="card">
                         <div class="card-body d-flex justify-content-between align-items-center">
-                            <div class="d-flex align-items-center">
+                            <div class="align-items-center seccion_agendar">
                                 <img src="<?php echo SERVERURL; ?>/public/noticias/ser_proveedor.png" alt="ser_proveedor" style="width: 7%;" class="me-2">
                                 <span>QUIERO SER PROVEEDOR</span>
                             </div>

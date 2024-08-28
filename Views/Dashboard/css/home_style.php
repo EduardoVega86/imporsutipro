@@ -35,4 +35,24 @@
         max-width: 80%;
         max-height: 60%;
     }
+
+    .megafono {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .seccion_agendar {
+        display: flex;
+        flex-direction: row;
+    }
+
+    @media (max-width: 768px) {
+        .megafono {
+            flex-direction: column;
+        }
+
+        .seccion_agendar {
+            flex-direction: column;
+        }
+    }
 </style>
