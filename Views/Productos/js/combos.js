@@ -167,6 +167,7 @@ const listAsignacionProducto = async () => {
 function seleccionar_combo(id_combo) {
   $("#id_combo_seccion").val(id_combo);
   initDataTableAsignacionProducto();
+  initDataTableDetalleCombo();
   document.getElementById("comboSection").classList.remove("hidden");
 }
 
