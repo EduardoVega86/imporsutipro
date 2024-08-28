@@ -769,4 +769,18 @@ class Productos extends Controller
 
         echo json_encode($response);
     }
+
+    public function obtener_detalle_combo_id()
+    {
+        $id_combo = $_POST['id_combo'];
+        $response = $this->model->obtener_detalle_combo_id($id_combo);
+        echo json_encode($response);
+    }
+
+    public function eliminar_detalleCombo()
+    {
+        $id = $_POST['id_detalle_combo'];
+        $response = $this->model->eliminar_detalleCombo($id);
+        echo json_encode($response);
+    }
 }
