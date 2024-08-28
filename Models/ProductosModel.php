@@ -1416,17 +1416,17 @@ WHERE b.id_plataforma = $plataforma";
     public function eliminarCombo($id)
     {
         $response = $this->initialResponse();
-        $sql = "DELETE FROM producto_privado WHERE id_producto_privado = ?";
+        $sql = "DELETE FROM producto_privado WHERE id = ?";
         $data = [$id];
-        $eliminar_producto = $this->delete($sql, $data);
-        if ($eliminar_producto == 1) {
+        $eliminar_combo = $this->delete($sql, $data);
+        if ($eliminar_combo == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
             $response['message'] = 'Producto eliminado correctamente';
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = $eliminar_producto['message'];
+            $response['message'] = "Error al eliminar el combo";
         }
-        
+    }
 }
