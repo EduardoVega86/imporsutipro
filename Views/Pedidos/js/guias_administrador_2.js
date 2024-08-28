@@ -108,12 +108,12 @@ const listGuias = async () => {
         body: formData,
       }
     );
-    const guias = await response.json();
-
+    const guiasa = await response.json();
+    const guias = guiasa.data;
     let content = ``;
     let impresiones = "";
     let novedad = "";
-    guias.data.forEach((guia, index) => {
+    guias.forEach((guia, index) => {
       let transporte = guia.id_transporte;
       let transporte_content = "";
       let ruta_descarga = "";
