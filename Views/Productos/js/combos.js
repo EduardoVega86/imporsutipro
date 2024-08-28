@@ -247,6 +247,35 @@ $(document).ready(function () {
   });
 });
 
+function eliminar_combo(id_combo) {
+  let formData = new FormData();
+  formData.append("id_combo", id_combo);
+  $.ajax({
+    url: SERVERURL + "Productos/eliminar_combo",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    dataType: "json",
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("EL COMBO NO SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("COMBO ELIMINADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+        
+        initDataTableCombos();
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+}
+
 /* llenar select de productos */
 document.addEventListener("DOMContentLoaded", () => {
   // Inicializa Select2 en el select
