@@ -64,6 +64,41 @@
                             <tbody id="tableBody_detalle_combo"></tbody>
                         </table>
                     </div>
+                    <!-- seccion preview combo -->
+                    <div class="custom-card">
+                        <div class="custom-card-header">
+                            PAGA AL RECIBIR EN CASA! POCAS UNIDADES
+                        </div>
+                        <div class="custom-card-body">
+                            <div class="custom-product">
+                                <img src="ruta/a/tu-imagen.png" alt="Producto" class="custom-product-image">
+                                <div class="custom-product-info">
+                                    <span>COMBO AVION +AUDIFONOS</span>
+                                    <span class="custom-discount">Ahorra 20%</span>
+                                </div>
+                                <div class="custom-product-price">
+                                    <span class="old-price">$0</span>
+                                    <span class="new-price">$0</span>
+                                </div>
+                            </div>
+                            <div class="custom-card-footer">
+                                <div class="custom-summary">
+                                    <div>Subtotal</div>
+                                    <div>$0</div>
+                                </div>
+                                <div class="custom-summary">
+                                    <div>Envío</div>
+                                    <div class="free-shipping">Gratis</div>
+                                </div>
+                                <div class="custom-total">
+                                    <div>Total</div>
+                                    <div class="total-price">$0</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fin seccion preview combo -->
                 </div>
             </div>
         </div>

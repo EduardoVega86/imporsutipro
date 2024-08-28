@@ -177,4 +177,102 @@
             max-width: 100%;
         }
     }
+
+    .custom-card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 15px;
+        max-width: 350px;
+        margin: auto;
+        font-family: Arial, sans-serif;
+    }
+
+    .custom-card-header {
+        font-weight: bold;
+        font-size: 1.1rem;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .custom-card-body {
+        background-color: #f9f9f9;
+        padding: 10px;
+        border-radius: 8px;
+    }
+
+    .custom-product {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+
+    .custom-product-image {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 5px;
+    }
+
+    .custom-product-info {
+        flex-grow: 1;
+        margin-left: 10px;
+    }
+
+    .custom-discount {
+        display: inline-block;
+        background-color: #007bff;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 0.9rem;
+        margin-top: 5px;
+    }
+
+    .custom-product-price {
+        text-align: right;
+    }
+
+    .old-price {
+        text-decoration: line-through;
+        color: #999;
+        font-size: 0.9rem;
+    }
+
+    .new-price {
+        font-weight: bold;
+        font-size: 1.2rem;
+        color: black;
+    }
+
+    .custom-card-footer {
+        margin-top: 10px;
+        background-color: #e9e9e9;
+        padding: 10px;
+        border-radius: 8px;
+    }
+
+    .custom-summary {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+    }
+
+    .free-shipping {
+        color: #007bff;
+        font-weight: bold;
+    }
+
+    .custom-total {
+        display: flex;
+        justify-content: space-between;
+        font-weight: bold;
+        font-size: 1rem;
+    }
+
+    .total-price {
+        color: #007bff;
+        font-size: 1.2rem;
+    }
 </style>
