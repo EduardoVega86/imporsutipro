@@ -121,7 +121,9 @@ const listNuevoPedido = async () => {
       const precio = parseFloat(nuevoPedido.precio_tmp);
       const descuento = parseFloat(nuevoPedido.desc_tmp);
       const cantidad = parseFloat(nuevoPedido.cantidad_tmp);
-      const precioFinal = precio * cantidad - precio * (descuento / 100);
+      const subtotal = precio * cantidad;
+      const descuentoTotal = subtotal * (descuento / 100);
+      const precioFinal = subtotal - descuentoTotal;
       total += precioFinal;
 
       content += `
@@ -212,7 +214,6 @@ function recalcular(id, idPrecio, idDescuento, idCantidad) {
 
       /* calcularGuiaDirecta */
       var button2 = document.getElementById("generarGuiaBtn");
-
 
       var priceSpan = $(this).find(".price-tag span");
       var priceValue = $("#costo_flete").val();
@@ -473,11 +474,11 @@ $(document).ready(function () {
 
           $("#price_servientrega").text(response.servientrega);
           $("#price_gintracom").text(response.gintracom);
-          
-          if (MATRIZ != 2){
+
+          if (MATRIZ != 2) {
             $("#price_speed").text(response.speed);
           }
-          
+
           $("#price_laar").text(response.laar);
 
           /* calculador servi */
@@ -812,7 +813,8 @@ function generar_guia() {
             if (response.status == 500) {
               Swal.fire({
                 icon: "error",
-                title: "Error al crear la guia, no se encuentra la ciudad o provincia de destino",
+                title:
+                  "Error al crear la guia, no se encuentra la ciudad o provincia de destino",
               });
               var button2 = document.getElementById("generarGuiaBtn");
               button2.disabled = false;
