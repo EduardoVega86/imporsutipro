@@ -67,9 +67,9 @@ class ProductosModel extends Query
     public function marketplace($estado, $id_producto)
     {
         if ($estado == 1) {
-            return '<box-icon name="cloud-download" style="cursor:pointer" color="red" id="icono_bajada_' . $id_producto . '" onclick="bajar_marketplace(' . $id_producto . ')"></box-icon>';
+            return '<div><box-icon name="cloud-download" style="cursor:pointer" color="red" id="icono_bajada_' . $id_producto . '" onclick="bajar_marketplace(' . $id_producto . ')"></box-icon> </br>Quitar</div>';
         } else {
-            return '<box-icon name="cloud-upload" style="cursor:pointer" color="#54DD10" id="icono_subida_' . $id_producto . '" onclick="subir_marketplace(' . $id_producto . ')"></box-icon>';
+            return '<div><box-icon name="cloud-upload" style="cursor:pointer" color="#54DD10" id="icono_subida_' . $id_producto . '" onclick="subir_marketplace(' . $id_producto . ')"></box-icon> </br>Agregar</div>';
         }
     }
 
