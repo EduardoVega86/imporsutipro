@@ -154,6 +154,7 @@ const listAsignacionProducto = async () => {
                       <td>${producto.id_producto}</td>
                       <td>${cargarImagen}</td>
                       <td>${producto.nombre_producto}</td>
+                      <td>${producto.variedad}</td>
                       <td>${producto.pvp}</td>
                       <td>
                       <input type="number" id="cantidad_producto_${
