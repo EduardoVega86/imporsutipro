@@ -1,14 +1,15 @@
 <style>
     .stat-box {
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin: 10px;
-  text-align: center;
-  flex: 1 1 calc(25% - 40px);
-  width: 50%;
-}
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin: 10px;
+        text-align: center;
+        flex: 1 1 calc(25% - 40px);
+        width: 50%;
+    }
+
     .table {
         border-collapse: collapse;
         width: 100%;
@@ -39,7 +40,7 @@
         text-align: center !important;
         vertical-align: middle !important;
     }
-    
+
     .btn-excel,
     .btn-csv {
         background-color: #198754;
@@ -52,21 +53,23 @@
         border: none;
         /* Elimina el borde */
     }
-    
+
     .btn-group {
         align-content: center;
     }
 
     /* dashboard auditoria */
-    .dashboard_auditoria{
+    .dashboard_auditoria {
         display: flex;
         flex-direction: row;
     }
+
     @media (max-width: 768px) {
-        .dashboard_auditoria{
+        .dashboard_auditoria {
             flex-direction: column;
             align-items: center;
         }
+
         .stat-box {
             width: 100%;
         }
@@ -212,5 +215,18 @@
 
     .btn-cod-no:hover {
         background-color: darkred;
+    }
+
+    /* boton de descargar plantilla */
+    .download-button-container {
+        text-align: left;
+        /* Alinea el botón a la izquierda */
+    }
+
+    .download-button {
+        font-size: 0.9rem;
+        /* Reduce el tamaño de la fuente */
+        padding: 0.5rem 1rem;
+        /* Ajusta el relleno del botón */
     }
 </style>

@@ -462,6 +462,7 @@ $(document).ready(function () {
       formData.append("provincia", provincia);
       formData.append("recaudo", recaudo);
       formData.append("monto_factura", monto_total);
+      formData.append("id_plataforma", ID_PLATAFORMA);
 
       $.ajax({
         url: SERVERURL + "Calculadora/obtenerTarifas",

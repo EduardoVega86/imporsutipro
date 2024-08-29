@@ -14,7 +14,8 @@
             </div-->
             <div class="dashboard_auditoria">
                 <div class="stat-box">
-                    <h3>$ <span id="total_venta"></ span></h3>
+                    <h3>$ <span id="total_venta"></ span>
+                    </h3>
                     <p>Total venta</p>
                 </div>
                 <div class="stat-box">
@@ -58,6 +59,9 @@
                             <option value="2">Servientrega</option>
                             <option value="3">Gintracom</option>
                         </select>
+                    </div>
+                    <div class="download-button-container">
+                        <a href="https://tiendas.imporsuitpro.com/plantilla/formato_auditoria.xlsx" class="btn btn-success download-button">Descargar Plantilla</a>
                     </div>
                     <div class="form-group">
                         <label for="fileInput">Seleccionar archivo:</label>
