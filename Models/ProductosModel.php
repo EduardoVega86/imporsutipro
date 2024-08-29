@@ -41,6 +41,12 @@ class ProductosModel extends Query
 
         $response = $this->select($sql);
 
+        foreach ($response as $key => $value) {
+            $response[$key]['imagen'] = "<img src='https://desarrollo.imporsuitpro.com/public/img/productos/66d09b1e14b1d3.20909984.jpg' class='icon-button' onclick='agregar_imagenProducto(7892,https://desarrollo.imporsuitpro.com/public/img/productos/66d09b1e14b1d3.20909984.jpg')' alt='Agregar imagen' width='50px'>";
+            $response[$key]['acciones'] = '<button class="btn btn-primary btn-sm" onclick="editarProducto(' . $value['id_producto'] . ')">Editar</button>
+            <button class="btn btn-danger btn-sm" onclick="eliminarProducto(' . $value['id_producto'] . ')">Eliminar</button>';
+        }
+
         // Obtener el total de registros sin paginar ni filtrar
         $sqlCount = "SELECT COUNT(*) AS total FROM `inventario_bodegas` AS ib 
                  INNER JOIN `productos` AS p ON p.`id_producto` = ib.`id_producto`

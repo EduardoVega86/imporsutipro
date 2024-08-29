@@ -1,7 +1,7 @@
 <?php
 class CalculadoraModel extends Query
 {
-    public function obtenerTarifas($ciudad, $provincia, $monto_factura, $recuado)
+    public function obtenerTarifas($ciudad, $provincia, $monto_factura, $recuado, $id_plataforma)
     {
 
         $select = $this->select("SELECT * FROM ciudad_cotizacion WHERE id_cotizacion = '$ciudad' ");
@@ -60,6 +60,9 @@ class CalculadoraModel extends Query
         } else {
             if ($recuado === "1") {
                 $tarifas['gintracom'] = $tarifas['gintracom'] + $previo;
+                if ($id_plataforma == 1206) {
+                    $tarifas['gintracom'] = $tarifas['gintracom'] - 0.5;
+                }
             } else {
                 $tarifas['gintracom'] = $tarifas['gintracom'];
             }

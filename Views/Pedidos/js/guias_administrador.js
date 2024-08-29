@@ -446,6 +446,7 @@ function ver_detalle_cot(id_factura) {
               <td>${detalle.nombre_producto}</td>
               <td>${detalle.cantidad}</td>
               <td>${detalle.precio_venta}</td>
+              <td>${detalle.desc_venta}</td>
               <td>${precioFinal.toFixed(2)}</td>
             </tr>
           `;

@@ -13,7 +13,10 @@ class Calculadora extends Controller
         $monto_factura = $_POST['monto_factura'];
         $recuado = $_POST['recaudo'];
 
-        $tarifas = $this->model->obtenerTarifas($ciudad, $provincia, $monto_factura, $recuado);
+        $id_plataforma = $_POST['id_plataforma'] ?? 0;
+
+
+        $tarifas = $this->model->obtenerTarifas($ciudad, $provincia, $monto_factura, $recuado, $id_plataforma);
         echo json_encode($tarifas);
     }
 
