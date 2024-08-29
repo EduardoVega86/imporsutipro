@@ -509,7 +509,7 @@ const listDetalleCombo = async (id_combo) => {
                     <td>${combo.pvp}</td>
                     <td>${combo.cantidad}</td>
                     <td>
-                        <button class="btn btn-sm btn-danger" onclick="eliminar_detalle_combo(${combo.id})"><i class="fas fa-arrow-left"></i></button>
+                        <button class="btn btn-sm btn-primary" onclick="eliminar_detalle_combo(${combo.id})"><i class="fas fa-arrow-left"></i></button>
                     </td>
                 </tr>`;
     });
