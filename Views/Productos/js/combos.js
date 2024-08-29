@@ -252,7 +252,7 @@ function guardar_actualizacion_combos() {
 
   // Realiza la solicitud AJAX
   $.ajax({
-    url: "" + SERVERURL + "Productos/editarcombos",
+    url: "" + SERVERURL + "Productos/editarcombo_estado",
     type: "POST",
     data: formData,
     processData: false,
@@ -273,9 +273,8 @@ function guardar_actualizacion_combos() {
           positionClass: "toast-bottom-center",
         });
 
-        $("#editar_comboModal").modal("hide");
-        resetForm();
-        initDataTableCombos();
+        llenar_combo($("#id_combo_seccion").val());
+
       }
     },
     error: function (error) {
