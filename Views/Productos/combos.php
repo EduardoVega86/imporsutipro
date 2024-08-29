@@ -50,24 +50,6 @@
                         </table>
                     </div>
                 </div>
-                <div class="d-flex flex-column">
-                    <div class="d-flex flex-row">
-                        <div class="col-sm-4">
-                            <label for="valor_combo" class="control-label">Tipo de descuento</label>
-                            <select class="form-control" name="estado_combo" id="estado_combo">
-                                <option value="1">Porcentaje</option>
-                                <option value="2">Valor fijo</option>
-                            </select>
-                        </div>
-                        <div class="col-md-5">
-                            <div class="form-group">
-                                <label for="valor_combo" class="control-label">valor del descuento:</label>
-                                <input type="text" class="form-control UpperCase" id="valor_combo" name="valor_combo" autocomplete="off">
-                            </div>
-                        </div>
-                    </div>
-                    <button class="btn btn-primary" onclick="guardar_actualizacion_combos()">Guardar</button>
-                </div>
                 <div class="card" style="height: auto; padding: 10px;">
                     <div class="table-responsive">
                         <table id="datatable_detalle_combo" class="table table-striped" style="min-width: 100%;">
@@ -84,6 +66,25 @@
                             </thead>
                             <tbody id="tableBody_detalle_combo"></tbody>
                         </table>
+                    </div>
+
+                    <div class="d-flex flex-column">
+                        <div class="d-flex flex-row">
+                            <div class="col-sm-4">
+                                <label for="valor_combo" class="control-label">Tipo de descuento</label>
+                                <select class="form-control" name="estado_combo" id="estado_combo">
+                                    <option value="1">Porcentaje</option>
+                                    <option value="2">Valor fijo</option>
+                                </select>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="valor_combo" class="control-label">valor del descuento:</label>
+                                    <input type="text" class="form-control UpperCase" id="valor_combo" name="valor_combo" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="guardar_actualizacion_combos()">Guardar</button>
                     </div>
                     <!-- seccion preview combo -->
                     <div class="custom-card">
