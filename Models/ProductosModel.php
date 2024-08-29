@@ -1436,6 +1436,8 @@ WHERE b.id_plataforma = $plataforma";
             $response['title'] = 'Error';
             $response['message'] = "Error al actualizar el combo";
         }
+
+        return $response;
     }
 
     public function eliminarCombo($id)
