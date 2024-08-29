@@ -1277,7 +1277,7 @@ WHERE b.id_plataforma = $plataforma";
 
     public function obtener_productos_asignacionCombos($plataforma)
     {
-        $sql = "SELECT * FROM `inventario_bodegas` INNER JOIN `productos` ON productos.id_producto = inventario_bodegas.id_producto WHERE productos.id_plataforma=$plataforma;";
+        $sql = "SELECT *, (SELECT variedad FROM `variedades` WHERE variedades.id_variedad = inventario_bodegas.id_variante)AS variedad FROM `inventario_bodegas` INNER JOIN `productos` ON productos.id_producto = inventario_bodegas.id_producto WHERE productos.id_plataforma=$plataforma;";
 
         return $this->select($sql);
     }

@@ -40,6 +40,7 @@
                                     <th class="centered">ID prodcuto</th>
                                     <th class="centered"></th>
                                     <th class="centered">Nombre Producto</th>
+                                    <th class="centered">Variedad</th>
                                     <th class="centered">Precio</th>
                                     <th class="centered">Cantidad</th>
                                     <th class="centered">Mover</th>
