@@ -28,7 +28,7 @@ const dataTableProductosOptions = {
     { data: "codigo_producto" },
     { data: "nombre_producto" },
     { data: "destacado" },
-    { data: "stock" },
+    { data: "saldo_stock" },
     { data: "costo" },
     { data: "pcp" },
     { data: "pvp" },
