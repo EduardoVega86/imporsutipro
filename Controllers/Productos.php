@@ -88,10 +88,10 @@ class Productos extends Controller
     {
         $this->views->render($this, "combos");
     }
-    
+
     public function productos_2()
     {
-        $this->views->render($this, "productos_2");
+        $this->views->render($this, "productos2");
     }
 
     public function landing($id)
@@ -762,7 +762,7 @@ class Productos extends Controller
 
         echo json_encode($response);
     }
-    
+
     public function editarcombo_estado()
     {
         $estado_combo = $_POST['estado_combo'];
