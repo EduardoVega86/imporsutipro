@@ -147,7 +147,7 @@ const listAsignacionProducto = async () => {
       if (!producto.image_path) {
         cargarImagen = `<i class="bx bxs-camera-plus"></i>`;
       } else {
-        cargarImagen = `<img src="${SERVERURL}${producto.image_path}" class="icon-button" alt="Agregar imagen" width="50px">`;
+        cargarImagen = `<img src="${SERVERURL}${producto.image_path}" class="icon-button" alt="Agregar imagen" style="width: 50px !important;">`;
       }
       content += `
                   <tr>
@@ -207,7 +207,7 @@ function llenar_combo(id_combo) {
         .attr("src", SERVERURL + response[0].image_path)
         .show();
 
-        
+
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
@@ -409,7 +409,7 @@ const listDetalleCombo = async (id_combo) => {
       if (!combo.image_path) {
         cargarImagen = `<i class="bx bxs-camera-plus"></i>`;
       } else {
-        cargarImagen = `<img src="${SERVERURL}${combo.image_path}" class="icon-button" alt="Agregar imagen" width="50px">`;
+        cargarImagen = `<img src="${SERVERURL}${combo.image_path}" class="icon-button" alt="Agregar imagen" style="width: 50px !important;">`;
       }
       content += `
                 <tr>
