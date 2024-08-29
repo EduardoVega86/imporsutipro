@@ -437,7 +437,9 @@ function ver_detalle_cot(id_factura) {
 
         response.forEach(function (detalle) {
           let subtotal = detalle.cantidad * detalle.precio_venta;
-          total += subtotal;
+          let descuentoTotal = subtotal * (detalle.desc_venta / 100);
+          let precioFinal = subtotal - descuentoTotal;
+          total += precioFinal;
 
           let rowHtml = `
             <tr>
