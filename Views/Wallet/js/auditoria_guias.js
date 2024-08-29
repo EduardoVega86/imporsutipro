@@ -168,6 +168,7 @@ const listAuditoria = async (estado, id_transporte) => {
       let estado = "";
       let url_tracking = "";
       let url_descargar = "";
+      let motivo = "";
       
           let valor_recaudado = parseFloat(item.valor);
      if (!isNaN(valor_recaudado)) {
@@ -274,6 +275,21 @@ const listAuditoria = async (estado, id_transporte) => {
     (item.numero_guia.includes("MKP") && item.id_transporte == 1 && item.costo_flete != 5.99) ||
     (devuelto == 1 && item.monto_recibir  != (item.costo_flete*-1))
 ){
+if((item.monto_recibir != item.monto_total_historial)){
+   motivo=motivo+' DIFERENCIA MONTOS'; 
+}
+if((item.costo_flete > item.envio_wallet)){
+   motivo=motivo+'-'+item.costo_flete+'-'+item.envio_wallet+' WALLET ENVIO MENOR';    
+}
+if((item.drogshipin == 1 && item.id_plataforma == item.id_propietario)){
+     motivo=motivo+' DROP IGUAL A PROPIETARIO';    
+}
+if((item.numero_guia.includes("MKP") && item.id_transporte == 1 && item.costo_flete != 5.99)){
+   motivo=motivo+' MKP DIFERENTE A 5.99'; 
+}
+if(devuelto == 1 && item.monto_recibir  != (item.costo_flete*-1)){
+   motivo=motivo+' VALOR DEVUELTO'; 
+}
         background = 'style="background-color: red;"';
       } else {
         background = "";
@@ -294,6 +310,7 @@ const listAuditoria = async (estado, id_transporte) => {
                   <td>${item.costo}</td>
                  <td>${item.valor_cod}</td>
            <td>${item.utilidad}</td>
+           
            <td>
            <div class="dropdown">
                     <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -310,7 +327,8 @@ const listAuditoria = async (estado, id_transporte) => {
             <td ${background}>${parseFloat(item.monto_total_historial).toFixed(2)}</td>
           <td ${background}>${item.valor}</td>
            <td ${background}>${item.comision}</td>
-                  <td><input type="checkbox" class="selectCheckbox" data-id="${item.numero_guia}" ${check}></td>
+                  
+             <td>${motivo}</td>
               </tr>`;
     });
 
