@@ -220,14 +220,14 @@ const listFacturas = async () => {
 
       var span_estado = estado.span_estado;
       var estado_guia = estado.estado_guia;
-      
-      var nombre_proveedor="";
-      if(!factura.proveedor){
+
+      var nombre_proveedor = "";
+      if (!factura.proveedor) {
         nombre_proveedor = "---";
       } else {
         nombre_proveedor = procesarPlataforma(factura.proveedor);
       }
-      
+
       if (filtro_facturas == "pendientes" && factura.visto == 1) {
         content += ``;
       } else {
@@ -480,14 +480,16 @@ function ver_detalle_cot(numero_factura) {
 
           response.forEach(function (detalle) {
             let subtotal = detalle.cantidad * detalle.precio_venta;
-            total += subtotal;
+            let descuentoTotal = subtotal * (detalle.desc_venta / 100);
+            let precioFinal = subtotal - descuentoTotal;
+            total += precioFinal;
 
             let rowHtml = `
               <tr>
                 <td>${detalle.nombre_producto}</td>
                 <td>${detalle.cantidad}</td>
                 <td>${detalle.precio_venta}</td>
-                <td>${subtotal.toFixed(2)}</td>
+                <td>${precioFinal.toFixed(2)}</td>
               </tr>
             `;
             tableBody.append(rowHtml);
@@ -543,16 +545,18 @@ function ver_detalle_cot(numero_factura) {
 
           response.forEach(function (detalle) {
             let subtotal = detalle.cantidad * detalle.precio_venta;
-            total += subtotal;
+            let descuentoTotal = subtotal * (detalle.desc_venta / 100);
+            let precioFinal = subtotal - descuentoTotal;
+            total += precioFinal;
 
             let rowHtml = `
-            <tr>
-              <td>${detalle.nombre_producto}</td>
-              <td>${detalle.cantidad}</td>
-              <td>${detalle.precio_venta}</td>
-              <td>${subtotal.toFixed(2)}</td>
-            </tr>
-          `;
+              <tr>
+                <td>${detalle.nombre_producto}</td>
+                <td>${detalle.cantidad}</td>
+                <td>${detalle.precio_venta}</td>
+                <td>${precioFinal.toFixed(2)}</td>
+              </tr>
+            `;
             tableBody.append(rowHtml);
           });
 
