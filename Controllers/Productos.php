@@ -88,6 +88,11 @@ class Productos extends Controller
     {
         $this->views->render($this, "combos");
     }
+    
+    public function productos_2()
+    {
+        $this->views->render($this, "productos_2");
+    }
 
     public function landing($id)
     {

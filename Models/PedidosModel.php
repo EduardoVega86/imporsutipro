@@ -299,6 +299,7 @@ class PedidosModel extends Query
             $response[$key]['estado_guia_sistema'] = '<div><span class="badged ' . $estado['span_estado'] . '">' . $estado['estado_guia'] . '</span></br> <span> <a href="' . $estado['link'] . '" target="_blank">' . $value['numero_guia'] . '</a></span>' . $tracking . '</div>';
             $response[$key]['despachado'] = $this->despacho($value['estado_factura']);
             $response[$key]['impreso'] = $this->impreso($value['impreso']);
+            $response[$key]['acciones'] = $this->acciones($value['id_transporte'], $value['id_factura']);
         }
         return $response;
     }
@@ -318,6 +319,51 @@ class PedidosModel extends Query
             return '<box-icon name="printer" color="red"></box-icon>';
         } else {
             return '<box-icon name="printer" color="green"></box-icon>';
+        }
+    }
+
+    public function acciones($transportadora, $guia)
+    {
+        if ($transportadora == 1) {
+            return '  <div class="dropdown">
+                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-gear"></i>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="">
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="anular_guiaLaar(' . $guia . ')">Anular</span></li>
+                        <li><span class="dropdown-item" style="cursor: pointer;">Información</span></li>
+                    </ul>
+                </div>';
+        } else if ($transportadora == 2) {
+            return '  <div class="dropdown">
+                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-gear"></i>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="">
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="anular_guiaServi(' . $guia . ')">Anular</span></li>
+                        <li><span class="dropdown-item" style="cursor: pointer;">Información</span></li>
+                    </ul>
+                </div>';
+        } else if ($transportadora == 3) {
+            return '  <div class="dropdown">
+                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-gear"></i>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="">
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="anular_guiaGintracom(' . $guia . ')">Anular</span></li>
+                        <li><span class="dropdown-item" style="cursor: pointer;">Información</span></li>
+                    </ul>
+                </div>';
+        } else if ($transportadora == 4) {
+            return '  <div class="dropdown">
+                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-gear"></i>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="">
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="anular_guiaSpeed(' . $guia . ')">Anular</span></li>
+                        <li><span class="dropdown-item" style="cursor: pointer;">Información</span></li>
+                    </ul>
+                </div>';
         }
     }
 
