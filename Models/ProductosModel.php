@@ -1420,6 +1420,24 @@ WHERE b.id_plataforma = $plataforma";
         return $response;
     }
 
+    public function editarcombo_estado($estado_combo, $valor, $id_combo)
+    {
+        $sql = "UPDATE combos SET estado_combo = ?, valor = ? WHERE id = ?";
+        $data = [$estado_combo, $valor, $id_combo];
+
+        $editar_combo = $this->update($sql, $data);
+
+        if ($editar_combo == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Combo actualizado correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = "Error al actualizar el combo";
+        }
+    }
+
     public function eliminarCombo($id)
     {
         $response = $this->initialResponse();

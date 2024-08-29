@@ -206,6 +206,7 @@ function llenar_combo(id_combo) {
       $("#precio_especial_preview").text(response[0].valor);
       $("#subtotal_preview").text(response[0].valor);
       $("#total_preview").text(response[0].valor);
+      $("#valor_combo").text(response[0].valor);
       $("#imagen_combo_preview")
         .attr("src", SERVERURL + response[0].image_path)
         .show();
@@ -238,6 +239,48 @@ function llenar_combo(id_combo) {
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
+    },
+  });
+}
+
+function guardar_actualizacion_combos() {
+  // Crea un objeto FormData
+  var formData = new FormData();
+  formData.append("estado_combo", $("#estado_combo").val());
+  formData.append("id_combo", $("#id_combo_seccion").val());
+  formData.append("valor", $("#valor_combo").val());
+
+  // Realiza la solicitud AJAX
+  $.ajax({
+    url: "" + SERVERURL + "Productos/editarcombos",
+    type: "POST",
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function (response) {
+      response = JSON.parse(response);
+      // Mostrar alerta de éxito
+      if (response.status == 500) {
+        toastr.error(
+          "EL PRODUCTO NO SE AGREGRO CORRECTAMENTE",
+          "NOTIFICACIÓN",
+          {
+            positionClass: "toast-bottom-center",
+          }
+        );
+      } else if (response.status == 200) {
+        toastr.success("PRODUCTO AGREGADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+
+        $("#editar_comboModal").modal("hide");
+        resetForm();
+        initDataTableCombos();
+      }
+    },
+    error: function (error) {
+      alert("Hubo un error al editar el producto");
+      console.log(error);
     },
   });
 }
