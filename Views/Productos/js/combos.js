@@ -245,7 +245,7 @@ function llenar_combo(id_combo) {
             $("#subtotal_preview").text(precio_total);
             $("#total_preview").text(precio_total);
           } else if (estado_combo == 2) {
-            $precio_total = $totalPvp - $valor_combo;
+            precio_total = totalPvp - valor_combo;
 
             $("#precio_especial_preview").text(precio_total);
             $("#subtotal_preview").text(precio_total);
