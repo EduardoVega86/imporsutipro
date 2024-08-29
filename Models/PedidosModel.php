@@ -297,9 +297,21 @@ class PedidosModel extends Query
 
 
             $response[$key]['estado_guia_sistema'] = '<div><span class="badged ' . $estado['span_estado'] . '">' . $estado['estado_guia'] . '</span></br> <span> <a href="' . $estado['link'] . '" target="_blank">' . $value['numero_guia'] . '</a></span>' . $tracking . '</div>';
+            $response[$key]['despachado'] = $this->despacho($value['estado_factura']);
         }
         return $response;
     }
+
+    public function despacho($estado)
+    {
+        if ($estado == 1) {
+            return '<i class="bx bx-x" style="color:#E41818; font-size: 30px;"></i>';
+        } else {
+            return '<i class="bx bx-check" style="color:#28E418; font-size: 30px;"></i>';
+        }
+    }
+
+
 
     public function enlaceTracking($transportadora, $guia, $enlace)
     {
