@@ -100,7 +100,7 @@
     }
 
     .card img {
-        width: 100%;
+        width: 20%;
         height: auto;
         border-radius: 8px;
     }
