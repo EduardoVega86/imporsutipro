@@ -109,7 +109,9 @@ const listNuevoPedido = async () => {
       const precio = parseFloat(nuevoPedido.precio_venta);
       const descuento = parseFloat(nuevoPedido.desc_venta);
       const cantidad = parseFloat(nuevoPedido.cantidad);
-      const precioFinal = precio * cantidad - precio * (descuento / 100);
+      const subtotal = precio * cantidad;
+      const descuentoTotal = subtotal * (descuento / 100);
+      const precioFinal = subtotal - descuentoTotal;
       total += precioFinal;
       content += `
                 <tr>
@@ -728,7 +730,8 @@ function generar_guia() {
       if (response.status == 500) {
         Swal.fire({
           icon: "error",
-          title: "Error al crear la guia, no se encuentra la ciudad o provincia de destino",
+          title:
+            "Error al crear la guia, no se encuentra la ciudad o provincia de destino",
         });
         var button2 = document.getElementById("generarGuiaBtn");
         button2.disabled = false; // Desactivar el botón
