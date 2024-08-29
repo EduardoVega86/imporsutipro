@@ -203,17 +203,19 @@ function llenar_combo(id_combo) {
     success: function (response) {
       // Asignar los valores en el formulario del modal
       $("#nombre_combo_preview").text(response[0].nombre);
-      $("#precio_especial_preview").text(response[0].valor);
-      $("#subtotal_preview").text(response[0].valor);
-      $("#total_preview").text(response[0].valor);
+
       $("#valor_combo").val(response[0].valor);
       $("#estado_combo").val(response[0].estado_combo);
       $("#imagen_combo_preview")
         .attr("src", SERVERURL + response[0].image_path)
         .show();
 
+      let valor_combo = response[0].valor;
+      let estado_combo = response[0].estado_combo;
+
       let formData_detalle = new FormData();
       formData_detalle.append("id_combo", id_combo);
+
       $.ajax({
         url: SERVERURL + "Productos/obtener_detalle_combo_id",
         type: "POST",
@@ -224,6 +226,7 @@ function llenar_combo(id_combo) {
         success: function (response) {
           // Inicializar el acumulador
           let totalPvp = 0;
+          let precio_total = 0;
 
           // Iterar sobre cada elemento en la respuesta
           response.forEach(function (combo) {
@@ -232,6 +235,22 @@ function llenar_combo(id_combo) {
           });
 
           $("#precio_normal_preview").text(totalPvp);
+
+          if (estado_combo == 1) {
+            $("#ahorro_preview").text(valor_combo + "%");
+
+            $("#ahorro_preview").show();
+            precio_total = totalPvp * (1 - valor_combo / 100);
+            $("#precio_especial_preview").text(precio_total);
+            $("#subtotal_preview").text(precio_total);
+            $("#total_preview").text(precio_total);
+          } else if (estado_combo == 2) {
+            $precio_total = $totalPvp - $valor_combo;
+
+            $("#precio_especial_preview").text(precio_total);
+            $("#subtotal_preview").text(precio_total);
+            $("#total_preview").text(precio_total);
+          }
         },
         error: function (jqXHR, textStatus, errorThrown) {
           alert(errorThrown);
@@ -275,7 +294,6 @@ function guardar_actualizacion_combos() {
         });
 
         llenar_combo($("#id_combo_seccion").val());
-
       }
     },
     error: function (error) {
