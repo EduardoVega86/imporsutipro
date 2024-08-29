@@ -417,6 +417,8 @@ const listDetalleCombo = async (id_combo) => {
                     <td>${combo.id_producto}</td>
                     <td>${cargarImagen}</td>
                     <td>${combo.nombre_producto}</td>
+                    <td>${combo.variedad}</td>
+                    <td>${combo.pvp}</td>
                     <td>${combo.cantidad}</td>
                     <td>
                         <button class="btn btn-sm btn-danger" onclick="eliminar_detalle_combo(${combo.id})"><i class="fas fa-arrow-left"></i></button>
@@ -450,7 +452,7 @@ function eliminar_detalle_combo(id) {
           positionClass: "toast-bottom-center",
         });
 
-        initDataTableCombos();
+        initDataTableDetalleCombo();
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
