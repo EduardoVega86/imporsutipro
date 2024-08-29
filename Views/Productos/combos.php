@@ -86,6 +86,7 @@
                         </div>
                         <button class="btn btn-primary" onclick="guardar_actualizacion_combos()">Guardar</button>
                     </div>
+                    
                     <!-- seccion preview combo -->
                     <div class="custom-card">
                         <div class="custom-card-header">
