@@ -113,7 +113,7 @@
                         <th class="centered">Wallet Saldo</th>
                         <th class="centered">Valor Recaudo</th>
                         <th class="centered">Cod Transportadora</th>
-                        <th></th>
+                        <th class="centered">Motivo</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody_auditoria"></tbody>
