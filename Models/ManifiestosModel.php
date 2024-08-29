@@ -1087,7 +1087,7 @@ GROUP BY dfc.id_producto,
 
 
         // $html ='<h3 style="text-align: center;>tecto</h3>';
-        $html = $this->generarTablaManifiestoDevolucion($resumen, $bodega_nombre, $direccion, $telefono, $responsable, $transportadora);
+        $html = $this->generarTablaManifiestoDevolucion($resumen, $bodega_nombre, $direccion, $telefono, $responsable);
         //echo $html;
         // Generar el PDF con Dompdf
         $dompdf = new Dompdf();
