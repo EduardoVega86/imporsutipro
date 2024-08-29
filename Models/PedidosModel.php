@@ -293,9 +293,54 @@ class PedidosModel extends Query
             $response[$key]['transportadora'] = '<div><span style="background-color: ' . $color . '; color: white; padding: 5px; border-radius: 0.3rem;">' . $value['transporte'] . '</span></div>';
             $estado = $this->validarEstado($value['estado_guia_sistema'], $value['numero_guia'], $value['id_transporte']);
 
-            $response[$key]['estado_guia_sistema'] = '<div><span class="badged ' . $estado['span_estado'] . '">' . $estado['estado_guia'] . '</span></br> <span> <a href="' . $estado['link'] . '" target="_blank">' . $value['numero_guia'] . '</a></span></div>';
+            $tracking = $this->enlaceTracking($value['id_transporte'], $value['numero_guia'], $value["telefono"]);
+
+
+            $response[$key]['estado_guia_sistema'] = '<div><span class="badged ' . $estado['span_estado'] . '">' . $estado['estado_guia'] . '</span></br> <span> <a href="' . $estado['link'] . '" target="_blank">' . $value['numero_guia'] . '</a></span>' . $tracking . '</div>';
         }
         return $response;
+    }
+
+    public function enlaceTracking($transportadora, $guia, $enlace)
+    {
+        $link = "";
+        if ($transportadora == 1) {
+            $link = '<div style="position: relative; display: inline-block;">
+                      <a href="https://fenixoper.laarcourier.com/Tracking/Guiacompleta.aspx?guia=' . $guia . '" target="_blank" style="vertical-align: middle;">
+                        <img src="https://new.imporsuitpro.com/public/img/tracking.png" width="40px" id="buscar_traking" alt="buscar_traking">
+                      </a>
+                      <a href="https://wa.me/+593999175865" target="_blank" style="font-size: 45px; vertical-align: middle; margin-left: 10px;">
+                      <i class="bx bxl-whatsapp-square" style="color: green;"></i>
+                      </a>
+                     </div>';
+        } elseif ($transportadora == 2) {
+            $link = '<div style="position: relative; display: inline-block;">
+            <a href="https://www.servientrega.com.ec/Tracking/?guia=' . $guia . '&tipo=GUIA" target="_blank" style="vertical-align: middle;">
+              <img src="https://new.imporsuitpro.com/public/img/tracking.png" width="40px" id="buscar_traking" alt="buscar_traking">
+            </a>
+            <a href="https://wa.me/+593999175865" target="_blank" style="font-size: 45px; vertical-align: middle; margin-left: 10px;">
+            <i class="bx bxl-whatsapp-square" style="color: green;"></i>
+            </a>
+           </div>';
+        } elseif ($transportadora == 3) {
+            $link = '<div style="position: relative; display: inline-block;">
+            <a href="https://ec.gintracom.site/web/site/tracking" target="_blank" style="vertical-align: middle;">
+              <img src="https://new.imporsuitpro.com/public/img/tracking.png" width="40px" id="buscar_traking" alt="buscar_traking">
+            </a>
+            <a href="https://wa.me/+593999175865" target="_blank" style="font-size: 45px; vertical-align: middle; margin-left: 10px;">
+            <i class="bx bxl-whatsapp-square" style="color: green;"></i>
+            </a>
+           </div>';
+        } else if ($transportadora == 4) {
+            $link = '<select class="form-select select-estado-speed" style="max-width: 130px;" data-numero-guia="' . $guia . '">
+            <option value="0">-- Selecciona estado --</option>
+            <option value="2" selected="">Generado</option>
+            <option value="3">Transito</option>
+            <option value="7">Entregado</option>
+            <option value="9">Devuelto</option>
+        </select>';
+        }
+        return $link;
     }
 
     function validarEstado($estado, $guia, $transportadora)
