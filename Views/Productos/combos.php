@@ -90,7 +90,7 @@
                     <!-- seccion preview combo -->
                     <div class="custom-card">
                         <div class="custom-card-header">
-                            PAGA AL RECIBIR EN CASA! POCAS UNIDADES
+                            PAGA AL RECIBIR EN CASA!!
                         </div>
                         <div class="custom-card-body">
                             <div class="custom-product">
