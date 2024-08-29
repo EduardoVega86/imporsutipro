@@ -489,6 +489,7 @@ function ver_detalle_cot(numero_factura) {
                 <td>${detalle.nombre_producto}</td>
                 <td>${detalle.cantidad}</td>
                 <td>${detalle.precio_venta}</td>
+                <td>${detalle.desc_venta}</td>
                 <td>${precioFinal.toFixed(2)}</td>
               </tr>
             `;
@@ -554,6 +555,7 @@ function ver_detalle_cot(numero_factura) {
                 <td>${detalle.nombre_producto}</td>
                 <td>${detalle.cantidad}</td>
                 <td>${detalle.precio_venta}</td>
+                <td>${detalle.desc_venta}</td>
                 <td>${precioFinal.toFixed(2)}</td>
               </tr>
             `;

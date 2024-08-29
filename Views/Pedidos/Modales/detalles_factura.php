@@ -112,6 +112,7 @@
                                 <th>Producto</th>
                                 <th>Cantidad</th>
                                 <th>Precio</th>
+                                <th>Descuento %</th>
                                 <th>Subtotal</th>
                             </tr>
                         </thead>
