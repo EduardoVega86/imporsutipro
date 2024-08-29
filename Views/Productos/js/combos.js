@@ -65,6 +65,7 @@ const listCombos = async () => {
       content += `
       <tr>
       <td>${combo.id}</td>
+      <td>${combo.id_bodega}</td>
       <td>${cargarImagen}</td>
       <td>${combo.nombre}</td>
       <td>${combo.nombre_producto}</td>
