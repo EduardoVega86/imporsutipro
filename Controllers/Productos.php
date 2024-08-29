@@ -757,6 +757,21 @@ class Productos extends Controller
 
         echo json_encode($response);
     }
+    
+    public function editarcombo_estado()
+    {
+        $estado_combo = $_POST['estado_combo'];
+        $valor = $_POST['valor'];
+        $id_combo = $_POST['id_combo'];
+
+        $response = $this->model->editarcombos(
+            $estado_combo,
+            $valor,
+            $id_combo
+        );
+
+        echo json_encode($response);
+    }
 
     public function eliminarCombo()
     {
