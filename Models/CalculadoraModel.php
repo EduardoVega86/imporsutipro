@@ -65,6 +65,9 @@ class CalculadoraModel extends Query
                 }
             } else {
                 $tarifas['gintracom'] = $tarifas['gintracom'];
+                if ($id_plataforma == 1206) {
+                    $tarifas['gintracom'] = $tarifas['gintracom'] - 0.5;
+                }
             }
         }
         if ($previo < 1.25) {
