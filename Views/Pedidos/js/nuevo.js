@@ -242,6 +242,8 @@ function recalcular(id, idPrecio, idDescuento, idCantidad) {
           $("#precioEnvio_infoVenta").text(response.tarifa);
           $("#total_infoVenta").text(response.resultante);
 
+          calcularTarifas();
+
           if (response.generar == false) {
             button2.disabled = true;
             $("#alerta_valoresContra").show();
@@ -446,76 +448,80 @@ $(document).ready(function () {
   });
 
   $("#provincia,#ciudad,#recaudo").change(function () {
-    var provincia = $("#provincia").val();
-    var ciudad = $("#ciudad").val();
-    var monto_total = $("#monto_total").text().trim();
-    var recaudo = $("#recaudo").val();
-
-    if (
-      provincia !== "Selecciona una opción" &&
-      ciudad !== "Selecciona una opción" &&
-      monto_total !== "" &&
-      monto_total !== "0"
-    ) {
-      let formData = new FormData();
-      formData.append("ciudad", ciudad);
-      formData.append("provincia", provincia);
-      formData.append("recaudo", recaudo);
-      formData.append("monto_factura", monto_total);
-      formData.append("id_plataforma", ID_PLATAFORMA);
-
-      $.ajax({
-        url: SERVERURL + "Calculadora/obtenerTarifas",
-        type: "POST",
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function (response) {
-          response = JSON.parse(response);
-
-          $("#price_servientrega").text(response.servientrega);
-          $("#price_gintracom").text(response.gintracom);
-
-          if (MATRIZ != 2) {
-            $("#price_speed").text(response.speed);
-          }
-
-          $("#price_laar").text(response.laar);
-
-          /* calculador servi */
-          let formData_ServiTarifa = new FormData();
-          formData_ServiTarifa.append("ciudadO", ciudad_bodega);
-          formData_ServiTarifa.append("monto_factura", monto_total);
-          formData_ServiTarifa.append("ciudadD", ciudad);
-          formData_ServiTarifa.append("provinciaD", provincia);
-
-          $.ajax({
-            url: SERVERURL + "calculadora/calcularServi",
-            type: "POST",
-            data: formData_ServiTarifa,
-            processData: false, // No procesar los datos
-            contentType: false, // No establecer ningún tipo de contenido
-            success: function (response_serviTarifa) {
-              response_serviTarifa = JSON.parse(response_serviTarifa);
-              $("#flete").val(response_serviTarifa.flete);
-              $("#seguro").val(response_serviTarifa.seguro);
-              $("#comision").val(response_serviTarifa.comision);
-              $("#otros").val(response_serviTarifa.otros);
-              $("#impuestos").val(response_serviTarifa.impuestos);
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-              alert(errorThrown);
-            },
-          });
-          /* fin calculador servi */
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-          alert(errorThrown);
-        },
-      });
-    }
+    calcularTarifas();
   });
 });
+
+function calcularTarifas() {
+  var provincia = $("#provincia").val();
+  var ciudad = $("#ciudad").val();
+  var monto_total = $("#monto_total").text().trim();
+  var recaudo = $("#recaudo").val();
+
+  if (
+    provincia !== "Selecciona una opción" &&
+    ciudad !== "Selecciona una opción" &&
+    monto_total !== "" &&
+    monto_total !== "0"
+  ) {
+    let formData = new FormData();
+    formData.append("ciudad", ciudad);
+    formData.append("provincia", provincia);
+    formData.append("recaudo", recaudo);
+    formData.append("monto_factura", monto_total);
+    formData.append("id_plataforma", ID_PLATAFORMA);
+
+    $.ajax({
+      url: SERVERURL + "Calculadora/obtenerTarifas",
+      type: "POST",
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function (response) {
+        response = JSON.parse(response);
+
+        $("#price_servientrega").text(response.servientrega);
+        $("#price_gintracom").text(response.gintracom);
+
+        if (MATRIZ != 2) {
+          $("#price_speed").text(response.speed);
+        }
+
+        $("#price_laar").text(response.laar);
+
+        /* calculador servi */
+        let formData_ServiTarifa = new FormData();
+        formData_ServiTarifa.append("ciudadO", ciudad_bodega);
+        formData_ServiTarifa.append("monto_factura", monto_total);
+        formData_ServiTarifa.append("ciudadD", ciudad);
+        formData_ServiTarifa.append("provinciaD", provincia);
+
+        $.ajax({
+          url: SERVERURL + "calculadora/calcularServi",
+          type: "POST",
+          data: formData_ServiTarifa,
+          processData: false, // No procesar los datos
+          contentType: false, // No establecer ningún tipo de contenido
+          success: function (response_serviTarifa) {
+            response_serviTarifa = JSON.parse(response_serviTarifa);
+            $("#flete").val(response_serviTarifa.flete);
+            $("#seguro").val(response_serviTarifa.seguro);
+            $("#comision").val(response_serviTarifa.comision);
+            $("#otros").val(response_serviTarifa.otros);
+            $("#impuestos").val(response_serviTarifa.impuestos);
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            alert(errorThrown);
+          },
+        });
+        /* fin calculador servi */
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        alert(errorThrown);
+      },
+    });
+  }
+}
 
 // Función para cargar provincias
 function cargarProvincias() {
