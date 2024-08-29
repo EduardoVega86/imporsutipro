@@ -64,6 +64,41 @@
                             <tbody id="tableBody_detalle_combo"></tbody>
                         </table>
                     </div>
+                    <!-- seccion preview combo -->
+                    <div class="custom-card">
+                        <div class="custom-card-header">
+                            PAGA AL RECIBIR EN CASA! POCAS UNIDADES
+                        </div>
+                        <div class="custom-card-body">
+                            <div class="custom-product">
+                                <img src="" alt="Producto" id="imagen_combo_preview" class="custom-product-image">
+                                <div class="custom-product-info">
+                                    <span id="nombre_combo_preview"></span>
+                                    <span class="custom-discount" id="ahorro_preview" style="display: none;">Ahorra 20%</span>
+                                </div>
+                                <div class="custom-product-price">
+                                    <span class="old-price" id="precio_normal_preview">$0</span>
+                                    <span class="new-price" id="precio_especial_preview">$0</span>
+                                </div>
+                            </div>
+                            <div class="custom-card-footer">
+                                <div class="custom-summary">
+                                    <div>Subtotal</div>
+                                    <div><span id="subtotal_preview"></span></div>
+                                </div>
+                                <div class="custom-summary">
+                                    <div>Envío</div>
+                                    <div class="free-shipping">Gratis</div>
+                                </div>
+                                <div class="custom-total">
+                                    <div>Total</div>
+                                    <div class="total-price"><span id="total_preview"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fin seccion preview combo -->
                 </div>
             </div>
         </div>

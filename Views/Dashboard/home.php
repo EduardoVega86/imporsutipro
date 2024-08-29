@@ -50,7 +50,7 @@
                     <div class="card module-card">
                         <img src="<?php echo SERVERURL; ?>/public/noticias/imagen_youtube.jpeg" class="card-img-top" alt="Módulo de Garantías">
                         <div class="card-body">
-                            <a href="#" class="btn btn-warning">Ver Ahora</a>
+                            <a href="https://danielbonilla522-9.funnels.mastertools.com/#primeros-pasos" target="_blank" class="btn btn-warning">Ver Ahora</a>
                         </div>
                     </div>
                 </div>
@@ -61,7 +61,7 @@
                                 <img src="<?php echo SERVERURL; ?>/public/noticias/FULFILLMENT.png" alt="FULFILLMENT" class="me-2 icono_agendar">
                                 <span>FULFILLMENT</span>
                             </div>
-                            <a href="#" class="btn schedule-btn">Agendarme</a>
+                            <a href="https://wa.link/ykg131" target="_blank" class="btn schedule-btn">Agendarme</a>
                         </div>
                     </div>
                     <div class="card">
@@ -70,7 +70,7 @@
                                 <img src="<?php echo SERVERURL; ?>/public/noticias/como_vender.png" alt="como_vender" class="me-2 icono_agendar">
                                 <span>COMO EMPEZAR A VENDER</span>
                             </div>
-                            <a href="#" class="btn schedule-btn">Agendarme</a>
+                            <a href="https://youtu.be/Ycv7pgXflgk?si=pcQObKeA4lrkbOQV" target="_blank" class="btn schedule-btn">Agendarme</a>
                         </div>
                     </div>
                     <div class="card">
@@ -79,7 +79,7 @@
                                 <img src="<?php echo SERVERURL; ?>/public/noticias/ser_proveedor.png" alt="ser_proveedor" class="me-2 icono_agendar">
                                 <span>QUIERO SER PROVEEDOR</span>
                             </div>
-                            <a href="#" class="btn schedule-btn">Agendarme</a>
+                            <a href="https://wa.link/xumf9z" target="_blank" class="btn schedule-btn">Agendarme</a>
                         </div>
                     </div>
                 </div>

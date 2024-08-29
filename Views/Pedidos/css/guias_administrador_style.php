@@ -42,12 +42,24 @@
         border: none;
         /* Elimina el borde */
     }
-    
+
     .btn-group {
         align-content: center;
     }
 
     /* Diseños de estados guias */
+
+    .badged {
+
+        background-color: red;
+        color: white;
+        border-radius: 50%;
+        padding: 4px 7px;
+        font-size: 12px;
+        font-weight: bold;
+
+    }
+
     .badge_danger {
         background-color: red;
         color: white;

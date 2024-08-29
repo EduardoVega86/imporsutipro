@@ -182,7 +182,37 @@ function seleccionar_combo(id_combo) {
   $("#id_combo_seccion").val(id_combo);
   initDataTableAsignacionProducto();
   initDataTableDetalleCombo(id_combo);
+  llenar_combo(id_combo);
   document.getElementById("comboSection").classList.remove("hidden");
+}
+
+function llenar_combo(id_combo) {
+  let formData = new FormData();
+  formData.append("id", id_combo);
+
+  $.ajax({
+    url: SERVERURL + "Productos/obtener_combo_id",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    dataType: "json",
+    success: function (response) {
+      // Asignar los valores en el formulario del modal
+      $("#nombre_combo_preview").text(response[0].nombre);
+      $("#precio_especial_preview").text(response[0].valor);
+      $("#subtotal_preview").text(response[0].valor);
+      $("#total_preview").text(response[0].valor);
+      $("#imagen_combo_preview")
+        .attr("src", SERVERURL + response[0].image_path)
+        .show();
+
+        
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
 }
 
 //cargar select de tiendas
@@ -376,11 +406,11 @@ const listDetalleCombo = async (id_combo) => {
     let content = ``;
     let cargarImagen = "";
     detalleCombo.forEach((combo, index) => {
-        if (!producto.image_path) {
-            cargarImagen = `<i class="bx bxs-camera-plus"></i>`;
-          } else {
-            cargarImagen = `<img src="${SERVERURL}${producto.image_path}" class="icon-button" alt="Agregar imagen" width="50px">`;
-          }
+      if (!combo.image_path) {
+        cargarImagen = `<i class="bx bxs-camera-plus"></i>`;
+      } else {
+        cargarImagen = `<img src="${SERVERURL}${combo.image_path}" class="icon-button" alt="Agregar imagen" width="50px">`;
+      }
       content += `
                 <tr>
                     <td>${combo.id_producto}</td>
@@ -388,7 +418,7 @@ const listDetalleCombo = async (id_combo) => {
                     <td>${combo.nombre_producto}</td>
                     <td>${combo.cantidad}</td>
                     <td>
-                        <button class="btn btn-sm btn-danger" onclick="eliminar_detalle_combo(${combo.id})"><i class="fas fa-arrow-right"></i></button>
+                        <button class="btn btn-sm btn-danger" onclick="eliminar_detalle_combo(${combo.id})"><i class="fas fa-arrow-left"></i></button>
                     </td>
                 </tr>`;
     });

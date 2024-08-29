@@ -284,10 +284,201 @@ class PedidosModel extends Query
 
         // añadir detalle con configuracion de html
         foreach ($response as $key => $value) {
-            $response[$key]['detalle'] = '<button type="button" class="btn btn-sm btn-outline-primary"  onclick="ver_detalle_cot(' . $value['id_factura'] . ')">Ver detalle</button>';
-            $response[$key]['checkbox'] = '<input type="checkbox" class="selectCheckbox" data-id="' . $value['numero_factura'] . '" >';
+            $response[$key]['detalle'] = '<div><button type="button" class="btn btn-sm btn-outline-primary"  onclick="ver_detalle_cot(' . $value['id_factura'] . ')">Ver detalle</button> <span> ' . $value['fecha_factura'] . '</span></div>';
+            $response[$key]['checkbox'] = '<input type="checkbox" class="selectCheckbox" data-id="' . $value['id_factura'] . '" >';
+            $response[$key]['cliente'] = '<div><strong>' . $value['nombre'] . '</strong></br><span>' . $value['c_principal'] .  ' ' . $value['c_secundaria']  . '</span></br> <span>Telf: ' . $value['telefono'] . '</span></div>';
+            $response[$key]['ciudad'] = '<div><span>' . $value['provinciaa'] . '-' . $value['ciudad'] . '</span></div>';
+            $color = ($value["id_transporte"] == 1) ? '#E3BC1C' : (($value["id_transporte"] == 2) ? '#28C839' : (($value["id_transporte"] == 3 || $value["id_transporte"] == 4) ? 'red' : ''));
+
+            $response[$key]['transportadora'] = '<div><span style="background-color: ' . $color . '; color: white; padding: 5px; border-radius: 0.3rem;">' . $value['transporte'] . '</span></div>';
+            $estado = $this->validarEstado($value['estado_guia_sistema'], $value['numero_guia'], $value['id_transporte']);
+
+            $response[$key]['estado_guia_sistema'] = '<div><span class="badged ' . $estado['span_estado'] . '">' . $estado['estado_guia'] . '</span></br> <span> <a href="' . $estado['link'] . '" target="_blank">' . $value['numero_guia'] . '</a></span></div>';
         }
         return $response;
+    }
+
+    function validarEstado($estado, $guia, $transportadora)
+    {
+        $span_estado = "";
+        $estado_guia = "";
+        $link = "";
+
+        if ($transportadora == 1) {
+            $estado_result = $this->validar_estadoLaar($estado);
+            $link = 'https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=' . $guia;
+        } elseif ($transportadora == 2) {
+            $estado_result = $this->validar_estadoServi($estado);
+            $link = 'https://guias.imporsuitpro.com/Servientrega/guia/' . $guia;
+        } elseif ($transportadora == 3) {
+            $estado_result = $this->validar_estadoGintracom($estado);
+            $link = 'https://guias.imporsuitpro.com/Gintracom/label/' . $guia;
+        } elseif ($transportadora == 4) {
+            $estado_result = $this->validar_estadoSpeed($estado);
+            $link = 'https://guias.imporsuitpro.com/Speed/descargar/' . $guia;
+        }
+
+        // Asignar valores de resultado
+        $span_estado = $estado_result['span_estado'] ?? "";
+        $estado_guia = $estado_result['estado_guia'] ?? "";
+
+        return [
+            'span_estado' => $span_estado,
+            'estado_guia' => $estado_guia,
+            'link' => $link
+        ];
+    }
+
+
+    function validar_estadoLaar($estado)
+    {
+        $span_estado = "";
+        $estado_guia = "";
+
+        if ($estado == 1) {
+            $span_estado = "badge_purple";
+            $estado_guia = "Generado";
+        } elseif ($estado == 2 || $estado == 3 || $estado == 4) {
+            $span_estado = "badge_purple";
+            $estado_guia = "Por recolectar";
+        } elseif ($estado == 5) {
+            $span_estado = "badge_warning";
+            $estado_guia = "En transito";
+        } elseif ($estado == 6) {
+            $span_estado = "badge_warning";
+            $estado_guia = "Zona de entrega";
+        } elseif ($estado == 7) {
+            $span_estado = "badge_green";
+            $estado_guia = "Entregado";
+        } elseif ($estado == 8) {
+            $span_estado = "badge_danger";
+            $estado_guia = "Anulado";
+        } elseif ($estado == 11 || $estado == 12) {
+            $span_estado = "badge_warning";
+            $estado_guia = "En transito";
+        } elseif ($estado == 14) {
+            $span_estado = "badge_danger";
+            $estado_guia = "Con novedad";
+        } elseif ($estado == 9) {
+            $span_estado = "badge_danger";
+            $estado_guia = "Devuelto";
+        }
+
+        return [
+            'span_estado' => $span_estado,
+            'estado_guia' => $estado_guia,
+        ];
+    }
+
+    function validar_estadoServi($estado)
+    {
+        $span_estado = "";
+        $estado_guia = "";
+
+        if ($estado == 101) {
+            $span_estado = "badge_danger";
+            $estado_guia = "Anulado";
+        } elseif ($estado == 100 || $estado == 102 || $estado == 103) {
+            $span_estado = "badge_purple";
+            $estado_guia = "Generado";
+        } elseif ($estado == 200 || $estado == 201 || $estado == 202) {
+            $span_estado = "badge_purple";
+            $estado_guia = "Recolectado";
+        } elseif ($estado >= 300 && $estado <= 317) {
+            $span_estado = "badge_warning";
+            $estado_guia = "Procesamiento";
+        } elseif ($estado >= 400 && $estado <= 403) {
+            $span_estado = "badge_green";
+            $estado_guia = "Entregado";
+        } elseif ($estado >= 318 && $estado <= 351) {
+            $span_estado = "badge_danger";
+            $estado_guia = "Con novedad";
+        } elseif ($estado >= 500 && $estado <= 502) {
+            $span_estado = "badge_danger";
+            $estado_guia = "Devuelto";
+        }
+
+        return [
+            'span_estado' => $span_estado,
+            'estado_guia' => $estado_guia
+        ];
+    }
+
+    function validar_estadoGintracom($estado)
+    {
+        $span_estado = "";
+        $estado_guia = "";
+
+        if ($estado == 1) {
+            $span_estado = "badge_purple";
+            $estado_guia = "Generada";
+        } elseif ($estado == 2) {
+            $span_estado = "badge_warning";
+            $estado_guia = "Picking";
+        } elseif ($estado == 3) {
+            $span_estado = "badge_warning";
+            $estado_guia = "Packing";
+        } elseif ($estado == 4) {
+            $span_estado = "badge_warning";
+            $estado_guia = "En tránsito";
+        } elseif ($estado == 5) {
+            $span_estado = "badge_warning";
+            $estado_guia = "En reparto";
+        } elseif ($estado == 6) {
+            $span_estado = "badge_purple";
+            $estado_guia = "Novedad";
+        } elseif ($estado == 7) {
+            $span_estado = "badge_green";
+            $estado_guia = "Entregada";
+        } elseif ($estado == 8) {
+            $span_estado = "badge_danger";
+            $estado_guia = "Devolucion";
+        } elseif ($estado == 9) {
+            $span_estado = "badge_danger";
+            $estado_guia = "Devolución Entregada a Origen";
+        } elseif ($estado == 10) {
+            $span_estado = "badge_danger";
+            $estado_guia = "Cancelada por transportadora";
+        } elseif ($estado == 11) {
+            $span_estado = "badge_danger";
+            $estado_guia = "Indemnización";
+        } elseif ($estado == 12) {
+            $span_estado = "badge_danger";
+            $estado_guia = "Anulada";
+        } elseif ($estado == 13) {
+            $span_estado = "badge_danger";
+            $estado_guia = "Devolucion en tránsito";
+        }
+
+        return [
+            'span_estado' => $span_estado,
+            'estado_guia' => $estado_guia
+        ];
+    }
+
+    function validar_estadoSpeed($estado)
+    {
+        $span_estado = "";
+        $estado_guia = "";
+
+        if ($estado == 2) {
+            $span_estado = "badge_purple";
+            $estado_guia = "generado";
+        } elseif ($estado == 3) {
+            $span_estado = "badge_warning";
+            $estado_guia = "En transito";
+        } elseif ($estado == 7) {
+            $span_estado = "badge_green";
+            $estado_guia = "Entregado";
+        } elseif ($estado == 9) {
+            $span_estado = "badge_danger";
+            $estado_guia = "Devuelto";
+        }
+
+        return [
+            'span_estado' => $span_estado,
+            'estado_guia' => $estado_guia
+        ];
     }
 
     // Método para contar el total de registros
