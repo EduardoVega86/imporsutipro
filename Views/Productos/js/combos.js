@@ -210,10 +210,12 @@ function llenar_combo(id_combo) {
         .attr("src", SERVERURL + response[0].image_path)
         .show();
 
+      let formData_detalle = new FormData();
+      formData_detalle.append("id_combo", id_combo);
       $.ajax({
         url: SERVERURL + "Productos/obtener_detalle_combo_id",
         type: "POST",
-        data: formData,
+        data: formData_detalle,
         processData: false, // No procesar los datos
         contentType: false, // No establecer ningún tipo de contenido
         dataType: "json",
