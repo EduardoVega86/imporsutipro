@@ -158,7 +158,7 @@
                     document.body.removeChild(link);
 
                     button.disabled = false;
-                    window.location.href = '' + SERVERURL + 'despacho/lista_despachos';
+                    /* window.location.href = '' + SERVERURL + 'despacho/lista_despachos'; */
                 }
             },
             error: function(xhr, status, error) {
