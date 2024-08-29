@@ -118,7 +118,7 @@ const dataTableStockIndividualOptions = {
       title: "Panel de Control: Usuarios",
       titleAttr: "Exportar a Excel",
       exportOptions: {
-        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        columns: [0, 1, 2, 3, 4],
       },
       filename: "Inventario" + "_" + getFecha(),
       footer: true,
@@ -130,7 +130,7 @@ const dataTableStockIndividualOptions = {
       title: "Panel de Control: Inventario",
       titleAttr: "Exportar a CSV",
       exportOptions: {
-        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        columns: [0, 1, 2, 3, 4],
       },
       filename: "Inventario" + "_" + getFecha(),
       footer: true,
