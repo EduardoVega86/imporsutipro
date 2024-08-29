@@ -168,7 +168,7 @@ function recalcular(id, idPrecio, idDescuento, idCantidad) {
   ffrm.append("descuento", descuento);
   ffrm.append("cantidad", cantidad);
 
-  fetch("" + SERVERURL + "pedidos/actualizarDetalle/" + id, {
+  fetch("" + SERVERURL + "pedidos/actualizarTmp/" + id, {
     method: "POST",
     body: ffrm,
   })
@@ -190,6 +190,52 @@ function recalcular(id, idPrecio, idDescuento, idCantidad) {
       // Retraso de 1 segundo antes de ejecutar initDataTableNuevoPedido
       await new Promise((resolve) => setTimeout(resolve, 1000));
       await initDataTableNuevoPedido();
+
+      /* calcularGuiaDirecta */
+      var button2 = document.getElementById("generarGuiaBtn");
+
+      var priceSpan = $(this).find(".price-tag span");
+      var priceValue = $("#costo_flete").val();
+
+      const urlParams_calcular = new URLSearchParams(window.location.search);
+      const idProducto_calcular = urlParams_calcular.get("id_producto");
+
+      var monto_total_general = $("#monto_total").text().trim();
+
+      let formData = new FormData();
+      formData.append("id_producto", idProducto_calcular);
+      formData.append("total", monto_total_general);
+      formData.append("tarifa", priceValue);
+      formData.append("costo", costo_general);
+
+      $.ajax({
+        url: SERVERURL + "calculadora/calcularGuiaDirecta",
+        type: "POST", // Cambiar a POST para enviar FormData
+        data: formData,
+        processData: false, // No procesar los datos
+        contentType: false, // No establecer ningún tipo de contenido
+        dataType: "json",
+        success: function (response) {
+          $("#montoVenta_infoVenta").text(response.total);
+          $("#costo_infoVenta").text(response.costo);
+          $("#precioEnvio_infoVenta").text(response.tarifa);
+          $("#total_infoVenta").text(response.resultante);
+
+          calcularTarifas();
+
+          if (response.generar == false) {
+            button2.disabled = true;
+            $("#alerta_valoresContra").show();
+          } else {
+            button2.disabled = false;
+            $("#alerta_valoresContra").hide();
+          }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          alert(errorThrown);
+        },
+      });
+      /* Fin calcularGuiaDirecta */
     })
     .catch((error) => {
       console.error("Error:", error);
