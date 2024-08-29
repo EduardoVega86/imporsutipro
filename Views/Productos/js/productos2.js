@@ -11,6 +11,12 @@ function getFecha() {
 }
 
 const dataTableProductosOptions = {
+  processing: true, // Mostrar indicador de procesamiento
+  serverSide: true, // Habilitar la paginación del lado del servidor
+  ajax: {
+    url: SERVERURL + "productos/obtener_productos2", // Actualiza con la URL del controlador
+    type: "POST",
+  },
   columnDefs: [
     { className: "centered", targets: [0, 1, 2, 3, 4, 5, 6] },
     { orderable: false, targets: 0 },
@@ -21,7 +27,6 @@ const dataTableProductosOptions = {
   destroy: true,
   responsive: true,
   autoWidth: true,
-  bAutoWidth: true,
   dom: '<"d-flex w-full justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
   buttons: [
     {
@@ -81,18 +86,9 @@ const reloadDataTableProductos = async () => {
 };
 
 const initDataTableProductos = async () => {
-  if (dataTableProductosIsInitialized) {
-    dataTableProductos.destroy();
-  }
-  await listProductos();
   dataTableProductos = $("#datatable_productos").DataTable(
     dataTableProductosOptions
   );
-  dataTableProductosIsInitialized = true;
-  customizeButtons();
-  document
-    .getElementById("selectAll")
-    .addEventListener("change", toggleSelectAll);
 };
 
 const listProductos = async () => {
@@ -700,7 +696,6 @@ function agregar_imagenes_adicionales(id) {
     contentType: false, // No establecer ningún tipo de contenido
     dataType: "json",
     success: function (response) {
-
       if (response[0]) {
         $("#imagePreviewAdicional1")
           .attr("src", SERVERURL + response[0].url)

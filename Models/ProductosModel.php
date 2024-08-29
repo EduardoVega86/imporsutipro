@@ -11,13 +11,49 @@ class ProductosModel extends Query
     public function obtener_productos($plataforma)
     {
         $sql = "SELECT ib.*, p.*
-FROM `inventario_bodegas` AS ib
-INNER JOIN `productos` AS p ON p.`id_producto` = ib.`id_producto`
-WHERE ib.`id_plataforma` = $plataforma
-GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
+        FROM `inventario_bodegas` AS ib
+        INNER JOIN `productos` AS p ON p.`id_producto` = ib.`id_producto`
+        WHERE ib.`id_plataforma` = $plataforma
+        GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
 
         return $this->select($sql);
     }
+
+    public function obtener_productos2($plataforma, $start, $length, $search, $orderColumn, $orderDir)
+    {
+        $sql = "SELECT ib.*, p.*
+            FROM `inventario_bodegas` AS ib
+            INNER JOIN `productos` AS p ON p.`id_producto` = ib.`id_producto`
+            WHERE ib.`id_plataforma` = $plataforma";
+
+        // Aplicar búsqueda si existe
+        if (!empty($search)) {
+            $sql .= " AND (p.nombre_producto LIKE '%$search%' OR p.codigo_producto LIKE '%$search%')";
+        }
+
+        // Aplicar orden si existe
+        if (!empty($orderColumn) && !empty($orderDir)) {
+            $sql .= " ORDER BY $orderColumn $orderDir";
+        }
+
+        // Añadir paginación
+        $sql .= " LIMIT $start, $length";
+
+        $response = $this->select($sql);
+
+        // Obtener el total de registros sin paginar ni filtrar
+        $sqlCount = "SELECT COUNT(*) AS total FROM `inventario_bodegas` AS ib 
+                 INNER JOIN `productos` AS p ON p.`id_producto` = ib.`id_producto`
+                 WHERE ib.`id_plataforma` = $plataforma";
+        $totalRecords = $this->select($sqlCount)[0]['total'];
+
+        return [
+            'data' => $response,
+            'recordsTotal' => $totalRecords,
+            'recordsFiltered' => count($response) // Este debería cambiar si se aplica un filtro
+        ];
+    }
+
 
     public function obtener_productos_privados($plataforma)
     {

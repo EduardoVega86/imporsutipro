@@ -118,6 +118,49 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
+    public function obtener_productos2()
+    {
+        // Recoger los parámetros enviados por DataTables
+        $start = $_POST['start'] ?? 0;
+        $length = $_POST['length'] ?? 25;
+        $search = $_POST['search']['value'] ?? '';
+        $orderColumnIndex = $_POST['order'][0]['column'] ?? 2; // Default order column
+        $orderDir = $_POST['order'][0]['dir'] ?? 'desc';
+
+        // Mapear el índice de la columna al nombre de la columna en la base de datos
+        $columns = [
+            0 => 'p.id_producto',
+            1 => 'p.codigo_producto',
+            2 => 'p.nombre_producto',
+            3 => 'p.destacado',
+            4 => 'ib.saldo_stock',
+            5 => 'p.costo_producto',
+            6 => 'p.pcp',
+            7 => 'p.pvp',
+            8 => 'p.pref',
+        ];
+
+        $orderColumn = $columns[$orderColumnIndex] ?? 'p.id_producto';
+
+        $response = $this->model->obtener_productos2(
+            $_SESSION['id_plataforma'],
+            $start,
+            $length,
+            $search,
+            $orderColumn,
+            $orderDir
+        );
+
+        // Preparar la respuesta en el formato que espera DataTables
+        echo json_encode([
+            'draw' => $_POST['draw'],
+            'recordsTotal' => $response['recordsTotal'],
+            'recordsFiltered' => $response['recordsFiltered'],
+            'data' => $response['data']
+        ]);
+    }
+
+
     public function obtener_productos_privados()
     {
         $response = $this->model->obtener_productos_privados($_SESSION['id_plataforma']);
