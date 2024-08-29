@@ -1032,9 +1032,16 @@ GROUP BY dfc.id_producto,
 
         $id_usuario = $_SESSION['id'];
         $fecha_actual = date('Y-m-d H:i:s');
-
-        $sql = "INSERT INTO cabecera_devolucion (id_usuario, id_plataforma, fecha_hora) VALUES (?, ?, ?)";
-        $data = [$id_usuario, $plataforma, $fecha_actual];
+        
+        $sql_id_bodega = "SELECT * FROM bodega WHERE id_plataforma = $plataforma ";
+        //echo $sql_id_bodega; 
+        $bodega_select = $this->select($sql_id_bodega);
+        //echo $sql_id;
+        $id_bodega = $bodega_select[0]['id'];
+        
+        
+        $sql = "INSERT INTO cabecera_devolucion (id_usuario, id_plataforma, fecha_hora, id_bodega) VALUES (?, ?, ?, ?)";
+        $data = [$id_usuario, $plataforma, $fecha_actual, $id_bodega];
         // Ejecuta la inserción
         $insertar_producto = $this->insert($sql, $data);
 
