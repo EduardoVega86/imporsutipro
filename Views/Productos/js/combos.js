@@ -138,7 +138,7 @@ const initDataTableAsignacionProducto = async () => {
 
 const listAsignacionProducto = async () => {
   try {
-    const response = await fetch(SERVERURL + "productos/obtener_productos");
+    const response = await fetch(SERVERURL + "productos/obtener_productos_asignacionCombos");
     const asignacionProducto = await response.json();
 
     let content = ``;
@@ -162,7 +162,7 @@ const listAsignacionProducto = async () => {
                       </td>
                       <td>
                           <button class="btn btn-sm btn-danger" onclick="mover_producto(${
-                            producto.id_producto
+                            producto.id_inventario
                           }, document.getElementById('cantidad_producto_${
         producto.id_producto
       }').value, ${$(
@@ -311,9 +311,9 @@ function eliminar_combo(id_combo) {
   });
 }
 
-function mover_producto(id_producto, cantidad, id_combo) {
+function mover_producto(id_inventario, cantidad, id_combo) {
   let formData = new FormData();
-  formData.append("id_producto", id_producto);
+  formData.append("id_inventario", id_inventario);
   formData.append("cantidad", cantidad);
   formData.append("id_combo", $("#id_combo_seccion").val());
   $.ajax({
