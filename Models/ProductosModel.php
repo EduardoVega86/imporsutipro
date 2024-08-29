@@ -1275,6 +1275,13 @@ WHERE b.id_plataforma = $plataforma";
         return $response;
     }
 
+    public function obtener_productos_asignacionCombos($plataforma)
+    {
+        $sql = "SELECT * FROM `inventario_bodegas` INNER JOIN `productos` ON productos.id_producto = inventario_bodegas.id_producto WHERE productos.id_plataforma=$plataforma;";
+
+        return $this->select($sql);
+    }
+
     public function obtener_combos($plataforma)
     {
         $sql = "SELECT *, (SELECT nombre_producto FROM `productos` WHERE id_producto = combos.id_producto_combo) as nombre_producto FROM `combos` WHERE id_plataforma=$plataforma;";
@@ -1431,23 +1438,23 @@ WHERE b.id_plataforma = $plataforma";
         return $response;
     }
 
-    public function agregar_detalle_combo($id_combo, $id_producto, $cantidad)
+    public function agregar_detalle_combo($id_combo, $id_inventario, $cantidad)
     {
         $response = $this->initialResponse();
 
-        $sql = "INSERT INTO `detalle_combo` (`id_combo`,`id_producto`,`cantidad`) VALUES (?, ?, ?)";
-                $data = [$id_combo, $id_producto, $cantidad];
-                $insertar_detalle_combo = $this->insert($sql, $data);
+        $sql = "INSERT INTO `detalle_combo` (`id_combo`,`id_inventario`,`cantidad`) VALUES (?, ?, ?)";
+        $data = [$id_combo, $id_inventario, $cantidad];
+        $insertar_detalle_combo = $this->insert($sql, $data);
 
-                if ($insertar_detalle_combo == 1) {
-                    $response['status'] = 200;
-                    $response['title'] = 'Peticion exitosa';
-                    $response['message'] = 'Imagen subida correctamente';
-                } else {
-                    $response['status'] = 500;
-                    $response['title'] = 'Error';
-                    $response['message'] = "Error al agregar detalle combo";
-                }
+        if ($insertar_detalle_combo == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Imagen subida correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = "Error al agregar detalle combo";
+        }
         return $response;
     }
 

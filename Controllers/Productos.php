@@ -700,6 +700,12 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
+    public function obtener_productos_asignacionCombos()
+    {
+        $response = $this->model->obtener_productos_asignacionCombos($_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
     public function obtener_combos()
     {
         $response = $this->model->obtener_combos($_SESSION['id_plataforma']);
@@ -762,10 +768,10 @@ class Productos extends Controller
     public function agregar_detalle_combo()
     {
         $id_combo = $_POST['id_combo'];
-        $id_producto = $_POST['id_producto'];
+        $id_inventario = $_POST['id_inventario'];
         $cantidad = $_POST['cantidad'];
 
-        $response = $this->model->agregar_detalle_combo($id_combo, $id_producto, $cantidad);
+        $response = $this->model->agregar_detalle_combo($id_combo, $id_inventario, $cantidad);
 
         echo json_encode($response);
     }
