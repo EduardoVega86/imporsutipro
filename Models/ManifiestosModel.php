@@ -1096,7 +1096,7 @@ GROUP BY dfc.id_producto,
         $dompdf->render();
 
         // Ruta del archivo PDF
-        $combinedPdfPath = $this->generateUniqueFilename('RelacionDespacho-', __DIR__ . '/manifiestos');
+        $combinedPdfPath = $this->generateUniqueFilename('Devolucion-', __DIR__ . '/manifiestos');
         $tempName = explode('-', $combinedPdfPath);
         $tempName[0] = str_replace(__DIR__ . '/manifiestos/', '', $tempName[0]);
         $lastNumber = glob(__DIR__ . '/manifiestos/' . $tempName[0] . '-*');
