@@ -153,7 +153,7 @@ const listAsignacionProducto = async () => {
       }
       content += `
                   <tr>
-                      <td>${producto.id_producto}</td>
+                      <td>${producto.id_inventario}</td>
                       <td>${cargarImagen}</td>
                       <td>${producto.nombre_producto}</td>
                       <td>${producto.variedad}</td>
@@ -502,7 +502,7 @@ const listDetalleCombo = async (id_combo) => {
       }
       content += `
                 <tr>
-                    <td>${combo.id_producto}</td>
+                    <td>${combo.id_inventario}</td>
                     <td>${cargarImagen}</td>
                     <td>${combo.nombre_producto}</td>
                     <td>${combo.variedad}</td>
