@@ -1131,7 +1131,7 @@ GROUP BY dfc.id_producto,
             "status" => "200"
         ];
 
-        $update = "UPDATE cabecera_relacion_despacho SET url_documento = '$new_url' WHERE id_relacion_despacho = $id_cabecera";
+        $update = "UPDATE cabecera_devolucion SET url_documento = '$new_url' WHERE id_devolucion = $id_cabecera";
         $this->select($update);
 
         return $reponse;
