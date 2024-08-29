@@ -68,7 +68,7 @@
                         </table>
                     </div>
 
-                    <div class="d-flex flex-column">
+                    <div class="d-flex flex-column mt-3">
                         <div class="d-flex flex-row gap-3">
                             <div class="col-sm-4">
                                 <label for="estado_combo" class="control-label">Tipo de descuento</label>
