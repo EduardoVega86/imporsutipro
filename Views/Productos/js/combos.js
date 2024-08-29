@@ -138,7 +138,9 @@ const initDataTableAsignacionProducto = async () => {
 
 const listAsignacionProducto = async () => {
   try {
-    const response = await fetch(SERVERURL + "productos/obtener_productos_asignacionCombos");
+    const response = await fetch(
+      SERVERURL + "productos/obtener_productos_asignacionCombos"
+    );
     const asignacionProducto = await response.json();
 
     let content = ``;
@@ -208,7 +210,29 @@ function llenar_combo(id_combo) {
         .attr("src", SERVERURL + response[0].image_path)
         .show();
 
+      $.ajax({
+        url: SERVERURL + "Productos/obtener_detalle_combo_id",
+        type: "POST",
+        data: formData,
+        processData: false, // No procesar los datos
+        contentType: false, // No establecer ningún tipo de contenido
+        dataType: "json",
+        success: function (response) {
+          // Inicializar el acumulador
+          let totalPvp = 0;
 
+          // Iterar sobre cada elemento en la respuesta
+          response.forEach(function (combo) {
+            // Sumar el pvp de cada elemento al acumulador
+            totalPvp += parseFloat(combo.pvp); // Asegúrate de convertir a número
+          });
+
+          $("#precio_normal_preview").text(totalPvp);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          alert(errorThrown);
+        },
+      });
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
