@@ -764,7 +764,7 @@ class Productos extends Controller
         $valor = $_POST['valor'];
         $id_combo = $_POST['id_combo'];
 
-        $response = $this->model->editarcombos(
+        $response = $this->model->editarcombo_estado(
             $estado_combo,
             $valor,
             $id_combo
