@@ -161,10 +161,20 @@ const listGuias = async () => {
       var span_estado = estado.span_estado;
       var estado_guia = estado.estado_guia;
 
-      //tomar solo la ciudad
+      // Definir la variable ciudad antes de los bloques if-else
+      let ciudad = "Ciudad no especificada";
+
+      // Verificar si la ciudad es válida antes de usar split
       let ciudadCompleta = guia.ciudad;
-      let ciudadArray = ciudadCompleta.split("/");
-      let ciudad = ciudadArray[0];
+
+      if (ciudadCompleta) {
+        let ciudadArray = ciudadCompleta.split("/");
+        ciudad = ciudadArray[0];
+      } else {
+        console.log("La ciudad no está definida o está vacía");
+      }
+
+      console.log("Ciudad:", ciudad);
 
       novedad = "";
       if (guia.estado_guia_sistema == 14 && transporte == 1) {
