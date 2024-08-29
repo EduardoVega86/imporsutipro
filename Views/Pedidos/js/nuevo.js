@@ -121,7 +121,7 @@ const listNuevoPedido = async () => {
       const precio = parseFloat(nuevoPedido.precio_tmp);
       const descuento = parseFloat(nuevoPedido.desc_tmp);
       const cantidad = parseFloat(nuevoPedido.cantidad_tmp);
-      const precioFinal = precio * cantidad - precio * (descuento / 100);
+      const precioFinal = (precio * cantidad) - (precio * (descuento / 100));
       total += precioFinal;
 
       content += `
