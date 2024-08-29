@@ -1368,7 +1368,7 @@ WHERE b.id_plataforma = $plataforma";
                 $response['message'] = 'Imagen subida correctamente';
                 $response['data'] = $target_file;
 
-                $sql = "INSERT INTO `combos` (`id_plataforma`,`nombre`,`id_producto_combo`,`image_path`, `id_bodega`) VALUES (?, ?, ?, ?)";
+                $sql = "INSERT INTO `combos` (`id_plataforma`,`nombre`,`id_producto_combo`,`image_path`, `id_bodega`) VALUES (?, ?, ?, ?, ?)";
                 $data = [$plataforma, $nombre, $id_producto_combo, $target_file, $bodega];
                 $insertar_combo = $this->insert($sql, $data);
 
