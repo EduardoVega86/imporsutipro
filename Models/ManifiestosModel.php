@@ -1051,7 +1051,7 @@ GROUP BY dfc.id_producto,
         // Devuelve el ID generado
         return $lastInsertId;
     }
-    public function generarManifiestoGuiasDevolucion($arreglo, $id_cabecera, $transportadora)
+    public function generarManifiestoGuiasDevolucion($arreglo, $id_cabecera)
     {
         if (count($arreglo) == 0) return;
 

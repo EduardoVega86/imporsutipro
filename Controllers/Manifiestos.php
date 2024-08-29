@@ -96,7 +96,7 @@ class Manifiestos extends Controller
 
             $html =    $this->model->generarManifiestoGuiasDevolucion($arreglo, $id_cabecera);
         }
-        //print_r($arreglo);
+        print_r($arreglo);
         //devuelve el html
         // Itera sobre cada elemento del arreglo
 
