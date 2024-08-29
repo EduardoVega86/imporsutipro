@@ -65,6 +65,7 @@ const listCombos = async () => {
       content += `
       <tr>
       <td>${combo.id}</td>
+      <td>${combo.id_bodega}</td>
       <td>${cargarImagen}</td>
       <td>${combo.nombre}</td>
       <td>${combo.nombre_producto}</td>
@@ -164,7 +165,7 @@ const listAsignacionProducto = async () => {
                       }" class="form-control" style="border-radius:0.3rem !important;" value="1" min="1">
                       </td>
                       <td>
-                          <button class="btn btn-sm btn-danger" onclick="mover_producto(${
+                          <button class="btn btn-sm btn-primary" onclick="mover_producto(${
                             producto.id_inventario
                           }, document.getElementById('cantidad_producto_${
         producto.id_producto
@@ -509,7 +510,7 @@ const listDetalleCombo = async (id_combo) => {
                     <td>${combo.pvp}</td>
                     <td>${combo.cantidad}</td>
                     <td>
-                        <button class="btn btn-sm btn-primary" onclick="eliminar_detalle_combo(${combo.id})"><i class="fas fa-arrow-left"></i></button>
+                        <button class="btn btn-sm btn-danger" onclick="eliminar_detalle_combo(${combo.id})"><i class="fas fa-arrow-left"></i></button>
                     </td>
                 </tr>`;
     });

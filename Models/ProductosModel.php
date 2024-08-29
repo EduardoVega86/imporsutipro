@@ -1332,6 +1332,10 @@ WHERE b.id_plataforma = $plataforma";
 
     public function agregarcombos($nombre, $id_producto_combo, $imagen, $plataforma)
     {
+        $sql_producto = "SELECT * FROM inventario_bodegas WHERE id_producto = $id_producto_combo limit 1";
+        $producto = $this->select($sql_producto);
+        $bodega = $producto[0]['bodega'];
+
         $response = $this->initialResponse();
         $target_dir = "public/img/combos/";
         $target_file = $target_dir . basename($imagen["name"]);
@@ -1364,8 +1368,8 @@ WHERE b.id_plataforma = $plataforma";
                 $response['message'] = 'Imagen subida correctamente';
                 $response['data'] = $target_file;
 
-                $sql = "INSERT INTO `combos` (`id_plataforma`,`nombre`,`id_producto_combo`,`image_path`) VALUES (?, ?, ?, ?)";
-                $data = [$plataforma, $nombre, $id_producto_combo, $target_file];
+                $sql = "INSERT INTO `combos` (`id_plataforma`,`nombre`,`id_producto_combo`,`image_path`, `id_bodega`) VALUES (?, ?, ?, ?, ?)";
+                $data = [$plataforma, $nombre, $id_producto_combo, $target_file, $bodega];
                 $insertar_combo = $this->insert($sql, $data);
 
                 if ($insertar_combo == 1) {

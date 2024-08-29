@@ -111,13 +111,11 @@
         console.log(guiasJSON);
 
         let formData = new FormData();
-        formData.append("transportadora", transportadora);
-        formData.append("bodega", bodega);
         formData.append("guias", guiasJSON);
 
         $.ajax({
             type: "POST",
-            url: SERVERURL + "/Manifiestos/generarManifiesto",
+            url: SERVERURL + "/Manifiestos/generarManifiestoDevolucion",
             data: formData,
             processData: false,
             contentType: false,

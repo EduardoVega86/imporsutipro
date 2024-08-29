@@ -20,6 +20,7 @@
                     <thead>
                         <tr>
                             <th class="centered">ID</th>
+                            <th class="centered">ID bodega</th>
                             <th class="centered"></th>
                             <th class="centered">Nombre combo</th>
                             <th class="centered">Nombre Producto</th>
