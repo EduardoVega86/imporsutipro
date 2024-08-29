@@ -83,6 +83,8 @@ const listNuevoPedido = async () => {
 
     costo_general = 0;
 
+    let precioFinal = 0;
+
     nuevosPedidos.forEach((nuevoPedido, index) => {
       if (nuevosPedidos_bodega.length > 0 && nuevosPedidos_bodega[0]) {
         celular_bodega = nuevosPedidos_bodega[0].contacto;
@@ -121,7 +123,7 @@ const listNuevoPedido = async () => {
       const precio = parseFloat(nuevoPedido.precio_tmp);
       const descuento = parseFloat(nuevoPedido.desc_tmp);
       const cantidad = parseFloat(nuevoPedido.cantidad_tmp);
-      const precioFinal = (precio * cantidad) - (precio * (descuento / 100));
+      precioFinal = precio * cantidad - precio * (descuento / 100);
       total += precioFinal;
 
       content += `
