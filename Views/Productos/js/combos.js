@@ -206,7 +206,8 @@ function llenar_combo(id_combo) {
       $("#precio_especial_preview").text(response[0].valor);
       $("#subtotal_preview").text(response[0].valor);
       $("#total_preview").text(response[0].valor);
-      $("#valor_combo").text(response[0].valor);
+      $("#valor_combo").val(response[0].valor);
+      $("#estado_combo").val(response[0].estado_combo);
       $("#imagen_combo_preview")
         .attr("src", SERVERURL + response[0].image_path)
         .show();

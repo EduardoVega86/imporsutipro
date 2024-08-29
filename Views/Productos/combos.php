@@ -71,7 +71,7 @@
                     <div class="d-flex flex-column">
                         <div class="d-flex flex-row">
                             <div class="col-sm-4">
-                                <label for="valor_combo" class="control-label">Tipo de descuento</label>
+                                <label for="estado_combo" class="control-label">Tipo de descuento</label>
                                 <select class="form-control" name="estado_combo" id="estado_combo">
                                     <option value="1">Porcentaje</option>
                                     <option value="2">Valor fijo</option>
@@ -86,7 +86,7 @@
                         </div>
                         <button class="btn btn-primary" onclick="guardar_actualizacion_combos()">Guardar</button>
                     </div>
-                    
+
                     <!-- seccion preview combo -->
                     <div class="custom-card">
                         <div class="custom-card-header">
