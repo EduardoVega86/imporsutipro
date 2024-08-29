@@ -311,6 +311,15 @@ class PedidosModel extends Query
         }
     }
 
+    public function impreso($estado)
+    {
+        if ($estado == 0) {
+            return '<box-icon name="printer" color="red"></box-icon>';
+        } else {
+            return '<box-icon name="printer" color="green"></box-icon>';
+        }
+    }
+
 
 
     public function enlaceTracking($transportadora, $guia, $enlace)
