@@ -232,7 +232,7 @@ function llenar_combo(id_combo) {
           // Iterar sobre cada elemento en la respuesta
           response.forEach(function (combo) {
             // Sumar el pvp de cada elemento al acumulador
-            totalPvp += parseFloat(combo.pvp); // Asegúrate de convertir a número
+            totalPvp += parseFloat(combo.pvp) * combo.cantidad; // Asegúrate de convertir a número
           });
 
           $("#precio_normal_preview").text(totalPvp);
