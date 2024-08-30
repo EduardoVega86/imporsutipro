@@ -827,9 +827,9 @@ class TiendaModel extends Query
         return $response;
     }
 
-    public function obtener_combo_id($id_prodcuto)
+    public function obtener_combo_id($id_producto)
     {
-        $sql = "SELECT * FROM `combos` WHERE id_prodcuto_combo=$id_prodcuto;";
+        $sql = "SELECT * FROM `combos` WHERE id_producto_combo=$id_producto;";
         return $this->select($sql);
     }
 

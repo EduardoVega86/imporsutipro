@@ -276,8 +276,8 @@ class Tienda extends Controller
 
     public function obtener_combo_id()
     {
-        $id_prodcuto = $_POST['id_prodcuto'];
-        $response = $this->model->obtener_combo_id($id_prodcuto);
+        $id_producto = $_POST['id_producto'];
+        $response = $this->model->obtener_combo_id($id_producto);
         echo json_encode($response);
     }
 
