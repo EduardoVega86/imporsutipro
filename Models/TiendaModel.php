@@ -618,7 +618,7 @@ class TiendaModel extends Query
                     $factura_id = $id_factura[0]['id_factura'];
 
                     // Insertar el detalle de la factura
-                    $detalle_sql = "INSERT INTO detalle_fact_cot (numero_factura, id_factura, id_producto, cantidad, desc_venta, precio_venta, id_plataforma , sku, id_inventario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    $detalle_sql = "INSERT INTO detalle_fact_cot (numero_factura, id_factura, id_producto, cantidad, desc_venta, precio_venta, id_plataforma , sku, id_inventario, combo, id_combo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
                     $detalle_combo = $this->select("SELECT * FROM detalle_combo INNER JOIN inventario_bodegas ON inventario_bodegas.id_inventario = detalle_combo.id_inventario WHERE id_combo = $combo_id");
 
@@ -650,7 +650,9 @@ class TiendaModel extends Query
                                 $nuevoPvpUnitario, // Guardar el pvp unitario ajustado
                                 $tmp_session['id_plataforma'],
                                 $tmp_session['sku'],
-                                $tmp_session['id_inventario']
+                                $tmp_session['id_inventario'],
+                                1,
+                                $combo_id
                             );
 
                             // Insertar el detalle
