@@ -248,9 +248,8 @@ function recalcular(id, idPrecio, idDescuento, idCantidad) {
 
 /* function validar_direccion() {
   // Obtener los parámetros de la URL
-  const path = window.location.pathname;
-  const segments = path.split("/");
-  const idProducto = segments[segments.length - 1];
+  const urlParams = new URLSearchParams(window.location.search);
+  const idProducto = urlParams.get("id_producto");
   const sku = urlParams.get("sku");
 
   // Solo realizar la validación si los parámetros están presentes
