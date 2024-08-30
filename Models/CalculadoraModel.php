@@ -100,10 +100,15 @@ class CalculadoraModel extends Query
             $tarifas["speed"] = 6.5;
         } else if ($ciudad == "CONOCOTO") {
             $tarifas["speed"] = 6.5;
+        } else if ($ciudad == "GUAYAQUIL" && $id_plataforma == 1206) {
+            $tarifas["speed"] = 5.5;
+        } else if ($ciudad == "SAMBORONDON" && $id_plataforma == 1206) {
+            $tarifas["speed"] = 6.5;
+        } else if ($ciudad == "LA PUNTILLA/GUAYAS" && $id_plataforma == 1206) {
+            $tarifas["speed"] = 6.5;
         } else {
             $tarifas["speed"] = 0;
         }
-
 
         $tarifas['laar'] = number_format($tarifas['laar'], 2, '.', '');
         $tarifas['servientrega'] = number_format($tarifas['servientrega'], 2, '.', '');
