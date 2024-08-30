@@ -199,9 +199,12 @@ class Tienda extends Controller
         $referencia =   $_POST['referencia'];
         $observacion =    $_POST['observacion'];
 
+        $combo_selected =    $_POST['combo_selected'];
+        $combo_id =    $_POST['combo_id'];
+
         $tmp =    $_POST['tmp'];
 
-        $response = $this->model->guardar_pedido_carrito($id_plataforma, $id_producto, $total, $nombre, $telefono, $provincia, $ciudad, $calle_principal, $calle_secundaria, $referencia, $observacion, $tmp);
+        $response = $this->model->guardar_pedido_carrito($id_plataforma, $id_producto, $total, $nombre, $telefono, $provincia, $ciudad, $calle_principal, $calle_secundaria, $referencia, $observacion, $tmp, $combo_selected, $combo_id);
         echo json_encode($response);
     }
 
