@@ -100,9 +100,9 @@ const listNuevoPedido = async () => {
       precio_costo = parseFloat(nuevoPedido.precio_venta);
 
       // Verificar condición
-      if (!validar_direccion()) {
+      /* if (!validar_direccion()) {
         return; // Salir de la función si la validación falla
-      }
+      } */
 
       costo_general = costo_general + nuevoPedido.pcp * nuevoPedido.cantidad;
 
@@ -246,7 +246,7 @@ function recalcular(id, idPrecio, idDescuento, idCantidad) {
     });
 }
 
-function validar_direccion() {
+/* function validar_direccion() {
   // Obtener los parámetros de la URL
   const path = window.location.pathname;
   const segments = path.split("/");
@@ -280,7 +280,7 @@ function validar_direccion() {
     }
   }
   return true; // Retorna verdadero si la validación pasa o los parámetros no están presentes
-}
+} */
 
 async function eliminar_nuevoPedido(id) {
   let eliminado = true;
