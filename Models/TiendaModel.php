@@ -631,36 +631,42 @@ class TiendaModel extends Query
                             // Proporción del precio del producto en relación al total
                             $proporcion = ($tmp_session['pvp'] * $tmp_session['cantidad']) / $totalPvp;
 
-                            // Calcular el nuevo precio proporcionalmente
+                            // Calcular el nuevo precio proporcionalmente como porcentaje
                             $nuevoPvp = $total_bodega * $proporcion;
+                        } elseif ($estado_combo == 2) {
+                            // Si el estado del combo es 2, entonces valor es un descuento fijo que se debe distribuir
+                            $descuentoProporcional = ($tmp_session['pvp'] * $tmp_session['cantidad']) / $totalPvp * $valor;
 
-                            // Si es el último producto, ajusta para que el total distribuido sea exacto
-                            if ($index == $ultimoProductoIndex) {
-                                $nuevoPvp = $total_bodega - $totalDistribuido;
-                            }
-
-                            $nuevoPvpUnitario = $nuevoPvp / $tmp_session['cantidad']; // Precio unitario ajustado
-
-                            $detalle_data = array(
-                                $nueva_factura,
-                                $factura_id,
-                                $tmp_session['id_producto'],
-                                $tmp_session['cantidad'],
-                                0,
-                                $nuevoPvpUnitario, // Guardar el pvp unitario ajustado
-                                $tmp_session['id_plataforma'],
-                                $tmp_session['sku'],
-                                $tmp_session['id_inventario'],
-                                1,
-                                $combo_id
-                            );
-
-                            // Insertar el detalle
-                            $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
-
-                            // Acumular el total distribuido
-                            $totalDistribuido += $nuevoPvp;
+                            // Calcular el nuevo precio restando el descuento proporcional
+                            $nuevoPvp = ($tmp_session['pvp'] * $tmp_session['cantidad']) - $descuentoProporcional;
                         }
+
+                        // Si es el último producto, ajusta para que el total distribuido sea exacto
+                        if ($index == $ultimoProductoIndex) {
+                            $nuevoPvp = $total_bodega - $totalDistribuido;
+                        }
+
+                        $nuevoPvpUnitario = $nuevoPvp / $tmp_session['cantidad']; // Precio unitario ajustado
+
+                        $detalle_data = array(
+                            $nueva_factura,
+                            $factura_id,
+                            $tmp_session['id_producto'],
+                            $tmp_session['cantidad'],
+                            0,
+                            $nuevoPvpUnitario, // Guardar el pvp unitario ajustado
+                            $tmp_session['id_plataforma'],
+                            $tmp_session['sku'],
+                            $tmp_session['id_inventario'],
+                            1, // Indicador de que este producto pertenece a un combo
+                            $combo_id
+                        );
+
+                        // Insertar el detalle
+                        $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
+
+                        // Acumular el total distribuido
+                        $totalDistribuido += $nuevoPvp;
                     }
 
                     $response['status'] = 200;
@@ -668,6 +674,7 @@ class TiendaModel extends Query
                     $response['message'] = "Pedido creado correctamente";
                     $response["numero_factura"] = $nueva_factura;
                 } else {
+                    // Código para insertar los productos sin combo
                     $id_factura = $this->select("SELECT id_factura FROM facturas_cot WHERE numero_factura = '$nueva_factura'");
                     $factura_id = $id_factura[0]['id_factura'];
 
