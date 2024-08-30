@@ -622,44 +622,42 @@ class TiendaModel extends Query
 
                     $detalle_combo = $this->select("SELECT * FROM detalle_combo INNER JOIN inventario_bodegas ON inventario_bodegas.id_inventario = detalle_combo.id_inventario WHERE id_combo = $combo_id");
 
-                    foreach ($detalle_combo as $tmp_session) {
+                    // Inicializamos la variable que llevará el acumulado del nuevo total
+                    $totalDistribuido = 0;
+                    $ultimoProductoIndex = count($detalle_combo) - 1;
+
+                    foreach ($detalle_combo as $index => $tmp_session) {
                         if ($estado_combo == 1) {
-                            // Inicializamos la variable que llevará el acumulado del nuevo total
-                            $totalDistribuido = 0;
-                            $ultimoProductoIndex = count($detalle_combo) - 1;
+                            // Proporción del precio del producto en relación al total
+                            $proporcion = ($tmp_session['pvp'] * $tmp_session['cantidad']) / $totalPvp;
 
-                            foreach ($detalle_combo as $index => $tmp_session) {
-                                // Proporción del precio del producto en relación al total
-                                $proporcion = ($tmp_session['pvp'] * $tmp_session['cantidad']) / $totalPvp;
+                            // Calcular el nuevo precio proporcionalmente
+                            $nuevoPvp = $total_bodega * $proporcion;
 
-                                // Calcular el nuevo precio proporcionalmente
-                                $nuevoPvp = $total_bodega * $proporcion;
-
-                                // Si es el último producto, ajusta para que el total distribuido sea exacto
-                                if ($index == $ultimoProductoIndex) {
-                                    $nuevoPvp = $total_bodega - $totalDistribuido;
-                                }
-
-                                $nuevoPvpUnitario = $nuevoPvp / $tmp_session['cantidad']; // Precio unitario ajustado
-
-                                $detalle_data = array(
-                                    $nueva_factura,
-                                    $factura_id,
-                                    $tmp_session['id_producto'],
-                                    $tmp_session['cantidad'],
-                                    0,
-                                    $nuevoPvpUnitario, // Guardar el pvp unitario ajustado
-                                    $tmp_session['id_plataforma'],
-                                    $tmp_session['sku'],
-                                    $tmp_session['id_inventario']
-                                );
-
-                                // Insertar el detalle
-                                $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
-
-                                // Acumular el total distribuido
-                                $totalDistribuido += $nuevoPvp;
+                            // Si es el último producto, ajusta para que el total distribuido sea exacto
+                            if ($index == $ultimoProductoIndex) {
+                                $nuevoPvp = $total_bodega - $totalDistribuido;
                             }
+
+                            $nuevoPvpUnitario = $nuevoPvp / $tmp_session['cantidad']; // Precio unitario ajustado
+
+                            $detalle_data = array(
+                                $nueva_factura,
+                                $factura_id,
+                                $tmp_session['id_producto'],
+                                $tmp_session['cantidad'],
+                                0,
+                                $nuevoPvpUnitario, // Guardar el pvp unitario ajustado
+                                $tmp_session['id_plataforma'],
+                                $tmp_session['sku'],
+                                $tmp_session['id_inventario']
+                            );
+
+                            // Insertar el detalle
+                            $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
+
+                            // Acumular el total distribuido
+                            $totalDistribuido += $nuevoPvp;
                         }
                     }
 
