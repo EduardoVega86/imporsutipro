@@ -200,6 +200,8 @@ function recalcular(id, idPrecio, idDescuento, idCantidad) {
       const urlParams_calcular = new URLSearchParams(window.location.search);
       const idProducto_calcular = urlParams_calcular.get("id_producto");
 
+      console.log("id producto: "+idProducto_calcular);
+
       var monto_total_general = $("#monto_total").text().trim();
 
       let formData = new FormData();
