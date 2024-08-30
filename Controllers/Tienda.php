@@ -274,6 +274,12 @@ class Tienda extends Controller
         echo json_encode($response);
     }
 
+    public function obtener_combo_id()
+    {
+        $id_producto = $_POST['id_producto'];
+        $response = $this->model->obtener_combo_id($id_producto);
+        echo json_encode($response);
+    }
 
 
     /// TIENDA COMPRAPOR /// 

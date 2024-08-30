@@ -45,6 +45,8 @@ class ProductosModel extends Query
             $response[$key]['checkbox'] = "-";
             $response[$key]['landing'] = '<a href="' . SERVERURL . 'productos/landing/' . $response[$key]['id_producto'] . '" role="button"><i class="fa-solid fa-laptop-code" style="font-size:25px;"></i></a>';
             $response[$key]['imagen'] = "<img src=\"$\" class=\"icon-button\" onclick=\"agregar_imagenProducto(7892, '$')\" alt=\"Agregar imagen\" width=\"50px\">";
+            $response[$key]['marketplace'] = $this->marketplace($value['drogshipin'], $value['id_producto']);
+
             $response[$key]['acciones'] = '<button class="btn btn-primary btn-sm" onclick="editarProducto(' . $value['id_producto'] . ')">Editar</button>
             <button class="btn btn-danger btn-sm" onclick="eliminarProducto(' . $value['id_producto'] . ')">Eliminar</button>';
         }
@@ -62,6 +64,14 @@ class ProductosModel extends Query
         ];
     }
 
+    public function marketplace($estado, $id_producto)
+    {
+        if ($estado == 1) {
+            return '<div><box-icon name="cloud-download" style="cursor:pointer" color="red" id="icono_bajada_' . $id_producto . '" onclick="bajar_marketplace(' . $id_producto . ')"></box-icon> </br>Quitar</div>';
+        } else {
+            return '<div><box-icon name="cloud-upload" style="cursor:pointer" color="#54DD10" id="icono_subida_' . $id_producto . '" onclick="subir_marketplace(' . $id_producto . ')"></box-icon> </br>Agregar</div>';
+        }
+    }
 
     public function obtener_productos_privados($plataforma)
     {

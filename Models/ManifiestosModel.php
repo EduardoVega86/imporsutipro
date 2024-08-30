@@ -1207,7 +1207,7 @@ GROUP BY dfc.id_producto,
             }
         }
     </style>
-   
+    <p style="text-align: center; font-size: 12px;">DEVOLUCIÓN</p>
     <p style="text-align: center; font-size: 12px;">' . strtoupper($direccion) . '</p>
     <p style="text-align: center; font-size: 12px;">' . strtoupper($responsable) . ' / ' . strtoupper($telefono) . '</p>
     <table>
