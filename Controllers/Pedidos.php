@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * @OA\Info(
  *     title="Pedidos API",
@@ -16,6 +15,35 @@
  * @OA\Tag(
  *     name="Pedidos",
  *     description="Operaciones relacionadas con los pedidos"
+ * )
+ */
+
+/**
+ * @OA\Get(
+ *     path="/pedidos",
+ *     tags={"Pedidos"},
+ *     summary="Listar todos los pedidos",
+ *     @OA\Parameter(
+ *         name="filtro",
+ *         in="query",
+ *         description="Filtro para los pedidos",
+ *         required=false,
+ *         @OA\Schema(
+ *             type="string"
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Lista de pedidos",
+ *         @OA\JsonContent(
+ *             type="array",
+ *             @OA\Items(ref="#/components/schemas/Pedido")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="No autorizado"
+ *     )
  * )
  */
 session_start();
