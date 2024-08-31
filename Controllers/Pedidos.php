@@ -1,15 +1,21 @@
 <?php
 
-use FontLib\Table\Type\head;
 
 /**
  * @OA\Info(
- *     title="Pedidos Api",
+ *     title="Pedidos API",
  *     version="1.0.0",
  *     description="Documentación de la API de Pedidos",
- *    @OA\Contact(
- *        email="jjara@imporfactorylatam.com
- *   )
+ *     @OA\Contact(
+ *         email="jjara@imporfactorylatam.com"
+ *     )
+ * )
+ */
+
+/**
+ * @OA\Tag(
+ *     name="Pedidos",
+ *     description="Operaciones relacionadas con los pedidos"
  * )
  */
 session_start();
@@ -20,6 +26,34 @@ class Pedidos extends Controller
         parent::__construct();
     }
     ///Vistas
+    /**
+     * @OA\Get(
+     *     path="/pedidos",
+     *     tags={"Pedidos"},
+     *     summary="Listar todos los pedidos",
+     *     @OA\Parameter(
+     *         name="filtro",
+     *         in="query",
+     *         description="Filtro para los pedidos",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de pedidos",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(ref="#/components/schemas/Pedido")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado"
+     *     )
+     * )
+     */
     public function index($filtro = "")
     {
         if (!$this->isAuth()) {
@@ -119,7 +153,30 @@ class Pedidos extends Controller
         $data = $this->model->datosPlataformas($tienda);
         echo json_encode($data);
     }
-
+    /**
+     * @OA\Post(
+     *     path="/pedidos",
+     *     tags={"Pedidos"},
+     *     summary="Crear un nuevo pedido",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/NuevoPedido")
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Pedido creado exitosamente",
+     *         @OA\JsonContent(ref="#/components/schemas/Pedido")
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Datos inválidos"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado"
+     *     )
+     * )
+     */
     public function nuevo_pedido()
     {
 
@@ -188,6 +245,30 @@ class Pedidos extends Controller
 
         echo json_encode($response);
     }
+    /**
+     * @OA\Post(
+     *     path="/pedidos/shopify",
+     *     tags={"Pedidos"},
+     *     summary="Crear un nuevo pedido desde Shopify",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/NuevoPedidoShopify")
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Pedido Shopify creado exitosamente",
+     *         @OA\JsonContent(ref="#/components/schemas/Pedido")
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Datos inválidos"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado"
+     *     )
+     * )
+     */
     public function nuevo_pedido_shopify()
     {
 
@@ -293,18 +374,83 @@ class Pedidos extends Controller
         $data = $this->model->pedidos($_SESSION["id_plataforma"]);
         echo json_encode($data);
     }
-
+    /**
+     * @OA\Delete(
+     *     path="/pedidos/{id}",
+     *     tags={"Pedidos"},
+     *     summary="Eliminar un pedido",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID del pedido",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Pedido eliminado exitosamente"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Pedido no encontrado"
+     *     )
+     * )
+     */
     public function eliminarPedido($id_factura)
     {
         $response = $this->model->eliminarPedido($id_factura);
         echo json_encode($response);
     }
-
+    /**
+     * @OA\Get(
+     *     path="/pedidos/{id}",
+     *     tags={"Pedidos"},
+     *     summary="Obtener detalles de un pedido",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID del pedido",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Detalles del pedido",
+     *         @OA\JsonContent(ref="#/components/schemas/Pedido")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Pedido no encontrado"
+     *     )
+     * )
+     */
     public function verPedido($id)
     {
         $data = $this->model->cargarPedido($id);
         echo json_encode($data);
     }
+    /**
+     * @OA\Patch(
+     *     path="/pedidos/{id}/anular",
+     *     tags={"Pedidos"},
+     *     summary="Anular un pedido",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID del pedido",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Pedido anulado exitosamente"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Pedido no encontrado"
+     *     )
+     * )
+     */
 
     public function anular_pedido($id)
     {
@@ -317,7 +463,36 @@ class Pedidos extends Controller
         $data = $this->model->datosPedido($id);
         echo json_encode($data);
     }
-
+    /**
+     * @OA\Patch(
+     *     path="/pedidos/{id}",
+     *     tags={"Pedidos"},
+     *     summary="Editar un pedido",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID del pedido",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/EditarPedido")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Pedido editado exitosamente"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Datos inválidos"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Pedido no encontrado"
+     *     )
+     * )
+     */
     public function editar_pedido()
     {
         $id_factura = $_POST['id_factura'];
@@ -343,7 +518,25 @@ class Pedidos extends Controller
         $datos = $this->model->obtenerDestinatarioShopify($id_producto);
         return  $datos;
     }
-
+    /**
+     * @OA\Get(
+     *     path="/pedidos/guias",
+     *     tags={"Pedidos"},
+     *     summary="Obtener guías de pedidos",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de guías",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(ref="#/components/schemas/Guia")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado"
+     *     )
+     * )
+     */
     public function obtener_guias()
     {
         $fecha_inicio = $_POST['fecha_inicio'] ?? "";
@@ -550,3 +743,83 @@ class Pedidos extends Controller
         echo json_encode($response);
     }
 }
+
+/**
+ * @OA\Schema(
+ *     schema="Pedido",
+ *     type="object",
+ *     required={"id", "nombre_cliente", "telefono_cliente", "fecha_factura"},
+ *     @OA\Property(property="id", type="integer", description="ID del pedido"),
+ *     @OA\Property(property="nombre_cliente", type="string", description="Nombre del cliente"),
+ *     @OA\Property(property="telefono_cliente", type="string", description="Teléfono del cliente"),
+ *     @OA\Property(property="fecha_factura", type="string", format="date-time", description="Fecha de la factura"),
+ *     // Otros campos aquí...
+ * )
+ */
+
+/**
+ * @OA\Schema(
+ *     schema="NuevoPedido",
+ *     type="object",
+ *     required={"nombre_cliente", "telefono_cliente", "total_venta"},
+ *     @OA\Property(property="nombre_cliente", type="string", description="Nombre del cliente"),
+ *     @OA\Property(property="telefono_cliente", type="string", description="Teléfono del cliente"),
+ *     @OA\Property(property="total_venta", type="number", format="float", description="Monto total de la venta"),
+ *     // Otros campos aquí...
+ * )
+ */
+
+/**
+ * @OA\Schema(
+ *     schema="NuevoPedidoShopify",
+ *     type="object",
+ *     required={"nombre_cliente", "telefono_cliente", "total_venta", "productos"},
+ *     @OA\Property(property="nombre_cliente", type="string", description="Nombre del cliente"),
+ *     @OA\Property(property="telefono_cliente", type="string", description="Teléfono del cliente"),
+ *     @OA\Property(property="total_venta", type="number", format="float", description="Monto total de la venta"),
+ *     @OA\Property(property="productos", type="array", @OA\Items(ref="#/components/schemas/Producto")),
+ *     // Otros campos aquí...
+ * )
+ */
+
+/**
+ * @OA\Schema(
+ *     schema="EditarPedido",
+ *     type="object",
+ *     required={"id_factura", "nombre_cliente", "telefono_cliente"},
+ *     @OA\Property(property="id_factura", type="integer", description="ID de la factura"),
+ *     @OA\Property(property="nombre_cliente", type="string", description="Nombre del cliente"),
+ *     @OA\Property(property="telefono_cliente", type="string", description="Teléfono del cliente"),
+ *     @OA\Property(property="calle_principal", type="string", description="Calle principal del cliente"),
+ *     @OA\Property(property="ciudad", type="string", description="Ciudad del cliente"),
+ *     @OA\Property(property="provincia", type="string", description="Provincia del cliente"),
+ *     @OA\Property(property="referencia", type="string", description="Referencia de dirección"),
+ *     @OA\Property(property="observacion", type="string", description="Observación del pedido"),
+ *     // Otros campos aquí...
+ * )
+ */
+
+/**
+ * @OA\Schema(
+ *     schema="Guia",
+ *     type="object",
+ *     required={"id", "numero_guia", "estado"},
+ *     @OA\Property(property="id", type="integer", description="ID de la guía"),
+ *     @OA\Property(property="numero_guia", type="string", description="Número de guía"),
+ *     @OA\Property(property="estado", type="string", description="Estado de la guía"),
+ *     // Otros campos aquí...
+ * )
+ */
+
+/**
+ * @OA\Schema(
+ *     schema="Producto",
+ *     type="object",
+ *     required={"id", "nombre", "precio"},
+ *     @OA\Property(property="id", type="integer", description="ID del producto"),
+ *     @OA\Property(property="nombre", type="string", description="Nombre del producto"),
+ *     @OA\Property(property="precio", type="number", format="float", description="Precio del producto"),
+ *     @OA\Property(property="cantidad", type="integer", description="Cantidad del producto"),
+ *     // Otros campos aquí...
+ * )
+ */
