@@ -6,6 +6,7 @@
         "picqer/php-barcode-generator": "^2.4",
         "phpoffice/phpexcel": "^1.8",
         "egulias/email-validator": "^3.0",
-        "google/apiclient": "^2.17"
+        "google/apiclient": "^2.17",
+        "zircote/swagger-php": "^4.10"
     }
 }
