@@ -1,11 +1,15 @@
 <?php
 require 'vendor/autoload.php';
 
+use OpenApi\Logger;
+
+
 class Api extends Controller
 {
     public $openapi;
     public function __construct()
     {
+
         $this->openapi = \OpenApi\Generator::scan(['Controllers/Pedidos.php']);
     }
 
