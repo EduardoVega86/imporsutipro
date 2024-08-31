@@ -1,8 +1,15 @@
 <?php
 require 'vendor/autoload.php';
+
 class Api extends Controller
 {
-    public $openapi = \OpenApi\Generator::scan(['Controllers']);   // Scan the controllers folder
+    public $openapi;
+
+    public function __construct()
+    {
+        $this->openapi = \OpenApi\Generator::scan(['Controllers']); // Scan the controllers folder
+    }
+
     public function index()
     {
         header('Content-Type: application/json');
@@ -94,7 +101,6 @@ class Api extends Controller
     }
 
     public function trace($path)
-
     {
         header('Content-Type: application/json');
         echo json_encode($this->openapi->trace($path));
