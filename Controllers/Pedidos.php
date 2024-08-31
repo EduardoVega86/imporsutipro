@@ -2,6 +2,16 @@
 
 use FontLib\Table\Type\head;
 
+/**
+ * @OA\Info(
+ *     title="Pedidos Api",
+ *     version="1.0.0",
+ *     description="Documentación de la API de Pedidos",
+ *    @OA\Contact(
+ *        email="jjara@imporfactorylatam.com
+ *   )
+ * )
+ */
 session_start();
 class Pedidos extends Controller
 {
