@@ -7,7 +7,7 @@ class Api extends Controller
 
     public function __construct()
     {
-        $this->openapi = \OpenApi\Generator::scan(['Controllers']); // Scan the controllers folder
+        $this->openapi = \OpenApi\Generator::scan(['Controllers/Pedidos.php']);
     }
 
     public function index()
