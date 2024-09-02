@@ -111,12 +111,18 @@ const listNuevoPedido = async () => {
 
       let color_combo = "";
       let disable_combo = "";
+      let boton_eliminar = "";
+
       if (nuevoPedido.combo == 1) {
         color_combo = 'style = "color: blue"';
         disable_combo = "disabled";
 
         combo = nuevoPedido.combo;
         id_combo = nuevoPedido.id_combo;
+
+        boton_eliminar = "";
+      } else {
+        boton_eliminar = `<button class="btn btn-sm btn-danger" onclick="eliminar_nuevoPedido(${nuevoPedido.id_detalle})"><i class="fa-solid fa-trash-can"></i></button>`;
       }
 
       const precio = parseFloat(nuevoPedido.precio_venta);
@@ -152,9 +158,7 @@ const listNuevoPedido = async () => {
         2
       )}</span></td>
                     <td>
-                        <button class="btn btn-sm btn-danger" onclick="eliminar_nuevoPedido(${
-                          nuevoPedido.id_detalle
-                        })"><i class="fa-solid fa-trash-can"></i></button>
+                        ${boton_eliminar}
                     </td>
                 </tr>`;
     });
