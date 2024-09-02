@@ -681,7 +681,6 @@ class WalletModel extends Query
         // enviar codigo de verificacion al correo
         $correo = $this->obtenerCorreo($plataforma);
         $correo = $correo[0]['correo'];
-        echo $correo;
         $asunto = "Código de verificación";
         $mensaje = "Su código de verificación es: $codigo";
         $enviar = $this->enviarCorreoVerificacion($correo, $asunto, $mensaje);

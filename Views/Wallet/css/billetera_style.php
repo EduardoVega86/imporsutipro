@@ -42,7 +42,7 @@
         border: none;
         /* Elimina el borde */
     }
-    
+
     .btn-group {
         align-content: center;
     }
@@ -123,7 +123,7 @@
         background-color: #0056b3;
         font-weight: bold;
     }
-    
+
     /* Diseños de estados guias */
     .badge_danger {
         background-color: red;
@@ -158,5 +158,21 @@
         color: white;
         padding: 4px;
         border-radius: 0.3rem;
+    }
+
+    .otp-input {
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        font-size: 1.5rem;
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+        margin-right: 5px;
+    }
+
+    .otp-input:focus {
+        border-color: #80bdff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        outline: none;
     }
 </style>
