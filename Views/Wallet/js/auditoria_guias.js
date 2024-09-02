@@ -18,9 +18,7 @@ function datos_auditoriaPrincial(estado, transportadora) {
 
       $("#por_pagar").text(parseFloat(response[0].diferencia).toFixed(2));
 
-      $("#valor_pagado").text(
-        parseFloat(response[0].total_pagos).toFixed(2)
-      );
+      $("#valor_pagado").text(parseFloat(response[0].total_pagos).toFixed(2));
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
@@ -156,13 +154,12 @@ const listAuditoria = async (estado, id_transporte) => {
     let total_valor_flete = 0;
     let total_costo_flete = 0;
     let valor_costo_flete = 0;
-//let devuelto = 0;
+    //let devuelto = 0;
     let valor_cod_flete = 0;
-    
-        let total_recaudado = 0;
-        
-        let mostrar = 0;
-    
+
+    let total_recaudado = 0;
+
+    let mostrar = 0;
 
     auditoria.forEach((item, index) => {
       let transporte = item.id_transporte;
@@ -171,9 +168,9 @@ const listAuditoria = async (estado, id_transporte) => {
       let url_tracking = "";
       let url_descargar = "";
       let motivo = "";
-      
-          let valor_recaudado = parseFloat(item.valor);
-     if (!isNaN(valor_recaudado)) {
+
+      let valor_recaudado = parseFloat(item.valor);
+      if (!isNaN(valor_recaudado)) {
         total_recaudado += valor_recaudado;
       } else {
         console.warn(
@@ -181,8 +178,6 @@ const listAuditoria = async (estado, id_transporte) => {
           item.valor_recaudado
         );
       }
-      
-      
 
       let utilidad = parseFloat(item.utilidad);
       if (!isNaN(utilidad)) {
@@ -270,36 +265,49 @@ const listAuditoria = async (estado, id_transporte) => {
         url_descargar = `https://guias.imporsuitpro.com/Servientrega/guia/${item.numero_guia}`;
       }
       var background = "";
-  if (
-    (item.monto_recibir != item.monto_total_historial) ||
-    (item.costo_flete > item.envio_wallet) || 
-    (item.drogshipin == 1 && item.id_plataforma == item.id_propietario) ||
-    (item.numero_guia.includes("MKP") && item.id_transporte == 1 && item.costo_flete != 5.99) ||
-    (devuelto == 1 && item.monto_recibir  != (item.costo_flete*-1))
-){
-if((item.monto_recibir != item.monto_total_historial)){
-   motivo=motivo+' DIFERENCIA MONTOS'; 
-}
-if((item.costo_flete > item.envio_wallet)){
-   motivo=motivo+'-'+item.costo_flete+'-'+item.envio_wallet+' WALLET ENVIO MENOR';    
-}
-if((item.drogshipin == 1 && item.id_plataforma == item.id_propietario)){
-     motivo=motivo+' DROP IGUAL A PROPIETARIO';    
-}
-if((item.numero_guia.includes("MKP") && item.id_transporte == 1 && item.costo_flete != 5.99)){
-   motivo=motivo+' MKP DIFERENTE A 5.99'; 
-}
-if(devuelto == 1 && item.monto_recibir  != (item.costo_flete*-1)){
-   motivo=motivo+' VALOR DEVUELTO'; 
-}
-mostrar=1;
+      if (
+        item.monto_recibir != item.monto_total_historial ||
+        parseFloat(item.costo_flete.toFixed(2)) >
+          parseFloat(item.envio_wallet.toFixed(2)) ||
+        (item.drogshipin == 1 && item.id_plataforma == item.id_propietario) ||
+        (item.numero_guia.includes("MKP") &&
+          item.id_transporte == 1 &&
+          item.costo_flete != 5.99) ||
+        (devuelto == 1 && item.monto_recibir != item.costo_flete * -1)
+      ) {
+        if (item.monto_recibir != item.monto_total_historial) {
+          motivo = motivo + " DIFERENCIA MONTOS";
+        }
+        if (item.costo_flete > item.envio_wallet) {
+          motivo =
+            motivo +
+            "-" +
+            item.costo_flete +
+            "-" +
+            item.envio_wallet +
+            " WALLET ENVIO MENOR";
+        }
+        if (item.drogshipin == 1 && item.id_plataforma == item.id_propietario) {
+          motivo = motivo + " DROP IGUAL A PROPIETARIO";
+        }
+        if (
+          item.numero_guia.includes("MKP") &&
+          item.id_transporte == 1 &&
+          item.costo_flete != 5.99
+        ) {
+          motivo = motivo + " MKP DIFERENTE A 5.99";
+        }
+        if (devuelto == 1 && item.monto_recibir != item.costo_flete * -1) {
+          motivo = motivo + " VALOR DEVUELTO";
+        }
+        mostrar = 1;
         background = 'style="background-color: red;"';
       } else {
-          mostrar=0;
+        mostrar = 0;
         background = "";
       }
-if(mostrar > 0){
-      content += `
+      if (mostrar > 0) {
+        content += `
               <tr>
                   <td >${item.numero_factura}</td>
                   <td>${item.numero_guia}</td>
@@ -328,13 +336,15 @@ if(mostrar > 0){
                     </td>
            </td>
            <td ${background}>${parseFloat(item.monto_recibir).toFixed(2)}</td>
-            <td ${background}>${parseFloat(item.monto_total_historial).toFixed(2)}</td>
+            <td ${background}>${parseFloat(item.monto_total_historial).toFixed(
+          2
+        )}</td>
           <td ${background}>${item.valor}</td>
            <td ${background}>${item.comision}</td>
                   
              <td>${motivo}</td>
               </tr>`;
-                }
+      }
     });
 
     // Formatear el total con dos decimales
@@ -343,13 +353,12 @@ if(mostrar > 0){
     let valorfletes = total_costo_flete.toFixed(2);
 
     let valor_costo_flete2 = valor_costo_flete.toFixed(2);
-    
+
     total_recaudado = total_recaudado.toFixed(2);
 
     // Asignar el valor al span en el DOM
     $("#total_utilidad").text(valor_costo_flete2);
-    
-    
+
     $("#valor_recaudo").text(total_recaudado);
     $("#total_utilidad").text(totalConDosDecimales);
     $("#valor_fletes").text(valorfletes);
@@ -443,7 +452,7 @@ function validar_estadoLaar(estado) {
 function validar_estadoServi(estado) {
   var span_estado = "";
   var estado_guia = "";
-   var devuelto = 0;
+  var devuelto = 0;
   if (estado == 101) {
     span_estado = "badge_danger";
     estado_guia = "Anulado";
@@ -478,7 +487,7 @@ function validar_estadoServi(estado) {
 function validar_estadoGintracom(estado) {
   var span_estado = "";
   var estado_guia = "";
-   var devuelto = 0;
+  var devuelto = 0;
 
   if (estado == 1) {
     span_estado = "badge_generado";
@@ -534,7 +543,7 @@ function validar_estadoGintracom(estado) {
 function validar_estadoSpeed(estado) {
   var span_estado = "";
   var estado_guia = "";
-   var devuelto = 0;
+  var devuelto = 0;
   if (estado == 2) {
     span_estado = "badge_purple";
     estado_guia = "generado";
