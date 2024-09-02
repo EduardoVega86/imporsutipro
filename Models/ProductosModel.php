@@ -1561,4 +1561,12 @@ WHERE b.id_plataforma = $plataforma";
         }
         return $response;
     }
+
+    public function obtener_oferta($plataforma)
+    {
+        $sql = "SELECT *, (SELECT variedad FROM `variedades` WHERE variedades.id_variedad = inventario_bodegas.id_variante)AS variedad 
+        FROM `detalle_combo` INNER JOIN `inventario_bodegas` ON inventario_bodegas.id_inventario = detalle_combo.id_inventario 
+        INNER JOIN `productos` ON productos.id_producto = inventario_bodegas.id_producto WHERE id_combo=$plataforma;";
+        return $this->select($sql);
+    }
 }
