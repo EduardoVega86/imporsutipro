@@ -90,33 +90,37 @@
     </div>
 </div>
 <div class="modal fade" id="SoliciModal" tabindex="-1" aria-labelledby="SoliciModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="SoliciModalLabel"><i class="fas fa-edit"></i> Verificar identidad</h5>
+                <h5 class="modal-title" id="SoliciModalLabel">Retiros de Saldo</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="Solici">
-                    <input type="hidden" id="otroId" name="otroId">
-                    <div class="mb-3">
-                        <label for="monto" class="form-label">Codigo de Verificación:</label>
-                        <input type="text" class="form-control" id="monto" placeholder="Ingresar monto">
+                <div class="alert alert-info text-center">
+                    Te enviaremos a tu correo un código de seguridad de 6 dígitos, recuerda que el código vence en 5 minutos.
+                </div>
+                <form id="Solici" class="text-center">
+                    <div class="mb-3 d-flex justify-content-center gap-2">
+                        <input type="text" maxlength="1" class="form-control otp-input" id="digit1" name="digit1">
+                        <input type="text" maxlength="1" class="form-control otp-input" id="digit2" name="digit2">
+                        <input type="text" maxlength="1" class="form-control otp-input" id="digit3" name="digit3">
+                        <input type="text" maxlength="1" class="form-control otp-input" id="digit4" name="digit4">
+                        <input type="text" maxlength="1" class="form-control otp-input" id="digit5" name="digit5">
+                        <input type="text" maxlength="1" class="form-control otp-input" id="digit6" name="digit6">
                     </div>
-
-                    <div class="d-flex flex-row gap-3">
-                        <span>Enviamos un codigo de verificación a su correo electronico</span>
-                    </div>
+                    <button type="button" class="btn btn-warning mb-3">Enviar código</button>
 
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-primary" form="solicitar_pago">Solicitar</button>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-link" data-bs-dismiss="modal">Volver</button>
+                <button type="submit" class="btn btn-primary" form="Solici">Aplicar</button>
             </div>
         </div>
     </div>
 </div>
+
 <script>
     // Manejar el envío del formulario
     $('#solicitar_pago').on('submit', function(event) {
