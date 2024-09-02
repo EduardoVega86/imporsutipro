@@ -1567,4 +1567,23 @@ WHERE b.id_plataforma = $plataforma";
         $sql = "SELECT * FROM `ofertas` WHERE id_plataforma=$plataforma;";
         return $this->select($sql);
     }
+
+    public function agregarOferta($nombre_oferta, $precio_oferta, $cantidad, $fecha_inicio, $fecha_fin, $id_producto, $plataforma)
+    {
+        $sql = "INSERT INTO `ofertas` (`nombre_oferta`,`precio_oferta`,`cantidad`,`fecha_inicio`, `fecha_fin`, `id_producto`, `id_plataforma`) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $data = [$nombre_oferta, $precio_oferta, $cantidad, $fecha_inicio, $fecha_fin, $id_producto, $plataforma];
+        $insertar_oferta = $this->insert($sql, $data);
+
+        if ($insertar_oferta == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Oferta subida correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = "Error al agregar oferta";
+        }
+
+        return $response;
+    }
 }

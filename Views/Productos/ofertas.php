@@ -1,12 +1,13 @@
 <?php require_once './Views/templates/header.php'; ?>
 <?php require_once './Views/Productos/css/ofertas_style.php'; ?>
-<?php /* require_once './Views/Productos/Modales/agregar_oferta.php' */; ?>
+<?php require_once './Views/Productos/Modales/agregar_oferta.php'; ?>
+<?php require_once './Views/Productos/Modales/editar_oferta.php'; ?>
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
-        <h2 class="text-center mb-4">Lista de Usuarios</h2>
+        <h2 class="text-center mb-4">Lista de Ofertas</h2>
 
-        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_usuarioModal"><i class="fas fa-plus"></i> Agregar</button>
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_ofertaModal"><i class="fas fa-plus"></i> Agregar</button>
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
             <table id="datatable_ofertas" class="table table-striped">
