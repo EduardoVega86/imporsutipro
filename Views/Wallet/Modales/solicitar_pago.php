@@ -89,6 +89,39 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="SoliciModal" tabindex="-1" aria-labelledby="SoliciModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="SoliciModalLabel">Retiros de Saldo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-info text-center">
+                    Te enviaremos a tu correo un código de seguridad de 6 dígitos, recuerda que el código vence en 5 minutos.
+                </div>
+                <form id="Solici" class="text-center">
+                    <div class="mb-3 d-flex justify-content-center gap-2">
+                        <input type="text" maxlength="1" class="form-control otp-input" id="digit1" name="digit1">
+                        <input type="text" maxlength="1" class="form-control otp-input" id="digit2" name="digit2">
+                        <input type="text" maxlength="1" class="form-control otp-input" id="digit3" name="digit3">
+                        <span class="text-center">_</span>
+                        <input type="text" maxlength="1" class="form-control otp-input" id="digit4" name="digit4">
+                        <input type="text" maxlength="1" class="form-control otp-input" id="digit5" name="digit5">
+                        <input type="text" maxlength="1" class="form-control otp-input" id="digit6" name="digit6">
+                    </div>
+                    <button type="button" class="btn btn-warning mb-3">Enviar código</button>
+
+                </form>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-link" data-bs-dismiss="modal">Volver</button>
+                <button type="submit" class="btn btn-primary" form="Solici">Aplicar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     // Manejar el envío del formulario
     $('#solicitar_pago').on('submit', function(event) {
@@ -150,6 +183,59 @@
         });
     });
 
+    // Enviar código de seguridad
+    $('#Solici').on('submit', function(event) {
+        event.preventDefault(); // Evitar el envío normal del formulario
+
+        //hacer 1 solo string
+        let codigo = $('#digit1').val() + $('#digit2').val() + $('#digit3').val() + '-' + $('#digit4').val() + $('#digit5').val() + $('#digit6').val();
+
+        $.ajax({
+            url: SERVERURL + 'wallet/obtenerCodigoVerificacion',
+            method: 'POST',
+            data: {
+                codigo: codigo
+            },
+            beforeSend: function() {
+                Swal.fire({
+                    title: 'Verificando código...',
+                    text: 'Por favor, espera un momento.',
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+            },
+            success: function(response) {
+                response = JSON.parse(response);
+                if (response.status == 400) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: "Error",
+                        text: response.message
+                    });
+                } else if (response.status == 200) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: "Éxito",
+                        text: response.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    }).then(() => {
+                        $('#SoliciModal').modal('hide');
+                        $('#solicitar_pagoModal').modal('show');
+                    });
+                }
+            },
+            error: function(error) {
+                console.error('Error al verificar el código:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Hubo un error al verificar el código.'
+                });
+            }
+        });
+    });
 
     function elegirCuenta() {
         $("#elegir_cuenta").show();

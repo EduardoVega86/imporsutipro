@@ -243,6 +243,20 @@ class Wallet extends Controller
         echo json_encode($response);
     }
 
+    public function obtenerCodigoVerificacion()
+    {
+        $codigo = $_POST['codigo'];
+        $response = $this->model->obtenerCodigoVerificacion($codigo, $_SESSION["id_plataforma"]);
+
+        echo json_encode($response);
+    }
+
+    public function generarCodigoVerificacion()
+    {
+        $response = $this->model->generarCodigoVerificacion($_SESSION["id_plataforma"]);
+        echo json_encode($response);
+    }
+
     public function pagarFactura()
     {
         $valor = $_POST['valor'];

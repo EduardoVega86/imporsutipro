@@ -160,6 +160,8 @@ const listAuditoria = async (estado, id_transporte) => {
     let valor_cod_flete = 0;
     
         let total_recaudado = 0;
+        
+        let mostrar = 0;
     
 
     auditoria.forEach((item, index) => {
@@ -290,11 +292,13 @@ if((item.numero_guia.includes("MKP") && item.id_transporte == 1 && item.costo_fl
 if(devuelto == 1 && item.monto_recibir  != (item.costo_flete*-1)){
    motivo=motivo+' VALOR DEVUELTO'; 
 }
+mostrar=1;
         background = 'style="background-color: red;"';
       } else {
+          mostrar=0;
         background = "";
       }
-
+if(mostrar > 0){
       content += `
               <tr>
                   <td >${item.numero_factura}</td>
@@ -330,6 +334,7 @@ if(devuelto == 1 && item.monto_recibir  != (item.costo_flete*-1)){
                   
              <td>${motivo}</td>
               </tr>`;
+                }
     });
 
     // Formatear el total con dos decimales

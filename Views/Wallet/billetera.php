@@ -7,13 +7,13 @@
     <div class="container mt-5" style="max-width: 1600px;">
 
         <div class="left_right gap-2">
-            
+
             <div class="table-responsive left">
                 <div class="card text-center">
                     <div class="card-body">
                         <img src="" id="image_tienda" width="100px" class="rounded-circle mb-3" alt="Profile Picture">
                         <h5 class="card-title"><a href="#" id="tienda_url"><span id="tienda_span"></span></a></h5>
-                        <button type="button" class="btn btn-outline-primary mb-3" data-bs-toggle="modal" data-bs-target="#solicitar_pagoModal">
+                        <button type="button" class="btn btn-outline-primary mb-3" data-bs-toggle="modal" data-bs-target="#SoliciModal" onclick="enviarCodigo()">
                             Solicitar Pago
                         </button>
 
@@ -169,7 +169,7 @@
     </div>
 </div>
 <script>
-    const tienda = "<?php echo ENLACE;?>";
+    const tienda = "<?php echo ENLACE; ?>";
 </script>
 <script src="<?php echo SERVERURL ?>/Views/Wallet/js/billetera.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
