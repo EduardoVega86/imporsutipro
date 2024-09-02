@@ -632,19 +632,22 @@ class WalletModel extends Query
         return $responses;
     }
 
-    public function solicitarPago($id_cuenta, $valor, $fecha, $plataforma, $otro)
+    public function solicitarPago($id_cuenta, $valor, $plataforma, $otro)
     {
 
-        $sql = "INSERT INTO solicitudes_pago (`cantidad`, `id_cuenta`, `fecha`, `id_plataforma`, `otro`) VALUES (?, ?, ?, ?, ?)";
-        $response =  $this->insert($sql, array($valor, $id_cuenta, $fecha, $plataforma, $otro));
+        $sql = "INSERT INTO solicitudes_pago (`cantidad`, `id_cuenta`, `id_plataforma`, `otro`) VALUES (?, ?, ?, ?, ?)";
+        $response =  $this->insert($sql, array($valor, $id_cuenta, $plataforma, $otro));
         $update = "UPDATE billeteras set solicito = 1, valor_solicitud = $valor WHERE id_plataforma = '$plataforma'";
         $response2 =  $this->select($update);
 
         if ($response == 1) {
             $responses["status"] = 200;
             $responses["message"] = "Solicitud de pago enviada, espere a que sea aprobada dentro de las proximas 72 horas laborales";
-        } else {
+        } elseif ($response == 0) {
             $responses["status"] = 400;
+            $responses["message"] = "Tuviemos un problema al enviar la solicitud, por favor toma captura de este mensaje y envialo a soporte";
+        } else {
+            $responses["status"] = 500;
             $responses["message"] = $response["message"];
         }
         return $responses;
@@ -786,14 +789,14 @@ class WalletModel extends Query
     {
         $sql = "SELECT * FROM billeteras WHERE id_plataforma = '$tienda'";
         $response =  $this->select($sql);
-        $saldo = $response[0]['saldo'];
+        $saldo = $response[0]['saldo'] ?? 0;
         if ($saldo <= 0) {
             return false;
         }
         if ($saldo < $valor) {
             return false;
         }
-        $solicito = $response[0]['solicito'];
+        $solicito = $response[0]['solicito'] ?? 0;
         if ($solicito == 1) {
             return false;
         }
