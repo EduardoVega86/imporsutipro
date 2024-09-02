@@ -669,6 +669,9 @@ class WalletModel extends Query
             } else {
                 $responses["status"] = 200;
             }
+        } else {
+            $responses["status"] = 400;
+            $responses["message"] = "El código es incorrecto";
         }
         return $responses;
     }
