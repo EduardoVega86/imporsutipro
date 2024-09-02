@@ -45,20 +45,20 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="select_productos_editar" class="form-label">Producto</label>
-                            <select class="form-select" id="select_productos_editar" style="width: 100%">
-                                <option value="" selected>--- Elegir producto ---</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
                             <label for="fecha_inicio_editar" class="form-label">Fecha y hora de inicio</label>
                             <input type="text" class="form-control datetimepicker-input" id="fecha_inicio_editar" data-toggle="datetimepicker" data-target="#fecha_inicio_editar" placeholder="YYYY-MM-DD HH:MM:SS" />
                         </div>
                         <div class="col-md-6">
                             <label for="fecha_fin_editar" class="form-label">Fecha y hora de fin</label>
                             <input type="text" class="form-control datetimepicker-input" id="fecha_fin_editar" data-toggle="datetimepicker" data-target="#fecha_fin_editar" placeholder="YYYY-MM-DD HH:MM:SS" />
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="select_productos_editar" class="form-label">Producto</label>
+                            <select class="form-select" id="select_productos_editar" style="width: 100%">
+                                <option value="" selected>--- Elegir producto ---</option>
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">
