@@ -703,3 +703,34 @@ function validar_estadoSpeed(estado) {
   };
 }
 /* Fin validar estado */
+
+//enviar codigo de verificación
+
+function enviarCodigo() {
+  let formData = new FormData();
+  formData.append("tienda", tienda);
+
+  $.ajax({
+    url: SERVERURL + "wallet/generarCodigoVerificacion",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    success: function (response) {
+      response = JSON.parse(response);
+
+      if (response.status == 200) {
+        toastr.success("Código enviado correctamente", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else {
+        toastr.error("Error al enviar el código", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+}

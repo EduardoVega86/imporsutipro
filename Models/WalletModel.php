@@ -653,6 +653,72 @@ class WalletModel extends Query
         return $responses;
     }
 
+    public function obtenerCodigoVerificacion($codigo, $plataforma)
+    {
+        $sql = "SELECT * FROM billeteras WHERE id_plataforma = '$plataforma' and codigo = '$codigo'";
+        $response =  $this->select($sql);
+        $fecha = date("Y-m-d H:i:s");
+        if (!empty($response)) {
+            $fecha_codigo = $response[0]['fecha_codigo'];
+            $fecha_codigo = strtotime($fecha_codigo);
+            $fecha = strtotime($fecha);
+            $diferencia = $fecha - $fecha_codigo;
+            if ($diferencia > 1800) {
+                $responses["status"] = 400;
+                $responses["message"] = "El código ha expirado";
+            } else {
+                $responses["status"] = 200;
+            }
+        }
+    }
+
+    public function generarCodigoVerificacion($plataforma)
+    {
+        // generar codigo de verificacion de 3 digitos un guion y 3 digitos
+        $codigo = rand(100, 999) . "-" . rand(100, 999);
+        $sql = "UPDATE billeteras set codigo = '$codigo', fecha_codigo = now() WHERE id_plataforma = '$plataforma'";
+        $response =  $this->select($sql);
+        // enviar codigo de verificacion al correo
+        $correo = $this->obtenerCorreo($plataforma);
+        $correo = $correo[0]['correo'];
+        $asunto = "Código de verificación";
+        $mensaje = "Su código de verificación es: $codigo";
+        $enviar = $this->enviarCorreoVerificacion($correo, $asunto, $mensaje);
+        if ($enviar == 1) {
+            $responses["status"] = 200;
+            $responses["message"] = "Se ha enviado un código de verificación a su correo";
+        } else {
+            $responses["status"] = 400;
+            $responses["message"] = "Tuviemos un problema al enviar el código de verificación, por favor toma captura de este mensaje y envialo a soporte";
+        }
+        return $responses;
+    }
+
+    public function enviarCorreoVerificacion($correo, $asunto, $mensaje)
+    {
+        require_once 'PHPMailer/Mail_codigo.php';
+        $mail = new PHPMailer();
+        $mail->isSMTP();
+        $mail->SMTPDebug = $smtp_debug;
+        $mail->Host = $smtp_host;
+        $mail->SMTPAuth = true;
+        $mail->Username = $smtp_user;
+        $mail->Password = $smtp_pass;
+        $mail->Port = 465;
+        $mail->SMTPSecure = 'ssl';
+        $mail->setFrom($smtp_user, 'Imporsuit');
+        $mail->addAddress($correo);
+        $mail->isHTML(true);
+        $mail->Subject = $asunto;
+        $mail->Body = $mensaje;
+        $mail->AltBody = $mensaje;
+        if ($mail->send()) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
     public function subirImagen($imagen)
     {
         $response = $this->initialResponse();
@@ -1166,9 +1232,9 @@ class WalletModel extends Query
             $where = "";
         }
         $sql = "SELECT 
-    (SELECT SUM(monto) FROM historial_billetera) AS total_cabecera_cuenta_pagar,
-    (SELECT SUM(valor) FROM pagos) AS total_pagos,
-    (SELECT SUM(monto) FROM historial_billetera) - (SELECT SUM(valor) FROM pagos) AS diferencia";
+        (SELECT SUM(monto) FROM historial_billetera) AS total_cabecera_cuenta_pagar,
+        (SELECT SUM(valor) FROM pagos) AS total_pagos,
+        (SELECT SUM(monto) FROM historial_billetera) - (SELECT SUM(valor) FROM pagos) AS diferencia";
         //echo $sql;
         $response =  $this->select($sql);
         return $response;

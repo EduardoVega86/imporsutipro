@@ -89,6 +89,34 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="SoliciModal" tabindex="-1" aria-labelledby="SoliciModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="SoliciModalLabel"><i class="fas fa-edit"></i> Verificar identidad</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="Solici">
+                    <input type="hidden" id="otroId" name="otroId">
+                    <div class="mb-3">
+                        <label for="monto" class="form-label">Codigo de Verificación:</label>
+                        <input type="text" class="form-control" id="monto" placeholder="Ingresar monto">
+                    </div>
+
+                    <div class="d-flex flex-row gap-3">
+                        <span>Enviamos un codigo de verificación a su correo electronico</span>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-primary" form="solicitar_pago">Solicitar</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     // Manejar el envío del formulario
     $('#solicitar_pago').on('submit', function(event) {
