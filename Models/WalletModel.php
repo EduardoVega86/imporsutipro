@@ -1217,8 +1217,7 @@ class WalletModel extends Query
                     guia
             ) ccp ON fc.numero_guia = ccp.guia
             WHERE 
-                fc.estado_guia_sistema IN (9, 7, 500, 501, 502, 400, 401, 402, 403, 13) 
-                AND fc.valida_transportadora = $estado 
+                fc.estado_guia_sistema IN (9, 7, 500, 501, 502, 400, 401, 402, 403, 13)
                 AND ccp.guia IS NOT NULL $where
             ORDER BY 
                 fc.fecha_factura;

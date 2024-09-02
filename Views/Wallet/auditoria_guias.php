@@ -92,8 +92,8 @@
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
             <div class="filter-container">
-                <button class="filter-btn active" data-filter="0">Pendientes</button>
-                <button class="filter-btn" data-filter="1">Validados</button>
+                <button class="filter-btn active" data-filter="0">Novedades</button>
+                <button class="filter-btn" data-filter="1">Sin novedad</button>
             </div>
             <table id="datatable_auditoria" class="table table-striped">
 
