@@ -105,7 +105,7 @@
                         <input type="text" maxlength="1" class="form-control otp-input" id="digit1" name="digit1">
                         <input type="text" maxlength="1" class="form-control otp-input" id="digit2" name="digit2">
                         <input type="text" maxlength="1" class="form-control otp-input" id="digit3" name="digit3">
-                        <span> - </span>
+                        <span class="text-center">-</span>
                         <input type="text" maxlength="1" class="form-control otp-input" id="digit4" name="digit4">
                         <input type="text" maxlength="1" class="form-control otp-input" id="digit5" name="digit5">
                         <input type="text" maxlength="1" class="form-control otp-input" id="digit6" name="digit6">
