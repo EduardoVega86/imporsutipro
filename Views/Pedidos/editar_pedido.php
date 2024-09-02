@@ -64,6 +64,11 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
 
                 </div>
             </div>
+
+            <div class="alert alert-warning" role="alert" style="display: none;" id="alerta_nombreCombo">
+                Los productos con el Cod. de color azul pertenecen al combo <strong><span id="nombre_combo"></span></strong>
+            </div>
+
             <div style="padding-top: 40px;">
                 <h3 class="mb-3" style="text-decoration:underline;"><strong>Información de la venta</strong></h3>
                 <p class="texto_infoVenta"><strong>Monto de Venta:</strong> <span id="montoVenta_infoVenta"></span></p>

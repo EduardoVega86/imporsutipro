@@ -80,6 +80,9 @@ const listNuevoPedido = async () => {
 
     costo_general = 0;
 
+    let id_combo = 0;
+    let combo = 0;
+
     nuevosPedidos.forEach((nuevoPedido, index) => {
       $("#id_producto_temporal").val(nuevoPedido.id_producto);
 
@@ -106,6 +109,16 @@ const listNuevoPedido = async () => {
 
       costo_general = costo_general + nuevoPedido.pcp * nuevoPedido.cantidad;
 
+      let color_combo = "";
+      let disable_combo = "";
+      if (nuevoPedido.combo == 1) {
+        color_combo = 'style = "color: blue"';
+        disable_combo = "disabled";
+
+        combo = nuevoPedido.combo;
+        id_combo = nuevoPedido.id_combo;
+      }
+
       const precio = parseFloat(nuevoPedido.precio_venta);
       const descuento = parseFloat(nuevoPedido.desc_venta);
       const cantidad = parseFloat(nuevoPedido.cantidad);
@@ -121,18 +134,18 @@ const listNuevoPedido = async () => {
                 <input type="hidden" id="sku_productoBuscar_${index}" name="sku_productoBuscar_${index}" value= "${
         nuevoPedido.sku
       }"></input>
-                    <td>${nuevoPedido.id_producto}</td>
-                    <td><input type="text" onblur='recalcular("${
+                    <td ${color_combo}>${nuevoPedido.id_producto}</td>
+                    <td><input ${disable_combo} type="text" onblur='recalcular("${
                       nuevoPedido.id_detalle
                     }", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}", "cantidad_nuevoPedido_${index}")' id="cantidad_nuevoPedido_${index}" 
-    class="form-control prec" 
-    value="${nuevoPedido.cantidad}">
-</td>
+        class="form-control prec" 
+        value="${nuevoPedido.cantidad}">
+        </td>
                     <td>${nuevoPedido.nombre_producto} ${variedad}</td>
-                    <td><input type="text" onblur='recalcular("${
+                    <td><input ${disable_combo} type="text" onblur='recalcular("${
                       nuevoPedido.id_detalle
                     }", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}", "cantidad_nuevoPedido_${index}")' id="precio_nuevoPedido_${index}" class="form-control prec" value="${precio}"></td>
-                    <td><input type="text" onblur='recalcular("${
+                    <td><input ${disable_combo} type="text" onblur='recalcular("${
                       nuevoPedido.id_detalle
                     }", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}", "cantidad_nuevoPedido_${index}")' id="descuento_nuevoPedido_${index}" class="form-control desc" value="${descuento}"></td>
                     <td><span class='tota' id="precioFinal_nuevoPedido_${index}">${precioFinal.toFixed(
@@ -145,6 +158,30 @@ const listNuevoPedido = async () => {
                     </td>
                 </tr>`;
     });
+
+    /* Seccion combo */
+    if (combo == 1) {
+      let formData_detalle = new FormData();
+      formData_detalle.append("id_combo", id_combo);
+
+      $.ajax({
+        url: SERVERURL + "Productos/obtener_detalle_combo_id",
+        type: "POST",
+        data: formData_detalle,
+        processData: false, // No procesar los datos
+        contentType: false, // No establecer ningún tipo de contenido
+        dataType: "json",
+        success: function (response) {
+          $("#nombre_combo").val(response[0].nombre);
+          $("#alerta_nombreCombo").show();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          alert(errorThrown);
+        },
+      });
+    }
+    /* Fin Seccion combo */
+
     document.getElementById("monto_total").innerHTML = total.toFixed(2);
     document.getElementById("tableBody_nuevoPedido").innerHTML = content;
     if (eliminado == true) {
