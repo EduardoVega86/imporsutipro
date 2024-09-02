@@ -659,6 +659,7 @@ class GuiasModel extends Query
 
     public function generarSpeed($nombreO, $ciudadOrigen, $direccionO, $telefonoO, $referenciaO, $nombre, $ciudadDestino, $direccion, $telefono, $celular, $referencia, $contiene, $fecha, $numero_factura, $plataforma, $observacion, $recaudo, $monto_factura, $matriz)
     {
+        echo "2";
         $sql = "SELECT url_imporsuit FROM plataformas WHERE id_plataforma = '$plataforma'";
         $url = $this->select($sql);
         $url = $url[0]['url_imporsuit'];
@@ -684,6 +685,8 @@ class GuiasModel extends Query
             "monto_factura" => $monto_factura,
             "matriz" => $matriz
         );
+
+        print_r($data);
 
         // Enviar los datos en formdata
         $ch = curl_init($url);
