@@ -89,6 +89,11 @@ class Productos extends Controller
         $this->views->render($this, "combos");
     }
 
+    public function ofertas()
+    {
+        $this->views->render($this, "ofertas");
+    }
+
     public function productos_2()
     {
         $this->views->render($this, "productos2");
