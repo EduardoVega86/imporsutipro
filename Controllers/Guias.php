@@ -242,6 +242,9 @@ class Guias extends Controller
             $response2 = $this->model->actualizarGuia($numero_factura, $response["guia"], $nombre, $ciudad, $direccion, $telefono, $celular, $referencia, $recaudo, $monto_factura, $observacion, $_SESSION["id"], $_POST['calle_principal'], $_POST['calle_secundaria'], $contiene, $ciudad, 0, "SPEED", 2);
             $flete_envio = $ciudad == 599 ? 5.5 : 6.5;
             $this->model->asignarWallet($numero_factura, $response["guia"], $fecha, $nombre, $_SESSION["id_plataforma"], 1, $monto_factura, $recaudo, $flete_envio);
+        } else {
+            echo "error" . $response;
+            print_r($response);
         }
         echo json_encode($response);
     }
