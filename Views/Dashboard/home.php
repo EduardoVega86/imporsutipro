@@ -10,10 +10,24 @@
                     <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <img src="<?php echo SERVERURL; ?>/public/noticias/slider1.png" class="d-block w-100" alt="...">
+                                <a href="https://www.youtube.com/watch?v=t0hK4MM1Cp8" target="_blank" class="btn btn-warning">
+                                    <img src="<?php echo SERVERURL; ?>/public/noticias/slider1.jpeg" class="d-block w-100" alt="...">
+                                </a>
                             </div>
                             <div class="carousel-item">
-                                <img src="<?php echo SERVERURL; ?>/public/noticias/slider2.png" class="d-block w-100" alt="...">
+                                <a href="https://wa.link/ykg131" target="_blank" class="btn btn-warning">
+                                    <img src="<?php echo SERVERURL; ?>/public/noticias/slider2.jpeg" class="d-block w-100" alt="...">
+                                </a>
+                            </div>
+                            <div class="carousel-item">
+                                <a href="https://www.youtube.com/watch?v=VEar2a4T_cU" target="_blank" class="btn btn-warning">
+                                    <img src="<?php echo SERVERURL; ?>/public/noticias/slider3.jpeg" class="d-block w-100" alt="...">
+                                </a>
+                            </div>
+                            <div class="carousel-item">
+                                <a href="https://new.imporsuitpro.com/Productos/marketplace" target="_blank" class="btn btn-warning">
+                                    <img src="<?php echo SERVERURL; ?>/public/noticias/slider4.jpeg" class="d-block w-100" alt="...">
+                                </a>
                             </div>
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade"
