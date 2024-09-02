@@ -31,6 +31,16 @@
                             <label for="nombre_oferta" class="form-label">Nombre del oferta</label>
                             <input type="text" class="form-control" id="nombre_oferta" placeholder="nombre del oferta">
                         </div>
+
+                        <div class="col-md-6">
+                            <label for="cantidad_oferta" class="form-label">Cantidad</label>
+                            <input type="text" class="form-control" id="cantidad_oferta" placeholder="Cantidad">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="precio_oferta" class="form-label">Precio</label>
+                            <input type="text" class="form-control" id="precio_oferta" placeholder="Precio">
+                        </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6">
@@ -38,6 +48,16 @@
                             <select class="form-select" id="select_productos" style="width: 100%">
                                 <option value="" selected>--- Elegir producto ---</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="fecha_inicio" class="form-label">Fecha y hora de inicio</label>
+                            <input type="text" class="form-control datetimepicker-input" id="fecha_inicio" data-toggle="datetimepicker" data-target="#fecha_inicio" placeholder="YYYY-MM-DD HH:MM:SS" />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="fecha_fin" class="form-label">Fecha y hora de fin</label>
+                            <input type="text" class="form-control datetimepicker-input" id="fecha_fin" data-toggle="datetimepicker" data-target="#fecha_fin" placeholder="YYYY-MM-DD HH:MM:SS" />
                         </div>
                     </div>
                     <div class="modal-footer">

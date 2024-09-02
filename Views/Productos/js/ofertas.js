@@ -294,3 +294,88 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* Fin llenar select productos editar */
+
+/* fechas inicio y fin en agregar y editar */
+document.addEventListener("DOMContentLoaded", function () {
+  new tempusDominus.TempusDominus(document.getElementById("fecha_inicio"), {
+    display: {
+      components: {
+        calendar: true,
+        date: true,
+        month: true,
+        year: true,
+        decades: true,
+        clock: true,
+        hours: true,
+        minutes: true,
+        seconds: true,
+      },
+    },
+    localization: {
+      locale: "es", // Para español
+    },
+  });
+
+  new tempusDominus.TempusDominus(document.getElementById("fecha_fin"), {
+    display: {
+      components: {
+        calendar: true,
+        date: true,
+        month: true,
+        year: true,
+        decades: true,
+        clock: true,
+        hours: true,
+        minutes: true,
+        seconds: true,
+      },
+    },
+    localization: {
+      locale: "es",
+    },
+  });
+
+  // Repetir para los modales de edición
+  new tempusDominus.TempusDominus(
+    document.getElementById("fecha_inicio_editar"),
+    {
+      display: {
+        components: {
+          calendar: true,
+          date: true,
+          month: true,
+          year: true,
+          decades: true,
+          clock: true,
+          hours: true,
+          minutes: true,
+          seconds: true,
+        },
+      },
+      localization: {
+        locale: "es",
+      },
+    }
+  );
+
+  new tempusDominus.TempusDominus(document.getElementById("fecha_fin_editar"), {
+    display: {
+      components: {
+        calendar: true,
+        date: true,
+        month: true,
+        year: true,
+        decades: true,
+        clock: true,
+        hours: true,
+        minutes: true,
+        seconds: true,
+      },
+    },
+    localization: {
+      locale: "es",
+    },
+  });
+});
+
+/* Fin fechas inicion y fin en agregar y editar */
