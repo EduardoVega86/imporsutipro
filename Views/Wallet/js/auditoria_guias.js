@@ -267,21 +267,18 @@ const listAuditoria = async (estado, id_transporte) => {
       var background = "";
       if (
         item.monto_recibir != item.monto_total_historial ||
-        Math.round(item.costo_flete * 100) >
-          Math.round(item.envio_wallet * 100) ||
+        parseFloat(item.costo_flete * 100) >
+          parseFloat(item.envio_wallet * 100) ||
         (item.drogshipin == 1 && item.id_plataforma == item.id_propietario) ||
         (item.numero_guia.includes("MKP") &&
           item.id_transporte == 1 &&
           item.costo_flete != 5.99) ||
-        (devuelto == 1 && item.monto_recibir != item.costo_flete * -1)
+        (devuelto == 1 && parseFloat(item.monto_recibir) != parseFloat(item.envio_wallet) * -1)
       ) {
         if (item.monto_recibir != item.monto_total_historial) {
           motivo = motivo + " DIFERENCIA MONTOS";
         }
-        if (
-          Math.round(item.costo_flete * 100) >
-          Math.round(item.envio_wallet * 100)
-        ) {
+        if (item.costo_flete > item.envio_wallet) {
           motivo =
             motivo +
             "-" +
@@ -300,8 +297,8 @@ const listAuditoria = async (estado, id_transporte) => {
         ) {
           motivo = motivo + " MKP DIFERENTE A 5.99";
         }
-        if (devuelto == 1 && item.monto_recibir != item.costo_flete * -1) {
-          motivo = motivo + " VALOR DEVUELTO";
+        if (devuelto == 1 && (parseFloat(item.monto_recibir) != parseFloat(item.costo_flete * -1))) {
+          motivo = item.monto_recibir + "*" + item.envio_wallet + motivo + " VALOR DEVUELTO";
         }
         mostrar = 1;
         background = 'style="background-color: red;"';
