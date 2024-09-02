@@ -136,18 +136,18 @@ const listNuevoPedido = async () => {
       }"></input>
                     <td ${color_combo}>${nuevoPedido.id_producto}</td>
                     <td><input ${disable_combo} type="text" onblur='recalcular("${
-                      nuevoPedido.id_detalle
-                    }", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}", "cantidad_nuevoPedido_${index}")' id="cantidad_nuevoPedido_${index}" 
+        nuevoPedido.id_detalle
+      }", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}", "cantidad_nuevoPedido_${index}")' id="cantidad_nuevoPedido_${index}" 
         class="form-control prec" 
         value="${nuevoPedido.cantidad}">
         </td>
                     <td>${nuevoPedido.nombre_producto} ${variedad}</td>
                     <td><input ${disable_combo} type="text" onblur='recalcular("${
-                      nuevoPedido.id_detalle
-                    }", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}", "cantidad_nuevoPedido_${index}")' id="precio_nuevoPedido_${index}" class="form-control prec" value="${precio}"></td>
+        nuevoPedido.id_detalle
+      }", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}", "cantidad_nuevoPedido_${index}")' id="precio_nuevoPedido_${index}" class="form-control prec" value="${precio}"></td>
                     <td><input ${disable_combo} type="text" onblur='recalcular("${
-                      nuevoPedido.id_detalle
-                    }", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}", "cantidad_nuevoPedido_${index}")' id="descuento_nuevoPedido_${index}" class="form-control desc" value="${descuento}"></td>
+        nuevoPedido.id_detalle
+      }", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}", "cantidad_nuevoPedido_${index}")' id="descuento_nuevoPedido_${index}" class="form-control desc" value="${descuento}"></td>
                     <td><span class='tota' id="precioFinal_nuevoPedido_${index}">${precioFinal.toFixed(
         2
       )}</span></td>
@@ -161,13 +161,13 @@ const listNuevoPedido = async () => {
 
     /* Seccion combo */
     if (combo == 1) {
-      let formData_detalle = new FormData();
-      formData_detalle.append("id_combo", id_combo);
+      let formData = new FormData();
+      formData.append("id", id_combo);
 
       $.ajax({
-        url: SERVERURL + "Productos/obtener_detalle_combo_id",
+        url: SERVERURL + "Productos/obtener_combo_id",
         type: "POST",
-        data: formData_detalle,
+        data: formData,
         processData: false, // No procesar los datos
         contentType: false, // No establecer ningún tipo de contenido
         dataType: "json",
@@ -573,7 +573,7 @@ $(document).ready(function () {
     type: "GET",
     dataType: "json",
     success: function (response) {
-      console.log(response);
+      /* console.log(response); */
     },
     error: function (error) {
       console.error("Error al obtener la lista de bodegas:", error);

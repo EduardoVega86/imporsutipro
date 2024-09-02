@@ -63,6 +63,7 @@ const listNuevosPedidos = () => {
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
+      /* console.log("Respuesta del servidor:", response); */
 
       // Verificar si la respuesta es un JSON y tiene el formato esperado
       let nuevosPedidos = response;
