@@ -42,19 +42,18 @@
                             <label for="editar_precio_oferta" class="form-label">Precio</label>
                             <input type="text" class="form-control" id="editar_precio_oferta" placeholder="Precio">
                         </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-12">
-                            <label for="rango_fechas_editar" class="form-label">Seleccione el rango de fechas</label>
-                            <input type="text" class="form-control" id="rango_fechas_editar" name="rango_fechas_editar" />
-                        </div>
-                    </div>
-                    <div class="row mb-3">
+
                         <div class="col-md-6">
                             <label for="select_productos_editar" class="form-label">Producto</label>
                             <select class="form-select" id="select_productos_editar" style="width: 100%">
                                 <option value="" selected>--- Elegir producto ---</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <label for="rango_fechas_editar" class="form-label">Seleccione el rango de fechas</label>
+                            <input type="text" class="form-control" id="rango_fechas_editar" name="rango_fechas_editar" />
                         </div>
                     </div>
                     <div class="modal-footer">

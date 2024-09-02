@@ -41,19 +41,17 @@
                             <label for="precio_oferta" class="form-label">Precio</label>
                             <input type="text" class="form-control" id="precio_oferta" placeholder="Precio">
                         </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-12">
-                            <label for="rango_fechas" class="form-label">Seleccione el rango de fechas</label>
-                            <input type="text" class="form-control" id="rango_fechas" name="rango_fechas" />
-                        </div>
-                    </div>
-                    <div class="row mb-3">
                         <div class="col-md-6">
                             <label for="select_productos" class="form-label">Producto</label>
                             <select class="form-select" id="select_productos" style="width: 100%">
                                 <option value="" selected>--- Elegir producto ---</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <label for="rango_fechas" class="form-label">Seleccione el rango de fechas</label>
+                            <input type="text" class="form-control" id="rango_fechas" name="rango_fechas" />
                         </div>
                     </div>
                     <div class="modal-footer">
