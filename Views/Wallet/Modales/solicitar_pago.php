@@ -96,9 +96,9 @@
 
         let formData = new FormData();
         formData.append("valor", $('#monto').val());
-        if ($('#cuenta').val() == ""){
+        if ($('#cuenta').val() == "") {
             formData.append("id_cuenta", $('#formadePago').val());
-        }else{
+        } else {
             formData.append("id_cuenta", $('#cuenta').val());
         }
         formData.append("otro", $('#otroId').val());
@@ -109,6 +109,15 @@
             data: formData,
             processData: false, // No procesar los datos
             contentType: false, // No establecer ningún tipo de contenido
+            beforeSend: function() {
+                Swal.fire({
+                    title: 'Solicitando Pago...',
+                    text: 'Por favor, espera un momento.',
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+            },
             success: function(response) {
                 response = JSON.parse(response);
                 if (response.status == 400) {
@@ -118,10 +127,9 @@
                         text: response.message
                     });
                 } else if (response.status == 200) {
-
                     Swal.fire({
                         icon: 'success',
-                        title: "Exito",
+                        title: "Éxito",
                         text: response.message,
                         showConfirmButton: false,
                         timer: 2000
@@ -133,10 +141,15 @@
             },
             error: function(error) {
                 console.error('Error al solicitar el pago:', error);
-                alert('Hubo un error al solicitar el pago.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Hubo un error al solicitar el pago.'
+                });
             }
         });
     });
+
 
     function elegirCuenta() {
         $("#elegir_cuenta").show();
