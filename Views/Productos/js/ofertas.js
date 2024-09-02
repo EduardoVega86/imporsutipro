@@ -86,11 +86,11 @@ document.addEventListener("DOMContentLoaded", () => {
     dropdownAutoWidth: true, // Habilita auto width para ajustarse correctamente
     templateResult: formatProduct, // Formato para mostrar los productos en el dropdown
     templateSelection: formatProductSelection, // Formato para mostrar la selección
-    dropdownParent: $("#agregar_comboModal"), // Forzar que el dropdown se muestre dentro del modal
+    dropdownParent: $("#agregar_ofertaModal"), // Forzar que el dropdown se muestre dentro del modal
   });
 
   // Cuando se abra el modal, carga los productos
-  $("#agregar_comboModal").on("shown.bs.modal", function () {
+  $("#agregar_ofertaModal").on("shown.bs.modal", function () {
     fetchProductos();
   });
 
@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Reposiciona el dropdown de select2 cuando el modal está abierto
   $("#select_productos").on("select2:open", function () {
-    const modal = $("#agregar_comboModal");
+    const modal = $("#agregar_ofertaModal");
     const select2Dropdown = $(".select2-container .select2-dropdown");
 
     // Asegura que el dropdown esté correctamente posicionado dentro del modal
