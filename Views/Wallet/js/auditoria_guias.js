@@ -278,7 +278,10 @@ const listAuditoria = async (estado, id_transporte) => {
         if (item.monto_recibir != item.monto_total_historial) {
           motivo = motivo + " DIFERENCIA MONTOS";
         }
-        if (item.costo_flete > item.envio_wallet) {
+        if (
+          Math.round(item.costo_flete * 100) >
+          Math.round(item.envio_wallet * 100)
+        ) {
           motivo =
             motivo +
             "-" +
