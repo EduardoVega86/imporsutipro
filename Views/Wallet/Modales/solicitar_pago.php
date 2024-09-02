@@ -96,9 +96,9 @@
 
         let formData = new FormData();
         formData.append("valor", $('#monto').val());
-        if ($('#cuenta').val() == ""){
+        if ($('#cuenta').val() == "") {
             formData.append("id_cuenta", $('#formadePago').val());
-        }else{
+        } else {
             formData.append("id_cuenta", $('#cuenta').val());
         }
         formData.append("otro", $('#otroId').val());
@@ -109,6 +109,9 @@
             data: formData,
             processData: false, // No procesar los datos
             contentType: false, // No establecer ningún tipo de contenido
+            didOpen: () => {
+                Swal.showLoading();
+            },
             success: function(response) {
                 response = JSON.parse(response);
                 if (response.status == 400) {
