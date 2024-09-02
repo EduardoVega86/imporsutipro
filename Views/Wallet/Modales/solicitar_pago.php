@@ -191,7 +191,7 @@
         let codigo = $('#digit1').val() + $('#digit2').val() + $('#digit3').val() + '-' + $('#digit4').val() + $('#digit5').val() + $('#digit6').val();
 
         $.ajax({
-            url: SERVERURL + 'wallet/verificarCodigo',
+            url: SERVERURL + 'wallet/obtenerCodigoVerificacion',
             method: 'POST',
             data: {
                 codigo: codigo
