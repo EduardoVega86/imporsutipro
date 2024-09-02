@@ -109,8 +109,14 @@
             data: formData,
             processData: false, // No procesar los datos
             contentType: false, // No establecer ningún tipo de contenido
-            didOpen: () => {
-                Swal.showLoading();
+            beforeSend: function() {
+                Swal.fire({
+                    title: 'Solicitando Pago...',
+                    text: 'Por favor, espera un momento.',
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
             },
             success: function(response) {
                 response = JSON.parse(response);
@@ -121,10 +127,9 @@
                         text: response.message
                     });
                 } else if (response.status == 200) {
-
                     Swal.fire({
                         icon: 'success',
-                        title: "Exito",
+                        title: "Éxito",
                         text: response.message,
                         showConfirmButton: false,
                         timer: 2000
@@ -136,10 +141,15 @@
             },
             error: function(error) {
                 console.error('Error al solicitar el pago:', error);
-                alert('Hubo un error al solicitar el pago.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Hubo un error al solicitar el pago.'
+                });
             }
         });
     });
+
 
     function elegirCuenta() {
         $("#elegir_cuenta").show();
