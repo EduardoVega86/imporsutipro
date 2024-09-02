@@ -683,8 +683,8 @@ class WalletModel extends Query
         $sql = "UPDATE billeteras set codigo = '$codigo', fecha_codigo = now() WHERE id_plataforma = '$plataforma'";
         $response =  $this->select($sql);
         // enviar codigo de verificacion al correo
-        $correo = $this->obtenerCorreo($plataforma);
-        $correo = $correo[0]['correo'];
+        $correo = $this->obtenerCorreo2($plataforma);
+        //$correo = $correo[0]['correo'];
         $asunto = "Código de verificación";
         $mensaje = "Su código de verificación es: $codigo";
         $enviar = $this->enviarCorreoVerificacion($correo, $asunto, $mensaje);
@@ -696,6 +696,14 @@ class WalletModel extends Query
             $responses["message"] = "Tuviemos un problema al enviar el código de verificación, por favor toma captura de este mensaje y envialo a soporte";
         }
         return $responses;
+    }
+
+    public function obtenerCorreo2($id_plataforma)
+    {
+        $sql = "SELECT email from plataformas where id_plataforma = '$id_plataforma'";
+        $response =  $this->select($sql);
+        $response = $response[0]['email'];
+        return $response;
     }
 
     public function enviarCorreoVerificacion($correo, $asunto, $mensaje)
