@@ -297,6 +297,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 /* fechas inicio y fin en agregar y editar */
 document.addEventListener("DOMContentLoaded", function () {
+  // Configuración para el campo de fecha y hora de inicio en agregar oferta
   new tempusDominus.TempusDominus(document.getElementById("fecha_inicio"), {
     display: {
       components: {
@@ -316,6 +317,7 @@ document.addEventListener("DOMContentLoaded", function () {
     },
   });
 
+  // Configuración para el campo de fecha y hora de fin en agregar oferta
   new tempusDominus.TempusDominus(document.getElementById("fecha_fin"), {
     display: {
       components: {
@@ -335,7 +337,7 @@ document.addEventListener("DOMContentLoaded", function () {
     },
   });
 
-  // Repetir para los modales de edición
+  // Repetir configuración para los campos de edición de combo
   new tempusDominus.TempusDominus(
     document.getElementById("fecha_inicio_editar"),
     {
