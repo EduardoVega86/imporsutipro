@@ -670,6 +670,7 @@ class WalletModel extends Query
                 $responses["status"] = 200;
             }
         }
+        return $responses;
     }
 
     public function generarCodigoVerificacion($plataforma)
