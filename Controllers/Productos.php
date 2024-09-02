@@ -852,4 +852,12 @@ class Productos extends Controller
         $response = $this->model->eliminar_detalleCombo($id);
         echo json_encode($response);
     }
+
+    /* ofertas */
+    public function obtener_oferta()
+    {
+        $response = $this->model->obtener_oferta($_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+    /* Fin ofertas */
 }
