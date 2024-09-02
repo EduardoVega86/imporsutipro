@@ -1,6 +1,7 @@
 <?php require_once './Views/templates/header.php'; ?>
 <?php require_once './Views/Productos/css/ofertas_style.php'; ?>
-<?php /* require_once './Views/Productos/Modales/agregar_oferta.php' */; ?>
+<?php require_once './Views/Productos/Modales/agregar_oferta.php'; ?>
+<?php require_once './Views/Productos/Modales/editar_oferta.php'; ?>
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
