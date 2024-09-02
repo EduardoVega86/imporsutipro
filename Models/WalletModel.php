@@ -707,12 +707,14 @@ class WalletModel extends Query
         $mail->Password = $smtp_pass;
         $mail->Port = 465;
         $mail->SMTPSecure = 'ssl';
-        $mail->setFrom($smtp_user, 'Imporsuit');
+        $mail->CharSet = 'UTF-8'; // Establecer el charset a UTF-8
+        $mail->setFrom($smtp_user, MARCA);
         $mail->addAddress($correo);
         $mail->isHTML(true);
         $mail->Subject = $asunto;
         $mail->Body = $mensaje;
         $mail->AltBody = $mensaje;
+
         if ($mail->send()) {
             return 1;
         } else {
