@@ -267,8 +267,8 @@ const listAuditoria = async (estado, id_transporte) => {
       var background = "";
       if (
         item.monto_recibir != item.monto_total_historial ||
-        parseFloat(item.costo_flete.toFixed(2)) >
-          parseFloat(item.envio_wallet.toFixed(2)) ||
+        Math.round(item.costo_flete * 100) >
+          Math.round(item.envio_wallet * 100) ||
         (item.drogshipin == 1 && item.id_plataforma == item.id_propietario) ||
         (item.numero_guia.includes("MKP") &&
           item.id_transporte == 1 &&
