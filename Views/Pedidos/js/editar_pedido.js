@@ -172,7 +172,7 @@ const listNuevoPedido = async () => {
         contentType: false, // No establecer ningún tipo de contenido
         dataType: "json",
         success: function (response) {
-          $("#nombre_combo").val(response[0].nombre);
+          $("#nombre_combo").text(response[0].nombre);
           $("#alerta_nombreCombo").show();
         },
         error: function (jqXHR, textStatus, errorThrown) {
