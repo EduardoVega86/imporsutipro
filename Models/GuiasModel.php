@@ -685,6 +685,8 @@ class GuiasModel extends Query
             "matriz" => $matriz
         );
 
+        print_r($data);
+
         // Enviar los datos en formdata
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_POST, 1);
