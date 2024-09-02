@@ -233,7 +233,7 @@ class Guias extends Controller
 
 
         $response = $this->model->generarSpeed($nombreO, $ciudadOrigen, $direccionO, $telefonoO, $referenciaO, $nombre, $ciudadDestino, $direccion, $telefono, $celular, $referencia, $contiene, $fecha, $numero_factura, $_SESSION["id_plataforma"], $observacion, $recaudo, $monto_factura, MATRIZ);
-
+        print_r($response);
         $response = json_decode($response, true);
 
         if (isset($response["guia"])) {
