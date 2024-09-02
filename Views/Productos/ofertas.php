@@ -12,13 +12,13 @@
             <table id="datatable_ofertas" class="table table-striped">
                 <thead>
                     <tr>
-                        <th class="centered">ID</th>
-                        <th class="centered">Nombres</th>
-                        <th class="centered">Usuario</th>
-                        <th class="centered">Email</th>
-                        <th class="centered">Telefono</th>
-                        <th class="centered">Tienda</th>
-                        <th class="centered">Agregado</th>
+                        <th class="centered">Nombre oferta</th>
+                        <th class="centered">Precio oferta</th>
+                        <th class="centered">Cantidad</th>
+                        <th class="centered">fecha inicio</th>
+                        <th class="centered">fecha fin</th>
+                        <th class="centered">nombre producto</th>
+                        <th class="centered">imagen</th>
                         <th class="centered">Acciones</th>
                     </tr>
                 </thead>
