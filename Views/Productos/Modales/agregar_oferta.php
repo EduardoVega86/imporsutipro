@@ -84,10 +84,19 @@
             var button = document.getElementById('guardar_oferta');
             button.disabled = true; // Desactivar el botón
 
+            // Extraer las fechas de inicio y fin desde el Daterangepicker
+            var fechas = $('#rango_fechas').data('daterangepicker');
+            var fechaInicio = fechas.startDate.format('YYYY-MM-DD HH:mm:ss');
+            var fechaFin = fechas.endDate.format('YYYY-MM-DD HH:mm:ss');
+
             // Crea un objeto FormData
             var formData = new FormData();
-            formData.append('nombre', $('#nombre_oferta').val());
-            formData.append('id_producto_oferta', $('#select_productos').val());
+            formData.append('nombre_oferta', $('#nombre_oferta').val());
+            formData.append('precio_oferta', $('#precio_oferta').val());
+            formData.append('cantidad_oferta', $('#cantidad_oferta').val());
+            formData.append('fecha_inicio', fechaInicio);
+            formData.append('fecha_fin', fechaFin);
+            formData.append('id_producto', $('#select_productos').val());
 
             // Realiza la solicitud AJAX
             $.ajax({

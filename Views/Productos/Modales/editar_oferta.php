@@ -26,7 +26,7 @@
             </div>
             <div class="modal-body">
                 <form id="editar_combo_form" enctype="multipart/form-data">
-                    <input type="hidden" id="id_combo_editar" name="id_combo_editar">
+                    <input type="hidden" id="id_oferta_editar" name="id_oferta_editar">
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label for="editar_nombre_combo" class="form-label">Nombre del combo</label>
@@ -86,10 +86,19 @@
             var button = document.getElementById('guardar_combo');
             button.disabled = true; // Desactivar el botón
 
+            // Extraer las fechas de inicio y fin desde el Daterangepicker
+            var fechas = $('#rango_fechas_editar').data('daterangepicker');
+            var fechaInicio = fechas.startDate.format('YYYY-MM-DD HH:mm:ss');
+            var fechaFin = fechas.endDate.format('YYYY-MM-DD HH:mm:ss');
+
             // Crea un objeto FormData
             var formData = new FormData();
             formData.append('nombre', $('#editar_nombre_combo').val());
-            formData.append('id_combo', $('#id_combo_editar').val());
+            formData.append('id_oferta', $('#id_oferta_editar').val());
+            formData.append('editar_precio_oferta', $('#editar_precio_oferta').val());
+            formData.append('editar_cantidad_oferta', $('#editar_cantidad_oferta').val());
+            formData.append('fecha_inicio', fechaInicio);
+            formData.append('fecha_fin', fechaFin);
             formData.append('id_producto_combo', $('#select_productos_editar').val());
 
             // Realiza la solicitud AJAX
