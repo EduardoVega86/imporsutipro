@@ -296,86 +296,60 @@ document.addEventListener("DOMContentLoaded", () => {
 /* Fin llenar select productos editar */
 
 /* fechas inicio y fin en agregar y editar */
-document.addEventListener("DOMContentLoaded", function () {
-  // Configuración para el campo de fecha y hora de inicio en agregar oferta
-  new tempusDominus.TempusDominus(document.getElementById("fecha_inicio"), {
-    display: {
-      components: {
-        calendar: true,
-        date: true,
-        month: true,
-        year: true,
-        decades: true,
-        clock: true,
-        hours: true,
-        minutes: true,
-        seconds: true,
-      },
-    },
-    localization: {
-      locale: "es", // Para español
-    },
-  });
-
-  // Configuración para el campo de fecha y hora de fin en agregar oferta
-  new tempusDominus.TempusDominus(document.getElementById("fecha_fin"), {
-    display: {
-      components: {
-        calendar: true,
-        date: true,
-        month: true,
-        year: true,
-        decades: true,
-        clock: true,
-        hours: true,
-        minutes: true,
-        seconds: true,
-      },
-    },
-    localization: {
-      locale: "es",
+$(document).ready(function () {
+  // Inicializar para el modal de agregar
+  $("#rango_fechas").daterangepicker({
+    timePicker: true,
+    timePicker24Hour: true,
+    timePickerSeconds: true,
+    locale: {
+      format: "YYYY-MM-DD HH:mm:ss",
+      applyLabel: "Aplicar",
+      cancelLabel: "Cancelar",
+      daysOfWeek: ["Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"],
+      monthNames: [
+        "Enero",
+        "Febrero",
+        "Marzo",
+        "Abril",
+        "Mayo",
+        "Junio",
+        "Julio",
+        "Agosto",
+        "Septiembre",
+        "Octubre",
+        "Noviembre",
+        "Diciembre",
+      ],
+      firstDay: 1,
     },
   });
 
-  // Repetir configuración para los campos de edición de combo
-  new tempusDominus.TempusDominus(
-    document.getElementById("fecha_inicio_editar"),
-    {
-      display: {
-        components: {
-          calendar: true,
-          date: true,
-          month: true,
-          year: true,
-          decades: true,
-          clock: true,
-          hours: true,
-          minutes: true,
-          seconds: true,
-        },
-      },
-      localization: {
-        locale: "es",
-      },
-    }
-  );
-
-  new tempusDominus.TempusDominus(document.getElementById("fecha_fin_editar"), {
-    display: {
-      components: {
-        calendar: true,
-        date: true,
-        month: true,
-        year: true,
-        decades: true,
-        clock: true,
-        hours: true,
-        minutes: true,
-        seconds: true,
-      },
-    },
-    localization: {
-      locale: "es",
+  // Inicializar para el modal de editar
+  $("#rango_fechas_editar").daterangepicker({
+    timePicker: true,
+    timePicker24Hour: true,
+    timePickerSeconds: true,
+    locale: {
+      format: "YYYY-MM-DD HH:mm:ss",
+      applyLabel: "Aplicar",
+      cancelLabel: "Cancelar",
+      daysOfWeek: ["Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"],
+      monthNames: [
+        "Enero",
+        "Febrero",
+        "Marzo",
+        "Abril",
+        "Mayo",
+        "Junio",
+        "Julio",
+        "Agosto",
+        "Septiembre",
+        "Octubre",
+        "Noviembre",
+        "Diciembre",
+      ],
+      firstDay: 1,
     },
   });
 });

@@ -44,13 +44,9 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="fecha_inicio_editar" class="form-label">Fecha y hora de inicio</label>
-                            <input type="text" class="form-control datetimepicker-input" id="fecha_inicio_editar" data-toggle="datetimepicker" data-target="#fecha_inicio_editar" placeholder="YYYY-MM-DD HH:MM:SS" />
-                        </div>
-                        <div class="col-md-6">
-                            <label for="fecha_fin_editar" class="form-label">Fecha y hora de fin</label>
-                            <input type="text" class="form-control datetimepicker-input" id="fecha_fin_editar" data-toggle="datetimepicker" data-target="#fecha_fin_editar" placeholder="YYYY-MM-DD HH:MM:SS" />
+                        <div class="col-md-12">
+                            <label for="rango_fechas_editar" class="form-label">Seleccione el rango de fechas</label>
+                            <input type="text" class="form-control" id="rango_fechas_editar" name="rango_fechas_editar" />
                         </div>
                     </div>
                     <div class="row mb-3">
