@@ -77,7 +77,7 @@
 
             // Realiza la solicitud AJAX
             $.ajax({
-                url: '' + SERVERURL + 'Productos/agregarofertas',
+                url: '' + SERVERURL + 'Productos/agregarOferta',
                 type: 'POST',
                 data: formData,
                 processData: false,
