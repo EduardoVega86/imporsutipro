@@ -21,6 +21,7 @@ const dataTableProductosOptions = {
     { className: "centered", targets: [0, 1, 2, 3, 4, 5, 6] },
     { orderable: false, targets: 0 },
   ],
+  order: [[2, "desc"]],
   columns: [
     { data: "chechbox" },
     { data: "id_inventario" },
