@@ -1082,7 +1082,7 @@ class TiendaModel extends Query
     public function crearTienda($tienda, $plataforma)
     {
         $maxRetries = 5;  // Número máximo de intentos
-        $retryDelay = 10;  // Tiempo de espera entre intentos en segundos
+        $retryDelay = 50;  // Tiempo de espera entre intentos en segundos
 
         ///crear tienda
         $url_crear = "https://activador.comprapor.com/activar/" . $tienda;
@@ -1134,7 +1134,7 @@ class TiendaModel extends Query
     {
         $response = $this->initialResponse();
         $maxRetries = 5;
-        $retryDelay = 10;
+        $retryDelay = 50;
 
         // Modificar tienda (envío del parámetro "antiguo" como POST)
         $url_modificar = "https://activador.comprapor.com/cambiarNombre/" . $nombre;
@@ -1198,7 +1198,7 @@ class TiendaModel extends Query
     {
         $response = $this->initialResponse();
         $maxRetries = 5;
-        $retryDelay = 10;
+        $retryDelay = 50;
 
         // Agregar dominio con subdominio existente
         $url_agregar_dominio = "https://activador.comprapor.com/anadirDominio/" . $dominio;
