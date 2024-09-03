@@ -710,4 +710,51 @@ class GuiasModel extends Query
     {
         $this->update("UPDATE matriz set guia_generadas = guia_generadas + 1 WHERE idmatriz = ?", array(MATRIZ));
     }
+
+    public function descargarGuia($guia)
+    {
+        $url = "https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=$guia";
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // Seguir redirecciones si las hay
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Deshabilitar la verificación SSL si es necesario
+
+        $response = curl_exec($ch);
+
+        if (curl_errno($ch)) {
+            echo 'Error en la solicitud cURL: ' . curl_error($ch);
+            curl_close($ch);
+            return false;
+        }
+
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        if ($httpCode != 200) {
+            echo "Error al descargar la guía, código de respuesta HTTP: $httpCode";
+            curl_close($ch);
+            return false;
+        }
+
+        curl_close($ch);
+
+        // Definir la ruta donde se guardará la guía
+        $rutaCarpeta = 'public/repositorio/guias/';
+        $nombreArchivo = "guia_$guia.pdf";
+        $rutaCompleta = $rutaCarpeta . $nombreArchivo;
+
+        // Asegurarse de que la carpeta existe
+        if (!file_exists($rutaCarpeta)) {
+            mkdir($rutaCarpeta, 0777, true);
+        }
+
+        // Guardar el archivo en el servidor
+        file_put_contents($rutaCompleta, $response);
+
+        // Verificar si se guardó correctamente
+        if (file_exists($rutaCompleta)) {
+            return $rutaCompleta; // Devuelve la ruta completa del archivo guardado
+        } else {
+            echo "Error al guardar la guía en el servidor.";
+            return false;
+        }
+    }
 }
