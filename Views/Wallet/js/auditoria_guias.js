@@ -273,7 +273,8 @@ const listAuditoria = async (estado, id_transporte) => {
         (item.numero_guia.includes("MKP") &&
           item.id_transporte == 1 &&
           item.costo_flete != 5.99) ||
-        (devuelto == 1 && Math.round(parseFloat(item.monto_recibir)) != Math.round(parseFloat(item.envio_wallet)) * -1)
+           (item.drogshipin == 1 && item.costo_producto <= 0) ||
+        (devuelto == 1 && parseFloat(item.monto_recibir).toFixed(2) != parseFloat(item.envio_wallet).toFixed(2) * -1)
       ) {
         if (item.monto_recibir != item.monto_total_historial) {
           motivo = motivo + " DIFERENCIA MONTOS";
@@ -297,8 +298,8 @@ const listAuditoria = async (estado, id_transporte) => {
         ) {
           motivo = motivo + " MKP DIFERENTE A 5.99";
         }
-        if (devuelto == 1 && (Math.round(parseFloat(item.monto_recibir)) != Math.round(parseFloat(item.envio_wallet)) * -1)) {
-          motivo = item.monto_recibir + "*" + item.envio_wallet + motivo + " VALOR DEVUELTO";
+        if (devuelto == 1 && (parseFloat(item.monto_recibir).toFixed(2) != parseFloat(item.envio_wallet).toFixed(2)) * -1) {
+          motivo =parseFloat(item.monto_recibir).toFixed(2) + "*" + parseFloat(item.envio_wallet).toFixed(2)* -1 + motivo + " VALOR DEVUELTO";
         }
         mostrar = 1;
         background = 'style="background-color: red;"';
@@ -313,6 +314,7 @@ const listAuditoria = async (estado, id_transporte) => {
                   <td>${item.numero_guia}</td>
           <td><span class="w-100 ${span_estado}">${estado_guia}</span></td>
           <td>${item.drogshipin}</td>
+                <td>${item.costo_wallet}</td>
            <td>${transporte_content}</td>
                   <td>${codBtn}</td>
                   <td>${item.monto_factura}</td>
@@ -322,6 +324,7 @@ const listAuditoria = async (estado, id_transporte) => {
                   <td>${item.costo}</td>
                  <td>${item.valor_cod}</td>
            <td>${item.utilidad}</td>
+                
            
            <td>
            <div class="dropdown">
