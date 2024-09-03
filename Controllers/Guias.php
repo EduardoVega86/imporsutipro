@@ -67,6 +67,7 @@ class Guias extends Controller
 
             $datos["status"] = "200";
             $this->model->asignarWallet($numero_factura, $datos["guia"], $fecha, $nombreDestino, $_SESSION["id_plataforma"], 1, $costo_producto, $cod, $costoflete);
+            $this->model->descargarGuia($datos["guia"]);
         } else {
             $datos["status"] = "500";
         }
