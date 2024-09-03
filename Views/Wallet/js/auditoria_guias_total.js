@@ -270,8 +270,6 @@ const listAuditoria = async (estado, id_transporte) => {
         parseFloat(item.costo_flete * 100) >
           parseFloat(item.envio_wallet * 100) ||
         (item.drogshipin == 1 && item.id_plataforma == item.id_propietario) ||
-        (item.drogshipin == 0 && item.id_plataforma != item.id_propietario) ||
-        (item.drogshipin == 1 && item.costo_wallet <= 0) ||
         (item.numero_guia.includes("MKP") &&
           item.id_transporte == 1 &&
           item.costo_flete != 5.99) ||
@@ -292,9 +290,6 @@ const listAuditoria = async (estado, id_transporte) => {
         if (item.drogshipin == 1 && item.id_plataforma == item.id_propietario) {
           motivo = motivo + " DROP IGUAL A PROPIETARIO";
         }
-        if (item.drogshipin == 0 && item.id_plataforma != item.id_propietario) {
-          motivo = motivo + " PROPIO DIFERENTE PROPIETARIO";
-        }
         if (
           item.numero_guia.includes("MKP") &&
           item.id_transporte == 1 &&
@@ -304,10 +299,6 @@ const listAuditoria = async (estado, id_transporte) => {
         }
         if (devuelto == 1 && (parseFloat(item.monto_recibir).toFixed(2) != parseFloat(item.envio_wallet).toFixed(2)) * -1) {
           motivo =parseFloat(item.monto_recibir).toFixed(2) + "*" + parseFloat(item.envio_wallet).toFixed(2)* -1 + motivo + " VALOR DEVUELTO";
-        }
-        if (item.drogshipin == 1 && item.costo_wallet <= 0) {
-          motivo =
-            motivo +  "DROP COSTO 0";
         }
         mostrar = 1;
         background = 'style="background-color: red;"';
@@ -322,7 +313,6 @@ const listAuditoria = async (estado, id_transporte) => {
                   <td>${item.numero_guia}</td>
           <td><span class="w-100 ${span_estado}">${estado_guia}</span></td>
           <td>${item.drogshipin}</td>
-                 <td>${item.costo_wallet}</td>
            <td>${transporte_content}</td>
                   <td>${codBtn}</td>
                   <td>${item.monto_factura}</td>

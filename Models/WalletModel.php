@@ -7,8 +7,6 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 class WalletModel extends Query
 {
-
-
     public function obtenerTiendas()
     {
         $id_matriz = $this->obtenerMatriz();
@@ -24,8 +22,6 @@ class WalletModel extends Query
         $response =  $this->select($sql);
         return $response;
     }
-
-
 
     public function editar($id_cabecera, $total_venta, $precio_envio, $full, $costo)
     {
@@ -1197,6 +1193,7 @@ class WalletModel extends Query
                 ccp.monto_recibir,
                 ccp.valor_pendiente,
                 ccp.envio_wallet,
+                ccp.costo_wallet,
                 (SELECT SUM(monto)
                     FROM historial_billetera hb
                     WHERE hb.motivo LIKE CONCAT('%', fc.numero_guia, '%')
@@ -1217,7 +1214,8 @@ class WalletModel extends Query
                     guia,
                     SUM(monto_recibir) AS monto_recibir,
                     SUM(valor_pendiente) AS valor_pendiente,
-                    SUM(precio_envio) AS envio_wallet
+                    SUM(precio_envio) AS envio_wallet,
+                    SUM(costo) AS costo_wallet
                 FROM 
                     cabecera_cuenta_pagar
                 WHERE visto = 1
@@ -1308,8 +1306,6 @@ class WalletModel extends Query
         //print_r($insertar_producto);
         if ($insertar_producto == 1) {
             $response['message'] = 'Producto y stock agregado correctamente';
-
-
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
             $response['message'] = 'Producto agregado correctamente';
@@ -1362,7 +1358,6 @@ class WalletModel extends Query
         return $response;
     }
 
-
     public function guardarArchivo($fileTmpPath, $fileName, $id_transportadora)
     {
         // Definir la ruta donde se guardará el archivo
@@ -1402,9 +1397,6 @@ class WalletModel extends Query
             ];
         }
     }
-
-
-
 
     /////////////////////////////// DEBUGS //////////////////////////////////////
 
@@ -1472,7 +1464,6 @@ class WalletModel extends Query
 
     public function procesarHistorial($id_plataforma, $numero_guia)
     {
-
         $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE guia = '$numero_guia' AND id_plataforma = '$id_plataforma'";
         echo $sql;
         $response =  $this->select($sql);

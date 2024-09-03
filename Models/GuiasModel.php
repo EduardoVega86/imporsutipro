@@ -713,7 +713,12 @@ class GuiasModel extends Query
 
     public function descargarGuia($guia)
     {
-        $url = "https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=$guia";
+        if (strpos("IMP", $guia) === 0 || strpos("MK", $guia) === 0) {
+            $url = "https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=$guia";
+        } else if (is_numeric($guia)) {
+            $url = "https://guias.imporsuitpro.com/Servientrega/guia/$guia";
+        }
+        // Inicializar cURL
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // Seguir redirecciones si las hay
