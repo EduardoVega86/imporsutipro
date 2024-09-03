@@ -31,6 +31,8 @@ class ProductosModel extends Query
             $sql .= " AND (p.nombre_producto LIKE '%$search%' OR p.codigo_producto LIKE '%$search%')";
         }
 
+        $sql .= " GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`";
+
         // Aplicar orden si existe
         if (!empty($orderColumn) && !empty($orderDir)) {
             $sql .= " ORDER BY $orderColumn $orderDir";
