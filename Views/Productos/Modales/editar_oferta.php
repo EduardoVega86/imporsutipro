@@ -26,24 +26,34 @@
             </div>
             <div class="modal-body">
                 <form id="editar_combo_form" enctype="multipart/form-data">
-                    <input type="hidden" id="id_combo_editar" name="id_combo_editar">
+                    <input type="hidden" id="id_oferta_editar" name="id_oferta_editar">
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label for="editar_nombre_combo" class="form-label">Nombre del combo</label>
                             <input type="text" class="form-control" id="editar_nombre_combo" placeholder="nombre del combo">
                         </div>
-                    </div>
-                    <div class="row mb-3">
+
+                        <div class="col-md-6">
+                            <label for="editar_cantidad_oferta" class="form-label">Cantidad</label>
+                            <input type="text" class="form-control" id="editar_cantidad_oferta" placeholder="Cantidad">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="editar_precio_oferta" class="form-label">Precio</label>
+                            <input type="text" class="form-control" id="editar_precio_oferta" placeholder="Precio">
+                        </div>
+
                         <div class="col-md-6">
                             <label for="select_productos_editar" class="form-label">Producto</label>
                             <select class="form-select" id="select_productos_editar" style="width: 100%">
                                 <option value="" selected>--- Elegir producto ---</option>
                             </select>
                         </div>
-                        <div class="col-md-6">
-                            <label for="imagen" class="form-label">Imagen</label>
-                            <input type="file" class="form-control" id="imagen_editar" name="imagen_editar" accept="image/*">
-                            <img id="preview-imagen_editar" src="#" alt="Vista previa de la imagen" style="display: none; margin-top: 10px; max-width: 100%;">
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <label for="rango_fechas_editar" class="form-label">Seleccione el rango de fechas</label>
+                            <input type="text" class="form-control" id="rango_fechas_editar" name="rango_fechas_editar" />
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -61,7 +71,6 @@
         // Función para reiniciar el formulario
         function resetForm() {
             $('#editar_combo_form')[0].reset();
-            $('#preview-imagen_editar').attr('src', '#').hide();
         }
 
         // Evento para reiniciar el formulario cuando se cierre el modal
@@ -71,27 +80,26 @@
             resetForm();
         });
 
-        // Vista previa de la imagen
-        $('#imagen_editar').change(function() {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                $('#preview-imagen_editar').attr('src', e.target.result).show();
-            }
-            reader.readAsDataURL(this.files[0]);
-        });
-
         $('#editar_combo_form').submit(function(event) {
             event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
 
             var button = document.getElementById('guardar_combo');
             button.disabled = true; // Desactivar el botón
 
+            // Extraer las fechas de inicio y fin desde el Daterangepicker
+            var fechas = $('#rango_fechas_editar').data('daterangepicker');
+            var fechaInicio = fechas.startDate.format('YYYY-MM-DD HH:mm:ss');
+            var fechaFin = fechas.endDate.format('YYYY-MM-DD HH:mm:ss');
+
             // Crea un objeto FormData
             var formData = new FormData();
             formData.append('nombre', $('#editar_nombre_combo').val());
-            formData.append('id_combo', $('#id_combo_editar').val());
+            formData.append('id_oferta', $('#id_oferta_editar').val());
+            formData.append('editar_precio_oferta', $('#editar_precio_oferta').val());
+            formData.append('editar_cantidad_oferta', $('#editar_cantidad_oferta').val());
+            formData.append('fecha_inicio', fechaInicio);
+            formData.append('fecha_fin', fechaFin);
             formData.append('id_producto_combo', $('#select_productos_editar').val());
-            formData.append('imagen', $('#imagen_editar')[0].files[0]);
 
             // Realiza la solicitud AJAX
             $.ajax({

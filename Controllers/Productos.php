@@ -129,7 +129,7 @@ class Productos extends Controller
         $start = $_POST['start'] ?? 0;
         $length = $_POST['length'] ?? 25;
         $search = $_POST['search']['value'] ?? '';
-        $orderColumnIndex = $_POST['order'][0]['column'] ?? 2; // Default order column
+        $orderColumnIndex = $_POST['order'][0]['column'] ?? 0; // Default order column
         $orderDir = $_POST['order'][0]['dir'] ?? 'desc';
 
         // Mapear el índice de la columna al nombre de la columna en la base de datos
@@ -144,7 +144,6 @@ class Productos extends Controller
             7 => 'p.pvp',
             8 => 'p.pref',
         ];
-
         $orderColumn = $columns[$orderColumnIndex] ?? 'p.id_producto';
 
         $response = $this->model->obtener_productos2(
@@ -223,12 +222,6 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
-
-
-
-
-
-
     /// Funciones de bodegas
 
     public function agregarBodega()
@@ -253,7 +246,6 @@ class Productos extends Controller
         $response = $this->model->obtenerBodega($id, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
-
 
     public function editarBodega()
     {

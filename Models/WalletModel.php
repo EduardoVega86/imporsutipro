@@ -7,8 +7,6 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 class WalletModel extends Query
 {
-
-
     public function obtenerTiendas()
     {
         $id_matriz = $this->obtenerMatriz();
@@ -24,8 +22,6 @@ class WalletModel extends Query
         $response =  $this->select($sql);
         return $response;
     }
-
-
 
     public function editar($id_cabecera, $total_venta, $precio_envio, $full, $costo)
     {
@@ -683,8 +679,8 @@ class WalletModel extends Query
         $sql = "UPDATE billeteras set codigo = '$codigo', fecha_codigo = now() WHERE id_plataforma = '$plataforma'";
         $response =  $this->select($sql);
         // enviar codigo de verificacion al correo
-        $correo = $this->obtenerCorreo($plataforma);
-        $correo = $correo[0]['correo'];
+        $correo = $this->obtenerCorreo2($plataforma);
+        //$correo = $correo[0]['correo'];
         $asunto = "Código de verificación";
         $mensaje = "Su código de verificación es: $codigo";
         $enviar = $this->enviarCorreoVerificacion($correo, $asunto, $mensaje);
@@ -696,6 +692,14 @@ class WalletModel extends Query
             $responses["message"] = "Tuviemos un problema al enviar el código de verificación, por favor toma captura de este mensaje y envialo a soporte";
         }
         return $responses;
+    }
+
+    public function obtenerCorreo2($id_plataforma)
+    {
+        $sql = "SELECT email from plataformas where id_plataforma = '$id_plataforma'";
+        $response =  $this->select($sql);
+        $response = $response[0]['email'];
+        return $response;
     }
 
     public function enviarCorreoVerificacion($correo, $asunto, $mensaje)
@@ -1189,6 +1193,7 @@ class WalletModel extends Query
                 ccp.monto_recibir,
                 ccp.valor_pendiente,
                 ccp.envio_wallet,
+                ccp.costo_wallet,
                 (SELECT SUM(monto)
                     FROM historial_billetera hb
                     WHERE hb.motivo LIKE CONCAT('%', fc.numero_guia, '%')
@@ -1209,7 +1214,8 @@ class WalletModel extends Query
                     guia,
                     SUM(monto_recibir) AS monto_recibir,
                     SUM(valor_pendiente) AS valor_pendiente,
-                    SUM(precio_envio) AS envio_wallet
+                    SUM(precio_envio) AS envio_wallet,
+                    SUM(costo) AS costo_wallet
                 FROM 
                     cabecera_cuenta_pagar
                 WHERE visto = 1
@@ -1300,8 +1306,6 @@ class WalletModel extends Query
         //print_r($insertar_producto);
         if ($insertar_producto == 1) {
             $response['message'] = 'Producto y stock agregado correctamente';
-
-
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
             $response['message'] = 'Producto agregado correctamente';
@@ -1354,7 +1358,6 @@ class WalletModel extends Query
         return $response;
     }
 
-
     public function guardarArchivo($fileTmpPath, $fileName, $id_transportadora)
     {
         // Definir la ruta donde se guardará el archivo
@@ -1394,9 +1397,6 @@ class WalletModel extends Query
             ];
         }
     }
-
-
-
 
     /////////////////////////////// DEBUGS //////////////////////////////////////
 
@@ -1464,7 +1464,6 @@ class WalletModel extends Query
 
     public function procesarHistorial($id_plataforma, $numero_guia)
     {
-
         $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE guia = '$numero_guia' AND id_plataforma = '$id_plataforma'";
         echo $sql;
         $response =  $this->select($sql);

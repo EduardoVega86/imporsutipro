@@ -67,6 +67,7 @@ class Guias extends Controller
 
             $datos["status"] = "200";
             $this->model->asignarWallet($numero_factura, $datos["guia"], $fecha, $nombreDestino, $_SESSION["id_plataforma"], 1, $costo_producto, $cod, $costoflete);
+            $this->model->descargarGuia($datos["guia"]);
         } else {
             $datos["status"] = "500";
         }
@@ -139,6 +140,7 @@ class Guias extends Controller
             $this->model->aumentarMatriz();
             $response2 = $this->model->actualizarGuia($numero_factura, $response["id"], $nombreDestino, $ciudad, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $cod, $costo_producto, $comentario, $_SESSION["id"], $_POST['calle_principal'], $_POST['calle_secundaria'], $contiene, $provincia, $costoflete, "SERVIENTREGA", 100);
             $this->model->asignarWallet($numero_factura, $response["id"], $fecha, $nombreDestino, $_SESSION["id_plataforma"], 1, $costo_producto, $cod, $costoflete);
+            $this->model->descargarGuia($response["id"]);
         }
         echo json_encode($response);
     }

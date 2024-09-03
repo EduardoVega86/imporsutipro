@@ -156,7 +156,8 @@ class GuiasModel extends Query
                 $id_transporte = 4;
                 break;
         }
-        $sql =  "UPDATE `facturas_cot` SET `id_usuario`=?,`monto_factura`=?,`nombre`=?,`telefono`=?,`provincia`=?,`c_principal`=?,`ciudad_cot`=?,`c_secundaria`=?,`referencia`=?,`observacion`=?,`guia_enviada`=1,`transporte`='$transp',`celular`=?,`estado_guia_sistema`=$estado_guia,`numero_guia`=?,`cod`=?,`contiene`=?,`comentario`=?,`id_transporte`='$id_transporte', `costo_flete` =$costo_flete WHERE `numero_factura`=?";
+        $fecha_guia = date("Y-m-d H:i:s");
+        $sql =  "UPDATE `facturas_cot` SET `id_usuario`=?,`monto_factura`=?,`nombre`=?,`telefono`=?,`provincia`=?,`c_principal`=?,`ciudad_cot`=?,`c_secundaria`=?,`referencia`=?,`observacion`=?,`guia_enviada`=1,`transporte`='$transp',`celular`=?,`estado_guia_sistema`=$estado_guia,`numero_guia`=?,`cod`=?,`contiene`=?,`comentario`=?,`id_transporte`='$id_transporte', `costo_flete` =$costo_flete, `fecha_guia` = '$fecha_guia' WHERE `numero_factura`=?";
         $data = array($usuario, $costo_producto, $nombreDestino, $telefonoDestino, $provincia, $calle_principal, $ciudadDestino, $calle_secundaria, $referenciaDestino, $comentario, $celularDestino, $guia, $cod, $contiene, $comentario, $numero_factura);
         $response = $this->insert($sql, $data);
         return $response;
@@ -659,7 +660,6 @@ class GuiasModel extends Query
 
     public function generarSpeed($nombreO, $ciudadOrigen, $direccionO, $telefonoO, $referenciaO, $nombre, $ciudadDestino, $direccion, $telefono, $celular, $referencia, $contiene, $fecha, $numero_factura, $plataforma, $observacion, $recaudo, $monto_factura, $matriz)
     {
-        echo "2";
         $sql = "SELECT url_imporsuit FROM plataformas WHERE id_plataforma = '$plataforma'";
         $url = $this->select($sql);
         $url = $url[0]['url_imporsuit'];
@@ -686,7 +686,6 @@ class GuiasModel extends Query
             "matriz" => $matriz
         );
 
-        print_r($data);
 
         // Enviar los datos en formdata
         $ch = curl_init($url);
@@ -710,5 +709,57 @@ class GuiasModel extends Query
     public function aumentarMatriz()
     {
         $this->update("UPDATE matriz set guia_generadas = guia_generadas + 1 WHERE idmatriz = ?", array(MATRIZ));
+    }
+
+    public function descargarGuia($guia)
+    {
+        if (strpos("IMP", $guia) === 0 || strpos("MK", $guia) === 0) {
+            $url = "https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=$guia";
+        } else if (is_numeric($guia)) {
+            $url = "https://guias.imporsuitpro.com/Servientrega/guia/$guia";
+        }
+        // Inicializar cURL
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // Seguir redirecciones si las hay
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Deshabilitar la verificación SSL si es necesario
+
+        $response = curl_exec($ch);
+
+        if (curl_errno($ch)) {
+            echo 'Error en la solicitud cURL: ' . curl_error($ch);
+            curl_close($ch);
+            return false;
+        }
+
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        if ($httpCode != 200) {
+            echo "Error al descargar la guía, código de respuesta HTTP: $httpCode";
+            curl_close($ch);
+            return false;
+        }
+
+        curl_close($ch);
+
+        // Definir la ruta donde se guardará la guía
+        $rutaCarpeta = 'public/repositorio/guias/';
+        $nombreArchivo = "guia_$guia.pdf";
+        $rutaCompleta = $rutaCarpeta . $nombreArchivo;
+
+        // Asegurarse de que la carpeta existe
+        if (!file_exists($rutaCarpeta)) {
+            mkdir($rutaCarpeta, 0777, true);
+        }
+
+        // Guardar el archivo en el servidor
+        file_put_contents($rutaCompleta, $response);
+
+        // Verificar si se guardó correctamente
+        if (file_exists($rutaCompleta)) {
+            return $rutaCompleta; // Devuelve la ruta completa del archivo guardado
+        } else {
+            echo "Error al guardar la guía en el servidor.";
+            return false;
+        }
     }
 }

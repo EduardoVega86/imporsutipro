@@ -110,7 +110,6 @@
                         <input type="text" maxlength="1" class="form-control otp-input" id="digit5" name="digit5">
                         <input type="text" maxlength="1" class="form-control otp-input" id="digit6" name="digit6">
                     </div>
-                    <button type="button" class="btn btn-warning mb-3">Enviar código</button>
 
                 </form>
             </div>

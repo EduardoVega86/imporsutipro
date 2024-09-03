@@ -31,13 +31,27 @@
                             <label for="nombre_oferta" class="form-label">Nombre del oferta</label>
                             <input type="text" class="form-control" id="nombre_oferta" placeholder="nombre del oferta">
                         </div>
-                    </div>
-                    <div class="row mb-3">
+
+                        <div class="col-md-6">
+                            <label for="cantidad_oferta" class="form-label">Cantidad</label>
+                            <input type="text" class="form-control" id="cantidad_oferta" placeholder="Cantidad">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="precio_oferta" class="form-label">Precio</label>
+                            <input type="text" class="form-control" id="precio_oferta" placeholder="Precio">
+                        </div>
                         <div class="col-md-6">
                             <label for="select_productos" class="form-label">Producto</label>
                             <select class="form-select" id="select_productos" style="width: 100%">
                                 <option value="" selected>--- Elegir producto ---</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <label for="rango_fechas" class="form-label">Seleccione el rango de fechas</label>
+                            <input type="text" class="form-control" id="rango_fechas" name="rango_fechas" />
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -70,10 +84,19 @@
             var button = document.getElementById('guardar_oferta');
             button.disabled = true; // Desactivar el botón
 
+            // Extraer las fechas de inicio y fin desde el Daterangepicker
+            var fechas = $('#rango_fechas').data('daterangepicker');
+            var fechaInicio = fechas.startDate.format('YYYY-MM-DD HH:mm:ss');
+            var fechaFin = fechas.endDate.format('YYYY-MM-DD HH:mm:ss');
+
             // Crea un objeto FormData
             var formData = new FormData();
-            formData.append('nombre', $('#nombre_oferta').val());
-            formData.append('id_producto_oferta', $('#select_productos').val());
+            formData.append('nombre_oferta', $('#nombre_oferta').val());
+            formData.append('precio_oferta', $('#precio_oferta').val());
+            formData.append('cantidad_oferta', $('#cantidad_oferta').val());
+            formData.append('fecha_inicio', fechaInicio);
+            formData.append('fecha_fin', fechaFin);
+            formData.append('id_producto', $('#select_productos').val());
 
             // Realiza la solicitud AJAX
             $.ajax({

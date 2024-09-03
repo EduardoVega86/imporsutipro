@@ -294,3 +294,64 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* Fin llenar select productos editar */
+
+/* fechas inicio y fin en agregar y editar */
+$(document).ready(function () {
+  // Inicializar para el modal de agregar
+  $("#rango_fechas").daterangepicker({
+    timePicker: true,
+    timePicker24Hour: true,
+    timePickerSeconds: true,
+    locale: {
+      format: "YYYY-MM-DD HH:mm:ss",
+      applyLabel: "Aplicar",
+      cancelLabel: "Cancelar",
+      daysOfWeek: ["Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"],
+      monthNames: [
+        "Enero",
+        "Febrero",
+        "Marzo",
+        "Abril",
+        "Mayo",
+        "Junio",
+        "Julio",
+        "Agosto",
+        "Septiembre",
+        "Octubre",
+        "Noviembre",
+        "Diciembre",
+      ],
+      firstDay: 1,
+    },
+  });
+
+  // Inicializar para el modal de editar
+  $("#rango_fechas_editar").daterangepicker({
+    timePicker: true,
+    timePicker24Hour: true,
+    timePickerSeconds: true,
+    locale: {
+      format: "YYYY-MM-DD HH:mm:ss",
+      applyLabel: "Aplicar",
+      cancelLabel: "Cancelar",
+      daysOfWeek: ["Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"],
+      monthNames: [
+        "Enero",
+        "Febrero",
+        "Marzo",
+        "Abril",
+        "Mayo",
+        "Junio",
+        "Julio",
+        "Agosto",
+        "Septiembre",
+        "Octubre",
+        "Noviembre",
+        "Diciembre",
+      ],
+      firstDay: 1,
+    },
+  });
+});
+
+/* Fin fechas inicion y fin en agregar y editar */

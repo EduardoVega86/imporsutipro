@@ -41,7 +41,7 @@ const dataTableProductosOptions = {
     { data: "agregar_privado" },
     { data: "acciones" },
   ],
-  order: [[2, "desc"]],
+  order: [[1, "desc"]],
   pageLength: 25,
   lengthMenu: [25, 50, 100, 200],
   destroy: true,
