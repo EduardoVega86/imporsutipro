@@ -129,7 +129,7 @@ class Productos extends Controller
         $start = $_POST['start'] ?? 0;
         $length = $_POST['length'] ?? 25;
         $search = $_POST['search']['value'] ?? '';
-        $orderColumnIndex = $_POST['order'][0]['column'] ?? 2; // Default order column
+        $orderColumnIndex = $_POST['order'][0]['column'] ?? 1; // Default order column
         $orderDir = $_POST['order'][0]['dir'] ?? 'desc';
 
         // Mapear el índice de la columna al nombre de la columna en la base de datos
