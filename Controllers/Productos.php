@@ -144,7 +144,6 @@ class Productos extends Controller
             7 => 'p.pvp',
             8 => 'p.pref',
         ];
-
         $orderColumn = $columns[$orderColumnIndex] ?? 'p.id_producto';
 
         $response = $this->model->obtener_productos2(
@@ -223,12 +222,6 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
-
-
-
-
-
-
     /// Funciones de bodegas
 
     public function agregarBodega()
@@ -253,7 +246,6 @@ class Productos extends Controller
         $response = $this->model->obtenerBodega($id, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
-
 
     public function editarBodega()
     {

@@ -6,8 +6,28 @@ class ShopifyModel extends Query
         parent::__construct();
     }
 
+    public function productoPlataforma($id_plataforma, $data)
+    {
+
+        $data = json_decode($data, true);
+        if (isset($data['line_items']) && is_array($data['line_items'])) {
+            foreach ($data['line_items'] as $item) {
+
+                $sql = "SELECT * FROM shopify_tienda WHERE id_plataforma = $id_plataforma and id_inventario =" . $item['sku'];
+                $response = $this->select($sql);
+                if (count($response) == 0) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
     public function gestionarRequest($plataforma, $data)
     {
+
+
+
         $data = json_decode($data, true);
         $order_number = $data['order_number'];
         $configuraciones = $this->obtenerConfiguracion($plataforma);
