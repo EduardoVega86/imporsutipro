@@ -58,6 +58,14 @@ class Wallet extends Controller
         }
         $this->views->render($this, "auditoria_guias");
     }
+    
+     public function auditoria_guias_total()
+    {
+        if ($_SESSION["cargo"] != 10) {
+            header("Location: /wallet/billetera");
+        }
+        $this->views->render($this, "auditoria_guias_total");
+    }
 
     //funciones
 
