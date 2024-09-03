@@ -14,8 +14,10 @@ class Shopify extends Controller
         if ($this->model->existenciaPlataforma($id_plataforma)) {
             $data = file_get_contents("php://input");
             $response = $this->model->agregarJson($id_plataforma, $data);
-
-            $this->model->gestionarRequest($id_plataforma, $data);
+            $valido = $this->model->productoPlataforma($id_plataforma, $data);
+            if ($valido) {
+                $this->model->gestionarRequest($id_plataforma, $data);
+            } else return;
         } else {
             $data = file_get_contents("php://input");
             $response = $this->model->agregarJson($id_plataforma, $data);

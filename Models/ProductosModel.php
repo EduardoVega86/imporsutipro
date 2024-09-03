@@ -31,6 +31,8 @@ class ProductosModel extends Query
             $sql .= " AND (p.nombre_producto LIKE '%$search%' OR p.codigo_producto LIKE '%$search%')";
         }
 
+        $sql .= " GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`";
+
         // Aplicar orden si existe
         if (!empty($orderColumn) && !empty($orderDir)) {
             $sql .= " ORDER BY $orderColumn $orderDir";
@@ -47,6 +49,9 @@ class ProductosModel extends Query
             $response[$key]['imagen'] = "<img src=\"$\" class=\"icon-button\" onclick=\"agregar_imagenProducto(7892, '$')\" alt=\"Agregar imagen\" width=\"50px\">";
             $response[$key]['marketplace'] = $this->marketplace($value['drogshipin'], $value['id_producto']);
             $response[$key]['enviar_cliente'] = '<i style="color:red;" class="fa-regular fa-paper-plane" onclick="abrir_modalSeleccionAtributo(1361,' . 10088 . ',30,6)"></i>';
+
+            $response[$key]['producto_variable'] = $this->atributos($value['producto_variable'], $value['id_producto']);
+
             $response[$key]['acciones'] = '<button class="btn btn-primary btn-sm" onclick="editarProducto(' . $value['id_producto'] . ')">Editar</button>
             <button class="btn btn-danger btn-sm" onclick="eliminarProducto(' . $value['id_producto'] . ')">Eliminar</button>';
         }
@@ -64,6 +69,16 @@ class ProductosModel extends Query
         ];
     }
 
+
+    public function atributos($estado, $id_producto)
+    {
+        if ($estado == 1) {
+            return '<img src="https://new.imporsuitpro.com/public/img/atributos.png" width="30px" id="buscar_traking" alt="buscar_traking" onclick="abrir_modalInventarioVariable(' . $id_producto . ')">';
+        } else {
+            return;
+        }
+    }
+
     public function marketplace($estado, $id_producto)
     {
         if ($estado == 1) {
@@ -76,10 +91,10 @@ class ProductosModel extends Query
     public function obtener_productos_privados($plataforma)
     {
         $sql = "SELECT ib.*, p.*
-FROM `inventario_bodegas` AS ib
-INNER JOIN `productos` AS p ON p.`id_producto` = ib.`id_producto`
-WHERE ib.`id_plataforma` = $plataforma and producto_privado=1
-GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
+        FROM `inventario_bodegas` AS ib
+        INNER JOIN `productos` AS p ON p.`id_producto` = ib.`id_producto`
+        WHERE ib.`id_plataforma` = $plataforma and producto_privado=1
+        GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
 
         return $this->select($sql);
     }
