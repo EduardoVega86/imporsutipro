@@ -17,6 +17,8 @@ class ShopifyModel extends Query
                 $response = $this->select($sql);
                 if (count($response) == 0) {
                     return false;
+                } else {
+                    return true;
                 }
             }
             return true;
