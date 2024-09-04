@@ -90,6 +90,7 @@ const listGuias = async () => {
     formData.append("drogshipin", $("#tienda_q").val());
     formData.append("transportadora", $("#transporte").val());
     formData.append("impreso", $("#impresion").val());
+    formData.append("despachos", $("#despachos").val());
 
     const response = await fetch(`${SERVERURL}pedidos/obtener_guias`, {
       method: "POST",

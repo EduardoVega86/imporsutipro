@@ -92,8 +92,11 @@
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
             <div class="filter-container">
-                <button class="filter-btn active" data-filter="0">Novedades</button>
-                <button class="filter-btn" data-filter="1">Sin novedad</button>
+                <!-- <button class="filter-btn active" data-filter="0">Novedades</button>
+                <button class="filter-btn" data-filter="1">Sin novedad</button> -->
+
+                <button class="filter-btn" onclick="window.location.href='<?php echo SERVERURL . 'wallet/auditoria_guias'; ?>'">Novedades</button>
+                <button class="filter-btn" onclick="window.location.href='<?php echo SERVERURL . 'wallet/auditoria_guias_total'; ?>'">Sin novedad</button>
             </div>
             <table id="datatable_auditoria" class="table table-striped">
 

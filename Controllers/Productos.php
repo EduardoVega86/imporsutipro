@@ -742,7 +742,13 @@ class Productos extends Controller
         echo json_encode($response);
     }
     
-  
+    public function obtener_proveedores()
+    {
+        $response = $this->model->obtener_proveedores();
+        echo json_encode($response);
+    }
+    
+    
     
     public function obtener_productos_shopify()
     {

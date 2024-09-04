@@ -32,6 +32,18 @@
                         </div>
                     </div>
                 </div>
+                <div class="flex-fill filtro_impresar">
+                    <div class=" d-flex flex-column justify-content-start">
+                        <label for="despachado" class="col-sm-2 col-form-label">Despachados</label>
+                        <div>
+                            <select name="despachos" class="form-control" id="despachos">
+                                <option value=""> Todas</option>
+                                <option value="2"> Despachados </option>
+                                <option value="1"> No Despachados </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
                 <div class="flex-fill filtro_tienda" style="width: 100%; padding-top: 8px; ">
                     <div style="width: 100%;">
                         <label for="tienda_q" class="col-form-label">Proveedor / Dropshipper</label>
