@@ -37,7 +37,7 @@
                         </div>
                     </div>
                     <div class="alert alert-warning" role="alert">
-                        <strong>Atención:</strong> Es necesario que realices el paso de agregar el record DNS antes de continuar.
+                        <strong>Atención:</strong> Por favor, asegúrate de crear un registro DNS de tipo A, con el nombre '@', que apunte a la dirección IP 3.233.119.65, antes de proceder con los siguientes pasos.
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
