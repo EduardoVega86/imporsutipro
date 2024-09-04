@@ -98,11 +98,12 @@
             <table id="datatable_auditoria" class="table table-striped">
 
                 <thead>
-                    <tr>
+                     <tr>
                         <th class="centered">Factura</th>
                         <th class="centered">Numero Guia</th>
                         <th class="centered">Estado Guia</th>
                         <th class="centered">Dropshippin</th>
+                         <th class="centered">CostoWallet</th>
                         <th class="centered">Transportadora</th>
                         <th class="centered">COD</th>
                         <th class="centered">Monto Factura</th>
