@@ -185,11 +185,10 @@ class ProductosModel extends Query
             $detalle_sql = "INSERT INTO shopify_tienda (id_plataforma, id_invetario) 
                         VALUES (?, ?)";
 
-            foreach ($inventario as $inv) {
+            
                 $detalle_data = array(
                     $plataforma,
-                    $id_producto
-                );
+                    $id_producto);
                 $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
 
                 if ($guardar_detalle == 1) {
