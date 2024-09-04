@@ -13,7 +13,7 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
-    public function cargarGuias($plataforma, $fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin)
+    public function cargarGuias($plataforma, $fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos)
     {
         $sql = "SELECT 
         fc.*, 
@@ -62,13 +62,17 @@ class PedidosModel extends Query
         //echo $impreso;
         if ($impreso !== null && $impreso !== '') {
 
-
-
             if ($impreso == 0 || $impreso == 1) {
                 $sql .= " AND impreso = '$impreso'";
             }
         }
 
+        if ($despachos !== null && $despachos !== '') {
+
+            if ($despachos == 1 || $despachos == 2) {
+                $sql .= " AND estado_factura = '$despachos'";
+            }
+        }
 
 
         $sql .= " ORDER BY fc.numero_factura DESC;";
@@ -168,7 +172,7 @@ class PedidosModel extends Query
         return $this->select($sql, $params);
     }
 
-    public function cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin)
+    public function cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos)
     {
         $sql = "SELECT 
             fc.*, 
@@ -215,6 +219,13 @@ class PedidosModel extends Query
 
         if ($impreso == 0 || $impreso == 1) {
             $sql .= " AND impreso = $impreso";
+        }
+
+        if ($despachos !== null && $despachos !== '') {
+
+            if ($despachos == 1 || $despachos == 2) {
+                $sql .= " AND estado_factura = '$despachos'";
+            }
         }
 
         // Mueve la cláusula ORDER BY al final de la consulta
