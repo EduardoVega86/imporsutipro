@@ -676,7 +676,7 @@ class Productos extends Controller
         // Obtener el ID de inventario desde el formulario
         $id_inventario = $_POST['id_inventario'];
 
-        $response = $this->model->importar_productos_shopify($id_invetario, $_SESSION['id_plataforma']);
+        $response = $this->model->importar_productos_shopify($id_inventario, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
 
