@@ -141,16 +141,16 @@ const listNuevoPedido = async () => {
         nuevoPedido.sku
       }"></input>
                     <td ${color_combo}>${nuevoPedido.id_producto}</td>
-                    <td><input ${disable_combo} type="text" onblur='recalcular("${
-        nuevoPedido.id_detalle
-      }", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}", "cantidad_nuevoPedido_${index}")' id="cantidad_nuevoPedido_${index}" 
+                    <td><input ${disable_combo} type="text" onblur='recalcular("${nuevoPedido.id_producto}", "${nuevoPedido.id_detalle}"
+                    , "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}"
+                    , "cantidad_nuevoPedido_${index}")' id="cantidad_nuevoPedido_${index}" 
         class="form-control prec" 
         value="${nuevoPedido.cantidad}">
         </td>
                     <td>${nuevoPedido.nombre_producto} ${variedad}</td>
-                    <td><input ${disable_combo} type="text" onblur='recalcular("${
-        nuevoPedido.id_detalle
-      }", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}", "cantidad_nuevoPedido_${index}")' id="precio_nuevoPedido_${index}" class="form-control prec" value="${precio}"></td>
+                    <td><input ${disable_combo} type="text" onblur='recalcular("${nuevoPedido.id_producto}", "${nuevoPedido.id_detalle}"
+                    , "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}"
+                    , "cantidad_nuevoPedido_${index}")' id="precio_nuevoPedido_${index}" class="form-control prec" value="${precio}"></td>
                     <td><input ${disable_combo} type="text" onblur='recalcular("${nuevoPedido.id_producto}", "${nuevoPedido.id_detalle}"
                     , "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}"
                     , "cantidad_nuevoPedido_${index}")' id="descuento_nuevoPedido_${index}" class="form-control desc" value="${descuento}"></td>
