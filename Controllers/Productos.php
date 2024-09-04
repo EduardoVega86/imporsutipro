@@ -674,9 +674,9 @@ class Productos extends Controller
     {
 
         // Obtener el ID de inventario desde el formulario
-        $id_producto = $_POST['id_producto'];
+        $id_invetario = $_POST['id_invetario'];
 
-        $response = $this->model->importar_productos_shopify($id_producto, $_SESSION['id_plataforma']);
+        $response = $this->model->importar_productos_shopify($id_invetario, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
 
@@ -739,6 +739,12 @@ class Productos extends Controller
     public function obtener_productosPrivados_tienda()
     {
         $response = $this->model->obtener_productosPrivados_tienda($_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+    
+    public function obtener_productos_shopify()
+    {
+        $response = $this->model->obtener_productos_shopify($_SESSION['id_plataforma']);
         echo json_encode($response);
     }
 
