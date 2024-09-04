@@ -742,6 +742,8 @@ class Productos extends Controller
         echo json_encode($response);
     }
     
+  
+    
     public function obtener_productos_shopify()
     {
         $response = $this->model->obtener_productos_shopify($_SESSION['id_plataforma']);

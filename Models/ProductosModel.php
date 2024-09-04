@@ -222,6 +222,13 @@ class ProductosModel extends Query
         //  echo $sql;
         return $this->select($sql);
     }
+    
+     public function obtener_productos_shopify($plataforma)
+    {
+        $sql = "SELECT * FROM productos p LEFT JOIN inventario_bodegas ib ON p.id_producto = ib.id_producto AND ib.id_plataforma = $plataforma LEFT JOIN variedades v ON ib.id_variante = v.id_variedad WHERE ib.id_plataforma = $plataforma";
+        //  echo $sql;
+        return $this->select($sql);
+    }
 
 
     public function agregarProducto($codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $plataforma, $stock_inicial, $bodega, $pcp, $pvp, $pref)
