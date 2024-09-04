@@ -177,20 +177,21 @@ class ProductosModel extends Query
     public function importar_productos_shopify($id_producto, $plataforma)
     {
         $response = $this->initialResponse();
+       // echo "SELECT * FROM shopify_tienda WHERE id_plataforma = $plataforma AND id_inventario = $id_producto";
         $inicial_variable = $this->select("SELECT * FROM shopify_tienda WHERE id_plataforma = $plataforma AND id_inventario = $id_producto");
-
+        //print_r($inicial_variable);
         if (empty($inicial_variable)) {
             //$inventario = $this->select("SELECT * FROM inventario_bodegas ib, productos p WHERE p.id_producto = $id_producto AND ib.id_producto = p.id_producto");
-
-            $detalle_sql = "INSERT INTO shopify_tienda (id_plataforma, id_invetario) 
+//echo 'entr';
+            $detalle_sql = "INSERT INTO shopify_tienda (id_plataforma, id_inventario) 
                         VALUES (?, ?)";
-
+            
            $detalle_data = array(
                     $plataforma,
                     $id_producto
                 );
                 $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
-
+//print_r($guardar_detalle);
                 if ($guardar_detalle == 1) {
                     // Obtener el último ID insertado en productos_tienda
                  
