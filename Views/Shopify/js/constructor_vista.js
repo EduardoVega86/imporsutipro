@@ -74,7 +74,7 @@ let dataTableProductosShopifyIsInitialized = false;
 
 const dataTableProductosShopifyOptions = {
   columnDefs: [
-    { className: "centered", targets: [1, 2, 3, 4, 5] },
+    { className: "centered", targets: [1, 2, 3, 4] },
     { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
   ],
   pageLength: 10,
@@ -127,16 +127,7 @@ const listProductosShopify = async () => {
                     <td><img src="${enlace_imagen}" class="icon-button" onclick="agregar_imagenProducto(${producto.id_producto},'${enlace_imagen}')" alt="Agregar imagen" width="50px"></td>
                     <td>${producto.nombre_producto}</td>
                     <td>${producto.pvp}</td>
-                    <td>
-                    <div class="dropdown">
-                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-gear"></i>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" style="cursor: pointer;" href="${SERVERURL}shopify/eliminarProducto?producto=${producto.id}"><i class='bx bx-trash'></i>Eliminar</a></li>
-                    </ul>
-                    </div>
-                    </td>
+                   
                 </tr>`;
     });
     document.getElementById("tableBody_productos_shopify").innerHTML = content;

@@ -17,7 +17,7 @@
                     <th class="text-nowrap"></th>
                     <th class="text-nowrap">Nombre</th>
                     <th class="text-nowrap">Precio</th>
-                    <th class="text-nowrap">Acciones</th>
+              
                 </tr>
             </thead>
             <tbody id="tableBody_productos_shopify"></tbody>

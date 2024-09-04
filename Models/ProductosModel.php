@@ -177,20 +177,21 @@ class ProductosModel extends Query
     public function importar_productos_shopify($id_producto, $plataforma)
     {
         $response = $this->initialResponse();
+       // echo "SELECT * FROM shopify_tienda WHERE id_plataforma = $plataforma AND id_inventario = $id_producto";
         $inicial_variable = $this->select("SELECT * FROM shopify_tienda WHERE id_plataforma = $plataforma AND id_inventario = $id_producto");
-
+        //print_r($inicial_variable);
         if (empty($inicial_variable)) {
             //$inventario = $this->select("SELECT * FROM inventario_bodegas ib, productos p WHERE p.id_producto = $id_producto AND ib.id_producto = p.id_producto");
-
-            $detalle_sql = "INSERT INTO shopify_tienda (id_plataforma, id_invetario) 
+//echo 'entr';
+            $detalle_sql = "INSERT INTO shopify_tienda (id_plataforma, id_inventario) 
                         VALUES (?, ?)";
-
+            
            $detalle_data = array(
                     $plataforma,
                     $id_producto
                 );
                 $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
-
+//print_r($guardar_detalle);
                 if ($guardar_detalle == 1) {
                     // Obtener el último ID insertado en productos_tienda
                  
@@ -224,8 +225,8 @@ class ProductosModel extends Query
     
      public function obtener_productos_shopify($plataforma)
     {
-        $sql = "SELECT st.*, ib.*, p.* FROM shopify_tienda st LEFT JOIN inventario_bodegas ib ON st.id_inventario = ib.id_inventario AND ib.id_plataforma = st.id_plataforma LEFT JOIN productos p ON ib.id_producto = p.id_producto WHERE st.id_plataforma = $plataforma";
-        //  echo $sql;
+        $sql = "SELECT st.id_inventario, (select id_producto from inventario_bodegas WHERE id_inventario=st.id_inventario) as id_producto,  (SELect nombre_producto FROM productos WHERE id_producto=(select id_producto from inventario_bodegas WHERE id_inventario=st.id_inventario)) as nombre_producto,  (SELect image_path FROM productos WHERE id_producto=(select id_producto from inventario_bodegas WHERE id_inventario=st.id_inventario)) as image_path, (select pvp from inventario_bodegas WHERE id_inventario=st.id_inventario) as pvp  FROM shopify_tienda st  WHERE id_plataforma = $plataforma; ";
+          //echo $sql;
         return $this->select($sql);
     }
 
