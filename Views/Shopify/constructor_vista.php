@@ -10,7 +10,7 @@
     </div>
     <div class="table-responsive">
         <!-- <table class="table table-bordered table-striped table-hover"> -->
-        <table id="datatable_horizonal" width="100%" class="table table-striped">
+        <table id="datatable_productos_shopify" width="100%" class="table table-striped">
             <thead>
                 <tr>
                     <th class="text-nowrap">ID</th>
@@ -20,7 +20,7 @@
                     <th class="text-nowrap">Acciones</th>
                 </tr>
             </thead>
-            <tbody id="tableBody_horizonal"></tbody>
+            <tbody id="tableBody_productos_shopify"></tbody>
         </table>
     </div>
 </div>
