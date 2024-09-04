@@ -668,6 +668,17 @@ class Productos extends Controller
         $response = $this->model->importar_productos_tienda($id_producto, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
+    
+    
+    public function importar_productos_shopify()
+    {
+
+        // Obtener el ID de inventario desde el formulario
+        $id_inventario = $_POST['id_inventario'];
+
+        $response = $this->model->importar_productos_shopify($id_invetario, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
 
 
     public function agregarDestacado()
@@ -728,6 +739,14 @@ class Productos extends Controller
     public function obtener_productosPrivados_tienda()
     {
         $response = $this->model->obtener_productosPrivados_tienda($_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+    
+  
+    
+    public function obtener_productos_shopify()
+    {
+        $response = $this->model->obtener_productos_shopify($_SESSION['id_plataforma']);
         echo json_encode($response);
     }
 

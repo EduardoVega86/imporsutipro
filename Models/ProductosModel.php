@@ -172,10 +172,60 @@ class ProductosModel extends Query
         return $response;
     }
 
+    
+    
+    public function importar_productos_shopify($id_producto, $plataforma)
+    {
+        $response = $this->initialResponse();
+        $inicial_variable = $this->select("SELECT * FROM shopify_tienda WHERE id_plataforma = $plataforma AND id_inventario = $id_producto");
+
+        if (empty($inicial_variable)) {
+            //$inventario = $this->select("SELECT * FROM inventario_bodegas ib, productos p WHERE p.id_producto = $id_producto AND ib.id_producto = p.id_producto");
+
+            $detalle_sql = "INSERT INTO shopify_tienda (id_plataforma, id_invetario) 
+                        VALUES (?, ?)";
+
+            foreach ($inventario as $inv) {
+                $detalle_data = array(
+                    $plataforma,
+                    $id_producto
+                );
+                $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
+
+                if ($guardar_detalle == 1) {
+                    // Obtener el último ID insertado en productos_tienda
+                 
+
+                    // Imprimir el último ID
+                    //echo "El último ID de producto en la tienda es: " . $ultimo_id_producto_tienda;
+
+                    // Obtener las imágenes adicionales del producto
+         
+                    $response['status'] = 200;
+                    $response['title'] = 'Petición exitosa';
+                    $response['message'] = 'Producto y sus imágenes adicionales agregados correctamente';
+                }
+            }
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'El producto ya existe en su configuracion.';
+        }
+
+        return $response;
+    }
+    
 
     public function obtener_productos_inventario($plataforma)
     {
         $sql = "SELECT * FROM productos p LEFT JOIN inventario_bodegas ib ON p.id_producto = ib.id_producto AND ib.id_plataforma = $plataforma LEFT JOIN variedades v ON ib.id_variante = v.id_variedad WHERE ib.id_plataforma = $plataforma";
+        //  echo $sql;
+        return $this->select($sql);
+    }
+    
+     public function obtener_productos_shopify($plataforma)
+    {
+        $sql = "SELECT st.*, ib.*, p.* FROM shopify_tienda st LEFT JOIN inventario_bodegas ib ON st.id_inventario = ib.id_inventario AND ib.id_plataforma = st.id_plataforma LEFT JOIN productos p ON ib.id_producto = p.id_producto WHERE st.id_plataforma = $plataforma";
         //  echo $sql;
         return $this->select($sql);
     }
