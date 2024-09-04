@@ -713,6 +713,7 @@ class GuiasModel extends Query
 
     public function descargarGuia($guia)
     {
+        $url = "";
         if (str_contains("IMP", $guia) || str_contains("MKP", $guia)) {
             $url = "https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=$guia";
         } else if (is_numeric($guia)) {
