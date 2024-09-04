@@ -225,7 +225,7 @@ class ProductosModel extends Query
     
      public function obtener_productos_shopify($plataforma)
     {
-        $sql = "SELECT * FROM productos p LEFT JOIN inventario_bodegas ib ON p.id_producto = ib.id_producto AND ib.id_plataforma = $plataforma LEFT JOIN variedades v ON ib.id_variante = v.id_variedad WHERE ib.id_plataforma = $plataforma";
+        $sql = "SELECT st.*, ib.*, p.* FROM shopify_tienda st LEFT JOIN inventario_bodegas ib ON st.id_inventario = ib.id_inventario AND ib.id_plataforma = st.id_plataforma LEFT JOIN productos p ON ib.id_producto = p.id_producto WHERE st.id_plataforma = $plataforma";
         //  echo $sql;
         return $this->select($sql);
     }
