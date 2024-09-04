@@ -26,7 +26,7 @@ function datos_auditoriaPrincial(estado, transportadora) {
   });
 }
 
-$(document).ready(function () {
+/* $(document).ready(function () {
   var filtro_facturas_principal = $(this).data("filter"); // Actualizar variable con el filtro seleccionado
   var id_transportadora_principal = $("#transporte").val();
   datos_auditoriaPrincial(
@@ -51,7 +51,8 @@ $(document).ready(function () {
     initDataTableAuditoria(filtro_facturas, id_transportadora);
     datos_auditoriaPrincial(filtro_facturas, id_transportadora);
   });
-});
+}); */
+
 
 let dataTableAuditoria;
 let dataTableAuditoriaIsInitialized = false;
