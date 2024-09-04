@@ -185,10 +185,10 @@ class ProductosModel extends Query
             $detalle_sql = "INSERT INTO shopify_tienda (id_plataforma, id_invetario) 
                         VALUES (?, ?)";
 
-            
-                $detalle_data = array(
+           $detalle_data = array(
                     $plataforma,
-                    $id_producto);
+                    $id_producto
+                );
                 $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
 
                 if ($guardar_detalle == 1) {
@@ -204,7 +204,7 @@ class ProductosModel extends Query
                     $response['title'] = 'Petición exitosa';
                     $response['message'] = 'Producto y sus imágenes adicionales agregados correctamente';
                 }
-            }
+            
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
