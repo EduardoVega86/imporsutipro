@@ -716,7 +716,6 @@ class GuiasModel extends Query
         $url = "";
         if (str_contains($guia, "IMP") || str_contains($guia, "MKP")) {
             $url = "https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=$guia";
-            echo $url;
         } else if (is_numeric($guia)) {
             $url = "https://guias.imporsuitpro.com/Servientrega/guia/$guia";
         }
