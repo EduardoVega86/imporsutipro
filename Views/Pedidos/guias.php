@@ -165,7 +165,7 @@
     });
 
     $(document).ready(function() {
-        $("#tienda_q,#estado_q,#transporte,#impresion").change(function() {
+        $("#tienda_q,#estado_q,#transporte,#impresion,#despachos").change(function() {
             initDataTable();
         });
     });
