@@ -426,6 +426,14 @@ class ProductosModel extends Query
         return $this->select($sql);
     }
 
+    public function obtener_proveedores()
+    {
+        $sql = "select COUNT(id_producto), (SELECT nombre_tienda from plataformas WHERE id_plataforma=productos.id_plataforma) plataformas from productos WHERE id_plataforma in (SELECT id_plataforma FROM plataformas WHERE proveedor=1) and drogshipin=1 group by id_plataforma";
+        // echo $sql;
+        return $this->select($sql);
+    }
+    
+    
     public function obtenerProductoTienda($id)
     {
         $sql = "SELECT * FROM `productos_tienda` pt, productos p, inventario_bodegas ib WHERE  pt.id_producto=p.id_producto and pt.id_inventario=ib.id_inventario and pt.id_producto_tienda=$id";
