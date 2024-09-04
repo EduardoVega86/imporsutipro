@@ -719,6 +719,8 @@ class GuiasModel extends Query
             echo $url;
         } else if (is_numeric($guia)) {
             $url = "https://guias.imporsuitpro.com/Servientrega/guia/$guia";
+        } else {
+            echo $guia;
         }
         // Inicializar cURL
         $ch = curl_init($url);
