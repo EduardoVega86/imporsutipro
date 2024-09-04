@@ -8,6 +8,21 @@
             <!-- Los datos JSON se insertan aquí -->
         </div>
     </div>
+    <div class="table-responsive">
+        <!-- <table class="table table-bordered table-striped table-hover"> -->
+        <table id="datatable_horizonal" width="100%" class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="text-nowrap">ID</th>
+                    <th class="text-nowrap"></th>
+                    <th class="text-nowrap">Nombre</th>
+                    <th class="text-nowrap">Precio</th>
+                    <th class="text-nowrap">Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody_horizonal"></tbody>
+        </table>
+    </div>
 </div>
 
 <script src="<?php echo SERVERURL ?>/Views/Shopify/js/constructor_vista.js"></script>

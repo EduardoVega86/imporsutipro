@@ -406,11 +406,9 @@ function copyToClipboard(id) {
           positionClass: "toast-bottom-center",
         });
       } else if (response.status == 200) {
-        toastr.success("PORDUCTO AGREGADO CORRECTAMENTE", "NOTIFICACIÓN", {
+        toastr.success("PRODUCTO AGREGADO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
-        $("#imagen_categoriaModal").modal("hide");
-        initDataTable();
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
