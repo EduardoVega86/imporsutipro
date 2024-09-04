@@ -284,6 +284,13 @@ class Tienda extends Controller
         echo json_encode($response);
     }
 
+    public function obtener_combo_idCombo()
+    {
+        $id_combo = $_POST['id_combo'];
+        $response = $this->model->obtener_combo_idCombo($id_combo);
+        echo json_encode($response);
+    }
+
     public function obtener_detalle_combo_id()
     {
         $id_combo = $_POST['id_combo'];

@@ -141,19 +141,19 @@ const listNuevoPedido = async () => {
         nuevoPedido.sku
       }"></input>
                     <td ${color_combo}>${nuevoPedido.id_producto}</td>
-                    <td><input ${disable_combo} type="text" onblur='recalcular("${
-        nuevoPedido.id_detalle
-      }", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}", "cantidad_nuevoPedido_${index}")' id="cantidad_nuevoPedido_${index}" 
+                    <td><input ${disable_combo} type="text" onblur='recalcular("${nuevoPedido.id_producto}", "${nuevoPedido.id_detalle}"
+                    , "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}"
+                    , "cantidad_nuevoPedido_${index}")' id="cantidad_nuevoPedido_${index}" 
         class="form-control prec" 
         value="${nuevoPedido.cantidad}">
         </td>
                     <td>${nuevoPedido.nombre_producto} ${variedad}</td>
-                    <td><input ${disable_combo} type="text" onblur='recalcular("${
-        nuevoPedido.id_detalle
-      }", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}", "cantidad_nuevoPedido_${index}")' id="precio_nuevoPedido_${index}" class="form-control prec" value="${precio}"></td>
-                    <td><input ${disable_combo} type="text" onblur='recalcular("${
-        nuevoPedido.id_detalle
-      }", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}", "cantidad_nuevoPedido_${index}")' id="descuento_nuevoPedido_${index}" class="form-control desc" value="${descuento}"></td>
+                    <td><input ${disable_combo} type="text" onblur='recalcular("${nuevoPedido.id_producto}", "${nuevoPedido.id_detalle}"
+                    , "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}"
+                    , "cantidad_nuevoPedido_${index}")' id="precio_nuevoPedido_${index}" class="form-control prec" value="${precio}"></td>
+                    <td><input ${disable_combo} type="text" onblur='recalcular("${nuevoPedido.id_producto}", "${nuevoPedido.id_detalle}"
+                    , "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}"
+                    , "cantidad_nuevoPedido_${index}")' id="descuento_nuevoPedido_${index}" class="form-control desc" value="${descuento}"></td>
                     <td><span class='tota' id="precioFinal_nuevoPedido_${index}">${precioFinal.toFixed(
         2
       )}</span></td>
@@ -198,7 +198,7 @@ const listNuevoPedido = async () => {
   }
 };
 
-function recalcular(id, idPrecio, idDescuento, idCantidad) {
+function recalcular(id_producto, id, idPrecio, idDescuento, idCantidad) {
   const precio = parseFloat(document.getElementById(idPrecio).value);
   const descuento = parseFloat(document.getElementById(idDescuento).value);
   const cantidad = parseFloat(document.getElementById(idCantidad).value);
@@ -238,16 +238,10 @@ function recalcular(id, idPrecio, idDescuento, idCantidad) {
       var priceSpan = $(this).find(".price-tag span");
       var priceValue = $("#costo_flete").val();
 
-      const path = window.location.pathname;
-      const segments = path.split("/");
-      const idProducto_calcular = segments[segments.length - 1];
-
-      console.log("id producto: " + idProducto_calcular);
-
       var monto_total_general = $("#monto_total").text().trim();
 
       let formData = new FormData();
-      formData.append("id_producto", idProducto_calcular);
+      formData.append("id_producto", id_producto);
       formData.append("total", monto_total_general);
       formData.append("tarifa", priceValue);
       formData.append("costo", costo_general);

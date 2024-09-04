@@ -1070,6 +1070,12 @@ class TiendaModel extends Query
         return $this->select($sql);
     }
 
+    public function obtener_combo_idCombo($id_combo)
+    {
+        $sql = "SELECT * FROM `combos` WHERE id=$id_combo;";
+        return $this->select($sql);
+    }
+
     public function obtener_detalle_combo_id($id_combo)
     {
         $sql = "SELECT *, (SELECT variedad FROM `variedades` WHERE variedades.id_variedad = inventario_bodegas.id_variante)AS variedad 
