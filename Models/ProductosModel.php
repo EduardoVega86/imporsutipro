@@ -185,8 +185,7 @@ class ProductosModel extends Query
             $detalle_sql = "INSERT INTO shopify_tienda (id_plataforma, id_invetario) 
                         VALUES (?, ?)";
 
-            foreach ($inventario as $inv) {
-                $detalle_data = array(
+           $detalle_data = array(
                     $plataforma,
                     $id_producto
                 );
@@ -205,7 +204,7 @@ class ProductosModel extends Query
                     $response['title'] = 'Petición exitosa';
                     $response['message'] = 'Producto y sus imágenes adicionales agregados correctamente';
                 }
-            }
+            
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
