@@ -120,23 +120,19 @@ const listProductosShopify = async () => {
     let content = ``;
 
     productosShopify.forEach((producto, index) => {
+      const enlace_imagen = obtenerURLImagen(producto.image_path, SERVERURL);
       content += `
                 <tr>
-                    <td><a class="dropdown-item link-like" href="${SERVERURL}shopify/verProducto?producto=${producto.id}">${producto.nombre}</a></td>
-                    <td>${producto.precio}</td>
-                    <td>${producto.stock}</td>
-                    <td>${producto.categoria}</td>
-                    <td>
-                    <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel_general('${producto.id}')">Descargar Excel general</button>
-                    <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel('${producto.id}')">Descargar Excel</button>
-                    </td>
+                    <td>${producto.id_inventario}</td>
+                    <td><img src="${enlace_imagen}" class="icon-button" onclick="agregar_imagenProducto(${producto.id_producto},'${enlace_imagen}')" alt="Agregar imagen" width="50px"></td>
+                    <td>${producto.nombre_producto}</td>
+                    <td>${producto.pvp}</td>
                     <td>
                     <div class="dropdown">
                     <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fa-solid fa-gear"></i>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" style="cursor: pointer;" href="${SERVERURL}shopify/editarProducto?producto=${producto.id}"><i class='bx bx-edit'></i>Editar</a></li>
                         <li><a class="dropdown-item" style="cursor: pointer;" href="${SERVERURL}shopify/eliminarProducto?producto=${producto.id}"><i class='bx bx-trash'></i>Eliminar</a></li>
                     </ul>
                     </div>
@@ -148,6 +144,24 @@ const listProductosShopify = async () => {
     alert(ex);
   }
 };
+
+function obtenerURLImagen(imagePath, serverURL) {
+  // Verificar si el imagePath no es null
+  if (imagePath) {
+    // Verificar si el imagePath ya es una URL completa
+    if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
+      // Si ya es una URL completa, retornar solo el imagePath
+      return imagePath;
+    } else {
+      // Si no es una URL completa, agregar el serverURL al inicio
+      return `${serverURL}${imagePath}`;
+    }
+  } else {
+    // Manejar el caso cuando imagePath es null
+    console.error("imagePath es null o undefined");
+    return null; // o un valor por defecto si prefieres
+  }
+}
 
 window.addEventListener("load", async () => {
   await initDataTableProductosShopify();
