@@ -668,6 +668,17 @@ class Productos extends Controller
         $response = $this->model->importar_productos_tienda($id_producto, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
+    
+    
+    public function importar_productos_shopify()
+    {
+
+        // Obtener el ID de inventario desde el formulario
+        $id_producto = $_POST['id_producto'];
+
+        $response = $this->model->importar_productos_shopify($id_producto, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
 
 
     public function agregarDestacado()
