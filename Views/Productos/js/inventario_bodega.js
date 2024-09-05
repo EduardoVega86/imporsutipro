@@ -40,9 +40,11 @@ const initDataTableInventario = async () => {
 };
 
 const listInventario = async () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const id_bodega = urlParams.get("id_bodega");
   try {
     const response = await fetch(
-      "" + SERVERURL + "productos/obtener_productos"
+      "" + SERVERURL + "productos/obtener_productos_bodega/"+id_bodega
     );
     const inventarios = await response.json();
 
