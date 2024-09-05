@@ -68,13 +68,13 @@
     $(document).ready(function() {
         // Función para reiniciar el formulario
         function resetForm() {
-            /* $('#agregar_oferta_form')[0].reset(); */
+            $('#agregar_oferta_form')[0].reset();
         }
 
         // Evento para reiniciar el formulario cuando se cierre el modal
         $('#agregar_ofertaModal').on('hidden.bs.modal', function() {
-            /* var button = document.getElementById('guardar_oferta');
-            button.disabled = false; // Desactivar el botón */
+            var button = document.getElementById('guardar_oferta');
+            button.disabled = false; // Desactivar el botón
             resetForm();
         });
 
