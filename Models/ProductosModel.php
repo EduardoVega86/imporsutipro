@@ -18,6 +18,15 @@ class ProductosModel extends Query
 
         return $this->select($sql);
     }
+      public function obtener_productos_bodega($bodega)
+    {
+        $sql = "SELECT ib.*, p.*
+        FROM `inventario_bodegas` AS ib
+        INNER JOIN `productos` AS p ON p.`id_producto` = ib.`id_producto`
+        WHERE ib.`bodega` = $bodega;";
+
+        return $this->select($sql);
+    }
 
     public function obtener_productos2($plataforma, $start, $length, $search, $orderColumn, $orderDir)
     {

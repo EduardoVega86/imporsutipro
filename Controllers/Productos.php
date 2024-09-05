@@ -123,6 +123,13 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
+      public function obtener_productos_bodega($bodega)
+    {
+        $response = $this->model->obtener_productos_bodega($bodega);
+        echo json_encode($response);
+    }
+
+    
     public function obtener_productos2()
     {
         // Recoger los parámetros enviados por DataTables
