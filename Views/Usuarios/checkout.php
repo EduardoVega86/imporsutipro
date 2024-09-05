@@ -263,6 +263,12 @@
                                     <input type="text" class="form-control" id="txt_calle_principal" placeholder="">
                                 </div>
 
+                                <div class="btn-group" id="icono_calle_principal">
+                                    <button class="btn btn-secondary icon-btn active" data-value="bxs-user"><i class='bx bx-map'></i></button>
+                                    <button class="btn btn-secondary icon-btn" data-value="bx-user"><i class='bx bxs-map-pin'></i></button>
+                                    <button class="btn btn-secondary icon-btn" data-value="bxs-user-detail"><i class='bx bx-map-alt'></i></button>
+                                </div>
+
                             </form>
                         </div>
                     </div>
@@ -562,7 +568,10 @@
                     <!-- calle_principal -->
                     <div class="form-group" id="calle_principalPreview" style="position: relative; padding-top: 3px;">
                         <label class="sub_titulos" id="titulo_calle_principalPreview">Calle Principal</label>
-                        <div class="">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="icono_calle_principalPreview"><i class='bx bx-map'></i></span>
+                            </div>
                             <input type="text" class="form-control" id="txt_calle_principalPreview" placeholder="">
                         </div>
                     </div>
@@ -1159,6 +1168,7 @@
         // Evento de clic en cada botón de íconos
         setupIconButtons('icono_nombresApellidos', 'icono_nombresApellidosPreview');
         setupIconButtons('icono_telefono', 'icono_telefonoPreview');
+        setupIconButtons('icono_calle_principal', 'icono_calle_principalPreview');
     });
     // funcion generalizada para iconos
     function setupIconButtons(containerId, previewId) {
