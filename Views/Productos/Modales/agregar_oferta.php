@@ -122,7 +122,7 @@
 
                         $('#agregar_ofertaModal').modal('hide');
                         resetForm();
-                        initDataTableofertas();
+                        initDataTableOfertas();
                     }
                 },
                 error: function(error) {

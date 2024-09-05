@@ -60,8 +60,8 @@ const listOfertas = async () => {
                         <i class="fa-solid fa-gear"></i>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="editar_oferta(${combo.id})">Editar</span></li>
-                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="eliminar_oferta(${combo.id})">Eliminar</span></li>
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="editar_oferta(${oferta.id})">Editar</span></li>
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="eliminar_oferta(${oferta.id})">Eliminar</span></li>
                     </ul>
                     </div>
                     </td>
