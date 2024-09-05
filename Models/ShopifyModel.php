@@ -78,6 +78,8 @@ class ShopifyModel extends Query
             $provincia = "SANTO DOMINGO";
         } else if ($provincia == "Santo Domingo de los Tsáchilas") {
             $provincia = "SANTO DOMINGO";
+        } else if ($provincia == "ZAMORA CHINCHIPE") {
+            $provincia = "ZAMORA";
         }
         $provincia = $this->obtenerProvincia($provincia);
         $provincia = $provincia[0]['codigo_provincia'];

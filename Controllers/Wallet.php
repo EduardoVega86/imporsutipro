@@ -58,8 +58,8 @@ class Wallet extends Controller
         }
         $this->views->render($this, "auditoria_guias");
     }
-    
-     public function auditoria_guias_total()
+
+    public function auditoria_guias_total()
     {
         if ($_SESSION["cargo"] != 10) {
             header("Location: /wallet/billetera");
@@ -243,7 +243,7 @@ class Wallet extends Controller
         }
         $fecha = date("Y-m-d H:i:s");
 
-        $response = $this->model->solicitarPago($id_cuenta, $valor, $_SESSION["id_plataforma"], $otro);
+        $response = $this->model->solicitarPago($id_cuenta, $valor, $_SESSION["id_plataforma"], $otro, $_SESSION["id"]);
         if ($response["status"] == 200) {
             $correo = $this->model->obtenerCorreo($_SESSION["id_plataforma"]);
             $this->model->enviarMensaje("solicitud", $correo[0]["correo"] ?? '', $valor);
@@ -532,6 +532,17 @@ class Wallet extends Controller
         echo json_encode($response);
     }
 
+    public function historialSolicitud($tipo, $cantidad, $id_plataforma)
+    {
+        $response = $this->model->historialSolicitud($tipo, $cantidad, $id_plataforma);
+        echo json_encode($response);
+    }
+
+    public function obtenerHistorialSolicitudes()
+    {
+        $response = $this->model->obtenerHistorialSolicitudes();
+        echo json_encode($response);
+    }
 
 
     ///debugs
