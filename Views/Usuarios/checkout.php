@@ -339,7 +339,7 @@
                                     <input type="text" class="form-control" id="txt_barrio_referencia" placeholder="">
                                 </div>
 
-                                <div class="btn-group" id="icono_barrio">
+                                <div class="btn-group" id="icono_barrio_referencia">
                                     <button class="btn btn-secondary icon-btn active" data-value="bxs-user"><i class='bx bx-map'></i></button>
                                     <button class="btn btn-secondary icon-btn" data-value="bx-user"><i class='bx bxs-map-pin'></i></button>
                                     <button class="btn btn-secondary icon-btn" data-value="bxs-user-detail"><i class='bx bx-street-view'></i></button>
@@ -610,7 +610,7 @@
                         <label class="sub_titulos" id="titulo_barrio_referenciaPreview">Barrio o Referencia</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="icono_barrioPreview"><i class='bx bx-map'></i></span>
+                                <span class="input-group-text" id="icono_barrio_referenciaPreview"><i class='bx bx-map'></i></span>
                             </div>
                             <input type="text" class="form-control" id="txt_barrio_referenciaPreview" placeholder="">
                         </div>
@@ -1197,7 +1197,7 @@
         setupIconButtons('icono_telefono', 'icono_telefonoPreview');
         setupIconButtons('icono_calle_principal', 'icono_calle_principalPreview');
         setupIconButtons('icono_calle_secundaria', 'icono_calle_secundariaPreview');
-        setupIconButtons('icono_barrio', 'icono_barrioPreview');
+        setupIconButtons('icono_barrio_referencia', 'icono_barrio_referenciaPreview');
         setupIconButtons('icono_comentario', 'icono_comentarioPreview');
         
     });
