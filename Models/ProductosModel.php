@@ -1647,6 +1647,8 @@ WHERE b.id_plataforma = $plataforma";
         $data = [$nombre_oferta, $precio_oferta, $cantidad, $fecha_inicio, $fecha_fin, $id_producto, $plataforma];
         $insertar_oferta = $this->insert($sql, $data);
 
+        echo $insertar_oferta;
+
         if ($insertar_oferta == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
