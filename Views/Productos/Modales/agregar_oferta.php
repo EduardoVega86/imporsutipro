@@ -93,7 +93,7 @@
             var formData = new FormData();
             formData.append('nombre_oferta', $('#nombre_oferta').val());
             formData.append('precio_oferta', $('#precio_oferta').val());
-            formData.append('cantidad_oferta', $('#cantidad_oferta').val());
+            formData.append('cantidad', $('#cantidad_oferta').val());
             formData.append('fecha_inicio', fechaInicio);
             formData.append('fecha_fin', fechaFin);
             formData.append('id_producto', $('#select_productos').val());
