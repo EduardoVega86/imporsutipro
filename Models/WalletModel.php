@@ -628,9 +628,11 @@ class WalletModel extends Query
         return $responses;
     }
 
-    public function solicitarPago($id_cuenta, $valor, $plataforma, $otro)
+    public function solicitarPago($id_cuenta, $valor, $plataforma, $otro, $usuario)
     {
-
+        if ($otro == 0) {
+            $this->historialSolicitud("PRIMARIO", $valor, $usuario, $plataforma);
+        }
         $sql = "INSERT INTO solicitudes_pago (`cantidad`, `id_cuenta`, `id_plataforma`, `otro`) VALUES (?, ?, ?, ?)";
         $response =  $this->insert($sql, array($valor, $id_cuenta, $plataforma, $otro));
         $update = "UPDATE billeteras set solicito = 1, valor_solicitud = $valor WHERE id_plataforma = '$plataforma'";
@@ -1397,6 +1399,26 @@ class WalletModel extends Query
             ];
         }
     }
+
+    public function historialSolicitud($tipo, $cantidad, $usuario, $id_plataforma)
+    {
+        $sql = "INSERT INTO historial_solicitudes (`tipo`, `cantidad`, `id_plataforma`, `usuario`) VALUES (?, ?, ?, ?)";
+        $response =  $this->insert($sql, array($tipo, $cantidad, $id_plataforma, $usuario));
+        if ($response == 1) {
+            $responses["status"] = 200;
+        } else {
+            $responses["status"] = 400;
+            $responses["message"] = $response["message"];
+        }
+    }
+
+    public function obtenerHistorialSolicitudes($id_plataforma)
+    {
+        $sql = "SELECT * FROM historial_solicitudes WHERE id_plataforma = '$id_plataforma'";
+        $response =  $this->select($sql);
+        return $response;
+    }
+
 
     /////////////////////////////// DEBUGS //////////////////////////////////////
 
