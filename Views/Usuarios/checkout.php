@@ -301,6 +301,12 @@
                                     <input type="text" class="form-control" id="txt_calle_secundaria" placeholder="">
                                 </div>
 
+                                <div class="btn-group" id="icono_calle_secundaria">
+                                    <button class="btn btn-secondary icon-btn active" data-value="bxs-user"><i class='bx bx-map'></i></button>
+                                    <button class="btn btn-secondary icon-btn" data-value="bx-user"><i class='bx bxs-map-pin'></i></button>
+                                    <button class="btn btn-secondary icon-btn" data-value="bxs-user-detail"><i class='bx bx-map-alt'></i></button>
+                                </div>
+
                             </form>
                         </div>
                     </div>
@@ -331,6 +337,12 @@
                                 <div class="form-group">
                                     <label for="txt_barrio_referencia">Texto Interno</label>
                                     <input type="text" class="form-control" id="txt_barrio_referencia" placeholder="">
+                                </div>
+
+                                <div class="btn-group" id="icono_barrio_referencia">
+                                    <button class="btn btn-secondary icon-btn active" data-value="bxs-user"><i class='bx bx-map'></i></button>
+                                    <button class="btn btn-secondary icon-btn" data-value="bx-user"><i class='bx bxs-map-pin'></i></button>
+                                    <button class="btn btn-secondary icon-btn" data-value="bxs-user-detail"><i class='bx bx-street-view'></i></button>
                                 </div>
 
                             </form>
@@ -415,6 +427,12 @@
                                 <div class="form-group">
                                     <label for="txt_comentario">Texto Interno</label>
                                     <input type="text" class="form-control" id="txt_comentario" placeholder="">
+                                </div>
+
+                                <div class="btn-group" id="icono_comentario">
+                                    <button class="btn btn-secondary icon-btn active" data-value="bxs-user"><i class='bx bx-message-dots'></i></button>
+                                    <button class="btn btn-secondary icon-btn" data-value="bx-user"><i class='bx bx-comment-detail'></i></button>
+                                    <button class="btn btn-secondary icon-btn" data-value="bxs-user-detail"><i class='bx bxs-message-rounded-dots'></i></button>
                                 </div>
 
                             </form>
@@ -579,7 +597,10 @@
                     <!-- calle_secundaria -->
                     <div class="form-group" id="calle_secundariaPreview" style="position: relative; padding-top: 3px;">
                         <label class="sub_titulos" id="titulo_calle_secundariaPreview">Calle Secundaria</label>
-                        <div class="">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="icono_calle_secundariaPreview"><i class='bx bx-map'></i></span>
+                            </div>
                             <input type="text" class="form-control" id="txt_calle_secundariaPreview" placeholder="">
                         </div>
                     </div>
@@ -587,7 +608,10 @@
                     <!-- barrio_referencia -->
                     <div class="form-group" id="barrio_referenciaPreview" style="position: relative; padding-top: 3px;">
                         <label class="sub_titulos" id="titulo_barrio_referenciaPreview">Barrio o Referencia</label>
-                        <div class="">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="icono_barrio_referenciaPreview"><i class='bx bx-map'></i></span>
+                            </div>
                             <input type="text" class="form-control" id="txt_barrio_referenciaPreview" placeholder="">
                         </div>
                     </div>
@@ -619,7 +643,10 @@
                     <!-- comentario -->
                     <div class="form-group" id="comentarioPreview" style="position: relative; padding-top: 3px;">
                         <label class="sub_titulos" id="titulo_comentarioPreview">Barrio o Referencia</label>
-                        <div class="">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="icono_comentarioPreview"><i class='bx bx-message-dots'></i></span>
+                            </div>
                             <input type="text" class="form-control" id="txt_comentarioPreview" placeholder="">
                         </div>
                     </div>
@@ -1169,6 +1196,10 @@
         setupIconButtons('icono_nombresApellidos', 'icono_nombresApellidosPreview');
         setupIconButtons('icono_telefono', 'icono_telefonoPreview');
         setupIconButtons('icono_calle_principal', 'icono_calle_principalPreview');
+        setupIconButtons('icono_calle_secundaria', 'icono_calle_secundariaPreview');
+        setupIconButtons('icono_barrio_referencia', 'icono_barrio_referenciaPreview');
+        setupIconButtons('icono_comentario', 'icono_comentarioPreview');
+        
     });
     // funcion generalizada para iconos
     function setupIconButtons(containerId, previewId) {
