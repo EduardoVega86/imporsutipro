@@ -44,17 +44,24 @@ const listInventario = async () => {
   const id_bodega = urlParams.get("id_bodega");
   try {
     const response = await fetch(
-      "" + SERVERURL + "productos/obtener_productos_bodega/"+id_bodega
+      "" + SERVERURL + "productos/obtener_productos_bodega/" + id_bodega
     );
     const inventarios = await response.json();
 
     let content = ``;
     let cargarImagen = "";
+    let variedad = "";
     inventarios.forEach((inventario, index) => {
       if (!inventario.image_path) {
         cargarImagen = `<i class="bx bxs-camera-plus"></i>`;
       } else {
         cargarImagen = `<img src="${SERVERURL}${inventario.image_path}" class="icon-button" alt="Agregar imagen" width="50px">`;
+      }
+
+      if (inventario.variedad == null) {
+        variedad = "";
+      } else {
+        variedad = inventario.variedad;
       }
 
       content += `
@@ -63,6 +70,7 @@ const listInventario = async () => {
       <td>${cargarImagen}</td>
       <td>${inventario.codigo_producto}</td>
       <td>${inventario.nombre_producto}</td>
+      <td>${variedad}</td>
       <td>${inventario.saldo_stock}</td>
       <td>
           <button class="btn btn-sm btn-primary" onclick="seleccionar_cambiarInventario(${inventario.id_inventario})"><i class="fa-solid fa-pencil"></i>Ajustar</button>

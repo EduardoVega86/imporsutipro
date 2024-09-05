@@ -20,10 +20,7 @@ class ProductosModel extends Query
     }
       public function obtener_productos_bodega($bodega)
     {
-        $sql = "SELECT ib.*, p.*
-        FROM `inventario_bodegas` AS ib
-        INNER JOIN `productos` AS p ON p.`id_producto` = ib.`id_producto`
-        WHERE ib.`bodega` = $bodega;";
+        $sql = "SELECT * FROM productos p LEFT JOIN inventario_bodegas ib ON p.id_producto = ib.id_producto AND ib.bodega = $bodega LEFT JOIN variedades v ON ib.id_variante = v.id_variedad WHERE ib.`bodega` = $bodega;";
 
         return $this->select($sql);
     }
