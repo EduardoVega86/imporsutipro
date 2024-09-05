@@ -89,9 +89,9 @@ const listListaDevoluciones = async () => {
                 <td>${devolucion.id_relacion_devolucion}</td>
                 <td>${devolucion.id_usuario}</td>
                 <td>${devolucion.id_plataforma}</td>
-                <td>${devolucion.id_transportadora}</td>
                 <td>${devolucion.id_bodega}</td>
                 <td>${devolucion.fecha_hora}</td>
+                <td><a href="${devolucion.url_documento}" download><i class='bx bxs-file-pdf' style="color:red;"></i></a></td>
                 </tr>`;
     });
     document.getElementById("tableBody_lista_devoluciones").innerHTML = content;

@@ -21,9 +21,9 @@
                         <th class="centered">ID devolucion</th>
                         <th class="centered">ID usuario</th>
                         <th class="centered">ID plataforma</th>
-                        <th class="centered">ID transportadora</th>
                         <th class="centered">ID bodega</th>
                         <th class="centered">Fecha y hora</th>
+                        <th class="centered">PDF</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody_lista_devoluciones"></tbody>
