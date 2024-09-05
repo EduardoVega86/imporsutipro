@@ -86,7 +86,7 @@ const listListaDevoluciones = async () => {
     listaDevoluciones.forEach((devolucion, index) => {
       content += `
                 <tr>
-                <td>${devolucion.id_relacion_devolucion}</td>
+                <td>${devolucion.id_devolucion}</td>
                 <td>${devolucion.id_usuario}</td>
                 <td>${devolucion.id_plataforma}</td>
                 <td>${devolucion.id_bodega}</td>
