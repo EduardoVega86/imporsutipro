@@ -38,6 +38,7 @@
                         <th class="text-nowrap"></th>
                         <th class="text-nowrap">Destacado</th>
                         <th class="text-nowrap">Landing</th>
+                        <th class="text-nowrap">Oferta</th>
                         <th class="text-nowrap">PVP</th>
                         <th class="text-nowrap">P. Ref</th>
                         <th class="text-nowrap">Acciones</th>

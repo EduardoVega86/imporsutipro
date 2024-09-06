@@ -75,7 +75,6 @@ const reloadDataTableProductos = async () => {
   );
   dataTableProductos.page(currentPage).draw(false);
   dataTableProductosIsInitialized = true;
-
 };
 
 const initDataTableProductos = async () => {
@@ -117,6 +116,13 @@ const listProductos = async () => {
         destacadoBtn = `<button class="btn-destacado-si" onclick="toggleDestacado(${producto.id_producto_tienda}, 0)">SI</button>`;
       }
 
+      // Añadir el checkbox de oferta
+      let ofertaCheckbox = `
+        <input type="checkbox" class="oferta-checkbox" 
+          ${producto.oferta == 1 ? "checked" : ""} 
+          onchange="handleOfertaChange(this, ${producto.id_producto_tienda})">
+      `;
+
       content += `
           <tr>
             <td>${producto.nombre_producto_tienda}</td>
@@ -127,6 +133,7 @@ const listProductos = async () => {
               "productos/landing_tienda/" +
               producto.id_producto_tienda
             }' role='button'><i class="fa-solid fa-laptop-code" style="font-size:25px;"></i></a></td>
+            <td>${ofertaCheckbox}</td> <!-- Checkbox de Oferta -->
             <td>${producto.pvp_tienda}</td>
             <td>${producto.pref_tienda}</td>
             <td>
@@ -143,6 +150,45 @@ const listProductos = async () => {
   } catch (ex) {
     alert(ex);
   }
+};
+
+// Función para manejar el cambio de selección del checkbox
+const handleOfertaChange = (checkbox, idProducto) => {
+  // Obtener todos los checkboxes de la clase 'oferta-checkbox'
+  const checkboxes = document.querySelectorAll(".oferta-checkbox");
+
+  // Desactivar todos los demás checkboxes
+  checkboxes.forEach((cb) => {
+    if (cb !== checkbox) {
+      cb.checked = false;
+    }
+  });
+
+  // Ejecutar la API con el idProducto y el valor del checkbox
+  const valorOferta = checkbox.checked ? 1 : 0;
+  toggleOferta(idProducto, valorOferta);
+};
+
+// Aquí puedes ejecutar tu API para cambiar el estado de oferta
+const toggleOferta = (idProducto, valorOferta) => {
+  // Ejemplo de llamada a la API
+  fetch(`${SERVERURL}productos/actualizar_oferta`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      id_producto_tienda: idProducto,
+      oferta: valorOferta,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Oferta actualizada:", data);
+    })
+    .catch((error) => {
+      console.error("Error al actualizar la oferta:", error);
+    });
 };
 
 const toggleDestacado = async (idProducto, nuevoEstado) => {
