@@ -171,6 +171,10 @@ const handleOfertaChange = (checkbox, idProducto) => {
 
 // Aquí puedes ejecutar tu API para cambiar el estado de oferta
 const toggleOferta = (idProducto, valorOferta) => {
+  const formData = new FormData();
+  formData.append("id_producto_tienda", idProducto);
+  formData.append("oferta", valorOferta);
+
   // Ejemplo de llamada a la API
   fetch(`${SERVERURL}productos/actualizar_oferta`, {
     method: "POST",
