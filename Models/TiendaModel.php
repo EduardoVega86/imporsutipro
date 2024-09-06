@@ -1084,6 +1084,12 @@ class TiendaModel extends Query
         return $this->select($sql);
     }
 
+    public function obtener_oferta($id_plataforma)
+    {
+        $sql = "SELECT * FROM `productos_tienda` WHERE id_plataforma = $id_plataforma AND oferta = 1;";
+        return $this->select($sql);
+    }
+
     ///////////////////////////  FUNCIONES DE LA TIENDA  ///////////////////////////
     public function crearTienda($tienda, $plataforma)
     {
