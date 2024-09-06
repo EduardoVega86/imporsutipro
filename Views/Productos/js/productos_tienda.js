@@ -154,7 +154,6 @@ const listProductos = async () => {
 };
 
 // Función para manejar el cambio de selección del checkbox
-// Función para manejar el cambio de selección del checkbox
 const handleOfertaChange = (checkbox, idProducto) => {
   // Obtener todos los checkboxes de la clase 'oferta-checkbox'
   const checkboxes = document.querySelectorAll(".oferta-checkbox");
