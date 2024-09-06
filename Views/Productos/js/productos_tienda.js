@@ -118,10 +118,11 @@ const listProductos = async () => {
 
       // Añadir el checkbox de oferta
       let ofertaCheckbox = `
-        <input type="checkbox" class="oferta-checkbox" 
-          ${producto.oferta == 1 ? "checked" : ""} 
-          onchange="handleOfertaChange(this, ${producto.id_producto_tienda})">
-      `;
+      <input type="checkbox" class="oferta-checkbox" 
+        data-id-producto="${producto.id_producto_tienda}"
+        ${producto.oferta == 1 ? "checked" : ""} 
+        onchange="handleOfertaChange(this, ${producto.id_producto_tienda})">
+    `;
 
       content += `
           <tr>
@@ -153,18 +154,21 @@ const listProductos = async () => {
 };
 
 // Función para manejar el cambio de selección del checkbox
+// Función para manejar el cambio de selección del checkbox
 const handleOfertaChange = (checkbox, idProducto) => {
   // Obtener todos los checkboxes de la clase 'oferta-checkbox'
   const checkboxes = document.querySelectorAll(".oferta-checkbox");
 
-  // Desactivar todos los demás checkboxes
+  // Desactivar todos los demás checkboxes y actualizar en la base de datos
   checkboxes.forEach((cb) => {
-    if (cb !== checkbox) {
-      cb.checked = false;
+    if (cb !== checkbox && cb.checked) {
+      cb.checked = false; // Desmarcar el checkbox
+      const productoId = cb.getAttribute("data-id-producto"); // Obtener el id_producto_tienda del checkbox
+      toggleOferta(productoId, 0); // Llamar a la API para desactivar la oferta del producto
     }
   });
 
-  // Ejecutar la API con el idProducto y el valor del checkbox
+  // Ejecutar la API con el idProducto y el valor del checkbox actual
   const valorOferta = checkbox.checked ? 1 : 0;
   toggleOferta(idProducto, valorOferta);
 };
