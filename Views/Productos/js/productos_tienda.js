@@ -178,13 +178,7 @@ const toggleOferta = (idProducto, valorOferta) => {
   // Ejemplo de llamada a la API
   fetch(`${SERVERURL}productos/actualizar_oferta`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      id_producto_tienda: idProducto,
-      oferta: valorOferta,
-    }),
+    body: formData,
   })
     .then((response) => response.json())
     .then((data) => {
