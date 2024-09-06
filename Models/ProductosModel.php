@@ -1641,30 +1641,25 @@ WHERE b.id_plataforma = $plataforma";
         return $response;
     }
 
-    public function obtener_oferta($plataforma)
+    /* oferta */
+    public function actualizar_oferta($id_producto_tienda, $oferta)
     {
-        $sql = "SELECT * FROM `ofertas` WHERE id_plataforma=$plataforma;";
-        return $this->select($sql);
-    }
+        $response = $this->initialResponse();
 
-    public function agregarOferta($nombre_oferta, $precio_oferta, $cantidad, $fecha_inicio, $fecha_fin, $id_producto, $plataforma)
-    {
-        $sql = "INSERT INTO `ofertas` (`nombre_oferta`,`precio_oferta`,`cantidad`,`fecha_inicio`, `fecha_fin`, `id_producto`, `id_plataforma`) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        $data = [$nombre_oferta, $precio_oferta, $cantidad, $fecha_inicio, $fecha_fin, $id_producto, $plataforma];
-        $insertar_oferta = $this->insert($sql, $data);
-
-        /* print_r($insertar_oferta); */
-
-        if ($insertar_oferta == 1) {
+        $sql = "UPDATE `productos_tienda` SET `oferta` = ? WHERE `id_producto_tienda` = ?";
+        $data = [$oferta, $id_producto_tienda];
+        $editar_plataforma = $this->update($sql, $data);
+        //print_r($editar_producto);
+        if ($editar_plataforma == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
-            $response['message'] = 'Oferta subida correctamente';
+            $response['message'] = 'Categoria editada correctamente';
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = "Error al agregar oferta";
+            // $response['message'] = $editar_producto['message'];
         }
-
         return $response;
     }
+    /* fin oferta */
 }

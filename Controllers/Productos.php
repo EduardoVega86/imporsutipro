@@ -883,61 +883,11 @@ class Productos extends Controller
     }
 
     /* ofertas */
-    public function obtener_oferta()
+    public function actualizar_oferta()
     {
-        $response = $this->model->obtener_oferta($_SESSION['id_plataforma']);
-        echo json_encode($response);
-    }
-
-    public function agregarOferta()
-    {
-        $nombre_oferta = $_POST['nombre_oferta'];
-        $precio_oferta = $_POST['precio_oferta'];
-        $cantidad = $_POST['cantidad'];
-        $fecha_inicio = $_POST['fecha_inicio'];
-        $fecha_fin = $_POST['fecha_fin'];
-        $id_producto = $_POST['id_producto'];
-
-        $response = $this->model->agregarOferta(
-            $nombre_oferta,
-            $precio_oferta,
-            $cantidad,
-            $fecha_inicio,
-            $fecha_fin,
-            $id_producto,
-            $_SESSION['id_plataforma']
-        );
-
-        echo json_encode($response);
-    }
-
-    public function editarOferta()
-    {
-        $nombre = $_POST['nombre'];
-        $id_producto_combo = $_POST['id_producto_combo'];
-        $id_combo = $_POST['id_combo'];
-
-        // Verificar si se ha subido una imagen
-        if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] == UPLOAD_ERR_OK) {
-            $imagen = $_FILES['imagen'];
-        } else {
-            $imagen = null; // No se subió ninguna imagen
-        }
-
-        $response = $this->model->editarOferta(
-            $nombre,
-            $id_producto_combo,
-            $imagen,
-            $id_combo
-        );
-
-        echo json_encode($response);
-    }
-
-    public function eliminarOferta()
-    {
-        $id = $_POST['id_combo'];
-        $response = $this->model->eliminarCombo($id);
+        $id_producto_tienda = $_POST['id_producto_tienda'];
+        $oferta = $_POST['oferta'];
+        $response = $this->model->actualizar_oferta($id_producto_tienda, $oferta);
         echo json_encode($response);
     }
     /* Fin ofertas */

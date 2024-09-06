@@ -298,6 +298,13 @@ class Tienda extends Controller
         echo json_encode($response);
     }
 
+    public function obtener_oferta()
+    {
+        $id_plataforma =   $_POST['id_plataforma'];
+        $response = $this->model->obtener_oferta($id_plataforma);
+        echo json_encode($response);
+    }
+
 
     /// TIENDA COMPRAPOR /// 
 
