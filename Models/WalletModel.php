@@ -1543,10 +1543,10 @@ class WalletModel extends Query
         return $response;
     }
     
-     public function obtenerBilleteraTienda($id_plataforma)
+    public function obtenerBilleteraTienda($id_plataforma)
     {
-        $datos_tienda = $this->select("SELECT * FROM `billeteras` WHERE id_plataforma=$id_plataforma;");
-
-        return json_encode($datos_tienda);
+        $sql = "SELECT * FROM `billeteras` WHERE id_plataforma=$id_plataforma;";
+        $response =  $this->select($sql);
+        return $response;
     }
 }
