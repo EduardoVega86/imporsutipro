@@ -110,8 +110,10 @@
                         <input type="text" maxlength="1" class="form-control otp-input" id="digit5" name="digit5">
                         <input type="text" maxlength="1" class="form-control otp-input" id="digit6" name="digit6">
                     </div>
-
                 </form>
+                <div id="solicitud_realizada_modal" style="display: none;">
+                    <h5>Tiene una solicitud pendiente con un saldo de $<span id="valor_solicitud_modal"></span></h5>
+                </div>
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-link" data-bs-dismiss="modal">Volver</button>
