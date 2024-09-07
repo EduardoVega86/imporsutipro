@@ -119,7 +119,6 @@ class Wallet extends Controller
     
       public function obtenerBilleteraTienda()
     {
-        $tienda = $_POST['tienda'];
         $datos = $this->model->obtenerBilleteraTienda($_SESSION["id_plataforma"]);
         echo json_encode($datos);
     }
