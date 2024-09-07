@@ -123,6 +123,13 @@ class Wallet extends Controller
         echo json_encode($datos);
     }
 
+    public function obtenerBilleteraTienda_plataforma()
+    {
+        $id_plataforma = $_POST['id_plataforma'];
+        $datos = $this->model->obtenerBilleteraTienda_plataforma($id_plataforma);
+        echo json_encode($datos);
+    }
+
     public function obtenerDetalles()
     {
         $tienda = $_POST['tienda'];
