@@ -116,6 +116,12 @@ class Wallet extends Controller
         $datos = $this->model->obtenerTiendas();
         echo $datos;
     }
+    
+      public function obtenerBilleteraTienda()
+    {
+        $datos = $this->model->obtenerBilleteraTienda($_SESSION["id_plataforma"]);
+        echo json_encode($datos);
+    }
 
     public function obtenerDetalles()
     {

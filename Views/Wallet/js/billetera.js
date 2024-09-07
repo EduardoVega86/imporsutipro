@@ -48,7 +48,32 @@ function enviarCodigo() {
 // Añadimos un evento que se ejecuta cuando el DOM ha sido completamente cargado
 document.addEventListener("DOMContentLoaded", function () {
   cargarDashboard_wallet();
+
+  comprobador_solicitud();
 });
+
+function comprobador_solicitud() {
+  $.ajax({
+    url: SERVERURL + "Wallet/obtenerBilleteraTienda",
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+      if (response[0].solicito == 1) {
+        $("#solicitud_realizada").show();
+        $("#valor_solicitud").text(response[0].valor_solicitud);
+
+        $("#solicitud_realizada_modal").show();
+        $("#valor_solicitud_modal").text(response[0].valor_solicitud);
+      } else {
+        $("#solicitud_realizada").hide();
+        $("#solicitud_realizada_modal").hide();
+      }
+    },
+    error: function (error) {
+      console.error("Error al obtener la solicitud:", error);
+    },
+  });
+}
 
 function cargarDashboard_wallet() {
   let formData = new FormData();
