@@ -1545,8 +1545,6 @@ class WalletModel extends Query
     
      public function obtenerBilleteraTienda($id_plataforma)
     {
-       
-      
         $datos_tienda = $this->select("SELECT * FROM `billeteras` WHERE id_plataforma=$id_plataforma;");
 
         return json_encode($datos_tienda);
