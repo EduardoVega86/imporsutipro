@@ -10,7 +10,34 @@ var pagos_global;
 // Añadimos un evento que se ejecuta cuando el DOM ha sido completamente cargado
 document.addEventListener("DOMContentLoaded", function () {
   cargarDashboard_wallet();
+  comprobador_solicitud();
 });
+
+function comprobador_solicitud() {
+  let formData = new FormData();
+  formData.append("id_plataforma", tienda);
+
+  $.ajax({
+    url: SERVERURL + "Wallet/obtenerBilleteraTienda_plataforma",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    dataType: "json",
+    success: function (response) {
+      if (response[0].solicito == 1) {
+        $("#solicitud_realizada").show();
+        $("#valor_solicitud").text(response[0].valor_solicitud);
+        
+      } else {
+        $("#solicitud_realizada").hide();
+      }
+    },
+    error: function (error) {
+      console.error("Error al obtener la solicitud:", error);
+    },
+  });
+}
 
 $(document).ready(function () {
   $("#regresar").click(function () {
