@@ -94,7 +94,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="solicitud_realizada">
+                        <div id="solicitud_realizada" style="display: none;">
                             <h3>Tiene una solicitud pendiente con un saldo de <span id="valor_solicitud"></span></h3>
                         </div>
                     </div>

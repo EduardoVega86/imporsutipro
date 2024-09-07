@@ -58,6 +58,12 @@ function comprobador_solicitud() {
     type: "GET",
     dataType: "json",
     success: function (response) {
+      if (response[0].solicito == 1) {
+        $("#solicitud_realizada").show();
+        $("#valor_solicitud").text(response[0].valor_solicitud);
+      } else {
+        $("#solicitud_realizada").hide();
+      }
     },
     error: function (error) {
       console.error("Error al obtener la solicitud:", error);
