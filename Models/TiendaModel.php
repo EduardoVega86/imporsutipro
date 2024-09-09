@@ -684,25 +684,33 @@ class TiendaModel extends Query
 
                     // Obtener detalles del producto de oferta
                     $producto_oferta = $this->select("SELECT * FROM productos WHERE id = $id_producto_oferta");
-                    $precio_oferta = $producto_oferta[0]['precio'];
-                    $sku_oferta = $producto_oferta[0]['sku'];
-                    $id_inventario_oferta = $producto_oferta[0]['id_inventario'];
 
-                    // Insertar el detalle del producto de oferta
-                    $detalle_data_oferta = array(
-                        $nueva_factura,
-                        $factura_id,
-                        $id_producto_oferta,
-                        1, // La cantidad es 1, ya que es un producto de oferta
-                        0, // Sin descuento
-                        $precio_oferta, // Precio del producto de oferta
-                        $id_plataforma,
-                        $sku_oferta,
-                        $id_inventario_oferta
-                    );
+                    // Verificar si se encontró el producto
+                    if (!empty($producto_oferta)) {
+                        $precio_oferta = $producto_oferta[0]['precio'] ?? 0;
+                        $sku_oferta = $producto_oferta[0]['sku'] ?? '';
+                        $id_inventario_oferta = $producto_oferta[0]['id_inventario'] ?? 0;
 
-                    $guardar_detalle_oferta = $this->insert($detalle_sql_oferta, $detalle_data_oferta);
+                        // Insertar el detalle del producto de oferta
+                        $detalle_data_oferta = array(
+                            $nueva_factura,
+                            $factura_id,
+                            $id_producto_oferta,
+                            1, // La cantidad es 1, ya que es un producto de oferta
+                            0, // Sin descuento
+                            $precio_oferta, // Precio del producto de oferta
+                            $id_plataforma,
+                            $sku_oferta,
+                            $id_inventario_oferta
+                        );
+
+                        $guardar_detalle_oferta = $this->insert($detalle_sql_oferta, $detalle_data_oferta);
+                    } else {
+                        // Manejar el caso en que no se encuentre el producto de oferta
+                        error_log("No se encontró el producto de oferta con ID: $id_producto_oferta");
+                    }
                 }
+
 
                 $response['status'] = 200;
                 $response['title'] = 'Peticion exitosa';
