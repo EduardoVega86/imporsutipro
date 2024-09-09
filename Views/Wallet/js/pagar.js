@@ -28,7 +28,6 @@ function comprobador_solicitud() {
       if (response[0].solicito == 1) {
         $("#solicitud_realizada").show();
         $("#valor_solicitud").text(response[0].valor_solicitud);
-        
       } else {
         $("#solicitud_realizada").hide();
       }
@@ -609,12 +608,21 @@ function ver_detalle_cot(numero_factura) {
 }
 
 function procesarPlataforma(url) {
-  if (url){
-  // Eliminar el "https://"
-  let sinProtocolo = url.replace("https://", "");
+  // Verificar si el URL es nulo, indefinido o vacío
+  if (!url) {
+    return "URL INVÁLIDO";
+  }
+
+  // Eliminar el "https://" si está presente
+  let sinProtocolo = url.replace("https://", "").replace("http://", "");
 
   // Encontrar la posición del primer punto
   let primerPunto = sinProtocolo.indexOf(".");
+
+  // Si no encuentra un punto, retornar un mensaje de error
+  if (primerPunto === -1) {
+    return "URL INVÁLIDO";
+  }
 
   // Obtener la subcadena desde el inicio hasta el primer punto
   let baseNombre = sinProtocolo.substring(0, primerPunto);
@@ -623,9 +631,6 @@ function procesarPlataforma(url) {
   let resultado = baseNombre.toUpperCase();
 
   return resultado;
-  } else {
-    return '';
-  }
 }
 
 window.addEventListener("load", async () => {
