@@ -118,8 +118,7 @@ const dataTableFacturasOptions = {
     { className: "centered", targets: [1, 2, 3, 4, 5] },
     { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
   ],
-  /* order: [[1, "desc"]], */
-  order: [[2, "desc"]],
+  order: [[1, "desc"]],
   pageLength: 10,
   destroy: true,
   responsive: true,
