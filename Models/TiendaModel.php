@@ -476,7 +476,7 @@ class TiendaModel extends Query
     }
 
     /* pedido carrito */
-    public function guardar_pedido_carrito($id_plataforma, $id_producto, $total, $nombre, $telefono, $provincia, $ciudad, $calle_principal, $calle_secundaria, $referencia, $observacion, $tmp, $combo_selected, $combo_id)
+    public function guardar_pedido_carrito($id_plataforma, $id_producto, $total, $nombre, $telefono, $provincia, $ciudad, $calle_principal, $calle_secundaria, $referencia, $observacion, $tmp, $combo_selected, $combo_id, $oferta_selected, $id_producto_oferta)
     {
         // Obtener los productos en el carrito temporal
         $tmp_cotizaciones = $this->select("SELECT * FROM tmp_cotizacion WHERE session_id = '$tmp'");
@@ -543,6 +543,17 @@ class TiendaModel extends Query
                 } else if ($estado_combo == 2) {
                     $total_bodega = $totalPvp - $valor;
                 }
+            }
+
+            if ($oferta_selected == 1) {
+                $datos_oferta = $this->select("SELECT * FROM `productos_tienda` INNER JOIN `inventario_bodegas` ON productos_tienda.id_inventario = inventario_bodegas.id_inventario 
+                WHERE id_producto_tienda == $id_producto_oferta;");
+                $bodega_oferta = $datos_oferta[0]['bodega'];
+                if ($bodega_oferta == ){
+                $precio_oferta = $datos_oferta[0]['pvp_tienda'];
+
+                $total_bodega = $total_bodega + $precio_oferta;
+            }
             }
 
             // Insertar la factura para esta bodega con el id_plataforma correcto desde inventario_bodegas
