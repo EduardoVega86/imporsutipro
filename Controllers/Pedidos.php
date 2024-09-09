@@ -97,6 +97,13 @@ class Pedidos extends Controller
         }
         $this->views->render($this, "novedades");
     }
+    public function chat_imporsuit($filtro = "")
+    {
+        if (!$this->isAuth()) {
+            header("Location: " . SERVERURL . "login");
+        }
+        $this->views->render($this, "chat_imporsuit");
+    }
 
 
 
