@@ -5,17 +5,25 @@
     }
 
     .chat-sidebar,
-    .chat-content,
     .chat-info {
-        height: 100%;
         overflow-y: auto;
-        background-color: #fff;
+        /* Scroll para las columnas izquierda y derecha */
+    }
+
+    .chat-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 85vh;
+        /* Tamaño fijo para la columna central */
     }
 
     /* Estilos para el sidebar */
     .chat-sidebar {
         border-right: 1px solid #ddd;
         background-color: #f8f9fa;
+        height: 100vh;
+        /* Columna izquierda con scroll */
     }
 
     .contact-item {
@@ -37,12 +45,6 @@
     }
 
     /* Estilos para el chat */
-    .chat-content {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-
     .chat-header {
         padding: 15px;
         background-color: #007bff;
@@ -116,6 +118,8 @@
     /* Estilos para la información del contacto */
     .chat-info {
         background-color: #f8f9fa;
+        height: 100vh;
+        /* Columna derecha con scroll */
     }
 
     .chat-info img {
