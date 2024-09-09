@@ -14,7 +14,7 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        height: 85vh;
+        height: 100vh;
         /* Tamaño fijo para la columna central */
     }
 
