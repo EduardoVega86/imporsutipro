@@ -25,7 +25,7 @@
             <div class="chat-header">
                 <div class="d-flex align-items-center">
                     <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="Foto de perfil">
-                    <h5 class="mb-0">John Doe</h5>
+                    <h5 class="mb-0">Tony Plaza</h5>
                 </div>
                 <i class="fas fa-ellipsis-v"></i>
             </div>
@@ -58,7 +58,7 @@
             </div>
             <div class="p-3">
                 <h6>Detalles</h6>
-                <p>Nombre: John Doe</p>
+                <p>Nombre: Tony Plaza</p>
                 <p>Ubicación: Ciudad, País</p>
                 <p>Correo: johndoe@email.com</p>
             </div>
