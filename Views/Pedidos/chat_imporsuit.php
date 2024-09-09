@@ -16,13 +16,6 @@
                         <small class="text-muted">Último mensaje...</small>
                     </div>
                 </li>
-                <li class="list-group-item contact-item d-flex align-items-center">
-                    <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="Foto de perfil">
-                    <div>
-                        <h6 class="mb-0">+987 654 3210</h6>
-                        <small class="text-muted">Último mensaje...</small>
-                    </div>
-                </li>
                 <!-- Más contactos -->
             </ul>
         </div>
@@ -38,7 +31,6 @@
             </div>
 
             <div class="chat-messages">
-                <!-- Mensajes simulados -->
                 <div class="message received">
                     Hola, ¿cómo estás?
                 </div>
@@ -58,7 +50,7 @@
         </div>
 
         <!-- Derecha: Información del contacto -->
-        <div class="col-3 p-0 chat-info d-flex flex-column align-items-center">
+        <div class="col-3 p-0 chat-info d-flex flex-column align-items-center position-relative">
             <div class="p-3 text-center">
                 <img src="https://via.placeholder.com/150" class="rounded-circle" alt="Foto de perfil">
                 <h5>+123 456 7890</h5>
@@ -69,6 +61,23 @@
                 <p>Nombre: John Doe</p>
                 <p>Ubicación: Ciudad, País</p>
                 <p>Correo: johndoe@email.com</p>
+            </div>
+
+            <!-- Sección adicional que aparece al hacer clic en los botones flotantes -->
+            <div class="info-section">
+                <h6>Información adicional</h6>
+                <p>Aquí puedes mostrar información relevante sobre el contacto.</p>
+            </div>
+
+            <div class="tools-section">
+                <h6>Herramientas</h6>
+                <p>Funciones adicionales como editar, eliminar contacto, etc.</p>
+            </div>
+
+            <!-- Botones flotantes -->
+            <div class="floating-buttons">
+                <button id="btn-info"><i class="fas fa-info-circle"></i></button>
+                <button id="btn-tools"><i class="fas fa-wrench"></i></button>
             </div>
         </div>
     </div>

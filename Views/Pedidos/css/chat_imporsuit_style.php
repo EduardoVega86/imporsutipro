@@ -7,7 +7,6 @@
     .chat-sidebar,
     .chat-info {
         overflow-y: auto;
-        /* Scroll para las columnas izquierda y derecha */
     }
 
     .chat-content {
@@ -15,15 +14,12 @@
         flex-direction: column;
         justify-content: space-between;
         height: 100vh;
-        /* Tamaño fijo para la columna central */
     }
 
-    /* Estilos para el sidebar */
     .chat-sidebar {
         border-right: 1px solid #ddd;
         background-color: #f8f9fa;
         height: 100vh;
-        /* Columna izquierda con scroll */
     }
 
     .contact-item {
@@ -44,7 +40,6 @@
         transform: scale(1.1);
     }
 
-    /* Estilos para el chat */
     .chat-header {
         padding: 15px;
         background-color: #007bff;
@@ -83,7 +78,6 @@
         background-color: #e9ecef;
     }
 
-    /* Animación para los mensajes */
     @keyframes fadeIn {
         from {
             opacity: 0;
@@ -96,7 +90,6 @@
         }
     }
 
-    /* Estilos para el input del mensaje */
     .chat-input {
         padding: 15px;
         border-top: 1px solid #ddd;
@@ -115,11 +108,9 @@
         padding: 10px;
     }
 
-    /* Estilos para la información del contacto */
     .chat-info {
         background-color: #f8f9fa;
         height: 100vh;
-        /* Columna derecha con scroll */
     }
 
     .chat-info img {
@@ -130,5 +121,55 @@
 
     .chat-info img:hover {
         transform: scale(1.05);
+    }
+
+    /* Botones flotantes */
+    .floating-buttons {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        display: flex;
+        gap: 15px;
+    }
+
+    .floating-buttons button {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: none;
+        background-color: #007bff;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .floating-buttons button:hover {
+        background-color: #0056b3;
+        transform: scale(1.1);
+    }
+
+    /* Sección oculta que se muestra al hacer clic */
+    .info-section,
+    .tools-section {
+        display: none;
+        padding: 20px;
+        background-color: #fff;
+        border-top: 1px solid #ddd;
+        animation: slideDown 0.5s ease forwards;
+    }
+
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 </style>
