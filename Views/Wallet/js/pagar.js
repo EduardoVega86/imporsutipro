@@ -609,6 +609,7 @@ function ver_detalle_cot(numero_factura) {
 }
 
 function procesarPlataforma(url) {
+  if (url){
   // Eliminar el "https://"
   let sinProtocolo = url.replace("https://", "");
 
@@ -622,6 +623,9 @@ function procesarPlataforma(url) {
   let resultado = baseNombre.toUpperCase();
 
   return resultado;
+  } else {
+    return '';
+  }
 }
 
 window.addEventListener("load", async () => {
