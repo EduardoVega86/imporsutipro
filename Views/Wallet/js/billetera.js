@@ -117,19 +117,21 @@ const dataTableFacturasOptions = {
   columnDefs: [
     {
       targets: [2], // Aplica la función de ordenamiento solo a la columna 2 (Estado Guía)
-      type: "custom-sort", // define un tipo de sort personalizado si es necesario
       render: function (data, type, row) {
         if (type === "sort") {
-          // Asignamos valores diferentes para cada estado
-          if (data === "Entregado") {
-            return 1; // Los "Entregados" primero
-          } else if (data === "Devuelto") {
-            return 2; // Los "Devueltos" después
+          // Usamos solo el texto "acreditable" para la lógica de ordenación
+          const acreditable = $(data).text().trim(); // Extraemos solo el texto
+
+          // Asignamos valores numéricos según el estado de la guía
+          if (acreditable === "Entregado") {
+            return 1; // "Entregado" primero
+          } else if (acreditable === "Devuelto") {
+            return 2; // "Devuelto" después
           } else {
-            return 3; // El resto de los estados después
+            return 3; // El resto de los estados al final
           }
         }
-        return data; // Para mostrar el valor real
+        return data; // Mostrar el valor sin cambios
       },
     },
     { className: "centered", targets: [1, 2, 3, 4, 5] },
@@ -182,15 +184,6 @@ const dataTableFacturasOptions = {
     },
   },
 };
-
-function getFecha() {
-  let fecha = new Date();
-  let mes = fecha.getMonth() + 1;
-  let dia = fecha.getDate();
-  let anio = fecha.getFullYear();
-  let fechaHoy = anio + "-" + mes + "-" + dia;
-  return fechaHoy;
-}
 
 const initDataTableFacturas = async () => {
   if (dataTableFacturasIsInitialized) {
