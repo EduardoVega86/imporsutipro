@@ -116,26 +116,26 @@ let dataTableFacturasIsInitialized = false;
 const dataTableFacturasOptions = {
   columnDefs: [
     {
-      targets: [2], // Aplica la función de ordenamiento solo a la columna 2 (estado)
+      targets: [2], // Aplica la función de ordenamiento solo a la columna 2 (Estado Guía)
+      type: "custom-sort", // define un tipo de sort personalizado si es necesario
       render: function (data, type, row) {
         if (type === "sort") {
-          // Asigna un valor numérico a cada estado para poder ordenar
-          switch (data) {
-            case "Entregado":
-              return 1; // Los "Entregados" primero
-            case "Devuelto":
-              return 2; // Los "Devueltos" después
-            default:
-              return 3; // El resto de los estados al final
+          // Asignamos valores diferentes para cada estado
+          if (data === "Entregado") {
+            return 1; // Los "Entregados" primero
+          } else if (data === "Devuelto") {
+            return 2; // Los "Devueltos" después
+          } else {
+            return 3; // El resto de los estados después
           }
         }
-        return data; // Muestra el valor original en la tabla
+        return data; // Para mostrar el valor real
       },
     },
     { className: "centered", targets: [1, 2, 3, 4, 5] },
     { orderable: false, targets: 0 }, // Ocultar el ordenar para columna 0
   ],
-  order: [[2, "asc"]], // Orden ascendente en la columna 2
+  order: [[2, "asc"]], // Orden ascendente en la columna 2 (Estado Guía)
   pageLength: 10,
   destroy: true,
   responsive: true,
