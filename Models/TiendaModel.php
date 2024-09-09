@@ -496,32 +496,6 @@ class TiendaModel extends Query
             $productos_por_bodega[$bodega][] = $tmp_session;
         }
 
-        // Si la oferta está seleccionada, agregar el producto de la oferta
-        if ($oferta_selected == 1) {
-            // Obtener el producto de la oferta de la tabla inventario_bodegas
-            $producto_oferta = $this->select("SELECT * FROM inventario_bodegas WHERE id_inventario = $id_producto_oferta");
-
-            if (!empty($producto_oferta)) {
-                $bodega_oferta = $producto_oferta[0]['bodega']; // Bodega del producto de la oferta
-
-                // Agrupar la oferta en la bodega correspondiente
-                if (!isset($productos_por_bodega[$bodega_oferta])) {
-                    $productos_por_bodega[$bodega_oferta] = [];
-                }
-
-                // Añadir el producto de la oferta a la bodega correspondiente
-                $productos_por_bodega[$bodega_oferta][] = [
-                    'id_producto' => $id_producto_oferta,
-                    'cantidad_tmp' => 1, // Asignamos 1 como cantidad predeterminada para la oferta
-                    'precio_tmp' => $producto_oferta[0]['precio'], // Usamos el precio del producto de la oferta
-                    'desc_tmp' => 0, // Sin descuento adicional
-                    'id_plataforma' => $id_plataforma,
-                    'sku' => $producto_oferta[0]['sku'],
-                    'id_inventario' => $id_producto_oferta
-                ];
-            }
-        }
-
         $response = $this->initialResponse();
 
         // Crear una factura para cada bodega
@@ -553,7 +527,6 @@ class TiendaModel extends Query
                 $total_bodega += $producto['precio_tmp'] * $producto['cantidad_tmp'];
             }
 
-            // Manejar el combo seleccionado si existe
             if ($combo_selected == 1) {
                 $datos_combo = $this->select("SELECT * FROM combos INNER JOIN detalle_combo ON detalle_combo.id_combo = combos.id 
                 INNER JOIN inventario_bodegas ON inventario_bodegas.id_inventario = detalle_combo.id_inventario WHERE combos.id = $combo_id");
@@ -640,31 +613,93 @@ class TiendaModel extends Query
             $responses = $this->insert($sql, $data);
 
             if ($responses === 1) {
-                // Insertar el detalle de la factura
-                $id_factura = $this->select("SELECT id_factura FROM facturas_cot WHERE numero_factura = '$nueva_factura'");
-                $factura_id = $id_factura[0]['id_factura'];
+                if ($combo_selected == 1) {
+                    $id_factura = $this->select("SELECT id_factura FROM facturas_cot WHERE numero_factura = '$nueva_factura'");
+                    $factura_id = $id_factura[0]['id_factura'];
 
-                // Insertar los productos (incluyendo combos y oferta si corresponde)
-                $detalle_sql = "INSERT INTO detalle_fact_cot (numero_factura, id_factura, id_producto, cantidad, desc_venta, precio_venta, id_plataforma , sku, id_inventario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                foreach ($productos as $tmp_session) {
-                    $detalle_data = array(
-                        $nueva_factura,
-                        $factura_id,
-                        $tmp_session['id_producto'],
-                        $tmp_session['cantidad_tmp'],
-                        $tmp_session['desc_tmp'],
-                        $tmp_session['precio_tmp'],
-                        $tmp_session['id_plataforma'],
-                        $tmp_session['sku'],
-                        $tmp_session['id_inventario']
-                    );
-                    $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
+                    // Insertar el detalle de la factura
+                    $detalle_sql = "INSERT INTO detalle_fact_cot (numero_factura, id_factura, id_producto, cantidad, desc_venta, precio_venta, id_plataforma , sku, id_inventario, combo, id_combo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+                    $detalle_combo = $this->select("SELECT * FROM detalle_combo INNER JOIN inventario_bodegas ON inventario_bodegas.id_inventario = detalle_combo.id_inventario WHERE id_combo = $combo_id");
+
+                    // Inicializamos la variable que llevará el acumulado del nuevo total
+                    $totalDistribuido = 0;
+                    $ultimoProductoIndex = count($detalle_combo) - 1;
+
+                    foreach ($detalle_combo as $index => $tmp_session) {
+                        if ($estado_combo == 1) {
+                            // Proporción del precio del producto en relación al total
+                            $proporcion = ($tmp_session['pvp'] * $tmp_session['cantidad']) / $totalPvp;
+
+                            // Calcular el nuevo precio proporcionalmente como porcentaje
+                            $nuevoPvp = $total_bodega * $proporcion;
+                        } elseif ($estado_combo == 2) {
+                            // Si el estado del combo es 2, entonces valor es un descuento fijo que se debe distribuir
+                            $descuentoProporcional = ($tmp_session['pvp'] * $tmp_session['cantidad']) / $totalPvp * $valor;
+
+                            // Calcular el nuevo precio restando el descuento proporcional
+                            $nuevoPvp = ($tmp_session['pvp'] * $tmp_session['cantidad']) - $descuentoProporcional;
+                        }
+
+                        // Si es el último producto, ajusta para que el total distribuido sea exacto
+                        if ($index == $ultimoProductoIndex) {
+                            $nuevoPvp = $total_bodega - $totalDistribuido;
+                        }
+
+                        $nuevoPvpUnitario = $nuevoPvp / $tmp_session['cantidad']; // Precio unitario ajustado
+
+                        $detalle_data = array(
+                            $nueva_factura,
+                            $factura_id,
+                            $tmp_session['id_producto'],
+                            $tmp_session['cantidad'],
+                            0,
+                            $nuevoPvpUnitario, // Guardar el pvp unitario ajustado
+                            $tmp_session['id_plataforma'],
+                            $tmp_session['sku'],
+                            $tmp_session['id_inventario'],
+                            1, // Indicador de que este producto pertenece a un combo
+                            $combo_id
+                        );
+
+                        // Insertar el detalle
+                        $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
+
+                        // Acumular el total distribuido
+                        $totalDistribuido += $nuevoPvp;
+                    }
+
+                    $response['status'] = 200;
+                    $response['title'] = 'Peticion exitosa';
+                    $response['message'] = "Pedido creado correctamente";
+                    $response["numero_factura"] = $nueva_factura;
+                } else {
+                    // Código para insertar los productos sin combo
+                    $id_factura = $this->select("SELECT id_factura FROM facturas_cot WHERE numero_factura = '$nueva_factura'");
+                    $factura_id = $id_factura[0]['id_factura'];
+
+                    // Insertar el detalle de la factura
+                    $detalle_sql = "INSERT INTO detalle_fact_cot (numero_factura, id_factura, id_producto, cantidad, desc_venta, precio_venta, id_plataforma , sku, id_inventario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    foreach ($productos as $tmp_session) {
+                        $detalle_data = array(
+                            $nueva_factura,
+                            $factura_id,
+                            $tmp_session['id_producto'],
+                            $tmp_session['cantidad_tmp'],
+                            $tmp_session['desc_tmp'],
+                            $tmp_session['precio_tmp'],
+                            $tmp_session['id_plataforma'],
+                            $tmp_session['sku'],
+                            $tmp_session['id_inventario']
+                        );
+                        $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
+                    }
+
+                    $response['status'] = 200;
+                    $response['title'] = 'Peticion exitosa';
+                    $response['message'] = "Pedido creado correctamente";
+                    $response["numero_factura"] = $nueva_factura;
                 }
-
-                $response['status'] = 200;
-                $response['title'] = 'Peticion exitosa';
-                $response['message'] = "Pedido creado correctamente";
-                $response["numero_factura"] = $nueva_factura;
             } else {
                 $response['status'] = 500;
                 $response['title'] = 'Error';
@@ -675,7 +710,6 @@ class TiendaModel extends Query
 
         return $response;
     }
-
 
     /* guardar pedido carrito viejo */
     /* public function guardar_pedido_carrito($id_plataforma, $id_producto, $total, $nombre, $telefono, $provincia, $ciudad, $calle_principal, $calle_secundaria, $referencia, $observacion, $tmp, $combo_selected, $combo_id)
