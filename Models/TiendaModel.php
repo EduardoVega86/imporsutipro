@@ -476,7 +476,7 @@ class TiendaModel extends Query
     }
 
     /* pedido carrito */
-    public function guardar_pedido_carrito($id_plataforma, $id_producto, $total, $nombre, $telefono, $provincia, $ciudad, $calle_principal, $calle_secundaria, $referencia, $observacion, $tmp, $combo_selected, $combo_id, $oferta_selected, $id_producto_oferta)
+    public function guardar_pedido_carrito($id_plataforma, $id_producto, $total, $nombre, $telefono, $provincia, $ciudad, $calle_principal, $calle_secundaria, $referencia, $observacion, $tmp, $combo_selected, $combo_id)
     {
         // Obtener los productos en el carrito temporal
         $tmp_cotizaciones = $this->select("SELECT * FROM tmp_cotizacion WHERE session_id = '$tmp'");
