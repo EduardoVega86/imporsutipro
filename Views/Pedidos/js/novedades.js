@@ -257,6 +257,7 @@ function enviar_gintraNovedad() {
         $("#gestionar_novedadModal").modal("hide");
         button.disabled = false;
         initDataTableNovedades();
+        initDataTableNovedadesGestionadas();
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -302,6 +303,7 @@ function enviar_serviNovedad() {
         $("#gestionar_novedadModal").modal("hide");
         button.disabled = false;
         initDataTableNovedades();
+        initDataTableNovedadesGestionadas();
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -367,6 +369,7 @@ function enviar_laarNovedad() {
         $("#gestionar_novedadModal").modal("hide");
         button.disabled = false;
         initDataTableNovedades();
+        initDataTableNovedadesGestionadas();
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
