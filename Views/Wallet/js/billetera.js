@@ -113,12 +113,82 @@ let filtro_facturas = "pendientes";
 let dataTableFacturas;
 let dataTableFacturasIsInitialized = false;
 
-const dataTableFacturasOptions = {
+/* const dataTableFacturasOptions = {
   columnDefs: [
     { className: "centered", targets: [1, 2, 3, 4, 5] },
     { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
   ],
   order: [[1, "desc"]],
+  pageLength: 10,
+  destroy: true,
+  responsive: true,
+  dom: '<"d-flex w-full justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
+  buttons: [
+    {
+      extend: "excelHtml5",
+      text: 'Excel <i class="fa-solid fa-file-excel"></i>',
+      title: "Panel de Control: Usuarios",
+      titleAttr: "Exportar a Excel",
+      exportOptions: {
+        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      },
+      filename: "facturas" + "_" + getFecha(),
+      footer: true,
+      className: "btn-excel",
+    },
+    {
+      extend: "csvHtml5",
+      text: 'CSV <i class="fa-solid fa-file-csv"></i>',
+      title: "Panel de Control: facturas",
+      titleAttr: "Exportar a CSV",
+      exportOptions: {
+        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      },
+      filename: "facturas" + "_" + getFecha(),
+      footer: true,
+      className: "btn-csv",
+    },
+  ],
+  language: {
+    lengthMenu: "Mostrar _MENU_ registros por página",
+    zeroRecords: "Ningún usuario encontrado",
+    info: "Mostrando de _START_ a _END_ de un total de _TOTAL_ registros",
+    infoEmpty: "Ningún usuario encontrado",
+    infoFiltered: "(filtrados desde _MAX_ registros totales)",
+    search: "Buscar:",
+    loadingRecords: "Cargando...",
+    paginate: {
+      first: "Primero",
+      last: "Último",
+      next: "Siguiente",
+      previous: "Anterior",
+    },
+  },
+}; */
+
+const dataTableFacturasOptions = {
+  columnDefs: [
+    {
+      targets: [2], // Aplica la función de ordenamiento solo a la columna 2
+      render: function (data, type, row) {
+        if (type === "sort") {
+          // Asigna un valor numérico a cada estado para poder ordenar
+          switch (data) {
+            case "Entregado":
+              return 1; // Los "Entregados" primero
+            case "Devuelto":
+              return 2; // Los "Devueltos" después
+            default:
+              return 3; // El resto de los estados al final
+          }
+        }
+        return data; // Para mostrar el valor tal cual
+      },
+    },
+    { className: "centered", targets: [1, 2, 3, 4, 5] },
+    { orderable: false, targets: 0 }, // Ocultar ordenar para columna 0
+  ],
+  order: [[2, "asc"]], // Ordena la columna 2 de acuerdo a nuestra función
   pageLength: 10,
   destroy: true,
   responsive: true,
