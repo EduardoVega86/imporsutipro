@@ -549,6 +549,8 @@ class TiendaModel extends Query
             if ($oferta_selected == 1) {
                 $datos_oferta = $this->select("SELECT * FROM productos_tienda INNER JOIN inventario_bodegas ON productos_tienda.id_inventario = inventario_bodegas.id_inventario 
                 WHERE id_producto_tienda == $id_producto_oferta;");
+
+                print_r($datos_oferta);
                 $bodega_oferta = $datos_oferta[0]['bodega'];
                 if ($bodega_oferta == $bodega) {
                     $precio_oferta = $datos_oferta[0]['pvp_tienda'];
