@@ -4,11 +4,6 @@
         background-color: #f0f2f5;
     }
 
-    .container-fluid {
-        display: flex;
-        height: 100%;
-    }
-
     .chat-sidebar,
     .chat-info {
         overflow-y: auto;
@@ -19,16 +14,32 @@
         flex-direction: column;
         justify-content: space-between;
         height: 100vh;
-        flex-grow: 1;
-        /* Hace que el chat tome todo el espacio disponible */
         transition: all 0.5s ease;
+        /* Transición suave */
     }
 
     .chat-sidebar {
         border-right: 1px solid #ddd;
         background-color: #f8f9fa;
-        width: 25%;
-        /* Ajusta el ancho del sidebar */
+        height: 100vh;
+    }
+
+    .contact-item {
+        padding: 10px;
+        transition: background-color 0.3s ease;
+    }
+
+    .contact-item:hover {
+        background-color: #e9ecef;
+        cursor: pointer;
+    }
+
+    .contact-item img {
+        transition: transform 0.3s ease;
+    }
+
+    .contact-item:hover img {
+        transform: scale(1.1);
     }
 
     .chat-header {
@@ -102,16 +113,18 @@
     .chat-info {
         background-color: #f8f9fa;
         height: 100vh;
-        width: 0;
-        /* Empieza oculta */
-        overflow: hidden;
         transition: all 0.5s ease;
         /* Transición suave */
     }
 
-    .chat-info.active {
-        width: 25%;
-        /* Ancho cuando está visible */
+    .chat-info.hidden {
+        width: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+
+    .chat-content.full-width {
+        width: 100%;
     }
 
     .chat-info img {
