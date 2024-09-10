@@ -116,8 +116,8 @@ class Wallet extends Controller
         $datos = $this->model->obtenerTiendas();
         echo $datos;
     }
-    
-      public function obtenerBilleteraTienda()
+
+    public function obtenerBilleteraTienda()
     {
         $datos = $this->model->obtenerBilleteraTienda($_SESSION["id_plataforma"]);
         echo json_encode($datos);
@@ -584,5 +584,11 @@ class Wallet extends Controller
     {
         $response = $this->model->guiasAcuadre();
         echo json_encode($response);
+    }
+
+
+    public function pagos_laar()
+    {
+        $this->model->pagos_laar();
     }
 }
