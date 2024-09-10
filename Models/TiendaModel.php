@@ -476,7 +476,7 @@ class TiendaModel extends Query
     }
 
     /* pedido carrito */
-    public function guardar_pedido_carrito($id_plataforma, $id_producto, $total, $nombre, $telefono, $provincia, $ciudad, $calle_principal, $calle_secundaria, $referencia, $observacion, $tmp, $combo_selected, $combo_id)
+    public function guardar_pedido_carrito($id_plataforma, $id_producto, $total, $nombre, $telefono, $provincia, $ciudad, $calle_principal, $calle_secundaria, $referencia, $observacion, $tmp, $combo_selected, $combo_id, $oferta_selected, $id_producto_oferta)
     {
         // Obtener los productos en el carrito temporal
         $tmp_cotizaciones = $this->select("SELECT * FROM tmp_cotizacion WHERE session_id = '$tmp'");
@@ -542,6 +542,18 @@ class TiendaModel extends Query
                     $total_bodega = $totalPvp * (1 - $valor / 100);
                 } else if ($estado_combo == 2) {
                     $total_bodega = $totalPvp - $valor;
+                }
+            }
+
+
+            if ($oferta_selected == 1) {
+                $datos_oferta = $this->select("SELECT * FROM productos_tienda INNER JOIN inventario_bodegas ON productos_tienda.id_inventario = inventario_bodegas.id_inventario 
+                WHERE id_producto_tienda == $id_producto_oferta;");
+                $bodega_oferta = $datos_oferta[0]['bodega'];
+                if ($bodega_oferta == $bodega) {
+                    $precio_oferta = $datos_oferta[0]['pvp_tienda'];
+
+                    $total_bodega = $total_bodega + $precio_oferta;
                 }
             }
 
@@ -612,13 +624,14 @@ class TiendaModel extends Query
 
             $responses = $this->insert($sql, $data);
 
-            if ($responses === 1) {
+            if ($responses == 1) {
                 if ($combo_selected == 1) {
                     $id_factura = $this->select("SELECT id_factura FROM facturas_cot WHERE numero_factura = '$nueva_factura'");
                     $factura_id = $id_factura[0]['id_factura'];
 
                     // Insertar el detalle de la factura
-                    $detalle_sql = "INSERT INTO detalle_fact_cot (numero_factura, id_factura, id_producto, cantidad, desc_venta, precio_venta, id_plataforma , sku, id_inventario, combo, id_combo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    $detalle_sql = "INSERT INTO detalle_fact_cot (numero_factura, id_factura, id_producto, cantidad, desc_venta, precio_venta, id_plataforma, sku, id_inventario, combo, id_combo) 
+                                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
                     $detalle_combo = $this->select("SELECT * FROM detalle_combo INNER JOIN inventario_bodegas ON inventario_bodegas.id_inventario = detalle_combo.id_inventario WHERE id_combo = $combo_id");
 
@@ -669,6 +682,37 @@ class TiendaModel extends Query
                         $totalDistribuido += $nuevoPvp;
                     }
 
+                    if ($oferta_selected == 1) {
+                        // Corregimos la consulta SQL y verificamos que se obtuvieron resultados
+                        $datos_oferta = $this->select("SELECT * FROM productos_tienda 
+                                                        INNER JOIN inventario_bodegas ON productos_tienda.id_inventario = inventario_bodegas.id_inventario 
+                                                        WHERE id_producto_tienda = $id_producto_oferta");
+
+                        // Asegurarse de que $datos_oferta no esté vacío
+                        if (!empty($datos_oferta)) {
+                            $datos_oferta = $datos_oferta[0]; // Obtener el primer resultado
+
+                            // Definir el array para insertar el detalle de la oferta
+                            $detalle_data_oferta = array(
+                                $nueva_factura,
+                                $factura_id,
+                                $datos_oferta['id_producto'],
+                                1, // Cantidad de la oferta (puedes cambiar si es diferente)
+                                0,
+                                $datos_oferta['pvp_tienda'], // Guardar el pvp unitario ajustado
+                                $datos_oferta['id_plataforma'],
+                                $datos_oferta['sku'],
+                                $datos_oferta['id_inventario'],
+                                0, // Indicador de que no pertenece a un combo
+                                $combo_id
+                            );
+
+                            // Insertar el detalle
+                            $guardar_detalle = $this->insert($detalle_sql, $detalle_data_oferta);
+                            print_r($guardar_detalle);
+                        }
+                    }
+
                     $response['status'] = 200;
                     $response['title'] = 'Peticion exitosa';
                     $response['message'] = "Pedido creado correctamente";
@@ -676,10 +720,21 @@ class TiendaModel extends Query
                 } else {
                     // Código para insertar los productos sin combo
                     $id_factura = $this->select("SELECT id_factura FROM facturas_cot WHERE numero_factura = '$nueva_factura'");
-                    $factura_id = $id_factura[0]['id_factura'];
+
+                    if (!empty($id_factura)) {
+                        $factura_id = $id_factura[0]['id_factura'];
+                    } else {
+                        // Manejar el error si no se encuentra la factura
+                        $response['status'] = 500;
+                        $response['title'] = 'Error';
+                        $response['message'] = "No se encontró la factura para el número: $nueva_factura";
+                        return $response;
+                    }
 
                     // Insertar el detalle de la factura
-                    $detalle_sql = "INSERT INTO detalle_fact_cot (numero_factura, id_factura, id_producto, cantidad, desc_venta, precio_venta, id_plataforma , sku, id_inventario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    $detalle_sql = "INSERT INTO detalle_fact_cot (numero_factura, id_factura, id_producto, cantidad, desc_venta, precio_venta, id_plataforma, sku, id_inventario) 
+                                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
                     foreach ($productos as $tmp_session) {
                         $detalle_data = array(
                             $nueva_factura,
@@ -693,6 +748,35 @@ class TiendaModel extends Query
                             $tmp_session['id_inventario']
                         );
                         $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
+                    }
+
+                    if ($oferta_selected == 1) {
+                        // Corregimos la consulta SQL y verificamos que se obtuvieron resultados
+                        $datos_oferta = $this->select("SELECT * FROM productos_tienda 
+                                                        INNER JOIN inventario_bodegas ON productos_tienda.id_inventario = inventario_bodegas.id_inventario 
+                                                        WHERE id_producto_tienda = $id_producto_oferta");
+
+                        // Asegurarse de que $datos_oferta no esté vacío
+                        if (!empty($datos_oferta)) {
+                            $datos_oferta = $datos_oferta[0]; // Obtener el primer resultado
+
+                            // Definir el array para insertar el detalle de la oferta
+                            $detalle_data_oferta = array(
+                                $nueva_factura,
+                                $factura_id,
+                                $datos_oferta['id_producto'],
+                                1, // Cantidad de la oferta (puedes cambiar si es diferente)
+                                0,
+                                $datos_oferta['pvp_tienda'], // Guardar el pvp unitario ajustado
+                                $datos_oferta['id_plataforma'],
+                                $datos_oferta['sku'],
+                                $datos_oferta['id_inventario']
+                            );
+
+                            // Insertar el detalle
+                            $guardar_detalle = $this->insert($detalle_sql, $detalle_data_oferta);
+                            print_r($guardar_detalle);
+                        }
                     }
 
                     $response['status'] = 200;
