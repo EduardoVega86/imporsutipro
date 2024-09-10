@@ -512,9 +512,9 @@ class TiendaModel extends Query
             $plataforma_bodega = $datos_origen[0]['plataforma_bodega'];  // El id_plataforma de la bodega
 
             if ($plataforma_bodega == $id_plataforma){
-                $drop = 1;
-            } else {
                 $drop = 0;
+            } else {
+                $drop = 1;
             }
 
             $date_added = date("Y-m-d H:i:s");
