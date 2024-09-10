@@ -1,9 +1,24 @@
+const chatInfo = document.querySelector(".chat-info");
+const chatContent = document.querySelector(".chat-content");
+const btnThreeDots = document.getElementById("btn-three-dots");
+
 const infoSection = document.querySelector(".info-section");
 const toolsSection = document.querySelector(".tools-section");
 const btnInfo = document.getElementById("btn-info");
 const btnTools = document.getElementById("btn-tools");
 
-// Alternar la visibilidad de la sección de información
+// Función para alternar la visibilidad de la sección de información del contacto (botón de tres puntos)
+btnThreeDots.addEventListener("click", () => {
+  if (chatInfo.classList.contains("hidden")) {
+    chatInfo.classList.remove("hidden");
+    chatContent.classList.remove("full-width");
+  } else {
+    chatInfo.classList.add("hidden");
+    chatContent.classList.add("full-width");
+  }
+});
+
+// Alternar la visibilidad de la sección de información (botón flotante de información)
 btnInfo.addEventListener("click", () => {
   if (infoSection.style.display === "none" || !infoSection.style.display) {
     infoSection.style.display = "block";
@@ -13,7 +28,7 @@ btnInfo.addEventListener("click", () => {
   }
 });
 
-// Alternar la visibilidad de la sección de herramientas
+// Alternar la visibilidad de la sección de herramientas (botón flotante de herramientas)
 btnTools.addEventListener("click", () => {
   if (toolsSection.style.display === "none" || !toolsSection.style.display) {
     toolsSection.style.display = "block";

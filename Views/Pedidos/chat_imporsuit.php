@@ -21,13 +21,13 @@
         </div>
 
         <!-- Centro: Conversación del chat -->
-        <div class="col-6 p-0 chat-content">
+        <div class="col-6 p-0 chat-content full-width">
             <div class="chat-header">
                 <div class="d-flex align-items-center">
                     <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="Foto de perfil">
                     <h5 class="mb-0">Tony Plaza</h5>
                 </div>
-                <i class="fas fa-ellipsis-v"></i>
+                <i class="fas fa-ellipsis-v toggle-info" id="btn-three-dots"></i> <!-- Botón de tres puntos -->
             </div>
 
             <div class="chat-messages">
@@ -53,7 +53,7 @@
         </div>
 
         <!-- Derecha: Información del contacto -->
-        <div class="col-3 p-0 chat-info d-flex flex-column align-items-center position-relative">
+        <div class="col-3 p-0 chat-info d-flex flex-column align-items-center position-relative hidden">
             <div class="p-3 text-center">
                 <img src="https://via.placeholder.com/150" class="rounded-circle" alt="Foto de perfil">
                 <h5>+123 456 7890</h5>

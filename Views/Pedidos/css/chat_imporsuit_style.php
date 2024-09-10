@@ -14,6 +14,8 @@
         flex-direction: column;
         justify-content: space-between;
         height: 100vh;
+        transition: all 0.5s ease;
+        /* Transición suave */
     }
 
     .chat-sidebar {
@@ -111,6 +113,18 @@
     .chat-info {
         background-color: #f8f9fa;
         height: 100vh;
+        transition: all 0.5s ease;
+        /* Transición suave */
+    }
+
+    .chat-info.hidden {
+        width: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+
+    .chat-content.full-width {
+        width: 100%;
     }
 
     .chat-info img {
