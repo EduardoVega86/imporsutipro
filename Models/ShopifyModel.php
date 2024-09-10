@@ -462,7 +462,8 @@ class ShopifyModel extends Query
         return $responses;
     }
 
-    public function pagos_laar() {
-        $sql ="SELECT * FROM cabecera_cuenta_pagar where estado_guia = 7 and visto = 0"
+    public function pagos_laar()
+    {
+        $sql = "SELECT * FROM cabecera_cuenta_pagar where estado_guia = 7 and visto = 0";
     }
 }
