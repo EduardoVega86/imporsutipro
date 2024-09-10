@@ -31,6 +31,16 @@
     // Obtener el valor del parámetro "transportadora"
     var transportadora = getParameterByName('transportadora');
 
+    var nombre_transportadora = '';
+    if (transportadora == 1){
+        nombre_transportadora = "LAAR";
+    } else if (transportadora == 2){
+        nombre_transportadora = "SERVIENTREGA";
+    } else if (transportadora == 3){
+        nombre_transportadora = "GINTRACOM";
+    } else if (transportadora == 4){
+        nombre_transportadora = "SPEED";
+    }
     $("#nombre_transportadora").text(transportadora);
 
     // Obtener el valor del parámetro "bodega"
