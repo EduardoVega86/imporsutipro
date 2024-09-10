@@ -130,6 +130,9 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                         <label for="observaciones" class="form-label">Observaciones para la entrega</label>
                         <input type="text" class="form-control" id="observacion" placeholder="Referencias Adicionales (Opcional)">
                     </div>
+                    <div class="alert alert-warning" role="alert" id="alerta_devoluciones" style="display: none;">
+                        Este usuario ha realizado devoluciones previamente.
+                    </div>
                 </form>
             </div>
 
@@ -171,7 +174,7 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                         <label for="recaudo" class="form-label">Recaudo</label>
                         <select id="recaudo" class="form-select">
                             <option value="1" selected>Con Recaudo</option>
-                                       <option value="2">Sin Recaudo</option> 
+                            <option value="2">Sin Recaudo</option>
                         </select>
                     </div>
                     <!--  <div class="mb-3">

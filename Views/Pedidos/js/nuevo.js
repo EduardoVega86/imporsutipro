@@ -866,14 +866,15 @@ const vaciarTmpPedidos = async () => {
 
 function validar_devoluciones(telefono) {
   $.ajax({
-    url: SERVERURL + "Pedidos/validaDevolucion" + telefono,
+    url: SERVERURL + "Pedidos/validaDevolucion/" + telefono,
     type: "GET",
     dataType: "json",
     success: function (response) {
-
+      $("#alerta_devoluciones").show();
+      $("#alerta_devoluciones").hide();
     },
     error: function (error) {
-      console.error("Error al obtener la lista de bodegas:", error);
+      console.error("Error con la api de Validar devolucion:", error);
     },
   });
 }
