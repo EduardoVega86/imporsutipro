@@ -1,24 +1,27 @@
-const infoSection = document.querySelector(".info-section");
-const toolsSection = document.querySelector(".tools-section");
-const btnInfo = document.getElementById("btn-info");
-const btnTools = document.getElementById("btn-tools");
+const infoPanel = document.getElementById("info-panel");
+const chatContent = document.querySelector(".chat-content");
+const toggleInfoBtn = document.querySelector(".fa-ellipsis-v"); // El botón de los 3 puntos
+const closeInfoBtn = document.getElementById("close-info");
 
-// Alternar la visibilidad de la sección de información
-btnInfo.addEventListener("click", () => {
-  if (infoSection.style.display === "none" || !infoSection.style.display) {
-    infoSection.style.display = "block";
-    toolsSection.style.display = "none"; // Oculta la sección de herramientas si está visible
+// Alternar visibilidad del panel
+toggleInfoBtn.addEventListener("click", () => {
+  if (infoPanel.classList.contains("open")) {
+    infoPanel.classList.remove("open");
+    chatContent.classList.remove("reduced");
   } else {
-    infoSection.style.display = "none";
+    infoPanel.classList.add("open");
+    chatContent.classList.add("reduced");
   }
 });
 
-// Alternar la visibilidad de la sección de herramientas
-btnTools.addEventListener("click", () => {
-  if (toolsSection.style.display === "none" || !toolsSection.style.display) {
-    toolsSection.style.display = "block";
-    infoSection.style.display = "none"; // Oculta la sección de información si está visible
-  } else {
-    toolsSection.style.display = "none";
-  }
+// Cerrar el panel al hacer clic en la "X"
+closeInfoBtn.addEventListener("click", () => {
+  infoPanel.classList.remove("open");
+  chatContent.classList.remove("reduced");
+});
+
+// Ocultar el panel de la derecha al cargar la página
+window.addEventListener("load", () => {
+  infoPanel.classList.remove("open");
+  chatContent.classList.remove("reduced");
 });

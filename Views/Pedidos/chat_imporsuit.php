@@ -53,7 +53,7 @@
         </div>
 
         <!-- Derecha: Información del contacto -->
-        <div class="col-3 p-0 chat-info d-flex flex-column align-items-center position-relative">
+        <div class="col-3 p-0 chat-info d-flex flex-column align-items-center position-relative" id="info-panel">
             <div class="p-3 text-center">
                 <img src="https://via.placeholder.com/150" class="rounded-circle" alt="Foto de perfil">
                 <h5>+123 456 7890</h5>
@@ -65,23 +65,7 @@
                 <p>Ubicación: Ciudad, País</p>
                 <p>Correo: johndoe@email.com</p>
             </div>
-
-            <!-- Sección adicional que aparece al hacer clic en los botones flotantes -->
-            <div class="info-section">
-                <h6>Información adicional</h6>
-                <p>Aquí puedes mostrar información relevante sobre el contacto.</p>
-            </div>
-
-            <div class="tools-section">
-                <h6>Herramientas</h6>
-                <p>Funciones adicionales como editar, eliminar contacto, etc.</p>
-            </div>
-
-            <!-- Botones flotantes -->
-            <div class="floating-buttons">
-                <button id="btn-info"><i class="fas fa-info-circle"></i></button>
-                <button id="btn-tools"><i class="fas fa-wrench"></i></button>
-            </div>
+            <button id="close-info" class="close-info-btn">X</button> <!-- Botón X para cerrar -->
         </div>
     </div>
 </div>

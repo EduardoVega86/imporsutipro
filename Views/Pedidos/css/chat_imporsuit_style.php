@@ -14,6 +14,14 @@
         flex-direction: column;
         justify-content: space-between;
         height: 100vh;
+        transition: width 0.5s ease;
+        width: 100%;
+        /* El chat ocupará todo el ancho al inicio */
+    }
+
+    .chat-content.reduced {
+        width: 75%;
+        /* Ajusta el porcentaje para hacer espacio cuando el panel esté abierto */
     }
 
     .chat-sidebar {
@@ -111,16 +119,31 @@
     .chat-info {
         background-color: #f8f9fa;
         height: 100vh;
+        transition: width 0.5s ease;
+        width: 0;
+        /* Oculto al inicio */
+        overflow: hidden;
     }
 
-    .chat-info img {
-        border-radius: 50%;
-        margin-bottom: 15px;
-        transition: transform 0.3s ease;
+    #info-panel.open {
+        width: 25%;
+        /* Ajusta el porcentaje según el espacio que quieras ocupar */
     }
 
-    .chat-info img:hover {
-        transform: scale(1.05);
+    .close-info-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: none;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+        display: none;
+        /* Oculto por defecto */
+    }
+
+    #info-panel.open .close-info-btn {
+        display: block;
     }
 
     /* Botones flotantes */
@@ -149,16 +172,6 @@
     .floating-buttons button:hover {
         background-color: #0056b3;
         transform: scale(1.1);
-    }
-
-    /* Sección oculta que se muestra al hacer clic */
-    .info-section,
-    .tools-section {
-        display: none;
-        padding: 20px;
-        background-color: #fff;
-        border-top: 1px solid #ddd;
-        animation: slideDown 0.5s ease forwards;
     }
 
     @keyframes slideDown {
