@@ -1196,4 +1196,10 @@ class PedidosModel extends Query
 
         return $response;
     }
+    
+    public function validaDevolucion($telefono)
+    {
+        $sql = "SELECT * FROM `facturas_cot` WHERE telefono like '%$telefono%'";
+        return $this->select($sql);
+    }
 }
