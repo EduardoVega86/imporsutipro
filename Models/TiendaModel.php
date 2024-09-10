@@ -624,7 +624,7 @@ class TiendaModel extends Query
 
             $responses = $this->insert($sql, $data);
 
-            if ($responses === 1) {
+            if ($responses == 1) {
                 if ($combo_selected == 1) {
                     $id_factura = $this->select("SELECT id_factura FROM facturas_cot WHERE numero_factura = '$nueva_factura'");
                     $factura_id = $id_factura[0]['id_factura'];
@@ -709,6 +709,7 @@ class TiendaModel extends Query
 
                             // Insertar el detalle
                             $guardar_detalle = $this->insert($detalle_sql, $detalle_data_oferta);
+                            print_r($guardar_detalle);
                         }
                     }
 
@@ -774,6 +775,7 @@ class TiendaModel extends Query
 
                             // Insertar el detalle
                             $guardar_detalle = $this->insert($detalle_sql, $detalle_data_oferta);
+                            print_r($guardar_detalle);
                         }
                     }
 
