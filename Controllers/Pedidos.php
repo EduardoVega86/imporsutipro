@@ -550,4 +550,12 @@ class Pedidos extends Controller
 
         echo json_encode($response);
     }
+    
+    public function validaDevolucion($telefono)
+    {
+
+        $response = $this->model->validaDevolucion($telefono);
+
+        echo json_encode($response);
+    }
 }
