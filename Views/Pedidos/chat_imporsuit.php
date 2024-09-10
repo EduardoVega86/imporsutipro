@@ -38,7 +38,7 @@
                     Bien, ¿y tú?
                 </div>
                 <div class="message sent">
-                    Bien, ¿y tú?
+                    contestame :c
                 </div>
             </div>
 
