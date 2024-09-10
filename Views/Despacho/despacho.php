@@ -41,7 +41,8 @@
     } else if (transportadora == 4){
         nombre_transportadora = "SPEED";
     }
-    $("#nombre_transportadora").text(transportadora);
+
+    $("#nombre_transportadora").text(nombre_transportadora);
 
     // Obtener el valor del parámetro "bodega"
     var bodega = getParameterByName('bodega');
