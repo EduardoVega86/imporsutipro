@@ -756,27 +756,31 @@ class TiendaModel extends Query
                         $datos_oferta = $this->select("SELECT * FROM productos_tienda 
                                                         INNER JOIN inventario_bodegas ON productos_tienda.id_inventario = inventario_bodegas.id_inventario 
                                                         WHERE id_producto_tienda = $id_producto_oferta");
+                                                        
+                        $bodega_oferta = $datos_oferta[0]['bodega'];
+                        if ($bodega_oferta == $bodega) {
 
-                        // Asegurarse de que $datos_oferta no esté vacío
-                        if (!empty($datos_oferta)) {
-                            $datos_oferta = $datos_oferta[0]; // Obtener el primer resultado
+                            // Asegurarse de que $datos_oferta no esté vacío
+                            if (!empty($datos_oferta)) {
+                                $datos_oferta = $datos_oferta[0]; // Obtener el primer resultado
 
-                            // Definir el array para insertar el detalle de la oferta
-                            $detalle_data_oferta = array(
-                                $nueva_factura,
-                                $factura_id,
-                                $datos_oferta['id_producto'],
-                                1, // Cantidad de la oferta (puedes cambiar si es diferente)
-                                0,
-                                $datos_oferta['pvp_tienda'], // Guardar el pvp unitario ajustado
-                                $datos_oferta['id_plataforma'],
-                                $datos_oferta['sku'],
-                                $datos_oferta['id_inventario']
-                            );
+                                // Definir el array para insertar el detalle de la oferta
+                                $detalle_data_oferta = array(
+                                    $nueva_factura,
+                                    $factura_id,
+                                    $datos_oferta['id_producto'],
+                                    1, // Cantidad de la oferta (puedes cambiar si es diferente)
+                                    0,
+                                    $datos_oferta['pvp_tienda'], // Guardar el pvp unitario ajustado
+                                    $datos_oferta['id_plataforma'],
+                                    $datos_oferta['sku'],
+                                    $datos_oferta['id_inventario']
+                                );
 
-                            // Insertar el detalle
-                            $guardar_detalle = $this->insert($detalle_sql, $detalle_data_oferta);
-                            /* print_r($guardar_detalle); */
+                                // Insertar el detalle
+                                $guardar_detalle = $this->insert($detalle_sql, $detalle_data_oferta);
+                                /* print_r($guardar_detalle); */
+                            }
                         }
                     }
 
