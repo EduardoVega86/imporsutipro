@@ -28,8 +28,6 @@ class ShopifyModel extends Query
     public function gestionarRequest($plataforma, $data)
     {
 
-
-
         $data = json_decode($data, true);
         $order_number = $data['order_number'];
         $configuraciones = $this->obtenerConfiguracion($plataforma);
@@ -462,5 +460,9 @@ class ShopifyModel extends Query
             $responses["message"] = $response["message"];
         }
         return $responses;
+    }
+
+    public function pagos_laar() {
+        $sql ="SELECT * FROM cabecera_cuenta_pagar where estado_guia = 7 and visto = 0"
     }
 }

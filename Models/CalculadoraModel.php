@@ -70,8 +70,8 @@ class CalculadoraModel extends Query
                 }
             }
         }
-        if ($previo < 1.25) {
-            $previo = 1.25;
+        if ($previo < 1.35) {
+            $previo = 1.35;
         }
         if ($trayecto_servientrega === "0" || $trayecto_servientrega === null || empty($trayecto_servientrega)) {
             $tarifas['servientrega'] = 0;
@@ -79,7 +79,11 @@ class CalculadoraModel extends Query
             if ($recuado === "1") {
                 $tarifas['servientrega'] = $tarifas['servientrega'] + $previo;
             } else {
-                $tarifas['servientrega'] = $tarifas['servientrega'];
+                if ($ciudad == "QUITO") {
+                    $tarifas['servientrega'] = 4.97;
+                } else {
+                    $tarifas['servientrega'] = $tarifas['servientrega'];
+                }
             }
         }
 
