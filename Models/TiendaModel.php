@@ -511,6 +511,12 @@ class TiendaModel extends Query
             $direccionO = $datos_origen[0]['direccion'];
             $plataforma_bodega = $datos_origen[0]['plataforma_bodega'];  // El id_plataforma de la bodega
 
+            if ($plataforma_bodega == $id_plataforma){
+                $drop = 1;
+            } else {
+                $drop = 0;
+            }
+
             $date_added = date("Y-m-d H:i:s");
 
             // Generar el número de factura
@@ -590,7 +596,7 @@ class TiendaModel extends Query
                 0,
                 $telefono,
                 $plataforma_bodega, // Se inserta en id_propietario el id_plataforma de la bodega
-                0,
+                $drop,
                 $id_plataforma, // Esto puede seguir siendo el id_plataforma original, ya que es la plataforma de origen de la compra
                 0,
                 'tienda_online',
