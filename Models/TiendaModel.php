@@ -550,7 +550,6 @@ class TiendaModel extends Query
                 $datos_oferta = $this->select("SELECT * FROM productos_tienda INNER JOIN inventario_bodegas ON productos_tienda.id_inventario = inventario_bodegas.id_inventario 
                 WHERE id_producto_tienda = $id_producto_oferta;");
 
-                print_r($datos_oferta);
                 $bodega_oferta = $datos_oferta[0]['bodega'];
                 if ($bodega_oferta == $bodega) {
                     $precio_oferta = $datos_oferta[0]['pvp_tienda'];
@@ -711,7 +710,7 @@ class TiendaModel extends Query
 
                             // Insertar el detalle
                             $guardar_detalle = $this->insert($detalle_sql, $detalle_data_oferta);
-                            print_r($guardar_detalle);
+                            /* print_r($guardar_detalle); */
                         }
                     }
 
@@ -777,7 +776,7 @@ class TiendaModel extends Query
 
                             // Insertar el detalle
                             $guardar_detalle = $this->insert($detalle_sql, $detalle_data_oferta);
-                            print_r($guardar_detalle);
+                            /* print_r($guardar_detalle); */
                         }
                     }
 
