@@ -63,7 +63,7 @@
                         <select name="estado_q" class="form-control" id="estado_q">
                             <option value=""> Seleccione Estado </option>
                             <option value="(estado_guia_sistema in (100,102,103) and id_transporte=2)
-                            OR (estado_guia_sistema in (1,2,3,4) and id_transporte=1)
+                            OR (estado_guia_sistema in (1,2) and id_transporte=1)
                             or (estado_guia_sistema in (1,2,3) and id_transporte=3)
                             or (estado_guia_sistema in (2) and id_transporte=4)"> Generada/ Por Recolectar </option>
                             <option value="(estado_guia_sistema BETWEEN 200 AND 202 and id_transporte=2)
