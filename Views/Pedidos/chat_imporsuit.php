@@ -16,12 +16,11 @@
                         <small class="text-muted">Último mensaje...</small>
                     </div>
                 </li>
-                <!-- Más contactos -->
             </ul>
         </div>
 
         <!-- Centro: Conversación del chat -->
-        <div class="col-6 p-0 chat-content">
+        <div class="col-6 p-0 chat-content" id="chat-content">
             <div class="chat-header">
                 <div class="d-flex align-items-center">
                     <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="Foto de perfil">

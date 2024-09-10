@@ -14,14 +14,14 @@
         flex-direction: column;
         justify-content: space-between;
         height: 100vh;
-        transition: width 0.5s ease;
+        transition: all 0.5s ease;
         width: 100%;
-        /* El chat ocupará todo el ancho al inicio */
+        /* Ocupa todo el ancho, excepto la barra derecha */
     }
 
-    .chat-content.reduced {
-        width: 75%;
-        /* Ajusta el porcentaje para hacer espacio cuando el panel esté abierto */
+    .chat-content.expanded {
+        width: calc(100% - 25%);
+        /* Expande solo para cubrir el espacio del panel derecho */
     }
 
     .chat-sidebar {
@@ -119,15 +119,15 @@
     .chat-info {
         background-color: #f8f9fa;
         height: 100vh;
-        transition: width 0.5s ease;
-        width: 0;
-        /* Oculto al inicio */
+        transition: all 0.5s ease;
+        width: 25%;
+        /* Visible al inicio */
         overflow: hidden;
     }
 
-    #info-panel.open {
-        width: 25%;
-        /* Ajusta el porcentaje según el espacio que quieras ocupar */
+    .chat-info.hidden {
+        width: 0;
+        /* Oculto cuando la clase "hidden" está activa */
     }
 
     .close-info-btn {
@@ -142,47 +142,12 @@
         /* Oculto por defecto */
     }
 
-    #info-panel.open .close-info-btn {
+    .chat-info.hidden .close-info-btn {
+        display: none;
+        /* No mostrar botón cuando el panel está oculto */
+    }
+
+    .chat-info.visible .close-info-btn {
         display: block;
-    }
-
-    /* Botones flotantes */
-    .floating-buttons {
-        position: absolute;
-        bottom: 20px;
-        right: 20px;
-        display: flex;
-        gap: 15px;
-    }
-
-    .floating-buttons button {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        border: none;
-        background-color: #007bff;
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        transition: background-color 0.3s ease, transform 0.3s ease;
-    }
-
-    .floating-buttons button:hover {
-        background-color: #0056b3;
-        transform: scale(1.1);
-    }
-
-    @keyframes slideDown {
-        from {
-            opacity: 0;
-            transform: translateY(-20px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
     }
 </style>
