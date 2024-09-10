@@ -87,7 +87,9 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                         </div>
                         <div class="col-md-6">
                             <label for="telefono" class="form-label">Teléfono</label>
-                            <input type="text" class="form-control" id="telefono" placeholder="Teléfono" oninput="this.value = this.value.replace(/[^0-9+]/g, '')" onblur="validar_devoluciones(this.value)">
+                            <input type="text" class="form-control" id="telefono" placeholder="Teléfono" oninput="this.value = this.value.replace(/[^0-9+]/g, '')"
+                                onblur="validar_devoluciones(this.value)" pattern="[0-9+]{8,}" title="Debe ingresar al menos 8 números" required>
+
                         </div>
                     </div>
                     <div class="row mb-3">
