@@ -9,12 +9,12 @@ const btnTools = document.getElementById("btn-tools");
 
 // Función para alternar la visibilidad de la sección de información del contacto (botón de tres puntos)
 btnThreeDots.addEventListener("click", () => {
-  if (chatInfo.classList.contains("hidden")) {
-    chatInfo.classList.remove("hidden");
-    chatContent.classList.remove("full-width");
+  if (chatInfo.classList.contains("active")) {
+    chatInfo.classList.remove("active");
+    chatContent.style.width = "100%";
   } else {
-    chatInfo.classList.add("hidden");
-    chatContent.classList.add("full-width");
+    chatInfo.classList.add("active");
+    chatContent.style.width = "75%";
   }
 });
 
