@@ -3,7 +3,7 @@
 
 <div class="full-screen-container">
     <div class="custom-container-fluid mt-4" style="margin-right: 20px;">
-        <h1>Despacho de guías</h1>
+        <h1>Despacho de guías <span id="nombre_transportadora"></span></h1>
         <div class="form-group">
             <label for="numeroGuia">Número de Guía</label>
             <input type="text" id="numeroGuia" placeholder="Coloca el cursor aquí antes de">
@@ -30,6 +30,8 @@
 
     // Obtener el valor del parámetro "transportadora"
     var transportadora = getParameterByName('transportadora');
+
+    $("#nombre_transportadora").text(transportadora);
 
     // Obtener el valor del parámetro "bodega"
     var bodega = getParameterByName('bodega');
