@@ -94,6 +94,7 @@ document.addEventListener("DOMContentLoaded", function () {
     })
       .then((response) => response.json())
       .then((responseData) => {
+        console.log("API Response: ", responseData); // Mostrar la respuesta completa
         if (responseData.error) {
           console.error("Error: ", responseData.error);
           alert(`Error: ${responseData.error.message}`);
@@ -105,6 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
           messageInput.value = "";
         }
       })
+
       .catch((error) => {
         console.error("Error en la solicitud: ", error);
         alert("Ocurrió un error al enviar el mensaje.");
