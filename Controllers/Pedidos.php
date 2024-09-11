@@ -558,4 +558,12 @@ class Pedidos extends Controller
 
         echo json_encode($response);
     }
+
+    /* APIS Chat center */
+    public function mensajes_clientes()
+    {
+        $id_cliente = $_POST['id_cliente'];
+        $response = $this->model->mensajes_clientes($id_cliente, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
 }

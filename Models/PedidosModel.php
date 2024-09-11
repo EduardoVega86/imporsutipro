@@ -1196,10 +1196,17 @@ class PedidosModel extends Query
 
         return $response;
     }
-    
+
     public function validaDevolucion($telefono)
     {
         $sql = "SELECT * FROM `facturas_cot` WHERE telefono like '%$telefono%'";
+        return $this->select($sql);
+    }
+
+    /* APIS Chat center */
+    public function mensajes_clientes($id_cliente, $id_plataforma)
+    {
+        $sql = "SELECT * FROM `clientes_chat_center` INNER JOIN `mensajes_clientes` ON clientes_chat_center.id = mensajes_clientes.id_cliente WHERE clientes_chat_center.id_plataforma = $id_plataforma AND clientes_chat_center.id = $id_cliente;";
         return $this->select($sql);
     }
 }
