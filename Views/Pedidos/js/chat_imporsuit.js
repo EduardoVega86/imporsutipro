@@ -50,9 +50,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const sendButton = document.getElementById("send-button");
   const messageInput = document.getElementById("message-input");
 
-  const fromPhoneNumberId = "109565362009074"; // Identificador de número de teléfono
+  const fromPhoneNumberId = "108881152072951"; // Identificador de número de teléfono
   const accessToken =
-    "EAAVZAG5oL9G4BO5Be7wI2OuGoEkfjSIwTZAf5ihLOmVxcrTAxtkQfJJqWb6ax14MZCrgZChWZA2ZAqG7lsM6iTZCZAvbrMTu5Di7dMlL1KFSob1oN814V0RQv2RGq5OGhlNZCgUnRRwLYPmdyPx5ZBVBGdm3h5S3Jp812Gud6sETPW1KTLLn03X6ZBTwlf5qeEyh16ZC";
+    "EAAVZAG5oL9G4BO51ZCtfUCsVsSrMQfR65uBxjXKBYDEPNXtCJJYxXkR96MQCLHMeoHmnPxUzuCMgmyEwBQhkUtCw7RVAS2XJw61dmoq7gFZApphctoGnDDbxhI8zlw61HEk6PgMtqNyCanqQrag37TGc0vTJwYap5QQk7TzkAJU9GtXBjmC1YSS6ZAvUX6WXn1VUmUuFADHb66ujZCSL3jE6GrZCcZD";
   const phoneNumber = "+593981702066"; // Número al que se va a enviar
 
   const url = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
