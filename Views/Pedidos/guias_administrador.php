@@ -134,9 +134,16 @@
 <script>
     let fecha_inicio = "";
     let fecha_fin = "";
+
+    // Calcula la fecha de inicio (hace 7 días) y la fecha de fin (hoy)
+    let hoy = moment();
+    let haceUnaSemana = moment().subtract(6, 'days'); // Esto es para que incluya los 7 días (hoy y los 6 días anteriores)
+
     $(function() {
         $('#daterange').daterangepicker({
             opens: 'right',
+            startDate: haceUnaSemana, // Fecha de inicio predefinida
+            endDate: hoy, // Fecha de fin predefinida
             locale: {
                 format: 'YYYY-MM-DD',
                 separator: ' - ',
@@ -150,7 +157,7 @@
                 monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
                 firstDay: 1
             },
-            autoUpdateInput: false
+            autoUpdateInput: true // Actualiza el input automáticamente con el rango de fechas
         });
 
         // Evento que se dispara cuando se aplica un nuevo rango de fechas
@@ -162,6 +169,9 @@
             fecha_fin = picker.endDate.format('YYYY-MM-DD') + ' 23:59:59';
             initDataTable();
         });
+
+        // Establece los valores iniciales para las fechas
+        $('#daterange').val(haceUnaSemana.format('YYYY-MM-DD') + ' - ' + hoy.format('YYYY-MM-DD'));
     });
 
     $(document).ready(function() {
