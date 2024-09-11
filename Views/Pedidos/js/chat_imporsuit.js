@@ -61,23 +61,16 @@ document.addEventListener("DOMContentLoaded", function () {
   sendButton.addEventListener("click", function (event) {
     event.preventDefault();
 
-    // Obtener el mensaje ingresado por el usuario
-    const message = messageInput.value;
-
-    if (message.trim() === "") {
-      alert("Por favor, escribe un mensaje.");
-      return;
-    }
-
-    // Datos para enviar el mensaje
+    // Datos para enviar el mensaje usando una plantilla aprobada
     const data = {
       messaging_product: "whatsapp",
-      recipient_type: "individual",
       to: phoneNumber,
-      type: "text",
-      text: {
-        preview_url: true, // Para habilitar la previsualización del enlace
-        body: message, // El mensaje que el usuario ha escrito
+      type: "template",
+      template: {
+        name: "hello_world", // Cambia esto al nombre de tu plantilla aprobada
+        language: {
+          code: "en_US", // Ajusta el código de idioma de tu plantilla
+        },
       },
     };
 
@@ -86,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
       "Content-Type": "application/json",
     };
 
-    // Usando fetch para enviar el mensaje
+    // Usando fetch para enviar la plantilla de mensaje
     fetch(url, {
       method: "POST",
       headers: headers,
@@ -100,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function () {
           alert(`Error: ${responseData.error.message}`);
         } else {
           console.log("Response: ", responseData);
-          alert("¡Mensaje enviado con éxito!");
+          alert("¡Plantilla de mensaje enviada con éxito!");
 
           // Limpiar el campo de entrada después de enviar el mensaje
           messageInput.value = "";
@@ -109,7 +102,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       .catch((error) => {
         console.error("Error en la solicitud: ", error);
-        alert("Ocurrió un error al enviar el mensaje.");
+        alert("Ocurrió un error al enviar la plantilla de mensaje.");
       });
   });
 });
