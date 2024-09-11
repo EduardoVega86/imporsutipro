@@ -21,13 +21,13 @@
         </div>
 
         <!-- Centro: Conversación del chat -->
-        <div class="col-6 p-0 chat-content">
+        <div class="col-6 p-0 chat-content full-width">
             <div class="chat-header">
                 <div class="d-flex align-items-center">
                     <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="Foto de perfil">
                     <h5 class="mb-0">Tony Plaza</h5>
                 </div>
-                <i class="fas fa-ellipsis-v"></i>
+                <i class="fas fa-ellipsis-v toggle-info" id="btn-three-dots"></i> <!-- Botón de tres puntos -->
             </div>
 
             <div class="chat-messages">
@@ -36,6 +36,9 @@
                 </div>
                 <div class="message sent">
                     Bien, ¿y tú?
+                </div>
+                <div class="message sent">
+                    contestame :c
                 </div>
             </div>
 
@@ -50,8 +53,9 @@
         </div>
 
         <!-- Derecha: Información del contacto -->
-        <div class="col-3 p-0 chat-info d-flex flex-column align-items-center position-relative">
+        <div class="col-3 p-0 chat-info d-flex flex-column align-items-center position-relative hidden">
             <div class="p-3 text-center">
+                <button class="close-info" id="btn-close-info">&times;</button> <!-- Botón de cierre (X) -->
                 <img src="https://via.placeholder.com/150" class="rounded-circle" alt="Foto de perfil">
                 <h5>+123 456 7890</h5>
                 <p class="text-muted">Última vez en línea: hace 5 minutos</p>

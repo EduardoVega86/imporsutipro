@@ -870,8 +870,11 @@ function validar_devoluciones(telefono) {
     type: "GET",
     dataType: "json",
     success: function (response) {
-      $("#alerta_devoluciones").show();
-      $("#alerta_devoluciones").hide();
+      if (response.length > 0) {
+        $("#alerta_devoluciones").show();
+      } else {
+        $("#alerta_devoluciones").hide();
+      }
     },
     error: function (error) {
       console.error("Error con la api de Validar devolucion:", error);
