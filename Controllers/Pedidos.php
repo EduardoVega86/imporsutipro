@@ -351,7 +351,7 @@ class Pedidos extends Controller
         $drogshipin = $_POST['drogshipin'] ?? "";
         $impreso = $_POST['impreso'] ?? "";
         $despachos = $_POST['despachos'] ?? "";
-        
+
         $data = $this->model->cargarGuias($_SESSION['id_plataforma'], $fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos);
         echo json_encode($data);
     }
@@ -550,7 +550,7 @@ class Pedidos extends Controller
 
         echo json_encode($response);
     }
-    
+
     public function validaDevolucion($telefono)
     {
 
@@ -564,6 +564,15 @@ class Pedidos extends Controller
     {
         $id_cliente = $_POST['id_cliente'];
         $response = $this->model->mensajes_clientes($id_cliente, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
+    public function agregar_mensajes_enviados()
+    {
+        $id_cliente = $_POST['id_cliente'];
+
+        $response = $this->model->agregar_detalle_combo($id_cliente, $_SESSION['id_plataforma']);
+
         echo json_encode($response);
     }
 }

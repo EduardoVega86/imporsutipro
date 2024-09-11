@@ -44,8 +44,8 @@
 
             <div class="chat-input border-top">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Escribe un mensaje...">
-                    <button class="btn btn-primary ms-2">
+                    <input id="message-input" type="text" class="form-control" placeholder="Escribe un mensaje...">
+                    <button id="send-button" class="btn btn-primary ms-2">
                         <i class="fas fa-paper-plane"></i>
                     </button>
                 </div>
