@@ -76,8 +76,8 @@ document.addEventListener("DOMContentLoaded", function () {
       to: phoneNumber,
       type: "text",
       text: {
-        preview_url: true,
-        body: message, // Usar el mensaje que el usuario escribió
+        preview_url: true, // Para habilitar la previsualización del enlace
+        body: message, // El mensaje que el usuario ha escrito
       },
     };
 
