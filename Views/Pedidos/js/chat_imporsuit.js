@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const sendButton = document.getElementById("send-button");
   const messageInput = document.getElementById("message-input");
 
-  const fromPhoneNumberId = "1492747491342122"; // Identificador de número de teléfono
+  const fromPhoneNumberId = "1505349967017070"; // Identificador de número de teléfono
   const accessToken =
     "EAAVZAG5oL9G4BO5Be7wI2OuGoEkfjSIwTZAf5ihLOmVxcrTAxtkQfJJqWb6ax14MZCrgZChWZA2ZAqG7lsM6iTZCZAvbrMTu5Di7dMlL1KFSob1oN814V0RQv2RGq5OGhlNZCgUnRRwLYPmdyPx5ZBVBGdm3h5S3Jp812Gud6sETPW1KTLLn03X6ZBTwlf5qeEyh16ZC";
   const phoneNumber = "+593981702066"; // Número al que se va a enviar
