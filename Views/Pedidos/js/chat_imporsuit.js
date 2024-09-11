@@ -51,7 +51,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const messageInput = document.getElementById("message-input");
 
   const fromPhoneNumberId = "109565362009074"; // Identificador de número de teléfono
-  const accessToken = "EAAVZAG5oL9G4BO5Be7wI2OuGoEkfjSIwTZAf5ihLOmVxcrTAxtkQfJJqWb6ax14MZCrgZChWZA2ZAqG7lsM6iTZCZAvbrMTu5Di7dMlL1KFSob1oN814V0RQv2RGq5OGhlNZCgUnRRwLYPmdyPx5ZBVBGdm3h5S3Jp812Gud6sETPW1KTLLn03X6ZBTwlf5qeEyh16ZC";
+  const accessToken =
+    "EAAVZAG5oL9G4BO1OWbuNjIpMl3DrXn4kAoPczlTIZAGEmnZBBf235oAtc1WLnZAOOjaqapIPw6UuxwXSREuZAAspRNTImCJ3XoNZB0GrnybdnHrm5whWF6KjVUJx1J2L6r3Xd5mEeZA5ZBWcaDiO7uZCxZBXaZCl6geK10d8weV4CacORJN06mvoWArJY60kzXXtIZA5B4I6T8bLaJy6zGVcZAu9u9pr51C4ZD";
   const phoneNumber = "+593981702066"; // Número al que se va a enviar
 
   const url = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
@@ -60,17 +61,24 @@ document.addEventListener("DOMContentLoaded", function () {
   sendButton.addEventListener("click", function (event) {
     event.preventDefault();
 
-    // Datos para enviar el mensaje usando una plantilla aprobada
+    // Obtener el mensaje ingresado por el usuario
+    const message = messageInput.value;
+
+    if (message.trim() === "") {
+      alert("Por favor, escribe un mensaje.");
+      return;
+    }
+
+    // Datos para enviar el mensaje
     const data = {
       messaging_product: "whatsapp",
+      recipient_type: "individual",
       to: phoneNumber,
-      type: "template",
-      template: {
-        name: "hello_world", // Cambia esto al nombre de tu plantilla aprobada
-        language: {
-          code: "en_US" // Ajusta el código de idioma de tu plantilla
-        }
-      }
+      type: "text",
+      text: {
+        preview_url: true,
+        body: message, // Usar el mensaje que el usuario escribió
+      },
     };
 
     const headers = {
@@ -78,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
       "Content-Type": "application/json",
     };
 
-    // Usando fetch para enviar la plantilla de mensaje
+    // Usando fetch para enviar el mensaje
     fetch(url, {
       method: "POST",
       headers: headers,
@@ -92,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
           alert(`Error: ${responseData.error.message}`);
         } else {
           console.log("Response: ", responseData);
-          alert("¡Plantilla de mensaje enviada con éxito!");
+          alert("¡Mensaje enviado con éxito!");
 
           // Limpiar el campo de entrada después de enviar el mensaje
           messageInput.value = "";
@@ -101,7 +109,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       .catch((error) => {
         console.error("Error en la solicitud: ", error);
-        alert("Ocurrió un error al enviar la plantilla de mensaje.");
+        alert("Ocurrió un error al enviar el mensaje.");
       });
   });
 });
