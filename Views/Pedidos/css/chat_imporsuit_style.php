@@ -186,4 +186,34 @@
             transform: translateY(0);
         }
     }
+
+    /* Botón de cerrar (X) */
+    .close-info {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: none;
+        border: none;
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+        cursor: pointer;
+        transition: color 0.3s ease;
+    }
+
+    .close-info:hover {
+        color: #007bff;
+    }
+
+    /* Aumentar tamaño del botón de los tres puntos */
+    #btn-three-dots {
+        font-size: 24px;
+        /* Aumenta el tamaño del ícono */
+        cursor: pointer;
+    }
+
+    #btn-three-dots:hover {
+        color: #007bff;
+        /* Añade un efecto de hover */
+    }
 </style>

@@ -55,6 +55,7 @@
         <!-- Derecha: Información del contacto -->
         <div class="col-3 p-0 chat-info d-flex flex-column align-items-center position-relative hidden">
             <div class="p-3 text-center">
+                <button class="close-info" id="btn-close-info">&times;</button> <!-- Botón de cierre (X) -->
                 <img src="https://via.placeholder.com/150" class="rounded-circle" alt="Foto de perfil">
                 <h5>+123 456 7890</h5>
                 <p class="text-muted">Última vez en línea: hace 5 minutos</p>

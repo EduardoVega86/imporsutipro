@@ -1,6 +1,7 @@
 const chatInfo = document.querySelector(".chat-info");
 const chatContent = document.querySelector(".chat-content");
 const btnThreeDots = document.getElementById("btn-three-dots");
+const btnCloseInfo = document.getElementById("btn-close-info"); // Referencia al botón de cerrar (X)
 
 const infoSection = document.querySelector(".info-section");
 const toolsSection = document.querySelector(".tools-section");
@@ -16,6 +17,12 @@ btnThreeDots.addEventListener("click", () => {
     chatInfo.classList.add("hidden");
     chatContent.classList.add("full-width");
   }
+});
+
+// Función para cerrar la sección de información con la "X"
+btnCloseInfo.addEventListener("click", () => {
+  chatInfo.classList.add("hidden");
+  chatContent.classList.add("full-width");
 });
 
 // Alternar la visibilidad de la sección de información (botón flotante de información)
