@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const fromPhoneNumberId = "109565362009074"; // Identificador de número de teléfono
   const accessToken =
-    "EAAVZAG5oL9G4BOyrsyNgZBmlNXqlTB9ObbeyYhVyZBItJgJzyyVzt4Kuwz1P6OZAZAyB2wC9qFBLnc5qE9ZBrvDJ2yqPHlzekeN051WhK1qMF4QfXrtUScbZCeFrGJiaqHHZCPFg3CHyTXrAhzA9mKjlx6g09P4ZBjrppXBLfgBfGGMLgTxHTrb5vtpmjZBgEh9nZAwxgZDZD";
+    "EAAVZAG5oL9G4BOyrsyNgZBmlNXqlTB9ObbeyYhVyZBItJgJzyyVzt4Kuwz1P6OZAZAyB2wC9qFBLnc5qE9ZBrvDJ2yqPHlzekeN051WhK1qMF4QfXrtUScbZCeFrGJiaqHHZCPFg3CHyTXrAhzA9mKjlx6g09P4ZBjrppXBLfgBfGGMLgTxHTrb5vtpmjZBgEh9nZAwxgZDZD"; // Asegúrate de que este token sea válido
   const phoneNumber = "+593981702066"; // Número al que se va a enviar
 
   const url = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
@@ -69,15 +69,14 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    // Datos para enviar el mensaje
+    // Datos para enviar el mensaje usando una plantilla
     const data = {
       messaging_product: "whatsapp",
-      recipient_type: "individual",
       to: phoneNumber,
-      type: "text",
-      text: {
-        preview_url: true,
-        body: message, // Usar el mensaje que el usuario escribió
+      type: "template",
+      template: {
+        name: "hello_world", // Plantilla que estás usando
+        language: { code: "en_US" }, // Lenguaje de la plantilla
       },
     };
 
