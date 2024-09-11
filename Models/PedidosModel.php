@@ -1196,10 +1196,39 @@ class PedidosModel extends Query
 
         return $response;
     }
-    
+
     public function validaDevolucion($telefono)
     {
         $sql = "SELECT * FROM `facturas_cot` WHERE telefono like '%$telefono%'";
         return $this->select($sql);
+    }
+
+    /* APIS Chat center */
+    public function mensajes_clientes($id_cliente, $id_plataforma)
+    {
+        $sql = "SELECT * FROM `clientes_chat_center` INNER JOIN `mensajes_clientes` ON clientes_chat_center.id = mensajes_clientes.id_cliente WHERE clientes_chat_center.id_plataforma = $id_plataforma AND clientes_chat_center.id = $id_cliente;";
+        return $this->select($sql);
+    }
+
+    public function agregar_mensajes_enviados($id_cliente, $id_plataforma)
+    {
+        $response = $this->initialResponse();
+
+        $sql = "INSERT INTO `mensajes_clientes` (`id_plataforma`,`id_cliente`,`mid_mensaje`,`tipo_mensaje`,`rol_mensaje`,`texto_mensaje`,`texto_corregido_mensaje`,`calificacion_mensaje`
+        ,`json_mensaje`,`json_analytics_mensaje`,`total_tokens_openai_mensaje`,`apis_mensaje_analytics`,`informacion_suficiente`,`pregunta_fuera_de_tema`,`created_at`
+        ,`updated_at`,`deleted_at`) VALUES (?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?)";
+        $data = [$id_plataforma, $id_cliente, $cantidad];
+        $insertar_detalle_combo = $this->insert($sql, $data);
+
+        if ($insertar_detalle_combo == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Imagen subida correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = "Error al agregar detalle combo";
+        }
+        return $response;
     }
 }

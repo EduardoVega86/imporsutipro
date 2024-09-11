@@ -1419,6 +1419,20 @@ class WalletModel extends Query
         return $response;
     }
 
+    public function obtenerBilleteraTienda($id_plataforma)
+    {
+        $sql = "SELECT * FROM `billeteras` WHERE id_plataforma=$id_plataforma;";
+        $response =  $this->select($sql);
+        return $response;
+    }
+
+    public function obtenerBilleteraTienda_plataforma($id_plataforma)
+    {
+        $sql = "SELECT * FROM `billeteras` WHERE id_plataforma=$id_plataforma;";
+        $response =  $this->select($sql);
+        return $response;
+    }
+
 
     /////////////////////////////// DEBUGS //////////////////////////////////////
 
@@ -1540,20 +1554,6 @@ class WalletModel extends Query
             $response =  $this->update($sql, array($id_cabecera));
         }
 
-        return $response;
-    }
-    
-    public function obtenerBilleteraTienda($id_plataforma)
-    {
-        $sql = "SELECT * FROM `billeteras` WHERE id_plataforma=$id_plataforma;";
-        $response =  $this->select($sql);
-        return $response;
-    }
-
-    public function obtenerBilleteraTienda_plataforma($id_plataforma)
-    {
-        $sql = "SELECT * FROM `billeteras` WHERE id_plataforma=$id_plataforma;";
-        $response =  $this->select($sql);
         return $response;
     }
 }

@@ -212,8 +212,6 @@ const listGuias = async () => {
         console.log("La ciudad no está definida o está vacía");
       }
 
-      console.log("Ciudad:", ciudad);
-
       novedad = "";
       if (guia.estado_guia_sistema == 14 && transporte == 1) {
         novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
