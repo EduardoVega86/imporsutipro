@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const fromPhoneNumberId = "109565362009074"; // Identificador de número de teléfono
   const accessToken =
     "EAAVZAG5oL9G4BO5Be7wI2OuGoEkfjSIwTZAf5ihLOmVxcrTAxtkQfJJqWb6ax14MZCrgZChWZA2ZAqG7lsM6iTZCZAvbrMTu5Di7dMlL1KFSob1oN814V0RQv2RGq5OGhlNZCgUnRRwLYPmdyPx5ZBVBGdm3h5S3Jp812Gud6sETPW1KTLLn03X6ZBTwlf5qeEyh16ZC";
-  const phoneNumber = "+593992717075"; // Número al que se va a enviar
+  const phoneNumber = "+593981702066"; // Número al que se va a enviar
 
   const url = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
 
