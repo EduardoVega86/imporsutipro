@@ -73,19 +73,16 @@ function addEmojiToInput(emoji) {
 
 // Función para renderizar emojis en la sección
 function renderEmojis(emojis, limit = displayedEmojis) {
-  const emojiSection = document.getElementById("emoji-section");
+  const emojiContainer = document.getElementById("emoji-list"); // Seleccionamos el contenedor de emojis
 
-  // Limpiar la sección excepto el input de búsqueda
-  const searchInput = document.getElementById('emoji-search');
-  emojiSection.innerHTML = '';
-  emojiSection.appendChild(searchInput); // Mantener el buscador en su lugar
+  emojiContainer.innerHTML = ''; // Limpiar el contenedor de emojis
 
   emojis.slice(0, limit).forEach((emoji) => {
     const span = document.createElement("span");
     span.classList.add("emoji");
     span.textContent = emoji.character;
     span.addEventListener("click", () => addEmojiToInput(emoji.character));
-    emojiSection.appendChild(span);
+    emojiContainer.appendChild(span);
   });
 }
 
