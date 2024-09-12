@@ -49,10 +49,9 @@
                         <input id="emoji-search" type="text" placeholder="Buscar emojis..." />
                     </div>
 
-                    <div id="emoji-section" class="emoji-section d-none">
-                        <!-- Aquí se cargarán los emojis de forma dinámica -->
+                    <div id="emoji-section" class="emoji-section">
+                        <!-- Aquí se mostrarán los emojis divididos por secciones -->
                     </div>
-                    
                     <!-- Botón de carita sonriente -->
                     <button id="emoji-button" class="btn btn-emoji">
                         <i class="fas fa-smile"></i>
