@@ -168,10 +168,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const url = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
 
-  // Capturar el evento click del botón de envío
-  sendButton.addEventListener("click", function (event) {
-    event.preventDefault();
-
+  // Función para enviar el mensaje
+  function sendMessage() {
     // Obtener el mensaje ingresado por el usuario
     const message = messageInput.value;
 
@@ -179,17 +177,6 @@ document.addEventListener("DOMContentLoaded", function () {
       alert("Por favor, escribe un mensaje.");
       return;
     }
-
-    // Datos para enviar el mensaje usando una plantilla
-    /* const data = {
-      messaging_product: "whatsapp",
-      to: phoneNumber,
-      type: "template",
-      template: {
-        name: "hello_world", // Plantilla que estás usando
-        language: { code: "en_US" }, // Lenguaje de la plantilla
-      },
-    }; */
 
     const data = {
       messaging_product: "whatsapp",
@@ -227,10 +214,22 @@ document.addEventListener("DOMContentLoaded", function () {
           messageInput.value = "";
         }
       })
-
       .catch((error) => {
         console.error("Error en la solicitud: ", error);
         alert("Ocurrió un error al enviar el mensaje.");
       });
+  }
+
+  // Deshabilitar la funcionalidad del botón de envío
+  sendButton.addEventListener("click", function (event) {
+    event.preventDefault(); // El botón ya no hace nada
+  });
+
+  // Ejecutar la función de enviar mensaje al presionar "Enter"
+  messageInput.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      event.preventDefault(); // Evitar el salto de línea
+      sendMessage(); // Llamar a la función de envío
+    }
   });
 });
