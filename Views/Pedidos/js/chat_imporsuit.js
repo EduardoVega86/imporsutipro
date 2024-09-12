@@ -158,7 +158,6 @@ document.addEventListener("click", function (event) {
 
 /* Enviar mensaje whatsapp */
 document.addEventListener("DOMContentLoaded", function () {
-  const sendButton = document.getElementById("send-button");
   const messageInput = document.getElementById("message-input");
   const recordButton = document.getElementById("record-button");
   const audioControls = document.getElementById("audio-recording-controls");
@@ -225,11 +224,6 @@ document.addEventListener("DOMContentLoaded", function () {
         alert("Ocurrió un error al enviar el mensaje.");
       });
   }
-
-  // Deshabilitar la funcionalidad del botón de envío
-  sendButton.addEventListener("click", function (event) {
-    event.preventDefault(); // El botón ya no hace nada
-  });
 
   // Ejecutar la función de enviar mensaje al presionar "Enter"
   messageInput.addEventListener("keydown", function (event) {
