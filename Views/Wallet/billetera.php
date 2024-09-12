@@ -13,7 +13,8 @@
                     <div class="card-body">
                         <img src="" id="image_tienda" width="100px" class="rounded-circle mb-3" alt="Profile Picture">
                         <h5 class="card-title"><a href="#" id="tienda_url"><span id="tienda_span"></span></a></h5>
-                        <button type="button" class="btn btn-outline-primary mb-3" data-bs-toggle="modal" data-bs-target="#SoliciModal" onclick="enviarCodigo()">
+                        <!-- <button type="button" class="btn btn-outline-primary mb-3" data-bs-toggle="modal" data-bs-target="#SoliciModal" onclick="enviarCodigo()"> -->
+                        <button type="button" class="btn btn-outline-primary mb-3" data-bs-toggle="modal" data-bs-target="#solicitar_pagoModal">
                             Solicitar Pago
                         </button>
 

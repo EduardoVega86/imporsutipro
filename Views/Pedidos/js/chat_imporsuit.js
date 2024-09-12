@@ -45,6 +45,51 @@ btnTools.addEventListener("click", () => {
   }
 });
 
+/* emojis */
+// Elementos del DOM
+const emojiButton = document.getElementById("emoji-button");
+const emojiSection = document.getElementById("emoji-section");
+const messageInput = document.getElementById("message-input");
+const emojis = document.querySelectorAll(".emoji");
+
+// Mostrar/Ocultar la sección de emojis
+emojiButton.addEventListener("click", () => {
+  if (emojiSection.classList.contains("d-none")) {
+    emojiSection.classList.remove("d-none");
+  } else {
+    emojiSection.classList.add("d-none");
+  }
+});
+
+// Insertar el emoji seleccionado en el input de mensaje
+emojis.forEach((emoji) => {
+  emoji.addEventListener("click", () => {
+    messageInput.value += emoji.textContent;
+    emojiSection.classList.add("d-none"); // Ocultar sección de emojis después de seleccionar
+  });
+});
+
+/* llenar seccion emojis */
+fetch("https://emoji-api.com/emojis?access_key=bbe48b2609417c3b0dc67a95b31e62d0acb27c5b")
+  .then((response) => response.json())
+  .then((emojis) => {
+    const emojiSection = document.getElementById("emoji-section");
+    emojis.forEach((emoji) => {
+      const span = document.createElement("span");
+      span.classList.add("emoji");
+      span.textContent = emoji.character;
+      span.addEventListener("click", () => {
+        document.getElementById("message-input").value += emoji.character;
+      });
+      emojiSection.appendChild(span);
+    });
+  })
+  .catch((error) => console.error("Error al cargar los emojis:", error));
+
+/* Fin llenar seccion emojis */
+
+/* Fin emojis */
+
 /* Enviar mensaje whatsapp */
 document.addEventListener("DOMContentLoaded", function () {
   const sendButton = document.getElementById("send-button");
@@ -52,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const fromPhoneNumberId = "109565362009074"; // Identificador de número de teléfono
   const accessToken =
-    "EAAVZAG5oL9G4BOyrsyNgZBmlNXqlTB9ObbeyYhVyZBItJgJzyyVzt4Kuwz1P6OZAZAyB2wC9qFBLnc5qE9ZBrvDJ2yqPHlzekeN051WhK1qMF4QfXrtUScbZCeFrGJiaqHHZCPFg3CHyTXrAhzA9mKjlx6g09P4ZBjrppXBLfgBfGGMLgTxHTrb5vtpmjZBgEh9nZAwxgZDZD";
+    "EAAVZAG5oL9G4BOyrsyNgZBmlNXqlTB9ObbeyYhVyZBItJgJzyyVzt4Kuwz1P6OZAZAyB2wC9qFBLnc5qE9ZBrvDJ2yqPHlzekeN051WhK1qMF4QfXrtUScbZCeFrGJiaqHHZCPFg3CHyTXrAhzA9mKjlx6g09P4ZBjrppXBLfgBfGGMLgTxHTrb5vtpmjZBgEh9nZAwxgZDZD"; // Asegúrate de que este token sea válido
   const phoneNumber = "+593981702066"; // Número al que se va a enviar
 
   const url = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
@@ -69,7 +114,17 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    // Datos para enviar el mensaje
+    // Datos para enviar el mensaje usando una plantilla
+    /* const data = {
+      messaging_product: "whatsapp",
+      to: phoneNumber,
+      type: "template",
+      template: {
+        name: "hello_world", // Plantilla que estás usando
+        language: { code: "en_US" }, // Lenguaje de la plantilla
+      },
+    }; */
+
     const data = {
       messaging_product: "whatsapp",
       recipient_type: "individual",
@@ -77,7 +132,7 @@ document.addEventListener("DOMContentLoaded", function () {
       type: "text",
       text: {
         preview_url: true,
-        body: message, // Usar el mensaje que el usuario escribió
+        body: message, // Mensaje personalizado
       },
     };
 

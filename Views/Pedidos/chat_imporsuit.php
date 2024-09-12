@@ -42,14 +42,32 @@
                 </div>
             </div>
 
-            <div class="chat-input border-top">
+            <div class="chat-input border-top position-relative">
                 <div class="input-group">
+                    <!-- Sección de emojis que se despliega al hacer clic en la carita sonriente -->
+                    <div class="emoji-search-container">
+                        <input id="emoji-search" type="text" placeholder="Buscar emojis..." />
+                    </div>
+
+                    <div id="emoji-section" class="emoji-section d-none">
+                        <!-- Aquí se cargarán los emojis de forma dinámica -->
+                    </div>
+                    
+                    <!-- Botón de carita sonriente -->
+                    <button id="emoji-button" class="btn btn-emoji">
+                        <i class="fas fa-smile"></i>
+                    </button>
+
+                    <!-- Campo de texto del mensaje -->
                     <input id="message-input" type="text" class="form-control" placeholder="Escribe un mensaje...">
+
+                    <!-- Botón de enviar -->
                     <button id="send-button" class="btn btn-primary ms-2">
                         <i class="fas fa-paper-plane"></i>
                     </button>
                 </div>
             </div>
+
         </div>
 
         <!-- Derecha: Información del contacto -->

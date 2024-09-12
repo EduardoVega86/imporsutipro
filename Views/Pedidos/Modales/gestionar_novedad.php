@@ -156,6 +156,23 @@
                         </div>
                         <button type="button" class="btn btn-primary" id="boton_gintra" onclick="enviar_gintraNovedad()">Enviar</button>
                     </div>
+
+                    <div id="seccion_speed" style="display: none;">
+                        <div class="form-group w-100" style="padding-bottom: 5px;">
+                            <label for="tipo_speed">Tipo:</label>
+                            <select class="form-select" id="tipo_speed">
+                                <option selected value="">-- Selecciona --</option>
+                                <option value="ofrecer">Volver a ofrecer al cliente</option>
+                                <option value="rechazar">Efectuar devolucion</option>
+                                <option value="recaudo">Ajustar recaudo</option>
+                            </select>
+                        </div>
+                        <div style="padding-bottom: 5px;">
+                            <label for="observacion_nov_speed">Observacion:</label>
+                            <input type="text" class="form-control" id="observacion_nov_speed">
+                        </div>
+                        <button type="button" class="btn btn-primary" id="boton_speed" onclick="enviar_speedNovedad()">Enviar</button>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
