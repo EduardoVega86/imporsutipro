@@ -1253,7 +1253,6 @@ class PedidosModel extends Query
         } else {
             // Subir el archivo
             if (move_uploaded_file($audio["tmp_name"], $target_file)) {
-                echo $target_file;
                 $response['status'] = 200;
                 $response['title'] = 'Peticion exitosa';
                 $response['message'] = 'Audio subido correctamente';
