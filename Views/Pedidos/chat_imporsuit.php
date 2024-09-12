@@ -44,12 +44,33 @@
 
             <div class="chat-input border-top">
                 <div class="input-group">
+                    <!-- Sección de emojis que se despliega al hacer clic en la carita sonriente -->
+                    <div id="emoji-section" class="emoji-section d-none">
+                        <span class="emoji">😀</span>
+                        <span class="emoji">😁</span>
+                        <span class="emoji">😂</span>
+                        <span class="emoji">😍</span>
+                        <span class="emoji">😎</span>
+                        <span class="emoji">😭</span>
+                        <span class="emoji">😡</span>
+                        <!-- Agrega más emojis según sea necesario -->
+                    </div>
+
+                    <!-- Ícono de carita sonriente -->
+                    <button id="emoji-button" class="btn btn-light">
+                        <i class="fas fa-smile"></i>
+                    </button>
+
+                    <!-- Campo de texto del mensaje -->
                     <input id="message-input" type="text" class="form-control" placeholder="Escribe un mensaje...">
+
+                    <!-- Botón de enviar -->
                     <button id="send-button" class="btn btn-primary ms-2">
                         <i class="fas fa-paper-plane"></i>
                     </button>
                 </div>
             </div>
+
         </div>
 
         <!-- Derecha: Información del contacto -->

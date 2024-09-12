@@ -137,6 +137,32 @@
         transform: scale(1.05);
     }
 
+    /* emojis */
+    .emoji-section {
+        display: flex;
+        gap: 10px;
+        padding: 10px;
+        background-color: #f1f1f1;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        position: absolute;
+        bottom: 60px;
+        /* Ajusta según sea necesario */
+        left: 10px;
+        z-index: 1000;
+    }
+
+    .emoji {
+        cursor: pointer;
+        font-size: 24px;
+    }
+
+    .d-none {
+        display: none;
+    }
+
+    /* fin emojis */
+
     /* Botones flotantes */
     .floating-buttons {
         position: absolute;
