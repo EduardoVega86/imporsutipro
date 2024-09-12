@@ -56,17 +56,6 @@ let displayedEmojis = 100; // Inicialmente mostramos 100 emojis
 let totalLoadedEmojis = 0; // Total de emojis cargados hasta ahora
 let isLoading = false; // Para evitar múltiples cargas al mismo tiempo
 
-// Función para detectar clic fuera del cuadro de emojis
-document.addEventListener("click", function (event) {
-  const isClickInside =
-    emojiSection.contains(event.target) || emojiButton.contains(event.target);
-
-  // Si el clic no fue dentro de la sección de emojis ni en el botón de emojis, cierra la sección
-  if (!isClickInside) {
-    emojiSection.classList.add("d-none");
-  }
-});
-
 // Mostrar/Ocultar la sección de emojis
 emojiButton.addEventListener("click", () => {
   if (emojiSection.classList.contains("d-none")) {
@@ -86,8 +75,10 @@ function addEmojiToInput(emoji) {
 function renderEmojis(emojis, limit = displayedEmojis) {
   const emojiContainer = document.getElementById("emoji-list"); // Seleccionamos el contenedor de emojis
 
-  emojiContainer.innerHTML = ""; // Limpiar el contenedor de emojis
+  // Limpiar el contenedor de emojis antes de renderizar nuevos (evitar duplicación)
+  emojiContainer.innerHTML = "";
 
+  // Renderizamos solo el número de emojis limitado o filtrado
   emojis.slice(0, limit).forEach((emoji) => {
     const span = document.createElement("span");
     span.classList.add("emoji");
@@ -131,9 +122,15 @@ function loadMoreEmojis() {
   fetch(url)
     .then((response) => response.json())
     .then((newEmojis) => {
-      allEmojis = [...allEmojis, ...newEmojis]; // Añadir nuevos emojis a la lista total
-      totalLoadedEmojis += newEmojis.length;
-      displayedEmojis += newEmojis.length; // Actualizamos el límite de emojis mostrados
+      // Verificamos que no estamos añadiendo duplicados
+      const uniqueNewEmojis = newEmojis.filter(
+        (emoji) => !allEmojis.some((e) => e.slug === emoji.slug)
+      );
+
+      // Añadir solo los emojis nuevos a la lista total
+      allEmojis = [...allEmojis, ...uniqueNewEmojis];
+      totalLoadedEmojis += uniqueNewEmojis.length;
+      displayedEmojis += uniqueNewEmojis.length; // Actualizamos el límite de emojis mostrados
       renderEmojis(allEmojis); // Renderizamos los emojis con los nuevos incluidos
       isLoading = false;
     })
@@ -145,6 +142,17 @@ function loadMoreEmojis() {
 
 /* Llenar sección emojis - Cargar primeros 100 emojis */
 loadMoreEmojis(); // Iniciar la carga de los primeros emojis
+
+// Función para detectar clic fuera del cuadro de emojis
+document.addEventListener("click", function (event) {
+  const isClickInside =
+    emojiSection.contains(event.target) || emojiButton.contains(event.target);
+
+  // Si el clic no fue dentro de la sección de emojis ni en el botón de emojis, cierra la sección
+  if (!isClickInside) {
+    emojiSection.classList.add("d-none");
+  }
+});
 
 /* Fin emojis */
 
