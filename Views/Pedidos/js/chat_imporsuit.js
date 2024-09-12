@@ -52,7 +52,9 @@ const emojiSection = document.getElementById("emoji-section");
 const messageInput = document.getElementById("message-input");
 const emojiSearch = document.getElementById("emoji-search"); // Elemento de búsqueda
 let allEmojis = []; // Variable para almacenar todos los emojis
-let displayedEmojis = 30; // Inicialmente mostramos 30 emojis
+let displayedEmojis = 100; // Inicialmente mostramos 100 emojis
+let totalLoadedEmojis = 0; // Total de emojis cargados hasta ahora
+let isLoading = false; // Para evitar múltiples cargas al mismo tiempo
 
 // Mostrar/Ocultar la sección de emojis
 emojiButton.addEventListener("click", () => {
@@ -74,8 +76,8 @@ function renderEmojis(emojis, limit = displayedEmojis) {
   const emojiSection = document.getElementById("emoji-section");
 
   // Limpiar la sección excepto el input de búsqueda
-  const searchInput = document.getElementById("emoji-search");
-  emojiSection.innerHTML = "";
+  const searchInput = document.getElementById('emoji-search');
+  emojiSection.innerHTML = '';
   emojiSection.appendChild(searchInput); // Mantener el buscador en su lugar
 
   emojis.slice(0, limit).forEach((emoji) => {
@@ -91,38 +93,46 @@ function renderEmojis(emojis, limit = displayedEmojis) {
 function filterEmojis() {
   const searchTerm = emojiSearch.value.toLowerCase();
   const filteredEmojis = allEmojis.filter((emoji) =>
-    emoji.unicodeName.toLowerCase().includes(searchTerm)
+    emoji.unicodeName && emoji.unicodeName.toLowerCase().includes(searchTerm)
   );
-  renderEmojis(filteredEmojis);
+  renderEmojis(filteredEmojis, filteredEmojis.length); // Mostramos todos los filtrados
 }
 
 // Agregar evento de búsqueda
 emojiSearch.addEventListener("input", filterEmojis);
 
 // Carga asíncrona de más emojis al hacer scroll
-emojiSection.addEventListener("scroll", () => {
-  if (
-    emojiSection.scrollTop + emojiSection.clientHeight >=
-    emojiSection.scrollHeight
-  ) {
-    // Cargar más emojis cuando se llegue al fondo del scroll
-    displayedEmojis += 30; // Cargar 30 más
-    renderEmojis(allEmojis); // Re-renderizar con los nuevos emojis
+emojiSection.addEventListener('scroll', () => {
+  if (emojiSection.scrollTop + emojiSection.clientHeight >= emojiSection.scrollHeight) {
+    loadMoreEmojis(); // Cargar más emojis cuando se llegue al fondo del scroll
   }
 });
 
-/* Llenar sección emojis */
-fetch(
-  "https://emoji-api.com/emojis?access_key=bbe48b2609417c3b0dc67a95b31e62d0acb27c5b"
-)
-  .then((response) => response.json())
-  .then((emojis) => {
-    allEmojis = emojis; // Almacenar todos los emojis para el filtro
-    renderEmojis(allEmojis); // Renderizar todos los emojis inicialmente
-  })
-  .catch((error) => console.error("Error al cargar los emojis:", error));
+// Función para cargar más emojis de manera asíncrona
+function loadMoreEmojis() {
+  if (isLoading) return; // Evitar múltiples cargas simultáneas
+  isLoading = true;
 
-/* Fin llenar seccion emojis */
+  const batchSize = 100; // Lote de 100 emojis
+  const url = `https://emoji-api.com/emojis?access_key=bbe48b2609417c3b0dc67a95b31e62d0acb27c5b&offset=${totalLoadedEmojis}&limit=${batchSize}`;
+
+  fetch(url)
+    .then((response) => response.json())
+    .then((newEmojis) => {
+      allEmojis = [...allEmojis, ...newEmojis]; // Añadir nuevos emojis a la lista total
+      totalLoadedEmojis += newEmojis.length;
+      displayedEmojis += newEmojis.length; // Actualizamos el límite de emojis mostrados
+      renderEmojis(allEmojis); // Renderizamos los emojis con los nuevos incluidos
+      isLoading = false;
+    })
+    .catch((error) => {
+      console.error("Error al cargar más emojis:", error);
+      isLoading = false;
+    });
+}
+
+/* Llenar sección emojis - Cargar primeros 100 emojis */
+loadMoreEmojis(); // Iniciar la carga de los primeros emojis
 
 /* Fin emojis */
 
