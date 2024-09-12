@@ -59,6 +59,7 @@
                                 <th class="centered">Referencia</th>
                                 <th class="centered">Tipo</th>
                                 <th class="centered">Total</th>
+                                 <th class="centered">Saldo</th>
                             </tr>
                         </thead>
                         <tbody id="tableBody_stockIndividual"></tbody>

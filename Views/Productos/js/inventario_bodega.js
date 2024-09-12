@@ -160,6 +160,7 @@ const listStockIndividual = async (id_inventario) => {
       <td>${stockIndividual.referencia_historial}</td>
       <td>${tipo}</td>
       <td>${stockIndividual.cantidad_historial}</td>
+             <td>${stockIndividual.saldo}</td>
         </tr>`;
     });
     document.getElementById("tableBody_stockIndividual").innerHTML = content;
