@@ -1210,25 +1210,61 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
-    public function agregar_mensajes_enviados($id_cliente, $id_plataforma)
+    public function guardar_audio_Whatsapp($audio)
     {
         $response = $this->initialResponse();
+        $target_dir = "public/audios/";  // Cambiar el directorio donde se almacenarán los audios
+        $audioFileType = strtolower(pathinfo($audio["name"], PATHINFO_EXTENSION));
 
-        $sql = "INSERT INTO `mensajes_clientes` (`id_plataforma`,`id_cliente`,`mid_mensaje`,`tipo_mensaje`,`rol_mensaje`,`texto_mensaje`,`texto_corregido_mensaje`,`calificacion_mensaje`
-        ,`json_mensaje`,`json_analytics_mensaje`,`total_tokens_openai_mensaje`,`apis_mensaje_analytics`,`informacion_suficiente`,`pregunta_fuera_de_tema`,`created_at`
-        ,`updated_at`,`deleted_at`) VALUES (?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?)";
-        $data = [$id_plataforma, $id_cliente, $cantidad];
-        $insertar_detalle_combo = $this->insert($sql, $data);
+        // Generar un nombre de archivo único
+        $unique_name = uniqid('', true) . '.' . $audioFileType;
+        $target_file = $target_dir . $unique_name;
 
-        if ($insertar_detalle_combo == 1) {
-            $response['status'] = 200;
-            $response['title'] = 'Peticion exitosa';
-            $response['message'] = 'Imagen subida correctamente';
-        } else {
+        // Verificar si el archivo ya existe y agregar un diferenciador si es necesario
+        $counter = 1;
+        while (file_exists($target_file)) {
+            $target_file = $target_dir . uniqid('', true) . '.' . $audioFileType;
+            $counter++;
+        }
+
+        $uploadOk = 1;
+
+        // Verificar el tamaño del archivo (ajustar según sea necesario)
+        if ($audio["size"] > 50000000) {  // Tamaño máximo permitido 50 MB
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = "Error al agregar detalle combo";
+            $response['message'] = 'El archivo es muy grande';
+            $uploadOk = 0;
         }
+
+        // Solo permitir archivos de audio
+        if ($audioFileType != "mp3" && $audioFileType != "ogg" && $audioFileType != "wav") {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Solo se permiten archivos de audio MP3, OGG, WAV';
+            $uploadOk = 0;
+        }
+
+        // Verificar si la subida es correcta
+        if ($uploadOk == 0) {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al subir el archivo de audio';
+        } else {
+            // Subir el archivo
+            if (move_uploaded_file($audio["tmp_name"], $target_file)) {
+                echo $target_file;
+                $response['status'] = 200;
+                $response['title'] = 'Peticion exitosa';
+                $response['message'] = 'Audio subido correctamente';
+                $response['data'] = $target_file;  // Devolvemos la ruta del archivo subido
+            } else {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'Error al mover el archivo';
+            }
+        }
+
         return $response;
     }
 }
