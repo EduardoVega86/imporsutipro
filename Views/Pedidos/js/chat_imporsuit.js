@@ -237,7 +237,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // ---- Función para subir el archivo de audio ----
   function uploadAudio(audioBlob) {
     const formData = new FormData();
-    formData.append("audio", audioBlob, "audio.ogg");
+    formData.append("audio", audioBlob, "audio.webm"); // Cambiamos el formato a 'audio.webm'
 
     return fetch(SERVERURL + "Pedidos/guardar_audio_Whatsapp", {
       method: "POST",
@@ -263,7 +263,10 @@ document.addEventListener("DOMContentLoaded", function () {
     // Detener grabación antes de enviar el audio
     stopRecording();
 
-    const audioBlob = new Blob(audioChunks, { type: "audio/ogg; codecs=opus" });
+    // Crear un archivo Blob en formato webm (en lugar de ogg)
+    const audioBlob = new Blob(audioChunks, {
+      type: "audio/webm; codecs=opus",
+    });
 
     // Verifica si el audioBlob contiene datos
     console.log("Tamaño del audioBlob:", audioBlob.size); // Log para depurar
