@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Datos para enviar el mensaje usando una plantilla
-    const data = {
+    /* const data = {
       messaging_product: "whatsapp",
       to: phoneNumber,
       type: "template",
@@ -78,8 +78,20 @@ document.addEventListener("DOMContentLoaded", function () {
         name: "hello_world", // Plantilla que estás usando
         language: { code: "en_US" }, // Lenguaje de la plantilla
       },
+    }; */
+
+    const data = {
+      messaging_product: "whatsapp",
+      recipient_type: "individual",
+      to: phoneNumber,
+      type: "text",
+      text: {
+        preview_url: true,
+        body: message, // Mensaje personalizado
+      },
     };
 
+    
     const headers = {
       Authorization: `Bearer ${accessToken}`,
       "Content-Type": "application/json",
