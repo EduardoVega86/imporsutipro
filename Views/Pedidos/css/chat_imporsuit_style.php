@@ -140,9 +140,6 @@
     /* emojis */
     /* Diseño delicado y elegante para la sección de emojis */
     .emoji-section {
-        display: grid;
-        grid-template-columns: repeat(6, 1fr);
-        grid-gap: 5px;
         padding: 10px;
         background-color: rgba(255, 255, 255, 0.8);
         border: 1px solid rgba(200, 200, 200, 0.5);
