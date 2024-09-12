@@ -56,6 +56,17 @@ let displayedEmojis = 100; // Inicialmente mostramos 100 emojis
 let totalLoadedEmojis = 0; // Total de emojis cargados hasta ahora
 let isLoading = false; // Para evitar múltiples cargas al mismo tiempo
 
+// Función para detectar clic fuera del cuadro de emojis
+document.addEventListener("click", function (event) {
+  const isClickInside =
+    emojiSection.contains(event.target) || emojiButton.contains(event.target);
+
+  // Si el clic no fue dentro de la sección de emojis ni en el botón de emojis, cierra la sección
+  if (!isClickInside) {
+    emojiSection.classList.add("d-none");
+  }
+});
+
 // Mostrar/Ocultar la sección de emojis
 emojiButton.addEventListener("click", () => {
   if (emojiSection.classList.contains("d-none")) {
@@ -75,7 +86,7 @@ function addEmojiToInput(emoji) {
 function renderEmojis(emojis, limit = displayedEmojis) {
   const emojiContainer = document.getElementById("emoji-list"); // Seleccionamos el contenedor de emojis
 
-  emojiContainer.innerHTML = ''; // Limpiar el contenedor de emojis
+  emojiContainer.innerHTML = ""; // Limpiar el contenedor de emojis
 
   emojis.slice(0, limit).forEach((emoji) => {
     const span = document.createElement("span");
@@ -89,8 +100,9 @@ function renderEmojis(emojis, limit = displayedEmojis) {
 // Filtrar emojis según el texto en el campo de búsqueda
 function filterEmojis() {
   const searchTerm = emojiSearch.value.toLowerCase();
-  const filteredEmojis = allEmojis.filter((emoji) =>
-    emoji.unicodeName && emoji.unicodeName.toLowerCase().includes(searchTerm)
+  const filteredEmojis = allEmojis.filter(
+    (emoji) =>
+      emoji.unicodeName && emoji.unicodeName.toLowerCase().includes(searchTerm)
   );
   renderEmojis(filteredEmojis, filteredEmojis.length); // Mostramos todos los filtrados
 }
@@ -99,8 +111,11 @@ function filterEmojis() {
 emojiSearch.addEventListener("input", filterEmojis);
 
 // Carga asíncrona de más emojis al hacer scroll
-emojiSection.addEventListener('scroll', () => {
-  if (emojiSection.scrollTop + emojiSection.clientHeight >= emojiSection.scrollHeight) {
+emojiSection.addEventListener("scroll", () => {
+  if (
+    emojiSection.scrollTop + emojiSection.clientHeight >=
+    emojiSection.scrollHeight
+  ) {
     loadMoreEmojis(); // Cargar más emojis cuando se llegue al fondo del scroll
   }
 });
