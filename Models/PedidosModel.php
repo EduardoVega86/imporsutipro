@@ -1199,7 +1199,11 @@ class PedidosModel extends Query
 
     public function validaDevolucion($telefono)
     {
-        $sql = "SELECT * FROM `facturas_cot` WHERE telefono like '%$telefono%'";
+        $sql = "SELECT * FROM `facturas_cot` WHERE telefono like '%$telefono%'  and ((estado_guia_sistema BETWEEN 500 AND 502 and id_transporte=2)
+                            OR (estado_guia_sistema in (9) and id_transporte=2)
+                            OR (estado_guia_sistema in (9) and id_transporte=4)
+                            OR (estado_guia_sistema in (8,9,13) and id_transporte=3))";
+        //echo $sql;
         return $this->select($sql);
     }
 
