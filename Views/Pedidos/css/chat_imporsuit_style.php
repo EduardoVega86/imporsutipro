@@ -224,6 +224,46 @@
         pointer-events: auto;
     }
 
+    /* Contenedor de búsqueda */
+    .emoji-search-container {
+        padding: 10px;
+        text-align: center;
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #ddd;
+    }
+
+    /* Sección de emojis en cuadrícula con scroll */
+    .emoji-section {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        /* 6 columnas */
+        grid-gap: 10px;
+        padding: 10px;
+        max-height: 250px;
+        /* Ajusta según necesites */
+        overflow-y: auto;
+        /* Scroll */
+        background-color: rgba(255, 255, 255, 0.8);
+        /* Fondo semitransparente */
+        border: 1px solid rgba(200, 200, 200, 0.5);
+        border-radius: 12px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        /* Sombra suave */
+    }
+
+    .emoji {
+        font-size: 24px;
+        cursor: pointer;
+        transition: transform 0.2s ease, opacity 0.2s ease;
+        text-align: center;
+    }
+
+    .emoji:hover {
+        transform: scale(1.2);
+        opacity: 0.8;
+    }
+
+
     /* fin emojis */
 
     /* Botones flotantes */
