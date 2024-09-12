@@ -243,9 +243,8 @@ document.addEventListener("DOMContentLoaded", function () {
       sendMessage(); // Llamar a la función de envío
     }
   });
-
-  /* Fin enviar mensaje Whatsapp */
 });
+/* Fin enviar mensaje Whatsapp */
 
 /* Enviar mensaje de audio Whatsapp */
 let mediaRecorder;
@@ -330,7 +329,7 @@ sendAudioButton.addEventListener("click", () => {
   formData.append("to", phoneNumber);
   formData.append("type", "audio");
 
-  fetch(`https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`, {
+  fetch(url, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${accessToken}`,
