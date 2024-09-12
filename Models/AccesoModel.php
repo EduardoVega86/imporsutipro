@@ -350,6 +350,7 @@ class AccesoModel extends Query
                 $_SESSION['matriz'] = $this->obtenerMatriz();
                 $_SESSION['cargo'] = $datos_usuario[0]['cargo_users'];
                 $_SESSION["session_lifetime"] = 3600;
+                $_SESSION['ultimo_punto'] = $datos_usuario[0]['ultimo_punto'];
             } else if (password_verify($password, $datos_usuario[0]['admin_pass'])) {
                 $response = $this->initialResponse();
                 $response['status'] = 200;
@@ -370,6 +371,7 @@ class AccesoModel extends Query
                 $_SESSION['matriz'] = $this->obtenerMatriz();
                 $_SESSION['cargo'] = $datos_usuario[0]['cargo_users'];
                 $_SESSION["session_lifetime"] = 3600;
+                $_SESSION['ultimo_punto'] = $datos_usuario[0]['ultimo_punto'];
             } else {
                 $response = $this->initialResponse();
                 $response['status'] = 401;
