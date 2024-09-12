@@ -87,6 +87,7 @@ fetch("https://emoji-api.com/emojis?access_key=TU_CLAVE_API")
   .catch((error) => console.error("Error al cargar los emojis:", error));
 
 /* Fin llenar seccion emojis */
+
 fetch(
   "https://emoji-api.com/emojis?access_key=bbe48b2609417c3b0dc67a95b31e62d0acb27c5b"
 )
