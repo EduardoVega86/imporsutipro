@@ -1,7 +1,7 @@
 <?php
 
 $smtp_debug = 0;
-$smtp_host = 'smtp.titan.email';
+$smtp_host = 'smtp.hostinger.com';
 $smtp_port = 465;
 $smtp_secure = 'ssl';
 $smtp_user = 'info@imporsuit.ec';
