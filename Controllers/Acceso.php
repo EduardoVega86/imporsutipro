@@ -109,6 +109,7 @@ class Acceso extends Controller
 
     public function guardaUltimoPunto()
     {
+        session_start();
         $url = $_POST['url'];
 
         $response = $this->model->guardaUltimoPunto($url, $_SESSION['id_usuario']);
