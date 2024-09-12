@@ -190,6 +190,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // ---- Función para iniciar la grabación ----
+  // Función para iniciar la grabación de audio
   function startRecording() {
     navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
       mediaRecorder = new MediaRecorder(stream);
@@ -198,7 +199,9 @@ document.addEventListener("DOMContentLoaded", function () {
       mediaRecorder.start();
       isRecording = true;
 
+      // Escuchar los datos disponibles y agregar a audioChunks
       mediaRecorder.addEventListener("dataavailable", (event) => {
+        console.log("Datos de audio recibidos:", event.data); // Agregar un log para verificar
         audioChunks.push(event.data);
       });
 
@@ -279,8 +282,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const audioBlob = new Blob(audioChunks, { type: "audio/ogg; codecs=opus" });
 
+    // Verifica si el audioBlob contiene datos
+    if (audioBlob.size > 0) {
+      console.log("El archivo de audio tiene datos, procediendo a subir...");
+    } else {
+      console.error("El archivo de audio está vacío.");
+      alert("No se ha grabado ningún audio.");
+      return;
+    }
+
     // Sube el archivo de audio al servidor y obtén la URL
     const audioUrl = await uploadAudio(audioBlob);
+
+    if (!audioUrl) {
+      console.error("No se pudo obtener la URL del archivo de audio.");
+      return;
+    }
 
     // Ahora puedes enviar esa URL a través de WhatsApp
     const data = {

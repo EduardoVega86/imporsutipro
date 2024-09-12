@@ -1253,10 +1253,18 @@ class PedidosModel extends Query
         } else {
             // Subir el archivo
             if (move_uploaded_file($audio["tmp_name"], $target_file)) {
-                $response['status'] = 200;
-                $response['title'] = 'Peticion exitosa';
-                $response['message'] = 'Audio subido correctamente';
-                $response['data'] = $target_file;  // Devolvemos la ruta del archivo subido
+                // Verifica si el archivo tiene tamaño mayor que cero
+                if (filesize($target_file) > 0) {
+                    $response['status'] = 200;
+                    $response['title'] = 'Peticion exitosa';
+                    $response['message'] = 'Audio subido correctamente';
+                    $response['data'] = $target_file;  // Devolvemos la ruta del archivo subido
+                } else {
+                    unlink($target_file); // Elimina el archivo vacío
+                    $response['status'] = 500;
+                    $response['title'] = 'Error';
+                    $response['message'] = 'El archivo de audio está vacío';
+                }
             } else {
                 $response['status'] = 500;
                 $response['title'] = 'Error';
