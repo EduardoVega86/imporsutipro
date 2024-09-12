@@ -46,14 +46,7 @@
                 <div class="input-group">
                     <!-- Sección de emojis que se despliega al hacer clic en la carita sonriente -->
                     <div id="emoji-section" class="emoji-section d-none">
-                        <span class="emoji">😀</span>
-                        <span class="emoji">😁</span>
-                        <span class="emoji">😂</span>
-                        <span class="emoji">😍</span>
-                        <span class="emoji">😎</span>
-                        <span class="emoji">😭</span>
-                        <span class="emoji">😡</span>
-                        <!-- Puedes agregar más emojis aquí -->
+                        
                     </div>
 
                     <!-- Botón de carita sonriente -->

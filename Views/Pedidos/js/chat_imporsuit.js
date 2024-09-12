@@ -69,6 +69,25 @@ emojis.forEach((emoji) => {
   });
 });
 
+/* llenar seccion emojis */
+fetch("https://emoji-api.com/emojis?access_key=TU_CLAVE_API")
+  .then((response) => response.json())
+  .then((emojis) => {
+    const emojiSection = document.getElementById("emoji-section");
+    emojis.forEach((emoji) => {
+      const span = document.createElement("span");
+      span.classList.add("emoji");
+      span.textContent = emoji.character;
+      span.addEventListener("click", () => {
+        document.getElementById("message-input").value += emoji.character;
+      });
+      emojiSection.appendChild(span);
+    });
+  })
+  .catch((error) => console.error("Error al cargar los emojis:", error));
+
+/* Fin llenar seccion emojis */
+
 /* Fin emojis */
 
 /* Enviar mensaje whatsapp */
