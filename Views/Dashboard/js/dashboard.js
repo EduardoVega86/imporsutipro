@@ -437,20 +437,7 @@ $(function () {
 
   $(document).ready(function () {
     informacion_dashboard("", "");
-
-    cargar_ultima_pagina();
   });
-
-  function cargar_ultima_pagina() {
-    let urlCompleta = window.location.href;
-    let ultima_pagina = localStorage.getItem(ultima_visitaImporsuit);
-    if (ultima_pagina) {
-        if (ultima_pagina != "") {
-            window.location.href = ultima_pagina ;
-        }
-    }
-    localStorage.setItem('ultima_visitaImporsuit', urlCompleta);
-}
 
   // Función para calcular el porcentaje (opcional según el formato de tus datos)
   function calcularPorcentaje(cantidad, total) {
