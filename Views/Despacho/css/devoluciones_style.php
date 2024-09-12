@@ -50,6 +50,7 @@
         border-radius: 4px;
         cursor: pointer;
     }
+    
     @media (max-width: 768px) {
         .full-screen-containerd{
             flex-direction: column;
