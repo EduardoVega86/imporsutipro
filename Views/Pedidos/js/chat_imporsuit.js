@@ -49,77 +49,75 @@ btnTools.addEventListener("click", () => {
 // Elementos del DOM
 const emojiSection = document.getElementById("emoji-section");
 const emojiSearch = document.getElementById("emoji-search");
-const messageInput = document.getElementById("message-input");
+const emojiButton = document.getElementById("emoji-button");
+const emojiPicker = document.getElementById("emoji-picker");
+const tabs = document.querySelectorAll(".emoji-tab");
 
 // Categorías disponibles en la API
 const categories = {
-  "Smileys & Emotion": "Caritas y emociones",
-  "Animals & Nature": "Animales y naturaleza",
-  "Food & Drink": "Comida y bebida",
-  "Travel & Places": "Viajes y lugares",
-  Activities: "Actividades",
-  Objects: "Objetos",
-  Symbols: "Símbolos",
-  Flags: "Banderas",
+  "Smileys & Emotion": "tab-smileys",
+  "Animals & Nature": "tab-animals",
+  "Food & Drink": "tab-food",
+  "Travel & Places": "tab-travel",
+  Activities: "tab-activities",
+  Objects: "tab-objects",
+  Symbols: "tab-symbols",
+  Flags: "tab-flags",
 };
 
-// Cargar los emojis desde la API
-async function loadEmojis() {
+// Función para cargar los emojis desde la API
+async function loadEmojis(category) {
   try {
     const response = await fetch(
-      "https://emoji-api.com/emojis?access_key=TU_CLAVE_API"
+      "https://emoji-api.com/emojis?access_key=bbe48b2609417c3b0dc67a95b31e62d0acb27c5b"
     );
     const emojis = await response.json();
-    displayEmojisByCategory(emojis);
+    const filteredEmojis = emojis.filter((emoji) => emoji.group === category);
+    displayEmojis(filteredEmojis);
   } catch (error) {
     console.error("Error al cargar los emojis:", error);
   }
 }
 
-// Mostrar emojis divididos por categorías
-function displayEmojisByCategory(emojis) {
-  emojiSection.innerHTML = ""; // Limpiar el contenedor de emojis
+// Mostrar emojis en la cuadrícula
+function displayEmojis(emojis) {
+  emojiSection.innerHTML = ""; // Limpiar la sección de emojis
 
-  // Crear un contenedor para cada categoría
-  Object.keys(categories).forEach((categoryKey) => {
-    const categoryEmojis = emojis.filter(
-      (emoji) => emoji.group === categoryKey
-    );
+  emojis.forEach((emoji) => {
+    const span = document.createElement("span");
+    span.classList.add("emoji");
+    span.textContent = emoji.character;
 
-    if (categoryEmojis.length > 0) {
-      // Crear la sección para la categoría
-      const categoryContainer = document.createElement("div");
-      categoryContainer.classList.add("emoji-category");
+    // Añadir el emoji al input cuando se hace clic
+    span.addEventListener("click", () => {
+      const messageInput = document.getElementById("message-input");
+      messageInput.value += emoji.character;
+    });
 
-      // Título de la categoría
-      const title = document.createElement("h5");
-      title.textContent = categories[categoryKey];
-      categoryContainer.appendChild(title);
-
-      // Crear la cuadrícula de emojis
-      const emojiGrid = document.createElement("div");
-      emojiGrid.classList.add("emoji-grid");
-
-      // Añadir los emojis a la cuadrícula
-      categoryEmojis.forEach((emoji) => {
-        const span = document.createElement("span");
-        span.classList.add("emoji");
-        span.textContent = emoji.character;
-
-        // Agregar el emoji al input cuando se hace clic
-        span.addEventListener("click", () => {
-          messageInput.value += emoji.character;
-        });
-
-        emojiGrid.appendChild(span);
-      });
-
-      // Añadir la cuadrícula a la categoría
-      categoryContainer.appendChild(emojiGrid);
-      emojiSection.appendChild(categoryContainer); // Añadir la categoría al contenedor general
-    }
+    emojiSection.appendChild(span);
   });
 }
+
+// Manejo de pestañas
+tabs.forEach((tab) => {
+  tab.addEventListener("click", () => {
+    // Remover la clase 'active' de todas las pestañas
+    tabs.forEach((t) => t.classList.remove("active"));
+
+    // Agregar la clase 'active' a la pestaña seleccionada
+    tab.classList.add("active");
+
+    const category = Object.keys(categories).find(
+      (key) => categories[key] === tab.id
+    );
+    loadEmojis(category);
+  });
+});
+
+// Mostrar/Ocultar el selector de emojis
+emojiButton.addEventListener("click", () => {
+  emojiPicker.classList.toggle("d-none");
+});
 
 // Filtrar emojis en función de la búsqueda
 emojiSearch.addEventListener("input", () => {
@@ -135,8 +133,8 @@ emojiSearch.addEventListener("input", () => {
   });
 });
 
-// Cargar los emojis cuando la página esté lista
-loadEmojis();
+// Cargar los emojis de la categoría inicial al cargar la página
+loadEmojis("Smileys & Emotion");
 
 /* Fin emojis */
 

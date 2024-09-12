@@ -44,14 +44,6 @@
 
             <div class="chat-input border-top position-relative">
                 <div class="input-group">
-                    <!-- Sección de emojis que se despliega al hacer clic en la carita sonriente -->
-                    <div class="emoji-search-container">
-                        <input id="emoji-search" type="text" placeholder="Buscar emojis..." />
-                    </div>
-
-                    <div id="emoji-section" class="emoji-section">
-                        <!-- Aquí se mostrarán los emojis divididos por secciones -->
-                    </div>
                     <!-- Botón de carita sonriente -->
                     <button id="emoji-button" class="btn btn-emoji">
                         <i class="fas fa-smile"></i>
@@ -64,6 +56,29 @@
                     <button id="send-button" class="btn btn-primary ms-2">
                         <i class="fas fa-paper-plane"></i>
                     </button>
+
+                    <!-- Sección de emojis con pestañas -->
+                    <div id="emoji-picker" class="emoji-picker d-none">
+                        <!-- Pestañas de categorías -->
+                        <div class="emoji-tabs">
+                            <button id="tab-smileys" class="emoji-tab active"><i class="fas fa-smile"></i></button>
+                            <button id="tab-animals" class="emoji-tab"><i class="fas fa-paw"></i></button>
+                            <button id="tab-food" class="emoji-tab"><i class="fas fa-utensils"></i></button>
+                            <button id="tab-travel" class="emoji-tab"><i class="fas fa-plane"></i></button>
+                            <button id="tab-activities" class="emoji-tab"><i class="fas fa-futbol"></i></button>
+                            <button id="tab-objects" class="emoji-tab"><i class="fas fa-lightbulb"></i></button>
+                            <button id="tab-symbols" class="emoji-tab"><i class="fas fa-hashtag"></i></button>
+                            <button id="tab-flags" class="emoji-tab"><i class="fas fa-flag"></i></button>
+                        </div>
+
+                        <!-- Buscador de emojis -->
+                        <div class="emoji-search-container">
+                            <input id="emoji-search" type="text" placeholder="Buscar emojis..." />
+                        </div>
+
+                        <!-- Sección donde se mostrarán los emojis divididos por categorías -->
+                        <div id="emoji-section" class="emoji-section"></div>
+                    </div>
                 </div>
             </div>
 
