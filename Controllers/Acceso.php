@@ -112,5 +112,7 @@ class Acceso extends Controller
         $url = $_POST['url'];
 
         $response = $this->model->guardaUltimoPunto($url, $_SESSION['id_usuario']);
+
+        echo json_encode($response);
     }
 }
