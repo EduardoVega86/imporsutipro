@@ -263,7 +263,15 @@ document.addEventListener("DOMContentLoaded", function () {
     // Detener grabación antes de enviar el audio
     stopRecording();
 
-    // Crear un archivo Blob en formato webm (en lugar de ogg)
+    // Verifica si los audioChunks contienen datos
+    console.log("Chunks de audio recibidos:", audioChunks.length); // Verificar cuántos chunks hay
+    if (audioChunks.length === 0) {
+      console.error("No se han recibido datos de audio.");
+      alert("No se ha grabado ningún audio.");
+      return;
+    }
+
+    // Crear un archivo Blob a partir de los audioChunks
     const audioBlob = new Blob(audioChunks, {
       type: "audio/webm; codecs=opus",
     });
