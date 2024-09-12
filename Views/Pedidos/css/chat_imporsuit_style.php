@@ -232,23 +232,36 @@
         border-bottom: 1px solid #ddd;
     }
 
-    /* Sección de emojis en cuadrícula con scroll */
+    /* Sección de emojis con scroll */
     .emoji-section {
-        display: grid;
-        grid-template-columns: repeat(6, 1fr);
-        /* 6 columnas */
-        grid-gap: 10px;
-        padding: 10px;
         max-height: 250px;
-        /* Ajusta según necesites */
         overflow-y: auto;
-        /* Scroll */
         background-color: rgba(255, 255, 255, 0.8);
         /* Fondo semitransparente */
         border: 1px solid rgba(200, 200, 200, 0.5);
         border-radius: 12px;
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
         /* Sombra suave */
+        padding: 10px;
+    }
+
+    /* Contenedor para cada sección de emojis */
+    .emoji-category {
+        margin-bottom: 20px;
+    }
+
+    .emoji-category h5 {
+        font-size: 16px;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    /* Cuadrícula para los emojis */
+    .emoji-grid {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        /* 6 columnas */
+        grid-gap: 10px;
     }
 
     .emoji {

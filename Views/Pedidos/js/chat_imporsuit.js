@@ -47,46 +47,96 @@ btnTools.addEventListener("click", () => {
 
 /* emojis */
 // Elementos del DOM
-const emojiButton = document.getElementById("emoji-button");
 const emojiSection = document.getElementById("emoji-section");
+const emojiSearch = document.getElementById("emoji-search");
 const messageInput = document.getElementById("message-input");
-const emojis = document.querySelectorAll(".emoji");
 
-// Mostrar/Ocultar la sección de emojis
-emojiButton.addEventListener("click", () => {
-  if (emojiSection.classList.contains("d-none")) {
-    emojiSection.classList.remove("d-none");
-  } else {
-    emojiSection.classList.add("d-none");
+// Categorías disponibles en la API
+const categories = {
+  "Smileys & Emotion": "Caritas y emociones",
+  "Animals & Nature": "Animales y naturaleza",
+  "Food & Drink": "Comida y bebida",
+  "Travel & Places": "Viajes y lugares",
+  Activities: "Actividades",
+  Objects: "Objetos",
+  Symbols: "Símbolos",
+  Flags: "Banderas",
+};
+
+// Cargar los emojis desde la API
+async function loadEmojis() {
+  try {
+    const response = await fetch(
+      "https://emoji-api.com/emojis?access_key=TU_CLAVE_API"
+    );
+    const emojis = await response.json();
+    displayEmojisByCategory(emojis);
+  } catch (error) {
+    console.error("Error al cargar los emojis:", error);
   }
-});
+}
 
-// Insertar el emoji seleccionado en el input de mensaje
-emojis.forEach((emoji) => {
-  emoji.addEventListener("click", () => {
-    messageInput.value += emoji.textContent;
-    emojiSection.classList.add("d-none"); // Ocultar sección de emojis después de seleccionar
+// Mostrar emojis divididos por categorías
+function displayEmojisByCategory(emojis) {
+  emojiSection.innerHTML = ""; // Limpiar el contenedor de emojis
+
+  // Crear un contenedor para cada categoría
+  Object.keys(categories).forEach((categoryKey) => {
+    const categoryEmojis = emojis.filter(
+      (emoji) => emoji.group === categoryKey
+    );
+
+    if (categoryEmojis.length > 0) {
+      // Crear la sección para la categoría
+      const categoryContainer = document.createElement("div");
+      categoryContainer.classList.add("emoji-category");
+
+      // Título de la categoría
+      const title = document.createElement("h5");
+      title.textContent = categories[categoryKey];
+      categoryContainer.appendChild(title);
+
+      // Crear la cuadrícula de emojis
+      const emojiGrid = document.createElement("div");
+      emojiGrid.classList.add("emoji-grid");
+
+      // Añadir los emojis a la cuadrícula
+      categoryEmojis.forEach((emoji) => {
+        const span = document.createElement("span");
+        span.classList.add("emoji");
+        span.textContent = emoji.character;
+
+        // Agregar el emoji al input cuando se hace clic
+        span.addEventListener("click", () => {
+          messageInput.value += emoji.character;
+        });
+
+        emojiGrid.appendChild(span);
+      });
+
+      // Añadir la cuadrícula a la categoría
+      categoryContainer.appendChild(emojiGrid);
+      emojiSection.appendChild(categoryContainer); // Añadir la categoría al contenedor general
+    }
+  });
+}
+
+// Filtrar emojis en función de la búsqueda
+emojiSearch.addEventListener("input", () => {
+  const searchTerm = emojiSearch.value.toLowerCase();
+  const emojis = document.querySelectorAll(".emoji");
+
+  emojis.forEach((emoji) => {
+    if (emoji.textContent.includes(searchTerm)) {
+      emoji.style.display = "block";
+    } else {
+      emoji.style.display = "none";
+    }
   });
 });
 
-/* llenar seccion emojis */
-fetch("https://emoji-api.com/emojis?access_key=bbe48b2609417c3b0dc67a95b31e62d0acb27c5b")
-  .then((response) => response.json())
-  .then((emojis) => {
-    const emojiSection = document.getElementById("emoji-section");
-    emojis.forEach((emoji) => {
-      const span = document.createElement("span");
-      span.classList.add("emoji");
-      span.textContent = emoji.character;
-      span.addEventListener("click", () => {
-        document.getElementById("message-input").value += emoji.character;
-      });
-      emojiSection.appendChild(span);
-    });
-  })
-  .catch((error) => console.error("Error al cargar los emojis:", error));
-
-/* Fin llenar seccion emojis */
+// Cargar los emojis cuando la página esté lista
+loadEmojis();
 
 /* Fin emojis */
 
