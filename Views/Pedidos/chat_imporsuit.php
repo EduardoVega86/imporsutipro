@@ -50,7 +50,6 @@
                         <input id="emoji-search" type="text" class="form-control" placeholder="Buscar emojis..." style="margin-bottom: 10px; border-radius: 12px; padding: 8px;">
                     </div>
 
-
                     <!-- Botón de carita sonriente -->
                     <button id="emoji-button" class="btn btn-emoji">
                         <i class="fas fa-smile"></i>

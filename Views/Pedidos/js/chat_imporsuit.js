@@ -52,6 +52,7 @@ const emojiSection = document.getElementById("emoji-section");
 const messageInput = document.getElementById("message-input");
 const emojiSearch = document.getElementById("emoji-search"); // Elemento de búsqueda
 let allEmojis = []; // Variable para almacenar todos los emojis
+let displayedEmojis = 30; // Inicialmente mostramos 30 emojis
 
 // Mostrar/Ocultar la sección de emojis
 emojiButton.addEventListener("click", () => {
@@ -69,7 +70,7 @@ function addEmojiToInput(emoji) {
 }
 
 // Función para renderizar emojis en la sección
-function renderEmojis(emojis) {
+function renderEmojis(emojis, limit = displayedEmojis) {
   const emojiSection = document.getElementById("emoji-section");
   emojiSection.innerHTML = ""; // Limpiar la sección antes de renderizar los emojis
 
@@ -77,7 +78,7 @@ function renderEmojis(emojis) {
   emojiSection.innerHTML =
     '<input id="emoji-search" type="text" class="form-control" placeholder="Buscar emojis..." style="margin-bottom: 10px; border-radius: 12px; padding: 8px;">';
 
-  emojis.forEach((emoji) => {
+  emojis.slice(0, limit).forEach((emoji) => {
     const span = document.createElement("span");
     span.classList.add("emoji");
     span.textContent = emoji.character;
@@ -98,6 +99,18 @@ function filterEmojis() {
   );
   renderEmojis(filteredEmojis);
 }
+
+// Carga asíncrona de más emojis al hacer scroll
+emojiSection.addEventListener("scroll", () => {
+  if (
+    emojiSection.scrollTop + emojiSection.clientHeight >=
+    emojiSection.scrollHeight
+  ) {
+    // Cargar más emojis cuando se llegue al fondo del scroll
+    displayedEmojis += 30; // Cargar 30 más
+    renderEmojis(allEmojis); // Re-renderizar con los nuevos emojis
+  }
+});
 
 /* Llenar sección emojis */
 fetch(
