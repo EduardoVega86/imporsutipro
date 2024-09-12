@@ -138,27 +138,90 @@
     }
 
     /* emojis */
+    /* Diseño delicado y elegante para la sección de emojis */
     .emoji-section {
         display: flex;
-        gap: 10px;
+        gap: 8px;
         padding: 10px;
-        background-color: #f1f1f1;
-        border: 1px solid #ccc;
-        border-radius: 10px;
+        background-color: rgba(255, 255, 255, 0.8);
+        /* Fondo semitransparente */
+        border: 1px solid rgba(200, 200, 200, 0.5);
+        border-radius: 12px;
         position: absolute;
         bottom: 60px;
-        /* Ajusta según sea necesario */
         left: 10px;
         z-index: 1000;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        /* Sombra suave */
+        transition: opacity 0.3s ease;
     }
 
     .emoji {
         cursor: pointer;
         font-size: 24px;
+        transition: transform 0.2s ease, opacity 0.2s ease;
     }
 
+    .emoji:hover {
+        transform: scale(1.2);
+        opacity: 0.8;
+    }
+
+    /* Diseño para el botón de la carita sonriente */
+    .btn-emoji {
+        background-color: transparent;
+        border: none;
+        padding: 5px;
+        font-size: 24px;
+        color: rgba(0, 0, 0, 0.5);
+        /* Color inicial semitransparente */
+        transition: color 0.3s ease, transform 0.3s ease;
+        position: relative;
+    }
+
+    .btn-emoji:hover {
+        color: rgba(0, 0, 0, 0.8);
+        /* Color más oscuro al hacer hover */
+        transform: scale(1.1);
+        /* Efecto de agrandar suavemente */
+    }
+
+    .btn-emoji:focus {
+        outline: none;
+        /* Quitar el contorno feo por defecto */
+    }
+
+    /* Input del mensaje con bordes redondeados para armonizar */
+    #message-input {
+        border-radius: 20px;
+        padding: 10px;
+        box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    #message-input:focus {
+        outline: none;
+        border-color: rgba(100, 100, 255, 0.5);
+        /* Color sutil cuando está enfocado */
+    }
+
+    /* Sombra para el botón de enviar */
+    .btn-primary {
+        box-shadow: 0 4px 12px rgba(0, 0, 255, 0.3);
+    }
+
+    .btn-primary:hover {
+        box-shadow: 0 6px 18px rgba(0, 0, 255, 0.4);
+    }
+
+    /* Transiciones suaves */
     .d-none {
-        display: none;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .emoji-section:not(.d-none) {
+        opacity: 1;
+        pointer-events: auto;
     }
 
     /* fin emojis */

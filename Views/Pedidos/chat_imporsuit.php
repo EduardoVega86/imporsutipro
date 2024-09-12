@@ -42,7 +42,7 @@
                 </div>
             </div>
 
-            <div class="chat-input border-top">
+            <div class="chat-input border-top position-relative">
                 <div class="input-group">
                     <!-- Sección de emojis que se despliega al hacer clic en la carita sonriente -->
                     <div id="emoji-section" class="emoji-section d-none">
@@ -53,11 +53,11 @@
                         <span class="emoji">😎</span>
                         <span class="emoji">😭</span>
                         <span class="emoji">😡</span>
-                        <!-- Agrega más emojis según sea necesario -->
+                        <!-- Puedes agregar más emojis aquí -->
                     </div>
 
-                    <!-- Ícono de carita sonriente -->
-                    <button id="emoji-button" class="btn btn-light">
+                    <!-- Botón de carita sonriente -->
+                    <button id="emoji-button" class="btn btn-emoji">
                         <i class="fas fa-smile"></i>
                     </button>
 
