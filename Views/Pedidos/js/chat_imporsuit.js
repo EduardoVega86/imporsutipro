@@ -278,34 +278,35 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function uploadAudio(audioBlob) {
     const formData = new FormData();
-    formData.append('audio', audioBlob, 'audio.ogg');
-  
-    return fetch('ruta/al/controlador/guardar_audio_Whatsapp', {  // Ajusta la ruta a tu controlador
-      method: 'POST',
-      body: formData
+    formData.append("audio", audioBlob, "audio.ogg");
+
+    return fetch("ruta/al/controlador/guardar_audio_Whatsapp", {
+      // Ajusta la ruta a tu controlador
+      method: "POST",
+      body: formData,
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         if (data.status === 200) {
-          console.log("Audio subido:", data.data);  // Aquí tienes la ruta al archivo en el servidor
-          return data.data;  // Devuelve la ruta del archivo
+          console.log("Audio subido:", data.data); // Aquí tienes la ruta al archivo en el servidor
+          return data.data; // Devuelve la ruta del archivo
         } else {
           console.error("Error al subir el audio:", data.message);
           throw new Error(data.message);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error en la solicitud:", error);
       });
   }
-  
+
   // Uso en el botón de enviar audio
   sendAudioButton.addEventListener("click", async () => {
     const audioBlob = new Blob(audioChunks, { type: "audio/ogg; codecs=opus" });
-  
+
     // Sube el archivo de audio al servidor y obtén la URL
     const audioUrl = await uploadAudio(audioBlob);
-  
+
     // Ahora puedes enviar esa URL a través de WhatsApp
     const data = {
       messaging_product: "whatsapp",
@@ -313,10 +314,10 @@ document.addEventListener("DOMContentLoaded", function () {
       to: phoneNumber,
       type: "audio",
       audio: {
-        link: 'https://tu_dominio/' + audioUrl,  // Agrega la URL completa del archivo
+        link: SERVERURL + audioUrl, // Agrega la URL completa del archivo
       },
     };
-  
+
     fetch(`https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`, {
       method: "POST",
       headers: {
@@ -338,7 +339,6 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Error al enviar el audio:", error);
       });
   });
-  
 });
 
 /* Fin enviar mensaje de audio Whatsapp */
