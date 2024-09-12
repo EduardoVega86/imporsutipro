@@ -61,7 +61,7 @@
                     <input id="message-input" type="text" class="form-control" placeholder="Escribe un mensaje...">
 
                     <!-- Botón de grabar -->
-                    <button id="record-button" class="btn btn-primary ms-2">
+                    <button id="record-button" class="btn btn-primary ms-2" style="border-radius: 0.7rem;">
                         <i id="icon-record" class="fa-solid fa-microphone"></i>
                     </button>
 
