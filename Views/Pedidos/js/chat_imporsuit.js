@@ -167,7 +167,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // ---- Variables para la grabación de audio ----
   let mediaRecorder;
-  let audioChunks = [];
+  let audioBlob; // Guardamos el Blob directamente aquí
   let isRecording = false;
   let isPaused = false;
   let timerInterval;
@@ -190,16 +190,15 @@ document.addEventListener("DOMContentLoaded", function () {
         stream = micStream; // Guardamos el flujo del micrófono para detenerlo más tarde
 
         mediaRecorder = new MediaRecorder(stream);
-        audioChunks = [];
 
         mediaRecorder.start();
         isRecording = true;
-        console.log("Grabación iniciada"); // Log para depurar
+        console.log("Grabación iniciada");
 
-        // Escuchar los datos disponibles y agregar a audioChunks
+        // Escuchar los datos disponibles y crear el Blob cuando la grabación se detiene
         mediaRecorder.addEventListener("dataavailable", (event) => {
-          console.log("Datos de audio recibidos:", event.data); // Verificar si se reciben datos
-          audioChunks.push(event.data);
+          console.log("Datos de audio recibidos:", event.data);
+          audioBlob = event.data; // Guardamos el Blob directamente
         });
 
         // Mostrar controles de grabación
@@ -230,7 +229,7 @@ document.addEventListener("DOMContentLoaded", function () {
       recordButton
         .querySelector("i")
         .classList.replace("fa-stop", "fa-microphone");
-      console.log("Grabación detenida"); // Log para depurar
+      console.log("Grabación detenida");
     }
   }
 
@@ -263,22 +262,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // Detener grabación antes de enviar el audio
     stopRecording();
 
-    // Verifica si los audioChunks contienen datos
-    console.log("Chunks de audio recibidos:", audioChunks.length); // Verificar cuántos chunks hay
-    if (audioChunks.length === 0) {
-      console.error("No se han recibido datos de audio.");
-      alert("No se ha grabado ningún audio.");
-      return;
-    }
-
-    // Crear un archivo Blob a partir de los audioChunks
-    const audioBlob = new Blob(audioChunks, {
-      type: "audio/webm; codecs=opus",
-    });
-
     // Verifica si el audioBlob contiene datos
     console.log("Tamaño del audioBlob:", audioBlob.size); // Log para depurar
-    if (audioBlob.size > 0) {
+    if (audioBlob && audioBlob.size > 0) {
       console.log("El archivo de audio tiene datos, procediendo a subir...");
     } else {
       console.error("El archivo de audio está vacío.");
