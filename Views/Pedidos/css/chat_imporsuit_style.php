@@ -173,7 +173,7 @@
         border: none;
         padding: 5px;
         font-size: 24px;
-        color: rgba(0, 0, 0, 0.5);
+        color: rgba(0, 0, 0, 0.5) !important;
         /* Color inicial semitransparente */
         transition: color 0.3s ease, transform 0.3s ease;
         position: relative;
