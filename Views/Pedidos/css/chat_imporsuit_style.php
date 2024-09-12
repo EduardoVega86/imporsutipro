@@ -138,79 +138,28 @@
     }
 
     /* emojis */
-    /* Contenedor general del selector de emojis */
-    .emoji-picker {
-        width: 100%;
-        max-width: 300px;
-        background-color: #fff;
-        border-radius: 10px;
-        position: absolute;
-        bottom: 70px;
-        left: 0;
-        z-index: 1000;
-        display: flex;
-        flex-direction: column;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Pestañas de categorías */
-    .emoji-tabs {
-        display: flex;
-        justify-content: space-around;
-        background-color: #f0f2f5;
-        padding: 10px 0;
-    }
-
-    .emoji-tab {
-        background: none;
-        border: none;
-        color: #555;
-        font-size: 18px;
-        cursor: pointer;
-        transition: color 0.3s ease;
-    }
-
-    .emoji-tab.active {
-        color: #007bff;
-    }
-
-    .emoji-tab:hover {
-        color: #007bff;
-    }
-
-    /* Contenedor de búsqueda */
-    .emoji-search-container {
-        padding: 10px;
-        background-color: #f8f9fa;
-        border-bottom: 1px solid #ddd;
-    }
-
-    .emoji-search-container input {
-        width: 100%;
-        padding: 8px;
-        border-radius: 20px;
-        border: 1px solid #ddd;
-        background-color: #fff;
-        color: #333;
-        outline: none;
-        font-size: 14px;
-    }
-
-    /* Sección de emojis con scroll */
+    /* Diseño delicado y elegante para la sección de emojis */
     .emoji-section {
-        max-height: 250px;
-        overflow-y: auto;
+        display: flex;
+        gap: 8px;
         padding: 10px;
-        display: grid;
-        grid-template-columns: repeat(6, 1fr);
-        grid-gap: 10px;
+        background-color: rgba(255, 255, 255, 0.8);
+        /* Fondo semitransparente */
+        border: 1px solid rgba(200, 200, 200, 0.5);
+        border-radius: 12px;
+        position: absolute;
+        bottom: 60px;
+        left: 10px;
+        z-index: 1000;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        /* Sombra suave */
+        transition: opacity 0.3s ease;
     }
 
     .emoji {
-        font-size: 24px;
         cursor: pointer;
+        font-size: 24px;
         transition: transform 0.2s ease, opacity 0.2s ease;
-        text-align: center;
     }
 
     .emoji:hover {
@@ -218,10 +167,62 @@
         opacity: 0.8;
     }
 
-    .d-none {
-        display: none;
+    /* Diseño para el botón de la carita sonriente */
+    .btn-emoji {
+        background-color: transparent !important;
+        border: none;
+        padding: 5px;
+        font-size: 24px;
+        color: rgba(0, 0, 0, 0.5);
+        /* Color inicial semitransparente */
+        transition: color 0.3s ease, transform 0.3s ease;
+        position: relative;
     }
 
+    .btn-emoji:hover {
+        color: rgba(0, 0, 0, 0.8);
+        /* Color más oscuro al hacer hover */
+        transform: scale(1.1);
+        /* Efecto de agrandar suavemente */
+    }
+
+    .btn-emoji:focus {
+        outline: none;
+        /* Quitar el contorno feo por defecto */
+    }
+
+    /* Input del mensaje con bordes redondeados para armonizar */
+    #message-input {
+        border-radius: 20px;
+        padding: 10px;
+        box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    #message-input:focus {
+        outline: none;
+        border-color: rgba(100, 100, 255, 0.5);
+        /* Color sutil cuando está enfocado */
+    }
+
+    /* Sombra para el botón de enviar */
+    .btn-primary {
+        box-shadow: 0 4px 12px rgba(0, 0, 255, 0.3);
+    }
+
+    .btn-primary:hover {
+        box-shadow: 0 6px 18px rgba(0, 0, 255, 0.4);
+    }
+
+    /* Transiciones suaves */
+    .d-none {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .emoji-section:not(.d-none) {
+        opacity: 1;
+        pointer-events: auto;
+    }
 
     /* fin emojis */
 
