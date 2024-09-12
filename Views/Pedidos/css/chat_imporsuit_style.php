@@ -140,11 +140,8 @@
     /* emojis */
     /* Diseño delicado y elegante para la sección de emojis */
     .emoji-section {
-        display: flex;
-        gap: 8px;
         padding: 10px;
         background-color: rgba(255, 255, 255, 0.8);
-        /* Fondo semitransparente */
         border: 1px solid rgba(200, 200, 200, 0.5);
         border-radius: 12px;
         position: absolute;
@@ -152,14 +149,18 @@
         left: 10px;
         z-index: 1000;
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-        /* Sombra suave */
+        max-height: 200px;
+        overflow-y: auto;
         transition: opacity 0.3s ease;
     }
 
     .emoji {
         cursor: pointer;
-        font-size: 24px;
+        font-size: 22px;
+        /* Un poco más pequeño */
         transition: transform 0.2s ease, opacity 0.2s ease;
+        text-align: center;
+        /* Centra el emoji en su celda */
     }
 
     .emoji:hover {
@@ -224,7 +225,39 @@
         pointer-events: auto;
     }
 
+    /* Estilo del buscador dentro de la sección de emojis */
+    #emoji-search {
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 8px;
+        font-size: 16px;
+        border-radius: 12px;
+        border: 1px solid rgba(200, 200, 200, 0.8);
+        box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
     /* fin emojis */
+
+    /* audio */
+    #audio-recording-controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background-color: #f1f1f1;
+        padding: 10px;
+        border-radius: 10px;
+    }
+
+    #audio-timer {
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .d-none {
+        display: none;
+    }
+
+    /* Fin audio */
 
     /* Botones flotantes */
     .floating-buttons {

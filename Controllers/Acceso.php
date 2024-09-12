@@ -34,8 +34,6 @@ class Acceso extends Controller
         $contrasena = $data['contrasena'];
         $tienda = $data['tienda'];
 
-
-
         $response = $this->model->registro($nombre, $correo, $pais, $telefono, $contrasena, $tienda);
 
         echo json_encode($response);
@@ -106,6 +104,16 @@ class Acceso extends Controller
     {
         $id_referido = $_POST['id_referido'];
         $response = $this->model->validarRefiere($id_referido);
+        echo json_encode($response);
+    }
+
+    public function guardaUltimoPunto()
+    {
+        session_start();
+        $url = $_POST['url'];
+
+        $response = $this->model->guardaUltimoPunto($url, $_SESSION['id']);
+
         echo json_encode($response);
     }
 }

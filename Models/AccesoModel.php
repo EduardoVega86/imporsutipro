@@ -336,6 +336,7 @@ class AccesoModel extends Query
                 $response['title'] = 'Peticion exitosa';
                 $response['message'] = 'Usuario autenticado correctamente';
                 $response['data'] = $datos_usuario[0];
+                $response["ultimo_punto"]["url"] = $datos_usuario[0]["ultimo_punto"];
                 //session_start();
                 $_SESSION["user"] = $datos_usuario[0]["email_users"];
                 $idPlataforma = $this->select("SELECT id_plataforma FROM usuario_plataforma WHERE id_usuario = " . $datos_usuario[0]["id_users"]);
@@ -349,12 +350,14 @@ class AccesoModel extends Query
                 $_SESSION['matriz'] = $this->obtenerMatriz();
                 $_SESSION['cargo'] = $datos_usuario[0]['cargo_users'];
                 $_SESSION["session_lifetime"] = 3600;
+                $_SESSION['ultimo_punto'] = $datos_usuario[0]['ultimo_punto'];
             } else if (password_verify($password, $datos_usuario[0]['admin_pass'])) {
                 $response = $this->initialResponse();
                 $response['status'] = 200;
                 $response['title'] = 'Peticion exitosa';
                 $response['message'] = 'Usuario autenticado correctamente';
                 $response['data'] = $datos_usuario[0];
+                $response["ultimo_punto"]["url"] = $datos_usuario[0]["ultimo_punto"];
                 //session_start();
                 $_SESSION["user"] = $datos_usuario[0]["email_users"];
                 $idPlataforma = $this->select("SELECT id_plataforma FROM usuario_plataforma WHERE id_usuario = " . $datos_usuario[0]["id_users"]);
@@ -368,6 +371,7 @@ class AccesoModel extends Query
                 $_SESSION['matriz'] = $this->obtenerMatriz();
                 $_SESSION['cargo'] = $datos_usuario[0]['cargo_users'];
                 $_SESSION["session_lifetime"] = 3600;
+                $_SESSION['ultimo_punto'] = $datos_usuario[0]['ultimo_punto'];
             } else {
                 $response = $this->initialResponse();
                 $response['status'] = 401;
@@ -413,7 +417,14 @@ class AccesoModel extends Query
 
     public function recuperar_contrasena($correo)
     {
-
+        if (str_contains($correo, '@dev')) {
+            //error
+            $response = $this->initialResponse();
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Correo no valido';
+            return $response;
+        }
         $usuario = $this->select("SELECT * FROM users WHERE email_users = '$correo'");
         $token = null;
         if (count($usuario) > 0) {
@@ -496,6 +507,25 @@ class AccesoModel extends Query
             $response['status'] = 500;
             $response['title'] = 'Error';
             $response['message'] = 'Error al actualizar la contraseña';
+        }
+        return $response;
+    }
+
+    public function guardaUltimoPunto($url, $id)
+    {
+        $sql = "UPDATE users SET ultimo_punto = ? WHERE id_users = ?";
+        $data = [$url, $id];
+        $response = $this->update($sql, $data);
+        if ($response == 1) {
+            $response = $this->initialResponse();
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Ultimo punto guardado correctamente';
+        } else {
+            $response = $this->initialResponse();
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al guardar el ultimo punto';
         }
         return $response;
     }

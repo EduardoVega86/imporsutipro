@@ -81,6 +81,8 @@
 
                 cargar_saldoWallet();
 
+                /* cargar_ultima_pagina(); */
+
                 // Ejecutar la función al cargar la página
                 // Ejecutar la función cada 60 segundos
                 /* sigue_logeado();
@@ -115,6 +117,25 @@
                         console.error("Error al obtener la lista de bodegas:", error);
                     },
                 });
+            }
+
+            function cargar_ultima_pagina() {
+                let formData = new FormData();
+                formData.append("sku", sku);
+                $.ajax({
+                    url: SERVERURL + "pedidos/buscarProductosBodega",
+                    type: "POST", // Cambiar a POST para enviar FormData
+                    data: formData,
+                    processData: false, // No procesar los datos
+                    contentType: false, // No establecer ningún tipo de contenido
+                    success: function(response) {
+
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        alert(errorThrown);
+                    },
+                });
+
             }
 
             function sigue_logeado() {

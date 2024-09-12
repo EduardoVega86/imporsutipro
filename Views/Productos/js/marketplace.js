@@ -395,7 +395,7 @@ function copyToClipboard(id) {
   let formData = new FormData();
   formData.append("id_inventario", id);
   $.ajax({
-    url: SERVERURL + "Productos/importar_productos_shopify",
+    url: SERVERURL + "Productos/ƒen",
     type: "POST",
     data: formData,
     processData: false, // No procesar los datos

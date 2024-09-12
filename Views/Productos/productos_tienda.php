@@ -30,7 +30,6 @@
             </div>
         </div> -->
         <div class="table-responsive">
-            <!-- <table class="table table-bordered table-striped table-hover"> -->
             <table id="datatable_productos" class="table table-striped">
                 <thead>
                     <tr>

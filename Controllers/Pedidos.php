@@ -553,7 +553,6 @@ class Pedidos extends Controller
 
     public function validaDevolucion($telefono)
     {
-
         $response = $this->model->validaDevolucion($telefono);
 
         echo json_encode($response);
@@ -573,6 +572,12 @@ class Pedidos extends Controller
 
         $response = $this->model->agregar_detalle_combo($id_cliente, $_SESSION['id_plataforma']);
 
+        echo json_encode($response);
+    }
+
+    public function guardar_audio_Whatsapp()
+    {
+        $response = $this->model->guardar_audio_Whatsapp($_FILES['audio']);
         echo json_encode($response);
     }
 }

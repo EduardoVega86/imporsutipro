@@ -50,7 +50,11 @@ btnTools.addEventListener("click", () => {
 const emojiButton = document.getElementById("emoji-button");
 const emojiSection = document.getElementById("emoji-section");
 const messageInput = document.getElementById("message-input");
-const emojis = document.querySelectorAll(".emoji");
+const emojiSearch = document.getElementById("emoji-search"); // Elemento de búsqueda
+let allEmojis = []; // Variable para almacenar todos los emojis
+let displayedEmojis = 100; // Inicialmente mostramos 100 emojis
+let totalLoadedEmojis = 0; // Total de emojis cargados hasta ahora
+let isLoading = false; // Para evitar múltiples cargas al mismo tiempo
 
 // Mostrar/Ocultar la sección de emojis
 emojiButton.addEventListener("click", () => {
@@ -62,38 +66,105 @@ emojiButton.addEventListener("click", () => {
 });
 
 // Insertar el emoji seleccionado en el input de mensaje
-emojis.forEach((emoji) => {
-  emoji.addEventListener("click", () => {
-    messageInput.value += emoji.textContent;
-    emojiSection.classList.add("d-none"); // Ocultar sección de emojis después de seleccionar
+function addEmojiToInput(emoji) {
+  messageInput.value += emoji;
+  // No cerramos la sección de emojis al seleccionar uno
+}
+
+// Función para renderizar emojis en la sección
+function renderEmojis(emojis, limit = displayedEmojis) {
+  const emojiContainer = document.getElementById("emoji-list"); // Seleccionamos el contenedor de emojis
+
+  // Limpiar el contenedor de emojis antes de renderizar nuevos (evitar duplicación)
+  emojiContainer.innerHTML = "";
+
+  // Renderizamos solo el número de emojis limitado o filtrado
+  emojis.slice(0, limit).forEach((emoji) => {
+    const span = document.createElement("span");
+    span.classList.add("emoji");
+    span.textContent = emoji.character;
+    span.addEventListener("click", () => addEmojiToInput(emoji.character));
+    emojiContainer.appendChild(span);
   });
+}
+
+// Filtrar emojis según el texto en el campo de búsqueda
+function filterEmojis() {
+  const searchTerm = emojiSearch.value.toLowerCase();
+  const filteredEmojis = allEmojis.filter(
+    (emoji) =>
+      emoji.unicodeName && emoji.unicodeName.toLowerCase().includes(searchTerm)
+  );
+  renderEmojis(filteredEmojis, filteredEmojis.length); // Mostramos todos los filtrados
+}
+
+// Agregar evento de búsqueda
+emojiSearch.addEventListener("input", filterEmojis);
+
+// Carga asíncrona de más emojis al hacer scroll
+emojiSection.addEventListener("scroll", () => {
+  if (
+    emojiSection.scrollTop + emojiSection.clientHeight >=
+    emojiSection.scrollHeight
+  ) {
+    loadMoreEmojis(); // Cargar más emojis cuando se llegue al fondo del scroll
+  }
 });
 
-/* llenar seccion emojis */
-fetch("https://emoji-api.com/emojis?access_key=bbe48b2609417c3b0dc67a95b31e62d0acb27c5b")
-  .then((response) => response.json())
-  .then((emojis) => {
-    const emojiSection = document.getElementById("emoji-section");
-    emojis.forEach((emoji) => {
-      const span = document.createElement("span");
-      span.classList.add("emoji");
-      span.textContent = emoji.character;
-      span.addEventListener("click", () => {
-        document.getElementById("message-input").value += emoji.character;
-      });
-      emojiSection.appendChild(span);
-    });
-  })
-  .catch((error) => console.error("Error al cargar los emojis:", error));
+// Función para cargar más emojis de manera asíncrona
+function loadMoreEmojis() {
+  if (isLoading) return; // Evitar múltiples cargas simultáneas
+  isLoading = true;
 
-/* Fin llenar seccion emojis */
+  const batchSize = 100; // Lote de 100 emojis
+  const url = `https://emoji-api.com/emojis?access_key=bbe48b2609417c3b0dc67a95b31e62d0acb27c5b&offset=${totalLoadedEmojis}&limit=${batchSize}`;
+
+  fetch(url)
+    .then((response) => response.json())
+    .then((newEmojis) => {
+      // Verificamos que no estamos añadiendo duplicados
+      const uniqueNewEmojis = newEmojis.filter(
+        (emoji) => !allEmojis.some((e) => e.slug === emoji.slug)
+      );
+
+      // Añadir solo los emojis nuevos a la lista total
+      allEmojis = [...allEmojis, ...uniqueNewEmojis];
+      totalLoadedEmojis += uniqueNewEmojis.length;
+      displayedEmojis += uniqueNewEmojis.length; // Actualizamos el límite de emojis mostrados
+      renderEmojis(allEmojis); // Renderizamos los emojis con los nuevos incluidos
+      isLoading = false;
+    })
+    .catch((error) => {
+      console.error("Error al cargar más emojis:", error);
+      isLoading = false;
+    });
+}
+
+/* Llenar sección emojis - Cargar primeros 100 emojis */
+loadMoreEmojis(); // Iniciar la carga de los primeros emojis
+
+// Función para detectar clic fuera del cuadro de emojis
+document.addEventListener("click", function (event) {
+  const isClickInside =
+    emojiSection.contains(event.target) || emojiButton.contains(event.target);
+
+  // Si el clic no fue dentro de la sección de emojis ni en el botón de emojis, cierra la sección
+  if (!isClickInside) {
+    emojiSection.classList.add("d-none");
+  }
+});
 
 /* Fin emojis */
 
 /* Enviar mensaje whatsapp */
 document.addEventListener("DOMContentLoaded", function () {
-  const sendButton = document.getElementById("send-button");
   const messageInput = document.getElementById("message-input");
+  const recordButton = document.getElementById("record-button");
+  const audioControls = document.getElementById("audio-recording-controls");
+  const pauseButton = document.getElementById("pause-recording");
+  const stopButton = document.getElementById("stop-recording");
+  const sendAudioButton = document.getElementById("send-audio");
+  const audioTimer = document.getElementById("audio-timer");
 
   const fromPhoneNumberId = "109565362009074"; // Identificador de número de teléfono
   const accessToken =
@@ -102,28 +173,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const url = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
 
-  // Capturar el evento click del botón de envío
-  sendButton.addEventListener("click", function (event) {
-    event.preventDefault();
-
-    // Obtener el mensaje ingresado por el usuario
+  // Función para enviar el mensaje de texto
+  function sendMessage() {
     const message = messageInput.value;
 
     if (message.trim() === "") {
       alert("Por favor, escribe un mensaje.");
       return;
     }
-
-    // Datos para enviar el mensaje usando una plantilla
-    /* const data = {
-      messaging_product: "whatsapp",
-      to: phoneNumber,
-      type: "template",
-      template: {
-        name: "hello_world", // Plantilla que estás usando
-        language: { code: "en_US" }, // Lenguaje de la plantilla
-      },
-    }; */
 
     const data = {
       messaging_product: "whatsapp",
@@ -141,7 +198,6 @@ document.addEventListener("DOMContentLoaded", function () {
       "Content-Type": "application/json",
     };
 
-    // Usando fetch para enviar el mensaje
     fetch(url, {
       method: "POST",
       headers: headers,
@@ -149,22 +205,140 @@ document.addEventListener("DOMContentLoaded", function () {
     })
       .then((response) => response.json())
       .then((responseData) => {
-        console.log("API Response: ", responseData); // Mostrar la respuesta completa
         if (responseData.error) {
           console.error("Error: ", responseData.error);
           alert(`Error: ${responseData.error.message}`);
         } else {
-          console.log("Response: ", responseData);
           alert("¡Mensaje enviado con éxito!");
-
-          // Limpiar el campo de entrada después de enviar el mensaje
-          messageInput.value = "";
+          messageInput.value = ""; // Limpiar campo de entrada
         }
       })
-
       .catch((error) => {
         console.error("Error en la solicitud: ", error);
         alert("Ocurrió un error al enviar el mensaje.");
       });
+  }
+
+  // ---- Funciones de grabación de audio ----
+  let mediaRecorder;
+  let audioChunks = [];
+  let isRecording = false;
+  let timerInterval;
+  let timeElapsed = 0;
+
+  // Función para actualizar el temporizador
+  function updateTimer() {
+    timeElapsed++;
+    let minutes = Math.floor(timeElapsed / 60);
+    let seconds = timeElapsed % 60;
+    audioTimer.textContent = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  }
+
+  // Iniciar la grabación de audio
+  recordButton.addEventListener("click", () => {
+    if (!isRecording) {
+      startRecording();
+    } else {
+      stopRecording();
+    }
   });
+
+  function startRecording() {
+    navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+      mediaRecorder = new MediaRecorder(stream);
+      mediaRecorder.start();
+      audioChunks = [];
+
+      mediaRecorder.addEventListener("dataavailable", (event) => {
+        audioChunks.push(event.data);
+      });
+
+      // Mostrar controles de grabación
+      audioControls.classList.remove("d-none");
+      isRecording = true;
+      recordButton
+        .querySelector("i")
+        .classList.replace("fa-microphone", "fa-stop");
+
+      // Iniciar temporizador
+      timeElapsed = 0;
+      timerInterval = setInterval(updateTimer, 1000);
+    });
+  }
+
+  function stopRecording() {
+    mediaRecorder.stop();
+    clearInterval(timerInterval);
+    isRecording = false;
+    audioControls.classList.add("d-none");
+    recordButton
+      .querySelector("i")
+      .classList.replace("fa-stop", "fa-microphone");
+  }
+
+  function uploadAudio(audioBlob) {
+    const formData = new FormData();
+    formData.append('audio', audioBlob, 'audio.ogg');
+  
+    return fetch('ruta/al/controlador/guardar_audio_Whatsapp', {  // Ajusta la ruta a tu controlador
+      method: 'POST',
+      body: formData
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 200) {
+          console.log("Audio subido:", data.data);  // Aquí tienes la ruta al archivo en el servidor
+          return data.data;  // Devuelve la ruta del archivo
+        } else {
+          console.error("Error al subir el audio:", data.message);
+          throw new Error(data.message);
+        }
+      })
+      .catch(error => {
+        console.error("Error en la solicitud:", error);
+      });
+  }
+  
+  // Uso en el botón de enviar audio
+  sendAudioButton.addEventListener("click", async () => {
+    const audioBlob = new Blob(audioChunks, { type: "audio/ogg; codecs=opus" });
+  
+    // Sube el archivo de audio al servidor y obtén la URL
+    const audioUrl = await uploadAudio(audioBlob);
+  
+    // Ahora puedes enviar esa URL a través de WhatsApp
+    const data = {
+      messaging_product: "whatsapp",
+      recipient_type: "individual",
+      to: phoneNumber,
+      type: "audio",
+      audio: {
+        link: 'https://tu_dominio/' + audioUrl,  // Agrega la URL completa del archivo
+      },
+    };
+  
+    fetch(`https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((responseData) => {
+        if (responseData.error) {
+          console.error("Error: ", responseData.error);
+          alert(`Error: ${responseData.error.message}`);
+        } else {
+          alert("¡Audio enviado con éxito!");
+        }
+      })
+      .catch((error) => {
+        console.error("Error al enviar el audio:", error);
+      });
+  });
+  
 });
+
+/* Fin enviar mensaje de audio Whatsapp */
