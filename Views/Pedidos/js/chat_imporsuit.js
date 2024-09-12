@@ -66,17 +66,17 @@ emojiButton.addEventListener("click", () => {
 // Insertar el emoji seleccionado en el input de mensaje
 function addEmojiToInput(emoji) {
   messageInput.value += emoji;
-  emojiSection.classList.add("d-none"); // Ocultar sección de emojis después de seleccionar
+  // No cerramos la sección de emojis al seleccionar uno
 }
 
 // Función para renderizar emojis en la sección
 function renderEmojis(emojis, limit = displayedEmojis) {
   const emojiSection = document.getElementById("emoji-section");
-  emojiSection.innerHTML = ""; // Limpiar la sección antes de renderizar los emojis
 
-  // Insertamos el buscador nuevamente
-  emojiSection.innerHTML =
-    '<input id="emoji-search" type="text" class="form-control" placeholder="Buscar emojis..." style="margin-bottom: 10px; border-radius: 12px; padding: 8px;">';
+  // Limpiar la sección excepto el input de búsqueda
+  const searchInput = document.getElementById("emoji-search");
+  emojiSection.innerHTML = "";
+  emojiSection.appendChild(searchInput); // Mantener el buscador en su lugar
 
   emojis.slice(0, limit).forEach((emoji) => {
     const span = document.createElement("span");
@@ -85,10 +85,6 @@ function renderEmojis(emojis, limit = displayedEmojis) {
     span.addEventListener("click", () => addEmojiToInput(emoji.character));
     emojiSection.appendChild(span);
   });
-
-  // Agregar de nuevo el evento al buscador
-  const emojiSearch = document.getElementById("emoji-search");
-  emojiSearch.addEventListener("input", filterEmojis);
 }
 
 // Filtrar emojis según el texto en el campo de búsqueda
@@ -99,6 +95,9 @@ function filterEmojis() {
   );
   renderEmojis(filteredEmojis);
 }
+
+// Agregar evento de búsqueda
+emojiSearch.addEventListener("input", filterEmojis);
 
 // Carga asíncrona de más emojis al hacer scroll
 emojiSection.addEventListener("scroll", () => {

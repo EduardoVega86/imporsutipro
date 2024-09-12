@@ -141,14 +141,10 @@
     /* Diseño delicado y elegante para la sección de emojis */
     .emoji-section {
         display: grid;
-        /* Cambiado de flex a grid */
         grid-template-columns: repeat(6, 1fr);
-        /* Define 6 columnas de igual tamaño */
         grid-gap: 5px;
-        /* Reducido el espaciado entre los emojis */
         padding: 10px;
         background-color: rgba(255, 255, 255, 0.8);
-        /* Fondo semitransparente */
         border: 1px solid rgba(200, 200, 200, 0.5);
         border-radius: 12px;
         position: absolute;
@@ -156,11 +152,8 @@
         left: 10px;
         z-index: 1000;
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-        /* Sombra suave */
         max-height: 200px;
-        /* Altura máxima de la sección */
         overflow-y: auto;
-        /* Habilita el scroll vertical */
         transition: opacity 0.3s ease;
     }
 
