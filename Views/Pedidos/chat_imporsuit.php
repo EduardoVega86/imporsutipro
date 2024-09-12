@@ -46,8 +46,10 @@
                 <div class="input-group">
                     <!-- Sección de emojis que se despliega al hacer clic en la carita sonriente -->
                     <div id="emoji-section" class="emoji-section d-none">
-                        
+                        <!-- Input para buscar emojis -->
+                        <input id="emoji-search" type="text" class="form-control" placeholder="Buscar emojis..." style="margin-bottom: 10px; border-radius: 12px; padding: 8px;">
                     </div>
+
 
                     <!-- Botón de carita sonriente -->
                     <button id="emoji-button" class="btn btn-emoji">

@@ -50,7 +50,8 @@ btnTools.addEventListener("click", () => {
 const emojiButton = document.getElementById("emoji-button");
 const emojiSection = document.getElementById("emoji-section");
 const messageInput = document.getElementById("message-input");
-const emojis = document.querySelectorAll(".emoji");
+const emojiSearch = document.getElementById("emoji-search"); // Elemento de búsqueda
+let allEmojis = []; // Variable para almacenar todos los emojis
 
 // Mostrar/Ocultar la sección de emojis
 emojiButton.addEventListener("click", () => {
@@ -62,27 +63,50 @@ emojiButton.addEventListener("click", () => {
 });
 
 // Insertar el emoji seleccionado en el input de mensaje
-emojis.forEach((emoji) => {
-  emoji.addEventListener("click", () => {
-    messageInput.value += emoji.textContent;
-    emojiSection.classList.add("d-none"); // Ocultar sección de emojis después de seleccionar
-  });
-});
+function addEmojiToInput(emoji) {
+  messageInput.value += emoji;
+  emojiSection.classList.add("d-none"); // Ocultar sección de emojis después de seleccionar
+}
 
-/* llenar seccion emojis */
-fetch("https://emoji-api.com/emojis?access_key=bbe48b2609417c3b0dc67a95b31e62d0acb27c5b")
+// Función para renderizar emojis en la sección
+function renderEmojis(emojis) {
+  const emojiSection = document.getElementById("emoji-section");
+  emojiSection.innerHTML = ""; // Limpiar la sección antes de renderizar los emojis
+
+  // Insertamos el buscador nuevamente
+  emojiSection.innerHTML =
+    '<input id="emoji-search" type="text" class="form-control" placeholder="Buscar emojis..." style="margin-bottom: 10px; border-radius: 12px; padding: 8px;">';
+
+  emojis.forEach((emoji) => {
+    const span = document.createElement("span");
+    span.classList.add("emoji");
+    span.textContent = emoji.character;
+    span.addEventListener("click", () => addEmojiToInput(emoji.character));
+    emojiSection.appendChild(span);
+  });
+
+  // Agregar de nuevo el evento al buscador
+  const emojiSearch = document.getElementById("emoji-search");
+  emojiSearch.addEventListener("input", filterEmojis);
+}
+
+// Filtrar emojis según el texto en el campo de búsqueda
+function filterEmojis() {
+  const searchTerm = emojiSearch.value.toLowerCase();
+  const filteredEmojis = allEmojis.filter((emoji) =>
+    emoji.unicodeName.toLowerCase().includes(searchTerm)
+  );
+  renderEmojis(filteredEmojis);
+}
+
+/* Llenar sección emojis */
+fetch(
+  "https://emoji-api.com/emojis?access_key=bbe48b2609417c3b0dc67a95b31e62d0acb27c5b"
+)
   .then((response) => response.json())
   .then((emojis) => {
-    const emojiSection = document.getElementById("emoji-section");
-    emojis.forEach((emoji) => {
-      const span = document.createElement("span");
-      span.classList.add("emoji");
-      span.textContent = emoji.character;
-      span.addEventListener("click", () => {
-        document.getElementById("message-input").value += emoji.character;
-      });
-      emojiSection.appendChild(span);
-    });
+    allEmojis = emojis; // Almacenar todos los emojis para el filtro
+    renderEmojis(allEmojis); // Renderizar todos los emojis inicialmente
   })
   .catch((error) => console.error("Error al cargar los emojis:", error));
 

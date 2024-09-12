@@ -234,6 +234,16 @@
         pointer-events: auto;
     }
 
+    /* Estilo del buscador dentro de la sección de emojis */
+    #emoji-search {
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 8px;
+        font-size: 16px;
+        border-radius: 12px;
+        border: 1px solid rgba(200, 200, 200, 0.8);
+        box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
 
     /* fin emojis */
 
