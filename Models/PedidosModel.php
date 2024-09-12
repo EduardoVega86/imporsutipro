@@ -1210,68 +1210,38 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
-    public function guardar_audio_Whatsapp($audio)
+    public function guardar_audio_Whatsapp()
     {
-        $response = $this->initialResponse();
-        $target_dir = "public/whatsapp/audios/";  // Cambiar el directorio donde se almacenarán los audios
-        $audioFileType = strtolower(pathinfo($audio["name"], PATHINFO_EXTENSION));
+        if (isset($_FILES['audio']) && $_FILES['audio']['error'] == 0) {
+            // Ruta de destino para guardar el archivo
+            $target_dir = "public/audio/";
+            $file_name = uniqid() . ".webm";  // Generar un nombre único para el archivo
+            $target_file = $target_dir . $file_name;
 
-        // Generar un nombre de archivo único
-        $unique_name = uniqid('', true) . '.' . $audioFileType;
-        $target_file = $target_dir . $unique_name;
-
-        // Verificar si el archivo ya existe y agregar un diferenciador si es necesario
-        $counter = 1;
-        while (file_exists($target_file)) {
-            $target_file = $target_dir . uniqid('', true) . '.' . $audioFileType;
-            $counter++;
-        }
-
-        $uploadOk = 1;
-
-        // Verificar el tamaño del archivo (ajustar según sea necesario)
-        if ($audio["size"] > 50000000) {  // Tamaño máximo permitido 50 MB
-            $response['status'] = 500;
-            $response['title'] = 'Error';
-            $response['message'] = 'El archivo es muy grande';
-            $uploadOk = 0;
-        }
-
-        // Solo permitir archivos de audio
-        if ($audioFileType != "mp3" && $audioFileType != "ogg" && $audioFileType != "wav") {
-            $response['status'] = 500;
-            $response['title'] = 'Error';
-            $response['message'] = 'Solo se permiten archivos de audio MP3, OGG, WAV';
-            $uploadOk = 0;
-        }
-
-        // Verificar si la subida es correcta
-        if ($uploadOk == 0) {
-            $response['status'] = 500;
-            $response['title'] = 'Error';
-            $response['message'] = 'Error al subir el archivo de audio';
-        } else {
-            // Subir el archivo
-            if (move_uploaded_file($audio["tmp_name"], $target_file)) {
-                // Verifica si el archivo tiene tamaño mayor que cero
-                if (filesize($target_file) > 0) {
-                    $response['status'] = 200;
-                    $response['title'] = 'Peticion exitosa';
-                    $response['message'] = 'Audio subido correctamente';
-                    $response['data'] = $target_file;  // Devolvemos la ruta del archivo subido
-                } else {
-                    unlink($target_file); // Elimina el archivo vacío
-                    $response['status'] = 500;
-                    $response['title'] = 'Error';
-                    $response['message'] = 'El archivo de audio está vacío';
-                }
+            // Mover el archivo a la carpeta de destino
+            if (move_uploaded_file($_FILES['audio']['tmp_name'], $target_file)) {
+                // Retornar la ruta del archivo subido
+                $response = [
+                    'status' => 200,
+                    'message' => 'Audio subido correctamente',
+                    'data' => $target_file  // Aquí devolvemos la ruta del archivo subido
+                ];
             } else {
-                $response['status'] = 500;
-                $response['title'] = 'Error';
-                $response['message'] = 'Error al mover el archivo';
+                // Error al mover el archivo
+                $response = [
+                    'status' => 500,
+                    'message' => 'Error al mover el archivo de audio'
+                ];
             }
+        } else {
+            // No se recibió ningún archivo o hubo un error
+            $response = [
+                'status' => 500,
+                'message' => 'Error al subir el archivo de audio'
+            ];
         }
 
-        return $response;
+        // Retornar la respuesta en formato JSON
+        echo json_encode($response);
     }
 }
