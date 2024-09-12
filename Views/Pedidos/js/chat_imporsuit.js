@@ -173,9 +173,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const url = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
 
-  // Función para enviar el mensaje
+  // Función para enviar el mensaje de texto
   function sendMessage() {
-    // Obtener el mensaje ingresado por el usuario
     const message = messageInput.value;
 
     if (message.trim() === "") {
@@ -199,7 +198,6 @@ document.addEventListener("DOMContentLoaded", function () {
       "Content-Type": "application/json",
     };
 
-    // Usando fetch para enviar el mensaje
     fetch(url, {
       method: "POST",
       headers: headers,
@@ -207,16 +205,12 @@ document.addEventListener("DOMContentLoaded", function () {
     })
       .then((response) => response.json())
       .then((responseData) => {
-        console.log("API Response: ", responseData); // Mostrar la respuesta completa
         if (responseData.error) {
           console.error("Error: ", responseData.error);
           alert(`Error: ${responseData.error.message}`);
         } else {
-          console.log("Response: ", responseData);
           alert("¡Mensaje enviado con éxito!");
-
-          // Limpiar el campo de entrada después de enviar el mensaje
-          messageInput.value = "";
+          messageInput.value = ""; // Limpiar campo de entrada
         }
       })
       .catch((error) => {
@@ -224,14 +218,6 @@ document.addEventListener("DOMContentLoaded", function () {
         alert("Ocurrió un error al enviar el mensaje.");
       });
   }
-
-  // Ejecutar la función de enviar mensaje al presionar "Enter"
-  messageInput.addEventListener("keydown", function (event) {
-    if (event.key === "Enter") {
-      event.preventDefault(); // Evitar el salto de línea
-      sendMessage(); // Llamar a la función de envío
-    }
-  });
 
   // ---- Funciones de grabación de audio ----
   let mediaRecorder;
@@ -248,7 +234,7 @@ document.addEventListener("DOMContentLoaded", function () {
     audioTimer.textContent = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   }
 
-  // Al hacer clic en el botón de grabar
+  // Iniciar la grabación de audio
   recordButton.addEventListener("click", () => {
     if (!isRecording) {
       startRecording();
@@ -257,7 +243,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Función para iniciar la grabación
   function startRecording() {
     navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
       mediaRecorder = new MediaRecorder(stream);
@@ -266,15 +251,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
       mediaRecorder.addEventListener("dataavailable", (event) => {
         audioChunks.push(event.data);
-      });
-
-      mediaRecorder.addEventListener("stop", () => {
-        const audioBlob = new Blob(audioChunks, {
-          type: "audio/ogg; codecs=opus",
-        });
-        const audioUrl = URL.createObjectURL(audioBlob);
-        const audio = new Audio(audioUrl);
-        audio.play(); // Reproducir el audio grabado para pruebas
       });
 
       // Mostrar controles de grabación
@@ -290,7 +266,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Función para detener la grabación
   function stopRecording() {
     mediaRecorder.stop();
     clearInterval(timerInterval);
@@ -301,26 +276,52 @@ document.addEventListener("DOMContentLoaded", function () {
       .classList.replace("fa-stop", "fa-microphone");
   }
 
-  // Función para enviar el audio grabado a WhatsApp
-  sendAudioButton.addEventListener("click", () => {
-    const audioBlob = new Blob(audioChunks, { type: "audio/ogg; codecs=opus" });
-    const formData = new FormData();
-    formData.append("audio", audioBlob, "audio.ogg");
-    formData.append("messaging_product", "whatsapp");
-    formData.append("to", phoneNumber);
-    formData.append("type", "audio");
+  // Función para simular la subida de un archivo (en la práctica, debes subir el archivo a un servidor real)
+  function uploadAudioBlob(audioBlob) {
+    return new Promise((resolve) => {
+      // Simulamos la subida a un servidor y retornamos una URL simulada del audio
+      setTimeout(() => {
+        const audioUrl = URL.createObjectURL(audioBlob); // Simulación
+        resolve(audioUrl); // Devuelve la URL del archivo simulado
+      }, 2000); // Simulamos un retraso de 2 segundos para la subida
+    });
+  }
 
-    fetch(`https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
+  // Función para enviar el audio grabado a WhatsApp
+  sendAudioButton.addEventListener("click", async () => {
+    const audioBlob = new Blob(audioChunks, { type: "audio/ogg; codecs=opus" });
+
+    // Simulamos la subida del archivo de audio
+    const audioUrl = await uploadAudioBlob(audioBlob);
+
+    const data = {
+      messaging_product: "whatsapp",
+      recipient_type: "individual",
+      to: phoneNumber,
+      type: "audio",
+      audio: {
+        link: audioUrl, // Aquí iría el enlace al archivo de audio subido
       },
-      body: formData,
+    };
+
+    const headers = {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    };
+
+    fetch(url, {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify(data),
     })
       .then((response) => response.json())
-      .then((data) => {
-        console.log("Audio enviado:", data);
-        alert("¡Audio enviado con éxito!");
+      .then((responseData) => {
+        if (responseData.error) {
+          console.error("Error: ", responseData.error);
+          alert(`Error: ${responseData.error.message}`);
+        } else {
+          alert("¡Audio enviado con éxito!");
+        }
       })
       .catch((error) => {
         console.error("Error al enviar el audio:", error);
