@@ -45,13 +45,10 @@
             <div class="chat-input border-top position-relative">
                 <div class="input-group">
                     <!-- Sección de emojis que se despliega al hacer clic en la carita sonriente -->
-                    <div class="emoji-search-container">
-                        <input id="emoji-search" type="text" placeholder="Buscar emojis..." />
+                    <div id="emoji-section" class="emoji-section d-none">
+                        
                     </div>
 
-                    <div id="emoji-section" class="emoji-section">
-                        <!-- Aquí se mostrarán los emojis divididos por secciones -->
-                    </div>
                     <!-- Botón de carita sonriente -->
                     <button id="emoji-button" class="btn btn-emoji">
                         <i class="fas fa-smile"></i>
