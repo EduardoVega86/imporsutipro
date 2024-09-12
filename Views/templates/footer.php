@@ -81,8 +81,6 @@
 
                 cargar_saldoWallet();
 
-                cargar_ultima_pagina();
-
                 // Ejecutar la función al cargar la página
                 // Ejecutar la función cada 60 segundos
                 /* sigue_logeado();
@@ -117,17 +115,6 @@
                         console.error("Error al obtener la lista de bodegas:", error);
                     },
                 });
-            }
-
-            function cargar_ultima_pagina() {
-                let urlCompleta = window.location.href;
-                let ultima_pagina = localStorage.getItem(ultima_visitaImporsuit);
-                if (ultima_pagina) {
-                    if (ultima_pagina != "") {
-                        window.location.href = ultima_pagina ;
-                    }
-                }
-                localStorage.setItem('ultima_visitaImporsuit', urlCompleta);
             }
 
             function sigue_logeado() {
