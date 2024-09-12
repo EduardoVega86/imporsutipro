@@ -31,8 +31,8 @@ class InventariosModel extends Query
         if ($actualizar_stock == 1) {
             $id_usuario = $_SESSION['id'];
             $nota = "Se agrego $cantidad productos(s) al inventario";
-            $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            $data = [$id_usuario, $inventario, $plataforma, $sku,  $nota, $referencia, $cantidad, 1, $id_bodega, $id_producto];
+            $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`, , `saldo`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $data = [$id_usuario, $inventario, $plataforma, $sku,  $nota, $referencia, $cantidad, 1, $id_bodega, $id_producto, $saldo_stock];
             $insertar_historial = $this->insert($sql, $data);
             //print_r($insertar_historial);
             if ($insertar_historial == 1) {
@@ -67,8 +67,8 @@ class InventariosModel extends Query
         if ($actualizar_stock == 1) {
             $id_usuario = $_SESSION['id'];
             $nota = "Se eliminó $cantidad productos(s) al inventario";
-            $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            $data = [$id_usuario, $inventario, $plataforma, $sku,  $nota, $referencia, $cantidad, 2, $id_bodega, $id_producto];
+            $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`, `saldo`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $data = [$id_usuario, $inventario, $plataforma, $sku,  $nota, $referencia, $cantidad, 2, $id_bodega, $id_producto, $saldo_stock];
             $insertar_historial = $this->insert($sql, $data);
             // echo 'asd';
             //  print_r($insertar_historial);
@@ -434,7 +434,7 @@ class InventariosModel extends Query
                 $tmp_cotizaciones = $this->select("SELECT * FROM detalle_fact_cot WHERE id_factura = $id_factura");
                 $detalle_sql_despacho = "INSERT INTO `historial_depacho` (`id_pedido`, `guia`, `id_producto`, `sku`, `cantidad`, `id_usuario`, `id_plataforma`) VALUES (?, ?, ?, ?, ?, ?, ?)";
                 // $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                $detalle_sql_historial = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                $detalle_sql_historial = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`, `saldo`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 //print_r($tmp_cotizaciones);
                 //$nota='Se descuenta'
                 $id_usuario = $_SESSION['id'];
@@ -458,6 +458,14 @@ class InventariosModel extends Query
                     //print_r($bodega);
                     $id_bodega = $bodega[0]['bodega'];
 
+                      $sql_id = "SELECT saldo_stock FROM inventario_bodegas WHERE id_inventario = $id_inventario";
+                    $stock = $this->select($sql_id);
+                    $stock_inventario = $stock[0]['saldo_stock'];
+                    $saldo_stock = $stock_inventario - $tmp['cantidad'];
+                    $sql_update = "update inventario_bodegas set saldo_stock=? where id_inventario=?";
+                    $data = [$saldo_stock, $id_inventario];
+                    $actualizar_stock = $this->update($sql_update, $data);
+                    
                     $historial_data = array(
                         $id_usuario,
                         $tmp['id_inventario'],
@@ -468,17 +476,12 @@ class InventariosModel extends Query
                         $tmp['cantidad'],
                         2,
                         $id_bodega,
-                        $tmp['id_producto']
+                        $tmp['id_producto'],
+                        $saldo_stock
                     );
                     $guardar_detalle = $this->insert($detalle_sql_historial, $historial_data);
 
-                    $sql_id = "SELECT saldo_stock FROM inventario_bodegas WHERE id_inventario = $id_inventario";
-                    $stock = $this->select($sql_id);
-                    $stock_inventario = $stock[0]['saldo_stock'];
-                    $saldo_stock = $stock_inventario - $tmp['cantidad'];
-                    $sql_update = "update inventario_bodegas set saldo_stock=? where id_inventario=?";
-                    $data = [$saldo_stock, $id_inventario];
-                    $actualizar_stock = $this->update($sql_update, $data);
+                  
 
 
                     //print_r($guardar_detalle);
@@ -595,7 +598,7 @@ class InventariosModel extends Query
                 $tmp_cotizaciones = $this->select("SELECT * FROM detalle_fact_cot WHERE id_factura = $id_factura");
                 $detalle_sql_despacho = "INSERT INTO `historial_depacho` (`id_pedido`, `guia`, `id_producto`, `sku`, `cantidad`, `id_usuario`) VALUES (?, ?, ?, ?, ?, ?)";
                 // $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                $detalle_sql_historial = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                $detalle_sql_historial = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`, `saldo`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 //print_r($tmp_cotizaciones);
                 //$nota='Se descuenta'
                 $id_usuario = $_SESSION['id'];
@@ -618,6 +621,15 @@ class InventariosModel extends Query
                     //print_r($bodega);
                     $id_bodega = $bodega[0]['bodega'];
 
+                    $sql_id = "SELECT saldo_stock FROM inventario_bodegas WHERE id_inventario = $id_inventario";
+                    $stock = $this->select($sql_id);
+                    $stock_inventario = $stock[0]['saldo_stock'];
+                    $saldo_stock = $stock_inventario + $tmp['cantidad'];
+                    $sql_update = "update inventario_bodegas set saldo_stock=? where id_inventario=?";
+                    $data = [$saldo_stock, $id_inventario];
+                    $actualizar_stock = $this->update($sql_update, $data);
+                    
+                    
                     $historial_data = array(
                         $id_usuario,
                         $tmp['id_inventario'],
@@ -628,17 +640,12 @@ class InventariosModel extends Query
                         $tmp['cantidad'],
                         1,
                         $id_bodega,
-                        $tmp['id_producto']
+                        $tmp['id_producto'],
+                        $saldo_stock
                     );
                     $guardar_detalle = $this->insert($detalle_sql_historial, $historial_data);
 
-                    $sql_id = "SELECT saldo_stock FROM inventario_bodegas WHERE id_inventario = $id_inventario";
-                    $stock = $this->select($sql_id);
-                    $stock_inventario = $stock[0]['saldo_stock'];
-                    $saldo_stock = $stock_inventario + $tmp['cantidad'];
-                    $sql_update = "update inventario_bodegas set saldo_stock=? where id_inventario=?";
-                    $data = [$saldo_stock, $id_inventario];
-                    $actualizar_stock = $this->update($sql_update, $data);
+                    
 
 
                     //print_r($guardar_detalle);
@@ -693,7 +700,7 @@ class InventariosModel extends Query
             $tmp_cotizaciones = $this->select("SELECT * FROM detalle_fact_cot WHERE id_factura = $id_factura");
             $detalle_sql_despacho = "INSERT INTO `historial_depacho` (`id_pedido`, `guia`, `id_producto`, `sku`, `cantidad`, `id_usuario`) VALUES (?, ?, ?, ?, ?, ?)";
             // $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            $detalle_sql_historial = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $detalle_sql_historial = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`, `saldo`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             //print_r($tmp_cotizaciones);
             //$nota='Se descuenta'
             $id_usuario = $_SESSION['id'];
@@ -716,6 +723,15 @@ class InventariosModel extends Query
                 //print_r($bodega);
                 $id_bodega = $bodega[0]['bodega'];
 
+                
+                $sql_id = "SELECT saldo_stock FROM inventario_bodegas WHERE id_inventario = $id_inventario";
+                $stock = $this->select($sql_id);
+                $stock_inventario = $stock[0]['saldo_stock'];
+                $saldo_stock = $stock_inventario + $tmp['cantidad'];
+                $sql_update = "update inventario_bodegas set saldo_stock=? where id_inventario=?";
+                $data = [$saldo_stock, $id_inventario];
+                $actualizar_stock = $this->update($sql_update, $data);
+                
                 $historial_data = array(
                     $id_usuario,
                     $tmp['id_inventario'],
@@ -726,17 +742,12 @@ class InventariosModel extends Query
                     $tmp['cantidad'],
                     1,
                     $id_bodega,
-                    $tmp['id_producto']
+                    $tmp['id_producto'],
+                    $saldo_stock
                 );
                 $guardar_detalle = $this->insert($detalle_sql_historial, $historial_data);
 
-                $sql_id = "SELECT saldo_stock FROM inventario_bodegas WHERE id_inventario = $id_inventario";
-                $stock = $this->select($sql_id);
-                $stock_inventario = $stock[0]['saldo_stock'];
-                $saldo_stock = $stock_inventario + $tmp['cantidad'];
-                $sql_update = "update inventario_bodegas set saldo_stock=? where id_inventario=?";
-                $data = [$saldo_stock, $id_inventario];
-                $actualizar_stock = $this->update($sql_update, $data);
+                
 
 
                 //print_r($guardar_detalle);

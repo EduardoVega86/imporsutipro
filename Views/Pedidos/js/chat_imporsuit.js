@@ -184,30 +184,38 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // ---- Función para iniciar la grabación ----
   function startRecording() {
-    navigator.mediaDevices.getUserMedia({ audio: true }).then((micStream) => {
-      stream = micStream; // Guardamos el flujo del micrófono para detenerlo más tarde
+    navigator.mediaDevices
+      .getUserMedia({ audio: true })
+      .then((micStream) => {
+        stream = micStream; // Guardamos el flujo del micrófono para detenerlo más tarde
 
-      mediaRecorder = new MediaRecorder(stream);
-      audioChunks = [];
+        mediaRecorder = new MediaRecorder(stream);
+        audioChunks = [];
 
-      mediaRecorder.start();
-      isRecording = true;
+        mediaRecorder.start();
+        isRecording = true;
+        console.log("Grabación iniciada"); // Log para depurar
 
-      // Escuchar los datos disponibles y agregar a audioChunks
-      mediaRecorder.addEventListener("dataavailable", (event) => {
-        audioChunks.push(event.data);
+        // Escuchar los datos disponibles y agregar a audioChunks
+        mediaRecorder.addEventListener("dataavailable", (event) => {
+          console.log("Datos de audio recibidos:", event.data); // Verificar si se reciben datos
+          audioChunks.push(event.data);
+        });
+
+        // Mostrar controles de grabación
+        audioControls.classList.remove("d-none");
+        recordButton
+          .querySelector("i")
+          .classList.replace("fa-microphone", "fa-stop");
+
+        // Iniciar temporizador
+        timeElapsed = 0;
+        timerInterval = setInterval(updateTimer, 1000);
+      })
+      .catch((error) => {
+        console.error("Error al acceder al micrófono:", error); // Manejo de errores al acceder al micrófono
+        alert("No se puede acceder al micrófono. Verifica los permisos.");
       });
-
-      // Mostrar controles de grabación
-      audioControls.classList.remove("d-none");
-      recordButton
-        .querySelector("i")
-        .classList.replace("fa-microphone", "fa-stop");
-
-      // Iniciar temporizador
-      timeElapsed = 0;
-      timerInterval = setInterval(updateTimer, 1000);
-    });
   }
 
   // ---- Función para detener la grabación y el flujo del micrófono ----
@@ -222,28 +230,9 @@ document.addEventListener("DOMContentLoaded", function () {
       recordButton
         .querySelector("i")
         .classList.replace("fa-stop", "fa-microphone");
+      console.log("Grabación detenida"); // Log para depurar
     }
   }
-
-  // ---- Función para pausar/reanudar la grabación ----
-  pauseButton.addEventListener("click", () => {
-    if (isRecording && !isPaused) {
-      mediaRecorder.pause();
-      clearInterval(timerInterval); // Pausar temporizador
-      isPaused = true;
-      pauseButton.innerHTML = '<i class="fa fa-play"></i>'; // Cambiar icono a "play"
-    } else if (isRecording && isPaused) {
-      mediaRecorder.resume();
-      timerInterval = setInterval(updateTimer, 1000); // Reanudar temporizador
-      isPaused = false;
-      pauseButton.innerHTML = '<i class="fa fa-pause"></i>'; // Cambiar icono a "pause"
-    }
-  });
-
-  // ---- Botón de detener la grabación ----
-  stopButton.addEventListener("click", () => {
-    stopRecording(); // Detener grabación y ocultar la sección
-  });
 
   // ---- Función para subir el archivo de audio ----
   function uploadAudio(audioBlob) {
@@ -277,6 +266,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const audioBlob = new Blob(audioChunks, { type: "audio/ogg; codecs=opus" });
 
     // Verifica si el audioBlob contiene datos
+    console.log("Tamaño del audioBlob:", audioBlob.size); // Log para depurar
     if (audioBlob.size > 0) {
       console.log("El archivo de audio tiene datos, procediendo a subir...");
     } else {
