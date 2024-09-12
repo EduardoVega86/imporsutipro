@@ -45,6 +45,32 @@ btnTools.addEventListener("click", () => {
   }
 });
 
+/* emojis */
+// Elementos del DOM
+const emojiButton = document.getElementById("emoji-button");
+const emojiSection = document.getElementById("emoji-section");
+const messageInput = document.getElementById("message-input");
+const emojis = document.querySelectorAll(".emoji");
+
+// Mostrar/Ocultar la sección de emojis
+emojiButton.addEventListener("click", () => {
+  if (emojiSection.classList.contains("d-none")) {
+    emojiSection.classList.remove("d-none");
+  } else {
+    emojiSection.classList.add("d-none");
+  }
+});
+
+// Insertar el emoji seleccionado en el input de mensaje
+emojis.forEach((emoji) => {
+  emoji.addEventListener("click", () => {
+    messageInput.value += emoji.textContent;
+    emojiSection.classList.add("d-none"); // Ocultar sección de emojis después de seleccionar
+  });
+});
+
+/* Fin emojis */
+
 /* Enviar mensaje whatsapp */
 document.addEventListener("DOMContentLoaded", function () {
   const sendButton = document.getElementById("send-button");
@@ -91,7 +117,6 @@ document.addEventListener("DOMContentLoaded", function () {
       },
     };
 
-    
     const headers = {
       Authorization: `Bearer ${accessToken}`,
       "Content-Type": "application/json",
