@@ -276,42 +276,53 @@ document.addEventListener("DOMContentLoaded", function () {
       .classList.replace("fa-stop", "fa-microphone");
   }
 
-  // Función para simular la subida de un archivo (en la práctica, debes subir el archivo a un servidor real)
-  function uploadAudioBlob(audioBlob) {
-    return new Promise((resolve) => {
-      // Simulamos la subida a un servidor y retornamos una URL simulada del audio
-      setTimeout(() => {
-        const audioUrl = URL.createObjectURL(audioBlob); // Simulación
-        resolve(audioUrl); // Devuelve la URL del archivo simulado
-      }, 2000); // Simulamos un retraso de 2 segundos para la subida
-    });
+  function uploadAudio(audioBlob) {
+    const formData = new FormData();
+    formData.append('audio', audioBlob, 'audio.ogg');
+  
+    return fetch('ruta/al/controlador/guardar_audio_Whatsapp', {  // Ajusta la ruta a tu controlador
+      method: 'POST',
+      body: formData
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 200) {
+          console.log("Audio subido:", data.data);  // Aquí tienes la ruta al archivo en el servidor
+          return data.data;  // Devuelve la ruta del archivo
+        } else {
+          console.error("Error al subir el audio:", data.message);
+          throw new Error(data.message);
+        }
+      })
+      .catch(error => {
+        console.error("Error en la solicitud:", error);
+      });
   }
-
-  // Función para enviar el audio grabado a WhatsApp
+  
+  // Uso en el botón de enviar audio
   sendAudioButton.addEventListener("click", async () => {
     const audioBlob = new Blob(audioChunks, { type: "audio/ogg; codecs=opus" });
-
-    // Simulamos la subida del archivo de audio
-    const audioUrl = await uploadAudioBlob(audioBlob);
-
+  
+    // Sube el archivo de audio al servidor y obtén la URL
+    const audioUrl = await uploadAudio(audioBlob);
+  
+    // Ahora puedes enviar esa URL a través de WhatsApp
     const data = {
       messaging_product: "whatsapp",
       recipient_type: "individual",
       to: phoneNumber,
       type: "audio",
       audio: {
-        link: audioUrl, // Aquí iría el enlace al archivo de audio subido
+        link: 'https://tu_dominio/' + audioUrl,  // Agrega la URL completa del archivo
       },
     };
-
-    const headers = {
-      Authorization: `Bearer ${accessToken}`,
-      "Content-Type": "application/json",
-    };
-
-    fetch(url, {
+  
+    fetch(`https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`, {
       method: "POST",
-      headers: headers,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(data),
     })
       .then((response) => response.json())
@@ -327,6 +338,7 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Error al enviar el audio:", error);
       });
   });
+  
 });
 
 /* Fin enviar mensaje de audio Whatsapp */
