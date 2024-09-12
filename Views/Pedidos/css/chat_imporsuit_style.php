@@ -140,8 +140,12 @@
     /* emojis */
     /* Diseño delicado y elegante para la sección de emojis */
     .emoji-section {
-        display: flex;
-        gap: 8px;
+        display: grid;
+        /* Cambiado de flex a grid */
+        grid-template-columns: repeat(6, 1fr);
+        /* Define 6 columnas de igual tamaño */
+        grid-gap: 10px;
+        /* Espaciado entre los emojis */
         padding: 10px;
         background-color: rgba(255, 255, 255, 0.8);
         /* Fondo semitransparente */
@@ -153,6 +157,10 @@
         z-index: 1000;
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
         /* Sombra suave */
+        max-height: 200px;
+        /* Altura máxima de la sección para habilitar scroll */
+        overflow-y: auto;
+        /* Habilita el scroll vertical */
         transition: opacity 0.3s ease;
     }
 
@@ -160,6 +168,8 @@
         cursor: pointer;
         font-size: 24px;
         transition: transform 0.2s ease, opacity 0.2s ease;
+        text-align: center;
+        /* Centra el emoji en su celda */
     }
 
     .emoji:hover {
@@ -223,6 +233,7 @@
         opacity: 1;
         pointer-events: auto;
     }
+
 
     /* fin emojis */
 
