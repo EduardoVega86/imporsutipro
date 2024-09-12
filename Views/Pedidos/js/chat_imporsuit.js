@@ -158,20 +158,12 @@ document.addEventListener("click", function (event) {
 
 /* Enviar mensaje whatsapp */
 document.addEventListener("DOMContentLoaded", function () {
-  const messageInput = document.getElementById("message-input");
   const recordButton = document.getElementById("record-button");
   const audioControls = document.getElementById("audio-recording-controls");
   const pauseButton = document.getElementById("pause-recording");
   const stopButton = document.getElementById("stop-recording");
   const sendAudioButton = document.getElementById("send-audio");
   const audioTimer = document.getElementById("audio-timer");
-
-  const fromPhoneNumberId = "109565362009074"; // Identificador de número de teléfono
-  const accessToken =
-    "EAAVZAG5oL9G4BOyrsyNgZBmlNXqlTB9ObbeyYhVyZBItJgJzyyVzt4Kuwz1P6OZAZAyB2wC9qFBLnc5qE9ZBrvDJ2yqPHlzekeN051WhK1qMF4QfXrtUScbZCeFrGJiaqHHZCPFg3CHyTXrAhzA9mKjlx6g09P4ZBjrppXBLfgBfGGMLgTxHTrb5vtpmjZBgEh9nZAwxgZDZD"; // Asegúrate de que este token sea válido
-  const phoneNumber = "+593981702066"; // Número al que se va a enviar
-
-  const url = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
 
   // ---- Variables para la grabación de audio ----
   let mediaRecorder;
@@ -180,6 +172,7 @@ document.addEventListener("DOMContentLoaded", function () {
   let isPaused = false;
   let timerInterval;
   let timeElapsed = 0;
+  let stream; // Variable para almacenar el flujo del micrófono
 
   // ---- Función para actualizar el temporizador ----
   function updateTimer() {
@@ -190,9 +183,10 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // ---- Función para iniciar la grabación ----
-  // Función para iniciar la grabación de audio
   function startRecording() {
-    navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+    navigator.mediaDevices.getUserMedia({ audio: true }).then((micStream) => {
+      stream = micStream; // Guardamos el flujo del micrófono para detenerlo más tarde
+
       mediaRecorder = new MediaRecorder(stream);
       audioChunks = [];
 
@@ -201,7 +195,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Escuchar los datos disponibles y agregar a audioChunks
       mediaRecorder.addEventListener("dataavailable", (event) => {
-        console.log("Datos de audio recibidos:", event.data); // Agregar un log para verificar
         audioChunks.push(event.data);
       });
 
@@ -217,10 +210,11 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // ---- Función para detener la grabación ----
+  // ---- Función para detener la grabación y el flujo del micrófono ----
   function stopRecording() {
     if (mediaRecorder && isRecording) {
       mediaRecorder.stop();
+      stream.getTracks().forEach((track) => track.stop()); // Detenemos el flujo del micrófono
       clearInterval(timerInterval);
       isRecording = false;
       isPaused = false;
@@ -231,7 +225,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // ---- Función para pausar la grabación ----
+  // ---- Función para pausar/reanudar la grabación ----
   pauseButton.addEventListener("click", () => {
     if (isRecording && !isPaused) {
       mediaRecorder.pause();
