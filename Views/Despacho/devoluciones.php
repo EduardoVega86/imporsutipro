@@ -10,7 +10,7 @@
             <label for="numeroGuiaDevolucion">Número de Guía</label>
             <input type="text" id="numeroGuiaDevolucion" placeholder="Coloca el cursor aquí antes de">
         </div>
-        <button id="devolucionBtn" class="btn">Devolución</button>
+        <button id="devolucionBtn" class="btn btn-success">Devolución</button>
     </div>
     <div class="guides-list-container mt-4" style="margin-right: auto; margin-left: 30px;">
         <h2>Guías Ingresadas</h2>
@@ -130,7 +130,7 @@
                     document.body.removeChild(link);
 
                     button.disabled = false;
-                    window.location.href = '' + SERVERURL + 'despacho/lista_despachos';
+                    window.location.href = '' + SERVERURL + 'despacho/lista_devoluciones';
                 }
             },
             error: function(xhr, status, error) {

@@ -131,7 +131,7 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                         <input type="text" class="form-control" id="observacion" placeholder="Referencias Adicionales (Opcional)">
                     </div>
                     <div class="alert alert-warning" role="alert" id="alerta_devoluciones" style="display: none;">
-                        Este usuario ha realizado devoluciones previamente.
+                        El cliente registra 1 o más devoluciones en nuestro sistema.
                     </div>
                 </form>
             </div>
