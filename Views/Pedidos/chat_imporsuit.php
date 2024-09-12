@@ -60,10 +60,25 @@
                     <!-- Campo de texto del mensaje -->
                     <input id="message-input" type="text" class="form-control" placeholder="Escribe un mensaje...">
 
-                    <!-- Botón de enviar -->
-                    <button id="send-button" class="btn btn-primary ms-2">
-                        <i class="fas fa-paper-plane"></i>
+                    <!-- Botón de grabar -->
+                    <button id="record-button" class="btn btn-primary ms-2">
+                        <i id="icon-record" class="fa-solid fa-microphone"></i>
                     </button>
+
+                    <!-- Contenedor de la grabación de audio -->
+                    <div id="audio-recording-controls" class="d-none">
+                        <span id="audio-timer">0:00</span>
+                        <button id="pause-recording" class="btn">
+                            <i class="fa fa-pause"></i>
+                        </button>
+                        <button id="stop-recording" class="btn">
+                            <i class="fa fa-stop"></i>
+                        </button>
+                        <button id="send-audio" class="btn">
+                            <i class="fa fa-paper-plane"></i>
+                        </button>
+                    </div>
+
                 </div>
             </div>
 

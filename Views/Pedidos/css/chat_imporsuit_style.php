@@ -238,6 +238,27 @@
 
     /* fin emojis */
 
+    /* audio */
+    #audio-recording-controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background-color: #f1f1f1;
+        padding: 10px;
+        border-radius: 10px;
+    }
+
+    #audio-timer {
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .d-none {
+        display: none;
+    }
+
+    /* Fin audio */
+
     /* Botones flotantes */
     .floating-buttons {
         position: absolute;
