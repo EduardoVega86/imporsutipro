@@ -287,8 +287,8 @@ class ProductosModel extends Query
             $id_inventario = $this->buscar_inventario($id_producto, $codigo_producto);
             $referencia = 'STOCK INICIAL';
             $nota = "Se agrego $stock_inicial productos(s) al inventario";
-            $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            $data = [$id_usuario, $id_inventario, $plataforma, $codigo_producto,  $nota, $referencia, $stock_inicial, 1, $bodega, $id_producto];
+            $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`, `saldo`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $data = [$id_usuario, $id_inventario, $plataforma, $codigo_producto,  $nota, $referencia, $stock_inicial, 1, $bodega, $id_producto, $stock_inicial];
             $insertar_historial = $this->insert($sql, $data);
             //$response['data']=
             // print_r($insertar_historial);
@@ -1113,8 +1113,8 @@ WHERE b.id_plataforma = $plataforma";
             $nota = "Se agrego $stock productos(s) al inventario";
             $id_inventario = $this->buscar_inventario($id_producto, $sku);
             $nota = "Se agrego $cantidad productos(s) al inventario";
-            $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            $data = [$id_usuario, $id_inventario, $plataforma, $sku,  $nota, $referencia, $cantidad, 1, $bodega, $id_producto];
+            $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`, `saldo`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $data = [$id_usuario, $id_inventario, $plataforma, $sku,  $nota, $referencia, $cantidad, 1, $bodega, $id_producto,$stock];
             $insertar_historial = $this->insert($sql, $data);
 
             if ($insertar_historial == 1) {
