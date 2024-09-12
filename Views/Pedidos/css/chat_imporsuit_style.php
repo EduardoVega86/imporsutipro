@@ -169,11 +169,11 @@
 
     /* Diseño para el botón de la carita sonriente */
     .btn-emoji {
-        background-color: transparent;
+        background-color: transparent !important;
         border: none;
         padding: 5px;
         font-size: 24px;
-        color: rgba(0, 0, 0, 0.5) !important;
+        color: rgba(0, 0, 0, 0.5);
         /* Color inicial semitransparente */
         transition: color 0.3s ease, transform 0.3s ease;
         position: relative;
