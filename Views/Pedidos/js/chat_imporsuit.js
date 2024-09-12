@@ -281,7 +281,6 @@ document.addEventListener("DOMContentLoaded", function () {
     formData.append("audio", audioBlob, "audio.ogg");
 
     return fetch(SERVERURL+"Pedidos/guardar_audio_Whatsapp", {
-      // Ajusta la ruta a tu controlador
       method: "POST",
       body: formData,
     })
