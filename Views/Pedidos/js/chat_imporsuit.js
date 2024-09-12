@@ -160,16 +160,13 @@ document.addEventListener("click", function (event) {
 document.addEventListener("DOMContentLoaded", function () {
   const recordButton = document.getElementById("record-button");
   const audioControls = document.getElementById("audio-recording-controls");
-  const pauseButton = document.getElementById("pause-recording");
-  const stopButton = document.getElementById("stop-recording");
   const sendAudioButton = document.getElementById("send-audio");
   const audioTimer = document.getElementById("audio-timer");
 
   // ---- Variables para la grabación de audio ----
   let mediaRecorder;
-  let audioBlob; // Guardamos el Blob directamente aquí
+  let audioBlob = null; // Inicializamos como null
   let isRecording = false;
-  let isPaused = false;
   let timerInterval;
   let timeElapsed = 0;
   let stream; // Variable para almacenar el flujo del micrófono
@@ -188,18 +185,12 @@ document.addEventListener("DOMContentLoaded", function () {
       .getUserMedia({ audio: true })
       .then((micStream) => {
         stream = micStream; // Guardamos el flujo del micrófono para detenerlo más tarde
-
         mediaRecorder = new MediaRecorder(stream);
 
         mediaRecorder.start();
         isRecording = true;
+        audioBlob = null; // Reiniciar el valor del audioBlob al iniciar grabación
         console.log("Grabación iniciada");
-
-        // Escuchar los datos disponibles y crear el Blob cuando la grabación se detiene
-        mediaRecorder.addEventListener("dataavailable", (event) => {
-          console.log("Datos de audio recibidos:", event.data);
-          audioBlob = event.data; // Guardamos el Blob directamente
-        });
 
         // Mostrar controles de grabación
         audioControls.classList.remove("d-none");
@@ -210,9 +201,14 @@ document.addEventListener("DOMContentLoaded", function () {
         // Iniciar temporizador
         timeElapsed = 0;
         timerInterval = setInterval(updateTimer, 1000);
+
+        mediaRecorder.addEventListener("dataavailable", (event) => {
+          console.log("Datos de audio recibidos:", event.data);
+          audioBlob = event.data; // Guardamos el Blob cuando esté disponible
+        });
       })
       .catch((error) => {
-        console.error("Error al acceder al micrófono:", error); // Manejo de errores al acceder al micrófono
+        console.error("Error al acceder al micrófono:", error);
         alert("No se puede acceder al micrófono. Verifica los permisos.");
       });
   }
@@ -224,7 +220,6 @@ document.addEventListener("DOMContentLoaded", function () {
       stream.getTracks().forEach((track) => track.stop()); // Detenemos el flujo del micrófono
       clearInterval(timerInterval);
       isRecording = false;
-      isPaused = false;
       audioControls.classList.add("d-none");
       recordButton
         .querySelector("i")
@@ -236,7 +231,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // ---- Función para subir el archivo de audio ----
   function uploadAudio(audioBlob) {
     const formData = new FormData();
-    formData.append("audio", audioBlob, "audio.webm"); // Cambiamos el formato a 'audio.webm'
+    formData.append("audio", audioBlob, "audio.webm");
 
     return fetch(SERVERURL + "Pedidos/guardar_audio_Whatsapp", {
       method: "POST",
@@ -245,8 +240,8 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((response) => response.json())
       .then((data) => {
         if (data.status === 200) {
-          console.log("Audio subido:", data.data); // Aquí tienes la ruta al archivo en el servidor
-          return data.data; // Devuelve la ruta del archivo
+          console.log("Audio subido:", data.data);
+          return data.data; // Devuelve la ruta del archivo subido
         } else {
           console.error("Error al subir el audio:", data.message);
           throw new Error(data.message);
@@ -262,55 +257,24 @@ document.addEventListener("DOMContentLoaded", function () {
     // Detener grabación antes de enviar el audio
     stopRecording();
 
-    // Verifica si el audioBlob está definido y contiene datos
-    if (audioBlob && audioBlob.size > 0) {
-      console.log("Tamaño del audioBlob:", audioBlob.size); // Log para depurar
-      console.log("El archivo de audio tiene datos, procediendo a subir...");
-    } else {
-      console.error("El archivo de audio está vacío o no se ha creado.");
-      alert("No se ha grabado ningún audio.");
-      return;
-    }
+    // Verifica si el audioBlob está definido y tiene datos
+    setTimeout(async () => {
+      if (audioBlob && audioBlob.size > 0) {
+        console.log("Tamaño del audioBlob:", audioBlob.size);
+        console.log("El archivo de audio tiene datos, procediendo a subir...");
 
-    // Sube el archivo de audio al servidor y obtén la URL
-    const audioUrl = await uploadAudio(audioBlob);
+        const audioUrl = await uploadAudio(audioBlob); // Subir audio
 
-    if (!audioUrl) {
-      console.error("No se pudo obtener la URL del archivo de audio.");
-      return;
-    }
-
-    // Ahora puedes enviar esa URL a través de WhatsApp
-    const data = {
-      messaging_product: "whatsapp",
-      recipient_type: "individual",
-      to: phoneNumber,
-      type: "audio",
-      audio: {
-        link: SERVERURL + audioUrl, // Agrega la URL completa del archivo
-      },
-    };
-
-    fetch(`https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((responseData) => {
-        if (responseData.error) {
-          console.error("Error: ", responseData.error);
-          alert(`Error: ${responseData.error.message}`);
+        if (audioUrl) {
+          console.log("URL del archivo de audio:", audioUrl);
         } else {
-          alert("¡Audio enviado con éxito!");
+          console.error("No se pudo obtener la URL del archivo de audio.");
         }
-      })
-      .catch((error) => {
-        console.error("Error al enviar el audio:", error);
-      });
+      } else {
+        console.error("El archivo de audio está vacío o no se ha creado.");
+        alert("No se ha grabado ningún audio.");
+      }
+    }, 500); // Esperar un poco antes de verificar el audioBlob
   });
 
   // ---- Botón para iniciar/detener la grabación ----
