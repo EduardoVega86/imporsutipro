@@ -157,16 +157,16 @@ document.addEventListener("click", function (event) {
 /* Fin emojis */
 
 /* Enviar mensaje whatsapp */
+const fromPhoneNumberId = "109565362009074"; // Identificador de número de teléfono
+const accessToken =
+  "EAAVZAG5oL9G4BOyrsyNgZBmlNXqlTB9ObbeyYhVyZBItJgJzyyVzt4Kuwz1P6OZAZAyB2wC9qFBLnc5qE9ZBrvDJ2yqPHlzekeN051WhK1qMF4QfXrtUScbZCeFrGJiaqHHZCPFg3CHyTXrAhzA9mKjlx6g09P4ZBjrppXBLfgBfGGMLgTxHTrb5vtpmjZBgEh9nZAwxgZDZD"; // Asegúrate de que este token sea válido
+const phoneNumber = "+593981702066"; // Número al que se va a enviar
+
+const url = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
+
 document.addEventListener("DOMContentLoaded", function () {
   const sendButton = document.getElementById("send-button");
   const messageInput = document.getElementById("message-input");
-
-  const fromPhoneNumberId = "109565362009074"; // Identificador de número de teléfono
-  const accessToken =
-    "EAAVZAG5oL9G4BOyrsyNgZBmlNXqlTB9ObbeyYhVyZBItJgJzyyVzt4Kuwz1P6OZAZAyB2wC9qFBLnc5qE9ZBrvDJ2yqPHlzekeN051WhK1qMF4QfXrtUScbZCeFrGJiaqHHZCPFg3CHyTXrAhzA9mKjlx6g09P4ZBjrppXBLfgBfGGMLgTxHTrb5vtpmjZBgEh9nZAwxgZDZD"; // Asegúrate de que este token sea válido
-  const phoneNumber = "+593981702066"; // Número al que se va a enviar
-
-  const url = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
 
   // Función para enviar el mensaje
   function sendMessage() {
@@ -245,107 +245,105 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   /* Fin enviar mensaje Whatsapp */
+});
 
-  /* Enviar mensaje de audio Whatsapp */
-  let mediaRecorder;
-  let audioChunks = [];
-  let isRecording = false;
-  let timerInterval;
-  let timeElapsed = 0;
+/* Enviar mensaje de audio Whatsapp */
+let mediaRecorder;
+let audioChunks = [];
+let isRecording = false;
+let timerInterval;
+let timeElapsed = 0;
 
-  // Elementos del DOM
-  const recordButton = document.getElementById("record-button");
-  const audioControls = document.getElementById("audio-recording-controls");
-  const pauseButton = document.getElementById("pause-recording");
-  const stopButton = document.getElementById("stop-recording");
-  const sendAudioButton = document.getElementById("send-audio");
-  const audioTimer = document.getElementById("audio-timer");
+// Elementos del DOM
+const recordButton = document.getElementById("record-button");
+const audioControls = document.getElementById("audio-recording-controls");
+const pauseButton = document.getElementById("pause-recording");
+const stopButton = document.getElementById("stop-recording");
+const sendAudioButton = document.getElementById("send-audio");
+const audioTimer = document.getElementById("audio-timer");
 
-  // Función para actualizar el temporizador
-  function updateTimer() {
-    timeElapsed++;
-    let minutes = Math.floor(timeElapsed / 60);
-    let seconds = timeElapsed % 60;
-    audioTimer.textContent = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+// Función para actualizar el temporizador
+function updateTimer() {
+  timeElapsed++;
+  let minutes = Math.floor(timeElapsed / 60);
+  let seconds = timeElapsed % 60;
+  audioTimer.textContent = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+}
+
+// Al hacer clic en el botón de grabar
+recordButton.addEventListener("click", () => {
+  if (!isRecording) {
+    startRecording();
+  } else {
+    stopRecording();
   }
+});
 
-  // Al hacer clic en el botón de grabar
-  recordButton.addEventListener("click", () => {
-    if (!isRecording) {
-      startRecording();
-    } else {
-      stopRecording();
-    }
-  });
+// Función para iniciar la grabación
+function startRecording() {
+  navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+    mediaRecorder = new MediaRecorder(stream);
+    mediaRecorder.start();
+    audioChunks = [];
 
-  // Función para iniciar la grabación
-  function startRecording() {
-    navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
-      mediaRecorder = new MediaRecorder(stream);
-      mediaRecorder.start();
-      audioChunks = [];
-
-      mediaRecorder.addEventListener("dataavailable", (event) => {
-        audioChunks.push(event.data);
-      });
-
-      mediaRecorder.addEventListener("stop", () => {
-        const audioBlob = new Blob(audioChunks, {
-          type: "audio/ogg; codecs=opus",
-        });
-        const audioUrl = URL.createObjectURL(audioBlob);
-        const audio = new Audio(audioUrl);
-        audio.play(); // Reproducir el audio grabado para pruebas
-      });
-
-      // Mostrar controles de grabación
-      audioControls.classList.remove("d-none");
-      isRecording = true;
-      recordButton
-        .querySelector("i")
-        .classList.replace("fa-microphone", "fa-stop");
-
-      // Iniciar temporizador
-      timeElapsed = 0;
-      timerInterval = setInterval(updateTimer, 1000);
+    mediaRecorder.addEventListener("dataavailable", (event) => {
+      audioChunks.push(event.data);
     });
-  }
 
-  // Función para detener la grabación
-  function stopRecording() {
-    mediaRecorder.stop();
-    clearInterval(timerInterval);
-    isRecording = false;
-    audioControls.classList.add("d-none");
+    mediaRecorder.addEventListener("stop", () => {
+      const audioBlob = new Blob(audioChunks, {
+        type: "audio/ogg; codecs=opus",
+      });
+      const audioUrl = URL.createObjectURL(audioBlob);
+      const audio = new Audio(audioUrl);
+      audio.play(); // Reproducir el audio grabado para pruebas
+    });
+
+    // Mostrar controles de grabación
+    audioControls.classList.remove("d-none");
+    isRecording = true;
     recordButton
       .querySelector("i")
-      .classList.replace("fa-stop", "fa-microphone");
-  }
+      .classList.replace("fa-microphone", "fa-stop");
 
-  // Función para enviar el audio grabado a WhatsApp
-  sendAudioButton.addEventListener("click", () => {
-    const audioBlob = new Blob(audioChunks, { type: "audio/ogg; codecs=opus" });
-    const formData = new FormData();
-    formData.append("file", audioBlob, "audio.ogg");
-    formData.append("messaging_product", "whatsapp");
-    formData.append("to", phoneNumber);
-    formData.append("type", "audio");
-
-    fetch(`https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Audio enviado:", data);
-        alert("¡Audio enviado con éxito!");
-      })
-      .catch((error) => {
-        console.error("Error al enviar el audio:", error);
-      });
+    // Iniciar temporizador
+    timeElapsed = 0;
+    timerInterval = setInterval(updateTimer, 1000);
   });
-  /* Fin enviar mensaje de audio Whatsapp */
+}
+
+// Función para detener la grabación
+function stopRecording() {
+  mediaRecorder.stop();
+  clearInterval(timerInterval);
+  isRecording = false;
+  audioControls.classList.add("d-none");
+  recordButton.querySelector("i").classList.replace("fa-stop", "fa-microphone");
+}
+
+// Función para enviar el audio grabado a WhatsApp
+sendAudioButton.addEventListener("click", () => {
+  const audioBlob = new Blob(audioChunks, { type: "audio/ogg; codecs=opus" });
+  const formData = new FormData();
+  formData.append("file", audioBlob, "audio.ogg");
+  formData.append("messaging_product", "whatsapp");
+  formData.append("to", phoneNumber);
+  formData.append("type", "audio");
+
+  fetch(`https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: formData,
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Audio enviado:", data);
+      alert("¡Audio enviado con éxito!");
+    })
+    .catch((error) => {
+      console.error("Error al enviar el audio:", error);
+    });
 });
+/* Fin enviar mensaje de audio Whatsapp */
