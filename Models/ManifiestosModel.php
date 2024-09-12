@@ -194,22 +194,22 @@ class ManifiestosModel extends Query
             $string = "('" . implode("','", $arreglo) . "')";
             // echo $string;
             $sql = "SELECT dfc.id_producto, 
-       p.nombre_producto, 
-       SUM(dfc.cantidad) AS cantidad, 
-       ib.*, 
-       v.*, 
-       b.nombre 
-FROM detalle_fact_cot dfc
-LEFT JOIN productos p ON dfc.id_producto = p.id_producto
-LEFT JOIN inventario_bodegas ib ON dfc.id_inventario = ib.id_inventario
-LEFT JOIN variedades v ON ib.id_variante = v.id_variedad
-LEFT JOIN bodega b ON ib.bodega = b.id 
-WHERE dfc.id_factura IN $string
-GROUP BY dfc.id_producto, 
-         p.nombre_producto, 
-         ib.id_inventario, 
-         v.id_variedad, 
-         b.id ";
+                p.nombre_producto, 
+                SUM(dfc.cantidad) AS cantidad, 
+                ib.*, 
+                v.*, 
+                b.nombre 
+            FROM detalle_fact_cot dfc
+            LEFT JOIN productos p ON dfc.id_producto = p.id_producto
+            LEFT JOIN inventario_bodegas ib ON dfc.id_inventario = ib.id_inventario
+            LEFT JOIN variedades v ON ib.id_variante = v.id_variedad
+            LEFT JOIN bodega b ON ib.bodega = b.id 
+            WHERE dfc.id_factura IN $string
+            GROUP BY dfc.id_producto, 
+                    p.nombre_producto, 
+                    ib.id_inventario, 
+                    v.id_variedad, 
+                    b.id ";
             // echo $sql;
 
             $sql_guias = "SELECT numero_guia FROM facturas_cot WHERE id_factura IN $string";
@@ -244,6 +244,11 @@ GROUP BY dfc.id_producto,
             if (is_array($guias)) {
                 $downloadedPdfs = [$first];
                 foreach ($guias as $guia) {
+
+
+
+
+
                     if (strpos($guia, "IMP") === 0 || strpos($guia, "MKP") === 0 || strpos($guia, "EIZ") === 0) {
                         $pdf_content = file_get_contents("https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=" . $guia);
                     } else if (is_numeric($guia)) {
@@ -804,7 +809,7 @@ GROUP BY dfc.id_producto,
         $estado_factura = $factura[0]['estado_factura'];
 
         $sql_plataforma_bodega = "SELECT b.id_plataforma FROM `detalle_fact_cot` dfc, inventario_bodegas  ib, bodega b where ib.bodega=b.id and id_factura=$id_factura and dfc.id_inventario=ib.id_inventario GROUP by bodega";
-          //echo $sql_factura;$id_factura
+        //echo $sql_factura;$id_factura
         $plataforma_bodega = $this->select($sql_plataforma_bodega);
         $id_plataforma_bodega = $plataforma_bodega[0]['id_plataforma'];
 
@@ -892,8 +897,8 @@ GROUP BY dfc.id_producto,
         }
         return $response;
     }
-    
-    
+
+
     public function despacho_guia_devolucion($num_guia, $plataforma, $id_cabecera)
     {
 
@@ -904,7 +909,7 @@ GROUP BY dfc.id_producto,
         $data = [$num_guia, $id_cabecera];
         // Ejecuta la inserción
         $insertar_detalle_rd = $this->insert($sql, $data);
-        
+
         //print_r($insertar_detalle_rd);
         $sql_factura = "SELECT * FROM facturas_cot WHERE numero_guia = '$num_guia'";
         //  echo $sql_factura;
@@ -913,7 +918,7 @@ GROUP BY dfc.id_producto,
         $estado_factura = $factura[0]['estado_factura'];
 
         $sql_plataforma_bodega = "SELECT b.id_plataforma FROM `detalle_fact_cot` dfc, inventario_bodegas  ib, bodega b where ib.bodega=b.id and id_factura=$id_factura and dfc.id_inventario=ib.id_inventario GROUP by bodega";
-          //echo $sql_factura;$id_factura
+        //echo $sql_factura;$id_factura
         $plataforma_bodega = $this->select($sql_plataforma_bodega);
         $id_plataforma_bodega = $plataforma_bodega[0]['id_plataforma'];
 
@@ -1026,20 +1031,20 @@ GROUP BY dfc.id_producto,
         // Devuelve el ID generado
         return $lastInsertId;
     }
-    
-     public function guardarCabeceraDevolucion($plataforma)
+
+    public function guardarCabeceraDevolucion($plataforma)
     {
 
         $id_usuario = $_SESSION['id'];
         $fecha_actual = date('Y-m-d H:i:s');
-        
+
         $sql_id_bodega = "SELECT * FROM bodega WHERE id_plataforma = $plataforma ";
         //echo $sql_id_bodega; 
         $bodega_select = $this->select($sql_id_bodega);
         //echo $sql_id;
         $id_bodega = $bodega_select[0]['id'];
-        
-        
+
+
         $sql = "INSERT INTO cabecera_devolucion (id_usuario, id_plataforma, fecha_hora, id_bodega) VALUES (?, ?, ?, ?)";
         $data = [$id_usuario, $plataforma, $fecha_actual, $id_bodega];
         // Ejecuta la inserción
