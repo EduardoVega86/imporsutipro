@@ -262,12 +262,12 @@ document.addEventListener("DOMContentLoaded", function () {
     // Detener grabación antes de enviar el audio
     stopRecording();
 
-    // Verifica si el audioBlob contiene datos
-    console.log("Tamaño del audioBlob:", audioBlob.size); // Log para depurar
+    // Verifica si el audioBlob está definido y contiene datos
     if (audioBlob && audioBlob.size > 0) {
+      console.log("Tamaño del audioBlob:", audioBlob.size); // Log para depurar
       console.log("El archivo de audio tiene datos, procediendo a subir...");
     } else {
-      console.error("El archivo de audio está vacío.");
+      console.error("El archivo de audio está vacío o no se ha creado.");
       alert("No se ha grabado ningún audio.");
       return;
     }
