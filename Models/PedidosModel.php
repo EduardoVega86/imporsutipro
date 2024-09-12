@@ -1213,7 +1213,7 @@ class PedidosModel extends Query
     public function guardar_audio_Whatsapp($audio)
     {
         $response = $this->initialResponse();
-        $target_dir = "public/audios/";  // Cambiar el directorio donde se almacenarán los audios
+        $target_dir = "public/whatsapp/audios/";  // Cambiar el directorio donde se almacenarán los audios
         $audioFileType = strtolower(pathinfo($audio["name"], PATHINFO_EXTENSION));
 
         // Generar un nombre de archivo único
