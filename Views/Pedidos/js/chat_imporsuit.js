@@ -173,60 +173,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const url = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
 
-  // Función para enviar el mensaje de texto
-  function sendMessage() {
-    const message = messageInput.value;
-
-    if (message.trim() === "") {
-      alert("Por favor, escribe un mensaje.");
-      return;
-    }
-
-    const data = {
-      messaging_product: "whatsapp",
-      recipient_type: "individual",
-      to: phoneNumber,
-      type: "text",
-      text: {
-        preview_url: true,
-        body: message, // Mensaje personalizado
-      },
-    };
-
-    const headers = {
-      Authorization: `Bearer ${accessToken}`,
-      "Content-Type": "application/json",
-    };
-
-    fetch(url, {
-      method: "POST",
-      headers: headers,
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((responseData) => {
-        if (responseData.error) {
-          console.error("Error: ", responseData.error);
-          alert(`Error: ${responseData.error.message}`);
-        } else {
-          alert("¡Mensaje enviado con éxito!");
-          messageInput.value = ""; // Limpiar campo de entrada
-        }
-      })
-      .catch((error) => {
-        console.error("Error en la solicitud: ", error);
-        alert("Ocurrió un error al enviar el mensaje.");
-      });
-  }
-
-  // ---- Funciones de grabación de audio ----
+  // ---- Variables para la grabación de audio ----
   let mediaRecorder;
   let audioChunks = [];
   let isRecording = false;
+  let isPaused = false;
   let timerInterval;
   let timeElapsed = 0;
 
-  // Función para actualizar el temporizador
+  // ---- Función para actualizar el temporizador ----
   function updateTimer() {
     timeElapsed++;
     let minutes = Math.floor(timeElapsed / 60);
@@ -234,20 +189,14 @@ document.addEventListener("DOMContentLoaded", function () {
     audioTimer.textContent = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   }
 
-  // Iniciar la grabación de audio
-  recordButton.addEventListener("click", () => {
-    if (!isRecording) {
-      startRecording();
-    } else {
-      stopRecording();
-    }
-  });
-
+  // ---- Función para iniciar la grabación ----
   function startRecording() {
     navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
       mediaRecorder = new MediaRecorder(stream);
-      mediaRecorder.start();
       audioChunks = [];
+
+      mediaRecorder.start();
+      isRecording = true;
 
       mediaRecorder.addEventListener("dataavailable", (event) => {
         audioChunks.push(event.data);
@@ -255,7 +204,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Mostrar controles de grabación
       audioControls.classList.remove("d-none");
-      isRecording = true;
       recordButton
         .querySelector("i")
         .classList.replace("fa-microphone", "fa-stop");
@@ -266,21 +214,46 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  // ---- Función para detener la grabación ----
   function stopRecording() {
-    mediaRecorder.stop();
-    clearInterval(timerInterval);
-    isRecording = false;
-    audioControls.classList.add("d-none");
-    recordButton
-      .querySelector("i")
-      .classList.replace("fa-stop", "fa-microphone");
+    if (mediaRecorder && isRecording) {
+      mediaRecorder.stop();
+      clearInterval(timerInterval);
+      isRecording = false;
+      isPaused = false;
+      audioControls.classList.add("d-none");
+      recordButton
+        .querySelector("i")
+        .classList.replace("fa-stop", "fa-microphone");
+    }
   }
 
+  // ---- Función para pausar la grabación ----
+  pauseButton.addEventListener("click", () => {
+    if (isRecording && !isPaused) {
+      mediaRecorder.pause();
+      clearInterval(timerInterval); // Pausar temporizador
+      isPaused = true;
+      pauseButton.innerHTML = '<i class="fa fa-play"></i>'; // Cambiar icono a "play"
+    } else if (isRecording && isPaused) {
+      mediaRecorder.resume();
+      timerInterval = setInterval(updateTimer, 1000); // Reanudar temporizador
+      isPaused = false;
+      pauseButton.innerHTML = '<i class="fa fa-pause"></i>'; // Cambiar icono a "pause"
+    }
+  });
+
+  // ---- Botón de detener la grabación ----
+  stopButton.addEventListener("click", () => {
+    stopRecording(); // Detener grabación y ocultar la sección
+  });
+
+  // ---- Función para subir el archivo de audio ----
   function uploadAudio(audioBlob) {
     const formData = new FormData();
     formData.append("audio", audioBlob, "audio.ogg");
 
-    return fetch(SERVERURL+"Pedidos/guardar_audio_Whatsapp", {
+    return fetch(SERVERURL + "Pedidos/guardar_audio_Whatsapp", {
       method: "POST",
       body: formData,
     })
@@ -299,8 +272,11 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   }
 
-  // Uso en el botón de enviar audio
+  // ---- Botón de enviar audio ----
   sendAudioButton.addEventListener("click", async () => {
+    // Detener grabación antes de enviar el audio
+    stopRecording();
+
     const audioBlob = new Blob(audioChunks, { type: "audio/ogg; codecs=opus" });
 
     // Sube el archivo de audio al servidor y obtén la URL
@@ -337,6 +313,15 @@ document.addEventListener("DOMContentLoaded", function () {
       .catch((error) => {
         console.error("Error al enviar el audio:", error);
       });
+  });
+
+  // ---- Botón para iniciar/detener la grabación ----
+  recordButton.addEventListener("click", () => {
+    if (!isRecording) {
+      startRecording();
+    } else {
+      stopRecording(); // Detener si está en proceso de grabación
+    }
   });
 });
 

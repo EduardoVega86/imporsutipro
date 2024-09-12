@@ -916,10 +916,10 @@ function validar_estadoLaar(estado) {
     estado_guia = "Por recolectar";
   } else if (estado == 3) {
     span_estado = "badge_purple";
-    estado_guia = "Por recolectar";
+    estado_guia = "Recolectado";
   } else if (estado == 4) {
     span_estado = "badge_purple";
-    estado_guia = "Por recolectar";
+    estado_guia = "En bodega";
   } else if (estado == 5) {
     span_estado = "badge_warning";
     estado_guia = "En transito";
