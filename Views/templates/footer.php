@@ -120,7 +120,8 @@
             }
 
             function cargar_ultima_pagina() {
-                var urlCompleto = window.location.href;
+                var urlPath = window.location.pathname; // Esto devuelve "/Pedidos/chat_imporsuit"
+                var cleanPath = urlPath.substring(1); // Esto elimina la barra inclinada inicial, devolviendo "Pedidos/chat_imporsuit"
                 let formData = new FormData();
                 formData.append("url", urlCompleto);
                 $.ajax({
