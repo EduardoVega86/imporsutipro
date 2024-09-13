@@ -166,19 +166,19 @@ document.addEventListener("DOMContentLoaded", function () {
   const messageInput = document.getElementById("message-input");
 
   // WhatsApp API credentials
-  const fromPhoneNumberId = "109565362009074"; // Identificador de número de teléfono de WhatsApp
+  const fromPhoneNumberId = "109565362009074";
   const accessToken =
-    "EAAVZAG5oL9G4BO3vZAhKcOTpfZAQJgNDzTNDArOp8VitYT8GUFqcYKIsZAO0pBkf0edoZC1DgfXICkIEP7xZCkPkj8nS1gfDqI4jNeEVDmseyba3l2os8EoYgf1Mdnl2MwaYhmrdfZBgUnItwT8nZBVvjinB7j8IAfZBx2LZA1WNZCqqsZBZC2cqDdObeiLqEsih9U3XOQwZDZD"; // Asegúrate de que este token sea válido
-  const phoneNumber = "+593981702066"; // Número al que se va a enviar el mensaje o audio
+    "EAAVZAG5oL9G4BO3vZAhKcOTpfZAQJgNDzTNDArOp8VitYT8GUFqcYKIsZAO0pBkf0edoZC1DgfXICkIEP7xZCkPkj8nS1gfDqI4jNeEVDmseyba3l2os8EoYgf1Mdnl2MwaYhmrdfZBgUnItwT8nZBVvjinB7j8IAfZBx2LZA1WNZCqqsZBZC2cqDdObeiLqEsih9U3XOQwZDZD";
+  const phoneNumber = "+593981702066";
   const url = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
 
   // ---- Variables para la grabación de audio ----
   let mediaRecorder;
-  let audioBlob = null; // Inicializamos como null
+  let audioBlob = null;
   let isRecording = false;
   let timerInterval;
   let timeElapsed = 0;
-  let stream; // Variable para almacenar el flujo del micrófono
+  let stream;
 
   // ---- Función para actualizar el temporizador ----
   function updateTimer() {
@@ -194,15 +194,21 @@ document.addEventListener("DOMContentLoaded", function () {
       .getUserMedia({ audio: true })
       .then((micStream) => {
         console.log("Acceso al micrófono concedido");
-        stream = micStream; // Guardamos el flujo del micrófono para detenerlo más tarde
-        mediaRecorder = new MediaRecorder(stream);
+        stream = micStream;
+
+        // Verificar si el navegador soporta grabación en OGG
+        const mimeType = MediaRecorder.isTypeSupported("audio/ogg")
+          ? "audio/ogg"
+          : "audio/webm";
+        console.log("Formato seleccionado:", mimeType);
+
+        mediaRecorder = new MediaRecorder(stream, { mimeType: mimeType });
 
         mediaRecorder.start();
         isRecording = true;
-        audioBlob = null; // Reiniciar el valor del audioBlob al iniciar grabación
-        console.log("Grabación iniciada");
+        audioBlob = null;
+        console.log("Grabación iniciada en formato", mimeType);
 
-        // Forzar la visualización de los controles de grabación
         audioControls.style.display = "block";
         audioControls.classList.remove("d-none");
 
@@ -210,13 +216,12 @@ document.addEventListener("DOMContentLoaded", function () {
           .querySelector("i")
           .classList.replace("fa-microphone", "fa-stop");
 
-        // Iniciar temporizador
         timeElapsed = 0;
         timerInterval = setInterval(updateTimer, 1000);
 
         mediaRecorder.addEventListener("dataavailable", (event) => {
           console.log("Datos de audio recibidos:", event.data);
-          audioBlob = event.data; // Guardamos el Blob cuando esté disponible
+          audioBlob = event.data;
         });
       })
       .catch((error) => {
@@ -229,7 +234,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function stopRecording() {
     if (mediaRecorder && isRecording) {
       mediaRecorder.stop();
-      stream.getTracks().forEach((track) => track.stop()); // Detenemos el flujo del micrófono
+      stream.getTracks().forEach((track) => track.stop());
       clearInterval(timerInterval);
       isRecording = false;
       audioControls.classList.add("d-none");
@@ -243,7 +248,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // ---- Función para subir el archivo de audio ----
   function uploadAudio(audioBlob) {
     const formData = new FormData();
-    formData.append("audio", audioBlob, "audio.webm");
+    formData.append("audio", audioBlob, "audio.ogg");
 
     return fetch(SERVERURL + "Pedidos/guardar_audio_Whatsapp", {
       method: "POST",
@@ -253,7 +258,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((data) => {
         if (data.status === 200) {
           console.log("Audio subido:", data.data);
-          return data.data; // Devuelve la ruta del archivo subido
+          return data.data;
         } else {
           console.error("Error al subir el audio:", data.message);
           throw new Error(data.message);
@@ -264,73 +269,25 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   }
 
-  // ---- Función para enviar mensajes de texto a WhatsApp ----
-  function sendMessageToWhatsApp(message) {
-    if (message.trim() === "") {
-      alert("Por favor, escribe un mensaje.");
-      return;
-    }
-
-    const data = {
-      messaging_product: "whatsapp",
-      recipient_type: "individual",
-      to: phoneNumber,
-      type: "text",
-      text: {
-        preview_url: true,
-        body: message, // Mensaje personalizado
-      },
-    };
-
-    const headers = {
-      Authorization: `Bearer ${accessToken}`,
-      "Content-Type": "application/json",
-    };
-
-    fetch(url, {
-      method: "POST",
-      headers: headers,
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((responseData) => {
-        if (responseData.error) {
-          console.error("Error al enviar el mensaje:", responseData.error);
-          alert(`Error: ${responseData.error.message}`);
-        } else {
-          alert("¡Mensaje enviado con éxito!");
-          messageInput.value = ""; // Limpiar el campo de entrada
-          toggleButtons(); // Verificar si hay que mostrar el botón de audio
-        }
-      })
-      .catch((error) => {
-        console.error("Error en la solicitud:", error);
-        alert("Ocurrió un error al enviar el mensaje.");
-      });
-  }
-
   // ---- Botón de enviar audio a WhatsApp ----
   sendAudioButton.addEventListener("click", async () => {
-    // Detener grabación antes de enviar el audio
     stopRecording();
 
-    // Verifica si el audioBlob está definido y tiene datos
     setTimeout(async () => {
       if (audioBlob && audioBlob.size > 0) {
         console.log("Tamaño del audioBlob:", audioBlob.size);
         console.log("El archivo de audio tiene datos, procediendo a subir...");
 
-        const audioUrl = await uploadAudio(audioBlob); // Subir audio
+        const audioUrl = await uploadAudio(audioBlob);
 
         if (audioUrl) {
-          // Ahora puedes enviar esa URL a través de WhatsApp
           const data = {
             messaging_product: "whatsapp",
             recipient_type: "individual",
             to: phoneNumber,
             type: "audio",
             audio: {
-              link: SERVERURL + audioUrl, // Agrega la URL completa del archivo
+              link: SERVERURL + audioUrl,
             },
           };
 
@@ -361,17 +318,15 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("El archivo de audio está vacío o no se ha creado.");
         alert("No se ha grabado ningún audio.");
       }
-    }, 500); // Esperar un poco antes de verificar el audioBlob
+    }, 500);
   });
 
   // ---- Función para alternar los botones ----
   function toggleButtons() {
     if (messageInput.value.trim() === "") {
-      // Si el input está vacío, mostrar el botón de grabar audio
       recordButton.style.display = "inline-block";
       sendButton.style.display = "none";
     } else {
-      // Si el input tiene texto, mostrar el botón de enviar
       recordButton.style.display = "none";
       sendButton.style.display = "inline-block";
     }
@@ -380,7 +335,6 @@ document.addEventListener("DOMContentLoaded", function () {
   // ---- Evento para cambiar los botones cuando se escribe en el input ----
   messageInput.addEventListener("input", toggleButtons);
 
-  // ---- Botón para enviar texto ----
   sendButton.addEventListener("click", (event) => {
     event.preventDefault();
     const message = messageInput.value.trim();
@@ -391,10 +345,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // ---- Enviar mensaje con la tecla Enter ----
   messageInput.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {
-      event.preventDefault(); // Evitar el salto de línea
+      event.preventDefault();
       const message = messageInput.value.trim();
       if (message) {
         sendMessageToWhatsApp(message);
@@ -404,16 +357,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // ---- Botón para iniciar/detener la grabación ----
   recordButton.addEventListener("click", () => {
     if (!isRecording) {
       startRecording();
     } else {
-      stopRecording(); // Detener si está en proceso de grabación
+      stopRecording();
     }
   });
 
-  // Iniciar con el botón de grabar visible
   toggleButtons();
 });
 

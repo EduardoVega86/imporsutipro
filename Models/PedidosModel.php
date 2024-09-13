@@ -1219,7 +1219,7 @@ class PedidosModel extends Query
         if (isset($_FILES['audio']) && $_FILES['audio']['error'] == 0) {
             // Ruta de destino para guardar el archivo
             $target_dir = "public/whatsapp/audios/";
-            $file_name = uniqid() . ".webm";  // Generar un nombre único para el archivo
+            $file_name = uniqid() . ".ogg";  // Cambiar extensión a .ogg
             $target_file = $target_dir . $file_name;
 
             // Verificar si la carpeta de destino existe, si no, crearla
@@ -1253,6 +1253,6 @@ class PedidosModel extends Query
         // Retornar la respuesta en formato JSON
         header('Content-Type: application/json');
         echo json_encode($response);
-        exit(); // Asegurarse de que el script no continúe ejecutándose
+        exit();
     }
 }

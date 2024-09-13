@@ -4,6 +4,9 @@ require_once 'PHPMailer/SMTP.php';
 require_once 'PHPMailer/Exception.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
+use React\EventLoop\Factory;
+use React\Http\Browser;
+use Psr\Http\Message\ResponseInterface;
 
 class WalletModel extends Query
 {
@@ -1603,7 +1606,6 @@ class WalletModel extends Query
         $ciudad_cot = $response[0]['ciudad_cot'];
         $id_transporte = $response[0]['id_transporte'];
         $monto_factura = $response[0]['monto_factura'];
-
         $cod = $response[0]['cod'];
 
         // Buscar en ciudad_cotizacion
@@ -1630,7 +1632,7 @@ class WalletModel extends Query
             $valor_cobertura = $ciudad_cot == 599 ? 5.5 : 6.5;
         }
 
-        // Calcular el precio total del envío
+        // Calcular el precio total del envío (considerando COD y otros casos)
         if ($id_transporte != 4 && $cod == 1) {
             $precioTotalEnvio = $monto_factura * 0.03 + $valor_cobertura;
         } elseif ($id_transporte != 4 && $cod != 1) {
@@ -1641,6 +1643,20 @@ class WalletModel extends Query
             $precioTotalEnvio = $valor_cobertura;
         }
 
+        // Obtener el peso real del paquete
+        $peso = $this->verdaderoPeso($numero_guia)['pesoKilos']; // Asumiendo que esta función retorna el array decodificado con 'pesoKilos'
+
+        // Verificar si hay peso adicional y calcular el precio extra en función del trayecto
+        if ($peso > 2) {
+            $peso_extra = $peso - 2; // Calculamos el exceso de peso
+            $precio_por_kilo_extra = $this->obtenerPrecioPorTrayecto($trayecto); // Obtener el precio según el trayecto
+
+            // Calcular el costo adicional por el exceso de peso
+            $costo_adicional_peso = $precio_por_kilo_extra * $peso_extra;
+
+            // Sumar el costo adicional al precio total del envío
+            $precioTotalEnvio += $costo_adicional_peso;
+        }
 
         // Arreglos de éxito y fallo
         $guias_con_exito = [];
@@ -1657,5 +1673,42 @@ class WalletModel extends Query
 
         // Devolver ambos arreglos
         return [$guias_con_exito, $guias_con_fallo];
+    }
+
+    // Función para obtener el precio por trayecto
+    public function obtenerPrecioPorTrayecto($trayecto)
+    {
+        $precios = [
+            'TP' => 0.86,
+            'TE' => 1.15,
+            'TL' => 0.86,
+            'TS' => 0.86,
+            'TO' => 1.15,
+            'GAL' => 2.88
+        ];
+
+        return isset($precios[$trayecto]) ? $precios[$trayecto] : 0;
+    }
+
+    // Modificar verdaderoPeso para devolver el array completo y extraer el peso
+    public function verdaderoPeso($numero_guia)
+    {
+        $url = "https://api.laarcourier.com:9727/guias/" . $numero_guia;
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        // Decodificar la respuesta JSON
+        return json_decode($response, true);
     }
 }
