@@ -56,8 +56,8 @@
             })
             .then(response => response.json())
             .then(data => {
+                // Manejo de la respuesta del fetch de login
                 console.log('Success:', data);
-                // Mostrar alerta de éxito
                 if (data.status == 401) {
                     Swal.fire({
                         icon: 'error',
@@ -72,13 +72,13 @@
                         showConfirmButton: false,
                         timer: 2000
                     }).then(() => {
-                        window.location.href = '<?php echo SERVERURL ?>dashboard';
+                        window.location.href = data.ultimo_punto.url;
                     });
                 }
             })
             .catch((error) => {
                 console.error('Error:', error);
-                // Mostrar alerta de error
+                // Mostrar alerta de error en caso de fallo en el fetch
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
@@ -88,6 +88,7 @@
                 });
             });
     });
+
 
     //funcion ara dejar ver o no contraseña
     function togglePasswordVisibility() {

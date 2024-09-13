@@ -523,9 +523,9 @@ class AccesoModel extends Query
             $response['message'] = 'Ultimo punto guardado correctamente';
         } else {
             $response = $this->initialResponse();
-            $response['status'] = 500;
+            $response['status'] = 200;
             $response['title'] = 'Error';
-            $response['message'] = $response["message"];
+            $response['message'] = "No se actualizo";
         }
         return $response;
     }
