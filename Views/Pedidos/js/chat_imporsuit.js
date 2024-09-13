@@ -168,7 +168,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // WhatsApp API credentials
   const fromPhoneNumberId = "109565362009074"; // Identificador de número de teléfono de WhatsApp
   const accessToken =
-    "EAAVNpVv19yoBO2kiCL6iu4IxbZCBu4n5DmgcVOaHlZAZAShhsbsXS4mabPqJnB5DHQtscK3ZBxxYJRUv9vjcgX0Mi3NJqvqqsTS2jkjbsaaPZBQMFoaWFDCzdZCTQZAcrO1mEyytR3AdiRfTZCptMPjCxnZBvQkZCGcAZBDV8n6uzbOIMI5UtExtXWhKDpvxawJaZCZBZBvv9gRvZAMvjZCqXKh0A2YeeksBZCgvv"; // Asegúrate de que este token sea válido
+    "EAAVZAG5oL9G4BO3vZAhKcOTpfZAQJgNDzTNDArOp8VitYT8GUFqcYKIsZAO0pBkf0edoZC1DgfXICkIEP7xZCkPkj8nS1gfDqI4jNeEVDmseyba3l2os8EoYgf1Mdnl2MwaYhmrdfZBgUnItwT8nZBVvjinB7j8IAfZBx2LZA1WNZCqqsZBZC2cqDdObeiLqEsih9U3XOQwZDZD"; // Asegúrate de que este token sea válido
   const phoneNumber = "+593981702066"; // Número al que se va a enviar el mensaje o audio
   const url = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
 
