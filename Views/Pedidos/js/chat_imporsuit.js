@@ -277,10 +277,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const data = {
       messaging_product: "whatsapp",
       recipient_type: "individual",
-      to: phoneNumber, // +593981702066
+      to: phoneNumber,
       type: "text",
       text: {
-        body: "Mensaje de prueba", // Mensaje básico
+        preview_url: true,
+        body: message, // Mensaje personalizado
       },
     };
 
