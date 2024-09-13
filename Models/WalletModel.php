@@ -1556,4 +1556,95 @@ class WalletModel extends Query
 
         return $response;
     }
+
+
+    // Procesos de PAGO AUTOMATICO NO COLOCAR CODIGO AQUI NI MODIFICAR ABSOLUTAMENTE NADA
+    public function pagar_laar()
+    {
+        $guias = $this->obtenerTodasLasGuias();
+
+        $guias_con_exito = [];
+        $guias_con_fallo = [];
+
+        foreach ($guias as $key => $value) {
+            // Llama a verificar_envio y recoge los resultados
+            list($exito, $fallo) = $this->verificar_envio($value);
+
+            // Combina los resultados
+            $guias_con_exito = array_merge($guias_con_exito, $exito);
+            $guias_con_fallo = array_merge($guias_con_fallo, $fallo);
+        }
+
+        // Al final, tienes dos arreglos: $guias_con_exito y $guias_con_fallo
+        return [
+            'exito' => $guias_con_exito,
+            'fallo' => $guias_con_fallo
+        ];
+    }
+
+    public function obtenerTodasLasGuias()
+    {
+        $sql = "SELECT * FROM cabecera_cuenta_pagar where estado_guia in (7, 9) and visto = 0";
+        $response = $this->select($sql);
+        $guias = [];
+        foreach ($response as $key => $value) {
+            $guias[] = $value['guia'];
+        }
+        return $guias;
+    }
+
+    public function verificar_envio($numero_guia)
+    {
+        // Buscar en facturas_cot
+        $sql = "SELECT * FROM facturas_cot WHERE numero_guia = '$numero_guia'";
+        $response = $this->select($sql);
+        $id_plataforma = $response[0]['id_plataforma'];
+        $precio_envio = $response[0]['costo_flete'];
+        $ciudad_cot = $response[0]['ciudad_cot'];
+        $id_transporte = $response[0]['id_transporte'];
+        $monto_factura = $response[0]['monto_factura'];
+
+        // Buscar en ciudad_cotizacion
+        $sql = "SELECT * FROM ciudad_cotizacion WHERE id_cotizacion = '$ciudad_cot'";
+        $response = $this->select($sql);
+        $trayecto = $id_transporte == 1 ? $response[0]['trayecto_laar'] : ($id_transporte == 2 ? $response[0]['trayecto_servientrega'] : ($id_transporte == 3 ? $response[0]['trayecto_gintracom'] : ($id_transporte == 4 ? ($ciudad_cot == 599 ? 5.5 : 6.5) : 0)));
+
+        $valor_cobertura = 0;
+
+        // Determinar el valor de la cobertura según el transporte
+        if ($id_transporte == 1) {
+            $sql = "SELECT * FROM cobertura_laar WHERE tipo_cobertura = '$trayecto'";
+            $response = $this->select($sql);
+            $valor_cobertura = $response[0]['precio'];
+        } else if ($id_transporte == 2) {
+            $sql = "SELECT * FROM cobertura_servientrega WHERE tipo_cobertura = '$trayecto'";
+            $response = $this->select($sql);
+            $valor_cobertura = $response[0]['precio'];
+        } else if ($id_transporte == 3) {
+            $sql = "SELECT * FROM cobertura_gintracom WHERE trayecto = '$trayecto'";
+            $response = $this->select($sql);
+            $valor_cobertura = $response[0]['precio'];
+        } else if ($id_transporte == 4) {
+            $valor_cobertura = $ciudad_cot == 599 ? 5.5 : 6.5;
+        }
+
+        // Calcular el precio total del envío
+        $precioTotalEnvio = $monto_factura * 0.03 + $valor_cobertura;
+
+        // Arreglos de éxito y fallo
+        $guias_con_exito = [];
+        $guias_con_fallo = [];
+
+        // Comparar el precio del envío
+        if ($precio_envio == $precioTotalEnvio) {
+            // Si es correcto, agregar al arreglo de éxito
+            $guias_con_exito[] = $numero_guia;
+        } else {
+            // Si no es correcto, agregar al arreglo de fallo
+            $guias_con_fallo[] = $numero_guia;
+        }
+
+        // Devolver ambos arreglos
+        return [$guias_con_exito, $guias_con_fallo];
+    }
 }

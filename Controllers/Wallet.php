@@ -586,9 +586,10 @@ class Wallet extends Controller
         echo json_encode($response);
     }
 
-
-    public function pagos_laar()
+    // Procesos de PAGO AUTOMATICO NO COLOCAR CODIGO AQUI NI MODIFICAR ABSOLUTAMENTE NADA
+    public function pagar_laar()
     {
-        $this->model->pagos_laar();
+        $response =  $this->model->pagar_laar();
+        echo json_encode($response);
     }
 }
