@@ -1604,7 +1604,7 @@ class WalletModel extends Query
         $id_transporte = $response[0]['id_transporte'];
         $monto_factura = $response[0]['monto_factura'];
 
-        $drogshipin = $response[0]['drogshipin'];
+        $cod = $response[0]['cod'];
 
         // Buscar en ciudad_cotizacion
         $sql = "SELECT * FROM ciudad_cotizacion WHERE id_cotizacion = '$ciudad_cot'";
@@ -1631,9 +1631,9 @@ class WalletModel extends Query
         }
 
         // Calcular el precio total del envío
-        if ($id_transporte != 4 && $drogshipin == 1) {
+        if ($id_transporte != 4 && $cod == 1) {
             $precioTotalEnvio = $monto_factura * 0.03 + $valor_cobertura;
-        } elseif ($id_transporte != 4 && $drogshipin == 0) {
+        } elseif ($id_transporte != 4 && $cod != 1) {
             $precioTotalEnvio = $valor_cobertura;
         } elseif ($id_transporte == 4 && str_contains($numero_guia, 'MKP')) {
             $precioTotalEnvio = 5.99;
