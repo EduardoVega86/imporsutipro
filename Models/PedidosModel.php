@@ -1222,6 +1222,11 @@ class PedidosModel extends Query
             $file_name = uniqid() . ".webm";  // Generar un nombre único para el archivo
             $target_file = $target_dir . $file_name;
 
+            // Verificar si la carpeta de destino existe, si no, crearla
+            if (!is_dir($target_dir)) {
+                mkdir($target_dir, 0777, true);  // Crear la carpeta si no existe
+            }
+
             // Mover el archivo a la carpeta de destino
             if (move_uploaded_file($_FILES['audio']['tmp_name'], $target_file)) {
                 // Retornar la ruta del archivo subido
@@ -1246,6 +1251,8 @@ class PedidosModel extends Query
         }
 
         // Retornar la respuesta en formato JSON
+        header('Content-Type: application/json');
         echo json_encode($response);
+        exit(); // Asegurarse de que el script no continúe ejecutándose
     }
 }
