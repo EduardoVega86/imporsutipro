@@ -109,29 +109,29 @@ class WalletModel extends Query
     {
         // Definir la lógica común de trayecto
         $trayecto_case = "
-        CASE
-            -- LAAR (IMP o MKP)
-            WHEN ccp.guia LIKE 'IMP%' OR ccp.guia LIKE 'MKP%' THEN cc.trayecto_laar
-            
-            -- Servientrega (solo números)
-            WHEN ccp.guia REGEXP '^[0-9]+$' THEN cc.trayecto_servientrega
-            
-            -- Gintracom (comienza con I000)
-            WHEN ccp.guia LIKE 'I000%' THEN cc.trayecto_gintracom
-            
-            -- Speed/Merkalogistic (SPD o MKL)
-            WHEN ccp.guia LIKE 'SPD%' OR ccp.guia LIKE 'MKL%' THEN 
-                CASE
-                    -- Si la ciudad es QUITO
-                    WHEN cc.ciudad = 'QUITO' THEN 'TL'
-                    -- Si la ciudad es cualquier otra
-                    ELSE 'TS'
-                END
-            
-            -- Caso predeterminado si no coincide con ninguno de los anteriores
-            ELSE 'Desconocido'
-        END AS trayecto
-    ";
+            CASE
+                -- LAAR (IMP o MKP)
+                WHEN ccp.guia LIKE 'IMP%' OR ccp.guia LIKE 'MKP%' THEN cc.trayecto_laar
+                
+                -- Servientrega (solo números)
+                WHEN ccp.guia REGEXP '^[0-9]+$' THEN cc.trayecto_servientrega
+                
+                -- Gintracom (comienza con I000)
+                WHEN ccp.guia LIKE 'I000%' THEN cc.trayecto_gintracom
+                
+                -- Speed/Merkalogistic (SPD o MKL)
+                WHEN ccp.guia LIKE 'SPD%' OR ccp.guia LIKE 'MKL%' THEN 
+                    CASE
+                        -- Si la ciudad es QUITO
+                        WHEN cc.ciudad = 'QUITO' THEN 'TL'
+                        -- Si la ciudad es cualquier otra
+                        ELSE 'TS'
+                    END
+                
+                -- Caso predeterminado si no coincide con ninguno de los anteriores
+                ELSE 'Desconocido'
+            END AS trayecto
+        ";
 
         // Eliminar los sufijos -P y -F en numero_factura antes de comparar
         $factura_sin_sufijo = "REPLACE(REPLACE(ccp.numero_factura, '-P', ''), '-F', '')";
@@ -152,7 +152,7 @@ class WalletModel extends Query
                 ccp.id_plataforma = '$id_plataforma' 
                 AND ccp.valor_pendiente != 0 
             ORDER BY 
-                FIELD(ccp.estado_guia, 7, 9) DESC, 
+                FIELD(ccp.estado_guia, 7, 9) ASC, 
                 ccp.estado_guia DESC, 
                 ccp.fecha DESC;";
         } else if ($filtro == 'abonadas') {
