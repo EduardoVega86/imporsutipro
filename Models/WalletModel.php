@@ -1604,6 +1604,8 @@ class WalletModel extends Query
         $id_transporte = $response[0]['id_transporte'];
         $monto_factura = $response[0]['monto_factura'];
 
+        $drogshipin = $response[0]['drogshipin'];
+
         // Buscar en ciudad_cotizacion
         $sql = "SELECT * FROM ciudad_cotizacion WHERE id_cotizacion = '$ciudad_cot'";
         $response = $this->select($sql);
@@ -1629,7 +1631,14 @@ class WalletModel extends Query
         }
 
         // Calcular el precio total del envío
-        $precioTotalEnvio = $monto_factura * 0.03 + $valor_cobertura;
+        if ($id_transporte != 4 && $drogshipin == 1) {
+            $precioTotalEnvio = $monto_factura * 0.03 + $valor_cobertura;
+        } elseif ($id_transporte != 4 && $drogshipin == 0) {
+            $precioTotalEnvio = $valor_cobertura;
+        } else {
+            $precioTotalEnvio = $valor_cobertura;
+        }
+
 
         // Arreglos de éxito y fallo
         $guias_con_exito = [];

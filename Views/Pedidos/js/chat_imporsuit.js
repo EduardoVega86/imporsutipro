@@ -203,7 +203,7 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("Grabación iniciada");
 
         // Forzar la visualización de los controles de grabación
-        audioControls.style.display = 'block';
+        audioControls.style.display = "block";
         audioControls.classList.remove("d-none");
 
         recordButton
@@ -399,9 +399,17 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
+  // ---- Botón para iniciar/detener la grabación ----
+  recordButton.addEventListener("click", () => {
+    if (!isRecording) {
+      startRecording();
+    } else {
+      stopRecording(); // Detener si está en proceso de grabación
+    }
+  });
+
   // Iniciar con el botón de grabar visible
   toggleButtons();
 });
-
 
 /* Fin enviar mensaje de audio Whatsapp */
