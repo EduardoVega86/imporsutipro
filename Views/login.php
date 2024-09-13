@@ -71,12 +71,8 @@
                         text: data.message,
                         showConfirmButton: false,
                         timer: 2000
-                    }).then(() => {
-                        if (!data.ultimo_punto.url) {
-                            window.location.href = '<?php echo SERVERURL; ?>' + data.ultimo_punto.url;
-                        } else {
-                            window.location.href = '<?php echo SERVERURL ?>dashboard';
-                        }
+                    }).then(() => { 
+                        window.location.href = '<?php echo SERVERURL; ?>' + data.ultimo_punto.url;
                     });
                 }
             })
