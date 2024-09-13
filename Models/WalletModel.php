@@ -1635,6 +1635,8 @@ class WalletModel extends Query
             $precioTotalEnvio = $monto_factura * 0.03 + $valor_cobertura;
         } elseif ($id_transporte != 4 && $drogshipin == 0) {
             $precioTotalEnvio = $valor_cobertura;
+        } elseif ($id_transporte == 4 && str_contains($numero_guia, 'MKP')) {
+            $precioTotalEnvio = 5.99;
         } else {
             $precioTotalEnvio = $valor_cobertura;
         }
