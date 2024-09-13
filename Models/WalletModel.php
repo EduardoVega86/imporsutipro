@@ -152,7 +152,7 @@ class WalletModel extends Query
                 ccp.id_plataforma = '$id_plataforma' 
                 AND ccp.valor_pendiente != 0 
             ORDER BY 
-                FIELD(ccp.estado_guia, 7, 9) ASC, 
+                FIELD(ccp.estado_guia, 9,7) DESC, 
                 ccp.estado_guia DESC, 
                 ccp.fecha DESC;";
         } else if ($filtro == 'abonadas') {
