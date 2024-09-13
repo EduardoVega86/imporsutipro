@@ -162,6 +162,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const audioControls = document.getElementById("audio-recording-controls");
   const sendAudioButton = document.getElementById("send-audio");
   const audioTimer = document.getElementById("audio-timer");
+  const messageInput = document.getElementById("message-input");
+
+  // WhatsApp API credentials
+  const fromPhoneNumberId = "109565362009074"; // Identificador de número de teléfono de WhatsApp
+  const accessToken = "TU_ACCESS_TOKEN"; // Asegúrate de que este token sea válido
+  const phoneNumber = "+593981702066"; // Número al que se va a enviar el mensaje o audio
+  const url = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
 
   // ---- Variables para la grabación de audio ----
   let mediaRecorder;
@@ -252,7 +259,46 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   }
 
-  // ---- Botón de enviar audio ----
+  // ---- Función para enviar mensajes de texto a WhatsApp ----
+  function sendMessageToWhatsApp(message) {
+    const data = {
+      messaging_product: "whatsapp",
+      recipient_type: "individual",
+      to: phoneNumber,
+      type: "text",
+      text: {
+        preview_url: true,
+        body: message, // Mensaje personalizado
+      },
+    };
+
+    const headers = {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    };
+
+    fetch(url, {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((responseData) => {
+        if (responseData.error) {
+          console.error("Error al enviar el mensaje:", responseData.error);
+          alert(`Error: ${responseData.error.message}`);
+        } else {
+          alert("¡Mensaje enviado con éxito!");
+          messageInput.value = ""; // Limpiar el campo de entrada
+        }
+      })
+      .catch((error) => {
+        console.error("Error en la solicitud:", error);
+        alert("Ocurrió un error al enviar el mensaje.");
+      });
+  }
+
+  // ---- Botón de enviar audio a WhatsApp ----
   sendAudioButton.addEventListener("click", async () => {
     // Detener grabación antes de enviar el audio
     stopRecording();
@@ -266,7 +312,37 @@ document.addEventListener("DOMContentLoaded", function () {
         const audioUrl = await uploadAudio(audioBlob); // Subir audio
 
         if (audioUrl) {
-          console.log("URL del archivo de audio:", audioUrl);
+          // Ahora puedes enviar esa URL a través de WhatsApp
+          const data = {
+            messaging_product: "whatsapp",
+            recipient_type: "individual",
+            to: phoneNumber,
+            type: "audio",
+            audio: {
+              link: SERVERURL + audioUrl, // Agrega la URL completa del archivo
+            },
+          };
+
+          fetch(url, {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          })
+            .then((response) => response.json())
+            .then((responseData) => {
+              if (responseData.error) {
+                console.error("Error: ", responseData.error);
+                alert(`Error: ${responseData.error.message}`);
+              } else {
+                alert("¡Audio enviado con éxito!");
+              }
+            })
+            .catch((error) => {
+              console.error("Error al enviar el audio:", error);
+            });
         } else {
           console.error("No se pudo obtener la URL del archivo de audio.");
         }
@@ -283,6 +359,31 @@ document.addEventListener("DOMContentLoaded", function () {
       startRecording();
     } else {
       stopRecording(); // Detener si está en proceso de grabación
+    }
+  });
+
+  // ---- Botón para enviar texto ----
+  const sendButton = document.getElementById("send-button");
+  sendButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    const message = messageInput.value.trim();
+    if (message) {
+      sendMessageToWhatsApp(message);
+    } else {
+      alert("Por favor, escribe un mensaje.");
+    }
+  });
+
+  // Ejecutar la función de enviar mensaje al presionar "Enter"
+  messageInput.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      event.preventDefault(); // Evitar el salto de línea
+      const message = messageInput.value.trim();
+      if (message) {
+        sendMessageToWhatsApp(message);
+      } else {
+        alert("Por favor, escribe un mensaje.");
+      }
     }
   });
 });
