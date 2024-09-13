@@ -1215,37 +1215,45 @@ class PedidosModel extends Query
     }
 
     public function guardar_audio_Whatsapp()
-    {
-        if (isset($_FILES['audio']) && $_FILES['audio']['error'] == 0) {
-            // Ruta de destino para guardar el archivo
-            $target_dir = "public/whatsapp/audios/";
-            $file_name = uniqid() . ".webm";  // Generar un nombre único para el archivo
-            $target_file = $target_dir . $file_name;
+{
+    if (isset($_FILES['audio']) && $_FILES['audio']['error'] == 0) {
+        // Ruta de destino para guardar el archivo
+        $target_dir = "public/whatsapp/audios/";
+        $file_name = uniqid() . ".webm";  // Generar un nombre único para el archivo
+        $target_file = $target_dir . $file_name;
 
-            // Mover el archivo a la carpeta de destino
-            if (move_uploaded_file($_FILES['audio']['tmp_name'], $target_file)) {
-                // Retornar la ruta del archivo subido
-                $response = [
-                    'status' => 200,
-                    'message' => 'Audio subido correctamente',
-                    'data' => $target_file  // Aquí devolvemos la ruta del archivo subido
-                ];
-            } else {
-                // Error al mover el archivo
-                $response = [
-                    'status' => 500,
-                    'message' => 'Error al mover el archivo de audio'
-                ];
-            }
-        } else {
-            // No se recibió ningún archivo o hubo un error
-            $response = [
-                'status' => 500,
-                'message' => 'Error al subir el archivo de audio'
-            ];
+        // Verificar si la carpeta de destino existe, si no, crearla
+        if (!is_dir($target_dir)) {
+            mkdir($target_dir, 0777, true);  // Crear la carpeta si no existe
         }
 
-        // Retornar la respuesta en formato JSON
-        echo json_encode($response);
+        // Mover el archivo a la carpeta de destino
+        if (move_uploaded_file($_FILES['audio']['tmp_name'], $target_file)) {
+            // Retornar la ruta del archivo subido
+            $response = [
+                'status' => 200,
+                'message' => 'Audio subido correctamente',
+                'data' => $target_file  // Aquí devolvemos la ruta del archivo subido
+            ];
+        } else {
+            // Error al mover el archivo
+            $response = [
+                'status' => 500,
+                'message' => 'Error al mover el archivo de audio'
+            ];
+        }
+    } else {
+        // No se recibió ningún archivo o hubo un error
+        $response = [
+            'status' => 500,
+            'message' => 'Error al subir el archivo de audio'
+        ];
     }
+
+    // Retornar la respuesta en formato JSON
+    header('Content-Type: application/json');
+    echo json_encode($response);
+    exit(); // Asegurarse de que el script no continúe ejecutándose
+}
+
 }
