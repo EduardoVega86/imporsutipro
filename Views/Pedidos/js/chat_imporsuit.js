@@ -266,15 +266,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // ---- Función para enviar mensajes de texto a WhatsApp ----
   function sendMessageToWhatsApp(message) {
-    /* const data = {
-      messaging_product: "whatsapp",
-      to: phoneNumber,
-      type: "template",
-      template: {
-        name: "hello_world", // Plantilla que estás usando
-        language: { code: "en_US" }, // Lenguaje de la plantilla
-      },
-    }; */
+    if (message.trim() === "") {
+      alert("Por favor, escribe un mensaje.");
+      return;
+    }
 
     const data = {
       messaging_product: "whatsapp",
