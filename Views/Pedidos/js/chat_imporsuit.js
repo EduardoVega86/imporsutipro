@@ -265,6 +265,17 @@ document.addEventListener("DOMContentLoaded", function () {
   function sendMessageToWhatsApp(message) {
     const data = {
       messaging_product: "whatsapp",
+      to: phoneNumber,
+      type: "template",
+      template: {
+        name: "hello_world", // Plantilla que estás usando
+        language: { code: "en_US" }, // Lenguaje de la plantilla
+      },
+    };
+ 
+
+    /* const data = {
+      messaging_product: "whatsapp",
       recipient_type: "individual",
       to: phoneNumber,
       type: "text",
@@ -272,7 +283,7 @@ document.addEventListener("DOMContentLoaded", function () {
         preview_url: true,
         body: message, // Mensaje personalizado
       },
-    };
+    }; */
 
     const headers = {
       Authorization: `Bearer ${accessToken}`,
