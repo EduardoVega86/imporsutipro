@@ -240,45 +240,55 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // ---- Función para subir el archivo de audio ----
-  function uploadAudio(audioBlob) {
-    const formData = new FormData();
-    formData.append("audio", audioBlob, "audio.webm");
-
-    return fetch(SERVERURL + "Pedidos/guardar_audio_Whatsapp", {
-      method: "POST",
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.status === 200) {
-          console.log("Audio subido:", data.data);
-          return data.data; // Devuelve la ruta del archivo subido
-        } else {
-          console.error("Error al subir el audio:", data.message);
-          throw new Error(data.message);
-        }
-      })
-      .catch((error) => {
-        console.error("Error en la solicitud:", error);
-      });
-  }
-
-  // ---- Función para enviar mensajes de texto a WhatsApp ----
-  function sendMessageToWhatsApp(message) {
-    if (message.trim() === "") {
-      alert("Por favor, escribe un mensaje.");
-      return;
+  // ---- Función para convertir y enviar el archivo de audio ----
+  async function convertAndSendAudio(audioBlob) {
+    const ffmpeg = FFmpeg.createFFmpeg({ log: true });
+    if (!ffmpeg.isLoaded()) {
+      await ffmpeg.load();
     }
 
+    // Cargar el archivo webm a FFmpeg
+    ffmpeg.FS('writeFile', 'input.webm', await fetchFile(audioBlob));
+
+    // Ejecutar la conversión a OGG
+    await ffmpeg.run('-i', 'input.webm', 'output.ogg');
+
+    // Obtener el archivo convertido
+    const data = ffmpeg.FS('readFile', 'output.ogg');
+    const blob = new Blob([data.buffer], { type: 'audio/ogg' });
+
+    // Crear un objeto FormData para subir el archivo convertido al servidor
+    const formData = new FormData();
+    formData.append('audio', blob, 'audio.ogg');
+
+    // Subir el archivo al servidor
+    const response = await fetch(SERVERURL + "Pedidos/guardar_audio_Whatsapp", {
+      method: 'POST',
+      body: formData
+    });
+
+    const result = await response.json();
+    if (result.status === 200) {
+      console.log("Audio convertido y subido:", result.data);
+
+      // Ahora enviar el archivo subido a WhatsApp
+      const audioUrl = SERVERURL + result.data;
+      enviarAudioAWsp(audioUrl);
+    } else {
+      console.error("Error al subir el audio:", result.message);
+      alert("Error al subir el audio convertido.");
+    }
+  }
+
+  // ---- Función para enviar el audio convertido a WhatsApp ----
+  function enviarAudioAWsp(audioUrl) {
     const data = {
       messaging_product: "whatsapp",
       recipient_type: "individual",
       to: phoneNumber,
-      type: "text",
-      text: {
-        preview_url: true,
-        body: message, // Mensaje personalizado
+      type: "audio",
+      audio: {
+        link: audioUrl, // URL del archivo subido al servidor
       },
     };
 
@@ -295,83 +305,39 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((response) => response.json())
       .then((responseData) => {
         if (responseData.error) {
-          console.error("Error al enviar el mensaje:", responseData.error);
+          console.error("Error: ", responseData.error);
           alert(`Error: ${responseData.error.message}`);
         } else {
-          alert("¡Mensaje enviado con éxito!");
-          messageInput.value = ""; // Limpiar el campo de entrada
-          toggleButtons(); // Verificar si hay que mostrar el botón de audio
+          alert("¡Audio enviado con éxito a WhatsApp!");
         }
       })
       .catch((error) => {
         console.error("Error en la solicitud:", error);
-        alert("Ocurrió un error al enviar el mensaje.");
       });
   }
 
   // ---- Botón de enviar audio a WhatsApp ----
   sendAudioButton.addEventListener("click", async () => {
-    // Detener grabación antes de enviar el audio
     stopRecording();
 
-    // Verifica si el audioBlob está definido y tiene datos
-    setTimeout(async () => {
+    setTimeout(() => {
       if (audioBlob && audioBlob.size > 0) {
         console.log("Tamaño del audioBlob:", audioBlob.size);
-        console.log("El archivo de audio tiene datos, procediendo a subir...");
-
-        const audioUrl = await uploadAudio(audioBlob); // Subir audio
-
-        if (audioUrl) {
-          // Ahora puedes enviar esa URL a través de WhatsApp
-          const data = {
-            messaging_product: "whatsapp",
-            recipient_type: "individual",
-            to: phoneNumber,
-            type: "audio",
-            audio: {
-              link: SERVERURL + audioUrl, // Agrega la URL completa del archivo
-            },
-          };
-
-          fetch(url, {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-          })
-            .then((response) => response.json())
-            .then((responseData) => {
-              if (responseData.error) {
-                console.error("Error: ", responseData.error);
-                alert(`Error: ${responseData.error.message}`);
-              } else {
-                alert("¡Audio enviado con éxito!");
-              }
-            })
-            .catch((error) => {
-              console.error("Error al enviar el audio:", error);
-            });
-        } else {
-          console.error("No se pudo obtener la URL del archivo de audio.");
-        }
+        console.log("El archivo de audio tiene datos, procediendo a convertir...");
+        convertAndSendAudio(audioBlob);
       } else {
         console.error("El archivo de audio está vacío o no se ha creado.");
         alert("No se ha grabado ningún audio.");
       }
-    }, 500); // Esperar un poco antes de verificar el audioBlob
+    }, 500);
   });
 
   // ---- Función para alternar los botones ----
   function toggleButtons() {
     if (messageInput.value.trim() === "") {
-      // Si el input está vacío, mostrar el botón de grabar audio
       recordButton.style.display = "inline-block";
       sendButton.style.display = "none";
     } else {
-      // Si el input tiene texto, mostrar el botón de enviar
       recordButton.style.display = "none";
       sendButton.style.display = "inline-block";
     }
@@ -409,7 +375,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!isRecording) {
       startRecording();
     } else {
-      stopRecording(); // Detener si está en proceso de grabación
+      stopRecording();
     }
   });
 
