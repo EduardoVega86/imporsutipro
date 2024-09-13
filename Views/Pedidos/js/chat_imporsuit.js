@@ -193,6 +193,7 @@ document.addEventListener("DOMContentLoaded", function () {
     navigator.mediaDevices
       .getUserMedia({ audio: true })
       .then((micStream) => {
+        console.log("Acceso al micrófono concedido");
         stream = micStream; // Guardamos el flujo del micrófono para detenerlo más tarde
         mediaRecorder = new MediaRecorder(stream);
 
@@ -201,8 +202,10 @@ document.addEventListener("DOMContentLoaded", function () {
         audioBlob = null; // Reiniciar el valor del audioBlob al iniciar grabación
         console.log("Grabación iniciada");
 
-        // Mostrar controles de grabación
+        // Forzar la visualización de los controles de grabación
+        audioControls.style.display = 'block';
         audioControls.classList.remove("d-none");
+
         recordButton
           .querySelector("i")
           .classList.replace("fa-microphone", "fa-stop");
@@ -263,17 +266,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // ---- Función para enviar mensajes de texto a WhatsApp ----
   function sendMessageToWhatsApp(message) {
-    /* const data = {
-      messaging_product: "whatsapp",
-      to: phoneNumber,
-      type: "template",
-      template: {
-        name: "hello_world", // Plantilla que estás usando
-        language: { code: "en_US" }, // Lenguaje de la plantilla
-      },
-    }; */
- 
-
     const data = {
       messaging_product: "whatsapp",
       recipient_type: "individual",
@@ -410,5 +402,6 @@ document.addEventListener("DOMContentLoaded", function () {
   // Iniciar con el botón de grabar visible
   toggleButtons();
 });
+
 
 /* Fin enviar mensaje de audio Whatsapp */
