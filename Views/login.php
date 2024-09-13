@@ -72,6 +72,7 @@
                         showConfirmButton: false,
                         timer: 2000
                     }).then(() => {
+                        console.log(data.ultimo_punto.url);
                         /* window.location.href = '<?php echo SERVERURL ?>dashboard'; */
                     });
                 }
