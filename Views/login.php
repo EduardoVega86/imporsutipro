@@ -56,22 +56,6 @@
             })
             .then(response => response.json())
             .then(data => {
-                // Segunda solicitud AJAX después de la autenticación
-                $.ajax({
-                    url: '<?php echo SERVERURL; ?>acceso/guardaUltimoPunto', // Corregido
-                    type: "POST",
-                    processData: false, // No procesar los datos
-                    contentType: false, // No establecer ningún tipo de contenido
-                    dataType: "json",
-                    success: function(response) {
-                        // Manejo de éxito en guardaUltimoPunto
-                        console.log('Datos guardados correctamente');
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        alert('Error al guardar datos: ' + errorThrown);
-                    },
-                });
-
                 // Manejo de la respuesta del fetch de login
                 console.log('Success:', data);
                 if (data.status == 401) {
@@ -88,7 +72,7 @@
                         showConfirmButton: false,
                         timer: 2000
                     }).then(() => {
-                        window.location.href = '<?php echo SERVERURL ?>dashboard';
+                        /* window.location.href = '<?php echo SERVERURL ?>dashboard'; */
                     });
                 }
             })
