@@ -1218,7 +1218,7 @@ class PedidosModel extends Query
     {
         if (isset($_FILES['audio']) && $_FILES['audio']['error'] == 0) {
             // Ruta de destino para guardar el archivo
-            $target_dir = "public/audio/";
+            $target_dir = "public/whatsapp/audios/";
             $file_name = uniqid() . ".webm";  // Generar un nombre único para el archivo
             $target_file = $target_dir . $file_name;
 
