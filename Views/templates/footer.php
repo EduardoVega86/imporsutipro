@@ -81,7 +81,7 @@
 
                 cargar_saldoWallet();
 
-                /* cargar_ultima_pagina(); */
+                cargar_ultima_pagina();
 
                 // Ejecutar la función al cargar la página
                 // Ejecutar la función cada 60 segundos
@@ -120,14 +120,16 @@
             }
 
             function cargar_ultima_pagina() {
+                var urlCompleto = window.location.href;
                 let formData = new FormData();
-                formData.append("sku", sku);
+                formData.append("url", urlCompleto);
                 $.ajax({
-                    url: SERVERURL + "pedidos/buscarProductosBodega",
-                    type: "POST", // Cambiar a POST para enviar FormData
+                    url: SERVERURL + "acceso/guardaUltimoPunto",
+                    type: "POST",
                     data: formData,
                     processData: false, // No procesar los datos
                     contentType: false, // No establecer ningún tipo de contenido
+                    dataType: "json",
                     success: function(response) {
 
                     },

@@ -5,9 +5,8 @@ require 'db.php';
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
-// Array para el log de depuración
-$debug_log = [];
 $webhook_token = "ABCDEFG1234";  // Token de verificación
+$debug_log = [];
 
 // Verificación del webhook para el desafío de validación
 if (isset($_GET['hub_challenge']) && isset($_GET['hub_verify_token'])) {
@@ -24,8 +23,9 @@ if (isset($_GET['hub_challenge']) && isset($_GET['hub_verify_token'])) {
 $input = file_get_contents("php://input");
 $data_msg_whatsapp = json_decode($input, true);
 
-if (!$data_msg_whatsapp) {
-    echo json_encode(["status" => "error", "message" => "Datos inválidos."]);
+// Validar que los datos recibidos no están vacíos
+if (empty($data_msg_whatsapp)) {
+    echo json_encode(["status" => "error", "message" => "Datos inválidos o vacíos."]);
     exit;
 }
 
@@ -35,15 +35,20 @@ $debug_log['data_msg_whatsapp'] = $data_msg_whatsapp;
 // Extraer los datos generales del mensaje
 $business_phone_id = $data_msg_whatsapp['entry'][0]['id'] ?? '';
 $phone_whatsapp_from = $data_msg_whatsapp['entry'][0]['changes'][0]['value']['messages'][0]['from'] ?? '';
-$from_chatbot_phone = $data_msg_whatsapp['entry'][0]['changes'][0]['value']['metadata']['display_phone_number'] ?? '';
 $name_whatsapp_from = $data_msg_whatsapp['entry'][0]['changes'][0]['value']['contacts'][0]['profile']['name'] ?? '';
 $tipo_mensaje = $data_msg_whatsapp['entry'][0]['changes'][0]['value']['messages'][0]['type'] ?? '';
+
+// Verificación si los datos claves están presentes
+if (empty($phone_whatsapp_from) || empty($business_phone_id)) {
+    echo json_encode(["status" => "error", "message" => "Datos del mensaje incompletos."]);
+    exit;
+}
 
 // Procesar diferentes tipos de mensajes de WhatsApp
 $texto_mensaje = "";
 $respuesta_WEBHOOK_messages = $data_msg_whatsapp['entry'][0]['changes'][0]['value']['messages'][0];
 
-// Procesamiento del mensaje basado en el tipo
+// Procesar el mensaje basado en el tipo recibido
 switch ($tipo_mensaje) {
     case 'text':
         $texto_mensaje = $respuesta_WEBHOOK_messages['text']['body'];
@@ -82,8 +87,6 @@ switch ($tipo_mensaje) {
     case 'contacts':
         $contacts_whatsapp = [];
         foreach ($respuesta_WEBHOOK_messages['contacts'] as $contact) {
-            $contact_first_name_whatsapp = $contact['name']['first_name'] ?? '';
-            $contact_middle_name_whatsapp = $contact['name']['middle_name'] ?? '';
             $contact_formatted_name_whatsapp = $contact['name']['formatted_name'] ?? '';
             $contact_phone_whatsapp = $contact['phones'][0]['wa_id'] ?? '';
             $contacts_whatsapp[] = "Nombre: $contact_formatted_name_whatsapp, Teléfono: $contact_phone_whatsapp";
@@ -104,7 +107,7 @@ switch ($tipo_mensaje) {
         break;
 
     default:
-        $texto_mensaje = "Tipo de mensaje no reconocido";
+        $texto_mensaje = "Tipo de mensaje no reconocido.";
 }
 
 // Registrar en el log de depuración
@@ -114,12 +117,16 @@ $debug_log['texto_mensaje'] = $texto_mensaje;
 $stmt = $conn->prepare("INSERT INTO mensajes_whatsapp (business_phone_id, phone_whatsapp_from, name_whatsapp_from, tipo_mensaje, body) VALUES (?, ?, ?, ?, ?)");
 $stmt->bind_param('sssss', $business_phone_id, $phone_whatsapp_from, $name_whatsapp_from, $tipo_mensaje, $texto_mensaje);
 
+// Ejecutar la consulta e insertar los datos en la base de datos
 if ($stmt->execute()) {
     $debug_log['insert'] = "Mensaje guardado correctamente.";
     echo json_encode(["status" => "success", "message" => "Mensaje procesado correctamente."]);
 } else {
-    $debug_log['insert'] = "Error al guardar el mensaje.";
+    $debug_log['insert'] = "Error al guardar el mensaje en la base de datos.";
     echo json_encode(["status" => "error", "message" => "Error al procesar el mensaje."]);
 }
 
 $stmt->close();
+
+// Opcional: Guardar el log en un archivo para depuración
+file_put_contents('debug_log.txt', print_r($debug_log, true));
