@@ -56,20 +56,6 @@
             })
             .then(response => response.json())
             .then(data => {
-                $.ajax({
-                    url: <?php echo SERVERURL; ?> + "acceso/guardaUltimoPunto",
-                    type: "POST",
-                    data: formData,
-                    processData: false, // No procesar los datos
-                    contentType: false, // No establecer ningún tipo de contenido
-                    dataType: "json",
-                    success: function(response) {
-
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        alert(errorThrown);
-                    },
-                });
                 console.log('Success:', data);
                 // Mostrar alerta de éxito
                 if (data.status == 401) {
