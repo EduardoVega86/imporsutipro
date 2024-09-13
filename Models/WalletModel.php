@@ -1566,12 +1566,15 @@ class WalletModel extends Query
     {
         $guias = $this->obtenerTodasLasGuias();
 
+        // Obtener pesos de todas las guías concurrentemente
+        $pesos_guias = $this->verdaderoPeso($guias);
+
         $guias_con_exito = [];
         $guias_con_fallo = [];
 
-        foreach ($guias as $key => $value) {
+        foreach ($guias as $guia) {
             // Llama a verificar_envio y recoge los resultados
-            list($exito, $fallo) = $this->verificar_envio($value);
+            list($exito, $fallo) = $this->verificar_envio($guia, $pesos_guias[$guia]['pesoKilos']);
 
             // Combina los resultados
             $guias_con_exito = array_merge($guias_con_exito, $exito);
@@ -1590,13 +1593,13 @@ class WalletModel extends Query
         $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE estado_guia IN (7, 9) AND visto = 0 AND (guia LIKE 'IMP%' OR guia LIKE 'MKP%');";
         $response = $this->select($sql);
         $guias = [];
-        foreach ($response as $key => $value) {
+        foreach ($response as $value) {
             $guias[] = $value['guia'];
         }
         return $guias;
     }
 
-    public function verificar_envio($numero_guia)
+    public function verificar_envio($numero_guia, $peso)
     {
         // Buscar en facturas_cot
         $sql = "SELECT * FROM facturas_cot WHERE numero_guia = '$numero_guia'";
@@ -1613,9 +1616,49 @@ class WalletModel extends Query
         $response = $this->select($sql);
         $trayecto = $id_transporte == 1 ? $response[0]['trayecto_laar'] : ($id_transporte == 2 ? $response[0]['trayecto_servientrega'] : ($id_transporte == 3 ? $response[0]['trayecto_gintracom'] : ($id_transporte == 4 ? ($ciudad_cot == 599 ? 5.5 : 6.5) : 0)));
 
-        $valor_cobertura = 0;
+        // Obtener valor de cobertura
+        $valor_cobertura = $this->obtenerValorCobertura($trayecto, $id_transporte, $ciudad_cot);
 
-        // Determinar el valor de la cobertura según el transporte
+        // Calcular el precio total del envío
+        $precioTotalEnvio = $this->calcularPrecioEnvio($id_transporte, $cod, $monto_factura, $valor_cobertura, $numero_guia);
+
+        // Verificar si hay peso adicional y calcular precio extra
+        if ($peso > 2) {
+            $peso_extra = $peso - 2;
+            $precio_por_kilo_extra = $this->obtenerPrecioPorTrayecto($trayecto);
+            $precioTotalEnvio += $precio_por_kilo_extra * $peso_extra;
+        }
+
+        // Comparar el precio del envío
+        $guias_con_exito = [];
+        $guias_con_fallo = [];
+        if ($precio_envio == $precioTotalEnvio) {
+            $guias_con_exito[] = $numero_guia;
+        } else {
+            $guias_con_fallo[] = $numero_guia;
+        }
+
+        return [$guias_con_exito, $guias_con_fallo];
+    }
+
+    // Función para obtener el precio por trayecto
+    public function obtenerPrecioPorTrayecto($trayecto)
+    {
+        $precios = [
+            'TP' => 0.86,
+            'TE' => 1.15,
+            'TL' => 0.86,
+            'TS' => 0.86,
+            'TO' => 1.15,
+            'GAL' => 2.88
+        ];
+        return isset($precios[$trayecto]) ? $precios[$trayecto] : 0;
+    }
+
+    // Función para obtener valor de cobertura
+    public function obtenerValorCobertura($trayecto, $id_transporte, $ciudad_cot)
+    {
+        $valor_cobertura = 0;
         if ($id_transporte == 1) {
             $sql = "SELECT * FROM cobertura_laar WHERE tipo_cobertura = '$trayecto'";
             $response = $this->select($sql);
@@ -1631,84 +1674,59 @@ class WalletModel extends Query
         } else if ($id_transporte == 4) {
             $valor_cobertura = $ciudad_cot == 599 ? 5.5 : 6.5;
         }
+        return $valor_cobertura;
+    }
 
-        // Calcular el precio total del envío (considerando COD y otros casos)
+    // Función para calcular el precio total del envío
+    public function calcularPrecioEnvio($id_transporte, $cod, $monto_factura, $valor_cobertura, $numero_guia)
+    {
         if ($id_transporte != 4 && $cod == 1) {
-            $precioTotalEnvio = $monto_factura * 0.03 + $valor_cobertura;
+            return $monto_factura * 0.03 + $valor_cobertura;
         } elseif ($id_transporte != 4 && $cod != 1) {
-            $precioTotalEnvio = $valor_cobertura;
+            return $valor_cobertura;
         } elseif ($id_transporte == 4 && str_contains($numero_guia, 'MKP')) {
-            $precioTotalEnvio = 5.99;
+            return 5.99;
         } else {
-            $precioTotalEnvio = $valor_cobertura;
+            return $valor_cobertura;
         }
-
-        // Obtener el peso real del paquete
-        $peso = $this->verdaderoPeso($numero_guia)['pesoKilos']; // Asumiendo que esta función retorna el array decodificado con 'pesoKilos'
-
-        // Verificar si hay peso adicional y calcular el precio extra en función del trayecto
-        if ($peso > 2) {
-            $peso_extra = $peso - 2; // Calculamos el exceso de peso
-            $precio_por_kilo_extra = $this->obtenerPrecioPorTrayecto($trayecto); // Obtener el precio según el trayecto
-
-            // Calcular el costo adicional por el exceso de peso
-            $costo_adicional_peso = $precio_por_kilo_extra * $peso_extra;
-
-            // Sumar el costo adicional al precio total del envío
-            $precioTotalEnvio += $costo_adicional_peso;
-        }
-
-        // Arreglos de éxito y fallo
-        $guias_con_exito = [];
-        $guias_con_fallo = [];
-
-        // Comparar el precio del envío
-        if ($precio_envio == $precioTotalEnvio) {
-            // Si es correcto, agregar al arreglo de éxito
-            $guias_con_exito[] = $numero_guia;
-        } else {
-            // Si no es correcto, agregar al arreglo de fallo
-            $guias_con_fallo[] = $numero_guia;
-        }
-
-        // Devolver ambos arreglos
-        return [$guias_con_exito, $guias_con_fallo];
     }
 
-    // Función para obtener el precio por trayecto
-    public function obtenerPrecioPorTrayecto($trayecto)
+    // Función para obtener pesos de forma concurrente
+    public function obtenerPesosConcurrencia($guias)
     {
-        $precios = [
-            'TP' => 0.86,
-            'TE' => 1.15,
-            'TL' => 0.86,
-            'TS' => 0.86,
-            'TO' => 1.15,
-            'GAL' => 2.88
-        ];
+        $mh = curl_multi_init();
+        $curl_array = [];
+        $results = [];
 
-        return isset($precios[$trayecto]) ? $precios[$trayecto] : 0;
+        foreach ($guias as $guia) {
+            $url = "https://api.laarcourier.com:9727/guias/" . $guia;
+            $curl = curl_init($url);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "GET");
+
+            curl_multi_add_handle($mh, $curl);
+            $curl_array[$guia] = $curl;
+        }
+
+        $running = null;
+        do {
+            curl_multi_exec($mh, $running);
+            curl_multi_select($mh);
+        } while ($running > 0);
+
+        foreach ($curl_array as $guia => $curl) {
+            $results[$guia] = json_decode(curl_multi_getcontent($curl), true);
+            curl_multi_remove_handle($mh, $curl);
+        }
+
+        curl_multi_close($mh);
+        return $results;
     }
 
-    // Modificar verdaderoPeso para devolver el array completo y extraer el peso
-    public function verdaderoPeso($numero_guia)
+    // Modificar verdaderoPeso para usar la concurrencia
+    public function verdaderoPeso($guias)
     {
-        $url = "https://api.laarcourier.com:9727/guias/" . $numero_guia;
-
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => $url,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "GET",
-        ));
-
-        $response = curl_exec($curl);
-
-        curl_close($curl);
-
-        // Decodificar la respuesta JSON
-        return json_decode($response, true);
+        return $this->obtenerPesosConcurrencia($guias);
     }
 }
