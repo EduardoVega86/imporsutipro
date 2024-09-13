@@ -159,6 +159,7 @@ document.addEventListener("click", function (event) {
 /* Enviar mensaje whatsapp */
 document.addEventListener("DOMContentLoaded", function () {
   const recordButton = document.getElementById("record-button");
+  const sendButton = document.getElementById("send-button");
   const audioControls = document.getElementById("audio-recording-controls");
   const sendAudioButton = document.getElementById("send-audio");
   const audioTimer = document.getElementById("audio-timer");
@@ -166,8 +167,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // WhatsApp API credentials
   const fromPhoneNumberId = "109565362009074"; // Identificador de número de teléfono de WhatsApp
-  const accessToken =
-    "EAAVZAG5oL9G4BOyrsyNgZBmlNXqlTB9ObbeyYhVyZBItJgJzyyVzt4Kuwz1P6OZAZAyB2wC9qFBLnc5qE9ZBrvDJ2yqPHlzekeN051WhK1qMF4QfXrtUScbZCeFrGJiaqHHZCPFg3CHyTXrAhzA9mKjlx6g09P4ZBjrppXBLfgBfGGMLgTxHTrb5vtpmjZBgEh9nZAwxgZDZD"; // Asegúrate de que este token sea válido
+  const accessToken = "TU_ACCESS_TOKEN"; // Asegúrate de que este token sea válido
   const phoneNumber = "+593981702066"; // Número al que se va a enviar el mensaje o audio
   const url = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
 
@@ -291,6 +291,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
           alert("¡Mensaje enviado con éxito!");
           messageInput.value = ""; // Limpiar el campo de entrada
+          toggleButtons(); // Verificar si hay que mostrar el botón de audio
         }
       })
       .catch((error) => {
@@ -354,17 +355,23 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 500); // Esperar un poco antes de verificar el audioBlob
   });
 
-  // ---- Botón para iniciar/detener la grabación ----
-  recordButton.addEventListener("click", () => {
-    if (!isRecording) {
-      startRecording();
+  // ---- Función para alternar los botones ----
+  function toggleButtons() {
+    if (messageInput.value.trim() === "") {
+      // Si el input está vacío, mostrar el botón de grabar audio
+      recordButton.style.display = "inline-block";
+      sendButton.style.display = "none";
     } else {
-      stopRecording(); // Detener si está en proceso de grabación
+      // Si el input tiene texto, mostrar el botón de enviar
+      recordButton.style.display = "none";
+      sendButton.style.display = "inline-block";
     }
-  });
+  }
+
+  // ---- Evento para cambiar los botones cuando se escribe en el input ----
+  messageInput.addEventListener("input", toggleButtons);
 
   // ---- Botón para enviar texto ----
-  const sendButton = document.getElementById("send-button");
   sendButton.addEventListener("click", (event) => {
     event.preventDefault();
     const message = messageInput.value.trim();
@@ -387,6 +394,9 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
   });
+
+  // Iniciar con el botón de grabar visible
+  toggleButtons();
 });
 
 /* Fin enviar mensaje de audio Whatsapp */
