@@ -4,11 +4,9 @@ require_once 'PHPMailer/SMTP.php';
 require_once 'PHPMailer/Exception.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
+use React\EventLoop\Factory;
 use React\Http\Browser;
-use React\EventLoop\Loop;
 use Psr\Http\Message\ResponseInterface;
-
-
 
 class WalletModel extends Query
 {
@@ -1600,9 +1598,6 @@ class WalletModel extends Query
 
     public function verificar_envio($numero_guia)
     {
-        // Iniciar el cliente de ReactPHP
-        $browser = new Browser();
-
         // Buscar en facturas_cot
         $sql = "SELECT * FROM facturas_cot WHERE numero_guia = '$numero_guia'";
         $response = $this->select($sql);
@@ -1648,36 +1643,53 @@ class WalletModel extends Query
             $precioTotalEnvio = $valor_cobertura;
         }
 
-        // Realizar la petición a la API usando ReactPHP de forma correcta
-        $browser->get("https://api.laarcourier.com:9727/guias/" . $numero_guia)
-            ->then(function (ResponseInterface $response) use ($precio_envio, $precioTotalEnvio, $numero_guia) {
-                $data = json_decode((string) $response->getBody(), true);
-                $peso = $data['pesoKilos']; // Suponiendo que la API devuelve 'pesoKilos'
+        // Obtener el peso real del paquete
+        $peso = $this->verdaderoPeso($numero_guia)['pesoKilos']; // Asumiendo que esta función retorna el array decodificado con 'pesoKilos'
 
-                // Aquí puedes continuar con el procesamiento, por ejemplo:
-                $guias_con_exito = [];
-                $guias_con_fallo = [];
+        // Verificar si hay peso adicional y calcular el precio extra en función del trayecto
+        if ($peso > 2) {
+            $peso_extra = $peso - 2; // Calculamos el exceso de peso
+            $precio_por_kilo_extra = $this->obtenerPrecioPorTrayecto($trayecto); // Obtener el precio según el trayecto
 
-                // Comparar el precio del envío
-                if ($precio_envio == $precioTotalEnvio) {
-                    // Si es correcto, agregar al arreglo de éxito
-                    $guias_con_exito[] = $numero_guia;
-                } else {
-                    // Si no es correcto, agregar al arreglo de fallo
-                    $guias_con_fallo[] = $numero_guia;
-                }
+            // Calcular el costo adicional por el exceso de peso
+            $costo_adicional_peso = $precio_por_kilo_extra * $peso_extra;
 
-                // Devolver ambos arreglos o continuar el flujo
-                return [$guias_con_exito, $guias_con_fallo];
-            })
-            ->otherwise(function (Exception $e) {
-                // Manejar errores en la solicitud HTTP
-                echo 'Error al hacer la petición a la API: ' . $e->getMessage();
-            });
+            // Sumar el costo adicional al precio total del envío
+            $precioTotalEnvio += $costo_adicional_peso;
+        }
 
-        // Asegurarse de ejecutar el loop de eventos para procesar las promesas
-        Loop::run();
+        // Arreglos de éxito y fallo
+        $guias_con_exito = [];
+        $guias_con_fallo = [];
+
+        // Comparar el precio del envío
+        if ($precio_envio == $precioTotalEnvio) {
+            // Si es correcto, agregar al arreglo de éxito
+            $guias_con_exito[] = $numero_guia;
+        } else {
+            // Si no es correcto, agregar al arreglo de fallo
+            $guias_con_fallo[] = $numero_guia;
+        }
+
+        // Devolver ambos arreglos
+        return [$guias_con_exito, $guias_con_fallo];
     }
+
+    // Función para obtener el precio por trayecto
+    public function obtenerPrecioPorTrayecto($trayecto)
+    {
+        $precios = [
+            'TP' => 0.86,
+            'TE' => 1.15,
+            'TL' => 0.86,
+            'TS' => 0.86,
+            'TO' => 1.15,
+            'GAL' => 2.88
+        ];
+
+        return isset($precios[$trayecto]) ? $precios[$trayecto] : 0;
+    }
+
     // Modificar verdaderoPeso para devolver el array completo y extraer el peso
     public function verdaderoPeso($numero_guia)
     {
