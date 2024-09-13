@@ -525,7 +525,7 @@ class AccesoModel extends Query
             $response = $this->initialResponse();
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = 'Error al guardar el ultimo punto';
+            $response['message'] = $response["message"];
         }
         return $response;
     }
