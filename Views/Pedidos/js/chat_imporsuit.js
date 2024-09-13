@@ -368,4 +368,48 @@ document.addEventListener("DOMContentLoaded", function () {
   toggleButtons();
 });
 
+// ---- Función para enviar mensajes de texto a WhatsApp ----
+function sendMessageToWhatsApp(message) {
+  if (message.trim() === "") {
+    alert("Por favor, escribe un mensaje.");
+    return;
+  }
+
+  const data = {
+    messaging_product: "whatsapp",
+    recipient_type: "individual",
+    to: phoneNumber,
+    type: "text",
+    text: {
+      preview_url: true,
+      body: message, // Mensaje personalizado
+    },
+  };
+
+  const headers = {
+    Authorization: `Bearer ${accessToken}`,
+    "Content-Type": "application/json",
+  };
+
+  fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: JSON.stringify(data),
+  })
+    .then((response) => response.json())
+    .then((responseData) => {
+      if (responseData.error) {
+        console.error("Error al enviar el mensaje:", responseData.error);
+        alert(`Error: ${responseData.error.message}`);
+      } else {
+        alert("¡Mensaje enviado con éxito!");
+        messageInput.value = ""; // Limpiar el campo de entrada
+        toggleButtons(); // Verificar si hay que mostrar el botón de audio
+      }
+    })
+    .catch((error) => {
+      console.error("Error en la solicitud:", error);
+      alert("Ocurrió un error al enviar el mensaje.");
+    });
+}
 /* Fin enviar mensaje de audio Whatsapp */
