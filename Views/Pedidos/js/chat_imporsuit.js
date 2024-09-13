@@ -263,7 +263,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // ---- Función para enviar mensajes de texto a WhatsApp ----
   function sendMessageToWhatsApp(message) {
-    const data = {
+    /* const data = {
       messaging_product: "whatsapp",
       to: phoneNumber,
       type: "template",
@@ -271,19 +271,18 @@ document.addEventListener("DOMContentLoaded", function () {
         name: "hello_world", // Plantilla que estás usando
         language: { code: "en_US" }, // Lenguaje de la plantilla
       },
-    };
+    }; */
  
 
-    /* const data = {
+    const data = {
       messaging_product: "whatsapp",
       recipient_type: "individual",
-      to: phoneNumber,
+      to: phoneNumber, // +593981702066
       type: "text",
       text: {
-        preview_url: true,
-        body: message, // Mensaje personalizado
+        body: "Mensaje de prueba", // Mensaje básico
       },
-    }; */
+    };
 
     const headers = {
       Authorization: `Bearer ${accessToken}`,
