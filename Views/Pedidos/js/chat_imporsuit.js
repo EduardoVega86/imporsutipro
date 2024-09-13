@@ -166,7 +166,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // WhatsApp API credentials
   const fromPhoneNumberId = "109565362009074"; // Identificador de número de teléfono de WhatsApp
-  const accessToken = "TU_ACCESS_TOKEN"; // Asegúrate de que este token sea válido
+  const accessToken =
+    "EAAVZAG5oL9G4BOyrsyNgZBmlNXqlTB9ObbeyYhVyZBItJgJzyyVzt4Kuwz1P6OZAZAyB2wC9qFBLnc5qE9ZBrvDJ2yqPHlzekeN051WhK1qMF4QfXrtUScbZCeFrGJiaqHHZCPFg3CHyTXrAhzA9mKjlx6g09P4ZBjrppXBLfgBfGGMLgTxHTrb5vtpmjZBgEh9nZAwxgZDZD"; // Asegúrate de que este token sea válido
   const phoneNumber = "+593981702066"; // Número al que se va a enviar el mensaje o audio
   const url = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
 
@@ -374,7 +375,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Ejecutar la función de enviar mensaje al presionar "Enter"
+  // ---- Enviar mensaje con la tecla Enter ----
   messageInput.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {
       event.preventDefault(); // Evitar el salto de línea
