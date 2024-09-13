@@ -56,8 +56,25 @@
             })
             .then(response => response.json())
             .then(data => {
+                // Segunda solicitud AJAX después de la autenticación
+                $.ajax({
+                    url: '<?php echo SERVERURL; ?>acceso/guardaUltimoPunto', // Corregido
+                    type: "POST",
+                    data: formData,
+                    processData: false, // No procesar los datos
+                    contentType: false, // No establecer ningún tipo de contenido
+                    dataType: "json",
+                    success: function(response) {
+                        // Manejo de éxito en guardaUltimoPunto
+                        console.log('Datos guardados correctamente');
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        alert('Error al guardar datos: ' + errorThrown);
+                    },
+                });
+
+                // Manejo de la respuesta del fetch de login
                 console.log('Success:', data);
-                // Mostrar alerta de éxito
                 if (data.status == 401) {
                     Swal.fire({
                         icon: 'error',
@@ -78,7 +95,7 @@
             })
             .catch((error) => {
                 console.error('Error:', error);
-                // Mostrar alerta de error
+                // Mostrar alerta de error en caso de fallo en el fetch
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
@@ -88,6 +105,7 @@
                 });
             });
     });
+
 
     //funcion ara dejar ver o no contraseña
     function togglePasswordVisibility() {
