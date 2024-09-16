@@ -558,6 +558,15 @@ class Pedidos extends Controller
         echo json_encode($response);
     }
 
+    public function novedadSpeed()
+    {
+        $id_pedido = $_POST['id_pedido'];
+        $novedad = $_POST['novedad'];
+        $tipo = $_POST['tipo'];
+        $response = $this->model->novedadSpeed($id_pedido, $novedad, $tipo);
+        echo json_encode($response);
+    }
+
     /* APIS Chat center */
     public function mensajes_clientes()
     {
