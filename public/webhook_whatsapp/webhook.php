@@ -52,10 +52,15 @@ if (empty($data_msg_whatsapp)) {
 $debug_log['data_msg_whatsapp'] = $data_msg_whatsapp;
 
 // Extraer los datos generales del mensaje
-$business_phone_id = $data_msg_whatsapp['entry'][0]['id'] ?? '';
+$business_phone_id = $data_msg_whatsapp['entry'][0]['id'] ?? ''; // Este es el uid_cliente
 $phone_whatsapp_from = $data_msg_whatsapp['entry'][0]['changes'][0]['value']['messages'][0]['from'] ?? '';
 $name_whatsapp_from = $data_msg_whatsapp['entry'][0]['changes'][0]['value']['contacts'][0]['profile']['name'] ?? '';
 $tipo_mensaje = $data_msg_whatsapp['entry'][0]['changes'][0]['value']['messages'][0]['type'] ?? '';
+
+// Separar el nombre y apellido (en caso de que estén juntos en el campo "name")
+$nombre_completo = explode(" ", $name_whatsapp_from);
+$nombre_cliente = $nombre_completo[0] ?? ''; // Primer nombre
+$apellido_cliente = isset($nombre_completo[1]) ? $nombre_completo[1] : ''; // Primer apellido (si existe)
 
 // Verificación si los datos claves están presentes
 if (empty($phone_whatsapp_from) || empty($business_phone_id)) {
@@ -132,22 +137,23 @@ switch ($tipo_mensaje) {
 // Registrar en el log de depuración
 $debug_log['texto_mensaje'] = $texto_mensaje;
 
-// Verificar si el cliente ya existe en la tabla clientes_chat_center
-$check_client_stmt = $conn->prepare("SELECT id FROM clientes_chat_center WHERE celular_cliente = ?");
-$check_client_stmt->bind_param('s', $phone_whatsapp_from); // Usamos el número de teléfono para buscar al cliente
+// Verificar si el cliente ya existe en la tabla clientes_chat_center por uid_cliente
+$check_client_stmt = $conn->prepare("SELECT id FROM clientes_chat_center WHERE uid_cliente = ?");
+$check_client_stmt->bind_param('s', $business_phone_id); // Buscamos por el uid_cliente
 $check_client_stmt->execute();
 $check_client_stmt->store_result();
+
+$id_plataforma = 1190; // Ajustar según sea necesario
 
 if ($check_client_stmt->num_rows == 0) {
     // El cliente no existe, creamos uno nuevo
     $insert_client_stmt = $conn->prepare("
-        INSERT INTO clientes_chat_center (id_plataforma, celular_cliente, created_at, updated_at) 
-        VALUES (?, ?, NOW(), NOW())
+        INSERT INTO clientes_chat_center (id_plataforma, uid_cliente, nombre_cliente, apellido_cliente, celular_cliente, created_at, updated_at) 
+        VALUES (?, ?, ?, ?, ?, NOW(), NOW())
     ");
-    $id_plataforma = 1; // Ajustar según sea necesario
-    $insert_client_stmt->bind_param('is', $id_plataforma, $phone_whatsapp_from);
+    $insert_client_stmt->bind_param('issss', $id_plataforma, $business_phone_id, $nombre_cliente, $apellido_cliente, $phone_whatsapp_from);
     $insert_client_stmt->execute();
-    $id_cliente = $insert_client_stmt->insert_id; // Obtener el ID del cliente recién creado
+    $id_cliente = $insert_client_stmt->insert_id; // Obtener el ID autoincrementado del cliente recién creado
     $insert_client_stmt->close();
 } else {
     // El cliente existe, obtenemos su ID
@@ -179,5 +185,3 @@ $conn->close();
 
 // Opcional: Guardar el log en un archivo para depuración
 file_put_contents('debug_log.txt', print_r($debug_log, true));
-
-?>
