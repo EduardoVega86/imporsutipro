@@ -240,6 +240,8 @@ const listGuias = async () => {
         despachado = `<i class='bx bx-check' style="color:#28E418; font-size: 30px;"></i>`;
       } else if (guia.estado_factura == 1) {
         despachado = `<i class='bx bx-x' style="color:red; font-size: 30px;"></i>`;
+      } else if (guia.estado_factura == 3) {
+        despachado = `<i class='bx bxs-truck' style="color:red; font-size: 30px;"></i>`;
       }
 
       content += `

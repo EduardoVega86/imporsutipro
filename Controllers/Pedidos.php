@@ -589,4 +589,13 @@ class Pedidos extends Controller
         $response = $this->model->guardar_audio_Whatsapp($_FILES['audio']);
         echo json_encode($response);
     }
+
+    public function agregar_mensaje_enviado()
+    {
+        $texto_mensaje = $_POST['texto_mensaje'];
+        $tipo_mensaje = $_POST['tipo_mensaje'];
+
+        $response = $this->model->agregar_mensaje_enviado($texto_mensaje, $tipo_mensaje);
+        echo json_encode($response);
+    }
 }
