@@ -113,6 +113,12 @@
                 <a href="<?php echo SERVERURL ?>wallet"><i class="fa-solid fa-money-bill-trend-up menu-icon"></i> <span class="menu-text">Detalle</span></a>
                 <a href="<?php echo SERVERURL ?>wallet/datos_bancarios"><i class='bx bxs-bank menu-icon'></i> <span class="menu-text">Datos bancarios</span></a>
                 <a href="<?php echo SERVERURL ?>referidos"><i class='bx bxs-bank menu-icon'></i> <span class="menu-text">Referidos</span></a>
+                <?php if ($_SESSION['cargo'] != 10) {
+                ?>
+                    <a href="<?php echo SERVERURL ?>wallet/historial_solicitudes"><i class='bx bx-task'></i> <span class="menu-text">Solicitudes</span></a>
+                <?php
+                }
+                ?>
                 <?php if ($_SESSION['cargo'] == 10) { ?>
                     <a href="<?php echo SERVERURL ?>wallet/solicitudes"><i class="fa-solid fa-clipboard-list menu-icon"></i> <span class="menu-text">Solicitudes</span></a>
                     <a href="<?php echo SERVERURL ?>wallet/auditoria_guias"><i class="fa-solid fa-search menu-icon"></i> <span class="menu-text">Auditoria</span></a>
