@@ -56,6 +56,7 @@ const listarHistorialSolicitudes = async () => {
 
     console.log(response);
     if (response.status === 200) {
+      console.log("tamos en el if");
       const data = response.data;
       const columns = [
         { data: "id_solicitud" },
@@ -66,9 +67,7 @@ const listarHistorialSolicitudes = async () => {
         { data: "monto" },
       ];
 
-      dataTableHistorialSolicitudes = $(
-        "#dataTableHistorialSolicitudes"
-      ).DataTable({
+      dataTableHistorialSolicitudes = $("#datatable_historial").DataTable({
         ...dataTableOptions,
         data,
         columns,
