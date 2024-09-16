@@ -1,89 +1,152 @@
 <?php
+// Configuración de los encabezados
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json; charset=UTF-8");
+
+$webhook_token = "ABCDEFG1234";  // Token de verificación
+$debug_log = [];
+
+// Datos de conexión a la base de datos
 const HOST = '3.233.119.65';
 const USER = "imporsuit_system";
 const PASSWORD = "imporsuit_system";
 const DB = "imporsuitpro_new";
 const CHARSET = "utf8";
 
-if ($_SERVER['HTTP_HOST'] == 'localhost') {
-    define('ENVIRONMENT', 'development');
-} else {
-    define('ENVIRONMENT', 'production');
+// Establecer conexión con la base de datos
+$conn = new mysqli(HOST, USER, PASSWORD, DB);
+
+// Verificar la conexión
+if ($conn->connect_error) {
+    die(json_encode(["status" => "error", "message" => "Error al conectar con la base de datos: " . $conn->connect_error]));
 }
-if (ENVIRONMENT == 'development') {
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
-    define("SERVERURL", "http://localhost/imporsutipro/");
-} else {
-}
-$url_actual = "https://" . $_SERVER['HTTP_HOST'] . "/";
-$mysqli = new mysqli(HOST, USER, PASSWORD, DB);
-$mysqli->set_charset(CHARSET);
-if ($mysqli->connect_errno) {
-    echo "Error al conectarse con la base de datos";
+
+// Configurar el charset de la conexión
+if (!$conn->set_charset(CHARSET)) {
+    echo json_encode(["status" => "error", "message" => "Error al establecer el charset de la base de datos: " . $conn->error]);
     exit;
 }
-$matriz = [];
 
-$sql = "SELECT * FROM matriz where url_matriz = '$url_actual'";
-$result = $mysqli->query($sql);
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $matriz = $row;
+// Verificación del webhook para el desafío de validación
+if (isset($_GET['hub_challenge']) && isset($_GET['hub_verify_token'])) {
+    if ($webhook_token === $_GET['hub_verify_token']) {
+        echo $_GET['hub_challenge'];
+        exit;
+    } else {
+        echo json_encode(["status" => "error", "message" => "Token de verificación incorrecto."]);
+        exit;
     }
+}
+
+// Leer los datos enviados por WhatsApp
+$input = file_get_contents("php://input");
+$data_msg_whatsapp = json_decode($input, true);
+
+// Validar que los datos recibidos no están vacíos
+if (empty($data_msg_whatsapp)) {
+    echo json_encode(["status" => "error", "message" => "Datos inválidos o vacíos."]);
+    exit;
+}
+
+// Guardar los datos recibidos en el log de depuración
+$debug_log['data_msg_whatsapp'] = $data_msg_whatsapp;
+
+// Extraer los datos generales del mensaje
+$business_phone_id = $data_msg_whatsapp['entry'][0]['id'] ?? '';
+$phone_whatsapp_from = $data_msg_whatsapp['entry'][0]['changes'][0]['value']['messages'][0]['from'] ?? '';
+$name_whatsapp_from = $data_msg_whatsapp['entry'][0]['changes'][0]['value']['contacts'][0]['profile']['name'] ?? '';
+$tipo_mensaje = $data_msg_whatsapp['entry'][0]['changes'][0]['value']['messages'][0]['type'] ?? '';
+
+// Verificación si los datos claves están presentes
+if (empty($phone_whatsapp_from) || empty($business_phone_id)) {
+    echo json_encode(["status" => "error", "message" => "Datos del mensaje incompletos."]);
+    exit;
+}
+
+// Procesar diferentes tipos de mensajes de WhatsApp
+$texto_mensaje = "";
+$respuesta_WEBHOOK_messages = $data_msg_whatsapp['entry'][0]['changes'][0]['value']['messages'][0];
+
+// Procesar el mensaje basado en el tipo recibido
+switch ($tipo_mensaje) {
+    case 'text':
+        $texto_mensaje = $respuesta_WEBHOOK_messages['text']['body'];
+        break;
+
+    case 'image':
+        $texto_mensaje = "Imagen recibida con ID: " . $respuesta_WEBHOOK_messages['image']['id'];
+        if (isset($respuesta_WEBHOOK_messages['image']['caption'])) {
+            $texto_mensaje .= ", con pie de foto: " . $respuesta_WEBHOOK_messages['image']['caption'];
+        }
+        break;
+
+    case 'video':
+        $texto_mensaje = "Video recibido con ID: " . $respuesta_WEBHOOK_messages['video']['id'];
+        if (isset($respuesta_WEBHOOK_messages['video']['caption'])) {
+            $texto_mensaje .= ", con pie de foto: " . $respuesta_WEBHOOK_messages['video']['caption'];
+        }
+        break;
+
+    case 'audio':
+        $texto_mensaje = "Audio recibido con ID: " . $respuesta_WEBHOOK_messages['audio']['id'];
+        break;
+
+    case 'document':
+        $texto_mensaje = "Documento recibido con ID: " . $respuesta_WEBHOOK_messages['document']['id'];
+        if (isset($respuesta_WEBHOOK_messages['document']['filename'])) {
+            $texto_mensaje .= ", nombre de archivo: " . $respuesta_WEBHOOK_messages['document']['filename'];
+        }
+        break;
+
+    case 'location':
+        $location = $respuesta_WEBHOOK_messages['location'];
+        $texto_mensaje = "Ubicación recibida: Latitud " . $location['latitude'] . ", Longitud " . $location['longitude'];
+        break;
+
+    case 'contacts':
+        $contacts_whatsapp = [];
+        foreach ($respuesta_WEBHOOK_messages['contacts'] as $contact) {
+            $contact_formatted_name_whatsapp = $contact['name']['formatted_name'] ?? '';
+            $contact_phone_whatsapp = $contact['phones'][0]['wa_id'] ?? '';
+            $contacts_whatsapp[] = "Nombre: $contact_formatted_name_whatsapp, Teléfono: $contact_phone_whatsapp";
+        }
+        $texto_mensaje = implode(", ", $contacts_whatsapp);
+        break;
+
+    case 'interactive':
+        if ($respuesta_WEBHOOK_messages['interactive']['type'] === "button_reply") {
+            $texto_mensaje = "Respuesta de botón: " . $respuesta_WEBHOOK_messages['interactive']['button_reply']['title'];
+        } else if ($respuesta_WEBHOOK_messages['interactive']['type'] === "list_reply") {
+            $texto_mensaje = "Respuesta de lista: " . $respuesta_WEBHOOK_messages['interactive']['list_reply']['title'];
+        }
+        break;
+
+    case 'sticker':
+        $texto_mensaje = "Sticker recibido con ID: " . $respuesta_WEBHOOK_messages['sticker']['id'];
+        break;
+
+    default:
+        $texto_mensaje = "Tipo de mensaje no reconocido.";
+}
+
+// Registrar en el log de depuración
+$debug_log['texto_mensaje'] = $texto_mensaje;
+
+// Guardar los datos del mensaje en la base de datos
+$stmt = $conn->prepare("INSERT INTO mensajes_whatsapp (business_phone_id, phone_whatsapp_from, name_whatsapp_from, tipo_mensaje, body) VALUES (?, ?, ?, ?, ?)");
+$stmt->bind_param('sssss', $business_phone_id, $phone_whatsapp_from, $name_whatsapp_from, $tipo_mensaje, $texto_mensaje);
+
+// Ejecutar la consulta e insertar los datos en la base de datos
+if ($stmt->execute()) {
+    $debug_log['insert'] = "Mensaje guardado correctamente.";
+    echo json_encode(["status" => "success", "message" => "Mensaje procesado correctamente."]);
 } else {
-    echo "0 results";
+    $debug_log['insert'] = "Error al guardar el mensaje en la base de datos.";
+    echo json_encode(["status" => "error", "message" => "Error al procesar el mensaje."]);
 }
 
-$mysqli->close();
+$stmt->close();
+$conn->close();
 
-$id_matriz = $matriz['idmatriz'];
-$color_fondo = $matriz['color_fondo_login'];
-define("MATRIZ", $id_matriz);
-$url_matriz = $matriz['url_matriz'];
-if (ENVIRONMENT == "production") {
-    define("SERVERURL", $url_matriz);
-}
-
-//echo MATRIZ;
-
-$logo = $matriz['logo'];
-$marca = $matriz['marca'];
-$prefijo = $matriz['prefijo'];
-$favicon = $matriz['favicon'];
-$color_letras = $matriz['color_letras'];
-$color_hover = $matriz['color_hover'];
-$color_letra_hover = $matriz['color_letra_hover'];
-$banner_inicio = $matriz['banner_inicio'];
-$dominio = $matriz['dominio'];
-$login_image = $matriz['login_image'];
-$color_boton_login  = $matriz['color_boton_login'];
-$color_hover_login = $matriz['color_hover_login'];
-$color_favorito = $matriz['color_favorito'];
-$transportadora_imagen = $matriz['transportadora_imagen'];
-
-const LAAR_USER = "import.uio.api";
-const LAAR_PASSWORD = "Imp@rt*23";
-const LAAR_ENDPOINT_AUTH = "https://api.laarcourier.com:9727/authenticate";
-const LAAR_ENDPOINT = "https://api.laarcourier.com:9727/guias/contado";
-const LLAR_ENDPOINT_CANCEL = 'https://api.laarcourier.com:9727/guias/anular/';
-
-///obtener matriz 
-
-define("COLOR_FONDO", $color_fondo);
-define("IMAGEN_LOGO", $logo);
-define("MARCA", $marca);
-define("PREFIJOS", $prefijo);
-define("FAVICON", $favicon);
-define("COLOR_LETRAS", $color_letras);
-define("COLOR_HOVER", $color_hover);
-define("COLOR_LETRA_HOVER", $color_letra_hover);
-define("BANNER_INICIO", $banner_inicio);
-define("DOMINIO", $dominio);
-define("LOGIN_IMAGE", $login_image);
-define("COLOR_BOTON_LOGIN", $color_boton_login);
-define("COLOR_HOVER_LOGIN", $color_hover_login);
-define("COLOR_FAVORITO", $color_favorito);
-define("URL_MATRIZ", $url_matriz);
-define("TRANSPORTADORA_IMAGEN", $transportadora_imagen);
+// Opcional: Guardar el log en un archivo para depuración
+file_put_contents('debug_log.txt', print_r($debug_log, true));
