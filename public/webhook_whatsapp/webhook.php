@@ -143,13 +143,14 @@ $check_client_stmt->bind_param('s', $business_phone_id); // Buscamos por el uid_
 $check_client_stmt->execute();
 $check_client_stmt->store_result();
 
+$id_plataforma = 1190; // Ajustar según sea necesario
+
 if ($check_client_stmt->num_rows == 0) {
     // El cliente no existe, creamos uno nuevo
     $insert_client_stmt = $conn->prepare("
         INSERT INTO clientes_chat_center (id_plataforma, uid_cliente, nombre_cliente, apellido_cliente, celular_cliente, created_at, updated_at) 
         VALUES (?, ?, ?, ?, ?, NOW(), NOW())
     ");
-    $id_plataforma = 1; // Ajustar según sea necesario
     $insert_client_stmt->bind_param('issss', $id_plataforma, $business_phone_id, $nombre_cliente, $apellido_cliente, $phone_whatsapp_from);
     $insert_client_stmt->execute();
     $id_cliente = $insert_client_stmt->insert_id; // Obtener el ID autoincrementado del cliente recién creado
