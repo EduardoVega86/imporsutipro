@@ -1436,6 +1436,12 @@ class WalletModel extends Query
         foreach ($response as $key => $value) {
             $id_cuenta = $value['id_cuenta'];
             $tipo = $value['tipo'];
+            $usuario = $value['usuario'];
+
+            $sql = "SELECT * FROM users WHERE id_users = '$usuario'";
+            $response2 =  $this->select($sql);
+            $response[$key]['usuario'] = $response2[0]['nombre_users'];
+
             if ($tipo == "PRIMARIO") {
                 $sql = "SELECT * FROM datos_banco_usuarios WHERE id_cuenta = '$id_cuenta'";
                 $response2 =  $this->select($sql);
