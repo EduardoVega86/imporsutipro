@@ -57,11 +57,21 @@ if (empty($data_msg_whatsapp)) {
 $debug_log['data_msg_whatsapp'] = $data_msg_whatsapp;
 file_put_contents('debug_log.txt', print_r($debug_log, true) . "\n", FILE_APPEND);
 
-// Extraer los datos generales del mensaje
-$business_phone_id = $data_msg_whatsapp['value']['metadata']['phone_number_id'] ?? '';  // Obtenemos el phone_number_id
-$phone_whatsapp_from = $data_msg_whatsapp['value']['messages'][0]['from'] ?? '';  // Obtenemos el remitente
-$name_whatsapp_from = $data_msg_whatsapp['value']['contacts'][0]['profile']['name'] ?? '';  // Nombre del remitente
-$tipo_mensaje = $data_msg_whatsapp['value']['messages'][0]['type'] ?? '';  // Tipo de mensaje
+// Extraer los datos generales del mensaje de la estructura real de WhatsApp
+if (isset($data_msg_whatsapp['entry'][0]['changes'][0]['value'])) {
+    $whatsapp_value = $data_msg_whatsapp['entry'][0]['changes'][0]['value'];
+} else {
+    // Si no encontramos la estructura esperada, registramos el error
+    file_put_contents('debug_log.txt', "Error: Estructura del mensaje no válida\n", FILE_APPEND);
+    echo json_encode(["status" => "error", "message" => "Estructura del mensaje no válida."]);
+    exit;
+}
+
+// Extraer datos del mensaje
+$business_phone_id = $whatsapp_value['metadata']['phone_number_id'] ?? '';  // Obtenemos el phone_number_id
+$phone_whatsapp_from = $whatsapp_value['messages'][0]['from'] ?? '';  // Obtenemos el remitente
+$name_whatsapp_from = $whatsapp_value['contacts'][0]['profile']['name'] ?? '';  // Nombre del remitente
+$tipo_mensaje = $whatsapp_value['messages'][0]['type'] ?? '';  // Tipo de mensaje
 
 // Separar el nombre y apellido (en caso de que estén juntos en el campo "name")
 $nombre_completo = explode(" ", $name_whatsapp_from);
@@ -77,7 +87,7 @@ if (empty($phone_whatsapp_from) || empty($business_phone_id)) {
 
 // Procesar diferentes tipos de mensajes de WhatsApp
 $texto_mensaje = "";
-$respuesta_WEBHOOK_messages = $data_msg_whatsapp['value']['messages'][0];  // Ajuste para obtener el mensaje correctamente
+$respuesta_WEBHOOK_messages = $whatsapp_value['messages'][0];  // Ajuste para obtener el mensaje correctamente
 
 // Procesar el mensaje basado en el tipo recibido
 switch ($tipo_mensaje) {
@@ -194,5 +204,3 @@ $conn->close();
 
 // Opcional: Guardar el log en un archivo para depuración
 file_put_contents('debug_log.txt', print_r($debug_log, true) . "\n", FILE_APPEND);
-
-?>
