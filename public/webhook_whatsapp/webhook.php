@@ -132,28 +132,46 @@ switch ($tipo_mensaje) {
 // Registrar en el log de depuración
 $debug_log['texto_mensaje'] = $texto_mensaje;
 
-// Guardar los datos del mensaje en la base de datos
+// Verificar si el cliente ya existe en la tabla clientes_chat_center
+$check_client_stmt = $conn->prepare("SELECT id FROM clientes_chat_center WHERE celular_cliente = ?");
+$check_client_stmt->bind_param('s', $phone_whatsapp_from); // Usamos el número de teléfono para buscar al cliente
+$check_client_stmt->execute();
+$check_client_stmt->store_result();
+
+if ($check_client_stmt->num_rows == 0) {
+    // El cliente no existe, creamos uno nuevo
+    $insert_client_stmt = $conn->prepare("
+        INSERT INTO clientes_chat_center (id_plataforma, celular_cliente, created_at, updated_at) 
+        VALUES (?, ?, NOW(), NOW())
+    ");
+    $id_plataforma = 1; // Ajustar según sea necesario
+    $insert_client_stmt->bind_param('is', $id_plataforma, $phone_whatsapp_from);
+    $insert_client_stmt->execute();
+    $id_cliente = $insert_client_stmt->insert_id; // Obtener el ID del cliente recién creado
+    $insert_client_stmt->close();
+} else {
+    // El cliente existe, obtenemos su ID
+    $check_client_stmt->bind_result($id_cliente);
+    $check_client_stmt->fetch();
+}
+
+$check_client_stmt->close();
+
+// Ahora puedes proceder a insertar el mensaje en la tabla mensajes_clientes
 $stmt = $conn->prepare("
     INSERT INTO mensajes_clientes (id_plataforma, id_cliente, mid_mensaje, tipo_mensaje, texto_mensaje, rol_mensaje, created_at, updated_at) 
     VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW())
 ");
 
-$id_plataforma = 1190; // Ejemplo de un valor fijo para la plataforma, ajustar según necesidad
-$id_cliente = $phone_whatsapp_from; // Usamos el número de teléfono como el ID del cliente
 $mid_mensaje = $business_phone_id; // Usamos el ID del mensaje de WhatsApp
-$rol_mensaje = 0; // Este campo no está en uso en este caso, puedes asignar un valor si lo necesitas
-$texto_corregido_mensaje = ''; // Campo vacío para corrección de texto
+$rol_mensaje = 0; // Valor por defecto para rol_mensaje, ya que es bigint
 
-$stmt->bind_param('issssi', $id_plataforma, $id_cliente, $mid_mensaje, $tipo_mensaje, $texto_mensaje, $rol_mensaje);
+$stmt->bind_param('iisssi', $id_plataforma, $id_cliente, $mid_mensaje, $tipo_mensaje, $texto_mensaje, $rol_mensaje);
 
-// Ejecutar la consulta e insertar los datos en la base de datos
 if ($stmt->execute()) {
-    $debug_log['insert'] = "Mensaje guardado correctamente.";
     echo json_encode(["status" => "success", "message" => "Mensaje procesado correctamente."]);
 } else {
-    $error = $stmt->error;  // Obtener el error específico de la base de datos
-    $debug_log['insert'] = "Error al guardar el mensaje en la base de datos: " . $error;
-    echo json_encode(["status" => "error", "message" => "Error al procesar el mensaje: " . $error]);
+    echo json_encode(["status" => "error", "message" => "Error al procesar el mensaje: " . $stmt->error]);
 }
 
 $stmt->close();
@@ -161,3 +179,5 @@ $conn->close();
 
 // Opcional: Guardar el log en un archivo para depuración
 file_put_contents('debug_log.txt', print_r($debug_log, true));
+
+?>
