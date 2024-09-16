@@ -625,9 +625,10 @@ class WalletModel extends Query
 
     public function solicitarPago($id_cuenta, $valor, $plataforma, $otro, $usuario)
     {
-        if ($otro == 0) {
-            $this->historialSolicitud("PRIMARIO", $valor, $usuario, $plataforma);
-        }
+
+        $tipoSolicitud = $otro == 0 ? "PRIMARIO" : "SECUNDARIO";
+        $this->historialSolicitud($tipoSolicitud, $valor, $usuario, $id_cuenta, $plataforma);
+
         $sql = "INSERT INTO solicitudes_pago (`cantidad`, `id_cuenta`, `id_plataforma`, `otro`) VALUES (?, ?, ?, ?)";
         $response =  $this->insert($sql, array($valor, $id_cuenta, $plataforma, $otro));
         $update = "UPDATE billeteras set solicito = 1, valor_solicitud = $valor WHERE id_plataforma = '$plataforma'";
@@ -1393,16 +1394,17 @@ class WalletModel extends Query
         }
     }
 
-    public function historialSolicitud($tipo, $cantidad, $usuario, $id_plataforma)
+    public function historialSolicitud($tipo, $cantidad, $usuario, $cuenta, $id_plataforma)
     {
-        $sql = "INSERT INTO historial_solicitudes (`tipo`, `cantidad`, `id_plataforma`, `usuario`) VALUES (?, ?, ?, ?)";
-        $response =  $this->insert($sql, array($tipo, $cantidad, $id_plataforma, $usuario));
+        $sql = "INSERT INTO historial_solicitudes (`tipo`, `cantidad`, `id_plataforma`, `usuario`, `id_cuenta`) VALUES (?, ?, ?, ?, ?)";
+        $response =  $this->insert($sql, array($tipo, $cantidad, $id_plataforma, $usuario, $cuenta));
         if ($response == 1) {
             $responses["status"] = 200;
         } else {
             $responses["status"] = 400;
             $responses["message"] = $response["message"];
         }
+        return $responses;
     }
 
     public function obtenerHistorialSolicitudes($id_plataforma)
@@ -1424,6 +1426,108 @@ class WalletModel extends Query
         $sql = "SELECT * FROM `billeteras` WHERE id_plataforma=$id_plataforma;";
         $response =  $this->select($sql);
         return $response;
+    }
+
+    public function historialSolicitudes($plataforma)
+    {
+        $sql = "SELECT * FROM historial_solicitudes WHERE id_plataforma = '$plataforma'";
+        $response =  $this->select($sql);
+
+        foreach ($response as $key => $value) {
+            $id_cuenta = $value['id_cuenta'];
+            $tipo = $value['tipo'];
+            $usuario = $value['usuario'];
+
+            $sql = "SELECT * FROM users WHERE id_users = '$usuario'";
+            $response2 =  $this->select($sql);
+            $response[$key]['usuario'] = $response2[0]['nombre_users'];
+
+            if ($tipo == "PRIMARIO") {
+                $sql = "SELECT * FROM datos_banco_usuarios WHERE id_cuenta = '$id_cuenta'";
+                $response2 =  $this->select($sql);
+                if (empty($response2)) {
+                    $modal = "No hay datos";
+                } else {
+
+                    $modal = "
+                    <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modal" . $key . "'>
+                    Ver detalles
+                    </button>
+                    
+                    <div class='modal fade' id='modal" . $key . "' tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true'>
+                        <div class='modal-dialog' role='document'>
+                            <div class='modal-content'>
+                                <div class='modal-header'>
+                                    <h5 class='modal-title' id='exampleModalLabel'>Detalles</h5>
+                                    <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                                    </button>
+                                </div>
+                                <div class='modal-body' style='text-align: left;'>
+                                    <p><strong>Nombre:</strong> " . $response2[0]['nombre'] . "</p>
+                                    <p><strong>Banco:</strong> " . $response2[0]['banco'] . "</p>
+                                    <p><strong>Cedula:</strong> " . $response2[0]['cedula'] . "</p>
+                                    <p><strong>Numero de cuenta:</strong> " . $response2[0]['numero_cuenta'] . "</p>
+                                    <p><strong>Tipo de cuenta:</strong> " . $response2[0]['tipo_cuenta'] . "</p>
+                                    <p><strong>Telefono:</strong> " . $response2[0]['telefono'] . "</p>
+                                </div>
+                                <div class='modal-footer'>
+                                <button type='button' class='btn btn-secondary' data-dismiss='modal'>Cerrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    
+                    </div>
+                    
+                    ";
+                }
+
+                $response[$key]['modal'] = $modal;
+            } else {
+                $sql = "SELECT * FROM metodo_pagos WHERE id_pago = '$id_cuenta'";
+                $response2 =  $this->select($sql);
+
+                if (empty($response2)) {
+                    $modal = "No hay datos";
+                } else {
+
+                    $modal = "
+                <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modal" . $key . "'>
+                    Ver detalles
+                </button>
+
+                <div class='modal fade' id='modal" . $key . "' tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true'>
+                    <div class='modal-dialog' role='document'>
+                        <div class='modal-content'>
+                            <div class='modal-header'>
+                                <h5 class='modal-title' id='exampleModalLabel'>Detalles</h5>
+                                <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                                    <span aria-hidden='true'>&times;</span>
+                                </button>
+                            </div>
+                            <div class='modal-body
+                            '>
+                                <p><strong>Tipo:</strong> " . $response2[0]['tipo'] . "</p>
+                                <p><strong>Cuenta:</strong> " . $response2[0]['cuenta'] . "</p>
+                                <p><strong>Red:</strong> " . $response2[0]['red'] . "</p>
+                            </div>
+                            <div class='modal-footer'>
+                                <button type='button' class='btn btn-secondary' data-dismiss='modal'>Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+               ";
+                }
+
+                $response[$key]['modal'] =  $modal;
+            }
+        }
+
+
+        $respuesta['data'] = $response;
+        $respuesta['status'] = 200;
+        return $respuesta;
     }
 
 
