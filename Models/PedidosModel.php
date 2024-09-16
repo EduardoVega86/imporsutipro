@@ -1207,6 +1207,43 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
+    public function novedadSpeed($id_pedido, $novedad, $tipo)
+    {
+        $sql = "UPDATE facturas_cot SET novedad = ?, tipo_novedad =? WHERE id_factura = ?";
+        $response = $this->update($sql, [$novedad, $tipo, $id_pedido]);
+
+        if ($tipo == "rechazar") {
+            $sql = "SELECT * FROM facturas_cot WHERE id_factura = $id_pedido";
+            $pedido = $this->select($sql);
+            $numero_guia = $pedido[0]['numero_guia'];
+
+            $url = "https://guias.imporsuitpro.com/Speed/estado/$numero_guia";
+            $curl = curl_init($url);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            $response = curl_exec($curl);
+            curl_close($curl);
+            $response = json_decode($response, true);
+            return $response;
+        }
+
+        if ($response == 1) {
+            $response = [
+                'status' => 200,
+                'title' => 'Peticion exitosa',
+                'message' => 'Novedad actualizada correctamente'
+            ];
+        } else {
+            $response = [
+                'status' => 500,
+                'title' => 'Error',
+                'message' => 'Error al actualizar la novedad'
+            ];
+        }
+
+        return $response;
+    }
+
+
     /* APIS Chat center */
     public function mensajes_clientes($id_cliente, $id_plataforma)
     {
