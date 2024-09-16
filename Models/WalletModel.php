@@ -626,7 +626,7 @@ class WalletModel extends Query
     public function solicitarPago($id_cuenta, $valor, $plataforma, $otro, $usuario)
     {
         if ($otro == 0) {
-            $this->historialSolicitud("PRIMARIO", $valor, $usuario, $plataforma);
+            $this->historialSolicitud("PRIMARIO", $valor, $usuario, $id_cuenta, $plataforma);
         }
         $sql = "INSERT INTO solicitudes_pago (`cantidad`, `id_cuenta`, `id_plataforma`, `otro`) VALUES (?, ?, ?, ?)";
         $response =  $this->insert($sql, array($valor, $id_cuenta, $plataforma, $otro));
@@ -1393,10 +1393,10 @@ class WalletModel extends Query
         }
     }
 
-    public function historialSolicitud($tipo, $cantidad, $usuario, $id_plataforma)
+    public function historialSolicitud($tipo, $cantidad, $usuario, $cuenta, $id_plataforma)
     {
         $sql = "INSERT INTO historial_solicitudes (`tipo`, `cantidad`, `id_plataforma`, `usuario`, `id_cuenta`) VALUES (?, ?, ?, ?, ?)";
-        $response =  $this->insert($sql, array($tipo, $cantidad, $id_plataforma, $usuario));
+        $response =  $this->insert($sql, array($tipo, $cantidad, $id_plataforma, $usuario, $cuenta));
         if ($response == 1) {
             $responses["status"] = 200;
         } else {
