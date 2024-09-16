@@ -54,6 +54,7 @@ const listarHistorialSolicitudes = async () => {
       `${SERVERURL}wallet/historialSolicitudes`
     ).then((res) => res.json());
 
+    console.log(response);
     if (response.status) {
       const data = response.data;
       const columns = [
