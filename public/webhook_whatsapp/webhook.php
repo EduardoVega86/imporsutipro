@@ -138,7 +138,7 @@ $stmt = $conn->prepare("
     VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW())
 ");
 
-$id_plataforma = 1; // Ejemplo de un valor fijo para la plataforma, ajustar según necesidad
+$id_plataforma = 1190; // Ejemplo de un valor fijo para la plataforma, ajustar según necesidad
 $id_cliente = $phone_whatsapp_from; // Usamos el número de teléfono como el ID del cliente
 $mid_mensaje = $business_phone_id; // Usamos el ID del mensaje de WhatsApp
 $rol_mensaje = 0; // Este campo no está en uso en este caso, puedes asignar un valor si lo necesitas
