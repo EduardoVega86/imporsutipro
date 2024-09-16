@@ -1444,7 +1444,7 @@ class WalletModel extends Query
                 } else {
 
                     $modal = "
-                    <button type='button' class='btn btn-primary' data-toggle='modal' data-target='modal" . $key . "'>
+                    <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modal" . $key . "'>
                     Ver detalles
                     </button>
                     
@@ -1486,7 +1486,7 @@ class WalletModel extends Query
                 } else {
 
                     $modal = "
-                <button type='button' class='btn btn-primary' data-toggle='modal' data-target='modal" . $key . "'>
+                <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modal" . $key . "'>
                     Ver detalles
                 </button>
 
