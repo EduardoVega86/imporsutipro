@@ -64,7 +64,7 @@ const listarHistorialSolicitudes = async () => {
         { data: "tipo" },
         { data: "modal" },
         { data: "usuario" },
-        { data: "monto" },
+        { data: "cantidad" },
       ];
 
       dataTableHistorialSolicitudes = $("#datatable_historial").DataTable({
