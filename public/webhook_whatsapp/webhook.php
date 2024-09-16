@@ -1,12 +1,31 @@
 <?php
-require 'db.php';
-
 // Configuración de los encabezados
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
 $webhook_token = "ABCDEFG1234";  // Token de verificación
 $debug_log = [];
+
+// Datos de conexión a la base de datos
+const HOST = '3.233.119.65';
+const USER = "imporsuit_system";
+const PASSWORD = "imporsuit_system";
+const DB = "imporsuitpro_new";
+const CHARSET = "utf8";
+
+// Establecer conexión con la base de datos
+$conn = new mysqli(HOST, USER, PASSWORD, DB);
+
+// Verificar la conexión
+if ($conn->connect_error) {
+    die(json_encode(["status" => "error", "message" => "Error al conectar con la base de datos: " . $conn->connect_error]));
+}
+
+// Configurar el charset de la conexión
+if (!$conn->set_charset(CHARSET)) {
+    echo json_encode(["status" => "error", "message" => "Error al establecer el charset de la base de datos: " . $conn->error]);
+    exit;
+}
 
 // Verificación del webhook para el desafío de validación
 if (isset($_GET['hub_challenge']) && isset($_GET['hub_verify_token'])) {
@@ -127,6 +146,9 @@ if ($stmt->execute()) {
 }
 
 $stmt->close();
+$conn->close();
 
 // Opcional: Guardar el log en un archivo para depuración
 file_put_contents('debug_log.txt', print_r($debug_log, true));
+
+?>
