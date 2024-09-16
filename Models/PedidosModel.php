@@ -1292,4 +1292,24 @@ class PedidosModel extends Query
         echo json_encode($response);
         exit();
     }
+
+    public function agregar_mensaje_enviado($texto_mensaje, $tipo_mensaje)
+    {
+        // codigo para agregar categoria
+        $response = $this->initialResponse();
+
+        $sql = "INSERT INTO `mensajes_clientes` (`id_plataforma`,`id_cliente`,`mid_mensaje`,`tipo_mensaje`,`rol_mensaje`,`texto_mensaje`) VALUES (?, ?, ?, ?, ?, ?)";
+        $data = [1190, 411, "109565362009074", $tipo_mensaje, 1, $texto_mensaje];
+        $insertar_mensaje_enviado = $this->insert($sql, $data);
+        if ($insertar_mensaje_enviado == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'flotante agregada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = $insertar_mensaje_enviado['message'];
+        }
+        return $response;
+    }
 }
