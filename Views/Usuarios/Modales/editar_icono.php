@@ -48,7 +48,7 @@
                         </div>
                         <div class="input-box d-flex flex-column">
                             <input onchange="cambiarcolor_icono('color_icono',this.value)" id="color_icono" name="color_icono" type="color" value="#ff0000">
-                            <h6><strong>Color hover cabecera</strong></h6>
+                            <h6><strong>Color icono</strong></h6>
                         </div>
                     </div>
                     <div class="modal-footer">
