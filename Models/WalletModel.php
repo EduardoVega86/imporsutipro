@@ -1404,7 +1404,6 @@ class WalletModel extends Query
             $responses["status"] = 400;
             $responses["message"] = $response["message"];
         }
-        print_r($responses);
         return $responses;
     }
 
