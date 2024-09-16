@@ -115,7 +115,7 @@
                 <a href="<?php echo SERVERURL ?>referidos"><i class='bx bxs-bank menu-icon'></i> <span class="menu-text">Referidos</span></a>
                 <?php if ($_SESSION['cargo'] != 10) {
                 ?>
-                    <a href="<?php echo SERVERURL ?>wallet/historial_solicitudes"><i class='bx bx-task'></i> <span class="menu-text">Solicitudes</span></a>
+                    <a href="<?php echo SERVERURL ?>wallet/historial_solicitudes"><i class='bx bx-task menu-icon'></i> <span class="menu-text">Solicitudes</span></a>
                 <?php
                 }
                 ?>
