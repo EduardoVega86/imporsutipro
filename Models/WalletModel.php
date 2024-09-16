@@ -1514,10 +1514,11 @@ class WalletModel extends Query
 
                ";
                 }
+
                 $response[$key]['modal'] =  $modal;
             }
         }
-
+        $response['status'] = 200;
         return $response;
     }
 
