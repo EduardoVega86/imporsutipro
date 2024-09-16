@@ -17,6 +17,7 @@ const dataTableOptions = {
   destroy: true,
   responsive: true,
   dom: '<"d-flex w-full justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
+
   order: [[0, "desc"]],
   buttons: [
     {
@@ -41,7 +42,7 @@ const dataTableOptions = {
   ],
 
   languague: {
-    url: "cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json",
+    url: "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json",
   },
 };
 
@@ -77,7 +78,7 @@ const listarHistorialSolicitudes = async () => {
 
 const initDataTableHistorialSolicitudes = async () => {
   if (dataTableHistorialSolicitudes) {
-    dataTableHistorialSolicitudes.destroy();
+    dataTableHistorialSolicitudes.clear().destroy();
   }
 
   await listarHistorialSolicitudes();
