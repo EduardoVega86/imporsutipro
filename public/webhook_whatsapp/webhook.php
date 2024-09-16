@@ -50,27 +50,29 @@ if (empty($data_msg_whatsapp)) {
 
 // Guardar los datos recibidos en el log de depuración
 $debug_log['data_msg_whatsapp'] = $data_msg_whatsapp;
+file_put_contents('debug_log.txt', print_r($debug_log, true) . "\n", FILE_APPEND);
 
 // Extraer los datos generales del mensaje
-$business_phone_id = $data_msg_whatsapp['value']['metadata']['phone_number_id'] ?? ''; // Obtenemos el phone_number_id de value->metadata
-$phone_whatsapp_from = $data_msg_whatsapp['value']['messages'][0]['from'] ?? ''; // Obtenemos el remitente
-$name_whatsapp_from = $data_msg_whatsapp['value']['contacts'][0]['profile']['name'] ?? ''; // Nombre del remitente
-$tipo_mensaje = $data_msg_whatsapp['value']['messages'][0]['type'] ?? ''; // Tipo de mensaje
+$business_phone_id = $data_msg_whatsapp['value']['metadata']['phone_number_id'] ?? '';  // Obtenemos el phone_number_id
+$phone_whatsapp_from = $data_msg_whatsapp['value']['messages'][0]['from'] ?? '';  // Obtenemos el remitente
+$name_whatsapp_from = $data_msg_whatsapp['value']['contacts'][0]['profile']['name'] ?? '';  // Nombre del remitente
+$tipo_mensaje = $data_msg_whatsapp['value']['messages'][0]['type'] ?? '';  // Tipo de mensaje
 
 // Separar el nombre y apellido (en caso de que estén juntos en el campo "name")
 $nombre_completo = explode(" ", $name_whatsapp_from);
-$nombre_cliente = $nombre_completo[0] ?? ''; // Primer nombre
-$apellido_cliente = isset($nombre_completo[1]) ? $nombre_completo[1] : ''; // Primer apellido (si existe)
+$nombre_cliente = $nombre_completo[0] ?? '';  // Primer nombre
+$apellido_cliente = isset($nombre_completo[1]) ? $nombre_completo[1] : '';  // Primer apellido (si existe)
 
 // Verificación si los datos claves están presentes
 if (empty($phone_whatsapp_from) || empty($business_phone_id)) {
+    file_put_contents('debug_log.txt', "Error: Datos del mensaje incompletos\n", FILE_APPEND);
     echo json_encode(["status" => "error", "message" => "Datos del mensaje incompletos."]);
     exit;
 }
 
 // Procesar diferentes tipos de mensajes de WhatsApp
 $texto_mensaje = "";
-$respuesta_WEBHOOK_messages = $data_msg_whatsapp['value']['messages'][0]; // Ajuste para obtener el mensaje correctamente
+$respuesta_WEBHOOK_messages = $data_msg_whatsapp['value']['messages'][0];  // Ajuste para obtener el mensaje correctamente
 
 // Procesar el mensaje basado en el tipo recibido
 switch ($tipo_mensaje) {
@@ -136,14 +138,15 @@ switch ($tipo_mensaje) {
 
 // Registrar en el log de depuración
 $debug_log['texto_mensaje'] = $texto_mensaje;
+file_put_contents('debug_log.txt', "Mensaje procesado: " . $texto_mensaje . "\n", FILE_APPEND);
 
 // Verificar si el cliente ya existe en la tabla clientes_chat_center por uid_cliente
 $check_client_stmt = $conn->prepare("SELECT id FROM clientes_chat_center WHERE uid_cliente = ?");
-$check_client_stmt->bind_param('s', $business_phone_id); // Buscamos por el uid_cliente
+$check_client_stmt->bind_param('s', $business_phone_id);  // Buscamos por el uid_cliente
 $check_client_stmt->execute();
 $check_client_stmt->store_result();
 
-$id_plataforma = 1190; // Ajustar según sea necesario
+$id_plataforma = 1190;  // Ajustar según sea necesario
 
 if ($check_client_stmt->num_rows == 0) {
     // El cliente no existe, creamos uno nuevo
@@ -153,7 +156,7 @@ if ($check_client_stmt->num_rows == 0) {
     ");
     $insert_client_stmt->bind_param('issss', $id_plataforma, $business_phone_id, $nombre_cliente, $apellido_cliente, $phone_whatsapp_from);
     $insert_client_stmt->execute();
-    $id_cliente = $insert_client_stmt->insert_id; // Obtener el ID autoincrementado del cliente recién creado
+    $id_cliente = $insert_client_stmt->insert_id;  // Obtener el ID autoincrementado del cliente recién creado
     $insert_client_stmt->close();
 } else {
     // El cliente existe, obtenemos su ID
@@ -169,8 +172,8 @@ $stmt = $conn->prepare("
     VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW())
 ");
 
-$mid_mensaje = $business_phone_id; // Usamos el ID del mensaje de WhatsApp
-$rol_mensaje = 0; // Valor por defecto para rol_mensaje, ya que es bigint
+$mid_mensaje = $business_phone_id;  // Usamos el ID del mensaje de WhatsApp
+$rol_mensaje = 0;  // Valor por defecto para rol_mensaje, ya que es bigint
 
 $stmt->bind_param('iisssi', $id_plataforma, $id_cliente, $mid_mensaje, $tipo_mensaje, $texto_mensaje, $rol_mensaje);
 
@@ -184,4 +187,4 @@ $stmt->close();
 $conn->close();
 
 // Opcional: Guardar el log en un archivo para depuración
-file_put_contents('debug_log.txt', print_r($debug_log, true));
+file_put_contents('debug_log.txt', print_r($debug_log, true) . "\n", FILE_APPEND);
