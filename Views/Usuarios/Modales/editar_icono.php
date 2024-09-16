@@ -64,6 +64,7 @@
 <script>
     function cambiarcolor_icono(campo, valor) {
         const formData = new FormData();
+        formData.append('id', $('#id_icono').val());
         formData.append("campo", campo);
         formData.append("valor", valor);
 

@@ -555,9 +555,10 @@ class Usuarios extends Controller
 
     public function cambiarcolor_icono()
     {
+        $id = $_POST['id'];
         $campo = $_POST['campo'];
         $valor = $_POST['valor'];
-        $response = $this->model->cambiarcolor_icono($campo, $valor, $_SESSION['id_plataforma']);
+        $response = $this->model->cambiarcolor_icono($campo, $valor, $_SESSION['id_plataforma'], $id);
         echo json_encode($response);
     }
 

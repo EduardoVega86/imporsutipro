@@ -1353,13 +1353,13 @@ ON
         return $responses;
     }
 
-    public function cambiarcolor_icono($campo, $valor, $plataforma)
+    public function cambiarcolor_icono($campo, $valor, $plataforma, $id)
     {
         // $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
 
-        $sql = "UPDATE `caracteristicas_tienda` SET $campo =? WHERE `id_plataforma` = ?";
+        $sql = "UPDATE `caracteristicas_tienda` SET $campo =? WHERE `id_plataforma` = ? AND id = ?";
         //echo $sql;
-        $data = [$valor, $plataforma];
+        $data = [$valor, $plataforma, $id];
         $editar_perfil = $this->update($sql, $data);
         print_r($editar_perfil);
         if ($editar_perfil == 1) {
