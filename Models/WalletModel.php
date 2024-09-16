@@ -1518,8 +1518,11 @@ class WalletModel extends Query
                 $response[$key]['modal'] =  $modal;
             }
         }
-        $response['status'] = 200;
-        return $response;
+
+
+        $respuesta['data'] = $response;
+        $respuesta['status'] = 200;
+        return $respuesta;
     }
 
 
