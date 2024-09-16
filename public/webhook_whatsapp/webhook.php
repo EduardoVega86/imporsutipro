@@ -52,10 +52,10 @@ if (empty($data_msg_whatsapp)) {
 $debug_log['data_msg_whatsapp'] = $data_msg_whatsapp;
 
 // Extraer los datos generales del mensaje
-$business_phone_id = $data_msg_whatsapp['entry'][0]['id'] ?? ''; // Este es el uid_cliente
-$phone_whatsapp_from = $data_msg_whatsapp['entry'][0]['changes'][0]['value']['messages'][0]['from'] ?? '';
-$name_whatsapp_from = $data_msg_whatsapp['entry'][0]['changes'][0]['value']['contacts'][0]['profile']['name'] ?? '';
-$tipo_mensaje = $data_msg_whatsapp['entry'][0]['changes'][0]['value']['messages'][0]['type'] ?? '';
+$business_phone_id = $data_msg_whatsapp['value']['metadata']['phone_number_id'] ?? ''; // Obtenemos el phone_number_id de value->metadata
+$phone_whatsapp_from = $data_msg_whatsapp['value']['messages'][0]['from'] ?? ''; // Obtenemos el remitente
+$name_whatsapp_from = $data_msg_whatsapp['value']['contacts'][0]['profile']['name'] ?? ''; // Nombre del remitente
+$tipo_mensaje = $data_msg_whatsapp['value']['messages'][0]['type'] ?? ''; // Tipo de mensaje
 
 // Separar el nombre y apellido (en caso de que estén juntos en el campo "name")
 $nombre_completo = explode(" ", $name_whatsapp_from);
@@ -70,7 +70,7 @@ if (empty($phone_whatsapp_from) || empty($business_phone_id)) {
 
 // Procesar diferentes tipos de mensajes de WhatsApp
 $texto_mensaje = "";
-$respuesta_WEBHOOK_messages = $data_msg_whatsapp['entry'][0]['changes'][0]['value']['messages'][0];
+$respuesta_WEBHOOK_messages = $data_msg_whatsapp['value']['messages'][0]; // Ajuste para obtener el mensaje correctamente
 
 // Procesar el mensaje basado en el tipo recibido
 switch ($tipo_mensaje) {
