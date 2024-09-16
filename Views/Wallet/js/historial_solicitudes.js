@@ -20,24 +20,23 @@ const dataTableOptions = {
 
   buttons: [
     {
-      extend: "copy",
-      text: "Copiar",
-      className: "btn btn-primary",
+      extend: "excelHtml5",
+      text: 'Excel <i class="fa-solid fa-file-excel"></i>',
+      title: "Panel de Control: Usuarios",
+      titleAttr: "Exportar a Excel",
+
+      filename: "acreditacion" + "_" + getFecha(),
+      footer: true,
+      className: "btn-excel",
     },
     {
-      extend: "excel",
-      text: "Excel",
-      className: "btn btn-primary",
-    },
-    {
-      extend: "pdf",
-      text: "PDF",
-      className: "btn btn-primary",
-    },
-    {
-      extend: "print",
-      text: "Imprimir",
-      className: "btn btn-primary",
+      extend: "csvHtml5",
+      text: 'CSV <i class="fa-solid fa-file-csv"></i>',
+      title: "Panel de Control: acreditacion",
+      titleAttr: "Exportar a CSV",
+      filename: "acreditacion" + "_" + getFecha(),
+      footer: true,
+      className: "btn-csv",
     },
   ],
 
