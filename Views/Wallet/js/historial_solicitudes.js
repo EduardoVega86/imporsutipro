@@ -85,3 +85,9 @@ const initDataTableHistorialSolicitudes = async () => {
 
   await listarHistorialSolicitudes();
 };
+
+const init = () => {
+  initDataTableHistorialSolicitudes();
+};
+
+init();
