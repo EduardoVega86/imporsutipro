@@ -46,6 +46,10 @@
                                 <option selected value="">-- Selecciona Icono --</option>
                             </select>
                         </div>
+                        <div class="input-box d-flex flex-column">
+                            <input onchange="cambiarcolor_icono('color_hover_cabecera',this.value)" id="color_icono" name="color_icono" type="color" value="#ff0000">
+                            <h6><strong>Color hover cabecera</strong></h6>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -58,6 +62,37 @@
 </div>
 
 <script>
+    function cambiarcolor_icono(campo, valor) {
+        const formData = new FormData();
+        formData.append("campo", campo);
+        formData.append("valor", valor);
+
+        $.ajax({
+            type: "POST",
+            url: "" + SERVERURL + "Usuarios/cambiarcolor_icono",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response2) {
+                response2 = JSON.parse(response2);
+
+                if (response2.status == 500) {
+                    toastr.error("EL COLOR NO SE CAMBIO CORRECTAMENTE", "NOTIFICACIÓN", {
+                        positionClass: "toast-bottom-center",
+                    });
+                } else if (response2.status == 200) {
+                    toastr.success("COLOR CAMBIADO CORRECTAMENTE", "NOTIFICACIÓN", {
+                        positionClass: "toast-bottom-center",
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error en la solicitud AJAX:", error);
+                alert("Hubo un problema al agregar el producto temporalmente");
+            },
+        });
+    }
+    
     $(document).ready(function() {
         // Función para reiniciar el formulario
         function resetForm() {

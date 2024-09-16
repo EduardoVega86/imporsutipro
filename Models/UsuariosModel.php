@@ -952,8 +952,16 @@ ON
                                 `titulo_oferta2` = ?, `oferta2` = ?, `descripcion_oferta2` = ?, `texto_btn_oferta2` = ?, `enlace_oferta2` = ?";
 
                 $data_update = [
-                    $titulo_oferta1, $oferta1, $descripcion_oferta1, $texto_btn_oferta1, $enlace_oferta1,
-                    $titulo_oferta2, $oferta2, $descripcion_oferta2, $texto_btn_oferta2, $enlace_oferta2
+                    $titulo_oferta1,
+                    $oferta1,
+                    $descripcion_oferta1,
+                    $texto_btn_oferta1,
+                    $enlace_oferta1,
+                    $titulo_oferta2,
+                    $oferta2,
+                    $descripcion_oferta2,
+                    $texto_btn_oferta2,
+                    $enlace_oferta2
                 ];
 
                 if ($imagen1_url !== null) {
@@ -988,9 +996,19 @@ ON
                             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
                 $data_insert = [
-                    $plataforma, $titulo_oferta1, $oferta1, $descripcion_oferta1, $texto_btn_oferta1,
-                    $enlace_oferta1, $imagen1_url, $titulo_oferta2, $oferta2, $descripcion_oferta2,
-                    $texto_btn_oferta2, $enlace_oferta2, $imagen2_url
+                    $plataforma,
+                    $titulo_oferta1,
+                    $oferta1,
+                    $descripcion_oferta1,
+                    $texto_btn_oferta1,
+                    $enlace_oferta1,
+                    $imagen1_url,
+                    $titulo_oferta2,
+                    $oferta2,
+                    $descripcion_oferta2,
+                    $texto_btn_oferta2,
+                    $enlace_oferta2,
+                    $imagen2_url
                 ];
 
                 $insertar_ofertas = $this->insert($sql_insert, $data_insert);
@@ -1083,7 +1101,11 @@ ON
                                 `titulo_promocion` = ?, `precio_promocion` = ?, `descripcion_promocion` = ?, `texto_btn_promocion` = ?, `enlace_btn_promocion` = ?";
 
                 $data_update = [
-                    $titulo_promocion, $precio_promocion, $descripcion_promocion, $texto_btn_promocion, $enlace_btn_promocion
+                    $titulo_promocion,
+                    $precio_promocion,
+                    $descripcion_promocion,
+                    $texto_btn_promocion,
+                    $enlace_btn_promocion
                 ];
 
                 if ($imagen_promocion_url !== null) {
@@ -1112,8 +1134,13 @@ ON
                             ) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
                 $data_insert = [
-                    $plataforma, $titulo_promocion, $precio_promocion, $descripcion_promocion, $texto_btn_promocion,
-                    $enlace_btn_promocion, $imagen_promocion_url
+                    $plataforma,
+                    $titulo_promocion,
+                    $precio_promocion,
+                    $descripcion_promocion,
+                    $texto_btn_promocion,
+                    $enlace_btn_promocion,
+                    $imagen_promocion_url
                 ];
 
                 $insertar_promocion = $this->insert($sql_insert, $data_insert);
@@ -1298,7 +1325,7 @@ ON
         // Primero, comprobar si existe un registro con la plataforma dada
         $sql_select = "SELECT * FROM `plantilla_2` WHERE `id_plataforma` = ?";
         $existing_entry = $this->simple_select($sql_select, [$plataforma]);
-        
+
         if ($existing_entry > 0) {
             // Si existe, realizar un UPDATE
             $sql_update = "UPDATE `plantilla_2` SET $campo = ? WHERE `id_plataforma` = ?";
@@ -1323,6 +1350,23 @@ ON
             }
         }
 
+        return $responses;
+    }
+
+    public function cambiarcolor_icono($campo, $valor, $plataforma)
+    {
+        // $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
+
+        $sql = "UPDATE `caracteristicas_tienda` SET $campo =? WHERE `id_plataforma` = ?";
+        //echo $sql;
+        $data = [$valor, $plataforma];
+        $editar_perfil = $this->update($sql, $data);
+        print_r($editar_perfil);
+        if ($editar_perfil == 1) {
+            $responses = array('status' => 200, 'title' => 'Peticion exitosa', 'message' => 'Contraseña actualizada correctamente');
+        } else {
+            $responses = array('status' => 500, 'title' => 'Error', 'message' => $editar_perfil['message']);
+        }
         return $responses;
     }
 
