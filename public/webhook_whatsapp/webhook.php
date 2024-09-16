@@ -133,8 +133,18 @@ switch ($tipo_mensaje) {
 $debug_log['texto_mensaje'] = $texto_mensaje;
 
 // Guardar los datos del mensaje en la base de datos
-$stmt = $conn->prepare("INSERT INTO mensajes_whatsapp (business_phone_id, phone_whatsapp_from, name_whatsapp_from, tipo_mensaje, body) VALUES (?, ?, ?, ?, ?)");
-$stmt->bind_param('sssss', $business_phone_id, $phone_whatsapp_from, $name_whatsapp_from, $tipo_mensaje, $texto_mensaje);
+$stmt = $conn->prepare("
+    INSERT INTO mensajes_clientes (id_plataforma, id_cliente, mid_mensaje, tipo_mensaje, texto_mensaje, created_at, updated_at) 
+    VALUES (?, ?, ?, ?, ?, NOW(), NOW())
+");
+
+$id_plataforma = 1; // Ejemplo de un valor fijo para la plataforma, ajustar según necesidad
+$id_cliente = $phone_whatsapp_from; // Usamos el número de teléfono como el ID del cliente
+$mid_mensaje = $business_phone_id; // Usamos el ID del mensaje de WhatsApp
+$rol_mensaje = ''; // Este campo no está en uso en este caso, puedes asignar un valor si lo necesitas
+$texto_corregido_mensaje = ''; // Campo vacío para corrección de texto
+
+$stmt->bind_param('issss', $id_plataforma, $id_cliente, $mid_mensaje, $tipo_mensaje, $texto_mensaje);
 
 // Ejecutar la consulta e insertar los datos en la base de datos
 if ($stmt->execute()) {
@@ -150,5 +160,3 @@ $conn->close();
 
 // Opcional: Guardar el log en un archivo para depuración
 file_put_contents('debug_log.txt', print_r($debug_log, true));
-
-?>
