@@ -1775,7 +1775,7 @@ class WalletModel extends Query
     public function calcularPrecioEnvio($id_transporte, $cod, $monto_factura, $valor_cobertura, $numero_guia)
     {
         if ($cod == 1 && str_contains($numero_guia, 'IMP')) {
-            return $monto_factura * 0.03 + $valor_cobertura;
+            return round($monto_factura * 0.03 + $valor_cobertura, 2);
         } elseif ($cod != 1 && str_contains($numero_guia, 'IMP')) {
             return $valor_cobertura;
         } elseif (str_contains($numero_guia, 'MKP')) {
