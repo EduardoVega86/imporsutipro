@@ -626,7 +626,8 @@ class WalletModel extends Query
     public function solicitarPago($id_cuenta, $valor, $plataforma, $otro, $usuario)
     {
 
-        $this->historialSolicitud("PRIMARIO", $valor, $usuario, $id_cuenta, $plataforma);
+        $tipoSolicitud = $otro == 0 ? "PRIMARIO" : "SECUNDARIO";
+        $this->historialSolicitud($tipoSolicitud, $valor, $usuario, $id_cuenta, $plataforma);
 
         $sql = "INSERT INTO solicitudes_pago (`cantidad`, `id_cuenta`, `id_plataforma`, `otro`) VALUES (?, ?, ?, ?)";
         $response =  $this->insert($sql, array($valor, $id_cuenta, $plataforma, $otro));
