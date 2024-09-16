@@ -12,9 +12,9 @@
                 <th>Id</th>
                 <th>Fecha</th>
                 <th>Tipo de Solicitud</th>
-                <th>Estado</th>
+                <th>Cuenta</th>
+                <th>Usuario</th>
                 <th>Monto</th>
-                <th>Acciones</th>
             </tr>
         </thead>
         <tbody id="tableBody_historial">
