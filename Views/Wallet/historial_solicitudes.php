@@ -1,7 +1,9 @@
 <?php require_once './Views/templates/header.php'; ?>
+<?php require_once './Views/Wallet/css/historial_solicitudes_style.php'; ?>
+
 <main class="container">
 
-    <h2 class="text-center">
+    <h2 class="text-center pt-2">
         Historial de solicitudes
     </h2>
     <hr>
