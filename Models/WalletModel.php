@@ -1441,46 +1441,51 @@ class WalletModel extends Query
                 $response2 =  $this->select($sql);
                 if (empty($response2)) {
                     $modal = "No hay datos";
-                }
-                $modal = "
-                <button type='button' class='btn btn-primary' data-toggle='modal' data-target='modal" . $key . "'>
+                } else {
+
+                    $modal = "
+                    <button type='button' class='btn btn-primary' data-toggle='modal' data-target='modal" . $key . "'>
                     Ver detalles
-                </button>
-
-                <div class='modal fade' id='modal" . $key . "' tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true'>
+                    </button>
+                    
+                    <div class='modal fade' id='modal" . $key . "' tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true'>
                     <div class='modal-dialog' role='document'>
-                        <div class='modal-content'>
-                            <div class='modal-header'>
-                                <h5 class='modal-title' id='exampleModalLabel'>Detalles</h5>
-                                <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
-                                    <span aria-hidden='true'>&times;</span>
-                                </button>
-                            </div>
-                            <div class='modal-body' style='text-align: left;'>
-                                <p><strong>Nombre:</strong> " . $response2[0]['nombre'] . "</p>
-                                <p><strong>Banco:</strong> " . $response2[0]['banco'] . "</p>
-                                <p><strong>Cedula:</strong> " . $response2[0]['cedula'] . "</p>
-                                <p><strong>Numero de cuenta:</strong> " . $response2[0]['numero_cuenta'] . "</p>
-                                <p><strong>Tipo de cuenta:</strong> " . $response2[0]['tipo_cuenta'] . "</p>
-                                <p><strong>Telefono:</strong> " . $response2[0]['telefono'] . "</p>
-                            </div>
-                            <div class='modal-footer'>
-                                <button type='button' class='btn btn-secondary' data-dismiss='modal'>Cerrar</button>
-                            </div>
-                        </div>
+                    <div class='modal-content'>
+                    <div class='modal-header'>
+                    <h5 class='modal-title' id='exampleModalLabel'>Detalles</h5>
+                    <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                    <span aria-hidden='true'>&times;</span>
+                    </button>
                     </div>
-
-                </div>
-
-                ";
-
+                    <div class='modal-body' style='text-align: left;'>
+                    <p><strong>Nombre:</strong> " . $response2[0]['nombre'] . "</p>
+                    <p><strong>Banco:</strong> " . $response2[0]['banco'] . "</p>
+                    <p><strong>Cedula:</strong> " . $response2[0]['cedula'] . "</p>
+                    <p><strong>Numero de cuenta:</strong> " . $response2[0]['numero_cuenta'] . "</p>
+                    <p><strong>Tipo de cuenta:</strong> " . $response2[0]['tipo_cuenta'] . "</p>
+                    <p><strong>Telefono:</strong> " . $response2[0]['telefono'] . "</p>
+                    </div>
+                    <div class='modal-footer'>
+                    <button type='button' class='btn btn-secondary' data-dismiss='modal'>Cerrar</button>
+                    </div>
+                    </div>
+                    </div>
+                    
+                    </div>
+                    
+                    ";
+                }
 
                 $response[$key]['modal'] = $modal;
             } else {
                 $sql = "SELECT * FROM metodo_pagos WHERE id_pago = '$id_cuenta'";
                 $response2 =  $this->select($sql);
 
-                $modal = "
+                if (empty($response2)) {
+                    $modal = "No hay datos";
+                } else {
+
+                    $modal = "
                 <button type='button' class='btn btn-primary' data-toggle='modal' data-target='modal" . $key . "'>
                     Ver detalles
                 </button>
@@ -1508,6 +1513,7 @@ class WalletModel extends Query
                 </div>
 
                ";
+                }
                 $response[$key]['modal'] =  $modal;
             }
         }
