@@ -55,7 +55,7 @@ const listarHistorialSolicitudes = async () => {
     ).then((res) => res.json());
 
     console.log(response);
-    if (response.status) {
+    if (response.status === 200) {
       const data = response.data;
       const columns = [
         { data: "id_solicitud" },
