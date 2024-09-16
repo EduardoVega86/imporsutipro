@@ -1439,7 +1439,9 @@ class WalletModel extends Query
             if ($tipo == "PRIMARIO") {
                 $sql = "SELECT * FROM datos_banco_usuarios WHERE id_cuenta = '$id_cuenta'";
                 $response2 =  $this->select($sql);
-
+                if (empty($response2)) {
+                    $modal = "No hay datos";
+                }
                 $modal = "
                 <button type='button' class='btn btn-primary' data-toggle='modal' data-target='modal" . $key . "'>
                     Ver detalles
