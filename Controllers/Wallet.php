@@ -545,6 +545,12 @@ class Wallet extends Controller
         echo json_encode($response);
     }
 
+    public function historialSolicitudes()
+    {
+        $response = $this->model->historialSolicitudes($_SESSION["id_plataforma"]);
+        echo json_encode($response);
+    }
+
     ///debugs
 
     public function devolucionAwallet()
