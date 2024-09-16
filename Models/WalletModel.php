@@ -1395,7 +1395,7 @@ class WalletModel extends Query
 
     public function historialSolicitud($tipo, $cantidad, $usuario, $id_plataforma)
     {
-        $sql = "INSERT INTO historial_solicitudes (`tipo`, `cantidad`, `id_plataforma`, `usuario`) VALUES (?, ?, ?, ?)";
+        $sql = "INSERT INTO historial_solicitudes (`tipo`, `cantidad`, `id_plataforma`, `usuario`, `id_cuenta`) VALUES (?, ?, ?, ?, ?)";
         $response =  $this->insert($sql, array($tipo, $cantidad, $id_plataforma, $usuario));
         if ($response == 1) {
             $responses["status"] = 200;
