@@ -40,10 +40,15 @@ if (isset($_GET['hub_challenge']) && isset($_GET['hub_verify_token'])) {
 
 // Leer los datos enviados por WhatsApp
 $input = file_get_contents("php://input");
+
+// Guardar el JSON recibido en un archivo para verificar qué datos están llegando
+file_put_contents('whatsapp_debug_raw.txt', $input . "\n", FILE_APPEND);
+
 $data_msg_whatsapp = json_decode($input, true);
 
 // Validar que los datos recibidos no están vacíos
 if (empty($data_msg_whatsapp)) {
+    file_put_contents('debug_log.txt', "Error: Datos inválidos o vacíos\n", FILE_APPEND);
     echo json_encode(["status" => "error", "message" => "Datos inválidos o vacíos."]);
     exit;
 }
@@ -180,6 +185,7 @@ $stmt->bind_param('iisssi', $id_plataforma, $id_cliente, $mid_mensaje, $tipo_men
 if ($stmt->execute()) {
     echo json_encode(["status" => "success", "message" => "Mensaje procesado correctamente."]);
 } else {
+    file_put_contents('debug_log.txt', "Error SQL: " . $stmt->error . "\n", FILE_APPEND);  // Agregar log del error
     echo json_encode(["status" => "error", "message" => "Error al procesar el mensaje: " . $stmt->error]);
 }
 
@@ -188,3 +194,5 @@ $conn->close();
 
 // Opcional: Guardar el log en un archivo para depuración
 file_put_contents('debug_log.txt', print_r($debug_log, true) . "\n", FILE_APPEND);
+
+?>
