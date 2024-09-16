@@ -366,7 +366,24 @@ document.addEventListener("DOMContentLoaded", function () {
           console.error("Error al enviar el mensaje:", responseData.error);
           alert(`Error: ${responseData.error.message}`);
         } else {
-          alert("¡Mensaje enviado con éxito!");
+          /* alert("¡Mensaje enviado con éxito!"); */
+
+          let formData = new FormData();
+          formData.append("texto_mensaje", message);
+          formData.append("tipo_mensaje", "text");
+          $.ajax({
+            url: SERVERURL + "pedidos/agregar_mensaje_enviado",
+            type: "POST",
+            data: formData,
+            processData: false, // No procesar los datos
+            contentType: false, // No establecer ningún tipo de contenido
+            dataType: "json",
+            success: function (response) {},
+            error: function (jqXHR, textStatus, errorThrown) {
+              alert(errorThrown);
+            },
+          });
+
           messageInput.value = ""; // Limpiar el campo de entrada
           toggleButtons(); // Verificar si hay que mostrar el botón de audio
         }
