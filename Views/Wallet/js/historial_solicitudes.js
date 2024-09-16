@@ -6,7 +6,7 @@ const getFecha = () => {
   let hora = fecha.getHours();
   let minutos = fecha.getMinutes();
   let segundos = fecha.getSeconds();
-  return `${dia}/${mes}/${anio} ${hora}:${minutos}:${segundos}`;
+  return `${dia}-${mes}-${anio}_${hora}-${minutos}-${segundos}`;
 };
 
 let dataTableHistorialSolicitudes = false;
@@ -22,7 +22,7 @@ const dataTableOptions = {
     {
       extend: "excelHtml5",
       text: 'Excel <i class="fa-solid fa-file-excel"></i>',
-      title: "Panel de Control: Usuarios",
+      title: "Historial de Solicitudes",
       titleAttr: "Exportar a Excel",
 
       filename: "acreditacion" + "_" + getFecha(),
@@ -32,7 +32,7 @@ const dataTableOptions = {
     {
       extend: "csvHtml5",
       text: 'CSV <i class="fa-solid fa-file-csv"></i>',
-      title: "Panel de Control: acreditacion",
+      title: "Historial de Solicitudes",
       titleAttr: "Exportar a CSV",
       filename: "acreditacion" + "_" + getFecha(),
       footer: true,
