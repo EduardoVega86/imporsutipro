@@ -11,4 +11,10 @@
         border: none;
         /* Elimina el borde */
     }
+
+    .btn-csv:hover,
+    .btn-excel:hover {
+        background-color: #0f7801;
+        /* Color azul para CSV */
+    }
 </style>
