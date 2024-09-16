@@ -25,7 +25,7 @@ const dataTableOptions = {
       title: "Historial de Solicitudes",
       titleAttr: "Exportar a Excel",
 
-      filename: "acreditacion" + "_" + getFecha(),
+      filename: "Historial_Solicitud" + "_" + getFecha(),
       footer: true,
       className: "btn-excel",
     },
@@ -34,7 +34,7 @@ const dataTableOptions = {
       text: 'CSV <i class="fa-solid fa-file-csv"></i>',
       title: "Historial de Solicitudes",
       titleAttr: "Exportar a CSV",
-      filename: "acreditacion" + "_" + getFecha(),
+      filename: "Historial_Solicitud" + "_" + getFecha(),
       footer: true,
       className: "btn-csv",
     },
