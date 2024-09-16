@@ -51,6 +51,11 @@ class Wallet extends Controller
         $this->views->render($this, "solicitudes_referidos");
     }
 
+    public function historial_solicitudes()
+    {
+        $this->views->render($this, "historial_solicitudes");
+    }
+
     public function auditoria_guias()
     {
         if ($_SESSION["cargo"] != 10) {
@@ -65,6 +70,26 @@ class Wallet extends Controller
             header("Location: /wallet/billetera");
         }
         $this->views->render($this, "auditoria_guias_total");
+    }
+
+    public function pagar()
+    {
+        $tienda = $_GET['id_plataforma'];
+        if ($_SESSION["cargo"] != 10) {
+            header("Location: /wallet/billetera");
+        }
+        $existe = $this->model->existeTienda($tienda);
+
+        if (empty($existe)) {
+            $this->model->crearBilletera($tienda);
+        }
+
+        $this->views->render($this, "pagar");
+    }
+
+    public function datos_bancarios()
+    {
+        $this->views->render($this, "datos_bancarios");
     }
 
     //funciones
@@ -90,27 +115,6 @@ class Wallet extends Controller
         echo json_encode($response);
     }
 
-    public function pagar()
-    {
-        $tienda = $_GET['id_plataforma'];
-        if ($_SESSION["cargo"] != 10) {
-            header("Location: /wallet/billetera");
-        }
-        $existe = $this->model->existeTienda($tienda);
-
-        if (empty($existe)) {
-            $this->model->crearBilletera($tienda);
-        }
-
-        $this->views->render($this, "pagar");
-    }
-
-    public function datos_bancarios()
-    {
-        $this->views->render($this, "datos_bancarios");
-    }
-
-    ///
     public function obtenerDatos()
     {
         $datos = $this->model->obtenerTiendas();
@@ -329,8 +333,6 @@ class Wallet extends Controller
         $cuenta = $_POST['cuenta'];
         $red = $_POST['red'];
 
-
-
         $response = $this->model->agregarOtroPago($tipo, $cuenta, $_SESSION['id_plataforma'], $red);
         echo json_encode($response);
     }
@@ -361,7 +363,6 @@ class Wallet extends Controller
         $response = $this->model->obtenerOtroPagosReferidos();
         echo json_encode($response);
     }
-
 
     public function obtenerSolicitudes()
     {
@@ -411,15 +412,10 @@ class Wallet extends Controller
         echo json_encode($response);
     }
 
-
-
     public function habilitarAuditoria()
     {
-
         $guia = $_POST['numero_guia'];
         $estado = $_POST['estado'];
-
-
         $response = $this->model->habilitarAuditoria($guia, $estado);
         echo json_encode($response);
     }
@@ -431,15 +427,10 @@ class Wallet extends Controller
         echo json_encode($response);
     }
 
-
-
-
     public function importarExcel()
     {
-
         // Obtener el ID de inventario desde el formulario
         $transportadora = $_POST['id_transportadora'];
-
         // Verificar y manejar el archivo subido
         if (isset($_FILES['archivo']) && $_FILES['archivo']['error'] === UPLOAD_ERR_OK) {
             $fileTmpPath = $_FILES['archivo']['tmp_name'];
@@ -448,10 +439,7 @@ class Wallet extends Controller
             $fileType = $_FILES['archivo']['type'];
             $fileNameCmps = explode(".", $fileName);
             $fileExtension = strtolower(end($fileNameCmps));
-
             // Permitir solo archivos Excel
-
-
 
             $allowedfileExtensions = array('xlsx', 'xls');
             if (in_array($fileExtension, $allowedfileExtensions)) {
@@ -556,7 +544,6 @@ class Wallet extends Controller
         $response = $this->model->obtenerHistorialSolicitudes();
         echo json_encode($response);
     }
-
 
     ///debugs
 

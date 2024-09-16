@@ -151,8 +151,9 @@ if ($stmt->execute()) {
     $debug_log['insert'] = "Mensaje guardado correctamente.";
     echo json_encode(["status" => "success", "message" => "Mensaje procesado correctamente."]);
 } else {
-    $debug_log['insert'] = "Error al guardar el mensaje en la base de datos.";
-    echo json_encode(["status" => "error", "message" => "Error al procesar el mensaje."]);
+    $error = $stmt->error;  // Obtener el error específico de la base de datos
+    $debug_log['insert'] = "Error al guardar el mensaje en la base de datos: " . $error;
+    echo json_encode(["status" => "error", "message" => "Error al procesar el mensaje: " . $error]);
 }
 
 $stmt->close();

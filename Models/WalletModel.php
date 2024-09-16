@@ -107,7 +107,6 @@ class WalletModel extends Query
         return $data;
     }
 
-
     public function obtenerFacturas($id_plataforma, $filtro)
     {
         // Definir la lógica común de trayecto
@@ -217,8 +216,6 @@ class WalletModel extends Query
         return $response;
     }
 
-
-
     public function abonarBilletera($id_cabecera, $valor, $usuario)
     {
         if ($valor == 0) {
@@ -295,7 +292,6 @@ class WalletModel extends Query
         }
         return false; // No abortar en ningún otro caso
     }
-
 
     private function actualizarCabecera($id_cabecera)
     {
@@ -415,7 +411,6 @@ class WalletModel extends Query
         return $response[0]['url_imporsuit'];
     }
 
-
     private function existeBilletera($id_plataforma)
     {
         $sql = "SELECT COUNT(*) as count FROM billeteras WHERE id_plataforma = '$id_plataforma'";
@@ -468,9 +463,6 @@ class WalletModel extends Query
     {
         return ["status" => 200, "message" => "Transacción exitosa"];
     }
-
-
-
 
     public function guiasPendientes($tienda)
     {
@@ -1019,8 +1011,6 @@ class WalletModel extends Query
         return $response;
     }
 
-
-
     public function obtenerGuiasAuditoria($estado, $transportadora)
     {
         $where = '';
@@ -1435,6 +1425,7 @@ class WalletModel extends Query
         $response =  $this->select($sql);
         return $response;
     }
+
 
 
     /////////////////////////////// DEBUGS //////////////////////////////////////
