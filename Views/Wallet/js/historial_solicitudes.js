@@ -82,4 +82,6 @@ const initDataTableHistorialSolicitudes = async () => {
   if (dataTableHistorialSolicitudes) {
     dataTableHistorialSolicitudes.destroy();
   }
+
+  await listarHistorialSolicitudes();
 };
