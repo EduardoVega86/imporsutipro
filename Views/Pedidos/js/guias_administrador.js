@@ -177,6 +177,9 @@ const listGuias = async () => {
                         <option value="9" ${
                           guia.estado_guia_sistema == 9 ? "selected" : ""
                         }>Devuelto</option>
+                        <option value="14" ${
+                          guia.estado_guia_sistema == 14 ? "selected" : ""
+                        }>Novedad</option>
                     </select>`;
       } else if (transporte == 3) {
         transporte_content =
@@ -639,6 +642,9 @@ function validar_estadoSpeed(estado) {
   } else if (estado == 9) {
     span_estado = "badge_danger";
     estado_guia = "Devuelto";
+  } else if (estado == 14) {
+    span_estado = "badge_purple";
+    estado_guia = "Novedad";
   }
 
   return {
@@ -942,6 +948,52 @@ function enviar_gintraNovedad() {
         $("#gestionar_novedadModal").modal("hide");
         button.disabled = false;
         initDataTableNovedades();
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+      button.disabled = false;
+    },
+  });
+}
+
+function enviar_speedNovedad(){
+  var button = document.getElementById("boton_speed");
+  button.disabled = true; // Desactivar el botón
+
+  var tipo_speed = $("#tipo_speed").val();
+  var observacion_nov_speed = $("#observacion_nov_speed").val();
+  var id_novedad = $("#id_novedad").val();
+
+  let formData = new FormData();
+  formData.append("tipo", tipo_speed);
+  formData.append("novedad", observacion_nov_speed);
+  formData.append("id_pedido", id_novedad);
+
+  $.ajax({
+    url: SERVERURL + "pedidos/novedadSpeed",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    success: function (response) {
+      response = JSON.parse(response);
+      if (response.status == 500) {
+        toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+
+        button.disabled = false;
+
+      } else if (response.status == 200) {
+        toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+
+        $("#gestionar_novedadModal").modal("hide");
+        button.disabled = false;
+        initDataTableNovedades();
+        initDataTableNovedadesGestionadas();
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {

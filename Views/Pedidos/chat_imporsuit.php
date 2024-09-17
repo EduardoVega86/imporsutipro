@@ -8,15 +8,8 @@
             <div class="p-3 border-bottom">
                 <input type="text" class="form-control" placeholder="Buscar contacto...">
             </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item contact-item d-flex align-items-center">
-                    <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="Foto de perfil">
-                    <div>
-                        <h6 class="mb-0">+123 456 7890</h6>
-                        <small class="text-muted">Último mensaje...</small>
-                    </div>
-                </li>
-                <!-- Más contactos -->
+            <ul class="list-group list-group-flush" id="contact-list">
+                <!-- Los contactos se llenarán aquí dinámicamente -->
             </ul>
         </div>
 
