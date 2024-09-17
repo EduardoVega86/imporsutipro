@@ -11,7 +11,9 @@ $(document).ready(function () {
       // Recorremos cada contacto
       $.each(data, function (index, contacto) {
         innerHTML += `
-            <li class="list-group-item contact-item d-flex align-items-center">
+            <li class="list-group-item contact-item d-flex align-items-center" data-id="${
+              contacto.id_cliente
+            }">
                 <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="Foto de perfil">
                 <div>
                     <h6 class="mb-0">${
@@ -26,11 +28,43 @@ $(document).ready(function () {
 
       // Inyectamos el HTML generado en la lista
       $("#contact-list").html(innerHTML);
+
+      // Añadimos el evento de click a cada contacto
+      $("#contact-list").on("click", ".contact-item", function () {
+        let id_cliente = $(this).data("id");
+        // Llamamos a la función para ejecutar la API con el id_cliente
+        ejecutarApiConIdCliente(id_cliente);
+      });
     },
     error: function (error) {
       console.error("Error al obtener los mensajes:", error);
     },
   });
+
+  // Función que se ejecuta cuando se hace click en un contacto
+  function ejecutarApiConIdCliente(id_cliente) {
+    console.log("ID Cliente seleccionado:", id_cliente);
+
+    let formData = new FormData();
+    formData.append("id_cliente", id_cliente);
+
+    // Aquí puedes hacer una nueva llamada AJAX con el id_cliente
+    $.ajax({
+      url: SERVERURL + "Pedidos/mensajes_clientes",
+      method: "POST",
+      data: formData,
+      processData: false, // No procesar los datos
+      contentType: false, // No establecer ningún tipo de contenido
+      dataType: "json",
+      success: function (response) {
+        console.log("Respuesta de la API:", response);
+        // Aquí puedes hacer algo con la respuesta, por ejemplo, mostrar detalles del cliente
+      },
+      error: function (error) {
+        console.error("Error al ejecutar la API:", error);
+      },
+    });
+  }
 });
 /* fin llenar seccion numeros */
 
