@@ -1823,4 +1823,20 @@ class WalletModel extends Query
     {
         return $this->obtenerPesosConcurrencia($guias);
     }
+
+    // Validar si la guias es con o sin recaudo
+    public function validarRecaudo($numero_guia, $cod, $guias)
+    {
+        $sql = "SELECT * FROM facturas_cot WHERE numero_guia = '$numero_guia'";
+        $response = $this->select($sql);
+        $codAlmacenada = $response[0]['cod'];
+        $validar = false;
+        if ($codAlmacenada == $cod) {
+            $validar  = true;
+        }
+
+        if ($validar) {
+            /*  $total_venta =  */
+        }
+    }
 }
