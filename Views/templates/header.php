@@ -163,9 +163,9 @@
                     <?php if (MARCA == "IMPORSUIT") { ?>
                         <a class="nav-link" href="https://danielbonilla522-9.funnels.mastertools.com/#primeros-pasos" target="_blank"><box-icon type='solid' name='videos' color="<?php echo COLOR_LETRAS; ?>"></box-icon> Tutoriales</a>
                     <?php } ?>
-
+ <?php if ($_SESSION['cargo'] != 5) { ?>
                     <span class="navbar-text"><box-icon name='wallet' color="<?php echo COLOR_LETRAS; ?>"></box-icon> $<span id="precio_wallet"></span></span>
-
+ <?php } ?>
                     <!-- Notificación con icono y dropdown -->
                     <div class="notification-dropdown">
                         <span class="navbar-text notification-icon" onclick="toggleNotifications()">
