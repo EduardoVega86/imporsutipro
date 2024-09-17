@@ -55,7 +55,11 @@ $(document).ready(function () {
       contentType: false, // No establecer ningún tipo de contenido
       dataType: "json",
       success: function (response) {
+        $("#nombre_chat").text(response[0].nombre_cliente + " " + response[0].apellido_cliente);
         
+        $("#id_cliente_chat").text(response[0].id);
+
+        $("#celular_chat").text(response[0].celular_cliente);
 
         /* llenar chat */
         let formData_chat = new FormData();
@@ -69,8 +73,8 @@ $(document).ready(function () {
           processData: false, // No procesar los datos
           contentType: false, // No establecer ningún tipo de contenido
           dataType: "json",
-          success: function (response) {
-            console.log("Respuesta de la API:", response);
+          success: function (response2) {
+            console.log("Respuesta de la API:", response2);
             // Aquí puedes hacer algo con la respuesta, por ejemplo, mostrar detalles del cliente
           },
           error: function (error) {
