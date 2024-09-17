@@ -100,27 +100,23 @@ $(document).ready(function () {
   }
 
   // Función para llenar los mensajes del chat
-  // Función para llenar los mensajes del chat con Twemoji
   function llenarMensajesChat(mensajes) {
     let innerHTML = "";
 
     // Recorremos los mensajes y creamos el HTML correspondiente
     $.each(mensajes, function (index, mensaje) {
+      // Verificamos el rol_mensaje para determinar si es "sent" o "received"
       let claseMensaje = mensaje.rol_mensaje == 1 ? "sent" : "received";
 
-      // Insertamos el mensaje y los emojis
       innerHTML += `
-      <div class="message ${claseMensaje}">
-        ${mensaje.texto_mensaje}
-      </div>
-    `;
+        <div class="message ${claseMensaje}">
+          ${mensaje.texto_mensaje}
+        </div>
+      `;
     });
 
     // Inyectamos los mensajes en el contenedor de mensajes
     $(".chat-messages").html(innerHTML);
-
-    // Aplicamos Twemoji para transformar emojis en imágenes SVG
-    twemoji.parse(document.querySelector(".chat-messages"));
   }
 
   // Función para iniciar el polling de mensajes
