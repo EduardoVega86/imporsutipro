@@ -1,6 +1,6 @@
 /* llenar seccion numeros */
 $(document).ready(function () {
-  // Llamada AJAX para obtener los datos de la API
+  // Llamada AJAX para obtener los datos de la API de contactos
   $.ajax({
     url: SERVERURL + "Pedidos/numeros_clientes",
     method: "GET",
@@ -26,7 +26,7 @@ $(document).ready(function () {
             </li>`;
       });
 
-      // Inyectamos el HTML generado en la lista
+      // Inyectamos el HTML generado en la lista de contactos
       $("#contact-list").html(innerHTML);
 
       // Añadimos el evento de click a cada contacto
@@ -34,6 +34,9 @@ $(document).ready(function () {
         let id_cliente = $(this).data("id");
         // Llamamos a la función para ejecutar la API con el id_cliente
         ejecutarApiConIdCliente(id_cliente);
+
+        // Iniciar el polling para actualizar los mensajes automáticamente
+        startPollingMensajes(id_cliente);
       });
     },
     error: function (error) {
@@ -60,61 +63,84 @@ $(document).ready(function () {
         );
 
         $("#id_cliente_chat").val(response[0].id);
-
         $("#celular_chat").val(response[0].celular_cliente);
-
         $("#uid_cliente").val(response[0].uid_cliente);
 
-        /* llenar chat */
-        let formData_chat = new FormData();
-        formData_chat.append("id_cliente", id_cliente);
-
-        // Aquí puedes hacer una nueva llamada AJAX con el id_cliente
-        $.ajax({
-          url: SERVERURL + "Pedidos/mensajes_clientes",
-          method: "POST",
-          data: formData_chat,
-          processData: false, // No procesar los datos
-          contentType: false, // No establecer ningún tipo de contenido
-          dataType: "json",
-          success: function (response2) {
-            console.log("Respuesta de la API:", response2);
-
-            // Llamamos a la función para llenar los mensajes
-            llenarMensajesChat(response2);
-          },
-          error: function (error) {
-            console.error("Error al ejecutar la API:", error);
-          },
-        });
-
-        // Función para llenar los mensajes del chat
-        function llenarMensajesChat(mensajes) {
-          let innerHTML = "";
-
-          // Recorremos los mensajes y creamos el HTML correspondiente
-          $.each(mensajes, function (index, mensaje) {
-            // Verificamos el rol_mensaje para determinar si es "sent" o "received"
-            let claseMensaje = mensaje.rol_mensaje == 1 ? "sent" : "received";
-
-            innerHTML += `
-              <div class="message ${claseMensaje}">
-                ${mensaje.texto_mensaje}
-              </div>
-            `;
-          });
-
-          // Inyectamos los mensajes en el contenedor de mensajes
-          $(".chat-messages").html(innerHTML);
-        }
-        /* fin llenar chat */
+        // Llamar a la función para cargar los mensajes iniciales del chat
+        cargarMensajesChat(id_cliente);
       },
       error: function (error) {
         console.error("Error al ejecutar la API:", error);
       },
     });
   }
-});
+
+  // Función para cargar los mensajes del chat
+  function cargarMensajesChat(id_cliente) {
+    let formData_chat = new FormData();
+    formData_chat.append("id_cliente", id_cliente);
+
+    $.ajax({
+      url: SERVERURL + "Pedidos/mensajes_clientes",
+      method: "POST",
+      data: formData_chat,
+      processData: false, // No procesar los datos
+      contentType: false, // No establecer ningún tipo de contenido
+      dataType: "json",
+      success: function (response2) {
+        console.log("Respuesta de la API:", response2);
+
+        // Llamamos a la función para llenar los mensajes
+        llenarMensajesChat(response2);
+      },
+      error: function (error) {
+        console.error("Error al ejecutar la API:", error);
+      },
+    });
+  }
+
+  // Función para llenar los mensajes del chat
+  function llenarMensajesChat(mensajes) {
+    let innerHTML = "";
+
+    // Recorremos los mensajes y creamos el HTML correspondiente
+    $.each(mensajes, function (index, mensaje) {
+      // Verificamos el rol_mensaje para determinar si es "sent" o "received"
+      let claseMensaje = mensaje.rol_mensaje == 1 ? "sent" : "received";
+
+      innerHTML += `
+        <div class="message ${claseMensaje}">
+          ${mensaje.texto_mensaje}
+        </div>
+      `;
+    });
+
+    // Inyectamos los mensajes en el contenedor de mensajes
+    $(".chat-messages").html(innerHTML);
+  }
+
+  // Función para iniciar el polling de mensajes
+  let pollingInterval;
+
+  function startPollingMensajes(id_cliente) {
+    // Si ya hay un intervalo de polling, lo limpiamos para evitar duplicados
+    if (pollingInterval) {
+      clearInterval(pollingInterval);
+    }
+
+    // Definimos el intervalo de polling (por ejemplo, cada 5 segundos)
+    pollingInterval = setInterval(function () {
+      cargarMensajesChat(id_cliente); // Volvemos a cargar los mensajes en intervalos regulares
+    }, 5000); // Cada 5 segundos
+  }
+
+  // Función para detener el polling (opcional)
+  function stopPollingMensajes() {
+    if (pollingInterval) {
+      clearInterval(pollingInterval); // Detenemos el polling si es necesario
+    }
+  }
+})
 /* fin llenar seccion numeros */
 
 const chatInfo = document.querySelector(".chat-info");
