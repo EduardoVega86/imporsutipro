@@ -571,7 +571,7 @@ class Pedidos extends Controller
     public function mensajes_clientes()
     {
         $id_cliente = $_POST['id_cliente'];
-        $response = $this->model->mensajes_clientes($id_cliente, $_SESSION['id_plataforma']);
+        $response = $this->model->mensajes_clientes($id_cliente);
         echo json_encode($response);
     }
 
