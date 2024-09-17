@@ -571,7 +571,14 @@ class Pedidos extends Controller
     public function mensajes_clientes()
     {
         $id_cliente = $_POST['id_cliente'];
-        $response = $this->model->mensajes_clientes($id_cliente, $_SESSION['id_plataforma']);
+        $response = $this->model->mensajes_clientes($id_cliente);
+        echo json_encode($response);
+    }
+
+    public function numero_cliente()
+    {
+        $id_cliente = $_POST['id_cliente'];
+        $response = $this->model->numero_cliente($id_cliente, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
 
@@ -600,8 +607,10 @@ class Pedidos extends Controller
     {
         $texto_mensaje = $_POST['texto_mensaje'];
         $tipo_mensaje = $_POST['tipo_mensaje'];
+        $mid_mensaje = $_POST['mid_mensaje'];
+        $id_recibe = $_POST['id_recibe'];
 
-        $response = $this->model->agregar_mensaje_enviado($texto_mensaje, $tipo_mensaje);
+        $response = $this->model->agregar_mensaje_enviado($texto_mensaje, $tipo_mensaje, $mid_mensaje, $id_recibe, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
 }

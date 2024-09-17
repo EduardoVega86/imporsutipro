@@ -18,7 +18,10 @@
             <div class="chat-header">
                 <div class="d-flex align-items-center">
                     <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="Foto de perfil">
-                    <h5 class="mb-0">Tony Plaza</h5>
+                    <h5 class="mb-0"><span id="nombre_chat"></span></h5>
+                    <input type="hidden" id="id_cliente_chat" name="id_cliente_chat">
+                    <input type="hidden" id="celular_chat" name="celular_chat">
+                    <input type="hidden" id="uid_cliente" name="uid_cliente">
                 </div>
                 <i class="fas fa-ellipsis-v toggle-info" id="btn-three-dots"></i> <!-- Botón de tres puntos -->
             </div>

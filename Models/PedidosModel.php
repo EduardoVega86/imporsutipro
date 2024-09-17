@@ -1245,15 +1245,22 @@ class PedidosModel extends Query
 
 
     /* APIS Chat center */
-    public function mensajes_clientes($id_cliente, $id_plataforma)
+    public function mensajes_clientes($id_cliente)
     {
-        $sql = "SELECT * FROM `clientes_chat_center` INNER JOIN `mensajes_clientes` ON clientes_chat_center.id = mensajes_clientes.id_cliente WHERE clientes_chat_center.id_plataforma = $id_plataforma AND clientes_chat_center.id = $id_cliente;";
+        $sql = "SELECT * FROM `clientes_chat_center` INNER JOIN `mensajes_clientes` ON clientes_chat_center.id = mensajes_clientes.id_cliente WHERE mensajes_clientes.celular_recibe = $id_cliente;";
+        return $this->select($sql);
+    }
+
+    public function numero_cliente($id_cliente, $id_plataforma)
+    {
+        $sql = "SELECT * FROM `clientes_chat_center` WHERE id = $id_cliente;";
         return $this->select($sql);
     }
 
     public function numeros_clientes($id_plataforma)
     {
-        $sql = "SELECT * FROM `clientes_chat_center` INNER JOIN `mensajes_clientes` ON clientes_chat_center.id = mensajes_clientes.id_cliente WHERE clientes_chat_center.id_plataforma = $id_plataforma AND mensajes_clientes.rol_mensaje = 0;";
+        $sql = "SELECT * FROM `clientes_chat_center` INNER JOIN `mensajes_clientes` ON clientes_chat_center.id = mensajes_clientes.id_cliente WHERE 
+        clientes_chat_center.id_plataforma = $id_plataforma AND mensajes_clientes.rol_mensaje = 0 GROUP BY clientes_chat_center.uid_cliente ORDER BY mensajes_clientes.created_at DESC;";
         return $this->select($sql);
     }
 
@@ -1299,13 +1306,13 @@ class PedidosModel extends Query
         exit();
     }
 
-    public function agregar_mensaje_enviado($texto_mensaje, $tipo_mensaje)
+    public function agregar_mensaje_enviado($texto_mensaje, $tipo_mensaje, $mid_mensaje, $id_recibe, $id_plataforma)
     {
         // codigo para agregar categoria
         $response = $this->initialResponse();
 
-        $sql = "INSERT INTO `mensajes_clientes` (`id_plataforma`,`id_cliente`,`mid_mensaje`,`tipo_mensaje`,`rol_mensaje`,`texto_mensaje`) VALUES (?, ?, ?, ?, ?, ?)";
-        $data = [1190, 411, "109565362009074", $tipo_mensaje, 1, $texto_mensaje];
+        $sql = "INSERT INTO `mensajes_clientes` (`id_plataforma`,`id_cliente`,`mid_mensaje`,`tipo_mensaje`,`rol_mensaje`,`celular_recibe`,`texto_mensaje`) VALUES (?, ?, ?, ?, ?, ?)";
+        $data = [$id_plataforma, 411, $mid_mensaje, $tipo_mensaje, 1, $id_recibe, $texto_mensaje];
         $insertar_mensaje_enviado = $this->insert($sql, $data);
         if ($insertar_mensaje_enviado == 1) {
             $response['status'] = 200;

@@ -2,40 +2,95 @@
 $(document).ready(function () {
   // Llamada AJAX para obtener los datos de la API
   $.ajax({
-      url: SERVERURL + "Pedidos/numeros_clientes",
-      method: 'GET',
-      success: function (data) {
-          if (Array.isArray(data)) {
-              // Llenamos la lista de contactos si los datos son un array
-              llenarListaDeContactos(data);
-          } else {
-              console.error('La respuesta no es un array:', data);
-          }
-      },
-      error: function (error) {
-          console.error('Error al obtener los mensajes:', error);
-      }
-  });
+    url: SERVERURL + "Pedidos/numeros_clientes",
+    method: "GET",
+    dataType: "json",
+    success: function (data) {
+      let innerHTML = "";
 
-  // Función que se encarga de llenar la lista de contactos
-  function llenarListaDeContactos(contactos) {
-      let innerHTML = '';
-
-      // Recorremos cada contacto en el array
-      $.each(contactos, function (index, contacto) {
-          // Construimos el HTML para cada contacto
-          innerHTML += `
-              <li class="list-group-item contact-item d-flex align-items-center">
-                  <img src="${contacto.foto || 'https://via.placeholder.com/50'}" class="rounded-circle me-3" alt="Foto de perfil">
-                  <div>
-                      <h6 class="mb-0">${contacto.nombre_cliente || 'Desconocido'} ${contacto.apellido_cliente || ''}</h6>
-                      <small class="text-muted">${contacto.texto_mensaje || 'No hay mensajes'}</small>
-                  </div>
-              </li>`;
+      // Recorremos cada contacto
+      $.each(data, function (index, contacto) {
+        innerHTML += `
+            <li class="list-group-item contact-item d-flex align-items-center" data-id="${
+              contacto.id_cliente
+            }">
+                <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="Foto de perfil">
+                <div>
+                    <h6 class="mb-0">${
+                      contacto.nombre_cliente || "Desconocido"
+                    } ${contacto.apellido_cliente || ""}</h6>
+                    <small class="text-muted">${
+                      contacto.texto_mensaje || "No hay mensajes"
+                    }</small>
+                </div>
+            </li>`;
       });
 
-      // Inyectamos el HTML generado en la lista con id "contact-list"
-      $('#contact-list').html(innerHTML);
+      // Inyectamos el HTML generado en la lista
+      $("#contact-list").html(innerHTML);
+
+      // Añadimos el evento de click a cada contacto
+      $("#contact-list").on("click", ".contact-item", function () {
+        let id_cliente = $(this).data("id");
+        // Llamamos a la función para ejecutar la API con el id_cliente
+        ejecutarApiConIdCliente(id_cliente);
+      });
+    },
+    error: function (error) {
+      console.error("Error al obtener los mensajes:", error);
+    },
+  });
+
+  // Función que se ejecuta cuando se hace click en un contacto
+  function ejecutarApiConIdCliente(id_cliente) {
+    let formData = new FormData();
+    formData.append("id_cliente", id_cliente);
+
+    // Aquí puedes hacer una nueva llamada AJAX con el id_cliente
+    $.ajax({
+      url: SERVERURL + "Pedidos/numero_cliente",
+      method: "POST",
+      data: formData,
+      processData: false, // No procesar los datos
+      contentType: false, // No establecer ningún tipo de contenido
+      dataType: "json",
+      success: function (response) {
+        $("#nombre_chat").text(
+          response[0].nombre_cliente + " " + response[0].apellido_cliente
+        );
+
+        $("#id_cliente_chat").text(response[0].id);
+
+        $("#celular_chat").text(response[0].celular_cliente);
+
+        $("#uid_cliente").text(response[0].uid_cliente);
+
+        /* llenar chat */
+        let formData_chat = new FormData();
+        formData_chat.append("id_cliente", id_cliente);
+
+        // Aquí puedes hacer una nueva llamada AJAX con el id_cliente
+        $.ajax({
+          url: SERVERURL + "Pedidos/mensajes_clientes",
+          method: "POST",
+          data: formData_chat,
+          processData: false, // No procesar los datos
+          contentType: false, // No establecer ningún tipo de contenido
+          dataType: "json",
+          success: function (response2) {
+            console.log("Respuesta de la API:", response2);
+            // Aquí puedes hacer algo con la respuesta, por ejemplo, mostrar detalles del cliente
+          },
+          error: function (error) {
+            console.error("Error al ejecutar la API:", error);
+          },
+        });
+        /* fin llenar chat */
+      },
+      error: function (error) {
+        console.error("Error al ejecutar la API:", error);
+      },
+    });
   }
 });
 /* fin llenar seccion numeros */
@@ -211,7 +266,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const fromPhoneNumberId = "109565362009074";
   const accessToken =
     "EAAVZAG5oL9G4BO3vZAhKcOTpfZAQJgNDzTNDArOp8VitYT8GUFqcYKIsZAO0pBkf0edoZC1DgfXICkIEP7xZCkPkj8nS1gfDqI4jNeEVDmseyba3l2os8EoYgf1Mdnl2MwaYhmrdfZBgUnItwT8nZBVvjinB7j8IAfZBx2LZA1WNZCqqsZBZC2cqDdObeiLqEsih9U3XOQwZDZD";
-  const phoneNumber = "+593981702066";
+  /* const phoneNumber = "+593981702066"; */
   const url = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
 
   // ---- Variables para la grabación de audio ----
@@ -323,6 +378,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const audioUrl = await uploadAudio(audioBlob);
 
         if (audioUrl) {
+          var phoneNumber = "+" + $("#celular_chat").val();
           const data = {
             messaging_product: "whatsapp",
             recipient_type: "individual",
@@ -381,6 +437,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
+    var phoneNumber = "+" + $("#celular_chat").val();
     const data = {
       messaging_product: "whatsapp",
       recipient_type: "individual",
@@ -410,9 +467,15 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
           /* alert("¡Mensaje enviado con éxito!"); */
 
+          var id_cliente_chat = $('#id_cliente_chat').val();
+          var uid_cliente = $('#uid_cliente').val();
+
           let formData = new FormData();
           formData.append("texto_mensaje", message);
           formData.append("tipo_mensaje", "text");
+          formData.append("mid_mensaje", uid_cliente);
+          formData.append("id_recibe", id_cliente_chat);
+
           $.ajax({
             url: SERVERURL + "pedidos/agregar_mensaje_enviado",
             type: "POST",
