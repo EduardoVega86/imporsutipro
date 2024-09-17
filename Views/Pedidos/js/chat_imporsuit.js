@@ -531,7 +531,9 @@ document.addEventListener("DOMContentLoaded", function () {
             processData: false, // No procesar los datos
             contentType: false, // No establecer ningún tipo de contenido
             dataType: "json",
-            success: function (response) {},
+            success: function (response) {
+              startPollingMensajes(id_cliente_chat);
+            },
             error: function (jqXHR, textStatus, errorThrown) {
               alert(errorThrown);
             },
