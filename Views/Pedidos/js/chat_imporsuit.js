@@ -103,19 +103,16 @@ $(document).ready(function () {
   function llenarMensajesChat(mensajes) {
     let innerHTML = "";
 
-    // Recorremos los mensajes y creamos el HTML correspondiente
     $.each(mensajes, function (index, mensaje) {
-      // Verificamos el rol_mensaje para determinar si es "sent" o "received"
       let claseMensaje = mensaje.rol_mensaje == 1 ? "sent" : "received";
 
       innerHTML += `
         <div class="message ${claseMensaje}">
-          ${mensaje.texto_mensaje}
+          ${joypixels.shortnameToImage(mensaje.texto_mensaje)}
         </div>
       `;
     });
 
-    // Inyectamos los mensajes en el contenedor de mensajes
     $(".chat-messages").html(innerHTML);
   }
 
