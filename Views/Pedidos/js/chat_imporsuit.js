@@ -2,41 +2,35 @@
 $(document).ready(function () {
   // Llamada AJAX para obtener los datos de la API
   $.ajax({
-      url: SERVERURL + "Pedidos/numeros_clientes",
-      method: 'GET',
-      success: function (data) {
-          if (Array.isArray(data)) {
-              // Llenamos la lista de contactos si los datos son un array
-              llenarListaDeContactos(data);
-          } else {
-              console.error('La respuesta no es un array:', data);
-          }
-      },
-      error: function (error) {
-          console.error('Error al obtener los mensajes:', error);
-      }
-  });
+    url: SERVERURL + "Pedidos/numeros_clientes",
+    method: "GET",
+    dataType: "json",
+    success: function (data) {
+      let innerHTML = "";
 
-  // Función que se encarga de llenar la lista de contactos
-  function llenarListaDeContactos(contactos) {
-      let innerHTML = '';
-
-      // Recorremos cada contacto en el array
-      $.each(contactos, function (index, contacto) {
-          // Construimos el HTML para cada contacto
-          innerHTML += `
-              <li class="list-group-item contact-item d-flex align-items-center">
-                  <img src="${contacto.foto || 'https://via.placeholder.com/50'}" class="rounded-circle me-3" alt="Foto de perfil">
-                  <div>
-                      <h6 class="mb-0">${contacto.nombre_cliente || 'Desconocido'} ${contacto.apellido_cliente || ''}</h6>
-                      <small class="text-muted">${contacto.texto_mensaje || 'No hay mensajes'}</small>
-                  </div>
-              </li>`;
+      // Recorremos cada contacto
+      $.each(data, function (index, contacto) {
+        innerHTML += `
+            <li class="list-group-item contact-item d-flex align-items-center">
+                <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="Foto de perfil">
+                <div>
+                    <h6 class="mb-0">${
+                      contacto.nombre_cliente || "Desconocido"
+                    } ${contacto.apellido_cliente || ""}</h6>
+                    <small class="text-muted">${
+                      contacto.texto_mensaje || "No hay mensajes"
+                    }</small>
+                </div>
+            </li>`;
       });
 
-      // Inyectamos el HTML generado en la lista con id "contact-list"
-      $('#contact-list').html(innerHTML);
-  }
+      // Inyectamos el HTML generado en la lista
+      $("#contact-list").html(innerHTML);
+    },
+    error: function (error) {
+      console.error("Error al obtener los mensajes:", error);
+    },
+  });
 });
 /* fin llenar seccion numeros */
 
