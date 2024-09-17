@@ -2,7 +2,7 @@
 <?php require_once './Views/Dashboard/css/dashboard2_style.php'; ?>
 
 <div class="custom-container-fluid">
-
+<?php if ($_SESSION['cargo'] != 5) { ?>
     <div class="banner_estadisticas">
         <div class="stats-container">
             <div class="flex-fill" style="padding: 10px;">
@@ -182,7 +182,7 @@
             </div>
         </div>
     </div>
-
+ <?php } ?>
 </div>
 
 <script src="<?php echo SERVERURL ?>/Views/Dashboard/js/dashboard2.js"></script>
