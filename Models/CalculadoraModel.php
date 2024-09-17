@@ -307,7 +307,7 @@ XML;
             "costo" => number_format($costo, 2, '.', ''),
             "resultante" => number_format($resultante, 2, '.', ''),
             "generar" => $generar,
-            "full" => $full
+
         ];
         return $data;
     }
