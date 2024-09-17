@@ -1311,7 +1311,7 @@ class PedidosModel extends Query
         // codigo para agregar categoria
         $response = $this->initialResponse();
 
-        $sql = "INSERT INTO `mensajes_clientes` (`id_plataforma`,`id_cliente`,`mid_mensaje`,`tipo_mensaje`,`rol_mensaje`,`celular_recibe`,`texto_mensaje`) VALUES (?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO `mensajes_clientes` (`id_plataforma`,`id_cliente`,`mid_mensaje`,`tipo_mensaje`,`rol_mensaje`,`celular_recibe`,`texto_mensaje`) VALUES (?, ?, ?, ?, ?, ?, ?)";
         $data = [$id_plataforma, 411, $mid_mensaje, $tipo_mensaje, 1, $id_recibe, $texto_mensaje];
         $insertar_mensaje_enviado = $this->insert($sql, $data);
         if ($insertar_mensaje_enviado == 1) {
