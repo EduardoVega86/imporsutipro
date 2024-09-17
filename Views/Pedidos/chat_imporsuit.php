@@ -27,15 +27,7 @@
             </div>
 
             <div class="chat-messages">
-                <div class="message received">
-                    Hola, ¿cómo estás?
-                </div>
-                <div class="message sent">
-                    Bien, ¿y tú?
-                </div>
-                <div class="message sent">
-                    contestame :c
-                </div>
+                
             </div>
 
             <div class="chat-input border-top position-relative">

@@ -79,12 +79,34 @@ $(document).ready(function () {
           dataType: "json",
           success: function (response2) {
             console.log("Respuesta de la API:", response2);
-            // Aquí puedes hacer algo con la respuesta, por ejemplo, mostrar detalles del cliente
+
+            // Llamamos a la función para llenar los mensajes
+            llenarMensajesChat(response2);
           },
           error: function (error) {
             console.error("Error al ejecutar la API:", error);
           },
         });
+
+        // Función para llenar los mensajes del chat
+        function llenarMensajesChat(mensajes) {
+          let innerHTML = "";
+
+          // Recorremos los mensajes y creamos el HTML correspondiente
+          $.each(mensajes, function (index, mensaje) {
+            // Verificamos el rol_mensaje para determinar si es "sent" o "received"
+            let claseMensaje = mensaje.rol_mensaje == 1 ? "sent" : "received";
+
+            innerHTML += `
+              <div class="message ${claseMensaje}">
+                ${mensaje.texto_mensaje}
+              </div>
+            `;
+          });
+
+          // Inyectamos los mensajes en el contenedor de mensajes
+          $(".chat-messages").html(innerHTML);
+        }
         /* fin llenar chat */
       },
       error: function (error) {
@@ -467,8 +489,8 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
           /* alert("¡Mensaje enviado con éxito!"); */
 
-          var id_cliente_chat = $('#id_cliente_chat').val();
-          var uid_cliente = $('#uid_cliente').val();
+          var id_cliente_chat = $("#id_cliente_chat").val();
+          var uid_cliente = $("#uid_cliente").val();
 
           let formData = new FormData();
           formData.append("texto_mensaje", message);
