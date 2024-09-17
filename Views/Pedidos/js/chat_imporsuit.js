@@ -140,7 +140,7 @@ $(document).ready(function () {
       clearInterval(pollingInterval); // Detenemos el polling si es necesario
     }
   }
-})
+});
 /* fin llenar seccion numeros */
 
 const chatInfo = document.querySelector(".chat-info");
