@@ -108,14 +108,11 @@ $(document).ready(function () {
       // Verificamos el rol_mensaje para determinar si es "sent" o "received"
       let claseMensaje = mensaje.rol_mensaje == 1 ? "sent" : "received";
 
-      // Procesamos el texto del mensaje con Twemoji para renderizar correctamente los emojis
-      let textoConEmojis = twemoji.parse(mensaje.texto_mensaje);
-
       innerHTML += `
-      <div class="message ${claseMensaje}">
-        ${textoConEmojis}
-      </div>
-    `;
+        <div class="message ${claseMensaje}">
+          ${mensaje.texto_mensaje}
+        </div>
+      `;
     });
 
     // Inyectamos los mensajes en el contenedor de mensajes
