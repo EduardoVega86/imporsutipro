@@ -280,7 +280,6 @@ XML;
 
         $producto = $this->select("SELECT * FROM productos WHERE id_producto = '$id_producto'");
         $full = $this->obtenerFull($producto[0], $id_plataforma);
-        echo $full;
         $plataforma = $producto[0]['id_plataforma'];
         if ($id_plataforma == $plataforma) {
             $costo = 0;
@@ -316,7 +315,6 @@ XML;
     public function obtenerFull($producto, $plataforma)
     {
         $sql = "SELECT * FROM inventario_bodegas WHERE id_producto = '" . $producto['id_producto'] . "' limit 1";
-        echo $sql;
         $full = $this->select($sql);
 
         $bodega = $full[0]['bodega'];
