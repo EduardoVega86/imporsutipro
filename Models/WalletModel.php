@@ -1684,7 +1684,7 @@ class WalletModel extends Query
 
     public function obtenerTodasLasGuias()
     {
-        $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE estado_guia IN (7, 9) AND visto = 0 AND (guia LIKE 'IMP%' OR guia LIKE 'MKP%');";
+        $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE estado_guia IN (7, 9) AND visto = 0 AND (guia LIKE 'IMP%' OR guia LIKE 'MKP%') and id_plataforma not in (1160,1190);";
         $response = $this->select($sql);
         $guias = [];
         foreach ($response as $value) {
