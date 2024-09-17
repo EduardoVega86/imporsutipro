@@ -330,8 +330,10 @@ XML;
         } else
         if ($id_bodega == $id_plataforma) {
             $full = 0;
-        } else {
+        } else if ($id_plataforma == $producto['id_plataforma']) {
             $full = $full;
+        } else {
+            $full = 0;
         }
 
         return $full;
