@@ -1306,13 +1306,13 @@ class PedidosModel extends Query
         exit();
     }
 
-    public function agregar_mensaje_enviado($texto_mensaje, $tipo_mensaje)
+    public function agregar_mensaje_enviado($texto_mensaje, $tipo_mensaje, $mid_mensaje, $id_recibe, $id_plataforma)
     {
         // codigo para agregar categoria
         $response = $this->initialResponse();
 
-        $sql = "INSERT INTO `mensajes_clientes` (`id_plataforma`,`id_cliente`,`mid_mensaje`,`tipo_mensaje`,`rol_mensaje`,`texto_mensaje`) VALUES (?, ?, ?, ?, ?, ?)";
-        $data = [1190, 411, "109565362009074", $tipo_mensaje, 1, $texto_mensaje];
+        $sql = "INSERT INTO `mensajes_clientes` (`id_plataforma`,`id_cliente`,`mid_mensaje`,`tipo_mensaje`,`rol_mensaje`,`celular_recibe`,`texto_mensaje`) VALUES (?, ?, ?, ?, ?, ?)";
+        $data = [$id_plataforma, 411, $mid_mensaje, $tipo_mensaje, 1, $id_recibe, $texto_mensaje];
         $insertar_mensaje_enviado = $this->insert($sql, $data);
         if ($insertar_mensaje_enviado == 1) {
             $response['status'] = 200;

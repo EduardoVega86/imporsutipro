@@ -21,6 +21,7 @@
                     <h5 class="mb-0"><span id="nombre_chat"></span></h5>
                     <input type="hidden" id="id_cliente_chat" name="id_cliente_chat">
                     <input type="hidden" id="celular_chat" name="celular_chat">
+                    <input type="hidden" id="uid_cliente" name="uid_cliente">
                 </div>
                 <i class="fas fa-ellipsis-v toggle-info" id="btn-three-dots"></i> <!-- Botón de tres puntos -->
             </div>

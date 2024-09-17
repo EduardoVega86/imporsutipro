@@ -55,11 +55,15 @@ $(document).ready(function () {
       contentType: false, // No establecer ningún tipo de contenido
       dataType: "json",
       success: function (response) {
-        $("#nombre_chat").text(response[0].nombre_cliente + " " + response[0].apellido_cliente);
-        
+        $("#nombre_chat").text(
+          response[0].nombre_cliente + " " + response[0].apellido_cliente
+        );
+
         $("#id_cliente_chat").text(response[0].id);
 
         $("#celular_chat").text(response[0].celular_cliente);
+
+        $("#uid_cliente").text(response[0].uid_cliente);
 
         /* llenar chat */
         let formData_chat = new FormData();
@@ -262,7 +266,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const fromPhoneNumberId = "109565362009074";
   const accessToken =
     "EAAVZAG5oL9G4BO3vZAhKcOTpfZAQJgNDzTNDArOp8VitYT8GUFqcYKIsZAO0pBkf0edoZC1DgfXICkIEP7xZCkPkj8nS1gfDqI4jNeEVDmseyba3l2os8EoYgf1Mdnl2MwaYhmrdfZBgUnItwT8nZBVvjinB7j8IAfZBx2LZA1WNZCqqsZBZC2cqDdObeiLqEsih9U3XOQwZDZD";
-  const phoneNumber = "+593981702066";
+  /* const phoneNumber = "+593981702066"; */
   const url = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
 
   // ---- Variables para la grabación de audio ----
@@ -374,6 +378,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const audioUrl = await uploadAudio(audioBlob);
 
         if (audioUrl) {
+          var phoneNumber = "+" + $("#celular_chat").val();
           const data = {
             messaging_product: "whatsapp",
             recipient_type: "individual",
@@ -432,6 +437,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
+    var phoneNumber = "+" + $("#celular_chat").val();
     const data = {
       messaging_product: "whatsapp",
       recipient_type: "individual",
@@ -461,9 +467,15 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
           /* alert("¡Mensaje enviado con éxito!"); */
 
+          var id_cliente_chat = $('#id_cliente_chat').val();
+          var uid_cliente = $('#uid_cliente').val();
+
           let formData = new FormData();
           formData.append("texto_mensaje", message);
           formData.append("tipo_mensaje", "text");
+          formData.append("mid_mensaje", uid_cliente);
+          formData.append("id_recibe", id_cliente_chat);
+
           $.ajax({
             url: SERVERURL + "pedidos/agregar_mensaje_enviado",
             type: "POST",
