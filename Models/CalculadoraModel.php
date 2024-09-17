@@ -318,7 +318,7 @@ XML;
         echo $sql;
         $full = $this->select($sql);
 
-        $bodega = $full[0]['id_bodega'];
+        $bodega = $full[0]['bodega'];
         $id_plataforma = $producto['id_plataforma'];
 
         $sql = "SELECT * FROM bodega WHERE id = '$bodega' limit 1";
