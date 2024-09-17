@@ -279,12 +279,12 @@ XML;
 
 
         $producto = $this->select("SELECT * FROM productos WHERE id_producto = '$id_producto'");
-        //$full = $this->obtenerFull($producto[0], $id_plataforma);
+        $full = $this->obtenerFull($producto[0], $id_plataforma);
         $plataforma = $producto[0]['id_plataforma'];
         if ($id_plataforma == $plataforma) {
             $costo = 0;
         }
-        $resultante = $total - $costo - $tarifa;
+        $resultante = $total - $costo - $tarifa - $full;
         if ($resultante < 0) {
         } else {
             $resultante = $resultante;
@@ -307,7 +307,7 @@ XML;
             "costo" => number_format($costo, 2, '.', ''),
             "resultante" => number_format($resultante, 2, '.', ''),
             "generar" => $generar,
-
+            "full" => $full
         ];
         return $data;
     }
@@ -315,9 +315,9 @@ XML;
     public function obtenerFull($producto, $plataforma)
     {
         $sql = "SELECT * FROM inventario_bodegas WHERE id_producto = '" . $producto['id_producto'] . "' limit 1";
-        $full = $this->select($sql);
+        $fulls = $this->select($sql);
 
-        $bodega = $full[0]['id_bodega'];
+        $bodega = $fulls[0]['bodega'];
         $id_plataforma = $producto['id_plataforma'];
 
         $sql = "SELECT * FROM bodega WHERE id = '$bodega' limit 1";
@@ -330,8 +330,10 @@ XML;
         } else
         if ($id_bodega == $id_plataforma) {
             $full = 0;
-        } else {
+        } else if ($plataforma == $producto['id_plataforma']) {
             $full = $full;
+        } else {
+            $full = 0;
         }
 
         return $full;

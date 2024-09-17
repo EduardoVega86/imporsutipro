@@ -26,17 +26,11 @@
                 <i class="fas fa-ellipsis-v toggle-info" id="btn-three-dots"></i> <!-- Botón de tres puntos -->
             </div>
 
+            <!-- chat -->
             <div class="chat-messages">
-                <div class="message received">
-                    Hola, ¿cómo estás?
-                </div>
-                <div class="message sent">
-                    Bien, ¿y tú?
-                </div>
-                <div class="message sent">
-                    contestame :c
-                </div>
+                
             </div>
+            <!-- fin chat -->
 
             <div class="chat-input border-top position-relative">
                 <div class="input-group">
