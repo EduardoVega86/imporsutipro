@@ -100,21 +100,29 @@ $(document).ready(function () {
   }
 
   // Función para llenar los mensajes del chat
-  function llenarMensajesChat(mensajes) {
-    let innerHTML = "";
+  // Función para llenar los mensajes del chat con Twemoji
+function llenarMensajesChat(mensajes) {
+  let innerHTML = "";
 
-    $.each(mensajes, function (index, mensaje) {
-      let claseMensaje = mensaje.rol_mensaje == 1 ? "sent" : "received";
+  // Recorremos los mensajes y creamos el HTML correspondiente
+  $.each(mensajes, function (index, mensaje) {
+    let claseMensaje = mensaje.rol_mensaje == 1 ? "sent" : "received";
 
-      innerHTML += `
-        <div class="message ${claseMensaje}">
-          ${joypixels.shortnameToImage(mensaje.texto_mensaje)}
-        </div>
-      `;
-    });
+    // Insertamos el mensaje y los emojis
+    innerHTML += `
+      <div class="message ${claseMensaje}">
+        ${mensaje.texto_mensaje}
+      </div>
+    `;
+  });
 
-    $(".chat-messages").html(innerHTML);
-  }
+  // Inyectamos los mensajes en el contenedor de mensajes
+  $(".chat-messages").html(innerHTML);
+
+  // Aplicamos Twemoji para transformar emojis en imágenes SVG
+  twemoji.parse(document.querySelector('.chat-messages'));
+}
+
 
   // Función para iniciar el polling de mensajes
   let pollingInterval;
