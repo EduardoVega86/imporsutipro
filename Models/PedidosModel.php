@@ -1253,7 +1253,7 @@ class PedidosModel extends Query
 
     public function numeros_clientes($id_plataforma)
     {
-        $sql = "SELECT * FROM `clientes_chat_center` WHERE id_plataforma = $id_plataforma;";
+        $sql = "SELECT * FROM `clientes_chat_center` INNER JOIN `mensajes_clientes` ON clientes_chat_center.id = mensajes_clientes.id_cliente WHERE clientes_chat_center.id_plataforma = $id_plataforma;";
         return $this->select($sql);
     }
 
