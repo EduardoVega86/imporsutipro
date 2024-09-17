@@ -575,6 +575,12 @@ class Pedidos extends Controller
         echo json_encode($response);
     }
 
+    public function numeros_clientes()
+    {
+        $response = $this->model->numeros_clientes($_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
     public function agregar_mensajes_enviados()
     {
         $id_cliente = $_POST['id_cliente'];
