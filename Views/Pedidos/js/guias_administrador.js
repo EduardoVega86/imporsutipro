@@ -177,6 +177,9 @@ const listGuias = async () => {
                         <option value="9" ${
                           guia.estado_guia_sistema == 9 ? "selected" : ""
                         }>Devuelto</option>
+                        <option value="9" ${
+                          guia.estado_guia_sistema == 14 ? "selected" : ""
+                        }>Novedad</option>
                     </select>`;
       } else if (transporte == 3) {
         transporte_content =
