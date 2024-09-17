@@ -567,6 +567,9 @@ function validar_estadoSpeed(estado) {
     span_estado = "badge_danger";
     estado_guia = "Devuelto";
     devuelto = 1;
+  } else if (estado == 14) {
+    span_estado = "badge_purple";
+    estado_guia = "Novedad";
   }
 
   return {
