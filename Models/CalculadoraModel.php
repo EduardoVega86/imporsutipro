@@ -315,9 +315,9 @@ XML;
     public function obtenerFull($producto, $plataforma)
     {
         $sql = "SELECT * FROM inventario_bodegas WHERE id_producto = '" . $producto['id_producto'] . "' limit 1";
-        $full = $this->select($sql);
+        $fulls = $this->select($sql);
 
-        $bodega = $full[0]['bodega'];
+        $bodega = $fulls[0]['bodega'];
         $id_plataforma = $producto['id_plataforma'];
 
         $sql = "SELECT * FROM bodega WHERE id = '$bodega' limit 1";
