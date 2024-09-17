@@ -246,11 +246,17 @@ class ManifiestosModel extends Query
                 foreach ($guias as $guia) {
 
 
-
-
+                    $local_path = "public/repositorio/guias/guia_$guia.pdf";
+ // Verifica si el archivo existe en el repositorio local
+    if (file_exists($local_path)) {
+      //  echo 'si';
+        // Lee el archivo local
+        $pdf_content = file_get_contents($local_path);
+    } else {
 
                     if (strpos($guia, "IMP") === 0 || strpos($guia, "MKP") === 0 || strpos($guia, "EIZ") === 0) {
                         $pdf_content = file_get_contents("https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=" . $guia);
+                      
                     } else if (is_numeric($guia)) {
                         $pdf_content = file_get_contents("https://guias.imporsuitpro.com/Servientrega/Guia/" . $guia);
                     } else if (strpos($guia, "I00") === 0) {
@@ -264,6 +270,7 @@ class ManifiestosModel extends Query
                     $tempPdfPath = $this->generateUniqueFilename('Temp-', __DIR__ . '/temporales');
                     file_put_contents($tempPdfPath, $pdf_content);
                     $downloadedPdfs[] = $tempPdfPath;
+                }
                 }
                 $this->combinePdfs($downloadedPdfs, $combinedPdfPath);
                 foreach ($downloadedPdfs as $pdf) {
