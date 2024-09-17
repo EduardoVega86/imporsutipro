@@ -40,6 +40,7 @@
                                 <option value=""> Todas</option>
                                 <option value="2"> Despachados </option>
                                 <option value="1"> No Despachados </option>
+                                <option value="3"> Devueltos </option>
                             </select>
                         </div>
                     </div>

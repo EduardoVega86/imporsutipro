@@ -69,7 +69,7 @@ class PedidosModel extends Query
 
         if ($despachos !== null && $despachos !== '') {
 
-            if ($despachos == 1 || $despachos == 2) {
+            if ($despachos == 1 || $despachos == 2 || $despachos == 3) {
                 $sql .= " AND estado_factura = '$despachos'";
             }
         }
