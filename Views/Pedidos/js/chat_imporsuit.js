@@ -213,7 +213,9 @@ emojiButton.addEventListener("click", () => {
 // Insertar el emoji seleccionado en el input de mensaje
 function addEmojiToInput(emoji) {
   messageInput.value += emoji;
-  // No cerramos la sección de emojis al seleccionar uno
+
+  // Simulamos el evento "input" para que se comporte como si se hubiera escrito en el campo
+  messageInput.dispatchEvent(new Event("input"));
 }
 
 // Función para renderizar emojis en la sección
