@@ -487,8 +487,23 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    var phoneNumber = "+" + $("#celular_chat").val();
+    /* var phoneNumber = "+" + $("#celular_chat").val(); */
+    var phoneNumber = "+593980472544";
+
+    /* template */
     const data = {
+      messaging_product: "whatsapp",
+      to: phoneNumber,
+      type: "template",
+      template: {
+        name: "hello_world", // Plantilla que estás usando
+        language: { code: "en_US" }, // Lenguaje de la plantilla
+      },
+    };
+
+    /* fin template */
+
+    /* const data = {
       messaging_product: "whatsapp",
       recipient_type: "individual",
       to: phoneNumber,
@@ -497,7 +512,7 @@ document.addEventListener("DOMContentLoaded", function () {
         preview_url: true,
         body: message, // Mensaje personalizado
       },
-    };
+    }; */
 
     const headers = {
       Authorization: `Bearer ${accessToken}`,
