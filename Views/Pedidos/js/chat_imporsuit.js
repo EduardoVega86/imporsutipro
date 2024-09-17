@@ -92,6 +92,9 @@ $(document).ready(function () {
 
         // Llamamos a la función para llenar los mensajes
         llenarMensajesChat(response2);
+
+        const chatMessages = document.querySelector(".chat-messages");
+        chatMessages.scrollTop = chatMessages.scrollHeight;
       },
       error: function (error) {
         console.error("Error al ejecutar la API:", error);
