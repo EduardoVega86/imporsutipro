@@ -91,7 +91,7 @@ $(document).ready(function () {
         console.log("Respuesta de la API:", response2);
 
         // Llamamos a la función para llenar los mensajes
-        agregarUltimoMensaje(response2);
+        llenarMensajesChat(response2);
       },
       error: function (error) {
         console.error("Error al ejecutar la API:", error);
@@ -99,26 +99,24 @@ $(document).ready(function () {
     });
   }
 
-  // Función para agregar solo el último mensaje con animación
-  function agregarUltimoMensaje(mensajes) {
-    let ultimoMensaje = mensajes[mensajes.length - 1]; // Obtenemos el último mensaje
-    let claseMensaje = ultimoMensaje.rol_mensaje == 1 ? "sent" : "received";
+  // Función para llenar los mensajes del chat
+  function llenarMensajesChat(mensajes) {
+    let innerHTML = "";
 
-    // Crear el HTML para el último mensaje
-    let newMessageHTML = `
-      <div class="message ${claseMensaje} animate-message">
-        ${ultimoMensaje.texto_mensaje}
-      </div>
-    `;
+    // Recorremos los mensajes y creamos el HTML correspondiente
+    $.each(mensajes, function (index, mensaje) {
+      // Verificamos el rol_mensaje para determinar si es "sent" o "received"
+      let claseMensaje = mensaje.rol_mensaje == 1 ? "sent" : "received";
 
-    // Añadir el nuevo mensaje al final del contenedor de mensajes
-    $(".chat-messages").append(newMessageHTML);
+      innerHTML += `
+        <div class="message ${claseMensaje}">
+          ${mensaje.texto_mensaje}
+        </div>
+      `;
+    });
 
-    // Animación suave de entrada
-    $(".animate-message").fadeIn(800).removeClass("animate-message");
-
-    // Scroll automático al último mensaje
-    $(".chat-messages").scrollTop($(".chat-messages")[0].scrollHeight);
+    // Inyectamos los mensajes en el contenedor de mensajes
+    $(".chat-messages").html(innerHTML);
   }
 
   // Función para iniciar el polling de mensajes
@@ -142,8 +140,7 @@ $(document).ready(function () {
       clearInterval(pollingInterval); // Detenemos el polling si es necesario
     }
   }
-});
-
+})
 /* fin llenar seccion numeros */
 
 const chatInfo = document.querySelector(".chat-info");

@@ -67,11 +67,7 @@
         margin-bottom: 15px;
         padding: 10px 15px;
         border-radius: 20px;
-        opacity: 0;
-        /* Oculto inicialmente para animación */
-        transform: translateY(20px);
-        /* Aparece desde abajo */
-        animation: fadeIn 0.5s ease forwards;
+        animation: fadeIn 0.5s ease;
     }
 
     .message.sent {
