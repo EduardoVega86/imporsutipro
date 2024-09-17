@@ -59,11 +59,11 @@ $(document).ready(function () {
           response[0].nombre_cliente + " " + response[0].apellido_cliente
         );
 
-        $("#id_cliente_chat").text(response[0].id);
+        $("#id_cliente_chat").val(response[0].id);
 
-        $("#celular_chat").text(response[0].celular_cliente);
+        $("#celular_chat").val(response[0].celular_cliente);
 
-        $("#uid_cliente").text(response[0].uid_cliente);
+        $("#uid_cliente").val(response[0].uid_cliente);
 
         /* llenar chat */
         let formData_chat = new FormData();
