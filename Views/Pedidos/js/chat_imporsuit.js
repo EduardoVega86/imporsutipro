@@ -1,3 +1,40 @@
+/* llenar seccion numeros */
+$(document).ready(function () {
+  // Realiza la solicitud a la API
+  $.ajax({
+      url: SERVERURL + 'Pedidos/numeros_clientes', 
+      method: 'GET',
+      success: function (data) {
+          // Llamamos a la función que llena la lista con los contactos
+          llenarListaDeContactos(data);
+      },
+      error: function (error) {
+          console.error('Error al obtener los mensajes:', error);
+      }
+  });
+
+  function llenarListaDeContactos(contactos) {
+      // Variable para almacenar el HTML que se va a inyectar
+      let innerHTML = '';
+
+      // Recorremos los contactos y construimos el HTML
+      $.each(contactos, function (index, contacto) {
+          innerHTML += `
+              <li class="list-group-item contact-item d-flex align-items-center">
+                  <img src="${contacto.foto || 'https://via.placeholder.com/50'}" class="rounded-circle me-3" alt="Foto de perfil">
+                  <div>
+                      <h6 class="mb-0">${contacto.telefono || 'Desconocido'}</h6>
+                      <small class="text-muted">${contacto.ultimo_mensaje || 'No hay mensajes'}</small>
+                  </div>
+              </li>`;
+      });
+
+      // Inyectamos el HTML en el ul con id "contact-list"
+      $('#contact-list').html(innerHTML);
+  }
+});
+/* fin llenar seccion numeros */
+
 const chatInfo = document.querySelector(".chat-info");
 const chatContent = document.querySelector(".chat-content");
 const btnThreeDots = document.getElementById("btn-three-dots");
