@@ -177,7 +177,7 @@ const listGuias = async () => {
                         <option value="9" ${
                           guia.estado_guia_sistema == 9 ? "selected" : ""
                         }>Devuelto</option>
-                        <option value="9" ${
+                        <option value="14" ${
                           guia.estado_guia_sistema == 14 ? "selected" : ""
                         }>Novedad</option>
                     </select>`;
