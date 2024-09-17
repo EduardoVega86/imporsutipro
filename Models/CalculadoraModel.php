@@ -284,7 +284,7 @@ XML;
         if ($id_plataforma == $plataforma) {
             $costo = 0;
         }
-        $resultante = $total - $costo - $tarifa;
+        $resultante = $total - $costo - $tarifa - $full;
         if ($resultante < 0) {
         } else {
             $resultante = $resultante;
