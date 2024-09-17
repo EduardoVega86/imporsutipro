@@ -266,6 +266,7 @@ function enviar_gintraNovedad() {
     },
   });
 }
+
 function enviar_speedNovedad(){
   var button = document.getElementById("boton_speed");
   button.disabled = true; // Desactivar el botón
