@@ -76,9 +76,9 @@
                             <option value="(estado_guia_sistema BETWEEN 320 AND 351 and id_transporte=2)
                             OR  (estado_guia_sistema in (14) and id_transporte=1)
                             OR  (estado_guia_sistema in (6) and id_transporte=3)"> Novedad </option>
-                            <option value="estado_guia_sistema BETWEEN 500 AND 502
-                            OR estado_guia_sistema in (9) 
-                            OR (estado_guia_sistema in (3) and id_transporte=4)
+                            <option value="(estado_guia_sistema BETWEEN 500 AND 502 and id_transporte=2)
+                            OR (estado_guia_sistema in (9) and id_transporte=2)
+                            OR (estado_guia_sistema in (9) and id_transporte=4)
                             OR (estado_guia_sistema in (8,9,13) and id_transporte=3)"> Devolucion </option>
                         </select>
                     </div>
