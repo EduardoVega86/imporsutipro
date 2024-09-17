@@ -75,7 +75,7 @@
                         if (!data.ultimo_punto.url || data.ultimo_punto.url === "") {
                             window.location.href = '<?php echo SERVERURL; ?>dashboard';
                         } else {
-                            window.location.href = '<?php echo SERVERURL; ?>' + data.ultimo_punto.url;
+                            window.location.href = '<?php echo SERVERURL; ?>dashboard';
                         }
 
                     });
