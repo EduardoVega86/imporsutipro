@@ -1,35 +1,40 @@
 /* llenar seccion numeros */
 $(document).ready(function () {
-  // Realiza la solicitud a la API
+  // Llamada AJAX para obtener los datos de la API
   $.ajax({
-      url: SERVERURL + 'Pedidos/numeros_clientes', 
+      url: SERVERURL + "Pedidos/numeros_clientes",
       method: 'GET',
       success: function (data) {
-          // Llamamos a la función que llena la lista con los contactos
-          llenarListaDeContactos(data);
+          if (Array.isArray(data)) {
+              // Llenamos la lista de contactos si los datos son un array
+              llenarListaDeContactos(data);
+          } else {
+              console.error('La respuesta no es un array:', data);
+          }
       },
       error: function (error) {
           console.error('Error al obtener los mensajes:', error);
       }
   });
 
+  // Función que se encarga de llenar la lista de contactos
   function llenarListaDeContactos(contactos) {
-      // Variable para almacenar el HTML que se va a inyectar
       let innerHTML = '';
 
-      // Recorremos los contactos y construimos el HTML
+      // Recorremos cada contacto en el array
       $.each(contactos, function (index, contacto) {
+          // Construimos el HTML para cada contacto
           innerHTML += `
               <li class="list-group-item contact-item d-flex align-items-center">
                   <img src="${contacto.foto || 'https://via.placeholder.com/50'}" class="rounded-circle me-3" alt="Foto de perfil">
                   <div>
-                      <h6 class="mb-0">${contacto.telefono || 'Desconocido'}</h6>
-                      <small class="text-muted">${contacto.ultimo_mensaje || 'No hay mensajes'}</small>
+                      <h6 class="mb-0">${contacto.nombre_cliente || 'Desconocido'} ${contacto.apellido_cliente || ''}</h6>
+                      <small class="text-muted">${contacto.texto_mensaje || 'No hay mensajes'}</small>
                   </div>
               </li>`;
       });
 
-      // Inyectamos el HTML en el ul con id "contact-list"
+      // Inyectamos el HTML generado en la lista con id "contact-list"
       $('#contact-list').html(innerHTML);
   }
 });
