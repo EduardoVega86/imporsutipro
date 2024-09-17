@@ -43,21 +43,41 @@ $(document).ready(function () {
 
   // Función que se ejecuta cuando se hace click en un contacto
   function ejecutarApiConIdCliente(id_cliente) {
-
     let formData = new FormData();
     formData.append("id_cliente", id_cliente);
 
     // Aquí puedes hacer una nueva llamada AJAX con el id_cliente
     $.ajax({
-      url: SERVERURL + "Pedidos/mensajes_clientes",
+      url: SERVERURL + "Pedidos/numero_cliente",
       method: "POST",
       data: formData,
       processData: false, // No procesar los datos
       contentType: false, // No establecer ningún tipo de contenido
       dataType: "json",
       success: function (response) {
-        console.log("Respuesta de la API:", response);
-        // Aquí puedes hacer algo con la respuesta, por ejemplo, mostrar detalles del cliente
+        
+
+        /* llenar chat */
+        let formData_chat = new FormData();
+        formData_chat.append("id_cliente", id_cliente);
+
+        // Aquí puedes hacer una nueva llamada AJAX con el id_cliente
+        $.ajax({
+          url: SERVERURL + "Pedidos/mensajes_clientes",
+          method: "POST",
+          data: formData_chat,
+          processData: false, // No procesar los datos
+          contentType: false, // No establecer ningún tipo de contenido
+          dataType: "json",
+          success: function (response) {
+            console.log("Respuesta de la API:", response);
+            // Aquí puedes hacer algo con la respuesta, por ejemplo, mostrar detalles del cliente
+          },
+          error: function (error) {
+            console.error("Error al ejecutar la API:", error);
+          },
+        });
+        /* fin llenar chat */
       },
       error: function (error) {
         console.error("Error al ejecutar la API:", error);
