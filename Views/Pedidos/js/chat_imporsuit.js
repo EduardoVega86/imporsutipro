@@ -43,7 +43,6 @@ $(document).ready(function () {
 
   // Función que se ejecuta cuando se hace click en un contacto
   function ejecutarApiConIdCliente(id_cliente) {
-    console.log("ID Cliente seleccionado:", id_cliente);
 
     let formData = new FormData();
     formData.append("id_cliente", id_cliente);
