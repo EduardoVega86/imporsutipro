@@ -228,8 +228,7 @@ class PedidosModel extends Query
             }
         }
 
-        if ($transportadora == 4)
-            $sql .= " AND fc.numero_guia like 'SPD%' or fc.numero_guia like 'MKL%'";
+        $sql .= " AND fc.numero_guia like 'SPD%' or fc.numero_guia like 'MKL%'";
 
         if (!empty($recibo)) {
             $sql .= " AND fc.recibo is not null";
