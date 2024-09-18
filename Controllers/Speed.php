@@ -24,5 +24,7 @@ class Speed extends Controller
         $id_factura = $_POST['id_factura'];
 
         $response = $this->model->guardarRecibo($recibo, $id_factura);
+
+        echo json_encode($response);
     }
 }

@@ -4,6 +4,7 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
 $webhook_token = "ABCDEFG1234";  // Token de verificación
+$accessToken = "EAAVZAG5oL9G4BO3vZAhKcOTpfZAQJgNDzTNDArOp8VitYT8GUFqcYKIsZAO0pBkf0edoZC1DgfXICkIEP7xZCkPkj8nS1gfDqI4jNeEVDmseyba3l2os8EoYgf1Mdnl2MwaYhmrdfZBgUnItwT8nZBVvjinB7j8IAfZBx2LZA1WNZCqqsZBZC2cqDdObeiLqEsih9U3XOQwZDZD"; // Token de acceso a la API de WhatsApp Business
 $debug_log = [];
 
 // Datos de conexión a la base de datos
@@ -89,6 +90,36 @@ if (empty($phone_whatsapp_from) || empty($business_phone_id)) {
 $texto_mensaje = "";
 $respuesta_WEBHOOK_messages = $whatsapp_value['messages'][0];  // Ajuste para obtener el mensaje correctamente
 
+// Función para descargar audio de WhatsApp
+function descargarAudioWhatsapp($mediaId, $accessToken)
+{
+    // Obtener la URL de descarga
+    $url = "https://graph.facebook.com/v12.0/$mediaId";
+
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        "Authorization: Bearer $accessToken"
+    ]);
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    $media = json_decode($response, true);
+
+    if (isset($media['url'])) {
+        // Ahora hacemos la solicitud para descargar el archivo
+        $fileUrl = $media['url'];
+        $fileName = "audios/" . $mediaId . ".ogg";  // Puedes ajustar la extensión según el tipo de audio
+
+        // Descargar y guardar el archivo
+        file_put_contents($fileName, file_get_contents($fileUrl));
+
+        return $fileName;  // Devuelve la ruta del archivo descargado
+    }
+
+    return null;
+}
+
 // Procesar el mensaje basado en el tipo recibido
 switch ($tipo_mensaje) {
     case 'text':
@@ -110,7 +141,14 @@ switch ($tipo_mensaje) {
         break;
 
     case 'audio':
-        $texto_mensaje = "Audio recibido con ID: " . $respuesta_WEBHOOK_messages['audio']['id'];
+        $audioId = $respuesta_WEBHOOK_messages['audio']['id'];
+        $texto_mensaje = "Audio recibido con ID: " . $audioId;
+        $filePath = descargarAudioWhatsapp($audioId, $accessToken);  // Descargar el audio y obtener la ruta
+        if ($filePath) {
+            $texto_mensaje .= ". Archivo guardado en: " . $filePath;
+        } else {
+            $texto_mensaje .= ". Error al descargar el archivo.";
+        }
         break;
 
     case 'document':
