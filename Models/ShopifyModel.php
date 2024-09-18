@@ -265,6 +265,8 @@ class ShopifyModel extends Query
         curl_close($ch);
 
         // Puedes manejar la respuesta aquí si es necesario
+
+        echo $response;
     }
 
     public function obtenerBodegaInventario($id_producto_venta)
