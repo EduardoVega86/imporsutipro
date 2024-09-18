@@ -57,11 +57,11 @@
             <a href="#" class="toggle-btn" id="toggle-btn">
                 <i class='bx bx-menu menu-icon'></i>
             </a>
-            <?php if ($_SESSION['cargo'] == 1) { ?>
+            <?php if ( MATRIZ == 1) { ?>
                 <a href="<?php echo SERVERURL ?>dashboard/home"><i class='bx bx-home menu-icon'></i> <span class="menu-text">Inicio</span></a>
             <?php } ?>
             <a href="<?php echo SERVERURL ?>dashboard"><i class='fa-solid fa-chart-line menu-icon'></i> <span class="menu-text">Dashboard</span></a>
-            
+
             <a href="<?php echo SERVERURL ?>Productos/marketplace"><i class='bx bx-shopping-bag menu-icon'></i> <span class="menu-text">Marketplace</span></a>
 
             <a href="#" class="dropdown-btn" data-target="#submenu1"><i class='bx bx-cart menu-icon'></i> <span class="menu-text">Mis Productos</span></a>
