@@ -105,12 +105,12 @@ class Pedidos extends Controller
         $this->views->render($this, "chat_imporsuit");
     }
 
-    public function speed()
+    public function local()
     {
         if (!$this->isAuth()) {
             header("Location: " . SERVERURL . "login");
         }
-        $this->views->render($this, "local");
+        $this->views->render($this, "guias_speed");
     }
 
 

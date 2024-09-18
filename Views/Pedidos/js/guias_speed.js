@@ -108,9 +108,10 @@ const listGuias = async () => {
     formData.append("transportadora", $("#transporte").val());
     formData.append("impreso", $("#impresion").val());
     formData.append("despachos", $("#despachos").val());
+    formData.append("recibo", $("#recibo").val());
 
     const response = await fetch(
-      `${SERVERURL}pedidos/obtener_guiasAdministrador`,
+      `${SERVERURL}pedidos/obtener_guiasSpeed`,
       {
         method: "POST",
         body: formData,
