@@ -228,12 +228,6 @@ class PedidosModel extends Query
             }
         }
 
-        $sql .= " AND fc.numero_guia like 'SPD%' or fc.numero_guia like 'MKL%'";
-
-        if (!empty($recibo)) {
-            $sql .= " AND fc.recibo is not null";
-        }
-
         // Mueve la cláusula ORDER BY al final de la consulta
         $sql .= " ORDER BY fc.numero_factura DESC";
 
@@ -375,6 +369,12 @@ class PedidosModel extends Query
             if ($despachos == 1 || $despachos == 2 || $despachos == 3) {
                 $sql .= " AND estado_factura = '$despachos'";
             }
+        }
+
+        $sql .= " AND fc.numero_guia like 'SPD%' or fc.numero_guia like 'MKL%'";
+
+        if (!empty($recibo)) {
+            $sql .= " AND fc.recibo is not null";
         }
 
         // Mueve la cláusula ORDER BY al final de la consulta
