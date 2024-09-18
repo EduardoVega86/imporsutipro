@@ -3,7 +3,7 @@ const HOST = '3.233.119.65';
 const USER = "imporsuit_system";
 const PASSWORD = "imporsuit_system";
 const DB = "imporsuitpro_new";
-const CHARSET = "utf8";
+const CHARSET = "utf8mb4";
 
 if ($_SERVER['HTTP_HOST'] == 'localhost') {
     define('ENVIRONMENT', 'development');
