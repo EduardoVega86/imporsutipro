@@ -72,12 +72,13 @@
                         showConfirmButton: false,
                         timer: 2000
                     }).then(() => {
-                        if (!data.ultimo_punto.url || data.ultimo_punto.url === "") {
+                        /* if (!data.ultimo_punto.url || data.ultimo_punto.url === "") {
                             window.location.href = '<?php echo SERVERURL; ?>dashboard';
                         } else {
                             window.location.href = '<?php echo SERVERURL; ?>dashboard';
-                        }
+                        } */
 
+                        window.location.href = '<?php echo SERVERURL ?>dashboard';
                     });
                 }
             })
