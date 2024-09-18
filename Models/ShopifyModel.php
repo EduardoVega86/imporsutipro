@@ -58,25 +58,28 @@ class ShopifyModel extends Query
     public function crearOrden($data, $lineItems, $plataforma, $order_number)
     {
         $nombre = $data['nombre'] . " " . $data['apellido'];
-        $telefono = str_replace("+", "", $data['telefono']);
+        $telefono = $data['telefono'];
+        // Quitar el + de la cadena
+        $telefono = str_replace("+", "", $telefono);
         $calle_principal = $data['principal'];
         $calle_secundaria = $data['secundaria'] ?? "";
         $provincia = $data['provincia'];
-
-        // Normalización de la provincia
-        if (strtoupper($provincia) == "SANTO DOMINGO DE LOS TSACHILAS" || strtoupper($provincia) == "SANTO DOMINGO DE LOS TSÁCHILAS") {
+        if ($provincia == "SANTO DOMINGO DE LOS TSACHILAS") {
             $provincia = "SANTO DOMINGO";
-        } else if (strtoupper($provincia) == "ZAMORA CHINCHIPE") {
+        } else if ($provincia == "Santo Domingo de los Tsáchilas") {
+            $provincia = "SANTO DOMINGO";
+        } else if ($provincia == "ZAMORA CHINCHIPE") {
             $provincia = "ZAMORA";
         }
-
-        $provinciaData = $this->obtenerProvincia($provincia);
-        $provincia = $provinciaData[0]['codigo_provincia'] ?? null;
-
+        $provincia = $this->obtenerProvincia($provincia);
+        $provincia = $provincia[0]['codigo_provincia'];
         $ciudad = $data['ciudad'];
-        $ciudadData = $this->obtenerCiudad($ciudad);
-        $ciudad = $ciudadData[0]['id_cotizacion'] ?? 0;
-
+        $ciudad = $this->obtenerCiudad($ciudad);
+        if (!empty($ciudad)) {
+            $ciudad = $ciudad[0]['id_cotizacion'];
+        } else {
+            $ciudad = 0;
+        }
         $referencia = "Referencia: " . ($data["referencia"] ?? "");
         $observacion = "Ciudad: " . $data["ciudad"];
         $transporte = 0;
@@ -87,40 +90,49 @@ class ShopifyModel extends Query
         $contiene = "";
         $costo_producto = 0;
 
-        $productos = [];
-        $total_line_items = 0;
+        // Nuevas variables para separar productos con y sin SKU
+        $productos_con_sku = [];
+        $productos_sin_sku = [];
+        $total_line_items_con_sku = 0;
+        $total_line_items_sin_sku = 0;
         $costo = 0;
         $total_units = 0;
-        $precio_productos_sin_sku = 0;
-        $hay_productos_con_sku = false;
+
+        $id_bodega = null; // Inicializar fuera del bucle
 
         // Recorre los items y verifica las condiciones necesarias
         foreach ($lineItems as $item) {
-            $id_producto_venta = $item['sku'] ?? null;
+            if (empty($item['sku'])) {
+                // Si solo hay un ítem y no tiene SKU, detiene el proceso
+                if (count($lineItems) == 1) {
+                    die("Proceso detenido: el único ítem no tiene SKU.");
+                }
 
-            // Procesar productos sin SKU
-            if (empty($id_producto_venta)) {
-                $observacion .= ", SKU vacío: " . $item['name'] . " x" . $item['quantity'] . ": $" . $item['price'];
+                // Si el SKU está vacío, agrega a productos sin SKU
+                $observacion .= ", SKU vacío: " . $item['name'] . " x" . $item['quantity'] . ": $" . $item['price'] . "";
                 $item_total_price = $item['price'] * $item['quantity'];
-                $precio_productos_sin_sku += $item_total_price;
-                $total_line_items += $item_total_price;
+                $total_line_items_sin_sku += $item_total_price;
                 $total_units += $item['quantity'];
 
-                $contiene .= $item['name'] . " x" . $item['quantity'] . " ";
+                $productos_sin_sku[] = [
+                    'id_producto_venta' => null, // O algún identificador para productos sin SKU
+                    'nombre' => $this->remove_emoji($item['name']),
+                    'cantidad' => $item['quantity'],
+                    'precio' => $item['price'],
+                    'item_total_price' => $item_total_price,
+                ];
 
-                continue; // No se procesa como producto
-            } else {
-                $hay_productos_con_sku = true;
+                continue;
             }
+
+            $id_producto_venta = $item['sku'];
 
             // Obtener información de la bodega
             $datos_telefono = $this->obtenerBodegaInventario($id_producto_venta);
 
-            if (empty($datos_telefono)) {
-                die("No se encontraron datos de bodega para el producto con SKU: $id_producto_venta");
-            }
-
             $product_costo = $this->obtenerCosto($id_producto_venta);
+            $costo += $product_costo * $item['quantity']; // Multiplica por la cantidad
+
             $bodega = $datos_telefono[0];
 
             $celularO = $bodega['contacto'];
@@ -134,7 +146,6 @@ class ShopifyModel extends Query
 
             $id_bodega = $bodega['id'];
 
-            $costo += $product_costo * $item['quantity']; // Multiplica por la cantidad
             $no_piezas = $item['quantity'];
             $contiene .= $item['name'] . " x" . $item['quantity'] . " ";
 
@@ -143,38 +154,30 @@ class ShopifyModel extends Query
             $id_transporte = 0;
 
             $item_total_price = $item['price'] * $item['quantity'];
-            $total_line_items += $item_total_price;
+            $total_line_items_con_sku += $item_total_price;
             $total_units += $item['quantity'];
 
-            $productos[] = [
+            $productos_con_sku[] = [
                 'id_producto_venta' => $id_producto_venta,
-                'nombre' => $this->remove_emoji($item['name']),
+                'nombre' =>  $this->remove_emoji($item['name']),
                 'cantidad' => $item['quantity'],
                 'precio' => $item['price'],
                 'item_total_price' => $item_total_price,
             ];
         }
 
-        // Si no hay productos con SKU, detener el proceso
-        if (!$hay_productos_con_sku) {
-            die("Proceso detenido: no hay productos con SKU en la orden.");
-        }
-
         $discount = $data['discount'] ?? 0;
 
-        if ($discount > 0) {
-            // Calcular el total de productos con SKU antes del descuento
-            $total_line_items_con_sku = 0;
-            foreach ($productos as $producto) {
-                $total_line_items_con_sku += $producto['item_total_price'];
+        if ($discount > 0 && $total_line_items_sin_sku > 0) {
+            // Ajustar el descuento si es mayor que el total de productos sin SKU
+            if ($discount > $total_line_items_sin_sku) {
+                $discount = $total_line_items_sin_sku;
             }
 
-            // Distribuir el descuento proporcionalmente entre los productos con SKU
-            foreach ($productos as &$producto) {
-                // Calcula la proporción del descuento que corresponde a este producto
-                $product_discount = ($producto['item_total_price'] / $total_line_items_con_sku) * $discount;
-
-                // Ajusta el precio por unidad
+            // Distribuir el descuento proporcionalmente entre los productos sin SKU
+            foreach ($productos_sin_sku as &$producto) {
+                $product_total_price = $producto['item_total_price'];
+                $product_discount = ($product_total_price / $total_line_items_sin_sku) * $discount;
                 $discount_per_unit = $product_discount / $producto['cantidad'];
                 $producto['precio'] = $producto['precio'] - $discount_per_unit;
             }
@@ -182,13 +185,14 @@ class ShopifyModel extends Query
         }
 
         // Recalcular el total de la venta
-        $total_venta = 0;
-        foreach ($productos as $producto) {
-            $total_venta += $producto['precio'] * $producto['cantidad'];
+        $total_venta_sin_sku = 0;
+        foreach ($productos_sin_sku as $producto) {
+            $total_venta_sin_sku += $producto['precio'] * $producto['cantidad'];
         }
 
-        // Añadir el precio de los productos sin SKU al total de la venta
-        $total_venta += $precio_productos_sin_sku;
+        $total_venta_con_sku = $total_line_items_con_sku; // Los productos con SKU no se les aplica descuento
+
+        $total_venta = $total_venta_sin_sku + $total_venta_con_sku;
 
         $comentario = "Orden creada desde Shopify, número de orden: " . $order_number;
 
@@ -196,7 +200,10 @@ class ShopifyModel extends Query
         // Eliminar emojis o caracteres especiales
         $contiene = $this->remove_emoji($contiene);
 
-        $observacion .= " Número de orden: " . $order_number;
+        $observacion .= " Numero de orden: " . $order_number;
+
+        // Combinar ambos arrays de productos
+        $productos = array_merge($productos_con_sku, $productos_sin_sku);
 
         // Aquí se pueden continuar los procesos necesarios para la orden
         // Iniciar cURL
@@ -259,9 +266,9 @@ class ShopifyModel extends Query
             'observacion' => $observacion,
             'transporte' => $transporte,
             'importado' => $importado,
-            'id_producto_venta' => $id_producto_venta ?? "",
+            'id_producto_venta' => $id_producto_venta ?? null,
             'productos' => $productos,
-            'id_bodega' => $id_bodega ?? "",
+            'id_bodega' => $id_bodega ?? null,
         );
 
         $data = http_build_query($data);
@@ -273,8 +280,10 @@ class ShopifyModel extends Query
         curl_close($ch);
 
         // Puedes manejar la respuesta aquí si es necesario
+
         echo $response;
     }
+
 
     public function obtenerBodegaInventario($id_producto_venta)
     {
