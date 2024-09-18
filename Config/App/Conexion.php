@@ -3,14 +3,19 @@ class Conexion
 {
     private $connection;
     private $marketplace;
-    
+
     public function __construct()
     {
         date_default_timezone_set('America/Guayaquil');
         $pdo = "mysql:host=" . HOST . ";dbname=" . DB . ";charset=" . CHARSET;
         try {
-            $this->connection = new PDO($pdo, USER, PASSWORD);
+            $this->connection = new PDO($pdo, USER, PASSWORD, [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8mb4'
+            ]);
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+
             // Establecer la zona horaria para la sesión actual de MySQL
             $this->connection->exec("SET time_zone = '-05:00';");
         } catch (PDOException $e) {
