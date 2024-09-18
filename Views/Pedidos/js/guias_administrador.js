@@ -334,6 +334,10 @@ document.addEventListener("change", async (event) => {
     const formData = new FormData();
     formData.append("estado", nuevoEstado);
 
+    if (nuevoEstado == 9){
+      $("#tipo_speed").val(nuevoEstado).change();
+    }
+
     try {
       const response = await fetch(
         `https://guias.imporsuitpro.com/Speed/estado/${numeroGuia}`,
@@ -348,6 +352,7 @@ document.addEventListener("change", async (event) => {
           positionClass: "toast-bottom-center",
         });
 
+        $("#gestionar_novedadSpeedModal").modal("show");
         reloadDataTable();
       }
     } catch (error) {
@@ -846,25 +851,21 @@ function gestionar_novedad(guia_novedad) {
         $("#seccion_laar").show();
         $("#seccion_servientrega").hide();
         $("#seccion_gintracom").hide();
-        $("#seccion_speed").hide();
       } else if (response.novedad[0].guia_novedad.includes("I")) {
         transportadora = "GINTRACOM";
         $("#seccion_laar").hide();
         $("#seccion_servientrega").hide();
         $("#seccion_gintracom").show();
-        $("#seccion_speed").hide();
       } else if (response.novedad[0].guia_novedad.includes("SPD")) {
         transportadora = "SPEED";
         $("#seccion_laar").hide();
         $("#seccion_servientrega").hide();
         $("#seccion_gintracom").hide();
-        $("#seccion_speed").show();
       } else {
         transportadora = "SERVIENTREGA";
         $("#seccion_laar").hide();
         $("#seccion_servientrega").show();
         $("#seccion_gintracom").hide();
-        $("#seccion_speed").hide();
       }
 
       $("#id_gestionarNov").text(response.novedad[0].id_novedad);
@@ -1096,54 +1097,6 @@ function enviar_laarNovedad() {
         button.disabled = false;
       } else if (response.status == 200) {
         toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-
-        $("#gestionar_novedadModal").modal("hide");
-        button.disabled = false;
-        initDataTableNovedades();
-      }
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      alert(errorThrown);
-      button.disabled = false;
-    },
-  });
-}
-
-function enviar_speedNovedad() {
-  var button = document.getElementById("boton_speed");
-  button.disabled = true; // Desactivar el botón
-
-  var guia = $("#numero_guia").val();
-  var observacion = $("#observacion_nov_speed").val();
-  var id_novedad = $("#id_novedad").val();
-  var tipo = $("#tipo_speed").val();
-
-  let formData = new FormData();
-  formData.append("guia", guia);
-  formData.append("observacion", observacion);
-  formData.append("id_novedad", id_novedad);
-  formData.append("tipo", tipo);
-  formData.append("recaudo", recaudo);
-  formData.append("fecha", fecha);
-
-  $.ajax({
-    url: SERVERURL + "novedades/solventarNovedadGintracom",
-    type: "POST",
-    data: formData,
-    processData: false, // No procesar los datos
-    contentType: false, // No establecer ningún tipo de contenido
-    success: function (response) {
-      response = JSON.parse(response);
-      if (response.error === true) {
-        toastr.error("" + response.message, "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-
-        button.disabled = false;
-      } else if (response.error === false) {
-        toastr.success("" + response.message, "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
 

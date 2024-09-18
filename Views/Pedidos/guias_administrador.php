@@ -5,6 +5,7 @@
 <?php require_once './Views/Pedidos/Modales/informacion_plataforma.php'; ?>
 <?php require_once './Views/Pedidos/Modales/detalles_factura.php'; ?>
 <?php require_once './Views/Pedidos/Modales/gestionar_novedad.php'; ?>
+<?php require_once './Views/Pedidos/Modales/gestionar_novedadSpeed.php'; ?>
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
         <h2 class="text-center mb-4">Guias</h2>
