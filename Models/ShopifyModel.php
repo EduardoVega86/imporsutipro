@@ -27,8 +27,8 @@ class ShopifyModel extends Query
 
     public function gestionarRequest($plataforma, $data)
     {
-
-        $data = json_decode($data, true);
+        $json_String = mb_convert_encoding($data, "UTF-8", "auto");
+        $data = json_decode($json_String, true);
         $order_number = $data['order_number'];
         $configuraciones = $this->obtenerConfiguracion($plataforma);
         $configuraciones = $configuraciones[0];
