@@ -8,7 +8,7 @@
 <?php require_once './Views/Pedidos/Modales/gestionar_novedadSpeed.php'; ?>
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
-        <h2 class="text-center mb-4">Guias</h2>
+        <h2 class="text-center mb-4">Guias Speed</h2>
         <div class="d-flex flex-column justify-content-between">
             <div class="primer_seccionFiltro" style="width: 100%;">
                 <div class="d-flex flex-row align-items-end filtro_fecha">
