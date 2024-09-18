@@ -71,12 +71,12 @@ class ShopifyModel extends Query
         } else if ($provincia == "ZAMORA CHINCHIPE") {
             $provincia = "ZAMORA";
         }
-        $provinciaData = $this->obtenerProvincia($provincia);
-        $provincia = $provinciaData[0]['codigo_provincia'] ?? null;
+        $provincia = $this->obtenerProvincia($provincia);
+        $provincia = $provincia[0]['codigo_provincia'];
         $ciudad = $data['ciudad'];
-        $ciudadData = $this->obtenerCiudad($ciudad);
-        if (!empty($ciudadData)) {
-            $ciudad = $ciudadData[0]['id_cotizacion'];
+        $ciudad = $this->obtenerCiudad($ciudad);
+        if (!empty($ciudad)) {
+            $ciudad = $ciudad[0]['id_cotizacion'];
         } else {
             $ciudad = 0;
         }
@@ -128,11 +128,6 @@ class ShopifyModel extends Query
             $product_costo = $this->obtenerCosto($id_producto_venta);
             $costo += $product_costo * $item['quantity']; // Multiplica por la cantidad
 
-            if (empty($datos_telefono)) {
-                // Manejar el caso en que no se obtengan datos de la bodega
-                die("No se encontraron datos de bodega para el producto con SKU: $id_producto_venta");
-            }
-
             $bodega = $datos_telefono[0];
 
             $celularO = $bodega['contacto'];
@@ -159,7 +154,7 @@ class ShopifyModel extends Query
 
             $productos[] = [
                 'id_producto_venta' => $id_producto_venta,
-                'nombre' => $this->remove_emoji($item['name']),
+                'nombre' =>  $this->remove_emoji($item['name']),
                 'cantidad' => $item['quantity'],
                 'precio' => $item['price'],
                 'item_total_price' => $item_total_price,
@@ -193,7 +188,7 @@ class ShopifyModel extends Query
         // Eliminar emojis o caracteres especiales
         $contiene = $this->remove_emoji($contiene);
 
-        $observacion .= " Número de orden: " . $order_number;
+        $observacion .= " Numero de orden: " . $order_number;
 
         // Aquí se pueden continuar los procesos necesarios para la orden
         // Iniciar cURL
@@ -229,22 +224,22 @@ class ShopifyModel extends Query
             'numero_guia' => 0,
             'anulada' => 0,
             'identificacionO' => "",
-            'celularO' => $celularO ?? "",
-            'nombreO' => $nombreO ?? "",
-            'ciudadO' => $ciudadO ?? "",
-            'provinciaO' => $provinciaO ?? "",
-            'direccionO' => $direccionO ?? "",
-            'referenciaO' => $referenciaO ?? "",
-            'numeroCasaO' => $numeroCasaO ?? "",
-            'valor_segura' => $valor_segura ?? 0,
-            'no_piezas' => $no_piezas ?? 0,
+            'celularO' => $celularO,
+            'nombreO' => $nombreO,
+            'ciudadO' => $ciudadO,
+            'provinciaO' => $provinciaO,
+            'direccionO' => $direccionO,
+            'referenciaO' => $referenciaO,
+            'numeroCasaO' => $numeroCasaO,
+            'valor_segura' => $valor_segura,
+            'no_piezas' => $no_piezas,
             'tipo_servicio' => "201202002002013",
             'peso' => "2",
             'contiene' => $contiene,
-            'costo_flete' => $costo_flete ?? 0,
+            'costo_flete' => $costo_flete,
             'costo_producto' => $costo,
             'comentario' => $comentario,
-            'id_transporte' => $id_transporte ?? 0,
+            'id_transporte' => $id_transporte,
             'provincia' => $provincia,
             'ciudad' => $ciudad,
             'total_venta' => $total_venta,
@@ -256,9 +251,9 @@ class ShopifyModel extends Query
             'observacion' => $observacion,
             'transporte' => $transporte,
             'importado' => $importado,
-            'id_producto_venta' => $id_producto_venta ?? "",
+            'id_producto_venta' => $id_producto_venta,
             'productos' => $productos,
-            'id_bodega' => $id_bodega ?? "",
+            'id_bodega' => $id_bodega,
         );
 
         $data = http_build_query($data);
@@ -274,33 +269,25 @@ class ShopifyModel extends Query
 
     public function obtenerBodegaInventario($id_producto_venta)
     {
-        $sql = "SELECT * FROM inventario_bodegas WHERE id_inventario = ?";
-        $params = array($id_producto_venta);
-        $response = $this->simple_select($sql, $params);
-        if (!empty($response)) {
-            $bodega_id = $response[0]['bodega'];
-            $sql2 = "SELECT * FROM bodega WHERE id = ?";
-            $params2 = array($bodega_id);
-            $response2 = $this->simple_select($sql2, $params2);
-            return $response2;
-        } else {
-            return [];
-        }
+        $sql = "SELECT * FROM inventario_bodegas WHERE id_inventario = $id_producto_venta";
+        $response = $this->select($sql);
+        $bodega = $response[0]['bodega'];
+        $sql2 = "SELECT * FROM bodega WHERE id = $bodega";
+        $response2 = $this->select($sql2);
+        return $response2;
     }
 
     public function obtenerProvincia($provincia)
     {
-        $sql = "SELECT * FROM provincia_laar WHERE provincia = ?";
-        $params = array($provincia);
-        $response = $this->simple_select($sql, $params);
+        $sql = "SELECT * FROM provincia_laar WHERE provincia = '$provincia'";
+        $response = $this->select($sql);
         return $response;
     }
 
     public function obtenerCiudad($ciudad)
     {
-        $sql = "SELECT * FROM ciudad_cotizacion WHERE ciudad = ?";
-        $params = array($ciudad);
-        $response = $this->simple_select($sql, $params);
+        $sql = "SELECT * FROM ciudad_cotizacion WHERE ciudad = '$ciudad'";
+        $response = $this->select($sql);
         return $response;
     }
 
@@ -319,25 +306,21 @@ class ShopifyModel extends Query
 
     public function obtenerConfiguracion($id_plataforma)
     {
-        $sql = "SELECT * FROM configuracion_shopify WHERE id_plataforma = ?";
-        $params = array($id_plataforma);
-        $response = $this->simple_select($sql, $params);
+        $sql = "SELECT * FROM configuracion_shopify WHERE id_plataforma = $id_plataforma";
+        $response = $this->select($sql);
         return $response;
     }
 
     public function iniciarPlataforma($id_plataforma)
     {
-        $sql = "INSERT INTO shopify (id_plataforma) VALUES (?)";
-        $params = array($id_plataforma);
-        $response = $this->insert($sql, $params);
-        return $response;
+        $sql = "INSERT INTO shopify (id_plataforma) VALUES (:id_plataforma)";
+        // Código para ejecutar la consulta
     }
 
     public function existenciaPlataforma($id_plataforma)
     {
         $sql = "SELECT id_plataforma FROM configuracion_shopify WHERE id_plataforma = ?";
-        $params = array($id_plataforma);
-        $response = $this->simple_select($sql, $params);
+        $response = $this->simple_select($sql, [$id_plataforma]);
         if ($response > 0) {
             return true;
         } else {
@@ -347,14 +330,12 @@ class ShopifyModel extends Query
 
     public function generarEnlace($id_plataforma)
     {
-        $sql = "SELECT id_matriz FROM plataformas WHERE id_plataforma = ?";
-        $params = array($id_plataforma);
-        $response = $this->simple_select($sql, $params);
+        $sql = "SELECT id_matriz from plataformas where id_plataforma = $id_plataforma";
+        $response = $this->select($sql);
         $url = $response[0]["id_matriz"];
 
-        $sql = "SELECT * FROM matriz WHERE idmatriz = ?";
-        $params = array($url);
-        $response = $this->simple_select($sql, $params);
+        $sql = "SELECT * FROM matriz WHERE idmatriz = $url";
+        $response = $this->select($sql);
         $url = $response[0]["url_matriz"];
 
         $responses = array(
@@ -385,12 +366,11 @@ class ShopifyModel extends Query
 
     public function guardarConfiguracion($nombre, $apellido, $principal, $secundario, $provincia, $ciudad, $codigo_postal, $pais, $telefono, $email, $total, $descuento, $referencia, $id_plataforma)
     {
-        $sql = "REPLACE INTO configuracion_shopify (`nombre`, `apellido`, `principal`, `secundaria`, `provincia`, `ciudad`, `codigo_postal`, `pais`, `telefono`, `email`, `total`, `discount`, `referencia`, `id_plataforma`) VALUES (?, ?, ?, ?, ? ,?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $params = [$nombre, $apellido, $principal, $secundario, $provincia, $ciudad, $codigo_postal, $pais, $telefono, $email, $total, $descuento, $referencia, $id_plataforma];
-        $response = $this->insert($sql, $params);
+        $sql = "REPLACE INTO configuracion_shopify (`nombre`, `apellido`, `principal`, `secundaria`, `provincia`, `ciudad`, `codigo_postal`, `pais`, `telefono`, `email`, `total`, `discount`, `referencia`, `id_plataforma`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $response = $this->insert($sql, [$nombre, $apellido, $principal, $secundario, $provincia, $ciudad, $codigo_postal, $pais, $telefono, $email, $total, $descuento, $referencia, $id_plataforma]);
         if ($response == 2 || $response == 1) {
             $responses["status"] = 200;
-            $responses["message"] = "Configuración guardada correctamente";
+            $responses["message"] = "Configuracion guardada correctamente";
         } else {
             $responses["status"] = 500;
             $responses["message"] = $response["message"];
@@ -401,17 +381,16 @@ class ShopifyModel extends Query
     public function verificarConfiguracion($id_plataforma)
     {
         $sql = "SELECT * FROM configuracion_shopify WHERE id_plataforma = ?";
-        $params = array($id_plataforma);
-        $response = $this->simple_select($sql, $params);
+        $response = $this->simple_select($sql, [$id_plataforma]);
         if ($response > 0) {
             $response = array(
                 "status" => "200",
-                "message" => "Configuración encontrada",
+                "message" => "Configuracion encontrada",
             );
         } else {
             $response = array(
                 "status" => "500",
-                "message" => "No se ha encontrado la configuración",
+                "message" => "No se ha encontrado la configuracion",
             );
         }
         return $response;
@@ -419,17 +398,15 @@ class ShopifyModel extends Query
 
     public function obtenerCosto($id_producto_venta)
     {
-        $sql = "SELECT * FROM inventario_bodegas WHERE id_inventario = ?";
-        $params = array($id_producto_venta);
-        $response = $this->simple_select($sql, $params);
-        return $response[0]['pcp'] ?? 0;
+        $sql = "SELECT * FROM inventario_bodegas WHERE id_inventario = $id_producto_venta";
+        $response = $this->select($sql);
+        return $response[0]['pcp'];
     }
 
     public function agregarJson($id_plataforma, $data)
     {
-        $sql = "INSERT INTO web_hook_shopify (id_plataforma, json) VALUES (?, ?)";
-        $params = [$id_plataforma, $data];
-        $response = $this->insert($sql, $params);
+        $sql = "INSERT INTO web_hook_shopify (id_plataforma, json) VALUES (?,?)";
+        $response = $this->insert($sql, [$id_plataforma, $data]);
         if ($response == 1) {
             $responses["status"] = "200";
             $responses["message"] = "Json guardado correctamente";
@@ -442,23 +419,21 @@ class ShopifyModel extends Query
 
     public function ultimoJson($id_plataforma)
     {
-        $sql = "SELECT json FROM web_hook_shopify WHERE id_plataforma = ? ORDER BY id_wbs DESC LIMIT 1";
-        $params = array($id_plataforma);
-        $response = $this->simple_select($sql, $params);
+        $sql = "SELECT json FROM web_hook_shopify WHERE id_plataforma = $id_plataforma ORDER BY id_wbs DESC LIMIT 1;";
+        $response = $this->select($sql);
         return $response;
     }
 
     public function modificarConfiguracion($nombre, $apellido, $principal, $secundario, $provincia, $ciudad, $codigo_postal, $pais, $telefono, $email, $total, $descuento, $referencia, $plataforma)
     {
-        $sql = "UPDATE configuracion_shopify SET nombre = ?, apellido = ?, principal = ?, secundaria = ?, provincia = ?, ciudad = ?, codigo_postal = ?, pais = ?, telefono = ?, email = ?, total = ?, discount = ?, referencia = ? WHERE id_plataforma = ?";
-        $params = [$nombre, $apellido, $principal, $secundario, $provincia, $ciudad, $codigo_postal, $pais, $telefono, $email, $total, $descuento, $referencia, $plataforma];
-        $response = $this->update($sql, $params);
+        $sql = "UPDATE configuracion_shopify SET nombre = ?, apellido = ?, principal =?, secundaria = ?, provincia =?, ciudad = ?, codigo_postal = ?, pais = ?, telefono = ?, email =?, total =?, discount =?, referencia = ? WHERE id_plataforma = ?";
+        $response = $this->update($sql, [$nombre, $apellido, $principal, $secundario, $provincia, $ciudad, $codigo_postal, $pais, $telefono, $email, $total, $descuento, $referencia, $plataforma]);
         if ($response == 1) {
             $responses["status"] = 200;
-            $responses["message"] = "Configuración modificada correctamente";
+            $responses["message"] = "Configuracion modificada correctamente";
         } else if ($response == 0) {
             $responses["status"] = 202;
-            $responses["message"] = "No se ha modificado la configuración";
+            $responses["message"] = "No se ha modificado la configuracion";
         } else {
             $responses["status"] = 500;
             $responses["message"] = $response["message"];
@@ -468,8 +443,7 @@ class ShopifyModel extends Query
 
     public function pagos_laar()
     {
-        $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE estado_guia = 7 AND visto = 0";
-        $response = $this->select($sql);
-        return $response;
+        $sql = "SELECT * FROM cabecera_cuenta_pagar where estado_guia = 7 and visto = 0";
+        // Código para ejecutar la consulta y manejar los resultados
     }
 }
