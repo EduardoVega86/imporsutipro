@@ -90,7 +90,7 @@ class ShopifyModel extends Query
         $contiene = "";
         $costo_producto = 0;
 
-        // Nuevas variables para separar productos con y sin SKU
+        // Variables para productos con y sin SKU
         $productos_con_sku = [];
         $productos_sin_sku = [];
         $total_line_items_con_sku = 0;
@@ -109,13 +109,13 @@ class ShopifyModel extends Query
                 }
 
                 // Si el SKU está vacío, agrega a productos sin SKU
-                $observacion .= ", SKU vacío: " . $item['name'] . " x" . $item['quantity'] . ": $" . $item['price'] . "";
+                $observacion .= ", SKU vacío: " . $item['name'] . " x" . $item['quantity'] . ": $" . ($item['price'] * $item['quantity']);
                 $item_total_price = $item['price'] * $item['quantity'];
                 $total_line_items_sin_sku += $item_total_price;
                 $total_units += $item['quantity'];
 
                 $productos_sin_sku[] = [
-                    'id_producto_venta' => null, // O algún identificador para productos sin SKU
+                    'id_producto_venta' => null, // Identificador para productos sin SKU
                     'nombre' => $this->remove_emoji($item['name']),
                     'cantidad' => $item['quantity'],
                     'precio' => $item['price'],
@@ -179,18 +179,23 @@ class ShopifyModel extends Query
                 $product_total_price = $producto['item_total_price'];
                 $product_discount = ($product_total_price / $total_line_items_sin_sku) * $discount;
                 $discount_per_unit = $product_discount / $producto['cantidad'];
-                $producto['precio'] = $producto['precio'] - $discount_per_unit;
+                $producto['precio'] -= $discount_per_unit;
+                $producto['item_total_price'] = $producto['precio'] * $producto['cantidad'];
             }
             unset($producto); // Rompe la referencia con el último elemento
         }
 
-        // Recalcular el total de la venta
+        // Recalcular el total de la venta para productos sin SKU
         $total_venta_sin_sku = 0;
         foreach ($productos_sin_sku as $producto) {
-            $total_venta_sin_sku += $producto['precio'] * $producto['cantidad'];
+            $total_venta_sin_sku += $producto['item_total_price'];
         }
 
-        $total_venta_con_sku = $total_line_items_con_sku; // Los productos con SKU no se les aplica descuento
+        // Recalcular el total de la venta para productos con SKU
+        $total_venta_con_sku = 0;
+        foreach ($productos_con_sku as $producto) {
+            $total_venta_con_sku += $producto['item_total_price'];
+        }
 
         $total_venta = $total_venta_sin_sku + $total_venta_con_sku;
 
@@ -200,12 +205,11 @@ class ShopifyModel extends Query
         // Eliminar emojis o caracteres especiales
         $contiene = $this->remove_emoji($contiene);
 
-        $observacion .= " Numero de orden: " . $order_number;
+        $observacion .= " Número de orden: " . $order_number;
 
         // Combinar ambos arrays de productos
         $productos = array_merge($productos_con_sku, $productos_sin_sku);
 
-        // Aquí se pueden continuar los procesos necesarios para la orden
         // Iniciar cURL
         $ch = curl_init();
         $url = "https://new.imporsuitpro.com/pedidos/nuevo_pedido_shopify";
@@ -283,6 +287,7 @@ class ShopifyModel extends Query
 
         echo $response;
     }
+
 
 
     public function obtenerBodegaInventario($id_producto_venta)
