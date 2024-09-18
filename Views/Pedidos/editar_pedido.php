@@ -93,7 +93,7 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                         </div>
                         <div class="col-md-6">
                             <label for="telefono" class="form-label">Teléfono</label>
-                            <input type="text" class="form-control" id="telefono" placeholder="Teléfono">
+                            <input type="text" class="form-control" id="telefono" placeholder="Teléfono" onblur="validar_devoluciones(this.value)">
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -135,6 +135,9 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                     <div class="mb-3">
                         <label for="observaciones" class="form-label">Observaciones para la entrega</label>
                         <input type="text" class="form-control" id="observacion" placeholder="Referencias Adicionales (Opcional)">
+                    </div>
+                    <div class="alert alert-warning" role="alert" id="alerta_devoluciones" style="display: none;">
+                        El cliente registra 1 o más devoluciones en nuestro sistema.
                     </div>
                 </form>
             </div>
