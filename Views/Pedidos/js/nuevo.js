@@ -240,7 +240,6 @@ function recalcular(id, idPrecio, idDescuento, idCantidad) {
           $("#montoVenta_infoVenta").text(response.total);
           $("#costo_infoVenta").text(response.costo);
           $("#precioEnvio_infoVenta").text(response.tarifa);
-          console.log("Full: "+response.full);
           $("#fulfillment_infoVenta").text(response.full);
           $("#total_infoVenta").text(response.resultante);
 
@@ -428,6 +427,7 @@ $(document).ready(function () {
           $("#montoVenta_infoVenta").text(response.total);
           $("#costo_infoVenta").text(response.costo);
           $("#precioEnvio_infoVenta").text(response.tarifa);
+          $("#fulfillment_infoVenta").text(response.full);
           $("#total_infoVenta").text(response.resultante);
 
           if (response.generar == false) {
