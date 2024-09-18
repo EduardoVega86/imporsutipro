@@ -110,13 +110,10 @@ const listGuias = async () => {
     formData.append("despachos", $("#despachos").val());
     formData.append("recibo", $("#recibo").val());
 
-    const response = await fetch(
-      `${SERVERURL}pedidos/obtener_guiasSpeed`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+    const response = await fetch(`${SERVERURL}pedidos/obtener_guiasSpeed`, {
+      method: "POST",
+      body: formData,
+    });
     const guias = await response.json();
 
     let content = ``;
@@ -162,7 +159,7 @@ const listGuias = async () => {
         select_speed = `
                     <select class="form-select select-estado-speed" style="max-width: 130px;" data-numero-guia="${
                       guia.numero_guia
-                    }">
+                    }" data-id-factura="${guia.id_factura}">
                         <option value="0" ${
                           guia.estado_guia_sistema == 0 ? "selected" : ""
                         }>-- Selecciona estado --</option>
@@ -331,34 +328,17 @@ document.addEventListener("change", async (event) => {
   if (event.target && event.target.classList.contains("select-estado-speed")) {
     const numeroGuia = event.target.getAttribute("data-numero-guia");
     const nuevoEstado = event.target.value;
-    console.log(`Cambiando estado para la guía ${numeroGuia} a ${nuevoEstado}`);
-    const formData = new FormData();
-    formData.append("estado", nuevoEstado);
 
-    if (nuevoEstado == 9){
-      $("#tipo_speed").val("recibir").change();
-    }
+    const idFactura = event.target.getAttribute("data-id-factura");
 
-    try {
-      const response = await fetch(
-        `https://guias.imporsuitpro.com/Speed/estado/${numeroGuia}`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-      const result = await response.json();
-      if (result.status == 200) {
-        toastr.success("ESTADO ACTUALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
+    if (nuevoEstado == 7) {
+      $("#numeroGuia_subir_reporte").val(numeroGuia);
+      $("#nuevoEstado_subir_reporte").val(nuevoEstado);
+      $("#idFactura_subir_reporte").val(idFactura);
 
-        $("#gestionar_novedadSpeedModal").modal("show");
-        reloadDataTable();
-      }
-    } catch (error) {
-      console.error("Error al conectar con la API", error);
-      alert("Error al conectar con la API");
+      $("#subir_imagen_speedModal").modal("show");
+    } else (nuevoEstado == 14){
+        
     }
   }
 });
@@ -959,7 +939,7 @@ function enviar_gintraNovedad() {
   });
 }
 
-function enviar_speedNovedad(){
+function enviar_speedNovedad() {
   var button = document.getElementById("boton_speed");
   button.disabled = true; // Desactivar el botón
 
@@ -986,7 +966,6 @@ function enviar_speedNovedad(){
         });
 
         button.disabled = false;
-
       } else if (response.status == 200) {
         toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",

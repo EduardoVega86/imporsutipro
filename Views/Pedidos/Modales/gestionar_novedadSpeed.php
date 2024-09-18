@@ -74,9 +74,6 @@
                     <!-- <div class="informacion_producto">
                         <h3 class="mb-3" style="text-decoration:underline;"><strong>Detalle Novedad</strong></h3>
 
-                        <input type="hidden" id="numero_guia" name="numero_guia">
-                        <input type="hidden" id="id_novedad" name="id_novedad">
-
                         <p class="texto_modal"><strong>ID:</strong> <span id="id_gestionarNov"></span></p>
                         <p class="texto_modal"><strong>Cliente:</strong> <span id="cliente_gestionarNov"></span></p>
                         <p class="texto_modal"><strong>Estado:</strong> <span id="estado_gestionarNov"></span></p>
@@ -84,6 +81,9 @@
                         <p class="texto_modal"><strong>Novedad:</strong> <span id="novedad_gestionarNov"></span></p>
                         <p class="texto_modal"><strong>Tracking:</strong> <a id="tracking_gestionarNov" target="_blank">Ver tracking</a></p>
                     </div> -->
+
+                    <input type="hidden" id="numero_guia" name="numero_guia">
+                    <input type="hidden" id="id_novedad" name="id_novedad">
 
                     <div id="seccion_speed">
                         <div class="form-group w-100" style="padding-bottom: 5px;">
@@ -96,7 +96,7 @@
                                 <option value="nocontesta">No contesta</option>
                                 <option value="nolugar">No se encuentra en lugar</option>
                                 <option value="peligro">Zona peligrosa</option>
-                                <option value="reagendar">Reagendar entrega</option>
+                                <option value="rechazar">Reagendar entrega</option>
                             </select>
                         </div>
                         <div style="padding-bottom: 5px;">

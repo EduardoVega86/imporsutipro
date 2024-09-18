@@ -70,6 +70,10 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                <input type="hidden" id="numeroGuia_subir_reporte" name="numeroGuia_subir_reporte">
+                <input type="hidden" id="nuevoEstado_subir_reporte" name="nuevoEstado_subir_reporte">
+                <input type="hidden" id="idFactura_subir_reporte" name="idFactura_subir_reporte">
+
                 <form id="uploadForm" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="fileUpload" class="form-label">Subir Recibo</label>
@@ -88,17 +92,65 @@
 <script>
     // Usamos jQuery para manejar el evento de subida de archivo
     $(document).ready(function() {
-        $('#fileUpload').on('change', function() {
-            let formData = new FormData($('#uploadForm')[0]); // Capturamos el formulario
+        $('#fileUpload').on('change', async function(event) {
+            event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
+
+            var numeroGuia_subir_reporte = $('#numeroGuia_subir_reporte').val();
+            var nuevoEstado_subir_reporte = $('#nuevoEstado_subir_reporte').val();
+            var idFactura_subir_reporte = $('#idFactura_subir_reporte').val();
+
+            let formData = new FormData();
+            formData.append("recibo", $('#fileUpload')[0].files[0]); // Correcto para archivos
+            formData.append("id_factura", idFactura_subir_reporte);
 
             $.ajax({
-                url: 'subir_recibo.php', // Archivo PHP que manejará la subida
+                url: SERVERURL + 'speed/guardarRecibo',
                 type: 'POST',
                 data: formData,
                 contentType: false,
                 processData: false,
-                success: function(response) {
-                    $('#uploadStatus').html('<p>' + response + '</p>'); // Mostramos la respuesta del servidor
+                success: async function(response) { // Cambiar la función a async para usar await
+                    if (response.status == 500) {
+                        toastr.error(
+                            "LA IMAGEN NO SE AGREGÓ CORRECTAMENTE",
+                            "NOTIFICACIÓN", {
+                                positionClass: "toast-bottom-center"
+                            }
+                        );
+                    } else if (response.status == 200) {
+                        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+                            positionClass: "toast-bottom-center",
+                        });
+
+                        // Cambiar estado de la guía
+                        const formData = new FormData();
+                        formData.append("estado", nuevoEstado_subir_reporte);
+
+                        try {
+                            const response = await fetch(
+                                `https://guias.imporsuitpro.com/Speed/estado/${numeroGuia_subir_reporte}`, {
+                                    method: "POST",
+                                    body: formData,
+                                }
+                            );
+                            const result = await response.json();
+                            if (result.status == 200) {
+                                toastr.success("ESTADO ACTUALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
+                                    positionClass: "toast-bottom-center",
+                                });
+
+                                $("#subir_imagen_speedModal").modal("hide"); // Cerrar modal correctamente
+                                reloadDataTable(); // Recargar tabla si tienes alguna
+                            } else {
+                                toastr.error("Error al actualizar el estado", "NOTIFICACIÓN", {
+                                    positionClass: "toast-bottom-center",
+                                });
+                            }
+                        } catch (error) {
+                            console.error("Error al conectar con la API", error);
+                            alert("Error al conectar con la API");
+                        }
+                    }
                 },
                 error: function() {
                     $('#uploadStatus').html('<p>Error al subir el recibo.</p>'); // Mostramos un mensaje de error si falla
