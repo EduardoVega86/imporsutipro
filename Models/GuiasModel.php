@@ -239,6 +239,9 @@ class GuiasModel extends Query
             $id_plataforma_producto = null;
         }
 
+
+        $costo_producto = $cod == 1 ? $costo_producto : 0;
+
         $monto_recibir = $costo_producto - $precio_envio - $full - $costo_o;
 
 
@@ -714,7 +717,7 @@ class GuiasModel extends Query
     public function descargarGuia($guia)
     {
         $url = "";
-        if (str_contains($guia, "IMP") || str_contains($guia, "MKP")|| str_contains($guia, "RCK")) {
+        if (str_contains($guia, "IMP") || str_contains($guia, "MKP") || str_contains($guia, "RCK")) {
             $url = "https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=$guia";
         } else if (is_numeric($guia)) {
             $url = "https://guias.imporsuitpro.com/Servientrega/guia/$guia";
