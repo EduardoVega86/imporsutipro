@@ -90,9 +90,13 @@
                             <label for="tipo_speed">Tipo:</label>
                             <select class="form-select" id="tipo_speed">
                                 <option selected value="">-- Selecciona --</option>
-                                <option value="ofrecer">Volver a ofrecer al cliente</option>
-                                <option value="rechazar">Efectuar devolucion</option>
-                                <option value="recaudo">Ajustar recaudo</option>
+                                <option value="recibir">Cliente no desea recibir</option>
+                                <option value="direccion">Direccion erronea</option>
+                                <option value="telefono">Numero de telefono incorrecto</option>
+                                <option value="nocontesta">No contesta</option>
+                                <option value="nolugar">No se encuentra en lugar</option>
+                                <option value="peligro">Zona peligrosa</option>
+                                <option value="reagendar">Reagendar entrega</option>
                             </select>
                         </div>
                         <div style="padding-bottom: 5px;">

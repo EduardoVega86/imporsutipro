@@ -335,7 +335,7 @@ document.addEventListener("change", async (event) => {
     formData.append("estado", nuevoEstado);
 
     if (nuevoEstado == 9){
-      $("#tipo_speed").val(nuevoEstado).change();
+      $("#tipo_speed").val("recibir").change();
     }
 
     try {
