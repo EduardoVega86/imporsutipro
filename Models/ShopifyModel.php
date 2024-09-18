@@ -25,34 +25,225 @@ class ShopifyModel extends Query
         }
     }
 
-    public function gestionarRequest($plataforma, $data)
+    public function crearOrden($data, $lineItems, $plataforma, $order_number)
     {
-        $json_String = mb_convert_encoding($data, "UTF-8", "auto");
-        $data = json_decode($json_String, true);
-        $order_number = $data['order_number'];
-        $configuraciones = $this->obtenerConfiguracion($plataforma);
-        $configuraciones = $configuraciones[0];
-        $resultados = [];
+        $nombre = $data['nombre'] . " " . $data['apellido'];
+        $telefono = str_replace("+", "", $data['telefono']);
+        $calle_principal = $data['principal'];
+        $calle_secundaria = $data['secundaria'] ?? "";
+        $provincia = $data['provincia'];
 
-        foreach ($configuraciones as $key => $value) {
-            $resultados[$key] = $this->obtenerData($data, $value);
+        // Normalización de la provincia
+        if (strtoupper($provincia) == "SANTO DOMINGO DE LOS TSACHILAS" || strtoupper($provincia) == "SANTO DOMINGO DE LOS TSÁCHILAS") {
+            $provincia = "SANTO DOMINGO";
+        } else if (strtoupper($provincia) == "ZAMORA CHINCHIPE") {
+            $provincia = "ZAMORA";
         }
-        $lineItems = [];
-        if (isset($data['line_items']) && is_array($data['line_items'])) {
-            foreach ($data['line_items'] as $item) {
-                $lineItems[] = [
-                    'id' => $item['id'],
-                    'sku' => $item['sku'],
-                    'name' => $item['name'],
-                    'price' => $item['price'],
-                    'quantity' => $item['quantity'],
-                    'vendor' => $item['vendor']
-                ];
+
+        $provinciaData = $this->obtenerProvincia($provincia);
+        $provincia = $provinciaData[0]['codigo_provincia'] ?? null;
+
+        $ciudad = $data['ciudad'];
+        $ciudadData = $this->obtenerCiudad($ciudad);
+        $ciudad = $ciudadData[0]['id_cotizacion'] ?? 0;
+
+        $referencia = "Referencia: " . ($data["referencia"] ?? "");
+        $observacion = "Ciudad: " . $data["ciudad"];
+        $transporte = 0;
+        $importado = 1;
+        $plataforma_importa = "Shopify";
+        $recaudo = 1;
+
+        $contiene = "";
+        $costo_producto = 0;
+
+        $productos = [];
+        $total_line_items = 0;
+        $costo = 0;
+        $total_units = 0;
+        $precio_productos_sin_sku = 0;
+        $hay_productos_con_sku = false;
+
+        // Recorre los items y verifica las condiciones necesarias
+        foreach ($lineItems as $item) {
+            $id_producto_venta = $item['sku'] ?? null;
+
+            // Procesar productos sin SKU
+            if (empty($id_producto_venta)) {
+                $observacion .= ", SKU vacío: " . $item['name'] . " x" . $item['quantity'] . ": $" . $item['price'];
+                $item_total_price = $item['price'] * $item['quantity'];
+                $precio_productos_sin_sku += $item_total_price;
+                $total_line_items += $item_total_price;
+                $total_units += $item['quantity'];
+
+                $contiene .= $item['name'] . " x" . $item['quantity'] . " ";
+
+                continue; // No se procesa como producto
+            } else {
+                $hay_productos_con_sku = true;
             }
+
+            // Obtener información de la bodega
+            $datos_telefono = $this->obtenerBodegaInventario($id_producto_venta);
+
+            if (empty($datos_telefono)) {
+                die("No se encontraron datos de bodega para el producto con SKU: $id_producto_venta");
+            }
+
+            $product_costo = $this->obtenerCosto($id_producto_venta);
+            $bodega = $datos_telefono[0];
+
+            $celularO = $bodega['contacto'];
+            $nombreO = $bodega['nombre'];
+            $ciudadO = $bodega['localidad'];
+            $provinciaO = $bodega['provincia'];
+            $direccionO = $bodega['direccion'];
+            $referenciaO = $bodega['referencia'] ?? " ";
+            $numeroCasaO = $bodega['num_casa'] ?? " ";
+            $valor_segura = 0;
+
+            $id_bodega = $bodega['id'];
+
+            $costo += $product_costo * $item['quantity']; // Multiplica por la cantidad
+            $no_piezas = $item['quantity'];
+            $contiene .= $item['name'] . " x" . $item['quantity'] . " ";
+
+            $costo_flete = 0;
+            $costo_producto += $item['price'] * $item['quantity'];
+            $id_transporte = 0;
+
+            $item_total_price = $item['price'] * $item['quantity'];
+            $total_line_items += $item_total_price;
+            $total_units += $item['quantity'];
+
+            $productos[] = [
+                'id_producto_venta' => $id_producto_venta,
+                'nombre' => $this->remove_emoji($item['name']),
+                'cantidad' => $item['quantity'],
+                'precio' => $item['price'],
+                'item_total_price' => $item_total_price,
+            ];
         }
 
-        // Gestión de creación de orden
-        $orden = $this->crearOrden($resultados, $lineItems, $plataforma, $order_number);
+        // Si no hay productos con SKU, detener el proceso
+        if (!$hay_productos_con_sku) {
+            die("Proceso detenido: no hay productos con SKU en la orden.");
+        }
+
+        $discount = $data['discount'] ?? 0;
+
+        if ($discount > 0) {
+            // Calcular el total de productos con SKU antes del descuento
+            $total_line_items_con_sku = 0;
+            foreach ($productos as $producto) {
+                $total_line_items_con_sku += $producto['item_total_price'];
+            }
+
+            // Distribuir el descuento proporcionalmente entre los productos con SKU
+            foreach ($productos as &$producto) {
+                // Calcula la proporción del descuento que corresponde a este producto
+                $product_discount = ($producto['item_total_price'] / $total_line_items_con_sku) * $discount;
+
+                // Ajusta el precio por unidad
+                $discount_per_unit = $product_discount / $producto['cantidad'];
+                $producto['precio'] = $producto['precio'] - $discount_per_unit;
+            }
+            unset($producto); // Rompe la referencia con el último elemento
+        }
+
+        // Recalcular el total de la venta
+        $total_venta = 0;
+        foreach ($productos as $producto) {
+            $total_venta += $producto['precio'] * $producto['cantidad'];
+        }
+
+        // Añadir el precio de los productos sin SKU al total de la venta
+        $total_venta += $precio_productos_sin_sku;
+
+        $comentario = "Orden creada desde Shopify, número de orden: " . $order_number;
+
+        $contiene = trim($contiene); // Eliminar el espacio extra al final
+        // Eliminar emojis o caracteres especiales
+        $contiene = $this->remove_emoji($contiene);
+
+        $observacion .= " Número de orden: " . $order_number;
+
+        // Aquí se pueden continuar los procesos necesarios para la orden
+        // Iniciar cURL
+        $ch = curl_init();
+        $url = "https://new.imporsuitpro.com/pedidos/nuevo_pedido_shopify";
+
+        $data = array(
+            'fecha_factura' => date("Y-m-d H:i:s"),
+            'id_usuario' => 1176,
+            'monto_factura' => $total_venta,
+            'estado_factura' => 1,
+            'nombre_cliente' => $nombre,
+            'telefono_cliente' => $telefono,
+            'calle_principal' => $calle_principal,
+            'ciudad_cot' => $ciudad,
+            'calle_secundaria' => $calle_secundaria,
+            'referencia' => $referencia,
+            'observacion' => $observacion,
+            'guia_enviada' => 0,
+            'transporte' => $transporte,
+            'identificacion' => "",
+            'celular' => $telefono,
+            'dueño_id' => $plataforma,
+            'dropshipping' => 0,
+            'id_plataforma' =>  $plataforma,
+            'importado' => $importado,
+            'plataforma_importa' => $plataforma_importa,
+            'cod' => $recaudo,
+            'estado_guia_sistema' => 1,
+            'impreso' => 0,
+            'facturada' => 0,
+            'factura_numero' => 0,
+            'numero_guia' => 0,
+            'anulada' => 0,
+            'identificacionO' => "",
+            'celularO' => $celularO ?? "",
+            'nombreO' => $nombreO ?? "",
+            'ciudadO' => $ciudadO ?? "",
+            'provinciaO' => $provinciaO ?? "",
+            'direccionO' => $direccionO ?? "",
+            'referenciaO' => $referenciaO ?? "",
+            'numeroCasaO' => $numeroCasaO ?? "",
+            'valor_segura' => $valor_segura ?? 0,
+            'no_piezas' => $no_piezas ?? 0,
+            'tipo_servicio' => "201202002002013",
+            'peso' => "2",
+            'contiene' => $contiene,
+            'costo_flete' => $costo_flete ?? 0,
+            'costo_producto' => $costo,
+            'comentario' => $comentario,
+            'id_transporte' => $id_transporte ?? 0,
+            'provincia' => $provincia,
+            'ciudad' => $ciudad,
+            'total_venta' => $total_venta,
+            'nombre' => $nombre,
+            'telefono' => $telefono,
+            'calle_principal' => $calle_principal,
+            'calle_secundaria' => $calle_secundaria,
+            'referencia' => $referencia,
+            'observacion' => $observacion,
+            'transporte' => $transporte,
+            'importado' => $importado,
+            'id_producto_venta' => $id_producto_venta ?? "",
+            'productos' => $productos,
+            'id_bodega' => $id_bodega ?? "",
+        );
+
+        $data = http_build_query($data);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        // Puedes manejar la respuesta aquí si es necesario
+        echo $response;
     }
 
     public function crearOrden($data, $lineItems, $plataforma, $order_number)
