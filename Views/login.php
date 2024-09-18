@@ -78,7 +78,7 @@
                             window.location.href = '<?php echo SERVERURL; ?>dashboard';
                         } */
 
-                        window.location.href = '<?php echo SERVERURL ?>dashboard';
+                        window.location.href = '<?php echo SERVERURL ?>dashboard/home';
                     });
                 }
             })
