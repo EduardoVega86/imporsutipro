@@ -58,28 +58,25 @@ class ShopifyModel extends Query
     public function crearOrden($data, $lineItems, $plataforma, $order_number)
     {
         $nombre = $data['nombre'] . " " . $data['apellido'];
-        $telefono = $data['telefono'];
-        // Quitar el + de la cadena
-        $telefono = str_replace("+", "", $telefono);
+        $telefono = str_replace("+", "", $data['telefono']);
         $calle_principal = $data['principal'];
         $calle_secundaria = $data['secundaria'] ?? "";
         $provincia = $data['provincia'];
-        if ($provincia == "SANTO DOMINGO DE LOS TSACHILAS") {
+
+        // Normalización de la provincia
+        if (strtoupper($provincia) == "SANTO DOMINGO DE LOS TSACHILAS" || strtoupper($provincia) == "SANTO DOMINGO DE LOS TSÁCHILAS") {
             $provincia = "SANTO DOMINGO";
-        } else if ($provincia == "Santo Domingo de los Tsáchilas") {
-            $provincia = "SANTO DOMINGO";
-        } else if ($provincia == "ZAMORA CHINCHIPE") {
+        } else if (strtoupper($provincia) == "ZAMORA CHINCHIPE") {
             $provincia = "ZAMORA";
         }
-        $provincia = $this->obtenerProvincia($provincia);
-        $provincia = $provincia[0]['codigo_provincia'];
+
+        $provinciaData = $this->obtenerProvincia($provincia);
+        $provincia = $provinciaData[0]['codigo_provincia'] ?? null;
+
         $ciudad = $data['ciudad'];
-        $ciudad = $this->obtenerCiudad($ciudad);
-        if (!empty($ciudad)) {
-            $ciudad = $ciudad[0]['id_cotizacion'];
-        } else {
-            $ciudad = 0;
-        }
+        $ciudadData = $this->obtenerCiudad($ciudad);
+        $ciudad = $ciudadData[0]['id_cotizacion'] ?? 0;
+
         $referencia = "Referencia: " . ($data["referencia"] ?? "");
         $observacion = "Ciudad: " . $data["ciudad"];
         $transporte = 0;
@@ -97,50 +94,39 @@ class ShopifyModel extends Query
 
         // Recorre los items y verifica las condiciones necesarias
         foreach ($lineItems as $item) {
-            if (empty($item['sku'])) {
-                // Si solo hay un ítem y no tiene SKU, detiene el proceso
-                if (count($lineItems) == 1) {
-                    die("Proceso detenido: el único ítem no tiene SKU.");
+            $id_producto_venta = $item['sku'] ?? null;
+
+            // Procesar productos sin SKU
+            if (empty($id_producto_venta)) {
+                $observacion .= ", SKU vacío: " . $item['name'] . " x" . $item['quantity'] . ": $" . $item['price'];
+                // Puedes asignar un identificador único si lo deseas
+                $id_producto_venta = null;
+                $product_costo = 0; // Si necesitas asignar un costo específico
+                $id_bodega = null;  // Si no hay bodega asociada
+            } else {
+                // Obtener información de la bodega
+                $datos_telefono = $this->obtenerBodegaInventario($id_producto_venta);
+
+                if (empty($datos_telefono)) {
+                    die("No se encontraron datos de bodega para el producto con SKU: $id_producto_venta");
                 }
 
-                // Si el SKU está vacío, salta al siguiente ítem
-                $observacion .= ", SKU vacío: " . $item['name'] . " x" . $item['quantity'] . ": $" . $item['price'] . "";
-                $item_total_price = $item['price'] * $item['quantity'];
-                $total_line_items += $item_total_price;
-                $total_units += $item['quantity'];
+                $product_costo = $this->obtenerCosto($id_producto_venta);
+                $bodega = $datos_telefono[0];
 
-                $productos[] = [
-                    'id_producto_venta' => null, // O algún identificador para productos sin SKU
-                    'nombre' => $this->remove_emoji($item['name']),
-                    'cantidad' => $item['quantity'],
-                    'precio' => $item['price'],
-                    'item_total_price' => $item_total_price,
-                ];
+                $celularO = $bodega['contacto'];
+                $nombreO = $bodega['nombre'];
+                $ciudadO = $bodega['localidad'];
+                $provinciaO = $bodega['provincia'];
+                $direccionO = $bodega['direccion'];
+                $referenciaO = $bodega['referencia'] ?? " ";
+                $numeroCasaO = $bodega['num_casa'] ?? " ";
+                $valor_segura = 0;
 
-                continue;
+                $id_bodega = $bodega['id'];
             }
 
-            $id_producto_venta = $item['sku'];
-
-            // Obtener información de la bodega
-            $datos_telefono = $this->obtenerBodegaInventario($id_producto_venta);
-
-            $product_costo = $this->obtenerCosto($id_producto_venta);
             $costo += $product_costo * $item['quantity']; // Multiplica por la cantidad
-
-            $bodega = $datos_telefono[0];
-
-            $celularO = $bodega['contacto'];
-            $nombreO = $bodega['nombre'];
-            $ciudadO = $bodega['localidad'];
-            $provinciaO = $bodega['provincia'];
-            $direccionO = $bodega['direccion'];
-            $referenciaO = $bodega['referencia'] ?? " ";
-            $numeroCasaO = $bodega['num_casa'] ?? " ";
-            $valor_segura = 0;
-
-            $id_bodega = $bodega['id'];
-
             $no_piezas = $item['quantity'];
             $contiene .= $item['name'] . " x" . $item['quantity'] . " ";
 
@@ -154,7 +140,7 @@ class ShopifyModel extends Query
 
             $productos[] = [
                 'id_producto_venta' => $id_producto_venta,
-                'nombre' =>  $this->remove_emoji($item['name']),
+                'nombre' => $this->remove_emoji($item['name']),
                 'cantidad' => $item['quantity'],
                 'precio' => $item['price'],
                 'item_total_price' => $item_total_price,
@@ -188,7 +174,7 @@ class ShopifyModel extends Query
         // Eliminar emojis o caracteres especiales
         $contiene = $this->remove_emoji($contiene);
 
-        $observacion .= " Numero de orden: " . $order_number;
+        $observacion .= " Número de orden: " . $order_number;
 
         // Aquí se pueden continuar los procesos necesarios para la orden
         // Iniciar cURL
@@ -224,22 +210,22 @@ class ShopifyModel extends Query
             'numero_guia' => 0,
             'anulada' => 0,
             'identificacionO' => "",
-            'celularO' => $celularO,
-            'nombreO' => $nombreO,
-            'ciudadO' => $ciudadO,
-            'provinciaO' => $provinciaO,
-            'direccionO' => $direccionO,
-            'referenciaO' => $referenciaO,
-            'numeroCasaO' => $numeroCasaO,
-            'valor_segura' => $valor_segura,
-            'no_piezas' => $no_piezas,
+            'celularO' => $celularO ?? "",
+            'nombreO' => $nombreO ?? "",
+            'ciudadO' => $ciudadO ?? "",
+            'provinciaO' => $provinciaO ?? "",
+            'direccionO' => $direccionO ?? "",
+            'referenciaO' => $referenciaO ?? "",
+            'numeroCasaO' => $numeroCasaO ?? "",
+            'valor_segura' => $valor_segura ?? 0,
+            'no_piezas' => $no_piezas ?? 0,
             'tipo_servicio' => "201202002002013",
             'peso' => "2",
             'contiene' => $contiene,
-            'costo_flete' => $costo_flete,
+            'costo_flete' => $costo_flete ?? 0,
             'costo_producto' => $costo,
             'comentario' => $comentario,
-            'id_transporte' => $id_transporte,
+            'id_transporte' => $id_transporte ?? 0,
             'provincia' => $provincia,
             'ciudad' => $ciudad,
             'total_venta' => $total_venta,
@@ -251,9 +237,9 @@ class ShopifyModel extends Query
             'observacion' => $observacion,
             'transporte' => $transporte,
             'importado' => $importado,
-            'id_producto_venta' => $id_producto_venta,
+            'id_producto_venta' => $id_producto_venta ?? "",
             'productos' => $productos,
-            'id_bodega' => $id_bodega,
+            'id_bodega' => $id_bodega ?? "",
         );
 
         $data = http_build_query($data);
@@ -265,7 +251,6 @@ class ShopifyModel extends Query
         curl_close($ch);
 
         // Puedes manejar la respuesta aquí si es necesario
-
         echo $response;
     }
 
