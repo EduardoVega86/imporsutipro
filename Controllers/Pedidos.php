@@ -113,8 +113,6 @@ class Pedidos extends Controller
         $this->views->render($this, "guias_speed");
     }
 
-
-
     ///Funciones
 
     public function datosPlataformas()
