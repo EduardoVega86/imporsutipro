@@ -74,6 +74,7 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                 <p class="texto_infoVenta"><strong>Monto de Venta:</strong> <span id="montoVenta_infoVenta"></span></p>
                 <p class="texto_infoVenta"><strong>Costo:</strong> <span id="costo_infoVenta"></span></p>
                 <p class="texto_infoVenta"><strong>Precio de envio:</strong> <span id="precioEnvio_infoVenta"></span></p>
+                <p class="texto_infoVenta"><strong>Fulfillment:</strong> <span id="fulfillment_infoVenta"></span></p>
                 <p class="texto_infoVenta"><strong>Total:</strong> <span id="total_infoVenta"></span></p>
                 <div class="alert alert-warning" role="alert" style="display: none;" id="alerta_valoresContra">
                     <strong>Atención:</strong> No puede generar esta guia porque el costo de la misma tiene valores en contra.
