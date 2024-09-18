@@ -384,7 +384,7 @@ class PedidosModel extends Query
         //$sql .= " LIMIT $inicio, $final";
 
 
-        echo $sql;
+        // echo $sql;
         return $this->select($sql);
     }
 
