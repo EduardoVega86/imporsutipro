@@ -17,4 +17,12 @@ class Speed extends Controller
         $data = $this->model->cargarNovedades();
         return $data;
     }
+
+    public function guardarRecibo()
+    {
+        $recibo = $_FILES['recibo'];
+        $id_factura = $_POST['id_factura'];
+
+        $response = $this->model->guardarRecibo($recibo, $id_factura);
+    }
 }

@@ -105,6 +105,14 @@ class Pedidos extends Controller
         $this->views->render($this, "chat_imporsuit");
     }
 
+    public function speed()
+    {
+        if (!$this->isAuth()) {
+            header("Location: " . SERVERURL . "login");
+        }
+        $this->views->render($this, "local");
+    }
+
 
 
     ///Funciones
@@ -429,6 +437,20 @@ class Pedidos extends Controller
         echo json_encode($data);
     }
 
+    public function obtener_guiasSpeed()
+    {
+        $fecha_inicio = $_POST['fecha_inicio'] ?? "";
+        $fecha_fin = $_POST['fecha_fin'] ?? "";
+        $transportadora = $_POST['transportadora'] ?? "";
+        $estado = $_POST['estado'] ?? "";
+        $drogshipin = $_POST['drogshipin'] ?? "";
+        $impreso = $_POST['impreso'] ?? "";
+        $despachos = $_POST['despachos'] ?? "";
+        $recibo = $_POST['recibo'] ?? "";
+        $data = $this->model->cargarGuiasSpeed($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos, $recibo);
+        echo json_encode($data);
+    }
+
     public function info()
     {
         print_r($_SESSION);
@@ -526,7 +548,6 @@ class Pedidos extends Controller
         $response = $this->model->agregarDetalle($id_producto, $cantidad, $precio, $_SESSION['id_plataforma'], $sku, $id_factura);
         echo json_encode($response);
     }
-
 
     public function obtenerDetalle()
     {

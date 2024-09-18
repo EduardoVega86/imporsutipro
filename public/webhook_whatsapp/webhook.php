@@ -11,7 +11,7 @@ const HOST = '3.233.119.65';
 const USER = "imporsuit_system";
 const PASSWORD = "imporsuit_system";
 const DB = "imporsuitpro_new";
-const CHARSET = "utf8";
+const CHARSET = "utf8mb4";
 
 // Establecer conexión con la base de datos
 $conn = new mysqli(HOST, USER, PASSWORD, DB);
