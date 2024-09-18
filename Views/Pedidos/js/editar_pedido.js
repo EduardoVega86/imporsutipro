@@ -860,6 +860,24 @@ const vaciarTmpPedidos = async () => {
   }
 };
 
+function validar_devoluciones(telefono) {
+  $.ajax({
+    url: SERVERURL + "Pedidos/validaDevolucion/" + telefono,
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+      if (response.length > 0) {
+        $("#alerta_devoluciones").show();
+      } else {
+        $("#alerta_devoluciones").hide();
+      }
+    },
+    error: function (error) {
+      console.error("Error con la api de Validar devolucion:", error);
+    },
+  });
+}
+
 // Desactivar el botón al iniciar la página
 document.addEventListener("DOMContentLoaded", function () {
   var button2 = document.getElementById("generarGuiaBtn");
