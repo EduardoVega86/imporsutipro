@@ -174,6 +174,88 @@ function descargarAudioWhatsapp($mediaId, $accessToken)
     return "public/whatsapp/audios_recibidos/" . $fileName;
 }
 
+function descargarImagenWhatsapp($mediaId, $accessToken)
+{
+    // Ruta completa donde quieres que se guarden las imágenes
+    $directory = __DIR__ . "/../whatsapp/imagenes_recibidas/";
+
+    // Verificar si el directorio existe, si no lo creamos
+    if (!is_dir($directory)) {
+        mkdir($directory, 0755, true);  // Crear el directorio si no existe
+        file_put_contents('debug_log.txt', "Directorio creado: " . $directory . "\n", FILE_APPEND);
+    }
+
+    // Obtener la URL de descarga del archivo de imagen desde la API de WhatsApp
+    $url = "https://graph.facebook.com/v12.0/$mediaId";
+
+    // Inicializar cURL para obtener la URL de descarga real
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        "Authorization: Bearer $accessToken"  // Asegurarse de que el token esté aquí
+    ]);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);  // Seguir redirecciones
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Deshabilitar verificación SSL si es necesario
+    $response = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $error = curl_error($ch);
+    curl_close($ch);
+
+    // Verificar si hubo errores en la respuesta de WhatsApp
+    if ($http_code != 200) {
+        file_put_contents('debug_log.txt', "Error al obtener la URL del archivo. HTTP Code: $http_code, Error: $error\n", FILE_APPEND);
+        return null;
+    }
+
+    // Guardar la respuesta para depuración
+    file_put_contents('debug_log.txt', "Respuesta cruda de WhatsApp API: $response\n", FILE_APPEND);
+
+    // Decodificar la respuesta JSON para obtener la URL real del archivo de imagen
+    $media = json_decode($response, true);
+    if (!isset($media['url'])) {
+        file_put_contents('debug_log.txt', "Error: No se pudo obtener la URL del archivo de imagen\n", FILE_APPEND);
+        return null;
+    }
+
+    $fileUrl = $media['url'];
+    file_put_contents('debug_log.txt', "URL del archivo de imagen: $fileUrl\n", FILE_APPEND);
+
+    // Descargar el archivo directamente desde la URL real, ahora con el token de autorización
+    $ch = curl_init($fileUrl);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);  // Obtener datos binarios
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        "Authorization: Bearer $accessToken"  // Incluir el token de autorización en la solicitud final
+    ]);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);  // Seguir redirecciones
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Deshabilitar verificación SSL si es necesario
+    $imageData = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    // Verificar si hubo errores en la descarga
+    if ($http_code != 200 || $imageData === false || strlen($imageData) == 0) {
+        file_put_contents('debug_log.txt', "Error al descargar el archivo de imagen. HTTP Code: $http_code\n", FILE_APPEND);
+        return null;
+    }
+
+    // Guardar el archivo como .jpg (o la extensión que prefieras)
+    $fileName = $mediaId . ".jpg";
+    $filePath = $directory . $fileName;
+
+    // Guardar el archivo descargado en el servidor
+    if (file_put_contents($filePath, $imageData) === false) {
+        file_put_contents('debug_log.txt', "Error al guardar el archivo en la ruta: $filePath\n", FILE_APPEND);
+        return null;
+    }
+
+    // Verificar el tamaño del archivo guardado
+    $file_size = filesize($filePath);
+    file_put_contents('debug_log.txt', "Archivo de imagen guardado correctamente: " . $filePath . " con tamaño: $file_size bytes\n", FILE_APPEND);
+
+    // Devuelve la ruta desde `public/whatsapp/imagenes_recibidas/` para almacenar en la base de datos
+    return "public/whatsapp/imagenes_recibidas/" . $fileName;
+}
+
 // Procesar el mensaje basado en el tipo recibido
 switch ($tipo_mensaje) {
     case 'text':
@@ -181,11 +263,18 @@ switch ($tipo_mensaje) {
         break;
 
     case 'image':
-        $texto_mensaje = "Imagen recibida con ID: " . $respuesta_WEBHOOK_messages['image']['id'];
+        $imageId = $respuesta_WEBHOOK_messages['image']['id'];
+        $ruta_archivo = descargarImagenWhatsapp($imageId, $accessToken);  // Descargar la imagen y obtener la ruta
+
+        // Guardamos solo el pie de foto (si existe) en texto_mensaje
+        $texto_mensaje = "";
         if (isset($respuesta_WEBHOOK_messages['image']['caption'])) {
-            $texto_mensaje .= ", con pie de foto: " . $respuesta_WEBHOOK_messages['image']['caption'];
+            $texto_mensaje = $respuesta_WEBHOOK_messages['image']['caption'];  // Guardar solo el pie de foto
         }
+
+        // ruta_archivo contendrá la ubicación donde se guarda la imagen
         break;
+
 
     case 'video':
         $texto_mensaje = "Video recibido con ID: " . $respuesta_WEBHOOK_messages['video']['id'];
