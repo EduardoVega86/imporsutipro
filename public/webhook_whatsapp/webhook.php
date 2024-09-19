@@ -118,6 +118,9 @@ function descargarAudioWhatsapp($mediaId, $accessToken)
     $error = curl_error($ch);
     curl_close($ch);
 
+    // Agregar un log para ver el contenido de la respuesta
+    file_put_contents('debug_log.txt', "Respuesta de WhatsApp API: $response\n", FILE_APPEND);
+
     if ($http_code != 200) {
         file_put_contents('debug_log.txt', "Error: No se puede acceder a la URL del archivo, HTTP Code: $http_code, Error: $error\n", FILE_APPEND);
         return null;
@@ -131,6 +134,9 @@ function descargarAudioWhatsapp($mediaId, $accessToken)
     }
 
     $fileUrl = $media['url'];
+
+    // Registrar la URL del archivo
+    file_put_contents('debug_log.txt', "URL del archivo de audio: $fileUrl\n", FILE_APPEND);
 
     // Segunda solicitud para descargar el archivo de audio
     $audioData = file_get_contents($fileUrl);
@@ -156,6 +162,7 @@ function descargarAudioWhatsapp($mediaId, $accessToken)
     // Devuelve la ruta desde `public/whatsapp/audios_recibidos/` para almacenar en la base de datos
     return "public/whatsapp/audios_recibidos/" . $fileName;
 }
+
 
 // Procesar el mensaje basado en el tipo recibido
 switch ($tipo_mensaje) {
