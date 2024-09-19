@@ -181,12 +181,12 @@ function descargarImagenWhatsapp($mediaId, $accessToken)
 
     // Verificar si el directorio existe, si no lo creamos
     if (!is_dir($directory)) {
-        mkdir($directory, 0755, true);
+        mkdir($directory, 0755, true);  // Crear el directorio si no existe
         file_put_contents('debug_log.txt', "Directorio creado: " . $directory . "\n", FILE_APPEND);
     }
 
     // 1. Obtener la URL de descarga del archivo de imagen desde la API de WhatsApp
-    $url = "https://graph.facebook.com/v17.0/$mediaId?fields=url,mime_type";  // Solicitamos campos válidos
+    $url = "https://graph.facebook.com/v17.0/$mediaId?fields=url";  // Añadimos ?fields=url para obtener el campo 'url'
 
     // 2. Obtener la URL directa de descarga utilizando cURL
     $ch = curl_init($url);
@@ -195,81 +195,51 @@ function descargarImagenWhatsapp($mediaId, $accessToken)
         "Authorization: Bearer $accessToken"
     ]);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Habilita esto en producción
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     $response = curl_exec($ch);
     $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
 
     if ($http_code != 200 || empty($response)) {
-        file_put_contents('debug_log.txt', "Error al obtener la URL del archivo de imagen. HTTP Code: $http_code\nResponse: $response\n", FILE_APPEND);
+        file_put_contents('debug_log.txt', "Error al obtener la URL del archivo de imagen. HTTP Code: $http_code\n", FILE_APPEND);
         return null;
     }
 
-    // Decodificar la respuesta para obtener la URL de la imagen y el tipo MIME
+    // Decodificar la respuesta para obtener la URL de la imagen
     $mediaData = json_decode($response, true);
     if (!isset($mediaData['url'])) {
-        file_put_contents('debug_log.txt', "Error: No se pudo obtener la URL de la imagen\nResponse: $response\n", FILE_APPEND);
+        file_put_contents('debug_log.txt', "Error: No se pudo obtener la URL de la imagen\n", FILE_APPEND);
         return null;
     }
-
-    // Obtener el tipo MIME
-    $mimeType = isset($mediaData['mime_type']) ? $mediaData['mime_type'] : null;
 
     // 3. Descargar la imagen usando la URL obtenida
     $fileUrl = $mediaData['url'];
 
     $ch = curl_init($fileUrl);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HEADER, true); // Incluimos las cabeceras en la respuesta
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
         "Authorization: Bearer $accessToken"
     ]);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Habilita esto en producción
-    $response = curl_exec($ch);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    $imageData = curl_exec($ch);
     $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
     curl_close($ch);
 
-    // Separar las cabeceras del cuerpo
-    $headers = substr($response, 0, $header_size);
-    $imageData = substr($response, $header_size);
-
     if ($http_code != 200 || $imageData === false || strlen($imageData) == 0) {
-        file_put_contents('debug_log.txt', "Error al descargar la imagen. HTTP Code: $http_code\nHeaders: $headers\nResponse: $response\n", FILE_APPEND);
+        file_put_contents('debug_log.txt', "Error al descargar la imagen. HTTP Code: $http_code\n", FILE_APPEND);
         return null;
     }
 
-    // Verificar si la respuesta es JSON (posible mensaje de error)
+    // Verificar si la respuesta es JSON (posible error)
     $json_response = json_decode($imageData, true);
     if (json_last_error() === JSON_ERROR_NONE) {
-        file_put_contents('debug_log.txt', "Error al descargar la imagen: " . print_r($json_response, true) . "\n", FILE_APPEND);
+        file_put_contents('debug_log.txt', "Error al descargar la imagen: " . $imageData . "\n", FILE_APPEND);
         return null;
     }
 
-    // Obtener el Content-Type de las cabeceras si no tenemos el mimeType
-    if (!$mimeType) {
-        if (preg_match('/Content-Type:\s*([^\s]+)/i', $headers, $matches)) {
-            $mimeType = trim($matches[1]);
-        }
-    }
-
-    // Determinar la extensión del archivo basada en el tipo MIME
-    $extension = 'bin';  // Valor predeterminado
-    if ($mimeType) {
-        $mime_map = [
-            'image/jpeg' => 'jpg',
-            'image/png' => 'png',
-            'image/gif' => 'gif',
-            // Añade otros tipos MIME si es necesario
-        ];
-        if (isset($mime_map[$mimeType])) {
-            $extension = $mime_map[$mimeType];
-        }
-    }
-
-    // 4. Guardar la imagen en la carpeta de destino con la extensión correcta
-    $fileName = $mediaId . "." . $extension;
+    // 4. Guardar la imagen en la carpeta de destino
+    $fileName = $mediaId . ".jpg";
     $filePath = $directory . $fileName;
 
     if (file_put_contents($filePath, $imageData) === false) {

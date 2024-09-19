@@ -81,7 +81,7 @@
 
                 cargar_saldoWallet();
 
-                cargar_ultima_pagina();
+                /* cargar_ultima_pagina(); */
 
                 // Ejecutar la función al cargar la página
                 // Ejecutar la función cada 60 segundos
@@ -119,7 +119,7 @@
                 });
             }
 
-            function cargar_ultima_pagina() {
+            /* function cargar_ultima_pagina() {
                 var urlPath = window.location.pathname; // Esto devuelve "/Pedidos/chat_imporsuit"
                 var cleanPath = urlPath.substring(1); // Esto elimina la barra inclinada inicial, devolviendo "Pedidos/chat_imporsuit"
                 let formData = new FormData();
@@ -139,7 +139,7 @@
                     },
                 });
 
-            }
+            } */
 
             function sigue_logeado() {
                 $.ajax({
