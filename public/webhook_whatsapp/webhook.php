@@ -94,6 +94,14 @@ $respuesta_WEBHOOK_messages = $whatsapp_value['messages'][0];  // Ajuste para ob
 // Función para descargar audio de WhatsApp
 function descargarAudioWhatsapp($mediaId, $accessToken)
 {
+    $directory = "public/whatsapp/audios_recibidos/";
+    
+    // Verificar si el directorio existe, si no lo creamos
+    if (!is_dir($directory)) {
+        mkdir($directory, 0755, true);  // Crear el directorio si no existe
+        file_put_contents('debug_log.txt', "Directorio creado: " . $directory . "\n", FILE_APPEND);
+    }
+
     // Obtener la URL de descarga
     $url = "https://graph.facebook.com/v12.0/$mediaId";
 
@@ -110,12 +118,19 @@ function descargarAudioWhatsapp($mediaId, $accessToken)
     if (isset($media['url'])) {
         // Ahora hacemos la solicitud para descargar el archivo
         $fileUrl = $media['url'];
-        $fileName = "public/whatsapp/audios_recibidos/" . $mediaId . ".ogg";  // Puedes ajustar la extensión según el tipo de audio
+        $fileName = $directory . $mediaId . ".ogg";  // Guardar el archivo como .ogg
+        
+        // Descargar el archivo
+        $audioData = file_get_contents($fileUrl);
 
-        // Descargar y guardar el archivo
-        file_put_contents($fileName, file_get_contents($fileUrl));
-
-        return $fileName;  // Devuelve la ruta del archivo descargado
+        if ($audioData === false) {
+            file_put_contents('debug_log.txt', "Error al descargar el archivo desde la URL: " . $fileUrl . "\n", FILE_APPEND);
+            return null;
+        } else {
+            file_put_contents($fileName, $audioData);
+            file_put_contents('debug_log.txt', "Archivo guardado correctamente: " . $fileName . "\n", FILE_APPEND);
+            return $fileName;  // Devuelve la ruta del archivo descargado
+        }
     }
 
     return null;
