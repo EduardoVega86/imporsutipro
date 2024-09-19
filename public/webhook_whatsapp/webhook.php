@@ -136,8 +136,7 @@ function descargarAudioWhatsapp($mediaId, $accessToken)
 
     // Paso 2: Descargar el archivo de audio desde la URL real, siguiendo redirecciones y manteniendo el token
     $ch = curl_init($fileUrl);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);  // Descargar como binario
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);  // Descargar como binario (sin CURLOPT_BINARYTRANSFER, ya que es deprecado)
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
         "Authorization: Bearer $accessToken"  // Incluir el token en la descarga real
     ]);
