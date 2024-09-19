@@ -88,6 +88,7 @@ if (empty($phone_whatsapp_from) || empty($business_phone_id)) {
 
 // Procesar diferentes tipos de mensajes de WhatsApp
 $texto_mensaje = "";
+$ruta_archivo = null;  // Inicializar ruta_archivo como nulo para otros tipos de mensajes
 $respuesta_WEBHOOK_messages = $whatsapp_value['messages'][0];  // Ajuste para obtener el mensaje correctamente
 
 // Función para descargar audio de WhatsApp
@@ -143,9 +144,9 @@ switch ($tipo_mensaje) {
     case 'audio':
         $audioId = $respuesta_WEBHOOK_messages['audio']['id'];
         $texto_mensaje = "Audio recibido con ID: " . $audioId;
-        $filePath = descargarAudioWhatsapp($audioId, $accessToken);  // Descargar el audio y obtener la ruta
-        if ($filePath) {
-            $texto_mensaje .= ". Archivo guardado en: " . $filePath;
+        $ruta_archivo = descargarAudioWhatsapp($audioId, $accessToken);  // Descargar el audio y obtener la ruta
+        if ($ruta_archivo) {
+            $texto_mensaje .= ". Archivo guardado en: " . $ruta_archivo;
         } else {
             $texto_mensaje .= ". Error al descargar el archivo.";
         }
@@ -221,14 +222,14 @@ $check_client_stmt->close();
 
 // Ahora puedes proceder a insertar el mensaje en la tabla mensajes_clientes
 $stmt = $conn->prepare("
-    INSERT INTO mensajes_clientes (id_plataforma, id_cliente, mid_mensaje, tipo_mensaje, texto_mensaje, rol_mensaje, celular_recibe, created_at, updated_at) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
+    INSERT INTO mensajes_clientes (id_plataforma, id_cliente, mid_mensaje, tipo_mensaje, texto_mensaje, ruta_archivo, rol_mensaje, celular_recibe, created_at, updated_at) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
 ");
 
 $mid_mensaje = $business_phone_id;  // Usamos el ID del mensaje de WhatsApp
 $rol_mensaje = 0;  // Valor por defecto para rol_mensaje, ya que es bigint
 
-$stmt->bind_param('iisssis', $id_plataforma, $id_cliente, $mid_mensaje, $tipo_mensaje, $texto_mensaje, $rol_mensaje, $id_cliente);
+$stmt->bind_param('iissssis', $id_plataforma, $id_cliente, $mid_mensaje, $tipo_mensaje, $texto_mensaje, $ruta_archivo, $rol_mensaje, $phone_whatsapp_from);
 
 if ($stmt->execute()) {
     echo json_encode(["status" => "success", "message" => "Mensaje procesado correctamente."]);
