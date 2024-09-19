@@ -186,16 +186,16 @@ function descargarImagenWhatsapp($mediaId, $accessToken)
     }
 
     // 1. Obtener la URL de descarga del archivo de imagen desde la API de WhatsApp
-    $url = "https://graph.facebook.com/v12.0/$mediaId";  // Aquí se pide la URL del archivo
+    $url = "https://graph.facebook.com/v17.0/$mediaId?fields=url";  // Añadimos ?fields=url para obtener el campo 'url'
 
     // 2. Obtener la URL directa de descarga utilizando cURL
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        "Authorization: Bearer $accessToken"  // Asegurarse de que el token esté presente
+        "Authorization: Bearer $accessToken"
     ]);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);  // Seguir redirecciones
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Deshabilitar verificación SSL si es necesario
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     $response = curl_exec($ch);
     $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
@@ -216,12 +216,12 @@ function descargarImagenWhatsapp($mediaId, $accessToken)
     $fileUrl = $mediaData['url'];
 
     $ch = curl_init($fileUrl);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);  // Obtener datos binarios
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        "Authorization: Bearer $accessToken"  // Asegurarse de incluir el token en la solicitud
+        "Authorization: Bearer $accessToken"
     ]);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);  // Seguir redirecciones
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Deshabilitar verificación SSL si es necesario
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     $imageData = curl_exec($ch);
     $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
@@ -231,9 +231,16 @@ function descargarImagenWhatsapp($mediaId, $accessToken)
         return null;
     }
 
+    // Verificar si la respuesta es JSON (posible error)
+    $json_response = json_decode($imageData, true);
+    if (json_last_error() === JSON_ERROR_NONE) {
+        file_put_contents('debug_log.txt', "Error al descargar la imagen: " . $imageData . "\n", FILE_APPEND);
+        return null;
+    }
+
     // 4. Guardar la imagen en la carpeta de destino
-    $fileName = $mediaId . ".jpg";  // Nombre del archivo con extensión
-    $filePath = $directory . $fileName;  // Ruta completa para guardar
+    $fileName = $mediaId . ".jpg";
+    $filePath = $directory . $fileName;
 
     if (file_put_contents($filePath, $imageData) === false) {
         file_put_contents('debug_log.txt', "Error al guardar la imagen en la ruta: $filePath\n", FILE_APPEND);

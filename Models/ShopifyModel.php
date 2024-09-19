@@ -117,6 +117,12 @@ class ShopifyModel extends Query
                     'item_total_price' => $item_total_price,
                 ];
 
+                echo "<br>";
+
+                print_r($productos);
+
+                echo "-__________________-";
+
                 continue;
             }
 
@@ -167,6 +173,11 @@ class ShopifyModel extends Query
             // Distribuir el descuento proporcionalmente entre los productos
             foreach ($productos as &$producto) {
                 // Calcula la proporción del descuento que corresponde a este producto
+
+                print_r($producto);
+
+                echo "______________________";
+
                 $product_discount = ($producto['item_total_price'] / $total_line_items) * $discount;
 
                 // Ajusta el precio por unidad

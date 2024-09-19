@@ -579,6 +579,12 @@ class Wallet extends Controller
         echo json_encode($response);
     }
 
+    public function retener()
+    {
+        $response = $this->model->retener($_SESSION["id_plataforma"]);
+        echo json_encode($response);
+    }
+
     // Procesos de PAGO AUTOMATICO NO COLOCAR CODIGO AQUI NI MODIFICAR ABSOLUTAMENTE NADA
     public function pagar_laar()
     {

@@ -1610,6 +1610,73 @@ class WalletModel extends Query
     }
 
 
+    public function retener($id_plataforma)
+    {
+        // Consulta para obtener el conteo de guías en novedad
+        $sql = "SELECT COUNT(*) as guias_novedad
+                    FROM cabecera_cuenta_pagar
+                    WHERE id_plataforma = $id_plataforma
+                    AND (
+                        (
+                            -- Para laar: guías que empiezan con IMP, MKP, RKT y estado_guia es 14
+                            (guia LIKE 'IMP%' OR guia LIKE 'MKP%' OR guia LIKE 'RKT%')
+                            AND estado_guia = 14
+                        )
+                        OR
+                        (
+                            -- Para servientrega: guías solo numéricas y estado_guia entre 320 y 399
+                            (guia REGEXP '^[0-9]+$')
+                            AND estado_guia BETWEEN 320 AND 399
+                        )
+                        OR
+                        (
+                            -- Para gintracom: guías que empiezan con I00 y estado_guia es 6
+                            guia LIKE 'I00%'
+                            AND estado_guia = 6
+                        )
+                        OR
+                        (
+                            -- Para speed: guías que empiezan con SPD o MKL y estado_guia es 14
+                            (guia LIKE 'SPD%' OR guia LIKE 'MKL%')
+                            AND estado_guia = 14
+                        )
+                    );";
+        $response_guias =  $this->select($sql);
+
+        // Consulta para obtener el saldo de la billetera
+        $sql = "SELECT * FROM billeteras WHERE id_plataforma = '$id_plataforma'";
+        $response_billeteras =  $this->select($sql);
+        $saldo = round($response_billeteras[0]['saldo'], 2);
+
+        // Verificar si hay guías en novedad
+        if ($response_guias[0]['guias_novedad'] > 0) {
+            $guias_novedad = $response_guias[0]['guias_novedad'];
+            $valor_retenido = 3 * $guias_novedad;
+
+            if ($saldo < $valor_retenido) {
+                $respuesta['status'] = 400;
+                $respuesta['message'] = "Lo sentimos, pero hemos retenido $" . $valor_retenido . " porque tienes guías en novedad y tu saldo es insuficiente en caso de que se generen devoluciones.";
+            } else {
+                $respuesta['status'] = 200;
+                $respuesta['message'] = "Se ha retenido $" . $valor_retenido . " porque tienes guías en novedad.";
+            }
+        } else {
+            $valor_retenido = 0;
+            $respuesta['status'] = 200;
+            $respuesta['message'] = "No se ha retenido nada.";
+        }
+
+        // Preparar la respuesta final
+        $response = [
+            'valor_retenido' => $valor_retenido,
+            'saldo' => $saldo,
+            'status' => $respuesta['status'],
+            'message' => $respuesta['message']
+        ];
+
+        return $response;
+    }
+
 
     /////////////////////////////// DEBUGS //////////////////////////////////////
 
