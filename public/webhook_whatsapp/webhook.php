@@ -106,17 +106,14 @@ function descargarAudioWhatsapp($mediaId, $accessToken)
     // Obtener la URL de descarga del archivo de audio desde la API de WhatsApp
     $url = "https://graph.facebook.com/v12.0/$mediaId";
 
+    // Primera solicitud para obtener la URL de descarga real
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
         "Authorization: Bearer $accessToken"
     ]);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);  // Para manejar redirecciones
-    curl_setopt($ch, CURLOPT_HEADER, true);          // Incluir el encabezado en la respuesta
-    curl_setopt($ch, CURLOPT_NOBODY, true);          // No incluir el cuerpo en la respuesta (solo ver si la URL existe)
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);  // Seguir redirecciones
     $response = curl_exec($ch);
-
-    // Verificar si la URL existe
     $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
 
@@ -125,17 +122,17 @@ function descargarAudioWhatsapp($mediaId, $accessToken)
         return null;
     }
 
-    // Obtener el archivo real ahora
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        "Authorization: Bearer $accessToken"
-    ]);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);  // Seguir redirecciones si las hay
-    $audioData = curl_exec($ch);
-    curl_close($ch);
+    // Decodificar la respuesta JSON para obtener la URL real del archivo de audio
+    $media = json_decode($response, true);
+    if (!isset($media['url'])) {
+        file_put_contents('debug_log.txt', "Error: No se pudo obtener la URL del archivo de audio\n", FILE_APPEND);
+        return null;
+    }
 
-    // Verificar si se ha descargado correctamente
+    $fileUrl = $media['url'];
+
+    // Segunda solicitud para descargar el archivo de audio
+    $audioData = file_get_contents($fileUrl);
     if ($audioData === false || strlen($audioData) == 0) {
         file_put_contents('debug_log.txt', "Error: El archivo de audio no se pudo descargar o está vacío.\n", FILE_APPEND);
         return null;
@@ -279,4 +276,3 @@ $conn->close();
 
 // Opcional: Guardar el log en un archivo para depuración
 file_put_contents('debug_log.txt', print_r($debug_log, true) . "\n", FILE_APPEND);
-?>

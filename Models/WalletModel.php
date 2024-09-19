@@ -32,6 +32,13 @@ class WalletModel extends Query
         $sql = "UPDATE cabecera_cuenta_pagar set total_venta = ?, precio_envio = ?, full = ?, costo = ?, monto_recibir = ?, valor_pendiente = ? WHERE id_cabecera = ?";
         $response =  $this->update($sql, array($total_venta, $precio_envio, $full, $costo, $monto_recibir, $monto_recibir, $id_cabecera));
 
+        $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE id_cabecera = $id_cabecera";
+        $response =  $this->select($sql);
+        $numero_factura = $response[0]['numero_factura'];
+
+        $sql = "UPDATE facturas_cot set costo_flete = ? WHERE numero_factura = ?";
+        $response =  $this->update($sql, array($precio_envio, $numero_factura));
+
         if ($response == 1) {
             $responses["status"] = 200;
         } else if ($response == 0) {
