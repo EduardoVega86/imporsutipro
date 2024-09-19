@@ -173,6 +173,8 @@ class ShopifyModel extends Query
             // Distribuir el descuento proporcionalmente entre los productos
             foreach ($productos as &$producto) {
                 // Verificar que el producto tenga SKU antes de aplicar el descuento
+                echo "_-_______________";
+                print_r($producto);
                 if ($producto['id_producto_venta'] != null) {
                     // Calcula la proporción del descuento que corresponde a este producto
                     $product_discount = ($producto['item_total_price'] / $total_line_items) * $discount;
