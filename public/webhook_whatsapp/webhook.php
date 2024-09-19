@@ -110,7 +110,7 @@ function descargarAudioWhatsapp($mediaId, $accessToken)
     if (isset($media['url'])) {
         // Ahora hacemos la solicitud para descargar el archivo
         $fileUrl = $media['url'];
-        $fileName = "audios/" . $mediaId . ".ogg";  // Puedes ajustar la extensión según el tipo de audio
+        $fileName = "public/whatsapp/audios_recibidos/" . $mediaId . ".ogg";  // Puedes ajustar la extensión según el tipo de audio
 
         // Descargar y guardar el archivo
         file_put_contents($fileName, file_get_contents($fileUrl));
