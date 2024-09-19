@@ -172,17 +172,15 @@ class ShopifyModel extends Query
         if ($discount > 0) {
             // Distribuir el descuento proporcionalmente entre los productos
             foreach ($productos as &$producto) {
-                // Verificar que el producto tenga SKU antes de aplicar el descuento
-                echo "_-_______________";
-                print_r($producto);
-                if ($producto['id_producto_venta'] != null) {
-                    // Calcula la proporción del descuento que corresponde a este producto
-                    $product_discount = ($producto['item_total_price'] / $total_line_items) * $discount;
+                // Calcula la proporción del descuento que corresponde a este producto
 
-                    // Ajusta el precio por unidad
-                    $discount_per_unit = $product_discount / $producto['cantidad'];
-                    $producto['precio'] = $producto['precio'] - $discount_per_unit;
-                }
+                print_r($producto);
+
+                $product_discount = ($producto['item_total_price'] / $total_line_items) * $discount;
+
+                // Ajusta el precio por unidad
+                $discount_per_unit = $product_discount / $producto['cantidad'];
+                $producto['precio'] = $producto['precio'] - $discount_per_unit;
             }
             unset($producto); // Rompe la referencia con el último elemento
         }
