@@ -181,12 +181,12 @@ function descargarImagenWhatsapp($mediaId, $accessToken)
 
     // Verificar si el directorio existe, si no lo creamos
     if (!is_dir($directory)) {
-        mkdir($directory, 0755, true);  // Crear el directorio si no existe
+        mkdir($directory, 0755, true);
         file_put_contents('debug_log.txt', "Directorio creado: " . $directory . "\n", FILE_APPEND);
     }
 
     // 1. Obtener la URL de descarga del archivo de imagen desde la API de WhatsApp
-    $url = "https://graph.facebook.com/v17.0/$mediaId?fields=id,media_type,mime_type,sha256,file_size,url";  // Solicitamos campos adicionales
+    $url = "https://graph.facebook.com/v17.0/$mediaId?fields=url,mime_type";  // Solicitamos campos válidos
 
     // 2. Obtener la URL directa de descarga utilizando cURL
     $ch = curl_init($url);
@@ -195,7 +195,7 @@ function descargarImagenWhatsapp($mediaId, $accessToken)
         "Authorization: Bearer $accessToken"
     ]);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Considera habilitar esto en producción
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Habilita esto en producción
     $response = curl_exec($ch);
     $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
@@ -205,12 +205,15 @@ function descargarImagenWhatsapp($mediaId, $accessToken)
         return null;
     }
 
-    // Decodificar la respuesta para obtener la URL de la imagen
+    // Decodificar la respuesta para obtener la URL de la imagen y el tipo MIME
     $mediaData = json_decode($response, true);
     if (!isset($mediaData['url'])) {
         file_put_contents('debug_log.txt', "Error: No se pudo obtener la URL de la imagen\nResponse: $response\n", FILE_APPEND);
         return null;
     }
+
+    // Obtener el tipo MIME
+    $mimeType = isset($mediaData['mime_type']) ? $mediaData['mime_type'] : null;
 
     // 3. Descargar la imagen usando la URL obtenida
     $fileUrl = $mediaData['url'];
@@ -222,7 +225,7 @@ function descargarImagenWhatsapp($mediaId, $accessToken)
         "Authorization: Bearer $accessToken"
     ]);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Considera habilitar esto en producción
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Habilita esto en producción
     $response = curl_exec($ch);
     $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
@@ -244,23 +247,24 @@ function descargarImagenWhatsapp($mediaId, $accessToken)
         return null;
     }
 
-    // Obtener el Content-Type de las cabeceras
-    $contentType = null;
-    if (preg_match('/Content-Type:\s*([^\s]+)/i', $headers, $matches)) {
-        $contentType = trim($matches[1]);
+    // Obtener el Content-Type de las cabeceras si no tenemos el mimeType
+    if (!$mimeType) {
+        if (preg_match('/Content-Type:\s*([^\s]+)/i', $headers, $matches)) {
+            $mimeType = trim($matches[1]);
+        }
     }
 
-    // Determinar la extensión del archivo basada en el Content-Type
+    // Determinar la extensión del archivo basada en el tipo MIME
     $extension = 'bin';  // Valor predeterminado
-    if ($contentType) {
+    if ($mimeType) {
         $mime_map = [
             'image/jpeg' => 'jpg',
             'image/png' => 'png',
             'image/gif' => 'gif',
             // Añade otros tipos MIME si es necesario
         ];
-        if (isset($mime_map[$contentType])) {
-            $extension = $mime_map[$contentType];
+        if (isset($mime_map[$mimeType])) {
+            $extension = $mime_map[$mimeType];
         }
     }
 
