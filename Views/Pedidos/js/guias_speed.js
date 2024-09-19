@@ -110,13 +110,10 @@ const listGuias = async () => {
     formData.append("despachos", $("#despachos").val());
     formData.append("recibo", $("#recibo").val());
 
-    const response = await fetch(
-      `${SERVERURL}pedidos/obtener_guiasSpeed`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+    const response = await fetch(`${SERVERURL}pedidos/obtener_guiasSpeed`, {
+      method: "POST",
+      body: formData,
+    });
     const guias = await response.json();
 
     let content = ``;
@@ -162,7 +159,7 @@ const listGuias = async () => {
         select_speed = `
                     <select class="form-select select-estado-speed" style="max-width: 130px;" data-numero-guia="${
                       guia.numero_guia
-                    }">
+                    }" data-id-factura="${guia.id_factura}">
                         <option value="0" ${
                           guia.estado_guia_sistema == 0 ? "selected" : ""
                         }>-- Selecciona estado --</option>
@@ -331,34 +328,59 @@ document.addEventListener("change", async (event) => {
   if (event.target && event.target.classList.contains("select-estado-speed")) {
     const numeroGuia = event.target.getAttribute("data-numero-guia");
     const nuevoEstado = event.target.value;
-    console.log(`Cambiando estado para la guía ${numeroGuia} a ${nuevoEstado}`);
-    const formData = new FormData();
-    formData.append("estado", nuevoEstado);
 
-    if (nuevoEstado == 9){
-      $("#tipo_speed").val("recibir").change();
-    }
+    const idFactura = event.target.getAttribute("data-id-factura");
 
-    try {
-      const response = await fetch(
-        `https://guias.imporsuitpro.com/Speed/estado/${numeroGuia}`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-      const result = await response.json();
-      if (result.status == 200) {
-        toastr.success("ESTADO ACTUALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
+    if (nuevoEstado == 7) {
+      $("#numeroGuia_subir_reporte").val(numeroGuia);
+      $("#nuevoEstado_subir_reporte").val(nuevoEstado);
+      $("#idFactura_subir_reporte").val(idFactura);
 
+      $("#subir_imagen_speedModal").modal("show");
+      reloadDataTable();
+    } else if (nuevoEstado == 14) {
+      $("#numeroGuia_novedad_speed").val(numeroGuia);
+      $("#nuevoEstado_novedad_speed").val(nuevoEstado);
+      $("#idFactura_novedad_speed").val(idFactura);
+
+      $("#gestionar_novedadSpeedModal").modal("show");
+      reloadDataTable();
+    } else if (nuevoEstado == 9) {
+        $("#numeroGuia_novedad_speed").val(numeroGuia);
+        $("#nuevoEstado_novedad_speed").val(nuevoEstado);
+        $("#idFactura_novedad_speed").val(idFactura);
+
+        $("#tipo_speed").val("recibir").change();
+  
         $("#gestionar_novedadSpeedModal").modal("show");
-        reloadDataTable();
+      }else {
+      const formData = new FormData();
+      formData.append("estado", nuevoEstado);
+
+      if (nuevoEstado == 9) {
+        $("#tipo_speed").val("recibir").change();
       }
-    } catch (error) {
-      console.error("Error al conectar con la API", error);
-      alert("Error al conectar con la API");
+
+      try {
+        const response = await fetch(
+          `https://guias.imporsuitpro.com/Speed/estado/${numeroGuia}`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+        const result = await response.json();
+        if (result.status == 200) {
+          toastr.success("ESTADO ACTUALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
+            positionClass: "toast-bottom-center",
+          });
+
+          reloadDataTable();
+        }
+      } catch (error) {
+        console.error("Error al conectar con la API", error);
+        alert("Error al conectar con la API");
+      }
     }
   }
 });
@@ -959,50 +981,84 @@ function enviar_gintraNovedad() {
   });
 }
 
-function enviar_speedNovedad(){
+async function enviar_speedNovedad() {
   var button = document.getElementById("boton_speed");
   button.disabled = true; // Desactivar el botón
 
   var tipo_speed = $("#tipo_speed").val();
   var observacion_nov_speed = $("#observacion_nov_speed").val();
-  var id_novedad = $("#id_novedad").val();
+  var id_novedad = $("#idFactura_novedad_speed").val();
+  var numeroGuia_novedad_speed = $("#numeroGuia_novedad_speed").val();
+  var nuevoEstado_novedad_speed = $("#nuevoEstado_novedad_speed").val();
 
   let formData = new FormData();
   formData.append("tipo", tipo_speed);
   formData.append("novedad", observacion_nov_speed);
   formData.append("id_pedido", id_novedad);
 
-  $.ajax({
-    url: SERVERURL + "pedidos/novedadSpeed",
-    type: "POST",
-    data: formData,
-    processData: false, // No procesar los datos
-    contentType: false, // No establecer ningún tipo de contenido
-    success: function (response) {
-      response = JSON.parse(response);
-      if (response.status == 500) {
-        toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
+  try {
+    // Hacer la llamada AJAX usando jQuery
+    let response = await $.ajax({
+      url: SERVERURL + "pedidos/novedadSpeed",
+      type: "POST",
+      data: formData,
+      processData: false, // No procesar los datos
+      contentType: false, // No establecer ningún tipo de contenido
+    });
 
-        button.disabled = false;
+    response = JSON.parse(response);
 
-      } else if (response.status == 200) {
-        toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
+    if (response.status == 500) {
+      toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
+        positionClass: "toast-bottom-center",
+      });
 
-        $("#gestionar_novedadModal").modal("hide");
-        button.disabled = false;
-        initDataTableNovedades();
-        initDataTableNovedadesGestionadas();
-      }
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      alert(errorThrown);
       button.disabled = false;
-    },
-  });
+    } else if (response.status == 200) {
+      toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
+        positionClass: "toast-bottom-center",
+      });
+
+      // Cambiar estado de la guía
+      const formData = new FormData();
+      formData.append("estado", nuevoEstado_novedad_speed);
+
+      try {
+        // Hacer la llamada para actualizar el estado de la guía usando fetch
+        const response = await fetch(
+          `https://guias.imporsuitpro.com/Speed/estado/${numeroGuia_novedad_speed}`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+        const result = await response.json();
+
+        if (result.status == 200) {
+          toastr.success("ESTADO ACTUALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
+            positionClass: "toast-bottom-center",
+          });
+
+          $("#gestionar_novedadSpeedModal").modal("hide"); // Cerrar modal correctamente
+          reloadDataTable(); // Recargar tabla si tienes alguna
+        } else {
+          toastr.error("Error al actualizar el estado", "NOTIFICACIÓN", {
+            positionClass: "toast-bottom-center",
+          });
+        }
+      } catch (error) {
+        console.error("Error al conectar con la API", error);
+        alert("Error al conectar con la API");
+      }
+
+      button.disabled = false;
+    }
+  } catch (error) {
+    // Manejar el error de la llamada AJAX
+    console.error("Error en la petición AJAX", error);
+    alert("Error en la petición AJAX");
+    button.disabled = false;
+  }
 }
 
 function enviar_serviNovedad() {
