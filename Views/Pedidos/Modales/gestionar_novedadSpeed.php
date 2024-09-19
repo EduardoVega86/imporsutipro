@@ -82,8 +82,9 @@
                         <p class="texto_modal"><strong>Tracking:</strong> <a id="tracking_gestionarNov" target="_blank">Ver tracking</a></p>
                     </div> -->
 
-                    <input type="hidden" id="numero_guia" name="numero_guia">
-                    <input type="hidden" id="id_novedad" name="id_novedad">
+                    <input type="hidden" id="numeroGuia_novedad_speed" name="numeroGuia_novedad_speed">
+                    <input type="hidden" id="nuevoEstado_novedad_speed" name="nuevoEstado_novedad_speed">
+                    <input type="hidden" id="idFactura_novedad_speed" name="idFactura_novedad_speed">
 
                     <div id="seccion_speed">
                         <div class="form-group w-100" style="padding-bottom: 5px;">

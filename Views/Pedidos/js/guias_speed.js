@@ -337,8 +337,41 @@ document.addEventListener("change", async (event) => {
       $("#idFactura_subir_reporte").val(idFactura);
 
       $("#subir_imagen_speedModal").modal("show");
-    } else (nuevoEstado == 14){
-        
+    } else if (nuevoEstado == 14){
+        $("#numeroGuia_novedad_speed").val(numeroGuia);
+      $("#nuevoEstado_novedad_speed").val(nuevoEstado);
+      $("#idFactura_novedad_speed").val(idFactura);
+
+      $("#gestionar_novedadSpeedModal").modal("show");
+    } else{
+        const formData = new FormData();
+    formData.append("estado", nuevoEstado);
+
+    if (nuevoEstado == 9){
+      $("#tipo_speed").val("recibir").change();
+    }
+
+    try {
+      const response = await fetch(
+        `https://guias.imporsuitpro.com/Speed/estado/${numeroGuia}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+      const result = await response.json();
+      if (result.status == 200) {
+        toastr.success("ESTADO ACTUALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+
+        $("#gestionar_novedadSpeedModal").modal("show");
+        reloadDataTable();
+      }
+    } catch (error) {
+      console.error("Error al conectar con la API", error);
+      alert("Error al conectar con la API");
+    }
     }
   }
 });
@@ -945,7 +978,9 @@ function enviar_speedNovedad() {
 
   var tipo_speed = $("#tipo_speed").val();
   var observacion_nov_speed = $("#observacion_nov_speed").val();
-  var id_novedad = $("#id_novedad").val();
+  var id_novedad = $("#idFactura_novedad_speed").val();
+  var numeroGuia_novedad_speed = $('#numeroGuia_novedad_speed').val();
+            var nuevoEstado_novedad_speed = $('#nuevoEstado_novedad_speed').val();
 
   let formData = new FormData();
   formData.append("tipo", tipo_speed);
@@ -971,10 +1006,35 @@ function enviar_speedNovedad() {
           positionClass: "toast-bottom-center",
         });
 
-        $("#gestionar_novedadModal").modal("hide");
+        // Cambiar estado de la guía
+        const formData = new FormData();
+        formData.append("estado", nuevoEstado_novedad_speed);
+
+        try {
+            const response = await fetch(
+                `https://guias.imporsuitpro.com/Speed/estado/${numeroGuia_novedad_speed}`, {
+                    method: "POST",
+                    body: formData,
+                }
+            );
+            const result = await response.json();
+            if (result.status == 200) {
+                toastr.success("ESTADO ACTUALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
+                    positionClass: "toast-bottom-center",
+                });
+
+                $("#gestionar_novedadSpeedModal").modal("hide"); // Cerrar modal correctamente
+                reloadDataTable(); // Recargar tabla si tienes alguna
+            } else {
+                toastr.error("Error al actualizar el estado", "NOTIFICACIÓN", {
+                    positionClass: "toast-bottom-center",
+                });
+            }
+        } catch (error) {
+            console.error("Error al conectar con la API", error);
+            alert("Error al conectar con la API");
+        }
         button.disabled = false;
-        initDataTableNovedades();
-        initDataTableNovedadesGestionadas();
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
