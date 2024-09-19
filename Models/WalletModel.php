@@ -931,6 +931,28 @@ class WalletModel extends Query
     {
         $sql = "UPDATE cabecera_cuenta_pagar set estado_guia = 7, monto_recibir=(total_venta - costo - precio_envio - full), valor_pendiente=(total_venta - costo - precio_envio - full)  WHERE id_cabecera = ?;";
         $response =  $this->update($sql, array($id));
+
+        $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE id_cabecera = $id";
+        $response =  $this->select($sql);
+        $numero_factura = $response[0]['numero_factura'];
+        $numero_guia = $response[0]['guia'];
+
+
+        if (str_contains($numero_guia, 'IMP') || str_contains($numero_guia, 'MKP'))
+            $estados = 7;
+        else if (str_contains($numero_guia, 'SPD') || str_contains($numero_guia, 'MKL'))
+            $estados = 7;
+        else if (is_numeric($numero_guia))
+            $estados = 400;
+        else if (str_contains($numero_guia, 'I000'))
+            $estados = 7;
+
+
+        $sql = "UPDATE facturas_cot set estado_guia_sistema = ? WHERE numero_factura = ?";
+        $response =  $this->update($sql, array($estados, $numero_factura));
+
+
+
         if ($response == 1) {
             $responses["status"] = 200;
         } else {
