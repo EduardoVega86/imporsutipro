@@ -106,7 +106,7 @@ function descargarAudioWhatsapp($mediaId, $accessToken)
     // Obtener la URL de descarga del archivo de audio desde la API de WhatsApp
     $url = "https://graph.facebook.com/v12.0/$mediaId";
 
-    // Primera solicitud para obtener la URL de descarga real
+    // Inicializar cURL para obtener la URL de descarga real
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
@@ -119,10 +119,14 @@ function descargarAudioWhatsapp($mediaId, $accessToken)
     $error = curl_error($ch);
     curl_close($ch);
 
+    // Verificar si hubo errores en la respuesta de WhatsApp
     if ($http_code != 200) {
         file_put_contents('debug_log.txt', "Error al obtener la URL del archivo. HTTP Code: $http_code, Error: $error\n", FILE_APPEND);
         return null;
     }
+
+    // Guardar la respuesta para depuración
+    file_put_contents('debug_log.txt', "Respuesta cruda de WhatsApp API: $response\n", FILE_APPEND);
 
     // Decodificar la respuesta JSON para obtener la URL real del archivo de audio
     $media = json_decode($response, true);
@@ -137,7 +141,6 @@ function descargarAudioWhatsapp($mediaId, $accessToken)
     // Descargar el archivo directamente desde la URL
     $ch = curl_init($fileUrl);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);  // Obtener datos binarios
-    curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);  // Modo binario para el archivo
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);  // Seguir redirecciones
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Deshabilitar verificación SSL si es necesario
     $audioData = curl_exec($ch);
@@ -167,6 +170,8 @@ function descargarAudioWhatsapp($mediaId, $accessToken)
     // Devuelve la ruta desde `public/whatsapp/audios_recibidos/` para almacenar en la base de datos
     return "public/whatsapp/audios_recibidos/" . $fileName;
 }
+
+
 
 // Procesar el mensaje basado en el tipo recibido
 switch ($tipo_mensaje) {
