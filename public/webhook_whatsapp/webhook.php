@@ -131,7 +131,7 @@ function descargarAudioWhatsapp($mediaId, $accessToken)
     $fileUrl = $media['url'];
     file_put_contents('debug_log.txt', "URL del archivo de audio: $fileUrl\n", FILE_APPEND);
 
-    // Paso 2: Verificar que podamos descargar el archivo de audio
+    // Paso 2: Descargar el archivo de audio como binario
     $ch = curl_init($fileUrl);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);  // Devolver como string
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);  // Seguir redirecciones
@@ -155,13 +155,21 @@ function descargarAudioWhatsapp($mediaId, $accessToken)
         return null;
     }
 
-    // Paso 3: Guardar el archivo en el servidor
+    // Paso 3: Guardar el archivo en el servidor usando fopen, fwrite, y fclose
     $fileName = $mediaId . ".ogg";  // Guardar el archivo como .ogg en la carpeta especificada
     $filePath = $directory . $fileName;
 
-    // Guardar el archivo descargado en el sistema de archivos
-    if (file_put_contents($filePath, $audioData) === false) {
-        file_put_contents('debug_log.txt', "Error al guardar el archivo en la ruta: $filePath\n", FILE_APPEND);
+    $fileHandle = fopen($filePath, 'wb');  // Abrir el archivo en modo binario
+    if ($fileHandle === false) {
+        file_put_contents('debug_log.txt', "Error al abrir el archivo para escritura: $filePath\n", FILE_APPEND);
+        return null;
+    }
+
+    $writeResult = fwrite($fileHandle, $audioData);
+    fclose($fileHandle);
+
+    if ($writeResult === false) {
+        file_put_contents('debug_log.txt', "Error al escribir en el archivo: $filePath\n", FILE_APPEND);
         return null;
     }
 
@@ -177,6 +185,7 @@ function descargarAudioWhatsapp($mediaId, $accessToken)
     // Devuelve la ruta desde `public/whatsapp/audios_recibidos/` para almacenar en la base de datos
     return "public/whatsapp/audios_recibidos/" . $fileName;
 }
+
 
 
 // Procesar el mensaje basado en el tipo recibido
