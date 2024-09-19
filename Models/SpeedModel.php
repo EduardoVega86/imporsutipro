@@ -58,14 +58,13 @@ class SpeedModel extends Query
                 $response['dir'] = $target_file;
 
                 // Actualizar la base de datos con la ruta del recibo
-                $sql = "UPDATE facturas_cot SET recibo = ? WHERE id_factura = ?";
-                $data = [$target_file, $id_factura];
-                $res = $this->update($sql, $data);
-
+                $sql = "UPDATE facturas_cot SET recibo = '$target_file' WHERE id_factura = $id_factura";
+                $res = $this->simple_insert($sql);
                 if ($res == 1) {
                     $response['status'] = 200;
                     $response['message'] = "El recibo se ha guardado y actualizado correctamente en la base de datos.";
                     $response['title'] = "¡Éxito!";
+                    $response['sql'] = $sql;
                 } else {
                     $response['status'] = 500;
                     $response['message'] = "Error al actualizar la base de datos.";
