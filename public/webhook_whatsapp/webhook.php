@@ -103,7 +103,7 @@ function descargarAudioWhatsapp($mediaId, $accessToken)
         file_put_contents('debug_log.txt', "Directorio creado: " . $directory . "\n", FILE_APPEND);
     }
 
-    // Obtener la URL de descarga
+    // Obtener la URL de descarga del archivo de audio desde la API de WhatsApp
     $url = "https://graph.facebook.com/v12.0/$mediaId";
 
     $ch = curl_init($url);
@@ -111,35 +111,50 @@ function descargarAudioWhatsapp($mediaId, $accessToken)
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
         "Authorization: Bearer $accessToken"
     ]);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);  // Para manejar redirecciones
+    curl_setopt($ch, CURLOPT_HEADER, true);          // Incluir el encabezado en la respuesta
+    curl_setopt($ch, CURLOPT_NOBODY, true);          // No incluir el cuerpo en la respuesta (solo ver si la URL existe)
     $response = curl_exec($ch);
+
+    // Verificar si la URL existe
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
 
-    $media = json_decode($response, true);
-
-    if (isset($media['url'])) {
-        // Ahora hacemos la solicitud para descargar el archivo
-        $fileUrl = $media['url'];
-        $fileName = $mediaId . ".ogg";  // Guardar el archivo como .ogg en la carpeta especificada
-
-        // Ruta completa para guardar en el servidor
-        $filePath = $directory . $fileName;
-
-        // Descargar el archivo
-        $audioData = file_get_contents($fileUrl);
-
-        if ($audioData === false) {
-            file_put_contents('debug_log.txt', "Error al descargar el archivo desde la URL: " . $fileUrl . "\n", FILE_APPEND);
-            return null;
-        } else {
-            file_put_contents($filePath, $audioData);
-            file_put_contents('debug_log.txt', "Archivo guardado correctamente: " . $filePath . "\n", FILE_APPEND);
-
-            // Devuelve la ruta desde `public/whatsapp/audios_recibidos/` para almacenar en la base de datos
-            return "public/whatsapp/audios_recibidos/" . $fileName;
-        }
+    if ($http_code != 200) {
+        file_put_contents('debug_log.txt', "Error: No se puede acceder a la URL del archivo, HTTP Code: $http_code\n", FILE_APPEND);
+        return null;
     }
 
-    return null;
+    // Obtener el archivo real ahora
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        "Authorization: Bearer $accessToken"
+    ]);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);  // Seguir redirecciones si las hay
+    $audioData = curl_exec($ch);
+    curl_close($ch);
+
+    // Verificar si se ha descargado correctamente
+    if ($audioData === false || strlen($audioData) == 0) {
+        file_put_contents('debug_log.txt', "Error: El archivo de audio no se pudo descargar o está vacío.\n", FILE_APPEND);
+        return null;
+    }
+
+    // Guardar el archivo como .ogg
+    $fileName = $mediaId . ".ogg";  // Guardar el archivo como .ogg en la carpeta especificada
+    $filePath = $directory . $fileName;
+
+    // Guardar el archivo descargado
+    if (file_put_contents($filePath, $audioData) === false) {
+        file_put_contents('debug_log.txt', "Error al guardar el archivo en la ruta: $filePath\n", FILE_APPEND);
+        return null;
+    }
+
+    file_put_contents('debug_log.txt', "Archivo guardado correctamente: " . $filePath . "\n", FILE_APPEND);
+
+    // Devuelve la ruta desde `public/whatsapp/audios_recibidos/` para almacenar en la base de datos
+    return "public/whatsapp/audios_recibidos/" . $fileName;
 }
 
 // Procesar el mensaje basado en el tipo recibido
