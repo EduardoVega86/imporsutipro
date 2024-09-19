@@ -337,12 +337,14 @@ document.addEventListener("change", async (event) => {
       $("#idFactura_subir_reporte").val(idFactura);
 
       $("#subir_imagen_speedModal").modal("show");
+      reloadDataTable();
     } else if (nuevoEstado == 14) {
       $("#numeroGuia_novedad_speed").val(numeroGuia);
       $("#nuevoEstado_novedad_speed").val(nuevoEstado);
       $("#idFactura_novedad_speed").val(idFactura);
 
       $("#gestionar_novedadSpeedModal").modal("show");
+      reloadDataTable();
     } else if (nuevoEstado == 9) {
         $("#numeroGuia_novedad_speed").val(numeroGuia);
         $("#nuevoEstado_novedad_speed").val(nuevoEstado);
