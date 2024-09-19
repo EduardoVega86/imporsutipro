@@ -110,7 +110,7 @@
                 contentType: false,
                 processData: false,
                 dataType: "json",
-                success: async function(response) { // Cambiar la función a async para usar await
+                success: async function(response) {
                     if (response.status == 500) {
                         toastr.error(
                             "LA IMAGEN NO SE AGREGÓ CORRECTAMENTE",
