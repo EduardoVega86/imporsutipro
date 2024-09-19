@@ -94,7 +94,8 @@ $respuesta_WEBHOOK_messages = $whatsapp_value['messages'][0];  // Ajuste para ob
 // Función para descargar audio de WhatsApp
 function descargarAudioWhatsapp($mediaId, $accessToken)
 {
-    $directory = "public/whatsapp/audios_recibidos/";
+    // Ruta completa donde quieres que se guarden los audios
+    $directory = __DIR__ . "/../whatsapp/audios_recibidos/";
 
     // Verificar si el directorio existe, si no lo creamos
     if (!is_dir($directory)) {
@@ -118,7 +119,10 @@ function descargarAudioWhatsapp($mediaId, $accessToken)
     if (isset($media['url'])) {
         // Ahora hacemos la solicitud para descargar el archivo
         $fileUrl = $media['url'];
-        $fileName = $directory . $mediaId . ".ogg";  // Guardar el archivo como .ogg
+        $fileName = $mediaId . ".ogg";  // Guardar el archivo como .ogg en la carpeta especificada
+
+        // Ruta completa para guardar en el servidor
+        $filePath = $directory . $fileName;
 
         // Descargar el archivo
         $audioData = file_get_contents($fileUrl);
@@ -127,9 +131,11 @@ function descargarAudioWhatsapp($mediaId, $accessToken)
             file_put_contents('debug_log.txt', "Error al descargar el archivo desde la URL: " . $fileUrl . "\n", FILE_APPEND);
             return null;
         } else {
-            file_put_contents($fileName, $audioData);
-            file_put_contents('debug_log.txt', "Archivo guardado correctamente: " . $fileName . "\n", FILE_APPEND);
-            return $fileName;  // Devuelve la ruta del archivo descargado
+            file_put_contents($filePath, $audioData);
+            file_put_contents('debug_log.txt', "Archivo guardado correctamente: " . $filePath . "\n", FILE_APPEND);
+
+            // Devuelve la ruta desde `public/whatsapp/audios_recibidos/` para almacenar en la base de datos
+            return "public/whatsapp/audios_recibidos/" . $fileName;
         }
     }
 
@@ -258,3 +264,4 @@ $conn->close();
 
 // Opcional: Guardar el log en un archivo para depuración
 file_put_contents('debug_log.txt', print_r($debug_log, true) . "\n", FILE_APPEND);
+?>
