@@ -343,7 +343,15 @@ document.addEventListener("change", async (event) => {
       $("#idFactura_novedad_speed").val(idFactura);
 
       $("#gestionar_novedadSpeedModal").modal("show");
-    } else {
+    } else if (nuevoEstado == 9) {
+        $("#numeroGuia_novedad_speed").val(numeroGuia);
+        $("#nuevoEstado_novedad_speed").val(nuevoEstado);
+        $("#idFactura_novedad_speed").val(idFactura);
+
+        $("#tipo_speed").val("recibir").change();
+  
+        $("#gestionar_novedadSpeedModal").modal("show");
+      }else {
       const formData = new FormData();
       formData.append("estado", nuevoEstado);
 
