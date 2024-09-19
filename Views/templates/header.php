@@ -102,6 +102,7 @@
                 <a href="<?php echo SERVERURL ?>Pedidos"><i class='bx bx-history menu-icon'></i> <span class="menu-text">Historial</span></a>
                 <?php if ($_SESSION['cargo'] == 10) { ?>
                     <a href="<?php echo SERVERURL ?>pedidos/guias_administrador"><i class='bx bx-archive menu-icon'></i> <span class="menu-text">Guías</span></a>
+                    <a href="<?php echo SERVERURL ?>pedidos/local"><i class='bx bx-archive menu-icon'></i> <span class="menu-text">Guías Speed</span></a>
                     <a href="<?php echo SERVERURL ?>pedidos/anuladas_administrador"><i class='bx bx-x menu-icon'></i> <span class="menu-text">Anulados</span></a>
                 <?php
                 } else {
