@@ -47,6 +47,7 @@ class SpeedModel extends Query
         if (count($res) > 0) {
             $response['status'] = 200;
             $response['message'] = "El recibo se ha guardado correctamente";
+            $response['title'] = "¡Éxito!";
         } else {
             $response['message'] = "Lo siento, hubo un error al subir el archivo.";
         }
