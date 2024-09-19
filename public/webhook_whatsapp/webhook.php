@@ -110,7 +110,7 @@ function descargarAudioWhatsapp($mediaId, $accessToken)
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        "Authorization: Bearer $accessToken"
+        "Authorization: Bearer $accessToken"  // Asegurarse de que el token esté aquí
     ]);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);  // Seguir redirecciones
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Deshabilitar verificación SSL si es necesario
@@ -138,9 +138,12 @@ function descargarAudioWhatsapp($mediaId, $accessToken)
     $fileUrl = $media['url'];
     file_put_contents('debug_log.txt', "URL del archivo de audio: $fileUrl\n", FILE_APPEND);
 
-    // Descargar el archivo directamente desde la URL
+    // Descargar el archivo directamente desde la URL real, ahora con el token de autorización
     $ch = curl_init($fileUrl);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);  // Obtener datos binarios
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        "Authorization: Bearer $accessToken"  // Incluir el token de autorización en la solicitud final
+    ]);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);  // Seguir redirecciones
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Deshabilitar verificación SSL si es necesario
     $audioData = curl_exec($ch);
@@ -170,8 +173,6 @@ function descargarAudioWhatsapp($mediaId, $accessToken)
     // Devuelve la ruta desde `public/whatsapp/audios_recibidos/` para almacenar en la base de datos
     return "public/whatsapp/audios_recibidos/" . $fileName;
 }
-
-
 
 // Procesar el mensaje basado en el tipo recibido
 switch ($tipo_mensaje) {
