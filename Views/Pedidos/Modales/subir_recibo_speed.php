@@ -109,6 +109,7 @@
                 data: formData,
                 contentType: false,
                 processData: false,
+                dataType: "json",
                 success: async function(response) { // Cambiar la función a async para usar await
                     if (response.status == 500) {
                         toastr.error(
