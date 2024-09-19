@@ -115,10 +115,11 @@ function descargarAudioWhatsapp($mediaId, $accessToken)
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);  // Seguir redirecciones
     $response = curl_exec($ch);
     $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $error = curl_error($ch);
     curl_close($ch);
 
     if ($http_code != 200) {
-        file_put_contents('debug_log.txt', "Error: No se puede acceder a la URL del archivo, HTTP Code: $http_code\n", FILE_APPEND);
+        file_put_contents('debug_log.txt', "Error: No se puede acceder a la URL del archivo, HTTP Code: $http_code, Error: $error\n", FILE_APPEND);
         return null;
     }
 
@@ -148,7 +149,9 @@ function descargarAudioWhatsapp($mediaId, $accessToken)
         return null;
     }
 
-    file_put_contents('debug_log.txt', "Archivo guardado correctamente: " . $filePath . "\n", FILE_APPEND);
+    // Verificar el tamaño del archivo guardado
+    $file_size = filesize($filePath);
+    file_put_contents('debug_log.txt', "Archivo guardado correctamente: " . $filePath . " con tamaño: $file_size bytes\n", FILE_APPEND);
 
     // Devuelve la ruta desde `public/whatsapp/audios_recibidos/` para almacenar en la base de datos
     return "public/whatsapp/audios_recibidos/" . $fileName;
