@@ -365,7 +365,6 @@ document.addEventListener("change", async (event) => {
             positionClass: "toast-bottom-center",
           });
 
-          $("#gestionar_novedadSpeedModal").modal("show");
           reloadDataTable();
         }
       } catch (error) {
