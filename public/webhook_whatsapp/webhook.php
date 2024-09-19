@@ -95,7 +95,7 @@ $respuesta_WEBHOOK_messages = $whatsapp_value['messages'][0];  // Ajuste para ob
 function descargarAudioWhatsapp($mediaId, $accessToken)
 {
     $directory = "public/whatsapp/audios_recibidos/";
-    
+
     // Verificar si el directorio existe, si no lo creamos
     if (!is_dir($directory)) {
         mkdir($directory, 0755, true);  // Crear el directorio si no existe
@@ -119,7 +119,7 @@ function descargarAudioWhatsapp($mediaId, $accessToken)
         // Ahora hacemos la solicitud para descargar el archivo
         $fileUrl = $media['url'];
         $fileName = $directory . $mediaId . ".ogg";  // Guardar el archivo como .ogg
-        
+
         // Descargar el archivo
         $audioData = file_get_contents($fileUrl);
 
