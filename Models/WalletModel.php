@@ -68,6 +68,36 @@ class WalletModel extends Query
     {
         $sql = "UPDATE cabecera_cuenta_pagar set estado_guia = ? WHERE id_cabecera = ?";
         $response =  $this->update($sql, array($estado, $id_cabecera));
+
+        $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE id_cabecera = $id_cabecera";
+        $response =  $this->select($sql);
+        $numero_factura = $response[0]['numero_factura'];
+        $numero_guia = $response[0]['guia'];
+        if ($estado == 7) {
+
+            if (str_contains($numero_guia, 'IMP') || str_contains($numero_guia, 'MKP'))
+                $estados = 7;
+            else if (str_contains($numero_guia, 'SPD') || str_contains($numero_guia, 'MKL'))
+                $estados = 7;
+            else if (is_numeric($numero_guia))
+                $estados = 400;
+            else if (str_contains($numero_guia, 'I000'))
+                $estados = 7;
+        } else if ($estado == 9) {
+            if (str_contains($numero_guia, 'IMP') || str_contains($numero_guia, 'MKP'))
+                $estados = 9;
+            else if (str_contains($numero_guia, 'SPD') || str_contains($numero_guia, 'MKL'))
+                $estados = 9;
+            else if (is_numeric($numero_guia))
+                $estados = 500;
+            else if (str_contains($numero_guia, 'I000'))
+                $estados = 8;
+        }
+        $sql = "UPDATE facturas_cot set estado_guia_sistema = ? WHERE numero_factura = ?";
+        $response =  $this->update($sql, array($estados, $numero_factura));
+
+
+
         if ($response == 1) {
             $responses["status"] = 200;
         } else {
