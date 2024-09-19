@@ -103,27 +103,25 @@ function descargarAudioWhatsapp($mediaId, $accessToken)
         file_put_contents('debug_log.txt', "Directorio creado: " . $directory . "\n", FILE_APPEND);
     }
 
-    // Obtener la URL de descarga del archivo de audio desde la API de WhatsApp
+    // Paso 1: Obtener la URL de descarga del archivo de audio desde la API de WhatsApp
     $url = "https://graph.facebook.com/v12.0/$mediaId";
-
-    // Solicitar la URL real del archivo de audio
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
         "Authorization: Bearer $accessToken"
     ]);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);  // Seguir redirecciones
     $response = curl_exec($ch);
     $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    $error = curl_error($ch);
     curl_close($ch);
 
+    // Verificar si la primera solicitud fue exitosa
     if ($http_code != 200) {
-        file_put_contents('debug_log.txt', "Error: No se puede acceder a la URL del archivo, HTTP Code: $http_code, Error: $error\n", FILE_APPEND);
+        file_put_contents('debug_log.txt', "Error: No se puede acceder a la URL del archivo, HTTP Code: $http_code\n", FILE_APPEND);
         return null;
     }
 
-    // Decodificar la respuesta para obtener la URL del archivo de audio
+    // Decodificar la respuesta JSON para obtener la URL real del archivo de audio
     $media = json_decode($response, true);
     if (!isset($media['url'])) {
         file_put_contents('debug_log.txt', "Error: No se pudo obtener la URL del archivo de audio\n", FILE_APPEND);
@@ -133,32 +131,53 @@ function descargarAudioWhatsapp($mediaId, $accessToken)
     $fileUrl = $media['url'];
     file_put_contents('debug_log.txt', "URL del archivo de audio: $fileUrl\n", FILE_APPEND);
 
-    // Segunda solicitud para descargar el archivo de audio
+    // Paso 2: Verificar que podamos descargar el archivo de audio
     $ch = curl_init($fileUrl);
-    $filePath = $directory . $mediaId . ".ogg";
-    $fp = fopen($filePath, 'w'); // Abrimos el archivo en modo escritura binaria
-    curl_setopt($ch, CURLOPT_FILE, $fp);  // Descargar directamente al archivo
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // Seguir redirecciones
-    curl_exec($ch);
-
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);  // Devolver como string
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);  // Seguir redirecciones
+    $audioData = curl_exec($ch);
     $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    // Verificar si la segunda solicitud fue exitosa
     if ($http_code != 200) {
-        file_put_contents('debug_log.txt', "Error al descargar el archivo, HTTP Code: $http_code\n", FILE_APPEND);
-        fclose($fp);
-        unlink($filePath); // Borramos el archivo incompleto
+        file_put_contents('debug_log.txt', "Error al descargar el archivo de audio, HTTP Code: $http_code\n", FILE_APPEND);
         return null;
     }
 
-    curl_close($ch);
-    fclose($fp);
+    // Verificar el tamaño de los datos descargados
+    $audioDataLength = strlen($audioData);
+    file_put_contents('debug_log.txt', "Tamaño del archivo de audio descargado: $audioDataLength bytes\n", FILE_APPEND);
+
+    // Si el tamaño del archivo descargado es menor a un umbral (p.ej., 100 bytes), algo anda mal
+    if ($audioDataLength < 100) {
+        file_put_contents('debug_log.txt', "Error: El archivo de audio descargado es demasiado pequeño.\n", FILE_APPEND);
+        return null;
+    }
+
+    // Paso 3: Guardar el archivo en el servidor
+    $fileName = $mediaId . ".ogg";  // Guardar el archivo como .ogg en la carpeta especificada
+    $filePath = $directory . $fileName;
+
+    // Guardar el archivo descargado en el sistema de archivos
+    if (file_put_contents($filePath, $audioData) === false) {
+        file_put_contents('debug_log.txt', "Error al guardar el archivo en la ruta: $filePath\n", FILE_APPEND);
+        return null;
+    }
 
     // Verificar el tamaño del archivo guardado
     $file_size = filesize($filePath);
     file_put_contents('debug_log.txt', "Archivo guardado correctamente: " . $filePath . " con tamaño: $file_size bytes\n", FILE_APPEND);
 
+    // Verificar si el tamaño coincide con lo descargado
+    if ($file_size !== $audioDataLength) {
+        file_put_contents('debug_log.txt', "Advertencia: El tamaño del archivo guardado no coincide con el tamaño del archivo descargado\n", FILE_APPEND);
+    }
+
     // Devuelve la ruta desde `public/whatsapp/audios_recibidos/` para almacenar en la base de datos
-    return "public/whatsapp/audios_recibidos/" . $mediaId . ".ogg";
+    return "public/whatsapp/audios_recibidos/" . $fileName;
 }
+
 
 // Procesar el mensaje basado en el tipo recibido
 switch ($tipo_mensaje) {
