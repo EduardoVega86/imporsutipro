@@ -129,15 +129,22 @@ function descargarAudioWhatsapp($mediaId, $accessToken)
         return null;
     }
 
-    $fileUrl = $media['url'];
+    $fileUrl = $media['url'] . "&access_token=" . $accessToken;  // Adjuntar el token de acceso al final de la URL
+
     file_put_contents('debug_log.txt', "URL del archivo de audio: $fileUrl\n", FILE_APPEND);
 
-    // Paso 2: Descargar el archivo de audio con un simple file_get_contents
-    $audioData = file_get_contents($fileUrl);
-    
-    // Verificar si la descarga tuvo éxito
-    if ($audioData === false) {
-        file_put_contents('debug_log.txt', "Error: Falló la descarga del archivo con file_get_contents\n", FILE_APPEND);
+    // Paso 2: Descargar el archivo de audio con curl para verificar su contenido
+    $ch = curl_init($fileUrl);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);  // Descargar como binario
+    $audioData = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $curl_error = curl_error($ch);
+    curl_close($ch);
+
+    // Verificar si la descarga del archivo fue exitosa
+    if ($http_code != 200 || $audioData === false) {
+        file_put_contents('debug_log.txt', "Error al descargar el archivo desde la URL: HTTP Code: $http_code, Error: $curl_error\n", FILE_APPEND);
         return null;
     }
 
@@ -151,29 +158,31 @@ function descargarAudioWhatsapp($mediaId, $accessToken)
         return null;
     }
 
-    // Paso 3: Guardar el archivo en el servidor usando file_put_contents
-    $fileName = $mediaId . ".ogg";  // Guardar el archivo como .ogg en la carpeta especificada
-    $filePath = $directory . $fileName;
-
-    $writeResult = file_put_contents($filePath, $audioData);
-
-    if ($writeResult === false) {
-        file_put_contents('debug_log.txt', "Error al guardar el archivo en la ruta: $filePath\n", FILE_APPEND);
+    // Guardar en un archivo temporal para revisar el contenido descargado antes de guardarlo definitivamente
+    $tempFilePath = __DIR__ . "/../whatsapp/temp_audio.ogg";
+    if (file_put_contents($tempFilePath, $audioData) === false) {
+        file_put_contents('debug_log.txt', "Error al guardar el archivo temporal en: $tempFilePath\n", FILE_APPEND);
         return null;
     }
 
-    // Verificar el tamaño del archivo guardado
-    $file_size = filesize($filePath);
-    file_put_contents('debug_log.txt', "Archivo guardado correctamente: " . $filePath . " con tamaño: $file_size bytes\n", FILE_APPEND);
+    // Verificar si el archivo temporal tiene el tamaño correcto
+    $tempFileSize = filesize($tempFilePath);
+    file_put_contents('debug_log.txt', "Archivo temporal guardado en: $tempFilePath con tamaño: $tempFileSize bytes\n", FILE_APPEND);
 
-    // Verificar si el tamaño coincide con lo descargado
-    if ($file_size !== $audioDataLength) {
-        file_put_contents('debug_log.txt', "Advertencia: El tamaño del archivo guardado no coincide con el tamaño del archivo descargado\n", FILE_APPEND);
+    // Ahora movemos el archivo temporal a la ubicación final si todo está bien
+    $fileName = $mediaId . ".ogg";
+    $filePath = $directory . $fileName;
+
+    if (!rename($tempFilePath, $filePath)) {
+        file_put_contents('debug_log.txt', "Error al mover el archivo temporal a la ruta final: $filePath\n", FILE_APPEND);
+        return null;
     }
 
-    // Devuelve la ruta desde `public/whatsapp/audios_recibidos/` para almacenar en la base de datos
+    file_put_contents('debug_log.txt', "Archivo guardado correctamente en la ruta final: $filePath\n", FILE_APPEND);
+
     return "public/whatsapp/audios_recibidos/" . $fileName;
 }
+
 
 // Procesar el mensaje basado en el tipo recibido
 switch ($tipo_mensaje) {
