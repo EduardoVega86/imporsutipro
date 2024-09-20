@@ -158,7 +158,7 @@ const listGuias = async () => {
         ruta_traking = ``;
         funcion_anular = `anular_guiaSpeed('${guia.numero_guia}')`;
         estado = validar_estadoSpeed(guia.estado_guia_sistema);
-        select_speed = `
+        /* select_speed = `
                     <select class="form-select select-estado-speed" style="max-width: 130px;" data-numero-guia="${
                       guia.numero_guia
                     }">
@@ -180,7 +180,7 @@ const listGuias = async () => {
                         <option value="14" ${
                           guia.estado_guia_sistema == 14 ? "selected" : ""
                         }>Novedad</option>
-                    </select>`;
+                    </select>`; */
       } else if (transporte == 3) {
         transporte_content =
           '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>';
