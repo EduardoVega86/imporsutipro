@@ -111,11 +111,20 @@ $(document).ready(function () {
       // Verificamos el rol_mensaje para determinar si es "sent" o "received"
       let claseMensaje = mensaje.rol_mensaje == 1 ? "sent" : "received";
 
-      innerHTML += `
+      if (mensaje.tipo_mensaje == "text") {
+        innerHTML += `
         <div class="message ${claseMensaje}">
           ${mensaje.texto_mensaje}
         </div>
       `;
+      } else if (mensaje.tipo_mensaje == "image") {
+        innerHTML += `
+        <div class="message ${claseMensaje}">
+          <img src="${SERVERURL}${mensaje.ruta_archivo}">
+          ${mensaje.texto_mensaje}
+        </div>
+      `;
+      }
     });
 
     // Inyectamos los mensajes en el contenedor de mensajes
