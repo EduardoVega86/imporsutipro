@@ -80,7 +80,7 @@
         background-color: #e9ecef;
     }
 
-    .image-mensaje{
+    .image-mensaje {
         max-width: 330px;
         max-height: 426px;
     }
@@ -141,6 +141,21 @@
     .chat-info img:hover {
         transform: scale(1.05);
     }
+
+    /* reproductor de audios mensajes recibidos */
+    .audio-player {
+        width: 100%;
+        max-width: 250px;
+        margin-top: 10px;
+    }
+
+    .audio-time {
+        font-size: 12px;
+        color: #999;
+        margin-top: 5px;
+    }
+
+    /* fin reproductos de audios mensajes recibidos */
 
     /* emojis */
     /* Diseño delicado y elegante para la sección de emojis */

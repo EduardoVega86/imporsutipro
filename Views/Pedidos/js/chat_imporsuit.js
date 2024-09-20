@@ -113,22 +113,45 @@ $(document).ready(function () {
 
       if (mensaje.tipo_mensaje == "text") {
         innerHTML += `
-        <div class="message ${claseMensaje}">
-          ${mensaje.texto_mensaje}
-        </div>
-      `;
+            <div class="message ${claseMensaje}">
+                ${mensaje.texto_mensaje}
+            </div>
+            `;
       } else if (mensaje.tipo_mensaje == "image") {
         innerHTML += `
-        <div class="message d-flex flex-column ${claseMensaje}">
-          <img src="${SERVERURL}${mensaje.ruta_archivo}"  class="image-mensaje">
-          ${mensaje.texto_mensaje}
-        </div>
-      `;
+            <div class="message d-flex flex-column ${claseMensaje}">
+                <img src="${SERVERURL}${mensaje.ruta_archivo}" class="image-mensaje">
+                ${mensaje.texto_mensaje}
+            </div>
+            `;
+      } else if (mensaje.tipo_mensaje == "audio") {
+        innerHTML += `
+            <div class="message d-flex flex-column ${claseMensaje}">
+                <audio controls class="audio-player">
+                    <source src="${SERVERURL}${mensaje.ruta_archivo}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                <div class="audio-time" id="audio-time-${index}">00:00</div>
+            </div>
+            `;
       }
     });
 
     // Inyectamos los mensajes en el contenedor de mensajes
     $(".chat-messages").html(innerHTML);
+
+    // Agregamos eventos para actualizar el tiempo del audio
+    $(".audio-player").each(function (index) {
+      const audio = this;
+      const audioTime = document.getElementById(`audio-time-${index}`);
+
+      audio.addEventListener("timeupdate", function () {
+        let minutes = Math.floor(audio.currentTime / 60);
+        let seconds = Math.floor(audio.currentTime % 60);
+        if (seconds < 10) seconds = "0" + seconds;
+        audioTime.textContent = minutes + ":" + seconds;
+      });
+    });
   }
 
   // Función para iniciar el polling de mensajes
