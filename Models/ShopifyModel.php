@@ -182,6 +182,18 @@ class ShopifyModel extends Query
 
                 print_r($producto);
 
+                echo "</br>";
+
+                echo $producto['item_total_price'];
+
+                echo "--";
+
+                echo $total_line_items;
+
+                echo "</br>";
+
+
+
                 echo "______________________";
 
                 $product_discount = ($producto['item_total_price'] / $total_line_items) * $discount;
