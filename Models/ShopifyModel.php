@@ -93,6 +93,7 @@ class ShopifyModel extends Query
         $productos = [];
         $productosSinSku = [];
         $total_line_items = 0;
+        $total_line_itemsNoSku = 0;
         $costo = 0;
         $total_units = 0;
 
@@ -107,7 +108,7 @@ class ShopifyModel extends Query
                 // Si el SKU está vacío, salta al siguiente ítem
                 $observacion .= ", SKU vacío: " . $item['name'] . " x" . $item['quantity'] . ": $" . $item['price'] . "";
                 $item_total_price_no_sku = $item['price'] * $item['quantity'];
-                $total_line_items += $item_total_price_no_sku;
+                $total_line_itemsNoSku += $item_total_price_no_sku;
                 $total_units += $item['quantity'];
 
                 $productosSinSku[] = [
