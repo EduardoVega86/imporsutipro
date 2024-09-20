@@ -184,13 +184,15 @@ class ShopifyModel extends Query
 
                 echo $product_discount;
 
-                echo '<br>';
+                echo "______________________";
+
                 // Ajusta el precio por unidad
                 $discount_per_unit = $product_discount / $producto['cantidad'];
+                echo "______________________";
 
                 echo $discount_per_unit;
 
-                echo '<br>';
+                echo "______________________";
 
                 $producto['precio'] = $producto['precio'] - $discount_per_unit;
 
