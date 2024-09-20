@@ -181,6 +181,9 @@ class ShopifyModel extends Query
                 // Calcula la proporción del descuento que corresponde a este producto
                 echo "id_producto_venta: ";
                 var_dump($producto['id_producto_venta']);
+                if ($producto['id_producto_venta'] == null) {
+                    continue;
+                }
                 print_r($producto);
 
                 echo "</br>";
