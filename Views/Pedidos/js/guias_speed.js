@@ -169,15 +169,15 @@ const listGuias = async () => {
                         <option value="3" ${
                           guia.estado_guia_sistema == 3 ? "selected" : ""
                         }>Transito</option>
+                        <option value="14" ${
+                          guia.estado_guia_sistema == 14 ? "selected" : ""
+                        }>Novedad</option>
                         <option value="7" ${
                           guia.estado_guia_sistema == 7 ? "selected" : ""
                         }>Entregado</option>
                         <option value="9" ${
                           guia.estado_guia_sistema == 9 ? "selected" : ""
                         }>Devuelto</option>
-                        <option value="14" ${
-                          guia.estado_guia_sistema == 14 ? "selected" : ""
-                        }>Novedad</option>
                     </select>`;
       } else if (transporte == 3) {
         transporte_content =
