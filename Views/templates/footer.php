@@ -154,7 +154,7 @@
 
                         // Recorremos cada contacto
                         $.each(response, function(index, notificacion) {
-                            notificaciones_totales = notificaciones_totales + notificacion.cantidad;
+                            notificaciones_totales = notificaciones_totales + parseInt(notificacion.cantidad);
 
                             innerHTML += `
                             <div class="dropdown-item">${notificacion.nombre} ${notificacion.cantidad}</div>`;
