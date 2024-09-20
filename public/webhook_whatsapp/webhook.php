@@ -399,23 +399,19 @@ switch ($tipo_mensaje) {
         // Obtener el ID del documento desde la respuesta del webhook
         $documentId = $respuesta_WEBHOOK_messages['document']['id'];
 
-        // Obtener el nombre del archivo, si está disponible
-        $texto_mensaje = "Documento recibido con ID: " . $documentId;
-        if (isset($respuesta_WEBHOOK_messages['document']['filename'])) {
-            $fileName = $respuesta_WEBHOOK_messages['document']['filename'];
-            $texto_mensaje .= ", nombre de archivo: " . $fileName;
-        }
-
         // Descargar el documento utilizando la función descargarDocumentoWhatsapp
-        $rutaDocumento = descargarDocumentoWhatsapp($documentId, $accessToken, $fileName);
+        $rutaDocumento = descargarDocumentoWhatsapp($documentId, $accessToken, $respuesta_WEBHOOK_messages['document']['filename'] ?? null);
+
+        // Guardamos solo el pie de documento si existe (similar a cómo se hace con las imágenes)
+        $texto_mensaje = $respuesta_WEBHOOK_messages['document']['caption'] ?? '';  // Guardar solo el pie de documento si existe
 
         // Verificar si la descarga fue exitosa
-        if ($rutaDocumento !== null) {
+        /* if ($rutaDocumento !== null) {
             $ruta_archivo = $rutaDocumento;  // Guardar la ruta para almacenarla en la base de datos
             $texto_mensaje .= "\nDocumento guardado en: " . $rutaDocumento;
         } else {
             $texto_mensaje .= "\nError al descargar el documento.";
-        }
+        } */
         break;
 
     case 'location':
