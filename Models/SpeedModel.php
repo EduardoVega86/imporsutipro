@@ -9,7 +9,7 @@ class SpeedModel extends Query
 
     public function solventarNovedad($observacion, $id_factura)
     {
-        $sql = "UPDATE facturas_cot SET novedad_solventado = 1, novedad_observacion	= '$observacion' WHERE id_factura = $id_factura";
+        $sql = "UPDATE novedades SET solucion_novedad= '$observacion', solucionada = 1 WHERE id_factura = $id_factura";
         $res = $this->simple_insert($sql);
         if ($res == 1) {
             $response = $this->initialResponse();
