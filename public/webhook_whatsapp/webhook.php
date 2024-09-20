@@ -275,7 +275,7 @@ function descargarImagenWhatsapp($mediaId, $accessToken)
     return "public/whatsapp/imagenes_recibidas/" . $fileName;
 }
 
-function descargarDocumentoWhatsapp($mediaId, $accessToken)
+function descargarDocumentoWhatsapp($mediaId, $accessToken, $fileName = null)
 {
     // Ruta completa donde quieres que se guarden los documentos
     $directory = __DIR__ . "/../whatsapp/documentos_recibidos/";
@@ -293,18 +293,17 @@ function descargarDocumentoWhatsapp($mediaId, $accessToken)
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        "Authorization: Bearer $accessToken"  // Asegurarse de que el token esté aquí
+        "Authorization: Bearer $accessToken"  // Incluir el token de autorización
     ]);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);  // Seguir redirecciones
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Deshabilitar verificación SSL si es necesario
     $response = curl_exec($ch);
     $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    $error = curl_error($ch);
     curl_close($ch);
 
     // Verificar si hubo errores en la respuesta de WhatsApp
     if ($http_code != 200) {
-        file_put_contents('debug_log.txt', "Error al obtener la URL del archivo. HTTP Code: $http_code, Error: $error\n", FILE_APPEND);
+        file_put_contents('debug_log.txt', "Error al obtener la URL del archivo. HTTP Code: $http_code\n", FILE_APPEND);
         return null;
     }
 
@@ -325,7 +324,7 @@ function descargarDocumentoWhatsapp($mediaId, $accessToken)
     $ch = curl_init($fileUrl);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);  // Obtener datos binarios
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        "Authorization: Bearer $accessToken"  // Incluir el token de autorización en la solicitud final
+        "Authorization: Bearer $accessToken"  // Incluir el token de autorización
     ]);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);  // Seguir redirecciones
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Deshabilitar verificación SSL si es necesario
@@ -342,8 +341,12 @@ function descargarDocumentoWhatsapp($mediaId, $accessToken)
     // Obtener la extensión del archivo desde la URL de descarga (por ejemplo, .pdf, .docx, etc.)
     $fileExtension = pathinfo(parse_url($fileUrl, PHP_URL_PATH), PATHINFO_EXTENSION);
 
+    // Si no se pasó un nombre de archivo, usar el ID del media como nombre
+    if ($fileName === null) {
+        $fileName = $mediaId . "." . $fileExtension;
+    }
+
     // Guardar el archivo con su extensión original
-    $fileName = $mediaId . "." . $fileExtension;
     $filePath = $directory . $fileName;
 
     // Guardar el archivo descargado en el servidor
@@ -359,7 +362,6 @@ function descargarDocumentoWhatsapp($mediaId, $accessToken)
     // Devuelve la ruta desde `public/whatsapp/documentos_recibidos/` para almacenar en la base de datos
     return "public/whatsapp/documentos_recibidos/" . $fileName;
 }
-
 
 // Procesar el mensaje basado en el tipo recibido
 switch ($tipo_mensaje) {
@@ -405,10 +407,11 @@ switch ($tipo_mensaje) {
         }
 
         // Descargar el documento utilizando la función descargarDocumentoWhatsapp
-        $rutaDocumento = descargarDocumentoWhatsapp($documentId, $accessToken);
+        $rutaDocumento = descargarDocumentoWhatsapp($documentId, $accessToken, $fileName);
 
         // Verificar si la descarga fue exitosa
         if ($rutaDocumento !== null) {
+            $ruta_archivo = $rutaDocumento;  // Guardar la ruta para almacenarla en la base de datos
             $texto_mensaje .= "\nDocumento guardado en: " . $rutaDocumento;
         } else {
             $texto_mensaje .= "\nError al descargar el documento.";
