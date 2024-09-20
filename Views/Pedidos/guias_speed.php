@@ -137,6 +137,7 @@
                         <th class="centered">Estado</th>
                         <th class="centered">Despachado</th>
                         <th class="centered">Impreso</th>
+                        <th class="centered">Recibo</th>
                         <th class="centered">Acciones</th>
                     </tr>
                 </thead>

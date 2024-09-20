@@ -245,6 +245,14 @@ const listGuias = async () => {
         despachado = `<i class='bx bxs-truck' style="color:red; font-size: 30px;"></i>`;
       }
 
+      let recibo = "";
+      if (!guia.recibo) {
+        recibo = `
+        <a href="${SERVERURL}${pago.recibo}" class="icon-link" target="_blank">
+          <i class="fas fa-receipt"></i>
+        </a>`;
+      }
+
       content += `
                 <tr>
                     <td><input type="checkbox" class="selectCheckbox" data-id="${
@@ -304,6 +312,7 @@ const listGuias = async () => {
                     </td>
                     <td>${despachado}</td>
                     <td>${impresiones}</td>
+                    <td>${recibo}</td>
                     <td>
                     <div class="dropdown">
                     <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -346,14 +355,14 @@ document.addEventListener("change", async (event) => {
       $("#gestionar_novedadSpeedModal").modal("show");
       reloadDataTable();
     } else if (nuevoEstado == 9) {
-        $("#numeroGuia_novedad_speed").val(numeroGuia);
-        $("#nuevoEstado_novedad_speed").val(nuevoEstado);
-        $("#idFactura_novedad_speed").val(idFactura);
+      $("#numeroGuia_novedad_speed").val(numeroGuia);
+      $("#nuevoEstado_novedad_speed").val(nuevoEstado);
+      $("#idFactura_novedad_speed").val(idFactura);
 
-        $("#tipo_speed").val("recibir").change();
-  
-        $("#gestionar_novedadSpeedModal").modal("show");
-      }else {
+      $("#tipo_speed").val("recibir").change();
+
+      $("#gestionar_novedadSpeedModal").modal("show");
+    } else {
       const formData = new FormData();
       formData.append("estado", nuevoEstado);
 
