@@ -244,6 +244,35 @@ class ShopifyModel extends Query
         if ($total_sin_sku > 0 && $total_line_items_con_sku > 0) {
             foreach ($productos as &$producto) {
                 // Distribuir el valor de los productos sin SKU proporcionalmente
+                echo "______________________";
+
+                echo $producto['item_total_price'];
+
+                echo "______________________";
+
+                echo $total_line_items_con_sku;
+
+                echo "______________________";
+
+                echo $total_sin_sku;
+
+                echo "______________________";
+
+                echo $producto['cantidad'];
+
+                echo "______________________";
+
+
+                echo $producto['precio'];
+
+                echo "______________________";
+
+                echo $producto["item_total_price"];
+
+                echo "______________________";
+
+                echo $total_line_items_con_sku;
+
                 $proporcion_sin_sku = ($producto['item_total_price'] / $total_line_items_con_sku) * $total_sin_sku;
                 $producto['precio'] += $proporcion_sin_sku / $producto['cantidad']; // Ajustar el precio por unidad
             }
