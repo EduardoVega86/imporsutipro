@@ -134,6 +134,26 @@ $(document).ready(function () {
                 <div class="audio-time" id="audio-time-${index}">00:00</div>
             </div>
             `;
+      } else if (mensaje.tipo_mensaje == "document") {
+        innerHTML += `
+            <div class="message d-flex flex-column ${claseMensaje}">
+                <div class="document-container">
+                    <div class="document-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="document-info">
+                        <div class="document-name">${mensaje.nombre_archivo}</div>
+                        <div class="document-details">
+                            <span>${mensaje.paginas} páginas · PDF · ${mensaje.tamano_archivo} KB</span>
+                        </div>
+                    </div>
+                    <a href="${SERVERURL}${mensaje.ruta_archivo}" class="document-download" download>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                <div class="document-text">${mensaje.texto_mensaje}</div>
+            </div>
+            `;
       }
     });
 
