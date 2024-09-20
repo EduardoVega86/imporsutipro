@@ -32,7 +32,7 @@ class HomeModel extends Query
     LEFT JOIN plataformas tp ON tp.id_plataforma = fc.id_propietario
     LEFT JOIN bodega b ON b.id = fc.id_bodega 
     LEFT JOIN paises_hispanos ph ON ph.codigo = tp.pais
-    WHERE (fc.id_propietario=1185 or fc.id_plataforma=1185)  
+    WHERE (fc.id_propietario=$plataforma or fc.id_plataforma=$plataforma)  
     AND TRIM(fc.numero_guia) <> '' 
     AND fc.numero_guia IS NOT NULL 
     AND fc.numero_guia <> '0' 
@@ -51,7 +51,7 @@ class HomeModel extends Query
     // Consulta para novedades
     $sql2 = "SELECT COUNT(*) AS cantidad_novedades 
     FROM novedades 
-    WHERE id_plataforma=2324 AND solucionada=0 AND terminado=0;"; 
+    WHERE id_plataforma=$plataforma AND solucionada=0 AND terminado=0;"; 
 
     $result2 = $this->select($sql2);
     $cantidad_novedades = isset($result2[0]['cantidad_novedades']) ? $result2[0]['cantidad_novedades'] : 0;
