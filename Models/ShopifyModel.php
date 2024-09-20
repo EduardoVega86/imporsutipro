@@ -57,9 +57,6 @@ class ShopifyModel extends Query
 
     public function crearOrden($data, $lineItems, $plataforma, $order_number)
     {
-        $total_line_items = 0;
-        $total_units = 0;
-        $total_sin_sku = 0;
         $nombre = $data['nombre'] . " " . $data['apellido'];
         $telefono = $data['telefono'];
         // Quitar el + de la cadena
@@ -110,8 +107,8 @@ class ShopifyModel extends Query
                 // Si el SKU está vacío, salta al siguiente ítem
                 $observacion .= ", SKU vacío: " . $item['name'] . " x" . $item['quantity'] . ": $" . $item['price'] . "";
                 $item_total_price_no_sku = $item['price'] * $item['quantity'];
-                $total_sin_sku += $item_total_price_no_sku;
-                continue;
+                $total_line_items += $item_total_price_no_sku;
+                $total_units += $item['quantity'];
 
                 $productosSinSku[] = [
                     'id_producto_venta' => null, // O algún identificador para productos sin SKU
@@ -226,29 +223,15 @@ class ShopifyModel extends Query
 
                 echo '__________________';
             }
-            //aumentar el valor de los productos sin sku y repartirlo entre los productos con sku
-
-
             unset($producto); // Rompe la referencia con el último elemento
         }
 
-        // Distribuir el valor de los productos sin SKU a los productos con SKU
-        foreach ($productos as &$producto) {
-            // Calcular la proporción que corresponde a este producto
-            $proporcion = ($producto['item_total_price'] / $total_line_items);
-            $ajuste = $proporcion * $total_sin_sku;
-
-            // Ajustar el precio total del producto con SKU
-            $producto['item_total_price'] += $ajuste;
-            $producto['precio'] = $producto['item_total_price'] / $producto['cantidad'];
+        // Recalcular el total de la venta
+        $total_venta = 0;
+        foreach ($productos as $producto) {
+            $total_venta += $producto['precio'] * $producto['cantidad'];
         }
 
-        unset($producto); // Rompe la referencia con el último elemento
-
-        // Recalcular el total de la venta
-        $total_venta = $total_line_items + $total_sin_sku;
-
-        echo "Total ajustado: " . $total_venta;
         $comentario = "Orden creada desde Shopify, número de orden: " . $order_number;
 
         $contiene = trim($contiene); // Eliminar el espacio extra al final
