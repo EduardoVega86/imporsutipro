@@ -176,11 +176,27 @@ class ShopifyModel extends Query
 
                 print_r($producto);
 
+                echo "______________________";
+
                 $product_discount = ($producto['item_total_price'] / $total_line_items) * $discount;
 
+                echo '<br>';
+
+                echo $product_discount;
+
+                echo '<br>';
                 // Ajusta el precio por unidad
                 $discount_per_unit = $product_discount / $producto['cantidad'];
+
+                echo $discount_per_unit;
+
+                echo '<br>';
+
                 $producto['precio'] = $producto['precio'] - $discount_per_unit;
+
+                echo $producto['precio'];
+
+                echo '__________________';
             }
             unset($producto); // Rompe la referencia con el último elemento
         }
