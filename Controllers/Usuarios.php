@@ -155,6 +155,11 @@ class Usuarios extends Controller
         echo json_encode($response);
     }
 
+     public function consultaNotificaciones()
+    {
+        $data = $this->model->consulta_notificaciones($_SESSION['id_plataforma']);
+        echo json_encode($data);
+    }
 
     public function importarExcel()
     {
