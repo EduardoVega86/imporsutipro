@@ -54,4 +54,12 @@ class Home extends Controller
         }
     }
     ///Funciones
+    
+      public function consultaNotificaciones()
+    {
+        $data = $this->model->consulta_notificaciones($_SESSION['id_plataforma']);
+        echo json_encode($data);
+    }
+
+    
 }
