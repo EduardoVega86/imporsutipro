@@ -338,13 +338,28 @@ function descargarDocumentoWhatsapp($mediaId, $accessToken, $fileName = null)
         return null;
     }
 
-    // Obtener la extensión del archivo desde la URL de descarga (por ejemplo, .pdf, .docx, etc.)
+    // Obtener la extensión del archivo desde la URL de descarga
     $fileExtension = pathinfo(parse_url($fileUrl, PHP_URL_PATH), PATHINFO_EXTENSION);
+
+    // Verificar si se obtuvo una extensión válida
+    if (empty($fileExtension)) {
+        file_put_contents('debug_log.txt', "Error: No se pudo obtener la extensión del archivo\n", FILE_APPEND);
+        return null;
+    }
 
     // Si no se pasó un nombre de archivo, usar el ID del media como nombre
     if ($fileName === null) {
-        $fileName = $mediaId . "." . $fileExtension;
+        $fileName = $mediaId;
+    } else {
+        // Obtener el nombre sin la extensión si el nombre de archivo es pasado
+        $fileName = pathinfo($fileName, PATHINFO_FILENAME);
     }
+
+    // Obtener la fecha y hora actual para añadir al nombre del archivo
+    $fechaHoraActual = date("Ymd_His");  // Formato: YYYYMMDD_HHMMSS
+
+    // Concatenar el nombre del archivo con la fecha, hora y extensión
+    $fileName = $fileName . "_" . $fechaHoraActual . "." . $fileExtension;
 
     // Guardar el archivo con su extensión original
     $filePath = $directory . $fileName;
