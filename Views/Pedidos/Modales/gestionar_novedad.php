@@ -163,7 +163,7 @@
                             <label for="observacion_usuario_speed">Observacion:</label>
                             <input type="text" class="form-control" id="observacion_usuario_speed">
                         </div>
-                        <button type="button" class="btn btn-primary" id="boton_speed" onclick="enviar_serviNovedad()">Enviar</button>
+                        <button type="button" class="btn btn-primary" id="boton_speed" onclick="enviar_speedUsuariosNovedad()">Enviar</button>
                     </div>
                     
                 </div>
