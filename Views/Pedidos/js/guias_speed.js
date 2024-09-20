@@ -246,7 +246,7 @@ const listGuias = async () => {
       }
 
       let recibo = "";
-      if (!guia.recibo) {
+      if (guia.recibo != null) {
         recibo = `
         <a href="${SERVERURL}${guia.recibo}" class="icon-link" target="_blank">
           <i class="fas fa-receipt"></i>
