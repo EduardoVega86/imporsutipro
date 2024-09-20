@@ -80,6 +80,11 @@
         background-color: #e9ecef;
     }
 
+    .image-mensaje{
+        max-width: 330px;
+        max-height: 426px;
+    }
+
     @keyframes fadeIn {
         from {
             opacity: 0;

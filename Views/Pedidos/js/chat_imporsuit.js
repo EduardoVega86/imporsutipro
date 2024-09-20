@@ -120,7 +120,7 @@ $(document).ready(function () {
       } else if (mensaje.tipo_mensaje == "image") {
         innerHTML += `
         <div class="message ${claseMensaje}">
-          <img src="${SERVERURL}${mensaje.ruta_archivo}">
+          <img src="${SERVERURL}${mensaje.ruta_archivo}"  class="image-mensaje">
           ${mensaje.texto_mensaje}
         </div>
       `;
