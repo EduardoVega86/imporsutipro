@@ -964,12 +964,12 @@ function enviar_speedNovedad(){
 
   var tipo_speed = $("#tipo_speed").val();
   var observacion_nov_speed = $("#observacion_nov_speed").val();
-  var id_novedad = $("#id_novedad").val();
+  var id_pedido = $("#idFactura_novedad_speed").val();
 
   let formData = new FormData();
   formData.append("tipo", tipo_speed);
   formData.append("novedad", observacion_nov_speed);
-  formData.append("id_pedido", id_novedad);
+  formData.append("id_pedido", id_pedido);
 
   $.ajax({
     url: SERVERURL + "pedidos/novedadSpeed",
