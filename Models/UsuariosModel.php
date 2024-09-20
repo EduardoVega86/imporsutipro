@@ -1620,6 +1620,6 @@ ON
     }
 
 
-    return json_encode($response);
+    return $response;
 }
 }
