@@ -91,6 +91,7 @@ class ShopifyModel extends Query
         $costo_producto = 0;
 
         $productos = [];
+        $productosSinSku = [];
         $total_line_items = 0;
         $costo = 0;
         $total_units = 0;
@@ -105,16 +106,16 @@ class ShopifyModel extends Query
 
                 // Si el SKU está vacío, salta al siguiente ítem
                 $observacion .= ", SKU vacío: " . $item['name'] . " x" . $item['quantity'] . ": $" . $item['price'] . "";
-                $item_total_price = $item['price'] * $item['quantity'];
-                /*                 $total_line_items += $item_total_price;
+                $item_total_price_no_sku = $item['price'] * $item['quantity'];
+                $total_line_items += $item_total_price_no_sku;
                 $total_units += $item['quantity'];
-                 */
-                $productos[] = [
+
+                $productosSinSku[] = [
                     'id_producto_venta' => null, // O algún identificador para productos sin SKU
                     'nombre' => $this->remove_emoji($item['name']),
                     'cantidad' => $item['quantity'],
                     'precio' => $item['price'],
-                    'item_total_price' => $item_total_price,
+                    'item_total_price' => $item_total_price_no_sku,
                 ];
 
                 echo "<br>";
@@ -221,6 +222,23 @@ class ShopifyModel extends Query
                 echo $producto['precio'];
 
                 echo '__________________';
+            }
+            //aumentar el valor de los productos sin sku y repartirlo entre los productos con sku
+
+
+            unset($producto); // Rompe la referencia con el último elemento
+        }
+        $total_sin_sku = 0;
+        foreach ($productosSinSku as $item_sin_sku) {
+            $total_sin_sku += $item_sin_sku['item_total_price'];
+        }
+
+        if ($total_sin_sku > 0 && $total_line_items > 0) {
+            // Repartir el costo de los productos sin SKU entre los productos con SKU
+            foreach ($productos as &$producto) {
+                // Distribuir el valor de los productos sin SKU proporcionalmente
+                $proporcion_sin_sku = ($producto['item_total_price'] / $total_line_items) * $total_sin_sku;
+                $producto['precio'] += $proporcion_sin_sku / $producto['cantidad']; // Ajustar el precio por unidad
             }
             unset($producto); // Rompe la referencia con el último elemento
         }
