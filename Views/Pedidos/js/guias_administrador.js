@@ -158,7 +158,7 @@ const listGuias = async () => {
         ruta_traking = ``;
         funcion_anular = `anular_guiaSpeed('${guia.numero_guia}')`;
         estado = validar_estadoSpeed(guia.estado_guia_sistema);
-        select_speed = `
+        /* select_speed = `
                     <select class="form-select select-estado-speed" style="max-width: 130px;" data-numero-guia="${
                       guia.numero_guia
                     }">
@@ -180,7 +180,7 @@ const listGuias = async () => {
                         <option value="14" ${
                           guia.estado_guia_sistema == 14 ? "selected" : ""
                         }>Novedad</option>
-                    </select>`;
+                    </select>`; */
       } else if (transporte == 3) {
         transporte_content =
           '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>';
@@ -949,52 +949,6 @@ function enviar_gintraNovedad() {
         $("#gestionar_novedadModal").modal("hide");
         button.disabled = false;
         initDataTableNovedades();
-      }
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      alert(errorThrown);
-      button.disabled = false;
-    },
-  });
-}
-
-function enviar_speedNovedad(){
-  var button = document.getElementById("boton_speed");
-  button.disabled = true; // Desactivar el botón
-
-  var tipo_speed = $("#tipo_speed").val();
-  var observacion_nov_speed = $("#observacion_nov_speed").val();
-  var id_novedad = $("#id_novedad").val();
-
-  let formData = new FormData();
-  formData.append("tipo", tipo_speed);
-  formData.append("novedad", observacion_nov_speed);
-  formData.append("id_pedido", id_novedad);
-
-  $.ajax({
-    url: SERVERURL + "pedidos/novedadSpeed",
-    type: "POST",
-    data: formData,
-    processData: false, // No procesar los datos
-    contentType: false, // No establecer ningún tipo de contenido
-    success: function (response) {
-      response = JSON.parse(response);
-      if (response.status == 500) {
-        toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-
-        button.disabled = false;
-
-      } else if (response.status == 200) {
-        toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-
-        $("#gestionar_novedadModal").modal("hide");
-        button.disabled = false;
-        initDataTableNovedades();
-        initDataTableNovedadesGestionadas();
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {

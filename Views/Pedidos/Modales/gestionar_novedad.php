@@ -76,6 +76,7 @@
 
                         <input type="hidden" id="numero_guia" name="numero_guia">
                         <input type="hidden" id="id_novedad" name="id_novedad">
+                        <input type="hidden" id="id_factura_novedad" name="id_factura_novedad">
 
                         <p class="texto_modal"><strong>ID:</strong> <span id="id_gestionarNov"></span></p>
                         <p class="texto_modal"><strong>Cliente:</strong> <span id="cliente_gestionarNov"></span></p>
@@ -155,6 +156,14 @@
                             <input type="text" class="form-control" id="Valor_recaudar">
                         </div>
                         <button type="button" class="btn btn-primary" id="boton_gintra" onclick="enviar_gintraNovedad()">Enviar</button>
+                    </div>
+
+                    <div id="seccion_speed" style="display: none;">
+                        <div style="padding-bottom: 5px;">
+                            <label for="observacion_usuario_speed">Observacion:</label>
+                            <input type="text" class="form-control" id="observacion_usuario_speed">
+                        </div>
+                        <button type="button" class="btn btn-primary" id="boton_speed" onclick="enviar_speedUsuariosNovedad()">Enviar</button>
                     </div>
                     
                 </div>

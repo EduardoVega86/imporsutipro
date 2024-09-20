@@ -83,6 +83,8 @@
 
                 /* cargar_ultima_pagina(); */
 
+                cargar_notificacion();
+
                 // Ejecutar la función al cargar la página
                 // Ejecutar la función cada 60 segundos
                 /* sigue_logeado();
@@ -140,6 +142,34 @@
                 });
 
             } */
+
+            function cargar_notificacion() {
+                $.ajax({
+                    url: SERVERURL + "Usuarios/consultaNotificaciones",
+                    type: "GET",
+                    dataType: "json",
+                    success: function(response) {
+                        let innerHTML = "";
+                        let notificaciones_totales = 0;
+
+                        // Recorremos cada contacto
+                        $.each(response, function(index, notificacion) {
+                            notificaciones_totales = notificaciones_totales + parseInt(notificacion.cantidad);
+
+                            innerHTML += `
+                            <div class="dropdown-item">${notificacion.nombre} ${notificacion.cantidad}</div>`;
+                        });
+
+                        $("#numero_total_notificaciones").text(notificaciones_totales);
+
+                        // Inyectamos el HTML generado en la lista de contactos
+                        $("#notificaciones_seccion").html(innerHTML);
+                    },
+                    error: function(error) {
+                        console.error("Error al obtener la lista de bodegas:", error);
+                    },
+                });
+            }
 
             function sigue_logeado() {
                 $.ajax({

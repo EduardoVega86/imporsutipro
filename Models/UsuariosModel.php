@@ -1608,11 +1608,18 @@ ON
     $cantidad_novedades = isset($result2[0]['cantidad_novedades']) ? $result2[0]['cantidad_novedades'] : 0;
 
     // Crear el JSON con la estructura deseada
-    $response = [
-        ['nombre' => 'GUIAS ATRASADAS', 'cantidad' => $cantidad_guias],
-        ['nombre' => 'NOVEDADES', 'cantidad' => $cantidad_novedades]
-    ];
+    // Crear el JSON con la estructura deseada solo si las cantidades son mayores a 0
+    $response = [];
 
-    return json_encode($response);
+    if ($cantidad_guias > 0) {
+        $response[] = ['nombre' => 'GUIAS ATRASADAS', 'cantidad' => $cantidad_guias];
+    }
+
+    if ($cantidad_novedades > 0) {
+        $response[] = ['nombre' => 'NOVEDADES', 'cantidad' => $cantidad_novedades];
+    }
+
+
+    return $response;
 }
 }

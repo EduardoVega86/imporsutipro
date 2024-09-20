@@ -12,6 +12,16 @@ class Speed extends Controller
         $this->views->render($this, "index");
     }
 
+    public function solventarNovedad()
+    {
+        $observacion = $_POST['observacion'];
+        $id_novedad = $_POST['id_novedad'];
+
+        $response = $this->model->solventarNovedad($observacion, $id_novedad);
+
+        echo json_encode($response);
+    }
+
     public function cargarNovedades()
     {
         $data = $this->model->cargarNovedades();

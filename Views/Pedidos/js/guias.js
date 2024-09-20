@@ -182,7 +182,9 @@ const listGuias = async () => {
         novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
       } else if (guia.estado_guia_sistema == 6 && transporte == 3) {
         novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
-      } 
+      } else if (guia.estado_guia_sistema == 14 && transporte == 4) {
+        novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
+      }
       if (
         guia.estado_guia_sistema >= 318 &&
         guia.estado_guia_sistema <= 351 &&
@@ -798,21 +800,25 @@ function gestionar_novedad(guia_novedad) {
         $("#seccion_laar").show();
         $("#seccion_servientrega").hide();
         $("#seccion_gintracom").hide();
+        $("#seccion_speed").hide();
       } else if (response.novedad[0].guia_novedad.includes("I")) {
         transportadora = "GINTRACOM";
         $("#seccion_laar").hide();
         $("#seccion_servientrega").hide();
         $("#seccion_gintracom").show();
+        $("#seccion_speed").hide();
       } else if (response.novedad[0].guia_novedad.includes("SPD")) {
         transportadora = "SPEED";
         $("#seccion_laar").hide();
         $("#seccion_servientrega").hide();
         $("#seccion_gintracom").hide();
+        $("#seccion_speed").show();
       } else {
         transportadora = "SERVIENTREGA";
         $("#seccion_laar").hide();
         $("#seccion_servientrega").show();
         $("#seccion_gintracom").hide();
+        $("#seccion_speed").hide();
       }
 
       $("#id_gestionarNov").text(response.novedad[0].id_novedad);
@@ -824,6 +830,7 @@ function gestionar_novedad(guia_novedad) {
 
       $("#id_novedad").val(response.novedad[0].id_novedad);
       $("#numero_guia").val(response.novedad[0].guia_novedad);
+      $("#id_factura_novedad").val(response.factura[0].id_factura);
 
       $("#gestionar_novedadModal").modal("show");
     },
@@ -941,6 +948,48 @@ function enviar_serviNovedad() {
         $("#gestionar_novedadModal").modal("hide");
         button.disabled = false;
         initDataTableNovedades();
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+      button.disabled = false;
+    },
+  });
+}
+
+function enviar_speedUsuariosNovedad() {
+  var button = document.getElementById("boton_speed");
+  button.disabled = true; // Desactivar el botón
+
+  var observacion = $("#observacion_usuario_speed").val();
+  var id_novedad = $("#id_novedad").val();
+
+  let formData = new FormData();
+  formData.append("observacion", observacion);
+  formData.append("id_novedad", id_novedad);
+
+  $.ajax({
+    url: SERVERURL + "speed/solventarNovedad",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    success: function (response) {
+      response = JSON.parse(response);
+      if (response.status == 500) {
+        toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+
+        button.disabled = false;
+      } else if (response.status == 200) {
+        toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+
+        $("#gestionar_novedadModal").modal("hide");
+        button.disabled = false;
+        initDataTable();
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
