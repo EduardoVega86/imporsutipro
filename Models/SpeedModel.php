@@ -21,6 +21,7 @@ class SpeedModel extends Query
             $response = $this->initialResponse();
             $response['status'] = 500;
             $response['message'] = "Error al solventar la novedad.";
+            $response['sql'] = $sql;
         }
         return $response;
     }
