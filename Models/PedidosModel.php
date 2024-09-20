@@ -1301,6 +1301,8 @@ class PedidosModel extends Query
 
         $response = $this->insert($sql, $data);
 
+        $sql = "UPDATE facturas_cot SET novedad = ?, tipo_novedad =? WHERE id_factura = ?";
+
         if ($response == 1) {
             $response = [
                 'status' => 200,

@@ -16,6 +16,7 @@ class SpeedModel extends Query
             $response['status'] = 200;
             $response['message'] = "Novedad solventada correctamente.";
             $response['title'] = "¡Éxito!";
+            $response['sql'] = $sql;
         } else {
             $response = $this->initialResponse();
             $response['status'] = 500;
