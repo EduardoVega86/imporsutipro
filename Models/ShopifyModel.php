@@ -240,6 +240,8 @@ class ShopifyModel extends Query
             $total_sin_sku += $item_sin_sku['item_total_price'];
         }
 
+        echo "Productos con SKU: $total_line_items_con_sku";
+
         // Si hay productos sin SKU y productos con SKU, procedemos a distribuir su valor
         if ($total_sin_sku > 0 && $total_line_items_con_sku > 0) {
             foreach ($productos as &$producto) {
