@@ -119,7 +119,7 @@ $(document).ready(function () {
       `;
       } else if (mensaje.tipo_mensaje == "image") {
         innerHTML += `
-        <div class="message ${claseMensaje}">
+        <div class="message d-flex flex-column ${claseMensaje}">
           <img src="${SERVERURL}${mensaje.ruta_archivo}"  class="image-mensaje">
           ${mensaje.texto_mensaje}
         </div>
