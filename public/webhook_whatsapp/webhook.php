@@ -346,6 +346,11 @@ function descargarDocumentoWhatsapp($mediaId, $accessToken, $fileName = null)
         $fileName = $mediaId . "." . $fileExtension;
     }
 
+    // Obtener la fecha y hora actual para añadir al nombre del archivo
+    $fechaHoraActual = date("Ymd_His");  // Formato: YYYYMMDD_HHMMSS
+
+    $fileName = $fechaHoraActual . "_" . $fileName;
+
     // Guardar el archivo con su extensión original
     $filePath = $directory . $fileName;
 
