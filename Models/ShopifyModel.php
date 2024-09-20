@@ -230,6 +230,18 @@ class ShopifyModel extends Query
             unset($producto); // Rompe la referencia con el último elemento
         }
 
+        if (count($productosSinSku) > 0) {
+            foreach ($productosSinSku as &$productoSinSku) {
+                // sacar cantidad de productos con sku
+                $cantidadProductos = count($productos);
+
+                $divisible = $productoSinSku['item_total_price'] / $cantidadProductos;
+                foreach ($productos as &$producto) {
+                    $producto['precio'] = $producto['precio'] + $divisible;
+                }
+            }
+        }
+
         // Recalcular el total de la venta
         $total_venta = 0;
         foreach ($productos as $producto) {
