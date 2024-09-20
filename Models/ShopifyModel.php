@@ -181,64 +181,43 @@ class ShopifyModel extends Query
             // Distribuir el descuento proporcionalmente entre los productos
             foreach ($productos as &$producto) {
                 // Calcula la proporción del descuento que corresponde a este producto
-                echo "id_producto_venta: ";
-                var_dump($producto['id_producto_venta']);
                 if ($producto['id_producto_venta'] == null) {
                     continue;
                 }
-                print_r($producto);
-
-                echo "</br>";
-
-                echo $producto['item_total_price'];
-
-                echo "--";
-
-                echo $total_line_items;
-
-                echo "</br>";
-
-
-
-                echo "______________________";
 
                 $product_discount = ($producto['item_total_price'] / $total_line_items) * $discount;
 
-                echo '<br>';
-
-                echo $product_discount;
-
-                echo "______________________";
-
                 // Ajusta el precio por unidad
                 $discount_per_unit = $product_discount / $producto['cantidad'];
-                echo "______________________";
-
-                echo $discount_per_unit;
-
-                echo "______________________";
 
                 $producto['precio'] = $producto['precio'] - $discount_per_unit;
-
-                echo $producto['precio'];
-
-                echo '__________________';
             }
             //aumentar el valor de los productos sin sku y repartirlo entre los productos con sku
 
 
             unset($producto); // Rompe la referencia con el último elemento
         }
-
+        echo "ADICION DE DESCUENTO" . ":::::::::::::";
         if (count($productosSinSku) > 0) {
             foreach ($productosSinSku as &$productoSinSku) {
                 // sacar cantidad de productos con sku
                 $cantidadProductos = count($productos);
+                echo "Cantidad de productos con sku: " . $cantidadProductos;
+                echo "Precio del producto sin sku: " . $productoSinSku['item_total_price'];
+
 
                 $divisible = $productoSinSku['item_total_price'] / $cantidadProductos;
+
+                echo "Se dividira entre: " . $cantidadProductos;
+
+                echo "Valor a sumar: " . $divisible;
                 foreach ($productos as &$producto) {
+
                     $producto['precio'] = $producto['precio'] + $divisible;
+                    echo "Precio del producto con sku: " . $producto['precio'];
                 }
+
+                unset($producto);
             }
         }
 
