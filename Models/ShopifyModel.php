@@ -228,26 +228,36 @@ class ShopifyModel extends Query
 
             unset($producto); // Rompe la referencia con el último elemento
         }
+        // Inicializamos variables
         $total_sin_sku = 0;
+        $total_line_items_con_sku = 0;
+
+        // Calculamos el total de productos con y sin SKU
+        foreach ($productos as $producto) {
+            $total_line_items_con_sku += $producto['item_total_price'];
+        }
         foreach ($productosSinSku as $item_sin_sku) {
             $total_sin_sku += $item_sin_sku['item_total_price'];
         }
 
-        if ($total_sin_sku > 0 && $total_line_items > 0) {
-            // Repartir el costo de los productos sin SKU entre los productos con SKU
+        // Si hay productos sin SKU y productos con SKU, procedemos a distribuir su valor
+        if ($total_sin_sku > 0 && $total_line_items_con_sku > 0) {
             foreach ($productos as &$producto) {
                 // Distribuir el valor de los productos sin SKU proporcionalmente
-                $proporcion_sin_sku = ($producto['item_total_price'] / $total_line_items) * $total_sin_sku;
+                $proporcion_sin_sku = ($producto['item_total_price'] / $total_line_items_con_sku) * $total_sin_sku;
                 $producto['precio'] += $proporcion_sin_sku / $producto['cantidad']; // Ajustar el precio por unidad
             }
-            unset($producto); // Rompe la referencia con el último elemento
+            unset($producto); // Rompemos la referencia del último elemento
         }
 
-        // Recalcular el total de la venta
+        // Recalculamos el total de la venta sumando todos los productos con los nuevos valores
         $total_venta = 0;
         foreach ($productos as $producto) {
             $total_venta += $producto['precio'] * $producto['cantidad'];
         }
+
+        // Salida final del total
+        echo "Total calculado después de la distribución: $total_venta";
 
         $comentario = "Orden creada desde Shopify, número de orden: " . $order_number;
 
