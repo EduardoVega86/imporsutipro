@@ -76,7 +76,7 @@
 
                         <input type="hidden" id="numero_guia" name="numero_guia">
                         <input type="hidden" id="id_novedad" name="id_novedad">
-                        <input type="hidden" id="id_factura_novedad" name="id_factura_novedad">
+                        <input type="hidden" id="id_factura_" name="id_novedad">
 
                         <p class="texto_modal"><strong>ID:</strong> <span id="id_gestionarNov"></span></p>
                         <p class="texto_modal"><strong>Cliente:</strong> <span id="cliente_gestionarNov"></span></p>
@@ -88,10 +88,10 @@
 
                     <div id="seccion_servientrega" style="display: none;">
                         <div style="padding-bottom: 5px;">
-                            <label for="observacion_usuario_speed">Observacion:</label>
-                            <input type="text" class="form-control" id="observacion_usuario_speed">
+                            <label for="observacion_nov">Observacion:</label>
+                            <input type="text" class="form-control" id="observacion_nov">
                         </div>
-                        <button type="button" class="btn btn-primary" id="boton_speed" onclick="enviar_serviNovedad()">Enviar</button>
+                        <button type="button" class="btn btn-primary" id="boton_servi" onclick="enviar_serviNovedad()">Enviar</button>
                     </div>
 
                     <div id="seccion_laar" style="display: none;">
@@ -160,10 +160,10 @@
 
                     <div id="seccion_speed" style="display: none;">
                         <div style="padding-bottom: 5px;">
-                            <label for="observacion_nov">Observacion:</label>
-                            <input type="text" class="form-control" id="observacion_nov">
+                            <label for="observacion_usuario_speed">Observacion:</label>
+                            <input type="text" class="form-control" id="observacion_usuario_speed">
                         </div>
-                        <button type="button" class="btn btn-primary" id="boton_servi" onclick="enviar_serviNovedad()">Enviar</button>
+                        <button type="button" class="btn btn-primary" id="boton_speed" onclick="enviar_serviNovedad()">Enviar</button>
                     </div>
                     
                 </div>
