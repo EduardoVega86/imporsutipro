@@ -223,6 +223,9 @@ class ShopifyModel extends Query
 
                 echo '__________________';
             }
+            //aumentar el valor de los productos sin sku y repartirlo entre los productos con sku
+
+
             unset($producto); // Rompe la referencia con el último elemento
         }
 
