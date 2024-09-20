@@ -406,12 +406,12 @@ switch ($tipo_mensaje) {
         $texto_mensaje = $respuesta_WEBHOOK_messages['document']['caption'] ?? '';  // Guardar solo el pie de documento si existe
 
         // Verificar si la descarga fue exitosa
-        /* if ($rutaDocumento !== null) {
+        if ($rutaDocumento !== null) {
             $ruta_archivo = $rutaDocumento;  // Guardar la ruta para almacenarla en la base de datos
-            $texto_mensaje .= "\nDocumento guardado en: " . $rutaDocumento;
+            /* $texto_mensaje .= "\nDocumento guardado en: " . $rutaDocumento; */
         } else {
             $texto_mensaje .= "\nError al descargar el documento.";
-        } */
+        }
         break;
 
     case 'location':
