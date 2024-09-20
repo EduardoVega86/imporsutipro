@@ -169,6 +169,12 @@ class ShopifyModel extends Query
 
         $discount = $data['discount'] ?? 0;
 
+        echo "______________________";
+
+        echo $discount;
+
+        echo "______________________";
+
         if ($discount > 0) {
             // Distribuir el descuento proporcionalmente entre los productos
             foreach ($productos as &$producto) {
