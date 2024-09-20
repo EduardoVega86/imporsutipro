@@ -186,7 +186,7 @@ function descargarImagenWhatsapp($mediaId, $accessToken)
     }
 
     // 1. Obtener la URL de descarga del archivo de imagen desde la API de WhatsApp
-    $url = "https://graph.facebook.com/v12.0/$mediaId";  // No especificamos campos adicionales
+    $url = "https://graph.facebook.com/v12.0/$mediaId";
 
     // 2. Obtener la URL directa de descarga utilizando cURL
     $ch = curl_init($url);
@@ -215,45 +215,6 @@ function descargarImagenWhatsapp($mediaId, $accessToken)
     // Obtener el tipo MIME
     $mimeType = isset($mediaData['mime_type']) ? $mediaData['mime_type'] : null;
 
-    // 3. Descargar la imagen usando la URL obtenida
-    $fileUrl = $mediaData['url'];
-
-    $ch = curl_init($fileUrl);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HEADER, true); // Incluimos las cabeceras en la respuesta
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        "Authorization: Bearer $accessToken"
-    ]);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Habilita esto en producción
-    $response = curl_exec($ch);
-    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-    curl_close($ch);
-
-    // Separar las cabeceras del cuerpo
-    $headers = substr($response, 0, $header_size);
-    $imageData = substr($response, $header_size);
-
-    if ($http_code != 200 || $imageData === false || strlen($imageData) == 0) {
-        file_put_contents('debug_log.txt', "Error al descargar la imagen. HTTP Code: $http_code\nHeaders: $headers\nResponse: $response\n", FILE_APPEND);
-        return null;
-    }
-
-    // Verificar si la respuesta es JSON (posible mensaje de error)
-    $json_response = json_decode($imageData, true);
-    if (json_last_error() === JSON_ERROR_NONE) {
-        file_put_contents('debug_log.txt', "Error al descargar la imagen: " . print_r($json_response, true) . "\n", FILE_APPEND);
-        return null;
-    }
-
-    // Obtener el Content-Type de las cabeceras si no tenemos el mimeType
-    if (!$mimeType) {
-        if (preg_match('/Content-Type:\s*([^\s]+)/i', $headers, $matches)) {
-            $mimeType = trim($matches[1]);
-        }
-    }
-
     // Determinar la extensión del archivo basada en el tipo MIME
     $extension = 'bin';  // Valor predeterminado
     if ($mimeType) {
@@ -266,6 +227,35 @@ function descargarImagenWhatsapp($mediaId, $accessToken)
         if (isset($mime_map[$mimeType])) {
             $extension = $mime_map[$mimeType];
         }
+    }
+
+    // 3. Descargar la imagen usando la URL obtenida
+    $fileUrl = $mediaData['url'];
+
+    $ch = curl_init($fileUrl);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    // No incluimos las cabeceras en la respuesta
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        "Authorization: Bearer $accessToken"
+    ]);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Habilita esto en producción
+
+    // Ejecutamos la solicitud y obtenemos la respuesta
+    $imageData = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if ($http_code != 200 || $imageData === false || strlen($imageData) == 0) {
+        file_put_contents('debug_log.txt', "Error al descargar la imagen. HTTP Code: $http_code\n", FILE_APPEND);
+        return null;
+    }
+
+    // Verificar si la respuesta es JSON (posible mensaje de error)
+    $json_response = json_decode($imageData, true);
+    if (json_last_error() === JSON_ERROR_NONE) {
+        file_put_contents('debug_log.txt', "Error al descargar la imagen: " . print_r($json_response, true) . "\n", FILE_APPEND);
+        return null;
     }
 
     // 4. Guardar la imagen en la carpeta de destino con la extensión correcta
