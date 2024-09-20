@@ -83,6 +83,8 @@
 
                 /* cargar_ultima_pagina(); */
 
+                cargar_notificacion();
+
                 // Ejecutar la función al cargar la página
                 // Ejecutar la función cada 60 segundos
                 /* sigue_logeado();
@@ -140,6 +142,20 @@
                 });
 
             } */
+
+            function cargar_notificacion(){
+                $.ajax({
+                    url: SERVERURL + "Usuarios/consultaNotificaciones",
+                    type: "GET",
+                    dataType: "json",
+                    success: function(response) {
+                        
+                    },
+                    error: function(error) {
+                        console.error("Error al obtener la lista de bodegas:", error);
+                    },
+                });
+            }
 
             function sigue_logeado() {
                 $.ajax({
