@@ -179,7 +179,8 @@ class ShopifyModel extends Query
             // Distribuir el descuento proporcionalmente entre los productos
             foreach ($productos as &$producto) {
                 // Calcula la proporción del descuento que corresponde a este producto
-                echo "id_producto_venta: " . $producto['id_producto_venta'];
+                echo "id_producto_venta: ";
+                var_dump($producto['id_producto_venta']);
                 print_r($producto);
 
                 echo "</br>";
