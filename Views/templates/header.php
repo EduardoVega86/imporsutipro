@@ -179,13 +179,14 @@
                     <div class="notification-dropdown">
                         <span class="navbar-text notification-icon" onclick="toggleNotifications()">
                             <box-icon type='solid' name='bell' color="<?php echo COLOR_LETRAS; ?>"></box-icon>
-                            <!-- <span id="notificaciones" class="badge">3</span> --> <!-- Número de notificaciones -->
+                            <span id="numero_total_notificaciones" class="badge"></span> <!-- Número de notificaciones -->
                         </span>
                         <div id="notificationList" class="dropdown-menu">
                             <div class="dropdown-header">Notificaciones</div>
-                            <div class="dropdown-item">Nueva orden recibida</div>
-                            <div class="dropdown-item">Mensaje del soporte</div>
-                            <div class="dropdown-item">Actualización disponible</div>
+                            <div id="notificaciones_seccion">
+
+                            </div>
+
                             <div class="dropdown-footer"><a href="#">Ver todas las notificaciones</a></div>
                         </div>
                     </div>
