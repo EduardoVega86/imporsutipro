@@ -228,6 +228,27 @@ ON
         }
         return $response;
     }
+    
+    
+    public function agregarFull($plataforma, $proveedor)
+    {
+        $response = $this->initialResponse();
+
+        $sql = "UPDATE `plataformas` SET `full_f` = ? WHERE `plataformas`.`id_plataforma` = ?";
+        $data = [$proveedor, $plataforma];
+        $editar_plataforma = $this->update($sql, $data);
+        //print_r($editar_producto);
+        if ($editar_plataforma == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Categoria editada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            // $response['message'] = $editar_producto['message'];
+        }
+        return $response;
+    }
 
     public function quitarTienda($plataforma)
     {
