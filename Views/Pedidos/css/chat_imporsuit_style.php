@@ -157,6 +157,53 @@
 
     /* fin reproductos de audios mensajes recibidos */
 
+    /* Seccion de descargar documentos mensajes */
+    .document-container {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        background-color: #f0f2f5;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+    }
+
+    .document-icon {
+        font-size: 30px;
+        color: #ff5722;
+        margin-right: 15px;
+    }
+
+    .document-info {
+        flex-grow: 1;
+    }
+
+    .document-name {
+        font-weight: bold;
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+
+    .document-details {
+        font-size: 12px;
+        color: #777;
+    }
+
+    .document-download {
+        font-size: 20px;
+        color: #007bff;
+        text-decoration: none;
+        margin-left: 15px;
+    }
+
+    .document-text {
+        font-size: 13px;
+        color: #333;
+        margin-top: 5px;
+    }
+
+    /* Fin Seccion de descargar documentos mensajes */
+
     /* emojis */
     /* Diseño delicado y elegante para la sección de emojis */
     .emoji-section {
