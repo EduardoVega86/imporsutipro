@@ -106,9 +106,9 @@ class ShopifyModel extends Query
                 // Si el SKU está vacío, salta al siguiente ítem
                 $observacion .= ", SKU vacío: " . $item['name'] . " x" . $item['quantity'] . ": $" . $item['price'] . "";
                 $item_total_price = $item['price'] * $item['quantity'];
-                $total_line_items += $item_total_price;
+                /*                 $total_line_items += $item_total_price;
                 $total_units += $item['quantity'];
-
+                 */
                 $productos[] = [
                     'id_producto_venta' => null, // O algún identificador para productos sin SKU
                     'nombre' => $this->remove_emoji($item['name']),
