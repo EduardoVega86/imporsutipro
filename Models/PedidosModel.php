@@ -1282,7 +1282,39 @@ class PedidosModel extends Query
 
     public function novedadSpeed($id_pedido, $novedad, $tipo)
     {
-        $sql = "UPDATE facturas_cot SET novedad = ?, tipo_novedad =? WHERE id_factura = ?";
+
+        $sql = "SELECT * FROM facturas_cot WHERE id_factura = $id_pedido";
+        $pedido = $this->select($sql);
+
+        $numero_guia = $pedido[0]['numero_guia'];
+
+        $sql = "INSERT INTO `novedades` (`guia_novedad`, `cliente_novedad`, `estado_novedad`, `novedad`, `solucion_novedad`, `tracking`, `fecha`, `id_plataforma`, `solucionada`, `terminado`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $data = [$numero_guia, $pedido[0]['nombre'], 14, $novedad, '', '', date('Y-m-d H:i:s'), $pedido[0]['id_plataforma'], 0, 0];
+
+        $response = $this->insert($sql, $data);
+
+        $sql = "SELECT id_novedad FROM novedades WHERE guia_novedad = '$numero_guia' ORDER BY id_novedad DESC LIMIT 1";
+        $id_novedad = $this->select($sql);
+
+        $sql = "INSERT INTO `detalle_novedad`(`codigo_novedad`, `guia_novedad`, `nombre_novedad`, `detalle_novedad`, `observacion`, `id_plataforma`) VALUES (?, ?, ?, ?, ?, ?)";
+        $data = [14, $numero_guia, $tipo, $novedad, 'Novedad Administrativa', $pedido[0]['id_plataforma']];
+
+        $response = $this->insert($sql, $data);
+
+        if ($response == 1) {
+            $response = [
+                'status' => 200,
+                'title' => 'Peticion exitosa',
+                'message' => 'Novedad actualizada correctamente'
+            ];
+        } else {
+            $response = [
+                'status' => 500,
+                'title' => 'Error',
+                'message' => 'Error al actualizar la novedad'
+            ];
+        }
+        /*  $sql = "UPDATE facturas_cot SET novedad = ?, tipo_novedad =? WHERE id_factura = ?";
         $response = $this->update($sql, [$novedad, $tipo, $id_pedido]);
 
         if ($tipo == "rechazar") {
@@ -1313,7 +1345,7 @@ class PedidosModel extends Query
             ];
         }
 
-        return $response;
+        return $response; */
     }
 
 

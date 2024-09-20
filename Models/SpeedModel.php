@@ -7,6 +7,22 @@ class SpeedModel extends Query
         parent::__construct();
     }
 
+    public function solventarNovedad($observacion, $id_factura)
+    {
+        $sql = "UPDATE facturas_cot SET novedad_solventado = 1, novedad_observacion	= '$observacion' WHERE id_factura = $id_factura";
+        $res = $this->simple_insert($sql);
+        if ($res == 1) {
+            $response = $this->initialResponse();
+            $response['status'] = 200;
+            $response['message'] = "Novedad solventada correctamente.";
+            $response['title'] = "¡Éxito!";
+        } else {
+            $response = $this->initialResponse();
+            $response['status'] = 500;
+            $response['message'] = "Error al solventar la novedad.";
+        }
+        return $response;
+    }
 
     public function guardarRecibo($recibo, $id_factura)
     {
