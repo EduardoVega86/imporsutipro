@@ -962,11 +962,11 @@ function enviar_speedUsuariosNovedad() {
   button.disabled = true; // Desactivar el botón
 
   var observacion = $("#observacion_usuario_speed").val();
-  var id_factura_novedad = $("#id_factura_novedad").val();
+  var id_novedad = $("#id_novedad").val();
 
   let formData = new FormData();
   formData.append("observacion", observacion);
-  formData.append("id_factura", id_factura_novedad);
+  formData.append("id_novedad", id_novedad);
 
   $.ajax({
     url: SERVERURL + "speed/solventarNovedad",
