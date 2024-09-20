@@ -15,9 +15,9 @@ class Speed extends Controller
     public function solventarNovedad()
     {
         $observacion = $_POST['observacion'];
-        $id_factura = $_POST['id_factura'];
+        $id_novedad = $_POST['id_novedad'];
 
-        $response = $this->model->solventarNovedad($observacion, $id_factura);
+        $response = $this->model->solventarNovedad($observacion, $id_novedad);
 
         echo json_encode($response);
     }
