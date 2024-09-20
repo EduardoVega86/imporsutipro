@@ -1314,6 +1314,8 @@ class PedidosModel extends Query
                 'message' => 'Error al actualizar la novedad'
             ];
         }
+
+        return $response;
         /*  $sql = "UPDATE facturas_cot SET novedad = ?, tipo_novedad =? WHERE id_factura = ?";
         $response = $this->update($sql, [$novedad, $tipo, $id_pedido]);
 
