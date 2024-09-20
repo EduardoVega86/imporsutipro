@@ -91,7 +91,9 @@ class ShopifyModel extends Query
         $costo_producto = 0;
 
         $productos = [];
+        $productosSinSku = [];
         $total_line_items = 0;
+        $total_line_itemsNoSku = 0;
         $costo = 0;
         $total_units = 0;
 
@@ -105,16 +107,16 @@ class ShopifyModel extends Query
 
                 // Si el SKU está vacío, salta al siguiente ítem
                 $observacion .= ", SKU vacío: " . $item['name'] . " x" . $item['quantity'] . ": $" . $item['price'] . "";
-                $item_total_price = $item['price'] * $item['quantity'];
-                $total_line_items += $item_total_price;
+                $item_total_price_no_sku = $item['price'] * $item['quantity'];
+                $total_line_itemsNoSku += $item_total_price_no_sku;
                 $total_units += $item['quantity'];
 
-                $productos[] = [
+                $productosSinSku[] = [
                     'id_producto_venta' => null, // O algún identificador para productos sin SKU
                     'nombre' => $this->remove_emoji($item['name']),
                     'cantidad' => $item['quantity'],
                     'precio' => $item['price'],
-                    'item_total_price' => $item_total_price,
+                    'item_total_price' => $item_total_price_no_sku,
                 ];
 
                 echo "<br>";
@@ -169,20 +171,54 @@ class ShopifyModel extends Query
 
         $discount = $data['discount'] ?? 0;
 
+        echo "______________________";
+
+        echo $discount;
+
+        echo "______________________";
+
         if ($discount > 0) {
             // Distribuir el descuento proporcionalmente entre los productos
             foreach ($productos as &$producto) {
                 // Calcula la proporción del descuento que corresponde a este producto
-
-                print_r($producto);
+                if ($producto['id_producto_venta'] == null) {
+                    continue;
+                }
 
                 $product_discount = ($producto['item_total_price'] / $total_line_items) * $discount;
 
                 // Ajusta el precio por unidad
                 $discount_per_unit = $product_discount / $producto['cantidad'];
+
                 $producto['precio'] = $producto['precio'] - $discount_per_unit;
             }
+            //aumentar el valor de los productos sin sku y repartirlo entre los productos con sku
+
+
             unset($producto); // Rompe la referencia con el último elemento
+        }
+        echo "ADICION DE DESCUENTO" . ":::::::::::::";
+        if (count($productosSinSku) > 0) {
+            foreach ($productosSinSku as &$productoSinSku) {
+                // sacar cantidad de productos con sku
+                $cantidadProductos = $productos[0]['cantidad'];
+                echo "Cantidad de productos con sku: " . $cantidadProductos;
+                echo "Precio del producto sin sku: " . $productoSinSku['item_total_price'];
+
+
+                $divisible = $productoSinSku['item_total_price'] / $cantidadProductos;
+
+                echo "Se dividira entre: " . $cantidadProductos;
+
+                echo "Valor a sumar: " . $divisible;
+                foreach ($productos as &$producto) {
+
+                    $producto['precio'] = $producto['precio'] + $divisible;
+                    echo "Precio del producto con sku: " . $producto['precio'];
+                }
+
+                unset($producto);
+            }
         }
 
         // Recalcular el total de la venta
