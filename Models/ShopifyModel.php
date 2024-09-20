@@ -201,7 +201,7 @@ class ShopifyModel extends Query
         if (count($productosSinSku) > 0) {
             foreach ($productosSinSku as &$productoSinSku) {
                 // sacar cantidad de productos con sku
-                $cantidadProductos = count($productos);
+                $cantidadProductos = $productos[0]['cantidad'];
                 echo "Cantidad de productos con sku: " . $cantidadProductos;
                 echo "Precio del producto sin sku: " . $productoSinSku['item_total_price'];
 
