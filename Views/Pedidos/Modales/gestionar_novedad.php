@@ -76,7 +76,7 @@
 
                         <input type="hidden" id="numero_guia" name="numero_guia">
                         <input type="hidden" id="id_novedad" name="id_novedad">
-                        <input type="hidden" id="id_factura_" name="id_novedad">
+                        <input type="hidden" id="id_factura_novedad" name="id_factura_novedad">
 
                         <p class="texto_modal"><strong>ID:</strong> <span id="id_gestionarNov"></span></p>
                         <p class="texto_modal"><strong>Cliente:</strong> <span id="cliente_gestionarNov"></span></p>
