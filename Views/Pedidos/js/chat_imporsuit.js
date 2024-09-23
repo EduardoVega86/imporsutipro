@@ -193,7 +193,7 @@ $(document).ready(function () {
       const idMensaje = button.data("id-mensaje");
 
       let formData = new FormData();
-      formData.append("idMensaje", idMensaje);
+      formData.append("id_mensaje", idMensaje);
 
       $.ajax({
         url: `${SERVERURL}/Pedidos/obtener_url_video_mensaje`,
