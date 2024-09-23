@@ -210,7 +210,7 @@ $(document).ready(function () {
         success: function (response) {
           const videoHTML = `
             <video controls class="video-player">
-                <source src="${SERVERURL}${response.ruta_archivo}" type="video/mp4">
+                <source src="${SERVERURL}${response[0].ruta_archivo}" type="video/mp4">
                 Tu navegador no soporta la etiqueta de video.
             </video>
           `;
