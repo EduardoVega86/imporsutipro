@@ -270,8 +270,10 @@ $(document).ready(function () {
       dataType: "json",
       success: function (response) {
         if (response && response.length > 0) {
-          llenarMensajesChatIncremental(response);
-          lastMessageId = response[response.length - 1].id_mensaje;
+          if (response.id != lastMessageId) {
+            llenarMensajesChatIncremental(response);
+            lastMessageId = response[response.length - 1].id_mensaje;
+          }
         }
       },
       error: function (error) {
