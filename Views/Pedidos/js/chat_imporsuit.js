@@ -75,6 +75,9 @@ $(document).ready(function () {
     });
   }
 
+  // Variable para almacenar el ID del último mensaje
+  let lastMessageId = null;
+
   // Función para cargar los mensajes del chat
   function cargarMensajesChat(id_cliente) {
     let formData_chat = new FormData();
@@ -95,6 +98,11 @@ $(document).ready(function () {
 
         const chatMessages = document.querySelector(".chat-messages");
         chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        // Guardamos el ID del último mensaje
+        if (response2.length > 0) {
+          lastMessageId = response2[response2.length - 1].id_mensaje;
+        }
       },
       error: function (error) {
         console.error("Error al ejecutar la API:", error);
@@ -108,7 +116,6 @@ $(document).ready(function () {
 
     // Recorremos los mensajes y creamos el HTML correspondiente
     $.each(mensajes, function (index, mensaje) {
-      // Verificamos el rol_mensaje para determinar si es "sent" o "received"
       let claseMensaje = mensaje.rol_mensaje == 1 ? "sent" : "received";
 
       if (mensaje.tipo_mensaje == "text") {
@@ -176,10 +183,8 @@ $(document).ready(function () {
 
     function formatFileSize(sizeInBytes) {
       if (sizeInBytes >= 1048576) {
-        // Si el tamaño es mayor o igual a 1 MB, convertir a MB y mostrar con 1 decimal
         return (sizeInBytes / 1048576).toFixed(1) + " MB";
       } else {
-        // Si es menor a 1 MB, convertir a KB y mostrar sin decimales
         return Math.round(sizeInBytes / 1024) + " KB";
       }
     }
@@ -199,18 +204,17 @@ $(document).ready(function () {
         url: `${SERVERURL}/Pedidos/obtener_url_video_mensaje`,
         type: "POST",
         data: formData,
-        processData: false, // No procesar los datos
-        contentType: false, // No establecer ningún tipo de contenido
+        processData: false,
+        contentType: false,
         dataType: "json",
         success: function (response) {
-          // Reemplazar el botón con el video
           const videoHTML = `
             <video controls class="video-player">
                 <source src="${SERVERURL}${response.ruta_archivo}" type="video/mp4">
                 Tu navegador no soporta la etiqueta de video.
             </video>
           `;
-          button.parent().html(videoHTML); // Reemplaza el contenido del contenedor con el video
+          button.parent().html(videoHTML);
         },
         error: function () {
           alert("Error al cargar el video.");
@@ -218,7 +222,7 @@ $(document).ready(function () {
       });
     });
 
-    // Agregamos eventos para actualizar el tiempo del audio
+    // Agregar eventos para actualizar el tiempo del audio
     $(".audio-player").each(function (index) {
       const audio = this;
       const audioTime = document.getElementById(`audio-time-${index}`);
@@ -241,19 +245,80 @@ $(document).ready(function () {
       clearInterval(pollingInterval);
     }
 
-    // Definimos el intervalo de polling (por ejemplo, cada 5 segundos)
+    // Definimos el intervalo de polling (cada 5 segundos)
     pollingInterval = setInterval(function () {
-      cargarMensajesChat(id_cliente); // Volvemos a cargar los mensajes en intervalos regulares
-    }, 5000); // Cada 5 segundos
+      cargarUltimosMensajes(id_cliente);
+    }, 5000);
   }
 
-  // Función para detener el polling (opcional)
-  function stopPollingMensajes() {
-    if (pollingInterval) {
-      clearInterval(pollingInterval); // Detenemos el polling si es necesario
+  // Función para cargar solo los mensajes nuevos
+  function cargarUltimosMensajes(id_cliente) {
+    let formData_chat = new FormData();
+    formData_chat.append("id_cliente", id_cliente);
+
+    // Pasamos el ID del último mensaje cargado
+    if (lastMessageId) {
+      formData_chat.append("ultimo_mensaje_id", lastMessageId);
     }
+
+    $.ajax({
+      url: SERVERURL + "Pedidos/ultimo_mensaje_cliente",
+      method: "POST",
+      data: formData_chat,
+      processData: false,
+      contentType: false,
+      dataType: "json",
+      success: function (response) {
+        if (response && response.length > 0) {
+          llenarMensajesChatIncremental(response);
+          lastMessageId = response[response.length - 1].id_mensaje;
+        }
+      },
+      error: function (error) {
+        console.error("Error al cargar los mensajes nuevos:", error);
+      },
+    });
+  }
+
+  // Función para agregar mensajes nuevos de forma incremental
+  function llenarMensajesChatIncremental(mensajes) {
+    let innerHTML = "";
+
+    $.each(mensajes, function (index, mensaje) {
+      let claseMensaje = mensaje.rol_mensaje == 1 ? "sent" : "received";
+
+      if (mensaje.tipo_mensaje == "text") {
+        innerHTML += `
+            <div class="message ${claseMensaje}">
+                ${mensaje.texto_mensaje}
+            </div>
+            `;
+      } else if (mensaje.tipo_mensaje == "image") {
+        innerHTML += `
+            <div class="message d-flex flex-column ${claseMensaje}">
+                <img src="${SERVERURL}${mensaje.ruta_archivo}" class="image-mensaje">
+                ${mensaje.texto_mensaje}
+            </div>
+            `;
+      } else if (mensaje.tipo_mensaje == "audio") {
+        innerHTML += `
+            <div class="message d-flex flex-column ${claseMensaje}">
+                <audio controls class="audio-player">
+                    <source src="${SERVERURL}${mensaje.ruta_archivo}" type="audio/mpeg">
+                </audio>
+            </div>
+            `;
+      }
+    });
+
+    // Añadir los mensajes nuevos al final de la lista
+    $(".chat-messages").append(innerHTML);
+
+    const chatMessages = document.querySelector(".chat-messages");
+    chatMessages.scrollTop = chatMessages.scrollHeight;
   }
 });
+
 /* fin llenar seccion numeros */
 
 const chatInfo = document.querySelector(".chat-info");

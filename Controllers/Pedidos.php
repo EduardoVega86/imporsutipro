@@ -594,6 +594,14 @@ class Pedidos extends Controller
         echo json_encode($response);
     }
 
+    public function ultimo_mensaje_cliente()
+    {
+        $id_cliente = $_POST['id_cliente'];
+        $ultimo_mensaje_id = isset($_POST['ultimo_mensaje_id']) ? $_POST['ultimo_mensaje_id'] : null;
+        $response = $this->model->ultimo_mensaje_cliente($id_cliente, $ultimo_mensaje_id);
+        echo json_encode($response);
+    }
+
     public function numero_cliente()
     {
         $id_cliente = $_POST['id_cliente'];

@@ -5,6 +5,9 @@ class Speed extends Controller
     public function __construct()
     {
         parent::__construct();
+        if (!$this->isAuth()) {
+            header('Location: ' . SERVERURL);
+        }
     }
 
     public function index()
@@ -35,6 +38,24 @@ class Speed extends Controller
 
         $response = $this->model->guardarRecibo($recibo, $id_factura);
 
+        echo json_encode($response);
+    }
+
+    public function guardarMotorizado()
+    {
+        $nombre = $_POST['nombre'];
+        $celular = $_POST['celular'];
+
+        $response = $this->model->guardarMotorizado($nombre, $celular, $_SESSION["id_plataforma"]);
+        echo json_encode($response);
+    }
+
+    public function asignarMotorizado()
+    {
+        $id_motorizado = $_POST['id_motorizado'];
+        $guia = $_POST['guia'];
+
+        $response = $this->model->asignarMotorizado($id_motorizado, $guia);
         echo json_encode($response);
     }
 }

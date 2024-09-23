@@ -93,4 +93,22 @@ class SpeedModel extends Query
 
         return $response;
     }
+
+    public function guardarMotorizado($nombre, $celular, $id_plataforma)
+    {
+        $sql = "INSERT INTO motorizados (nombre, celular, id_plataforma) VALUES (?, ?, ?)";
+        $data = [$nombre, $celular, $id_plataforma];
+        $res = $this->insert($sql, $data);
+        if ($res == 1) {
+            $response = $this->initialResponse();
+            $response['status'] = 200;
+            $response['message'] = "Motorizado guardado correctamente.";
+            $response['title'] = "¡Éxito!";
+        } else {
+            $response = $this->initialResponse();
+            $response['status'] = 500;
+            $response['message'] = "Error al guardar el motorizado.";
+        }
+        return $response;
+    }
 }
