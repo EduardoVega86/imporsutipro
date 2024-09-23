@@ -13,16 +13,33 @@ if ($data == 0) {
         /* Limitar el ancho del editor */
         .editor-container {
             max-width: 800px;
-            /* Establece un límite razonable */
             margin: 0 auto;
-            /* Centra el editor */
         }
 
         .note-editor {
             width: 100%;
-            /* Asegúrate de que el editor respete el contenedor */
+        }
+
+        /* Forzar la justificación del texto en el editor */
+        .note-editable {
+            max-width: 800px;
+            word-wrap: break-word;
+            white-space: normal;
+            overflow-wrap: break-word;
+        }
+
+        /* Aplicar la justificación dentro del contenido */
+        .note-editable p {
+            text-align: justify !important;
+        }
+
+        /* Asegurar que las imágenes no desborden */
+        .note-editable img {
+            max-width: 100%;
+            height: auto;
         }
     </style>
+
     <div class="container">
         <!-- no existe el producto -->
         <div class="row">
