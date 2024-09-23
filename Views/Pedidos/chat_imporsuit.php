@@ -51,7 +51,7 @@
                     <input id="message-input" type="text" class="form-control" placeholder="Escribe un mensaje...">
 
                     <!-- Botón de enviar -->
-                    <button id="send-button" class="btn btn-primary ms-2" style="display: none;">
+                    <button id="send-button" class="btn btn-primary ms-2" style="display: none; border-radius: 0.7rem;">
                         <i class="fas fa-paper-plane"></i>
                     </button>
 
