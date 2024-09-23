@@ -91,54 +91,6 @@ $texto_mensaje = "";
 $ruta_archivo = null;  // Inicializar ruta_archivo como nulo para otros tipos de mensajes
 $respuesta_WEBHOOK_messages = $whatsapp_value['messages'][0];  // Ajuste para obtener el mensaje correctamente
 
-// Función para descargar la imagen de perfil del contacto de WhatsApp usando su número
-function descargarImagenPerfilContacto($phone_whatsapp_from, $accessToken)
-{
-    $directory = __DIR__ . "/../whatsapp/imagenes_perfil/";
-
-    // Crear el directorio si no existe
-    if (!is_dir($directory)) {
-        mkdir($directory, 0755, true);
-        file_put_contents('debug_log.txt', "Directorio creado: " . $directory . "\n", FILE_APPEND);
-    }
-
-    // Obtener la URL de la imagen de perfil del usuario usando su número de WhatsApp
-    // Nota: Aquí asumimos que ya tienes un API endpoint para obtener la imagen de perfil usando el número
-    $url = "https://graph.facebook.com/v12.0/$phone_whatsapp_from/picture";  // Ajusta según la API correcta
-
-    // Iniciar cURL para descargar la imagen
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        "Authorization: Bearer $accessToken",  // Incluir el token de acceso
-        "User-Agent: Mozilla/5.0"
-    ]);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    $imageData = curl_exec($ch);
-    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-
-    // Verificar si la imagen fue descargada correctamente
-    if ($http_code != 200 || strlen($imageData) == 0) {
-        file_put_contents('debug_log.txt', "Error al descargar la imagen de perfil. HTTP Code: $http_code\n", FILE_APPEND);
-        return null;
-    }
-
-    // Guardar la imagen en la carpeta 'imagenes_perfil'
-    $fileName = $phone_whatsapp_from . ".jpg";
-    $filePath = $directory . $fileName;
-
-    if (file_put_contents($filePath, $imageData) === false) {
-        file_put_contents('debug_log.txt', "Error al guardar la imagen de perfil en la ruta: $filePath\n", FILE_APPEND);
-        return null;
-    }
-
-    file_put_contents('debug_log.txt', "Imagen de perfil guardada correctamente: " . $filePath . "\n", FILE_APPEND);
-
-    return "public/whatsapp/imagenes_perfil/" . $fileName;
-}
-
 // Función para descargar audio de WhatsApp
 function descargarAudioWhatsapp($mediaId, $accessToken)
 {
@@ -509,42 +461,27 @@ $debug_log['texto_mensaje'] = $texto_mensaje;
 file_put_contents('debug_log.txt', "Mensaje procesado: " . $texto_mensaje . "\n", FILE_APPEND);
 
 // Verificar si el cliente ya existe en la tabla clientes_chat_center por celular_cliente
-$check_client_stmt = $conn->prepare("SELECT id, imagePath FROM clientes_chat_center WHERE celular_cliente = ?");
+$check_client_stmt = $conn->prepare("SELECT id FROM clientes_chat_center WHERE celular_cliente = ?");
 $check_client_stmt->bind_param('s', $phone_whatsapp_from);  // Buscamos por el celular_cliente
 $check_client_stmt->execute();
 $check_client_stmt->store_result();
 
 $id_plataforma = 1190;  // Ajustar según sea necesario
-$imagePath = null;
 
 if ($check_client_stmt->num_rows == 0) {
     // El cliente no existe, creamos uno nuevo
-    $ruta_imagen_perfil = descargarImagenPerfilContacto($phone_whatsapp_from, $accessToken);  // Intentamos descargar la imagen del perfil del número
-
     $insert_client_stmt = $conn->prepare("
-        INSERT INTO clientes_chat_center (id_plataforma, uid_cliente, nombre_cliente, apellido_cliente, celular_cliente, imagePath, created_at, updated_at) 
-        VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW())
+        INSERT INTO clientes_chat_center (id_plataforma, uid_cliente, nombre_cliente, apellido_cliente, celular_cliente, created_at, updated_at) 
+        VALUES (?, ?, ?, ?, ?, NOW(), NOW())
     ");
-    $insert_client_stmt->bind_param('isssss', $id_plataforma, $business_phone_id, $nombre_cliente, $apellido_cliente, $phone_whatsapp_from, $ruta_imagen_perfil);
+    $insert_client_stmt->bind_param('issss', $id_plataforma, $business_phone_id, $nombre_cliente, $apellido_cliente, $phone_whatsapp_from);
     $insert_client_stmt->execute();
     $id_cliente = $insert_client_stmt->insert_id;  // Obtener el ID autoincrementado del cliente recién creado
     $insert_client_stmt->close();
 } else {
-    // El cliente existe, obtenemos su ID y su ruta de imagen actual
-    $check_client_stmt->bind_result($id_cliente, $imagePath);
+    // El cliente existe, obtenemos su ID
+    $check_client_stmt->bind_result($id_cliente);
     $check_client_stmt->fetch();
-
-    // Si el cliente existe pero no tiene una imagen de perfil, la descargamos y actualizamos
-    if (is_null($imagePath)) {
-        $ruta_imagen_perfil = descargarImagenPerfilContacto($phone_whatsapp_from, $accessToken);  // Intentamos descargar la imagen del perfil
-
-        if ($ruta_imagen_perfil) {
-            $update_image_stmt = $conn->prepare("UPDATE clientes_chat_center SET imagePath = ?, updated_at = NOW() WHERE id = ?");
-            $update_image_stmt->bind_param('si', $ruta_imagen_perfil, $id_cliente);
-            $update_image_stmt->execute();
-            $update_image_stmt->close();
-        }
-    }
 }
 
 $check_client_stmt->close();
