@@ -210,7 +210,7 @@ $(document).ready(function () {
         success: function (response) {
           const videoHTML = `
             <video controls class="video-player">
-                <source src="${SERVERURL}${response[0].ruta_archivo}" type="video/mp4">
+                <source src="${SERVERURL}${response.ruta_archivo}" type="video/mp4">
                 Tu navegador no soporta la etiqueta de video.
             </video>
           `;
@@ -270,10 +270,13 @@ $(document).ready(function () {
       dataType: "json",
       success: function (response) {
         if (response && response.length > 0) {
-          if (response.id != lastMessageId) {
-            llenarMensajesChatIncremental(response);
-            lastMessageId = response[response.length - 1].id_mensaje;
-          }
+          // Solo añadir los mensajes que no se han mostrado ya
+          response.forEach((mensaje) => {
+            if (mensaje.id_mensaje !== lastMessageId) {
+              llenarMensajesChatIncremental([mensaje]); // Añadimos el nuevo mensaje
+              lastMessageId = mensaje.id_mensaje; // Actualizamos el último ID de mensaje
+            }
+          });
         }
       },
       error: function (error) {
@@ -728,7 +731,7 @@ document.addEventListener("DOMContentLoaded", function () {
             contentType: false, // No establecer ningún tipo de contenido
             dataType: "json",
             success: function (response) {
-              /* startPollingMensajes(id_cliente_chat); */
+              startPollingMensajes(id_cliente_chat);
             },
             error: function (jqXHR, textStatus, errorThrown) {
               alert(errorThrown);
