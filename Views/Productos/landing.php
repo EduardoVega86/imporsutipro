@@ -5,7 +5,6 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.js"></script>
 <?php require_once './Views/Productos/css/landing.php'; ?>
-
 <style>
     /* Limitar el ancho del contenedor del editor */
     .editor-container {
@@ -41,11 +40,12 @@
         text-align: justify !important;
     }
 </style>
-
 <?php
 
 if ($data == 0) {
 ?>
+
+
 
     <div class="container">
         <!-- no existe el producto -->
@@ -53,13 +53,12 @@ if ($data == 0) {
             <div class="col-12">
                 <h1 class="text-center">No existe el producto</h1>
             </div>
+
         </div>
     </div>
-
 <?php
 } else {
 ?>
-
     <div class="container py-5">
         <div class="row">
             <div class="col-12">
@@ -92,6 +91,7 @@ if ($data == 0) {
                             success: function(response) {
                                 $('#summernote').summernote({
                                     height: 300,
+
                                     toolbar: [
                                         ['style', ['style']],
                                         ['font', ['bold', 'italic', 'underline', 'clear']],
@@ -102,6 +102,7 @@ if ($data == 0) {
                                         ['insert', ['link', 'picture', 'video']],
                                         ['view', ['fullscreen', 'codeview', 'help']],
                                         ['misc', ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull']]
+
                                     ],
                                     callbacks: {
                                         onImageUpload: function(files) {
@@ -135,6 +136,7 @@ if ($data == 0) {
                     } else {
                         $('#summernote').summernote({
                             height: 300,
+
                             toolbar: [
                                 ['style', ['style']],
                                 ['font', ['bold', 'italic', 'underline', 'clear']],
@@ -143,8 +145,9 @@ if ($data == 0) {
                                 ['para', ['ul', 'ol', 'paragraph']],
                                 ['table', ['table']],
                                 ['insert', ['link', 'picture', 'video']],
-                                ['view', ['fullscreen', 'codeview', 'help']],
+                                ['view', ['fullscreen', 'codeview', 'help']]
                                 ['misc', ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull']]
+
                             ],
                             callbacks: {
                                 onImageUpload: function(files) {
@@ -170,40 +173,51 @@ if ($data == 0) {
 
 
             $('#accept-btn').click(function() {
-                const id_producto = location.href.split("/").pop();
+                //obtener id_producto
+                const id_producto = location.href.split("/").pop()
+
+                //existe landing?
+
                 const existeLanding = $.ajax({
                     url: 'https://new.imporsuitpro.com/productos/existeLanding/' + id_producto,
                     method: 'GET',
                     async: false
                 }).responseText;
 
-                const editorContent = $('#summernote').summernote('code');
-                const fullHtmlContent = `<!DOCTYPE html>
-                <html lang="es">
-                <head>
+                if (existeLanding == 0) {
+
+
+                    const editorContent = $('#summernote').summernote('code');
+
+                    const fullHtmlContent = `<!DOCTYPE html>
+                    <html lang="es">
+                    <head>
                     <meta charset="UTF-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
                     <title>Generated HTML</title>
-                </head>
-                <body>${editorContent}</body>
-                </html>`;
+                    </head>
+                    <body>
+                    ${editorContent}
+                    </body>
+                    </html>`;
 
-                const formData = new FormData();
-                formData.append('id_producto', id_producto);
-                if (existeLanding == 0) {
                     const blob = new Blob([fullHtmlContent], {
                         type: 'text/html'
                     });
                     const fileName = "landing_" + Math.floor(Math.random() * 100000000000) + '.html';
+
+                    const formData = new FormData();
                     formData.append('file', blob, fileName);
+                    formData.append('id_producto', id_producto);
 
                     $.ajax({
-                        url: 'https://imagenes.imporsuitpro.com/landing',
+                        url: 'https://imagenes.imporsuitpro.com/landing', // Cambia esta URL al script PHP que manejará la subida del archivo
                         method: 'POST',
                         data: formData,
                         contentType: false,
                         processData: false,
                         success: function(response) {
+                            console.log('Archivo enviado:', fileName);
                             response = JSON.parse(response);
                             if (response.status === 200) {
                                 Swal.fire({
@@ -212,7 +226,7 @@ if ($data == 0) {
                                     text: 'El archivo se ha guardado correctamente',
                                     showConfirmButton: false,
                                     timer: 1500
-                                });
+                                })
                             } else {
                                 Swal.fire({
                                     icon: 'error',
@@ -220,23 +234,43 @@ if ($data == 0) {
                                     text: 'Ocurrió un error al guardar el archivo',
                                     showConfirmButton: false,
                                     timer: 1500
-                                });
+                                })
                             }
                         },
                         error: function(xhr, status, error) {
                             console.error('Error al enviar el archivo:', error);
                         }
                     });
+                    $('#html-output').text(fullHtmlContent);
                 } else {
+                    const editorContent = $('#summernote').summernote('code');
+
+                    const fullHtmlContent = `<!DOCTYPE html>
+                    <html lang="es">
+                    <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Generated HTML</title>
+                    </head>
+                    <body>
+                    ${editorContent}
+                    </body>
+                    </html>`;
+
+
+                    const formData = new FormData();
                     formData.append('html', fullHtmlContent);
+                    formData.append('id_producto', id_producto);
+
                     $.ajax({
-                        url: 'https://imagenes.imporsuitpro.com/editarLanding',
+                        url: 'https://imagenes.imporsuitpro.com/editarLanding', // Cambia esta URL al script PHP que manejará la subida del archivo
                         method: 'POST',
                         data: formData,
                         contentType: false,
                         processData: false,
                         dataType: 'json',
                         success: function(response) {
+                            console.log('Archivo enviado:', response);
                             if (response.status === 200) {
                                 Swal.fire({
                                     icon: 'success',
@@ -244,7 +278,7 @@ if ($data == 0) {
                                     text: 'El archivo se ha guardado correctamente',
                                     showConfirmButton: false,
                                     timer: 1500
-                                });
+                                })
                             } else {
                                 Swal.fire({
                                     icon: 'error',
@@ -252,17 +286,17 @@ if ($data == 0) {
                                     text: 'Ocurrió un error al guardar el archivo',
                                     showConfirmButton: false,
                                     timer: 1500
-                                });
+                                })
                             }
                         },
                         error: function(xhr, status, error) {
                             console.error('Error al enviar el archivo:', error);
                         }
                     });
+                    $('#html-output').text(fullHtmlContent);
+
                 }
-                $('#html-output').text(fullHtmlContent);
             });
         });
     </script>
-
     <?php require_once './Views/templates/footer.php'; ?>
