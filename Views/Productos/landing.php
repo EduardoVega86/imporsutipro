@@ -9,7 +9,20 @@
 
 if ($data == 0) {
 ?>
+    <style>
+        /* Limitar el ancho del editor */
+        .editor-container {
+            max-width: 800px;
+            /* Establece un límite razonable */
+            margin: 0 auto;
+            /* Centra el editor */
+        }
 
+        .note-editor {
+            width: 100%;
+            /* Asegúrate de que el editor respete el contenedor */
+        }
+    </style>
     <div class="container">
         <!-- no existe el producto -->
         <div class="row">
@@ -54,6 +67,7 @@ if ($data == 0) {
                             success: function(response) {
                                 $('#summernote').summernote({
                                     height: 300,
+                                    maxWidth: 800,
                                     toolbar: [
                                         ['style', ['style']],
                                         ['font', ['bold', 'italic', 'underline', 'clear']],
@@ -62,7 +76,9 @@ if ($data == 0) {
                                         ['para', ['ul', 'ol', 'paragraph']],
                                         ['table', ['table']],
                                         ['insert', ['link', 'picture', 'video']],
-                                        ['view', ['fullscreen', 'codeview', 'help']]
+                                        ['view', ['fullscreen', 'codeview', 'help']],
+                                        ['misc', ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull']]
+
                                     ],
                                     callbacks: {
                                         onImageUpload: function(files) {
@@ -96,6 +112,7 @@ if ($data == 0) {
                     } else {
                         $('#summernote').summernote({
                             height: 300,
+                            maxWidth: 800,
                             toolbar: [
                                 ['style', ['style']],
                                 ['font', ['bold', 'italic', 'underline', 'clear']],
@@ -105,6 +122,8 @@ if ($data == 0) {
                                 ['table', ['table']],
                                 ['insert', ['link', 'picture', 'video']],
                                 ['view', ['fullscreen', 'codeview', 'help']]
+                                ['misc', ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull']]
+
                             ],
                             callbacks: {
                                 onImageUpload: function(files) {
