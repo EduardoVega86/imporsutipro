@@ -347,6 +347,7 @@ function descargarDocumentoWhatsapp($mediaId, $accessToken, $fileName = null)
     $fechaHoraActual = date("Ymd_His");  // Formato: YYYYMMDD_HHMMSS
 
     // El formato final será: "fecha_hora_nombre.extensión"
+    $nombre_principal_archivo = $fileName;
     $fileName = $fechaHoraActual . "_" . $fileName;
 
     // Guardar el archivo con su extensión original
@@ -364,7 +365,7 @@ function descargarDocumentoWhatsapp($mediaId, $accessToken, $fileName = null)
 
     // Paso 6: Retornar los datos como un JSON
     $result = [
-        "nombre" => $fileName,               // Nombre del archivo
+        "nombre" => $nombre_principal_archivo,               // Nombre del archivo
         "size" => $file_size,                // Tamaño del archivo
         "ruta" => "public/whatsapp/documentos_recibidos/" . $fileName  // Ruta donde se guardó
     ];
