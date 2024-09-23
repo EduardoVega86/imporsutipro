@@ -209,7 +209,7 @@ $(document).ready(function () {
         dataType: "json",
         success: function (response) {
           const videoHTML = `
-            <video controls class="video-player">
+            <video controls class="video-player video_style_mensaje">
                 <source src="${SERVERURL}${response[0].ruta_archivo}" type="video/mp4">
                 Tu navegador no soporta la etiqueta de video.
             </video>

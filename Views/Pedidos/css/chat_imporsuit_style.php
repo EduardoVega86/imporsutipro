@@ -85,6 +85,11 @@
         max-height: 426px;
     }
 
+    .video_style_mensaje{
+        max-width: 330px;
+        max-height: 426px;
+    }
+
     @keyframes fadeIn {
         from {
             opacity: 0;
