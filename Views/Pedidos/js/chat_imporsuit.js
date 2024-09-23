@@ -204,17 +204,17 @@ $(document).ready(function () {
         url: `${SERVERURL}/Pedidos/obtener_url_video_mensaje`,
         type: "POST",
         data: formData,
-        processData: false, 
-        contentType: false, 
+        processData: false,
+        contentType: false,
         dataType: "json",
         success: function (response) {
           const videoHTML = `
-            <video controls class="video-player">
+            <video controls class="video-player video_style_mensaje">
                 <source src="${SERVERURL}${response[0].ruta_archivo}" type="video/mp4">
                 Tu navegador no soporta la etiqueta de video.
             </video>
           `;
-          button.parent().html(videoHTML); 
+          button.parent().html(videoHTML);
         },
         error: function () {
           alert("Error al cargar el video.");
@@ -247,15 +247,15 @@ $(document).ready(function () {
 
     // Definimos el intervalo de polling (cada 5 segundos)
     pollingInterval = setInterval(function () {
-      cargarUltimosMensajes(id_cliente); 
-    }, 5000); 
+      cargarUltimosMensajes(id_cliente);
+    }, 5000);
   }
 
   // Función para cargar solo los mensajes nuevos
   function cargarUltimosMensajes(id_cliente) {
     let formData_chat = new FormData();
     formData_chat.append("id_cliente", id_cliente);
-    
+
     // Pasamos el ID del último mensaje cargado
     if (lastMessageId) {
       formData_chat.append("ultimo_mensaje_id", lastMessageId);
@@ -265,13 +265,15 @@ $(document).ready(function () {
       url: SERVERURL + "Pedidos/ultimo_mensaje_cliente",
       method: "POST",
       data: formData_chat,
-      processData: false, 
-      contentType: false, 
+      processData: false,
+      contentType: false,
       dataType: "json",
       success: function (response) {
         if (response && response.length > 0) {
-          llenarMensajesChatIncremental(response); 
-          lastMessageId = response[response.length - 1].id_mensaje; 
+          if (response[0].id != lastMessageId) {
+            llenarMensajesChatIncremental(response);
+            lastMessageId = response[response.length - 1].id_mensaje;
+          }
         }
       },
       error: function (error) {
