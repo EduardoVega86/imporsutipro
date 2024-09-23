@@ -1374,6 +1374,12 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
+    public function obtener_url_video_mensaje($id_mensaje)
+    {
+        $sql = "SELECT ruta_archivo FROM `mensajes_clientes` WHERE id = $id_mensaje;";
+        return $this->select($sql);
+    }
+
     public function guardar_audio_Whatsapp()
     {
         if (isset($_FILES['audio']) && $_FILES['audio']['error'] == 0) {
