@@ -362,8 +362,15 @@ function descargarDocumentoWhatsapp($mediaId, $accessToken, $fileName = null)
     $file_size = filesize($filePath);
     file_put_contents('debug_log.txt', "Documento guardado correctamente: " . $filePath . " con tamaño: $file_size bytes\n", FILE_APPEND);
 
-    // Devolver la ruta para almacenar en la base de datos
-    return "public/whatsapp/documentos_recibidos/" . $fileName;
+    // Paso 6: Retornar los datos como un JSON
+    $result = [
+        "nombre" => $fileName,               // Nombre del archivo
+        "size" => $file_size,                // Tamaño del archivo
+        "ruta" => "public/whatsapp/documentos_recibidos/" . $fileName  // Ruta donde se guardó
+    ];
+
+    // Retornar el resultado en formato JSON
+    return json_encode($result);
 }
 
 // Procesar el mensaje basado en el tipo recibido
