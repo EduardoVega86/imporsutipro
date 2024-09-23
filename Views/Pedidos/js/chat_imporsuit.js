@@ -146,7 +146,7 @@ $(document).ready(function () {
             <div class="document-container">
                 <div class="document-icon">
                     <i class="fas fa-file-pdf"></i>
-                </div>/*  */
+                </div>
                 <div class="document-info">
                     <div class="document-name">${nombre_archivo}</div>
                     <div class="document-details">
