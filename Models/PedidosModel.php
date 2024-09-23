@@ -1361,6 +1361,29 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
+    public function ultimo_mensaje_cliente($id_cliente, $ultimo_mensaje_id = null)
+{
+    // Si se proporciona un ID de último mensaje, obtenemos los mensajes más recientes que ese ID
+    if ($ultimo_mensaje_id) {
+        $sql = "SELECT * FROM `clientes_chat_center` 
+                INNER JOIN `mensajes_clientes` 
+                ON clientes_chat_center.id = mensajes_clientes.id_cliente 
+                WHERE mensajes_clientes.celular_recibe = $id_cliente
+                AND mensajes_clientes.id_mensaje > $ultimo_mensaje_id
+                ORDER BY mensajes_clientes.created_at ASC;";
+    } else {
+        // Si no se proporciona un ID, solo obtenemos el último mensaje
+        $sql = "SELECT * FROM `clientes_chat_center` 
+                INNER JOIN `mensajes_clientes` 
+                ON clientes_chat_center.id = mensajes_clientes.id_cliente 
+                WHERE mensajes_clientes.celular_recibe = $id_cliente
+                ORDER BY mensajes_clientes.created_at DESC 
+                LIMIT 1;";
+    }
+
+    return $this->select($sql);
+}
+
     public function numero_cliente($id_cliente, $id_plataforma)
     {
         $sql = "SELECT * FROM `clientes_chat_center` WHERE id = $id_cliente;";
