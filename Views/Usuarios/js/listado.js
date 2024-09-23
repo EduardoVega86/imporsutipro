@@ -63,18 +63,6 @@ const listObtenerUsuariosPlataforma = async () => {
                 </a></td>
                 <td>${usuario.nombre_tienda}</td>
                 <td>${usuario.date_added}</td>
-                <td>
-                <div class="dropdown">
-                <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fa-solid fa-gear"></i>
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" style="cursor: pointer;" href="${SERVERURL}wallet/pagar?tienda=${
-        usuario.tienda
-      }"><i class='bx bx-wallet'></i>Pagar</a></li>
-                </ul>
-                </div>
-                </td>
                 </tr>`;
     });
     document.getElementById("tableBody_obtener_usuarios_plataforma").innerHTML =
