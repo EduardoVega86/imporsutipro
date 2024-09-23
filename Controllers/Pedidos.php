@@ -607,6 +607,13 @@ class Pedidos extends Controller
         echo json_encode($response);
     }
 
+    public function obtener_url_video_mensaje()
+    {
+        $id_mensaje = $_POST['id_mensaje'];
+        $response = $this->model->obtener_url_video_mensaje($id_mensaje);
+        echo json_encode($response);
+    }
+
     public function agregar_mensajes_enviados()
     {
         $id_cliente = $_POST['id_cliente'];

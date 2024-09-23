@@ -160,6 +160,17 @@ $(document).ready(function () {
             <div class="document-text">${mensaje.texto_mensaje}</div>
         </div>
         `;
+      } else if (mensaje.tipo_mensaje == "video") {
+        innerHTML += `
+          <div class="message d-flex flex-column ${claseMensaje}">
+              <div class="video-placeholder">
+                  <button class="btn btn-primary load-video-btn" data-id-mensaje="${mensaje.id}">
+                      Descargar video
+                  </button>
+              </div>
+              <div class="video-text">${mensaje.texto_mensaje}</div>
+          </div>
+        `;
       }
     });
 
@@ -175,6 +186,37 @@ $(document).ready(function () {
 
     // Inyectamos los mensajes en el contenedor de mensajes
     $(".chat-messages").html(innerHTML);
+
+    // Agregar eventos para los botones de cargar video
+    $(".load-video-btn").on("click", function () {
+      const button = $(this);
+      const idMensaje = button.data("id-mensaje");
+
+      let formData = new FormData();
+      formData.append("idMensaje", idMensaje);
+
+      $.ajax({
+        url: `${SERVERURL}/Pedidos/obtener_url_video_mensaje`,
+        type: "POST",
+        data: formData,
+        processData: false, // No procesar los datos
+        contentType: false, // No establecer ningún tipo de contenido
+        dataType: "json",
+        success: function (response) {
+          // Reemplazar el botón con el video
+          const videoHTML = `
+            <video controls class="video-player">
+                <source src="${SERVERURL}${response.ruta_archivo}" type="video/mp4">
+                Tu navegador no soporta la etiqueta de video.
+            </video>
+          `;
+          button.parent().html(videoHTML); // Reemplaza el contenido del contenedor con el video
+        },
+        error: function () {
+          alert("Error al cargar el video.");
+        },
+      });
+    });
 
     // Agregamos eventos para actualizar el tiempo del audio
     $(".audio-player").each(function (index) {
