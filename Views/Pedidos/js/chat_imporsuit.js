@@ -135,10 +135,11 @@ $(document).ready(function () {
             </div>
             `;
       } else if (mensaje.tipo_mensaje == "document") {
-        let info_archivo = mensaje.ruta_archivo;
-        let nombre_archivo = info_archivo.nombre;
+        let info_archivo = JSON.parse(mensaje.ruta_archivo);
+
+        let nombre_archivo = info_archivo.nombre || "Sin nombre";
         let tamano_archivo = formatFileSize(info_archivo.size);
-        let ruta_archivo = info_archivo.ruta;
+        let ruta_archivo = info_archivo.ruta || "";
 
         innerHTML += `
         <div class="message d-flex flex-column ${claseMensaje}">
