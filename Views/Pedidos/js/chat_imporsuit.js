@@ -278,6 +278,7 @@ $(document).ready(function () {
             lastMessageId = response[response.length - 1].id; // Actualizamos el ID del último mensaje
           }
         }
+        
       },
       error: function (error) {
         console.error("Error al cargar los mensajes nuevos:", error);
