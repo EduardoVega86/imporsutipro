@@ -12,10 +12,13 @@
         margin: 0 auto;
     }
 
+
+    /* Estilo del botón de aceptar */
     /* Asegurar que el editor tome el 100% del ancho disponible */
     .note-editor {
         width: 100%;
     }
+
 
     /* Limitar el contenido editable a un ancho máximo y evitar el desbordamiento */
     .note-editable {
