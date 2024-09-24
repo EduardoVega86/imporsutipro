@@ -20,7 +20,7 @@
     }
 
     #scanner video {
-        width: 100%;
+        width: 50% !important;
         /* Ocupa el 100% del contenedor */
         height: auto;
         /* Mantén la proporción del video */
