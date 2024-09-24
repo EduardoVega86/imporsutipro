@@ -111,4 +111,60 @@ class SpeedModel extends Query
         }
         return $response;
     }
+
+    public function estados($estado, $imagen, $tipo, $observacion, $id_factura, $googlemaps)
+    {
+        if ($estado == 1) {
+            $sql = "UPDATE facturas_cot SET estado_guia_sistema = 1 WHERE id_factura = $id_factura";
+            $res = $this->simple_insert($sql);
+            if ($res == 1) {
+                $response = $this->initialResponse();
+                $response['status'] = 200;
+                $response['message'] = "Factura actualizada correctamente.";
+                $response['title'] = "¡Éxito!";
+            } else {
+                $response = $this->initialResponse();
+                $response['status'] = 500;
+                $response['message'] = "Error al actualizar la factura.";
+            }
+        } else if ($estado == 2) {
+            $sql = "UPDATE facturas_cot SET estado_guia_sistema = 2 WHERE id_factura = $id_factura";
+            $res = $this->simple_insert($sql);
+            if ($res == 1) {
+                $response = $this->initialResponse();
+                $response['status'] = 200;
+                $response['message'] = "Factura actualizada correctamente.";
+                $response['title'] = "¡Éxito!";
+            } else {
+                $response = $this->initialResponse();
+                $response['status'] = 500;
+                $response['message'] = "Error al actualizar la factura.";
+            }
+        } else if ($estado == 4) {
+            $sql = "UPDATE facturas_cot SET estado_guia_sistema = 4, googlemaps = '$googlemaps' WHERE id_factura = $id_factura";
+            $res = $this->simple_insert($sql);
+            if ($res == 1) {
+
+                //logica para subir imagen
+                $uploader = new ImageUploader("public/img/speed/");
+
+                $response = $uploader->uploadImage($imagen);
+
+                if ($response['status'] == 200) {
+                } else {
+                    $response = $this->initialResponse();
+                    $response['status'] = 500;
+                    $response['message'] = "Error al subir la imagen.";
+                }
+            } else {
+                $response = $this->initialResponse();
+                $response['status'] = 500;
+                $response['message'] = "Error al actualizar la factura.";
+            }
+        } else {
+            $response = $this->initialResponse();
+            $response['status'] = 500;
+            $response['message'] = "Error al actualizar la factura.";
+        }
+    }
 }
