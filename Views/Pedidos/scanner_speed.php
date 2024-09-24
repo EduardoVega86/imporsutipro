@@ -21,7 +21,6 @@
                 target: document.querySelector('#scanner'),
                 constraints: {
                     facingMode: "user", // Para laptops usa la cámara frontal
-                    // Si quieres forzar la cámara trasera en móviles, usa: facingMode: { exact: "environment" }
                 },
             },
             decoder: {
@@ -32,7 +31,27 @@
                 console.error(err);
                 return;
             }
+
+            // Inicia el escáner
             Quagga.start();
+
+            // Ajustamos los estilos del video y canvas después de que Quagga los crea
+            const video = document.querySelector('#scanner video');
+            const canvas = document.querySelector('#scanner canvas');
+
+            if (video) {
+                video.style.width = '100%';
+                video.style.height = 'auto';
+                video.style.maxWidth = '640px';
+                video.style.maxHeight = '480px';
+            }
+
+            if (canvas) {
+                canvas.style.width = '100%';
+                canvas.style.height = 'auto';
+                canvas.style.maxWidth = '640px';
+                canvas.style.maxHeight = '480px';
+            }
         });
 
         Quagga.onDetected(function(data) {
