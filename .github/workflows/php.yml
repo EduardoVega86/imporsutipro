@@ -22,8 +22,6 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           exclude: |
-            .git
-            .github
-            vendor
-            node_modules
+             vendor
+  
            
