@@ -8,7 +8,7 @@
     }
 
     #scanner {
-        width: 100%;
+        width: 30%;
         height: 20%;
         /* Un tamaño fijo adecuado para escanear */
         border: 2px solid #007bff;
@@ -30,11 +30,10 @@
     }
 
     @media (max-width: 576px) {
-        #scanner {
+        /* #scanner {
             height: 200px;
-            /* Tamaño más pequeño en móviles */
         }
-
+ */
         button {
             width: 100%;
             margin-bottom: 10px;
