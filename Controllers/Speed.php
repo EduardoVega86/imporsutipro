@@ -59,6 +59,8 @@ class Speed extends Controller
         echo json_encode($response);
     }
 
+
+
     public function estados()
     {
         $estado = $_POST['estado'];
