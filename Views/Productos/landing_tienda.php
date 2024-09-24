@@ -44,6 +44,7 @@ if ($data == 0) {
                 success: function(response) {
                     let formDATA = new FormData();
                     formDATA.append('id_producto_tienda', location.href.split("/").pop());
+                    console.log(response);
                     if (response == 1) {
                         $.ajax({
                             url: 'https://imagenes.imporsuitpro.com/obtenerLandingTienda',
