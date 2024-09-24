@@ -1,13 +1,13 @@
 <?php require_once './Views/templates/header.php'; ?>
 <?php require_once './Views/Pedidos/css/chat_imporsuit_style.php'; ?>
 
-<div class="custom-container-fluid mt-4">
-    <div id="scanner-container">
-        <h2>Escanea el código de barras</h2>
-        <div id="scanner"></div>
-        <div id="result">Resultado: <span id="barcode-result">---</span></div>
-        <button onclick="startScanner()">Iniciar Escáner</button>
-        <button onclick="stopScanner()">Detener Escáner</button>
+<div class="container mt-5">
+    <div id="scanner-container" class="text-center p-4 bg-light rounded shadow-lg">
+        <h2 class="mb-4">Escanea el código de barras</h2>
+        <div id="scanner" class="mb-4"></div>
+        <div id="result" class="mb-4">Resultado: <span id="barcode-result">---</span></div>
+        <button class="btn btn-primary me-2" onclick="startScanner()">Iniciar Escáner</button>
+        <button class="btn btn-danger" onclick="stopScanner()">Detener Escáner</button>
     </div>
 </div>
 
