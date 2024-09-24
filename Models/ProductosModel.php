@@ -18,7 +18,7 @@ class ProductosModel extends Query
 
         return $this->select($sql);
     }
-      public function obtener_productos_bodega($bodega)
+    public function obtener_productos_bodega($bodega)
     {
         $sql = "SELECT * FROM productos p LEFT JOIN inventario_bodegas ib ON p.id_producto = ib.id_producto AND ib.bodega = $bodega LEFT JOIN variedades v ON ib.id_variante = v.id_variedad WHERE ib.`bodega` = $bodega;";
 
@@ -178,40 +178,39 @@ class ProductosModel extends Query
         return $response;
     }
 
-    
-    
+
+
     public function importar_productos_shopify($id_producto, $plataforma)
     {
         $response = $this->initialResponse();
-       // echo "SELECT * FROM shopify_tienda WHERE id_plataforma = $plataforma AND id_inventario = $id_producto";
+        // echo "SELECT * FROM shopify_tienda WHERE id_plataforma = $plataforma AND id_inventario = $id_producto";
         $inicial_variable = $this->select("SELECT * FROM shopify_tienda WHERE id_plataforma = $plataforma AND id_inventario = $id_producto");
         //print_r($inicial_variable);
         if (empty($inicial_variable)) {
             //$inventario = $this->select("SELECT * FROM inventario_bodegas ib, productos p WHERE p.id_producto = $id_producto AND ib.id_producto = p.id_producto");
-//echo 'entr';
+            //echo 'entr';
             $detalle_sql = "INSERT INTO shopify_tienda (id_plataforma, id_inventario) 
                         VALUES (?, ?)";
-            
-           $detalle_data = array(
-                    $plataforma,
-                    $id_producto
-                );
-                $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
-//print_r($guardar_detalle);
-                if ($guardar_detalle == 1) {
-                    // Obtener el último ID insertado en productos_tienda
-                 
 
-                    // Imprimir el último ID
-                    //echo "El último ID de producto en la tienda es: " . $ultimo_id_producto_tienda;
+            $detalle_data = array(
+                $plataforma,
+                $id_producto
+            );
+            $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
+            //print_r($guardar_detalle);
+            if ($guardar_detalle == 1) {
+                // Obtener el último ID insertado en productos_tienda
 
-                    // Obtener las imágenes adicionales del producto
-         
-                    $response['status'] = 200;
-                    $response['title'] = 'Petición exitosa';
-                    $response['message'] = 'Producto y sus imágenes adicionales agregados correctamente';
-                }
-            
+
+                // Imprimir el último ID
+                //echo "El último ID de producto en la tienda es: " . $ultimo_id_producto_tienda;
+
+                // Obtener las imágenes adicionales del producto
+
+                $response['status'] = 200;
+                $response['title'] = 'Petición exitosa';
+                $response['message'] = 'Producto y sus imágenes adicionales agregados correctamente';
+            }
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
@@ -220,7 +219,7 @@ class ProductosModel extends Query
 
         return $response;
     }
-    
+
 
     public function obtener_productos_inventario($plataforma)
     {
@@ -228,11 +227,11 @@ class ProductosModel extends Query
         //  echo $sql;
         return $this->select($sql);
     }
-    
-     public function obtener_productos_shopify($plataforma)
+
+    public function obtener_productos_shopify($plataforma)
     {
         $sql = "SELECT st.id_inventario, (select id_producto from inventario_bodegas WHERE id_inventario=st.id_inventario) as id_producto,  (SELect nombre_producto FROM productos WHERE id_producto=(select id_producto from inventario_bodegas WHERE id_inventario=st.id_inventario)) as nombre_producto,  (SELect image_path FROM productos WHERE id_producto=(select id_producto from inventario_bodegas WHERE id_inventario=st.id_inventario)) as image_path, (select pvp from inventario_bodegas WHERE id_inventario=st.id_inventario) as pvp  FROM shopify_tienda st  WHERE id_plataforma = $plataforma; ";
-          //echo $sql;
+        //echo $sql;
         return $this->select($sql);
     }
 
@@ -438,8 +437,8 @@ class ProductosModel extends Query
         // echo $sql;
         return $this->select($sql);
     }
-    
-    
+
+
     public function obtenerProductoTienda($id)
     {
         $sql = "SELECT * FROM `productos_tienda` pt, productos p, inventario_bodegas ib WHERE  pt.id_producto=p.id_producto and pt.id_inventario=ib.id_inventario and pt.id_producto_tienda=$id";
@@ -1114,7 +1113,7 @@ WHERE b.id_plataforma = $plataforma";
             $id_inventario = $this->buscar_inventario($id_producto, $sku);
             $nota = "Se agrego $cantidad productos(s) al inventario";
             $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`, `saldo`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            $data = [$id_usuario, $id_inventario, $plataforma, $sku,  $nota, $referencia, $cantidad, 1, $bodega, $id_producto,$stock];
+            $data = [$id_usuario, $id_inventario, $plataforma, $sku,  $nota, $referencia, $cantidad, 1, $bodega, $id_producto, $stock];
             $insertar_historial = $this->insert($sql, $data);
 
             if ($insertar_historial == 1) {
@@ -1318,11 +1317,8 @@ WHERE b.id_plataforma = $plataforma";
     {
 
         $sql = "SELECT * FROM `productos_tienda` WHERE id_producto_tienda = $id";
-        //echo $sql;
-        $landing = $this->select($sql);
-        $landing = $landing[0]['landing_tienda'];
-
-        if ($landing == '') {
+        $response =  $this->select($sql);
+        if (empty($response)) {
             return 0;
         } else {
             return 1;
@@ -1333,7 +1329,9 @@ WHERE b.id_plataforma = $plataforma";
 
         $sql = "SELECT * FROM `productos_tienda` WHERE id_producto_tienda = $id and landing_propia=1";
         $response =  $this->select($sql);
-        if (empty($response)) {
+        $landing = $response[0]['landing_tienda'];
+
+        if ($landing == '') {
             return 0;
         } else {
             return 1;

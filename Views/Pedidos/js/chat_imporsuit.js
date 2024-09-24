@@ -100,7 +100,7 @@ $(document).ready(function () {
 
         // Guardamos el ID del último mensaje
         if (response2.length > 0) {
-          lastMessageId = response2[response2.length - 1].id_mensaje;
+          lastMessageId = response2[response2.length - 1].id;
         }
       },
       error: function (error) {
@@ -275,9 +275,10 @@ $(document).ready(function () {
 
           if (response[0].id_mensaje != lastMessageId) {
             llenarMensajesChatIncremental(response);
-            lastMessageId = response[response.length - 1].id_mensaje; // Actualizamos el ID del último mensaje
+            lastMessageId = response[response.length - 1].id; // Actualizamos el ID del último mensaje
           }
         }
+        
       },
       error: function (error) {
         console.error("Error al cargar los mensajes nuevos:", error);

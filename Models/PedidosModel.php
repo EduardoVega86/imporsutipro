@@ -1369,7 +1369,7 @@ class PedidosModel extends Query
                 INNER JOIN `mensajes_clientes` 
                 ON clientes_chat_center.id = mensajes_clientes.id_cliente 
                 WHERE mensajes_clientes.celular_recibe = $id_cliente
-                AND mensajes_clientes.id_mensaje > $ultimo_mensaje_id
+                AND mensajes_clientes.id > $ultimo_mensaje_id
                 ORDER BY mensajes_clientes.created_at ASC;";
     } else {
         // Si no se proporciona un ID, solo obtenemos el último mensaje
