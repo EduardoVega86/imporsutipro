@@ -2,22 +2,24 @@
 <?php require_once './Views/Pedidos/css/chat_imporsuit_style.php'; ?>
 
 <div class="custom-container-fluid mt-4">
-    <div id="scanner-container" class="text-center p-4 bg-light rounded shadow-lg">
+    <div id="scanner-container" class="text-center p-4 bg-light rounded shadow-lg" style="display: none;">
         <h2 class="mb-4">Escanea el código de barras</h2>
         <div id="scanner" class="mb-4"></div>
         <div id="result" class="mb-4">Resultado: <span id="barcode-result">---</span></div>
-        <button class="btn btn-primary me-2" onclick="startScanner()">Iniciar Escáner</button>
-        <button class="btn btn-danger" onclick="stopScanner()">Detener Escáner</button>
+
     </div>
+
+    <button class="btn btn-primary me-2" onclick="startScanner()">Iniciar Escáner</button>
+    <!-- <button class="btn btn-danger" onclick="stopScanner()">Detener Escáner</button> -->
 
     <div class="informacion_guia" id="informacion_guia" style="display: none;">
         <h3 class="mb-3" style="text-decoration:underline;"><strong>Informacion de guia</strong></h3>
         <p class="texto_infoVenta"><strong>Nombre:</strong> <span id="nombre"></span></p>
-        <p class="texto_infoVenta"><strong>Direccion:</strong> <span id="costo_infoVenta"></span></p>
-        <p class="texto_infoVenta"><strong>Guia:</strong> <span id="precioEnvio_infoVenta"></span></p>
-        <p class="texto_infoVenta"><strong>Estado:</strong> <span id="fulfillment_infoVenta"></span></p>
-        <p class="texto_infoVenta"><strong>Traking:</strong> <span id="total_infoVenta"></span></p>
-        <p class="texto_infoVenta"><strong>Monto a corbrar:</strong> <span id="total_infoVenta"></span></p>
+        <p class="texto_infoVenta"><strong>iudad:</strong> <span id="ciudad"></span></p>
+        <p class="texto_infoVenta"><strong>Direccion:</strong> <span id="direccion"></span></p>
+        <p class="texto_infoVenta"><strong>Numero guia:</strong> <span id="numero_guia"></span></p>
+        <p class="texto_infoVenta"><strong>Estado:</strong> <span id="estado"></span></p>
+        <p class="texto_infoVenta"><strong>Costo Flete:</strong> <span id="flete_costo"></span></p>
 
         <select class="form-select select-estado-speed" style="max-width: 130px;">
             <option value="0">-- Selecciona estado --</option>
@@ -33,6 +35,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
 <script>
     function startScanner() {
+        $("#scanner-container").show();
+        $("#informacion_guia").hide();
+
+
         Quagga.init({
             inputStream: {
                 name: "Live",
@@ -66,7 +72,7 @@
             }
 
             if (canvas) {
-                canvas.style.width = '100%';
+                canvas.style.width = '0%';
                 canvas.style.height = 'auto';
                 canvas.style.maxWidth = '640px';
                 canvas.style.maxHeight = '480px';
@@ -79,9 +85,6 @@
 
             // Llamamos a la función para hacer la consulta AJAX
             sendCodeToAPI(code);
-
-            // Detener el escáner después de detectar el código
-            stopScanner();
         });
     }
 
@@ -92,7 +95,7 @@
     // Función para enviar el código de barras a la API mediante AJAX
     function sendCodeToAPI(barcode) {
         // URL de tu API
-        const apiUrl = 'https://guias.imporsuitpro.com/Speed/buscar/'+barcode; // Cambia esta URL por la tuya
+        const apiUrl = 'https://guias.imporsuitpro.com/Speed/buscar/' + barcode; // Cambia esta URL por la tuya
 
         // Configuración de la solicitud AJAX usando fetch
         fetch(apiUrl, {
@@ -104,9 +107,21 @@
             .then(response => response.json()) // Convertir la respuesta a JSON
             .then(data => {
                 // Manejar la respuesta de la API
-                if (data.success) {
-                    alert(`Producto encontrado: ${data.productName}`);
-                    // Aquí puedes actualizar el DOM con los datos de la API
+                if (data.status == 200) {
+                    $("#scanner-container").hide();
+                    $("#informacion_guia").show();
+
+                    estado = validar_estadoSpeed(data.data.guia);
+
+                    $("#nombre").val(data.data.nombre_destino);
+                    $("#direccion").val(data.data.direccion_destino);
+                    $("#ciudad").val(data.data.ciudad_destino);
+                    $("#numero_guia").val(data.data.guia);
+                    $("#estado").val(estado);
+                    $("#flete_costo").val(data.data.flete_costo);
+
+
+                    stopScanner();
                 } else {
                     alert('Producto no encontrado o error en la consulta');
                 }
@@ -115,6 +130,23 @@
                 console.error('Error al consultar la API:', error);
                 alert('Ocurrió un error al consultar la API');
             });
+    }
+
+    function validar_estadoSpeed(estado) {
+        var estado_guia = "";
+        if (estado == 2) {
+            estado_guia = "generado";
+        } else if (estado == 3) {
+            estado_guia = "En transito";
+        } else if (estado == 7) {
+            estado_guia = "Entregado";
+        } else if (estado == 9) {
+            estado_guia = "Devuelto";
+        } else if (estado == 14) {
+            estado_guia = "Novedad";
+        }
+
+        return  estado_guia
     }
 </script>
 
