@@ -19,6 +19,27 @@
         overflow: hidden;
     }
 
+    #scanner video {
+        width: 100%;
+        /* Ocupa el 100% del contenedor */
+        height: auto;
+        /* Mantén la proporción del video */
+        max-width: 640px;
+        /* Controla el tamaño máximo */
+        max-height: 480px;
+    }
+
+    #scanner canvas {
+        width: 100%;
+        /* Ocupa el 100% del contenedor */
+        height: auto;
+        /* Mantiene la proporción del canvas */
+        max-width: 640px;
+        /* Tamaño máximo controlado */
+        max-height: 480px;
+        /* Ajusta la altura máxima */
+    }
+
     #result {
         font-size: 1.2em;
         margin-top: 20px;
