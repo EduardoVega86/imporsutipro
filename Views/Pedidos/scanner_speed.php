@@ -127,8 +127,6 @@
                 }
             })
             .catch(error => {
-                console.error('Error al consultar la API:', error);
-                alert('Ocurrió un error al consultar la API');
             });
     }
 
