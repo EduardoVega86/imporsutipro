@@ -1,5 +1,7 @@
 /* llenar seccion numeros */
 $(document).ready(function () {
+  let lastMessageId = null; // Variable global para almacenar el ID del último mensaje mostrado
+
   // Llamada AJAX para obtener los datos de la API de contactos
   $.ajax({
     url: SERVERURL + "Pedidos/numeros_clientes",
@@ -74,9 +76,6 @@ $(document).ready(function () {
       },
     });
   }
-
-  // Variable para almacenar el ID del último mensaje
-  let lastMessageId = null;
 
   // Función para cargar los mensajes del chat
   function cargarMensajesChat(id_cliente) {
@@ -270,9 +269,10 @@ $(document).ready(function () {
       dataType: "json",
       success: function (response) {
         if (response && response.length > 0) {
-          if (response[0].id != lastMessageId) {
+          // Verificamos que el último mensaje no sea el mismo que ya se ha mostrado
+          if (response[0].id_mensaje != lastMessageId) {
             llenarMensajesChatIncremental(response);
-            lastMessageId = response[response.length - 1].id_mensaje;
+            lastMessageId = response[response.length - 1].id_mensaje; // Actualizamos el ID del último mensaje
           }
         }
       },
