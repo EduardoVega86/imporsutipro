@@ -57,13 +57,48 @@
         Quagga.onDetected(function(data) {
             const code = data.codeResult.code;
             document.getElementById("barcode-result").textContent = code;
-            alert('Código escaneado: ' + code);
+
+            // Llamamos a la función para hacer la consulta AJAX
+            sendCodeToAPI(code);
+
+            // Detener el escáner después de detectar el código
             stopScanner();
         });
     }
 
     function stopScanner() {
         Quagga.stop();
+    }
+
+    // Función para enviar el código de barras a la API mediante AJAX
+    function sendCodeToAPI(barcode) {
+        // URL de tu API
+        const apiUrl = 'https://miapi.com/barcode'; // Cambia esta URL por la tuya
+
+        // Configuración de la solicitud AJAX usando fetch
+        fetch(apiUrl, {
+                method: 'POST', // Puedes cambiar a GET si tu API lo requiere
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    barcode: barcode
+                }) // Enviar el código de barras en el cuerpo de la solicitud
+            })
+            .then(response => response.json()) // Convertir la respuesta a JSON
+            .then(data => {
+                // Manejar la respuesta de la API
+                if (data.success) {
+                    alert(`Producto encontrado: ${data.productName}`);
+                    // Aquí puedes actualizar el DOM con los datos de la API
+                } else {
+                    alert('Producto no encontrado o error en la consulta');
+                }
+            })
+            .catch(error => {
+                console.error('Error al consultar la API:', error);
+                alert('Ocurrió un error al consultar la API');
+            });
     }
 </script>
 
