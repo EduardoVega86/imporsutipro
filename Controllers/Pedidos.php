@@ -113,6 +113,14 @@ class Pedidos extends Controller
         $this->views->render($this, "guias_speed");
     }
 
+    public function scanner_speed()
+    {
+        if (!$this->isAuth()) {
+            header("Location: " . SERVERURL . "login");
+        }
+        $this->views->render($this, "scanner_speed");
+    }
+
     ///Funciones
 
     public function datosPlataformas()

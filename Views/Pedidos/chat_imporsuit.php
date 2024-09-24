@@ -22,6 +22,7 @@
                     <input type="hidden" id="id_cliente_chat" name="id_cliente_chat">
                     <input type="hidden" id="celular_chat" name="celular_chat">
                     <input type="hidden" id="uid_cliente" name="uid_cliente">
+                    
                 </div>
                 <i class="fas fa-ellipsis-v toggle-info" id="btn-three-dots"></i> <!-- Botón de tres puntos -->
             </div>
