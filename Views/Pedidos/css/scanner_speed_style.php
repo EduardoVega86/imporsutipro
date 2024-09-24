@@ -9,20 +9,14 @@
 
     #scanner {
         width: 100%;
-        /* Se ajusta al 100% del contenedor padre */
-        max-width: 300px;
-        /* Tamaño máximo para asegurar que no sea demasiado grande */
-        height: 300px;
+        /* Ocupa el ancho completo del contenedor */
+        height: 250px;
         /* Altura fija para que el escáner funcione bien */
         border: 2px solid #007bff;
-        /* Cambiar el borde a azul */
         border-radius: 5px;
         background-color: #f8f9fa;
-        /* Fondo claro */
         box-sizing: border-box;
-        /* Incluir el borde en el tamaño total */
         overflow: hidden;
-        /* Asegura que el contenido no se salga */
     }
 
     #result {
@@ -36,17 +30,16 @@
         width: 45%;
     }
 
-    @media (max-width: 768px) {
-
+    /* Media Query para ajustar en móviles */
+    @media (max-width: 576px) {
         #scanner {
-            max-width: 100%;
-            /* En pantallas pequeñas, el scanner ocupará el 100% del ancho del contenedor */
             height: 200px;
             /* Reducir la altura para dispositivos móviles */
         }
 
         button {
             width: 100%;
+            /* Botones al 100% en pantallas pequeñas */
             margin-bottom: 10px;
         }
     }

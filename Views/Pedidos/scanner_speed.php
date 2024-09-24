@@ -20,9 +20,8 @@
                 type: "LiveStream",
                 target: document.querySelector('#scanner'),
                 constraints: {
-                    facingMode: {
-                        exact: "environment"
-                    } // Forzar cámara trasera
+                    facingMode: "user", // Para laptops usa la cámara frontal
+                    // Si quieres forzar la cámara trasera en móviles, usa: facingMode: { exact: "environment" }
                 },
             },
             decoder: {
