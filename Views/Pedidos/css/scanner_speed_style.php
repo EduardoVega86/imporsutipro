@@ -9,7 +9,7 @@
 
     #scanner {
         width: 100%;
-        height: 300px;
+        height: 20%;
         /* Un tamaño fijo adecuado para escanear */
         border: 2px solid #007bff;
         /* Cambiar el borde a azul */
