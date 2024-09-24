@@ -5,7 +5,42 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.js"></script>
 <?php require_once './Views/Productos/css/landing.php'; ?>
+<style>
+    /* Limitar el ancho del contenedor del editor */
+    .editor-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
 
+    /* Estilo del botón de aceptar */
+    /* Asegurar que el editor tome el 100% del ancho disponible */
+    .note-editor {
+        width: 100%;
+    }
+
+    /* Limitar el contenido editable a un ancho máximo y evitar el desbordamiento */
+    .note-editable {
+        max-width: 800px;
+        word-wrap: break-word;
+        white-space: normal;
+        overflow-wrap: break-word;
+        overflow-x: hidden;
+        /* Evitar el desbordamiento horizontal */
+        text-align: justify;
+        /* Justificar el texto de manera predeterminada */
+    }
+
+    /* Asegurar que las imágenes no desborden el editor */
+    .note-editable img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* Justificar párrafos */
+    .note-editable p {
+        text-align: justify !important;
+    }
+</style>
 <?php
 
 if ($data == 0) {
@@ -64,7 +99,6 @@ if ($data == 0) {
                                         ['table', ['table']],
                                         ['insert', ['link', 'picture', 'video']],
                                         ['view', ['fullscreen', 'codeview', 'help']],
-                                        ['misc', ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull']]
 
                                     ],
                                     callbacks: {
@@ -108,7 +142,6 @@ if ($data == 0) {
                                 ['table', ['table']],
                                 ['insert', ['link', 'picture', 'video']],
                                 ['view', ['fullscreen', 'codeview', 'help']],
-                                ['misc', ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull']]
 
                             ],
                             callbacks: {
