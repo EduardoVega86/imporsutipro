@@ -1317,11 +1317,8 @@ WHERE b.id_plataforma = $plataforma";
     {
 
         $sql = "SELECT * FROM `productos_tienda` WHERE id_producto_tienda = $id";
-        //echo $sql;
-        $landing = $this->select($sql);
-        $landing = $landing[0]['landing_tienda'];
-
-        if ($landing == '') {
+        $response =  $this->select($sql);
+        if (empty($response)) {
             return 0;
         } else {
             return 1;
