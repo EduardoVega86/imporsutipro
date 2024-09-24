@@ -1,7 +1,7 @@
 <?php require_once './Views/templates/header.php'; ?>
 <?php require_once './Views/Pedidos/css/chat_imporsuit_style.php'; ?>
 
-<div class="container mt-5">
+<div class="custom-container-fluid mt-4">
     <div id="scanner-container" class="text-center p-4 bg-light rounded shadow-lg">
         <h2 class="mb-4">Escanea el código de barras</h2>
         <div id="scanner" class="mb-4"></div>
