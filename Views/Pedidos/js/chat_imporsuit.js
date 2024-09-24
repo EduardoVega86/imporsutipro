@@ -271,7 +271,7 @@ $(document).ready(function () {
         if (response && response.length > 0) {
           // Verificamos que el último mensaje no sea el mismo que ya se ha mostrado
           console.log("lastMessageId: " + lastMessageId);
-          console.log("response[0].id_mensaje: " + response[0].id_mensaje);
+          console.log("response[0].id_mensaje: " + response[0].id);
 
           if (response[0].id_mensaje != lastMessageId) {
             llenarMensajesChatIncremental(response);
