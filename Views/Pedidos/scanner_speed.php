@@ -113,12 +113,12 @@
 
                     estado = validar_estadoSpeed(data.data.guia);
 
-                    $("#nombre").val(data.data.nombre_destino);
-                    $("#direccion").val(data.data.direccion_destino);
-                    $("#ciudad").val(data.data.ciudad_destino);
-                    $("#numero_guia").val(data.data.guia);
-                    $("#estado").val(estado);
-                    $("#flete_costo").val(data.data.flete_costo);
+                    $("#nombre").text(data.data.nombre_destino);
+                    $("#direccion").text(data.data.direccion_destino);
+                    $("#ciudad").text(data.data.ciudad_destino);
+                    $("#numero_guia").text(data.data.guia);
+                    $("#estado").text(estado);
+                    $("#flete_costo").text(data.data.flete_costo);
 
 
                     stopScanner();
