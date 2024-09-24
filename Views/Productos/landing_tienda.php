@@ -45,6 +45,8 @@
 if ($data == 0) {
 ?>
 
+
+
     <div class="container">
         <!-- no existe el producto -->
         <div class="row">

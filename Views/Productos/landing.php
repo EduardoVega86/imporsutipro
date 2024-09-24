@@ -236,6 +236,7 @@ if ($data == 0) {
                                     timer: 1500
                                 })
                             }
+
                         },
                         error: function(xhr, status, error) {
                             console.error('Error al enviar el archivo:', error);
