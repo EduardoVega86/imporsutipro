@@ -45,8 +45,9 @@
                 type: "LiveStream",
                 target: document.querySelector('#scanner'),
                 constraints: {
-                    facingMode: "user", // Para laptops usa la cámara frontal
+                    facingMode: "environment", // Para laptops usa la cámara frontal
                 },
+
             },
             decoder: {
                 readers: ["code_128_reader", "ean_reader", "ean_8_reader", "upc_reader"]
