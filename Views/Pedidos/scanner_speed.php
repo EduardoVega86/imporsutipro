@@ -9,6 +9,25 @@
         <button class="btn btn-primary me-2" onclick="startScanner()">Iniciar Escáner</button>
         <button class="btn btn-danger" onclick="stopScanner()">Detener Escáner</button>
     </div>
+
+    <div class="informacion_guia" id="informacion_guia" style="display: none;">
+        <h3 class="mb-3" style="text-decoration:underline;"><strong>Informacion de guia</strong></h3>
+        <p class="texto_infoVenta"><strong>Nombre:</strong> <span id="nombre"></span></p>
+        <p class="texto_infoVenta"><strong>Direccion:</strong> <span id="costo_infoVenta"></span></p>
+        <p class="texto_infoVenta"><strong>Guia:</strong> <span id="precioEnvio_infoVenta"></span></p>
+        <p class="texto_infoVenta"><strong>Estado:</strong> <span id="fulfillment_infoVenta"></span></p>
+        <p class="texto_infoVenta"><strong>Traking:</strong> <span id="total_infoVenta"></span></p>
+        <p class="texto_infoVenta"><strong>Monto a corbrar:</strong> <span id="total_infoVenta"></span></p>
+
+        <select class="form-select select-estado-speed" style="max-width: 130px;">
+            <option value="0">-- Selecciona estado --</option>
+            <option value="2">Generado</option>
+            <option value="3">Transito</option>
+            <option value="14">Novedad</option>
+            <option value="7">Entregado</option>
+            <option value="9">Devuelto</option>
+        </select>
+    </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
@@ -73,7 +92,7 @@
     // Función para enviar el código de barras a la API mediante AJAX
     function sendCodeToAPI(barcode) {
         // URL de tu API
-        const apiUrl = 'https://miapi.com/barcode'; // Cambia esta URL por la tuya
+        const apiUrl = 'https://guias.imporsuitpro.com/Speed/buscar/'+barcode; // Cambia esta URL por la tuya
 
         // Configuración de la solicitud AJAX usando fetch
         fetch(apiUrl, {
@@ -81,9 +100,6 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    barcode: barcode
-                }) // Enviar el código de barras en el cuerpo de la solicitud
             })
             .then(response => response.json()) // Convertir la respuesta a JSON
             .then(data => {
