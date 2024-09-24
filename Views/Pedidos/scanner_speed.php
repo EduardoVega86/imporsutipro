@@ -15,7 +15,7 @@
     <div class="informacion_guia" id="informacion_guia" style="display: none;">
         <h3 class="mb-3" style="text-decoration:underline;"><strong>Informacion de guia</strong></h3>
         <p class="texto_infoVenta"><strong>Nombre:</strong> <span id="nombre"></span></p>
-        <p class="texto_infoVenta"><strong>iudad:</strong> <span id="ciudad"></span></p>
+        <p class="texto_infoVenta"><strong>Ciudad:</strong> <span id="ciudad"></span></p>
         <p class="texto_infoVenta"><strong>Direccion:</strong> <span id="direccion"></span></p>
         <p class="texto_infoVenta"><strong>Numero guia:</strong> <span id="numero_guia"></span></p>
         <p class="texto_infoVenta"><strong>Estado:</strong> <span id="estado"></span></p>
