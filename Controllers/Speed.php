@@ -58,4 +58,17 @@ class Speed extends Controller
         $response = $this->model->asignarMotorizado($id_motorizado, $guia);
         echo json_encode($response);
     }
+
+    public function estados()
+    {
+        $estado = $_POST['estado'];
+        $imagen = $_FILES['imagen'] ?? null;
+        $tipo = $_POST['tipo'] ?? null;
+        $observacion = $_POST['observacion'] ?? null;
+        $id_factura = $_POST['id_factura'];
+        $googlemaps = $_POST['googlemaps'] ?? null;
+
+        $response = $this->model->estados($estado, $imagen, $tipo, $observacion, $id_factura, $googlemaps);
+        echo json_encode($response);
+    }
 }
