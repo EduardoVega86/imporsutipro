@@ -77,7 +77,7 @@ if ($data == 0) {
     <script>
         $(document).ready(function() {
             $.ajax({
-                url: 'https://new.imporsuitpro.com/productos/existeLanding/' + location.href.split("/").pop(),
+                url: SERVERURL + '/productos/existeLanding/' + location.href.split("/").pop(),
                 method: 'GET',
                 success: function(response) {
                     let formDATA = new FormData();
@@ -181,7 +181,7 @@ if ($data == 0) {
                 //existe landing?
 
                 const existeLanding = $.ajax({
-                    url: 'https://new.imporsuitpro.com/productos/existeLanding/' + id_producto,
+                    url: SERVERURL + '/productos/existeLanding/' + id_producto,
                     method: 'GET',
                     async: false
                 }).responseText;
