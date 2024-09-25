@@ -283,8 +283,7 @@
                     toastr.success("ESTADO AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
                         positionClass: "toast-bottom-center",
                     });
-                    $('#imagen_categoriaModal').modal('hide');
-                    initDataTable();
+                    $('#gestionar_speed_repartidoresModal').modal('hide');
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
