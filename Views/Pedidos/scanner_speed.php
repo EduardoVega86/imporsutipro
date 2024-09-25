@@ -176,7 +176,7 @@
 
             const idFactura = $("#id_factura").val();
 
-            if (nuevoEstado == 7 || nuevoEstado == 3 || nuevoEstado == 14) {
+            if (nuevoEstado == 7 || nuevoEstado == 3) {
                 $("#seccion_speed").hide();
 
                 $("#numeroGuia_novedad_speed").val(numeroGuia);
