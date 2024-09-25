@@ -199,12 +199,12 @@ class SpeedModel extends Query
             } else {
                 $response = $this->initialResponse();
                 $response['status'] = 500;
-                $response['message'] = "Error al actualizar la factura.";
+                $response['message'] = $res["message"];
             }
         } else {
             $response = $this->initialResponse();
             $response['status'] = 500;
-            $response['message'] = "Error al actualizar la factura.";
+            $response['message'] = "Error al actualizar la factura. status: $estado";
         }
 
         return $response;
@@ -240,7 +240,7 @@ class SpeedModel extends Query
                 $response['title'] = "¡Éxito!";
             } else {
                 $response['status'] = 500;
-                $response['message'] = "Error al subir la imagen.";
+                $response['message'] = $res["message"];
             }
         } else {
             $response['status'] = 500;
