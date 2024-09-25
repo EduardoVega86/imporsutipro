@@ -102,8 +102,8 @@ class SpeedModel extends Query
         $data = [$nombre, $celular, $usuario, $hash, $id_plataforma];
         $res = $this->insert($sql, $data);
         if ($res == 1) {
-            $sql = "INSERT INTO users(nombre_users, usuario_users, con_users, email_users, cargo_users) VALUES (?, ?, ?, ?, ?)";
-            $data = [$nombre, $usuario, $hash, $usuario, 35];
+            $sql = "INSERT INTO users(nombre_users, usuario_users, con_users, email_users, cargo_users, date_added) VALUES (?, ?, ?, ?, ?, ?)";
+            $data = [$nombre, $usuario, $hash, $usuario, 35, date("Y-m-d H:i:s")];
             $res = $this->insert($sql, $data);
             if ($res == 1) {
                 $response = $this->initialResponse();
