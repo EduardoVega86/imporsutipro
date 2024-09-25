@@ -28,26 +28,26 @@
                 <form id="agregar_repartidor_form" enctype="multipart/form-data">
                     <div class="row mb-3">
                         <div class="col">
-                            <label for="nombre" class="form-label">Nombre:</label>
-                            <input type="text" class="form-control" id="nombre" placeholder="Nombre">
+                            <label for="nombre_repartidor" class="form-label">Nombre:</label>
+                            <input type="text" class="form-control" id="nombre_repartidor" placeholder="Nombre">
                         </div>
                         <div class="col">
-                            <label for="celular" class="form-label">Celular:</label>
-                            <input type="text" class="form-control" id="celular" placeholder="celular">
+                            <label for="celular_repartidor" class="form-label">Celular:</label>
+                            <input type="text" class="form-control" id="celular_repartidor" placeholder="celular">
                         </div>
                         <div class="col">
-                            <label for="usuario" class="form-label">Usuario:</label>
-                            <input type="text" class="form-control" id="usuario" placeholder="usuario">
+                            <label for="usuario_repartidor" class="form-label">Usuario:</label>
+                            <input type="text" class="form-control" id="usuario_repartidor" placeholder="usuario">
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col">
-                            <label for="contrasena" class="form-label">Contraseña:</label>
-                            <input type="password" class="form-control" id="contrasena" placeholder="Contraseña">
+                            <label for="contrasena_repartidor" class="form-label">Contraseña:</label>
+                            <input type="password" class="form-control" id="contrasena_repartidor" placeholder="Contraseña">
                         </div>
                         <div class="col">
-                            <label for="repiteContrasena" class="form-label">Repite contraseña:</label>
-                            <input type="password" class="form-control" id="repiteContrasena" placeholder="Repite contraseña">
+                            <label for="repiteContrasena_repartidor" class="form-label">Repite contraseña:</label>
+                            <input type="password" class="form-control" id="repiteContrasena_repartidor" placeholder="Repite contraseña">
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -82,8 +82,8 @@
         $('#agregar_repartidor_form').submit(function(event) {
             event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
 
-            var contrasena = $('#contrasena').val();
-            var repiteContrasena = $('#repiteContrasena').val();
+            var contrasena = $('#contrasena_repartidor').val();
+            var repiteContrasena = $('#repiteContrasena_repartidor').val();
 
             // Validar que las contraseñas sean iguales
             if (contrasena !== repiteContrasena) {
@@ -98,9 +98,9 @@
 
             // Crea un objeto FormData
             var formData = new FormData();
-            formData.append('nombre', $('#nombre').val());
-            formData.append('celular', $('#celular').val());
-            formData.append('usuario', $('#usuario').val());
+            formData.append('nombre', $('#nombre_repartidor').val());
+            formData.append('celular', $('#celular_repartidor').val());
+            formData.append('usuario', $('#usuario_repartidor').val());
             formData.append('contrasena', contrasena);
 
             // Realiza la solicitud AJAX
