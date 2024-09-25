@@ -485,9 +485,7 @@ function calcularTarifas() {
         $("#price_servientrega").text(response.servientrega);
         $("#price_gintracom").text(response.gintracom);
 
-        if (MATRIZ != 2) {
-          $("#price_speed").text(response.speed);
-        }
+        $("#price_speed").text(response.speed);
 
         $("#price_laar").text(response.laar);
 

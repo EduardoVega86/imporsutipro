@@ -150,11 +150,7 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                     </div>
                     <div class="img-container text-center transportadora" data-company="speed">
                         <img src="<?php echo TRANSPORTADORA_IMAGEN ?>" alt="Speed">
-                        <?php if (MATRIZ == 2) { ?>
-                            <div class="price-tag" data-price-id="price_speed">$<span id="price_speed">Mantenimiento</span></div>
-                        <?php } else { ?>
-                            <div class="price-tag" data-price-id="price_speed">$<span id="price_speed">--</span></div>
-                        <?php } ?>
+                        <div class="price-tag" data-price-id="price_speed">$<span id="price_speed">--</span></div>
                     </div>
                     <div class="img-container text-center transportadora" data-company="gintracom">
                         <img src="<?php echo SERVERURL; ?>/public/img/GINTRACOM.jpg" alt="Gintracom">
