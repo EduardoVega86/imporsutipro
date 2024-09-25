@@ -157,6 +157,8 @@
                     <a href="<?php echo SERVERURL ?>shopify/constructor_vista"><i class="fa-brands fa-shopify menu-icon"></i> <span class="menu-text">Datos Shopify</span></a>
                     <a href="<?php echo SERVERURL ?>integraciones"><i class="fa-solid fa-globe menu-icon"></i> <span class="menu-text">Integracio- nes</span></a>
                 </div>
+            <?php } else { ?>
+                <a href="<?php echo SERVERURL ?>Pedidos/scanner_speed"><i class='bx bx-home menu-icon'></i> <span class="menu-text">Scanner Speed</span></a>
             <?php } ?>
         </div>
         <div class="footer-text">
