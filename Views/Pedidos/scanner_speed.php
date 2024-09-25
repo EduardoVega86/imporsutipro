@@ -125,6 +125,8 @@
                     $("#estado").text(estado);
                     $("#flete_costo").text(data.data.flete_costo);
 
+                    $(".select-estado-speed").val(data.data.estado).change();
+
                     let formData = new FormData();
                     formData.append("numero_factura", data.data.factura);
                     $.ajax({
