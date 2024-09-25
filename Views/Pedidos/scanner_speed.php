@@ -15,6 +15,7 @@
 
     <div class="informacion_guia" id="informacion_guia" style="display: none;">
         <h3 class="mb-3" style="text-decoration:underline;"><strong>Informacion de guia</strong></h3>
+        <input type="hidden" id="id_factura" name="id_factura">
         <p class="texto_infoVenta"><strong>Nombre:</strong> <span id="nombre"></span></p>
         <p class="texto_infoVenta"><strong>Ciudad:</strong> <span id="ciudad"></span></p>
         <p class="texto_infoVenta"><strong>Direccion:</strong> <span id="direccion"></span></p>
@@ -124,6 +125,23 @@
                     $("#estado").text(estado);
                     $("#flete_costo").text(data.data.flete_costo);
 
+                    let formData = new FormData();
+                    formData.append("numero_factura", data.data.numero_factura);
+                    $.ajax({
+                        url: SERVERURL + "speed/buscarFactura",
+                        type: "POST",
+                        data: formData,
+                        processData: false, // No procesar los datos
+                        contentType: false, // No establecer ningún tipo de contenido
+                        dataType: "json",
+                        success: function(response2) {
+
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            alert(errorThrown);
+                        },
+                    });
+
 
                     stopScanner();
                 } else {
@@ -153,10 +171,10 @@
     // Event delegation for select change
     document.addEventListener("change", async (event) => {
         if (event.target && event.target.classList.contains("select-estado-speed")) {
-            const numeroGuia = event.target.getAttribute("data-numero-guia");
+            const numeroGuia = $("#numero_guia").text();
             const nuevoEstado = event.target.value;
 
-            const idFactura = event.target.getAttribute("data-id-factura");
+            const idFactura = $("#numero_guia").text();
 
             if (nuevoEstado == 7 || nuevoEstado == 3 || nuevoEstado == 14) {
                 $("#numeroGuia_novedad_speed").val(numeroGuia);
