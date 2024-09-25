@@ -82,7 +82,7 @@
                     <input type="hidden" id="idFactura_novedad_speed" name="idFactura_novedad_speed">
 
                     <!-- Sección de foto con opción para tomar foto -->
-                    <div id="seccion_foto" style="display: block;">
+                    <div id="seccion_foto" style="display: none;">
                         <label for="input_foto">Tomar Foto:</label>
                         <input type="file" id="input_foto" accept="image/*;capture=camera" onchange="previsualizarFoto(event)">
                         <img id="previsualizacion" alt="Previsualización de la imagen">
