@@ -54,10 +54,10 @@ class Speed extends Controller
 
     public function asignarMotorizado()
     {
-        $id_motorizado = $_POST['id_motorizado'];
+        $id_usuario = $_POST['id_usuario'];
         $guia = $_POST['guia'];
 
-        $response = $this->model->asignarMotorizado($id_motorizado, $guia);
+        $response = $this->model->asignarMotorizado($id_usuario, $guia);
         echo json_encode($response);
     }
 

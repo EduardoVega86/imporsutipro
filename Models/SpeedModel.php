@@ -273,4 +273,21 @@ class SpeedModel extends Query
         }
         return $response;
     }
+
+    public function asignarMotorizado($id_usuario, $guia)
+    {
+        $sql = "INSERT INTO guias_motorizados (id_motorizado, guia) VALUES (?, ?)";
+        $data = [$id_usuario, $guia];
+        $res = $this->insert($sql, $data);
+        if ($res == 1) {
+            $response = $this->initialResponse();
+            $response['status'] = 200;
+            $response['message'] = "Guía asignada correctamente.";
+            $response['title'] = "¡Éxito!";
+        } else {
+            $response = $this->initialResponse();
+            $response['status'] = 500;
+            $response['message'] = "Error al asignar la guía.";
+        }
+    }
 }
