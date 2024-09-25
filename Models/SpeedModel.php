@@ -109,7 +109,7 @@ class SpeedModel extends Query
                 //buscar el id del usuario
                 $sql = "SELECT id_users FROM users WHERE usuario_users = '$usuario'";
                 $res = $this->select($sql);
-                if ($res['status'] == 200) {
+                if (!empty($res)) {
                     $id_usuario = $res['data'][0]['id_users'];
                     $sql = "INSERT INTO `usuario_plataforma` (`id_usuario`, `id_plataforma`) VALUES (?,?);";
                     $data = [$id_usuario, $id_plataforma];
