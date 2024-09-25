@@ -225,8 +225,8 @@
 
 
     function enviar_speedNovedad() {
-        var button = document.getElementById("boton_speed");
-        button.disabled = true; // Desactivar el botón
+        /* var button = document.getElementById("boton_speed");
+        button.disabled = true; // Desactivar el botón */
 
         var tipo_speed = $("#tipo_speed").val();
         var observacion_nov_speed = $("#observacion_nov_speed").val();
