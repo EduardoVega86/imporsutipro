@@ -57,105 +57,107 @@
             <a href="#" class="toggle-btn" id="toggle-btn">
                 <i class='bx bx-menu menu-icon'></i>
             </a>
-            <?php if ( MATRIZ == 1) { ?>
-                <a href="<?php echo SERVERURL ?>dashboard/home"><i class='bx bx-home menu-icon'></i> <span class="menu-text">Inicio</span></a>
+            <?php if ($_SESSION['cargo'] != 45) { ?>
+                <?php if (MATRIZ == 1) { ?>
+                    <a href="<?php echo SERVERURL ?>dashboard/home"><i class='bx bx-home menu-icon'></i> <span class="menu-text">Inicio</span></a>
+                <?php } ?>
+                <a href="<?php echo SERVERURL ?>dashboard"><i class='fa-solid fa-chart-line menu-icon'></i> <span class="menu-text">Dashboard</span></a>
+
+                <a href="<?php echo SERVERURL ?>Productos/marketplace"><i class='bx bx-shopping-bag menu-icon'></i> <span class="menu-text">Marketplace</span></a>
+
+                <a href="#" class="dropdown-btn" data-target="#submenu1"><i class='bx bx-cart menu-icon'></i> <span class="menu-text">Mis Productos</span></a>
+
+                <div class="submenu" id="submenu1">
+                    <a href="<?php echo SERVERURL ?>Productos"><i class='bx bxs-store menu-icon'></i> <span class="menu-text">Listado</span></a>
+                    <a href="<?php echo SERVERURL ?>Productos/marketplace_privado"><i class='bx bxs-box menu-icon'></i> <span class="menu-text">Producto Privados</span></a>
+                    <a href="<?php echo SERVERURL ?>Productos/categorias"><i class='bx bxs-category menu-icon'></i> <span class="menu-text">Categorias</span></a>
+
+                    <a href="<?php echo SERVERURL ?>Productos/importacion_masiva"><i class='bx bxs-cart-download menu-icon'></i> <span class="menu-text">Importación Masiva</span></a>
+
+
+                </div>
+                <a href="#" class="dropdown-btn" data-target="#tienda"><i class='bx bx-store menu-icon'></i> <span class="menu-text">Tienda Online</span></a>
+                <div class="submenu" id="tienda">
+                    <a href="<?php echo SERVERURL ?>Productos/productos_tienda"><i class='bx bxs-cart menu-icon'></i> <span class="menu-text">Productos Tienda</span></a>
+                    <a href="<?php echo SERVERURL ?>Productos/combos"><i class='bx bxs-category menu-icon'></i> <span class="menu-text">Combos</span></a>
+                    <a href="<?php echo SERVERURL ?>usuarios/checkout"><i class='bx bxs-joystick-button menu-icon'></i> <span class="menu-text">Editar Checkout</span></a>
+                    <a href="<?php echo SERVERURL ?>usuarios/tienda_online"><i class='bx bxs-store menu-icon'></i> <span class="menu-text">Tienda Online</span></a>
+                </div>
+
+                <?php if ($_SESSION['cargo'] != 5) { ?>
+                    <a href="#" class="dropdown-btn" data-target="#submenu_inventario"><i class='bx bx-list-plus menu-icon'></i> <span class="menu-text">Inventarios</span></a>
+                <?php } ?>
+
+                <div class="submenu" id="submenu_inventario">
+
+
+                    <a href="<?php echo SERVERURL ?>Productos/bodegas"><i class='bx bxs-truck menu-icon'></i> <span class="menu-text">Bodegas</span></a>
+                    <a href="<?php echo SERVERURL ?>Productos/inventario"><i class='bx bx-list-plus menu-icon'></i> <span class="menu-text">Inventario</span></a>
+                    <a href="<?php echo SERVERURL ?>despacho/lista_despachos"><i class='bx bxs-box menu-icon'></i> <span class="menu-text">Relacion Despacho</span></a>
+                    <a href="<?php echo SERVERURL ?>despacho/lista_devoluciones"><i class='bx bx-box menu-icon'></i> <span class="menu-text">Devoluciones</span></a>
+
+                </div>
+
+                <a href="#" class="dropdown-btn" data-target="#submenu2"><i class='bx bx-receipt menu-icon'></i> <span class="menu-text">Pedidos</span></a>
+                <div class="submenu" id="submenu2">
+                    <a href="<?php echo SERVERURL ?>Pedidos"><i class='bx bx-history menu-icon'></i> <span class="menu-text">Historial</span></a>
+                    <?php if ($_SESSION['cargo'] == 10) { ?>
+                        <a href="<?php echo SERVERURL ?>pedidos/guias_administrador"><i class='bx bx-archive menu-icon'></i> <span class="menu-text">Guías</span></a>
+                        <a href="<?php echo SERVERURL ?>pedidos/local"><i class='bx bx-archive menu-icon'></i> <span class="menu-text">Guías Speed</span></a>
+                        <a href="<?php echo SERVERURL ?>pedidos/anuladas_administrador"><i class='bx bx-x menu-icon'></i> <span class="menu-text">Anulados</span></a>
+                    <?php
+                    } else {
+                    ?>
+                        <a href="<?php echo SERVERURL ?>pedidos/guias"><i class='bx bx-archive menu-icon'></i> <span class="menu-text">Guías</span></a>
+                        <a href="<?php echo SERVERURL ?>pedidos/anuladas"><i class='bx bx-x menu-icon'></i> <span class="menu-text">Anulados</span></a>
+                    <?php
+                    }
+                    ?>
+                    <a href="<?php echo SERVERURL ?>pedidos/novedades"><i class='bx bx-info-circle menu-icon'></i> <span class="menu-text">Novedades</span></a>
+                </div>
+
+                <?php if ($_SESSION['cargo'] != 5) { ?>
+                    <a href="#" class="dropdown-btn" data-target="#submenu3"><i class='bx bx-wallet menu-icon'></i> <span class="menu-text">Wallet</span></a>
+                <?php } ?>
+                <div class="submenu" id="submenu3">
+                    <a href="<?php echo SERVERURL ?>wallet"><i class="fa-solid fa-money-bill-trend-up menu-icon"></i> <span class="menu-text">Detalle</span></a>
+                    <a href="<?php echo SERVERURL ?>wallet/datos_bancarios"><i class='bx bxs-bank menu-icon'></i> <span class="menu-text">Datos bancarios</span></a>
+                    <a href="<?php echo SERVERURL ?>referidos"><i class='bx bxs-bank menu-icon'></i> <span class="menu-text">Referidos</span></a>
+                    <?php if ($_SESSION['cargo'] != 10) {
+                    ?>
+                        <a href="<?php echo SERVERURL ?>wallet/historial_solicitudes"><i class='bx bx-task menu-icon'></i> <span class="menu-text">Solicitudes</span></a>
+                    <?php
+                    }
+                    ?>
+                    <?php if ($_SESSION['cargo'] == 10) { ?>
+                        <a href="<?php echo SERVERURL ?>wallet/solicitudes"><i class="fa-solid fa-clipboard-list menu-icon"></i> <span class="menu-text">Solicitudes</span></a>
+                        <a href="<?php echo SERVERURL ?>wallet/auditoria_guias"><i class="fa-solid fa-search menu-icon"></i> <span class="menu-text">Auditoria</span></a>
+                    <?php
+                    }
+                    ?>
+                </div>
+
+                <?php if ($_SESSION['cargo'] != 5) { ?>
+                    <a href="#" class="dropdown-btn" data-target="#submenu4"><i class='bx bx-cog menu-icon'></i> <span class="menu-text">Configuración</span></a>
+                <?php } ?>
+                <div class="submenu" id="submenu4">
+                    <?php if ($_SESSION['cargo'] == 10) { ?>
+                        <a href="<?php echo SERVERURL ?>usuarios/plataformas"><i class='bx bx-box menu-icon'></i> <span class="menu-text">Plataformas Marketplace</span></a>
+                        <a href="<?php echo SERVERURL ?>usuarios/listamatriz"><i class='bx bx-user menu-icon'></i> <span class="menu-text">Usuarios</span></a>
+                        <a href="<?php echo SERVERURL ?>usuarios/actualizacionMasiva_tiendas"><i class='bx bx-user menu-icon'></i> <span class="menu-text">Actualizacion Masiva</span></a>
+                    <?php
+                    } else {
+                    ?>
+                        <a href="<?php echo SERVERURL ?>usuarios/listado"><i class='bx bx-user menu-icon'></i> <span class="menu-text">Usuarios</span></a>
+                    <?php
+                    }
+                    ?>
+                    <!--a href="#"><i class='bx bxs-user-detail menu-icon'></i> <span class="menu-text">Roles</span></a-->
+                    <a href="<?php echo SERVERURL ?>shopify/constructor"><i class="fa-brands fa-shopify menu-icon"></i> <span class="menu-text">Shopify</span></a>
+                    <a href="<?php echo SERVERURL ?>shopify/constructor_vista"><i class="fa-brands fa-shopify menu-icon"></i> <span class="menu-text">Datos Shopify</span></a>
+                    <a href="<?php echo SERVERURL ?>integraciones"><i class="fa-solid fa-globe menu-icon"></i> <span class="menu-text">Integracio- nes</span></a>
+                </div>
             <?php } ?>
-            <a href="<?php echo SERVERURL ?>dashboard"><i class='fa-solid fa-chart-line menu-icon'></i> <span class="menu-text">Dashboard</span></a>
-
-            <a href="<?php echo SERVERURL ?>Productos/marketplace"><i class='bx bx-shopping-bag menu-icon'></i> <span class="menu-text">Marketplace</span></a>
-
-            <a href="#" class="dropdown-btn" data-target="#submenu1"><i class='bx bx-cart menu-icon'></i> <span class="menu-text">Mis Productos</span></a>
-
-            <div class="submenu" id="submenu1">
-                <a href="<?php echo SERVERURL ?>Productos"><i class='bx bxs-store menu-icon'></i> <span class="menu-text">Listado</span></a>
-                <a href="<?php echo SERVERURL ?>Productos/marketplace_privado"><i class='bx bxs-box menu-icon'></i> <span class="menu-text">Producto Privados</span></a>
-                <a href="<?php echo SERVERURL ?>Productos/categorias"><i class='bx bxs-category menu-icon'></i> <span class="menu-text">Categorias</span></a>
-
-                <a href="<?php echo SERVERURL ?>Productos/importacion_masiva"><i class='bx bxs-cart-download menu-icon'></i> <span class="menu-text">Importación Masiva</span></a>
-
-
-            </div>
-            <a href="#" class="dropdown-btn" data-target="#tienda"><i class='bx bx-store menu-icon'></i> <span class="menu-text">Tienda Online</span></a>
-            <div class="submenu" id="tienda">
-                <a href="<?php echo SERVERURL ?>Productos/productos_tienda"><i class='bx bxs-cart menu-icon'></i> <span class="menu-text">Productos Tienda</span></a>
-                <a href="<?php echo SERVERURL ?>Productos/combos"><i class='bx bxs-category menu-icon'></i> <span class="menu-text">Combos</span></a>
-                <a href="<?php echo SERVERURL ?>usuarios/checkout"><i class='bx bxs-joystick-button menu-icon'></i> <span class="menu-text">Editar Checkout</span></a>
-                <a href="<?php echo SERVERURL ?>usuarios/tienda_online"><i class='bx bxs-store menu-icon'></i> <span class="menu-text">Tienda Online</span></a>
-            </div>
-
-            <?php if ($_SESSION['cargo'] != 5) { ?>
-                <a href="#" class="dropdown-btn" data-target="#submenu_inventario"><i class='bx bx-list-plus menu-icon'></i> <span class="menu-text">Inventarios</span></a>
-            <?php } ?>
-
-            <div class="submenu" id="submenu_inventario">
-
-
-                <a href="<?php echo SERVERURL ?>Productos/bodegas"><i class='bx bxs-truck menu-icon'></i> <span class="menu-text">Bodegas</span></a>
-                <a href="<?php echo SERVERURL ?>Productos/inventario"><i class='bx bx-list-plus menu-icon'></i> <span class="menu-text">Inventario</span></a>
-                <a href="<?php echo SERVERURL ?>despacho/lista_despachos"><i class='bx bxs-box menu-icon'></i> <span class="menu-text">Relacion Despacho</span></a>
-                <a href="<?php echo SERVERURL ?>despacho/lista_devoluciones"><i class='bx bx-box menu-icon'></i> <span class="menu-text">Devoluciones</span></a>
-
-            </div>
-
-            <a href="#" class="dropdown-btn" data-target="#submenu2"><i class='bx bx-receipt menu-icon'></i> <span class="menu-text">Pedidos</span></a>
-            <div class="submenu" id="submenu2">
-                <a href="<?php echo SERVERURL ?>Pedidos"><i class='bx bx-history menu-icon'></i> <span class="menu-text">Historial</span></a>
-                <?php if ($_SESSION['cargo'] == 10) { ?>
-                    <a href="<?php echo SERVERURL ?>pedidos/guias_administrador"><i class='bx bx-archive menu-icon'></i> <span class="menu-text">Guías</span></a>
-                    <a href="<?php echo SERVERURL ?>pedidos/local"><i class='bx bx-archive menu-icon'></i> <span class="menu-text">Guías Speed</span></a>
-                    <a href="<?php echo SERVERURL ?>pedidos/anuladas_administrador"><i class='bx bx-x menu-icon'></i> <span class="menu-text">Anulados</span></a>
-                <?php
-                } else {
-                ?>
-                    <a href="<?php echo SERVERURL ?>pedidos/guias"><i class='bx bx-archive menu-icon'></i> <span class="menu-text">Guías</span></a>
-                    <a href="<?php echo SERVERURL ?>pedidos/anuladas"><i class='bx bx-x menu-icon'></i> <span class="menu-text">Anulados</span></a>
-                <?php
-                }
-                ?>
-                <a href="<?php echo SERVERURL ?>pedidos/novedades"><i class='bx bx-info-circle menu-icon'></i> <span class="menu-text">Novedades</span></a>
-            </div>
-
-            <?php if ($_SESSION['cargo'] != 5) { ?>
-                <a href="#" class="dropdown-btn" data-target="#submenu3"><i class='bx bx-wallet menu-icon'></i> <span class="menu-text">Wallet</span></a>
-            <?php } ?>
-            <div class="submenu" id="submenu3">
-                <a href="<?php echo SERVERURL ?>wallet"><i class="fa-solid fa-money-bill-trend-up menu-icon"></i> <span class="menu-text">Detalle</span></a>
-                <a href="<?php echo SERVERURL ?>wallet/datos_bancarios"><i class='bx bxs-bank menu-icon'></i> <span class="menu-text">Datos bancarios</span></a>
-                <a href="<?php echo SERVERURL ?>referidos"><i class='bx bxs-bank menu-icon'></i> <span class="menu-text">Referidos</span></a>
-                <?php if ($_SESSION['cargo'] != 10) {
-                ?>
-                    <a href="<?php echo SERVERURL ?>wallet/historial_solicitudes"><i class='bx bx-task menu-icon'></i> <span class="menu-text">Solicitudes</span></a>
-                <?php
-                }
-                ?>
-                <?php if ($_SESSION['cargo'] == 10) { ?>
-                    <a href="<?php echo SERVERURL ?>wallet/solicitudes"><i class="fa-solid fa-clipboard-list menu-icon"></i> <span class="menu-text">Solicitudes</span></a>
-                    <a href="<?php echo SERVERURL ?>wallet/auditoria_guias"><i class="fa-solid fa-search menu-icon"></i> <span class="menu-text">Auditoria</span></a>
-                <?php
-                }
-                ?>
-            </div>
-
-            <?php if ($_SESSION['cargo'] != 5) { ?>
-                <a href="#" class="dropdown-btn" data-target="#submenu4"><i class='bx bx-cog menu-icon'></i> <span class="menu-text">Configuración</span></a>
-            <?php } ?>
-            <div class="submenu" id="submenu4">
-                <?php if ($_SESSION['cargo'] == 10) { ?>
-                    <a href="<?php echo SERVERURL ?>usuarios/plataformas"><i class='bx bx-box menu-icon'></i> <span class="menu-text">Plataformas Marketplace</span></a>
-                    <a href="<?php echo SERVERURL ?>usuarios/listamatriz"><i class='bx bx-user menu-icon'></i> <span class="menu-text">Usuarios</span></a>
-                    <a href="<?php echo SERVERURL ?>usuarios/actualizacionMasiva_tiendas"><i class='bx bx-user menu-icon'></i> <span class="menu-text">Actualizacion Masiva</span></a>
-                <?php
-                } else {
-                ?>
-                    <a href="<?php echo SERVERURL ?>usuarios/listado"><i class='bx bx-user menu-icon'></i> <span class="menu-text">Usuarios</span></a>
-                <?php
-                }
-                ?>
-                <!--a href="#"><i class='bx bxs-user-detail menu-icon'></i> <span class="menu-text">Roles</span></a-->
-                <a href="<?php echo SERVERURL ?>shopify/constructor"><i class="fa-brands fa-shopify menu-icon"></i> <span class="menu-text">Shopify</span></a>
-                <a href="<?php echo SERVERURL ?>shopify/constructor_vista"><i class="fa-brands fa-shopify menu-icon"></i> <span class="menu-text">Datos Shopify</span></a>
-                <a href="<?php echo SERVERURL ?>integraciones"><i class="fa-solid fa-globe menu-icon"></i> <span class="menu-text">Integracio- nes</span></a>
-            </div>
         </div>
         <div class="footer-text">
             2024 © <?php echo MARCA; ?>
@@ -172,9 +174,9 @@
                     <?php if (MARCA == "IMPORSUIT") { ?>
                         <a class="nav-link" href="https://danielbonilla522-9.funnels.mastertools.com/#primeros-pasos" target="_blank"><box-icon type='solid' name='videos' color="<?php echo COLOR_LETRAS; ?>"></box-icon> Tutoriales</a>
                     <?php } ?>
- <?php if ($_SESSION['cargo'] != 5) { ?>
-                    <span class="navbar-text"><box-icon name='wallet' color="<?php echo COLOR_LETRAS; ?>"></box-icon> $<span id="precio_wallet"></span></span>
- <?php } ?>
+                    <?php if ($_SESSION['cargo'] != 5) { ?>
+                        <span class="navbar-text"><box-icon name='wallet' color="<?php echo COLOR_LETRAS; ?>"></box-icon> $<span id="precio_wallet"></span></span>
+                    <?php } ?>
                     <!-- Notificación con icono y dropdown -->
                     <div class="notification-dropdown">
                         <span class="navbar-text notification-icon" onclick="toggleNotifications()">
