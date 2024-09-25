@@ -355,6 +355,7 @@ class AccesoModel extends Query
                 $response['message'] = 'Usuario autenticado correctamente';
                 $response['data'] = $datos_usuario[0];
                 $response["ultimo_punto"]["url"] = $datos_usuario[0]["ultimo_punto"];
+                $response["cargo"] = $datos_usuario[0]["cargo_users"];
                 //session_start();
                 $_SESSION["user"] = $datos_usuario[0]["email_users"];
                 $idPlataforma = $this->select("SELECT id_plataforma FROM usuario_plataforma WHERE id_usuario = " . $datos_usuario[0]["id_users"]);
@@ -389,6 +390,8 @@ class AccesoModel extends Query
                 $response['message'] = 'Usuario autenticado correctamente';
                 $response['data'] = $datos_usuario[0];
                 $response["ultimo_punto"]["url"] = $datos_usuario[0]["ultimo_punto"];
+                $response["cargo"] = $datos_usuario[0]["cargo_users"];
+
                 //session_start();
                 $_SESSION["user"] = $datos_usuario[0]["email_users"];
                 $idPlataforma = $this->select("SELECT id_plataforma FROM usuario_plataforma WHERE id_usuario = " . $datos_usuario[0]["id_users"]);
