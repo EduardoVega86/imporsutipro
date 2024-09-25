@@ -317,6 +317,33 @@ function copyToClipboard(id) {
       console.error("Error al copiar al portapapeles: ", err);
     }
   );
+
+  /* mandar a shopify */
+  let formData = new FormData();
+  formData.append("id_inventario", id);
+  $.ajax({
+    url: SERVERURL + "Productos/importar_productos_shopify",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("NO SE AGREGO CORRECTAMENTE a shopify", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("PRODUCTO AGREGADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+
+  /* fin mandar a shopify */
 }
 
 // Función para manejar el clic en el botón de corazón

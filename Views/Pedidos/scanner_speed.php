@@ -215,10 +215,19 @@
         var numeroGuia_novedad_speed = $("#numeroGuia_novedad_speed").val();
         var nuevoEstado_novedad_speed = $("#nuevoEstado_novedad_speed").val();
 
+        const inputFoto = document.getElementById('input_foto');
+        const file = inputFoto.files[0];
+
+        if (!file) {
+            alert('Por favor, toma o selecciona una foto.');
+            return;
+        }
+
         let formData = new FormData();
         formData.append("tipo", tipo_speed);
         formData.append("novedad", observacion_nov_speed);
         formData.append("id_pedido", id_novedad);
+        formData.append('foto', file);
 
 
     }
