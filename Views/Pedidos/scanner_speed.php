@@ -145,7 +145,7 @@
 
                     stopScanner();
                 } else {
-                    alert('Producto no encontrado o error en la consulta');
+                    
                 }
             })
             .catch(error => {});
