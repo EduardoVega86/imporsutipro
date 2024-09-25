@@ -78,10 +78,15 @@
                             window.location.href = '<?php echo SERVERURL; ?>dashboard';
                         } */
                         const MATRIZ = <?php echo MATRIZ; ?>;
-                        if (MATRIZ == 1) {
-                            window.location.href = '<?php echo SERVERURL ?>dashboard/home';
+                        let cargo = data.cargo
+                        if (cargo != 35) {
+                            if (MATRIZ == 1) {
+                                window.location.href = '<?php echo SERVERURL ?>dashboard/home';
+                            } else {
+                                window.location.href = '<?php echo SERVERURL ?>dashboard';
+                            }
                         } else {
-                            window.location.href = '<?php echo SERVERURL ?>dashboard';
+                            window.location.href = '<?php echo SERVERURL ?>Pedidos/scanner_speed';
                         }
                     });
                 }
