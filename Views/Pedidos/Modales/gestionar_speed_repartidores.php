@@ -86,7 +86,10 @@
                         <label for="input_foto">Tomar Foto:</label>
                         <input type="file" id="input_foto" accept="image/*;capture=camera" onchange="previsualizarFoto(event)">
                         <img id="previsualizacion" alt="Previsualización de la imagen">
-                        <button type="button" class="btn btn-primary" id="boton_speed" onclick="enviar_foto()">Enviar</button>
+
+                        <br>
+                        <label for="link_ubicacion_google">Link ubicacion google:</label>
+                        <input type="text" class="form-control" id="link_ubicacion_google">
                     </div>
 
                     <div id="seccion_speed" style="display: none;">
@@ -134,33 +137,5 @@
         if (file) {
             reader.readAsDataURL(file);
         }
-    }
-
-    // Función para enviar la foto a la API
-    function enviar_foto() {
-        const inputFoto = document.getElementById('input_foto');
-        const file = inputFoto.files[0];
-
-        if (!file) {
-            alert('Por favor, toma o selecciona una foto.');
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append('foto', file);
-
-        fetch('URL_DE_TU_API', {
-                method: 'POST',
-                body: formData,
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Éxito:', data);
-                alert('Foto enviada exitosamente.');
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                alert('Error al enviar la foto.');
-            });
     }
 </script>

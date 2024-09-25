@@ -211,9 +211,10 @@
 
         var tipo_speed = $("#tipo_speed").val();
         var observacion_nov_speed = $("#observacion_nov_speed").val();
-        var id_novedad = $("#idFactura_novedad_speed").val();
+        var id_factura = $("#idFactura_novedad_speed").val();
         var numeroGuia_novedad_speed = $("#numeroGuia_novedad_speed").val();
         var nuevoEstado_novedad_speed = $("#nuevoEstado_novedad_speed").val();
+        var link_ubicacion_google = $("#link_ubicacion_google").val();
 
         const inputFoto = document.getElementById('input_foto');
         const file = inputFoto.files[0];
@@ -224,11 +225,27 @@
         }
 
         let formData = new FormData();
+        formData.append("estado", nuevoEstado_novedad_speed);
         formData.append("tipo", tipo_speed);
-        formData.append("novedad", observacion_nov_speed);
-        formData.append("id_pedido", id_novedad);
-        formData.append('foto', file);
+        formData.append("observacion", observacion_nov_speed);
+        formData.append("id_factura", id_factura);
+        formData.append('imagen', file);
+        formData.append('googlemaps', link_ubicacion_google);
 
+        $.ajax({
+            url: SERVERURL + "speed/estados",
+            type: "POST",
+            data: formData,
+            processData: false, // No procesar los datos
+            contentType: false, // No establecer ningún tipo de contenido
+            dataType: "json",
+            success: function(response) {
+
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert(errorThrown);
+            },
+        });
 
     }
 </script>

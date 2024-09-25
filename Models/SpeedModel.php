@@ -94,10 +94,12 @@ class SpeedModel extends Query
         return $response;
     }
 
-    public function guardarMotorizado($nombre, $celular, $id_plataforma)
+    public function guardarMotorizado($nombre, $celular, $usuario, $contrasena, $id_plataforma)
     {
-        $sql = "INSERT INTO motorizados (nombre, celular, id_plataforma) VALUES (?, ?, ?)";
-        $data = [$nombre, $celular, $id_plataforma];
+        $hash = password_hash($contrasena, PASSWORD_DEFAULT);
+
+        $sql = "INSERT INTO motorizados (nombre_motorizado, numero_motorizado,usuario, contrasena, id_plataforma) VALUES (?, ?, ?, ?, ?)";
+        $data = [$nombre, $celular, $usuario, $hash, $id_plataforma];
         $res = $this->insert($sql, $data);
         if ($res == 1) {
             $response = $this->initialResponse();
@@ -107,7 +109,7 @@ class SpeedModel extends Query
         } else {
             $response = $this->initialResponse();
             $response['status'] = 500;
-            $response['message'] = "Error al guardar el motorizado.";
+            $response['message'] = $res["message"];
         }
         return $response;
     }
@@ -117,44 +119,37 @@ class SpeedModel extends Query
         if ($estado == 1) {
             $sql = "UPDATE facturas_cot SET estado_guia_sistema = 1 WHERE id_factura = $id_factura";
             $res = $this->simple_insert($sql);
-            if ($res == 1) {
-                $response = $this->initialResponse();
-                $response['status'] = 200;
-                $response['message'] = "Factura actualizada correctamente.";
-                $response['title'] = "¡Éxito!";
-            } else {
-                $response = $this->initialResponse();
-                $response['status'] = 500;
-                $response['message'] = "Error al actualizar la factura.";
-            }
-        } else if ($estado == 2) {
+            $response = $this->handleSimpleResponse($res);
+        } elseif ($estado == 2) {
             $sql = "UPDATE facturas_cot SET estado_guia_sistema = 2 WHERE id_factura = $id_factura";
             $res = $this->simple_insert($sql);
-            if ($res == 1) {
-                $response = $this->initialResponse();
-                $response['status'] = 200;
-                $response['message'] = "Factura actualizada correctamente.";
-                $response['title'] = "¡Éxito!";
-            } else {
-                $response = $this->initialResponse();
-                $response['status'] = 500;
-                $response['message'] = "Error al actualizar la factura.";
-            }
-        } else if ($estado == 4) {
-            $sql = "UPDATE facturas_cot SET estado_guia_sistema = 4, googlemaps = '$googlemaps' WHERE id_factura = $id_factura";
+            $response = $this->handleSimpleResponse($res);
+        } elseif ($estado == 4 || $estado == 7 || $estado == 9 || $estado == 14) {
+            $sql = "UPDATE facturas_cot SET estado_guia_sistema = $estado, googlemaps = '$googlemaps' WHERE id_factura = $id_factura";
             $res = $this->simple_insert($sql);
+
             if ($res == 1) {
+                $response = $this->manejarImagenFactura($imagen, $id_factura, $tipo);
 
-                //logica para subir imagen
-                $uploader = new ImageUploader("public/img/speed/");
+                if ($estado == 14 && $response['status'] == 200) {
+                    // curl a pedidos/novedadSpeed
+                    $url = "https://new.imporsuitpro.com/pedidos/novedadSpeed";
+                    $data = [
+                        'id_factura' => $id_factura,
+                        'novedad' => $observacion,
+                        'tipo' => $tipo
+                    ];
 
-                $response = $uploader->uploadImage($imagen);
+                    $ch = curl_init($url);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded'));
 
-                if ($response['status'] == 200) {
-                } else {
-                    $response = $this->initialResponse();
-                    $response['status'] = 500;
-                    $response['message'] = "Error al subir la imagen.";
+                    $curl_response = curl_exec($ch);
+                    curl_close($ch);
+
+                    $response['curl_response'] = $curl_response; // Si quieres guardar la respuesta del curl
                 }
             } else {
                 $response = $this->initialResponse();
@@ -166,5 +161,47 @@ class SpeedModel extends Query
             $response['status'] = 500;
             $response['message'] = "Error al actualizar la factura.";
         }
+
+        return $response;
+    }
+
+    private function handleSimpleResponse($res)
+    {
+        $response = $this->initialResponse();
+        if ($res == 1) {
+            $response['status'] = 200;
+            $response['message'] = "Factura actualizada correctamente.";
+            $response['title'] = "¡Éxito!";
+        } else {
+            $response['status'] = 500;
+            $response['message'] = "Error al actualizar la factura.";
+        }
+        return $response;
+    }
+
+
+    public function manejarImagenFactura($imagen, $id_factura, $tipo)
+    {
+        $uploader = new ImageUploader("public/img/speed/");
+        $response = $uploader->uploadImage($imagen);
+
+        if ($response['status'] == 200) {
+            $sql = "INSERT INTO imagenes_pedidos (id_factura, imagen, estado) VALUES (?, ?, ?)";
+            $data = [$id_factura, $response['data'], $tipo];
+            $res = $this->insert($sql, $data);
+            if ($res == 1) {
+                $response['status'] = 200;
+                $response['message'] = "Imagen subida correctamente.";
+                $response['title'] = "¡Éxito!";
+            } else {
+                $response['status'] = 500;
+                $response['message'] = "Error al subir la imagen.";
+            }
+        } else {
+            $response['status'] = 500;
+            $response['message'] = "Error al subir la imagen.";
+        }
+
+        return $response;
     }
 }

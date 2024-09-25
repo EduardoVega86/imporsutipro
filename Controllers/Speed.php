@@ -45,8 +45,10 @@ class Speed extends Controller
     {
         $nombre = $_POST['nombre'];
         $celular = $_POST['celular'];
+        $usuario = $_POST['usuario'];
+        $contrasena = $_POST['contrasena'];
 
-        $response = $this->model->guardarMotorizado($nombre, $celular, $_SESSION["id_plataforma"]);
+        $response = $this->model->guardarMotorizado($nombre, $celular, $usuario, $contrasena, $_SESSION["id_plataforma"]);
         echo json_encode($response);
     }
 
