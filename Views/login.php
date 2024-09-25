@@ -78,7 +78,7 @@
                             window.location.href = '<?php echo SERVERURL; ?>dashboard';
                         } */
                         const MATRIZ = <?php echo MATRIZ; ?>;
-                        let cargo = <?php echo $_SESSION['cargo']; ?>
+                        let cargo = data.cargo
                         if (cargo != 35) {
                             if (MATRIZ == 1) {
                                 window.location.href = '<?php echo SERVERURL ?>dashboard/home';
