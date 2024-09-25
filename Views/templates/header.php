@@ -173,27 +173,29 @@
             <div class="container-fluid">
                 <a class="navbar-brand img_logo" href="<?php echo SERVERURL ?>dashboard"><img src="<?php echo IMAGEN_LOGO; ?>" alt="IMORSUIT" width="100px" height="44px"></a>
                 <div class="navbar-right">
-                    <?php if (MARCA == "IMPORSUIT") { ?>
-                        <a class="nav-link" href="https://danielbonilla522-9.funnels.mastertools.com/#primeros-pasos" target="_blank"><box-icon type='solid' name='videos' color="<?php echo COLOR_LETRAS; ?>"></box-icon> Tutoriales</a>
-                    <?php } ?>
-                    <?php if ($_SESSION['cargo'] != 5) { ?>
-                        <span class="navbar-text"><box-icon name='wallet' color="<?php echo COLOR_LETRAS; ?>"></box-icon> $<span id="precio_wallet"></span></span>
-                    <?php } ?>
-                    <!-- Notificación con icono y dropdown -->
-                    <div class="notification-dropdown">
-                        <span class="navbar-text notification-icon" onclick="toggleNotifications()">
-                            <box-icon type='solid' name='bell' color="<?php echo COLOR_LETRAS; ?>"></box-icon>
-                            <span id="numero_total_notificaciones" class="badge"></span> <!-- Número de notificaciones -->
-                        </span>
-                        <div id="notificationList" class="dropdown-menu">
-                            <div class="dropdown-header">Notificaciones</div>
-                            <div id="notificaciones_seccion">
+                    <?php if ($_SESSION['cargo'] != 35) { ?>
+                        <?php if (MARCA == "IMPORSUIT") { ?>
+                            <a class="nav-link" href="https://danielbonilla522-9.funnels.mastertools.com/#primeros-pasos" target="_blank"><box-icon type='solid' name='videos' color="<?php echo COLOR_LETRAS; ?>"></box-icon> Tutoriales</a>
+                        <?php } ?>
+                        <?php if ($_SESSION['cargo'] != 5) { ?>
+                            <span class="navbar-text"><box-icon name='wallet' color="<?php echo COLOR_LETRAS; ?>"></box-icon> $<span id="precio_wallet"></span></span>
+                        <?php } ?>
+                        <!-- Notificación con icono y dropdown -->
+                        <div class="notification-dropdown">
+                            <span class="navbar-text notification-icon" onclick="toggleNotifications()">
+                                <box-icon type='solid' name='bell' color="<?php echo COLOR_LETRAS; ?>"></box-icon>
+                                <span id="numero_total_notificaciones" class="badge"></span> <!-- Número de notificaciones -->
+                            </span>
+                            <div id="notificationList" class="dropdown-menu">
+                                <div class="dropdown-header">Notificaciones</div>
+                                <div id="notificaciones_seccion">
 
+                                </div>
+
+                                <div class="dropdown-footer"><a href="#">Ver todas las notificaciones</a></div>
                             </div>
-
-                            <div class="dropdown-footer"><a href="#">Ver todas las notificaciones</a></div>
                         </div>
-                    </div>
+                    <?php } ?>
 
                     <img src="https://new.imporsuitpro.com/public/img/img.png" class="profile-pic" id="profilePic" alt="Perfil">
                     <div class="profile-dropdown" id="profileDropdown">
