@@ -57,7 +57,7 @@
             <a href="#" class="toggle-btn" id="toggle-btn">
                 <i class='bx bx-menu menu-icon'></i>
             </a>
-            <?php if ($_SESSION['cargo'] != 45) { ?>
+            <?php if ($_SESSION['cargo'] != 35) { ?>
                 <?php if (MATRIZ == 1) { ?>
                     <a href="<?php echo SERVERURL ?>dashboard/home"><i class='bx bx-home menu-icon'></i> <span class="menu-text">Inicio</span></a>
                 <?php } ?>
