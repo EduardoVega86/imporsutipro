@@ -61,6 +61,13 @@ class Speed extends Controller
         echo json_encode($response);
     }
 
+    public function existeMotorizado()
+    {
+        $usuario = $_POST['usuario'];
+
+        $response = $this->model->existeMotorizado($usuario);
+        echo json_encode($response);
+    }
 
 
     public function estados()

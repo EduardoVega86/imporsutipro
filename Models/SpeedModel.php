@@ -94,6 +94,23 @@ class SpeedModel extends Query
         return $response;
     }
 
+    public function existeMotorizado($usuario)
+    {
+        $sql = "SELECT * FROM motorizados WHERE usuario = '$usuario'";
+        $res = $this->select($sql);
+        if (!empty($res)) {
+            $response = $this->initialResponse();
+            $response['status'] = 200;
+            $response['message'] = "Motorizado encontrado.";
+            $response['data'] = $res['data'][0];
+        } else {
+            $response = $this->initialResponse();
+            $response['status'] = 500;
+            $response['message'] = "Motorizado no encontrado.";
+        }
+        return $response;
+    }
+
     public function guardarMotorizado($nombre, $celular, $usuario, $contrasena, $id_plataforma)
     {
         $hash = password_hash($contrasena, PASSWORD_DEFAULT);
