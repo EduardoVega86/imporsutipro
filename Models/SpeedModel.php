@@ -1,4 +1,6 @@
 <?php
+require_once 'Class/ImageUploader.php';
+
 
 class SpeedModel extends Query
 {
@@ -169,12 +171,12 @@ class SpeedModel extends Query
             $sql = "UPDATE facturas_cot SET estado_guia_sistema = 2 WHERE id_factura = $id_factura";
             $res = $this->simple_insert($sql);
             $response = $this->handleSimpleResponse($res);
-        } elseif ($estado == 4 || $estado == 7 || $estado == 9 || $estado == 14) {
-            $sql = "UPDATE facturas_cot SET estado_guia_sistema = $estado, googlemaps = '$googlemaps' WHERE id_factura = $id_factura";
+        } elseif ($estado == 3 || $estado == 7 || $estado == 9 || $estado == 14) {
+            $sql = "UPDATE facturas_cot SET estado_guia_sistema = '$estado', googlemaps = '$googlemaps' WHERE id_factura = '$id_factura'";
             $res = $this->simple_insert($sql);
 
             if ($res == 1) {
-                $response = $this->manejarImagenFactura($imagen, $id_factura, $tipo);
+                $response = $this->manejarImagenFactura($imagen, $id_factura, $estado);
 
                 if ($estado == 14 && $response['status'] == 200) {
                     // curl a pedidos/novedadSpeed
@@ -199,12 +201,12 @@ class SpeedModel extends Query
             } else {
                 $response = $this->initialResponse();
                 $response['status'] = 500;
-                $response['message'] = "Error al actualizar la factura.";
+                $response['message'] = $res["message"];
             }
         } else {
             $response = $this->initialResponse();
             $response['status'] = 500;
-            $response['message'] = "Error al actualizar la factura.";
+            $response['message'] = "Error al actualizar la factura. status: $estado";
         }
 
         return $response;
@@ -240,7 +242,7 @@ class SpeedModel extends Query
                 $response['title'] = "¡Éxito!";
             } else {
                 $response['status'] = 500;
-                $response['message'] = "Error al subir la imagen.";
+                $response['message'] = $res["message"];
             }
         } else {
             $response['status'] = 500;

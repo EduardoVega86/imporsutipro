@@ -145,7 +145,7 @@
 
                     stopScanner();
                 } else {
-                    
+
                 }
             })
             .catch(error => {});
@@ -174,9 +174,11 @@
             const numeroGuia = $("#numero_guia").text();
             const nuevoEstado = event.target.value;
 
-            const idFactura = $("#numero_guia").text();
+            const idFactura = $("#id_factura").val();
 
-            if (nuevoEstado == 7 || nuevoEstado == 3 || nuevoEstado == 14) {
+            if (nuevoEstado == 7 || nuevoEstado == 3) {
+                $("#seccion_speed").hide();
+
                 $("#numeroGuia_novedad_speed").val(numeroGuia);
                 $("#nuevoEstado_novedad_speed").val(nuevoEstado);
                 $("#idFactura_novedad_speed").val(idFactura);
@@ -184,13 +186,25 @@
                 $("#gestionar_speed_repartidoresModal").modal("show");
 
             } else if (nuevoEstado == 9) {
+                $("#seccion_speed").show();
+
                 $("#numeroGuia_novedad_speed").val(numeroGuia);
                 $("#nuevoEstado_novedad_speed").val(nuevoEstado);
+
                 $("#idFactura_novedad_speed").val(idFactura);
 
                 $("#tipo_speed").val("recibir").change();
 
                 $("#gestionar_speed_repartidoresModal").modal("show");
+            } else if (nuevoEstado == 14) {
+                $("#seccion_speed").show();
+
+                $("#numeroGuia_novedad_speed").val(numeroGuia);
+                $("#nuevoEstado_novedad_speed").val(nuevoEstado);
+                $("#idFactura_novedad_speed").val(idFactura);
+
+                $("#gestionar_speed_repartidoresModal").modal("show");
+
             } else {
                 const formData = new FormData();
                 formData.append("estado", nuevoEstado);
@@ -224,8 +238,8 @@
 
 
     function enviar_speedNovedad() {
-        var button = document.getElementById("boton_speed");
-        button.disabled = true; // Desactivar el botón
+        /* var button = document.getElementById("boton_speed");
+        button.disabled = true; // Desactivar el botón */
 
         var tipo_speed = $("#tipo_speed").val();
         var observacion_nov_speed = $("#observacion_nov_speed").val();
@@ -258,7 +272,19 @@
             contentType: false, // No establecer ningún tipo de contenido
             dataType: "json",
             success: function(response) {
-
+                if (response.status == 500) {
+                    toastr.error(
+                        "ESTADO NO AGREGANDO CORRECTAMENTE",
+                        "NOTIFICACIÓN", {
+                            positionClass: "toast-bottom-center"
+                        }
+                    );
+                } else if (response.status == 200) {
+                    toastr.success("ESTADO AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+                        positionClass: "toast-bottom-center",
+                    });
+                    $('#gestionar_speed_repartidoresModal').modal('hide');
+                }
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 alert(errorThrown);

@@ -76,7 +76,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="d-flex flex-row">
+                <div class="d-flex flex-column">
                     <input type="hidden" id="numeroGuia_novedad_speed" name="numeroGuia_novedad_speed">
                     <input type="hidden" id="nuevoEstado_novedad_speed" name="nuevoEstado_novedad_speed">
                     <input type="hidden" id="idFactura_novedad_speed" name="idFactura_novedad_speed">
