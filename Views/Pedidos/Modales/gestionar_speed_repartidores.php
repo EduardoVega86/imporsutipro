@@ -86,8 +86,9 @@
                         <label for="input_foto">Tomar Foto:</label>
                         <input type="file" id="input_foto" accept="image/*;capture=camera" onchange="previsualizarFoto(event)">
                         <img id="previsualizacion" alt="Previsualización de la imagen">
+                    </div>
 
-                        <br>
+                    <div id="seccion_transito" style="display: none;">
                         <label for="link_ubicacion_google">Link ubicacion google:</label>
                         <input type="text" class="form-control" id="link_ubicacion_google">
                     </div>

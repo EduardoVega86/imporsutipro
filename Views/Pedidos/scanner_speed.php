@@ -176,8 +176,19 @@
 
             const idFactura = $("#id_factura").val();
 
-            if (nuevoEstado == 7 || nuevoEstado == 3) {
+            if (nuevoEstado == 7) {
                 $("#seccion_speed").hide();
+                $("#seccion_transito").hide();
+
+                $("#numeroGuia_novedad_speed").val(numeroGuia);
+                $("#nuevoEstado_novedad_speed").val(nuevoEstado);
+                $("#idFactura_novedad_speed").val(idFactura);
+
+                $("#gestionar_speed_repartidoresModal").modal("show");
+
+            } else if (nuevoEstado == 3) {
+                $("#seccion_speed").hide();
+                $("#seccion_transito").show();
 
                 $("#numeroGuia_novedad_speed").val(numeroGuia);
                 $("#nuevoEstado_novedad_speed").val(nuevoEstado);
@@ -187,6 +198,7 @@
 
             } else if (nuevoEstado == 9) {
                 $("#seccion_speed").show();
+                $("#seccion_transito").hide();
 
                 $("#numeroGuia_novedad_speed").val(numeroGuia);
                 $("#nuevoEstado_novedad_speed").val(nuevoEstado);
@@ -198,6 +210,7 @@
                 $("#gestionar_speed_repartidoresModal").modal("show");
             } else if (nuevoEstado == 14) {
                 $("#seccion_speed").show();
+                $("#seccion_transito").hide();
 
                 $("#numeroGuia_novedad_speed").val(numeroGuia);
                 $("#nuevoEstado_novedad_speed").val(nuevoEstado);
