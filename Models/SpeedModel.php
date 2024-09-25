@@ -98,7 +98,7 @@ class SpeedModel extends Query
     {
         $hash = password_hash($contrasena, PASSWORD_DEFAULT);
 
-        $sql = "INSERT INTO motorizados (nombre_motorizado, celular_motorizado,usuario, contrasena, id_plataforma) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO motorizados (nombre_motorizado, numero_motorizado,usuario, contrasena, id_plataforma) VALUES (?, ?, ?, ?, ?)";
         $data = [$nombre, $celular, $usuario, $hash, $id_plataforma];
         $res = $this->insert($sql, $data);
         if ($res == 1) {
