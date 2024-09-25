@@ -138,4 +138,26 @@
             reader.readAsDataURL(file);
         }
     }
+
+    function reiniciarModal() {
+        // Limpiar los campos de texto
+        document.getElementById('numeroGuia_novedad_speed').value = '';
+        document.getElementById('nuevoEstado_novedad_speed').value = '';
+        document.getElementById('idFactura_novedad_speed').value = '';
+        document.getElementById('link_ubicacion_google').value = '';
+        document.getElementById('observacion_nov_speed').value = '';
+
+        // Reiniciar el select
+        document.getElementById('tipo_speed').selectedIndex = 0;
+
+        // Limpiar la imagen de previsualización
+        document.getElementById('previsualizacion').src = '';
+
+        // Limpiar el input de archivo (foto)
+        document.getElementById('input_foto').value = '';
+
+        // Opcionalmente, si tienes secciones que pueden estar ocultas o mostradas, también puedes resetear su visibilidad:
+        document.getElementById('seccion_foto').style.display = 'block';
+        document.getElementById('seccion_speed').style.display = 'none';
+    }
 </script>
