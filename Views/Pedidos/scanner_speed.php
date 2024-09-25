@@ -261,8 +261,7 @@
                         toastr.success("ESTADO ACTUALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
                             positionClass: "toast-bottom-center",
                         });
-
-                        reloadDataTable();
+                        
                     }
                 } catch (error) {
                     console.error("Error al conectar con la API", error);

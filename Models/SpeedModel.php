@@ -289,5 +289,6 @@ class SpeedModel extends Query
             $response['status'] = 500;
             $response['message'] = "Error al asignar la guía.";
         }
+        return $response;
     }
 }
