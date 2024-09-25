@@ -94,6 +94,23 @@ class SpeedModel extends Query
         return $response;
     }
 
+    public function existeMotorizado($usuario)
+    {
+        $sql = "SELECT * FROM motorizados WHERE usuario = '$usuario'";
+        $res = $this->select($sql);
+        if (!empty($res)) {
+            $response = $this->initialResponse();
+            $response['status'] = 200;
+            $response['message'] = "Motorizado encontrado.";
+            $response['data'] = $res['data'][0];
+        } else {
+            $response = $this->initialResponse();
+            $response['status'] = 500;
+            $response['message'] = "Motorizado no encontrado.";
+        }
+        return $response;
+    }
+
     public function guardarMotorizado($nombre, $celular, $usuario, $contrasena, $id_plataforma)
     {
         $hash = password_hash($contrasena, PASSWORD_DEFAULT);
@@ -109,8 +126,8 @@ class SpeedModel extends Query
                 //buscar el id del usuario
                 $sql = "SELECT id_users FROM users WHERE usuario_users = '$usuario'";
                 $res = $this->select($sql);
-                if ($res['status'] == 200) {
-                    $id_usuario = $res['data'][0]['id_users'];
+                if (!empty($res)) {
+                    $id_usuario = $res[0]['id_users'];
                     $sql = "INSERT INTO `usuario_plataforma` (`id_usuario`, `id_plataforma`) VALUES (?,?);";
                     $data = [$id_usuario, $id_plataforma];
                     $res = $this->insert($sql, $data);
@@ -230,6 +247,23 @@ class SpeedModel extends Query
             $response['message'] = "Error al subir la imagen.";
         }
 
+        return $response;
+    }
+
+    public function buscarFactura($numero_factura)
+    {
+        $sql = "SELECT * FROM facturas_cot WHERE numero_factura = '$numero_factura'";
+        $res = $this->select($sql);
+        if (!empty($res)) {
+            $response = $this->initialResponse();
+            $response['status'] = 200;
+            $response['message'] = "Factura encontrada.";
+            $response['data'] = $res[0];
+        } else {
+            $response = $this->initialResponse();
+            $response['status'] = 500;
+            $response['message'] = "Factura no encontrada.";
+        }
         return $response;
     }
 }

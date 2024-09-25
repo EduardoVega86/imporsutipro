@@ -61,6 +61,13 @@ class Speed extends Controller
         echo json_encode($response);
     }
 
+    public function existeMotorizado()
+    {
+        $usuario = $_POST['usuario'];
+
+        $response = $this->model->existeMotorizado($usuario);
+        echo json_encode($response);
+    }
 
 
     public function estados()
@@ -73,6 +80,13 @@ class Speed extends Controller
         $googlemaps = $_POST['googlemaps'] ?? null;
 
         $response = $this->model->estados($estado, $imagen, $tipo, $observacion, $id_factura, $googlemaps);
+        echo json_encode($response);
+    }
+
+    public function buscarFactura()
+    {
+        $numero_factura = $_POST['numero_factura'];
+        $response = $this->model->buscarFactura($numero_factura);
         echo json_encode($response);
     }
 }
