@@ -142,6 +142,29 @@
                         },
                     });
 
+                    /* asignar guia repartidor */
+                    let id_usuario = <?php $_SESSION['id'] ?>
+
+                    let formData_asignar_repartidor = new FormData();
+
+                    formData_asignar_repartidor.append("id_usuario", id_usuario);
+                    formData_asignar_repartidor.append("guia", data.data.guia);
+
+                    $.ajax({
+                        url: SERVERURL + "speed/asignarMotorizado",
+                        type: "POST", // Cambiar a POST para enviar FormData
+                        data: formData_asignar_repartidor,
+                        processData: false, // No procesar los datos
+                        contentType: false, // No establecer ningún tipo de contenido
+                        success: function(response_repartidor) {
+
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            alert(errorThrown);
+                        },
+                    });
+
+                    /* fin asignar guia repartidor */
 
                     stopScanner();
                 } else {
