@@ -186,6 +186,8 @@
             } else if (nuevoEstado == 9) {
                 $("#numeroGuia_novedad_speed").val(numeroGuia);
                 $("#nuevoEstado_novedad_speed").val(nuevoEstado);
+                 
+                console.log("id_factura: "+ idFactura);
                 $("#idFactura_novedad_speed").val(idFactura);
 
                 $("#tipo_speed").val("recibir").change();
