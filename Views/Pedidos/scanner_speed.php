@@ -135,7 +135,7 @@
                         contentType: false, // No establecer ningún tipo de contenido
                         dataType: "json",
                         success: function(response2) {
-
+                            $("#id_factura").val(response2.data.id_factura);
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
                             alert(errorThrown);
