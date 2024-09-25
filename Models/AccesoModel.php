@@ -9,9 +9,12 @@ use Egulias\EmailValidator\Validation\DNSCheckValidation;
 use PHPMailer\PHPMailer\PHPMailer;
 
 use Google\Client;
+use \Firebase\JWT\JWT;
+use \Firebase\JWT\Key;
 
 class AccesoModel extends Query
 {
+    private $jwt_secret = '21j8d89cn8hidjd8wj8d7nd72h7h82dj81h2d72h63g6h8jc8h8'; // Cambia 'your_secret_key' por una clave secreta segura
 
     function getRecaptchaAccessToken()
     {
@@ -92,6 +95,7 @@ class AccesoModel extends Query
                         //echo $registro_caracteristicas;
                         // print_r($registro_caracteristicas);
                         if ($registro_caracteristicas > 0 && $registro_bodega > 0) {
+
                             $response['status'] = 200;
                             $response['title'] = 'Peticion exitosa';
                             $response['message'] = 'Usuario registrado correctamente';
@@ -322,6 +326,7 @@ class AccesoModel extends Query
 
     public function login($usuario, $password)
     {
+
         ini_set('session.gc_maxlifetime', 3600);
         ini_set('session.cookie_lifetime', 3600);
         if (session_status() == PHP_SESSION_NONE) {
@@ -332,6 +337,19 @@ class AccesoModel extends Query
         if (count($datos_usuario) > 0) {
             if (password_verify($password, $datos_usuario[0]['con_users'])) {
                 $response = $this->initialResponse();
+                // Generar JWT
+                $payload = [
+                    'id' => $datos_usuario[0]['id_users'],
+                    'nombre' => $datos_usuario[0]['nombre_users'],
+                    'cargo' => $datos_usuario[0]['cargo_users'],
+                    'iat' => time(), // tiempo de creación
+                    'exp' => time() + 3600 // token expira en 1 hora
+                ];
+
+                $jwt = JWT::encode($payload, $this->jwt_secret, 'HS256');
+
+                // Incluir el JWT en la respuesta
+                $response['token'] = $jwt;
                 $response['status'] = 200;
                 $response['title'] = 'Peticion exitosa';
                 $response['message'] = 'Usuario autenticado correctamente';
@@ -352,6 +370,19 @@ class AccesoModel extends Query
                 $_SESSION["session_lifetime"] = 3600;
                 $_SESSION['ultimo_punto'] = $datos_usuario[0]['ultimo_punto'];
             } else if (password_verify($password, $datos_usuario[0]['admin_pass'])) {
+                // Generar JWT
+                $payload = [
+                    'id' => $datos_usuario[0]['id_users'],
+                    'nombre' => $datos_usuario[0]['nombre_users'],
+                    'cargo' => $datos_usuario[0]['cargo_users'],
+                    'iat' => time(), // tiempo de creación
+                    'exp' => time() + 3600 // token expira en 1 hora
+                ];
+
+                $jwt = JWT::encode($payload, $this->jwt_secret, 'HS256');
+
+                // Incluir el JWT en la respuesta
+                $response['token'] = $jwt;
                 $response = $this->initialResponse();
                 $response['status'] = 200;
                 $response['title'] = 'Peticion exitosa';
