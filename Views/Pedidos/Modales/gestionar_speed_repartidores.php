@@ -107,8 +107,9 @@
                             <label for="observacion_nov_speed">Observacion:</label>
                             <input type="text" class="form-control" id="observacion_nov_speed">
                         </div>
-                        <button type="button" class="btn btn-primary" id="boton_speed" onclick="enviar_speedNovedad()">Enviar</button>
                     </div>
+
+                    <button type="button" class="btn btn-primary" id="boton_speed" onclick="enviar_speedNovedad()">Enviar</button>
                 </div>
             </div>
             <div class="modal-footer">

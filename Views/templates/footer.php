@@ -157,7 +157,9 @@
                             notificaciones_totales = notificaciones_totales + parseInt(notificacion.cantidad);
 
                             innerHTML += `
-                            <div class="dropdown-item">${notificacion.nombre} ${notificacion.cantidad}</div>`;
+                            <a href="${SERVERURL}${notificacion.url}" class="dropdown-item" style="cursor: pointer;">
+                            ${notificacion.nombre} ${notificacion.cantidad}
+                            </a>`;
                         });
 
                         $("#numero_total_notificaciones").text(notificaciones_totales);
