@@ -276,7 +276,7 @@ class SpeedModel extends Query
 
     public function asignarMotorizado($id_usuario, $guia)
     {
-        $sql = "INSERT INTO guias_motorizados (id_motorizado, guia) VALUES (?, ?)";
+        $sql = "INSERT INTO motorizado_guia (id_motorizado, guia) VALUES (?, ?)";
         $data = [$id_usuario, $guia];
         $res = $this->insert($sql, $data);
         if ($res == 1) {
