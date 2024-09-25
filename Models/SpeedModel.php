@@ -187,11 +187,16 @@ class SpeedModel extends Query
                         'tipo' => $tipo
                     ];
 
+                    // Inicializar cURL
                     $ch = curl_init($url);
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-                    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
-                    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded'));
+
+                    // Configurar POSTFIELDS con los datos como multipart/form-data
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+
+                    // No es necesario establecer el encabezado para multipart/form-data
+                    // ya que cURL lo configurará automáticamente al usar POSTFIELDS
 
                     $curl_response = curl_exec($ch);
                     curl_close($ch);

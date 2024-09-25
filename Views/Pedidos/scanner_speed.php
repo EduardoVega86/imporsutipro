@@ -284,6 +284,8 @@
                         positionClass: "toast-bottom-center",
                     });
                     $('#gestionar_speed_repartidoresModal').modal('hide');
+
+                    reiniciarModal();
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
