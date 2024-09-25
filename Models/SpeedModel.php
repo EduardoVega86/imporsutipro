@@ -106,10 +106,29 @@ class SpeedModel extends Query
             $data = [$nombre, $usuario, $hash, $usuario, 35, date("Y-m-d H:i:s")];
             $res = $this->insert($sql, $data);
             if ($res == 1) {
-                $response = $this->initialResponse();
-                $response['status'] = 200;
-                $response['message'] = "Motorizado guardado correctamente.";
-                $response['title'] = "¡Éxito!";
+                //buscar el id del usuario
+                $sql = "SELECT id_users FROM users WHERE usuario_users = '$usuario'";
+                $res = $this->select($sql);
+                if ($res['status'] == 200) {
+                    $id_usuario = $res['data'][0]['id_users'];
+                    $sql = "INSERT INTO `usuario_plataforma` (`id_usuario`, `id_plataforma`) VALUES (?,?);";
+                    $data = [$id_usuario, $id_plataforma];
+                    $res = $this->insert($sql, $data);
+                    if ($res == 1) {
+                        $response = $this->initialResponse();
+                        $response['status'] = 200;
+                        $response['message'] = "Motorizado guardado correctamente.";
+                        $response['title'] = "¡Éxito!";
+                    } else {
+                        $response = $this->initialResponse();
+                        $response['status'] = 500;
+                        $response['message'] = $res["message"];
+                    }
+                } else {
+                    $response = $this->initialResponse();
+                    $response['status'] = 500;
+                    $response['message'] = $res["message"];
+                }
             } else {
                 $response = $this->initialResponse();
                 $response['status'] = 500;
