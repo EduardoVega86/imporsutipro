@@ -37,7 +37,7 @@
                         </div>
                         <div class="col">
                             <label for="usuario" class="form-label">Usuario:</label>
-                            <input type="usuario" class="form-control" id="usuario" placeholder="usuario">
+                            <input type="text" class="form-control" id="usuario" placeholder="usuario">
                         </div>
                     </div>
                     <div class="row mb-3">
