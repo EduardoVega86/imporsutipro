@@ -172,11 +172,11 @@ class SpeedModel extends Query
             $res = $this->simple_insert($sql);
             $response = $this->handleSimpleResponse($res);
         } elseif ($estado == 3 || $estado == 7 || $estado == 9 || $estado == 14) {
-            $sql = "UPDATE facturas_cot SET estado_guia_sistema = $estado, googlemaps = '$googlemaps' WHERE id_factura = '$id_factura'";
+            $sql = "UPDATE facturas_cot SET estado_guia_sistema = '$estado', googlemaps = '$googlemaps' WHERE id_factura = '$id_factura'";
             $res = $this->simple_insert($sql);
 
             if ($res == 1) {
-                $response = $this->manejarImagenFactura($imagen, $id_factura, $tipo);
+                $response = $this->manejarImagenFactura($imagen, $id_factura, $estado);
 
                 if ($estado == 14 && $response['status'] == 200) {
                     // curl a pedidos/novedadSpeed
