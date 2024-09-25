@@ -1,6 +1,7 @@
 <?php require_once './Views/templates/header.php'; ?>
 <?php require_once './Views/Usuarios/css/listado_style.php'; ?>
 <?php require_once './Views/Usuarios/Modales/agregar_usuario.php'; ?>
+<?php require_once './Views/Usuarios/Modales/agregar_repartidor.php'; ?>
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
