@@ -145,7 +145,7 @@
 
                     stopScanner();
                 } else {
-                    
+
                 }
             })
             .catch(error => {});
@@ -177,6 +177,8 @@
             const idFactura = $("#id_factura").val();
 
             if (nuevoEstado == 7 || nuevoEstado == 3 || nuevoEstado == 14) {
+                $("#seccion_speed").hide();
+
                 $("#numeroGuia_novedad_speed").val(numeroGuia);
                 $("#nuevoEstado_novedad_speed").val(nuevoEstado);
                 $("#idFactura_novedad_speed").val(idFactura);
@@ -184,6 +186,8 @@
                 $("#gestionar_speed_repartidoresModal").modal("show");
 
             } else if (nuevoEstado == 9) {
+                $("#seccion_speed").show();
+
                 $("#numeroGuia_novedad_speed").val(numeroGuia);
                 $("#nuevoEstado_novedad_speed").val(nuevoEstado);
 
@@ -192,6 +196,15 @@
                 $("#tipo_speed").val("recibir").change();
 
                 $("#gestionar_speed_repartidoresModal").modal("show");
+            }else if (nuevoEstado == 14) {
+                $("#seccion_speed").show();
+
+                $("#numeroGuia_novedad_speed").val(numeroGuia);
+                $("#nuevoEstado_novedad_speed").val(nuevoEstado);
+                $("#idFactura_novedad_speed").val(idFactura);
+
+                $("#gestionar_speed_repartidoresModal").modal("show");
+
             } else {
                 const formData = new FormData();
                 formData.append("estado", nuevoEstado);
