@@ -121,12 +121,12 @@
                     $("#direccion").text(data.data.direccion_destino);
                     $("#ciudad").text(data.data.ciudad_destino);
                     $("#numero_guia").text(data.data.guia);
-                    $("#factura").text(data.data.numero_factura);
+                    $("#factura").text(data.data.factura);
                     $("#estado").text(estado);
                     $("#flete_costo").text(data.data.flete_costo);
 
                     let formData = new FormData();
-                    formData.append("numero_factura", data.data.numero_factura);
+                    formData.append("numero_factura", data.data.factura);
                     $.ajax({
                         url: SERVERURL + "speed/buscarFactura",
                         type: "POST",
