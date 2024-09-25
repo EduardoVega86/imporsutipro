@@ -196,7 +196,7 @@
                 $("#tipo_speed").val("recibir").change();
 
                 $("#gestionar_speed_repartidoresModal").modal("show");
-            }else if (nuevoEstado == 14) {
+            } else if (nuevoEstado == 14) {
                 $("#seccion_speed").show();
 
                 $("#numeroGuia_novedad_speed").val(numeroGuia);
@@ -272,7 +272,20 @@
             contentType: false, // No establecer ningún tipo de contenido
             dataType: "json",
             success: function(response) {
-
+                if (response.status == 500) {
+                    toastr.error(
+                        "ESTADO NO AGREGANDO CORRECTAMENTE",
+                        "NOTIFICACIÓN", {
+                            positionClass: "toast-bottom-center"
+                        }
+                    );
+                } else if (response.status == 200) {
+                    toastr.success("ESTADO AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+                        positionClass: "toast-bottom-center",
+                    });
+                    $('#imagen_categoriaModal').modal('hide');
+                    initDataTable();
+                }
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 alert(errorThrown);
