@@ -19,6 +19,7 @@
         <p class="texto_infoVenta"><strong>Ciudad:</strong> <span id="ciudad"></span></p>
         <p class="texto_infoVenta"><strong>Direccion:</strong> <span id="direccion"></span></p>
         <p class="texto_infoVenta"><strong>Numero guia:</strong> <span id="numero_guia"></span></p>
+        <p class="texto_infoVenta"><strong>Factura:</strong> <span id="factura"></span></p>
         <p class="texto_infoVenta"><strong>Estado:</strong> <span id="estado"></span></p>
         <p class="texto_infoVenta"><strong>Costo Flete:</strong> <span id="flete_costo"></span></p>
 
@@ -119,6 +120,7 @@
                     $("#direccion").text(data.data.direccion_destino);
                     $("#ciudad").text(data.data.ciudad_destino);
                     $("#numero_guia").text(data.data.guia);
+                    $("#factura").text(data.data.numero_factura);
                     $("#estado").text(estado);
                     $("#flete_costo").text(data.data.flete_costo);
 
@@ -156,20 +158,13 @@
 
             const idFactura = event.target.getAttribute("data-id-factura");
 
-            if (nuevoEstado == 7) {
-                $("#numeroGuia_novedad_speed").val(numeroGuia);
-                $("#nuevoEstado_novedad_speed").val(nuevoEstado);
-                $("#idFactura_novedad_speed").val(idFactura);
-
-                $("#subir_imagen_speedModal").modal("show");
-                reloadDataTable();
-            } else if (nuevoEstado == 14) {
+            if (nuevoEstado == 7 || nuevoEstado == 3 || nuevoEstado == 14) {
                 $("#numeroGuia_novedad_speed").val(numeroGuia);
                 $("#nuevoEstado_novedad_speed").val(nuevoEstado);
                 $("#idFactura_novedad_speed").val(idFactura);
 
                 $("#gestionar_speed_repartidoresModal").modal("show");
-                reloadDataTable();
+
             } else if (nuevoEstado == 9) {
                 $("#numeroGuia_novedad_speed").val(numeroGuia);
                 $("#nuevoEstado_novedad_speed").val(nuevoEstado);
@@ -210,7 +205,7 @@
     });
 
 
-    async function enviar_speedNovedad() {
+    function enviar_speedNovedad() {
         var button = document.getElementById("boton_speed");
         button.disabled = true; // Desactivar el botón
 
@@ -225,68 +220,7 @@
         formData.append("novedad", observacion_nov_speed);
         formData.append("id_pedido", id_novedad);
 
-        try {
-            // Hacer la llamada AJAX usando jQuery
-            let response = await $.ajax({
-                url: SERVERURL + "pedidos/novedadSpeed",
-                type: "POST",
-                data: formData,
-                processData: false, // No procesar los datos
-                contentType: false, // No establecer ningún tipo de contenido
-            });
 
-            response = JSON.parse(response);
-
-            if (response.status == 500) {
-                toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
-                    positionClass: "toast-bottom-center",
-                });
-
-                button.disabled = false;
-            } else if (response.status == 200) {
-                toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
-                    positionClass: "toast-bottom-center",
-                });
-
-                // Cambiar estado de la guía
-                const formData = new FormData();
-                formData.append("estado", nuevoEstado_novedad_speed);
-
-                try {
-                    // Hacer la llamada para actualizar el estado de la guía usando fetch
-                    const response = await fetch(
-                        `https://guias.imporsuitpro.com/Speed/estado/${numeroGuia_novedad_speed}`, {
-                            method: "POST",
-                            body: formData,
-                        }
-                    );
-                    const result = await response.json();
-
-                    if (result.status == 200) {
-                        toastr.success("ESTADO ACTUALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
-                            positionClass: "toast-bottom-center",
-                        });
-
-                        $("#gestionar_speed_repartidoresModal").modal("hide"); // Cerrar modal correctamente
-                        reloadDataTable(); // Recargar tabla si tienes alguna
-                    } else {
-                        toastr.error("Error al actualizar el estado", "NOTIFICACIÓN", {
-                            positionClass: "toast-bottom-center",
-                        });
-                    }
-                } catch (error) {
-                    console.error("Error al conectar con la API", error);
-                    alert("Error al conectar con la API");
-                }
-
-                button.disabled = false;
-            }
-        } catch (error) {
-            // Manejar el error de la llamada AJAX
-            console.error("Error en la petición AJAX", error);
-            alert("Error en la petición AJAX");
-            button.disabled = false;
-        }
     }
 </script>
 
