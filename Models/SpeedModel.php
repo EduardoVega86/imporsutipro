@@ -169,7 +169,7 @@ class SpeedModel extends Query
             $sql = "UPDATE facturas_cot SET estado_guia_sistema = 2 WHERE id_factura = $id_factura";
             $res = $this->simple_insert($sql);
             $response = $this->handleSimpleResponse($res);
-        } elseif ($estado == 4 || $estado == 7 || $estado == 9 || $estado == 14) {
+        } elseif ($estado == 3 || $estado == 7 || $estado == 9 || $estado == 14) {
             $sql = "UPDATE facturas_cot SET estado_guia_sistema = $estado, googlemaps = '$googlemaps' WHERE id_factura = $id_factura";
             $res = $this->simple_insert($sql);
 
