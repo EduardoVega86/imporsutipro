@@ -174,7 +174,7 @@
             const numeroGuia = $("#numero_guia").text();
             const nuevoEstado = event.target.value;
 
-            const idFactura = $("#numero_guia").text();
+            const idFactura = $("#id_factura").text();
 
             if (nuevoEstado == 7 || nuevoEstado == 3 || nuevoEstado == 14) {
                 $("#numeroGuia_novedad_speed").val(numeroGuia);
