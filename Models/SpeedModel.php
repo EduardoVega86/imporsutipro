@@ -102,10 +102,19 @@ class SpeedModel extends Query
         $data = [$nombre, $celular, $usuario, $hash, $id_plataforma];
         $res = $this->insert($sql, $data);
         if ($res == 1) {
-            $response = $this->initialResponse();
-            $response['status'] = 200;
-            $response['message'] = "Motorizado guardado correctamente.";
-            $response['title'] = "¡Éxito!";
+            $sql = "INSERT INTO users(nombre_users, usuario_users, con_users, email_users) VALUES (?, ?, ?, ?)";
+            $data = [$nombre, $usuario, $hash, $usuario];
+            $res = $this->insert($sql, $data);
+            if ($res == 1) {
+                $response = $this->initialResponse();
+                $response['status'] = 200;
+                $response['message'] = "Motorizado guardado correctamente.";
+                $response['title'] = "¡Éxito!";
+            } else {
+                $response = $this->initialResponse();
+                $response['status'] = 500;
+                $response['message'] = "Error al guardar el motorizado.";
+            }
         } else {
             $response = $this->initialResponse();
             $response['status'] = 500;
