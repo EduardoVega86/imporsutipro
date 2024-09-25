@@ -143,7 +143,7 @@
                     });
 
                     /* asignar guia repartidor */
-                    let id_usuario = <?php $_SESSION['id'] ?>
+                    let id_usuario = <?php echo $_SESSION['id']; ?>;
 
                     let formData_asignar_repartidor = new FormData();
 
