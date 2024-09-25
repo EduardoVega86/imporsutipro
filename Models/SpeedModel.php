@@ -249,4 +249,21 @@ class SpeedModel extends Query
 
         return $response;
     }
+
+    public function buscarFactura($numero_factura)
+    {
+        $sql = "SELECT * FROM facturas_cot WHERE numero_factura = '$numero_factura'";
+        $res = $this->select($sql);
+        if (!empty($res)) {
+            $response = $this->initialResponse();
+            $response['status'] = 200;
+            $response['message'] = "Factura encontrada.";
+            $response['data'] = $res[0];
+        } else {
+            $response = $this->initialResponse();
+            $response['status'] = 500;
+            $response['message'] = "Factura no encontrada.";
+        }
+        return $response;
+    }
 }
