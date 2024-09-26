@@ -318,31 +318,36 @@ class PedidosModel extends Query
     public function cargarGuiasSpeed($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos, $recibo)
     {
         $sql = "SELECT 
-                    fc.*, 
-                    fc.id_plataforma AS tienda_venta, 
-                    fc.id_propietario AS proveedor,
-                    cc.ciudad, 
-                    cc.provincia AS provinciaa, 
-                    p.nombre_tienda AS tienda,
-                    b.nombre AS nombre_bodega, 
-                    b.direccion AS direccion_bodega,
-                    tp.nombre_tienda AS nombre_proveedor
-                FROM 
-                    facturas_cot fc
-                LEFT JOIN 
-                    ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot
-                LEFT JOIN 
-                    plataformas p ON p.id_plataforma = fc.id_plataforma
-                LEFT JOIN 
-                    plataformas tp ON tp.id_plataforma = fc.id_propietario
-                LEFT JOIN 
-                    bodega b ON b.id = fc.id_bodega
-                WHERE 
-                    TRIM(fc.numero_guia) <> '' 
-                    AND fc.numero_guia IS NOT NULL 
-                    AND fc.numero_guia <> '0' 
-                    AND fc.anulada = 0 ";
-
+                fc.*, 
+                fc.id_plataforma AS tienda_venta, 
+                fc.id_propietario AS proveedor,
+                cc.ciudad, 
+                cc.provincia AS provinciaa, 
+                p.nombre_tienda AS tienda,
+                b.nombre AS nombre_bodega, 
+                b.direccion AS direccion_bodega,
+                tp.nombre_tienda AS nombre_proveedor,
+                mg.id_motorizado, -- Campo de motorizado_guia
+                u.nombre_users AS nombre_motorizado -- Campo del usuario (motorizado)
+            FROM 
+                facturas_cot fc
+            LEFT JOIN 
+                ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot
+            LEFT JOIN 
+                plataformas p ON p.id_plataforma = fc.id_plataforma
+            LEFT JOIN 
+                plataformas tp ON tp.id_plataforma = fc.id_propietario
+            LEFT JOIN 
+                bodega b ON b.id = fc.id_bodega
+            LEFT JOIN 
+                motorizado_guia mg ON mg.guia = fc.numero_guia -- Relaciona las guías
+            LEFT JOIN 
+                users u ON u.id_users = mg.id_motorizado -- Relaciona motorizados
+            WHERE 
+                TRIM(fc.numero_guia) <> '' 
+                AND fc.numero_guia IS NOT NULL 
+                AND fc.numero_guia <> '0' 
+                AND fc.anulada = 0";
 
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
             $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
@@ -365,7 +370,6 @@ class PedidosModel extends Query
         }
 
         if ($despachos !== null && $despachos !== '') {
-
             if ($despachos == 1 || $despachos == 2 || $despachos == 3) {
                 $sql .= " AND estado_factura = '$despachos'";
             }
@@ -374,19 +378,14 @@ class PedidosModel extends Query
         $sql .= " AND (fc.numero_guia like 'SPD%' or fc.numero_guia like 'MKL%')";
 
         if (!empty($recibo)) {
-            $sql .= " AND fc.recibo is not null";
+            $sql .= " AND fc.recibo IS NOT NULL";
         }
 
-        // Mueve la cláusula ORDER BY al final de la consulta
         $sql .= " ORDER BY fc.numero_factura DESC";
 
-
-        //$sql .= " LIMIT $inicio, $final";
-
-
-        // echo $sql;
         return $this->select($sql);
     }
+
 
     public function despacho($estado)
     {
@@ -1362,27 +1361,27 @@ class PedidosModel extends Query
     }
 
     public function ultimo_mensaje_cliente($id_cliente, $ultimo_mensaje_id = null)
-{
-    // Si se proporciona un ID de último mensaje, obtenemos los mensajes más recientes que ese ID
-    if ($ultimo_mensaje_id) {
-        $sql = "SELECT * FROM `clientes_chat_center` 
+    {
+        // Si se proporciona un ID de último mensaje, obtenemos los mensajes más recientes que ese ID
+        if ($ultimo_mensaje_id) {
+            $sql = "SELECT * FROM `clientes_chat_center` 
                 INNER JOIN `mensajes_clientes` 
                 ON clientes_chat_center.id = mensajes_clientes.id_cliente 
                 WHERE mensajes_clientes.celular_recibe = $id_cliente
                 AND mensajes_clientes.id > $ultimo_mensaje_id
                 ORDER BY mensajes_clientes.created_at ASC;";
-    } else {
-        // Si no se proporciona un ID, solo obtenemos el último mensaje
-        $sql = "SELECT * FROM `clientes_chat_center` 
+        } else {
+            // Si no se proporciona un ID, solo obtenemos el último mensaje
+            $sql = "SELECT * FROM `clientes_chat_center` 
                 INNER JOIN `mensajes_clientes` 
                 ON clientes_chat_center.id = mensajes_clientes.id_cliente 
                 WHERE mensajes_clientes.celular_recibe = $id_cliente
                 ORDER BY mensajes_clientes.created_at DESC 
                 LIMIT 1;";
-    }
+        }
 
-    return $this->select($sql);
-}
+        return $this->select($sql);
+    }
 
     public function numero_cliente($id_cliente, $id_plataforma)
     {

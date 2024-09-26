@@ -7,6 +7,7 @@
 <?php require_once './Views/Pedidos/Modales/gestionar_novedad.php'; ?>
 <?php require_once './Views/Pedidos/Modales/gestionar_novedadSpeed.php'; ?>
 <?php require_once './Views/Pedidos/Modales/subir_recibo_speed.php'; ?>
+<?php require_once './Views/Pedidos/Modales/subir_direccion_speed.php'; ?>
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
@@ -133,7 +134,9 @@
                         <th class="centered">Destino</th>
                         <th class="centered">Tienda</th>
                         <th class="centered">Proveedor</th>
+                        <th class="centered">Motorizado</th>
                         <th class="centered">Transportadora</th>
+                        <th class="centered">Ruta Google</th>
                         <th class="centered">Estado</th>
                         <th class="centered">Despachado</th>
                         <th class="centered">Impreso</th>
