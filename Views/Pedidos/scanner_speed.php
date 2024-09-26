@@ -303,11 +303,6 @@
         const inputFoto = document.getElementById('input_foto');
         const file = inputFoto.files[0];
 
-        if (!file) {
-            alert('Por favor, toma o selecciona una foto.');
-            return;
-        }
-
         let formData = new FormData();
         formData.append("estado", nuevoEstado_novedad_speed);
         formData.append("tipo", tipo_speed);
