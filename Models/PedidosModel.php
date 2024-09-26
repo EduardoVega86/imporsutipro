@@ -342,7 +342,7 @@ class PedidosModel extends Query
             LEFT JOIN 
                 motorizado_guia mg ON mg.guia = fc.numero_guia -- Relaciona las guías
             LEFT JOIN 
-                usuarios u ON u.id_users = mg.id_motorizado -- Relaciona motorizados
+                users u ON u.id_users = mg.id_motorizado -- Relaciona motorizados
             WHERE 
                 TRIM(fc.numero_guia) <> '' 
                 AND fc.numero_guia IS NOT NULL 
