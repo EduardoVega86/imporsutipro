@@ -1463,4 +1463,10 @@ class PedidosModel extends Query
         }
         return $response;
     }
+
+    public function configuraciones_automatizador($id_plataforma)
+    {
+        $sql = "SELECT * FROM `configuraciones` WHERE id_plataforma = $id_plataforma";
+        return $this->select($sql);
+    }
 }

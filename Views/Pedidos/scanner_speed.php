@@ -22,7 +22,6 @@
         <p class="texto_infoVenta"><strong>Numero guia:</strong> <span id="numero_guia"></span></p>
         <p class="texto_infoVenta"><strong>Factura:</strong> <span id="factura"></span></p>
         <p class="texto_infoVenta"><strong>Estado:</strong> <span id="estado"></span></p>
-        <p class="texto_infoVenta"><strong>Costo Flete:</strong> <span id="flete_costo"></span></p>
 
         <select class="form-select select-estado-speed" style="max-width: 130px;">
             <option value="0">-- Selecciona estado --</option>
@@ -123,7 +122,6 @@
                     $("#numero_guia").text(data.data.guia);
                     $("#factura").text(data.data.factura);
                     $("#estado").text(estado);
-                    $("#flete_costo").text(data.data.flete_costo);
 
                     $(".select-estado-speed").val(data.data.estado).change();
 
