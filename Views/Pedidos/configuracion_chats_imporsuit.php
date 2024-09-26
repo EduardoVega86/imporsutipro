@@ -15,12 +15,11 @@
                 <thead>
                     <tr>
                         <th class="centered">ID</th>
-                        <th class="centered">Nombres</th>
-                        <th class="centered">Usuario</th>
-                        <th class="centered">Email</th>
+                        <th class="centered">Nombre configuración</th>
                         <th class="centered">Telefono</th>
-                        <th class="centered">Tienda</th>
-                        <th class="centered">Agregado</th>
+                        <th class="centered">webhook_url</th>
+                        <th class="centered">token</th>
+                        <th class="centered">Acciones</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody_obtener_usuarios_plataforma"></tbody>

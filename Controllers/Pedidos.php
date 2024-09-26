@@ -663,4 +663,11 @@ class Pedidos extends Controller
         $response = $this->model->agregar_mensaje_enviado($texto_mensaje, $tipo_mensaje, $mid_mensaje, $id_recibe, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
+
+    /* automatizador */
+    public function configuraciones_automatizador()
+    {
+        $response = $this->model->configuraciones_automatizador($_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
 }
