@@ -7,6 +7,7 @@
 <?php require_once './Views/Pedidos/Modales/gestionar_novedad.php'; ?>
 <?php require_once './Views/Pedidos/Modales/gestionar_novedadSpeed.php'; ?>
 <?php require_once './Views/Pedidos/Modales/subir_recibo_speed.php'; ?>
+<?php require_once './Views/Pedidos/Modales/subir_direccion_speed.php'; ?>
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
