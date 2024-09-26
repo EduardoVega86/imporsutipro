@@ -286,7 +286,8 @@ const listGuias = async () => {
                     <td>${transporte_content}</td>
                     <td>${transporte_content}</td>
                     <td>
-                    <button onclick="abrir_modal_subirURL('${guia.numero_guia}')" class="btn btn-sm btn-outline-primary"> Subir ubicacion</button></td>
+                    <button onclick="abrir_modal_subirURL('${guia.numero_guia}','${guia.googlemaps}')" class="btn btn-sm btn-outline-primary"> Subir ubicacion</button>
+                    </td>
                     <td>
                      <div style="text-align: center;">
                      <div>
@@ -446,8 +447,9 @@ function abrirModal_infoTienda(tienda) {
   });
 }
 
-function abrir_modal_subirURL(numero_guia){
+function abrir_modal_subirURL(numero_guia, url_google){
   $("#numero_guia_url").val(numero_guia);
+  $("#url_direccion_google").val(url_google);
 
   $("#subir_direccion_speedModal").modal("show");
 }
