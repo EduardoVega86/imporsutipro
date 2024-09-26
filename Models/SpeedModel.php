@@ -202,7 +202,7 @@ class SpeedModel extends Query
             $response = $this->handleSimpleResponse($res);
 
             // datos a guias_speed
-            $sql = "UPDATE guias_speed SET estado = 3 WHERE factura = '$numero_factura'";
+            $sql = "UPDATE guias_speed SET estado = 3, url = '$googlemaps' WHERE factura = '$numero_factura'";
             $res = mysqli_query($guias_connect, $sql);
         } elseif ($estado == 7 || $estado == 9 || $estado == 14) {
             $sql = "UPDATE facturas_cot SET estado_guia_sistema = '$estado' WHERE id_factura = '$id_factura'";
