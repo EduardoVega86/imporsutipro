@@ -1406,7 +1406,7 @@ class PedidosModel extends Query
     {
         if (isset($_FILES['audio']) && $_FILES['audio']['error'] == 0) {
             // Ruta de destino para guardar el archivo
-            $target_dir = "public/whatsapp/audios/";
+            $target_dir = "public/whatsapp/audios_enviados/";
             $file_name = uniqid() . ".ogg";  // Cambiar extensión a .ogg
             $target_file = $target_dir . $file_name;
 

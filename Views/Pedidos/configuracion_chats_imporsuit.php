@@ -1,14 +1,13 @@
 <?php require_once './Views/templates/header.php'; ?>
 <?php require_once './Views/Pedidos/css/configuracion_chats_impursuit_style.php'; ?>
-<?php require_once './Views/Usuarios/Modales/agregar_usuario.php'; ?>
-<?php require_once './Views/Usuarios/Modales/agregar_repartidor.php'; ?>
+<?php require_once './Views/Pedidos/Modales/agregar_configuracion_automatizador.php'; ?>
+
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
-        <h2 class="text-center mb-4">Lista de Usuarios</h2>
+        <h2 class="text-center mb-4">Lista de Configuraciones</h2>
 
-        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_usuarioModal"><i class="fas fa-plus"></i> Agregar</button>
-        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_repartidorModal"><i class="fa-solid fa-motorcycle"></i> Agregar repartidor</button>
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_configuracion_automatizadorModal"><i class="fas fa-plus"></i> Agregar</button>
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
             <table id="datatable_configuracion_automatizador" class="table table-striped">
