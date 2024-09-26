@@ -575,7 +575,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // ---- Función para subir el archivo de audio ----
+  // ---- Función para subir el archivo de audio a tu servidor ----
   function uploadAudio(audioBlob) {
     const formData = new FormData();
     formData.append("audio", audioBlob, "audio.ogg");
@@ -588,7 +588,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((data) => {
         if (data.status === 200) {
           console.log("Audio subido:", data.data);
-          return data.data;
+          return data.data; // Devuelve la URL del archivo guardado
         } else {
           console.error("Error al subir el audio:", data.message);
           throw new Error(data.message);
@@ -627,7 +627,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
               // Datos para enviar el mensaje de audio con el media_id
               const data = {
-                messaging_product: "whatsapp",
+                messaging_product: "whatsapp", // Este parámetro es obligatorio
                 recipient_type: "individual",
                 to: phoneNumber,
                 type: "audio",
