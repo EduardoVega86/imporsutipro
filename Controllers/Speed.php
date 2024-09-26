@@ -5,9 +5,6 @@ class Speed extends Controller
     public function __construct()
     {
         parent::__construct();
-        if (!$this->isAuth()) {
-            header('Location: ' . SERVERURL);
-        }
     }
 
     public function index()
@@ -43,6 +40,9 @@ class Speed extends Controller
 
     public function guardarMotorizado()
     {
+        if (!$this->isAuth()) {
+            header('Location: ' . SERVERURL);
+        }
         $nombre = $_POST['nombre'];
         $celular = $_POST['celular'];
         $usuario = $_POST['usuario'];
