@@ -283,7 +283,7 @@ const listGuias = async () => {
                     <td><span class="link-like" id="plataformaLink">${
                       guia.nombre_proveedor
                     }</span></td>
-                    <td>${transporte_content}</td>
+                    <td>${guia.nombre_motorizado}</td>
                     <td>${transporte_content}</td>
                     <td>
                     <button onclick="abrir_modal_subirURL('${guia.numero_guia}','${guia.googlemaps}')" class="btn btn-sm btn-outline-primary"> Subir ubicacion</button>
