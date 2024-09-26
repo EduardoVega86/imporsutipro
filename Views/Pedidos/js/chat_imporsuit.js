@@ -642,7 +642,7 @@ document.addEventListener("DOMContentLoaded", function () {
     formData.append("file", audioBlob, "audio.ogg"); // Archivo de audio en formato ogg
 
     return fetch(
-      "https://graph.facebook.com/v19.0/YOUR_PHONE_NUMBER_ID/media",
+      url,
       {
         method: "POST",
         headers: {
