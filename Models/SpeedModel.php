@@ -176,21 +176,41 @@ class SpeedModel extends Query
 
     public function estados($estado, $imagen, $tipo, $observacion, $id_factura, $googlemaps)
     {
+        $guias_connect = mysqli_connect("localhost", "imporsuit_system", "imporsuit_system", "imporsuitpro_guias");
+        $sql = "SELECT * FROM facturas_cot WHERE id_factura = $id_factura";
+        $numero_factura = $this->select($sql)[0]['numero_factura'];
         if ($estado == 1) {
             $sql = "UPDATE facturas_cot SET estado_guia_sistema = 1 WHERE id_factura = $id_factura";
             $res = $this->simple_insert($sql);
             $response = $this->handleSimpleResponse($res);
+
+            // datos a guias_speed
+            $sql = "UPDATE guias_speed SET estado = 1 WHERE factura = '$numero_factura'";
+            $res = mysqli_query($guias_connect, $sql);
         } elseif ($estado == 2) {
             $sql = "UPDATE facturas_cot SET estado_guia_sistema = 2 WHERE id_factura = $id_factura";
             $res = $this->simple_insert($sql);
             $response = $this->handleSimpleResponse($res);
+
+            // datos a guias_speed
+            $sql = "UPDATE guias_speed SET estado = 2 WHERE factura = '$numero_factura'";
+            $res = mysqli_query($guias_connect, $sql);
         } else if ($estado == 3) {
             $sql = "UPDATE facturas_cot SET estado_guia_sistema = 3, googlemaps='$googlemaps' WHERE id_factura = $id_factura";
             $res = $this->simple_insert($sql);
+
             $response = $this->handleSimpleResponse($res);
+
+            // datos a guias_speed
+            $sql = "UPDATE guias_speed SET estado = 3 WHERE factura = '$numero_factura'";
+            $res = mysqli_query($guias_connect, $sql);
         } elseif ($estado == 7 || $estado == 9 || $estado == 14) {
             $sql = "UPDATE facturas_cot SET estado_guia_sistema = '$estado' WHERE id_factura = '$id_factura'";
             $res = $this->simple_insert($sql);
+
+            // datos a guias_speed
+            $sql = "UPDATE guias_speed SET estado = $estado WHERE factura = '$numero_factura'";
+            $res = mysqli_query($guias_connect, $sql);
 
             if ($res == 1) {
                 $response = $this->manejarImagenFactura($imagen, $id_factura, $estado);
