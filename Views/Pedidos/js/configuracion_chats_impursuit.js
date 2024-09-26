@@ -1,7 +1,7 @@
-let dataTableObtenerUsuariosPlataforma;
-let dataTableObtenerUsuariosPlataformaIsInitialized = false;
+let dataTableConfiguracionAutomatizador;
+let dataTableConfiguracionAutomatizadorIsInitialized = false;
 
-const dataTableObtenerUsuariosPlataformaOptions = {
+const dataTableConfiguracionAutomatizadorOptions = {
   columnDefs: [
     { className: "centered", targets: [1, 2, 3, 4, 5] },
     { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
@@ -25,30 +25,30 @@ const dataTableObtenerUsuariosPlataformaOptions = {
   },
 };
 
-const initDataTableObtenerUsuariosPlataforma = async () => {
-  if (dataTableObtenerUsuariosPlataformaIsInitialized) {
-    dataTableObtenerUsuariosPlataforma.destroy();
+const initDataTableConfiguracionAutomatizador = async () => {
+  if (dataTableConfiguracionAutomatizadorIsInitialized) {
+    dataTableConfiguracionAutomatizador.destroy();
   }
 
-  await listObtenerUsuariosPlataforma();
+  await listConfiguracionAutomatizador();
 
-  dataTableObtenerUsuariosPlataforma = $(
-    "#datatable_obtener_usuarios_plataforma"
-  ).DataTable(dataTableObtenerUsuariosPlataformaOptions);
+  dataTableConfiguracionAutomatizador = $(
+    "#datatable_configuracion_automatizador"
+  ).DataTable(dataTableConfiguracionAutomatizadorOptions);
 
-  dataTableObtenerUsuariosPlataformaIsInitialized = true;
+  dataTableConfiguracionAutomatizadorIsInitialized = true;
 };
 
-const listObtenerUsuariosPlataforma = async () => {
+const listConfiguracionAutomatizador = async () => {
   try {
     const response = await fetch(
-      "" + SERVERURL + "usuarios/obtener_usuarios_plataforma"
+      "" + SERVERURL + "Pedidos/configuraciones_automatizador"
     );
-    const obtenerUsuariosPlataforma = await response.json();
+    const configuracionAutomatizador = await response.json();
 
     let content = ``;
 
-    obtenerUsuariosPlataforma.forEach((usuario, index) => {
+    configuracionAutomatizador.forEach((usuario, index) => {
       content += `
                 <tr>
                 <td>${usuario.id_users}</td>
@@ -65,7 +65,7 @@ const listObtenerUsuariosPlataforma = async () => {
                 <td>${usuario.date_added}</td>
                 </tr>`;
     });
-    document.getElementById("tableBody_obtener_usuarios_plataforma").innerHTML =
+    document.getElementById("tableBody_configuracion_automatizador").innerHTML =
       content;
   } catch (ex) {
     alert(ex);
@@ -73,7 +73,7 @@ const listObtenerUsuariosPlataforma = async () => {
 };
 
 window.addEventListener("load", async () => {
-  await initDataTableObtenerUsuariosPlataforma();
+  await initDataTableConfiguracionAutomatizador();
 });
 
 function formatPhoneNumber(number) {
