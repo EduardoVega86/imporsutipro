@@ -204,11 +204,31 @@
                 });
             }
 
-            /* seccion notificaciones */
+            // Sección notificaciones
             function toggleNotifications() {
-                document.querySelector('.notification-dropdown').classList.toggle('active');
+                const dropdown = document.querySelector('.notification-dropdown');
+                dropdown.classList.toggle('active');
+
+                if (dropdown.classList.contains('active')) {
+                    // Si el menú está activo, agregar un evento que detecte clics fuera del menú
+                    document.addEventListener('click', clickOutsideHandler);
+                } else {
+                    // Si el menú no está activo, remover el evento
+                    document.removeEventListener('click', clickOutsideHandler);
+                }
             }
-            /* fin seccion notificaciones */
+
+            // Función que maneja clics fuera del área de notificaciones
+            function clickOutsideHandler(event) {
+                const dropdown = document.querySelector('.notification-dropdown');
+                if (!dropdown.contains(event.target) && !event.target.closest('.notification-icon')) {
+                    // Si el clic ocurrió fuera del menú de notificaciones, se cierra el menú
+                    dropdown.classList.remove('active');
+                    document.removeEventListener('click', clickOutsideHandler); // Remover el evento una vez cerrado
+                }
+            }
+
+            // Fin sección notificaciones
         </script>
 
         <!-- librerias de filtro fecha -->
