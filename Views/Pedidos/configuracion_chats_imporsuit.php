@@ -1,6 +1,6 @@
 <?php require_once './Views/templates/header.php'; ?>
 <?php require_once './Views/Pedidos/css/configuracion_chats_impursuit_style.php'; ?>
-<?php require_once './Views/Usuarios/Modales/agregar_configuracion_automatizador.php'; ?>
+<?php require_once './Views/Pedidos/Modales/agregar_configuracion_automatizador.php'; ?>
 
 
 <div class="custom-container-fluid">
