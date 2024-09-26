@@ -62,11 +62,11 @@
         }
     }
 </style>
-<div class="modal fade" id="subir_imagen_speedModal" tabindex="-1" aria-labelledby="subir_imagen_speedModalLabel" aria-hidden="true">
+<div class="modal fade" id="agregar_configuracion_automatizadorModal" tabindex="-1" aria-labelledby="agregar_configuracion_automatizadorModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="subir_imagen_speedModalLabel"><i class="fas fa-edit"></i> Novedad</h5>
+                <h5 class="modal-title" id="agregar_configuracion_automatizadorModalLabel"><i class="fas fa-edit"></i> Novedad</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
