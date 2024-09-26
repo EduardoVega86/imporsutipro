@@ -11,7 +11,7 @@
         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_repartidorModal"><i class="fa-solid fa-motorcycle"></i> Agregar repartidor</button>
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
-            <table id="datatable_obtener_usuarios_plataforma" class="table table-striped">
+            <table id="datatable_configuracion_automatizador" class="table table-striped">
                 <thead>
                     <tr>
                         <th class="centered">ID</th>
@@ -22,7 +22,7 @@
                         <th class="centered">Acciones</th>
                     </tr>
                 </thead>
-                <tbody id="tableBody_obtener_usuarios_plataforma"></tbody>
+                <tbody id="tableBody_configuracion_automatizador"></tbody>
             </table>
         </div>
     </div>
