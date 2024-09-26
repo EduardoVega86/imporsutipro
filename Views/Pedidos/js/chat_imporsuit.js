@@ -603,16 +603,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const formData = new FormData();
     formData.append("file", audioBlob, "audio.ogg"); // Archivo de audio en formato ogg
 
-    return fetch(
-      url,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${accessToken}`, // Usa tu access token aquí
-        },
-        body: formData,
-      }
-    )
+    return fetch(url, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`, // Usa tu access token aquí
+      },
+      body: formData,
+    })
       .then((response) => response.json())
       .then((data) => {
         if (data.id) {
@@ -667,7 +664,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 Authorization: `Bearer ${accessToken}`,
                 "Content-Type": "application/json",
               },
-              body: JSON.stringify(data),
+              body: JSON.stringify({
+                messaging_product: "whatsapp", // <-- Asegúrate de incluir este campo
+                recipient_type: "individual",
+                to: phoneNumber,
+                type: "audio",
+                audio: {
+                  id: mediaId, // Aquí va el media_id obtenido de WhatsApp
+                },
+              }),
             })
               .then((response) => response.json())
               .then((responseData) => {
