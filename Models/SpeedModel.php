@@ -134,6 +134,19 @@ class SpeedModel extends Query
                     $data = [$id_usuario, $id_plataforma];
                     $res = $this->insert($sql, $data);
                     if ($res == 1) {
+                        $sql = "UPDATE motorizados SET id_usuario = ? WHERE usuario = ?";
+                        $data = [$id_usuario, $usuario];
+                        $res = $this->insert($sql, $data);
+                        if ($res == 1) {
+                            $response = $this->initialResponse();
+                            $response['status'] = 200;
+                            $response['message'] = "Motorizado guardado correctamente.";
+                            $response['title'] = "¡Éxito!";
+                        } else {
+                            $response = $this->initialResponse();
+                            $response['status'] = 500;
+                            $response['message'] = $res["message"];
+                        }
                         $response = $this->initialResponse();
                         $response['status'] = 200;
                         $response['message'] = "Motorizado guardado correctamente.";
@@ -171,8 +184,12 @@ class SpeedModel extends Query
             $sql = "UPDATE facturas_cot SET estado_guia_sistema = 2 WHERE id_factura = $id_factura";
             $res = $this->simple_insert($sql);
             $response = $this->handleSimpleResponse($res);
-        } elseif ($estado == 3 || $estado == 7 || $estado == 9 || $estado == 14) {
-            $sql = "UPDATE facturas_cot SET estado_guia_sistema = '$estado', googlemaps = '$googlemaps' WHERE id_factura = '$id_factura'";
+        } else if ($estado == 3) {
+            $sql = "UPDATE facturas_cot SET estado_guia_sistema = 3, googlemaps='$googlemaps' WHERE id_factura = $id_factura";
+            $res = $this->simple_insert($sql);
+            $response = $this->handleSimpleResponse($res);
+        } elseif ($estado == 7 || $estado == 9 || $estado == 14) {
+            $sql = "UPDATE facturas_cot SET estado_guia_sistema = '$estado' WHERE id_factura = '$id_factura'";
             $res = $this->simple_insert($sql);
 
             if ($res == 1) {
