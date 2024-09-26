@@ -284,6 +284,9 @@ const listGuias = async () => {
                       guia.nombre_proveedor
                     }</span></td>
                     <td>${transporte_content}</td>
+                    <td>${transporte_content}</td>
+                    <td>
+                    <button onclick="abrir_modal_subirURL('${guia.numero_guia}')" class="btn btn-sm btn-outline-primary"> Subir ubicacion</button></td>
                     <td>
                      <div style="text-align: center;">
                      <div>
@@ -441,6 +444,12 @@ function abrirModal_infoTienda(tienda) {
       alert(errorThrown);
     },
   });
+}
+
+function abrir_modal_subirURL(numero_guia){
+  $("#numero_guia_url").val(numero_guia);
+
+  $("#subir_direccion_speedModal").modal("show");
 }
 
 function ver_detalle_cot(id_factura) {
@@ -917,6 +926,7 @@ function gestionar_novedad(guia_novedad) {
     },
   });
 }
+
 $(document).ready(function () {
   $("#tipo_gintracom").change(function () {
     var tipo = $("#tipo_gintracom").val();

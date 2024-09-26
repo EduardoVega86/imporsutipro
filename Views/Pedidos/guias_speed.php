@@ -133,7 +133,9 @@
                         <th class="centered">Destino</th>
                         <th class="centered">Tienda</th>
                         <th class="centered">Proveedor</th>
+                        <th class="centered">Motorizado</th>
                         <th class="centered">Transportadora</th>
+                        <th class="centered">Ruta Google</th>
                         <th class="centered">Estado</th>
                         <th class="centered">Despachado</th>
                         <th class="centered">Impreso</th>
