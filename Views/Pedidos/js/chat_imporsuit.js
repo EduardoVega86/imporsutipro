@@ -599,54 +599,16 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   }
 
-  function sendAudioMessage(mediaId) {
-    const phoneNumber = "+" + $("#celular_chat").val(); // Número de teléfono del cliente
-
-    const data = {
-      messaging_product: "whatsapp",
-      recipient_type: "individual",
-      to: phoneNumber,
-      type: "audio",
-      audio: {
-        id: mediaId, // Usamos el ID del archivo subido
-      },
-    };
-
-    fetch(`https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((responseData) => {
-        if (responseData.error) {
-          console.error(
-            "Error al enviar el mensaje de audio:",
-            responseData.error
-          );
-          alert(`Error: ${responseData.error.message}`);
-        } else {
-          alert("¡Audio enviado con éxito!");
-        }
-      })
-      .catch((error) => {
-        console.error("Error al enviar el mensaje de audio:", error);
-      });
-  }
-
   function uploadAudioToWhatsApp(audioBlob) {
     const formData = new FormData();
     formData.append("file", audioBlob, "audio.ogg"); // Archivo de audio en formato ogg
 
     return fetch(
-      "https://graph.facebook.com/v19.0/YOUR_PHONE_NUMBER_ID/media",
+      `https://graph.facebook.com/v19.0/YOUR_PHONE_NUMBER_ID/media`,
       {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${accessToken}`, // Usa tu access token
+          Authorization: `Bearer ${accessToken}`, // Usa tu access token aquí
         },
         body: formData,
       }
@@ -654,15 +616,15 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((response) => response.json())
       .then((data) => {
         if (data.id) {
-          console.log("ID del archivo subido:", data.id);
-          return data.id; // Devolvemos el ID del archivo subido
+          console.log("ID del archivo subido a WhatsApp:", data.id);
+          return data.id; // Devolvemos el media_id del archivo subido
         } else {
-          console.error("Error al subir el archivo:", data);
+          console.error("Error al subir el archivo a WhatsApp:", data);
           throw new Error(data.error.message);
         }
       })
       .catch((error) => {
-        console.error("Error en la subida del archivo:", error);
+        console.error("Error en la subida del archivo a WhatsApp:", error);
       });
   }
 
@@ -674,14 +636,66 @@ document.addEventListener("DOMContentLoaded", function () {
       if (audioBlob && audioBlob.size > 0) {
         console.log("Tamaño del audioBlob:", audioBlob.size);
 
-        // Subimos el archivo de audio a WhatsApp
-        const mediaId = await uploadAudioToWhatsApp(audioBlob);
+        // 1. Primero subes el archivo a tu servidor (esto NO lo toco)
+        const audioUrl = await uploadAudio(audioBlob);
 
-        if (mediaId) {
-          // Si obtenemos un mediaId, enviamos el mensaje de audio
-          sendAudioMessage(mediaId);
+        if (audioUrl) {
+          console.log(
+            "El archivo de audio ha sido subido a tu servidor:",
+            audioUrl
+          );
+
+          // 2. Luego subimos el mismo archivo a WhatsApp y obtenemos el media_id
+          const mediaId = await uploadAudioToWhatsApp(audioBlob);
+
+          if (mediaId) {
+            // 3. Con el media_id, ahora enviamos el mensaje de audio a WhatsApp
+            var phoneNumber = "+" + $("#celular_chat").val();
+            const data = {
+              messaging_product: "whatsapp",
+              recipient_type: "individual",
+              to: phoneNumber,
+              type: "audio",
+              audio: {
+                id: mediaId, // Usamos el media_id de WhatsApp
+              },
+            };
+
+            fetch(url, {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(data),
+            })
+              .then((response) => response.json())
+              .then((responseData) => {
+                if (responseData.error) {
+                  console.error(
+                    "Error al enviar el mensaje de audio:",
+                    responseData.error
+                  );
+                  alert(`Error: ${responseData.error.message}`);
+                } else {
+                  alert("¡Audio enviado con éxito a través de WhatsApp!");
+                }
+              })
+              .catch((error) => {
+                console.error(
+                  "Error al enviar el mensaje de audio a WhatsApp:",
+                  error
+                );
+              });
+          } else {
+            console.error(
+              "No se pudo obtener el media_id del archivo de audio."
+            );
+          }
         } else {
-          console.error("No se pudo obtener el ID del archivo de audio.");
+          console.error(
+            "No se pudo obtener la URL del archivo de audio subido a tu servidor."
+          );
         }
       } else {
         console.error("El archivo de audio está vacío o no se ha creado.");
