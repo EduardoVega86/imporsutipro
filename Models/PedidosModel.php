@@ -328,7 +328,7 @@ class PedidosModel extends Query
                 b.direccion AS direccion_bodega,
                 tp.nombre_tienda AS nombre_proveedor,
                 mg.id_motorizado, -- Campo de motorizado_guia
-                u.nombre AS nombre_motorizado -- Campo del usuario (motorizado)
+                u.nombre_users AS nombre_motorizado -- Campo del usuario (motorizado)
             FROM 
                 facturas_cot fc
             LEFT JOIN 
