@@ -683,4 +683,13 @@ class Pedidos extends Controller
         $response = $this->model->agregar_configuracion($nombre_configuracion, $telefono, $id_telefono, $id_whatsapp, $token, $webhook_url, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
+
+    public function agregar_automatizador()
+    {
+        $nombre_automatizador = $_POST['nombre_automatizador'];
+        $id_configuracion = $_POST['id_configuracion'];
+
+        $response = $this->model->agregar_automatizador($nombre_automatizador, $id_configuracion);
+        echo json_encode($response);
+    }
 }

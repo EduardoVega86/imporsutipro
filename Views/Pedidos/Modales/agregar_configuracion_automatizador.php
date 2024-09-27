@@ -66,7 +66,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="agregar_configuracion_automatizadorModalLabel"><i class="fas fa-edit"></i> Novedad</h5>
+                <h5 class="modal-title" id="agregar_configuracion_automatizadorModalLabel"><i class="fas fa-edit"></i> Configuración</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -118,8 +118,9 @@
                     </div>
                 </div>
 
-                <button type="button" class="btn btn-primary" onclick="agregar_configuracion()">Agregar Configuracion</button>
-
+                <div style="padding: 10px;">
+                    <button type="button" class="btn btn-primary" onclick="agregar_configuracion()">Agregar Configuracion</button>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>

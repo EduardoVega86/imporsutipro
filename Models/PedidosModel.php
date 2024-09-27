@@ -1478,15 +1478,35 @@ class PedidosModel extends Query
 
         $sql = "INSERT INTO `configuraciones` (`id_plataforma`,`nombre_configuracion`,`telefono`,`id_telefono`,`id_whatsapp`,`token`,`webhook_url`) VALUES (?, ?, ?, ?, ?, ?, ?)";
         $data = [$id_plataforma, $nombre_configuracion, $telefono, $id_telefono, $id_whatsapp, $token, $webhook_url];
-        $insertar_mensaje_enviado = $this->insert($sql, $data);
-        if ($insertar_mensaje_enviado == 1) {
+        $insertar_configuracion = $this->insert($sql, $data);
+        if ($insertar_configuracion == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
             $response['message'] = 'flotante agregada correctamente';
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = $insertar_mensaje_enviado['message'];
+            $response['message'] = $insertar_configuracion['message'];
+        }
+        return $response;
+    }
+
+    public function agregar_automatizador($nombre_automatizador, $id_configuracion)
+    {
+        // codigo para agregar categoria
+        $response = $this->initialResponse();
+
+        $sql = "INSERT INTO `automatizadores` (`id_configuracion`,`nombre`) VALUES (?, ?)";
+        $data = [$id_configuracion, $nombre_automatizador];
+        $insertar_automatizador = $this->insert($sql, $data);
+        if ($insertar_automatizador == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'flotante agregada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = $insertar_automatizador['message'];
         }
         return $response;
     }
