@@ -328,4 +328,106 @@ class SpeedModel extends Query
         }
         return $response;
     }
+
+    public function perfil($id)
+    {
+        $sql = "SELECT * FROM motorizados WHERE id_motorizado = $id";
+        $res = $this->select($sql);
+        if (!empty($res)) {
+            $response = $this->initialResponse();
+            $response['status'] = 200;
+            $response['message'] = "Perfil encontrado.";
+            $response['data'] = $res[0];
+        } else {
+            $response = $this->initialResponse();
+            $response['status'] = 500;
+            $response['message'] = "Perfil no encontrado.";
+        }
+        return $response;
+    }
+
+    public function getMotorizados()
+    {
+        $sql = "SELECT * FROM motorizados";
+        $res = $this->select($sql);
+        if (!empty($res)) {
+            $response = $this->initialResponse();
+            $response['status'] = 200;
+            $response['message'] = "Motorizados encontrados.";
+            $response['data'] = $res;
+        } else {
+            $response = $this->initialResponse();
+            $response['status'] = 500;
+            $response['message'] = "Motorizados no encontrados.";
+        }
+        return $response;
+    }
+
+    public function editarMotorizado($id, $nombre, $celular, $usuario, $contrasena)
+    {
+        // Empezamos la consulta base
+        $sql = "UPDATE motorizados SET nombre_motorizado = ?, numero_motorizado = ?";
+        $data = [$nombre, $celular];
+
+        // Si se envía el usuario, agregamos ese campo a la consulta
+        if ($usuario !== null) {
+            $sql .= ", usuario = ?";
+            $data[] = $usuario;
+        }
+
+        // Si se envía la contraseña, la agregamos a la consulta
+        if ($contrasena !== null) {
+            $hash = password_hash($contrasena, PASSWORD_DEFAULT);
+            $sql .= ", contrasena = ?";
+            $data[] = $hash;
+        }
+
+        // Finalizamos la consulta agregando la condición WHERE
+        $sql .= " WHERE id_motorizado = ?";
+        $data[] = $id;
+
+        // Ejecutamos la consulta
+        $res = $this->insert($sql, $data);
+
+        if ($res == 1) {
+            $response = $this->initialResponse();
+            $response['status'] = 200;
+            $response['message'] = "Motorizado actualizado correctamente.";
+            $response['title'] = "¡Éxito!";
+        } else {
+            $response = $this->initialResponse();
+            $response['status'] = 500;
+            $response['message'] = $res["message"];
+        }
+
+        return $response;
+    }
+
+
+    public function subirMatriculaLicencia($id_usuario, $matricula, $licencia)
+    {
+        $response = $this->initialResponse();
+        $uploader = new ImageUploader("public/img/speed/matr_lic/");
+        $response_matricula = $uploader->uploadImage($matricula);
+        $response_licencia = $uploader->uploadImage($licencia);
+
+        if ($response_matricula['status'] == 200 && $response_licencia['status'] == 200) {
+            $sql = "UPDATE motorizados SET matricula = ?, licencia = ? WHERE id_motorizado = ?";
+            $data = [$response_matricula['data'], $response_licencia['data'], $id_usuario];
+            $res = $this->insert($sql, $data);
+            if ($res == 1) {
+                $response['status'] = 200;
+                $response['message'] = "Imágenes subidas correctamente.";
+                $response['title'] = "¡Éxito!";
+            } else {
+                $response['status'] = 500;
+                $response['message'] = "Error al subir las imágenes.";
+            }
+        } else {
+            $response['status'] = 500;
+            $response['message'] = "Error al subir las imágenes.";
+        }
+
+        return $response;
+    }
 }

@@ -69,6 +69,41 @@ class Speed extends Controller
         echo json_encode($response);
     }
 
+    public function perfil()
+    {
+        $id = $_POST["id_usuario"];
+        $response = $this->model->perfil($id);
+        echo json_encode($response);
+    }
+
+    public function editarMotorizado()
+    {
+        $id = $_POST['id_usuario'];
+        $nombre = $_POST['nombre'];
+        $celular = $_POST['celular'];
+        $usuario  = $_POST['usuario'] ?? null;
+        $contrasena = $_POST['contrasena'] ?? null;
+
+        $response = $this->model->editarMotorizado($id, $nombre, $celular, $usuario, $contrasena);
+        echo json_encode($response);
+    }
+
+    public function cargarMotorizados()
+    {
+        $response = $this->model->getMotorizados();
+        echo json_encode($response);
+    }
+
+    public function subirMatriculaLicencia()
+    {
+        $matricula = $_FILES['matricula'];
+        $licencia = $_FILES['licencia'];
+        $id_usuario = $_POST['id_usuario'];
+
+        $response = $this->model->subirMatriculaLicencia($id_usuario, $matricula, $licencia);
+        echo json_encode($response);
+    }
+
 
     public function estados()
     {
