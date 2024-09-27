@@ -73,6 +73,14 @@ window.addEventListener("load", async () => {
   await initDataTableConfiguracionAutomatizador();
 });
 
-function redireccion_automatizadores(id){
-  window.location.href = "https://automatizador.imporsuitpro.com/tabla_automatizadores.php?id_configuracion="+id;
+function redireccion_automatizadores(id) {
+  window.location.href =
+    "https://automatizador.imporsuitpro.com/tabla_automatizadores.php?id_configuracion=" +
+    id;
+}
+
+function modal_crear_automatizador(id) {
+  $("#id_configuracion").val(id);
+
+  $("#agregar_automatizadorModal").modal("show");
 }
