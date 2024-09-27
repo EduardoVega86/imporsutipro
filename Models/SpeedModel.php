@@ -331,7 +331,14 @@ class SpeedModel extends Query
 
     public function perfil($id)
     {
-        $sql = "SELECT * FROM motorizados WHERE id_motorizado = $id";
+        $sql = "SELECT * FROM users WHERE email_users = '$id'";
+        $res = $this->select($sql);
+
+        $email_users = $res[0]['email_users'];
+
+
+
+        $sql = "SELECT * FROM motorizados WHERE usuario ='" . $email_users . "'";
         $res = $this->select($sql);
         if (!empty($res)) {
             $response = $this->initialResponse();
@@ -348,6 +355,7 @@ class SpeedModel extends Query
 
     public function getMotorizados()
     {
+
         $sql = "SELECT * FROM motorizados";
         $res = $this->select($sql);
         if (!empty($res)) {
