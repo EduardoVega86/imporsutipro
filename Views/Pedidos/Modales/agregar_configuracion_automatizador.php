@@ -125,3 +125,52 @@
         </div>
     </div>
 </div>
+
+<script>
+    function agregar_configuracion() {
+        var nombreConfiguracion = $('#nombreConfiguracion').val();
+        var telefono = $('#telefono').val();
+        var idWhatsapp = $('#idWhatsapp').val();
+        var idBusinessAccount = $('#idBusinessAccount').val();
+        var tokenApi = $('#tokenApi').val();
+        var tokenWebhookUrl = $('#tokenWebhookUrl').val();
+
+        let formData = new FormData();
+        formData.append("nombre_configuracion", nombreConfiguracion);
+        formData.append("telefono", telefono);
+        formData.append("id_telefono", idWhatsapp);
+        formData.append("id_whatsapp", idBusinessAccount);
+        formData.append("token", tokenApi);
+        formData.append("webhook_url", tokenWebhookUrl);
+
+        $.ajax({
+            url: SERVERURL + "Pedidos/agregar_configuracion",
+            type: "POST",
+            data: formData,
+            processData: false, // No procesar los datos
+            contentType: false, // No establecer ningún tipo de contenido
+            dataType: "json",
+            success: function(response) {
+                if (response.status == 500) {
+                    toastr.error(
+                        "LA CONFIGURACION NO SE AGREGRO CORRECTAMENTE",
+                        "NOTIFICACIÓN", {
+                            positionClass: "toast-bottom-center"
+                        }
+                    );
+                } else if (response.status == 200) {
+                    toastr.success("CONFIGURACION AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+                        positionClass: "toast-bottom-center",
+                    });
+                    $('#agregar_configuracion_automatizadorModal').modal('hide');
+                    initDataTableConfiguracionAutomatizador();
+                }
+
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert(errorThrown);
+            },
+        });
+
+    }
+</script>

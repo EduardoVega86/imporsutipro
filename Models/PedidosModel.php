@@ -1464,9 +1464,30 @@ class PedidosModel extends Query
         return $response;
     }
 
+    /* automatizador */
     public function configuraciones_automatizador($id_plataforma)
     {
         $sql = "SELECT * FROM `configuraciones` WHERE id_plataforma = $id_plataforma";
         return $this->select($sql);
+    }
+
+    public function agregar_configuracion($nombre_configuracion, $telefono, $id_telefono, $id_whatsapp, $token, $webhook_url, $id_plataforma)
+    {
+        // codigo para agregar categoria
+        $response = $this->initialResponse();
+
+        $sql = "INSERT INTO `configuraciones` (`id_plataforma`,`nombre_configuracion`,`telefono`,`id_telefono`,`id_whatsapp`,`token`,`webhook_url`) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $data = [$id_plataforma, $nombre_configuracion, $telefono, $id_telefono, $id_whatsapp, $token, $webhook_url];
+        $insertar_mensaje_enviado = $this->insert($sql, $data);
+        if ($insertar_mensaje_enviado == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'flotante agregada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = $insertar_mensaje_enviado['message'];
+        }
+        return $response;
     }
 }

@@ -608,7 +608,7 @@ document.addEventListener("DOMContentLoaded", function () {
       {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${accessToken}`, // Usa tu access token aquí
+          Authorization: `Bearer ${accessToken}`, // Tu access token aquí
         },
         body: formData,
       }
