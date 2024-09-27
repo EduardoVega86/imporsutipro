@@ -76,7 +76,6 @@ if ($data == 0) {
                         ['table', ['table']],
                         ['insert', ['link', 'picture', 'video']],
                         ['view', ['fullscreen', 'codeview', 'help']],
-                        ['misc', ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull']]
                     ],
                     callbacks: {
                         onImageUpload: function(files) {
