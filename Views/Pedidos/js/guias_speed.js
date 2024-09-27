@@ -467,7 +467,22 @@ function abrir_modal_subirURL(numero_guia, url_google) {
 }
 
 function abrir_modal_dellate_repartidor(id_motorizado) {
-  $("#detalles_repartidorModal").modal("show");
+  let formData = new FormData();
+  formData.append("id_usuario", id_motorizado); // Añadir el SKU al FormData
+  $.ajax({
+    url: SERVERURL + "speed/perfil",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    dataType: "json",
+    success: function (response) {
+      $("#detalles_repartidorModal").modal("show");
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
 }
 
 function ver_detalle_cot(id_factura) {
