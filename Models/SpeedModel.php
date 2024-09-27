@@ -338,7 +338,7 @@ class SpeedModel extends Query
 
 
 
-        $sql = "SELECT * FROM motorizados WHERE usuario ='" . $email_users . "'";
+        $sql = "SELECT `id_motorizado`, `nombre_motorizado`, `numero_motorizado`, `placa_motorizado`, `usuario`, `id_plataforma`, `id_usuario`, `licencia`, `matricula` FROM motorizados WHERE usuario ='" . $email_users . "'";
         $res = $this->select($sql);
         if (!empty($res)) {
             $response = $this->initialResponse();
