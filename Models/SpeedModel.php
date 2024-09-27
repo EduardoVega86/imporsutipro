@@ -331,7 +331,7 @@ class SpeedModel extends Query
 
     public function perfil($id)
     {
-        $sql = "SELECT * FROM users WHERE email_users = '$id'";
+        $sql = "SELECT * FROM users WHERE id_users = $id";
         $res = $this->select($sql);
 
         $email_users = $res[0]['email_users'];
