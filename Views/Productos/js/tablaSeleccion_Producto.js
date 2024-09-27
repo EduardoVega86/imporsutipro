@@ -126,7 +126,7 @@ const listTablaIdInventario = async () => {
                     <td> ${inventario.nombre_atributo} ${inventario.variedad}</td>
                     <td>$ ${inventario.pcp}</td>
                     <td>$ ${inventario.pvp}</td>
-                    <td>${inventario.id_inventario}</td>
+                    <td><div class="btn btn-primary" onclick="copyToClipboard_variable(${inventario.id_inventario})"><span>Copiar id ${inventario.id_inventario}</span></div></td>
                 </tr>`;
     });
     document.getElementById("tableBody_tabla_idInventario").innerHTML = content;
@@ -134,3 +134,44 @@ const listTablaIdInventario = async () => {
     alert(ex);
   }
 };
+
+
+function copyToClipboard_variable(id) {
+  navigator.clipboard.writeText(id).then(
+    function () {
+      toastr.success("ID " + id + " COPIADA CON EXITO", "NOTIFICACIÓN", {
+        positionClass: "toast-bottom-center",
+      });
+    },
+    function (err) {
+      console.error("Error al copiar al portapapeles: ", err);
+    }
+  );
+
+  /* mandar a shopify */
+  let formData = new FormData();
+  formData.append("id_inventario", id);
+  $.ajax({
+    url: SERVERURL + "Productos/importar_productos_shopify",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("NO SE AGREGO CORRECTAMENTE a shopify", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("PRODUCTO AGREGADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+
+  /* fin mandar a shopify */
+}

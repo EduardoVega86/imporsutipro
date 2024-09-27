@@ -147,7 +147,7 @@ const listProductos = async () => {
       if (producto.producto_variable == 0) {
         producto_variable = ``;
         enviaCliente = `<i class="fa-regular fa-paper-plane" style='cursor:pointer' onclick="enviar_cliente(${producto.id_producto},'${producto.sku}',${producto.pvp},${producto.id_inventario})"></i>`;
-        botonId_inventario = `${producto.id_inventario}`;
+        botonId_inventario = `<div class="btn btn-primary" onclick="copyToClipboard(${producto.id_inventario})"><span>Copiar id ${producto.id_inventario}</span></div>`;
       } else {
         producto_variable = `<img src="https://new.imporsuitpro.com/public/img/atributos.png" width="30px" id="buscar_traking" alt="buscar_traking" onclick="abrir_modalInventarioVariable(${producto.id_producto})">`;
         enviaCliente = `<i style="color:red;" class="fa-regular fa-paper-plane" style='cursor:pointer' onclick="abrir_modalSeleccionAtributo(${producto.id_producto},'${producto.sku}',${producto.pvp},${producto.id_inventario})"></i>`;
@@ -206,6 +206,46 @@ const listProductos = async () => {
     alert("Error al obtener la lista de productos");
   }
 };
+
+function copyToClipboard(id) {
+  navigator.clipboard.writeText(id).then(
+    function () {
+      toastr.success("ID " + id + " COPIADA CON EXITO", "NOTIFICACIÓN", {
+        positionClass: "toast-bottom-center",
+      });
+    },
+    function (err) {
+      console.error("Error al copiar al portapapeles: ", err);
+    }
+  );
+
+  /* mandar a shopify */
+  let formData = new FormData();
+  formData.append("id_inventario", id);
+  $.ajax({
+    url: SERVERURL + "Productos/importar_productos_shopify",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("NO SE AGREGO CORRECTAMENTE a shopify", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("PRODUCTO AGREGADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+
+  /* fin mandar a shopify */
+}
 
 // Función para manejar el evento de cambio del checkbox agregar_privado
 function toggleAgregarPrivado(checkbox) {
