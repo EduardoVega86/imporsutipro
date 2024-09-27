@@ -6,44 +6,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.js"></script>
-
-<!-- Estilos personalizados -->
-<style>
-    /* Limitar el ancho del contenedor del editor */
-    .editor-container {
-        max-width: 800px;
-        margin: 0 auto;
-    }
-
-    /* Asegurar que el editor tome el 100% del ancho disponible */
-    .note-editor {
-        width: 100%;
-    }
-
-    /* Limitar el contenido editable a un ancho máximo y evitar el desbordamiento */
-    .note-editable {
-        max-width: 800px;
-        word-wrap: break-word;
-        white-space: normal;
-        overflow-wrap: break-word;
-        overflow-x: hidden;
-        /* Evitar el desbordamiento horizontal */
-    }
-
-    /* Asegurar que las imágenes no desborden el editor */
-    .note-editable img {
-        max-width: 100%;
-        height: auto;
-    }
-
-    /* Justificar párrafos y asegurar ajuste de línea */
-    .note-editable p {
-        text-align: justify;
-        word-break: break-word;
-        white-space: normal;
-    }
-</style>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <?php
 if ($data == 0) {
 ?>
