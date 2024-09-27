@@ -529,7 +529,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Verificar si el navegador soporta grabación en OGG
         const mimeType = MediaRecorder.isTypeSupported("audio/ogg")
           ? "audio/ogg"
-          : "audio/webm";
+          : "audio/webm"; // Usar WebM si OGG no es soportado
         console.log("Formato seleccionado:", mimeType);
 
         mediaRecorder = new MediaRecorder(stream, { mimeType: mimeType });
@@ -551,7 +551,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         mediaRecorder.addEventListener("dataavailable", (event) => {
           console.log("Datos de audio recibidos:", event.data);
-          audioBlob = event.data;
+          audioBlob = event.data; // Guardamos el blob de audio
         });
       })
       .catch((error) => {
@@ -601,7 +601,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function uploadAudioToWhatsApp(audioBlob) {
     const formData = new FormData();
-    formData.append("file", audioBlob, "audio.ogg"); // Archivo de audio en formato ogg
+
+    // Determina el tipo de archivo según el formato del blob
+    const mimeType = audioBlob.type;
+    const fileExtension = mimeType === "audio/ogg" ? "ogg" : "webm"; // Define la extensión correcta
+
+    formData.append("file", audioBlob, `audio.${fileExtension}`); // Nombre dinámico del archivo
 
     return fetch(
       `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/media`,
