@@ -63,8 +63,26 @@ class Acceso extends Controller
     public function logout()
     {
         session_start();
+
         session_unset();
         session_destroy();
+        // Eliminar la cookie compartida 'id_plataforma' (ajusta el nombre si es necesario)
+        if (isset($_COOKIE['id_plataforma'])) {
+            // Para eliminar la cookie, establece su tiempo de expiración en el pasado
+            setcookie('id_plataforma', '', time() - 3600, '/', '.imporsuitpro.com', true, true);
+        }
+        if (isset($_COOKIE['user'])) {
+            setcookie('user', '', time() - 3600, '/', '.imporsuitpro.com', true, true);
+        }
+        if (isset($_COOKIE['id'])) {
+            setcookie('id', '', time() - 3600, '/', '.imporsuitpro.com', true, true);
+        }
+        if (isset($_COOKIE['login_time'])) {
+            setcookie('login_time', '', time() - 3600, '/', '.imporsuitpro.com', true, true);
+        }
+        if (isset($_COOKIE['cargo'])) {
+            setcookie('cargo', '', time() - 3600, '/', '.imporsuitpro.com', true, true);
+        }
         header("Location:  " . SERVERURL . "login");
     }
 
