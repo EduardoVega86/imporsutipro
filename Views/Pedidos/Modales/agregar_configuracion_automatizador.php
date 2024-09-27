@@ -118,6 +118,8 @@
                     </div>
                 </div>
 
+                <button type="button" class="btn btn-primary" onclick="agregar_configuracion()">Agregar Configuracion</button>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
