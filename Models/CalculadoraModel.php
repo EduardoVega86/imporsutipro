@@ -106,6 +106,8 @@ class CalculadoraModel extends Query
             $tarifas["speed"] = 6.5;
         } else if ($ciudad == "GUAYAQUIL" && $id_plataforma == 1206) {
             $tarifas["speed"] = 5.5;
+        } else if ($ciudad == "DAULE" && $id_plataforma == 1206) {
+            $tarifas["speed"] = 6.5;
         } else if ($ciudad == "SAMBORONDON" && $id_plataforma == 1206) {
             $tarifas["speed"] = 6.5;
         } else if ($ciudad == "LA PUNTILLA/GUAYAS" && $id_plataforma == 1206) {
