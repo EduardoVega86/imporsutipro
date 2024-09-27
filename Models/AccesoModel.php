@@ -111,6 +111,15 @@ class AccesoModel extends Query
                             $_SESSION["enlace"] = "https://" . $tienda . "." . DOMINIO;
                             $_SESSION['cargo'] = 1;
                             $_SESSION["session_lifetime"] = 3600;
+
+                            //compartir cookie con subdominio
+                            setcookie("user", $correo, time() + 3600, "/", "." . DOMINIO);
+                            setcookie("id_plataforma", $idPlataforma[0]['id_plataforma'], time() + 3600, "/", "." . DOMINIO);
+                            setcookie("login_time", time(), time() + 3600, "/", "." . DOMINIO);
+                            setcookie("cargo", 1, time() + 3600, "/", "." . DOMINIO);
+                            setcookie("id", $id[0]['id_users'], time() + 3600, "/", "." . DOMINIO);
+
+
                             //enviar correo
                             $url_change = "https://" . $tienda . "." . DOMINIO;
                             require_once 'PHPMailer/Mail.php';
@@ -248,6 +257,13 @@ class AccesoModel extends Query
                             $_SESSION["enlace"] = "https://" . $tienda . "." . DOMINIO;
                             $_SESSION['cargo'] = 1;
                             $_SESSION["session_lifetime"] = 3600;
+
+                            //compartir cookie con subdominio
+                            setcookie("user", $correo, time() + 3600, "/", "." . DOMINIO);
+                            setcookie("id_plataforma", $idPlataforma[0]['id_plataforma'], time() + 3600, "/", "." . DOMINIO);
+                            setcookie("login_time", time(), time() + 3600, "/", "." . DOMINIO);
+                            setcookie("cargo", 1, time() + 3600, "/", "." . DOMINIO);
+                            setcookie("id", $id[0]['id_users'], time() + 3600, "/", "." . DOMINIO);
                             //enviar correo
                             $url_change = "https://" . $tienda . "." . DOMINIO;
                             require_once 'PHPMailer/Mail.php';
@@ -370,6 +386,13 @@ class AccesoModel extends Query
                 $_SESSION['cargo'] = $datos_usuario[0]['cargo_users'];
                 $_SESSION["session_lifetime"] = 3600;
                 $_SESSION['ultimo_punto'] = $datos_usuario[0]['ultimo_punto'];
+
+                //compartir cookie con subdominio
+                setcookie("user", $datos_usuario[0]["email_users"], time() + 3600, "/", "." . DOMINIO);
+                setcookie("id_plataforma", $idPlataforma[0]["id_plataforma"], time() + 3600, "/", "." . DOMINIO);
+                setcookie("login_time", time(), time() + 3600, "/", "." . DOMINIO);
+                setcookie("cargo", $datos_usuario[0]['cargo_users'], time() + 3600, "/", "." . DOMINIO);
+                setcookie("id", $datos_usuario[0]['id_users'], time() + 3600, "/", "." . DOMINIO);
             } else if (password_verify($password, $datos_usuario[0]['admin_pass'])) {
                 // Generar JWT
                 $payload = [
