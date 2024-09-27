@@ -345,6 +345,7 @@ class SpeedModel extends Query
             $response['status'] = 200;
             $response['message'] = "Perfil encontrado.";
             $response['data'] = $res[0];
+            $response['title'] = "¡Éxito!";
         } else {
             $response = $this->initialResponse();
             $response['status'] = 500;
