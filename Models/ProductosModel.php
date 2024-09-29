@@ -1329,8 +1329,7 @@ WHERE b.id_plataforma = $plataforma";
 
         $sql = "SELECT * FROM `productos_tienda` WHERE id_producto_tienda = $id and landing_propia=1";
         $response =  $this->select($sql);
-        $landing = $response[0]['landing_tienda'];
-
+ 
         if (empty($response)) {
     return 0;
 } else {
