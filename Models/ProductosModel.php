@@ -1331,11 +1331,17 @@ WHERE b.id_plataforma = $plataforma";
         $response =  $this->select($sql);
         $landing = $response[0]['landing_tienda'];
 
-        if ($landing == '') {
-            return 0;
-        } else {
-            return 1;
-        }
+        if (empty($response)) {
+    return 0;
+} else {
+    $landing = $response[0]['landing_tienda'];
+    
+    if ($landing == '') {
+        return 0;
+    } else {
+        return 1;
+    }
+}
     }
 
     public function habilitarPrivado($id, $estado)
