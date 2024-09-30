@@ -1510,4 +1510,11 @@ class PedidosModel extends Query
         }
         return $response;
     }
+
+    public function obtenerPedidoPorTelefono($telefono)
+    {
+        // Buscar el pedido por el número de teléfono independientemente si tiene +593 en el número
+        $sql = "SELECT * FROM facturas_cot WHERE telefono = '$telefono' OR telefono = '+593$telefono' OR telefono = '593$telefono' LIMIT 1";
+        return $this->select($sql);
+    }
 }
