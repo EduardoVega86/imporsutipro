@@ -46,6 +46,11 @@ $(document).ready(function () {
     },
   });
 
+  // Función global para ver los detalles del pedido
+  function verDetallesPedido(id_factura) {
+    window.open(SERVERURL + "Pedidos/editar/" + id_factura, "_blank");
+  }
+
   // Función que se ejecuta cuando se hace click en un contacto
   function ejecutarApiConIdCliente(id_cliente) {
     let formData = new FormData();
@@ -122,13 +127,6 @@ $(document).ready(function () {
         console.error("Error al ejecutar la API:", error);
       },
     });
-  }
-
-  function verDetallesPedido(id_factura) {
-    window.open(
-      SERVERURL + "Pedidos/editar/" + id_factura,
-      "_blank"
-    );
   }
 
   // Función para cargar los mensajes del chat
