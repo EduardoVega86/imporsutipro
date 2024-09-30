@@ -1,6 +1,7 @@
 <?php require_once './Views/templates/header.php'; ?>
 <?php require_once './Views/Usuarios/css/listado_style.php'; ?>
 <?php require_once './Views/Usuarios/Modales/agregar_usuario.php'; ?>
+<?php require_once './Views/Usuarios/Modales/editar_usuario.php'; ?>
 <?php require_once './Views/Usuarios/Modales/agregar_repartidor.php'; ?>
 
 <div class="custom-container-fluid">
@@ -21,6 +22,8 @@
                         <th class="centered">Telefono</th>
                         <th class="centered">Tienda</th>
                         <th class="centered">Agregado</th>
+                        <th class="centered">Agregar Plaza</th>
+                        <th class="centered">Acciones</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody_obtener_usuarios_plataforma"></tbody>

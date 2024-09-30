@@ -692,4 +692,11 @@ class Pedidos extends Controller
         $response = $this->model->agregar_automatizador($nombre_automatizador, $id_configuracion);
         echo json_encode($response);
     }
+
+    public function obtenerPedidosPorTelefono()
+    {
+        $telefono = $_POST['telefono'];
+        $response = $this->model->obtenerPedidoPorTelefono($telefono);
+        echo json_encode($response);
+    }
 }

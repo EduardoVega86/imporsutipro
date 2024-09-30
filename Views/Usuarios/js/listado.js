@@ -49,6 +49,22 @@ const listObtenerUsuariosPlataforma = async () => {
     let content = ``;
 
     obtenerUsuariosPlataforma.forEach((usuario, index) => {
+      let editar = "";
+      let placa = "";
+      if (usuario.cargo_users == 35){
+        editar = `<button class="btn btn-sm btn-primary" onclick="abrir_editar_motorizado(${
+          usuario.id_users
+        })"><i class="fa-solid fa-pencil"></i>Editar</button>`;
+
+        placa = `<i class="fa-solid fa-store" style='cursor:pointer' onclick="abrir_modal_subirPlaca(${
+          usuario.id_users
+        })"></i>`;
+      } else {
+        editar = `<button class="btn btn-sm btn-primary" onclick="abrir_editar_usuario(${
+          usuario.id_users
+        })"><i class="fa-solid fa-pencil"></i>Editar</button>`;
+      }
+
       content += `
                 <tr>
                 <td>${usuario.id_users}</td>
@@ -63,6 +79,13 @@ const listObtenerUsuariosPlataforma = async () => {
                 </a></td>
                 <td>${usuario.nombre_tienda}</td>
                 <td>${usuario.date_added}</td>
+                <td>${placa}</td>
+                <td>
+                ${editar}
+                <button class="btn btn-sm btn-danger" onclick="eliminar_usuario(${
+                  usuario.id_users
+                })"><i class="fa-solid fa-trash-can"></i>Borrar</button>
+                </td>
                 </tr>`;
     });
     document.getElementById("tableBody_obtener_usuarios_plataforma").innerHTML =
@@ -71,6 +94,28 @@ const listObtenerUsuariosPlataforma = async () => {
     alert(ex);
   }
 };
+
+function abrir_editar_usuario(id_usuario) {
+  let formData = new FormData();
+  formData.append("id_usuario", id_usuario); // Añadir el SKU al FormData
+  $.ajax({
+    url: SERVERURL + "usuarios/obtener_usuario",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    dataType: "json",
+    success: function (response) {
+      $("#nombre_motorizado_detalle").text(response.data.nombre_motorizado);
+      $("#numero_motorizado_detalle").text(response.data.numero_motorizado);
+
+      $("#editar_usuarioModal").modal("show");
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+}
 
 window.addEventListener("load", async () => {
   await initDataTableObtenerUsuariosPlataforma();
