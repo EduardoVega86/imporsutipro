@@ -372,11 +372,11 @@ class SpeedModel extends Query
         return $response;
     }
 
-    public function editarMotorizado($id, $nombre, $celular, $usuario, $contrasena)
+    public function editarMotorizado($id, $nombre, $celular, $usuario, $contrasena, $placa)
     {
         // Empezamos la consulta base
-        $sql = "UPDATE motorizados SET nombre_motorizado = ?, numero_motorizado = ?";
-        $data = [$nombre, $celular];
+        $sql = "UPDATE motorizados SET nombre_motorizado = ?, numero_motorizado = ?, placa_motorizado = ?";
+        $data = [$nombre, $celular, $placa];
 
         // Si se envía el usuario, agregamos ese campo a la consulta
         if ($usuario !== null || !empty($usuario)) {

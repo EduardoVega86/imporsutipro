@@ -83,8 +83,9 @@ class Speed extends Controller
         $celular = $_POST['celular'];
         $usuario  = $_POST['usuario'] ?? null;
         $contrasena = $_POST['contrasena'] ?? null;
+        $placa = $_POST['placa'] ?? null;
 
-        $response = $this->model->editarMotorizado($id, $nombre, $celular, $usuario, $contrasena);
+        $response = $this->model->editarMotorizado($id, $nombre, $celular, $usuario, $contrasena, $placa);
         echo json_encode($response);
     }
 
