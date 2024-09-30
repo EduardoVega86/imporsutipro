@@ -578,15 +578,10 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("Acceso al micrófono concedido");
         stream = micStream;
 
-        // Forzar la grabación en OGG. Si no está soportado, mostrar error
-        if (!MediaRecorder.isTypeSupported("audio/ogg")) {
-          alert(
-            "Tu navegador no soporta la grabación en formato OGG, necesario para WhatsApp."
-          );
-          return;
-        }
-
-        const mimeType = "audio/ogg"; // Forzamos el formato OGG
+        // Verificar si el navegador soporta grabación en OGG
+        const mimeType = MediaRecorder.isTypeSupported("audio/ogg")
+          ? "audio/ogg"
+          : "audio/webm";
         console.log("Formato seleccionado:", mimeType);
 
         mediaRecorder = new MediaRecorder(stream, { mimeType: mimeType });
@@ -656,9 +651,37 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   }
 
-  function uploadAudioToWhatsApp(audioBlob) {
+  async function convertWebMToOgg(webmBlob) {
+    const { createFFmpeg, fetchFile } = FFmpeg;
+    const ffmpeg = createFFmpeg({ log: true });
+
+    await ffmpeg.load();
+
+    // Cargar el archivo webm en FFmpeg
+    ffmpeg.FS("writeFile", "input.webm", await fetchFile(webmBlob));
+
+    // Ejecutar la conversión de webm a ogg
+    await ffmpeg.run("-i", "input.webm", "output.ogg");
+
+    // Leer el archivo convertido
+    const data = ffmpeg.FS("readFile", "output.ogg");
+
+    // Crear un blob con los datos convertidos
+    const oggBlob = new Blob([data.buffer], { type: "audio/ogg" });
+
+    return oggBlob;
+  }
+
+  async function uploadAudioToWhatsApp(audioBlob) {
+    // Si el archivo no está en formato OGG, lo convertimos
+    if (audioBlob.type !== "audio/ogg") {
+      console.log("Convirtiendo audio a formato OGG...");
+      audioBlob = await convertWebMToOgg(audioBlob);
+      console.log("Conversión completada.");
+    }
+
     const formData = new FormData();
-    formData.append("file", audioBlob, "audio.ogg"); // Archivo de audio en formato ogg
+    formData.append("file", audioBlob, "audio.ogg"); // Archivo de audio convertido a ogg
     formData.append("messaging_product", "whatsapp"); // Parametro requerido por WhatsApp
 
     return fetch(
