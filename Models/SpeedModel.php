@@ -379,34 +379,52 @@ class SpeedModel extends Query
         $data = [$nombre, $celular];
 
         // Si se envía el usuario, agregamos ese campo a la consulta
-        if ($usuario !== null) {
+        if ($usuario !== null || !empty($usuario)) {
             $sql .= ", usuario = ?";
             $data[] = $usuario;
         }
 
         // Si se envía la contraseña, la agregamos a la consulta
-        if ($contrasena !== null) {
+        if ($contrasena !== null || !empty($contrasena)) {
             $hash = password_hash($contrasena, PASSWORD_DEFAULT);
             $sql .= ", contrasena = ?";
             $data[] = $hash;
         }
 
         // Finalizamos la consulta agregando la condición WHERE
-        $sql .= " WHERE id_motorizado = ?";
+        $sql .= " WHERE id_usuario = ?";
         $data[] = $id;
 
         // Ejecutamos la consulta
         $res = $this->insert($sql, $data);
 
         if ($res == 1) {
-            $response = $this->initialResponse();
-            $response['status'] = 200;
-            $response['message'] = "Motorizado actualizado correctamente.";
-            $response['title'] = "¡Éxito!";
+
+            if ($contrasena !== null || !empty($contrasena)) {
+                $sql = "UPDATE users SET nombre_users = ?, con_users = ? WHERE id_users = ?";
+                $data = [$nombre, $hash, $id];
+            } else {
+                $sql = "UPDATE users SET nombre_users = ? WHERE id_users = ?";
+                $data = [$nombre, $id];
+            }
+
+            $res = $this->insert($sql, $data);
+            if ($res == 1) {
+                $response = $this->initialResponse();
+                $response['status'] = 200;
+                $response['message'] = "Motorizado actualizado correctamente.";
+                $response['title'] = "¡Éxito!";
+            } else {
+                $response = $this->initialResponse();
+                $response['status'] = 500;
+                $response['message'] = "Error al actualizar el motorizado.";
+                $response["sql"] = $sql;
+            }
         } else {
             $response = $this->initialResponse();
             $response['status'] = 500;
-            $response['message'] = $res["message"];
+            $response['message'] = "Error al actualizar el motorizado.";
+            $response["sql"] = $sql;
         }
 
         return $response;

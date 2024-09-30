@@ -3,6 +3,7 @@
 <?php require_once './Views/Usuarios/Modales/agregar_usuario.php'; ?>
 <?php require_once './Views/Usuarios/Modales/editar_usuario.php'; ?>
 <?php require_once './Views/Usuarios/Modales/agregar_repartidor.php'; ?>
+<?php require_once './Views/Usuarios/Modales/editar_repartidor.php'; ?>
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
