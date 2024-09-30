@@ -578,10 +578,15 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("Acceso al micrófono concedido");
         stream = micStream;
 
-        // Verificar si el navegador soporta grabación en OGG
-        const mimeType = MediaRecorder.isTypeSupported("audio/ogg")
-          ? "audio/ogg"
-          : "audio/webm";
+        // Forzar la grabación en OGG. Si no está soportado, mostrar error
+        if (!MediaRecorder.isTypeSupported("audio/ogg")) {
+          alert(
+            "Tu navegador no soporta la grabación en formato OGG, necesario para WhatsApp."
+          );
+          return;
+        }
+
+        const mimeType = "audio/ogg"; // Forzamos el formato OGG
         console.log("Formato seleccionado:", mimeType);
 
         mediaRecorder = new MediaRecorder(stream, { mimeType: mimeType });
