@@ -21,6 +21,8 @@
                         <th class="centered">Telefono</th>
                         <th class="centered">Tienda</th>
                         <th class="centered">Agregado</th>
+                        <th class="centered">Agregar Plaza</th>
+                        <th class="centered">Acciones</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody_obtener_usuarios_plataforma"></tbody>
