@@ -4,6 +4,7 @@
 <?php require_once './Views/Usuarios/Modales/editar_usuario.php'; ?>
 <?php require_once './Views/Usuarios/Modales/agregar_repartidor.php'; ?>
 <?php require_once './Views/Usuarios/Modales/editar_repartidor.php'; ?>
+<?php require_once './Views/Usuarios/Modales/subir_licencia_matricula.php'; ?>
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
@@ -23,7 +24,7 @@
                         <th class="centered">Telefono</th>
                         <th class="centered">Tienda</th>
                         <th class="centered">Agregado</th>
-                        <th class="centered">Agregar Plaza</th>
+                        <th class="centered">Agregar Placa</th>
                         <th class="centered">Acciones</th>
                     </tr>
                 </thead>
