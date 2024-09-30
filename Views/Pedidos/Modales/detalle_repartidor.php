@@ -83,7 +83,6 @@
     .custom-total-row {
         font-weight: bold;
     }
-
 </style>
 <div class="modal fade" id="detalles_repartidorModal" tabindex="-1" aria-labelledby="detalles_repartidorModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -94,33 +93,12 @@
             </div>
             <div class="modal-body">
                 <div class="informacion_producto">
-                    <h3 class="mb-3" style="text-decoration:underline;"><strong>Detalle Factura</strong></h3>
-                    <p class="texto_modal"><strong>Orden para:</strong> <span id="ordePara_detalleFac"></span></p>
-                    <p class="texto_modal"><strong>Dirección:</strong> <span id="direccion_detalleFac"></span></p>
-                    <p class="texto_modal"><strong>Teléfono:</strong> <span id="telefono_detalleFac"></span></p>
-                    <p class="texto_modal"><strong># Orden:</strong> <span id="numOrden_detalleFac"></span></p>
-                    <p class="texto_modal"><strong>Fecha:</strong> <span id="fecha_detalleFac"></span></p>
-                    <p class="texto_modal"><strong>Compañia de envío:</strong> <span id="companiaEnvio_detalleFac"></span></p>
-                    <p class="texto_modal"><strong>Tipo de envio:</strong> <span id="tipoEnvio_detalleFac"></span></p>
+                    <h3 class="mb-3" style="text-decoration:underline;"><strong>Detalle Motorizado</strong></h3>
+                    <p class="texto_modal"><strong>Nombre:</strong> <span id="nombre_motorizado_detalle"></span></p>
+                    <p class="texto_modal"><strong>Teléfono:</strong> <span id="numero_motorizado_detalle"></span></p>
+                    <p class="texto_modal"><strong>Placa:</strong></p>
+                    <img id="imagen_placa_detalle" class="image-preview mt-2" src="" alt="Preview" width="200px">
                 </div>
-
-                <div>
-                    <table class="custom-table">
-                        <thead>
-                            <tr>
-                                <th>Producto</th>
-                                <th>Cantidad</th>
-                                <th>Precio</th>
-                                <th>Descuento %</th>
-                                <th>Subtotal</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tabla_body">
-                            
-                        </tbody>
-                    </table>
-                </div>
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
