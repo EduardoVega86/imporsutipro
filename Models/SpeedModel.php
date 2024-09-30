@@ -403,6 +403,9 @@ class SpeedModel extends Query
             if ($contrasena !== null || !empty($contrasena)) {
                 $sql = "UPDATE users SET nombre_users = ?, con_users = ? WHERE id_users = ?";
                 $data = [$nombre, $hash, $id];
+            } else {
+                $sql = "UPDATE users SET nombre_users = ? WHERE id_users = ?";
+                $data = [$nombre, $id];
             }
 
             $res = $this->insert($sql, $data);
