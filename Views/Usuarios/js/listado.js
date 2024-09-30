@@ -127,7 +127,7 @@ function abrir_editar_motorizado(id_usuario) {
       $("#nombre_repartidor_editar").val(response.nombre_users);
       $("#celular_repartidor_editar").val(response.cargo_users).change();
 
-      $("#editar_usuarioModal").modal("show");
+      $("#editar_repartidorModal").modal("show");
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
