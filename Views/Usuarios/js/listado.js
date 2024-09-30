@@ -88,6 +88,33 @@ const listObtenerUsuariosPlataforma = async () => {
     alert(ex);
   }
 };
+function eliminar_usuario(id_usuario) {
+  let formData = new FormData();
+  formData.append("id_usuario", id_usuario); // Añadir el SKU al FormData
+  $.ajax({
+    url: SERVERURL + "usuarios/eliminar_usuario",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    dataType: "json",
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("LA IMAGEN NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+        initDataTableObtenerUsuariosPlataforma();
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+}
 
 function abrir_editar_usuario(id_usuario) {
   let formData = new FormData();
