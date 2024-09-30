@@ -1691,8 +1691,9 @@ ON
 
     public function obtener_usuario($id_usuario)
     {
-        $sql = "SELECT * FROM users u LEFT JOIN motorizados m ON u.id_users = m.id_usuario WHERE u.id_users = ?";
+        $sql = "SELECT * FROM users u LEFT JOIN motorizados m ON u.id_users = m.id_usuario WHERE u.id_users = $id_usuario'";
         $usuario = $this->select($sql);
+
         $usuario = $usuario[0];
         $usuario['con_users'] = '';
         $usuario["admin_pass"] = '';
