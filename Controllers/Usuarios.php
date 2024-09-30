@@ -612,6 +612,13 @@ class Usuarios extends Controller
         echo json_encode($response);
     }
 
+    public function obtener_usuario()
+    {
+        $id_usuario = $_POST['id_usuario'];
+        $response = $this->model->obtener_usuario($id_usuario);
+        echo json_encode($response);
+    }
+
     public function agregar_usuario()
     {
 
