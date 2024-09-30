@@ -1691,7 +1691,7 @@ ON
 
     public function obtener_usuario($id_usuario)
     {
-        $sql = "SELECT * FROM users WHERE id_users = $id_usuario";
+        $sql = "SELECT * FROM users u LEFT JOIN motorizados m ON u.id_users = m.id_usuario WHERE u.id_users = ?";
         $usuario = $this->select($sql);
         $usuario = $usuario[0];
         $usuario['con_users'] = '';
