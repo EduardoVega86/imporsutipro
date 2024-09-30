@@ -88,6 +88,48 @@ const listObtenerUsuariosPlataforma = async () => {
     alert(ex);
   }
 };
+
+function abrir_modal_subirPlaca(id_usuario) {
+  let formData = new FormData();
+  formData.append("id_usuario", id_usuario); // Añadir el SKU al FormData
+  $.ajax({
+    url: SERVERURL + "usuarios/obtener_usuario",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    dataType: "json",
+    success: function (response) {
+      $("#id_usuario_matricula_licencia").val(id_usuario);
+
+      if (response.matricula) {
+        $("#imagePreviewmatricula")
+          .attr("src", SERVERURL + response.matricula)
+          .show();
+      } else {
+        $("#imagePreviewmatricula")
+          .attr("src", SERVERURL + "public/img/broken-image.png")
+          .show();
+      }
+
+      if (response.licencia) {
+        $("#imagePreviewlicencia")
+          .attr("src", SERVERURL + response.licencia)
+          .show();
+      } else {
+        $("#imagePreviewlicencia")
+          .attr("src", SERVERURL + "public/img/broken-image.png")
+          .show();
+      }
+
+      $("#imagen_licencia_matriculaModal").modal("show");
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+}
+
 function eliminar_usuario(id_usuario) {
   let formData = new FormData();
   formData.append("id_usuario", id_usuario); // Añadir el SKU al FormData
