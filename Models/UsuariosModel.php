@@ -1689,9 +1689,8 @@ ON
 
     public function obtener_usuario($id_usuario)
     {
-        $sql = "SELECT * FROM users WHERE id_users = ?";
-        $data = [$id_usuario];
-        $usuario = $this->select($sql, $data);
+        $sql = "SELECT * FROM users WHERE id_users = $id_usuario";
+        $usuario = $this->select($sql);
         return $usuario;
     }
 }
