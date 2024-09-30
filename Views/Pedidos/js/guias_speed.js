@@ -477,8 +477,8 @@ function abrir_modal_dellate_repartidor(id_motorizado) {
     contentType: false, // No establecer ningún tipo de contenido
     dataType: "json",
     success: function (response) {
-      $("#nombre_motorizado_detalle").val(response.data.nombre_motorizado);
-      $("#numero_motorizado_detalle").val(response.data.numero_motorizado);
+      $("#nombre_motorizado_detalle").text(response.data.nombre_motorizado);
+      $("#numero_motorizado_detalle").text(response.data.numero_motorizado);
 
       if (response.data.placa_motorizado) {
         $("#imagen_placa_detalle")
@@ -489,7 +489,7 @@ function abrir_modal_dellate_repartidor(id_motorizado) {
           .attr("src", SERVERURL + "public/img/broken-image.png")
           .show();
       }
-      
+
       $("#detalles_repartidorModal").modal("show");
     },
     error: function (jqXHR, textStatus, errorThrown) {
