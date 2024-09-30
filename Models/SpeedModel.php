@@ -406,7 +406,8 @@ class SpeedModel extends Query
         } else {
             $response = $this->initialResponse();
             $response['status'] = 500;
-            $response['message'] = $res["message"];
+            $response['message'] = "Error al actualizar el motorizado.";
+            $response["sql"] = $sql;
         }
 
         return $response;
