@@ -640,4 +640,11 @@ class Usuarios extends Controller
 
         echo json_encode($response);
     }
+
+    public function eliminar_usuario()
+    {
+        $id_usuario = $_POST['id_usuario'];
+        $response = $this->model->eliminar_usuario($id_usuario);
+        echo json_encode($response);
+    }
 }

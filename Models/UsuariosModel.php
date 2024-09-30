@@ -1655,4 +1655,35 @@ ON
             $response['message'] = 'Error al editar el usuario';
         }
     }
+
+    public function eliminar_usuario($id_usuario)
+    {
+        $response = $this->initialResponse();
+
+        $sql = "DELETE FROM users WHERE id_users = ?";
+        $data = [$id_usuario];
+        $eliminar_usuario = $this->delete($sql, $data);
+        if ($eliminar_usuario == 1) {
+
+            $sql = "DELETE FROM motorizados WHERE id_usuario = ?";
+            $data = [$id_usuario];
+            $eliminar_motorizado = $this->delete($sql, $data);
+
+            if ($eliminar_motorizado == 1) {
+                $response['status'] = 200;
+                $response['title'] = 'Peticion exitosa';
+                $response['message'] = 'Usuario eliminado correctamente';
+            } else {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'Error al eliminar el usuario';
+            }
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al eliminar el usuario';
+        }
+
+        return $response;
+    }
 }
