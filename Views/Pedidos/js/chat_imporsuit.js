@@ -68,6 +68,70 @@ $(document).ready(function () {
         $("#celular_chat").val(response[0].celular_cliente);
         $("#uid_cliente").val(response[0].uid_cliente);
 
+        /* seccion informacion */
+        $("#telefono_info").val(response[0].celular_cliente);
+        $("#telefononombre_info_info").val(
+          "Nombre: " +
+            response[0].nombre_cliente +
+            " " +
+            response[0].apellido_clientes
+        );
+        $("#correo_info").val("Email: " + response[0].email_cliente);
+
+        let formData = new FormData();
+        formData.append("telefono", response[0].celular_cliente);
+        $.ajax({
+          url: SERVERURL + "pedidos/obtenerPedidosPorTelefono",
+          type: "POST",
+          data: formData,
+          processData: false, // No procesar los datos
+          contentType: false, // No establecer ningún tipo de contenido
+          dataType: "json",
+          success: function (response_historial) {
+            let tableBody = "";
+            // Recorremos cada pedido del historial
+            $.each(response_historial, function (index, historial) {
+              tableBody += `
+                      <tr>
+                          <td>${historial.numero_factura}</td>
+                          <td>${historial.nombre_cliente}</td>
+                          <td>
+                              <button class="btn btn-primary btn-sm" onclick="verDetallesPedido(${historial.id_pedido})">
+                                  Ver detalles
+                              </button>
+                          </td>
+                      </tr>
+                  `;
+            });
+
+            // Inyectamos el HTML generado en el cuerpo de la tabla
+            $("#historialPedidos tbody").html(tableBody);
+
+            // Inicializamos la tabla como DataTable con diseño bonito
+            $("#historialPedidos").DataTable({
+              language: {
+                lengthMenu: "Mostrar _MENU_ registros por página",
+                zeroRecords: "No se encontraron resultados",
+                info: "Mostrando página _PAGE_ de _PAGES_",
+                infoEmpty: "No hay registros disponibles",
+                infoFiltered: "(filtrado de _MAX_ registros en total)",
+                search: "Buscar:",
+                paginate: {
+                  first: "Primero",
+                  last: "Último",
+                  next: "Siguiente",
+                  previous: "Anterior",
+                },
+              },
+            });
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            alert(errorThrown);
+          },
+        });
+
+        /* Fin seccion informacion */
+
         // Llamar a la función para cargar los mensajes iniciales del chat
         cargarMensajesChat(id_cliente);
       },
