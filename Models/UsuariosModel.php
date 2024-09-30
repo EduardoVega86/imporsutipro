@@ -1691,6 +1691,8 @@ ON
     {
         $sql = "SELECT * FROM users WHERE id_users = $id_usuario";
         $usuario = $this->select($sql);
+        $usuario = $usuario[0];
+        $usuario['con_users'] = '';
         return $usuario;
     }
 }
