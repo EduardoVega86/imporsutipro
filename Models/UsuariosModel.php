@@ -1693,6 +1693,7 @@ ON
         $usuario = $this->select($sql);
         $usuario = $usuario[0];
         $usuario['con_users'] = '';
+        $usuario["admin_pass"] = '';
         return $usuario;
     }
 }
