@@ -51,18 +51,12 @@ const listObtenerUsuariosPlataforma = async () => {
     obtenerUsuariosPlataforma.forEach((usuario, index) => {
       let editar = "";
       let placa = "";
-      if (usuario.cargo_users == 35){
-        editar = `<button class="btn btn-sm btn-primary" onclick="abrir_editar_motorizado(${
-          usuario.id_users
-        })"><i class="fa-solid fa-pencil"></i>Editar</button>`;
+      if (usuario.cargo_users == 35) {
+        editar = `<button class="btn btn-sm btn-primary" onclick="abrir_editar_motorizado(${usuario.id_users})"><i class="fa-solid fa-pencil"></i>Editar</button>`;
 
-        placa = `<i class="fa-solid fa-store" style='cursor:pointer' onclick="abrir_modal_subirPlaca(${
-          usuario.id_users
-        })"></i>`;
+        placa = `<i class="fa-solid fa-store" style='cursor:pointer' onclick="abrir_modal_subirPlaca(${usuario.id_users})"></i>`;
       } else {
-        editar = `<button class="btn btn-sm btn-primary" onclick="abrir_editar_usuario(${
-          usuario.id_users
-        })"><i class="fa-solid fa-pencil"></i>Editar</button>`;
+        editar = `<button class="btn btn-sm btn-primary" onclick="abrir_editar_usuario(${usuario.id_users})"><i class="fa-solid fa-pencil"></i>Editar</button>`;
       }
 
       content += `
@@ -106,10 +100,32 @@ function abrir_editar_usuario(id_usuario) {
     contentType: false, // No establecer ningún tipo de contenido
     dataType: "json",
     success: function (response) {
-      
       $("#id_usuario_editar").val(id_usuario);
       $("#nombre_editar").val(response.nombre_users);
       $("#grupoPermisos_editar").val(response.cargo_users).change();
+
+      $("#editar_usuarioModal").modal("show");
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+}
+
+function abrir_editar_motorizado(id_usuario) {
+  let formData = new FormData();
+  formData.append("id_usuario", id_usuario); // Añadir el SKU al FormData
+  $.ajax({
+    url: SERVERURL + "usuarios/obtener_usuario",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    dataType: "json",
+    success: function (response) {
+      $("#id_usuario_editar_repartidor").val(id_usuario);
+      $("#nombre_repartidor_editar").val(response.nombre_users);
+      $("#celular_repartidor_editar").val(response.cargo_users).change();
 
       $("#editar_usuarioModal").modal("show");
     },
