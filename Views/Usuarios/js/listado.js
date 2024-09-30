@@ -113,11 +113,11 @@ function abrir_modal_subirPlaca(id_usuario) {
       }
 
       if (response.licencia) {
-        $("#imagePreviewlicencia")
+        $("#imagePreviewLicencia")
           .attr("src", SERVERURL + response.licencia)
           .show();
       } else {
-        $("#imagePreviewlicencia")
+        $("#imagePreviewLicencia")
           .attr("src", SERVERURL + "public/img/broken-image.png")
           .show();
       }
