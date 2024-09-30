@@ -106,8 +106,10 @@ function abrir_editar_usuario(id_usuario) {
     contentType: false, // No establecer ningún tipo de contenido
     dataType: "json",
     success: function (response) {
-      $("#nombre_motorizado_detalle").text(response.data.nombre_motorizado);
-      $("#numero_motorizado_detalle").text(response.data.numero_motorizado);
+      
+      $("#id_usuario_editar").val(id_usuario);
+      $("#nombre_editar").val(response[0].nombre_users);
+      $("#grupoPermisos_editar").val(response[0].cargo_users).change();
 
       $("#editar_usuarioModal").modal("show");
     },
