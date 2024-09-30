@@ -52,7 +52,7 @@ const listObtenerUsuariosPlataforma = async () => {
       let editar = "";
       let placa = "";
       if (usuario.cargo_users == 35){
-        editar = `<button class="btn btn-sm btn-primary" onclick="abrir_editar_usuario(${
+        editar = `<button class="btn btn-sm btn-primary" onclick="abrir_editar_motorizado(${
           usuario.id_users
         })"><i class="fa-solid fa-pencil"></i>Editar</button>`;
 
@@ -60,7 +60,7 @@ const listObtenerUsuariosPlataforma = async () => {
           usuario.id_users
         })"></i>`;
       } else {
-        editar = `<button class="btn btn-sm btn-primary" onclick="abrir_editar_motorizado(${
+        editar = `<button class="btn btn-sm btn-primary" onclick="abrir_editar_usuario(${
           usuario.id_users
         })"><i class="fa-solid fa-pencil"></i>Editar</button>`;
       }
