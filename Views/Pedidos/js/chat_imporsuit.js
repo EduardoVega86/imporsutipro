@@ -95,9 +95,9 @@ $(document).ready(function () {
               tableBody += `
                       <tr>
                           <td>${historial.numero_factura}</td>
-                          <td>${historial.nombre_cliente}</td>
+                          <td>${historial.nombre}</td>
                           <td>
-                              <button class="btn btn-primary btn-sm" onclick="verDetallesPedido(${historial.id_pedido})">
+                              <button class="btn btn-primary btn-sm" onclick="verDetallesPedido(${historial.id_factura})">
                                   Ver detalles
                               </button>
                           </td>
@@ -122,6 +122,13 @@ $(document).ready(function () {
         console.error("Error al ejecutar la API:", error);
       },
     });
+  }
+
+  function verDetallesPedido(id_factura) {
+    window.open(
+      SERVERURL + "Pedidos/editar/" + id_factura,
+      "_blank"
+    );
   }
 
   // Función para cargar los mensajes del chat
