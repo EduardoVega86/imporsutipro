@@ -399,10 +399,24 @@ class SpeedModel extends Query
         $res = $this->insert($sql, $data);
 
         if ($res == 1) {
-            $response = $this->initialResponse();
-            $response['status'] = 200;
-            $response['message'] = "Motorizado actualizado correctamente.";
-            $response['title'] = "¡Éxito!";
+
+            if ($contrasena !== null || !empty($contrasena)) {
+                $sql = "UPDATE users SET nombre_users = ?, con_users = ? WHERE id_users = ?";
+                $data = [$nombre, $hash, $id];
+            }
+
+            $res = $this->insert($sql, $data);
+            if ($res == 1) {
+                $response = $this->initialResponse();
+                $response['status'] = 200;
+                $response['message'] = "Motorizado actualizado correctamente.";
+                $response['title'] = "¡Éxito!";
+            } else {
+                $response = $this->initialResponse();
+                $response['status'] = 500;
+                $response['message'] = "Error al actualizar el motorizado.";
+                $response["sql"] = $sql;
+            }
         } else {
             $response = $this->initialResponse();
             $response['status'] = 500;
