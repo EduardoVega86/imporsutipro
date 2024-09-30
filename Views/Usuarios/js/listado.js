@@ -108,8 +108,8 @@ function abrir_editar_usuario(id_usuario) {
     success: function (response) {
       
       $("#id_usuario_editar").val(id_usuario);
-      $("#nombre_editar").val(response[0].nombre_users);
-      $("#grupoPermisos_editar").val(response[0].cargo_users).change();
+      $("#nombre_editar").val(response.nombre_users);
+      $("#grupoPermisos_editar").val(response.cargo_users).change();
 
       $("#editar_usuarioModal").modal("show");
     },
