@@ -654,6 +654,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function uploadAudioToWhatsApp(audioBlob) {
     const formData = new FormData();
     formData.append("file", audioBlob, "audio.ogg"); // Archivo de audio en formato ogg
+    formData.append("messaging_product", "whatsapp"); // Parametro requerido por WhatsApp
 
     return fetch(
       `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/media`,
