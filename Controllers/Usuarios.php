@@ -155,7 +155,7 @@ class Usuarios extends Controller
         echo json_encode($response);
     }
 
-     public function consultaNotificaciones()
+    public function consultaNotificaciones()
     {
         $data = $this->model->consulta_notificaciones($_SESSION['id_plataforma']);
         echo json_encode($data);
@@ -623,6 +623,20 @@ class Usuarios extends Controller
         $cargo = $_SESSION['cargo'];
 
         $response = $this->model->agregar_usuario($nombre, $correo, $contrasena, $id_plataforma, $cargo);
+
+        echo json_encode($response);
+    }
+
+    public function editar_usuario()
+    {
+        $id_usuario = $_POST['id_usuario'];
+        $nombre = $_POST['nombre'];
+
+        $contrasena = $_POST['contrasena'] ?? null;
+
+        $cargo = $_SESSION['cargo'] ?? null;
+
+        $response = $this->model->editar_usuario($id_usuario, $nombre, $contrasena, $cargo);
 
         echo json_encode($response);
     }

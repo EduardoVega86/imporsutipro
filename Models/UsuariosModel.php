@@ -228,8 +228,8 @@ ON
         }
         return $response;
     }
-    
-    
+
+
     public function agregarFull($plataforma, $proveedor)
     {
         $response = $this->initialResponse();
@@ -1572,11 +1572,11 @@ ON
 
         return $response;
     }
-    
-    public function consulta_notificaciones($plataforma) 
-{
-    // Consulta para guías atrasadas
-    $sql1 = "SELECT  COUNT(fc.numero_guia) AS cantidad_guias
+
+    public function consulta_notificaciones($plataforma)
+    {
+        // Consulta para guías atrasadas
+        $sql1 = "SELECT  COUNT(fc.numero_guia) AS cantidad_guias
     FROM facturas_cot fc 
     LEFT JOIN ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot 
     LEFT JOIN plataformas p ON p.id_plataforma = fc.id_plataforma
@@ -1594,32 +1594,65 @@ ON
     OR (estado_guia_sistema IN (2) AND id_transporte = 4)) 
     AND TIMESTAMPDIFF(HOUR, fc.fecha_factura, NOW()) > 24
     GROUP BY fc.id_propietario, tp.nombre_tienda, tp.whatsapp, tp.contacto, ph.prefijo_telefono 
-    ORDER BY cantidad_guias DESC;"; 
+    ORDER BY cantidad_guias DESC;";
 
-    $result1 = $this->select($sql1);
-    $cantidad_guias = isset($result1[0]['cantidad_guias']) ? $result1[0]['cantidad_guias'] : 0;
+        $result1 = $this->select($sql1);
+        $cantidad_guias = isset($result1[0]['cantidad_guias']) ? $result1[0]['cantidad_guias'] : 0;
 
-    // Consulta para novedades
-    $sql2 = "SELECT COUNT(*) AS cantidad_novedades 
+        // Consulta para novedades
+        $sql2 = "SELECT COUNT(*) AS cantidad_novedades 
     FROM novedades 
-    WHERE id_plataforma=$plataforma AND solucionada=0 AND terminado=0;"; 
+    WHERE id_plataforma=$plataforma AND solucionada=0 AND terminado=0;";
 
-    $result2 = $this->select($sql2);
-    $cantidad_novedades = isset($result2[0]['cantidad_novedades']) ? $result2[0]['cantidad_novedades'] : 0;
+        $result2 = $this->select($sql2);
+        $cantidad_novedades = isset($result2[0]['cantidad_novedades']) ? $result2[0]['cantidad_novedades'] : 0;
 
-    // Crear el JSON con la estructura deseada
-    // Crear el JSON con la estructura deseada solo si las cantidades son mayores a 0
-    $response = [];
+        // Crear el JSON con la estructura deseada
+        // Crear el JSON con la estructura deseada solo si las cantidades son mayores a 0
+        $response = [];
 
-    if ($cantidad_guias > 0) {
-        $response[] = ['nombre' => 'GUIAS PENDINTES POR DESPACHAR', 'cantidad' => $cantidad_guias, 'url' => 'pedidos/guias'];
+        if ($cantidad_guias > 0) {
+            $response[] = ['nombre' => 'GUIAS PENDINTES POR DESPACHAR', 'cantidad' => $cantidad_guias, 'url' => 'pedidos/guias'];
+        }
+
+        if ($cantidad_novedades > 0) {
+            $response[] = ['nombre' => 'NOVEDADES', 'cantidad' => $cantidad_novedades, 'url' => 'pedidos/novedades'];
+        }
+
+
+        return $response;
     }
 
-    if ($cantidad_novedades > 0) {
-        $response[] = ['nombre' => 'NOVEDADES', 'cantidad' => $cantidad_novedades, 'url' => 'pedidos/novedades'];
+    public function editar_usuario($id_usuario, $nombre, $contrasena, $cargo)
+    {
+        $response = $this->initialResponse();
+
+        // Verificar si se desea cambiar la contraseña y el cargo
+        if (!empty($contrasena) && !empty($cargo)) {
+            $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
+            $sql = "UPDATE users SET nombre_users = ?, con_users = ?, cargo_users = ? WHERE id_users = ?";
+            $data = [$nombre, $contrasena, $cargo, $id_usuario];
+        } elseif (!empty($contrasena)) {
+            $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
+            $sql = "UPDATE users SET nombre_users = ?, con_users = ? WHERE id_users = ?";
+            $data = [$nombre, $contrasena, $id_usuario];
+        } elseif (!empty($cargo)) {
+            $sql = "UPDATE users SET nombre_users = ?, cargo_users = ? WHERE id_users = ?";
+            $data = [$nombre, $cargo, $id_usuario];
+        } else {
+            $sql = "UPDATE users SET nombre_users = ? WHERE id_users = ?";
+            $data = [$nombre, $id_usuario];
+        }
+
+        $editar_usuario = $this->update($sql, $data);
+        if ($editar_usuario == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Usuario editado correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al editar el usuario';
+        }
     }
-
-
-    return $response;
-}
 }
