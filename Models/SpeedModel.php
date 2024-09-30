@@ -113,12 +113,12 @@ class SpeedModel extends Query
         return $response;
     }
 
-    public function guardarMotorizado($nombre, $celular, $usuario, $contrasena, $id_plataforma)
+    public function guardarMotorizado($nombre, $celular, $usuario, $contrasena, $placa, $id_plataforma)
     {
         $hash = password_hash($contrasena, PASSWORD_DEFAULT);
 
-        $sql = "INSERT INTO motorizados (nombre_motorizado, numero_motorizado,usuario, contrasena, id_plataforma) VALUES (?, ?, ?, ?, ?)";
-        $data = [$nombre, $celular, $usuario, $hash, $id_plataforma];
+        $sql = "INSERT INTO motorizados (nombre_motorizado, numero_motorizado,usuario, contrasena, id_plataforma, placa_motorizado) VALUES (?, ?, ?, ?, ?, ?)";
+        $data = [$nombre, $celular, $usuario, $hash, $id_plataforma, $placa];
         $res = $this->insert($sql, $data);
         if ($res == 1) {
             $sql = "INSERT INTO users(nombre_users, usuario_users, con_users, email_users, cargo_users, date_added) VALUES (?, ?, ?, ?, ?, ?)";
