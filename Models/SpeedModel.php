@@ -379,13 +379,13 @@ class SpeedModel extends Query
         $data = [$nombre, $celular];
 
         // Si se envía el usuario, agregamos ese campo a la consulta
-        if ($usuario !== null || empty($usuario)) {
+        if ($usuario !== null || !empty($usuario)) {
             $sql .= ", usuario = ?";
             $data[] = $usuario;
         }
 
         // Si se envía la contraseña, la agregamos a la consulta
-        if ($contrasena !== null || empty($contrasena)) {
+        if ($contrasena !== null || !empty($contrasena)) {
             $hash = password_hash($contrasena, PASSWORD_DEFAULT);
             $sql .= ", contrasena = ?";
             $data[] = $hash;
