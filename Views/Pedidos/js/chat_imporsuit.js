@@ -46,11 +46,6 @@ $(document).ready(function () {
     },
   });
 
-  // Función global para ver los detalles del pedido
-  function verDetallesPedido(id_factura) {
-    window.open(SERVERURL + "Pedidos/editar/" + id_factura, "_blank");
-  }
-
   // Función que se ejecuta cuando se hace click en un contacto
   function ejecutarApiConIdCliente(id_cliente) {
     let formData = new FormData();
@@ -377,6 +372,11 @@ $(document).ready(function () {
 });
 
 /* fin llenar seccion numeros */
+
+// Función global para ver los detalles del pedido
+function verDetallesPedido(id_factura) {
+  window.open(SERVERURL + "Pedidos/editar/" + id_factura, "_blank");
+}
 
 const chatInfo = document.querySelector(".chat-info");
 const chatContent = document.querySelector(".chat-content");
