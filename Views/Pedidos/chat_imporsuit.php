@@ -97,7 +97,7 @@
             <!-- Sección adicional que aparece al hacer clic en los botones flotantes -->
             <div class="info-section">
                 <h6>Historial Pedidos</h6>
-                <table id="historialPedidos" class="table table-striped table-bordered">
+                <table class="table table-striped table-bordered">
                     <thead>
                         <tr>
                             <th>Número Factura</th>
@@ -105,7 +105,7 @@
                             <th>Acción</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="historialPedidosBody">
                         <!-- Aquí se inyectarán las filas de los pedidos -->
                     </tbody>
                 </table>

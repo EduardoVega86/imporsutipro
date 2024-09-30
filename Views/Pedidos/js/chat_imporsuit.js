@@ -89,6 +89,7 @@ $(document).ready(function () {
           dataType: "json",
           success: function (response_historial) {
             let tableBody = "";
+
             // Recorremos cada pedido del historial
             $.each(response_historial, function (index, historial) {
               tableBody += `
@@ -105,28 +106,10 @@ $(document).ready(function () {
             });
 
             // Inyectamos el HTML generado en el cuerpo de la tabla
-            $("#historialPedidos tbody").html(tableBody);
-
-            // Inicializamos la tabla como DataTable con diseño bonito
-            $("#historialPedidos").DataTable({
-              language: {
-                lengthMenu: "Mostrar _MENU_ registros por página",
-                zeroRecords: "No se encontraron resultados",
-                info: "Mostrando página _PAGE_ de _PAGES_",
-                infoEmpty: "No hay registros disponibles",
-                infoFiltered: "(filtrado de _MAX_ registros en total)",
-                search: "Buscar:",
-                paginate: {
-                  first: "Primero",
-                  last: "Último",
-                  next: "Siguiente",
-                  previous: "Anterior",
-                },
-              },
-            });
+            $("#historialPedidosBody").html(tableBody);
           },
           error: function (jqXHR, textStatus, errorThrown) {
-            alert(errorThrown);
+            alert("Error al obtener el historial: " + errorThrown);
           },
         });
 
