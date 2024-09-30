@@ -480,16 +480,16 @@ function abrir_modal_dellate_repartidor(id_motorizado) {
       $("#nombre_motorizado_detalle").val(response.data.nombre_motorizado);
       $("#numero_motorizado_detalle").val(response.data.numero_motorizado);
 
-      let placa = "";
       if (response.data.placa_motorizado) {
         $("#imagen_placa_detalle")
           .attr("src", SERVERURL + imagen)
           .show();
+      } else {
+        $("#imagen_placa_detalle")
+          .attr("src", SERVERURL + "public/img/broken-image.png")
+          .show();
       }
-      $("#imagen_placa_detalle")
-        .attr("src", SERVERURL + "public/img/broken-image.png")
-        .show();
-
+      
       $("#detalles_repartidorModal").modal("show");
     },
     error: function (jqXHR, textStatus, errorThrown) {
