@@ -1691,13 +1691,11 @@ ON
 
     public function obtener_usuario($id_usuario)
     {
-        $sql = "SELECT * FROM users u LEFT JOIN motorizados m ON u.id_users = m.id_usuario WHERE u.id_users = $id_usuario";
+        $sql = "SELECT u.nombre_users, u.id_users, u.cargo_users, u.date_added, m.numero_motorizado, m.placa_motorizado, m.matricula, m.licencia, p.nombre_tienda FROM users u LEFT JOIN motorizados m ON u.id_users = m.id_usuario LEFT JOIN plataformas p ON m.id_plataforma = p.id_plataforma WHERE u.id_users = $id_usuario";
         $usuario = $this->select($sql);
 
         $usuario = $usuario[0];
-        $usuario['con_users'] = '';
-        $usuario["admin_pass"] = '';
-        $usuario['contrasena'] = '';
+
         return $usuario;
     }
 }
