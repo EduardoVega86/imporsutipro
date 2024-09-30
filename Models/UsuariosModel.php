@@ -1654,6 +1654,8 @@ ON
             $response['title'] = 'Error';
             $response['message'] = 'Error al editar el usuario';
         }
+
+        return $response;
     }
 
     public function eliminar_usuario($id_usuario)
