@@ -47,8 +47,9 @@ class Speed extends Controller
         $celular = $_POST['celular'];
         $usuario = $_POST['usuario'];
         $contrasena = $_POST['contrasena'];
+        $placa = $_POST['placa'];
 
-        $response = $this->model->guardarMotorizado($nombre, $celular, $usuario, $contrasena, $_SESSION["id_plataforma"]);
+        $response = $this->model->guardarMotorizado($nombre, $celular, $usuario, $contrasena, $placa, $_SESSION["id_plataforma"]);
         echo json_encode($response);
     }
 
@@ -83,8 +84,9 @@ class Speed extends Controller
         $celular = $_POST['celular'];
         $usuario  = $_POST['usuario'] ?? null;
         $contrasena = $_POST['contrasena'] ?? null;
+        $placa = $_POST['placa'] ?? null;
 
-        $response = $this->model->editarMotorizado($id, $nombre, $celular, $usuario, $contrasena);
+        $response = $this->model->editarMotorizado($id, $nombre, $celular, $usuario, $contrasena, $placa);
         echo json_encode($response);
     }
 
