@@ -1473,23 +1473,58 @@ class PedidosModel extends Query
 
     public function agregar_configuracion($nombre_configuracion, $telefono, $id_telefono, $id_whatsapp, $token, $webhook_url, $id_plataforma)
     {
-        // codigo para agregar categoria
+        // Inicializar la respuesta
         $response = $this->initialResponse();
 
-        $sql = "INSERT INTO `configuraciones` (`id_plataforma`,`nombre_configuracion`,`telefono`,`id_telefono`,`id_whatsapp`,`token`,`webhook_url`) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        $data = [$id_plataforma, $nombre_configuracion, $telefono, $id_telefono, $id_whatsapp, $token, $webhook_url];
+        // Generar una clave única para la columna 'key_imporsuit'
+        $key_imporsuit = $this->generarClaveUnica();
+
+        // Consulta de inserción con la clave única
+        $sql = "INSERT INTO `configuraciones` (`id_plataforma`, `nombre_configuracion`, `telefono`, `id_telefono`, `id_whatsapp`, `token`, `key_imporsuit`) 
+            VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $data = [$id_plataforma, $nombre_configuracion, $telefono, $id_telefono, $id_whatsapp, $token, $key_imporsuit];
+
+        // Insertar configuración
         $insertar_configuracion = $this->insert($sql, $data);
+
+        // Verificar si la inserción fue exitosa
         if ($insertar_configuracion == 1) {
-            $response['status'] = 200;
-            $response['title'] = 'Peticion exitosa';
-            $response['message'] = 'flotante agregada correctamente';
+            $sql = "SELECT * FROM configuraciones WHERE key_imporsuit = $key_imporsuit";
+            $configuracion = $this->select($sql);
+
+            $id_configuracion = $configuracion[0]['id'];
+
+            $webhook_url = "https://new.imporsuitpro.com/public/webhook_whatsapp/webhook.php?id=" + $id_configuracion + "&webhook=" + $webhook_url;
+
+            // Realizar el update usando la clave única 'key_imporsuit'
+            $sql_update = "UPDATE `configuraciones` SET `webhook_url` = ? WHERE `key_imporsuit` = ?";
+            $update_data = [$webhook_url, $key_imporsuit];
+            $actualizar_configuracion = $this->update($sql_update, $update_data);
+
+            if ($actualizar_configuracion == 1) {
+                $response['status'] = 200;
+                $response['title'] = 'Petición exitosa';
+                $response['message'] = 'Configuración agregada y actualizada correctamente';
+            } else {
+                $response['status'] = 500;
+                $response['title'] = 'Error en actualización';
+                $response['message'] = 'Hubo un problema al actualizar la configuración';
+            }
         } else {
             $response['status'] = 500;
-            $response['title'] = 'Error';
+            $response['title'] = 'Error en inserción';
             $response['message'] = $insertar_configuracion['message'];
         }
+
         return $response;
     }
+
+    // Función para generar una clave única
+    private function generarClaveUnica()
+    {
+        return uniqid('imp_', true); // Genera una clave única con el prefijo 'imp_' y alta entropía
+    }
+
 
     public function agregar_automatizador($nombre_automatizador, $id_configuracion)
     {
