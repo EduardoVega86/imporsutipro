@@ -550,7 +550,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // WhatsApp API credentials
   const fromPhoneNumberId = "109565362009074";
   const accessToken =
-    "EAAVZAG5oL9G4BO3vZAhKcOTpfZAQJgNDzTNDArOp8VitYT8GUFqcYKIsZAO0pBkf0edoZC1DgfXICkIEP7xZCkPkj8nS1gfDqI4jNeEVDmseyba3l2os8EoYgf1Mdnl2MwaYhmrdfZBgUnItwT8nZBVvjinB7j8IAfZBx2LZA1WNZCqqsZBZC2cqDdObeiLqEsih9U3XOQwZDZD";
+    "EAAVZAG5oL9G4BOZCAZBOKr5MXUIoVZBi7txtqZCncfz3DWg8W7p8bVS0usQyl9i73IAAIZCzLB9vlhymWtRstgDGZCZBqCre6XTayQ0HWxIUjjNsUZC0x2k7TI3LOMXbLEC26CDyzn3NDeQHWBnjgzDYrcJbuqpoOjBpVnxaf1kYPsD8xdGcPpaUnAVfVJ26D980U";
   /* const phoneNumber = "+593981702066"; */
   const url = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
 
