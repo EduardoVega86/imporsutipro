@@ -620,7 +620,8 @@ class GuiasModel extends Query
             "contenido" => $contiene,
             "fecha" => date("Y-m-d H:i:s"),
             "declarado" => $monto_factura,
-            "con_recaudo" => $recaudo
+            "con_recaudo" => $recaudo,
+            "apertura" => false,
         );
 
         // Convertir los datos al formato JSON
