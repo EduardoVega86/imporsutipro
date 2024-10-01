@@ -30,7 +30,7 @@ const dataTableOptions = {
       title: "Panel de Control: Productos",
       titleAttr: "Exportar a CSV",
       exportOptions: {
-        columns: [1, 2, 3, 4, 5, 6, 7, 8],
+        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9],
       },
       filename: "Productos" + "_" + getFecha(),
       footer: true,
@@ -269,6 +269,7 @@ const listGuias = async () => {
                     </ul>
                     </div>
                     </td>
+          <td style="display:none">${guia.c_principal}</td>
                 </tr>`;
     });
     document.getElementById("tableBody_guias").innerHTML = content;
