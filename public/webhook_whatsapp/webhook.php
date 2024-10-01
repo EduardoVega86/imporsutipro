@@ -31,9 +31,9 @@ if (!$conn->set_charset(CHARSET)) {
 $check_cofiguraciones_stmt = $conn->prepare("SELECT id_plataforma, token FROM configuraciones WHERE id = ?");
 $check_cofiguraciones_stmt->bind_param('s', $id_configuracion);  // Buscamos por el celular_cliente
 $check_cofiguraciones_stmt->execute();
+$check_cofiguraciones_stmt->bind_result($id_plataforma, $accessToken);
 $check_cofiguraciones_stmt->store_result();
 
-$check_cofiguraciones_stmt->bind_result($id_plataforma, $accessToken);
 
 // Verificación del webhook para el desafío de validación
 if (isset($_GET['hub_challenge']) && isset($_GET['hub_verify_token'])) {
