@@ -125,6 +125,7 @@
                         <th class="centered">Despachado</th>
                         <th class="centered">Impreso</th>
                         <th class="centered">Acciones</th>
+                         <th class="centered"></th>
                     </tr>
                 </thead>
                 <tbody id="tableBody_guias"></tbody>
