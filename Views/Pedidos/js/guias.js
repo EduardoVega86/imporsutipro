@@ -3,7 +3,7 @@ let dataTableIsInitialized = false;
 
 const dataTableOptions = {
   columnDefs: [
-    { className: "centered", targets: [1, 2, 3, 4, 5, 6, 7, 8, 9,10,11] },
+    { className: "centered", targets: [0,1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
     { orderable: false, targets: 0 } // Asegúrate de que esta sea la columna correcta
   ],
   order: [[2, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
