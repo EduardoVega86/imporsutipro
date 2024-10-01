@@ -1494,7 +1494,7 @@ class PedidosModel extends Query
 
             $id_configuracion = $configuracion[0]['id'];
 
-            $webhook_url = "https://new.imporsuitpro.com/public/webhook_whatsapp/webhook.php?id=" + $id_configuracion + "&webhook=" + $webhook_url;
+            $webhook_url = "https://new.imporsuitpro.com/public/webhook_whatsapp/webhook.php?id=" . $id_configuracion . "&webhook=" . $webhook_url;
 
             // Realizar el update usando la clave única 'key_imporsuit'
             $sql_update = "UPDATE `configuraciones` SET `webhook_url` = ? WHERE `key_imporsuit` = ?";
