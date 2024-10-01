@@ -4,7 +4,7 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
 $webhook_token = "ABCDEFG1234";  // Token de verificación
-$accessToken = "EAAVZAG5oL9G4BO3vZAhKcOTpfZAQJgNDzTNDArOp8VitYT8GUFqcYKIsZAO0pBkf0edoZC1DgfXICkIEP7xZCkPkj8nS1gfDqI4jNeEVDmseyba3l2os8EoYgf1Mdnl2MwaYhmrdfZBgUnItwT8nZBVvjinB7j8IAfZBx2LZA1WNZCqqsZBZC2cqDdObeiLqEsih9U3XOQwZDZD"; // Token de acceso a la API de WhatsApp Business
+$accessToken = "EAAVZAG5oL9G4BOZCAZBOKr5MXUIoVZBi7txtqZCncfz3DWg8W7p8bVS0usQyl9i73IAAIZCzLB9vlhymWtRstgDGZCZBqCre6XTayQ0HWxIUjjNsUZC0x2k7TI3LOMXbLEC26CDyzn3NDeQHWBnjgzDYrcJbuqpoOjBpVnxaf1kYPsD8xdGcPpaUnAVfVJ26D980U"; // Token de acceso a la API de WhatsApp Business
 $debug_log = [];
 
 // Datos de conexión a la base de datos
