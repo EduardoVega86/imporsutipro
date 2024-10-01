@@ -165,9 +165,7 @@ class Guias extends Controller
         $ciudad = $_POST['ciudad'];
         $ciudadDestino = $this->model->obtenerNombre($ciudadDestino, "codigo_ciudad_gintracom")[0]['codigo_ciudad_gintracom'];
         $provincia = $_POST['provincia'];
-        echo $provincia . '-';
         $provinciaDestino = $this->model->obtenerNombre($provincia, "codigo_provincia_gintracom")[0]['codigo_provincia_gintracom'];
-        echo $provinciaDestino . '-';
         $direccionDestino = $_POST['calle_principal'] . " y " . $_POST['calle_secundaria'];
         $telefonoDestino = $_POST['telefono'];
         $celularDestino = $telefonoDestino;
