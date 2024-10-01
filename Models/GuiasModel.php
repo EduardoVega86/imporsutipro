@@ -623,6 +623,8 @@ class GuiasModel extends Query
             "con_recaudo" => $recaudo
         );
 
+        print_r($data);
+
         // Convertir los datos al formato JSON
         $jsonData = json_encode($data);
 
