@@ -3,7 +3,7 @@ let dataTableIsInitialized = false;
 
 const dataTableOptions = {
   columnDefs: [
-    { className: "centered", targets: [1, 2, 3, 4, 5, 6, 7, 8, 9] },
+    { className: "centered", targets: [1, 2, 3, 4, 5, 6, 7, 8, 9,10] },
     { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
   ],
   order: [[2, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
@@ -18,7 +18,7 @@ const dataTableOptions = {
       title: "Panel de Control: Usuarios",
       titleAttr: "Exportar a Excel",
       exportOptions: {
-        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9,10],
       },
       filename: "Productos" + "_" + getFecha(),
       footer: true,
@@ -30,13 +30,14 @@ const dataTableOptions = {
       title: "Panel de Control: Productos",
       titleAttr: "Exportar a CSV",
       exportOptions: {
-        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9,10],
       },
       filename: "Productos" + "_" + getFecha(),
       footer: true,
       className: "btn-csv",
     },
   ],
+  
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
     zeroRecords: "Ningún usuario encontrado",
