@@ -3,9 +3,9 @@ let dataTableIsInitialized = false;
 
 const dataTableOptions = {
   columnDefs: [
-    { className: "centered", targets: [1, 2, 3, 4, 5, 6, 7, 8, 9,10] },
+    { className: "centered", targets: [1, 2, 3, 4, 5, 6, 7, 8, 9] },
     { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
-    { visible: false, targets: 9 }, // Ocultar la columna 10 (índice 9)
+    { visible: false, targets: 9 }, // Asegúrate de que esta sea la columna correcta
   ],
   order: [[2, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
   pageLength: 10,
@@ -19,7 +19,7 @@ const dataTableOptions = {
       title: "Panel de Control: Usuarios",
       titleAttr: "Exportar a Excel",
       exportOptions: {
-        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9,10],
+        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9],
       },
       filename: "Productos" + "_" + getFecha(),
       footer: true,
@@ -31,14 +31,13 @@ const dataTableOptions = {
       title: "Panel de Control: Productos",
       titleAttr: "Exportar a CSV",
       exportOptions: {
-        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9,10],
+        columns: [1, 2, 3, 4, 5, 6, 7, 8],
       },
       filename: "Productos" + "_" + getFecha(),
       footer: true,
       className: "btn-csv",
     },
   ],
-  
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
     zeroRecords: "Ningún usuario encontrado",
@@ -271,7 +270,6 @@ const listGuias = async () => {
                     </ul>
                     </div>
                     </td>
-          <td style="display:none">${guia.c_principal}</td>
                 </tr>`;
     });
     document.getElementById("tableBody_guias").innerHTML = content;
