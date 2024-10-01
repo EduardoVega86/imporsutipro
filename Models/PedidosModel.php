@@ -1489,7 +1489,7 @@ class PedidosModel extends Query
 
         // Verificar si la inserción fue exitosa
         if ($insertar_configuracion == 1) {
-            $sql = "SELECT * FROM configuraciones WHERE key_imporsuit = $key_imporsuit";
+            $sql = "SELECT * FROM configuraciones WHERE key_imporsuit = '$key_imporsuit'";
             $configuracion = $this->select($sql);
 
             $id_configuracion = $configuracion[0]['id'];
