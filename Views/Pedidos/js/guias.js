@@ -21,7 +21,7 @@ const dataTableOptions = {
       title: "Panel de Control: Usuarios",
       titleAttr: "Exportar a Excel",
       exportOptions: {
-        columns: [1, 2, 3, 4, 5, 6, 7, 8, 11,12,13],
+        columns: [1, 2, 4, 5, 6, 7, 8, 11,12,13],
       },
       filename: "Productos" + "_" + getFecha(),
       footer: true,
