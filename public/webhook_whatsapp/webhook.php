@@ -28,12 +28,25 @@ if (!$conn->set_charset(CHARSET)) {
     exit;
 }
 
+// Preparar la consulta
 $check_cofiguraciones_stmt = $conn->prepare("SELECT id_plataforma, token FROM configuraciones WHERE id = ?");
-$check_cofiguraciones_stmt->bind_param('s', $id_configuracion);  // Buscamos por el celular_cliente
+$check_cofiguraciones_stmt->bind_param('s', $id_configuracion);  // Usamos id_configuracion como parámetro
 $check_cofiguraciones_stmt->execute();
-$check_cofiguraciones_stmt->store_result();
+$check_cofiguraciones_stmt->store_result();  // Almacenar el resultado antes de bind_result
 
-$check_cofiguraciones_stmt->bind_result($id_plataforma, $accessToken);
+// Verificar si la consulta devolvió alguna fila
+if ($check_cofiguraciones_stmt->num_rows > 0) {
+    // Enlazar los resultados a variables
+    $check_cofiguraciones_stmt->bind_result($id_plataforma, $accessToken);
+    $check_cofiguraciones_stmt->fetch();  // Obtener los valores vinculados
+} else {
+    // Si no hay resultados, maneja el error apropiadamente
+    file_put_contents('debug_log.txt', "Error: No se encontró configuración con id: " . $id_configuracion . "\n", FILE_APPEND);
+    echo json_encode(["status" => "error", "message" => "No se encontró la configuración para id: " . $id_configuracion]);
+    exit;
+}
+
+
 
 // Verificación del webhook para el desafío de validación
 if (isset($_GET['hub_challenge']) && isset($_GET['hub_verify_token'])) {
