@@ -3,8 +3,8 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
-$webhook_token = "ABCDEFG1234";  // Token de verificación
-$accessToken = "EAAVZAG5oL9G4BOZCAZBOKr5MXUIoVZBi7txtqZCncfz3DWg8W7p8bVS0usQyl9i73IAAIZCzLB9vlhymWtRstgDGZCZBqCre6XTayQ0HWxIUjjNsUZC0x2k7TI3LOMXbLEC26CDyzn3NDeQHWBnjgzDYrcJbuqpoOjBpVnxaf1kYPsD8xdGcPpaUnAVfVJ26D980U"; // Token de acceso a la API de WhatsApp Business
+$webhook_token = $_GET['webhook'];  // Token de verificación
+$id_configuracion = $_GET['id'];
 $debug_log = [];
 
 // Datos de conexión a la base de datos
@@ -27,6 +27,13 @@ if (!$conn->set_charset(CHARSET)) {
     echo json_encode(["status" => "error", "message" => "Error al establecer el charset de la base de datos: " . $conn->error]);
     exit;
 }
+
+$check_cofiguraciones_stmt = $conn->prepare("SELECT id_plataforma, token FROM configuraciones WHERE id = ?");
+$check_cofiguraciones_stmt->bind_param('s', $id_configuracion);  // Buscamos por el celular_cliente
+$check_cofiguraciones_stmt->execute();
+$check_cofiguraciones_stmt->store_result();
+
+$check_cofiguraciones_stmt->bind_result($id_plataforma, $accessToken);
 
 // Verificación del webhook para el desafío de validación
 if (isset($_GET['hub_challenge']) && isset($_GET['hub_verify_token'])) {
@@ -560,7 +567,6 @@ $check_client_stmt->bind_param('s', $phone_whatsapp_from);  // Buscamos por el c
 $check_client_stmt->execute();
 $check_client_stmt->store_result();
 
-$id_plataforma = 1190;  // Ajustar según sea necesario
 
 if ($check_client_stmt->num_rows == 0) {
     // El cliente no existe, creamos uno nuevo
