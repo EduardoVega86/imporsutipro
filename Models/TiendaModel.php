@@ -475,6 +475,55 @@ class TiendaModel extends Query
         return $nuevaFactura;
     }
 
+    /* automatizador */
+    public function ejecutar_automatizador($numero_factura)
+    {
+        // Consulta para obtener los productos asociados a la factura
+        $sql_factura = "SELECT * FROM detalle_fact_cot WHERE numero_factura = $numero_factura";
+        $resultados = $this->select($sql_factura);
+
+        // Arrays para almacenar los productos y categorías
+        $productos = [];
+        $categorias = [];
+
+        // Si $resultados no es null o vacío, verificamos si es un array
+        if ($resultados && is_array($resultados)) {
+            // Recorremos los resultados y extraemos los ids de productos
+            foreach ($resultados as $fila) {
+                $productos[] = (string)$fila['id_inventario'];
+
+                $id_inventario = $fila['id_inventario'];
+                $id_plataforma = $fila['id_plataforma'];
+
+                // Consulta para obtener la categoría del producto (limit 1)
+                $sql_categorias = "SELECT id_categoria_tienda FROM productos_tienda WHERE id_inventario = $id_inventario 
+            AND id_plataforma = $id_plataforma LIMIT 1";
+
+                // Ejecutar la consulta de categorías (esperamos solo una fila debido al LIMIT 1)
+                $resultado_categoria = $this->select($sql_categorias);
+
+                // Verificamos si el resultado no es nulo y contiene la categoría
+                if ($resultado_categoria && isset($resultado_categoria['id_categoria_tienda'])) {
+                    // Agregamos la categoría al array
+                    $categorias[] = (string)$resultado_categoria['id_categoria_tienda'];
+                } else {
+                    // Si no hay categoría, podemos manejarlo como un valor por defecto si es necesario
+                    $categorias[] = null; // O un valor por defecto como "sin categoría"
+                }
+            }
+        } else if ($resultados && isset($resultados['id_inventario'])) {
+            // Si solo es una fila, también agregamos ese único id de producto al array
+            $productos[] = (string)$resultados['id_inventario'];
+        }
+
+        // Retornamos el array con los ids de productos y categorías
+        return [
+            'productos' => $productos,
+            'categorias' => $categorias
+        ];
+    }
+    /* Fin automatizador */
+
     /* pedido carrito */
     public function guardar_pedido_carrito($id_plataforma, $id_producto, $total, $nombre, $telefono, $provincia, $ciudad, $calle_principal, $calle_secundaria, $referencia, $observacion, $tmp, $combo_selected, $combo_id, $oferta_selected, $id_producto_oferta)
     {
@@ -789,6 +838,8 @@ class TiendaModel extends Query
                             }
                         }
                     }
+
+                    ejecutar_automatizador($nueva_factura);
 
                     $response['status'] = 200;
                     $response['title'] = 'Peticion exitosa';
@@ -1464,32 +1515,4 @@ class TiendaModel extends Query
 
         return $response;  // Devuelve la última respuesta recibida (aunque sea null o incompleta)
     }
-
-    /* automatizador */
-    public function obtener_productos_tmp($tmp)
-    {
-        // Consulta SQL
-        $sql = "SELECT id_inventario FROM tmp_cotizacion WHERE session_id = '$tmp'";
-
-        // Ejecutar la consulta y obtener múltiples resultados usando select
-        $resultados = $this->select($sql);
-
-        // Crear un array vacío para almacenar los ids
-        $productos = [];
-
-        // Si $resultados no es null o vacío, verificamos si es un array
-        if ($resultados && is_array($resultados)) {
-            // Recorremos los resultados y extraemos los ids (en caso de que sea un array de filas)
-            foreach ($resultados as $fila) {
-                $productos[] = (string)$fila['id_inventario']; // Convertir a string si es necesario
-            }
-        } else if ($resultados && isset($resultados['id_inventario'])) {
-            // Si solo es una fila, también agregamos ese único id al array
-            $productos[] = (string)$resultados['id_inventario'];
-        }
-
-        // Retornamos el array con los ids de productos
-        return ['productos' => $productos];
-    }
-    /* Fin automatizador */
 }
