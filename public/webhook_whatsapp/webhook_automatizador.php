@@ -16,7 +16,6 @@ $conn = new mysqli(HOST, USER, PASSWORD, DB);
 $input = file_get_contents('php://input');
 $data = json_decode($input, true);
 
-print_r($data);
 
 if (!$data) {
     echo json_encode(["status" => "error", "message" => "Datos inválidos."]);
@@ -44,6 +43,9 @@ function getAutomatizador($conn, $id_configuracion, $value_blocks_type, $data)
     $stmt->bind_result($id_automatizador, $json_output, $productos, $categorias, $status, $novedad, $provincia, $ciudad);
 
     $selected_automatizador = null;
+
+    echo $id_automatizador . " - " . $json_output;
+
 
     while ($stmt->fetch()) {
         $productos_arr = json_decode($productos, true) ?? [];
