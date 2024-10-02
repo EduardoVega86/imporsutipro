@@ -1554,7 +1554,7 @@ class PedidosModel extends Query
             $telefono = str_replace('593', '', $telefono);
         }
         // Buscar el pedido por el número de teléfono independientemente si tiene +593 en el número
-        $sql = "SELECT * FROM facturas_cot WHERE telefono = '$telefono' OR telefono = '+593$telefono' OR telefono = '593$telefono'  OR telefono = '0$telefono' ORDER BY id_factura DESC LIMIT 1";
+        $sql = "SELECT * FROM facturas_cot WHERE (telefono = '$telefono' OR telefono = '+593$telefono' OR telefono = '593$telefono'  OR telefono = '0$telefono') AND guia_enviada = 0 ORDER BY id_factura DESC LIMIT 5";
         return $this->select($sql);
     }
 }
