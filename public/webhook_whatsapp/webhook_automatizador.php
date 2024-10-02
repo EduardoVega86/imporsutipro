@@ -46,7 +46,7 @@ function getAutomatizador($conn, $id_configuracion, $value_blocks_type, $data)
     
     $selected_automatizador = null;
 
-    echo $id_automatizador . " - " . $json_output;
+    /* echo $id_automatizador . " - " . $json_output; */
 
 
     while ($stmt->fetch()) {
