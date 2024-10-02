@@ -699,4 +699,11 @@ class Pedidos extends Controller
         $response = $this->model->obtenerPedidoPorTelefono($telefono);
         echo json_encode($response);
     }
+
+    public function obtenerDetallesPedido()
+    {
+        $id_pedido = $_POST['id_factura'];
+        $response = $this->model->obtenerDetallesPedido($id_pedido);
+        echo json_encode($response);
+    }
 }
