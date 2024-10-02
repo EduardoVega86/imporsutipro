@@ -1256,14 +1256,8 @@ class TiendaModel extends Query
                 // Ejecutar la consulta de categorías (esperamos solo una fila debido al LIMIT 1)
                 $resultado_categoria = $this->select($sql_categorias);
 
-                // Verificamos si el resultado no es nulo y contiene la categoría
-                if ($resultado_categoria && isset($resultado_categoria['id_categoria_tienda'])) {
-                    // Agregamos la categoría al array
-                    $categorias[] = (string)$resultado_categoria['id_categoria_tienda'];
-                } else {
-                    // Si no hay categoría, podemos manejarlo como un valor por defecto si es necesario
-                    $categorias[] = null; // O un valor por defecto como "sin categoría"
-                }
+                // Agregamos la categoría al array
+                $categorias[] = (string)$resultado_categoria['id_categoria_tienda'] ?? null;
             }
         } else if ($resultados && isset($resultados['id_inventario'])) {
             // Si solo es una fila, también agregamos ese único id de producto al array
