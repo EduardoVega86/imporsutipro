@@ -1557,4 +1557,10 @@ class PedidosModel extends Query
         $sql = "SELECT * FROM facturas_cot WHERE (telefono = '$telefono' OR telefono = '+593$telefono' OR telefono = '593$telefono'  OR telefono = '0$telefono') AND guia_enviada = 0 ORDER BY id_factura DESC LIMIT 5";
         return $this->select($sql);
     }
+
+    public function obtenerDetallesPedido($id_factura)
+    {
+        $sql = "SELECT * FROM facturas_cot WHERE id_factura = $id_factura";
+        return $this->select($sql);
+    }
 }
