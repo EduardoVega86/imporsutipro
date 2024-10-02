@@ -791,27 +791,28 @@ class TiendaModel extends Query
                     }
 
                     // Ejecutamos la función que devuelve productos y categorías
-                    $data = $this->ejecutar_automatizador($nueva_factura);
+                    $productos_y_categorias = $this->ejecutar_automatizador($nueva_factura);
 
+                    // Definir la estructura del array $data para enviar a la API
                     $data = [
                         "id_configuracion" => "10",
                         "value_blocks_type" => "1",
-                        "user_id" => "1",
+                        "user_id" => "2",
                         "order_id" => $nueva_factura,
                         "nombre" => $nombre,
                         "direccion" => $calle_principal . " y " . $calle_secundaria,
-                        "email" => "",
+                        "email" => "",  // Aquí puedes poner el email si está disponible
                         "celular" => $telefono,
-                        "productos" => $data['productos'] ?? [],
-                        "categorias" => $data['categorias'] ?? [],
-                        "status" => [""],
-                        "novedad" => [""],
-                        "provincia" => [""],
-                        "ciudad" => [""],
+                        "productos" => $productos_y_categorias['productos'] ?? [""],  // Productos generados por ejecutar_automatizador
+                        "categorias" => $productos_y_categorias['categorias'] ?? [""],  // Categorías generadas por ejecutar_automatizador
+                        "status" => [""],  // Puedes llenar este campo con el estado si tienes datos disponibles
+                        "novedad" => [""],  // Puedes agregar datos de novedad si es necesario
+                        "provincia" => [""],  // Puedes agregar datos de provincia si es necesario
+                        "ciudad" => [""],  // Puedes agregar datos de ciudad si es necesario
                         "user_info" => [
                             "nombre" => $nombre,
                             "direccion" => $calle_principal . " y " . $calle_secundaria,
-                            "email" => "",
+                            "email" => "",  // Aquí puedes poner el email si está disponible
                             "celular" => $telefono,
                             "order_id" => $nueva_factura
                         ]
@@ -1333,10 +1334,6 @@ class TiendaModel extends Query
 
         // Ejecutar la solicitud cURL
         $response = curl_exec($ch);
-
-        // Depuración: Guardar la respuesta cruda y el JSON enviado
-        file_put_contents('curl_response_debug.txt', $response);  // Guardar la respuesta
-        file_put_contents('data_debug.txt', $json_data);  // Guardar los datos enviados
 
         // Verificar si hubo errores en la ejecución
         if (curl_errno($ch)) {
