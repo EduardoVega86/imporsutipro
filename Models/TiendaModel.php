@@ -827,7 +827,7 @@ class TiendaModel extends Query
                     $response['title'] = 'Peticion exitosa';
                     $response['message'] = "Pedido creado correctamente y datos enviados";
                     $response["numero_factura"] = $nueva_factura;
-                    $response['data'] = $response_api;
+                    $response['data'] = $data;
                 }
             } else {
                 $response['status'] = 500;
