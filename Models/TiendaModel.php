@@ -790,12 +790,11 @@ class TiendaModel extends Query
                         }
                     }
 
-                    $this->ejecutar_automatizador($nueva_factura);
-
                     $response['status'] = 200;
                     $response['title'] = 'Peticion exitosa';
                     $response['message'] = "Pedido creado correctamente";
                     $response["numero_factura"] = $nueva_factura;
+                    $response['data'] = $this->ejecutar_automatizador($nueva_factura);
                 }
             } else {
                 $response['status'] = 500;
