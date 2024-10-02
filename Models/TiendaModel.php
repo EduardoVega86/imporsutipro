@@ -1326,6 +1326,9 @@ class TiendaModel extends Query
         // Codificar el array $data a formato JSON
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
 
+        // Habilitar el seguimiento de redirecciones
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);  // Esto permite seguir redirecciones
+
         // Ejecutar la solicitud cURL
         $response = curl_exec($ch);
 
