@@ -1468,23 +1468,28 @@ class TiendaModel extends Query
     /* automatizador */
     public function obtener_productos_tmp($tmp)
     {
-        // Consulta SQL para obtener los ids de inventario
+        // Consulta SQL
         $sql = "SELECT id_inventario FROM tmp_cotizacion WHERE session_id = '$tmp'";
 
-        // Ejecutamos la consulta y obtenemos los resultados
-        $resultados = $this->selectAll($sql);  // Asumiendo que 'selectAll' devuelve un array con todas las filas
+        // Ejecutar la consulta y obtener múltiples resultados usando select
+        $resultados = $this->select($sql);
 
-        // Creamos un array vacío para almacenar los ids
+        // Crear un array vacío para almacenar los ids
         $productos = [];
 
-        // Recorremos los resultados y extraemos los ids
-        foreach ($resultados as $fila) {
-            $productos[] = (string)$fila['id_inventario'];  // Convertimos a string si es necesario
+        // Si $resultados no es null o vacío, verificamos si es un array
+        if ($resultados && is_array($resultados)) {
+            // Recorremos los resultados y extraemos los ids (en caso de que sea un array de filas)
+            foreach ($resultados as $fila) {
+                $productos[] = (string)$fila['id_inventario']; // Convertir a string si es necesario
+            }
+        } else if ($resultados && isset($resultados['id_inventario'])) {
+            // Si solo es una fila, también agregamos ese único id al array
+            $productos[] = (string)$resultados['id_inventario'];
         }
 
-        // Retornamos el array con los ids
+        // Retornamos el array con los ids de productos
         return ['productos' => $productos];
     }
-
     /* Fin automatizador */
 }
