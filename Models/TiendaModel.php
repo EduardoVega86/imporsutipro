@@ -792,47 +792,40 @@ class TiendaModel extends Query
 
                     $data = $this->ejecutar_automatizador($nueva_factura);
 
-
                     $data = [
                         "id_configuracion" => "10",
                         "value_blocks_type" => "1",
                         "user_id" => "2",
                         "order_id" => $nueva_factura,
                         "nombre" => $nombre,
-                        "direccion" => $calle_principal . " y " . $calle_secundaria,  // Dirección del cliente combinada
+                        "direccion" => $calle_principal . " y " . $calle_secundaria,
                         "email" => "",  // Llena esto con el email del cliente si lo tienes disponible
-                        "celular" => $telefono,  // Celular del cliente
+                        "celular" => $telefono,
 
-                        // Productos y categorías provienen de ejecutar_automatizador
-                        "productos" => $data['productos'] ?? [],  // Asegúrate de que 'productos' esté en el formato adecuado
-                        "categorias" => $data['categorias'] ?? [],  // Asegúrate de que 'categorias' esté en el formato adecuado
+                        "productos" => $data['productos'] ?? [],
+                        "categorias" => $data['categorias'] ?? [],
 
-                        // Campos adicionales que puedes llenar si es necesario
-                        "status" => [
-                            ""  // Puedes llenar este campo con el estado de tu lógica
-                        ],
-                        "novedad" => [
-                            ""  // Puedes llenar este campo con la novedad de tu lógica
-                        ],
-                        "provincia" => [
-                            ""  // Puedes agregar el valor de la provincia
-                        ],
-                        "ciudad" => [
-                            ""  // Puedes agregar el valor de la ciudad
-                        ],
+                        "status" => [""],
+                        "novedad" => [""],
+                        "provincia" => [""],
+                        "ciudad" => [""],
 
-                        // Información adicional sobre el usuario (puedes duplicar algunos valores si es necesario)
                         "user_info" => [
                             "nombre" => $nombre,
                             "direccion" => $calle_principal . " y " . $calle_secundaria,
-                            "email" => "",  // O el correo real del cliente
+                            "email" => "",
                             "celular" => $telefono,
-                            "order_id" => $nueva_factura  // Repetimos el número de factura como order_id
+                            "order_id" => $nueva_factura
                         ]
                     ];
+
+                    // Llamamos a la función para enviar los datos a la API usando cURL
+                    $response_api = $this->enviar_a_api($data);
+
+                    // Si llegamos aquí, la petición fue exitosa
                     $response['status'] = 200;
                     $response['title'] = 'Peticion exitosa';
-                    $response['message'] = "Pedido creado correctamente";
+                    $response['message'] = "Pedido creado correctamente y datos enviados";
                     $response["numero_factura"] = $nueva_factura;
                     $response['data'] = $data;
                 }
@@ -1309,6 +1302,40 @@ class TiendaModel extends Query
             'productos' => $productos,
             'categorias' => $categorias
         ];
+    }
+
+    public function enviar_a_api($data)
+    {
+        // La URL del endpoint a donde enviar los datos
+        $url = 'https://automatizador.imporsuitpro.com/webhook_automatizador.php';
+
+        // Inicializar cURL
+        $ch = curl_init($url);
+
+        // Configurar cURL para enviar los datos como una solicitud POST
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+
+        // Codificar el array $data a formato JSON
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+
+        // Ejecutar la solicitud cURL
+        $response = curl_exec($ch);
+
+        // Verificar si hubo errores en la ejecución
+        if (curl_errno($ch)) {
+            // Si hay un error, obtén el mensaje de error de cURL
+            $error_msg = curl_error($ch);
+            curl_close($ch);
+            throw new Exception("Error al enviar los datos a la API: $error_msg");
+        }
+
+        // Cerrar la conexión cURL
+        curl_close($ch);
+
+        // Puedes procesar la respuesta si es necesario
+        return $response;
     }
     /* Fin automatizador */
 }
