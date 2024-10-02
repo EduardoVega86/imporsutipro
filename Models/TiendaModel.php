@@ -475,55 +475,6 @@ class TiendaModel extends Query
         return $nuevaFactura;
     }
 
-    /* automatizador */
-    public function ejecutar_automatizador($numero_factura)
-    {
-        // Consulta para obtener los productos asociados a la factura
-        $sql_factura = "SELECT * FROM detalle_fact_cot WHERE numero_factura = $numero_factura";
-        $resultados = $this->select($sql_factura);
-
-        // Arrays para almacenar los productos y categorías
-        $productos = [];
-        $categorias = [];
-
-        // Si $resultados no es null o vacío, verificamos si es un array
-        if ($resultados && is_array($resultados)) {
-            // Recorremos los resultados y extraemos los ids de productos
-            foreach ($resultados as $fila) {
-                $productos[] = (string)$fila['id_inventario'];
-
-                $id_inventario = $fila['id_inventario'];
-                $id_plataforma = $fila['id_plataforma'];
-
-                // Consulta para obtener la categoría del producto (limit 1)
-                $sql_categorias = "SELECT id_categoria_tienda FROM productos_tienda WHERE id_inventario = $id_inventario 
-            AND id_plataforma = $id_plataforma LIMIT 1";
-
-                // Ejecutar la consulta de categorías (esperamos solo una fila debido al LIMIT 1)
-                $resultado_categoria = $this->select($sql_categorias);
-
-                // Verificamos si el resultado no es nulo y contiene la categoría
-                if ($resultado_categoria && isset($resultado_categoria['id_categoria_tienda'])) {
-                    // Agregamos la categoría al array
-                    $categorias[] = (string)$resultado_categoria['id_categoria_tienda'];
-                } else {
-                    // Si no hay categoría, podemos manejarlo como un valor por defecto si es necesario
-                    $categorias[] = null; // O un valor por defecto como "sin categoría"
-                }
-            }
-        } else if ($resultados && isset($resultados['id_inventario'])) {
-            // Si solo es una fila, también agregamos ese único id de producto al array
-            $productos[] = (string)$resultados['id_inventario'];
-        }
-
-        // Retornamos el array con los ids de productos y categorías
-        return [
-            'productos' => $productos,
-            'categorias' => $categorias
-        ];
-    }
-    /* Fin automatizador */
-
     /* pedido carrito */
     public function guardar_pedido_carrito($id_plataforma, $id_producto, $total, $nombre, $telefono, $provincia, $ciudad, $calle_principal, $calle_secundaria, $referencia, $observacion, $tmp, $combo_selected, $combo_id, $oferta_selected, $id_producto_oferta)
     {
@@ -839,7 +790,7 @@ class TiendaModel extends Query
                         }
                     }
 
-                    ejecutar_automatizador($nueva_factura);
+                    $this->ejecutar_automatizador($nueva_factura);
 
                     $response['status'] = 200;
                     $response['title'] = 'Peticion exitosa';
@@ -856,243 +807,6 @@ class TiendaModel extends Query
 
         return $response;
     }
-
-    /* guardar pedido carrito viejo */
-    /* public function guardar_pedido_carrito($id_plataforma, $id_producto, $total, $nombre, $telefono, $provincia, $ciudad, $calle_principal, $calle_secundaria, $referencia, $observacion, $tmp, $combo_selected, $combo_id)
-    {
-        // Obtener los productos en el carrito temporal
-        $tmp_cotizaciones = $this->select("SELECT * FROM tmp_cotizacion WHERE session_id = '$tmp'");
-
-        // Agrupar los productos por bodega
-        $productos_por_bodega = [];
-
-        foreach ($tmp_cotizaciones as $tmp_session) {
-            $id_inventario = $tmp_session['id_inventario'];
-            $datos_bodega = $this->select("SELECT * FROM inventario_bodegas WHERE id_inventario = $id_inventario");
-            $bodega = $datos_bodega[0]['bodega'];
-
-            // Agrupar los productos por bodega
-            if (!isset($productos_por_bodega[$bodega])) {
-                $productos_por_bodega[$bodega] = [];
-            }
-            $productos_por_bodega[$bodega][] = $tmp_session;
-        }
-
-        $response = $this->initialResponse();
-
-        // Crear una factura para cada bodega
-        foreach ($productos_por_bodega as $bodega => $productos) {
-
-            // Obtener la información de la bodega y el id_plataforma desde inventario_bodegas
-            $sql_datos_origen = "SELECT bodega.*, inventario_bodegas.id_plataforma as plataforma_bodega FROM bodega 
-                             JOIN inventario_bodegas ON bodega.id = inventario_bodegas.bodega 
-                             WHERE bodega.id = $bodega LIMIT 1";
-            $datos_origen = $this->select($sql_datos_origen);
-            $ciudadO = $datos_origen[0]['localidad'];
-            $nombreO = $datos_origen[0]['nombre'];
-            $direccionO = $datos_origen[0]['direccion'];
-            $plataforma_bodega = $datos_origen[0]['plataforma_bodega'];  // El id_plataforma de la bodega
-
-            $date_added = date("Y-m-d H:i:s");
-
-            // Generar el número de factura
-            $ultima_factura = $this->select("SELECT MAX(numero_factura) as factura_numero FROM facturas_cot");
-            $factura_numero = $ultima_factura[0]['factura_numero'];
-            if (!$factura_numero || $factura_numero == '') {
-                $factura_numero = 'COT-0000000000';
-            }
-            $nueva_factura = $this->incrementarNumeroFactura($factura_numero);
-
-            // Calcular el total por bodega (suma de los precios de los productos en esta bodega)
-            $total_bodega = 0;
-            foreach ($productos as $producto) {
-                $total_bodega += $producto['precio_tmp'] * $producto['cantidad_tmp'];
-            }
-
-            if ($combo_selected == 1) {
-                $datos_combo = $this->select("SELECT * FROM combos INNER JOIN detalle_combo ON detalle_combo.id_combo = combos.id 
-                INNER JOIN inventario_bodegas ON inventario_bodegas.id_inventario = detalle_combo.id_inventario WHERE combos.id = $combo_id");
-                $valor = $datos_combo[0]['valor'];
-                $estado_combo = $datos_combo[0]['estado_combo'];
-                $totalPvp = 0;
-
-                foreach ($datos_combo as $producto) {
-                    $totalPvp += $producto['pvp'] * $producto['cantidad'];
-                }
-
-                if ($estado_combo == 1) {
-                    $total_bodega = $totalPvp * (1 - $valor / 100);
-                } else if ($estado_combo == 2) {
-                    $total_bodega = $totalPvp - $valor;
-                }
-            }
-
-            // Insertar la factura para esta bodega con el id_plataforma correcto desde inventario_bodegas
-            $sql = "INSERT INTO facturas_cot (
-                numero_factura, fecha_factura, monto_factura, estado_factura, 
-                nombre, telefono, c_principal, ciudad_cot, c_secundaria, 
-                referencia, observacion, guia_enviada, transporte, identificacion, celular, 
-                id_propietario, drogshipin, id_plataforma, importado, 
-                plataforma_importa, cod, estado_guia_sistema, impreso, facturada, 
-                anulada, identificacionO, nombreO, ciudadO,  provincia,
-                direccionO, referenciaO, numeroCasaO, valor_seguro, no_piezas, tipo_servicio, 
-                peso, contiene, costo_flete, costo_producto, comentario, id_transporte, telefonoO, id_bodega
-                ) VALUES (
-                    ?, ?, ?, ?, ?, ?, ?, ?,  ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
-                )";
-
-            // Insertar la factura con el id_plataforma de la bodega
-            $data = array(
-                $nueva_factura,
-                $date_added,
-                $total_bodega, // Total de los productos de esta bodega
-                1,
-                $nombre,
-                $telefono,
-                $calle_principal,
-                $ciudad,
-                $calle_secundaria,
-                $referencia,
-                $observacion,
-                0,
-                0,
-                0,
-                $telefono,
-                $plataforma_bodega, // Se inserta en id_propietario el id_plataforma de la bodega
-                0,
-                $id_plataforma, // Esto puede seguir siendo el id_plataforma original, ya que es la plataforma de origen de la compra
-                0,
-                'tienda_online',
-                0,
-                0,
-                0,
-                0,
-                0,
-                '',
-                $nombreO,
-                $ciudadO,
-                $provincia,
-                $direccionO,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                '',
-                0,
-                0,
-                0,
-                0,
-                0,
-                $bodega
-            );
-
-            if (substr_count($sql, '?') !== count($data)) {
-                throw new Exception('La cantidad de placeholders en la consulta no coincide con la cantidad de elementos en el array de datos.');
-            }
-
-            $responses = $this->insert($sql, $data);
-
-            if ($responses === 1) {
-                if ($combo_selected == 1) {
-                    $id_factura = $this->select("SELECT id_factura FROM facturas_cot WHERE numero_factura = '$nueva_factura'");
-                    $factura_id = $id_factura[0]['id_factura'];
-
-                    // Insertar el detalle de la factura
-                    $detalle_sql = "INSERT INTO detalle_fact_cot (numero_factura, id_factura, id_producto, cantidad, desc_venta, precio_venta, id_plataforma , sku, id_inventario, combo, id_combo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-                    $detalle_combo = $this->select("SELECT * FROM detalle_combo INNER JOIN inventario_bodegas ON inventario_bodegas.id_inventario = detalle_combo.id_inventario WHERE id_combo = $combo_id");
-
-                    // Inicializamos la variable que llevará el acumulado del nuevo total
-                    $totalDistribuido = 0;
-                    $ultimoProductoIndex = count($detalle_combo) - 1;
-
-                    foreach ($detalle_combo as $index => $tmp_session) {
-                        if ($estado_combo == 1) {
-                            // Proporción del precio del producto en relación al total
-                            $proporcion = ($tmp_session['pvp'] * $tmp_session['cantidad']) / $totalPvp;
-
-                            // Calcular el nuevo precio proporcionalmente como porcentaje
-                            $nuevoPvp = $total_bodega * $proporcion;
-                        } elseif ($estado_combo == 2) {
-                            // Si el estado del combo es 2, entonces valor es un descuento fijo que se debe distribuir
-                            $descuentoProporcional = ($tmp_session['pvp'] * $tmp_session['cantidad']) / $totalPvp * $valor;
-
-                            // Calcular el nuevo precio restando el descuento proporcional
-                            $nuevoPvp = ($tmp_session['pvp'] * $tmp_session['cantidad']) - $descuentoProporcional;
-                        }
-
-                        // Si es el último producto, ajusta para que el total distribuido sea exacto
-                        if ($index == $ultimoProductoIndex) {
-                            $nuevoPvp = $total_bodega - $totalDistribuido;
-                        }
-
-                        $nuevoPvpUnitario = $nuevoPvp / $tmp_session['cantidad']; // Precio unitario ajustado
-
-                        $detalle_data = array(
-                            $nueva_factura,
-                            $factura_id,
-                            $tmp_session['id_producto'],
-                            $tmp_session['cantidad'],
-                            0,
-                            $nuevoPvpUnitario, // Guardar el pvp unitario ajustado
-                            $tmp_session['id_plataforma'],
-                            $tmp_session['sku'],
-                            $tmp_session['id_inventario'],
-                            1, // Indicador de que este producto pertenece a un combo
-                            $combo_id
-                        );
-
-                        // Insertar el detalle
-                        $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
-
-                        // Acumular el total distribuido
-                        $totalDistribuido += $nuevoPvp;
-                    }
-
-                    $response['status'] = 200;
-                    $response['title'] = 'Peticion exitosa';
-                    $response['message'] = "Pedido creado correctamente";
-                    $response["numero_factura"] = $nueva_factura;
-                } else {
-                    // Código para insertar los productos sin combo
-                    $id_factura = $this->select("SELECT id_factura FROM facturas_cot WHERE numero_factura = '$nueva_factura'");
-                    $factura_id = $id_factura[0]['id_factura'];
-
-                    // Insertar el detalle de la factura
-                    $detalle_sql = "INSERT INTO detalle_fact_cot (numero_factura, id_factura, id_producto, cantidad, desc_venta, precio_venta, id_plataforma , sku, id_inventario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                    foreach ($productos as $tmp_session) {
-                        $detalle_data = array(
-                            $nueva_factura,
-                            $factura_id,
-                            $tmp_session['id_producto'],
-                            $tmp_session['cantidad_tmp'],
-                            $tmp_session['desc_tmp'],
-                            $tmp_session['precio_tmp'],
-                            $tmp_session['id_plataforma'],
-                            $tmp_session['sku'],
-                            $tmp_session['id_inventario']
-                        );
-                        $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
-                    }
-
-                    $response['status'] = 200;
-                    $response['title'] = 'Peticion exitosa';
-                    $response['message'] = "Pedido creado correctamente";
-                    $response["numero_factura"] = $nueva_factura;
-                }
-            } else {
-                $response['status'] = 500;
-                $response['title'] = 'Error';
-                $response['message'] = $responses['message'];
-                return $response;
-            }
-        }
-
-        return $response;
-    } */
-    /* Fin guardar pedido carrito viejo */
 
     public function crearPixel($plataforma, $nombre, $pixel, $tipo)
     {
@@ -1515,4 +1229,53 @@ class TiendaModel extends Query
 
         return $response;  // Devuelve la última respuesta recibida (aunque sea null o incompleta)
     }
+
+    /* automatizador */
+    public function ejecutar_automatizador($numero_factura)
+    {
+        // Consulta para obtener los productos asociados a la factura
+        $sql_factura = "SELECT * FROM detalle_fact_cot WHERE numero_factura = $numero_factura";
+        $resultados = $this->select($sql_factura);
+
+        // Arrays para almacenar los productos y categorías
+        $productos = [];
+        $categorias = [];
+
+        // Si $resultados no es null o vacío, verificamos si es un array
+        if ($resultados && is_array($resultados)) {
+            // Recorremos los resultados y extraemos los ids de productos
+            foreach ($resultados as $fila) {
+                $productos[] = (string)$fila['id_inventario'];
+
+                $id_inventario = $fila['id_inventario'];
+                $id_plataforma = $fila['id_plataforma'];
+
+                // Consulta para obtener la categoría del producto (limit 1)
+                $sql_categorias = "SELECT id_categoria_tienda FROM productos_tienda WHERE id_inventario = $id_inventario 
+            AND id_plataforma = $id_plataforma LIMIT 1";
+
+                // Ejecutar la consulta de categorías (esperamos solo una fila debido al LIMIT 1)
+                $resultado_categoria = $this->select($sql_categorias);
+
+                // Verificamos si el resultado no es nulo y contiene la categoría
+                if ($resultado_categoria && isset($resultado_categoria['id_categoria_tienda'])) {
+                    // Agregamos la categoría al array
+                    $categorias[] = (string)$resultado_categoria['id_categoria_tienda'];
+                } else {
+                    // Si no hay categoría, podemos manejarlo como un valor por defecto si es necesario
+                    $categorias[] = null; // O un valor por defecto como "sin categoría"
+                }
+            }
+        } else if ($resultados && isset($resultados['id_inventario'])) {
+            // Si solo es una fila, también agregamos ese único id de producto al array
+            $productos[] = (string)$resultados['id_inventario'];
+        }
+
+        // Retornamos el array con los ids de productos y categorías
+        return [
+            'productos' => $productos,
+            'categorias' => $categorias
+        ];
+    }
+    /* Fin automatizador */
 }
