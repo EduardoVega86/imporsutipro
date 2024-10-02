@@ -511,7 +511,7 @@ class TiendaModel extends Query
             $direccionO = $datos_origen[0]['direccion'];
             $plataforma_bodega = $datos_origen[0]['plataforma_bodega'];  // El id_plataforma de la bodega
 
-            if ($plataforma_bodega == $id_plataforma){
+            if ($plataforma_bodega == $id_plataforma) {
                 $drop = 0;
             } else {
                 $drop = 1;
@@ -762,7 +762,7 @@ class TiendaModel extends Query
                         $datos_oferta = $this->select("SELECT * FROM productos_tienda 
                                                         INNER JOIN inventario_bodegas ON productos_tienda.id_inventario = inventario_bodegas.id_inventario 
                                                         WHERE id_producto_tienda = $id_producto_oferta");
-                                                        
+
                         $bodega_oferta = $datos_oferta[0]['bodega'];
                         if ($bodega_oferta == $bodega) {
 
@@ -1464,4 +1464,32 @@ class TiendaModel extends Query
 
         return $response;  // Devuelve la última respuesta recibida (aunque sea null o incompleta)
     }
+
+    /* automatizador */
+    public function obtener_productos_tmp($tmp)
+    {
+        // Consulta SQL
+        $sql = "SELECT id_inventario FROM tmp_cotizacion WHERE session_id = '$tmp'";
+
+        // Ejecutar la consulta y obtener múltiples resultados usando select
+        $resultados = $this->select($sql);
+
+        // Crear un array vacío para almacenar los ids
+        $productos = [];
+
+        // Si $resultados no es null o vacío, verificamos si es un array
+        if ($resultados && is_array($resultados)) {
+            // Recorremos los resultados y extraemos los ids (en caso de que sea un array de filas)
+            foreach ($resultados as $fila) {
+                $productos[] = (string)$fila['id_inventario']; // Convertir a string si es necesario
+            }
+        } else if ($resultados && isset($resultados['id_inventario'])) {
+            // Si solo es una fila, también agregamos ese único id al array
+            $productos[] = (string)$resultados['id_inventario'];
+        }
+
+        // Retornamos el array con los ids de productos
+        return ['productos' => $productos];
+    }
+    /* Fin automatizador */
 }

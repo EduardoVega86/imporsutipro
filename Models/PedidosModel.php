@@ -1548,6 +1548,11 @@ class PedidosModel extends Query
 
     public function obtenerPedidoPorTelefono($telefono)
     {
+        if (str_contains($telefono, '+593')) {
+            $telefono = str_replace('+593', '', $telefono);
+        } elseif (str_contains($telefono, '593')) {
+            $telefono = str_replace('593', '', $telefono);
+        }
         // Buscar el pedido por el número de teléfono independientemente si tiene +593 en el número
         $sql = "SELECT * FROM facturas_cot WHERE telefono = '$telefono' OR telefono = '+593$telefono' OR telefono = '593$telefono' LIMIT 1";
         return $this->select($sql);
