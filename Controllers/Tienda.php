@@ -334,4 +334,13 @@ class Tienda extends Controller
         $response = $this->model->agregarDominioConSubdominioExistenteTienda($dominio, $tienda, $id_plataforma);
         echo json_encode($response);
     }
+
+    /* automatizador */
+    public function obtener_productos_tmp()
+    {
+        $tmp =   $_POST['tmp'];
+        $response = $this->model->obtener_productos_tmp($tmp);
+        echo json_encode($response);
+    }
+    /* Fin automatizador */
 }

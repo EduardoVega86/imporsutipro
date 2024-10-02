@@ -511,7 +511,7 @@ class TiendaModel extends Query
             $direccionO = $datos_origen[0]['direccion'];
             $plataforma_bodega = $datos_origen[0]['plataforma_bodega'];  // El id_plataforma de la bodega
 
-            if ($plataforma_bodega == $id_plataforma){
+            if ($plataforma_bodega == $id_plataforma) {
                 $drop = 0;
             } else {
                 $drop = 1;
@@ -762,7 +762,7 @@ class TiendaModel extends Query
                         $datos_oferta = $this->select("SELECT * FROM productos_tienda 
                                                         INNER JOIN inventario_bodegas ON productos_tienda.id_inventario = inventario_bodegas.id_inventario 
                                                         WHERE id_producto_tienda = $id_producto_oferta");
-                                                        
+
                         $bodega_oferta = $datos_oferta[0]['bodega'];
                         if ($bodega_oferta == $bodega) {
 
@@ -1464,4 +1464,27 @@ class TiendaModel extends Query
 
         return $response;  // Devuelve la última respuesta recibida (aunque sea null o incompleta)
     }
+
+    /* automatizador */
+    public function obtener_productos_tmp($tmp)
+    {
+        // Consulta SQL para obtener los ids de inventario
+        $sql = "SELECT id_inventario FROM tmp_cotizacion WHERE session_id = '$tmp'";
+
+        // Ejecutamos la consulta y obtenemos los resultados
+        $resultados = $this->selectAll($sql);  // Asumiendo que 'selectAll' devuelve un array con todas las filas
+
+        // Creamos un array vacío para almacenar los ids
+        $productos = [];
+
+        // Recorremos los resultados y extraemos los ids
+        foreach ($resultados as $fila) {
+            $productos[] = (string)$fila['id_inventario'];  // Convertimos a string si es necesario
+        }
+
+        // Retornamos el array con los ids
+        return ['productos' => $productos];
+    }
+
+    /* Fin automatizador */
 }
