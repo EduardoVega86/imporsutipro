@@ -1254,7 +1254,7 @@ class TiendaModel extends Query
             AND id_plataforma = $id_plataforma LIMIT 1";
 
                 // Ejecutar la consulta de categorías (esperamos solo una fila debido al LIMIT 1)
-                $resultado_categoria = $this->select($sql_categorias);
+                $resultado_categoria = $this->select($sql_categorias)[0];
 
                 // Agregamos la categoría al array
                 $categorias[] = (string)$resultado_categoria['id_categoria_tienda'] ?? null;
