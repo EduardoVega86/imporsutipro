@@ -1325,13 +1325,18 @@ class TiendaModel extends Query
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
 
         // Codificar el array $data a formato JSON
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        $json_data = json_encode($data);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
 
         // Habilitar el seguimiento de redirecciones
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);  // Esto permite seguir redirecciones
 
         // Ejecutar la solicitud cURL
         $response = curl_exec($ch);
+
+        // Depuración: Guardar la respuesta cruda y el JSON enviado
+        file_put_contents('curl_response_debug.txt', $response);  // Guardar la respuesta
+        file_put_contents('data_debug.txt', $json_data);  // Guardar los datos enviados
 
         // Verificar si hubo errores en la ejecución
         if (curl_errno($ch)) {
@@ -1350,8 +1355,8 @@ class TiendaModel extends Query
         $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        // Si el código HTTP no es 200, retornar error
-        if ($http_code !== 200) {
+        // Si el código HTTP no es 2XX, retornar error
+        if ($http_code < 200 || $http_code >= 300) {
             return [
                 'success' => false,
                 'error' => "La API devolvió un código de estado HTTP no exitoso: $http_code"
