@@ -24,6 +24,9 @@ if (!$data) {
 
 $id_configuracion = isset($data['id_configuracion']) ? (int)$data['id_configuracion'] : 0;
 $value_blocks_type = isset($data['value_blocks_type']) ? $data['value_blocks_type'] : '';
+
+var_dump($id_configuracion);
+var_dump($value_blocks_type);
 $user_id = isset($data['user_id']) ? (int)$data['user_id'] : 0;
 
 function getAutomatizador($conn, $id_configuracion, $value_blocks_type, $data)
@@ -38,7 +41,7 @@ function getAutomatizador($conn, $id_configuracion, $value_blocks_type, $data)
     if ($stmt === false) {
         throw new Exception("Falló la preparación de la consulta: " . $conn->error);
     }
-    $stmt->bind_param('is', $id_configuracion, $value_blocks_type);
+    $stmt->bind_param('ss', $id_configuracion, $value_blocks_type);
     $stmt->execute();
     $stmt->bind_result($id_automatizador, $json_output, $productos, $categorias, $status, $novedad, $provincia, $ciudad);
 
