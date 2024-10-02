@@ -42,6 +42,8 @@ function getAutomatizador($conn, $id_configuracion, $value_blocks_type, $data)
     $stmt->execute();
     $stmt->bind_result($id_automatizador, $json_output, $productos, $categorias, $status, $novedad, $provincia, $ciudad);
 
+    print_r($stmt);
+    
     $selected_automatizador = null;
 
     echo $id_automatizador . " - " . $json_output;
