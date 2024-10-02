@@ -1,6 +1,5 @@
 <?php
 
-header("Access-Control-Allow-Origin: *"); // Permite todos los orígenes
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS"); // Métodos permitidos
 header("Access-Control-Allow-Headers: Content-Type"); // Cabeceras permitidas
 
@@ -16,6 +15,8 @@ $conn = new mysqli(HOST, USER, PASSWORD, DB);
 
 $input = file_get_contents('php://input');
 $data = json_decode($input, true);
+
+print_r($data);
 
 if (!$data) {
     echo json_encode(["status" => "error", "message" => "Datos inválidos."]);

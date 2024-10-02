@@ -796,7 +796,7 @@ class TiendaModel extends Query
                     $data = [
                         "id_configuracion" => "10",
                         "value_blocks_type" => "1",
-                        "user_id" => "2",
+                        "user_id" => "1",
                         "order_id" => $nueva_factura,
                         "nombre" => $nombre,
                         "direccion" => $calle_principal . " y " . $calle_secundaria,
