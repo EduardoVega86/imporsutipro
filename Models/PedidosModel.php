@@ -1561,6 +1561,16 @@ class PedidosModel extends Query
     public function obtenerDetallesPedido($id_factura)
     {
         $sql = "SELECT * FROM facturas_cot WHERE id_factura = $id_factura";
-        return $this->select($sql);
+        $factura =  $this->select($sql);
+
+        $numero_factura = $factura[0]['numero_factura'];
+
+        $sql = "SELECT dfc.cantidad, dfc.precio_venta, p.nombre_producto FROM detalle_fact_cot dfc INNER JOIN inventario_bodegas ib ON ib.id_inventario = dfc.id_inventario INNER JOIN productos p ON ib.id_producto = p.id_producto WHERE dfc.numero_factura = '$numero_factura';";
+        $productos = $this->select($sql);
+
+        return [
+            'factura' => $factura,
+            'productos' => $productos
+        ];
     }
 }
