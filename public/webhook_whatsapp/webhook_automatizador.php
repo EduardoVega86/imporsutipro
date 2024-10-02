@@ -4,12 +4,15 @@ header("Access-Control-Allow-Origin: *"); // Permite todos los orígenes
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS"); // Métodos permitidos
 header("Access-Control-Allow-Headers: Content-Type"); // Cabeceras permitidas
 
-$servername = "3.233.119.65";
-$dbname = "imporsuitpro_new";
-$username = "imporsuit_system"; // Usuario por defecto de XAMPP
-$password = "imporsuit_system"; // Sin contraseña por defecto
+// Datos de conexión a la base de datos
+const HOST = '3.233.119.65';
+const USER = "imporsuit_system";
+const PASSWORD = "imporsuit_system";
+const DB = "imporsuitpro_new";
+const CHARSET = "utf8mb4";
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+// Establecer conexión con la base de datos
+$conn = new mysqli(HOST, USER, PASSWORD, DB);
 
 $input = file_get_contents('php://input');
 $data = json_decode($input, true);
@@ -32,6 +35,12 @@ function getAutomatizador($conn, $id_configuracion, $value_blocks_type, $data)
         JOIN disparadores d ON a.id = d.id_automatizador
         WHERE a.id_configuracion = ? AND d.tipo = ?
     ");
+
+    if ($stmt === false) {
+        echo json_encode(["status" => "error", "message" => "Error en la preparación de la consulta: " . $conn->error]);
+        exit;
+    }
+
     if ($stmt === false) {
         throw new Exception("Falló la preparación de la consulta: " . $conn->error);
     }
