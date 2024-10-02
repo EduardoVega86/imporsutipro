@@ -790,11 +790,51 @@ class TiendaModel extends Query
                         }
                     }
 
+                    $data = $this->ejecutar_automatizador($nueva_factura);
+
+
+                    $data = [
+                        "id_configuracion" => "10",
+                        "value_blocks_type" => "1",
+                        "user_id" => "2",
+                        "order_id" => $nueva_factura,
+                        "nombre" => $nombre,
+                        "direccion" => $calle_principal . " y " . $calle_secundaria,  // Dirección del cliente combinada
+                        "email" => "",  // Llena esto con el email del cliente si lo tienes disponible
+                        "celular" => $telefono,  // Celular del cliente
+
+                        // Productos y categorías provienen de ejecutar_automatizador
+                        "productos" => $data['productos'] ?? [],  // Asegúrate de que 'productos' esté en el formato adecuado
+                        "categorias" => $data['categorias'] ?? [],  // Asegúrate de que 'categorias' esté en el formato adecuado
+
+                        // Campos adicionales que puedes llenar si es necesario
+                        "status" => [
+                            ""  // Puedes llenar este campo con el estado de tu lógica
+                        ],
+                        "novedad" => [
+                            ""  // Puedes llenar este campo con la novedad de tu lógica
+                        ],
+                        "provincia" => [
+                            ""  // Puedes agregar el valor de la provincia
+                        ],
+                        "ciudad" => [
+                            ""  // Puedes agregar el valor de la ciudad
+                        ],
+
+                        // Información adicional sobre el usuario (puedes duplicar algunos valores si es necesario)
+                        "user_info" => [
+                            "nombre" => $nombre,
+                            "direccion" => $calle_principal . " y " . $calle_secundaria,
+                            "email" => "",  // O el correo real del cliente
+                            "celular" => $telefono,
+                            "order_id" => $nueva_factura  // Repetimos el número de factura como order_id
+                        ]
+                    ];
                     $response['status'] = 200;
                     $response['title'] = 'Peticion exitosa';
                     $response['message'] = "Pedido creado correctamente";
                     $response["numero_factura"] = $nueva_factura;
-                    $response['data'] = $this->ejecutar_automatizador($nueva_factura);
+                    $response['data'] = $data;
                 }
             } else {
                 $response['status'] = 500;
