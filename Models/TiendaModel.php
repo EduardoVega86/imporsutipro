@@ -1233,7 +1233,7 @@ class TiendaModel extends Query
     public function ejecutar_automatizador($numero_factura)
     {
         // Consulta para obtener los productos asociados a la factura
-        $sql_factura = "SELECT * FROM detalle_fact_cot WHERE numero_factura = $numero_factura";
+        $sql_factura = "SELECT * FROM detalle_fact_cot WHERE numero_factura = '$numero_factura'";
         $resultados = $this->select($sql_factura);
 
         // Arrays para almacenar los productos y categorías
