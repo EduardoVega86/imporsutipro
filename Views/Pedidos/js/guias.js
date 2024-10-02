@@ -3,8 +3,11 @@ let dataTableIsInitialized = false;
 
 const dataTableOptions = {
   columnDefs: [
-    { className: "centered", targets: [1, 2, 3, 4, 5, 6, 7, 8, 9] },
-    { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
+    { className: "centered", targets: [0,1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11,12,13] },
+    { orderable: false, targets: 0 }, // Asegúrate de que esta sea la columna correcta
+    { visible: false, targets: 11 },
+     { visible: false, targets: 12 },
+      { visible: false, targets: 13 }// Asegúrate de que esta sea la columna correcta
   ],
   order: [[2, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
   pageLength: 10,
@@ -18,7 +21,7 @@ const dataTableOptions = {
       title: "Panel de Control: Usuarios",
       titleAttr: "Exportar a Excel",
       exportOptions: {
-        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+        columns: [1, 2, 4, 5, 6, 7, 8, 11,12,13],
       },
       filename: "Productos" + "_" + getFecha(),
       footer: true,
@@ -269,6 +272,9 @@ const listGuias = async () => {
                     </ul>
                     </div>
                     </td>
+          <td>${guia.contiene}</td>
+          <td>${guia.monto_factura}</td>
+          <td>${guia.costo_producto}</td>
                 </tr>`;
     });
     document.getElementById("tableBody_guias").innerHTML = content;
