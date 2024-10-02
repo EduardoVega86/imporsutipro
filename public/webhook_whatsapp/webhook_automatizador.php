@@ -4,7 +4,7 @@ header("Access-Control-Allow-Origin: *"); // Permite todos los orígenes
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS"); // Métodos permitidos
 header("Access-Control-Allow-Headers: Content-Type"); // Cabeceras permitidas
 
-$servername = "localhost";
+$servername = "3.233.119.65";
 $dbname = "imporsuitpro_new";
 $username = "imporsuit_system"; // Usuario por defecto de XAMPP
 $password = "imporsuit_system"; // Sin contraseña por defecto
@@ -38,8 +38,6 @@ function getAutomatizador($conn, $id_configuracion, $value_blocks_type, $data)
     $stmt->bind_param('is', $id_configuracion, $value_blocks_type);
     $stmt->execute();
     $stmt->bind_result($id_automatizador, $json_output, $productos, $categorias, $status, $novedad, $provincia, $ciudad);
-
-    $stmt->store_result();
 
     $selected_automatizador = null;
 
