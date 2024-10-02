@@ -790,6 +790,7 @@ class TiendaModel extends Query
                         }
                     }
 
+                    // Ejecutamos la función que devuelve productos y categorías
                     $data = $this->ejecutar_automatizador($nueva_factura);
 
                     $data = [
@@ -799,17 +800,14 @@ class TiendaModel extends Query
                         "order_id" => $nueva_factura,
                         "nombre" => $nombre,
                         "direccion" => $calle_principal . " y " . $calle_secundaria,
-                        "email" => "",  // Llena esto con el email del cliente si lo tienes disponible
+                        "email" => "",
                         "celular" => $telefono,
-
                         "productos" => $data['productos'] ?? [],
                         "categorias" => $data['categorias'] ?? [],
-
                         "status" => [""],
                         "novedad" => [""],
                         "provincia" => [""],
                         "ciudad" => [""],
-
                         "user_info" => [
                             "nombre" => $nombre,
                             "direccion" => $calle_principal . " y " . $calle_secundaria,
@@ -822,12 +820,20 @@ class TiendaModel extends Query
                     // Llamamos a la función para enviar los datos a la API usando cURL
                     $response_api = $this->enviar_a_api($data);
 
-                    // Si llegamos aquí, la petición fue exitosa
-                    $response['status'] = 200;
-                    $response['title'] = 'Peticion exitosa';
-                    $response['message'] = "Pedido creado correctamente y datos enviados";
-                    $response["numero_factura"] = $nueva_factura;
-                    $response['data'] = $data;
+                    // Comprobamos si hubo un error en cURL
+                    if (!$response_api['success']) {
+                        // Si hubo un error, lo añadimos al response
+                        $response['status'] = 500;
+                        $response['title'] = 'Error';
+                        $response['message'] = "Error al enviar los datos a la API: " . $response_api['error'];
+                    } else {
+                        // Si la llamada a la API fue exitosa
+                        $response['status'] = 200;
+                        $response['title'] = 'Peticion exitosa';
+                        $response['message'] = "Pedido creado correctamente y datos enviados";
+                        $response["numero_factura"] = $nueva_factura;
+                        $response['data'] = $data;
+                    }
                 }
             } else {
                 $response['status'] = 500;
@@ -1328,14 +1334,31 @@ class TiendaModel extends Query
             // Si hay un error, obtén el mensaje de error de cURL
             $error_msg = curl_error($ch);
             curl_close($ch);
-            throw new Exception("Error al enviar los datos a la API: $error_msg");
+
+            // Retornar el mensaje de error en lugar de la respuesta
+            return [
+                'success' => false,
+                'error' => $error_msg
+            ];
         }
 
-        // Cerrar la conexión cURL
+        // Obtener información sobre la ejecución
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        // Puedes procesar la respuesta si es necesario
-        return $response;
+        // Si el código HTTP no es 200, retornar error
+        if ($http_code !== 200) {
+            return [
+                'success' => false,
+                'error' => "La API devolvió un código de estado HTTP no exitoso: $http_code"
+            ];
+        }
+
+        // Si todo fue bien, retornar la respuesta
+        return [
+            'success' => true,
+            'response' => $response
+        ];
     }
     /* Fin automatizador */
 }
