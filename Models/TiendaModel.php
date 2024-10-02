@@ -1314,7 +1314,7 @@ class TiendaModel extends Query
     public function enviar_a_api($data)
     {
         // La URL del endpoint a donde enviar los datos
-        $url = 'https://automatizador.imporsuitpro.com/webhook_automatizador.php';
+        $url = 'https://new.imporsuitpro.com/public/webhook_whatsapp/webhook_automatizador.php';
 
         // Inicializar cURL
         $ch = curl_init($url);
