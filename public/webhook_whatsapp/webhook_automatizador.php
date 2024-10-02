@@ -1,5 +1,6 @@
 <?php
 
+header("Access-Control-Allow-Origin: *"); // Permite todos los orígenes
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS"); // Métodos permitidos
 header("Access-Control-Allow-Headers: Content-Type"); // Cabeceras permitidas
 
@@ -16,7 +17,6 @@ $conn = new mysqli(HOST, USER, PASSWORD, DB);
 $input = file_get_contents('php://input');
 $data = json_decode($input, true);
 
-
 if (!$data) {
     echo json_encode(["status" => "error", "message" => "Datos inválidos."]);
     exit;
@@ -24,9 +24,6 @@ if (!$data) {
 
 $id_configuracion = isset($data['id_configuracion']) ? (int)$data['id_configuracion'] : 0;
 $value_blocks_type = isset($data['value_blocks_type']) ? $data['value_blocks_type'] : '';
-
-var_dump($id_configuracion);
-var_dump($value_blocks_type);
 $user_id = isset($data['user_id']) ? (int)$data['user_id'] : 0;
 
 function getAutomatizador($conn, $id_configuracion, $value_blocks_type, $data)
@@ -41,16 +38,13 @@ function getAutomatizador($conn, $id_configuracion, $value_blocks_type, $data)
     if ($stmt === false) {
         throw new Exception("Falló la preparación de la consulta: " . $conn->error);
     }
-    $stmt->bind_param('ss', $id_configuracion, $value_blocks_type);
+    $stmt->bind_param('is', $id_configuracion, $value_blocks_type);
     $stmt->execute();
     $stmt->bind_result($id_automatizador, $json_output, $productos, $categorias, $status, $novedad, $provincia, $ciudad);
 
-    print_r($stmt);
+    $stmt->store_result();
     
     $selected_automatizador = null;
-
-    /* echo $id_automatizador . " - " . $json_output; */
-
 
     while ($stmt->fetch()) {
         $productos_arr = json_decode($productos, true) ?? [];
