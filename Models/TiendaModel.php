@@ -476,7 +476,7 @@ class TiendaModel extends Query
     }
 
     /* pedido carrito */
-    public function guardar_pedido_carrito($id_plataforma, $id_producto, $total, $nombre, $telefono, $provincia, $ciudad, $calle_principal, $calle_secundaria, $referencia, $observacion, $tmp, $combo_selected, $combo_id, $oferta_selected, $id_producto_oferta)
+    public function guardar_pedido_carrito($id_plataforma, $id_producto, $total, $nombre, $telefono, $provincia, $ciudad, $calle_principal, $calle_secundaria, $referencia, $observacion, $tmp, $combo_selected, $combo_id, $oferta_selected, $id_producto_oferta, $id_configuracion)
     {
         // Obtener los productos en el carrito temporal
         $tmp_cotizaciones = $this->select("SELECT * FROM tmp_cotizacion WHERE session_id = '$tmp'");
@@ -794,7 +794,7 @@ class TiendaModel extends Query
                     $data = $this->ejecutar_automatizador($nueva_factura);
 
                     $data = [
-                        "id_configuracion" => "10",
+                        "id_configuracion" => $id_configuracion,
                         "value_blocks_type" => "1",
                         "user_id" => "1",
                         "order_id" => $nueva_factura,
@@ -1363,6 +1363,12 @@ class TiendaModel extends Query
             'success' => true,
             'response' => $response
         ];
+    }
+
+    public function obtener_configuracion($id_plataforma)
+    {
+        $sql = "SELECT id FROM `configuraciones` WHERE id_plataforma = $id_plataforma";
+        return $this->select($sql);
     }
     /* Fin automatizador */
 }

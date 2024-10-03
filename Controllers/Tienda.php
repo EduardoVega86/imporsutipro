@@ -206,8 +206,9 @@ class Tienda extends Controller
         $id_producto_oferta =    $_POST['id_producto_oferta'];
 
         $tmp =    $_POST['tmp'];
+        $id_configuracion = $_POST['id_configuracion'];
 
-        $response = $this->model->guardar_pedido_carrito($id_plataforma, $id_producto, $total, $nombre, $telefono, $provincia, $ciudad, $calle_principal, $calle_secundaria, $referencia, $observacion, $tmp, $combo_selected, $combo_id, $oferta_selected, $id_producto_oferta);
+        $response = $this->model->guardar_pedido_carrito($id_plataforma, $id_producto, $total, $nombre, $telefono, $provincia, $ciudad, $calle_principal, $calle_secundaria, $referencia, $observacion, $tmp, $combo_selected, $combo_id, $oferta_selected, $id_producto_oferta, $id_configuracion);
         echo json_encode($response);
     }
 
@@ -340,6 +341,13 @@ class Tienda extends Controller
     {
         $tmp =   $_POST['tmp'];
         $response = $this->model->obtener_productos_tmp($tmp);
+        echo json_encode($response);
+    }
+
+    public function obtener_configuracion()
+    {
+        $id_plataforma =   $_POST['id_plataforma'];
+        $response = $this->model->obtener_configuracion($id_plataforma);
         echo json_encode($response);
     }
     /* Fin automatizador */
