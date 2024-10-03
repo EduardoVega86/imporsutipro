@@ -363,6 +363,7 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
     $id_cliente = (int)$id_cliente;
     $mid_mensaje = (string)$uid_cliente;
     $tipo_mensaje = "text";
+    $user_info = (string)$user_info;
     $uid_whatsapp = (string)$uid_whatsapp;
     $id_automatizador = (int)$id_automatizador;
     $mensaje = (string)$mensaje;
