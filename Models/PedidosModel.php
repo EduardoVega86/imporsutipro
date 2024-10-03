@@ -1565,7 +1565,7 @@ class PedidosModel extends Query
 
         $numero_factura = $factura[0]['numero_factura'];
 
-        $sql = "SELECT dfc.cantidad, dfc.precio_venta, p.nombre_producto FROM detalle_fact_cot dfc INNER JOIN inventario_bodegas ib ON ib.id_inventario = dfc.id_inventario INNER JOIN productos p ON ib.id_producto = p.id_producto WHERE dfc.numero_factura = '$numero_factura';";
+        $sql = "SELECT dfc.id_detalle, dfc.cantidad, dfc.precio_venta, p.nombre_producto FROM detalle_fact_cot dfc INNER JOIN inventario_bodegas ib ON ib.id_inventario = dfc.id_inventario INNER JOIN productos p ON ib.id_producto = p.id_producto WHERE dfc.numero_factura = '$numero_factura';";
         $productos = $this->select($sql);
 
         return [
@@ -1593,5 +1593,29 @@ class PedidosModel extends Query
             ];
         }
         return $response;
+    }
+
+    public function actualizarDetallePedido($id_detalle, $id_pedido, $cantidad, $precio, $total)
+    {
+        $sql = "UPDATE detalle_fact_cot SET cantidad = ?, precio_venta = ? WHERE id_detalle = ?";
+        $response = $this->update($sql, [$cantidad, $precio, $id_detalle]);
+
+        $sql = "UPDATE facturas_cot SET monto_factura = ? WHERE id_factura = ?";
+        $response2 = $this->update($sql, [$total, $id_pedido]);
+
+
+        if ($response == 1 && $response2 == 1) {
+            $response = [
+                'status' => 200,
+                'title' => 'Peticion exitosa',
+                'message' => 'Detalle actualizado correctamente'
+            ];
+        } else {
+            $response = [
+                'status' => 500,
+                'title' => 'Error',
+                'message' => 'Error al actualizar el detalle'
+            ];
+        }
     }
 }
