@@ -1617,5 +1617,6 @@ class PedidosModel extends Query
                 'message' => 'Error al actualizar el detalle'
             ];
         }
+        return $response;
     }
 }
