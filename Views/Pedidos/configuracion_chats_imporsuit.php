@@ -18,7 +18,7 @@
                         <th class="centered">Nombre configuración</th>
                         <th class="centered">Telefono</th>
                         <th class="centered">webhook_url</th>
-                        <th class="centered">token</th>
+                        <!-- <th class="centered">token</th> -->
                         <th class="centered">Acciones</th>
                     </tr>
                 </thead>

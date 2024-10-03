@@ -61,7 +61,7 @@ const listConfiguracionAutomatizador = async () => {
                 <td>${configuracion.nombre_configuracion}</td>
                 <td>${configuracion.id_telefono}</td>
                 <td>${configuracion.webhook_url}</td>
-                <td>${configuracion.token}</td>
+                <!-- <td>${configuracion.token}</td> -->
                 <td>
                 <button class="btn btn-sm btn-primary" onclick="redireccion_automatizadores(${configuracion.id})"><i class="fa-solid fa-wand-magic-sparkles"></i>Automatizadores</button>
                 <button class="btn btn-sm btn-success" onclick="modal_crear_automatizador(${configuracion.id})"><i class="fas fa-plus"></i>Crear automatizador</button>
