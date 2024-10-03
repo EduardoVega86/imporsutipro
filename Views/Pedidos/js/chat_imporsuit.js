@@ -184,13 +184,13 @@ $(document).ready(function () {
 
           innerHTML += `
             <div class="message ${claseMensaje}">
-              <pre>${textoMensaje}</pre>
+              <span style = "white-space: pre-wrap;">${textoMensaje}</span >
             </div>
             `;
         } else {
           innerHTML += `
             <div class="message ${claseMensaje}">
-              <pre>${mensaje.texto_mensaje}</pre>
+              <span style = "white-space: pre-wrap;">${mensaje.texto_mensaje}</span>
             </div>
             `;
         }
@@ -198,7 +198,7 @@ $(document).ready(function () {
         innerHTML += `
             <div class="message d-flex flex-column ${claseMensaje}">
                 <img src="${SERVERURL}${mensaje.ruta_archivo}" class="image-mensaje">
-                <pre>${mensaje.texto_mensaje}</pre>
+                <span style = "white-space: pre-wrap;">${mensaje.texto_mensaje}</span>
             </div>
             `;
       } else if (mensaje.tipo_mensaje == "audio") {
@@ -383,13 +383,13 @@ $(document).ready(function () {
 
           innerHTML += `
             <div class="message ${claseMensaje}">
-              <pre>${textoMensaje}</pre>
+              <span style = "white-space: pre-wrap;">${textoMensaje}</span>
             </div>
             `;
         } else {
           innerHTML += `
             <div class="message ${claseMensaje}">
-              <pre>${mensaje.texto_mensaje}</pre>
+              <span style = "white-space: pre-wrap;">${mensaje.texto_mensaje}</span>
             </div>
             `;
         }
@@ -397,7 +397,7 @@ $(document).ready(function () {
         innerHTML += `
             <div class="message d-flex flex-column ${claseMensaje}">
                 <img src="${SERVERURL}${mensaje.ruta_archivo}" class="image-mensaje">
-                <pre>${mensaje.texto_mensaje}</pre>
+                <span style = "white-space: pre-wrap;">${mensaje.texto_mensaje}</span>
             </div>
             `;
       } else if (mensaje.tipo_mensaje == "audio") {
