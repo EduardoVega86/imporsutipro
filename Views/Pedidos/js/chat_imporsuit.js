@@ -166,7 +166,7 @@ $(document).ready(function () {
 
       if (mensaje.tipo_mensaje == "text") {
         if (mensaje.id_automatizador) {
-          let rutaArchivo = mensaje.ruta_archivo;
+          let rutaArchivo = JSON.parse(mensaje.ruta_archivo);
           let textoMensaje = mensaje.texto_mensaje;
 
           // Reemplazar placeholders en el mensaje
