@@ -333,7 +333,7 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
         // El cliente no existe, creamos uno nuevo
         $insert_client_stmt = $conn->prepare("
         INSERT INTO clientes_chat_center (id_plataforma, uid_cliente, nombre_cliente, celular_cliente, created_at, updated_at) 
-        VALUES (?, ?, ?, ?, ?, NOW(), NOW())
+        VALUES (?, ?, ?, ?, NOW(), NOW())
     ");
         $insert_client_stmt->bind_param('issss', $id_plataforma, $uid_cliente, $nombre_cliente, $uid_whatsapp);
         $insert_client_stmt->execute();
@@ -352,7 +352,7 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
 
     $stmt = $conn->prepare("
         INSERT INTO mensajes_clientes (id_plataforma, id_cliente, mid_mensaje, tipo_mensaje, celular_recibe, id_automatizador, uid_whatsapp, texto_mensaje, rol_mensaje, json_mensaje, created_at, updated_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ");
     if ($stmt === false) {
         throw new Exception("Failed to prepare the query: " . $conn->error);
@@ -362,9 +362,9 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
     $id_plataforma = (int)$id_plataforma;
     $id_cliente = (int)$id_cliente;
     $mid_mensaje = (string)$uid_cliente;
-    $id_automatizador = (int)$id_automatizador;
     $tipo_mensaje = "text";
     $uid_whatsapp = (string)$uid_whatsapp;
+    $id_automatizador = (int)$id_automatizador;
     $mensaje = (string)$mensaje;
     $rol = 0; // Assuming 'rol' is always 0 for this function
     $json_mensaje = (string)$json_mensaje;
@@ -372,7 +372,7 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
     $updated_at = (string)$updated_at;
 
     // Bind parameters
-    $stmt->bind_param('iiississs', $id_plataforma, $id_cliente, $mid_mensaje, $tipo_mensaje, $id_cliente, $id_automatizador, $uid_whatsapp, $mensaje, $rol, $json_mensaje, $created_at, $updated_at);
+    $stmt->bind_param('iisssississs', $id_plataforma, $id_cliente, $mid_mensaje, $tipo_mensaje, $id_cliente, $id_automatizador, $uid_whatsapp, $mensaje, $rol, $json_mensaje, $created_at, $updated_at);
     $stmt->execute();
     $stmt->close();
 }
