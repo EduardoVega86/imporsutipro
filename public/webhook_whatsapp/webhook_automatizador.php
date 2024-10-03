@@ -368,7 +368,7 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
     $uid_whatsapp = (string)$uid_whatsapp;
     $id_automatizador = (int)$id_automatizador;
     $mensaje = (string)$mensaje;
-    $rol = 0;  // Asumiendo que 'rol' es siempre 0 para esta función
+    $rol = 1;  // Asumiendo que 'rol' es siempre 0 para esta función
     $json_mensaje = (string)$json_mensaje;
     $created_at = (string)$created_at;
     $updated_at = (string)$updated_at;
