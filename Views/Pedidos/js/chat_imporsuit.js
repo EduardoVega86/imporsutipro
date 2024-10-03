@@ -184,13 +184,13 @@ $(document).ready(function () {
 
           innerHTML += `
             <div class="message ${claseMensaje}">
-                ${textoMensaje}
+              <pre>${textoMensaje}</pre>
             </div>
             `;
         } else {
           innerHTML += `
             <div class="message ${claseMensaje}">
-                ${mensaje.texto_mensaje}
+              <pre>${mensaje.texto_mensaje}</pre>
             </div>
             `;
         }
@@ -198,7 +198,7 @@ $(document).ready(function () {
         innerHTML += `
             <div class="message d-flex flex-column ${claseMensaje}">
                 <img src="${SERVERURL}${mensaje.ruta_archivo}" class="image-mensaje">
-                ${mensaje.texto_mensaje}
+                <pre>${mensaje.texto_mensaje}</pre>
             </div>
             `;
       } else if (mensaje.tipo_mensaje == "audio") {
@@ -364,16 +364,40 @@ $(document).ready(function () {
       let claseMensaje = mensaje.rol_mensaje == 1 ? "sent" : "received";
 
       if (mensaje.tipo_mensaje == "text") {
-        innerHTML += `
+        if (mensaje.id_automatizador) {
+          let rutaArchivo = JSON.parse(mensaje.ruta_archivo);
+          let textoMensaje = mensaje.texto_mensaje;
+
+          // Reemplazar placeholders en el mensaje
+          for (let key in rutaArchivo) {
+            if (rutaArchivo.hasOwnProperty(key)) {
+              // Crear la expresión regular para encontrar el placeholder (por ejemplo, {{nombre}})
+              let placeholder = new RegExp(`{{${key}}}`, "g"); // 'g' para reemplazar todas las ocurrencias
+              // Reemplazar el placeholder con el valor correspondiente de rutaArchivo
+              textoMensaje = textoMensaje.replace(
+                placeholder,
+                rutaArchivo[key]
+              );
+            }
+          }
+
+          innerHTML += `
             <div class="message ${claseMensaje}">
-                ${mensaje.texto_mensaje}
+              <pre>${textoMensaje}</pre>
             </div>
             `;
+        } else {
+          innerHTML += `
+            <div class="message ${claseMensaje}">
+              <pre>${mensaje.texto_mensaje}</pre>
+            </div>
+            `;
+        }
       } else if (mensaje.tipo_mensaje == "image") {
         innerHTML += `
             <div class="message d-flex flex-column ${claseMensaje}">
                 <img src="${SERVERURL}${mensaje.ruta_archivo}" class="image-mensaje">
-                ${mensaje.texto_mensaje}
+                <pre>${mensaje.texto_mensaje}</pre>
             </div>
             `;
       } else if (mensaje.tipo_mensaje == "audio") {
