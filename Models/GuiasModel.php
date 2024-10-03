@@ -624,7 +624,6 @@ class GuiasModel extends Query
             "apertura" => false,
         );
 
-        print_r($data);
 
         // Convertir los datos al formato JSON
         $jsonData = json_encode($data);
