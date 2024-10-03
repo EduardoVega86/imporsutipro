@@ -1554,7 +1554,7 @@ class PedidosModel extends Query
             $telefono = str_replace('593', '', $telefono);
         }
         // Buscar el pedido por el número de teléfono independientemente si tiene +593 en el número
-        $sql = "SELECT * FROM facturas_cot WHERE (telefono = '$telefono' OR telefono = '+593$telefono' OR telefono = '593$telefono'  OR telefono = '0$telefono') AND guia_enviada = 0 ORDER BY id_factura DESC LIMIT 5";
+        $sql = "SELECT * FROM facturas_cot WHERE (telefono = '$telefono' OR telefono = '+593$telefono' OR telefono = '593$telefono'  OR telefono = '0$telefono') AND guia_enviada = 0 AND anulada =0 ORDER BY id_factura DESC LIMIT 5";
         return $this->select($sql);
     }
 
@@ -1572,5 +1572,26 @@ class PedidosModel extends Query
             'factura' => $factura,
             'productos' => $productos
         ];
+    }
+
+    public function cancelarPedido($id_pedido)
+    {
+        $sql = "UPDATE facturas_cot SET anulada = 1 WHERE id_factura = ?";
+        $response = $this->update($sql, [$id_pedido]);
+
+        if ($response == 1) {
+            $response = [
+                'status' => 200,
+                'title' => 'Peticion exitosa',
+                'message' => 'Pedido cancelado correctamente'
+            ];
+        } else {
+            $response = [
+                'status' => 500,
+                'title' => 'Error',
+                'message' => 'Error al cancelar el pedido'
+            ];
+        }
+        return $response;
     }
 }

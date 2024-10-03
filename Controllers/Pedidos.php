@@ -706,4 +706,11 @@ class Pedidos extends Controller
         $response = $this->model->obtenerDetallesPedido($id_pedido);
         echo json_encode($response);
     }
+
+    public function cancelarPedido()
+    {
+        $id_pedido = $_POST['id_pedido'];
+        $response = $this->model->cancelarPedido($id_pedido);
+        echo json_encode($response);
+    }
 }
