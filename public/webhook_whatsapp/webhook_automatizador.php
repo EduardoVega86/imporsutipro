@@ -328,7 +328,6 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
     $check_client_stmt->execute();
     $check_client_stmt->store_result();
 
-
     if ($check_client_stmt->num_rows == 0) {
         // El cliente no existe, creamos uno nuevo
         $insert_client_stmt = $conn->prepare("
@@ -350,6 +349,9 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
     $created_at = date('Y-m-d H:i:s');
     $updated_at = date('Y-m-d H:i:s');
 
+    // Convertimos el array $user_info a un string en formato JSON
+    $user_info_json = json_encode($user_info);  // Aquí convertimos el array a JSON
+
     $stmt = $conn->prepare("
         INSERT INTO mensajes_clientes (id_plataforma, id_cliente, mid_mensaje, tipo_mensaje, celular_recibe, ruta_archivo, id_automatizador, uid_whatsapp, texto_mensaje, rol_mensaje, json_mensaje, created_at, updated_at)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -362,18 +364,17 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
     $id_plataforma = (int)$id_plataforma;
     $id_cliente = (int)$id_cliente;
     $mid_mensaje = (string)$uid_cliente;
-    $tipo_mensaje = "text";
-    $user_info = (string)$user_info;
+    $tipo_mensaje = "text";  // Asignamos un valor fijo para tipo_mensaje, en este caso "text"
     $uid_whatsapp = (string)$uid_whatsapp;
     $id_automatizador = (int)$id_automatizador;
     $mensaje = (string)$mensaje;
-    $rol = 0; // Assuming 'rol' is always 0 for this function
+    $rol = 0;  // Asumiendo que 'rol' es siempre 0 para esta función
     $json_mensaje = (string)$json_mensaje;
     $created_at = (string)$created_at;
     $updated_at = (string)$updated_at;
 
-    // Bind parameters
-    $stmt->bind_param('iissssississs', $id_plataforma, $id_cliente, $mid_mensaje, $tipo_mensaje, $id_cliente, $user_info, $id_automatizador, $uid_whatsapp, $mensaje, $rol, $json_mensaje, $created_at, $updated_at);
+    // Bind parameters, incluyendo el $user_info en formato JSON
+    $stmt->bind_param('iissssississs', $id_plataforma, $id_cliente, $mid_mensaje, $tipo_mensaje, $id_cliente, $user_info_json, $id_automatizador, $uid_whatsapp, $mensaje, $rol, $json_mensaje, $created_at, $updated_at);
     $stmt->execute();
     $stmt->close();
 }
