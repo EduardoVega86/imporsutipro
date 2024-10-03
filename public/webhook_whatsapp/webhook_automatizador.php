@@ -346,6 +346,7 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
 
     $check_client_stmt->close();
 
+    date_default_timezone_set('America/Guayaquil');
     $created_at = date('Y-m-d H:i:s');
     $updated_at = date('Y-m-d H:i:s');
 
