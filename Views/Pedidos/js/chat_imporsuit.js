@@ -165,11 +165,35 @@ $(document).ready(function () {
       let claseMensaje = mensaje.rol_mensaje == 1 ? "sent" : "received";
 
       if (mensaje.tipo_mensaje == "text") {
-        innerHTML += `
+        if (mensaje.id_automatizador) {
+          let rutaArchivo = mensaje.ruta_archivo;
+          let textoMensaje = mensaje.texto_mensaje;
+
+          // Reemplazar placeholders en el mensaje
+          for (let key in rutaArchivo) {
+            if (rutaArchivo.hasOwnProperty(key)) {
+              // Crear la expresión regular para encontrar el placeholder (por ejemplo, {{nombre}})
+              let placeholder = new RegExp(`{{${key}}}`, "g"); // 'g' para reemplazar todas las ocurrencias
+              // Reemplazar el placeholder con el valor correspondiente de rutaArchivo
+              textoMensaje = textoMensaje.replace(
+                placeholder,
+                rutaArchivo[key]
+              );
+            }
+          }
+
+          innerHTML += `
+            <div class="message ${claseMensaje}">
+                ${textoMensaje}
+            </div>
+            `;
+        } else {
+          innerHTML += `
             <div class="message ${claseMensaje}">
                 ${mensaje.texto_mensaje}
             </div>
             `;
+        }
       } else if (mensaje.tipo_mensaje == "image") {
         innerHTML += `
             <div class="message d-flex flex-column ${claseMensaje}">
@@ -357,9 +381,48 @@ $(document).ready(function () {
             <div class="message d-flex flex-column ${claseMensaje}">
                 <audio controls class="audio-player">
                     <source src="${SERVERURL}${mensaje.ruta_archivo}" type="audio/mpeg">
+                    Your browser does not support the audio element.
                 </audio>
+                <div class="audio-time" id="audio-time-${index}">00:00</div>
             </div>
             `;
+      } else if (mensaje.tipo_mensaje == "document") {
+        let info_archivo = JSON.parse(mensaje.ruta_archivo);
+
+        let nombre_archivo = info_archivo.nombre || "Sin nombre";
+        let tamano_archivo = formatFileSize(info_archivo.size);
+        let ruta_archivo = info_archivo.ruta || "";
+
+        innerHTML += `
+        <div class="message d-flex flex-column ${claseMensaje}">
+            <div class="document-container">
+                <div class="document-icon">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+                <div class="document-info">
+                    <div class="document-name">${nombre_archivo}</div>
+                    <div class="document-details">
+                        <span>${tamano_archivo}</span>
+                    </div>
+                </div>
+                <a href="${SERVERURL}${ruta_archivo}" class="document-download" download>
+                    <i class="fas fa-download"></i>
+                </a>
+            </div>
+            <div class="document-text">${mensaje.texto_mensaje}</div>
+        </div>
+        `;
+      } else if (mensaje.tipo_mensaje == "video") {
+        innerHTML += `
+          <div class="message d-flex flex-column ${claseMensaje}">
+              <div class="video-placeholder">
+                  <button class="btn btn-primary load-video-btn" data-id-mensaje="${mensaje.id}">
+                      Descargar video
+                  </button>
+              </div>
+              <div class="video-text">${mensaje.texto_mensaje}</div>
+          </div>
+        `;
       }
     });
 
