@@ -48,6 +48,12 @@ const listConfiguracionAutomatizador = async () => {
 
     let content = ``;
 
+    if (configuracionAutomatizador.length > 0) {
+      $("#boton_agregar_configuracion").hide();
+    } else {
+      $("#boton_agregar_configuracion").show();
+    }
+
     configuracionAutomatizador.forEach((configuracion, index) => {
       content += `
                 <tr>
