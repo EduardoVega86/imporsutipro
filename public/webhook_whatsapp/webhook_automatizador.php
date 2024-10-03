@@ -372,7 +372,7 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
     $updated_at = (string)$updated_at;
 
     // Bind parameters
-    $stmt->bind_param('iisssississs', $id_plataforma, $id_cliente, $mid_mensaje, $tipo_mensaje, $id_cliente, $user_info, $id_automatizador, $uid_whatsapp, $mensaje, $rol, $json_mensaje, $created_at, $updated_at);
+    $stmt->bind_param('iissssississs', $id_plataforma, $id_cliente, $mid_mensaje, $tipo_mensaje, $id_cliente, $user_info, $id_automatizador, $uid_whatsapp, $mensaje, $rol, $json_mensaje, $created_at, $updated_at);
     $stmt->execute();
     $stmt->close();
 }
