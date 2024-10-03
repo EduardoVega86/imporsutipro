@@ -306,21 +306,64 @@ function extract_placeholders($mensaje)
     return $matches[1];
 }
 
-function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje, $json_mensaje)
+function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje, $json_mensaje, $id_configuracion, $nombre_cliente)
 {
+    $id_plataforma = "";
+    $uid_cliente = "";
+    $id_cliente = "";
+
+    /* consulta configuracion */
+    $check_configuracion_stmt = $conn->prepare("SELECT id_plataforma, id_telefono FROM configuraciones WHERE id = ?");
+    $check_configuracion_stmt->bind_param('s', $id_configuracion);
+    $check_configuracion_stmt->execute();
+    $check_configuracion_stmt->store_result();
+    $check_configuracion_stmt->bind_result($id_plataforma, $uid_cliente);
+    $check_configuracion_stmt->fetch();
+
+    /* fin consulta configuracion */
+
+    // Verificar si el cliente ya existe en la tabla clientes_chat_center por celular_cliente
+    $check_client_stmt = $conn->prepare("SELECT id FROM clientes_chat_center WHERE celular_cliente = ?");
+    $check_client_stmt->bind_param('s', $uid_whatsapp);  // Buscamos por el celular_cliente
+    $check_client_stmt->execute();
+    $check_client_stmt->store_result();
+
+
+    if ($check_client_stmt->num_rows == 0) {
+        // El cliente no existe, creamos uno nuevo
+        $insert_client_stmt = $conn->prepare("
+        INSERT INTO clientes_chat_center (id_plataforma, uid_cliente, nombre_cliente, celular_cliente, created_at, updated_at) 
+        VALUES (?, ?, ?, ?, ?, NOW(), NOW())
+    ");
+        $insert_client_stmt->bind_param('issss', $id_plataforma, $uid_cliente, $nombre_cliente, $uid_whatsapp);
+        $insert_client_stmt->execute();
+        $id_cliente = $insert_client_stmt->insert_id;  // Obtener el ID autoincrementado del cliente recién creado
+        $insert_client_stmt->close();
+    } else {
+        // El cliente existe, obtenemos su ID
+        $check_client_stmt->bind_result($id_cliente);
+        $check_client_stmt->fetch();
+    }
+
+    $check_client_stmt->close();
+
     $created_at = date('Y-m-d H:i:s');
     $updated_at = date('Y-m-d H:i:s');
 
     $stmt = $conn->prepare("
-        INSERT INTO mensajes_usuarios (id_automatizador, uid_whatsapp, mensaje, rol, json_mensaje, created_at, updated_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO mensajes_clientes (id_plataforma, id_cliente, mid_mensaje, tipo_mensaje, celular_recibe, id_automatizador, uid_whatsapp, texto_mensaje, rol_mensaje, json_mensaje, created_at, updated_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ");
     if ($stmt === false) {
         throw new Exception("Failed to prepare the query: " . $conn->error);
     }
 
     // Convert all variables to appropriate types
+    $id_plataforma = (int)$id_plataforma;
+    $id_cliente = (int)$id_cliente;
+    $mid_mensaje = (string)$uid_cliente;
     $id_automatizador = (int)$id_automatizador;
+    $tipo_mensaje = "text";
     $uid_whatsapp = (string)$uid_whatsapp;
     $mensaje = (string)$mensaje;
     $rol = 0; // Assuming 'rol' is always 0 for this function
@@ -329,12 +372,12 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
     $updated_at = (string)$updated_at;
 
     // Bind parameters
-    $stmt->bind_param('ississs', $id_automatizador, $uid_whatsapp, $mensaje, $rol, $json_mensaje, $created_at, $updated_at);
+    $stmt->bind_param('iiississs', $id_plataforma, $id_cliente, $mid_mensaje, $tipo_mensaje, $id_cliente, $id_automatizador, $uid_whatsapp, $mensaje, $rol, $json_mensaje, $created_at, $updated_at);
     $stmt->execute();
     $stmt->close();
 }
 
-function sendWhatsappMessage($conn, $user_info, $block_sql_data, $config)
+function sendWhatsappMessage($conn, $user_info, $block_sql_data, $config, $id_configuracion, $nombre_cliente)
 {
     // Obtener la información del template de mensaje block_sql_data
     $id_whatsapp_message_template = $block_sql_data['id_whatsapp_message_template'];
@@ -446,7 +489,7 @@ function sendWhatsappMessage($conn, $user_info, $block_sql_data, $config)
     }
 
     // Insert message details into the database
-    insertMessageDetails($conn, $block_sql_data['id_automatizador'], $recipient, $mensaje, $json_mensaje);
+    insertMessageDetails($conn, $block_sql_data['id_automatizador'], $recipient, $mensaje, $json_mensaje, $id_configuracion, $nombre_cliente);
 
     return $respuesta;
 }
@@ -480,7 +523,7 @@ function getConfigurations($conn, $id_configuracion)
     return $config;
 }
 
-function insertInteractions($conn, $block_details, $id_automatizador, $user_id, $data)
+function insertInteractions($conn, $block_details, $id_automatizador, $user_id, $data, $id_configuracion)
 {
     $user_id = $data['user_info']['celular'];
     $config = getConfigurations($conn, $data['id_configuracion']);
@@ -493,7 +536,7 @@ function insertInteractions($conn, $block_details, $id_automatizador, $user_id, 
         $respuesta_accion = '';
 
         if ($block['block_sql_data']['tipo'] == 8) {
-            $respuesta_accion = sendWhatsappMessage($conn, $data['user_info'], $block['block_sql_data'], $config);
+            $respuesta_accion = sendWhatsappMessage($conn, $data['user_info'], $block['block_sql_data'], $config, $id_configuracion, $data['nombre']);
         } elseif ($block['block_sql_data']['tipo'] == 7) {
             $respuesta_accion = sendEmail($data['user_info'], 'subject', 'message');
         } elseif ($block['block_sql_data']['tipo'] == 9) {
@@ -558,7 +601,7 @@ try {
     $block_details = removeOrphanBlocks($block_details);
 
     // Insert interactions
-    insertInteractions($conn, $block_details, $id_automatizador, $user_id, $data);
+    insertInteractions($conn, $block_details, $id_automatizador, $user_id, $data, $id_configuracion);
 
     $response = [
         'id_configuracion' => $id_configuracion,
