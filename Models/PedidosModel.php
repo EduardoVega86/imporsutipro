@@ -1703,7 +1703,7 @@ class PedidosModel extends Query
             $response = [
                 'status' => 500,
                 'title' => 'Error',
-                'message' => 'No se pudo agregar el producto a la factura'
+                'message' => $response['message'] ?? "Error al agregar el producto" . $response2['message'] ?? "Error al agregar el producto"
             ];
         }
         return $response;
