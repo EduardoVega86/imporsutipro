@@ -1619,4 +1619,37 @@ class PedidosModel extends Query
         }
         return $response;
     }
+
+    public function agregarProductoAPedido($id_pedido, $id_producto, $cantidad, $precio, $total)
+    {
+        $sql = "SELECT * FROM facturas_cot WHERE id_factura = $id_pedido";
+        $factura = $this->select($sql);
+
+        $numero_factura = $factura[0]['numero_factura'];
+
+        $sql = "SELECT * FROM inventario_bodegas WHERE id_producto = $id_producto";
+        $inventario = $this->select($sql);
+
+        $sql = "INSERT INTO detalle_fact_cot (id_factura, id_producto, cantidad, precio_venta, id_plataforma, sku, numero_factura) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $data = [$id_pedido, $id_producto, $cantidad, $precio, $factura[0]['id_plataforma'], $inventario[0]['sku'], $numero_factura];
+        $response = $this->insert($sql, $data);
+
+        $sql = "UPDATE facturas_cot SET monto_factura = ? WHERE id_factura = ?";
+        $response2 = $this->update($sql, [$total, $id_pedido]);
+
+        if ($response == 1 && $response2 == 1) {
+            $response = [
+                'status' => 200,
+                'title' => 'Peticion exitosa',
+                'message' => 'Producto agregado correctamente'
+            ];
+        } else {
+            $response = [
+                'status' => 500,
+                'title' => 'Error',
+                'message' => 'Error al agregar el producto'
+            ];
+        }
+        return $response;
+    }
 }
