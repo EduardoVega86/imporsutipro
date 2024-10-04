@@ -737,4 +737,11 @@ class Pedidos extends Controller
         $response = $this->model->agregarProductoAPedido($id_pedido, $id_producto, $cantidad, $precio, $sku, $id_inventario);
         echo json_encode($response);
     }
+
+    public function eliminarProductoDePedido()
+    {
+        $id_detalle = $_POST['id_detalle'];
+        $response = $this->model->eliminarProductoDePedido($id_detalle);
+        echo json_encode($response);
+    }
 }
