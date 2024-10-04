@@ -748,19 +748,21 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   async function sendAudioToWhatsApp(fileUrl) {
+    console.log("Enviando archivo de audio a WhatsApp:", fileUrl); // Log para verificar la URL
+
     const fromPhoneNumberId = "109565362009074";
     const accessToken =
       "EAAVZAG5oL9G4BO3vZAhKcOTpfZAQJgNDzTNDArOp8VitYT8GUFqcYKIsZAO0pBkf0edoZC1DgfXICkIEP7xZCkPkj8nS1gfDqI4jNeEVDmseyba3l2os8EoYgf1Mdnl2MwaYhmrdfZBgUnItwT8nZBVvjinB7j8IAfZBx2LZA1WNZCqqsZBZC2cqDdObeiLqEsih9U3XOQwZDZD";
     const url = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
 
-    const formData = new FormData();
-    formData.append("messaging_product", "whatsapp");
-    formData.append("recipient_type", "individual");
-    formData.append("to", "+593981702066"); // Número de teléfono del destinatario
-    formData.append("type", "audio");
-    formData.append("audio", {
-      link: fileUrl, // Usamos la URL del archivo de audio almacenado en tu servidor
-    });
+    const payload = {
+      messaging_product: "whatsapp",
+      to: "+593981702066",
+      type: "audio",
+      audio: {
+        link: fileUrl,
+      },
+    };
 
     try {
       const response = await fetch(url, {
@@ -769,21 +771,14 @@ document.addEventListener("DOMContentLoaded", function () {
           Authorization: `Bearer ${accessToken}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          messaging_product: "whatsapp",
-          to: "+593981702066",
-          type: "audio",
-          audio: {
-            link: fileUrl, // Usamos la URL que nos devuelve el servidor
-          },
-        }),
+        body: JSON.stringify(payload),
       });
 
       const result = await response.json();
       if (result.error) {
         console.error("Error al enviar el audio a WhatsApp:", result.error);
       } else {
-        console.log("Audio enviado a WhatsApp con éxito");
+        console.log("Audio enviado a WhatsApp con éxito:", result); // Log para verificar la respuesta completa
       }
     } catch (error) {
       console.error("Error en la solicitud de WhatsApp:", error);
