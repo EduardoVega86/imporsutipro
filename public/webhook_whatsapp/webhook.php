@@ -487,6 +487,21 @@ function descargarVideoWhatsapp($mediaId, $accessToken)
     return "public/whatsapp/videos_recibidos/" . $fileName;
 }
 
+function validar_automatizador($conn, $payload, $id_configuracion)
+{
+    $json_output = "";
+    $json_bloques = "";
+
+    $check_automatizadores_stmt = $conn->prepare("SELECT json_output, json_bloques FROM `automatizadores` INNER JOIN `condiciones` ON automatizadores.id = condiciones.id_automatizador 
+    WHERE automatizadores.id_configuracion = ? AND condiciones.texto='?';");
+    $check_automatizadores_stmt->bind_param('s', $id_configuracion, $payload);  // Buscamos por el celular_cliente
+    $check_automatizadores_stmt->execute();
+    $check_automatizadores_stmt->store_result();
+    $check_automatizadores_stmt->bind_result($json_output, $json_bloques);
+    $check_automatizadores_stmt->fetch();
+    $check_automatizadores_stmt->close();
+}
+
 // Procesar el mensaje basado en el tipo recibido
 switch ($tipo_mensaje) {
     case 'text':
@@ -560,6 +575,14 @@ switch ($tipo_mensaje) {
         } else if ($respuesta_WEBHOOK_messages['interactive']['type'] === "list_reply") {
             $texto_mensaje = "Respuesta de lista: " . $respuesta_WEBHOOK_messages['interactive']['list_reply']['title'];
         }
+        break;
+
+    case 'button':
+        $payload = $respuesta_WEBHOOK_messages['button']['payload'] ?? '';
+
+        validar_automatizador($conn, $payload, $id_configuracion);
+
+        $texto_mensaje = "Respuesta de botón con payload: " . $payload;
         break;
 
     case 'sticker':
