@@ -1603,7 +1603,7 @@ class PedidosModel extends Query
 
         // Obtener todos los detalles de los productos del pedido
         $sql = "SELECT * FROM detalle_fact_cot WHERE id_factura = ?";
-        $detalle = $this->select($sql, [$id_pedido]);
+        $detalle = $this->dselect($sql, [$id_pedido]);
 
         $total = 0;
         $total_costo = 0;
@@ -1614,7 +1614,7 @@ class PedidosModel extends Query
 
             // Obtener el costo del producto (pcp)
             $sql = "SELECT pcp FROM inventario_bodegas WHERE id_producto = ?";
-            $inventario = $this->select($sql, [$item['id_producto']]);
+            $inventario = $this->dselect($sql, [$item['id_producto']]);
             $costo_unitario = $inventario[0]['pcp'];
             $total_costo += $costo_unitario * $item['cantidad'];
         }
@@ -1645,12 +1645,12 @@ class PedidosModel extends Query
     {
         // Obtener detalles de la factura
         $sql = "SELECT * FROM facturas_cot WHERE id_factura = ?";
-        $factura = $this->select($sql, [$id_pedido]);
+        $factura = $this->dselect($sql, [$id_pedido]);
         $numero_factura = $factura[0]['numero_factura'];
 
         // Verificar si el producto con el mismo id_producto y sku ya existe en la factura
         $sql = "SELECT * FROM detalle_fact_cot WHERE id_factura = ? AND id_producto = ? AND sku = ?";
-        $detalleExistente = $this->select($sql, [$id_pedido, $id_producto, $sku]);
+        $detalleExistente = $this->dselect($sql, [$id_pedido, $id_producto, $sku]);
 
         if ($detalleExistente) {
             // Producto ya existe, actualizar cantidad y precio si es necesario
@@ -1663,7 +1663,7 @@ class PedidosModel extends Query
         } else {
             // Obtener detalles del inventario, incluyendo el costo del producto (pcp)
             $sql = "SELECT * FROM inventario_bodegas WHERE id_producto = ?";
-            $inventario = $this->select($sql, [$id_producto]);
+            $inventario = $this->dselect($sql, [$id_producto]);
             $costo_unitario = $inventario[0]['pcp'];
 
             // Insertar el detalle del producto en la factura
@@ -1674,7 +1674,7 @@ class PedidosModel extends Query
 
         // Obtener el detalle de todos los productos en la factura
         $sql = "SELECT * FROM detalle_fact_cot WHERE id_factura = ?";
-        $detalle = $this->select($sql, [$id_pedido]);
+        $detalle = $this->dselect($sql, [$id_pedido]);
 
         $total = 0;
         $total_costo = 0;
@@ -1683,7 +1683,7 @@ class PedidosModel extends Query
         foreach ($detalle as $item) {
             $total += $item['precio_venta'] * $item['cantidad'];
             $sql = "SELECT pcp FROM inventario_bodegas WHERE id_producto = ?";
-            $item_inventario = $this->select($sql, [$item['id_producto']]);
+            $item_inventario = $this->dselect($sql, [$item['id_producto']]);
             $costo_unitario = $item_inventario[0]['pcp'];
             $total_costo += $costo_unitario * $item['cantidad'];
         }
