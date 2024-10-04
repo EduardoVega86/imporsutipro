@@ -1708,4 +1708,52 @@ class PedidosModel extends Query
         }
         return $response;
     }
+
+    public function eliminarProductoDePedido($id_detalle)
+    {
+        // Obtener el id de la factura a la que pertenece el detalle
+        $sql = "SELECT id_factura FROM detalle_fact_cot WHERE id_detalle = ?";
+        $id_pedido = $this->dselect($sql, [$id_detalle]);
+        $id_pedido = $id_pedido[0]['id_factura'];
+
+        // Eliminar el detalle del producto de la factura
+        $sql = "DELETE FROM detalle_fact_cot WHERE id_detalle = ?";
+        $response = $this->delete($sql, [$id_detalle]);
+
+        // Obtener el detalle de todos los productos en la factura
+        $sql = "SELECT * FROM detalle_fact_cot WHERE id_factura = ?";
+        $detalle = $this->dselect($sql, [$id_pedido]);
+
+        $total = 0;
+        $total_costo = 0;
+
+        // Calcular el total de la venta y el total de costos
+        foreach ($detalle as $item) {
+            $total += $item['precio_venta'] * $item['cantidad'];
+            $sql = "SELECT pcp FROM inventario_bodegas WHERE id_producto = ?";
+            $item_inventario = $this->dselect($sql, [$item['id_producto']]);
+            $costo_unitario = $item_inventario[0]['pcp'];
+            $total_costo += $costo_unitario * $item['cantidad'];
+        }
+
+        // Actualizar la factura con el monto total de la venta y el costo total
+        $sql = "UPDATE facturas_cot SET monto_factura = ?, costo_producto = ? WHERE id_factura = ?";
+        $response2 = $this->update($sql, [$total, $total_costo, $id_pedido]);
+
+        // Retornar respuesta según el éxito de las operaciones
+        if ($response && $response2 == 1) {
+            $response = [
+                'status' => 200,
+                'title' => 'Peticion exitosa',
+                'message' => 'Producto eliminado correctamente'
+            ];
+        } else {
+            $response = [
+                'status' => 500,
+                'title' => 'Error',
+                'message' => $response['message'] ?? "Error al eliminar el producto" . $response2['message'] ?? "Error al eliminar el producto"
+            ];
+        }
+        return $response;
+    }
 }
