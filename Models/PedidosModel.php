@@ -1649,7 +1649,7 @@ class PedidosModel extends Query
             $response = [
                 'status' => 500,
                 'title' => 'Error',
-                'message' => 'Error al agregar el producto'
+                'message' =>  $response['message'] . ' ' . $response2['message']
             ];
         }
         return $response;
