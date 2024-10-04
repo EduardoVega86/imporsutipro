@@ -1620,7 +1620,7 @@ class PedidosModel extends Query
         return $response;
     }
 
-    public function agregarProductoAPedido($id_pedido, $id_producto, $cantidad, $precio, $sku)
+    public function agregarProductoAPedido($id_pedido, $id_producto, $cantidad, $precio, $sku, $id_inventario)
     {
         $sql = "SELECT * FROM facturas_cot WHERE id_factura = $id_pedido";
         $factura = $this->select($sql);
@@ -1630,8 +1630,8 @@ class PedidosModel extends Query
         $sql = "SELECT * FROM inventario_bodegas WHERE id_producto = $id_producto";
         $inventario = $this->select($sql);
 
-        $sql = "INSERT INTO detalle_fact_cot (id_factura, id_producto, cantidad, precio_venta, id_plataforma, sku, numero_factura) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        $data = [$id_pedido, $id_producto, $cantidad, $precio, $factura[0]['id_plataforma'], $sku, $numero_factura];
+        $sql = "INSERT INTO detalle_fact_cot (id_factura, id_producto, cantidad, precio_venta, id_plataforma, sku, numero_factura, id_inventario) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $data = [$id_pedido, $id_producto, $cantidad, $precio, $factura[0]['id_plataforma'], $sku, $numero_factura, $id_inventario];
         $response = $this->insert($sql, $data);
 
         $total = $factura[0]['monto_factura'] + $precio * $cantidad;
