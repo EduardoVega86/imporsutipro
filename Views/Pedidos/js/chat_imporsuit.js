@@ -69,7 +69,7 @@ $(document).ready(function () {
         $("#uid_cliente").val(response[0].uid_cliente);
 
         /* seccion informacion */
-        $("#telefono_info").text(response[0].celular_cliente);
+        $("#telefono_info").text(formato_telefono(response[0].celular_cliente));
         $("#nombre_info").text(
           "Nombre: " +
             response[0].nombre_cliente +
@@ -122,6 +122,15 @@ $(document).ready(function () {
         console.error("Error al ejecutar la API:", error);
       },
     });
+  }
+
+  function formato_telefono(telefono){
+    if (telefono.includes("+")){
+      return telefono;
+    } else {
+      telefono = "+"+telefono;
+      return telefono;
+    }
   }
 
   // Función para cargar los mensajes del chat
