@@ -732,8 +732,9 @@ class Pedidos extends Controller
         $cantidad = $_POST['cantidad'];
         $precio = $_POST['precio'];
         $sku = $_POST['sku'];
+        $id_inventario = $_POST['id_inventario'];
 
-        $response = $this->model->agregarProductoAPedido($id_pedido, $id_producto, $cantidad, $precio, $sku);
+        $response = $this->model->agregarProductoAPedido($id_pedido, $id_producto, $cantidad, $precio, $sku, $id_inventario);
         echo json_encode($response);
     }
 }
