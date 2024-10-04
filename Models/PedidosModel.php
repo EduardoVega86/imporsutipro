@@ -1630,7 +1630,7 @@ class PedidosModel extends Query
         $sql = "SELECT * FROM inventario_bodegas WHERE id_producto = $id_producto";
         $inventario = $this->select($sql);
 
-        $sql = "INSERT INTO detalle_fact_cot (id_factura, id_producto, cantidad, precio_venta, id_plataforma, sku, numero_factura, id_inventario) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO detalle_fact_cot (id_factura, id_producto, cantidad, precio_venta, id_plataforma, sku, numero_factura, id_inventario) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $data = [$id_pedido, $id_producto, $cantidad, $precio, $factura[0]['id_plataforma'], $sku, $numero_factura, $id_inventario];
         $response = $this->insert($sql, $data);
 
