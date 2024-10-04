@@ -804,7 +804,7 @@ document.addEventListener("DOMContentLoaded", function () {
           );
 
           // 2. Luego subimos el archivo a WhatsApp usando la URL obtenida
-          await sendAudioToWhatsApp(audioUrl);
+          await sendAudioToWhatsApp("https://www.sample-videos.com/audio/ogg/sample1.ogg");
         } else {
           console.error(
             "No se pudo obtener la URL del archivo de audio subido a tu servidor."
