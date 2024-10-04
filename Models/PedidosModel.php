@@ -1620,7 +1620,7 @@ class PedidosModel extends Query
         return $response;
     }
 
-    public function agregarProductoAPedido($id_pedido, $id_producto, $cantidad, $precio, $total)
+    public function agregarProductoAPedido($id_pedido, $id_producto, $cantidad, $precio, $sku)
     {
         $sql = "SELECT * FROM facturas_cot WHERE id_factura = $id_pedido";
         $factura = $this->select($sql);
@@ -1631,8 +1631,10 @@ class PedidosModel extends Query
         $inventario = $this->select($sql);
 
         $sql = "INSERT INTO detalle_fact_cot (id_factura, id_producto, cantidad, precio_venta, id_plataforma, sku, numero_factura) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        $data = [$id_pedido, $id_producto, $cantidad, $precio, $factura[0]['id_plataforma'], $inventario[0]['sku'], $numero_factura];
+        $data = [$id_pedido, $id_producto, $cantidad, $precio, $factura[0]['id_plataforma'], $sku, $numero_factura];
         $response = $this->insert($sql, $data);
+
+        $total = $factura[0]['monto_factura'] + $precio * $cantidad;
 
         $sql = "UPDATE facturas_cot SET monto_factura = ? WHERE id_factura = ?";
         $response2 = $this->update($sql, [$total, $id_pedido]);
@@ -1647,7 +1649,7 @@ class PedidosModel extends Query
             $response = [
                 'status' => 500,
                 'title' => 'Error',
-                'message' => 'Error al agregar el producto'
+                'message' =>  $response['message'] . ' ' . $response2['message']
             ];
         }
         return $response;
