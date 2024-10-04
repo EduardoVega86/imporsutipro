@@ -1600,6 +1600,15 @@ class PedidosModel extends Query
         $sql = "UPDATE detalle_fact_cot SET cantidad = ?, precio_venta = ? WHERE id_detalle = ?";
         $response = $this->update($sql, [$cantidad, $precio, $id_detalle]);
 
+        $sql = "SELECT * FROM detalle_fact_cot WHERE id_factura = $id_pedido";
+        $detalle = $this->select($sql);
+
+        $total = 0;
+
+        foreach ($detalle as $item) {
+            $total += $item['precio_venta'] * $item['cantidad'];
+        }
+
         $sql = "UPDATE facturas_cot SET monto_factura = ? WHERE id_factura = ?";
         $response2 = $this->update($sql, [$total, $id_pedido]);
 
@@ -1634,7 +1643,14 @@ class PedidosModel extends Query
         $data = [$id_pedido, $id_producto, $cantidad, $precio, $factura[0]['id_plataforma'], $sku, $numero_factura, $id_inventario];
         $response = $this->insert($sql, $data);
 
-        $total = $factura[0]['monto_factura'] + $precio * $cantidad;
+        $sql = "SELECT * FROM detalle_fact_cot WHERE id_factura = $id_pedido";
+        $detalle = $this->select($sql);
+
+        $total = 0;
+
+        foreach ($detalle as $item) {
+            $total += $item['precio_venta'] * $item['cantidad'];
+        }
 
         $sql = "UPDATE facturas_cot SET monto_factura = ? WHERE id_factura = ?";
         $response2 = $this->update($sql, [$total, $id_pedido]);
