@@ -1689,7 +1689,7 @@ class PedidosModel extends Query
         }
 
         // Actualizar la factura con el monto total de la venta y el costo total
-        $sql = "UPDATE facturas_cot SET monto_factura = ?, costo_total = ? WHERE id_factura = ?";
+        $sql = "UPDATE facturas_cot SET monto_factura = ?, costo_producto = ? WHERE id_factura = ?";
         $response2 = $this->update($sql, [$total, $total_costo, $id_pedido]);
 
         // Retornar respuesta según el éxito de las operaciones
