@@ -1405,6 +1405,18 @@ class PedidosModel extends Query
     public function guardar_audio_Whatsapp()
     {
         if (isset($_FILES['audio']) && $_FILES['audio']['error'] == 0) {
+            // Verificar el tipo MIME del archivo
+            $file_mime_type = mime_content_type($_FILES['audio']['tmp_name']);
+            if ($file_mime_type != 'audio/ogg') {
+                // Si el archivo no es de tipo OGG, devolvemos un error
+                $response = [
+                    'status' => 400,
+                    'message' => 'El archivo no es de tipo OGG. Tipo recibido: ' . $file_mime_type,
+                ];
+                echo json_encode($response);
+                exit();
+            }
+
             // Ruta de destino para guardar el archivo
             $target_dir = "public/whatsapp/audios_enviados/";
             $file_name = uniqid() . ".ogg";  // Cambiar extensión a .ogg
@@ -1417,11 +1429,11 @@ class PedidosModel extends Query
 
             // Mover el archivo a la carpeta de destino
             if (move_uploaded_file($_FILES['audio']['tmp_name'], $target_file)) {
-                // Retornar la ruta del archivo subido
+                // Retornar la ruta relativa del archivo subido
                 $response = [
                     'status' => 200,
                     'message' => 'Audio subido correctamente',
-                    'data' => $target_file  // Aquí devolvemos la ruta del archivo subido
+                    'data' => $target_file  // Aquí devolvemos la ruta relativa del archivo subido
                 ];
             } else {
                 // Error al mover el archivo
