@@ -1597,22 +1597,33 @@ class PedidosModel extends Query
 
     public function actualizarDetallePedido($id_detalle, $id_pedido, $cantidad, $precio, $total)
     {
+        // Actualizar la cantidad y el precio de venta en el detalle del pedido
         $sql = "UPDATE detalle_fact_cot SET cantidad = ?, precio_venta = ? WHERE id_detalle = ?";
         $response = $this->update($sql, [$cantidad, $precio, $id_detalle]);
 
-        $sql = "SELECT * FROM detalle_fact_cot WHERE id_factura = $id_pedido";
-        $detalle = $this->select($sql);
+        // Obtener todos los detalles de los productos del pedido
+        $sql = "SELECT * FROM detalle_fact_cot WHERE id_factura = ?";
+        $detalle = $this->select($sql, [$id_pedido]);
 
         $total = 0;
+        $total_costo = 0;
 
+        // Calcular el total de la venta y el total de costos
         foreach ($detalle as $item) {
             $total += $item['precio_venta'] * $item['cantidad'];
+
+            // Obtener el costo del producto (pcp)
+            $sql = "SELECT pcp FROM inventario_bodegas WHERE id_producto = ?";
+            $inventario = $this->select($sql, [$item['id_producto']]);
+            $costo_unitario = $inventario[0]['pcp'];
+            $total_costo += $costo_unitario * $item['cantidad'];
         }
 
-        $sql = "UPDATE facturas_cot SET monto_factura = ? WHERE id_factura = ?";
-        $response2 = $this->update($sql, [$total, $id_pedido]);
+        // Actualizar el total de la factura y el costo total en facturas_cot
+        $sql = "UPDATE facturas_cot SET monto_factura = ?, costo_total = ? WHERE id_factura = ?";
+        $response2 = $this->update($sql, [$total, $total_costo, $id_pedido]);
 
-
+        // Retornar la respuesta
         if ($response == 1 && $response2 == 1) {
             $response = [
                 'status' => 200,
@@ -1629,6 +1640,7 @@ class PedidosModel extends Query
         return $response;
     }
 
+
     public function agregarProductoAPedido($id_pedido, $id_producto, $cantidad, $precio, $sku, $id_inventario)
     {
         // Obtener detalles de la factura
@@ -1636,15 +1648,29 @@ class PedidosModel extends Query
         $factura = $this->select($sql, [$id_pedido]);
         $numero_factura = $factura[0]['numero_factura'];
 
-        // Obtener detalles del inventario, incluyendo el costo del producto (pcp)
-        $sql = "SELECT * FROM inventario_bodegas WHERE id_producto = ?";
-        $inventario = $this->select($sql, [$id_producto]);
-        $costo_unitario = $inventario[0]['pcp'];
+        // Verificar si el producto con el mismo id_producto y sku ya existe en la factura
+        $sql = "SELECT * FROM detalle_fact_cot WHERE id_factura = ? AND id_producto = ? AND sku = ?";
+        $detalleExistente = $this->select($sql, [$id_pedido, $id_producto, $sku]);
 
-        // Insertar el detalle del producto en la factura
-        $sql = "INSERT INTO detalle_fact_cot (id_factura, id_producto, cantidad, precio_venta, id_plataforma, sku, numero_factura, id_inventario) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        $data = [$id_pedido, $id_producto, $cantidad, $precio, $factura[0]['id_plataforma'], $sku, $numero_factura, $id_inventario];
-        $response = $this->insert($sql, $data);
+        if ($detalleExistente) {
+            // Producto ya existe, actualizar cantidad y precio si es necesario
+            $cantidad += $detalleExistente[0]['cantidad'];
+            $precio = max($precio, $detalleExistente[0]['precio_venta']); // Tomar el mayor precio
+
+            $sql = "UPDATE detalle_fact_cot SET cantidad = ?, precio_venta = ? WHERE id_factura = ? AND id_producto = ? AND sku = ?";
+            $data = [$cantidad, $precio, $id_pedido, $id_producto, $sku];
+            $response = $this->update($sql, $data);
+        } else {
+            // Obtener detalles del inventario, incluyendo el costo del producto (pcp)
+            $sql = "SELECT * FROM inventario_bodegas WHERE id_producto = ?";
+            $inventario = $this->select($sql, [$id_producto]);
+            $costo_unitario = $inventario[0]['pcp'];
+
+            // Insertar el detalle del producto en la factura
+            $sql = "INSERT INTO detalle_fact_cot (id_factura, id_producto, cantidad, precio_venta, id_plataforma, sku, numero_factura, id_inventario) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            $data = [$id_pedido, $id_producto, $cantidad, $precio, $factura[0]['id_plataforma'], $sku, $numero_factura, $id_inventario];
+            $response = $this->insert($sql, $data);
+        }
 
         // Obtener el detalle de todos los productos en la factura
         $sql = "SELECT * FROM detalle_fact_cot WHERE id_factura = ?";
@@ -1667,7 +1693,7 @@ class PedidosModel extends Query
         $response2 = $this->update($sql, [$total, $total_costo, $id_pedido]);
 
         // Retornar respuesta según el éxito de las operaciones
-        if ($response == 1 && $response2 == 1) {
+        if ($response && $response2 == 1) {
             $response = [
                 'status' => 200,
                 'title' => 'Peticion exitosa',
