@@ -69,14 +69,14 @@ $(document).ready(function () {
         $("#uid_cliente").val(response[0].uid_cliente);
 
         /* seccion informacion */
-        $("#telefono_info").val(response[0].celular_cliente);
-        $("#telefononombre_info_info").val(
+        $("#telefono_info").text(response[0].celular_cliente);
+        $("#nombre_info").text(
           "Nombre: " +
             response[0].nombre_cliente +
             " " +
             response[0].apellido_clientes
         );
-        $("#correo_info").val("Email: " + response[0].email_cliente);
+        $("#correo_info").text("Email: " + response[0].email_cliente);
 
         let formData = new FormData();
         formData.append("telefono", response[0].celular_cliente);
