@@ -124,11 +124,11 @@ $(document).ready(function () {
     });
   }
 
-  function formato_telefono(telefono){
-    if (telefono.includes("+")){
+  function formato_telefono(telefono) {
+    if (telefono.includes("+")) {
       return telefono;
     } else {
-      telefono = "+"+telefono;
+      telefono = "+" + telefono;
       return telefono;
     }
   }
@@ -747,62 +747,47 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   }
 
-  async function convertWebMToOgg(webmBlob) {
-    const { createFFmpeg, fetchFile } = FFmpeg;
-    const ffmpeg = createFFmpeg({ log: true });
-
-    await ffmpeg.load();
-
-    // Cargar el archivo webm en FFmpeg
-    ffmpeg.FS("writeFile", "input.webm", await fetchFile(webmBlob));
-
-    // Ejecutar la conversión de webm a ogg
-    await ffmpeg.run("-i", "input.webm", "output.ogg");
-
-    // Leer el archivo convertido
-    const data = ffmpeg.FS("readFile", "output.ogg");
-
-    // Crear un blob con los datos convertidos
-    const oggBlob = new Blob([data.buffer], { type: "audio/ogg" });
-
-    return oggBlob;
-  }
-
-  async function uploadAudioToWhatsApp(audioBlob) {
-    // Si el archivo no está en formato OGG, lo convertimos
-    if (audioBlob.type !== "audio/ogg") {
-      console.log("Convirtiendo audio a formato OGG...");
-      audioBlob = await convertWebMToOgg(audioBlob);
-      console.log("Conversión completada.");
-    }
+  async function sendAudioToWhatsApp(fileUrl) {
+    const fromPhoneNumberId = "109565362009074";
+    const accessToken =
+      "EAAVZAG5oL9G4BO3vZAhKcOTpfZAQJgNDzTNDArOp8VitYT8GUFqcYKIsZAO0pBkf0edoZC1DgfXICkIEP7xZCkPkj8nS1gfDqI4jNeEVDmseyba3l2os8EoYgf1Mdnl2MwaYhmrdfZBgUnItwT8nZBVvjinB7j8IAfZBx2LZA1WNZCqqsZBZC2cqDdObeiLqEsih9U3XOQwZDZD";
+    const url = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
 
     const formData = new FormData();
-    formData.append("file", audioBlob, "audio.ogg"); // Archivo de audio convertido a ogg
-    formData.append("messaging_product", "whatsapp"); // Parametro requerido por WhatsApp
+    formData.append("messaging_product", "whatsapp");
+    formData.append("recipient_type", "individual");
+    formData.append("to", "+593981702066"); // Número de teléfono del destinatario
+    formData.append("type", "audio");
+    formData.append("audio", {
+      link: fileUrl, // Usamos la URL del archivo de audio almacenado en tu servidor
+    });
 
-    return fetch(
-      `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/media`,
-      {
+    try {
+      const response = await fetch(url, {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${accessToken}`, // Tu access token aquí
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
         },
-        body: formData,
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.id) {
-          console.log("ID del archivo subido a WhatsApp:", data.id);
-          return data.id; // Devolvemos el media_id del archivo subido
-        } else {
-          console.error("Error al subir el archivo a WhatsApp:", data);
-          throw new Error(data.error.message);
-        }
-      })
-      .catch((error) => {
-        console.error("Error en la subida del archivo a WhatsApp:", error);
+        body: JSON.stringify({
+          messaging_product: "whatsapp",
+          to: "+593981702066",
+          type: "audio",
+          audio: {
+            link: fileUrl, // Usamos la URL que nos devuelve el servidor
+          },
+        }),
       });
+
+      const result = await response.json();
+      if (result.error) {
+        console.error("Error al enviar el audio a WhatsApp:", result.error);
+      } else {
+        console.log("Audio enviado a WhatsApp con éxito");
+      }
+    } catch (error) {
+      console.error("Error en la solicitud de WhatsApp:", error);
+    }
   }
 
   // ---- Botón de enviar audio a WhatsApp ----
@@ -813,8 +798,9 @@ document.addEventListener("DOMContentLoaded", function () {
       if (audioBlob && audioBlob.size > 0) {
         console.log("Tamaño del audioBlob:", audioBlob.size);
 
-        // 1. Primero subes el archivo a tu servidor (esto NO lo toco)
-        const audioUrl = await uploadAudio(audioBlob);
+        // 1. Primero subes el archivo a tu servidor
+        let audioUrl = await uploadAudio(audioBlob);
+        audioUrl = SERVERURL + audioUrl;
 
         if (audioUrl) {
           console.log(
@@ -822,53 +808,8 @@ document.addEventListener("DOMContentLoaded", function () {
             audioUrl
           );
 
-          // 2. Luego subimos el mismo archivo a WhatsApp y obtenemos el media_id
-          const mediaId = await uploadAudioToWhatsApp(audioBlob);
-
-          if (mediaId) {
-            // 3. Con el media_id, ahora enviamos el mensaje de audio a WhatsApp
-            var phoneNumber = "+" + $("#celular_chat").val();
-            const data = {
-              messaging_product: "whatsapp",
-              recipient_type: "individual",
-              to: phoneNumber,
-              type: "audio",
-              audio: {
-                id: mediaId, // Usamos el media_id de WhatsApp
-              },
-            };
-
-            fetch(url, {
-              method: "POST",
-              headers: {
-                Authorization: `Bearer ${accessToken}`,
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(data),
-            })
-              .then((response) => response.json())
-              .then((responseData) => {
-                if (responseData.error) {
-                  console.error(
-                    "Error al enviar el mensaje de audio:",
-                    responseData.error
-                  );
-                  alert(`Error: ${responseData.error.message}`);
-                } else {
-                  alert("¡Audio enviado con éxito a través de WhatsApp!");
-                }
-              })
-              .catch((error) => {
-                console.error(
-                  "Error al enviar el mensaje de audio a WhatsApp:",
-                  error
-                );
-              });
-          } else {
-            console.error(
-              "No se pudo obtener el media_id del archivo de audio."
-            );
-          }
+          // 2. Luego subimos el archivo a WhatsApp usando la URL obtenida
+          await sendAudioToWhatsApp(audioUrl);
         } else {
           console.error(
             "No se pudo obtener la URL del archivo de audio subido a tu servidor."
