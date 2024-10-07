@@ -666,7 +666,7 @@ class Pedidos extends Controller
 
     public function obtener_etiquetas()
     {
-        $response = $this->model->obtener_url_video_mensaje($_SESSION['id_plataforma']);
+        $response = $this->model->obtener_etiquetas($_SESSION['id_plataforma']);
         echo json_encode($response);
     }
 
