@@ -92,7 +92,7 @@
 </div>
 
 <script>
-    function cargarEtiquetas() {
+    function cargarEtiquetas_asignar() {
         $.ajax({
             url: SERVERURL + "Pedidos/obtener_etiquetas",
             type: "GET",
