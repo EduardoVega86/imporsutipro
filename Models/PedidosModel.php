@@ -1471,9 +1471,9 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
-    public function obtener_etiqueta_cliente($id_cliente)
+    public function obtener_etiqueta_cliente($id_etiqueta)
     {
-        $sql = "SELECT * FROM `clientes_chat_center` WHERE id = $id_cliente;";
+        $sql = "SELECT * FROM `etiquetas_chat_center` WHERE id_etiqueta = $id_etiqueta;";
         return $this->select($sql);
     }
 
