@@ -357,6 +357,7 @@ class ProductosModel extends Query
                 $sql = "UPDATE inventario_bodegas SET pvp = ?, pref = ? WHERE id_inventario = ?";
                 $data = [$pvp_tienda, $pref, $id_inventario];
                 $editar_producto = $this->update($sql, $data);
+                print_r($editar_producto);
             }
         }
 
