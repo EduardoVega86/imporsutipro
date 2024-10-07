@@ -1465,6 +1465,46 @@ class PedidosModel extends Query
         return $response;
     }
 
+    public function obtener_etiquetas($id_plataforma)
+    {
+        $sql = "SELECT * FROM `etiquetas_chat_center` WHERE id_plataforma = $id_plataforma;";
+        return $this->select($sql);
+    }
+
+
+    public function agregar_etiqueta($nombre_etiqueta, $color_etiqueta, $id_plataforma)
+    {
+        // Inicializar la respuesta
+        $response = $this->initialResponse();
+
+
+        // Consulta de inserción con la clave única
+        $sql = "INSERT INTO `etiquetas_chat_center` (`nombre_etiqueta`, `color_etiqueta`, `id_plataforma`)
+           VALUES (?, ?, ?)";
+        $data = [$nombre_etiqueta, $color_etiqueta, $id_plataforma];
+
+
+        // Insertar configuración
+        $insertar_configuracion = $this->insert($sql, $data);
+
+
+        // Verificar si la inserción fue exitosa
+        if ($insertar_configuracion == 1) {
+
+
+            $response['status'] = 200;
+            $response['title'] = 'Petición exitosa';
+            $response['message'] = 'Configuración agregada y actualizada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error en inserción';
+            $response['message'] = $insertar_configuracion['message'];
+        }
+
+
+        return $response;
+    }
+
     /* automatizador */
     public function configuraciones_automatizador($id_plataforma)
     {
