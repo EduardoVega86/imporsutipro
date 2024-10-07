@@ -137,17 +137,22 @@
 
     // Función que se ejecuta al seleccionar una etiqueta
     function seleccionarEtiqueta(idEtiqueta) {
+
+        var id_cliente_chat = $('#id_cliente_chat').val();
+
         // Crear el formData con el id de la etiqueta seleccionada
         let formData = new FormData();
         formData.append("id_etiqueta", idEtiqueta);
+        formData.append("id_cliente_chat", id_cliente_chat);
 
         // Hacer la petición AJAX para asignar la etiqueta
         $.ajax({
-            url: SERVERURL + "Pedidos/asignar_etiqueta", // URL para asignar la etiqueta
+            url: SERVERURL + "Pedidos/asignar_etiqueta",
             type: "POST",
             data: formData,
             processData: false, // No procesar los datos
             contentType: false, // No establecer ningún tipo de contenido
+            dataType: "json",
             success: function(response) {
                 if (response.status === 200) {
                     toastr.success("Etiqueta asignada correctamente", "NOTIFICACIÓN", {
