@@ -344,6 +344,7 @@ class ProductosModel extends Query
 
         //buscar si existe producto 
         $sql_tienda = "SELECT * FROM productos WHERE id_producto=$id_producto_tienda and id_plataforma = $id_plataforma";
+        echo $sql_tienda;
         $producto_tienda = $this->select($sql_tienda);
         if (!empty($producto_tienda)) {
             $sql_tienda = "UPDATE productos SET nombre_producto = ? WHERE id_producto = ? AND id_plataforma = ?";
