@@ -5,7 +5,7 @@
     <div class="row h-100">
         <!-- Sidebar izquierda: Lista de contactos -->
         <div class="col-3 p-0 chat-sidebar">
-            <div class="p-3 border-bottom">
+            <div class="p-3 border-bottom d-flex flex-row gap-2">
                 <input type="text" class="form-control" placeholder="Buscar contacto...">
                 <button type="button" class="btn btn-primary"><i class="fa-solid fa-tags"></i></button>
             </div>
