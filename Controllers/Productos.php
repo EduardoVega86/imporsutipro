@@ -123,13 +123,13 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
-      public function obtener_productos_bodega($bodega)
+    public function obtener_productos_bodega($bodega)
     {
         $response = $this->model->obtener_productos_bodega($bodega);
         echo json_encode($response);
     }
 
-    
+
     public function obtener_productos2()
     {
         // Recoger los parámetros enviados por DataTables
@@ -471,7 +471,7 @@ class Productos extends Controller
 
 
 
-        $response = $this->model->editarProductoTienda($id_producto_tienda, $nombre, $pvp_tienda, $id_categoria, $pref);
+        $response = $this->model->editarProductoTienda($id_producto_tienda, $nombre, $pvp_tienda, $id_categoria, $pref, $_SESSION['id_plataforma']);
 
         echo json_encode($response);
     }
@@ -675,8 +675,8 @@ class Productos extends Controller
         $response = $this->model->importar_productos_tienda($id_producto, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
-    
-    
+
+
     public function importar_productos_shopify()
     {
 
@@ -748,15 +748,15 @@ class Productos extends Controller
         $response = $this->model->obtener_productosPrivados_tienda($_SESSION['id_plataforma']);
         echo json_encode($response);
     }
-    
+
     public function obtener_proveedores()
     {
         $response = $this->model->obtener_proveedores();
         echo json_encode($response);
     }
-    
-    
-    
+
+
+
     public function obtener_productos_shopify()
     {
         $response = $this->model->obtener_productos_shopify($_SESSION['id_plataforma']);

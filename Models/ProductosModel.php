@@ -320,7 +320,7 @@ class ProductosModel extends Query
     }
 
 
-    public function editarProductoTienda($id_producto_tienda, $nombre, $pvp_tienda, $id_categoria, $pref)
+    public function editarProductoTienda($id_producto_tienda, $nombre, $pvp_tienda, $id_categoria, $pref, $id_plataforma)
     {
         $response = $this->initialResponse();
         $sql = "UPDATE `productos_tienda` SET `nombre_producto_tienda`=?,"
@@ -341,6 +341,27 @@ class ProductosModel extends Query
             $response['title'] = 'Error';
             $response['message'] = $editar_producto['message'];
         }
+
+        //buscar si existe producto 
+        $sql_tienda = "SELECT * FROM productos WHERE id_producto=$id_producto_tienda and id_plataforma = $id_plataforma";
+        $producto_tienda = $this->select($sql_tienda);
+        if (!empty($producto_tienda)) {
+            $sql_tienda = "UPDATE productos SET nombre_producto = ? WHERE id_producto = ? AND id_plataforma = ?";
+            $data_tienda = [$nombre, $id_producto_tienda, $id_plataforma];
+            $editar_producto_ = $this->update($sql_tienda, $data_tienda);
+            $sku = $producto_tienda[0]['codigo_producto'];
+            $id_producto = $producto_tienda[0]['id_producto'];
+            $id_inventario = $this->buscar_inventario($id_producto, $sku);
+
+            if (!empty($id_inventario)) {
+                $sql = "UPDATE inventario_bodegas SET pvp = ?, pref = ? WHERE id_inventario = ?";
+                $data = [$pvp_tienda, $pref, $id_inventario];
+                $editar_producto = $this->update($sql, $data);
+            }
+        }
+
+
+
         return $response;
     }
 
@@ -375,8 +396,8 @@ class ProductosModel extends Query
         $sql_tienda = "SELECT * FROM productos_tienda WHERE id_producto=$id and id_plataforma=$plataforma";
         $producto_tienda = $this->select($sql_tienda);
         if (!empty($producto_tienda)) {
-            $sql_tienda = "UPDATE productos_tienda SET pvp_tienda = ? WHERE id_producto = ? AND id_plataforma = ?";
-            $data_tienda = [$pvp, $id, $plataforma];
+            $sql_tienda = "UPDATE productos_tienda SET nombre_producto_tienda = ?, pvp_tienda = ? WHERE id_producto = ? AND id_plataforma = ?";
+            $data_tienda = [$nombre_producto, $pvp, $id, $plataforma];
             $editar_producto_ = $this->update($sql_tienda, $data_tienda);
         }
 
