@@ -153,7 +153,7 @@
 
     function cargarEtiquetas() {
         $.ajax({
-            url: SERVERURL + "Pedidos/obetener_etiquetas",
+            url: SERVERURL + "Pedidos/obtener_etiquetas",
             type: "GET",
             dataType: "json",
             success: function(response) {
