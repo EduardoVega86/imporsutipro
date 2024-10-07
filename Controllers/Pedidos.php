@@ -689,10 +689,10 @@ class Pedidos extends Controller
 
     public function asignar_etiqueta()
     {
-        $idEtiqueta = $_POST['idEtiqueta'];
+        $id_etiqueta = $_POST['id_etiqueta'];
         $id_cliente_chat = $_POST['id_cliente_chat'];
 
-        $response = $this->model->agregar_etiqueta($idEtiqueta, $id_cliente_chat);
+        $response = $this->model->agregar_etiqueta($id_etiqueta, $id_cliente_chat);
         echo json_encode($response);
     }
 
