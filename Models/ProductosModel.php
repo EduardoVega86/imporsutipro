@@ -320,7 +320,7 @@ class ProductosModel extends Query
     }
 
 
-    public function editarProductoTienda($id_producto_tienda, $nombre, $pvp_tienda, $id_categoria, $pref)
+    public function editarProductoTienda($id_producto_tienda, $nombre, $pvp_tienda, $id_categoria, $pref, $id_plataforma)
     {
         $response = $this->initialResponse();
         $sql = "UPDATE `productos_tienda` SET `nombre_producto_tienda`=?,"
@@ -341,6 +341,32 @@ class ProductosModel extends Query
             $response['title'] = 'Error';
             $response['message'] = $editar_producto['message'];
         }
+
+        $sql = "SELECT * FROM productos_tienda WHERE id_producto_tienda=$id_producto_tienda";
+        $producto_tienda = $this->select($sql);
+        $sku = $producto_tienda[0]['sku'];
+        $id_producto = $producto_tienda[0]['id_producto'];
+
+        //buscar si existe producto 
+        $sql_tienda = "SELECT * FROM productos WHERE id_producto=$id_producto and id_plataforma = $id_plataforma";
+        $producto_tienda = $this->select($sql_tienda);
+        if (!empty($producto_tienda)) {
+            $sql_tienda = "UPDATE productos SET nombre_producto = ? WHERE id_producto = ? AND id_plataforma = ?";
+            $data_tienda = [$nombre, $id_producto_tienda, $id_plataforma];
+            $editar_producto_ = $this->update($sql_tienda, $data_tienda);
+            $sku = $producto_tienda[0]['codigo_producto'];
+            $id_producto = $producto_tienda[0]['id_producto'];
+            $id_inventario = $this->buscar_inventario($id_producto, $sku);
+
+            if (!empty($id_inventario)) {
+                $sql = "UPDATE inventario_bodegas SET pvp = ?, pref = ? WHERE id_inventario = ?";
+                $data = [$pvp_tienda, $pref, $id_inventario];
+                $editar_producto = $this->update($sql, $data);
+            }
+        }
+
+
+
         return $response;
     }
 
@@ -370,6 +396,16 @@ class ProductosModel extends Query
             $data_insert = [$codigo_producto, $id, 0, $bodega, $pcp, $pvp, $pref, 0, 0, $id, $plataforma];
             $insertar_producto_ = $this->update($sql_insert, $data_insert);
         }
+
+        //buscar si existe producto en la tienda
+        $sql_tienda = "SELECT * FROM productos_tienda WHERE id_producto=$id and id_plataforma=$plataforma";
+        $producto_tienda = $this->select($sql_tienda);
+        if (!empty($producto_tienda)) {
+            $sql_tienda = "UPDATE productos_tienda SET nombre_producto_tienda = ?, pvp_tienda = ? WHERE id_producto = ? AND id_plataforma = ?";
+            $data_tienda = [$nombre_producto, $pvp, $id, $plataforma];
+            $editar_producto_ = $this->update($sql_tienda, $data_tienda);
+        }
+
         // print_r($insertar_producto_);
         if ($editar_producto == 1) {
             $response['status'] = 200;
@@ -1329,18 +1365,18 @@ WHERE b.id_plataforma = $plataforma";
 
         $sql = "SELECT * FROM `productos_tienda` WHERE id_producto_tienda = $id and landing_propia=1";
         $response =  $this->select($sql);
- 
+
         if (empty($response)) {
-    return 0;
-} else {
-    $landing = $response[0]['landing_tienda'];
-    
-    if ($landing == '') {
-        return 0;
-    } else {
-        return 1;
-    }
-}
+            return 0;
+        } else {
+            $landing = $response[0]['landing_tienda'];
+
+            if ($landing == '') {
+                return 0;
+            } else {
+                return 1;
+            }
+        }
     }
 
     public function habilitarPrivado($id, $estado)
