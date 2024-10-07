@@ -106,7 +106,7 @@
                     response.forEach(function(etiqueta) {
                         // Creamos el HTML para cada etiqueta como un radio button estilizado
                         var etiquetaHTML = `
-                            <div class="form-check">
+                            <div class="form-check mb-3">
                                 <input class="form-check-input" type="radio" name="etiqueta" id="etiqueta_${etiqueta.id}" value="${etiqueta.id}" onchange="seleccionarEtiqueta(${etiqueta.id})">
                                 <label class="etiqueta-item" for="etiqueta_${etiqueta.id}">
                                     <div class="d-flex align-items-center">
