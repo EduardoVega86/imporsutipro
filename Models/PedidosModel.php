@@ -24,24 +24,29 @@ class PedidosModel extends Query
         p.url_imporsuit AS plataforma,
         pp.url_imporsuit AS proveedor_plataforma, 
         b.nombre AS nombre_bodega, 
-        b.direccion AS direccion_bodega
-            FROM 
-                facturas_cot fc
-            LEFT JOIN 
-                ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot
-            LEFT JOIN 
-                plataformas p ON p.id_plataforma = fc.id_plataforma
-            LEFT JOIN 
-                plataformas pp ON pp.id_plataforma = fc.id_propietario 
-            LEFT JOIN 
-                bodega b ON b.id = fc.id_bodega
-            WHERE 
-                TRIM(fc.numero_guia) <> '' 
-                AND fc.numero_guia IS NOT NULL 
-                AND fc.numero_guia <> '0' 
-                AND fc.anulada = 0  
-                AND (fc.id_plataforma = $plataforma OR fc.id_propietario = $plataforma OR b.id_plataforma = $plataforma)
-            ";
+        b.direccion AS direccion_bodega,
+        n.solucionada, 
+        n.terminado, 
+        n.estado_novedad
+        FROM 
+            facturas_cot fc
+        LEFT JOIN 
+            ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot
+        LEFT JOIN 
+            plataformas p ON p.id_plataforma = fc.id_plataforma
+        LEFT JOIN 
+            plataformas pp ON pp.id_plataforma = fc.id_propietario 
+        LEFT JOIN 
+            bodega b ON b.id = fc.id_bodega
+        LEFT JOIN 
+            novedades n ON n.guia_novedad = fc.numero_guia
+        WHERE 
+            TRIM(fc.numero_guia) <> '' 
+            AND fc.numero_guia IS NOT NULL 
+            AND fc.numero_guia <> '0' 
+            AND fc.anulada = 0  
+            AND (fc.id_plataforma = $plataforma OR fc.id_propietario = $plataforma OR b.id_plataforma = $plataforma)
+        ";
 
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
             $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
@@ -59,25 +64,20 @@ class PedidosModel extends Query
             $sql .= " AND drogshipin = $drogshipin";
         }
 
-        //echo $impreso;
         if ($impreso !== null && $impreso !== '') {
-
             if ($impreso == 0 || $impreso == 1) {
                 $sql .= " AND impreso = '$impreso'";
             }
         }
 
         if ($despachos !== null && $despachos !== '') {
-
             if ($despachos == 1 || $despachos == 2 || $despachos == 3) {
                 $sql .= " AND estado_factura = '$despachos'";
             }
         }
 
-
         $sql .= " ORDER BY fc.numero_factura DESC;";
 
-        //echo $sql;
         return $this->select($sql);
     }
 
@@ -1060,7 +1060,7 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
-    public function buscarProductosBodega($producto, $sku, $plataforma)
+    public function buscarProductosBodega($producto, $sku)
     {
 
         $id_bodega_buscar = $this->select("SELECT bodega FROM inventario_bodegas WHERE id_producto = $producto and sku='$sku' ");
