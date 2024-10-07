@@ -85,7 +85,7 @@
         max-height: 426px;
     }
 
-    .video_style_mensaje {
+    .video_style_mensaje{
         max-width: 330px;
         max-height: 426px;
     }
@@ -409,65 +409,5 @@
     #btn-three-dots:hover {
         color: #007bff;
         /* Añade un efecto de hover */
-    }
-
-    /* Esconder el radio button de las etiquetas (solo para este modal) */
-    .asignar-etiqueta-form-check-input {
-        position: absolute;
-        opacity: 0;
-        pointer-events: none;
-    }
-
-    /* Estilo de las tarjetas de etiquetas (solo para este modal) */
-    .asignar-etiqueta-item {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 15px;
-        border: 2px solid #e0e0e0;
-        border-radius: 12px;
-        margin-bottom: 15px;
-        background-color: #fff;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-    }
-
-    .asignar-etiqueta-item:hover {
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-        background-color: #f8f9fa;
-    }
-
-    /* Estilo cuando el radio está seleccionado */
-    .asignar-etiqueta-form-check-input:checked+.asignar-etiqueta-item {
-        border-color: #ffc107;
-        background-color: #fff7e6;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    .asignar-etiqueta-color {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        margin-right: 15px;
-        flex-shrink: 0;
-        border: 2px solid #e0e0e0;
-    }
-
-    .asignar-etiqueta-nombre {
-        font-size: 16px;
-        font-weight: 500;
-        color: #333;
-    }
-
-    /* Icono de selección (solo se muestra cuando se selecciona una etiqueta) */
-    .asignar-check-icon {
-        display: none;
-        font-size: 20px;
-        color: #ffc107;
-    }
-
-    .asignar-etiqueta-form-check-input:checked+.asignar-etiqueta-item .asignar-check-icon {
-        display: block;
     }
 </style>
