@@ -12,39 +12,52 @@ $(document).ready(function () {
 
       // Recorremos cada contacto
       $.each(data, function (index, contacto) {
-        let color_etiqueta = "";
-
         let formData = new FormData();
         formData.append("id_etiqueta", contacto.id_etiqueta);
+
+        // Realizamos la petición AJAX para obtener la etiqueta correspondiente
         $.ajax({
           url: SERVERURL + "pedidos/obtener_etiqueta_cliente",
-          type: "POST", // Cambiar a POST para enviar FormData
+          type: "POST",
           data: formData,
           processData: false, // No procesar los datos
           contentType: false, // No establecer ningún tipo de contenido
           dataType: "json",
           success: function (response) {
-            color_etiqueta = `<i class="fa-solid fa-tag" style="color: ${response[0].color_etiqueta} !important;"></i>`;
+            // Verificamos si la respuesta contiene un array con la etiqueta
+            if (response && response.length > 0 && response[0].color_etiqueta) {
+              let color_etiqueta = `<i class="fa-solid fa-tag" style="color: ${response[0].color_etiqueta} !important;"></i>`;
+
+              // Construimos el HTML una vez que tenemos el color de la etiqueta
+              let innerHTML = `
+                        <li class="list-group-item contact-item d-flex align-items-center" data-id="${
+                          contacto.id_cliente
+                        }">
+                            <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="Foto de perfil">
+                            <div>
+                                <h6 class="mb-0">${
+                                  contacto.nombre_cliente || "Desconocido"
+                                } ${
+                contacto.apellido_cliente || ""
+              } ${color_etiqueta}</h6>
+                                <small class="text-muted">${
+                                  contacto.texto_mensaje || "No hay mensajes"
+                                }</small>
+                            </div>
+                        </li>`;
+
+              // Añadimos el HTML a la lista
+              $("#lista-contactos").append(innerHTML);
+            } else {
+              console.error(
+                "La respuesta no tiene la propiedad color_etiqueta"
+              );
+            }
           },
           error: function (jqXHR, textStatus, errorThrown) {
-            alert(errorThrown);
+            console.error("Error al obtener la etiqueta:", errorThrown);
           },
         });
-
-        innerHTML += `
-            <li class="list-group-item contact-item d-flex align-items-center" data-id="${
-              contacto.id_cliente
-            }">
-                <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="Foto de perfil">
-                <div>
-                    <h6 class="mb-0">${
-                      contacto.nombre_cliente || "Desconocido"
-                    } ${contacto.apellido_cliente || ""} ${color_etiqueta}</h6>
-                    <small class="text-muted">${
-                      contacto.texto_mensaje || "No hay mensajes"
-                    }</small>
-                </div>
-            </li>`;
       });
 
       // Inyectamos el HTML generado en la lista de contactos
