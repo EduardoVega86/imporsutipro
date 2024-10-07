@@ -2,61 +2,55 @@
 $(document).ready(function () {
   let lastMessageId = null; // Variable global para almacenar el ID del último mensaje mostrado
 
-  cargar_numeros_clientes();
+  // Llamada AJAX para obtener los datos de la API de contactos
+  $.ajax({
+    url: SERVERURL + "Pedidos/numeros_clientes",
+    method: "GET",
+    dataType: "json",
+    success: function (data) {
+      let innerHTML = "";
 
-  function cargar_numeros_clientes() {
-    // Llamada AJAX para obtener los datos de la API de contactos
-    $.ajax({
-      url: SERVERURL + "Pedidos/numeros_clientes",
-      method: "GET",
-      dataType: "json",
-      success: function (data) {
-        let innerHTML = "";
+      // Recorremos cada contacto
+      $.each(data, function (index, contacto) {
+        let color_etiqueta = "";
 
-        // Recorremos cada contacto
-        $.each(data, function (index, contacto) {
-          let color_etiqueta = "";
+        if (contacto.color_etiqueta) {
+          color_etiqueta = `<i class="fa-solid fa-tag" style="color: ${contacto.color_etiqueta} !important;"></i>`;
+        }
 
-          if (contacto.color_etiqueta) {
-            color_etiqueta = `<i class="fa-solid fa-tag" style="color: ${contacto.color_etiqueta} !important;"></i>`;
-          }
+        innerHTML += `
+            <li class="list-group-item contact-item d-flex align-items-center" data-id="${
+              contacto.id_cliente
+            }">
+                <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="Foto de perfil">
+                <div>
+                    <h6 class="mb-0">${
+                      contacto.nombre_cliente || "Desconocido"
+                    } ${contacto.apellido_cliente || ""} ${color_etiqueta}</h6>
+                    <small class="text-muted">${
+                      contacto.texto_mensaje || "No hay mensajes"
+                    }</small>
+                </div>
+            </li>`;
+      });
 
-          innerHTML += `
-              <li class="list-group-item contact-item d-flex align-items-center" data-id="${
-                contacto.id_cliente
-              }">
-                  <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="Foto de perfil">
-                  <div>
-                      <h6 class="mb-0">${
-                        contacto.nombre_cliente || "Desconocido"
-                      } ${
-            contacto.apellido_cliente || ""
-          } ${color_etiqueta}</h6>
-                      <small class="text-muted">${
-                        contacto.texto_mensaje || "No hay mensajes"
-                      }</small>
-                  </div>
-              </li>`;
-        });
+      // Inyectamos el HTML generado en la lista de contactos
+      $("#contact-list").html(innerHTML);
 
-        // Inyectamos el HTML generado en la lista de contactos
-        $("#contact-list").html(innerHTML);
+      // Añadimos el evento de click a cada contacto
+      $("#contact-list").on("click", ".contact-item", function () {
+        let id_cliente = $(this).data("id");
+        // Llamamos a la función para ejecutar la API con el id_cliente
+        ejecutarApiConIdCliente(id_cliente);
 
-        // Añadimos el evento de click a cada contacto
-        $("#contact-list").on("click", ".contact-item", function () {
-          let id_cliente = $(this).data("id");
-          // Llamamos a la función para ejecutar la API con el id_cliente
-          ejecutarApiConIdCliente(id_cliente);
-
-          // Iniciar el polling para actualizar los mensajes automáticamente
-          startPollingMensajes(id_cliente);
-        });
-      },
-      error: function (error) {
-        console.error("Error al obtener los mensajes:", error);
-      },
-    });
-  }
+        // Iniciar el polling para actualizar los mensajes automáticamente
+        startPollingMensajes(id_cliente);
+      });
+    },
+    error: function (error) {
+      console.error("Error al obtener los mensajes:", error);
+    },
+  });
 
   // Función que se ejecuta cuando se hace click en un contacto
   function ejecutarApiConIdCliente(id_cliente) {
