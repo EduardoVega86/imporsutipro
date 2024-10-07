@@ -82,7 +82,7 @@
                             <input type="text" class="form-control" id="nombre_etiqueta" placeholder="Ingrese el nombre de la etiqueta">
                             <div class="input-box d-flex flex-column">
                                 <input id="color_etiqueta" name="color_etiqueta" type="color" value="#ff0000">
-                                <h6><strong>Botones</strong></h6>
+                                <h6><strong>Color etiqueta</strong></h6>
                             </div>
                             <button type="button" class="btn btn-primary" onclick="agregar_etiqueta()">Agregar etiqueta</button>
                         </div>
