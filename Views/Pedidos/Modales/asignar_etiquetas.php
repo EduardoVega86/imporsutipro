@@ -104,18 +104,13 @@
 
                     // Recorremos cada etiqueta recibida en la respuesta
                     response.forEach(function(etiqueta) {
-                        // Creamos el HTML para cada etiqueta como un radio button estilizado
+                        // Creamos el HTML para cada etiqueta como radio button
                         var etiquetaHTML = `
                             <div class="form-check mb-3">
-                                <input class="asignar-etiqueta-form-check-input" type="radio" name="asignar_etiqueta" id="asignar_etiqueta_${etiqueta.id}" value="${etiqueta.id}" onchange="seleccionarEtiqueta(${etiqueta.id})">
-                                <label class="asignar-etiqueta-item" for="asignar_etiqueta_${etiqueta.id}">
-                                    <div class="d-flex align-items-center">
-                                        <div class="asignar-etiqueta-color" style="background-color: ${etiqueta.color_etiqueta};"></div>
-                                        <div class="asignar-etiqueta-nombre">${etiqueta.nombre_etiqueta}</div>
-                                    </div>
-                                    <div class="asignar-check-icon">
-                                        <i class="fas fa-check-circle"></i>
-                                    </div>
+                                <input class="form-check-input" type="radio" name="etiqueta" id="etiqueta_${etiqueta.id}" value="${etiqueta.id}" onchange="seleccionarEtiqueta(${etiqueta.id})">
+                                <label class="form-check-label d-flex align-items-center" for="etiqueta_${etiqueta.id}">
+                                    <div class="etiqueta-color" style="background-color: ${etiqueta.color_etiqueta}; width: 20px; height: 20px; border-radius: 50%; margin-right: 10px;"></div>
+                                    <div class="etiqueta-nombre">${etiqueta.nombre_etiqueta}</div>
                                 </label>
                             </div>
                         `;
