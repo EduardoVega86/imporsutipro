@@ -671,13 +671,13 @@ class Pedidos extends Controller
     }
 
 
-    public function agregar_etiquetas()
+    public function agregar_etiqueta()
     {
         $nombre_etiqueta = $_POST['nombre_etiqueta'];
         $color_etiqueta = $_POST['color_etiqueta'];
 
 
-        $response = $this->model->agregar_etiquetas($nombre_etiqueta, $color_etiqueta, $_SESSION['id_plataforma']);
+        $response = $this->model->agregar_etiqueta($nombre_etiqueta, $color_etiqueta, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
 
