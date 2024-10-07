@@ -106,14 +106,14 @@
                     response.forEach(function(etiqueta) {
                         // Creamos el HTML para cada etiqueta como un radio button estilizado
                         var etiquetaHTML = `
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="etiqueta" id="etiqueta_${etiqueta.id}" value="${etiqueta.id}" onchange="seleccionarEtiqueta(${etiqueta.id})">
-                                <label class="etiqueta-item" for="etiqueta_${etiqueta.id}">
+                            <div class="form-check mb-3">
+                                <input class="asignar-etiqueta-form-check-input" type="radio" name="asignar_etiqueta" id="asignar_etiqueta_${etiqueta.id}" value="${etiqueta.id}" onchange="seleccionarEtiqueta(${etiqueta.id})">
+                                <label class="asignar-etiqueta-item" for="asignar_etiqueta_${etiqueta.id}">
                                     <div class="d-flex align-items-center">
-                                        <div class="etiqueta-color" style="background-color: ${etiqueta.color_etiqueta};"></div>
-                                        <div class="etiqueta-nombre">${etiqueta.nombre_etiqueta}</div>
+                                        <div class="asignar-etiqueta-color" style="background-color: ${etiqueta.color_etiqueta};"></div>
+                                        <div class="asignar-etiqueta-nombre">${etiqueta.nombre_etiqueta}</div>
                                     </div>
-                                    <div class="check-icon">
+                                    <div class="asignar-check-icon">
                                         <i class="fas fa-check-circle"></i>
                                     </div>
                                 </label>
