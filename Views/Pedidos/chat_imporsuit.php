@@ -90,7 +90,7 @@
                         <i class="fa-solid fa-gear"></i>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="abrir_modal_etiquetas">Agregar etiqueta</span></li>
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="abrir_modal_etiquetas()">Agregar etiqueta</span></li>
                     </ul>
                 </div>
                 <button class="close-info" id="btn-close-info">&times;</button> <!-- Botón de cierre (X) -->

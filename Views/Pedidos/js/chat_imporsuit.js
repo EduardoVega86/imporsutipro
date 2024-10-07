@@ -948,4 +948,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   toggleButtons();
 });
+
+function abrir_modal_etiquetas(){
+  cargarEtiquetas();
+  $("#asignar_etiquetaModal").modal("show");
+}
 /* Fin enviar mensaje de audio Whatsapp */
