@@ -67,6 +67,7 @@ $(document).ready(function () {
         $("#id_cliente_chat").val(response[0].id);
         $("#celular_chat").val(response[0].celular_cliente);
         $("#uid_cliente").val(response[0].uid_cliente);
+        $("#id_etiqueta_select").val(response[0].id_etiqueta);
 
         /* seccion informacion */
         $("#telefono_info").text(formato_telefono(response[0].celular_cliente));
