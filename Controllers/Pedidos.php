@@ -744,4 +744,12 @@ class Pedidos extends Controller
         $response = $this->model->eliminarProductoDePedido($id_detalle);
         echo json_encode($response);
     }
+
+    public function actualizarContiene()
+    {
+        $id_pedido = $_POST['id_pedido'];
+        $contiene = $_POST['contiene'];
+        $response = $this->model->actualizarContienePedido($id_pedido, $contiene);
+        echo json_encode($response);
+    }
 }
