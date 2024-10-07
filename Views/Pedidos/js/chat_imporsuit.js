@@ -39,7 +39,7 @@ $(document).ready(function () {
                 <div>
                     <h6 class="mb-0">${
                       contacto.nombre_cliente || "Desconocido"
-                    } ${contacto.apellido_cliente || ""}</h6>
+                    } ${contacto.apellido_cliente || ""} ${color_etiqueta}</h6>
                     <small class="text-muted">${
                       contacto.texto_mensaje || "No hay mensajes"
                     }</small>
