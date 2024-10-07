@@ -7,6 +7,7 @@
         <div class="col-3 p-0 chat-sidebar">
             <div class="p-3 border-bottom">
                 <input type="text" class="form-control" placeholder="Buscar contacto...">
+                <button type="button" class="btn btn-primary"><i class="fa-solid fa-tags"></i></button>
             </div>
             <ul class="list-group list-group-flush" id="contact-list">
                 <!-- Los contactos se llenarán aquí dinámicamente -->

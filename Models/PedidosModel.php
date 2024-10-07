@@ -1059,7 +1059,7 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
-    public function buscarProductosBodega($producto, $sku)
+    public function buscarProductosBodega($producto, $sku, $plataforma)
     {
 
         $id_bodega_buscar = $this->select("SELECT bodega FROM inventario_bodegas WHERE id_producto = $producto and sku='$sku' ");
@@ -1405,18 +1405,6 @@ class PedidosModel extends Query
     public function guardar_audio_Whatsapp()
     {
         if (isset($_FILES['audio']) && $_FILES['audio']['error'] == 0) {
-            // Verificar el tipo MIME del archivo
-            $file_mime_type = mime_content_type($_FILES['audio']['tmp_name']);
-            if ($file_mime_type != 'audio/ogg') {
-                // Si el archivo no es de tipo OGG, devolvemos un error
-                $response = [
-                    'status' => 400,
-                    'message' => 'El archivo no es de tipo OGG. Tipo recibido: ' . $file_mime_type,
-                ];
-                echo json_encode($response);
-                exit();
-            }
-
             // Ruta de destino para guardar el archivo
             $target_dir = "public/whatsapp/audios_enviados/";
             $file_name = uniqid() . ".ogg";  // Cambiar extensión a .ogg
@@ -1429,11 +1417,11 @@ class PedidosModel extends Query
 
             // Mover el archivo a la carpeta de destino
             if (move_uploaded_file($_FILES['audio']['tmp_name'], $target_file)) {
-                // Retornar la ruta relativa del archivo subido
+                // Retornar la ruta del archivo subido
                 $response = [
                     'status' => 200,
                     'message' => 'Audio subido correctamente',
-                    'data' => $target_file  // Aquí devolvemos la ruta relativa del archivo subido
+                    'data' => $target_file  // Aquí devolvemos la ruta del archivo subido
                 ];
             } else {
                 // Error al mover el archivo
@@ -1577,7 +1565,7 @@ class PedidosModel extends Query
 
         $numero_factura = $factura[0]['numero_factura'];
 
-        $sql = "SELECT dfc.id_detalle, dfc.id_factura, dfc.cantidad, dfc.precio_venta, p.nombre_producto, dfc.sku, dfc.id_producto FROM detalle_fact_cot dfc INNER JOIN inventario_bodegas ib ON ib.id_inventario = dfc.id_inventario INNER JOIN productos p ON ib.id_producto = p.id_producto WHERE dfc.numero_factura = '$numero_factura';";
+        $sql = "SELECT dfc.id_detalle, dfc.id_factura, dfc.cantidad, dfc.precio_venta, p.nombre_producto FROM detalle_fact_cot dfc INNER JOIN inventario_bodegas ib ON ib.id_inventario = dfc.id_inventario INNER JOIN productos p ON ib.id_producto = p.id_producto WHERE dfc.numero_factura = '$numero_factura';";
         $productos = $this->select($sql);
 
         return [
@@ -1609,33 +1597,13 @@ class PedidosModel extends Query
 
     public function actualizarDetallePedido($id_detalle, $id_pedido, $cantidad, $precio, $total)
     {
-        // Actualizar la cantidad y el precio de venta en el detalle del pedido
         $sql = "UPDATE detalle_fact_cot SET cantidad = ?, precio_venta = ? WHERE id_detalle = ?";
         $response = $this->update($sql, [$cantidad, $precio, $id_detalle]);
 
-        // Obtener todos los detalles de los productos del pedido
-        $sql = "SELECT * FROM detalle_fact_cot WHERE id_factura = ?";
-        $detalle = $this->dselect($sql, [$id_pedido]);
+        $sql = "UPDATE facturas_cot SET monto_factura = ? WHERE id_factura = ?";
+        $response2 = $this->update($sql, [$total, $id_pedido]);
 
-        $total = 0;
-        $total_costo = 0;
 
-        // Calcular el total de la venta y el total de costos
-        foreach ($detalle as $item) {
-            $total += $item['precio_venta'] * $item['cantidad'];
-
-            // Obtener el costo del producto (pcp)
-            $sql = "SELECT pcp FROM inventario_bodegas WHERE id_producto = ?";
-            $inventario = $this->dselect($sql, [$item['id_producto']]);
-            $costo_unitario = $inventario[0]['pcp'];
-            $total_costo += $costo_unitario * $item['cantidad'];
-        }
-
-        // Actualizar el total de la factura y el costo total en facturas_cot
-        $sql = "UPDATE facturas_cot SET monto_factura = ?, costo_producto = ? WHERE id_factura = ?";
-        $response2 = $this->update($sql, [$total, $total_costo, $id_pedido]);
-
-        // Retornar la respuesta
         if ($response == 1 && $response2 == 1) {
             $response = [
                 'status' => 200,
@@ -1646,124 +1614,7 @@ class PedidosModel extends Query
             $response = [
                 'status' => 500,
                 'title' => 'Error',
-                'message' =>  $response['message'] ?? "Error al actualizar el detalle" . $response2['message'] ?? "Error al actualizar el detalle"
-            ];
-        }
-        return $response;
-    }
-
-
-    public function agregarProductoAPedido($id_pedido, $id_producto, $cantidad, $precio, $sku, $id_inventario)
-    {
-        // Obtener detalles de la factura
-        $sql = "SELECT * FROM facturas_cot WHERE id_factura = ?";
-        $factura = $this->dselect($sql, [$id_pedido]);
-        $numero_factura = $factura[0]['numero_factura'];
-
-        // Verificar si el producto con el mismo id_producto y sku ya existe en la factura
-        $sql = "SELECT * FROM detalle_fact_cot WHERE id_factura = ? AND id_producto = ? AND sku = ?";
-        $detalleExistente = $this->dselect($sql, [$id_pedido, $id_producto, $sku]);
-
-        if ($detalleExistente) {
-            // Producto ya existe, actualizar cantidad y precio si es necesario
-            $cantidad += $detalleExistente[0]['cantidad'];
-            $precio = max($precio, $detalleExistente[0]['precio_venta']); // Tomar el mayor precio
-
-            $sql = "UPDATE detalle_fact_cot SET cantidad = ?, precio_venta = ? WHERE id_factura = ? AND id_producto = ? AND sku = ?";
-            $data = [$cantidad, $precio, $id_pedido, $id_producto, $sku];
-            $response = $this->update($sql, $data);
-        } else {
-            // Obtener detalles del inventario, incluyendo el costo del producto (pcp)
-            $sql = "SELECT * FROM inventario_bodegas WHERE id_producto = ?";
-            $inventario = $this->dselect($sql, [$id_producto]);
-            $costo_unitario = $inventario[0]['pcp'];
-
-            // Insertar el detalle del producto en la factura
-            $sql = "INSERT INTO detalle_fact_cot (id_factura, id_producto, cantidad, precio_venta, id_plataforma, sku, numero_factura, id_inventario) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-            $data = [$id_pedido, $id_producto, $cantidad, $precio, $factura[0]['id_plataforma'], $sku, $numero_factura, $id_inventario];
-            $response = $this->insert($sql, $data);
-        }
-
-        // Obtener el detalle de todos los productos en la factura
-        $sql = "SELECT * FROM detalle_fact_cot WHERE id_factura = ?";
-        $detalle = $this->dselect($sql, [$id_pedido]);
-
-        $total = 0;
-        $total_costo = 0;
-
-        // Calcular el total de la venta y el total de costos
-        foreach ($detalle as $item) {
-            $total += $item['precio_venta'] * $item['cantidad'];
-            $sql = "SELECT pcp FROM inventario_bodegas WHERE id_producto = ?";
-            $item_inventario = $this->dselect($sql, [$item['id_producto']]);
-            $costo_unitario = $item_inventario[0]['pcp'];
-            $total_costo += $costo_unitario * $item['cantidad'];
-        }
-
-        // Actualizar la factura con el monto total de la venta y el costo total
-        $sql = "UPDATE facturas_cot SET monto_factura = ?, costo_producto = ? WHERE id_factura = ?";
-        $response2 = $this->update($sql, [$total, $total_costo, $id_pedido]);
-
-        // Retornar respuesta según el éxito de las operaciones
-        if ($response && $response2 == 1) {
-            $response = [
-                'status' => 200,
-                'title' => 'Peticion exitosa',
-                'message' => 'Producto agregado correctamente'
-            ];
-        } else {
-            $response = [
-                'status' => 500,
-                'title' => 'Error',
-                'message' => $response['message'] ?? "Error al agregar el producto" . $response2['message'] ?? "Error al agregar el producto"
-            ];
-        }
-        return $response;
-    }
-
-    public function eliminarProductoDePedido($id_detalle)
-    {
-        // Obtener el id de la factura a la que pertenece el detalle
-        $sql = "SELECT id_factura FROM detalle_fact_cot WHERE id_detalle = ?";
-        $id_pedido = $this->dselect($sql, [$id_detalle]);
-        $id_pedido = $id_pedido[0]['id_factura'];
-
-        // Eliminar el detalle del producto de la factura
-        $sql = "DELETE FROM detalle_fact_cot WHERE id_detalle = ?";
-        $response = $this->delete($sql, [$id_detalle]);
-
-        // Obtener el detalle de todos los productos en la factura
-        $sql = "SELECT * FROM detalle_fact_cot WHERE id_factura = ?";
-        $detalle = $this->dselect($sql, [$id_pedido]);
-
-        $total = 0;
-        $total_costo = 0;
-
-        // Calcular el total de la venta y el total de costos
-        foreach ($detalle as $item) {
-            $total += $item['precio_venta'] * $item['cantidad'];
-            $sql = "SELECT pcp FROM inventario_bodegas WHERE id_producto = ?";
-            $item_inventario = $this->dselect($sql, [$item['id_producto']]);
-            $costo_unitario = $item_inventario[0]['pcp'];
-            $total_costo += $costo_unitario * $item['cantidad'];
-        }
-
-        // Actualizar la factura con el monto total de la venta y el costo total
-        $sql = "UPDATE facturas_cot SET monto_factura = ?, costo_producto = ? WHERE id_factura = ?";
-        $response2 = $this->update($sql, [$total, $total_costo, $id_pedido]);
-
-        // Retornar respuesta según el éxito de las operaciones
-        if ($response && $response2 == 1) {
-            $response = [
-                'status' => 200,
-                'title' => 'Peticion exitosa',
-                'message' => 'Producto eliminado correctamente'
-            ];
-        } else {
-            $response = [
-                'status' => 500,
-                'title' => 'Error',
-                'message' => $response['message'] ?? "Error al eliminar el producto" . $response2['message'] ?? "Error al eliminar el producto"
+                'message' => 'Error al actualizar el detalle'
             ];
         }
         return $response;
