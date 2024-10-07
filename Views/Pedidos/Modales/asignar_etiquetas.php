@@ -107,7 +107,7 @@
                     // Recorremos cada etiqueta recibida en la respuesta
                     response.forEach(function(etiqueta) {
                         let check = "";
-                        if (id_etiqueta_select =etiqueta.id_etiqueta){
+                        if (id_etiqueta_select = etiqueta.id_etiqueta){
                             check = "checked";
                         }
                         // Creamos el HTML para cada etiqueta como radio button
