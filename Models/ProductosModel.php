@@ -342,8 +342,13 @@ class ProductosModel extends Query
             $response['message'] = $editar_producto['message'];
         }
 
+        $sql = "SELECT * FROM productos_tienda WHERE id_producto_tienda=$id_producto_tienda";
+        $producto_tienda = $this->select($sql);
+        $sku = $producto_tienda[0]['sku'];
+        $id_producto = $producto_tienda[0]['id_producto'];
+
         //buscar si existe producto 
-        $sql_tienda = "SELECT * FROM productos WHERE id_producto=$id_producto_tienda and id_plataforma = $id_plataforma";
+        $sql_tienda = "SELECT * FROM productos WHERE id_producto=$id_producto and id_plataforma = $id_plataforma";
         echo $sql_tienda;
         $producto_tienda = $this->select($sql_tienda);
         if (!empty($producto_tienda)) {
