@@ -192,12 +192,12 @@ const listGuias = async () => {
         novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
       }
 
-      if (guia.terminado == 1) {
+      if (guia.estado_novedad == 6) {
+        novedad = `<span>Esta novedad no se permite ser gestionada</span>`;
+      } else if (guia.terminado == 1) {
         novedad = `<span>Proceso de guia terminado</span>`;
       } else if (guia.solucionada == 1) {
         novedad = `<span>Novedad solventada</span>`;
-      } else if (guia.estado_novedad == 6) {
-        novedad = `<span>Esta novedad no se permite ser gestionada</span>`;
       }
 
       if (
