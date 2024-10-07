@@ -120,7 +120,7 @@
         formData.append("color_etiqueta", color_etiqueta);
 
         $.ajax({
-            url: SERVERURL + "Pedidos/agregar_etiqueta",
+            url: SERVERURL + "Pedidos/agregar_etiquetas",
             type: "POST",
             data: formData,
             processData: false, // No procesar los datos
