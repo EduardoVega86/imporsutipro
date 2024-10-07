@@ -692,7 +692,7 @@ class Pedidos extends Controller
         $id_etiqueta = $_POST['id_etiqueta'];
         $id_cliente_chat = $_POST['id_cliente_chat'];
 
-        $response = $this->model->agregar_etiqueta($id_etiqueta, $id_cliente_chat);
+        $response = $this->model->asignar_etiqueta($id_etiqueta, $id_cliente_chat);
         echo json_encode($response);
     }
 
