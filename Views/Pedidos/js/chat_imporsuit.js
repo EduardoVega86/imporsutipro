@@ -12,6 +12,25 @@ $(document).ready(function () {
 
       // Recorremos cada contacto
       $.each(data, function (index, contacto) {
+        let color_etiqueta = "";
+
+        let formData = new FormData();
+        formData.append("id_etiqueta", contacto.id_etiqueta);
+        $.ajax({
+          url: SERVERURL + "pedidos/obtener_etiqueta_cliente",
+          type: "POST", // Cambiar a POST para enviar FormData
+          data: formData,
+          processData: false, // No procesar los datos
+          contentType: false, // No establecer ningún tipo de contenido
+          dataType: "json",
+          success: function (response) {
+            color_etiqueta = `<i class="fa-solid fa-tag" style="color: ${response[0].color_etiqueta} !important;"></i>`;
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            alert(errorThrown);
+          },
+        });
+
         innerHTML += `
             <li class="list-group-item contact-item d-flex align-items-center" data-id="${
               contacto.id_cliente
@@ -20,7 +39,7 @@ $(document).ready(function () {
                 <div>
                     <h6 class="mb-0">${
                       contacto.nombre_cliente || "Desconocido"
-                    } ${contacto.apellido_cliente || ""}</h6>
+                    } ${contacto.apellido_cliente || ""} ${color_etiqueta}</h6>
                     <small class="text-muted">${
                       contacto.texto_mensaje || "No hay mensajes"
                     }</small>
@@ -950,7 +969,7 @@ document.addEventListener("DOMContentLoaded", function () {
   toggleButtons();
 });
 
-function abrir_modal_etiquetas(){
+function abrir_modal_etiquetas() {
   cargarEtiquetas_asignar();
   $("#asignar_etiquetaModal").modal("show");
 }
