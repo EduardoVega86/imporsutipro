@@ -1612,7 +1612,7 @@ ON
         $response = [];
 
         if ($cantidad_guias > 0) {
-            $response[] = ['nombre' => 'GUIAS PENDINTES POR DESPACHAR', 'cantidad' => $cantidad_guias, 'url' => 'pedidos/guias'];
+            $response[] = ['nombre' => 'GUIAS PENDIENTES POR DESPACHAR', 'cantidad' => $cantidad_guias, 'url' => 'pedidos/guias'];
         }
 
         if ($cantidad_novedades > 0) {
