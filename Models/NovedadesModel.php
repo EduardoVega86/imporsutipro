@@ -9,7 +9,12 @@ class NovedadesModel extends Query
 
     public function cargarNovedades($plataforma)
     {
-        $sql = "SELECT * FROM novedades where id_plataforma = $plataforma and solucionada = 0";
+        $sql = "SELECT * 
+                FROM novedades 
+                WHERE id_plataforma = $plataforma 
+                AND solucionada = 0 
+                AND NOT (guia_novedad LIKE 'I00%' AND estado_novedad = 6);
+                ";
         $response = $this->select($sql);
         return $response;
     }
