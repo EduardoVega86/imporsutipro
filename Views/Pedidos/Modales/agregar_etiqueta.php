@@ -166,8 +166,8 @@
                         // Creamos el HTML para cada etiqueta
                         var etiquetaHTML = `
                             <div class="etiqueta-item d-flex align-items-center mb-3">
-                                <div class="etiqueta-color" style="background-color: ${etiqueta.color}; width: 20px; height: 20px; border-radius: 50%; margin-right: 10px;"></div>
-                                <div class="etiqueta-nombre">${etiqueta.nombre}</div>
+                                <div class="etiqueta-color" style="background-color: ${etiqueta.color_etiqueta}; width: 20px; height: 20px; border-radius: 50%; margin-right: 10px;"></div>
+                                <div class="etiqueta-nombre">${etiqueta.nombre_etiqueta}</div>
                             </div>
                         `;
 
