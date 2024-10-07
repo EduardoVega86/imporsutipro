@@ -28,14 +28,6 @@
                     <input type="hidden" id="uid_cliente" name="uid_cliente">
 
                 </div>
-                <div class="dropdown" style="position: absolute; left: 10px; top: 10px;">
-                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-gear"></i>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="abrir_modal_etiquetas()">Agregar etiqueta</span></li>
-                    </ul>
-                </div>
                 <i class="fas fa-ellipsis-v toggle-info" id="btn-three-dots"></i> <!-- Botón de tres puntos -->
             </div>
 
@@ -95,6 +87,14 @@
         <!-- Derecha: Información del contacto -->
         <div class="col-3 p-0 chat-info d-flex flex-column align-items-center position-relative hidden">
             <div class="p-3 text-center">
+                <div class="dropdown" style="position: absolute; left: 10px; top: 10px;">
+                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-gear"></i>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="abrir_modal_etiquetas()">Agregar etiqueta</span></li>
+                    </ul>
+                </div>
                 <button class="close-info" id="btn-close-info">&times;</button> <!-- Botón de cierre (X) -->
                 <img src="https://via.placeholder.com/150" class="rounded-circle" alt="Foto de perfil">
                 <h5><span id="telefono_info"></span></h5>
