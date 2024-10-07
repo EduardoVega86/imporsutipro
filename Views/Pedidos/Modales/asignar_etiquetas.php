@@ -102,13 +102,19 @@
                     // Limpiamos el contenido existente en el div
                     $('#lista_etiquetas_asignar').empty();
 
+                    var id_etiqueta_select = $('#id_etiqueta_select').val();
+
                     // Recorremos cada etiqueta recibida en la respuesta
                     response.forEach(function(etiqueta) {
+                        let check = "";
+                        if (id_etiqueta_select =etiqueta.id_etiqueta){
+                            check = "checked";
+                        }
                         // Creamos el HTML para cada etiqueta como radio button
                         var etiquetaHTML = `
                             <div class="form-check mb-3">
-                                <input class="form-check-input" type="radio" name="etiqueta" id="etiqueta_${etiqueta.id}" value="${etiqueta.id}" onchange="seleccionarEtiqueta(${etiqueta.id})">
-                                <label class="form-check-label d-flex align-items-center" for="etiqueta_${etiqueta.id}">
+                                <input class="form-check-input" type="radio" name="etiqueta" id="etiqueta_${etiqueta.id_etiqueta}" value="${etiqueta.id_etiqueta}" onchange="seleccionarEtiqueta(${etiqueta.id_etiqueta})" ${check}>
+                                <label class="form-check-label d-flex align-items-center" for="etiqueta_${etiqueta.id_etiqueta}">
                                     <div class="etiqueta-color" style="background-color: ${etiqueta.color_etiqueta}; width: 20px; height: 20px; border-radius: 50%; margin-right: 10px;"></div>
                                     <div class="etiqueta-nombre">${etiqueta.nombre_etiqueta}</div>
                                 </label>
