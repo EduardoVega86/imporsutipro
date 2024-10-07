@@ -85,7 +85,7 @@
         max-height: 426px;
     }
 
-    .video_style_mensaje {
+    .video_style_mensaje{
         max-width: 330px;
         max-height: 426px;
     }
@@ -409,48 +409,5 @@
     #btn-three-dots:hover {
         color: #007bff;
         /* Añade un efecto de hover */
-    }
-
-    /* Esconder el radio button */
-    .form-check-input {
-        position: absolute;
-        opacity: 0;
-    }
-
-    /* Estilo de las tarjetas de etiquetas */
-    .etiqueta-item {
-        display: flex;
-        align-items: center;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        margin-bottom: 10px;
-        cursor: pointer;
-        transition: background-color 0.3s, box-shadow 0.3s;
-    }
-
-    .etiqueta-item:hover {
-        background-color: #f1f1f1;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Estilo cuando el radio está seleccionado */
-    .form-check-input:checked+.etiqueta-item {
-        background-color: #ffc107;
-        border-color: #ffc107;
-        color: white;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    .etiqueta-color {
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        margin-right: 10px;
-    }
-
-    .etiqueta-nombre {
-        font-size: 16px;
-        font-weight: bold;
     }
 </style>
