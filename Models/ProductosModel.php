@@ -349,7 +349,6 @@ class ProductosModel extends Query
 
         //buscar si existe producto 
         $sql_tienda = "SELECT * FROM productos WHERE id_producto=$id_producto and id_plataforma = $id_plataforma";
-        echo $sql_tienda;
         $producto_tienda = $this->select($sql_tienda);
         if (!empty($producto_tienda)) {
             $sql_tienda = "UPDATE productos SET nombre_producto = ? WHERE id_producto = ? AND id_plataforma = ?";
@@ -363,7 +362,6 @@ class ProductosModel extends Query
                 $sql = "UPDATE inventario_bodegas SET pvp = ?, pref = ? WHERE id_inventario = ?";
                 $data = [$pvp_tienda, $pref, $id_inventario];
                 $editar_producto = $this->update($sql, $data);
-                print_r($editar_producto);
             }
         }
 
