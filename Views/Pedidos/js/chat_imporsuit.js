@@ -950,7 +950,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function abrir_modal_etiquetas(){
-  cargarEtiquetas();
+  cargarEtiquetas_asignar();
   $("#asignar_etiquetaModal").modal("show");
 }
 /* Fin enviar mensaje de audio Whatsapp */
