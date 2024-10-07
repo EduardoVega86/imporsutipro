@@ -3,11 +3,14 @@ let dataTableIsInitialized = false;
 
 const dataTableOptions = {
   columnDefs: [
-    { className: "centered", targets: [0,1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11,12,13] },
+    {
+      className: "centered",
+      targets: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+    },
     { orderable: false, targets: 0 }, // Asegúrate de que esta sea la columna correcta
     { visible: false, targets: 11 },
-     { visible: false, targets: 12 },
-      { visible: false, targets: 13 }// Asegúrate de que esta sea la columna correcta
+    { visible: false, targets: 12 },
+    { visible: false, targets: 13 }, // Asegúrate de que esta sea la columna correcta
   ],
   order: [[2, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
   pageLength: 10,
@@ -21,7 +24,7 @@ const dataTableOptions = {
       title: "Panel de Control: Usuarios",
       titleAttr: "Exportar a Excel",
       exportOptions: {
-        columns: [1, 2, 4, 5, 6, 7, 8, 11,12,13],
+        columns: [1, 2, 4, 5, 6, 7, 8, 11, 12, 13],
       },
       filename: "Productos" + "_" + getFecha(),
       footer: true,
@@ -188,6 +191,15 @@ const listGuias = async () => {
       } else if (guia.estado_guia_sistema == 14 && transporte == 4) {
         novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
       }
+
+      if (terminado == 1) {
+        novedad = `<span>Proceso de guia terminado</span>`;
+      } else if (solucionada == 1) {
+        novedad = `<span>Novedad solventada</span>`;
+      } else if (estado_novedad == 6) {
+        novedad = `<span>Esta novedad no se permite ser gestionada</span>`;
+      }
+
       if (
         guia.estado_guia_sistema >= 318 &&
         guia.estado_guia_sistema <= 351 &&
