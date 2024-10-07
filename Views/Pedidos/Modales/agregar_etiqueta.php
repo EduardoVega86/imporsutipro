@@ -138,7 +138,7 @@
                     toastr.success("CONFIGURACION AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
                         positionClass: "toast-bottom-center",
                     });
-                    $('#agregar_etiquetaModal').modal('hide');
+                    
                     cargarEtiquetas();
 
                 }
