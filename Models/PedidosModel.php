@@ -1511,6 +1511,34 @@ class PedidosModel extends Query
         return $response;
     }
 
+    public function asignar_etiqueta($idEtiqueta, $id_cliente_chat)
+    {
+        // Inicializar la respuesta
+        $response = $this->initialResponse();
+
+
+        // Consulta de inserción con la clave única
+        $sql_update = "UPDATE `clientes_chat_center` SET `id_etiqueta` = ? WHERE `id` = ?";
+        $update_data = [$idEtiqueta, $id_cliente_chat];
+        $actualizar_configuracion = $this->update($sql_update, $update_data);
+
+        // Verificar si la inserción fue exitosa
+        if ($actualizar_configuracion == 1) {
+
+
+            $response['status'] = 200;
+            $response['title'] = 'Petición exitosa';
+            $response['message'] = 'Configuración agregada y actualizada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error en inserción';
+            $response['message'] = $actualizar_configuracion['message'];
+        }
+
+
+        return $response;
+    }
+
     /* automatizador */
     public function configuraciones_automatizador($id_plataforma)
     {
