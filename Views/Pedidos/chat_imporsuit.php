@@ -85,12 +85,6 @@
         <!-- Derecha: Información del contacto -->
         <div class="col-3 p-0 chat-info d-flex flex-column align-items-center position-relative hidden">
             <div class="p-3 text-center">
-                <button class="close-info" id="btn-close-info">&times;</button> <!-- Botón de cierre (X) -->
-                <img src="https://via.placeholder.com/150" class="rounded-circle" alt="Foto de perfil">
-                <h5><span id="telefono_info"></span></h5>
-                <!-- <p class="text-muted">Última vez en línea: hace 5 minutos</p> -->
-            </div>
-            <div class="p-3 d-flex flex-row">
                 <div class="dropdown">
                     <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fa-solid fa-gear"></i>
@@ -99,11 +93,15 @@
                         <li><span class="dropdown-item" style="cursor: pointer;" onclick="abrir_modal_etiquetas">Agregar etiqueta</span></li>
                     </ul>
                 </div>
-                <div class="d-flex flex-column">
-                    <h4>Detalles</h4>
-                    <p><span id="nombre_info"></span></p>
-                    <p><span id="correo_info"></span></p>
-                </div>
+                <button class="close-info" id="btn-close-info">&times;</button> <!-- Botón de cierre (X) -->
+                <img src="https://via.placeholder.com/150" class="rounded-circle" alt="Foto de perfil">
+                <h5><span id="telefono_info"></span></h5>
+                <!-- <p class="text-muted">Última vez en línea: hace 5 minutos</p> -->
+            </div>
+            <div class="p-3">
+                <h4>Detalles</h4>
+                <p><span id="nombre_info"></span></p>
+                <p><span id="correo_info"></span></p>
             </div>
 
             <!-- Sección adicional que aparece al hacer clic en los botones flotantes -->
