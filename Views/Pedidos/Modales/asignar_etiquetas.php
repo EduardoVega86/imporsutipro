@@ -158,8 +158,6 @@
                     toastr.success("Etiqueta asignada correctamente", "NOTIFICACIÓN", {
                         positionClass: "toast-bottom-center"
                     });
-
-                    cargar_numeros_clientes();
                 } else {
                     toastr.error("Error al asignar la etiqueta", "NOTIFICACIÓN", {
                         positionClass: "toast-bottom-center"
