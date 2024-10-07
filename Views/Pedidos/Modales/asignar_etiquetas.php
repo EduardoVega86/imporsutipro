@@ -92,7 +92,7 @@
 </div>
 
 <script>
-    function cargarEtiquetas_asignar() {
+    function cargarEtiquetas() {
         $.ajax({
             url: SERVERURL + "Pedidos/obtener_etiquetas",
             type: "GET",
@@ -104,12 +104,12 @@
 
                     // Recorremos cada etiqueta recibida en la respuesta
                     response.forEach(function(etiqueta) {
-                        // Creamos el HTML para cada etiqueta como un radio button estilizado
+                        // Creamos el HTML para cada etiqueta como radio button
                         var etiquetaHTML = `
                             <div class="form-check mb-3">
                                 <input class="form-check-input" type="radio" name="etiqueta" id="etiqueta_${etiqueta.id}" value="${etiqueta.id}" onchange="seleccionarEtiqueta(${etiqueta.id})">
-                                <label class="etiqueta-item" for="etiqueta_${etiqueta.id}">
-                                    <div class="etiqueta-color" style="background-color: ${etiqueta.color_etiqueta};"></div>
+                                <label class="form-check-label d-flex align-items-center" for="etiqueta_${etiqueta.id}">
+                                    <div class="etiqueta-color" style="background-color: ${etiqueta.color_etiqueta}; width: 20px; height: 20px; border-radius: 50%; margin-right: 10px;"></div>
                                     <div class="etiqueta-nombre">${etiqueta.nombre_etiqueta}</div>
                                 </label>
                             </div>
