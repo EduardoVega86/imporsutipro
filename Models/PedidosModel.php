@@ -1719,4 +1719,24 @@ class PedidosModel extends Query
         }
         return $response;
     }
+
+    public function actualizarContienePedido($id_pedido, $contiene)
+    {
+        $sql = "UPDATE facturas_cot SET contiene = ? WHERE id_factura = ?";
+        $response = $this->update($sql, [$contiene, $id_pedido]);
+        if ($response == 1) {
+            $response = [
+                'status' => 200,
+                'title' => 'Peticion exitosa',
+                'message' => 'Contiene actualizado correctamente'
+            ];
+        } else {
+            $response = [
+                'status' => 500,
+                'title' => 'Error',
+                'message' => 'Error al actualizar el contiene'
+            ];
+        }
+        return $response;
+    }
 }
