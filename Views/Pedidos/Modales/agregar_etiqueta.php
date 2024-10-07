@@ -62,64 +62,45 @@
         }
     }
 </style>
-<div class="modal fade" id="agregar_configuracion_automatizadorModal" tabindex="-1" aria-labelledby="agregar_configuracion_automatizadorModalLabel" aria-hidden="true">
+<div class="modal fade" id="agregar_etiquetaModal" tabindex="-1" aria-labelledby="agregar_etiquetaModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="agregar_configuracion_automatizadorModalLabel"><i class="fas fa-edit"></i> Configuración</h5>
+                <h5 class="modal-title" id="agregar_etiquetaModalLabel"><i class="fas fa-edit"></i> Etiquetas</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
 
-                <!-- Configuración General -->
+                <!-- Agregar etiqueta -->
                 <div class="card mb-4">
                     <div class="card-header">
-                        Configuración General
+                        Agregar etiqueta
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
-                            <label for="nombreConfiguracion" class="form-label">Nombre Configuración</label>
-                            <input type="text" class="form-control" id="nombreConfiguracion" placeholder="Ingrese el nombre de la configuración">
+                            <label for="nombre_etiqueta" class="form-label">Nombre etiqueta</label>
+                            <input type="text" class="form-control" id="nombre_etiqueta" placeholder="Ingrese el nombre de la etiqueta">
+                            <div class="input-box d-flex flex-column">
+                                <input id="color_etiqueta" name="color_etiqueta" type="color" value="#ff0000">
+                                <h6><strong>Botones</strong></h6>
+                            </div>
+                            <button type="button" class="btn btn-primary" onclick="agregar_etiqueta()">Agregar etiqueta</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Configuración WhatsApp -->
+                <!-- Lista de etiquetas -->
                 <div class="card">
                     <div class="card-header">
-                        Configuración WhatsApp
+                        Lista de etiquetas
                     </div>
                     <div class="card-body">
-                        <div class="mb-3">
-                            <label for="telefono" class="form-label">Teléfono</label>
-                            <input type="text" class="form-control" id="telefono" placeholder="Ingrese el teléfono">
+
+                        <div id="lista_etiquetas">
+
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="idWhatsapp" class="form-label">ID WhatsApp</label>
-                                <input type="text" class="form-control" id="idWhatsapp" placeholder="Ingrese el ID de WhatsApp">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="idBusinessAccount" class="form-label">ID WhatsApp Business Account</label>
-                                <input type="text" class="form-control" id="idBusinessAccount" placeholder="Ingrese el ID de WhatsApp Business Account">
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="tokenApi" class="form-label">Token WhatsApp API</label>
-                            <input type="text" class="form-control" id="tokenApi" placeholder="Ingrese el token de la API de WhatsApp">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="tokenWebhookUrl" class="form-label">Token Webhook URL</label>
-                            <input type="text" class="form-control" id="tokenWebhookUrl" placeholder="Ingrese el token de Webhook URL" value="wh_clfgshur5">
-                        </div>
                     </div>
-                </div>
-
-                <div style="padding: 10px;">
-                    <button type="button" class="btn btn-primary" onclick="agregar_configuracion()">Agregar Configuracion</button>
                 </div>
             </div>
             <div class="modal-footer">
@@ -130,24 +111,16 @@
 </div>
 
 <script>
-    function agregar_configuracion() {
-        var nombreConfiguracion = $('#nombreConfiguracion').val();
-        var telefono = $('#telefono').val();
-        var idWhatsapp = $('#idWhatsapp').val();
-        var idBusinessAccount = $('#idBusinessAccount').val();
-        var tokenApi = $('#tokenApi').val();
-        var tokenWebhookUrl = $('#tokenWebhookUrl').val();
+    function agregar_etiqueta() {
+        var nombre_etiqueta = $('#nombre_etiqueta').val();
+        var color_etiqueta = $('#color_etiqueta').val();
 
         let formData = new FormData();
-        formData.append("nombre_configuracion", nombreConfiguracion);
-        formData.append("telefono", telefono);
-        formData.append("id_telefono", idWhatsapp);
-        formData.append("id_whatsapp", idBusinessAccount);
-        formData.append("token", tokenApi);
-        formData.append("webhook_url", tokenWebhookUrl);
+        formData.append("nombre_etiqueta", nombre_etiqueta);
+        formData.append("color_etiqueta", color_etiqueta);
 
         $.ajax({
-            url: SERVERURL + "Pedidos/agregar_configuracion",
+            url: SERVERURL + "Pedidos/agregar_etiqueta",
             type: "POST",
             data: formData,
             processData: false, // No procesar los datos
@@ -165,8 +138,9 @@
                     toastr.success("CONFIGURACION AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
                         positionClass: "toast-bottom-center",
                     });
-                    $('#agregar_configuracion_automatizadorModal').modal('hide');
-                    initDataTableConfiguracionAutomatizador();
+                    $('#agregar_etiquetaModal').modal('hide');
+                    cargarEtiquetas();
+
                 }
 
             },
@@ -176,4 +150,43 @@
         });
 
     }
+
+    function cargarEtiquetas() {
+        $.ajax({
+            url: SERVERURL + "Pedidos/obetener_etiquetas",
+            type: "GET",
+            dataType: "json",
+            success: function(response) {
+                if (response.length > 0) {
+                    // Limpiamos el contenido existente en el div
+                    $('#lista_etiquetas').empty();
+
+                    // Recorremos cada etiqueta recibida en la respuesta
+                    response.forEach(function(etiqueta) {
+                        // Creamos el HTML para cada etiqueta
+                        var etiquetaHTML = `
+                            <div class="etiqueta-item d-flex align-items-center mb-3">
+                                <div class="etiqueta-color" style="background-color: ${etiqueta.color}; width: 20px; height: 20px; border-radius: 50%; margin-right: 10px;"></div>
+                                <div class="etiqueta-nombre">${etiqueta.nombre}</div>
+                            </div>
+                        `;
+
+                        // Añadimos el HTML de la etiqueta al contenedor
+                        $('#lista_etiquetas').append(etiquetaHTML);
+                    });
+                } else {
+                    // Si no hay etiquetas, mostramos un mensaje
+                    $('#lista_etiquetas').html('<p>No hay etiquetas disponibles.</p>');
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error('Error al obtener etiquetas:', errorThrown);
+            }
+        });
+    }
+
+    // Llamamos a la función cargarEtiquetas cuando el modal se abre
+    $('#agregar_etiquetaModal').on('shown.bs.modal', function() {
+        cargarEtiquetas();
+    });
 </script>

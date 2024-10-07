@@ -664,6 +664,23 @@ class Pedidos extends Controller
         echo json_encode($response);
     }
 
+    public function obtener_etiquetas()
+    {
+        $response = $this->model->obtener_url_video_mensaje($_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
+
+    public function agregar_etiquetas()
+    {
+        $nombre_etiqueta = $_POST['nombre_etiqueta'];
+        $color_etiqueta = $_POST['color_etiqueta'];
+
+
+        $response = $this->model->agregar_etiquetas($nombre_etiqueta, $color_etiqueta, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
     /* automatizador */
     public function configuraciones_automatizador()
     {
