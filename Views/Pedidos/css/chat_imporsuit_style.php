@@ -85,7 +85,7 @@
         max-height: 426px;
     }
 
-    .video_style_mensaje{
+    .video_style_mensaje {
         max-width: 330px;
         max-height: 426px;
     }
@@ -411,15 +411,15 @@
         /* Añade un efecto de hover */
     }
 
-    /* Ocultar el radio button */
-    .form-check-input {
+    /* Esconder el radio button de las etiquetas (solo para este modal) */
+    .asignar-etiqueta-form-check-input {
         position: absolute;
         opacity: 0;
         pointer-events: none;
     }
 
-    /* Estilo de las tarjetas de las etiquetas */
-    .etiqueta-item {
+    /* Estilo de las tarjetas de etiquetas (solo para este modal) */
+    .asignar-etiqueta-item {
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -433,19 +433,19 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
     }
 
-    .etiqueta-item:hover {
+    .asignar-etiqueta-item:hover {
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
         background-color: #f8f9fa;
     }
 
     /* Estilo cuando el radio está seleccionado */
-    .form-check-input:checked + .etiqueta-item {
+    .asignar-etiqueta-form-check-input:checked+.asignar-etiqueta-item {
         border-color: #ffc107;
         background-color: #fff7e6;
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     }
 
-    .etiqueta-color {
+    .asignar-etiqueta-color {
         width: 30px;
         height: 30px;
         border-radius: 50%;
@@ -454,20 +454,20 @@
         border: 2px solid #e0e0e0;
     }
 
-    .etiqueta-nombre {
+    .asignar-etiqueta-nombre {
         font-size: 16px;
         font-weight: 500;
         color: #333;
     }
 
-    /* Icono de selección */
-    .check-icon {
+    /* Icono de selección (solo se muestra cuando se selecciona una etiqueta) */
+    .asignar-check-icon {
         display: none;
         font-size: 20px;
         color: #ffc107;
     }
 
-    .form-check-input:checked + .etiqueta-item .check-icon {
+    .asignar-etiqueta-form-check-input:checked+.asignar-etiqueta-item .asignar-check-icon {
         display: block;
     }
 </style>
