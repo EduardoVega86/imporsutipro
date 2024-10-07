@@ -1392,7 +1392,8 @@ class PedidosModel extends Query
 
     public function numeros_clientes($id_plataforma)
     {
-        $sql = "SELECT * FROM `clientes_chat_center` INNER JOIN `mensajes_clientes` ON clientes_chat_center.id = mensajes_clientes.id_cliente WHERE 
+        $sql = "SELECT * FROM `clientes_chat_center` INNER JOIN `mensajes_clientes` ON clientes_chat_center.id = mensajes_clientes.id_cliente 
+        LEFT JOIN `etiquetas_chat_center` ON etiquetas_chat_center.id_etiqueta = clientes_chat_center.id_etiqueta WHERE 
         clientes_chat_center.id_plataforma = $id_plataforma AND mensajes_clientes.rol_mensaje = 0 GROUP BY clientes_chat_center.celular_cliente ORDER BY mensajes_clientes.created_at DESC;";
         return $this->select($sql);
     }
@@ -1470,13 +1471,6 @@ class PedidosModel extends Query
         $sql = "SELECT * FROM `etiquetas_chat_center` WHERE id_plataforma = $id_plataforma;";
         return $this->select($sql);
     }
-
-    public function obtener_etiqueta_cliente($id_etiqueta)
-    {
-        $sql = "SELECT * FROM `etiquetas_chat_center` WHERE id_etiqueta = $id_etiqueta;";
-        return $this->select($sql);
-    }
-
 
     public function agregar_etiqueta($nombre_etiqueta, $color_etiqueta, $id_plataforma)
     {

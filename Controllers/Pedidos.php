@@ -670,13 +670,6 @@ class Pedidos extends Controller
         echo json_encode($response);
     }
 
-    public function obtener_etiqueta_cliente()
-    {
-        $id_etiqueta = $_POST['id_etiqueta'];
-        $response = $this->model->obtener_etiqueta_cliente($id_etiqueta);
-        echo json_encode($response);
-    }
-
     public function agregar_etiqueta()
     {
         $nombre_etiqueta = $_POST['nombre_etiqueta'];

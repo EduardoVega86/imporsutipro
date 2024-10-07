@@ -14,22 +14,9 @@ $(document).ready(function () {
       $.each(data, function (index, contacto) {
         let color_etiqueta = "";
 
-        let formData = new FormData();
-        formData.append("id_etiqueta", contacto.id_etiqueta);
-        $.ajax({
-          url: SERVERURL + "pedidos/obtener_etiqueta_cliente",
-          type: "POST", // Cambiar a POST para enviar FormData
-          data: formData,
-          processData: false, // No procesar los datos
-          contentType: false, // No establecer ningún tipo de contenido
-          dataType: "json",
-          success: function (response) {
-            color_etiqueta = `<i class="fa-solid fa-tag" style="color: ${response[0].color_etiqueta} !important;"></i>`;
-          },
-          error: function (jqXHR, textStatus, errorThrown) {
-            alert(errorThrown);
-          },
-        });
+        if (contacto.color_etiqueta) {
+          color_etiqueta = `<i class="fa-solid fa-tag" style="color: ${contacto.color_etiqueta} !important;"></i>`;
+        }
 
         innerHTML += `
             <li class="list-group-item contact-item d-flex align-items-center" data-id="${
