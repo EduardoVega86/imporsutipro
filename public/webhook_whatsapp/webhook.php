@@ -500,6 +500,8 @@ function validar_automatizador($conn, $payload, $id_configuracion)
     $check_automatizadores_stmt->bind_result($json_output, $json_bloques);
     $check_automatizadores_stmt->fetch();
     $check_automatizadores_stmt->close();
+
+    
 }
 
 // Procesar el mensaje basado en el tipo recibido

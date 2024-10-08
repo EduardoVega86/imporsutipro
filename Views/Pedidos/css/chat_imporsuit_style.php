@@ -453,6 +453,7 @@
     }
 
     #detailsMenu {
+        position: fixed;
         z-index: 2;
         top: 0;
         bottom: 0;
