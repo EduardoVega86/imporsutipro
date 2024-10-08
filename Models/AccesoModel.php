@@ -14,7 +14,7 @@ use \Firebase\JWT\Key;
 
 class AccesoModel extends Query
 {
-    private $jwt_secret = '21j8d89cn8hidjd8wj8d7nd72h7h82dj81h2d72h63g6h8jc8h8'; // Cambia 'your_secret_key' por una clave secreta segura
+    private $jwt_secret = 'semeljxAFrbOvDCHQ98jRHuwhLRdPw6GY0hhhvJdQ6rbkc5SMsXVCcgUTtzsLQyR'; // Cambia 'your_secret_key' por una clave secreta segura
 
     function getRecaptchaAccessToken()
     {
