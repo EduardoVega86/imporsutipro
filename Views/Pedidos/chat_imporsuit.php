@@ -336,7 +336,7 @@
                         </div>
                     </div>
 
-                    <div class="w-100 bottom-0 start-0 p-3 bg-white border-top">
+                    <div class="position-absolute w-100 bottom-0 start-0 p-3 bg-white border-top">
                         <div class="row">
                             <div class="col-md-6">
                                 <button class="btn btn-primary w-100" type="button" onclick="generarGuia()">Generar
