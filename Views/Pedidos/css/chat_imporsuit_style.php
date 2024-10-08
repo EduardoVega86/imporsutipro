@@ -410,4 +410,132 @@
         color: #007bff;
         /* Añade un efecto de hover */
     }
+
+    /* implementacion sistema de guias */
+    .absolute {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 500px;
+            transition: right 0.3s ease;
+        }
+
+        .transportadoras {
+            padding: .25rem;
+            background-color: var(--bs-body-bg);
+            border: var(--bs-border-width) solid var(--bs-border-color);
+            border-radius: 0.375rem 0.375rem 0 0;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .precio {
+            background-color: rgba(0, 0, 0, 0.7);
+            text-align: center;
+            color: white;
+            border-radius: 0 0 10px 10px;
+        }
+
+        #infoMenu {
+            z-index: 1;
+        }
+
+        .transportadora {
+            cursor: pointer;
+        }
+
+        .transportadora img {
+            transition: filter 0.3s;
+        }
+
+        .transportadora img:hover {
+            filter: grayscale(0);
+        }
+
+        #detailsMenu {
+            position: fixed;
+            z-index: 2;
+            top: 0;
+            bottom: 0;
+            right: -500px;
+            /* Hidden by default */
+            width: 500px;
+            transition: right 0.3s ease;
+        }
+
+        #generateMenu {
+            position: fixed;
+            z-index: 2;
+            top: 0;
+            bottom: 0;
+            right: -500px;
+            /* Hidden by default */
+            width: 500px;
+            transition: right 0.3s ease;
+        }
+
+        .right-0 {
+            right: 0;
+        }
+
+        .right-100 {
+            right: -500px;
+        }
+
+        .menu {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 0.25rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            padding: 1rem;
+            height: 100%;
+        }
+
+        /* Contenedor transporte-item para aplicar efecto hover y seleccionado */
+        .transporte-item {
+            transition: transform 0.3s ease, border 0.3s ease;
+            border: 2px solid transparent;
+            /* Sin borde por defecto */
+        }
+
+        /* Hover: Aplica efecto a imagen y precio al mismo tiempo */
+        .transporte-item:hover {
+            transform: translateY(-10px);
+            /* Levanta todo el contenedor */
+            border: 2px solid blue;
+            /* Borde azul en hover */
+        }
+
+        /* Quita el filtro grayscale en hover para la imagen */
+        .transporte-item:hover .img-thumbnail,
+        .transporte-item:hover .precio {
+            filter: grayscale(0);
+        }
+
+        /* Al seleccionar una transportadora */
+        .transporte-item.selected {
+            border: 2px solid blue;
+            /* Mantiene el borde azul cuando está seleccionado */
+        }
+
+        .selected {
+            border: 2px solid blue;
+            /* Mantiene el borde azul cuando está seleccionado */
+        }
+
+        /* También quitar el filtro grayscale cuando está seleccionado */
+        .transporte-item.selected .img-thumbnail,
+        .transporte-item.selected .precio {
+            filter: grayscale(0);
+        }
+
+        /* Ensure the hidden class correctly hides elements */
+        .hidden {
+            display: none;
+        }
+
+        /* Asegura que los botones flotantes estén en la parte inferior */
+        .floating-buttons {
+            margin-top: auto;
+        }
 </style>

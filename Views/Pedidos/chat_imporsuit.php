@@ -135,6 +135,227 @@
                 <button id="btn-tools"><i class="fas fa-wrench"></i></button>
             </div>
         </div>
+        <!-- Modal -->
+        <div class="modal fade" id="productosModal" tabindex="-1" aria-labelledby="productosModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="productosModalLabel">AGREGAR PRODUCTOS A PEDIDO</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="detailsMenu">
+            <div class="menu">
+                <div class="accordion mt-3" id="accordionDetailsMenu">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingPedido">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapsePedido" aria-expanded="true" aria-controls="collapsePedido">
+                                Datos del pedido
+                            </button>
+                        </h2>
+                        <div id="collapsePedido" class="accordion-collapse collapse show" aria-labelledby="headingPedido"
+                            data-bs-parent="#accordionDetailsMenu">
+                            <div class="accordion-body">
+                                <!-- Loader -->
+                                <div id="loadingIndicator" class=" justify-content-center align-items-center"
+                                    style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.8); z-index: 10;">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Cargando...</span>
+                                    </div>
+                                </div>
+
+                                <!-- hiddens -->
+                                <input type="hidden" id="nombreO">
+                                <input type="hidden" id="ciudadO">
+                                <input type="hidden" id="direccionO">
+                                <input type="hidden" id="celularO">
+                                <input type="hidden" id="referenciaO">
+                                <input type="hidden" id="numero_factura">
+                                <input type="hidden" id="precio_envio">
+                                <input type="hidden" id="monto_factura">
+                                <input type="hidden" id="flete">
+                                <input type="hidden" id="seguro">
+                                <input type="hidden" id="comision">
+                                <input type="hidden" id="otros">
+                                <input type="hidden" id="impuestos">
+
+
+                                <div class="row g-3">
+                                    <!-- Nombre del cliente -->
+                                    <div class="col-md-6">
+                                        <label for="nombre_cliente" class="form-label">Nombre del
+                                            cliente:</label>
+                                        <input type="text" class="form-control" id="frm_nombre_cliente"
+                                            placeholder="Ingresa el nombre">
+                                    </div>
+                                    <!-- Teléfono -->
+                                    <div class="col-md-6">
+                                        <label for="telefono" class="form-label">Teléfono:</label>
+                                        <input type="text" class="form-control" id="frm_telefono"
+                                            placeholder="Ingresa el teléfono">
+                                    </div>
+                                    <!-- provincia -->
+                                    <div class="col-md-6">
+                                        <label for="provincia" class="form-label">Provincia:</label>
+                                        <select class="form-select" id="frm_provincia"
+                                            onchange="llenarCiudades(this.value)">
+                                            <option value="" selected>Selecciona una provincia</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- ciudad -->
+                                    <div class="col-md-6">
+                                        <label for="ciudad" class="form-label">Ciudad:</label>
+                                        <select class="form-select" id="frm_ciudad">
+                                            <option value="" selected>Selecciona una ciudad</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- calle principal -->
+                                    <div class="col-md-6">
+                                        <label for="calle_principal" class="form-label">Calle principal:</label>
+                                        <input type="text" class="form-control" id="frm_calle_principal"
+                                            placeholder="Ingresa la calle principal">
+                                    </div>
+
+                                    <!-- calle secundaria -->
+                                    <div class="col-md-6">
+                                        <label for="calle_secundaria" class="form-label">Calle
+                                            secundaria:</label>
+                                        <input type="text" class="form-control" id="frm_calle_secundaria"
+                                            placeholder="Ingresa la calle secundaria">
+                                    </div>
+
+                                    <!-- referencia -->
+                                    <div class="col-md-6">
+                                        <label for="referencia" class="form-label">Referencia:</label>
+                                        <input type="text" class="form-control" id="frm_referencia"
+                                            placeholder="Ingresa la referencia">
+                                    </div>
+
+                                    <!-- observacion-->
+                                    <div class="col-md-6">
+                                        <label for="observacion" class="form-label">Observación:</label>
+                                        <input type="text" class="form-control" id="frm_observacion"
+                                            placeholder="Ingresa la observación">
+                                    </div>
+
+                                    <!-- recaudacion-->
+                                    <div class="col-md">
+                                        <label for="recaudacion" class="form-label">Recaudación:</label>
+                                        <select class="form-select" id="frm_recaudacion">
+                                            <option value="">Selecciona una recaudación</option>
+                                            <option value="1">Con recaudo</option>
+                                            <option value="0">Sin recaudo</option>
+                                        </select>
+                                    </div>
+
+                                    <h3>Selecciona una transportadora:</h3>
+                                    <div class="row">
+                                        <div class="col-6 col-md-3 transporte-item">
+                                            <img style="filter: grayscale(100);"
+                                                src="https://new.imporsuitpro.com/public/img/SERVIENTREGA.jpg"
+                                                alt="Transportadora 1" class="transportadoras transportadora"
+                                                data-value="transportadora1">
+                                            <p class="precio transportadora1" id="precio_transporte_servi">$0</p>
+                                        </div>
+                                        <div class="col-6 col-md-3 transporte-item">
+                                            <img style="filter: grayscale(100);"
+                                                src="https://new.imporsuitpro.com/public/img/LAAR.jpg"
+                                                alt="Transportadora 2" class="transportadoras transportadora"
+                                                data-value="transportadora2">
+                                            <p class="precio transportadora2" id="precio_transporte_laar">$0</p>
+                                        </div>
+                                        <div class="col-6 col-md-3 transporte-item">
+                                            <img style="filter: grayscale(100);"
+                                                src="https://new.imporsuitpro.com/public/img/SPEED.jpg"
+                                                alt="Transportadora 3" class="transportadoras transportadora"
+                                                data-value="transportadora3">
+                                            <p class="precio transportadora3" id="precio_transporte_speed">$0</p>
+                                        </div>
+                                        <div class="col-6 col-md-3 transporte-item">
+                                            <img style="filter: grayscale(100);"
+                                                src="https://new.imporsuitpro.com/public/img/GINTRACOM.jpg"
+                                                alt="Transportadora 4" class="transportadoras transportadora"
+                                                data-value="transportadora4">
+                                            <p class="precio transportadora4" id="precio_transporte_gintracom">$0</p>
+                                        </div>
+                                    </div>
+
+
+                                    <form id="formTransportadora" class="mt-3">
+                                        <input type="hidden" id="selectedTransportadora" name="selectedTransportadora">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingProductos">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseProductos" aria-expanded="false" aria-controls="collapseProductos">
+                                Productos
+                            </button>
+                        </h2>
+                        <div id="collapseProductos" class="accordion-collapse collapse" aria-labelledby="headingProductos"
+                            data-bs-parent="#accordionDetailsMenu">
+                            <div class="accordion-body">
+                                <table class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Producto</th>
+                                            <th>Cantidad</th>
+                                            <th>Precio</th>
+                                            <th>Total</th>
+                                            <th>Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="productosBody">
+                                        <!-- Aquí se añadirán los productos dinámicamente -->
+                                    </tbody>
+                                </table>
+                                <button class="btn btn-success justify-content-end" data-bs-toggle="modal"
+                                    data-bs-target="#productosModal">Agregar
+                                    producto</button>
+                            </div>
+                            <span class="text-end">
+                                <span class="text-end">
+                                    Total a pagar: <span id="totalPagar"></span>
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="position-absolute w-100 bottom-0 start-0 p-3 bg-white border-top">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button class="btn btn-primary w-100" type="button" onclick="generarGuia()">Generar
+                                    guía</button>
+                            </div>
+                            <div class="col-md-6">
+                                <button class="btn btn-danger w-100" type="button" onclick="cancelarPedido()">Cancelar
+                                    pedido</button>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <button class="btn btn-outline-danger w-100" id="closeMenu">Retroceder</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

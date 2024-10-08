@@ -476,11 +476,6 @@ $(document).ready(function () {
 
 /* fin llenar seccion numeros */
 
-// Función global para ver los detalles del pedido
-function verDetallesPedido(id_factura) {
-  window.open(SERVERURL + "Pedidos/editar/" + id_factura, "_blank");
-}
-
 const chatInfo = document.querySelector(".chat-info");
 const chatContent = document.querySelector(".chat-content");
 const btnThreeDots = document.getElementById("btn-three-dots");
@@ -961,3 +956,812 @@ function abrir_modal_etiquetas() {
   $("#asignar_etiquetaModal").modal("show");
 }
 /* Fin enviar mensaje de audio Whatsapp */
+
+/* seccion de creacion de guais y historial pedidos */
+let contiene = "";
+
+// Initialize selectedValue
+let selectedValue = "";
+
+document
+  .getElementById("formTransportadora")
+  .addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (selectedValue) {
+      if (selectedValue == "transportadora1") {
+        alert("Has seleccionado: " + selectedValue + " Servientrega");
+      } else if (selectedValue == "transportadora2") {
+        alert("Has seleccionado: " + selectedValue + " Laar");
+      } else if (selectedValue == "transportadora3") {
+        alert("Has seleccionado: " + selectedValue + " Speed");
+      } else if (selectedValue == "transportadora4") {
+        alert("Has seleccionado: " + selectedValue + " Gintracom");
+      } else {
+        alert("Por favor selecciona una transportadora.");
+      }
+    }
+  });
+
+const mostrarCargando = () => {
+  document.getElementById("loadingIndicator").style.display = "flex";
+};
+
+const ocultarCargando = () => {
+  document.getElementById("loadingIndicator").style.display = "none";
+};
+async function llenarProvincia() {
+  try {
+    const response = await fetch(
+      "https://new.imporsuitpro.com/Ubicaciones/obtenerProvincias"
+    );
+    const data = await response.json();
+
+    const selectProvincia = document.getElementById("frm_provincia");
+    selectProvincia.innerHTML = ""; // Limpiar opciones previas
+    data.forEach((provincia) => {
+      const option = document.createElement("option");
+      option.value = provincia.codigo_provincia;
+      option.innerText = provincia.provincia;
+      selectProvincia.appendChild(option);
+    });
+
+    if (selectProvincia.dataset.selectedValue) {
+      selectProvincia.value = selectProvincia.dataset.selectedValue;
+      await llenarCiudades(selectProvincia.value);
+    }
+  } catch (error) {
+    console.error("Error al cargar provincias:", error);
+  }
+}
+
+async function llenarCiudades(codigo_provincia) {
+  try {
+    const response = await fetch(
+      "https://new.imporsuitpro.com/Ubicaciones/obtenerCiudades/" +
+        codigo_provincia
+    );
+    const data = await response.json();
+
+    const selectCiudad = document.getElementById("frm_ciudad");
+    selectCiudad.innerHTML = ""; // Limpiar opciones previas
+
+    // Generar las opciones del select de ciudad
+    data.forEach((ciudad) => {
+      const option = document.createElement("option");
+      option.value = ciudad.id_cotizacion;
+      option.innerText = ciudad.ciudad;
+      selectCiudad.appendChild(option);
+    });
+  } catch (error) {
+    console.error("Error al cargar ciudades:", error);
+  }
+}
+
+async function llenarProductos(arregloProductos) {
+  const productosBody2 = document.getElementById("productosBody");
+  productosBody2.innerHTML = "";
+  const ultimoProducto = arregloProductos[arregloProductos.length - 1];
+
+  let total = 0;
+  contiene = ""; // Reset 'contiene'
+  arregloProductos.forEach((producto) => {
+    contiene += `${producto.cantidad} x ${producto.nombre_producto} `;
+    total += producto.precio_venta * producto.cantidad;
+    const tr = document.createElement("tr");
+    tr.classList.add("align-middle");
+    tr.innerHTML = `
+                    <td class="text-center">${producto.nombre_producto}</td>
+                    <td class="text-center"> <input type="text" id="cantidad${
+                      producto.id_detalle
+                    }" value="${
+      producto.cantidad
+    }" class="form-control" onchange="cambio(${producto.id_detalle}, ${
+      producto.id_factura
+    })" required></td>
+                    <td class="text-center"> <input type="text" id="precio${
+                      producto.id_detalle
+                    }" value="${
+      producto.precio_venta
+    }" class="form-control" onchange="cambio(${producto.id_detalle}, ${
+      producto.id_factura
+    })" required></td>
+                    <td class="text-center" id="total_${
+                      producto.id_detalle
+                    }"> ${producto.precio_venta * producto.cantidad}</td>
+                    <td class="text-center">
+                        <button class="btn btn-danger" onclick="eliminarProducto(${
+                          producto.id_detalle
+                        })"><i class='bx bxs-trash'></i></button>
+                    </td>
+                `;
+    productosBody2.appendChild(tr);
+  });
+
+  document.getElementById("totalPagar").innerText = total;
+
+  await productosAdicionales(ultimoProducto.id_producto, ultimoProducto.sku);
+}
+
+async function productosAdicionales(id_producto, sku) {
+  const frm = new FormData();
+  frm.append("sku", sku);
+  try {
+    const response = await fetch(
+      "https://new.imporsuitpro.com/pedidos/buscarProductosBodega/" +
+        id_producto,
+      {
+        method: "POST",
+        body: frm,
+      }
+    );
+    const data = await response.json();
+    const modalBody = document.querySelector("#productosModal .modal-body");
+    modalBody.innerHTML = "";
+
+    // Build your modal content here
+    // ... (existing code)
+  } catch (error) {
+    console.error("Error fetching additional products:", error);
+  }
+}
+
+const agregarProducto = (id_inventario) => {
+  const cantidadElement = document.getElementById("cantidad" + id_inventario);
+  const precioElement = document.getElementById("precio" + id_inventario);
+  const cantidad = cantidadElement.value;
+  const precio = precioElement.value;
+  const id_pedido = document.getElementById("id_pedido").value;
+  const sku = document.getElementById("productoSku" + id_inventario).value;
+  const id_producto = document.getElementById(
+    "productoId" + id_inventario
+  ).value;
+
+  const frm = new FormData();
+  frm.append("id_pedido", id_pedido);
+  frm.append("id_producto", id_producto);
+  frm.append("cantidad", cantidad);
+  frm.append("precio", precio);
+  frm.append("sku", sku);
+  frm.append("id_inventario", id_inventario);
+
+  fetch("https://new.imporsuitpro.com/pedidos/agregarProductoAPedido", {
+    method: "POST",
+    body: frm,
+  })
+    .then((response) => response.json())
+    .then(async (data) => {
+      if (data.status === 200) {
+        Toast.fire({
+          icon: "success",
+          title: "Producto agregado correctamente",
+        });
+        await verDetallesPedido(id_pedido);
+        setTimeout(() => {
+          actualizarContiene();
+        }, 1000);
+      } else {
+        Toast.fire({
+          icon: "error",
+          title: "Ha ocurrido un error al agregar el producto",
+        });
+      }
+    });
+};
+
+const eliminarProducto = (id_detalle) => {
+  const frm = new FormData();
+  frm.append("id_detalle", id_detalle);
+  fetch("https://new.imporsuitpro.com/pedidos/eliminarProductoDePedido", {
+    method: "POST",
+    body: frm,
+  })
+    .then((response) => response.json())
+    .then(async (data) => {
+      if (data.status === 200) {
+        Toast.fire({
+          icon: "success",
+          title: "Producto eliminado correctamente",
+        });
+        await verDetallesPedido(document.getElementById("id_pedido").value);
+      } else {
+        Toast.fire({
+          icon: "error",
+          title: "Ha ocurrido un error al eliminar el producto",
+        });
+      }
+    });
+};
+
+const cambio = (id_detalle, id_pedido) => {
+  const cantidadElement = document.getElementById("cantidad" + id_detalle);
+  const precioElement = document.getElementById("precio" + id_detalle);
+
+  if (cantidadElement && precioElement) {
+    const cantidad = parseFloat(cantidadElement.value);
+    const precio = parseFloat(precioElement.value);
+    const total = cantidad * precio;
+
+    // Actualiza el total del producto editado
+    document.getElementById("total_" + id_detalle).innerText = total.toFixed(2);
+
+    // Obtener todos los totales en la tabla
+    let totalGeneral = 0;
+    const totalElements = document.querySelectorAll('[id^="total_"]'); // Selecciona todos los elementos con id que empiecen con 'total'
+
+    totalElements.forEach((element) => {
+      totalGeneral += parseFloat(element.innerText) || 0; // Sumar cada total al total general
+    });
+
+    // Actualizar el total de la factura
+    document.getElementById("totalPagar").innerText = totalGeneral.toFixed(2);
+
+    // Crear el FormData con los nuevos valores
+    const frm = new FormData();
+    frm.append("id_detalle", id_detalle);
+    frm.append("id_pedido", id_pedido);
+    frm.append("cantidad", cantidad);
+    frm.append("precio", precio);
+    frm.append("total", totalGeneral);
+
+    fetch("https://new.imporsuitpro.com/pedidos/actualizarDetallePedido", {
+      method: "POST",
+      body: frm,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status === 200) {
+          Toast.fire({
+            icon: "success",
+            title: "Producto actualizado correctamente",
+          });
+          actualizarContiene();
+          // Actualizar tarifas de transporte en función del nuevo total
+          calcularTarifas(
+            document.getElementById("frm_ciudad").value,
+            document.getElementById("frm_provincia").value,
+            totalGeneral.toFixed(2), // Usar el total general en la calculadora de tarifas
+            document.getElementById("frm_recaudacion").value
+          );
+          document.getElementById("monto_factura").value =
+            totalGeneral.toFixed(2);
+        } else {
+          Toast.fire({
+            icon: "error",
+            title: "Ha ocurrido un error al actualizar el producto",
+          });
+        }
+      });
+  } else {
+    console.error(
+      `No se encontró el elemento cantidad o precio con id: ${id_detalle}`
+    );
+  }
+};
+document.getElementById("openMenu").addEventListener("click", function () {
+  document.getElementById("menu").classList.add("right-0");
+  document.getElementById("menu").classList.remove("right-100");
+});
+
+document.getElementById("closeMenu").addEventListener("click", function () {
+  document.getElementById("detailsMenu").style.right = "-500px";
+  document.getElementById("infoMenu").classList.remove("hidden");
+
+  $("#id_pedido").remove();
+  transportadoras.forEach((i) => i.classList.remove("selected"));
+  transportadoras.forEach((i) => (i.style.filter = "grayscale(100)"));
+});
+
+async function verDetallesPedido(idPedido) {
+  mostrarCargando();
+  const form = new FormData();
+  form.append("id_factura", idPedido);
+  try {
+    const response = await fetch(
+      "https://new.imporsuitpro.com/pedidos/obtenerDetallesPedido",
+      {
+        method: "POST",
+        body: form,
+      }
+    );
+    const data = await response.json();
+
+    document.getElementById("infoMenu").classList.add("hidden");
+    document.getElementById("detailsMenu").style.right = "0";
+
+    // Fill form fields
+    document.getElementById("frm_nombre_cliente").value =
+      data.factura[0].nombre;
+    document.getElementById("frm_telefono").value = data.factura[0].telefono;
+
+    const selectProvincia = document.getElementById("frm_provincia");
+    selectProvincia.dataset.selectedValue = data.factura[0].provincia;
+
+    // Espera a que provincias y ciudades se llenen antes de seleccionar los valores
+    await llenarProvincia();
+
+    // Espera que las ciudades se carguen antes de asignar el valor
+    await llenarCiudades(data.factura[0].provincia);
+
+    // Seleccionar la ciudad después de llenar las ciudades
+    $("#frm_ciudad").val(data.factura[0].ciudad_cot);
+
+    // Seleccionar recaudación
+    $("#frm_recaudacion").val(data.factura[0].cod);
+
+    // Asigna otros valores del formulario
+    document.getElementById("frm_calle_principal").value =
+      data.factura[0].c_principal;
+    document.getElementById("frm_calle_secundaria").value =
+      data.factura[0].c_secundaria;
+    document.getElementById("frm_referencia").value =
+      data.factura[0].referencia;
+    document.getElementById("frm_observacion").value =
+      data.factura[0].observacion;
+
+    // Asigna valores a los campos ocultos
+    document.getElementById("nombreO").value = data.factura[0].nombreO;
+    document.getElementById("ciudadO").value = data.factura[0].ciudadO;
+    document.getElementById("direccionO").value = data.factura[0].direccionO;
+    document.getElementById("celularO").value = data.factura[0].telefonoO;
+    document.getElementById("referenciaO").value = data.factura[0].referenciaO;
+
+    document.getElementById("numero_factura").value =
+      data.factura[0].numero_factura;
+    document.getElementById("monto_factura").value =
+      data.factura[0].monto_factura;
+
+    // obtener el precio de las transportadoras
+
+    calcularTarifas(
+      data.factura[0].ciudad_cot,
+      data.factura[0].provincia,
+      data.factura[0].monto_factura,
+      data.factura[0].cod
+    );
+
+    // Create or update hidden input for id_pedido
+    let input = document.getElementById("id_pedido");
+    if (!input) {
+      input = document.createElement("input");
+      input.type = "hidden";
+      input.id = "id_pedido";
+      document.getElementById("detailsMenu").appendChild(input);
+    }
+    input.value = idPedido;
+
+    document.getElementById("productosBody").innerHTML = "";
+
+    await llenarProductos(data.productos); // Wait for products to load
+
+    // calculate servientrega
+    calcularServi(
+      data.factura[0].ciudad_cot,
+      data.factura[0].provincia,
+      data.factura[0].ciudadO,
+      data.factura[0].monto_factura
+    );
+  } catch (error) {
+    console.error("Error in verDetallesPedido:", error);
+  } finally {
+    ocultarCargando();
+  }
+}
+
+function cancelarPedido() {
+  Swal.fire({
+    title: "¿Estás seguro de cancelar el pedido?",
+    text: "Una vez cancelado no se podrá recuperar",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Sí, cancelar",
+    cancelButtonText: "No, mantener",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const form = new FormData();
+      form.append("id_pedido", document.getElementById("id_pedido").value);
+      fetch("https://new.imporsuitpro.com/pedidos/cancelarPedido", {
+        method: "POST",
+        body: form,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.status === 200) {
+            Swal.fire({
+              title: "Pedido cancelado",
+              text: "El pedido ha sido cancelado correctamente",
+              icon: "success",
+              confirmButtonText: "Aceptar",
+            });
+            // Close the menu
+            document.getElementById("detailsMenu").style.right = "-500px";
+            document.getElementById("infoMenu").classList.remove("hidden");
+
+            // Reload the order list
+            listarPedidos();
+          } else {
+            Swal.fire({
+              title: "Error",
+              text: "Ha ocurrido un error al cancelar el pedido",
+              icon: "error",
+              confirmButtonText: "Aceptar",
+            });
+          }
+        });
+    }
+  });
+}
+
+function generarGuia() {
+  //obtener transportadora seleccionada
+  const transportadora = document.getElementById(
+    "selectedTransportadora"
+  ).value;
+  if (!transportadora) {
+    Toast.fire({
+      icon: "error",
+      title: "Por favor selecciona una transportadora",
+      position: "bottom-end",
+    });
+    return;
+  }
+
+  //obtener valores del formulario
+  const formulario = new FormData();
+
+  formulario.append("id_pedido", document.getElementById("id_pedido").value);
+  formulario.append("nombreO", document.getElementById("nombreO").value);
+  formulario.append("ciudadO", document.getElementById("ciudadO").value);
+  formulario.append("direccionO", document.getElementById("direccionO").value);
+  formulario.append("celularO", document.getElementById("celularO").value);
+  formulario.append(
+    "referenciaO",
+    document.getElementById("referenciaO").value
+  );
+  formulario.append(
+    "nombre",
+    document.getElementById("frm_nombre_cliente").value
+  );
+  formulario.append("telefono", document.getElementById("frm_telefono").value);
+  formulario.append(
+    "provincia",
+    document.getElementById("frm_provincia").value
+  );
+  formulario.append("ciudad", document.getElementById("frm_ciudad").value);
+  formulario.append(
+    "calle_principal",
+    document.getElementById("frm_calle_principal").value
+  );
+  formulario.append(
+    "calle_secundaria",
+    document.getElementById("frm_calle_secundaria").value
+  );
+  formulario.append(
+    "referencia",
+    document.getElementById("frm_referencia").value
+  );
+  formulario.append(
+    "observacion",
+    document.getElementById("frm_observacion").value
+  );
+  formulario.append(
+    "recaudo",
+    document.getElementById("frm_recaudacion").value
+  );
+  formulario.append(
+    "numero_factura",
+    document.getElementById("numero_factura").value
+  );
+  formulario.append(
+    "total_venta",
+    document.getElementById("monto_factura").value
+  );
+  formulario.append("transportadora", transportadora);
+  formulario.append(
+    "costo_flete",
+    document.getElementById("precio_envio").value
+  );
+
+  if (transportadora == "transportadora1") {
+    generarServientrega(formulario);
+  } else if (transportadora == "transportadora2") {
+    generarLaar(formulario);
+  } else if (transportadora == "transportadora3") {
+    generarSpeed(formulario);
+  } else if (transportadora == "transportadora4") {
+    generarGintracom(formulario);
+  }
+}
+
+const generarServientrega = (formulario) => {
+  formulario.append("contiene", contiene);
+  Swal.fire({
+    title: "Generando guía",
+    text: "Por favor espere un momento",
+    icon: "info",
+    showConfirmButton: false,
+    didOpen: () => {
+      Swal.showLoading();
+    },
+  });
+  fetch("https://new.imporsuitpro.com/Guias/generarServientrega", {
+    method: "POST",
+    body: formulario,
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.status === 200) {
+        Swal.fire({
+          title: "Guía generada",
+          text: "La guía ha sido generada correctamente",
+          icon: "success",
+          confirmButtonText: "Aceptar",
+        });
+      } else {
+        Swal.fire({
+          title: "Error",
+          text: "Ha ocurrido un error al generar la guía",
+          icon: "error",
+          confirmButtonText: "Aceptar",
+        });
+      }
+    });
+};
+const generarSpeed = (formulario) => {
+  formulario.append("contiene", contiene);
+  Swal.fire({
+    title: "Generando guía",
+    text: "Por favor espere un momento",
+    icon: "info",
+    showConfirmButton: false,
+    didOpen: () => {
+      Swal.showLoading();
+    },
+  });
+  fetch("https://new.imporsuitpro.com/Guias/generarSpeed", {
+    method: "POST",
+    body: formulario,
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.status === 200) {
+        Swal.fire({
+          title: "Guía generada",
+          text: "La guía ha sido generada correctamente",
+          icon: "success",
+          confirmButtonText: "Aceptar",
+        });
+      } else {
+        Swal.fire({
+          title: "Error",
+          text: "Ha ocurrido un error al generar la guía",
+          icon: "error",
+          confirmButtonText: "Aceptar",
+        });
+      }
+    });
+};
+const generarGintracom = (formulario) => {
+  formulario.append("contiene", contiene);
+  Swal.fire({
+    title: "Generando guía",
+    text: "Por favor espere un momento",
+    icon: "info",
+    showConfirmButton: false,
+    didOpen: () => {
+      Swal.showLoading();
+    },
+  });
+  fetch("https://new.imporsuitpro.com/Guias/generarGintracom", {
+    method: "POST",
+    body: formulario,
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.status === 200) {
+        Swal.fire({
+          title: "Guía generada",
+          text: "La guía ha sido generada correctamente",
+          icon: "success",
+          confirmButtonText: "Aceptar",
+        });
+      } else {
+        Swal.fire({
+          title: "Error",
+          text: "Ha ocurrido un error al generar la guía",
+          icon: "error",
+          confirmButtonText: "Aceptar",
+        });
+      }
+    });
+};
+
+const generarLaar = (formulario) => {
+  formulario.append("contiene", contiene);
+  Swal.fire({
+    title: "Generando guía",
+    text: "Por favor espere un momento",
+    icon: "info",
+    showConfirmButton: false,
+    didOpen: () => {
+      Swal.showLoading();
+    },
+  });
+  fetch("https://new.imporsuitpro.com/Guias/generarLaar", {
+    method: "POST",
+    body: formulario,
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.status === 200) {
+        Swal.fire({
+          title: "Guía generada",
+          text: "La guía ha sido generada correctamente",
+          icon: "success",
+          confirmButtonText: "Aceptar",
+        });
+      } else {
+        Swal.fire({
+          title: "Error",
+          text: "Ha ocurrido un error al generar la guía",
+          icon: "error",
+          confirmButtonText: "Aceptar",
+        });
+      }
+    });
+};
+
+const transportadoras = document.querySelectorAll(".transportadora");
+
+transportadoras.forEach((img) => {
+  img.addEventListener("click", function () {
+    selectedValue = this.getAttribute("data-value");
+    const precio = document.querySelector("." + selectedValue).innerText;
+    if (precio == "$0") {
+      Toast.fire({
+        icon: "error",
+        title:
+          "Esta transportadora no tiene cobertura en la ciudad seleccionada",
+        position: "bottom-end",
+      });
+      return;
+    }
+
+    if (this.classList.contains("selected")) {
+      this.classList.remove("selected");
+      this.style.filter = "grayscale(100)";
+      selectedValue = "";
+      document.getElementById("selectedTransportadora").value = "";
+      return;
+    }
+    // obtener el precio de la transportadora seleccionada
+    console.log(precio);
+    transportadoras.forEach((i) => i.classList.remove("selected"));
+    this.classList.add("selected");
+    this.style.filter = "grayscale(0)";
+
+    // set precio_envio
+    document.getElementById("precio_envio").value = precio;
+
+    // Set others to grayscale
+    transportadoras.forEach((i) => {
+      if (i !== this) {
+        i.style.filter = "grayscale(100)";
+      }
+    });
+    document.getElementById("selectedTransportadora").value = selectedValue;
+  });
+});
+
+document
+  .getElementById("formTransportadora")
+  .addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (selectedValue) {
+      alert("Has seleccionado: " + selectedValue);
+      // Aquí puedes agregar el envío de la selección al servidor
+    } else {
+      alert("Por favor selecciona una transportadora.");
+    }
+  });
+
+document.addEventListener("DOMContentLoaded", () => {
+  listarPedidos();
+  // No need to call llenarProvincia() here
+});
+
+const calcularTarifas = async (ciudad, provincia, monto_factura, recaudo) => {
+  const form = new FormData();
+  form.append("ciudad", ciudad);
+  form.append("provincia", provincia);
+  form.append("monto_factura", monto_factura);
+  form.append("recaudo", recaudo);
+  try {
+    const response = await fetch(
+      "https://new.imporsuitpro.com/calculadora/obtenerTarifas",
+      {
+        method: "POST",
+        body: form,
+      }
+    );
+    const data = await response.json();
+    console.log(data);
+    $("#precio_transporte_servi").text(data.servientrega);
+    $("#precio_transporte_laar").text(data.laar);
+    $("#precio_transporte_speed").text(data.speed);
+    $("#precio_transporte_gintracom").text(data.gintracom);
+  } catch (error) {
+    console.error("Error al calcular tarifas:", error);
+  }
+};
+
+const calcularServi = async (
+  ciudad_destino,
+  provincia_destino,
+  ciudad_origen,
+  monto_factura
+) => {
+  const form = new FormData();
+  form.append("ciudadD", ciudad_destino);
+  form.append("provinciaD", provincia_destino);
+  form.append("ciudadO", ciudad_origen);
+  form.append("monto_factura", monto_factura);
+  try {
+    const response = await fetch(
+      "https://new.imporsuitpro.com/calculadora/calcularServi",
+      {
+        method: "POST",
+        body: form,
+      }
+    );
+    const data = await response.json();
+    console.log(data);
+    document.getElementById("flete").value = data.flete;
+    document.getElementById("seguro").value = data.seguro;
+    document.getElementById("comision").value = data.comision;
+    document.getElementById("otros").value = data.otros;
+    document.getElementById("impuestos").value = data.impuestos;
+  } catch (error) {
+    console.error("Error al calcular tarifas:", error);
+  }
+};
+
+// Toast configuration
+const Toast = Swal.mixin({
+  toast: true,
+  position: "top-end",
+  showConfirmButton: false,
+  timer: 2000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener("mouseenter", Swal.stopTimer);
+    toast.addEventListener("mouseleave", Swal.resumeTimer);
+  },
+});
+
+const actualizarContiene = () => {
+  contiene = ""; // Resetear contiene
+  const productos = document.querySelectorAll("#productosBody tr");
+  productos.forEach((producto) => {
+    const nombreProducto = producto.querySelector("td:nth-child(1)").innerText;
+    const cantidadProducto = producto.querySelector(
+      "td:nth-child(2) input"
+    ).value;
+    contiene += `${cantidadProducto} x ${nombreProducto} `;
+  });
+  fetch("https://new.imporsuitpro.com/pedidos/actualizarContiene", {
+    method: "POST",
+    body: new URLSearchParams({
+      id_pedido: document.getElementById("id_pedido").value,
+      contiene: contiene,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.status === 200) {
+        console.log("Contiene actualizado correctamente");
+      } else {
+        console.error("Error al actualizar contiene");
+      }
+    });
+};
+/* fin seccion de creacion de guais y historial pedidos */
