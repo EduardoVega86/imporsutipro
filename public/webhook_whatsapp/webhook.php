@@ -492,17 +492,75 @@ function validar_automatizador($conn, $payload, $id_configuracion)
     $json_output = "";
     $json_bloques = "";
 
+    // Consulta para obtener los JSONs de la base de datos
     $check_automatizadores_stmt = $conn->prepare("SELECT json_output, json_bloques FROM `automatizadores` INNER JOIN `condiciones` ON automatizadores.id = condiciones.id_automatizador 
-    WHERE automatizadores.id_configuracion = ? AND condiciones.texto='?';");
-    $check_automatizadores_stmt->bind_param('s', $id_configuracion, $payload);  // Buscamos por el celular_cliente
+    WHERE automatizadores.id_configuracion = ? AND condiciones.texto = ?");
+    $check_automatizadores_stmt->bind_param('ss', $id_configuracion, $payload);
     $check_automatizadores_stmt->execute();
     $check_automatizadores_stmt->store_result();
     $check_automatizadores_stmt->bind_result($json_output, $json_bloques);
     $check_automatizadores_stmt->fetch();
     $check_automatizadores_stmt->close();
 
-    
+    // Decodificar los JSONs
+    $json_output = json_decode($json_output, true);
+    $json_bloques = json_decode($json_bloques, true);
+
+    // Variable para guardar el ID si se encuentra coincidencia
+    $found_block_id = null;
+
+    // Recorrer los bloques en json_output para encontrar los bloques con blockelemtype = 10
+    if (isset($json_output['blocks'])) {
+        foreach ($json_output['blocks'] as $block) {
+            // Verificar si el bloque tiene blockelemtype igual a 10
+            foreach ($block['data'] as $data_item) {
+                if ($data_item['name'] == 'blockelemtype' && $data_item['value'] == '10') {
+                    // Obtener el ID del bloque que tiene blockelemtype = 10
+                    $block_id = $block['id'];
+
+                    // Ahora buscar este ID en json_bloques
+                    foreach ($json_bloques as $bloque_info) {
+                        if ($bloque_info['id_block'] == (string)$block_id) {
+                            // Verificar si "texto_recibir" es igual al $payload
+                            if (isset($bloque_info['texto_recibir']) && $bloque_info['texto_recibir'] == $payload) {
+                                // Guardar el id_block y detener la búsqueda
+                                $found_block_id = $block_id;
+                                break 2; // Salir de ambos bucles
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Si encontramos una coincidencia, podemos hacer algo con ese ID
+    if ($found_block_id !== null) {
+
+        foreach ($json_output['blocks'] as $block) {
+            // Verificar si el bloque tiene blockelemtype igual a 10
+            foreach ($block['data'] as $data_item) {
+                if ($data_item['parent'] == (string)$found_block_id) {
+
+                    // Ahora buscar este ID en json_bloques
+                    foreach ($json_bloques as $bloque_info) {
+                        if ($bloque_info['id_block'] == (string)$found_block_id) {
+                            // Verificar si "texto_recibir" es igual al $payload
+                            if (isset($bloque_info['texto_recibir']) && $bloque_info['texto_recibir'] == $payload) {
+                                // Guardar el id_block y detener la búsqueda
+                                $found_block_id = $block_id;
+                                break 2; // Salir de ambos bucles
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    } else {
+        echo "No se encontró coincidencia.\n";
+    }
 }
+
 
 // Procesar el mensaje basado en el tipo recibido
 switch ($tipo_mensaje) {

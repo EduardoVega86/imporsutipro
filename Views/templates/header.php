@@ -44,7 +44,6 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.10.0/dist/ffmpeg.min.js"></script>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/joypixels@7.0.0/css/joypixels.min.css">
 <script src="https://cdn.jsdelivr.net/npm/joypixels@7.0.0/js/joypixels.min.js"></script>
@@ -162,6 +161,14 @@
             <?php } else { ?>
                 <a href="<?php echo SERVERURL ?>Pedidos/scanner_speed"><i class='fa-solid fa-motorcycle menu-icon'></i> <span class="menu-text">Scanner Speed</span></a>
             <?php } ?>
+
+            <?php if ($_SESSION['id_plataforma'] == 2307) { ?>
+                    <a href="#" class="dropdown-btn" data-target="#submenu5"><i class='bx bx-cog menu-icon'></i> <span class="menu-text">Automatizador</span></a>
+                <?php } ?>
+                <div class="submenu" id="submenu5">
+                    <a href="<?php echo SERVERURL ?>/Pedidos/configuracion_chats_imporsuit"><i class="fa-brands fa-shopify menu-icon"></i> <span class="menu-text">Configuracion</span></a>
+                    <a href="<?php echo SERVERURL ?>Pedidos/chat_imporsuit"><i class="fa-brands fa-shopify menu-icon"></i> <span class="menu-text">Chat-Center</span></a>
+                </div>
         </div>
         <div class="footer-text">
             2024 © <?php echo MARCA; ?>
