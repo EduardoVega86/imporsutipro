@@ -457,7 +457,7 @@
             z-index: 2;
             top: 0;
             bottom: 0;
-            /* right: -500px; */
+            right: -500px;
             /* Hidden by default */
             width: 25%;
             transition: right 0.3s ease;
