@@ -562,103 +562,90 @@ function validar_automatizador($conn, $payload, $id_configuracion)
     ];
 }
 
-function enviarMensajeTemplateWhatsApp($user_info, $block_sql_data, $config)
+function enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $id_whatsapp_message_template, $mensaje)
 {
-    // Obtener la información del template de mensaje desde block_sql_data
-    $id_whatsapp_message_template = $block_sql_data['id_whatsapp_message_template'];
+    // Paso 1: Obtener la lista de templates disponibles desde la API de WhatsApp
+    $url_templates = "https://graph.facebook.com/v12.0/$business_phone_id/message_templates";
 
-    // Obtener los templates disponibles (suponiendo que getWhatsappMessageTemplate está definida y consulta los templates)
-    $template_info = getWhatsappMessageTemplate($config);
-    if (isset($template_info['error'])) {
-        // Si hay un error, devolverlo
-        return "Error al consultar el template de WhatsApp: " . $template_info['error'];
+    $ch_templates = curl_init($url_templates);
+    curl_setopt($ch_templates, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch_templates, CURLOPT_HTTPHEADER, [
+        "Authorization: Bearer $accessToken",
+        "Content-Type: application/json"
+    ]);
+
+    // Ejecutar la solicitud para obtener los templates
+    $response_templates = curl_exec($ch_templates);
+    $http_code_templates = curl_getinfo($ch_templates, CURLINFO_HTTP_CODE);
+    curl_close($ch_templates);
+
+    if ($http_code_templates !== 200) {
+        file_put_contents('debug_log.txt', "Error al obtener la lista de templates. HTTP Code: $http_code_templates\nRespuesta: $response_templates\n", FILE_APPEND);
+        return;
     }
 
-    // Buscar el nombre de la plantilla y el código del idioma
-    $template_name = '';
-    $language_code = '';
-    foreach ($template_info['data'] as $template) {
-        if ($template['id'] == $id_whatsapp_message_template) {
-            $template_name = $template['name'];
-            $language_code = $template['language'];
-            break;
-        }
-    }
+    // Decodificar la respuesta JSON para obtener la lista de templates
+    $templates_data = json_decode($response_templates, true);
 
-    if (empty($template_name) || empty($language_code)) {
-        return "No se encontró la plantilla con ID: $id_whatsapp_message_template";
-    }
-
-    // Configurar el envío del mensaje de WhatsApp
-    $url = 'https://graph.facebook.com/v20.0/' . $config['id_telefono'] . '/messages';
-    $token = $config['token'];
-    $recipient = $user_info['celular'];
-    $mensaje = $block_sql_data['mensaje'];
-
-    // Extraer y mapear placeholders
-    $placeholders = extract_placeholders($mensaje);  // Función que extrae {{variables}}
-    $components = [];
-
-    if (!empty($placeholders)) {
-        $parameters = [];
-        foreach ($placeholders as $placeholder) {
-            if (isset($user_info[$placeholder])) {
-                $parameters[] = [
-                    "type" => "text",
-                    "text" => $user_info[$placeholder]
-                ];
+    // Buscar el nombre del template que corresponde al ID que tenemos
+    $template_name = null;
+    if (isset($templates_data['data'])) {
+        foreach ($templates_data['data'] as $template) {
+            if ($template['id'] == $id_whatsapp_message_template) {
+                $template_name = $template['name'];
+                break;
             }
         }
-        if (!empty($parameters)) {
-            $components[] = [
-                "type" => "body",
-                "parameters" => $parameters
-            ];
-        }
     }
 
-    // Crear la estructura de datos para enviar a la API de WhatsApp
+    if (empty($template_name)) {
+        file_put_contents('debug_log.txt', "No se encontró un template con el ID $id_whatsapp_message_template\n", FILE_APPEND);
+        return;
+    }
+
+    // Paso 2: Configurar el envío del mensaje de WhatsApp usando el nombre del template
+    $url = "https://graph.facebook.com/v12.0/$business_phone_id/messages";
+
     $data = [
         "messaging_product" => "whatsapp",
-        "to" => $recipient,
+        "to" => $phone_whatsapp_from,
         "type" => "template",
         "template" => [
-            "name" => $template_name,
-            "language" => [
-                "code" => $language_code
+            "name" => $template_name,  // Usar el nombre del template
+            "language" => ["code" => "es"],  // Cambia 'es' si necesitas otro idioma
+            "components" => [
+                [
+                    "type" => "body",
+                    "parameters" => [
+                        ["type" => "text", "text" => $mensaje]
+                    ]
+                ]
             ]
         ]
     ];
 
-    // Añadir los componentes si existen
-    if (!empty($components)) {
-        $data["template"]["components"] = $components;
-    }
-
-    // Enviar la solicitud a la API de WhatsApp
+    // Inicializamos cURL para hacer la solicitud HTTP POST
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        'Content-Type: application/json',
-        'Authorization: Bearer ' . $token
-    ]);
     curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        "Authorization: Bearer $accessToken",
+        "Content-Type: application/json"
+    ]);
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
 
-    $result = curl_exec($ch);
-    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
+    // Ejecutar la solicitud
+    $response = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-    // Manejo de la respuesta
-    if ($result === false || $httpCode >= 400) {
-        $error_message = "Error al enviar el mensaje de WhatsApp: " . ($result ? $result : curl_error($ch));
-        file_put_contents('debug_log.txt', $error_message, FILE_APPEND);
-        return $error_message;
+    // Verificar si la solicitud fue exitosa
+    if ($http_code === 200) {
+        file_put_contents('debug_log.txt', "Mensaje template enviado correctamente.\n", FILE_APPEND);
     } else {
-        $success_message = "Mensaje de WhatsApp enviado a {$user_info['celular']}: " . $result;
-        file_put_contents('debug_log.txt', $success_message, FILE_APPEND);
-        return $success_message;
+        file_put_contents('debug_log.txt', "Error al enviar el mensaje template. HTTP Code: $http_code\nRespuesta: $response\n", FILE_APPEND);
     }
+
+    curl_close($ch);
 }
 
 // Procesar el mensaje basado en el tipo recibido
