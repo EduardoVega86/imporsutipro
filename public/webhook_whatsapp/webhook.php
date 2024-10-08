@@ -564,8 +564,25 @@ function validar_automatizador($conn, $payload, $id_configuracion)
 
 function enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $id_whatsapp_message_template, $mensaje)
 {
-    // Paso 1: Obtener la lista de templates disponibles desde la API de WhatsApp
-    $url_templates = "https://graph.facebook.com/v12.0/$business_phone_id/message_templates";
+    // Paso 1: Obtener el ID de la cuenta de WhatsApp Business (WABA)
+    $url_waba = "https://graph.facebook.com/v12.0/me?fields=whatsapp_business_account&access_token=$accessToken";
+
+    $ch_waba = curl_init($url_waba);
+    curl_setopt($ch_waba, CURLOPT_RETURNTRANSFER, true);
+    $response_waba = curl_exec($ch_waba);
+    curl_close($ch_waba);
+
+    $waba_data = json_decode($response_waba, true);
+
+    if (!isset($waba_data['whatsapp_business_account']['id'])) {
+        file_put_contents('debug_log.txt', "Error al obtener el ID de la cuenta de WhatsApp Business.\n", FILE_APPEND);
+        return;
+    }
+
+    $waba_id = $waba_data['whatsapp_business_account']['id'];
+
+    // Paso 2: Obtener la lista de templates desde la cuenta de WhatsApp Business
+    $url_templates = "https://graph.facebook.com/v12.0/$waba_id/message_templates";
 
     $ch_templates = curl_init($url_templates);
     curl_setopt($ch_templates, CURLOPT_RETURNTRANSFER, true);
@@ -603,7 +620,7 @@ function enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_
         return;
     }
 
-    // Paso 2: Configurar el envío del mensaje de WhatsApp usando el nombre del template
+    // Paso 3: Configurar el envío del mensaje de WhatsApp usando el nombre del template
     $url = "https://graph.facebook.com/v12.0/$business_phone_id/messages";
 
     $data = [
