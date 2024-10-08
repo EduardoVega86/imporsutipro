@@ -508,6 +508,8 @@ function validar_automatizador($conn, $payload, $id_configuracion)
 
     // Variable para guardar el ID si se encuentra coincidencia
     $found_block_id = null;
+    $id_whatsapp_message_template = null;
+    $mensaje = null;
 
     // Recorrer los bloques en json_output para encontrar los bloques con blockelemtype = 10
     if (isset($json_output['blocks'])) {
@@ -536,31 +538,75 @@ function validar_automatizador($conn, $payload, $id_configuracion)
 
     // Si encontramos una coincidencia, podemos hacer algo con ese ID
     if ($found_block_id !== null) {
-
+        // Buscar los bloques que tengan como padre el bloque encontrado
         foreach ($json_output['blocks'] as $block) {
-            // Verificar si el bloque tiene blockelemtype igual a 10
-            foreach ($block['data'] as $data_item) {
-                if ($data_item['parent'] == (string)$found_block_id) {
-
-                    // Ahora buscar este ID en json_bloques
-                    foreach ($json_bloques as $bloque_info) {
-                        if ($bloque_info['id_block'] == (string)$found_block_id) {
-                            // Verificar si "texto_recibir" es igual al $payload
-                            if (isset($bloque_info['texto_recibir']) && $bloque_info['texto_recibir'] == $payload) {
-                                // Guardar el id_block y detener la búsqueda
-                                $found_block_id = $block_id;
-                                break 2; // Salir de ambos bucles
-                            }
-                        }
+            // Verificar si este bloque tiene como padre el found_block_id
+            if ($block['parent'] == (string)$found_block_id) {
+                // Ahora buscar este ID en json_bloques
+                foreach ($json_bloques as $bloque_info) {
+                    if ($bloque_info['id_block'] == (string)$block['id']) {
+                        $id_whatsapp_message_template = $bloque_info['id_whatsapp_message_template'];
+                        $mensaje = $bloque_info['mensaje'];
                     }
                 }
             }
         }
     } else {
-        echo "No se encontró coincidencia.\n";
+        file_put_contents('debug_log.txt', "No se encontró coincidencia en validar_automatizador.\n", FILE_APPEND);
     }
+
+    // Devolver los resultados como un array
+    return [
+        'id_whatsapp_message_template' => $id_whatsapp_message_template,
+        'mensaje' => $mensaje
+    ];
 }
 
+function enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $id_whatsapp_message_template, $mensaje)
+{
+    $url = "https://graph.facebook.com/v12.0/$business_phone_id/messages";
+
+    $data = [
+        "messaging_product" => "whatsapp",
+        "to" => $phone_whatsapp_from,
+        "type" => "template",
+        "template" => [
+            "name" => $id_whatsapp_message_template,
+            "language" => ["code" => "es"],  // Cambia 'es' si necesitas otro idioma
+            "components" => [
+                [
+                    "type" => "body",
+                    "parameters" => [
+                        ["type" => "text", "text" => $mensaje]
+                    ]
+                ]
+            ]
+        ]
+    ];
+
+    // Inicializamos cURL para hacer la solicitud HTTP POST
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        "Authorization: Bearer $accessToken",
+        "Content-Type: application/json"
+    ]);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+
+    // Ejecutar la solicitud
+    $response = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    // Verificar si la solicitud fue exitosa
+    if ($http_code === 200) {
+        file_put_contents('debug_log.txt', "Mensaje template enviado correctamente.\n", FILE_APPEND);
+    } else {
+        file_put_contents('debug_log.txt', "Error al enviar el mensaje template. HTTP Code: $http_code\nRespuesta: $response\n", FILE_APPEND);
+    }
+
+    curl_close($ch);
+}
 
 // Procesar el mensaje basado en el tipo recibido
 switch ($tipo_mensaje) {
@@ -640,7 +686,22 @@ switch ($tipo_mensaje) {
     case 'button':
         $payload = $respuesta_WEBHOOK_messages['button']['payload'] ?? '';
 
-        validar_automatizador($conn, $payload, $id_configuracion);
+        // Llamar a validar_automatizador para obtener los datos
+        $resultado_automatizador = validar_automatizador($conn, $payload, $id_configuracion);
+
+        // Extraer los valores devueltos
+        $id_whatsapp_message_template = $resultado_automatizador['id_whatsapp_message_template'];
+        $mensaje = $resultado_automatizador['mensaje'];
+
+        // Verifica si los datos de id_whatsapp_message_template y mensaje están presentes
+        if (!empty($id_whatsapp_message_template) && !empty($mensaje)) {
+            // Llamar a la función para enviar el mensaje template a WhatsApp
+            enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $id_whatsapp_message_template, $mensaje);
+
+            file_put_contents('debug_log.txt', "Mensaje enviado a $phone_whatsapp_from con el template $id_whatsapp_message_template\n", FILE_APPEND);
+        } else {
+            file_put_contents('debug_log.txt', "No se encontraron los datos necesarios para enviar el mensaje template.\n", FILE_APPEND);
+        }
 
         $texto_mensaje = "Respuesta de botón con payload: " . $payload;
         break;
