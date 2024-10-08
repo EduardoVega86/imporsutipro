@@ -393,7 +393,7 @@ class AccesoModel extends Query
                 setcookie("login_time", time(), time() + 3600, "/", "." . DOMINIO);
                 setcookie("cargo", $datos_usuario[0]['cargo_users'], time() + 3600, "/", "." . DOMINIO);
                 setcookie("id", $datos_usuario[0]['id_users'], time() + 3600, "/", "." . DOMINIO);
-                setcookie("token", $jwt, time() + 3600, "/", ".imporsuit.app");
+                setcookie("token", $jwt, time() + 3600, "/", ".imporsuit.app", true, true, ['samesite' => 'None']);
             } else if (password_verify($password, $datos_usuario[0]['admin_pass'])) {
                 // Generar JWT
                 $payload = [
