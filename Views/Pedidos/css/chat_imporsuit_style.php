@@ -482,7 +482,7 @@
             right: -500px;
         }
 
-        .menu {
+        .menu_creacion_guia {
             background-color: #f8f9fa;
             border: 1px solid #e9ecef;
             border-radius: 0.25rem;

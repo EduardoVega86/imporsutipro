@@ -154,7 +154,7 @@
         </div>
 
         <div id="detailsMenu">
-            <div class="menu">
+            <div class="menu_creacion_guia">
                 <div class="accordion mt-3" id="accordionDetailsMenu">
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingPedido">
