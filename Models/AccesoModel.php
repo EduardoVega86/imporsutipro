@@ -399,6 +399,7 @@ class AccesoModel extends Query
                     'id' => $datos_usuario[0]['id_users'],
                     'nombre' => $datos_usuario[0]['nombre_users'],
                     'cargo' => $datos_usuario[0]['cargo_users'],
+                    'correo' => $datos_usuario[0]['email_users'],
                     'iat' => time(), // tiempo de creación
                     'exp' => time() + 3600 // token expira en 1 hora
                 ];
