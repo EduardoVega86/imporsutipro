@@ -117,6 +117,13 @@ class Speed extends Controller
         $googlemaps = $_POST['googlemaps'] ?? null;
 
         $response = $this->model->estados($estado, $imagen, $tipo, $observacion, $id_factura, $googlemaps);
+        if ($response['status'] == 200) {
+            $response2 = $this->model->verificarAutomatizacion($id_factura);
+
+            if ($response2['status'] == 200) {
+                $response3 = $this->model->automatizar($response2['data']);
+            }
+        }
         echo json_encode($response);
     }
 
@@ -124,6 +131,7 @@ class Speed extends Controller
     {
         $numero_factura = $_POST['numero_factura'];
         $response = $this->model->buscarFactura($numero_factura);
+
         echo json_encode($response);
     }
 }
