@@ -153,7 +153,7 @@
             </div>
         </div>
 
-        <div id="detailsMenu" class="col-3">
+        <div id="detailsMenu" style="display: none;" class="col-3">
             <div class="menu_creacion_guia">
                 <div class="accordion mt-3" id="accordionDetailsMenu">
                     <div class="accordion-item">
