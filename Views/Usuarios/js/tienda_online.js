@@ -375,7 +375,7 @@ function cargarInfoTienda_inicial() {
 
         // Agrega la clase 'selected' a la plantilla correcta
         $(".plantilla[data-template='template2']").addClass("selected");
-      } else if (response[0].plantilla == 2) {
+      } else if (response[0].plantilla == 3) {
         // Actualiza los valores de los inputs hidden
         $("#plantilla_selected").val("template3");
 
