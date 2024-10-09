@@ -1,5 +1,7 @@
 <?php
 
+use FontLib\Table\Type\head;
+
 class Acceso extends Controller
 {
     ///Vistas
@@ -133,5 +135,16 @@ class Acceso extends Controller
         $response = $this->model->guardaUltimoPunto($url, $_SESSION['id']);
 
         echo json_encode($response);
+    }
+
+    public function redirect()
+    {
+        /* session_start();
+        $token = $_SESSION['token'];
+        $direccion = $_POST['direccion'];
+
+        header("Location: " . $direccion . "?token=" . $token); */
+
+        return $this->views->render($this, "redirects");
     }
 }
