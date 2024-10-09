@@ -662,6 +662,11 @@ class WalletModel extends Query
 
     public function solicitarPago($id_cuenta, $valor, $plataforma, $otro, $usuario)
     {
+        if ($id_cuenta == NULL || empty($id_cuenta)) {
+            $responses["status"] = 400;
+            $responses["message"] = "No se ha seleccionado una cuenta para realizar la solicitud";
+            return $responses;
+        }
 
         $tipoSolicitud = $otro == 0 ? "PRIMARIO" : "SECUNDARIO";
         $this->historialSolicitud($tipoSolicitud, $valor, $usuario, $id_cuenta, $plataforma);
