@@ -1,5 +1,7 @@
 <?php
 
+use FontLib\Table\Type\head;
+
 class Acceso extends Controller
 {
     ///Vistas
