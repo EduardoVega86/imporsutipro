@@ -614,19 +614,19 @@ function enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_
     // Paso 1: Configurar el envío del mensaje de WhatsApp usando el nombre del template
     $url = "https://graph.facebook.com/v20.0/$business_phone_id/messages";
 
-    // Verifica si el template permite parámetros en el cuerpo del mensaje
+    // Configuramos los datos básicos del mensaje
     $data = [
         "messaging_product" => "whatsapp",
         "to" => $phone_whatsapp_from,
         "type" => "template",
         "template" => [
             "name" => $template_name,  // Usar el nombre del template
-            "language" => ["code" => "en_US"],  // Cambiar a 'en_US' o 'es_MX'
+            "language" => ["code" => "en_US"],  // Cambiar a 'en_US' o 'es_MX' según el idioma del template
         ]
     ];
 
-    // Si el template espera parámetros, los añadimos
-    if ($mensaje !== null) {
+    // Solo añadimos el cuerpo (components) si el template acepta parámetros
+    if ($mensaje !== null && $template_name !== 'hello_world') {
         $data['template']['components'] = [
             [
                 "type" => "body",
