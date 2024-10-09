@@ -609,11 +609,12 @@ function obtenerNombreTemplatePorID($accessToken, $waba_id, $id_whatsapp_message
     return null;
 }
 
-function enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $template_name, $mensaje)
+function enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $template_name, $mensaje = null)
 {
     // Paso 1: Configurar el envío del mensaje de WhatsApp usando el nombre del template
     $url = "https://graph.facebook.com/v20.0/$business_phone_id/messages";
 
+    // Verifica si el template permite parámetros en el cuerpo del mensaje
     $data = [
         "messaging_product" => "whatsapp",
         "to" => $phone_whatsapp_from,
@@ -621,16 +622,20 @@ function enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_
         "template" => [
             "name" => $template_name,  // Usar el nombre del template
             "language" => ["code" => "en_US"],  // Cambiar a 'en_US' o 'es_MX'
-            "components" => [
-                [
-                    "type" => "body",
-                    "parameters" => [
-                        ["type" => "text", "text" => $mensaje]
-                    ]
-                ]
-            ]
         ]
     ];
+
+    // Si el template espera parámetros, los añadimos
+    if ($mensaje !== null) {
+        $data['template']['components'] = [
+            [
+                "type" => "body",
+                "parameters" => [
+                    ["type" => "text", "text" => $mensaje]
+                ]
+            ]
+        ];
+    }
 
     // Inicializamos cURL para hacer la solicitud HTTP POST
     $ch = curl_init($url);
