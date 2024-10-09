@@ -23,7 +23,6 @@ session_start(); ?>
     </div>
 </div>
 
-<?php require_once './Views/templates/footer.php'; ?>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         function redirect(direccion) {
@@ -38,9 +37,27 @@ session_start(); ?>
             } else if (direccion === 'infoaduana') {
                 ruta = "https://infoaduana.imporfactory.app/newlogin?token=" + token;
             }
-
-            // redirecciona a la ruta
-            window.location.href = ruta;
         }
+        // redirecciona a la ruta
+        window.location.href = ruta;
+
     });
+
+    function redirect(direccion) {
+        let token = "<?= $_SESSION['token'] ?>";
+        let ruta = "";
+        if (direccion === 'herramientas') {
+            ruta = "https://herramientas.imporfactory.app/newlogin?token=" + token;
+        } else if (direccion === 'plataformas') {
+            ruta = "https://cursos.imporfactory.app/newlogin?token=" + token;
+        } else if (direccion === 'cotizador') {
+            ruta = "https://cotizador.imporfactory.app/newlogin?token=" + token;
+        } else if (direccion === 'infoaduana') {
+            ruta = "https://infoaduana.imporfactory.app/newlogin?token=" + token;
+        }
+
+        // redirecciona a la ruta
+        window.location.href = ruta;
+    }
 </script>
+<?php require_once './Views/templates/footer.php'; ?>
