@@ -1244,6 +1244,8 @@ document.getElementById("openMenu").addEventListener("click", function () {
 
 document.getElementById("closeMenu").addEventListener("click", function () {
   document.getElementById("detailsMenu").style.right = "-500px";
+  $("#detailsMenu").hide();
+
   document.getElementById("infoMenu").classList.remove("hidden");
 
   $("#id_pedido").remove();
@@ -1266,6 +1268,7 @@ async function verDetallesPedido(idPedido) {
     const data = await response.json();
 
     document.getElementById("infoMenu").classList.add("hidden");
+    $("#detailsMenu").show();
     document.getElementById("detailsMenu").style.right = "0";
 
     // Fill form fields
@@ -1374,6 +1377,7 @@ function cancelarPedido() {
             });
             // Close the menu
             document.getElementById("detailsMenu").style.right = "-500px";
+            $("#detailsMenu").hide();
             document.getElementById("infoMenu").classList.remove("hidden");
 
             // Reload the order list
