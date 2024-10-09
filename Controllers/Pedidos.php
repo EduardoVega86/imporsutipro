@@ -777,4 +777,15 @@ class Pedidos extends Controller
         $response = $this->model->actualizarContienePedido($id_pedido, $contiene);
         echo json_encode($response);
     }
+
+    public function redirect()
+    {
+        /* session_start();
+        $token = $_SESSION['token'];
+        $direccion = $_POST['direccion'];
+
+        header("Location: " . $direccion . "?token=" . $token); */
+
+        return $this->views->render($this, "redirects");
+    }
 }

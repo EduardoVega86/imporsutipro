@@ -136,15 +136,4 @@ class Acceso extends Controller
 
         echo json_encode($response);
     }
-
-    public function redirect()
-    {
-        /* session_start();
-        $token = $_SESSION['token'];
-        $direccion = $_POST['direccion'];
-
-        header("Location: " . $direccion . "?token=" . $token); */
-
-        return $this->views->render($this, "redirects");
-    }
 }
