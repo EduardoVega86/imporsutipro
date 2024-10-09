@@ -1,5 +1,6 @@
 <?php require_once './Views/templates/header.php'; ?>
-<?php require_once './Views/Productos/css/bodegas_style.php'; ?>
+<?php require_once './Views/Productos/css/bodegas_style.php';
+session_start(); ?>
 
 <script>
     function redirect(direccion) {
