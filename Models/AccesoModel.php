@@ -432,6 +432,7 @@ class AccesoModel extends Query
                 $_SESSION['cargo'] = $datos_usuario[0]['cargo_users'];
                 $_SESSION["session_lifetime"] = 3600;
                 $_SESSION['ultimo_punto'] = $datos_usuario[0]['ultimo_punto'];
+                $_SESSION['token'] = $jwt;
             } else {
                 $response = $this->initialResponse();
                 $response['status'] = 401;
