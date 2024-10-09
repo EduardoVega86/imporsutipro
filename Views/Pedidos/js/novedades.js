@@ -175,10 +175,18 @@ function gestionar_novedad(guia_novedad) {
       $("#estado_gestionarNov").text(response.novedad[0].estado_novedad);
       $("#transportadora_gestionarNov").text(transportadora);
       $("#novedad_gestionarNov").text(response.novedad[0].novedad);
-      
-      if (response.novedad[0].tracking.includes("https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia=")){
-        $("#tracking_gestionarNov").attr("href", "https://fenixoper.laarcourier.com/Tracking/Guiacompleta.aspx?guia="+response.novedad[0].guia_novedad);
-      }else{
+
+      if (
+        response.novedad[0].tracking.includes(
+          "https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia="
+        )
+      ) {
+        $("#tracking_gestionarNov").attr(
+          "href",
+          "https://fenixoper.laarcourier.com/Tracking/Guiacompleta.aspx?guia=" +
+            response.novedad[0].guia_novedad
+        );
+      } else {
         $("#tracking_gestionarNov").attr("href", response.novedad[0].tracking);
       }
 
@@ -216,6 +224,7 @@ function enviar_gintraNovedad() {
   var observacion = $("#Solucion_novedad").val();
   var id_novedad = $("#id_novedad").val();
   var tipo = $("#tipo_gintracom").val();
+  var estado_novedad = $("#estado_gestionarNov").text();
   var recaudo = "";
   var fecha = "";
 
@@ -234,37 +243,63 @@ function enviar_gintraNovedad() {
   formData.append("recaudo", recaudo);
   formData.append("fecha", fecha);
 
-  $.ajax({
-    url: SERVERURL + "novedades/solventarNovedadGintracom",
-    type: "POST",
-    data: formData,
-    processData: false, // No procesar los datos
-    contentType: false, // No establecer ningún tipo de contenido
-    success: function (response) {
-      response = JSON.parse(response);
-      if (response.error === true) {
-        toastr.error("" + response.message, "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
+  let validador = true;
+  if (estado_novedad == 26) {
+    validador = validados_numero(observacion);
+  }
 
+  if (validador) {
+    $.ajax({
+      url: SERVERURL + "novedades/solventarNovedadGintracom",
+      type: "POST",
+      data: formData,
+      processData: false, // No procesar los datos
+      contentType: false, // No establecer ningún tipo de contenido
+      success: function (response) {
+        response = JSON.parse(response);
+        if (response.error === true) {
+          toastr.error("" + response.message, "NOTIFICACIÓN", {
+            positionClass: "toast-bottom-center",
+          });
+
+          button.disabled = false;
+        } else if (response.error === false) {
+          toastr.success("" + response.message, "NOTIFICACIÓN", {
+            positionClass: "toast-bottom-center",
+          });
+
+          $("#gestionar_novedadModal").modal("hide");
+          button.disabled = false;
+          initDataTableNovedades();
+          initDataTableNovedadesGestionadas();
+        }
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        alert(errorThrown);
         button.disabled = false;
+      },
+    });
+  } else {
+    toastr.error("Necesitas registrar un numero de telefono en la novedad", "NOTIFICACIÓN", {
+      positionClass: "toast-bottom-center",
+    });
 
-      } else if (response.error === false) {
-        toastr.success("" + response.message, "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
+    button.disabled = false;
+  }
+}
 
-        $("#gestionar_novedadModal").modal("hide");
-        button.disabled = false;
-        initDataTableNovedades();
-        initDataTableNovedadesGestionadas();
-      }
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      alert(errorThrown);
-      button.disabled = false;
-    },
-  });
+function validados_numero(observacion) {
+  // Definir una expresión regular para encontrar números de teléfono
+  // Este ejemplo considera números con formato de 10 dígitos, con o sin separadores.
+  const regexTelefono =
+    /(\+?\d{1,3})?[-.\s]?\(?\d{1,4}\)?[-.\s]?\d{1,4}[-.\s]?\d{1,9}/;
+
+  // Comprobar si en la observación existe un número que coincida con la expresión regular
+  if (regexTelefono.test(observacion)) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 function enviar_serviNovedad() {
@@ -294,7 +329,6 @@ function enviar_serviNovedad() {
         });
 
         button.disabled = false;
-
       } else if (response.status == 200) {
         toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
@@ -360,7 +394,6 @@ function enviar_laarNovedad() {
         });
 
         button.disabled = false;
-
       } else if (response.status == 200) {
         toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
