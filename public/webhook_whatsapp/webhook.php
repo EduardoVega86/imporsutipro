@@ -562,25 +562,10 @@ function validar_automatizador($conn, $payload, $id_configuracion)
     ];
 }
 
-function obtenerNombreTemplatePorID($conn, $id_automatizador)
+function obtenerNombreTemplatePorID($accessToken, $waba_id, $id_whatsapp_message_template)
 {
-    // Consultar la API de Facebook para obtener el template
-    $stmt = $conn->prepare("SELECT a.*, c.nombre_configuracion FROM automatizadores a LEFT JOIN configuraciones c ON a.id_configuracion = c.id WHERE a.id = ? LIMIT 1");
-    $stmt->bind_param("i", $id_automatizador);
-    $stmt->execute();
-    $result = $stmt->get_result()->fetch_assoc();
-
-    $id_configuracion = $result['id_configuracion'];
-
-    // Obtener los detalles de la configuración
-    $sql_configuraciones = "SELECT * FROM configuraciones WHERE id='$id_configuracion'";
-    $configuracion_result = $conn->query($sql_configuraciones)->fetch_assoc();
-
-    $whatsappBusinessAccountId = $configuracion_result['id_whatsapp'];
-    $accessToken = $configuracion_result['token'];
-
-    // Construir la URL para obtener los templates
-    $url = 'https://graph.facebook.com/v20.0/' . $whatsappBusinessAccountId . '/message_templates';
+    // URL para obtener la lista de templates desde la API de WhatsApp Business
+    $url = 'https://graph.facebook.com/v20.0/' . $waba_id . '/message_templates';
     $params = array(
         'access_token' => $accessToken
     );
@@ -614,13 +599,13 @@ function obtenerNombreTemplatePorID($conn, $id_automatizador)
 
         // Buscar el nombre del template por el ID
         foreach ($facebook_templates as $template) {
-            if ($template['id'] == $id_automatizador) {
+            if ($template['id'] == $id_whatsapp_message_template) {
                 return $template['name'];  // Retornar el nombre del template
             }
         }
     }
 
-    file_put_contents('debug_log.txt', "No se encontró un template con el ID $id_automatizador\n", FILE_APPEND);
+    file_put_contents('debug_log.txt', "No se encontró un template con el ID $id_whatsapp_message_template\n", FILE_APPEND);
     return null;
 }
 
@@ -759,7 +744,7 @@ switch ($tipo_mensaje) {
         // Verifica si los datos de id_whatsapp_message_template y mensaje están presentes
         if (!empty($id_whatsapp_message_template) && !empty($mensaje)) {
             // Obtener el nombre del template usando el ID
-            $template_name = obtenerNombreTemplatePorID($conn, $id_whatsapp_message_template);
+            $template_name = obtenerNombreTemplatePorID($accessToken, $waba_id, $id_whatsapp_message_template);
 
             if (!empty($template_name)) {
                 // Llamar a la función para enviar el mensaje template a WhatsApp
@@ -775,6 +760,7 @@ switch ($tipo_mensaje) {
 
         $texto_mensaje = "Respuesta de botón con payload: " . $payload;
         break;
+
 
     case 'sticker':
         $texto_mensaje = "Sticker recibido con ID: " . $respuesta_WEBHOOK_messages['sticker']['id'];
