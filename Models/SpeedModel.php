@@ -457,4 +457,40 @@ class SpeedModel extends Query
 
         return $response;
     }
+
+    public function verificarAutomatizacion($id_factura)
+    {
+        $sql = "SELECT * FROM facturas_cot WHERE id_factura = '$id_factura'";
+        $res = $this->select($sql);
+
+        $id_plataforma = $res[0]['id_plataforma'];
+
+        $sql = "SELECT * FROM `configuraciones` WHERE `id_plataforma` = '$id_plataforma'";
+        $res = $this->select($sql);
+        if (!empty($res)) {
+            $response = $this->initialResponse();
+            $response['status'] = 200;
+            $response['message'] = "Configuración encontrada.";
+            $response['data'] = $res[0];
+        } else {
+            $response = $this->initialResponse();
+            $response['status'] = 500;
+            $response['message'] = "Configuración no encontrada.";
+        }
+    }
+
+    public function automatizar($configuracion)
+    {
+        $sql = "SELECT * FROM automatizados WHERE id_plataforma = ?";
+        $data = [$configuracion['id_plataforma']];
+        $res = $this->dselect($sql, $data);
+
+        if (empty($res)) {
+            foreach ($configuracion as $key => $value) {
+                if (str_contains($value["json_bloques"], "lo que sea que busques")) {
+                    //logica
+                }
+            }
+        }
+    }
 }
