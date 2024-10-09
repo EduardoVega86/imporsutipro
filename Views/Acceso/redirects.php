@@ -3,23 +3,26 @@
 session_start(); ?>
 
 <script>
-    function redirect(direccion) {
-        let token = "<?= $_SESSION['token'] ?>";
-        let ruta = "";
-        if (direccion === 'herramientas') {
-            ruta = "https://herramientas.imporfactory.app/newlogin?token=" + token;
-        } else if (direccion === 'plataformas') {
-            ruta = "https://cursos.imporfactory.app/newlogin?token=" + token;
-        } else if (direccion === 'cotizador') {
-            ruta = "https://cotizador.imporfactory.app/newlogin?token=" + token;
-        } else if (direccion === 'infoaduana') {
-            ruta = "https://infoaduana.imporfactory.app/newlogin?token=" + token;
-        }
+    document.addEventListener('DOMContentLoaded', function() {
+        function redirect(direccion) {
+            let token = "<?= $_SESSION['token'] ?>";
+            let ruta = "";
+            if (direccion === 'herramientas') {
+                ruta = "https://herramientas.imporfactory.app/newlogin?token=" + token;
+            } else if (direccion === 'plataformas') {
+                ruta = "https://cursos.imporfactory.app/newlogin?token=" + token;
+            } else if (direccion === 'cotizador') {
+                ruta = "https://cotizador.imporfactory.app/newlogin?token=" + token;
+            } else if (direccion === 'infoaduana') {
+                ruta = "https://infoaduana.imporfactory.app/newlogin?token=" + token;
+            }
 
-        // redirecciona a la ruta
-        window.location.href = ruta;
-    }
+            // redirecciona a la ruta
+            window.location.href = ruta;
+        }
+    });
 </script>
+
 
 <!-- genera 4 botones con funciones -->
 <div class="custom-container-fluid">
