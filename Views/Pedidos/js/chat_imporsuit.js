@@ -1243,7 +1243,7 @@ document.getElementById("openMenu").addEventListener("click", function () {
 });
 
 document.getElementById("closeMenu").addEventListener("click", function () {
-  document.getElementById("detailsMenu").style.right = "-500px";
+  document.getElementById("detailsMenu").style.right = "-500px !important";
   $("#detailsMenu").hide();
 
   document.getElementById("infoMenu").classList.remove("hidden");
