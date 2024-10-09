@@ -22,6 +22,7 @@
 
 <script>
     function redirect(direccion) {
+        let token = "<?= $_SESSION['token'] ?>";
         let ruta = "";
         if (direccion === 'herramientas') {
             ruta = "https://herramientas.imporfactory.app/newlogin?token=" + token;
