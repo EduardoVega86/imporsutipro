@@ -566,27 +566,27 @@ function enviarMensajeTemplateWhatsApp($accessToken, $waba_id, $business_phone_i
 {
     // Paso 1: Obtener la lista de templates desde la cuenta de WhatsApp Business
     $url_templates = "https://graph.facebook.com/v12.0/$waba_id/message_templates";
-    
+
     $ch_templates = curl_init($url_templates);
     curl_setopt($ch_templates, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch_templates, CURLOPT_HTTPHEADER, [
         "Authorization: Bearer $accessToken",
         "Content-Type: application/json"
     ]);
-    
+
     // Ejecutar la solicitud para obtener los templates
     $response_templates = curl_exec($ch_templates);
     $http_code_templates = curl_getinfo($ch_templates, CURLINFO_HTTP_CODE);
     curl_close($ch_templates);
-    
+
     if ($http_code_templates !== 200) {
         file_put_contents('debug_log.txt', "Error al obtener la lista de templates. HTTP Code: $http_code_templates\nRespuesta: $response_templates\n", FILE_APPEND);
         return;
     }
-    
+
     // Decodificar la respuesta JSON para obtener la lista de templates
     $templates_data = json_decode($response_templates, true);
-    
+
     // Buscar el nombre del template que corresponde al ID que tenemos
     $template_name = null;
     if (isset($templates_data['data'])) {
@@ -602,7 +602,7 @@ function enviarMensajeTemplateWhatsApp($accessToken, $waba_id, $business_phone_i
         file_put_contents('debug_log.txt', "No se encontró un template con el ID $id_whatsapp_message_template\n", FILE_APPEND);
         return;
     }
-    
+
     // Paso 2: Configurar el envío del mensaje de WhatsApp usando el nombre del template
     $url = "https://graph.facebook.com/v12.0/$business_phone_id/messages";
 
@@ -612,7 +612,7 @@ function enviarMensajeTemplateWhatsApp($accessToken, $waba_id, $business_phone_i
         "type" => "template",
         "template" => [
             "name" => $template_name,  // Usar el nombre del template
-            "language" => ["code" => "es"],  // Cambia 'es' si necesitas otro idioma
+            "language" => ["code" => "en"],  // Cambiar a 'en' si el template solo existe en inglés
             "components" => [
                 [
                     "type" => "body",
