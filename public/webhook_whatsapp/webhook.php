@@ -562,9 +562,9 @@ function validar_automatizador($conn, $payload, $id_configuracion)
     ];
 }
 
-function enviarMensajeTemplateWhatsApp($accessToken, $waba_id, $business_phone_id, $phone_whatsapp_from, $id_whatsapp_message_template, $mensaje)
+function obtenerNombreTemplatePorID($accessToken, $waba_id, $id_whatsapp_message_template)
 {
-    // Paso 1: Obtener la lista de templates desde la cuenta de WhatsApp Business
+    // URL para obtener la lista de templates desde la API de WhatsApp Business
     $url_templates = "https://graph.facebook.com/v12.0/$waba_id/message_templates";
 
     $ch_templates = curl_init($url_templates);
@@ -579,31 +579,32 @@ function enviarMensajeTemplateWhatsApp($accessToken, $waba_id, $business_phone_i
     $http_code_templates = curl_getinfo($ch_templates, CURLINFO_HTTP_CODE);
     curl_close($ch_templates);
 
+    // Verificar si la solicitud fue exitosa
     if ($http_code_templates !== 200) {
         file_put_contents('debug_log.txt', "Error al obtener la lista de templates. HTTP Code: $http_code_templates\nRespuesta: $response_templates\n", FILE_APPEND);
-        return;
+        return null;
     }
 
     // Decodificar la respuesta JSON para obtener la lista de templates
     $templates_data = json_decode($response_templates, true);
 
     // Buscar el nombre del template que corresponde al ID que tenemos
-    $template_name = null;
     if (isset($templates_data['data'])) {
         foreach ($templates_data['data'] as $template) {
             if ($template['id'] == $id_whatsapp_message_template) {
-                $template_name = $template['name'];
-                break;
+                return $template['name'];  // Devolver el nombre del template
             }
         }
     }
 
-    if (empty($template_name)) {
-        file_put_contents('debug_log.txt', "No se encontró un template con el ID $id_whatsapp_message_template\n", FILE_APPEND);
-        return;
-    }
+    // Si no se encuentra el template
+    file_put_contents('debug_log.txt', "No se encontró un template con el ID $id_whatsapp_message_template\n", FILE_APPEND);
+    return null;
+}
 
-    // Paso 2: Configurar el envío del mensaje de WhatsApp usando el nombre del template
+function enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $template_name, $mensaje)
+{
+    // Paso 1: Configurar el envío del mensaje de WhatsApp usando el nombre del template
     $url = "https://graph.facebook.com/v12.0/$business_phone_id/messages";
 
     $data = [
@@ -640,7 +641,7 @@ function enviarMensajeTemplateWhatsApp($accessToken, $waba_id, $business_phone_i
 
     // Verificar si la solicitud fue exitosa
     if ($http_code === 200) {
-        file_put_contents('debug_log.txt', "Mensaje template enviado correctamente.\n", FILE_APPEND);
+        file_put_contents('debug_log.txt', "Mensaje template enviado correctamente a $phone_whatsapp_from usando el template $template_name.\n", FILE_APPEND);
     } else {
         file_put_contents('debug_log.txt', "Error al enviar el mensaje template. HTTP Code: $http_code\nRespuesta: $response\n", FILE_APPEND);
     }
@@ -730,15 +731,22 @@ switch ($tipo_mensaje) {
         $resultado_automatizador = validar_automatizador($conn, $payload, $id_configuracion);
 
         // Extraer los valores devueltos
-        $id_whatsapp_message_template = $resultado_automatizador['id_whatsapp_message_template'];
-        $mensaje = $resultado_automatizador['mensaje'];
+        $id_whatsapp_message_template = $resultado_automatizador['id_whatsapp_message_template'] ?? null;
+        $mensaje = $resultado_automatizador['mensaje'] ?? null;
 
         // Verifica si los datos de id_whatsapp_message_template y mensaje están presentes
         if (!empty($id_whatsapp_message_template) && !empty($mensaje)) {
-            // Llamar a la función para enviar el mensaje template a WhatsApp
-            enviarMensajeTemplateWhatsApp($accessToken, $waba_id, $business_phone_id, $phone_whatsapp_from, $id_whatsapp_message_template, $mensaje);
+            // Obtener el nombre del template usando el ID
+            $template_name = obtenerNombreTemplatePorID($accessToken, $waba_id, $id_whatsapp_message_template);
 
-            file_put_contents('debug_log.txt', "Mensaje enviado a $phone_whatsapp_from con el template $id_whatsapp_message_template\n", FILE_APPEND);
+            if (!empty($template_name)) {
+                // Llamar a la función para enviar el mensaje template a WhatsApp
+                enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $template_name, $mensaje);
+
+                file_put_contents('debug_log.txt', "Mensaje enviado a $phone_whatsapp_from con el template $template_name\n", FILE_APPEND);
+            } else {
+                file_put_contents('debug_log.txt', "No se pudo obtener el nombre del template con el ID $id_whatsapp_message_template\n", FILE_APPEND);
+            }
         } else {
             file_put_contents('debug_log.txt', "No se encontraron los datos necesarios para enviar el mensaje template.\n", FILE_APPEND);
         }
