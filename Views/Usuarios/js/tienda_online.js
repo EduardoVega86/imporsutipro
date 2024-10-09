@@ -159,6 +159,8 @@ $(document).ready(function () {
       plantilla = 1;
     } else if ((selectedTemplate == "template2")) {
       plantilla = 2;
+    } else if ((selectedTemplate == "template3")) {
+      plantilla = 3;
     }
     // Prepara los datos para la API
     let formData = new FormData();
@@ -373,6 +375,15 @@ function cargarInfoTienda_inicial() {
 
         // Agrega la clase 'selected' a la plantilla correcta
         $(".plantilla[data-template='template2']").addClass("selected");
+      } else if (response[0].plantilla == 3) {
+        // Actualiza los valores de los inputs hidden
+        $("#plantilla_selected").val("template3");
+
+        // Remueve la clase 'selected' de todas las plantillas
+        $(".plantilla").removeClass("selected");
+
+        // Agrega la clase 'selected' a la plantilla correcta
+        $(".plantilla[data-template='template3']").addClass("selected");
       }
 
       // Mover la lógica de verificación aquí
