@@ -284,4 +284,9 @@ class Guias extends Controller
         $response = $this->model->anularSpeed_temporal($id);
         echo json_encode($response);
     }
+
+    public function pesosLaar()
+    {
+        $response = $this->model->pesosLaar();
+    }
 }
