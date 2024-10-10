@@ -510,78 +510,79 @@ class SpeedModel extends Query
         $sql = "SELECT * FROM automatizadores WHERE id_configuracion = ?";
         $data = [$id_configuracion];
         $res = $this->dselect($sql, $data);
+        print_r($res);
 
         // Verificamos que la consulta haya devuelto resultados
         if (!empty($res)) {  // Cambié a `!empty` para que entre si hay resultados
-            $json_bloques = json_decode($res[0]['json_bloques'], true);
-
-            // Iteramos sobre cada bloque
-            foreach ($json_bloques as $bloque_info) {
-                // Verificamos si el id_block es "0"
-                if ($bloque_info['id_block'] == "0") {
-                    print_r($bloque_info);
-                    // Verificamos que 'status[]' exista y que sea un array
-                    if (isset($bloque_info['status[]']) && is_array($bloque_info['status[]'])) {
-                        echo "DX";
-                        // Iteramos sobre cada estado dentro del array 'status[]'
-                        foreach ($bloque_info['status[]'] as $status) {
-                            // Comprobamos si el valor de status es 1
-                            if ($status == 0) {
-                                $data_api = [
-                                    "id_configuracion" => $id_configuracion,
-                                    "value_blocks_type" => "3",
-                                    "user_id" => "1",
-                                    "order_id" => $numero_factura,
-                                    "nombre" => $nombre,
-                                    "direccion" => $calle_principal . " y " . $calle_secundaria,
-                                    "email" => "",
-                                    "celular" => $telefono,
-                                    "productos" => [""],
-                                    "categorias" => [""],
-                                    "status" => ["0"],
-                                    "novedad" => [""],
-                                    "provincia" => [""],
-                                    "ciudad" => [""],
-                                    "user_info" => [
+            foreach ($res as $respuesta) {
+                $json_bloques = json_decode($respuesta['json_bloques'], true);
+                // Iteramos sobre cada bloque
+                foreach ($json_bloques as $bloque_info) {
+                    // Verificamos si el id_block es "0"
+                    if ($bloque_info['id_block'] == "0") {
+                        print_r($bloque_info);
+                        // Verificamos que 'status[]' exista y que sea un array
+                        if (isset($bloque_info['status[]']) && is_array($bloque_info['status[]'])) {
+                            echo "DX";
+                            // Iteramos sobre cada estado dentro del array 'status[]'
+                            foreach ($bloque_info['status[]'] as $status) {
+                                // Comprobamos si el valor de status es 1
+                                if ($status == 0) {
+                                    $data_api = [
+                                        "id_configuracion" => $id_configuracion,
+                                        "value_blocks_type" => "3",
+                                        "user_id" => "1",
+                                        "order_id" => $numero_factura,
                                         "nombre" => $nombre,
                                         "direccion" => $calle_principal . " y " . $calle_secundaria,
                                         "email" => "",
                                         "celular" => $telefono,
-                                        "order_id" => $numero_factura
-                                    ]
-                                ];
-                                // Llamamos a la función para enviar los datos a la API usando cURL
-                                $response_api = $this->enviar_a_api($data_api);
-                            } else if ($status == $estado_guia_automatizador) {
-                                $data_api = [
-                                    "id_configuracion" => $id_configuracion,
-                                    "value_blocks_type" => "3",
-                                    "user_id" => "1",
-                                    "order_id" => $numero_factura,
-                                    "nombre" => $nombre,
-                                    "direccion" => $calle_principal . " y " . $calle_secundaria,
-                                    "email" => "",
-                                    "celular" => $telefono,
-                                    "productos" => [""],
-                                    "categorias" => [""],
-                                    "status" => ["$status"],
-                                    "novedad" => [""],
-                                    "provincia" => [""],
-                                    "ciudad" => [""],
-                                    "user_info" => [
+                                        "productos" => [""],
+                                        "categorias" => [""],
+                                        "status" => ["0"],
+                                        "novedad" => [""],
+                                        "provincia" => [""],
+                                        "ciudad" => [""],
+                                        "user_info" => [
+                                            "nombre" => $nombre,
+                                            "direccion" => $calle_principal . " y " . $calle_secundaria,
+                                            "email" => "",
+                                            "celular" => $telefono,
+                                            "order_id" => $numero_factura
+                                        ]
+                                    ];
+                                    // Llamamos a la función para enviar los datos a la API usando cURL
+                                    $response_api = $this->enviar_a_api($data_api);
+                                } else if ($status == $estado_guia_automatizador) {
+                                    $data_api = [
+                                        "id_configuracion" => $id_configuracion,
+                                        "value_blocks_type" => "3",
+                                        "user_id" => "1",
+                                        "order_id" => $numero_factura,
                                         "nombre" => $nombre,
                                         "direccion" => $calle_principal . " y " . $calle_secundaria,
                                         "email" => "",
                                         "celular" => $telefono,
-                                        "order_id" => $numero_factura
-                                    ]
-                                ];
+                                        "productos" => [""],
+                                        "categorias" => [""],
+                                        "status" => ["$status"],
+                                        "novedad" => [""],
+                                        "provincia" => [""],
+                                        "ciudad" => [""],
+                                        "user_info" => [
+                                            "nombre" => $nombre,
+                                            "direccion" => $calle_principal . " y " . $calle_secundaria,
+                                            "email" => "",
+                                            "celular" => $telefono,
+                                            "order_id" => $numero_factura
+                                        ]
+                                    ];
 
-                                // Llamamos a la función para enviar los datos a la API usando cURL
-                                $response_api = $this->enviar_a_api($data_api);
-                            }
-                            print_r($response_api);
-                            /* // Comprobamos si hubo un error en cURL
+                                    // Llamamos a la función para enviar los datos a la API usando cURL
+                                    $response_api = $this->enviar_a_api($data_api);
+                                }
+                                print_r($response_api);
+                                /* // Comprobamos si hubo un error en cURL
                             if (!$response_api['success']) {
                                 // Si hubo un error, lo añadimos al response
                                 $response['status'] = 500;
@@ -596,6 +597,7 @@ class SpeedModel extends Query
                                 $response['data'] = $data_api;
                                 $response['respuesta_curl'] = $response_api['response'];
                             } */
+                            }
                         }
                     }
                 }
@@ -658,10 +660,11 @@ class SpeedModel extends Query
         ];
     }
 
-    public function formatearTelefono($telefono) {
+    public function formatearTelefono($telefono)
+    {
         // Eliminar espacios en blanco y otros caracteres no numéricos
         $telefono = preg_replace('/\D/', '', $telefono);
-    
+
         // Si el número tiene exactamente 9 dígitos, agrega "593" al inicio
         if (strlen($telefono) === 9 && preg_match('/^\d{9}$/', $telefono)) {
             return '593' . $telefono;
@@ -681,5 +684,4 @@ class SpeedModel extends Query
         // Si no cumple con ninguno de los casos anteriores, retorna el número tal cual
         return $telefono;
     }
-    
 }
