@@ -478,6 +478,8 @@ class SpeedModel extends Query
             $response['data']['numero_factura'] = $res1[0]['numero_factura'];
             $response['data']['c_principal'] = $res1[0]['c_principal'];
             $response['data']['c_secundaria'] = $res1[0]['c_secundaria'];
+            $response['data']['c_secundaria'] = $res1[0]['c_secundaria'];
+            $response['data']['id_transporte'] = $res1[0]['id_transporte'];
         } else {
             $response = $this->initialResponse();
             $response['status'] = 500;
@@ -496,14 +498,33 @@ class SpeedModel extends Query
         $nombre = $configuracion['nombre'];
         $calle_principal = $configuracion['c_principal'];
         $calle_secundaria = $configuracion['c_secundaria'];
+        $id_transporte = $configuracion['id_transporte'];
         $estado_guia_automatizador = 0;
 
-        if ($estado_guia == 7) {
-            $estado_guia_automatizador = 1;
-        } else if ($estado_guia == 9) {
-            $estado_guia_automatizador = 3;
-        } else if ($estado_guia == 14) {
-            $estado_guia_automatizador = 2;
+        if ($id_transporte == 1 || $id_transporte == 4){
+            if ($estado_guia == 7) {
+                $estado_guia_automatizador = 1;
+            } else if ($estado_guia == 9) {
+                $estado_guia_automatizador = 3;
+            } else if ($estado_guia == 14) {
+                $estado_guia_automatizador = 2;
+            }
+        } else if ($id_transporte == 2) {
+            if ($estado_guia >= 400 || $estado_guia <= 403) {
+                $estado_guia_automatizador = 1;
+            } else if ($estado_guia >= 500 || $estado_guia <= 502) {
+                $estado_guia_automatizador = 3;
+            } else if ($estado_guia >= 320 || $estado_guia <= 351) {
+                $estado_guia_automatizador = 2;
+            }
+        } else if ($id_transporte == 3){
+            if ($estado_guia == 7) {
+                $estado_guia_automatizador = 1;
+            } else if ($estado_guia == 9 || $estado_guia == 8 || $estado_guia == 13) {
+                $estado_guia_automatizador = 3;
+            } else if ($estado_guia == 6) {
+                $estado_guia_automatizador = 2;
+            }
         }
 
         // Consulta para obtener los datos de automatización
