@@ -766,7 +766,6 @@ switch ($tipo_mensaje) {
         $texto_mensaje = $payload;
         break;
 
-
     case 'sticker':
         $texto_mensaje = "Sticker recibido con ID: " . $respuesta_WEBHOOK_messages['sticker']['id'];
         break;
