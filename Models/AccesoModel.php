@@ -404,6 +404,14 @@ class AccesoModel extends Query
                 setcookie("cargo", $datos_usuario[0]['cargo_users'], time() + 3600, "/", "." . DOMINIO);
                 setcookie("id", $datos_usuario[0]['id_users'], time() + 3600, "/", "." . DOMINIO);
                 setcookie("token", $jwt, time() + 3600, "/", "." . DOMINIO);
+                setcookie('jwt_token', $jwt, [
+                    'expires' => time() + 3600,  // Expira en 1 hora
+                    'path' => '/',
+                    'domain' => '.imporfactory.app',  // Asegúrate de usar el dominio correcto
+                    'secure' => true,  // Solo para HTTPS
+                    'httponly' => true,  // Evita el acceso por JavaScript
+                    'samesite' => 'None',  // Permitir entre subdominios
+                ]);
             } else {
                 $response = $this->initialResponse();
                 $response['status'] = 401;
