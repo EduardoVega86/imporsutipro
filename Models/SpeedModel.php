@@ -630,7 +630,6 @@ class SpeedModel extends Query
 
         // Ejecutar la solicitud cURL
         $response = curl_exec($ch);
-        print_r($response);
 
         // Verificar si hubo errores en la ejecución
         if (curl_errno($ch)) {
