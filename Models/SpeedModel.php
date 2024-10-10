@@ -510,7 +510,7 @@ class SpeedModel extends Query
         }
 
         // Consulta para obtener los datos de automatización
-        $sql = "SELECT * FROM automatizados WHERE id_configuracion = ?";
+        $sql = "SELECT * FROM automatizadores WHERE id_configuracion = ?";
         $data = [$id_configuracion];
         $res = $this->dselect($sql, $data);
 
