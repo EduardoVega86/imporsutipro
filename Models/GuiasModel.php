@@ -791,4 +791,11 @@ class GuiasModel extends Query
             curl_close($ch);
         }
     }
+
+    public function getIdFactura($numero_factura)
+    {
+        $sql = "SELECT id_factura FROM facturas_cot WHERE numero_factura = ?";
+        $response = $this->select($sql, array($numero_factura));
+        return $response[0]['id_factura'];
+    }
 }
