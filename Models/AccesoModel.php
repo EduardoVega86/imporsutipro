@@ -362,7 +362,13 @@ class AccesoModel extends Query
                     'cargo' => $datos_usuario[0]['cargo_users'],
                     'correo' => $datos_usuario[0]['email_users'], // Asegúrate de incluir el correo
                     'iat' => time(), // tiempo de creación
-                    'exp' => time() + 3600 // token expira en 1 hora
+                    'exp' => time() + 3600, // token expira en 1 hora,
+                    'iss' => $_SERVER['SERVER_NAME'],
+                    'aud' => $_SERVER['SERVER_NAME'],
+                    'sub' => $datos_usuario[0]['email_users'],
+                    'jti' => $datos_usuario[0]['id_users'],
+                    'nbf' => time(),
+
                 ];
 
                 $jwt = JWT::encode($payload, $this->jwt_secret, 'HS256');

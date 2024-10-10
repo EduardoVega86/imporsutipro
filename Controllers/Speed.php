@@ -119,9 +119,7 @@ class Speed extends Controller
         $response = $this->model->estados($estado, $imagen, $tipo, $observacion, $id_factura, $googlemaps);
         if ($response['status'] == 200) {
             $response2 = $this->model->verificarAutomatizacion($id_factura);
-
-            print_r($response2);
-
+            
             if ($response2['status'] == 200) {
                 $response3 = $this->model->automatizar($response2['data']);
             }
