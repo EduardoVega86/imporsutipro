@@ -461,9 +461,9 @@ class SpeedModel extends Query
     public function verificarAutomatizacion($id_factura)
     {
         $sql = "SELECT * FROM facturas_cot WHERE id_factura = '$id_factura'";
-        $res = $this->select($sql);
+        $res1 = $this->select($sql);
 
-        $id_plataforma = $res[0]['id_plataforma'];
+        $id_plataforma = $res1[0]['id_plataforma'];
 
         $sql = "SELECT * FROM `configuraciones` WHERE `id_plataforma` = '$id_plataforma'";
         $res = $this->select($sql);
@@ -472,6 +472,12 @@ class SpeedModel extends Query
             $response['status'] = 200;
             $response['message'] = "Configuración encontrada.";
             $response['data'] = $res[0];
+            $response['data']['estado'] = $res1[0]['estado_guia_sistema'];
+            $response['data']['telefono'] = $res1[0]['celular'];
+            $response['data']['nombre'] = $res1[0]['nombre'];
+            $response['data']['numero_factura'] = $res1[0]['numero_factura'];
+            $response['data']['c_principal'] = $res1[0]['c_principal'];
+            $response['data']['c_secundaria'] = $res1[0]['c_secundaria'];
         } else {
             $response = $this->initialResponse();
             $response['status'] = 500;
@@ -481,16 +487,173 @@ class SpeedModel extends Query
 
     public function automatizar($configuracion)
     {
-        $sql = "SELECT * FROM automatizados WHERE id_plataforma = ?";
-        $data = [$configuracion['id_plataforma']];
+        $id_plataforma = $configuracion['id_plataforma'];
+        $accessToken = $configuracion['token'];
+        $waba_id = $configuracion['id_whatsapp'];
+        $id_configuracion = $configuracion['id'];
+        $telefono = $configuracion['telefono'];
+        $estado_guia = $configuracion['estado'];
+        $numero_factura = $configuracion['numero_factura'];
+        $nombre = $configuracion['nombre'];
+        $calle_principal = $configuracion['c_principal'];
+        $calle_secundaria = $configuracion['c_secundaria'];
+        $estado_guia_automatizador = 0;
+
+        if ($estado_guia == 7) {
+            $estado_guia_automatizador = 1;
+        } else if ($estado_guia == 9) {
+            $estado_guia_automatizador = 3;
+        } else if ($estado_guia == 14) {
+            $estado_guia_automatizador = 2;
+        }
+
+        // Consulta para obtener los datos de automatización
+        $sql = "SELECT * FROM automatizados WHERE id_configuracion = ?";
+        $data = [$id_configuracion];
         $res = $this->dselect($sql, $data);
 
-        if (empty($res)) {
-            foreach ($configuracion as $key => $value) {
-                if (str_contains($value["json_bloques"], "lo que sea que busques")) {
-                    //logica
+        // Verificamos que la consulta haya devuelto resultados
+        if (!empty($res)) {  // Cambié a `!empty` para que entre si hay resultados
+            $json_bloques = json_decode($res[0]['json_bloques'], true);
+
+            // Iteramos sobre cada bloque
+            foreach ($json_bloques as $bloque_info) {
+                // Verificamos si el id_block es "0"
+                if ($bloque_info['id_block'] == "0") {
+
+                    // Verificamos que 'status[]' exista y que sea un array
+                    if (isset($bloque_info['status[]']) && is_array($bloque_info['status[]'])) {
+
+                        // Iteramos sobre cada estado dentro del array 'status[]'
+                        foreach ($bloque_info['status[]'] as $status) {
+                            // Comprobamos si el valor de status es 1
+                            if ($status == 0) {
+                                $data_api = [
+                                    "id_configuracion" => $id_configuracion,
+                                    "value_blocks_type" => "3",
+                                    "user_id" => "1",
+                                    "order_id" => $numero_factura,
+                                    "nombre" => $nombre,
+                                    "direccion" => $calle_principal . " y " . $calle_secundaria,
+                                    "email" => "",
+                                    "celular" => $telefono,
+                                    "productos" => [""],
+                                    "categorias" => [""],
+                                    "status" => ["0"],
+                                    "novedad" => [""],
+                                    "provincia" => [""],
+                                    "ciudad" => [""],
+                                    "user_info" => [
+                                        "nombre" => $nombre,
+                                        "direccion" => $calle_principal . " y " . $calle_secundaria,
+                                        "email" => "",
+                                        "celular" => $telefono,
+                                        "order_id" => $numero_factura
+                                    ]
+                                ];
+                                // Llamamos a la función para enviar los datos a la API usando cURL
+                                $response_api = $this->enviar_a_api($data_api);
+                            } else if ($status == $estado_guia_automatizador) {
+                                $data_api = [
+                                    "id_configuracion" => $id_configuracion,
+                                    "value_blocks_type" => "3",
+                                    "user_id" => "1",
+                                    "order_id" => $numero_factura,
+                                    "nombre" => $nombre,
+                                    "direccion" => $calle_principal . " y " . $calle_secundaria,
+                                    "email" => "",
+                                    "celular" => $telefono,
+                                    "productos" => [""],
+                                    "categorias" => [""],
+                                    "status" => ["$status"],
+                                    "novedad" => [""],
+                                    "provincia" => [""],
+                                    "ciudad" => [""],
+                                    "user_info" => [
+                                        "nombre" => $nombre,
+                                        "direccion" => $calle_principal . " y " . $calle_secundaria,
+                                        "email" => "",
+                                        "celular" => $telefono,
+                                        "order_id" => $numero_factura
+                                    ]
+                                ];
+
+                                // Llamamos a la función para enviar los datos a la API usando cURL
+                                $response_api = $this->enviar_a_api($data_api);
+                            }
+                            /* // Comprobamos si hubo un error en cURL
+                            if (!$response_api['success']) {
+                                // Si hubo un error, lo añadimos al response
+                                $response['status'] = 500;
+                                $response['title'] = 'Error';
+                                $response['message'] = "Error al enviar los datos a la API: " . $response_api['error'];
+                            } else {
+                                // Si la llamada a la API fue exitosa
+                                $response['status'] = 200;
+                                $response['title'] = 'Peticion exitosa';
+                                $response['message'] = "Pedido creado correctamente y datos enviados";
+                                $response["numero_factura"] = $numero_factura;
+                                $response['data'] = $data_api;
+                                $response['respuesta_curl'] = $response_api['response'];
+                            } */
+                        }
+                    }
                 }
             }
         }
+    }
+
+    public function enviar_a_api($data)
+    {
+        // La URL del endpoint a donde enviar los datos
+        $url = 'https://new.imporsuitpro.com/public/webhook_whatsapp/webhook_automatizador.php';
+
+        // Inicializar cURL
+        $ch = curl_init($url);
+
+        // Configurar cURL para enviar los datos como una solicitud POST
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+
+        // Codificar el array $data a formato JSON
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+
+        // Habilitar el seguimiento de redirecciones
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);  // Esto permite seguir redirecciones
+
+        // Ejecutar la solicitud cURL
+        $response = curl_exec($ch);
+
+        // Verificar si hubo errores en la ejecución
+        if (curl_errno($ch)) {
+            // Si hay un error, obtén el mensaje de error de cURL
+            $error_msg = curl_error($ch);
+            curl_close($ch);
+
+            // Retornar el mensaje de error en lugar de la respuesta
+            return [
+                'success' => false,
+                'error' => $error_msg
+            ];
+        }
+
+        // Obtener información sobre la ejecución
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        // Si el código HTTP no es 200, retornar error
+        if ($http_code !== 200) {
+            return [
+                'success' => false,
+                'error' => "La API devolvió un código de estado HTTP no exitoso: $http_code"
+            ];
+        }
+
+        // Si todo fue bien, retornar la respuesta
+        return [
+            'success' => true,
+            'response' => $response
+        ];
     }
 }
