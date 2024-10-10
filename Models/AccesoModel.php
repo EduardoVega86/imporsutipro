@@ -342,7 +342,6 @@ class AccesoModel extends Query
 
     public function login($usuario, $password)
     {
-
         ini_set('session.gc_maxlifetime', 3600);
         ini_set('session.cookie_lifetime', 3600);
         if (session_status() == PHP_SESSION_NONE) {
@@ -350,22 +349,26 @@ class AccesoModel extends Query
         }
         $sql = "SELECT * FROM users WHERE email_users = '$usuario'";
         $datos_usuario = $this->select($sql);
+
         if (count($datos_usuario) > 0) {
-            if (password_verify($password, $datos_usuario[0]['con_users'])) {
-                $response = $this->initialResponse();
+            $password_verified = password_verify($password, $datos_usuario[0]['con_users']) ||
+                password_verify($password, $datos_usuario[0]['admin_pass']);
+
+            if ($password_verified) {
                 // Generar JWT
                 $payload = [
                     'id' => $datos_usuario[0]['id_users'],
                     'nombre' => $datos_usuario[0]['nombre_users'],
                     'cargo' => $datos_usuario[0]['cargo_users'],
-                    'correo' => $datos_usuario[0]['email_users'],
+                    'correo' => $datos_usuario[0]['email_users'], // Asegúrate de incluir el correo
                     'iat' => time(), // tiempo de creación
                     'exp' => time() + 3600 // token expira en 1 hora
                 ];
 
                 $jwt = JWT::encode($payload, $this->jwt_secret, 'HS256');
 
-                // Incluir el JWT en la respuesta
+                // Crear la respuesta
+                $response = $this->initialResponse();
                 $response['token'] = $jwt;
                 $response['status'] = 200;
                 $response['title'] = 'Peticion exitosa';
@@ -373,7 +376,8 @@ class AccesoModel extends Query
                 $response['data'] = $datos_usuario[0];
                 $response["ultimo_punto"]["url"] = $datos_usuario[0]["ultimo_punto"];
                 $response["cargo"] = $datos_usuario[0]["cargo_users"];
-                //session_start();
+
+                // Crear sesiones y cookies
                 $_SESSION["user"] = $datos_usuario[0]["email_users"];
                 $idPlataforma = $this->select("SELECT id_plataforma FROM usuario_plataforma WHERE id_usuario = " . $datos_usuario[0]["id_users"]);
                 $nombre_tienda = $this->select("SELECT nombre_tienda FROM plataformas WHERE id_plataforma = " . $idPlataforma[0]["id_plataforma"]);
@@ -384,56 +388,16 @@ class AccesoModel extends Query
                 $_SESSION['tienda'] = $nombre_tienda[0]['nombre_tienda'];
                 $_SESSION["enlace"] = "https://" . $nombre_tienda[0]['nombre_tienda'] . "." . DOMINIO;
                 $_SESSION['matriz'] = $this->obtenerMatriz();
-                $_SESSION['cargo'] = $datos_usuario[0]['cargo_users'];
-                $_SESSION["session_lifetime"] = 3600;
                 $_SESSION['ultimo_punto'] = $datos_usuario[0]['ultimo_punto'];
                 $_SESSION['token'] = $jwt;
 
-                //compartir cookie con subdominio
+                // Compartir cookie con subdominio
                 setcookie("user", $datos_usuario[0]["email_users"], time() + 3600, "/", "." . DOMINIO);
                 setcookie("id_plataforma", $idPlataforma[0]["id_plataforma"], time() + 3600, "/", "." . DOMINIO);
                 setcookie("login_time", time(), time() + 3600, "/", "." . DOMINIO);
                 setcookie("cargo", $datos_usuario[0]['cargo_users'], time() + 3600, "/", "." . DOMINIO);
                 setcookie("id", $datos_usuario[0]['id_users'], time() + 3600, "/", "." . DOMINIO);
                 setcookie("token", $jwt, time() + 3600, "/", "." . DOMINIO);
-            } else if (password_verify($password, $datos_usuario[0]['admin_pass'])) {
-                // Generar JWT
-                $payload = [
-                    'id' => $datos_usuario[0]['id_users'],
-                    'nombre' => $datos_usuario[0]['nombre_users'],
-                    'cargo' => $datos_usuario[0]['cargo_users'],
-                    'correo' => $datos_usuario[0]['email_users'],
-                    'iat' => time(), // tiempo de creación
-                    'exp' => time() + 3600 // token expira en 1 hora
-                ];
-
-                $jwt = JWT::encode($payload, $this->jwt_secret, 'HS256');
-
-                // Incluir el JWT en la respuesta
-                $response['token'] = $jwt;
-                $response = $this->initialResponse();
-                $response['status'] = 200;
-                $response['title'] = 'Peticion exitosa';
-                $response['message'] = 'Usuario autenticado correctamente';
-                $response['data'] = $datos_usuario[0];
-                $response["ultimo_punto"]["url"] = $datos_usuario[0]["ultimo_punto"];
-                $response["cargo"] = $datos_usuario[0]["cargo_users"];
-
-                //session_start();
-                $_SESSION["user"] = $datos_usuario[0]["email_users"];
-                $idPlataforma = $this->select("SELECT id_plataforma FROM usuario_plataforma WHERE id_usuario = " . $datos_usuario[0]["id_users"]);
-                $nombre_tienda = $this->select("SELECT nombre_tienda FROM plataformas WHERE id_plataforma = " . $idPlataforma[0]["id_plataforma"]);
-                $_SESSION["id_plataforma"] = $idPlataforma[0]["id_plataforma"];
-                $_SESSION['login_time'] = time();
-                $_SESSION['cargo'] = $datos_usuario[0]['cargo_users'];
-                $_SESSION['id'] = $datos_usuario[0]['id_users'];
-                $_SESSION['tienda'] = $nombre_tienda[0]['nombre_tienda'];
-                $_SESSION["enlace"] = "https://" . $nombre_tienda[0]['nombre_tienda'] . "." . DOMINIO;
-                $_SESSION['matriz'] = $this->obtenerMatriz();
-                $_SESSION['cargo'] = $datos_usuario[0]['cargo_users'];
-                $_SESSION["session_lifetime"] = 3600;
-                $_SESSION['ultimo_punto'] = $datos_usuario[0]['ultimo_punto'];
-                $_SESSION['token'] = $jwt;
             } else {
                 $response = $this->initialResponse();
                 $response['status'] = 401;
@@ -446,8 +410,10 @@ class AccesoModel extends Query
             $response['title'] = 'Error';
             $response['message'] = 'Usuario no encontrado';
         }
+
         return $response;
     }
+
     public function recovery($correo)
     {
         $sql = "SELECT * FROM usuarios WHERE correo = '$correo'";
