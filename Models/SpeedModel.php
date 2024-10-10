@@ -511,7 +511,6 @@ class SpeedModel extends Query
         $data = [$id_configuracion];
         $res = $this->dselect($sql, $data);
 
-        print_r($res);
         // Verificamos que la consulta haya devuelto resultados
         if (!empty($res)) {  // Cambié a `!empty` para que entre si hay resultados
             foreach ($res as $respuesta) {
@@ -520,7 +519,7 @@ class SpeedModel extends Query
                 foreach ($json_bloques as $bloque_info) {
                     // Verificamos si el id_block es "0"
                     if ($bloque_info['id_block'] == "0") {
-                        
+
                         // Verificamos que 'status[]' exista y que sea un array
                         if (isset($bloque_info['status[]']) && is_array($bloque_info['status[]'])) {
                             echo "DX";
