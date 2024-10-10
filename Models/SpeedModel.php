@@ -601,7 +601,7 @@ class SpeedModel extends Query
                                     // Llamamos a la función para enviar los datos a la API usando cURL
                                     $response_api = $this->enviar_a_api($data_api);
                                 }
-                                print_r($response_api);
+                                /* print_r($response_api); */
                             }
                         }
                     }
