@@ -120,6 +120,8 @@ class Speed extends Controller
         if ($response['status'] == 200) {
             $response2 = $this->model->verificarAutomatizacion($id_factura);
 
+            print_r($response);
+            
             if ($response2['status'] == 200) {
                 $response3 = $this->model->automatizar($response2['data']);
             }
