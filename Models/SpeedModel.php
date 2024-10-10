@@ -489,11 +489,8 @@ class SpeedModel extends Query
 
     public function automatizar($configuracion)
     {
-        $id_plataforma = $configuracion['id_plataforma'];
-        $accessToken = $configuracion['token'];
-        $waba_id = $configuracion['id_whatsapp'];
         $id_configuracion = $configuracion['id'];
-        $telefono = $this->formatearTelefono($configuracion['telefono']);;
+        $telefono = $this->formatearTelefono($configuracion['telefono']);
         $estado_guia = $configuracion['estado'];
         $numero_factura = $configuracion['numero_factura'];
         $nombre = $configuracion['nombre'];
@@ -583,6 +580,7 @@ class SpeedModel extends Query
                                 // Llamamos a la función para enviar los datos a la API usando cURL
                                 $response_api = $this->enviar_a_api($data_api);
                             }
+                            print_r($response_api);
                             /* // Comprobamos si hubo un error en cURL
                             if (!$response_api['success']) {
                                 // Si hubo un error, lo añadimos al response
