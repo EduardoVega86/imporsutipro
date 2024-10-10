@@ -519,6 +519,7 @@ class SpeedModel extends Query
                 foreach ($json_bloques as $bloque_info) {
                     // Verificamos si el id_block es "0"
                     if ($bloque_info['id_block'] == "0") {
+                        print_r($bloque_info);
                         // Verificamos que 'status[]' exista y que sea un array
                         if (isset($bloque_info['status[]']) && is_array($bloque_info['status[]'])) {
                             echo "DX";
