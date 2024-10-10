@@ -789,51 +789,58 @@ class TiendaModel extends Query
                             }
                         }
                     }
+                    if ($id_configuracion != "") {
+                        // Ejecutamos la función que devuelve productos y categorías
+                        $data = $this->ejecutar_automatizador($nueva_factura);
 
-                    // Ejecutamos la función que devuelve productos y categorías
-                    $data = $this->ejecutar_automatizador($nueva_factura);
-
-                    $data = [
-                        "id_configuracion" => $id_configuracion,
-                        "value_blocks_type" => "1",
-                        "user_id" => "1",
-                        "order_id" => $nueva_factura,
-                        "nombre" => $nombre,
-                        "direccion" => $calle_principal . " y " . $calle_secundaria,
-                        "email" => "",
-                        "celular" => $telefono,
-                        "productos" => $data['productos'] ?? [],
-                        "categorias" => $data['categorias'] ?? [],
-                        "status" => [""],
-                        "novedad" => [""],
-                        "provincia" => [""],
-                        "ciudad" => [""],
-                        "user_info" => [
+                        $data = [
+                            "id_configuracion" => $id_configuracion,
+                            "value_blocks_type" => "1",
+                            "user_id" => "1",
+                            "order_id" => $nueva_factura,
                             "nombre" => $nombre,
                             "direccion" => $calle_principal . " y " . $calle_secundaria,
                             "email" => "",
                             "celular" => $telefono,
-                            "order_id" => $nueva_factura
-                        ]
-                    ];
+                            "productos" => $data['productos'] ?? [],
+                            "categorias" => $data['categorias'] ?? [],
+                            "status" => [""],
+                            "novedad" => [""],
+                            "provincia" => [""],
+                            "ciudad" => [""],
+                            "user_info" => [
+                                "nombre" => $nombre,
+                                "direccion" => $calle_principal . " y " . $calle_secundaria,
+                                "email" => "",
+                                "celular" => $telefono,
+                                "order_id" => $nueva_factura
+                            ]
+                        ];
 
-                    // Llamamos a la función para enviar los datos a la API usando cURL
-                    $response_api = $this->enviar_a_api($data);
+                        // Llamamos a la función para enviar los datos a la API usando cURL
+                        $response_api = $this->enviar_a_api($data);
 
-                    // Comprobamos si hubo un error en cURL
-                    if (!$response_api['success']) {
-                        // Si hubo un error, lo añadimos al response
-                        $response['status'] = 500;
-                        $response['title'] = 'Error';
-                        $response['message'] = "Error al enviar los datos a la API: " . $response_api['error'];
+                        // Comprobamos si hubo un error en cURL
+                        if (!$response_api['success']) {
+                            // Si hubo un error, lo añadimos al response
+                            $response['status'] = 500;
+                            $response['title'] = 'Error';
+                            $response['message'] = "Error al enviar los datos a la API: " . $response_api['error'];
+                        } else {
+                            // Si la llamada a la API fue exitosa
+                            $response['status'] = 200;
+                            $response['title'] = 'Peticion exitosa';
+                            $response['message'] = "Pedido creado correctamente y datos enviados";
+                            $response["numero_factura"] = $nueva_factura;
+                            $response['data'] = $data;
+                            $response['respuesta_curl'] = $response_api['response'];
+                        }
                     } else {
                         // Si la llamada a la API fue exitosa
                         $response['status'] = 200;
                         $response['title'] = 'Peticion exitosa';
                         $response['message'] = "Pedido creado correctamente y datos enviados";
                         $response["numero_factura"] = $nueva_factura;
-                        $response['data'] = $data;
-                        $response['respuesta_curl'] = $response_api['response'];
                     }
                 }
             } else {
