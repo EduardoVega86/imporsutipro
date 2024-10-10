@@ -483,6 +483,8 @@ class SpeedModel extends Query
             $response['status'] = 500;
             $response['message'] = "Configuración no encontrada.";
         }
+
+        return $response;
     }
 
     public function automatizar($configuracion)
