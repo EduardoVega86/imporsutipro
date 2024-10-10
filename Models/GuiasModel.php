@@ -768,4 +768,27 @@ class GuiasModel extends Query
             return false;
         }
     }
+
+    public function pesosLaar()
+    {
+        $sql = "SELECT * FROM cabecera_cuenta_pagar where peso is null and (guia like 'IMP%' or guia like 'MKP%') ORDER BY `cabecera_cuenta_pagar`.`guia` ASC";
+
+        $response = $this->select($sql);
+
+        foreach ($response as $key => $value) {
+            $ch = curl_init("https://api.laarcourier.com:9727/guias/" . $value['guia']);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $result = curl_exec($ch);
+            $result = json_decode($result, true);
+            $peso = $result['pesoKilos'];
+            $xd =    $this->update("UPDATE cabecera_cuenta_pagar set peso = ? where guia = ?", array($peso, $value['guia']));
+
+            print_r($xd);
+
+            if (curl_errno($ch)) {
+                echo 'Error en la solicitud cURL: ' . curl_error($ch);
+            }
+            curl_close($ch);
+        }
+    }
 }

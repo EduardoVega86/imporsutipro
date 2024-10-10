@@ -522,7 +522,6 @@ class SpeedModel extends Query
 
                         // Verificamos que 'status[]' exista y que sea un array
                         if (isset($bloque_info['status[]']) && is_array($bloque_info['status[]'])) {
-                            echo "DX";
                             // Iteramos sobre cada estado dentro del array 'status[]'
                             foreach ($bloque_info['status[]'] as $status) {
                                 // Comprobamos si el valor de status es 1
