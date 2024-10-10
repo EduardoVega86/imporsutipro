@@ -546,6 +546,7 @@ class SpeedModel extends Query
                             // Iteramos sobre cada estado dentro del array 'status[]'
                             foreach ($bloque_info['status[]'] as $status) {
                                 // Comprobamos si el valor de status es 1
+                                $response_api = "";
                                 if ($status == 0) {
                                     $data_api = [
                                         "id_configuracion" => $id_configuracion,
