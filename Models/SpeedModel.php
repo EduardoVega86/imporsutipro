@@ -579,22 +579,7 @@ class SpeedModel extends Query
                                     // Llamamos a la función para enviar los datos a la API usando cURL
                                     $response_api = $this->enviar_a_api($data_api);
                                 }
-                                print_r($response_api);
-                                /* // Comprobamos si hubo un error en cURL
-                            if (!$response_api['success']) {
-                                // Si hubo un error, lo añadimos al response
-                                $response['status'] = 500;
-                                $response['title'] = 'Error';
-                                $response['message'] = "Error al enviar los datos a la API: " . $response_api['error'];
-                            } else {
-                                // Si la llamada a la API fue exitosa
-                                $response['status'] = 200;
-                                $response['title'] = 'Peticion exitosa';
-                                $response['message'] = "Pedido creado correctamente y datos enviados";
-                                $response["numero_factura"] = $numero_factura;
-                                $response['data'] = $data_api;
-                                $response['respuesta_curl'] = $response_api['response'];
-                            } */
+                                /* print_r($response_api) */
                             }
                         }
                     }

@@ -46,18 +46,37 @@ session_start(); ?>
     function redirect(direccion) {
         let token = "<?= $_SESSION['token'] ?>";
         let ruta = "";
+
         if (direccion === 'herramientas') {
-            ruta = "https://herramientas.imporfactory.app/newlogin?token=" + token;
+            ruta = "https://herramientas.imporfactory.app/newlogin";
         } else if (direccion === 'plataformas') {
-            ruta = "https://cursos.imporfactory.app/newlogin?token=" + token;
+            ruta = "https://cursos.imporfactory.app/newlogin";
         } else if (direccion === 'cotizador') {
-            ruta = "https://cotizador.imporfactory.app/newlogin?token=" + token;
+            ruta = "https://cotizador.imporfactory.app/newlogin";
         } else if (direccion === 'infoaduana') {
-            ruta = "https://infoaduana.imporfactory.app/newlogin?token=" + token;
+            ruta = "https://infoaduana.imporfactory.app/newlogin";
         }
 
-        // redirecciona a la ruta
-        window.location.href = ruta;
+        // Envía una petición POST con el token en la cabecera
+        fetch(ruta, {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                // En caso de que necesites enviar más datos
+                body: JSON.stringify({})
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Redirige al usuario si la petición es exitosa
+                    window.location.href = ruta;
+                } else {
+                    console.error('Error en la autenticación');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     }
 </script>
 <?php require_once './Views/templates/footer.php'; ?>

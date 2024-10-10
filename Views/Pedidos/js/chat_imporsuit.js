@@ -264,6 +264,12 @@ $(document).ready(function () {
               <div class="video-text">${mensaje.texto_mensaje}</div>
           </div>
         `;
+      } else if (mensaje.tipo_mensaje == "button") {
+        innerHTML += `
+            <div class="message ${claseMensaje}">
+              <span style = "white-space: pre-wrap;">${mensaje.texto_mensaje}</span>
+            </div>
+            `;
       }
     });
 
@@ -463,6 +469,12 @@ $(document).ready(function () {
               <div class="video-text">${mensaje.texto_mensaje}</div>
           </div>
         `;
+      }  else if (mensaje.tipo_mensaje == "button"){
+        innerHTML += `
+            <div class="message ${claseMensaje}">
+              <span style = "white-space: pre-wrap;">${mensaje.texto_mensaje}</span>
+            </div>
+            `;
       }
     });
 

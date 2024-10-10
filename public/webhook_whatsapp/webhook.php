@@ -763,7 +763,7 @@ switch ($tipo_mensaje) {
             file_put_contents('debug_log.txt', "No se encontraron los datos necesarios para enviar el mensaje template.\n", FILE_APPEND);
         }
 
-        $texto_mensaje = "Respuesta de botón con payload: " . $payload;
+        $texto_mensaje = $payload;
         break;
 
 
