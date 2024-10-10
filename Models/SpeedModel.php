@@ -491,7 +491,7 @@ class SpeedModel extends Query
         $accessToken = $configuracion['token'];
         $waba_id = $configuracion['id_whatsapp'];
         $id_configuracion = $configuracion['id'];
-        $telefono = $configuracion['telefono'];
+        $telefono = $this->formatearTelefono($configuracion['telefono']);;
         $estado_guia = $configuracion['estado'];
         $numero_factura = $configuracion['numero_factura'];
         $nombre = $configuracion['nombre'];
@@ -656,4 +656,29 @@ class SpeedModel extends Query
             'response' => $response
         ];
     }
+
+    public function formatearTelefono($telefono) {
+        // Eliminar espacios en blanco y otros caracteres no numéricos
+        $telefono = preg_replace('/\D/', '', $telefono);
+    
+        // Si el número tiene exactamente 9 dígitos, agrega "593" al inicio
+        if (strlen($telefono) === 9 && preg_match('/^\d{9}$/', $telefono)) {
+            return '593' . $telefono;
+        }
+        // Si el número empieza con "0", reemplaza el "0" por "593"
+        if (strpos($telefono, '0') === 0) {
+            return '593' . substr($telefono, 1);
+        }
+        // Si el número empieza con "+593", quita el "+"
+        if (strpos($telefono, '593') === 1) {
+            return $telefono;
+        }
+        // Si el número ya comienza con "593", lo deja igual
+        if (strpos($telefono, '593') === 0) {
+            return $telefono;
+        }
+        // Si no cumple con ninguno de los casos anteriores, retorna el número tal cual
+        return $telefono;
+    }
+    
 }
