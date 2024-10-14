@@ -911,9 +911,11 @@ if ($stmt->execute()) {
     echo json_encode(["status" => "error", "message" => "Error al procesar el mensaje: " . $stmt->error]);
 }
 
+/* validador para enviar mensaje tipo buttom */
 if ($tipo_button == 1) {
     enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $template_name, $mensaje, $conn, $id_plataforma, $id_configuracion);
 }
+/* fin validador para enviar mensaje tipo buttom */
 
 $stmt->close();
 $conn->close();
