@@ -40,6 +40,10 @@
         <section class="absolute top-1 md:top-3 right-0">
             <article class="text-white p-2 rounded-xl border border-white">
                 <span id="dias"></span>
+                <br>
+                <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                    Cerrar Sesión
+                </button>
             </article>
         </section>
 
