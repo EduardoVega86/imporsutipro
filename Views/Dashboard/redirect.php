@@ -243,7 +243,7 @@
                 return;
             }
 
-            window.location.href = 'https://infoaduana.imporfactory.app/admin/redirect?token=<?php echo $_SESSION['token'] ?>';
+            window.location.href = 'https://infoaduana.imporfactory.app/newlogin?token=<?php echo $_SESSION['token'] ?>';
         });
 
         //evento para redireccionar a la pagina de cotizador
@@ -257,7 +257,7 @@
                 })
                 return;
             }
-            window.location.href = 'https://cotizador.imporfactory.app/admin/redirect?token=<?php echo $_SESSION['token'] ?>';
+            window.location.href = 'https://cotizador.imporfactory.app/newlogin?token=<?php echo $_SESSION['token'] ?>';
         });
 
         //evento para redireccionar a la pagina de cursos
@@ -271,7 +271,7 @@
                 })
                 return;
             }
-            window.location.href = 'https://cursos.imporfactory.app/admin/redirect?token=<?php echo $_SESSION['token'] ?>';
+            window.location.href = 'https://cursos.imporfactory.app/newlogin?token=<?php echo $_SESSION['token'] ?>';
         });
 
         //evento para redireccionar a la pagina de tienda
