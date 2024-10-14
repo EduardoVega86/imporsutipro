@@ -106,7 +106,7 @@
                     src="https://tiendas.imporsuitpro.com/imgs/herramientas/proveedores.png" class="rounded-xl" alt="">
             </article>
             <article id="tienda"
-                class="grayscale w-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 h-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 grid justify-center place-items-center ">
+                class="w-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 h-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 grid justify-center place-items-center ">
                 <span class="hover:cursor-pointer text-white mb-5">Tienda</span>
                 <img class="hover:cursor-pointer hover:scale-110 duration-200 sm:h-16 sm:w-16 md:h-32 md:w-32 h-[75px] w-[75px] hover:shadow-md hover:shadow-white/60 border rounded-xl border-white"
                     src="https://tiendas.imporsuitpro.com/imgs/herramientas/sistema.png" alt="">
@@ -239,7 +239,7 @@
                 return;
             }
 
-            window.location.href = 'https://infoaduana.imporfactory.app/';
+            window.location.href = 'https://infoaduana.imporfactory.app/admin/redirect?token=<?php echo $_SESSION['token'] ?>';
         });
 
         //evento para redireccionar a la pagina de cotizador
@@ -253,7 +253,7 @@
                 })
                 return;
             }
-            window.location.href = 'https://cotizador.imporfactory.app/';
+            window.location.href = 'https://cotizador.imporfactory.app/admin/redirect?token=<?php echo $_SESSION['token'] ?>';
         });
 
         //evento para redireccionar a la pagina de cursos
@@ -267,7 +267,7 @@
                 })
                 return;
             }
-            window.location.href = 'https://cursos.imporfactory.app/';
+            window.location.href = 'https://cursos.imporfactory.app/admin/redirect?token=<?php echo $_SESSION['token'] ?>';
         });
 
         //evento para redireccionar a la pagina de tienda
