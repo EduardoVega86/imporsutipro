@@ -668,7 +668,7 @@ function enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_
         $check_configuracion_cliente_stmt->close();
 
         // Guardar el mensaje enviado como un registro en la base de datos
-        $tipo_mensaje = "template";
+        $tipo_mensaje = "text";
         $texto_mensaje = $mensaje;
         $ruta_archivo = null;  // No hay archivo en este caso
         $nombre_cliente = $nombre_configuracion;
