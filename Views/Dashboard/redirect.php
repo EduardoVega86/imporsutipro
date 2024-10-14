@@ -136,7 +136,7 @@
                     document.querySelector('#dias').innerHTML = "¡Tu suscripción vence en " + data.suscripciones[0].dias + " días!";
                     /* barre  las suscripciones*/
                     data.suscripciones.forEach((suscripcion) => {
-                        if (suscripcion.sistema === 'infoaduana') {
+                        if (suscripcion.sistema === 'Infoaduana') {
                             document.querySelector('#infoaduana').classList.add('hidden');
                         }
 
