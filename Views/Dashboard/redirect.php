@@ -120,7 +120,7 @@
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        email: <?php echo $_SESSION['user'] ?>
+                        email: "<?php echo $_SESSION['user'] ?>"
                     })
                 }).then(response => response.json())
                 .then(data => {
