@@ -37,7 +37,7 @@
         <!-- advertencia de suscripcion -->
         <section class="absolute top-1 md:top-3 right-0">
             <article class="text-white p-2 rounded-xl border border-white">
-                <span>¡Tu suscripción termina en 108 días!</span>
+                <span id="dias"></span>
             </article>
         </section>
 
@@ -125,7 +125,15 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
+                    if (data.dias === 0) {
+                        document.querySelector('#dias').innerHTML = "¡Tu suscripción vence hoy!";
+                        return;
+                    }
+                    if (data.status === 'error') {
+                        document.querySelector('#dias').innerHTML = "¡No tienes suscripción activa!";
+                        return;
+                    }
+                    document.querySelector('#dias').innerHTML = "¡Tu suscripción vence en " + data.dias + " días!";
                 })
                 .catch(error => console.error('Error en la petición:', error));
         });
