@@ -114,7 +114,7 @@
 
     <script>
         document.addEventListener("load", async () => {
-            await fetch('https://herramientas.imporfactory.app/api/suscripcion', {
+            await fetch('https://herramientas.imporfactory.app/suscripciones', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
