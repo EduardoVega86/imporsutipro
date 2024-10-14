@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
         integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
         crossorigin="anonymous" referrerpolicy="no-referrer">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <style>
         .whatsapp {
             position: fixed;
@@ -228,6 +230,12 @@
         //evento para redireccionar a la pagina de infoaduana
         document.querySelector('#infoaduana').addEventListener('click', () => {
             if (document.querySelector('#infoaduana').classList.contains('grayscale')) {
+                Toast.fire({
+
+                    icon: "error",
+                    title: "No tienes una suscripción activa para este sistema, contacta a tu asesor de ventas.",
+                    position: "bottom-end",
+                })
                 return;
             }
 
@@ -237,6 +245,12 @@
         //evento para redireccionar a la pagina de cotizador
         document.querySelector('#cotizador').addEventListener('click', () => {
             if (document.querySelector('#cotizador').classList.contains('grayscale')) {
+                Toast.fire({
+
+                    icon: "error",
+                    title: "No tienes una suscripción activa para este sistema, contacta a tu asesor de ventas.",
+                    position: "bottom-end",
+                })
                 return;
             }
             window.location.href = 'https://cotizador.imporfactory.app/';
@@ -245,6 +259,12 @@
         //evento para redireccionar a la pagina de cursos
         document.querySelector('#cursos').addEventListener('click', () => {
             if (document.querySelector('#cursos').classList.contains('grayscale')) {
+                Toast.fire({
+
+                    icon: "error",
+                    title: "No tienes una suscripción activa para este sistema, contacta a tu asesor de ventas.",
+                    position: "bottom-end",
+                })
                 return;
             }
             window.location.href = 'https://cursos.imporfactory.app/';
@@ -253,6 +273,12 @@
         //evento para redireccionar a la pagina de tienda
         document.querySelector('#tienda').addEventListener('click', () => {
             if (document.querySelector('#tienda').classList.contains('grayscale')) {
+                Toast.fire({
+
+                    icon: "error",
+                    title: "No tienes una suscripción activa para este sistema, contacta a tu asesor de ventas.",
+                    position: "bottom-end",
+                })
                 return;
             }
             window.location.href = 'https://new.imporsuitpro.com/dashboard';
@@ -261,12 +287,31 @@
         //evento para redireccionar a la pagina de proveedores
         document.querySelector('#proveedores').addEventListener('click', () => {
             if (document.querySelector('#proveedores').classList.contains('grayscale')) {
+                Toast.fire({
+
+                    icon: "error",
+                    title: "No tienes una suscripción activa para este sistema, contacta a tu asesor de ventas.",
+                    position: "bottom-end",
+                })
                 return;
             }
             window.location.href = 'https://proveedores.imporsuitpro.com/';
         });
     </script>
 
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener("mouseenter", Swal.stopTimer);
+                toast.addEventListener("mouseleave", Swal.resumeTimer);
+            },
+        });
+    </script>
 
 </body>
 
