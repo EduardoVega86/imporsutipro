@@ -1597,7 +1597,7 @@ const generarServientrega = (formulario) => {
   })
     .then((response) => response.json())
     .then((data) => {
-      if (data.status === 200) {
+      if (parseInt(data.status) === 200) {
         Swal.fire({
           title: "Guía generada",
           text: "La guía ha sido generada correctamente",
@@ -1631,7 +1631,7 @@ const generarSpeed = (formulario) => {
   })
     .then((response) => response.json())
     .then((data) => {
-      if (data.status === 200) {
+      if (parseInt(data.status) === 200) {
         Swal.fire({
           title: "Guía generada",
           text: "La guía ha sido generada correctamente",
@@ -1665,7 +1665,7 @@ const generarGintracom = (formulario) => {
   })
     .then((response) => response.json())
     .then((data) => {
-      if (data.status === 200) {
+      if (parseInt(data.status) === 200) {
         Swal.fire({
           title: "Guía generada",
           text: "La guía ha sido generada correctamente",
