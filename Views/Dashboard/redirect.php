@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
         integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
         crossorigin="anonymous" referrerpolicy="no-referrer">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <style>
         .whatsapp {
             position: fixed;
@@ -104,7 +106,7 @@
                     src="https://tiendas.imporsuitpro.com/imgs/herramientas/proveedores.png" class="rounded-xl" alt="">
             </article>
             <article id="tienda"
-                class="grayscale w-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 h-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 grid justify-center place-items-center ">
+                class="w-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 h-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 grid justify-center place-items-center ">
                 <span class="hover:cursor-pointer text-white mb-5">Tienda</span>
                 <img class="hover:cursor-pointer hover:scale-110 duration-200 sm:h-16 sm:w-16 md:h-32 md:w-32 h-[75px] w-[75px] hover:shadow-md hover:shadow-white/60 border rounded-xl border-white"
                     src="https://tiendas.imporsuitpro.com/imgs/herramientas/sistema.png" alt="">
@@ -136,8 +138,17 @@
                     document.querySelector('#dias').innerHTML = "¡Tu suscripción vence en " + data.suscripciones[0].dias + " días!";
                     /* barre  las suscripciones*/
                     data.suscripciones.forEach((suscripcion) => {
-                        if (suscripcion.sistema === 'Infoaduana') {
+                        if (suscripcion.sistema === 'Infoaduana' && suscripcion.dias > 0) {
                             document.querySelector('#infoaduana').classList.remove('grayscale');
+                        }
+                        if (suscripcion.sistema === 'Cotizador' && suscripcion.dias > 0) {
+                            document.querySelector('#cotizador').classList.remove('grayscale');
+                        }
+                        if (suscripcion.sistema === 'METODOLOGIA ECOMMERCE 3EN1' || suscripcion.sistema === 'METODOLOGIA IMPORTADOR 3 EN 1') {
+                            document.querySelector('#cursos').classList.remove('grayscale');
+                        }
+                        if (suscripcion.sistema === 'Productos' && suscripcion.dias > 0) {
+                            document.querySelector('#proveedores').classList.remove('grayscale');
                         }
 
                     });
@@ -219,31 +230,55 @@
         //evento para redireccionar a la pagina de infoaduana
         document.querySelector('#infoaduana').addEventListener('click', () => {
             if (document.querySelector('#infoaduana').classList.contains('grayscale')) {
+                Toast.fire({
+
+                    icon: "error",
+                    title: "No tienes una suscripción activa para este sistema, contacta a tu asesor de ventas.",
+                    position: "bottom-end",
+                })
                 return;
             }
 
-            window.location.href = 'https://infoaduana.imporfactory.app/';
+            window.location.href = 'https://infoaduana.imporfactory.app/admin/redirect?token=<?php echo $_SESSION['token'] ?>';
         });
 
         //evento para redireccionar a la pagina de cotizador
         document.querySelector('#cotizador').addEventListener('click', () => {
             if (document.querySelector('#cotizador').classList.contains('grayscale')) {
+                Toast.fire({
+
+                    icon: "error",
+                    title: "No tienes una suscripción activa para este sistema, contacta a tu asesor de ventas.",
+                    position: "bottom-end",
+                })
                 return;
             }
-            window.location.href = 'https://cotizador.imporfactory.app/';
+            window.location.href = 'https://cotizador.imporfactory.app/admin/redirect?token=<?php echo $_SESSION['token'] ?>';
         });
 
         //evento para redireccionar a la pagina de cursos
         document.querySelector('#cursos').addEventListener('click', () => {
             if (document.querySelector('#cursos').classList.contains('grayscale')) {
+                Toast.fire({
+
+                    icon: "error",
+                    title: "No tienes una suscripción activa para este sistema, contacta a tu asesor de ventas.",
+                    position: "bottom-end",
+                })
                 return;
             }
-            window.location.href = 'https://cursos.imporfactory.app/';
+            window.location.href = 'https://cursos.imporfactory.app/admin/redirect?token=<?php echo $_SESSION['token'] ?>';
         });
 
         //evento para redireccionar a la pagina de tienda
         document.querySelector('#tienda').addEventListener('click', () => {
             if (document.querySelector('#tienda').classList.contains('grayscale')) {
+                Toast.fire({
+
+                    icon: "error",
+                    title: "No tienes una suscripción activa para este sistema, contacta a tu asesor de ventas.",
+                    position: "bottom-end",
+                })
                 return;
             }
             window.location.href = 'https://new.imporsuitpro.com/dashboard';
@@ -252,12 +287,31 @@
         //evento para redireccionar a la pagina de proveedores
         document.querySelector('#proveedores').addEventListener('click', () => {
             if (document.querySelector('#proveedores').classList.contains('grayscale')) {
+                Toast.fire({
+
+                    icon: "error",
+                    title: "No tienes una suscripción activa para este sistema, contacta a tu asesor de ventas.",
+                    position: "bottom-end",
+                })
                 return;
             }
             window.location.href = 'https://proveedores.imporsuitpro.com/';
         });
     </script>
 
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener("mouseenter", Swal.stopTimer);
+                toast.addEventListener("mouseleave", Swal.resumeTimer);
+            },
+        });
+    </script>
 
 </body>
 
