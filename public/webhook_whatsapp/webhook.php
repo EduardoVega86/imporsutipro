@@ -906,16 +906,16 @@ $stmt->bind_param('iissssis', $id_plataforma, $id_cliente, $mid_mensaje, $tipo_m
 
 if ($stmt->execute()) {
     echo json_encode(["status" => "success", "message" => "Mensaje procesado correctamente."]);
+
+    /* validador para enviar mensaje tipo buttom */
+    if ($tipo_button == 1) {
+        enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $template_name, $mensaje, $conn, $id_plataforma, $id_configuracion);
+    }
+    /* fin validador para enviar mensaje tipo buttom */
 } else {
     file_put_contents('debug_log.txt', "Error SQL: " . $stmt->error . "\n", FILE_APPEND);  // Agregar log del error
     echo json_encode(["status" => "error", "message" => "Error al procesar el mensaje: " . $stmt->error]);
 }
-
-/* validador para enviar mensaje tipo buttom */
-if ($tipo_button == 1) {
-    enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $template_name, $mensaje, $conn, $id_plataforma, $id_configuracion);
-}
-/* fin validador para enviar mensaje tipo buttom */
 
 $stmt->close();
 $conn->close();
