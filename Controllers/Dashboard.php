@@ -29,9 +29,14 @@ class Dashboard extends Controller
         $this->views->render($this, "home");
     }
 
+    public function redirect()
+    {
+        $this->views->render($this, "redirect");
+    }
+
     ///Funciones
 
-    
+
     public function filtroInicial()
     {
         $fecha_i = $_POST['fecha_i'] ?? date('Y-m-01');
