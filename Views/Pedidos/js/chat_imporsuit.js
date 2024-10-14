@@ -1408,6 +1408,7 @@ async function verDetallesPedido(idPedido) {
     // Asigna valores a los campos ocultos
     document.getElementById("nombreO").value = data.factura[0].nombreO;
     document.getElementById("ciudadO").value = data.factura[0].ciudadO;
+    document.getElementById("provinciaO").value = data.factura[0].provinciaO;
     document.getElementById("direccionO").value = data.factura[0].direccionO;
     document.getElementById("celularO").value = data.factura[0].telefonoO;
     document.getElementById("referenciaO").value = data.factura[0].referenciaO;
@@ -1519,6 +1520,7 @@ function generarGuia() {
   formulario.append("id_pedido", document.getElementById("id_pedido").value);
   formulario.append("nombreO", document.getElementById("nombreO").value);
   formulario.append("ciudadO", document.getElementById("ciudadO").value);
+  formulario.append("provinciaO", document.getElementById("provinciaO").value);
   formulario.append("direccionO", document.getElementById("direccionO").value);
   formulario.append("celularO", document.getElementById("celularO").value);
   formulario.append(

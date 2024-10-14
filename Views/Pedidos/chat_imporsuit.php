@@ -177,6 +177,7 @@
                                 <!-- hiddens -->
                                 <input type="hidden" id="nombreO">
                                 <input type="hidden" id="ciudadO">
+                                <input type="hidden" id="provinciaO">
                                 <input type="hidden" id="direccionO">
                                 <input type="hidden" id="celularO">
                                 <input type="hidden" id="referenciaO">
