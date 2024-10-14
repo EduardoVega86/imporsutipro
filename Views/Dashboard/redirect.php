@@ -80,31 +80,31 @@
         <section
             class="gap-y-14 sm:gap-11 grid grid-cols-3 px-10  sm:grid-cols-4  md:grid-cols-5 gap-5 text-center items-center">
             <article id="infoaduana"
-                class="Iw-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 h-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 grid justify-center items-center place-items-center ">
+                class="grayscale w-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 h-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 grid justify-center items-center place-items-center ">
                 <span class="hover:cursor-pointer text-white mb-5">Infoaduana</span>
                 <img class="hover:cursor-pointer hover:scale-110 duration-200 sm:h-16 sm:w-16 md:h-32 md:w-32 h-[75px] w-[75px] hover:shadow-md hover:shadow-white/60 border rounded-xl border-white"
                     src="https://tiendas.imporsuitpro.com/imgs/herramientas/infoaduana.png" alt="">
             </article>
             <article id="cotizador"
-                class="Iw-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 h-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 grid justify-center place-items-center ">
+                class="grayscale w-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 h-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 grid justify-center place-items-center ">
                 <span class="hover:cursor-pointer text-white mb-5">Cotizador</span>
                 <img class="hover:cursor-pointer hover:scale-110 duration-200 sm:h-16 sm:w-16 md:h-32 md:w-32 h-[75px] w-[75px] hover:shadow-md hover:shadow-white/60 border rounded-xl border-white"
                     src="https://tiendas.imporsuitpro.com/imgs/herramientas/cotizador.png" alt="">
             </article>
             <article id="cursos"
-                class="Iw-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 h-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 grid justify-center place-items-center ">
+                class="grayscale w-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 h-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 grid justify-center place-items-center ">
                 <span class="hover:cursor-pointer text-white mb-5">Cursos</span>
                 <img class="hover:cursor-pointer hover:scale-110 duration-200 sm:h-16 sm:w-16 md:h-32 md:w-32 h-[75px] w-[75px] hover:shadow-md hover:shadow-white/60 border rounded-xl border-white"
                     src="https://tiendas.imporsuitpro.com/imgs/herramientas/cursos.jpeg" class="rounded-xl" alt="">
             </article>
             <article id="proveedores"
-                class="Iw-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 h-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 grid justify-center place-items-center ">
+                class="grayscale w-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 h-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 grid justify-center place-items-center ">
                 <span class="hover:cursor-pointer text-white mb-5">Proveedores</span>
                 <img class="hover:cursor-pointer hover:scale-110 duration-200 sm:h-16 sm:w-16 md:h-32 md:w-32 h-[75px] w-[75px] hover:shadow-md hover:shadow-white/60 border rounded-xl border-white"
                     src="https://tiendas.imporsuitpro.com/imgs/herramientas/proveedores.png" class="rounded-xl" alt="">
             </article>
             <article id="tienda"
-                class="Iw-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 h-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 grid justify-center place-items-center ">
+                class="grayscale w-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 h-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 grid justify-center place-items-center ">
                 <span class="hover:cursor-pointer text-white mb-5">Tienda</span>
                 <img class="hover:cursor-pointer hover:scale-110 duration-200 sm:h-16 sm:w-16 md:h-32 md:w-32 h-[75px] w-[75px] hover:shadow-md hover:shadow-white/60 border rounded-xl border-white"
                     src="https://tiendas.imporsuitpro.com/imgs/herramientas/sistema.png" alt="">
