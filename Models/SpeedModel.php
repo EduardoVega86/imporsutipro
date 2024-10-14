@@ -585,7 +585,7 @@ class SpeedModel extends Query
                                         "celular" => $telefono,
                                         "productos" => [""],
                                         "categorias" => [""],
-                                        "status" => ["$status"],
+                                        "status" => [$status],
                                         "novedad" => [""],
                                         "provincia" => [""],
                                         "ciudad" => [""],
