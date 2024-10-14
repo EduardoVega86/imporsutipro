@@ -133,7 +133,7 @@
                         document.querySelector('#dias').innerHTML = "¡No tienes suscripción activa!";
                         return;
                     }
-                    document.querySelector('#dias').innerHTML = "¡Tu suscripción vence en " + data.suscripcion.dias + " días!";
+                    document.querySelector('#dias').innerHTML = "¡Tu suscripción vence en " + data.suscripciones[0].dias + " días!";
                 })
                 .catch(error => console.error('Error en la petición:', error));
         });
