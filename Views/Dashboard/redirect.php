@@ -134,6 +134,13 @@
                         return;
                     }
                     document.querySelector('#dias').innerHTML = "¡Tu suscripción vence en " + data.suscripciones[0].dias + " días!";
+                    /* barre  las suscripciones*/
+                    data.suscripciones.forEach((suscripcion) => {
+                        if (suscripcion.sistema === 'infoaduana') {
+                            document.querySelector('#infoaduana').classList.add('hidden');
+                        }
+
+                    });
                 })
                 .catch(error => console.error('Error en la petición:', error));
         });
