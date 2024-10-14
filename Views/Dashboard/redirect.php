@@ -136,16 +136,16 @@
                     document.querySelector('#dias').innerHTML = "¡Tu suscripción vence en " + data.suscripciones[0].dias + " días!";
                     /* barre  las suscripciones*/
                     data.suscripciones.forEach((suscripcion) => {
-                        if (suscripcion.sistema === 'Infoaduana') {
+                        if (suscripcion.sistema === 'Infoaduana' && suscripcion.dias > 0) {
                             document.querySelector('#infoaduana').classList.remove('grayscale');
                         }
-                        if (suscripcion.sistema === 'Cotizador') {
+                        if (suscripcion.sistema === 'Cotizador' && suscripcion.dias > 0) {
                             document.querySelector('#cotizador').classList.remove('grayscale');
                         }
                         if (suscripcion.sistema === 'METODOLOGIA ECOMMERCE 3EN1' || suscripcion.sistema === 'METODOLOGIA IMPORTADOR 3 EN 1') {
                             document.querySelector('#cursos').classList.remove('grayscale');
                         }
-                        if (suscripcion.sistema === 'Productos') {
+                        if (suscripcion.sistema === 'Productos' && suscripcion.dias > 0) {
                             document.querySelector('#proveedores').classList.remove('grayscale');
                         }
 
