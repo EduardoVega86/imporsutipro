@@ -548,6 +548,7 @@ class SpeedModel extends Query
                                 // Comprobamos si el valor de status es 1
                                 $response_api = "";
                                 if ($status == 0) {
+                                    echo "entro 1";
                                     $data_api = [
                                         "id_configuracion" => $id_configuracion,
                                         "value_blocks_type" => "3",
@@ -574,6 +575,7 @@ class SpeedModel extends Query
                                     // Llamamos a la función para enviar los datos a la API usando cURL
                                     $response_api = $this->enviar_a_api($data_api);
                                 } else if ($status == $estado_guia_automatizador) {
+                                    echo "entro 2";
                                     $data_api = [
                                         "id_configuracion" => $id_configuracion,
                                         "value_blocks_type" => "3",
@@ -601,7 +603,7 @@ class SpeedModel extends Query
                                     // Llamamos a la función para enviar los datos a la API usando cURL
                                     $response_api = $this->enviar_a_api($data_api);
                                 }
-                                print_r($response_api);
+                                /* print_r($response_api); */
                             }
                         }
                     }
