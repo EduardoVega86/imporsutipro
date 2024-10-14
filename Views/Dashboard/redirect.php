@@ -113,7 +113,7 @@
     </main>
 
     <script>
-        document.addEventListener("load", async () => {
+        document.addEventListener("DOMContentLoaded", async () => {
             await fetch('https://herramientas.imporfactory.app/suscripciones', {
                     method: 'POST',
                     headers: {
@@ -122,11 +122,12 @@
                     body: JSON.stringify({
                         email: "<?php echo $_SESSION['user'] ?>"
                     })
-                }).then(response => response.json())
+                })
+                .then(response => response.json())
                 .then(data => {
                     console.log(data);
                 })
-
+                .catch(error => console.error('Error en la petición:', error));
         });
     </script>
 
