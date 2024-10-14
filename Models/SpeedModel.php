@@ -501,7 +501,7 @@ class SpeedModel extends Query
         $id_transporte = $configuracion['id_transporte'];
         $estado_guia_automatizador = 0;
 
-        if ($id_transporte == 1 || $id_transporte == 4){
+        if (/* $id_transporte == 1 ||  */$id_transporte == 4) {
             if ($estado_guia == 7) {
                 $estado_guia_automatizador = 1;
             } else if ($estado_guia == 9) {
@@ -509,7 +509,7 @@ class SpeedModel extends Query
             } else if ($estado_guia == 14) {
                 $estado_guia_automatizador = 2;
             }
-        } else if ($id_transporte == 2) {
+        }/*  else if ($id_transporte == 2) {
             if ($estado_guia >= 400 || $estado_guia <= 403) {
                 $estado_guia_automatizador = 1;
             } else if ($estado_guia >= 500 || $estado_guia <= 502) {
@@ -517,7 +517,7 @@ class SpeedModel extends Query
             } else if ($estado_guia >= 320 || $estado_guia <= 351) {
                 $estado_guia_automatizador = 2;
             }
-        } else if ($id_transporte == 3){
+        } else if ($id_transporte == 3) {
             if ($estado_guia == 7) {
                 $estado_guia_automatizador = 1;
             } else if ($estado_guia == 9 || $estado_guia == 8 || $estado_guia == 13) {
@@ -525,7 +525,7 @@ class SpeedModel extends Query
             } else if ($estado_guia == 6) {
                 $estado_guia_automatizador = 2;
             }
-        }
+        } */
 
         // Consulta para obtener los datos de automatización
         $sql = "SELECT * FROM automatizadores WHERE id_configuracion = ?";
@@ -597,11 +597,11 @@ class SpeedModel extends Query
                                             "order_id" => $numero_factura
                                         ]
                                     ];
-                                    print_r($data_api);
+                                    /* print_r($data_api); */
                                     // Llamamos a la función para enviar los datos a la API usando cURL
                                     $response_api = $this->enviar_a_api($data_api);
                                 }
-                                print_r($response_api);
+                                /* print_r($response_api); */
                             }
                         }
                     }

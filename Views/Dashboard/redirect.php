@@ -37,14 +37,14 @@
         <!-- advertencia de suscripcion -->
         <section class="absolute top-1 md:top-3 right-0">
             <article class="text-white p-2 rounded-xl border border-white">
-                <span>¡Tu suscripción termina en 108 días!</span>
+                <span id="dias"></span>
             </article>
         </section>
 
         <!-- botton whatsapp -->
         <section class="absolute bottom-5 md:bottom-5 right-4">
             <article class="text-white">
-                <a href="https://wa.link/asyko9">
+                <a href="https://wa.link/vyghso">
 
                     <i
                         class="fab fa-whatsapp text-5xl hover:cursor-pointer hover:scale-125 duration-200 hover:text-green-500"></i>
@@ -111,6 +111,33 @@
             </article>
         </section>
     </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            await fetch('https://herramientas.imporfactory.app/suscripciones', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: "<?php echo $_SESSION['user'] ?>"
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.dias === 0) {
+                        document.querySelector('#dias').innerHTML = "¡Tu suscripción vence hoy!";
+                        return;
+                    }
+                    if (data.status === 'error') {
+                        document.querySelector('#dias').innerHTML = "¡No tienes suscripción activa!";
+                        return;
+                    }
+                    document.querySelector('#dias').innerHTML = "¡Tu suscripción vence en " + data.dias + " días!";
+                })
+                .catch(error => console.error('Error en la petición:', error));
+        });
+    </script>
 
     <script>
         //estado inicial slider global
