@@ -1570,6 +1570,7 @@ function generarGuia() {
   );
 
   if (transportadora == "transportadora1") {
+    formulario.append("id_transporte", 2);
     generarServientrega(formulario);
   } else if (transportadora == "transportadora2") {
     generarLaar(formulario);
@@ -1581,7 +1582,19 @@ function generarGuia() {
 }
 
 const generarServientrega = (formulario) => {
+  var flete = $('#flete').val();
+  var seguro = $('#seguro').val();
+  var comision = $('#comision').val();
+  var otros = $('#otros').val();
+  var impuestos = $('#impuestos').val();
+
   formulario.append("contiene", contiene);
+  formulario.append("flete", flete);
+  formulario.append("seguro", seguro);
+  formulario.append("comision", comision);
+  formulario.append("otros", otros);
+  formulario.append("impuestos", impuestos);
+
   Swal.fire({
     title: "Generando guía",
     text: "Por favor espere un momento",
