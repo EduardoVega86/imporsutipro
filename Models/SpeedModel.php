@@ -597,11 +597,11 @@ class SpeedModel extends Query
                                             "order_id" => $numero_factura
                                         ]
                                     ];
-                                    print_r($data_api);
+                                    /* print_r($data_api); */
                                     // Llamamos a la función para enviar los datos a la API usando cURL
                                     $response_api = $this->enviar_a_api($data_api);
                                 }
-                                print_r($response_api);
+                                /* print_r($response_api); */
                             }
                         }
                     }
