@@ -44,7 +44,7 @@
         <!-- botton whatsapp -->
         <section class="absolute bottom-5 md:bottom-5 right-4">
             <article class="text-white">
-                <a href="https://wa.link/asyko9">
+                <a href="https://wa.link/vyghso">
 
                     <i
                         class="fab fa-whatsapp text-5xl hover:cursor-pointer hover:scale-125 duration-200 hover:text-green-500"></i>
@@ -111,6 +111,24 @@
             </article>
         </section>
     </main>
+
+    <script>
+        document.addEventListener("load", async () => {
+            await fetch('https://herramientas.imporfactory.app/api/suscripcion', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: <?php echo $_SESSION['user'] ?>
+                    })
+                }).then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                })
+
+        });
+    </script>
 
     <script>
         //estado inicial slider global
