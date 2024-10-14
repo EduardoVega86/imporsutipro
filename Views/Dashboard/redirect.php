@@ -139,6 +139,15 @@
                         if (suscripcion.sistema === 'Infoaduana') {
                             document.querySelector('#infoaduana').classList.remove('grayscale');
                         }
+                        if (suscripcion.sistema === 'Cotizador') {
+                            document.querySelector('#cotizador').classList.remove('grayscale');
+                        }
+                        if (suscripcion.sistema === 'METODOLOGIA ECOMMERCE 3EN1' || suscripcion.sistema === 'METODOLOGIA IMPORTADOR 3 EN 1') {
+                            document.querySelector('#cursos').classList.remove('grayscale');
+                        }
+                        if (suscripcion.sistema === 'Productos') {
+                            document.querySelector('#proveedores').classList.remove('grayscale');
+                        }
 
                     });
                 })
