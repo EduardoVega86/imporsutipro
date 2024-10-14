@@ -469,7 +469,7 @@ $(document).ready(function () {
               <div class="video-text">${mensaje.texto_mensaje}</div>
           </div>
         `;
-      }  else if (mensaje.tipo_mensaje == "button"){
+      } else if (mensaje.tipo_mensaje == "button") {
         innerHTML += `
             <div class="message ${claseMensaje}">
               <span style = "white-space: pre-wrap;">${mensaje.texto_mensaje}</span>
@@ -1597,13 +1597,15 @@ const generarServientrega = (formulario) => {
   })
     .then((response) => response.json())
     .then((data) => {
-      if (data.status === 200) {
+      if (parseInt(data.status) === 200) {
         Swal.fire({
           title: "Guía generada",
           text: "La guía ha sido generada correctamente",
           icon: "success",
           confirmButtonText: "Aceptar",
         });
+
+        document.getElementById("closeMenu").click();
       } else {
         Swal.fire({
           title: "Error",
@@ -1631,13 +1633,15 @@ const generarSpeed = (formulario) => {
   })
     .then((response) => response.json())
     .then((data) => {
-      if (data.status === 200) {
+      if (parseInt(data.status) === 200) {
         Swal.fire({
           title: "Guía generada",
           text: "La guía ha sido generada correctamente",
           icon: "success",
           confirmButtonText: "Aceptar",
         });
+
+        document.getElementById("closeMenu").click();
       } else {
         Swal.fire({
           title: "Error",
@@ -1665,13 +1669,15 @@ const generarGintracom = (formulario) => {
   })
     .then((response) => response.json())
     .then((data) => {
-      if (data.status === 200) {
+      if (parseInt(data.status) === 200) {
         Swal.fire({
           title: "Guía generada",
           text: "La guía ha sido generada correctamente",
           icon: "success",
           confirmButtonText: "Aceptar",
         });
+
+        document.getElementById("closeMenu").click();
       } else {
         Swal.fire({
           title: "Error",
@@ -1707,6 +1713,8 @@ const generarLaar = (formulario) => {
           icon: "success",
           confirmButtonText: "Aceptar",
         });
+
+        document.getElementById("closeMenu").click();
       } else {
         Swal.fire({
           title: "Error",

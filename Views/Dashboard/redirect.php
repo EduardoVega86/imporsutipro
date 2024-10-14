@@ -80,31 +80,31 @@
         <section
             class="gap-y-14 sm:gap-11 grid grid-cols-3 px-10  sm:grid-cols-4  md:grid-cols-5 gap-5 text-center items-center">
             <article id="infoaduana"
-                class="w-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 h-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 grid justify-center items-center place-items-center ">
+                class="grayscale w-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 h-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 grid justify-center items-center place-items-center ">
                 <span class="hover:cursor-pointer text-white mb-5">Infoaduana</span>
                 <img class="hover:cursor-pointer hover:scale-110 duration-200 sm:h-16 sm:w-16 md:h-32 md:w-32 h-[75px] w-[75px] hover:shadow-md hover:shadow-white/60 border rounded-xl border-white"
                     src="https://tiendas.imporsuitpro.com/imgs/herramientas/infoaduana.png" alt="">
             </article>
             <article id="cotizador"
-                class="w-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 h-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 grid justify-center place-items-center ">
+                class="grayscale w-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 h-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 grid justify-center place-items-center ">
                 <span class="hover:cursor-pointer text-white mb-5">Cotizador</span>
                 <img class="hover:cursor-pointer hover:scale-110 duration-200 sm:h-16 sm:w-16 md:h-32 md:w-32 h-[75px] w-[75px] hover:shadow-md hover:shadow-white/60 border rounded-xl border-white"
                     src="https://tiendas.imporsuitpro.com/imgs/herramientas/cotizador.png" alt="">
             </article>
             <article id="cursos"
-                class="w-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 h-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 grid justify-center place-items-center ">
+                class="grayscale w-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 h-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 grid justify-center place-items-center ">
                 <span class="hover:cursor-pointer text-white mb-5">Cursos</span>
                 <img class="hover:cursor-pointer hover:scale-110 duration-200 sm:h-16 sm:w-16 md:h-32 md:w-32 h-[75px] w-[75px] hover:shadow-md hover:shadow-white/60 border rounded-xl border-white"
                     src="https://tiendas.imporsuitpro.com/imgs/herramientas/cursos.jpeg" class="rounded-xl" alt="">
             </article>
             <article id="proveedores"
-                class="w-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 h-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 grid justify-center place-items-center ">
+                class="grayscale w-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 h-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 grid justify-center place-items-center ">
                 <span class="hover:cursor-pointer text-white mb-5">Proveedores</span>
                 <img class="hover:cursor-pointer hover:scale-110 duration-200 sm:h-16 sm:w-16 md:h-32 md:w-32 h-[75px] w-[75px] hover:shadow-md hover:shadow-white/60 border rounded-xl border-white"
                     src="https://tiendas.imporsuitpro.com/imgs/herramientas/proveedores.png" class="rounded-xl" alt="">
             </article>
             <article id="tienda"
-                class="w-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 h-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 grid justify-center place-items-center ">
+                class="grayscale w-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 h-[75px] sm:h-16 sm:w-16 md:h-32 md:w-32 grid justify-center place-items-center ">
                 <span class="hover:cursor-pointer text-white mb-5">Tienda</span>
                 <img class="hover:cursor-pointer hover:scale-110 duration-200 sm:h-16 sm:w-16 md:h-32 md:w-32 h-[75px] w-[75px] hover:shadow-md hover:shadow-white/60 border rounded-xl border-white"
                     src="https://tiendas.imporsuitpro.com/imgs/herramientas/sistema.png" alt="">
@@ -136,8 +136,8 @@
                     document.querySelector('#dias').innerHTML = "¡Tu suscripción vence en " + data.suscripciones[0].dias + " días!";
                     /* barre  las suscripciones*/
                     data.suscripciones.forEach((suscripcion) => {
-                        if (suscripcion.sistema === 'infoaduana') {
-                            document.querySelector('#infoaduana').classList.add('hidden');
+                        if (suscripcion.sistema === 'Infoaduana') {
+                            document.querySelector('#infoaduana').classList.remove('grayscale');
                         }
 
                     });
@@ -218,26 +218,42 @@
 
         //evento para redireccionar a la pagina de infoaduana
         document.querySelector('#infoaduana').addEventListener('click', () => {
+            if (document.querySelector('#infoaduana').classList.contains('grayscale')) {
+                return;
+            }
+
             window.location.href = 'https://infoaduana.imporfactory.app/';
         });
 
         //evento para redireccionar a la pagina de cotizador
         document.querySelector('#cotizador').addEventListener('click', () => {
+            if (document.querySelector('#cotizador').classList.contains('grayscale')) {
+                return;
+            }
             window.location.href = 'https://cotizador.imporfactory.app/';
         });
 
         //evento para redireccionar a la pagina de cursos
         document.querySelector('#cursos').addEventListener('click', () => {
+            if (document.querySelector('#cursos').classList.contains('grayscale')) {
+                return;
+            }
             window.location.href = 'https://cursos.imporfactory.app/';
         });
 
         //evento para redireccionar a la pagina de tienda
         document.querySelector('#tienda').addEventListener('click', () => {
+            if (document.querySelector('#tienda').classList.contains('grayscale')) {
+                return;
+            }
             window.location.href = 'https://new.imporsuitpro.com/dashboard';
         });
 
         //evento para redireccionar a la pagina de proveedores
         document.querySelector('#proveedores').addEventListener('click', () => {
+            if (document.querySelector('#proveedores').classList.contains('grayscale')) {
+                return;
+            }
             window.location.href = 'https://proveedores.imporsuitpro.com/';
         });
     </script>
