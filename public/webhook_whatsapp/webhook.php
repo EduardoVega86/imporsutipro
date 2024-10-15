@@ -600,7 +600,11 @@ function obtenerNombreTemplatePorID($accessToken, $waba_id, $id_whatsapp_message
         // Buscar el nombre del template por el ID
         foreach ($facebook_templates as $template) {
             if ($template['id'] == $id_whatsapp_message_template) {
-                return $template['name'];  // Retornar el nombre del template
+                // Retornar un array con el nombre y el idioma del template
+                return [
+                    'name' => $template['name'],
+                    'language' => $template['language']['code']  // Obtener el código de idioma del template
+                ];
             }
         }
     }
@@ -845,7 +849,7 @@ switch ($tipo_mensaje) {
                 // Llamar a la función para enviar el mensaje template a WhatsApp
                 $tipo_button = 1;
 
-                file_put_contents('debug_log.txt', "Mensaje enviado a $phone_whatsapp_from con el template $template_name\n", FILE_APPEND);
+                file_put_contents('debug_log.txt', "Mensaje enviado a $phone_whatsapp_from con el template " . $template_name['name'] . " y el idioma " . $template_name['language'] . "\n", FILE_APPEND);
             } else {
                 file_put_contents('debug_log.txt', "No se pudo obtener el nombre del template con el ID $id_whatsapp_message_template\n", FILE_APPEND);
             }
@@ -909,7 +913,7 @@ if ($stmt->execute()) {
 
     /* validador para enviar mensaje tipo buttom */
     if ($tipo_button == 1) {
-        enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $template_name, $mensaje, $conn, $id_plataforma, $id_configuracion);
+        enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $template_name["name"], $mensaje, $conn, $id_plataforma, $id_configuracion);
     }
     /* fin validador para enviar mensaje tipo buttom */
 } else {
