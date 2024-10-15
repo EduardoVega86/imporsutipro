@@ -37,10 +37,10 @@
         </section>
 
         <!-- advertencia de suscripcion -->
-        <section class="absolute top-1 md:top-3 right-5 text-end">
+        <section class="absolute top-1 md:top-3 right-5 flex flex-col md:flex-row items-center gap-2 text-end">
 
-            <!-- Mensaje de advertencia (visible en móviles) -->
-            <article class="block md:hidden text-white p-2 rounded-xl border border-white inline-block sm:mb-2">
+            <!-- Mensaje de advertencia (visible en móviles y PC) -->
+            <article class="text-white p-2 rounded-xl border border-white inline-block">
                 <span class="dias"></span>
             </article>
 
@@ -58,18 +58,12 @@
                     </ul>
                 </div>
             </div>
-
-            <!-- Mensaje de advertencia (visible en pantallas más grandes) -->
-            <article class="hidden sm:block text-white p-2 rounded-xl border border-white inline-block">
-                <span class="dias"></span>
-            </article>
         </section>
 
         <!-- botton whatsapp -->
         <section class="absolute bottom-5 md:bottom-5 right-4">
             <article class="text-white">
                 <a href="https://wa.link/vyghso">
-
                     <i
                         class="fab fa-whatsapp text-5xl hover:cursor-pointer hover:scale-125 duration-200 hover:text-green-500"></i>
                 </a>
@@ -80,7 +74,7 @@
         <section class=" w-full max-w-4xl">
             <article class="relative overflow-hidden">
                 <div id="imagenes_slider" class="flex w-[400%] duration-300">
-
+                    <!-- Aquí las imágenes del slider -->
                 </div>
                 <button id="anterior"
                     class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">
