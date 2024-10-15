@@ -14,7 +14,7 @@ class Funnelish extends Controller
         }
         if ($this->model->existenciaPlataforma($id_plataforma)) {
             $data = file_get_contents("php://input");
-            $response = $this->model->log($id_plataforma, $data);
+            $response = $this->log($id_plataforma, $data);
             $valido = $this->model->productoPlataforma($id_plataforma, $data);
             if ($valido) {
                 $this->model->gestionarRequest($id_plataforma, $data);
