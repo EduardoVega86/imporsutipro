@@ -72,7 +72,7 @@ function obtenerIdHerramienta(sistema) {
 
 // Cargar tiendas del usuario
 async function cargarTiendas() {
-  const id_usuario = ID_USUARIO;
+  const id_usuario = USUARIO_ID;
   const formData = new FormData();
   formData.append("id_usuario", id_usuario);
 
