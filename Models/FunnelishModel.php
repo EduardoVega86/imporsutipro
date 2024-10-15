@@ -116,7 +116,7 @@ class FunnelishModel extends Query
                 $id_producto_venta = $this->buscarProducto($product["id"])["id_producto"];
                 $datos_telefono = $this->obtenerBodegaInventario($id_producto_venta);
                 $producto_costo = $this->obtenerCosto($id_producto_venta);
-                $costo += $producto_costo * $product["quantity"];
+                $costo += $producto_costo * $product["qty"];
                 $bodega = $datos_telefono[0];
 
                 $celularO = $bodega["contacto"];
@@ -129,32 +129,32 @@ class FunnelishModel extends Query
                 $valor_segura = 0;
 
                 $id_bodega = $bodega["id"];
-                $no_piezas = $product["quantity"];
-                $contiene .= $product["name"] . " x " . $product["quantity"] . " ";
+                $no_piezas = $product["qty"];
+                $contiene .= $product["name"] . " x " . $product["qty"] . " ";
 
                 $costo_flete = 0;
-                $costo_producto += $product["price"] * $product["quantity"];
+                $costo_producto += $product["price"] * $product["qty"];
                 $id_transporte = 0;
 
-                $items_total = $product["price"] * $product["quantity"];
+                $items_total = $product["price"] * $product["qty"];
                 $total += $items_total;
-                $total_units += $product["quantity"];
+                $total_units += $product["qty"];
 
                 $productos[] = [
                     "id_producto_venta" => $id_producto_venta,
                     "nombre" => $product["name"],
-                    "cantidad" => $product["quantity"],
+                    "cantidad" => $product["qty"],
                     "precio" => $product["price"],
                     "item_total_price" => $items_total,
                 ];
             } else {
                 $productosSinSkus[] = [
                     "nombre" => $product["name"],
-                    "cantidad" => $product["quantity"],
+                    "cantidad" => $product["qty"],
                     "precio" => $product["price"],
-                    "item_total_price" => $product["price"] * $product["quantity"],
+                    "item_total_price" => $product["price"] * $product["qty"],
                 ];
-                $totalSinSkus += $product["price"] * $product["quantity"];
+                $totalSinSkus += $product["price"] * $product["qty"];
             }
         }
 
