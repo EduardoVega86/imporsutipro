@@ -37,8 +37,8 @@
         </section>
 
         <!-- Tiendas -->
-        <section id="tiendas" class="hidden bg-black/40 w-full z-10 min-h-screen fixed top-0 right-0 ">
-            <article
+        <section class="hidden bg-black/40 w-full z-10 min-h-screen fixed top-0 right-0 ">
+            <article id="tiendas"
                 class="bg-white rounded-md shadow absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 px-5 py-3">
                 <h3 class="text-center text-xl mt-3 mb-5">
                     Selecciona tu tienda
