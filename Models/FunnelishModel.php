@@ -35,11 +35,12 @@ class FunnelishModel extends Query
     public function productoPlataforma($id_plataforma, $data)
     {
         $data = json_decode($data, true);
-        print_r($data);
         if (isset($data["products"]) && is_array($data["products"])) {
-            $sql = "SELECT id_producto FROM productos_funnel WHERE id_producto = ? AND id_plataforma = ?";
+            $sql = "SELECT id_producto FROM productos_funnel WHERE id_funnel = ? AND id_plataforma = ?";
             foreach ($data["products"] as $product) {
+
                 $response = $this->simple_select($sql, [$product["id"], $id_plataforma]);
+                print_r($response);
                 if ($response > 0) {
                     return true;
                 }
@@ -115,7 +116,7 @@ class FunnelishModel extends Query
                 $id_producto_venta = $this->buscarProducto($product["id"])["id_producto"];
                 $datos_telefono = $this->obtenerBodegaInventario($id_producto_venta);
                 $producto_costo = $this->obtenerCosto($id_producto_venta);
-                $costo += $producto_costo * $product["quantity"];
+                $costo += $producto_costo * $product["qty"];
                 $bodega = $datos_telefono[0];
 
                 $celularO = $bodega["contacto"];
@@ -128,32 +129,32 @@ class FunnelishModel extends Query
                 $valor_segura = 0;
 
                 $id_bodega = $bodega["id"];
-                $no_piezas = $product["quantity"];
-                $contiene .= $product["name"] . " x " . $product["quantity"] . " ";
+                $no_piezas = $product["qty"];
+                $contiene .= $product["name"] . " x " . $product["qty"] . " ";
 
                 $costo_flete = 0;
-                $costo_producto += $product["price"] * $product["quantity"];
+                $costo_producto += $product["amount"] * $product["qty"];
                 $id_transporte = 0;
 
-                $items_total = $product["price"] * $product["quantity"];
+                $items_total = $product["amount"] * $product["qty"];
                 $total += $items_total;
-                $total_units += $product["quantity"];
+                $total_units += $product["qty"];
 
                 $productos[] = [
                     "id_producto_venta" => $id_producto_venta,
                     "nombre" => $product["name"],
-                    "cantidad" => $product["quantity"],
-                    "precio" => $product["price"],
+                    "cantidad" => $product["qty"],
+                    "precio" => $product["amount"],
                     "item_total_price" => $items_total,
                 ];
             } else {
                 $productosSinSkus[] = [
                     "nombre" => $product["name"],
-                    "cantidad" => $product["quantity"],
-                    "precio" => $product["price"],
-                    "item_total_price" => $product["price"] * $product["quantity"],
+                    "cantidad" => $product["qty"],
+                    "precio" => $product["amount"],
+                    "item_total_price" => $product["amount"] * $product["qty"],
                 ];
-                $totalSinSkus += $product["price"] * $product["quantity"];
+                $totalSinSkus += $product["amount"] * $product["qty"];
             }
         }
 
@@ -277,19 +278,19 @@ class FunnelishModel extends Query
     }
     public function buscarProducto($sku)
     {
-        $sql = "SELECT id_producto FROM productos_funnel WHERE sku = ?";
-        $response = $this->simple_select($sql, [$sku])[0];
+        $sql = "SELECT id_producto FROM productos_funnel WHERE id_funnel = ?";
+        $response = $this->dselect($sql, [$sku]);
 
-        $id_producto = $response["id_producto"];
+        $id_producto = $response[0]["id_producto"];
         $sql = "SELECT * FROM productos WHERE id_producto = ?";
-        $response = $this->select($sql, [$id_producto]);
+        $response = $this->dselect($sql, [$id_producto]);
 
         return $response[0];
     }
 
     public function existeProducto($sku)
     {
-        $sql = "SELECT id_producto FROM productos_funnel WHERE sku = ?";
+        $sql = "SELECT id_producto FROM productos_funnel WHERE id_funnel = ?";
         $response = $this->simple_select($sql, [$sku]);
         if ($response > 0) {
             return true;
