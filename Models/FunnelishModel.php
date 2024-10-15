@@ -72,7 +72,7 @@ class FunnelishModel extends Query
         // detectar un "y", "," o "&" en la dirección para separarla en dos
         // Definir los separadores que deseas considerar
         $direccion = $json["shipping_address"];
-        $separadores = '/,|&| y | Y | e | E | o | O | a | A | en | En | de | De | del | Del | al | Al | para | Para | por | Por /';
+        $separadores = '/,|&| y | Y | e | E | o | O | a | A | en | En | al | Al | para | Para | por | Por /';
 
         // Usar preg_split para dividir la dirección
         $partes_direccion = preg_split($separadores, $direccion, 2, PREG_SPLIT_NO_EMPTY);
@@ -115,6 +115,9 @@ class FunnelishModel extends Query
         $costo = 0;
         $total_units = 0;
 
+        $primerProductoConSku = null;
+
+
         // recorre los productos y verifica las condiciones
         foreach ($json["products"] as $product) {
             $existe = $this->existeProducto($product["id"]);
@@ -125,6 +128,17 @@ class FunnelishModel extends Query
                 $costo += $producto_costo * $product["qty"];
                 $bodega = $datos_telefono[0];
 
+                // Definir datos para el primer producto con SKU
+                if ($primerProductoConSku === null) {
+                    $primerProductoConSku = [
+                        "nombre" => $product["name"],
+                        "cantidad" => $product["qty"],
+                        "precio" => $product["amount"],
+                        "item_total_price" => $product["amount"] * $product["qty"],
+                    ];
+                }
+
+                // Continuar con el resto de la lógica como está
                 $celularO = $bodega["contacto"];
                 $nombreO = $bodega["nombre"];
                 $ciudadO = $bodega["localidad"];
@@ -154,6 +168,7 @@ class FunnelishModel extends Query
                     "item_total_price" => $items_total,
                 ];
             } else {
+                // Productos sin SKU
                 $productosSinSkus[] = [
                     "nombre" => $product["name"],
                     "cantidad" => $product["qty"],
@@ -163,16 +178,24 @@ class FunnelishModel extends Query
                 $totalSinSkus += $product["amount"] * $product["qty"];
             }
         }
-
         $total_venta = 0;
 
-        foreach ($productos as $producto) {
-            $total_venta += $producto["item_total_price"];
+        // Si existen productos sin SKU, sumarlos al primer producto con SKU
+        if (count($productosSinSkus) > 0 && $primerProductoConSku !== null) {
+            foreach ($productosSinSkus as $productoSinSku) {
+                // Sumar cantidad
+                $primerProductoConSku["cantidad"] += $productoSinSku["cantidad"];
+
+                // Sumar los precios ajustados por la cantidad
+                $primerProductoConSku["item_total_price"] += $productoSinSku["item_total_price"];
+            }
+
+            // Actualizar el total de la venta
+            $total_venta = $primerProductoConSku["item_total_price"];
         }
 
-        foreach ($productosSinSkus as $producto) {
-            $total_venta += $producto["item_total_price"];
-        }
+        // Restablecer el array de productos para que el primer producto con SKU ya incluya la suma de los sin SKU
+        $productos = [$primerProductoConSku];
 
         $comentario = "Orden generada por Funnelish, numero de orden: " . $json["id"];
 
