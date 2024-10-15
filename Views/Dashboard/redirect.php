@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="<?php echo SERVERURL ?>Views/Dashboard/css/redirect.css" />
     <script>
         window.SERVERURL = "<?php echo SERVERURL ?>";
-        window.USUARIO_ID = "<?php echo $_SESSION['id_users'] ?>";
+        window.USUARIO_ID = "<?php echo $_SESSION['id'] ?>";
         window.EMAIL = "<?php echo $_SESSION['user'] ?>";
         window.TOKEN = "<?php echo $_SESSION['token'] ?>";
     </script>
