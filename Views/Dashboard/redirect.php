@@ -7,7 +7,7 @@
     <title>Imporsuit</title>
     <link rel="stylesheet" href="<?php echo SERVERURL ?>Views/Dashboard/css/redirect.css" />
     <script>
-        document.addEventListener("DOMContentLoaded", {
+        document.addEventListener("DOMContentLoaded", () => {
             const SERVERURL = "<?php echo SERVERURL ?>";
             const USUARIO_ID = "<?php echo $_SESSION['id_users'] ?>";
             const EMAIL = "<?php echo $_SESSION['user'] ?>";
