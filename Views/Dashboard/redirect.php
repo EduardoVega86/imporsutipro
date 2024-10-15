@@ -7,10 +7,13 @@
     <title>Imporsuit</title>
     <link rel="stylesheet" href="<?php echo SERVERURL ?>Views/Dashboard/css/redirect.css" />
     <script>
-        const SERVERURL = "<?php echo SERVERURL ?>";
-        const USUARIO_ID = "<?php echo $_SESSION['id_users'] ?>";
-        const EMAIL = "<?php echo $_SESSION['user'] ?>";
-        const TOKEN = "<?php echo $_SESSION['token'] ?>";
+        document.addEventListener("DOMContentLoaded", {
+            const SERVERURL = "<?php echo SERVERURL ?>";
+            const USUARIO_ID = "<?php echo $_SESSION['id_users'] ?>";
+            const EMAIL = "<?php echo $_SESSION['user'] ?>";
+            const TOKEN = "<?php echo $_SESSION['token'] ?>";
+
+        });
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
