@@ -205,7 +205,7 @@
             let id_usuario = "<?php echo $_SESSION['id'] ?>";
             const frm = new FormData();
             frm.append("id_usuario", id_usuario);
-            await fetch("https://new.imporsuitpro.com/suscripciones/tiendas", {
+            await fetch("<?php echo SERVERURL ?>" + "/suscripciones/tiendas", {
                     method: 'POST',
                     body: frm
                 }).then(response => response.json())
