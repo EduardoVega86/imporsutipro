@@ -176,6 +176,8 @@ class FunnelishModel extends Query
             foreach ($productosSinSkus as $productoS) {
                 $cantidadProductos = $productos[0]["cantidad"];
                 $divisible = $productoS["item_total_price"] / $cantidadProductos;
+                echo $cantidadProductos . " ";
+                echo $productoS["item_total_price"] . " ";
                 echo $divisible;
                 foreach ($productos as $productoA) {
                     $productoA["precio"] += $divisible;
