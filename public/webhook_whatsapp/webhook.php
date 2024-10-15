@@ -845,6 +845,8 @@ switch ($tipo_mensaje) {
 
             $tipo_button = 0;
 
+            file_put_contents('debug_log.txt', "Mensaje enviado a $phone_whatsapp_from con el template " . $template_name['name'] . " y el idioma " . $template_name['language'] . "\n", FILE_APPEND);
+
             if (!empty($template_name)) {
                 // Llamar a la función para enviar el mensaje template a WhatsApp
                 $tipo_button = 1;
