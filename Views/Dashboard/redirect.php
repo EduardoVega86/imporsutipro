@@ -181,7 +181,7 @@
 
     <script>
         // Capturar elementos del DOM
-        const profilePic = document.getElementById('profilePics');
+        const profilePic = document.getElementById('profilePic');
         const menuDropdown = document.getElementById('menuDropdown');
 
         // Función para alternar la visibilidad del menú
