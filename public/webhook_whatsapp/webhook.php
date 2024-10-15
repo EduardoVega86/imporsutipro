@@ -621,7 +621,7 @@ function enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_
         "type" => "template",
         "template" => [
             "name" => $template_name,  // Usar el nombre del template
-            "language" => ["code" => "en_US"],  // Cambiar a 'en_US' o 'es_MX' según el idioma del template
+            "language" => ["code" => "en"],  // Cambiar a 'en_US' o 'es_MX' según el idioma del template
         ]
     ];
 
