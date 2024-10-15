@@ -24,7 +24,9 @@ class FunnelishModel extends Query
     {
         $sql = "SELECT id_plataforma FROM productos_funnel WHERE id_plataforma = ?";
         $response = $this->simple_select($sql, [$id_plataforma]);
+        print_r($response);
         if ($response > 0) {
+
             return true;
         } else {
             return false;
