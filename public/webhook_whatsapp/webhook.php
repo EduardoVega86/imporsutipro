@@ -611,76 +611,89 @@ function obtenerNombreTemplatePorID($accessToken, $waba_id, $id_whatsapp_message
 
 function enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $template_name, $mensaje = null, $conn, $id_plataforma, $id_configuracion)
 {
-    // Paso 1: Configurar el envío del mensaje de WhatsApp usando el nombre del template
-    $url = "https://graph.facebook.com/v20.0/$business_phone_id/messages";
+    // Lista de idiomas a probar si hay un error relacionado con el lenguaje
+    $language_codes = ["en_US", "es_AR", "es_MX", "es_ES", "es_SPA","en_UK"];
 
-    // Configuramos los datos básicos del mensaje
-    $data = [
-        "messaging_product" => "whatsapp",
-        "to" => $phone_whatsapp_from,
-        "type" => "template",
-        "template" => [
-            "name" => $template_name,  // Usar el nombre del template
-            "language" => ["code" => "en_US"],  // Cambiar a 'en_US' o 'es_MX' según el idioma del template
-        ]
-    ];
+    foreach ($language_codes as $language_code) {
+        // Configurar el envío del mensaje de WhatsApp usando el nombre del template
+        $url = "https://graph.facebook.com/v20.0/$business_phone_id/messages";
 
-    // Solo añadimos el cuerpo (components) si el template acepta parámetros
-    if ($mensaje !== null && $template_name !== 'hello_world') {
-        $data['template']['components'] = [
-            [
-                "type" => "body",
-                "parameters" => [
-                    ["type" => "text", "text" => $mensaje]
-                ]
+        // Configuramos los datos básicos del mensaje
+        $data = [
+            "messaging_product" => "whatsapp",
+            "to" => $phone_whatsapp_from,
+            "type" => "template",
+            "template" => [
+                "name" => $template_name,
+                "language" => ["code" => $language_code],  // Cambiamos el idioma dinámicamente
             ]
         ];
+
+        // Solo añadimos el cuerpo (components) si el template acepta parámetros
+        if ($mensaje !== null && $template_name !== 'hello_world') {
+            $data['template']['components'] = [
+                [
+                    "type" => "body",
+                    "parameters" => [
+                        ["type" => "text", "text" => $mensaje]
+                    ]
+                ]
+            ];
+        }
+
+        // Inicializamos cURL para hacer la solicitud HTTP POST
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            "Authorization: Bearer $accessToken",
+            "Content-Type: application/json"
+        ]);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+
+        // Ejecutar la solicitud
+        $response = curl_exec($ch);
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        // Verificar si la solicitud fue exitosa
+        if ($http_code === 200) {
+            file_put_contents('debug_log.txt', "Mensaje template enviado correctamente a $phone_whatsapp_from usando el template $template_name en el idioma $language_code.\n", FILE_APPEND);
+
+            /* Obtener nombres y teléfono config */
+            $telefono_configuracion = 0;
+            $nombre_configuracion = "";
+
+            $check_configuracion_cliente_stmt = $conn->prepare("SELECT telefono, nombre_configuracion FROM configuraciones WHERE id = ?");
+            $check_configuracion_cliente_stmt->bind_param('s', $id_configuracion);  // Buscamos por el celular_cliente
+            $check_configuracion_cliente_stmt->execute();
+            $check_configuracion_cliente_stmt->store_result();
+            $check_configuracion_cliente_stmt->bind_result($telefono_configuracion, $nombre_configuracion);
+            $check_configuracion_cliente_stmt->fetch();
+            $check_configuracion_cliente_stmt->close();
+
+            // Guardar el mensaje enviado como un registro en la base de datos
+            $tipo_mensaje = "text";
+            $texto_mensaje = $mensaje;
+            $ruta_archivo = null;  // No hay archivo en este caso
+            $nombre_cliente = $nombre_configuracion;
+            $apellido_cliente = "";
+
+            // Llamar a la función interna para procesar y guardar el mensaje
+            procesarMensaje_template($conn, $id_plataforma, $business_phone_id, $nombre_cliente, $apellido_cliente, $telefono_configuracion, $phone_whatsapp_from, $tipo_mensaje, $texto_mensaje, $ruta_archivo);
+            break;  // Salimos del bucle si el mensaje se envió correctamente
+        } else {
+            file_put_contents('debug_log.txt', "Error al enviar el mensaje template con idioma $language_code. HTTP Code: $http_code\nRespuesta: $response\n", FILE_APPEND);
+            // Revisar si el error es de idioma y continuar con el siguiente idioma
+            $responseArray = json_decode($response, true);
+            if (isset($responseArray['error']['message']) && strpos($responseArray['error']['message'], 'does not exist in') !== false) {
+                continue;  // Probar con el siguiente idioma
+            } else {
+                break;  // Detenerse si no es un error de idioma
+            }
+        }
+
+        curl_close($ch);
     }
-
-    // Inicializamos cURL para hacer la solicitud HTTP POST
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        "Authorization: Bearer $accessToken",
-        "Content-Type: application/json"
-    ]);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-
-    // Ejecutar la solicitud
-    $response = curl_exec($ch);
-    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-    // Verificar si la solicitud fue exitosa
-    if ($http_code === 200) {
-        file_put_contents('debug_log.txt', "Mensaje template enviado correctamente a $phone_whatsapp_from usando el template $template_name.\n", FILE_APPEND);
-
-        /* optener nombres y telefono config */
-        $telefono_configuracion = 0;
-        $nombre_configuracion = "";
-
-        $check_configuracion_cliente_stmt = $conn->prepare("SELECT telefono, nombre_configuracion FROM configuraciones WHERE id = ?");
-        $check_configuracion_cliente_stmt->bind_param('s', $id_configuracion);  // Buscamos por el celular_cliente
-        $check_configuracion_cliente_stmt->execute();
-        $check_configuracion_cliente_stmt->store_result();
-        $check_configuracion_cliente_stmt->bind_result($telefono_configuracion, $nombre_configuracion);
-        $check_configuracion_cliente_stmt->fetch();
-        $check_configuracion_cliente_stmt->close();
-
-        // Guardar el mensaje enviado como un registro en la base de datos
-        $tipo_mensaje = "text";
-        $texto_mensaje = $mensaje;
-        $ruta_archivo = null;  // No hay archivo en este caso
-        $nombre_cliente = $nombre_configuracion;
-        $apellido_cliente = "";
-
-        // Llamar a la función interna para procesar y guardar el mensaje
-        procesarMensaje_template($conn, $id_plataforma, $business_phone_id, $nombre_cliente, $apellido_cliente, $telefono_configuracion, $phone_whatsapp_from, $tipo_mensaje, $texto_mensaje, $ruta_archivo);
-    } else {
-        file_put_contents('debug_log.txt', "Error al enviar el mensaje template. HTTP Code: $http_code\nRespuesta: $response\n", FILE_APPEND);
-    }
-
-    curl_close($ch);
 }
 
 function procesarMensaje_template($conn, $id_plataforma, $business_phone_id, $nombre_cliente, $apellido_cliente, $telefono_configuracion, $phone_whatsapp_from, $tipo_mensaje, $texto_mensaje, $ruta_archivo)
