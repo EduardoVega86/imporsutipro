@@ -44,7 +44,7 @@
                     Selecciona tu tienda
                 </h3>
 
-                <div class="grid  gap-5 items-center">
+                <!--   <div class="grid  gap-5 items-center">
                     <div id="tienda1" class="grid grid-cols-2 gap-5 items-center hover:scale-110  hover:text-blue-700">
 
                         <div class="border-2 hover:border-blue-700 p-5 border-black  text-center">
@@ -59,7 +59,7 @@
                         </div>
                         <span class="text-center">Crear tienda</span>
                     </div>
-                </div>
+                </div> -->
 
             </article>
         </section>
@@ -210,7 +210,6 @@
                     body: frm
                 }).then(response => response.json())
                 .then(data => {
-                    document.querySelector('#tiendas').innerHTML = "";
                     data.forEach((tienda) => {
                         document.querySelector('#tiendas').innerHTML += `<div id="tienda${tienda.id_plataforma}" class="grid grid-cols-2 gap-5 items-center hover:scale-110  hover:text-blue-700">
                                 <div class="border-2 hover:border-blue-700 p-5 border-black  text-center">
