@@ -181,7 +181,7 @@ class FunnelishModel extends Query
                 foreach ($productos as $productoA) {
                     $productoA["precio"] += $divisible;
                 }
-                unset($productoS);
+                unset($productoA);
             }
         }
 
