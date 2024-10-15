@@ -15,7 +15,7 @@
 
 /* Estilos para las herramientas */
 .herramienta {
-    grayscale: grayscale(1);
+    filter: grayscale(100%);
     width: 75px;
     height: 75px;
     display: grid;
