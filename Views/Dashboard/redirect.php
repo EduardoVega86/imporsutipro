@@ -191,7 +191,7 @@
 
         // Función para cerrar sesión
         document.getElementById('logoutBtn').addEventListener('click', () => {
-            window.location.href = 'https://new.imporsuitpro.com/logout'; // Ajusta la URL de cierre de sesión
+            window.location.href = '<?php echo SERVERURL; ?>acceso/logout';
         });
 
         // Si se hace clic fuera del menú, se cierra
