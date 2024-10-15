@@ -75,7 +75,7 @@
         </section>
 
         <!-- Slider de imágenes -->
-        <section class="w-full max-w-4xl">
+        <section class="w-full max-w-5xl">
             <article class="relative overflow-hidden">
                 <div id="imagenes_slider" class="flex w-[400%] duration-300">
                     <!-- Imágenes dinámicas del slider -->
