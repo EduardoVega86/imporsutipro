@@ -119,7 +119,7 @@ class FunnelishModel extends Query
         foreach ($json["products"] as $product) {
             $existe = $this->existeProducto($product["id"]);
             if ($existe) {
-                $id_producto_venta = $this->buscarProducto($product["id"])["id_producto"];
+                $id_producto_venta = $this->buscarProducto($product["id"])["id_inventario"];
                 $datos_telefono = $this->obtenerBodegaInventario($id_producto_venta);
                 $producto_costo = $this->obtenerCosto($id_producto_venta);
                 $costo += $producto_costo * $product["qty"];
