@@ -166,25 +166,24 @@ class FunnelishModel extends Query
             }
         }
 
-        $total_venta = 0;
-
-        foreach ($productos as $producto) {
-            $total_venta += $producto["item_total_price"];
-        }
 
         if (count($productosSinSkus) > 0) {
             foreach ($productosSinSkus as $productoS) {
-
                 $cantidadProductos = $productos[0]["cantidad"];
                 $divisible = $productoS["item_total_price"] / $cantidadProductos;
-                echo $cantidadProductos . " ";
-                echo $productoS["item_total_price"] . " ";
-                echo $divisible;
-                foreach ($productos as $productoA) {
+
+                foreach ($productos as &$productoA) { // Usamos referencia aquí
                     $productoA["precio"] += $divisible;
-                    echo $productoA["precio"];
+                    $productoA["item_total_price"] = $productoA["precio"] * $productoA["cantidad"];
                 }
+                unset($productoA); // Rompemos la referencia
             }
+        }
+
+        // Recalcular el total de la venta después de ajustar los precios
+        $total_venta = 0;
+        foreach ($productos as $producto) {
+            $total_venta += $producto["item_total_price"];
         }
 
         $comentario = "Orden generada por Funnelish, numero de orden: " . $json["id"];
