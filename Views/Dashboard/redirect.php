@@ -28,7 +28,7 @@
     <main class="grid gap-5 mt-10">
         <!-- Sección del logotipo -->
         <section class="flex justify-center items-center">
-            <article class="w-64 h-32">
+            <article class="w-32 h-16">
                 <img src="https://tiendas.imporsuitpro.com/imgs/LOGOS-IMPORSUIT.png" alt="Logo Imporsuit" />
             </article>
         </section>
