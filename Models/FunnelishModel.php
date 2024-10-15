@@ -40,7 +40,6 @@ class FunnelishModel extends Query
             foreach ($data["products"] as $product) {
 
                 $response = $this->simple_select($sql, [$product["id"], $id_plataforma]);
-                print_r($response);
                 if ($response > 0) {
                     return true;
                 }
@@ -57,7 +56,6 @@ class FunnelishModel extends Query
         $json = json_decode($json_string, true);
         $products = $json["products"];
         $orden = $this->crearOrden($id_plataforma, $json, $products);
-        echo "XD";
     }
 
     public function crearOrden($id_plataforma, $json, $products)
@@ -72,7 +70,7 @@ class FunnelishModel extends Query
         // detectar un "y", "," o "&" en la dirección para separarla en dos
         // Definir los separadores que deseas considerar
         $direccion = $json["shipping_address"];
-        $separadores = '/,|&| y | Y | e | E | o | O | a | A | en | En | de | De | del | Del | al | Al | para | Para | por | Por /';
+        $separadores = '/,|&| y | Y | e | E | o | O | a | A | en | En | al | Al | para | Para | por | Por /';
 
         // Usar preg_split para dividir la dirección
         $partes_direccion = preg_split($separadores, $direccion, 2, PREG_SPLIT_NO_EMPTY);
@@ -90,7 +88,13 @@ class FunnelishModel extends Query
         $ciudad = $json["shipping_city"];
 
         $provincia = $this->obtenerProvincia($provincia);
+        $provincia = $provincia[0]["codigo_provincia"];
         $ciudad = $this->obtenerCiudad($ciudad);
+        if (!empty($ciudad)) {
+            $ciudad = $ciudad[0]['id_cotizacion'];
+        } else {
+            $ciudad = 0;
+        }
 
         $referencia = " ";
         $observaciones = "Ciudad: " . $json["shipping_city"] . " Provincia: " . $json["shipping_state"];
@@ -109,11 +113,14 @@ class FunnelishModel extends Query
         $costo = 0;
         $total_units = 0;
 
+        $primerProductoConSku = null;
+
+
         // recorre los productos y verifica las condiciones
         foreach ($json["products"] as $product) {
             $existe = $this->existeProducto($product["id"]);
             if ($existe) {
-                $id_producto_venta = $this->buscarProducto($product["id"])["id_producto"];
+                $id_producto_venta = $this->buscarProducto($product["id"])["id_inventario"];
                 $datos_telefono = $this->obtenerBodegaInventario($id_producto_venta);
                 $producto_costo = $this->obtenerCosto($id_producto_venta);
                 $costo += $producto_costo * $product["qty"];
@@ -149,6 +156,7 @@ class FunnelishModel extends Query
                 ];
             } else {
                 $productosSinSkus[] = [
+                    "id_producto_venta" => null,
                     "nombre" => $product["name"],
                     "cantidad" => $product["qty"],
                     "precio" => $product["amount"],
@@ -162,6 +170,21 @@ class FunnelishModel extends Query
 
         foreach ($productos as $producto) {
             $total_venta += $producto["item_total_price"];
+        }
+
+        if (count($productosSinSkus) > 0) {
+            foreach ($productosSinSkus as $productoS) {
+
+                $cantidadProductos = $productos[0]["cantidad"];
+                $divisible = $productoS["item_total_price"] / $cantidadProductos;
+                echo $cantidadProductos . " ";
+                echo $productoS["item_total_price"] . " ";
+                echo $divisible;
+                foreach ($productos as $productoA) {
+                    $productoA["precio"] += $divisible;
+                    echo $productoA["precio"];
+                }
+            }
         }
 
         $comentario = "Orden generada por Funnelish, numero de orden: " . $json["id"];
@@ -282,7 +305,7 @@ class FunnelishModel extends Query
         $response = $this->dselect($sql, [$sku]);
 
         $id_producto = $response[0]["id_producto"];
-        $sql = "SELECT * FROM productos WHERE id_producto = ?";
+        $sql = "SELECT * FROM inventario_bodegas WHERE id_inventario = ?";
         $response = $this->dselect($sql, [$id_producto]);
 
         return $response[0];
