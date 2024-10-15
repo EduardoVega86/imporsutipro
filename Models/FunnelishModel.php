@@ -40,7 +40,6 @@ class FunnelishModel extends Query
             foreach ($data["products"] as $product) {
 
                 $response = $this->simple_select($sql, [$product["id"], $id_plataforma]);
-                print_r($response);
                 if ($response > 0) {
                     return true;
                 }
@@ -57,7 +56,6 @@ class FunnelishModel extends Query
         $json = json_decode($json_string, true);
         $products = $json["products"];
         $orden = $this->crearOrden($id_plataforma, $json, $products);
-        echo "XD";
     }
 
     public function crearOrden($id_plataforma, $json, $products)
