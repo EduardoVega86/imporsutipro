@@ -156,20 +156,21 @@ function configurarEventosHerramientas() {
       url: "https://cursos.imporfactory.app/newlogin?token=" + TOKEN,
     },
     { id: "proveedores", url: "https://proveedores.imporsuitpro.com/" },
-    { id: "tienda", accion: mostrarTiendas },
+    { id: "sistema", accion: mostrarTiendas },
   ];
 
   herramientas.forEach((herramienta) => {
     const elemento = document.getElementById(herramienta.id);
-    elemento.addEventListener("click", () => {
-      if (elemento.classList.contains("grayscale")) {
-        mostrarErrorSuscripcion();
-      } else if (herramienta.url) {
-        window.location.href = herramienta.url;
-      } else if (herramienta.accion) {
-        herramienta.accion();
-      }
-    });
+    if (elemento != null)
+      elemento.addEventListener("click", () => {
+        if (elemento.classList.contains("grayscale")) {
+          mostrarErrorSuscripcion();
+        } else if (herramienta.url) {
+          window.location.href = herramienta.url;
+        } else if (herramienta.accion) {
+          herramienta.accion();
+        }
+      });
   });
 }
 

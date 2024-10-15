@@ -632,6 +632,7 @@ class TiendaModel extends Query
             $responses = $this->insert($sql, $data);
 
             if ($responses == 1) {
+                $contenido_factura = "";
                 if ($combo_selected == 1) {
                     $id_factura = $this->select("SELECT id_factura FROM facturas_cot WHERE numero_factura = '$nueva_factura'");
                     $factura_id = $id_factura[0]['id_factura'];
@@ -685,6 +686,11 @@ class TiendaModel extends Query
                         // Insertar el detalle
                         $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
 
+                        /* tomar nombre productos */
+                        $nombre_producto = $this->select("SELECT nombre_producto FROM productos WHERE id_producto = '" . $tmp_session['id_producto'] . "'");
+                        $nombre_producto = $nombre_producto[0]['nombre_producto'];
+                        $contenido_factura += $nombre_producto + " X " + $tmp_session['cantidad'] + ", ";
+
                         // Acumular el total distribuido
                         $totalDistribuido += $nuevoPvp;
                     }
@@ -716,6 +722,12 @@ class TiendaModel extends Query
 
                             // Insertar el detalle
                             $guardar_detalle = $this->insert($detalle_sql, $detalle_data_oferta);
+
+                            /* tomar nombre productos */
+                            $nombre_producto = $this->select("SELECT nombre_producto FROM productos WHERE id_producto = '" . $tmp_session['id_producto'] . "'");
+                            $nombre_producto = $nombre_producto[0]['nombre_producto'];
+                            $contenido_factura += $nombre_producto + " X " + $tmp_session['cantidad'] + ", ";
+
                             /* print_r($guardar_detalle); */
                         }
                     }
@@ -755,6 +767,11 @@ class TiendaModel extends Query
                             $tmp_session['id_inventario']
                         );
                         $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
+
+                        /* tomar nombre productos */
+                        $nombre_producto = $this->select("SELECT nombre_producto FROM productos WHERE id_producto = '" . $tmp_session['id_producto'] . "'");
+                        $nombre_producto = $nombre_producto[0]['nombre_producto'];
+                        $contenido_factura += $nombre_producto + " X " + $tmp_session['cantidad'] + ", ";
                     }
 
                     if ($oferta_selected == 1) {
@@ -785,11 +802,22 @@ class TiendaModel extends Query
 
                                 // Insertar el detalle
                                 $guardar_detalle = $this->insert($detalle_sql, $detalle_data_oferta);
+
+                                /* tomar nombre productos */
+                                $nombre_producto = $this->select("SELECT nombre_producto FROM productos WHERE id_producto = '" . $tmp_session['id_producto'] . "'");
+                                $nombre_producto = $nombre_producto[0]['nombre_producto'];
+                                $contenido_factura += $nombre_producto + " X " + $tmp_session['cantidad'] + ", ";
+
                                 /* print_r($guardar_detalle); */
                             }
                         }
                     }
                     if ($id_configuracion != "") {
+
+                        /* consultar ciudad por medio id_cotizacion */
+                        $nombre_ciudad = $this->select("SELECT ciudad FROM ciudad_cotizacion WHERE id_cotizacion = $ciudad");
+                        $nombre_ciudad = $nombre_ciudad[0]['ciudad'];
+
                         // Ejecutamos la función que devuelve productos y categorías
                         $data = $this->ejecutar_automatizador($nueva_factura);
 
@@ -802,6 +830,9 @@ class TiendaModel extends Query
                             "direccion" => $calle_principal . " y " . $calle_secundaria,
                             "email" => "",
                             "celular" => $telefono,
+                            "contenido" => $contenido_factura,
+                            "costo" => $total_bodega,
+                            "ciudad" => $nombre_ciudad,
                             "productos" => $data['productos'] ?? [],
                             "categorias" => $data['categorias'] ?? [],
                             "status" => [""],
@@ -813,7 +844,10 @@ class TiendaModel extends Query
                                 "direccion" => $calle_principal . " y " . $calle_secundaria,
                                 "email" => "",
                                 "celular" => $telefono,
-                                "order_id" => $nueva_factura
+                                "order_id" => $nueva_factura,
+                                "contenido" => $contenido_factura,
+                                "costo" => $total_bodega,
+                                "ciudad" => $nombre_ciudad
                             ]
                         ];
 
