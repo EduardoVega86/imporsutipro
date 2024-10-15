@@ -37,7 +37,7 @@
         </section>
 
         <!-- advertencia de suscripcion -->
-        <section class="absolute top-1 md:top-3 right-5 flex flex-col md:flex-row items-center gap-2 text-end">
+        <section class="absolute top-1 md:top-3 right-5 flex flex-row items-center gap-2 text-end">
 
             <!-- Mensaje de advertencia (visible en móviles y PC) -->
             <article class="text-white p-2 rounded-xl border border-white inline-block">
