@@ -37,14 +37,25 @@
         </section>
 
         <!-- advertencia de suscripcion -->
-        <section class="absolute top-1 md:top-3 right-0">
+        <section class="absolute top-1 md:top-3 right-0 text-end">
             <article class="text-white p-2 rounded-xl border border-white">
                 <span id="dias"></span>
-
             </article>
-            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                Cerrar Sesión
-            </button>
+
+            <!-- Imagen de perfil -->
+            <div class="relative">
+                <img src="https://new.imporsuitpro.com/public/img/img.png"
+                    class="profile-pic w-12 h-12 rounded-full cursor-pointer border border-white" id="profilePics"
+                    alt="Perfil">
+
+                <!-- Menú desplegable -->
+                <div id="menuDropdown"
+                    class="hidden absolute right-0 mt-2 w-48 bg-white text-black rounded-lg shadow-lg z-10">
+                    <ul class="py-2">
+                        <li class="px-4 py-2 hover:bg-gray-200 cursor-pointer" id="logoutBtn">Cerrar sesión</li>
+                    </ul>
+                </div>
+            </div>
         </section>
 
         <!-- botton whatsapp -->
@@ -162,6 +173,31 @@
     </script>
 
     <script>
+        // Capturar elementos del DOM
+        const profilePic = document.getElementById('profilePics');
+        const menuDropdown = document.getElementById('menuDropdown');
+
+        // Función para alternar la visibilidad del menú
+        profilePic.addEventListener('click', () => {
+            if (menuDropdown.classList.contains('hidden')) {
+                menuDropdown.classList.remove('hidden');
+            } else {
+                menuDropdown.classList.add('hidden');
+            }
+        });
+
+        // Función para cerrar sesión
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            window.location.href = 'https://new.imporsuitpro.com/logout'; // Ajusta la URL de cierre de sesión
+        });
+
+        // Si se hace clic fuera del menú, se cierra
+        document.addEventListener('click', (event) => {
+            if (!profilePic.contains(event.target) && !menuDropdown.contains(event.target)) {
+                menuDropdown.classList.add('hidden');
+            }
+        });
+
         //estado inicial slider global
         let sliderGlobal = 0;
 
