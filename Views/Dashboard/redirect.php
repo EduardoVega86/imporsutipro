@@ -42,7 +42,7 @@
             <!-- Imagen de perfil -->
             <div class="relative inline-block">
                 <img src="https://new.imporsuitpro.com/public/img/img.png"
-                    class="profile-pic w-12 h-12 rounded-full cursor-pointer border border-white" id="profilePic"
+                    class="profile-pic w-12 h-12 rounded-full cursor-pointer border border-white" id="profilePics"
                     alt="Perfil">
 
                 <!-- Menú desplegable -->
