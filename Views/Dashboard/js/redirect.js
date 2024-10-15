@@ -1,3 +1,7 @@
+const SERVERURL = window.SERVERURL;
+const USUARIO_ID = window.USUARIO_ID;
+const EMAIL = window.EMAIL;
+const TOKEN = window.TOKEN;
 // Función principal que se ejecuta al cargar el DOM
 document.addEventListener("DOMContentLoaded", () => {
   iniciarAplicacion();

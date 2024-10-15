@@ -7,10 +7,10 @@
     <title>Imporsuit</title>
     <link rel="stylesheet" href="<?php echo SERVERURL ?>Views/Dashboard/css/redirect.css" />
     <script>
-        var SERVERURL = "<?php echo SERVERURL ?>";
-        var USUARIO_ID = "<?php echo $_SESSION['id_users'] ?>";
-        var EMAIL = "<?php echo $_SESSION['user'] ?>";
-        var TOKEN = "<?php echo $_SESSION['token'] ?>";
+        window.SERVERURL = "<?php echo SERVERURL ?>";
+        window.USUARIO_ID = "<?php echo $_SESSION['id_users'] ?>";
+        window.EMAIL = "<?php echo $_SESSION['user'] ?>";
+        window.TOKEN = "<?php echo $_SESSION['token'] ?>";
     </script>
     <script src="<?php echo SERVERURL ?>Views/Dashboard/js/redirect.js"></script>
 
