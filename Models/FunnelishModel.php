@@ -288,7 +288,7 @@ class FunnelishModel extends Query
         $response = $this->dselect($sql, [$sku]);
 
         $id_producto = $response[0]["id_producto"];
-        $sql = "SELECT * FROM productos WHERE id_producto = ?";
+        $sql = "SELECT * FROM inventario_bodegas WHERE id_inventario = ?";
         $response = $this->dselect($sql, [$id_producto]);
 
         return $response[0];
