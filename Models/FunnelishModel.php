@@ -204,6 +204,8 @@ class FunnelishModel extends Query
             $observacion = "";
         }
 
+        print_r($productos);
+
         $observacion .= " Numero de orden Funnelish: " . $json["id"];
 
         $ch = curl_init();
