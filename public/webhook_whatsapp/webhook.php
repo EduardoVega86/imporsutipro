@@ -626,7 +626,8 @@ function enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_
     ];
 
     // Solo añadimos el cuerpo (components) si el template acepta parámetros
-    if ($mensaje !== null && $template_name !== 'hello_world') {
+    // Esto verifica si el template tiene marcadores {{}} en su cuerpo para recibir parámetros
+    if ($mensaje !== null && strpos($template_name, '{{') !== false) {
         $data['template']['components'] = [
             [
                 "type" => "body",
@@ -655,7 +656,7 @@ function enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_
     if ($http_code === 200) {
         file_put_contents('debug_log.txt', "Mensaje template enviado correctamente a $phone_whatsapp_from usando el template $template_name.\n", FILE_APPEND);
 
-        /* optener nombres y telefono config */
+        /* Obtener nombres y teléfono config */
         $telefono_configuracion = 0;
         $nombre_configuracion = "";
 
