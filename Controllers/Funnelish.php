@@ -12,7 +12,6 @@ class Funnelish extends Controller
         if (empty($id_plataforma)) {
             die("Error: No se ha especificado una plataforma");
         }
-        print_r($this->model->existenciaPlataforma($id_plataforma));
         if ($this->model->existenciaPlataforma($id_plataforma)) {
             $data = file_get_contents("php://input");
             $response = $this->log($id_plataforma, $data);
