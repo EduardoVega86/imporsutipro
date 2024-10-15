@@ -127,7 +127,7 @@
             <article id="cursos" class="herramienta">
                 <span class="hover:cursor-pointer text-white mb-5">cursos</span>
                 <img
-                    src="https://tiendas.imporsuitpro.com/imgs/herramientas/cursos.png"
+                    src="https://tiendas.imporsuitpro.com/imgs/herramientas/cursos.jpeg"
                     alt="cursos" />
             </article>
             <article id="proveedores" class="herramienta">
