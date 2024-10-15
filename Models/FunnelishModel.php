@@ -24,7 +24,6 @@ class FunnelishModel extends Query
     {
         $sql = "SELECT id_plataforma FROM productos_funnel WHERE id_plataforma = ?";
         $response = $this->simple_select($sql, [$id_plataforma]);
-        print_r($response);
         if ($response > 0) {
 
             return true;
@@ -36,6 +35,7 @@ class FunnelishModel extends Query
     public function productoPlataforma($id_plataforma, $data)
     {
         $data = json_decode($data, true);
+        print_r($data);
         if (isset($data["products"]) && is_array($data["products"])) {
             $sql = "SELECT id_producto FROM productos_funnel WHERE id_producto = ? AND id_plataforma = ?";
             foreach ($data["products"] as $product) {
@@ -56,6 +56,7 @@ class FunnelishModel extends Query
         $json = json_decode($json_string, true);
         $products = $json["products"];
         $orden = $this->crearOrden($id_plataforma, $json, $products);
+        echo "XD";
     }
 
     public function crearOrden($id_plataforma, $json, $products)
