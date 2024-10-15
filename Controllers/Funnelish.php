@@ -7,7 +7,6 @@ class Funnelish extends Controller
         parent::__construct();
     }
 
-
     public function index($id_plataforma)
     {
         if (empty($id_plataforma)) {
@@ -26,7 +25,6 @@ class Funnelish extends Controller
             echo json_encode($response);
         }
     }
-
 
     public function data()
     {

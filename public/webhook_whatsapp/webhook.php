@@ -597,13 +597,12 @@ function obtenerNombreTemplatePorID($accessToken, $waba_id, $id_whatsapp_message
     if (isset($responseArray['data'])) {
         $facebook_templates = $responseArray['data'];
 
-        // Buscar el nombre del template por el ID
+        // Buscar el nombre y el idioma del template por el ID
         foreach ($facebook_templates as $template) {
             if ($template['id'] == $id_whatsapp_message_template) {
-                // Retornar un array con el nombre y el código de idioma del template
                 return [
-                    'name' => $template['name'],
-                    'language' => $template['language']['code']
+                    'name' => $template['name'],  // Nombre del template
+                    'language' => $template['language']['code']  // Idioma del template
                 ];
             }
         }
@@ -845,15 +844,16 @@ switch ($tipo_mensaje) {
 
             $tipo_button = 0;
 
-            if ($template_data !== null) {
-                // Llamar a la función para enviar el mensaje template a WhatsApp
+            if (!empty($template_data)) {
+                $template_name = $template_data['name'];  // Nombre del template
+                $template_language = $template_data['language'];  // Idioma del template
+
                 $tipo_button = 1;
 
-                $template_name = $template_data['name'];      // Obtener el nombre
-                $template_language = $template_data['language'];  // Obtener el idioma
+                // Registrar el template y el idioma en el archivo de logs
+                file_put_contents('debug_log.txt', "Mensaje enviado a $phone_whatsapp_from con el template $template_name y el idioma $template_language\n", FILE_APPEND);
 
-                // Aquí puedes usar $template_name y $template_language
-                file_put_contents('debug_log.txt', "Template name: $template_name, Language: $template_language\n", FILE_APPEND);
+                // Llamar a la función para enviar el mensaje template a WhatsApp
             } else {
                 file_put_contents('debug_log.txt', "No se pudo obtener el nombre del template con el ID $id_whatsapp_message_template\n", FILE_APPEND);
             }
