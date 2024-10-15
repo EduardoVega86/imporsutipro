@@ -97,9 +97,9 @@ function crearElementoTienda(tienda) {
 
   const iconoDiv = document.createElement("div");
   iconoDiv.className =
-    "border-2 hover:border-blue-700 p-5 border-black text-center";
+    "border-2 hover:border-blue-700 p-3 sm:p-5 border-black text-center";
   const icono = document.createElement("i");
-  icono.className = "fas text-2xl fa-store";
+  icono.className = "fas text-xl sm:text-2xl fa-store";
   iconoDiv.appendChild(icono);
 
   const nombreSpan = document.createElement("span");
