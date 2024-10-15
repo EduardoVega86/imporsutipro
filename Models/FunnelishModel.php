@@ -133,10 +133,10 @@ class FunnelishModel extends Query
                 $contiene .= $product["name"] . " x " . $product["qty"] . " ";
 
                 $costo_flete = 0;
-                $costo_producto += $product["price"] * $product["qty"];
+                $costo_producto += $product["amount"] * $product["qty"];
                 $id_transporte = 0;
 
-                $items_total = $product["price"] * $product["qty"];
+                $items_total = $product["amount"] * $product["qty"];
                 $total += $items_total;
                 $total_units += $product["qty"];
 
@@ -144,17 +144,17 @@ class FunnelishModel extends Query
                     "id_producto_venta" => $id_producto_venta,
                     "nombre" => $product["name"],
                     "cantidad" => $product["qty"],
-                    "precio" => $product["price"],
+                    "precio" => $product["amount"],
                     "item_total_price" => $items_total,
                 ];
             } else {
                 $productosSinSkus[] = [
                     "nombre" => $product["name"],
                     "cantidad" => $product["qty"],
-                    "precio" => $product["price"],
-                    "item_total_price" => $product["price"] * $product["qty"],
+                    "precio" => $product["amount"],
+                    "item_total_price" => $product["amount"] * $product["qty"],
                 ];
-                $totalSinSkus += $product["price"] * $product["qty"];
+                $totalSinSkus += $product["amount"] * $product["qty"];
             }
         }
 
