@@ -615,6 +615,8 @@ function obtenerNombreTemplatePorID($accessToken, $waba_id, $id_whatsapp_message
 
 function enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $template_name, $mensaje = null, $conn, $id_plataforma, $id_configuracion)
 {
+    file_put_contents('debug_log.txt', "El nombre del template es: $template_name.\n", FILE_APPEND);
+
     // Paso 1: Configurar el envío del mensaje de WhatsApp usando el nombre del template
     $url = "https://graph.facebook.com/v20.0/$business_phone_id/messages";
 
