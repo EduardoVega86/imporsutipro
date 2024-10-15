@@ -278,7 +278,7 @@ class FunnelishModel extends Query
     }
     public function buscarProducto($sku)
     {
-        $sql = "SELECT id_producto FROM productos_funnel WHERE sku = ?";
+        $sql = "SELECT id_producto FROM productos_funnel WHERE id_funnel = ?";
         $response = $this->simple_select($sql, [$sku])[0];
 
         $id_producto = $response["id_producto"];
