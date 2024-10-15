@@ -144,11 +144,11 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.dias === 0) {
-                        document.querySelector('#dias').innerHTML = "¡Tu suscripción vence hoy!";
+                        document.querySelector('.dias').innerHTML = "¡Tu suscripción vence hoy!";
                         return;
                     }
                     if (data.status === 'error') {
-                        document.querySelector('#dias').innerHTML = "¡No tienes suscripción activa!";
+                        document.querySelector('.dias').innerHTML = "¡No tienes suscripción activa!";
                         return;
                     }
                     document.querySelectorAll('.dias').forEach((dias) => {
