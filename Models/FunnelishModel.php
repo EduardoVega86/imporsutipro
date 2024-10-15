@@ -40,7 +40,7 @@ class FunnelishModel extends Query
             $sql = "SELECT id_producto FROM productos_funnel WHERE id_producto = ? AND id_plataforma = ?";
             foreach ($data["products"] as $product) {
 
-
+                echo $product["id"];
                 $response = $this->simple_select($sql, [$product["id"], $id_plataforma]);
                 print_r($response);
                 if ($response > 0) {
