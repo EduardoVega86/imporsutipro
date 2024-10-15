@@ -597,10 +597,14 @@ function obtenerNombreTemplatePorID($accessToken, $waba_id, $id_whatsapp_message
     if (isset($responseArray['data'])) {
         $facebook_templates = $responseArray['data'];
 
-        // Buscar el nombre del template por el ID
+        // Buscar el nombre y el idioma del template por el ID
         foreach ($facebook_templates as $template) {
             if ($template['id'] == $id_whatsapp_message_template) {
-                return $template['name'];  // Retornar el nombre del template
+                // Retornar un array con el nombre del template y su idioma
+                return [
+                    'name' => $template['name'],
+                    'language' => $template['language']['code']  // Obtener el código de idioma del template
+                ];
             }
         }
     }
@@ -609,7 +613,7 @@ function obtenerNombreTemplatePorID($accessToken, $waba_id, $id_whatsapp_message
     return null;
 }
 
-function enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $template_name, $mensaje = null, $conn, $id_plataforma, $id_configuracion)
+function enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $template_data, $mensaje = null, $conn, $id_plataforma, $id_configuracion)
 {
     // Paso 1: Configurar el envío del mensaje de WhatsApp usando el nombre del template
     $url = "https://graph.facebook.com/v20.0/$business_phone_id/messages";
@@ -620,13 +624,13 @@ function enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_
         "to" => $phone_whatsapp_from,
         "type" => "template",
         "template" => [
-            "name" => $template_name,  // Usar el nombre del template
-            "language" => ["code" => "en_US"],  // Cambiar a 'en_US' o 'es_MX' según el idioma del template
+            "name" => $template_data['name'],  // Usar el nombre del template
+            "language" => ["code" => $template_data['language']],  // Usar el idioma del template
         ]
     ];
 
     // Solo añadimos el cuerpo (components) si el template acepta parámetros
-    if ($mensaje !== null && $template_name !== 'hello_world') {
+    if ($mensaje !== null && $template_data['name'] !== 'hello_world') {
         $data['template']['components'] = [
             [
                 "type" => "body",
@@ -653,7 +657,7 @@ function enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_
 
     // Verificar si la solicitud fue exitosa
     if ($http_code === 200) {
-        file_put_contents('debug_log.txt', "Mensaje template enviado correctamente a $phone_whatsapp_from usando el template $template_name.\n", FILE_APPEND);
+        file_put_contents('debug_log.txt', "Mensaje template enviado correctamente a $phone_whatsapp_from usando el template {$template_data['name']}.\n", FILE_APPEND);
 
         /* optener nombres y telefono config */
         $telefono_configuracion = 0;
@@ -836,8 +840,8 @@ switch ($tipo_mensaje) {
 
         // Verifica si los datos de id_whatsapp_message_template y mensaje están presentes
         if (!empty($id_whatsapp_message_template) && !empty($mensaje)) {
-            // Obtener el nombre del template usando el ID
-            $template_name = obtenerNombreTemplatePorID($accessToken, $waba_id, $id_whatsapp_message_template);
+            // Obtener el nombre del template y el idioma usando el ID
+            $template_data = obtenerNombreTemplatePorID($accessToken, $waba_id, $id_whatsapp_message_template);
 
             $tipo_button = 0;
 
@@ -907,11 +911,21 @@ $stmt->bind_param('iissssis', $id_plataforma, $id_cliente, $mid_mensaje, $tipo_m
 if ($stmt->execute()) {
     echo json_encode(["status" => "success", "message" => "Mensaje procesado correctamente."]);
 
-    /* validador para enviar mensaje tipo buttom */
+    /* Validador para enviar mensaje tipo button */
     if ($tipo_button == 1) {
-        enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $template_name, $mensaje, $conn, $id_plataforma, $id_configuracion);
+        // Asegúrate de pasar $template_data, que contiene tanto el nombre como el idioma del template
+        enviarMensajeTemplateWhatsApp(
+            $accessToken,
+            $business_phone_id,
+            $phone_whatsapp_from,
+            $template_data,    // Pasamos el array con el nombre y el idioma del template
+            $mensaje,
+            $conn,
+            $id_plataforma,
+            $id_configuracion
+        );
     }
-    /* fin validador para enviar mensaje tipo buttom */
+    /* Fin validador para enviar mensaje tipo button */
 } else {
     file_put_contents('debug_log.txt', "Error SQL: " . $stmt->error . "\n", FILE_APPEND);  // Agregar log del error
     echo json_encode(["status" => "error", "message" => "Error al procesar el mensaje: " . $stmt->error]);
