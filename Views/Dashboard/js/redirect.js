@@ -16,7 +16,7 @@ async function iniciarAplicacion() {
 
 // Verificar suscripciones del usuario
 async function verificarSuscripciones() {
-  const email = "<?php echo $_SESSION['user']; ?>";
+  const email = EMAIL;
   const response = await fetch(
     "https://herramientas.imporfactory.app/suscripciones",
     {
@@ -68,17 +68,14 @@ function obtenerIdHerramienta(sistema) {
 
 // Cargar tiendas del usuario
 async function cargarTiendas() {
-  const id_usuario = "<?php echo $_SESSION['id']; ?>";
+  const id_usuario = ID_USUARIO;
   const formData = new FormData();
   formData.append("id_usuario", id_usuario);
 
-  const response = await fetch(
-    "<?php echo SERVERURL; ?>/suscripciones/tiendas",
-    {
-      method: "POST",
-      body: formData,
-    }
-  );
+  const response = await fetch(SERVERURL + "/suscripciones/tiendas", {
+    method: "POST",
+    body: formData,
+  });
   const tiendas = await response.json();
 
   const contenedorTiendas = document.getElementById("tiendas_contenedor");
@@ -128,7 +125,7 @@ function configurarEventos() {
   });
 
   logoutBtn.addEventListener("click", () => {
-    window.location.href = "<?php echo SERVERURL; ?>acceso/logout";
+    window.location.href = SERVERURL + "acceso/logout";
   });
 
   document.addEventListener("click", () => {
@@ -144,15 +141,15 @@ function configurarEventosHerramientas() {
   const herramientas = [
     {
       id: "infoaduana",
-      url: "https://infoaduana.imporfactory.app/newlogin?token=<?php echo $_SESSION['token']; ?>",
+      url: "https://infoaduana.imporfactory.app/newlogin?token=" + TOKEN,
     },
     {
       id: "cotizador",
-      url: "https://cotizador.imporfactory.app/newlogin?token=<?php echo $_SESSION['token']; ?>",
+      url: "https://cotizador.imporfactory.app/newlogin?token=" + TOKEN,
     },
     {
       id: "cursos",
-      url: "https://cursos.imporfactory.app/newlogin?token=<?php echo $_SESSION['token']; ?>",
+      url: "https://cursos.imporfactory.app/newlogin?token=" + TOKEN,
     },
     { id: "proveedores", url: "https://proveedores.imporsuitpro.com/" },
     { id: "tienda", accion: mostrarTiendas },
