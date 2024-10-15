@@ -37,15 +37,12 @@
         </section>
 
         <!-- advertencia de suscripcion -->
-        <section class="absolute top-1 md:top-3 right-0 text-end">
-            <article class="text-white p-2 rounded-xl border border-white">
-                <span id="dias"></span>
-            </article>
+        <section class="absolute top-1 md:top-3 right-5 text-end">
 
             <!-- Imagen de perfil -->
-            <div class="relative">
+            <div class="relative inline-block">
                 <img src="https://new.imporsuitpro.com/public/img/img.png"
-                    class="profile-pic w-12 h-12 rounded-full cursor-pointer border border-white" id="profilePics"
+                    class="profile-pic w-12 h-12 rounded-full cursor-pointer border border-white" id="profilePic"
                     alt="Perfil">
 
                 <!-- Menú desplegable -->
@@ -56,6 +53,10 @@
                     </ul>
                 </div>
             </div>
+            <br>
+            <article class="text-white p-2 rounded-xl border border-white inline-block">
+                <span id="dias"></span>
+            </article>
         </section>
 
         <!-- botton whatsapp -->
