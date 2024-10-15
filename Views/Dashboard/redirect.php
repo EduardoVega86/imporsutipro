@@ -39,10 +39,15 @@
         <!-- advertencia de suscripcion -->
         <section class="absolute top-1 md:top-3 right-5 text-end">
 
+            <!-- Mensaje de advertencia (visible en móviles) -->
+            <article class="block md:hidden text-white p-2 rounded-xl border border-white inline-block mb-2">
+                <span id="dias"></span>
+            </article>
+
             <!-- Imagen de perfil -->
             <div class="relative inline-block">
                 <img src="https://new.imporsuitpro.com/public/img/img.png"
-                    class="profile-pic w-12 h-12 rounded-full cursor-pointer border border-white" id="profilePics"
+                    class="profile-pic w-12 h-12 rounded-full cursor-pointer border border-white" id="profilePic"
                     alt="Perfil">
 
                 <!-- Menú desplegable -->
@@ -53,8 +58,9 @@
                     </ul>
                 </div>
             </div>
-            <br>
-            <article class="text-white p-2 rounded-xl border border-white inline-block">
+
+            <!-- Mensaje de advertencia (visible en pantallas más grandes) -->
+            <article class="hidden md:block text-white p-2 rounded-xl border border-white inline-block">
                 <span id="dias"></span>
             </article>
         </section>
