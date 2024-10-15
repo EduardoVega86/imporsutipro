@@ -22,7 +22,7 @@ $(document).ready(function () {
             <li class="list-group-item contact-item d-flex align-items-center" data-id="${
               contacto.id_cliente
             }">
-                <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="Foto de perfil">
+                <img src="https://new.imporsuitpro.com/public/img/avatar_usuaro_chat_center.png" class="rounded-circle me-3" alt="Foto de perfil">
                 <div class="d-flex flex-column">
                     <h6 class="mb-0">${
                       contacto.nombre_cliente || "Desconocido"
