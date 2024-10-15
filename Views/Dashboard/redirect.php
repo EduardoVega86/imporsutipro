@@ -158,7 +158,7 @@
                         return;
                     }
                     document.querySelectorAll('.dias').forEach((dias) => {
-                        dias.innerHTML = `Tu suscripción vence en ${data.dias} días`;
+                        dias.innerHTML = `Tu suscripción vence en ${data.suscripciones[0].dias} días`;
                     });
                     /* barre  las suscripciones*/
                     data.suscripciones.forEach((suscripcion) => {
