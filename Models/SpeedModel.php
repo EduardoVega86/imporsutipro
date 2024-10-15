@@ -480,6 +480,9 @@ class SpeedModel extends Query
             $response['data']['c_secundaria'] = $res1[0]['c_secundaria'];
             $response['data']['c_secundaria'] = $res1[0]['c_secundaria'];
             $response['data']['id_transporte'] = $res1[0]['id_transporte'];
+            $response['data']['contiene'] = $res1[0]['contiene'];
+            $response['data']['monto_factura'] = $res1[0]['monto_factura'];
+            $response['data']['ciudad_cot'] = $res1[0]['ciudad_cot'];
         } else {
             $response = $this->initialResponse();
             $response['status'] = 500;
@@ -500,6 +503,12 @@ class SpeedModel extends Query
         $calle_secundaria = $configuracion['c_secundaria'];
         $id_transporte = $configuracion['id_transporte'];
         $estado_guia_automatizador = 0;
+        $contenido_factura = $configuracion['contiene'];
+        $costo = $configuracion['monto_factura'];
+
+        /* consultar ciudad por medio id_cotizacion */
+        $nombre_ciudad = $this->select("SELECT ciudad FROM ciudad_cotizacion WHERE id_cotizacion = " . $configuracion['ciudad_cot'] . "");
+        $nombre_ciudad = $nombre_ciudad[0]['ciudad'];
 
         if ($id_transporte == 1 || $id_transporte == 4) {
             if ($estado_guia == 7) {
@@ -557,6 +566,9 @@ class SpeedModel extends Query
                                         "direccion" => $calle_principal . " y " . $calle_secundaria,
                                         "email" => "",
                                         "celular" => $telefono,
+                                        "contenido" => $contenido_factura,
+                                        "costo" => $costo,
+                                        "ciudad" => $nombre_ciudad,
                                         "productos" => [""],
                                         "categorias" => [""],
                                         "status" => ["0"],
@@ -568,7 +580,10 @@ class SpeedModel extends Query
                                             "direccion" => $calle_principal . " y " . $calle_secundaria,
                                             "email" => "",
                                             "celular" => $telefono,
-                                            "order_id" => $numero_factura
+                                            "order_id" => $numero_factura,
+                                            "contenido" => $contenido_factura,
+                                            "costo" => $costo,
+                                            "ciudad" => $nombre_ciudad,
                                         ]
                                     ];
                                     // Llamamos a la función para enviar los datos a la API usando cURL
