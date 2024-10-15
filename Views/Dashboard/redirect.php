@@ -112,31 +112,31 @@
             class="gap-y-14 sm:gap-11 grid grid-cols-3 px-10 sm:grid-cols-4 md:grid-cols-5 gap-5 text-center items-center">
             <!-- Artículos dinámicos de las herramientas -->
             <!-- Ejemplo de artículo -->
-            <article id="infoaduana" class="herramienta">
+            <article id="infoaduana" class="herramienta grayscale">
                 <span class="hover:cursor-pointer text-white mb-5">Infoaduana</span>
                 <img
                     src="https://tiendas.imporsuitpro.com/imgs/herramientas/infoaduana.png"
                     alt="Infoaduana" />
             </article>
-            <article id="cotizador" class="herramienta">
+            <article id="cotizador" class="herramienta grayscale">
                 <span class="hover:cursor-pointer text-white mb-5">Cotizador</span>
                 <img
                     src="https://tiendas.imporsuitpro.com/imgs/herramientas/cotizador.png"
                     alt="Cotizador" />
             </article>
-            <article id="cursos" class="herramienta">
+            <article id="cursos" class="herramienta grayscale">
                 <span class="hover:cursor-pointer text-white mb-5">cursos</span>
                 <img
                     src="https://tiendas.imporsuitpro.com/imgs/herramientas/cursos.jpeg"
                     alt="cursos" />
             </article>
-            <article id="proveedores" class="herramienta">
+            <article id="proveedores" class="herramienta grayscale">
                 <span class="hover:cursor-pointer text-white mb-5">proveedores</span>
                 <img
                     src="https://tiendas.imporsuitpro.com/imgs/herramientas/proveedores.png"
                     alt="proveedores" />
             </article>
-            <article id="sistema" class="herramienta">
+            <article id="sistema" class="herramienta grayscale">
                 <span class="hover:cursor-pointer text-white mb-5">Tienda</span>
                 <img
                     src="https://tiendas.imporsuitpro.com/imgs/herramientas/sistema.png"
