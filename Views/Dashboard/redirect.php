@@ -40,7 +40,7 @@
         <section class="absolute top-1 md:top-3 right-5 text-end">
 
             <!-- Mensaje de advertencia (visible en móviles) -->
-            <article class="block md:hidden text-white p-2 rounded-xl border border-white inline-block mb-2">
+            <article class="block md:hidden text-white p-2 rounded-xl border border-white inline-block sm:mb-2">
                 <span id="dias"></span>
             </article>
 
