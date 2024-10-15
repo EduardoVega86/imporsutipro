@@ -23,7 +23,7 @@ $(document).ready(function () {
               contacto.id_cliente
             }">
                 <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="Foto de perfil">
-                <div>
+                <div class="d-flex flex-column">
                     <h6 class="mb-0">${
                       contacto.nombre_cliente || "Desconocido"
                     } ${contacto.apellido_cliente || ""} ${color_etiqueta}</h6>
@@ -69,6 +69,9 @@ $(document).ready(function () {
       success: function (response) {
         $("#nombre_chat").text(
           response[0].nombre_cliente + " " + response[0].apellido_cliente
+        );
+        $("#telefono_chat").text(
+          "+"+response[0].celular_cliente
         );
 
         $("#id_cliente_chat").val(response[0].id);
