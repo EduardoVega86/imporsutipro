@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Imporsuit</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
         integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
@@ -37,17 +37,33 @@
         </section>
 
         <!-- advertencia de suscripcion -->
-        <section class="absolute top-1 md:top-3 right-0">
-            <article class="text-white p-2 rounded-xl border border-white">
-                <span id="dias"></span>
+        <section class="absolute top-1 md:top-3 right-5 flex flex-row items-center gap-2 text-end">
+
+            <!-- Mensaje de advertencia (visible en móviles y PC) -->
+            <article class="text-white p-2 rounded-xl border border-white inline-block">
+                <span class="dias"></span>
             </article>
+
+            <!-- Imagen de perfil -->
+            <div class="relative inline-block">
+                <img src="https://new.imporsuitpro.com/public/img/img.png"
+                    class="profile-pic w-12 h-12 rounded-full cursor-pointer border border-white" id="profilePic"
+                    alt="Perfil">
+
+                <!-- Menú desplegable -->
+                <div id="menuDropdown"
+                    class="hidden absolute right-0 mt-2 w-48 bg-white text-black rounded-lg shadow-lg z-10">
+                    <ul class="py-2">
+                        <li class="px-4 py-2 hover:bg-gray-200 cursor-pointer" id="logoutBtn">Cerrar sesión</li>
+                    </ul>
+                </div>
+            </div>
         </section>
 
         <!-- botton whatsapp -->
         <section class="absolute bottom-5 md:bottom-5 right-4">
             <article class="text-white">
                 <a href="https://wa.link/vyghso">
-
                     <i
                         class="fab fa-whatsapp text-5xl hover:cursor-pointer hover:scale-125 duration-200 hover:text-green-500"></i>
                 </a>
@@ -58,7 +74,7 @@
         <section class=" w-full max-w-4xl">
             <article class="relative overflow-hidden">
                 <div id="imagenes_slider" class="flex w-[400%] duration-300">
-
+                    <!-- Aquí las imágenes del slider -->
                 </div>
                 <button id="anterior"
                     class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">
@@ -135,7 +151,9 @@
                         document.querySelector('#dias').innerHTML = "¡No tienes suscripción activa!";
                         return;
                     }
-                    document.querySelector('#dias').innerHTML = "¡Tu suscripción vence en " + data.suscripciones[0].dias + " días!";
+                    document.querySelectorAll('.dias').forEach((dias) => {
+                        dias.innerHTML = `Tu suscripción vence en ${data.suscripciones[0].dias} días`;
+                    });
                     /* barre  las suscripciones*/
                     data.suscripciones.forEach((suscripcion) => {
                         if (suscripcion.sistema === 'Infoaduana' && suscripcion.dias > 0) {
@@ -158,6 +176,31 @@
     </script>
 
     <script>
+        // Capturar elementos del DOM
+        const profilePic = document.getElementById('profilePic');
+        const menuDropdown = document.getElementById('menuDropdown');
+
+        // Función para alternar la visibilidad del menú
+        profilePic.addEventListener('click', () => {
+            if (menuDropdown.classList.contains('hidden')) {
+                menuDropdown.classList.remove('hidden');
+            } else {
+                menuDropdown.classList.add('hidden');
+            }
+        });
+
+        // Función para cerrar sesión
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            window.location.href = '<?php echo SERVERURL; ?>acceso/logout';
+        });
+
+        // Si se hace clic fuera del menú, se cierra
+        document.addEventListener('click', (event) => {
+            if (!profilePic.contains(event.target) && !menuDropdown.contains(event.target)) {
+                menuDropdown.classList.add('hidden');
+            }
+        });
+
         //estado inicial slider global
         let sliderGlobal = 0;
 
@@ -239,7 +282,7 @@
                 return;
             }
 
-            window.location.href = 'https://infoaduana.imporfactory.app/admin/redirect?token=<?php echo $_SESSION['token'] ?>';
+            window.location.href = 'https://infoaduana.imporfactory.app/newlogin?token=<?php echo $_SESSION['token'] ?>';
         });
 
         //evento para redireccionar a la pagina de cotizador
@@ -253,7 +296,7 @@
                 })
                 return;
             }
-            window.location.href = 'https://cotizador.imporfactory.app/admin/redirect?token=<?php echo $_SESSION['token'] ?>';
+            window.location.href = 'https://cotizador.imporfactory.app/newlogin?token=<?php echo $_SESSION['token'] ?>';
         });
 
         //evento para redireccionar a la pagina de cursos
@@ -267,7 +310,7 @@
                 })
                 return;
             }
-            window.location.href = 'https://cursos.imporfactory.app/admin/redirect?token=<?php echo $_SESSION['token'] ?>';
+            window.location.href = 'https://cursos.imporfactory.app/newlogin?token=<?php echo $_SESSION['token'] ?>';
         });
 
         //evento para redireccionar a la pagina de tienda
