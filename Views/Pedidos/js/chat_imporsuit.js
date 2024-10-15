@@ -70,6 +70,9 @@ $(document).ready(function () {
         $("#nombre_chat").text(
           response[0].nombre_cliente + " " + response[0].apellido_cliente
         );
+        $("#telefono_chat").text(
+          "+"+response[0].celular_cliente
+        );
 
         $("#id_cliente_chat").val(response[0].id);
         $("#celular_chat").val(response[0].celular_cliente);
