@@ -37,7 +37,7 @@
         </section>
 
         <!-- Tiendas -->
-        <section id="tiendas" class="hidden bg-black/40 w-full min-h-screen fixed top-0 right-0 ">
+        <section id="tiendas" class="hidden bg-black/40 w-full z-10 min-h-screen fixed top-0 right-0 ">
             <article
                 class="bg-white rounded-md shadow absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 px-5 py-3">
                 <h3 class="text-center text-xl mt-3 mb-5">
@@ -196,6 +196,31 @@
                             document.querySelector('#proveedores').classList.remove('grayscale');
                         }
 
+                    });
+                })
+                .catch(error => console.error('Error en la petición:', error));
+
+
+
+            let id_usuario = "<?php echo $_SESSION['id'] ?>";
+            const frm = new FormData();
+            frm.append("id_usuario", id_usuario);
+            await fetch("https://new.imporsuitpro.com/suscripcion/tiendas", {
+                    method: 'POST',
+                    body: frm
+                }).then(response => response.json())
+                .then(data => {
+                    document.querySelector('#tiendas').innerHTML = "";
+                    data.forEach((tienda) => {
+                        document.querySelector('#tiendas').innerHTML += `<div id="tienda${tienda.id_plataforma}" class="grid grid-cols-2 gap-5 items-center hover:scale-110  hover:text-blue-700">
+                                <div class="border-2 hover:border-blue-700 p-5 border-black  text-center">
+                                    <i class="fas text-2xl fa-store"></i>
+                                </div>
+                                <span class="text-center">${tienda.nombre_tienda}</span>
+                            </div>`;
+                        document.querySelector(`#tienda${tienda.id_plataforma}`).addEventListener('click', () => {
+                            window.location.href = `https://tiendas.imporsuitpro.com/tienda/${tienda.id_plataforma}`;
+                        });
                     });
                 })
                 .catch(error => console.error('Error en la petición:', error));
