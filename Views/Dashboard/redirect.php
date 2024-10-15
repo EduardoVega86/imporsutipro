@@ -118,6 +118,30 @@
                     src="https://tiendas.imporsuitpro.com/imgs/herramientas/infoaduana.png"
                     alt="Infoaduana" />
             </article>
+            <article id="cotizador" class="herramienta">
+                <span class="hover:cursor-pointer text-white mb-5">Cotizador</span>
+                <img
+                    src="https://tiendas.imporsuitpro.com/imgs/herramientas/cotizador.png"
+                    alt="Cotizador" />
+            </article>
+            <article id="cursos" class="herramienta">
+                <span class="hover:cursor-pointer text-white mb-5">cursos</span>
+                <img
+                    src="https://tiendas.imporsuitpro.com/imgs/herramientas/cursos.png"
+                    alt="cursos" />
+            </article>
+            <article id="proveedores" class="herramienta">
+                <span class="hover:cursor-pointer text-white mb-5">proveedores</span>
+                <img
+                    src="https://tiendas.imporsuitpro.com/imgs/herramientas/proveedores.png"
+                    alt="proveedores" />
+            </article>
+            <article id="sistema" class="herramienta">
+                <span class="hover:cursor-pointer text-white mb-5">Tienda</span>
+                <img
+                    src="https://tiendas.imporsuitpro.com/imgs/herramientas/sistema.png"
+                    alt="sistema" />
+            </article>
             <!-- Repetir para otras herramientas -->
         </section>
     </main>
