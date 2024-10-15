@@ -726,7 +726,7 @@ class TiendaModel extends Query
                             /* tomar nombre productos */
                             $nombre_producto = $this->select("SELECT nombre_producto FROM productos WHERE id_producto = '" . $tmp_session['id_producto'] . "'");
                             $nombre_producto = $nombre_producto[0]['nombre_producto'];
-                            $contenido_factura .= $nombre_producto . " X " . $tmp_session['cantidad'] . ", ";
+                            $contenido_factura .= $nombre_producto . " X 1, ";
 
                             /* print_r($guardar_detalle); */
                         }
@@ -771,7 +771,7 @@ class TiendaModel extends Query
                         /* tomar nombre productos */
                         $nombre_producto = $this->select("SELECT nombre_producto FROM productos WHERE id_producto = '" . $tmp_session['id_producto'] . "'");
                         $nombre_producto = $nombre_producto[0]['nombre_producto'];
-                        $contenido_factura .= $nombre_producto . " X " . $tmp_session['cantidad'] . ", ";
+                        $contenido_factura .= $nombre_producto . " X " . $tmp_session['cantidad_tmp'] . ", ";
                     }
 
                     if ($oferta_selected == 1) {
@@ -806,7 +806,7 @@ class TiendaModel extends Query
                                 /* tomar nombre productos */
                                 $nombre_producto = $this->select("SELECT nombre_producto FROM productos WHERE id_producto = '" . $tmp_session['id_producto'] . "'");
                                 $nombre_producto = $nombre_producto[0]['nombre_producto'];
-                                $contenido_factura .= $nombre_producto . " X " . $tmp_session['cantidad'] . ", ";
+                                $contenido_factura .= $nombre_producto . " X 1, ";
 
                                 /* print_r($guardar_detalle); */
                             }
