@@ -41,7 +41,7 @@
 
             <!-- Mensaje de advertencia (visible en móviles) -->
             <article class="block md:hidden text-white p-2 rounded-xl border border-white inline-block sm:mb-2">
-                <span id="dias"></span>
+                <span class="dias"></span>
             </article>
 
             <!-- Imagen de perfil -->
@@ -61,7 +61,7 @@
 
             <!-- Mensaje de advertencia (visible en pantallas más grandes) -->
             <article class="hidden sm:block text-white p-2 rounded-xl border border-white inline-block">
-                <span id="dias"></span>
+                <span class="dias"></span>
             </article>
         </section>
 
@@ -157,7 +157,9 @@
                         document.querySelector('#dias').innerHTML = "¡No tienes suscripción activa!";
                         return;
                     }
-                    document.querySelector('#dias').innerHTML = "¡Tu suscripción vence en " + data.suscripciones[0].dias + " días!";
+                    document.querySelectorAll('.dias').forEach((dias) => {
+                        dias.innerHTML = `Tu suscripción vence en ${data.dias} días`;
+                    });
                     /* barre  las suscripciones*/
                     data.suscripciones.forEach((suscripcion) => {
                         if (suscripcion.sistema === 'Infoaduana' && suscripcion.dias > 0) {
