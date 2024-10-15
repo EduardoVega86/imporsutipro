@@ -136,7 +136,7 @@
                     src="https://tiendas.imporsuitpro.com/imgs/herramientas/proveedores.png"
                     alt="proveedores" />
             </article>
-            <article id="sistema" class="herramienta grayscale">
+            <article id="sistema" class="herramienta">
                 <span class="hover:cursor-pointer text-white mb-5">Tienda</span>
                 <img
                     src="https://tiendas.imporsuitpro.com/imgs/herramientas/sistema.png"
