@@ -90,9 +90,13 @@ class FunnelishModel extends Query
         $ciudad = $json["shipping_city"];
 
         $provincia = $this->obtenerProvincia($provincia);
+        $provincia = $provincia[0]["provincia"];
         $ciudad = $this->obtenerCiudad($ciudad);
-
-        echo json_encode($provincia);
+        if (!empty($ciudad)) {
+            $ciudad = $ciudad[0]['id_cotizacion'];
+        } else {
+            $ciudad = 0;
+        }
 
         $referencia = " ";
         $observaciones = "Ciudad: " . $json["shipping_city"] . " Provincia: " . $json["shipping_state"];
