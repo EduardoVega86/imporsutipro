@@ -917,7 +917,7 @@ if ($stmt->execute()) {
             $accessToken,
             $business_phone_id,
             $phone_whatsapp_from,
-            $template_data,  // Ahora pasamos el array con nombre y el idioma
+            $template_data,  // Pasamos el array que contiene tanto el nombre como el idioma
             $mensaje,
             $conn,
             $id_plataforma,
