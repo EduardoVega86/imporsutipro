@@ -115,7 +115,7 @@
     </main>
 
     <!-- Scripts -->
-    <script src="js/redirect.js"></script>
+    <script src="<?php echo SERVERURL ?>Views/Dashboard/js/redirect.js"></script>
 </body>
 
 </html>
