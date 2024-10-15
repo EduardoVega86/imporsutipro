@@ -22,7 +22,7 @@ class FunnelishModel extends Query
 
     public function existenciaPlataforma($id_plataforma)
     {
-        $sql = "SELECT id_plataforma FROM configuracion_shopify WHERE id_plataforma = ?";
+        $sql = "SELECT id_plataforma FROM productos_funnel WHERE id_plataforma = ?";
         $response = $this->simple_select($sql, [$id_plataforma]);
         if ($response > 0) {
             return true;
