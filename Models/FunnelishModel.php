@@ -279,11 +279,11 @@ class FunnelishModel extends Query
     public function buscarProducto($sku)
     {
         $sql = "SELECT id_producto FROM productos_funnel WHERE id_funnel = ?";
-        $response = $this->simple_select($sql, [$sku]);
+        $response = $this->dselect($sql, [$sku]);
 
         $id_producto = $response[0]["id_producto"];
         $sql = "SELECT * FROM productos WHERE id_producto = ?";
-        $response = $this->select($sql, [$id_producto]);
+        $response = $this->dselect($sql, [$id_producto]);
 
         return $response[0];
     }
