@@ -170,6 +170,10 @@ class FunnelishModel extends Query
             $total_venta += $producto["item_total_price"];
         }
 
+        foreach ($productosSinSkus as $producto) {
+            $total_venta += $producto["item_total_price"];
+        }
+
         $comentario = "Orden generada por Funnelish, numero de orden: " . $json["id"];
 
         $contiene = trim($contiene);
