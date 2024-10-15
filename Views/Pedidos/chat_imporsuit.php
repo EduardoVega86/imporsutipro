@@ -20,7 +20,7 @@
         <div class="col-6 p-0 chat-content full-width">
             <div class="chat-header">
                 <div class="d-flex align-items-center">
-                    <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="Foto de perfil">
+                    <img src="https://new.imporsuitpro.com/public/img/avatar_usuaro_chat_center.png" class="rounded-circle me-3" alt="Foto de perfil">
                     <div class="d-flex flex-column">
                         <h5 class="mb-0"><span id="nombre_chat"></span></h5>
                         <h6 class="mb-0"><span id="telefono_chat"></span></h6>
