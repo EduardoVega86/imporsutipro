@@ -36,6 +36,33 @@
             </article>
         </section>
 
+        <!-- Tiendas -->
+        <section id="tiendas" class="hidden bg-black/40 w-full min-h-screen fixed top-0 right-0 ">
+            <article
+                class="bg-white rounded-md shadow absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 px-5 py-3">
+                <h3 class="text-center text-xl mt-3 mb-5">
+                    Selecciona tu tienda
+                </h3>
+
+                <div class="grid  gap-5 items-center">
+                    <div id="tienda1" class="grid grid-cols-2 gap-5 items-center hover:scale-110  hover:text-blue-700">
+
+                        <div class="border-2 hover:border-blue-700 p-5 border-black  text-center">
+                            <i class="fas text-2xl fa-store"></i>
+                        </div>
+                        <span class="text-center">Tienda 1</span>
+                    </div>
+                    <div id="nueva" class="grid grid-cols-2 gap-5 items-center  hover:scale-110  hover:text-blue-700">
+
+                        <div class=" border-2 hover:border-blue-700 p-5 border-black border-dashed text-center">
+                            <i class="fas text-2xl fa-plus"></i>
+                        </div>
+                        <span class="text-center">Crear tienda</span>
+                    </div>
+                </div>
+
+            </article>
+        </section>
         <!-- advertencia de suscripcion -->
         <section class="absolute top-1 md:top-3 right-5 flex flex-row items-center gap-2 text-end">
 
@@ -324,7 +351,7 @@
                 })
                 return;
             }
-            window.location.href = 'https://new.imporsuitpro.com/dashboard';
+            document.querySelector('#tiendas').classList.remove('hidden');
         });
 
         //evento para redireccionar a la pagina de proveedores
