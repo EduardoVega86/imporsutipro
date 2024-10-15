@@ -600,7 +600,11 @@ function obtenerNombreTemplatePorID($accessToken, $waba_id, $id_whatsapp_message
         // Buscar el nombre del template por el ID
         foreach ($facebook_templates as $template) {
             if ($template['id'] == $id_whatsapp_message_template) {
-                return $template['name'];  // Retornar el nombre del template
+                // Retornar un array con el nombre y el código de idioma del template
+                return [
+                    'name' => $template['name'],
+                    'language' => $template['language']['code']
+                ];
             }
         }
     }
@@ -837,15 +841,19 @@ switch ($tipo_mensaje) {
         // Verifica si los datos de id_whatsapp_message_template y mensaje están presentes
         if (!empty($id_whatsapp_message_template) && !empty($mensaje)) {
             // Obtener el nombre del template usando el ID
-            $template_name = obtenerNombreTemplatePorID($accessToken, $waba_id, $id_whatsapp_message_template);
+            $template_data = obtenerNombreTemplatePorID($accessToken, $waba_id, $id_whatsapp_message_template);
 
             $tipo_button = 0;
 
-            if (!empty($template_name)) {
+            if ($template_data !== null) {
                 // Llamar a la función para enviar el mensaje template a WhatsApp
                 $tipo_button = 1;
 
-                file_put_contents('debug_log.txt', "Mensaje enviado a $phone_whatsapp_from con el template $template_name\n", FILE_APPEND);
+                $template_name = $template_data['name'];      // Obtener el nombre
+                $template_language = $template_data['language'];  // Obtener el idioma
+
+                // Aquí puedes usar $template_name y $template_language
+                file_put_contents('debug_log.txt', "Template name: $template_name, Language: $template_language\n", FILE_APPEND);
             } else {
                 file_put_contents('debug_log.txt', "No se pudo obtener el nombre del template con el ID $id_whatsapp_message_template\n", FILE_APPEND);
             }
