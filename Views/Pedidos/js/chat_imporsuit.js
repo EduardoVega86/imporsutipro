@@ -115,43 +115,6 @@ $(document).ready(function () {
     });
   }
 
-  function cargar_pedidos(celular_cliente) {
-    let formData = new FormData();
-    formData.append("telefono", celular_cliente);
-    $.ajax({
-      url: SERVERURL + "pedidos/obtenerPedidosPorTelefono",
-      type: "POST",
-      data: formData,
-      processData: false, // No procesar los datos
-      contentType: false, // No establecer ningún tipo de contenido
-      dataType: "json",
-      success: function (response_historial) {
-        let tableBody = "";
-
-        // Recorremos cada pedido del historial
-        $.each(response_historial, function (index, historial) {
-          tableBody += `
-                      <tr>
-                          <td>${historial.numero_factura}</td>
-                          <td>${historial.nombre}</td>
-                          <td>
-                              <button class="btn btn-primary btn-sm" onclick="verDetallesPedido(${historial.id_factura})">
-                                  Ver detalles
-                              </button>
-                          </td>
-                      </tr>
-                  `;
-        });
-
-        // Inyectamos el HTML generado en el cuerpo de la tabla
-        $("#historialPedidosBody").html(tableBody);
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-        alert("Error al obtener el historial: " + errorThrown);
-      },
-    });
-  }
-
   function formato_telefono(telefono) {
     if (telefono.includes("+")) {
       return telefono;
@@ -1534,8 +1497,8 @@ document.getElementById("closeMenu").addEventListener("click", function () {
   document.getElementById("detailsMenu").style.right = "-500px !important";
   $("#detailsMenu").hide();
 
-  cargar_pedidos($('#celular_chat').val());
-  
+  cargar_pedidos($("#celular_chat").val());
+
   document.getElementById("infoMenu").classList.remove("hidden");
 
   $("#id_pedido").remove();
@@ -1667,8 +1630,8 @@ function cancelarPedido() {
               confirmButtonText: "Aceptar",
             });
             // Close the menu
-            cargar_pedidos($('#celular_chat').val());
-            
+            cargar_pedidos($("#celular_chat").val());
+
             document.getElementById("detailsMenu").style.right = "-500px";
             $("#detailsMenu").hide();
             document.getElementById("infoMenu").classList.remove("hidden");
@@ -1685,6 +1648,43 @@ function cancelarPedido() {
           }
         });
     }
+  });
+}
+
+function cargar_pedidos(celular_cliente) {
+  let formData = new FormData();
+  formData.append("telefono", celular_cliente);
+  $.ajax({
+    url: SERVERURL + "pedidos/obtenerPedidosPorTelefono",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    dataType: "json",
+    success: function (response_historial) {
+      let tableBody = "";
+
+      // Recorremos cada pedido del historial
+      $.each(response_historial, function (index, historial) {
+        tableBody += `
+                    <tr>
+                        <td>${historial.numero_factura}</td>
+                        <td>${historial.nombre}</td>
+                        <td>
+                            <button class="btn btn-primary btn-sm" onclick="verDetallesPedido(${historial.id_factura})">
+                                Ver detalles
+                            </button>
+                        </td>
+                    </tr>
+                `;
+      });
+
+      // Inyectamos el HTML generado en el cuerpo de la tabla
+      $("#historialPedidosBody").html(tableBody);
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert("Error al obtener el historial: " + errorThrown);
+    },
   });
 }
 
