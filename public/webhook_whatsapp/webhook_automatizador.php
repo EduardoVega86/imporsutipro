@@ -329,6 +329,7 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
     $check_client_stmt->store_result();
 
     if ($check_client_stmt->num_rows == 0) {
+        echo ("Entro en la condicion de no existe cliente");
         // El cliente no existe, creamos uno nuevo
         $insert_client_stmt = $conn->prepare("
         INSERT INTO clientes_chat_center (id_plataforma, uid_cliente, nombre_cliente, celular_cliente, created_at, updated_at) 
@@ -337,6 +338,8 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
         $insert_client_stmt->bind_param('isss', $id_plataforma, $uid_cliente, $user_info['nombre'], $uid_whatsapp);
         $insert_client_stmt->execute();
         $id_cliente = $insert_client_stmt->insert_id;  // Obtener el ID autoincrementado del cliente recién creado
+
+        print_r($insert_client_stmt);
 
         $insert_client_stmt->close();
     } else {
