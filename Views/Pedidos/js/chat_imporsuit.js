@@ -1183,6 +1183,7 @@ async function llenarProductos(arregloProductos) {
   contiene = ""; // Reset 'contiene'
   arregloProductos.forEach((producto) => {
     contiene += `${producto.cantidad} x ${producto.nombre_producto} `;
+    contieneGintracom += `${producto.nombre_producto} x ${producto.cantidad} `;
     total += producto.precio_venta * producto.cantidad;
     const tr = document.createElement("tr");
     tr.classList.add("align-middle");
