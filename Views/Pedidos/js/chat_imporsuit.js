@@ -767,9 +767,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const messageInput = document.getElementById("message-input");
 
   // WhatsApp API credentials
-  const fromPhoneNumberId = "109565362009074";
-  const accessToken =
-    "EAAVZAG5oL9G4BOZCAZBOKr5MXUIoVZBi7txtqZCncfz3DWg8W7p8bVS0usQyl9i73IAAIZCzLB9vlhymWtRstgDGZCZBqCre6XTayQ0HWxIUjjNsUZC0x2k7TI3LOMXbLEC26CDyzn3NDeQHWBnjgzDYrcJbuqpoOjBpVnxaf1kYPsD8xdGcPpaUnAVfVJ26D980U";
+  const fromPhoneNumberId = $('#id_whatsapp').val();
+  const accessToken = $('#token_configruacion').val();
+  
   /* const phoneNumber = "+593981702066"; */
   const url = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
 
