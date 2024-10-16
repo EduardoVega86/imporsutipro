@@ -264,6 +264,40 @@
         /* Quitar el contorno feo por defecto */
     }
 
+    /* fin emoji */
+
+    /* menu de añadir documetos */
+    .floating-menu {
+        position: absolute;
+        top: -80px;
+        /* Ajusta según la posición deseada */
+        right: 0;
+        width: 180px;
+        background-color: #2c2c2c;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1050;
+        /* Asegura que esté sobre otros elementos */
+    }
+
+    .floating-menu ul {
+        margin: 0;
+        padding: 8px 0;
+    }
+
+    .floating-menu .list-group-item {
+        background: none;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+    .floating-menu .list-group-item:hover {
+        background-color: #383838;
+    }
+
+    /* Fin menu de añadir documetos */
+
     /* Input del mensaje con bordes redondeados para armonizar */
     #message-input {
         border-radius: 20px;
