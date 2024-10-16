@@ -360,13 +360,16 @@ function cargarInfoTienda_inicial() {
 
         // Agrega la clase 'selected' a la plantilla correcta
         $(".plantilla[data-template='template1']").addClass("selected");
+        
+        $("#seccion_paralax_plantilla3").hide();
+        
       } else if (response[0].plantilla == 2) {
         cargar_ofertas_plantilla2();
         $("#colores_plantilla2").show();
         $("#seccion_oferta_plantilla2").show();
         $("#seccion_promocion_plantilla2").show();
         $("#colores_plantilla1").hide();
-
+$("#seccion_paralax_plantilla3").hide();
         // Actualiza los valores de los inputs hidden
         $("#plantilla_selected").val("template2");
 
@@ -378,9 +381,11 @@ function cargarInfoTienda_inicial() {
       } else if (response[0].plantilla == 3) {
         // Actualiza los valores de los inputs hidden
         $("#plantilla_selected").val("template3");
-
+$("#seccion_promocion_plantilla2").hide();
         // Remueve la clase 'selected' de todas las plantillas
         $(".plantilla").removeClass("selected");
+
+$("#seccion_paralax_plantilla3").show();
 
         // Agrega la clase 'selected' a la plantilla correcta
         $(".plantilla[data-template='template3']").addClass("selected");
@@ -459,6 +464,38 @@ function cambiarcolor_oferta_plantilla2(campo, valor) {
   $.ajax({
     type: "POST",
     url: "" + SERVERURL + "Usuarios/cambiarcolor_oferta_plantilla2",
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function (response2) {
+      response2 = JSON.parse(response2);
+
+      if (response2.status == 500) {
+        toastr.error("EL COLOR NO SE CAMBIO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response2.status == 200) {
+        toastr.success("COLOR CAMBIADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al agregar el producto temporalmente");
+    },
+  });
+}
+
+
+function cambiarcolor_parallax_plantilla3(campo, valor) {
+  const formData = new FormData();
+  formData.append("campo", campo);
+  formData.append("valor", valor);
+
+  $.ajax({
+    type: "POST",
+    url: "" + SERVERURL + "Usuarios/cambiarcolor_parallax_plantilla3",
     data: formData,
     processData: false,
     contentType: false,

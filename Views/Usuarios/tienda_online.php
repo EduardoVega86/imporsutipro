@@ -270,6 +270,121 @@
                 </div>
             </div>
         </div>
+        
+        <!-- seccion paralax plantilla 3 -->
+        <div class="accordion-item" id="seccion_paralax_plantilla3" style="display: none;">
+            <h2 class="accordion-header" id="headingOferta_plantilla2">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOferta_plantilla2" aria-expanded="false" aria-controls="collapseOferta_plantilla2">
+                   SECCIÓN PARALLAX
+                </button>
+            </h2>
+            <div id="collapseOferta_plantilla2" class="accordion-collapse collapse" aria-labelledby="headingOferta_plantilla2" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <button class="btn btn-success" onclick="guardar_ofertas_plantilla2()"></i>Guardar cambios</button>
+                    <div class="oferta gap-5" style="justify-content: center;">
+                        <div class="d-flex flex-column">
+                            <h3 style="text-align: center;"><strong> SECCION PARALLAX HORIZONTAL</strong></h3>
+                            <div class="mb-3">
+                                <label for="titulo_parallax" class="form-label">Título</label>
+                                <input type="text" class="form-control" id="titulo_parallax" placeholder="Ingrese el titulo">
+                            </div>
+                            <div class="mb-3">
+                                <label for="oferta1" class="form-label">Subtítulo</label>
+                                <input type="text" class="form-control" id="subtitulo_parallax" placeholder="Ingrese subtitulo">
+                            </div>
+                            <div class="mb-3">
+                                <label for="descripcion_oferta1" class="form-label">Texto Parallax</label>
+                                <input type="text" class="form-control" id="texto_parallax" placeholder="Ingrese texto">
+                            </div>
+                            <div class="mb-3">
+                                <label for="textoBtn_oferta1" class="form-label">Texto boton oferta 1</label>
+                                <input type="text" class="form-control" id="textoBtn_oferta1" placeholder="Ingrese el texto del boton oferta 1">
+                            </div>
+                            <div class="mb-3">
+                                <label for="enlace_oferta1" class="form-label">Enlace oferta 1</label>
+                                <input type="text" class="form-control" id="enlace_oferta1" placeholder="Ingrese el enlace oferta 1">
+                            </div>
+                            <div class="oferta1_color gap-3">
+                                <div class="input-box d-flex flex-column">
+                                    <input onchange="cambiarcolor_oferta_plantilla2('color_texto_oferta1',this.value)" id="color_texto_oferta1" name="color_texto_oferta1" type="color" value="#ffffff">
+                                    <h7 style="text-align: center;"><strong>Color texto oferta 1</strong></h7>
+                                </div>
+                                <div class="input-box d-flex flex-column">
+                                    <input onchange="cambiarcolor_oferta_plantilla2('color_btn_oferta1',this.value)" id="color_btn_oferta1" name="color_btn_oferta1" type="color" value="#ffffff">
+                                    <h7 style="text-align: center;"><strong>Color boton oferta 1</strong></h7>
+                                </div>
+                                <div class="input-box d-flex flex-column">
+                                    <input onchange="cambiarcolor_oferta_plantilla2('color_textoBtn_oferta1',this.value)" id="color_textoBtn_oferta1" name="color_textoBtn_oferta1" type="color" value="#ffffff">
+                                    <h7 style="text-align: center;"><strong>Color texto boton oferta 1</strong></h7>
+                                </div>
+                                <div class="d-flex flex-column">
+                                    <h5 class="card-title">Imagen oferta 1</h5>
+                                    <div class="alert alert-warning" role="alert">
+                                        <strong>Atención:</strong> las dimensines de la imagen deben ser 893x468 y en formato .png, .jpg, .jpeg
+                                    </div>
+                                    <form id="imageFormOferta1" enctype="multipart/form-data">
+                                        <div class="mb-3">
+                                            <input type="file" class="form-control" id="imageInputOferta1" accept="image/*" name="imagen">
+                                        </div>
+                                        <img id="imagen_oferta1" class="image-preview mb-3" src="" alt="Preview" width="30%">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="vertical-hr">
+                        <div class="d-flex flex-column">
+                            <h3 style="text-align: center;"><strong> OFERTA 2</strong></h3>
+                            <div class="mb-3">
+                                <label for="titulo_oferta2" class="form-label">Titulo oferta 2</label>
+                                <input type="text" class="form-control" id="titulo_oferta2" placeholder="Ingrese el titulo de la oferta 2">
+                            </div>
+                            <div class="mb-3">
+                                <label for="oferta2" class="form-label">Oferta 2</label>
+                                <input type="text" class="form-control" id="oferta2" placeholder="Ingrese el oferta 2">
+                            </div>
+                            <div class="mb-3">
+                                <label for="descripcion_oferta2" class="form-label">Descripción oferta 2</label>
+                                <input type="text" class="form-control" id="descripcion_oferta2" placeholder="Ingrese la descipcion oferta 2">
+                            </div>
+                            <div class="mb-3">
+                                <label for="textoBtn_oferta2" class="form-label">Texto boton oferta 2</label>
+                                <input type="text" class="form-control" id="textoBtn_oferta2" placeholder="Ingrese el texto del boton oferta 2">
+                            </div>
+                            <div class="mb-3">
+                                <label for="enlace_oferta2" class="form-label">Enlace oferta 2</label>
+                                <input type="text" class="form-control" id="enlace_oferta2" placeholder="Ingrese el enlace oferta 2">
+                            </div>
+                            <div class="oferta2_color gap-3">
+                                <div class="input-box d-flex flex-column">
+                                    <input onchange="cambiarcolor_oferta_plantilla2('color_texto_oferta2',this.value)" id="color_texto_oferta2" name="color_texto_oferta2" type="color" value="#ffffff">
+                                    <h7 style="text-align: center;"><strong>Color texto oferta 2</strong></h7>
+                                </div>
+                                <div class="input-box d-flex flex-column">
+                                    <input onchange="cambiarcolor_oferta_plantilla2('color_btn_oferta2',this.value)" id="color_btn_oferta2" name="color_btn_oferta2" type="color" value="#ffffff">
+                                    <h7 style="text-align: center;"><strong>Color boton oferta 2</strong></h7>
+                                </div>
+                                <div class="input-box d-flex flex-column">
+                                    <input onchange="cambiarcolor_oferta_plantilla2('color_textoBtn_oferta2',this.value)" id="color_textoBtn_oferta2" name="color_textoBtn_oferta2" type="color" value="#ffffff">
+                                    <h7 style="text-align: center;"><strong>Color texto boton oferta 2</strong></h7>
+                                </div>
+                                <div class="d-flex flex-column">
+                                    <h5 class="card-title">Imagen oferta 2</h5>
+                                    <div class="alert alert-warning" role="alert">
+                                        <strong>Atención:</strong> las dimensines de la imagen deben ser 893x468 y en formato .png, .jpg, .jpeg
+                                    </div>
+                                    <form id="imageFormOferta2" enctype="multipart/form-data">
+                                        <div class="mb-3">
+                                            <input type="file" class="form-control" id="imageInputOferta2" accept="image/*" name="imagen">
+                                        </div>
+                                        <img id="imagen_oferta2" class="image-preview mb-3" src="" alt="Preview" width="30%">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- seccion ofertas plantilla 2 -->
         <div class="accordion-item" id="seccion_oferta_plantilla2" style="display: none;">
             <h2 class="accordion-header" id="headingOferta_plantilla2">
