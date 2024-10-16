@@ -564,6 +564,14 @@ class Usuarios extends Controller
         $response = $this->model->cambiarcolor_oferta_plantilla2($campo, $valor, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
+    
+    public function cambiarcolor_parallax_plantilla3()
+    {
+        $campo = $_POST['campo'];
+        $valor = $_POST['valor'];
+        $response = $this->model->cambiarcolor_parallax_plantilla3($campo, $valor, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
 
     public function cambiarcolor_icono()
     {
