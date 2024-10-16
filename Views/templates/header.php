@@ -163,7 +163,7 @@
             <?php } ?>
 
             <?php if ($_SESSION['id_plataforma'] == 2307 || $_SESSION['id_plataforma'] == 2324) { ?>
-                    <a href="#" class="dropdown-btn" data-target="#submenu5"><i class='bx bx-cog menu-icon'></i> <span class="menu-text">Automatizador</span></a>
+                    <a href="#" class="dropdown-btn" data-target="#submenu5"><i class='bx bxs-bot menu-icon'></i> <span class="menu-text">Automatizador</span></a>
                 <?php } ?>
                 <div class="submenu" id="submenu5">
                     <a href="<?php echo SERVERURL ?>/Pedidos/configuracion_chats_imporsuit"><i class="fa-brands fa-shopify menu-icon"></i> <span class="menu-text">Configuracion</span></a>

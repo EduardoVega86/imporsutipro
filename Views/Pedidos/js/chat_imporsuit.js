@@ -1,7 +1,6 @@
 /* llenar seccion numeros */
 $(document).ready(function () {
-  // Variables globales
-  let contactos = []; // Almacenaremos los contactos obtenidos aquí
+  let lastMessageId = null; // Variable global para almacenar el ID del último mensaje mostrado
 
   // Llamada AJAX para obtener los datos de la API de contactos
   $.ajax({
@@ -9,74 +8,50 @@ $(document).ready(function () {
     method: "GET",
     dataType: "json",
     success: function (data) {
-      contactos = data; // Guardamos los contactos en la variable global
-      renderContactos(contactos); // Renderizamos la lista inicialmente
+      let innerHTML = "";
+
+      // Recorremos cada contacto
+      $.each(data, function (index, contacto) {
+        let color_etiqueta = "";
+
+        if (contacto.color_etiqueta) {
+          color_etiqueta = `<i class="fa-solid fa-tag" style="color: ${contacto.color_etiqueta} !important;"></i>`;
+        }
+
+        innerHTML += `
+            <li class="list-group-item contact-item d-flex align-items-center" data-id="${
+              contacto.id_cliente
+            }">
+                <img src="https://new.imporsuitpro.com/public/img/avatar_usuaro_chat_center.png" class="rounded-circle me-3" alt="Foto de perfil" style="width: 15% !important;">
+                <div class="d-flex flex-column">
+                    <h6 class="mb-0">${
+                      contacto.nombre_cliente || "Desconocido"
+                    } ${contacto.apellido_cliente || ""} ${color_etiqueta}</h6>
+                    <h7>+${contacto.celular_cliente}</h7>
+                    <small class="text-muted">${
+                      contacto.texto_mensaje || "No hay mensajes"
+                    }</small>
+                </div>
+            </li>`;
+      });
+
+      // Inyectamos el HTML generado en la lista de contactos
+      $("#contact-list").html(innerHTML);
+
+      // Añadimos el evento de click a cada contacto
+      $("#contact-list").on("click", ".contact-item", function () {
+        let id_cliente = $(this).data("id");
+        // Llamamos a la función para ejecutar la API con el id_cliente
+        ejecutarApiConIdCliente(id_cliente);
+
+        // Iniciar el polling para actualizar los mensajes automáticamente
+        startPollingMensajes(id_cliente);
+      });
     },
     error: function (error) {
       console.error("Error al obtener los mensajes:", error);
     },
   });
-
-  // Función para renderizar los contactos en la lista
-  function renderContactos(contactosFiltrados) {
-    let innerHTML = "";
-
-    $.each(contactosFiltrados, function (index, contacto) {
-      let color_etiqueta = "";
-
-      if (contacto.color_etiqueta) {
-        color_etiqueta = `<i class="fa-solid fa-tag" style="color: ${contacto.color_etiqueta} !important;"></i>`;
-      }
-
-      innerHTML += `
-      <li class="list-group-item contact-item d-flex align-items-center" data-id="${
-        contacto.id_cliente
-      }">
-        <img src="https://new.imporsuitpro.com/public/img/avatar_usuaro_chat_center.png" class="rounded-circle me-3" alt="Foto de perfil" style="width: 15% !important;">
-        <div class="d-flex flex-column">
-          <h6 class="mb-0">${contacto.nombre_cliente || "Desconocido"} ${
-        contacto.apellido_cliente || ""
-      } ${color_etiqueta}</h6>
-          <h7>+${contacto.celular_cliente}</h7>
-          <small class="text-muted">${
-            contacto.texto_mensaje || "No hay mensajes"
-          }</small>
-        </div>
-      </li>`;
-    });
-
-    $("#contact-list").html(innerHTML);
-  }
-
-  // Evento de búsqueda en tiempo real
-  const inputBusqueda = document.querySelector('input[type="text"]');
-  inputBusqueda.addEventListener("input", function () {
-    const query = inputBusqueda.value.toLowerCase(); // Convertimos el valor a minúsculas
-
-    const contactosFiltrados = contactos.filter((contacto) => {
-      const nombreCompleto = `${contacto.nombre_cliente || ""} ${
-        contacto.apellido_cliente || ""
-      }`.toLowerCase();
-      const telefono = contacto.celular_cliente.toString();
-
-      // Comprobamos si el nombre o el teléfono contienen la consulta
-      return nombreCompleto.includes(query) || telefono.includes(query);
-    });
-
-    renderContactos(contactosFiltrados); // Renderizamos los contactos filtrados
-  });
-
-  // Evento de click en cada contacto
-  document
-    .getElementById("contact-list")
-    .addEventListener("click", function (event) {
-      const contactItem = event.target.closest(".contact-item");
-      if (contactItem) {
-        const id_cliente = contactItem.getAttribute("data-id");
-        ejecutarApiConIdCliente(id_cliente);
-        startPollingMensajes(id_cliente);
-      }
-    });
 
   // Función que se ejecuta cuando se hace click en un contacto
   function ejecutarApiConIdCliente(id_cliente) {
@@ -95,7 +70,9 @@ $(document).ready(function () {
         $("#nombre_chat").text(
           response[0].nombre_cliente + " " + response[0].apellido_cliente
         );
-        $("#telefono_chat").text("+" + response[0].celular_cliente);
+        $("#telefono_chat").text(
+          "+"+response[0].celular_cliente
+        );
 
         $("#id_cliente_chat").val(response[0].id);
         $("#celular_chat").val(response[0].celular_cliente);
@@ -998,7 +975,6 @@ function abrir_modal_etiquetas() {
 
 /* seccion de creacion de guais y historial pedidos */
 let contiene = "";
-let contieneGintracom = "";
 
 // Initialize selectedValue
 let selectedValue = "";
@@ -1081,7 +1057,6 @@ const actualizarContiene = () => {
       "td:nth-child(2) input"
     ).value;
     contiene += `${cantidadProducto} x ${nombreProducto} `;
-    contieneGintracom += ` ${nombreProducto} X${cantidadProducto} `;
   });
   fetch("https://new.imporsuitpro.com/pedidos/actualizarContiene", {
     method: "POST",
@@ -1183,7 +1158,6 @@ async function llenarProductos(arregloProductos) {
   contiene = ""; // Reset 'contiene'
   arregloProductos.forEach((producto) => {
     contiene += `${producto.cantidad} x ${producto.nombre_producto} `;
-    contieneGintracom += ` ${producto.nombre_producto} X${producto.cantidad} `;
     total += producto.precio_venta * producto.cantidad;
     const tr = document.createElement("tr");
     tr.classList.add("align-middle");
@@ -1614,11 +1588,11 @@ function generarGuia() {
 }
 
 const generarServientrega = (formulario) => {
-  var flete = $("#flete").val();
-  var seguro = $("#seguro").val();
-  var comision = $("#comision").val();
-  var otros = $("#otros").val();
-  var impuestos = $("#impuestos").val();
+  var flete = $('#flete').val();
+  var seguro = $('#seguro').val();
+  var comision = $('#comision').val();
+  var otros = $('#otros').val();
+  var impuestos = $('#impuestos').val();
 
   formulario.append("contiene", contiene);
   formulario.append("flete", flete);
@@ -1698,7 +1672,7 @@ const generarSpeed = (formulario) => {
     });
 };
 const generarGintracom = (formulario) => {
-  formulario.append("contiene", contieneGintracom);
+  formulario.append("contiene", contiene);
   Swal.fire({
     title: "Generando guía",
     text: "Por favor espere un momento",
