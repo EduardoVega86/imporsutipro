@@ -283,39 +283,43 @@
                     <button class="btn btn-success" onclick="guardar_ofertas_plantilla2()"></i>Guardar cambios</button>
                     <div class="oferta gap-5" style="justify-content: center;">
                         <div class="d-flex flex-column">
-                            <h3 style="text-align: center;"><strong> SECCION PARALLAX HORIZONTAL</strong></h3>
+                            <h3 style="text-align: center;"><strong> SECCION PARALLAX1 </strong></h3>
                             <div class="mb-3">
                                 <label for="titulo_parallax" class="form-label">Título</label>
-                                <input type="text" class="form-control" id="titulo_parallax" placeholder="Ingrese el titulo">
+                                <input type="text" class="form-control" onblur="cambiarcolor_parallax_plantilla3('parallax_titulo',this.value)" id="titulo_parallax" placeholder="Ingrese el titulo">
                             </div>
                             <div class="mb-3">
                                 <label for="oferta1" class="form-label">Subtítulo</label>
-                                <input type="text" class="form-control" id="subtitulo_parallax" placeholder="Ingrese subtitulo">
+                                <input type="text" class="form-control" onblur="cambiarcolor_parallax_plantilla3('parallax_sub',this.value)" id="subtitulo_parallax" placeholder="Ingrese subtitulo">
                             </div>
                             <div class="mb-3">
-                                <label for="descripcion_oferta1" class="form-label">Texto Parallax</label>
-                                <input type="text" class="form-control" id="texto_parallax" placeholder="Ingrese texto">
+                                <label for="descripcion_oferta1" class="form-label">Texto</label>
+                                <input type="text" class="form-control" onblur="cambiarcolor_parallax_plantilla3('parallax_texto',this.value)" id="texto_parallax" placeholder="Ingrese texto">
                             </div>
                             <div class="mb-3">
-                                <label for="textoBtn_oferta1" class="form-label">Texto boton oferta 1</label>
-                                <input type="text" class="form-control" id="textoBtn_oferta1" placeholder="Ingrese el texto del boton oferta 1">
+                                <label for="textoBtn_oferta1" class="form-label">Texto boton </label>
+                                <input type="text" class="form-control" onblur="cambiarcolor_parallax_plantilla3('boton_parallax_texto',this.value)" id="textoBtn_oferta1" placeholder="Ingrese el texto del boton oferta 1">
                             </div>
                             <div class="mb-3">
-                                <label for="enlace_oferta1" class="form-label">Enlace oferta 1</label>
-                                <input type="text" class="form-control" id="enlace_oferta1" placeholder="Ingrese el enlace oferta 1">
+                                <label for="enlace_oferta1" class="form-label">Enlace</label>
+                                <input type="text" class="form-control" onblur="cambiarcolor_parallax_plantilla3('boton_parallax_texto',this.value)" id="enlace_oferta1" placeholder="Ingrese el enlace oferta 1">
+                            </div>
+                             <div class="mb-3">
+                                <label for="enlace_oferta1" class="form-label">Enlace</label>
+                                <input type="range" id="myRange" min="0" max="1" step="0.01" class="form-control" onchange="cambiarcolor_parallax_plantilla3('parallax_opacidad',this.value)" id="enlace_oferta1" placeholder="Ingrese el enlace oferta 1">
                             </div>
                             <div class="oferta1_color gap-3">
                                 <div class="input-box d-flex flex-column">
-                                    <input onchange="cambiarcolor_oferta_plantilla2('color_texto_oferta1',this.value)" id="color_texto_oferta1" name="color_texto_oferta1" type="color" value="#ffffff">
-                                    <h7 style="text-align: center;"><strong>Color texto oferta 1</strong></h7>
+                                    <input onchange="cambiarcolor_parallax_plantilla3('color_texto',this.value)" id="color_texto" name="color_texto" type="color" value="#ffffff">
+                                    <h7 style="text-align: center;"><strong>Color texto</strong></h7>
                                 </div>
                                 <div class="input-box d-flex flex-column">
-                                    <input onchange="cambiarcolor_oferta_plantilla2('color_btn_oferta1',this.value)" id="color_btn_oferta1" name="color_btn_oferta1" type="color" value="#ffffff">
-                                    <h7 style="text-align: center;"><strong>Color boton oferta 1</strong></h7>
+                                    <input onchange="cambiarcolor_parallax_plantilla3('color_filtro',this.value)" id="color_filtro" name="color_filtro" type="color" value="#ffffff">
+                                    <h7 style="text-align: center;"><strong>Color filtro</strong></h7>
                                 </div>
                                 <div class="input-box d-flex flex-column">
-                                    <input onchange="cambiarcolor_oferta_plantilla2('color_textoBtn_oferta1',this.value)" id="color_textoBtn_oferta1" name="color_textoBtn_oferta1" type="color" value="#ffffff">
-                                    <h7 style="text-align: center;"><strong>Color texto boton oferta 1</strong></h7>
+                                    <input onchange="cambiarcolor_parallax_plantilla3('color_boton',this.value)" id="color_boton" name="color_boton" type="color" value="#ffffff">
+                                    <h7 style="text-align: center;"><strong>Color boton</strong></h7>
                                 </div>
                                 <div class="d-flex flex-column">
                                     <h5 class="card-title">Imagen oferta 1</h5>

@@ -61,7 +61,7 @@
                         <i class="bx bx-plus"></i>
                     </button>
 
-                    <!-- Menú flotante para documentos y fotos -->
+                    <!-- Menú flotante para documentos, fotos y videos -->
                     <div id="floating-menu" class="floating-menu d-none">
                         <ul class="list-group">
                             <li class="list-group-item d-flex align-items-center" id="agregar_documento">
@@ -71,11 +71,13 @@
                                 <i class="fa-solid fa-image me-2"></i> Fotos
                             </li>
                             <li class="list-group-item d-flex align-items-center" id="agregar_video">
-                                <i class="fa-solid fa-film me-2"></i> videos
+                                <i class="fa-solid fa-film me-2"></i> Videos
                             </li>
                         </ul>
                     </div>
 
+                    <!-- Input oculto para seleccionar una imagen -->
+                    <input type="file" id="foto-input" accept="image/*" style="display: none;">
 
                     <!-- Campo de texto del mensaje -->
                     <input id="message-input" type="text" class="form-control" placeholder="Escribe un mensaje...">

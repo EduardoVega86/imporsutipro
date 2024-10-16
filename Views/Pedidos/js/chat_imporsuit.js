@@ -650,7 +650,7 @@ document.addEventListener("click", function (event) {
 
 /* Fin emojis */
 
-/* añadir documentos */
+/* añadir documentos, videos, y fotos */
 const documentButton = document.getElementById("document-button");
 const floatingMenu = document.getElementById("floating-menu");
 
@@ -667,7 +667,53 @@ document.addEventListener("click", (e) => {
   }
 });
 
-/* fin añadir documentos */
+/* subir imagen */
+const agregarFoto = document.getElementById("agregar_foto");
+const fotoInput = document.getElementById("foto-input");
+
+// Abrir la ventana de selección de archivos al hacer clic en "Fotos"
+agregarFoto.addEventListener("click", () => {
+  fotoInput.click(); // Simula clic en el input oculto
+});
+
+// Al seleccionar una imagen, ejecuta esta función
+fotoInput.addEventListener("change", async (event) => {
+  const file = event.target.files[0]; // Obtiene la imagen seleccionada
+
+  if (file) {
+    console.log("Imagen seleccionada:", file);
+    try {
+      const imageUrl = await uploadImagen(file); // Subir imagen
+      console.log("Imagen subida correctamente:", imageUrl);
+      // Aquí podrías hacer algo más con la URL, como enviarla por WhatsApp
+    } catch (error) {
+      console.error("Error al subir la imagen:", error.message);
+    }
+  }
+});
+
+// Función para subir la imagen al servidor
+async function uploadImagen(imagen) {
+  const formData = new FormData();
+  formData.append("imagen", imagen); // Agrega la imagen al FormData
+
+  const response = await fetch(SERVERURL + "Pedidos/guardar_imagen_Whatsapp", {
+    method: "POST",
+    body: formData,
+  });
+
+  const data = await response.json();
+
+  if (!response.ok || data.status !== 200) {
+    throw new Error(data.message || "Error al subir la imagen.");
+  }
+
+  return data.data; // Retorna la URL de la imagen subida
+}
+
+/* fin subir imagen */
+
+/* fin añadir documentos, videos, y fotos */
 
 /* Enviar mensaje whatsapp */
 document.addEventListener("DOMContentLoaded", function () {
