@@ -83,7 +83,7 @@
                     <input type="file" id="foto-input" accept="image/*" style="display: none;">
 
                     <!-- Campo de texto del mensaje -->
-                    <div class="chat-input">
+                    <div class="flex-grow-1 chat-input">
                         <textarea id="message-input" class="form-control"
                             placeholder="Escribe un mensaje..."></textarea>
                     </div>

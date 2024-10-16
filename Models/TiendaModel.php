@@ -971,7 +971,7 @@ class TiendaModel extends Query
 /* Plantilla 3 */
     public function obtener_informacion_plantilla3($plataforma)
     {
-        echo $sql;
+     //   echo $sql;
         $sql = "SELECT * FROM plantilla_3 WHERE id_plataforma=$plataforma";
         return $this->select($sql);
     }

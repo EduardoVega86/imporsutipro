@@ -108,17 +108,26 @@
         background-color: #fff;
     }
 
+    .chat-input {
+        flex-grow: 1;
+        /* Permite que el textarea ocupe el espacio restante */
+    }
+
     .chat-input .form-control {
         border-radius: 30px;
         padding: 10px 20px;
         resize: none;
-        /* Evita que el usuario cambie el tamaño manualmente */
+        /* Deshabilita el cambio de tamaño manual */
         overflow-y: hidden;
         /* Oculta el scroll vertical */
         max-height: 150px;
-        /* Limita la altura máxima para evitar crecer indefinidamente */
+        /* Limita la altura máxima del textarea */
+        width: 100%;
+        /* Asegura que ocupe el ancho completo */
         transition: height 0.2s ease;
-        /* Suaviza la expansión */
+        /* Animación suave al cambiar de tamaño */
+        box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+        border: 1px solid #ccc;
     }
 
     .chat-input button {
