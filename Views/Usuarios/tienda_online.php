@@ -283,26 +283,30 @@
                     <button class="btn btn-success" onclick="guardar_ofertas_plantilla2()"></i>Guardar cambios</button>
                     <div class="oferta gap-5" style="justify-content: center;">
                         <div class="d-flex flex-column">
-                            <h3 style="text-align: center;"><strong> SECCION PARALLAX HORIZONTAL</strong></h3>
+                            <h3 style="text-align: center;"><strong> SECCION PARALLAX1 </strong></h3>
                             <div class="mb-3">
                                 <label for="titulo_parallax" class="form-label">Título</label>
-                                <input type="text" class="form-control" id="titulo_parallax" placeholder="Ingrese el titulo">
+                                <input type="text" class="form-control" onblur="cambiarcolor_parallax_plantilla3('parallax_titulo',this.value)" id="titulo_parallax" placeholder="Ingrese el titulo">
                             </div>
                             <div class="mb-3">
                                 <label for="oferta1" class="form-label">Subtítulo</label>
-                                <input type="text" class="form-control" id="subtitulo_parallax" placeholder="Ingrese subtitulo">
+                                <input type="text" class="form-control" onblur="cambiarcolor_parallax_plantilla3('parallax_sub',this.value)" id="subtitulo_parallax" placeholder="Ingrese subtitulo">
                             </div>
                             <div class="mb-3">
                                 <label for="descripcion_oferta1" class="form-label">Texto</label>
-                                <input type="text" class="form-control" id="texto_parallax" placeholder="Ingrese texto">
+                                <input type="text" class="form-control" onblur="cambiarcolor_parallax_plantilla3('parallax_texto',this.value)" id="texto_parallax" placeholder="Ingrese texto">
                             </div>
                             <div class="mb-3">
                                 <label for="textoBtn_oferta1" class="form-label">Texto boton </label>
-                                <input type="text" class="form-control" id="textoBtn_oferta1" placeholder="Ingrese el texto del boton oferta 1">
+                                <input type="text" class="form-control" onblur="cambiarcolor_parallax_plantilla3('boton_parallax_texto',this.value)" id="textoBtn_oferta1" placeholder="Ingrese el texto del boton oferta 1">
                             </div>
                             <div class="mb-3">
                                 <label for="enlace_oferta1" class="form-label">Enlace</label>
-                                <input type="text" class="form-control" id="enlace_oferta1" placeholder="Ingrese el enlace oferta 1">
+                                <input type="text" class="form-control" onblur="cambiarcolor_parallax_plantilla3('boton_parallax_texto',this.value)" id="enlace_oferta1" placeholder="Ingrese el enlace oferta 1">
+                            </div>
+                             <div class="mb-3">
+                                <label for="enlace_oferta1" class="form-label">Enlace</label>
+                                <input type="range" id="myRange" min="0" max="1" step="0.01" class="form-control" onchange="cambiarcolor_parallax_plantilla3('parallax_opacidad',this.value)" id="enlace_oferta1" placeholder="Ingrese el enlace oferta 1">
                             </div>
                             <div class="oferta1_color gap-3">
                                 <div class="input-box d-flex flex-column">
