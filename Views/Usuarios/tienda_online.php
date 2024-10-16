@@ -275,7 +275,7 @@
         <div class="accordion-item" id="seccion_paralax_plantilla3" style="display: none;">
             <h2 class="accordion-header" id="headingOferta_plantilla2">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOferta_plantilla2" aria-expanded="false" aria-controls="collapseOferta_plantilla2">
-                    SECCION DE OFERTAS
+                   SECCIÓN PARALLAX
                 </button>
             </h2>
             <div id="collapseOferta_plantilla2" class="accordion-collapse collapse" aria-labelledby="headingOferta_plantilla2" data-bs-parent="#accordionExample">
