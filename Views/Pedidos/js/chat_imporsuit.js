@@ -1667,6 +1667,8 @@ function cancelarPedido() {
               confirmButtonText: "Aceptar",
             });
             // Close the menu
+            cargar_pedidos($('#celular_chat').val());
+            
             document.getElementById("detailsMenu").style.right = "-500px";
             $("#detailsMenu").hide();
             document.getElementById("infoMenu").classList.remove("hidden");
