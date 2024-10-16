@@ -968,7 +968,14 @@ class TiendaModel extends Query
     }
     /* Fin plantilla 2 */
 
-
+/* Plantilla 3 */
+    public function obtener_informacion_plantilla3($plataforma)
+    {
+        $sql = "SELECT * FROM plantilla_3 WHERE id_plataforma=$plataforma";
+        return $this->select($sql);
+    }
+      /* Fin plantilla 3 */
+    
     public function agregar_carrito($id_producto, $cantidad, $precio,  $plataforma, $id_invetario, $timestamp)
     {
 

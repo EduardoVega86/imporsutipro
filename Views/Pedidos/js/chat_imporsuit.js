@@ -102,21 +102,35 @@ $(document).ready(function () {
         );
         $("#correo_info").text("Email: " + response[0].email_cliente);
 
-        let formData = new FormData();
-        formData.append("telefono", response[0].celular_cliente);
-        $.ajax({
-          url: SERVERURL + "pedidos/obtenerPedidosPorTelefono",
-          type: "POST",
-          data: formData,
-          processData: false, // No procesar los datos
-          contentType: false, // No establecer ningún tipo de contenido
-          dataType: "json",
-          success: function (response_historial) {
-            let tableBody = "";
+        cargar_pedidos(response[0].celular_cliente);
 
-            // Recorremos cada pedido del historial
-            $.each(response_historial, function (index, historial) {
-              tableBody += `
+        /* Fin seccion informacion */
+
+        // Llamar a la función para cargar los mensajes iniciales del chat
+        cargarMensajesChat(id_cliente);
+      },
+      error: function (error) {
+        console.error("Error al ejecutar la API:", error);
+      },
+    });
+  }
+
+  function cargar_pedidos(celular_cliente) {
+    let formData = new FormData();
+    formData.append("telefono", celular_cliente);
+    $.ajax({
+      url: SERVERURL + "pedidos/obtenerPedidosPorTelefono",
+      type: "POST",
+      data: formData,
+      processData: false, // No procesar los datos
+      contentType: false, // No establecer ningún tipo de contenido
+      dataType: "json",
+      success: function (response_historial) {
+        let tableBody = "";
+
+        // Recorremos cada pedido del historial
+        $.each(response_historial, function (index, historial) {
+          tableBody += `
                       <tr>
                           <td>${historial.numero_factura}</td>
                           <td>${historial.nombre}</td>
@@ -127,23 +141,13 @@ $(document).ready(function () {
                           </td>
                       </tr>
                   `;
-            });
-
-            // Inyectamos el HTML generado en el cuerpo de la tabla
-            $("#historialPedidosBody").html(tableBody);
-          },
-          error: function (jqXHR, textStatus, errorThrown) {
-            alert("Error al obtener el historial: " + errorThrown);
-          },
         });
 
-        /* Fin seccion informacion */
-
-        // Llamar a la función para cargar los mensajes iniciales del chat
-        cargarMensajesChat(id_cliente);
+        // Inyectamos el HTML generado en el cuerpo de la tabla
+        $("#historialPedidosBody").html(tableBody);
       },
-      error: function (error) {
-        console.error("Error al ejecutar la API:", error);
+      error: function (jqXHR, textStatus, errorThrown) {
+        alert("Error al obtener el historial: " + errorThrown);
       },
     });
   }
@@ -731,13 +735,13 @@ async function uploadImagen(imagen) {
         text: data.message,
       });
     } else if (data.status === 200) {
-      Swal.fire({
+      /* Swal.fire({
         icon: "success",
         title: data.title,
         text: data.message,
         showConfirmButton: false,
         timer: 2000,
-      });
+      }); */
     }
 
     return data.data; // Retorna la URL de la imagen subida

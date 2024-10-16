@@ -305,8 +305,9 @@
                                 <input type="text" class="form-control" onblur="cambiarcolor_parallax_plantilla3('boton_parallax_texto',this.value)" id="enlace_oferta1" placeholder="Ingrese el enlace oferta 1">
                             </div>
                              <div class="mb-3">
-                                <label for="enlace_oferta1" class="form-label">Enlace</label>
-                                <input type="range" id="myRange" min="0" max="1" step="0.01" class="form-control" onchange="cambiarcolor_parallax_plantilla3('parallax_opacidad',this.value)" id="enlace_oferta1" placeholder="Ingrese el enlace oferta 1">
+                                <label for="myRange">Ajustar Opacidad:</label>
+<input type="range" id="myRange" min="0" max="1" step="0.01" class="form-control" onchange="cambiarcolor_parallax_plantilla3('parallax_opacidad',this.value)">
+
                             </div>
                             <div class="oferta1_color gap-3">
                                 <div class="input-box d-flex flex-column">
