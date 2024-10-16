@@ -338,6 +338,9 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
         $insert_client_stmt->bind_param('issss', $id_plataforma, $uid_cliente, $user_info['nombre'], $uid_whatsapp);
         $insert_client_stmt->execute();
         $id_cliente = $insert_client_stmt->insert_id;  // Obtener el ID autoincrementado del cliente recién creado
+
+        print_r($insert_client_stmt);
+
         $insert_client_stmt->close();
     } else {
         // El cliente existe, obtenemos su ID
