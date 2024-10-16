@@ -53,6 +53,23 @@ $(document).ready(function () {
     },
   });
 
+  /* consultar configuracion */
+  $.ajax({
+    url: SERVERURL + "Pedidos/configuraciones_automatizador",
+    method: "GET",
+    dataType: "json",
+    success: function (data) {
+
+      $("#id_whatsapp").val(data[0].id_telefono);
+      $("#token_configruacion").val(data[0].token);
+
+    },
+    error: function (error) {
+      console.error("Error al obtener los mensajes:", error);
+    },
+  });
+  /* fin consutlar configuracion */
+
   // Función que se ejecuta cuando se hace click en un contacto
   function ejecutarApiConIdCliente(id_cliente) {
     let formData = new FormData();
@@ -722,7 +739,7 @@ async function uploadImagen(imagen) {
         text: data.message,
         showConfirmButton: false,
         timer: 2000,
-      })
+      });
     }
 
     return data.data; // Retorna la URL de la imagen subida
