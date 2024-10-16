@@ -378,9 +378,11 @@ function cargarInfoTienda_inicial() {
       } else if (response[0].plantilla == 3) {
         // Actualiza los valores de los inputs hidden
         $("#plantilla_selected").val("template3");
-
+$("#seccion_promocion_plantilla2").hide();
         // Remueve la clase 'selected' de todas las plantillas
         $(".plantilla").removeClass("selected");
+
+$("#seccion_paralax_plantilla3").show();
 
         // Agrega la clase 'selected' a la plantilla correcta
         $(".plantilla[data-template='template3']").addClass("selected");
