@@ -283,18 +283,18 @@
                     <button class="btn btn-success" onclick="guardar_ofertas_plantilla2()"></i>Guardar cambios</button>
                     <div class="oferta gap-5" style="justify-content: center;">
                         <div class="d-flex flex-column">
-                            <h3 style="text-align: center;"><strong> OFERTA 1</strong></h3>
+                            <h3 style="text-align: center;"><strong> SECCION PARALLAX HORIZONTAL</strong></h3>
                             <div class="mb-3">
-                                <label for="titulo_oferta1" class="form-label">Titulo oferta 1</label>
-                                <input type="text" class="form-control" id="titulo_oferta1" placeholder="Ingrese el titulo de la oferta 1">
+                                <label for="titulo_parallax" class="form-label">Título</label>
+                                <input type="text" class="form-control" id="titulo_parallax" placeholder="Ingrese el titulo">
                             </div>
                             <div class="mb-3">
-                                <label for="oferta1" class="form-label">Oferta 1</label>
-                                <input type="text" class="form-control" id="oferta1" placeholder="Ingrese el oferta 1">
+                                <label for="oferta1" class="form-label">Subtítulo</label>
+                                <input type="text" class="form-control" id="subtitulo_parallax" placeholder="Ingrese subtitulo">
                             </div>
                             <div class="mb-3">
-                                <label for="descripcion_oferta1" class="form-label">Descripción oferta 1</label>
-                                <input type="text" class="form-control" id="descripcion_oferta1" placeholder="Ingrese la descipcion oferta 1">
+                                <label for="descripcion_oferta1" class="form-label">Texto Parallax</label>
+                                <input type="text" class="form-control" id="texto_parallax" placeholder="Ingrese texto">
                             </div>
                             <div class="mb-3">
                                 <label for="textoBtn_oferta1" class="form-label">Texto boton oferta 1</label>
