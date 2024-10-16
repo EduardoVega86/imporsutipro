@@ -762,7 +762,7 @@ async function enviarImagenWhatsApp(imageUrl) {
     to: numeroDestino,
     type: "image",
     image: {
-      link: imageUrl,
+      link: SERVERURL + imageUrl,
       caption: "", // Texto opcional para la imagen
     },
   };
