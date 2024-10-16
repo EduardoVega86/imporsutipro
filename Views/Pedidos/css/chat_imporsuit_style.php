@@ -111,6 +111,14 @@
     .chat-input .form-control {
         border-radius: 30px;
         padding: 10px 20px;
+        resize: none;
+        /* Evita que el usuario cambie el tamaño manualmente */
+        overflow-y: hidden;
+        /* Oculta el scroll vertical */
+        max-height: 150px;
+        /* Limita la altura máxima para evitar crecer indefinidamente */
+        transition: height 0.2s ease;
+        /* Suaviza la expansión */
     }
 
     .chat-input button {
@@ -326,12 +334,12 @@
         border-radius: 20px;
         padding: 10px;
         box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+        border: 1px solid #ccc;
     }
 
     #message-input:focus {
         outline: none;
         border-color: rgba(100, 100, 255, 0.5);
-        /* Color sutil cuando está enfocado */
     }
 
     /* Sombra para el botón de enviar */
