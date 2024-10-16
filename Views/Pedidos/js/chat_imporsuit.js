@@ -667,6 +667,47 @@ document.addEventListener("click", (e) => {
   }
 });
 
+/* subir imagen */
+const agregarFoto = document.getElementById("agregar_foto");
+const fotoInput = document.getElementById("foto-input");
+
+// Al hacer clic en "Fotos", abre la ventana de selección de archivos
+agregarFoto.addEventListener("click", () => {
+  fotoInput.click(); // Simula el clic en el input de tipo file
+});
+
+// Al seleccionar una imagen, ejecuta esta función
+fotoInput.addEventListener("change", (event) => {
+  const file = event.target.files[0]; // Obtiene la imagen seleccionada
+
+  if (file) {
+    console.log("Imagen seleccionada:", file);
+
+    // Llama a la función personalizada para hacer cosas con la imagen
+    procesarImagen(file);
+  }
+});
+
+// Función personalizada para procesar la imagen seleccionada
+function procesarImagen(imagen) {
+  const reader = new FileReader();
+
+  reader.onload = function (e) {
+    // Por ejemplo, muestra una vista previa de la imagen
+    const imgPreview = document.createElement("img");
+    imgPreview.src = e.target.result;
+    imgPreview.style.maxWidth = "200px";
+    document.body.appendChild(imgPreview); // Agrega la vista previa al body
+
+    // Aquí puedes hacer cualquier otra cosa con la imagen
+    console.log("Imagen cargada correctamente.");
+  };
+
+  reader.readAsDataURL(imagen); // Lee el archivo como DataURL para mostrarlo
+}
+
+/* fin subir imagen */
+
 /* fin añadir documentos */
 
 /* Enviar mensaje whatsapp */
