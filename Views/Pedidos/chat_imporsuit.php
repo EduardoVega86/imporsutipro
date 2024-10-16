@@ -55,6 +55,11 @@
                         <i class="fas fa-smile"></i>
                     </button>
 
+                    <!-- boton para subir imagenes archivos-->
+                    <button id="document-button" class="btn btn-emoji">
+                        <i class="bx bx-plus"></i>
+                    </button>
+
                     <!-- Campo de texto del mensaje -->
                     <input id="message-input" type="text" class="form-control" placeholder="Escribe un mensaje...">
 
