@@ -752,10 +752,10 @@ async function uploadImagen(imagen) {
 }
 
 async function enviarImagenWhatsApp(imageUrl) {
-  const fromPhoneNumberId = $("#id_whatsapp").val(); // ID del número de WhatsApp
-  const accessToken = $("#token_configruacion").val(); // Token de autenticación
-  const numeroDestino = "+" + $("#celular_chat").val(); // Número destino en formato internacional
-  const apiUrl = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
+  var fromPhoneNumberId = $("#id_whatsapp").val(); // ID del número de WhatsApp
+  var accessToken = $("#token_configruacion").val(); // Token de autenticación
+  var numeroDestino = "+" + $("#celular_chat").val(); // Número destino en formato internacional
+  var apiUrl = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
 
   const payload = {
     messaging_product: "whatsapp",
@@ -835,11 +835,11 @@ document.addEventListener("DOMContentLoaded", function () {
   const messageInput = document.getElementById("message-input");
 
   // WhatsApp API credentials
-  const fromPhoneNumberId = $("#id_whatsapp").val();
-  const accessToken = $("#token_configruacion").val();
+  var fromPhoneNumberId = $("#id_whatsapp").val();
+  var accessToken = $("#token_configruacion").val();
 
   /* const phoneNumber = "+593981702066"; */
-  const url = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
+  var url = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
 
   // ---- Variables para la grabación de audio ----
   let mediaRecorder;
@@ -941,9 +941,9 @@ document.addEventListener("DOMContentLoaded", function () {
   async function sendAudioToWhatsApp(fileUrl) {
     console.log("Enviando archivo de audio a WhatsApp:", fileUrl); // Log para verificar la URL
 
-    const fromPhoneNumberId = $("#id_whatsapp").val();
-    const accessToken = $("#token_configruacion").val();
-    const url = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
+    var fromPhoneNumberId = $("#id_whatsapp").val();
+    var accessToken = $("#token_configruacion").val();
+    var url = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
 
     const payload = {
       messaging_product: "whatsapp",
