@@ -64,11 +64,14 @@
                     <!-- Menú flotante para documentos y fotos -->
                     <div id="floating-menu" class="floating-menu d-none">
                         <ul class="list-group">
-                            <li class="list-group-item d-flex align-items-center">
+                            <li class="list-group-item d-flex align-items-center" id="agregar_documento">
                                 <i class="fas fa-file-alt me-2"></i> Documento
                             </li>
-                            <li class="list-group-item d-flex align-items-center">
-                                <i class="fas fa-photo-video me-2"></i> Fotos y videos
+                            <li class="list-group-item d-flex align-items-center" id="agregar_foto">
+                                <i class="fa-solid fa-image me-2"></i> Fotos
+                            </li>
+                            <li class="list-group-item d-flex align-items-center" id="agregar_video">
+                                <i class="fa-solid fa-film me-2"></i> videos
                             </li>
                         </ul>
                     </div>
