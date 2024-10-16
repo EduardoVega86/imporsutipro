@@ -1,10 +1,3 @@
-// WhatsApp API credentials
-var fromPhoneNumberId = $("#id_whatsapp").val();
-var accessToken = $("#token_configruacion").val();
-
-/* const phoneNumber = "+593981702066"; */
-var url = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
-
 /* llenar seccion numeros */
 $(document).ready(function () {
   let lastMessageId = null; // Variable global para almacenar el ID del último mensaje mostrado
@@ -840,6 +833,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const audioTimer = document.getElementById("audio-timer");
   const messageInput = document.getElementById("message-input");
 
+  // WhatsApp API credentials
+  var fromPhoneNumberId = $("#id_whatsapp").val();
+  var accessToken = $("#token_configruacion").val();
+
+  /* const phoneNumber = "+593981702066"; */
+  var url = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
+
   // ---- Variables para la grabación de audio ----
   let mediaRecorder;
   let audioBlob = null;
@@ -1019,6 +1019,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // ---- Función para enviar mensajes de texto a WhatsApp ----
   function sendMessageToWhatsApp(message) {
+    var fromPhoneNumberId = $("#id_whatsapp").val();
+    var accessToken = $("#token_configruacion").val();
+    var url = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
+
     if (message.trim() === "") {
       alert("Por favor, escribe un mensaje.");
       return;
