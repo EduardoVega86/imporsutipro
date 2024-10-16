@@ -236,6 +236,14 @@ class Tienda extends Controller
         $response = $this->model->obtener_ofertas_plantilla2($id_plataforma);
         echo json_encode($response);
     }
+    
+    public function obtener_informacion_plantilla3()
+    {
+        $id_plataforma =   $_POST['id_plataforma'];
+        $response = $this->model->obtener_informacion_plantilla3($id_plataforma);
+        echo json_encode($response);
+    }
+
 
     /* Fin plantilla 2 */
 
