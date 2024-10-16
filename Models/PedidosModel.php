@@ -967,11 +967,72 @@ class PedidosModel extends Query
                 // print_r($guardar_detalle);
             }
 
+            $id_configuracion = $this->select("SELECT id FROM configuraciones WHERE id_plataforma = $id_plataforma");
+            $id_configuracion = $id_configuracion[0]['id'];
 
-            $response['status'] = 200;
-            $response['title'] = 'Peticion exitosa';
-            $response['message'] = "Pedido creado correctamente";
-            $response["numero_factura"] = $nueva_factura;
+            if (!empty($id_configuracion)) {
+
+                /* consultar ciudad por medio id_cotizacion */
+                $nombre_ciudad = $this->select("SELECT ciudad FROM ciudad_cotizacion WHERE id_cotizacion = $ciudad_cot");
+                $nombre_ciudad = $nombre_ciudad[0]['ciudad'];
+
+                // Ejecutamos la función que devuelve productos y categorías
+                $data = $this->ejecutar_automatizador($nueva_factura);
+
+                $data = [
+                    "id_configuracion" => $id_configuracion,
+                    "value_blocks_type" => "1",
+                    "user_id" => "1",
+                    "order_id" => $nueva_factura,
+                    "nombre" => $nombre_cliente,
+                    "direccion" => $c_principal . " y " . $c_secundaria,
+                    "email" => "",
+                    "celular" => $celular,
+                    "contenido" => $contiene,
+                    "costo" => $monto_factura,
+                    "ciudad" => $nombre_ciudad,
+                    "productos" => $data['productos'] ?? [],
+                    "categorias" => $data['categorias'] ?? [],
+                    "status" => [""],
+                    "novedad" => [""],
+                    "provincia" => [""],
+                    "ciudad" => [""],
+                    "user_info" => [
+                        "nombre" => $nombre_cliente,
+                        "direccion" => $c_principal . " y " . $c_secundaria,
+                        "email" => "",
+                        "celular" => $celular,
+                        "order_id" => $nueva_factura,
+                        "contenido" => $contiene,
+                        "costo" => $monto_factura,
+                        "ciudad" => $nombre_ciudad
+                    ]
+                ];
+
+                // Llamamos a la función para enviar los datos a la API usando cURL
+                $response_api = $this->enviar_a_api($data);
+
+                // Comprobamos si hubo un error en cURL
+                if (!$response_api['success']) {
+                    // Si hubo un error, lo añadimos al response
+                    $response['status'] = 500;
+                    $response['title'] = 'Error';
+                    $response['message'] = "Error al enviar los datos a la API: " . $response_api['error'];
+                } else {
+                    // Si la llamada a la API fue exitosa
+                    $response['status'] = 200;
+                    $response['title'] = 'Peticion exitosa';
+                    $response['message'] = "Pedido creado correctamente y datos enviados";
+                    $response["numero_factura"] = $nueva_factura;
+                    $response['data'] = $data;
+                    $response['respuesta_curl'] = $response_api['response'];
+                }
+            } else {
+                $response['status'] = 200;
+                $response['title'] = 'Peticion exitosa';
+                $response['message'] = "Pedido creado correctamente";
+                $response["numero_factura"] = $nueva_factura;
+            }
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
@@ -979,6 +1040,102 @@ class PedidosModel extends Query
         }
 
         return $response;
+    }
+
+    /* automatizador */
+    public function ejecutar_automatizador($numero_factura)
+    {
+        // Consulta para obtener los productos asociados a la factura
+        $sql_factura = "SELECT * FROM detalle_fact_cot WHERE numero_factura = '$numero_factura'";
+        $resultados = $this->select($sql_factura);
+
+        // Arrays para almacenar los productos y categorías
+        $productos = [];
+        $categorias = [];
+
+        // Si $resultados no es null o vacío, verificamos si es un array
+        if ($resultados && is_array($resultados)) {
+            // Recorremos los resultados y extraemos los ids de productos
+            foreach ($resultados as $fila) {
+                $productos[] = (string)$fila['id_inventario'];
+
+                $id_inventario = $fila['id_inventario'];
+                $id_plataforma = $fila['id_plataforma'];
+
+                // Consulta para obtener la categoría del producto (limit 1)
+                $sql_categorias = "SELECT id_categoria_tienda FROM productos_tienda WHERE id_inventario = $id_inventario 
+            AND id_plataforma = $id_plataforma LIMIT 1";
+
+                // Ejecutar la consulta de categorías (esperamos solo una fila debido al LIMIT 1)
+                $resultado_categoria = $this->select($sql_categorias)[0];
+
+                // Agregamos la categoría al array
+                $categorias[] = (string)$resultado_categoria['id_categoria_tienda'] ?? null;
+            }
+        } else if ($resultados && isset($resultados['id_inventario'])) {
+            // Si solo es una fila, también agregamos ese único id de producto al array
+            $productos[] = (string)$resultados['id_inventario'];
+        }
+
+        // Retornamos el array con los ids de productos y categorías
+        return [
+            'productos' => $productos,
+            'categorias' => $categorias
+        ];
+    }
+
+    public function enviar_a_api($data)
+    {
+        // La URL del endpoint a donde enviar los datos
+        $url = 'https://new.imporsuitpro.com/public/webhook_whatsapp/webhook_automatizador.php';
+
+        // Inicializar cURL
+        $ch = curl_init($url);
+
+        // Configurar cURL para enviar los datos como una solicitud POST
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+
+        // Codificar el array $data a formato JSON
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+
+        // Habilitar el seguimiento de redirecciones
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);  // Esto permite seguir redirecciones
+
+        // Ejecutar la solicitud cURL
+        $response = curl_exec($ch);
+
+        // Verificar si hubo errores en la ejecución
+        if (curl_errno($ch)) {
+            // Si hay un error, obtén el mensaje de error de cURL
+            $error_msg = curl_error($ch);
+            curl_close($ch);
+
+            // Retornar el mensaje de error en lugar de la respuesta
+            return [
+                'success' => false,
+                'error' => $error_msg
+            ];
+        }
+
+        // Obtener información sobre la ejecución
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        // Si el código HTTP no es 200, retornar error
+        if ($http_code !== 200) {
+            return [
+                'success' => false,
+                'error' => "La API devolvió un código de estado HTTP no exitoso: $http_code"
+            ];
+        }
+
+        // Si todo fue bien, retornar la respuesta
+        return [
+            'success' => true,
+            'response' => $response
+        ];
     }
 
     public function obtenerDestinatario($id)
