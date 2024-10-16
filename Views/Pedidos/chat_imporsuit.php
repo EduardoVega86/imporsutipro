@@ -126,7 +126,7 @@
                     </ul>
                 </div>
                 <button class="close-info" id="btn-close-info">&times;</button> <!-- Botón de cierre (X) -->
-                <img src="https://via.placeholder.com/150" class="rounded-circle" alt="Foto de perfil">
+                <img src="https://new.imporsuitpro.com/public/img/avatar_usuaro_chat_center.png" class="rounded-circle" alt="Foto de perfil">
                 <h5><span id="telefono_info"></span></h5>
                 <!-- <p class="text-muted">Última vez en línea: hace 5 minutos</p> -->
             </div>
