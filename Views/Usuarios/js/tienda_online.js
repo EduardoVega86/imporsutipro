@@ -360,13 +360,16 @@ function cargarInfoTienda_inicial() {
 
         // Agrega la clase 'selected' a la plantilla correcta
         $(".plantilla[data-template='template1']").addClass("selected");
+        
+        $("#seccion_paralax_plantilla3").hide();
+        
       } else if (response[0].plantilla == 2) {
         cargar_ofertas_plantilla2();
         $("#colores_plantilla2").show();
         $("#seccion_oferta_plantilla2").show();
         $("#seccion_promocion_plantilla2").show();
         $("#colores_plantilla1").hide();
-
+$("#seccion_paralax_plantilla3").hide();
         // Actualiza los valores de los inputs hidden
         $("#plantilla_selected").val("template2");
 
