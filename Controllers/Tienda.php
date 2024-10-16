@@ -237,7 +237,7 @@ class Tienda extends Controller
         echo json_encode($response);
     }
     
-    public function obtener_informacion_plantilla3()
+    public function obtener_informacion_plantilla3($plataforma)
     {
         $id_plataforma =   $_POST['id_plataforma'];
         $response = $this->model->obtener_informacion_plantilla3($id_plataforma);
