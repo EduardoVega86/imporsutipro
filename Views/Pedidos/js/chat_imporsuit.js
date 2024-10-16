@@ -731,13 +731,13 @@ async function uploadImagen(imagen) {
         text: data.message,
       });
     } else if (data.status === 200) {
-      Swal.fire({
+      /* Swal.fire({
         icon: "success",
         title: data.title,
         text: data.message,
         showConfirmButton: false,
         timer: 2000,
-      });
+      }); */
     }
 
     return data.data; // Retorna la URL de la imagen subida
