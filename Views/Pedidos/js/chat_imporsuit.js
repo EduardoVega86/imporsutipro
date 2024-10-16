@@ -697,18 +697,43 @@ async function uploadImagen(imagen) {
   const formData = new FormData();
   formData.append("imagen", imagen); // Agrega la imagen al FormData
 
-  const response = await fetch(SERVERURL + "Pedidos/guardar_imagen_Whatsapp", {
-    method: "POST",
-    body: formData,
-  });
+  try {
+    const response = await fetch(
+      SERVERURL + "Pedidos/guardar_imagen_Whatsapp",
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
 
-  const data = await response.json();
+    const data = await response.json();
 
-  if (!response.ok || data.status !== 200) {
-    throw new Error(data.message || "Error al subir la imagen.");
+    // Manejo de errores y éxito
+    if (data.status === 500 || data.status === 400) {
+      Swal.fire({
+        icon: "error",
+        title: data.title,
+        text: data.message,
+      });
+    } else if (data.status === 200) {
+      Swal.fire({
+        icon: "success",
+        title: data.title,
+        text: data.message,
+        showConfirmButton: false,
+        timer: 2000,
+      })
+    }
+
+    return data.data; // Retorna la URL de la imagen subida
+  } catch (error) {
+    console.error("Error en la solicitud:", error);
+    Swal.fire({
+      icon: "error",
+      title: "Error de conexión",
+      text: "No se pudo conectar con el servidor. Inténtalo de nuevo más tarde.",
+    });
   }
-
-  return data.data; // Retorna la URL de la imagen subida
 }
 
 /* fin subir imagen */
