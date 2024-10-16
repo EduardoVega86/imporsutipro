@@ -268,32 +268,55 @@
 
     /* menu de añadir documetos */
     .floating-menu {
+        padding: 10px;
+        background-color: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(200, 200, 200, 0.5);
+        border-radius: 12px;
         position: absolute;
-        top: -80px;
-        /* Ajusta según la posición deseada */
-        right: 0;
-        width: 180px;
-        background-color: #2c2c2c;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        z-index: 1050;
-        /* Asegura que esté sobre otros elementos */
+        bottom: 60px;
+        left: 10px;
+        z-index: 1000;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        max-width: 180px;
+        transition: opacity 0.3s ease, transform 0.2s ease;
     }
 
+    /* Ocultar menú con una clase */
+    .d-none {
+        display: none;
+    }
+
+    /* Listado dentro del menú */
     .floating-menu ul {
         margin: 0;
-        padding: 8px 0;
+        padding: 0;
+        list-style: none;
     }
 
+    /* Elementos del menú (Documentos, Fotos y videos) */
     .floating-menu .list-group-item {
-        background: none;
-        color: white;
+        background-color: transparent;
         border: none;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        color: rgba(0, 0, 0, 0.7);
         cursor: pointer;
+        transition: background-color 0.2s ease, transform 0.2s ease;
     }
 
+    /* Efecto al hacer hover en los elementos del menú */
     .floating-menu .list-group-item:hover {
-        background-color: #383838;
+        background-color: rgba(0, 0, 0, 0.05);
+        transform: scale(1.05);
+        color: rgba(0, 0, 0, 0.9);
+    }
+
+    /* Estilo del ícono dentro del menú */
+    .floating-menu .list-group-item i {
+        font-size: 20px;
+        margin-right: 10px;
+        color: rgba(0, 0, 0, 0.6);
     }
 
     /* Fin menu de añadir documetos */
