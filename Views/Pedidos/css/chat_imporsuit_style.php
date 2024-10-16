@@ -108,11 +108,6 @@
         background-color: #fff;
     }
 
-    .chat-input {
-        flex-grow: 1;
-        /* Permite que el textarea ocupe el espacio restante */
-    }
-
     .chat-input .form-control {
         border-radius: 30px;
         padding: 10px 20px;
