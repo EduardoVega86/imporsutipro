@@ -998,6 +998,7 @@ function abrir_modal_etiquetas() {
 
 /* seccion de creacion de guais y historial pedidos */
 let contiene = "";
+let contieneGintracom = "";
 
 // Initialize selectedValue
 let selectedValue = "";
@@ -1080,6 +1081,7 @@ const actualizarContiene = () => {
       "td:nth-child(2) input"
     ).value;
     contiene += `${cantidadProducto} x ${nombreProducto} `;
+    contieneGintracom += `${nombreProducto} x ${cantidadProducto} `;
   });
   fetch("https://new.imporsuitpro.com/pedidos/actualizarContiene", {
     method: "POST",
@@ -1695,7 +1697,7 @@ const generarSpeed = (formulario) => {
     });
 };
 const generarGintracom = (formulario) => {
-  formulario.append("contiene", contiene);
+  formulario.append("contiene", contieneGintracom);
   Swal.fire({
     title: "Generando guía",
     text: "Por favor espere un momento",
