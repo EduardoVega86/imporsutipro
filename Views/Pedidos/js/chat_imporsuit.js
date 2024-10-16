@@ -53,6 +53,21 @@ $(document).ready(function () {
     },
   });
 
+  /* consultar configuracion */
+  $.ajax({
+    url: SERVERURL + "Pedidos/configuraciones_automatizador",
+    method: "GET",
+    dataType: "json",
+    success: function (data) {
+      $("#id_whatsapp").val(data[0].id_telefono);
+      $("#token_configruacion").val(data[0].token);
+    },
+    error: function (error) {
+      console.error("Error al obtener los mensajes:", error);
+    },
+  });
+  /* fin consutlar configuracion */
+
   // Función que se ejecuta cuando se hace click en un contacto
   function ejecutarApiConIdCliente(id_cliente) {
     let formData = new FormData();
@@ -684,8 +699,8 @@ fotoInput.addEventListener("change", async (event) => {
     console.log("Imagen seleccionada:", file);
     try {
       const imageUrl = await uploadImagen(file); // Subir imagen
-      console.log("Imagen subida correctamente:", imageUrl);
-      // Aquí podrías hacer algo más con la URL, como enviarla por WhatsApp
+
+      await enviarImagenWhatsApp(imageUrl);
     } catch (error) {
       console.error("Error al subir la imagen:", error.message);
     }
@@ -722,7 +737,7 @@ async function uploadImagen(imagen) {
         text: data.message,
         showConfirmButton: false,
         timer: 2000,
-      })
+      });
     }
 
     return data.data; // Retorna la URL de la imagen subida
@@ -733,6 +748,76 @@ async function uploadImagen(imagen) {
       title: "Error de conexión",
       text: "No se pudo conectar con el servidor. Inténtalo de nuevo más tarde.",
     });
+  }
+}
+
+async function enviarImagenWhatsApp(imageUrl) {
+  const fromPhoneNumberId = $("#id_whatsapp").val(); // ID del número de WhatsApp
+  const accessToken = $("#token_configruacion").val(); // Token de autenticación
+  const numeroDestino = "+" + $("#celular_chat").val(); // Número destino en formato internacional
+  const apiUrl = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
+
+  const payload = {
+    messaging_product: "whatsapp",
+    to: numeroDestino,
+    type: "image",
+    image: {
+      link: imageUrl,
+      caption: "", // Texto opcional para la imagen
+    },
+  };
+
+  const headers = {
+    Authorization: `Bearer ${accessToken}`,
+    "Content-Type": "application/json",
+  };
+
+  try {
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify(payload),
+    });
+
+    const result = await response.json();
+
+    if (result.error) {
+      console.error("Error al enviar la imagen:", result.error);
+      alert(`Error: ${result.error.message}`);
+      return;
+    }
+
+    console.log("Imagen enviada con éxito a WhatsApp:", result);
+
+    // Registrar el mensaje en tu backend
+    var id_cliente_chat = $("#id_cliente_chat").val();
+    var uid_cliente = $("#uid_cliente").val();
+
+    let formData = new FormData();
+    formData.append("texto_mensaje", "");
+    formData.append("tipo_mensaje", "image");
+    formData.append("mid_mensaje", uid_cliente);
+    formData.append("id_recibe", id_cliente_chat);
+    formData.append("ruta_archivo", imageUrl);
+
+    $.ajax({
+      url: SERVERURL + "pedidos/agregar_mensaje_enviado",
+      type: "POST",
+      data: formData,
+      processData: false,
+      contentType: false,
+      dataType: "json",
+      success: function (response) {
+        startPollingMensajes(id_cliente_chat); // Actualizar mensajes automáticamente
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        alert(`Error: ${errorThrown}`);
+      },
+    });
+
+  } catch (error) {
+    console.error("Error en la solicitud de WhatsApp:", error);
+    alert("Ocurrió un error al enviar la imagen. Inténtalo más tarde.");
   }
 }
 
@@ -750,9 +835,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const messageInput = document.getElementById("message-input");
 
   // WhatsApp API credentials
-  const fromPhoneNumberId = "109565362009074";
-  const accessToken =
-    "EAAVZAG5oL9G4BOZCAZBOKr5MXUIoVZBi7txtqZCncfz3DWg8W7p8bVS0usQyl9i73IAAIZCzLB9vlhymWtRstgDGZCZBqCre6XTayQ0HWxIUjjNsUZC0x2k7TI3LOMXbLEC26CDyzn3NDeQHWBnjgzDYrcJbuqpoOjBpVnxaf1kYPsD8xdGcPpaUnAVfVJ26D980U";
+  const fromPhoneNumberId = $("#id_whatsapp").val();
+  const accessToken = $("#token_configruacion").val();
+
   /* const phoneNumber = "+593981702066"; */
   const url = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
 
@@ -856,9 +941,8 @@ document.addEventListener("DOMContentLoaded", function () {
   async function sendAudioToWhatsApp(fileUrl) {
     console.log("Enviando archivo de audio a WhatsApp:", fileUrl); // Log para verificar la URL
 
-    const fromPhoneNumberId = "109565362009074";
-    const accessToken =
-      "EAAVZAG5oL9G4BO3vZAhKcOTpfZAQJgNDzTNDArOp8VitYT8GUFqcYKIsZAO0pBkf0edoZC1DgfXICkIEP7xZCkPkj8nS1gfDqI4jNeEVDmseyba3l2os8EoYgf1Mdnl2MwaYhmrdfZBgUnItwT8nZBVvjinB7j8IAfZBx2LZA1WNZCqqsZBZC2cqDdObeiLqEsih9U3XOQwZDZD";
+    const fromPhoneNumberId = $("#id_whatsapp").val();
+    const accessToken = $("#token_configruacion").val();
     const url = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
 
     const payload = {
@@ -993,6 +1077,7 @@ document.addEventListener("DOMContentLoaded", function () {
           formData.append("tipo_mensaje", "text");
           formData.append("mid_mensaje", uid_cliente);
           formData.append("id_recibe", id_cliente_chat);
+          formData.append("ruta_archivo", "");
 
           $.ajax({
             url: SERVERURL + "pedidos/agregar_mensaje_enviado",
