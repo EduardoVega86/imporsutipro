@@ -1534,6 +1534,8 @@ document.getElementById("closeMenu").addEventListener("click", function () {
   document.getElementById("detailsMenu").style.right = "-500px !important";
   $("#detailsMenu").hide();
 
+  cargar_pedidos($('#celular_chat').val());
+  
   document.getElementById("infoMenu").classList.remove("hidden");
 
   $("#id_pedido").remove();
