@@ -70,9 +70,7 @@ $(document).ready(function () {
         $("#nombre_chat").text(
           response[0].nombre_cliente + " " + response[0].apellido_cliente
         );
-        $("#telefono_chat").text(
-          "+"+response[0].celular_cliente
-        );
+        $("#telefono_chat").text("+" + response[0].celular_cliente);
 
         $("#id_cliente_chat").val(response[0].id);
         $("#celular_chat").val(response[0].celular_cliente);
@@ -651,6 +649,25 @@ document.addEventListener("click", function (event) {
 });
 
 /* Fin emojis */
+
+/* añadir documentos */
+const documentButton = document.getElementById("document-button");
+const floatingMenu = document.getElementById("floating-menu");
+
+// Mostrar/Ocultar menú al hacer clic en el botón
+documentButton.addEventListener("click", (e) => {
+  e.stopPropagation(); // Evita que el evento se propague al documento
+  floatingMenu.classList.toggle("d-none");
+});
+
+// Ocultar menú al hacer clic fuera de él
+document.addEventListener("click", (e) => {
+  if (!floatingMenu.contains(e.target) && e.target !== documentButton) {
+    floatingMenu.classList.add("d-none");
+  }
+});
+
+/* fin añadir documentos */
 
 /* Enviar mensaje whatsapp */
 document.addEventListener("DOMContentLoaded", function () {
@@ -1588,11 +1605,11 @@ function generarGuia() {
 }
 
 const generarServientrega = (formulario) => {
-  var flete = $('#flete').val();
-  var seguro = $('#seguro').val();
-  var comision = $('#comision').val();
-  var otros = $('#otros').val();
-  var impuestos = $('#impuestos').val();
+  var flete = $("#flete").val();
+  var seguro = $("#seguro").val();
+  var comision = $("#comision").val();
+  var otros = $("#otros").val();
+  var impuestos = $("#impuestos").val();
 
   formulario.append("contiene", contiene);
   formulario.append("flete", flete);

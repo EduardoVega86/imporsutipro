@@ -56,9 +56,22 @@
                     </button>
 
                     <!-- boton para subir imagenes archivos-->
-                    <button id="document-button" class="btn btn-emoji">
+                    <!-- Botón de "plus" -->
+                    <button id="document-button" class="btn btn-emoji position-relative">
                         <i class="bx bx-plus"></i>
                     </button>
+
+                    <!-- Menú flotante -->
+                    <div id="floating-menu" class="floating-menu d-none">
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex align-items-center">
+                                <i class="fas fa-file-alt me-2"></i> Documento
+                            </li>
+                            <li class="list-group-item d-flex align-items-center">
+                                <i class="fas fa-photo-video me-2"></i> Fotos
+                            </li>
+                        </ul>
+                    </div>
 
                     <!-- Campo de texto del mensaje -->
                     <input id="message-input" type="text" class="form-control" placeholder="Escribe un mensaje...">
