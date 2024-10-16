@@ -83,7 +83,10 @@
                     <input type="file" id="foto-input" accept="image/*" style="display: none;">
 
                     <!-- Campo de texto del mensaje -->
-                    <input id="message-input" type="text" class="form-control" placeholder="Escribe un mensaje...">
+                    <div class="chat-input">
+                        <textarea id="message-input" class="form-control"
+                            placeholder="Escribe un mensaje..."></textarea>
+                    </div>
 
                     <!-- Botón de enviar -->
                     <button id="send-button" class="btn btn-primary ms-2" style="display: none; border-radius: 0.7rem;">

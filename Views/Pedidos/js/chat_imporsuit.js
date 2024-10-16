@@ -525,6 +525,16 @@ const emojiButton = document.getElementById("emoji-button");
 const emojiSection = document.getElementById("emoji-section");
 const messageInput = document.getElementById("message-input");
 const emojiSearch = document.getElementById("emoji-search"); // Elemento de búsqueda
+
+/* expancion del mensaje texto  */
+messageInput.addEventListener("input", function () {
+  // Restablece la altura para calcular correctamente el scrollHeight
+  this.style.height = "auto";
+  // Ajusta la altura al contenido
+  this.style.height = `${this.scrollHeight}px`;
+});
+/* fin expancion del mesaje texto */
+
 let allEmojis = []; // Variable para almacenar todos los emojis
 let displayedEmojis = 100; // Inicialmente mostramos 100 emojis
 let totalLoadedEmojis = 0; // Total de emojis cargados hasta ahora
