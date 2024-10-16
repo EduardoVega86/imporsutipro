@@ -1605,45 +1605,59 @@ class PedidosModel extends Query
 
     public function guardar_imagen_Whatsapp($imagen)
     {
+        // Formatos permitidos por la API de WhatsApp
+        $formatos_permitidos = ['jpeg', 'jpg', 'png', 'gif'];
+        $tamano_maximo = 16 * 1024 * 1024; // 16 MB en bytes
+
         // Verificar si se ha recibido el archivo sin errores
         if (isset($imagen) && $imagen['error'] == 0) {
-            // Directorio donde se guardará la imagen
-            $target_dir = "public/whatsapp/imagenes_enviadas/";
+            // Extraer la extensión del archivo
+            $extension = strtolower(pathinfo($imagen['name'], PATHINFO_EXTENSION));
 
-            // Generar un nombre único para evitar conflictos
-            $extension = pathinfo($imagen['name'], PATHINFO_EXTENSION); // Extraemos la extensión
-            $file_name = uniqid() . "." . strtolower($extension); // Nombre único con extensión
+            // Validar el formato de la imagen
+            if (!in_array($extension, $formatos_permitidos)) {
+                $response['status'] = 400;
+                $response['title'] = 'Formato no permitido';
+                $response['message'] = 'Solo se permiten archivos JPEG, PNG o GIF.';
+                return $response;
+            }
+
+            // Validar el tamaño del archivo
+            if ($imagen['size'] > $tamano_maximo) {
+                $response['status'] = 400;
+                $response['title'] = 'Tamaño excedido';
+                $response['message'] = 'El tamaño de la imagen no puede superar los 16 MB.';
+                return $response;
+            }
+
+            // Directorio de destino para la imagen
+            $target_dir = "public/whatsapp/imagenes_enviadas/";
+            $file_name = uniqid() . "." . $extension; // Nombre único
             $target_file = $target_dir . $file_name;
 
-            // Verificar si la carpeta de destino existe, si no, crearla
+            // Crear el directorio si no existe
             if (!is_dir($target_dir)) {
-                mkdir($target_dir, 0777, true);  // Crear carpeta con permisos 0777
+                mkdir($target_dir, 0777, true); // Crear carpeta con permisos 0777
             }
 
             // Mover el archivo al directorio de destino
             if (move_uploaded_file($imagen['tmp_name'], $target_file)) {
-                // Archivo subido correctamente
-                $response = [
-                    'status' => 200,
-                    'message' => 'Imagen subida correctamente',
-                    'data' => $target_file  // Retornamos la ruta del archivo subido
-                ];
+                $response['status'] = 200;
+                $response['title'] = 'Petición exitosa';
+                $response['message'] = 'Imagen subida correctamente';
+                $response['data'] = $target_file; // Ruta de la imagen subida
             } else {
-                // Error al mover el archivo
-                $response = [
-                    'status' => 500,
-                    'message' => 'Error al mover la imagen al directorio de destino'
-                ];
+                $response['status'] = 500;
+                $response['title'] = 'Error al mover la imagen';
+                $response['message'] = 'No se pudo mover la imagen al directorio de destino.';
             }
         } else {
-            // No se recibió ningún archivo o hubo un error en la subida
-            $response = [
-                'status' => 500,
-                'message' => 'Error al subir la imagen'
-            ];
+            // No se recibió el archivo o hubo un error en la subida
+            $response['status'] = 500;
+            $response['title'] = 'Error en la subida';
+            $response['message'] = 'No se recibió ninguna imagen válida.';
         }
 
-        // Retornar la respuesta en formato JSON
         return $response;
     }
 
