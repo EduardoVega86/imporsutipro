@@ -650,7 +650,7 @@ document.addEventListener("click", function (event) {
 
 /* Fin emojis */
 
-/* añadir documentos */
+/* añadir documentos, videos, y fotos */
 const documentButton = document.getElementById("document-button");
 const floatingMenu = document.getElementById("floating-menu");
 
@@ -671,44 +671,49 @@ document.addEventListener("click", (e) => {
 const agregarFoto = document.getElementById("agregar_foto");
 const fotoInput = document.getElementById("foto-input");
 
-// Al hacer clic en "Fotos", abre la ventana de selección de archivos
+// Abrir la ventana de selección de archivos al hacer clic en "Fotos"
 agregarFoto.addEventListener("click", () => {
-  fotoInput.click(); // Simula el clic en el input de tipo file
+  fotoInput.click(); // Simula clic en el input oculto
 });
 
 // Al seleccionar una imagen, ejecuta esta función
-fotoInput.addEventListener("change", (event) => {
+fotoInput.addEventListener("change", async (event) => {
   const file = event.target.files[0]; // Obtiene la imagen seleccionada
 
   if (file) {
     console.log("Imagen seleccionada:", file);
-
-    // Llama a la función personalizada para hacer cosas con la imagen
-    procesarImagen(file);
+    try {
+      const imageUrl = await uploadImagen(file); // Subir imagen
+      console.log("Imagen subida correctamente:", imageUrl);
+      // Aquí podrías hacer algo más con la URL, como enviarla por WhatsApp
+    } catch (error) {
+      console.error("Error al subir la imagen:", error.message);
+    }
   }
 });
 
-// Función personalizada para procesar la imagen seleccionada
-function procesarImagen(imagen) {
-  const reader = new FileReader();
+// Función para subir la imagen al servidor
+async function uploadImagen(imagen) {
+  const formData = new FormData();
+  formData.append("imagen", imagen); // Agrega la imagen al FormData
 
-  reader.onload = function (e) {
-    // Por ejemplo, muestra una vista previa de la imagen
-    const imgPreview = document.createElement("img");
-    imgPreview.src = e.target.result;
-    imgPreview.style.maxWidth = "200px";
-    document.body.appendChild(imgPreview); // Agrega la vista previa al body
+  const response = await fetch(SERVERURL + "Pedidos/guardar_imagen_Whatsapp", {
+    method: "POST",
+    body: formData,
+  });
 
-    // Aquí puedes hacer cualquier otra cosa con la imagen
-    console.log("Imagen cargada correctamente.");
-  };
+  const data = await response.json();
 
-  reader.readAsDataURL(imagen); // Lee el archivo como DataURL para mostrarlo
+  if (!response.ok || data.status !== 200) {
+    throw new Error(data.message || "Error al subir la imagen.");
+  }
+
+  return data.data; // Retorna la URL de la imagen subida
 }
 
 /* fin subir imagen */
 
-/* fin añadir documentos */
+/* fin añadir documentos, videos, y fotos */
 
 /* Enviar mensaje whatsapp */
 document.addEventListener("DOMContentLoaded", function () {

@@ -1603,6 +1603,50 @@ class PedidosModel extends Query
         exit();
     }
 
+    public function guardar_imagen_Whatsapp($imagen)
+    {
+        // Verificar si se ha recibido el archivo sin errores
+        if (isset($imagen) && $imagen['error'] == 0) {
+            // Directorio donde se guardará la imagen
+            $target_dir = "public/whatsapp/imagenes_enviadas/";
+
+            // Generar un nombre único para evitar conflictos
+            $extension = pathinfo($imagen['name'], PATHINFO_EXTENSION); // Extraemos la extensión
+            $file_name = uniqid() . "." . strtolower($extension); // Nombre único con extensión
+            $target_file = $target_dir . $file_name;
+
+            // Verificar si la carpeta de destino existe, si no, crearla
+            if (!is_dir($target_dir)) {
+                mkdir($target_dir, 0777, true);  // Crear carpeta con permisos 0777
+            }
+
+            // Mover el archivo al directorio de destino
+            if (move_uploaded_file($imagen['tmp_name'], $target_file)) {
+                // Archivo subido correctamente
+                $response = [
+                    'status' => 200,
+                    'message' => 'Imagen subida correctamente',
+                    'data' => $target_file  // Retornamos la ruta del archivo subido
+                ];
+            } else {
+                // Error al mover el archivo
+                $response = [
+                    'status' => 500,
+                    'message' => 'Error al mover la imagen al directorio de destino'
+                ];
+            }
+        } else {
+            // No se recibió ningún archivo o hubo un error en la subida
+            $response = [
+                'status' => 500,
+                'message' => 'Error al subir la imagen'
+            ];
+        }
+
+        // Retornar la respuesta en formato JSON
+        return $response;
+    }
+
     public function agregar_mensaje_enviado($texto_mensaje, $tipo_mensaje, $mid_mensaje, $id_recibe, $id_plataforma)
     {
         // codigo para agregar categoria
