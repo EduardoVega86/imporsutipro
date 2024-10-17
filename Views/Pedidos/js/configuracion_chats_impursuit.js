@@ -80,9 +80,16 @@ window.addEventListener("load", async () => {
 });
 
 function redireccion_automatizadores(id) {
-  window.location.href =
+  if (MATRIZ == 1){
+    window.location.href =
     "https://automatizador.imporsuitpro.com/tabla_automatizadores.php?id_configuracion=" +
     id;
+  } else if ( MATRIZ == 2){
+    window.location.href =
+    "https://automatizador.merkapro.ec/tabla_automatizadores.php?id_configuracion=" +
+    id;
+  }
+  
 }
 
 function modal_crear_automatizador(id) {

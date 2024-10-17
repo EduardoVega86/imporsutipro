@@ -129,6 +129,12 @@ class Usuarios extends Controller
         $response = $this->model->obtener_usuarios_plataforma($_SESSION['id_plataforma']);
         echo json_encode($response);
     }
+    
+    public function obtener_plantillas_plataforma()
+    {
+        $response = $this->model->obtener_plantillas_plataforma($_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
 
 
     public function agregarProveedor()
@@ -419,6 +425,17 @@ class Usuarios extends Controller
         echo json_encode($response);
     }
 
+    
+    public function agregarPlantilla()
+    {
+        $atajo = $_POST['atajo'];
+        $plantilla = $_POST['plantilla'];
+       
+        $response = $this->model->agregarPlantilla($atajo, $plantilla, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+    
+    
     public function eliminarTestimonio()
     {
         $id = $_POST['id'];
@@ -631,6 +648,13 @@ class Usuarios extends Controller
     {
         $id_usuario = $_POST['id_usuario'];
         $response = $this->model->obtener_usuario($id_usuario);
+        echo json_encode($response);
+    }
+    
+    public function obtener_template()
+    {
+        $id_template = $_POST['id_template'];
+        $response = $this->model->obtener_template($id_usuario);
         echo json_encode($response);
     }
 

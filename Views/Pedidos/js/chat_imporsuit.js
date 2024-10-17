@@ -813,9 +813,7 @@ function buscar_atajo_template(atajo, callback) {
     contentType: false,
     dataType: "json",
     success: function (response) {
-      console.log("Mensaje recibido");
       if (response.length > 0) {
-        console.log("data con valor:", response[0].mensaje);
         callback(response[0].mensaje); // Llamamos al callback con el mensaje
       } else {
         callback(""); // Llamamos al callback con cadena vacía
@@ -1035,7 +1033,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (inicio_template) {
       buscar_atajo_template(message.substring(1), function (mensaje_template) {
-        console.log("mensaje template: " + mensaje_template);
         if (mensaje_template !== "") {
           message = mensaje_template;
         }

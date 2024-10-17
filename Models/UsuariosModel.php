@@ -22,6 +22,14 @@ class UsuariosModel extends Query
         $sql = "SELECT * FROM  usuario_plataforma, users, plataformas WHERE usuario_plataforma.id_usuario=users.id_users AND plataformas.id_plataforma=usuario_plataforma.id_plataforma and plataformas.id_matriz=$id_matriz;";
         return $this->select($sql);
     }
+    
+    public function obtener_plantillas_plataforma($plataforma)
+    {
+        
+        // echo $id_matriz;
+        $sql = "SELECT * FROM  templates_chat_center WHERE id_plataforma=$plataforma;";
+        return $this->select($sql);
+    }
 
     public function obtener_plataformas()
     {
@@ -726,6 +734,26 @@ ON
                 $response['title'] = 'Error';
                 $response['message'] = 'Error al subir la imagen';
             }
+        }
+        return $response;
+    }
+    
+    
+    public function agregarPlantilla($atajo, $plantilla, $plataforma)
+    {
+        $response = $this->initialResponse();
+       
+     $sql = "INSERT INTO `templates_chat_center` (`atajo`,`mensaje`,`id_plataforma`) VALUES (?, ?, ?)";
+        $data = [$atajo, $plantilla, $plataforma];
+        $insertar_flotante = $this->insert($sql, $data);
+        if ($insertar_flotante == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'flotante agregada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = $insertar_flotante['message'];
         }
         return $response;
     }
@@ -1732,4 +1760,15 @@ ON
 
         return $usuario;
     }
+    
+    public function obtener_template($id_template)
+    {
+        $sql = "SELECT * from templates_chat_center where id_template=$id_template";
+        $template = $this->select($sql);
+
+        $template = $usuario[0];
+
+        return $template;
+    }
+    
 }

@@ -3,7 +3,7 @@ let dataTableObtenerUsuariosPlataformaIsInitialized = false;
 
 const dataTableObtenerUsuariosPlataformaOptions = {
   columnDefs: [
-    { className: "centered", targets: [1, 2, 3, 4, 5] },
+    { className: "centered", targets: [1, 2, 3] },
     { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
   ],
   pageLength: 10,
@@ -42,7 +42,7 @@ const initDataTableObtenerUsuariosPlataforma = async () => {
 const listObtenerUsuariosPlataforma = async () => {
   try {
     const response = await fetch(
-      "" + SERVERURL + "usuarios/obtener_usuarios_plataforma"
+      "" + SERVERURL + "usuarios/obtener_plantillas_plataforma"
     );
     const obtenerUsuariosPlataforma = await response.json();
 
@@ -51,29 +51,16 @@ const listObtenerUsuariosPlataforma = async () => {
     obtenerUsuariosPlataforma.forEach((usuario, index) => {
       let editar = "";
       let placa = "";
-      if (usuario.cargo_users == 35) {
-        editar = `<button class="btn btn-sm btn-primary" onclick="abrir_editar_motorizado(${usuario.id_users})"><i class="fa-solid fa-pencil"></i>Editar</button>`;
-
-        placa = `<i class="fa-solid fa-store" style='cursor:pointer' onclick="abrir_modal_subirPlaca(${usuario.id_users})"></i>`;
-      } else {
-        editar = `<button class="btn btn-sm btn-primary" onclick="abrir_editar_usuario(${usuario.id_users})"><i class="fa-solid fa-pencil"></i>Editar</button>`;
-      }
+   
+        editar = `<button class="btn btn-sm btn-primary" onclick="abrir_editar_usuario(${usuario.id_template})"><i class="fa-solid fa-pencil"></i>Editar</button>`;
+      
 
       content += `
                 <tr>
-                <td>${usuario.id_users}</td>
-                <td>${usuario.nombre_users}</td>
-                <td>${usuario.usuario_users}</td>
-                <td>${usuario.email_users}</td>
-                <td>
-                <a href="https://wa.me/${formatPhoneNumber(
-                  usuario.whatsapp
-                )}" target="_blank" style="font-size: 45px; vertical-align: middle; margin-left: 10px;" target="_blank">
-                <i class='bx bxl-whatsapp-square' style="color: green;"></i>
-                </a></td>
-                <td>${usuario.nombre_tienda}</td>
-                <td>${usuario.date_added}</td>
-                <td>${placa}</td>
+                <td>${usuario.id_template}</td>
+                <td>${usuario.atajo}</td>
+                <td>${usuario.mensaje}</td>
+                
                 <td>
                 ${editar}
                 <button class="btn btn-sm btn-danger" onclick="eliminar_usuario(${
@@ -158,22 +145,20 @@ function eliminar_usuario(id_usuario) {
   });
 }
 
-function abrir_editar_usuario(id_usuario) {
+function abrir_editar_usuario(id_template) {
   let formData = new FormData();
-  formData.append("id_usuario", id_usuario); // Añadir el SKU al FormData
+  formData.append("id_template", id_template); // Añadir el SKU al FormData
   $.ajax({
-    url: SERVERURL + "usuarios/obtener_usuario",
+    url: SERVERURL + "usuarios/obtener_template",
     type: "POST",
     data: formData,
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
     dataType: "json",
     success: function (response) {
-      $("#id_usuario_editar").val(id_usuario);
-      $("#nombre_editar").val(response.nombre_users);
-      $("#grupoPermisos_editar").val(response.cargo_users).change();
-
-      $("#editar_usuarioModal").modal("show");
+      $("#id_template").val(id_template);
+      $("#atajo_Editar").val(response.nombre_users);
+      $("#texto_Editar").modal("show");
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);

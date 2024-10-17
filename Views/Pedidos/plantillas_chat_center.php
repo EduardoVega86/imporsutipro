@@ -1,16 +1,14 @@
 <?php require_once './Views/templates/header.php'; ?>
 <?php require_once './Views/Usuarios/css/listado_style.php'; ?>
-<?php require_once './Views/Usuarios/Modales/agregar_usuario.php'; ?>
-<?php require_once './Views/Usuarios/Modales/editar_usuario.php'; ?>
-<?php require_once './Views/Usuarios/Modales/agregar_repartidor.php'; ?>
-<?php require_once './Views/Usuarios/Modales/editar_repartidor.php'; ?>
-<?php require_once './Views/Usuarios/Modales/subir_licencia_matricula.php'; ?>
+<?php require_once './Views/Pedidos/Modales/agregar_plantilla.php'; ?>
+<?php require_once './Views/Usuarios/Modales/editar_plantilla.php'; ?>
+
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
-        <h2 class="text-center mb-4">Lista de Usuarios</h2>
+        <h2 class="text-center mb-4">Lista de Templates</h2>
 
-        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_usuarioModal"><i class="fas fa-plus"></i> Agregar</button>
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_plantillaModal"><i class="fas fa-plus"></i> Agregar</button>
         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_repartidorModal"><i class="fa-solid fa-motorcycle"></i> Agregar repartidor</button>
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
@@ -18,14 +16,10 @@
                 <thead>
                     <tr>
                         <th class="centered">ID</th>
-                        <th class="centered">Nombres</th>
-                        <th class="centered">Usuario</th>
-                        <th class="centered">Email</th>
-                        <th class="centered">Telefono</th>
-                        <th class="centered">Tienda</th>
-                        <th class="centered">Agregado</th>
-                        <th class="centered">Agregar Placa</th>
-                        <th class="centered">Acciones</th>
+                        <th class="centered">Atajo</th>
+                         <th class="centered">Mensaje</th>
+                         <th class="centered">Acciones</th>
+                     
                     </tr>
                 </thead>
                 <tbody id="tableBody_obtener_usuarios_plataforma"></tbody>
@@ -33,5 +27,5 @@
         </div>
     </div>
 </div>
-<script src="<?php echo SERVERURL ?>/Views/Usuarios/js/listado.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/Pedidos/js/plantillas_chat_center.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
