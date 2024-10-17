@@ -18,6 +18,7 @@
                         <th class="centered">ID</th>
                         <th class="centered">Atajo</th>
                          <th class="centered">Mensaje</th>
+                         <th class="centered">Acciones</th>
                      
                     </tr>
                 </thead>
