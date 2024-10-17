@@ -801,7 +801,7 @@ async function enviarImagenWhatsApp(imageUrl) {
 
 /* fin añadir documentos, videos, y fotos */
 
-function buscar_atajo_template(atajo) {
+async function buscar_atajo_template(atajo) {
   let formData = new FormData();
   formData.append("atajo", atajo);
   $.ajax({
@@ -1018,7 +1018,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // ---- Función para enviar mensajes de texto a WhatsApp ----
-  function sendMessageToWhatsApp(message) {
+  async function sendMessageToWhatsApp(message) {
     var fromPhoneNumberId = $("#id_whatsapp").val();
     var accessToken = $("#token_configruacion").val();
     var url = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
@@ -1031,7 +1031,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var inicio_template = message.startsWith("/");
 
     if (inicio_template) {
-      var mensaje_template = buscar_atajo_template(message.substring(1));
+      var mensaje_template = await buscar_atajo_template(message.substring(1));
       console.log("mensaje template: " + mensaje_template);
       if (mensaje_template !== "") {
         /* message = mensaje_template; */
