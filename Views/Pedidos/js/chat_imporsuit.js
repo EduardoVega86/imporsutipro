@@ -1037,7 +1037,7 @@ document.addEventListener("DOMContentLoaded", function () {
       buscar_atajo_template(message.substring(1), function (mensaje_template) {
         console.log("mensaje template: " + mensaje_template);
         if (mensaje_template !== "") {
-          message = mensaje_template; // Asignar el mensaje al original
+          message = mensaje_template;
         }
       });
     }
