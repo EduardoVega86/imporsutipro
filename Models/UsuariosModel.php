@@ -22,6 +22,14 @@ class UsuariosModel extends Query
         $sql = "SELECT * FROM  usuario_plataforma, users, plataformas WHERE usuario_plataforma.id_usuario=users.id_users AND plataformas.id_plataforma=usuario_plataforma.id_plataforma and plataformas.id_matriz=$id_matriz;";
         return $this->select($sql);
     }
+    
+    public function obtener_plantillas_plataforma($plataforma)
+    {
+        
+        // echo $id_matriz;
+        $sql = "SELECT * FROM  templates_chat_center WHERE id_plataforma=$plataforma;";
+        return $this->select($sql);
+    }
 
     public function obtener_plataformas()
     {
