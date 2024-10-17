@@ -537,7 +537,6 @@ messageInput.addEventListener("input", function () {
   if (this.value.startsWith("/")) {
     const palabra_busqueda = this.value.substring(1); // Remover la "/"
     mostrarTemplates(palabra_busqueda); // Mostrar el menú con los templates
-    cambiarTemplateActivo()
   } else {
     ocultarTemplates(); // Ocultar si no empieza con "/"
   }
@@ -628,6 +627,7 @@ messageInput.addEventListener("keydown", function (event) {
     } else if (event.key === "Enter" && activeIndex !== -1) {
       // Seleccionar el template activo con Enter
       items[activeIndex].click(); // Simular clic
+      cambiarTemplateActivo()
       event.preventDefault(); // Evitar salto de línea en el textarea
     }
   }
