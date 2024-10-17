@@ -654,7 +654,7 @@ class Usuarios extends Controller
     public function obtener_template()
     {
         $id_template = $_POST['id_template'];
-        $response = $this->model->obtener_template($id_usuario);
+        $response = $this->model->obtener_template($id_template);
         echo json_encode($response);
     }
 
