@@ -26,7 +26,7 @@
             </div>
             <div class="modal-body">
                 <form id="editar_testimonio_form" enctype="multipart/form-data">
-                    <input type="hidden" id="id_template" name="id_template">
+                    <input type="hidden" id="id_template_Editar" name="id_template_Editar">
 
                     <div class="row mb-3">
                         <div class="col-md-12">
