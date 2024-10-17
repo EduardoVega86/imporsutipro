@@ -36,13 +36,7 @@
                             <textarea class="form-control" id="testimonio" rows="3" placeholder="Texto del testimonio"></textarea>
                         </div>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="imagen_testimonio" class="form-label">Imagen</label>
-                            <input type="file" class="form-control" id="imagen_testimonio" name="imagen_testimonio" accept="image/*">
-                            <img id="preview-imagen-testimonio" src="#" alt="Vista previa de la imagen" style="display: none; margin-top: 10px; max-width: 100%;">
-                        </div>
-                    </div>
+                 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                         <button type="submit" class="btn btn-primary" id="guardar_testimonio">Guardar</button>
