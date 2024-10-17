@@ -87,6 +87,7 @@
                         <textarea id="message-input" class="form-control"
                             placeholder="Escribe un mensaje..."></textarea>
                     </div>
+                    
                     <div id="floating-templates" class="floating-templates d-none">
                     </div>
 

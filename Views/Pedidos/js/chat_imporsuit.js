@@ -525,20 +525,39 @@ const emojiButton = document.getElementById("emoji-button");
 const emojiSection = document.getElementById("emoji-section");
 const messageInput = document.getElementById("message-input");
 const emojiSearch = document.getElementById("emoji-search"); // Elemento de búsqueda
+const floatingTemplates = document.getElementById("floating-templates");
 
-/* expancion del mensaje texto  */
+// Mostrar u ocultar el menú según el valor del input
 messageInput.addEventListener("input", function () {
-  // Restablece la altura para calcular correctamente el scrollHeight
   this.style.height = "auto";
-  // Ajusta la altura al contenido
   this.style.height = `${this.scrollHeight}px`;
 
-  
-  // Verifica si el valor del input empieza con "/"
   if (this.value.startsWith("/")) {
-    /* ejecutarFuncionEspecifica(this.value); */
+    mostrarTemplates(); // Mostrar el menú flotante
+  } else {
+    ocultarTemplates(); // Ocultar el menú flotante
   }
 });
+
+// Cerrar el menú si se hace clic fuera de él o del input
+document.addEventListener("click", function (event) {
+  if (
+    !floatingTemplates.contains(event.target) && // Si el clic no es en el menú
+    !messageInput.contains(event.target) // Y tampoco en el input
+  ) {
+    ocultarTemplates(); // Ocultar el menú
+  }
+});
+
+// Función para mostrar el menú flotante
+function mostrarTemplates() {
+  floatingTemplates.classList.remove("d-none");
+}
+
+// Función para ocultar el menú flotante
+function ocultarTemplates() {
+  floatingTemplates.classList.add("d-none");
+}
 /* fin expancion del mesaje texto */
 
 let allEmojis = []; // Variable para almacenar todos los emojis
@@ -1174,25 +1193,37 @@ let selectedValue = "";
 
 const calcularTarifas = async (ciudad, provincia, monto_factura, recaudo) => {
   const form = new FormData();
-  form.append('ciudad', ciudad || document.getElementById('frm_ciudad').value);
-  form.append('provincia', provincia || document.getElementById('frm_provincia').value);;
-  form.append('monto_factura', monto_factura || document.getElementById('monto_factura').value);
-  form.append('recaudo', recaudo || document.getElementById('frm_recaudacion').value);
+  form.append("ciudad", ciudad || document.getElementById("frm_ciudad").value);
+  form.append(
+    "provincia",
+    provincia || document.getElementById("frm_provincia").value
+  );
+  form.append(
+    "monto_factura",
+    monto_factura || document.getElementById("monto_factura").value
+  );
+  form.append(
+    "recaudo",
+    recaudo || document.getElementById("frm_recaudacion").value
+  );
   try {
-      const response = await fetch('https://new.imporsuitpro.com/calculadora/obtenerTarifas', {
-          method: 'POST',
-          body: form
-      });
-      const data = await response.json();
-      console.log(data);
-      $("#precio_transporte_servi").text(data.servientrega);
-      $("#precio_transporte_laar").text(data.laar);
-      $("#precio_transporte_speed").text(data.speed);
-      $("#precio_transporte_gintracom").text(data.gintracom);
+    const response = await fetch(
+      "https://new.imporsuitpro.com/calculadora/obtenerTarifas",
+      {
+        method: "POST",
+        body: form,
+      }
+    );
+    const data = await response.json();
+    console.log(data);
+    $("#precio_transporte_servi").text(data.servientrega);
+    $("#precio_transporte_laar").text(data.laar);
+    $("#precio_transporte_speed").text(data.speed);
+    $("#precio_transporte_gintracom").text(data.gintracom);
   } catch (error) {
-      console.error('Error al calcular tarifas:', error);
+    console.error("Error al calcular tarifas:", error);
   }
-}
+};
 
 const calcularServi = async (
   ciudad_destino,
