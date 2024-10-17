@@ -340,11 +340,11 @@
         border: 1px solid rgba(200, 200, 200, 0.5);
         border-radius: 12px !important;
         position: absolute;
-        bottom: 60px;
-        left: 50px;
+        bottom: 85px;
+        left: 100px;
         z-index: 1000;
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-        max-width: 220px;
+        max-width: 100%;
         max-height: 300px;
         /* Limitar la altura máxima */
         overflow-y: auto;
