@@ -811,7 +811,13 @@ function buscar_atajo_template(atajo) {
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
     dataType: "json",
-    success: function (response) {},
+    success: function (response) {
+      if (response.length > 0 || response[0].mensaje !== "") {
+        return response[0].mensaje;
+      } else {
+        return "";
+      }
+    },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
     },
@@ -1026,6 +1032,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (inicio_template) {
       var mensaje_template = buscar_atajo_template(message.substring(1));
+      if (mensaje_template !== "") {
+        message = mensaje_template;
+      }
     }
 
     var phoneNumber = "+" + $("#celular_chat").val();
