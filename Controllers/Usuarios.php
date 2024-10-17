@@ -456,7 +456,7 @@ class Usuarios extends Controller
 
      public function editarPlantilla()
     {
-        $id_plantilla = $_POST['id_plantilla'];
+        $id_plantilla = $_POST['id_template'];
         $atajo = $_POST['atajo'];
         $texto = $_POST['texto'];
      
