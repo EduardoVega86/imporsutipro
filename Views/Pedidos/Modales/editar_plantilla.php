@@ -29,13 +29,13 @@
                     <input type="hidden" id="id_template" name="id_template">
 
                     <div class="row mb-3">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <label for="atajo_Editar" class="form-label">Atajo</label>
                             <input type="text" class="form-control" id="atajo_Editar" placeholder="Nombre">
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <label for="testimonio_testimonioEditar" class="form-label">Texto del Template</label>
-                            <textarea class="form-control" id="texto_Editar" rows="3" placeholder="Texto del testimonio"></textarea>
+                            <textarea class="form-control" id="texto_Editar" rows="5" placeholder="Texto del testimonio"></textarea>
                         </div>
                     </div>
                     
