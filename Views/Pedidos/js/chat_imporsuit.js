@@ -812,7 +812,7 @@ function buscar_atajo_template(atajo) {
     contentType: false, // No establecer ningún tipo de contenido
     dataType: "json",
     success: function (response) {
-      if (response.length > 0 || response[0].mensaje !== "") {
+      if (response.length > 0) {
         return response[0].mensaje;
       } else {
         return "";
