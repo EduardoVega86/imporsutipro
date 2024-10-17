@@ -25,7 +25,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="agregar_testimonio_form" enctype="multipart/form-data">
+                <form id="agregar_plantilla_form" enctype="multipart/form-data">
                     <div class="row mb-3">
                         <div class="col-md-12">
                             <label for="atajo" class="form-label">Atajo</label>
@@ -56,22 +56,16 @@
         }
 
         // Evento para reiniciar el formulario cuando se cierre el modal
-        $('#agregar_testimonioModal').on('hidden.bs.modal', function() {
+        $('#agregar_plantillaModal').on('hidden.bs.modal', function() {
             var button = document.getElementById('guardar_testimonio');
             button.disabled = false; // Desactivar el botón
             resetForm();
         });
 
         // Vista previa de la imagen
-        $('#imagen_testimonio').change(function() {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                $('#preview-imagen-testimonio').attr('src', e.target.result).show();
-            }
-            reader.readAsDataURL(this.files[0]);
-        });
+ 
 
-        $('#agregar_testimonio_form').submit(function(event) {
+        $('#agregar_plantilla_form').submit(function(event) {
             event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
 
             var button = document.getElementById('guardar_testimonio');
@@ -79,9 +73,9 @@
 
             // Crea un objeto FormData
             var formData = new FormData();
-            formData.append('nombre', $('#nombre').val());
-            formData.append('testimonio', $('#testimonio').val());
-            formData.append('imagen', $('#imagen_testimonio')[0].files[0]);
+            formData.append('atajo', $('#atajo').val());
+            formData.append('plantilla', $('#plantilla').val());
+         
 
             // Realiza la solicitud AJAX
             $.ajax({
