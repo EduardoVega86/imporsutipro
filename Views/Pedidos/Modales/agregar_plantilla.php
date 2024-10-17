@@ -27,11 +27,11 @@
             <div class="modal-body">
                 <form id="agregar_testimonio_form" enctype="multipart/form-data">
                     <div class="row mb-3">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <label for="nombre" class="form-label">Nombre</label>
                             <input type="text" class="form-control" id="nombre" placeholder="Nombre">
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <label for="testimonio" class="form-label">Texto del testimonio</label>
                             <textarea class="form-control" id="testimonio" rows="3" placeholder="Texto del testimonio"></textarea>
                         </div>
