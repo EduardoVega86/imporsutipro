@@ -544,7 +544,6 @@ messageInput.addEventListener("input", function () {
 
 // Mostrar el menú flotante con los templates obtenidos del servidor
 function mostrarTemplates(palabra_busqueda) {
-  template_activo = 1;
   console.log(template_activo);
   let formData = new FormData();
   formData.append("palabra_busqueda", palabra_busqueda);
@@ -573,6 +572,7 @@ function mostrarTemplates(palabra_busqueda) {
       });
 
       activeIndex = -1; // Reiniciar índice activo
+      template_activo = 1;
       floatingTemplates.classList.remove("d-none"); // Mostrar menú
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -624,7 +624,6 @@ messageInput.addEventListener("keydown", function (event) {
     console.log("enter template: "+template_activo);
     // Seleccionar el template activo con Enter
     items[activeIndex].click(); // Simular clic
-    template_activo = 0;
     event.preventDefault(); // Evitar salto de línea en el textarea
   }
 });
