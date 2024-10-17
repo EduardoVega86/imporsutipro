@@ -6,7 +6,7 @@
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
-        <h2 class="text-center mb-4">Lista de Usuarios</h2>
+        <h2 class="text-center mb-4">Lista de Templates</h2>
 
         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_plantillaModal"><i class="fas fa-plus"></i> Agregar</button>
         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_repartidorModal"><i class="fa-solid fa-motorcycle"></i> Agregar repartidor</button>
