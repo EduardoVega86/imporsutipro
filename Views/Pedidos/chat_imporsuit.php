@@ -287,7 +287,7 @@
                                     <!-- recaudacion-->
                                     <div class="col-md">
                                         <label for="recaudacion" class="form-label">Recaudación:</label>
-                                        <select class="form-select" id="frm_recaudacion">
+                                        <select class="form-select" id="frm_recaudacion" onchange="calcularTarifas()">
                                             <option value="">Selecciona una recaudación</option>
                                             <option value="1">Con recaudo</option>
                                             <option value="0">Sin recaudo</option>
