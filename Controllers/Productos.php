@@ -891,4 +891,12 @@ class Productos extends Controller
         echo json_encode($response);
     }
     /* Fin ofertas */
+
+    public function buscarProductosTiendas()
+    {
+        $id_plataforma = $_POST['id_plataforma'];
+
+        $response = $this->model->buscarProductosTiendas($id_plataforma);
+        echo json_encode($response);
+    }
 }
