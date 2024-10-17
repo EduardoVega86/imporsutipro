@@ -525,14 +525,39 @@ const emojiButton = document.getElementById("emoji-button");
 const emojiSection = document.getElementById("emoji-section");
 const messageInput = document.getElementById("message-input");
 const emojiSearch = document.getElementById("emoji-search"); // Elemento de búsqueda
+const floatingTemplates = document.getElementById("floating-templates");
 
-/* expancion del mensaje texto  */
+// Mostrar u ocultar el menú según el valor del input
 messageInput.addEventListener("input", function () {
-  // Restablece la altura para calcular correctamente el scrollHeight
   this.style.height = "auto";
-  // Ajusta la altura al contenido
   this.style.height = `${this.scrollHeight}px`;
+
+  if (this.value.startsWith("/")) {
+    mostrarTemplates(); // Mostrar el menú flotante
+  } else {
+    ocultarTemplates(); // Ocultar el menú flotante
+  }
 });
+
+// Cerrar el menú si se hace clic fuera de él o del input
+document.addEventListener("click", function (event) {
+  if (
+    !floatingTemplates.contains(event.target) && // Si el clic no es en el menú
+    !messageInput.contains(event.target) // Y tampoco en el input
+  ) {
+    ocultarTemplates(); // Ocultar el menú
+  }
+});
+
+// Función para mostrar el menú flotante
+function mostrarTemplates() {
+  floatingTemplates.classList.remove("d-none");
+}
+
+// Función para ocultar el menú flotante
+function ocultarTemplates() {
+  floatingTemplates.classList.add("d-none");
+}
 /* fin expancion del mesaje texto */
 
 let allEmojis = []; // Variable para almacenar todos los emojis
@@ -1168,10 +1193,19 @@ let selectedValue = "";
 
 const calcularTarifas = async (ciudad, provincia, monto_factura, recaudo) => {
   const form = new FormData();
-  form.append("ciudad", ciudad);
-  form.append("provincia", provincia);
-  form.append("monto_factura", monto_factura);
-  form.append("recaudo", recaudo);
+  form.append("ciudad", ciudad || document.getElementById("frm_ciudad").value);
+  form.append(
+    "provincia",
+    provincia || document.getElementById("frm_provincia").value
+  );
+  form.append(
+    "monto_factura",
+    monto_factura || document.getElementById("monto_factura").value
+  );
+  form.append(
+    "recaudo",
+    recaudo || document.getElementById("frm_recaudacion").value
+  );
   try {
     const response = await fetch(
       "https://new.imporsuitpro.com/calculadora/obtenerTarifas",
@@ -1403,8 +1437,8 @@ const productosAdicionales = (id_producto, sku) => {
       // Crear la tabla con cabecera y campo de búsqueda
       const div = document.createElement("div");
       div.innerHTML = `
-              <input type=“text” id=“searchInput” class=“form-control mb-3” placeholder=“Buscar producto...“>
-                  <table class=“table table-striped table-bordered”>
+              <input type="text" id="searchInput" class="form-control mb-3" placeholder="Buscar producto...">
+                  <table class="table table-striped table-bordered">
                       <thead>
                           <tr>
                               <th>Producto</th>
@@ -1413,16 +1447,16 @@ const productosAdicionales = (id_producto, sku) => {
                               <th>Acción</th>
                           </tr>
                       </thead>
-                      <tbody id=“productosTbody”>
+                      <tbody id="productosTbody">
                       </tbody>
                   </table>
-                  <div id=“paginationControls” class=“mt-3 d-flex justify-content-between align-items-center” >
-                      <span> Página <span id=“currentPage”>${currentPage}</span> de ${totalPages} </span>
+                  <div id="paginationControls" class="mt-3 d-flex justify-content-between align-items-center" >
+                      <span> Página <span id="currentPage">${currentPage}</span> de ${totalPages} </span>
                       <div>
-                          <button class=“btn btn-primary” id=“prevPage” ${
+                          <button class="btn btn-primary" id="prevPage" ${
                             currentPage === 1 ? "disabled" : ""
                           }>Anterior</button>
-                          <button class=“btn btn-primary” id=“nextPage” ${
+                          <button class="btn btn-primary" id="nextPage" ${
                             currentPage === totalPages ? "disabled" : ""
                           }>Siguiente</button>
                       </div>
@@ -1443,14 +1477,14 @@ const productosAdicionales = (id_producto, sku) => {
         let filas = "";
         currentData.forEach((producto) => {
           filas += `
-                      <tr id=“produ${producto.id_inventario}” class=“align-middle”>
-                          <td class=“text-center”>${producto.nombre_producto}</td>
-                          <td class=“text-center”><input type=“text” id=“cantidad${producto.id_inventario}” value=“1" class=“form-control” required></td>
-                          <td class=“text-center”><input type=“text” id=“precio${producto.id_inventario}” value=“${producto.pvp}” class=“form-control” required></td>
-                          <td class=“text-center”>
-                              <button class=“btn btn-success” onclick=“agregarProducto(${producto.id_inventario})“>+</button>
-                              <input type=“hidden” id=“productoSku${producto.id_inventario}” value=“${producto.sku}“>
-                                  <input type=“hidden” id=“productoId${producto.id_inventario}” value=“${producto.id_producto}“>
+                      <tr id="produ${producto.id_inventario}" class="align-middle">
+                          <td class="text-center">${producto.nombre_producto}</td>
+                          <td class="text-center"><input type="text" id="cantidad${producto.id_inventario}" value="1" class="form-control" required></td>
+                          <td class="text-center"><input type="text" id="precio${producto.id_inventario}" value="${producto.pvp}" class="form-control" required></td>
+                          <td class="text-center">
+                              <button class="btn btn-success" onclick="agregarProducto(${producto.id_inventario})">+</button>
+                              <input type="hidden" id="productoSku${producto.id_inventario}" value="${producto.sku}">
+                                  <input type="hidden" id="productoId${producto.id_inventario}" value="${producto.id_producto}">
                                   </td>
                               </tr>`;
         });

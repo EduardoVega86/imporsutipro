@@ -87,6 +87,9 @@
                         <textarea id="message-input" class="form-control"
                             placeholder="Escribe un mensaje..."></textarea>
                     </div>
+                    
+                    <div id="floating-templates" class="floating-templates d-none">
+                    </div>
 
                     <!-- Botón de enviar -->
                     <button id="send-button" class="btn btn-primary ms-2" style="display: none; border-radius: 0.7rem;">
@@ -287,7 +290,7 @@
                                     <!-- recaudacion-->
                                     <div class="col-md">
                                         <label for="recaudacion" class="form-label">Recaudación:</label>
-                                        <select class="form-select" id="frm_recaudacion">
+                                        <select class="form-select" id="frm_recaudacion" onchange="calcularTarifas()">
                                             <option value="">Selecciona una recaudación</option>
                                             <option value="1">Con recaudo</option>
                                             <option value="0">Sin recaudo</option>
