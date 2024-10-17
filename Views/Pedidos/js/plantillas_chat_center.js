@@ -61,19 +61,10 @@ const listObtenerUsuariosPlataforma = async () => {
 
       content += `
                 <tr>
-                <td>${usuario.id_users}</td>
-                <td>${usuario.nombre_users}</td>
-                <td>${usuario.usuario_users}</td>
-                <td>${usuario.email_users}</td>
-                <td>
-                <a href="https://wa.me/${formatPhoneNumber(
-                  usuario.whatsapp
-                )}" target="_blank" style="font-size: 45px; vertical-align: middle; margin-left: 10px;" target="_blank">
-                <i class='bx bxl-whatsapp-square' style="color: green;"></i>
-                </a></td>
-                <td>${usuario.nombre_tienda}</td>
-                <td>${usuario.date_added}</td>
-                <td>${placa}</td>
+                <td>${usuario.id_template}</td>
+                <td>${usuario.atajo}</td>
+                <td>${usuario.mensaje}</td>
+                
                 <td>
                 ${editar}
                 <button class="btn btn-sm btn-danger" onclick="eliminar_usuario(${
