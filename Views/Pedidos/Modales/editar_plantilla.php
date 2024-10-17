@@ -65,13 +65,7 @@
         });
 
         // Vista previa de la imagen
-        $('#imagen_testimonioEditar').change(function() {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                $('#preview-imagen-testimonioEditar').attr('src', e.target.result).show();
-            }
-            reader.readAsDataURL(this.files[0]);
-        });
+       
 
         $('#editar_testimonio_form').submit(function(event) {
             event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
@@ -81,14 +75,13 @@
 
             // Crea un objeto FormData
             var formData = new FormData();
-            formData.append('id_testimonio', $('#id_testimonio').val());
-            formData.append('nombre', $('#nombre_testimonioEditar').val());
-            formData.append('testimonio', $('#testimonio_testimonioEditar').val());
-            formData.append('imagen', $('#imagen_testimonioEditar')[0].files[0]);
-
+            formData.append('id_plantilla', $('#id_testimonio').val());
+            formData.append('atajo', $('#atajo_Editar').val());
+            formData.append('texto', $('#texto_Editar').val());
+      
             // Realiza la solicitud AJAX
             $.ajax({
-                url: SERVERURL + 'Usuarios/editartestimonio',
+                url: SERVERURL + 'Usuarios/editarplantilla',
                 type: 'POST',
                 data: formData,
                 processData: false,

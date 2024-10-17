@@ -902,6 +902,26 @@ ON
         }
         return $response;
     }
+    
+    public function editarPlantilla($id_plantilla, $atajo, $texto , $plataforma)
+    {
+        // codigo para editar categoria
+        $response = $this->initialResponse();
+
+        $sql = "UPDATE templates_chat_center SET atajo = ?, mensaje = ? WHERE id_template = ? ";
+        $data = [$atajo, $texto, $id_horizontal];
+        $editar_horizontal = $this->update($sql, $data);
+        if ($editar_horizontal == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'horizontal editada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al editar la horizontal';
+        }
+        return $response;
+    }
 
     public function eliminarHorizontal($id, $plataforma)
     {
