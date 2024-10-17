@@ -801,6 +801,25 @@ async function enviarImagenWhatsApp(imageUrl) {
 
 /* fin añadir documentos, videos, y fotos */
 
+function buscar_atajo_template(atajo) {
+  let formData = new FormData();
+  formData.append("atajo", atajo);
+  $.ajax({
+    url: SERVERURL + "Pedidos/obtener_templates",
+    type: "POST", // Cambiar a POST para enviar FormData
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    dataType: "json",
+    success: function (response) {
+      
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+}
+
 /* Enviar mensaje whatsapp */
 document.addEventListener("DOMContentLoaded", function () {
   const recordButton = document.getElementById("record-button");
@@ -1003,6 +1022,12 @@ document.addEventListener("DOMContentLoaded", function () {
     if (message.trim() === "") {
       alert("Por favor, escribe un mensaje.");
       return;
+    }
+
+    var inicio_template = message.startsWith("/");
+
+    if (inicio_template) {
+      var mensaje_template = buscar_atajo_template(message.substring(1));
     }
 
     var phoneNumber = "+" + $("#celular_chat").val();

@@ -97,7 +97,7 @@ class Pedidos extends Controller
         }
         $this->views->render($this, "novedades");
     }
-    
+
     public function chat_imporsuit($filtro = "")
     {
         if (!$this->isAuth()) {
@@ -804,4 +804,19 @@ class Pedidos extends Controller
 
         return $this->views->render($this, "redirects");
     }
+
+    public function buscarProductosTiendas()
+    {
+        $id_plataforma = $_POST['id_plataforma'];
+
+        $response = $this->model->buscarProductosTiendas($id_plataforma);
+        echo json_encode($response);
+    }
+
+    public function obtener_templates()
+   {
+       $atajo = $_POST['atajo'];
+       $response = $this->model->obtener_templates($_SESSION['id_plataforma'], $atajo);
+       echo json_encode($response);
+   }
 }
