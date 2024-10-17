@@ -156,7 +156,7 @@ function abrir_editar_usuario(id_template) {
     contentType: false, // No establecer ningún tipo de contenido
     dataType: "json",
     success: function (response) {
-        alert(id_template)
+       
       $("#id_template_Editar").val(id_template);
       $("#atajo_Editar").val(response.atajo);
       $("#texto_Editar").val(response.mensaje);

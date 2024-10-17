@@ -75,7 +75,7 @@
 
             // Crea un objeto FormData
             var formData = new FormData();
-            formData.append('id_plantilla', $('#id_testimonio').val());
+            formData.append('id_plantilla', $('#id_template_Editar').val());
             formData.append('atajo', $('#atajo_Editar').val());
             formData.append('texto', $('#texto_Editar').val());
       
