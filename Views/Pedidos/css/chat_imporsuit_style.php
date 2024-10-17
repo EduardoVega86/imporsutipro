@@ -340,26 +340,18 @@
         border: 1px solid rgba(200, 200, 200, 0.5);
         border-radius: 12px !important;
         position: absolute;
-        bottom: 85px;
-        left: 100px;
+        bottom: 60px;
+        left: 50px;
         z-index: 1000;
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-        max-width: 100%;
+        max-width: 220px;
         max-height: 300px;
-        /* Limitar la altura máxima */
         overflow-y: auto;
-        /* Activar scroll si hay demasiados items */
-        transition: opacity 0.3s ease, transform 0.2s ease;
-        opacity: 0;
-        transform: translateY(10px);
+        transition: background-color 0.3s ease;
+        /* Animación suave del fondo */
     }
 
-    .floating-templates:not(.d-none) {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    /* Estilo de los elementos del menú */
+    /* Elementos del menú */
     .floating-templates .template-item {
         display: block;
         padding: 12px;
@@ -368,21 +360,21 @@
         border-radius: 8px;
         color: rgba(0, 0, 0, 0.8);
         cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.2s ease;
+        transition: background-color 0.2s ease;
+        /* Transición suave al cambiar el color */
     }
 
     /* Efecto hover */
     .floating-templates .template-item:hover {
-        background-color: rgba(0, 0, 0, 0.05);
-        transform: scale(1.05);
+        background-color: rgba(200, 200, 200, 0.3);
+        /* Gris claro en hover */
     }
 
-    /* Elemento seleccionado con las flechas del teclado */
+    /* Elemento activo (navegación con teclado) */
     .floating-templates .template-item.active {
-        background-color: rgba(0, 123, 255, 0.2);
-        /* Azul claro para indicar selección */
-        transform: scale(1.05);
-        color: rgba(0, 123, 255, 0.9);
+        background-color: rgba(180, 180, 180, 0.4);
+        /* Fondo gris claro para el activo */
+        color: rgba(0, 0, 0, 0.9);
     }
 
     /* Personalización del scroll */
