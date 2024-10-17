@@ -1549,9 +1549,40 @@ class PedidosModel extends Query
 
     public function numeros_clientes($id_plataforma)
     {
-        $sql = "SELECT * FROM `clientes_chat_center` INNER JOIN `mensajes_clientes` ON clientes_chat_center.id = mensajes_clientes.id_cliente 
-        LEFT JOIN `etiquetas_chat_center` ON etiquetas_chat_center.id_etiqueta = clientes_chat_center.id_etiqueta WHERE 
-        clientes_chat_center.id_plataforma = $id_plataforma AND mensajes_clientes.rol_mensaje = 0 GROUP BY clientes_chat_center.celular_cliente ORDER BY mensajes_clientes.created_at DESC;";
+        $sql = "SELECT 
+        ccc.nombre_cliente, 
+        ccc.apellido_cliente, 
+        ccc.celular_cliente,
+        mc.id_cliente, 
+        mc.texto_mensaje, 
+        ecc.color_etiqueta, 
+        mc.created_at
+    FROM 
+        clientes_chat_center ccc
+    INNER JOIN 
+        (
+            SELECT 
+                id_cliente, 
+                texto_mensaje, 
+                created_at
+            FROM 
+                mensajes_clientes mc1
+            WHERE 
+                rol_mensaje = 0
+                AND created_at = (
+                    SELECT MAX(created_at) 
+                    FROM mensajes_clientes mc2 
+                    WHERE mc2.id_cliente = mc1.id_cliente
+                )
+        ) mc 
+        ON ccc.id = mc.id_cliente
+    LEFT JOIN 
+        etiquetas_chat_center ecc 
+        ON ecc.id_etiqueta = ccc.id_etiqueta 
+    WHERE 
+        ccc.id_plataforma = $id_plataforma
+    ORDER BY 
+        mc.created_at DESC;";
         return $this->select($sql);
     }
 

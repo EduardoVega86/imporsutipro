@@ -585,6 +585,7 @@ function ocultarTemplates() {
   floatingTemplates.classList.add("d-none");
   floatingTemplates.innerHTML = ""; // Limpiar contenido
   activeIndex = -1; // Reiniciar el índice activo
+  cambiarTemplateActivo();
 }
 
 // Reemplazar el contenido del textarea con el mensaje del template
@@ -595,7 +596,6 @@ function seleccionarTemplate(mensaje) {
 
 // Cerrar el menú si se hace clic fuera del menú o del input
 document.addEventListener("click", function (event) {
-  cambiarTemplateActivo()
   if (
     !floatingTemplates.contains(event.target) && // Clic fuera del menú
     !messageInput.contains(event.target) // Y fuera del input
