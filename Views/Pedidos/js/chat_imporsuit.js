@@ -607,7 +607,7 @@ document.addEventListener("click", function (event) {
 const cambiarTemplateActivo = async () => {
   await setTimeout(() => {
     template_activo = !template_activo;
-  }, 500);
+  }, 200);
 };
 
 // Navegar por los templates con las flechas del teclado y seleccionar con Enter

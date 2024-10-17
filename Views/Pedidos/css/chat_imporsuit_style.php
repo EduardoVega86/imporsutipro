@@ -344,7 +344,7 @@
         left: 50px;
         z-index: 1000;
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-        max-width: 220px;
+        max-width: 100%;
         max-height: 300px;
         overflow-y: auto;
         transition: background-color 0.3s ease;
