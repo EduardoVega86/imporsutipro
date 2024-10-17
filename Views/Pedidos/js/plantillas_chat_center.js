@@ -42,7 +42,7 @@ const initDataTableObtenerUsuariosPlataforma = async () => {
 const listObtenerUsuariosPlataforma = async () => {
   try {
     const response = await fetch(
-      "" + SERVERURL + "usuarios/obtener_usuarios_plataforma"
+      "" + SERVERURL + "usuarios/obtener_plantillas_plataforma"
     );
     const obtenerUsuariosPlataforma = await response.json();
 

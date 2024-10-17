@@ -129,6 +129,12 @@ class Usuarios extends Controller
         $response = $this->model->obtener_usuarios_plataforma($_SESSION['id_plataforma']);
         echo json_encode($response);
     }
+    
+    public function obtener_plantillas()
+    {
+        $response = $this->model->obtener_usuarios_plataforma($_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
 
 
     public function agregarProveedor()

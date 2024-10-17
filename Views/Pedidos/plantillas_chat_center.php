@@ -2,9 +2,7 @@
 <?php require_once './Views/Usuarios/css/listado_style.php'; ?>
 <?php require_once './Views/Usuarios/Modales/agregar_usuario.php'; ?>
 <?php require_once './Views/Usuarios/Modales/editar_usuario.php'; ?>
-<?php require_once './Views/Usuarios/Modales/agregar_repartidor.php'; ?>
-<?php require_once './Views/Usuarios/Modales/editar_repartidor.php'; ?>
-<?php require_once './Views/Usuarios/Modales/subir_licencia_matricula.php'; ?>
+
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
@@ -18,14 +16,9 @@
                 <thead>
                     <tr>
                         <th class="centered">ID</th>
-                        <th class="centered">Nombres</th>
-                        <th class="centered">Usuario</th>
-                        <th class="centered">Email</th>
-                        <th class="centered">Telefono</th>
-                        <th class="centered">Tienda</th>
-                        <th class="centered">Agregado</th>
-                        <th class="centered">Agregar Placa</th>
-                        <th class="centered">Acciones</th>
+                        <th class="centered">Atajo</th>
+                         <th class="centered">Mensaje</th>
+                     
                     </tr>
                 </thead>
                 <tbody id="tableBody_obtener_usuarios_plataforma"></tbody>
