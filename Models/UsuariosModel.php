@@ -909,7 +909,7 @@ ON
         $response = $this->initialResponse();
 
         $sql = "UPDATE templates_chat_center SET atajo = ?, mensaje = ? WHERE id_template = ? ";
-        $data = [$atajo, $texto, $id_horizontal];
+        $data = [$atajo, $texto, $id_plantilla];
         $editar_horizontal = $this->update($sql, $data);
         if ($editar_horizontal == 1) {
             $response['status'] = 200;
