@@ -1,4 +1,4 @@
-let template_activo = 0
+let template_activo = 0;
 /* llenar seccion numeros */
 $(document).ready(function () {
   let lastMessageId = null; // Variable global para almacenar el ID del último mensaje mostrado
@@ -603,20 +603,19 @@ document.addEventListener("click", function (event) {
   }
 });
 
-const cambiarTemplateActivo = async() => {
+const cambiarTemplateActivo = async () => {
   await setTimeout(() => {
     template_activo = !template_activo;
   }, 1000);
-}
+};
 
 // Navegar por los templates con las flechas del teclado y seleccionar con Enter
 messageInput.addEventListener("keydown", function (event) {
-  if(template_activo ){
-    
+  if (template_activo) {
     const items = floatingTemplates.querySelectorAll(".template-item");
-    
+
     if (items.length === 0) return; // No hacer nada si no hay items
-    
+
     if (event.key === "ArrowDown") {
       // Navegar hacia abajo
       activeIndex = (activeIndex + 1) % items.length;
@@ -1210,14 +1209,15 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   messageInput.addEventListener("keydown", function (event) {
-   if(!template_activo){
-
-     if (event.key === "Enter") {
-       event.preventDefault();
-       const message = messageInput.value.trim();
-       if (message) {
-         sendMessageToWhatsApp(message);
-         cambiarTemplateActivo();
+    if (!template_activo) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        const message = messageInput.value.trim();
+        if (message) {
+          sendMessageToWhatsApp(message);
+          if (template_activo) {
+            cambiarTemplateActivo();
+          }
         } else {
           alert("Por favor, escribe un mensaje.");
         }
