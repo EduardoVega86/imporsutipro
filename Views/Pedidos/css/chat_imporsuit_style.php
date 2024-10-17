@@ -333,6 +333,55 @@
 
     /* Fin menu de añadir documetos */
 
+    /* Seccion template */
+    .floating-templates {
+        padding: 10px;
+        background-color: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(200, 200, 200, 0.5);
+        border-radius: 12px !important;
+        position: absolute;
+        bottom: 60px;
+        left: 50px;
+        z-index: 1000;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        max-width: 180px;
+        transition: opacity 0.3s ease, transform 0.2s ease;
+    }
+
+    /* Listado dentro del menú */
+    .floating-templates ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    /* Elementos del menú (Documentos, Fotos y videos) */
+    .floating-templates .list-group-item {
+        background-color: transparent;
+        border: none;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        color: rgba(0, 0, 0, 0.7);
+        cursor: pointer;
+        transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+
+    /* Efecto al hacer hover en los elementos del menú */
+    .floating-templates .list-group-item:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+        transform: scale(1.05);
+        color: rgba(0, 0, 0, 0.9);
+    }
+
+    /* Estilo del ícono dentro del menú */
+    .floating-templates .list-group-item i {
+        font-size: 20px;
+        margin-right: 10px;
+        color: rgba(0, 0, 0, 0.6);
+    }
+    /* fin seccion template */
+
     /* Input del mensaje con bordes redondeados para armonizar */
     #message-input {
         border-radius: 20px;

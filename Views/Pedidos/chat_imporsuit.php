@@ -87,6 +87,8 @@
                         <textarea id="message-input" class="form-control"
                             placeholder="Escribe un mensaje..."></textarea>
                     </div>
+                    <div id="floating-templates" class="floating-templates d-none">
+                    </div>
 
                     <!-- Botón de enviar -->
                     <button id="send-button" class="btn btn-primary ms-2" style="display: none; border-radius: 0.7rem;">
