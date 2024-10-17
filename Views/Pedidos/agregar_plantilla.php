@@ -17,7 +17,7 @@
     }
 </style>
 
-<div class="modal fade" id="agregar_testimonioModal" tabindex="-1" aria-labelledby="agregar_testimonioModalLabel" aria-hidden="true">
+<div class="modal fade" id="agregar_plantillaModal" tabindex="-1" aria-labelledby="agregar_testimonioModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
