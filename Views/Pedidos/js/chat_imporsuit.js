@@ -595,6 +595,7 @@ function seleccionarTemplate(mensaje) {
 
 // Cerrar el menú si se hace clic fuera del menú o del input
 document.addEventListener("click", function (event) {
+  cambiarTemplateActivo()
   if (
     !floatingTemplates.contains(event.target) && // Clic fuera del menú
     !messageInput.contains(event.target) // Y fuera del input
@@ -627,7 +628,6 @@ messageInput.addEventListener("keydown", function (event) {
     } else if (event.key === "Enter" && activeIndex !== -1) {
       // Seleccionar el template activo con Enter
       items[activeIndex].click(); // Simular clic
-      cambiarTemplateActivo()
       event.preventDefault(); // Evitar salto de línea en el textarea
     }
   }
