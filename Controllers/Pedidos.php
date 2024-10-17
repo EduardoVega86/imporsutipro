@@ -97,7 +97,7 @@ class Pedidos extends Controller
         }
         $this->views->render($this, "novedades");
     }
-    
+
     public function chat_imporsuit($filtro = "")
     {
         if (!$this->isAuth()) {
@@ -803,5 +803,13 @@ class Pedidos extends Controller
         header("Location: " . $direccion . "?token=" . $token); */
 
         return $this->views->render($this, "redirects");
+    }
+
+    public function buscarProductosTiendas()
+    {
+        $id_plataforma = $_POST['id_plataforma'];
+
+        $response = $this->model->buscarProductosTiendas($id_plataforma);
+        echo json_encode($response);
     }
 }

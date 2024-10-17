@@ -1701,10 +1701,4 @@ WHERE b.id_plataforma = $plataforma";
         return $response;
     }
     /* fin oferta */
-
-    public function buscarProductosTiendas($id_plataforma)
-    {
-        $sql = "SELECT pt.nombre_producto_tienda, pt.id_producto, pt.id_inventario, pt.pvp_tienda as 'precio', ib.pcp, ib.sku FROM `productos_tienda` pt INNER JOIN `inventario_bodegas` ib ON ib.id_inventario = pt.id_inventario where pt.id_plataforma = $id_plataforma";
-        return $this->select($sql);
-    }
 }
