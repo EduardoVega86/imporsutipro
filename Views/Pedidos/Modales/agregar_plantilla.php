@@ -51,8 +51,8 @@
     $(document).ready(function() {
         // Función para reiniciar el formulario
         function resetForm() {
-            $('#agregar_testimonio_form')[0].reset();
-            $('#preview-imagen-testimonio').attr('src', '#').hide();
+            $('#agregar_plantilla_form')[0].reset();
+           
         }
 
         // Evento para reiniciar el formulario cuando se cierre el modal
