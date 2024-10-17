@@ -1766,7 +1766,7 @@ ON
         $sql = "SELECT * from templates_chat_center where id_template=$id_template";
         $template = $this->select($sql);
 
-        $template = $usuario[0];
+        $template = $template[0];
 
         return $template;
     }
