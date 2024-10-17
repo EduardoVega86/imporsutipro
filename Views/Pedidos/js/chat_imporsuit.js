@@ -801,24 +801,24 @@ async function enviarImagenWhatsApp(imageUrl) {
 
 /* fin añadir documentos, videos, y fotos */
 
- function buscar_atajo_template(atajo) {
+function buscar_atajo_template(atajo, callback) {
   let formData = new FormData();
   formData.append("atajo", atajo);
+
   $.ajax({
     url: SERVERURL + "Pedidos/obtener_templates",
-    type: "POST", // Cambiar a POST para enviar FormData
+    type: "POST",
     data: formData,
-    processData: false, // No procesar los datos
-    contentType: false, // No establecer ningún tipo de contenido
+    processData: false,
+    contentType: false,
     dataType: "json",
     success: function (response) {
-      console.log("Mensaje receptado")
+      console.log("Mensaje recibido");
       if (response.length > 0) {
-        console.log("data con valor");
-        console.log(response[0] + " - " + response[0].mensaje);
-        return response[0].mensaje;
+        console.log("data con valor:", response[0].mensaje);
+        callback(response[0].mensaje); // Llamamos al callback con el mensaje
       } else {
-        return "";
+        callback(""); // Llamamos al callback con cadena vacía
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -1021,7 +1021,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // ---- Función para enviar mensajes de texto a WhatsApp ----
-   function sendMessageToWhatsApp(message) {
+  function sendMessageToWhatsApp(message) {
     var fromPhoneNumberId = $("#id_whatsapp").val();
     var accessToken = $("#token_configruacion").val();
     var url = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
@@ -1034,11 +1034,12 @@ document.addEventListener("DOMContentLoaded", function () {
     var inicio_template = message.startsWith("/");
 
     if (inicio_template) {
-      var mensaje_template =  buscar_atajo_template(message.substring(1));
-      console.log("mensaje template: " + mensaje_template);
-      if (mensaje_template !== "") {
-        /* message = mensaje_template; */
-      }
+      buscar_atajo_template(message.substring(1), function (mensaje_template) {
+        console.log("mensaje template: " + mensaje_template);
+        if (mensaje_template !== "") {
+          message = mensaje_template;
+        }
+      });
     }
 
     var phoneNumber = "+" + $("#celular_chat").val();
