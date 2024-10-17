@@ -812,4 +812,11 @@ class Pedidos extends Controller
         $response = $this->model->buscarProductosTiendas($id_plataforma);
         echo json_encode($response);
     }
+
+    public function obtener_templates()
+   {
+       $atajo = $_POST['atajo'];
+       $response = $this->model->obtener_templates($_SESSION['id_plataforma'], $atajo);
+       echo json_encode($response);
+   }
 }

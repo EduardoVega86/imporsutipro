@@ -2028,4 +2028,10 @@ class PedidosModel extends Query
         $sql = "SELECT pt.nombre_producto_tienda, pt.id_producto, pt.id_inventario, pt.pvp_tienda as 'precio', ib.pcp, ib.sku FROM `productos_tienda` pt INNER JOIN `inventario_bodegas` ib ON ib.id_inventario = pt.id_inventario where pt.id_plataforma = $id_plataforma";
         return $this->select($sql);
     }
+
+    public function obtener_templates($id_plataforma, $atajo)
+    {
+        $sql = "SELECT * FROM `templates_chat_center` WHERE id_plataforma = $id_plataforma AND atajo = '$atajo'";
+        return $this->select($sql);
+    }
 }
