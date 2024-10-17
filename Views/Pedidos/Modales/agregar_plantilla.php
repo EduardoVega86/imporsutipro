@@ -32,7 +32,7 @@
                             <input type="text" class="form-control" id="atajo" placeholder="Atajo">
                         </div>
                         <div class="col-md-12">
-                            <label for="plantilla" class="form-label">Texto del testimonio</label>
+                            <label for="plantilla" class="form-label">Texto del template</label>
                             <textarea class="form-control" id="plantilla" rows="5" placeholder="Texto del Template"></textarea>
                         </div>
                     </div>
