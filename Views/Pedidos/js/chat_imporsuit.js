@@ -527,37 +527,93 @@ const messageInput = document.getElementById("message-input");
 const emojiSearch = document.getElementById("emoji-search"); // Elemento de búsqueda
 const floatingTemplates = document.getElementById("floating-templates");
 
-// Mostrar u ocultar el menú según el valor del input
+// Evento para detectar la escritura en el input
 messageInput.addEventListener("input", function () {
   this.style.height = "auto";
   this.style.height = `${this.scrollHeight}px`;
 
   if (this.value.startsWith("/")) {
-    mostrarTemplates(); // Mostrar el menú flotante
+    const palabra_busqueda = this.value.substring(1); // Remover la "/" para la búsqueda
+    mostrarTemplates(palabra_busqueda); // Mostrar el menú flotante con los templates
   } else {
-    ocultarTemplates(); // Ocultar el menú flotante
+    ocultarTemplates(); // Ocultar el menú si no empieza con "/"
   }
 });
 
-// Cerrar el menú si se hace clic fuera de él o del input
+// Mostrar el menú flotante con los templates obtenidos desde el servidor
+function mostrarTemplates(palabra_busqueda) {
+  let formData = new FormData();
+  formData.append("palabra_busqueda", palabra_busqueda);
+
+  $.ajax({
+    url: SERVERURL + "Pedidos/obtener_templates",
+    type: "POST",
+    data: formData,
+    processData: false,
+    contentType: false,
+    dataType: "json",
+    success: function (response) {
+      // Limpiar el contenido anterior del menú flotante
+      floatingTemplates.innerHTML = "";
+
+      // Llenar el menú flotante con los resultados
+      response.forEach((template) => {
+        const templateItem = document.createElement("span");
+        templateItem.classList.add("template-item");
+        templateItem.textContent = `${template.atajo} - ${template.mensaje}`;
+
+        // Agregar evento de clic a cada template
+        templateItem.addEventListener("click", function () {
+          seleccionarTemplate(template.mensaje); // Seleccionar template al hacer clic
+        });
+
+        floatingTemplates.appendChild(templateItem);
+      });
+
+      // Mostrar el menú flotante
+      floatingTemplates.classList.remove("d-none");
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+}
+
+// Ocultar el menú flotante
+function ocultarTemplates() {
+  floatingTemplates.classList.add("d-none");
+  floatingTemplates.innerHTML = ""; // Limpiar el contenido
+}
+
+// Reemplazar el contenido del textarea con el mensaje del template
+function seleccionarTemplate(mensaje) {
+  messageInput.value = mensaje; // Poner el mensaje en el textarea
+  ocultarTemplates(); // Ocultar el menú flotante
+}
+
+// Cerrar el menú flotante si se hace clic fuera del menú o del input
 document.addEventListener("click", function (event) {
   if (
     !floatingTemplates.contains(event.target) && // Si el clic no es en el menú
     !messageInput.contains(event.target) // Y tampoco en el input
   ) {
-    ocultarTemplates(); // Ocultar el menú
+    ocultarTemplates(); // Ocultar el menú flotante
   }
 });
 
-// Función para mostrar el menú flotante
-function mostrarTemplates() {
-  floatingTemplates.classList.remove("d-none");
-}
-
-// Función para ocultar el menú flotante
-function ocultarTemplates() {
-  floatingTemplates.classList.add("d-none");
-}
+// Permitir seleccionar template al presionar "Enter"
+messageInput.addEventListener("keydown", function (event) {
+  if (
+    event.key === "Enter" &&
+    !floatingTemplates.classList.contains("d-none")
+  ) {
+    const firstTemplate = floatingTemplates.querySelector(".template-item");
+    if (firstTemplate) {
+      firstTemplate.click(); // Simular clic en el primer template
+      event.preventDefault(); // Evitar salto de línea en el textarea
+    }
+  }
+});
 /* fin expancion del mesaje texto */
 
 let allEmojis = []; // Variable para almacenar todos los emojis
@@ -826,30 +882,6 @@ async function enviarImagenWhatsApp(imageUrl) {
 
 /* fin añadir documentos, videos, y fotos */
 
-function buscar_atajo_template(atajo, callback) {
-  let formData = new FormData();
-  formData.append("atajo", atajo);
-
-  $.ajax({
-    url: SERVERURL + "Pedidos/obtener_templates",
-    type: "POST",
-    data: formData,
-    processData: false,
-    contentType: false,
-    dataType: "json",
-    success: function (response) {
-      if (response.length > 0) {
-        callback(response[0].mensaje); // Llamamos al callback con el mensaje
-      } else {
-        callback(""); // Llamamos al callback con cadena vacía
-      }
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      alert(errorThrown);
-    },
-  });
-}
-
 /* Enviar mensaje whatsapp */
 document.addEventListener("DOMContentLoaded", function () {
   const recordButton = document.getElementById("record-button");
@@ -1052,16 +1084,6 @@ document.addEventListener("DOMContentLoaded", function () {
     if (message.trim() === "") {
       alert("Por favor, escribe un mensaje.");
       return;
-    }
-
-    var inicio_template = message.startsWith("/");
-
-    if (inicio_template) {
-      buscar_atajo_template(message.substring(1), function (mensaje_template) {
-        if (mensaje_template !== "") {
-          message = mensaje_template;
-        }
-      });
     }
 
     var phoneNumber = "+" + $("#celular_chat").val();
