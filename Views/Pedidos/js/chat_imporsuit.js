@@ -537,6 +537,7 @@ messageInput.addEventListener("input", function () {
   if (this.value.startsWith("/")) {
     const palabra_busqueda = this.value.substring(1); // Remover la "/"
     mostrarTemplates(palabra_busqueda); // Mostrar el menú con los templates
+    cambiarTemplateActivo()
   } else {
     ocultarTemplates(); // Ocultar si no empieza con "/"
   }
