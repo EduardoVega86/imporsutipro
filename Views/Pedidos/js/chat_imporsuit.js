@@ -1,4 +1,4 @@
-let template_activo = 1;
+let template_activo = 0
 /* llenar seccion numeros */
 $(document).ready(function () {
   let lastMessageId = null; // Variable global para almacenar el ID del último mensaje mostrado
@@ -572,6 +572,7 @@ function mostrarTemplates(palabra_busqueda) {
 
       activeIndex = -1; // Reiniciar índice activo
       floatingTemplates.classList.remove("d-none"); // Mostrar menú
+      cambiarTemplateActivo();
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
@@ -602,10 +603,16 @@ document.addEventListener("click", function (event) {
   }
 });
 
+const cambiarTemplateActivo = async() => {
+  await setTimeout(() => {
+    template_activo = !template_activo;
+  }, 1000);
+}
+
 // Navegar por los templates con las flechas del teclado y seleccionar con Enter
 messageInput.addEventListener("keydown", function (event) {
   if(template_activo ){
-
+    
     const items = floatingTemplates.querySelectorAll(".template-item");
     
     if (items.length === 0) return; // No hacer nada si no hay items
@@ -1210,6 +1217,7 @@ document.addEventListener("DOMContentLoaded", function () {
        const message = messageInput.value.trim();
        if (message) {
          sendMessageToWhatsApp(message);
+         cambiarTemplateActivo();
         } else {
           alert("Por favor, escribe un mensaje.");
         }
