@@ -1,5 +1,4 @@
 /* llenar seccion numeros */
-let template_activo = 0;
 $(document).ready(function () {
   let lastMessageId = null; // Variable global para almacenar el ID del último mensaje mostrado
 
@@ -544,7 +543,6 @@ messageInput.addEventListener("input", function () {
 
 // Mostrar el menú flotante con los templates obtenidos del servidor
 function mostrarTemplates(palabra_busqueda) {
-  console.log(template_activo);
   let formData = new FormData();
   formData.append("palabra_busqueda", palabra_busqueda);
 
@@ -572,7 +570,6 @@ function mostrarTemplates(palabra_busqueda) {
       });
 
       activeIndex = -1; // Reiniciar índice activo
-      template_activo = 1;
       floatingTemplates.classList.remove("d-none"); // Mostrar menú
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -583,8 +580,6 @@ function mostrarTemplates(palabra_busqueda) {
 
 // Ocultar el menú flotante
 function ocultarTemplates() {
-  template_activo = 0;
-  console.log(template_activo);
   floatingTemplates.classList.add("d-none");
   floatingTemplates.innerHTML = ""; // Limpiar contenido
   activeIndex = -1; // Reiniciar el índice activo
@@ -612,19 +607,19 @@ messageInput.addEventListener("keydown", function (event) {
 
   if (items.length === 0) return; // No hacer nada si no hay items
 
-  if (event.key === "ArrowDown" && template_activo ===1) {
+  if (event.key === "ArrowDown") {
     // Navegar hacia abajo
     activeIndex = (activeIndex + 1) % items.length;
     setActiveItem(items);
-  } else if (event.key === "ArrowUp" && template_activo ===1) {
+  } else if (event.key === "ArrowUp") {
     // Navegar hacia arriba
     activeIndex = (activeIndex - 1 + items.length) % items.length;
     setActiveItem(items);
-  } else if (event.key === "Enter" && activeIndex !== -1 && template_activo ===1) {
-    console.log("enter template: "+template_activo);
+  } else if (event.key === "Enter" && activeIndex !== -1) {
     // Seleccionar el template activo con Enter
     items[activeIndex].click(); // Simular clic
     event.preventDefault(); // Evitar salto de línea en el textarea
+    event.stopPropagation(); // Evitar que el evento se propague y envíe el mensaje
   }
 });
 
@@ -1205,8 +1200,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   messageInput.addEventListener("keydown", function (event) {
-    if (event.key === "Enter" && template_activo === 0) {
-      console.log("enter chat: "+template_activo);
+    if (event.key === "Enter") {
       event.preventDefault();
       const message = messageInput.value.trim();
       if (message) {
