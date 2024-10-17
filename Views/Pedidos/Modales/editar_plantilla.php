@@ -103,7 +103,7 @@
 
                         $('#editar_testimonioModal').modal('hide');
                         resetForm();
-                        initDataTableTestimonios();
+                        initDataTableObtenerUsuariosPlataforma();
                     }
                 },
                 error: function(error) {
