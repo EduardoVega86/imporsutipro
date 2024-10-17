@@ -1217,6 +1217,7 @@ document.addEventListener("DOMContentLoaded", function () {
        const message = messageInput.value.trim();
        if (message) {
          sendMessageToWhatsApp(message);
+         if(template_activo)
          cambiarTemplateActivo();
         } else {
           alert("Por favor, escribe un mensaje.");
