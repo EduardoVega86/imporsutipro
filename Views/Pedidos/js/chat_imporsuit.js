@@ -1,3 +1,4 @@
+let template_activo = 1;
 /* llenar seccion numeros */
 $(document).ready(function () {
   let lastMessageId = null; // Variable global para almacenar el ID del último mensaje mostrado
@@ -603,23 +604,25 @@ document.addEventListener("click", function (event) {
 
 // Navegar por los templates con las flechas del teclado y seleccionar con Enter
 messageInput.addEventListener("keydown", function (event) {
-  const items = floatingTemplates.querySelectorAll(".template-item");
+  if(template_activo ){
 
-  if (items.length === 0) return; // No hacer nada si no hay items
-
-  if (event.key === "ArrowDown") {
-    // Navegar hacia abajo
-    activeIndex = (activeIndex + 1) % items.length;
-    setActiveItem(items);
-  } else if (event.key === "ArrowUp") {
-    // Navegar hacia arriba
-    activeIndex = (activeIndex - 1 + items.length) % items.length;
-    setActiveItem(items);
-  } else if (event.key === "Enter" && activeIndex !== -1) {
-    // Seleccionar el template activo con Enter
-    items[activeIndex].click(); // Simular clic
-    event.preventDefault(); // Evitar salto de línea en el textarea
-    event.stopPropagation(); // Evitar que el evento se propague y envíe el mensaje
+    const items = floatingTemplates.querySelectorAll(".template-item");
+    
+    if (items.length === 0) return; // No hacer nada si no hay items
+    
+    if (event.key === "ArrowDown") {
+      // Navegar hacia abajo
+      activeIndex = (activeIndex + 1) % items.length;
+      setActiveItem(items);
+    } else if (event.key === "ArrowUp") {
+      // Navegar hacia arriba
+      activeIndex = (activeIndex - 1 + items.length) % items.length;
+      setActiveItem(items);
+    } else if (event.key === "Enter" && activeIndex !== -1) {
+      // Seleccionar el template activo con Enter
+      items[activeIndex].click(); // Simular clic
+      event.preventDefault(); // Evitar salto de línea en el textarea
+    }
   }
 });
 
@@ -1200,13 +1203,16 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   messageInput.addEventListener("keydown", function (event) {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      const message = messageInput.value.trim();
-      if (message) {
-        sendMessageToWhatsApp(message);
-      } else {
-        alert("Por favor, escribe un mensaje.");
+   if(!template_activo){
+
+     if (event.key === "Enter") {
+       event.preventDefault();
+       const message = messageInput.value.trim();
+       if (message) {
+         sendMessageToWhatsApp(message);
+        } else {
+          alert("Por favor, escribe un mensaje.");
+        }
       }
     }
   });
