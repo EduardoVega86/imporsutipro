@@ -1,4 +1,5 @@
 /* llenar seccion numeros */
+let template_activo = 0;
 $(document).ready(function () {
   let lastMessageId = null; // Variable global para almacenar el ID del último mensaje mostrado
 
@@ -543,6 +544,7 @@ messageInput.addEventListener("input", function () {
 
 // Mostrar el menú flotante con los templates obtenidos del servidor
 function mostrarTemplates(palabra_busqueda) {
+  template_activo = 1;
   let formData = new FormData();
   formData.append("palabra_busqueda", palabra_busqueda);
 
@@ -580,6 +582,7 @@ function mostrarTemplates(palabra_busqueda) {
 
 // Ocultar el menú flotante
 function ocultarTemplates() {
+  template_activo = 0;
   floatingTemplates.classList.add("d-none");
   floatingTemplates.innerHTML = ""; // Limpiar contenido
   activeIndex = -1; // Reiniciar el índice activo
@@ -607,15 +610,15 @@ messageInput.addEventListener("keydown", function (event) {
 
   if (items.length === 0) return; // No hacer nada si no hay items
 
-  if (event.key === "ArrowDown") {
+  if (event.key === "ArrowDown" && template_activo ===1) {
     // Navegar hacia abajo
     activeIndex = (activeIndex + 1) % items.length;
     setActiveItem(items);
-  } else if (event.key === "ArrowUp") {
+  } else if (event.key === "ArrowUp" && template_activo ===1) {
     // Navegar hacia arriba
     activeIndex = (activeIndex - 1 + items.length) % items.length;
     setActiveItem(items);
-  } else if (event.key === "Enter" && activeIndex !== -1) {
+  } else if (event.key === "Enter" && activeIndex !== -1 && template_activo ===1) {
     // Seleccionar el template activo con Enter
     items[activeIndex].click(); // Simular clic
     event.preventDefault(); // Evitar salto de línea en el textarea
@@ -1199,7 +1202,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   messageInput.addEventListener("keydown", function (event) {
-    if (event.key === "Enter") {
+    if (event.key === "Enter" && template_activo === 0) {
       event.preventDefault();
       const message = messageInput.value.trim();
       if (message) {
