@@ -425,6 +425,17 @@ class Usuarios extends Controller
         echo json_encode($response);
     }
 
+    
+    public function agregarPlantilla()
+    {
+        $atajo = $_POST['atajo'];
+        $plantilla = $_POST['plantilla'];
+       
+        $response = $this->model->agregarPlantilla($atajo, $plantilla, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+    
+    
     public function eliminarTestimonio()
     {
         $id = $_POST['id'];

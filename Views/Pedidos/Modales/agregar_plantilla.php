@@ -79,7 +79,7 @@
 
             // Realiza la solicitud AJAX
             $.ajax({
-                url: '' + SERVERURL + 'Usuarios/agregarTestimonios',
+                url: '' + SERVERURL + 'Usuarios/agregarPlantilla',
                 type: 'POST',
                 data: formData,
                 processData: false,

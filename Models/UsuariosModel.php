@@ -737,6 +737,26 @@ ON
         }
         return $response;
     }
+    
+    
+    public function agregarPlantilla($atajo, $plantilla, $plataforma)
+    {
+        $response = $this->initialResponse();
+       
+     $sql = "INSERT INTO `templates_chat_center` (`atajo`,`mensaje`,`id_plataforma`) VALUES (?, ?, ?)";
+        $data = [$atajo, $plantilla, $plataforma];
+        $insertar_flotante = $this->insert($sql, $data);
+        if ($insertar_flotante == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'flotante agregada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = $insertar_flotante['message'];
+        }
+        return $response;
+    }
 
     public function eliminarTestimonio($id, $plataforma)
     {
