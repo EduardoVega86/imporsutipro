@@ -30,7 +30,7 @@
 
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="nombre_testimonioEditar" class="form-label">Atajo</label>
+                            <label for="atajo_Editar" class="form-label">Atajo</label>
                             <input type="text" class="form-control" id="atajo_Editar" placeholder="Nombre">
                         </div>
                         <div class="col-md-6">

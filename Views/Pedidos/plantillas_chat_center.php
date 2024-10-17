@@ -1,7 +1,7 @@
 <?php require_once './Views/templates/header.php'; ?>
 <?php require_once './Views/Usuarios/css/listado_style.php'; ?>
 <?php require_once './Views/Pedidos/Modales/agregar_plantilla.php'; ?>
-<?php require_once './Views/Usuarios/Modales/editar_plantilla.php'; ?>
+<?php require_once './Views/Pedidos/Modales/editar_plantilla.php'; ?>
 
 
 <div class="custom-container-fluid">
