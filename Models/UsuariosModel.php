@@ -1760,4 +1760,15 @@ ON
 
         return $usuario;
     }
+    
+    public function obtener_template($id_template)
+    {
+        $sql = "SELECT * from templates_chat_center where id_template=$id_template";
+        $template = $this->select($sql);
+
+        $template = $usuario[0];
+
+        return $template;
+    }
+    
 }

@@ -51,13 +51,9 @@ const listObtenerUsuariosPlataforma = async () => {
     obtenerUsuariosPlataforma.forEach((usuario, index) => {
       let editar = "";
       let placa = "";
-      if (usuario.cargo_users == 35) {
-        editar = `<button class="btn btn-sm btn-primary" onclick="abrir_editar_motorizado(${usuario.id_users})"><i class="fa-solid fa-pencil"></i>Editar</button>`;
-
-        placa = `<i class="fa-solid fa-store" style='cursor:pointer' onclick="abrir_modal_subirPlaca(${usuario.id_users})"></i>`;
-      } else {
-        editar = `<button class="btn btn-sm btn-primary" onclick="abrir_editar_usuario(${usuario.id_users})"><i class="fa-solid fa-pencil"></i>Editar</button>`;
-      }
+   
+        editar = `<button class="btn btn-sm btn-primary" onclick="abrir_editar_usuario(${usuario.id_template})"><i class="fa-solid fa-pencil"></i>Editar</button>`;
+      
 
       content += `
                 <tr>
@@ -149,22 +145,20 @@ function eliminar_usuario(id_usuario) {
   });
 }
 
-function abrir_editar_usuario(id_usuario) {
+function abrir_editar_usuario(id_template) {
   let formData = new FormData();
-  formData.append("id_usuario", id_usuario); // Añadir el SKU al FormData
+  formData.append("id_template", id_template); // Añadir el SKU al FormData
   $.ajax({
-    url: SERVERURL + "usuarios/obtener_usuario",
+    url: SERVERURL + "usuarios/obtener_template",
     type: "POST",
     data: formData,
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
     dataType: "json",
     success: function (response) {
-      $("#id_usuario_editar").val(id_usuario);
-      $("#nombre_editar").val(response.nombre_users);
-      $("#grupoPermisos_editar").val(response.cargo_users).change();
-
-      $("#editar_usuarioModal").modal("show");
+      $("#id_template").val(id_template);
+      $("#atajo_Editar").val(response.nombre_users);
+      $("#texto_Editar").modal("show");
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
