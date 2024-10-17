@@ -2,9 +2,13 @@
 
 class UbicacionesModel extends Query
 {
-    public function obtener_provincias()
+    public function obtener_provincias($pais)
     {
-        $sql = "SELECT * FROM provincia_laar";
+        if ($pais == 0) {
+            $sql = "SELECT * FROM provincia_laar";
+        } else {
+            $sql = "SELECT * FROM provincia_laar WHERE id_pais = $pais";
+        }
         return $this->select($sql);
     }
 
