@@ -454,6 +454,17 @@ class Usuarios extends Controller
         echo json_encode($response);
     }
 
+     public function editarPlantilla()
+    {
+        $id_plantilla = $_POST['id_plantilla'];
+        $atajo = $_POST['atajo'];
+        $texto = $_POST['texto'];
+     
+
+        $response = $this->model->editarPlantilla($id_plantilla, $atajo, $texto, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+    
     public function obtener_horizontalTienda()
     {
         $response = $this->model->obtener_horizontalTienda($_SESSION['id_plataforma']);
@@ -654,7 +665,7 @@ class Usuarios extends Controller
     public function obtener_template()
     {
         $id_template = $_POST['id_template'];
-        $response = $this->model->obtener_template($id_usuario);
+        $response = $this->model->obtener_template($id_template);
         echo json_encode($response);
     }
 

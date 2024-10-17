@@ -156,9 +156,11 @@ function abrir_editar_usuario(id_template) {
     contentType: false, // No establecer ningún tipo de contenido
     dataType: "json",
     success: function (response) {
-      $("#id_template").val(id_template);
-      $("#atajo_Editar").val(response.nombre_users);
-      $("#texto_Editar").modal("show");
+       
+      $("#id_template_Editar").val(id_template);
+      $("#atajo_Editar").val(response.atajo);
+      $("#texto_Editar").val(response.mensaje);
+      $("#editar_testimonioModal").modal("show");
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);

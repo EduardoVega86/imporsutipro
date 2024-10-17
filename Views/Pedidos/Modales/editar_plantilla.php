@@ -26,16 +26,16 @@
             </div>
             <div class="modal-body">
                 <form id="editar_testimonio_form" enctype="multipart/form-data">
-                    <input type="hidden" id="id_template" name="id_template">
+                    <input type="hidden" id="id_template_Editar" name="id_template_Editar">
 
                     <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="nombre_testimonioEditar" class="form-label">Atajo</label>
+                        <div class="col-md-12">
+                            <label for="atajo_Editar" class="form-label">Atajo</label>
                             <input type="text" class="form-control" id="atajo_Editar" placeholder="Nombre">
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <label for="testimonio_testimonioEditar" class="form-label">Texto del Template</label>
-                            <textarea class="form-control" id="texto_Editar" rows="3" placeholder="Texto del testimonio"></textarea>
+                            <textarea class="form-control" id="texto_Editar" rows="5" placeholder="Texto del testimonio"></textarea>
                         </div>
                     </div>
                     
@@ -65,13 +65,7 @@
         });
 
         // Vista previa de la imagen
-        $('#imagen_testimonioEditar').change(function() {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                $('#preview-imagen-testimonioEditar').attr('src', e.target.result).show();
-            }
-            reader.readAsDataURL(this.files[0]);
-        });
+       
 
         $('#editar_testimonio_form').submit(function(event) {
             event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
@@ -81,14 +75,13 @@
 
             // Crea un objeto FormData
             var formData = new FormData();
-            formData.append('id_testimonio', $('#id_testimonio').val());
-            formData.append('nombre', $('#nombre_testimonioEditar').val());
-            formData.append('testimonio', $('#testimonio_testimonioEditar').val());
-            formData.append('imagen', $('#imagen_testimonioEditar')[0].files[0]);
-
+            formData.append('id_plantilla', $('#id_template_Editar').val());
+            formData.append('atajo', $('#atajo_Editar').val());
+            formData.append('texto', $('#texto_Editar').val());
+      
             // Realiza la solicitud AJAX
             $.ajax({
-                url: SERVERURL + 'Usuarios/editartestimonio',
+                url: SERVERURL + 'Usuarios/editarplantilla',
                 type: 'POST',
                 data: formData,
                 processData: false,
@@ -110,7 +103,7 @@
 
                         $('#editar_testimonioModal').modal('hide');
                         resetForm();
-                        initDataTableTestimonios();
+                        initDataTableObtenerUsuariosPlataforma();
                     }
                 },
                 error: function(error) {

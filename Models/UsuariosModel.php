@@ -902,6 +902,27 @@ ON
         }
         return $response;
     }
+    
+    public function editarPlantilla($id_plantilla, $atajo, $texto , $plataforma)
+    {
+        // codigo para editar categoria
+        $response = $this->initialResponse();
+
+        $sql = "UPDATE templates_chat_center SET atajo = ?, mensaje = ? WHERE id_template = ? ";
+        $data = [$atajo, $texto, $id_plantilla];
+        $editar_horizontal = $this->update($sql, $data);
+        //print_r($editar_horizontal);
+        if ($editar_horizontal == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'horizontal editada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al editar la plantilla';
+        }
+        return $response;
+    }
 
     public function eliminarHorizontal($id, $plataforma)
     {
@@ -1766,7 +1787,7 @@ ON
         $sql = "SELECT * from templates_chat_center where id_template=$id_template";
         $template = $this->select($sql);
 
-        $template = $usuario[0];
+        $template = $template[0];
 
         return $template;
     }

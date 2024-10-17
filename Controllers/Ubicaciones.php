@@ -14,7 +14,8 @@ class Ubicaciones extends Controller
 
     public function obtenerProvincias()
     {
-        $data = $this->model->obtener_provincias();
+        $pais = $_POST['pais'] ?? 0;
+        $data = $this->model->obtener_provincias($pais);
         echo json_encode($data);
     }
 
