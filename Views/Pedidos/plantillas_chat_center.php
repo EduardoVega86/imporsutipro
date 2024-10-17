@@ -26,5 +26,5 @@
         </div>
     </div>
 </div>
-<script src="<?php echo SERVERURL ?>/Views/Usuarios/js/listado.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/Usuarios/js/plantillas_chat_center.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
