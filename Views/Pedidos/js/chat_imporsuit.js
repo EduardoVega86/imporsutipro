@@ -624,6 +624,7 @@ messageInput.addEventListener("keydown", function (event) {
     console.log("enter template: "+template_activo);
     // Seleccionar el template activo con Enter
     items[activeIndex].click(); // Simular clic
+    template_activo = 0;
     event.preventDefault(); // Evitar salto de línea en el textarea
   }
 });
