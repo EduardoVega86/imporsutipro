@@ -340,46 +340,65 @@
         border: 1px solid rgba(200, 200, 200, 0.5);
         border-radius: 12px !important;
         position: absolute;
-        bottom: 85px;
-        left: 100px;
+        bottom: 60px;
+        left: 50px;
         z-index: 1000;
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-        max-width: 180px;
+        max-width: 220px;
+        max-height: 300px;
+        /* Limitar la altura máxima */
+        overflow-y: auto;
+        /* Activar scroll si hay demasiados items */
         transition: opacity 0.3s ease, transform 0.2s ease;
+        opacity: 0;
+        transform: translateY(10px);
     }
 
-    /* Listado dentro del menú */
-    .floating-templates ul {
-        margin: 0;
-        padding: 0;
-        list-style: none;
+    .floating-templates:not(.d-none) {
+        opacity: 1;
+        transform: translateY(0);
     }
 
-    /* Elementos del menú (Documentos, Fotos y videos) */
-    .floating-templates .list-group-item {
-        background-color: transparent;
-        border: none;
-        padding: 10px;
-        display: flex;
-        align-items: center;
-        color: rgba(0, 0, 0, 0.7);
+    /* Estilo de los elementos del menú */
+    .floating-templates .template-item {
+        display: block;
+        padding: 12px;
+        margin: 5px 0;
+        background-color: rgba(240, 240, 240, 0.6);
+        border-radius: 8px;
+        color: rgba(0, 0, 0, 0.8);
         cursor: pointer;
-        transition: background-color 0.2s ease, transform 0.2s ease;
+        transition: background-color 0.3s ease, transform 0.2s ease;
     }
 
-    /* Efecto al hacer hover en los elementos del menú */
-    .floating-templates .list-group-item:hover {
+    /* Efecto hover */
+    .floating-templates .template-item:hover {
         background-color: rgba(0, 0, 0, 0.05);
         transform: scale(1.05);
-        color: rgba(0, 0, 0, 0.9);
     }
 
-    /* Estilo del ícono dentro del menú */
-    .floating-templates .list-group-item i {
-        font-size: 20px;
-        margin-right: 10px;
-        color: rgba(0, 0, 0, 0.6);
+    /* Elemento seleccionado con las flechas del teclado */
+    .floating-templates .template-item.active {
+        background-color: rgba(0, 123, 255, 0.2);
+        /* Azul claro para indicar selección */
+        transform: scale(1.05);
+        color: rgba(0, 123, 255, 0.9);
     }
+
+    /* Personalización del scroll */
+    .floating-templates::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .floating-templates::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.3);
+        border-radius: 4px;
+    }
+
+    .floating-templates::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
     /* fin seccion template */
 
     /* Input del mensaje con bordes redondeados para armonizar */
