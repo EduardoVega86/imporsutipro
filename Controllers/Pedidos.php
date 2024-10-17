@@ -815,8 +815,8 @@ class Pedidos extends Controller
 
     public function obtener_templates()
    {
-       $atajo = $_POST['atajo'];
-       $response = $this->model->obtener_templates($_SESSION['id_plataforma'], $atajo);
+       $palabra_busqueda = $_POST['palabra_busqueda'];
+       $response = $this->model->obtener_templates($_SESSION['id_plataforma'], $palabra_busqueda);
        echo json_encode($response);
    }
 }

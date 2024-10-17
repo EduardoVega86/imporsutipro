@@ -2029,9 +2029,9 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
-    public function obtener_templates($id_plataforma, $atajo)
+    public function obtener_templates($id_plataforma, $palabra_busqueda)
     {
-        $sql = "SELECT * FROM `templates_chat_center` WHERE id_plataforma = $id_plataforma AND atajo = '$atajo'";
+        $sql = "SELECT * FROM `templates_chat_center` WHERE id_plataforma = $id_plataforma AND (atajo LIKE '%$palabra_busqueda%' OR mensaje LIKE '%$palabra_busqueda%')";
         return $this->select($sql);
     }
 }
