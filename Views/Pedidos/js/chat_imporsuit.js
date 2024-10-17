@@ -526,6 +526,7 @@ const emojiSection = document.getElementById("emoji-section");
 const messageInput = document.getElementById("message-input");
 const emojiSearch = document.getElementById("emoji-search"); // Elemento de búsqueda
 const floatingTemplates = document.getElementById("floating-templates");
+let activeIndex = -1; // Índice del template activo
 
 // Evento para detectar la escritura en el input
 messageInput.addEventListener("input", function () {
@@ -533,14 +534,14 @@ messageInput.addEventListener("input", function () {
   this.style.height = `${this.scrollHeight}px`;
 
   if (this.value.startsWith("/")) {
-    const palabra_busqueda = this.value.substring(1); // Remover la "/" para la búsqueda
-    mostrarTemplates(palabra_busqueda); // Mostrar el menú flotante con los templates
+    const palabra_busqueda = this.value.substring(1); // Remover la "/"
+    mostrarTemplates(palabra_busqueda); // Mostrar el menú con los templates
   } else {
-    ocultarTemplates(); // Ocultar el menú si no empieza con "/"
+    ocultarTemplates(); // Ocultar si no empieza con "/"
   }
 });
 
-// Mostrar el menú flotante con los templates obtenidos desde el servidor
+// Mostrar el menú flotante con los templates obtenidos del servidor
 function mostrarTemplates(palabra_busqueda) {
   let formData = new FormData();
   formData.append("palabra_busqueda", palabra_busqueda);
@@ -553,25 +554,23 @@ function mostrarTemplates(palabra_busqueda) {
     contentType: false,
     dataType: "json",
     success: function (response) {
-      // Limpiar el contenido anterior del menú flotante
-      floatingTemplates.innerHTML = "";
+      floatingTemplates.innerHTML = ""; // Limpiar contenido anterior
 
-      // Llenar el menú flotante con los resultados
-      response.forEach((template) => {
+      response.forEach((template, index) => {
         const templateItem = document.createElement("span");
         templateItem.classList.add("template-item");
         templateItem.textContent = `${template.atajo} - ${template.mensaje}`;
 
-        // Agregar evento de clic a cada template
+        // Agregar evento de clic para seleccionar el template
         templateItem.addEventListener("click", function () {
-          seleccionarTemplate(template.mensaje); // Seleccionar template al hacer clic
+          seleccionarTemplate(template.mensaje); // Reemplazar en el input
         });
 
         floatingTemplates.appendChild(templateItem);
       });
 
-      // Mostrar el menú flotante
-      floatingTemplates.classList.remove("d-none");
+      activeIndex = -1; // Reiniciar índice activo
+      floatingTemplates.classList.remove("d-none"); // Mostrar menú
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
@@ -582,38 +581,59 @@ function mostrarTemplates(palabra_busqueda) {
 // Ocultar el menú flotante
 function ocultarTemplates() {
   floatingTemplates.classList.add("d-none");
-  floatingTemplates.innerHTML = ""; // Limpiar el contenido
+  floatingTemplates.innerHTML = ""; // Limpiar contenido
+  activeIndex = -1; // Reiniciar el índice activo
 }
 
 // Reemplazar el contenido del textarea con el mensaje del template
 function seleccionarTemplate(mensaje) {
-  messageInput.value = mensaje; // Poner el mensaje en el textarea
+  messageInput.value = mensaje; // Colocar el mensaje en el input
   ocultarTemplates(); // Ocultar el menú flotante
 }
 
-// Cerrar el menú flotante si se hace clic fuera del menú o del input
+// Cerrar el menú si se hace clic fuera del menú o del input
 document.addEventListener("click", function (event) {
   if (
-    !floatingTemplates.contains(event.target) && // Si el clic no es en el menú
-    !messageInput.contains(event.target) // Y tampoco en el input
+    !floatingTemplates.contains(event.target) && // Clic fuera del menú
+    !messageInput.contains(event.target) // Y fuera del input
   ) {
     ocultarTemplates(); // Ocultar el menú flotante
   }
 });
 
-// Permitir seleccionar template al presionar "Enter"
+// Navegar por los templates con las flechas del teclado y seleccionar con Enter
 messageInput.addEventListener("keydown", function (event) {
-  if (
-    event.key === "Enter" &&
-    !floatingTemplates.classList.contains("d-none")
-  ) {
-    const firstTemplate = floatingTemplates.querySelector(".template-item");
-    if (firstTemplate) {
-      firstTemplate.click(); // Simular clic en el primer template
-      event.preventDefault(); // Evitar salto de línea en el textarea
-    }
+  const items = floatingTemplates.querySelectorAll(".template-item");
+
+  if (items.length === 0) return; // No hacer nada si no hay items
+
+  if (event.key === "ArrowDown") {
+    // Navegar hacia abajo
+    activeIndex = (activeIndex + 1) % items.length;
+    setActiveItem(items);
+  } else if (event.key === "ArrowUp") {
+    // Navegar hacia arriba
+    activeIndex = (activeIndex - 1 + items.length) % items.length;
+    setActiveItem(items);
+  } else if (event.key === "Enter" && activeIndex !== -1) {
+    // Seleccionar el template activo con Enter
+    items[activeIndex].click(); // Simular clic
+    event.preventDefault(); // Evitar salto de línea en el textarea
   }
 });
+
+// Marcar el template activo visualmente
+function setActiveItem(items) {
+  items.forEach((item, index) => {
+    item.classList.toggle("active", index === activeIndex); // Aplicar clase "active"
+  });
+
+  // Asegurar que el template activo esté visible en el scroll
+  const activeItem = items[activeIndex];
+  if (activeItem) {
+    activeItem.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+}
 /* fin expancion del mesaje texto */
 
 let allEmojis = []; // Variable para almacenar todos los emojis
