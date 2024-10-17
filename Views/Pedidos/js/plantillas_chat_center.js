@@ -157,8 +157,9 @@ function abrir_editar_usuario(id_template) {
     dataType: "json",
     success: function (response) {
       $("#id_template").val(id_template);
-      $("#atajo_Editar").val(response.nombre_users);
-      $("#texto_Editar").modal("show");
+      $("#atajo_Editar").val(response.atajo);
+      $("#texto_Editar").val(response.mensaje);
+      $("#editar_testimonioModal").modal("show");
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
