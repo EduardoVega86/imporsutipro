@@ -811,9 +811,7 @@ function buscar_atajo_template(atajo) {
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
     dataType: "json",
-    success: function (response) {
-      
-    },
+    success: function (response) {},
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
     },
@@ -1372,28 +1370,113 @@ async function llenarProductos(arregloProductos) {
   await productosAdicionales(ultimoProducto.id_producto, ultimoProducto.sku);
 }
 
-async function productosAdicionales(id_producto, sku) {
+const productosAdicionales = (id_producto, sku) => {
   const frm = new FormData();
   frm.append("sku", sku);
-  try {
-    const response = await fetch(
-      "https://new.imporsuitpro.com/pedidos/buscarProductosBodega/" +
-        id_producto,
-      {
-        method: "POST",
-        body: frm,
-      }
-    );
-    const data = await response.json();
-    const modalBody = document.querySelector("#productosModal .modal-body");
-    modalBody.innerHTML = "";
-
-    // Build your modal content here
-    // ... (existing code)
-  } catch (error) {
-    console.error("Error fetching additional products:", error);
-  }
-}
+  fetch(
+    "https://new.imporsuitpro.com/pedidos/buscarProductosBodega/" + id_producto,
+    {
+      method: "POST",
+      body: frm,
+    }
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      const modalBody = document.querySelector("#productosModal .modal-body");
+      modalBody.innerHTML = "";
+      // Tamaño de la página y estado actual de la paginación
+      const pageSize = 5;
+      let currentPage = 1;
+      const totalPages = Math.ceil(data.length / pageSize);
+      // Crear la tabla con cabecera y campo de búsqueda
+      const div = document.createElement("div");
+      div.innerHTML = `
+              <input type=“text” id=“searchInput” class=“form-control mb-3” placeholder=“Buscar producto...“>
+                  <table class=“table table-striped table-bordered”>
+                      <thead>
+                          <tr>
+                              <th>Producto</th>
+                              <th>Cantidad</th>
+                              <th>Precio</th>
+                              <th>Acción</th>
+                          </tr>
+                      </thead>
+                      <tbody id=“productosTbody”>
+                      </tbody>
+                  </table>
+                  <div id=“paginationControls” class=“mt-3 d-flex justify-content-between align-items-center” >
+                      <span> Página <span id=“currentPage”>${currentPage}</span> de ${totalPages} </span>
+                      <div>
+                          <button class=“btn btn-primary” id=“prevPage” ${
+                            currentPage === 1 ? "disabled" : ""
+                          }>Anterior</button>
+                          <button class=“btn btn-primary” id=“nextPage” ${
+                            currentPage === totalPages ? "disabled" : ""
+                          }>Siguiente</button>
+                      </div>
+                  </div>`;
+      // Agregar tabla y controles al modal
+      modalBody.appendChild(div);
+      const tbody = div.querySelector("#productosTbody");
+      // Función para mostrar productos de la página actual
+      const renderPage = (page, filterText = "") => {
+        const filteredData = data.filter((producto) =>
+          producto.nombre_producto
+            .toLowerCase()
+            .includes(filterText.toLowerCase())
+        );
+        const start = (page - 1) * pageSize;
+        const end = page * pageSize;
+        const currentData = filteredData.slice(start, end);
+        let filas = "";
+        currentData.forEach((producto) => {
+          filas += `
+                      <tr id=“produ${producto.id_inventario}” class=“align-middle”>
+                          <td class=“text-center”>${producto.nombre_producto}</td>
+                          <td class=“text-center”><input type=“text” id=“cantidad${producto.id_inventario}” value=“1" class=“form-control” required></td>
+                          <td class=“text-center”><input type=“text” id=“precio${producto.id_inventario}” value=“${producto.pvp}” class=“form-control” required></td>
+                          <td class=“text-center”>
+                              <button class=“btn btn-success” onclick=“agregarProducto(${producto.id_inventario})“>+</button>
+                              <input type=“hidden” id=“productoSku${producto.id_inventario}” value=“${producto.sku}“>
+                                  <input type=“hidden” id=“productoId${producto.id_inventario}” value=“${producto.id_producto}“>
+                                  </td>
+                              </tr>`;
+        });
+        tbody.innerHTML = filas;
+        // Actualizar los controles de paginación
+        updatePaginationControls(filteredData.length);
+      };
+      const updatePaginationControls = (filteredDataLength) => {
+        const totalFilteredPages = Math.ceil(filteredDataLength / pageSize);
+        document.getElementById("prevPage").disabled = currentPage === 1;
+        document.getElementById("nextPage").disabled =
+          currentPage === totalFilteredPages;
+        document.getElementById("currentPage").textContent = currentPage;
+      };
+      // Manejar clic en botones de paginación
+      document.getElementById("prevPage").addEventListener("click", () => {
+        if (currentPage > 1) {
+          currentPage--;
+          renderPage(currentPage, searchInput.value);
+        }
+      });
+      document.getElementById("nextPage").addEventListener("click", () => {
+        if (currentPage < totalPages) {
+          currentPage++;
+          renderPage(currentPage, searchInput.value);
+        }
+      });
+      // Filtrar productos en tiempo real según la búsqueda
+      const searchInput = div.querySelector("#searchInput");
+      searchInput.addEventListener("input", () => {
+        currentPage = 1; // Reiniciar a la primera página al cambiar la búsqueda
+        renderPage(currentPage, searchInput.value);
+      });
+      // Renderizar la primera página inicialmente
+      renderPage(currentPage);
+    });
+};
 
 const agregarProducto = (id_inventario) => {
   const cantidadElement = document.getElementById("cantidad" + id_inventario);
