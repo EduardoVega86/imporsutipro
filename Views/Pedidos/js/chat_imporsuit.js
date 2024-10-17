@@ -3,7 +3,7 @@ let template_activo = 0;
 function llenar_lista_contactos(busqueda){
   // Llamada AJAX para obtener los datos de la API de contactos
   let formData = new FormData();
-  formData.append("sku", sku); // Añadir el SKU al FormData
+  formData.append("busqueda", busqueda); // Añadir el SKU al FormData
   $.ajax({
     url: SERVERURL + "Pedidos/numeros_clientes",
     type: "POST", // Cambiar a POST para enviar FormData
