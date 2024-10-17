@@ -911,6 +911,7 @@ ON
         $sql = "UPDATE templates_chat_center SET atajo = ?, mensaje = ? WHERE id_template = ? ";
         $data = [$atajo, $texto, $id_plantilla];
         $editar_horizontal = $this->update($sql, $data);
+        print_r($editar_horizontal);
         if ($editar_horizontal == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
@@ -918,7 +919,7 @@ ON
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = 'Error al editar la horizontal';
+            $response['message'] = 'Error al editar la plantilla';
         }
         return $response;
     }
