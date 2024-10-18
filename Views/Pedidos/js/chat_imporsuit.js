@@ -88,6 +88,7 @@ $(document).ready(function () {
           ejecutarApiConIdCliente(id_cliente);
 
           cargar_vistos(id_cliente);
+          
           // Iniciar el polling para actualizar los mensajes automáticamente
           startPollingMensajes(id_cliente);
         });
