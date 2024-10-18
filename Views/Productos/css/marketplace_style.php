@@ -472,6 +472,24 @@
         align-items: center;
         justify-content: center;
         cursor: pointer;
+        z-index: 10;
+        transition: all 0.3s ease;
+    }
+
+    .add-to-funnel-button {
+        position: absolute;
+        bottom: 10px;
+        right: 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 0.3rem;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
         transition: all 0.3s ease;
     }
 
@@ -480,11 +498,27 @@
         color: white;
     }
 
+    .add-to-funnel-button.added {
+        background-color: #007bff;
+        color: white;
+    }
+
     .add-to-store-button .plus-icon {
         font-size: 20px;
     }
 
+    .add-to-funnel-button .plus-icon {
+        font-size: 20px;
+    }
+
     .add-to-store-button .add-to-store-text {
+        display: none;
+        margin-right: 10px;
+        white-space: nowrap;
+        transition: opacity 0.3s ease;
+    }
+
+    .add-to-funnel-button .add-to-funnel-text {
         display: none;
         margin-right: 10px;
         white-space: nowrap;
@@ -496,11 +530,24 @@
         opacity: 1;
     }
 
+    .add-to-funnel-button:hover .add-to-funnel-text {
+        display: block;
+        opacity: 1;
+    }
+
     .add-to-store-button:hover {
         width: auto;
         padding: 5px 10px;
         border-radius: 0.3rem;
         background-color: green;
+        color: white;
+    }
+
+    .add-to-funnel-button:hover {
+        width: auto;
+        padding: 5px 10px;
+        border-radius: 0.3rem;
+        background-color: #007bff;
         color: white;
     }
 
