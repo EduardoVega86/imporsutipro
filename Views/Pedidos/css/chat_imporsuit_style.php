@@ -24,6 +24,18 @@
         height: 100vh;
     }
 
+    .notificacion_mPendientes {
+        position: absolute;
+        top: -5px;
+        right: -10px;
+        background-color: red;
+        color: white;
+        border-radius: 50%;
+        padding: 4px 7px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
     .contact-item {
         padding: 10px;
         transition: background-color 0.3s ease;

@@ -14,9 +14,14 @@ $(document).ready(function () {
       // Recorremos cada contacto
       $.each(data, function (index, contacto) {
         let color_etiqueta = "";
+        let mensajes_pendientes = "";
 
         if (contacto.color_etiqueta) {
           color_etiqueta = `<i class="fa-solid fa-tag" style="color: ${contacto.color_etiqueta} !important;"></i>`;
+        }
+
+        if (contacto.mensajes_pendientes) {
+          mensajes_pendientes = `<span class="notificacion_mPendientes">${contacto.mensajes_pendientes}</span>`;
         }
 
         innerHTML += `
