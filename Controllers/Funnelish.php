@@ -27,6 +27,11 @@ class Funnelish extends Controller
         }
     }
 
+    public function productos()
+    {
+        return $this->views->render($this, 'productos');
+    }
+
     public function data()
     {
         $data = json_decode(file_get_contents('php://input'), true);

@@ -1518,6 +1518,34 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
+    public function cambiar_vistos($id_cliente)
+    {
+        $response = $this->initialResponse();
+
+        // Consulta de inserción con la clave única
+        $sql_update = "UPDATE `mensajes_clientes` SET `visto` = ? WHERE `celular_recibe` = ?";
+        $update_data = [1, $id_cliente];
+        $actualizar_visto = $this->update($sql_update, $update_data);
+
+        // Verificar si la inserción fue exitosa
+        if ($actualizar_visto == 1) {
+
+
+            $response['status'] = 200;
+            $response['title'] = 'Petición exitosa';
+            $response['message'] = 'Configuración agregada y actualizada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error en inserción';
+            $response['message'] = $actualizar_visto['message'];
+        }
+
+
+        return $response;
+
+        return $this->select($sql);
+    }
+
     public function ultimo_mensaje_cliente($id_cliente, $ultimo_mensaje_id = null)
     {
         // Si se proporciona un ID de último mensaje, obtenemos los mensajes más recientes que ese ID
@@ -1557,6 +1585,9 @@ class PedidosModel extends Query
         mc.texto_mensaje, 
         ecc.color_etiqueta, 
         mc.created_at
+        (SELECT COUNT(mensajes_clientes.visto) FROM mensajes_clientes 
+        WHERE mensajes_clientes.rol_mensaje = 0 AND mensajes_clientes.visto = 0 AND mensajes_clientes.celular_recibe = mc.id_cliente) 
+        AS  mensajes_pendientes
     FROM 
         clientes_chat_center ccc
     INNER JOIN 
@@ -1702,8 +1733,8 @@ class PedidosModel extends Query
         // codigo para agregar categoria
         $response = $this->initialResponse();
 
-        $sql = "INSERT INTO `mensajes_clientes` (`id_plataforma`,`id_cliente`,`mid_mensaje`,`tipo_mensaje`,`rol_mensaje`,`celular_recibe`,`texto_mensaje`,`ruta_archivo`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        $data = [$id_plataforma, 411, $mid_mensaje, $tipo_mensaje, 1, $id_recibe, $texto_mensaje, $ruta_archivo];
+        $sql = "INSERT INTO `mensajes_clientes` (`id_plataforma`,`id_cliente`,`mid_mensaje`,`tipo_mensaje`,`rol_mensaje`,`celular_recibe`,`texto_mensaje`,`ruta_archivo`,`visto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $data = [$id_plataforma, 411, $mid_mensaje, $tipo_mensaje, 1, $id_recibe, $texto_mensaje, $ruta_archivo, 1];
         $insertar_mensaje_enviado = $this->insert($sql, $data);
         if ($insertar_mensaje_enviado == 1) {
             $response['status'] = 200;

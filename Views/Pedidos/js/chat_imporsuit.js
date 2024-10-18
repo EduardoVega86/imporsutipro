@@ -14,9 +14,14 @@ $(document).ready(function () {
       // Recorremos cada contacto
       $.each(data, function (index, contacto) {
         let color_etiqueta = "";
+        let mensajes_pendientes = "";
 
         if (contacto.color_etiqueta) {
           color_etiqueta = `<i class="fa-solid fa-tag" style="color: ${contacto.color_etiqueta} !important;"></i>`;
+        }
+
+        if (contacto.mensajes_pendientes) {
+          mensajes_pendientes = `<span class="notificacion_mPendientes">${contacto.mensajes_pendientes}</span>`;
         }
 
         innerHTML += `
@@ -27,7 +32,7 @@ $(document).ready(function () {
                 <div class="d-flex flex-column">
                     <h6 class="mb-0">${
                       contacto.nombre_cliente || "Desconocido"
-                    } ${contacto.apellido_cliente || ""} ${color_etiqueta}</h6>
+                    } ${contacto.apellido_cliente || ""} ${color_etiqueta} ${mensajes_pendientes}</h6>
                     <h7>+${contacto.celular_cliente}</h7>
                     <small class="text-muted">${
                       contacto.texto_mensaje || "No hay mensajes"
@@ -109,6 +114,8 @@ $(document).ready(function () {
 
         // Llamar a la función para cargar los mensajes iniciales del chat
         cargarMensajesChat(id_cliente);
+
+        cargar_vistos(id_cliente);
       },
       error: function (error) {
         console.error("Error al ejecutar la API:", error);
@@ -123,6 +130,26 @@ $(document).ready(function () {
       telefono = "+" + telefono;
       return telefono;
     }
+  }
+
+  function cargar_vistos(id_cliente){
+    let formData_chat = new FormData();
+    formData_chat.append("id_cliente", id_cliente);
+
+    $.ajax({
+      url: SERVERURL + "Pedidos/cambiar_vistos",
+      method: "POST",
+      data: formData_chat,
+      processData: false, // No procesar los datos
+      contentType: false, // No establecer ningún tipo de contenido
+      dataType: "json",
+      success: function (response2) {
+        
+      },
+      error: function (error) {
+        console.error("Error al ejecutar la API:", error);
+      },
+    });
   }
 
   // Función para cargar los mensajes del chat
@@ -607,7 +634,7 @@ document.addEventListener("click", function (event) {
 const cambiarTemplateActivo = async () => {
   await setTimeout(() => {
     template_activo = !template_activo;
-  }, 200);
+  }, 100);
 };
 
 // Navegar por los templates con las flechas del teclado y seleccionar con Enter

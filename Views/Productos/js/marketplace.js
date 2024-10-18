@@ -164,6 +164,8 @@ document.addEventListener("DOMContentLoaded", function () {
       imagePath = SERVERURL + "public/img/broken-image.png";
     }
 
+    console.log(product);
+
     card.innerHTML = `
       <div class="image-container position-relative">
         ${botonId_inventario}
@@ -176,6 +178,7 @@ document.addEventListener("DOMContentLoaded", function () {
             product.agregadoTienda ? "Quitar de tienda" : "Añadir a tienda"
           }</span>
         </div>
+   
       </div>
       <button class="btn btn-heart ${
         esFavorito ? "clicked" : ""

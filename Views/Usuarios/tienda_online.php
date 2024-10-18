@@ -306,7 +306,8 @@
                             </div>
                              <div class="mb-3">
                                 <label for="myRange">Ajustar Opacidad:</label>
-<input type="range" id="myRange" min="0" max="1" step="0.01" class="form-control" onchange="cambiarcolor_parallax_plantilla3('parallax_opacidad',this.value)">
+<input type="range" id="myRange" min="0" max="1" step="0.01" class="form-control" oninput="updateRangeValue(this.value)" onchange="cambiarcolor_parallax_plantilla3('parallax_opacidad',this.value)">
+<span id="rangeValue">0</span> <!-- Aquí se mostrará el valor -->
 
                             </div>
                             <div class="oferta1_color gap-3">
@@ -754,5 +755,10 @@
     <button id="botonFlotante" class="boton-flotante">Guardar Cambios</button>
 </div>
 
+<script>
+  function updateRangeValue(value) {
+    document.getElementById('rangeValue').innerText = value; // Actualiza el valor en tiempo real
+  }
+</script>
 <script src="<?php echo SERVERURL ?>Views/Usuarios/js/tienda_online.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
