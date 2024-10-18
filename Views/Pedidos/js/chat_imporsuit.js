@@ -87,6 +87,8 @@ $(document).ready(function () {
           // Llamamos a la función para ejecutar la API con el id_cliente
           ejecutarApiConIdCliente(id_cliente);
 
+          cargar_vistos(id_cliente);
+          
           // Iniciar el polling para actualizar los mensajes automáticamente
           startPollingMensajes(id_cliente);
         });
@@ -138,7 +140,6 @@ $(document).ready(function () {
         // Llamar a la función para cargar los mensajes iniciales del chat
         cargarMensajesChat(id_cliente);
 
-        cargar_vistos(id_cliente);
       },
       error: function (error) {
         console.error("Error al ejecutar la API:", error);
