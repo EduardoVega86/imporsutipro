@@ -1584,7 +1584,7 @@ class PedidosModel extends Query
         mc.id_cliente, 
         mc.texto_mensaje, 
         ecc.color_etiqueta, 
-        mc.created_at
+        mc.created_at,
         (SELECT COUNT(mensajes_clientes.visto) FROM mensajes_clientes 
         WHERE mensajes_clientes.rol_mensaje = 0 AND mensajes_clientes.visto = 0 AND mensajes_clientes.celular_recibe = mc.id_cliente) 
         AS  mensajes_pendientes
