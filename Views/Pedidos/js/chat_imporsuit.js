@@ -307,7 +307,7 @@ $(document).ready(function () {
         let info_location = JSON.parse(mensaje.texto_mensaje);
 
         let latitud = info_location.latitude;
-        let longitud = info_location.Longitud;
+        let longitud = info_location.longitud;
 
         innerHTML += `
           <div class="message d-flex flex-column ${claseMensaje}">
@@ -537,7 +537,7 @@ $(document).ready(function () {
         let info_location = JSON.parse(mensaje.texto_mensaje);
 
         let latitud = info_location.latitude;
-        let longitud = info_location.Longitud;
+        let longitud = info_location.ongitud;
 
         innerHTML += `
           <div class="message d-flex flex-column ${claseMensaje}">

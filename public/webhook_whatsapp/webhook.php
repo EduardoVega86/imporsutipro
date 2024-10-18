@@ -817,7 +817,7 @@ switch ($tipo_mensaje) {
         $location = $respuesta_WEBHOOK_messages['location'];
         $result_location = [
             "latitude" => $location['latitude'],               // Nombre del archivo
-            "Longitud" => $location['longitude'],                // Tamaño del archivo
+            "longitud" => $location['longitude'],                // Tamaño del archivo
         ];
         
         //el resultado en formato JSON
