@@ -89,6 +89,8 @@ $(document).ready(function () {
 
           // Iniciar el polling para actualizar los mensajes automáticamente
           startPollingMensajes(id_cliente);
+
+          cargar_lista_contactos("");
         });
       },
       error: function (error) {
