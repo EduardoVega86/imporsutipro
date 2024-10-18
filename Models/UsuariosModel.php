@@ -1435,7 +1435,7 @@ ON
             $sql_update = "UPDATE `plantilla_3` SET $campo = ? WHERE `id_plataforma` = ?";
             $data_update = [$valor, $plataforma];
             $editar_plantilla_2 = $this->update($sql_update, $data_update);
-
+            print_r($editar_plantilla_2)
             if ($editar_plantilla_2 == 1) {
                 $responses = array('status' => 200, 'title' => 'Peticion exitosa', 'message' => 'Actualización realizada correctamente');
             } else {
