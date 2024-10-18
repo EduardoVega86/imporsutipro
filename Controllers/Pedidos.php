@@ -814,9 +814,13 @@ class Pedidos extends Controller
     }
 
     public function obtener_templates()
-   {
-       $palabra_busqueda = $_POST['palabra_busqueda'] ?? "";
-       $response = $this->model->obtener_templates($_SESSION['id_plataforma'], $palabra_busqueda);
-       echo json_encode($response);
-   }
+    {
+        $palabra_busqueda = $_POST['palabra_busqueda'] ?? "";  // Aseguramos que no sea nulo
+        $id_plataforma = $_SESSION['id_plataforma'];  // Obtenemos el id_plataforma de la sesión
+
+        // Llamada a la función del modelo con los dos argumentos
+        $response = $this->model->numeros_clientes($id_plataforma, $palabra_busqueda);
+
+        echo json_encode($response);  // Devolvemos el resultado en formato JSON
+    }
 }
