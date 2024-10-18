@@ -335,9 +335,10 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  function toggleAddToFunnel(funnelId, isAdded) {
+  function toggleAddToFunnel(funnelId, funnelIdInput, isAdded) {
     let formData = new FormData();
-    formData.append("id_producto", funnelId);
+    formData.append("id_inventario", funnelId);
+    formData.append("id_funnel", funnelIdInput.value);
     $.ajax({
       url: SERVERURL + "Productos/importar_productos_funnel",
       method: "POST",
