@@ -178,7 +178,7 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
         <div class="add-to-funnel-button" ${
           product.agregadoFunnel ? "added" : ""
-        } data-funnel-id="${product.id_producto}">
+        } data-funnel-id="${product.id_inventario}">
           <span class="plus-icon">+</span>
           <span class="add-to-funnel-text">${
             product.agregadoFunnel ? "Quitar de funnel" : "Añadir a funnel"
