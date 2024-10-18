@@ -21,7 +21,7 @@ $(document).ready(function () {
         }
 
         if (contacto.mensajes_pendientes) {
-          if (contacto.mensajes_pendientes !== 0) {
+          if (contacto.mensajes_pendientes !== "0") {
             mensajes_pendientes = `<span class="notificacion_mPendientes">${contacto.mensajes_pendientes}</span>`;
           }
         }
