@@ -39,10 +39,10 @@
                         <i class="fa-solid fa-tags"></i>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="abrir_modal_etiquetas()">Agregar etiqueta</span></li>
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="abrir_modal_etiquetas()">Asignar etiqueta</span></li>
                     </ul>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="abrir_modal_agregar_etiquetas()">Agregar etiqueta</span></li>
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="abrir_modal_agregar_etiquetas()">Crear etiqueta</span></li>
                     </ul>
                 </div>
                 <i class="fas fa-ellipsis-v toggle-info" id="btn-three-dots" style="margin: 10px;"></i> <!-- Botón de tres puntos -->
