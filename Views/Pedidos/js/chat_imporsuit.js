@@ -20,8 +20,10 @@ $(document).ready(function () {
           color_etiqueta = `<i class="fa-solid fa-tag" style="color: ${contacto.color_etiqueta} !important;"></i>`;
         }
 
-        if (contacto.mensajes_pendientes || contacto.mensajes_pendientes == 0) {
-          mensajes_pendientes = `<span class="notificacion_mPendientes">${contacto.mensajes_pendientes}</span>`;
+        if (contacto.mensajes_pendientes) {
+          if (contacto.mensajes_pendientes !== 0) {
+            mensajes_pendientes = `<span class="notificacion_mPendientes">${contacto.mensajes_pendientes}</span>`;
+          }
         }
 
         innerHTML += `
@@ -32,7 +34,9 @@ $(document).ready(function () {
                 <div class="d-flex flex-column">
                     <h6 class="mb-0">${
                       contacto.nombre_cliente || "Desconocido"
-                    } ${contacto.apellido_cliente || ""} ${color_etiqueta} ${mensajes_pendientes}</h6>
+                    } ${
+          contacto.apellido_cliente || ""
+        } ${color_etiqueta} ${mensajes_pendientes}</h6>
                     <h7>+${contacto.celular_cliente}</h7>
                     <small class="text-muted">${
                       contacto.texto_mensaje || "No hay mensajes"
@@ -132,7 +136,7 @@ $(document).ready(function () {
     }
   }
 
-  function cargar_vistos(id_cliente){
+  function cargar_vistos(id_cliente) {
     let formData_chat = new FormData();
     formData_chat.append("id_cliente", id_cliente);
 
@@ -143,9 +147,7 @@ $(document).ready(function () {
       processData: false, // No procesar los datos
       contentType: false, // No establecer ningún tipo de contenido
       dataType: "json",
-      success: function (response2) {
-        
-      },
+      success: function (response2) {},
       error: function (error) {
         console.error("Error al ejecutar la API:", error);
       },
