@@ -9,7 +9,7 @@
         <div class="col-3 p-0 chat-sidebar">
             <div class="p-3 border-bottom d-flex flex-row gap-2">
                 <input type="text" class="form-control" placeholder="Buscar contacto..." id="buscar_contacto">
-                <button type="button" data-bs-toggle="modal" data-bs-target="#agregar_etiquetaModal" class="btn btn-primary"><i class="fa-solid fa-tags"></i></button>
+                <button type="button" data-bs-toggle="modal" data-bs-target="#agregar_numero_clienteModal" class="btn btn-primary"><i class="fa-solid fa-plus"></i></button>
             </div>
             <ul class="list-group list-group-flush" id="contact-list">
                 <!-- Los contactos se llenarán aquí dinámicamente -->
@@ -35,11 +35,14 @@
 
                 </div>
                 <div class="dropdown" style="margin-left: auto;">
-                    <button class="btn dropdown_etiquetas dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-gear"></i>
+                    <button class="btn dropdown_etiquetas dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: large;">
+                        <i class="fa-solid fa-tags"></i>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <li><span class="dropdown-item" style="cursor: pointer;" onclick="abrir_modal_etiquetas()">Agregar etiqueta</span></li>
+                    </ul>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="abrir_modal_agregar_etiquetas()">Agregar etiqueta</span></li>
                     </ul>
                 </div>
                 <i class="fas fa-ellipsis-v toggle-info" id="btn-three-dots" style="margin: 10px;"></i> <!-- Botón de tres puntos -->
