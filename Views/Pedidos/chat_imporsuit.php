@@ -8,7 +8,7 @@
         <!-- Sidebar izquierda: Lista de contactos -->
         <div class="col-3 p-0 chat-sidebar">
             <div class="p-3 border-bottom d-flex flex-row gap-2">
-                <input type="text" class="form-control" placeholder="Buscar contacto...">
+                <input type="text" class="form-control" placeholder="Buscar contacto..." id="buscar_contacto">
                 <button type="button" data-bs-toggle="modal" data-bs-target="#agregar_etiquetaModal" class="btn btn-primary"><i class="fa-solid fa-tags"></i></button>
             </div>
             <ul class="list-group list-group-flush" id="contact-list">
@@ -87,7 +87,7 @@
                         <textarea id="message-input" class="form-control"
                             placeholder="Escribe un mensaje..."></textarea>
                     </div>
-                    
+
                     <div id="floating-templates" class="floating-templates d-none">
                     </div>
 
