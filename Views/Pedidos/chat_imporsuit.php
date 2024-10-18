@@ -2,6 +2,7 @@
 <?php require_once './Views/Pedidos/css/chat_imporsuit_style.php'; ?>
 <?php require_once './Views/Pedidos/Modales/agregar_etiqueta.php'; ?>
 <?php require_once './Views/Pedidos/Modales/asignar_etiquetas.php'; ?>
+<?php /* require_once './Views/Pedidos/Modales/agregar_numero_cliente.php'; */ ?>
 
 <div class="container-fluid h-100">
     <div class="row h-100">
@@ -35,7 +36,7 @@
 
                 </div>
                 <div class="dropdown" style="margin-left: auto;">
-                    <button class="btn dropdown_etiquetas dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: large; color: white;">
+                    <button class="btn dropdown_etiquetas dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: large;">
                         <i class="fa-solid fa-tags"></i>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">

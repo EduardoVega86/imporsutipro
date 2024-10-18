@@ -33,6 +33,13 @@ class Funnelish extends Controller
         return $this->views->render($this, 'productos');
     }
 
+    public function listar()
+    {
+        $this->isAuth();
+        $id_plataforma = $_SESSION['id_plataforma'];
+        $data = $this->model->listar($id_plataforma);
+    }
+
     public function data()
     {
         $data = json_decode(file_get_contents('php://input'), true);

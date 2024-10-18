@@ -32,6 +32,12 @@ class FunnelishModel extends Query
         }
     }
 
+    public function listar($id_plataforma)
+    {
+        $sql = "SELECT pf.id_funnel as 'codigo_funnelish', pf.id_producto as 'codigo_producto', p.nombre_producto, pf.id FROM `productos_funnel` pf INNER JOIN `inventario_bodegas` ib ON pf.id_producto = ib.id_inventario INNER JOIN `productos` p ON ib.id_producto = p.id_producto WHERE pf.id_plataforma = $id_plataforma; ";
+        $response = $this->select($sql);
+    }
+
     public function productoPlataforma($id_plataforma, $data)
     {
         $data = json_decode($data, true);
