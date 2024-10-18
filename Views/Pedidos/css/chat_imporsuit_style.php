@@ -561,6 +561,7 @@
     .dropdown_etiquetas {
         font-size: 24px;
         /* Aumenta el tamaño del ícono */
+        color: white;
         cursor: pointer;
     }
 
