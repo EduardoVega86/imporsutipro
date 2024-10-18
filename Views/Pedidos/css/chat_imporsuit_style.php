@@ -28,7 +28,7 @@
         position: absolute;
         top: 10%;
         right: 5%;
-        background-color: red;
+        background-color: #0d6efd;
         color: white;
         border-radius: 100%;
         padding: 4px 7px;
