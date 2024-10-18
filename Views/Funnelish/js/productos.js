@@ -77,7 +77,7 @@ const initDataTable = async () => {
 
 const listProductos = async () => {
   try {
-    const response = await fetch("/productos/listar");
+    const response = await fetch("/funnelish/listar");
 
     const data = await response.json();
 
@@ -120,7 +120,7 @@ const listProductos = async () => {
 
 const editarProducto = async (id) => {
   try {
-    const response = await fetch(`/productos/obtener/${id}`);
+    const response = await fetch(`/funnelish/obtener/${id}`);
 
     const data = await response.json();
 
@@ -137,7 +137,7 @@ const editarProducto = async (id) => {
 
 const eliminarProducto = async (id) => {
   try {
-    const response = await fetch(`/productos/eliminar/${id}`);
+    const response = await fetch(`/funnelish/eliminar/${id}`);
 
     const data = await response.json();
 
