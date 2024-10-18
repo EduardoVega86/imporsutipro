@@ -2,7 +2,7 @@
     RewriteEngine On
 
     # Comprobar si la solicitud tiene un encabezado 'Origin'
-    RewriteCond %{HTTP:Origin} ^(https?://(?:automatizador\.imporsuitpro\.com|app1\.example\.com|app2\.example\.com))$
+    RewriteCond %{HTTP:Origin} ^(https?://(?:automatizador\.imporsuitpro\.com|app1\.example\.com|app2\.example\.com|automatizador\.merkapro\.ec))$
     RewriteRule .* - [E=ORIGIN:%{HTTP:Origin}]
 
     # Si no es un dominio permitido, usar '*'
