@@ -1526,7 +1526,7 @@ class PedidosModel extends Query
         $sql_update = "UPDATE `mensajes_clientes` SET `visto` = ? WHERE `celular_recibe` = ?";
         $update_data = [1, $id_cliente];
         $actualizar_visto = $this->update($sql_update, $update_data);
-        print_r($actualizar_visto);
+        print_r($update_data);
 
         // Verificar si la inserción fue exitosa
         if ($actualizar_visto == 1) {
