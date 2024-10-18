@@ -280,6 +280,7 @@ document.addEventListener("DOMContentLoaded", function () {
       document
         .getElementById("addToFunnelSubmit")
         .addEventListener("click", function () {
+          const button = target.closest(".add-to-funnel-button");
           const funnelId = button.getAttribute("data-funnel-id");
           const isAdded = false; // Puedes ajustar este valor según tu lógica
           const funnelIdInput = document.getElementById("funnelIdInput");
