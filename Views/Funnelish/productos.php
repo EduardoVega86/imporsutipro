@@ -19,7 +19,7 @@
                         <th colspan="2" class="centered">Acciones</th>
                     </tr>
                 </thead>
-                <tbody id="tableBody_guias">
+                <tbody id="tableProductos">
 
                 </tbody>
             </table>
