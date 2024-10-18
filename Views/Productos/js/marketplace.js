@@ -172,7 +172,7 @@ document.addEventListener("DOMContentLoaded", function () {
           product.agregadoTienda ? "added" : ""
         }" data-product-id="${product.id_producto}">
           <span class="plus-icon">+</span>
-          <span class="add-to-store-text">${
+          <span class="f-text">${
             product.agregadoTienda ? "Quitar de tienda" : "Añadir a tienda"
           }</span>
         </div>
@@ -238,6 +238,16 @@ document.addEventListener("DOMContentLoaded", function () {
       const isAdded = button.classList.contains("added");
       toggleAddToStore(productId, isAdded);
     }
+
+    if (
+      target.classList.contains("add-to-funnel-button") ||
+      target.closest(".add-to-funnel-button")
+    ) {
+      const button = target.closest(".add-to-funnel-button");
+      const funnelId = button.getAttribute("data-funnel-id");
+      const isAdded = button.classList.contains("added");
+      toggleAddToFunnel(funnelId, isAdded);
+    }
   });
 
   async function verificarImagen(url) {
@@ -258,6 +268,33 @@ document.addEventListener("DOMContentLoaded", function () {
     formData.append("id_producto", productId);
     $.ajax({
       url: SERVERURL + "Productos/importar_productos_tienda",
+      method: "POST",
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function (response) {
+        response = JSON.parse(response);
+        if (response.status == 500) {
+          toastr.warning("" + response.message, "NOTIFICACIÓN", {
+            positionClass: "toast-bottom-center",
+          });
+        } else if (response.status == 200) {
+          toastr.success("" + response.message, "NOTIFICACIÓN", {
+            positionClass: "toast-bottom-center",
+          });
+        }
+      },
+      error: function (error) {
+        console.error("Error al actualizar el estado del producto:", error);
+      },
+    });
+  }
+
+  function toggleAddToFunnel(funnelId, isAdded) {
+    let formData = new FormData();
+    formData.append("id_producto", funnelId);
+    $.ajax({
+      url: SERVERURL + "Productos/importar_productos_funnel",
       method: "POST",
       data: formData,
       processData: false,
