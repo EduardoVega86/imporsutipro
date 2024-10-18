@@ -1,35 +1,29 @@
 let template_activo = 0;
-/* llenar seccion numeros */
-$(document).ready(function () {
-  let lastMessageId = null; // Variable global para almacenar el ID del último mensaje mostrado
+function cargar_lista_contactos() {
+  // Llamada AJAX para obtener los datos de la API de contactos
+  $.ajax({
+    url: SERVERURL + "Pedidos/numeros_clientes",
+    method: "GET",
+    dataType: "json",
+    success: function (data) {
+      let innerHTML = "";
 
-  cargar_contactos();
+      // Recorremos cada contacto
+      $.each(data, function (index, contacto) {
+        let color_etiqueta = "";
+        let mensajes_pendientes = "";
 
-  function cargar_contactos() {
-    // Llamada AJAX para obtener los datos de la API de contactos
-    $.ajax({
-      url: SERVERURL + "Pedidos/numeros_clientes",
-      method: "GET",
-      dataType: "json",
-      success: function (data) {
-        let innerHTML = "";
+        if (contacto.color_etiqueta) {
+          color_etiqueta = `<i class="fa-solid fa-tag" style="color: ${contacto.color_etiqueta} !important;"></i>`;
+        }
 
-        // Recorremos cada contacto
-        $.each(data, function (index, contacto) {
-          let color_etiqueta = "";
-          let mensajes_pendientes = "";
-
-          if (contacto.color_etiqueta) {
-            color_etiqueta = `<i class="fa-solid fa-tag" style="color: ${contacto.color_etiqueta} !important;"></i>`;
+        if (contacto.mensajes_pendientes) {
+          if (contacto.mensajes_pendientes !== "0") {
+            mensajes_pendientes = `<span class="notificacion_mPendientes">${contacto.mensajes_pendientes}</span>`;
           }
+        }
 
-          if (contacto.mensajes_pendientes) {
-            if (contacto.mensajes_pendientes !== "0") {
-              mensajes_pendientes = `<span class="notificacion_mPendientes">${contacto.mensajes_pendientes}</span>`;
-            }
-          }
-
-          innerHTML += `
+        innerHTML += `
             <li class="list-group-item contact-item d-flex align-items-center" data-id="${
               contacto.id_cliente
             }">
@@ -45,26 +39,31 @@ $(document).ready(function () {
                 </div>
                 ${mensajes_pendientes}
             </li>`;
-        });
+      });
 
-        // Inyectamos el HTML generado en la lista de contactos
-        $("#contact-list").html(innerHTML);
+      // Inyectamos el HTML generado en la lista de contactos
+      $("#contact-list").html(innerHTML);
+    },
+    error: function (error) {
+      console.error("Error al obtener los mensajes:", error);
+    },
+  });
+}
+/* llenar seccion numeros */
+$(document).ready(function () {
+  let lastMessageId = null; // Variable global para almacenar el ID del último mensaje mostrado
 
-        // Añadimos el evento de click a cada contacto
-        $("#contact-list").on("click", ".contact-item", function () {
-          let id_cliente = $(this).data("id");
-          // Llamamos a la función para ejecutar la API con el id_cliente
-          ejecutarApiConIdCliente(id_cliente);
+  cargar_lista_contactos();
 
-          // Iniciar el polling para actualizar los mensajes automáticamente
-          startPollingMensajes(id_cliente);
-        });
-      },
-      error: function (error) {
-        console.error("Error al obtener los mensajes:", error);
-      },
-    });
-  }
+  // Añadimos el evento de click a cada contacto
+  $("#contact-list").on("click", ".contact-item", function () {
+    let id_cliente = $(this).data("id");
+    // Llamamos a la función para ejecutar la API con el id_cliente
+    ejecutarApiConIdCliente(id_cliente);
+
+    // Iniciar el polling para actualizar los mensajes automáticamente
+    startPollingMensajes(id_cliente);
+  });
 
   /* consultar configuracion */
   $.ajax({
