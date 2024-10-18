@@ -1,69 +1,10 @@
 let template_activo = 0;
-function cargar_lista_contactos() {
-  // Llamada AJAX para obtener los datos de la API de contactos
-  $.ajax({
-    url: SERVERURL + "Pedidos/numeros_clientes",
-    method: "GET",
-    dataType: "json",
-    success: function (data) {
-      let innerHTML = "";
 
-      // Recorremos cada contacto
-      $.each(data, function (index, contacto) {
-        let color_etiqueta = "";
-        let mensajes_pendientes = "";
-
-        if (contacto.color_etiqueta) {
-          color_etiqueta = `<i class="fa-solid fa-tag" style="color: ${contacto.color_etiqueta} !important;"></i>`;
-        }
-
-        if (contacto.mensajes_pendientes) {
-          if (contacto.mensajes_pendientes !== "0") {
-            mensajes_pendientes = `<span class="notificacion_mPendientes">${contacto.mensajes_pendientes}</span>`;
-          }
-        }
-
-        innerHTML += `
-            <li class="list-group-item contact-item d-flex align-items-center" data-id="${
-              contacto.id_cliente
-            }">
-                <img src="https://new.imporsuitpro.com/public/img/avatar_usuaro_chat_center.png" class="rounded-circle me-3" alt="Foto de perfil" style="width: 15% !important;">
-                <div class="d-flex flex-column">
-                    <h6 class="mb-0">${
-                      contacto.nombre_cliente || "Desconocido"
-                    } ${contacto.apellido_cliente || ""} ${color_etiqueta}</h6>
-                    <h7>+${contacto.celular_cliente}</h7>
-                    <small class="text-muted">${
-                      contacto.texto_mensaje || "No hay mensajes"
-                    }</small>
-                </div>
-                ${mensajes_pendientes}
-            </li>`;
-      });
-
-      // Inyectamos el HTML generado en la lista de contactos
-      $("#contact-list").html(innerHTML);
-    },
-    error: function (error) {
-      console.error("Error al obtener los mensajes:", error);
-    },
-  });
-}
 /* llenar seccion numeros */
 $(document).ready(function () {
   let lastMessageId = null; // Variable global para almacenar el ID del último mensaje mostrado
 
   cargar_lista_contactos();
-
-  // Añadimos el evento de click a cada contacto
-  $("#contact-list").on("click", ".contact-item", function () {
-    let id_cliente = $(this).data("id");
-    // Llamamos a la función para ejecutar la API con el id_cliente
-    ejecutarApiConIdCliente(id_cliente);
-
-    // Iniciar el polling para actualizar los mensajes automáticamente
-    startPollingMensajes(id_cliente);
-  });
 
   /* consultar configuracion */
   $.ajax({
@@ -79,6 +20,69 @@ $(document).ready(function () {
     },
   });
   /* fin consutlar configuracion */
+
+  function cargar_lista_contactos() {
+    // Llamada AJAX para obtener los datos de la API de contactos
+    $.ajax({
+      url: SERVERURL + "Pedidos/numeros_clientes",
+      method: "GET",
+      dataType: "json",
+      success: function (data) {
+        let innerHTML = "";
+
+        // Recorremos cada contacto
+        $.each(data, function (index, contacto) {
+          let color_etiqueta = "";
+          let mensajes_pendientes = "";
+
+          if (contacto.color_etiqueta) {
+            color_etiqueta = `<i class="fa-solid fa-tag" style="color: ${contacto.color_etiqueta} !important;"></i>`;
+          }
+
+          if (contacto.mensajes_pendientes) {
+            if (contacto.mensajes_pendientes !== "0") {
+              mensajes_pendientes = `<span class="notificacion_mPendientes">${contacto.mensajes_pendientes}</span>`;
+            }
+          }
+
+          innerHTML += `
+              <li class="list-group-item contact-item d-flex align-items-center" data-id="${
+                contacto.id_cliente
+              }">
+                  <img src="https://new.imporsuitpro.com/public/img/avatar_usuaro_chat_center.png" class="rounded-circle me-3" alt="Foto de perfil" style="width: 15% !important;">
+                  <div class="d-flex flex-column">
+                      <h6 class="mb-0">${
+                        contacto.nombre_cliente || "Desconocido"
+                      } ${
+            contacto.apellido_cliente || ""
+          } ${color_etiqueta}</h6>
+                      <h7>+${contacto.celular_cliente}</h7>
+                      <small class="text-muted">${
+                        contacto.texto_mensaje || "No hay mensajes"
+                      }</small>
+                  </div>
+                  ${mensajes_pendientes}
+              </li>`;
+        });
+
+        // Inyectamos el HTML generado en la lista de contactos
+        $("#contact-list").html(innerHTML);
+
+        // Añadimos el evento de click a cada contacto
+        $("#contact-list").on("click", ".contact-item", function () {
+          let id_cliente = $(this).data("id");
+          // Llamamos a la función para ejecutar la API con el id_cliente
+          ejecutarApiConIdCliente(id_cliente);
+
+          // Iniciar el polling para actualizar los mensajes automáticamente
+          startPollingMensajes(id_cliente);
+        });
+      },
+      error: function (error) {
+        console.error("Error al obtener los mensajes:", error);
+      },
+    });
+  }
 
   // Función que se ejecuta cuando se hace click en un contacto
   function ejecutarApiConIdCliente(id_cliente) {
