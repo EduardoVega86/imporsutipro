@@ -34,7 +34,7 @@
                     <input type="hidden" id="token_configruacion" name="token_configruacion">
 
                 </div>
-                <div class="dropdown" style="position: absolute; left: 10px; top: 10px;">
+                <div class="dropdown" style="margin-left: 30%;">
                     <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fa-solid fa-gear"></i>
                     </button>
