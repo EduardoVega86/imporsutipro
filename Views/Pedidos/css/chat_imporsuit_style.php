@@ -558,6 +558,17 @@
         /* Añade un efecto de hover */
     }
 
+    .dropdown_etiquetas {
+        font-size: 24px;
+        /* Aumenta el tamaño del ícono */
+        cursor: pointer;
+    }
+
+    .dropdown_etiquetas:hover {
+        color: #757575;
+        /* Añade un efecto de hover */
+    }
+
     /* implementacion sistema de guias */
     .absolute {
         position: absolute;
