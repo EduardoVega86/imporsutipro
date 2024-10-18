@@ -676,6 +676,15 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
+    public function importar_productos_funnel()
+    {
+        // Obtener el ID de inventario desde el formulario
+        $id_inventario = $_POST['id_inventario'];
+        $id_funnel = $_POST['id_funnel'];
+        $response = $this->model->importar_productos_funnel($id_inventario, $id_funnel, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
 
     public function importar_productos_shopify()
     {
