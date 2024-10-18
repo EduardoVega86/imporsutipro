@@ -63,8 +63,8 @@ const listObtenerUsuariosPlataforma = async () => {
                 
                 <td>
                 ${editar}
-                <button class="btn btn-sm btn-danger" onclick="eliminar_usuario(${
-                  usuario.id_users
+                <button class="btn btn-sm btn-danger" onclick="eliminar_plantilla(${
+                  usuario.id_template
                 })"><i class="fa-solid fa-trash-can"></i>Borrar</button>
                 </td>
                 </tr>`;
@@ -117,11 +117,11 @@ function abrir_modal_subirPlaca(id_usuario) {
   });
 }
 
-function eliminar_usuario(id_usuario) {
+function eliminar_plantilla(id_template) {
   let formData = new FormData();
-  formData.append("id_usuario", id_usuario); // Añadir el SKU al FormData
+  formData.append("id_usuario", id_template); // Añadir el SKU al FormData
   $.ajax({
-    url: SERVERURL + "usuarios/eliminar_usuario",
+    url: SERVERURL + "usuarios/eliminar_plantilla",
     type: "POST",
     data: formData,
     processData: false, // No procesar los datos
