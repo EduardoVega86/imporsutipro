@@ -77,7 +77,7 @@ const initDataTable = async () => {
 
 const listProductos = async () => {
   try {
-    const response = await fetch("/funnelish/listar");
+    const response = await fetch(SERVERURL + "/funnelish/listar");
 
     const data = await response.json();
 
@@ -148,3 +148,7 @@ const eliminarProducto = async (id) => {
     console.error(error);
   }
 };
+
+$(document).ready(async () => {
+  await initDataTable();
+});
