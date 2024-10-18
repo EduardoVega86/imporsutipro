@@ -20,7 +20,7 @@ $(document).ready(function () {
           color_etiqueta = `<i class="fa-solid fa-tag" style="color: ${contacto.color_etiqueta} !important;"></i>`;
         }
 
-        if (contacto.mensajes_pendientes) {
+        if (contacto.mensajes_pendientes || contacto.mensajes_pendientes == 0) {
           mensajes_pendientes = `<span class="notificacion_mPendientes">${contacto.mensajes_pendientes}</span>`;
         }
 
