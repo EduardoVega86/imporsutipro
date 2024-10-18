@@ -1522,29 +1522,27 @@ class PedidosModel extends Query
     {
         $response = $this->initialResponse();
 
-        // Consulta de inserción con la clave única
+        // Consulta de actualización
         $sql_update = "UPDATE `mensajes_clientes` SET `visto` = ? WHERE `celular_recibe` = ?";
         $update_data = [1, $id_cliente];
+
+        // Ejecutar la actualización
         $actualizar_visto = $this->update($sql_update, $update_data);
 
-        // Verificar si la inserción fue exitosa
-        if ($actualizar_visto == 1) {
-
-
+        // Verificar si la actualización fue exitosa
+        if ($actualizar_visto) {  // Verifica si devolvió un valor positivo
             $response['status'] = 200;
             $response['title'] = 'Petición exitosa';
             $response['message'] = 'Configuración agregada y actualizada correctamente';
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error en inserción';
-            $response['message'] = $actualizar_visto['message'];
+            $response['message'] = 'No se pudo actualizar el estado de los mensajes';
         }
 
-
         return $response;
-
-        return $this->select($sql);
     }
+
 
     public function ultimo_mensaje_cliente($id_cliente, $ultimo_mensaje_id = null)
     {

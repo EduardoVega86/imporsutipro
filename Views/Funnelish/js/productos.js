@@ -114,7 +114,7 @@ const listProductos = async () => {
         `;
     });
 
-    $("#datatable_guias tbody").html(content);
+    $("#tableBody_guias").html(content);
   } catch (error) {
     console.error(error);
   }

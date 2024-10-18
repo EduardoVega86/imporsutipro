@@ -2,7 +2,7 @@
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
-        <h2 class="text-center mb-4">Productos vinculados a funnelish</h2>
+        <h2 class="text-center mb-4">Productos vinculados a</h2>
 
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
@@ -12,14 +12,14 @@
                 </caption> -->
                 <thead>
                     <tr>
-                        <th class="centered">Id</th>
-                        <th class="centered">Producto</th>
-                        <th class="centered">Codigo Funnelish</th>
-                        <th class="centered">Codigo Producto</th>
-                        <th colspan="2" class="centered">Acciones</th>
+                        <th class="text-center">Id</th>
+                        <th class="text-center">Producto</th>
+                        <th class="text-center">Codigo Funnelish</th>
+                        <th class="text-center">Codigo Producto</th>
+                        <th colspan="2" class="text-center">Acciones</th>
                     </tr>
                 </thead>
-                <tbody id="tableProductos">
+                <tbody id="tableBody_guias">
 
                 </tbody>
             </table>
