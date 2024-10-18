@@ -22,8 +22,7 @@ class Funnelish extends Controller
             } else return;
         } else {
             $data = file_get_contents("php://input");
-            $response = $this->model->log($id_plataforma, $data);
-            echo json_encode($response);
+            $this->log($id_plataforma, $data);
         }
     }
 
