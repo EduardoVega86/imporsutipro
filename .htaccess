@@ -6,7 +6,7 @@
     RewriteRule .* - [E=ORIGIN:%{HTTP:Origin}]
 
     # Si no es un dominio permitido, usar '*'
-    RewriteCond %{HTTP:Origin} !(automatizador\.imporsuitpro\.com|app1\.example\.com|app2\.example\.com)
+    RewriteCond %{HTTP:Origin} !(automatizador\.imporsuitpro\.com|app1\.example\.com|app2\.example\.com|automatizador\.merkapro\.ec)
     RewriteRule .* - [E=ORIGIN:*]
 </IfModule>
 
