@@ -29,6 +29,7 @@ class Funnelish extends Controller
 
     public function productos()
     {
+        $this->isAuth();
         return $this->views->render($this, 'productos');
     }
 
