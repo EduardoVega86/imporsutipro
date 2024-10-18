@@ -168,7 +168,7 @@
                             <div class="etiqueta-item d-flex align-items-center mb-3">
                                 <div class="etiqueta-color" style="background-color: ${etiqueta.color_etiqueta}; width: 20px; height: 20px; border-radius: 50%; margin-right: 10px;"></div>
                                 <div class="etiqueta-nombre">${etiqueta.nombre_etiqueta}</div>
-                                <button class="boton_eliminar_etiqueta"><i class="fa-solid fa-trash"></i></button>
+                                <button class="boton_eliminar_etiqueta" onclick="boton_eliminarEtiqueta(${etiqueta.id_etiqueta})"><i class="fa-solid fa-trash"></i></button>
                             </div>
                         `;
 
@@ -204,7 +204,7 @@
                 positionClass: "toast-bottom-center",
             });
 
-            initDataTableHistorial();
+            cargarEtiquetas();
         }
         },
         error: function (xhr, status, error) {
