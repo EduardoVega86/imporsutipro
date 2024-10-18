@@ -22,7 +22,7 @@ class Funnelish extends Controller
             } else return;
         } else {
             $data = file_get_contents("php://input");
-            $this->log($id_plataforma, $data);
+            $this->data($data);
         }
     }
 
