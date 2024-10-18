@@ -27,7 +27,7 @@
     .notificacion_mPendientes {
         background-color: red;
         color: white;
-        border-radius: 50%;
+        border-radius: 100%;
         padding: 4px 7px;
         font-size: 12px;
         font-weight: bold;
