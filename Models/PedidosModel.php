@@ -1586,7 +1586,7 @@ class PedidosModel extends Query
             $sql .= " AND (ccc.nombre_cliente LIKE '%$palabra_busqueda%' OR ccc.apellido_cliente LIKE '%$palabra_busqueda%' OR ccc.celular_cliente LIKE '%$palabra_busqueda%')";
         }
 
-        $sql .= "ORDER BY 
+        $sql .= " ORDER BY 
         mc.created_at DESC";
         return $this->select($sql);
     }
