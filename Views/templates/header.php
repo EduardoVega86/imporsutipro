@@ -166,7 +166,7 @@
                 <a href="#" class="dropdown-btn" data-target="#submenu5"><i class='bx bxs-bot menu-icon'></i> <span class="menu-text">Automatizador</span></a>
             <?php } ?>
             <div class="submenu" id="submenu5">
-                <a href="<?php echo SERVERURL ?>Pedidos/plantillas_chat_center"><i class="fa-brands fa-shopify menu-icon"></i> <span class="menu-text">plantillas</span></a>
+                <a href="<?php echo SERVERURL ?>Pedidos/plantillas_chat_center"><i class="fa-brands fa-shopify menu-icon"></i> <span class="menu-text">Plantillas</span></a>
                 <a href="<?php echo SERVERURL ?>/Pedidos/configuracion_chats_imporsuit"><i class="fa-brands fa-shopify menu-icon"></i> <span class="menu-text">Configuracion</span></a>
                 <a href="<?php echo SERVERURL ?>Pedidos/chat_imporsuit"><i class="fa-brands fa-shopify menu-icon"></i> <span class="menu-text">Chat-Center</span></a>
             </div>
