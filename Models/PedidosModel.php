@@ -1518,6 +1518,34 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
+    public function cambiar_vistos($id_cliente)
+    {
+        $response = $this->initialResponse();
+
+        // Consulta de inserción con la clave única
+        $sql_update = "UPDATE `mensajes_clientes` SET `visto` = ? WHERE `celular_recibe` = ?";
+        $update_data = [1, $id_cliente];
+        $actualizar_visto = $this->update($sql_update, $update_data);
+
+        // Verificar si la inserción fue exitosa
+        if ($actualizar_visto == 1) {
+
+
+            $response['status'] = 200;
+            $response['title'] = 'Petición exitosa';
+            $response['message'] = 'Configuración agregada y actualizada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error en inserción';
+            $response['message'] = $actualizar_visto['message'];
+        }
+
+
+        return $response;
+
+        return $this->select($sql);
+    }
+
     public function ultimo_mensaje_cliente($id_cliente, $ultimo_mensaje_id = null)
     {
         // Si se proporciona un ID de último mensaje, obtenemos los mensajes más recientes que ese ID

@@ -109,6 +109,8 @@ $(document).ready(function () {
 
         // Llamar a la función para cargar los mensajes iniciales del chat
         cargarMensajesChat(id_cliente);
+
+        cargar_vistos(id_cliente);
       },
       error: function (error) {
         console.error("Error al ejecutar la API:", error);
@@ -123,6 +125,26 @@ $(document).ready(function () {
       telefono = "+" + telefono;
       return telefono;
     }
+  }
+
+  function cargar_vistos(id_cliente){
+    let formData_chat = new FormData();
+    formData_chat.append("id_cliente", id_cliente);
+
+    $.ajax({
+      url: SERVERURL + "Pedidos/cambiar_vistos",
+      method: "POST",
+      data: formData_chat,
+      processData: false, // No procesar los datos
+      contentType: false, // No establecer ningún tipo de contenido
+      dataType: "json",
+      success: function (response2) {
+        
+      },
+      error: function (error) {
+        console.error("Error al ejecutar la API:", error);
+      },
+    });
   }
 
   // Función para cargar los mensajes del chat

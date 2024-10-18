@@ -619,6 +619,13 @@ class Pedidos extends Controller
         echo json_encode($response);
     }
 
+    public function cambiar_vistos()
+    {
+        $id_cliente = $_POST['id_cliente'];
+        $response = $this->model->cambiar_vistos($id_cliente);
+        echo json_encode($response);
+    }
+
     public function ultimo_mensaje_cliente()
     {
         $id_cliente = $_POST['id_cliente'];
