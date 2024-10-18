@@ -179,6 +179,34 @@ class ProductosModel extends Query
     }
 
 
+    public function importar_productos_funnel($id_inventario, $id_funnel, $plataforma)
+    {
+        $response = $this->initialResponse();
+        $inicial_variable = $this->select("SELECT * FROM productos_funnel WHERE id_plataforma = $plataforma AND id_inventario = $id_inventario");
+
+        if (empty($inicial_variable)) {
+            $sql = "SELECT * FROM inventario_bodegas ib, productos p WHERE ib.id_inventario = $id_inventario LIMIT 1";
+            $inventario = $this->select($sql);
+
+            $detalle_sql = "INSERT INTO `productos_funnel`(`id_producto`, `id_funnel`, `sku`, `id_plataforma`) VALUES (?, ?, ?, ?)";
+            $detalle_data = array(
+                $inventario[0]['id_inventario'],
+                $id_funnel,
+                $inventario[0]['sku'],
+                $plataforma
+            );
+            $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'El producto ya existe en su configuracion.';
+        }
+
+        return $response;
+    }
+
+
+
 
     public function importar_productos_shopify($id_producto, $plataforma)
     {
