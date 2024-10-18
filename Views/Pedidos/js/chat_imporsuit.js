@@ -317,7 +317,7 @@ $(document).ready(function () {
                 height="200"
                 frameborder="0"
                 style="border:0"
-                src="https://www.google.com/maps/embed/v1/view?key=TU_CLAVE_DE_API&center=${latitud},${longitud}&zoom=15"
+                src="https://www.google.com/maps/embed/v1/view?key=AIzaSyDGulcdBtz_Mydtmu432GtzJz82J_yb-rs&center=${latitud},${longitud}&zoom=15"
                 allowfullscreen>
               </iframe>
             </div>
