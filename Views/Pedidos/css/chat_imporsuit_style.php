@@ -231,6 +231,12 @@
         margin-top: 5px;
     }
 
+    .map-container {
+        overflow: hidden;
+        border-radius: 8px;
+        margin-bottom: 10px;
+    }
+
     /* Fin Seccion de descargar documentos mensajes */
 
     /* emojis */
