@@ -303,7 +303,28 @@ $(document).ready(function () {
               <span style = "white-space: pre-wrap;">${mensaje.texto_mensaje}</span>
             </div>
             `;
+      }else if (mensaje.tipo_mensaje == "location") {
+        const { latitud, longitud } = mensaje; // Asegúrate de tener estas variables en el mensaje
+      
+        innerHTML += `
+          <div class="message d-flex flex-column ${claseMensaje}">
+            <div class="map-container">
+              <iframe
+                width="100%"
+                height="200"
+                frameborder="0"
+                style="border:0"
+                src="https://www.google.com/maps/embed/v1/view?key=TU_CLAVE_DE_API&center=${latitud},${longitud}&zoom=15"
+                allowfullscreen>
+              </iframe>
+            </div>
+            <a href="https://www.google.com/maps/search/?api=1&query=${latitud},${longitud}" target="_blank" class="btn btn-link">
+              Ver en Google Maps
+            </a>
+          </div>
+        `;
       }
+      
     });
 
     function formatFileSize(sizeInBytes) {
