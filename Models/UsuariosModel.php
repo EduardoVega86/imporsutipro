@@ -1429,7 +1429,7 @@ ON
         // Primero, comprobar si existe un registro con la plataforma dada
         $sql_select = "SELECT * FROM `plantilla_3` WHERE `id_plataforma` = ?";
         $existing_entry = $this->simple_select($sql_select, [$plataforma]);
-        print_r($existing_entry);
+       
         if ($existing_entry > 0) {
             echo 'existe';
             // Si existe, realizar un UPDATE
@@ -1448,7 +1448,7 @@ ON
             $sql_insert = "INSERT INTO `plantilla_3` (`id_plataforma`, $campo) VALUES (?, ?)";
             $data_insert = [$plataforma, $valor];
             $insertar_plantilla_2 = $this->insert($sql_insert, $data_insert);
-
+ print_r($insertar_plantilla_2);
             if ($insertar_plantilla_2 == 1) {
                 $responses = array('status' => 200, 'title' => 'Peticion exitosa', 'message' => 'Inserción realizada correctamente');
             } else {
