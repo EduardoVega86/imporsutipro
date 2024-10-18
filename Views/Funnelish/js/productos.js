@@ -148,3 +148,7 @@ const eliminarProducto = async (id) => {
     console.error(error);
   }
 };
+
+$(document).ready(async () => {
+  await initDataTable();
+});
