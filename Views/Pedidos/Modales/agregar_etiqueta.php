@@ -52,6 +52,16 @@
         /* Espaciado en la parte inferior, similar a mb-4 */
     }
 
+    .boton_eliminar_etiqueta {
+        background-color: transparent;
+        border: hidden;
+        color: #afaea9;
+    }
+
+    .boton_eliminar_etiqueta:hover{
+        color: black;
+    }
+
     @media (max-width: 768px) {
         .descripcion_producto {
             flex-direction: column-reverse;
@@ -138,7 +148,7 @@
                     toastr.success("CONFIGURACION AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
                         positionClass: "toast-bottom-center",
                     });
-                    
+
                     cargarEtiquetas();
 
                 }
@@ -186,33 +196,33 @@
         });
     }
 
-    function boton_eliminarEtiqueta(id_etiqueta){
-    $.ajax({
-        type: "POST",
-        url: SERVERURL + "Pedidos/eliminarEtiqueta/"+id_etiqueta,
-        dataType: "json",
-        success: function (response) {
-          if (response.status == 500) {
-            toastr.error(
-                "LA ETIQUETA NO SE ELIMINO CORECTAMENTE",
-                "NOTIFICACIÓN", {
-                    positionClass: "toast-bottom-center"
-                }
-            );
-        } else if (response.status == 200) {
-            toastr.success("ETIQUETA ELIMINADA", "NOTIFICACIÓN", {
-                positionClass: "toast-bottom-center",
-            });
+    function boton_eliminarEtiqueta(id_etiqueta) {
+        $.ajax({
+            type: "POST",
+            url: SERVERURL + "Pedidos/eliminarEtiqueta/" + id_etiqueta,
+            dataType: "json",
+            success: function(response) {
+                if (response.status == 500) {
+                    toastr.error(
+                        "LA ETIQUETA NO SE ELIMINO CORECTAMENTE",
+                        "NOTIFICACIÓN", {
+                            positionClass: "toast-bottom-center"
+                        }
+                    );
+                } else if (response.status == 200) {
+                    toastr.success("ETIQUETA ELIMINADA", "NOTIFICACIÓN", {
+                        positionClass: "toast-bottom-center",
+                    });
 
-            cargarEtiquetas();
-        }
-        },
-        error: function (xhr, status, error) {
-          console.error("Error en la solicitud AJAX:", error);
-          alert("Hubo un problema al obtener la información de la categoría");
-        },
-      });
-}
+                    cargarEtiquetas();
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error en la solicitud AJAX:", error);
+                alert("Hubo un problema al obtener la información de la categoría");
+            },
+        });
+    }
 
     // Llamamos a la función cargarEtiquetas cuando el modal se abre
     $('#agregar_etiquetaModal').on('shown.bs.modal', function() {
