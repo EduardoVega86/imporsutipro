@@ -1337,6 +1337,10 @@ function abrir_modal_etiquetas() {
   cargarEtiquetas_asignar();
   $("#asignar_etiquetaModal").modal("show");
 }
+
+function abrir_modal_agregar_etiquetas() {
+  $("#agregar_etiquetaModal").modal("show");
+}
 /* Fin enviar mensaje de audio Whatsapp */
 
 /* seccion de creacion de guais y historial pedidos */
