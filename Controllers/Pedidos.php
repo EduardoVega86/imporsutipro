@@ -694,6 +694,12 @@ class Pedidos extends Controller
         echo json_encode($response);
     }
 
+    public function eliminarEtiqueta($id_etiqueta)
+    {
+        $response = $this->model->eliminarEtiqueta($id_etiqueta);
+        echo json_encode($response);
+    }
+
     public function agregar_etiqueta()
     {
         $nombre_etiqueta = $_POST['nombre_etiqueta'];

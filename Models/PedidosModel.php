@@ -1754,6 +1754,25 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
+    public function eliminarEtiqueta($id_etiqueta)
+    {
+        $sql = "DELETE FROM etiquetas_chat_center WHERE id_etiqueta = ?";
+        $data = [$id_etiqueta];
+
+        $eliminar_etiqueta = $this->delete($sql, $data);
+
+        if ($eliminar_etiqueta == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'etiqueta eliminada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al eliminar la etiqueta';
+        }
+        return $response;
+    }
+
     public function agregar_etiqueta($nombre_etiqueta, $color_etiqueta, $id_plataforma)
     {
         // Inicializar la respuesta

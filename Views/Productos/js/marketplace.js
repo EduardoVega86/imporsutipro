@@ -178,7 +178,7 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
         <div class="add-to-funnel-button" ${
           product.agregadoFunnel ? "added" : ""
-        } data-funnel-id="${product.id_producto}">
+        } data-funnel-id="${product.id_inventario}">
           <span class="plus-icon">+</span>
           <span class="add-to-funnel-text">${
             product.agregadoFunnel ? "Quitar de funnel" : "Añadir a funnel"
@@ -188,7 +188,7 @@ document.addEventListener("DOMContentLoaded", function () {
       </div>
       <button class="btn btn-heart ${
         esFavorito ? "clicked" : ""
-      }" onclick="handleHeartClick(${product.id_producto}, ${esFavorito})">
+      }" onclick="handleHeartClick(${product.id_inventario}, ${esFavorito})">
         <i class="fas fa-heart"></i>
       </button>
       <div class="card-body text-center d-flex flex-column justify-content-between">
@@ -207,7 +207,7 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
         <div>
           <button class="btn btn-description" onclick="agregarModal_marketplace(${
-            product.id_producto
+            product.id_inventario
           })">Descripción</button>
           ${boton_enviarCliente}
         </div>

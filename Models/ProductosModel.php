@@ -196,6 +196,10 @@ class ProductosModel extends Query
                 $plataforma
             );
             $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
+
+            $response['status'] = 200;
+            $response['title'] = 'Petición exitosa';
+            $response['message'] = 'Producto agregado correctamente';
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';

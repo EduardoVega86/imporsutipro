@@ -168,6 +168,7 @@
                             <div class="etiqueta-item d-flex align-items-center mb-3">
                                 <div class="etiqueta-color" style="background-color: ${etiqueta.color_etiqueta}; width: 20px; height: 20px; border-radius: 50%; margin-right: 10px;"></div>
                                 <div class="etiqueta-nombre">${etiqueta.nombre_etiqueta}</div>
+                                <button class="boton_eliminar_etiqueta" onclick="boton_eliminarEtiqueta(${etiqueta.id_etiqueta})"><i class="fa-solid fa-trash"></i></button>
                             </div>
                         `;
 
@@ -184,6 +185,34 @@
             }
         });
     }
+
+    function boton_eliminarEtiqueta(id_etiqueta){
+    $.ajax({
+        type: "POST",
+        url: SERVERURL + "Pedidos/eliminarEtiqueta/"+id_etiqueta,
+        dataType: "json",
+        success: function (response) {
+          if (response.status == 500) {
+            toastr.error(
+                "LA ETIQUETA NO SE ELIMINO CORECTAMENTE",
+                "NOTIFICACIÓN", {
+                    positionClass: "toast-bottom-center"
+                }
+            );
+        } else if (response.status == 200) {
+            toastr.success("ETIQUETA ELIMINADA", "NOTIFICACIÓN", {
+                positionClass: "toast-bottom-center",
+            });
+
+            cargarEtiquetas();
+        }
+        },
+        error: function (xhr, status, error) {
+          console.error("Error en la solicitud AJAX:", error);
+          alert("Hubo un problema al obtener la información de la categoría");
+        },
+      });
+}
 
     // Llamamos a la función cargarEtiquetas cuando el modal se abre
     $('#agregar_etiquetaModal').on('shown.bs.modal', function() {
