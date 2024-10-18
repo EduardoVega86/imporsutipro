@@ -89,8 +89,6 @@ $(document).ready(function () {
 
           // Iniciar el polling para actualizar los mensajes automáticamente
           startPollingMensajes(id_cliente);
-
-          cargar_lista_contactos("");
         });
       },
       error: function (error) {
@@ -380,6 +378,8 @@ $(document).ready(function () {
 
   // Función para cargar solo los mensajes nuevos
   function cargarUltimosMensajes(id_cliente) {
+    cargar_lista_contactos("");
+
     let formData_chat = new FormData();
     formData_chat.append("id_cliente", id_cliente);
 
