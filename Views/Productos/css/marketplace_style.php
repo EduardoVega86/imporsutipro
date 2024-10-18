@@ -479,7 +479,7 @@
     .add-to-funnel-button {
         position: absolute;
         bottom: 10px;
-        right: 20px;
+        right: 50px;
         background-color: #007bff;
         color: white;
         border: none;
