@@ -636,7 +636,8 @@ class Pedidos extends Controller
 
     public function numeros_clientes()
     {
-        $response = $this->model->numeros_clientes($_SESSION['id_plataforma']);
+        $busqueda = $_POST['busqueda'];
+        $response = $this->model->numeros_clientes($_SESSION['id_plataforma'], $busqueda);
         echo json_encode($response);
     }
 
@@ -815,7 +816,7 @@ class Pedidos extends Controller
 
     public function obtener_templates()
    {
-       $palabra_busqueda = $_POST['palabra_busqueda'] ?? "";
+       $palabra_busqueda = $_POST['palabra_busqueda'];
        $response = $this->model->obtener_templates($_SESSION['id_plataforma'], $palabra_busqueda);
        echo json_encode($response);
    }
