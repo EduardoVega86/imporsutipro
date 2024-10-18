@@ -1,15 +1,12 @@
 let template_activo = 0;
+/* llenar seccion numeros */
+$(document).ready(function () {
+  let lastMessageId = null; // Variable global para almacenar el ID del último mensaje mostrado
 
-function llenar_lista_contactos(busqueda){
   // Llamada AJAX para obtener los datos de la API de contactos
-  let formData = new FormData();
-  formData.append("busqueda", busqueda); // Añadir el SKU al FormData
   $.ajax({
     url: SERVERURL + "Pedidos/numeros_clientes",
-    type: "POST", // Cambiar a POST para enviar FormData
-    data: formData,
-    processData: false, // No procesar los datos
-    contentType: false, // No establecer ningún tipo de contenido
+    method: "GET",
     dataType: "json",
     success: function (data) {
       let innerHTML = "";
@@ -55,19 +52,6 @@ function llenar_lista_contactos(busqueda){
     error: function (error) {
       console.error("Error al obtener los mensajes:", error);
     },
-  });
-}
-
-/* llenar seccion numeros */
-$(document).ready(function () {
-  let lastMessageId = null; // Variable global para almacenar el ID del último mensaje mostrado
-
-  llenar_lista_contactos("");
-
-  const contactos_list = document.getElementById("contact-list");
-
-  contactos_list.addEventListener("input", function () {
-    llenar_lista_contactos(this.value);
   });
 
   /* consultar configuracion */
