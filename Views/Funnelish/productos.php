@@ -2,7 +2,7 @@
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
-        <h2 class="text-center mb-4">Guias Anuladas</h2>
+        <h2 class="text-center mb-4">Productos vinculados a funnelish</h2>
 
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->

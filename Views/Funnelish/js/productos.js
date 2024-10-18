@@ -81,6 +81,8 @@ const listProductos = async () => {
 
     const data = await response.json();
 
+    console.log(data);
+
     let content = "";
 
     data.forEach((producto) => {

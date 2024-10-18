@@ -38,6 +38,7 @@ class Funnelish extends Controller
         $this->isAuth();
         $id_plataforma = $_SESSION['id_plataforma'];
         $data = $this->model->listar($id_plataforma);
+        echo json_encode($data);
     }
 
     public function data()
