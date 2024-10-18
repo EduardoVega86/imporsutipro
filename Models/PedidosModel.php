@@ -1547,7 +1547,7 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
-    public function numeros_clientes($id_plataforma, $palabra_busqueda)
+    public function numeros_clientes($id_plataforma)
     {
         $sql = "SELECT 
         ccc.nombre_cliente, 
@@ -1582,9 +1582,9 @@ class PedidosModel extends Query
     WHERE 
         ccc.id_plataforma = $id_plataforma";
 
-        if (!empty($palabra_busqueda)) {
+        /* if (!empty($palabra_busqueda)) {
             $sql .= " AND (ccc.nombre_cliente LIKE '%$palabra_busqueda%' OR ccc.apellido_cliente LIKE '%$palabra_busqueda%' OR ccc.celular_cliente LIKE '%$palabra_busqueda%')";
-        }
+        } */
 
         $sql .= " ORDER BY 
         mc.created_at DESC";

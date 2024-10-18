@@ -636,8 +636,8 @@ class Pedidos extends Controller
 
     public function numeros_clientes()
     {
-        $busqueda = $_POST['busqueda'];
-        $response = $this->model->numeros_clientes($_SESSION['id_plataforma'], $busqueda);
+        /* $busqueda = $_POST['busqueda']; */
+        $response = $this->model->numeros_clientes($_SESSION['id_plataforma']);
         echo json_encode($response);
     }
 
