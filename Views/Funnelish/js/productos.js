@@ -88,19 +88,19 @@ const listProductos = async () => {
     data.forEach((producto) => {
       content += `
             <tr>
-            <td>
+            <td class="text-center">
                 <span>${producto.id}</span>
             </td>
-            <td>
-                <span>${producto.nombre}</span>
+            <td class="text-center">
+                <span>${producto.nombre_producto}</span>
             </td>
-            <td>
+            <td class="text-center">
                 <span>${producto.codigo_funnelish}</span>
             </td>
-            <td>
+            <td class="text-center">
                 <span>${producto.codigo_producto}</span>
             </td>
-            <td>
+            <td class="text-center">
                 <div class="d-flex justify-content-center">
                     <button class="btn btn-primary btn-sm" onclick="editarProducto(${producto.id})">
                         <i class="fa-solid fa-pencil"></i>
