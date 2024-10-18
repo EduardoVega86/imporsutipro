@@ -554,7 +554,7 @@
     }
 
     #btn-three-dots:hover {
-        color: #007bff;
+        color: black;
         /* Añade un efecto de hover */
     }
 

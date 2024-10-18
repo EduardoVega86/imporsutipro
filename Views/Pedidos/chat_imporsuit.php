@@ -42,7 +42,7 @@
                         <li><span class="dropdown-item" style="cursor: pointer;" onclick="abrir_modal_etiquetas()">Agregar etiqueta</span></li>
                     </ul>
                 </div>
-                <i class="fas fa-ellipsis-v toggle-info" id="btn-three-dots"></i> <!-- Botón de tres puntos -->
+                <i class="fas fa-ellipsis-v toggle-info" id="btn-three-dots" style="margin: 10px;"></i> <!-- Botón de tres puntos -->
             </div>
 
             <!-- chat -->
