@@ -182,7 +182,7 @@ class ProductosModel extends Query
     public function importar_productos_funnel($id_inventario, $id_funnel, $plataforma)
     {
         $response = $this->initialResponse();
-        $inicial_variable = $this->select("SELECT * FROM productos_funnel WHERE id_plataforma = $plataforma AND id_inventario = $id_inventario");
+        $inicial_variable = $this->select("SELECT * FROM productos_funnel WHERE id_plataforma = $plataforma AND id_producto = $id_inventario");
 
         if (empty($inicial_variable)) {
             $sql = "SELECT * FROM inventario_bodegas ib, productos p WHERE ib.id_inventario = $id_inventario LIMIT 1";
