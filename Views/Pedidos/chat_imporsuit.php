@@ -2,7 +2,7 @@
 <?php require_once './Views/Pedidos/css/chat_imporsuit_style.php'; ?>
 <?php require_once './Views/Pedidos/Modales/agregar_etiqueta.php'; ?>
 <?php require_once './Views/Pedidos/Modales/asignar_etiquetas.php'; ?>
-<?php /* require_once './Views/Pedidos/Modales/agregar_numero_cliente.php'; */ ?>
+<?php require_once './Views/Pedidos/Modales/agregar_numero_cliente.php'; ?>
 
 <div class="container-fluid h-100">
     <div class="row h-100">
