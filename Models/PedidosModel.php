@@ -979,6 +979,8 @@ class PedidosModel extends Query
                 // Ejecutamos la función que devuelve productos y categorías
                 $data = $this->ejecutar_automatizador($nueva_factura);
 
+                $telefono_cliente = $this->formatearTelefono($celular);
+
                 $data = [
                     "id_configuracion" => $id_configuracion,
                     "value_blocks_type" => "1",
@@ -987,7 +989,7 @@ class PedidosModel extends Query
                     "nombre" => $nombre_cliente,
                     "direccion" => $c_principal . " y " . $c_secundaria,
                     "email" => "",
-                    "celular" => $celular,
+                    "celular" => $telefono_cliente,
                     "contenido" => $contiene,
                     "costo" => $monto_factura,
                     "ciudad" => $nombre_ciudad,
@@ -1001,7 +1003,7 @@ class PedidosModel extends Query
                         "nombre" => $nombre_cliente,
                         "direccion" => $c_principal . " y " . $c_secundaria,
                         "email" => "",
-                        "celular" => $celular,
+                        "celular" => $telefono_cliente,
                         "order_id" => $nueva_factura,
                         "contenido" => $contiene,
                         "costo" => $monto_factura,
@@ -1040,6 +1042,27 @@ class PedidosModel extends Query
         }
 
         return $response;
+    }
+
+    function formatearTelefono($telefono) {
+        // Si el número tiene exactamente 9 dígitos, agrega "593" al inicio
+        if (strlen($telefono) === 9 && preg_match('/^\d{9}$/', $telefono)) {
+            return '593' . $telefono;
+        }
+        // Si el número empieza con "0", reemplaza el "0" por "593"
+        if (str_starts_with($telefono, '0')) {
+            return '593' . substr($telefono, 1);
+        }
+        // Si el número empieza con "+593", quita el "+"
+        if (str_starts_with($telefono, '+593')) {
+            return substr($telefono, 1);
+        }
+        // Si el número ya comienza con "593", lo deja igual
+        if (str_starts_with($telefono, '593')) {
+            return $telefono;
+        }
+        // Si no cumple con ninguno de los casos anteriores, retorna el número tal cual
+        return $telefono;
     }
 
     /* automatizador */
