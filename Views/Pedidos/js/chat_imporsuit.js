@@ -20,6 +20,7 @@ $(document).ready(function () {
     success: function (data) {
       $("#id_whatsapp").val(data[0].id_telefono);
       $("#token_configruacion").val(data[0].token);
+      $("#id_whatsapp_configruacion").val(data[0].id_whatsapp);
 
       cargarTemplates();
     },
@@ -31,14 +32,14 @@ $(document).ready(function () {
 
   // Función para obtener los templates de WhatsApp Business
   async function cargarTemplates() {
-    var phoneNumberId = $("#id_whatsapp").val(); // ID del número de WhatsApp
+    var waba_id = $("#id_whatsapp_configruacion").val(); // ID del número de WhatsApp
     var accessToken = $("#token_configruacion").val(); // Token de autenticación
     var selectElement = document.getElementById("lista_templates");
 
     try {
       // Realizamos la petición GET a la API de WhatsApp Business
       const response = await fetch(
-        `https://graph.facebook.com/v17.0/${phoneNumberId}/message_templates`,
+        `https://graph.facebook.com/v17.0/${waba_id}/message_templates`,
         {
           method: "GET",
           headers: {
