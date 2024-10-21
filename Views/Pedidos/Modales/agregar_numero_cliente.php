@@ -230,13 +230,13 @@
     }
 
     // Función para obtener los templates de WhatsApp Business
-    async function cargarTemplates() {
+    function cargarTemplates() {
         var phoneNumberId = $("#id_whatsapp").val(); // ID del número de WhatsApp
         var accessToken = $("#token_configruacion").val(); // Token de autenticación
         var selectElement = document.getElementById('lista_templates');
 
         try {
-            const response = await fetch(
+            const response = fetch(
                 `https://graph.facebook.com/v17.0/${phoneNumberId}/message_templates`, {
                     method: 'GET',
                     headers: {
@@ -250,7 +250,7 @@
                 throw new Error(`Error al obtener templates: ${response.statusText}`);
             }
 
-            const data = await response.json();
+            const data = response.json();
 
             // Llenar el select con los nombres de los templates
             data.data.forEach(template => {
