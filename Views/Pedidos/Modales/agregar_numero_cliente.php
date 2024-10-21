@@ -146,6 +146,7 @@
         }
         // Si no cumple con ninguno de los casos anteriores, retorna el número tal cual
         return telefono;
+        
     }
 
     function validar_telefono_chat(telefono) {
