@@ -127,7 +127,29 @@
 </div>
 
 <script>
+    function formatearTelefono(telefono) {
+        // Si el número tiene exactamente 9 dígitos, agrega "593" al inicio
+        if (telefono.length === 9 && /^\d{9}$/.test(telefono)) {
+            return '593' + telefono;
+        }
+        // Si el número empieza con "0", reemplaza el "0" por "593"
+        if (telefono.startsWith('0')) {
+            return '593' + telefono.slice(1);
+        }
+        // Si el número empieza con "+593", quita el "+"
+        if (telefono.startsWith('+593')) {
+            return telefono.slice(1);
+        }
+        // Si el número ya comienza con "593", lo deja igual
+        if (telefono.startsWith('593')) {
+            return telefono;
+        }
+        // Si no cumple con ninguno de los casos anteriores, retorna el número tal cual
+        return telefono;
+    }
+
     function validar_telefono_chat(telefono) {
+        telefon = formatearTelefono(telefono);
         let formData = new FormData();
         formData.append("telefono", telefono);
         $.ajax({
@@ -138,7 +160,21 @@
             contentType: false, // No establecer ningún tipo de contenido
             dataType: "json",
             success: function(response) {
+                if (response.status == true) {
+                    $("#nombre_creacion").val(response.nombre);
+                    $("#apellido_creacion").val(response.apellido);
+                    $("#id_crear_chat").val(response.id_cliente);
+                    
+                    $("#telefono-error").show();
+                    $("#seccion_informacion_numero").show();
+                } else {
+                    $("#nombre_creacion").val("");
+                    $("#apellido_creacion").val("");
+                    $("#id_crear_chat").val("");
 
+                    $("#telefono-error").hide();
+                    $("#seccion_informacion_numero").hide();
+                }
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 alert(errorThrown);
