@@ -228,39 +228,4 @@
             },
         });
     }
-
-    // Función para obtener los templates de WhatsApp Business
-    function cargarTemplates() {
-        var phoneNumberId = $("#id_whatsapp").val(); // ID del número de WhatsApp
-        var accessToken = $("#token_configruacion").val(); // Token de autenticación
-        var selectElement = document.getElementById('lista_templates');
-
-        try {
-            const response = fetch(
-                `https://graph.facebook.com/v17.0/${phoneNumberId}/message_templates`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${accessToken}`,
-                        'Content-Type': 'application/json'
-                    }
-                }
-            );
-
-            if (!response.ok) {
-                throw new Error(`Error al obtener templates: ${response.statusText}`);
-            }
-
-            const data = response.json();
-
-            // Llenar el select con los nombres de los templates
-            data.data.forEach(template => {
-                const option = document.createElement('option');
-                option.value = template.name;
-                option.textContent = template.name;
-                selectElement.appendChild(option);
-            });
-        } catch (error) {
-            console.error('Error al cargar los templates:', error);
-        }
-    }
 </script>

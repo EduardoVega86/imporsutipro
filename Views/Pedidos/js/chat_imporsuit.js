@@ -20,7 +20,7 @@ $(document).ready(function () {
     success: function (data) {
       $("#id_whatsapp").val(data[0].id_telefono);
       $("#token_configruacion").val(data[0].token);
-      
+
       cargarTemplates();
     },
     error: function (error) {
@@ -28,6 +28,42 @@ $(document).ready(function () {
     },
   });
   /* fin consutlar configuracion */
+
+  // Función para obtener los templates de WhatsApp Business
+  function cargarTemplates() {
+    var phoneNumberId = $("#id_whatsapp").val(); // ID del número de WhatsApp
+    var accessToken = $("#token_configruacion").val(); // Token de autenticación
+    var selectElement = document.getElementById("lista_templates");
+
+    try {
+      const response = fetch(
+        `https://graph.facebook.com/v17.0/${phoneNumberId}/message_templates`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Error al obtener templates: ${response.statusText}`);
+      }
+
+      const data = response.json();
+
+      // Llenar el select con los nombres de los templates
+      data.data.forEach((template) => {
+        const option = document.createElement("option");
+        option.value = template.name;
+        option.textContent = template.name;
+        selectElement.appendChild(option);
+      });
+    } catch (error) {
+      console.error("Error al cargar los templates:", error);
+    }
+  }
 
   function cargar_lista_contactos(busqueda) {
     let formData = new FormData();
@@ -90,7 +126,7 @@ $(document).ready(function () {
           ejecutarApiConIdCliente(id_cliente);
 
           cargar_vistos(id_cliente);
-          
+
           // Iniciar el polling para actualizar los mensajes automáticamente
           startPollingMensajes(id_cliente);
         });
@@ -141,7 +177,6 @@ $(document).ready(function () {
 
         // Llamar a la función para cargar los mensajes iniciales del chat
         cargarMensajesChat(id_cliente);
-
       },
       error: function (error) {
         console.error("Error al ejecutar la API:", error);
