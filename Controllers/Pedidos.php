@@ -750,8 +750,14 @@ class Pedidos extends Controller
 
     public function obtenerPedidosPorTelefono()
     {
+
+        $id_plataforma = $_SESSION['id_plataforma'] || $_POST['id_plataforma'] || 1160;
+
         $telefono = $_POST['telefono'];
-        $response = $this->model->obtenerPedidoPorTelefono($telefono);
+
+
+        $response = $this->model->obtenerPedidoPorTelefono($telefono, $id_plataforma);
+
         echo json_encode($response);
     }
 
@@ -828,9 +834,9 @@ class Pedidos extends Controller
     }
 
     public function obtener_templates()
-   {
-       $palabra_busqueda = $_POST['palabra_busqueda'];
-       $response = $this->model->obtener_templates($_SESSION['id_plataforma'], $palabra_busqueda);
-       echo json_encode($response);
-   }
+    {
+        $palabra_busqueda = $_POST['palabra_busqueda'];
+        $response = $this->model->obtener_templates($_SESSION['id_plataforma'], $palabra_busqueda);
+        echo json_encode($response);
+    }
 }
