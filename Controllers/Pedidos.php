@@ -751,7 +751,7 @@ class Pedidos extends Controller
     public function obtenerPedidosPorTelefono()
     {
 
-        $id_plataforma = $_SESSION['id_plataforma'] || $_POST['id_plataforma'] || 1160;
+        $id_plataforma = $_SESSION['id_plataforma'] ?? $_POST['id_plataforma'] ?? 1160;
 
         $telefono = $_POST['telefono'];
 
