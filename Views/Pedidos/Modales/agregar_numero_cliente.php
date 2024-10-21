@@ -234,4 +234,75 @@
             },
         });
     }
+
+    // Enviar el template con los valores reemplazados
+  async function enviarTemplate() {
+    let templateText = document.getElementById("template_textarea").value;
+    const phoneNumberId = $("#id_whatsapp_configruacion").val(); // ID del número de WhatsApp
+    const accessToken = $("#token_configruacion").val(); // Token de autenticación
+    const templateName = document.getElementById("lista_templates").value; // Nombre del template seleccionado
+    const recipientPhone = prompt(
+      "Ingresa el número del destinatario (con código de país):"
+    ); // Número del destinatario
+
+    if (!recipientPhone) {
+      alert("Debes ingresar un número de destinatario.");
+      return;
+    }
+
+    // Reemplazar los placeholders dinámicamente
+    const placeholders = [];
+    templateText = templateText.replace(/{{(\d+)}}/g, (match, number) => {
+      const valor = prompt(`Ingresa el valor para {{${number}}}:`);
+      placeholders.push(valor); // Almacena los valores ingresados
+      return valor ? valor : match; // Reemplaza si hay valor, sino deja el placeholder
+    });
+
+    console.log("Template enviado:", templateText);
+
+    // Crear el cuerpo de la solicitud para la API de WhatsApp
+    const body = {
+      messaging_product: "whatsapp",
+      to: recipientPhone,
+      type: "template",
+      template: {
+        name: templateName,
+        language: { code: "es" }, // Idioma del template (puedes cambiarlo según el idioma del template)
+        components: [
+          {
+            type: "body",
+            parameters: placeholders.map((value) => ({
+              type: "text",
+              text: value,
+            })),
+          },
+        ],
+      },
+    };
+
+    try {
+      const response = await fetch(
+        `https://graph.facebook.com/v17.0/${phoneNumberId}/messages`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Error al enviar template: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      console.log("Template enviado exitosamente:", data);
+      alert("Template enviado exitosamente.");
+    } catch (error) {
+      console.error("Error al enviar el template:", error);
+      alert("Error al enviar el template.");
+    }
+  }
 </script>

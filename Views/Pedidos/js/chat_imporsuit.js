@@ -89,22 +89,6 @@ $(document).ready(function () {
     }
   }
 
-  // Enviar el template con los valores reemplazados
-  function enviarTemplate() {
-    let templateText = document.getElementById("template_textarea").value;
-
-    // Reemplazar los placeholders dinámicamente
-    templateText = templateText.replace(/{{(\d+)}}/g, (match, number) => {
-      const valor = prompt(`Ingresa el valor para {{${number}}}:`);
-      return valor ? valor : match; // Reemplaza si hay valor, sino deja el placeholder
-    });
-
-    console.log("Template enviado:", templateText);
-
-    // Aquí iría la lógica para enviar el template a través de la API de WhatsApp
-    // Por ejemplo: enviarTemplateAPI(templateText);
-  }
-
   function cargar_lista_contactos(busqueda) {
     let formData = new FormData();
     formData.append("busqueda", busqueda); // Añadir el SKU al FormData
