@@ -123,6 +123,12 @@
                                 <option value="">Selecciona un template</option>
                             </select>
 
+                            <!-- Textarea para mostrar y editar el template -->
+                            <textarea id="template_textarea" rows="8" class="form-control" style="margin-top: 10px;"></textarea>
+
+                            <!-- Botón para enviar el template -->
+                            <button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="enviarTemplate()">Enviar</button>
+
                         </div>
 
                     </div>
