@@ -1044,7 +1044,8 @@ class PedidosModel extends Query
         return $response;
     }
 
-    function formatearTelefono($telefono) {
+    function formatearTelefono($telefono)
+    {
         // Si el número tiene exactamente 9 dígitos, agrega "593" al inicio
         if (strlen($telefono) === 9 && preg_match('/^\d{9}$/', $telefono)) {
             return '593' . $telefono;
@@ -2140,5 +2141,29 @@ class PedidosModel extends Query
     {
         $sql = "SELECT * FROM `templates_chat_center` WHERE id_plataforma = $id_plataforma AND (atajo LIKE '%$palabra_busqueda%' OR mensaje LIKE '%$palabra_busqueda%')";
         return $this->select($sql);
+    }
+
+    public function validar_telefonos_clientes($id_plataforma, $telefono)
+    {
+        $sql = "SELECT * FROM `clientes_chat_center` WHERE celular_cliente = ? ";
+        $data = [$telefono];
+        $existencia_telefonos = $this->simple_select($sql, $data);
+
+        if ($existencia_telefonos == 1) {
+            $sql = "SELECT * FROM `clientes_chat_center` WHERE celular_cliente = $telefono";
+            $resultados_celular_chat = $this->select($sql);
+
+            $response = [
+                'status' => true,
+                'nombre' => $resultados_celular_chat[0]['nombre_cliente'],
+                'apellido' => $resultados_celular_chat[0]['apellido_cliente'],
+                'id_cliente' => $resultados_celular_chat[0]['id']
+            ];
+        }else{
+            $response = [
+                'status' => false
+            ];
+        }
+        return $response;
     }
 }
