@@ -115,8 +115,8 @@ class ProductosModel extends Query
     public function obtener_productos_tienda_automatizador($plataforma)
     {
 
-        if ($plataforma == 1206) {
-            $sql = "SELECT st.id_inventario, st.id_plataforma, p.nombre_producto FROM `shopify_tienda` st INNER JOIN `inventario_bodegas` ib ON ib.id_inventario = st.id_inventario INNER JOIN `productos` p ON p.id_producto = ib.id_producto where st.id_plataforma = 1206;";
+        if ($plataforma == 1206 || $plataforma == 2324) {
+            $sql = "SELECT st.id_inventario, st.id_plataforma, p.nombre_producto FROM `shopify_tienda` st INNER JOIN `inventario_bodegas` ib ON ib.id_inventario = st.id_inventario INNER JOIN `productos` p ON p.id_producto = ib.id_producto where st.id_plataforma = $plataforma;";
         } else {
 
             $sql = "SELECT * FROM `productos_tienda` pt, productos p, inventario_bodegas ib WHERE  pt.id_producto=p.id_producto and pt.id_inventario=ib.id_inventario and pt.id_plataforma=$plataforma";
