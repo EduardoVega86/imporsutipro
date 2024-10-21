@@ -846,4 +846,14 @@ class Pedidos extends Controller
         $response = $this->model->validar_telefonos_clientes($_SESSION['id_plataforma'], $telefono);
         echo json_encode($response);
     }
+
+    public function agregar_numero_chat()
+    {
+        $telefono = $_POST['telefono'];
+        $nombre = $_POST['nombre'];
+        $apellido = $_POST['apellido'];
+
+        $response = $this->model->agregar_numero_chat($telefono, $nombre, $apellido, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
 }

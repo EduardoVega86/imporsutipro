@@ -2166,4 +2166,29 @@ class PedidosModel extends Query
         }
         return $response;
     }
+
+    public function agregar_numero_chat($telefono, $nombre, $apellido, $id_plataforma)
+    {
+        // codigo para agregar categoria
+        $response = $this->initialResponse();
+
+        $sql_configuracion = "SELECT id_telefono FROM configuraciones WHERE id_plataforma = ?";
+        $iud_cliente = $this->dselect($sql_configuracion, [$id_plataforma]);
+        $iud_cliente = $iud_cliente[0]['id_telefono'];
+
+        $sql = "INSERT INTO `clientes_chat_center` (`id_plataforma`,`nombre_cliente`,`apellido_cliente`,`celular_cliente`,`uid_cliente`) VALUES (?, ?, ?, ?, ?)";
+        $data = [$id_plataforma, $nombre, $apellido, $telefono, $iud_cliente];
+        $insertar_mensaje_enviado = $this->insert($sql, $data);
+        if ($insertar_mensaje_enviado == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'flotante agregada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = $insertar_mensaje_enviado['message'];
+        }
+        return $response;
+    }
+    
 }

@@ -91,15 +91,17 @@
                             <div class="alert alert-warning" role="alert">
                                 <strong>Atención:</strong> Ingrese primero el numero de telefono.
                             </div>
-                            <label for="numero_telefono_creacion" class="form-label">Teléfono</label>
+                            <label for="numero_telefono_creacion" class="form-label">Teléfono:</label>
                             <input type="text" class="form-control" id="numero_telefono_creacion" placeholder="Ingrese el telefono" oninput="validar_telefono_chat(this.value)">
                             <div id="telefono-error" style="color: red; display: none;">Este telefono ya existe.</div>
 
+                            <input type="hidden" id="id_crear_chat" name="id_crear_chat">
 
-                            <label for="nombre_creacion" class="form-label">Nombre</label>
+
+                            <label for="nombre_creacion" class="form-label">Nombre:</label>
                             <input type="text" class="form-control" id="nombre_creacion" placeholder="Ingrese el nombre">
 
-                            <label for="apellido_creacion" class="form-label">Apellido</label>
+                            <label for="apellido_creacion" class="form-label">Apellido:</label>
                             <input type="text" class="form-control" id="apellido_creacion" placeholder="Ingrese el apellido">
 
                             <div id="seccion_informacion_numero" style="display: none;">
@@ -179,6 +181,43 @@
 
                     $("#telefono-error").hide();
                     $("#seccion_informacion_numero").show();
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert(errorThrown);
+            },
+        });
+    }
+
+    function agregar_numero_cliente() {
+        telefono = formatearTelefono($('#numero_telefono_creacion').val());
+        nombre = formatearTelefono($('#nombre_creacion').val());
+        apellido = formatearTelefono($('#apellido_creacion').val());
+
+        let formData = new FormData();
+        formData.append("telefono", telefono);
+        formData.append("nombre", nombre);
+        formData.append("apellido", apellido);
+
+        $.ajax({
+            url: SERVERURL + "Pedidos/agregar_numero_chat",
+            type: "POST",
+            data: formData,
+            processData: false, // No procesar los datos
+            contentType: false, // No establecer ningún tipo de contenido
+            dataType: "json",
+            success: function(response) {
+                if (response.status == 500) {
+                    toastr.error(
+                        "EL NUMERO NO SE AGREGRO CORRECTAMENTE",
+                        "NOTIFICACIÓN", {
+                            positionClass: "toast-bottom-center"
+                        }
+                    );
+                } else if (response.status == 200) {
+                    toastr.success("NUMERO AGREGADO CORRECTAMENTE", "NOTIFICACIÓN", {
+                        positionClass: "toast-bottom-center",
+                    });
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
