@@ -2182,7 +2182,7 @@ class PedidosModel extends Query
         if ($insertar_mensaje_enviado == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
-            $response['message'] = 'flotante agregada correctamente';
+            $response['message'] = 'numero agregado correctamente';
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
