@@ -149,7 +149,7 @@
     }
 
     function validar_telefono_chat(telefono) {
-        telefon = formatearTelefono (telefono);
+        telefon = formatearTelefono(telefono);
         let formData = new FormData();
         formData.append("telefono", telefono);
         $.ajax({
@@ -160,7 +160,19 @@
             contentType: false, // No establecer ningún tipo de contenido
             dataType: "json",
             success: function(response) {
+                if (response.status == true) {
+                    $("#nombre_creacion").val(response.nombre);
+                    $("#apellido_creacion").val(response.apellido);
+                    
+                    $("#telefono-error").show();
+                    $("#seccion_informacion_numero").show();
+                } else {
+                    $("#nombre_creacion").val("");
+                    $("#apellido_creacion").val("");
 
+                    $("#telefono-error").hide();
+                    $("#seccion_informacion_numero").hide();
+                }
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 alert(errorThrown);
