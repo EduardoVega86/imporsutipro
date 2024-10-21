@@ -20,6 +20,8 @@ $(document).ready(function () {
     success: function (data) {
       $("#id_whatsapp").val(data[0].id_telefono);
       $("#token_configruacion").val(data[0].token);
+      
+      cargarTemplates();
     },
     error: function (error) {
       console.error("Error al obtener los mensajes:", error);
