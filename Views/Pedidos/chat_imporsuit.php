@@ -33,6 +33,7 @@
 
                     <input type="hidden" id="id_whatsapp" name="id_whatsapp">
                     <input type="hidden" id="token_configruacion" name="token_configruacion">
+                    <input type="hidden" id="id_whatsapp_configruacion" name="id_whatsapp_configruacion">
 
                 </div>
                 <div class="dropdown" style="margin-left: auto;">
