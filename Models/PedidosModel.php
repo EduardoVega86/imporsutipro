@@ -1914,7 +1914,7 @@ class PedidosModel extends Query
         return $response;
     }
 
-    public function obtenerPedidoPorTelefono($telefono)
+    public function obtenerPedidoPorTelefono($telefono, $id_plataforma)
     {
         if (str_contains($telefono, '+593')) {
             $telefono = str_replace('+593', '', $telefono);
