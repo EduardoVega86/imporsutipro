@@ -127,7 +127,29 @@
 </div>
 
 <script>
+    function formatearTelefono(telefono) {
+        // Si el número tiene exactamente 9 dígitos, agrega "593" al inicio
+        if (telefono.length === 9 && /^\d{9}$/.test(telefono)) {
+            return '593' + telefono;
+        }
+        // Si el número empieza con "0", reemplaza el "0" por "593"
+        if (telefono.startsWith('0')) {
+            return '593' + telefono.slice(1);
+        }
+        // Si el número empieza con "+593", quita el "+"
+        if (telefono.startsWith('+593')) {
+            return telefono.slice(1);
+        }
+        // Si el número ya comienza con "593", lo deja igual
+        if (telefono.startsWith('593')) {
+            return telefono;
+        }
+        // Si no cumple con ninguno de los casos anteriores, retorna el número tal cual
+        return telefono;
+    }
+
     function validar_telefono_chat(telefono) {
+        telefon = formatearTelefono (telefono);
         let formData = new FormData();
         formData.append("telefono", telefono);
         $.ajax({
