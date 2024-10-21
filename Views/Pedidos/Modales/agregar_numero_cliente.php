@@ -239,7 +239,7 @@
         let fromPhoneNumberId = $("#id_whatsapp").val(); // ID del número de WhatsApp
         let accessToken = $("#token_configruacion").val(); // Token de autenticación
         let templateName = document.getElementById("lista_templates").value; // Nombre del template seleccionado
-        let recipientPhone = prompt("Ingresa el número del destinatario (con código de país):"); // Número del destinatario
+        let recipientPhone = formatearTelefono($('#numero_telefono_creacion').val());
 
         if (!recipientPhone) {
             alert("Debes ingresar un número de destinatario.");
