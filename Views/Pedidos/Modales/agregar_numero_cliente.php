@@ -88,19 +88,23 @@
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
+                            <div class="alert alert-warning" role="alert">
+                                <strong>Atención:</strong> Ingrese primero el numero de telefono.
+                            </div>
                             <label for="numero_telefono_creacion" class="form-label">Teléfono</label>
                             <input type="text" class="form-control" id="numero_telefono_creacion" placeholder="Ingrese el telefono" oninput="validar_telefono_chat(this.value)">
                             <div id="telefono-error" style="color: red; display: none;">Este telefono ya existe.</div>
 
+
+                            <label for="nombre_creacion" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="nombre_creacion" placeholder="Ingrese el nombre">
+
+                            <label for="apellido_creacion" class="form-label">Apellido</label>
+                            <input type="text" class="form-control" id="apellido_creacion" placeholder="Ingrese el apellido">
+
                             <div id="seccion_informacion_numero" style="display: none;">
-                                <label for="nombre_creacion" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" id="nombre_creacion" placeholder="Ingrese el nombre">
-
-                                <label for="apellido_creacion" class="form-label">Apellido</label>
-                                <input type="text" class="form-control" id="apellido_creacion" placeholder="Ingrese el apellido">
+                                <button type="button" class="btn btn-primary" onclick="agregar_numero_cliente()">Agregar</button>
                             </div>
-
-                            <button type="button" class="btn btn-primary" onclick="agregar_numero_cliente()">Agregar</button>
                         </div>
                     </div>
                 </div>
@@ -146,7 +150,7 @@
         }
         // Si no cumple con ninguno de los casos anteriores, retorna el número tal cual
         return telefono;
-        
+
     }
 
     function validar_telefono_chat(telefono) {
@@ -165,16 +169,16 @@
                     $("#nombre_creacion").val(response.nombre);
                     $("#apellido_creacion").val(response.apellido);
                     $("#id_crear_chat").val(response.id_cliente);
-                    
+
                     $("#telefono-error").show();
-                    $("#seccion_informacion_numero").show();
+                    $("#seccion_informacion_numero").hide();
                 } else {
                     $("#nombre_creacion").val("");
                     $("#apellido_creacion").val("");
                     $("#id_crear_chat").val("");
 
                     $("#telefono-error").hide();
-                    $("#seccion_informacion_numero").hide();
+                    $("#seccion_informacion_numero").show();
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
