@@ -30,14 +30,16 @@ $(document).ready(function () {
   });
   /* fin consutlar configuracion */
 
-  // Función para obtener los templates de WhatsApp Business
+  // Almacena los templates obtenidos para acceder después
+  let templates = [];
+
+  // Función para cargar los templates de WhatsApp
   async function cargarTemplates() {
-    var waba_id = $("#id_whatsapp_configruacion").val(); // ID del número de WhatsApp
+    var waba_id = $("#id_whatsapp_configruacion").val(); // ID del WABA
     var accessToken = $("#token_configruacion").val(); // Token de autenticación
     var selectElement = document.getElementById("lista_templates");
 
     try {
-      // Realizamos la petición GET a la API de WhatsApp Business
       const response = await fetch(
         `https://graph.facebook.com/v17.0/${waba_id}/message_templates`,
         {
@@ -54,17 +56,53 @@ $(document).ready(function () {
       }
 
       const data = await response.json();
+      templates = data.data; // Almacenar los templates para uso posterior
 
       // Llenar el select con los nombres de los templates
-      data.data.forEach((template) => {
+      templates.forEach((template) => {
         const option = document.createElement("option");
         option.value = template.name;
         option.textContent = template.name;
         selectElement.appendChild(option);
       });
+
+      // Añadir evento para detectar el cambio de selección
+      selectElement.addEventListener("change", mostrarTemplate);
     } catch (error) {
       console.error("Error al cargar los templates:", error);
     }
+  }
+
+  // Mostrar el contenido del template en el textarea
+  function mostrarTemplate() {
+    const selectedTemplate = templates.find(
+      (template) => template.name === this.value
+    );
+
+    if (selectedTemplate) {
+      const templateContent =
+        selectedTemplate.components.find((comp) => comp.type === "BODY")
+          ?.text || "Template sin cuerpo.";
+
+      // Mostrar el contenido del template en el textarea
+      document.getElementById("template_textarea").value = templateContent;
+    }
+  }
+
+  // Enviar el template con los valores reemplazados
+  function enviarTemplate() {
+    let templateText = document.getElementById("template_textarea").value;
+
+    // Reemplazar los placeholders dinámicamente
+    templateText = templateText.replace(/{{(\d+)}}/g, (match, number) => {
+      const valor = prompt(`Ingresa el valor para {{${number}}}:`);
+      return valor ? valor : match; // Reemplaza si hay valor, sino deja el placeholder
+    });
+
+    console.log("Template enviado:", templateText);
+
+    // Aquí iría la lógica para enviar el template a través de la API de WhatsApp
+    // Por ejemplo: enviarTemplateAPI(templateText);
   }
 
   function cargar_lista_contactos(busqueda) {
