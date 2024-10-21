@@ -123,10 +123,11 @@
                                 <option value="">Selecciona un template</option>
                             </select>
 
-                            <!-- Textarea para mostrar y editar el template -->
                             <textarea id="template_textarea" rows="8" class="form-control" style="margin-top: 10px;"></textarea>
 
-                            <!-- Botón para enviar el template -->
+                            <!-- Contenedor para los campos de placeholders -->
+                            <div id="placeholders-container" style="margin-top: 10px;"></div>
+
                             <button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="enviarTemplate()">Enviar</button>
 
                         </div>
@@ -235,30 +236,23 @@
         });
     }
 
+    // Enviar el template con los valores ingresados
     async function enviarTemplate() {
-        let fromPhoneNumberId = $("#id_whatsapp").val(); // ID del número de WhatsApp
-        let accessToken = $("#token_configruacion").val(); // Token de autenticación
-        let templateName = document.getElementById("lista_templates").value; // Nombre del template seleccionado
-        let recipientPhone = formatearTelefono($('#numero_telefono_creacion').val());
+        const fromPhoneNumberId = $("#id_whatsapp").val();
+        const accessToken = $("#token_configruacion").val();
+        const templateName = document.getElementById("lista_templates").value;
+        const recipientPhone = formatearTelefono($('#numero_telefono_creacion').val());
 
         if (!recipientPhone) {
             alert("Debes ingresar un número de destinatario.");
             return;
         }
 
-        // Reemplazar los placeholders dinámicamente
         const placeholders = [];
-        let templateText = document.getElementById("template_textarea").value;
-
-        templateText = templateText.replace(/{{(\d+)}}/g, (match, number) => {
-            const valor = prompt(`Ingresa el valor para {{${number}}}:`);
-            placeholders.push(valor); // Almacena los valores ingresados
-            return valor ? valor : match; // Reemplaza si hay valor, sino deja el placeholder
+        document.querySelectorAll("#placeholders-container input").forEach((input) => {
+            placeholders.push(input.value);
         });
 
-        console.log("Template final con valores:", templateText);
-
-        // Construir el cuerpo del mensaje
         const body = {
             messaging_product: "whatsapp",
             to: recipientPhone,
@@ -267,7 +261,7 @@
                 name: templateName,
                 language: {
                     code: "es"
-                }, // Idioma del template (cambiar si necesario)
+                },
                 components: [{
                     type: "body",
                     parameters: placeholders.map(value => ({
