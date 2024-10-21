@@ -89,7 +89,7 @@
                     <div class="card-body">
                         <div class="mb-3">
                             <label for="numero_telefono_creacion" class="form-label">Teléfono</label>
-                            <input type="text" class="form-control" id="numero_telefono_creacion" placeholder="Ingrese el telefono" onclick="validar_telefono_chat(this.value)">
+                            <input type="text" class="form-control" id="numero_telefono_creacion" placeholder="Ingrese el telefono" oninput="validar_telefono_chat(this.value)">
                             <div id="telefono-error" style="color: red; display: none;">Este telefono ya existe.</div>
 
                             <div id="seccion_informacion_numero" style="display: none;">
@@ -100,7 +100,7 @@
                                 <input type="text" class="form-control" id="apellido_creacion" placeholder="Ingrese el apellido">
                             </div>
 
-                            <button type="button" class="btn btn-primary" oninput="agregar_numero_cliente()">Agregar</button>
+                            <button type="button" class="btn btn-primary" onclick="agregar_numero_cliente()">Agregar</button>
                         </div>
                     </div>
                 </div>
