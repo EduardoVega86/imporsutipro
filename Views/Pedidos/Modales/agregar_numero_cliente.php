@@ -58,7 +58,7 @@
         color: #afaea9;
     }
 
-    .boton_eliminar_etiqueta:hover{
+    .boton_eliminar_etiqueta:hover {
         color: black;
     }
 
@@ -88,25 +88,31 @@
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
-                            <label for="nombre_etiqueta" class="form-label">Nombre etiqueta</label>
-                            <input type="text" class="form-control" id="nombre_etiqueta" placeholder="Ingrese el nombre de la etiqueta">
-                            <div class="input-box d-flex flex-column">
-                                <input id="color_etiqueta" name="color_etiqueta" type="color" value="#ff0000">
-                                <h6><strong>Color etiqueta</strong></h6>
+                            <label for="numero_telefono_creacion" class="form-label">Teléfono</label>
+                            <input type="text" class="form-control" id="numero_telefono_creacion" placeholder="Ingrese el telefono" onclick="validar_telefono_chat(this.value)">
+                            <div id="telefono-error" style="color: red; display: none;">Este telefono ya existe.</div>
+
+                            <div id="seccion_informacion_numero" style="display: none;">
+                                <label for="nombre_creacion" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="nombre_creacion" placeholder="Ingrese el nombre">
+
+                                <label for="apellido_creacion" class="form-label">Apellido</label>
+                                <input type="text" class="form-control" id="apellido_creacion" placeholder="Ingrese el apellido">
                             </div>
-                            <button type="button" class="btn btn-primary" onclick="agregar_numero_cliente()">Agregar etiqueta</button>
+
+                            <button type="button" class="btn btn-primary" onclick="agregar_numero_cliente()">Agregar</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Lista de etiquetas -->
+                <!-- Envio de tempale -->
                 <div class="card">
                     <div class="card-header">
-                        Lista de etiquetas
+                        Lista de plantillas whatsapp
                     </div>
                     <div class="card-body">
 
-                        <div id="lista_etiquetas">
+                        <div id="lista_tempaltes">
 
                         </div>
 
@@ -121,111 +127,7 @@
 </div>
 
 <script>
-    function agregar_numero_cliente() {
-        var nombre_etiqueta = $('#nombre_etiqueta').val();
-        var color_etiqueta = $('#color_etiqueta').val();
-
-        let formData = new FormData();
-        formData.append("nombre_etiqueta", nombre_etiqueta);
-        formData.append("color_etiqueta", color_etiqueta);
-
-        $.ajax({
-            url: SERVERURL + "Pedidos/agregar_numero_cliente",
-            type: "POST",
-            data: formData,
-            processData: false, // No procesar los datos
-            contentType: false, // No establecer ningún tipo de contenido
-            dataType: "json",
-            success: function(response) {
-                if (response.status == 500) {
-                    toastr.error(
-                        "LA CONFIGURACION NO SE AGREGRO CORRECTAMENTE",
-                        "NOTIFICACIÓN", {
-                            positionClass: "toast-bottom-center"
-                        }
-                    );
-                } else if (response.status == 200) {
-                    toastr.success("CONFIGURACION AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
-                        positionClass: "toast-bottom-center",
-                    });
-
-                    cargarEtiquetas();
-
-                }
-
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                alert(errorThrown);
-            },
-        });
-
+    function validar_telefono_chat(telefono){
+        
     }
-
-    function cargarEtiquetas() {
-        $.ajax({
-            url: SERVERURL + "Pedidos/obtener_etiquetas",
-            type: "GET",
-            dataType: "json",
-            success: function(response) {
-                if (response.length > 0) {
-                    // Limpiamos el contenido existente en el div
-                    $('#lista_etiquetas').empty();
-
-                    // Recorremos cada etiqueta recibida en la respuesta
-                    response.forEach(function(etiqueta) {
-                        // Creamos el HTML para cada etiqueta
-                        var etiquetaHTML = `
-                            <div class="etiqueta-item d-flex align-items-center mb-3">
-                                <div class="etiqueta-color" style="background-color: ${etiqueta.color_etiqueta}; width: 20px; height: 20px; border-radius: 50%; margin-right: 10px;"></div>
-                                <div class="etiqueta-nombre">${etiqueta.nombre_etiqueta}</div>
-                                <button class="boton_eliminar_etiqueta" onclick="boton_eliminarEtiqueta(${etiqueta.id_etiqueta})"><i class="fa-solid fa-trash"></i></button>
-                            </div>
-                        `;
-
-                        // Añadimos el HTML de la etiqueta al contenedor
-                        $('#lista_etiquetas').append(etiquetaHTML);
-                    });
-                } else {
-                    // Si no hay etiquetas, mostramos un mensaje
-                    $('#lista_etiquetas').html('<p>No hay etiquetas disponibles.</p>');
-                }
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.error('Error al obtener etiquetas:', errorThrown);
-            }
-        });
-    }
-
-    function boton_eliminarEtiqueta(id_etiqueta) {
-        $.ajax({
-            type: "POST",
-            url: SERVERURL + "Pedidos/eliminarEtiqueta/" + id_etiqueta,
-            dataType: "json",
-            success: function(response) {
-                if (response.status == 500) {
-                    toastr.error(
-                        "LA ETIQUETA NO SE ELIMINO CORECTAMENTE",
-                        "NOTIFICACIÓN", {
-                            positionClass: "toast-bottom-center"
-                        }
-                    );
-                } else if (response.status == 200) {
-                    toastr.success("ETIQUETA ELIMINADA", "NOTIFICACIÓN", {
-                        positionClass: "toast-bottom-center",
-                    });
-
-                    cargarEtiquetas();
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error("Error en la solicitud AJAX:", error);
-                alert("Hubo un problema al obtener la información de la categoría");
-            },
-        });
-    }
-
-    // Llamamos a la función cargarEtiquetas cuando el modal se abre
-    $('#agregar_numero_clienteModal').on('shown.bs.modal', function() {
-        cargarEtiquetas();
-    });
 </script>

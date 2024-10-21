@@ -839,4 +839,11 @@ class Pedidos extends Controller
         $response = $this->model->obtener_templates($_SESSION['id_plataforma'], $palabra_busqueda);
         echo json_encode($response);
     }
+
+    public function validar_telefonos_clientes()
+    {
+        $telefono = $_POST['telefono'];
+        $response = $this->model->validar_telefonos_clientes($_SESSION['id_plataforma'], $telefono);
+        echo json_encode($response);
+    }
 }
