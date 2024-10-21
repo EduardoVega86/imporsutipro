@@ -234,4 +234,72 @@
             },
         });
     }
+
+    async function enviarTemplate() {
+        let fromPhoneNumberId = $("#id_whatsapp").val(); // ID del número de WhatsApp
+        let accessToken = $("#token_configruacion").val(); // Token de autenticación
+        let templateName = document.getElementById("lista_templates").value; // Nombre del template seleccionado
+        let recipientPhone = prompt("Ingresa el número del destinatario (con código de país):"); // Número del destinatario
+
+        if (!recipientPhone) {
+            alert("Debes ingresar un número de destinatario.");
+            return;
+        }
+
+        // Reemplazar los placeholders dinámicamente
+        const placeholders = [];
+        let templateText = document.getElementById("template_textarea").value;
+
+        templateText = templateText.replace(/{{(\d+)}}/g, (match, number) => {
+            const valor = prompt(`Ingresa el valor para {{${number}}}:`);
+            placeholders.push(valor); // Almacena los valores ingresados
+            return valor ? valor : match; // Reemplaza si hay valor, sino deja el placeholder
+        });
+
+        console.log("Template final con valores:", templateText);
+
+        // Construir el cuerpo del mensaje
+        const body = {
+            messaging_product: "whatsapp",
+            to: recipientPhone,
+            type: "template",
+            template: {
+                name: templateName,
+                language: {
+                    code: "es"
+                }, // Idioma del template (cambiar si necesario)
+                components: [{
+                    type: "body",
+                    parameters: placeholders.map(value => ({
+                        type: "text",
+                        text: value
+                    }))
+                }]
+            }
+        };
+
+        try {
+            const response = await fetch(
+                `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`, {
+                    method: "POST",
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(body),
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error(`Error al enviar template: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            console.log("Template enviado exitosamente:", data);
+            alert("Template enviado exitosamente.");
+        } catch (error) {
+            console.error("Error al enviar el template:", error);
+            alert("Error al enviar el template.");
+        }
+    }
 </script>
