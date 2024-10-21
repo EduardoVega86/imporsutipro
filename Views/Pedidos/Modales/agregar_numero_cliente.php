@@ -127,7 +127,22 @@
 </div>
 
 <script>
-    function validar_telefono_chat(telefono){
-        
+    function validar_telefono_chat(telefono) {
+        let formData = new FormData();
+        formData.append("telefono", telefono);
+        $.ajax({
+            url: SERVERURL + "Pedidos/validar_telefonos_clientes",
+            type: "POST",
+            data: formData,
+            processData: false, // No procesar los datos
+            contentType: false, // No establecer ningún tipo de contenido
+            dataType: "json",
+            success: function(response) {
+
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert(errorThrown);
+            },
+        });
     }
 </script>
