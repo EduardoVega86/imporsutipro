@@ -234,7 +234,7 @@
         var phoneNumberId = $("#id_whatsapp").val(); // ID del número de WhatsApp
         var accessToken = $("#token_configruacion").val(); // Token de autenticación
         var selectElement = document.getElementById('lista_templates');
-        
+
         try {
             const response = await fetch(
                 `https://graph.facebook.com/v17.0/${phoneNumberId}/message_templates`, {
@@ -263,7 +263,4 @@
             console.error('Error al cargar los templates:', error);
         }
     }
-
-    // Llamar la función para cargar los templates al cargar la página
-    cargarTemplates();
 </script>
