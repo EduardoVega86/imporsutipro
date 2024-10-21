@@ -163,12 +163,14 @@
                 if (response.status == true) {
                     $("#nombre_creacion").val(response.nombre);
                     $("#apellido_creacion").val(response.apellido);
+                    $("#id_crear_chat").val(response.id_cliente);
                     
                     $("#telefono-error").show();
                     $("#seccion_informacion_numero").show();
                 } else {
                     $("#nombre_creacion").val("");
                     $("#apellido_creacion").val("");
+                    $("#id_crear_chat").val("");
 
                     $("#telefono-error").hide();
                     $("#seccion_informacion_numero").hide();
