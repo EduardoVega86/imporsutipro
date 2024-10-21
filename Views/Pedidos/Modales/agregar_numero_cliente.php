@@ -100,7 +100,7 @@
                                 <input type="text" class="form-control" id="apellido_creacion" placeholder="Ingrese el apellido">
                             </div>
 
-                            <button type="button" class="btn btn-primary" onclick="agregar_numero_cliente()">Agregar</button>
+                            <button type="button" class="btn btn-primary" oninput="agregar_numero_cliente()">Agregar</button>
                         </div>
                     </div>
                 </div>
