@@ -252,6 +252,7 @@
         document.querySelectorAll("#placeholders-container input").forEach((input) => {
             placeholders.push(input.value);
         });
+        
 
         const body = {
             messaging_product: "whatsapp",
