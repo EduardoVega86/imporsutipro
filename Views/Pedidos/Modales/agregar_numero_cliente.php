@@ -149,7 +149,7 @@
     }
 
     function validar_telefono_chat(telefono) {
-        telefon = formatearTelefono(telefono);
+        telefono = formatearTelefono(telefono);
         let formData = new FormData();
         formData.append("telefono", telefono);
         $.ajax({
