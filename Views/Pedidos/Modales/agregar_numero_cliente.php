@@ -201,8 +201,8 @@
 
     function agregar_numero_cliente() {
         telefono = formatearTelefono($('#numero_telefono_creacion').val());
-        nombre = formatearTelefono($('#nombre_creacion').val());
-        apellido = formatearTelefono($('#apellido_creacion').val());
+        nombre = $('#nombre_creacion').val();
+        apellido = $('#apellido_creacion').val();
 
         let formData = new FormData();
         formData.append("telefono", telefono);
@@ -292,10 +292,22 @@
 
             const data = await response.json();
             console.log("Template enviado exitosamente:", data);
-            alert("Template enviado exitosamente.");
+
+            toastr.success("MENSAJE ENVIADO CORRECTAMENTE", {
+                positionClass: "toast-bottom-center",
+            });
+
+            /* alert("Template enviado exitosamente."); */
         } catch (error) {
             console.error("Error al enviar el template:", error);
-            alert("Error al enviar el template.");
+            toastr.error(
+                "ERROR AL ENVIAR MENSAJE",
+                "NOTIFICACIÓN", {
+                    positionClass: "toast-bottom-center"
+                }
+            );
+
+            /* alert("Error al enviar el template."); */
         }
     }
 </script>
