@@ -249,10 +249,17 @@
         }
 
         // Extraer los valores dentro de los {{}} en el textarea
-        const templateText = document.getElementById("template_textarea").value;
+        let templateText = document.getElementById("template_textarea").value;
         const placeholders = [...templateText.matchAll(/{{(.*?)}}/g)].map(match => match[1]);
 
         console.log("Valores extraídos:", placeholders);
+
+        // Reemplazar los {{}} en el template con los valores ingresados
+        placeholders.forEach((value, index) => {
+            templateText = templateText.replace(`{{${index + 1}}}`, value);
+        });
+
+        console.log("Mensaje final:", templateText);
 
         // Construir el cuerpo del mensaje para la API de WhatsApp
         const body = {
@@ -292,46 +299,43 @@
 
             const data = await response.json();
             console.log("Template enviado exitosamente:", data);
-            console.log("respuesta_envio : "+JSON.stringify(body));
 
-            /* var id_cliente_chat = $("#id_cliente_chat").val();
-            var uid_cliente = $("#uid_cliente").val();
+            // Ahora que el mensaje fue enviado por WhatsApp, también lo enviamos a tu API
+            enviarMensajeLocalmente(templateText);
 
-            let formData = new FormData();
-            formData.append("texto_mensaje", message);
-            formData.append("tipo_mensaje", "text");
-            formData.append("mid_mensaje", uid_cliente);
-            formData.append("id_recibe", id_cliente_chat);
-            formData.append("ruta_archivo", "");
-
-            $.ajax({
-                url: SERVERURL + "pedidos/agregar_mensaje_enviado",
-                type: "POST",
-                data: formData,
-                processData: false, // No procesar los datos
-                contentType: false, // No establecer ningún tipo de contenido
-                dataType: "json",
-                success: function(response) {
-                    toastr.success("MENSAJE ENVIADO CORRECTAMENTE", {
-                        positionClass: "toast-bottom-center",
-                    });
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    alert(errorThrown);
-                },
-            }); */
-
-            /* alert("Template enviado exitosamente."); */
+            alert("Template enviado exitosamente.");
         } catch (error) {
             console.error("Error al enviar el template:", error);
-            toastr.error(
-                "ERROR AL ENVIAR MENSAJE",
-                "NOTIFICACIÓN", {
-                    positionClass: "toast-bottom-center"
-                }
-            );
-
-            /* alert("Error al enviar el template."); */
+            alert("Error al enviar el template.");
         }
+    }
+
+    function enviarMensajeLocalmente(message) {
+        const id_cliente_chat = $("#id_cliente_chat").val();
+        const uid_cliente = $("#uid_cliente").val();
+
+        let formData = new FormData();
+        formData.append("texto_mensaje", message); // Mensaje final con valores reemplazados
+        formData.append("tipo_mensaje", "text");
+        formData.append("mid_mensaje", uid_cliente);
+        formData.append("id_recibe", id_cliente_chat);
+        formData.append("ruta_archivo", "");
+
+        $.ajax({
+            url: SERVERURL + "pedidos/agregar_mensaje_enviado",
+            type: "POST",
+            data: formData,
+            processData: false, // No procesar los datos
+            contentType: false, // No establecer ningún tipo de contenido
+            dataType: "json",
+            success: function(response) {
+                toastr.success("MENSAJE ENVIADO CORRECTAMENTE", {
+                    positionClass: "toast-bottom-center",
+                });
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert("Error al enviar mensaje localmente: " + errorThrown);
+            },
+        });
     }
 </script>
