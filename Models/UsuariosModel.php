@@ -13,6 +13,12 @@ class UsuariosModel extends Query
         $sql = "SELECT ib.*, p.* FROM `inventario_bodegas` AS ib INNER JOIN `productos` AS p ON p.`id_producto` = ib.`id_producto` WHERE ib.`id_plataforma` = $plataforma";
         return $this->select($sql);
     }
+    
+    public function obtener_profesionales($plataforma)
+    {
+        $sql = "select * from profesionales WHERE ib.`id_plataforma` = $plataforma";
+        return $this->select($sql);
+    }
 
     public function obtener_usuarios_matriz()
     {

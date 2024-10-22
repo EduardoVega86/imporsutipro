@@ -705,10 +705,10 @@ class Usuarios extends Controller
         echo json_encode($response);
     }
     
-    public function eliminar_plantilla()
+    public function obtener_profesionales()
     {
-        $id_usuario = $_POST['id_usuario'];
-        $response = $this->model->eliminar_usuario($id_usuario);
+        $id_plataforma = $_SESSION['id_plataforma'];
+        $response = $this->model->obtener_profesionales($id_plataforma);
         echo json_encode($response);
     }
 }
