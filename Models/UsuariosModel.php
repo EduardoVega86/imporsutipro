@@ -1431,7 +1431,7 @@ ON
         $existing_entry = $this->simple_select($sql_select, [$plataforma]);
        
         if ($existing_entry > 0) {
-            echo 'existe';
+           // echo 'existe';
             // Si existe, realizar un UPDATE
             $sql_update = "UPDATE `plantilla_3` SET $campo = ? WHERE `id_plataforma` = ?";
             $data_update = [$valor, $plataforma];
@@ -1443,12 +1443,12 @@ ON
                 $responses = array('status' => 500, 'title' => 'Error', 'message' => 'Error al actualizar la base de datos');
             }
         } else {
-            echo 'no existe';
+           // echo 'no existe';
             // Si no existe, realizar un INSERT
             $sql_insert = "INSERT INTO `plantilla_3` (`id_plataforma`, $campo) VALUES (?, ?)";
             $data_insert = [$plataforma, $valor];
             $insertar_plantilla_2 = $this->insert($sql_insert, $data_insert);
- print_r($insertar_plantilla_2);
+ //print_r($insertar_plantilla_2);
             if ($insertar_plantilla_2 == 1) {
                 $responses = array('status' => 200, 'title' => 'Peticion exitosa', 'message' => 'Inserción realizada correctamente');
             } else {
