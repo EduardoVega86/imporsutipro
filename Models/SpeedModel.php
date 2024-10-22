@@ -510,13 +510,17 @@ class SpeedModel extends Query
         $nombre_ciudad = $this->select("SELECT ciudad FROM ciudad_cotizacion WHERE id_cotizacion = " . $configuracion['ciudad_cot'] . "");
         $nombre_ciudad = $nombre_ciudad[0]['ciudad'];
 
-        if ($id_transporte == 1 || $id_transporte == 4) {
+        if ($id_transporte == 1) {
             if ($estado_guia == 7) {
                 $estado_guia_automatizador = 1;
             } else if ($estado_guia == 9) {
                 $estado_guia_automatizador = 3;
             } else if ($estado_guia == 14) {
                 $estado_guia_automatizador = 2;
+            } else if ($estado_guia == 1){
+                $estado_guia_automatizador = 4;
+            }else if ($estado_guia == 6){
+                $estado_guia_automatizador = 5;
             }
         } else if ($id_transporte == 2) {
             if ($estado_guia >= 400 || $estado_guia <= 403) {
@@ -525,6 +529,8 @@ class SpeedModel extends Query
                 $estado_guia_automatizador = 3;
             } else if ($estado_guia >= 320 || $estado_guia <= 351) {
                 $estado_guia_automatizador = 2;
+            }else if ($estado_guia == 100 || $estado_guia == 102 || $estado_guia == 103) {
+                $estado_guia_automatizador = 4;
             }
         } else if ($id_transporte == 3) {
             if ($estado_guia == 7) {
@@ -533,6 +539,18 @@ class SpeedModel extends Query
                 $estado_guia_automatizador = 3;
             } else if ($estado_guia == 6) {
                 $estado_guia_automatizador = 2;
+            } else if ($estado_guia == 1) {
+                $estado_guia_automatizador = 4;
+            }
+        } else if ($id_transporte == 4) {
+            if ($estado_guia == 7) {
+                $estado_guia_automatizador = 1;
+            } else if ($estado_guia == 9) {
+                $estado_guia_automatizador = 3;
+            } else if ($estado_guia == 14) {
+                $estado_guia_automatizador = 2;
+            } else if ($estado_guia == 2) {
+                $estado_guia_automatizador = 4;
             }
         }
 
