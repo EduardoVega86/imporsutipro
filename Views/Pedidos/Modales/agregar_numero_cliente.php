@@ -292,10 +292,10 @@
 
             const data = await response.json();
             console.log("Template enviado exitosamente:", data);
-            alert("Template enviado exitosamente.");
+            /* alert("Template enviado exitosamente."); */
         } catch (error) {
             console.error("Error al enviar el template:", error);
-            alert("Error al enviar el template.");
+            /* alert("Error al enviar el template."); */
         }
     }
 </script>
