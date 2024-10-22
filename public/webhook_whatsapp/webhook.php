@@ -834,6 +834,20 @@ function enviarMensajeTextoWhatsApp($accessToken, $business_phone_id, $phone_wha
 
 function procesarMensajeTexto($conn, $id_plataforma, $business_phone_id, $nombre_cliente, $apellido_cliente, $telefono_configuracion, $phone_whatsapp_to, $tipo_mensaje, $texto_mensaje, $ruta_archivo)
 {
+    // Registrar los datos recibidos para depuración
+    file_put_contents('debug_log.txt', "Datos recibidos para procesar mensaje:\n", FILE_APPEND);
+    file_put_contents('debug_log.txt', print_r([
+        'id_plataforma' => $id_plataforma,
+        'business_phone_id' => $business_phone_id,
+        'nombre_cliente' => $nombre_cliente,
+        'apellido_cliente' => $apellido_cliente,
+        'telefono_configuracion' => $telefono_configuracion,
+        'phone_whatsapp_to' => $phone_whatsapp_to,
+        'tipo_mensaje' => $tipo_mensaje,
+        'texto_mensaje' => $texto_mensaje,
+        'ruta_archivo' => $ruta_archivo
+    ], true), FILE_APPEND);
+
     $id_cliente = 0;
 
     // Verificar si el cliente ya existe en la tabla clientes_chat_center
@@ -849,7 +863,10 @@ function procesarMensajeTexto($conn, $id_plataforma, $business_phone_id, $nombre
             VALUES (?, ?, ?, ?, ?, NOW(), NOW())
         ");
         $insert_client_stmt->bind_param('issss', $id_plataforma, $business_phone_id, $nombre_cliente, $apellido_cliente, $telefono_configuracion);
-        $insert_client_stmt->execute();
+        if (!$insert_client_stmt->execute()) {
+            file_put_contents('debug_log.txt', "Error al insertar cliente: " . $insert_client_stmt->error . "\n", FILE_APPEND);
+            return;  // Salir si hay un error al insertar
+        }
         $id_cliente = $insert_client_stmt->insert_id;
         $insert_client_stmt->close();
     } else {
@@ -872,15 +889,13 @@ function procesarMensajeTexto($conn, $id_plataforma, $business_phone_id, $nombre
     $stmt->bind_param('iissssis', $id_plataforma, $id_cliente, $mid_mensaje, $tipo_mensaje, $texto_mensaje, $ruta_archivo, $rol_mensaje, $phone_whatsapp_to);
 
     if ($stmt->execute()) {
-        echo json_encode(["status" => "success", "message" => "Mensaje procesado correctamente."]);
         file_put_contents('debug_log.txt', "Mensaje procesado correctamente en la base de datos.\n", FILE_APPEND);
     } else {
-        file_put_contents('debug_log.txt', "Error al procesar el mensaje. SQL Error: " . $stmt->error . "\n", FILE_APPEND);
+        file_put_contents('debug_log.txt', "Error al insertar mensaje: " . $stmt->error . "\n", FILE_APPEND);
     }
 
     $stmt->close();
 }
-
 
 // Procesar el mensaje basado en el tipo recibido
 switch ($tipo_mensaje) {
