@@ -2159,7 +2159,7 @@ class PedidosModel extends Query
                 'apellido' => $resultados_celular_chat[0]['apellido_cliente'],
                 'id_cliente' => $resultados_celular_chat[0]['id']
             ];
-        }else{
+        } else {
             $response = [
                 'status' => false
             ];
@@ -2169,26 +2169,48 @@ class PedidosModel extends Query
 
     public function agregar_numero_chat($telefono, $nombre, $apellido, $id_plataforma)
     {
-        // codigo para agregar categoria
+        // Iniciar la respuesta
         $response = $this->initialResponse();
 
+        // Consultar el id_telefono de la configuración
         $sql_configuracion = "SELECT id_telefono FROM configuraciones WHERE id_plataforma = ?";
         $iud_cliente = $this->dselect($sql_configuracion, [$id_plataforma]);
         $iud_cliente = $iud_cliente[0]['id_telefono'];
 
-        $sql = "INSERT INTO `clientes_chat_center` (`id_plataforma`,`nombre_cliente`,`apellido_cliente`,`celular_cliente`,`uid_cliente`) VALUES (?, ?, ?, ?, ?)";
+        // Insertar el nuevo número en la tabla clientes_chat_center
+        $sql = "INSERT INTO `clientes_chat_center` 
+            (`id_plataforma`, `nombre_cliente`, `apellido_cliente`, `celular_cliente`, `uid_cliente`) 
+            VALUES (?, ?, ?, ?, ?)";
         $data = [$id_plataforma, $nombre, $apellido, $telefono, $iud_cliente];
+
         $insertar_mensaje_enviado = $this->insert($sql, $data);
+
+        // Verificar si la inserción fue exitosa
         if ($insertar_mensaje_enviado == 1) {
-            $response['status'] = 200;
-            $response['title'] = 'Peticion exitosa';
-            $response['message'] = 'numero agregado correctamente';
+            // Recuperar el ID del registro recién insertado
+            $sql_id = "SELECT id_cliente FROM `clientes_chat_center` 
+                   WHERE celular_cliente = ? AND id_plataforma = ? 
+                   ORDER BY id_cliente DESC LIMIT 1";
+            $result = $this->dselect($sql_id, [$telefono, $id_plataforma]);
+
+            if (!empty($result)) {
+                $lastId = $result[0]['id_cliente']; // Obtener el ID recuperado
+
+                $response['status'] = 200;
+                $response['title'] = 'Petición exitosa';
+                $response['message'] = 'Número agregado correctamente';
+                $response['id'] = $lastId; // Devolver el ID en la respuesta
+            } else {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'No se pudo recuperar el ID del registro.';
+            }
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
             $response['message'] = $insertar_mensaje_enviado['message'];
         }
+
         return $response;
     }
-    
 }

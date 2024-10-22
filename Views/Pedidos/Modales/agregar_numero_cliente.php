@@ -303,15 +303,15 @@
             // Ahora que el mensaje fue enviado por WhatsApp, también lo enviamos a tu API
             enviarMensajeLocalmente(templateText);
 
-            alert("Template enviado exitosamente.");
+            /* alert("Template enviado exitosamente."); */
         } catch (error) {
             console.error("Error al enviar el template:", error);
-            alert("Error al enviar el template.");
+            /* alert("Error al enviar el template."); */
         }
     }
 
     function enviarMensajeLocalmente(message) {
-        const id_cliente_chat = $("#id_cliente_chat").val();
+        const id_cliente_chat = $("#id_crear_chat").val();
         const uid_cliente = $("#uid_cliente").val();
 
         let formData = new FormData();
