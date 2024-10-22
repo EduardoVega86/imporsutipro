@@ -292,9 +292,21 @@
 
             const data = await response.json();
             console.log("Template enviado exitosamente:", data);
+
+            toastr.success("MENSAJE ENVIADO CORRECTAMENTE", {
+                positionClass: "toast-bottom-center",
+            });
+
             /* alert("Template enviado exitosamente."); */
         } catch (error) {
             console.error("Error al enviar el template:", error);
+            toastr.error(
+                "ERROR AL ENVIAR MENSAJE",
+                "NOTIFICACIÓN", {
+                    positionClass: "toast-bottom-center"
+                }
+            );
+
             /* alert("Error al enviar el template."); */
         }
     }
