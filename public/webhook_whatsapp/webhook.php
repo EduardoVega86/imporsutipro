@@ -1020,9 +1020,10 @@ switch ($tipo_mensaje) {
 
         $id_template = $resultado_automatizador['id_template'] ?? null;
 
+        $tipo_button = 0;
         if (!empty($id_template)) {
 
-            enviarMensajeTextoWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $conn, $id_plataforma, $id_configuracion, $id_template);
+            $tipo_button = 1;
         } else {
             file_put_contents('debug_log.txt', "No se encontraron los datos necesarios para enviar el mensaje template.\n", FILE_APPEND);
         }
@@ -1082,9 +1083,10 @@ if ($stmt->execute()) {
     echo json_encode(["status" => "success", "message" => "Mensaje procesado correctamente."]);
 
     /* validador para enviar mensaje tipo buttom tempalte whatsapp */
-    /* if ($tipo_button == 1) {
-        enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $template_name, $mensaje, $conn, $id_plataforma, $id_configuracion);
-    } */
+    if ($tipo_button == 1) {
+        enviarMensajeTextoWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $conn, $id_plataforma, $id_configuracion, $id_template);
+        /* enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $template_name, $mensaje, $conn, $id_plataforma, $id_configuracion); */
+    }
     /* fin validador para enviar mensaje tipo buttom tempalte whatsapp*/
 } else {
     file_put_contents('debug_log.txt', "Error SQL: " . $stmt->error . "\n", FILE_APPEND);  // Agregar log del error
