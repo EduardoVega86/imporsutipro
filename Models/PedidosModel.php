@@ -967,7 +967,7 @@ class PedidosModel extends Query
                 // print_r($guardar_detalle);
             }
 
-            /* $id_configuracion = $this->select("SELECT id FROM configuraciones WHERE id_plataforma = $id_plataforma");
+            $id_configuracion = $this->select("SELECT id FROM configuraciones WHERE id_plataforma = $id_plataforma");
             $id_configuracion = $id_configuracion[0]['id'];
 
             if (!empty($id_configuracion)) {
@@ -1034,7 +1034,7 @@ class PedidosModel extends Query
                 $response['title'] = 'Peticion exitosa';
                 $response['message'] = "Pedido creado correctamente";
                 $response["numero_factura"] = $nueva_factura;
-            } */
+            }
 
             $response['status'] = 200;
                 $response['title'] = 'Peticion exitosa';
