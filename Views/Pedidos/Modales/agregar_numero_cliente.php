@@ -225,6 +225,7 @@
                         }
                     );
                 } else if (response.status == 200) {
+                    $("#id_crear_chat").val(response.id);
                     toastr.success("NUMERO AGREGADO CORRECTAMENTE", "NOTIFICACIÓN", {
                         positionClass: "toast-bottom-center",
                     });
