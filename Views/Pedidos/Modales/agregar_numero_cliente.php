@@ -248,12 +248,13 @@
             return;
         }
 
-        const placeholders = [];
-        document.querySelectorAll("#placeholders-container input").forEach((input) => {
-            placeholders.push(input.value);
-        });
-        
+        // Extraer los valores dentro de los {{}} en el textarea
+        const templateText = document.getElementById("template_textarea").value;
+        const placeholders = [...templateText.matchAll(/{{(.*?)}}/g)].map(match => match[1]);
 
+        console.log("Valores extraídos:", placeholders);
+
+        // Construir el cuerpo del mensaje para la API de WhatsApp
         const body = {
             messaging_product: "whatsapp",
             to: recipientPhone,

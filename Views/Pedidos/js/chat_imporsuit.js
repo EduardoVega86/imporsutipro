@@ -73,28 +73,6 @@ $(document).ready(function () {
     }
   }
 
-  // Detectar placeholders y generar inputs dinámicos
-  function generarCamposDePlaceholders(templateText) {
-    const container = document.getElementById("placeholders-container");
-    container.innerHTML = ""; // Limpiar contenedor antes de añadir los inputs
-
-    const placeholders = [...templateText.matchAll(/{{(\d+)}}/g)];
-
-    placeholders.forEach((placeholder) => {
-      const label = document.createElement("label");
-      label.textContent = `Valor para {{${placeholder[1]}}}:`;
-
-      const input = document.createElement("input");
-      input.type = "text";
-      input.className = "form-control";
-      input.style.marginBottom = "10px";
-      input.id = `placeholder_${placeholder[1]}`;
-
-      container.appendChild(label);
-      container.appendChild(input);
-    });
-  }
-
   // Mostrar el template y generar los campos al seleccionarlo
   function mostrarTemplate() {
     const selectedTemplateName =
@@ -104,7 +82,6 @@ $(document).ready(function () {
     );
 
     if (selectedTemplate) {
-      // Asegurarse de que se encuentra el componente de tipo 'body'
       const templateBodyComponent = selectedTemplate.components.find(
         (comp) => comp.type === "BODY"
       );
