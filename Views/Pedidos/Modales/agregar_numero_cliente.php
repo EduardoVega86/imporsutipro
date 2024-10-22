@@ -313,7 +313,7 @@
 
     function enviarMensajeLocalmente(message) {
         const id_cliente_chat = $("#id_crear_chat").val();
-        const uid_cliente = $("#uid_cliente").val();
+        const uid_cliente = $("#id_whatsapp").val();
 
         let formData = new FormData();
         formData.append("texto_mensaje", message); // Mensaje final con valores reemplazados
