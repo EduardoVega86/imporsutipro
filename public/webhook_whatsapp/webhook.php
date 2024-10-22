@@ -770,7 +770,7 @@ function enviarMensajeTextoWhatsApp($accessToken, $business_phone_id, $phone_wha
 {
     $texto_mensaje = "";
 
-    // Consulta para obtener los JSONs de la base de datos
+    // Consulta para obtener el mensaje del template
     $check_automatizadores_stmt = $conn->prepare("SELECT mensaje FROM `templates_chat_center` WHERE id_plataforma = ? AND id_template = ?");
     $check_automatizadores_stmt->bind_param('ii', $id_plataforma, $id_template);
     $check_automatizadores_stmt->execute();
@@ -779,10 +779,8 @@ function enviarMensajeTextoWhatsApp($accessToken, $business_phone_id, $phone_wha
     $check_automatizadores_stmt->fetch();
     $check_automatizadores_stmt->close();
 
-    // Paso 1: Configurar el envío del mensaje de WhatsApp como texto simple
+    // Configurar el envío del mensaje como texto simple
     $url = "https://graph.facebook.com/v20.0/$business_phone_id/messages";
-
-    // Configuramos los datos básicos del mensaje
     $data = [
         "messaging_product" => "whatsapp",
         "to" => $phone_whatsapp_to,
@@ -792,7 +790,7 @@ function enviarMensajeTextoWhatsApp($accessToken, $business_phone_id, $phone_wha
         ]
     ];
 
-    // Inicializamos cURL para hacer la solicitud HTTP POST
+    // Inicializar cURL para la solicitud HTTP POST
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
@@ -806,11 +804,14 @@ function enviarMensajeTextoWhatsApp($accessToken, $business_phone_id, $phone_wha
     $response = curl_exec($ch);
     $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-    // Verificar si la solicitud fue exitosa
-    if ($http_code === 200) {
+    // Registrar el código HTTP en el log para depuración
+    file_put_contents('debug_log.txt', "HTTP Code: $http_code\nRespuesta: $response\n", FILE_APPEND);
+
+    // Verificar si la solicitud fue exitosa (aceptando cualquier 2xx)
+    if ($http_code >= 200 && $http_code < 300) {
         file_put_contents('debug_log.txt', "Mensaje enviado correctamente a $phone_whatsapp_to.\n", FILE_APPEND);
 
-        /* Obtener nombres y teléfono de configuración */
+        // Obtener nombres y teléfono de configuración
         $telefono_configuracion = 0;
         $nombre_configuracion = "";
 
@@ -822,7 +823,7 @@ function enviarMensajeTextoWhatsApp($accessToken, $business_phone_id, $phone_wha
         $check_configuracion_cliente_stmt->fetch();
         $check_configuracion_cliente_stmt->close();
 
-        // Guardar el mensaje enviado en la base de datos
+        // Guardar el mensaje en la base de datos
         procesarMensajeTexto($conn, $id_plataforma, $business_phone_id, $nombre_configuracion, "", $telefono_configuracion, $phone_whatsapp_to, "text", $texto_mensaje, null);
     } else {
         file_put_contents('debug_log.txt', "Error al enviar el mensaje. HTTP Code: $http_code\nRespuesta: $response\n", FILE_APPEND);
