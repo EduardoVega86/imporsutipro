@@ -207,7 +207,7 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
         <div>
           <button class="btn btn-description" onclick="agregarModal_marketplace(${
-            product.id_inventario
+            product.id_producto
           })">Descripción</button>
           ${boton_enviarCliente}
         </div>
