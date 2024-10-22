@@ -967,16 +967,16 @@ class PedidosModel extends Query
                 // print_r($guardar_detalle);
             }
 
-            $id_configuracion = $this->select("SELECT id FROM configuraciones WHERE id_plataforma = $id_plataforma");
+            /* $id_configuracion = $this->select("SELECT id FROM configuraciones WHERE id_plataforma = $id_plataforma");
             $id_configuracion = $id_configuracion[0]['id'];
 
             if (!empty($id_configuracion)) {
 
-                /* consultar ciudad por medio id_cotizacion */
+                
                 $nombre_ciudad = $this->select("SELECT ciudad FROM ciudad_cotizacion WHERE id_cotizacion = $ciudad_cot");
                 $nombre_ciudad = $nombre_ciudad[0]['ciudad'];
 
-                // Ejecutamos la función que devuelve productos y categorías
+                
                 $data = $this->ejecutar_automatizador($nueva_factura);
 
                 $telefono_cliente = $this->formatearTelefono($celular);
@@ -1011,17 +1011,17 @@ class PedidosModel extends Query
                     ]
                 ];
 
-                // Llamamos a la función para enviar los datos a la API usando cURL
+                
                 $response_api = $this->enviar_a_api($data);
 
-                // Comprobamos si hubo un error en cURL
+                
                 if (!$response_api['success']) {
-                    // Si hubo un error, lo añadimos al response
+                    
                     $response['status'] = 500;
                     $response['title'] = 'Error';
                     $response['message'] = "Error al enviar los datos a la API: " . $response_api['error'];
                 } else {
-                    // Si la llamada a la API fue exitosa
+                    
                     $response['status'] = 200;
                     $response['title'] = 'Peticion exitosa';
                     $response['message'] = "Pedido creado correctamente y datos enviados";
@@ -1034,7 +1034,12 @@ class PedidosModel extends Query
                 $response['title'] = 'Peticion exitosa';
                 $response['message'] = "Pedido creado correctamente";
                 $response["numero_factura"] = $nueva_factura;
-            }
+            } */
+
+            $response['status'] = 200;
+                $response['title'] = 'Peticion exitosa';
+                $response['message'] = "Pedido creado correctamente";
+                $response["numero_factura"] = $nueva_factura;
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
