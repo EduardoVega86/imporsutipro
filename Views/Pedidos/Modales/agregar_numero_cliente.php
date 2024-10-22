@@ -292,10 +292,34 @@
 
             const data = await response.json();
             console.log("Template enviado exitosamente:", data);
+            console.log("respuesta_envio : "+JSON.stringify(body));
 
-            toastr.success("MENSAJE ENVIADO CORRECTAMENTE", {
-                positionClass: "toast-bottom-center",
-            });
+            /* var id_cliente_chat = $("#id_cliente_chat").val();
+            var uid_cliente = $("#uid_cliente").val();
+
+            let formData = new FormData();
+            formData.append("texto_mensaje", message);
+            formData.append("tipo_mensaje", "text");
+            formData.append("mid_mensaje", uid_cliente);
+            formData.append("id_recibe", id_cliente_chat);
+            formData.append("ruta_archivo", "");
+
+            $.ajax({
+                url: SERVERURL + "pedidos/agregar_mensaje_enviado",
+                type: "POST",
+                data: formData,
+                processData: false, // No procesar los datos
+                contentType: false, // No establecer ningún tipo de contenido
+                dataType: "json",
+                success: function(response) {
+                    toastr.success("MENSAJE ENVIADO CORRECTAMENTE", {
+                        positionClass: "toast-bottom-center",
+                    });
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+                },
+            }); */
 
             /* alert("Template enviado exitosamente."); */
         } catch (error) {
