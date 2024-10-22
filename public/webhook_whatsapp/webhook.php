@@ -545,8 +545,10 @@ function validar_automatizador($conn, $payload, $id_configuracion)
                 // Ahora buscar este ID en json_bloques
                 foreach ($json_bloques as $bloque_info) {
                     if ($bloque_info['id_block'] == (string)$block['id']) {
-                        $id_whatsapp_message_template = $bloque_info['id_whatsapp_message_template'];
-                        $mensaje = $bloque_info['mensaje'];
+                        /* $id_whatsapp_message_template = $bloque_info['id_whatsapp_message_template'];
+                        $mensaje = $bloque_info['mensaje']; */
+
+                        $id_template = $bloque_info['templates_a[]'];
                     }
                 }
             }
@@ -555,11 +557,14 @@ function validar_automatizador($conn, $payload, $id_configuracion)
         file_put_contents('debug_log.txt', "No se encontró coincidencia en validar_automatizador.\n", FILE_APPEND);
     }
 
-    // Devolver los resultados como un array
     return [
+        'id_template' => $id_template,
+    ];
+    // Devolver los resultados como un array
+    /* return [
         'id_whatsapp_message_template' => $id_whatsapp_message_template,
         'mensaje' => $mensaje
-    ];
+    ]; */
 }
 
 function obtenerNombreTemplatePorID($accessToken, $waba_id, $id_whatsapp_message_template)
@@ -761,6 +766,121 @@ function procesarMensaje_template($conn, $id_plataforma, $business_phone_id, $no
     file_put_contents('debug_log.txt', print_r($debug_log, true) . "\n", FILE_APPEND);
 }
 
+function enviarMensajeTextoWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_to, $conn, $id_plataforma, $id_configuracion, $id_template)
+{
+    $texto_mensaje = "";
+
+    // Consulta para obtener los JSONs de la base de datos
+    $check_automatizadores_stmt = $conn->prepare("SELECT mensaje FROM `templates_chat_center` WHERE id_plataforma = ? AND id_template = ?");
+    $check_automatizadores_stmt->bind_param('ii', $id_plataforma, $id_template);
+    $check_automatizadores_stmt->execute();
+    $check_automatizadores_stmt->store_result();
+    $check_automatizadores_stmt->bind_result($texto_mensaje);
+    $check_automatizadores_stmt->fetch();
+    $check_automatizadores_stmt->close();
+
+    // Paso 1: Configurar el envío del mensaje de WhatsApp como texto simple
+    $url = "https://graph.facebook.com/v20.0/$business_phone_id/messages";
+
+    // Configuramos los datos básicos del mensaje
+    $data = [
+        "messaging_product" => "whatsapp",
+        "to" => $phone_whatsapp_to,
+        "type" => "text",
+        "text" => [
+            "body" => $texto_mensaje
+        ]
+    ];
+
+    // Inicializamos cURL para hacer la solicitud HTTP POST
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        "Authorization: Bearer $accessToken",
+        "Content-Type: application/json"
+    ]);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+
+    // Ejecutar la solicitud
+    $response = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    // Verificar si la solicitud fue exitosa
+    if ($http_code === 200) {
+        file_put_contents('debug_log.txt', "Mensaje enviado correctamente a $phone_whatsapp_to.\n", FILE_APPEND);
+
+        /* Obtener nombres y teléfono de configuración */
+        $telefono_configuracion = 0;
+        $nombre_configuracion = "";
+
+        $check_configuracion_cliente_stmt = $conn->prepare("SELECT telefono, nombre_configuracion FROM configuraciones WHERE id = ?");
+        $check_configuracion_cliente_stmt->bind_param('s', $id_configuracion);
+        $check_configuracion_cliente_stmt->execute();
+        $check_configuracion_cliente_stmt->store_result();
+        $check_configuracion_cliente_stmt->bind_result($telefono_configuracion, $nombre_configuracion);
+        $check_configuracion_cliente_stmt->fetch();
+        $check_configuracion_cliente_stmt->close();
+
+        // Guardar el mensaje enviado en la base de datos
+        procesarMensajeTexto($conn, $id_plataforma, $business_phone_id, $nombre_configuracion, "", $telefono_configuracion, $phone_whatsapp_to, "text", $texto_mensaje, null);
+    } else {
+        file_put_contents('debug_log.txt', "Error al enviar el mensaje. HTTP Code: $http_code\nRespuesta: $response\n", FILE_APPEND);
+    }
+
+    curl_close($ch);
+}
+
+function procesarMensajeTexto($conn, $id_plataforma, $business_phone_id, $nombre_cliente, $apellido_cliente, $telefono_configuracion, $phone_whatsapp_to, $tipo_mensaje, $texto_mensaje, $ruta_archivo)
+{
+    $id_cliente = 0;
+
+    // Verificar si el cliente ya existe en la tabla clientes_chat_center
+    $check_client_stmt = $conn->prepare("SELECT id FROM clientes_chat_center WHERE celular_cliente = ?");
+    $check_client_stmt->bind_param('s', $telefono_configuracion);
+    $check_client_stmt->execute();
+    $check_client_stmt->store_result();
+
+    if ($check_client_stmt->num_rows == 0) {
+        // El cliente no existe, creamos uno nuevo
+        $insert_client_stmt = $conn->prepare("
+            INSERT INTO clientes_chat_center (id_plataforma, uid_cliente, nombre_cliente, apellido_cliente, celular_cliente, created_at, updated_at) 
+            VALUES (?, ?, ?, ?, ?, NOW(), NOW())
+        ");
+        $insert_client_stmt->bind_param('issss', $id_plataforma, $business_phone_id, $nombre_cliente, $apellido_cliente, $telefono_configuracion);
+        $insert_client_stmt->execute();
+        $id_cliente = $insert_client_stmt->insert_id;
+        $insert_client_stmt->close();
+    } else {
+        // El cliente existe, obtenemos su ID
+        $check_client_stmt->bind_result($id_cliente);
+        $check_client_stmt->fetch();
+    }
+
+    $check_client_stmt->close();
+
+    // Insertar el mensaje en la tabla mensajes_clientes
+    $stmt = $conn->prepare("
+        INSERT INTO mensajes_clientes (id_plataforma, id_cliente, mid_mensaje, tipo_mensaje, texto_mensaje, ruta_archivo, rol_mensaje, celular_recibe, created_at, updated_at) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
+    ");
+
+    $mid_mensaje = $business_phone_id;  // Usamos el ID del negocio como mid_mensaje
+    $rol_mensaje = 1;  // Valor por defecto para rol_mensaje
+
+    $stmt->bind_param('iissssis', $id_plataforma, $id_cliente, $mid_mensaje, $tipo_mensaje, $texto_mensaje, $ruta_archivo, $rol_mensaje, $phone_whatsapp_to);
+
+    if ($stmt->execute()) {
+        echo json_encode(["status" => "success", "message" => "Mensaje procesado correctamente."]);
+        file_put_contents('debug_log.txt', "Mensaje procesado correctamente en la base de datos.\n", FILE_APPEND);
+    } else {
+        file_put_contents('debug_log.txt', "Error al procesar el mensaje. SQL Error: " . $stmt->error . "\n", FILE_APPEND);
+    }
+
+    $stmt->close();
+}
+
+
 // Procesar el mensaje basado en el tipo recibido
 switch ($tipo_mensaje) {
     case 'text':
@@ -819,7 +939,7 @@ switch ($tipo_mensaje) {
             "latitude" => $location['latitude'],               // Nombre del archivo
             "longitud" => $location['longitude'],                // Tamaño del archivo
         ];
-        
+
         //el resultado en formato JSON
         $texto_mensaje = json_encode($result_location);
         break;
@@ -848,12 +968,12 @@ switch ($tipo_mensaje) {
         // Llamar a validar_automatizador para obtener los datos
         $resultado_automatizador = validar_automatizador($conn, $payload, $id_configuracion);
 
-        // Extraer los valores devueltos
-        $id_whatsapp_message_template = $resultado_automatizador['id_whatsapp_message_template'] ?? null;
-        $mensaje = $resultado_automatizador['mensaje'] ?? null;
+        // Extraer los valores devueltos para template whatsapp business
+        /* $id_whatsapp_message_template = $resultado_automatizador['id_whatsapp_message_template'] ?? null;
+        $mensaje = $resultado_automatizador['mensaje'] ?? null; 
 
-        // Verifica si los datos de id_whatsapp_message_template y mensaje están presentes
-        if (!empty($id_whatsapp_message_template) && !empty($mensaje)) {
+        // Verifica si los datos de id_whatsapp_message_template y mensaje están presentes para template whatsapp business
+         if (!empty($id_whatsapp_message_template) && !empty($mensaje)) {
             // Obtener el nombre del template usando el ID
             $template_name = obtenerNombreTemplatePorID($accessToken, $waba_id, $id_whatsapp_message_template);
 
@@ -867,6 +987,15 @@ switch ($tipo_mensaje) {
             } else {
                 file_put_contents('debug_log.txt', "No se pudo obtener el nombre del template con el ID $id_whatsapp_message_template\n", FILE_APPEND);
             }
+        } else {
+            file_put_contents('debug_log.txt', "No se encontraron los datos necesarios para enviar el mensaje template.\n", FILE_APPEND);
+        } */
+
+        $id_template = $resultado_automatizador['id_template'] ?? null;
+
+        if (!empty($id_template)) {
+
+            enviarMensajeTextoWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $conn, $id_plataforma, $id_configuracion, $id_template);
         } else {
             file_put_contents('debug_log.txt', "No se encontraron los datos necesarios para enviar el mensaje template.\n", FILE_APPEND);
         }
@@ -925,11 +1054,11 @@ $stmt->bind_param('iissssis', $id_plataforma, $id_cliente, $mid_mensaje, $tipo_m
 if ($stmt->execute()) {
     echo json_encode(["status" => "success", "message" => "Mensaje procesado correctamente."]);
 
-    /* validador para enviar mensaje tipo buttom */
-    if ($tipo_button == 1) {
+    /* validador para enviar mensaje tipo buttom tempalte whatsapp */
+    /* if ($tipo_button == 1) {
         enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $template_name, $mensaje, $conn, $id_plataforma, $id_configuracion);
-    }
-    /* fin validador para enviar mensaje tipo buttom */
+    } */
+    /* fin validador para enviar mensaje tipo buttom tempalte whatsapp*/
 } else {
     file_put_contents('debug_log.txt', "Error SQL: " . $stmt->error . "\n", FILE_APPEND);  // Agregar log del error
     echo json_encode(["status" => "error", "message" => "Error al procesar el mensaje: " . $stmt->error]);
