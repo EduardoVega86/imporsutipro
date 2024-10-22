@@ -201,8 +201,8 @@
 
     function agregar_numero_cliente() {
         telefono = formatearTelefono($('#numero_telefono_creacion').val());
-        nombre = formatearTelefono($('#nombre_creacion').val());
-        apellido = formatearTelefono($('#apellido_creacion').val());
+        nombre = $('#nombre_creacion').val();
+        apellido = $('#apellido_creacion').val();
 
         let formData = new FormData();
         formData.append("telefono", telefono);
