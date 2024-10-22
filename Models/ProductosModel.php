@@ -910,6 +910,12 @@ class ProductosModel extends Query
         return $this->select($sql);
     }
 
+    public function cargarTemplates($plataforma)
+    {
+        $sql = "SELECT * FROM templates_chat_center WHERE id_plataforma = $plataforma";
+        return $this->select($sql);
+    }
+
     public function editarCategoria($id, $nombre_linea, $descripcion_linea, $estado_linea, $date_added, $online, $imagen, $tipo, $padre, $plataforma, $orden)
     {
         // codigo para editar categoria
