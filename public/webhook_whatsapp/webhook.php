@@ -877,6 +877,17 @@ function procesarMensajeTexto($conn, $id_plataforma, $business_phone_id, $nombre
 
     $check_client_stmt->close();
 
+    $id_cliente_recibe = 0;
+
+        // Obtener ID del cliente que recibe
+        $check_idCliente_recibe_stmt = $conn->prepare("SELECT id FROM clientes_chat_center WHERE celular_cliente = ?");
+        $check_idCliente_recibe_stmt->bind_param('s', $phone_whatsapp_to);  // Buscamos por el celular_cliente
+        $check_idCliente_recibe_stmt->execute();
+        $check_idCliente_recibe_stmt->store_result();
+        $check_idCliente_recibe_stmt->bind_result($id_cliente_recibe);
+        $check_idCliente_recibe_stmt->fetch();
+        $check_idCliente_recibe_stmt->close();
+
     // Insertar el mensaje en la tabla mensajes_clientes
     $stmt = $conn->prepare("
         INSERT INTO mensajes_clientes (id_plataforma, id_cliente, mid_mensaje, tipo_mensaje, texto_mensaje, ruta_archivo, rol_mensaje, celular_recibe, created_at, updated_at) 
@@ -886,7 +897,7 @@ function procesarMensajeTexto($conn, $id_plataforma, $business_phone_id, $nombre
     $mid_mensaje = $business_phone_id;  // Usamos el ID del negocio como mid_mensaje
     $rol_mensaje = 1;  // Valor por defecto para rol_mensaje
 
-    $stmt->bind_param('iissssis', $id_plataforma, $id_cliente, $mid_mensaje, $tipo_mensaje, $texto_mensaje, $ruta_archivo, $rol_mensaje, $phone_whatsapp_to);
+    $stmt->bind_param('iissssis', $id_plataforma, $id_cliente, $mid_mensaje, $tipo_mensaje, $texto_mensaje, $ruta_archivo, $rol_mensaje, $id_cliente_recibe);
 
     if ($stmt->execute()) {
         file_put_contents('debug_log.txt', "Mensaje procesado correctamente en la base de datos.\n", FILE_APPEND);
@@ -1009,9 +1020,10 @@ switch ($tipo_mensaje) {
 
         $id_template = $resultado_automatizador['id_template'] ?? null;
 
+        $tipo_button = 0;
         if (!empty($id_template)) {
 
-            enviarMensajeTextoWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $conn, $id_plataforma, $id_configuracion, $id_template);
+            $tipo_button = 1;
         } else {
             file_put_contents('debug_log.txt', "No se encontraron los datos necesarios para enviar el mensaje template.\n", FILE_APPEND);
         }
@@ -1070,11 +1082,12 @@ $stmt->bind_param('iissssis', $id_plataforma, $id_cliente, $mid_mensaje, $tipo_m
 if ($stmt->execute()) {
     echo json_encode(["status" => "success", "message" => "Mensaje procesado correctamente."]);
 
-    /* validador para enviar mensaje tipo buttom tempalte whatsapp */
-    /* if ($tipo_button == 1) {
-        enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $template_name, $mensaje, $conn, $id_plataforma, $id_configuracion);
-    } */
-    /* fin validador para enviar mensaje tipo buttom tempalte whatsapp*/
+    /* validador para enviar mensaje tipo buttom */
+    if ($tipo_button == 1) {
+        enviarMensajeTextoWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $conn, $id_plataforma, $id_configuracion, $id_template);
+        /* enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $template_name, $mensaje, $conn, $id_plataforma, $id_configuracion); */
+    }
+    /* fin validador para enviar mensaje tipo buttom*/
 } else {
     file_put_contents('debug_log.txt', "Error SQL: " . $stmt->error . "\n", FILE_APPEND);  // Agregar log del error
     echo json_encode(["status" => "error", "message" => "Error al procesar el mensaje: " . $stmt->error]);
