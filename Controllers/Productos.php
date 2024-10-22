@@ -392,6 +392,12 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
+    public function cargar_templates()
+    {
+        $response = $this->model->cargarTemplates($_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
 
 
 
