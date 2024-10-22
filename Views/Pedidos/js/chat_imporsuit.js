@@ -97,20 +97,28 @@ $(document).ready(function () {
 
   // Mostrar el template y generar los campos al seleccionarlo
   function mostrarTemplate() {
+    const selectedTemplateName =
+      document.getElementById("lista_templates").value;
     const selectedTemplate = templates.find(
-      (template) =>
-        template.name === document.getElementById("lista_templates").value
+      (template) => template.name === selectedTemplateName
     );
 
     if (selectedTemplate) {
-      const templateContent =
-        selectedTemplate.components.find((comp) => comp.type === "body")
-          ?.text || "Template sin cuerpo.";
+      // Asegurarse de que se encuentra el componente de tipo 'body'
+      const templateBodyComponent = selectedTemplate.components.find(
+        (comp) => comp.type === "BODY"
+      );
 
-      document.getElementById("template_textarea").value = templateContent;
-
-      // Generar los campos de entrada para los placeholders
-      generarCamposDePlaceholders(templateContent);
+      if (templateBodyComponent && templateBodyComponent.text) {
+        document.getElementById("template_textarea").value =
+          templateBodyComponent.text;
+      } else {
+        document.getElementById("template_textarea").value =
+          "Este template no tiene un cuerpo definido.";
+      }
+    } else {
+      document.getElementById("template_textarea").value =
+        "Template no encontrado.";
     }
   }
 
