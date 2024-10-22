@@ -174,7 +174,7 @@ $(document).ready(function () {
           // Llamamos a la función para ejecutar la API con el id_cliente
           ejecutarApiConIdCliente(id_cliente);
 
-          cargar_vistos(id_cliente);
+          /* cargar_vistos(id_cliente); */
 
           // Iniciar el polling para actualizar los mensajes automáticamente
           startPollingMensajes(id_cliente);
