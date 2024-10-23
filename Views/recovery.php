@@ -1,6 +1,5 @@
 <?php require_once './Views/templates/landing/header.php'; ?>
 <?php require_once './Views/templates/landing/css/recovery_style.php'; ?>
-<script src="https://www.google.com/recaptcha/enterprise.js?render=6Lf3xBoqAAAAAKI2IDD9XVlu_DSb8uTuUc1Sooa1"></script>
 
 <div class="d-flex flex-column" style="width: 700px;">
     <div class="imagen_logo">
