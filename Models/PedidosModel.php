@@ -1540,10 +1540,10 @@ class PedidosModel extends Query
 
 
     /* APIS Chat center */
-    public function mensajes_clientes($id_cliente)
+    public function mensajes_clientes($id_cliente, $id_plataforma)
     {
         $sql = "SELECT * FROM `clientes_chat_center` INNER JOIN `mensajes_clientes` ON clientes_chat_center.id = mensajes_clientes.id_cliente WHERE mensajes_clientes.celular_recibe = $id_cliente
-         ORDER BY mensajes_clientes.created_at ASC;";
+        AND mensajes_clientes.id_plataforma = $id_plataforma ORDER BY mensajes_clientes.created_at ASC;";
         return $this->select($sql);
     }
 
