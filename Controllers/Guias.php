@@ -59,7 +59,7 @@ class Guias extends Controller
 
         $datos = $this->model->generarLaar($nombreOrigen, $ciudadOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras);
         $datos = json_decode($datos, true);
-
+        $repitio = false;
 
 
 
@@ -68,6 +68,18 @@ class Guias extends Controller
             while ($existe == false) {
                 if (!$this->model->existeGuia($datos["guia"])) {
                     $existe = true;
+                    break;
+                }
+                $datos = $this->model->generarLaar($nombreOrigen, $ciudadOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras);
+                $repitio = true;
+            }
+
+            if ($repitio) {
+                $datos = json_decode($datos, true);
+                if (empty($datos["guia"])) {
+                    $datos["status"] = "500";
+                    echo json_encode($datos);
+                    return;
                 }
             }
             if (strpos($datos["guia"], "MKP") === 0) {
