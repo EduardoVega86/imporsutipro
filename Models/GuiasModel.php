@@ -29,6 +29,9 @@ class GuiasModel extends Query
             $cod = false;
         }
         $numero_guia = $this->ultimaguia();
+        sleep(1);
+        $numero_guia = $this->ultimaguia();
+
         $datos = array(
             "origen" => array(
                 "identificacionO" => $identificacion,
