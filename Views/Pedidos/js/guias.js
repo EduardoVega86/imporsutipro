@@ -192,9 +192,9 @@ const listGuias = async () => {
         novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
       }
 
-      /* if (guia.estado_novedad == 6) {
-        novedad = `<span>Esta novedad no se permite ser gestionada</span>`;
-      } else */ if (guia.terminado == 1) {
+      if ((guia.estado_novedad >= 1 && guia.estado_novedad <= 7) ||  guia.estado_novedad == 15 || guia.estado_novedad == 27) {
+        novedad = `<span>Esta novedad es de tipo operativo y no puede ser solventada</span>`;
+      } else if (guia.terminado == 1) {
         novedad = `<span>Proceso de guia terminado</span>`;
       } else if (guia.solucionada == 1) {
         novedad = `<span>Novedad solventada</span>`;
