@@ -16,14 +16,6 @@ class AccesoModel extends Query
 {
     private $jwt_secret = 'semeljxAFrbOvDCHQ98jRHuwhLRdPw6GY0hhhvJdQ6rbkc5SMsXVCcgUTtzsLQyR'; // Cambia 'your_secret_key' por una clave secreta segura
 
-    function getRecaptchaAccessToken()
-    {
-        $client = new Client();
-        $client->setAuthConfig('./public/imporsuit-1722355326478-6d8a6e88f6f7.json'); // Reemplaza con la ruta a tu archivo JSON
-        $client->addScope('https://www.googleapis.com/auth/cloud-platform');
-        $accessToken = $client->fetchAccessTokenWithAssertion()['access_token'];
-        return $accessToken;
-    }
 
     public function registro($nombre, $correo, $pais, $telefono, $contrasena, $tienda)
     {
