@@ -94,6 +94,17 @@ class GuiasModel extends Query
         return $result;
     }
 
+    public function existeGuia($guia)
+    {
+        $sql = "SELECT * FROM facturas_cot WHERE numero_guia = ?";
+        $response = $this->simple_select($sql, array($guia));
+        if ($response > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function ultimaguia()
     {
         $prefijo = PREFIJOS;
