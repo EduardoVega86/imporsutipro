@@ -32,6 +32,7 @@
                     <input type="hidden" id="uid_cliente" name="uid_cliente">
 
                     <input type="hidden" id="id_whatsapp" name="id_whatsapp">
+                    <input type="hidden" id="telefono_configuracion" name="telefono_configuracion">
                     <input type="hidden" id="token_configruacion" name="token_configruacion">
                     <input type="hidden" id="id_whatsapp_configruacion" name="id_whatsapp_configruacion">
 

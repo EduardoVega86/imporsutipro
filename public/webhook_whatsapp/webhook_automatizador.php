@@ -311,16 +311,29 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
     $id_plataforma = "";
     $uid_cliente = "";
     $id_cliente = "";
+    $telefono_configuracion = "";
 
     /* consulta configuracion */
-    $check_configuracion_stmt = $conn->prepare("SELECT id_plataforma, id_telefono FROM configuraciones WHERE id = ?");
+    $check_configuracion_stmt = $conn->prepare("SELECT id_plataforma, id_telefono, telefono FROM configuraciones WHERE id = ?");
     $check_configuracion_stmt->bind_param('s', $id_configuracion);
     $check_configuracion_stmt->execute();
     $check_configuracion_stmt->store_result();
-    $check_configuracion_stmt->bind_result($id_plataforma, $uid_cliente);
+    $check_configuracion_stmt->bind_result($id_plataforma, $uid_cliente, $telefono_configuracion);
     $check_configuracion_stmt->fetch();
 
     /* fin consulta configuracion */
+
+    /* obtener id_cliente_configuracion */
+    $id_cliente_configuracion = "";
+
+    $check_idCliente_configuracion_stmt = $conn->prepare("SELECT id FROM clientes_chat_center WHERE celular_cliente = ?");
+    $check_idCliente_configuracion_stmt->bind_param('s', $telefono_configuracion);  // Buscamos por el celular_cliente
+    $check_idCliente_configuracion_stmt->execute();
+    $check_idCliente_configuracion_stmt->store_result();
+    $check_idCliente_configuracion_stmt->bind_result($id_cliente_configuracion);
+    $check_idCliente_configuracion_stmt->fetch();
+    $check_idCliente_configuracion_stmt->close();
+    /* Fin obtener id_cliente_configuracion */
 
     // Verificar si el cliente ya existe en la tabla clientes_chat_center por celular_cliente
     $check_client_stmt = $conn->prepare("SELECT id FROM clientes_chat_center WHERE celular_cliente = ?");
@@ -365,6 +378,7 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
 
     // Convert all variables to appropriate types
     $id_plataforma = (int)$id_plataforma;
+    $id_cliente_configuracion = (int)$id_cliente_configuracion;
     $id_cliente = (int)$id_cliente;
     $mid_mensaje = (string)$uid_cliente;
     $tipo_mensaje = "text";  // Asignamos un valor fijo para tipo_mensaje, en este caso "text"
@@ -377,7 +391,7 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
     $updated_at = (string)$updated_at;
 
     // Bind parameters, incluyendo el $user_info en formato JSON
-    $stmt->bind_param('iissssississs', $id_plataforma, $id_cliente, $mid_mensaje, $tipo_mensaje, $id_cliente, $user_info_json, $id_automatizador, $uid_whatsapp, $mensaje, $rol, $json_mensaje, $created_at, $updated_at);
+    $stmt->bind_param('iissssississs', $id_plataforma, $id_cliente_configuracion, $mid_mensaje, $tipo_mensaje, $id_cliente, $user_info_json, $id_automatizador, $uid_whatsapp, $mensaje, $rol, $json_mensaje, $created_at, $updated_at);
     $stmt->execute();
     $stmt->close();
 }

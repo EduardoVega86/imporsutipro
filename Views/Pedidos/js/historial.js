@@ -68,22 +68,45 @@ const listHistorialPedidos = async () => {
         transporte_content =
           '<span text-nowrap style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>';
       } else if (transporte == 0) { */
-        transporte_content =
-          '<span text-nowrap style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">Guia no enviada</span>';
-/*       } */
+      transporte_content =
+        '<span text-nowrap style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">Guia no enviada</span>';
+      /*       } */
+
+      select_estados_pedidos = "";
+
+      select_estados_pedidos = `
+                    <select class="form-select select-estado-pedido" style="max-width: 130px;" data-numero-guia="${
+                      guia.numero_guia
+                    }">
+                        <option value="0" ${
+                          guia.estado_pedido == 0 ? "selected" : ""
+                        }>-- Selecciona estado --</option>
+                        <option value="1" ${
+                          guia.estado_pedido == 1 ? "selected" : ""
+                        }>Pediente</option>
+                        <option value="2" ${
+                          guia.estado_pedido == 2 ? "selected" : ""
+                        }>Gestionado</option>
+                        <option value="3" ${
+                          guia.estado_pedido == 3 ? "selected" : ""
+                        }>No desea</option>
+                    </select>`;
 
       //tomar solo la ciudad
       let ciudadCompleta = historialPedido.ciudad;
       let ciudad = "";
-      if (ciudadCompleta !== null){
+      if (ciudadCompleta !== null) {
         let ciudadArray = ciudadCompleta.split("/");
         ciudad = ciudadArray[0];
       }
 
       let plataforma = "";
-      if (historialPedido.plataforma == "" || historialPedido.plataforma == null){
+      if (
+        historialPedido.plataforma == "" ||
+        historialPedido.plataforma == null
+      ) {
         plataforma = "";
-      } else{
+      } else {
         plataforma = procesarPlataforma(historialPedido.plataforma);
       }
 
@@ -93,21 +116,15 @@ const listHistorialPedidos = async () => {
                     <td>${historialPedido.fecha_factura}</td>
                     <td>
                         <div><strong>${historialPedido.nombre}</strong></div>
-                        <div>${historialPedido.c_principal} - ${
-        historialPedido.c_secundaria
-      }</div>
+                        <div>${historialPedido.c_principal} - ${historialPedido.c_secundaria}</div>
                         <div>telf: ${historialPedido.telefono}</div>
                     </td>
                     <td>${historialPedido.provinciaa}-${ciudad}</td>
                     <td><span class="link-like" id="plataformaLink" onclick="abrirModal_infoTienda('${historialPedido.plataforma}')">${plataforma}</span></td>
                     <td>${transporte_content}</td>
                     <td>
-                        <button class="btn btn-sm btn-primary" onclick="boton_editarPedido(${
-                          historialPedido.id_factura
-                        })"><i class="fa-solid fa-pencil"></i></button>
-                        <!-- <button class="btn btn-sm btn-danger" onclick="boton_eliminarPedido(${
-                          historialPedido.id_factura
-                        })"><i class="fa-solid fa-trash-can"></i></button> -->
+                        <button class="btn btn-sm btn-primary" onclick="boton_editarPedido(${historialPedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>
+                        <!-- <button class="btn btn-sm btn-danger" onclick="boton_eliminarPedido(${historialPedido.id_factura})"><i class="fa-solid fa-trash-can"></i></button> -->
                     </td>
                 </tr>`;
     });
@@ -117,77 +134,74 @@ const listHistorialPedidos = async () => {
   }
 };
 
-function abrirModal_infoTienda(tienda){
-    let formData = new FormData();
-    formData.append("tienda", tienda);
-  
-    $.ajax({
-      url: SERVERURL + "pedidos/datosPlataformas",
-      type: "POST", 
-      data: formData,
-      processData: false, // No procesar los datos
-      contentType: false, // No establecer ningún tipo de contenido
-      success: function (response) {
-        response = JSON.parse(response);
-        $("#nombreTienda").val(response[0].nombre_tienda);
-        $("#telefonoTienda").val(response[0].whatsapp);
-        $("#correoTienda").val(response[0].email);
-        $("#enlaceTienda").val(response[0].url_imporsuit);
-  
-        $('#infoTiendaModal').modal('show');
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-        alert(errorThrown);
-      },
-    });
-  }
+function abrirModal_infoTienda(tienda) {
+  let formData = new FormData();
+  formData.append("tienda", tienda);
 
-  function procesarPlataforma(url) {
-    // Eliminar el "https://"
-    let sinProtocolo = url.replace("https://", "");
-  
-    // Encontrar la posición del primer punto
-    let primerPunto = sinProtocolo.indexOf('.');
-  
-    // Obtener la subcadena desde el inicio hasta el primer punto
-    let baseNombre = sinProtocolo.substring(0, primerPunto);
-  
-    // Convertir a mayúsculas
-    let resultado = baseNombre.toUpperCase();
-  
-    return resultado;
-  }
+  $.ajax({
+    url: SERVERURL + "pedidos/datosPlataformas",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    success: function (response) {
+      response = JSON.parse(response);
+      $("#nombreTienda").val(response[0].nombre_tienda);
+      $("#telefonoTienda").val(response[0].whatsapp);
+      $("#correoTienda").val(response[0].email);
+      $("#enlaceTienda").val(response[0].url_imporsuit);
+
+      $("#infoTiendaModal").modal("show");
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+}
+
+function procesarPlataforma(url) {
+  // Eliminar el "https://"
+  let sinProtocolo = url.replace("https://", "");
+
+  // Encontrar la posición del primer punto
+  let primerPunto = sinProtocolo.indexOf(".");
+
+  // Obtener la subcadena desde el inicio hasta el primer punto
+  let baseNombre = sinProtocolo.substring(0, primerPunto);
+
+  // Convertir a mayúsculas
+  let resultado = baseNombre.toUpperCase();
+
+  return resultado;
+}
 
 function boton_editarPedido(id) {
   window.location.href = "" + SERVERURL + "Pedidos/editar/" + id;
 }
 
-function boton_eliminarPedido(id_factura){
-    $.ajax({
-        type: "POST",
-        url: SERVERURL + "Pedidos/eliminarPedido/"+id_factura,
-        dataType: "json",
-        success: function (response) {
-          if (response.status == 500) {
-            toastr.error(
-                "LA IMAGEN NO SE AGREGRO CORRECTAMENTE",
-                "NOTIFICACIÓN", {
-                    positionClass: "toast-bottom-center"
-                }
-            );
-        } else if (response.status == 200) {
-            toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
-                positionClass: "toast-bottom-center",
-            });
+function boton_eliminarPedido(id_factura) {
+  $.ajax({
+    type: "POST",
+    url: SERVERURL + "Pedidos/eliminarPedido/" + id_factura,
+    dataType: "json",
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("LA IMAGEN NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
 
-            initDataTableHistorial();
-        }
-        },
-        error: function (xhr, status, error) {
-          console.error("Error en la solicitud AJAX:", error);
-          alert("Hubo un problema al obtener la información de la categoría");
-        },
-      });
+        initDataTableHistorial();
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al obtener la información de la categoría");
+    },
+  });
 }
 
 window.addEventListener("load", async () => {
