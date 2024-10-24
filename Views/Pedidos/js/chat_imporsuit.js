@@ -163,24 +163,24 @@ $(document).ready(function () {
 
         // Inyectamos el HTML generado en la lista de contactos
         $("#contact-list").html(innerHTML);
-
-        // Añadimos el evento de click a cada contacto
-        $("#contact-list").on("click", ".contact-item", function () {
-          let id_cliente = $(this).data("id");
-          // Llamamos a la función para ejecutar la API con el id_cliente
-          ejecutarApiConIdCliente(id_cliente);
-
-          cargar_vistos(id_cliente);
-
-          // Iniciar el polling para actualizar los mensajes automáticamente
-          startPollingMensajes(id_cliente);
-        });
       },
       error: function (error) {
         console.error("Error al obtener los mensajes:", error);
       },
     });
   }
+
+  // Añadimos el evento de click a cada contacto
+  $("#contact-list").on("click", ".contact-item", function () {
+    let id_cliente = $(this).data("id");
+    // Llamamos a la función para ejecutar la API con el id_cliente
+    ejecutarApiConIdCliente(id_cliente);
+
+    cargar_vistos(id_cliente);
+
+    // Iniciar el polling para actualizar los mensajes automáticamente
+    startPollingMensajes(id_cliente);
+  });
 
   function formatearFecha(fecha) {
     const diasSemana = [
