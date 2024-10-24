@@ -879,14 +879,14 @@ function procesarMensajeTexto($conn, $id_plataforma, $business_phone_id, $nombre
 
     $id_cliente_recibe = 0;
 
-        // Obtener ID del cliente que recibe
-        $check_idCliente_recibe_stmt = $conn->prepare("SELECT id FROM clientes_chat_center WHERE celular_cliente = ?");
-        $check_idCliente_recibe_stmt->bind_param('s', $phone_whatsapp_to);  // Buscamos por el celular_cliente
-        $check_idCliente_recibe_stmt->execute();
-        $check_idCliente_recibe_stmt->store_result();
-        $check_idCliente_recibe_stmt->bind_result($id_cliente_recibe);
-        $check_idCliente_recibe_stmt->fetch();
-        $check_idCliente_recibe_stmt->close();
+    // Obtener ID del cliente que recibe
+    $check_idCliente_recibe_stmt = $conn->prepare("SELECT id FROM clientes_chat_center WHERE celular_cliente = ?");
+    $check_idCliente_recibe_stmt->bind_param('s', $phone_whatsapp_to);  // Buscamos por el celular_cliente
+    $check_idCliente_recibe_stmt->execute();
+    $check_idCliente_recibe_stmt->store_result();
+    $check_idCliente_recibe_stmt->bind_result($id_cliente_recibe);
+    $check_idCliente_recibe_stmt->fetch();
+    $check_idCliente_recibe_stmt->close();
 
     // Insertar el mensaje en la tabla mensajes_clientes
     $stmt = $conn->prepare("
@@ -1068,6 +1068,16 @@ if ($check_client_stmt->num_rows == 0) {
 
 $check_client_stmt->close();
 
+/* obtener id_cliente_configuracion */
+$check_idCliente_configuracion_stmt = $conn->prepare("SELECT id FROM clientes_chat_center WHERE celular_cliente = ?");
+$check_idCliente_configuracion_stmt->bind_param('s', $telefono_configuracion);  // Buscamos por el celular_cliente
+$check_idCliente_configuracion_stmt->execute();
+$check_idCliente_configuracion_stmt->store_result();
+$check_idCliente_configuracion_stmt->bind_result($id_cliente_configuracion);
+$check_idCliente_configuracion_stmt->fetch();
+$check_idCliente_configuracion_stmt->close();
+/* Fin obtener id_cliente_configuracion */
+
 // Ahora puedes proceder a insertar el mensaje en la tabla mensajes_clientes
 $stmt = $conn->prepare("
     INSERT INTO mensajes_clientes (id_plataforma, id_cliente, mid_mensaje, tipo_mensaje, texto_mensaje, ruta_archivo, rol_mensaje, celular_recibe, created_at, updated_at) 
@@ -1077,7 +1087,7 @@ $stmt = $conn->prepare("
 $mid_mensaje = $business_phone_id;  // Usamos el ID del mensaje de WhatsApp
 $rol_mensaje = 0;  // Valor por defecto para rol_mensaje, ya que es bigint
 
-$stmt->bind_param('iissssis', $id_plataforma, $id_cliente, $mid_mensaje, $tipo_mensaje, $texto_mensaje, $ruta_archivo, $rol_mensaje, $id_cliente);
+$stmt->bind_param('iissssis', $id_plataforma, $id_cliente_configuracion, $mid_mensaje, $tipo_mensaje, $texto_mensaje, $ruta_archivo, $rol_mensaje, $id_cliente);
 
 if ($stmt->execute()) {
     echo json_encode(["status" => "success", "message" => "Mensaje procesado correctamente."]);
