@@ -139,6 +139,43 @@ const listHistorialPedidos = async () => {
   }
 };
 
+// Event delegation for select change
+/* document.addEventListener("change", async (event) => {
+  if (event.target && event.target.classList.contains("select-estado-pedido")) {
+    const numeroGuia = event.target.getAttribute("data-numero-guia");
+    const nuevoEstado = event.target.value;
+    console.log(`Cambiando estado para la guía ${numeroGuia} a ${nuevoEstado}`);
+    const formData = new FormData();
+    formData.append("estado", nuevoEstado);
+
+    if (nuevoEstado == 9) {
+      $("#tipo_speed").val("recibir").change();
+    }
+
+    try {
+      const response = await fetch(
+        `https://guias.imporsuitpro.com/Speed/estado/${numeroGuia}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+      const result = await response.json();
+      if (result.status == 200) {
+        toastr.success("ESTADO ACTUALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+
+        $("#gestionar_novedadSpeedModal").modal("show");
+        reloadDataTable();
+      }
+    } catch (error) {
+      console.error("Error al conectar con la API", error);
+      alert("Error al conectar con la API");
+    }
+  }
+}); */
+
 function abrirModal_infoTienda(tienda) {
   let formData = new FormData();
   formData.append("tienda", tienda);

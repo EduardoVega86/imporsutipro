@@ -101,17 +101,19 @@ $(document).ready(function () {
   }
 
   function cargar_lista_contactos(busqueda) {
+    var telefono_configuracion = $("#telefono_configuracion").val();
+
     let formData = new FormData();
-    formData.append("busqueda", busqueda); // Añadir el SKU al FormData
+    formData.append("busqueda", busqueda);
+    formData.append("telefono_configuracion", telefono_configuracion);
 
     // Llamada AJAX para obtener los datos de la API de contactos
     $.ajax({
       url: SERVERURL + "pedidos/numeros_clientes",
-      type: "POST", // Cambiar a POST para enviar FormData
+      type: "POST",
       data: formData,
       processData: false, // No procesar los datos
       contentType: false, // No establecer ningún tipo de contenido
-
       dataType: "json",
       success: function (data) {
         let innerHTML = "";
