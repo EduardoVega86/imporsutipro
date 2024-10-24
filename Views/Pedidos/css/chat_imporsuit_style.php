@@ -698,4 +698,11 @@
     .floating-buttons {
         margin-top: auto;
     }
+
+    /* visto y fecha de chat a la izquierda */
+    .visto-icon {
+        font-size: 12px;
+        margin-top: 2px;
+    }
+    /* fin visto y fecha de chat a la izquierda */
 </style>

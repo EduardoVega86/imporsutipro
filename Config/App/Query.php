@@ -191,4 +191,49 @@ class Query extends Conexion
         $sql = "SELECT idmatriz FROM matriz WHERE url_matriz like '%$host%'";
         return $this->select($sql);
     }
+
+    public function beginTransaction()
+    {
+        $this->connection->beginTransaction();
+    }
+
+    public function commit()
+    {
+        $this->connection->commit();
+    }
+
+    public function rollBack()
+    {
+        $this->connection->rollBack();
+    }
+
+    public function lastInsertId()
+    {
+        return $this->connection->lastInsertId();
+    }
+
+    public function getSql()
+    {
+        return $this->sql;
+    }
+
+    public function setSql($sql)
+    {
+        $this->sql = $sql;
+    }
+
+    public function getError()
+    {
+        return $this->connection->errorInfo();
+    }
+
+    public function getErrorCode()
+    {
+        return $this->connection->errorCode();
+    }
+
+    public function getErrorInfo()
+    {
+        return $this->connection->errorInfo();
+    }
 }

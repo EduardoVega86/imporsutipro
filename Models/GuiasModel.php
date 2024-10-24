@@ -94,20 +94,49 @@ class GuiasModel extends Query
         return $result;
     }
 
+    public function existeGuia($guia)
+    {
+        $sql = "SELECT * FROM facturas_cot WHERE numero_guia = ?";
+        $response = $this->simple_select($sql, array($guia));
+        if ($response > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function ultimaguia()
     {
         $prefijo = PREFIJOS;
-        $sql = "SELECT MAX(numero_guia) as numero_guia FROM facturas_cot where numero_guia like '$prefijo%'";
-        $numero_guia = $this->select($sql);
-        $numero_guia = $numero_guia[0]['numero_guia'];
-        if ($numero_guia == null || empty($numero_guia)) {
-            $numero_guia = $prefijo . "000001";
-        } else {
-            $numero_guia =  $this->incrementarGuia($numero_guia);
+        // Iniciar una transacción
+        $this->beginTransaction();
+
+        try {
+            // Bloquear la tabla para evitar conflictos
+            $sql = "SELECT MAX(numero_guia) as numero_guia FROM facturas_cot WHERE numero_guia LIKE '$prefijo%' FOR UPDATE";
+            $numero_guia = $this->select($sql);
+            $numero_guia = $numero_guia[0]['numero_guia'];
+
+            if ($numero_guia == null || empty($numero_guia)) {
+                $numero_guia = $prefijo . "000001";
+            } else {
+                $numero_guia = $this->incrementarGuia($numero_guia);
+            }
+
+            // Actualizar la cantidad de guías generadas
+            $response = $this->update("UPDATE matriz SET guia_generadas = guia_generadas + 1 WHERE idmatriz = ?", array(MATRIZ));
+
+            // Confirmar la transacción
+            $this->commit();
+
+            return $numero_guia;
+        } catch (Exception $e) {
+            // En caso de error, revertir la transacción
+            $this->rollBack();
+            throw $e; // Re-lanzar la excepción para manejarla fuera
         }
-        $response = $this->update("UPDATE matriz set guia_generadas = guia_generadas + 1 WHERE idmatriz = ?", array(MATRIZ));
-        return $numero_guia;
     }
+
 
     public function laarToken()
     {
