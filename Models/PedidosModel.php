@@ -972,11 +972,11 @@ class PedidosModel extends Query
 
             if (!empty($id_configuracion)) {
 
-                
+
                 $nombre_ciudad = $this->select("SELECT ciudad FROM ciudad_cotizacion WHERE id_cotizacion = $ciudad_cot");
                 $nombre_ciudad = $nombre_ciudad[0]['ciudad'];
 
-                
+
                 $data = $this->ejecutar_automatizador($nueva_factura);
 
                 $telefono_cliente = $this->formatearTelefono($celular);
@@ -1011,17 +1011,17 @@ class PedidosModel extends Query
                     ]
                 ];
 
-                
+
                 $response_api = $this->enviar_a_api($data);
 
-                
+
                 if (!$response_api['success']) {
-                    
+
                     $response['status'] = 500;
                     $response['title'] = 'Error';
                     $response['message'] = "Error al enviar los datos a la API: " . $response_api['error'];
                 } else {
-                    
+
                     $response['status'] = 200;
                     $response['title'] = 'Peticion exitosa';
                     $response['message'] = "Pedido creado correctamente y datos enviados";
@@ -1037,9 +1037,9 @@ class PedidosModel extends Query
             }
 
             $response['status'] = 200;
-                $response['title'] = 'Peticion exitosa';
-                $response['message'] = "Pedido creado correctamente";
-                $response["numero_factura"] = $nueva_factura;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = "Pedido creado correctamente";
+            $response["numero_factura"] = $nueva_factura;
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
@@ -1755,13 +1755,18 @@ class PedidosModel extends Query
         return $response;
     }
 
-    public function agregar_mensaje_enviado($texto_mensaje, $tipo_mensaje, $mid_mensaje, $id_recibe, $id_plataforma, $ruta_archivo)
+    public function agregar_mensaje_enviado($texto_mensaje, $tipo_mensaje, $mid_mensaje, $id_recibe, $id_plataforma, $ruta_archivo, $telefono_configuracion)
     {
         // codigo para agregar categoria
         $response = $this->initialResponse();
 
+        $sql_idConfiguracion = "SELECT id FROM clientes_chat_center WHERE celular_cliente = '$telefono_configuracion'";
+        $id_clienteConfiguracion = $this->select($sql_idConfiguracion);
+
+        $id_cliente_configuracion = $id_clienteConfiguracion[0]['id'];
+
         $sql = "INSERT INTO `mensajes_clientes` (`id_plataforma`,`id_cliente`,`mid_mensaje`,`tipo_mensaje`,`rol_mensaje`,`celular_recibe`,`texto_mensaje`,`ruta_archivo`,`visto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $data = [$id_plataforma, 411, $mid_mensaje, $tipo_mensaje, 1, $id_recibe, $texto_mensaje, $ruta_archivo, 1];
+        $data = [$id_plataforma, $id_cliente_configuracion, $mid_mensaje, $tipo_mensaje, 1, $id_recibe, $texto_mensaje, $ruta_archivo, 1];
         $insertar_mensaje_enviado = $this->insert($sql, $data);
         if ($insertar_mensaje_enviado == 1) {
             $response['status'] = 200;

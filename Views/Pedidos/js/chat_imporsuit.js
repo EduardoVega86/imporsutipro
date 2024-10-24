@@ -21,6 +21,7 @@ $(document).ready(function () {
       $("#id_whatsapp").val(data[0].id_telefono);
       $("#token_configruacion").val(data[0].token);
       $("#id_whatsapp_configruacion").val(data[0].id_whatsapp);
+      $("#telefono_configuracion").val(data[0].telefono);
 
       cargarTemplates();
     },
@@ -1106,6 +1107,7 @@ async function enviarImagenWhatsApp(imageUrl) {
     // Registrar el mensaje en tu backend
     var id_cliente_chat = $("#id_cliente_chat").val();
     var uid_cliente = $("#uid_cliente").val();
+    var telefono_configuracion = $("#telefono_configuracion").val();
 
     let formData = new FormData();
     formData.append("texto_mensaje", "");
@@ -1113,6 +1115,7 @@ async function enviarImagenWhatsApp(imageUrl) {
     formData.append("mid_mensaje", uid_cliente);
     formData.append("id_recibe", id_cliente_chat);
     formData.append("ruta_archivo", imageUrl);
+    formData.append("telefono_configuracion", telefono_configuracion);
 
     $.ajax({
       url: SERVERURL + "pedidos/agregar_mensaje_enviado",
@@ -1388,6 +1391,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
           var id_cliente_chat = $("#id_cliente_chat").val();
           var uid_cliente = $("#uid_cliente").val();
+          var telefono_configuracion = $("#telefono_configuracion").val();
 
           let formData = new FormData();
           formData.append("texto_mensaje", message);
@@ -1395,6 +1399,7 @@ document.addEventListener("DOMContentLoaded", function () {
           formData.append("mid_mensaje", uid_cliente);
           formData.append("id_recibe", id_cliente_chat);
           formData.append("ruta_archivo", "");
+          formData.append("telefono_configuracion", telefono_configuracion);
 
           $.ajax({
             url: SERVERURL + "pedidos/agregar_mensaje_enviado",
