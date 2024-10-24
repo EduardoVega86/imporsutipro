@@ -143,13 +143,14 @@ $(document).ready(function () {
                         <h6 class="mb-0">${
                           contacto.nombre_cliente || "Desconocido"
                         } ${
-            contacto.apellido_cliente || ""
-          } ${color_etiqueta}</h6>
+                          contacto.apellido_cliente || ""
+                        } ${color_etiqueta}</h6>
                         <h7>+${contacto.celular_cliente}</h7>
                         <small class="text-muted">${
                           contacto.texto_mensaje || "No hay mensajes"
                         }</small>
                     </div>
+                    ${mensajes_pendientes}
                 </div>
                 <div class="d-flex flex-column">
                     <small class="text-muted">${horaMensaje}</small>
