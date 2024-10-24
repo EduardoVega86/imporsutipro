@@ -1068,6 +1068,19 @@ if ($check_client_stmt->num_rows == 0) {
 
 $check_client_stmt->close();
 
+/* Obtener nombres y teléfono configuracion */
+$telefono_configuracion = 0;
+$nombre_configuracion = "";
+
+$check_configuracion_cliente_stmt = $conn->prepare("SELECT telefono, nombre_configuracion FROM configuraciones WHERE id = ?");
+$check_configuracion_cliente_stmt->bind_param('s', $id_configuracion);  // Buscamos por el celular_cliente
+$check_configuracion_cliente_stmt->execute();
+$check_configuracion_cliente_stmt->store_result();
+$check_configuracion_cliente_stmt->bind_result($telefono_configuracion, $nombre_configuracion);
+$check_configuracion_cliente_stmt->fetch();
+$check_configuracion_cliente_stmt->close();
+/* fin obtener configuracion */
+
 /* obtener id_cliente_configuracion */
 $check_idCliente_configuracion_stmt = $conn->prepare("SELECT id FROM clientes_chat_center WHERE celular_cliente = ?");
 $check_idCliente_configuracion_stmt->bind_param('s', $telefono_configuracion);  // Buscamos por el celular_cliente
