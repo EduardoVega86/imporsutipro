@@ -26,7 +26,7 @@
 
     .notificacion_mPendientes {
         position: absolute;
-        top: 10%;
+        top: 65%;
         right: 5%;
         background-color: #0d6efd;
         color: white;
