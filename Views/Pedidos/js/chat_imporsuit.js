@@ -130,24 +130,37 @@ $(document).ready(function () {
             }
           }
 
+          // Suponiendo que contacto.created_at es una cadena con formato "YYYY-MM-DD HH:MM:SS"
+          const horaMensaje = contacto.created_at
+            ? contacto.created_at.split(" ")[1].slice(0, 5)
+            : "";
+
           innerHTML += `
-              <li class="list-group-item contact-item d-flex align-items-center" data-id="${
-                contacto.id_cliente
-              }">
-                  <img src="https://new.imporsuitpro.com/public/img/avatar_usuaro_chat_center.png" class="rounded-circle me-3" alt="Foto de perfil" style="width: 15% !important;">
-                  <div class="d-flex flex-column">
-                      <h6 class="mb-0">${
-                        contacto.nombre_cliente || "Desconocido"
-                      } ${
+            <li class="list-group-item contact-item d-flex align-items-center justify-content-between" data-id="${
+              contacto.id_cliente
+            }">
+                <div class="d-flex align-items-center">
+                    <img src="https://new.imporsuitpro.com/public/img/avatar_usuaro_chat_center.png" class="rounded-circle me-3" alt="Foto de perfil" style="width: 15% !important;">
+                    <div class="d-flex flex-column">
+                        <h6 class="mb-0">${
+                          contacto.nombre_cliente || "Desconocido"
+                        } ${
             contacto.apellido_cliente || ""
           } ${color_etiqueta}</h6>
-                      <h7>+${contacto.celular_cliente}</h7>
-                      <small class="text-muted">${
-                        contacto.texto_mensaje || "No hay mensajes"
-                      }</small>
-                  </div>
-                  ${mensajes_pendientes}
-              </li>`;
+                        <h7>+${contacto.celular_cliente}</h7>
+                        <small class="text-muted">${
+                          contacto.texto_mensaje || "No hay mensajes"
+                        }</small>
+                    </div>
+                </div>
+                <div class="d-flex flex-column align-items-end">
+                    <small class="text-muted">${horaMensaje}</small>
+                    <div>
+                        <span class="visto-icon me-1" style="color: gray;">&#10003;</span>
+                        <span class="visto-icon" style="color: gray;">&#10003;</span>
+                    </div>
+                </div>
+            </li>`;
         });
 
         // Inyectamos el HTML generado en la lista de contactos
