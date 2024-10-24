@@ -1602,43 +1602,53 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
-    public function numeros_clientes($id_plataforma, $palabra_busqueda)
+    public function numeros_clientes($id_plataforma, $palabra_busqueda, $telefono_configuracion)
     {
+        $sql_idConfiguracion = "SELECT id FROM clientes_chat_center WHERE celular_cliente = '$telefono_configuracion'";
+        $id_clienteConfiguracion = $this->select($sql_idConfiguracion);
+
+        $id_cliente_configuracion = $id_clienteConfiguracion[0]['id'];
+
         $sql = "SELECT 
-        ccc.nombre_cliente, 
-        ccc.apellido_cliente, 
+        ccc.nombre_cliente,
+        ccc.apellido_cliente,
         ccc.celular_cliente,
-        mc.id_cliente, 
-        mc.texto_mensaje, 
-        ecc.color_etiqueta, 
-        mc.created_at,
-        (SELECT COUNT(mensajes_clientes.visto) FROM mensajes_clientes 
-        WHERE mensajes_clientes.rol_mensaje = 0 AND mensajes_clientes.visto = 0 AND mensajes_clientes.celular_recibe = mc.id_cliente) 
-        AS  mensajes_pendientes
-    FROM 
-        clientes_chat_center ccc
-    INNER JOIN 
+        ccc.id,
         (
-            SELECT 
-                id_cliente, 
-                texto_mensaje, 
-                created_at
-            FROM 
-                mensajes_clientes mc1
-            WHERE 
-                rol_mensaje = 0
-                AND created_at = (
-                    SELECT MAX(created_at) 
-                    FROM mensajes_clientes mc2 
-                    WHERE mc2.id_cliente = mc1.id_cliente
-                )
-        ) mc 
-        ON ccc.id = mc.id_cliente
+            SELECT MAX(mc1.created_at) 
+            FROM mensajes_clientes AS mc1 
+            WHERE mc1.celular_recibe = ccc.id 
+              AND (mc1.rol_mensaje = 0 OR mc1.rol_mensaje = 1) 
+              AND mc1.created_at IS NOT NULL
+        ) AS mensaje_created_at,
+        (
+            SELECT COUNT(*)
+            FROM mensajes_clientes AS mc1
+            WHERE mc1.celular_recibe = ccc.id 
+              AND mc1.rol_mensaje = 0 
+              AND mc1.visto = 0
+        ) AS mensajes_pendientes,
+        (
+            SELECT mc1.texto_mensaje 
+            FROM mensajes_clientes AS mc1 
+            WHERE mc1.celular_recibe = ccc.id 
+              AND (mc1.rol_mensaje = 0 OR mc1.rol_mensaje = 1)
+            ORDER BY mc1.created_at DESC
+            LIMIT 1
+        ) AS texto_mensaje,
+        ecc.color_etiqueta
+    FROM 
+        clientes_chat_center AS ccc
     LEFT JOIN 
-        etiquetas_chat_center ecc 
-        ON ecc.id_etiqueta = ccc.id_etiqueta 
+        etiquetas_chat_center AS ecc 
+        ON ccc.id_etiqueta = ecc.id_etiqueta
     WHERE 
-        ccc.id_plataforma = $id_plataforma";
+        ccc.id_plataforma = $id_plataforma
+        AND ccc.celular_cliente != $id_cliente_configuracion
+    GROUP BY 
+        ccc.id
+    ORDER BY 
+        mensaje_created_at DESC;";
 
         if (!empty($palabra_busqueda)) {
             $sql .= " AND (ccc.nombre_cliente LIKE '%$palabra_busqueda%' OR ccc.apellido_cliente LIKE '%$palabra_busqueda%' OR ccc.celular_cliente LIKE '%$palabra_busqueda%')";
