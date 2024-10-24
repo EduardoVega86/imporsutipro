@@ -131,9 +131,7 @@ $(document).ready(function () {
           }
 
           // Suponiendo que contacto.created_at es una cadena con formato "YYYY-MM-DD HH:MM:SS"
-          const horaMensaje = contacto.created_at
-            ? contacto.created_at.split(" ")[1].slice(0, 5)
-            : "";
+          const horaMensaje = formatearFecha(contacto.created_at);
 
           innerHTML += `
             <li class="list-group-item contact-item d-flex align-items-center justify-content-between" data-id="${
@@ -182,6 +180,55 @@ $(document).ready(function () {
         console.error("Error al obtener los mensajes:", error);
       },
     });
+  }
+
+  function formatearFecha(fecha) {
+    const diasSemana = [
+      "Domingo",
+      "Lunes",
+      "Martes",
+      "Miércoles",
+      "Jueves",
+      "Viernes",
+      "Sábado",
+    ];
+    const fechaMensaje = new Date(fecha);
+    const ahora = new Date();
+
+    // Crear fechas ajustadas para hoy, ayer, y el inicio de la semana actual
+    const hoy = new Date(
+      ahora.getFullYear(),
+      ahora.getMonth(),
+      ahora.getDate()
+    );
+    const ayer = new Date(hoy);
+    ayer.setDate(hoy.getDate() - 1);
+    const inicioSemana = new Date(hoy);
+    inicioSemana.setDate(hoy.getDate() - hoy.getDay());
+
+    // Verificar si es hoy
+    if (fechaMensaje >= hoy) {
+      return fechaMensaje.toTimeString().slice(0, 5); // Solo muestra la hora "HH:MM"
+    }
+
+    // Verificar si es ayer
+    if (fechaMensaje >= ayer && fechaMensaje < hoy) {
+      return "ayer";
+    }
+
+    // Verificar si es dentro de la misma semana
+    if (fechaMensaje >= inicioSemana) {
+      return diasSemana[fechaMensaje.getDay()]; // Día de la semana
+    }
+
+    // Si es anterior a la semana actual, mostrar la fecha en formato "DD/MM/YYYY"
+    return `${fechaMensaje
+      .getDate()
+      .toString()
+      .padStart(
+        2,
+        "0"
+      )}/${(fechaMensaje.getMonth() + 1).toString().padStart(2, "0")}/${fechaMensaje.getFullYear()}`;
   }
 
   // Función que se ejecuta cuando se hace click en un contacto
