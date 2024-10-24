@@ -115,7 +115,7 @@ ORDER BY
 " ;
         
         
-        echo $sql;
+        //echo $sql;
         return $this->select($sql);
     }
     
