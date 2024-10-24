@@ -1607,7 +1607,7 @@ class PedidosModel extends Query
         $sql_telefono_configuracion = "SELECT telefono FROM configuraciones WHERE id_plataforma = $id_plataforma";
         $telefono_configuracion = $this->select($sql_telefono_configuracion);
 
-        $telefono_configuracion = $telefono_configuracion[0]['id'];
+        $telefono_configuracion = $telefono_configuracion[0]['telefono'];
 
         $sql_idConfiguracion = "SELECT id FROM clientes_chat_center WHERE celular_cliente = '$telefono_configuracion'";
         $id_clienteConfiguracion = $this->select($sql_idConfiguracion);
