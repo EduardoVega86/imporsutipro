@@ -76,19 +76,19 @@ const listHistorialPedidos = async () => {
 
       select_estados_pedidos = `
                     <select class="form-select select-estado-pedido" style="max-width: 130px;" data-numero-guia="${
-                      guia.numero_guia
+                      historialPedido.numero_guia
                     }">
                         <option value="0" ${
-                          guia.estado_pedido == 0 ? "selected" : ""
+                          historialPedido.estado_pedido == 0 ? "selected" : ""
                         }>-- Selecciona estado --</option>
                         <option value="1" ${
-                          guia.estado_pedido == 1 ? "selected" : ""
+                          historialPedido.estado_pedido == 1 ? "selected" : ""
                         }>Pediente</option>
                         <option value="2" ${
-                          guia.estado_pedido == 2 ? "selected" : ""
+                          historialPedido.estado_pedido == 2 ? "selected" : ""
                         }>Gestionado</option>
                         <option value="3" ${
-                          guia.estado_pedido == 3 ? "selected" : ""
+                          historialPedido.estado_pedido == 3 ? "selected" : ""
                         }>No desea</option>
                     </select>`;
 
