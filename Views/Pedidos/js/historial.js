@@ -121,7 +121,12 @@ const listHistorialPedidos = async () => {
                     </td>
                     <td>${historialPedido.provinciaa}-${ciudad}</td>
                     <td><span class="link-like" id="plataformaLink" onclick="abrirModal_infoTienda('${historialPedido.plataforma}')">${plataforma}</span></td>
-                    <td>${transporte_content}</td>
+                    <td>
+                    <div>
+                    ${transporte_content}
+                    ${$select_estados_pedidos}
+                    </div>
+                    </td>
                     <td>
                         <button class="btn btn-sm btn-primary" onclick="boton_editarPedido(${historialPedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>
                         <!-- <button class="btn btn-sm btn-danger" onclick="boton_eliminarPedido(${historialPedido.id_factura})"><i class="fa-solid fa-trash-can"></i></button> -->
