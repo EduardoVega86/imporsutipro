@@ -105,7 +105,6 @@ $(document).ready(function () {
 
     let formData = new FormData();
     formData.append("busqueda", busqueda);
-    formData.append("telefono_configuracion", telefono_configuracion);
 
     // Llamada AJAX para obtener los datos de la API de contactos
     $.ajax({

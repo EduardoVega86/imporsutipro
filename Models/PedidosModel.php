@@ -1602,8 +1602,13 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
-    public function numeros_clientes($id_plataforma, $palabra_busqueda, $telefono_configuracion)
+    public function numeros_clientes($id_plataforma, $palabra_busqueda)
     {
+        $sql_telefono_configuracion = "SELECT telefono FROM configuraciones WHERE id_plataforma = $id_plataforma";
+        $telefono_configuracion = $this->select($sql_telefono_configuracion);
+
+        $telefono_configuracion = $telefono_configuracion[0]['id'];
+
         $sql_idConfiguracion = "SELECT id FROM clientes_chat_center WHERE celular_cliente = '$telefono_configuracion'";
         $id_clienteConfiguracion = $this->select($sql_idConfiguracion);
 
