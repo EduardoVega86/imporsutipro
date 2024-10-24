@@ -72,7 +72,7 @@ const listHistorialPedidos = async () => {
         '<span text-nowrap style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">Guia no enviada</span>';
       /*       } */
 
-      select_estados_pedidos = "";
+      let select_estados_pedidos = "";
 
       select_estados_pedidos = `
                     <select class="form-select select-estado-pedido" style="max-width: 130px;" data-numero-guia="${
