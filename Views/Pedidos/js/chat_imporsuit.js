@@ -151,7 +151,7 @@ $(document).ready(function () {
                         }</small>
                     </div>
                 </div>
-                <div class="d-flex flex-column align-items-end">
+                <div class="d-flex flex-column">
                     <small class="text-muted">${horaMensaje}</small>
                     <div>
                         <span class="visto-icon" style="color: gray;">&#10003;</span>
