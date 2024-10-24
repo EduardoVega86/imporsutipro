@@ -124,7 +124,7 @@ const listHistorialPedidos = async () => {
                     <td>
                     <div>
                     ${transporte_content}
-                    ${$select_estados_pedidos}
+                    ${select_estados_pedidos}
                     </div>
                     </td>
                     <td>
