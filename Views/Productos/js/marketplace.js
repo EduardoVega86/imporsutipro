@@ -188,7 +188,7 @@ document.addEventListener("DOMContentLoaded", function () {
       </div>
       <button class="btn btn-heart ${
         esFavorito ? "clicked" : ""
-      }" onclick="handleHeartClick(${product.id_inventario}, ${esFavorito})">
+      }" onclick="handleHeartClick(${product.id_producto}, ${esFavorito})">
         <i class="fas fa-heart"></i>
       </button>
       <div class="card-body text-center d-flex flex-column justify-content-between">
