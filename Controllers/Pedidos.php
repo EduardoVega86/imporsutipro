@@ -720,6 +720,16 @@ class Pedidos extends Controller
         echo json_encode($response);
     }
 
+    public function cambiar_estado_pedido()
+    {
+        $id_factura = $_POST['id_factura'];
+        $estado_nuevo = $_POST['estado_nuevo'];
+        $detalle_noDesea_pedido = $_POST['detalle_noDesea_pedido'];
+
+        $response = $this->model->cambiar_estado_pedido($id_factura, $estado_nuevo, $detalle_noDesea_pedido);
+        echo json_encode($response);
+    }
+
     /* automatizador */
     public function configuraciones_automatizador()
     {
