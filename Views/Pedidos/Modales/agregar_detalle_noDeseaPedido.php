@@ -91,7 +91,7 @@
                             <label for="motivo_noDesea" class="form-label">Motivo:</label>
                             <input type="text" class="form-control" id="motivo_noDesea" placeholder="Ingrese el motivo">
 
-                            <div id="seccion_informacion_numero" style="display: none;">
+                            <div id="seccion_informacion_numero">
                                 <button type="button" class="btn btn-primary" onclick="agregar_detalle_noDesea()">Agregar</button>
                             </div>
                         </div>
