@@ -298,11 +298,11 @@
                             </div>
                             <div class="mb-3">
                                 <label for="textoBtn_oferta1" class="form-label">Texto boton </label>
-                                <input type="text" class="form-control" onblur="cambiarcolor_parallax_plantilla3('boton_parallax_texto',this.value)" id="textoBtn_oferta1" placeholder="Ingrese el texto del boton oferta 1">
+                                <input type="text" class="form-control" onblur="cambiarcolor_parallax_plantilla3('boton_parallax_texto',this.value)" id="boton_parallax_texto" placeholder="Ingrese el texto del boton">
                             </div>
                             <div class="mb-3">
                                 <label for="enlace_oferta1" class="form-label">Enlace</label>
-                                <input type="text" class="form-control" onblur="cambiarcolor_parallax_plantilla3('boton_parallax_texto',this.value)" id="enlace_oferta1" placeholder="Ingrese el enlace oferta 1">
+                                <input type="text" class="form-control" onblur="cambiarcolor_parallax_plantilla3('boton_parallax_enlace',this.value)" id="boton_parallax_enlace" placeholder="Ingrese el enlace botón">
                             </div>
                              <div class="mb-3">
                                 <label for="myRange">Ajustar Opacidad:</label>
@@ -330,7 +330,7 @@
                                     </div>
                                     <form id="imageFormOferta1" enctype="multipart/form-data">
                                         <div class="mb-3">
-                                            <input type="file" class="form-control" id="imageInputOferta1" accept="image/*" name="imagen">
+                                            <input type="file" class="form-control" id="imageFondoParallax" accept="image/*" name="imagen">
                                         </div>
                                         <img id="imagen_oferta1" class="image-preview mb-3" src="" alt="Preview" width="30%">
                                     </form>

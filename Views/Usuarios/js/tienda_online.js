@@ -301,6 +301,108 @@ function cargar_ofertas_plantilla2() {
   });
 }
 
+
+function cargar_informacion_plantilla3() {
+    
+  $.ajax({
+    url: SERVERURL + "Usuarios/obtener_infoPlantilla3",
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+      $("#titulo_parallax").val(response[0].titulo_parallax);
+      $("#subtitulo_parallax").val(response[0].subtitulo_parallax);
+      $("#texto_parallax").val(response[0].texto_parallax);
+      $("#boton_parallax_texto").val(response[0].boton_parallax_texto);
+      $("#boton_parallax_enlace").val(response[0].boton_parallax_enlace);
+      $("#myRange").val(response[0].parallax_opacidad);
+   
+
+      $("#color_hover_cabecera_plantilla2").val(
+        response[0].color_filtro
+      );
+      
+      $("#color_texto").val(
+        response[0].color_texto
+      );
+      
+      $("#color_boton").val(
+        response[0].color_boton
+      );
+      
+      if (response[0].imagen_oferta1 === null) {
+        $("#imagen_oferta1").attr(
+          "src",
+          SERVERURL + "public/img/broken-image.png"
+        );
+      } else {
+        $("#imagen_oferta1").attr(
+          "src",
+          SERVERURL + response[0].imagen_oferta1
+        );
+      }
+
+      $("#titulo_oferta2").val(response[0].titulo_oferta2);
+      $("#oferta2").val(response[0].oferta2);
+      $("#descripcion_oferta2").val(response[0].descripcion_oferta2);
+      $("#textoBtn_oferta2").val(response[0].texto_btn_oferta2);
+      $("#enlace_oferta2").val(response[0].enlace_oferta2);
+      $("#color_btn_oferta2").val(response[0].color_btn_oferta2);
+      $("#color_texto_oferta2").val(response[0].color_texto_oferta2);
+      $("#color_textoBtn_oferta2").val(response[0].color_textoBtn_oferta2);
+
+      /* colores plantilla */
+      $("#color_botones_plantilla2").val(response[0].color_botones);
+      $("#color_plantilla2").val(response[0].color);
+      $("#texto_cabecera_plantilla2").val(response[0].texto_cabecera);
+      $("#texto_boton1_plantilla2").val(response[0].texto_boton);
+      $("#texto_precio_plantilla2").val(response[0].texto_precio);
+      /* Fin colores plantilla */
+
+      if (response[0].imagen_oferta2 === null) {
+        $("#imagen_oferta2").attr(
+          "src",
+          SERVERURL + "public/img/broken-image.png"
+        );
+      } else {
+        $("#imagen_oferta2").attr(
+          "src",
+          SERVERURL + response[0].imagen_oferta2
+        );
+      }
+
+      /* promociones */
+      $("#titulo_promocion").val(response[0].titulo_promocion);
+      $("#precio_promocion").val(response[0].precio_promocion);
+      $("#descripcion_promocion").val(response[0].descripcion_promocion);
+      $("#texto_btn_promocion").val(response[0].texto_btn_promocion);
+      $("#enlace_btn_promocion").val(response[0].enlace_btn_promocion);
+      $("#color_btn_promocion").val(response[0].color_btn_promocion);
+      $("#color_fondo_promocion").val(response[0].color_fondo_promocion);
+      $("#color_letra_promocion").val(response[0].color_letra_promocion);
+      $("#color_letraBtn_promocion").val(response[0].color_letraBtn_promocion);
+
+      if (response[0].imagen_promocion === null) {
+        $("#imagen_promocion").attr(
+          "src",
+          SERVERURL + "public/img/broken-image.png"
+        );
+      } else {
+        $("#imagen_promocion").attr(
+          "src",
+          SERVERURL + response[0].imagen_promocion
+        );
+      }
+      /* fin promociones */
+    },
+    error: function (error) {
+      console.error(
+        "Error al obtener la informacion ofertas plantilla 2:",
+        error
+      );
+    },
+  });
+}
+
 function cargarInfoTienda_inicial() {
   $.ajax({
     url: SERVERURL + "Usuarios/obtener_infoTiendaOnline",
@@ -341,6 +443,8 @@ function cargarInfoTienda_inicial() {
       $("#facebook").val(response[0].facebook);
 
       $("#dominio").val(response[0].dominio);
+      
+      $("#dominio").val(response[0].dominio);
 
       var subdominio = quitarHTTPS(response[0].url_imporsuit);
 
@@ -379,6 +483,7 @@ $("#seccion_paralax_plantilla3").hide();
         // Agrega la clase 'selected' a la plantilla correcta
         $(".plantilla[data-template='template2']").addClass("selected");
       } else if (response[0].plantilla == 3) {
+          cargar_informacion_plantilla3();
         // Actualiza los valores de los inputs hidden
         $("#plantilla_selected").val("template3");
 $("#seccion_promocion_plantilla2").hide();
@@ -389,6 +494,8 @@ $("#seccion_paralax_plantilla3").show();
 
         // Agrega la clase 'selected' a la plantilla correcta
         $(".plantilla[data-template='template3']").addClass("selected");
+        
+        
       }
 
       // Mover la lógica de verificación aquí

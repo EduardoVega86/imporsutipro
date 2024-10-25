@@ -473,6 +473,12 @@ ON
         $sql = "SELECT * FROM plantilla_2 WHERE id_plataforma=$plataforma";
         return $this->select($sql);
     }
+    
+    public function obtener_infoPlantilla3($plataforma)
+    {
+        $sql = "SELECT * FROM plantilla_3 WHERE id_plataforma=$plataforma";
+        return $this->select($sql);
+    }
 
     public function obtener_bannertienda($plataforma)
     {
