@@ -256,6 +256,15 @@ class Usuarios extends Controller
         $response = $this->model->guardar_imagen_logo($_FILES['imagen'], $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
+    
+    public function guardar_imagen_parallax1()
+    {
+
+        $response = $this->model->guardar_imagen_parallax1($_FILES['imagen'], $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+    
+    
     public function guardar_imagen_favicon()
     {
         if (isset($_FILES['imagen']) && isset($_SESSION['id_plataforma'])) {

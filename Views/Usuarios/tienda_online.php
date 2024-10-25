@@ -328,11 +328,11 @@
                                     <div class="alert alert-warning" role="alert">
                                         <strong>Atención:</strong> las dimensines de la imagen deben ser 893x468 y en formato .png, .jpg, .jpeg
                                     </div>
-                                    <form id="imageFormOferta1" enctype="multipart/form-data">
+                                    <form id="imageFormParallax1" enctype="multipart/form-data">
                                         <div class="mb-3">
                                             <input type="file" class="form-control" id="imageFondoParallax" accept="image/*" name="imagen">
                                         </div>
-                                        <img id="imagen_oferta1" class="image-preview mb-3" src="" alt="Preview" width="30%">
+                                        <img id="imagen_parallax1" class="image-preview mb-3" src="" alt="Preview" width="30%">
                                     </form>
                                 </div>
                             </div>

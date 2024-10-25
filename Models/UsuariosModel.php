@@ -381,11 +381,78 @@ ON
     }
 
 
-
-    public function guardar_imagen_favicon($imagen, $plataforma)
+public function guardar_imagen_logo($imagen, $plataforma)
     {
         $response = $this->initialResponse();
-        $target_dir = "public/img/favicon_tienda/";
+        $target_dir = "public/img/logos_tienda/";
+        $imageFileType = strtolower(pathinfo($imagen["name"], PATHINFO_EXTENSION));
+
+        // Generar un nombre de archivo único
+        $unique_name = uniqid('', true) . '.' . $imageFileType;
+        $target_file = $target_dir . $unique_name;
+
+        // Verificar si el archivo existe y agregar un diferenciador si es necesario
+        $original_target_file = $target_file;
+        $counter = 1;
+        while (file_exists($target_file)) {
+            $target_file = $target_dir . uniqid('', true) . '.' . $imageFileType;
+            $counter++;
+        }
+
+        $uploadOk = 1;
+        $check = getimagesize($imagen["tmp_name"]);
+        if ($check !== false) {
+            $uploadOk = 1;
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'El archivo no es una imagen';
+            $uploadOk = 0;
+        }
+        if ($imagen["size"] > 500000) {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'El archivo es muy grande';
+            $uploadOk = 0;
+        }
+        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Solo se permiten archivos JPG, JPEG, PNG';
+            $uploadOk = 0;
+        } else {
+            if ($uploadOk == 1 && move_uploaded_file($imagen["tmp_name"], $target_file)) {
+                $response['status'] = 200;
+                $response['title'] = 'Peticion exitosa';
+                $response['message'] = 'Imagen subida correctamente';
+                $response['data'] = $target_file;
+
+                $sql = "UPDATE perfil SET logo_url = ? WHERE id_plataforma = ?";
+                $data = [$target_file, $plataforma];
+                $editar_imagen = $this->update($sql, $data);
+                if ($editar_imagen == 1) {
+                    $response['status'] = 200;
+                    $response['title'] = 'Peticion exitosa';
+                    $response['message'] = 'Imagen subida correctamente';
+                } else {
+                    $response['status'] = 500;
+                    $response['title'] = 'Error';
+                    $response['message'] = 'Error al subir la imagen';
+                }
+            } else {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'Error al subir la imagen';
+            }
+        }
+        return $response;
+    }
+    
+    
+    public function guardar_imagen_parallax1($imagen, $plataforma)
+    {
+        $response = $this->initialResponse();
+        $target_dir = "public/img/parallax";
         $imageFileType = strtolower(pathinfo($imagen["name"], PATHINFO_EXTENSION));
 
         // Generar un nombre de archivo único
@@ -430,7 +497,7 @@ ON
                 $response['message'] = 'Imagen subida correctamente';
                 $response['data'] = $target_file;
 
-                $sql = "UPDATE perfil SET favicon = ? WHERE id_plataforma = ?";
+                $sql = "UPDATE plantilla_3 SET fondo_parallax = ? WHERE id_plataforma = ?";
                 $data = [$target_file, $plataforma];
                 $editar_imagen = $this->update($sql, $data);
                 if ($editar_imagen == 1) {
