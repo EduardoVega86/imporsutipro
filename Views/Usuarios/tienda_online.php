@@ -380,7 +380,7 @@
                                     <h5 class="card-title">Imagen oferta 1</h5>
                                     <div class="alert alert-warning" role="alert">
                                         <strong>Atención:</strong> Para esta sección recomienda usar una imagen webp o png puedes descargar la muestra aqui -> <a href="https://new.imporsuitpro.com/public/img/banner/muestra_banner.webp" download="mi_imagen.png" class="btn-descargar">
-        <i class="fas fa-download"></i> Descargar Muestra
+        <i class="fas fa-download"></i>
     </a>
                                     </div>
                                     <form id="imageFormParallax1" enctype="multipart/form-data">
