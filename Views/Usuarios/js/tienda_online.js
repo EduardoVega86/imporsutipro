@@ -520,6 +520,10 @@ $("#vista_previa").html(
         $(".plantilla[data-template='template1']").addClass("selected");
         
         $("#seccion_paralax_plantilla3").hide();
+        valor_banner="<strong>Atención:</strong> las dimensines de la imagen deben ser 2550x860 y en formato .png, .jpg, .jpeg";
+        $("#muestra_banner").html(valor_banner);
+        
+        
         
       } else if (response[0].plantilla == 2) {
         cargar_ofertas_plantilla2();
@@ -530,6 +534,9 @@ $("#vista_previa").html(
 $("#seccion_paralax_plantilla3").hide();
         // Actualiza los valores de los inputs hidden
         $("#plantilla_selected").val("template2");
+        
+         valor_banner="<strong>Atención:</strong> se recomienda utilizar las dimensiones de la muestra y en formato .png , .webp, descargar muetra <a target='blank' href='https://new.imporsuitpro.com/public/img/banner/muestra_parallax.webp' download='mi_imagen.png' class='btn-descargar'>";
+        $("#muestra_banner").html(valor_banner);
 
         // Remueve la clase 'selected' de todas las plantillas
         $(".plantilla").removeClass("selected");
@@ -545,6 +552,9 @@ $("#seccion_promocion_plantilla2").hide();
         $(".plantilla").removeClass("selected");
 
 $("#seccion_paralax_plantilla3").show();
+
+ valor_banner="<strong>Atención:</strong> las dimensines de la imagen deben ser 2550x860 y en formato .png, .jpg, .jpeg";
+        $("#muestra_banner").html(valor_banner);
 
         // Agrega la clase 'selected' a la plantilla correcta
         $(".plantilla[data-template='template3']").addClass("selected");

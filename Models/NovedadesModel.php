@@ -49,7 +49,6 @@ class NovedadesModel extends Query
                 "observacion" => $observacionA
             )
         );
-
         $data = json_encode($data);
 
         //token laar GET
@@ -64,10 +63,13 @@ class NovedadesModel extends Query
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Authorization: Bearer ' . $token));
-        curl_setopt($ch, CURLOPT_POST, true);
+        // es put
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         $response = curl_exec($ch);
         $response = json_decode($response, true);
+
+
 
         $this->solventarNovedad($id_novedad);
 
@@ -105,6 +107,8 @@ class NovedadesModel extends Query
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $response = curl_exec($ch);
+
+        print_r($response);
 
         curl_close($ch);
 

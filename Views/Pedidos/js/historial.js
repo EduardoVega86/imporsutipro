@@ -150,17 +150,26 @@ document.addEventListener("change", async (event) => {
     formData.append("detalle_noDesea_pedido", "");
 
     try {
-      const response = await fetch(SERVERURL + `Pedidos/cambiar_estado_pedido`, {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        SERVERURL + `Pedidos/cambiar_estado_pedido`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
       const result = await response.json();
       if (result.status == 200) {
         toastr.success("ESTADO ACTUALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
-        
-        initDataTableHistorial();
+
+        if (nuevoEstado == 3) {
+          $("#id_factura_ingresar_motivo").val(idFactura);
+
+          $("#ingresar_nodDesea_pedido").modal("show");
+        }
+
+        /* initDataTableHistorial(); */
       }
     } catch (error) {
       console.error("Error al conectar con la API", error);

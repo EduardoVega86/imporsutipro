@@ -298,8 +298,8 @@
                             <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_bannerModal"><i class="fas fa-plus"></i> Agregar</button>
                         </div>
                         <div style="padding-top: 5px">
-                            <div class="alert alert-warning aviso-banner" role="alert">
-                                <strong>Atención:</strong> las dimensines de la imagen deben ser 2550x860 y en formato .png, .jpg, .jpeg
+                            <div class="alert alert-warning aviso-banner" id="banner_muestra" role="alert">
+                                
                             </div>
                         </div>
                     </div>
@@ -379,7 +379,7 @@
                                 <div class="d-flex flex-column">
                                     <h5 class="card-title">Imagen oferta 1</h5>
                                     <div class="alert alert-warning" role="alert">
-                                        <strong>Atención:</strong> Para esta sección recomienda usar una imagen webp o png puedes descargar la muestra aqui <a target="blank" href="https://new.imporsuitpro.com/public/img/banner/muestra_banner.webp" download="mi_imagen.png" class="btn-descargar">
+                                        <strong>Atención:</strong> Para esta sección recomienda usar una imagen webp o png puedes descargar la muestra aqui <a target="blank" href="https://new.imporsuitpro.com/public/img/muestraparallax.jpg" download="mi_imagen.png" class="btn-descargar">
         <i class="fas fa-download"></i>
     </a>
                                     </div>
