@@ -730,6 +730,15 @@ class Pedidos extends Controller
         echo json_encode($response);
     }
 
+    public function agregar_detalle_noDesea()
+    {
+        $id_factura = $_POST['id_factura_ingresar_motivo'];
+        $motivo_noDesea = $_POST['motivo_noDesea'];
+
+        $response = $this->model->agregar_detalle_noDesea($id_factura, $motivo_noDesea);
+        echo json_encode($response);
+    }
+
     /* automatizador */
     public function configuraciones_automatizador()
     {
