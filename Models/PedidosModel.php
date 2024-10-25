@@ -1925,9 +1925,8 @@ class PedidosModel extends Query
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error en inserción';
-            $response['message'] = $actualizar_Estadofacturas_cot['message'];
+            $response['message'] = "Error";
         }
-
 
         return $response;
     }
