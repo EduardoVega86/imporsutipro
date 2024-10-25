@@ -147,8 +147,9 @@ class Speed extends Controller
     }
 
 
-    public function automatizador($id_factura)
+    public function automatizador()
     {
+        $id_factura = $_POST['id_factura'];
         $response = $this->model->verificarAutomatizacion($id_factura);
         if ($response['status'] == 200) {
             $response2 = $this->model->automatizar($response['data']);
