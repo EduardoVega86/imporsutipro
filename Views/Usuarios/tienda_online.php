@@ -9,8 +9,61 @@
 <?php require_once './Views/Usuarios/Modales/editar_horizontal.php'; ?>
 <?php require_once './Views/Usuarios/Modales/editar_icono.php'; ?>
 <?php require_once './Views/Usuarios/Modales/agregar_dominio.php'; ?>
-
 <style>
+        /* Estilos para el botón de descarga */
+        .btn-descargar {
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            padding: 12px 20px;
+            text-align: center;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 18px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-descargar:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-descargar i {
+            margin-right: 8px;
+        }
+    </style>
+<style>
+        /* Estilos para el botón flotante */
+        .btn-flotante {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 18px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-flotante:hover {
+            background-color: #45a049;
+            cursor: pointer;
+        }
+
+        .btn-flotante i {
+            margin-right: 8px;
+        }
+    </style>
+    
+<style>
+    
     .container {
         width: 90%;
         max-width: 1200px;
@@ -298,11 +351,11 @@
                             </div>
                             <div class="mb-3">
                                 <label for="textoBtn_oferta1" class="form-label">Texto boton </label>
-                                <input type="text" class="form-control" onblur="cambiarcolor_parallax_plantilla3('boton_parallax_texto',this.value)" id="textoBtn_oferta1" placeholder="Ingrese el texto del boton oferta 1">
+                                <input type="text" class="form-control" onblur="cambiarcolor_parallax_plantilla3('boton_parallax_texto',this.value)" id="boton_parallax_texto" placeholder="Ingrese el texto del boton">
                             </div>
                             <div class="mb-3">
                                 <label for="enlace_oferta1" class="form-label">Enlace</label>
-                                <input type="text" class="form-control" onblur="cambiarcolor_parallax_plantilla3('boton_parallax_texto',this.value)" id="enlace_oferta1" placeholder="Ingrese el enlace oferta 1">
+                                <input type="text" class="form-control" onblur="cambiarcolor_parallax_plantilla3('boton_parallax_enlace',this.value)" id="boton_parallax_enlace" placeholder="Ingrese el enlace botón">
                             </div>
                              <div class="mb-3">
                                 <label for="myRange">Ajustar Opacidad:</label>
@@ -326,13 +379,15 @@
                                 <div class="d-flex flex-column">
                                     <h5 class="card-title">Imagen oferta 1</h5>
                                     <div class="alert alert-warning" role="alert">
-                                        <strong>Atención:</strong> las dimensines de la imagen deben ser 893x468 y en formato .png, .jpg, .jpeg
+                                        <strong>Atención:</strong> Para esta sección recomienda usar una imagen webp o png puedes descargar la muestra aqui <a target="blank" href="https://new.imporsuitpro.com/public/img/banner/muestra_banner.webp" download="mi_imagen.png" class="btn-descargar">
+        <i class="fas fa-download"></i>
+    </a>
                                     </div>
-                                    <form id="imageFormOferta1" enctype="multipart/form-data">
+                                    <form id="imageFormParallax1" enctype="multipart/form-data">
                                         <div class="mb-3">
-                                            <input type="file" class="form-control" id="imageInputOferta1" accept="image/*" name="imagen">
+                                            <input type="file" class="form-control" id="imageFondoParallax" accept="image/*" name="imagen">
                                         </div>
-                                        <img id="imagen_oferta1" class="image-preview mb-3" src="" alt="Preview" width="30%">
+                                        <img id="imagen_parallax1" class="image-preview mb-3" src="" alt="Preview" width="30%">
                                     </form>
                                 </div>
                             </div>
@@ -753,6 +808,7 @@
         </div>
     </div>
     <button id="botonFlotante" class="boton-flotante">Guardar Cambios</button>
+    <div id="vista_previa"> </div>
 </div>
 
 <script>

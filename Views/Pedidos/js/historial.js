@@ -75,8 +75,8 @@ const listHistorialPedidos = async () => {
       let select_estados_pedidos = "";
 
       select_estados_pedidos = `
-                    <select class="form-select select-estado-pedido" style="max-width: 130px;" data-numero-guia="${
-                      historialPedido.numero_guia
+                    <select class="form-select select-estado-pedido" style="max-width: 130px;" data-id-factura="${
+                      historialPedido.id_factura
                     }">
                         <option value="0" ${
                           historialPedido.estado_pedido == 0 ? "selected" : ""
@@ -140,9 +140,9 @@ const listHistorialPedidos = async () => {
 };
 
 // Event delegation for select change
-/* document.addEventListener("change", async (event) => {
+document.addEventListener("change", async (event) => {
   if (event.target && event.target.classList.contains("select-estado-pedido")) {
-    const numeroGuia = event.target.getAttribute("data-numero-guia");
+    const numeroGuia = event.target.getAttribute("data-id-factura");
     const nuevoEstado = event.target.value;
     console.log(`Cambiando estado para la guía ${numeroGuia} a ${nuevoEstado}`);
     const formData = new FormData();
@@ -174,7 +174,7 @@ const listHistorialPedidos = async () => {
       alert("Error al conectar con la API");
     }
   }
-}); */
+});
 
 function abrirModal_infoTienda(tienda) {
   let formData = new FormData();

@@ -37,6 +37,47 @@ $("#imageInputPrincipal").on("change", function (event) {
   });
 });
 
+
+$("#imageFondoParallax").on("change", function (event) {
+  event.preventDefault();
+
+  // Mostrar vista previa de la imagen seleccionada
+  var input = event.target;
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      $("#imagen_parallax1").attr("src", e.target.result);
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+
+  // Crear un FormData y enviar la imagen mediante AJAX
+  var formData = new FormData($("#imageFormParallax1")[0]);
+  $.ajax({
+    url: SERVERURL + "Usuarios/guardar_imagen_parallax1", // Cambia esta ruta por la ruta correcta a tu controlador
+    type: "POST",
+    data: formData,
+    contentType: false,
+    processData: false,
+    success: function (response) {
+      response = JSON.parse(response);
+      if (response.status == 500) {
+        toastr.error("LA IMAGEN NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert("Error al guardar la imagen: " + textStatus);
+    },
+  });
+});
+
+
 $("#imageInputFav").on("change", function (event) {
   event.preventDefault();
 
@@ -301,6 +342,114 @@ function cargar_ofertas_plantilla2() {
   });
 }
 
+
+function cargar_informacion_plantilla3() {
+    
+  $.ajax({
+    url: SERVERURL + "Usuarios/obtener_infoPlantilla3",
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+      $("#titulo_parallax").val(response[0].parallax_titulo);
+      $("#subtitulo_parallax").val(response[0].parallax_sub);
+      $("#texto_parallax").val(response[0].parallax_texto);
+      $("#boton_parallax_texto").val(response[0].boton_parallax_texto);
+      $("#boton_parallax_enlace").val(response[0].boton_parallax_enlace);
+      $("#myRange").val(response[0].parallax_opacidad);
+      $("#rangeValue").text(response[0].parallax_opacidad);
+      
+       $("#color_filtro").val(response[0].color_filtro);
+       $("#color_texto").val(response[0].color_texto);
+       $("#color_boton").val(response[0].color_boton);
+   
+
+      $("#color_hover_cabecera_plantilla2").val(
+        response[0].color_filtro
+      );
+      
+      $("#color_texto").val(
+        response[0].color_texto
+      );
+      
+      $("#color_boton").val(
+        response[0].color_boton
+      );
+      //alert()
+      if (response[0].parallax_fondo === null) {
+        $("#imagen_parallax1").attr(
+          "src",
+          SERVERURL + "public/img/broken-image.png"
+        );
+      } else {
+         // alert(response[0].parallax_fondo)
+        $("#imagen_parallax1").attr(
+          "src",
+          SERVERURL + response[0].parallax_fondo
+        );
+      }
+
+      $("#titulo_oferta2").val(response[0].titulo_oferta2);
+      $("#oferta2").val(response[0].oferta2);
+      $("#descripcion_oferta2").val(response[0].descripcion_oferta2);
+      $("#textoBtn_oferta2").val(response[0].texto_btn_oferta2);
+      $("#enlace_oferta2").val(response[0].enlace_oferta2);
+      $("#color_btn_oferta2").val(response[0].color_btn_oferta2);
+      $("#color_texto_oferta2").val(response[0].color_texto_oferta2);
+      $("#color_textoBtn_oferta2").val(response[0].color_textoBtn_oferta2);
+
+      /* colores plantilla */
+      $("#color_botones_plantilla2").val(response[0].color_botones);
+      $("#color_plantilla2").val(response[0].color);
+      $("#texto_cabecera_plantilla2").val(response[0].texto_cabecera);
+      $("#texto_boton1_plantilla2").val(response[0].texto_boton);
+      $("#texto_precio_plantilla2").val(response[0].texto_precio);
+      /* Fin colores plantilla */
+
+      if (response[0].imagen_oferta2 === null) {
+        $("#imagen_oferta2").attr(
+          "src",
+          SERVERURL + "public/img/broken-image.png"
+        );
+      } else {
+        $("#imagen_oferta2").attr(
+          "src",
+          SERVERURL + response[0].imagen_oferta2
+        );
+      }
+
+      /* promociones */
+      $("#titulo_promocion").val(response[0].titulo_promocion);
+      $("#precio_promocion").val(response[0].precio_promocion);
+      $("#descripcion_promocion").val(response[0].descripcion_promocion);
+      $("#texto_btn_promocion").val(response[0].texto_btn_promocion);
+      $("#enlace_btn_promocion").val(response[0].enlace_btn_promocion);
+      $("#color_btn_promocion").val(response[0].color_btn_promocion);
+      $("#color_fondo_promocion").val(response[0].color_fondo_promocion);
+      $("#color_letra_promocion").val(response[0].color_letra_promocion);
+      $("#color_letraBtn_promocion").val(response[0].color_letraBtn_promocion);
+
+      if (response[0].imagen_promocion === null) {
+        $("#imagen_promocion").attr(
+          "src",
+          SERVERURL + "public/img/broken-image.png"
+        );
+      } else {
+        $("#imagen_promocion").attr(
+          "src",
+          SERVERURL + response[0].imagen_promocion
+        );
+      }
+      /* fin promociones */
+    },
+    error: function (error) {
+      console.error(
+        "Error al obtener la informacion ofertas plantilla 2:",
+        error
+      );
+    },
+  });
+}
+
 function cargarInfoTienda_inicial() {
   $.ajax({
     url: SERVERURL + "Usuarios/obtener_infoTiendaOnline",
@@ -318,7 +467,11 @@ function cargarInfoTienda_inicial() {
       $("#color_botones").val(response[0].color_botones);
       $("#texto_boton1").val(response[0].texto_boton);
       $("#ruc").val(response[0].cedula_facturacion);
-
+$("#vista_previa").html(
+          '<a href="' +
+            response[0].url_imporsuit +
+            '" class="btn-flotante" target="_blank"><i class="fas fa-eye"></i> Vista Previa</a>'
+        );
       if (response[0].tienda_creada == 1) {
         $("#nombre_tienda").prop("readonly", true);
         $("#tienda-creada").html(
@@ -326,6 +479,9 @@ function cargarInfoTienda_inicial() {
             response[0].url_imporsuit +
             '" target="_blank">Ver mi tienda</a>'
         );
+
+
+    
         $("#crear_tienda").css("display", "none");
         $("#seccion_nosePermiteTMP").hide();
       }
@@ -340,6 +496,8 @@ function cargarInfoTienda_inicial() {
       $("#tiktok").val(response[0].tiktok);
       $("#facebook").val(response[0].facebook);
 
+      $("#dominio").val(response[0].dominio);
+      
       $("#dominio").val(response[0].dominio);
 
       var subdominio = quitarHTTPS(response[0].url_imporsuit);
@@ -379,6 +537,7 @@ $("#seccion_paralax_plantilla3").hide();
         // Agrega la clase 'selected' a la plantilla correcta
         $(".plantilla[data-template='template2']").addClass("selected");
       } else if (response[0].plantilla == 3) {
+          cargar_informacion_plantilla3();
         // Actualiza los valores de los inputs hidden
         $("#plantilla_selected").val("template3");
 $("#seccion_promocion_plantilla2").hide();
@@ -389,6 +548,8 @@ $("#seccion_paralax_plantilla3").show();
 
         // Agrega la clase 'selected' a la plantilla correcta
         $(".plantilla[data-template='template3']").addClass("selected");
+        
+        
       }
 
       // Mover la lógica de verificación aquí
