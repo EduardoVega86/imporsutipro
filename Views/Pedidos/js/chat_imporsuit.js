@@ -133,11 +133,11 @@ $(document).ready(function () {
           }
 
           // Suponiendo que contacto.created_at es una cadena con formato "YYYY-MM-DD HH:MM:SS"
-          const horaMensaje = formatearFecha(contacto.created_at);
+          const horaMensaje = formatearFecha(contacto.mensaje_created_at);
 
           innerHTML += `
             <li class="list-group-item contact-item d-flex align-items-center justify-content-between" data-id="${
-              contacto.id_cliente
+              contacto.id
             }">
                 <div class="d-flex align-items-center">
                     <img src="https://new.imporsuitpro.com/public/img/avatar_usuaro_chat_center.png" class="rounded-circle me-3" alt="Foto de perfil" style="width: 15% !important;">
