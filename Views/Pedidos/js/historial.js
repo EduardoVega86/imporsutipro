@@ -85,7 +85,7 @@ const listHistorialPedidos = async () => {
       }
 
       select_estados_pedidos = `
-                    <select class="form-select select-estado-pedido" style="max-width: 85%; margin-top: 10px; color: white; background:${color_estadoPedido} ;" data-id-factura="${
+                    <select class="form-select select-estado-pedido" style="max-width: 90%; margin-top: 10px; color: white; background:${color_estadoPedido} ;" data-id-factura="${
         historialPedido.id_factura
       }">
                         <option value="0" ${
