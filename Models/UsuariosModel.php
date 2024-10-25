@@ -387,7 +387,7 @@ ON
     public function guardar_imagen_parallax1($imagen, $plataforma)
     {
         $response = $this->initialResponse();
-        $target_dir = "public/img/parallax";
+        $target_dir = "public/img/parallax/";
         $imageFileType = strtolower(pathinfo($imagen["name"], PATHINFO_EXTENSION));
 
         // Generar un nombre de archivo único
