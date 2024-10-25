@@ -50,10 +50,10 @@ class NovedadesModel extends Query
             )
         );
 
-
+        print_r("datas: " . $data);
 
         $data = json_encode($data);
-        echo $data;
+
         //token laar GET
         $url  = "https://new.imporsuitpro.com/guias/tokenLaar";
         $ch = curl_init($url);
