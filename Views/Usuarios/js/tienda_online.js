@@ -376,7 +376,7 @@ function cargar_informacion_plantilla3() {
       );
       
       if (response[0].parallax_fondo === null) {
-        $("#parallax_fondo").attr(
+        $("#imagen_parallax1").attr(
           "src",
           SERVERURL + "public/img/broken-image.png"
         );
