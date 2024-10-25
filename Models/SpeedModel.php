@@ -510,6 +510,10 @@ class SpeedModel extends Query
         $nombre_ciudad = $this->select("SELECT ciudad FROM ciudad_cotizacion WHERE id_cotizacion = " . $configuracion['ciudad_cot'] . "");
         $nombre_ciudad = $nombre_ciudad[0]['ciudad'];
 
+        echo $id_transporte;
+        echo "-";
+        echo $estado_guia;
+
         if ($id_transporte == 1) {
             if ($estado_guia == 7) {
                 $estado_guia_automatizador = 1;
@@ -517,9 +521,9 @@ class SpeedModel extends Query
                 $estado_guia_automatizador = 3;
             } else if ($estado_guia == 14) {
                 $estado_guia_automatizador = 2;
-            } else if ($estado_guia == 1){
+            } else if ($estado_guia == 1) {
                 $estado_guia_automatizador = 4;
-            }else if ($estado_guia == 6){
+            } else if ($estado_guia == 6) {
                 $estado_guia_automatizador = 5;
             }
         } else if ($id_transporte == 2) {
@@ -529,7 +533,7 @@ class SpeedModel extends Query
                 $estado_guia_automatizador = 3;
             } else if ($estado_guia >= 320 || $estado_guia <= 351) {
                 $estado_guia_automatizador = 2;
-            }else if ($estado_guia == 100 || $estado_guia == 102 || $estado_guia == 103) {
+            } else if ($estado_guia == 100 || $estado_guia == 102 || $estado_guia == 103) {
                 $estado_guia_automatizador = 4;
             }
         } else if ($id_transporte == 3) {
