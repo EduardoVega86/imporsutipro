@@ -432,7 +432,7 @@ ON
                 $response['message'] = 'Imagen subida correctamente';
                 $response['data'] = $target_file;
 
-                $sql = "UPDATE plantilla_3 SET favicon = ? WHERE id_plataforma = ?";
+                $sql = "UPDATE plantilla_3 SET parallax_fondo = ? WHERE id_plataforma = ?";
                 $data = [$target_file, $plataforma];
                 $editar_imagen = $this->update($sql, $data);
                 if ($editar_imagen == 1) {
