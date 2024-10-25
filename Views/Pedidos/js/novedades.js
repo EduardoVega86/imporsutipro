@@ -280,9 +280,13 @@ function enviar_gintraNovedad() {
       },
     });
   } else {
-    toastr.error("Necesitas registrar un numero de telefono en la novedad", "NOTIFICACIÓN", {
-      positionClass: "toast-bottom-center",
-    });
+    toastr.error(
+      "Necesitas registrar un numero de telefono en la novedad",
+      "NOTIFICACIÓN",
+      {
+        positionClass: "toast-bottom-center",
+      }
+    );
 
     button.disabled = false;
   }
@@ -403,6 +407,12 @@ function enviar_laarNovedad() {
         button.disabled = false;
         initDataTableNovedades();
         initDataTableNovedadesGestionadas();
+      } else if (response.status == 400) {
+        toastr.error(response.message, "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+
+        button.disabled = false;
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
