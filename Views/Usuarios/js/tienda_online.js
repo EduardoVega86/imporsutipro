@@ -374,14 +374,14 @@ function cargar_informacion_plantilla3() {
       $("#color_boton").val(
         response[0].color_boton
       );
-      alert()
+      //alert()
       if (response[0].parallax_fondo === null) {
         $("#imagen_parallax1").attr(
           "src",
           SERVERURL + "public/img/broken-image.png"
         );
       } else {
-          alert(response[0].parallax_fondo)
+         // alert(response[0].parallax_fondo)
         $("#imagen_parallax1").attr(
           "src",
           SERVERURL + response[0].parallax_fondo
