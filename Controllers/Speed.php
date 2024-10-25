@@ -145,4 +145,14 @@ class Speed extends Controller
 
         echo json_encode($response);
     }
+
+
+    public function automatizador($id_factura)
+    {
+        $response = $this->model->verificarAutomatizacion($id_factura);
+        if ($response['status'] == 200) {
+            $response2 = $this->model->automatizar($response['data']);
+        }
+        echo json_encode($response);
+    }
 }
