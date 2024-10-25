@@ -85,7 +85,7 @@ const listHistorialPedidos = async () => {
       }
 
       select_estados_pedidos = `
-                    <select class="form-select select-estado-pedido" style="max-width: 130px; margin-top: 10px; color: white; background:${color_estadoPedido} ;" data-id-factura="${
+                    <select class="form-select select-estado-pedido" style="max-width: 90%; margin-top: 10px; color: white; background:${color_estadoPedido} ;" data-id-factura="${
         historialPedido.id_factura
       }">
                         <option value="0" ${
@@ -184,7 +184,7 @@ document.addEventListener("change", async (event) => {
           $("#ingresar_nodDesea_pedidoModal").modal("show");
         }
 
-        /* initDataTableHistorial(); */
+        initDataTableHistorial();
       }
     } catch (error) {
       console.error("Error al conectar con la API", error);
