@@ -184,7 +184,7 @@ document.addEventListener("change", async (event) => {
           $("#ingresar_nodDesea_pedidoModal").modal("show");
         }
 
-        /* initDataTableHistorial(); */
+        initDataTableHistorial();
       }
     } catch (error) {
       console.error("Error al conectar con la API", error);
