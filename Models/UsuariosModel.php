@@ -381,7 +381,7 @@ ON
     }
 
 
-public function guardar_imagen_logo($imagen, $plataforma)
+public function guardar_imagen_parallax1($imagen, $plataforma)
     {
         $response = $this->initialResponse();
         $target_dir = "public/img/logos_tienda/";
