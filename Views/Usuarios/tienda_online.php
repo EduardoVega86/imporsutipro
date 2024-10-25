@@ -10,6 +10,29 @@
 <?php require_once './Views/Usuarios/Modales/editar_icono.php'; ?>
 <?php require_once './Views/Usuarios/Modales/agregar_dominio.php'; ?>
 <style>
+        /* Estilos para el botón de descarga */
+        .btn-descargar {
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            padding: 12px 20px;
+            text-align: center;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 18px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-descargar:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-descargar i {
+            margin-right: 8px;
+        }
+    </style>
+<style>
         /* Estilos para el botón flotante */
         .btn-flotante {
             position: fixed;
@@ -356,7 +379,9 @@
                                 <div class="d-flex flex-column">
                                     <h5 class="card-title">Imagen oferta 1</h5>
                                     <div class="alert alert-warning" role="alert">
-                                        <strong>Atención:</strong> las dimensines de la imagen deben ser 893x468 y en formato .png, .jpg, .jpeg
+                                        <strong>Atención:</strong> Para esta sección recomienda usar una imagen webp o png <a href="https://new.imporsuitpro.com/public/img/banner/muestra_banner.webp" download="mi_imagen.png" class="btn-descargar">
+        <i class="fas fa-download"></i> Descargar Muestra
+    </a>
                                     </div>
                                     <form id="imageFormParallax1" enctype="multipart/form-data">
                                         <div class="mb-3">
