@@ -382,12 +382,10 @@ ON
 
 
 
-    
-    
-    public function guardar_imagen_parallax1($imagen, $plataforma)
+    public function guardar_imagen_favicon($imagen, $plataforma)
     {
         $response = $this->initialResponse();
-        $target_dir = "public/img/parallax/";
+        $target_dir = "public/img/favicon_tienda/";
         $imageFileType = strtolower(pathinfo($imagen["name"], PATHINFO_EXTENSION));
 
         // Generar un nombre de archivo único
@@ -432,7 +430,7 @@ ON
                 $response['message'] = 'Imagen subida correctamente';
                 $response['data'] = $target_file;
 
-                $sql = "UPDATE plantilla_3 SET parallax_fondo = ? WHERE id_plataforma = ?";
+                $sql = "UPDATE perfil SET favicon = ? WHERE id_plataforma = ?";
                 $data = [$target_file, $plataforma];
                 $editar_imagen = $this->update($sql, $data);
                 if ($editar_imagen == 1) {
