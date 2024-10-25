@@ -1538,7 +1538,6 @@ class PedidosModel extends Query
         return $response; */
     }
 
-
     /* APIS Chat center */
     public function mensajes_clientes($id_cliente, $id_plataforma)
     {
@@ -1875,6 +1874,32 @@ class PedidosModel extends Query
             $response['status'] = 500;
             $response['title'] = 'Error en inserción';
             $response['message'] = $actualizar_configuracion['message'];
+        }
+
+
+        return $response;
+    }
+
+    public function cambiar_estado_pedido($id_factura, $estado_nuevo, $detalle_noDesea_pedido)
+    {
+        // Inicializar la respuesta
+        $response = $this->initialResponse();
+
+        // Consulta de inserción con la clave única
+        $sql_update = "UPDATE `facturas_cot` SET `estado_pedido` = ? , `detalle_noDesea_pedido` = ? WHERE `id_factura` = ?";
+        $update_data = [$estado_nuevo, $detalle_noDesea_pedido, $id_factura];
+        $actualizar_Estadofacturas_cot = $this->update($sql_update, $update_data);
+
+        // Verificar si la inserción fue exitosa
+        if ($actualizar_Estadofacturas_cot == 1) {
+
+            $response['status'] = 200;
+            $response['title'] = 'Petición exitosa';
+            $response['message'] = 'Estado actualizado correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error en inserción';
+            $response['message'] = $actualizar_Estadofacturas_cot['message'];
         }
 
 

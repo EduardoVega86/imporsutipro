@@ -142,32 +142,25 @@ const listHistorialPedidos = async () => {
 // Event delegation for select change
 document.addEventListener("change", async (event) => {
   if (event.target && event.target.classList.contains("select-estado-pedido")) {
-    const numeroGuia = event.target.getAttribute("data-id-factura");
+    const idFactura = event.target.getAttribute("data-id-factura");
     const nuevoEstado = event.target.value;
-    console.log(`Cambiando estado para la guía ${numeroGuia} a ${nuevoEstado}`);
     const formData = new FormData();
-    formData.append("estado", nuevoEstado);
-
-    if (nuevoEstado == 9) {
-      $("#tipo_speed").val("recibir").change();
-    }
+    formData.append("id_factura", idFactura);
+    formData.append("estado_nuevo", nuevoEstado);
+    formData.append("detalle_noDesea_pedido", "");
 
     try {
-      const response = await fetch(
-        `https://guias.imporsuitpro.com/Speed/estado/${numeroGuia}`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
+      const response = await fetch(SERVERURL + `Pedidos/cambiar_estado_pedido`, {
+        method: "POST",
+        body: formData,
+      });
       const result = await response.json();
       if (result.status == 200) {
         toastr.success("ESTADO ACTUALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
-
-        $("#gestionar_novedadSpeedModal").modal("show");
-        reloadDataTable();
+        
+        initDataTableHistorial();
       }
     } catch (error) {
       console.error("Error al conectar con la API", error);
