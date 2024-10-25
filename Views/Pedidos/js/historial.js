@@ -95,7 +95,7 @@ const listHistorialPedidos = async () => {
       //tomar solo la ciudad
 
       if (historialPedido.estado_pedido == 3){
-        select_estados_pedidos = `<span>${historialPedido.detalle_noDesea_pedido	}</span>`;
+        select_estados_pedidos += `<span>${historialPedido.detalle_noDesea_pedido	}</span>`;
       }
 
       let ciudadCompleta = historialPedido.ciudad;
