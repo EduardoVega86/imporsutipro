@@ -94,7 +94,7 @@ const listHistorialPedidos = async () => {
 
       //tomar solo la ciudad
 
-      if (estado_pedido == 3){
+      if (historialPedido.estado_pedido == 3){
         select_estados_pedidos = `<span>${historialPedido.detalle_noDesea_pedido	}</span>`;
       }
 
