@@ -3,6 +3,8 @@
 
 
 <?php require_once './Views/Pedidos/Modales/informacion_plataforma.php'; ?>
+<?php require_once './Views/Pedidos/Modales/agregar_detalle_noDeseaPedido.php'; ?>
+
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
         <h2 class="text-center mb-4">Historial de Pedidos</h2>
