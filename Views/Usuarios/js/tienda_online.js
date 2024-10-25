@@ -309,9 +309,9 @@ function cargar_informacion_plantilla3() {
     type: "GET",
     dataType: "json",
     success: function (response) {
-      $("#titulo_parallax").val(response[0].titulo_parallax);
-      $("#subtitulo_parallax").val(response[0].subtitulo_parallax);
-      $("#texto_parallax").val(response[0].texto_parallax);
+      $("#titulo_parallax").val(response[0].parallax_titulo);
+      $("#subtitulo_parallax").val(response[0].parallax_sub);
+      $("#texto_parallax").val(response[0].parallax_texto);
       $("#boton_parallax_texto").val(response[0].boton_parallax_texto);
       $("#boton_parallax_enlace").val(response[0].boton_parallax_enlace);
       $("#myRange").val(response[0].parallax_opacidad);
