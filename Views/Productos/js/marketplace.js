@@ -170,7 +170,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <img src="${imagePath}" class="card-img-top" alt="Product Image">
         <div class="add-to-store-button ${
           product.agregadoTienda ? "added" : ""
-        }" data-product-id="${product.id_producto}">
+        }" data-product-id="${product.id_inventario}">
           <span class="plus-icon">+</span>
           <span class="f-text">${
             product.agregadoTienda ? "Quitar de tienda" : "Añadir a tienda"
