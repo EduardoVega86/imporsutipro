@@ -9,8 +9,38 @@
 <?php require_once './Views/Usuarios/Modales/editar_horizontal.php'; ?>
 <?php require_once './Views/Usuarios/Modales/editar_icono.php'; ?>
 <?php require_once './Views/Usuarios/Modales/agregar_dominio.php'; ?>
-
 <style>
+        /* Estilos para el botón flotante */
+        .btn-flotante {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 18px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-flotante:hover {
+            background-color: #45a049;
+            cursor: pointer;
+        }
+
+        .btn-flotante i {
+            margin-right: 8px;
+        }
+    </style>
+    
+<style>
+    
     .container {
         width: 90%;
         max-width: 1200px;
@@ -753,6 +783,9 @@
         </div>
     </div>
     <button id="botonFlotante" class="boton-flotante">Guardar Cambios</button>
+     <a href="#preview" class="btn-flotante">
+        <i class="fas fa-eye"></i> Vista Previa
+    </a>
 </div>
 
 <script>
