@@ -557,6 +557,7 @@ class SpeedModel extends Query
                 $estado_guia_automatizador = 4;
             }
         }
+        echo $estado_guia_automatizador;
 
         // Consulta para obtener los datos de automatización
         $sql = "SELECT * FROM automatizadores WHERE id_configuracion = ?";
