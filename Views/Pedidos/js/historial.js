@@ -67,27 +67,27 @@ const listHistorialPedidos = async () => {
       } else if (transporte == 3) {
         transporte_content =
           '<span text-nowrap style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>';
-      } else if (transporte == 0) { */
+      } else if (transporte == 0) {
       transporte_content =
         '<span text-nowrap style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">Guia no enviada</span>';
-      /*       } */
+            } */
 
       let select_estados_pedidos = "";
 
       color_estadoPedido = "";
 
-      if (historialPedido.estado_pedido == 1){
+      if (historialPedido.estado_pedido == 1) {
         color_estadoPedido = "#ff8301";
-      } else if (historialPedido.estado_pedido == 2){
+      } else if (historialPedido.estado_pedido == 2) {
         color_estadoPedido = "#0d6efd";
-      } else if (historialPedido.estado_pedido == 3){
+      } else if (historialPedido.estado_pedido == 3) {
         color_estadoPedido = "red";
       }
 
       select_estados_pedidos = `
                     <select class="form-select select-estado-pedido" style="max-width: 130px; margin-top: 10px; color: white; background:${color_estadoPedido} ;" data-id-factura="${
-                      historialPedido.id_factura
-                    }">
+        historialPedido.id_factura
+      }">
                         <option value="0" ${
                           historialPedido.estado_pedido == 0 ? "selected" : ""
                         }>-- Selecciona estado --</option>
@@ -104,8 +104,8 @@ const listHistorialPedidos = async () => {
 
       //tomar solo la ciudad
 
-      if (historialPedido.estado_pedido == 3){
-        select_estados_pedidos += `<span>${historialPedido.detalle_noDesea_pedido	}</span>`;
+      if (historialPedido.estado_pedido == 3) {
+        select_estados_pedidos += `<span>${historialPedido.detalle_noDesea_pedido}</span>`;
       }
 
       let ciudadCompleta = historialPedido.ciudad;

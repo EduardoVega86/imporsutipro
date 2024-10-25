@@ -24,7 +24,7 @@
                         <th class="centered">Cliente</th>
                         <th class="centered">Destino</th>
                         <th class="centered">Tienda</th>
-                        <th class="centered">Transportadora</th>
+                        <th class="centered">Estado Pedido</th>
                         <th class="centered">Acciones</th>
                     </tr>
                 </thead>
