@@ -77,7 +77,7 @@ const listHistorialPedidos = async () => {
       color_estadoPedido = "";
 
       if (historialPedido.estado_pedido == 1){
-        color_estadoPedido = "#ffcd01";
+        color_estadoPedido = "#ff8301";
       } else if (historialPedido.estado_pedido == 2){
         color_estadoPedido = "#0d6efd";
       } else if (historialPedido.estado_pedido == 3){
