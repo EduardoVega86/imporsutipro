@@ -74,8 +74,18 @@ const listHistorialPedidos = async () => {
 
       let select_estados_pedidos = "";
 
+      color_estadoPedido = "";
+
+      if (historialPedido.estado_pedido == 1){
+        color_estadoPedido = "#E3BC1C";
+      } else if (historialPedido.estado_pedido == 2){
+        color_estadoPedido = "#0d6efd";
+      } else if (historialPedido.estado_pedido == 3){
+        color_estadoPedido = "red";
+      }
+
       select_estados_pedidos = `
-                    <select class="form-select select-estado-pedido" style="max-width: 130px; margin-top: 10px;" data-id-factura="${
+                    <select class="form-select select-estado-pedido" style="max-width: 130px; margin-top: 10px; color: white; background:${color_estadoPedido} ;" data-id-factura="${
                       historialPedido.id_factura
                     }">
                         <option value="0" ${
