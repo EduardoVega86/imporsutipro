@@ -122,7 +122,7 @@
             contentType: false, // No establecer ningún tipo de contenido
             dataType: "json",
             success: function(response) {
-                if (result.status == 200) {
+                if (response.status == 200) {
                     toastr.success("MOTIVO INGRESADO CORRECTAMENTE", "NOTIFICACIÓN", {
                         positionClass: "toast-bottom-center",
                     });

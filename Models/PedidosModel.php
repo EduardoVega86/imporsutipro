@@ -1918,7 +1918,6 @@ class PedidosModel extends Query
 
         // Verificar si la inserción fue exitosa
         if ($actualizar_Estadofacturas_cot == 1) {
-
             $response['status'] = 200;
             $response['title'] = 'Petición exitosa';
             $response['message'] = 'Estado actualizado correctamente';
