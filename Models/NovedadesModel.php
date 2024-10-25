@@ -50,7 +50,6 @@ class NovedadesModel extends Query
             )
         );
 
-        print_r("datas: " . $data);
 
         $data = json_encode($data);
 
