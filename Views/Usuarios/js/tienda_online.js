@@ -375,15 +375,15 @@ function cargar_informacion_plantilla3() {
         response[0].color_boton
       );
       
-      if (response[0].imagen_oferta1 === null) {
-        $("#imagen_oferta1").attr(
+      if (response[0].parallax_fondo === null) {
+        $("#parallax_fondo").attr(
           "src",
           SERVERURL + "public/img/broken-image.png"
         );
       } else {
-        $("#imagen_oferta1").attr(
+        $("#parallax_fondo").attr(
           "src",
-          SERVERURL + response[0].imagen_oferta1
+          SERVERURL + response[0].parallax_fondo
         );
       }
 
