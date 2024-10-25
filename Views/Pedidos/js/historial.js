@@ -75,7 +75,7 @@ const listHistorialPedidos = async () => {
       let select_estados_pedidos = "";
 
       select_estados_pedidos = `
-                    <select class="form-select select-estado-pedido" style="max-width: 130px;" data-id-factura="${
+                    <select class="form-select select-estado-pedido" style="max-width: 130px; margin-top: 10px;" data-id-factura="${
                       historialPedido.id_factura
                     }">
                         <option value="0" ${
@@ -127,7 +127,7 @@ const listHistorialPedidos = async () => {
                     <td>${historialPedido.provinciaa}-${ciudad}</td>
                     <td><span class="link-like" id="plataformaLink" onclick="abrirModal_infoTienda('${historialPedido.plataforma}')">${plataforma}</span></td>
                     <td>
-                    <div>
+                    <div style = "text-align: -webkit-center;">
                     ${transporte_content}
                     ${select_estados_pedidos}
                     </div>
