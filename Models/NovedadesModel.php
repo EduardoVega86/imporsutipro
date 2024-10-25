@@ -82,7 +82,7 @@ class NovedadesModel extends Query
         } else {
             $responseArray = array(
                 "status" => 400,
-                "message" => "Ha ocurrido un error al solventar la novedad, contacte a soporte"
+                "message" =>  $responseArray["Message"]
             );
         }
 
