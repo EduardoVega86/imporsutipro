@@ -30,7 +30,19 @@ class NovedadesModel extends Query
     {
         $data = array(
             "guia" => $guia,
-            "destino" => array(),
+            "destino" => array(
+                "ciudad" => $ciudad,
+                "nombre" => $nombre,
+                "cedula" => $cedula,
+                "callePrincipal" => $callePrincipal,
+                "calleSecundaria" => $calleSecundaria,
+                "numeracion" => $numeracion,
+                "referencia" => $referencia,
+                "telefono" => $telefono,
+                "celular" => $celular,
+                "observacion" => $observacion,
+                "correo" => $correo
+            ),
             "autorizado" => array(
                 "isDevolucion" => $isDevolucion,
                 "nombre" => $nombreA,
