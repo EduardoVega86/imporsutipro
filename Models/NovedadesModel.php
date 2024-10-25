@@ -49,34 +49,46 @@ class NovedadesModel extends Query
                 "observacion" => $observacionA
             )
         );
-        $data = json_encode($data);
+        $dataJson = json_encode($data);
 
-        //token laar GET
-        $url  = "https://new.imporsuitpro.com/guias/tokenLaar";
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $response = curl_exec($ch);
-        $response = $response;
-        $token = $response;
+        // Obtener token Laar
+        $urlToken  = "https://new.imporsuitpro.com/guias/tokenLaar";
+        $chToken = curl_init($urlToken);
+        curl_setopt($chToken, CURLOPT_RETURNTRANSFER, true);
+        $tokenResponse = curl_exec($chToken);
+        curl_close($chToken);
 
-        $url = "https://api.laarcourier.com:9727/guias/datos/actualizar";
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Authorization: Bearer ' . $token));
-        // es put
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        $response = curl_exec($ch);
-        $response = json_decode($response, true);
+        $token = $tokenResponse;
 
-        print_r($response);
+        // Actualizar datos en Laar
+        $urlActualizar = "https://api.laarcourier.com:9727/guias/datos/actualizar";
+        $chActualizar = curl_init($urlActualizar);
+        curl_setopt($chActualizar, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($chActualizar, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Authorization: Bearer ' . $token));
+        curl_setopt($chActualizar, CURLOPT_CUSTOMREQUEST, "PUT");
+        curl_setopt($chActualizar, CURLOPT_POSTFIELDS, $dataJson);
+        $response = curl_exec($chActualizar);
+        curl_close($chActualizar);
 
+        $responseArray = json_decode($response, true);
 
+        // Mostrar respuesta para depuración
+        print_r($responseArray);
 
-        $this->solventarNovedad($id_novedad, $observacion);
+        // Verificar si la respuesta es positiva antes de llamar a solventarNovedad
+        if (isset($responseArray['data']['codigo']) && $responseArray['data']['codigo'] == 1) {
+            // Llamar a solventarNovedad si la respuesta es positiva
+            $this->solventarNovedad($id_novedad, $observacion);
+        } else {
+            $responseArray = array(
+                "status" => 400,
+                "message" => "Ha ocurrido un error al solventar la novedad, contacte a soporte"
+            );
+        }
 
-        return $response;
+        return $responseArray;
     }
+
 
     public function solventarNovedadServientrega($guia, $observacion, $id_novedad)
     {
