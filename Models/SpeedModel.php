@@ -527,13 +527,13 @@ class SpeedModel extends Query
                 $estado_guia_automatizador = 5;
             }
         } else if ($id_transporte == 2) {
-            if ($estado_guia >= 400 || $estado_guia <= 403) {
+            if ($estado_guia >= 400 && $estado_guia <= 403) {
                 $estado_guia_automatizador = 1;
-            } else if ($estado_guia >= 500 || $estado_guia <= 502) {
+            } else if ($estado_guia >= 500 && $estado_guia <= 502) {
                 $estado_guia_automatizador = 3;
-            } else if ($estado_guia >= 320 || $estado_guia <= 351) {
+            } else if ($estado_guia >= 320 && $estado_guia <= 351) {
                 $estado_guia_automatizador = 2;
-            } else if ($estado_guia == 100 || $estado_guia == 102 || $estado_guia == 103) {
+            } else if ($estado_guia == 100 && $estado_guia == 102 && $estado_guia == 103) {
                 $estado_guia_automatizador = 4;
             }
         } else if ($id_transporte == 3) {
