@@ -32,7 +32,7 @@ class NovedadesModel extends Query
             "guia" => $guia,
             "destino" => array(
                 "ciudad" => $ciudad,
-
+                "nombre" => $nombre,
                 "cedula" => $cedula,
                 "callePrincipal" => $callePrincipal,
                 "calleSecundaria" => $calleSecundaria,
@@ -49,8 +49,6 @@ class NovedadesModel extends Query
                 "observacion" => $observacionA
             )
         );
-
-
         $data = json_encode($data);
 
         //token laar GET
@@ -71,7 +69,7 @@ class NovedadesModel extends Query
         $response = curl_exec($ch);
         $response = json_decode($response, true);
 
-        print_r($response);
+
 
         $this->solventarNovedad($id_novedad);
 
@@ -109,6 +107,8 @@ class NovedadesModel extends Query
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $response = curl_exec($ch);
+
+        print_r($response);
 
         curl_close($ch);
 
