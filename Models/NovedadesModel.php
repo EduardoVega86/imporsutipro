@@ -32,7 +32,7 @@ class NovedadesModel extends Query
             "guia" => $guia,
             "destino" => array(
                 "ciudad" => $ciudad,
-                "nombre" => $nombre,
+
                 "cedula" => $cedula,
                 "callePrincipal" => $callePrincipal,
                 "calleSecundaria" => $calleSecundaria,
