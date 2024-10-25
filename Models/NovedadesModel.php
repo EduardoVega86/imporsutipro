@@ -73,7 +73,7 @@ class NovedadesModel extends Query
         $responseArray = json_decode($response, true);
 
         // Mostrar respuesta para depuración
-        print_r($responseArray);
+
 
         // Verificar si la respuesta es positiva antes de llamar a solventarNovedad
         if (isset($responseArray['data']['codigo']) && $responseArray['data']['codigo'] == 1) {
@@ -82,7 +82,7 @@ class NovedadesModel extends Query
         } else {
             $responseArray = array(
                 "status" => 400,
-                "message" => "Ha ocurrido un error al solventar la novedad, contacte a soporte"
+                "message" =>  $responseArray["Message"]
             );
         }
 
@@ -122,7 +122,6 @@ class NovedadesModel extends Query
 
         $response = curl_exec($ch);
 
-        print_r($response);
 
         curl_close($ch);
 

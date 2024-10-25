@@ -192,7 +192,12 @@ const listGuias = async () => {
         novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
       }
 
-      if (((guia.estado_novedad >= 1 && guia.estado_novedad <= 7) ||  guia.estado_novedad == 15 || guia.estado_novedad == 27) && transporte == 3) {
+      if (
+        ((guia.estado_novedad >= 1 && guia.estado_novedad <= 7) ||
+          guia.estado_novedad == 15 ||
+          guia.estado_novedad == 27) &&
+        transporte == 3
+      ) {
         novedad = `<span>Esta novedad es de tipo operativo y no puede ser solventada</span>`;
       } else if (guia.terminado == 1) {
         novedad = `<span>Proceso de guia terminado</span>`;
@@ -203,9 +208,24 @@ const listGuias = async () => {
       if (
         guia.estado_guia_sistema >= 318 &&
         guia.estado_guia_sistema <= 351 &&
-        transporte == 2
+        transporte == 2 &&
+        guia.solucionada == 0
       ) {
         novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
+      } else if (
+        guia.estado_guia_sistema >= 318 &&
+        guia.estado_guia_sistema <= 351 &&
+        transporte == 2 &&
+        guia.terminado == 1
+      ) {
+        novedad = `<span> Proceso de guia terminado</span>`;
+      } else if (
+        guia.estado_guia_sistema >= 318 &&
+        guia.estado_guia_sistema <= 351 &&
+        transporte == 2 &&
+        guia.solucionada == 1
+      ) {
+        novedad = `<span>Novedad solventada</span>`;
       }
 
       let plataforma = procesarPlataforma(guia.plataforma);

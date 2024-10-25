@@ -41,12 +41,9 @@ class Novedades extends Controller
         $observacionA = $_POST['observacionA'];
 
         $data = $this->model->solventarNovedadLaar($guia, $ciudad, $nombre, $cedula, $callePrincipal, $calleSecundaria, $numeracion, $referencia, $telefono, $celular, $observacion, $correo, $isDevolucion, $nombreA, $observacionA, $id_novedad);
-        $response = array(
-            "status" => 200,
-            "message" => "Novedad solventada"
-        );
+
         $this->historial($guia, $_SESSION['id_plataforma'], $id_novedad, $observacionA, $_SESSION['id']);
-        echo json_encode($response);
+        echo json_encode($data);
     }
 
     public function solventarNovedadServientrega()
