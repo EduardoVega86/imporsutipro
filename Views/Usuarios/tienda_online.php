@@ -783,9 +783,7 @@
         </div>
     </div>
     <button id="botonFlotante" class="boton-flotante">Guardar Cambios</button>
-     <a href="#preview" class="btn-flotante">
-        <i class="fas fa-eye"></i> Vista Previa
-    </a>
+    <div id="vista_previa"> </div>
 </div>
 
 <script>

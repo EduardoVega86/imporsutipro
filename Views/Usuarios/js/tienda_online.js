@@ -467,7 +467,11 @@ function cargarInfoTienda_inicial() {
       $("#color_botones").val(response[0].color_botones);
       $("#texto_boton1").val(response[0].texto_boton);
       $("#ruc").val(response[0].cedula_facturacion);
-
+$("#vista_previa").html(
+          '<a href="' +
+            response[0].url_imporsuit +
+            '" class="btn-flotante" target="_blank"><i class="fas fa-eye"></i> Vista Previa</a>'
+        );
       if (response[0].tienda_creada == 1) {
         $("#nombre_tienda").prop("readonly", true);
         $("#tienda-creada").html(
@@ -475,6 +479,9 @@ function cargarInfoTienda_inicial() {
             response[0].url_imporsuit +
             '" target="_blank">Ver mi tienda</a>'
         );
+
+
+    
         $("#crear_tienda").css("display", "none");
         $("#seccion_nosePermiteTMP").hide();
       }
