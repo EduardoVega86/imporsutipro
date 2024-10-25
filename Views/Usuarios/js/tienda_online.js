@@ -535,7 +535,7 @@ $("#seccion_paralax_plantilla3").hide();
         // Actualiza los valores de los inputs hidden
         $("#plantilla_selected").val("template2");
         
-         valor_banner="<strong>Atención:</strong> se recomienda utilizar las dimensiones de la muestra y en formato .png, .jpg, .jpeg, puede <a target='blank' href='https://new.imporsuitpro.com/public/img/banner/muestra_parallax.webp' download='mi_imagen.png' class='btn-descargar'>";
+         valor_banner="<strong>Atención:</strong> se recomienda utilizar las dimensiones de la muestra y en formato .png , .webp, descargar muetra <a target='blank' href='https://new.imporsuitpro.com/public/img/banner/muestra_parallax.webp' download='mi_imagen.png' class='btn-descargar'>";
         $("#muestra_banner").html(valor_banner);
 
         // Remueve la clase 'selected' de todas las plantillas
