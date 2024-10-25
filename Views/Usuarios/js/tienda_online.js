@@ -315,6 +315,7 @@ function cargar_informacion_plantilla3() {
       $("#boton_parallax_texto").val(response[0].boton_parallax_texto);
       $("#boton_parallax_enlace").val(response[0].boton_parallax_enlace);
       $("#myRange").val(response[0].parallax_opacidad);
+      $("#rangeValue").val(response[0].parallax_opacidad);
       
        $("#color_filtro").val(response[0].color_filtro);
        $("#color_texto").val(response[0].color_texto);
