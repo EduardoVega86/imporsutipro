@@ -69,6 +69,8 @@ class NovedadesModel extends Query
         $response = curl_exec($ch);
         $response = json_decode($response, true);
 
+        print_r($response);
+
 
 
         $this->solventarNovedad($id_novedad, $observacion);
