@@ -19,9 +19,9 @@ class NovedadesModel extends Query
         return $response;
     }
 
-    public function solventarNovedad($id_novedad)
+    public function solventarNovedad($id_novedad, $observacion = "")
     {
-        $sql = "UPDATE novedades SET solucionada = 1 WHERE id_novedad = $id_novedad";
+        $sql = "UPDATE novedades SET solucionada = 1, solucion_novedad ='$observacion' WHERE id_novedad = $id_novedad";
         $response = $this->select($sql);
         return $response;
     }
@@ -71,7 +71,7 @@ class NovedadesModel extends Query
 
 
 
-        $this->solventarNovedad($id_novedad);
+        $this->solventarNovedad($id_novedad, $observacion);
 
         return $response;
     }
@@ -112,7 +112,7 @@ class NovedadesModel extends Query
 
         curl_close($ch);
 
-        $this->solventarNovedad($id_novedad);
+        $this->solventarNovedad($id_novedad, $observacion);
 
         return $response;
     }
@@ -165,7 +165,7 @@ class NovedadesModel extends Query
         $response = curl_exec($ch);
         curl_close($ch);
 
-        $this->solventarNovedad($id_novedad);
+        $this->solventarNovedad($id_novedad, $observacion);
 
         return $response;
     }
