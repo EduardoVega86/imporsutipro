@@ -122,7 +122,6 @@ class NovedadesModel extends Query
 
         $response = curl_exec($ch);
 
-        print_r($response);
 
         curl_close($ch);
 
