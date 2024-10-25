@@ -73,7 +73,7 @@ class NovedadesModel extends Query
         $responseArray = json_decode($response, true);
 
         // Mostrar respuesta para depuración
-        print_r($responseArray);
+
 
         // Verificar si la respuesta es positiva antes de llamar a solventarNovedad
         if (isset($responseArray['data']['codigo']) && $responseArray['data']['codigo'] == 1) {
