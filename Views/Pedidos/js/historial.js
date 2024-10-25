@@ -171,7 +171,7 @@ document.addEventListener("change", async (event) => {
         if (nuevoEstado == 3) {
           $("#id_factura_ingresar_motivo").val(idFactura);
 
-          $("#ingresar_nodDesea_pedido").modal("show");
+          $("#ingresar_nodDesea_pedidoModal").modal("show");
         }
 
         /* initDataTableHistorial(); */

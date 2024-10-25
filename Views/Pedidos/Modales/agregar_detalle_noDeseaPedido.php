@@ -72,11 +72,11 @@
         }
     }
 </style>
-<div class="modal fade" id="agregar_numero_clienteModal" tabindex="-1" aria-labelledby="agregar_numero_clienteModalLabel" aria-hidden="true">
+<div class="modal fade" id="ingresar_nodDesea_pedidoModal" tabindex="-1" aria-labelledby="ingresar_nodDesea_pedidoModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="agregar_numero_clienteModalLabel"><i class="fas fa-edit"></i> Asignar motivo</h5>
+                <h5 class="modal-title" id="ingresar_nodDesea_pedidoModalLabel"><i class="fas fa-edit"></i> Asignar motivo</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -128,7 +128,7 @@
                     });
 
                     initDataTableHistorial();
-                    $("#ingresar_nodDesea_pedido").modal("hide");
+                    $("#ingresar_nodDesea_pedidoModal").modal("hide");
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
