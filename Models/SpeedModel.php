@@ -569,8 +569,11 @@ class SpeedModel extends Query
 
         echo "estado base de datos: ".$estado_notificacion_BD;
         if ($estado_notificacion_BD == $estado_guia_automatizador){
+            echo "entro a la funcion";
             return;
         }
+
+        echo "salio de la funcion";
 
         // Consulta para obtener los datos de automatización
         $sql = "SELECT * FROM automatizadores WHERE id_configuracion = ?";
