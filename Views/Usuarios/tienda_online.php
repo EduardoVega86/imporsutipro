@@ -337,6 +337,7 @@
                     <div class="oferta gap-5" style="justify-content: center;">
                         <div class="d-flex flex-column">
                             <h3 style="text-align: center;"><strong> SECCION PARALLAX1 </strong></h3>
+                             <img id="" class="" src="https://new.imporsuitpro.com/public/img/banner/parallax_1.jpg" alt="Preview" width="100%">
                             <div class="mb-3">
                                 <label for="titulo_parallax" class="form-label">Título</label>
                                 <input type="text" class="form-control" onblur="cambiarcolor_parallax_plantilla3('parallax_titulo',this.value)" id="titulo_parallax" placeholder="Ingrese el titulo">
@@ -418,7 +419,10 @@
                                     <input onchange="cambiarcolor_oferta_plantilla2('color_texto_parallax2',this.value)" id="color_texto_parallax2" name="color_texto_parallax2" type="color" value="#ffffff">
                                     <h7 style="text-align: center;"><strong>Color texto</strong></h7>
                                 </div>
-                                
+                                <div class="input-box d-flex flex-column">
+                                    <input onchange="cambiarcolor_oferta_plantilla2('color_textoBtn_oferta2',this.value)" id="color_textoBtn_oferta2" name="color_textoBtn_oferta2" type="color" value="#ffffff">
+                                    <h7 style="text-align: center;"><strong>Color texto boton oferta 2</strong></h7>
+                                </div>
                                 <div class="d-flex flex-column">
                                     <h5 class="card-title">Imagen oferta 2</h5>
                                     <div class="alert alert-warning" role="alert">
