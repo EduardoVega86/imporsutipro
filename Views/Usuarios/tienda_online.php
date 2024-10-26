@@ -396,16 +396,16 @@
                         <div class="d-flex flex-column">
                             <h3 style="text-align: center;"><strong> PARALLAX 2</strong></h3>
                             <div class="mb-3">
-                                <label for="titulo_oferta2" class="form-label">Titulo</label>
-                                <input type="text" class="form-control" onchange="cambiarcolor_parallax_plantilla3('titulo_parallax2',this.value)" id="titulo_parallax2" placeholder="Ingrese el titulo de la oferta 2">
+                                <label for="titulo_oferta2" class="form-label">Titulo Pequeño</label>
+                                <input type="text" class="form-control" onchange="cambiarcolor_parallax_plantilla3('titulo_parallax2',this.value)" id="titulo_parallax2" placeholder="Ingrese el texto">
                             </div>
                             <div class="mb-3">
-                                <label for="oferta2" class="form-label">Oferta 2</label>
-                                <input type="text" class="form-control" id="oferta2" placeholder="Ingrese el oferta 2">
+                                <label for="oferta2" class="form-label">Titulo Grande</label>
+                                <input type="text" class="form-control" onchange="cambiarcolor_parallax_plantilla3('subtitulo_parallax2',this.value)" id="subtitulo_parallax2" placeholder="Ingrese el texto">
                             </div>
                             <div class="mb-3">
-                                <label for="descripcion_oferta2" class="form-label">Descripción oferta 2</label>
-                                <input type="text" class="form-control" id="descripcion_oferta2" placeholder="Ingrese la descipcion oferta 2">
+                                <label for="descripcion_oferta2" class="form-label">Texto</label>
+                                <input type="text" class="form-control" onchange="cambiarcolor_parallax_plantilla3('texto_parallax2',this.value)" id="texto_parallax2" placeholder="Ingrese el texto">
                             </div>
                             <div class="mb-3">
                                 <label for="textoBtn_oferta2" class="form-label">Texto boton oferta 2</label>
