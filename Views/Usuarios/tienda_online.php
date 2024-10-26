@@ -407,27 +407,18 @@
                                 <label for="descripcion_oferta2" class="form-label">Texto</label>
                                 <input type="text" class="form-control" onchange="cambiarcolor_parallax_plantilla3('texto_parallax2',this.value)" id="texto_parallax2" placeholder="Ingrese el texto">
                             </div>
-                            <div class="mb-3">
-                                <label for="textoBtn_oferta2" class="form-label">Texto boton oferta 2</label>
-                                <input type="text" class="form-control" id="textoBtn_oferta2" placeholder="Ingrese el texto del boton oferta 2">
-                            </div>
-                            <div class="mb-3">
-                                <label for="enlace_oferta2" class="form-label">Enlace oferta 2</label>
-                                <input type="text" class="form-control" id="enlace_oferta2" placeholder="Ingrese el enlace oferta 2">
-                            </div>
+                            
+                            
                             <div class="oferta2_color gap-3">
                                 <div class="input-box d-flex flex-column">
-                                    <input onchange="cambiarcolor_oferta_plantilla2('color_texto_oferta2',this.value)" id="color_texto_oferta2" name="color_texto_oferta2" type="color" value="#ffffff">
-                                    <h7 style="text-align: center;"><strong>Color texto oferta 2</strong></h7>
+                                    <input onchange="cambiarcolor_oferta_plantilla2('color_fondo_parallax2',this.value)" id="color_fondo_parallax2" name="color_fondo_parallax2" type="color" value="#ffffff">
+                                    <h7 style="text-align: center;"><strong>Color fondo</strong></h7>
                                 </div>
                                 <div class="input-box d-flex flex-column">
-                                    <input onchange="cambiarcolor_oferta_plantilla2('color_btn_oferta2',this.value)" id="color_btn_oferta2" name="color_btn_oferta2" type="color" value="#ffffff">
-                                    <h7 style="text-align: center;"><strong>Color boton oferta 2</strong></h7>
+                                    <input onchange="cambiarcolor_oferta_plantilla2('color_texto_parallax2',this.value)" id="color_texto_parallax2" name="color_texto_parallax2" type="color" value="#ffffff">
+                                    <h7 style="text-align: center;"><strong>Color texto</strong></h7>
                                 </div>
-                                <div class="input-box d-flex flex-column">
-                                    <input onchange="cambiarcolor_oferta_plantilla2('color_textoBtn_oferta2',this.value)" id="color_textoBtn_oferta2" name="color_textoBtn_oferta2" type="color" value="#ffffff">
-                                    <h7 style="text-align: center;"><strong>Color texto boton oferta 2</strong></h7>
-                                </div>
+                                
                                 <div class="d-flex flex-column">
                                     <h5 class="card-title">Imagen oferta 2</h5>
                                     <div class="alert alert-warning" role="alert">
