@@ -559,7 +559,7 @@ class SpeedModel extends Query
                 $estado_guia_automatizador = 4;
             }
         }
-        /* echo $estado_guia_automatizador; */
+        echo "estado convertidor: ".$estado_guia_automatizador;
 
         /* verificar si el estado del ultimo mensajes es el mismo */
         $estado_notificacion_BD = $this->select("SELECT notificacion_estado FROM mensajes_clientes WHERE uid_whatsapp = '$telefono' 
@@ -567,6 +567,7 @@ class SpeedModel extends Query
         $estado_notificacion_BD = $estado_notificacion_BD[0]['notificacion_estado'];
         /* fin verificar si el estado del ultimo mensajes es el mismo */
 
+        echo "estado base de datos: ".$estado_notificacion_BD;
         if ($estado_notificacion_BD == $estado_guia_automatizador){
             return;
         }
