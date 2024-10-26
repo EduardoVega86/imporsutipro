@@ -361,6 +361,9 @@ function cargar_informacion_plantilla3() {
        $("#color_filtro").val(response[0].color_filtro);
        $("#color_texto").val(response[0].color_texto);
        $("#color_boton").val(response[0].color_boton);
+       
+       
+      
    
 
       $("#color_hover_cabecera_plantilla2").val(
@@ -520,8 +523,10 @@ $("#vista_previa").html(
         $(".plantilla[data-template='template1']").addClass("selected");
         
         $("#seccion_paralax_plantilla3").hide();
+        
         valor_banner="<strong>Atención:</strong> las dimensines de la imagen deben ser 2550x860 y en formato .png, .jpg, .jpeg";
-        $("#muestra_banner").html(valor_banner);
+       alert(valor_banner)
+            $("#muestra_banner").html(valor_banner);
         
         
         
