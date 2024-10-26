@@ -1769,7 +1769,7 @@ class PedidosModel extends Query
         return $response;
     }
 
-    public function agregar_mensaje_enviado($texto_mensaje, $tipo_mensaje, $mid_mensaje, $id_recibe, $id_plataforma, $ruta_archivo, $telefono_configuracion)
+    public function agregar_mensaje_enviado($texto_mensaje, $tipo_mensaje, $mid_mensaje, $id_recibe, $id_plataforma, $ruta_archivo, $telefono_configuracion, $telefono_recibe)
     {
         // codigo para agregar categoria
         $response = $this->initialResponse();
@@ -1779,8 +1779,8 @@ class PedidosModel extends Query
 
         $id_cliente_configuracion = $id_clienteConfiguracion[0]['id'];
 
-        $sql = "INSERT INTO `mensajes_clientes` (`id_plataforma`,`id_cliente`,`mid_mensaje`,`tipo_mensaje`,`rol_mensaje`,`celular_recibe`,`texto_mensaje`,`ruta_archivo`,`visto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $data = [$id_plataforma, $id_cliente_configuracion, $mid_mensaje, $tipo_mensaje, 1, $id_recibe, $texto_mensaje, $ruta_archivo, 1];
+        $sql = "INSERT INTO `mensajes_clientes` (`id_plataforma`,`id_cliente`,`mid_mensaje`,`tipo_mensaje`,`rol_mensaje`,`celular_recibe`,`texto_mensaje`,`ruta_archivo`,`visto` ,`uid_whatsapp`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $data = [$id_plataforma, $id_cliente_configuracion, $mid_mensaje, $tipo_mensaje, 1, $id_recibe, $texto_mensaje, $ruta_archivo, 1, $telefono_recibe];
         $insertar_mensaje_enviado = $this->insert($sql, $data);
         if ($insertar_mensaje_enviado == 1) {
             $response['status'] = 200;

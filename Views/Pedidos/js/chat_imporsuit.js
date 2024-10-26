@@ -1117,6 +1117,7 @@ async function enviarImagenWhatsApp(imageUrl) {
     formData.append("id_recibe", id_cliente_chat);
     formData.append("ruta_archivo", imageUrl);
     formData.append("telefono_configuracion", telefono_configuracion);
+    formData.append("telefono_recibe", $("#celular_chat").val());
 
     $.ajax({
       url: SERVERURL + "pedidos/agregar_mensaje_enviado",
@@ -1401,6 +1402,7 @@ document.addEventListener("DOMContentLoaded", function () {
           formData.append("id_recibe", id_cliente_chat);
           formData.append("ruta_archivo", "");
           formData.append("telefono_configuracion", telefono_configuracion);
+          formData.append("telefono_recibe", $("#celular_chat").val());
 
           $.ajax({
             url: SERVERURL + "pedidos/agregar_mensaje_enviado",

@@ -684,8 +684,9 @@ class Pedidos extends Controller
         $id_recibe = $_POST['id_recibe'];
         $ruta_archivo = $_POST['ruta_archivo'];
         $telefono_configuracion = $_POST['telefono_configuracion'];
+        $telefono_recibe = $_POST['telefono_recibe'];
 
-        $response = $this->model->agregar_mensaje_enviado($texto_mensaje, $tipo_mensaje, $mid_mensaje, $id_recibe, $_SESSION['id_plataforma'], $ruta_archivo, $telefono_configuracion);
+        $response = $this->model->agregar_mensaje_enviado($texto_mensaje, $tipo_mensaje, $mid_mensaje, $id_recibe, $_SESSION['id_plataforma'], $ruta_archivo, $telefono_configuracion, $telefono_recibe);
         echo json_encode($response);
     }
 
