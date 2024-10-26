@@ -908,6 +908,42 @@ function procesarMensajeTexto($conn, $id_plataforma, $business_phone_id, $nombre
     $stmt->close();
 }
 
+// Función para enviar datos a la API sockect
+function enviarConsultaAPI($id_plataforma, $celular_recibe) {
+    // URL de la API
+    $url = "https://chat.imporfactory.app/whatsapp/webhook";
+
+    // Datos a enviar en formato JSON
+    $data = json_encode([
+        "id_plataforma" => $id_plataforma,
+        "celular_recibe" => $celular_recibe
+    ]);
+
+    // Configuración de la solicitud cURL
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Content-Type: application/json'
+    ]);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+
+    // Ejecutar la solicitud
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    // Verificar si la solicitud fue exitosa
+    if ($httpCode == 200) {
+        return json_decode($response, true); // Retorna la respuesta decodificada
+    } else {
+        // Manejo del error, puedes registrar el error o manejarlo como prefieras
+        file_put_contents('debug_log.txt', "Error al conectar con la API: HTTP $httpCode. Respuesta: $response\n", FILE_APPEND);
+        return false;
+    }
+}
+// fin Función para enviar datos a la API sockect
+
 // Procesar el mensaje basado en el tipo recibido
 switch ($tipo_mensaje) {
     case 'text':
@@ -1111,6 +1147,17 @@ if ($stmt->execute()) {
         /* enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $template_name, $mensaje, $conn, $id_plataforma, $id_configuracion); */
     }
     /* fin validador para enviar mensaje tipo buttom*/
+
+    // Aquí llamas a la función para enviar datos a la API
+    $resultado_api = enviarConsultaAPI($id_plataforma, $id_cliente);
+    if ($resultado_api) {
+        // Manejo si la API responde correctamente
+        echo json_encode(["status" => "success", "message" => "Datos enviados a la API correctamente."]);
+    } else {
+        // Manejo si la API no responde correctamente
+        echo json_encode(["status" => "error", "message" => "No se pudo enviar los datos a la API."]);
+    }
+
 } else {
     file_put_contents('debug_log.txt', "Error SQL: " . $stmt->error . "\n", FILE_APPEND);  // Agregar log del error
     echo json_encode(["status" => "error", "message" => "Error al procesar el mensaje: " . $stmt->error]);
