@@ -380,8 +380,8 @@
                                 <div class="d-flex flex-column">
                                     <h5 class="card-title">Imagen oferta 1</h5>
                                     <div class="alert alert-warning" role="alert">
-                                        <strong>Atención:</strong> Para esta sección recomienda usar una imagen webp o png puedes descargar la muestra aqui <a target="blank" href="https://new.imporsuitpro.com/public/img/muestraparallax.jpg" >
-     <img id="" class="" src="../img/descargar.webp" alt="Preview" width="30%">
+                                        <strong>Atención:</strong> Para esta sección recomienda usar una imagen webp o png puedes descargar la muestra aqui <a target="blank" href="https://new.imporsuitpro.com/public/img/muestraparallax.jpg" download="mi_imagen.png" class="btn-descargar">
+        <i class="fas fa-download"></i>
     </a>
                                     </div>
                                     <form id="imageFormParallax1" enctype="multipart/form-data">
