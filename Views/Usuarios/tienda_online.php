@@ -420,10 +420,7 @@
                                     <input onchange="cambiarcolor_oferta_plantilla2('color_texto_parallax2',this.value)" id="color_texto_parallax2" name="color_texto_parallax2" type="color" value="#ffffff">
                                     <h7 style="text-align: center;"><strong>Color texto</strong></h7>
                                 </div>
-                                <div class="input-box d-flex flex-column">
-                                    <input onchange="cambiarcolor_oferta_plantilla2('color_textoBtn_oferta2',this.value)" id="color_textoBtn_oferta2" name="color_textoBtn_oferta2" type="color" value="#ffffff">
-                                    <h7 style="text-align: center;"><strong>Color texto boton oferta 2</strong></h7>
-                                </div>
+                               
                                 <div class="d-flex flex-column">
                                     <h5 class="card-title">Imagen oferta 2</h5>
                                     <div class="alert alert-warning" role="alert">
