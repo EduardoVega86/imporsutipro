@@ -741,14 +741,14 @@ function procesarMensaje_template($conn, $id_plataforma, $business_phone_id, $no
 
         // Ahora puedes proceder a insertar el mensaje en la tabla mensajes_clientes
         $stmt = $conn->prepare("
-            INSERT INTO mensajes_clientes (id_plataforma, id_cliente, mid_mensaje, tipo_mensaje, texto_mensaje, ruta_archivo, rol_mensaje, celular_recibe, created_at, updated_at) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
+            INSERT INTO mensajes_clientes (id_plataforma, id_cliente, mid_mensaje, tipo_mensaje, texto_mensaje, ruta_archivo, rol_mensaje, celular_recibe, uid_whatsapp, created_at, updated_at) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
         ");
 
         $mid_mensaje = $business_phone_id;  // Usamos el ID del mensaje de WhatsApp
         $rol_mensaje = 1;  // Valor por defecto para rol_mensaje, ya que es bigint
 
-        $stmt->bind_param('iissssis', $id_plataforma, $id_cliente, $mid_mensaje, $tipo_mensaje, $texto_mensaje, $ruta_archivo, $rol_mensaje, $id_cliente_recibe);
+        $stmt->bind_param('iissssiss', $id_plataforma, $id_cliente, $mid_mensaje, $tipo_mensaje, $texto_mensaje, $ruta_archivo, $rol_mensaje, $id_cliente_recibe, $phone_whatsapp_from);
 
         // Si se ejecuta correctamente, detener el ciclo
         if ($stmt->execute()) {
@@ -890,14 +890,14 @@ function procesarMensajeTexto($conn, $id_plataforma, $business_phone_id, $nombre
 
     // Insertar el mensaje en la tabla mensajes_clientes
     $stmt = $conn->prepare("
-        INSERT INTO mensajes_clientes (id_plataforma, id_cliente, mid_mensaje, tipo_mensaje, texto_mensaje, ruta_archivo, rol_mensaje, celular_recibe, created_at, updated_at) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
+        INSERT INTO mensajes_clientes (id_plataforma, id_cliente, mid_mensaje, tipo_mensaje, texto_mensaje, ruta_archivo, rol_mensaje, celular_recibe, uid_whatsapp, created_at, updated_at) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
     ");
 
     $mid_mensaje = $business_phone_id;  // Usamos el ID del negocio como mid_mensaje
     $rol_mensaje = 1;  // Valor por defecto para rol_mensaje
 
-    $stmt->bind_param('iissssis', $id_plataforma, $id_cliente, $mid_mensaje, $tipo_mensaje, $texto_mensaje, $ruta_archivo, $rol_mensaje, $id_cliente_recibe);
+    $stmt->bind_param('iissssiss', $id_plataforma, $id_cliente, $mid_mensaje, $tipo_mensaje, $texto_mensaje, $ruta_archivo, $rol_mensaje, $id_cliente_recibe, $phone_whatsapp_to);
 
     if ($stmt->execute()) {
         file_put_contents('debug_log.txt', "Mensaje procesado correctamente en la base de datos.\n", FILE_APPEND);
@@ -1093,14 +1093,14 @@ $check_idCliente_configuracion_stmt->close();
 
 // Ahora puedes proceder a insertar el mensaje en la tabla mensajes_clientes
 $stmt = $conn->prepare("
-    INSERT INTO mensajes_clientes (id_plataforma, id_cliente, mid_mensaje, tipo_mensaje, texto_mensaje, ruta_archivo, rol_mensaje, celular_recibe, created_at, updated_at) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
+    INSERT INTO mensajes_clientes (id_plataforma, id_cliente, mid_mensaje, tipo_mensaje, texto_mensaje, ruta_archivo, rol_mensaje, celular_recibe, uid_whatsapp , created_at, updated_at) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
 ");
 
 $mid_mensaje = $business_phone_id;  // Usamos el ID del mensaje de WhatsApp
 $rol_mensaje = 0;  // Valor por defecto para rol_mensaje, ya que es bigint
 
-$stmt->bind_param('iissssis', $id_plataforma, $id_cliente_configuracion, $mid_mensaje, $tipo_mensaje, $texto_mensaje, $ruta_archivo, $rol_mensaje, $id_cliente);
+$stmt->bind_param('iissssiss', $id_plataforma, $id_cliente_configuracion, $mid_mensaje, $tipo_mensaje, $texto_mensaje, $ruta_archivo, $rol_mensaje, $id_cliente, $phone_whatsapp_from);
 
 if ($stmt->execute()) {
     echo json_encode(["status" => "success", "message" => "Mensaje procesado correctamente."]);
