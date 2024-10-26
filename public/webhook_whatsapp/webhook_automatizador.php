@@ -368,9 +368,12 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
     // Convertimos el array $user_info a un string en formato JSON
     $user_info_json = json_encode($user_info);  // Aquí convertimos el array a JSON
 
+    // Verificar si "estado_notificacion" está definido y no es nulo
+    $estado_notificacion = isset($data_api['estado_notificacion']) ? $data_api['estado_notificacion'] : 0;
+
     $stmt = $conn->prepare("
-        INSERT INTO mensajes_clientes (id_plataforma, id_cliente, mid_mensaje, tipo_mensaje, celular_recibe, ruta_archivo, id_automatizador, uid_whatsapp, texto_mensaje, rol_mensaje, json_mensaje, created_at, updated_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO mensajes_clientes (id_plataforma, id_cliente, mid_mensaje, tipo_mensaje, celular_recibe, ruta_archivo, id_automatizador, uid_whatsapp, texto_mensaje, rol_mensaje, json_mensaje, created_at, updated_at, notificacion_estado)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ");
     if ($stmt === false) {
         throw new Exception("Failed to prepare the query: " . $conn->error);
@@ -389,9 +392,10 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
     $json_mensaje = (string)$json_mensaje;
     $created_at = (string)$created_at;
     $updated_at = (string)$updated_at;
+    $estado_notificacion = (int)$estado_notificacion;
 
     // Bind parameters, incluyendo el $user_info en formato JSON
-    $stmt->bind_param('iissssississs', $id_plataforma, $id_cliente_configuracion, $mid_mensaje, $tipo_mensaje, $id_cliente, $user_info_json, $id_automatizador, $uid_whatsapp, $mensaje, $rol, $json_mensaje, $created_at, $updated_at);
+    $stmt->bind_param('iissssississs', $id_plataforma, $id_cliente_configuracion, $mid_mensaje, $tipo_mensaje, $id_cliente, $user_info_json, $id_automatizador, $uid_whatsapp, $mensaje, $rol, $json_mensaje, $created_at, $updated_at, $estado_notificacion);
     $stmt->execute();
     $stmt->close();
 }
