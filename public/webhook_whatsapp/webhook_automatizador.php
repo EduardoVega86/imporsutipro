@@ -369,7 +369,7 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
     $user_info_json = json_encode($user_info);  // Aquí convertimos el array a JSON
 
     // Verificar si "estado_notificacion" está definido y no es nulo
-    $estado_notificacion = isset($data_api['estado_notificacion']) ? $data_api['estado_notificacion'] : 0;
+    $estado_notificacion = isset($user_info['estado_notificacion']) ? $user_info['estado_notificacion'] : 0;
 
     $stmt = $conn->prepare("
         INSERT INTO mensajes_clientes (id_plataforma, id_cliente, mid_mensaje, tipo_mensaje, celular_recibe, ruta_archivo, id_automatizador, uid_whatsapp, texto_mensaje, rol_mensaje, json_mensaje, created_at, updated_at, notificacion_estado)
