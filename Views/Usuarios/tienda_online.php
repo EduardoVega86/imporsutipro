@@ -413,11 +413,11 @@
                             
                             <div class="oferta2_color gap-3">
                                 <div class="input-box d-flex flex-column">
-                                    <input onchange="cambiarcolor_oferta_plantilla2('color_fondo_parallax2',this.value)" id="color_fondo_parallax2" name="color_fondo_parallax2" type="color" value="#ffffff">
+                                    <input onchange="cambiarcolor_parallax_plantilla3('color_fondo_parallax2',this.value)" id="color_fondo_parallax2" name="color_fondo_parallax2" type="color" value="#ffffff">
                                     <h7 style="text-align: center;"><strong>Color fondo</strong></h7>
                                 </div>
                                 <div class="input-box d-flex flex-column">
-                                    <input onchange="cambiarcolor_oferta_plantilla2('color_texto_parallax2',this.value)" id="color_texto_parallax2" name="color_texto_parallax2" type="color" value="#ffffff">
+                                    <input onchange="cambiarcolor_parallax_plantilla3('color_texto_parallax2',this.value)" id="color_texto_parallax2" name="color_texto_parallax2" type="color" value="#ffffff">
                                     <h7 style="text-align: center;"><strong>Color texto</strong></h7>
                                 </div>
                                
