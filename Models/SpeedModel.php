@@ -567,7 +567,7 @@ class SpeedModel extends Query
         $estado_notificacion_BD = $estado_notificacion_BD[0]['notificacion_estado'];
         /* fin verificar si el estado del ultimo mensajes es el mismo */
 
-        if ($estado_notificacion_BD = $estado_guia_automatizador){
+        if ($estado_notificacion_BD == $estado_guia_automatizador){
             break;
         }
 
