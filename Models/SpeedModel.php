@@ -483,6 +483,7 @@ class SpeedModel extends Query
             $response['data']['contiene'] = $res1[0]['contiene'];
             $response['data']['monto_factura'] = $res1[0]['monto_factura'];
             $response['data']['ciudad_cot'] = $res1[0]['ciudad_cot'];
+            $response['data']['id_plataforma'] = $id_plataforma;
         } else {
             $response = $this->initialResponse();
             $response['status'] = 500;
@@ -505,6 +506,7 @@ class SpeedModel extends Query
         $estado_guia_automatizador = 0;
         $contenido_factura = $configuracion['contiene'];
         $costo = $configuracion['monto_factura'];
+        $id_plataforma = $configuracion['id_plataforma'];
 
         /* consultar ciudad por medio id_cotizacion */
         $nombre_ciudad = $this->select("SELECT ciudad FROM ciudad_cotizacion WHERE id_cotizacion = " . $configuracion['ciudad_cot'] . "");
@@ -560,9 +562,14 @@ class SpeedModel extends Query
         /* echo $estado_guia_automatizador; */
 
         /* verificar si el estado del ultimo mensajes es el mismo */
-        $estado_notificacion_BD = $this->select("SELECT notificacion_estado FROM mensajes_clientes WHERE celular_recibe = ");
+        $estado_notificacion_BD = $this->select("SELECT notificacion_estado FROM mensajes_clientes WHERE uid_whatsapp = $telefono 
+        AND id_plataforma = $id_plataforma AND rol_mensaje = 1 ORDER BY created_at DESC LIMIT 1;");
         $estado_notificacion_BD = $estado_notificacion_BD[0]['notificacion_estado'];
         /* fin verificar si el estado del ultimo mensajes es el mismo */
+
+        if ($estado_notificacion_BD == $estado_guia_automatizador){
+            break;
+        }
 
         // Consulta para obtener los datos de automatización
         $sql = "SELECT * FROM automatizadores WHERE id_configuracion = ?";
