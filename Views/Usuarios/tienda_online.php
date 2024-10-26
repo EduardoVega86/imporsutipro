@@ -396,6 +396,7 @@
                         <hr class="vertical-hr">
                         <div class="d-flex flex-column">
                             <h3 style="text-align: center;"><strong> PARALLAX 2</strong></h3>
+                            <img id="" class="" src="https://new.imporsuitpro.com/public/img/banner/parallax_2.jpg" alt="Preview" width="100%">
                             <div class="mb-3">
                                 <label for="titulo_oferta2" class="form-label">Titulo Pequeño</label>
                                 <input type="text" class="form-control" onchange="cambiarcolor_parallax_plantilla3('titulo_parallax2',this.value)" id="titulo_parallax2" placeholder="Ingrese el texto">
