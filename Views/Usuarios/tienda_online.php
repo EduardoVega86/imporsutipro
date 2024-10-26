@@ -394,10 +394,10 @@
                         </div>
                         <hr class="vertical-hr">
                         <div class="d-flex flex-column">
-                            <h3 style="text-align: center;"><strong> OFERTA 2</strong></h3>
+                            <h3 style="text-align: center;"><strong> PARALLAX 2</strong></h3>
                             <div class="mb-3">
-                                <label for="titulo_oferta2" class="form-label">Titulo oferta 2</label>
-                                <input type="text" class="form-control" id="titulo_oferta2" placeholder="Ingrese el titulo de la oferta 2">
+                                <label for="titulo_oferta2" class="form-label">Titulo</label>
+                                <input type="text" class="form-control" onchange="cambiarcolor_parallax_plantilla3('titulo_parallax2',this.value)" id="titulo_parallax2" placeholder="Ingrese el titulo de la oferta 2">
                             </div>
                             <div class="mb-3">
                                 <label for="oferta2" class="form-label">Oferta 2</label>
