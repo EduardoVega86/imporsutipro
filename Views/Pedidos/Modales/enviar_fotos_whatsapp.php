@@ -76,19 +76,21 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="enviar_fotos_whatsappModalLabel"><i class="fas fa-edit"></i> Asignar nuevo telefono</h5>
+                <h5 class="modal-title" id="enviar_fotos_whatsappModalLabel"><i class="fas fa-edit"></i> Asignar nuevo teléfono</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                
+                <button id="agregar_foto" class="btn btn-primary">Seleccionar Imágenes</button>
+                <input id="foto-input" type="file" accept="image/*" multiple style="display:none;">
+
+                <div id="lista-imagenes" class="mt-3">
+                    <!-- Aquí se mostrarán las imágenes seleccionadas con sus captions -->
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" id="enviar-imagenes" class="btn btn-primary">Enviar Imágenes</button>
             </div>
         </div>
     </div>
 </div>
-
-<script>
-
-</script>
