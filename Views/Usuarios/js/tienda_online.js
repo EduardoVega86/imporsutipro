@@ -553,6 +553,9 @@ $("#seccion_paralax_plantilla3").hide();
         // Actualiza los valores de los inputs hidden
         $("#plantilla_selected").val("template3");
 $("#seccion_promocion_plantilla2").hide();
+
+$("#seccion_oferta_plantilla2").hide();
+
         // Remueve la clase 'selected' de todas las plantillas
         $(".plantilla").removeClass("selected");
 
