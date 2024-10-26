@@ -333,7 +333,7 @@
             </h2>
             <div id="collapseOferta_plantilla2" class="accordion-collapse collapse" aria-labelledby="headingOferta_plantilla2" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                    <button class="btn btn-success" onclick="guardar_ofertas_plantilla2()"></i>Guardar cambios</button>
+                    
                     <div class="oferta gap-5" style="justify-content: center;">
                         <div class="d-flex flex-column">
                             <h3 style="text-align: center;"><strong> SECCION PARALLAX1 </strong></h3>
