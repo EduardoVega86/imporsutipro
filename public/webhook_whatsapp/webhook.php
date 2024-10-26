@@ -911,7 +911,7 @@ function procesarMensajeTexto($conn, $id_plataforma, $business_phone_id, $nombre
 // Función para enviar datos a la API sockect
 function enviarConsultaAPI($id_plataforma, $celular_recibe) {
     // URL de la API
-    $url = "https://chat.imporfactory.app/whatsapp/webhook";
+    $url = "https://chat.imporfactory.app/api/v1/whatsapp/webhook";
 
     // Datos a enviar en formato JSON
     $data = json_encode([
