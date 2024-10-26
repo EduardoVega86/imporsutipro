@@ -562,7 +562,7 @@ class SpeedModel extends Query
         /* echo $estado_guia_automatizador; */
 
         /* verificar si el estado del ultimo mensajes es el mismo */
-        $estado_notificacion_BD = $this->select("SELECT notificacion_estado FROM mensajes_clientes WHERE uid_whatsapp = $telefono 
+        $estado_notificacion_BD = $this->select("SELECT notificacion_estado FROM mensajes_clientes WHERE uid_whatsapp = '$telefono' 
         AND id_plataforma = $id_plataforma AND rol_mensaje = 1 ORDER BY created_at DESC LIMIT 1;");
         $estado_notificacion_BD = $estado_notificacion_BD[0]['notificacion_estado'];
         /* fin verificar si el estado del ultimo mensajes es el mismo */
