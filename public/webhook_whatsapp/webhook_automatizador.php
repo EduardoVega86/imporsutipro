@@ -395,7 +395,7 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
     $estado_notificacion = (int)$estado_notificacion;
 
     // Bind parameters, incluyendo el $user_info en formato JSON
-    $stmt->bind_param('iissssississs', $id_plataforma, $id_cliente_configuracion, $mid_mensaje, $tipo_mensaje, $id_cliente, $user_info_json, $id_automatizador, $uid_whatsapp, $mensaje, $rol, $json_mensaje, $created_at, $updated_at, $estado_notificacion);
+    $stmt->bind_param('iissssississsi', $id_plataforma, $id_cliente_configuracion, $mid_mensaje, $tipo_mensaje, $id_cliente, $user_info_json, $id_automatizador, $uid_whatsapp, $mensaje, $rol, $json_mensaje, $created_at, $updated_at, $estado_notificacion);
     $stmt->execute();
     $stmt->close();
 }
