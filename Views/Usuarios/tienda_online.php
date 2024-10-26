@@ -297,9 +297,9 @@
                         <div class="d-flex">
                             <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_bannerModal"><i class="fas fa-plus"></i> Agregar</button>
                         </div>
-                        <div style="padding-top: 5px">
-                            <div class="alert alert-warning aviso-banner" id="banner_muestra" role="alert">
-                                
+                        <div  style="padding-top: 5px">
+                            <div id="muestra_banner" class="alert alert-warning aviso-banner" role="alert">
+                                <strong>Atención:</strong> las dimensines de la imagen deben ser 2550x860 y en formato .png, .jpg, .jpeg
                             </div>
                         </div>
                     </div>
@@ -333,10 +333,11 @@
             </h2>
             <div id="collapseOferta_plantilla2" class="accordion-collapse collapse" aria-labelledby="headingOferta_plantilla2" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                    <button class="btn btn-success" onclick="guardar_ofertas_plantilla2()"></i>Guardar cambios</button>
+                    
                     <div class="oferta gap-5" style="justify-content: center;">
                         <div class="d-flex flex-column">
                             <h3 style="text-align: center;"><strong> SECCION PARALLAX1 </strong></h3>
+                             <img id="" class="" src="https://new.imporsuitpro.com/public/img/banner/parallax_1.jpg" alt="Preview" width="100%">
                             <div class="mb-3">
                                 <label for="titulo_parallax" class="form-label">Título</label>
                                 <input type="text" class="form-control" onblur="cambiarcolor_parallax_plantilla3('parallax_titulo',this.value)" id="titulo_parallax" placeholder="Ingrese el titulo">
@@ -394,40 +395,32 @@
                         </div>
                         <hr class="vertical-hr">
                         <div class="d-flex flex-column">
-                            <h3 style="text-align: center;"><strong> OFERTA 2</strong></h3>
+                            <h3 style="text-align: center;"><strong> PARALLAX 2</strong></h3>
+                            <img id="" class="" src="https://new.imporsuitpro.com/public/img/banner/parallax_2.jpg" alt="Preview" width="100%">
                             <div class="mb-3">
-                                <label for="titulo_oferta2" class="form-label">Titulo oferta 2</label>
-                                <input type="text" class="form-control" id="titulo_oferta2" placeholder="Ingrese el titulo de la oferta 2">
+                                <label for="titulo_oferta2" class="form-label">Titulo Pequeño</label>
+                                <input type="text" class="form-control" onchange="cambiarcolor_parallax_plantilla3('titulo_parallax2',this.value)" id="titulo_parallax2" placeholder="Ingrese el texto">
                             </div>
                             <div class="mb-3">
-                                <label for="oferta2" class="form-label">Oferta 2</label>
-                                <input type="text" class="form-control" id="oferta2" placeholder="Ingrese el oferta 2">
+                                <label for="oferta2" class="form-label">Titulo Grande</label>
+                                <input type="text" class="form-control" onchange="cambiarcolor_parallax_plantilla3('subtitulo_parallax2',this.value)" id="subtitulo_parallax2" placeholder="Ingrese el texto">
                             </div>
                             <div class="mb-3">
-                                <label for="descripcion_oferta2" class="form-label">Descripción oferta 2</label>
-                                <input type="text" class="form-control" id="descripcion_oferta2" placeholder="Ingrese la descipcion oferta 2">
+                                <label for="descripcion_oferta2" class="form-label">Texto</label>
+                                <input type="text" class="form-control" onchange="cambiarcolor_parallax_plantilla3('texto_parallax2',this.value)" id="texto_parallax2" placeholder="Ingrese el texto">
                             </div>
-                            <div class="mb-3">
-                                <label for="textoBtn_oferta2" class="form-label">Texto boton oferta 2</label>
-                                <input type="text" class="form-control" id="textoBtn_oferta2" placeholder="Ingrese el texto del boton oferta 2">
-                            </div>
-                            <div class="mb-3">
-                                <label for="enlace_oferta2" class="form-label">Enlace oferta 2</label>
-                                <input type="text" class="form-control" id="enlace_oferta2" placeholder="Ingrese el enlace oferta 2">
-                            </div>
+                            
+                            
                             <div class="oferta2_color gap-3">
                                 <div class="input-box d-flex flex-column">
-                                    <input onchange="cambiarcolor_oferta_plantilla2('color_texto_oferta2',this.value)" id="color_texto_oferta2" name="color_texto_oferta2" type="color" value="#ffffff">
-                                    <h7 style="text-align: center;"><strong>Color texto oferta 2</strong></h7>
+                                    <input onchange="cambiarcolor_parallax_plantilla3('color_fondo_parallax2',this.value)" id="color_fondo_parallax2" name="color_fondo_parallax2" type="color" value="#ffffff">
+                                    <h7 style="text-align: center;"><strong>Color fondo</strong></h7>
                                 </div>
                                 <div class="input-box d-flex flex-column">
-                                    <input onchange="cambiarcolor_oferta_plantilla2('color_btn_oferta2',this.value)" id="color_btn_oferta2" name="color_btn_oferta2" type="color" value="#ffffff">
-                                    <h7 style="text-align: center;"><strong>Color boton oferta 2</strong></h7>
+                                    <input onchange="cambiarcolor_parallax_plantilla3('color_texto_parallax2',this.value)" id="color_texto_parallax2" name="color_texto_parallax2" type="color" value="#ffffff">
+                                    <h7 style="text-align: center;"><strong>Color texto</strong></h7>
                                 </div>
-                                <div class="input-box d-flex flex-column">
-                                    <input onchange="cambiarcolor_oferta_plantilla2('color_textoBtn_oferta2',this.value)" id="color_textoBtn_oferta2" name="color_textoBtn_oferta2" type="color" value="#ffffff">
-                                    <h7 style="text-align: center;"><strong>Color texto boton oferta 2</strong></h7>
-                                </div>
+                               
                                 <div class="d-flex flex-column">
                                     <h5 class="card-title">Imagen oferta 2</h5>
                                     <div class="alert alert-warning" role="alert">

@@ -361,6 +361,14 @@ function cargar_informacion_plantilla3() {
        $("#color_filtro").val(response[0].color_filtro);
        $("#color_texto").val(response[0].color_texto);
        $("#color_boton").val(response[0].color_boton);
+       
+       $("#titulo_parallax2").val(response[0].titulo_parallax2);
+        $("#subtitulo_parallax2").val(response[0].subtitulo_parallax2);
+        $("#texto_parallax2").val(response[0].texto_parallax2);
+        
+        $("#color_fondo_parallax2").val(response[0].color_fondo_parallax2);
+        $("#color_texto_parallax2").val(response[0].color_texto_parallax2);
+      
    
 
       $("#color_hover_cabecera_plantilla2").val(
@@ -520,8 +528,10 @@ $("#vista_previa").html(
         $(".plantilla[data-template='template1']").addClass("selected");
         
         $("#seccion_paralax_plantilla3").hide();
+        
         valor_banner="<strong>Atención:</strong> las dimensines de la imagen deben ser 2550x860 y en formato .png, .jpg, .jpeg";
-        $("#muestra_banner").html(valor_banner);
+      // alert(valor_banner)
+            $("#muestra_banner").html(valor_banner);
         
         
         
@@ -535,7 +545,7 @@ $("#seccion_paralax_plantilla3").hide();
         // Actualiza los valores de los inputs hidden
         $("#plantilla_selected").val("template2");
         
-         valor_banner="<strong>Atención:</strong> se recomienda utilizar las dimensiones de la muestra y en formato .png , .webp, descargar muetra <a target='blank' href='https://new.imporsuitpro.com/public/img/banner/muestra_parallax.webp' download='mi_imagen.png' class='btn-descargar'>";
+         valor_banner="<strong>Atención:</strong> las dimensines de la imagen deben ser 2550x860 y en formato .png, .jpg, .jpeg";
         $("#muestra_banner").html(valor_banner);
 
         // Remueve la clase 'selected' de todas las plantillas
@@ -548,12 +558,15 @@ $("#seccion_paralax_plantilla3").hide();
         // Actualiza los valores de los inputs hidden
         $("#plantilla_selected").val("template3");
 $("#seccion_promocion_plantilla2").hide();
+
+$("#seccion_oferta_plantilla2").hide();
+
         // Remueve la clase 'selected' de todas las plantillas
         $(".plantilla").removeClass("selected");
 
 $("#seccion_paralax_plantilla3").show();
 
- valor_banner="<strong>Atención:</strong> las dimensines de la imagen deben ser 2550x860 y en formato .png, .jpg, .jpeg";
+ valor_banner="<strong>Atención:</strong> se recomienda utilizar las dimensiones de la muestra y en formato .png , .webp, descargar muetra <a target='blank' href='https://new.imporsuitpro.com/public/img/banner/muestra_banner.webp' download='mi_imagen.png' class='btn-descargar'><i class='fas fa-download'></i></a>";
         $("#muestra_banner").html(valor_banner);
 
         // Agrega la clase 'selected' a la plantilla correcta
