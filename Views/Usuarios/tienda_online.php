@@ -297,8 +297,8 @@
                         <div class="d-flex">
                             <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_bannerModal"><i class="fas fa-plus"></i> Agregar</button>
                         </div>
-                        <div id="muestra_banner" style="padding-top: 5px">
-                            <div class="alert alert-warning aviso-banner" role="alert">
+                        <div  style="padding-top: 5px">
+                            <div id="muestra_banner" class="alert alert-warning aviso-banner" role="alert">
                                 <strong>Atención:</strong> las dimensines de la imagen deben ser 2550x860 y en formato .png, .jpg, .jpeg
                             </div>
                         </div>
