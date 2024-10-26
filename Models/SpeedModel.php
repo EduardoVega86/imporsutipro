@@ -592,6 +592,7 @@ class SpeedModel extends Query
                                         "contenido" => $contenido_factura,
                                         "costo" => $costo,
                                         "ciudad" => $nombre_ciudad,
+                                        "estado_notificacion" => $estado_guia_automatizador,
                                         "productos" => [""],
                                         "categorias" => [""],
                                         "status" => ["0"],
@@ -607,6 +608,7 @@ class SpeedModel extends Query
                                             "contenido" => $contenido_factura,
                                             "costo" => $costo,
                                             "ciudad" => $nombre_ciudad,
+                                            "estado_notificacion" => $estado_guia_automatizador,
                                         ]
                                     ];
                                     // Llamamos a la función para enviar los datos a la API usando cURL
@@ -621,6 +623,10 @@ class SpeedModel extends Query
                                         "direccion" => $calle_principal . " y " . $calle_secundaria,
                                         "email" => "",
                                         "celular" => $telefono,
+                                        "contenido" => $contenido_factura,
+                                        "costo" => $costo,
+                                        "ciudad" => $nombre_ciudad,
+                                        "estado_notificacion" => $estado_guia_automatizador,
                                         "productos" => [""],
                                         "categorias" => [""],
                                         "status" => ["$status"],
@@ -632,7 +638,11 @@ class SpeedModel extends Query
                                             "direccion" => $calle_principal . " y " . $calle_secundaria,
                                             "email" => "",
                                             "celular" => $telefono,
-                                            "order_id" => $numero_factura
+                                            "order_id" => $numero_factura,
+                                            "contenido" => $contenido_factura,
+                                            "costo" => $costo,
+                                            "ciudad" => $nombre_ciudad,
+                                            "estado_notificacion" => $estado_guia_automatizador,
                                         ]
                                     ];
                                     /* print_r($data_api); */
