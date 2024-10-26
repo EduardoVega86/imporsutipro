@@ -362,7 +362,7 @@ function cargar_informacion_plantilla3() {
        $("#color_texto").val(response[0].color_texto);
        $("#color_boton").val(response[0].color_boton);
        
-       
+       $("#titulo_parallax2").val(response[0].titulo_parallax2);
       
    
 
