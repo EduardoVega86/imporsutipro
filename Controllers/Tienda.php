@@ -55,6 +55,13 @@ class Tienda extends Controller
         $response = $this->model->testimoniostienda($id_plataforma);
         echo json_encode($response);
     }
+    
+    public function profesionales()
+    {
+        $id_plataforma = $_POST['id_plataforma'];
+        $response = $this->model->profesionales($id_plataforma);
+        echo json_encode($response);
+    }
 
     public function categoriastienda()
     {

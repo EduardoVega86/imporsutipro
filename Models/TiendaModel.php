@@ -164,6 +164,13 @@ class TiendaModel extends Query
 
         return $this->select($sql);
     }
+    
+      public function profesionales($plataforma)
+    {
+        $sql = "SELECT * FROM profesionales WHERE id_plataforma = $plataforma";
+
+        return $this->select($sql);
+    }
 
     public function categoriastienda($id_plataforma)
     {
