@@ -365,6 +365,9 @@ function cargar_informacion_plantilla3() {
        $("#titulo_parallax2").val(response[0].titulo_parallax2);
         $("#subtitulo_parallax2").val(response[0].subtitulo_parallax2);
         $("#texto_parallax2").val(response[0].texto_parallax2);
+        
+        $("#color_fondo_parallax2").val(response[0].color_fondo_parallax2);
+        $("#color_texto_parallax2").val(response[0].color_texto_parallax2);
       
    
 
