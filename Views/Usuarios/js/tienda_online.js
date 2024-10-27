@@ -570,6 +570,8 @@ $("#vista_previa").html(
         $("#colores_plantilla2").hide();
         $("#seccion_oferta_plantilla2").hide();
         $("#seccion_promocion_plantilla2").hide();
+        
+        $("#fondo_servicios").hide();
 
         // Actualiza los valores de los inputs hidden
         $("#plantilla_selected").val("template1");
@@ -598,6 +600,8 @@ $("#seccion_paralax_plantilla3").hide();
         // Actualiza los valores de los inputs hidden
         $("#plantilla_selected").val("template2");
         
+        $("#fondo_servicios").hide();
+        
          valor_banner="<strong>Atención:</strong> las dimensines de la imagen deben ser 2550x860 y en formato .png, .jpg, .jpeg";
         $("#muestra_banner").html(valor_banner);
 
@@ -618,6 +622,7 @@ $("#seccion_oferta_plantilla2").hide();
         $(".plantilla").removeClass("selected");
 
 $("#seccion_paralax_plantilla3").show();
+$("#fondo_servicios").show();
 
  valor_banner="<strong>Atención:</strong> se recomienda utilizar las dimensiones de la muestra y en formato .png , .webp, descargar muetra <a target='blank' href='https://new.imporsuitpro.com/public/img/banner/muestra_banner.webp' download='mi_imagen.png' class='btn-descargar'><i class='fas fa-download'></i></a>";
         $("#muestra_banner").html(valor_banner);
