@@ -482,7 +482,7 @@ public function guardar_imagen_parallax1($imagen, $plataforma)
             $response['message'] = 'El archivo es muy grande';
             $uploadOk = 0;
         }
-        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "webp") {
             $response['status'] = 500;
             $response['title'] = 'Error';
             $response['message'] = 'Solo se permiten archivos JPG, JPEG, PNG';
