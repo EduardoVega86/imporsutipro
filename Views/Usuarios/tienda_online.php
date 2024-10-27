@@ -336,7 +336,7 @@
                     
                     <div class="oferta gap-5" style="justify-content: center;">
                         <div class="d-flex flex-column">
-                            <h3 style="text-align: center;"><strong> SECCION PARALLAX1 </strong></h3>
+                            <h3 style="text-align: center;"><strong> PARALLAX1 </strong></h3>
                              <img id="" class="" src="https://new.imporsuitpro.com/public/img/banner/parallax_1.jpg" alt="Preview" width="100%">
                             <div class="mb-3">
                                 <label for="titulo_parallax" class="form-label">Título</label>
@@ -378,7 +378,7 @@
                                     <h7 style="text-align: center;"><strong>Color boton</strong></h7>
                                 </div>
                                 <div class="d-flex flex-column">
-                                    <h5 class="card-title">Imagen oferta 1</h5>
+                                    <h5 class="card-title">Imagen Fondo</h5>
                                     <div class="alert alert-warning" role="alert">
                                         <strong>Atención:</strong> Para esta sección recomienda usar una imagen webp o png puedes descargar la muestra aqui <a target="blank" href="https://new.imporsuitpro.com/public/img/muestraparallax.jpg" download="mi_imagen.png" class="btn-descargar">
         <i class="fas fa-download"></i>
@@ -424,13 +424,15 @@
                                 <div class="d-flex flex-column">
                                     <h5 class="card-title">Imagen oferta 2</h5>
                                     <div class="alert alert-warning" role="alert">
-                                        <strong>Atención:</strong> las dimensines de la imagen deben ser 893x468 y en formato .png, .jpg, .jpeg
+                                        <strong>Atención:</strong> Para esta sección recomienda usar una imagen webp o png puedes descargar la muestra aqui <a target="blank" href="https://new.imporsuitpro.com/public/img/muestraparallax2.webp" download="mi_imagen.png" class="btn-descargar">
+        <i class="fas fa-download"></i>
+    </a>
                                     </div>
-                                    <form id="imageFormOferta2" enctype="multipart/form-data">
+                                    <form id="imageFormParallax2" enctype="multipart/form-data">
                                         <div class="mb-3">
-                                            <input type="file" class="form-control" id="imageInputOferta2" accept="image/*" name="imagen">
+                                            <input type="file" class="form-control" id="imageFondoParallax2" accept="image/*" name="imagen">
                                         </div>
-                                        <img id="imagen_oferta2" class="image-preview mb-3" src="" alt="Preview" width="30%">
+                                        <img id="imagen_parallax2" class="image-preview mb-3" src="" alt="Preview" width="30%">
                                     </form>
                                 </div>
                             </div>
