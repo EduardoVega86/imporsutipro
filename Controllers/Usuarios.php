@@ -264,6 +264,20 @@ class Usuarios extends Controller
         echo json_encode($response);
     }
     
+     public function guardar_imagen_parallax2()
+    {
+
+        $response = $this->model->guardar_imagen_parallax2($_FILES['imagen'], $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+    
+    public function guardar_imagen_fondo_plantilla3()
+    {
+
+        $response = $this->model->guardar_imagen_fondo_plantilla3($_FILES['imagen'], $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+    
     
     public function guardar_imagen_favicon()
     {

@@ -78,6 +78,85 @@ $("#imageFondoParallax").on("change", function (event) {
 });
 
 
+$("#imageFondoParallax2").on("change", function (event) {
+  event.preventDefault();
+
+  // Mostrar vista previa de la imagen seleccionada
+  var input = event.target;
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      $("#imagen_parallax2").attr("src", e.target.result);
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+
+  // Crear un FormData y enviar la imagen mediante AJAX
+  var formData = new FormData($("#imageFormParallax2")[0]);
+  $.ajax({
+    url: SERVERURL + "Usuarios/guardar_imagen_parallax2", // Cambia esta ruta por la ruta correcta a tu controlador
+    type: "POST",
+    data: formData,
+    contentType: false,
+    processData: false,
+    success: function (response) {
+      response = JSON.parse(response);
+      if (response.status == 500) {
+        toastr.error("LA IMAGEN NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert("Error al guardar la imagen: " + textStatus);
+    },
+  });
+});
+
+
+$("#imagefondopaginainput").on("change", function (event) {
+  event.preventDefault();
+
+  // Mostrar vista previa de la imagen seleccionada
+  var input = event.target;
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      $("#imagefondopagina").attr("src", e.target.result);
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+
+  // Crear un FormData y enviar la imagen mediante AJAX
+  var formData = new FormData($("#imagefondopaginaform")[0]);
+  $.ajax({
+    url: SERVERURL + "Usuarios/guardar_imagen_fondo_plantilla3", // Cambia esta ruta por la ruta correcta a tu controlador
+    type: "POST",
+    data: formData,
+    contentType: false,
+    processData: false,
+    success: function (response) {
+      response = JSON.parse(response);
+      if (response.status == 500) {
+        toastr.error("LA IMAGEN NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert("Error al guardar la imagen: " + textStatus);
+    },
+  });
+});
+
 $("#imageInputFav").on("change", function (event) {
   event.preventDefault();
 
@@ -358,6 +437,7 @@ function cargar_informacion_plantilla3() {
       $("#myRange").val(response[0].parallax_opacidad);
       $("#rangeValue").text(response[0].parallax_opacidad);
       
+      
        $("#color_filtro").val(response[0].color_filtro);
        $("#color_texto").val(response[0].color_texto);
        $("#color_boton").val(response[0].color_boton);
@@ -395,7 +475,36 @@ function cargar_informacion_plantilla3() {
           SERVERURL + response[0].parallax_fondo
         );
       }
+      
+      if (response[0].fondo_pagina === null) {
+        $("#imagefondopagina").attr(
+          "src",
+          SERVERURL + "public/img/broken-image.png"
+        );
+      } else {
+         // alert(response[0].parallax_fondo)
+        $("#imagefondopagina").attr(
+          "src",
+          SERVERURL + response[0].fondo_pagina
+        );
+      }
+      
+      
 
+if (response[0].imagen_parallax2 === null) {
+        $("#imagen_parallax2").attr(
+          "src",
+          SERVERURL + "public/img/broken-image.png"
+        );
+      } else {
+         // alert(response[0].parallax_fondo)
+        $("#imagen_parallax2").attr(
+          "src",
+          SERVERURL + response[0].imagen_parallax2
+        );
+      }
+      
+      
       $("#titulo_oferta2").val(response[0].titulo_oferta2);
       $("#oferta2").val(response[0].oferta2);
       $("#descripcion_oferta2").val(response[0].descripcion_oferta2);
@@ -517,6 +626,8 @@ $("#vista_previa").html(
         $("#colores_plantilla2").hide();
         $("#seccion_oferta_plantilla2").hide();
         $("#seccion_promocion_plantilla2").hide();
+        
+        $("#fondo_servicios").hide();
 
         // Actualiza los valores de los inputs hidden
         $("#plantilla_selected").val("template1");
@@ -545,6 +656,8 @@ $("#seccion_paralax_plantilla3").hide();
         // Actualiza los valores de los inputs hidden
         $("#plantilla_selected").val("template2");
         
+        $("#fondo_servicios").hide();
+        
          valor_banner="<strong>Atención:</strong> las dimensines de la imagen deben ser 2550x860 y en formato .png, .jpg, .jpeg";
         $("#muestra_banner").html(valor_banner);
 
@@ -565,6 +678,7 @@ $("#seccion_oferta_plantilla2").hide();
         $(".plantilla").removeClass("selected");
 
 $("#seccion_paralax_plantilla3").show();
+$("#fondo_servicios").show();
 
  valor_banner="<strong>Atención:</strong> se recomienda utilizar las dimensiones de la muestra y en formato .png , .webp, descargar muetra <a target='blank' href='https://new.imporsuitpro.com/public/img/banner/muestra_banner.webp' download='mi_imagen.png' class='btn-descargar'><i class='fas fa-download'></i></a>";
         $("#muestra_banner").html(valor_banner);
