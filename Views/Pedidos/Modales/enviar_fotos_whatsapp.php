@@ -35,31 +35,23 @@
         color: white;
     }
 
-    .texto_modal {
-        font-size: 20px;
-        margin-bottom: 5px;
-    }
-
-    .descripcion_producto {
+    .imagen-container {
         display: flex;
-        flex-direction: row;
+        align-items: center;
+        margin-bottom: 15px;
     }
 
-    .informacion_producto {
-        width: 50%;
-        /* Aproximadamente la mitad del contenedor, similar a col-6 */
-        margin-bottom: 1rem;
-        /* Espaciado en la parte inferior, similar a mb-4 */
+    .imagen-container img {
+        max-width: 100px;
+        margin-right: 15px;
+        border-radius: 5px;
     }
 
-    .boton_eliminar_etiqueta {
-        background-color: transparent;
-        border: hidden;
-        color: #afaea9;
-    }
-
-    .boton_eliminar_etiqueta:hover {
-        color: black;
+    .imagen-container input {
+        flex: 1;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 5px;
     }
 
     @media (max-width: 768px) {
@@ -72,6 +64,7 @@
         }
     }
 </style>
+
 <!-- Modal para enviar fotos a WhatsApp -->
 <div class="modal fade" id="enviar_fotos_whatsappModal" tabindex="-1" aria-labelledby="enviar_fotos_whatsappModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">

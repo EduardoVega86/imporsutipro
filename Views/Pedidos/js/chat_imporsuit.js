@@ -145,8 +145,8 @@ $(document).ready(function () {
                         <h6 class="mb-0">${
                           contacto.nombre_cliente || "Desconocido"
                         } ${
-                          contacto.apellido_cliente || ""
-                        } ${color_etiqueta}</h6>
+            contacto.apellido_cliente || ""
+          } ${color_etiqueta}</h6>
                         <h7>+${contacto.celular_cliente}</h7>
                         <small class="text-muted">${
                           contacto.texto_mensaje || "No hay mensajes"
@@ -999,78 +999,84 @@ document.addEventListener("click", (e) => {
 });
 
 /* subir imagen */
-const agregarFoto = document.getElementById("agregar_foto");
-const fotoInput = document.getElementById("foto-input");
+document
+  .getElementById("seleccionar_imagenes")
+  .addEventListener("click", () => {
+    document.getElementById("foto-input").click();
+  });
 
-// Abrir la ventana de selección de archivos al hacer clic en "Fotos"
-agregarFoto.addEventListener("click", () => {
-  fotoInput.click(); // Simula clic en el input oculto
+// Almacena las imágenes seleccionadas y sus captions
+const imagenesSeleccionadas = [];
+
+document.getElementById("foto-input").addEventListener("change", (event) => {
+  const archivos = Array.from(event.target.files);
+
+  archivos.forEach((archivo) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      // Crea un objeto para almacenar la imagen y su caption
+      const imagen = {
+        archivo: archivo,
+        url: e.target.result,
+        caption: "",
+      };
+      imagenesSeleccionadas.push(imagen);
+      mostrarImagenesSeleccionadas();
+    };
+    reader.readAsDataURL(archivo);
+  });
 });
 
-// Al seleccionar una imagen, ejecuta esta función
-fotoInput.addEventListener("change", async (event) => {
-  const file = event.target.files[0]; // Obtiene la imagen seleccionada
+// Muestra las imágenes seleccionadas con un campo para el caption
+function mostrarImagenesSeleccionadas() {
+  const galeria = document.getElementById("galeria-imagenes");
+  galeria.innerHTML = "";
 
-  if (file) {
-    console.log("Imagen seleccionada:", file);
-    try {
-      const imageUrl = await uploadImagen(file); // Subir imagen
+  imagenesSeleccionadas.forEach((imagen, index) => {
+    const container = document.createElement("div");
+    container.classList.add("imagen-container");
 
-      await enviarImagenWhatsApp(imageUrl);
-    } catch (error) {
-      console.error("Error al subir la imagen:", error.message);
-    }
-  }
-});
+    // Imagen
+    const imgElement = document.createElement("img");
+    imgElement.src = imagen.url;
+    container.appendChild(imgElement);
 
-// Función para subir la imagen al servidor
-async function uploadImagen(imagen) {
-  const formData = new FormData();
-  formData.append("imagen", imagen); // Agrega la imagen al FormData
-
-  try {
-    const response = await fetch(
-      SERVERURL + "Pedidos/guardar_imagen_Whatsapp",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-
-    const data = await response.json();
-
-    // Manejo de errores y éxito
-    if (data.status === 500 || data.status === 400) {
-      Swal.fire({
-        icon: "error",
-        title: data.title,
-        text: data.message,
-      });
-    } else if (data.status === 200) {
-      /* Swal.fire({
-        icon: "success",
-        title: data.title,
-        text: data.message,
-        showConfirmButton: false,
-        timer: 2000,
-      }); */
-    }
-
-    return data.data; // Retorna la URL de la imagen subida
-  } catch (error) {
-    console.error("Error en la solicitud:", error);
-    Swal.fire({
-      icon: "error",
-      title: "Error de conexión",
-      text: "No se pudo conectar con el servidor. Inténtalo de nuevo más tarde.",
+    // Campo para el caption
+    const inputCaption = document.createElement("input");
+    inputCaption.type = "text";
+    inputCaption.placeholder = "Añadir un caption...";
+    inputCaption.value = imagen.caption;
+    inputCaption.addEventListener("input", (e) => {
+      imagenesSeleccionadas[index].caption = e.target.value;
     });
-  }
+    container.appendChild(inputCaption);
+
+    galeria.appendChild(container);
+  });
 }
 
-async function enviarImagenWhatsApp(imageUrl) {
-  var fromPhoneNumberId = $("#id_whatsapp").val(); // ID del número de WhatsApp
-  var accessToken = $("#token_configruacion").val(); // Token de autenticación
-  var numeroDestino = "+" + $("#celular_chat").val(); // Número destino en formato internacional
+// Enviar imágenes con sus captions
+document
+  .getElementById("enviar-imagenes")
+  .addEventListener("click", async () => {
+    for (const imagen of imagenesSeleccionadas) {
+      try {
+        const imageUrl = await uploadImagen(imagen.archivo); // Subir imagen
+        await enviarImagenWhatsApp(imageUrl, imagen.caption); // Enviar imagen con caption
+      } catch (error) {
+        console.error("Error al subir/enviar la imagen:", error);
+      }
+    }
+    // Limpiar la galería después de enviar
+    imagenesSeleccionadas.length = 0;
+    mostrarImagenesSeleccionadas();
+  });
+
+// Función modificada para enviar imagen con caption
+async function enviarImagenWhatsApp(imageUrl, caption = "") {
+  var fromPhoneNumberId = $("#id_whatsapp").val();
+  var accessToken = $("#token_configruacion").val();
+  var numeroDestino = "+" + $("#celular_chat").val();
   var apiUrl = `https://graph.facebook.com/v19.0/${fromPhoneNumberId}/messages`;
 
   const payload = {
@@ -1079,7 +1085,7 @@ async function enviarImagenWhatsApp(imageUrl) {
     type: "image",
     image: {
       link: SERVERURL + imageUrl,
-      caption: "", // Texto opcional para la imagen
+      caption: caption, // Usa el caption proporcionado
     },
   };
 
@@ -1111,7 +1117,7 @@ async function enviarImagenWhatsApp(imageUrl) {
     var telefono_configuracion = $("#telefono_configuracion").val();
 
     let formData = new FormData();
-    formData.append("texto_mensaje", "");
+    formData.append("texto_mensaje", caption);
     formData.append("tipo_mensaje", "image");
     formData.append("mid_mensaje", uid_cliente);
     formData.append("id_recibe", id_cliente_chat);
@@ -1127,7 +1133,7 @@ async function enviarImagenWhatsApp(imageUrl) {
       contentType: false,
       dataType: "json",
       success: function (response) {
-        startPollingMensajes(id_cliente_chat); // Actualizar mensajes automáticamente
+        startPollingMensajes(id_cliente_chat);
       },
       error: function (jqXHR, textStatus, errorThrown) {
         alert(`Error: ${errorThrown}`);
