@@ -1069,6 +1069,7 @@ document
       try {
         const imageUrl = await uploadImagen(imagen.archivo); // Subir imagen
         await enviarImagenWhatsApp(imageUrl, imagen.caption); // Enviar imagen con caption
+        $("#enviar_fotos_whatsappModal").modal("hide");
       } catch (error) {
         console.error("Error al subir/enviar la imagen:", error);
       }
