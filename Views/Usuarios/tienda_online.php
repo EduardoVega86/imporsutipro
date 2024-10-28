@@ -755,11 +755,84 @@
                 </div>
             </div>
         </div>
+        
+        <div class="accordion-item" id="colores_plantilla3" style="display: none;">
+            <h2 class="accordion-header" id="headingFour">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                    COLORES
+                </button>
+            </h2>
+            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <div class="container">
+                        <div class="section">
+                            <h2>Elementos</h2>
+                            <div class="inputs">
+                                <div class="input-box d-flex flex-column">
+                                    <input onchange="cambiarcolor_oferta_plantilla2('color_hover_cabecera',this.value)" id="color_hover_cabecera_plantilla2" name="color_hover_cabecera_plantilla2" type="color" value="#ff0000">
+                                    <h6><strong>Color hover cabecera</strong></h6>
+                                </div>
+                                <div class="input-box d-flex flex-column">
+                                    <input onchange="cambiarcolor_oferta_plantilla2('color_cabecera',this.value)" id="color_cabecera_plantilla2" name="color_cabecera_plantilla2" type="color" value="#000000">
+                                    <h6><strong>Barra Superior</strong></h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section">
+                            <h2>Textos</h2>
+                            <div class="inputs">
+                                <div class="input-box d-flex flex-column">
+                                    <input onchange="cambiarcolor_oferta_plantilla2('color_texto_cabecera',this.value)" id="color_texto_cabecera_plantilla2" name="color_texto_cabecera_plantilla2" type="color" value="#ffffff">
+                                    <h6><strong>Cabecera</strong></h6>
+                                </div>
+                                <div class="input-box d-flex flex-column">
+                                    <input onchange="cambiarcolor_oferta_plantilla2('color_texto_precio',this.value)" id="color_texto_precio_plantilla2" name="color_texto_precio_plantilla2" type="color" value="#ffffff">
+                                    <h6><strong>Precio</strong></h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <!-- fin seccion colores plantilla  2 -->
         <div class="accordion-item">
             <h2 class="accordion-header" id="headingFive">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
                     TESTIMONIOS
+                </button>
+            </h2>
+            <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <div class="justify-content-between align-items-center mb-3">
+                        <div class="d-flex">
+                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_testimonioModal"><i class="fas fa-plus"></i> Agregar</button>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <!-- <table class="table table-bordered table-striped table-hover"> -->
+                        <table id="datatable_testimonios" width="100%" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="text-nowrap">Imagen</th>
+                                    <th class="text-nowrap">Nombre</th>
+                                    <th class="text-nowrap">Testimonio</th>
+                                    <th class="text-nowrap">Fecha</th>
+                                    <th class="text-nowrap">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody_testimonios"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingFive">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                    PROFESIONALES
                 </button>
             </h2>
             <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">

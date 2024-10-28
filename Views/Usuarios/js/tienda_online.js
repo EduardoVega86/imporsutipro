@@ -627,6 +627,8 @@ $("#vista_previa").html(
         $("#seccion_oferta_plantilla2").hide();
         $("#seccion_promocion_plantilla2").hide();
         
+         $("#colores_plantilla3").hide();
+        
         $("#fondo_servicios").hide();
 
         // Actualiza los valores de los inputs hidden
@@ -656,6 +658,8 @@ $("#seccion_paralax_plantilla3").hide();
         // Actualiza los valores de los inputs hidden
         $("#plantilla_selected").val("template2");
         
+        $("#colores_plantilla3").hide();
+        
         $("#fondo_servicios").hide();
         
          valor_banner="<strong>Atención:</strong> las dimensines de la imagen deben ser 2550x860 y en formato .png, .jpg, .jpeg";
@@ -673,6 +677,8 @@ $("#seccion_paralax_plantilla3").hide();
 $("#seccion_promocion_plantilla2").hide();
 
 $("#seccion_oferta_plantilla2").hide();
+
+$("#colores_plantilla3").show();
 
         // Remueve la clase 'selected' de todas las plantillas
         $(".plantilla").removeClass("selected");
