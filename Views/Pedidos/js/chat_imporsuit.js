@@ -999,6 +999,12 @@ document.addEventListener("click", (e) => {
 });
 
 /* subir imagen */
+// Al hacer clic en la opción "Fotos" del menú flotante, se abre el modal
+document.getElementById("agregar_foto").addEventListener("click", () => {
+  // Utiliza jQuery para mostrar el modal
+  $("#enviar_fotos_whatsappModal").modal("show");
+});
+
 document
   .getElementById("seleccionar_imagenes")
   .addEventListener("click", () => {
