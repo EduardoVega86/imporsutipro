@@ -145,8 +145,8 @@ $(document).ready(function () {
                         <h6 class="mb-0">${
                           contacto.nombre_cliente || "Desconocido"
                         } ${
-            contacto.apellido_cliente || ""
-          } ${color_etiqueta}</h6>
+                          contacto.apellido_cliente || ""
+                        } ${color_etiqueta}</h6>
                         <h7>+${contacto.celular_cliente}</h7>
                         <small class="text-muted">${
                           contacto.texto_mensaje || "No hay mensajes"
@@ -1001,50 +1001,32 @@ document.addEventListener("click", (e) => {
 /* subir imagen */
 const agregarFoto = document.getElementById("agregar_foto");
 const fotoInput = document.getElementById("foto-input");
-const listaImagenes = document.getElementById("lista-imagenes");
-const enviarImagenesBtn = document.getElementById("enviar-imagenes");
 
-let imagenesSeleccionadas = [];
-
-// Abrir la ventana de selección de archivos al hacer clic en "Seleccionar Imágenes"
+// Abrir la ventana de selección de archivos al hacer clic en "Fotos"
 agregarFoto.addEventListener("click", () => {
   fotoInput.click(); // Simula clic en el input oculto
 });
 
-// Al seleccionar imágenes, muestra la lista en el modal
-fotoInput.addEventListener("change", (event) => {
-  const files = Array.from(event.target.files); // Obtiene las imágenes seleccionadas
+// Al seleccionar una imagen, ejecuta esta función
+fotoInput.addEventListener("change", async (event) => {
+  const file = event.target.files[0]; // Obtiene la imagen seleccionada
 
-  files.forEach((file, index) => {
-    // Crear elementos visuales para cada imagen y su caption
-    const divImagen = document.createElement("div");
-    divImagen.classList.add("mb-3");
+  if (file) {
+    console.log("Imagen seleccionada:", file);
+    try {
+      const imageUrl = await uploadImagen(file); // Subir imagen
 
-    const imagenPrevia = document.createElement("img");
-    imagenPrevia.src = URL.createObjectURL(file);
-    imagenPrevia.style.width = "100px";
-    imagenPrevia.style.marginRight = "10px";
-    imagenPrevia.classList.add("img-thumbnail");
-
-    const captionInput = document.createElement("input");
-    captionInput.type = "text";
-    captionInput.classList.add("form-control");
-    captionInput.placeholder = "Agregar un caption...";
-    captionInput.dataset.index = index;
-
-    divImagen.appendChild(imagenPrevia);
-    divImagen.appendChild(captionInput);
-    listaImagenes.appendChild(divImagen);
-
-    // Agregar imagen y su caption a la lista de seleccionadas
-    imagenesSeleccionadas.push({ file, caption: captionInput });
-  });
+      await enviarImagenWhatsApp(imageUrl);
+    } catch (error) {
+      console.error("Error al subir la imagen:", error.message);
+    }
+  }
 });
 
-// Función para subir cada imagen al servidor
+// Función para subir la imagen al servidor
 async function uploadImagen(imagen) {
   const formData = new FormData();
-  formData.append("imagen", imagen);
+  formData.append("imagen", imagen); // Agrega la imagen al FormData
 
   try {
     const response = await fetch(
@@ -1065,8 +1047,16 @@ async function uploadImagen(imagen) {
         text: data.message,
       });
     } else if (data.status === 200) {
-      return data.data; // Retorna la URL de la imagen subida
+      /* Swal.fire({
+        icon: "success",
+        title: data.title,
+        text: data.message,
+        showConfirmButton: false,
+        timer: 2000,
+      }); */
     }
+
+    return data.data; // Retorna la URL de la imagen subida
   } catch (error) {
     console.error("Error en la solicitud:", error);
     Swal.fire({
@@ -1077,19 +1067,7 @@ async function uploadImagen(imagen) {
   }
 }
 
-// Enviar todas las imágenes con sus captions a WhatsApp
-enviarImagenesBtn.addEventListener("click", async () => {
-  for (let item of imagenesSeleccionadas) {
-    const imageUrl = await uploadImagen(item.file);
-
-    if (imageUrl) {
-      await enviarImagenWhatsApp(imageUrl, item.caption.value); // Enviar imagen a WhatsApp con su caption
-    }
-  }
-});
-
-// Función para enviar la imagen a WhatsApp
-async function enviarImagenWhatsApp(imageUrl, caption) {
+async function enviarImagenWhatsApp(imageUrl) {
   var fromPhoneNumberId = $("#id_whatsapp").val(); // ID del número de WhatsApp
   var accessToken = $("#token_configruacion").val(); // Token de autenticación
   var numeroDestino = "+" + $("#celular_chat").val(); // Número destino en formato internacional
@@ -1101,7 +1079,7 @@ async function enviarImagenWhatsApp(imageUrl, caption) {
     type: "image",
     image: {
       link: SERVERURL + imageUrl,
-      caption: caption || "", // Texto opcional para la imagen
+      caption: "", // Texto opcional para la imagen
     },
   };
 
@@ -1133,7 +1111,7 @@ async function enviarImagenWhatsApp(imageUrl, caption) {
     var telefono_configuracion = $("#telefono_configuracion").val();
 
     let formData = new FormData();
-    formData.append("texto_mensaje", caption);
+    formData.append("texto_mensaje", "");
     formData.append("tipo_mensaje", "image");
     formData.append("mid_mensaje", uid_cliente);
     formData.append("id_recibe", id_cliente_chat);

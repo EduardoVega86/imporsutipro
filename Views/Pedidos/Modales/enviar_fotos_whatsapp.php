@@ -72,18 +72,19 @@
         }
     }
 </style>
+<!-- Modal para enviar fotos a WhatsApp -->
 <div class="modal fade" id="enviar_fotos_whatsappModal" tabindex="-1" aria-labelledby="enviar_fotos_whatsappModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="enviar_fotos_whatsappModalLabel"><i class="fas fa-edit"></i> Asignar nuevo teléfono</h5>
+                <h5 class="modal-title" id="enviar_fotos_whatsappModalLabel"><i class="fas fa-edit"></i> Seleccionar imágenes para enviar</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <button id="agregar_foto" class="btn btn-primary">Seleccionar Imágenes</button>
+                <button id="seleccionar_imagenes" class="btn btn-primary">Seleccionar Imágenes</button>
                 <input id="foto-input" type="file" accept="image/*" multiple style="display:none;">
 
-                <div id="lista-imagenes" class="mt-3">
+                <div id="galeria-imagenes" class="mt-3">
                     <!-- Aquí se mostrarán las imágenes seleccionadas con sus captions -->
                 </div>
             </div>
