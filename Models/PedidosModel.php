@@ -1092,14 +1092,14 @@ class PedidosModel extends Query
                 $id_plataforma = $fila['id_plataforma'];
 
                 // Consulta para obtener la categoría del producto (limit 1)
-                $sql_categorias = "SELECT id_categoria_tienda FROM productos_tienda WHERE id_inventario = $id_inventario 
+                /* $sql_categorias = "SELECT id_categoria_tienda FROM productos_tienda WHERE id_inventario = $id_inventario 
             AND id_plataforma = $id_plataforma LIMIT 1";
 
                 // Ejecutar la consulta de categorías (esperamos solo una fila debido al LIMIT 1)
-                $resultado_categoria = $this->select($sql_categorias)[0];
+                $resultado_categoria = $this->select($sql_categorias)[0]; */
 
                 // Agregamos la categoría al array
-                $categorias[] = (string)$resultado_categoria['id_categoria_tienda'] ?? null;
+                /* $categorias[] = (string)$resultado_categoria['id_categoria_tienda'] ?? null; */
             }
         } else if ($resultados && isset($resultados['id_inventario'])) {
             // Si solo es una fila, también agregamos ese único id de producto al array
