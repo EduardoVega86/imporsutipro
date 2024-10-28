@@ -504,6 +504,7 @@ if (response[0].imagen_parallax2 === null) {
         );
       }
       
+      
       $("#titulo_oferta2").val(response[0].titulo_oferta2);
       $("#oferta2").val(response[0].oferta2);
       $("#descripcion_oferta2").val(response[0].descripcion_oferta2);
