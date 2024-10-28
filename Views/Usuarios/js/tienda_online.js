@@ -437,6 +437,7 @@ function cargar_informacion_plantilla3() {
       $("#myRange").val(response[0].parallax_opacidad);
       $("#rangeValue").text(response[0].parallax_opacidad);
       
+      
        $("#color_filtro").val(response[0].color_filtro);
        $("#color_texto").val(response[0].color_texto);
        $("#color_boton").val(response[0].color_boton);
@@ -474,6 +475,21 @@ function cargar_informacion_plantilla3() {
           SERVERURL + response[0].parallax_fondo
         );
       }
+      
+      if (response[0].fondo_pagina === null) {
+        $("#imagefondopagina").attr(
+          "src",
+          SERVERURL + "public/img/broken-image.png"
+        );
+      } else {
+         // alert(response[0].parallax_fondo)
+        $("#imagefondopagina").attr(
+          "src",
+          SERVERURL + response[0].fondo_pagina
+        );
+      }
+      
+      
 
 if (response[0].imagen_parallax2 === null) {
         $("#imagen_parallax2").attr(
