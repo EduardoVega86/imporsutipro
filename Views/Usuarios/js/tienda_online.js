@@ -118,6 +118,45 @@ $("#imageFondoParallax2").on("change", function (event) {
 });
 
 
+$("#imagefondopaginainput").on("change", function (event) {
+  event.preventDefault();
+
+  // Mostrar vista previa de la imagen seleccionada
+  var input = event.target;
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      $("#imagefondopagina").attr("src", e.target.result);
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+
+  // Crear un FormData y enviar la imagen mediante AJAX
+  var formData = new FormData($("#imagefondopaginaform")[0]);
+  $.ajax({
+    url: SERVERURL + "Usuarios/guardar_imagen_fondo_plantilla3", // Cambia esta ruta por la ruta correcta a tu controlador
+    type: "POST",
+    data: formData,
+    contentType: false,
+    processData: false,
+    success: function (response) {
+      response = JSON.parse(response);
+      if (response.status == 500) {
+        toastr.error("LA IMAGEN NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert("Error al guardar la imagen: " + textStatus);
+    },
+  });
+});
+
 $("#imageInputFav").on("change", function (event) {
   event.preventDefault();
 
