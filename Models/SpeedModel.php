@@ -537,6 +537,8 @@ class SpeedModel extends Query
                 $estado_guia_automatizador = 2;
             } else if ($estado_guia == 100 && $estado_guia == 102 && $estado_guia == 103) {
                 $estado_guia_automatizador = 4;
+            } if ($estado_guia == 317){
+                $estado_guia_automatizador = 5;
             }
         } else if ($id_transporte == 3) {
             if ($estado_guia == 7) {
