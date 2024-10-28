@@ -189,7 +189,7 @@
                                     <h5 class="card-title">FONDO DE LA PAGÍNA</h5>
                                     <form id="imagefondopaginaform" enctype="multipart/form-data">
                                         <div class="mb-3">
-                                            <input type="file" class="form-control" id="imagefondopaginainput" accept=".jpg,.jpeg,.png" name="imagen">
+                                            <input type="file" class="form-control" id="imagefondopaginainput" accept=".jpg,.jpeg,.png,.webp" name="imagen">
                                         </div>
                                         <img id="imagefondopagina" class="image-preview mb-3" src="" alt="Preview" width="50%">
                                     </form>
