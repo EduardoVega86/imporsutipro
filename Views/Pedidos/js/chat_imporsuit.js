@@ -1151,6 +1151,50 @@ async function enviarImagenWhatsApp(imageUrl, caption = "") {
   }
 }
 
+// Función para subir la imagen al servidor
+async function uploadImagen(imagen) {
+  const formData = new FormData();
+  formData.append("imagen", imagen); // Agrega la imagen al FormData
+
+  try {
+    const response = await fetch(
+      SERVERURL + "Pedidos/guardar_imagen_Whatsapp",
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+
+    const data = await response.json();
+
+    // Manejo de errores y éxito
+    if (data.status === 500 || data.status === 400) {
+      Swal.fire({
+        icon: "error",
+        title: data.title,
+        text: data.message,
+      });
+    } else if (data.status === 200) {
+      /* Swal.fire({
+        icon: "success",
+        title: data.title,
+        text: data.message,
+        showConfirmButton: false,
+        timer: 2000,
+      }); */
+    }
+
+    return data.data; // Retorna la URL de la imagen subida
+  } catch (error) {
+    console.error("Error en la solicitud:", error);
+    Swal.fire({
+      icon: "error",
+      title: "Error de conexión",
+      text: "No se pudo conectar con el servidor. Inténtalo de nuevo más tarde.",
+    });
+  }
+}
+
 /* fin subir imagen */
 
 /* fin añadir documentos, videos, y fotos */
