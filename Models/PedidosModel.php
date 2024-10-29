@@ -236,7 +236,7 @@ class PedidosModel extends Query
         //$sql .= " LIMIT $inicio, $final";
 
 
-        //echo $sql;
+        echo $sql;
         return $this->select($sql);
     }
 
@@ -1799,7 +1799,7 @@ class PedidosModel extends Query
             // Obtener el ID del cliente recién creado
             $id_cliente_configuracion = $this->lastInsertId();
         } else {
-            
+
             // El cliente ya existe, obtenemos su ID
             $id_cliente_configuracion = $id_clienteConfiguracion[0]['id'];
         }
