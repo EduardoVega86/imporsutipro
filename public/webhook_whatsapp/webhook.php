@@ -909,7 +909,8 @@ function procesarMensajeTexto($conn, $id_plataforma, $business_phone_id, $nombre
 }
 
 // Función para enviar datos a la API sockect
-function enviarConsultaAPI($id_plataforma, $celular_recibe) {
+function enviarConsultaAPI($id_plataforma, $celular_recibe)
+{
     // URL de la API
     $url = "https://chat.imporfactory.app/api/v1/whatsapp/webhook";
 
@@ -948,6 +949,10 @@ function enviarConsultaAPI($id_plataforma, $celular_recibe) {
 switch ($tipo_mensaje) {
     case 'text':
         $texto_mensaje = $respuesta_WEBHOOK_messages['text']['body'];
+        break;
+
+    case 'reaction':
+        $texto_mensaje = $respuesta_WEBHOOK_messages['reaction']['emoji'];
         break;
 
     case 'image':
@@ -1157,7 +1162,6 @@ if ($stmt->execute()) {
         // Manejo si la API no responde correctamente
         echo json_encode(["status" => "error", "message" => "No se pudo enviar los datos a la API."]);
     }
-
 } else {
     file_put_contents('debug_log.txt', "Error SQL: " . $stmt->error . "\n", FILE_APPEND);  // Agregar log del error
     echo json_encode(["status" => "error", "message" => "Error al procesar el mensaje: " . $stmt->error]);
