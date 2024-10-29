@@ -1799,6 +1799,7 @@ class PedidosModel extends Query
             // Obtener el ID del cliente recién creado
             $id_cliente_configuracion = $this->lastInsertId();
         } else {
+            print_r($id_clienteConfiguracion);
             // El cliente ya existe, obtenemos su ID
             $id_cliente_configuracion = $id_clienteConfiguracion[0]['id'];
         }
