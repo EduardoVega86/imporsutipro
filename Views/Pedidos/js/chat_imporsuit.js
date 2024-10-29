@@ -604,6 +604,12 @@ $(document).ready(function () {
             </div>
             `;
         }
+      }else if (mensaje.tipo_mensaje == "reaction"){
+        innerHTML += `
+            <div class="message ${claseMensaje}">
+              <span style = "white-space: pre-wrap;">${mensaje.texto_mensaje}</span>
+            </div>
+            `;
       } else if (mensaje.tipo_mensaje == "image") {
         innerHTML += `
             <div class="message d-flex flex-column ${claseMensaje}">
