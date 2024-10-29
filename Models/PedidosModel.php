@@ -1774,10 +1774,34 @@ class PedidosModel extends Query
         // codigo para agregar categoria
         $response = $this->initialResponse();
 
-        $sql_idConfiguracion = "SELECT id FROM clientes_chat_center WHERE celular_cliente = '$telefono_configuracion'";
-        $id_clienteConfiguracion = $this->select($sql_idConfiguracion);
+        // Consulta para verificar si el cliente ya existe en la tabla clientes_chat_center
+        $sql_idConfiguracion = "SELECT id FROM clientes_chat_center WHERE celular_cliente = ? AND id_plataforma = ?";
+        $data_check = [$telefono_configuracion, $id_plataforma];
+        $id_clienteConfiguracion = $this->select($sql_idConfiguracion, $data_check);
 
-        $id_cliente_configuracion = $id_clienteConfiguracion[0]['id'];
+        if (empty($id_clienteConfiguracion)) {
+
+            /* sacar informacion de configuracion */
+            $sql_telefono_configuracion = "SELECT id_telefono, nombre_configuracion FROM configuraciones WHERE id_plataforma = $id_plataforma";
+            $id_telefono = $this->select($sql_telefono_configuracion);
+
+            $id_telefono = $id_telefono[0]['id_telefono'];
+            $nombre_cliente = $id_telefono[0]['nombre_configuracion'];
+            $apellido_cliente = "";
+            /* sacar informacino de configuracion */
+
+            // El cliente no existe, creamos uno nuevo
+            $sql_insertCliente = "INSERT INTO clientes_chat_center (id_plataforma, uid_cliente, nombre_cliente, apellido_cliente, celular_cliente, created_at, updated_at) 
+                          VALUES (?, ?, ?, ?, ?, NOW(), NOW())";
+            $data_insert = [$id_plataforma, $id_telefono, $nombre_cliente, $apellido_cliente, $telefono_configuracion];
+            $this->insert($sql_insertCliente, $data_insert);
+
+            // Obtener el ID del cliente recién creado
+            $id_cliente_configuracion = $this->lastInsertId();
+        } else {
+            // El cliente ya existe, obtenemos su ID
+            $id_cliente_configuracion = $id_clienteConfiguracion[0]['id'];
+        }
 
         $sql = "INSERT INTO `mensajes_clientes` (`id_plataforma`,`id_cliente`,`mid_mensaje`,`tipo_mensaje`,`rol_mensaje`,`celular_recibe`,`texto_mensaje`,`ruta_archivo`,`visto` ,`uid_whatsapp`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $data = [$id_plataforma, $id_cliente_configuracion, $mid_mensaje, $tipo_mensaje, 1, $id_recibe, $texto_mensaje, $ruta_archivo, 1, $telefono_recibe];
