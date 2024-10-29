@@ -1106,7 +1106,7 @@ class WalletModel extends Query
         } else {
             $where = "";
         }
-        /*  $sql = "SELECT DISTINCT
+        $sql = "SELECT DISTINCT
                 fc.numero_factura,
                 fc.numero_guia,
                 fc.drogshipin,
@@ -1309,8 +1309,7 @@ class WalletModel extends Query
             ORDER BY 
                 fc.fecha_factura;
             ";
-        //echo $sql; */
-        $sql = "SELECT * from vista_detalle_facturas_final;";
+        //echo $sql;
         $response =  $this->select($sql);
         return $response;
     }
