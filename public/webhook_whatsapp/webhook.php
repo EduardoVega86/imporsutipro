@@ -705,8 +705,8 @@ function procesarMensaje_template($conn, $id_plataforma, $business_phone_id, $no
         file_put_contents('debug_log.txt', "Probando con idioma: $language_code\n", FILE_APPEND);
 
         // Verificar si el cliente ya existe en la tabla clientes_chat_center por celular_cliente
-        $check_client_stmt = $conn->prepare("SELECT id FROM clientes_chat_center WHERE celular_cliente = ?");
-        $check_client_stmt->bind_param('s', $telefono_configuracion);  // Buscamos por el celular_cliente
+        $check_client_stmt = $conn->prepare("SELECT id FROM clientes_chat_center WHERE celular_cliente = ? AND id_plataforma = ? ");
+        $check_client_stmt->bind_param('si', $telefono_configuracion, $id_plataforma);  // Buscamos por el celular_cliente
         $check_client_stmt->execute();
         $check_client_stmt->store_result();
 
@@ -731,8 +731,8 @@ function procesarMensaje_template($conn, $id_plataforma, $business_phone_id, $no
         $id_cliente_recibe = 0;
 
         // Obtener ID del cliente que recibe
-        $check_idCliente_recibe_stmt = $conn->prepare("SELECT id FROM clientes_chat_center WHERE celular_cliente = ?");
-        $check_idCliente_recibe_stmt->bind_param('s', $phone_whatsapp_from);  // Buscamos por el celular_cliente
+        $check_idCliente_recibe_stmt = $conn->prepare("SELECT id FROM clientes_chat_center WHERE celular_cliente = ? AND id_plataforma = ? ");
+        $check_idCliente_recibe_stmt->bind_param('si', $phone_whatsapp_from, $id_plataforma);  // Buscamos por el celular_cliente
         $check_idCliente_recibe_stmt->execute();
         $check_idCliente_recibe_stmt->store_result();
         $check_idCliente_recibe_stmt->bind_result($id_cliente_recibe);
@@ -851,8 +851,8 @@ function procesarMensajeTexto($conn, $id_plataforma, $business_phone_id, $nombre
     $id_cliente = 0;
 
     // Verificar si el cliente ya existe en la tabla clientes_chat_center
-    $check_client_stmt = $conn->prepare("SELECT id FROM clientes_chat_center WHERE celular_cliente = ?");
-    $check_client_stmt->bind_param('s', $telefono_configuracion);
+    $check_client_stmt = $conn->prepare("SELECT id FROM clientes_chat_center WHERE celular_cliente = ? AND id_plataforma = ? ");
+    $check_client_stmt->bind_param('si', $telefono_configuracion, $id_plataforma);
     $check_client_stmt->execute();
     $check_client_stmt->store_result();
 
@@ -880,8 +880,8 @@ function procesarMensajeTexto($conn, $id_plataforma, $business_phone_id, $nombre
     $id_cliente_recibe = 0;
 
     // Obtener ID del cliente que recibe
-    $check_idCliente_recibe_stmt = $conn->prepare("SELECT id FROM clientes_chat_center WHERE celular_cliente = ?");
-    $check_idCliente_recibe_stmt->bind_param('s', $phone_whatsapp_to);  // Buscamos por el celular_cliente
+    $check_idCliente_recibe_stmt = $conn->prepare("SELECT id FROM clientes_chat_center WHERE celular_cliente = ? AND id_plataforma = ? ");
+    $check_idCliente_recibe_stmt->bind_param('si', $phone_whatsapp_to, $id_plataforma);  // Buscamos por el celular_cliente
     $check_idCliente_recibe_stmt->execute();
     $check_idCliente_recibe_stmt->store_result();
     $check_idCliente_recibe_stmt->bind_result($id_cliente_recibe);
@@ -1080,8 +1080,8 @@ $debug_log['texto_mensaje'] = $texto_mensaje;
 file_put_contents('debug_log.txt', "Mensaje procesado: " . $texto_mensaje . "\n", FILE_APPEND);
 
 // Verificar si el cliente ya existe en la tabla clientes_chat_center por celular_cliente
-$check_client_stmt = $conn->prepare("SELECT id FROM clientes_chat_center WHERE celular_cliente = ?");
-$check_client_stmt->bind_param('s', $phone_whatsapp_from);  // Buscamos por el celular_cliente
+$check_client_stmt = $conn->prepare("SELECT id FROM clientes_chat_center WHERE celular_cliente = ? AND id_plataforma = ? ");
+$check_client_stmt->bind_param('si', $phone_whatsapp_from, $id_plataforma);  // Buscamos por el celular_cliente
 $check_client_stmt->execute();
 $check_client_stmt->store_result();
 
@@ -1118,8 +1118,8 @@ $check_configuracion_cliente_stmt->close();
 /* fin obtener configuracion */
 
 /* obtener id_cliente_configuracion */
-$check_idCliente_configuracion_stmt = $conn->prepare("SELECT id FROM clientes_chat_center WHERE celular_cliente = ?");
-$check_idCliente_configuracion_stmt->bind_param('s', $telefono_configuracion);  // Buscamos por el celular_cliente
+$check_idCliente_configuracion_stmt = $conn->prepare("SELECT id FROM clientes_chat_center WHERE celular_cliente = ? AND id_plataforma = ? ");
+$check_idCliente_configuracion_stmt->bind_param('si', $telefono_configuracion, $id_plataforma);  // Buscamos por el celular_cliente
 $check_idCliente_configuracion_stmt->execute();
 $check_idCliente_configuracion_stmt->store_result();
 $check_idCliente_configuracion_stmt->bind_result($id_cliente_configuracion);

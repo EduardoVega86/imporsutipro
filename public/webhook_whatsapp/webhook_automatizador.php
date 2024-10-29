@@ -326,8 +326,8 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
     /* obtener id_cliente_configuracion */
     $id_cliente_configuracion = "";
 
-    $check_idCliente_configuracion_stmt = $conn->prepare("SELECT id FROM clientes_chat_center WHERE celular_cliente = ?");
-    $check_idCliente_configuracion_stmt->bind_param('s', $telefono_configuracion);  // Buscamos por el celular_cliente
+    $check_idCliente_configuracion_stmt = $conn->prepare("SELECT id FROM clientes_chat_center WHERE celular_cliente = ? AND id_plataforma = ? ");
+    $check_idCliente_configuracion_stmt->bind_param('si', $telefono_configuracion, $id_plataforma);  // Buscamos por el celular_cliente
     $check_idCliente_configuracion_stmt->execute();
     $check_idCliente_configuracion_stmt->store_result();
     $check_idCliente_configuracion_stmt->bind_result($id_cliente_configuracion);
@@ -336,8 +336,8 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
     /* Fin obtener id_cliente_configuracion */
 
     // Verificar si el cliente ya existe en la tabla clientes_chat_center por celular_cliente
-    $check_client_stmt = $conn->prepare("SELECT id FROM clientes_chat_center WHERE celular_cliente = ?");
-    $check_client_stmt->bind_param('s', $uid_whatsapp);  // Buscamos por el celular_cliente
+    $check_client_stmt = $conn->prepare("SELECT id FROM clientes_chat_center WHERE celular_cliente = ? AND id_plataforma = ? ");
+    $check_client_stmt->bind_param('si', $uid_whatsapp, $id_plataforma);  // Buscamos por el celular_cliente
     $check_client_stmt->execute();
     $check_client_stmt->store_result();
 
