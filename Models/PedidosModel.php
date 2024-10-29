@@ -1777,7 +1777,7 @@ class PedidosModel extends Query
         // Consulta para verificar si el cliente ya existe en la tabla clientes_chat_center
         $sql_idConfiguracion = "SELECT id FROM clientes_chat_center WHERE celular_cliente = ? AND id_plataforma = ?";
         $data_check = [$telefono_configuracion, $id_plataforma];
-        $id_clienteConfiguracion = $this->select($sql_idConfiguracion, $data_check);
+        $id_clienteConfiguracion = $this->dselect($sql_idConfiguracion, $data_check);
 
         if (empty($id_clienteConfiguracion)) {
 
@@ -1799,7 +1799,7 @@ class PedidosModel extends Query
             // Obtener el ID del cliente recién creado
             $id_cliente_configuracion = $this->lastInsertId();
         } else {
-            print_r($id_clienteConfiguracion);
+            
             // El cliente ya existe, obtenemos su ID
             $id_cliente_configuracion = $id_clienteConfiguracion[0]['id'];
         }
