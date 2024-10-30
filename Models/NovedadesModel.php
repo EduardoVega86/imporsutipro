@@ -15,6 +15,8 @@ class NovedadesModel extends Query
                 AND solucionada = 0 
                 AND NOT (guia_novedad LIKE 'I00%' AND estado_novedad = 6);
                 ";
+
+
         $response = $this->select($sql);
         return $response;
     }
@@ -131,8 +133,14 @@ class NovedadesModel extends Query
     }
     public function datos($guia)
     {
-        $sql = "SELECT * FROM facturas_cot WHERE numero_guia = '$guia'";
+        $sql = "SELECT *, (SELECT codigo_ciudad_laar FROM ciudad_cotizacion where id_cotizacion = ciudad_cot) as ciudad FROM facturas_cot WHERE numero_guia= '$guia'";
+
+
         $data1 = $this->select($sql);
+
+        //buscar ciudad
+
+
         $sql = "SELECT * FROM novedades WHERE guia_novedad = '$guia'";
         $data2 = $this->select($sql);
         $data = array(
