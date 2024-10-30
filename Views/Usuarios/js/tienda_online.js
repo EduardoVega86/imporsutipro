@@ -646,7 +646,7 @@ $("#vista_previa").html(
       // alert(valor_banner)
             $("#muestra_banner").html(valor_banner);
         
-        
+        $("#profesionales").hide();
         
       } else if (response[0].plantilla == 2) {
         cargar_ofertas_plantilla2();
@@ -662,6 +662,8 @@ $("#seccion_paralax_plantilla3").hide();
         
         $("#fondo_servicios").hide();
         
+         $("#profesionales").hide();
+        
          valor_banner="<strong>Atención:</strong> las dimensines de la imagen deben ser 2550x860 y en formato .png, .jpg, .jpeg";
         $("#muestra_banner").html(valor_banner);
 
@@ -674,6 +676,9 @@ $("#seccion_paralax_plantilla3").hide();
           cargar_informacion_plantilla3();
         // Actualiza los valores de los inputs hidden
         $("#plantilla_selected").val("template3");
+        
+        $("#profesionales").show();
+        
 $("#seccion_promocion_plantilla2").hide();
 
 $("#seccion_oferta_plantilla2").hide();

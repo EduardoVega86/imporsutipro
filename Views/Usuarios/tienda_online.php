@@ -829,7 +829,7 @@
             </div>
         </div>
         
-        <div class="accordion-item">
+        <div id="profesionales" class="accordion-item">
             <h2 class="accordion-header" id="headingFive">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
                     PROFESIONALES
