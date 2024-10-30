@@ -431,6 +431,15 @@ class Usuarios extends Controller
         $response = $this->model->obtener_testimonios($_SESSION['id_plataforma']);
         echo json_encode($response);
     }
+    
+    
+    public function obtener_profesionales2()
+    {
+
+        $response = $this->model->obtener_profesionales($_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+    
 
     public function obtener_testimoniotiendaID()
     {

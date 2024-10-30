@@ -844,7 +844,7 @@
                     </div>
                     <div class="table-responsive">
                         <!-- <table class="table table-bordered table-striped table-hover"> -->
-                        <table id="datatable_testimonios" width="100%" class="table table-striped">
+                        <table id="datatable_profesionales" width="100%" class="table table-striped">
                             <thead>
                                 <tr>
                                     <th class="text-nowrap">Imagen</th>
@@ -854,7 +854,7 @@
                                     <th class="text-nowrap">Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody id="tableBody_testimonios"></tbody>
+                            <tbody id="tableBody_profesionales"></tbody>
                         </table>
                     </div>
                 </div>

@@ -1368,6 +1368,96 @@ window.addEventListener("load", async () => {
   await initDataTableTestimonios();
 });
 
+//tabla profesionales
+/* tabla de Testimonio */
+let dataTableProfesionales;
+let dataTableProfesionalesIsInitialized = false;
+
+const dataTableProfesionalesOptions = {
+  columnDefs: [
+    {
+      className: "centered",
+      targets: [1, 2, 3, 4],
+    },
+    {
+      orderable: false,
+      targets: 0,
+    }, //ocultar para columna 0 el ordenar columna
+  ],
+  pageLength: 10,
+  destroy: true,
+  language: {
+    lengthMenu: "Mostrar _MENU_ registros por página",
+    zeroRecords: "Ningún usuario encontrado",
+    info: "Mostrando de _START_ a _END_ de un total de _TOTAL_ registros",
+    infoEmpty: "Ningún usuario encontrado",
+    infoFiltered: "(filtrados desde _MAX_ registros totales)",
+    search: "Buscar:",
+    loadingRecords: "Cargando...",
+    paginate: {
+      first: "Primero",
+      last: "Último",
+      next: "Siguiente",
+      previous: "Anterior",
+    },
+  },
+};
+
+const initDataTableProfesionales = async () => {
+  if (dataTableProfesionalesIsInitialized) {
+    dataTableProfesionales.destroy();
+  }
+
+  await listProfesionales();
+
+  dataTableProfesionales = $("#datatable_profesionales").DataTable(
+    dataTableProfesionalesOptions
+  );
+
+  dataTableProfesionalesIsInitialized = true;
+};
+
+const listProfesionales = async () => {
+  try {
+    const response = await fetch(
+      "" + SERVERURL + "Usuarios/obtener_profesionales2"
+    );
+    const profesionales = await response.json();
+
+    let content = ``;
+
+    profesionales.forEach((profesionales, index) => {
+      content += `
+          <tr>
+              <td><img src="${SERVERURL}${testimonio.imagen}" class="img-responsive" alt="profile-image" width="100px"></td>
+              <td>${profesionales.nombre}</td>
+              <td>${profesionales.testimonio}</td>
+              <td>${profesionales.date_added}</td>
+              <td>
+              <div class="dropdown">
+              <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fa-solid fa-gear"></i>
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <li><span class="dropdown-item" style="cursor: pointer;" onclick="editarTestimonio(${testimonio.id_testimonio})"><i class="fa-solid fa-pencil"></i>Editar</span></li>
+                  <li><span class="dropdown-item" style="cursor: pointer;" onclick="eliminarTestimonio(${testimonio.id_testimonio})"><i class="fa-solid fa-trash-can"></i>Eliminar</span></li>
+              </ul>
+              </div>
+              </td>
+          </tr>`;
+    });
+    document.getElementById("tableBody_profesionales").innerHTML = content;
+  } catch (ex) {
+    alert(ex);
+  }
+};
+
+window.addEventListener("load", async () => {
+  await initDataTableProfesionales();
+});
+
+
+
 function eliminarTestimonio(id) {
   let formData = new FormData();
   formData.append("id", id);
