@@ -831,11 +831,11 @@
         
         <div id="profesionales" class="accordion-item">
             <h2 class="accordion-header" id="headingFive">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseProf" aria-expanded="false" aria-controls="collapseProf">
                     PROFESIONALES
                 </button>
             </h2>
-            <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+            <div id="collapseProf" class="accordion-collapse collapse" aria-labelledby="headingProf" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
                     <div class="justify-content-between align-items-center mb-3">
                         <div class="d-flex">
