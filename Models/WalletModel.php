@@ -1309,7 +1309,7 @@ class WalletModel extends Query
             ORDER BY 
                 fc.fecha_factura;
             ";
-        // echo $sql;
+        //echo $sql;
         $response =  $this->select($sql);
         return $response;
     }
@@ -1327,7 +1327,7 @@ class WalletModel extends Query
         (SELECT SUM(monto) FROM historial_billetera) AS total_cabecera_cuenta_pagar,
         (SELECT SUM(valor) FROM pagos) AS total_pagos,
         (SELECT SUM(monto) FROM historial_billetera) - (SELECT SUM(valor) FROM pagos) AS diferencia";
-        //echo $sql;
+        echo $sql;
         $response =  $this->select($sql);
         return $response;
     }

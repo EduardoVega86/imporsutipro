@@ -9,6 +9,7 @@
 <?php require_once './Views/Usuarios/Modales/editar_horizontal.php'; ?>
 <?php require_once './Views/Usuarios/Modales/editar_icono.php'; ?>
 <?php require_once './Views/Usuarios/Modales/agregar_dominio.php'; ?>
+<?php require_once './Views/Usuarios/Modales/agregar_profesional.php'; ?>
 <style>
         /* Estilos para el botón de descarga */
         .btn-descargar {
@@ -829,32 +830,35 @@
             </div>
         </div>
         
-        <div class="accordion-item">
+        <div id="profesionales" class="accordion-item">
             <h2 class="accordion-header" id="headingFive">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseProf" aria-expanded="false" aria-controls="collapseProf">
                     PROFESIONALES
                 </button>
             </h2>
-            <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+            <div id="collapseProf" class="accordion-collapse collapse" aria-labelledby="headingProf" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
                     <div class="justify-content-between align-items-center mb-3">
                         <div class="d-flex">
-                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_testimonioModal"><i class="fas fa-plus"></i> Agregar</button>
+                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregar_profesionalModal"><i class="fas fa-plus"></i> Agregar</button>
                         </div>
                     </div>
                     <div class="table-responsive">
                         <!-- <table class="table table-bordered table-striped table-hover"> -->
-                        <table id="datatable_testimonios" width="100%" class="table table-striped">
+                        <table id="datatable_profesionales" width="100%" class="table table-striped">
                             <thead>
                                 <tr>
                                     <th class="text-nowrap">Imagen</th>
+                                    <th class="text-nowrap">Titulo</th>
                                     <th class="text-nowrap">Nombre</th>
-                                    <th class="text-nowrap">Testimonio</th>
-                                    <th class="text-nowrap">Fecha</th>
+                                    <th class="text-nowrap">Resumen</th>
+                                    <th class="text-nowrap">LinkedIn</th>
+                                    <th class="text-nowrap">Facebook</th>
+                                    <th class="text-nowrap">Instagram</th>
                                     <th class="text-nowrap">Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody id="tableBody_testimonios"></tbody>
+                            <tbody id="tableBody_profesionales"></tbody>
                         </table>
                     </div>
                 </div>

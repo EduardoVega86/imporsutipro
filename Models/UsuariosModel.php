@@ -16,7 +16,7 @@ class UsuariosModel extends Query
     
     public function obtener_profesionales($plataforma)
     {
-        $sql = "select * from profesionales WHERE ib.`id_plataforma` = $plataforma";
+        $sql = "select * from profesionales WHERE id_plataforma = $plataforma";
         return $this->select($sql);
     }
 
@@ -1548,7 +1548,8 @@ public function guardar_imagen_parallax1($imagen, $plataforma)
         // Escribe el contenido modificado de nuevo en el archivo
         file_put_contents($file, $newContent);
 
-        $url_tienda = 'https://' . $nombre_tienda . '.imporsuitpro.com';
+        
+        $url_tienda = 'https://' . $nombre_tienda . '.'.$rootdomain;
 
         $sql = "UPDATE `plataformas` SET `url_imporsuit` = ?, `tienda_creada` = ?, `nombre_tienda` = ? WHERE `id_plataforma` = ?";
         $data = [$url_tienda, 1, $nombre_tienda, $plataforma];

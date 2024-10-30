@@ -839,6 +839,19 @@ function gestionar_novedad(guia_novedad) {
         $("#seccion_servientrega").hide();
         $("#seccion_gintracom").hide();
         $("#seccion_speed").hide();
+
+        $("#nombre_novedadesServi").val(response.factura[0].nombre);
+        $("#ciudad_novedadesServi").val(response.factura[0].ciudad);
+        $("#callePrincipal_novedadesServi").val(
+          response.factura[0].c_principal
+        );
+        $("#calleSecundaria_novedadesServi").val(
+          response.factura[0].c_secundaria
+        );
+
+        $("#referencia_novedadesServi").val(response.factura[0].referencia);
+        $("#telefono_novedadesServi").val(response.factura[0].telefono);
+        $("#celular_novedadesServi").val(response.factura[0].telefono);
       } else if (response.novedad[0].guia_novedad.includes("I")) {
         transportadora = "GINTRACOM";
         $("#seccion_laar").hide();

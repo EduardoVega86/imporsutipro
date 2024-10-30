@@ -646,7 +646,7 @@ $("#vista_previa").html(
       // alert(valor_banner)
             $("#muestra_banner").html(valor_banner);
         
-        
+        $("#profesionales").hide();
         
       } else if (response[0].plantilla == 2) {
         cargar_ofertas_plantilla2();
@@ -662,6 +662,8 @@ $("#seccion_paralax_plantilla3").hide();
         
         $("#fondo_servicios").hide();
         
+         $("#profesionales").hide();
+        
          valor_banner="<strong>Atención:</strong> las dimensines de la imagen deben ser 2550x860 y en formato .png, .jpg, .jpeg";
         $("#muestra_banner").html(valor_banner);
 
@@ -674,6 +676,9 @@ $("#seccion_paralax_plantilla3").hide();
           cargar_informacion_plantilla3();
         // Actualiza los valores de los inputs hidden
         $("#plantilla_selected").val("template3");
+        
+        $("#profesionales").show();
+        
 $("#seccion_promocion_plantilla2").hide();
 
 $("#seccion_oferta_plantilla2").hide();
@@ -1362,6 +1367,99 @@ const listTestimonios = async () => {
 window.addEventListener("load", async () => {
   await initDataTableTestimonios();
 });
+
+//tabla profesionales
+/* tabla de Testimonio */
+let dataTableProfesionales;
+let dataTableProfesionalesIsInitialized = false;
+
+const dataTableProfesionalesOptions = {
+  columnDefs: [
+    {
+      className: "centered",
+      targets: [1, 2, 3, 4],
+    },
+    {
+      orderable: false,
+      targets: 0,
+    }, //ocultar para columna 0 el ordenar columna
+  ],
+  pageLength: 10,
+  destroy: true,
+  language: {
+    lengthMenu: "Mostrar _MENU_ registros por página",
+    zeroRecords: "Ningún usuario encontrado",
+    info: "Mostrando de _START_ a _END_ de un total de _TOTAL_ registros",
+    infoEmpty: "Ningún usuario encontrado",
+    infoFiltered: "(filtrados desde _MAX_ registros totales)",
+    search: "Buscar:",
+    loadingRecords: "Cargando...",
+    paginate: {
+      first: "Primero",
+      last: "Último",
+      next: "Siguiente",
+      previous: "Anterior",
+    },
+  },
+};
+
+const initDataTableProfesionales = async () => {
+  if (dataTableProfesionalesIsInitialized) {
+    dataTableProfesionales.destroy();
+  }
+
+  await listProfesionales();
+
+  dataTableProfesionales = $("#datatable_profesionales").DataTable(
+    dataTableProfesionalesOptions
+  );
+
+  dataTableProfesionalesIsInitialized = true;
+};
+
+const listProfesionales = async () => {
+  try {
+    const response = await fetch(
+      "" + SERVERURL + "Usuarios/obtener_profesionales2"
+    );
+    const profesionales = await response.json();
+
+    let content = ``;
+
+    profesionales.forEach((profesionales, index) => {
+      content += `
+          <tr>
+              <td><img src="${SERVERURL}${profesionales.imagen}" class="img-responsive" alt="profile-image" width="100px"></td>
+             <td>${profesionales.titulo}</td>
+              <td>${profesionales.nombre}</td>
+              <td>${profesionales.descripcion}</td>
+              <td><i class="fa-brands fa-linkedin-in"></i></td>
+            <td><i class="fa-brands fa-facebook"></i></td>
+            <td><i class="fa-brands fa-instagram"></i></td>
+              <td>
+              <div class="dropdown">
+              <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fa-solid fa-gear"></i>
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <li><span class="dropdown-item" style="cursor: pointer;" onclick="editarTestimonio(${profesionales.id_profesional})"><i class="fa-solid fa-pencil"></i>Editar</span></li>
+                  <li><span class="dropdown-item" style="cursor: pointer;" onclick="eliminarTestimonio(${profesionales.id_profesional})"><i class="fa-solid fa-trash-can"></i>Eliminar</span></li>
+              </ul>
+              </div>
+              </td>
+          </tr>`;
+    });
+    document.getElementById("tableBody_profesionales").innerHTML = content;
+  } catch (ex) {
+    alert(ex);
+  }
+};
+
+window.addEventListener("load", async () => {
+  await initDataTableProfesionales();
+});
+
+
 
 function eliminarTestimonio(id) {
   let formData = new FormData();
