@@ -1429,18 +1429,19 @@ const listProfesionales = async () => {
     profesionales.forEach((profesionales, index) => {
       content += `
           <tr>
-              <td><img src="${SERVERURL}${testimonio.imagen}" class="img-responsive" alt="profile-image" width="100px"></td>
+              <td><img src="${SERVERURL}${profesionales.imagen}" class="img-responsive" alt="profile-image" width="100px"></td>
+             <td>${profesionales.titulo}</td>
               <td>${profesionales.nombre}</td>
-              <td>${profesionales.testimonio}</td>
-              <td>${profesionales.date_added}</td>
+              <td>${profesionales.descripcion}</td>
+              <td><i class="fa-brands fa-linkedin-in"></i></td>
               <td>
               <div class="dropdown">
               <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                   <i class="fa-solid fa-gear"></i>
               </button>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <li><span class="dropdown-item" style="cursor: pointer;" onclick="editarTestimonio(${testimonio.id_testimonio})"><i class="fa-solid fa-pencil"></i>Editar</span></li>
-                  <li><span class="dropdown-item" style="cursor: pointer;" onclick="eliminarTestimonio(${testimonio.id_testimonio})"><i class="fa-solid fa-trash-can"></i>Eliminar</span></li>
+                  <li><span class="dropdown-item" style="cursor: pointer;" onclick="editarTestimonio(${profesionales.id_profesional})"><i class="fa-solid fa-pencil"></i>Editar</span></li>
+                  <li><span class="dropdown-item" style="cursor: pointer;" onclick="eliminarTestimonio(${profesionales.id_profesional})"><i class="fa-solid fa-trash-can"></i>Eliminar</span></li>
               </ul>
               </div>
               </td>

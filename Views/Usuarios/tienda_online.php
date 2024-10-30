@@ -848,9 +848,12 @@
                             <thead>
                                 <tr>
                                     <th class="text-nowrap">Imagen</th>
+                                    <th class="text-nowrap">Titulo</th>
                                     <th class="text-nowrap">Nombre</th>
                                     <th class="text-nowrap">Testimonio</th>
-                                    <th class="text-nowrap">Fecha</th>
+                                    <th class="text-nowrap">LinkedIng</th>
+                                    <th class="text-nowrap">Facebook</th>
+                                    <th class="text-nowrap">Instagram</th>
                                     <th class="text-nowrap">Acciones</th>
                                 </tr>
                             </thead>
