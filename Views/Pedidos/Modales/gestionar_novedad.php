@@ -96,7 +96,6 @@
 
                     <div id="seccion_laar" style="display: none;">
                         <div style="padding-bottom: 5px;">
-                            <label for="ciudad_novedadesServi">Ciudad:</label>
                             <input type="hidden" class="form-control" id="ciudad_novedadesServi">
                             <br>
                             <label for="nombre_novedadesServi">Nombre:</label>
