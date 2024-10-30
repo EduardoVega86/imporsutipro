@@ -16,7 +16,7 @@ class UsuariosModel extends Query
     
     public function obtener_profesionales($plataforma)
     {
-        $sql = "select * from profesionales WHERE ib.`id_plataforma` = $plataforma";
+        $sql = "select * from profesionales WHERE id_plataforma = $plataforma";
         return $this->select($sql);
     }
 
