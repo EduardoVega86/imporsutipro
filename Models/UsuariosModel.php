@@ -1549,7 +1549,7 @@ public function guardar_imagen_parallax1($imagen, $plataforma)
         file_put_contents($file, $newContent);
 
         
-        $url_tienda = 'https://' . $nombre_tienda . '.imporsuitpro.com';
+        $url_tienda = 'https://' . $nombre_tienda . '.'.$rootdomain;
 
         $sql = "UPDATE `plataformas` SET `url_imporsuit` = ?, `tienda_creada` = ?, `nombre_tienda` = ? WHERE `id_plataforma` = ?";
         $data = [$url_tienda, 1, $nombre_tienda, $plataforma];
