@@ -1434,8 +1434,8 @@ const listProfesionales = async () => {
               <td>${profesionales.nombre}</td>
               <td>${profesionales.descripcion}</td>
               <td><i class="fa-brands fa-linkedin-in"></i></td>
-            <td><i class="fa-brands fa-linkedin-in"></i></td>
-            <td><i class="fa-brands fa-linkedin-in"></i></td>
+            <td><i class="fa-brands fa-facebook"></i></td>
+            <td><i class="fa-brands fa-instagram"></i></td>
               <td>
               <div class="dropdown">
               <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
