@@ -97,7 +97,7 @@
                     <div id="seccion_laar" style="display: none;">
                         <div style="padding-bottom: 5px;">
                             <label for="ciudad_novedadesServi">Ciudad:</label>
-                            <input type="text" class="form-control" id="ciudad_novedadesServi">
+                            <input type="hidden" class="form-control" id="ciudad_novedadesServi">
                             <br>
                             <label for="nombre_novedadesServi">Nombre:</label>
                             <input type="text" class="form-control" id="nombre_novedadesServi">
@@ -165,7 +165,7 @@
                         </div>
                         <button type="button" class="btn btn-primary" id="boton_speed" onclick="enviar_speedUsuariosNovedad()">Enviar</button>
                     </div>
-                    
+
                 </div>
             </div>
             <div class="modal-footer">

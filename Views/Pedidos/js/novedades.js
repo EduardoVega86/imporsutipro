@@ -143,6 +143,7 @@ function gestionar_novedad(guia_novedad) {
         $("#seccion_gintracom").hide();
 
         $("#nombre_novedadesServi").val(response.factura[0].nombre);
+        $("#ciudad_novedadesServi").val(response.factura[0].ciudad_cot);
         $("#callePrincipal_novedadesServi").val(
           response.factura[0].c_principal
         );
