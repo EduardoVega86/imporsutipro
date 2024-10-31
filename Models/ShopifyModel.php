@@ -370,9 +370,9 @@ class ShopifyModel extends Query
         
         $sql = "SELECT id_plataforma FROM configuracion_shopify WHERE id_plataforma = $id_plataforma";
         $response = $this->select($sql);
-        print_r($response);
+       // print_r($response);
         if (!empty($response)) {
-            echo $id_plataforma;
+         //   echo $id_plataforma;
             return true;
         } else {
             echo 'no';
