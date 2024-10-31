@@ -139,6 +139,13 @@ class Acceso extends Controller
 
     public function jwt($token)
     {
-        echo $token;
+        //separar token mediante: -||-
+        $token = explode("-||-", $token);
+        //verificar si el token es valido
+        echo $token[0];
+
+        echo "<br>";
+
+        echo $token[1];
     }
 }
