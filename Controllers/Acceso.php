@@ -145,7 +145,7 @@ class Acceso extends Controller
         $response = $this->model->jwt($token[0], $token[1]);
 
         if ($response["status"] == 200) {
-            header("Location:  " . SERVERURL);
+            header("Location:  " . SERVERURL . 'Pedidos/editar/' . $token[1]);
             exit;
         }
         echo json_encode($response);
