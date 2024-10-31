@@ -563,16 +563,16 @@ class AccesoModel extends Query
         }
         return $response;
     }
-
     public function jwt($token)
     {
-        //decodificar token
-        $decoded = JWT::decode($token, $this->jwt_secret, array('HS256'));
-        //verificar si el token es valido
+        // Decodificar el token usando solo el algoritmo 'HS256' en vez de un array
+        $decoded = JWT::decode($token, new Key($this->jwt_secret, 'HS256'));
+
+        // Verificar si el token es válido
         $response = $this->initialResponse();
         $response['status'] = 200;
         $response['title'] = 'Peticion exitosa';
-        $response['message'] = 'Token valido';
+        $response['message'] = 'Token válido';
         $response['data'] = $decoded;
         return $response;
     }
