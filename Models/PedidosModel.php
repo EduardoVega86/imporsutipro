@@ -2255,15 +2255,15 @@ class PedidosModel extends Query
         // Verificar si la inserción fue exitosa
         if ($insertar_mensaje_enviado == 1) {
             // Recuperar el ID del registro recién insertado
-            $sql_id = "SELECT id_cliente FROM `clientes_chat_center` 
+            $sql_id = "SELECT id FROM `clientes_chat_center` 
                    WHERE celular_cliente = ? AND id_plataforma = ? 
-                   ORDER BY id_cliente DESC LIMIT 1";
+                   ORDER BY id DESC LIMIT 1";
             $result = $this->dselect($sql_id, [$telefono, $id_plataforma]);
 
             print_r($result);
 
             if (!empty($result)) {
-                $lastId = $result[0]['id_cliente']; // Obtener el ID recuperado
+                $lastId = $result[0]['id']; // Obtener el ID recuperado
 
                 $response['status'] = 200;
                 $response['title'] = 'Petición exitosa';
