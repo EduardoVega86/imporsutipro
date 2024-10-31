@@ -180,6 +180,7 @@ const listFacturas = async () => {
 
     let content = ``;
     let cod = "";
+    let cambio_sinRecaudo = "";
     let check = "";
     let url_tracking = "";
     let url_descargar = "";
@@ -190,6 +191,7 @@ const listFacturas = async () => {
         cod = "Recaudo";
       } else {
         cod = "Sin Recaudo";
+        cambio_sinRecaudo = "style = 'background: red;'";
       }
       check = "";
       if (factura.estado_guia == 7) {
@@ -260,7 +262,7 @@ const listFacturas = async () => {
         content += `
       <tr>
           <td>${check}</td>
-          <td>
+          <td ${cambio_sinRecaudo}>
           <div><span claas="text-nowrap">${factura.numero_factura}</span></div>
           <div><span class="w-100 text-nowrap" style="background-color:#7B57EC; color:white; padding:5px; border-radius:0.3rem;">${cod}</span></div>
           </td>
