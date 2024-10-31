@@ -457,7 +457,7 @@ class ShopifyModel extends Query
         $response = $this->insert($sql, [$id_plataforma, $data]);
         if ($response == 1) {
             $responses["status"] = "200";
-            $responses["message"] = "Json guardado correctamente";
+            $responses["message"] = "Json guardado e correctamente";
         } else {
             $responses["status"] = "500";
             $responses["message"] = "Error al guardar el json";
