@@ -14,6 +14,7 @@ class ShopifyModel extends Query
             foreach ($data['line_items'] as $item) {
 
                 $sql = "SELECT * FROM shopify_tienda WHERE id_plataforma = $id_plataforma and id_inventario =" . $item['sku'];
+                echo $sql;
                 $response = $this->select($sql);
                 if (count($response) == 0) {
                     return false;
