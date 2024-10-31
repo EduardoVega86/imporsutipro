@@ -366,10 +366,9 @@ class ShopifyModel extends Query
 
     public function existenciaPlataforma($id_plataforma)
     {
-         $sql = "SELECT id_plataforma FROM configuracion_shopify WHERE id_plataforma = $id_plataforma";
-        $response = $this->select($sql);
-       // print_r($response);
-        if (!empty($response)) {
+        $sql = "SELECT id_plataforma FROM configuracion_shopify WHERE id_plataforma = ?";
+        $response = $this->simple_select($sql, [$id_plataforma]);
+        if ($response > 0) {
             return true;
         } else {
             return false;
