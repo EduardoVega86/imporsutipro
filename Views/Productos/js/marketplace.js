@@ -172,7 +172,7 @@ document.addEventListener("DOMContentLoaded", function () {
           product.agregadoTienda ? "added" : ""
         }" data-product-id="${product.id_producto}">
           <span class="plus-icon">+</span>
-          <span class="f-text">${
+          <span class="add-to-funnel-text">${
             product.agregadoTienda ? "Quitar de tienda" : "Añadir a tienda"
           }</span>
         </div>
