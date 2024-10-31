@@ -28,9 +28,9 @@ if (!empty($array[1])) {
 if (!empty($array[2])) {
     if (!empty($array[2] != "")) {
         for ($i = 2; $i < count($array); $i++) {
-            $parameter .= $array[$i] . ',';
+            $parameter .= $array[$i] . '-||-';
         }
-        $parameter = trim($parameter, ',');
+        $parameter = trim($parameter, '-||-');
     }
 }
 require_once 'Config/App/autoload.php';

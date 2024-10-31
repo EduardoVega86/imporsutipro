@@ -137,9 +137,15 @@ class Acceso extends Controller
         echo json_encode($response);
     }
 
-    public function jwt($token, $id)
+    public function jwt($token)
     {
-        echo $token;
-        echo $id;
+        //separar token mediante: -||-
+        $token = explode("-||-", $token);
+        //verificar si el token es valido
+        echo $token[0];
+
+        echo "<br>";
+
+        echo $token[1];
     }
 }
