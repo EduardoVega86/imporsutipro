@@ -136,4 +136,9 @@ class Acceso extends Controller
 
         echo json_encode($response);
     }
+
+    public function jwt($token)
+    {
+        echo $token;
+    }
 }
