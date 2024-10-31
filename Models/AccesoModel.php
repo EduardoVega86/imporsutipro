@@ -565,15 +565,50 @@ class AccesoModel extends Query
     }
     public function jwt($token)
     {
-        // Decodificar el token usando solo el algoritmo 'HS256' en vez de un array
-        $decoded = JWT::decode($token, new Key($this->jwt_secret, 'HS256'));
+        try {
+            // Decodificar el token usando el algoritmo 'HS256'
+            $decoded = JWT::decode($token, new Key($this->jwt_secret, 'HS256'));
 
-        // Verificar si el token es válido
-        $response = $this->initialResponse();
-        $response['status'] = 200;
-        $response['title'] = 'Peticion exitosa';
-        $response['message'] = 'Token válido';
-        $response['data'] = $decoded;
+            // Iniciar sesión si aún no está iniciada
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+
+            // asignar los datos del token a la sesión
+            $sql = "SELECT * FROM users WHERE email_users = ?";
+            $params = [$decoded->correo];
+            $result = $this->dselect($sql, $params);
+
+            if (count($result) > 0) {
+                $sql = "SELECT * FROM plataformas WHERE email = ?";
+                $params = [$decoded->correo];
+                $result = $this->dselect($sql, $params);
+                $_SESSION["id_plataforma"] = $result[0]["id_plataforma"];
+                $_SESSION["user"] = $decoded->correo;
+                $_SESSION["id"] = $decoded->id;
+                $_SESSION["cargo"] = $decoded->cargo;
+                $_SESSION["tienda"] = $result[0]["nombre_tienda"];
+                $_SESSION["enlace"] = "https://" . $result[0]["nombre_tienda"] . "." . DOMINIO;
+                $_SESSION["matriz"] = $this->obtenerMatriz();
+                $_SESSION["login_time"] = time();
+                $_SESSION["session_lifetime"] = 3600;
+                $_SESSION["token"] = $token;
+            }
+
+            // Construir la respuesta de éxito
+            $response = $this->initialResponse();
+            $response['status'] = 200;
+            $response['title'] = 'Petición exitosa';
+            $response['message'] = 'Token válido, sesión iniciada';
+            $response['data'] = $decoded;
+        } catch (Exception $e) {
+            // Manejar errores de decodificación del token
+            $response = $this->initialResponse();
+            $response['status'] = 401;
+            $response['title'] = 'Error';
+            $response['message'] = 'Token no válido: ' . $e->getMessage();
+        }
+
         return $response;
     }
 }
