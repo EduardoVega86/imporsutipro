@@ -563,4 +563,17 @@ class AccesoModel extends Query
         }
         return $response;
     }
+
+    public function jwt($token)
+    {
+        //decodificar token
+        $decoded = JWT::decode($token, $this->jwt_secret, array('HS256'));
+        //verificar si el token es valido
+        $response = $this->initialResponse();
+        $response['status'] = 200;
+        $response['title'] = 'Peticion exitosa';
+        $response['message'] = 'Token valido';
+        $response['data'] = $decoded;
+        return $response;
+    }
 }
