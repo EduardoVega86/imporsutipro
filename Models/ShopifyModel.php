@@ -14,7 +14,6 @@ class ShopifyModel extends Query
             foreach ($data['line_items'] as $item) {
 
                 $sql = "SELECT * FROM shopify_tienda WHERE id_plataforma = $id_plataforma and id_inventario =" . $item['sku'];
-               
                 $response = $this->select($sql);
                 if (count($response) == 0) {
                     return false;
@@ -367,15 +366,12 @@ class ShopifyModel extends Query
 
     public function existenciaPlataforma($id_plataforma)
     {
-        
-        $sql = "SELECT id_plataforma FROM configuracion_shopify WHERE id_plataforma = $id_plataforma";
+         $sql = "SELECT id_plataforma FROM configuracion_shopify WHERE id_plataforma = $id_plataforma";
         $response = $this->select($sql);
        // print_r($response);
         if (!empty($response)) {
-         //   echo $id_plataforma;
             return true;
         } else {
-            echo 'no';
             return false;
         }
     }
@@ -461,7 +457,7 @@ class ShopifyModel extends Query
         $response = $this->insert($sql, [$id_plataforma, $data]);
         if ($response == 1) {
             $responses["status"] = "200";
-            $responses["message"] = "Json guardado e correctamente";
+            $responses["message"] = "Json guardado correctamente";
         } else {
             $responses["status"] = "500";
             $responses["message"] = "Error al guardar el json";
