@@ -2260,6 +2260,8 @@ class PedidosModel extends Query
                    ORDER BY id_cliente DESC LIMIT 1";
             $result = $this->dselect($sql_id, [$telefono, $id_plataforma]);
 
+            print_r($result);
+
             if (!empty($result)) {
                 $lastId = $result[0]['id_cliente']; // Obtener el ID recuperado
 
