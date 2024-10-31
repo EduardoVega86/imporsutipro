@@ -142,10 +142,8 @@ class Acceso extends Controller
         //separar token mediante: -||-
         $token = explode("-||-", $token);
         //verificar si el token es valido
-        echo $token[0];
+        $response = $this->model->jwt($token[0], $token[1]);
 
-        echo "<br>";
-
-        echo $token[1];
+        echo json_encode($response);
     }
 }
