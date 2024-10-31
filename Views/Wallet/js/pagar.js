@@ -180,12 +180,12 @@ const listFacturas = async () => {
 
     let content = ``;
     let cod = "";
-    let cambio_sinRecaudo = "";
     let check = "";
     let url_tracking = "";
     let url_descargar = "";
     let acreditable = "";
     facturas.forEach((factura, index) => {
+      let cambio_sinRecaudo = "";
       let tienda_nombre = procesarPlataforma(factura.tienda);
       if (factura.cod == 1) {
         cod = "Recaudo";
