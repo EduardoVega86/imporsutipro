@@ -51,10 +51,10 @@
                         <th class="text-nowrap">Producto</th>
                         <th class="text-nowrap">Destacado</th>
                         <th class="text-nowrap">Existencia</th>
-                        <th class="text-nowrap">Costo</th>
+                       
                         <th class="text-nowrap">P. Proveedor</th>
                         <th class="text-nowrap">PVP</th>
-                        <th class="text-wrap">Precio Referencial</th>
+                       
                         <th class="text-nowrap">Landing</th>
                         <th class="text-wrap">Marketplace</th>
                         <th class="text-wrap">Enviar a cliente</th>

@@ -1637,9 +1637,9 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
-    public function guardar_audio_Whatsapp()
+    public function guardar_audio_Whatsapp($audioFile)
     {
-        if (isset($_FILES['audio']) && $_FILES['audio']['error'] == 0) {
+        if (isset($audioFile) && $audioFile['error'] == 0) {
             // Ruta de destino para guardar el archivo
             $target_dir = "public/whatsapp/audios_enviados/";
             $file_name = uniqid() . ".ogg";  // Cambiar extensión a .ogg
@@ -1651,32 +1651,27 @@ class PedidosModel extends Query
             }
 
             // Mover el archivo a la carpeta de destino
-            if (move_uploaded_file($_FILES['audio']['tmp_name'], $target_file)) {
+            if (move_uploaded_file($audioFile['tmp_name'], $target_file)) {
                 // Retornar la ruta del archivo subido
-                $response = [
+                return [
                     'status' => 200,
                     'message' => 'Audio subido correctamente',
                     'data' => $target_file  // Aquí devolvemos la ruta del archivo subido
                 ];
             } else {
                 // Error al mover el archivo
-                $response = [
+                return [
                     'status' => 500,
                     'message' => 'Error al mover el archivo de audio'
                 ];
             }
         } else {
             // No se recibió ningún archivo o hubo un error
-            $response = [
+            return [
                 'status' => 500,
                 'message' => 'Error al subir el archivo de audio'
             ];
         }
-
-        // Retornar la respuesta en formato JSON
-        header('Content-Type: application/json');
-        echo json_encode($response);
-        exit();
     }
 
     public function guardar_imagen_Whatsapp($imagen)

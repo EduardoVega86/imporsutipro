@@ -60,16 +60,25 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="d-flex flex-column w-100">
+                                   
+                                    
+                                     <div class="d-flex flex-column w-100">
                                         <div class="form-group">
                                             <label for="formato-pagina">Formato Página Productos:</label>
-                                            <select class="form-select" id="formato-pagina" required>
+                                            <select onchange="formato()" class="form-select" id="formato-pagina" required>
                                                 <option selected value="">-- Selecciona --</option>
                                                 <option value="1">Formato 1</option>
                                                 <option value="2">Formato 2</option>
+                                                <option value="3">Funelish</option>
                                             </select>
                                         </div>
                                     </div>
+                                     <div style="display: none;" id="funnelish" class="flex-column w-100">
+                                        <div class="form-group">
+                                            <label for="nombre">Enlace de Funnelish:</label>
+                                            <input  type="text" class="form-control"  id="enlace_funnelish" >                                        </div>
+                                    </div>
+                                    
                                 </div>
                                 <div class="form-group">
                                     <label>Formato:</label>
@@ -83,25 +92,15 @@
                         <div class="d-flex flex-column">
                             <div class="d-flex flex-row gap-3">
                                 <div class="form-group w-100">
-                                    <label for="costo">Costo:</label>
-                                    <input type="text" class="form-control" id="costo" required>
+                                    <label for="precio-venta">Precio de Venta (Sugerido):</label>
+                                    <input type="text" class="form-control" id="precio-venta" required>
                                 </div>
                                 <div class="form-group w-100">
                                     <label for="precio-proveedor">Precio Proveedor:</label>
                                     <input type="text" class="form-control" id="precio-proveedor" required>
                                 </div>
                             </div>
-                            <div class="d-flex flex-row gap-3">
-                                <div class="form-group w-100">
-                                    <label for="precio-venta">Precio de Venta (Sugerido):</label>
-                                    <input type="text" class="form-control" id="precio-venta" required>
-                                </div>
-                                <div class="form-group w-100">
-                                    <label for="precio-referencial">¿Precio Referencial?</label>
-                                    <input type="checkbox" class="form-check-input" id="precio-referencial">
-                                    <input type="text" class="form-control mt-2" id="precio-referencial-valor" disabled>
-                                </div>
-                            </div>
+                         
                             <div class="d-flex flex-row gap-3">
                                 <div class="form-group w-100">
                                     <label for="maneja-inventario">Maneja Inventario:</label>
@@ -109,6 +108,7 @@
                                         <option selected value="">-- Selecciona --</option>
                                         <option value="1">Sí</option>
                                         <option value="0">No</option>
+                                        <option value="3">Es Servicio</option>
                                     </select>
                                 </div>
                                 <div class="form-group w-100">
@@ -272,6 +272,7 @@
             formData.append('pcp', $('#precio-proveedor').val());
             formData.append('pvp', $('#precio-venta').val());
             formData.append('pref', $('#precio-referencial-valor').val());
+            formData.append('enlace_funnelish', $('#enlace_funnelish').val());
 
             // Realiza la solicitud AJAX
             $.ajax({
@@ -307,4 +308,14 @@
             });
         });
     });
+    
+    function formato() {
+    let formatoSeleccionado = $("#formato-pagina").val();
+    //alert(formatoSeleccionado);
+    if (formatoSeleccionado == '3') {
+        $("#funnelish").show();
+    } else {
+        $("#funnelish").hide();
+    }
+}
 </script>

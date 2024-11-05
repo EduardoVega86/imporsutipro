@@ -28,6 +28,7 @@ class Query extends Conexion
             $query = $this->connection->prepare($this->sql);
             $query->execute($data);
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
+
             return $result;
         } catch (PDOException $e) {
             return $this->handleError($e->getMessage(), $e->getCode());
@@ -40,12 +41,17 @@ class Query extends Conexion
             $this->sql = $sql;
             $query = $this->connection->prepare($this->sql);
             $query->execute($data);
-            $result = $query->rowCount();
-            return $result;
+
+            // Obtener el número de filas afectadas directamente
+            $rowCount = $query->rowCount();
+
+            // Retornar el conteo de filas en lugar de reasignar $result
+            return $rowCount;
         } catch (PDOException $e) {
             return $this->handleError($e->getMessage(), $e->getCode());
         }
     }
+
 
     public function insert($sql, $data)
     {
