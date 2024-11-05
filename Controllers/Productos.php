@@ -421,6 +421,8 @@ class Productos extends Controller
         $formato = $_POST['formato'];
         $drogshipin = $_POST['drogshipin'] ?? 0;
         $destacado = $_POST['destacado'] ?? 0;
+        
+        $enlace_funnelish = $_POST['enlace_funnelish'] ?? "";
         /// stocks
         $stock_inicial = $_POST['stock_inicial'] ?? 0;
         $bodega = $_POST['bodega'] ?? 0;
@@ -430,7 +432,7 @@ class Productos extends Controller
         $pref = $_POST['pref'] ?? 0;
 
 
-        $response = $this->model->agregarProducto($codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $_SESSION['id_plataforma'], $stock_inicial, $bodega, $pcp, $pvp, $pref);
+        $response = $this->model->agregarProducto($codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $_SESSION['id_plataforma'], $stock_inicial, $bodega, $pcp, $pvp, $pref, $enlace_funnelish);
         //echo 'asds';
         echo json_encode($response);
     }

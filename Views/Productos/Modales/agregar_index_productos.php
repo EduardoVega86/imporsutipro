@@ -282,6 +282,7 @@
             formData.append('pcp', $('#precio-proveedor').val());
             formData.append('pvp', $('#precio-venta').val());
             formData.append('pref', $('#precio-referencial-valor').val());
+            formData.append('enlace_funnelish', $('#enlace_funnelish').val());
 
             // Realiza la solicitud AJAX
             $.ajax({
