@@ -422,7 +422,7 @@ class GuiasModel extends Query
             "ANCHO" => 50,
             "ALTO" => 50,
             "PESO_FISICO" => 2,
-            "LOGIN_CREACION" => "IMP.1793168264001",
+            "LOGIN_CREACION" => "imp.1793168264001.1",
             "PASSWORD" => "Ecuador24",
             "ID_CL" => 0,
             "VERIFICAR_CONTENIDO_RECAUDO" => "",
