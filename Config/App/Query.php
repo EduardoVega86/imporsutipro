@@ -40,7 +40,7 @@ class Query extends Conexion
             $this->sql = $sql;
             $query = $this->connection->prepare($this->sql);
             $query->execute($data);
-            print_r($query);
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
             $result = $query->rowCount();
             return $result;
         } catch (PDOException $e) {
