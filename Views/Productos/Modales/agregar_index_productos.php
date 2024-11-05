@@ -73,10 +73,10 @@
                                             </select>
                                         </div>
                                     </div>
-                                     <div style="display: none;" id="funnelish" class="d-flex flex-column w-100">
+                                     <div style="display: none;" id="funnelish" class="flex-column w-100">
                                         <div class="form-group">
                                             <label for="nombre">Enlace de Funnelish:</label>
-                                            <input style="display:none" type="text" class="form-control"  id="enlace_funnelish" readonly>                                        </div>
+                                            <input  type="text" class="form-control"  id="enlace_funnelish" >                                        </div>
                                     </div>
                                     
                                 </div>
@@ -320,7 +320,7 @@
     
     function formato() {
     let formatoSeleccionado = $("#formato-pagina").val();
-    alert(formatoSeleccionado);
+    //alert(formatoSeleccionado);
     if (formatoSeleccionado == '3') {
         $("#funnelish").show();
     } else {
