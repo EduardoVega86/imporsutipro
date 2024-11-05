@@ -76,7 +76,7 @@
                                      <div style="display: none;" id="funnelish" class="d-flex flex-column w-100">
                                         <div class="form-group">
                                             <label for="nombre">Enlace de Funnelish:</label>
-                                            <input type="text" class="form-control"  id="enlace_funnelish" readonly>                                        </div>
+                                            <input style="display:none" type="text" class="form-control"  id="enlace_funnelish" readonly>                                        </div>
                                     </div>
                                     
                                 </div>
