@@ -60,11 +60,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div style="display: none;" id="funnelish" class="d-flex flex-column w-100">
-                                        <div class="form-group">
-                                            <label for="nombre">Enlace de Funnelish:</label>
-                                        <input type="text" class="form-control"  id="enlace_funnelish" required>                                        </div>
-                                    </div>
+                                   
                                     
                                      <div class="d-flex flex-column w-100">
                                         <div class="form-group">
@@ -76,6 +72,11 @@
                                                 <option value="3">Funelish</option>
                                             </select>
                                         </div>
+                                    </div>
+                                     <div style="display: none;" id="funnelish" class="d-flex flex-column w-100">
+                                        <div class="form-group">
+                                            <label for="nombre">Enlace de Funnelish:</label>
+                                        <input type="text" class="form-control"  id="enlace_funnelish" required>                                        </div>
                                     </div>
                                     
                                 </div>
