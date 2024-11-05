@@ -64,6 +64,7 @@
                                                 <option selected>-- Selecciona --</option>
                                                 <option value="1">Formato 1</option>
                                                 <option value="2">Formato 2</option>
+                                                 <option value="3">Funnelish</option>
                                             </select>
                                         </div>
                                     </div>
