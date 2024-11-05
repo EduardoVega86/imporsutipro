@@ -60,16 +60,24 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="d-flex flex-column w-100">
+                                    <div style="display: none;" id="funnelish" class="d-flex flex-column w-100">
+                                        <div class="form-group">
+                                            <label for="nombre">Enlace de Funnelish:</label>
+                                        <input type="text" class="form-control"  id="enlace_funnelish" required>                                        </div>
+                                    </div>
+                                    
+                                     <div class="d-flex flex-column w-100">
                                         <div class="form-group">
                                             <label for="formato-pagina">Formato Página Productos:</label>
-                                            <select class="form-select" id="formato-pagina" required>
+                                            <select onchange="formato()" class="form-select" id="formato-pagina" required>
                                                 <option selected value="">-- Selecciona --</option>
                                                 <option value="1">Formato 1</option>
                                                 <option value="2">Formato 2</option>
+                                                <option value="3">Funelish</option>
                                             </select>
                                         </div>
                                     </div>
+                                    
                                 </div>
                                 <div class="form-group">
                                     <label>Formato:</label>
@@ -109,6 +117,7 @@
                                         <option selected value="">-- Selecciona --</option>
                                         <option value="1">Sí</option>
                                         <option value="0">No</option>
+                                        <option value="3">Es Servicio</option>
                                     </select>
                                 </div>
                                 <div class="form-group w-100">
@@ -307,4 +316,16 @@
             });
         });
     });
+    
+    function  formato(formato){
+        formato = $("#formato-pagina").val();
+        
+        if(formato==3){
+          $("#funnelish").show();  
+        }else{
+          $("#funnelish").hide();  
+        }
+        
+        
+    }
 </script>
