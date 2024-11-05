@@ -446,7 +446,7 @@ class Productos extends Controller
         $id_linea_producto = $_POST["id_linea_producto"];
         $inv_producto = $_POST['inv_producto'] ?? 0;
         $producto_variable = $_POST['producto_variable'] ?? 0;
-        $costo_producto = $_POST['costo_producto'];
+        $costo_producto = 0;
         $aplica_iva = $_POST['aplica_iva'] ?? 0;
         $estado_producto = $_POST['estado_producto'] ?? 1;
         $date_added = date("Y-m-d H:i:s");
@@ -461,7 +461,7 @@ class Productos extends Controller
 
         $pcp = $_POST['pcp'] ?? 0;
         $pvp = $_POST['pvp'] ?? 0;
-        $pref = $_POST['pref'] ?? 0;
+        $pref = 0;
 
 
         $response = $this->model->editarProducto($id, $codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $_SESSION['id_plataforma'], $stock_inicial, $bodega, $pcp, $pvp, $pref);
