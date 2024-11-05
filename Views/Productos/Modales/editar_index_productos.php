@@ -60,12 +60,17 @@
                                     <div class="d-flex flex-column w-100">
                                         <div class="form-group">
                                             <label for="editar_formato_pagina">Formato Página Productos:</label>
-                                            <select class="form-select" id="editar_formato_pagina">
+                                            <select onchange="formato_editar()" class="form-select" id="editar_formato_pagina">
                                                 <option selected>-- Selecciona --</option>
                                                 <option value="1">Formato 1</option>
                                                 <option value="2">Formato 2</option>
                                             </select>
                                         </div>
+                                    </div>
+                                      <div style="display: none;" id="funnelish_editar" class="flex-column w-100">
+                                        <div class="form-group">
+                                            <label for="nombre">Enlace de Funnelish:</label>
+                                            <input  type="text" class="form-control"  id="editar-enlace_funnelish" >                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -211,4 +216,14 @@
             });
         });
     });
+    
+     function formato_editar() {
+    let formatoSeleccionado = $("#editar_formato_pagina").val();
+    //alert(formatoSeleccionado);
+    if (formatoSeleccionado == '3') {
+        $("#funnelish_editar").show();
+    } else {
+        $("#funnelish_editar").hide();
+    }
+}
 </script>
