@@ -173,7 +173,7 @@ const listProductos = async () => {
           <td>${cargar_imagen}</td>
           <td>${producto.codigo_producto}</td>
           <td>${producto.nombre_producto}</td>
-          <td>${producto.destacado}</td>
+         
           <td>${producto.saldo_stock}</td>
          
           <td>${producto.pcp}</td>
@@ -604,10 +604,8 @@ function editarProducto(id) {
           $("#editar_descripcion").length > 0 &&
           $("#editar_categoria").length > 0 &&
           $("#editar_formato_pagina").length > 0 &&
-          $("#editar_ultimo_costo").length > 0 &&
           $("#editar_precio_proveedor").length > 0 &&
           $("#editar_precio_venta").length > 0 &&
-          $("#editar_precio_referencial").length > 0 &&
           $("#editar_maneja_inventario").length > 0 &&
           $("#editar_stock_inicial").length > 0
         ) {
@@ -621,12 +619,11 @@ function editarProducto(id) {
           $("#editar_bodega").val(data.bodega);
           $("#editar_producto_variable").val(data.id_variante);
           $("#editar_formato_pagina").val(data.formato);
-          $("#editar_ultimo_costo").val(data.costo_producto);
           $("#editar_precio_proveedor").val(data.pcp);
           $("#editar_precio_venta").val(data.pvp);
-          $("#editar_precio_referencial").val(data.pref);
           $("#editar_maneja_inventario").val(data.inv_producto);
           $("#editar_stock_inicial").val(data.stock_inicial);
+          $("#editar-enlace_funnelish").val(data.funellish);
 
           // Abrir el modal
           $("#editar_productoModal").modal("show");
