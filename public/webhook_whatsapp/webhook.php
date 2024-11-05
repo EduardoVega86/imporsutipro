@@ -945,6 +945,100 @@ function enviarConsultaAPI($id_plataforma, $celular_recibe)
 }
 // fin Función para enviar datos a la API sockect
 
+/* guardar stikers en servidor */
+function descargarStickerWhatsapp($mediaId, $accessToken)
+{
+    // Directorio donde queremos guardar los stickers
+    $directory = __DIR__ . "/../whatsapp/stickers_recibidos/";
+
+    // Verificar si el directorio existe, si no lo creamos
+    if (!is_dir($directory)) {
+        mkdir($directory, 0755, true);  // Crear el directorio si no existe
+        file_put_contents('debug_log.txt', "Directorio creado: " . $directory . "\n", FILE_APPEND);
+    }
+
+    // Paso 1: Obtener la URL de descarga del archivo de sticker desde la API de WhatsApp
+    $url = "https://graph.facebook.com/v12.0/$mediaId";
+
+    // Inicializar cURL para obtener la URL de descarga real
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        "Authorization: Bearer $accessToken",
+        "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+    ]);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Deshabilitar verificación SSL para pruebas
+    $response = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    // Verificar si hubo errores al obtener la URL del archivo de sticker
+    if ($http_code != 200 || empty($response)) {
+        file_put_contents('debug_log.txt', "Error al obtener la URL del archivo de sticker. HTTP Code: $http_code\n", FILE_APPEND);
+        return null;
+    }
+
+    // Decodificar la respuesta JSON para obtener la URL real del archivo
+    $media = json_decode($response, true);
+    if (!isset($media['url'])) {
+        file_put_contents('debug_log.txt', "Error: No se pudo obtener la URL del archivo de sticker\n", FILE_APPEND);
+        return null;
+    }
+
+    $fileUrl = $media['url'];
+    file_put_contents('debug_log.txt', "URL del archivo de sticker: $fileUrl\n", FILE_APPEND);
+
+    // Paso 2: Descargar el archivo de sticker desde la URL obtenida
+    $ch = curl_init($fileUrl);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        "Authorization: Bearer $accessToken",
+        "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+    ]);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    $stickerData = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    // Verificar si hubo errores en la descarga
+    if ($http_code != 200 || $stickerData === false || strlen($stickerData) == 0) {
+        file_put_contents('debug_log.txt', "Error al descargar el archivo de sticker. HTTP Code: $http_code\n", FILE_APPEND);
+        return null;
+    }
+
+    // Paso 3: Verificar el tipo MIME del archivo descargado
+    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+    $mime_type = finfo_buffer($finfo, $stickerData);
+    finfo_close($finfo);
+
+    // Comprobar si el MIME type es de un archivo de imagen compatible con stickers
+    $valid_sticker_mime_types = ['image/webp'];
+    if (!in_array($mime_type, $valid_sticker_mime_types)) {
+        file_put_contents('debug_log.txt', "Error: Tipo de archivo descargado no es un sticker válido. MIME type: $mime_type\n", FILE_APPEND);
+        return null;
+    }
+
+    // Generar el nombre de archivo con extensión .webp
+    $fileName = $mediaId . '.webp';
+    $filePath = $directory . $fileName;
+
+    // Paso 4: Guardar el archivo descargado en el servidor
+    if (file_put_contents($filePath, $stickerData) === false) {
+        file_put_contents('debug_log.txt', "Error al guardar el archivo en la ruta: $filePath\n", FILE_APPEND);
+        return null;
+    }
+
+    // Verificar el tamaño del archivo guardado
+    $file_size = filesize($filePath);
+    file_put_contents('debug_log.txt', "Sticker guardado correctamente: " . $filePath . " con tamaño: $file_size bytes\n", FILE_APPEND);
+
+    // Devuelve la ruta desde `public/whatsapp/stickers_recibidos/` para almacenar en la base de datos
+    return "public/whatsapp/stickers_recibidos/" . $fileName;
+}
+/* Fin guardar stikers en servidor */
+
 // Procesar el mensaje basado en el tipo recibido
 switch ($tipo_mensaje) {
     case 'text':
@@ -1073,8 +1167,12 @@ switch ($tipo_mensaje) {
         break;
 
     case 'sticker':
-        $texto_mensaje = "Sticker recibido con ID: " . $respuesta_WEBHOOK_messages['sticker']['id'];
+        $stickerId = $respuesta_WEBHOOK_messages['sticker']['id'];
+        $ruta_archivo = descargarStickerWhatsapp($stickerId, $accessToken);  // Descargar el sticker y obtener la ruta
+
+        $texto_mensaje = "Sticker recibido y guardado con ID: " . $stickerId;
         break;
+
 
     default:
         $texto_mensaje = "Tipo de mensaje no reconocido.";
