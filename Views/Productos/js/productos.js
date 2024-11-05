@@ -173,7 +173,7 @@ const listProductos = async () => {
           <td>${cargar_imagen}</td>
           <td>${producto.codigo_producto}</td>
           <td>${producto.nombre_producto}</td>
-          <td>${producto.destacado}</td>
+         
           <td>${producto.saldo_stock}</td>
          
           <td>${producto.pcp}</td>

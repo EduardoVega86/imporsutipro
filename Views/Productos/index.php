@@ -49,7 +49,7 @@
                         <th class="text-nowrap">Imagenes</th>
                         <th class="text-nowrap">Código</th>
                         <th class="text-nowrap">Producto</th>
-                        <th class="text-nowrap">Destacado</th>
+                        
                         <th class="text-nowrap">Existencia</th>
                        
                         <th class="text-nowrap">P. Proveedor</th>
