@@ -30,7 +30,7 @@ const dataTableProductosOptions = {
       title: "Panel de Control: Usuarios",
       titleAttr: "Exportar a Excel",
       exportOptions: {
-        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
       },
       filename: `Productos_${getFecha()}`,
       footer: true,
@@ -42,7 +42,7 @@ const dataTableProductosOptions = {
       title: "Panel de Control: Productos",
       titleAttr: "Exportar a CSV",
       exportOptions: {
-        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
       },
       filename: `Productos_${getFecha()}`,
       footer: true,
@@ -171,14 +171,14 @@ const listProductos = async () => {
           <td>${subir_marketplace_checkBox}</td>
           <td>${botonId_inventario}</td>
           <td>${cargar_imagen}</td>
-          <td>${producto.codigo_producto}</td>
+        
           <td>${producto.nombre_producto}</td>
-          <td>${producto.destacado}</td>
+        
           <td>${producto.saldo_stock}</td>
           <td>${producto.costo_producto}</td>
           <td>${producto.pcp}</td>
           <td>${producto.pvp}</td>
-          <td>${producto.pref}</td>
+        
         <td><a href='${
           SERVERURL + "productos/landing/" + producto.id_producto
         }' role='button'><i class="fa-solid fa-laptop-code" style="font-size:25px;"></i></a></td>
