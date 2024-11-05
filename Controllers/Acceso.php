@@ -145,6 +145,10 @@ class Acceso extends Controller
         $response = $this->model->jwt($token[0], $token[1]);
 
         if ($response["status"] == 200) {
+            if ($token[1] == "nuevo") {
+                header("Location:  " . SERVERURL . 'Pedidos/nuevo');
+                exit;
+            }
             header("Location:  " . SERVERURL . 'Pedidos/editar/' . $token[1]);
             exit;
         }

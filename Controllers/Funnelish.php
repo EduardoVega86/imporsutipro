@@ -25,6 +25,7 @@ class Funnelish extends Controller
         } else {
             $data = file_get_contents("php://input");
             $this->data($data);
+            echo "Plataforma no registrada";
         }
     }
 
