@@ -318,10 +318,11 @@
         });
     });
     
-    function  formato(formato){
-        formato = $("#formato-pagina").val();
+    function  formato(){
         
-        if(formato==3){
+        formato = $("#formato-pagina").val();
+        alert(formato)
+        if(formato == 3){
           $("#funnelish").show();  
         }else{
           $("#funnelish").hide();  
