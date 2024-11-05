@@ -28,6 +28,7 @@ class Query extends Conexion
             $query = $this->connection->prepare($this->sql);
             $query->execute($data);
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            print_r($result);
             return $result;
         } catch (PDOException $e) {
             return $this->handleError($e->getMessage(), $e->getCode());
