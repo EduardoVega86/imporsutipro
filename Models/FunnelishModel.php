@@ -23,7 +23,7 @@ class FunnelishModel extends Query
     public function existenciaPlataforma($id_plataforma)
     {
         echo $id_plataforma . "-";
-        $sql = "SELECT id_plataforma FROM productos_funnel WHERE id_plataforma = ?";
+        $sql = "SELECT * FROM productos_funnel WHERE id_plataforma = ?";
         $response = $this->simple_select($sql, [$id_plataforma]);
         print_r($response);
         if ($response > 0) {
