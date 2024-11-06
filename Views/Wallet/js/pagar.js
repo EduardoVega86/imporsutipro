@@ -272,7 +272,14 @@ const listFacturas = async () => {
           <div><button onclick="ver_detalle_cot('${factura.numero_factura}')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>
           </td>
           <td>${factura.guia}</td>
-          <td>${factura.ciudad}</td>
+          <td>
+          <div>
+          ${factura.ciudad}
+          </div>
+          <div>
+          ${factura.trayecto}
+          </div>
+          </td>
           <td>
           <div><span class="w-100 text-nowrap ${span_estado}">${estado_guia}</span></div>
           <div>${acreditable}</div>
@@ -309,7 +316,6 @@ const listFacturas = async () => {
           </ul>
           </div>
           </td>
-          <td>${factura.trayecto}</td>
           <td></td>
           <td><button class="icon-button" style="background-color: red; margin: 0;" onclick="eliminar_wallet(${factura.id_cabecera})"><i class="fa-solid fa-trash" style="margin: 0;"></i></button></td>
           
