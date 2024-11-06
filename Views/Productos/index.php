@@ -49,12 +49,11 @@
                         <th class="text-nowrap">Imagenes</th>
                         <th class="text-nowrap">Código</th>
                         <th class="text-nowrap">Producto</th>
-                        
                         <th class="text-nowrap">Existencia</th>
-                       
+
                         <th class="text-nowrap">P. Proveedor</th>
                         <th class="text-nowrap">PVP</th>
-                       
+
                         <th class="text-nowrap">Landing</th>
                         <th class="text-wrap">Marketplace</th>
                         <th class="text-wrap">Enviar a cliente</th>
