@@ -162,7 +162,7 @@
                 <a href="<?php echo SERVERURL ?>Pedidos/scanner_speed"><i class='fa-solid fa-motorcycle menu-icon'></i> <span class="menu-text">Scanner Speed</span></a>
             <?php } ?>
 
-            <?php if ($_SESSION['id_plataforma'] == 2307 || $_SESSION['id_plataforma'] == 2324) { ?>
+            <?php if ($_SESSION['id_plataforma'] == 2293 || $_SESSION['id_plataforma'] == 2324) { ?>
                 <a href="#" class="dropdown-btn" data-target="#submenu5"><i class='bx bxs-bot menu-icon'></i> <span class="menu-text">Automatizador</span></a>
             <?php } ?>
             <div class="submenu" id="submenu5">
