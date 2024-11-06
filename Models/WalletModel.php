@@ -947,8 +947,7 @@ class WalletModel extends Query
         if ($response == 1) {
             $responses["status"] = 200;
         } else {
-            $responses["status"] = 400;
-            $responses["message"] = $response["message"];
+            $responses["status"] = 200;
         }
         return $responses;
     }
@@ -982,8 +981,7 @@ class WalletModel extends Query
         if ($response == 1) {
             $responses["status"] = 200;
         } else {
-            $responses["status"] = 400;
-            $responses["message"] = $response["message"];
+            $responses["status"] = 200;
         }
         return $responses;
     }
