@@ -276,7 +276,7 @@ const listFacturas = async () => {
           <div>
           ${factura.ciudad}
           </div>
-          <div>
+          <div style = "background-color: mediumvioletred; border-radius: 0.3rem; color: white;">
           ${factura.trayecto}
           </div>
           </td>
