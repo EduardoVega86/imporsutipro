@@ -171,7 +171,6 @@
                         <th class="centered">Guia</th>
                         <th class="centered">Editar</th>
                         <th class="centered">Devolucion</th>
-                        <th class="centered">Tipo envio</th>
                         <th class="centered">Ganancia</th>
                         <th class="centered">Eliminar</th>
                     </tr>
