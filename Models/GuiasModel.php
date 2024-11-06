@@ -513,8 +513,8 @@ class GuiasModel extends Query
             "ancho" => 50,
             "alto" => 50,
             "peso_fisico" => 2,
-            "login_creacion" => "integracion.api.1",
-            "password" => "54321"
+            "login_creacion" => "imp.1793168264001",
+            "password" => "Ecuador24"
 
         );
 
