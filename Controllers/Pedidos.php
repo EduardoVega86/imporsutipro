@@ -670,6 +670,13 @@ class Pedidos extends Controller
         echo json_encode($response);
     }
 
+    public function guardar_documento_Whatsapp()
+    {
+        $response = $this->model->guardar_documento_Whatsapp($_FILES['documento']);
+        echo json_encode($response);
+    }
+
+
     public function guardar_imagen_Whatsapp()
     {
         $response = $this->model->guardar_imagen_Whatsapp($_FILES['imagen']);

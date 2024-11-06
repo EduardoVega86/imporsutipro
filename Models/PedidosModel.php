@@ -1674,6 +1674,44 @@ class PedidosModel extends Query
         }
     }
 
+    public function guardar_documento_Whatsapp($documentFile)
+    {
+        if (isset($documentFile) && $documentFile['error'] == 0) {
+            // Ruta de destino para guardar el archivo
+            $target_dir = "public/whatsapp/documentos_enviados/";
+            $file_extension = pathinfo($documentFile['name'], PATHINFO_EXTENSION);
+            $file_name = uniqid() . "." . $file_extension;  // Usar la extensión original del archivo
+            $target_file = $target_dir . $file_name;
+
+            // Verificar si la carpeta de destino existe, si no, crearla
+            if (!is_dir($target_dir)) {
+                mkdir($target_dir, 0777, true);  // Crear la carpeta si no existe
+            }
+
+            // Mover el archivo a la carpeta de destino
+            if (move_uploaded_file($documentFile['tmp_name'], $target_file)) {
+                // Retornar la ruta del archivo subido
+                return [
+                    'status' => 200,
+                    'message' => 'Documento subido correctamente',
+                    'data' => $target_file  // Devolvemos la ruta del archivo subido
+                ];
+            } else {
+                // Error al mover el archivo
+                return [
+                    'status' => 500,
+                    'message' => 'Error al mover el archivo de documento'
+                ];
+            }
+        } else {
+            // No se recibió ningún archivo o hubo un error
+            return [
+                'status' => 500,
+                'message' => 'Error al subir el archivo de documento'
+            ];
+        }
+    }
+
     public function guardar_imagen_Whatsapp($imagen)
     {
         // Formatos permitidos por la API de WhatsApp
