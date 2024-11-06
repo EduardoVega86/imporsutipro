@@ -157,6 +157,7 @@
                         <th class="centered">Factura</th>
                         <th class="centered">Detalle factura</th>
                         <th class="centered">Numero Guia</th>
+                        <th class="centered">Ciudad</th>
                         <th class="centered">Estado Guia</th>
                         <th class="centered">Tienda</th>
                         <th class="centered">Proveedor</th>

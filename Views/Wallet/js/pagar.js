@@ -272,6 +272,7 @@ const listFacturas = async () => {
           <div><button onclick="ver_detalle_cot('${factura.numero_factura}')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>
           </td>
           <td>${factura.guia}</td>
+          <td>${factura.ciudad}</td>
           <td>
           <div><span class="w-100 text-nowrap ${span_estado}">${estado_guia}</span></div>
           <div>${acreditable}</div>
