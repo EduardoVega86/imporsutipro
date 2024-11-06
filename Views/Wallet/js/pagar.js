@@ -107,7 +107,7 @@ const dataTableFacturasOptions = {
       title: "Panel de Control: Usuarios",
       titleAttr: "Exportar a Excel",
       exportOptions: {
-        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
       },
       filename: "facturas" + "_" + getFecha(),
       footer: true,
@@ -119,7 +119,7 @@ const dataTableFacturasOptions = {
       title: "Panel de Control: facturas",
       titleAttr: "Exportar a CSV",
       exportOptions: {
-        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
       },
       filename: "facturas" + "_" + getFecha(),
       footer: true,
