@@ -697,12 +697,13 @@ class Pedidos extends Controller
         $mid_mensaje = $_POST['mid_mensaje'];
         $id_recibe = $_POST['id_recibe'];
         $ruta_archivo = $_POST['ruta_archivo'];
+        $telefono_configuracion = $_POST['telefono_configuracion'];
         $telefono_recibe = $_POST['telefono_recibe'];
 
         // Verificar si existe la sesión de id_plataforma
         $id_plataforma = isset($_SESSION['id_plataforma']) ? $_SESSION['id_plataforma'] : $_POST['id_plataforma'];
 
-        $response = $this->model->agregar_mensaje_enviado($texto_mensaje, $tipo_mensaje, $mid_mensaje, $id_recibe, $id_plataforma, $ruta_archivo, $telefono_recibe);
+        $response = $this->model->agregar_mensaje_enviado($texto_mensaje, $tipo_mensaje, $mid_mensaje, $id_recibe, $id_plataforma, $ruta_archivo, $telefono_configuracion, $telefono_recibe);
         echo json_encode($response);
     }
 

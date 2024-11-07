@@ -1834,16 +1834,10 @@ class PedidosModel extends Query
         }
     }
 
-    public function agregar_mensaje_enviado($texto_mensaje, $tipo_mensaje, $mid_mensaje, $id_recibe, $id_plataforma, $ruta_archivo, $telefono_recibe)
+    public function agregar_mensaje_enviado($texto_mensaje, $tipo_mensaje, $mid_mensaje, $id_recibe, $id_plataforma, $ruta_archivo, $telefono_configuracion, $telefono_recibe)
     {
         // codigo para agregar categoria
         $response = $this->initialResponse();
-
-        $sql_telefono_configuracion = "SELECT * FROM configuraciones WHERE id_plataforma = $id_plataforma";
-        $telefono_configuracion = $this->select($sql_telefono_configuracion);
-
-        $telefono_configuracion = $telefono_configuracion[0]['telefono'];
-
 
         // Consulta para verificar si el cliente ya existe en la tabla clientes_chat_center
         $sql_idConfiguracion = "SELECT id FROM clientes_chat_center WHERE celular_cliente = ? AND id_plataforma = ?";
