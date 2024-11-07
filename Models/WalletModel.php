@@ -1307,7 +1307,7 @@ class WalletModel extends Query
             ORDER BY 
                 fc.fecha_factura;
             ";
-        //echo $sql;
+        echo $sql;
         $response =  $this->select($sql);
         return $response;
     }
