@@ -41,7 +41,7 @@ class Dashboard extends Controller
     public function filtroInicial()
     {
         $fecha_i = $_POST['fechai'] != "" ? $_POST['fechai'] : date('Y-m-01');
-        $fecha_f = $_POST['fechaf']  != "" ? $_POST['fechaf'] : date('y-m-t', strtotime($fecha_i));
+        $fecha_f = $_POST['fechaf']  != "" ? $_POST['fechaf'] : date('Y-m-t', strtotime($fecha_i));
 
         echo $fecha_f;
 
