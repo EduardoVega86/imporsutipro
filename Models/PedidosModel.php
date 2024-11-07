@@ -1770,6 +1770,70 @@ class PedidosModel extends Query
         return $response;
     }
 
+    public function guardar_video_Whatsapp($video)
+    {
+        // Formatos permitidos para videos
+        $formatos_permitidos = ['mp4', 'mov', 'avi', 'mkv'];
+        $tamano_maximo = 16 * 1024 * 1024; // 16 MB en bytes
+
+        // Verificar si se ha recibido el archivo sin errores
+        if (isset($video) && $video['error'] == 0) {
+            // Extraer la extensión del archivo
+            $extension = strtolower(pathinfo($video['name'], PATHINFO_EXTENSION));
+
+            // Validar el formato del video
+            if (!in_array($extension, $formatos_permitidos)) {
+                return [
+                    'status' => 400,
+                    'title' => 'Formato no permitido',
+                    'message' => 'Solo se permiten archivos MP4, MOV, AVI o MKV.'
+                ];
+            }
+
+            // Validar el tamaño del archivo
+            if ($video['size'] > $tamano_maximo) {
+                return [
+                    'status' => 400,
+                    'title' => 'Tamaño excedido',
+                    'message' => 'El tamaño del video no puede superar los 16 MB.'
+                ];
+            }
+
+            // Directorio de destino para el video
+            $target_dir = "public/whatsapp/videos_enviados/";
+            $file_name = uniqid() . "." . $extension; // Nombre único para evitar duplicados
+            $target_file = $target_dir . $file_name;
+
+            // Crear el directorio si no existe
+            if (!is_dir($target_dir)) {
+                mkdir($target_dir, 0777, true); // Crear la carpeta con permisos 0777
+            }
+
+            // Mover el archivo al directorio de destino
+            if (move_uploaded_file($video['tmp_name'], $target_file)) {
+                return [
+                    'status' => 200,
+                    'title' => 'Petición exitosa',
+                    'message' => 'Video subido correctamente',
+                    'data' => $target_file // Ruta del video subido
+                ];
+            } else {
+                return [
+                    'status' => 500,
+                    'title' => 'Error al mover el video',
+                    'message' => 'No se pudo mover el video al directorio de destino.'
+                ];
+            }
+        } else {
+            // No se recibió el archivo o hubo un error en la subida
+            return [
+                'status' => 500,
+                'title' => 'Error en la subida',
+                'message' => 'No se recibió ningún video válido.'
+            ];
+        }
+    }
+
     public function agregar_mensaje_enviado($texto_mensaje, $tipo_mensaje, $mid_mensaje, $id_recibe, $id_plataforma, $ruta_archivo, $telefono_configuracion, $telefono_recibe)
     {
         // codigo para agregar categoria
