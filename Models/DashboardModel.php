@@ -112,20 +112,20 @@ class DashboardModel extends Query
                     ";
         $response8 = $this->select($sql);
 
-        $sql = "SELECT p.nombre_producto, COUNT(df.id_inventario) AS cantidad_despachos, df.id_inventario, p.image_path FROM detalle_fact_cot df INNER JOIN inventario_bodegas ib ON df.id_inventario = ib.id_inventario INNER JOIN productos p ON ib.id_producto = p.id_producto where df.id_plataforma = $id_plataforma  AND fecha_guia BETWEEN '$fecha_i' AND '$fecha_f'  GROUP BY p.nombre_producto ORDER BY cantidad_despachos DESC LIMIT 5;";
+        $sql = "SELECT p.nombre_producto, COUNT(df.id_inventario) AS cantidad_despachos, df.id_inventario, p.image_path FROM detalle_fact_cot df INNER JOIN inventario_bodegas ib ON df.id_inventario = ib.id_inventario INNER JOIN productos p ON ib.id_producto = p.id_producto where df.id_plataforma = $id_plataforma  GROUP BY p.nombre_producto ORDER BY cantidad_despachos DESC LIMIT 5;";
         $response9 = $this->select($sql);
 
-        $sql = "SELECT p.nombre_producto, COUNT(df.id_inventario) AS cantidad_despachos, p.image_path FROM detalle_fact_cot df INNER JOIN inventario_bodegas ib ON df.id_inventario = ib.id_inventario INNER JOIN productos p ON ib.id_producto = p.id_producto INNER JOIN facturas_cot fc ON df.numero_factura = fc.numero_factura WHERE fc.estado_guia_sistema IN (7, 400, 401, 402, 403) AND fc.id_plataforma = $id_plataforma  AND fecha_guia BETWEEN '$fecha_i' AND '$fecha_f'  GROUP BY p.nombre_producto ORDER BY cantidad_despachos DESC LIMIT 5;";
+        $sql = "SELECT p.nombre_producto, COUNT(df.id_inventario) AS cantidad_despachos, p.image_path FROM detalle_fact_cot df INNER JOIN inventario_bodegas ib ON df.id_inventario = ib.id_inventario INNER JOIN productos p ON ib.id_producto = p.id_producto INNER JOIN facturas_cot fc ON df.numero_factura = fc.numero_factura WHERE fc.estado_guia_sistema IN (7, 400, 401, 402, 403) AND fc.id_plataforma = $id_plataforma  AND fc.fecha_guia BETWEEN '$fecha_i' AND '$fecha_f'  GROUP BY p.nombre_producto ORDER BY cantidad_despachos DESC LIMIT 5;";
         $response10 = $this->select($sql);
 
 
-        $sql = "SELECT p.nombre_producto, COUNT(df.id_inventario) AS cantidad_despachos, p.image_path FROM detalle_fact_cot df INNER JOIN inventario_bodegas ib ON df.id_inventario = ib.id_inventario INNER JOIN productos p ON ib.id_producto = p.id_producto INNER JOIN facturas_cot fc ON df.numero_factura = fc.numero_factura WHERE fc.estado_guia_sistema IN (9, 500, 501, 502, 503) AND fc.id_plataforma = $id_plataforma  AND fecha_guia BETWEEN '$fecha_i' AND '$fecha_f'  GROUP BY p.nombre_producto ORDER BY cantidad_despachos DESC LIMIT 5;";
+        $sql = "SELECT p.nombre_producto, COUNT(df.id_inventario) AS cantidad_despachos, p.image_path FROM detalle_fact_cot df INNER JOIN inventario_bodegas ib ON df.id_inventario = ib.id_inventario INNER JOIN productos p ON ib.id_producto = p.id_producto INNER JOIN facturas_cot fc ON df.numero_factura = fc.numero_factura WHERE fc.estado_guia_sistema IN (9, 500, 501, 502, 503) AND fc.id_plataforma = $id_plataforma  AND fc.fecha_guia BETWEEN '$fecha_i' AND '$fecha_f'  GROUP BY p.nombre_producto ORDER BY cantidad_despachos DESC LIMIT 5;";
         $response11 = $this->select($sql);
 
-        $sql = "SELECT ct.ciudad, COUNT(fc.ciudad_cot) AS cantidad_entregas FROM facturas_cot fc INNER JOIN ciudad_cotizacion ct ON fc.ciudad_cot = ct.id_cotizacion WHERE fc.estado_guia_sistema IN (7, 400, 401, 402, 403) AND fc.id_plataforma = $id_plataforma  AND fecha_guia BETWEEN '$fecha_i' AND '$fecha_f'   GROUP BY ct.ciudad ORDER BY cantidad_entregas DESC LIMIT 5;";
+        $sql = "SELECT ct.ciudad, COUNT(fc.ciudad_cot) AS cantidad_entregas FROM facturas_cot fc INNER JOIN ciudad_cotizacion ct ON fc.ciudad_cot = ct.id_cotizacion WHERE fc.estado_guia_sistema IN (7, 400, 401, 402, 403) AND fc.id_plataforma = $id_plataforma  AND fc.fecha_guia BETWEEN '$fecha_i' AND '$fecha_f'   GROUP BY ct.ciudad ORDER BY cantidad_entregas DESC LIMIT 5;";
         $response12 = $this->select($sql);
 
-        $sql = "SELECT ct.ciudad, COUNT(fc.ciudad_cot) AS cantidad_entregas FROM facturas_cot fc INNER JOIN ciudad_cotizacion ct ON fc.ciudad_cot = ct.id_cotizacion WHERE fc.estado_guia_sistema IN (9, 500, 501, 502, 503) AND fc.id_plataforma = $id_plataforma   AND fecha_guia BETWEEN '$fecha_i' AND '$fecha_f'  GROUP BY ct.ciudad ORDER BY cantidad_entregas DESC LIMIT 5;";
+        $sql = "SELECT ct.ciudad, COUNT(fc.ciudad_cot) AS cantidad_entregas FROM facturas_cot fc INNER JOIN ciudad_cotizacion ct ON fc.ciudad_cot = ct.id_cotizacion WHERE fc.estado_guia_sistema IN (9, 500, 501, 502, 503) AND fc.id_plataforma = $id_plataforma   AND fc.fecha_guia BETWEEN '$fecha_i' AND '$fecha_f'  GROUP BY ct.ciudad ORDER BY cantidad_entregas DESC LIMIT 5;";
         $response13 = $this->select($sql);
 
         $sql = "SELECT AVG(fc.monto_factura) AS promedio_ventas FROM facturas_cot fc WHERE fc.estado_guia_sistema NOT IN (1, 2, 8, 9, 12, 500, 501, 502, 503) AND fc.id_plataforma = $id_plataforma  AND fecha_guia BETWEEN '$fecha_i' AND '$fecha_f' ;";
