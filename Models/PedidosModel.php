@@ -1834,7 +1834,7 @@ class PedidosModel extends Query
         }
     }
 
-    public function agregar_mensaje_enviado($texto_mensaje, $tipo_mensaje, $mid_mensaje, $id_recibe, $id_plataforma, $ruta_archivo, $telefono_configuracion, $telefono_recibe)
+    public function agregar_mensaje_enviado($texto_mensaje, $tipo_mensaje, $mid_mensaje, $id_recibe, $id_plataforma, $ruta_archivo, $telefono_recibe)
     {
         // codigo para agregar categoria
         $response = $this->initialResponse();
