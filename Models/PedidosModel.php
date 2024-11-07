@@ -1839,6 +1839,12 @@ class PedidosModel extends Query
         // codigo para agregar categoria
         $response = $this->initialResponse();
 
+        $sql_telefono_configuracion = "SELECT * FROM configuraciones WHERE id_plataforma = $id_plataforma";
+        $telefono_configuracion = $this->select($sql_telefono_configuracion);
+
+        $telefono_configuracion = $telefono_configuracion[0]['telefono'];
+
+
         // Consulta para verificar si el cliente ya existe en la tabla clientes_chat_center
         $sql_idConfiguracion = "SELECT id FROM clientes_chat_center WHERE celular_cliente = ? AND id_plataforma = ?";
         $data_check = [$telefono_configuracion, $id_plataforma];
