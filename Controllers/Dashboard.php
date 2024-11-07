@@ -43,6 +43,8 @@ class Dashboard extends Controller
         $fecha_i = $_POST['fechai'] ?? date('Y-m-01');
         $fecha_f = $_POST['fechaf'] ?? date('y-m-t', strtotime($fecha_i));
 
+        echo $fecha_f;
+
         $data = $this->model->filtroInicial($fecha_i, $fecha_f, $_SESSION['enlace'], $_SESSION['id_plataforma']);
         echo json_encode($data);
     }
