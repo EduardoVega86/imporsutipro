@@ -1017,7 +1017,7 @@ class WalletModel extends Query
             $estado = 4;
         }
 
-        $sql = "UPDATE cabecera_cuenta_pagar set estado_guia = $estado WHERE id_cabecera = $id";
+        $sql = "UPDATE cabecera_cuenta_pagar set estado_guia = ? WHERE id_cabecera = ?";
         $response =  $this->update($sql, array($id));
 
         if ($response == 1) {
