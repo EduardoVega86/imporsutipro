@@ -1024,7 +1024,7 @@ class WalletModel extends Query
             $responses["message"] = "Se ha actualizado el estado de la guia";
             $responses["status"] = 200;
         } else {
-            $responses["message"] = "Se ha actualizado el estado de la guia";
+            $responses["message"] =  $response;
             $responses["status"] = 400;
         }
         return $responses;
