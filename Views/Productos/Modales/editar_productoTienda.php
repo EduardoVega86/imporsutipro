@@ -69,6 +69,11 @@
 
                         </select>
                     </div>
+                    <div class="form-group w-100">
+    <label for="precio-referencial">¿Precio Referencial?</label>
+    <input type="checkbox" class="form-check-input" id="precio-referencial">
+    <input type="text" class="form-control mt-2" id="funnelish" disabled>
+</div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -79,6 +84,11 @@
     </div>
 </div>
 <script>
+    document.getElementById('precio-referencial').addEventListener('change', function() {
+        // Habilita o deshabilita el input según el estado del checkbox
+        document.getElementById('precio-referencial-valor').disabled = !this.checked;
+    });
+    
     $(document).ready(function() {
         $('#actualizarproductoTienda').click(function() {
             var editar_id_producto = $('#editar_id_producto').val();
