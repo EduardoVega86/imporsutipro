@@ -314,6 +314,7 @@ function editarProducto_tienda(id) {
         $("#editar_pvpTienda").val(data.pvp_tienda);
         $("#editar_prefTienda").val(data.pref_tienda);
         $("#editar_categoria").val(response[0].id_categoria_tienda).change();
+        $("#funnelish").val(data.funnelish_url);
 
         // Abrir el modal
         $("#editar_productoTiendaModal").modal("show");
