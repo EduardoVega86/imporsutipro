@@ -1680,12 +1680,8 @@ class PedidosModel extends Query
             // Ruta de destino para guardar el archivo
             $target_dir = "public/whatsapp/documentos_enviados/";
             $file_extension = pathinfo($documentFile['name'], PATHINFO_EXTENSION);
-            $nombre_principal_archivo = pathinfo($documentFile['name'], PATHINFO_FILENAME); // Obtener el nombre original sin la extensión
             $file_name = uniqid() . "." . $file_extension;  // Usar la extensión original del archivo
             $target_file = $target_dir . $file_name;
-
-            // Tamaño del archivo en KB
-            $file_size = round($documentFile['size'] / 1024, 2) . " KB";
 
             // Verificar si la carpeta de destino existe, si no, crearla
             if (!is_dir($target_dir)) {
@@ -1694,14 +1690,18 @@ class PedidosModel extends Query
 
             // Mover el archivo a la carpeta de destino
             if (move_uploaded_file($documentFile['tmp_name'], $target_file)) {
+                // Obtener el tamaño del archivo en bytes
+                $file_size = filesize($target_file); // Tamaño en bytes
+                $nombre_principal_archivo = pathinfo($documentFile['name'], PATHINFO_FILENAME);
+
                 // Retornar la información del archivo subido
                 return [
                     'status' => 200,
                     'message' => 'Documento subido correctamente',
                     'data' => [
-                        'nombre' => $nombre_principal_archivo,          // Nombre del archivo
-                        'size' => $file_size,                          // Tamaño del archivo en KB
-                        'ruta' => $target_file                          // Ruta donde se guardó
+                        "nombre" => $nombre_principal_archivo, // Nombre del archivo sin extensión
+                        "size" => $file_size, // Tamaño en bytes
+                        "ruta" => $target_file // Ruta donde se guardó el archivo
                     ]
                 ];
             } else {
