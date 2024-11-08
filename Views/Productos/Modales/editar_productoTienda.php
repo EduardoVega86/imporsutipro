@@ -72,6 +72,7 @@
                     <div class="form-group w-100">
     <label for="precio-referencial">Funnelish</label>
     <input type="checkbox" class="form-check-input" id="precio-referencial">
+    <input type="hidden" id="precio-referencial-estado" value="0">
     <input type="text" class="form-control mt-2" id="funnelish" disabled>
 </div>
                 </form>
@@ -84,20 +85,21 @@
     </div>
 </div>
 <script>
-     document.getElementById('precio-referencial').addEventListener('change', function() {
-        const inputValor = document.getElementById('precio-referencial-valor');
-        
-        // Habilita o deshabilita el input y asigna 1 o 0 según el estado del checkbox
+      document.getElementById('precio-referencial').addEventListener('change', function() {
+        const estadoCheckbox = document.getElementById('precio-referencial-estado');
+        const inputValor = document.getElementById('funnelish');
+
+        // Cambia el valor del campo oculto según el estado del checkbox
         if (this.checked) {
-            inputValor.disabled = false;
-            inputValor.value = '1';
-             document.getElementById('funnelish').disabled = !this.checked;
+            estadoCheckbox.value = '1';  // Si está marcado, establece a '1'
+            inputValor.disabled = false; // Habilita el input
         } else {
-            inputValor.disabled = true;
-            inputValor.value = '0';
+            estadoCheckbox.value = '0';  // Si no está marcado, establece a '0'
+            inputValor.disabled = true;  // Deshabilita el input
         }
     });
     
+   
   
     
     $(document).ready(function() {
@@ -106,6 +108,7 @@
             var editar_nombre_productoTienda = $('#editar_nombre_productoTienda').val();
             var editar_pvpTienda = $('#editar_pvpTienda').val();
             var editar_prefTienda = $('#editar_prefTienda').val();
+            var editar_categoria = $('#editar_categoria').val();
             var editar_categoria = $('#editar_categoria').val();
             
             let formData = new FormData();
