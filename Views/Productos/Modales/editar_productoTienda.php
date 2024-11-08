@@ -84,10 +84,21 @@
     </div>
 </div>
 <script>
-    document.getElementById('precio-referencial').addEventListener('change', function() {
-        // Habilita o deshabilita el input según el estado del checkbox
-        document.getElementById('funnelish').disabled = !this.checked;
+     document.getElementById('precio-referencial').addEventListener('change', function() {
+        const inputValor = document.getElementById('precio-referencial-valor');
+        
+        // Habilita o deshabilita el input y asigna 1 o 0 según el estado del checkbox
+        if (this.checked) {
+            inputValor.disabled = false;
+            inputValor.value = '1';
+             document.getElementById('funnelish').disabled = !this.checked;
+        } else {
+            inputValor.disabled = true;
+            inputValor.value = '0';
+        }
     });
+    
+  
     
     $(document).ready(function() {
         $('#actualizarproductoTienda').click(function() {
