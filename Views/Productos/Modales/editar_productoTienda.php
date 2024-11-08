@@ -69,6 +69,12 @@
 
                         </select>
                     </div>
+                    <div class="form-group w-100">
+    <label for="precio-referencial">Funnelish</label>
+    <input type="checkbox" class="form-check-input" id="precio-referencial">
+    <input type="hidden" id="precio-referencial-estado" value="0">
+    <input type="text" class="form-control mt-2" id="funnelish" disabled>
+</div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -79,6 +85,23 @@
     </div>
 </div>
 <script>
+      document.getElementById('precio-referencial').addEventListener('change', function() {
+        const estadoCheckbox = document.getElementById('precio-referencial-estado');
+        const inputValor = document.getElementById('funnelish');
+
+        // Cambia el valor del campo oculto según el estado del checkbox
+        if (this.checked) {
+            estadoCheckbox.value = '1';  // Si está marcado, establece a '1'
+            inputValor.disabled = false; // Habilita el input
+        } else {
+            estadoCheckbox.value = '0';  // Si no está marcado, establece a '0'
+            inputValor.disabled = true;  // Deshabilita el input
+        }
+    });
+    
+   
+  
+    
     $(document).ready(function() {
         $('#actualizarproductoTienda').click(function() {
             var editar_id_producto = $('#editar_id_producto').val();
@@ -86,6 +109,8 @@
             var editar_pvpTienda = $('#editar_pvpTienda').val();
             var editar_prefTienda = $('#editar_prefTienda').val();
             var editar_categoria = $('#editar_categoria').val();
+            var aplica_funnelish = $('#precio-referencial-estado').val();
+            var funnelish = $('#funnelish').val();
             
             let formData = new FormData();
             formData.append("id_producto_tienda", editar_id_producto);
@@ -93,6 +118,8 @@
             formData.append("pvp_tienda", editar_pvpTienda);
             formData.append("id_categoria", editar_categoria);
             formData.append("pref", editar_prefTienda);
+            formData.append("aplica_funnelish", aplica_funnelish);
+            formData.append("funnelish", funnelish);
 
             $.ajax({
                 type: 'POST',

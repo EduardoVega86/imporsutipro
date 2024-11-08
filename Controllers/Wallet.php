@@ -327,6 +327,12 @@ class Wallet extends Controller
         echo json_encode($response);
     }
 
+    public function transito($id)
+    {
+        $response = $this->model->transito($id);
+        echo json_encode($response);
+    }
+
     public function agregarOtroPago()
     {
         $tipo = $_POST['tipo'];

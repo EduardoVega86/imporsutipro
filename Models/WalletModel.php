@@ -986,6 +986,50 @@ class WalletModel extends Query
         return $responses;
     }
 
+    public function transito($id)
+    {
+        //buscar la guia
+        $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE id_cabecera = $id";
+        $response =  $this->select($sql);
+        $guia = $response[0]['guia'];
+        $tipo = "";
+        switch ($guia) {
+            case str_contains($guia, 'IMP'):
+            case str_contains($guia, 'SPD'):
+            case str_contains($guia, 'MKP'):
+            case str_contains($guia, 'MKL'):
+                $tipo = "IMP";
+                break;
+            case is_numeric($guia):
+                $tipo = "SER";
+                break;
+            case str_contains($guia, 'I000'):
+                $tipo = "GIM";
+                break;
+        }
+
+        $estado = 0;
+        if ($tipo == "IMP") {
+            $estado = 5;
+        } else if ($tipo == "SER") {
+            $estado = 300;
+        } else if ($tipo == "GIM") {
+            $estado = 4;
+        }
+
+        $sql = "UPDATE cabecera_cuenta_pagar set estado_guia = ? WHERE id_cabecera = ?";
+        $response =  $this->update($sql, array($estado, $id));
+
+        if ($response == 1) {
+            $responses["message"] = "Se ha actualizado el estado de la guia";
+            $responses["status"] = 200;
+        } else {
+            $responses["message"] =  $response;
+            $responses["status"] = 400;
+        }
+        return $responses;
+    }
+
     public function agregarOtroPago($tipo, $cuenta, $plataforma, $red)
     {
         $sql = "INSERT INTO `metodo_pagos`(`tipo`, `cuenta`, `id_plataforma`, `red`) VALUES (?, ?, ?, ?)";
