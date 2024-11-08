@@ -401,6 +401,29 @@ function abrirModal_editarCabecera(id_cabecera) {
   });
 }
 
+function transito(id_cabecera) {
+  $.ajax({
+    type: "POST",
+    url: SERVERURL + "wallet/transito/" + id_cabecera,
+    dataType: "json",
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("LA IMAGEN NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al obtener la información de la categoría");
+    },
+  });
+}
+
 function devolucion(id_cabecera) {
   $.ajax({
     type: "POST",
