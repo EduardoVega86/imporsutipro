@@ -109,7 +109,8 @@
             var editar_pvpTienda = $('#editar_pvpTienda').val();
             var editar_prefTienda = $('#editar_prefTienda').val();
             var editar_categoria = $('#editar_categoria').val();
-            var editar_categoria = $('#editar_categoria').val();
+            var aplica_funnelish = $('#precio-referencial-estado').val();
+            var funnelish = $('#funnelish').val();
             
             let formData = new FormData();
             formData.append("id_producto_tienda", editar_id_producto);
@@ -117,6 +118,8 @@
             formData.append("pvp_tienda", editar_pvpTienda);
             formData.append("id_categoria", editar_categoria);
             formData.append("pref", editar_prefTienda);
+            formData.append("aplica_funnelish", aplica_funnelish);
+            formData.append("funnelish", funnelish);
 
             $.ajax({
                 type: 'POST',

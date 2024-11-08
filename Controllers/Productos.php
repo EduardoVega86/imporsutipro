@@ -475,6 +475,8 @@ class Productos extends Controller
         $nombre = $_POST['nombre'];
         $pvp_tienda = $_POST['pvp_tienda'];
         $id_categoria = $_POST['id_categoria'];
+        $aplica_funnelish = $_POST['aplica_funnelish'];
+         $funnelish = $_POST['funnelish'];
 
         if ($_POST['pref'] == null || $_POST['pref'] == '') {
             $pref = 0;
@@ -484,7 +486,7 @@ class Productos extends Controller
 
 
 
-        $response = $this->model->editarProductoTienda($id_producto_tienda, $nombre, $pvp_tienda, $id_categoria, $pref, $_SESSION['id_plataforma']);
+        $response = $this->model->editarProductoTienda($id_producto_tienda, $nombre, $pvp_tienda, $id_categoria, $pref, $_SESSION['id_plataforma'], $aplica_funnelish, $funnelish);
 
         echo json_encode($response);
     }

@@ -364,12 +364,12 @@ class ProductosModel extends Query
     }
 
 
-    public function editarProductoTienda($id_producto_tienda, $nombre, $pvp_tienda, $id_categoria, $pref, $id_plataforma)
+    public function editarProductoTienda($id_producto_tienda, $nombre, $pvp_tienda, $id_categoria, $pref, $id_plataforma, $aplica_funnelish, $funnelish)
     {
         $response = $this->initialResponse();
         $sql = "UPDATE `productos_tienda` SET `nombre_producto_tienda`=?,"
             . "`pvp_tienda`=?,`id_categoria_tienda`=?,"
-            . "`pref_tienda`=? WHERE id_producto_tienda=?";
+            . "`pref_tienda`=? , `funnelish`=?, `funnelish_url`=? WHERE id_producto_tienda=?";
         // echo $sql;
         $data = [$nombre, $pvp_tienda, $id_categoria,  $pref, $id_producto_tienda];
         //  print_r($data);
