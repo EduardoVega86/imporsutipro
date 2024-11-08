@@ -311,6 +311,7 @@ const listFacturas = async () => {
           <i class='bx bxs-cog'></i>
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <li><a class="dropdown-item" style="cursor: pointer;" onclick="transito(${factura.id_cabecera})">Transito</a></li>
               <li><a class="dropdown-item" style="cursor: pointer;" onclick="devolucion(${factura.id_cabecera})">Devolucion</a></li>
               <li><a class="dropdown-item" style="cursor: pointer;" onclick="entregar(${factura.id_cabecera})">Entregar</a></li>
           </ul>
