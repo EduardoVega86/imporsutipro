@@ -1018,7 +1018,7 @@ class WalletModel extends Query
         }
 
         $sql = "UPDATE cabecera_cuenta_pagar set estado_guia = ? WHERE id_cabecera = ?";
-        $response =  $this->update($sql, array($id));
+        $response =  $this->update($sql, array($estado, $id));
 
         if ($response == 1) {
             $responses["message"] = "Se ha actualizado el estado de la guia";
