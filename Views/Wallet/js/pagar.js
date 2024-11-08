@@ -416,6 +416,7 @@ function transito(id_cabecera) {
           positionClass: "toast-bottom-center",
         });
       }
+      initDataTableFacturas();
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
