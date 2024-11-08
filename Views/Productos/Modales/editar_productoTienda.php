@@ -86,7 +86,7 @@
 <script>
     document.getElementById('precio-referencial').addEventListener('change', function() {
         // Habilita o deshabilita el input según el estado del checkbox
-        document.getElementById('precio-referencial-valor').disabled = !this.checked;
+        document.getElementById('funnelish').disabled = !this.checked;
     });
     
     $(document).ready(function() {
