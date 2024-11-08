@@ -70,7 +70,7 @@
                         </select>
                     </div>
                     <div class="form-group w-100">
-    <label for="precio-referencial">¿Precio Referencial?</label>
+    <label for="precio-referencial">Funnelish</label>
     <input type="checkbox" class="form-check-input" id="precio-referencial">
     <input type="text" class="form-control mt-2" id="funnelish" disabled>
 </div>
