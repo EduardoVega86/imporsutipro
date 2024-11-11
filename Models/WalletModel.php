@@ -995,9 +995,7 @@ class WalletModel extends Query
         $tipo = "";
         switch ($guia) {
             case str_contains($guia, 'IMP'):
-            case str_contains($guia, 'SPD'):
             case str_contains($guia, 'MKP'):
-            case str_contains($guia, 'MKL'):
                 $tipo = "IMP";
                 break;
             case is_numeric($guia):
@@ -1005,6 +1003,10 @@ class WalletModel extends Query
                 break;
             case str_contains($guia, 'I000'):
                 $tipo = "GIM";
+                break;
+            case str_contains($guia, 'SPD'):
+            case str_contains($guia, 'MKL'):
+                $tipo = "SPD";
                 break;
         }
 
@@ -1015,6 +1017,8 @@ class WalletModel extends Query
             $estado = 300;
         } else if ($tipo == "GIM") {
             $estado = 4;
+        } else if ($tipo == "SPD") {
+            $estado = 3;
         }
 
         $sql = "UPDATE cabecera_cuenta_pagar set estado_guia = ? WHERE id_cabecera = ?";
