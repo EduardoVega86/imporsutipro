@@ -314,6 +314,9 @@ const listGuias = async () => {
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <li><span class="dropdown-item" style="cursor: pointer;" onclick="${funcion_anular}">Anular</span></li>
                         <li><span class="dropdown-item" style="cursor: pointer;">Información</span></li>
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick='transito(${
+                          guia.id_factura
+                        })' >Transito</span></li>
                     </ul>
                 </div>
                     </td>
@@ -325,6 +328,30 @@ const listGuias = async () => {
   }
 };
 
+function transito(id_cabecera) {
+  $.ajax({
+    type: "POST",
+    url: SERVERURL + "wallet/transito/" + id_cabecera,
+    dataType: "json",
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("LA IMAGEN NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      }
+      initDataTableFacturas();
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al obtener la información de la categoría");
+    },
+  });
+}
+
 // Event delegation for select change
 document.addEventListener("change", async (event) => {
   if (event.target && event.target.classList.contains("select-estado-speed")) {
@@ -334,7 +361,7 @@ document.addEventListener("change", async (event) => {
     const formData = new FormData();
     formData.append("estado", nuevoEstado);
 
-    if (nuevoEstado == 9){
+    if (nuevoEstado == 9) {
       $("#tipo_speed").val("recibir").change();
     }
 

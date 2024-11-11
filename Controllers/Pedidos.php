@@ -798,7 +798,11 @@ class Pedidos extends Controller
 
         echo json_encode($response);
     }
-
+    public function transito($id)
+    {
+        $response = $this->model->transito($id);
+        echo json_encode($response);
+    }
     public function obtenerDetallesPedido()
     {
         $id_pedido = $_POST['id_factura'];
