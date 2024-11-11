@@ -709,7 +709,10 @@ class Pedidos extends Controller
 
     public function obtener_etiquetas()
     {
-        $response = $this->model->obtener_etiquetas($_SESSION['id_plataforma']);
+        // Verificar si existe la sesión de id_plataforma
+        $id_plataforma = isset($_SESSION['id_plataforma']) ? $_SESSION['id_plataforma'] : $_POST['id_plataforma'];
+        
+        $response = $this->model->obtener_etiquetas($id_plataforma);
         echo json_encode($response);
     }
 
