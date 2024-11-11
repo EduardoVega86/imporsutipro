@@ -331,7 +331,7 @@ const listGuias = async () => {
 function transito(id_cabecera) {
   $.ajax({
     type: "POST",
-    url: SERVERURL + "wallet/transito/" + id_cabecera,
+    url: SERVERURL + "pedidos/transito/" + id_cabecera,
     dataType: "json",
     success: function (response) {
       if (response.status == 500) {
@@ -343,7 +343,7 @@ function transito(id_cabecera) {
           positionClass: "toast-bottom-center",
         });
       }
-      initDataTableFacturas();
+      initDataTable();
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
