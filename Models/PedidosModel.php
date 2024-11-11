@@ -2125,9 +2125,9 @@ class PedidosModel extends Query
     public function transito($id)
     {
         //buscar la guia
-        $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE id_cabecera = $id";
+        $sql = "SELECT * FROM facturas_cot WHERE id_factura = $id";
         $response =  $this->select($sql);
-        $guia = $response[0]['guia'];
+        $guia = $response[0]['numero_guia'];
         $tipo = "";
         switch ($guia) {
             case str_contains($guia, 'IMP'):
@@ -2153,12 +2153,22 @@ class PedidosModel extends Query
             $estado = 4;
         }
 
-        $sql = "UPDATE cabecera_cuenta_pagar set estado_guia = ? WHERE id_cabecera = ?";
-        $response =  $this->update($sql, array($estado, $id));
+        $sql = "UPDATE cabecera_cuenta_pagar set estado_guia = ? WHERE guia = ?";
+        $response =  $this->update($sql, array($estado, $guia));
 
         if ($response == 1) {
             $responses["message"] = "Se ha actualizado el estado de la guia";
             $responses["status"] = 200;
+            $sql = "UPDATE facturas_cot set estado_guia_sistema = ? WHERE id_factura = ?";
+            $response =  $this->update($sql, array($estado, $id));
+
+            if ($response == 1) {
+                $responses["message"] = "Se ha actualizado el estado de la guia";
+                $responses["status"] = 200;
+            } else {
+                $responses["message"] =  $response;
+                $responses["status"] = 400;
+            }
         } else {
             $responses["message"] =  $response;
             $responses["status"] = 400;

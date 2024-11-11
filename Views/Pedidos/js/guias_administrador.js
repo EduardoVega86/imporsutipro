@@ -331,7 +331,7 @@ const listGuias = async () => {
 function transito(id_cabecera) {
   $.ajax({
     type: "POST",
-    url: SERVERURL + "wallet/transito/" + id_cabecera,
+    url: SERVERURL + "pedidos/transito/" + id_cabecera,
     dataType: "json",
     success: function (response) {
       if (response.status == 500) {
