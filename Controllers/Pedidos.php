@@ -727,8 +727,10 @@ class Pedidos extends Controller
         $nombre_etiqueta = $_POST['nombre_etiqueta'];
         $color_etiqueta = $_POST['color_etiqueta'];
 
+        // Verificar si existe la sesión de id_plataforma
+        $id_plataforma = isset($_SESSION['id_plataforma']) ? $_SESSION['id_plataforma'] : $_POST['id_plataforma'];
 
-        $response = $this->model->agregar_etiqueta($nombre_etiqueta, $color_etiqueta, $_SESSION['id_plataforma']);
+        $response = $this->model->agregar_etiqueta($nombre_etiqueta, $color_etiqueta, $id_plataforma);
         echo json_encode($response);
     }
 
