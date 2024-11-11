@@ -208,7 +208,8 @@ function recalcular(id_producto, id, idPrecio, idDescuento, idCantidad) {
   const precio = parseFloat(document.getElementById(idPrecio).value);
   const descuento = parseFloat(document.getElementById(idDescuento).value);
   const cantidad = parseFloat(document.getElementById(idCantidad).value);
-
+  contiene = "";
+  contieneGintracom = "";
   const ffrm = new FormData();
   ffrm.append("id", id);
   ffrm.append("precio", precio);
@@ -368,7 +369,12 @@ $(document).ready(function () {
 
       var button2 = document.getElementById("generarGuiaBtn");
 
-      if (saldo < -10 && (ID_PLATAFORMA != 1238 || ID_PLATAFORMA !=1226 || ID_PLATAFORMA !=1246)) {
+      if (
+        saldo < -10 &&
+        (ID_PLATAFORMA != 1238 ||
+          ID_PLATAFORMA != 1226 ||
+          ID_PLATAFORMA != 1246)
+      ) {
         button2.disabled = true;
         Swal.fire({
           icon: "error",
