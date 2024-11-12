@@ -1904,6 +1904,59 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
+    public function toggle_etiqueta_asignacion($id_cliente_chat_center, $id_etiqueta)
+    {
+        // Inicializar la respuesta
+        $response = $this->initialResponse();
+
+        // Consultar si la etiqueta ya está asignada
+        $sql = "SELECT id FROM etiquetas_asignadas WHERE id_cliente_chat_center = ? AND id_etiqueta = ?";
+        $data = [$id_cliente_chat_center, $id_etiqueta];
+        $etiquetas_asignadas = $this->select($sql, $data);
+
+        if (!empty($etiquetas_asignadas)) {
+            // Si la asignación existe, eliminarla
+            $id_etiquetas_asignadas = $etiquetas_asignadas[0]['id'];
+            $delete_sql = "DELETE FROM etiquetas_asignadas WHERE id = ?";
+            $delete_data = [$id_etiquetas_asignadas];
+            $eliminar_asignacion = $this->delete($delete_sql, $delete_data);
+
+            if ($eliminar_asignacion == 1) {
+                // Respuesta exitosa para eliminación
+                $response['status'] = 200;
+                $response['title'] = 'Petición exitosa';
+                $response['message'] = 'Etiqueta desasignada correctamente';
+                $response['asignado'] = false;
+            } else {
+                // Error en eliminación
+                $response['status'] = 500;
+                $response['title'] = 'Error al desasignar';
+                $response['message'] = 'Error al desasignar la etiqueta';
+            }
+        } else {
+            // Si no existe, agregar la asignación
+            $insert_sql = "INSERT INTO etiquetas_asignadas (id_cliente_chat_center, id_etiqueta) VALUES (?, ?)";
+            $insert_data = [$id_cliente_chat_center, $id_etiqueta];
+            $insertar_asignacion = $this->insert($insert_sql, $insert_data);
+
+            if ($insertar_asignacion == 1) {
+                // Respuesta exitosa para inserción
+                $response['status'] = 200;
+                $response['title'] = 'Petición exitosa';
+                $response['message'] = 'Etiqueta asignada correctamente';
+                $response['asignado'] = true;
+            } else {
+                // Error en inserción
+                $response['status'] = 500;
+                $response['title'] = 'Error al asignar';
+                $response['message'] = 'Error al asignar la etiqueta';
+            }
+        }
+
+        return $response;
+    }
+
+
     public function eliminarEtiqueta($id_etiqueta)
     {
         $sql = "DELETE FROM etiquetas_chat_center WHERE id_etiqueta = ?";
