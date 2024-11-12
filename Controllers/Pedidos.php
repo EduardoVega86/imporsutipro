@@ -716,6 +716,14 @@ class Pedidos extends Controller
         echo json_encode($response);
     }
 
+    public function obtener_etiquetas_asignadas()
+    {
+        $id_cliente_chat_center = $_POST['id_cliente_chat_center'];
+        
+        $response = $this->model->obtener_etiquetas_asignadas($id_cliente_chat_center);
+        echo json_encode($response);
+    }
+
     public function eliminarEtiqueta($id_etiqueta)
     {
         $response = $this->model->eliminarEtiqueta($id_etiqueta);
