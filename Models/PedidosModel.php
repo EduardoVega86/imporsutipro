@@ -2215,15 +2215,15 @@ class PedidosModel extends Query
         } else if ($tipo == "SPD") {
             $estado = 3;
         }
-
+        $sql = "UPDATE facturas_cot set estado_guia_sistema = ? WHERE id_factura = ?";
+        $response =  $this->update($sql, array($estado, $id));
         $sql = "UPDATE cabecera_cuenta_pagar set estado_guia = ? WHERE guia = ?";
         $response =  $this->update($sql, array($estado, $guia));
 
         if ($response == 1) {
             $responses["message"] = "Se ha actualizado el estado de la guia";
             $responses["status"] = 200;
-            $sql = "UPDATE facturas_cot set estado_guia_sistema = ? WHERE id_factura = ?";
-            $response =  $this->update($sql, array($estado, $id));
+
 
             if ($response == 1) {
                 $responses["message"] = "Se ha actualizado el estado de la guia";
