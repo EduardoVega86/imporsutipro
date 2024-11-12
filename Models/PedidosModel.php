@@ -1898,6 +1898,12 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
+    public function obtener_etiquetas_asignadas($id_cliente_chat_center)
+    {
+        $sql = "SELECT * FROM `etiquetas_asignadas` WHERE id_cliente_chat_center = $id_cliente_chat_center;";
+        return $this->select($sql);
+    }
+
     public function eliminarEtiqueta($id_etiqueta)
     {
         $sql = "DELETE FROM etiquetas_chat_center WHERE id_etiqueta = ?";
