@@ -1912,7 +1912,7 @@ class PedidosModel extends Query
         // Consultar si la etiqueta ya está asignada
         $sql = "SELECT id FROM etiquetas_asignadas WHERE id_cliente_chat_center = ? AND id_etiqueta = ?";
         $data = [$id_cliente_chat_center, $id_etiqueta];
-        $etiquetas_asignadas = $this->select($sql, $data);
+        $etiquetas_asignadas = $this->dselect($sql, $data);
 
         if (!empty($etiquetas_asignadas)) {
             // Si la asignación existe, eliminarla
