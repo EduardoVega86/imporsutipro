@@ -724,6 +724,15 @@ class Pedidos extends Controller
         echo json_encode($response);
     }
 
+    public function toggle_etiqueta_asignacion()
+    {
+        $id_cliente_chat_center = $_POST['id_cliente_chat_center'];
+        $id_etiqueta = $_POST['id_etiqueta'];
+        
+        $response = $this->model->toggle_etiqueta_asignacion($id_cliente_chat_center, $id_etiqueta);
+        echo json_encode($response);
+    }
+
     public function eliminarEtiqueta($id_etiqueta)
     {
         $response = $this->model->eliminarEtiqueta($id_etiqueta);
