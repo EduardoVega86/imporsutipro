@@ -1904,7 +1904,7 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
-    public function toggle_etiqueta_asignacion($id_cliente_chat_center, $id_etiqueta)
+    public function toggle_etiqueta_asignacion($id_cliente_chat_center, $id_etiqueta, $id_plataforma)
     {
         // Inicializar la respuesta
         $response = $this->initialResponse();
@@ -1935,8 +1935,8 @@ class PedidosModel extends Query
             }
         } else {
             // Si no existe, agregar la asignación
-            $insert_sql = "INSERT INTO etiquetas_asignadas (id_cliente_chat_center, id_etiqueta) VALUES (?, ?)";
-            $insert_data = [$id_cliente_chat_center, $id_etiqueta];
+            $insert_sql = "INSERT INTO etiquetas_asignadas (id_cliente_chat_center, id_etiqueta, id_plataforma) VALUES (?, ?, ?)";
+            $insert_data = [$id_cliente_chat_center, $id_etiqueta, $id_plataforma];
             $insertar_asignacion = $this->insert($insert_sql, $insert_data);
 
             if ($insertar_asignacion == 1) {
