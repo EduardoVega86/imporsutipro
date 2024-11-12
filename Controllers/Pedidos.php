@@ -728,8 +728,9 @@ class Pedidos extends Controller
     {
         $id_cliente_chat_center = $_POST['id_cliente_chat_center'];
         $id_etiqueta = $_POST['id_etiqueta'];
+        $id_plataforma = $_POST['id_plataforma'];
         
-        $response = $this->model->toggle_etiqueta_asignacion($id_cliente_chat_center, $id_etiqueta);
+        $response = $this->model->toggle_etiqueta_asignacion($id_cliente_chat_center, $id_etiqueta, $id_plataforma);
         echo json_encode($response);
     }
 
