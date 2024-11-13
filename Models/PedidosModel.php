@@ -2295,7 +2295,7 @@ class PedidosModel extends Query
             $response = [
                 'status' => 500,
                 'title' => 'Error',
-                'message' => 'Error al actualizar el detalle'
+                'message' => 'Error al actualizar el detalle: ' . $response . " | " . $response2
             ];
         }
         return $response;
