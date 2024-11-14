@@ -110,26 +110,43 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
 // Función para insertar el mensaje en espera
 function insertar_mensaje_espera($conn, $id_plataforma, $id_cliente, $id_mensaje_insertado, $created_at, $id_whatsapp_message_template)
 {
+    // Ruta del archivo de log
+    $logFile = 'error_insert_Mespera.txt';
 
+    // Preparar la consulta de inserción
     $stmt = $conn->prepare("INSERT INTO mensajes_espera (id_plataforma, id_cliente_chat_center, id_mensajes_clientes, estado, id_whatsapp_message_template, fecha_envio) VALUES (?, ?, ?, ?, ?, ?)");
     if ($stmt === false) {
-        throw new Exception("Failed to prepare the query: " . $conn->error);
+        $errorMsg = "Failed to prepare the query: " . $conn->error . "\n";
+        file_put_contents($logFile, $errorMsg, FILE_APPEND);
+        return; // Salir de la función si falla la preparación
     }
 
     // Convertir variables a los tipos correctos
     $id_plataforma = (int)$id_plataforma;
     $id_cliente = (int)$id_cliente;
     $id_mensaje_insertado = (int)$id_mensaje_insertado;
-    $estado = 0;
+    $estado = 0;  // Estado inicial del mensaje en espera
     $id_whatsapp_message_template = (string)$id_whatsapp_message_template;
     $created_at = (string)$created_at;
 
+    // Vincular parámetros y ejecutar la consulta
     $stmt->bind_param('iiiiss', $id_plataforma, $id_cliente, $id_mensaje_insertado, $estado, $id_whatsapp_message_template, $created_at);
     $stmt->execute();
+
+    // Verificar si hubo algún error en la ejecución
+    if ($stmt->error) {
+        $errorMsg = "Error ejecutando la consulta para mensajes_espera: " . $stmt->error . "\n";
+        file_put_contents($logFile, $errorMsg, FILE_APPEND);
+    } else {
+        // Si la ejecución fue exitosa, registrar el éxito
+        $successMsg = "Consulta ejecutada con éxito. Mensaje insertado en mensajes_espera.\n";
+        file_put_contents($logFile, $successMsg, FILE_APPEND);
+    }
 
     // Cerrar la consulta de inserción
     $stmt->close();
 }
+
 
 // Bucle principal del Worker
 while (true) {
