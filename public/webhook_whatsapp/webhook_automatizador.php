@@ -400,6 +400,30 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
     $stmt->close();
 }
 
+// Conexión a Redis
+$redis = new Redis();
+$redis->connect('3.233.119.65', 6379);
+
+function enqueueMessageDetails($id_automatizador, $uid_whatsapp, $mensaje, $json_mensaje, $id_configuracion, $user_info) {
+    global $redis;
+    
+    // Prepara los datos como un array
+    $data = [
+        'id_automatizador' => $id_automatizador,
+        'uid_whatsapp' => $uid_whatsapp,
+        'mensaje' => $mensaje,
+        'json_mensaje' => $json_mensaje,
+        'id_configuracion' => $id_configuracion,
+        'user_info' => $user_info
+    ];
+
+    // Convertir los datos a JSON
+    $data_json = json_encode($data);
+
+    // Enviar los datos a la cola en Redis
+    $redis->lPush("message_queue", $data_json);
+}
+
 function sendWhatsappMessage($conn, $user_info, $block_sql_data, $config, $id_configuracion)
 {
     // Obtener la información del template de mensaje block_sql_data
@@ -512,7 +536,7 @@ function sendWhatsappMessage($conn, $user_info, $block_sql_data, $config, $id_co
     }
 
     // Insert message details into the database
-    insertMessageDetails($conn, $block_sql_data['id_automatizador'], $recipient, $mensaje, $json_mensaje, $id_configuracion, $user_info);
+    enqueueMessageDetails($conn, $block_sql_data['id_automatizador'], $recipient, $mensaje, $json_mensaje, $id_configuracion, $user_info);
 
     return $respuesta;
 }
