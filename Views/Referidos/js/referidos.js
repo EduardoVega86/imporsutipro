@@ -120,6 +120,8 @@ const dataTableReferidosOptions = {
     { className: "centered", targets: [0, 1, 2, 3, 4] },
     { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
   ],
+  dom: '<"d-flex w-full justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
+
   buttons: [
     {
       extend: "excelHtml5",
@@ -208,6 +210,8 @@ const dataTableGuiasReferidosOptions = {
     { className: "centered", targets: [0, 1, 2, 3] },
     { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
   ],
+  dom: '<"d-flex w-full justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
+
   buttons: [
     {
       extend: "excelHtml5",
