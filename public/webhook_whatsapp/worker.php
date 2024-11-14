@@ -124,7 +124,7 @@ function insertar_mensaje_espera($conn, $id_plataforma, $id_cliente, $id_mensaje
     $id_whatsapp_message_template = (string)$id_whatsapp_message_template;
     $created_at = (string)$created_at;
 
-    $stmt->bind_param('iiiis', $id_plataforma, $id_cliente, $id_mensaje_insertado, $estado, $id_whatsapp_message_template, $created_at);
+    $stmt->bind_param('iiiiss', $id_plataforma, $id_cliente, $id_mensaje_insertado, $estado, $id_whatsapp_message_template, $created_at);
     $stmt->execute();
 
     // Cerrar la consulta de inserción
