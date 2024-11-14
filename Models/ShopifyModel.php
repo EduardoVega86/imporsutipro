@@ -368,10 +368,10 @@ class ShopifyModel extends Query
     public function existenciaPlataforma($id_plataforma)
     {
         $sql = "SELECT id_plataforma FROM configuracion_shopify WHERE id_plataforma = $id_plataforma";
-$response = $this->select($sql);
-//print_r($response);
+        $response = $this->select($sql);
+        //print_r($response);
 
-if (!empty($response)) { 
+        if (!empty($response)) {
             return true;
         } else {
             return false;
@@ -462,7 +462,7 @@ if (!empty($response)) {
             $responses["message"] = "Json guardado correctamente";
         } else {
             $responses["status"] = "500";
-            $responses["message"] = "Error al guardar el json";
+            $responses["message"] =  $response["message"];
         }
         return $responses;
     }
