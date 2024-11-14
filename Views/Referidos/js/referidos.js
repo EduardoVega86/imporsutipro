@@ -17,9 +17,9 @@ $(document).ready(function () {
       );
       $("#ganancias_referidos").text(parseFloat(response.saldo).toFixed(2));
 
-      if (response.saldo == "0"){
+      if (response.saldo == "0") {
         $("#boton_solicitar_pago").hide();
-      }else{
+      } else {
         $("#boton_solicitar_pago").show();
       }
 
@@ -120,6 +120,32 @@ const dataTableReferidosOptions = {
     { className: "centered", targets: [0, 1, 2, 3, 4] },
     { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
   ],
+  buttons: [
+    {
+      extend: "excelHtml5",
+      text: 'Excel <i class="fa-solid fa-file-excel"></i>',
+      title: "Panel de Control: Usuarios",
+      titleAttr: "Exportar a Excel",
+      exportOptions: {
+        columns: [1, 2, 3, 4, 5],
+      },
+      filename: "Referidos" + "_" + getFecha(),
+      footer: true,
+      className: "btn-excel",
+    },
+    {
+      extend: "csvHtml5",
+      text: 'CSV <i class="fa-solid fa-file-csv"></i>',
+      title: "Panel de Control: Referidos",
+      titleAttr: "Exportar a CSV",
+      exportOptions: {
+        columns: [1, 2, 3, 4, 5],
+      },
+      filename: "Referidos" + "_" + getFecha(),
+      footer: true,
+      className: "btn-csv",
+    },
+  ],
   pageLength: 10,
   destroy: true,
   language: {
@@ -181,6 +207,32 @@ const dataTableGuiasReferidosOptions = {
   columnDefs: [
     { className: "centered", targets: [0, 1, 2, 3] },
     { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
+  ],
+  buttons: [
+    {
+      extend: "excelHtml5",
+      text: 'Excel <i class="fa-solid fa-file-excel"></i>',
+      title: "Panel de Control: Usuarios",
+      titleAttr: "Exportar a Excel",
+      exportOptions: {
+        columns: [1, 2, 3, 4],
+      },
+      filename: "Referidos" + "_" + getFecha(),
+      footer: true,
+      className: "btn-excel",
+    },
+    {
+      extend: "csvHtml5",
+      text: 'CSV <i class="fa-solid fa-file-csv"></i>',
+      title: "Panel de Control: Referidos",
+      titleAttr: "Exportar a CSV",
+      exportOptions: {
+        columns: [1, 2, 3, 4],
+      },
+      filename: "Referidos" + "_" + getFecha(),
+      footer: true,
+      className: "btn-csv",
+    },
   ],
   pageLength: 10,
   destroy: true,

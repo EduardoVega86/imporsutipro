@@ -110,8 +110,14 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
 // Función para insertar el mensaje en espera
 function insertar_mensaje_espera($conn, $id_plataforma, $id_cliente, $id_mensaje_insertado, $created_at, $id_whatsapp_message_template)
 {
-    // Ruta del archivo de log
-    $logFile = 'error_insert_Mespera.txt';
+    // Definir la carpeta y el archivo de log
+    $logDirectory = __DIR__ . '/logs';
+    $logFile = $logDirectory . '/error_insert_Mespera.txt';
+
+    // Crear la carpeta de logs si no existe
+    if (!is_dir($logDirectory)) {
+        mkdir($logDirectory, 0777, true);
+    }
 
     // Preparar la consulta de inserción
     $stmt = $conn->prepare("INSERT INTO mensajes_espera (id_plataforma, id_cliente_chat_center, id_mensajes_clientes, estado, id_whatsapp_message_template, fecha_envio) VALUES (?, ?, ?, ?, ?, ?)");
@@ -146,6 +152,7 @@ function insertar_mensaje_espera($conn, $id_plataforma, $id_cliente, $id_mensaje
     // Cerrar la consulta de inserción
     $stmt->close();
 }
+
 
 
 // Bucle principal del Worker
