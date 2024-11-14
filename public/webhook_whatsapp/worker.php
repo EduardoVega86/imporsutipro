@@ -110,21 +110,22 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
 // Función para insertar el mensaje en espera
 function insertar_mensaje_espera($conn, $id_plataforma, $id_cliente, $id_mensaje_insertado, $created_at, $id_whatsapp_message_template)
 {
-    // Definir la carpeta y el archivo de log
-    $logDirectory = __DIR__ . '/logs';
+    // Ruta para los logs
+    $logDirectory = 'logs';
     $logFile = $logDirectory . '/error_insert_Mespera.txt';
 
     // Crear la carpeta de logs si no existe
     if (!is_dir($logDirectory)) {
         mkdir($logDirectory, 0777, true);
+        file_put_contents($logFile, "Directorio 'logs' creado.\n", FILE_APPEND);
     }
 
     // Preparar la consulta de inserción
     $stmt = $conn->prepare("INSERT INTO mensajes_espera (id_plataforma, id_cliente_chat_center, id_mensajes_clientes, estado, id_whatsapp_message_template, fecha_envio) VALUES (?, ?, ?, ?, ?, ?)");
     if ($stmt === false) {
-        $errorMsg = "Failed to prepare the query: " . $conn->error . "\n";
+        $errorMsg = "Error preparando la consulta: " . $conn->error . "\n";
         file_put_contents($logFile, $errorMsg, FILE_APPEND);
-        return; // Salir de la función si falla la preparación
+        return;
     }
 
     // Convertir variables a los tipos correctos
@@ -141,18 +142,17 @@ function insertar_mensaje_espera($conn, $id_plataforma, $id_cliente, $id_mensaje
 
     // Verificar si hubo algún error en la ejecución
     if ($stmt->error) {
-        $errorMsg = "Error ejecutando la consulta para mensajes_espera: " . $stmt->error . "\n";
+        $errorMsg = "Error ejecutando la consulta: " . $stmt->error . "\n";
         file_put_contents($logFile, $errorMsg, FILE_APPEND);
     } else {
-        // Si la ejecución fue exitosa, registrar el éxito
-        $successMsg = "Consulta ejecutada con éxito. Mensaje insertado en mensajes_espera.\n";
+        // Registrar éxito en el log
+        $successMsg = "Consulta ejecutada con éxito. Mensaje insertado en mensajes_espera con ID: $id_mensaje_insertado\n";
         file_put_contents($logFile, $successMsg, FILE_APPEND);
     }
 
     // Cerrar la consulta de inserción
     $stmt->close();
 }
-
 
 
 // Bucle principal del Worker
