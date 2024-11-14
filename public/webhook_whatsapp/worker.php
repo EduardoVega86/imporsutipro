@@ -12,10 +12,27 @@ const PASSWORD = "imporsuit_system";
 const DB = "imporsuitpro_new";
 const CHARSET = "utf8mb4";
 
+// Crear carpeta de logs si no existe
+$logDirectory = __DIR__ . '/logs';
+if (!is_dir($logDirectory)) {
+    mkdir($logDirectory, 0777, true);
+}
+
+// Ruta del archivo de log
+$logFile = $logDirectory . '/error_log_worker.txt';
+
+// Función para registrar errores en el archivo de log
+function logError($message) {
+    global $logFile;
+    $timestamp = date("Y-m-d H:i:s");
+    file_put_contents($logFile, "[$timestamp] $message\n", FILE_APPEND);
+}
+
 // Establecer conexión con la base de datos
 $conn = new mysqli(HOST, USER, PASSWORD, DB);
 
 if ($conn->connect_error) {
+    logError("Connection failed: " . $conn->connect_error);
     die("Connection failed: " . $conn->connect_error);
 }
 
@@ -29,6 +46,10 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
 
     /* Consulta configuración */
     $check_configuracion_stmt = $conn->prepare("SELECT id_plataforma, id_telefono, telefono FROM configuraciones WHERE id = ?");
+    if ($check_configuracion_stmt === false) {
+        logError("Failed to prepare check_configuracion query: " . $conn->error);
+        return;
+    }
     $check_configuracion_stmt->bind_param('s', $id_configuracion);
     $check_configuracion_stmt->execute();
     $check_configuracion_stmt->store_result();
@@ -39,6 +60,10 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
     /* Obtener id_cliente_configuracion */
     $id_cliente_configuracion = "";
     $check_idCliente_configuracion_stmt = $conn->prepare("SELECT id FROM clientes_chat_center WHERE celular_cliente = ? AND id_plataforma = ?");
+    if ($check_idCliente_configuracion_stmt === false) {
+        logError("Failed to prepare check_idCliente_configuracion query: " . $conn->error);
+        return;
+    }
     $check_idCliente_configuracion_stmt->bind_param('si', $telefono_configuracion, $id_plataforma);
     $check_idCliente_configuracion_stmt->execute();
     $check_idCliente_configuracion_stmt->store_result();
@@ -48,6 +73,10 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
 
     // Verificar si el cliente ya existe en la tabla
     $check_client_stmt = $conn->prepare("SELECT id FROM clientes_chat_center WHERE celular_cliente = ? AND id_plataforma = ?");
+    if ($check_client_stmt === false) {
+        logError("Failed to prepare check_client query: " . $conn->error);
+        return;
+    }
     $check_client_stmt->bind_param('si', $uid_whatsapp, $id_plataforma);
     $check_client_stmt->execute();
     $check_client_stmt->store_result();
@@ -55,6 +84,10 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
     if ($check_client_stmt->num_rows == 0) {
         // El cliente no existe, lo creamos
         $insert_client_stmt = $conn->prepare("INSERT INTO clientes_chat_center (id_plataforma, uid_cliente, nombre_cliente, celular_cliente, created_at, updated_at) VALUES (?, ?, ?, ?, NOW(), NOW())");
+        if ($insert_client_stmt === false) {
+            logError("Failed to prepare insert_client query: " . $conn->error);
+            return;
+        }
         $insert_client_stmt->bind_param('isss', $id_plataforma, $uid_cliente, $user_info['nombre'], $uid_whatsapp);
         $insert_client_stmt->execute();
         $id_cliente = $insert_client_stmt->insert_id;
@@ -76,7 +109,8 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
 
     $stmt = $conn->prepare("INSERT INTO mensajes_clientes (id_plataforma, id_cliente, mid_mensaje, tipo_mensaje, celular_recibe, ruta_archivo, id_automatizador, uid_whatsapp, texto_mensaje, rol_mensaje, json_mensaje, created_at, updated_at, notificacion_estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     if ($stmt === false) {
-        throw new Exception("Failed to prepare the query: " . $conn->error);
+        logError("Failed to prepare insertMessageDetails query: " . $conn->error);
+        return;
     }
 
     // Convertir variables a los tipos correctos
@@ -95,7 +129,9 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
     $estado_notificacion = (int)$estado_notificacion;
 
     $stmt->bind_param('iissssississsi', $id_plataforma, $id_cliente_configuracion, $mid_mensaje, $tipo_mensaje, $id_cliente, $user_info_json, $id_automatizador, $uid_whatsapp, $mensaje, $rol, $json_mensaje, $created_at, $updated_at, $estado_notificacion);
-    $stmt->execute();
+    if (!$stmt->execute()) {
+        logError("Failed to execute insertMessageDetails query: " . $stmt->error);
+    }
 
     // Obtener el ID del mensaje insertado
     $id_mensaje_insertado = $stmt->insert_id;
@@ -110,21 +146,9 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
 // Función para insertar el mensaje en espera
 function insertar_mensaje_espera($conn, $id_plataforma, $id_cliente, $id_mensaje_insertado, $created_at, $id_whatsapp_message_template)
 {
-    // Ruta para los logs
-    $logDirectory = 'logs';
-    $logFile = $logDirectory . '/error_insert_Mespera.txt';
-
-    // Crear la carpeta de logs si no existe
-    if (!is_dir($logDirectory)) {
-        mkdir($logDirectory, 0777, true);
-        file_put_contents($logFile, "Directorio 'logs' creado.\n", FILE_APPEND);
-    }
-
-    // Preparar la consulta de inserción
     $stmt = $conn->prepare("INSERT INTO mensajes_espera (id_plataforma, id_cliente_chat_center, id_mensajes_clientes, estado, id_whatsapp_message_template, fecha_envio) VALUES (?, ?, ?, ?, ?, ?)");
     if ($stmt === false) {
-        $errorMsg = "Error preparando la consulta: " . $conn->error . "\n";
-        file_put_contents($logFile, $errorMsg, FILE_APPEND);
+        logError("Failed to prepare insertar_mensaje_espera query: " . $conn->error);
         return;
     }
 
@@ -132,28 +156,18 @@ function insertar_mensaje_espera($conn, $id_plataforma, $id_cliente, $id_mensaje
     $id_plataforma = (int)$id_plataforma;
     $id_cliente = (int)$id_cliente;
     $id_mensaje_insertado = (int)$id_mensaje_insertado;
-    $estado = 0;  // Estado inicial del mensaje en espera
+    $estado = 0;
     $id_whatsapp_message_template = (string)$id_whatsapp_message_template;
     $created_at = (string)$created_at;
 
-    // Vincular parámetros y ejecutar la consulta
     $stmt->bind_param('iiiiss', $id_plataforma, $id_cliente, $id_mensaje_insertado, $estado, $id_whatsapp_message_template, $created_at);
-    $stmt->execute();
-
-    // Verificar si hubo algún error en la ejecución
-    if ($stmt->error) {
-        $errorMsg = "Error ejecutando la consulta: " . $stmt->error . "\n";
-        file_put_contents($logFile, $errorMsg, FILE_APPEND);
-    } else {
-        // Registrar éxito en el log
-        $successMsg = "Consulta ejecutada con éxito. Mensaje insertado en mensajes_espera con ID: $id_mensaje_insertado\n";
-        file_put_contents($logFile, $successMsg, FILE_APPEND);
+    if (!$stmt->execute()) {
+        logError("Failed to execute insertar_mensaje_espera query: " . $stmt->error);
     }
 
     // Cerrar la consulta de inserción
     $stmt->close();
 }
-
 
 // Bucle principal del Worker
 while (true) {
