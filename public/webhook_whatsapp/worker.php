@@ -20,7 +20,8 @@ if ($conn->connect_error) {
 }
 
 // Función insertMessageDetails (tal como la tienes definida)
-function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje, $json_mensaje, $id_configuracion, $user_info, $id_whatsapp_message_template) {
+function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje, $json_mensaje, $id_configuracion, $user_info, $id_whatsapp_message_template)
+{
     $id_plataforma = "";
     $uid_cliente = "";
     $id_cliente = "";
@@ -103,13 +104,15 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
     $stmt->close();
 
     // Llamar a la función para insertar el mensaje en espera
-    insertar_mensaje_espera($conn, $id_plataforma, $id_cliente, $id_mensaje_insertado, $created_at);
+    insertar_mensaje_espera($conn, $id_plataforma, $id_cliente, $id_mensaje_insertado, $created_at, $id_whatsapp_message_template);
 }
 
 // Función para insertar el mensaje en espera
-function insertar_mensaje_espera($conn, $id_plataforma, $id_cliente, $id_mensaje_insertado, $created_at) {
+function insertar_mensaje_espera($conn, $id_plataforma, $id_cliente, $id_mensaje_insertado, $created_at, $id_whatsapp_message_template)
+{
 
-    $stmt = $conn->prepare("INSERT INTO mensajes_espera (id_plataforma, id_cliente_chat_center, id_mensajes_clientes, estado, fecha_envio) VALUES (?, ?, ?, ?, ?)");    if ($stmt === false) {
+    $stmt = $conn->prepare("INSERT INTO mensajes_espera (id_plataforma, id_cliente_chat_center, id_mensajes_clientes, estado, id_whatsapp_message_template, fecha_envio) VALUES (?, ?, ?, ?, ?, ?)");
+    if ($stmt === false) {
         throw new Exception("Failed to prepare the query: " . $conn->error);
     }
 
@@ -118,14 +121,14 @@ function insertar_mensaje_espera($conn, $id_plataforma, $id_cliente, $id_mensaje
     $id_cliente = (int)$id_cliente;
     $id_mensaje_insertado = (int)$id_mensaje_insertado;
     $estado = 0;
+    $id_whatsapp_message_template = (string)$id_whatsapp_message_template;
     $created_at = (string)$created_at;
 
-    $stmt->bind_param('iiiis', $id_plataforma, $id_cliente, $id_mensaje_insertado, $estado, $created_at);
+    $stmt->bind_param('iiiis', $id_plataforma, $id_cliente, $id_mensaje_insertado, $estado, $id_whatsapp_message_template, $created_at);
     $stmt->execute();
 
     // Cerrar la consulta de inserción
     $stmt->close();
-    
 }
 
 // Bucle principal del Worker
