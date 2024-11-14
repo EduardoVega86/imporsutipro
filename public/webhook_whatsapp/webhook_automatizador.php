@@ -404,9 +404,10 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
 $redis = new Redis();
 $redis->connect('3.233.119.65', 6379);
 
-function enqueueMessageDetails($id_automatizador, $uid_whatsapp, $mensaje, $json_mensaje, $id_configuracion, $user_info) {
+function enqueueMessageDetails($id_automatizador, $uid_whatsapp, $mensaje, $json_mensaje, $id_configuracion, $user_info)
+{
     global $redis;
-    
+
     // Prepara los datos como un array
     $data = [
         'id_automatizador' => $id_automatizador,
@@ -535,8 +536,8 @@ function sendWhatsappMessage($conn, $user_info, $block_sql_data, $config, $id_co
         echo $respuesta;
     }
 
-    // Insert message details into the database
-    enqueueMessageDetails($conn, $block_sql_data['id_automatizador'], $recipient, $mensaje, $json_mensaje, $id_configuracion, $user_info);
+    // Encolar los detalles del mensaje en lugar de insertarlos directamente
+    enqueueMessageDetails($block_sql_data['id_automatizador'], $recipient, $mensaje, $json_mensaje, $id_configuracion, $user_info);
 
     return $respuesta;
 }
