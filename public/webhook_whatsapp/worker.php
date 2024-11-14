@@ -110,12 +110,14 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
 // Función para insertar el mensaje en espera
 function insertar_mensaje_espera($conn, $id_plataforma, $id_cliente, $id_mensaje_insertado, $created_at, $id_whatsapp_message_template)
 {
-    // Definir el archivo de log
-    $logFile = 'logs/error_insert_Mespera.txt';
+    // Ruta para los logs
+    $logDirectory = 'logs';
+    $logFile = $logDirectory . '/error_insert_Mespera.txt';
 
     // Crear la carpeta de logs si no existe
-    if (!is_dir('logs')) {
-        mkdir('logs', 0777, true);
+    if (!is_dir($logDirectory)) {
+        mkdir($logDirectory, 0777, true);
+        file_put_contents($logFile, "Directorio 'logs' creado.\n", FILE_APPEND);
     }
 
     // Preparar la consulta de inserción
@@ -132,7 +134,7 @@ function insertar_mensaje_espera($conn, $id_plataforma, $id_cliente, $id_mensaje
     $id_mensaje_insertado = (int)$id_mensaje_insertado;
     $estado = 0;  // Estado inicial del mensaje en espera
     $id_whatsapp_message_template = (string)$id_whatsapp_message_template;
-    $created_at = (string)$created_at; // Debe estar en formato "Y-m-d H:i:s" para TIMESTAMP
+    $created_at = (string)$created_at;
 
     // Vincular parámetros y ejecutar la consulta
     $stmt->bind_param('iiiiss', $id_plataforma, $id_cliente, $id_mensaje_insertado, $estado, $id_whatsapp_message_template, $created_at);
@@ -151,6 +153,7 @@ function insertar_mensaje_espera($conn, $id_plataforma, $id_cliente, $id_mensaje
     // Cerrar la consulta de inserción
     $stmt->close();
 }
+
 
 
 // Bucle principal del Worker
