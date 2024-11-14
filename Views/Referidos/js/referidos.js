@@ -2,6 +2,14 @@
 let cabeceras_principal = [];
 let referidos_principal = [];
 
+function getFecha() {
+  let fecha = new Date();
+  let mes = fecha.getMonth() + 1;
+  let dia = fecha.getDate();
+  let anio = fecha.getFullYear();
+  let fechaHoy = anio + "-" + mes + "-" + dia;
+  return fechaHoy;
+}
 $(document).ready(function () {
   $.ajax({
     url: SERVERURL + "referidos/getReferidos",
