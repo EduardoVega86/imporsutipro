@@ -155,7 +155,6 @@ function insertar_mensaje_espera($conn, $id_plataforma, $id_cliente, $id_mensaje
 }
 
 
-
 // Bucle principal del Worker
 while (true) {
     // Extraer un mensaje de la cola
