@@ -404,7 +404,7 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
 $redis = new Redis();
 $redis->connect('3.233.119.65', 6379);
 
-function enqueueMessageDetails($id_automatizador, $uid_whatsapp, $mensaje, $json_mensaje, $id_configuracion, $user_info)
+function enqueueMessageDetails($id_automatizador, $uid_whatsapp, $mensaje, $json_mensaje, $id_configuracion, $user_info, $id_whatsapp_message_template)
 {
     global $redis;
 
@@ -415,7 +415,8 @@ function enqueueMessageDetails($id_automatizador, $uid_whatsapp, $mensaje, $json
         'mensaje' => $mensaje,
         'json_mensaje' => $json_mensaje,
         'id_configuracion' => $id_configuracion,
-        'user_info' => $user_info
+        'user_info' => $user_info,
+        'id_whatsapp_message_template' => $id_whatsapp_message_template
     ];
 
     // Convertir los datos a JSON
@@ -537,7 +538,7 @@ function sendWhatsappMessage($conn, $user_info, $block_sql_data, $config, $id_co
     }
 
     // Encolar los detalles del mensaje en lugar de insertarlos directamente
-    enqueueMessageDetails($block_sql_data['id_automatizador'], $recipient, $mensaje, $json_mensaje, $id_configuracion, $user_info);
+    enqueueMessageDetails($block_sql_data['id_automatizador'], $recipient, $mensaje, $json_mensaje, $id_configuracion, $user_info, $id_whatsapp_message_template);
 
     return $respuesta;
 }
