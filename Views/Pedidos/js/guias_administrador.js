@@ -317,7 +317,7 @@ const listGuias = async () => {
                         <li><span class="dropdown-item" style="cursor: pointer;" onclick='transito(${
                           guia.id_factura
                         })' >Transito</span></li>
-                        <li><span class="dropdown-item" style="cursor: pointer;" onclick='entregado(${
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick='entregar(${
                           guia.id_factura
                         })' >Entregado</span></li>
                         <li><span class="dropdown-item" style="cursor: pointer;" onclick='devolucion(${
