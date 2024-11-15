@@ -1878,7 +1878,7 @@ ON
                     FROM facturas_cot fc 
                     LEFT JOIN plataformas p ON p.id_plataforma = fc.id_plataforma
                     WHERE (fc.id_propietario = $plataforma OR fc.id_plataforma = $plataforma)
-                    AND fc.fecha_guia BETWEEN DATE_SUB(CURDATE(), INTERVAL 7 DAY) AND CURDATE()
+                    AND fc.fecha_guia BETWEEN DATE_SUB(CURDATE(), INTERVAL 4 DAY) AND CURDATE()
                     AND TRIM(fc.numero_guia) <> '' 
                     AND fc.numero_guia IS NOT NULL 
                     AND fc.numero_guia <> '0' 
@@ -1897,7 +1897,7 @@ ON
         // Consulta para novedades
         $sql2 = "SELECT COUNT(*) AS cantidad_novedades 
     FROM novedades 
-    WHERE id_plataforma=$plataforma AND solucionada=0 AND terminado=0;";
+    WHERE id_plataforma=$plataforma AND solucionada=0 AND terminado=0 and fecha_novedad BETWEEN DATE_SUB(CURDATE(), INTERVAL 4 DAY) AND CURDATE();";
 
         $result2 = $this->select($sql2);
         $cantidad_novedades = isset($result2[0]['cantidad_novedades']) ? $result2[0]['cantidad_novedades'] : 0;
