@@ -96,34 +96,69 @@
 
                     <div id="seccion_laar" style="display: none;">
                         <div style="padding-bottom: 5px;">
+                            <div class="form-group w-100" style="padding-bottom: 5px;">
+                                <label for="tipo_laar">Tipo:</label>
+                                <select class="form-select" id="tipo_laar">
+                                    <option selected value="">-- Selecciona --</option>
+                                    <option value="NI">Numero incorrecto</option>
+                                    <option value="DI">Direccion Incorrecta</option>
+                                    <option value="OG">Otra gestión</option>
+                                </select>
+                            </div>
+
                             <input type="hidden" class="form-control" id="ciudad_novedadesServi">
                             <br>
-                            <label for="nombre_novedadesServi">Nombre:</label>
-                            <input type="text" class="form-control" id="nombre_novedadesServi">
-                            <br>
-                            <label for="callePrincipal_novedadesServi">Calle Principal:</label>
-                            <input type="text" class="form-control" id="callePrincipal_novedadesServi">
-                            <br>
-                            <label for="calleSecundaria_novedadesServi">Calle Secundaria:</label>
-                            <input type="text" class="form-control" id="calleSecundaria_novedadesServi">
-                            <br>
-                            <label for="numeracion_novedadesServi">Numeracion:</label>
-                            <input type="text" class="form-control" id="numeracion_novedadesServi">
-                            <br>
-                            <label for="referencia_novedadesServi">Referencia:</label>
-                            <input type="text" class="form-control" id="referencia_novedadesServi">
-                            <br>
-                            <label for="telefono_novedadesServi">Telefono:</label>
-                            <input type="text" class="form-control" id="telefono_novedadesServi">
-                            <br>
-                            <label for="celular_novedadesServi">Celular:</label>
-                            <input type="text" class="form-control" id="celular_novedadesServi">
-                            <br>
-                            <label for="observacion_novedadesServi">Observacion:</label>
-                            <input type="text" class="form-control" id="observacion_novedadesServi">
-                            <br>
-                            <label for="observacionA">Solucion a la Novedad:</label>
-                            <input type="text" class="form-control" id="observacionA">
+                            <div id="nombre_laar_novedad" style="display: none;">
+                                <label for="nombre_novedadesServi">Nombre:</label>
+                                <input type="text" class="form-control" id="nombre_novedadesServi">
+                                <br>
+                            </div>
+                            <div id="calle_principal_laar_novedad" style="display: none;">
+                                <label for="callePrincipal_novedadesServi">Calle Principal:</label>
+                                <input type="text" class="form-control" id="callePrincipal_novedadesServi">
+                                <br>
+                            </div>
+
+                            <div id="calle_secundaria_laar_novedad" style="display: none;">
+                                <label for="calleSecundaria_novedadesServi">Calle Secundaria:</label>
+                                <input type="text" class="form-control" id="calleSecundaria_novedadesServi">
+                                <br>
+                            </div>
+
+                            <div id="numeracion_laar_novedad" style="display: none;">
+                                <label for="numeracion_novedadesServi">Numeracion:</label>
+                                <input type="text" class="form-control" id="numeracion_novedadesServi">
+                                <br>
+                            </div>
+
+                            <div id="referencia_laar_novedad" style="display: none;">
+                                <label for="referencia_novedadesServi">Referencia:</label>
+                                <input type="text" class="form-control" id="referencia_novedadesServi">
+                                <br>
+                            </div>
+
+                            <div id="telefono_laar_novedad" style="display: none;">
+                                <label for="telefono_novedadesServi">Telefono:</label>
+                                <input type="text" class="form-control" id="telefono_novedadesServi">
+                                <br>
+                            </div>
+
+                            <div id="celular_laar_novedad" style="display: none;">
+                                <label for="celular_novedadesServi">Celular:</label>
+                                <input type="text" class="form-control" id="celular_novedadesServi">
+                                <br>
+                            </div>
+
+                            <div id="observacion_laar_novedad" style="display: none;">
+                                <label for="observacion_novedadesServi">Observacion:</label>
+                                <input type="text" class="form-control" id="observacion_novedadesServi">
+                                <br>
+                            </div>
+
+                            <div id="solucionl_laar_novedad" style="display: none;">
+                                <label for="observacionA">Solucion a la Novedad:</label>
+                                <input type="text" class="form-control" id="observacionA">
+                            </div>
 
                         </div>
                         <button type="button" class="btn btn-primary" id="boton_laar" onclick="enviar_laarNovedad()">Enviar</button>
@@ -135,7 +170,7 @@
                             <select class="form-select" id="tipo_gintracom">
                                 <option selected value="">-- Selecciona --</option>
                                 <option value="ofrecer">Volver a ofrecer al cliente</option>
-                                <option value="rechazar">Efectuar devolucion</option>
+                                <option value="rechazar">Direccion Incorrecta</option>
                                 <option value="recaudo">Ajustar recaudo</option>
                             </select>
                         </div>

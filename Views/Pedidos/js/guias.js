@@ -535,7 +535,7 @@ function validar_estadoGintracom(estado) {
   var estado_guia = "";
 
   if (estado == 1) {
-    span_estado = "badge_generado";
+    span_estado = "badge_purple";
     estado_guia = "Generada";
   } else if (estado == 2) {
     span_estado = "badge_warning";
@@ -852,6 +852,8 @@ function gestionar_novedad(guia_novedad) {
         $("#referencia_novedadesServi").val(response.factura[0].referencia);
         $("#telefono_novedadesServi").val(response.factura[0].telefono);
         $("#celular_novedadesServi").val(response.factura[0].telefono);
+
+        hiden_laar();
       } else if (response.novedad[0].guia_novedad.includes("I")) {
         transportadora = "GINTRACOM";
         $("#seccion_laar").hide();
@@ -891,6 +893,14 @@ function gestionar_novedad(guia_novedad) {
   });
 }
 
+function hiden_laar() {
+  $("#telefono_laar_novedad").hide();
+  $("#calle_principal_laar_novedad").hide();
+  $("#calle_secundaria_laar_novedad").hide();
+  $("#observacion_laar_novedad").hide();
+  $("#solucionl_laar_novedad").hide();
+}
+
 $(document).ready(function () {
   $("#tipo_gintracom").change(function () {
     var tipo = $("#tipo_gintracom").val();
@@ -903,6 +913,21 @@ $(document).ready(function () {
     } else {
       $("#valor_recaudoGintra").hide();
       $("#fecha_gintra").show();
+    }
+  });
+
+  $("#tipo_laar").change(function () {
+    var tipo = $("#tipo_laar").val();
+    if (tipo == "NI") {
+      $("#telefono_laar_novedad").show();
+      $("#solucionl_laar_novedad").show();
+    } else if (tipo == "DI") {
+      $("#calle_principal_laar_novedad").show();
+      $("#calle_secundaria_laar_novedad").show();
+      $("#solucionl_laar_novedad").show();
+    } else if ((tipo = "OG")) {
+      $("#observacion_laar_novedad").show();
+      $("#solucionl_laar_novedad").show();
     }
   });
 });
