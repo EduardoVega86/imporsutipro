@@ -13,7 +13,7 @@ class UsuariosModel extends Query
         $sql = "SELECT ib.*, p.* FROM `inventario_bodegas` AS ib INNER JOIN `productos` AS p ON p.`id_producto` = ib.`id_producto` WHERE ib.`id_plataforma` = $plataforma";
         return $this->select($sql);
     }
-    
+
     public function obtener_profesionales($plataforma)
     {
         $sql = "select * from profesionales WHERE id_plataforma = $plataforma";
@@ -28,10 +28,10 @@ class UsuariosModel extends Query
         $sql = "SELECT * FROM  usuario_plataforma, users, plataformas WHERE usuario_plataforma.id_usuario=users.id_users AND plataformas.id_plataforma=usuario_plataforma.id_plataforma and plataformas.id_matriz=$id_matriz;";
         return $this->select($sql);
     }
-    
+
     public function obtener_plantillas_plataforma($plataforma)
     {
-        
+
         // echo $id_matriz;
         $sql = "SELECT * FROM  templates_chat_center WHERE id_plataforma=$plataforma;";
         return $this->select($sql);
@@ -380,7 +380,7 @@ ON
         return $response;
     }
 
-public function guardar_imagen_parallax1($imagen, $plataforma)
+    public function guardar_imagen_parallax1($imagen, $plataforma)
     {
         $response = $this->initialResponse();
         $target_dir = "public/img/parallax/";
@@ -446,8 +446,8 @@ public function guardar_imagen_parallax1($imagen, $plataforma)
         }
         return $response;
     }
-    
-    
+
+
     public function guardar_imagen_parallax2($imagen, $plataforma)
     {
         $response = $this->initialResponse();
@@ -514,8 +514,8 @@ public function guardar_imagen_parallax1($imagen, $plataforma)
         }
         return $response;
     }
-    
-    
+
+
     public function guardar_imagen_fondo_plantilla3($imagen, $plataforma)
     {
         $response = $this->initialResponse();
@@ -674,7 +674,7 @@ public function guardar_imagen_parallax1($imagen, $plataforma)
         $sql = "SELECT * FROM plantilla_2 WHERE id_plataforma=$plataforma";
         return $this->select($sql);
     }
-    
+
     public function obtener_infoPlantilla3($plataforma)
     {
         $sql = "SELECT * FROM plantilla_3 WHERE id_plataforma=$plataforma";
@@ -950,13 +950,13 @@ public function guardar_imagen_parallax1($imagen, $plataforma)
         }
         return $response;
     }
-    
-    
+
+
     public function agregarPlantilla($atajo, $plantilla, $plataforma)
     {
         $response = $this->initialResponse();
-       
-     $sql = "INSERT INTO `templates_chat_center` (`atajo`,`mensaje`,`id_plataforma`) VALUES (?, ?, ?)";
+
+        $sql = "INSERT INTO `templates_chat_center` (`atajo`,`mensaje`,`id_plataforma`) VALUES (?, ?, ?)";
         $data = [$atajo, $plantilla, $plataforma];
         $insertar_flotante = $this->insert($sql, $data);
         if ($insertar_flotante == 1) {
@@ -1115,8 +1115,8 @@ public function guardar_imagen_parallax1($imagen, $plataforma)
         }
         return $response;
     }
-    
-    public function editarPlantilla($id_plantilla, $atajo, $texto , $plataforma)
+
+    public function editarPlantilla($id_plantilla, $atajo, $texto, $plataforma)
     {
         // codigo para editar categoria
         $response = $this->initialResponse();
@@ -1635,33 +1635,33 @@ public function guardar_imagen_parallax1($imagen, $plataforma)
 
         return $responses;
     }
-    
-    
+
+
     public function cambiarcolor_parallax_plantilla3($campo, $valor, $plataforma)
     {
         // Primero, comprobar si existe un registro con la plataforma dada
         $sql_select = "SELECT * FROM `plantilla_3` WHERE `id_plataforma` = ?";
         $existing_entry = $this->simple_select($sql_select, [$plataforma]);
-       
+
         if ($existing_entry > 0) {
-           // echo 'existe';
+            // echo 'existe';
             // Si existe, realizar un UPDATE
             $sql_update = "UPDATE `plantilla_3` SET $campo = ? WHERE `id_plataforma` = ?";
             $data_update = [$valor, $plataforma];
             $editar_plantilla_2 = $this->update($sql_update, $data_update);
-            
+
             if ($editar_plantilla_2 == 1) {
                 $responses = array('status' => 200, 'title' => 'Peticion exitosa', 'message' => 'Actualización realizada correctamente');
             } else {
                 $responses = array('status' => 500, 'title' => 'Error', 'message' => 'Error al actualizar la base de datos');
             }
         } else {
-           // echo 'no existe';
+            // echo 'no existe';
             // Si no existe, realizar un INSERT
             $sql_insert = "INSERT INTO `plantilla_3` (`id_plataforma`, $campo) VALUES (?, ?)";
             $data_insert = [$plataforma, $valor];
             $insertar_plantilla_2 = $this->insert($sql_insert, $data_insert);
- //print_r($insertar_plantilla_2);
+            //print_r($insertar_plantilla_2);
             if ($insertar_plantilla_2 == 1) {
                 $responses = array('status' => 200, 'title' => 'Peticion exitosa', 'message' => 'Inserción realizada correctamente');
             } else {
@@ -1875,24 +1875,21 @@ public function guardar_imagen_parallax1($imagen, $plataforma)
     {
         // Consulta para guías atrasadas
         $sql1 = "SELECT  COUNT(fc.numero_guia) AS cantidad_guias
-            FROM facturas_cot fc 
-            LEFT JOIN ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot 
-            LEFT JOIN plataformas p ON p.id_plataforma = fc.id_plataforma
-            LEFT JOIN plataformas tp ON tp.id_plataforma = fc.id_propietario
-            LEFT JOIN bodega b ON b.id = fc.id_bodega 
-            LEFT JOIN paises_hispanos ph ON ph.codigo = tp.pais
-            WHERE (fc.id_propietario=$plataforma or fc.id_plataforma=$plataforma)  
-            AND TRIM(fc.numero_guia) <> '' 
-            AND fc.numero_guia IS NOT NULL 
-            AND fc.numero_guia <> '0' 
-            AND fc.anulada = 0  
-            AND ((estado_guia_sistema IN (100, 102, 103) AND id_transporte = 2) 
-            OR (estado_guia_sistema IN (1, 2, 3, 4) AND id_transporte = 1) 
-            OR (estado_guia_sistema IN (1, 2, 3) AND id_transporte = 3) 
-            OR (estado_guia_sistema IN (2) AND id_transporte = 4)) 
-            AND TIMESTAMPDIFF(HOUR, fc.fecha_factura, NOW()) > 24
-            GROUP BY fc.id_propietario, tp.nombre_tienda, tp.whatsapp, tp.contacto, ph.prefijo_telefono 
-            ORDER BY cantidad_guias DESC;";
+                    FROM facturas_cot fc 
+                    LEFT JOIN plataformas p ON p.id_plataforma = fc.id_plataforma
+                    WHERE (fc.id_propietario = $plataforma OR fc.id_plataforma = $plataforma)
+                    AND fc.fecha_guia BETWEEN DATE_SUB(CURDATE(), INTERVAL 7 DAY) AND CURDATE()
+                    AND TRIM(fc.numero_guia) <> '' 
+                    AND fc.numero_guia IS NOT NULL 
+                    AND fc.numero_guia <> '0' 
+                    AND fc.anulada = 0
+                        AND (
+                        (id_transporte = 2 AND estado_guia_sistema IN (100, 102, 103))
+                        OR (id_transporte = 1 AND estado_guia_sistema IN (1, 2, 3, 4))
+                        OR (id_transporte = 3 AND estado_guia_sistema IN (1, 2, 3))
+                            OR (id_transporte = 4 AND estado_guia_sistema IN (1,2))
+                    )
+                    AND TIMESTAMPDIFF(HOUR, fc.fecha_factura, NOW()) > 24;";
 
         $result1 = $this->select($sql1);
         $cantidad_guias = isset($result1[0]['cantidad_guias']) ? $result1[0]['cantidad_guias'] : 0;
@@ -1996,7 +1993,7 @@ public function guardar_imagen_parallax1($imagen, $plataforma)
 
         return $usuario;
     }
-    
+
     public function obtener_template($id_template)
     {
         $sql = "SELECT * from templates_chat_center where id_template=$id_template";
@@ -2006,5 +2003,4 @@ public function guardar_imagen_parallax1($imagen, $plataforma)
 
         return $template;
     }
-    
 }
