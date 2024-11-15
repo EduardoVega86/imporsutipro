@@ -2238,6 +2238,120 @@ class PedidosModel extends Query
         }
         return $responses;
     }
+    public function entregar($id)
+    {
+        //buscar la guia
+        $sql = "SELECT * FROM facturas_cot WHERE id_factura = $id";
+        $response =  $this->select($sql);
+        $guia = $response[0]['numero_guia'];
+        $tipo = "";
+        switch ($guia) {
+            case str_contains($guia, 'IMP'):
+            case str_contains($guia, 'MKP'):
+                $tipo = "IMP";
+                break;
+            case is_numeric($guia):
+                $tipo = "SER";
+                break;
+            case str_contains($guia, 'I000'):
+                $tipo = "GIM";
+                break;
+            case str_contains($guia, 'SPD'):
+            case str_contains($guia, 'MKL'):
+                $tipo = "SPD";
+                break;
+        }
+
+        $estado = 0;
+        if ($tipo == "IMP") {
+            $estado = 7;
+        } else if ($tipo == "SER") {
+            $estado = 400;
+        } else if ($tipo == "GIM") {
+            $estado = 7;
+        } else if ($tipo == "SPD") {
+            $estado = 7;
+        }
+        $sql = "UPDATE facturas_cot set estado_guia_sistema = ? WHERE id_factura = ?";
+        $response =  $this->update($sql, array($estado, $id));
+        $sql = "UPDATE cabecera_cuenta_pagar set estado_guia = ? WHERE guia = ?";
+        $response =  $this->update($sql, array($estado, $guia));
+
+        if ($response == 1) {
+            $responses["message"] = "Se ha actualizado el estado de la guia";
+            $responses["status"] = 200;
+
+
+            if ($response == 1) {
+                $responses["message"] = "Se ha actualizado el estado de la guia";
+                $responses["status"] = 200;
+            } else {
+                $responses["message"] =  $response;
+                $responses["status"] = 400;
+            }
+        } else {
+            $responses["message"] =  $response;
+            $responses["status"] = 400;
+        }
+        return $responses;
+    }
+    public function devolucion($id)
+    {
+        //buscar la guia
+        $sql = "SELECT * FROM facturas_cot WHERE id_factura = $id";
+        $response =  $this->select($sql);
+        $guia = $response[0]['numero_guia'];
+        $tipo = "";
+        switch ($guia) {
+            case str_contains($guia, 'IMP'):
+            case str_contains($guia, 'MKP'):
+                $tipo = "IMP";
+                break;
+            case is_numeric($guia):
+                $tipo = "SER";
+                break;
+            case str_contains($guia, 'I000'):
+                $tipo = "GIM";
+                break;
+            case str_contains($guia, 'SPD'):
+            case str_contains($guia, 'MKL'):
+                $tipo = "SPD";
+                break;
+        }
+
+        $estado = 0;
+        if ($tipo == "IMP") {
+            $estado = 9;
+        } else if ($tipo == "SER") {
+            $estado = 500;
+        } else if ($tipo == "GIM") {
+            $estado = 9;
+        } else if ($tipo == "SPD") {
+            $estado = 9;
+        }
+        $sql = "UPDATE facturas_cot set estado_guia_sistema = ? WHERE id_factura = ?";
+        $response =  $this->update($sql, array($estado, $id));
+        $sql = "UPDATE cabecera_cuenta_pagar set estado_guia = ? WHERE guia = ?";
+        $response =  $this->update($sql, array($estado, $guia));
+
+        if ($response == 1) {
+            $responses["message"] = "Se ha actualizado el estado de la guia";
+            $responses["status"] = 200;
+
+
+            if ($response == 1) {
+                $responses["message"] = "Se ha actualizado el estado de la guia";
+                $responses["status"] = 200;
+            } else {
+                $responses["message"] =  $response;
+                $responses["status"] = 400;
+            }
+        } else {
+            $responses["message"] =  $response;
+            $responses["status"] = 400;
+        }
+        return $responses;
+    }
 
     public function obtenerDetallesPedido($id_factura)
     {

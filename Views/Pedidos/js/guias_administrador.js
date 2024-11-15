@@ -317,6 +317,12 @@ const listGuias = async () => {
                         <li><span class="dropdown-item" style="cursor: pointer;" onclick='transito(${
                           guia.id_factura
                         })' >Transito</span></li>
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick='entregar(${
+                          guia.id_factura
+                        })' >Entregado</span></li>
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick='devolucion(${
+                          guia.id_factura
+                        })' >Devolución</span></li>
                     </ul>
                 </div>
                     </td>
@@ -332,6 +338,54 @@ function transito(id_cabecera) {
   $.ajax({
     type: "POST",
     url: SERVERURL + "pedidos/transito/" + id_cabecera,
+    dataType: "json",
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("LA IMAGEN NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      }
+      initDataTable();
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al obtener la información de la categoría");
+    },
+  });
+}
+
+function entregar(id_cabecera) {
+  $.ajax({
+    type: "POST",
+    url: SERVERURL + "pedidos/entregar/" + id_cabecera,
+    dataType: "json",
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("LA IMAGEN NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      }
+      initDataTable();
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al obtener la información de la categoría");
+    },
+  });
+}
+
+function devolucion(id_cabecera) {
+  $.ajax({
+    type: "POST",
+    url: SERVERURL + "pedidos/devolucion/" + id_cabecera,
     dataType: "json",
     success: function (response) {
       if (response.status == 500) {
