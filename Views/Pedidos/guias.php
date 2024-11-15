@@ -73,7 +73,9 @@
                             OR (estado_guia_sistema in (3) and id_transporte=4)"> En Transito </option>
                             <option value="(estado_guia_sistema BETWEEN 400 AND 403   and id_transporte=2)
                             OR  (estado_guia_sistema in (7)  and id_transporte=1)
-                            OR  (estado_guia_sistema in (7)  and id_transporte=3)"> Entregada </option>
+                            OR  (estado_guia_sistema in (7)  and id_transporte=3)
+                            OR (estado_guia_sistema in (7)  and id_transporte=4)
+                            "> Entregada </option>
                             <option value="(estado_guia_sistema BETWEEN 320 AND 351 and id_transporte=2)
                             OR  (estado_guia_sistema in (14) and id_transporte=1)
                             OR  (estado_guia_sistema in (6) and id_transporte=3)"> Novedad </option>
