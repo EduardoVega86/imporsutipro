@@ -711,7 +711,7 @@ class Pedidos extends Controller
     {
         // Verificar si existe la sesión de id_plataforma
         $id_plataforma = isset($_SESSION['id_plataforma']) ? $_SESSION['id_plataforma'] : $_POST['id_plataforma'];
-        
+
         $response = $this->model->obtener_etiquetas($id_plataforma);
         echo json_encode($response);
     }
@@ -719,7 +719,7 @@ class Pedidos extends Controller
     public function obtener_etiquetas_asignadas()
     {
         $id_cliente_chat_center = $_POST['id_cliente_chat_center'];
-        
+
         $response = $this->model->obtener_etiquetas_asignadas($id_cliente_chat_center);
         echo json_encode($response);
     }
@@ -729,7 +729,7 @@ class Pedidos extends Controller
         $id_cliente_chat_center = $_POST['id_cliente_chat_center'];
         $id_etiqueta = $_POST['id_etiqueta'];
         $id_plataforma = $_POST['id_plataforma'];
-        
+
         $response = $this->model->toggle_etiqueta_asignacion($id_cliente_chat_center, $id_etiqueta, $id_plataforma);
         echo json_encode($response);
     }
@@ -824,6 +824,18 @@ class Pedidos extends Controller
     public function transito($id)
     {
         $response = $this->model->transito($id);
+        echo json_encode($response);
+    }
+
+    public function devolucion($id)
+    {
+        $response = $this->model->devolucion($id);
+        echo json_encode($response);
+    }
+
+    public function entregar($id)
+    {
+        $response = $this->model->entregar($id);
         echo json_encode($response);
     }
     public function obtenerDetallesPedido()
