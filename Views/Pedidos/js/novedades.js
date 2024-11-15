@@ -127,6 +127,7 @@ window.addEventListener("load", async () => {
 });
 
 function gestionar_novedad(guia_novedad) {
+  resetModalInputs("gestionar_novedadModal");
   let transportadora = "";
   $.ajax({
     url: SERVERURL + "novedades/datos/" + guia_novedad,
@@ -202,6 +203,35 @@ function gestionar_novedad(guia_novedad) {
       console.error("Error al obtener la lista de bodegas:", error);
     },
   });
+}
+
+function resetModalInputs(modalId) {
+  // Selecciona el modal por su ID
+  const modal = document.querySelector(`#${modalId}`);
+  
+  if (modal) {
+      // Selecciona todos los inputs y los limpia
+      const inputs = modal.querySelectorAll('input');
+      inputs.forEach(input => {
+          input.value = '';
+      });
+
+      // Selecciona todos los select y los reinicia al valor predeterminado
+      const selects = modal.querySelectorAll('select');
+      selects.forEach(select => {
+          select.selectedIndex = 0; // Reinicia al primer option
+      });
+
+      // Oculta las secciones opcionales que estén configuradas con "display: none"
+      const optionalSections = modal.querySelectorAll('[style*="display"]');
+      optionalSections.forEach(section => {
+          section.style.display = 'none';
+      });
+
+      console.log('Modal inputs and selects reset successfully.');
+  } else {
+      console.error('Modal not found!');
+  }
 }
 
 function hiden_laar() {
