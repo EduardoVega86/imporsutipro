@@ -232,13 +232,24 @@ $(document).ready(function () {
     if (tipo == "NI") {
       $("#telefono_laar_novedad").show();
       $("#solucionl_laar_novedad").show();
+
+      $("#calle_principal_laar_novedad").hide();
+      $("#calle_secundaria_laar_novedad").hide();
+      $("#observacion_laar_novedad").hide();
     } else if (tipo == "DI") {
       $("#calle_principal_laar_novedad").show();
       $("#calle_secundaria_laar_novedad").show();
       $("#solucionl_laar_novedad").show();
+
+      $("#telefono_laar_novedad").hide();
+      $("#observacion_laar_novedad").hide();
     } else if ((tipo = "OG")) {
       $("#observacion_laar_novedad").show();
       $("#solucionl_laar_novedad").show();
+
+      $("#telefono_laar_novedad").hide();
+      $("#calle_principal_laar_novedad").hide();
+      $("#calle_secundaria_laar_novedad").hide();
     }
   });
 });
