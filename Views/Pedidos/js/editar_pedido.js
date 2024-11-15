@@ -369,12 +369,7 @@ $(document).ready(function () {
 
       var button2 = document.getElementById("generarGuiaBtn");
 
-      if (
-        saldo < -10 &&
-        (ID_PLATAFORMA != 1238 ||
-          ID_PLATAFORMA != 1226 ||
-          ID_PLATAFORMA != 1246)
-      ) {
+      if (saldo < -10 && (ID_PLATAFORMA != 1238 && ID_PLATAFORMA !=1226 && ID_PLATAFORMA !=1246)) {
         button2.disabled = true;
         Swal.fire({
           icon: "error",
