@@ -6,32 +6,32 @@
         <h1>Conexión a Funnelish</h1>
 
         <div class="img-container text-center aplicacion" id="trigger-container">
-                            <img src="<?php echo SERVERURL; ?>/public/img/logo_shopify.png" alt="Shopify">
-                            <div class="name-tag"><span>Shopify</span></div>
-                        </div>
+            <img src="<?php echo SERVERURL; ?>/public/img/logo_shopify.png" alt="Shopify">
+            <div class="name-tag"><span>Shopify</span></div>
+        </div>
 
-                        <div class="loading-animation" id="loading">
-                            <div class="spinner-border" role="status">
-                                <span class="sr-only">Cargando...</span>
-                            </div>
-                            <div>Cargando...</div>
-                        </div>
+        <div class="loading-animation" id="loading">
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Cargando...</span>
+            </div>
+            <div>Cargando...</div>
+        </div>
 
-                        <div class="generacion_enlace" id="enlace-section" style="padding-top: 10px;">
-                            <label for="generador_enlace" class="form-label">Enlace generado:</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="generador_enlace" disabled>
-                                <button class="btn btn-primary" type="button" onclick="generar_link()">Generar link</button>
-                            </div>
-                            <label for="infor">Nota: Agregar este enlace en su webhook</label>
-                        </div>
+        <div class="generacion_enlace" id="enlace-section" style="padding-top: 10px;">
+            <label for="generador_enlace" class="form-label" style="color: white;">Enlace generado:</label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="generador_enlace" disabled>
+                <button class="btn btn-primary" type="button" onclick="generar_link()">Generar link</button>
+            </div>
+            <label for="infor" style="color: white;">Nota: Agregar este enlace en su webhook</label>
+        </div>
 
-                        <div class="loading-animation" id="loading-below" style="display: none; margin-top: 10px;">
-                            <div class="spinner-border" role="status">
-                                <span class="sr-only">Cargando...</span>
-                            </div>
-                            <div>Cargando...</div>
-                        </div>
+        <div class="loading-animation" id="loading-below" style="display: none; margin-top: 10px;">
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Cargando...</span>
+            </div>
+            <div>Cargando...</div>
+        </div>
     </div>
     <div class="table-responsive">
         <!-- <table class="table table-bordered table-striped table-hover"> -->
@@ -42,7 +42,7 @@
                     <th class="text-nowrap"></th>
                     <th class="text-nowrap">Nombre</th>
                     <th class="text-nowrap">Precio</th>
-              
+
                 </tr>
             </thead>
             <tbody id="tableBody_productos_shopify"></tbody>
