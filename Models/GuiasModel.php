@@ -15,6 +15,30 @@ class GuiasModel extends Query
         parent::__construct();
     }
 
+    public function buscarStock($numero_factura)
+    {
+        $sql = "SELECT * FROM detalle_fact_cot WHERE  numero_factura = '$numero_factura'";
+
+        $response = $this->select($sql);
+
+        foreach ($response as $key => $value) {
+            $id_inventario = $value['id_inventario'];
+            $cantidad = $value['cantidad'];
+            $stock = $this->stock_actual($id_inventario);
+            if ($stock < $cantidad) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public function stock_actual($id_inventario)
+    {
+        $sql = "SELECT saldo_stock FROM inventario_bodegas WHERE id_inventario = '$id_inventario'";
+        $response = $this->select($sql);
+        return $response[0]['saldo_stock'];
+    }
+
     public function obtenerDestinatario($id_producto)
     {
         $sql = "SELECT * FROM inventario_bodegas WHERE id_inventario = $id_producto";

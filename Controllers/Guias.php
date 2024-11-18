@@ -12,6 +12,16 @@ class Guias extends Controller
     }
     /// funciones
 
+    public function buscarStock($numero_factura)
+    {
+        $response = $this->model->buscarStock($numero_factura);
+        if ($response == false) {
+            $response = array("status" => 500);
+        } else {
+            $response = array("status" => 200);
+        }
+        return  $response;
+    }
     public function generarLaar()
     {
         if (!$this->isAuth())
@@ -56,6 +66,11 @@ class Guias extends Controller
         $extras = "";
 
         $numero_factura = $_POST['numero_factura'];
+
+        if ($this->buscarStock($numero_factura)["status"] == 500) {
+            echo json_encode(array("status" => 500, "message" => "No contamos con stock para la factura"));
+            return;
+        }
 
         $datos = $this->model->generarLaar($nombreOrigen, $ciudadOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras);
         $datos = json_decode($datos, true);
@@ -141,6 +156,8 @@ class Guias extends Controller
         $fecha = date("Y-m-d");
         $extras = "";
         $numero_factura = $_POST['numero_factura'];
+
+
 
         $flete = $_POST['flete'];
         $seguro = $_POST['seguro'];
