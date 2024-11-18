@@ -16,7 +16,7 @@ class Guias extends Controller
     {
         $response = $this->model->buscarStock($numero_factura);
         if ($response == false) {
-            $response = array("status" => 500);
+            $response = array("status" => 501);
         } else {
             $response = array("status" => 200);
         }
@@ -67,7 +67,7 @@ class Guias extends Controller
 
         $numero_factura = $_POST['numero_factura'];
 
-        if ($this->buscarStock($numero_factura)["status"] == 500) {
+        if ($this->buscarStock($numero_factura)["status"] == 501) {
             echo json_encode(array("status" => 500, "message" => "No contamos con stock para la factura"));
             return;
         }
@@ -156,7 +156,10 @@ class Guias extends Controller
         $fecha = date("Y-m-d");
         $extras = "";
         $numero_factura = $_POST['numero_factura'];
-
+        if ($this->buscarStock($numero_factura)["status"] == 501) {
+            echo json_encode(array("status" => 500, "message" => "No contamos con stock para la factura"));
+            return;
+        }
 
 
         $flete = $_POST['flete'];
@@ -224,6 +227,10 @@ class Guias extends Controller
         $fecha = date("Y-m-d");
         $extras = "";
         $numero_factura = $_POST['numero_factura'];
+        if ($this->buscarStock($numero_factura)["status"] == 501) {
+            echo json_encode(array("status" => 500, "message" => "No contamos con stock para la factura"));
+            return;
+        }
         $monto_factura = $_POST['total_venta'];
 
         $response = $this->model->generarGintracom($nombreOrigen, $ciudadOrigen, $provinciaOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $provinciaDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras, $numero_factura, $monto_factura);
@@ -271,7 +278,10 @@ class Guias extends Controller
         $monto_factura = $_POST['total_venta'];
 
 
-
+        if ($this->buscarStock($numero_factura)["status"] == 501) {
+            echo json_encode(array("status" => 500, "message" => "No contamos con stock para la factura"));
+            return;
+        }
         $response = $this->model->generarSpeed($nombreO, $ciudadOrigen, $direccionO, $telefonoO, $referenciaO, $nombre, $ciudadDestino, $direccion, $telefono, $celular, $referencia, $contiene, $fecha, $numero_factura, $_SESSION["id_plataforma"], $observacion, $recaudo, $monto_factura, MATRIZ);
         $response = json_decode($response, true);
 
