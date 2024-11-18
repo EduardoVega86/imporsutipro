@@ -1,24 +1,36 @@
 document.addEventListener("DOMContentLoaded", function () {
   // Obtener elementos
   const imgContainer = document.getElementById("trigger-container");
-  const loadingBelow = document.getElementById("loading-below");
+  const loading = document.getElementById("loading");
   const enlaceSection = document.getElementById("enlace-section");
+  const loadingBelow = document.getElementById("loading-below");
 
   // Ocultar inicialmente la sección de generación de enlaces
   enlaceSection.style.display = "none";
 
   // Evento de clic en el contenedor de la imagen
   imgContainer.addEventListener("click", function () {
-      // Mostrar la animación de carga
-      loadingBelow.style.display = "block";
+    // Mostrar la animación de carga
+    loading.style.display = "block";
 
-      // Esperar 2 segundos y luego mostrar la sección de enlace
-      setTimeout(() => {
-          loadingBelow.style.display = "none"; // Ocultar el cargando
-          enlaceSection.style.display = "block"; // Mostrar la sección de enlace
-          enlaceSection.style.opacity = "1"; // Transición visual
-      }, 2000); // Tiempo en milisegundos
+    // Esperar 2 segundos y luego mostrar la sección de enlace
+    setTimeout(() => {
+      loading.style.display = "none"; // Ocultar el cargando
+      enlaceSection.style.display = "block"; // Mostrar la sección de enlace
+      enlaceSection.style.opacity = "1"; // Transición visual
+    }, 2000); // Tiempo en milisegundos
   });
+
+  function generar_link() {
+    // Mostrar la animación de carga
+    loadingBelow.style.display = "block";
+
+    // Esperar 2 segundos y luego mostrar la sección de enlace
+    setTimeout(() => {
+      loadingBelow.style.display = "none"; // Ocultar el cargando
+      $("#generador_enlace").val("ENLACE GENERADO");
+    }, 2000); // Tiempo en milisegundos
+  }
 });
 
 let dataTableProductosShopify;
