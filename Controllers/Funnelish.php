@@ -1,5 +1,7 @@
 <?php
 
+use FontLib\Table\Type\head;
+
 class Funnelish extends Controller
 {
     public function __construct()
@@ -31,8 +33,12 @@ class Funnelish extends Controller
 
     public function productos()
     {
-        $this->isAuth();
-        return $this->views->render($this, 'productos');
+        if ($this->isAuth()) {
+            $this->views->render($this, 'productos');
+        } else {
+            header('Location: ' . SERVERURL . 'Login');
+            exit();
+        }
     }
 
     public function listar()

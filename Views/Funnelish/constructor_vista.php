@@ -41,7 +41,6 @@
                     <th class="text-nowrap">ID</th>
                     <th class="text-nowrap"></th>
                     <th class="text-nowrap">Nombre</th>
-                    <th class="text-nowrap">Precio</th>
 
                 </tr>
             </thead>
