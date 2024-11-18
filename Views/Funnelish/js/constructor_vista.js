@@ -1,35 +1,23 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // Obtener los elementos relevantes
+  // Obtener elementos
   const imgContainer = document.getElementById("trigger-container");
   const loadingBelow = document.getElementById("loading-below");
   const enlaceSection = document.getElementById("enlace-section");
-  const verifyButton = document.getElementById("verify-button");
 
-  // Inicialmente ocultar la sección de generar enlace
+  // Ocultar inicialmente la sección de generación de enlaces
   enlaceSection.style.display = "none";
 
-  // Evento al hacer clic en la imagen
+  // Evento de clic en el contenedor de la imagen
   imgContainer.addEventListener("click", function () {
-    // Mostrar la animación de carga
-    loadingBelow.style.display = "block";
+      // Mostrar la animación de carga
+      loadingBelow.style.display = "block";
 
-    // Después de 2 segundos, ocultar cargando y mostrar la sección de generación de enlace
-    setTimeout(() => {
-      loadingBelow.style.display = "none";
-      enlaceSection.style.display = "block";
-    }, 2000); // 2000 ms = 2 segundos
-  });
-
-  // Evento al hacer clic en el botón "Verificar"
-  verifyButton.addEventListener("click", function () {
-    // Mostrar la animación de carga nuevamente
-    loadingBelow.style.display = "block";
-
-    // Después de 2 segundos, ocultar cargando y mostrar un mensaje en la consola
-    setTimeout(() => {
-      loadingBelow.style.display = "none";
-      console.log("Función de verificación ejecutada.");
-    }, 2000); // 2000 ms = 2 segundos
+      // Esperar 2 segundos y luego mostrar la sección de enlace
+      setTimeout(() => {
+          loadingBelow.style.display = "none"; // Ocultar el cargando
+          enlaceSection.style.display = "block"; // Mostrar la sección de enlace
+          enlaceSection.style.opacity = "1"; // Transición visual
+      }, 2000); // Tiempo en milisegundos
   });
 });
 

@@ -129,19 +129,9 @@
         display: none;
     }
 
-    .loading-animation {
-        display: none;
-        text-align: center;
-        margin-top: 20px;
-    }
-
     .spinner-border {
         width: 3rem;
         height: 3rem;
-    }
-
-    .img-container {
-        cursor: pointer;
     }
 
     #json-informacion {
@@ -177,23 +167,45 @@
         }
     }
 
-    .loading-animation {
+    .img-container {
+    cursor: pointer; /* Cambiar a puntero para indicar clic */
+    display: inline-block;
+    padding: 15px;
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #f8f9fa; /* Fondo claro */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.img-container:hover {
+    transform: scale(1.05); /* Escalar ligeramente */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra más grande */
+}
+
+.img-container img {
+    width: 100px;
+    transition: transform 0.3s ease;
+}
+
+.img-container:hover img {
+    transform: scale(1.1); /* Agrandar imagen ligeramente */
+}
+
+.generacion_enlace {
+    display: none; /* Ocultar inicialmente */
+    margin-top: 20px;
+    transition: opacity 0.5s ease; /* Añadir transición para mostrar */
+}
+
+.loading-animation {
     display: none; /* Ocultar inicialmente */
     text-align: center;
     margin-top: 20px;
 }
 
-.generacion_enlace {
-    display: none; /* Ocultar inicialmente */
-}
-
-.img-container {
-    cursor: pointer;
-    transition: transform 0.3s ease-in-out;
-}
-
-.img-container:hover {
-    transform: scale(1.1); /* Añade un efecto de hover */
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
 }
 
 </style>
