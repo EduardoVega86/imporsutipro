@@ -176,4 +176,24 @@
             width: 80%;
         }
     }
+
+    .loading-animation {
+    display: none; /* Ocultar inicialmente */
+    text-align: center;
+    margin-top: 20px;
+}
+
+.generacion_enlace {
+    display: none; /* Ocultar inicialmente */
+}
+
+.img-container {
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.img-container:hover {
+    transform: scale(1.1); /* Añade un efecto de hover */
+}
+
 </style>
