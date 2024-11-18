@@ -30,7 +30,9 @@ function generar_link() {
   // Esperar 2 segundos y luego mostrar la sección de enlace
   setTimeout(() => {
     loadingBelow.style.display = "none"; // Ocultar el cargando
-    $("#generador_enlace").val("ENLACE GENERADO");
+    $("#generador_enlace").val(
+      "https://new.imporsuitpro.com/funnelish/index/" + ID_PLATAFORMA
+    );
   }, 2000); // Tiempo en milisegundos
 }
 
@@ -77,9 +79,7 @@ const initDataTableProductosShopify = async () => {
 
 const listProductosShopify = async () => {
   try {
-    const response = await fetch(
-      "" + SERVERURL + "funnelish/get_productos"
-    );
+    const response = await fetch("" + SERVERURL + "funnelish/get_productos");
     const productosShopify = await response.json();
 
     let content = ``;
