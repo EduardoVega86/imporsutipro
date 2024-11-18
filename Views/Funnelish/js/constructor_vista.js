@@ -88,10 +88,9 @@ const listProductosShopify = async () => {
       const enlace_imagen = obtenerURLImagen(producto.image_path, SERVERURL);
       content += `
                 <tr>
-                    <td>${producto.id_inventario}</td>
+                    <td>${producto.id_funnel}</td>
                     <td><img src="${enlace_imagen}" class="icon-button" onclick="agregar_imagenProducto(${producto.id_producto},'${enlace_imagen}')" alt="Agregar imagen" width="50px"></td>
                     <td>${producto.nombre_producto}</td>
-                    <td>${producto.pvp}</td>
                    
                 </tr>`;
     });
