@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function generar_link() {
   const loadingBelow = document.getElementById("loading-below");
-  
+
   // Mostrar la animación de carga
   loadingBelow.style.display = "block";
 
@@ -78,7 +78,7 @@ const initDataTableProductosShopify = async () => {
 const listProductosShopify = async () => {
   try {
     const response = await fetch(
-      "" + SERVERURL + "Productos/obtener_productos_shopify"
+      "" + SERVERURL + "funnelish/get_productos"
     );
     const productosShopify = await response.json();
 
