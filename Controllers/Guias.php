@@ -12,6 +12,16 @@ class Guias extends Controller
     }
     /// funciones
 
+    public function buscarStock($numero_factura)
+    {
+        $response = $this->model->buscarStock($numero_factura);
+        if ($response == false) {
+            $response = array("status" => 501);
+        } else {
+            $response = array("status" => 200);
+        }
+        return  $response;
+    }
     public function generarLaar()
     {
         if (!$this->isAuth())
@@ -56,6 +66,11 @@ class Guias extends Controller
         $extras = "";
 
         $numero_factura = $_POST['numero_factura'];
+
+        if ($this->buscarStock($numero_factura)["status"] == 501) {
+            echo json_encode(array("status" => 501, "message" => "No contamos con stock de el/los productos para generar la guía"));
+            return;
+        }
 
         $datos = $this->model->generarLaar($nombreOrigen, $ciudadOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras);
         $datos = json_decode($datos, true);
@@ -141,6 +156,11 @@ class Guias extends Controller
         $fecha = date("Y-m-d");
         $extras = "";
         $numero_factura = $_POST['numero_factura'];
+        if ($this->buscarStock($numero_factura)["status"] == 501) {
+            echo json_encode(array("status" => 501, "message" => "No contamos con stock de el/los productos para generar la guía"));
+            return;
+        }
+
 
         $flete = $_POST['flete'];
         $seguro = $_POST['seguro'];
@@ -207,6 +227,10 @@ class Guias extends Controller
         $fecha = date("Y-m-d");
         $extras = "";
         $numero_factura = $_POST['numero_factura'];
+        if ($this->buscarStock($numero_factura)["status"] == 501) {
+            echo json_encode(array("status" => 501, "message" => "No contamos con stock de el/los productos para generar la guía"));
+            return;
+        }
         $monto_factura = $_POST['total_venta'];
 
         $response = $this->model->generarGintracom($nombreOrigen, $ciudadOrigen, $provinciaOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $provinciaDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras, $numero_factura, $monto_factura);
@@ -254,7 +278,10 @@ class Guias extends Controller
         $monto_factura = $_POST['total_venta'];
 
 
-
+        if ($this->buscarStock($numero_factura)["status"] == 501) {
+            echo json_encode(array("status" => 501, "message" => "No contamos con stock de el/los productos para generar la guía"));
+            return;
+        }
         $response = $this->model->generarSpeed($nombreO, $ciudadOrigen, $direccionO, $telefonoO, $referenciaO, $nombre, $ciudadDestino, $direccion, $telefono, $celular, $referencia, $contiene, $fecha, $numero_factura, $_SESSION["id_plataforma"], $observacion, $recaudo, $monto_factura, MATRIZ);
         $response = json_decode($response, true);
 

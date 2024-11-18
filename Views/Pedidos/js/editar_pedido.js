@@ -369,7 +369,12 @@ $(document).ready(function () {
 
       var button2 = document.getElementById("generarGuiaBtn");
 
-      if (saldo < -10 && (ID_PLATAFORMA != 1238 && ID_PLATAFORMA !=1226 && ID_PLATAFORMA !=1246)) {
+      if (
+        saldo < -10 &&
+        ID_PLATAFORMA != 1238 &&
+        ID_PLATAFORMA != 1226 &&
+        ID_PLATAFORMA != 1246
+      ) {
         button2.disabled = true;
         Swal.fire({
           icon: "error",
@@ -843,6 +848,13 @@ function generar_guia() {
           vaciarTmpPedidos();
           window.location.href = "" + SERVERURL + "Pedidos/guias";
         });
+      } else if (response.status == 501) {
+        Swal.fire({
+          icon: "warning",
+          title: response.message,
+        });
+        var button2 = document.getElementById("generarGuiaBtn");
+        button2.disabled = false; // Desactivar el botón
       }
     },
     error: function (error) {
