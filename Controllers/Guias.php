@@ -68,7 +68,7 @@ class Guias extends Controller
         $numero_factura = $_POST['numero_factura'];
 
         if ($this->buscarStock($numero_factura)["status"] == 501) {
-            echo json_encode(array("status" => 500, "message" => "No contamos con stock para la factura"));
+            echo json_encode(array("status" => 501, "message" => "No contamos con stock para la factura"));
             return;
         }
 
@@ -157,7 +157,7 @@ class Guias extends Controller
         $extras = "";
         $numero_factura = $_POST['numero_factura'];
         if ($this->buscarStock($numero_factura)["status"] == 501) {
-            echo json_encode(array("status" => 500, "message" => "No contamos con stock para la factura"));
+            echo json_encode(array("status" => 501, "message" => "No contamos con stock para la factura"));
             return;
         }
 
@@ -228,7 +228,7 @@ class Guias extends Controller
         $extras = "";
         $numero_factura = $_POST['numero_factura'];
         if ($this->buscarStock($numero_factura)["status"] == 501) {
-            echo json_encode(array("status" => 500, "message" => "No contamos con stock para la factura"));
+            echo json_encode(array("status" => 501, "message" => "No contamos con stock para la factura"));
             return;
         }
         $monto_factura = $_POST['total_venta'];
@@ -279,7 +279,7 @@ class Guias extends Controller
 
 
         if ($this->buscarStock($numero_factura)["status"] == 501) {
-            echo json_encode(array("status" => 500, "message" => "No contamos con stock para la factura"));
+            echo json_encode(array("status" => 501, "message" => "No contamos con stock para la factura"));
             return;
         }
         $response = $this->model->generarSpeed($nombreO, $ciudadOrigen, $direccionO, $telefonoO, $referenciaO, $nombre, $ciudadDestino, $direccion, $telefono, $celular, $referencia, $contiene, $fecha, $numero_factura, $_SESSION["id_plataforma"], $observacion, $recaudo, $monto_factura, MATRIZ);
