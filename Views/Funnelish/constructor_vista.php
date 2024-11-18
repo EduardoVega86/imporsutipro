@@ -6,7 +6,7 @@
         <h1>Conexión a Funnelish</h1>
 
         <div class="img-container text-center aplicacion" id="trigger-container">
-            <img src="<?php echo SERVERURL; ?>/public/img/logo_shopify.png" alt="Shopify">
+            <img src="<?php echo SERVERURL; ?>/public/img/logo_fuinnelish.png" alt="Shopify">
             <div class="name-tag"><span>Shopify</span></div>
         </div>
 
