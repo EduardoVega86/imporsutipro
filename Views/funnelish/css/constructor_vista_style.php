@@ -166,6 +166,5 @@
     .btn-group {
         align-content: center;
     }
-
     /* fin tabla */
 </style>
