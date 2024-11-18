@@ -5,8 +5,9 @@
         align-items: center;
         height: 100vh;
         background-color: #f0f0f0;
-        padding: 30px;
+        padding-left: 30px;
         overflow: hidden;
+        /* Para evitar el desbordamiento */
     }
 
     .custom-container-fluid {
@@ -14,158 +15,165 @@
         padding: 20px;
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        text-align: left;
-        min-width: 60%;
+        text-align: center;
+        min-width: 50%;
         max-height: 80vh;
+        /* Altura máxima */
         overflow-y: auto;
+        /* Scroll vertical si el contenido es mayor que la altura */
     }
 
     .custom-container-fluid h1 {
         color: <?php echo COLOR_LETRAS; ?>;
         margin-bottom: 20px;
-        text-align: center;
     }
 
-    .datos_shopify {
-        color: #333;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        line-height: 1.6;
-    }
-
-    .config-item {
-        margin-bottom: 20px;
-        padding: 15px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        background-color: #fff;
-        transition: box-shadow 0.3s ease;
-    }
-
-    .config-item:hover {
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    .config-item ul {
-        padding-left: 20px;
-        list-style: none;
-        margin: 0;
-        border-left: 3px solid #ddd;
-        /* Línea para jerarquía */
-    }
-
-    .config-item li {
+    .form-group {
         margin-bottom: 15px;
-        /* Aumentamos el margen inferior */
-        position: relative;
-        font-size: 14px;
-        padding-left: 10px;
     }
 
-    .config-item li::before {
-        content: '';
-        position: absolute;
-        left: -10px;
-        /* Separación del borde izquierdo */
-        top: 5px;
-        /* Ajusta la posición vertical para centrado */
-        height: 12px;
-        width: 12px;
-        border-radius: 50%;
-        background-color: transparent;
-        border: 2px solid #007bff;
-        transition: background-color 0.3s ease;
+    .form-group label {
+        display: block;
+        color: <?php echo COLOR_LETRAS; ?>;
+        margin-bottom: 5px;
     }
 
-    .config-item li:hover::before {
-        background-color: #007bff;
+    .form-group input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
     }
 
-    .config-item li>strong {
-        font-weight: 600;
-        color: #222;
-        margin-right: 5px;
+    .form-group input::placeholder {
+        color: #6c757d;
     }
 
-    .config-item li span {
-        color: #555;
-    }
-
-    .config-item .nested {
-        margin-left: 20px;
-        border-left: 2px dashed #ccc;
-        padding-left: 10px;
-    }
 
     @media (max-width: 768px) {
         .full-screen-container {
             flex-direction: column;
-            height: 70vh;
+            gap: 10px;
+            height: 60vh;
         }
+    }
+
+    .form-group label {
+        color: black;
+    }
+
+    /* animacion y diseño de aplicacion y name de aplicacion */
+    .aplicacion {
+        position: relative;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 10px;
+        overflow: hidden;
+        padding: 10px;
+        background-color: #f8f9fa;
+        display: inline-block;
+    }
+
+    .aplicacion img {
+        max-width: 100px;
+        transition: filter 0.3s ease;
+        filter: grayscale(100%);
+    }
+
+    .aplicacion:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .aplicacion:hover img {
+        filter: grayscale(0%);
+    }
+
+    .name-tag {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translate(-50%, 0);
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 3px 6px;
+        /* Ajustar tamaño del fondo */
+        border-radius: 3px;
+        /* Ajustar borde redondeado */
+        font-size: 12px;
+        /* Ajustar tamaño de la fuente */
+        transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .aplicacion:hover .name-tag {
+        transform: translate(-50%, 0) scale(1.2);
+        background-color: rgba(0, 0, 0, 0.9);
+    }
+
+    .aplicacion.selected {
+        border: 2px solid #007bff;
+        box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+    }
+
+    .aplicacion.selected img {
+        filter: grayscale(0%);
+    }
+
+    .aplicacion.selected .name-tag {
+        background-color: rgba(0, 123, 255, 0.9);
+        transform: translate(-50%, 0) scale(1.2);
+    }
+
+    /* final de diseño de aplicacion */
+
+    .generacion_enlace {
+        display: none;
+    }
+
+    .loading-animation {
+        display: none;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .spinner-border {
+        width: 3rem;
+        height: 3rem;
+    }
+
+    .img-container {
+        cursor: pointer;
+    }
+
+    #json-informacion {
+        display: none;
     }
 
     .json_informacion {
         max-height: 600px;
+        /* Puedes ajustar esta altura según tus necesidades */
         overflow-y: auto;
+        /* Añadir scroll vertical */
         border: 1px solid #ced4da;
+        /* Borde ligero */
         padding: 10px;
         background-color: #f8f9fa;
+        /* Fondo claro */
         border-radius: 5px;
     }
 
     #json-content {
         white-space: pre-wrap;
+        /* Mantener los saltos de línea y espacios */
         font-family: monospace;
+        /* Fuente monoespaciada para el JSON */
         color: #333;
+        /* Color de texto */
     }
 
-    /* tabla */
-    .table {
-        border-collapse: collapse;
-        width: 100%;
+    @media (max-width: 768px) {
+        .json_informacion {
+            min-height: 400px;
+            width: 80%;
+        }
     }
-
-    .table th,
-    .table td {
-        text-align: center;
-        vertical-align: middle;
-        border: 1px solid #ddd;
-        /* Añadir borde a celdas */
-    }
-
-    .table-striped tbody tr:nth-of-type(odd) {
-        background-color: rgba(0, 0, 0, .05);
-    }
-
-    .table-hover tbody tr:hover {
-        background-color: rgba(0, 0, 0, .075);
-    }
-
-    .table thead th {
-        background-color: <?php echo COLOR_FONDO; ?>;
-        color: <?php echo COLOR_LETRAS; ?>;
-    }
-
-    .centered {
-        text-align: center !important;
-        vertical-align: middle !important;
-    }
-
-    .btn-excel,
-    .btn-csv {
-        background-color: #198754;
-        /* Color verde para Excel */
-        color: white;
-        padding: 5px 10px;
-        /* Ajusta el padding para reducir el tamaño */
-        margin: 0;
-        /* Elimina el margen */
-        border: none;
-        /* Elimina el borde */
-    }
-
-    .btn-group {
-        align-content: center;
-    }
-
-    /* fin tabla */
 </style>
