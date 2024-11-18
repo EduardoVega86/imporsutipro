@@ -354,11 +354,7 @@ class FunnelishModel extends Query
         inner join productos p
         on p.id_producto = ib.id_producto where pf.id_plataforma = $id_plataforma";
         $response = $this->select($sql);
-        if ($response) {
-            return $response;
-        } else {
-            return false;
-        }
+
         return $response;
     }
 }
