@@ -156,6 +156,7 @@
                     <!--a href="#"><i class='bx bxs-user-detail menu-icon'></i> <span class="menu-text">Roles</span></a-->
                     <a href="<?php echo SERVERURL ?>shopify/constructor"><i class="fa-brands fa-shopify menu-icon"></i> <span class="menu-text">Shopify</span></a>
                     <a href="<?php echo SERVERURL ?>shopify/constructor_vista"><i class="fa-brands fa-shopify menu-icon"></i> <span class="menu-text">Datos Shopify</span></a>
+                    <a href="<?php echo SERVERURL ?>funnelish/constructor_vista"><i class="fa-solid fa-f menu-icon"></i> <span class="menu-text">Funnelish</span></a>
                     <a href="<?php echo SERVERURL ?>integraciones"><i class="fa-solid fa-globe menu-icon"></i> <span class="menu-text">Integracio- nes</span></a>
                 </div>
             <?php } else { ?>
