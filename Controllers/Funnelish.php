@@ -59,4 +59,10 @@ class Funnelish extends Controller
     {
         $this->model->saveDataPlatform($data, $id_plataforma);
     }
+
+    public function get_productos()
+    {
+        $this->isAuth();
+        return $this->model->get_productos($_SESSION['id_plataforma']);
+    }
 }
