@@ -345,4 +345,16 @@ class FunnelishModel extends Query
         $response = $this->select($sql);
         return $response;
     }
+
+    public function get_productos($id_plataforma)
+    {
+        $sql = "select ib.id_inventario, ib.id_producto, p.nombre_producto, pf.id_funnel, p.image_path, pf.id_plataforma from  `productos_funnel` pf
+        inner join inventario_bodegas ib
+        on pf.id_producto = ib.id_inventario
+        inner join productos p
+        on p.id_producto = ib.id_producto where pf.id_plataforma = $id_plataforma";
+        $response = $this->select($sql);
+
+        return $response;
+    }
 }

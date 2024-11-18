@@ -21,7 +21,7 @@
                             <label for="generador_enlace" class="form-label">Enlace generado:</label>
                             <div class="input-group">
                                 <input type="text" class="form-control" id="generador_enlace" disabled>
-                                <button class="btn btn-primary" type="button" id="verify-button">Verificar</button>
+                                <button class="btn btn-primary" type="button" onclick="generar_link()">Generar link</button>
                             </div>
                             <label for="infor">Nota: Agregar este enlace en su webhook</label>
                         </div>
