@@ -63,6 +63,7 @@ class Funnelish extends Controller
     public function get_productos()
     {
         $this->isAuth();
-        return $this->model->get_productos($_SESSION['id_plataforma']);
+        $response =  $this->model->get_productos($_SESSION['id_plataforma']);
+        echo json_encode($response);
     }
 }
