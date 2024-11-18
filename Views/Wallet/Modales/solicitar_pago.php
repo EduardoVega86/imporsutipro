@@ -98,7 +98,7 @@
             </div>
             <div class="modal-body">
                 <div class="alert alert-info text-center">
-                    Te enviaremos a tu correo un código de seguridad de 6 dígitos, recuerda que el código vence en 5 minutos.
+                    Te enviaremos a tu mensaje a este correo:<span class="font-bold"> <?php echo $_SESSION["user"] ?></span> con un código de seguridad de 6 dígitos, recuerda que el código vence en 5 minutos.
                 </div>
                 <form id="Solici" class="text-center">
                     <div class="mb-3 d-flex justify-content-center gap-2">
