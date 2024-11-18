@@ -33,7 +33,7 @@
             <div>Cargando...</div>
         </div>
     </div>
-    <div class="table-responsive">
+    <div class="table-responsive" style="padding: 10px;">
         <!-- <table class="table table-bordered table-striped table-hover"> -->
         <table id="datatable_productos_shopify" width="100%" class="table table-striped">
             <thead>
