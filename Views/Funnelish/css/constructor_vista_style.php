@@ -206,6 +206,9 @@
 .spinner-border {
     width: 3rem;
     height: 3rem;
+    border-color: rgba(255, 255, 255, 0.25); /* Color de borde semitransparente */
+    border-top-color: #fff; /* Color blanco para la animación */
 }
+
 
 </style>
