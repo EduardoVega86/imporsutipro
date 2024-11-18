@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const imgContainer = document.getElementById("trigger-container");
   const loading = document.getElementById("loading");
   const enlaceSection = document.getElementById("enlace-section");
-  const loadingBelow = document.getElementById("loading-below");
 
   // Ocultar inicialmente la sección de generación de enlaces
   enlaceSection.style.display = "none";
@@ -20,18 +19,20 @@ document.addEventListener("DOMContentLoaded", function () {
       enlaceSection.style.opacity = "1"; // Transición visual
     }, 2000); // Tiempo en milisegundos
   });
-
-  function generar_link() {
-    // Mostrar la animación de carga
-    loadingBelow.style.display = "block";
-
-    // Esperar 2 segundos y luego mostrar la sección de enlace
-    setTimeout(() => {
-      loadingBelow.style.display = "none"; // Ocultar el cargando
-      $("#generador_enlace").val("ENLACE GENERADO");
-    }, 2000); // Tiempo en milisegundos
-  }
 });
+
+function generar_link() {
+  const loadingBelow = document.getElementById("loading-below");
+  
+  // Mostrar la animación de carga
+  loadingBelow.style.display = "block";
+
+  // Esperar 2 segundos y luego mostrar la sección de enlace
+  setTimeout(() => {
+    loadingBelow.style.display = "none"; // Ocultar el cargando
+    $("#generador_enlace").val("ENLACE GENERADO");
+  }, 2000); // Tiempo en milisegundos
+}
 
 let dataTableProductosShopify;
 let dataTableProductosShopifyIsInitialized = false;
