@@ -10,22 +10,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Evento al hacer clic en la imagen
   imgContainer.addEventListener("click", function () {
-    // Mostrar el cargando de abajo
+    // Mostrar la animación de carga
     loadingBelow.style.display = "block";
 
-    // Después de 2 segundos, ocultar cargando y mostrar la sección de generar enlace
+    // Después de 2 segundos, ocultar cargando y mostrar la sección de generación de enlace
     setTimeout(() => {
       loadingBelow.style.display = "none";
       enlaceSection.style.display = "block";
     }, 2000); // 2000 ms = 2 segundos
   });
 
-  // Evento al hacer clic en el botón de verificar
+  // Evento al hacer clic en el botón "Verificar"
   verifyButton.addEventListener("click", function () {
-    // Mostrar el cargando de abajo
+    // Mostrar la animación de carga nuevamente
     loadingBelow.style.display = "block";
 
-    // Después de 2 segundos, ocultar cargando y registrar un mensaje en consola
+    // Después de 2 segundos, ocultar cargando y mostrar un mensaje en la consola
     setTimeout(() => {
       loadingBelow.style.display = "none";
       console.log("Función de verificación ejecutada.");
