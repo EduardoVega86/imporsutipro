@@ -271,7 +271,9 @@ const listAuditoria = async (estado, id_transporte) => {
           parseFloat(item.envio_wallet * 100) ||
         (item.drogshipin == 1 && item.id_plataforma == item.id_propietario) ||
         (item.drogshipin == 0 && item.id_plataforma != item.id_propietario) ||
-        (item.drogshipin == 1 && item.costo_wallet <= 0) ||
+        (item.drogshipin == 1 &&
+          item.costo_wallet <= 0 &&
+          item.id_plataforma != 2324) ||
         (item.numero_guia.includes("MKP") &&
           item.id_transporte == 1 &&
           item.costo_flete != 5.99) ||
@@ -317,11 +319,7 @@ const listAuditoria = async (estado, id_transporte) => {
             motivo +
             " VALOR DEVUELTO";
         }
-        if (
-          item.drogshipin == 1 &&
-          item.costo_wallet <= 0 &&
-          item.id_plataforma != 2324
-        ) {
+        if (item.drogshipin == 1 && item.costo_wallet <= 0) {
           motivo = motivo + "DROP COSTO 0";
         }
         mostrar = 1;
