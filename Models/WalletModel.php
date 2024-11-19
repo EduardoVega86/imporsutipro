@@ -1163,6 +1163,7 @@ class WalletModel extends Query
                     fc.costo_flete,
                     fc.id_plataforma,
                     fc.id_propietario,
+                    FORMAT(
                     CASE 
                         WHEN ccp.guia LIKE '%IMP%' OR ccp.guia LIKE '%MKP%' THEN cl.precio
                         WHEN ccp.guia REGEXP '^[0-9]+' THEN cs.precio
@@ -1173,14 +1174,15 @@ class WalletModel extends Query
                             END 
                         WHEN ccp.guia LIKE '%I00%' THEN cg.precio
                         ELSE NULL
-                    END AS precio,
-                    CASE 
+                    END,2) AS precio,
+                    FORMAT(
+                        CASE 
                         WHEN ccp.guia LIKE '%IMP%' OR ccp.guia LIKE '%MKP%' THEN cl.costo
                         WHEN ccp.guia REGEXP '^[0-9]+' THEN cs.costo
                         WHEN ccp.guia LIKE '%SPD%' OR ccp.guia LIKE '%MKP%' THEN 4
                         WHEN ccp.guia LIKE '%I00%' THEN cg.costo
                         ELSE NULL
-                    END AS costo,
+                    END,2) AS costo,
                     -- Añadimos las nuevas columnas aquí
                     FORMAT(
                         fc.costo_flete - 
@@ -1279,7 +1281,7 @@ class WalletModel extends Query
 
                 ORDER BY 
                     fc.fecha_factura;";
-        //echo $sql;
+        echo $sql;
         $response =  $this->select($sql);
         return $response;
     }
