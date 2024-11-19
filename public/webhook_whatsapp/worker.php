@@ -145,6 +145,7 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
     /* fin validar si existe wait  */
 
     if ($exister_wait) {
+        logError("entro en la condicion del wait");
         // Llamar a la función para insertar el mensaje en espera
         insertar_mensaje_espera($conn, $id_plataforma, $id_cliente, $id_mensaje_insertado, $created_at, $id_whatsapp_message_template);
     }
