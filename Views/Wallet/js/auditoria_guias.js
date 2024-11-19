@@ -317,11 +317,7 @@ const listAuditoria = async (estado, id_transporte) => {
             motivo +
             " VALOR DEVUELTO";
         }
-        if (
-          item.drogshipin == 1 &&
-          item.costo_wallet <= 0 &&
-          item.id_plataforma !== 2324
-        ) {
+        if (item.drogshipin == 1 && item.costo_wallet <= 0) {
           motivo = motivo + "DROP COSTO 0";
         }
         mostrar = 1;
