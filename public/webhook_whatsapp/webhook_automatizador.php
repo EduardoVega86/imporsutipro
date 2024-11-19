@@ -408,23 +408,28 @@ function enqueueMessageDetails($id_automatizador, $uid_whatsapp, $mensaje, $json
 {
     global $redis;
 
-    // Prepara los datos como un array
-    $data = [
-        'id_automatizador' => $id_automatizador,
-        'uid_whatsapp' => $uid_whatsapp,
-        'mensaje' => $mensaje,
-        'json_mensaje' => $json_mensaje,
-        'id_configuracion' => $id_configuracion,
-        'user_info' => $user_info,
-        'id_whatsapp_message_template' => $id_whatsapp_message_template
-    ];
+    try {
+        $data = [
+            'id_automatizador' => $id_automatizador,
+            'uid_whatsapp' => $uid_whatsapp,
+            'mensaje' => $mensaje,
+            'json_mensaje' => $json_mensaje,
+            'id_configuracion' => $id_configuracion,
+            'user_info' => $user_info,
+            'id_whatsapp_message_template' => $id_whatsapp_message_template,
+            'timestamp' => date('Y-m-d H:i:s') // Agregar la marca de tiempo
+        ];
 
-    // Convertir los datos a JSON
-    $data_json = json_encode($data);
+        $data_json = json_encode($data);
 
-    // Enviar los datos a la cola en Redis
-    $redis->lPush("message_queue", $data_json);
+        if (!$redis->lPush("message_queue", $data_json)) {
+            throw new Exception("No se pudo encolar el mensaje en Redis.");
+        }
+    } catch (Exception $e) {
+        file_put_contents('/ruta/a/tu/log/redis_error.log', $e->getMessage() . PHP_EOL, FILE_APPEND);
+    }
 }
+
 
 function sendWhatsappMessage($conn, $user_info, $block_sql_data, $config, $id_configuracion)
 {
