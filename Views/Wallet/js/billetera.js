@@ -667,6 +667,7 @@ function validar_estadoLaar(estado) {
 function validar_estadoServi(estado) {
   var span_estado = "";
   var estado_guia = "";
+
   if (estado == 101) {
     span_estado = "badge_danger";
     estado_guia = "Anulado";
@@ -688,6 +689,9 @@ function validar_estadoServi(estado) {
   } else if ((estado >= 500 && estado <= 502) || estado == 9) {
     span_estado = "badge_danger";
     estado_guia = "Devuelto";
+  } else if (estado == 1) {
+    span_estado = "badge_purple";
+    estado_guia = "Generado";
   }
 
   return {
