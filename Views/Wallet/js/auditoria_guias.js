@@ -53,7 +53,6 @@ function datos_auditoriaPrincial(estado, transportadora) {
   });
 }); */
 
-
 let dataTableAuditoria;
 let dataTableAuditoriaIsInitialized = false;
 
@@ -276,7 +275,9 @@ const listAuditoria = async (estado, id_transporte) => {
         (item.numero_guia.includes("MKP") &&
           item.id_transporte == 1 &&
           item.costo_flete != 5.99) ||
-        (devuelto == 1 && parseFloat(item.monto_recibir).toFixed(2) != parseFloat(item.envio_wallet).toFixed(2) * -1)
+        (devuelto == 1 &&
+          parseFloat(item.monto_recibir).toFixed(2) !=
+            parseFloat(item.envio_wallet).toFixed(2) * -1)
       ) {
         if (item.monto_recibir != item.monto_total_historial) {
           motivo = motivo + " DIFERENCIA MONTOS";
@@ -303,12 +304,25 @@ const listAuditoria = async (estado, id_transporte) => {
         ) {
           motivo = motivo + " MKP DIFERENTE A 5.99";
         }
-        if (devuelto == 1 && (parseFloat(item.monto_recibir).toFixed(2) != parseFloat(item.envio_wallet).toFixed(2)) * -1) {
-          motivo =parseFloat(item.monto_recibir).toFixed(2) + "*" + parseFloat(item.envio_wallet).toFixed(2)* -1 + motivo + " VALOR DEVUELTO";
-        }
-        if (item.drogshipin == 1 && item.costo_wallet <= 0) {
+        if (
+          devuelto == 1 &&
+          (parseFloat(item.monto_recibir).toFixed(2) !=
+            parseFloat(item.envio_wallet).toFixed(2)) *
+            -1
+        ) {
           motivo =
-            motivo +  "DROP COSTO 0";
+            parseFloat(item.monto_recibir).toFixed(2) +
+            "*" +
+            parseFloat(item.envio_wallet).toFixed(2) * -1 +
+            motivo +
+            " VALOR DEVUELTO";
+        }
+        if (
+          item.drogshipin == 1 &&
+          item.costo_wallet <= 0 &&
+          item.id_plataforma !== 2324
+        ) {
+          motivo = motivo + "DROP COSTO 0";
         }
         mostrar = 1;
         background = 'style="background-color: red;"';
