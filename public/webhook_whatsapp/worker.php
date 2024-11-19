@@ -22,7 +22,8 @@ if (!is_dir($logDirectory)) {
 $logFile = $logDirectory . '/error_log_worker.txt';
 
 // Función para registrar errores en el archivo de log
-function logError($message) {
+function logError($message)
+{
     global $logFile;
     $timestamp = date("Y-m-d H:i:s");
     file_put_contents($logFile, "[$timestamp] $message\n", FILE_APPEND);
@@ -169,28 +170,44 @@ function insertar_mensaje_espera($conn, $id_plataforma, $id_cliente, $id_mensaje
     $stmt->close();
 }
 
+
+try {
+    $redis = new Redis();
+    $redis->connect('3.233.119.65', 6379);
+    logError("Conexión a Redis exitosa");
+} catch (Exception $e) {
+    logError("Error al conectar a Redis: " . $e->getMessage());
+    exit;
+}
+
+
 // Bucle principal del Worker
 while (true) {
-    // Extraer un mensaje de la cola
-    $message_json = $redis->rPop("message_queue");
+    try {
+        $message_json = $redis->rPop("message_queue");
 
-    if ($message_json) {
-        // Decodificar el mensaje JSON a un array
-        $message_data = json_decode($message_json, true);
+        if ($message_json) {
+            $message_data = json_decode($message_json, true);
 
-        // Extraer valores del array
-        $id_automatizador = $message_data['id_automatizador'];
-        $uid_whatsapp = $message_data['uid_whatsapp'];
-        $mensaje = $message_data['mensaje'];
-        $json_mensaje = $message_data['json_mensaje'];
-        $id_configuracion = $message_data['id_configuracion'];
-        $user_info = $message_data['user_info'];
-        $id_whatsapp_message_template = $message_data['id_whatsapp_message_template'];
+            if (!$message_data) {
+                logError("Error al decodificar JSON: $message_json");
+                continue;
+            }
 
-        // Llamar a insertMessageDetails para procesar el mensaje
-        insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje, $json_mensaje, $id_configuracion, $user_info, $id_whatsapp_message_template);
-    } else {
-        // Si la cola está vacía, duerme un momento para reducir el uso de CPU
-        sleep(1);
+            // Procesar el mensaje
+            $id_automatizador = $message_data['id_automatizador'];
+            $uid_whatsapp = $message_data['uid_whatsapp'];
+            $mensaje = $message_data['mensaje'];
+            $json_mensaje = $message_data['json_mensaje'];
+            $id_configuracion = $message_data['id_configuracion'];
+            $user_info = $message_data['user_info'];
+            $id_whatsapp_message_template = $message_data['id_whatsapp_message_template'];
+
+            insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje, $json_mensaje, $id_configuracion, $user_info, $id_whatsapp_message_template);
+        } else {
+            sleep(1);
+        }
+    } catch (Exception $e) {
+        logError("Error en el Worker: " . $e->getMessage());
     }
 }
