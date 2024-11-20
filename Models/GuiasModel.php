@@ -137,7 +137,7 @@ class GuiasModel extends Query
 
         try {
             // Bloquear la tabla para evitar conflictos
-            $sql = "SELECT MAX(numero_guia) as numero_guia FROM facturas_cot WHERE numero_guia LIKE '$prefijo%' FOR UPDATE";
+            $sql = "SELECT MAX(numero_guia) as numero_guia FROM facturas_cot WHERE numero_guia LIKE " . "'$prefijo" . "00" . "  %' FOR UPDATE";
             $numero_guia = $this->select($sql);
             $numero_guia = $numero_guia[0]['numero_guia'];
 
