@@ -1145,142 +1145,14 @@ class WalletModel extends Query
 
     public function obtenerGuiasAuditoria($estado, $transportadora)
     {
-        $where = '';
+        /*  $where = '';
 
         if ($transportadora != 0) {
             $where = " and id_transporte=$transportadora";
         } else {
             $where = "";
-        }
-        $sql = "SELECT DISTINCT
-                    fc.numero_factura,
-                    fc.numero_guia,
-                    fc.drogshipin,
-                    fc.cod,
-                    fc.estado_guia_sistema,
-                    fc.monto_factura,
-                    fc.id_transporte,
-                    fc.costo_flete,
-                    fc.id_plataforma,
-                    fc.id_propietario,
-                    FORMAT(
-                    CASE 
-                        WHEN ccp.guia LIKE '%IMP%' OR ccp.guia LIKE '%MKP%' THEN cl.precio
-                        WHEN ccp.guia REGEXP '^[0-9]+' THEN cs.precio
-                        WHEN ccp.guia LIKE '%SPD%' OR ccp.guia LIKE '%MKP%' THEN 
-                            CASE 
-                                WHEN fc.ciudad_cot = 599 THEN 5.5
-                                ELSE 6.5
-                            END 
-                        WHEN ccp.guia LIKE '%I00%' THEN cg.precio
-                        ELSE NULL
-                    END,2) AS precio,
-                    FORMAT(
-                        CASE 
-                        WHEN ccp.guia LIKE '%IMP%' OR ccp.guia LIKE '%MKP%' THEN cl.costo
-                        WHEN ccp.guia REGEXP '^[0-9]+' THEN cs.costo
-                        WHEN ccp.guia LIKE '%SPD%' OR ccp.guia LIKE '%MKP%' THEN 4
-                        WHEN ccp.guia LIKE '%I00%' THEN cg.costo
-                        ELSE NULL
-                    END,2) AS costo,
-                    -- Añadimos las nuevas columnas aquí
-                    FORMAT(
-                        fc.costo_flete - 
-                        (
-                            CASE 
-                                WHEN fc.id_transporte = 1 THEN cl.precio
-                                WHEN fc.id_transporte = 2 THEN cs.precio
-                                WHEN fc.id_transporte = 3 THEN cg.precio
-                                WHEN fc.id_transporte = 4 THEN 
-                                    CASE 
-                                        WHEN fc.ciudad_cot = 599 THEN 0
-                                        ELSE 0
-                                    END
-                                ELSE NULL
-                            END
-                        ), 2
-                    ) AS valor_cod,
-                    FORMAT(
-                        (
-                            CASE 
-                                WHEN fc.id_transporte = 1 THEN cl.precio
-                                WHEN fc.id_transporte = 2 THEN cs.precio
-                                WHEN fc.id_transporte = 3 THEN cg.precio
-                                WHEN fc.id_transporte = 4 THEN 
-                                    CASE 
-                                        WHEN fc.ciudad_cot = 599 THEN 5.5
-                                        ELSE 6.5
-                                    END
-                                ELSE NULL
-                            END
-                            -
-                            CASE 
-                                WHEN fc.id_transporte = 1 THEN cl.costo
-                                WHEN fc.id_transporte = 2 THEN cs.costo
-                                WHEN fc.id_transporte = 3 THEN cg.costo
-                                WHEN fc.id_transporte = 4 THEN 
-                                    CASE 
-                                        WHEN fc.ciudad_cot = 599 THEN 4
-                                        ELSE 5
-                                    END
-                                ELSE NULL
-                            END
-                        ), 2
-                    ) AS utilidad,
-                    pt.valor,
-                    pt.comision,
-                    ccp.monto_recibir,
-                    ccp.valor_pendiente,
-                    ccp.envio_wallet,
-                    ccp.costo_wallet,
-                    COALESCE(SUM(hb.monto), 0) AS monto_total_historial,
-                    CASE 
-                        WHEN COALESCE(SUM(hb.monto), 0) > fc.monto_factura THEN 1
-                        ELSE 0
-                    END AS comparacion_historial
-                FROM
-                    facturas_cot fc
-                LEFT JOIN
-                    pagos_transportadora pt ON pt.guia = fc.numero_factura
-                LEFT JOIN
-                    ccp_guias ccp ON fc.numero_guia = ccp.guia
-                LEFT JOIN
-                    ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot
-                LEFT JOIN 
-                    cobertura_laar cl ON cc.trayecto_laar = cl.tipo_cobertura
-                LEFT JOIN 
-                    cobertura_servientrega cs ON cc.trayecto_servientrega = cs.tipo_cobertura
-                LEFT JOIN 
-                    cobertura_gintracom cg ON cc.trayecto_gintracom = cg.trayecto
-                LEFT JOIN 
-                    historial_billetera hb ON hb.guia = ccp.guia
-                WHERE 
-                    fc.estado_guia_sistema IN (9, 7, 500, 501, 502, 400, 401, 402, 403, 13)
-                    AND ccp.guia IS NOT NULL 
-                    GROUP BY
-                    fc.numero_factura,
-                    fc.numero_guia,
-                    fc.drogshipin,
-                    fc.cod,
-                    fc.estado_guia_sistema,
-                    fc.monto_factura,
-                    fc.id_transporte,
-                    fc.costo_flete,
-                    fc.id_plataforma,
-                    fc.id_propietario,
-                    pt.valor,
-                    pt.comision,
-                    ccp.monto_recibir,
-                    ccp.valor_pendiente,
-                    ccp.envio_wallet,
-                    ccp.costo_wallet,
-                    precio,
-                    costo,
-                    valor_cod,
-                    utilidad
-
-                ORDER BY 
-                    fc.fecha_factura;";
+        } */
+        $sql = "select * from vista_auditoria";
         //echo $sql;
         $response =  $this->select($sql);
         return $response;
