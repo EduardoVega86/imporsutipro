@@ -51,7 +51,10 @@ class Funnelish extends Controller
 
     public function constructor_vista()
     {
-        $this->isAuth();
+        if (!$this->isAuth()) {
+            header('Location: ' . SERVERURL . 'Login');
+            exit();
+        }
         $this->views->render($this, "constructor_vista");
     }
 
