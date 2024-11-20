@@ -149,8 +149,9 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
     if (!empty($exister_wait)) {
         // Iterar sobre los resultados para verificar si existe "wait"
         foreach ($exister_wait as $resultado) {
-            logError("Entro en el bucle for");
+            
             logError($resultado["existe_waite"]);
+
             if ($resultado["existe_waite"]) {
                 logError("Entró en la condición del wait");
                 // Llamar a la función para insertar el mensaje en espera
@@ -170,7 +171,6 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
 
 function validar_wait($conn, $id_configuracion, $id_whatsapp_message_template)
 {
-    logError("Entro en la funcion wait");
 
     // Consulta para obtener los JSONs de la base de datos
     $query = "
@@ -215,8 +215,12 @@ function validar_wait($conn, $id_configuracion, $id_whatsapp_message_template)
                         // Ahora buscar este ID en json_bloques
                         foreach ($json_bloques as $bloque_info) {
                             if ($bloque_info['id_block'] == (string)$block_id_parent) {
+                                logError("entro en la primera condicion");
+                                logError("bloque_info['id_block']:". $bloque_info['id_block'] . "y tambien:". $block_id_parent);
                                 // Verificar si existe template de WhatsApp y tomar el código del template
                                 if (isset($bloque_info['id_whatsapp_message_template']) && $bloque_info['id_whatsapp_message_template'] == $id_whatsapp_message_template) {
+                                    logError("entro en la segunda condicion");
+                                    logError("bloque_info['id_whatsapp_message_template']: ".$bloque_info['id_whatsapp_message_template']);
                                     // Guardar el id_block y detener la búsqueda
                                     $found_block_id_parent = $block_id_parent;
                                     $id_template_whatsapp = $bloque_info['id_whatsapp_message_template'];
