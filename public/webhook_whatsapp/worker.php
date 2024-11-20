@@ -140,43 +140,96 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
     // Cerrar la consulta de inserción
     $stmt->close();
 
-    /* validar si existe wait */
-    $exister_wait = validar_wait($conn, $id_configuracion);
-    /* fin validar si existe wait  */
+    /* Validar si existe wait */
+    $exister_wait = validar_wait($conn, $id_configuracion, $id_whatsapp_message_template);
 
-    if ($exister_wait) {
-        logError("entro en la condicion del wait");
-        // Llamar a la función para insertar el mensaje en espera
-        insertar_mensaje_espera($conn, $id_plataforma, $id_cliente, $id_mensaje_insertado, $created_at, $id_whatsapp_message_template);
-    }
-}
-function validar_wait($conn, $id_configuracion)
-{
-    // Consulta para obtener los JSONs de la base de datos
-    $json_output = "";
-    $json_bloques = "";
-
-    $check_automatizadores_stmt = $conn->prepare("SELECT json_output, json_bloques FROM `automatizadores` WHERE automatizadores.id_configuracion = ?");
-    $check_automatizadores_stmt->bind_param('s', $id_configuracion);
-    $check_automatizadores_stmt->execute();
-    $check_automatizadores_stmt->store_result();
-    $check_automatizadores_stmt->bind_result($json_output, $json_bloques);
-    $check_automatizadores_stmt->fetch();
-    $check_automatizadores_stmt->close();
-
-    // Decodificar el JSON
-    $bloques_array = json_decode($json_bloques, true);
-
-    // Validar si existe un objeto con la clave "wait[]"
-    if (is_array($bloques_array)) {
-        foreach ($bloques_array as $bloque) {
-            if (is_array($bloque) && array_key_exists('wait[]', $bloque)) {
-                return true; // Se encontró "wait[]"
+    /* Fin validar si existe wait */
+    if (!empty($exister_wait)) {
+        // Iterar sobre los resultados para verificar si existe "wait"
+        foreach ($exister_wait as $resultado) {
+            if ($resultado["existe_waite"]) {
+                logError("Entró en la condición del wait");
+                // Llamar a la función para insertar el mensaje en espera
+                insertar_mensaje_espera($conn, $id_plataforma, $id_cliente, $id_mensaje_insertado, $created_at, $id_whatsapp_message_template);
+                break; // Salir del bucle si ya se encontró un resultado válido
             }
         }
+    } else {
+        logError("No se encontraron bloques con espera.");
+    }
+}
+
+function validar_wait($conn, $id_configuracion, $id_whatsapp_message_template)
+{
+    // Consulta para obtener los JSONs de la base de datos
+    $query = "
+        SELECT automatizadores.json_output, automatizadores.json_bloques, automatizadores.id
+        FROM `automatizadores` 
+        INNER JOIN `condiciones` ON automatizadores.id = condiciones.id_automatizador 
+        WHERE automatizadores.id_configuracion = ? 
+          AND JSON_VALID(condiciones.texto) 
+          AND JSON_TYPE(condiciones.texto) = 'ARRAY' 
+          AND JSON_LENGTH(condiciones.texto) = 1;
+    ";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param('s', $id_configuracion);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Variables de resultados
+    $resultados = [];
+
+    // Procesar cada fila de resultados
+    while ($row = $result->fetch_assoc()) {
+        $json_output = json_decode($row['json_output'], true);
+        $json_bloques = json_decode($row['json_bloques'], true);
+        $id_automatizador = $row['id'];
+
+        /* Variables de control */
+        $found_block_id = null;
+        $found_block_id_parent = null;
+        $id_template_whatsapp = null;
+        $existe_waite = false;
+
+        // Validar los bloques dentro de json_output
+        if (isset($json_output['blocks'])) {
+            foreach ($json_output['blocks'] as $block) {
+                // Verificar si el bloque tiene blockelemtype igual a 13
+                foreach ($block['data'] as $data_item) {
+                    if ($data_item['name'] == 'blockelemtype' && $data_item['value'] == '13') {
+                        // Obtener el ID parent del bloque que tiene blockelemtype = 13
+                        $block_id_parent = $block['parent'];
+                        $found_block_id = $block['id'];
+
+                        // Ahora buscar este ID en json_bloques
+                        foreach ($json_bloques as $bloque_info) {
+                            if ($bloque_info['id_block'] == (string)$block_id_parent) {
+                                // Verificar si existe template de WhatsApp y tomar el código del template
+                                if (isset($bloque_info['id_whatsapp_message_template']) && $bloque_info['id_whatsapp_message_template'] == $id_whatsapp_message_template) {
+                                    // Guardar el id_block y detener la búsqueda
+                                    $found_block_id_parent = $block_id_parent;
+                                    $id_template_whatsapp = $bloque_info['id_whatsapp_message_template'];
+                                    $existe_waite = true;
+                                    break 2; // Salir de ambos bucles
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Almacenar resultados para este registro
+        $resultados[] = [
+            'existe_waite' => $existe_waite,
+            'id_template_whatsapp' => $id_template_whatsapp,
+            'found_block_id' => $found_block_id,
+            'id_automatizador' => $id_automatizador,
+        ];
     }
 
-    return false; // No se encontró "wait[]"
+    // Retornar todos los resultados
+    return $resultados;
 }
 
 // Función para insertar el mensaje en espera
