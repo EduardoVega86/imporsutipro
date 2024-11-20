@@ -143,13 +143,14 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
     /* Validar si existe wait */
     $exister_wait = validar_wait($conn, $id_configuracion, $id_whatsapp_message_template);
 
-    logError($exister_wait);
+    logError("Contenido de \$exister_wait: " . json_encode($exister_wait));
 
     /* Fin validar si existe wait */
     if (!empty($exister_wait)) {
         // Iterar sobre los resultados para verificar si existe "wait"
         foreach ($exister_wait as $resultado) {
             logError("Entro en el bucle for");
+            logError($resultado["existe_waite"]);
             if ($resultado["existe_waite"]) {
                 logError("Entró en la condición del wait");
                 // Llamar a la función para insertar el mensaje en espera
