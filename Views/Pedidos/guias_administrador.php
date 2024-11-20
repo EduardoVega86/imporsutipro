@@ -67,10 +67,10 @@
                             OR (estado_guia_sistema in (1,2) and id_transporte=1)
                             or (estado_guia_sistema in (1,2,3) and id_transporte=3)
                             or (estado_guia_sistema in (2) and id_transporte=4)"> Generada/ Por Recolectar </option>
-                            <option value="(estado_guia_sistema BETWEEN 200 AND 202 and id_transporte=2)
+                            <option value="(estado_guia_sistema BETWEEN 300 AND 317 and id_transporte=2)
                             OR (estado_guia_sistema in (5,11,12,6) and id_transporte=1)
                             OR (estado_guia_sistema in (5,4) and id_transporte=3)
-                            OR (estado_guia_sistema in (3) and id_transporte=4)"> En Transito </option>
+                            OR (estado_guia_sistema in (3) and id_transporte=4)"> En transito / Procesamiento / En ruta </option>
                             <option value="(estado_guia_sistema BETWEEN 400 AND 403   and id_transporte=2)
                             OR  (estado_guia_sistema in (7)  and id_transporte=1)
                             OR  (estado_guia_sistema in (7)  and id_transporte=3)"> Entregada </option>
