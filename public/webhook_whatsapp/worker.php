@@ -224,7 +224,6 @@ function validar_wait($conn, $id_configuracion, $id_whatsapp_message_template)
     return $resultados;
 }
 
-
 // Función para insertar el mensaje en espera
 function insertar_mensaje_espera($conn, $id_plataforma, $id_cliente, $id_mensaje_insertado, $created_at, $id_whatsapp_message_template)
 {
