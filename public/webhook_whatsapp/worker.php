@@ -140,14 +140,22 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
     // Cerrar la consulta de inserción
     $stmt->close();
 
-    /* validar si existe wait */
+    /* Validar si existe wait */
     $exister_wait = validar_wait($conn, $id_configuracion, $id_whatsapp_message_template);
-    /* fin validar si existe wait  */
 
-    if ($exister_wait) {
-        logError("entro en la condicion del wait");
-        // Llamar a la función para insertar el mensaje en espera
-        insertar_mensaje_espera($conn, $id_plataforma, $id_cliente, $id_mensaje_insertado, $created_at, $id_whatsapp_message_template);
+    /* Fin validar si existe wait */
+    if (!empty($exister_wait)) {
+        // Iterar sobre los resultados para verificar si existe "wait"
+        foreach ($exister_wait as $resultado) {
+            if ($resultado["existe_waite"]) {
+                logError("Entró en la condición del wait");
+                // Llamar a la función para insertar el mensaje en espera
+                insertar_mensaje_espera($conn, $id_plataforma, $id_cliente, $id_mensaje_insertado, $created_at, $id_whatsapp_message_template);
+                break; // Salir del bucle si ya se encontró un resultado válido
+            }
+        }
+    } else {
+        logError("No se encontraron bloques con espera.");
     }
 }
 
