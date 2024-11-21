@@ -566,6 +566,13 @@ class Wallet extends Controller
         echo json_encode($response);
     }
 
+    public function entregaAWallet()
+    {
+        $numero_guia = $_POST['numero_guia'];
+        $response = $this->model->entregaAWallet($numero_guia);
+        echo json_encode($response);
+    }
+
     public function guiasAhistorial()
     {
         $numero_guia = $_POST['numero_guia'];

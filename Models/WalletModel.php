@@ -1572,6 +1572,49 @@ class WalletModel extends Query
         }
         return $responses;
     }
+    public function entregaAwallet($numero_guia)
+    {
+        $sql_select = "SELECT * FROM `facturas_cot` WHERE numero_guia = '$numero_guia'";
+        $response =  $this->select($sql_select);
+        $id_plataforma = $response[0]['id_plataforma'];
+        $id_proveedor = $response[0]['id_propietario'];
+        if ($id_proveedor == $id_plataforma) {
+            $id_proveedor = NULL;
+            $url_proveedor = NULL;
+        } else {
+            $sql_select = "SELECT * FROM `plataformas` WHERE id_plataforma = '$id_proveedor'";
+            $response2 =  $this->select($sql_select);
+            $url_proveedor = $response2[0]['url_imporsuit'];
+        }
+
+        $cliente = $response[0]['nombre'];
+        $fecha_factura = $response[0]['fecha_factura'];
+        $url_tienda_sql = "SELECT * FROM plataformas WHERE id_plataforma = '$id_plataforma'";
+        $url_tienda =  $this->select($url_tienda_sql);
+        $url_tienda = $url_tienda[0]['url_imporsuit'];
+
+        $estado_guia = 7;
+        $total_venta = $response[0]["monto_factura"];
+        $costo = $response[0]["costo_producto"];
+        $precio_envio = $response[0]["costo_flete"];
+
+        $monto_recibir =  $total_venta - $costo - $precio_envio;
+        $valor_pendiente = $total_venta - $costo - $precio_envio;
+        $id_matriz = 1;
+        $cod = $response[0]["cod"];
+        $numero_factura = $response[0]["numero_factura"];
+
+        $sql_insert = "INSERT INTO `cabecera_cuenta_pagar`(`numero_factura`, `id_plataforma`, `id_proveedor`, `cliente`, `fecha`, `tienda`, `proveedor`, `estado_guia`, `total_venta`, `costo`, `precio_envio`, `monto_recibir`, `valor_pendiente`, `id_matriz`, `cod`, `guia`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
+        $response =  $this->insert($sql_insert, array($numero_factura, $id_plataforma, $id_proveedor, $cliente, $fecha_factura, $url_tienda, $url_proveedor, $estado_guia, $total_venta, $costo, $precio_envio, $monto_recibir, $valor_pendiente, $id_matriz, $cod, $numero_guia));
+        if ($response == 1) {
+            $responses["status"] = 200;
+        } else {
+            $responses["status"] = 400;
+            $responses["message"] = $response["message"];
+        }
+        return $responses;
+    }
 
     public function guiasAhistorial($numero_guia)
     {
