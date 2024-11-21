@@ -214,6 +214,7 @@ function recalcular(id, idPrecio, idDescuento, idCantidad) {
 
       /* calcularGuiaDirecta */
       var button2 = document.getElementById("generarGuiaBtn");
+      button2.disabled = true;
 
       var priceSpan = $(this).find(".price-tag span");
       var priceValue = $("#costo_flete").val();
@@ -401,6 +402,7 @@ $(document).ready(function () {
       priceValue !== "Mantenimiento"
     ) {
       var button2 = document.getElementById("generarGuiaBtn");
+      button2.disabled = true;
 
       $("#costo_flete").val(priceValue);
       $("#transportadora_selected").val(selectedCompany);
