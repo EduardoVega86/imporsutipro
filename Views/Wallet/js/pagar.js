@@ -224,6 +224,21 @@ const listFacturas = async () => {
           }
         }
         acreditable = "acreditable";
+      } else if (factura.guia.includes("I00") && factura.estado_guia == 13) {
+        if (factura.valor_pendiente >= 0) {
+          check = "";
+        } else {
+          if (filtro_facturas == "pendientes") {
+            if (factura.visto == 1) {
+              check = "";
+            } else {
+              check = `<input type="checkbox" class="selectCheckbox" data-factura-id_cabecera="${factura.id_cabecera}" data-factura-valor="${factura.monto_recibir}">`;
+            }
+          } else {
+            check = "";
+          }
+        }
+        acreditable = "acreditable";
       } else {
         acreditable = "No acreditable";
       }
