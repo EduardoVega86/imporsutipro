@@ -218,7 +218,7 @@ function validar_wait($conn, $id_configuracion, $id_whatsapp_message_template)
                                 logError("entro en la primera condicion");
                                 logError("bloque_info['id_block']:". $bloque_info['id_block'] . "y tambien:". $block_id_parent);
                                 // Verificar si existe template de WhatsApp y tomar el código del template
-                                if (isset($bloque_info['id_whatsapp_message_template']) && $bloque_info['id_whatsapp_message_template'] == $id_whatsapp_message_template) {
+                                if (isset($bloque_info['id_whatsapp_message_template']) && $bloque_info['id_whatsapp_message_template'] == (string)$id_whatsapp_message_template) {
                                     logError("entro en la segunda condicion");
                                     logError("bloque_info['id_whatsapp_message_template']: ".$bloque_info['id_whatsapp_message_template']);
                                     // Guardar el id_block y detener la búsqueda
