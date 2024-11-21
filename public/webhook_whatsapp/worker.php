@@ -151,7 +151,6 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
         foreach ($exister_wait as $resultado) {
 
             if ($resultado["existe_waite"]) {
-                logError("Entró en la condición del wait");
                 // Llamar a la función para insertar el mensaje en espera
 
                 $posicion_json_output_wait = $resultado["found_block_id"];
@@ -213,15 +212,9 @@ function validar_wait($conn, $id_configuracion, $id_whatsapp_message_template)
                         // Ahora buscar este ID en json_bloques
                         foreach ($json_bloques as $bloque_info) {
                             if ($bloque_info['id_block'] == (string)$block_id_parent) {
-                                logError("entro en la primera condicion");
-                                logError("bloque_info['id_block']:" . $bloque_info['id_block'] . "y tambien:" . $block_id_parent);
-                                logError("id_tempalate_whatsapp: " . $bloque_info['id_whatsapp_message_template']);
-                                logError("id_tempalate_whatsapp 2: " . $id_whatsapp_message_template);
 
                                 // Verificar si existe template de WhatsApp y tomar el código del template
                                 if (isset($bloque_info['id_whatsapp_message_template']) && $bloque_info['id_whatsapp_message_template'] == (string)$id_whatsapp_message_template) {
-                                    logError("entro en la segunda condicion");
-                                    logError("bloque_info['id_whatsapp_message_template']: " . $bloque_info['id_whatsapp_message_template']);
                                     // Guardar el id_block y detener la búsqueda
                                     $found_block_id_parent = $block_id_parent;
                                     $id_template_whatsapp = $bloque_info['id_whatsapp_message_template'];
