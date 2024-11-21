@@ -17,7 +17,9 @@ class DashboardModel extends Query
                 FROM cabecera_cuenta_pagar 
                 WHERE fecha BETWEEN '$fecha_i' AND '$fecha_f' 
                 AND id_plataforma = '$id_plataforma' 
-                AND estado_guia IN (7, 9)";
+                AND estado_guia IN (7, 9)
+                AND visto = 1;
+                ";
         $response = $this->select($sql);
 
         $sql = "SELECT 
@@ -25,6 +27,7 @@ class DashboardModel extends Query
                 FROM cabecera_cuenta_pagar 
                 WHERE fecha BETWEEN '$fecha_i' AND '$fecha_f' 
                 AND id_plataforma = '$id_plataforma' 
+                AND visto = 1;
                 ;";
 
         $response2 = $this->select($sql);
@@ -35,6 +38,7 @@ class DashboardModel extends Query
                 FROM cabecera_cuenta_pagar 
                 WHERE fecha BETWEEN '$fecha_i' AND '$fecha_f' 
                 AND estado_guia = 9 
+                 AND visto = 1;
                 AND id_plataforma = '$id_plataforma'";
         $response3 = $this->select($sql);
 
@@ -64,6 +68,7 @@ class DashboardModel extends Query
             fecha BETWEEN DATE_FORMAT(NOW(), '%Y-%m-01') AND LAST_DAY(NOW()) 
             AND id_plataforma LIKE '%$id_plataforma%' 
             AND estado_guia = 7 
+            AND visto = 1;
         GROUP BY 
             dia 
         ORDER BY 
