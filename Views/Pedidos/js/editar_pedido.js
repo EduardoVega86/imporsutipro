@@ -269,12 +269,14 @@ function recalcular(id_producto, id, idPrecio, idDescuento, idCantidad) {
 
           calcularTarifas();
 
-          if (response.generar == false) {
-            button2.disabled = true;
-            $("#alerta_valoresContra").show();
-          } else {
-            button2.disabled = false;
-            $("#alerta_valoresContra").hide();
+          if (response.resultante > 0) {
+            if (response.generar == false) {
+              button2.disabled = true;
+              $("#alerta_valoresContra").show();
+            } else {
+              button2.disabled = false;
+              $("#alerta_valoresContra").hide();
+            }
           }
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -521,7 +523,6 @@ $(document).ready(function () {
       priceValue !== "Mantenimiento"
     ) {
       var button2 = document.getElementById("generarGuiaBtn");
-      button2.disabled = false;
 
       $("#costo_flete").val(priceValue);
       $("#transportadora_selected").val(selectedCompany);
@@ -556,12 +557,14 @@ $(document).ready(function () {
           $("#fulfillment_infoVenta").text(response.full);
           $("#total_infoVenta").text(response.resultante);
 
-          if (response.generar == false) {
-            button2.disabled = true;
-            $("#alerta_valoresContra").show();
-          } else {
-            button2.disabled = false;
-            $("#alerta_valoresContra").hide();
+          if (response.resultante > 0) {
+            if (response.generar == false) {
+              button2.disabled = true;
+              $("#alerta_valoresContra").show();
+            } else {
+              button2.disabled = false;
+              $("#alerta_valoresContra").hide();
+            }
           }
         },
         error: function (jqXHR, textStatus, errorThrown) {
