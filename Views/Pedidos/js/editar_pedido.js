@@ -205,6 +205,9 @@ const listNuevoPedido = async () => {
 };
 
 function recalcular(id_producto, id, idPrecio, idDescuento, idCantidad) {
+  var button2 = document.getElementById("generarGuiaBtn");
+  button2.disabled = true;
+
   const precio = parseFloat(document.getElementById(idPrecio).value);
   const descuento = parseFloat(document.getElementById(idDescuento).value);
   const cantidad = parseFloat(document.getElementById(idCantidad).value);
@@ -240,7 +243,6 @@ function recalcular(id_producto, id, idPrecio, idDescuento, idCantidad) {
       await initDataTableNuevoPedido();
 
       /* calcularGuiaDirecta */
-      var button2 = document.getElementById("generarGuiaBtn");
 
       var priceSpan = $(this).find(".price-tag span");
       var priceValue = $("#costo_flete").val();
@@ -269,12 +271,14 @@ function recalcular(id_producto, id, idPrecio, idDescuento, idCantidad) {
 
           calcularTarifas();
 
-          if (response.generar == false) {
-            button2.disabled = true;
-            $("#alerta_valoresContra").show();
-          } else {
-            button2.disabled = false;
-            $("#alerta_valoresContra").hide();
+          if (response.resultante > 0) {
+            if (response.generar == false) {
+              button2.disabled = true;
+              $("#alerta_valoresContra").show();
+            } else {
+              button2.disabled = false;
+              $("#alerta_valoresContra").hide();
+            }
           }
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -521,7 +525,7 @@ $(document).ready(function () {
       priceValue !== "Mantenimiento"
     ) {
       var button2 = document.getElementById("generarGuiaBtn");
-      button2.disabled = false;
+      button2.disabled = true;
 
       $("#costo_flete").val(priceValue);
       $("#transportadora_selected").val(selectedCompany);
@@ -556,12 +560,14 @@ $(document).ready(function () {
           $("#fulfillment_infoVenta").text(response.full);
           $("#total_infoVenta").text(response.resultante);
 
-          if (response.generar == false) {
-            button2.disabled = true;
-            $("#alerta_valoresContra").show();
-          } else {
-            button2.disabled = false;
-            $("#alerta_valoresContra").hide();
+          if (response.resultante > 0) {
+            if (response.generar == false) {
+              button2.disabled = true;
+              $("#alerta_valoresContra").show();
+            } else {
+              button2.disabled = false;
+              $("#alerta_valoresContra").hide();
+            }
           }
         },
         error: function (jqXHR, textStatus, errorThrown) {
