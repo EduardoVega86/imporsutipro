@@ -150,8 +150,6 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
         // Iterar sobre los resultados para verificar si existe "wait"
         foreach ($exister_wait as $resultado) {
 
-            logError($resultado["existe_waite"]);
-
             if ($resultado["existe_waite"]) {
                 logError("Entró en la condición del wait");
                 // Llamar a la función para insertar el mensaje en espera
@@ -253,7 +251,7 @@ function validar_wait($conn, $id_configuracion, $id_whatsapp_message_template)
 // Función para insertar el mensaje en espera
 function insertar_mensaje_espera($conn, $id_plataforma, $id_cliente, $id_mensaje_insertado, $created_at, $id_whatsapp_message_template, $posicion_json_output_wait, $id_automatizador_wait)
 {
-    $stmt = $conn->prepare("INSERT INTO mensajes_espera (id_plataforma, id_cliente_chat_center, id_mensajes_clientes, estado, posicion_json_output_wait, id_automatizador_wait, id_whatsapp_message_template, fecha_envio) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO mensajes_espera (id_plataforma, id_cliente_chat_center, id_mensajes_clientes, estado, posicion_json_output_wait, id_automatizador, id_whatsapp_message_template, fecha_envio) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
     if ($stmt === false) {
         logError("Failed to prepare insertar_mensaje_espera query: " . $conn->error);
         return;
