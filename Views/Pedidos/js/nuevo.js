@@ -179,6 +179,9 @@ const listNuevoPedido = async () => {
 };
 
 function recalcular(id, idPrecio, idDescuento, idCantidad) {
+  var button2 = document.getElementById("generarGuiaBtn");
+  button2.disabled = true;
+
   const precio = parseFloat(document.getElementById(idPrecio).value);
   const descuento = parseFloat(document.getElementById(idDescuento).value);
   const cantidad = parseFloat(document.getElementById(idCantidad).value);
@@ -213,8 +216,6 @@ function recalcular(id, idPrecio, idDescuento, idCantidad) {
       await initDataTableNuevoPedido();
 
       /* calcularGuiaDirecta */
-      var button2 = document.getElementById("generarGuiaBtn");
-      button2.disabled = true;
 
       var priceSpan = $(this).find(".price-tag span");
       var priceValue = $("#costo_flete").val();
