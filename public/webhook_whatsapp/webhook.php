@@ -1096,7 +1096,7 @@ function estado_mensaje_espera($conn, $id_cliente)
             return;
         }
 
-        $estado = 0;
+        $estado = 1;
         $id_para_actualizar = $id_wait;
 
         // Vincular los parámetros
