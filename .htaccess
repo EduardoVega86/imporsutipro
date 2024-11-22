@@ -1,20 +1,21 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    # Comprobar si la solicitud tiene un encabezado 'Origin'
-    RewriteCond %{HTTP:Origin} ^(https?://(?:automatizador\.imporsuitpro\.com|app1\.example\.com|app2\.example\.com|automatizador\.merkapro\.ec))$
-    RewriteRule .* - [E=ORIGIN:%{HTTP:Origin}]
+    # Si el encabezado Origin coincide con los dominios permitidos
+    RewriteCond %{HTTP:Origin} ^https?://(automatizador\.imporsuitpro\.com|app1\.example\.com|app2\.example\.com|automatizador\.merkapro\.ec)$ [NC]
+    RewriteRule .* - [E=ORIGIN:%{escape:%{HTTP:Origin}}]
 
-    # Si no es un dominio permitido, usar '*'
-    RewriteCond %{HTTP:Origin} !(automatizador\.imporsuitpro\.com|app1\.example\.com|app2\.example\.com|automatizador\.merkapro\.ec)
+    # Si el encabezado Origin no está presente o no coincide, usar '*'
+    RewriteCond %{HTTP:Origin} !^https?://(automatizador\.imporsuitpro\.com|app1\.example\.com|app2\.example\.com|automatizador\.merkapro\.ec)$ [NC,OR]
+    RewriteCond %{HTTP:Origin} =""
     RewriteRule .* - [E=ORIGIN:*]
 </IfModule>
 
 <IfModule mod_headers.c>
     Header set Access-Control-Allow-Origin "%{ORIGIN}e" env=ORIGIN
-    Header set Access-Control-Allow-Credentials "true"
-    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS, DELETE, PUT"
-    Header set Access-Control-Allow-Headers "Content-Type, Authorization"
+    Header set Access-Control-Allow-Credentials "true" env=ORIGIN
+    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS, DELETE, PUT" env=ORIGIN
+    Header set Access-Control-Allow-Headers "Content-Type, Authorization" env=ORIGIN
 </IfModule>
 
 # Opciones básicas del servidor
