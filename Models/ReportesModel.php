@@ -20,4 +20,11 @@ class ReportesModel extends Query
             ];
         }
     }
+
+    public function getReporte($anio, $mes, $plataforma)
+    {
+        $sql = "SELECT * FROM `reportes_v1_guias` WHERE YEAR(`Fecha de Creación del Pedido`) = ? AND MONTH(`Fecha de Creación del Pedido`) = ? AND `id_plataforma` = ?";
+        $data = $this->dselect($sql, [$anio, $mes, $plataforma]);
+        return $data;
+    }
 }
