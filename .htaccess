@@ -1,4 +1,3 @@
-LogLevel alert rewrite:trace6
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
