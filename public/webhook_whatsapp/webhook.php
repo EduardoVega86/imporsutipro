@@ -1039,6 +1039,58 @@ function descargarStickerWhatsapp($mediaId, $accessToken)
 }
 /* Fin guardar stikers en servidor */
 
+/* cambiar estado mensaje_espera */
+function estado_mensaje_espera($conn, $id_cliente)
+{
+
+    $id_ultimo_mensaje = "";
+
+    $check_mensaje_cliente_stmt = $conn->prepare("SELECT id FROM `mensajes_clientes` WHERE celular_recibe = ? ORDER BY `mensajes_clientes`.`id` DESC LIMIT 1;");
+    $check_mensaje_cliente_stmt->bind_param('i', $id_cliente);
+    $check_mensaje_cliente_stmt->execute();
+    $check_mensaje_cliente_stmt->store_result();
+    $check_mensaje_cliente_stmt->bind_result($id_ultimo_mensaje);
+    $check_mensaje_cliente_stmt->fetch();
+    $check_mensaje_cliente_stmt->close();
+
+    $id_wait = "";
+    $id_ultimo_mensaje_wait = "";
+
+    $check_mensajes_espera_stmt = $conn->prepare("SELECT id, id_mensajes_clientes FROM `mensajes_espera` WHERE id_cliente_chat_center = ? LIMIT 1;");
+    $check_mensajes_espera_stmt->bind_param('i', $id_cliente);
+    $check_mensajes_espera_stmt->execute();
+    $check_mensajes_espera_stmt->store_result();
+    $check_mensajes_espera_stmt->bind_result($id_wait, $id_ultimo_mensaje_wait);
+    $check_mensajes_espera_stmt->fetch();
+    $check_mensajes_espera_stmt->close();
+
+
+    if ($id_ultimo_mensaje != $id_ultimo_mensaje_wait) {
+        $update_mensajes_espera_stmt = $conn->prepare("UPDATE `mensajes_espera` SET estado = ? WHERE id = ?");
+        if (!$update_mensajes_espera_stmt) {
+            // Manejar errores en la preparación
+            die("Error al preparar el statement: " . $conn->error);
+        }
+
+        $estado = 0;
+        $id_para_actualizar = $id_wait;
+
+        // Vincular los parámetros
+        $update_mensajes_espera_stmt->bind_param('ii', $estado, $id_para_actualizar);
+
+        // Ejecutar el statement
+        if ($update_mensajes_espera_stmt->execute()) {
+            echo "Registro actualizado exitosamente.";
+        } else {
+            echo "Error al actualizar el registro: " . $update_mensajes_espera_stmt->error;
+        }
+
+        // Cerrar el statement
+        $update_mensajes_espera_stmt->close();
+    }
+}
+/* Fin cambiar estado mensaje_espera */
+
 // Procesar el mensaje basado en el tipo recibido
 switch ($tipo_mensaje) {
     case 'text':
@@ -1229,6 +1281,10 @@ $check_idCliente_configuracion_stmt->bind_result($id_cliente_configuracion);
 $check_idCliente_configuracion_stmt->fetch();
 $check_idCliente_configuracion_stmt->close();
 /* Fin obtener id_cliente_configuracion */
+
+/* validar mensaje_espera */
+estado_mensaje_espera($conn, $id_cliente);
+/* Fin validar mensaje_espera */
 
 // Ahora puedes proceder a insertar el mensaje en la tabla mensajes_clientes
 $stmt = $conn->prepare("
