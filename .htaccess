@@ -1,11 +1,12 @@
+LogLevel alert rewrite:trace6
+
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    # Si el encabezado Origin coincide con los dominios permitidos
+    # Reglas para CORS
     RewriteCond %{HTTP:Origin} ^https?://(automatizador\.imporsuitpro\.com|app1\.example\.com|app2\.example\.com|automatizador\.merkapro\.ec)$ [NC]
     RewriteRule .* - [E=ORIGIN:%{escape:%{HTTP:Origin}}]
 
-    # Si el encabezado Origin no está presente o no coincide, usar '*'
     RewriteCond %{HTTP:Origin} !^https?://(automatizador\.imporsuitpro\.com|app1\.example\.com|app2\.example\.com|automatizador\.merkapro\.ec)$ [NC,OR]
     RewriteCond %{HTTP:Origin} =""
     RewriteRule .* - [E=ORIGIN:*]
@@ -20,8 +21,10 @@
 
 # Opciones básicas del servidor
 Options All -Indexes
+
+# Reglas de reescritura para rutas amigables
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+RewriteRule ^([\w\-/]*)$ index.php?url=$1 [QSA,L,B]
 
 AddType audio/ogg .ogg
