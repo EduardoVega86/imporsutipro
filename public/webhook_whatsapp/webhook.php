@@ -1042,34 +1042,58 @@ function descargarStickerWhatsapp($mediaId, $accessToken)
 /* cambiar estado mensaje_espera */
 function estado_mensaje_espera($conn, $id_cliente)
 {
+    // Archivo de log
+    $debug_file = 'debug_log.txt';
 
     $id_ultimo_mensaje = "";
 
+    file_put_contents($debug_file, "Inicio de estado_mensaje_espera para cliente: $id_cliente\n", FILE_APPEND);
+
+    // Verificar último mensaje del cliente
     $check_mensaje_cliente_stmt = $conn->prepare("SELECT id FROM `mensajes_clientes` WHERE celular_recibe = ? ORDER BY `mensajes_clientes`.`id` DESC LIMIT 1;");
+    if (!$check_mensaje_cliente_stmt) {
+        file_put_contents($debug_file, "Error al preparar SELECT en mensajes_clientes: " . $conn->error . "\n", FILE_APPEND);
+        return;
+    }
     $check_mensaje_cliente_stmt->bind_param('i', $id_cliente);
     $check_mensaje_cliente_stmt->execute();
     $check_mensaje_cliente_stmt->store_result();
-    $check_mensaje_cliente_stmt->bind_result($id_ultimo_mensaje);
-    $check_mensaje_cliente_stmt->fetch();
+    if ($check_mensaje_cliente_stmt->num_rows > 0) {
+        $check_mensaje_cliente_stmt->bind_result($id_ultimo_mensaje);
+        $check_mensaje_cliente_stmt->fetch();
+        file_put_contents($debug_file, "Último mensaje del cliente obtenido: $id_ultimo_mensaje\n", FILE_APPEND);
+    } else {
+        file_put_contents($debug_file, "No se encontraron mensajes para el cliente: $id_cliente\n", FILE_APPEND);
+    }
     $check_mensaje_cliente_stmt->close();
 
     $id_wait = "";
     $id_ultimo_mensaje_wait = "";
 
+    // Verificar mensajes en espera
     $check_mensajes_espera_stmt = $conn->prepare("SELECT id, id_mensajes_clientes FROM `mensajes_espera` WHERE id_cliente_chat_center = ? LIMIT 1;");
+    if (!$check_mensajes_espera_stmt) {
+        file_put_contents($debug_file, "Error al preparar SELECT en mensajes_espera: " . $conn->error . "\n", FILE_APPEND);
+        return;
+    }
     $check_mensajes_espera_stmt->bind_param('i', $id_cliente);
     $check_mensajes_espera_stmt->execute();
     $check_mensajes_espera_stmt->store_result();
-    $check_mensajes_espera_stmt->bind_result($id_wait, $id_ultimo_mensaje_wait);
-    $check_mensajes_espera_stmt->fetch();
+    if ($check_mensajes_espera_stmt->num_rows > 0) {
+        $check_mensajes_espera_stmt->bind_result($id_wait, $id_ultimo_mensaje_wait);
+        $check_mensajes_espera_stmt->fetch();
+        file_put_contents($debug_file, "Mensaje en espera obtenido: ID=$id_wait, id_mensajes_clientes=$id_ultimo_mensaje_wait\n", FILE_APPEND);
+    } else {
+        file_put_contents($debug_file, "No se encontraron mensajes en espera para el cliente: $id_cliente\n", FILE_APPEND);
+    }
     $check_mensajes_espera_stmt->close();
 
-
+    // Comparar y actualizar si es necesario
     if ($id_ultimo_mensaje != $id_ultimo_mensaje_wait) {
         $update_mensajes_espera_stmt = $conn->prepare("UPDATE `mensajes_espera` SET estado = ? WHERE id = ?");
         if (!$update_mensajes_espera_stmt) {
-            // Manejar errores en la preparación
-            die("Error al preparar el statement: " . $conn->error);
+            file_put_contents($debug_file, "Error al preparar UPDATE en mensajes_espera: " . $conn->error . "\n", FILE_APPEND);
+            return;
         }
 
         $estado = 0;
@@ -1080,13 +1104,14 @@ function estado_mensaje_espera($conn, $id_cliente)
 
         // Ejecutar el statement
         if ($update_mensajes_espera_stmt->execute()) {
-            echo "Registro actualizado exitosamente.";
+            file_put_contents($debug_file, "Registro actualizado exitosamente. ID=$id_para_actualizar, nuevo estado=$estado\n", FILE_APPEND);
         } else {
-            echo "Error al actualizar el registro: " . $update_mensajes_espera_stmt->error;
+            file_put_contents($debug_file, "Error al actualizar el registro: " . $update_mensajes_espera_stmt->error . "\n", FILE_APPEND);
         }
 
-        // Cerrar el statement
         $update_mensajes_espera_stmt->close();
+    } else {
+        file_put_contents($debug_file, "No se requiere actualizar: último mensaje coincide con mensaje en espera.\n", FILE_APPEND);
     }
 }
 /* Fin cambiar estado mensaje_espera */
