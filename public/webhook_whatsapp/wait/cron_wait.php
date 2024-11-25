@@ -93,6 +93,8 @@ function validarTiempo($conn)
                     if ($estado == 1) {
                         $condicion = "1";
                         enviar_template($conn, $json_output, $json_bloques, $posicion_json_output_wait, $condicion, $id_automatizador, $id_configuracion, $id_cliente_chat_center);
+
+                        eliminar_mensaje_espera($conn, $id_mensaje_espera);
                     } else {
                         // Obtener la cantidad de horas a verificar según la clave
                         $horas_a_verificar = [0 => 1, 1 => 2, 2 => 3, 3 => 5, 4 => 12, 5 => 24];
@@ -133,6 +135,37 @@ function validarTiempo($conn)
         }
     } catch (Exception $e) {
         logError("Error en validarTiempo: " . $e->getMessage());
+    }
+}
+
+function eliminar_mensaje_espera($conn, $id_mensaje_espera)
+{
+    // Consulta para eliminar el mensaje de espera
+    $query = "DELETE FROM `mensajes_espera` WHERE id = ?";
+
+    // Preparar la consulta
+    $stmt = $conn->prepare($query);
+
+    if ($stmt) {
+        // Vincular el parámetro
+        $stmt->bind_param('i', $id_mensaje_espera);
+
+        // Ejecutar la consulta
+        if ($stmt->execute()) {
+            // Verificar cuántas filas fueron afectadas
+            if ($stmt->affected_rows > 0) {
+                logError("El mensaje de espera con ID " . $id_mensaje_espera . " fue eliminado correctamente.");
+            } else {
+                logError("No se encontró ningún mensaje de espera con el ID proporcionado.");
+            }
+        } else {
+            logError("Error al ejecutar la consulta: " . $stmt->error);
+        }
+
+        // Cerrar el statement
+        $stmt->close();
+    } else {
+        logError("Error al preparar la consulta: " . $conn->error);
     }
 }
 
@@ -226,37 +259,6 @@ function enviar_template($conn, $json_output, $json_bloques, $posicion_json_outp
                 }
             }
         }
-    }
-}
-
-function eliminar_mensaje_espera($conn, $id_mensaje_espera)
-{
-    // Consulta para eliminar el mensaje de espera
-    $query = "DELETE FROM `mensajes_espera` WHERE id = ?";
-
-    // Preparar la consulta
-    $stmt = $conn->prepare($query);
-
-    if ($stmt) {
-        // Vincular el parámetro
-        $stmt->bind_param('i', $id_mensaje_espera);
-
-        // Ejecutar la consulta
-        if ($stmt->execute()) {
-            // Verificar cuántas filas fueron afectadas
-            if ($stmt->affected_rows > 0) {
-                logError("El mensaje de espera con ID " . $id_mensaje_espera . " fue eliminado correctamente.");
-            } else {
-                logError("No se encontró ningún mensaje de espera con el ID proporcionado.");
-            }
-        } else {
-            logError("Error al ejecutar la consulta: " . $stmt->error);
-        }
-
-        // Cerrar el statement
-        $stmt->close();
-    } else {
-        logError("Error al preparar la consulta: " . $conn->error);
     }
 }
 
