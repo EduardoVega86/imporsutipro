@@ -442,8 +442,8 @@ class Pedidos extends Controller
         $fecha_fin = isset($_POST['fecha_fin']) ? $this->sanitizeDate($_POST['fecha_fin']) : "";
         $transportadora = isset($_POST['transportadora']) ? $this->sanitizeString($_POST['transportadora']) : "";
         $estado = isset($_POST['estado']) ? $this->sanitizeString($_POST['estado']) : "";
-        $drogshipin = isset($_POST['drogshipin']) ? intval($_POST['drogshipin']) : "";
-        $impreso = isset($_POST['impreso']) ? intval($_POST['impreso']) : "";
+        $drogshipin = $_POST['drogshipin'] ?? "";
+        $impreso = $_POST['impreso'] ?? "";
         $limit = isset($_POST['limit']) ? max(1, intval($_POST['limit'])) : 10; // Evita valores negativos o 0
         $page = isset($_POST['page']) ? max(1, intval($_POST['page'])) : 1;
 
