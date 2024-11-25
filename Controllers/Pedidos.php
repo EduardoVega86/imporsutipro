@@ -463,7 +463,7 @@ class Pedidos extends Controller
         );
 
         // Obtener el conteo total
-        $totalData  = count($data['data']);
+        $totalData  = count($data);
 
         // Construir la respuesta
         $json_data = [
