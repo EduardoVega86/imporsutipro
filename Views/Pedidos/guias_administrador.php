@@ -62,25 +62,12 @@
                     <label for="inputPassword3" class="col-sm-2 col-form-label">Estado</label>
                     <div>
                         <select name="estado_q" class="form-control" id="estado_q">
-                            <option value=""> Seleccione Estado </option>
-                            <option value="(estado_guia_sistema in (100,102,103) and id_transporte=2)
-                            OR (estado_guia_sistema in (1,2) and id_transporte=1)
-                            or (estado_guia_sistema in (1,2,3) and id_transporte=3)
-                            or (estado_guia_sistema in (2) and id_transporte=4)"> Generada/ Por Recolectar </option>
-                            <option value="(estado_guia_sistema BETWEEN 300 AND 317 and id_transporte=2)
-                            OR (estado_guia_sistema in (5,11,12,6) and id_transporte=1)
-                            OR (estado_guia_sistema in (5,4) and id_transporte=3)
-                            OR (estado_guia_sistema in (3) and id_transporte=4)"> En transito / Procesamiento / En ruta </option>
-                            <option value="(estado_guia_sistema BETWEEN 400 AND 403   and id_transporte=2)
-                            OR  (estado_guia_sistema in (7)  and id_transporte=1)
-                            OR  (estado_guia_sistema in (7)  and id_transporte=3)"> Entregada </option>
-                            <option value="(estado_guia_sistema BETWEEN 320 AND 351 and id_transporte=2)
-                            OR  (estado_guia_sistema in (14) and id_transporte=1)
-                            OR  (estado_guia_sistema in (6) and id_transporte=3)"> Novedad </option>
-                            <option value="(estado_guia_sistema BETWEEN 500 AND 502 and id_transporte=2)
-                            OR (estado_guia_sistema in (9) and id_transporte=2)
-                            OR (estado_guia_sistema in (9) and id_transporte=4)
-                            OR (estado_guia_sistema in (8,9,13) and id_transporte=3)"> Devolucion </option>
+                            <option value="">Seleccione Estado</option>
+                            <option value="generada">Generada/ Por Recolectar</option>
+                            <option value="en_transito">En transito / Procesamiento / En ruta</option>
+                            <option value="entregada">Entregada</option>
+                            <option value="novedad">Novedad</option>
+                            <option value="devolucion">Devolución</option>
                         </select>
                     </div>
                 </div>
