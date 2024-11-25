@@ -368,6 +368,8 @@ function enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_
         $check_configuracion_cliente_stmt->fetch();
         $check_configuracion_cliente_stmt->close();
 
+        logError("Mensaje template: " . $mensaje);
+
         // Guardar el mensaje enviado como un registro en la base de datos
         $tipo_mensaje = "text";
         $texto_mensaje = $mensaje;
