@@ -29,6 +29,20 @@ function logError($message)
     file_put_contents($logFile, "[$timestamp] $message\n", FILE_APPEND);
 }
 
+function checkConnection($conn) {
+    if (!$conn->ping()) {
+        global $conn; // Asegúrate de usar la variable global $conn
+        logError("Conexión a MySQL perdida. Intentando reconectar...");
+        $conn = new mysqli(HOST, USER, PASSWORD, DB);
+
+        if ($conn->connect_error) {
+            logError("Error al reconectar a MySQL: " . $conn->connect_error);
+            die("Error al reconectar a MySQL: " . $conn->connect_error);
+        }
+    }
+}
+
+
 // Establecer conexión con la base de datos
 $conn = new mysqli(HOST, USER, PASSWORD, DB);
 
@@ -44,6 +58,9 @@ function insertMessageDetails($conn, $id_automatizador, $uid_whatsapp, $mensaje,
     $uid_cliente = "";
     $id_cliente = "";
     $telefono_configuracion = "";
+
+    // Verificar conexión activa
+    checkConnection($conn);
 
     /* Consulta configuración */
     $check_configuracion_stmt = $conn->prepare("SELECT id_plataforma, id_telefono, telefono FROM configuraciones WHERE id = ?");
@@ -283,6 +300,9 @@ try {
 // Bucle principal del Worker
 while (true) {
     try {
+        // Verificar conexión activa
+        checkConnection($conn);
+
         $message_json = $redis->rPop("message_queue");
 
         if ($message_json) {
