@@ -441,7 +441,9 @@ class Pedidos extends Controller
         $json_data = [
             "recordsTotal" => intval($totalData), // Total de registros sin filtrar
             "recordsFiltered" => intval($totalData), // Total de registros después de aplicar filtros
-            "data" => $data // Los datos de la página actual
+            "data" => $data, // Los datos de la página actual
+            "start" => $start,
+            "length" => $length
         ];
 
         echo json_encode($json_data);
