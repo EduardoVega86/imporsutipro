@@ -410,6 +410,8 @@ class PedidosModel extends Query
 
         $sql .= " ORDER BY fc.numero_factura DESC";
 
+        echo $sql;
+
         return $this->select($sql);
     }
 
