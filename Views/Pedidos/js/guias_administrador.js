@@ -345,11 +345,10 @@ function transito(id_cabecera) {
           positionClass: "toast-bottom-center",
         });
       } else if (response.status == 200) {
-        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+        toastr.success("CAMBIO REALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
       }
-      initDataTable();
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
@@ -369,11 +368,10 @@ function entregar(id_cabecera) {
           positionClass: "toast-bottom-center",
         });
       } else if (response.status == 200) {
-        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+        toastr.success("CAMBIO REALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
       }
-      initDataTable();
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
@@ -393,11 +391,10 @@ function devolucion(id_cabecera) {
           positionClass: "toast-bottom-center",
         });
       } else if (response.status == 200) {
-        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+        toastr.success("CANBIO REALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
       }
-      initDataTable();
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
