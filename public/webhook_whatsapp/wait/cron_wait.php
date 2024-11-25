@@ -37,12 +37,18 @@ function validarTiempo($conn)
 {
     try {
         // Aquí puedes agregar tu lógica específica
-        $sql = "SELECT * FROM mensajes_espera WHERE estado = 0 AND tiempo < NOW()";
+        $sql = "SELECT * FROM mensajes_espera";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
+                $estado = $row["estado"];
                 
+                 if ($estado == 1){
+
+                 } else if (){
+
+                 }
             }
         } else {
             logError("No hay registros pendientes.");

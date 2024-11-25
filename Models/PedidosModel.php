@@ -204,7 +204,7 @@ class PedidosModel extends Query
                 $sql .= " AND estado_factura = '$despachos'";
             }
         }
-        //echo $sql;
+        echo $sql;
         return $this->select($sql);
     }
 
