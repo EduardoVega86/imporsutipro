@@ -430,8 +430,8 @@ class Pedidos extends Controller
         $estado = $_POST['estado'] ?? "";
         $drogshipin = $_POST['drogshipin'] ?? "";
         $impreso = $_POST['impreso'] ?? "";
-        $start = $_POST['start'] ?? 0; // Índice de la primera fila a mostrar
-        $length = $_POST['length'] ?? 25; // Número de filas por página
+        $start = $_POST['page'] * $_POST['limit'] || 0; // Número de filas a saltar
+        $length = $_POST['limit'] ?? 10; // Número de filas por página
 
         $data = $this->model->cargarGuiasAdministrador2($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $start, $length);
 
