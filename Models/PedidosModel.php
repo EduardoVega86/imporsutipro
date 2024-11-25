@@ -317,6 +317,8 @@ class PedidosModel extends Query
         // Añadir paginación
         $sql .= " ORDER BY fc.numero_factura DESC LIMIT $start, $length";
 
+        echo $sql;
+
 
         $response =  $this->select($sql);
 
@@ -409,8 +411,6 @@ class PedidosModel extends Query
         }
 
         $sql .= " ORDER BY fc.numero_factura DESC";
-
-        echo $sql;
 
         return $this->select($sql);
     }
