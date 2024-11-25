@@ -430,7 +430,7 @@ class Pedidos extends Controller
         $estado = $_POST['estado'] ?? "";
         $drogshipin = $_POST['drogshipin'] ?? "";
         $impreso = $_POST['impreso'] ?? "";
-        $start = $_POST['page'] * $_POST['limit'] || 0; // Número de filas a saltar
+        $start = ($_POST['page'] ?? 0) * ($_POST['limit'] ?? 10); // Número de filas a saltar
         $length = $_POST['limit'] ?? 10; // Número de filas por página
 
         $data = $this->model->cargarGuiasAdministrador2($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $start, $length);
@@ -448,6 +448,7 @@ class Pedidos extends Controller
 
         echo json_encode($json_data);
     }
+
 
     public function obtener_guiasAnuladas_admin()
     {
