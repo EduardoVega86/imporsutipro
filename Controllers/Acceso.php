@@ -138,4 +138,18 @@ class Acceso extends Controller
         }
         echo json_encode($response);
     }
+
+    public function jwt_home($token)
+    {
+        //separar token mediante: -||-
+        $token = explode("-||-", $token);
+        //verificar si el token es valido
+        $response = $this->model->jwt($token[0], $token[1]);
+
+        if ($response["status"] == 200) {
+            header("Location:  " . SERVERURL . 'dashboard/home');
+            exit;
+        }
+        echo json_encode($response);
+    }
 }
