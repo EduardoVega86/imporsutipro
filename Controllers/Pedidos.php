@@ -41,9 +41,6 @@ class Pedidos extends Controller
     }
     public function guias_administrador_2($filtro = "")
     {
-        if (!$this->isAuth()) {
-            header("Location: " . SERVERURL . "login");
-        }
         $this->views->render($this, "guias_administrador_2");
     }
     public function anuladas($filtro = "")
@@ -442,7 +439,6 @@ class Pedidos extends Controller
         $totalData = $this->model->contarTotalGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin);
 
         $json_data = [
-            "draw" => intval($_POST['draw']), // Valor incrementado automáticamente por DataTables
             "recordsTotal" => intval($totalData), // Total de registros sin filtrar
             "recordsFiltered" => intval($totalData), // Total de registros después de aplicar filtros
             "data" => $data // Los datos de la página actual
