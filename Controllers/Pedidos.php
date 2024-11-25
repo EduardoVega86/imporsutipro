@@ -421,32 +421,70 @@ class Pedidos extends Controller
         $data = $this->model->cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos);
         echo json_encode($data);
     }
+    private function sanitizeDate($date)
+    {
+        $timestamp = strtotime($date);
+        if ($timestamp === false) {
+            throw new InvalidArgumentException("Fecha inválida: $date");
+        }
+        return date('Y-m-d', $timestamp); // Retorna formato estándar
+    }
+
+    private function sanitizeString($string)
+    {
+        return htmlspecialchars(trim($string), ENT_QUOTES, 'UTF-8');
+    }
 
     public function obtener_guiasAdministrador2()
     {
-        $fecha_inicio = $_POST['fecha_inicio'] ?? "";
-        $fecha_fin = $_POST['fecha_fin'] ?? "";
-        $transportadora = $_POST['transportadora'] ?? "";
-        $estado = $_POST['estado'] ?? "";
-        $drogshipin = $_POST['drogshipin'] ?? "";
-        $impreso = $_POST['impreso'] ?? "";
-        $start = ($_POST['page'] ?? 0) * ($_POST['limit'] ?? 10); // Número de filas a saltar
-        $length = $_POST['limit'] ?? 10; // Número de filas por página
+        // Validación de entrada con valores predeterminados
+        $fecha_inicio = isset($_POST['fecha_inicio']) ? $this->sanitizeDate($_POST['fecha_inicio']) : "";
+        $fecha_fin = isset($_POST['fecha_fin']) ? $this->sanitizeDate($_POST['fecha_fin']) : "";
+        $transportadora = isset($_POST['transportadora']) ? $this->sanitizeString($_POST['transportadora']) : "";
+        $estado = isset($_POST['estado']) ? $this->sanitizeString($_POST['estado']) : "";
+        $drogshipin = isset($_POST['drogshipin']) ? intval($_POST['drogshipin']) : null;
+        $impreso = isset($_POST['impreso']) ? intval($_POST['impreso']) : null;
+        $limit = isset($_POST['limit']) ? max(1, intval($_POST['limit'])) : 10; // Evita valores negativos o 0
+        $page = isset($_POST['page']) ? max(1, intval($_POST['page'])) : 1;
 
-        $data = $this->model->cargarGuiasAdministrador2($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $start, $length);
+        // Calcular el offset para la consulta SQL
+        $start = ($page - 1) * $limit;
 
-        // Contar el total de registros sin limit
-        $totalData = $this->model->contarTotalGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin);
+        // Obtener los datos
+        $data = $this->model->cargarGuiasAdministrador2(
+            $fecha_inicio,
+            $fecha_fin,
+            $transportadora,
+            $estado,
+            $impreso,
+            $drogshipin,
+            $start,
+            $limit
+        );
 
+        // Obtener el conteo total
+        $totalData = $this->model->contarTotalGuiasAdministrador(
+            $fecha_inicio,
+            $fecha_fin,
+            $transportadora,
+            $estado,
+            $impreso,
+            $drogshipin
+        );
+
+        // Construir la respuesta
         $json_data = [
-            "recordsTotal" => intval($totalData), // Total de registros sin filtrar
-            "recordsFiltered" => intval($totalData), // Total de registros después de aplicar filtros
-            "data" => $data, // Los datos de la página actual
-            "start" => $start,
-            "length" => $length
+            "success" => true,
+            "message" => "Datos cargados correctamente.",
+            "recordsTotal" => intval($totalData),
+            "recordsFiltered" => intval($totalData),
+            "data" => $data,
+            "page" => $page,
+            "limit" => $limit,
         ];
 
-        echo json_encode($json_data);
+        // Responder en formato JSON
+        echo json_encode($json_data, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
     }
 
 
