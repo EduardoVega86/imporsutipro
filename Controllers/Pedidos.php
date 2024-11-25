@@ -463,7 +463,14 @@ class Pedidos extends Controller
         );
 
         // Obtener el conteo total
-        $totalData = count($data);
+        $totalData = $this->model->contarTotalGuiasAdministrador(
+            $fecha_inicio,
+            $fecha_fin,
+            $transportadora,
+            $estado,
+            $impreso,
+            $drogshipin
+        );
 
         // Construir la respuesta
         $json_data = [
