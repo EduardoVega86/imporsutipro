@@ -24,8 +24,7 @@ class Guias extends Controller
     }
     public function generarLaar()
     {
-        if (!$this->isAuth())
-            header("Location:  " . SERVERURL . "login");
+        $this->isAuth();
         /// remitente
         $nombreOrigen = $_POST['nombreO'];
         $ciudad = $_POST['ciudadO'];
