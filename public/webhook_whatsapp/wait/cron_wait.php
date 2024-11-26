@@ -105,11 +105,14 @@ function validarTiempo($conn)
                         if (isset($horas_a_verificar[$clave])) {
                             $horas_objetivo = $horas_a_verificar[$clave];
 
-                            // Obtener la fecha y hora actual
+                            // Configurar la zona horaria de Ecuador
+                            date_default_timezone_set('America/Guayaquil');
+
+                            // Obtener la fecha y hora actual en Ecuador
                             $fecha_actual = new DateTime();
 
-                            // Convertir la fecha de envío a un objeto DateTime
-                            $fecha_envio_obj = new DateTime($fecha_envio);
+                            // Convertir la fecha de envío a un objeto DateTime en la zona horaria de Ecuador
+                            $fecha_envio_obj = new DateTime($fecha_envio, new DateTimeZone('America/Guayaquil'));
 
                             // Calcular la diferencia en horas
                             $diferencia = $fecha_envio_obj->diff($fecha_actual);
