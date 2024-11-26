@@ -121,6 +121,8 @@ function validarTiempo($conn)
                             logError("fecha_envio: ". $fecha_envio);
                             logError("fecha_envio_obj: ".$fecha_envio_obj);
                             logError("fecha_actual: ". $fecha_actual);
+                            logError("diferencia_horas: ". $diferencia_horas);
+                            logError("horas_objetivo: ". $horas_objetivo);
 
                             // Verificar si se cumple el tiempo objetivo
                             if ($diferencia_horas >= $horas_objetivo) {
