@@ -89,7 +89,7 @@ function validarTiempo($conn)
                     /* condicion de decision */
                     if ($estado == 1) {
                         $condicion = "1";
-                        enviar_template($conn, $json_output, $json_bloques, $posicion_json_output_wait, $condicion, $id_automatizador, $id_configuracion, $id_cliente_chat_center);
+                        enviar_template($conn, $json_output, $json_bloques, $posicion_json_output_wait, $condicion, $id_automatizador, $id_configuracion, $id_cliente_chat_center, $id_mensajes_clientes);
 
                         eliminar_mensaje_espera($conn, $id_mensaje_espera);
                     } else {
@@ -119,16 +119,16 @@ function validarTiempo($conn)
                                     $diferencia_horas = ($diferencia->days * 24) + $diferencia->h + ($diferencia->i / 60);
 
                                     // Registrar los datos en el log para depuración
-                                    logError("fecha_envio: " . $fecha_envio);
+                                    /* logError("fecha_envio: " . $fecha_envio);
                                     logError("fecha_envio_obj: " . $fecha_envio_obj->format('Y-m-d H:i:s'));
                                     logError("fecha_actual: " . $fecha_actual->format('Y-m-d H:i:s'));
                                     logError("diferencia_horas: " . $diferencia_horas);
-                                    logError("horas_objetivo: " . $horas_objetivo);
+                                    logError("horas_objetivo: " . $horas_objetivo); */
 
                                     // Verificar si el tiempo objetivo ha sido cumplido
                                     if ($diferencia_horas >= $horas_objetivo) {
                                         $condicion = "0";
-                                        enviar_template($conn, $json_output, $json_bloques, $posicion_json_output_wait, $condicion, $id_automatizador, $id_configuracion, $id_cliente_chat_center);
+                                        enviar_template($conn, $json_output, $json_bloques, $posicion_json_output_wait, $condicion, $id_automatizador, $id_configuracion, $id_cliente_chat_center, $id_mensajes_clientes);
 
                                         eliminar_mensaje_espera($conn, $id_mensaje_espera);
                                     } else {
@@ -186,7 +186,7 @@ function eliminar_mensaje_espera($conn, $id_mensaje_espera)
     }
 }
 
-function enviar_template($conn, $json_output, $json_bloques, $posicion_json_output_wait, $condicion, $id_automatizador, $id_configuracion, $id_cliente_chat_center)
+function enviar_template($conn, $json_output, $json_bloques, $posicion_json_output_wait, $condicion, $id_automatizador, $id_configuracion, $id_cliente_chat_center, $id_mensajes_clientes)
 {
     // Validar los bloques dentro de json_output
     if (isset($json_output['blocks'])) {
@@ -229,6 +229,7 @@ function enviar_template($conn, $json_output, $json_bloques, $posicion_json_outp
                                 $accessToken = null;
                                 $waba_id = null;
                                 $id_whatsapp_message_template = $bloque_info['id_whatsapp_message_template'];
+                                $mensaje_template = $bloque_info['mensaje'];
 
                                 // Preparar la consulta
                                 $check_cofiguraciones_stmt = $conn->prepare("SELECT id_plataforma, token, id_whatsapp FROM configuraciones WHERE id = ?");
@@ -264,7 +265,19 @@ function enviar_template($conn, $json_output, $json_bloques, $posicion_json_outp
                                         $check_cofiguraciones_stmt->fetch();  // Obtener los valores vinculados
                                         /* fin consulta mensajes_cliente */
 
-                                        enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $template_name, $template_language, $mensaje, $conn, $id_plataforma, $id_configuracion);
+
+                                        /* consultar ruta_archivo de mensaje_cliente anterior */
+                                        $ruta_archivo_ultimo_tempalte = null;
+                                        $check_rutaArchivo_stmt = $conn->prepare("SELECT ruta_archivo FROM mensajes_clientes WHERE id = ?");
+                                        $check_rutaArchivo_stmt->bind_param('s', $id_mensajes_clientes);
+                                        $check_rutaArchivo_stmt->execute();
+                                        $check_rutaArchivo_stmt->store_result();
+                                        // Enlazar los resultados a variables
+                                        $check_rutaArchivo_stmt->bind_result($ruta_archivo_ultimo_tempalte);
+                                        $check_rutaArchivo_stmt->fetch();  // Obtener los valores vinculados
+                                        /* fin consultar ruta_archivo de mensaje_cliente anterior */
+                                        
+                                        enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $template_name, $template_language, $mensaje, $conn, $id_plataforma, $id_configuracion, $mensaje_template, $ruta_archivo_ultimo_tempalte);
                                     } else {
                                         logError("No se pudo obtener el nombre o idioma del template con el ID " . $id_whatsapp_message_template);
                                     }
@@ -333,7 +346,7 @@ function obtenerTemplatePorID($accessToken, $waba_id, $id_whatsapp_message_templ
     return null;
 }
 
-function enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $template_name, $template_language, $mensaje = null, $conn, $id_plataforma, $id_configuracion)
+function enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $template_name, $template_language, $mensaje = null, $conn, $id_plataforma, $id_configuracion, $mensaje_template, $ruta_archivo_ultimo_tempalte)
 {
     // Paso 1: Configurar el envío del mensaje de WhatsApp usando el nombre del template
     $url = "https://graph.facebook.com/v20.0/$business_phone_id/messages";
@@ -396,8 +409,8 @@ function enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_
 
         // Guardar el mensaje enviado como un registro en la base de datos
         $tipo_mensaje = "text";
-        $texto_mensaje = $mensaje;
-        $ruta_archivo = null;  // No hay archivo en este caso
+        $texto_mensaje = $mensaje_template;
+        $ruta_archivo = $ruta_archivo_ultimo_tempalte;
         $nombre_cliente = $nombre_configuracion;
         $apellido_cliente = "";
 
