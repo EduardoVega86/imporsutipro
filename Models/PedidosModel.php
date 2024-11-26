@@ -49,7 +49,7 @@ class PedidosModel extends Query
         ";
 
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
-            $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+            $sql .= " AND fecha_guia BETWEEN '$fecha_inicio' AND '$fecha_fin'";
         }
 
         if (!empty($transportadora)) {
@@ -142,7 +142,7 @@ class PedidosModel extends Query
         ";
         //echo $sql;
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
-            $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+            $sql .= " AND fecha_guia BETWEEN '$fecha_inicio' AND '$fecha_fin'";
         }
 
         if (!empty($transportadora)) {
@@ -185,7 +185,7 @@ class PedidosModel extends Query
         $params = [];
 
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
-            $sql .= " AND fecha_factura BETWEEN ? AND ?";
+            $sql .= " AND fecha_guia BETWEEN ? AND ?";
             $params[] = $fecha_inicio;
             $params[] = $fecha_fin;
         }
@@ -208,7 +208,7 @@ class PedidosModel extends Query
 
 
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
-            $sql .= " WHERE fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+            $sql .= " WHERE fecha_guia BETWEEN '$fecha_inicio' AND '$fecha_fin'";
         }
 
         if (!empty($transportadora)) {
@@ -379,7 +379,7 @@ class PedidosModel extends Query
                 AND fc.anulada = 0";
 
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
-            $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+            $sql .= " AND fecha_guia BETWEEN '$fecha_inicio' AND '$fecha_fin'";
         }
 
         if (!empty($transportadora)) {
