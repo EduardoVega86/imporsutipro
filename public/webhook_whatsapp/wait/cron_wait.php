@@ -47,7 +47,7 @@ function validarTiempo($conn)
                 $id_automatizador = (int)$row["id_automatizador"];
                 $id_cliente_chat_center = $row["id_cliente_chat_center"];
                 $id_mensajes_clientes = $row["id_mensajes_clientes"];
-                $fecha_envio = (int)$row["fecha_envio"];
+                $fecha_envio = (string)$row["fecha_envio"];
                 $id_mensaje_espera = (int)$row["id"];
 
                 // Consulta para obtener los JSONs de la base de datos
