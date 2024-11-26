@@ -242,9 +242,13 @@ function enviar_template($conn, $json_output, $json_bloques, $posicion_json_outp
                                     $check_cofiguraciones_stmt->bind_result($id_plataforma, $accessToken, $waba_id);
                                     $check_cofiguraciones_stmt->fetch();  // Obtener los valores vinculados
 
-                                    $template_name = obtenerNombreTemplatePorID($accessToken, $waba_id, $id_whatsapp_message_template);
+                                    // Obtener el nombre y el idioma del template
+                                    $template_info = obtenerTemplatePorID($accessToken, $waba_id, $id_whatsapp_message_template);
 
-                                    if (!empty($template_name)) {
+                                    if (!empty($template_info)) {
+                                        $template_name = $template_info['name']; // Nombre del template
+                                        $template_language = $template_info['language']; // Idioma del template
+
                                         // Llamar a la función para enviar el mensaje template a WhatsApp
                                         $mensaje = null;
                                         $business_phone_id = null;
@@ -260,13 +264,13 @@ function enviar_template($conn, $json_output, $json_bloques, $posicion_json_outp
                                         $check_cofiguraciones_stmt->fetch();  // Obtener los valores vinculados
                                         /* fin consulta mensajes_cliente */
 
-                                        enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $template_name, $mensaje, $conn, $id_plataforma, $id_configuracion);
+                                        enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $template_name, $template_language, $mensaje, $conn, $id_plataforma, $id_configuracion);
                                     } else {
-                                        logError("No se pudo obtener el nombre del template con el ID " . $id_whatsapp_message_template);
+                                        logError("No se pudo obtener el nombre o idioma del template con el ID " . $id_whatsapp_message_template);
                                     }
                                 } else {
                                     // Si no hay resultados, maneja el error apropiadamente
-                                    logError("Error: No se encontró configuración con id: " . $id_configuracion . "");
+                                    logError("Error: No se encontró configuración con id: " . $id_configuracion);
                                 }
 
                                 break 2; // Salir de ambos bucles
@@ -279,7 +283,7 @@ function enviar_template($conn, $json_output, $json_bloques, $posicion_json_outp
     }
 }
 
-function obtenerNombreTemplatePorID($accessToken, $waba_id, $id_whatsapp_message_template)
+function obtenerTemplatePorID($accessToken, $waba_id, $id_whatsapp_message_template)
 {
     // URL para obtener la lista de templates desde la API de WhatsApp Business
     $url = 'https://graph.facebook.com/v20.0/' . $waba_id . '/message_templates';
@@ -314,10 +318,13 @@ function obtenerNombreTemplatePorID($accessToken, $waba_id, $id_whatsapp_message
     if (isset($responseArray['data'])) {
         $facebook_templates = $responseArray['data'];
 
-        // Buscar el nombre del template por el ID
+        // Buscar el template por el ID y obtener su idioma
         foreach ($facebook_templates as $template) {
             if ($template['id'] == $id_whatsapp_message_template) {
-                return $template['name'];  // Retornar el nombre del template
+                return [
+                    'name' => $template['name'], // Retornar el nombre del template
+                    'language' => $template['language'], // Retornar el idioma del template
+                ];
             }
         }
     }
@@ -326,7 +333,7 @@ function obtenerNombreTemplatePorID($accessToken, $waba_id, $id_whatsapp_message
     return null;
 }
 
-function enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $template_name, $mensaje = null, $conn, $id_plataforma, $id_configuracion)
+function enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $template_name, $template_language, $mensaje = null, $conn, $id_plataforma, $id_configuracion)
 {
     // Paso 1: Configurar el envío del mensaje de WhatsApp usando el nombre del template
     $url = "https://graph.facebook.com/v20.0/$business_phone_id/messages";
@@ -338,7 +345,7 @@ function enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_
         "type" => "template",
         "template" => [
             "name" => $template_name,  // Usar el nombre del template
-            "language" => ["code" => "en"],  // Cambiar a 'en_US' o 'es_MX' según el idioma del template
+            "language" => ["code" => $template_language],  // Usar el idioma del template
         ]
     ];
 
