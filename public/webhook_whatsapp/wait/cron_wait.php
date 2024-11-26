@@ -68,10 +68,7 @@ function validarTiempo($conn)
                     $id_configuracion = $row['id_configuracion'];
 
                     /* Variables de control */
-                    $found_block_id = null;
-                    $found_block_id_parent = null;
                     $id_template_whatsapp = null;
-                    $existe_waite = false;
 
                     $tiempo_wait = null;
 
@@ -99,42 +96,53 @@ function validarTiempo($conn)
                         // Obtener la cantidad de horas a verificar según la clave
                         $horas_a_verificar = [0 => 1, 1 => 2, 2 => 3, 3 => 5, 4 => 12, 5 => 24];
 
-                        // Obtener la clave del array $tiempo_wait
-                        $clave = $tiempo_wait[0]; // El valor que determina cuántas horas comparar
+                        // Verificar que $tiempo_wait tenga un valor válido
+                        if (!empty($tiempo_wait) && isset($tiempo_wait[0])) {
+                            $clave = (int)$tiempo_wait[0]; // Convertir clave a entero por seguridad
 
-                        if (isset($horas_a_verificar[$clave])) {
-                            $horas_objetivo = $horas_a_verificar[$clave];
+                            // Validar si la clave existe en el array de horas a verificar
+                            if (isset($horas_a_verificar[$clave])) {
+                                $horas_objetivo = $horas_a_verificar[$clave];
 
-                            // Configurar la zona horaria de Ecuador
-                            date_default_timezone_set('America/Guayaquil');
+                                // Configurar la zona horaria de Ecuador
+                                date_default_timezone_set('America/Guayaquil');
 
-                            // Obtener la fecha y hora actual en Ecuador
-                            $fecha_actual = new DateTime();
+                                // Obtener la fecha y hora actual
+                                $fecha_actual = new DateTime();
 
-                            // Convertir la fecha de envío a un objeto DateTime en la zona horaria de Ecuador
-                            $fecha_envio_obj = new DateTime($fecha_envio, new DateTimeZone('America/Guayaquil'));
+                                try {
+                                    // Crear el objeto DateTime para la fecha de envío
+                                    $fecha_envio_obj = new DateTime($fecha_envio, new DateTimeZone('America/Guayaquil'));
 
-                            // Calcular la diferencia en horas
-                            $diferencia = $fecha_envio_obj->diff($fecha_actual);
-                            $diferencia_horas = ($diferencia->days * 24) + $diferencia->h + ($diferencia->i / 60);
+                                    // Calcular la diferencia en horas
+                                    $diferencia = $fecha_envio_obj->diff($fecha_actual);
+                                    $diferencia_horas = ($diferencia->days * 24) + $diferencia->h + ($diferencia->i / 60);
 
-                            logError("fecha_envio: " . $fecha_envio);
-                            logError("fecha_envio_obj: " . $fecha_envio_obj);
-                            logError("fecha_actual: " . $fecha_actual);
-                            logError("diferencia_horas: " . $diferencia_horas);
-                            logError("horas_objetivo: " . $horas_objetivo);
+                                    // Registrar los datos en el log para depuración
+                                    logError("fecha_envio: " . $fecha_envio);
+                                    logError("fecha_envio_obj: " . $fecha_envio_obj->format('Y-m-d H:i:s'));
+                                    logError("fecha_actual: " . $fecha_actual->format('Y-m-d H:i:s'));
+                                    logError("diferencia_horas: " . $diferencia_horas);
+                                    logError("horas_objetivo: " . $horas_objetivo);
 
-                            // Verificar si se cumple el tiempo objetivo
-                            if ($diferencia_horas >= $horas_objetivo) {
-                                $condicion = "0";
-                                enviar_template($conn, $json_output, $json_bloques, $posicion_json_output_wait, $condicion, $id_automatizador, $id_configuracion, $id_cliente_chat_center);
+                                    // Verificar si el tiempo objetivo ha sido cumplido
+                                    if ($diferencia_horas >= $horas_objetivo) {
+                                        $condicion = "0";
+                                        enviar_template($conn, $json_output, $json_bloques, $posicion_json_output_wait, $condicion, $id_automatizador, $id_configuracion, $id_cliente_chat_center);
 
-                                eliminar_mensaje_espera($conn, $id_mensaje_espera);
+                                        eliminar_mensaje_espera($conn, $id_mensaje_espera);
+                                    } else {
+                                        logError("Aún no se ha cumplido el tiempo de espera: $horas_objetivo horas. Han pasado $diferencia_horas horas.");
+                                    }
+                                } catch (Exception $e) {
+                                    // Manejar errores al procesar la fecha
+                                    logError("Error al procesar las fechas: " . $e->getMessage());
+                                }
                             } else {
-                                logError("Aún no se ha cumplido el tiempo de espera: $horas_objetivo horas. Han pasado $diferencia_horas horas.");
+                                logError("La clave $clave no es válida en horas_a_verificar.");
                             }
                         } else {
-                            logError("La clave $clave no es válida.");
+                            logError("El array tiempo_wait está vacío o no contiene un valor válido.");
                         }
                     }
                 }
