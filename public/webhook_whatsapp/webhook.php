@@ -1312,10 +1312,6 @@ $check_idCliente_configuracion_stmt->fetch();
 $check_idCliente_configuracion_stmt->close();
 /* Fin obtener id_cliente_configuracion */
 
-/* validar mensaje_espera */
-estado_mensaje_espera($conn, $id_cliente);
-/* Fin validar mensaje_espera */
-
 // Ahora puedes proceder a insertar el mensaje en la tabla mensajes_clientes
 $stmt = $conn->prepare("
     INSERT INTO mensajes_clientes (id_plataforma, id_cliente, mid_mensaje, tipo_mensaje, texto_mensaje, ruta_archivo, rol_mensaje, celular_recibe, uid_whatsapp , created_at, updated_at) 
@@ -1350,6 +1346,10 @@ if ($stmt->execute()) {
     file_put_contents('debug_log.txt', "Error SQL: " . $stmt->error . "\n", FILE_APPEND);  // Agregar log del error
     echo json_encode(["status" => "error", "message" => "Error al procesar el mensaje: " . $stmt->error]);
 }
+
+/* validar mensaje_espera */
+estado_mensaje_espera($conn, $id_cliente);
+/* Fin validar mensaje_espera */
 
 $stmt->close();
 $conn->close();
