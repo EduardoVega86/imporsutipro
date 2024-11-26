@@ -483,11 +483,11 @@ function procesarMensaje_template($conn, $id_plataforma, $business_phone_id, $no
 
     // Si se ejecuta correctamente, detener el ciclo
     if ($stmt->execute()) {
-        echo json_encode(["status" => "success", "message" => "Mensaje procesado correctamente en el idioma $language_code."]);
-        logError("Mensaje procesado correctamente en el idioma " . $language_code);
+        echo json_encode(["status" => "success", "message" => "Mensaje procesado correctamente en el idioma $template_language."]);
+        logError("Mensaje procesado correctamente en el idioma " . $template_language);
         break;
     } else {
-        logError("Error al procesar el mensaje en el idioma " . $language_code . " SQL Error: " . $stmt->error);
+        logError("Error al procesar el mensaje en el idioma " . $template_language . " SQL Error: " . $stmt->error);
     }
 
     $stmt->close();
