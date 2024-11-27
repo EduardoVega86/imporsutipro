@@ -166,7 +166,25 @@
     document.getElementById("multiStepForm").addEventListener("submit", function(event) {
         event.preventDefault();
 
-        const loadingModal = new bootstrap.Modal(document.getElementById('loadingModal'));
+        const modalElement = document.getElementById('loadingModal');
+        const loadingModal = new bootstrap.Modal(modalElement);
+
+        // Configurar el bloqueo dinámico
+        modalElement.addEventListener('hidden.bs.modal', function(e) {
+            e.preventDefault(); // Impedir que se cierre el modal
+        });
+
+        modalElement.addEventListener('keydown', function(e) {
+            if (e.key === "Escape") {
+                e.preventDefault(); // Bloquear la tecla ESC
+            }
+        });
+
+        modalElement.addEventListener('click', function(e) {
+            e.stopPropagation(); // Bloquear clics fuera del modal
+        });
+
+        // Mostrar el modal
         loadingModal.show();
 
         validateStoreName(function(isValid) {
