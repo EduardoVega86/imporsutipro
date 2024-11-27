@@ -1141,7 +1141,7 @@ class ProductosModel extends Query
                 WHERE b.id_plataforma = $plataforma
                 OR (b.global = 1 AND p.id_matriz = $id_matriz)";
         }
-        echo $sql;
+        /* echo $sql; */
         return $this->select($sql);
     }
 
