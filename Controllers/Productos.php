@@ -290,6 +290,12 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
+    public function cargarBodegas()
+    {
+        $response = $this->model->cargarBodegas($_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
 
     /// Funciones de categorias
     public function agregarCategoria()

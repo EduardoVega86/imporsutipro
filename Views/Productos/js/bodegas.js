@@ -44,7 +44,7 @@ const initDataTable = async () => {
 
 const listBodegas = async () => {
   try {
-    const response = await fetch("" + SERVERURL + "productos/listar_bodegas");
+    const response = await fetch("" + SERVERURL + "productos/cargarBodegas");
     const bodegas = await response.json();
 
     let content = ``;
