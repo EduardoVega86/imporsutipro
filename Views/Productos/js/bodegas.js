@@ -64,7 +64,7 @@ const listBodegas = async () => {
                     <td>${bodega.direccion}</td>
                     <td>${ciudad}</td>
                     <td>${bodega.responsable}</td>
-                    <td>${bodega.whatsapp}</td>
+                    <td>${bodega.contacto}</td>
                     <td>
                     <div class="dropdown">
                     <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
