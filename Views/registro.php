@@ -86,6 +86,19 @@
     </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="loadingModal" tabindex="-1" aria-labelledby="loadingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-center" style="background-color: transparent; border: none;">
+            <div class="modal-body">
+                <img src="<?php echo SERVERURL; ?>/public/img/creando_tienda.gif" alt="Cargando..." style="width: 100px;">
+                <!-- <p class="mt-2" style="color: white; font-weight: bold;">Cargando, por favor espera...</p> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script>
     let currentStep = 0;
     const steps = document.querySelectorAll(".step");
@@ -203,6 +216,9 @@
     }
 
     function enviarFormulario() {
+        const loadingModal = new bootstrap.Modal(document.getElementById('loadingModal'));
+        loadingModal.show();
+
         const formData = new FormData(document.getElementById("multiStepForm"));
         const data = {};
         formData.forEach((value, key) => {
