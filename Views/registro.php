@@ -87,17 +87,15 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="loadingModal" tabindex="-1" aria-labelledby="loadingModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+<div class="modal fade" id="loadingModal" tabindex="-1" aria-labelledby="loadingModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content text-center" style="background-color: transparent; border: none;">
             <div class="modal-body">
-                <img src="<?php echo SERVERURL; ?>/public/img/creando_tienda.gif" alt="Cargando..." style="width: 100px;">
-                <!-- <p class="mt-2" style="color: white; font-weight: bold;">Cargando, por favor espera...</p> -->
+                <img src="<?php echo SERVERURL; ?>/public/img/creando_tienda.gif" alt="Cargando..." style="width: 300px;">
             </div>
         </div>
     </div>
 </div>
-
 
 <script>
     let currentStep = 0;
