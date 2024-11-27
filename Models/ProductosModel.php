@@ -1145,6 +1145,37 @@ class ProductosModel extends Query
         return $this->select($sql);
     }
 
+    public function cargarBodegas($plataforma)
+    {
+        $id_matriz = $this->obtenerMatriz();
+        $id_matriz = $id_matriz[0]['idmatriz'];
+
+        //        $sql = "SELECT DISTINCT b.*
+        //FROM bodega b
+        //JOIN plataformas p ON b.id_plataforma = p.id_plataforma
+        //WHERE b.id_plataforma = $plataforma
+        //   OR (b.global = 1 AND p.id_matriz = $id_matriz)";
+
+        $sql_full = "select full_f from plataformas where id_plataforma=$plataforma";
+        $bodega_full = $this->select($sql_full);
+        $full_filme = $bodega_full[0]['full_f'];
+
+        if ($full_filme == 0) {
+            $sql = "SELECT DISTINCT b.*
+            FROM bodega b
+            JOIN plataformas p ON b.id_plataforma = p.id_plataforma
+            WHERE b.id_plataforma = $plataforma";
+        } else {
+            $sql = "SELECT DISTINCT b.*
+                FROM bodega b
+                JOIN plataformas p ON b.id_plataforma = p.id_plataforma
+                WHERE b.id_plataforma = $plataforma
+                OR (b.global = 1 AND p.id_matriz = $id_matriz)";
+        }
+        /* echo $sql; */
+        return $this->select($sql);
+    }
+
     ///caracteristicas
 
     public function agregarCaracteristica($variedad, $id_atributo, $plataforma)
