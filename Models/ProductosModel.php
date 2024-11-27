@@ -371,7 +371,7 @@ class ProductosModel extends Query
             . "`pvp_tienda`=?,`id_categoria_tienda`=?,"
             . "`pref_tienda`=? , `funnelish`=?, `funnelish_url`=? WHERE id_producto_tienda=?";
         // echo $sql;
-        $data = [$nombre, $pvp_tienda, $id_categoria,  $pref, $aplica_funnelish, $funnelish , $id_producto_tienda];
+        $data = [$nombre, $pvp_tienda, $id_categoria,  $pref, $aplica_funnelish, $funnelish, $id_producto_tienda];
         //  print_r($data);
         $editar_producto = $this->update($sql, $data);
         $pref = $pref ?? 0;
@@ -1131,9 +1131,9 @@ class ProductosModel extends Query
 
         if ($full_filme == 0) {
             $sql = "SELECT DISTINCT b.*, p.*
-FROM bodega b
-JOIN plataformas p ON b.id_plataforma = p.id_plataforma
-WHERE b.id_plataforma = $plataforma";
+            FROM bodega b
+            JOIN plataformas p ON b.id_plataforma = p.id_plataforma
+            WHERE b.id_plataforma = $plataforma";
         } else {
             $sql = "SELECT DISTINCT b.*, p.*
                 FROM bodega b
@@ -1141,13 +1141,9 @@ WHERE b.id_plataforma = $plataforma";
                 WHERE b.id_plataforma = $plataforma
                 OR (b.global = 1 AND p.id_matriz = $id_matriz)";
         }
-
-
-        //echo $sql;
+        echo $sql;
         return $this->select($sql);
     }
-
-
 
     ///caracteristicas
 
