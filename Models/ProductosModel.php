@@ -1130,12 +1130,12 @@ class ProductosModel extends Query
         $full_filme = $bodega_full[0]['full_f'];
 
         if ($full_filme == 0) {
-            $sql = "SELECT DISTINCT b.*, p.*
+            $sql = "SELECT DISTINCT b.*
             FROM bodega b
             JOIN plataformas p ON b.id_plataforma = p.id_plataforma
             WHERE b.id_plataforma = $plataforma";
         } else {
-            $sql = "SELECT DISTINCT b.*, p.*
+            $sql = "SELECT DISTINCT b.*
                 FROM bodega b
                 JOIN plataformas p ON b.id_plataforma = p.id_plataforma
                 WHERE b.id_plataforma = $plataforma
