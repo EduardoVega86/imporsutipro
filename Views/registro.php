@@ -168,6 +168,9 @@
     document.getElementById("multiStepForm").addEventListener("submit", function(event) {
         event.preventDefault();
 
+        const loadingModal = new bootstrap.Modal(document.getElementById('loadingModal'));
+        loadingModal.show();
+
         validateStoreName(function(isValid) {
             if (isValid) {
                 enviarFormulario();
@@ -216,8 +219,6 @@
     }
 
     function enviarFormulario() {
-        const loadingModal = new bootstrap.Modal(document.getElementById('loadingModal'));
-        loadingModal.show();
 
         const formData = new FormData(document.getElementById("multiStepForm"));
         const data = {};
