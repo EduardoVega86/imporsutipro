@@ -48,10 +48,17 @@ class CalculadoraModel extends Query
                 if ($matriz == 2) {
                     $tarifas['laar'] = 5.99;
                 }
+                if ($id_plataforma == 3031) {
+                    $tarifas['laar'] = 5.49;
+                }
             } else {
                 $tarifas['laar'] = $tarifas['laar'];
                 if ($matriz == 2) {
                     $tarifas['laar'] = 5.99;
+                }
+
+                if ($id_plataforma == 3031) {
+                    $tarifas['laar'] = 5.49;
                 }
             }
         }
@@ -63,10 +70,17 @@ class CalculadoraModel extends Query
                 if ($id_plataforma == 1206) {
                     $tarifas['gintracom'] = $tarifas['gintracom'] - 0.5;
                 }
+
+                if ($id_plataforma == 3031) {
+                    $tarifas['gintracom'] = $tarifas['gintracom'] - 0.3;
+                }
             } else {
                 $tarifas['gintracom'] = $tarifas['gintracom'];
                 if ($id_plataforma == 1206) {
                     $tarifas['gintracom'] = $tarifas['gintracom'] - 0.5;
+                }
+                if ($id_plataforma == 3031) {
+                    $tarifas['gintracom'] = $tarifas['gintracom'] - 0.3;
                 }
             }
         }
@@ -78,11 +92,17 @@ class CalculadoraModel extends Query
         } else {
             if ($recuado === "1") {
                 $tarifas['servientrega'] = $tarifas['servientrega'] + $previo;
+                if ($id_plataforma == 3031) {
+                    $tarifas['servientrega'] = $tarifas['servientrega'] - 0.3;
+                }
             } else {
                 if ($ciudad == "QUITO") {
                     $tarifas['servientrega'] = 4.97;
                 } else {
                     $tarifas['servientrega'] = $tarifas['servientrega'];
+                    if ($id_plataforma == 3031) {
+                        $tarifas['servientrega'] = $tarifas['servientrega'] - 0.3;
+                    }
                 }
             }
         }
@@ -115,7 +135,9 @@ class CalculadoraModel extends Query
         } else {
             $tarifas["speed"] = 0;
         }
-
+        if ($id_plataforma == 3031 && $tarifas['speed'] > 0) {
+            $tarifas['speed'] = $tarifas['speed'] - 0.3;
+        }
         $tarifas['laar'] = number_format($tarifas['laar'], 2, '.', '');
         $tarifas['servientrega'] = number_format($tarifas['servientrega'], 2, '.', '');
         $tarifas['gintracom'] = number_format($tarifas['gintracom'], 2, '.', '');
