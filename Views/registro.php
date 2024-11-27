@@ -194,7 +194,6 @@
         });
     });
 
-
     function validateStoreName(callback) {
         const input = document.getElementById('tienda');
         const label = document.querySelector('label[for="tienda"]');
