@@ -287,6 +287,47 @@ function enviar_template($conn, $json_output, $json_bloques, $posicion_json_outp
                                 }
 
                                 break 2; // Salir de ambos bucles
+                            } else if (isset($bloque_info['templates_a[]'])) {
+
+                                $id_plataforma = null;
+                                $accessToken = null;
+                                $waba_id = null;
+                                $id_template = $bloque_info['templates_a[]'];
+
+                                // Preparar la consulta
+                                $check_cofiguraciones_stmt = $conn->prepare("SELECT id_plataforma, token, id_whatsapp FROM configuraciones WHERE id = ?");
+                                $check_cofiguraciones_stmt->bind_param('s', $id_configuracion);  // Usamos id_configuracion como parámetro
+                                $check_cofiguraciones_stmt->execute();
+                                $check_cofiguraciones_stmt->store_result();  // Almacenar el resultado antes de bind_result
+
+                                // Verificar si la consulta devolvió alguna fila
+                                if ($check_cofiguraciones_stmt->num_rows > 0) {
+                                    // Enlazar los resultados a variables
+                                    $check_cofiguraciones_stmt->bind_result($id_plataforma, $accessToken, $waba_id);
+                                    $check_cofiguraciones_stmt->fetch();  // Obtener los valores vinculados
+
+                                    // Llamar a la función para enviar el mensaje template a WhatsApp
+                                    $mensaje = null;
+                                    $business_phone_id = null;
+                                    $phone_whatsapp_from = null;
+
+                                    /* consulta mensajes_cliente */
+                                    $check_cofiguraciones_stmt = $conn->prepare("SELECT uid_cliente, celular_cliente FROM clientes_chat_center WHERE id = ?");
+                                    $check_cofiguraciones_stmt->bind_param('s', $id_cliente_chat_center);
+                                    $check_cofiguraciones_stmt->execute();
+                                    $check_cofiguraciones_stmt->store_result();
+                                    // Enlazar los resultados a variables
+                                    $check_cofiguraciones_stmt->bind_result($business_phone_id, $phone_whatsapp_from);
+                                    $check_cofiguraciones_stmt->fetch();  // Obtener los valores vinculados
+                                    /* fin consulta mensajes_cliente */
+
+                                    enviarMensajeTextoWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $conn, $id_plataforma, $id_configuracion, $id_template);
+                                } else {
+                                    // Si no hay resultados, maneja el error apropiadamente
+                                    logError("Error: No se encontró configuración con id: " . $id_configuracion);
+                                }
+
+                                break 2; // Salir de ambos bucles
                             }
                         }
                     }
@@ -294,6 +335,72 @@ function enviar_template($conn, $json_output, $json_bloques, $posicion_json_outp
             }
         }
     }
+}
+
+function enviarMensajeTextoWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_to, $conn, $id_plataforma, $id_configuracion, $id_template)
+{
+    $texto_mensaje = "";
+
+    // Consulta para obtener el mensaje del template
+    $check_automatizadores_stmt = $conn->prepare("SELECT mensaje FROM `templates_chat_center` WHERE id_plataforma = ? AND id_template = ?");
+    $check_automatizadores_stmt->bind_param('ii', $id_plataforma, $id_template);
+    $check_automatizadores_stmt->execute();
+    $check_automatizadores_stmt->store_result();
+    $check_automatizadores_stmt->bind_result($texto_mensaje);
+    $check_automatizadores_stmt->fetch();
+    $check_automatizadores_stmt->close();
+
+    // Configurar el envío del mensaje como texto simple
+    $url = "https://graph.facebook.com/v20.0/$business_phone_id/messages";
+    $data = [
+        "messaging_product" => "whatsapp",
+        "to" => $phone_whatsapp_to,
+        "type" => "text",
+        "text" => [
+            "body" => $texto_mensaje
+        ]
+    ];
+
+    // Inicializar cURL para la solicitud HTTP POST
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        "Authorization: Bearer $accessToken",
+        "Content-Type: application/json"
+    ]);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+
+    // Ejecutar la solicitud
+    $response = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    // Registrar el código HTTP en el log para depuración
+    logError("HTTP Code: $http_code\nRespuesta: $response\n");
+
+    // Verificar si la solicitud fue exitosa (aceptando cualquier 2xx)
+    if ($http_code >= 200 && $http_code < 300) {
+        logError("Mensaje enviado correctamente a $phone_whatsapp_to.\n");
+
+        // Obtener nombres y teléfono de configuración
+        $telefono_configuracion = 0;
+        $nombre_configuracion = "";
+
+        $check_configuracion_cliente_stmt = $conn->prepare("SELECT telefono, nombre_configuracion FROM configuraciones WHERE id = ?");
+        $check_configuracion_cliente_stmt->bind_param('s', $id_configuracion);
+        $check_configuracion_cliente_stmt->execute();
+        $check_configuracion_cliente_stmt->store_result();
+        $check_configuracion_cliente_stmt->bind_result($telefono_configuracion, $nombre_configuracion);
+        $check_configuracion_cliente_stmt->fetch();
+        $check_configuracion_cliente_stmt->close();
+
+        // Guardar el mensaje en la base de datos
+        procesarMensajeTexto($conn, $id_plataforma, $business_phone_id, $nombre_configuracion, "", $telefono_configuracion, $phone_whatsapp_to, "text", $texto_mensaje, null);
+    } else {
+        logError("Error al enviar el mensaje. HTTP Code: $http_code\nRespuesta: $response\n");
+    }
+
+    curl_close($ch);
 }
 
 function obtenerTemplatePorID($accessToken, $waba_id, $id_whatsapp_message_template)
