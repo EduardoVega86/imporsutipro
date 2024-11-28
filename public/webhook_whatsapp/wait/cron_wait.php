@@ -224,6 +224,7 @@ function enviar_template($conn, $json_output, $json_bloques, $posicion_json_outp
 
                             // Verificar si existe template de WhatsApp y tomar el código del template
                             if (isset($bloque_info['id_whatsapp_message_template'])) {
+                                logError("entro en la condicion id_whatsapp_message_template");
 
                                 $id_plataforma = null;
                                 $accessToken = null;
@@ -288,6 +289,8 @@ function enviar_template($conn, $json_output, $json_bloques, $posicion_json_outp
 
                                 break 2; // Salir de ambos bucles
                             } else if (isset($bloque_info['templates_a[]'])) {
+
+                                logError("entro en la condicion templates_a[]");
 
                                 $id_plataforma = null;
                                 $accessToken = null;
@@ -453,7 +456,7 @@ function obtenerTemplatePorID($accessToken, $waba_id, $id_whatsapp_message_templ
     return null;
 }
 
-function enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $template_name, $template_language, $mensaje = null, $conn, $id_plataforma, $id_configuracion, $mensaje_template, $ruta_archivo_ultimo_tempalte)
+function enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $template_name, $template_language, $mensaje, $conn, $id_plataforma, $id_configuracion, $mensaje_template, $ruta_archivo_ultimo_tempalte)
 {
     // Paso 1: Configurar el envío del mensaje de WhatsApp usando el nombre del template
     $url = "https://graph.facebook.com/v20.0/$business_phone_id/messages";
@@ -592,7 +595,6 @@ function procesarMensaje_template($conn, $id_plataforma, $business_phone_id, $no
     if ($stmt->execute()) {
         echo json_encode(["status" => "success", "message" => "Mensaje procesado correctamente en el idioma $template_language."]);
         logError("Mensaje procesado correctamente en el idioma " . $template_language);
-        break;
     } else {
         logError("Error al procesar el mensaje en el idioma " . $template_language . " SQL Error: " . $stmt->error);
     }
