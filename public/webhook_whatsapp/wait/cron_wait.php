@@ -224,6 +224,7 @@ function enviar_template($conn, $json_output, $json_bloques, $posicion_json_outp
 
                             // Verificar si existe template de WhatsApp y tomar el código del template
                             if (isset($bloque_info['id_whatsapp_message_template'])) {
+                                logError("entro en la condicion id_whatsapp_message_template");
 
                                 $id_plataforma = null;
                                 $accessToken = null;
@@ -288,6 +289,8 @@ function enviar_template($conn, $json_output, $json_bloques, $posicion_json_outp
 
                                 break 2; // Salir de ambos bucles
                             } else if (isset($bloque_info['templates_a[]'])) {
+
+                                logError("entro en la condicion templates_a[]");
 
                                 $id_plataforma = null;
                                 $accessToken = null;
