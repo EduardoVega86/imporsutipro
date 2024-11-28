@@ -406,6 +406,71 @@ function enviarMensajeTextoWhatsApp($accessToken, $business_phone_id, $phone_wha
     curl_close($ch);
 }
 
+function procesarMensajeTexto($conn, $id_plataforma, $business_phone_id, $nombre_cliente, $apellido_cliente, $telefono_configuracion, $phone_whatsapp_to, $tipo_mensaje, $texto_mensaje, $ruta_archivo)
+{
+    // Registrar los datos recibidos para depuración
+    logError("Datos recibidos para procesar mensaje:\n");
+
+    $id_cliente = 0;
+
+    // Verificar si el cliente ya existe en la tabla clientes_chat_center
+    $check_client_stmt = $conn->prepare("SELECT id FROM clientes_chat_center WHERE celular_cliente = ? AND id_plataforma = ? ");
+    $check_client_stmt->bind_param('si', $telefono_configuracion, $id_plataforma);
+    $check_client_stmt->execute();
+    $check_client_stmt->store_result();
+
+    if ($check_client_stmt->num_rows == 0) {
+        // El cliente no existe, creamos uno nuevo
+        $insert_client_stmt = $conn->prepare("
+            INSERT INTO clientes_chat_center (id_plataforma, uid_cliente, nombre_cliente, apellido_cliente, celular_cliente, created_at, updated_at) 
+            VALUES (?, ?, ?, ?, ?, NOW(), NOW())
+        ");
+        $insert_client_stmt->bind_param('issss', $id_plataforma, $business_phone_id, $nombre_cliente, $apellido_cliente, $telefono_configuracion);
+        if (!$insert_client_stmt->execute()) {
+            logError("Error al insertar cliente: " . $insert_client_stmt->error . "\n");
+            return;  // Salir si hay un error al insertar
+        }
+        $id_cliente = $insert_client_stmt->insert_id;
+        $insert_client_stmt->close();
+    } else {
+        // El cliente existe, obtenemos su ID
+        $check_client_stmt->bind_result($id_cliente);
+        $check_client_stmt->fetch();
+    }
+
+    $check_client_stmt->close();
+
+    $id_cliente_recibe = 0;
+
+    // Obtener ID del cliente que recibe
+    $check_idCliente_recibe_stmt = $conn->prepare("SELECT id FROM clientes_chat_center WHERE celular_cliente = ? AND id_plataforma = ? ");
+    $check_idCliente_recibe_stmt->bind_param('si', $phone_whatsapp_to, $id_plataforma);  // Buscamos por el celular_cliente
+    $check_idCliente_recibe_stmt->execute();
+    $check_idCliente_recibe_stmt->store_result();
+    $check_idCliente_recibe_stmt->bind_result($id_cliente_recibe);
+    $check_idCliente_recibe_stmt->fetch();
+    $check_idCliente_recibe_stmt->close();
+
+    // Insertar el mensaje en la tabla mensajes_clientes
+    $stmt = $conn->prepare("
+        INSERT INTO mensajes_clientes (id_plataforma, id_cliente, mid_mensaje, tipo_mensaje, texto_mensaje, ruta_archivo, rol_mensaje, celular_recibe, uid_whatsapp, created_at, updated_at) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
+    ");
+
+    $mid_mensaje = $business_phone_id;  // Usamos el ID del negocio como mid_mensaje
+    $rol_mensaje = 1;  // Valor por defecto para rol_mensaje
+
+    $stmt->bind_param('iissssiss', $id_plataforma, $id_cliente, $mid_mensaje, $tipo_mensaje, $texto_mensaje, $ruta_archivo, $rol_mensaje, $id_cliente_recibe, $phone_whatsapp_to);
+
+    if ($stmt->execute()) {
+        logError("Mensaje procesado correctamente en la base de datos.\n");
+    } else {
+        logError("Error al insertar mensaje: " . $stmt->error . "\n");
+    }
+
+    $stmt->close();
+}
+
 function obtenerTemplatePorID($accessToken, $waba_id, $id_whatsapp_message_template)
 {
     // URL para obtener la lista de templates desde la API de WhatsApp Business
