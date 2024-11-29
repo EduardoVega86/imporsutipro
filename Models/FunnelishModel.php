@@ -65,8 +65,6 @@ class FunnelishModel extends Query
         $json = json_decode($json_string, true);
         $products = $json["products"];
         $orden = $this->crearOrden($id_plataforma, $json, $products);
-        
-        $this->saveDataPlatform($data, $id_plataforma);
     }
 
     public function crearOrden($id_plataforma, $json, $products)
