@@ -121,3 +121,14 @@ function obtenerURLImagen(imagePath, serverURL) {
 window.addEventListener("load", async () => {
   await initDataTableProductosShopify();
 });
+
+/* seccion json */
+function toggleLoading(id = "loading-below-2") {
+  const loadingDiv = document.getElementById(id);
+  if (loadingDiv.style.display === "none") {
+    loadingDiv.style.display = "block";
+  } else {
+    loadingDiv.style.display = "none";
+  }
+}
+/* fin seccion json */

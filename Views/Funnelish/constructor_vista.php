@@ -44,32 +44,13 @@
                 <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         <p>Contenido de la sección 1.</p>
-                        <div class="loading-animation" id="loading-below" style="display: none; margin-top: 10px;">
-                            <div class="spinner-border" role="status">
-                                <span class="visually-hidden">Cargando...</span>
-                            </div>
-                            <div>Cargando...</div>
-                        </div>
-                        <button class="btn btn-primary mt-3" onclick="toggleLoading()">Mostrar/Ocultar Cargando</button>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingTwo">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        Sección 2
-                    </button>
-                </h2>
-                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
-                        <p>Contenido de la sección 2.</p>
                         <div class="loading-animation" id="loading-below-2" style="display: none; margin-top: 10px;">
                             <div class="spinner-border" role="status">
                                 <span class="visually-hidden">Cargando...</span>
                             </div>
                             <div>Cargando...</div>
                         </div>
-                        <button class="btn btn-primary mt-3" onclick="toggleLoading('loading-below-2')">Mostrar/Ocultar Cargando</button>
+                        <button class="btn btn-primary mt-3" onclick="toggleLoading()">Mostrar/Ocultar Cargando</button>
                     </div>
                 </div>
             </div>
