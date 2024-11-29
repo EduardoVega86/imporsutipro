@@ -44,13 +44,12 @@
                 <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         <p>Contenido de la sección 1.</p>
-                        <div class="loading-animation" id="loading-below-2" style="display: none; margin-top: 10px;">
+                        <div class="loading-animation" id="loading-below-2" style="display: block; margin-top: 10px;">
                             <div class="spinner-border" role="status">
                                 <span class="visually-hidden">Cargando...</span>
                             </div>
                             <div>Cargando...</div>
                         </div>
-                        <button class="btn btn-primary mt-3" onclick="toggleLoading()">Mostrar/Ocultar Cargando</button>
                     </div>
                 </div>
             </div>
