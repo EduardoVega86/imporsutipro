@@ -83,18 +83,23 @@ const listNovedades = async () => {
 
     let content = ``;
     let transportadora = ``;
+    let ruta_traking = ``;
     novedades.forEach((novedad, index) => {
       if (
         novedad.guia_novedad.includes("IMP") ||
         novedad.guia_novedad.includes("MKP")
       ) {
         transportadora = "LAAR";
+        ruta_traking = `https://fenixoper.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${novedad.guia_novedad}`;
       } else if (novedad.guia_novedad.includes("I")) {
         transportadora = "GINTRACOM";
+        ruta_traking = `https://ec.gintracom.site/web/site/tracking`;
       } else if (novedad.guia_novedad.includes("SPD")) {
         transportadora = "SPEED";
+        ruta_traking = ``;
       } else {
         transportadora = "SERVIENTREGA";
+        ruta_traking = `https://www.servientrega.com.ec/Tracking/?guia=${novedad.guia_novedad}&tipo=GUIA`;
       }
       if (novedad.terminado == 0) {
         content += `
@@ -110,7 +115,7 @@ const listNovedades = async () => {
                     <td>
                     <button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${novedad.guia_novedad}')">Gestionar</button>
                     </td>
-                    <td><a href="https://fenixoper.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${novedad.guia_novedad}" target="_blank" style="vertical-align: middle;">
+                    <td><a href="${ruta_traking}" target="_blank" style="vertical-align: middle;">
                     <img src="https://new.imporsuitpro.com/public/img/tracking.png" width="40px" id="buscar_traking" alt="buscar_traking">
                   </a></td>
                 </tr>`;
