@@ -845,7 +845,7 @@ function generar_guia() {
         });
         var button2 = document.getElementById("generarGuiaBtn");
         button2.disabled = false; // Desactivar el botón
-      } else if (response.mjs === "NO CUENTA CON NÚMERO DE GUÍAS ASIGNADAS") {
+      } else if (response.msj === "NO CUENTA CON NÚMERO DE GUÍAS ASIGNADAS") {
         Swal.fire({
           icon: "warning",
           title: "Mantenimiento",
