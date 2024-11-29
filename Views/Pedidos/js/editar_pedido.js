@@ -845,6 +845,14 @@ function generar_guia() {
         });
         var button2 = document.getElementById("generarGuiaBtn");
         button2.disabled = false; // Desactivar el botón
+      } else if (response.msj === "NO CUENTA CON NÚMERO DE GUÍAS ASIGNADAS") {
+        Swal.fire({
+          icon: "warning",
+          title: "Servicio Temporalmente No Disponible",
+          text: "Estimado usuario, actualmente Servientrega está experimentando problemas de comunicación con nuestro sistema de generación de guías. Estamos trabajando junto con su equipo técnico para resolver este inconveniente a la mayor brevedad. Agradecemos su comprensión.",
+          timer: 5000, // Incrementa el tiempo para que el usuario tenga más oportunidad de leer
+          showConfirmButton: false,
+        });
       } else if (response.status == 200) {
         Swal.fire({
           icon: "success",
