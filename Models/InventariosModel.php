@@ -539,8 +539,7 @@ class InventariosModel extends Query
             if ($id_plataforma_bodega == $plataforma) {
                 if ($estado_factura == 1) {
                     //  echo $id_factura;
-
-
+                    
                     //print_r($tmp_cotizaciones);
 
                     if ($estado_factura == 1) {

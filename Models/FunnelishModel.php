@@ -16,7 +16,7 @@ class FunnelishModel extends Query
     public function saveDataPlatform($data, $id_plataforma)
     {
         $sql = "INSERT INTO `funnel_log` (`json`, `id_plataforma`) VALUES (?, ?);";
-        $params = [json_encode($data), $id_plataforma];
+        $params = [$data, $id_plataforma];
         return $this->insert($sql, $params);
     }
 
