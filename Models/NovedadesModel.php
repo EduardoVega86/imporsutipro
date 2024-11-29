@@ -106,7 +106,7 @@ class NovedadesModel extends Query
         <ws:getXML soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
         <guia xsi:type="xsd:string">$guia</guia>
         <observacion xsi:type="xsd:string">$observacion</observacion>
-        <usugenera xsi:type="xsd:string">imp.1793168264001</usugenera>
+        <usugenera xsi:type="xsd:string">integracion.api.1</usugenera>
         <usu xsi:type="xsd:string">IMPCOMEX</usu>
         <pwd xsi:type="xsd:string">Rtcom-ex9912</pwd>
         <tokn xsi:type="xsd:string">1593aaeeb60a560c156387989856db6be7edc8dc220f9feae3aea237da6a951d</tokn>
