@@ -848,9 +848,9 @@ function generar_guia() {
       } else if (response.msj === "NO CUENTA CON NÚMERO DE GUÍAS ASIGNADAS") {
         Swal.fire({
           icon: "warning",
-          title: "Mantenimiento",
-          text: "Estimado usuario, de momento tenemos problemas al generar guías con Servientrega, este incoveniente será resuelto lo más pronto posible.",
-          timer: 3000,
+          title: "Servicio Temporalmente No Disponible",
+          text: "Estimado usuario, actualmente estamos experimentando inconvenientes para generar guías con Servientrega. Nuestro equipo técnico ya está trabajando para resolver este inconveniente a la brevedad posible. Agradecemos su comprensión.",
+          timer: 5000, // Incrementa el tiempo para que el usuario tenga más oportunidad de leer
           showConfirmButton: false,
         });
       } else if (response.status == 200) {
