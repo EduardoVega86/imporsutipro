@@ -849,7 +849,7 @@ function generar_guia() {
         Swal.fire({
           icon: "warning",
           title: "Servicio Temporalmente No Disponible",
-          text: "Estimado usuario, actualmente estamos experimentando inconvenientes para generar guías con Servientrega. Nuestro equipo técnico ya está trabajando para resolver este inconveniente a la brevedad posible. Agradecemos su comprensión.",
+          text: "Estimado usuario, actualmente Servientrega está experimentando problemas de comunicación con nuestro sistema de generación de guías. Estamos trabajando junto con su equipo técnico para resolver este inconveniente a la mayor brevedad. Agradecemos su comprensión.",
           timer: 5000, // Incrementa el tiempo para que el usuario tenga más oportunidad de leer
           showConfirmButton: false,
         });
