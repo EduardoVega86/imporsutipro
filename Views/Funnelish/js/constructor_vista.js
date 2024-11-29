@@ -121,3 +121,24 @@ function obtenerURLImagen(imagePath, serverURL) {
 window.addEventListener("load", async () => {
   await initDataTableProductosShopify();
 });
+
+/* seccion json */
+// Función para consultar a la API y actualizar el estado de "Cargando..."
+async function checkAPIStatus() {
+  try {
+    // Simulamos una llamada a la API (reemplazar URL con la API real)
+    const response = await fetch("https://api.ejemplo.com/status"); // Cambia por tu endpoint real
+    const data = await response.json();
+
+    // Si la API devuelve true, ocultamos el cargando
+    if (data.success === true) {
+      document.getElementById("loading-below-2").style.display = "none";
+    }
+  } catch (error) {
+    console.error("Error al consultar la API:", error);
+  }
+}
+
+// Ejecutar la consulta cada 10 segundos
+setInterval(checkAPIStatus, 10000);
+/* fin seccion json */

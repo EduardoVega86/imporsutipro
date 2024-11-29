@@ -32,6 +32,29 @@
             </div>
             <div>Cargando...</div>
         </div>
+
+        <!-- acordion -->
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Sección 1
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <p>Contenido de la sección 1.</p>
+                        <div class="loading-animation" id="loading-below-2" style="display: block; margin-top: 10px;">
+                            <div class="spinner-border" role="status">
+                                <span class="visually-hidden">Cargando...</span>
+                            </div>
+                            <div>Cargando...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Fin acordion -->
     </div>
     <div class="table-responsive" style="padding: 20px;">
         <!-- <table class="table table-bordered table-striped table-hover"> -->
