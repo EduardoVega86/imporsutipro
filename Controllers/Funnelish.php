@@ -24,11 +24,11 @@ class Funnelish extends Controller
             if ($valido) {
                 $this->model->gestionarRequest($id_plataforma, $data);
             } else return;
-        } else {
+        } /* else {
             $data = file_get_contents("php://input");
             $this->data($data);
             echo "Plataforma no registrada";
-        }
+        } */
     }
 
     public function productos()
