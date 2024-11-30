@@ -446,8 +446,8 @@ class GuiasModel extends Query
             "ANCHO" => 50,
             "ALTO" => 50,
             "PESO_FISICO" => 2,
-            "LOGIN_CREACION" => "integracion.api.1",
-            "PASSWORD" => "54321",
+            "LOGIN_CREACION" => "imp.1793168264001",
+            "PASSWORD" => "Ecuador24",
             "ID_CL" => 0,
             "VERIFICAR_CONTENIDO_RECAUDO" => "",
             "VALIDADOR_RECAUDO" => "D",
@@ -537,8 +537,8 @@ class GuiasModel extends Query
             "ancho" => 50,
             "alto" => 50,
             "peso_fisico" => 2,
-            "login_creacion" => "integracion.api.1",
-            "password" => "54321"
+            "login_creacion" => "imp.1793168264001",
+            "password" => "Ecuador24"
 
         );
 
