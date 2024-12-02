@@ -82,4 +82,9 @@ class Funnelish extends Controller
         $response = $this->model->ultimoProductos($id_inventario, $id_plataforma);
         echo json_encode($response);
     }
+
+    public function validarPedido($enlace)
+    {
+        echo $enlace;
+    }
 }
