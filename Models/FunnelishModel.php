@@ -366,6 +366,7 @@ class FunnelishModel extends Query
 
         if (count($resAsignado) > 0) {
             // Si hay un registro asignado, obtener su id_registro
+            print_r($resAsignado);
             $ultimoRegistro = $resAsignado[0]['id_registro'];
         } else {
             // 2. Si no hay asignados, buscar el último sin asignar
