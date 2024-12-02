@@ -80,6 +80,6 @@ class Funnelish extends Controller
     {
         $id_inventario = $_POST["id_inventario"];
         $response = $this->model->ultimoProducto($id_inventario, $id_plataforma);
-        return $response;
+        echo $response;
     }
 }
