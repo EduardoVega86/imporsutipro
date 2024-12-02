@@ -10,13 +10,6 @@
             <div class="name-tag"><span>Shopify</span></div>
         </div>
 
-        <div class="loading-animation" id="loading">
-            <div class="spinner-border" role="status">
-                <span class="sr-only">Cargando...</span>
-            </div>
-            <div>Cargando...</div>
-        </div>
-
         <div class="generacion_enlace" id="enlace-section" style="padding-top: 10px;">
             <label for="generador_enlace" class="form-label" style="color: white;">Enlace generado:</label>
             <div class="input-group">

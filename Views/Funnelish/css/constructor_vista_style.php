@@ -125,10 +125,6 @@
 
     /* final de diseño de aplicacion */
 
-    .generacion_enlace {
-        display: none;
-    }
-
     .spinner-border {
         width: 3rem;
         height: 3rem;
@@ -197,8 +193,6 @@
     }
 
     .generacion_enlace {
-        display: none;
-        /* Ocultar inicialmente */
         margin-top: 20px;
         transition: opacity 0.5s ease;
         /* Añadir transición para mostrar */
