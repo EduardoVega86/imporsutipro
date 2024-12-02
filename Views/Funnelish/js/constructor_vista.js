@@ -33,16 +33,14 @@ function generar_link() {
   formData.append("id_inventario", id_inventario);
 
   $.ajax({
-    url: SERVERURL + "pedidos/buscarProductosBodega",
+    url: SERVERURL + "funnelish/ultimoProductos/" + ID_PLATAFORMA,
     type: "POST",
     data: formData,
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
     dataType: "json",
     success: function (response) {
-      $("#generador_enlace").val(
-        "https://new.imporsuitpro.com/funnelish/index/" + ID_PLATAFORMA
-      );
+      $("#generador_enlace").val(response.enlace);
 
       // Ejecutar la consulta cada 10 segundos y guardar el ID del intervalo
       const intervalId = setInterval(() => {
