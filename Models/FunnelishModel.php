@@ -447,6 +447,13 @@ class FunnelishModel extends Query
                     "encontrado" => true,
                     "id_producto" => $product_id
                 ];
+            } else {
+                // Si no se encuentra el producto en el JSON
+                return [
+                    "status" => 200,
+                    "encontrado" => true,
+                    "mensaje" => "Pedido encontrado, pero el producto no lo fue."
+                ];
             }
         }
         return [
