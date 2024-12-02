@@ -27,13 +27,55 @@ function generar_link() {
   // Mostrar la animación de carga
   loadingBelow.style.display = "block";
 
-  // Esperar 2 segundos y luego mostrar la sección de enlace
-  setTimeout(() => {
-    loadingBelow.style.display = "none"; // Ocultar el cargando
-    $("#generador_enlace").val(
-      "https://new.imporsuitpro.com/funnelish/index/" + ID_PLATAFORMA
-    );
-  }, 2000); // Tiempo en milisegundos
+  const url = window.location.href;
+  const id_inventario = url.split("/").pop();
+  let formData = new FormData();
+  formData.append("id_inventario", id_inventario);
+
+  $.ajax({
+    url: SERVERURL + "pedidos/buscarProductosBodega",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    dataType: "json",
+    success: function (response) {
+      $("#generador_enlace").val(
+        "https://new.imporsuitpro.com/funnelish/index/" + ID_PLATAFORMA
+      );
+
+      // Ejecutar la consulta cada 10 segundos y guardar el ID del intervalo
+      const intervalId = setInterval(() => {
+        checkAPIStatus(loadingBelow, intervalId, formData);
+      }, 10000);
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+}
+
+function checkAPIStatus(loadingBelow, intervalId, formData) {
+  $.ajax({
+    url: SERVERURL + "api/statusCheck", // Cambia a tu endpoint real
+    type: "POST",
+    data: formData,
+    processData: false,
+    contentType: false,
+    dataType: "json",
+    success: function (response) {
+      if (response.success === true) {
+        // Detener la repetición
+        clearInterval(intervalId);
+
+        // Ocultar el cargando
+        loadingBelow.style.display = "none";
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      console.error("Error al consultar el estado:", errorThrown);
+    },
+  });
 }
 
 let dataTableProductosShopify;
@@ -121,24 +163,3 @@ function obtenerURLImagen(imagePath, serverURL) {
 window.addEventListener("load", async () => {
   await initDataTableProductosShopify();
 });
-
-/* seccion json */
-// Función para consultar a la API y actualizar el estado de "Cargando..."
-async function checkAPIStatus() {
-  try {
-    // Simulamos una llamada a la API (reemplazar URL con la API real)
-    const response = await fetch("https://api.ejemplo.com/status"); // Cambia por tu endpoint real
-    const data = await response.json();
-
-    // Si la API devuelve true, ocultamos el cargando
-    if (data.success === true) {
-      document.getElementById("loading-below-2").style.display = "none";
-    }
-  } catch (error) {
-    console.error("Error al consultar la API:", error);
-  }
-}
-
-// Ejecutar la consulta cada 10 segundos
-setInterval(checkAPIStatus, 10000);
-/* fin seccion json */
