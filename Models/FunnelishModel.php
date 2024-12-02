@@ -384,6 +384,7 @@ class FunnelishModel extends Query
         $data = [$id_plataforma, $id_inventario, $ultimoRegistro];
         $res3 = $this->insert($sql, $data);
         print_r($res3);
+        echo "XD";
         if ($res3 == 1) {
             return [
                 "status" => 200,
