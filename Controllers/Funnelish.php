@@ -75,4 +75,11 @@ class Funnelish extends Controller
         $response =  $this->model->get_productos($_SESSION['id_plataforma']);
         echo json_encode($response);
     }
+
+    public function ultimoProducto($id_plataforma)
+    {
+        $id_inventario = $_POST["id_inventario"];
+        $response = $this->model->ultimoProducto($id_inventario, $id_plataforma);
+        return $response;
+    }
 }
