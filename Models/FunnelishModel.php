@@ -13,10 +13,10 @@ class FunnelishModel extends Query
         $params = [json_encode($data)];
         return $this->insert($sql, $params);
     }
-    public function saveDataPlatform($data, $id_plataforma)
+    public function saveDataPlatform($data, $id_plataforma, $id_registro)
     {
-        $sql = "INSERT INTO `funnel_log` (`json`, `id_plataforma`) VALUES (?, ?);";
-        $params = [$data, $id_plataforma];
+        $sql = "INSERT INTO `funnel_log` (`json`, `id_plataforma`, `id_registro`) VALUES (?, ?, ?);";
+        $params = [$data, $id_plataforma, $id_registro];
         return $this->insert($sql, $params);
     }
 
@@ -41,14 +41,14 @@ class FunnelishModel extends Query
         return $response;
     }
 
-    public function productoPlataforma($id_plataforma, $data)
+    public function productoPlataforma($id_plataforma, $data, $id_registro)
     {
         $data = json_decode($data, true);
         if (isset($data["products"]) && is_array($data["products"])) {
-            $sql = "SELECT id_producto FROM productos_funnel WHERE id_funnel = ? AND id_plataforma = ?";
+            $sql = "SELECT id_producto FROM productos_funnel WHERE id_funnel = ? AND id_plataforma = ? AND id_registro = ?";
             foreach ($data["products"] as $product) {
 
-                $response = $this->simple_select($sql, [$product["id"], $id_plataforma]);
+                $response = $this->simple_select($sql, [$product["id"], $id_plataforma, $id_registro]);
                 if ($response > 0) {
                     return true;
                 }

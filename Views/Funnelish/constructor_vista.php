@@ -2,7 +2,7 @@
 <?php require_once './Views/Funnelish/css/constructor_vista_style.php'; ?>
 
 <div class="full-screen-container">
-    <div class="custom-container-fluid mt-4">
+    <div class="custom-container-fluid mt-4" id="enlazar_funnel">
         <h1>Conexión a Funnelish</h1>
 
         <div class="img-container text-center aplicacion" id="trigger-container">

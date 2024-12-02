@@ -4,6 +4,17 @@ document.addEventListener("DOMContentLoaded", function () {
   const loading = document.getElementById("loading");
   const enlaceSection = document.getElementById("enlace-section");
 
+  const url_principal = window.location.href;
+  const id_inventario_principal = url_principal.split("/").pop();
+
+  if (isNaN(id_inventario_principal) || id_inventario_principal === "") {
+    // Oculta el elemento con el ID "enlazar_funnel"
+    const enlazar_funnel = document.getElementById("enlazar_funnel");
+    if (enlazar_funnel) {
+      enlazar_funnel.style.display = "none";
+    }
+  }
+
   // Ocultar inicialmente la sección de generación de enlaces
   enlaceSection.style.display = "none";
 

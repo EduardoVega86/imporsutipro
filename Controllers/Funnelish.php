@@ -15,7 +15,7 @@ class Funnelish extends Controller
             die("Error: No se ha especificado una plataforma");
         }
         $data = file_get_contents("php://input");
-        $this->log($data, $id_plataforma);
+        $this->log($data, $id_plataforma, "");
 
         if ($this->model->existenciaPlataforma($id_plataforma)) {
             /*  $response = $this->log($id_plataforma, $data); */
@@ -25,6 +25,31 @@ class Funnelish extends Controller
                 $this->model->gestionarRequest($id_plataforma, $data);
             } else return;
         } /* else {
+            $data = file_get_contents("php://input");
+            $this->data($data);
+            echo "Plataforma no registrada";
+        } */
+    }
+    public function index2($id_plataforma)
+    {
+        if (empty($id_plataforma)) {
+            die("Error: No se ha especificado una plataforma");
+        }
+        $datas = explode("-||-", $id_plataforma);
+        $id_plataforma = $datas[0];
+        $id_registro = $datas[1];
+        $data = file_get_contents("php://input");
+        $this->log($data, $id_plataforma, $id_registro);
+
+        if ($this->model->existenciaPlataforma($id_plataforma)) {
+
+            $valido = $this->model->productoPlataforma($id_plataforma, $data, $id_registro);
+            print_r($valido);
+            if ($valido) {
+                $this->model->gestionarRequest($id_plataforma, $data);
+            } else return;
+        }
+        /* else {
             $data = file_get_contents("php://input");
             $this->data($data);
             echo "Plataforma no registrada";
@@ -64,9 +89,9 @@ class Funnelish extends Controller
         $this->model->saveData($data);
     }
 
-    public function log($data, $id_plataforma)
+    public function log($data, $id_plataforma, $id_registro)
     {
-        $this->model->saveDataPlatform($data, $id_plataforma);
+        $this->model->saveDataPlatform($data, $id_plataforma, $id_registro);
     }
 
     public function get_productos()
