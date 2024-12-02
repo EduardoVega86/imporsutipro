@@ -467,12 +467,12 @@ class FunnelishModel extends Query
         $values = [$id_inventario, $id_funnel, $sku, $id_plataforma, $id_registro];
         $res = $this->insert($sql, $values);
         print_r($res);
-        if (count($res) > 0) {
+        if ($res > 0) {
             $sql = "UPDATE funnel_links set asignado = 1 where id_plataforma = ?, id_registro = ?";
             $values = [$id_plataforma, $id_registro];
             $res2 = $this->update($sql, $values);
 
-            if (count($res2) > 0) {
+            if ($res2 > 0) {
                 return [
                     "status" => 200,
                     "message" => "Producto asignado correctamente"
