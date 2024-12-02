@@ -133,7 +133,7 @@ function enlazarProducto(inputValue, id_inventario, id_registro, id_funnel) {
   formData.append("id_funnel", id_funnel);
   formData.append("sku", inputValue);
   $.ajax({
-    url: SERVERURL + "funnelish/asignarProducto",
+    url: SERVERURL + "funnelish/asignarProducto/" + ID_PLATAFORMA,
     type: "POST",
     data: formData,
     processData: false, // No procesar los datos
