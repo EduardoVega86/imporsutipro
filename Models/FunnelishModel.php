@@ -420,7 +420,7 @@ class FunnelishModel extends Query
                 return [
                     "status" => 200,
                     "mensaje" => "Producto nuevo",
-                    "enlace" => SERVERURL . "funnelish/index/" . $id_plataforma . '&id_registro=' . $nuevoRegistro
+                    "enlace" => SERVERURL . "funnelish/index/" . $id_plataforma . '/' . $nuevoRegistro
                 ];
             } else {
                 return [

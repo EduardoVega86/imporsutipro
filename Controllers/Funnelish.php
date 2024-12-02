@@ -85,6 +85,54 @@ class Funnelish extends Controller
 
     public function validarPedido($enlace)
     {
-        echo $enlace;
+        // Definir el delimitador utilizado en el enlace
+        $delimiter = '-||-';
+
+        // 1. Dividir el enlace utilizando el delimitador
+        $parts = explode($delimiter, $enlace);
+
+        // 2. Validar que el enlace tiene al menos los elementos necesarios
+        if (count($parts) < 6) {
+            return [
+                'status' => 400,
+                'mensaje' => 'Formato de enlace incorrecto. Número insuficiente de elementos.'
+            ];
+        }
+
+        // 3. Limpiar los elementos vacíos (si los hay)
+        $parts = array_filter($parts, function ($value) {
+            return trim($value) !== '';
+        });
+
+        // Reindexar el array después de filtrar
+        $parts = array_values($parts);
+
+        // 4. Extraer los dos últimos elementos
+        $numParts = count($parts);
+        $id_plataforma = $parts[$numParts - 2];
+        $id_registro = $parts[$numParts - 1];
+
+        // 5. Validar que los identificadores son numéricos
+        if (!is_numeric($id_plataforma) || !is_numeric($id_registro)) {
+            return [
+                'status' => 400,
+                'mensaje' => 'Los identificadores deben ser numéricos.'
+            ];
+        }
+
+        // 6. Validar el resto del formato del enlace (opcional)
+        // Puedes agregar validaciones adicionales según tus necesidades, por ejemplo:
+        // - Verificar que los elementos específicos coinciden con valores esperados (como 'funnelish' o 'index')
+
+        // 7. Si todo está correcto, proceder con la lógica adicional
+        // Aquí puedes agregar el código que necesites utilizando $id_plataforma y $id_registro
+
+        // Ejemplo de respuesta
+        return [
+            'status' => 200,
+            'mensaje' => 'Enlace válido.',
+            'id_plataforma' => $id_plataforma,
+            'id_registro' => $id_registro
+        ];
     }
 }
