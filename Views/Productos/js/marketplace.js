@@ -242,57 +242,9 @@ document.addEventListener("DOMContentLoaded", function () {
       target.classList.contains("add-to-funnel-button") ||
       target.closest(".add-to-funnel-button")
     ) {
-      // Genera un modal para agregar a funnel con un input para el Funnel ID
-      const modalHtml = `
-        <div class="modal fade" id="addToFunnelModal" tabindex="-1" role="dialog" aria-labelledby="addToFunnelModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="addToFunnelModalLabel">Agregar al Funnel</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <form id="addToFunnelForm">
-                  <div class="form-group">
-                    <label for="funnelIdInput">Funnel ID</label>
-                    <input type="text" class="form-control" id="funnelIdInput" placeholder="Ingresa el Funnel ID">
-                  </div>
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" id="addToFunnelSubmit" class="btn btn-primary">Agregar</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-
-      // Agrega el modal al cuerpo del documento
-      document.body.insertAdjacentHTML("beforeend", modalHtml);
-
-      // Muestra el modal utilizando Bootstrap
-      $("#addToFunnelModal").modal("show");
-
-      // Agrega un listener al botón "Agregar" del modal
-      document
-        .getElementById("addToFunnelSubmit")
-        .addEventListener("click", function () {
-          const button = target.closest(".add-to-funnel-button");
-          const funnelId = button.getAttribute("data-funnel-id");
-          const isAdded = false; // Puedes ajustar este valor según tu lógica
-          const funnelIdInput = document.getElementById("funnelIdInput");
-          // Llama a la función con el funnelId ingresado
-          toggleAddToFunnel(funnelId, funnelIdInput, isAdded);
-
-          // Cierra el modal
-          $("#addToFunnelModal").modal("hide");
-
-          // Remueve el modal del DOM
-          document.getElementById("addToFunnelModal").remove();
-        });
+      const productId = button.getAttribute("data-product-id");
+      window.location.href =
+        "" + SERVERURL + "funnelish/constructor_vista/" + productId;
     }
   });
 
