@@ -423,11 +423,11 @@ function transito(id_cabecera) {
     dataType: "json",
     success: function (response) {
       if (response.status == 500) {
-        toastr.error("LA IMAGEN NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
+        toastr.error("ERROR AL REALIZAR EL CAMBIO", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
       } else if (response.status == 200) {
-        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+        toastr.success("EL CAMBIO SE REALIZO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
       }
@@ -435,7 +435,7 @@ function transito(id_cabecera) {
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al obtener la información de la categoría");
+      alert("Hubo un problema al realizar el cambio");
     },
   });
 }
@@ -447,11 +447,11 @@ function devolucion(id_cabecera) {
     dataType: "json",
     success: function (response) {
       if (response.status == 500) {
-        toastr.error("LA IMAGEN NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
+        toastr.error("ERROR AL REALIZAR EL CAMBIO", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
       } else if (response.status == 200) {
-        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+        toastr.success("EL CAMBIO SE REALIZO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
 
@@ -460,7 +460,7 @@ function devolucion(id_cabecera) {
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al obtener la información de la categoría");
+      alert("Hubo un problema al realizar el cambio");
     },
   });
 }
@@ -472,11 +472,11 @@ function entregar(id_cabecera) {
     dataType: "json",
     success: function (response) {
       if (response.status == 500) {
-        toastr.error("LA IMAGEN NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
+        toastr.error("ERROR AL REALIZAR EL CAMBIO", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
       } else if (response.status == 200) {
-        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+        toastr.success("EL CAMBIO SE REALIZO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
 
@@ -485,7 +485,7 @@ function entregar(id_cabecera) {
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al obtener la información de la categoría");
+      alert("Hubo un problema al realizar el cambio");
     },
   });
 }

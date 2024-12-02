@@ -252,7 +252,7 @@ function eliminarForma_pago(id) {
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al eliminar la categoría");
+      alert("Hubo un problema al eliminar la forma de pago");
     },
   });
 }

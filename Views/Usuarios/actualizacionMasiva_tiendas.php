@@ -24,7 +24,7 @@
             },
             error: function(xhr, status, error) {
                 console.error("Error en la solicitud AJAX:", error);
-                alert("Hubo un problema al obtener la información de la categoría");
+                alert("Hubo un problema al realizar la actualizacion masiva de tiendas");
             },
         });
     }

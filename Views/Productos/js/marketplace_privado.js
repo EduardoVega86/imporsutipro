@@ -412,7 +412,7 @@ function agregarModal_marketplace(id) {
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al obtener la información del producto");
+      alert("Hubo un problema al obtener producto");
     },
   });
 }

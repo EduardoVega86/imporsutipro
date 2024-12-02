@@ -142,11 +142,11 @@ function eliminar_usuario(id_usuario) {
     dataType: "json",
     success: function (response) {
       if (response.status == 500) {
-        toastr.error("LA IMAGEN NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
+        toastr.error("EL USUARIO NO SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
       } else if (response.status == 200) {
-        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+        toastr.success("USUARIO ELIMINADO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
         initDataTableObtenerUsuariosPlataforma();

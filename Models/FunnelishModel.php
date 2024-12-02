@@ -357,4 +357,44 @@ class FunnelishModel extends Query
 
         return $response;
     }
+
+    public function ultimoProducto($id_inventario, $id_plataforma)
+    {
+        $sql = "SELECT * FROM funnel_links where id_plataforma = $id_plataforma and asignado = 1 ORDER BY id_registro DESC";
+        $res1 = $this->select($sql);
+
+        if (count($res1) == 0) return [
+            "status" => 200,
+            "mensaje" => "Primer producto",
+            "enlace" => SERVERURL . "funnelish/index/" . $id_plataforma . '&id_registro=0'
+        ];
+
+        $ultimoRegistro = $res1[0]["id_registro"] + 1;
+
+        $sql = "SELECT  * FROM funnel_links WHERE id_plataforma = $id_plataforma and id_registro = $ultimoRegistro";
+        $res2 = $this->select($sql);
+
+        if (count($res2) == 1) return [
+            "status" => 200,
+            "mensaje" => "Producto aún no asignado",
+            "enlace" => SERVERURL . "funnelish/index/" . $id_plataforma . '&id_registro=' . $ultimoRegistro
+        ];
+
+        $sql = "INSERT INTO funnel_links (id_plataforma, id_inventario, id_registro) values (?,?,?)";
+        $data = [$id_plataforma, $id_inventario, $ultimoRegistro];
+        $res3 = $this->insert($sql, $data);
+        print_r($res3);
+        echo "XD";
+        if ($res3 == 1) {
+            return [
+                "status" => 200,
+                "mensaje" => "Producto nuevo",
+                "enlace" => SERVERURL . "funnelish/index/" . $id_plataforma . '&id_registro=' . $ultimoRegistro
+            ];
+        }
+        return [
+            "status" => 400,
+            "mensaje" => "Producto no pudo ser asignado intente nuevamente.",
+        ];
+    }
 }

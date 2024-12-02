@@ -299,7 +299,7 @@ function guardar_actualizacion_combos() {
       }
     },
     error: function (error) {
-      alert("Hubo un error al editar el producto");
+      alert("Hubo un error al editar el combo");
       console.log(error);
     },
   });
