@@ -366,7 +366,6 @@ class FunnelishModel extends Query
 
         if (count($resAsignado) > 0) {
             // Si hay un registro asignado, obtener su id_registro
-            print_r($resAsignado);
             $ultimoRegistro = $resAsignado[0]['id_registro'];
         } else {
             // 2. Si no hay asignados, buscar el último sin asignar
@@ -470,7 +469,6 @@ class FunnelishModel extends Query
             $sql = "UPDATE funnel_links set asignado = 1 where id_plataforma = ? and id_registro = ?";
             $values = [$id_plataforma, $id_registro];
             $res2 = $this->update($sql, $values);
-            print_r($res2);
             if ($res2 > 0) {
                 return [
                     "status" => 200,
