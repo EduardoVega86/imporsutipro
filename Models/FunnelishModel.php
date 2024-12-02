@@ -358,7 +358,7 @@ class FunnelishModel extends Query
         return $response;
     }
 
-    public function ultimoProducto($id_inventario, $id_plataforma)
+    public function ultimoProductos($id_inventario, $id_plataforma)
     {
         $sql = "SELECT * FROM funnel_links where id_plataforma = $id_plataforma and asignado = 1 ORDER BY id_registro DESC";
         $res1 = $this->select($sql);
