@@ -439,7 +439,7 @@ class FunnelishModel extends Query
         if (count($res) > 0) {
             $json_data = $res[0]["json"];
             $data = json_decode($json_data, true);
-
+            print_r($data);
             if ($data && isset($data[0]['id'])) {
                 $product_id = $data['products'][0]['id'];
                 return [
