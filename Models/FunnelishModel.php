@@ -437,10 +437,17 @@ class FunnelishModel extends Query
         $res = $this->dselect($sql, [$id_plataforma, $id_registro]);
 
         if (count($res) > 0) {
-            return [
-                "status" => 200,
-                "encontrado" => true,
-            ];
+            $json_data = $res[0]["json"];
+            $data = json_decode($json_data, true);
+
+            if ($data && isset($data[0]['id'])) {
+                $product_id = $data['products'][0]['id'];
+                return [
+                    "status" => 200,
+                    "encontrado" => true,
+                    "id_producto" => $product_id
+                ];
+            }
         }
         return [
             "status" => 200,
