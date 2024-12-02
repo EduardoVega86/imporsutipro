@@ -360,43 +360,74 @@ class FunnelishModel extends Query
 
     public function ultimoProductos($id_inventario, $id_plataforma)
     {
-        $sql = "SELECT * FROM funnel_links where id_plataforma = $id_plataforma and asignado = 1 ORDER BY id_registro DESC";
-        $res1 = $this->select($sql);
+        // 1. Buscar el último registro asignado
+        $sql = "SELECT * FROM funnel_links WHERE id_plataforma = ? AND asignado = 1 ORDER BY id_registro DESC LIMIT 1";
+        $resAsignado = $this->dselect($sql, [$id_plataforma]);
 
-        $sql = "INSERT INTO funnel_links (id_plataforma, id_inventario, id_registro) values (?,?,?)";
-        $data = [$id_plataforma, $id_inventario, 0];
-        $res3 = $this->insert($sql, $data);
-        if (count($res1) == 0) return [
-            "status" => 200,
-            "mensaje" => "Primer producto",
-            "enlace" => SERVERURL . "funnelish/index/" . $id_plataforma . '&id_registro=0'
-        ];
+        if (count($resAsignado) > 0) {
+            // Si hay un registro asignado, obtener su id_registro
+            print_r($resAsignado);
+            $ultimoRegistro = $resAsignado[0]['id_registro'];
+        } else {
+            // 2. Si no hay asignados, buscar el último sin asignar
+            $sql = "SELECT * FROM funnel_links WHERE id_plataforma = ? AND asignado = 0 ORDER BY id_registro DESC LIMIT 1";
+            $resNoAsignado = $this->dselect($sql, [$id_plataforma]);
 
-        $ultimoRegistro = $res1[0]["id_registro"] + 1;
+            if (count($resNoAsignado) > 0) {
+                // Si hay un registro no asignado, obtener su id_registro
+                $ultimoRegistro = $resNoAsignado[0]['id_registro'];
+            } else {
+                // 3. Si no hay registros, crear el primer producto con id_registro = 0
+                $ultimoRegistro = 0;
+                $sql = "INSERT INTO funnel_links (id_plataforma, id_inventario, id_registro, asignado) VALUES (?, ?, ?, ?)";
+                $data = [$id_plataforma, $id_inventario, $ultimoRegistro, 0];
+                $resInsert = $this->insert($sql, $data);
 
-        $sql = "SELECT  * FROM funnel_links WHERE id_plataforma = $id_plataforma and id_registro = $ultimoRegistro";
-        $res2 = $this->select($sql);
+                if ($resInsert == 1) {
+                    return [
+                        "status" => 200,
+                        "mensaje" => "Primer producto",
+                        "enlace" => SERVERURL . "funnelish/index/" . $id_plataforma . '&id_registro=0'
+                    ];
+                } else {
+                    return [
+                        "status" => 400,
+                        "mensaje" => "No se pudo crear el primer producto, intente nuevamente."
+                    ];
+                }
+            }
+        }
 
-        if (count($res2) == 1) return [
-            "status" => 200,
-            "mensaje" => "Producto aún no asignado",
-            "enlace" => SERVERURL . "funnelish/index/" . $id_plataforma . '&id_registro=' . $ultimoRegistro
-        ];
+        // Verificar si el producto con el último id_registro está asignado
+        $sql = "SELECT * FROM funnel_links WHERE id_plataforma = ? AND id_registro = ? AND asignado = 1";
+        $resVerificacion = $this->dselect($sql, [$id_plataforma, $ultimoRegistro]);
 
-        $sql = "INSERT INTO funnel_links (id_plataforma, id_inventario, id_registro) values (?,?,?)";
-        $data = [$id_plataforma, $id_inventario, $ultimoRegistro];
-        $res3 = $this->insert($sql, $data);
-
-        if ($res3 == 1) {
+        if (count($resVerificacion) == 0) {
+            // Producto aún no asignado
             return [
                 "status" => 200,
-                "mensaje" => "Producto nuevo",
+                "mensaje" => "Producto aún no asignado",
                 "enlace" => SERVERURL . "funnelish/index/" . $id_plataforma . '&id_registro=' . $ultimoRegistro
             ];
+        } else {
+            // Crear un nuevo registro incrementando id_registro
+            $nuevoRegistro = $ultimoRegistro + 1;
+            $sql = "INSERT INTO funnel_links (id_plataforma, id_inventario, id_registro, asignado) VALUES (?, ?, ?, ?)";
+            $data = [$id_plataforma, $id_inventario, $nuevoRegistro, 0];
+            $resNuevoInsert = $this->insert($sql, $data);
+
+            if ($resNuevoInsert == 1) {
+                return [
+                    "status" => 200,
+                    "mensaje" => "Producto nuevo",
+                    "enlace" => SERVERURL . "funnelish/index/" . $id_plataforma . '&id_registro=' . $nuevoRegistro
+                ];
+            } else {
+                return [
+                    "status" => 400,
+                    "mensaje" => "Producto no pudo ser asignado, intente nuevamente."
+                ];
+            }
         }
-        return [
-            "status" => 400,
-            "mensaje" => "Producto no pudo ser asignado intente nuevamente.",
-        ];
     }
 }
