@@ -1555,7 +1555,7 @@ ON
         $editar_producto = $this->update($sql, $data);
 
         if ($editar_producto == 1) {
-            $responses = array('status' => 200, 'title' => 'Peticion exitosa', 'message' => 'Subdominio creado y configurado correctamente');
+            $responses = array('status' => 200, 'title' => 'Peticion exitosa', 'message' => 'Subdominio creado y configurado correctamente', 'dominio' => '' . $rootdomain);
         } else {
             $responses = array('status' => 500, 'title' => 'Error', 'message' => $editar_producto['message']);
         }
