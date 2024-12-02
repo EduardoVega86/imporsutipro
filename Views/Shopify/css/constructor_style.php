@@ -3,7 +3,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
+        height: 92vh;
         background-color: #f0f0f0;
         padding-left: 30px;
         overflow: hidden;
