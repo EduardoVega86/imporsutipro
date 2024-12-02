@@ -82,4 +82,63 @@ class Funnelish extends Controller
         $response = $this->model->ultimoProductos($id_inventario, $id_plataforma);
         echo json_encode($response);
     }
+
+    public function validarPedido($enlace)
+    {
+        // Definir el delimitador utilizado en el enlace
+        $delimiter = '-||-';
+
+        // 1. Dividir el enlace utilizando el delimitador
+        $parts = explode($delimiter, $enlace);
+
+        // 2. Validar que el enlace tiene al menos los elementos necesarios
+        if (count($parts) < 6) {
+            echo json_encode([
+                'status' => 400,
+                'mensaje' => 'Formato de enlace incorrecto. Número insuficiente de elementos.'
+            ]);
+        }
+
+        // 3. Limpiar los elementos vacíos (si los hay)
+        $parts = array_filter($parts, function ($value) {
+            return trim($value) !== '';
+        });
+
+        // Reindexar el array después de filtrar
+        $parts = array_values($parts);
+
+        // 4. Extraer los dos últimos elementos
+        $numParts = count($parts);
+        $id_plataforma = $parts[$numParts - 2];
+        $id_registro = $parts[$numParts - 1];
+
+        // 5. Validar que los identificadores son numéricos
+        if (!is_numeric($id_plataforma) || !is_numeric($id_registro)) {
+            echo json_encode([
+                'status' => 400,
+                'mensaje' => 'Los identificadores deben ser numéricos.'
+            ]);
+        }
+        $response = $this->model->buscarPedido($id_plataforma, $id_registro);
+        echo json_encode($response);
+    }
+
+    public function asignarProducto($id_plataforma)
+    {
+        $id_inventario = $_POST["id_inventario"] ?? null;
+        $id_registro = $_POST["id_registro"] ?? null;
+        $id_funnel = $_POST["id_funnel"] ?? null;
+        $sku = $_POST["sku"] ?? null;
+
+        if ($sku == null || $id_funnel == null || $id_registro == null || $id_inventario == null) {
+            echo json_encode([
+                "status" => "400",
+                "message" => "Enviar los datos completos."
+            ]);
+            exit;
+        }
+
+        $response = $this->model->asignarProducto($id_inventario, $id_registro, $id_funnel, $sku, $id_plataforma);
+        echo json_encode($response);
+    }
 }

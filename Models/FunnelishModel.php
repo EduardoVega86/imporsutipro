@@ -366,7 +366,6 @@ class FunnelishModel extends Query
 
         if (count($resAsignado) > 0) {
             // Si hay un registro asignado, obtener su id_registro
-            print_r($resAsignado);
             $ultimoRegistro = $resAsignado[0]['id_registro'];
         } else {
             // 2. Si no hay asignados, buscar el último sin asignar
@@ -387,7 +386,7 @@ class FunnelishModel extends Query
                     return [
                         "status" => 200,
                         "mensaje" => "Primer producto",
-                        "enlace" => SERVERURL . "funnelish/index/" . $id_plataforma . '&id_registro=0'
+                        "enlace" => SERVERURL . "funnelish/index/" . $id_plataforma . '/0'
                     ];
                 } else {
                     return [
@@ -407,7 +406,7 @@ class FunnelishModel extends Query
             return [
                 "status" => 200,
                 "mensaje" => "Producto aún no asignado",
-                "enlace" => SERVERURL . "funnelish/index/" . $id_plataforma . '&id_registro=' . $ultimoRegistro
+                "enlace" => SERVERURL . "funnelish/index/" . $id_plataforma . '/' . $ultimoRegistro
             ];
         } else {
             // Crear un nuevo registro incrementando id_registro
@@ -420,7 +419,7 @@ class FunnelishModel extends Query
                 return [
                     "status" => 200,
                     "mensaje" => "Producto nuevo",
-                    "enlace" => SERVERURL . "funnelish/index/" . $id_plataforma . '&id_registro=' . $nuevoRegistro
+                    "enlace" => SERVERURL . "funnelish/index/" . $id_plataforma . '/' . $nuevoRegistro
                 ];
             } else {
                 return [
@@ -429,5 +428,62 @@ class FunnelishModel extends Query
                 ];
             }
         }
+    }
+
+    public function buscarPedido($id_plataforma, $id_registro)
+    {
+        $sql = "SELECT * FROM funnel_log where id_plataforma = ? and id_registro = ?";
+        $res = $this->dselect($sql, [$id_plataforma, $id_registro]);
+
+        if (count($res) > 0) {
+            $json_data = $res[0]["json"];
+            $data = json_decode($json_data, true);
+            if ($data && isset($data["products"][0]['id'])) {
+                $product_id = $data['products'][0]['id'];
+                return [
+                    "status" => 200,
+                    "encontrado" => true,
+                    "id_producto" => $product_id
+                ];
+            } else {
+                // Si no se encuentra el producto en el JSON
+                return [
+                    "status" => 200,
+                    "encontrado" => true,
+                    "mensaje" => "Pedido encontrado, pero el producto no lo fue."
+                ];
+            }
+        }
+        return [
+            "status" => 200,
+            "encontrado" => false,
+        ];
+    }
+
+    public function asignarProducto($id_inventario, $id_registro, $id_funnel, $sku, $id_plataforma)
+    {
+        $sql = "INSERT INTO productos_funnel (id_producto, id_funnel, sku, id_plataforma, id_registro) VALUES (?, ?, ?, ?, ?)";
+        $values = [$id_inventario, $id_funnel, $sku, $id_plataforma, $id_registro];
+        $res = $this->insert($sql, $values);
+        if ($res > 0) {
+            $sql = "UPDATE funnel_links set asignado = 1 where id_plataforma = ? and id_registro = ?";
+            $values = [$id_plataforma, $id_registro];
+            $res2 = $this->update($sql, $values);
+            if ($res2 > 0) {
+                return [
+                    "status" => 200,
+                    "message" => "Producto asignado correctamente"
+                ];
+            }
+
+            return [
+                "status" => 400,
+                "message" => "El producto no ha sido asignado correctamente"
+            ];
+        }
+        return [
+            "status" => 401,
+            "message" => "El producto no se registro correctamente"
+        ];
     }
 }
