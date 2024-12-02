@@ -329,7 +329,7 @@ async function eliminar_nuevoPedido(id) {
     await initDataTableNuevoPedido();
   } catch (error) {
     console.error("Error en la solicitud AJAX:", error);
-    alert("Hubo un problema al eliminar la categoría");
+    alert("Hubo un problema al eliminar el pedido");
   }
 }
 
@@ -694,7 +694,7 @@ function agregar_nuevoPedido() {
       }
     },
     error: function (error) {
-      alert("Hubo un error al agregar el producto");
+      alert("Hubo un error al agregar el pedido");
       console.log(error);
     },
   });
@@ -867,14 +867,14 @@ function generar_guia() {
             }
           },
           error: function (error) {
-            alert("Hubo un error al agregar el producto");
+            alert("Hubo un error al generar guia");
             console.log(error);
           },
         });
       }
     },
     error: function (error) {
-      alert("Hubo un error al agregar el producto");
+      alert("Hubo un error al generar pedido");
       console.log(error);
     },
   });

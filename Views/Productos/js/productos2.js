@@ -253,7 +253,7 @@ function toggleAgregarPrivado(checkbox) {
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al actualizar el estado del producto");
+      alert("Hubo un problema al habilitar en privado el producto");
     },
   });
 }
@@ -440,7 +440,7 @@ function eliminarProducto(id) {
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al eliminar la categoría");
+      alert("Hubo un problema al eliminar el producto");
     },
   });
 }
@@ -615,7 +615,7 @@ function editarProducto(id) {
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al obtener la información del producto");
+      alert("Hubo un problema al editar el producto");
     },
   });
 }
@@ -683,7 +683,7 @@ function bajar_marketplace(id) {
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al subir al marketplace");
+      alert("Hubo un problema al bajar al marketplace");
     },
   });
 }

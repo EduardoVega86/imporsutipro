@@ -760,7 +760,7 @@ function cambiarcolor(campo, valor) {
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al agregar el producto temporalmente");
+      alert("Hubo un problema al cambiar de color");
     },
   });
 }
@@ -791,7 +791,7 @@ function cambiarcolor_oferta_plantilla2(campo, valor) {
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al agregar el producto temporalmente");
+      alert("Hubo un problema al cambiar de color");
     },
   });
 }
@@ -823,7 +823,7 @@ function cambiarcolor_parallax_plantilla3(campo, valor) {
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al agregar el producto temporalmente");
+      alert("Hubo un problema al cambiar de color");
     },
   });
 }
@@ -1093,7 +1093,7 @@ function eliminarBanner(id) {
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al eliminar la categoría");
+      alert("Hubo un problema al eliminar el banner");
     },
   });
 }
@@ -1488,7 +1488,7 @@ function eliminarTestimonio(id) {
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al eliminar la categoría");
+      alert("Hubo un problema al eliminar el testimonio");
     },
   });
 }
@@ -1734,7 +1734,7 @@ function eliminar_horizontal(id) {
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al eliminar la categoría");
+      alert("Hubo un problema al eliminar");
     },
   });
 }

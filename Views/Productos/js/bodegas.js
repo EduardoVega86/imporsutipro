@@ -136,7 +136,7 @@ function eliminarBodega(id) {
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al eliminar la categoría");
+      alert("Hubo un problema al eliminar la bodega");
     },
   });
 }

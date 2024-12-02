@@ -177,7 +177,7 @@ function enviar_cliente(id, index) {
           },
           error: function (xhr, status, error) {
             console.error("Error en la solicitud AJAX:", error);
-            alert("Hubo un problema al agregar el producto temporalmente");
+            alert("Hubo un problema al agregar detalle");
           },
         });
       } else {

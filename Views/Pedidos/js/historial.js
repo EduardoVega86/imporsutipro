@@ -245,11 +245,11 @@ function boton_eliminarPedido(id_factura) {
     dataType: "json",
     success: function (response) {
       if (response.status == 500) {
-        toastr.error("LA IMAGEN NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
+        toastr.error("NO SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
       } else if (response.status == 200) {
-        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+        toastr.success("ELIMINADO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
 
@@ -258,7 +258,7 @@ function boton_eliminarPedido(id_factura) {
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al obtener la información de la categoría");
+      alert("Hubo un problema al elimnar pedido");
     },
   });
 }

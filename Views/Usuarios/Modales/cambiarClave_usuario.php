@@ -108,13 +108,13 @@
                 response = JSON.parse(response);
                 if (response.status == 500) {
                     toastr.error(
-                        "LA IMAGEN NO SE AGREGRO CORRECTAMENTE",
+                        "ERROR AL CAMBIAR CLAVE",
                         "NOTIFICACIÓN", {
                             positionClass: "toast-bottom-center"
                         }
                     );
                 } else if (response.status == 200) {
-                    toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+                    toastr.success("CLAVE CAMBIADA CORRECTAMENTE", "NOTIFICACIÓN", {
                         positionClass: "toast-bottom-center",
                     });
 

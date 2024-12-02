@@ -417,11 +417,11 @@ function anular_guiaSpeed(numero_guia) {
     dataType: "json",
     success: function (response) {
       if (response.status == 500) {
-        toastr.error("LA IMAGEN NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
+        toastr.error("LA GUIA NO SE ANULO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
       } else if (response.status == 200) {
-        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+        toastr.success("GUIA ANULADA CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
 
@@ -429,7 +429,7 @@ function anular_guiaSpeed(numero_guia) {
       }
     },
     error: function (xhr, status, error) {
-      alert("Hubo un problema al anular la guia de Servientrega");
+      alert("Hubo un problema al anular la guia de speed");
     },
   });
 }
@@ -796,7 +796,7 @@ document.getElementById("imprimir_guias").addEventListener("click", () => {
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al obtener la información de la categoría");
+      alert("Hubo un problema al imprimir manifiesto");
     },
   });
 });
@@ -878,11 +878,11 @@ function anular_guiaServi(numero_guia) {
     dataType: "json",
     success: function (response) {
       if (response.status == 500) {
-        toastr.error("LA IMAGEN NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
+        toastr.error("LA GUIA NO SE ANULO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
       } else if (response.status == 200) {
-        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+        toastr.success("GUIA ANULADA CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
 
@@ -916,7 +916,7 @@ function anular_guiaGintracom(numero_guia) {
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al obtener la información de la categoría");
+      alert("Hubo un problema al anular guia de gintracom");
     },
   });
 }

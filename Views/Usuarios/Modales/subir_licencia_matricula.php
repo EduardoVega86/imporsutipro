@@ -128,13 +128,13 @@
                 success: function(response) {
                     if (response.status == 500) {
                         toastr.error(
-                            "LA IMAGEN NO SE AGREGRO CORRECTAMENTE",
+                            "LA MATRICULA NO SE SUBIO CORRECTAMENTE",
                             "NOTIFICACIÓN", {
                                 positionClass: "toast-bottom-center"
                             }
                         );
                     } else if (response.status == 200) {
-                        toastr.success("IMAGEN AGREGADA CORRECTAMENTE", "NOTIFICACIÓN", {
+                        toastr.success("MATRICULA SUBIDA CORRECTAMENTE", "NOTIFICACIÓN", {
                             positionClass: "toast-bottom-center",
                         });
                         $('#imagen_licencia_matriculaModal').modal('hide');

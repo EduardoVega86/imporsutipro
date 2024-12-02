@@ -346,7 +346,7 @@ document.getElementById("imprimir_guias").addEventListener("click", () => {
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al obtener la información de la categoría");
+      alert("Hubo un problema al generar manifiesto");
     },
   });
 });
@@ -453,7 +453,7 @@ function anular_guiaGintracom(numero_guia) {
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al obtener la información de la categoría");
+      alert("Hubo un problema al anular la guia de gintracom");
     },
   });
 }
