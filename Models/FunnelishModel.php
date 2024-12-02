@@ -387,7 +387,7 @@ class FunnelishModel extends Query
                     return [
                         "status" => 200,
                         "mensaje" => "Primer producto",
-                        "enlace" => SERVERURL . "funnelish/index/" . $id_plataforma . '&id_registro=0'
+                        "enlace" => SERVERURL . "funnelish/index/" . $id_plataforma . '/0'
                     ];
                 } else {
                     return [
@@ -407,7 +407,7 @@ class FunnelishModel extends Query
             return [
                 "status" => 200,
                 "mensaje" => "Producto aún no asignado",
-                "enlace" => SERVERURL . "funnelish/index/" . $id_plataforma . '&id_registro=' . $ultimoRegistro
+                "enlace" => SERVERURL . "funnelish/index/" . $id_plataforma . '/' . $ultimoRegistro
             ];
         } else {
             // Crear un nuevo registro incrementando id_registro
@@ -429,5 +429,22 @@ class FunnelishModel extends Query
                 ];
             }
         }
+    }
+
+    public function buscarPedido($id_plataforma, $id_registro)
+    {
+        $sql = "SELECT * FROM funnel_log where id_plataforma = ? and id_registro = ?";
+        $res = $this->dselect($sql, [$id_plataforma, $id_registro]);
+
+        if (count($res) > 0) {
+            return [
+                "status" => 200,
+                "encontrado" => true,
+            ];
+        }
+        return [
+            "status" => 200,
+            "encontrado" => false,
+        ];
     }
 }

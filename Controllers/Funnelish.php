@@ -119,11 +119,7 @@ class Funnelish extends Controller
                 'mensaje' => 'Los identificadores deben ser numéricos.'
             ]);
         }
-        echo json_encode([
-            'status' => 200,
-            'mensaje' => 'Enlace válido.',
-            'id_plataforma' => $id_plataforma,
-            'id_registro' => $id_registro
-        ]);
+        $response = $this->model->buscarPedido($id_plataforma, $id_registro);
+        echo json_encode($response);
     }
 }
