@@ -76,8 +76,8 @@ function checkAPIStatus(loadingBelow, intervalId, enlace, id_inventario) {
         /* Swal para confirmacion de datos y enlaze de producto */
         Swal.fire({
           icon: "success",
-          title: data.title,
-          text: data.message,
+          title: "Pedido encontrado",
+          text: "¿Desea enlazar el producto?",
           input: "text", // Tipo de input, en este caso texto
           inputPlaceholder: "Ingresa el ID del producto",
           showConfirmButton: true,
