@@ -485,7 +485,7 @@ class FunnelishModel extends Query
             ];
         }
         return [
-            "status" => 400,
+            "status" => 401,
             "message" => "El producto no se registro correctamente"
         ];
     }
