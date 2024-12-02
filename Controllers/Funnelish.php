@@ -30,6 +30,30 @@ class Funnelish extends Controller
             echo "Plataforma no registrada";
         } */
     }
+    public function index2($id_plataforma)
+    {
+        if (empty($id_plataforma)) {
+            die("Error: No se ha especificado una plataforma");
+        }
+
+        print_r($id_plataforma);
+        /* $data = file_get_contents("php://input");
+        $this->log($data, $id_plataforma);
+
+        if ($this->model->existenciaPlataforma($id_plataforma)) {
+        
+            $valido = $this->model->productoPlataforma($id_plataforma, $data);
+            print_r($valido);
+            if ($valido) {
+                $this->model->gestionarRequest($id_plataforma, $data);
+            } else return;
+        } */
+        /* else {
+            $data = file_get_contents("php://input");
+            $this->data($data);
+            echo "Plataforma no registrada";
+        } */
+    }
 
     public function productos()
     {
