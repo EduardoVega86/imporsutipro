@@ -366,7 +366,6 @@ class FunnelishModel extends Query
         $sql = "INSERT INTO funnel_links (id_plataforma, id_inventario, id_registro) values (?,?,?)";
         $data = [$id_plataforma, $id_inventario, 0];
         $res3 = $this->insert($sql, $data);
-        print_r($res3);
         if (count($res1) == 0) return [
             "status" => 200,
             "mensaje" => "Primer producto",
@@ -387,8 +386,7 @@ class FunnelishModel extends Query
         $sql = "INSERT INTO funnel_links (id_plataforma, id_inventario, id_registro) values (?,?,?)";
         $data = [$id_plataforma, $id_inventario, $ultimoRegistro];
         $res3 = $this->insert($sql, $data);
-        print_r($res3);
-        echo "XD";
+
         if ($res3 == 1) {
             return [
                 "status" => 200,
