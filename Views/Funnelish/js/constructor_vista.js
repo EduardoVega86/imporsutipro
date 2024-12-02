@@ -1,9 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // Obtener elementos
-  const imgContainer = document.getElementById("trigger-container");
-  const loading = document.getElementById("loading");
-  const enlaceSection = document.getElementById("enlace-section");
-
   const url_principal = window.location.href;
   const id_inventario_principal = url_principal.split("/").pop();
 
@@ -14,22 +9,6 @@ document.addEventListener("DOMContentLoaded", function () {
       enlazar_funnel.style.display = "none";
     }
   }
-
-  // Ocultar inicialmente la sección de generación de enlaces
-  enlaceSection.style.display = "none";
-
-  // Evento de clic en el contenedor de la imagen
-  imgContainer.addEventListener("click", function () {
-    // Mostrar la animación de carga
-    loading.style.display = "block";
-
-    // Esperar 2 segundos y luego mostrar la sección de enlace
-    setTimeout(() => {
-      loading.style.display = "none"; // Ocultar el cargando
-      enlaceSection.style.display = "block"; // Mostrar la sección de enlace
-      enlaceSection.style.opacity = "1"; // Transición visual
-    }, 2000); // Tiempo en milisegundos
-  });
 });
 
 function generar_link() {
