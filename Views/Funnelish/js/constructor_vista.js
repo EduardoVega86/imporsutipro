@@ -44,7 +44,12 @@ function generar_link() {
 
       // Ejecutar la consulta cada 10 segundos y guardar el ID del intervalo
       const intervalId = setInterval(() => {
-        checkAPIStatus(loadingBelow, intervalId, formData);
+        checkAPIStatus(
+          loadingBelow,
+          intervalId,
+          response.enlace,
+          id_inventario
+        );
       }, 10000);
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -53,25 +58,90 @@ function generar_link() {
   });
 }
 
-function checkAPIStatus(loadingBelow, intervalId, formData) {
+function checkAPIStatus(loadingBelow, intervalId, enlace, id_inventario) {
   $.ajax({
-    url: SERVERURL + "api/statusCheck", // Cambia a tu endpoint real
+    url: SERVERURL + "funnelish/validarPedido/" + enlace, // Cambia a tu endpoint real
     type: "POST",
-    data: formData,
     processData: false,
     contentType: false,
     dataType: "json",
     success: function (response) {
-      if (response.success === true) {
+      if (response.encontrado === true && response.id_producto) {
         // Detener la repetición
         clearInterval(intervalId);
 
         // Ocultar el cargando
         loadingBelow.style.display = "none";
+
+        /* Swal para confirmacion de datos y enlaze de producto */
+        Swal.fire({
+          icon: "success",
+          title: data.title,
+          text: data.message,
+          input: "text", // Tipo de input, en este caso texto
+          inputPlaceholder: "Ingresa el ID del producto",
+          showConfirmButton: true,
+          confirmButtonText: "Sí, enlazar producto",
+          cancelButtonText: "No",
+          showCancelButton: true,
+          preConfirm: (inputValue) => {
+            if (!inputValue) {
+              Swal.showValidationMessage("Por favor, ingresa un valor");
+            }
+            return inputValue; // Devuelve el valor ingresado
+          },
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Dividir la URL por "/"
+            let partes = enlace.split("/");
+
+            // Tomar el último elemento
+            let id_registro = partes[partes.length - 1];
+
+            // Si el usuario confirma (Sí)
+            enlazarProducto(
+              result.value,
+              id_inventario,
+              id_registro,
+              response.id_producto
+            ); // Llama a tu función pasando el valor del input
+            Swal.close(); // Cierra el Swal
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+            // Si el usuario cancela (No)
+            Swal.close(); // Cierra el Swal
+          }
+        });
+        /* fin Swal para confimacion de datos y enlaze de producto */
+      } else if (response.encontrado === true) {
+        Swal.fire({
+          icon: "error",
+          title: "Error al realizar la conexion",
+          text: response.mensaje,
+        });
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
       console.error("Error al consultar el estado:", errorThrown);
+    },
+  });
+}
+
+function enlazarProducto(inputValue, id_inventario, id_registro, id_funnel) {
+  let formData = new FormData();
+  formData.append("id_inventario", id_inventario);
+  formData.append("id_registro", id_registro);
+  formData.append("id_funnel", id_funnel);
+  formData.append("sku", inputValue);
+  $.ajax({
+    url: SERVERURL + "funnelish/asignarProducto",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    dataType: "json",
+    success: function (response) {},
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
     },
   });
 }
