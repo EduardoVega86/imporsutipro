@@ -7,7 +7,7 @@
 
         <div class="img-container text-center aplicacion" id="trigger-container">
             <img src="<?php echo SERVERURL; ?>/public/img/logo_fuinnelish.png" alt="Shopify">
-            <div class="name-tag"><span>Shopify</span></div>
+            <div class="name-tag"><span>Funnelish</span></div>
         </div>
 
         <div class="generacion_enlace" id="enlace-section" style="padding-top: 10px;">
