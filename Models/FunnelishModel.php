@@ -390,11 +390,10 @@ class FunnelishModel extends Query
                 "mensaje" => "Producto nuevo",
                 "enlace" => SERVERURL . "funnelish/index/" . $id_plataforma . '&id_registro=' . $ultimoRegistro
             ];
-        } else {
-            return [
-                "status" => 400,
-                "mensaje" => "Producto no pudo ser asignado intente nuevamente.",
-            ];
         }
+        return [
+            "status" => 400,
+            "mensaje" => "Producto no pudo ser asignado intente nuevamente.",
+        ];
     }
 }
