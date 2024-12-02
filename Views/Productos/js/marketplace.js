@@ -242,9 +242,10 @@ document.addEventListener("DOMContentLoaded", function () {
       target.classList.contains("add-to-funnel-button") ||
       target.closest(".add-to-funnel-button")
     ) {
-      const productId = button.getAttribute("data-product-id");
+      const button = target.closest(".add-to-funnel-button");
+      const funnelId = button.getAttribute("data-funnel-id");
       window.location.href =
-        "" + SERVERURL + "funnelish/constructor_vista/" + productId;
+        "" + SERVERURL + "funnelish/constructor_vista/" + funnelId;
     }
   });
 
