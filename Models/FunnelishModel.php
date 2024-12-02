@@ -362,7 +362,7 @@ class FunnelishModel extends Query
     {
         // 1. Buscar el último registro asignado
         $sql = "SELECT * FROM funnel_links WHERE id_plataforma = ? AND asignado = 1 ORDER BY id_registro DESC LIMIT 1";
-        $resAsignado = $this->select($sql, [$id_plataforma]);
+        $resAsignado = $this->dselect($sql, [$id_plataforma]);
 
         if (count($resAsignado) > 0) {
             // Si hay un registro asignado, obtener su id_registro
@@ -371,7 +371,7 @@ class FunnelishModel extends Query
         } else {
             // 2. Si no hay asignados, buscar el último sin asignar
             $sql = "SELECT * FROM funnel_links WHERE id_plataforma = ? AND asignado = 0 ORDER BY id_registro DESC LIMIT 1";
-            $resNoAsignado = $this->select($sql, [$id_plataforma]);
+            $resNoAsignado = $this->dselect($sql, [$id_plataforma]);
 
             if (count($resNoAsignado) > 0) {
                 // Si hay un registro no asignado, obtener su id_registro
@@ -400,7 +400,7 @@ class FunnelishModel extends Query
 
         // Verificar si el producto con el último id_registro está asignado
         $sql = "SELECT * FROM funnel_links WHERE id_plataforma = ? AND id_registro = ? AND asignado = 1";
-        $resVerificacion = $this->select($sql, [$id_plataforma, $ultimoRegistro]);
+        $resVerificacion = $this->dselect($sql, [$id_plataforma, $ultimoRegistro]);
 
         if (count($resVerificacion) == 0) {
             // Producto aún no asignado
