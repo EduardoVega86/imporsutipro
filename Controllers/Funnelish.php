@@ -38,7 +38,7 @@ class Funnelish extends Controller
         $datas = explode("-||-", $id_plataforma);
         $id_plataforma = $datas[0];
         $id_registro = $datas[1];
-        print_r($id_plataforma . "-" . $id_registro);
+        print_r($id_plataforma . " " . $id_registro);
         /* $data = file_get_contents("php://input");
         $this->log($data, $id_plataforma);
 
