@@ -460,4 +460,33 @@ class FunnelishModel extends Query
             "encontrado" => false,
         ];
     }
+
+    public function asignarProducto($id_inventario, $id_registro, $id_funnel, $sku, $id_plataforma)
+    {
+        $sql = "INSERT INTO productos_funnel (id_producto, id_funnel, sku, id_plataforma, id_registro) VALUES (?, ?, ?, ?, ?)";
+        $values = [$id_inventario, $id_funnel, $sku, $id_plataforma, $id_registro];
+        $res = $this->insert($sql, $values);
+
+        if ($res > 0) {
+            $sql = "UPDATE funnel_links set asignado = 1 where id_plataforma = ?, id_registro = ?";
+            $values = [$id_plataforma, $id_registro];
+            $res2 = $this->update($sql, $values);
+
+            if ($res2 > 0) {
+                return [
+                    "status" => 200,
+                    "message" => "Producto asignado correctamente"
+                ];
+            }
+
+            return [
+                "status" => 400,
+                "message" => "El producto no ha sido asignado correctamente"
+            ];
+        }
+        return [
+            "status" => 400,
+            "message" => "El producto no se registro correctamente"
+        ];
+    }
 }

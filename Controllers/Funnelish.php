@@ -122,4 +122,23 @@ class Funnelish extends Controller
         $response = $this->model->buscarPedido($id_plataforma, $id_registro);
         echo json_encode($response);
     }
+
+    public function asignarProducto($id_plataforma)
+    {
+        $id_inventario = $_POST["id_inventario"] ?? null;
+        $id_registro = $_POST["id_registro"] ?? null;
+        $id_funnel = $_POST["id_funnel"] ?? null;
+        $sku = $_POST["sku"] ?? null;
+
+        if ($sku == null || $id_funnel == null || $id_registro == null || $id_inventario == null) {
+            echo json_encode([
+                "status" => "400",
+                "message" => "Enviar los datos completos."
+            ]);
+            exit;
+        }
+
+        $response = $this->model->asignarProducto($id_inventario, $id_registro, $id_funnel, $sku, $id_plataforma);
+        echo json_encode($response);
+    }
 }
