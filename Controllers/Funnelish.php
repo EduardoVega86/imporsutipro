@@ -93,10 +93,10 @@ class Funnelish extends Controller
 
         // 2. Validar que el enlace tiene al menos los elementos necesarios
         if (count($parts) < 6) {
-            return [
+            echo json_encode([
                 'status' => 400,
                 'mensaje' => 'Formato de enlace incorrecto. Número insuficiente de elementos.'
-            ];
+            ]);
         }
 
         // 3. Limpiar los elementos vacíos (si los hay)
@@ -114,25 +114,16 @@ class Funnelish extends Controller
 
         // 5. Validar que los identificadores son numéricos
         if (!is_numeric($id_plataforma) || !is_numeric($id_registro)) {
-            return [
+            echo json_encode([
                 'status' => 400,
                 'mensaje' => 'Los identificadores deben ser numéricos.'
-            ];
+            ]);
         }
-
-        // 6. Validar el resto del formato del enlace (opcional)
-        // Puedes agregar validaciones adicionales según tus necesidades, por ejemplo:
-        // - Verificar que los elementos específicos coinciden con valores esperados (como 'funnelish' o 'index')
-
-        // 7. Si todo está correcto, proceder con la lógica adicional
-        // Aquí puedes agregar el código que necesites utilizando $id_plataforma y $id_registro
-
-        // Ejemplo de respuesta
-        return [
+        echo json_encode([
             'status' => 200,
             'mensaje' => 'Enlace válido.',
             'id_plataforma' => $id_plataforma,
             'id_registro' => $id_registro
-        ];
+        ]);
     }
 }
