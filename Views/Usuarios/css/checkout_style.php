@@ -248,11 +248,11 @@
 
         .left-column {
             position: relative;
-            width: 100%;
+            width: 100% !important;
         }
 
         .right-column {
-            width: 100%;
+            width: 100% !important;
         }
     }
 </style>
