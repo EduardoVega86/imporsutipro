@@ -104,6 +104,8 @@ class FunnelishModel extends Query
             $ciudad = str_replace("_", " ", $ciudad);
         }
 
+        print_r($provincia);
+
 
         $provincia = $this->obtenerProvincia($provincia);
         $provincia = $provincia[0]["codigo_provincia"];
