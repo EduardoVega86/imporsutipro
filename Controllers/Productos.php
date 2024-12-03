@@ -404,7 +404,11 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
-
+    public function cargar_etiquetas()
+    {
+        $response = $this->model->cargarEtiquetas($_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
 
 
     /// Funciones de productos
