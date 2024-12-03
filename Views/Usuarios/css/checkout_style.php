@@ -23,6 +23,10 @@
         padding-top: 60px;
     }
 
+    .editor_visual {
+        display: flex;
+    }
+
     /* Seccion Hidden */
     .list-group-item {
         display: flex;
@@ -253,6 +257,10 @@
 
         .right-column {
             width: 100% !important;
+        }
+
+        .editor_visual{
+            flex-direction: column;
         }
     }
 </style>
