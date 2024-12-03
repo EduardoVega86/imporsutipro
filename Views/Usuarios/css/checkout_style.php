@@ -245,5 +245,14 @@
         .seccion_principal {
             flex-direction: column;
         }
+
+        .left-column {
+            position: relative;
+            width: 100%;
+        }
+
+        .right-column {
+            width: 100%;
+        }
     }
 </style>
