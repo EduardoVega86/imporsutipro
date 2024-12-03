@@ -56,6 +56,10 @@
             gap: 10px;
             height: 60vh;
         }
+
+        .table-responsive {
+            padding-left: 27%;
+        }
     }
 
     .form-group label {
