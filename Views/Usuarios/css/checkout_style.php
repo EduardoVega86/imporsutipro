@@ -1,4 +1,9 @@
 <style>
+    .seccion_principal {
+        display: flex;
+        flex-direction: row;
+    }
+
     .left-column {
         width: 50%;
         padding: 20px;
@@ -233,6 +238,12 @@
 
         100% {
             transform: scale(1);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .seccion_principal {
+            flex-direction: column;
         }
     }
 </style>

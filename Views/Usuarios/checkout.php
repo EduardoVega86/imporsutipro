@@ -2,7 +2,7 @@
 <?php require_once './Views/Usuarios/css/checkout_style.php'; ?>
 
 <div class="custom-container-fluid mt-4">
-    <div class="container d-flex flex-row">
+    <div class="container seccion_principal">
         <div class="left-column">
             <div class="container mt-5">
 
