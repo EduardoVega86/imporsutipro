@@ -11,7 +11,7 @@
                     <!-- Elemento del formulario -->
                     <!-- TÍTULO DEL FORMULARIO -->
                     <div class="list-group-item" id="tituloFormulario">
-                        <div class="d-flex justify-content-between align-items-center" style="width: 100%;">
+                        <div class="justify-content-between align-items-center editor_visual" style="width: 100%;">
                             <div>
                                 TÍTULO DEL FORMULARIO
                             </div>
