@@ -508,8 +508,8 @@ function validar_automatizador($conn, $payload, $id_configuracion)
 
     // Variable para guardar el ID si se encuentra coincidencia
     $found_block_id = null;
-    $id_whatsapp_message_template = null;
-    $mensaje = null;
+    $id_template = null;
+    $id_etiquetas = [];
 
     // Recorrer los bloques en json_output para encontrar los bloques con blockelemtype = 10
     if (isset($json_output['blocks'])) {
@@ -536,19 +536,21 @@ function validar_automatizador($conn, $payload, $id_configuracion)
         }
     }
 
-    // Si encontramos una coincidencia, podemos hacer algo con ese ID
+    // Si encontramos una coincidencia, buscar los bloques hijos
     if ($found_block_id !== null) {
-        // Buscar los bloques que tengan como padre el bloque encontrado
         foreach ($json_output['blocks'] as $block) {
             // Verificar si este bloque tiene como padre el found_block_id
             if ($block['parent'] == (string)$found_block_id) {
                 // Ahora buscar este ID en json_bloques
                 foreach ($json_bloques as $bloque_info) {
                     if ($bloque_info['id_block'] == (string)$block['id']) {
-                        /* $id_whatsapp_message_template = $bloque_info['id_whatsapp_message_template'];
-                        $mensaje = $bloque_info['mensaje']; */
+                        // Intentar obtener el id_template
+                        $id_template = $bloque_info['templates_a[]'] ?? null;
 
-                        $id_template = $bloque_info['templates_a[]'];
+                        // Si no se encuentra id_template o está vacío, buscar etiquetas
+                        if (empty($id_template)) {
+                            $id_etiquetas = $bloque_info['etiqueta_a[]'] ?? [];
+                        }
                     }
                 }
             }
@@ -557,14 +559,11 @@ function validar_automatizador($conn, $payload, $id_configuracion)
         file_put_contents('debug_log.txt', "No se encontró coincidencia en validar_automatizador.\n", FILE_APPEND);
     }
 
+    // Devolver los resultados como un array
     return [
         'id_template' => $id_template,
+        'id_etiquetas' => $id_etiquetas,
     ];
-    // Devolver los resultados como un array
-    /* return [
-        'id_whatsapp_message_template' => $id_whatsapp_message_template,
-        'mensaje' => $mensaje
-    ]; */
 }
 
 function obtenerNombreTemplatePorID($accessToken, $waba_id, $id_whatsapp_message_template)
@@ -908,6 +907,45 @@ function procesarMensajeTexto($conn, $id_plataforma, $business_phone_id, $nombre
     $stmt->close();
 }
 
+function asignar_etiquetas($id_etiquetas, $id_plataforma, $id_cliente)
+{
+    foreach ($id_etiquetas as $id_etiqueta) {
+        // Configurar cURL
+        $ch = curl_init();
+
+        // Datos a enviar como FormData
+        $formData = [
+            'id_etiqueta' => $id_etiqueta,
+            'id_plataforma' => $id_plataforma,
+            'id_cliente' => $id_cliente
+        ];
+
+        curl_setopt($ch, CURLOPT_URL, "https://new.imporsuitpro.com/Pedidos/asignar_etiqueta_automatizador");
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $formData);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        // Ejecutar la solicitud
+        $response = curl_exec($ch);
+
+        // Manejo de errores
+        if (curl_errno($ch)) {
+            echo "Error en cURL: " . curl_error($ch) . PHP_EOL;
+        } else {
+            // Decodificar y manejar la respuesta si es necesario
+            $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            if ($http_code === 200) {
+                echo "Etiqueta $id_etiqueta asignada correctamente." . PHP_EOL;
+            } else {
+                echo "Error al asignar etiqueta $id_etiqueta. Código HTTP: $http_code" . PHP_EOL;
+            }
+        }
+
+        // Cerrar la conexión cURL
+        curl_close($ch);
+    }
+}
+
 // Función para enviar datos a la API sockect
 function enviarConsultaAPI($id_plataforma, $celular_recibe)
 {
@@ -1236,11 +1274,14 @@ switch ($tipo_mensaje) {
         } */
 
         $id_template = $resultado_automatizador['id_template'] ?? null;
+        $id_etiquetas = $resultado_automatizador['id_etiquetas'] ?? null;
 
-        $tipo_button = 0;
+        $tipo_button = "";
         if (!empty($id_template)) {
 
-            $tipo_button = 1;
+            $tipo_button = "template";
+        } else if (!empty($id_etiquetas)) {
+            $tipo_button = "etiquetas";
         } else {
             file_put_contents('debug_log.txt', "No se encontraron los datos necesarios para enviar el mensaje template.\n", FILE_APPEND);
         }
@@ -1327,9 +1368,11 @@ if ($stmt->execute()) {
     echo json_encode(["status" => "success", "message" => "Mensaje procesado correctamente."]);
 
     /* validador para enviar mensaje tipo buttom */
-    if ($tipo_button == 1) {
+    if ($tipo_button == "template") {
         enviarMensajeTextoWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $conn, $id_plataforma, $id_configuracion, $id_template);
         /* enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $template_name, $mensaje, $conn, $id_plataforma, $id_configuracion); */
+    } else if ($tipo_button == "etiquetas") {
+        asignar_etiquetas($id_etiquetas, $id_plataforma, $id_cliente);
     }
     /* fin validador para enviar mensaje tipo buttom*/
 

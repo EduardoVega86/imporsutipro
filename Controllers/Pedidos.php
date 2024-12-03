@@ -771,6 +771,16 @@ class Pedidos extends Controller
         echo json_encode($response);
     }
 
+    public function asignar_etiqueta_automatizador()
+    {
+        $id_cliente = $_POST['id_cliente'];
+        $id_etiqueta = $_POST['id_etiqueta'];
+        $id_plataforma = $_POST['id_plataforma'];
+
+        $response = $this->model->asignar_etiqueta_automatizador($id_cliente, $id_etiqueta, $id_plataforma);
+        echo json_encode($response);
+    }
+
     public function eliminarEtiqueta($id_etiqueta)
     {
         $response = $this->model->eliminarEtiqueta($id_etiqueta);
