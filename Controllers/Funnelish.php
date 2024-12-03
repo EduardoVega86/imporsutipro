@@ -9,7 +9,7 @@ class Funnelish extends Controller
         parent::__construct();
     }
 
-    public function index($id_plataforma)
+    /*  public function index($id_plataforma)
     {
         if (empty($id_plataforma)) {
             die("Error: No se ha especificado una plataforma");
@@ -18,7 +18,6 @@ class Funnelish extends Controller
         $this->log($data, $id_plataforma, "");
 
         if ($this->model->existenciaPlataforma($id_plataforma)) {
-            /*  $response = $this->log($id_plataforma, $data); */
             $valido = $this->model->productoPlataforma($id_plataforma, $data);
             print_r($valido);
             if ($valido) {
@@ -28,9 +27,9 @@ class Funnelish extends Controller
             $data = file_get_contents("php://input");
             $this->data($data);
             echo "Plataforma no registrada";
-        } */
-    }
-    public function index2($id_plataforma)
+        } 
+    } */
+    public function index($id_plataforma)
     {
         if (empty($id_plataforma)) {
             die("Error: No se ha especificado una plataforma");
