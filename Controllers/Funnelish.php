@@ -91,7 +91,8 @@ class Funnelish extends Controller
 
     public function log($data, $id_plataforma, $id_registro)
     {
-        $this->model->saveDataPlatform($data, $id_plataforma, $id_registro);
+        $res = $this->model->saveDataPlatform($data, $id_plataforma, $id_registro);
+        print_r($res);
     }
 
     public function get_productos()
