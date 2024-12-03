@@ -96,6 +96,15 @@ class FunnelishModel extends Query
         $provincia = $json["shipping_state"];
         $ciudad = $json["shipping_city"];
 
+        if (str_contains("_", $provincia)) {
+            $provincia = str_replace("_", " ", $provincia);
+        }
+
+        if (str_contains("_", $ciudad)) {
+            $ciudad = str_replace("_", " ", $ciudad);
+        }
+
+
         $provincia = $this->obtenerProvincia($provincia);
         $provincia = $provincia[0]["codigo_provincia"];
         $ciudad = $this->obtenerCiudad($ciudad);
