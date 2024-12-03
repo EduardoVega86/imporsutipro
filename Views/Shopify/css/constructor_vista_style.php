@@ -99,7 +99,16 @@
     @media (max-width: 768px) {
         .full-screen-container {
             flex-direction: column;
-            height: 70vh;
+            height: 90vh;
+            gap: 5px;
+        }
+
+        .custom-container-fluid {
+            min-height: 50% !important;
+        }
+
+        .table-responsive {
+            padding-left: 27%;
         }
     }
 
