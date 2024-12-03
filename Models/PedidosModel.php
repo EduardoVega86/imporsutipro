@@ -2052,6 +2052,38 @@ class PedidosModel extends Query
         return $response;
     }
 
+    public function asignar_etiqueta_automatizador($id_cliente_chat_center, $id_etiqueta, $id_plataforma)
+    {
+        // Inicializar la respuesta
+        $response = $this->initialResponse();
+
+        // Consultar si la etiqueta ya está asignada
+        $sql = "SELECT id FROM etiquetas_asignadas WHERE id_cliente_chat_center = ? AND id_etiqueta = ?";
+        $data = [$id_cliente_chat_center, $id_etiqueta];
+        $etiquetas_asignadas = $this->dselect($sql, $data);
+
+        if (empty($etiquetas_asignadas)) {
+            // Si no existe, agregar la asignación
+            $insert_sql = "INSERT INTO etiquetas_asignadas (id_cliente_chat_center, id_etiqueta, id_plataforma) VALUES (?, ?, ?)";
+            $insert_data = [$id_cliente_chat_center, $id_etiqueta, $id_plataforma];
+            $insertar_asignacion = $this->insert($insert_sql, $insert_data);
+
+            if ($insertar_asignacion == 1) {
+                // Respuesta exitosa para inserción
+                $response['status'] = 200;
+                $response['title'] = 'Petición exitosa';
+                $response['message'] = 'Etiqueta asignada correctamente';
+                $response['asignado'] = true;
+            } else {
+                // Error en inserción
+                $response['status'] = 500;
+                $response['title'] = 'Error al asignar';
+                $response['message'] = 'Error al asignar la etiqueta';
+            }
+        }
+        return $response;
+    }
+
 
     public function eliminarEtiqueta($id_etiqueta)
     {
