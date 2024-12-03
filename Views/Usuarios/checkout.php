@@ -52,7 +52,7 @@
 
                     <!-- Resumen Total... -->
                     <div class="list-group-item" id="resumenTotal" style="display: none;">
-                        <div class="d-flex justify-content-between align-items-center" style="width: 100%;">
+                        <div class="justify-content-between align-items-center editor_visual" style="width: 100%;">
                             <div>
                                 <button class="btn btn-secondary btn-sm toggle-visibility"><i class="fas fa-eye"></i></button>
                                 RESUMEN TOTAL
@@ -92,7 +92,7 @@
                     <!-- Fin Resumen Total... -->
                     <!-- TARIFAS DE ENVIO. -->
                     <div class="list-group-item" id="tarifasEnvio">
-                        <div class="d-flex justify-content-between align-items-center" style="width: 100%;">
+                        <div class="justify-content-between align-items-center editor_visual" style="width: 100%;">
                             <div>
                                 <button class="btn btn-secondary btn-sm toggle-visibility"><i class="fas fa-eye"></i></button>
                                 TARIFAS DE ENVIO
@@ -123,7 +123,7 @@
                     <!-- Fin TARIFAS DE ENVIO -->
                     <!-- CODIGOS DE DESCUENTO -->
                     <div class="list-group-item" id="codigosDescuento_temporal">
-                        <div class="d-flex justify-content-between align-items-center" style="width: 100%;">
+                        <div class="justify-content-between align-items-center editor_visual" style="width: 100%;">
                             <div>
                                 <button class="btn btn-secondary btn-sm toggle-visibility" disabled><i class="fas fa-eye"></i></button>
                                 CODIGOS DE DESCUENTO
@@ -162,7 +162,7 @@
                     <!-- Fin CODIGOS DE DESCUENTO -->
                     <!-- NOMBRES Y APELLIDOS -->
                     <div class="list-group-item" id="nombresApellidos">
-                        <div class="d-flex justify-content-between align-items-center" style="width: 100%;">
+                        <div class="justify-content-between align-items-center editor_visual" style="width: 100%;">
                             <div>
                                 <button class="btn btn-secondary btn-sm toggle-visibility"><i class="fas fa-eye"></i></button>
                                 NOMBRES Y APELLIDOS
@@ -203,7 +203,7 @@
                     <!-- Fin NOMBRES Y APELLIDOS -->
                     <!-- TELÉFONO -->
                     <div class="list-group-item" id="telefono">
-                        <div class="d-flex justify-content-between align-items-center" style="width: 100%;">
+                        <div class="justify-content-between align-items-center editor_visual" style="width: 100%;">
                             <div>
                                 <button class="btn btn-secondary btn-sm toggle-visibility"><i class="fas fa-eye"></i></button>
                                 TELÉFONO
@@ -237,7 +237,7 @@
                     <!-- Fin TELÉFONO -->
                     <!-- CALLE PRINCIPAL -->
                     <div class="list-group-item" id="calle_principal">
-                        <div class="d-flex justify-content-between align-items-center" style="width: 100%;">
+                        <div class="justify-content-between align-items-center editor_visual" style="width: 100%;">
                             <div>
                                 <button class="btn btn-secondary btn-sm toggle-visibility"><i class="fas fa-eye"></i></button>
                                 CALLE PRINCIPAL
@@ -275,7 +275,7 @@
                     <!-- Fin CALLE PRINCIPAL -->
                     <!-- CALLE secundaria -->
                     <div class="list-group-item" id="calle_secundaria">
-                        <div class="d-flex justify-content-between align-items-center" style="width: 100%;">
+                        <div class="justify-content-between align-items-center editor_visual" style="width: 100%;">
                             <div>
                                 <button class="btn btn-secondary btn-sm toggle-visibility"><i class="fas fa-eye"></i></button>
                                 CALLE SEGUNDARIA
@@ -313,7 +313,7 @@
                     <!-- Fin CALLE secundaria -->
                     <!-- BARRIO O REFERENCIA -->
                     <div class="list-group-item" id="barrio_referencia">
-                        <div class="d-flex justify-content-between align-items-center" style="width: 100%;">
+                        <div class="justify-content-between align-items-center editor_visual" style="width: 100%;">
                             <div>
                                 <button class="btn btn-secondary btn-sm toggle-visibility"><i class="fas fa-eye"></i></button>
                                 BARRIO O REFERENCIA
@@ -351,7 +351,7 @@
                     <!-- Fin BARRIO O REFERENCIA -->
                     <!-- provincia -->
                     <div class="list-group-item" id="provincia">
-                        <div class="d-flex justify-content-between align-items-center" style="width: 100%;">
+                        <div class="justify-content-between align-items-center editor_visual" style="width: 100%;">
                             <div>
                                 <button class="btn btn-secondary btn-sm toggle-visibility"><i class="fas fa-eye"></i></button>
                                 PROVINCIA
@@ -377,7 +377,7 @@
                     <!-- Fin provincia -->
                     <!-- ciudad -->
                     <div class="list-group-item" id="ciudad">
-                        <div class="d-flex justify-content-between align-items-center" style="width: 100%;">
+                        <div class="justify-content-between align-items-center editor_visual" style="width: 100%;">
                             <div>
                                 <button class="btn btn-secondary btn-sm toggle-visibility"><i class="fas fa-eye"></i></button>
                                 CIUDAD
@@ -403,7 +403,7 @@
                     <!-- Fin ciudad -->
                     <!-- Comentario -->
                     <div class="list-group-item" id="comentario">
-                        <div class="d-flex justify-content-between align-items-center" style="width: 100%;">
+                        <div class="justify-content-between align-items-center editor_visual" style="width: 100%;">
                             <div>
                                 <button class="btn btn-secondary btn-sm toggle-visibility"><i class="fas fa-eye"></i></button>
                                 COMENTARIO
@@ -441,7 +441,7 @@
                     <!-- Fin Comentario -->
                     <!-- BOTON DE COMPRA -->
                     <div class="list-group-item" id="btn_comprar">
-                        <div class="d-flex justify-content-between align-items-center" style="width: 100%;">
+                        <div class="justify-content-between align-items-center editor_visual" style="width: 100%;">
                             <div>
                                 <button class="btn btn-secondary btn-sm toggle-visibility"><i class="fas fa-eye"></i></button>
                                 BOTON DE COMPRA
