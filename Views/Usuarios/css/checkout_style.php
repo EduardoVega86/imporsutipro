@@ -259,8 +259,21 @@
             width: 100% !important;
         }
 
-        .editor_visual{
+        .editor_visual {
             flex-direction: column;
+        }
+
+        .full-screen-container {
+            height: 90vh !important;
+            gap: 5px;
+        }
+
+        .custom-container-fluid {
+            min-height: 50% !important;
+        }
+
+        .table-responsive {
+            padding-left: 27%;
         }
     }
 </style>
