@@ -1482,7 +1482,7 @@ class PedidosModel extends Query
             $insertar_caracteristica = $this->update($sql, $data);
             //print_r($insertar_caracteristica);
         }
-        // print_r($insertar_caracteristica);
+        print_r($insertar_caracteristica);
 
         if ($insertar_caracteristica == 1) {
             $response['status'] = 200;
@@ -1491,7 +1491,7 @@ class PedidosModel extends Query
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = 'Error al agregar la caracteristica';
+            $response['message'] = 'Error al agregar al carrito';
         }
         return $response;
     }
