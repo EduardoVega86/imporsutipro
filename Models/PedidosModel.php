@@ -1471,7 +1471,7 @@ class PedidosModel extends Query
             $numeroFactura = $this->select("SELECT numero_factura FROM facturas_cot WHERE id_factura = '$id_factura'");
             $numero_factura = $numeroFactura[0]['numero_factura'];
             $sql = "INSERT INTO `detalle_fact_cot` (`id_producto`, `cantidad`, `precio_venta`, `id_factura`, `id_plataforma`, `sku`, `numero_factura`, `id_inventario`) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
-            $data = [$id_producto, $cantidad, $precio, $id_factura, $plataforma, $sku, $numero_factura, $id_inventario];
+            $data = [$id_producto, $cantidad, $precio, (int)$id_factura, $plataforma, $sku, $numero_factura, $id_inventario];
             $insertar_caracteristica = $this->insert($sql, $data);
         } else {
             $cantidad_anterior = $cantidad_tmp[0]["cantidad"];
