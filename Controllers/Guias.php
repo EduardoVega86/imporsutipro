@@ -188,8 +188,8 @@ class Guias extends Controller
 
     public function generarGintracom()
     {
-        if (!$this->isAuth())
-            header("Location:  " . SERVERURL . "login");
+        $this->isAuth();
+
         $nombreOrigen = $_POST['nombreO'];
         $ciudadOrigen = $_POST['ciudadO'];
         $provinciaOrigen = $_POST['provinciaO'];
@@ -246,8 +246,7 @@ class Guias extends Controller
 
     public function generarSpeed()
     {
-        if (!$this->isAuth())
-            header("Location:  " . SERVERURL . "login");
+        $this->isAuth();
         $nombreO = $_POST['nombreO'];
         $ciudadO = $_POST['ciudadO'];
         $ciudadOrigen = $this->model->obtenerNombre($ciudadO, "ciudad")[0]['ciudad'];
