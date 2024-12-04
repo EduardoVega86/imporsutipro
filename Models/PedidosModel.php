@@ -1461,7 +1461,7 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
-    public function agregarDetalle($id_producto, $cantidad, $precio,  $plataforma, $sku, $id_factura)
+    public function agregarDetalle($id_producto, $cantidad, $precio,  $plataforma, $sku, $id_factura, $id_inventario)
     {
         //verificar productos
         $timestamp = session_id();
@@ -1470,8 +1470,8 @@ class PedidosModel extends Query
         if (empty($cantidad_tmp)) {
             $numeroFactura = $this->select("SELECT numero_factura FROM facturas_cot WHERE id_factura = '$id_factura'");
             $numero_factura = $numeroFactura[0]['numero_factura'];
-            $sql = "INSERT INTO `detalle_fact_cot` (`id_producto`, `cantidad`, `precio_venta`, `id_factura`, `id_plataforma`, `sku`, `numero_factura`) VALUES (?, ?, ?, ?, ?, ?, ?);";
-            $data = [$id_producto, $cantidad, $precio, $id_factura, $plataforma, $sku, $numero_factura];
+            $sql = "INSERT INTO `detalle_fact_cot` (`id_producto`, `cantidad`, `precio_venta`, `id_factura`, `id_plataforma`, `sku`, `numero_factura`, `id_inventario`) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+            $data = [$id_producto, $cantidad, $precio, $id_factura, $plataforma, $sku, $numero_factura, $id_inventario];
             $insertar_caracteristica = $this->insert($sql, $data);
         } else {
             $cantidad_anterior = $cantidad_tmp[0]["cantidad"];
@@ -1482,7 +1482,7 @@ class PedidosModel extends Query
             $insertar_caracteristica = $this->update($sql, $data);
             //print_r($insertar_caracteristica);
         }
-        print_r($insertar_caracteristica);
+        /* print_r($insertar_caracteristica); */
 
         if ($insertar_caracteristica == 1) {
             $response['status'] = 200;
