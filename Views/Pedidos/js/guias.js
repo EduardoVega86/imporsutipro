@@ -5,7 +5,7 @@ const dataTableOptions = {
   columnDefs: [
     {
       className: "centered",
-      targets: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+      targets: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
     },
     { orderable: false, targets: 0 }, // Asegúrate de que esta sea la columna correcta
     { visible: false, targets: 11 },
@@ -24,7 +24,7 @@ const dataTableOptions = {
       title: "Panel de Control: Usuarios",
       titleAttr: "Exportar a Excel",
       exportOptions: {
-        columns: [1, 2, 4, 5, 6, 7, 8, 11, 12, 13],
+        columns: [1, 2, 4, 5, 6, 7, 8, 11, 12],
       },
       filename: "Productos" + "_" + getFecha(),
       footer: true,
