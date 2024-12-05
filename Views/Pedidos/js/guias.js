@@ -249,6 +249,19 @@ const listGuias = async () => {
       }')">${plataforma}</span></td>`;
 
       mostrar_tienda = "";
+
+      let mostrar_tienda2 = `<td><span class="link-like" id="plataformaLink" onclick="abrirModal_infoTienda('${
+        guia.plataforma
+      }')">${plataforma}</span></td>`;
+
+      mostrar_tienda2 = "";
+
+      let mostrar_tienda3 = `<td><span class="link-like" id="plataformaLink" onclick="abrirModal_infoTienda('${
+        guia.plataforma
+      }')">${plataforma}</span></td>`;
+
+      mostrar_tienda3 = "";
+
       content += `
                 <tr>
                     <td><input type="checkbox" class="selectCheckbox" data-id="${
@@ -307,9 +320,9 @@ const listGuias = async () => {
                     </ul>
                     </div>
                     </td>
-          <td>${guia.contiene}</td>
-          <td>${guia.monto_factura}</td>
-          <td>${guia.costo_producto}</td>
+                    <td>${guia.contiene}</td>
+                    <td>${guia.monto_factura}</td>
+                    <td>${guia.costo_producto}</td>
                 </tr>`;
                  content += `
                 <tr>
@@ -328,9 +341,7 @@ const listGuias = async () => {
                         <div>telf: ${guia.telefono}</div>
                     </td>
                     <td>${guia.provinciaa}-${ciudad}</td>
-                    <td><span class="link-like" id="plataformaLink" onclick="abrirModal_infoTienda('${
-                      guia.plataforma
-                    }')">${plataforma}</span></td>
+                    ${mostrar_tienda2}
                     <td>${transporte_content}</td>
                     <td>
                      <div style="text-align: center;">
@@ -371,9 +382,9 @@ const listGuias = async () => {
                     </ul>
                     </div>
                     </td>
-          <td>${guia.contiene}</td>
-          <td>${guia.monto_factura}</td>
-          <td>${guia.costo_producto}</td>
+                    <td>${guia.contiene}</td>
+                    <td>${guia.monto_factura}</td>
+                    <td>${guia.costo_producto}</td>
                 </tr>`;
 
                  content += `
@@ -393,9 +404,7 @@ const listGuias = async () => {
                         <div>telf: ${guia.telefono}</div>
                     </td>
                     <td>${guia.provinciaa}-${ciudad}</td>
-                    <td><span class="link-like" id="plataformaLink" onclick="abrirModal_infoTienda('${
-                      guia.plataforma
-                    }')">${plataforma}</span></td>
+                    ${mostrar_tienda3}
                     <td>${transporte_content}</td>
                     <td>
                      <div style="text-align: center;">
@@ -436,9 +445,9 @@ const listGuias = async () => {
                     </ul>
                     </div>
                     </td>
-          <td>${guia.contiene}</td>
-          <td>${guia.monto_factura}</td>
-          <td>${guia.costo_producto}</td>
+                    <td>${guia.contiene}</td>
+                    <td>${guia.monto_factura}</td>
+                    <td>${guia.costo_producto}</td>
                 </tr>`;
     });
     document.getElementById("tableBody_guias").innerHTML = content;
