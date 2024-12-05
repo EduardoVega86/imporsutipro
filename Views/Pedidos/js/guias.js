@@ -244,6 +244,11 @@ const listGuias = async () => {
       } else if (guia.estado_factura == 1) {
         despachado = `<i class='bx bx-x' style="color:red; font-size: 30px;"></i>`;
       }
+      let mostrar_tienda = `<td><span class="link-like" id="plataformaLink" onclick="abrirModal_infoTienda('${
+        guia.plataforma
+      }')">${plataforma}</span></td>`;
+
+      mostrar_tienda = "";
       content += `
                 <tr>
                     <td><input type="checkbox" class="selectCheckbox" data-id="${
@@ -261,7 +266,7 @@ const listGuias = async () => {
                         <div>telf: ${guia.telefono}</div>
                     </td>
                     <td>${guia.provinciaa}-${ciudad}</td>
-                    
+                    ${mostrar_tienda}
                     <td>${transporte_content}</td>
                     <td>
                      <div style="text-align: center;">
