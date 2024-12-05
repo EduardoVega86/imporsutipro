@@ -82,7 +82,7 @@ class PedidosModel extends Query
                     break;
                 case 'devolucion':
                     $sql .= " AND ((estado_guia_sistema BETWEEN 500 AND 502 and id_transporte=2)
-                                OR (estado_guia_sistema in (9) and id_transporte=2)
+                                OR (estado_guia_sistema in (9) and id_transporte=1)
                                 OR (estado_guia_sistema in (9) and id_transporte=4)
                                 OR (estado_guia_sistema in (8,9,13) and id_transporte=3))";
                     break;
