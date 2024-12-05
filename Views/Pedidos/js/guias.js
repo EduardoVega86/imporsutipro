@@ -244,23 +244,9 @@ const listGuias = async () => {
       } else if (guia.estado_factura == 1) {
         despachado = `<i class='bx bx-x' style="color:red; font-size: 30px;"></i>`;
       }
-      let mostrar_tienda = `<td><span class="link-like" id="plataformaLink" onclick="abrirModal_infoTienda('${
-        guia.plataforma
-      }')">${plataforma}</span></td>`;
+      let mostrar_tienda = `<td><span class="link-like" id="plataformaLink" onclick="abrirModal_infoTienda('${guia.plataforma}')">${plataforma}</span></td>`;
 
       mostrar_tienda = "";
-
-      let mostrar_tienda2 = `<td><span class="link-like" id="plataformaLink" onclick="abrirModal_infoTienda('${
-        guia.plataforma
-      }')">${plataforma}</span></td>`;
-
-      mostrar_tienda2 = "";
-
-      let mostrar_tienda3 = `<td><span class="link-like" id="plataformaLink" onclick="abrirModal_infoTienda('${
-        guia.plataforma
-      }')">${plataforma}</span></td>`;
-
-      mostrar_tienda3 = "";
 
       content += `
                 <tr>
@@ -280,131 +266,6 @@ const listGuias = async () => {
                     </td>
                     <td>${guia.provinciaa}-${ciudad}</td>
                     ${mostrar_tienda}
-                    <td>${transporte_content}</td>
-                    <td>
-                     <div style="text-align: center;">
-                     <div>
-                      <span class="w-100 text-nowrap ${span_estado}">${estado_guia}</span>
-                     </div>
-                     <div>
-                     ${ruta_descarga}
-                     </div>
-                     <div style="position: relative; display: inline-block;">
-                      <a href="${ruta_traking}" target="_blank" style="vertical-align: middle;">
-                        <img src="https://new.imporsuitpro.com/public/img/tracking.png" width="40px" id="buscar_traking" alt="buscar_traking">
-                      </a>
-                      <a href="https://wa.me/${formatPhoneNumber(
-                        guia.telefono
-                      )}" target="_blank" style="font-size: 45px; vertical-align: middle; margin-left: 10px;" target="_blank">
-                      <i class='bx bxl-whatsapp-square' style="color: green;"></i>
-                      </a>
-                     </div>
-                     <div style="text-align: -webkit-center;">
-                     ${select_speed}
-                     </div>
-                     <div>
-                     ${novedad}
-                     </div>
-                     </div>
-                    </td>
-                    <td>${despachado}</td>
-                    <td>${impresiones}</td>
-                    <td>
-                    <div class="dropdown">
-                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-gear"></i>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        ${boton_anular}
-                        <li><span class="dropdown-item" style="cursor: pointer;">Información</span></li>
-                    </ul>
-                    </div>
-                    </td>
-                    <td>${guia.contiene}</td>
-                    <td>${guia.monto_factura}</td>
-                    <td>${guia.costo_producto}</td>
-                </tr>`;
-                 content += `
-                <tr>
-                    <td><input type="checkbox" class="selectCheckbox" data-id="${
-                      guia.id_factura
-                    }"></td>
-                    <td>${guia.numero_factura}</td>
-                    <td>
-                    <div><button onclick="ver_detalle_cot('${
-                      guia.id_factura
-                    }')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>
-                    <div>${guia.fecha_guia}</td></div>
-                    <td>
-                        <div><strong>${guia.nombre}</strong></div>
-                        <div>${guia.c_principal} y ${guia.c_secundaria}</div>
-                        <div>telf: ${guia.telefono}</div>
-                    </td>
-                    <td>${guia.provinciaa}-${ciudad}</td>
-                    ${mostrar_tienda2}
-                    <td>${transporte_content}</td>
-                    <td>
-                     <div style="text-align: center;">
-                     <div>
-                      <span class="w-100 text-nowrap ${span_estado}">${estado_guia}</span>
-                     </div>
-                     <div>
-                     ${ruta_descarga}
-                     </div>
-                     <div style="position: relative; display: inline-block;">
-                      <a href="${ruta_traking}" target="_blank" style="vertical-align: middle;">
-                        <img src="https://new.imporsuitpro.com/public/img/tracking.png" width="40px" id="buscar_traking" alt="buscar_traking">
-                      </a>
-                      <a href="https://wa.me/${formatPhoneNumber(
-                        guia.telefono
-                      )}" target="_blank" style="font-size: 45px; vertical-align: middle; margin-left: 10px;" target="_blank">
-                      <i class='bx bxl-whatsapp-square' style="color: green;"></i>
-                      </a>
-                     </div>
-                     <div style="text-align: -webkit-center;">
-                     ${select_speed}
-                     </div>
-                     <div>
-                     ${novedad}
-                     </div>
-                     </div>
-                    </td>
-                    <td>${despachado}</td>
-                    <td>${impresiones}</td>
-                    <td>
-                    <div class="dropdown">
-                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-gear"></i>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        ${boton_anular}
-                        <li><span class="dropdown-item" style="cursor: pointer;">Información</span></li>
-                    </ul>
-                    </div>
-                    </td>
-                    <td>${guia.contiene}</td>
-                    <td>${guia.monto_factura}</td>
-                    <td>${guia.costo_producto}</td>
-                </tr>`;
-
-                 content += `
-                <tr>
-                    <td><input type="checkbox" class="selectCheckbox" data-id="${
-                      guia.id_factura
-                    }"></td>
-                    <td>${guia.numero_factura}</td>
-                    <td>
-                    <div><button onclick="ver_detalle_cot('${
-                      guia.id_factura
-                    }')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>
-                    <div>${guia.fecha_guia}</td></div>
-                    <td>
-                        <div><strong>${guia.nombre}</strong></div>
-                        <div>${guia.c_principal} y ${guia.c_secundaria}</div>
-                        <div>telf: ${guia.telefono}</div>
-                    </td>
-                    <td>${guia.provinciaa}-${ciudad}</td>
-                    ${mostrar_tienda3}
                     <td>${transporte_content}</td>
                     <td>
                      <div style="text-align: center;">
@@ -1038,29 +899,29 @@ function gestionar_novedad(guia_novedad) {
 function resetModalInputs(modalId) {
   // Selecciona el modal por su ID
   const modal = document.querySelector(`#${modalId}`);
-  
+
   if (modal) {
-      // Selecciona todos los inputs y los limpia
-      const inputs = modal.querySelectorAll('input');
-      inputs.forEach(input => {
-          input.value = '';
-      });
+    // Selecciona todos los inputs y los limpia
+    const inputs = modal.querySelectorAll("input");
+    inputs.forEach((input) => {
+      input.value = "";
+    });
 
-      // Selecciona todos los select y los reinicia al valor predeterminado
-      const selects = modal.querySelectorAll('select');
-      selects.forEach(select => {
-          select.selectedIndex = 0; // Reinicia al primer option
-      });
+    // Selecciona todos los select y los reinicia al valor predeterminado
+    const selects = modal.querySelectorAll("select");
+    selects.forEach((select) => {
+      select.selectedIndex = 0; // Reinicia al primer option
+    });
 
-      // Oculta las secciones opcionales que estén configuradas con "display: none"
-      const optionalSections = modal.querySelectorAll('[style*="display"]');
-      optionalSections.forEach(section => {
-          section.style.display = 'none';
-      });
+    // Oculta las secciones opcionales que estén configuradas con "display: none"
+    const optionalSections = modal.querySelectorAll('[style*="display"]');
+    optionalSections.forEach((section) => {
+      section.style.display = "none";
+    });
 
-      console.log('Modal inputs and selects reset successfully.');
+    console.log("Modal inputs and selects reset successfully.");
   } else {
-      console.error('Modal not found!');
+    console.error("Modal not found!");
   }
 }
 
