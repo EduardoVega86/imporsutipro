@@ -261,9 +261,7 @@ const listGuias = async () => {
                         <div>telf: ${guia.telefono}</div>
                     </td>
                     <td>${guia.provinciaa}-${ciudad}</td>
-                    /* <td><span class="link-like" id="plataformaLink" onclick="abrirModal_infoTienda('${
-                      guia.plataforma
-                    }')">${plataforma}</span></td> */
+                    
                     <td>${transporte_content}</td>
                     <td>
                      <div style="text-align: center;">
