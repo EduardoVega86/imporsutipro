@@ -10,7 +10,7 @@ const dataTableOptions = {
     { orderable: false, targets: 0 }, // Asegúrate de que esta sea la columna correcta
     { visible: false, targets: 11 },
     { visible: false, targets: 12 },
-    { visible: false, targets: 13 }, // Asegúrate de que esta sea la columna correcta
+    /* { visible: false, targets: 13 }, // Asegúrate de que esta sea la columna correcta */
   ],
   order: [[2, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
   pageLength: 10,
