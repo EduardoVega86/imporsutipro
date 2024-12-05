@@ -719,6 +719,7 @@ class WalletModel extends Query
         $sql = "UPDATE billeteras set codigo = '$codigo', fecha_codigo = now() WHERE id_plataforma = '$plataforma'";
         $response =  $this->select($sql);
         // enviar codigo de verificacion al correo
+        if ($plataforma == 3031) $plataforma = 2324;
         $correo = $this->obtenerCorreo2($plataforma);
         //$correo = $correo[0]['correo'];
         $asunto = "Código de verificación";
