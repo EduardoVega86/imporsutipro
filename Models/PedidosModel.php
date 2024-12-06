@@ -1057,6 +1057,7 @@ class PedidosModel extends Query
                     "contenido" => $contiene,
                     "costo" => $monto_factura,
                     "ciudad" => $nombre_ciudad,
+                    "tracking" => "",
                     "productos" => $data['productos'] ?? [],
                     "categorias" => $data['categorias'] ?? [],
                     "status" => [""],
@@ -1071,7 +1072,8 @@ class PedidosModel extends Query
                         "order_id" => $nueva_factura,
                         "contenido" => $contiene,
                         "costo" => $monto_factura,
-                        "ciudad" => $nombre_ciudad
+                        "ciudad" => $nombre_ciudad,
+                        "tracking" => ""
                     ]
                 ];
 
