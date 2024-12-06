@@ -476,6 +476,7 @@ class SpeedModel extends Query
             $response['data']['telefono'] = $res1[0]['celular'];
             $response['data']['nombre'] = $res1[0]['nombre'];
             $response['data']['numero_factura'] = $res1[0]['numero_factura'];
+            $response['data']['numero_guia'] = $res1[0]['numero_guia'];
             $response['data']['c_principal'] = $res1[0]['c_principal'];
             $response['data']['c_secundaria'] = $res1[0]['c_secundaria'];
             $response['data']['c_secundaria'] = $res1[0]['c_secundaria'];
@@ -499,6 +500,7 @@ class SpeedModel extends Query
         $telefono = $this->formatearTelefono($configuracion['telefono']);
         $estado_guia = $configuracion['estado'];
         $numero_factura = $configuracion['numero_factura'];
+        $numero_guia = $configuracion['numero_guia'];
         $nombre = $configuracion['nombre'];
         $calle_principal = $configuracion['c_principal'];
         $calle_secundaria = $configuracion['c_secundaria'];
@@ -516,7 +518,10 @@ class SpeedModel extends Query
         echo "-";
         echo $estado_guia;
 
+        $tracking = "";
+
         if ($id_transporte == 1) {
+            $tracking = "https://fenixoper.laarcourier.com/Tracking/Guiacompleta.aspx?guia=" . $numero_guia;
             if ($estado_guia == 7) {
                 $estado_guia_automatizador = 1;
             } else if ($estado_guia == 9) {
@@ -529,6 +534,7 @@ class SpeedModel extends Query
                 $estado_guia_automatizador = 5;
             }
         } else if ($id_transporte == 2) {
+            $tracking = "https://www.servientrega.com.ec/Tracking/?guia=" . $numero_guia . "&tipo=GUIA";
             if ($estado_guia >= 400 && $estado_guia <= 403) {
                 $estado_guia_automatizador = 1;
             } else if ($estado_guia >= 500 && $estado_guia <= 502) {
@@ -537,10 +543,12 @@ class SpeedModel extends Query
                 $estado_guia_automatizador = 2;
             } else if ($estado_guia == 100 && $estado_guia == 102 && $estado_guia == 103) {
                 $estado_guia_automatizador = 4;
-            } if ($estado_guia == 317){
+            }
+            if ($estado_guia == 317) {
                 $estado_guia_automatizador = 5;
             }
         } else if ($id_transporte == 3) {
+            $tracking = "https://ec.gintracom.site/web/site/tracking";
             if ($estado_guia == 7) {
                 $estado_guia_automatizador = 1;
             } else if ($estado_guia == 9 || $estado_guia == 8 || $estado_guia == 13) {
@@ -551,6 +559,7 @@ class SpeedModel extends Query
                 $estado_guia_automatizador = 4;
             }
         } else if ($id_transporte == 4) {
+            $tracking = "";
             if ($estado_guia == 7) {
                 $estado_guia_automatizador = 1;
             } else if ($estado_guia == 9) {
@@ -561,7 +570,7 @@ class SpeedModel extends Query
                 $estado_guia_automatizador = 4;
             }
         }
-        echo "estado convertidor: ".$estado_guia_automatizador;
+        echo "estado convertidor: " . $estado_guia_automatizador;
 
         /* verificar si el estado del ultimo mensajes es el mismo */
         $estado_notificacion_BD = $this->select("SELECT notificacion_estado FROM mensajes_clientes WHERE uid_whatsapp = '$telefono' 
@@ -569,8 +578,8 @@ class SpeedModel extends Query
         $estado_notificacion_BD = $estado_notificacion_BD[0]['notificacion_estado'];
         /* fin verificar si el estado del ultimo mensajes es el mismo */
 
-        echo "estado base de datos: ".$estado_notificacion_BD;
-        if ($estado_notificacion_BD == $estado_guia_automatizador){
+        echo "estado base de datos: " . $estado_notificacion_BD;
+        if ($estado_notificacion_BD == $estado_guia_automatizador) {
             echo "entro a la funcion";
             return;
         }
@@ -610,6 +619,7 @@ class SpeedModel extends Query
                                         "contenido" => $contenido_factura,
                                         "costo" => $costo,
                                         "ciudad" => $nombre_ciudad,
+                                        "tracking" => $tracking,
                                         "estado_notificacion" => $estado_guia_automatizador,
                                         "productos" => [""],
                                         "categorias" => [""],
@@ -626,6 +636,7 @@ class SpeedModel extends Query
                                             "contenido" => $contenido_factura,
                                             "costo" => $costo,
                                             "ciudad" => $nombre_ciudad,
+                                            "tracking" => $tracking,
                                             "estado_notificacion" => $estado_guia_automatizador,
                                         ]
                                     ];
@@ -644,6 +655,7 @@ class SpeedModel extends Query
                                         "contenido" => $contenido_factura,
                                         "costo" => $costo,
                                         "ciudad" => $nombre_ciudad,
+                                        "tracking" => $tracking,
                                         "estado_notificacion" => $estado_guia_automatizador,
                                         "productos" => [""],
                                         "categorias" => [""],
@@ -660,6 +672,7 @@ class SpeedModel extends Query
                                             "contenido" => $contenido_factura,
                                             "costo" => $costo,
                                             "ciudad" => $nombre_ciudad,
+                                            "tracking" => $tracking,
                                             "estado_notificacion" => $estado_guia_automatizador,
                                         ]
                                     ];
@@ -699,7 +712,7 @@ class SpeedModel extends Query
         $response = curl_exec($ch);
 
         /* print_r($response); */
-        
+
         // Verificar si hubo errores en la ejecución
         if (curl_errno($ch)) {
             // Si hay un error, obtén el mensaje de error de cURL

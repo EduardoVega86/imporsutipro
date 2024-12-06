@@ -840,6 +840,7 @@ class TiendaModel extends Query
                             "contenido" => $contenido_factura,
                             "costo" => $total_bodega,
                             "ciudad" => $nombre_ciudad,
+                            "tracking" => "",
                             "productos" => $data['productos'] ?? [],
                             "categorias" => $data['categorias'] ?? [],
                             "status" => [""],
@@ -854,7 +855,8 @@ class TiendaModel extends Query
                                 "order_id" => $nueva_factura,
                                 "contenido" => $contenido_factura,
                                 "costo" => $total_bodega,
-                                "ciudad" => $nombre_ciudad
+                                "ciudad" => $nombre_ciudad,
+                                "tracking" => ""
                             ]
                         ];
 
