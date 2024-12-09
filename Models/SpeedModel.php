@@ -519,9 +519,11 @@ class SpeedModel extends Query
         echo $estado_guia;
 
         $tracking = "";
+        $transportadora = "";
 
         if ($id_transporte == 1) {
             $tracking = "https://fenixoper.laarcourier.com/Tracking/Guiacompleta.aspx?guia=" . $numero_guia;
+            $transportadora = "LAAR";
             if ($estado_guia == 7) {
                 $estado_guia_automatizador = 1;
             } else if ($estado_guia == 9) {
@@ -532,9 +534,12 @@ class SpeedModel extends Query
                 $estado_guia_automatizador = 4;
             } else if ($estado_guia == 6) {
                 $estado_guia_automatizador = 5;
+            } else if ($estado_guia == 3){
+                $estado_guia_automatizador = 6;
             }
         } else if ($id_transporte == 2) {
             $tracking = "https://www.servientrega.com.ec/Tracking/?guia=" . $numero_guia . "&tipo=GUIA";
+            $transportadora = "SERVIENTREGA";
             if ($estado_guia >= 400 && $estado_guia <= 403) {
                 $estado_guia_automatizador = 1;
             } else if ($estado_guia >= 500 && $estado_guia <= 502) {
@@ -543,12 +548,14 @@ class SpeedModel extends Query
                 $estado_guia_automatizador = 2;
             } else if ($estado_guia == 100 && $estado_guia == 102 && $estado_guia == 103) {
                 $estado_guia_automatizador = 4;
-            }
-            if ($estado_guia == 317) {
+            } else if ($estado_guia == 317) {
                 $estado_guia_automatizador = 5;
+            } else if ($estado_guia >= 200 && $estado_guia <= 202){
+                $estado_guia_automatizador = 6;
             }
         } else if ($id_transporte == 3) {
             $tracking = "https://ec.gintracom.site/web/site/tracking";
+            $transportadora = "GINTRACOM";
             if ($estado_guia == 7) {
                 $estado_guia_automatizador = 1;
             } else if ($estado_guia == 9 || $estado_guia == 8 || $estado_guia == 13) {
@@ -557,9 +564,12 @@ class SpeedModel extends Query
                 $estado_guia_automatizador = 2;
             } else if ($estado_guia == 1) {
                 $estado_guia_automatizador = 4;
+            } else if ($estado_guia == 2 || $estado_guia == 3){
+                $estado_guia_automatizador = 6;
             }
         } else if ($id_transporte == 4) {
             $tracking = "";
+            $transportadora = "SPEED";
             if ($estado_guia == 7) {
                 $estado_guia_automatizador = 1;
             } else if ($estado_guia == 9) {
@@ -620,6 +630,7 @@ class SpeedModel extends Query
                                         "costo" => $costo,
                                         "ciudad" => $nombre_ciudad,
                                         "tracking" => $tracking,
+                                        "transportadora" => $transportadora,
                                         "estado_notificacion" => $estado_guia_automatizador,
                                         "productos" => [""],
                                         "categorias" => [""],
@@ -637,6 +648,7 @@ class SpeedModel extends Query
                                             "costo" => $costo,
                                             "ciudad" => $nombre_ciudad,
                                             "tracking" => $tracking,
+                                            "transportadora" => $transportadora,
                                             "estado_notificacion" => $estado_guia_automatizador,
                                         ]
                                     ];
@@ -656,6 +668,7 @@ class SpeedModel extends Query
                                         "costo" => $costo,
                                         "ciudad" => $nombre_ciudad,
                                         "tracking" => $tracking,
+                                        "transportadora" => $transportadora,
                                         "estado_notificacion" => $estado_guia_automatizador,
                                         "productos" => [""],
                                         "categorias" => [""],
@@ -673,6 +686,7 @@ class SpeedModel extends Query
                                             "costo" => $costo,
                                             "ciudad" => $nombre_ciudad,
                                             "tracking" => $tracking,
+                                            "transportadora" => $transportadora,
                                             "estado_notificacion" => $estado_guia_automatizador,
                                         ]
                                     ];
