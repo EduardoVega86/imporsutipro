@@ -151,9 +151,10 @@ class Speed extends Controller
     {
         $id_factura = $_POST['id_factura'];
         $response = $this->model->verificarAutomatizacion($id_factura);
-        print_r($response);
+
         if ($response['status'] == 200) {
             $response2 = $this->model->automatizar($response['data']);
+            print_r($response2);
         }
         echo json_encode($response);
     }
