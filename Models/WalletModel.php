@@ -588,6 +588,7 @@ class WalletModel extends Query
         return $full;
     }
 
+
     public function obtenerDatosBancarios($plataformas)
     {
         $sql = "SELECT * from datos_banco_usuarios  where id_plataforma = '$plataformas'";
@@ -1878,5 +1879,24 @@ class WalletModel extends Query
         if ($validar) {
             /*  $total_venta =  */
         }
+    }
+
+    public function guias_reporte($mes, $dia, $rango, $id_plataforma)
+    {
+        if ($rango != 0) {
+            $rangos = explode('-', $rango);
+
+            $sql_rango = " AND (DAY(`Fecha de Creación de la Guía`) > " . $rangos[0] . " AND DAY(`Fecha de Creación de la Guía`) < " . $rangos[1] . ")";
+        } else {
+            if ($dia != 0) {
+                $sql_rango = " AND DAY(`Fecha de Creación de la Guía`) = $dia";
+            } else {
+                $sql_rango = "";
+            }
+        }
+
+        $sql = "SELECT * FROM `reportes_v1_guias` where MONTH(`Fecha de Creación de la Guía` ) = $mes " . $sql_rango . " AND `id_plataforma` = $id_plataforma";
+        $response =  $this->select($sql);
+        return $response;
     }
 }
