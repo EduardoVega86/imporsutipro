@@ -119,7 +119,6 @@ class Speed extends Controller
         $response = $this->model->estados($estado, $imagen, $tipo, $observacion, $id_factura, $googlemaps);
         if ($response['status'] == 200) {
             $response2 = $this->model->verificarAutomatizacion($id_factura);
-            echo json_encode($response2);
 
             if ($response2['status'] == 200) {
                 $response3 = $this->model->automatizar($response2['data']);
@@ -152,6 +151,7 @@ class Speed extends Controller
     {
         $id_factura = $_POST['id_factura'];
         $response = $this->model->verificarAutomatizacion($id_factura);
+        echo json_encode($response);
         if ($response['status'] == 200) {
             $response2 = $this->model->automatizar($response['data']);
         }
