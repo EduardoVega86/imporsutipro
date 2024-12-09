@@ -7,7 +7,7 @@ class Query extends Conexion
         $this->pdo = new Conexion();
         $this->connection = $this->pdo->connect();
     }
-
+    // select  * from plataformas where id_plataforma = $id_plataforma;
     public function select($sql)
     {
         try {
@@ -21,6 +21,9 @@ class Query extends Conexion
         }
     }
 
+    //$data = [$id_plataforma];
+    // select  * from plataformas where id_plataforma = ?;
+    // $response = $this->model->dselect($sql, $data);
     public function dselect($sql, $data)
     {
         try {
@@ -34,7 +37,7 @@ class Query extends Conexion
             return $this->handleError($e->getMessage(), $e->getCode());
         }
     }
-
+    // Devuelve numeros de filas afectadas
     public function simple_select($sql, $data)
     {
         try {
@@ -52,7 +55,7 @@ class Query extends Conexion
         }
     }
 
-
+    // Devuelve numeros de filas afectadas
     public function insert($sql, $data)
     {
         try {
@@ -127,6 +130,7 @@ class Query extends Conexion
         return [
             'status' => 500,
             'title' => 'Error',
+            'message' => '',
             'data' => []
         ];
     }

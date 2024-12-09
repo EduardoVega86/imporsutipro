@@ -604,4 +604,15 @@ class Wallet extends Controller
         $response =  $this->model->pagar_laar();
         echo json_encode($response);
     }
+
+    public function guias_reporte()
+    {
+
+        $mes = $_POST['mes'] ?? date('m');
+        $dia = $_POST['dia'] ?? 0;
+        $rango = $_POST['rango'] ?? 0;
+        $id_plataforma = $_POST['id_plataforma'] ?? $_SESSION['id_plataforma'];
+
+        $response = $this->model->guias_reporte($mes, $dia, $rango);
+    }
 }
