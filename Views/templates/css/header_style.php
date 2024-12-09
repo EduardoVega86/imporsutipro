@@ -303,6 +303,8 @@
         z-index: 1000;
         cursor: pointer;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
+        text-decoration: none;
+        /* Elimina la raya */
     }
 
     .whatsapp-float:hover {
