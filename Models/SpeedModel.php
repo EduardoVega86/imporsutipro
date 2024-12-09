@@ -516,9 +516,9 @@ class SpeedModel extends Query
         $nombre_ciudad = $this->select("SELECT ciudad FROM ciudad_cotizacion WHERE id_cotizacion = " . $configuracion['ciudad_cot'] . "");
         $nombre_ciudad = $nombre_ciudad[0]['ciudad'];
 
-        $respuesta =+ $id_transporte;
-        $respuesta =+ "-";
-        $respuesta =+ $estado_guia;
+        echo $id_transporte;
+        echo "-";
+        echo $estado_guia;
 
         $tracking = "";
         $transportadora = "";
@@ -582,7 +582,7 @@ class SpeedModel extends Query
                 $estado_guia_automatizador = 4;
             }
         }
-        $respuesta =+ "estado convertidor: " . $estado_guia_automatizador;
+        echo "estado convertidor: " . $estado_guia_automatizador;
 
         /* verificar si el estado del ultimo mensajes es el mismo */
         $estado_notificacion_BD = $this->select("SELECT notificacion_estado FROM mensajes_clientes WHERE uid_whatsapp = '$telefono' 
@@ -590,13 +590,13 @@ class SpeedModel extends Query
         $estado_notificacion_BD = $estado_notificacion_BD[0]['notificacion_estado'];
         /* fin verificar si el estado del ultimo mensajes es el mismo */
 
-        $respuesta =+ "estado base de datos: " . $estado_notificacion_BD;
+        echo "estado base de datos: " . $estado_notificacion_BD;
         if ($estado_notificacion_BD == $estado_guia_automatizador) {
-            $respuesta =+ "entro a la funcion";
-            return $$respuesta;
+            echo "entro a la funcion";
+            return;
         }
 
-        $respuesta =+ "salio de la funcion";
+        echo "salio de la funcion";
 
         // Consulta para obtener los datos de automatización
         $sql = "SELECT * FROM automatizadores WHERE id_configuracion = ?";
@@ -703,7 +703,6 @@ class SpeedModel extends Query
                 }
             }
         }
-        return $respuesta;
     }
 
     public function enviar_a_api($data)
