@@ -660,6 +660,7 @@ class SpeedModel extends Query
                                         "ciudad" => $nombre_ciudad,
                                         "tracking" => $tracking,
                                         "transportadora" => $transportadora,
+                                        "numero_guia" => $numero_guia,
                                         "estado_notificacion" => $estado_guia_automatizador,
                                         "productos" => [""],
                                         "categorias" => [""],
@@ -678,6 +679,7 @@ class SpeedModel extends Query
                                             "ciudad" => $nombre_ciudad,
                                             "tracking" => $tracking,
                                             "transportadora" => $transportadora,
+                                            "numero_guia" => $numero_guia,
                                             "estado_notificacion" => $estado_guia_automatizador,
                                         ]
                                     ];
@@ -698,6 +700,7 @@ class SpeedModel extends Query
                                         "ciudad" => $nombre_ciudad,
                                         "tracking" => $tracking,
                                         "transportadora" => $transportadora,
+                                        "numero_guia" => $numero_guia,
                                         "estado_notificacion" => $estado_guia_automatizador,
                                         "productos" => [""],
                                         "categorias" => [""],
@@ -716,6 +719,7 @@ class SpeedModel extends Query
                                             "ciudad" => $nombre_ciudad,
                                             "tracking" => $tracking,
                                             "transportadora" => $transportadora,
+                                            "numero_guia" => $numero_guia,
                                             "estado_notificacion" => $estado_guia_automatizador,
                                         ]
                                     ];

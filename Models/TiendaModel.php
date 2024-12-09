@@ -842,6 +842,7 @@ class TiendaModel extends Query
                             "ciudad" => $nombre_ciudad,
                             "tracking" => "",
                             "transportadora" => "",
+                            "numero_guia" => "",
                             "productos" => $data['productos'] ?? [],
                             "categorias" => $data['categorias'] ?? [],
                             "status" => [""],
@@ -858,7 +859,8 @@ class TiendaModel extends Query
                                 "costo" => $total_bodega,
                                 "ciudad" => $nombre_ciudad,
                                 "tracking" => "",
-                                "transportadora" => ""
+                                "transportadora" => "",
+                                "numero_guia" => ""
                             ]
                         ];
 
