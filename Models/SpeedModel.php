@@ -462,15 +462,35 @@ class SpeedModel extends Query
     {
         $response = $this->initialResponse();
 
+        // Verifica el ID de factura recibido
+        print_r("ID Factura recibido: " . $id_factura);
+
+        // Consulta en la tabla `facturas_cot`
         $sql = "SELECT * FROM facturas_cot WHERE id_factura = '$id_factura'";
         $res1 = $this->select($sql);
 
+        // Verifica si se encontró la factura
+        if (empty($res1)) {
+            print_r("No se encontró la factura con ID: " . $id_factura);
+            $response['status'] = 404;
+            $response['message'] = "Factura no encontrada.";
+            return $response;
+        }
+        print_r("Factura encontrada: ");
+        print_r($res1);
+
         $id_plataforma = $res1[0]['id_plataforma'];
 
+        // Consulta en la tabla `configuraciones`
         $sql = "SELECT * FROM `configuraciones` WHERE `id_plataforma` = '$id_plataforma'";
         $res = $this->select($sql);
 
-        $response['inicio'] = "inicio la funcion verificarAutomatizacion";
+        // Depura si se encuentra la configuración
+        print_r("Configuraciones encontradas: ");
+        print_r($res);
+
+        $response['inicio'] = "Inicio la función verificarAutomatizacion";
+
         if (!empty($res)) {
             $response['status'] = 200;
             $response['message'] = "Configuración encontrada.";
@@ -481,7 +501,6 @@ class SpeedModel extends Query
             $response['data']['numero_factura'] = $res1[0]['numero_factura'];
             $response['data']['numero_guia'] = $res1[0]['numero_guia'];
             $response['data']['c_principal'] = $res1[0]['c_principal'];
-            $response['data']['c_secundaria'] = $res1[0]['c_secundaria'];
             $response['data']['c_secundaria'] = $res1[0]['c_secundaria'];
             $response['data']['id_transporte'] = $res1[0]['id_transporte'];
             $response['data']['contiene'] = $res1[0]['contiene'];
@@ -536,7 +555,7 @@ class SpeedModel extends Query
                 $estado_guia_automatizador = 4;
             } else if ($estado_guia == 6) {
                 $estado_guia_automatizador = 5;
-            } else if ($estado_guia == 3){
+            } else if ($estado_guia == 3) {
                 $estado_guia_automatizador = 6;
             }
         } else if ($id_transporte == 2) {
@@ -552,7 +571,7 @@ class SpeedModel extends Query
                 $estado_guia_automatizador = 4;
             } else if ($estado_guia == 317) {
                 $estado_guia_automatizador = 5;
-            } else if ($estado_guia >= 200 && $estado_guia <= 202){
+            } else if ($estado_guia >= 200 && $estado_guia <= 202) {
                 $estado_guia_automatizador = 6;
             }
         } else if ($id_transporte == 3) {
@@ -566,7 +585,7 @@ class SpeedModel extends Query
                 $estado_guia_automatizador = 2;
             } else if ($estado_guia == 1) {
                 $estado_guia_automatizador = 4;
-            } else if ($estado_guia == 2 || $estado_guia == 3){
+            } else if ($estado_guia == 2 || $estado_guia == 3) {
                 $estado_guia_automatizador = 6;
             }
         } else if ($id_transporte == 4) {
