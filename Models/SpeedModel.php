@@ -460,6 +460,8 @@ class SpeedModel extends Query
 
     public function verificarAutomatizacion($id_factura)
     {
+        $response = $this->initialResponse();
+
         $sql = "SELECT * FROM facturas_cot WHERE id_factura = '$id_factura'";
         $res1 = $this->select($sql);
 
@@ -467,8 +469,9 @@ class SpeedModel extends Query
 
         $sql = "SELECT * FROM `configuraciones` WHERE `id_plataforma` = '$id_plataforma'";
         $res = $this->select($sql);
+
+        $response['inicio'] = "inicio la funcion verificarAutomatizacion";
         if (!empty($res)) {
-            $response = $this->initialResponse();
             $response['status'] = 200;
             $response['message'] = "Configuración encontrada.";
             $response['data'] = $res[0];
@@ -486,7 +489,6 @@ class SpeedModel extends Query
             $response['data']['ciudad_cot'] = $res1[0]['ciudad_cot'];
             $response['data']['id_plataforma'] = $id_plataforma;
         } else {
-            $response = $this->initialResponse();
             $response['status'] = 500;
             $response['message'] = "Configuración no encontrada.";
         }
