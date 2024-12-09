@@ -557,6 +557,8 @@ class SpeedModel extends Query
                 $estado_guia_automatizador = 5;
             } else if ($estado_guia == 3) {
                 $estado_guia_automatizador = 6;
+            } else if ($estado_guia == 5 || $estado_guia == 11 || $estado_guia == 12) {
+                $estado_guia_automatizador = 7;
             }
         } else if ($id_transporte == 2) {
             $tracking = "https://www.servientrega.com.ec/Tracking/?guia=" . $numero_guia . "&tipo=GUIA";
@@ -573,6 +575,8 @@ class SpeedModel extends Query
                 $estado_guia_automatizador = 5;
             } else if ($estado_guia >= 200 && $estado_guia <= 202) {
                 $estado_guia_automatizador = 6;
+            } else if ($estado_guia >= 300 && $estado_guia <= 316) {
+                $estado_guia_automatizador = 7;
             }
         } else if ($id_transporte == 3) {
             $tracking = "https://ec.gintracom.site/web/site/tracking";
@@ -587,6 +591,8 @@ class SpeedModel extends Query
                 $estado_guia_automatizador = 4;
             } else if ($estado_guia == 2 || $estado_guia == 3) {
                 $estado_guia_automatizador = 6;
+            } else if ($estado_guia == 4) {
+                $estado_guia_automatizador = 7;
             }
         } else if ($id_transporte == 4) {
             $tracking = "";
@@ -599,6 +605,8 @@ class SpeedModel extends Query
                 $estado_guia_automatizador = 2;
             } else if ($estado_guia == 2) {
                 $estado_guia_automatizador = 4;
+            } else if ($estado_guia == 3) {
+                $estado_guia_automatizador = 7;
             }
         }
         echo "estado convertidor: " . $estado_guia_automatizador;
