@@ -607,7 +607,7 @@ class Wallet extends Controller
 
     public function guias_reporte()
     {
-        $this->isAuth();
+
         $mes = $_POST['mes'] ?? date('m');
         $dia = $_POST['dia'] ?? 0;
         $rango = $_POST['rango'] ?? 0;
