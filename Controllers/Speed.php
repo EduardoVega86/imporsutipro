@@ -149,15 +149,14 @@ class Speed extends Controller
 
     public function automatizador()
     {  
-        echo "entro en la funcion automatizador";
+        /* echo "entro en la funcion automatizador"; */
         $id_factura = $_POST['id_factura'];
         $response = $this->model->verificarAutomatizacion($id_factura);
-        print_r($response);
-        echo "todavia no entra en if";
+        /* print_r($response); */
         if ($response['status'] == 200) {
-            echo "entro enla funcion";
+            /* echo "entro enla funcion"; */
             $response2 = $this->model->automatizar($response['data']);
-            print_r($response2);
+            /* print_r($response2); */
         }
         echo json_encode($response);
     }
