@@ -127,6 +127,7 @@ class Query extends Conexion
         return [
             'status' => 500,
             'title' => 'Error',
+            'message' => '',
             'data' => []
         ];
     }

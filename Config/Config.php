@@ -17,6 +17,7 @@ if (ENVIRONMENT == 'development') {
     define("SERVERURL", "http://localhost/imporsutipro/");
 } else {
 }
+
 $url_actual = "https://" . $_SERVER['HTTP_HOST'] . "/";
 $mysqli = new mysqli(HOST, USER, PASSWORD, DB);
 $mysqli->set_charset(CHARSET);
