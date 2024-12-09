@@ -153,6 +153,7 @@ class Speed extends Controller
         $response = $this->model->verificarAutomatizacion($id_factura);
         echo json_encode($response);
         if ($response['status'] == 200) {
+            echo "entro a funcion status 200";
             $response2 = $this->model->automatizar($response['data']);
         }
         echo json_encode($response);
