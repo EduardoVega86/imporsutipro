@@ -66,6 +66,13 @@ class Pedidos extends Controller
         }
         $this->views->render($this, "nuevo");
     }
+    public function nuevo_2()
+    {
+        if (!$this->isAuth()) {
+            header("Location: " . SERVERURL . "login");
+        }
+        $this->views->render($this, "nuevo_2");
+    }
     public function ver($id)
     {
         if (!$this->isAuth()) {

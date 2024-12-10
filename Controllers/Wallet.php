@@ -5,6 +5,9 @@ class Wallet extends Controller
     public function __construct()
     {
         parent::__construct();
+        // si se busca el controlador y el metodo guias_reporte saltar la validacion de sesion
+        if ($_SERVER['REQUEST_URI'] == '/wallet/guias_reporte') {
+        } else
         if (!$this->isAuth())
             header("Location:  " . SERVERURL . "login");
     }
@@ -613,6 +616,7 @@ class Wallet extends Controller
         $rango = $_POST['rango'] ?? 0;
         $id_plataforma = $_POST['id_plataforma'] ?? $_SESSION['id_plataforma'];
 
-        $response = $this->model->guias_reporte($mes, $dia, $rango);
+        $response = $this->model->guias_reporte($mes, $dia, $rango, $id_plataforma);
+        echo json_encode($response);
     }
 }
