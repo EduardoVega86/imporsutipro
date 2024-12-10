@@ -72,6 +72,9 @@ function procesarFactura($conn, $data)
         // Obtener el último número de factura
         $query = "SELECT MAX(numero_factura) as factura_numero FROM facturas_cot";
         $result = $conn->query($query);
+        if (!$result) {
+            throw new Exception("Error al obtener el último número de factura: " . $conn->error);
+        }
         $row = $result->fetch_assoc();
         $ultima_factura = $row['factura_numero'] ?? 'COT-0000000000';
 
@@ -89,6 +92,14 @@ function procesarFactura($conn, $data)
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $conn->prepare($sql);
+        if (!$stmt) {
+            throw new Exception("Error al preparar la consulta: " . $conn->error . " SQL: " . $sql);
+        }
+
+        // Registra los datos recibidos para debug
+        logError("Datos recibidos: " . print_r($data, true));
+
+        // Vincular parámetros
         $stmt->bind_param(
             'ssidsissssssssssississississssssissssss',
             $nueva_factura,
@@ -139,7 +150,7 @@ function procesarFactura($conn, $data)
         );
 
         if (!$stmt->execute()) {
-            throw new Exception("Error al insertar factura: " . $stmt->error);
+            throw new Exception("Error al ejecutar la consulta: " . $stmt->error);
         }
 
         $factura_id = $conn->insert_id;
@@ -152,6 +163,10 @@ function procesarFactura($conn, $data)
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             $detalle_stmt = $conn->prepare($detalle_sql);
+            if (!$detalle_stmt) {
+                throw new Exception("Error al preparar la consulta de detalle: " . $conn->error);
+            }
+
             $detalle_stmt->bind_param(
                 'siidsssii',
                 $nueva_factura,
@@ -166,7 +181,7 @@ function procesarFactura($conn, $data)
             );
 
             if (!$detalle_stmt->execute()) {
-                throw new Exception("Error al insertar detalle: " . $detalle_stmt->error);
+                throw new Exception("Error al ejecutar la consulta de detalle: " . $detalle_stmt->error);
             }
         }
 
