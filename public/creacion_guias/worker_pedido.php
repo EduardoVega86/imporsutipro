@@ -89,10 +89,10 @@ function procesarFactura($conn, $data)
             facturada, anulada, identificacionO, nombreO, ciudadO, provinciaO, provincia,
             direccionO, referenciaO, numeroCasaO, valor_seguro, no_piezas, tipo_servicio,
             peso, contiene, costo_flete, costo_producto, comentario, id_transporte, telefonoO, id_bodega
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         // Validar el número de placeholders
-        if (substr_count($sql, '?') !== 46) { // Cambia el 46 por el número correcto de placeholders en tu consulta
+        if (substr_count($sql, '?') !== 45) {
             throw new Exception("Número de placeholders '?' no coincide con el número esperado.");
         }
 
