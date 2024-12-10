@@ -9,6 +9,59 @@
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
             <table id="datatable_detalleWallet" class="table table-striped">
+                <!-- Modal para Reporte -->
+                <div class="modal fade" id="modalReporte" tabindex="-1" aria-labelledby="modalReporteLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalReporteLabel">Generar Reporte</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                <form id="formReporte">
+                                    <input type="hidden" id="id_plataforma_hidden" name="id_plataforma">
+
+                                    <div class="mb-3">
+                                        <label for="mes_select" class="form-label">Mes:</label>
+                                        <select class="form-select" id="mes_select">
+                                            <option value="1">Enero</option>
+                                            <option value="2">Febrero</option>
+                                            <option value="3">Marzo</option>
+                                            <option value="4">Abril</option>
+                                            <option value="5">Mayo</option>
+                                            <option value="6">Junio</option>
+                                            <option value="7">Julio</option>
+                                            <option value="8">Agosto</option>
+                                            <option value="9">Septiembre</option>
+                                            <option value="10">Octubre</option>
+                                            <option value="11">Noviembre</option>
+                                            <option value="12">Diciembre</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="dias_select" class="form-label">Días:</label>
+                                        <input type="number" id="dias_select" class="form-control" placeholder="Ej: 5">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="rango_select" class="form-label">Rango:</label>
+                                        <input type="number" id="rango_select" class="form-control" placeholder="Ej: 10">
+                                    </div>
+
+                                </form>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="button" class="btn btn-primary" id="btnGenerarReporte">Generar Reporte</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
 
                 <thead>
                     <tr>
