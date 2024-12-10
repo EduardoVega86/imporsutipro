@@ -7,6 +7,7 @@ class Wallet extends Controller
         parent::__construct();
         // si se busca el controlador y el metodo guias_reporte saltar la validacion de sesion
         print_r($_SERVER['REQUEST_URI']);
+        return;
         if ($_SERVER['REQUEST_URI'] == '/wallet/guias_reporte') {
         } else
         if (!$this->isAuth())
