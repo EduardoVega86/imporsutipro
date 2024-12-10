@@ -613,7 +613,7 @@ class Wallet extends Controller
         $rango = $_POST['rango'] ?? 0;
         $id_plataforma = $_POST['id_plataforma'] ?? $_SESSION['id_plataforma'];
 
-        $response = $this->model->guias_reporte($mes, $dia, $rango);
+        $response = $this->model->guias_reporte($mes, $dia, $rango, $id_plataforma);
         echo json_encode($response);
     }
 }
