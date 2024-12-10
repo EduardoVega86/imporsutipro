@@ -610,6 +610,7 @@ function handleButtonClick(buttonId, callback) {
 
 //agregar funcion pedido
 function agregar_nuevoPedido() {
+
   // Evita que el formulario se envíe de la forma tradicional
   event.preventDefault();
   let transportadora_selected = $("#transportadora_selected").val();
@@ -625,6 +626,48 @@ function agregar_nuevoPedido() {
   if (transportadora_selected == "gintracom") {
     transportadora_selected = 3;
   }
+
+  // Crea un objeto con los datos
+  let pedidoData = {
+    total_venta: document.getElementById("monto_total").innerText,
+    nombre: $("#nombre").val(),
+    telefono: $("#telefono").val(),
+    calle_principal: $("#calle_principal").val(),
+    calle_secundaria: $("#calle_secundaria").val(),
+    referencia: $("#referencia").val(),
+    ciudad: $("#ciudad").val(),
+    provincia: $("#provincia").val(),
+    identificacion: 0,
+    observacion: $("#observacion").val(),
+    transporte: 0,
+    celular: $("#telefono").val(),
+    id_producto_venta: id_producto_venta,
+    dropshipping: dropshipping,
+    importado: 0,
+    id_propietario: id_propietario_bodega,
+    identificacionO: 0,
+    celularO: celular_bodega,
+    nombreO: nombre_bodega,
+    ciudadO: ciudad_bodega,
+    provinciaO: provincia_bodega,
+    direccionO: direccion_bodega,
+    referenciaO: referencia_bodega,
+    numeroCasaO: numeroCasa_bodega,
+    valor_seguro: 0,
+    no_piezas: 1,
+    contiene: transportadora_selected == 3 ? contieneGintracom : contiene,
+    costo_flete: 0,
+    costo_producto: costo_producto,
+    comentario: "Enviado por x",
+    id_transporte: 0,
+  };
+
+  // Realiza la solicitud AJAX para añadir a la cola
+  $.ajax({
+    url: "" + SERVERURL + "/pedidos/anadir_cola", // URL del script PHP que maneja la cola
+    type: "POST",
+    data: JSON.stringify(pedidoData),
+    contentType: "application/json",
 
   // Crea un objeto FormData
   var formData = new FormData();
@@ -694,7 +737,7 @@ function agregar_nuevoPedido() {
       }
     },
     error: function (error) {
-      alert("Hubo un error al agregar el pedido");
+      alert("Hubo un error al agregar el pedido a la cola");
       console.log(error);
     },
   });
