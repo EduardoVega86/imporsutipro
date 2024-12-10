@@ -118,8 +118,6 @@ class CalculadoraModel extends Query
             $tarifas["speed"] = 6.5;
         } else if ($ciudad == "SANGOLQUI") {
             $tarifas["speed"] = 6.5;
-        } else if ($ciudad == "PIFO") {
-            $tarifas["speed"] = 6.5;
         } else if ($ciudad == "SAN RAFAEL") {
             $tarifas["speed"] = 6.5;
         } else if ($ciudad == "CONOCOTO") {

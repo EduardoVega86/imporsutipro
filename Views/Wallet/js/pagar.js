@@ -12,62 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
   cargarDashboard_wallet();
   comprobador_solicitud();
 });
-const descargarExcel = async (mes, dias, rango, id_plataforma) => {
-  const form = new FormData();
-  form.append("mes", mes);
-  form.append("dias", dias);
-  form.append("rango", rango);
-  form.append("id_plataforma", id_plataforma);
 
-  let response = await fetch(
-    "https://desarrollo.imporsuitpro.com/wallet/guias_reporte",
-    {
-      method: "POST",
-      body: form,
-    }
-  );
-  let data = await response.json();
-
-  // Convertimos el data a hoja de cálculo
-  const ws = XLSX.utils.json_to_sheet(data);
-
-  // Obtener los nombres de las columnas
-  const columns = Object.keys(data[0]);
-
-  // Calcular el ancho adecuado para cada columna
-  // Esto se hace midiendo la longitud máxima del texto en cada columna
-  const colWidths = columns.map((col) => {
-    // Buscar la longitud máxima del valor en esa columna
-    const maxColLength = data.reduce((max, row) => {
-      const val = row[col] ? row[col].toString() : "";
-      return Math.max(max, val.length);
-    }, col.length); // tomamos también la longitud del nombre de la columna
-
-    return { wch: maxColLength + 2 }; // +2 para agregar un poco de espacio extra
-  });
-
-  // Asignar los anchos de columnas a la hoja
-  ws["!cols"] = colWidths;
-
-  // Crear el libro
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, "Datos");
-
-  // Generar el archivo binario
-  const wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
-
-  // Descargar el archivo
-  const blob = new Blob([wbout], { type: "application/octet-stream" });
-  const url = URL.createObjectURL(blob);
-
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "reporte.xlsx";
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-};
 function comprobador_solicitud() {
   let formData = new FormData();
   formData.append("id_plataforma", tienda);
