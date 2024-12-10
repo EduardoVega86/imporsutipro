@@ -93,53 +93,53 @@ function procesarPedido($conn, $data)
         }
 
         $stmt->bind_param(
-            'ssidsissssssssssississississssssissssss',
-            $nuevaFactura,
-            $data['fecha_factura'],
-            $data['id_usuario'],
-            $data['monto_factura'],
-            $data['estado_factura'],
-            $data['nombre_cliente'],
-            $data['telefono_cliente'],
-            $data['c_principal'],
-            $data['ciudad_cot'],
-            $data['c_secundaria'],
-            $data['referencia'],
-            $data['observacion'],
-            $data['guia_enviada'],
-            $data['transporte'],
-            $data['identificacion'],
-            $data['celular'],
-            $data['dueño_id'],
-            $data['dropshipping'],
-            $data['id_plataforma'],
-            $data['importado'],
-            $data['plataforma_importa'],
-            $data['cod'],
-            $data['estado_guia_sistema'],
-            $data['impreso'],
-            $data['facturada'],
-            $data['anulada'],
-            $data['identificacionO'],
-            $data['nombreO'],
-            $data['ciudadO'],
-            $data['provinciaO'],
-            $data['provincia'],
-            $data['direccionO'],
-            $data['referenciaO'],
-            $data['numeroCasaO'],
-            $data['valor_segura'],
-            $data['no_piezas'],
-            $data['tipo_servicio'],
-            $data['peso'],
-            $data['contiene'],
-            $data['costo_flete'],
-            $data['costo_producto'],
-            $data['comentario'],
-            $data['id_transporte'],
-            $data['celularO'],
-            $data['id_bodega']
-        );
+            'ssidsissssssssssiiisisiiissssssissisdsdssddsssi',
+            $nuevaFactura,             // varchar(20)
+            $data['fecha_factura'],    // datetime
+            $data['id_usuario'],       // int
+            $data['monto_factura'],    // double
+            $data['estado_factura'],   // tinyint(1)
+            $data['nombre_cliente'],   // varchar(500)
+            $data['telefono_cliente'], // varchar(500)
+            $data['c_principal'],      // varchar(500)
+            $data['ciudad_cot'],       // varchar(255)
+            $data['c_secundaria'],     // varchar(1500)
+            $data['referencia'],       // varchar(1500)
+            $data['observacion'],      // varchar(1500)
+            $data['guia_enviada'],     // int
+            $data['transporte'],       // varchar(100)
+            $data['identificacion'],   // varchar(20)
+            $data['celular'],          // varchar(20)
+            $data['dueño_id'],         // int
+            $data['dropshipping'],     // int
+            $data['id_plataforma'],    // int
+            $data['importado'],        // int
+            $data['plataforma_importa'], // varchar(100)
+            $data['cod'],              // tinyint(1)
+            $data['estado_guia_sistema'], // int
+            $data['impreso'],          // tinyint(1)
+            $data['facturada'],        // tinyint(1)
+            $data['anulada'],          // tinyint(1)
+            $data['identificacionO'],  // varchar(100)
+            $data['nombreO'],          // text
+            $data['ciudadO'],          // text
+            $data['provinciaO'],       // int
+            $data['provincia'],        // varchar(500)
+            $data['direccionO'],       // text
+            $data['referenciaO'],      // text
+            $data['numeroCasaO'],      // text
+            $data['valor_segura'],     // double
+            $data['no_piezas'],        // int
+            $data['tipo_servicio'],    // varchar(200)
+            $data['peso'],             // double
+            $data['contiene'],         // varchar(200)
+            $data['costo_flete'],      // double
+            $data['costo_producto'],   // double
+            $data['comentario'],       // varchar(500)
+            $data['id_transporte'],    // int
+            $data['celularO'],         // text
+            $data['id_bodega']         // int
+        );        
 
         if (!$stmt->execute()) {
             throw new Exception("Error al ejecutar la consulta principal: " . $stmt->error);
@@ -161,17 +161,17 @@ function procesarPedido($conn, $data)
             }
 
             $detalleStmt->bind_param(
-                'siidsssii',
-                $nuevaFactura,
-                $facturaId,
-                $detalle['id_producto'],
-                $detalle['cantidad'],
-                $detalle['desc_venta'],
-                $detalle['precio_venta'],
-                $detalle['id_plataforma'],
-                $detalle['sku'],
-                $detalle['id_inventario']
-            );
+                'siiiidisi',
+                $nuevaFactura,              // `numero_factura` - string (s)
+                $facturaId,                 // `id_factura` - int (i)
+                $detalle['id_producto'],    // `id_producto` - int (i)
+                $detalle['cantidad'],       // `cantidad` - int (i)
+                $detalle['desc_venta'],     // `desc_venta` - int (i)
+                $detalle['precio_venta'],   // `precio_venta` - double (d)
+                $detalle['id_plataforma'],  // `id_plataforma` - int (i)
+                $detalle['sku'],            // `sku` - string (s)
+                $detalle['id_inventario']   // `id_inventario` - int (i)
+            );            
 
             if (!$detalleStmt->execute()) {
                 throw new Exception("Error al ejecutar la consulta de detalle: " . $detalleStmt->error);
