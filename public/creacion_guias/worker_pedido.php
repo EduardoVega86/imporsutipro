@@ -84,7 +84,7 @@ function procesarPedido($conn, $data)
             facturada, anulada, identificacionO, nombreO, ciudadO, provinciaO, provincia,
             direccionO, referenciaO, numeroCasaO, valor_seguro, no_piezas, tipo_servicio,
             peso, contiene, costo_flete, costo_producto, comentario, id_transporte, telefonoO, id_bodega
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";        
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";        
 
         $stmt = $conn->prepare($sql);
 
@@ -93,7 +93,7 @@ function procesarPedido($conn, $data)
         }
 
         $stmt->bind_param(
-            'ssidsissssssssssiiisisiiissssssissisdsdssddsssi',
+            'ssidisssssssisssiiiisiiiiisssissssdisdsddsisi',
             $nuevaFactura,             // varchar(20)
             $data['fecha_factura'],    // datetime
             $data['id_usuario'],       // int
