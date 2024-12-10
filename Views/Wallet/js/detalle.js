@@ -56,7 +56,7 @@ const listDetalleWallet = async () => {
                     <td>${detalleWallet.utilidad}</td>
                     <td>${detalleWallet.count_visto_0}</td>
                     <td>
-                    <button id="downloadExcel2" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalReporte" data-id_plataforma="${detalleWallet.id_plataforma}">Descargar Reporte</button>
+                    <button id="downloadExcel2" class="btn btn-success" data-gbs-toggle="modal" data-bs-target="#modalReporte" data-id_plataforma="${detalleWallet.id_plataforma}">Descargar Reporte</button>
                     <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel_general('${detalleWallet.tienda}')">Descargar Excel general</button>
                     <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel('${detalleWallet.tienda}')">Descargar Excel</button>
                     </td>
