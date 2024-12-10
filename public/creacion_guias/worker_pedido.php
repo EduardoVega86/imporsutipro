@@ -91,6 +91,11 @@ function procesarFactura($conn, $data)
             peso, contiene, costo_flete, costo_producto, comentario, id_transporte, telefonoO, id_bodega
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
+        // Validar el número de placeholders
+        if (substr_count($sql, '?') !== 46) { // Cambia el 46 por el número correcto de placeholders en tu consulta
+            throw new Exception("Número de placeholders '?' no coincide con el número esperado.");
+        }
+
         $stmt = $conn->prepare($sql);
         if (!$stmt) {
             throw new Exception("Error al preparar la consulta: " . $conn->error . " SQL: " . $sql);
