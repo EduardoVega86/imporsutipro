@@ -610,7 +610,6 @@ function handleButtonClick(buttonId, callback) {
 
 //agregar funcion pedido
 function agregar_nuevoPedido() {
-  // Evita que el formulario se envíe de la forma tradicional
   event.preventDefault();
   let transportadora_selected = $("#transportadora_selected").val();
   if (transportadora_selected == "servientrega") {
@@ -626,52 +625,47 @@ function agregar_nuevoPedido() {
     transportadora_selected = 3;
   }
 
-  // Crea un objeto FormData
-  var formData = new FormData();
-  var montoTotal = document.getElementById("monto_total").innerText;
-  formData.append("total_venta", montoTotal);
-  formData.append("nombre", $("#nombre").val());
-  formData.append("telefono", $("#telefono").val());
-  formData.append("calle_principal", $("#calle_principal").val());
-  formData.append("calle_secundaria", $("#calle_secundaria").val());
-  formData.append("referencia", $("#referencia").val());
-  formData.append("ciudad", $("#ciudad").val());
-  formData.append("provincia", $("#provincia").val());
-  formData.append("identificacion", 0);
-  formData.append("observacion", $("#observacion").val());
-  formData.append("transporte", 0);
-  formData.append("celular", $("#telefono").val()); // Asegúrate de obtener el valor correcto
-  formData.append("id_producto_venta", id_producto_venta);
-  formData.append("dropshipping", dropshipping);
-  formData.append("importado", 0);
-  formData.append("id_propietario", id_propietario_bodega);
-  formData.append("identificacionO", 0);
-  formData.append("celularO", celular_bodega);
-  formData.append("nombreO", nombre_bodega); // Corregir nombre de variable
-  formData.append("ciudadO", ciudad_bodega);
-  formData.append("provinciaO", provincia_bodega);
-  formData.append("direccionO", direccion_bodega);
-  formData.append("referenciaO", referencia_bodega); // Corregir nombre de variable
-  formData.append("numeroCasaO", numeroCasa_bodega);
-  formData.append("valor_seguro", 0); // Corregir nombre de variable
-  formData.append("no_piezas", 1);
-  if (transportadora_selected == 3) {
-    formData.append("contiene", contieneGintracom);
-  } else {
-    formData.append("contiene", contiene);
-  }
-  formData.append("costo_flete", 0);
-  formData.append("costo_producto", costo_producto);
-  formData.append("comentario", "Enviado por x");
-  formData.append("id_transporte", 0);
+  // Crea un objeto con los datos
+  let pedidoData = {
+    total_venta: document.getElementById("monto_total").innerText,
+    nombre: $("#nombre").val(),
+    telefono: $("#telefono").val(),
+    calle_principal: $("#calle_principal").val(),
+    calle_secundaria: $("#calle_secundaria").val(),
+    referencia: $("#referencia").val(),
+    ciudad: $("#ciudad").val(),
+    provincia: $("#provincia").val(),
+    identificacion: 0,
+    observacion: $("#observacion").val(),
+    transporte: 0,
+    celular: $("#telefono").val(),
+    id_producto_venta: id_producto_venta,
+    dropshipping: dropshipping,
+    importado: 0,
+    id_propietario: id_propietario_bodega,
+    identificacionO: 0,
+    celularO: celular_bodega,
+    nombreO: nombre_bodega,
+    ciudadO: ciudad_bodega,
+    provinciaO: provincia_bodega,
+    direccionO: direccion_bodega,
+    referenciaO: referencia_bodega,
+    numeroCasaO: numeroCasa_bodega,
+    valor_seguro: 0,
+    no_piezas: 1,
+    contiene: transportadora_selected == 3 ? contieneGintracom : contiene,
+    costo_flete: 0,
+    costo_producto: costo_producto,
+    comentario: "Enviado por x",
+    id_transporte: 0,
+  };
 
-  // Realiza la solicitud AJAX
+  // Realiza la solicitud AJAX para añadir a la cola
   $.ajax({
-    url: "" + SERVERURL + "/pedidos/nuevo_pedido",
+    url: "" + SERVERURL + "/pedidos/anadir_cola", // URL del script PHP que maneja la cola
     type: "POST",
-    data: formData,
-    processData: false,
-    contentType: false,
+    data: JSON.stringify(pedidoData),
+    contentType: "application/json",
     success: function (response) {
       response = JSON.parse(response);
       if (response.status == 500) {
@@ -694,7 +688,7 @@ function agregar_nuevoPedido() {
       }
     },
     error: function (error) {
-      alert("Hubo un error al agregar el pedido");
+      alert("Hubo un error al agregar el pedido a la cola");
       console.log(error);
     },
   });
