@@ -32,7 +32,7 @@ function logError($message)
 function checkConnection($conn)
 {
     if (!$conn->ping()) {
-        global $conn; // Asegúrate de usar la variable global $conn
+        global $conn;
         logError("Conexión a MySQL perdida. Intentando reconectar...");
         $conn = new mysqli(HOST, USER, PASSWORD, DB);
 
@@ -59,10 +59,9 @@ function incrementarNumeroFactura($numero_factura)
     return 'COT-' . $nuevo_numero;
 }
 
-// Función para insertar factura y detalles
-function procesarFactura($conn, $data)
+// Función para procesar un pedido desde la cola
+function procesarPedido($conn, $data)
 {
-    // Verificar conexión activa
     checkConnection($conn);
 
     try {
@@ -70,15 +69,11 @@ function procesarFactura($conn, $data)
         $conn->begin_transaction();
 
         // Obtener el último número de factura
-        $query = "SELECT MAX(numero_factura) as factura_numero FROM facturas_cot";
-        $result = $conn->query($query);
-        if (!$result) {
-            throw new Exception("Error al obtener el último número de factura: " . $conn->error);
-        }
-        $row = $result->fetch_assoc();
-        $ultima_factura = $row['factura_numero'] ?? 'COT-0000000000';
+        $ultimaFactura = $conn->query("SELECT MAX(numero_factura) as factura_numero FROM facturas_cot");
+        $row = $ultimaFactura->fetch_assoc();
+        $facturaNumero = $row['factura_numero'] ?? 'COT-0000000000';
 
-        $nueva_factura = incrementarNumeroFactura($ultima_factura);
+        $nuevaFactura = incrementarNumeroFactura($facturaNumero);
 
         // Insertar en la tabla `facturas_cot`
         $sql = "INSERT INTO facturas_cot (
@@ -89,25 +84,17 @@ function procesarFactura($conn, $data)
             facturada, anulada, identificacionO, nombreO, ciudadO, provinciaO, provincia,
             direccionO, referenciaO, numeroCasaO, valor_seguro, no_piezas, tipo_servicio,
             peso, contiene, costo_flete, costo_producto, comentario, id_transporte, telefonoO, id_bodega
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-        // Validar el número de placeholders
-        if (substr_count($sql, '?') !== 45) {
-            throw new Exception("Número de placeholders '?' no coincide con el número esperado.");
-        }
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $conn->prepare($sql);
+
         if (!$stmt) {
-            throw new Exception("Error al preparar la consulta: " . $conn->error . " SQL: " . $sql);
+            throw new Exception("Error al preparar la consulta principal: " . $conn->error);
         }
 
-        // Registra los datos recibidos para debug
-        logError("Datos recibidos: " . print_r($data, true));
-
-        // Vincular parámetros
         $stmt->bind_param(
             'ssidsissssssssssississississssssissssss',
-            $nueva_factura,
+            $nuevaFactura,
             $data['fecha_factura'],
             $data['id_usuario'],
             $data['monto_factura'],
@@ -155,27 +142,28 @@ function procesarFactura($conn, $data)
         );
 
         if (!$stmt->execute()) {
-            throw new Exception("Error al ejecutar la consulta: " . $stmt->error);
+            throw new Exception("Error al ejecutar la consulta principal: " . $stmt->error);
         }
 
-        $factura_id = $conn->insert_id;
+        $facturaId = $conn->insert_id;
 
-        // Insertar detalles de cotización
+        // Insertar detalles desde `detalle_fact_cot`
         foreach ($data['detalle'] as $detalle) {
-            $detalle_sql = "INSERT INTO detalle_fact_cot (
+            $detalleSql = "INSERT INTO detalle_fact_cot (
                 numero_factura, id_factura, id_producto, cantidad, desc_venta,
                 precio_venta, id_plataforma, sku, id_inventario
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-            $detalle_stmt = $conn->prepare($detalle_sql);
-            if (!$detalle_stmt) {
+            $detalleStmt = $conn->prepare($detalleSql);
+
+            if (!$detalleStmt) {
                 throw new Exception("Error al preparar la consulta de detalle: " . $conn->error);
             }
 
-            $detalle_stmt->bind_param(
+            $detalleStmt->bind_param(
                 'siidsssii',
-                $nueva_factura,
-                $factura_id,
+                $nuevaFactura,
+                $facturaId,
                 $detalle['id_producto'],
                 $detalle['cantidad'],
                 $detalle['desc_venta'],
@@ -185,27 +173,24 @@ function procesarFactura($conn, $data)
                 $detalle['id_inventario']
             );
 
-            if (!$detalle_stmt->execute()) {
-                throw new Exception("Error al ejecutar la consulta de detalle: " . $detalle_stmt->error);
+            if (!$detalleStmt->execute()) {
+                throw new Exception("Error al ejecutar la consulta de detalle: " . $detalleStmt->error);
             }
         }
 
         // Confirmar transacción
         $conn->commit();
-        logError("Factura procesada correctamente: $nueva_factura");
+        logError("Pedido procesado correctamente: $nuevaFactura");
     } catch (Exception $e) {
         $conn->rollback();
-        logError("Error al procesar factura: " . $e->getMessage());
+        logError("Error al procesar el pedido: " . $e->getMessage());
     }
 }
 
-// Bucle principal del worker
+// Bucle principal del Worker
 while (true) {
     try {
-        // Verificar conexión activa
         checkConnection($conn);
-
-        // Obtener el siguiente mensaje de la cola
         $job = $redis->rPop("queue:facturas");
 
         if ($job) {
@@ -216,10 +201,9 @@ while (true) {
                 continue;
             }
 
-            // Procesar el trabajo
-            procesarFactura($conn, $data);
+            procesarPedido($conn, $data);
         } else {
-            sleep(1); // Esperar si no hay trabajos en la cola
+            sleep(1); // Esperar si no hay pedidos en la cola
         }
     } catch (Exception $e) {
         logError("Error en el Worker: " . $e->getMessage());
