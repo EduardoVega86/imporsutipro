@@ -57,7 +57,7 @@
                             'Content-Type': 'application/json'
                         },
                         // Importante: JSON.stringify convierte objeto JS en JSON correcto
-                        body: JSON.stringify(payload)
+                        body: headerRow
                     })
                     .then(response => response.json())
                     .then(data => {
