@@ -7,6 +7,7 @@
     <title>Inconsistencias</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
     <script>
         const Toast = Swal.mixin({
@@ -73,6 +74,12 @@
                     <option value="not_null">Valor no nulo</option>
                 </select>
             </div>
+            <div class="mt-4">
+                <button id="btnDescargarExcel" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                    Descargar Excel
+                </button>
+            </div>
+
 
             <table class="hidden border-collapse border border-gray-300 w-full text-center mt-4" id="tblInconsistencias">
                 <thead class="bg-gray-100">
@@ -120,6 +127,37 @@
                 fila.style.display = mostrar ? "" : "none";
             });
         }
+        document.getElementById("btnDescargarExcel").addEventListener("click", () => {
+            const filas = Array.from(tblInconsistenciasBody.querySelectorAll("tr"));
+            if (filas.length === 0) {
+                Toast.fire({
+                    icon: 'info',
+                    title: 'No hay datos para descargar'
+                });
+                return;
+            }
+
+            // Crear un arreglo para almacenar los datos de la tabla
+            const datos = [];
+
+            // Agregar los encabezados de la tabla
+            const headers = ["Numero Guia", "Estado Webhook", "Estado Factura", "Valor", "Fecha", "Resultado"];
+            datos.push(headers);
+
+            // Agregar los datos de las filas
+            filas.forEach(fila => {
+                const columnas = Array.from(fila.children).map(columna => columna.textContent.trim());
+                datos.push(columnas);
+            });
+
+            // Crear un libro de trabajo y una hoja
+            const ws = XLSX.utils.aoa_to_sheet(datos);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Inconsistencias");
+
+            // Generar y descargar el archivo Excel
+            XLSX.writeFile(wb, "inconsistencias.xlsx");
+        });
 
         document.addEventListener("DOMContentLoaded", () => {
             const btnGeneral = document.getElementById("btnGeneral");
