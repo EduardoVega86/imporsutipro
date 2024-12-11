@@ -55,6 +55,25 @@
             </div>
         </div>
         <div class="mt-4">
+            <div class="mt-4">
+                <label for="filtroResultado" class="block text-sm font-medium text-gray-700">Filtrar por resultado:</label>
+                <select id="filtroResultado" class="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <option value="">Todos</option>
+                    <option value="Correcto">Correcto</option>
+                    <option value="Sin estado en webhook">Sin estado en webhook</option>
+                    <option value="Inconsistencia">Inconsistencia</option>
+                </select>
+            </div>
+
+            <div class="mt-4">
+                <label for="filtroValor" class="block text-sm font-medium text-gray-700">Filtrar por valor:</label>
+                <select id="filtroValor" class="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <option value="">Todos</option>
+                    <option value="null">Valor nulo</option>
+                    <option value="not_null">Valor no nulo</option>
+                </select>
+            </div>
+
             <table class="hidden border-collapse border border-gray-300 w-full text-center mt-4" id="tblInconsistencias">
                 <thead class="bg-gray-100">
                     <tr>
@@ -73,6 +92,35 @@
     </div>
 
     <script>
+        document.getElementById("filtroResultado").addEventListener("change", filtrarTabla);
+        document.getElementById("filtroValor").addEventListener("change", filtrarTabla);
+
+        function filtrarTabla() {
+            const filtroResultado = document.getElementById("filtroResultado").value;
+            const filtroValor = document.getElementById("filtroValor").value;
+
+            const filas = tblInconsistenciasBody.querySelectorAll("tr");
+
+            filas.forEach(fila => {
+                const resultado = fila.children[5].textContent.trim();
+                const valor = fila.children[3].textContent.trim();
+
+                let mostrar = true;
+
+                if (filtroResultado && resultado !== filtroResultado) {
+                    mostrar = false;
+                }
+
+                if (filtroValor === "null" && valor !== "null") {
+                    mostrar = false;
+                } else if (filtroValor === "not_null" && valor === "null") {
+                    mostrar = false;
+                }
+
+                fila.style.display = mostrar ? "" : "none";
+            });
+        }
+
         document.addEventListener("DOMContentLoaded", () => {
             const btnGeneral = document.getElementById("btnGeneral");
             const btnMes = document.getElementById("btnMes");
