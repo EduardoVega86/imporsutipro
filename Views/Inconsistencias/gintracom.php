@@ -6,7 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inconsistencias</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        });
+    </script>
 </head>
 
 <body class="bg-gray-100 min-h-screen w-full grid place-content-center items-center">
@@ -122,7 +136,16 @@
                     data.fechaInicio = fechaInicio;
                     data.fechaFin = fechaFin;
                 }
-
+                const formData = new FormData();
+                formData.append("tipo", tipoBusqueda);
+                if (tipoBusqueda === "mes") {
+                    formData.append("fecha", data.fecha);
+                } else if (tipoBusqueda === "dia") {
+                    formData.append("fecha", data.fecha);
+                } else if (tipoBusqueda === "rango") {
+                    formData.append("fechaInicio", data.fechaInicio);
+                    formData.append("fechaFin", data.fechaFin);
+                }
                 // Llama a la API
                 try {
                     const response = await fetch(url, {
@@ -130,7 +153,7 @@
                         headers: {
                             "Content-Type": "application/json",
                         },
-                        body: JSON.stringify(data),
+                        body: formData
                     });
 
                     const resultados = await response.json();
@@ -140,8 +163,11 @@
                         mostrarSinResultados();
                     }
                 } catch (error) {
-                    console.error("Error al buscar inconsistencias:", error);
-                    alert("Hubo un error al buscar las inconsistencias.");
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Ocurrió un error al buscar las inconsistencias'
+                    });
                 }
             });
 
@@ -167,7 +193,10 @@
             // Muestra un mensaje de "Sin resultados"
             function mostrarSinResultados() {
                 tblInconsistencias.classList.add("hidden");
-                alert("No se encontraron resultados.");
+                Toast.fire({
+                    icon: 'info',
+                    title: 'No se encontraron resultados'
+                });
             }
         });
     </script>
