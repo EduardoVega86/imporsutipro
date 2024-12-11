@@ -84,7 +84,7 @@ function procesarPedido($conn, $data)
             facturada, anulada, identificacionO, nombreO, ciudadO, provinciaO, provincia,
             direccionO, referenciaO, numeroCasaO, valor_seguro, no_piezas, tipo_servicio,
             peso, contiene, costo_flete, costo_producto, comentario, id_transporte, telefonoO, id_bodega
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";        
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $conn->prepare($sql);
 
@@ -139,7 +139,7 @@ function procesarPedido($conn, $data)
             $data['id_transporte'],    // int
             $data['celularO'],         // text
             $data['id_bodega']         // int
-        );        
+        );
 
         if (!$stmt->execute()) {
             throw new Exception("Error al ejecutar la consulta principal: " . $stmt->error);
@@ -149,6 +149,9 @@ function procesarPedido($conn, $data)
 
         // Insertar detalles desde `detalle_fact_cot`
         foreach ($data['detalle'] as $detalle) {
+            // Registrar detalle para depuración
+            logError("Procesando detalle: " . print_r($detalle, true));
+
             $detalleSql = "INSERT INTO detalle_fact_cot (
                 numero_factura, id_factura, id_producto, cantidad, desc_venta,
                 precio_venta, id_plataforma, sku, id_inventario
@@ -157,7 +160,8 @@ function procesarPedido($conn, $data)
             $detalleStmt = $conn->prepare($detalleSql);
 
             if (!$detalleStmt) {
-                throw new Exception("Error al preparar la consulta de detalle: " . $conn->error);
+                logError("Error al preparar la consulta de detalle: " . $conn->error);
+                continue; // Salta al siguiente detalle
             }
 
             $detalleStmt->bind_param(
@@ -171,11 +175,27 @@ function procesarPedido($conn, $data)
                 $detalle['id_plataforma'],  // `id_plataforma` - int (i)
                 $detalle['sku'],            // `sku` - string (s)
                 $detalle['id_inventario']   // `id_inventario` - int (i)
-            );            
+            );
+
+            // Registrar datos vinculados
+            logError("Datos vinculados para detalle: " . print_r([
+                $nuevaFactura,
+                $facturaId,
+                $detalle['id_producto'],
+                $detalle['cantidad'],
+                $detalle['desc_venta'],
+                $detalle['precio_venta'],
+                $detalle['id_plataforma'],
+                $detalle['sku'],
+                $detalle['id_inventario']
+            ], true));
 
             if (!$detalleStmt->execute()) {
-                throw new Exception("Error al ejecutar la consulta de detalle: " . $detalleStmt->error);
+                logError("Error al ejecutar la consulta de detalle: " . $detalleStmt->error);
+                continue; // Salta al siguiente detalle
             }
+
+            logError("Detalle insertado correctamente para factura: $nuevaFactura");
         }
 
         // Confirmar transacción
