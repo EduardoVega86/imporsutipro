@@ -40,6 +40,17 @@ const initDataTableDetalleWallet = async () => {
 
   dataTableDetalleWalletIsInitialized = true;
 };
+document
+  .getElementById("modalReporte")
+  .addEventListener("show.bs.modal", function (event) {
+    // "event.relatedTarget" es el botón que activó el modal
+    const button = event.relatedTarget;
+    const idPlataforma = button.getAttribute("data-id_plataforma");
+
+    // Asignar valor al campo hidden
+    const idPlataformaHidden = document.getElementById("id_plataforma_hidden");
+    idPlataformaHidden.value = idPlataforma;
+  });
 
 const listDetalleWallet = async () => {
   try {
