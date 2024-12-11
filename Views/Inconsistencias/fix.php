@@ -29,45 +29,45 @@
             if (!file) return;
 
             const reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = async function(e) {
                 const data = new Uint8Array(e.target.result);
                 const workbook = XLSX.read(data, {
                     type: 'array'
                 });
 
-                // Supongamos que tomas la primera hoja del libro:
                 const sheetName = workbook.SheetNames[0];
                 const worksheet = workbook.Sheets[sheetName];
                 const jsonData = XLSX.utils.sheet_to_json(worksheet, {
                     header: 1
                 });
 
-                // jsonData es un array de arrays. La primera fila (header) podría ser algo como ["campo1", "campo2", ...]
-                const headerRow = jsonData[3];
+                // Cabecera: jsonData[0] es la primera fila (headers)
+                // Toma la tercera cabecera: jsonData[0][3]
+                // Suponemos que en cada fila hay al menos 4 columnas
+                // Ahora enviamos el valor de la cuarta columna (índice 3) de cada fila
+                // desde jsonData[1] en adelante (ya que jsonData[0] son las cabeceras).
 
-                // Ejemplo: enviar la primera cabecera como {"datos": headerRow}
-                const payload = {
-                    datos: headerRow
-                };
+                for (let i = 1; i < jsonData.length; i++) {
+                    const cellValue = jsonData[i][3];
+                    if (cellValue === undefined) continue; // Si no hay valor en esa columna, saltar.
 
-                // Realizar el fetch al endpoint. Modificar la URL según corresponda
-                fetch('https://guias.imporsuitpro.com/Gintracom', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        // Importante: JSON.stringify convierte objeto JS en JSON correcto
-                        body: headerRow
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log('Respuesta del servidor:', data);
-                        Swal.fire('Éxito', 'Datos enviados correctamente', 'success');
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        Swal.fire('Error', 'No se pudo enviar la información', 'error');
-                    });
+                    try {
+                        const response = await fetch('https://guias.imporsuitpro.com/Gintracom', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            // Enviamos solo el valor, no "datos:" ni nada extra
+                            body: JSON.stringify(cellValue)
+                        });
+                        const data = await response.json();
+                        console.log(`Fila ${i} - Respuesta del servidor:`, data);
+                    } catch (error) {
+                        console.error(`Fila ${i} - Error:`, error);
+                    }
+                }
+
+                Swal.fire('Éxito', 'Datos enviados correctamente', 'success');
             };
 
             reader.readAsArrayBuffer(file);
