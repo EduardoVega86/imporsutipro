@@ -40,6 +40,17 @@ const initDataTableDetalleWallet = async () => {
 
   dataTableDetalleWalletIsInitialized = true;
 };
+document
+  .getElementById("modalReporte")
+  .addEventListener("show.bs.modal", function (event) {
+    // "event.relatedTarget" es el botón que activó el modal
+    const button = event.relatedTarget;
+    const idPlataforma = button.getAttribute("data-id_plataforma");
+
+    // Asignar valor al campo hidden
+    const idPlataformaHidden = document.getElementById("id_plataforma_hidden");
+    idPlataformaHidden.value = idPlataforma;
+  });
 
 const listDetalleWallet = async () => {
   try {
@@ -115,22 +126,6 @@ function actualizarDias() {
     option.textContent = i;
     diaSelect.appendChild(option);
   }
-
-  // actualizar dia de rango en base al dia seleccionado
-  const diaRango = document.getElementById("dia_rango");
-  diaRango.innerHTML = "";
-  for (let i = 1; i <= dias; i++) {
-    const option = document.createElement("option");
-    option.value = i;
-    option.textContent = i;
-    diaRango.appendChild(option);
-  }
-
-  // Actualizamos el valor del día si es mayor al máximo
-  const dia = parseInt(diaSelect.value, 10);
-  if (dia > dias) {
-    diaSelect.value = dias;
-  }
 }
 
 document
@@ -179,3 +174,41 @@ tipoSelectCheckbox.addEventListener("change", function () {
 window.addEventListener("load", async () => {
   await initDataTableDetalleWallet();
 });
+
+document
+  .getElementById("btnGenerarReporte")
+  .addEventListener("click", function () {
+    const formData = new FormData(document.getElementById("formReporte"));
+    // Si tipo_reporte no está seleccionado enviar dia con 0 y rango con 0
+    if (!tipoReporteCheckbox.checked) {
+      formData.set("dia", 0);
+      formData.set("rango", 0);
+    }
+    // Si tipo_select no está seleccionado enviar rango con 0
+    if (!tipoSelectCheckbox.checked) {
+      formData.set("rango", 0);
+    }
+
+    fetch(SERVERURL + "wallet/guias_reporte", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        // Convertir JSON a Excel y descargar
+        downloadExcel(data);
+      });
+  });
+
+function downloadExcel(jsonData) {
+  // Crea una hoja desde el JSON
+  const ws = XLSX.utils.json_to_sheet(jsonData);
+  // Crea un nuevo libro de trabajo
+  const wb = XLSX.utils.book_new();
+  // Agrega la hoja al libro
+  XLSX.utils.book_append_sheet(wb, ws, "Reporte");
+
+  // Genera y descarga el archivo Excel
+  XLSX.writeFile(wb, "reporte.xlsx");
+}

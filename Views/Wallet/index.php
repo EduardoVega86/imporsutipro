@@ -69,10 +69,8 @@
 
                                     <!-- Contenedor para el campo de rango -->
                                     <div class="mb-3 hidden" id="rango_container">
-                                        <label for="rango_select" class="form-label">Hasta:</label>
-                                        <select id="rango_select" name="rango" class="form-control" placeholder="Ej: 10">
-
-                                        </select>
+                                        <label for="rango_select" class="form-label">Rango:</label>
+                                        <input type="number" id="rango_select" name="rango" class="form-control" placeholder="Ej: 10">
                                     </div>
 
                                 </form>
