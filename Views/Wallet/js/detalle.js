@@ -156,7 +156,6 @@ tipoSelectCheckbox.addEventListener("change", function () {
   } else {
     // Ocultar y limpiar valor
     rangoContainer.classList.add("hidden");
-    rangoCheck.classList.add("hidden");
     document.getElementById("rango_select").value = "";
   }
 });
