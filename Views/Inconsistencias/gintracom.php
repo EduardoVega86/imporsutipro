@@ -105,7 +105,7 @@
 
             // Realiza la búsqueda
             btnBuscar.addEventListener("click", async () => {
-                let url = "https://desarrollo.imporcomex.com/inconsistencias/getInconsistencias_Gintracom"; // Cambiar a la ruta de tu API
+                let url = "https://desarrollo.imporsuitpro.com/inconsistencias/getInconsistencias_Gintracom"; // Cambiar a la ruta de tu API
                 let data = {
                     tipo: tipoBusqueda
                 };
