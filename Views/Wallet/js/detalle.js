@@ -137,7 +137,7 @@ tipoReporteCheckbox.addEventListener("change", function () {
   if (this.checked) {
     // Mostrar el día
     diaContainer.classList.remove("hidden");
-    rangoContainer.classList.remove("hidden");
+    rangoCheck.classList.remove("hidden");
   } else {
     // Ocultar y limpiar valor
     diaContainer.classList.add("hidden");
