@@ -115,22 +115,6 @@ function actualizarDias() {
     option.textContent = i;
     diaSelect.appendChild(option);
   }
-
-  // actualizar dia de rango en base al dia seleccionado
-  const diaRango = document.getElementById("dia_rango");
-  diaRango.innerHTML = "";
-  for (let i = 1; i <= dias; i++) {
-    const option = document.createElement("option");
-    option.value = i;
-    option.textContent = i;
-    diaRango.appendChild(option);
-  }
-
-  // Actualizamos el valor del día si es mayor al máximo
-  const dia = parseInt(diaSelect.value, 10);
-  if (dia > dias) {
-    diaSelect.value = dias;
-  }
 }
 
 document
@@ -179,3 +163,19 @@ tipoSelectCheckbox.addEventListener("change", function () {
 window.addEventListener("load", async () => {
   await initDataTableDetalleWallet();
 });
+
+document
+  .getElementById("btnGenerarReporte")
+  .addEventListener("click", function () {
+    const formData = new FormData(document.getElementById("formReporte"));
+
+    fetch(SERVERURL + "wallet/guias_reporte", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        // Aquí manejas la respuesta
+      });
+  });
