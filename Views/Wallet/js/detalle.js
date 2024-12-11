@@ -182,6 +182,11 @@ document
     //si tipo_reporte no esta seleccionado enviar dia con 0
     if (!tipoReporteCheckbox.checked) {
       formData.set("dia", 0);
+      formData.set("rango", 0);
+    }
+    //si tipo_select no esta seleccionado enviar tipo con 0
+    if (!tipoSelectCheckbox.checked) {
+      formData.set("rango", 0);
     }
     fetch(SERVERURL + "wallet/guias_reporte", {
       method: "POST",
