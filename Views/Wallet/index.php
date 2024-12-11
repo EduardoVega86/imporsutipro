@@ -62,7 +62,7 @@
                                         <select class="form-select" id="dia_select"></select>
                                     </div>
 
-                                    <div class="mb-3">
+                                    <div class="mb-3 hidden" id="rango_check">
                                         <label for="tipo_select" class="form-label">¿Desea rango de fechas?</label>
                                         <input type="checkbox" id="tipo_select" class="form-check-input">
                                     </div>
