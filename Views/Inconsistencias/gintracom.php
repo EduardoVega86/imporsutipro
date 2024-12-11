@@ -30,9 +30,11 @@
         <div class="bg-white p-4 rounded-lg shadow-lg">
             <h1 class="text-2xl font-bold text-center">Cargando...</h1>
             <!-- spinner -->
-            <div class="w-20 h-20 border-8 border-t-8 border-gray-200 rounded-full animate-spin mt-4 mx-auto"></div>
+            <div class="w-20 h-20 border-8 border-t-8 border-gray-200 border-t-blue-500 rounded-full animate-spin mt-4 mx-auto"></div>
 
         </div>
+
+    </div>
     </div>
 
     <div class="bg-white p-4 rounded-lg shadow-lg">
