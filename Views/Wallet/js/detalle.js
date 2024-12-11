@@ -129,10 +129,15 @@ document.addEventListener("DOMContentLoaded", actualizarDias);
 // Lógica para mostrar/ocultar el select de día en base al checkbox "tipo_reporte"
 const tipoReporteCheckbox = document.getElementById("tipo_reporte");
 const diaContainer = document.getElementById("dia_container");
+const tipoSelectCheckbox = document.getElementById("tipo_select");
+const rangoContainer = document.getElementById("rango_container");
+const tipo_select = document.getElementById("tipo_select");
+const rangoCheck = document.getElementById("rango_check");
 tipoReporteCheckbox.addEventListener("change", function () {
   if (this.checked) {
     // Mostrar el día
     diaContainer.classList.remove("hidden");
+    rangoContainer.classList.remove("hidden");
   } else {
     // Ocultar y limpiar valor
     diaContainer.classList.add("hidden");
@@ -141,10 +146,7 @@ tipoReporteCheckbox.addEventListener("change", function () {
 });
 
 // Lógica para mostrar/ocultar el campo de rango en base al checkbox "tipo_select"
-const tipoSelectCheckbox = document.getElementById("tipo_select");
-const rangoContainer = document.getElementById("rango_container");
-const tipo_select = document.getElementById("tipo_select");
-const rangoCheck = document.getElementById("rango_check");
+
 tipoSelectCheckbox.addEventListener("change", function () {
   if (this.checked) {
     // Mostrar el rango
