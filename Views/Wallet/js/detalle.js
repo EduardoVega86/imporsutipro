@@ -56,7 +56,7 @@ const listDetalleWallet = async () => {
                     <td>${detalleWallet.utilidad}</td>
                     <td>${detalleWallet.count_visto_0}</td>
                     <td>
-                    <button id="downloadExcel2" class="btn btn-success" data-gbs-toggle="modal" data-bs-target="#modalReporte" data-id_plataforma="${detalleWallet.id_plataforma}">Descargar Reporte</button>
+                    <button id="downloadExcel2" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalReporte" data-id_plataforma="${detalleWallet.id_plataforma}">Descargar Reporte</button>
                     <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel_general('${detalleWallet.tienda}')">Descargar Excel general</button>
                     <button id="downloadExcel" class="btn btn-success" onclick="descargarExcel('${detalleWallet.tienda}')">Descargar Excel</button>
                     </td>
@@ -77,6 +77,56 @@ const listDetalleWallet = async () => {
     alert(ex);
   }
 };
+
+// Función para determinar si un año es bisiesto
+function esBisiesto(anio) {
+  return (anio % 4 === 0 && anio % 100 !== 0) || anio % 400 === 0;
+}
+
+// Función que actualiza los días del mes
+function actualizarDias() {
+  const anio = parseInt(document.getElementById("anio_select").value, 10);
+  const mes = parseInt(document.getElementById("mes_select").value, 10);
+  const diaSelect = document.getElementById("dia_select");
+
+  let dias = 31; // Valor por defecto
+
+  switch (mes) {
+    case 2: // Febrero
+      dias = esBisiesto(anio) ? 29 : 28;
+      break;
+    case 4: // Abril
+    case 6: // Junio
+    case 9: // Septiembre
+    case 11: // Noviembre
+      dias = 30;
+      break;
+    default:
+      dias = 31;
+  }
+
+  // Limpiamos el select de días
+  diaSelect.innerHTML = "";
+
+  // Generamos las opciones de los días
+  for (let i = 1; i <= dias; i++) {
+    const option = document.createElement("option");
+    option.value = i;
+    option.textContent = i;
+    diaSelect.appendChild(option);
+  }
+}
+
+// Event listeners para cambiar los días cuando se modifica mes o año
+document
+  .getElementById("mes_select")
+  .addEventListener("change", actualizarDias);
+document
+  .getElementById("anio_select")
+  .addEventListener("change", actualizarDias);
+
+// Inicializar con los valores actuales
+document.addEventListener("DOMContentLoaded", actualizarDias);
 
 window.addEventListener("load", async () => {
   await initDataTableDetalleWallet();
