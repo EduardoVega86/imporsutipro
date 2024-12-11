@@ -170,7 +170,7 @@ document
     const formData = new FormData(document.getElementById("formReporte"));
     //si tipo_reporte no esta seleccionado enviar dia con 0
     if (!tipoReporteCheckbox.checked) {
-      formData.set("dia_select", 0);
+      formData.set("dia", 0);
     }
     fetch(SERVERURL + "wallet/guias_reporte", {
       method: "POST",
