@@ -25,6 +25,13 @@
 </head>
 
 <body class="bg-gray-100 min-h-screen w-full grid place-content-center items-center">
+    <!-- Loading -->
+    <div id="loading" class="hidden fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50 z-50 flex justify-center items-center">
+        <div class="bg-white p-4 rounded-lg shadow-lg">
+            <h1 class="text-2xl font-bold text-center">Cargando...</h1>
+        </div>
+    </div>
+
     <div class="bg-white p-4 rounded-lg shadow-lg">
         <h1 class="text-2xl font-bold text-center">Inconsistencias de Gintracom</h1>
         <div class="flex justify-center items-center mt-4">
@@ -102,6 +109,7 @@
     </div>
 
     <script>
+        const loading = document.getElementById("loading");
         document.getElementById("filtroResultado").addEventListener("change", filtrarTabla);
         document.getElementById("filtroValor").addEventListener("change", filtrarTabla);
 
@@ -238,6 +246,7 @@
 
             // Realiza la búsqueda
             btnBuscar.addEventListener("click", async () => {
+                loading.classList.remove("hidden");
                 let url = "https://desarrollo.imporsuitpro.com/inconsistencias/getInconsistencias_Gintracom"; // Cambiar a la ruta de tu API
                 let data = {
                     tipo: tipoBusqueda
@@ -275,12 +284,14 @@
 
                     const resultados = await response.json();
                     if (resultados.length > 0) {
+                        loading.classList.add("hidden");
                         mostrarResultados(resultados);
                     } else {
+                        loading.classList.add("hidden");
                         mostrarSinResultados();
                     }
                 } catch (error) {
-
+                    loading.classList.add("hidden");
                     Toast.fire({
                         icon: 'error',
                         title: 'Ocurrió un error al buscar las inconsistencias'
