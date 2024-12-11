@@ -11,7 +11,7 @@
 
 <body class="bg-gray-100 min-h-screen w-full grid place-content-center items-center">
     <div class="bg-white p-4 rounded-lg shadow-lg">
-        <h1 class="text-2xl font-bold text-center">Inconsistencias</h1>
+        <h1 class="text-2xl font-bold text-center">Inconsistencias de Gintracom</h1>
         <div class="flex justify-center items-center mt-4">
             <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" id="btnGeneral">General</button>
             <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-4" id="btnMes">Por mes</button>
@@ -41,56 +41,136 @@
             </div>
         </div>
         <div class="mt-4">
-            <table class="hidden" id="tblInconsistencias">
-                <thead>
+            <table class="hidden border-collapse border border-gray-300 w-full text-center mt-4" id="tblInconsistencias">
+                <thead class="bg-gray-100">
                     <tr>
-                        <th class="px-4 py-2">ID</th>
-                        <th class="px-4 py-2">Fecha</th>
-                        <th class="px-4 py-2">Descripción</th>
-                        <th class="px-4 py-2">Estado</th>
+                        <th class="border px-4 py-2">Numero Guia</th>
+                        <th class="border px-4 py-2">Estado Webhook</th>
+                        <th class="border px-4 py-2">Estado Factura</th>
+                        <th class="border px-4 py-2">Valor</th>
+                        <th class="border px-4 py-2">Fecha</th>
+                        <th class="border px-4 py-2">Resultado</th>
                     </tr>
                 </thead>
-                <tbody id="tblInconsistenciasBody">
-                </tbody>
+                <tbody id="tblInconsistenciasBody"></tbody>
             </table>
+
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <script src="https://cdn.jsdelivr.net/npm/lodash@4"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5"></script>
-    <script src="https://cdn.jsdelivr.net/npm/datatables.net@1.11"></script>
-    <script src="https://cdn.jsdelivr.net/npm/datatables.net-bs5@1.11"></script>
-    <script src="https://cdn.jsdelivr.net/npm/datatables.net-buttons@2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/datatables.net-buttons-bs5@2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/datatables.net-buttons-html5@2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/datatables.net-buttons-print@2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/datatables.net-colreorder@1"></script>
-    <script src="https://cdn.jsdelivr.net/npm/datatables.net-colreorder-bs5@1"></script>
-    <script src="https://cdn.jsdelivr.net/npm/datatables.net-fixedcolumns@4"></script>
-    <script src="https://cdn.jsdelivr.net/npm/datatables.net-fixedcolumns-bs5@4"></script>
-    <script src="https://cdn.jsdelivr.net/npm/datatables.net-fixedheader@3"></script>
-    <script src="https://cdn.jsdelivr.net/npm/datatables.net-fixedheader-bs5@3"></script>
-    <script src="https://cdn.jsdelivr.net/npm/datatables.net-keytable@2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/datatables.net-keytable-bs5@2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/datatables.net-responsive@2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/datatables.net-responsive-bs5@2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/datatables.net-rowgroup@1"></script>
-    <script src="https://cdn.jsdelivr.net/npm/datatables.net-rowgroup-bs5@1"></script>
-    <script src="https://cdn.jsdelivr.net/npm/datatables.net-rowreorder@1"></script>
-    <script src="https://cdn.jsdelivr.net/npm/datatables.net-rowreorder-bs5@1"></script>
-    <script src="https://cdn.jsdelivr.net/npm/datatables.net-scroller@2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/datatables.net-scroller-bs5@2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/datatables.net-searchbuilder@1"></script>
-    <script src="https://cdn.jsdelivr.net/npm/datatables.net-searchbuilder-bs5@1"></script>
-    <script src="https://cdn.jsdelivr.net/npm/datatables.net-searchpanes@1"></script>
-    <script src="https://cdn.jsdelivr.net/npm/datatables.net-searchpanes-bs5@1"></script>
-    <script src="https://cdn.jsdelivr.net/npm/datatables.net-select@1"></script>
-    <script src="https://cdn.jsdelivr.net/npm/datatables.net-select-bs5@1"></script>
-    <script src="https://cdn.jsdelivr.net/npm/datatables.net-buttons@2"></script>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const btnGeneral = document.getElementById("btnGeneral");
+            const btnMes = document.getElementById("btnMes");
+            const btnDia = document.getElementById("btnDia");
+            const btnRango = document.getElementById("btnRango");
+            const btnBuscar = document.getElementById("btnBuscar");
+            const divMes = document.getElementById("divMes");
+            const divDia = document.getElementById("divDia");
+            const divRango = document.getElementById("divRango");
+            const tblInconsistencias = document.getElementById("tblInconsistencias");
+            const tblInconsistenciasBody = document.getElementById("tblInconsistenciasBody");
+
+            let tipoBusqueda = "general";
+
+            // Muestra el formulario correspondiente
+            btnGeneral.addEventListener("click", () => {
+                tipoBusqueda = "general";
+                ocultarFormularios();
+            });
+
+            btnMes.addEventListener("click", () => {
+                tipoBusqueda = "mes";
+                ocultarFormularios();
+                divMes.classList.remove("hidden");
+            });
+
+            btnDia.addEventListener("click", () => {
+                tipoBusqueda = "dia";
+                ocultarFormularios();
+                divDia.classList.remove("hidden");
+            });
+
+            btnRango.addEventListener("click", () => {
+                tipoBusqueda = "rango";
+                ocultarFormularios();
+                divRango.classList.remove("hidden");
+            });
+
+            function ocultarFormularios() {
+                divMes.classList.add("hidden");
+                divDia.classList.add("hidden");
+                divRango.classList.add("hidden");
+            }
+
+            // Realiza la búsqueda
+            btnBuscar.addEventListener("click", async () => {
+                let url = "https://desarrollo.imporcomex.com/inconsistencias/getInconsistencias_Gintracom"; // Cambiar a la ruta de tu API
+                let data = {
+                    tipo: tipoBusqueda
+                };
+
+                if (tipoBusqueda === "mes") {
+                    const fechaMes = document.getElementById("fechaMes").value;
+                    data.fecha = fechaMes;
+                } else if (tipoBusqueda === "dia") {
+                    const fechaDia = document.getElementById("fechaDia").value;
+                    data.fecha = fechaDia;
+                } else if (tipoBusqueda === "rango") {
+                    const fechaInicio = document.getElementById("fechaInicio").value;
+                    const fechaFin = document.getElementById("fechaFin").value;
+                    data.fechaInicio = fechaInicio;
+                    data.fechaFin = fechaFin;
+                }
+
+                // Llama a la API
+                try {
+                    const response = await fetch(url, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(data),
+                    });
+
+                    const resultados = await response.json();
+                    if (resultados.length > 0) {
+                        mostrarResultados(resultados);
+                    } else {
+                        mostrarSinResultados();
+                    }
+                } catch (error) {
+                    console.error("Error al buscar inconsistencias:", error);
+                    alert("Hubo un error al buscar las inconsistencias.");
+                }
+            });
+
+            // Rellena la tabla con resultados
+            function mostrarResultados(resultados) {
+                tblInconsistencias.classList.remove("hidden");
+                tblInconsistenciasBody.innerHTML = "";
+
+                resultados.forEach((fila) => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                    <td class="border px-4 py-2">${fila.numero_guia}</td>
+                    <td class="border px-4 py-2">${fila.estado_webhook}</td>
+                    <td class="border px-4 py-2">${fila.estado_factura}</td>
+                    <td class="border px-4 py-2">${fila.valor}</td>
+                    <td class="border px-4 py-2">${fila.fecha}</td>
+                    <td class="border px-4 py-2">${fila.resultado}</td>
+                `;
+                    tblInconsistenciasBody.appendChild(row);
+                });
+            }
+
+            // Muestra un mensaje de "Sin resultados"
+            function mostrarSinResultados() {
+                tblInconsistencias.classList.add("hidden");
+                alert("No se encontraron resultados.");
+            }
+        });
+    </script>
 
 
 </body>
