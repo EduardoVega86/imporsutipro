@@ -179,15 +179,16 @@ document
   .getElementById("btnGenerarReporte")
   .addEventListener("click", function () {
     const formData = new FormData(document.getElementById("formReporte"));
-    //si tipo_reporte no esta seleccionado enviar dia con 0
+    // Si tipo_reporte no está seleccionado enviar dia con 0 y rango con 0
     if (!tipoReporteCheckbox.checked) {
       formData.set("dia", 0);
       formData.set("rango", 0);
     }
-    //si tipo_select no esta seleccionado enviar tipo con 0
+    // Si tipo_select no está seleccionado enviar rango con 0
     if (!tipoSelectCheckbox.checked) {
       formData.set("rango", 0);
     }
+
     fetch(SERVERURL + "wallet/guias_reporte", {
       method: "POST",
       body: formData,
@@ -195,6 +196,19 @@ document
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        // Aquí manejas la respuesta
+        // Convertir JSON a Excel y descargar
+        downloadExcel(data);
       });
   });
+
+function downloadExcel(jsonData) {
+  // Crea una hoja desde el JSON
+  const ws = XLSX.utils.json_to_sheet(jsonData);
+  // Crea un nuevo libro de trabajo
+  const wb = XLSX.utils.book_new();
+  // Agrega la hoja al libro
+  XLSX.utils.book_append_sheet(wb, ws, "Reporte");
+
+  // Genera y descarga el archivo Excel
+  XLSX.writeFile(wb, "reporte.xlsx");
+}
