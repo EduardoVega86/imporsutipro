@@ -309,7 +309,7 @@
                     row.innerHTML = `
                     <td class="border px-4 py-2">${fila.numero_guia}</td>
                     <td class="border px-4 py-2">${fila.estado_webhook}</td>
-                    <td class="border px-4 py-2">${fila.estado_factura}</td>
+                    <td class="border px-4 py-2">${fila.estado_facturas}</td>
                     <td class="border px-4 py-2">${fila.valor}</td>
                     <td class="border px-4 py-2">${fila.fecha}</td>
                     <td class="border px-4 py-2">${fila.resultado}</td>
