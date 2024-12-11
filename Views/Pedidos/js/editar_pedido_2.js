@@ -797,7 +797,7 @@ function generar_guia() {
 
   // Realiza la solicitud AJAX
   if (transportadora_selected == 1) {
-    generar_guiaTransportadora = "generarLaar";
+    generar_guiaTransportadora = "anadir_cola_guia_laar";
   } else if (transportadora_selected == 2) {
     generar_guiaTransportadora = "generarServientrega";
   } else if (transportadora_selected == 3) {
@@ -878,6 +878,8 @@ function generar_guia() {
     },
   });
 }
+
+
 // Función para vaciar temporalmente los pedidos
 const vaciarTmpPedidos = async () => {
   try {
