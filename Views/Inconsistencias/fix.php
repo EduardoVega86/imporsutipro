@@ -41,15 +41,21 @@
                     header: 1
                 });
 
-                // Cabecera: jsonData[0] es la primera fila (headers)
-                // Toma la tercera cabecera: jsonData[0][3]
-                // Suponemos que en cada fila hay al menos 4 columnas
-                // Ahora enviamos el valor de la cuarta columna (índice 3) de cada fila
-                // desde jsonData[1] en adelante (ya que jsonData[0] son las cabeceras).
-
+                // Suponiendo que:
+                // - jsonData[0] son las cabeceras
+                // - jsonData[i][3] (i > 0) contiene el JSON en forma de cadena
                 for (let i = 1; i < jsonData.length; i++) {
                     const cellValue = jsonData[i][3];
-                    if (cellValue === undefined) continue; // Si no hay valor en esa columna, saltar.
+                    if (!cellValue) continue; // Si la celda está vacía o no existe
+
+                    // cellValue es una cadena JSON, hay que parsearla:
+                    let parsedData;
+                    try {
+                        parsedData = JSON.parse(cellValue);
+                    } catch (error) {
+                        console.error(`Error al parsear el JSON en la fila ${i}:`, error);
+                        continue;
+                    }
 
                     try {
                         const response = await fetch('https://guias.imporsuitpro.com/Gintracom', {
@@ -57,13 +63,13 @@
                             headers: {
                                 'Content-Type': 'application/json'
                             },
-                            // Enviamos solo el valor, no "datos:" ni nada extra
-                            body: JSON.stringify(cellValue)
+                            body: JSON.stringify(parsedData) // Se envía el objeto ya parseado
                         });
-                        const data = await response.json();
-                        console.log(`Fila ${i} - Respuesta del servidor:`, data);
+
+                        const respData = await response.json();
+                        console.log(`Fila ${i} - Respuesta del servidor:`, respData);
                     } catch (error) {
-                        console.error(`Fila ${i} - Error:`, error);
+                        console.error(`Fila ${i} - Error al enviar:`, error);
                     }
                 }
 
