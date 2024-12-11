@@ -25,7 +25,7 @@
 
                                     <div class="mb-3">
                                         <label for="anio_select" class="form-label">Año:</label>
-                                        <select class="form-select" id="anio_select">
+                                        <select class="form-select" name="anio" id="anio_select">
                                             <option selected value="2024">2024</option>
                                             <option value="2025">2025</option>
                                             <option value="2026">2026</option>
@@ -35,7 +35,7 @@
 
                                     <div class="mb-3">
                                         <label for="mes_select" class="form-label">Mes:</label>
-                                        <select class="form-select" id="mes_select">
+                                        <select class="form-select" name="mes" id="mes_select">
                                             <option value="1">Enero</option>
                                             <option value="2">Febrero</option>
                                             <option value="3">Marzo</option>
@@ -59,7 +59,7 @@
                                     <!-- Contenedor para el campo de día -->
                                     <div class="mb-3 hidden" id="dia_container">
                                         <label for="dia_select" class="form-label">Día:</label>
-                                        <select class="form-select" id="dia_select"></select>
+                                        <select class="form-select" name="dia" id="dia_select"></select>
                                     </div>
 
                                     <div class="mb-3 hidden" id="rango_check">
@@ -69,8 +69,10 @@
 
                                     <!-- Contenedor para el campo de rango -->
                                     <div class="mb-3 hidden" id="rango_container">
-                                        <label for="rango_select" class="form-label">Rango:</label>
-                                        <input type="number" id="rango_select" class="form-control" placeholder="Ej: 10">
+                                        <label for="rango_select" class="form-label">Hasta:</label>
+                                        <select id="rango_select" name="rango" class="form-control" placeholder="Ej: 10">
+
+                                        </select>
                                     </div>
 
                                 </form>

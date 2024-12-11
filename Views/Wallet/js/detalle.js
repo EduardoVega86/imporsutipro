@@ -115,6 +115,22 @@ function actualizarDias() {
     option.textContent = i;
     diaSelect.appendChild(option);
   }
+
+  // actualizar dia de rango en base al dia seleccionado
+  const diaRango = document.getElementById("dia_rango");
+  diaRango.innerHTML = "";
+  for (let i = 1; i <= dias; i++) {
+    const option = document.createElement("option");
+    option.value = i;
+    option.textContent = i;
+    diaRango.appendChild(option);
+  }
+
+  // Actualizamos el valor del día si es mayor al máximo
+  const dia = parseInt(diaSelect.value, 10);
+  if (dia > dias) {
+    diaSelect.value = dias;
+  }
 }
 
 document
