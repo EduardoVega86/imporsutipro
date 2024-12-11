@@ -143,12 +143,15 @@ tipoReporteCheckbox.addEventListener("change", function () {
 // Lógica para mostrar/ocultar el campo de rango en base al checkbox "tipo_select"
 const tipoSelectCheckbox = document.getElementById("tipo_select");
 const rangoContainer = document.getElementById("rango_container");
+const tipo_select = document.getElementById("tipo_select");
 const rangoCheck = document.getElementById("rango_check");
 tipoSelectCheckbox.addEventListener("change", function () {
   if (this.checked) {
     // Mostrar el rango
     rangoContainer.classList.remove("hidden");
     rangoCheck.classList.remove("hidden");
+    //poner tipo check en 0
+    tipo_select.value = 0;
   } else {
     // Ocultar y limpiar valor
     rangoContainer.classList.add("hidden");
