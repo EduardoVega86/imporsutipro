@@ -147,9 +147,34 @@ function procesarPedido($conn, $data)
 
         $facturaId = $conn->insert_id;
 
-        // Insertar detalles desde `detalle_fact_cot`
-        foreach ($data['detalle'] as $detalle) {
-            // Registrar detalle para depuración
+        $tmp = $data['tmp']; // Obtenemos el session_id enviado desde la cola
+
+        // Consultar los detalles de la cotización desde la tabla tmp_cotizacion
+        $detalleTmpQuery = "SELECT * FROM tmp_cotizacion WHERE session_id = ?";
+        $detalleStmt = $conn->prepare($detalleTmpQuery);
+
+        if (!$detalleStmt) {
+            throw new Exception("Error al preparar la consulta de tmp_cotizacion: " . $conn->error);
+        }
+
+        // Vincular el session_id al query
+        $detalleStmt->bind_param('s', $tmp);
+
+        if (!$detalleStmt->execute()) {
+            throw new Exception("Error al ejecutar la consulta de tmp_cotizacion: " . $detalleStmt->error);
+        }
+
+        // Obtener los resultados
+        $result = $detalleStmt->get_result();
+        $tmp_cotizaciones = $result->fetch_all(MYSQLI_ASSOC);
+
+        // Verificar si se obtuvieron datos
+        if (empty($tmp_cotizaciones)) {
+            throw new Exception("No se encontraron registros en tmp_cotizacion para session_id: $tmp");
+        }
+
+        // Insertar cada registro de tmp_cotizacion en detalle_fact_cot
+        foreach ($tmp_cotizaciones as $detalle) {
             logError("Procesando detalle: " . print_r($detalle, true));
 
             $detalleSql = "INSERT INTO detalle_fact_cot (
@@ -157,41 +182,42 @@ function procesarPedido($conn, $data)
                 precio_venta, id_plataforma, sku, id_inventario
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-            $detalleStmt = $conn->prepare($detalleSql);
+            $insertDetalleStmt = $conn->prepare($detalleSql);
 
-            if (!$detalleStmt) {
-                logError("Error al preparar la consulta de detalle: " . $conn->error);
+            if (!$insertDetalleStmt) {
+                logError("Error al preparar la consulta de detalle_fact_cot: " . $conn->error);
                 continue; // Salta al siguiente detalle
             }
 
-            $detalleStmt->bind_param(
+            // Mapear los datos obtenidos de tmp_cotizacion
+            $detalleData = [
+                $nuevaFactura,             // `numero_factura`
+                $facturaId,                // `id_factura`
+                $detalle['id_producto'],   // `id_producto`
+                $detalle['cantidad_tmp'],  // `cantidad`
+                $detalle['desc_tmp'],      // `desc_venta`
+                $detalle['precio_tmp'],    // `precio_venta`
+                $detalle['id_plataforma'], // `id_plataforma`
+                $detalle['sku'],           // `sku`
+                $detalle['id_inventario']  // `id_inventario`
+            ];
+
+            // Vincular los datos
+            $insertDetalleStmt->bind_param(
                 'siiiidisi',
-                $nuevaFactura,              // `numero_factura` - string (s)
-                $facturaId,                 // `id_factura` - int (i)
-                $detalle['id_producto'],    // `id_producto` - int (i)
-                $detalle['cantidad'],       // `cantidad` - int (i)
-                $detalle['desc_venta'],     // `desc_venta` - int (i)
-                $detalle['precio_venta'],   // `precio_venta` - double (d)
-                $detalle['id_plataforma'],  // `id_plataforma` - int (i)
-                $detalle['sku'],            // `sku` - string (s)
-                $detalle['id_inventario']   // `id_inventario` - int (i)
+                $detalleData[0],
+                $detalleData[1],
+                $detalleData[2],
+                $detalleData[3],
+                $detalleData[4],
+                $detalleData[5],
+                $detalleData[6],
+                $detalleData[7],
+                $detalleData[8]
             );
 
-            // Registrar datos vinculados
-            logError("Datos vinculados para detalle: " . print_r([
-                $nuevaFactura,
-                $facturaId,
-                $detalle['id_producto'],
-                $detalle['cantidad'],
-                $detalle['desc_venta'],
-                $detalle['precio_venta'],
-                $detalle['id_plataforma'],
-                $detalle['sku'],
-                $detalle['id_inventario']
-            ], true));
-
-            if (!$detalleStmt->execute()) {
-                logError("Error al ejecutar la consulta de detalle: " . $detalleStmt->error);
+            if (!$insertDetalleStmt->execute()) {
+                logError("Error al ejecutar la consulta de detalle_fact_cot: " . $insertDetalleStmt->error);
                 continue; // Salta al siguiente detalle
             }
 

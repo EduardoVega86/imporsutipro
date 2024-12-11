@@ -170,6 +170,8 @@ class Pedidos extends Controller
             $redis = new Redis();
             $redis->connect('3.233.119.65', 6379);
 
+            $tmp = session_id();
+
             // Obtén los datos enviados desde la solicitud AJAX
             $input = file_get_contents('php://input');
             $pedidoData = json_decode($input, true);
@@ -233,6 +235,7 @@ class Pedidos extends Controller
                 'comentario' => $pedidoData['comentario'] ?? "",
                 'id_transporte' => $pedidoData['id_transporte'] ?? 0,
                 'id_bodega' => $pedidoData['id_propietario'],
+                'tmp' => $tmp,
             ];
 
             // Convierte el pedido a JSON para encolarlo
@@ -265,7 +268,6 @@ class Pedidos extends Controller
 
     public function nuevo_pedido()
     {
-
         $fecha_factura = date("Y-m-d H:i:s");
         $id_usuario = $_SESSION['id'] ?? 0;
         $monto_factura = $_POST['total_venta'];
