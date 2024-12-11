@@ -17,6 +17,11 @@ class Inconsistencias extends Controller
         $this->views->render($this, 'gintracom');
     }
 
+    public function fix()
+    {
+        $this->views->render($this, 'fix');
+    }
+
     public function getInconsistencias_Gintracom()
     {
         $tipo = $_POST['tipo'] ?? null; // Asegura que exista el dato
