@@ -117,7 +117,6 @@ function actualizarDias() {
   }
 }
 
-// Event listeners para cambiar los días cuando se modifica mes o año
 document
   .getElementById("mes_select")
   .addEventListener("change", actualizarDias);
@@ -125,8 +124,35 @@ document
   .getElementById("anio_select")
   .addEventListener("change", actualizarDias);
 
-// Inicializar con los valores actuales
 document.addEventListener("DOMContentLoaded", actualizarDias);
+
+// Lógica para mostrar/ocultar el select de día en base al checkbox "tipo_reporte"
+const tipoReporteCheckbox = document.getElementById("tipo_reporte");
+const diaContainer = document.getElementById("dia_container");
+tipoReporteCheckbox.addEventListener("change", function () {
+  if (this.checked) {
+    // Mostrar el día
+    diaContainer.classList.remove("hidden");
+  } else {
+    // Ocultar y limpiar valor
+    diaContainer.classList.add("hidden");
+    document.getElementById("dia_select").selectedIndex = 0;
+  }
+});
+
+// Lógica para mostrar/ocultar el campo de rango en base al checkbox "tipo_select"
+const tipoSelectCheckbox = document.getElementById("tipo_select");
+const rangoContainer = document.getElementById("rango_container");
+tipoSelectCheckbox.addEventListener("change", function () {
+  if (this.checked) {
+    // Mostrar el rango
+    rangoContainer.classList.remove("hidden");
+  } else {
+    // Ocultar y limpiar valor
+    rangoContainer.classList.add("hidden");
+    document.getElementById("rango_select").value = "";
+  }
+});
 
 window.addEventListener("load", async () => {
   await initDataTableDetalleWallet();

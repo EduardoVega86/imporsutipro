@@ -51,13 +51,24 @@
                                         </select>
                                     </div>
 
-                                    <!-- Select de días dinámico -->
                                     <div class="mb-3">
+                                        <label for="tipo_reporte" class="form-label">¿Desea reporte por día?</label>
+                                        <input type="checkbox" id="tipo_reporte" class="form-check-input">
+                                    </div>
+
+                                    <!-- Contenedor para el campo de día -->
+                                    <div class="mb-3 hidden" id="dia_container">
                                         <label for="dia_select" class="form-label">Día:</label>
                                         <select class="form-select" id="dia_select"></select>
                                     </div>
 
                                     <div class="mb-3">
+                                        <label for="tipo_select" class="form-label">¿Desea rango de fechas?</label>
+                                        <input type="checkbox" id="tipo_select" class="form-check-input">
+                                    </div>
+
+                                    <!-- Contenedor para el campo de rango -->
+                                    <div class="mb-3 hidden" id="rango_container">
                                         <label for="rango_select" class="form-label">Rango:</label>
                                         <input type="number" id="rango_select" class="form-control" placeholder="Ej: 10">
                                     </div>
