@@ -115,6 +115,22 @@ function actualizarDias() {
     option.textContent = i;
     diaSelect.appendChild(option);
   }
+
+  // actualizar dia de rango en base al dia seleccionado
+  const diaRango = document.getElementById("dia_rango");
+  diaRango.innerHTML = "";
+  for (let i = 1; i <= dias; i++) {
+    const option = document.createElement("option");
+    option.value = i;
+    option.textContent = i;
+    diaRango.appendChild(option);
+  }
+
+  // Actualizamos el valor del día si es mayor al máximo
+  const dia = parseInt(diaSelect.value, 10);
+  if (dia > dias) {
+    diaSelect.value = dias;
+  }
 }
 
 document
@@ -129,10 +145,15 @@ document.addEventListener("DOMContentLoaded", actualizarDias);
 // Lógica para mostrar/ocultar el select de día en base al checkbox "tipo_reporte"
 const tipoReporteCheckbox = document.getElementById("tipo_reporte");
 const diaContainer = document.getElementById("dia_container");
+const tipoSelectCheckbox = document.getElementById("tipo_select");
+const rangoContainer = document.getElementById("rango_container");
+const tipo_select = document.getElementById("tipo_select");
+const rangoCheck = document.getElementById("rango_check");
 tipoReporteCheckbox.addEventListener("change", function () {
   if (this.checked) {
     // Mostrar el día
     diaContainer.classList.remove("hidden");
+    rangoCheck.classList.remove("hidden");
   } else {
     // Ocultar y limpiar valor
     diaContainer.classList.add("hidden");
@@ -141,14 +162,13 @@ tipoReporteCheckbox.addEventListener("change", function () {
 });
 
 // Lógica para mostrar/ocultar el campo de rango en base al checkbox "tipo_select"
-const tipoSelectCheckbox = document.getElementById("tipo_select");
-const rangoContainer = document.getElementById("rango_container");
-const rangoCheck = document.getElementById("rango_check");
+
 tipoSelectCheckbox.addEventListener("change", function () {
   if (this.checked) {
     // Mostrar el rango
     rangoContainer.classList.remove("hidden");
-    rangoCheck.classList.remove("hidden");
+    //poner tipo check en 0
+    tipo_select.value = 0;
   } else {
     // Ocultar y limpiar valor
     rangoContainer.classList.add("hidden");
