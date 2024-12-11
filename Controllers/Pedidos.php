@@ -94,6 +94,17 @@ class Pedidos extends Controller
 
         $this->views->render($this, "editar_pedido", $id);
     }
+
+    public function editar_2($id)
+    {
+        if (!$this->isAuth()) {
+            header("Location: " . SERVERURL . "login");
+        }
+        if (empty($id))
+            header("Location: " . SERVERURL . "Pedidos");
+
+        $this->views->render($this, "editar_pedido_2", $id);
+    }
     public function novedades()
     {
         if (!$this->isAuth()) {

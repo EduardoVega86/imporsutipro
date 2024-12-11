@@ -110,6 +110,93 @@ class Guias extends Controller
         echo json_encode($datos);
     }
 
+    /* controlador para añadir a cole creacion de guias */
+    public function anadir_cola_guia_laar()
+    {
+        try {
+            // Conexión a Redis
+            $redis = new Redis();
+            $redis->connect('3.233.119.65', 6379);
+
+            // Obtener los datos enviados desde la solicitud AJAX o POST
+            $input = file_get_contents('php://input');
+            $guiaData = json_decode($input, true);
+
+            if (!$guiaData) {
+                throw new Exception("Datos de la guía inválidos.");
+            }
+
+            // Validar si hay stock disponible
+            $numero_factura = $guiaData['numero_factura'] ?? null;
+            if ($this->buscarStock($numero_factura)["status"] == 501) {
+                echo json_encode([
+                    "status" => 501,
+                    "message" => "No contamos con stock de el/los productos para generar la guía"
+                ]);
+                return;
+            }
+
+            // Generar estructura para el sistema de colas
+            $data = [
+                'nombreOrigen' => $guiaData['nombreO'],
+                'ciudadOrigen' => $this->model->obtenerCiudadLaar($guiaData['ciudadO']),
+                'direccionOrigen' => $guiaData['direccionO'],
+                'telefonoOrigen' => $guiaData['celularO'],
+                'referenciaOrigen' => $guiaData['referenciaO'],
+                'celularOrigen' => $guiaData['celularO'],
+                'nombreDestino' => $guiaData['nombre'],
+                'ciudadDestino' => $this->model->obtenerCiudadLaar($guiaData['ciudad']),
+                'direccionDestino' => $guiaData['calle_principal'] . " y " . $guiaData['calle_secundaria'],
+                'telefonoDestino' => $guiaData['telefono'],
+                'celularDestino' => $guiaData['telefono'],
+                'referenciaDestino' => $guiaData['referencia'],
+                'postal' => "",
+                'identificacion' => "0",
+                'contiene' => $guiaData['contiene'],
+                'peso' => 2,
+                'valor_seguro' => 0,
+                'valor_declarado' => 0,
+                'tamanio' => "",
+                'cod' => $guiaData['recaudo'] ?? 0,
+                'costoflete' => $guiaData['costo_flete'] ?? 0,
+                'costo_producto' => $guiaData['total_venta'],
+                'tipo_cobro' => 0,
+                'comentario' => $guiaData['observacion'],
+                'fecha' => date("Y-m-d"),
+                'extras' => "",
+                'numero_factura' => $numero_factura,
+                'calle_principal' => $guiaData['calle_principal'],
+                'calle_secundaria' => $guiaData['calle_secundaria'],
+                'provincia' => $guiaData['provincia']
+            ];
+
+            // Convierte el objeto a JSON
+            $dataJson = json_encode($data);
+
+            // Encolar los datos en Redis
+            if (!$redis->lPush("queue:guias", $dataJson)) {
+                throw new Exception("No se pudo encolar la guía en Redis.");
+            }
+
+            // Respuesta exitosa
+            echo json_encode([
+                'status' => 200,
+                'title' => 'Éxito',
+                'message' => 'La guía fue añadida a la cola correctamente.',
+            ]);
+        } catch (Exception $e) {
+            // Manejo de errores
+            file_put_contents('/ruta/a/logs/redis_error.log', $e->getMessage() . PHP_EOL, FILE_APPEND);
+
+            echo json_encode([
+                'status' => 500,
+                'title' => 'Error',
+                'message' => 'Hubo un error al intentar añadir la guía a la cola.',
+            ]);
+        }
+    }
+    /* Fin controlador para añadir a cole creacion de guias */
+
     public function tokenLaar()
     {
         $response = $this->model->laarToken();

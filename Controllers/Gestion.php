@@ -7,6 +7,12 @@ class Gestion extends Controller
         parent::__construct();
     }
 
+    public function fix()
+    {
+        $response = $this->model->fix();
+        echo json_encode($response);
+    }
+
     public function masivo()
     {
         $response = $this->model->masivo();
