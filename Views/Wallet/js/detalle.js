@@ -151,7 +151,6 @@ tipoSelectCheckbox.addEventListener("change", function () {
   if (this.checked) {
     // Mostrar el rango
     rangoContainer.classList.remove("hidden");
-    rangoCheck.classList.remove("hidden");
     //poner tipo check en 0
     tipo_select.value = 0;
   } else {
