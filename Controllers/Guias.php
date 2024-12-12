@@ -185,8 +185,16 @@ class Guias extends Controller
                 'message' => 'La guía fue añadida a la cola correctamente.',
             ]);
         } catch (Exception $e) {
+            // Configuración de logs
+            $logDirectory = __DIR__ . '/logs';
+            if (!is_dir($logDirectory)) {
+                mkdir($logDirectory, 0777, true);
+            }
+
+            $logFile = $logDirectory . '/redis_error.log';
+
             // Manejo de errores
-            file_put_contents('/ruta/a/logs/redis_error.log', $e->getMessage() . PHP_EOL, FILE_APPEND);
+            file_put_contents($logFile, $e->getMessage() . PHP_EOL, FILE_APPEND);
 
             echo json_encode([
                 'status' => 500,
