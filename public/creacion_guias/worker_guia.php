@@ -12,6 +12,23 @@ const LAAR_ENDPOINT_AUTH = "https://api.laarcourier.com:9727/authenticate";
 const LAAR_ENDPOINT = "https://api.laarcourier.com:9727/guias/contado";
 const LLAR_ENDPOINT_CANCEL = 'https://api.laarcourier.com:9727/guias/anular/';
 
+// Crear carpeta de logs si no existe
+$logDirectory = __DIR__ . '/logs';
+if (!is_dir($logDirectory)) {
+    mkdir($logDirectory, 0777, true);
+}
+
+// Ruta del archivo de log
+$logFile = $logDirectory . '/error_log_worker_guia.txt';
+
+// Función para registrar errores o mensajes en el archivo de log
+function logError($message)
+{
+    global $logFile;
+    $timestamp = date("Y-m-d H:i:s");
+    file_put_contents($logFile, "[$timestamp] $message\n", FILE_APPEND);
+}
+
 // Función para obtener un token de LAAR
 function laarToken()
 {
@@ -75,6 +92,7 @@ function procesarGuia($data, $conn)
     try {
         // Obtener el token de LAAR
         $token = laarToken();
+        logError("Token obtenido correctamente");
 
         // Generar número de guía
         $numero_guia = ultimaguia($conn);
@@ -153,9 +171,9 @@ function procesarGuia($data, $conn)
             throw new Exception("Error al actualizar la guía en la base de datos: " . $stmt->error);
         }
 
-        return "Guía generada correctamente: " . $response['guia'];
+        logError("Guía generada correctamente: " . $response['guia']);
     } catch (Exception $e) {
-        throw new Exception("Error al procesar la guía: " . $e->getMessage());
+        logError("Error al procesar la guía: " . $e->getMessage());
     }
 }
 
@@ -171,15 +189,14 @@ while (true) {
         if ($job) {
             $data = json_decode($job, true);
             if ($data) {
-                $result = procesarGuia($data, $conn);
-                file_put_contents('/ruta/a/logs/worker_guia.log', $result . PHP_EOL, FILE_APPEND);
+                procesarGuia($data, $conn);
             } else {
-                file_put_contents('/ruta/a/logs/worker_guia_error.log', "Error al decodificar JSON: $job" . PHP_EOL, FILE_APPEND);
+                logError("Error al decodificar JSON: $job");
             }
         } else {
             sleep(1);
         }
     } catch (Exception $e) {
-        file_put_contents('/ruta/a/logs/worker_guia_error.log', $e->getMessage() . PHP_EOL, FILE_APPEND);
+        logError($e->getMessage());
     }
 }
