@@ -738,9 +738,9 @@ function generar_guia() {
   var button = document.getElementById("generarGuiaBtn");
   button.disabled = true; // Desactivar el botón
 
+  //   alert()
   // Evita que el formulario se envíe de la forma tradicional
   event.preventDefault();
-
   let transportadora_selected = $("#transportadora_selected").val();
   if (transportadora_selected == "servientrega") {
     transportadora_selected = 2;
@@ -770,42 +770,32 @@ function generar_guia() {
   formData.append("identificacion", 0);
   formData.append("observacion", $("#observacion").val());
   formData.append("transporte", 0);
-  formData.append("celular", $("#telefono").val());
+  formData.append("celular", $("#telefono").val()); // Asegúrate de obtener el valor correcto
   formData.append("id_producto_venta", id_producto_venta);
   formData.append("dropshipping", dropshipping);
   formData.append("importado", 0);
   formData.append("id_propietario", id_propietario_bodega);
   formData.append("identificacionO", 0);
   formData.append("celularO", celular_bodega);
-  formData.append("nombreO", nombre_bodega);
+  formData.append("nombreO", nombre_bodega); // Corregir nombre de variable
   formData.append("ciudadO", ciudad_bodega);
   formData.append("provinciaO", provincia_bodega);
   formData.append("direccionO", direccion_bodega);
-  formData.append("referenciaO", referencia_bodega);
+  formData.append("referenciaO", referencia_bodega); // Corregir nombre de variable
   formData.append("numeroCasaO", numeroCasa_bodega);
-  formData.append("valor_seguro", 0);
+  formData.append("valor_seguro", 0); // Corregir nombre de variable
   formData.append("no_piezas", 1);
-
   if (transportadora_selected == 3) {
     formData.append("contiene", contieneGintracom);
   } else {
     formData.append("contiene", contiene);
   }
-
   formData.append("costo_flete", $("#costo_flete").val());
   formData.append("costo_producto", costo_producto);
   formData.append("comentario", "Enviado por x");
   formData.append("id_transporte", transportadora_selected);
-  formData.append("numero_factura", numero_factura);
 
-  if (transportadora_selected == 2) {
-    formData.append("flete", $("#flete").val());
-    formData.append("seguro", $("#seguro").val());
-    formData.append("comision", $("#comision").val());
-    formData.append("otros", $("#otros").val());
-    formData.append("impuestos", $("#impuestos").val());
-  }
-
+  // Realiza la solicitud AJAX
   if (transportadora_selected == 1) {
     generar_guiaTransportadora = "anadir_cola_guia_laar";
   } else if (transportadora_selected == 2) {
@@ -828,6 +818,16 @@ function generar_guia() {
     },
   });
 
+  formData.append("numero_factura", numero_factura);
+
+  if (transportadora_selected == 2) {
+    formData.append("flete", $("#flete").val());
+    formData.append("seguro", $("#seguro").val());
+    formData.append("comision", $("#comision").val());
+    formData.append("otros", $("#otros").val());
+    formData.append("impuestos", $("#impuestos").val());
+  }
+
   $.ajax({
     url: "" + SERVERURL + "/guias/" + generar_guiaTransportadora,
     type: "POST",
@@ -837,56 +837,44 @@ function generar_guia() {
     success: function (response) {
       response = JSON.parse(response);
 
-      if (transportadora_selected == 1) {
-        // Para `anadir_cola_guia_laar`, redirige directamente sin esperar respuesta
+      if (response.status == 500) {
+        Swal.fire({
+          icon: "error",
+          title:
+            "Error al crear la guia, no se encuentra la ciudad o provincia de destino",
+        });
+        var button2 = document.getElementById("generarGuiaBtn");
+        button2.disabled = false; // Desactivar el botón
+      } else if (response.msj === "NO CUENTA CON NÚMERO DE GUÍAS ASIGNADAS") {
+        Swal.fire({
+          icon: "warning",
+          title: "Servicio Temporalmente No Disponible",
+          text: "Estimado usuario, actualmente Servientrega está experimentando problemas de comunicación con nuestro sistema de generación de guías. Estamos trabajando junto con su equipo técnico para resolver este inconveniente a la mayor brevedad. Agradecemos su comprensión.",
+          timer: 5000, // Incrementa el tiempo para que el usuario tenga más oportunidad de leer
+          showConfirmButton: false,
+        });
+      } else if (response.status == 200) {
         Swal.fire({
           icon: "success",
-          title: "Creación de guía añadida a la cola",
+          title: "Creacion de guia Completada",
           showConfirmButton: false,
           timer: 2000,
         }).then(() => {
+          vaciarTmpPedidos();
           window.location.href = "" + SERVERURL + "Pedidos/guias";
         });
-      } else {
-        // Manejamos las otras respuestas
-        if (response.status == 500) {
-          Swal.fire({
-            icon: "error",
-            title:
-              "Error al crear la guia, no se encuentra la ciudad o provincia de destino",
-          });
-          button.disabled = false;
-        } else if (response.msj === "NO CUENTA CON NÚMERO DE GUÍAS ASIGNADAS") {
-          Swal.fire({
-            icon: "warning",
-            title: "Servicio Temporalmente No Disponible",
-            text: "Estimado usuario, actualmente Servientrega está experimentando problemas de comunicación con nuestro sistema de generación de guías. Estamos trabajando junto con su equipo técnico para resolver este inconveniente a la mayor brevedad. Agradecemos su comprensión.",
-            timer: 5000,
-            showConfirmButton: false,
-          });
-        } else if (response.status == 200) {
-          Swal.fire({
-            icon: "success",
-            title: "Creación de guía completada",
-            showConfirmButton: false,
-            timer: 2000,
-          }).then(() => {
-            vaciarTmpPedidos();
-            window.location.href = "" + SERVERURL + "Pedidos/guias";
-          });
-        } else if (response.status == 501) {
-          Swal.fire({
-            icon: "warning",
-            title: response.message,
-          });
-          button.disabled = false;
-        }
+      } else if (response.status == 501) {
+        Swal.fire({
+          icon: "warning",
+          title: response.message,
+        });
+        var button2 = document.getElementById("generarGuiaBtn");
+        button2.disabled = false; // Desactivar el botón
       }
     },
     error: function (error) {
-      alert("Hubo un error al generar guía");
+      alert("Hubo un error al generar guia");
       console.log(error);
-      button.disabled = false;
     },
   });
 }
