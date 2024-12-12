@@ -29,6 +29,8 @@ function logError($message)
     file_put_contents($logFile, "[$timestamp] $message\n", FILE_APPEND);
 }
 
+
+
 // Función para obtener un token de LAAR
 function laarToken()
 {
