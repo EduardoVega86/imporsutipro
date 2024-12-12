@@ -21,6 +21,7 @@ if (!is_dir($logDirectory)) {
 // Ruta del archivo de log
 $logFile = $logDirectory . '/error_log_worker_guia.txt';
 
+
 // Función para registrar errores o mensajes en el archivo de log
 function logError($message)
 {
