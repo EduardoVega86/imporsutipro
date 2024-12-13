@@ -1062,7 +1062,7 @@ function validar_estadoGintracom(estado) {
     estado_guia = "Devolucion";
   } else if (estado == 9) {
     span_estado = "badge_danger";
-    estado_guia = "Devolución Entregada a Origen";
+    estado_guia = "Devolución";
   } else if (estado == 10) {
     span_estado = "badge_danger";
     estado_guia = "Cancelada por transportadora";
