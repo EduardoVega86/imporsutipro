@@ -121,16 +121,8 @@ class Guias extends Controller
             $redis = new Redis();
             $redis->connect('3.233.119.65', 6379);
 
-            // Obtener los datos enviados desde la solicitud POST
-            $input = file_get_contents('php://input');
-            $guiaData = json_decode($input, true);
-
-            if (!$guiaData) {
-                throw new Exception("Datos de la guía inválidos.");
-            }
-
             // Validar si hay stock disponible
-            $numero_factura = $guiaData['numero_factura'] ?? null;
+            $numero_factura = $_POST['numero_factura'] ?? null;
             if ($this->buscarStock($numero_factura)["status"] == 501) {
                 echo json_encode([
                     "status" => 501,
@@ -141,33 +133,33 @@ class Guias extends Controller
             }
 
             // Crear estructura de datos similar a `generarLaar`
-            $nombreOrigen = $guiaData['nombreO'];
-            $ciudadOrigen = $this->model->obtenerCiudadLaar($guiaData['ciudadO']);
-            $direccionOrigen = $guiaData['direccionO'];
-            $telefonoOrigen = $guiaData['celularO'];
-            $referenciaOrigen = $guiaData['referenciaO'];
+            $nombreOrigen = $_POST['nombreO'];
+            $ciudadOrigen = $this->model->obtenerCiudadLaar($_POST['ciudadO']);
+            $direccionOrigen = $_POST['direccionO'];
+            $telefonoOrigen = $_POST['celularO'];
+            $referenciaOrigen = $_POST['referenciaO'];
             $celularOrigen = $telefonoOrigen;
 
-            $nombreDestino = $guiaData['nombre'];
-            $ciudadDestino = $this->model->obtenerCiudadLaar($guiaData['ciudad']);
-            $direccionDestino = $guiaData['calle_principal'] . " y " . $guiaData['calle_secundaria'];
-            $telefonoDestino = $guiaData['telefono'];
+            $nombreDestino = $_POST['nombre'];
+            $ciudadDestino = $this->model->obtenerCiudadLaar($_POST['ciudad']);
+            $direccionDestino = $_POST['calle_principal'] . " y " . $_POST['calle_secundaria'];
+            $telefonoDestino = $_POST['telefono'];
             $celularDestino = $telefonoDestino;
-            $referenciaDestino = $guiaData['referencia'];
+            $referenciaDestino = $_POST['referencia'];
 
             $postal = "";
             $identificacion = "0";
 
-            $contiene = $guiaData['contiene'];
+            $contiene = $_POST['contiene'];
             $peso = 2;
             $valor_seguro = 0;
             $valor_declarado = 0;
             $tamanio = "";
-            $cod = $guiaData['recaudo'] ?? 0;
-            $costoflete = $guiaData['costo_flete'] ?? 0;
-            $costo_producto = $guiaData['total_venta'];
+            $cod = $_POST['recaudo'] ?? 0;
+            $costoflete = $_POST['costo_flete'] ?? 0;
+            $costo_producto = $_POST['total_venta'];
             $tipo_cobro = 0;
-            $comentario = $guiaData['observacion'];
+            $comentario = $_POST['observacion'];
             $fecha = date("Y-m-d");
             $extras = "";
 
@@ -200,9 +192,9 @@ class Guias extends Controller
                 'fecha' => $fecha,
                 'extras' => $extras,
                 'numero_factura' => $numero_factura,
-                'calle_principal' => $guiaData['calle_principal'],
-                'calle_secundaria' => $guiaData['calle_secundaria'],
-                'provincia' => $guiaData['provincia']
+                'calle_principal' => $_POST['calle_principal'],
+                'calle_secundaria' => $_POST['calle_secundaria'],
+                'provincia' => $_POST['provincia']
             ];
 
             // Convertir los datos a JSON para Redis
