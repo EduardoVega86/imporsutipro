@@ -1037,7 +1037,7 @@ function validar_estadoGintracom(estado) {
   var estado_guia = "";
 
   if (estado == 1) {
-    span_estado = "badge_generado";
+    span_estado = "badge_purple";
     estado_guia = "Generada";
   } else if (estado == 2) {
     span_estado = "badge_warning";
@@ -1052,7 +1052,7 @@ function validar_estadoGintracom(estado) {
     span_estado = "badge_warning";
     estado_guia = "En reparto";
   } else if (estado == 6) {
-    span_estado = "badge_purple";
+    span_estado = "badge_danger";
     estado_guia = "Novedad";
   } else if (estado == 7) {
     span_estado = "badge_green";
@@ -1088,7 +1088,7 @@ function validar_estadoSpeed(estado) {
   var estado_guia = "";
   if (estado == 2) {
     span_estado = "badge_purple";
-    estado_guia = "generado";
+    estado_guia = "Generado";
   } else if (estado == 3) {
     span_estado = "badge_warning";
     estado_guia = "En transito";
@@ -1102,7 +1102,7 @@ function validar_estadoSpeed(estado) {
     span_estado = "badge_purple";
     estado_guia = "Nuevo";
   } else if (estado == 14) {
-    span_estado = "badge_purple";
+    span_estado = "badge_danger";
     estado_guia = "Novedad";
   }
 
