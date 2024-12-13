@@ -96,6 +96,7 @@ function checkAPIStatus(loadingBelow, intervalId, enlace, id_inventario) {
               response.id_producto
             ); // Llama a tu función pasando el valor del input
             Swal.close(); // Cierra el Swal
+            window.location.href = SERVERURL + "funnelish/constructor_vista";
           } else if (result.dismiss === Swal.DismissReason.cancel) {
             // Si el usuario cancela (No)
             Swal.close(); // Cierra el Swal

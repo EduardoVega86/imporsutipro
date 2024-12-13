@@ -171,6 +171,8 @@ const listFacturas = async () => {
     const formData = new FormData();
     formData.append("tienda", tienda);
     formData.append("filtro", filtro_facturas);
+    formData.append("estado", $("#estado_q").val());
+    formData.append("transportadora", $("#transporte").val());
 
     const response = await fetch(`${SERVERURL}wallet/obtenerFacturas`, {
       method: "POST",
@@ -820,6 +822,11 @@ $(document).ready(function () {
     error: function (error) {
       console.error("Error al obtener la lista de bodegas:", error);
     },
+  });
+
+  // Inicializa la tabla cuando cambian los selectores
+  $("#estado_q,#transporte").change(function () {
+    initDataTableFacturas();
   });
 });
 
