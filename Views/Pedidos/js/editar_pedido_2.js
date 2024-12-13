@@ -843,6 +843,7 @@ function generar_guia() {
           title:
             "Error al crear la guia, no se encuentra la ciudad o provincia de destino",
         });
+
         var button2 = document.getElementById("generarGuiaBtn");
         button2.disabled = false; // Desactivar el botón
       } else if (response.msj === "NO CUENTA CON NÚMERO DE GUÍAS ASIGNADAS") {
