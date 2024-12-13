@@ -939,7 +939,7 @@ class WalletModel extends Query
         else if (is_numeric($numero_guia))
             $estados = 500;
         else if (str_contains($numero_guia, 'I000'))
-            $estados = 8;
+            $estados = 9;
 
 
         $sql = "UPDATE facturas_cot set estado_guia_sistema = ? WHERE numero_factura = ?";
