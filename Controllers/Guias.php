@@ -114,11 +114,14 @@ class Guias extends Controller
     public function anadir_cola_guia_laar()
     {
         try {
+            // Verificar autenticación del usuario
+            $this->isAuth();
+
             // Conexión a Redis
             $redis = new Redis();
             $redis->connect('3.233.119.65', 6379);
 
-            // Obtener los datos enviados desde la solicitud AJAX o POST
+            // Obtener los datos enviados desde la solicitud POST
             $input = file_get_contents('php://input');
             $guiaData = json_decode($input, true);
 
@@ -131,46 +134,78 @@ class Guias extends Controller
             if ($this->buscarStock($numero_factura)["status"] == 501) {
                 echo json_encode([
                     "status" => 501,
-                    "message" => "No contamos con stock de el/los productos para generar la guía"
+                    "message" => "No contamos con stock de el/los productos para generar la guía",
+                    "detalle" => "Stock insuficiente para la factura número: $numero_factura"
                 ]);
                 return;
             }
 
+            // Crear estructura de datos similar a `generarLaar`
+            $nombreOrigen = $guiaData['nombreO'];
+            $ciudadOrigen = $this->model->obtenerCiudadLaar($guiaData['ciudadO']);
+            $direccionOrigen = $guiaData['direccionO'];
+            $telefonoOrigen = $guiaData['celularO'];
+            $referenciaOrigen = $guiaData['referenciaO'];
+            $celularOrigen = $telefonoOrigen;
+
+            $nombreDestino = $guiaData['nombre'];
+            $ciudadDestino = $this->model->obtenerCiudadLaar($guiaData['ciudad']);
+            $direccionDestino = $guiaData['calle_principal'] . " y " . $guiaData['calle_secundaria'];
+            $telefonoDestino = $guiaData['telefono'];
+            $celularDestino = $telefonoDestino;
+            $referenciaDestino = $guiaData['referencia'];
+
+            $postal = "";
+            $identificacion = "0";
+
+            $contiene = $guiaData['contiene'];
+            $peso = 2;
+            $valor_seguro = 0;
+            $valor_declarado = 0;
+            $tamanio = "";
+            $cod = $guiaData['recaudo'] ?? 0;
+            $costoflete = $guiaData['costo_flete'] ?? 0;
+            $costo_producto = $guiaData['total_venta'];
+            $tipo_cobro = 0;
+            $comentario = $guiaData['observacion'];
+            $fecha = date("Y-m-d");
+            $extras = "";
+
             // Generar estructura para el sistema de colas
             $data = [
-                'nombreOrigen' => $guiaData['nombreO'],
-                'ciudadOrigen' => $this->model->obtenerCiudadLaar($guiaData['ciudadO']),
-                'direccionOrigen' => $guiaData['direccionO'],
-                'telefonoOrigen' => $guiaData['celularO'],
-                'referenciaOrigen' => $guiaData['referenciaO'],
-                'celularOrigen' => $guiaData['celularO'],
-                'nombreDestino' => $guiaData['nombre'],
-                'ciudadDestino' => $this->model->obtenerCiudadLaar($guiaData['ciudad']),
-                'direccionDestino' => $guiaData['calle_principal'] . " y " . $guiaData['calle_secundaria'],
-                'telefonoDestino' => $guiaData['telefono'],
-                'celularDestino' => $guiaData['telefono'],
-                'referenciaDestino' => $guiaData['referencia'],
-                'postal' => "",
-                'identificacion' => "0",
-                'contiene' => $guiaData['contiene'],
-                'peso' => 2,
-                'valor_seguro' => 0,
-                'valor_declarado' => 0,
-                'tamanio' => "",
-                'cod' => $guiaData['recaudo'] ?? 0,
-                'costoflete' => $guiaData['costo_flete'] ?? 0,
-                'costo_producto' => $guiaData['total_venta'],
-                'tipo_cobro' => 0,
-                'comentario' => $guiaData['observacion'],
-                'fecha' => date("Y-m-d"),
-                'extras' => "",
+                'nombreOrigen' => $nombreOrigen,
+                'ciudadOrigen' => $ciudadOrigen,
+                'direccionOrigen' => $direccionOrigen,
+                'telefonoOrigen' => $telefonoOrigen,
+                'referenciaOrigen' => $referenciaOrigen,
+                'celularOrigen' => $celularOrigen,
+                'nombreDestino' => $nombreDestino,
+                'ciudadDestino' => $ciudadDestino,
+                'direccionDestino' => $direccionDestino,
+                'telefonoDestino' => $telefonoDestino,
+                'celularDestino' => $celularDestino,
+                'referenciaDestino' => $referenciaDestino,
+                'postal' => $postal,
+                'identificacion' => $identificacion,
+                'contiene' => $contiene,
+                'peso' => $peso,
+                'valor_seguro' => $valor_seguro,
+                'valor_declarado' => $valor_declarado,
+                'tamanio' => $tamanio,
+                'cod' => $cod,
+                'costoflete' => $costoflete,
+                'costo_producto' => $costo_producto,
+                'tipo_cobro' => $tipo_cobro,
+                'comentario' => $comentario,
+                'fecha' => $fecha,
+                'extras' => $extras,
                 'numero_factura' => $numero_factura,
                 'calle_principal' => $guiaData['calle_principal'],
                 'calle_secundaria' => $guiaData['calle_secundaria'],
                 'provincia' => $guiaData['provincia']
             ];
 
-            // Convierte el objeto a JSON
+            // Convertir los datos a JSON para Redis
             $dataJson = json_encode($data);
 
             // Encolar los datos en Redis
@@ -183,23 +218,15 @@ class Guias extends Controller
                 'status' => 200,
                 'title' => 'Éxito',
                 'message' => 'La guía fue añadida a la cola correctamente.',
+                'detalle' => ''
             ]);
         } catch (Exception $e) {
-            // Configuración de logs
-            $logDirectory = __DIR__ . '/logs';
-            if (!is_dir($logDirectory)) {
-                mkdir($logDirectory, 0777, true);
-            }
-
-            $logFile = $logDirectory . '/redis_error.log';
-
-            // Manejo de errores
-            file_put_contents($logFile, $e->getMessage() . PHP_EOL, FILE_APPEND);
-
+            // Retornar el detalle del error en la respuesta
             echo json_encode([
                 'status' => 500,
                 'title' => 'Error',
                 'message' => 'Hubo un error al intentar añadir la guía a la cola.',
+                'detalle' => $e->getMessage()
             ]);
         }
     }
