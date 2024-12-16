@@ -60,9 +60,9 @@
                                             </select>
                                         </div>
                                     </div>
-                                   
-                                    
-                                     <div class="d-flex flex-column w-100">
+
+
+                                    <div class="d-flex flex-column w-100">
                                         <div class="form-group">
                                             <label for="formato-pagina">Formato Página Productos:</label>
                                             <select onchange="formato()" class="form-select" id="formato-pagina" required>
@@ -73,12 +73,13 @@
                                             </select>
                                         </div>
                                     </div>
-                                     <div style="display: none;" id="funnelish" class="flex-column w-100">
+                                    <div style="display: none;" id="funnelish" class="flex-column w-100">
                                         <div class="form-group">
                                             <label for="nombre">Enlace de Funnelish:</label>
-                                            <input  type="text" class="form-control"  id="enlace_funnelish" >                                        </div>
+                                            <input type="text" class="form-control" id="enlace_funnelish">
+                                        </div>
                                     </div>
-                                    
+
                                 </div>
                                 <div class="form-group">
                                     <label>Formato:</label>
@@ -100,7 +101,7 @@
                                     <input type="text" class="form-control" id="precio-proveedor" required>
                                 </div>
                             </div>
-                         
+
                             <div class="d-flex flex-row gap-3">
                                 <div class="form-group w-100">
                                     <label for="maneja-inventario">Maneja Inventario:</label>
@@ -190,7 +191,6 @@
         // Función para reiniciar el formulario
         function resetForm() {
             $('#agregar_producto_form')[0].reset();
-            $('#bodega-field').addClass('hidden-field');
             $('#precio-referencial-valor').prop('disabled', true);
         }
 
@@ -308,14 +308,14 @@
             });
         });
     });
-    
+
     function formato() {
-    let formatoSeleccionado = $("#formato-pagina").val();
-    //alert(formatoSeleccionado);
-    if (formatoSeleccionado == '3') {
-        $("#funnelish").show();
-    } else {
-        $("#funnelish").hide();
+        let formatoSeleccionado = $("#formato-pagina").val();
+        //alert(formatoSeleccionado);
+        if (formatoSeleccionado == '3') {
+            $("#funnelish").show();
+        } else {
+            $("#funnelish").hide();
+        }
     }
-}
 </script>
