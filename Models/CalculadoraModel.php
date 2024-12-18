@@ -214,6 +214,8 @@ XML;
         }
 
         // Cargar la respuesta en DOMDocument
+        $response = utf8_encode($response);
+
         $dom = new DOMDocument();
         libxml_use_internal_errors(true);
         $dom->loadXML($response);
