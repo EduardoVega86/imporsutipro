@@ -246,6 +246,7 @@ XML;
         }
 
         $result = html_entity_decode($resultNode->nodeValue, ENT_QUOTES, 'ISO-8859-1');
+        print_r($result);
 
         // Cargar el contenido del nodo <Result> en un nuevo DOMDocument
         $resultDom = new DOMDocument();
