@@ -140,6 +140,7 @@ class Wallet extends Controller
     public function obtenerDetalles()
     {
         $tienda = $_POST['tienda'];
+
         $datos = $this->model->obtenerDatos($tienda);
         echo json_encode($datos);
     }
@@ -147,8 +148,10 @@ class Wallet extends Controller
     public function obtenerFacturas()
     {
         $tienda = $_POST['tienda'];
+        $estado = $_POST['estado'] ?? 0;
+        $transportadora = $_POST['transportadora'] ?? 0;
         $filtro = $_POST['filtro'];
-        $datos = $this->model->obtenerFacturas($tienda, $filtro);
+        $datos = $this->model->obtenerFacturas($tienda, $filtro, $estado, $transportadora);
         echo json_encode($datos);
     }
 

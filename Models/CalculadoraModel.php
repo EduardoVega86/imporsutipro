@@ -213,7 +213,9 @@ XML;
             ];
         }
 
-        // Cargar la respuesta en DOMDocument
+        $response = preg_replace('/^\xEF\xBB\xBF/', '', $response);
+
+
         $dom = new DOMDocument();
         libxml_use_internal_errors(true);
         $dom->loadXML($response);
@@ -245,7 +247,7 @@ XML;
             ];
         }
 
-        $result = html_entity_decode($resultNode->nodeValue);
+        $result = html_entity_decode($resultNode->nodeValue, ENT_QUOTES, 'ISO-8859-1');
 
         // Cargar el contenido del nodo <Result> en un nuevo DOMDocument
         $resultDom = new DOMDocument();
