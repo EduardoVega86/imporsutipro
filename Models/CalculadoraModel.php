@@ -199,6 +199,8 @@ XML;
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $response = curl_exec($ch);
+
+        print_r($response);
         $curlError = curl_error($ch);
         curl_close($ch);
 

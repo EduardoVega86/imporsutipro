@@ -107,6 +107,7 @@ class WalletModel extends Query
         return $responses;
     }
 
+
     public function obtenerDatos($tienda)
     {
         // Consultas SQL
@@ -144,7 +145,7 @@ class WalletModel extends Query
         return $data;
     }
 
-    public function obtenerFacturas($id_plataforma, $filtro)
+    public function obtenerFacturas($id_plataforma, $filtro, $estado, $transportadora)
     {
         // Definir la lógica común de trayecto
         $trayecto_case = "
@@ -174,6 +175,13 @@ class WalletModel extends Query
 
         // Eliminar los sufijos -P y -F en numero_factura antes de comparar
         $factura_sin_sufijo = "REPLACE(REPLACE(ccp.numero_factura, '-P', ''), '-F', '')";
+
+        $estados = "";
+        switch ($estado) {
+            case "generada":
+                $estados = "AND (ccp.estado_guia in (2,))";
+                break;
+        }
 
         if ($filtro == 'pendientes') {
             $sql = "SELECT 
