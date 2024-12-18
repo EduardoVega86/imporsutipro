@@ -213,9 +213,8 @@ XML;
             ];
         }
 
-        // Cargar la respuesta en DOMDocument
-        $response = utf8_encode($response);
-        print_r($response);
+        $response = preg_replace('/^\xEF\xBB\xBF/', '', $response);
+
 
         $dom = new DOMDocument();
         libxml_use_internal_errors(true);
