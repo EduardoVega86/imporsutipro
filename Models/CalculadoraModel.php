@@ -159,36 +159,127 @@ class CalculadoraModel extends Query
         return $saldo;
     }
 
-    public function login($user, $password, $company)
+    public function calcularServi($ciudadO, $ciudadD, $provinciaD, $monto_factura)
     {
-        $url = "https://api-e.figgoapp.com/api/v1/admin/login";
-        $data = array(
-            "username" => $user,
-            "password" => $password,
-            "companyPid" => $company
-        );
+        if (strpos($ciudadD, "/") !== false) {
+            $destino = $ciudadD . " (" . $provinciaD . ")-" . $provinciaD;
+        } else {
+            $destino = $ciudadD . "-" . $provinciaD;
+        }
+
+        $url = "https://servientrega-ecuador.appsiscore.com/app/ws/cotizador_ser_recaudo.php?wsdl";
+
+        $xml = <<<XML
+<soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ws="https://servientrega-ecuador.appsiscore.com/app/ws/">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <ws:Consultar soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+            <producto xsi:type="xsd:string">MERCANCIA PREMIER</producto>
+            <origen xsi:type="xsd:string">$ciudadO</origen>
+            <destino xsi:type="xsd:string">$destino</destino>
+            <valor_mercaderia xsi:type="xsd:string">$monto_factura</valor_mercaderia>
+            <piezas xsi:type="xsd:string">1</piezas>
+            <peso xsi:type="xsd:string">2</peso>
+            <alto xsi:type="xsd:string">10</alto>
+            <ancho xsi:type="xsd:string">50</ancho>
+            <largo xsi:type="xsd:string">50</largo>
+            <tokn xsi:type="xsd:string">1593aaeeb60a560c156387989856db6be7edc8dc220f9feae3aea237da6a951d</tokn>
+            <usu xsi:type="xsd:string">IMPCOMEX</usu>
+            <pwd xsi:type="xsd:string">Rtcom-ex9912</pwd>
+        </ws:Consultar>
+    </soapenv:Body>
+</soapenv:Envelope>
+XML;
 
         $ch = curl_init($url);
+
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: text/xml'));
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Content-Type: application/json'
-        ));
 
         $response = curl_exec($ch);
+        $curlError = curl_error($ch);
         curl_close($ch);
 
-        // Decodifica el JSON
-        $decoded = json_decode($response, true);
+        if ($response === false) {
+            echo "CURL Error: " . $curlError;
+            return [
+                "flete" => 0,
+                "seguro" => 0,
+                "comision" => 0,
+                "otros" => 0,
+                "impuestos" => 0
+            ];
+        }
 
-        // Extrae el token
-        $token = isset($decoded['token']) ? $decoded['token'] : null;
+        // Cargar la respuesta en DOMDocument
+        $dom = new DOMDocument();
+        libxml_use_internal_errors(true);
+        $dom->loadXML($response);
+        if (libxml_get_errors()) {
+            echo "Failed loading XML";
+            libxml_clear_errors();
+            return [
+                "flete" => 0,
+                "seguro" => 0,
+                "comision" => 0,
+                "otros" => 0,
+                "impuestos" => 0
+            ];
+        }
 
-        // Retorna el token (o puedes retornarlo dentro de un array si lo prefieres)
-        return $token;
+        // Extraer el contenido de <Result>
+        $xpath = new DOMXPath($dom);
+        $xpath->registerNamespace('soap', 'http://schemas.xmlsoap.org/soap/envelope/');
+        $xpath->registerNamespace('ns1', 'https://servientrega-ecuador.appsiscore.com/app/ws/');
+        $resultNode = $xpath->query('//soap:Body/ns1:ConsultarResponse/Result')->item(0);
+        if (!$resultNode) {
+            echo "No se encontró la etiqueta <Result>";
+            return [
+                "flete" => 0,
+                "seguro" => 0,
+                "comision" => 0,
+                "otros" => 0,
+                "impuestos" => 0
+            ];
+        }
+
+        $result = html_entity_decode($resultNode->nodeValue, ENT_QUOTES, 'ISO-8859-1');
+
+        // Cargar el contenido del nodo <Result> en un nuevo DOMDocument
+        $resultDom = new DOMDocument();
+        $resultDom->loadXML($result);
+
+        // Extraer valores del <ConsultarResult>
+        $flete = $seguro = $comision = $otros = $impuestos = 0;
+
+        if ($resultDom->getElementsByTagName('flete')->item(0) !== null) {
+            $flete = round((float) $resultDom->getElementsByTagName('flete')->item(0)->nodeValue, 2);
+        }
+        if ($resultDom->getElementsByTagName('seguro')->item(0) !== null) {
+            $seguro = round((float) $resultDom->getElementsByTagName('seguro')->item(0)->nodeValue, 2);
+        }
+        if ($resultDom->getElementsByTagName('valor_comision')->item(0) !== null) {
+            $comision = round((float) $resultDom->getElementsByTagName('valor_comision')->item(0)->nodeValue, 2);
+        }
+        if ($resultDom->getElementsByTagName('otros')->item(0) !== null) {
+            $otros = round((float) $resultDom->getElementsByTagName('otros')->item(0)->nodeValue, 2);
+        }
+        if ($resultDom->getElementsByTagName('impuesto')->item(0) !== null) {
+            $impuestos = round((float) $resultDom->getElementsByTagName('impuesto')->item(0)->nodeValue, 2);
+        }
+
+        $data = [
+            "flete" =>  number_format($flete, 2, '.', ''),
+            "seguro" =>  number_format($seguro, 2, '.', ''),
+            "comision" => number_format($comision, 2, '.', ''),
+            "otros" =>  number_format($otros, 2, '.', ''),
+            "impuestos" =>  number_format($impuestos, 2, '.', '')
+        ];
+
+        return $data;
     }
-
     public function obtenerNombre($codigo, $nombre)
     {
         if ($nombre == "ciudad") {
