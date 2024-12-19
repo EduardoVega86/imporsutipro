@@ -153,7 +153,7 @@ class CalculadoraModel extends Query
             $saldo = $billetera[0]['saldo'];
             $solicitado = $billetera[0]['solicito'];
             if ($solicitado > 0) {
-                $saldo = $saldo - $billetera[0]['valor_solicitud'];
+                $saldo = $saldo;
             }
         }
         return $saldo;
