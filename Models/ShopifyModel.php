@@ -207,7 +207,7 @@ class ShopifyModel extends Query
                 echo "Precio del producto sin sku: " . $productoSinSku['item_total_price'];
 
 
-                $divisible = $productoSinSku['item_total_price'] / $cantidadProductos;
+                $divisible = $productoSinSku['item_total_price'] / $total_line_items;
 
                 echo "Se dividira entre: " . $cantidadProductos;
 
