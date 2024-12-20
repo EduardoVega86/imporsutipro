@@ -109,7 +109,7 @@
 
         async function loadData() {
             try {
-                const response = await fetch("URL_DE_TU_ENDPOINT_AQUÍ");
+                const response = await fetch("<?php echo SERVERURL ?>wallet/obtenerCabeceras");
                 if (!response.ok) {
                     throw new Error("Error al obtener los datos");
                 }
