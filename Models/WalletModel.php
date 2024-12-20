@@ -1986,8 +1986,9 @@ class WalletModel extends Query
         $params[] = floatval($limit);
         $params[] = floatval($offset);
 
-
         echo $sql;
+
+        print_r($params);
 
         // Ejecutar la consulta
         $response = $this->dselect($sql, $params);
