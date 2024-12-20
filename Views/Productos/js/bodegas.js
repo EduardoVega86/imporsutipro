@@ -57,6 +57,14 @@ const listBodegas = async () => {
 
     bodegas.forEach((bodega, index) => {
       const ciudad = ciudades[index];
+
+      let editar = ``;
+
+      if (bodega.id_plataforma != ID_PLATAFORMA) {
+        let editar = `<li><span class="dropdown-item" style="cursor: pointer;" onclick="editar_bodegas(${bodega.id})"><i class="fa-solid fa-pencil"></i>Editar</span></li>
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="eliminarBodega(${bodega.id})"><i class="fa-solid fa-trash-can"></i>Eliminar</span></li>`;
+      }
+
       content += `
                 <tr>
                     <td>${bodega.id}</td>
@@ -72,8 +80,7 @@ const listBodegas = async () => {
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <li><span class="dropdown-item" style="cursor: pointer;" onclick="ver_inventario(${bodega.id})"><i class='bx bxs-file-find'></i>Ver Inventario</span></li>
-                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="editar_bodegas(${bodega.id})"><i class="fa-solid fa-pencil"></i>Editar</span></li>
-                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="eliminarBodega(${bodega.id})"><i class="fa-solid fa-trash-can"></i>Eliminar</span></li>
+                        ${editar}
                     </ul>
                     </div>
                     </td>

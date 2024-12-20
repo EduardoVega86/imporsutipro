@@ -58,6 +58,10 @@
         padding: 4px;
         border-radius: 0.3rem;
     }
+
+    .hidden {
+        display: none !important;
+    }
 </style>
 
 <style>

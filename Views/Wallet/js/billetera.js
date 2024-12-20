@@ -194,6 +194,8 @@ const listFacturas = async () => {
     const formData = new FormData();
     formData.append("tienda", tienda);
     formData.append("filtro", filtro_facturas);
+    /* formData.append("estado", $("#estado_q").val());
+    formData.append("transportadora", $("#transporte").val()); */
 
     const response = await fetch(`${SERVERURL}wallet/obtenerFacturas`, {
       method: "POST",
@@ -510,6 +512,11 @@ $(document).ready(function () {
       console.error("Error al obtener la lista de cuentas:", error);
     },
   });
+
+  // Inicializa la tabla cuando cambian los selectores
+  $("#estado_q,#transporte").change(function () {
+    initDataTableFacturas();
+  });
 });
 
 //TABLA DE HISTORIAL PAGOS
@@ -705,7 +712,7 @@ function validar_estadoGintracom(estado) {
   var estado_guia = "";
 
   if (estado == 1) {
-    span_estado = "badge_generado";
+    span_estado = "badge_purple";
     estado_guia = "Generada";
   } else if (estado == 2) {
     span_estado = "badge_warning";
@@ -720,7 +727,7 @@ function validar_estadoGintracom(estado) {
     span_estado = "badge_warning";
     estado_guia = "En reparto";
   } else if (estado == 6) {
-    span_estado = "badge_purple";
+    span_estado = "badge_danger";
     estado_guia = "Novedad";
   } else if (estado == 7) {
     span_estado = "badge_green";
@@ -730,7 +737,7 @@ function validar_estadoGintracom(estado) {
     estado_guia = "Devolucion";
   } else if (estado == 9) {
     span_estado = "badge_danger";
-    estado_guia = "Devolución Entregada a Origen";
+    estado_guia = "Devolución";
   } else if (estado == 10) {
     span_estado = "badge_danger";
     estado_guia = "Cancelada por transportadora";
@@ -756,7 +763,7 @@ function validar_estadoSpeed(estado) {
   var estado_guia = "";
   if (estado == 2) {
     span_estado = "badge_purple";
-    estado_guia = "generado";
+    estado_guia = "Generado";
   } else if (estado == 3) {
     span_estado = "badge_warning";
     estado_guia = "En transito";
@@ -770,7 +777,7 @@ function validar_estadoSpeed(estado) {
     span_estado = "badge_purple";
     estado_guia = "Nuevo";
   } else if (estado == 14) {
-    span_estado = "badge_purple";
+    span_estado = "badge_danger";
     estado_guia = "Novedad";
   }
 

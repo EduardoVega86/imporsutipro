@@ -110,6 +110,120 @@ class Guias extends Controller
         echo json_encode($datos);
     }
 
+    /* controlador para añadir a cole creacion de guias */
+    public function anadir_cola_guia_laar()
+    {
+        try {
+            // Verificar autenticación del usuario
+            $this->isAuth();
+
+            // Conexión a Redis
+            $redis = new Redis();
+            $redis->connect('3.233.119.65', 6379);
+
+            // Validar si hay stock disponible
+            $numero_factura = $_POST['numero_factura'] ?? null;
+            if ($this->buscarStock($numero_factura)["status"] == 501) {
+                echo json_encode([
+                    "status" => 501,
+                    "message" => "No contamos con stock de el/los productos para generar la guía",
+                    "detalle" => "Stock insuficiente para la factura número: $numero_factura"
+                ]);
+                return;
+            }
+
+            // Crear estructura de datos similar a `generarLaar`
+            $nombreOrigen = $_POST['nombreO'];
+            $ciudadOrigen = $this->model->obtenerCiudadLaar($_POST['ciudadO']);
+            $direccionOrigen = $_POST['direccionO'];
+            $telefonoOrigen = $_POST['celularO'];
+            $referenciaOrigen = $_POST['referenciaO'];
+            $celularOrigen = $telefonoOrigen;
+
+            $nombreDestino = $_POST['nombre'];
+            $ciudadDestino = $this->model->obtenerCiudadLaar($_POST['ciudad']);
+            $direccionDestino = $_POST['calle_principal'] . " y " . $_POST['calle_secundaria'];
+            $telefonoDestino = $_POST['telefono'];
+            $celularDestino = $telefonoDestino;
+            $referenciaDestino = $_POST['referencia'];
+
+            $postal = "";
+            $identificacion = "0";
+
+            $contiene = $_POST['contiene'];
+            $peso = 2;
+            $valor_seguro = 0;
+            $valor_declarado = 0;
+            $tamanio = "";
+            $cod = $_POST['recaudo'] ?? 0;
+            $costoflete = $_POST['costo_flete'] ?? 0;
+            $costo_producto = $_POST['total_venta'];
+            $tipo_cobro = 0;
+            $comentario = $_POST['observacion'];
+            $fecha = date("Y-m-d");
+            $extras = "";
+
+            // Generar estructura para el sistema de colas
+            $data = [
+                'nombreOrigen' => $nombreOrigen,
+                'ciudadOrigen' => $ciudadOrigen,
+                'direccionOrigen' => $direccionOrigen,
+                'telefonoOrigen' => $telefonoOrigen,
+                'referenciaOrigen' => $referenciaOrigen,
+                'celularOrigen' => $celularOrigen,
+                'nombreDestino' => $nombreDestino,
+                'ciudadDestino' => $ciudadDestino,
+                'direccionDestino' => $direccionDestino,
+                'telefonoDestino' => $telefonoDestino,
+                'celularDestino' => $celularDestino,
+                'referenciaDestino' => $referenciaDestino,
+                'postal' => $postal,
+                'identificacion' => $identificacion,
+                'contiene' => $contiene,
+                'peso' => $peso,
+                'valor_seguro' => $valor_seguro,
+                'valor_declarado' => $valor_declarado,
+                'tamanio' => $tamanio,
+                'cod' => $cod,
+                'costoflete' => $costoflete,
+                'costo_producto' => $costo_producto,
+                'tipo_cobro' => $tipo_cobro,
+                'comentario' => $comentario,
+                'fecha' => $fecha,
+                'extras' => $extras,
+                'numero_factura' => $numero_factura,
+                'calle_principal' => $_POST['calle_principal'],
+                'calle_secundaria' => $_POST['calle_secundaria'],
+                'provincia' => $_POST['provincia']
+            ];
+
+            // Convertir los datos a JSON para Redis
+            $dataJson = json_encode($data);
+
+            // Encolar los datos en Redis
+            if (!$redis->lPush("queue:guias", $dataJson)) {
+                throw new Exception("No se pudo encolar la guía en Redis.");
+            }
+
+            // Respuesta exitosa
+            echo json_encode([
+                'status' => 200,
+                'title' => 'Éxito',
+                'message' => 'La guía fue añadida a la cola correctamente.',
+                'detalle' => ''
+            ]);
+        } catch (Exception $e) {
+            // Retornar el detalle del error en la respuesta
+            echo json_encode([
+                'status' => 500,
+                'title' => 'Error',
+                'message' => 'Hubo un error al intentar añadir la guía a la cola.',
+                'detalle' => $e->getMessage()
+            ]);
+        }
+    }
+    /* Fin controlador para añadir a cole creacion de guias */
+
     public function tokenLaar()
     {
         $response = $this->model->laarToken();

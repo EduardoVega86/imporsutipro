@@ -82,7 +82,7 @@ class PedidosModel extends Query
                     break;
                 case 'devolucion':
                     $sql .= " AND ((estado_guia_sistema BETWEEN 500 AND 502 and id_transporte=2)
-                                OR (estado_guia_sistema in (9) and id_transporte=2)
+                                OR (estado_guia_sistema in (9) and id_transporte=1)
                                 OR (estado_guia_sistema in (9) and id_transporte=4)
                                 OR (estado_guia_sistema in (8,9,13) and id_transporte=3))";
                     break;
@@ -909,6 +909,7 @@ class PedidosModel extends Query
 
         return $response;
     }
+    
     public function nuevo_pedido_shopify($fecha_factura, $id_usuario, $monto_factura, $estado_factura, $nombre_cliente, $telefono_cliente, $c_principal, $ciudad_cot, $c_secundaria, $referencia, $observacion, $guia_enviada, $transporte, $identificacion, $celular, $id_producto_venta, $dropshipping, $id_plataforma, $dueño_id, $importado, $plataforma_importa, $cod, $estado_guia_sistema, $impreso, $facturada, $factura_numero, $numero_guia, $anulada, $identificacionO, $celularO, $nombreO, $ciudadO, $provinciaO, $direccionO, $referenciaO, $numeroCasaO, $valor_segura, $no_piezas, $tipo_servicio, $peso, $contiene, $costo_flete, $costo_producto, $comentario, $id_transporte, $provincia, $productos, $id_bodega)
     {
         $tmp = session_id();
@@ -1057,6 +1058,9 @@ class PedidosModel extends Query
                     "contenido" => $contiene,
                     "costo" => $monto_factura,
                     "ciudad" => $nombre_ciudad,
+                    "tracking" => "",
+                    "transportadora" => "",
+                    "numero_guia" => "",
                     "productos" => $data['productos'] ?? [],
                     "categorias" => $data['categorias'] ?? [],
                     "status" => [""],
@@ -1071,7 +1075,10 @@ class PedidosModel extends Query
                         "order_id" => $nueva_factura,
                         "contenido" => $contiene,
                         "costo" => $monto_factura,
-                        "ciudad" => $nombre_ciudad
+                        "ciudad" => $nombre_ciudad,
+                        "tracking" => "",
+                        "transportadora" => "",
+                        "numero_guia" => ""
                     ]
                 ];
 

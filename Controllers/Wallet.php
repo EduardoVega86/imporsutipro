@@ -5,6 +5,9 @@ class Wallet extends Controller
     public function __construct()
     {
         parent::__construct();
+        // si se busca el controlador y el metodo guias_reporte saltar la validacion de sesion
+        if ($_SERVER['REQUEST_URI'] == '/wallet/guias_reporte') {
+        } else
         if (!$this->isAuth())
             header("Location:  " . SERVERURL . "login");
     }
@@ -16,6 +19,11 @@ class Wallet extends Controller
             header("Location: /wallet/billetera");
         }
         $this->views->render($this, "index");
+    }
+
+    public function masivo()
+    {
+        $this->views->render($this, "masivo");
     }
 
     public function billetera()
@@ -137,6 +145,7 @@ class Wallet extends Controller
     public function obtenerDetalles()
     {
         $tienda = $_POST['tienda'];
+
         $datos = $this->model->obtenerDatos($tienda);
         echo json_encode($datos);
     }
@@ -144,8 +153,10 @@ class Wallet extends Controller
     public function obtenerFacturas()
     {
         $tienda = $_POST['tienda'];
+        $estado = $_POST['estado'] ?? 0;
+        $transportadora = $_POST['transportadora'] ?? 0;
         $filtro = $_POST['filtro'];
-        $datos = $this->model->obtenerFacturas($tienda, $filtro);
+        $datos = $this->model->obtenerFacturas($tienda, $filtro, $estado, $transportadora);
         echo json_encode($datos);
     }
 
@@ -602,6 +613,33 @@ class Wallet extends Controller
     public function pagar_laar()
     {
         $response =  $this->model->pagar_laar();
+        echo json_encode($response);
+    }
+
+    public function guias_reporte()
+    {
+
+        $mes = $_POST['mes'] ?? date('m');
+        $dia = $_POST['dia'] ?? 0;
+        $rango = $_POST['rango'] ?? 0;
+        $id_plataforma = $_POST['id_plataforma'] ?? $_SESSION['id_plataforma'];
+
+        $response = $this->model->guias_reporte($mes, $dia, $rango, $id_plataforma);
+        echo json_encode($response);
+    }
+
+    public function obtenerCabeceras()
+    {
+        $limit = $_POST['limit'] ?? 10;
+        $page = $_POST['page'] ?? 1;
+        $offset = ($page - 1) * $limit;
+        $transportadora = $_POST['transportadora'] ?? 0;
+        $estado = $_POST['estado'] ?? 0;
+        $fecha = $_POST['fecha'] ?? 0;
+        $search = $_POST['search'] ?? "";
+
+        $response = $this->model->obtenerCabeceras($limit, $offset, $transportadora, $estado, $fecha, $search);
+
         echo json_encode($response);
     }
 }

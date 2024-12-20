@@ -42,7 +42,7 @@
         border: none;
         /* Elimina el borde */
     }
-    
+
     .btn-group {
         align-content: center;
     }
@@ -64,6 +64,12 @@
         max-width: 63%;
     }
 
+    .segunda_seccionFiltro {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+    }
+
     @media (max-width: 768px) {
         .left_right {
             flex-direction: column;
@@ -75,6 +81,10 @@
 
         .right {
             max-width: 100%;
+        }
+
+        .segunda_seccionFiltro {
+            flex-direction: column;
         }
     }
 

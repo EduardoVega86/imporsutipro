@@ -63,6 +63,7 @@ class Shopify extends Controller
         echo json_encode($data);
     }
 
+
     public function obtenerPlataforma()
     {
         $data = $this->model->obtenerPlataforma($_SESSION["id_plataforma"]);

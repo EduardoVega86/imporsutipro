@@ -66,6 +66,13 @@ class Pedidos extends Controller
         }
         $this->views->render($this, "nuevo");
     }
+    public function nuevo_2()
+    {
+        if (!$this->isAuth()) {
+            header("Location: " . SERVERURL . "login");
+        }
+        $this->views->render($this, "nuevo_2");
+    }
     public function ver($id)
     {
         if (!$this->isAuth()) {
@@ -86,6 +93,17 @@ class Pedidos extends Controller
             header("Location: " . SERVERURL . "Pedidos");
 
         $this->views->render($this, "editar_pedido", $id);
+    }
+
+    public function editar_2($id)
+    {
+        if (!$this->isAuth()) {
+            header("Location: " . SERVERURL . "login");
+        }
+        if (empty($id))
+            header("Location: " . SERVERURL . "Pedidos");
+
+        $this->views->render($this, "editar_pedido_2", $id);
     }
     public function novedades()
     {
@@ -144,9 +162,112 @@ class Pedidos extends Controller
         echo json_encode($data);
     }
 
+    /* worker cola pedido*/
+    public function anadir_cola()
+    {
+        try {
+            // Conexión a Redis
+            $redis = new Redis();
+            $redis->connect('3.233.119.65', 6379);
+
+            $tmp = session_id();
+
+            // Obtén los datos enviados desde la solicitud AJAX
+            $input = file_get_contents('php://input');
+            $pedidoData = json_decode($input, true);
+
+            if (!$pedidoData) {
+                throw new Exception("Datos de pedido inválidos.");
+            }
+
+            // Generar estructura del pedido en base a los datos recibidos
+            $pedido = [
+                'fecha_factura' => date("Y-m-d H:i:s"),
+                'id_usuario' => $_SESSION['id'] ?? 0,
+                'monto_factura' => $pedidoData['total_venta'],
+                'estado_factura' => 1,
+                'nombre_cliente' => $pedidoData['nombre'],
+                'telefono_cliente' => $pedidoData['telefono'],
+                'c_principal' => $pedidoData['calle_principal'],
+                'ciudad_cot' => $pedidoData['ciudad'],
+                'c_secundaria' => $pedidoData['calle_secundaria'],
+                'provincia' => $pedidoData['provincia'],
+                'referencia' => $pedidoData['referencia'],
+                'observacion' => $pedidoData['observacion'],
+                'guia_enviada' => 0,
+                'transporte' => $pedidoData['transporte'],
+                'identificacion' => $pedidoData['identificacion'] ?? "",
+                'celular' => $pedidoData['celular'] ?? $pedidoData['telefono'],
+
+                // Datos adicionales
+                'id_producto_venta' => $pedidoData['id_producto_venta'],
+                'dropshipping' => $pedidoData['dropshipping'] ?? 0,
+                'importado' => $pedidoData['importado'] ?? 0,
+                'plataforma_importa' => $pedidoData['plataforma_importa'] ?? 0,
+                'cod' => $pedidoData['cod'] ?? 0,
+                'estado_guia_sistema' => 1,
+                'impreso' => 0,
+                'facturada' => 0,
+                'factura_numero' => 0,
+                'numero_guia' => 0,
+                'anulada' => 0,
+                'id_plataforma' => $_SESSION['id_plataforma'] ?? $pedidoData['id_plataforma'],
+                'dueño_id' => $this->obtener_propietario($pedidoData['id_producto_venta']),
+
+                // Datos del origen
+                'identificacionO' => $pedidoData['identificacionO'] ?? "",
+                'celularO' => $pedidoData['celularO'] ?? $pedidoData['telefono'],
+                'nombreO' => $pedidoData['nombreO'],
+                'ciudadO' => $pedidoData['ciudadO'] ?? 0,
+                'provinciaO' => $pedidoData['provinciaO'] ?? 0,
+                'direccionO' => $pedidoData['direccionO'] ?? "vacio",
+                'referenciaO' => $pedidoData['referenciaO'],
+                'numeroCasaO' => $pedidoData['numeroCasaO'] ?? 0,
+
+                // Más datos
+                'valor_segura' => $pedidoData['valor_seguro'] ?? 0,
+                'no_piezas' => $pedidoData['no_piezas'] ?? 1,
+                'tipo_servicio' => "201202002002013",
+                'peso' => "2",
+                'contiene' => $pedidoData['contiene'] ?? "",
+                'costo_flete' => $pedidoData['costo_flete'] ?? 0,
+                'costo_producto' => $pedidoData['costo_producto'] ?? 0,
+                'comentario' => $pedidoData['comentario'] ?? "",
+                'id_transporte' => $pedidoData['id_transporte'] ?? 0,
+                'id_bodega' => $pedidoData['id_propietario'],
+                'tmp' => $tmp,
+            ];
+
+            // Convierte el pedido a JSON para encolarlo
+            $pedidoJson = json_encode($pedido);
+
+            // Añadir pedido a la cola en Redis
+            if (!$redis->lPush("queue:facturas", $pedidoJson)) {
+                throw new Exception("No se pudo encolar el pedido en Redis.");
+            }
+
+            // Respuesta de éxito
+            echo json_encode([
+                'status' => 200,
+                'title' => 'Éxito',
+                'message' => 'El pedido fue añadido a la cola correctamente.',
+            ]);
+        } catch (Exception $e) {
+            // Manejo de errores
+            file_put_contents('/ruta/a/logs/redis_error.log', $e->getMessage() . PHP_EOL, FILE_APPEND);
+
+            echo json_encode([
+                'status' => 500,
+                'title' => 'Error',
+                'message' => 'Hubo un error al intentar añadir el pedido a la cola.',
+            ]);
+        }
+    }
+
+    /* fin worker cola pedido*/
+
     public function nuevo_pedido()
     {
-
         $fecha_factura = date("Y-m-d H:i:s");
         $id_usuario = $_SESSION['id'] ?? 0;
         $monto_factura = $_POST['total_venta'];

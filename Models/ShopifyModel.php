@@ -177,7 +177,7 @@ class ShopifyModel extends Query
         echo $discount;
 
         echo "______________________";
-
+        $continua = 0;
         if ($discount > 0) {
             // Distribuir el descuento proporcionalmente entre los productos
             foreach ($productos as &$producto) {
@@ -185,6 +185,7 @@ class ShopifyModel extends Query
                 if ($producto['id_producto_venta'] == null) {
                     continue;
                 }
+                $continua++;
 
                 $product_discount = ($producto['item_total_price'] / $total_line_items) * $discount;
 
@@ -207,9 +208,9 @@ class ShopifyModel extends Query
                 echo "Precio del producto sin sku: " . $productoSinSku['item_total_price'];
 
 
-                $divisible = $productoSinSku['item_total_price'] / $cantidadProductos;
-
-                echo "Se dividira entre: " . $cantidadProductos;
+                $divisible = $productoSinSku['item_total_price'] / $continua;
+                echo "division de precio sin sku: " . $productoSinSku['item_total_price'] . "/" .  $continua;
+                echo "Se dividira entre: " . $total_line_items;
 
                 echo "Valor a sumar: " . $divisible;
                 foreach ($productos as &$producto) {

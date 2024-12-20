@@ -149,6 +149,35 @@
                 <button class="filter-btn" data-filter="devoluciones">Devoluciones</button>
                 <button class="filter-btn" data-filter="todos">Todas</button>
             </div>
+
+            <div class="segunda_seccionFiltro">
+                <div style="width: 100%;">
+                    <label for="inputPassword3" class="col-sm-2 col-form-label">Estado</label>
+                    <div>
+                        <select name="estado_q" class="form-control" id="estado_q">
+                            <option value="">Seleccione Estado</option>
+                            <option value="generada">Generada/ Por Recolectar</option>
+                            <option value="en_transito">En transito / Procesamiento / En ruta</option>
+                            <option value="entregada">Entregada</option>
+                            <option value="novedad">Novedad</option>
+                            <option value="devolucion">Devolución</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="width: 100%;">
+                    <label for="inputPassword3" class="col-sm-2 col-form-label">Transportadora</label>
+                    <div>
+                        <select name="transporte" id="transporte" class="form-control">
+                            <option value=""> Seleccione Transportadora</option>
+                            <option value="LAAR">Laar</option>
+                            <option value="SPEED">Speed</option>
+                            <option value="SERVIENTREGA">Servientrega</option>
+                            <option value="GINTRACOM">Gintracom</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
             <table id="datatable_facturas" class="table table-striped">
 
                 <thead>

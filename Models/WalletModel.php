@@ -107,6 +107,9 @@ class WalletModel extends Query
         return $responses;
     }
 
+
+
+
     public function obtenerDatos($tienda)
     {
         // Consultas SQL
@@ -144,7 +147,7 @@ class WalletModel extends Query
         return $data;
     }
 
-    public function obtenerFacturas($id_plataforma, $filtro)
+    public function obtenerFacturas($id_plataforma, $filtro, $estado, $transportadora)
     {
         // Definir la lógica común de trayecto
         $trayecto_case = "
@@ -174,6 +177,13 @@ class WalletModel extends Query
 
         // Eliminar los sufijos -P y -F en numero_factura antes de comparar
         $factura_sin_sufijo = "REPLACE(REPLACE(ccp.numero_factura, '-P', ''), '-F', '')";
+
+        $estados = "";
+        switch ($estado) {
+            case "generada":
+                $estados = "AND (ccp.estado_guia in (2,))";
+                break;
+        }
 
         if ($filtro == 'pendientes') {
             $sql = "SELECT 
@@ -588,6 +598,7 @@ class WalletModel extends Query
         return $full;
     }
 
+
     public function obtenerDatosBancarios($plataformas)
     {
         $sql = "SELECT * from datos_banco_usuarios  where id_plataforma = '$plataformas'";
@@ -719,6 +730,7 @@ class WalletModel extends Query
         $sql = "UPDATE billeteras set codigo = '$codigo', fecha_codigo = now() WHERE id_plataforma = '$plataforma'";
         $response =  $this->select($sql);
         // enviar codigo de verificacion al correo
+        if ($plataforma == 3031) $plataforma = 2324;
         $correo = $this->obtenerCorreo2($plataforma);
         //$correo = $correo[0]['correo'];
         $asunto = "Código de verificación";
@@ -937,7 +949,7 @@ class WalletModel extends Query
         else if (is_numeric($numero_guia))
             $estados = 500;
         else if (str_contains($numero_guia, 'I000'))
-            $estados = 8;
+            $estados = 9;
 
 
         $sql = "UPDATE facturas_cot set estado_guia_sistema = ? WHERE numero_factura = ?";
@@ -1877,5 +1889,103 @@ class WalletModel extends Query
         if ($validar) {
             /*  $total_venta =  */
         }
+    }
+
+    public function guias_reporte($mes, $dia, $rango, $id_plataforma)
+    {
+        if ($rango != 0) {
+
+            $dia_final = $dia + $rango;
+            $sql_rango = " AND DAY(`Fecha de Creación de la Guía`) >= $dia AND DAY(`Fecha de Creación de la Guía`) <= $dia_final";
+        } else {
+            if ($dia != 0) {
+                $sql_rango = " AND DAY(`Fecha de Creación de la Guía`) = $dia";
+            } else {
+                $sql_rango = "";
+            }
+        }
+
+        $sql = "SELECT * FROM `reportes_v1_guias` 
+            WHERE MONTH(`Fecha de Creación de la Guía`) = $mes 
+            $sql_rango 
+            AND `id_plataforma` = $id_plataforma";
+        $response = $this->select($sql);
+        return $response;
+    }
+
+    public function obtenerCabeceras($limit, $offset, $transportadora, $estado, $fecha, $search)
+    {
+        $conditions = [];
+        $params = [];
+
+        if ($search != "") {
+        }
+        // Filtro por transportadora y estado
+        if ($transportadora == 1) { // Transportadora IMP
+            $conditions[] = "guia LIKE 'IMP%'";
+
+            // Estados para transportadora IMP
+            if ($estado == 1) {
+                $conditions[] = "estado_guia = 7";
+            } elseif ($estado == 2) {
+                $conditions[] = "estado_guia = 9";
+            } elseif ($estado == 3) {
+                $conditions[] = "estado_guia = 14";
+            }
+        } elseif ($transportadora == 2) { // Transportadora REC
+            $conditions[] = "guia REGEXP '^[0-9]+$'";
+
+            // Estados para transportadora REC
+            if ($estado == 1) {
+                $conditions[] = "estado_guia = 400";
+            } elseif ($estado == 2) {
+                $conditions[] = "estado_guia = 500";
+            } elseif ($estado == 3) {
+                $conditions[] = "(estado_guia > 317 AND estado_guia < 400)";
+            }
+        } elseif ($transportadora == 3) {
+            $conditions[] = "guia LIKE 'I00%'";
+            if ($estado == 1) {
+                $conditions[] = "estado_guia = 7";
+            } elseif ($estado == 2) {
+                $conditions[] = "estado_guia in (8,9)";
+            } elseif ($estado == 3) {
+                $conditions[] = "estado_guia = 6";
+            }
+        } elseif ($transportadora == 4) {
+            $conditions[] = "guia LIKE 'SPD%' OR guia LIKE 'MKL%'";
+            if ($estado == 1) {
+                $conditions[] = "estado_guia = 7";
+            } elseif ($estado == 2) {
+                $conditions[] = "estado_guia =9 ";
+            } elseif ($estado == 3) {
+                $conditions[] = "estado_guia = 14";
+            }
+        } elseif ($transportadora == 0) { // Sin transportadora específica
+            // Estados sin transportadora
+            if ($estado == 1) {
+                $conditions[] = "(guia LIKE 'IMP%' AND estado_guia = 7) OR (guia REGEXP '^[0-9]+$' AND estado_guia = 400) OR (guia LIKE 'MKP%' AND estado_guia = 7) OR (guia LIKE 'SPD%' AND estado_guia = 7) OR (guia LIKE 'I00%' AND estado_guia = 7)";
+            } elseif ($estado == 2) {
+                $conditions[] = "(guia LIKE 'IMP%' AND estado_guia = 9)  OR (guia REGEXP '^[0-9]+$' AND estado_guia = 500) OR (guia LIKE 'MKP%' AND estado_guia = 9) OR (guia LIKE 'SPD%' AND estado_guia = 9) OR (guia LIKE 'I00%' AND estado_guia = 8)";
+            } elseif ($estado == 3) {
+                $conditions[] = " (guia LIKE 'IMP%' AND estado_guia = 14) OR (guia REGEXP '^[0-9]+$' AND estado_guia > 317 AND estado_guia < 400) OR (guia LIKE 'MKP%' AND estado_guia = 14) OR (guia LIKE 'SPD%' AND estado_guia = 14) OR (guia LIKE 'I00%' AND estado_guia = 6)";
+            }
+        }
+
+        // Filtro por fecha
+        if ($fecha) {
+            $conditions[] = "DATE(fecha) = ?";
+            $params[] = $fecha;
+        }
+
+        // Construcción de la consulta
+        $whereClause = !empty($conditions) ? 'WHERE ' . implode(' AND ', $conditions) : '';
+        $sql = "SELECT * FROM cabecera_cuenta_pagar $whereClause LIMIT $limit OFFSET $offset";
+
+        // Ejecutar la consulta
+        $response = $this->dselect($sql, $params);
+
+
+        return $response;
     }
 }
