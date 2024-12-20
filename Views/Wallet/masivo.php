@@ -133,7 +133,10 @@
                     <input type="checkbox" id="check_${dato.id_cabecera}" name="check_${dato.id_cabecera}"
                     class="form-checkbox h-4 w-4 text-indigo-600" /> 
                 </td>
-                <td class="px-4 py-2 text-nowrap">${dato.factura}</td>
+                <td class="px-4 py-2 text-nowrap"
+                    <span class="font-semibold">${dato.numero_factura}</span>
+                    <span class="text-xs text-gray-500">(${dato.guia})</span>
+                </td>
                 <td class="px-4 py-2 text-nowrap">${dato.cliente}</td>
                 <td class="px-4 py-2 text-nowrap">${dato.tienda}</td>
                 <td class="px-4 py-2 text-nowrap">${dato.detalle}</td>
