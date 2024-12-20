@@ -382,6 +382,10 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
     }
 
     function cargarCiudades(provinciaId, ciudadId = null) {
+
+        if (MATRIZ != 11) {
+   
+
         if (provinciaId) {
             return $.ajax({
                 url: '<?php echo SERVERURL; ?>Ubicaciones/obtenerCiudades/' + provinciaId,
@@ -417,6 +421,7 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
             });
             return $.Deferred().resolve(); // Return a resolved promise for consistency
         }
+    }
     }
 
     function cargarDatosBodega() {
