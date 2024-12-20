@@ -112,25 +112,15 @@
 
     <script>
         document.getElementById('filters-section').classList.add('hidden');
-
+        let datos = [];
         window.onload = async function() {
             const response = await fetch("<?php echo SERVERURL ?>" + 'wallet/obtenerCabeceras');
             const data = await response.json();
-            console.log(data);
+
+            datos = data;
         };
         // Simulación de datos
-        const datos = [{
-            acreditar: "Sí",
-            factura: "COT-0000000116",
-            cliente: "NO DESPACHAR",
-            tienda: "https://einzas.imporsuitpro.com",
-            detalle: "Detalle aquí",
-            monto: "$3",
-            accesos: "Ver",
-            editar: "Editar",
-            eliminar: "Eliminar",
-            opciones: "Opciones adicionales"
-        }];
+
 
         const tableBody = document.getElementById('results');
         const cardResults = document.getElementById('card-results');
@@ -139,7 +129,10 @@
             // Fila para tabla
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td class="px-4 py-2 text-nowrap">${dato.acreditar}</td>
+                <td class="px-4 py-2 text-nowrap">
+                    <input type="checkbox" id="check_${dato.id_cabecera}" name="check_${dato.id_cabecera}"
+                    class="form-checkbox h-4 w-4 text-indigo-600" /> 
+                </td>
                 <td class="px-4 py-2 text-nowrap">${dato.factura}</td>
                 <td class="px-4 py-2 text-nowrap">${dato.cliente}</td>
                 <td class="px-4 py-2 text-nowrap">${dato.tienda}</td>
