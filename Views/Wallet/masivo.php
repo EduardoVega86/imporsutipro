@@ -29,32 +29,29 @@
 
 <body class="bg-gray-200">
     <main class="container mx-auto p-4">
+        <!-- Encabezado -->
         <section class="text-center">
-            <h1 class="font-bold text-xl mb-4">
-                Guias por acreditar
-            </h1>
+            <h1 class="font-bold text-xl md:text-2xl mb-4">Guias por acreditar</h1>
         </section>
 
-        <section class="bg-white rounded-sm shadow-md">
-            <!-- Preparar filtros -->
+        <!-- Filtros -->
+        <section class="bg-white rounded-md shadow-md">
             <div id="filters-section" class="p-4">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <!-- Filtros -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Transportadora -->
                     <div>
-                        <label for="transportadora"
-                            class="block text-sm font-medium text-gray-700">Transportadora</label>
-                        <select name="transportadora" id="transportadora"
-                            class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <label for="transportadora" class="block text-sm font-medium text-gray-700">Transportadora</label>
+                        <select name="transportadora" id="transportadora" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                             <option value="0">Todas</option>
                             <option value="1">VIRTECH</option>
                             <option value="2">IMPOREXPRESS</option>
                         </select>
                     </div>
 
+                    <!-- Estado -->
                     <div>
                         <label for="estado" class="block text-sm font-medium text-gray-700">Estado</label>
-                        <select name="estado" id="estado"
-                            class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <select name="estado" id="estado" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                             <option value="0">Todas</option>
                             <option value="1">Pendiente</option>
                             <option value="2">Acreditada</option>
@@ -64,68 +61,107 @@
                     <!-- Buscar -->
                     <div>
                         <label for="filtro" class="block text-sm font-medium text-gray-700">Buscar:</label>
-                        <input type="text" name="filtro" id="filtro" oninput="onSearchInput()"
-                            class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <input type="text" name="filtro" id="filtro" oninput="onSearchInput()" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     </div>
                 </div>
 
                 <!-- Botón de aplicar filtros -->
                 <div class="flex justify-end mt-4">
-                    <button onclick="applyFilters()"
-                        class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-md">Aplicar
-                        filtros</button>
+                    <button onclick="applyFilters()" class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-md">Aplicar filtros</button>
                 </div>
             </div>
 
             <!-- Botón para mostrar/ocultar filtros -->
             <div class="p-4">
-                <button onclick="toggleFilters()"
-                    class="bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 rounded-md">Mostrar/Ocultar
-                    Filtros</button>
+                <button onclick="toggleFilters()" class="bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 rounded-md w-full sm:w-auto">Mostrar/Ocultar Filtros</button>
             </div>
+        </section>
 
-            <!-- Tabla de resultados -->
-            <table class="min-w-full border-t">
-                <thead>
-                    <tr>
-                        <th
-                            class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                            Nombre
-                        </th>
-                        <th
-                            class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                            Fecha de creación
-                        </th>
-                        <th
-                            class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                            Acciones
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="bg-white border-b">
-                        <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
-                            Ejemplo
-                        </td>
-                        <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
-                            2024-12-19
-                        </td>
-                        <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
-                            <button class="text-indigo-600 hover:text-indigo-900">Acción</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <!-- Tabla -->
+        <section class="bg-white rounded-md shadow-md mt-6">
+            <div class="overflow-x-auto">
+                <table class="hidden md:table min-w-full table-auto border-collapse border border-gray-300">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Acreditar</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Factura</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Cliente</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Tienda / Proveedor</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Detalle de Factura</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Monto a Recibir</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Accesos</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Editar</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Eliminar</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Otras Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="results" class="text-sm text-gray-700 divide-y divide-gray-200">
+                        <!-- Aquí se insertarán los resultados dinámicamente -->
+                    </tbody>
+                </table>
+
+                <!-- Diseño tipo tarjeta para pantallas pequeñas -->
+                <div id="card-results" class="block md:hidden space-y-4">
+                    <!-- Aquí se llenarán las tarjetas dinámicamente -->
+                </div>
+            </div>
         </section>
     </main>
+
     <script>
         document.getElementById('filters-section').classList.add('hidden');
 
-        window.onload = async function() {
-            const response = await fetch('https://new.imporsuitpro.com/wallet/obtenerCabeceras');
-            const data = await response.json();
-            console.log(data);
-        }
+        // Simulación de datos
+        const datos = [{
+            acreditar: "Sí",
+            factura: "COT-0000000116",
+            cliente: "NO DESPACHAR",
+            tienda: "https://einzas.imporsuitpro.com",
+            detalle: "Detalle aquí",
+            monto: "$3",
+            accesos: "Ver",
+            editar: "Editar",
+            eliminar: "Eliminar",
+            opciones: "Opciones adicionales"
+        }];
+
+        const tableBody = document.getElementById('results');
+        const cardResults = document.getElementById('card-results');
+
+        datos.forEach(dato => {
+            // Fila para tabla
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="px-4 py-2">${dato.acreditar}</td>
+                <td class="px-4 py-2">${dato.factura}</td>
+                <td class="px-4 py-2">${dato.cliente}</td>
+                <td class="px-4 py-2">${dato.tienda}</td>
+                <td class="px-4 py-2">${dato.detalle}</td>
+                <td class="px-4 py-2">${dato.monto}</td>
+                <td class="px-4 py-2">${dato.accesos}</td>
+                <td class="px-4 py-2">${dato.editar}</td>
+                <td class="px-4 py-2">${dato.eliminar}</td>
+                <td class="px-4 py-2">${dato.opciones}</td>
+            `;
+            tableBody.appendChild(row);
+
+            // Tarjeta para diseño móvil
+            const card = document.createElement('div');
+            card.classList.add('border', 'rounded-md', 'p-4', 'shadow-sm', 'bg-white');
+            card.innerHTML = `
+                <p><span class="font-semibold">Acreditar:</span> ${dato.acreditar}</p>
+                <p><span class="font-semibold">Factura:</span> ${dato.factura}</p>
+                <p><span class="font-semibold">Cliente:</span> ${dato.cliente}</p>
+                <p><span class="font-semibold">Tienda / Proveedor:</span> ${dato.tienda}</p>
+                <p><span class="font-semibold">Detalle de Factura:</span> ${dato.detalle}</p>
+                <p><span class="font-semibold">Monto a Recibir:</span> ${dato.monto}</p>
+                <p><span class="font-semibold">Accesos:</span> ${dato.accesos}</p>
+                <p><span class="font-semibold">Editar:</span> ${dato.editar}</p>
+                <p><span class="font-semibold">Eliminar:</span> ${dato.eliminar}</p>
+                <p><span class="font-semibold">Otras Opciones:</span> ${dato.opciones}</p>
+            `;
+            cardResults.appendChild(card);
+        });
     </script>
 </body>
 
