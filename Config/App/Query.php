@@ -246,4 +246,10 @@ class Query extends Conexion
     {
         return $this->connection->errorInfo();
     }
+
+    // Devuelve la conexión
+    public function getConnection()
+    {
+        return $this->connection;
+    }
 }
