@@ -40,7 +40,7 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
                             <div>
                                 <span class="help-block">Ciudad: </span>
                                 <div id="div_ciudad" style="display: none;">
-    <select class="datos form-control" id="ciudad_entrega_select" name="ciudad_entrega" required disabled>
+    <select class="datos form-control" id="ciudad_entrega" name="ciudad_entrega" required disabled>
         <option value="">Ciudad *</option>
     </select>
 </div>
@@ -345,7 +345,7 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
 
     // Habilitar el input y deshabilitar el select
     document.getElementById('ciudad_entrega_input').disabled = false;
-    document.getElementById('ciudad_entrega_select').disabled = true;
+    document.getElementById('ciudad_entrega').disabled = true;
 
     // Opcional: establecer foco en el input
     document.getElementById('ciudad_entrega_input').focus();
@@ -355,11 +355,11 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
     document.getElementById('div_ciudad2').style.display = 'none';
 
     // Habilitar el select y deshabilitar el input
-    document.getElementById('ciudad_entrega_select').disabled = false;
+    document.getElementById('ciudad_entrega').disabled = false;
     document.getElementById('ciudad_entrega_input').disabled = true;
 
     // Opcional: establecer foco en el select
-    document.getElementById('ciudad_entrega_select').focus();
+    document.getElementById('ciudad_entrega').focus();
 }
 
 
@@ -438,14 +438,14 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
 
     // Habilitar el input y deshabilitar el select
     document.getElementById('ciudad_entrega_input').disabled = false;
-    document.getElementById('ciudad_entrega_select').disabled = true;
+    document.getElementById('ciudad_entrega').disabled = true;
 } else {
     // Mostrar el select y ocultar el input
     document.getElementById('div_ciudad').style.display = 'block';
     document.getElementById('div_ciudad2').style.display = 'none';
 
     // Habilitar el select y deshabilitar el input
-    document.getElementById('ciudad_entrega_select').disabled = false;
+    document.getElementById('ciudad_entrega').disabled = false;
     document.getElementById('ciudad_entrega_input').disabled = true;
 }
 
