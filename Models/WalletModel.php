@@ -1990,6 +1990,8 @@ class WalletModel extends Query
         $whereClause = !empty($conditions) ? 'WHERE ' . implode(' AND ', $conditions) : '';
         $sql = "SELECT * FROM cabecera_cuenta_pagar $whereClause ORDER BY id_cabecera DESC LIMIT $limit OFFSET $offset ";
 
+        echo $sql;
+
         // Ejecutar la consulta
         $response = $this->dselect($sql, $params);
 
