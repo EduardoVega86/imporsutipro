@@ -121,6 +121,61 @@
             </table>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+</div>
+<script>
+    let fecha_inicio = "";
+    let fecha_fin = "";
+
+    // Calcula la fecha de inicio (hace 7 días) y la fecha de fin (hoy)
+    let hoy = moment();
+    let haceUnaSemana = moment().subtract(6, 'days'); // Rango de 7 días
+
+    // Asignar las fechas a las variables al cargar la página
+    fecha_inicio = haceUnaSemana.format('YYYY-MM-DD') + ' 00:00:00';
+    fecha_fin = hoy.format('YYYY-MM-DD') + ' 23:59:59';
+
+    $(function() {
+        $('#daterange').daterangepicker({
+            opens: 'right',
+            startDate: haceUnaSemana, // Fecha de inicio predefinida
+            endDate: hoy, // Fecha de fin predefinida
+            locale: {
+                format: 'YYYY-MM-DD',
+                separator: ' - ',
+                applyLabel: 'Aplicar',
+                cancelLabel: 'Cancelar',
+                fromLabel: 'Desde',
+                toLabel: 'Hasta',
+                customRangeLabel: 'Custom',
+                weekLabel: 'S',
+                daysOfWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                firstDay: 1
+            },
+            autoUpdateInput: true // Actualiza el input automáticamente
+        });
+
+        // Evento que se dispara cuando se aplica un nuevo rango de fechas
+        $('#daterange').on('apply.daterangepicker', function(ev, picker) {
+            // Actualiza el valor del input con el rango de fechas seleccionado
+            $(this).val(picker.startDate.format('YYYY-MM-DD') + ' - ' + picker.endDate.format('YYYY-MM-DD'));
+
+            // Actualizar las variables con las nuevas fechas seleccionadas
+            fecha_inicio = picker.startDate.format('YYYY-MM-DD') + ' 00:00:00';
+            fecha_fin = picker.endDate.format('YYYY-MM-DD') + ' 23:59:59';
+            initDataTable();
+        });
+
+        // Establece los valores iniciales en el input de fechas
+        $('#daterange').val(haceUnaSemana.format('YYYY-MM-DD') + ' - ' + hoy.format('YYYY-MM-DD'));
+    });
+
+    $(document).ready(function() {
+        // Inicializa la tabla cuando cambian los selectores
+        $("#tienda_q,#estado_q,#transporte,#impresion,#despachos").change(function() {
+            initDataTable();
+        });
+    });
+</script>
+<script src="<?php echo SERVERURL ?>/Views/Pedidos/js/guias.js"></script>
+<?php require_once './Views/templates/footer.php'; ?>
