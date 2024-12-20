@@ -39,11 +39,14 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
                             <br>
                             <div>
                                 <span class="help-block">Ciudad: </span>
-                                <div id="div_ciudad">
-                                    <select class="datos form-control" id="ciudad_entrega" name="ciudad_entrega" required disabled>
-                                        <option value="">Ciudad *</option>
-                                    </select>
-                                </div>
+                                <div id="div_ciudad" style="display: none;">
+    <select class="datos form-control" id="ciudad_entrega" name="ciudad_entrega" required disabled>
+        <option value="">Ciudad *</option>
+    </select>
+</div>
+<div id="div_ciudad2" style="display: none;">
+    <input id="ciudad_entrega" name="ciudad_entrega" class="form-control" type="text" placeholder="Ciudad" disabled>
+</div>
                             </div>
                             <br>
                             <label for="direccion_completa">Dirección:</label>
@@ -335,6 +338,25 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
     });
 
     function cargarProvincias() {
+
+        if (MATRIZ == 11) {
+    // Mostrar el input y ocultar el select
+    document.getElementById('div_ciudad2').style.display = 'block';
+    document.getElementById('div_ciudad').style.display = 'none';
+
+    // Habilitar el input y deshabilitar el select
+    document.querySelector('#div_ciudad2 input').disabled = false;
+    document.querySelector('#div_ciudad select').disabled = true;
+} else {
+    // Mostrar el select y ocultar el input
+    document.getElementById('div_ciudad').style.display = 'block';
+    document.getElementById('div_ciudad2').style.display = 'none';
+
+    // Habilitar el select y deshabilitar el input
+    document.querySelector('#div_ciudad select').disabled = false;
+    document.querySelector('#div_ciudad2 input').disabled = true;
+}
+
         return $.ajax({
             url: '<?php echo SERVERURL; ?>Ubicaciones/obtenerProvincias',
             method: 'GET',
@@ -398,6 +420,24 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
     }
 
     function cargarDatosBodega() {
+        if (MATRIZ == 11) {
+    // Mostrar el input y ocultar el select
+    document.getElementById('div_ciudad2').style.display = 'block';
+    document.getElementById('div_ciudad').style.display = 'none';
+
+    // Habilitar el input y deshabilitar el select
+    document.getElementById('ciudad_entrega_input').disabled = false;
+    document.getElementById('ciudad_entrega_select').disabled = true;
+} else {
+    // Mostrar el select y ocultar el input
+    document.getElementById('div_ciudad').style.display = 'block';
+    document.getElementById('div_ciudad2').style.display = 'none';
+
+    // Habilitar el select y deshabilitar el input
+    document.getElementById('ciudad_entrega_select').disabled = false;
+    document.getElementById('ciudad_entrega_input').disabled = true;
+}
+
         const bodegaId = $('#id').val();
         const url = '<?php echo SERVERURL; ?>Productos/obtenerBodega/' + bodegaId;
 
