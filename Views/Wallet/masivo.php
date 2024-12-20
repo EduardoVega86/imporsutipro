@@ -136,7 +136,7 @@
                         <span  class="text-indigo-600 underline cursor-pointer"> ${dato.numero_factura} </span>
                         <span class="text-xs text-gray-500">(${dato.guia})</span>
                         <span class="text-xs text-gray-500">(${dato.fecha})</span>
-                        <span class="text-xs text-gray-500">${dato.cod == '1' ? "Recaudo": "Sin Recaudo"}</span>
+                        <span class="text-xs ${dato.cod == '1' ? "text-gray-500" : "text-red-500"}>${dato.cod == '1' ? "Recaudo": "Sin Recaudo"}</span>
                         
                     </td>
                     <td class="px-4 py-2 text-nowrap">${dato.cliente}</td>
