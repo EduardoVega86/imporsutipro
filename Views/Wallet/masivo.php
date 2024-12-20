@@ -85,24 +85,18 @@
                 <table class="hidden md:table min-w-full table-auto border-collapse border border-gray-300">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase"> ⭕ </th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">⭕</th>
                             <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Factura</th>
                             <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Cliente</th>
                             <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Tienda / Proveedor</th>
-                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Detalle de Factura</th>
                             <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Monto a Recibir</th>
-                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Accesos</th>
-                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Editar</th>
-                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Eliminar</th>
-                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Otras Opciones</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Opciones</th>
                         </tr>
                     </thead>
                     <tbody id="results" class="text-sm text-gray-700 divide-y divide-gray-200">
                         <!-- Aquí se insertarán los resultados dinámicamente -->
                     </tbody>
                 </table>
-
-                <!-- Diseño tipo tarjeta para pantallas pequeñas -->
                 <div id="card-results" class="block md:hidden space-y-4">
                     <!-- Aquí se llenarán las tarjetas dinámicamente -->
                 </div>
@@ -112,59 +106,57 @@
 
     <script>
         document.getElementById('filters-section').classList.add('hidden');
-        let datos = [];
-        window.onload = async function() {
-            const response = await fetch("<?php echo SERVERURL ?>" + 'wallet/obtenerCabeceras');
-            const data = await response.json();
 
-            datos = data;
-        };
-        // Simulación de datos
+        async function loadData() {
+            try {
+                const response = await fetch("URL_DE_TU_ENDPOINT_AQUÍ");
+                if (!response.ok) {
+                    throw new Error("Error al obtener los datos");
+                }
 
+                const datos = await response.json();
+                populateTable(datos);
+                populateCards(datos);
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Hubo un error al cargar los datos.");
+            }
+        }
 
-        const tableBody = document.getElementById('results');
-        const cardResults = document.getElementById('card-results');
+        function populateTable(datos) {
+            const tableBody = document.getElementById('results');
+            tableBody.innerHTML = ""; // Limpia contenido previo
+            datos.forEach(dato => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="px-4 py-2"><input type="checkbox" class="form-checkbox h-4 w-4 text-indigo-600" /></td>
+                    <td class="px-4 py-2 text-nowrap">${dato.numero_factura}</td>
+                    <td class="px-4 py-2 text-nowrap">${dato.cliente}</td>
+                    <td class="px-4 py-2 text-nowrap">${dato.tienda}</td>
+                    <td class="px-4 py-2 text-nowrap">${dato.monto_recibir}</td>
+                    <td class="px-4 py-2 text-nowrap">Opciones aquí</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
 
-        datos.forEach(dato => {
-            // Fila para tabla
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td class="px-4 py-2 text-nowrap">
-                    <input type="checkbox" id="check_${dato.id_cabecera}" name="check_${dato.id_cabecera}"
-                    class="form-checkbox h-4 w-4 text-indigo-600" /> 
-                </td>
-                <td class="px-4 py-2 text-nowrap"
-                    <span class="font-semibold">${dato.numero_factura}</span>
-                    <span class="text-xs text-gray-500">(${dato.guia})</span>
-                </td>
-                <td class="px-4 py-2 text-nowrap">${dato.cliente}</td>
-                <td class="px-4 py-2 text-nowrap">${dato.tienda}</td>
-                <td class="px-4 py-2 text-nowrap">${dato.detalle}</td>
-                <td class="px-4 py-2 text-nowrap">${dato.monto}</td>
-                <td class="px-4 py-2 text-nowrap">${dato.accesos}</td>
-                <td class="px-4 py-2 text-nowrap">${dato.editar}</td>
-                <td class="px-4 py-2 text-nowrap">${dato.eliminar}</td>
-                <td class="px-4 py-2 text-nowrap">${dato.opciones}</td>
-            `;
-            tableBody.appendChild(row);
+        function populateCards(datos) {
+            const cardResults = document.getElementById('card-results');
+            cardResults.innerHTML = ""; // Limpia contenido previo
+            datos.forEach(dato => {
+                const card = document.createElement('div');
+                card.classList.add('border', 'rounded-md', 'p-4', 'shadow-sm', 'bg-white');
+                card.innerHTML = `
+                    <p><strong>Factura:</strong> ${dato.numero_factura}</p>
+                    <p><strong>Cliente:</strong> ${dato.cliente}</p>
+                    <p><strong>Tienda:</strong> ${dato.tienda}</p>
+                    <p><strong>Monto:</strong> ${dato.monto_recibir}</p>
+                `;
+                cardResults.appendChild(card);
+            });
+        }
 
-            // Tarjeta para diseño móvil
-            const card = document.createElement('div');
-            card.classList.add('border', 'rounded-md', 'p-4', 'shadow-sm', 'bg-white');
-            card.innerHTML = `
-                <p><span class="font-semibold">Acreditar:</span> ${dato.acreditar}</p>
-                <p><span class="font-semibold">Factura:</span> ${dato.factura}</p>
-                <p><span class="font-semibold">Cliente:</span> ${dato.cliente}</p>
-                <p><span class="font-semibold">Tienda / Proveedor:</span> ${dato.tienda}</p>
-                <p><span class="font-semibold">Detalle de Factura:</span> ${dato.detalle}</p>
-                <p><span class="font-semibold">Monto a Recibir:</span> ${dato.monto}</p>
-                <p><span class="font-semibold">Accesos:</span> ${dato.accesos}</p>
-                <p><span class="font-semibold">Editar:</span> ${dato.editar}</p>
-                <p><span class="font-semibold">Eliminar:</span> ${dato.eliminar}</p>
-                <p><span class="font-semibold">Otras Opciones:</span> ${dato.opciones}</p>
-            `;
-            cardResults.appendChild(card);
-        });
+        loadData(); // Llama a la función para cargar los datos al cargar la página
     </script>
 </body>
 
