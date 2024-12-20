@@ -113,6 +113,10 @@
     <script>
         document.getElementById('filters-section').classList.add('hidden');
 
+        window.onload(async () => {
+            alert('Hola');
+        })
+
         // Simulación de datos
         const datos = [{
             acreditar: "Sí",
