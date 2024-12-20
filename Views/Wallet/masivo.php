@@ -129,7 +129,9 @@
             datos.forEach(dato => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td class="px-4 py-2"><input type="checkbox" class="form-checkbox h-4 w-4 text-indigo-600" /></td>
+                    <td class="px-4 py-2"><input type="checkbox" class="form-checkbox h-4 w-4 text-indigo-600" id="check_${dato.id_cabecera}" 
+                        name="check_${dato.id_cabecera}" value="${dato.id_cabecera}"
+                     /></td>
                     <td class="px-4 py-2 text-nowrap">${dato.numero_factura}</td>
                     <td class="px-4 py-2 text-nowrap">${dato.cliente}</td>
                     <td class="px-4 py-2 text-nowrap">${dato.tienda}</td>
