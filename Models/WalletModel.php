@@ -1980,15 +1980,7 @@ class WalletModel extends Query
 
         // Construcción de la consulta
         $whereClause = !empty($conditions) ? 'WHERE ' . implode(' AND ', $conditions) : '';
-        $sql = "SELECT * FROM cabecera_cuenta_pagar $whereClause LIMIT ? OFFSET ?";
-
-        // Añadir límites a los parámetros
-        $params[] = floatval($limit);
-        $params[] = floatval($offset);
-
-        echo $sql;
-
-        print_r($params);
+        $sql = "SELECT * FROM cabecera_cuenta_pagar $whereClause LIMIT $limit OFFSET $offset";
 
         // Ejecutar la consulta
         $response = $this->dselect($sql, $params);
