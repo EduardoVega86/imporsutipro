@@ -136,6 +136,8 @@
                         <span  class="text-indigo-600 underline cursor-pointer"> ${dato.numero_factura} </span>
                         <span class="text-xs text-gray-500">(${dato.guia})</span>
                         <span class="text-xs text-gray-500">(${dato.fecha})</span>
+                        <span class="text-xs text-gray-500">${dato.recaudo == 1 ? "Recaudo": "Sin Recaudo"}</span>
+                        
                     </td>
                     <td class="px-4 py-2 text-nowrap">${dato.cliente}</td>
                     <td class="px-4 py-2 text-nowrap">${dato.tienda}</td>
@@ -157,6 +159,8 @@
                         <span  class="text-indigo-600 underline cursor-pointer"> ${dato.numero_factura} </span>
                         <span class="text-xs text-gray-500">(${dato.guia})</span>
                         <span class="text-xs text-gray-500">(${dato.fecha})</span>
+                        <span class="text-xs text-gray-500">${dato.recaudo == 1 ? "Recaudo": "Sin Recaudo"}</span>
+                        
                     </p>
                     <p><strong>Cliente:</strong> ${dato.cliente}</p>
                     <p><strong>Tienda:</strong> ${dato.tienda}</p>
