@@ -90,30 +90,53 @@
                     <tr>
                         <th
                             class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                            Nombre
+                            Acreditar
                         </th>
                         <th
                             class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                            Fecha de creación
+                            Factura
                         </th>
                         <th
                             class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                            Acciones
+                            Cliente
                         </th>
+                        <th
+                            class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            Tienda / Proveedor
+                        </th>
+                        <th
+                            class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            Detalle de Factura
+                        </th>
+                        <th
+                            class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            Monto a Recibir
+                        </th>
+
+                        <th
+                            class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            Accesos
+                        </th>
+                        <th
+                            class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            Editar
+                        </th>
+                        <th
+                            class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            Eliminar
+                        </th>
+                        <th
+                            class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            Otras Opciones
+                        </th>
+
+
+
                     </tr>
                 </thead>
-                <tbody>
-                    <tr class="bg-white border-b">
-                        <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
-                            Ejemplo
-                        </td>
-                        <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
-                            2024-12-19
-                        </td>
-                        <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
-                            <button class="text-indigo-600 hover:text-indigo-900">Acción</button>
-                        </td>
-                    </tr>
+                <tbody id="results">
+                    <!-- Aquí se insertarán los resultados -->
+
                 </tbody>
             </table>
         </section>
