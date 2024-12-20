@@ -78,26 +78,33 @@
         </section>
 
         <!-- Tabla -->
-        <section class="bg-white rounded-md shadow-md mt-6 overflow-x-auto">
-            <table class="min-w-full table-auto border-collapse border border-gray-300">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Acreditar</th>
-                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Factura</th>
-                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Cliente</th>
-                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Tienda / Proveedor</th>
-                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Detalle de Factura</th>
-                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Monto a Recibir</th>
-                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Accesos</th>
-                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Editar</th>
-                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Eliminar</th>
-                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Otras Opciones</th>
-                    </tr>
-                </thead>
-                <tbody id="results" class="text-sm text-gray-700 divide-y divide-gray-200">
-                    <!-- Aquí se insertarán los resultados dinámicamente -->
-                </tbody>
-            </table>
+        <section class="bg-white rounded-md shadow-md mt-6">
+            <div class="overflow-x-auto">
+                <table class="hidden md:table min-w-full table-auto border-collapse border border-gray-300">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Acreditar</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Factura</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Cliente</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Tienda / Proveedor</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Detalle de Factura</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Monto a Recibir</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Accesos</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Editar</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Eliminar</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Otras Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="results" class="text-sm text-gray-700 divide-y divide-gray-200">
+                        <!-- Aquí se insertarán los resultados dinámicamente -->
+                    </tbody>
+                </table>
+
+                <!-- Diseño tipo tarjeta para pantallas pequeñas -->
+                <div id="card-results" class="block md:hidden space-y-4">
+                    <!-- Aquí se llenarán las tarjetas dinámicamente -->
+                </div>
+            </div>
         </section>
     </main>
 
@@ -118,9 +125,11 @@
             opciones: "Opciones adicionales"
         }];
 
-        // Llenar la tabla dinámicamente
         const tableBody = document.getElementById('results');
+        const cardResults = document.getElementById('card-results');
+
         datos.forEach(dato => {
+            // Fila para tabla
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td class="px-4 py-2">${dato.acreditar}</td>
@@ -135,6 +144,23 @@
                 <td class="px-4 py-2">${dato.opciones}</td>
             `;
             tableBody.appendChild(row);
+
+            // Tarjeta para diseño móvil
+            const card = document.createElement('div');
+            card.classList.add('border', 'rounded-md', 'p-4', 'shadow-sm', 'bg-white');
+            card.innerHTML = `
+                <p><span class="font-semibold">Acreditar:</span> ${dato.acreditar}</p>
+                <p><span class="font-semibold">Factura:</span> ${dato.factura}</p>
+                <p><span class="font-semibold">Cliente:</span> ${dato.cliente}</p>
+                <p><span class="font-semibold">Tienda / Proveedor:</span> ${dato.tienda}</p>
+                <p><span class="font-semibold">Detalle de Factura:</span> ${dato.detalle}</p>
+                <p><span class="font-semibold">Monto a Recibir:</span> ${dato.monto}</p>
+                <p><span class="font-semibold">Accesos:</span> ${dato.accesos}</p>
+                <p><span class="font-semibold">Editar:</span> ${dato.editar}</p>
+                <p><span class="font-semibold">Eliminar:</span> ${dato.eliminar}</p>
+                <p><span class="font-semibold">Otras Opciones:</span> ${dato.opciones}</p>
+            `;
+            cardResults.appendChild(card);
         });
     </script>
 </body>
