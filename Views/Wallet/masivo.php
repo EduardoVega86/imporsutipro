@@ -43,8 +43,10 @@
                         <label for="transportadora" class="block text-sm font-medium text-gray-700">Transportadora</label>
                         <select name="transportadora" id="transportadora" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                             <option value="0">Todas</option>
-                            <option value="1">VIRTECH</option>
-                            <option value="2">IMPOREXPRESS</option>
+                            <option value="1">LAAR</option>
+                            <option value="2">SERVIENTREGA</option>
+                            <option value="3">GINTRACOM</option>
+                            <option value="4">SPEED</option>
                         </select>
                     </div>
 
@@ -67,13 +69,13 @@
 
                 <!-- Botón de aplicar filtros -->
                 <div class="flex justify-end mt-4">
-                    <button onclick="applyFilters()" class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-md">Aplicar filtros</button>
+                    <button onclick="applyFilters()" class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 text-nowrap rounded-md">Aplicar filtros</button>
                 </div>
             </div>
 
             <!-- Botón para mostrar/ocultar filtros -->
             <div class="p-4">
-                <button onclick="toggleFilters()" class="bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 rounded-md w-full sm:w-auto">Mostrar/Ocultar Filtros</button>
+                <button onclick="toggleFilters()" class="bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 text-nowrap rounded-md w-full sm:w-auto">Mostrar/Ocultar Filtros</button>
             </div>
         </section>
 
@@ -83,16 +85,16 @@
                 <table class="hidden md:table min-w-full table-auto border-collapse border border-gray-300">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Acreditar</th>
-                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Factura</th>
-                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Cliente</th>
-                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Tienda / Proveedor</th>
-                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Detalle de Factura</th>
-                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Monto a Recibir</th>
-                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Accesos</th>
-                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Editar</th>
-                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Eliminar</th>
-                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Otras Opciones</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase"> ⭕ </th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Factura</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Cliente</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Tienda / Proveedor</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Detalle de Factura</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Monto a Recibir</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Accesos</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Editar</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Eliminar</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Otras Opciones</th>
                         </tr>
                     </thead>
                     <tbody id="results" class="text-sm text-gray-700 divide-y divide-gray-200">
@@ -132,16 +134,16 @@
             // Fila para tabla
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td class="px-4 py-2">${dato.acreditar}</td>
-                <td class="px-4 py-2">${dato.factura}</td>
-                <td class="px-4 py-2">${dato.cliente}</td>
-                <td class="px-4 py-2">${dato.tienda}</td>
-                <td class="px-4 py-2">${dato.detalle}</td>
-                <td class="px-4 py-2">${dato.monto}</td>
-                <td class="px-4 py-2">${dato.accesos}</td>
-                <td class="px-4 py-2">${dato.editar}</td>
-                <td class="px-4 py-2">${dato.eliminar}</td>
-                <td class="px-4 py-2">${dato.opciones}</td>
+                <td class="px-4 py-2 text-nowrap">${dato.acreditar}</td>
+                <td class="px-4 py-2 text-nowrap">${dato.factura}</td>
+                <td class="px-4 py-2 text-nowrap">${dato.cliente}</td>
+                <td class="px-4 py-2 text-nowrap">${dato.tienda}</td>
+                <td class="px-4 py-2 text-nowrap">${dato.detalle}</td>
+                <td class="px-4 py-2 text-nowrap">${dato.monto}</td>
+                <td class="px-4 py-2 text-nowrap">${dato.accesos}</td>
+                <td class="px-4 py-2 text-nowrap">${dato.editar}</td>
+                <td class="px-4 py-2 text-nowrap">${dato.eliminar}</td>
+                <td class="px-4 py-2 text-nowrap">${dato.opciones}</td>
             `;
             tableBody.appendChild(row);
 
