@@ -1972,7 +1972,7 @@ class WalletModel extends Query
             } elseif ($estado == 3) {
                 $conditions[] = " (guia LIKE 'IMP%' AND estado_guia = 14) OR (guia REGEXP '^[0-9]+$' AND estado_guia > 317 AND estado_guia < 400) OR (guia LIKE 'MKP%' AND estado_guia = 14) OR (guia LIKE 'SPD%' AND estado_guia = 14) OR (guia LIKE 'I00%' AND estado_guia = 6)";
             } elseif ($estado == 0) {
-                $conditions[] = "(guia LIKE 'IMP%' AND estado_guia = 7) OR (guia REGEXP '^[0-9]+$' AND estado_guia = 400) OR (guia LIKE 'MKP%' AND estado_guia = 7) OR (guia LIKE 'SPD%' AND estado_guia = 7) OR (guia LIKE 'I00%' AND estado_guia = 7)";
+                $conditions[] = "((guia LIKE 'IMP%' AND estado_guia = 7) OR (guia REGEXP '^[0-9]+$' AND estado_guia = 400) OR (guia LIKE 'MKP%' AND estado_guia = 7) OR (guia LIKE 'SPD%' AND estado_guia = 7) OR (guia LIKE 'I00%' AND estado_guia = 7))";
             }
         }
 
