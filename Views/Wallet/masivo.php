@@ -118,9 +118,16 @@
     <script>
         document.getElementById('filters-section').classList.add('hidden');
 
-        async function loadData() {
+        async function loadData(limit = 10, page = 1) {
             try {
-                const response = await fetch("<?php echo SERVERURL ?>wallet/obtenerCabeceras");
+                const formData = new FormData();
+                formData.append('limit', limit);
+                formData.append('page', page);
+
+                const response = await fetch("<?php echo SERVERURL ?>wallet/obtenerCabeceras", {
+                    method: 'POST',
+                    body: formData
+                });
                 if (!response.ok) {
                     throw new Error("Error al obtener los datos");
                 }
