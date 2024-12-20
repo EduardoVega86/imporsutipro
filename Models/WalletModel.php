@@ -1916,6 +1916,7 @@ class WalletModel extends Query
 
     public function obtenerCabeceras($limit, $offset, $transportadora, $estado, $fecha, $search)
     {
+        $visto = 0;
         $conditions = [];
         $params = [];
 
@@ -1973,7 +1974,7 @@ class WalletModel extends Query
             }
         }
 
-        if ($visto = 0) {
+        if ($visto == 0) {
             $conditions[] = "visto = 0";
         }
 
