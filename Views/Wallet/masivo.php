@@ -78,8 +78,8 @@
         </section>
 
         <!-- Tabla -->
-        <section class="bg-white rounded-md shadow-md mt-6">
-            <table class="min-w-full border-t table-auto">
+        <section class="bg-white rounded-md shadow-md mt-6 overflow-x-auto">
+            <table class="min-w-full table-auto border-collapse border border-gray-300">
                 <thead class="bg-gray-50">
                     <tr>
                         <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Acreditar</th>
