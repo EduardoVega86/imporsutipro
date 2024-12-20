@@ -60,8 +60,8 @@ const listBodegas = async () => {
 
       let editar = ``;
 
-      if (bodega.id_plataforma != ID_PLATAFORMA) {
-        let editar = `<li><span class="dropdown-item" style="cursor: pointer;" onclick="editar_bodegas(${bodega.id})"><i class="fa-solid fa-pencil"></i>Editar</span></li>
+      if (bodega.id_plataforma == ID_PLATAFORMA) {
+        editar = `<li><span class="dropdown-item" style="cursor: pointer;" onclick="editar_bodegas(${bodega.id})"><i class="fa-solid fa-pencil"></i>Editar</span></li>
                         <li><span class="dropdown-item" style="cursor: pointer;" onclick="eliminarBodega(${bodega.id})"><i class="fa-solid fa-trash-can"></i>Eliminar</span></li>`;
       }
 
