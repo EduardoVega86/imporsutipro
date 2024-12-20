@@ -108,6 +108,8 @@ class WalletModel extends Query
     }
 
 
+
+
     public function obtenerDatos($tienda)
     {
         // Consultas SQL

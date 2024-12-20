@@ -21,6 +21,11 @@ class Wallet extends Controller
         $this->views->render($this, "index");
     }
 
+    public function masivo()
+    {
+        $this->views->render($this, "masivo");
+    }
+
     public function billetera()
     {
         define("ENLACE", $_SESSION["id_plataforma"]);
