@@ -1983,8 +1983,8 @@ class WalletModel extends Query
         $sql = "SELECT * FROM cabecera_cuenta_pagar $whereClause LIMIT ? OFFSET ?";
 
         // Añadir límites a los parámetros
-        $params[] = $limit;
-        $params[] = $offset;
+        $params[] = floatval($limit);
+        $params[] = floatval($offset);
 
 
         echo $sql;
