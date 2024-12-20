@@ -1910,4 +1910,84 @@ class WalletModel extends Query
         $response = $this->select($sql);
         return $response;
     }
+
+    public function obtenerCabeceras($limit, $offset, $transportadora, $estado, $fecha, $search)
+    {
+        $conditions = [];
+        $params = [];
+
+        if ($search != "") {
+        }
+        // Filtro por transportadora y estado
+        if ($transportadora == 1) { // Transportadora IMP
+            $conditions[] = "guia LIKE 'IMP%'";
+
+            // Estados para transportadora IMP
+            if ($estado == 1) {
+                $conditions[] = "estado_guia = 7";
+            } elseif ($estado == 2) {
+                $conditions[] = "estado_guia = 9";
+            } elseif ($estado == 3) {
+                $conditions[] = "estado_guia = 14";
+            }
+        } elseif ($transportadora == 2) { // Transportadora REC
+            $conditions[] = "guia REGEXP '^[0-9]+$'";
+
+            // Estados para transportadora REC
+            if ($estado == 1) {
+                $conditions[] = "estado_guia = 400";
+            } elseif ($estado == 2) {
+                $conditions[] = "estado_guia = 500";
+            } elseif ($estado == 3) {
+                $conditions[] = "(estado_guia > 317 AND estado_guia < 400)";
+            }
+        } elseif ($transportadora == 3) {
+            $conditions[] = "guia LIKE 'I00%'";
+            if ($estado == 1) {
+                $conditions[] = "estado_guia = 7";
+            } elseif ($estado == 2) {
+                $conditions[] = "estado_guia in (8,9)";
+            } elseif ($estado == 3) {
+                $conditions[] = "estado_guia = 6";
+            }
+        } elseif ($transportadora == 4) {
+            $conditions[] = "guia LIKE 'SPD%' OR guia LIKE 'MKL%'";
+            if ($estado == 1) {
+                $conditions[] = "estado_guia = 7";
+            } elseif ($estado == 2) {
+                $conditions[] = "estado_guia =9 ";
+            } elseif ($estado == 3) {
+                $conditions[] = "estado_guia = 14";
+            }
+        } elseif ($transportadora == 0) { // Sin transportadora específica
+            // Estados sin transportadora
+            if ($estado == 1) {
+                $conditions[] = "(guia LIKE 'IMP%' AND estado_guia = 7) OR (guia REGEXP '^[0-9]+$' AND estado_guia = 400) OR (guia LIKE 'MKP%' AND estado_guia = 7) OR (guia LIKE 'SPD%' AND estado_guia = 7) OR (guia LIKE 'I00%' AND estado_guia = 7)";
+            } elseif ($estado == 2) {
+                $conditions[] = "(guia LIKE 'IMP%' AND estado_guia = 9)  OR (guia REGEXP '^[0-9]+$' AND estado_guia = 500) OR (guia LIKE 'MKP%' AND estado_guia = 9) OR (guia LIKE 'SPD%' AND estado_guia = 9) OR (guia LIKE 'I00%' AND estado_guia = 8)";
+            } elseif ($estado == 3) {
+                $conditions[] = " (guia LIKE 'IMP%' AND estado_guia = 14) OR (guia REGEXP '^[0-9]+$' AND estado_guia > 317 AND estado_guia < 400) OR (guia LIKE 'MKP%' AND estado_guia = 14) OR (guia LIKE 'SPD%' AND estado_guia = 14) OR (guia LIKE 'I00%' AND estado_guia = 6)";
+            }
+        }
+
+        // Filtro por fecha
+        if ($fecha) {
+            $conditions[] = "DATE(fecha) = ?";
+            $params[] = $fecha;
+        }
+
+        // Construcción de la consulta
+        $whereClause = !empty($conditions) ? 'WHERE ' . implode(' AND ', $conditions) : '';
+        $sql = "SELECT * FROM cabecera_cuenta_pagar $whereClause LIMIT ? OFFSET ?";
+
+        // Añadir límites a los parámetros
+        $params[] = $limit;
+        $params[] = $offset;
+
+        // Ejecutar la consulta
+        $response = $this->dselect($sql, $params);
+
+
+        return $response;
+    }
 }

@@ -622,4 +622,19 @@ class Wallet extends Controller
         $response = $this->model->guias_reporte($mes, $dia, $rango, $id_plataforma);
         echo json_encode($response);
     }
+
+    public function obtenerCabeceras()
+    {
+        $limit = $_POST['limit'] ?? 10;
+        $page = $_POST['page'] ?? 1;
+        $offset = ($page - 1) * $limit;
+        $transportadora = $_POST['transportadora'] ?? 0;
+        $estado = $_POST['estado'] ?? 0;
+        $fecha = $_POST['fecha'] ?? 0;
+        $search = $_POST['search'] ?? "";
+
+        $response = $this->model->obtenerCabeceras($limit, $offset, $transportadora, $estado, $fecha, $search);
+
+        echo json_encode($response);
+    }
 }
