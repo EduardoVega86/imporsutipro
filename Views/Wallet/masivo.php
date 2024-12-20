@@ -132,7 +132,7 @@
                     <td class="px-4 py-2"><input type="checkbox" class="form-checkbox h-4 w-4 text-indigo-600" id="check_${dato.id_cabecera}" 
                         name="check_${dato.id_cabecera}" value="${dato.id_cabecera}"
                      /></td>
-                    <td class="px-4 py-2 text-nowrap">
+                    <td class="px-4 py-2 text-nowrap grid">
                         <span  class="text-indigo-600 underline cursor-pointer"> ${dato.numero_factura} </span>
                         <span class="text-xs text-gray-500">(${dato.guia})</span>
                         <span class="text-xs text-gray-500">(${dato.fecha})</span>
@@ -153,7 +153,7 @@
                 const card = document.createElement('div');
                 card.classList.add('border', 'rounded-md', 'p-4', 'shadow-sm', 'bg-white');
                 card.innerHTML = `
-                    <p><strong>Factura:</strong> 
+                    <p class="grid"><strong class="col-span-2> Factura:</strong> 
                         <span  class="text-indigo-600 underline cursor-pointer"> ${dato.numero_factura} </span>
                         <span class="text-xs text-gray-500">(${dato.guia})</span>
                         <span class="text-xs text-gray-500">(${dato.fecha})</span>
