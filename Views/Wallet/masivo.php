@@ -114,7 +114,7 @@
         document.getElementById('filters-section').classList.add('hidden');
 
         document.addEventListener("load", async function() {
-            const response = await fetch(<?php echo SERVERURL ?> 'wallet/obtenerCabeceras');
+            const response = await fetch("<?php echo SERVERURL ?>" + 'wallet/obtenerCabeceras');
             const data = await response.json();
             console.log(data);
         });
