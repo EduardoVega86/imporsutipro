@@ -1986,6 +1986,9 @@ class WalletModel extends Query
         $params[] = $limit;
         $params[] = $offset;
 
+
+        echo $sql;
+
         // Ejecutar la consulta
         $response = $this->dselect($sql, $params);
 
