@@ -26,6 +26,19 @@ class Shopify extends Controller
         }
     }
 
+    public function gooenvios($id_plataforma)
+    {
+        if (empty($id_plataforma)) {
+            die("Error: No se ha especificado una plataforma");
+        }
+       
+            $data = file_get_contents("php://input");
+            $response = $this->model->agregarJsonGooenvios($id_plataforma, $data);
+            echo json_encode($response);
+           
+       
+    }
+
     public function constructor()
     {
         $this->isAuth();

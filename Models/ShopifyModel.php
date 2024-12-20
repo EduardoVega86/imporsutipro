@@ -468,6 +468,21 @@ class ShopifyModel extends Query
         return $responses;
     }
 
+
+    public function agregarJsonGooenvios($id_plataforma, $data)
+    {
+        $sql = "INSERT INTO web_hook_gooenvios (id_plataforma, json) VALUES (?,?)";
+        $response = $this->insert($sql, [$id_plataforma, $data]);
+        if ($response == 1) {
+            $responses["status"] = "200";
+            $responses["message"] = "Json guardado correctamente";
+        } else {
+            $responses["status"] = "500";
+            $responses["message"] =  $response["message"];
+        }
+        return $responses;
+    }
+
     public function ultimoJson($id_plataforma)
     {
         $sql = "SELECT json FROM web_hook_shopify WHERE id_plataforma = $id_plataforma ORDER BY id_wbs DESC LIMIT 1;";
