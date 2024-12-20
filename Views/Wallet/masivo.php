@@ -113,10 +113,11 @@
     <script>
         document.getElementById('filters-section').classList.add('hidden');
 
-        window.onload(async () => {
-            alert('Hola');
-        })
-
+        document.addEventListener("load", async function() {
+            const response = await fetch(<?php echo SERVERURL ?> 'wallet/obtenerCabeceras');
+            const data = await response.json();
+            console.log(data);
+        });
         // Simulación de datos
         const datos = [{
             acreditar: "Sí",
