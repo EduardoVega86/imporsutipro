@@ -136,7 +136,7 @@
                         <span  class="text-indigo-600 underline cursor-pointer"> ${dato.numero_factura} </span>
                         <span class="text-xs text-gray-500">(${dato.guia})</span>
                         <span class="text-xs text-gray-500">(${dato.fecha})</span>
-                        <span class="text-xs text-gray-500">${dato.recaudo == 1 ? "Recaudo": "Sin Recaudo"}</span>
+                        <span class="text-xs text-gray-500">${dato.cod == '1' ? "Recaudo": "Sin Recaudo"}</span>
                         
                     </td>
                     <td class="px-4 py-2 text-nowrap">${dato.cliente}</td>
@@ -155,7 +155,7 @@
                 const card = document.createElement('div');
                 card.classList.add('border', 'rounded-md', 'p-4', 'shadow-sm', 'bg-white');
                 card.innerHTML = `
-                    <p class="grid"><strong class="col-span-2> Factura:</strong> 
+                    <p class="grid"><strong class="col-span-2"> Factura:</strong> 
                         <span  class="text-indigo-600 underline cursor-pointer"> ${dato.numero_factura} </span>
                         <span class="text-xs text-gray-500">(${dato.guia})</span>
                         <span class="text-xs text-gray-500">(${dato.fecha})</span>
