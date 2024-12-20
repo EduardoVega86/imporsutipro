@@ -120,6 +120,8 @@
 
         async function loadData(limit = 10, page = 1) {
             try {
+
+                limit = document.getElementById('cantidad').value;
                 const formData = new FormData();
                 formData.append('limit', limit);
                 formData.append('page', page);
