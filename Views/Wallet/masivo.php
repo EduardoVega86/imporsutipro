@@ -77,6 +77,17 @@
             <div class="p-4">
                 <button onclick="toggleFilters()" class="bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 text-nowrap rounded-md w-full sm:w-auto">Mostrar/Ocultar Filtros</button>
             </div>
+
+            <!-- Cantidad de datos para mostrar y su cambio -->
+            <div class="p-4">
+                <label for="cantidad" class="block text-sm font-medium text-gray-700">Mostrar:</label>
+                <select name="cantidad" id="cantidad" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+            </div>
         </section>
 
         <!-- Tabla -->
