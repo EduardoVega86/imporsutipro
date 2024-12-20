@@ -40,14 +40,13 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
                             <div>
                                 <span class="help-block">Ciudad: </span>
                                 <div id="div_ciudad" style="display: none;">
-    <select class="datos form-control" id="ciudad_entrega" name="ciudad_entrega" required disabled>
+    <select class="datos form-control" id="ciudad_entrega_select" name="ciudad_entrega" required disabled>
         <option value="">Ciudad *</option>
     </select>
 </div>
 <div id="div_ciudad2" style="display: none;">
-    <input id="ciudad_entrega" name="ciudad_entrega" class="form-control" type="text" placeholder="Ciudad" disabled>
+    <input id="ciudad_entrega_input" name="ciudad_entrega" class="form-control" type="text" placeholder="Ciudad" disabled>
 </div>
-                            </div>
                             <br>
                             <label for="direccion_completa">Dirección:</label>
                             <input id="direccion_completa" name="direccion_completa" class="form-control" type="text" placeholder="Ingresa una dirección">
@@ -345,17 +344,24 @@ $bodega_id = isset($_GET['id']) ? $_GET['id'] : null;
     document.getElementById('div_ciudad').style.display = 'none';
 
     // Habilitar el input y deshabilitar el select
-    document.querySelector('#div_ciudad2 input').disabled = false;
-    document.querySelector('#div_ciudad select').disabled = true;
+    document.getElementById('ciudad_entrega_input').disabled = false;
+    document.getElementById('ciudad_entrega_select').disabled = true;
+
+    // Opcional: establecer foco en el input
+    document.getElementById('ciudad_entrega_input').focus();
 } else {
     // Mostrar el select y ocultar el input
     document.getElementById('div_ciudad').style.display = 'block';
     document.getElementById('div_ciudad2').style.display = 'none';
 
     // Habilitar el select y deshabilitar el input
-    document.querySelector('#div_ciudad select').disabled = false;
-    document.querySelector('#div_ciudad2 input').disabled = true;
+    document.getElementById('ciudad_entrega_select').disabled = false;
+    document.getElementById('ciudad_entrega_input').disabled = true;
+
+    // Opcional: establecer foco en el select
+    document.getElementById('ciudad_entrega_select').focus();
 }
+
 
         return $.ajax({
             url: '<?php echo SERVERURL; ?>Ubicaciones/obtenerProvincias',
