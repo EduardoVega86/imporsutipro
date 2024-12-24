@@ -94,7 +94,7 @@ const listNuevoPedido = async () => {
         numeroCasa_bodega = nuevosPedidos_bodega[0].num_casa;
         id_propietario_bodega = nuevosPedidos_bodega[0].id;
       }
-      if (nuevoPedido.envio_prioritario == "0")
+      if (nuevoPedido.envio_prioritario === "0")
         id_producto_venta = nuevoPedido.id_producto;
       dropshipping = nuevoPedido.drogshipin;
       costo_producto =
