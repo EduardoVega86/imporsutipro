@@ -1324,7 +1324,7 @@ class PedidosModel extends Query
         $id_bodega = $id_bodega_buscar[0]['bodega'];
         $id_plataforma = $id_bodega_buscar[0]['id_plataforma'];
 
-        $sql = "SELECT * FROM inventario_bodegas , productos WHERE bodega=$id_bodega and id_plataforma =$id_plataforma and productos.id_producto=inventario_bodegas.id_producto";
+        $sql = "SELECT * FROM inventario_bodegas , productos WHERE bodega=$id_bodega and productos.id_plataforma =$id_plataforma and productos.id_producto=inventario_bodegas.id_producto";
         //echo $sql;
         return $this->select($sql);
     }
