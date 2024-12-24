@@ -27,11 +27,11 @@
     </script>
 </head>
 
-<body class="bg-gray-200">
+<body class="bg-[#171931]">
     <main class="container mx-auto p-4">
         <!-- Encabezado -->
         <section class="text-center">
-            <h1 class="font-bold text-xl md:text-2xl mb-4">Guias por acreditar</h1>
+            <h1 class="font-bold text-xl text-white md:text-2xl mb-4">Guias por acreditar</h1>
         </section>
 
         <!-- Filtros -->
@@ -47,6 +47,8 @@
                             <option value="2">SERVIENTREGA</option>
                             <option value="3">GINTRACOM</option>
                             <option value="4">SPEED</option>
+                            <option value="5">FIO</option>
+
                         </select>
                     </div>
 
@@ -148,20 +150,35 @@
             const tableBody = document.getElementById('results');
             tableBody.innerHTML = ""; // Limpia contenido previo
             datos.forEach(dato => {
+                const tiendaURL = dato.tienda;
+                const url = new URL(tiendaURL);
+                const subdominio = url.hostname.split('.')[0];
+                let subdominioProveedor = "";
+                //proveedor
+                if (dato.proveedor != null) {
+                    const proveedorURL = dato.proveedor;
+                    const urlProveedor = new URL(proveedorURL);
+                    subdominioProveedor = urlProveedor.hostname.split('.')[0];
+                } else {
+                    subdominioProveedor = "--Sin Proveedor--";
+                }
+
+
                 const row = document.createElement('tr');
+                // añade clase de color según el estado
+                row.classList.add(dato.estado_guia == '7' ? 'bg-green-100' : 'bg-red-100');
                 row.innerHTML = `
                     <td class="px-4 py-2"><input type="checkbox" class="form-checkbox h-4 w-4 text-indigo-600" id="check_${dato.id_cabecera}" 
                         name="check_${dato.id_cabecera}" value="${dato.id_cabecera}"
                      /></td>
-                    <td class="px-4 py-2 text-nowrap grid">
-                        <span  class="text-indigo-600 underline cursor-pointer"> ${dato.numero_factura} </span>
-                        <span class="text-xs text-gray-500">(${dato.guia})</span>
+                    <td class="px-4 py-2 text-nowrap grid ${dato.cod == '1' ? 'bg-purple-100' : 'bg-red-100'}">
+                        <span  class="text-xs font-bold"> ${dato.numero_factura} </span>
+                        <span class="text-xs text-gray-500">${dato.guia}</span>
                         <span class="text-xs text-gray-500">(${dato.fecha})</span>
-                        <span class="text-xs ${dato.cod == '1' ? 'text-gray-500' : 'text-red-500'}">${dato.cod == '1' ? "Recaudo": "Sin Recaudo"}</span>
-                        
+                        <span class="text-xs ${dato.cod == '1' ? 'text-purple-500' : 'text-red-500'}">${dato.cod == '1' ? "Recaudo": "Sin Recaudo"}</span>
                     </td>
                     <td class="px-4 py-2 text-nowrap">${dato.cliente}</td>
-                    <td class="px-4 py-2 text-nowrap">${dato.tienda}</td>
+                    <td class="px-4 py-2 text-nowrap">${subdominio.toUpperCase()} / ${subdominioProveedor.toUpperCase()}</td>
                     <td class="px-4 py-2 text-nowrap">${dato.monto_recibir}</td>
                     <td class="px-4 py-2 text-nowrap">Opciones aquí</td>
                 `;
