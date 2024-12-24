@@ -87,7 +87,8 @@ const listNuevoPedido = async () => {
       $("#id_producto_temporal").val(nuevoPedido.id_producto);
 
       numero_factura = nuevoPedido.numero_factura;
-      id_producto_venta = nuevoPedido.id_producto;
+      if (nuevoPedido.envio_prioritario == "0")
+        id_producto_venta = nuevoPedido.id_producto;
       dropshipping = nuevoPedido.drogshipin;
       costo_producto =
         costo_producto +
