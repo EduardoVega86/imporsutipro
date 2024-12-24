@@ -1893,6 +1893,7 @@ class WalletModel extends Query
 
     public function guias_reporte($mes, $dia, $rango, $id_plataforma)
     {
+        $visto = 0;
         if ($rango != 0) {
 
             $dia_final = $dia + $rango;
@@ -1915,6 +1916,7 @@ class WalletModel extends Query
 
     public function obtenerCabeceras($limit, $offset, $transportadora, $estado, $fecha, $search)
     {
+        $visto = 0;
         $conditions = [];
         $params = [];
 
@@ -1964,12 +1966,18 @@ class WalletModel extends Query
         } elseif ($transportadora == 0) { // Sin transportadora específica
             // Estados sin transportadora
             if ($estado == 1) {
-                $conditions[] = "(guia LIKE 'IMP%' AND estado_guia = 7) OR (guia REGEXP '^[0-9]+$' AND estado_guia = 400) OR (guia LIKE 'MKP%' AND estado_guia = 7) OR (guia LIKE 'SPD%' AND estado_guia = 7) OR (guia LIKE 'I00%' AND estado_guia = 7)";
+                $conditions[] = "((guia LIKE 'IMP%' AND estado_guia = 7) OR (guia REGEXP '^[0-9]+$' AND estado_guia = 400) OR (guia LIKE 'MKP%' AND estado_guia = 7) OR (guia LIKE 'SPD%' AND estado_guia = 7) OR (guia LIKE 'I00%' AND estado_guia = 7))";
             } elseif ($estado == 2) {
-                $conditions[] = "(guia LIKE 'IMP%' AND estado_guia = 9)  OR (guia REGEXP '^[0-9]+$' AND estado_guia = 500) OR (guia LIKE 'MKP%' AND estado_guia = 9) OR (guia LIKE 'SPD%' AND estado_guia = 9) OR (guia LIKE 'I00%' AND estado_guia = 8)";
+                $conditions[] = "((guia LIKE 'IMP%' AND estado_guia = 9)  OR (guia REGEXP '^[0-9]+$' AND estado_guia = 500) OR (guia LIKE 'MKP%' AND estado_guia = 9) OR (guia LIKE 'SPD%' AND estado_guia = 9) OR (guia LIKE 'I00%' AND estado_guia = 8))";
             } elseif ($estado == 3) {
-                $conditions[] = " (guia LIKE 'IMP%' AND estado_guia = 14) OR (guia REGEXP '^[0-9]+$' AND estado_guia > 317 AND estado_guia < 400) OR (guia LIKE 'MKP%' AND estado_guia = 14) OR (guia LIKE 'SPD%' AND estado_guia = 14) OR (guia LIKE 'I00%' AND estado_guia = 6)";
+                $conditions[] = " ((guia LIKE 'IMP%' AND estado_guia = 14) OR (guia REGEXP '^[0-9]+$' AND estado_guia > 317 AND estado_guia < 400) OR (guia LIKE 'MKP%' AND estado_guia = 14) OR (guia LIKE 'SPD%' AND estado_guia = 14) OR (guia LIKE 'I00%' AND estado_guia = 6))";
+            } elseif ($estado == 0) {
+                $conditions[] = "((guia LIKE 'IMP%' AND estado_guia = 7) OR (guia REGEXP '^[0-9]+$' AND estado_guia = 400) OR (guia LIKE 'MKP%' AND estado_guia = 7) OR (guia LIKE 'SPD%' AND estado_guia = 7) OR (guia LIKE 'I00%' AND estado_guia = 7))";
             }
+        }
+
+        if ($visto == 0) {
+            $conditions[] = "visto = 0";
         }
 
         // Filtro por fecha
@@ -1981,6 +1989,8 @@ class WalletModel extends Query
         // Construcción de la consulta
         $whereClause = !empty($conditions) ? 'WHERE ' . implode(' AND ', $conditions) : '';
         $sql = "SELECT * FROM cabecera_cuenta_pagar $whereClause ORDER BY id_cabecera DESC LIMIT $limit OFFSET $offset ";
+
+
 
         // Ejecutar la consulta
         $response = $this->dselect($sql, $params);

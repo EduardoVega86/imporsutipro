@@ -909,7 +909,7 @@ class PedidosModel extends Query
 
         return $response;
     }
-    
+
     public function nuevo_pedido_shopify($fecha_factura, $id_usuario, $monto_factura, $estado_factura, $nombre_cliente, $telefono_cliente, $c_principal, $ciudad_cot, $c_secundaria, $referencia, $observacion, $guia_enviada, $transporte, $identificacion, $celular, $id_producto_venta, $dropshipping, $id_plataforma, $dueño_id, $importado, $plataforma_importa, $cod, $estado_guia_sistema, $impreso, $facturada, $factura_numero, $numero_guia, $anulada, $identificacionO, $celularO, $nombreO, $ciudadO, $provinciaO, $direccionO, $referenciaO, $numeroCasaO, $valor_segura, $no_piezas, $tipo_servicio, $peso, $contiene, $costo_flete, $costo_producto, $comentario, $id_transporte, $provincia, $productos, $id_bodega)
     {
         $tmp = session_id();
@@ -1320,10 +1320,11 @@ class PedidosModel extends Query
     public function buscarProductosBodega($producto, $sku)
     {
 
-        $id_bodega_buscar = $this->select("SELECT bodega FROM inventario_bodegas WHERE id_producto = $producto and sku='$sku' ");
+        $id_bodega_buscar = $this->select("SELECT bodega, id_plataforma FROM inventario_bodegas WHERE id_producto = $producto and sku='$sku' ");
         $id_bodega = $id_bodega_buscar[0]['bodega'];
+        $id_plataforma = $id_bodega_buscar[0]['id_plataforma'];
 
-        $sql = "SELECT * FROM inventario_bodegas , productos WHERE bodega=$id_bodega and productos.id_producto=inventario_bodegas.id_producto";
+        $sql = "SELECT * FROM inventario_bodegas , productos WHERE bodega=$id_bodega and productos.id_plataforma =$id_plataforma and productos.id_producto=inventario_bodegas.id_producto";
         //echo $sql;
         return $this->select($sql);
     }

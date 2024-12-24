@@ -43,8 +43,10 @@
                         <label for="transportadora" class="block text-sm font-medium text-gray-700">Transportadora</label>
                         <select name="transportadora" id="transportadora" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                             <option value="0">Todas</option>
-                            <option value="1">VIRTECH</option>
-                            <option value="2">IMPOREXPRESS</option>
+                            <option value="1">LAAR</option>
+                            <option value="2">SERVIENTREGA</option>
+                            <option value="3">GINTRACOM</option>
+                            <option value="4">SPEED</option>
                         </select>
                     </div>
 
@@ -67,13 +69,25 @@
 
                 <!-- Botón de aplicar filtros -->
                 <div class="flex justify-end mt-4">
-                    <button onclick="applyFilters()" class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-md">Aplicar filtros</button>
+                    <button onclick="applyFilters()" class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 text-nowrap rounded-md">Aplicar filtros</button>
                 </div>
             </div>
 
             <!-- Botón para mostrar/ocultar filtros -->
             <div class="p-4">
-                <button onclick="toggleFilters()" class="bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 rounded-md w-full sm:w-auto">Mostrar/Ocultar Filtros</button>
+                <button onclick="toggleFilters()" class="bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 text-nowrap rounded-md w-full sm:w-auto">Mostrar/Ocultar Filtros</button>
+            </div>
+
+            <!-- Cantidad de datos para mostrar y su cambio -->
+            <div class="p-4">
+                <label for="cantidad" class="block text-sm font-medium text-gray-700">Mostrar:</label>
+                <select onchange="loadData()"
+                    name="cantidad" id="cantidad" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
             </div>
         </section>
 
@@ -83,24 +97,18 @@
                 <table class="hidden md:table min-w-full table-auto border-collapse border border-gray-300">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Acreditar</th>
-                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Factura</th>
-                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Cliente</th>
-                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Tienda / Proveedor</th>
-                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Detalle de Factura</th>
-                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Monto a Recibir</th>
-                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Accesos</th>
-                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Editar</th>
-                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Eliminar</th>
-                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Otras Opciones</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">⭕</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Factura</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Cliente</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Tienda / Proveedor</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Monto a Recibir</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Opciones</th>
                         </tr>
                     </thead>
                     <tbody id="results" class="text-sm text-gray-700 divide-y divide-gray-200">
                         <!-- Aquí se insertarán los resultados dinámicamente -->
                     </tbody>
                 </table>
-
-                <!-- Diseño tipo tarjeta para pantallas pequeñas -->
                 <div id="card-results" class="block md:hidden space-y-4">
                     <!-- Aquí se llenarán las tarjetas dinámicamente -->
                 </div>
@@ -111,57 +119,79 @@
     <script>
         document.getElementById('filters-section').classList.add('hidden');
 
-        // Simulación de datos
-        const datos = [{
-            acreditar: "Sí",
-            factura: "COT-0000000116",
-            cliente: "NO DESPACHAR",
-            tienda: "https://einzas.imporsuitpro.com",
-            detalle: "Detalle aquí",
-            monto: "$3",
-            accesos: "Ver",
-            editar: "Editar",
-            eliminar: "Eliminar",
-            opciones: "Opciones adicionales"
-        }];
+        async function loadData(limit = 10, page = 1) {
+            try {
 
-        const tableBody = document.getElementById('results');
-        const cardResults = document.getElementById('card-results');
+                limit = document.getElementById('cantidad').value;
+                const formData = new FormData();
+                formData.append('limit', limit);
+                formData.append('page', page);
 
-        datos.forEach(dato => {
-            // Fila para tabla
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td class="px-4 py-2">${dato.acreditar}</td>
-                <td class="px-4 py-2">${dato.factura}</td>
-                <td class="px-4 py-2">${dato.cliente}</td>
-                <td class="px-4 py-2">${dato.tienda}</td>
-                <td class="px-4 py-2">${dato.detalle}</td>
-                <td class="px-4 py-2">${dato.monto}</td>
-                <td class="px-4 py-2">${dato.accesos}</td>
-                <td class="px-4 py-2">${dato.editar}</td>
-                <td class="px-4 py-2">${dato.eliminar}</td>
-                <td class="px-4 py-2">${dato.opciones}</td>
-            `;
-            tableBody.appendChild(row);
+                const response = await fetch("<?php echo SERVERURL ?>wallet/obtenerCabeceras", {
+                    method: 'POST',
+                    body: formData
+                });
+                if (!response.ok) {
+                    throw new Error("Error al obtener los datos");
+                }
 
-            // Tarjeta para diseño móvil
-            const card = document.createElement('div');
-            card.classList.add('border', 'rounded-md', 'p-4', 'shadow-sm', 'bg-white');
-            card.innerHTML = `
-                <p><span class="font-semibold">Acreditar:</span> ${dato.acreditar}</p>
-                <p><span class="font-semibold">Factura:</span> ${dato.factura}</p>
-                <p><span class="font-semibold">Cliente:</span> ${dato.cliente}</p>
-                <p><span class="font-semibold">Tienda / Proveedor:</span> ${dato.tienda}</p>
-                <p><span class="font-semibold">Detalle de Factura:</span> ${dato.detalle}</p>
-                <p><span class="font-semibold">Monto a Recibir:</span> ${dato.monto}</p>
-                <p><span class="font-semibold">Accesos:</span> ${dato.accesos}</p>
-                <p><span class="font-semibold">Editar:</span> ${dato.editar}</p>
-                <p><span class="font-semibold">Eliminar:</span> ${dato.eliminar}</p>
-                <p><span class="font-semibold">Otras Opciones:</span> ${dato.opciones}</p>
-            `;
-            cardResults.appendChild(card);
-        });
+                const datos = await response.json();
+                populateTable(datos);
+                populateCards(datos);
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Hubo un error al cargar los datos.");
+            }
+        }
+
+        function populateTable(datos) {
+            const tableBody = document.getElementById('results');
+            tableBody.innerHTML = ""; // Limpia contenido previo
+            datos.forEach(dato => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="px-4 py-2"><input type="checkbox" class="form-checkbox h-4 w-4 text-indigo-600" id="check_${dato.id_cabecera}" 
+                        name="check_${dato.id_cabecera}" value="${dato.id_cabecera}"
+                     /></td>
+                    <td class="px-4 py-2 text-nowrap grid">
+                        <span  class="text-indigo-600 underline cursor-pointer"> ${dato.numero_factura} </span>
+                        <span class="text-xs text-gray-500">(${dato.guia})</span>
+                        <span class="text-xs text-gray-500">(${dato.fecha})</span>
+                        <span class="text-xs ${dato.cod == '1' ? 'text-gray-500' : 'text-red-500'}">${dato.cod == '1' ? "Recaudo": "Sin Recaudo"}</span>
+                        
+                    </td>
+                    <td class="px-4 py-2 text-nowrap">${dato.cliente}</td>
+                    <td class="px-4 py-2 text-nowrap">${dato.tienda}</td>
+                    <td class="px-4 py-2 text-nowrap">${dato.monto_recibir}</td>
+                    <td class="px-4 py-2 text-nowrap">Opciones aquí</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        function populateCards(datos) {
+            const cardResults = document.getElementById('card-results');
+            cardResults.innerHTML = ""; // Limpia contenido previo
+            datos.forEach(dato => {
+                const card = document.createElement('div');
+                card.classList.add('border', 'rounded-md', 'p-4', 'shadow-sm', 'bg-white');
+                card.innerHTML = `
+                    <p class="grid"><strong class="col-span-2"> Factura:</strong> 
+                        <span  class="text-indigo-600 underline cursor-pointer"> ${dato.numero_factura} </span>
+                        <span class="text-xs text-gray-500">(${dato.guia})</span>
+                        <span class="text-xs text-gray-500">(${dato.fecha})</span>
+                        <span class="text-xs text-gray-500">${dato.recaudo == 1 ? "Recaudo": "Sin Recaudo"}</span>
+                        
+                    </p>
+                    <p><strong>Cliente:</strong> ${dato.cliente}</p>
+                    <p><strong>Tienda:</strong> ${dato.tienda}</p>
+                    <p><strong>Monto:</strong> ${dato.monto_recibir}</p>
+                `;
+                cardResults.appendChild(card);
+            });
+        }
+
+        loadData(); // Llama a la función para cargar los datos al cargar la página
     </script>
 </body>
 

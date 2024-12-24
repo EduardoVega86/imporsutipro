@@ -675,6 +675,7 @@ class Pedidos extends Controller
     public function buscarProductosBodega($id_producto)
     {
         $sku = $_POST['sku'];
+
         $response = $this->model->buscarProductosBodega($id_producto, $sku);
         echo json_encode($response);
     }
