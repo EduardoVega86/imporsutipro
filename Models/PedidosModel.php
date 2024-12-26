@@ -1434,10 +1434,10 @@ class PedidosModel extends Query
 
     public function eliminarPedido($id_factura)
     {
-        $sql = "DELETE FROM facturas_cot WHERE id_factura = ?";
-        $data = [$id_factura];
+        $sql = "UPDATE `facturas_cot` SET  `anulada` = ?, `estado_guia_sistema` = ? WHERE `id_factura` = ?";
+        $data = [1, 8, $id_factura];
 
-        $eliminar_pedido = $this->delete($sql, $data);
+        $eliminar_pedido = $this->update($sql, $data);
 
         if ($eliminar_pedido == 1) {
             $response['status'] = 200;
