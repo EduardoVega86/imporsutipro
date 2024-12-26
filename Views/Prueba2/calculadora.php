@@ -19,12 +19,15 @@
                     <div class="card-body">
                         <form id="formCalculator" action="" method="POST">
                             <div class="form-group">
+                                <label for="">Numero 1</label>
                                 <input type="text" class="form-control" placeholder="ingresa un numero" name="num1">
                             </div>
                             <div class="form-group">
+                                <label for="">Numero 2</label>
                                 <input type="text" placeholder="ingresa un numero" class="form-control" name="num2">
                             </div>
                             <div class="form-group">
+                                <label for="">Selecciona una operacion</label>
                                 <select name="option" class="form-control" id="">
                                     <option value="1">Sumar</option>
                                     <option value="2">Restar</option>
