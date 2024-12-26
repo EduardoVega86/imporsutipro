@@ -57,7 +57,9 @@
 
             });
             const data = await response.json();
-            console.log(json.stringify(data))
+            console.log(data);
+            console.log(data.stringify(data))
+            document.querySelector("#result").textContent = "";
         })
 
 
