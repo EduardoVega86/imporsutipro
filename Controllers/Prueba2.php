@@ -26,7 +26,7 @@ class Prueba2 extends Controller
     public function calcular()
     {
 
-        echo $_POST;
+        var_dump($_POST);
         // $num1 = $_POST['num1'];
         // $num2 = $_POST['num2'];
         // $option = $_POST['option'];
