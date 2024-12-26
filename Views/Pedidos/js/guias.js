@@ -253,7 +253,11 @@ const listGuias = async () => {
                     <td><input type="checkbox" class="selectCheckbox" data-id="${
                       guia.id_factura
                     }"></td>
-                    <td>${guia.numero_factura}</td>
+                    <td>
+                      <div>
+                      ${ruta_descarga}
+                      </div>
+                     </td>
                     <td>
                     <div><button onclick="ver_detalle_cot('${
                       guia.id_factura
@@ -271,9 +275,6 @@ const listGuias = async () => {
                      <div style="text-align: center;">
                      <div>
                       <span class="w-100 text-nowrap ${span_estado}">${estado_guia}</span>
-                     </div>
-                     <div>
-                     ${ruta_descarga}
                      </div>
                      <div style="position: relative; display: inline-block;">
                       <a href="${ruta_traking}" target="_blank" style="vertical-align: middle;">
