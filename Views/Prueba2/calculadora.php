@@ -56,7 +56,7 @@
 
             console.log(form)
             const data = await response.json();
-            console.log(data)
+            console.log(json.stringify(data))
         })
 
 
