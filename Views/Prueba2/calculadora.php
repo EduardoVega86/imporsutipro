@@ -44,6 +44,7 @@
 
         form.addEventListener("submit", async function(e) {
             e.preventDefault();
+            const formData = new FormData(form);
             const url = "https://desarrollo.imporsuitpro.com/Prueba2/calcular"
             const response = await fetch(url, {
                 method: 'POST',
