@@ -10,7 +10,7 @@
 
 <body>
     <h1>Calculadora Basica</h1>
-    <form method="post" action="">
+    <form id="formCalculator" method="post" action="">
         <input type="number" name="option1" placeholder="Primer numero" required>
         <input type="number" name="option2" placeholder="Segundo numero" required>
         <select name="operacion" required>
