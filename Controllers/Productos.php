@@ -431,7 +431,8 @@ class Productos extends Controller
         $formato = $_POST['formato'];
         $drogshipin = $_POST['drogshipin'] ?? 0;
         $destacado = $_POST['destacado'] ?? 0;
-        
+        $envio_prioritario = $_POST['envio_prioritario'] ?? 0;
+
         $enlace_funnelish = $_POST['enlace_funnelish'] ?? "";
         /// stocks
         $stock_inicial = $_POST['stock_inicial'] ?? 0;
@@ -442,7 +443,7 @@ class Productos extends Controller
         $pref = 0;
 
 
-        $response = $this->model->agregarProducto($codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $_SESSION['id_plataforma'], $stock_inicial, $bodega, $pcp, $pvp, $pref, $enlace_funnelish);
+        $response = $this->model->agregarProducto($codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $_SESSION['id_plataforma'], $stock_inicial, $bodega, $pcp, $pvp, $pref, $enlace_funnelish, $envio_prioritario);
         //echo 'asds';
         echo json_encode($response);
     }
@@ -465,6 +466,8 @@ class Productos extends Controller
         $formato = $_POST['formato'];
         $drogshipin = $_POST['drogshipin'] ?? 0;
         $destacado = $_POST['destacado'] ?? 0;
+        $envio_prioritario = $_POST['envio_prioritario'] ?? 0;
+
         /// stocks
         $stock_inicial = $_POST['stock_inicial'] ?? 0;
         $bodega = $_POST['bodega'] ?? 0;
@@ -474,7 +477,7 @@ class Productos extends Controller
         $pref = 0;
 
 
-        $response = $this->model->editarProducto($id, $codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $_SESSION['id_plataforma'], $stock_inicial, $bodega, $pcp, $pvp, $pref);
+        $response = $this->model->editarProducto($id, $codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $_SESSION['id_plataforma'], $stock_inicial, $bodega, $pcp, $pvp, $pref, $envio_prioritario);
 
         echo json_encode($response);
     }
@@ -486,7 +489,7 @@ class Productos extends Controller
         $pvp_tienda = $_POST['pvp_tienda'];
         $id_categoria = $_POST['id_categoria'];
         $aplica_funnelish = $_POST['aplica_funnelish'];
-         $funnelish = $_POST['funnelish'];
+        $funnelish = $_POST['funnelish'];
 
         if ($_POST['pref'] == null || $_POST['pref'] == '') {
             $pref = 0;
@@ -649,7 +652,7 @@ class Productos extends Controller
 
                         //print_r ($data[$fila]); 
                         //  $response = $this->model->agregarProducto($codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $_SESSION['id_plataforma'], $stock_inicial, $bodega, $pcp, $pvp, $pref);
-                        $response = $this->model->agregarProducto($data[$fila][0], $data[$fila][1], $data[$fila][2], $data[$fila][3], $data[$fila][4], $data[$fila][5], $data[$fila][6], '1', '1', $date_added, $data[$fila][7], '1', '1', '1', '0', '0', $_SESSION['id_plataforma'], $data[$fila][8], $id_inventario, $data[$fila][9], $data[$fila][10], $data[$fila][11],'');
+                        $response = $this->model->agregarProducto($data[$fila][0], $data[$fila][1], $data[$fila][2], $data[$fila][3], $data[$fila][4], $data[$fila][5], $data[$fila][6], '1', '1', $date_added, $data[$fila][7], '1', '1', '1', '0', '0', $_SESSION['id_plataforma'], $data[$fila][8], $id_inventario, $data[$fila][9], $data[$fila][10], $data[$fila][11], '');
                         // echo $response ['status'];
                         if ($response['status'] == 200) {
                             $agregados = $agregados + 1;
