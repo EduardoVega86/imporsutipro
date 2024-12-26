@@ -36,6 +36,6 @@ class Prueba2 extends Controller
             "option" => $option
         ];
 
-        return json_encode($data);
+        echo json_encode($data);
     }
 }

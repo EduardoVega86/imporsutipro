@@ -14,7 +14,7 @@
             <article>
                 <h1>Calculadora</h1>
                 <div class="">
-                    <form action="formCalculator" method="POST">
+                    <form id="formCalculator" action="" method="POST">
                         <div class="form-group">
                             <input type="text" placeholder="ingresa un numero" name="num1">
                         </div>
@@ -29,6 +29,7 @@
                                 <option value="4">Dividir</option>
                             </select>
                         </div>
+                        <button type="submit">Calcular1</button>
                     </form>
                 </div>
             </article>
@@ -37,20 +38,23 @@
 </body>
 
 <script>
-    document.addEventListener("DOMContentLoaded", (event) => {
+    document.addEventListener("DOMContentLoaded", () => {
 
         const form = document.querySelector("#formCalculator");
 
-        form.addEventListener("submit", async function() {
-            const url = "https://new.imporsuitpro.com/Prueba2/calcular"
-            const response = await fetch('url', {
+        form.addEventListener("submit", async function(e) {
+            e.preventDefault();
+            const url = "https://desarrollo.imporsuitpro.com/Prueba2/calcular"
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(params)
+                body: JSON.stringify(form)
+
             });
 
+            console.log(form)
             const data = await response.json();
             console.log(data)
         })

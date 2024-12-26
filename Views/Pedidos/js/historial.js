@@ -144,7 +144,7 @@ const listHistorialPedidos = async () => {
                     </td>
                     <td>
                         <button class="btn btn-sm btn-primary" onclick="boton_editarPedido(${historialPedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>
-                        <!-- <button class="btn btn-sm btn-danger" onclick="boton_eliminarPedido(${historialPedido.id_factura})"><i class="fa-solid fa-trash-can"></i></button> -->
+                        <button class="btn btn-sm btn-danger" onclick="boton_anularPedido(${historialPedido.id_factura})"><i class="fa-solid fa-trash-can"></i></button>
                     </td>
                 </tr>`;
     });
@@ -238,7 +238,7 @@ function boton_editarPedido(id) {
   window.location.href = "" + SERVERURL + "Pedidos/editar/" + id;
 }
 
-function boton_eliminarPedido(id_factura) {
+function boton_anularPedido(id_factura) {
   $.ajax({
     type: "POST",
     url: SERVERURL + "Pedidos/eliminarPedido/" + id_factura,
