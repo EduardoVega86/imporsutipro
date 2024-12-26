@@ -22,11 +22,11 @@
                                 <label for="">Numero 1</label>
                                 <input type="text" class="form-control" placeholder="ingresa un numero" name="num1">
                             </div>
-                            <div class="form-group">
+                            <div class="form-group mb-4">
                                 <label for="">Numero 2</label>
                                 <input type="text" placeholder="ingresa un numero" class="form-control" name="num2">
                             </div>
-                            <div class="form-group">
+                            <div class="form-group mb-4">
                                 <label for="">Selecciona una operacion</label>
                                 <select name="option" class="form-control" id="">
                                     <option value="1">Sumar</option>
@@ -35,7 +35,7 @@
                                     <option value="4">Dividir</option>
                                 </select>
                             </div>
-                            <button type="submit" class="btn btn-primary">Calcular</button>
+                            <button type="submit" class="btn btn-primary mt-4">Calcular</button>
                             <div class="alert alert-success alert-result d-none" role="alert">
                                 <span id="result"></span>
                             </div>
