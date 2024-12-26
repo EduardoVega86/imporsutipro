@@ -51,5 +51,14 @@ class Prueba2 extends Controller
     }
 
 
-    public function calcular_resultado() {}
+    public function calcular_resultado()
+    {
+        $option1 = $_POST['option1'];
+        $option2 = $_POST['option2'];
+        $operacion = $_POST['operacion'];
+
+
+        $calcular_resultado = $this->model->calcular($option1, $option2, $operacion);
+        echo $calcular_resultado;
+    }
 }
