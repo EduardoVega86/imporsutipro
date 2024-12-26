@@ -44,11 +44,11 @@ class Prueba2Model extends Query
     {
         switch ($operacion) {
             case "sumar":
-                return "El resultado de " . $operando1 . "y" . $operando2 . "es" . $operando1 + $operando2;
+                return $operando1 + $operando2;
             case "restar":
-                return "El resultado es:" . $operando1 - $operando2;
+                return $operando1 - $operando2;
             case "multiplicar":
-                return "El resultado es:" . $operando1 * $operando2;
+                return $operando1 * $operando2;
             default:
                 return "Operacion no valida";
         }
