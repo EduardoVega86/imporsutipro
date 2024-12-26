@@ -29,6 +29,7 @@
                                 <option value="4">Dividir</option>
                             </select>
                         </div>
+                        <button type="submit">Calcular</button>
                     </form>
                 </div>
             </article>
