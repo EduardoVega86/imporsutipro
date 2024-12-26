@@ -51,7 +51,8 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: formData
+                body: new FormData(form)
+
 
             });
             const data = await response.json();
