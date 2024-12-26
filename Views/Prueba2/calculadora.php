@@ -41,7 +41,7 @@
     document.addEventListener("DOMContentLoaded", (event) => {
 
         const form = document.querySelector("#formCalculator");
-
+        console.log(form)
         form.addEventListener("submit", async function() {
             const url = "https://new.imporsuitpro.com/Prueba2/calcular"
             const response = await fetch('url', {
