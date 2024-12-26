@@ -64,38 +64,52 @@
                                                 <option selected>-- Selecciona --</option>
                                                 <option value="1">Formato 1</option>
                                                 <option value="2">Formato 2</option>
-                                                 <option value="3">Funnelish</option>
+                                                <option value="3">Funnelish</option>
                                             </select>
                                         </div>
                                     </div>
-                                      <div style="display: none;" id="funnelish_editar" class="flex-column w-100">
+                                    <div style="display: none;" id="funnelish_editar" class="flex-column w-100">
                                         <div class="form-group">
                                             <label for="nombre">Enlace de Funnelish:</label>
-                                            <input  type="text" class="form-control"  id="editar-enlace_funnelish" >                                        </div>
+                                            <input type="text" class="form-control" id="editar-enlace_funnelish">
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                            <label>Formato:</label>
-                                            <div class="d-flex">
-                                                <img src="https://new.imporsuitpro.com/public/img/formato_pro.jpg" alt="Formato" class="me-2" width="350px;">
-                                            </div>
+                                <div class="d-flex flex-row gap-3">
+                                    <div class="form-group">
+                                        <label>Formato:</label>
+                                        <div class="d-flex">
+                                            <img src="https://new.imporsuitpro.com/public/img/formato_pro.jpg" alt="Formato" class="me-2" width="350px;">
                                         </div>
+                                    </div>
+
+                                    <div class="d-flex flex-column w-100">
+                                        <div class="form-group">
+                                            <label for="editar_envio_prioritario">Envio prioritario:</label>
+                                            <select class="form-select" id="editar_envio_prioritario" required>
+                                                <option selected value="">-- Selecciona --</option>
+                                                <option value="0">Si</option>
+                                                <option value="1">No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                     </div>
                     <div class="tab-pane fade" id="editar-precios-stock" role="tabpanel" aria-labelledby="editar-precios-stock-tab">
                         <div class="d-flex flex-column">
                             <div class="d-flex flex-row gap-3">
-                               
+
                                 <div class="form-group w-100">
                                     <label for="editar_precio_proveedor">Precio Proveedor:</label>
                                     <input type="text" class="form-control" id="editar_precio_proveedor">
                                 </div>
-                                  <div class="form-group w-100">
+                                <div class="form-group w-100">
                                     <label for="editar_precio_venta">Precio de Venta (Sugerido):</label>
                                     <input type="text" class="form-control" id="editar_precio_venta">
                                 </div>
                             </div>
-                          
+
                             <div class="d-flex flex-row gap-3">
                                 <div class="form-group w-100">
                                     <label for="editar_maneja_inventario">Maneja Inventario:</label>
@@ -174,6 +188,7 @@
             formData.append('pcp', $('#editar_precio_proveedor').val());
             formData.append('pvp', $('#editar_precio_venta').val());
             formData.append('pref', $('#editar_precio_referencial').val());
+            formData.append('envio_prioritario', $('#editar_envio_prioritario').val());
 
             // Realiza la solicitud AJAX
             $.ajax({
@@ -198,8 +213,8 @@
                         });
 
                         $('#editar_productoModal').modal('hide');
-                       // initDataTableProductos();
-                       reloadDataTableProductos();
+                        // initDataTableProductos();
+                        reloadDataTableProductos();
                     }
                 },
                 error: function(error) {
@@ -209,14 +224,14 @@
             });
         });
     });
-    
-     function formato_editar() {
-    let formatoSeleccionado = $("#editar_formato_pagina").val();
-    //alert(formatoSeleccionado);
-    if (formatoSeleccionado == '3') {
-        $("#funnelish_editar").show();
-    } else {
-        $("#funnelish_editar").hide();
+
+    function formato_editar() {
+        let formatoSeleccionado = $("#editar_formato_pagina").val();
+        //alert(formatoSeleccionado);
+        if (formatoSeleccionado == '3') {
+            $("#funnelish_editar").show();
+        } else {
+            $("#funnelish_editar").hide();
+        }
     }
-}
 </script>

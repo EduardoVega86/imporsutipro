@@ -466,6 +466,8 @@ class Productos extends Controller
         $formato = $_POST['formato'];
         $drogshipin = $_POST['drogshipin'] ?? 0;
         $destacado = $_POST['destacado'] ?? 0;
+        $envio_prioritario = $_POST['envio_prioritario'] ?? 0;
+
         /// stocks
         $stock_inicial = $_POST['stock_inicial'] ?? 0;
         $bodega = $_POST['bodega'] ?? 0;
@@ -475,7 +477,7 @@ class Productos extends Controller
         $pref = 0;
 
 
-        $response = $this->model->editarProducto($id, $codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $_SESSION['id_plataforma'], $stock_inicial, $bodega, $pcp, $pvp, $pref);
+        $response = $this->model->editarProducto($id, $codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $_SESSION['id_plataforma'], $stock_inicial, $bodega, $pcp, $pvp, $pref, $envio_prioritario);
 
         echo json_encode($response);
     }

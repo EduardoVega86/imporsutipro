@@ -624,6 +624,7 @@ function editarProducto(id) {
           $("#editar_maneja_inventario").val(data.inv_producto);
           $("#editar_stock_inicial").val(data.stock_inicial);
           $("#editar-enlace_funnelish").val(data.funellish);
+          $("#editar_envio_prioritario").val(data.envio_prioritario);
 
           // Abrir el modal
           $("#editar_productoModal").modal("show");
@@ -737,7 +738,6 @@ function agregar_imagenes_adicionales(id) {
     contentType: false, // No establecer ningún tipo de contenido
     dataType: "json",
     success: function (response) {
-
       if (response[0]) {
         $("#imagePreviewAdicional1")
           .attr("src", SERVERURL + response[0].url)
