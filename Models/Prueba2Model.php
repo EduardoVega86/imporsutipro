@@ -47,7 +47,7 @@ class Prueba2Model extends Query
                 return $operando1 + $operando2;
             case "restar":
                 return $operando1 - $operando2;
-            case "multplicar":
+            case "multiplicar":
                 return $operando1 * $operando2;
             default:
                 return "Operacion no valida";
