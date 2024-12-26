@@ -38,7 +38,7 @@
 </body>
 
 <script>
-    document.addEventListener("DOMContentLoaded", (event) => {
+    document.addEventListener("DOMContentLoaded", () => {
 
         const form = document.querySelector("#formCalculator");
         console.log(form)
