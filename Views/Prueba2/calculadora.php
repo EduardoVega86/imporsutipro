@@ -58,8 +58,7 @@
             });
             const data = await response.json();
             console.log(data);
-            console.log(data.stringify(data))
-            document.querySelector("#result").textContent = "";
+            document.querySelector("#result").textContent = data.resultado;
         })
 
 
