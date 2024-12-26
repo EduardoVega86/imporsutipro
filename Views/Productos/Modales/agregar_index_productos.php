@@ -94,8 +94,8 @@
                                             <label for="envio_prioritario">Envio prioritario:</label>
                                             <select class="form-select" id="envio_prioritario" required>
                                                 <option selected value="">-- Selecciona --</option>
-                                                <option value="0">Si</option>
-                                                <option value="1">No</option>
+                                                <option value="1">Si</option>
+                                                <option value="0">No</option>
                                             </select>
                                         </div>
                                     </div>
