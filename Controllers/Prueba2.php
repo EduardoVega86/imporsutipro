@@ -41,6 +41,6 @@ class Prueba2 extends Controller
 
         $calcular =  $this->model->recibirDatos($data);
 
-        echo json_encode($calcular);
+        echo $calcular;
     }
 }
