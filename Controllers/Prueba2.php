@@ -8,6 +8,6 @@ class Prueba2 extends Controller
     }
     public function mensaje($text)
     {
-        echo $text;
+        $this->model->saludo($text);
     }
 }
