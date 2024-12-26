@@ -57,7 +57,6 @@ class Prueba2 extends Controller
         $option2 = $_POST['option2'];
         $operacion = $_POST['operacion'];
 
-
         $calcular_resultado = $this->model->calcular($option1, $option2, $operacion);
         echo $calcular_resultado;
     }
