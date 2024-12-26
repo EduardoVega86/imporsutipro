@@ -22,13 +22,14 @@
                             <input type="text" placeholder="ingresa un numero" name="num2">
                         </div>
                         <div class="form-group">
-                            <select name="" id="">
+                            <select name="option" id="">
                                 <option value="1">Sumar</option>
                                 <option value="2">Restar</option>
                                 <option value="3">Multiplicar</option>
                                 <option value="4">Dividir</option>
                             </select>
                         </div>
+                        <span id="result"></span>
                         <button type="submit">Calcular1</button>
                     </form>
                 </div>
