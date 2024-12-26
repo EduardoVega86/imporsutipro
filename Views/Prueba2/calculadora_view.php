@@ -18,7 +18,7 @@
             <option value="restar">Restar</option>
             <option value="multiplicar">Multiplicar </option>
         </select>
-
+        <button type="submit">Calcular</button>
     </form>
 
 </body>
