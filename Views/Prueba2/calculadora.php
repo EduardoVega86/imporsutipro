@@ -32,7 +32,7 @@
                                     <option value="4">Dividir</option>
                                 </select>
                             </div>
-                            <button type="submit">Calcular1</button>
+                            <button type="submit" class="btn btn-primary">Calcular</button>
                             <div class="alert alert-success alert-result d-none" role="alert">
                                 <span id="result"></span>
                             </div>
@@ -65,7 +65,11 @@
             });
             const data = await response.json();
             console.log(data);
-            document.querySelector("#result").textContent = data.resultado;
+            if (data.status) {
+                document.querySelector("#result").textContent = data.resultado;
+                document.querySelector(".alert-result").classList.remove("d-none")
+
+            }
         })
 
 
