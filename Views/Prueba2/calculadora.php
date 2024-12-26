@@ -35,7 +35,7 @@
                                     <option value="4">Dividir</option>
                                 </select>
                             </div>
-                            <button type="submit" class="btn btn-primary mt-4">Calcular</button>
+                            <button type="submit" class="btn btn-primary mt-4 mb-4">Calcular</button>
                             <div class="alert alert-success alert-result d-none" role="alert">
                                 <span id="result"></span>
                             </div>

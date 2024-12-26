@@ -17,6 +17,12 @@ class Prueba2 extends Controller
     {
         $this->views->render($this, "calculadora");
     }
+
+    public function calculadora_view()
+    {
+        $this->views->render($this, "calculadora_view");
+    }
+
     // _________________
     public function mensaje_a_cliente($text)
     {
