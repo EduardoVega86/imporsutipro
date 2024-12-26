@@ -14,7 +14,7 @@
             <article>
                 <h1>Calculadora</h1>
                 <div class="">
-                    <form action="formCalculator" method="POST">
+                    <form id="formCalculator" action="" method="POST">
                         <div class="form-group">
                             <input type="text" placeholder="ingresa un numero" name="num1">
                         </div>
