@@ -49,4 +49,7 @@ class Prueba2 extends Controller
 
         echo $calcular;
     }
+
+
+    public function calcular_resultado() {}
 }
