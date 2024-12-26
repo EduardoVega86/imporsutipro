@@ -103,6 +103,8 @@
                             <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Factura</th>
                             <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Cliente</th>
                             <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Tienda / Proveedor</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Dato de Factura</th>
+
                             <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Monto a Recibir</th>
                             <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Opciones</th>
                         </tr>
@@ -167,6 +169,7 @@
                 const row = document.createElement('tr');
                 // añade clase de color según el estado
                 row.classList.add(dato.estado_guia == '7' ? 'bg-green-100' : 'bg-red-100');
+                let peso = dato.peso == null ? 0 : dato.peso;
                 row.innerHTML = `
                     <td class="px-4 py-2"><input type="checkbox" class="form-checkbox h-4 w-4 text-indigo-600" id="check_${dato.id_cabecera}" 
                         name="check_${dato.id_cabecera}" value="${dato.id_cabecera}"
@@ -175,10 +178,21 @@
                         <span  class="text-xs font-bold"> ${dato.numero_factura} </span>
                         <span class="text-xs text-gray-500">${dato.guia}</span>
                         <span class="text-xs text-gray-500">(${dato.fecha})</span>
-                        <span class="text-xs ${dato.cod == '1' ? 'text-purple-500' : 'text-red-500'}">${dato.cod == '1' ? "Recaudo": "Sin Recaudo"}</span>
+                        <span class="text-xs ${dato.cod == '1' ? 'text-purple-500' : 'text-red-500'}">${dato.cod == '1' ? "Recaudo": "Sin Recaudo"} - ${dato.trayecto} </span>
                     </td>
-                    <td class="px-4 py-2 text-nowrap">${dato.cliente}</td>
-                    <td class="px-4 py-2 text-nowrap">${subdominio.toUpperCase()} / ${subdominioProveedor.toUpperCase()}</td>
+                    <td class="px-4 py-2 text-nowrap">
+                        <div class="grid">
+                            <span class="text-xs font-bold">${dato.cliente}</span>
+                            <span class="text-xs text-gray-500">${dato.ciudad} - ${dato.provincia}</span>
+                        </div>
+                    </td>
+                    <td class="px-4 py-2 text-nowrap">${subdominio.toUpperCase()}  <p class="text-xs text-gray-400">${subdominioProveedor.toUpperCase()}</p></td>
+                    <td class="px-4 py-2 text-nowrap">
+                        <div class="grid grid-cols-2 items-center">
+                            <span class="text-xs font-bold">Venta:</span>
+                             <p class="font-thin text-xs">${dato.total_venta}</p>
+                        </div>
+                    </td>
                     <td class="px-4 py-2 text-nowrap">${dato.monto_recibir}</td>
                     <td class="px-4 py-2 text-nowrap">Opciones aquí</td>
                 `;

@@ -1924,57 +1924,85 @@ class WalletModel extends Query
         }
         // Filtro por transportadora y estado
         if ($transportadora == 1) { // Transportadora IMP
-            $conditions[] = "guia LIKE 'IMP%'";
+            $conditions[] = "ccp.guia LIKE 'IMP%'";
 
             // Estados para transportadora IMP
             if ($estado == 1) {
-                $conditions[] = "estado_guia = 7";
+                $conditions[] = "ccp.estado_guia = 7";
             } elseif ($estado == 2) {
-                $conditions[] = "estado_guia = 9";
+                $conditions[] = "ccp.estado_guia = 9";
             } elseif ($estado == 3) {
-                $conditions[] = "estado_guia = 14";
+                $conditions[] = "ccp.estado_guia = 14";
             }
         } elseif ($transportadora == 2) { // Transportadora REC
-            $conditions[] = "guia REGEXP '^[0-9]+$'";
+            $conditions[] = "ccp.guia REGEXP '^[0-9]+$'";
 
             // Estados para transportadora REC
             if ($estado == 1) {
-                $conditions[] = "estado_guia = 400";
+                $conditions[] = "ccp.estado_guia = 400";
             } elseif ($estado == 2) {
-                $conditions[] = "estado_guia = 500";
+                $conditions[] = "ccp.estado_guia = 500";
             } elseif ($estado == 3) {
-                $conditions[] = "(estado_guia > 317 AND estado_guia < 400)";
+                $conditions[] = "(ccp.estado_guia > 317 AND ccp.estado_guia < 400)";
             }
         } elseif ($transportadora == 3) {
-            $conditions[] = "guia LIKE 'I00%'";
+            $conditions[] = "ccp.guia LIKE 'I00%'";
             if ($estado == 1) {
-                $conditions[] = "estado_guia = 7";
+                $conditions[] = "ccp.estado_guia = 7";
             } elseif ($estado == 2) {
-                $conditions[] = "estado_guia in (8,9)";
+                $conditions[] = "ccp.estado_guia in (8,9)";
             } elseif ($estado == 3) {
-                $conditions[] = "estado_guia = 6";
+                $conditions[] = "ccp.estado_guia = 6";
             }
         } elseif ($transportadora == 4) {
-            $conditions[] = "guia LIKE 'SPD%' OR guia LIKE 'MKL%'";
+            $conditions[] = "ccp.guia LIKE 'SPD%' OR ccp.guia LIKE 'MKL%'";
             if ($estado == 1) {
-                $conditions[] = "estado_guia = 7";
+                $conditions[] = "ccp.estado_guia = 7";
             } elseif ($estado == 2) {
-                $conditions[] = "estado_guia =9 ";
+                $conditions[] = "ccp.estado_guia =9 ";
             } elseif ($estado == 3) {
-                $conditions[] = "estado_guia = 14";
+                $conditions[] = "ccp.estado_guia = 14";
             }
         } elseif ($transportadora == 0) { // Sin transportadora específica
             // Estados sin transportadora
             if ($estado == 1) {
-                $conditions[] = "((guia LIKE 'IMP%' AND estado_guia = 7) OR (guia REGEXP '^[0-9]+$' AND estado_guia = 400) OR (guia LIKE 'MKP%' AND estado_guia = 7) OR (guia LIKE 'SPD%' AND estado_guia = 7) OR (guia LIKE 'I00%' AND estado_guia = 7))";
+                $conditions[] = "((ccp.guia LIKE 'IMP%' AND ccp.estado_guia = 7) OR (ccp.guia REGEXP '^[0-9]+$' AND ccp.estado_guia = 400) OR (ccp.guia LIKE 'MKP%' AND ccp.estado_guia = 7) OR (ccp.guia LIKE 'SPD%' AND ccp.estado_guia = 7) OR (ccp.guia LIKE 'I00%' AND ccp.estado_guia = 7))";
             } elseif ($estado == 2) {
-                $conditions[] = "((guia LIKE 'IMP%' AND estado_guia = 9)  OR (guia REGEXP '^[0-9]+$' AND estado_guia = 500) OR (guia LIKE 'MKP%' AND estado_guia = 9) OR (guia LIKE 'SPD%' AND estado_guia = 9) OR (guia LIKE 'I00%' AND estado_guia = 8))";
+                $conditions[] = "((ccp.guia LIKE 'IMP%' AND ccp.estado_guia = 9)  OR (ccp.guia REGEXP '^[0-9]+$' AND ccp.estado_guia = 500) OR (ccp.guia LIKE 'MKP%' AND ccp.estado_guia = 9) OR (ccp.guia LIKE 'SPD%' AND ccp.estado_guia = 9) OR (ccp.guia LIKE 'I00%' AND ccp.estado_guia = 8))";
             } elseif ($estado == 3) {
-                $conditions[] = " ((guia LIKE 'IMP%' AND estado_guia = 14) OR (guia REGEXP '^[0-9]+$' AND estado_guia > 317 AND estado_guia < 400) OR (guia LIKE 'MKP%' AND estado_guia = 14) OR (guia LIKE 'SPD%' AND estado_guia = 14) OR (guia LIKE 'I00%' AND estado_guia = 6))";
+                $conditions[] = " ((ccp.guia LIKE 'IMP%' AND ccp.estado_guia = 14) OR (ccp.guia REGEXP '^[0-9]+$' AND ccp.estado_guia > 317 AND ccp.estado_guia < 400) OR (ccp.guia LIKE 'MKP%' AND ccp.estado_guia = 14) OR (ccp.guia LIKE 'SPD%' AND ccp.estado_guia = 14) OR (ccp.guia LIKE 'I00%' AND ccp.estado_guia = 6))";
             } elseif ($estado == 0) {
-                $conditions[] = "((guia LIKE 'IMP%' AND estado_guia = 7) OR (guia REGEXP '^[0-9]+$' AND estado_guia = 400) OR (guia LIKE 'MKP%' AND estado_guia = 7) OR (guia LIKE 'SPD%' AND estado_guia = 7) OR (guia LIKE 'I00%' AND estado_guia = 7))";
+                $conditions[] = "((ccp.guia LIKE 'IMP%' AND ccp.estado_guia = 7) OR (ccp.guia REGEXP '^[0-9]+$' AND ccp.estado_guia = 400) OR (ccp.guia LIKE 'MKP%' AND ccp.estado_guia = 7) OR (ccp.guia LIKE 'SPD%' AND ccp.estado_guia = 7) OR (ccp.guia LIKE 'I00%' AND ccp.estado_guia = 7))";
             }
         }
+
+
+        // añadir trayecto =
+        $logica = "CASE
+                -- LAAR (IMP o MKP)
+                WHEN ccp.guia LIKE 'IMP%' OR ccp.guia LIKE 'MKP%' THEN cc.trayecto_laar
+                
+                -- Servientrega (solo números)
+                WHEN ccp.guia REGEXP '^[0-9]+$' THEN cc.trayecto_servientrega
+                
+                -- Gintracom (comienza con I000)
+                WHEN ccp.guia LIKE 'I000%' THEN cc.trayecto_gintracom
+                
+                -- Speed/Merkalogistic (SPD o MKL)
+                WHEN ccp.guia LIKE 'SPD%' OR ccp.guia LIKE 'MKL%' THEN 
+                    CASE
+                        -- Si la ciudad es QUITO
+                        WHEN cc.ciudad = 'QUITO' THEN 'TL'
+                        -- Si la ciudad es cualquier otra
+                        ELSE 'TS'
+                    END
+                
+                -- Caso predeterminado si no coincide con ninguno de los anteriores
+                ELSE 'Desconocido'
+            END AS trayecto";
+
+
+
 
         if ($visto == 0) {
             $conditions[] = "visto = 0";
@@ -1988,7 +2016,18 @@ class WalletModel extends Query
 
         // Construcción de la consulta
         $whereClause = !empty($conditions) ? 'WHERE ' . implode(' AND ', $conditions) : '';
-        $sql = "SELECT * FROM cabecera_cuenta_pagar $whereClause ORDER BY id_cabecera DESC LIMIT $limit OFFSET $offset ";
+        $sql = "SELECT ccp.*, 
+                cc.ciudad,
+                cc.provincia,
+                $logica 
+                FROM cabecera_cuenta_pagar ccp
+                INNER JOIN facturas_cot fc ON ccp.numero_factura = fc.numero_factura
+                LEFT JOIN ciudad_cotizacion cc ON fc.ciudad_cot = cc.id_cotizacion
+
+
+                $whereClause 
+                ORDER BY id_cabecera 
+                DESC LIMIT $limit OFFSET $offset ";
 
 
 

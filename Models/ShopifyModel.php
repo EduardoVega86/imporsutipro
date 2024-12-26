@@ -199,6 +199,9 @@ class ShopifyModel extends Query
 
             unset($producto); // Rompe la referencia con el último elemento
         }
+        if ($continua == 0) {
+            $continua = 1;
+        }
         echo "ADICION DE DESCUENTO" . ":::::::::::::";
         if (count($productosSinSku) > 0) {
             foreach ($productosSinSku as &$productoSinSku) {

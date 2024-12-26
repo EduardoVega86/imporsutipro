@@ -17,6 +17,12 @@ class Prueba2 extends Controller
     {
         $this->views->render($this, "calculadora");
     }
+
+    public function calculadora_view()
+    {
+        $this->views->render($this, "calculadora_view");
+    }
+
     // _________________
     public function mensaje_a_cliente($text)
     {
@@ -25,6 +31,9 @@ class Prueba2 extends Controller
 
     public function calcular()
     {
+
+        // var_dump($_POST);
+        // var_dump($_POST['num1']);
 
         $num1 = $_POST['num1'];
         $num2 = $_POST['num2'];
@@ -36,6 +45,19 @@ class Prueba2 extends Controller
             "option" => $option
         ];
 
-        echo json_encode($data);
+        $calcular =  $this->model->recibirDatos($data);
+
+        echo $calcular;
+    }
+
+
+    public function calcular_resultado()
+    {
+        $option1 = $_POST['option1'];
+        $option2 = $_POST['option2'];
+        $operacion = $_POST['operacion'];
+
+        $calcular_resultado = $this->model->calcular($option1, $option2, $operacion);
+        echo $calcular_resultado;
     }
 }
