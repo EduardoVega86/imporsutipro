@@ -469,7 +469,7 @@ function validar_estadoLaar(estado) {
     estado_guia = "En transito";
   } else if (estado == 14) {
     span_estado = "badge_danger";
-    estado_guia = "Con novedad";
+    estado_guia = "Novedad";
   } else if (estado == 9) {
     span_estado = "badge_danger";
     estado_guia = "Devuelto";
@@ -521,7 +521,7 @@ function validar_estadoServi(estado) {
     estado_guia = "Entregado";
   } else if (estado >= 318 && estado <= 351) {
     span_estado = "badge_danger";
-    estado_guia = "Con novedad";
+    estado_guia = "Novedad";
   } else if (estado >= 500 && estado <= 502) {
     span_estado = "badge_danger";
     estado_guia = "Devuelto";
@@ -557,13 +557,13 @@ function validar_estadoGintracom(estado) {
     estado_guia = "Novedad";
   } else if (estado == 7) {
     span_estado = "badge_green";
-    estado_guia = "Entregada";
+    estado_guia = "Entregado";
   } else if (estado == 8) {
     span_estado = "badge_danger";
-    estado_guia = "Devolucion";
+    estado_guia = "Devuelto";
   } else if (estado == 9) {
     span_estado = "badge_danger";
-    estado_guia = "Devolución Entregada a Origen";
+    estado_guia = "Devuelto";
   } else if (estado == 10) {
     span_estado = "badge_danger";
     estado_guia = "Cancelada por transportadora";
@@ -575,7 +575,7 @@ function validar_estadoGintracom(estado) {
     estado_guia = "Anulada";
   } else if (estado == 13) {
     span_estado = "badge_danger";
-    estado_guia = "Devolucion en tránsito";
+    estado_guia = "Devuelto";
   }
 
   return {
