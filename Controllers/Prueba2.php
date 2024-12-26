@@ -26,18 +26,19 @@ class Prueba2 extends Controller
     public function calcular()
     {
 
-        $num1 = $_POST['num1'];
-        $num2 = $_POST['num2'];
-        $option = $_POST['option'];
+        echo $_POST;
+        // $num1 = $_POST['num1'];
+        // $num2 = $_POST['num2'];
+        // $option = $_POST['option'];
 
-        $data = [
-            "num1" => $num1,
-            "num2" => $num2,
-            "option" => $option
-        ];
+        // $data = [
+        //     "num1" => $num1,
+        //     "num2" => $num2,
+        //     "option" => $option
+        // ];
 
-        $calcular =  $this->model->recibirDatos($data);
+        // $calcular =  $this->model->recibirDatos($data);
 
-        echo json_encode($calcular);
+        // echo json_encode($calcular);
     }
 }
