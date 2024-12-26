@@ -13,9 +13,11 @@
     <form method="post" action="">
         <input type="number" name="option1" placeholder="Primer numero" required>
         <input type="number" name="option2" placeholder="Segundo numero" required>
-        <select name="operacion" required></select>
-
-
+        <select name="operacion" required>
+            <option value="sumar">Sumar</option>
+            <option value="restar">Restar</option>
+            <option value="multiplicar">Multiplicar </option>
+        </select>
 
     </form>
 
