@@ -50,7 +50,7 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(params)
+                body: JSON.stringify(form)
             });
 
             const data = await response.json();
