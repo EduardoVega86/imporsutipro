@@ -36,7 +36,7 @@ class Prueba2Model extends Query
                 break;
         }
         return  json_encode(
-            ["status" => true, "message" => "Operacion completada"]
+            ["status" => true, "message" => "Operacion completada el resultado es", "resultado" => $result]
         );
     }
 }
