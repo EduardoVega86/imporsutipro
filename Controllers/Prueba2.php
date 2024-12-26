@@ -6,8 +6,8 @@ class Prueba2 extends Controller
     {
         parent::__construct();
     }
-    public function mensaje($text)
+    public function mensaje_a_cliente($text)
     {
-        $this->model->saludo($text);
+        $this->model->saludoACliente($text);
     }
 }
