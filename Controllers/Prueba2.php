@@ -9,11 +9,33 @@ class Prueba2 extends Controller
     /*Vistas */
     public function visor()
     {
+
         $this->views->render($this, "index");
+    }
+
+    public function calculadora()
+    {
+        $this->views->render($this, "calculadora");
     }
     // _________________
     public function mensaje_a_cliente($text)
     {
         $this->model->saludoACliente($text);
+    }
+
+    public function calcular()
+    {
+
+        $num1 = $_POST['num1'];
+        $num2 = $_POST['num2'];
+        $option = $_POST['option'];
+
+        $data = [
+            "num1" => $num1,
+            "num2" => $num2,
+            "option" => $option
+        ];
+
+        return json_encode($data);
     }
 }

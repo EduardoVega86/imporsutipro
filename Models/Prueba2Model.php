@@ -12,4 +12,6 @@ class Prueba2Model extends Query
     {
         echo $text;
     }
+
+    public function recibirDatos(array $data) {}
 }
