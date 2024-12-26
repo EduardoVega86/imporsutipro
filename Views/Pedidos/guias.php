@@ -102,7 +102,7 @@
                 <thead>
                     <tr>
                         <th class="centered"><input type="checkbox" id="selectAll"></th>
-                        <th class="centered"># Orden</th>
+                        <th class="centered"># Guia</th>
                         <th class="centered">Detalle</th>
                         <th class="centered">Cliente</th>
                         <th class="centered">Destino</th>

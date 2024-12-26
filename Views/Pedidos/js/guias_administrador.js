@@ -254,7 +254,7 @@ const listGuias = async () => {
                     }"></td>
                     <td>
                     <div>
-                    ${guia.numero_factura}
+                     ${ruta_descarga}
                     </div>
                     <div>
                     ${drogshipin}
@@ -282,9 +282,6 @@ const listGuias = async () => {
                      <div style="text-align: center;">
                      <div>
                       <span class="w-100 text-nowrap ${span_estado}">${estado_guia}</span>
-                     </div>
-                     <div>
-                     ${ruta_descarga}
                      </div>
                      <div style="position: relative; display: inline-block;">
                       <a href="${ruta_traking}" target="_blank" style="vertical-align: middle;">
