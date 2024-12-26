@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>calculadora</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
 </head>
 
 <body>
@@ -13,25 +15,30 @@
         <section>
             <article>
                 <h1>Calculadora</h1>
-                <div class="">
-                    <form id="formCalculator" action="" method="POST">
-                        <div class="form-group">
-                            <input type="text" placeholder="ingresa un numero" name="num1">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" placeholder="ingresa un numero" name="num2">
-                        </div>
-                        <div class="form-group">
-                            <select name="option" id="">
-                                <option value="1">Sumar</option>
-                                <option value="2">Restar</option>
-                                <option value="3">Multiplicar</option>
-                                <option value="4">Dividir</option>
-                            </select>
-                        </div>
-                        <span id="result"></span>
-                        <button type="submit">Calcular1</button>
-                    </form>
+                <div class="card">
+                    <div class="card-body">
+                        <form id="formCalculator" action="" method="POST">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="ingresa un numero" name="num1">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" placeholder="ingresa un numero" class="form-control" name="num2">
+                            </div>
+                            <div class="form-group">
+                                <select name="option" class="form-control" id="">
+                                    <option value="1">Sumar</option>
+                                    <option value="2">Restar</option>
+                                    <option value="3">Multiplicar</option>
+                                    <option value="4">Dividir</option>
+                                </select>
+                            </div>
+                            <button type="submit">Calcular1</button>
+                            <div class="alert alert-success alert-result d-none" role="alert">
+                                <span id="result"></span>
+                            </div>
+
+                        </form>
+                    </div>
                 </div>
             </article>
         </section>
