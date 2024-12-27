@@ -270,8 +270,7 @@ class PedidosModel extends Query
     {
         $sql = "SELECT * FROM vista_guias_administrador";
 
-        // Condiciones de filtro
-        $firstCondition = true;  // Variable para saber si es la primera condición
+        $firstCondition = true;
 
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
             $sql .= " WHERE fecha_guia BETWEEN '$fecha_inicio' AND '$fecha_fin'";
@@ -329,7 +328,7 @@ class PedidosModel extends Query
 
         // Si existe búsqueda
         if (!empty($search)) {
-            $search = '%' . $search . '%';  // Formatear el valor de búsqueda
+            $search = '%' . $search . '%';
             if ($firstCondition) {
                 $sql .= " WHERE numero_factura LIKE '$search'";
                 $firstCondition = false;
