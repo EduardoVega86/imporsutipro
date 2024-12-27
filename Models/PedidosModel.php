@@ -314,7 +314,7 @@ class PedidosModel extends Query
 
         // Si existe búsqueda
         if (!empty($search)) {
-            $search = '%' . $search . '%';  // Asegúrate de que el valor de búsqueda esté formateado correctamente
+            $search = '%' . $search . '%';
             if (strpos($sql, 'WHERE') === false) {
                 $sql .= " WHERE numero_factura LIKE '$search'";
             } else {
