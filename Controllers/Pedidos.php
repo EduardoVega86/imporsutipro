@@ -558,6 +558,7 @@ class Pedidos extends Controller
 
     public function obtener_guiasAdministrador2()
     {
+        // Capturamos los filtros enviados por el DataTable
         $fecha_inicio = $_POST['fecha_inicio'] ?? "";
         $fecha_fin = $_POST['fecha_fin'] ?? "";
         $transportadora = $_POST['transportadora'] ?? "";
@@ -565,11 +566,25 @@ class Pedidos extends Controller
         $drogshipin = $_POST['drogshipin'] ?? "";
         $impreso = $_POST['impreso'] ?? "";
         $despachos = $_POST['despachos'] ?? "";
-        /*  $start = $_POST['start'] ?? 0;
-        $length = $_POST['length'] ?? 25; */
-        $data = $this->model->cargarGuiasAdministrador2($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos, 1, 25);
-        echo json_encode($data);
+
+        // Capturamos los parámetros de paginación enviados por el DataTable
+        $start = $_POST['start'] ?? 0;
+        $length = $_POST['length'] ?? 25;
+
+
+        $data = $this->model->cargarGuiasAdministrador2($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos, $start, $length);
+
+        $totalRecords = $this->model->contarGuiasAdministrador2($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos);
+
+        // Devolver los datos en formato JSON esperado por DataTables
+        echo json_encode([
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $totalRecords,
+            "recordsFiltered" => $totalRecords,
+            "data" => $data
+        ]);
     }
+
 
 
     public function obtener_guiasAnuladas_admin()
