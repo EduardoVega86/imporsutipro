@@ -283,31 +283,31 @@ class PedidosModel extends Query
             switch ($estado) {
                 case 'generada':
                     $sql .= " AND ((estado_guia_sistema in (100,102,103) and id_transporte=2)
-                        OR (estado_guia_sistema in (1,2) and id_transporte=1)
-                        OR (estado_guia_sistema in (1,2,3) and id_transporte=3)
-                        OR (estado_guia_sistema in (2) and id_transporte=4))";
+                            OR (estado_guia_sistema in (1,2) and id_transporte=1)
+                            OR (estado_guia_sistema in (1,2,3) and id_transporte=3)
+                            OR (estado_guia_sistema in (2) and id_transporte=4))";
                     break;
                 case 'en_transito':
                     $sql .= " AND ((estado_guia_sistema BETWEEN 300 AND 317 and id_transporte=2)
-                        OR (estado_guia_sistema in (5,11,12,6) and id_transporte=1)
-                        OR (estado_guia_sistema in (5,4) and id_transporte=3)
-                        OR (estado_guia_sistema in (3) and id_transporte=4))";
+                            OR (estado_guia_sistema in (5,11,12,6) and id_transporte=1)
+                            OR (estado_guia_sistema in (5,4) and id_transporte=3)
+                            OR (estado_guia_sistema in (3) and id_transporte=4))";
                     break;
                 case 'entregada':
                     $sql .= " AND ((estado_guia_sistema BETWEEN 400 AND 403 and id_transporte=2)
-                        OR (estado_guia_sistema in (7) and id_transporte=1)
-                        OR (estado_guia_sistema in (7) and id_transporte=3))";
+                            OR (estado_guia_sistema in (7) and id_transporte=1)
+                            OR (estado_guia_sistema in (7) and id_transporte=3))";
                     break;
                 case 'novedad':
                     $sql .= " AND ((estado_guia_sistema BETWEEN 320 AND 351 and id_transporte=2)
-                        OR (estado_guia_sistema in (14) and id_transporte=1)
-                        OR (estado_guia_sistema in (6) and id_transporte=3))";
+                            OR (estado_guia_sistema in (14) and id_transporte=1)
+                            OR (estado_guia_sistema in (6) and id_transporte=3))";
                     break;
                 case 'devolucion':
                     $sql .= " AND ((estado_guia_sistema BETWEEN 500 AND 502 and id_transporte=2)
-                        OR (estado_guia_sistema in (9) and id_transporte=2)
-                        OR (estado_guia_sistema in (9) and id_transporte=4)
-                        OR (estado_guia_sistema in (8,9,13) and id_transporte=3))";
+                            OR (estado_guia_sistema in (9) and id_transporte=2)
+                            OR (estado_guia_sistema in (9) and id_transporte=4)
+                            OR (estado_guia_sistema in (8,9,13) and id_transporte=3))";
                     break;
             }
         }
@@ -326,19 +326,20 @@ class PedidosModel extends Query
             }
         }
 
-        // Elimina las partes de LIMIT y OFFSET
-        // $sql .= " LIMIT $start, $length"; // Eliminar esta línea
+        // Agregar LIMIT y OFFSET para la paginación
+        $sql .= " LIMIT $start, $length";
 
         // Ejecutar la consulta
         return $this->select($sql);
     }
 
-
     public function contarGuiasAdministrador2($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos)
     {
-        $sql = "SELECT COUNT(*) as total FROM vista_guias_administrador ";
 
-        // Condiciones de filtro
+        $sql = "SELECT COUNT(*) as total FROM vista_guias_administrador ";
+        var_dump($sql);
+        die();
+
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
             $sql .= " WHERE fecha_guia BETWEEN '$fecha_inicio' AND '$fecha_fin'";
         }
@@ -351,31 +352,31 @@ class PedidosModel extends Query
             switch ($estado) {
                 case 'generada':
                     $sql .= " AND ((estado_guia_sistema in (100,102,103) and id_transporte=2)
-                        OR (estado_guia_sistema in (1,2) and id_transporte=1)
-                        OR (estado_guia_sistema in (1,2,3) and id_transporte=3)
-                        OR (estado_guia_sistema in (2) and id_transporte=4))";
+                            OR (estado_guia_sistema in (1,2) and id_transporte=1)
+                            OR (estado_guia_sistema in (1,2,3) and id_transporte=3)
+                            OR (estado_guia_sistema in (2) and id_transporte=4))";
                     break;
                 case 'en_transito':
                     $sql .= " AND ((estado_guia_sistema BETWEEN 300 AND 317 and id_transporte=2)
-                        OR (estado_guia_sistema in (5,11,12,6) and id_transporte=1)
-                        OR (estado_guia_sistema in (5,4) and id_transporte=3)
-                        OR (estado_guia_sistema in (3) and id_transporte=4))";
+                            OR (estado_guia_sistema in (5,11,12,6) and id_transporte=1)
+                            OR (estado_guia_sistema in (5,4) and id_transporte=3)
+                            OR (estado_guia_sistema in (3) and id_transporte=4))";
                     break;
                 case 'entregada':
                     $sql .= " AND ((estado_guia_sistema BETWEEN 400 AND 403 and id_transporte=2)
-                        OR (estado_guia_sistema in (7) and id_transporte=1)
-                        OR (estado_guia_sistema in (7) and id_transporte=3))";
+                            OR (estado_guia_sistema in (7) and id_transporte=1)
+                            OR (estado_guia_sistema in (7) and id_transporte=3))";
                     break;
                 case 'novedad':
                     $sql .= " AND ((estado_guia_sistema BETWEEN 320 AND 351 and id_transporte=2)
-                        OR (estado_guia_sistema in (14) and id_transporte=1)
-                        OR (estado_guia_sistema in (6) and id_transporte=3))";
+                            OR (estado_guia_sistema in (14) and id_transporte=1)
+                            OR (estado_guia_sistema in (6) and id_transporte=3))";
                     break;
                 case 'devolucion':
                     $sql .= " AND ((estado_guia_sistema BETWEEN 500 AND 502 and id_transporte=2)
-                        OR (estado_guia_sistema in (9) and id_transporte=2)
-                        OR (estado_guia_sistema in (9) and id_transporte=4)
-                        OR (estado_guia_sistema in (8,9,13) and id_transporte=3))";
+                            OR (estado_guia_sistema in (9) and id_transporte=2)
+                            OR (estado_guia_sistema in (9) and id_transporte=4)
+                            OR (estado_guia_sistema in (8,9,13) and id_transporte=3))";
                     break;
             }
         }
@@ -394,7 +395,7 @@ class PedidosModel extends Query
             }
         }
 
-        // Ejecutar la consulta para contar el total
+        // Ejecutar la consulta para contar los registros
         $result = $this->select($sql);
         return $result[0]['total'] ?? 0;
     }
