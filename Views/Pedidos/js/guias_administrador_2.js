@@ -2,40 +2,11 @@ let dataTable;
 let dataTableIsInitialized = false;
 
 const dataTableOptions = {
-  processing: true,
-  serverSide: true,
-  ajax: {
-    url: `${SERVERURL}pedidos/obtener_guiasAdministrador2`,
-    type: "POST",
-    data: function (d) {
-      d.fecha_inicio = fecha_inicio;
-      d.fecha_fin = fecha_fin;
-      d.estado = $("#estado_q").val();
-      d.transportadora = $("#transporte").val();
-      d.impreso = $("#impresion").val();
-    },
-  },
-  columns: [
-    {
-      data: "checkbox",
-    }, // Checkbox column
-    { data: "numero_factura" }, // Corresponds to numero_factura in the API response
-    { data: "detalle" }, // Assuming you have a 'detalle' field in your response
-    { data: "cliente" }, // Assuming you have a 'cliente' field in your response
-    { data: "ciudad" }, // Assuming you have a 'ciudad' field in your response
-    { data: "tienda" }, // Corresponds to 'tienda' in your API response
-    { data: "nombre_proveedor" }, // Corresponds to 'nombre_proveedor' in your API response
-    { data: "transportadora" }, // Corresponds to 'transportadora' in your API response
-    { data: "estado_guia_sistema" }, // Corresponds to 'estado_guia_sistema' in your API response
-    { data: "despachado" }, // Assuming you have a 'despachado' field in your response
-    { data: "impreso" }, // Corresponds to 'impreso' in your API response
-    { data: "acciones" }, // Assuming you handle the 'acciones' column with your own logic
-  ],
   columnDefs: [
-    { className: "centered", targets: "_all" },
-    { orderable: false, targets: 0 }, // Disable ordering on the checkbox column
+    { className: "centered", targets: [1, 2, 3, 4, 5, 6, 7, 8, 9] },
+    { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
   ],
-  order: [[1, "desc"]], // Order by 'numero_factura' by default
+  order: [[2, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
   pageLength: 25,
   lengthMenu: [25, 50, 100, 200],
   destroy: true,
@@ -45,8 +16,10 @@ const dataTableOptions = {
     {
       extend: "excelHtml5",
       text: 'Excel <i class="fa-solid fa-file-excel"></i>',
+      title: "Panel de Control: Usuarios",
+      titleAttr: "Exportar a Excel",
       exportOptions: {
-        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+        columns: [1, 2, 3, 4, 5, 6, 7, 8],
       },
       filename: "guias" + "_" + getFecha(),
       footer: true,
@@ -55,8 +28,10 @@ const dataTableOptions = {
     {
       extend: "csvHtml5",
       text: 'CSV <i class="fa-solid fa-file-csv"></i>',
+      title: "Panel de Control: guias",
+      titleAttr: "Exportar a CSV",
       exportOptions: {
-        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+        columns: [1, 2, 3, 4, 5, 6, 7, 8],
       },
       filename: "guias" + "_" + getFecha(),
       footer: true,
@@ -93,10 +68,30 @@ const initDataTable = async () => {
   if (dataTableIsInitialized) {
     dataTable.destroy();
   }
+
+  await listGuias();
+
   dataTable = $("#datatable_guias").DataTable(dataTableOptions);
+
   dataTableIsInitialized = true;
 
   // Handle select all checkbox
+  document.getElementById("selectAll").addEventListener("change", function () {
+    const checkboxes = document.querySelectorAll(".selectCheckbox");
+    checkboxes.forEach((checkbox) => (checkbox.checked = this.checked));
+  });
+};
+
+// Nueva función para recargar el DataTable manteniendo la paginación y el pageLength
+const reloadDataTable = async () => {
+  const currentPage = dataTable.page();
+  const currentLength = dataTable.page.len();
+  dataTable.destroy();
+  await listGuias();
+  dataTable = $("#datatable_guias").DataTable(dataTableOptions);
+  dataTable.page.len(currentLength).draw();
+  dataTable.page(currentPage).draw(false);
+  dataTableIsInitialized = true;
   document.getElementById("selectAll").addEventListener("change", function () {
     const checkboxes = document.querySelectorAll(".selectCheckbox");
     checkboxes.forEach((checkbox) => (checkbox.checked = this.checked));
@@ -109,18 +104,20 @@ const listGuias = async () => {
     formData.append("fecha_inicio", fecha_inicio);
     formData.append("fecha_fin", fecha_fin);
     formData.append("estado", $("#estado_q").val());
+    formData.append("drogshipin", $("#tienda_q").val());
     formData.append("transportadora", $("#transporte").val());
     formData.append("impreso", $("#impresion").val());
+    formData.append("despachos", $("#despachos").val());
 
     const response = await fetch(
-      `${SERVERURL}pedidos/obtener_guiasAdministrador2`,
+      `${SERVERURL}pedidos/obtener_guiasAdministrador`,
       {
         method: "POST",
         body: formData,
       }
     );
-    const guiasa = await response.json();
-    const guias = guiasa.data;
+    const guias = await response.json();
+
     let content = ``;
     let impresiones = "";
     let novedad = "";
@@ -161,7 +158,7 @@ const listGuias = async () => {
         ruta_traking = ``;
         funcion_anular = `anular_guiaSpeed('${guia.numero_guia}')`;
         estado = validar_estadoSpeed(guia.estado_guia_sistema);
-        select_speed = `
+        /* select_speed = `
                     <select class="form-select select-estado-speed" style="max-width: 130px;" data-numero-guia="${
                       guia.numero_guia
                     }">
@@ -180,7 +177,10 @@ const listGuias = async () => {
                         <option value="9" ${
                           guia.estado_guia_sistema == 9 ? "selected" : ""
                         }>Devuelto</option>
-                    </select>`;
+                        <option value="14" ${
+                          guia.estado_guia_sistema == 14 ? "selected" : ""
+                        }>Novedad</option>
+                    </select>`; */
       } else if (transporte == 3) {
         transporte_content =
           '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>';
@@ -202,17 +202,27 @@ const listGuias = async () => {
         drogshipin = "Drogshipin";
       }
 
-      //tomar solo la ciudad
+      // Definir la variable ciudad antes de los bloques if-else
+      let ciudad = "Ciudad no especificada";
+
+      // Verificar si la ciudad es válida antes de usar split
       let ciudadCompleta = guia.ciudad;
-      let ciudadArray = ciudadCompleta.split("/");
-      let ciudad = ciudadArray[0];
+
+      if (ciudadCompleta) {
+        let ciudadArray = ciudadCompleta.split("/");
+        ciudad = ciudadArray[0];
+      } else {
+        console.log("La ciudad no está definida o está vacía");
+      }
 
       novedad = "";
       if (guia.estado_guia_sistema == 14 && transporte == 1) {
         novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
       } else if (guia.estado_guia_sistema == 6 && transporte == 3) {
         novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
-      }
+      } /* else if (guia.estado_guia_sistema == 14 && transporte == 4) {
+        novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
+      } */
       if (
         guia.estado_guia_sistema >= 318 &&
         guia.estado_guia_sistema <= 351 &&
@@ -233,12 +243,14 @@ const listGuias = async () => {
         despachado = `<i class='bx bx-check' style="color:#28E418; font-size: 30px;"></i>`;
       } else if (guia.estado_factura == 1) {
         despachado = `<i class='bx bx-x' style="color:red; font-size: 30px;"></i>`;
+      } else if (guia.estado_factura == 3) {
+        despachado = `<i class='bx bxs-truck' style="color:red; font-size: 30px;"></i>`;
       }
 
       content += `
                 <tr>
                     <td><input type="checkbox" class="selectCheckbox" data-id="${
-                      guia.numero_factura
+                      guia.id_factura
                     }"></td>
                     <td>
                     <div>
@@ -302,6 +314,15 @@ const listGuias = async () => {
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <li><span class="dropdown-item" style="cursor: pointer;" onclick="${funcion_anular}">Anular</span></li>
                         <li><span class="dropdown-item" style="cursor: pointer;">Información</span></li>
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick='transito(${
+                          guia.id_factura
+                        })' >Transito</span></li>
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick='entregar(${
+                          guia.id_factura
+                        })' >Entregado</span></li>
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick='devolucion(${
+                          guia.id_factura
+                        })' >Devolución</span></li>
                     </ul>
                 </div>
                     </td>
@@ -313,6 +334,75 @@ const listGuias = async () => {
   }
 };
 
+function transito(id_cabecera) {
+  $.ajax({
+    type: "POST",
+    url: SERVERURL + "pedidos/transito/" + id_cabecera,
+    dataType: "json",
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("ERROR AL REALIZAR EL CAMBIO", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("CAMBIO REALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al realizar el cambio");
+    },
+  });
+}
+
+function entregar(id_cabecera) {
+  $.ajax({
+    type: "POST",
+    url: SERVERURL + "pedidos/entregar/" + id_cabecera,
+    dataType: "json",
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("ERROR AL REALIZAR EL CAMBIO", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("CAMBIO REALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al realizar el cambio");
+    },
+  });
+}
+
+function devolucion(id_cabecera) {
+  $.ajax({
+    type: "POST",
+    url: SERVERURL + "pedidos/devolucion/" + id_cabecera,
+    dataType: "json",
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("ERROR AL REALIZAR EL CAMBIO", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("CANBIO REALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al realizar el cambio");
+    },
+  });
+}
+
 // Event delegation for select change
 document.addEventListener("change", async (event) => {
   if (event.target && event.target.classList.contains("select-estado-speed")) {
@@ -321,6 +411,10 @@ document.addEventListener("change", async (event) => {
     console.log(`Cambiando estado para la guía ${numeroGuia} a ${nuevoEstado}`);
     const formData = new FormData();
     formData.append("estado", nuevoEstado);
+
+    if (nuevoEstado == 9) {
+      $("#tipo_speed").val("recibir").change();
+    }
 
     try {
       const response = await fetch(
@@ -336,7 +430,8 @@ document.addEventListener("change", async (event) => {
           positionClass: "toast-bottom-center",
         });
 
-        initDataTable();
+        $("#gestionar_novedadSpeedModal").modal("show");
+        reloadDataTable();
       }
     } catch (error) {
       console.error("Error al conectar con la API", error);
@@ -352,7 +447,7 @@ function anular_guiaSpeed(numero_guia) {
     dataType: "json",
     success: function (response) {
       if (response.status == 500) {
-        toastr.error("LA GUIA NO SE ANULO CORRECTAMENTE CORRECTAMENTE", "NOTIFICACIÓN", {
+        toastr.error("LA GUIA NO SE ANULO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
       } else if (response.status == 200) {
@@ -360,7 +455,7 @@ function anular_guiaSpeed(numero_guia) {
           positionClass: "toast-bottom-center",
         });
 
-        initDataTable();
+        reloadDataTable();
       }
     },
     error: function (xhr, status, error) {
@@ -496,10 +591,10 @@ function validar_estadoLaar(estado) {
     estado_guia = "Por recolectar";
   } else if (estado == 3) {
     span_estado = "badge_purple";
-    estado_guia = "Por recolectar";
+    estado_guia = "Recolectado";
   } else if (estado == 4) {
     span_estado = "badge_purple";
-    estado_guia = "Por recolectar";
+    estado_guia = "En bodega";
   } else if (estado == 5) {
     span_estado = "badge_warning";
     estado_guia = "En transito";
@@ -686,7 +781,7 @@ document.getElementById("imprimir_guias").addEventListener("click", () => {
         document.body.removeChild(link);
 
         // Cerrar el Swal después de hacer clic en el enlace
-        initDataTable();
+        reloadDataTable();
         Swal.close();
       }
     },
@@ -747,7 +842,7 @@ function anular_guiaLaar(numero_guia) {
         });
 
         $("#imagen_categoriaModal").modal("hide");
-        initDataTable();
+        reloadDataTable();
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -774,7 +869,7 @@ function anular_guiaServi(numero_guia) {
     dataType: "json",
     success: function (response) {
       if (response.status == 500) {
-        toastr.error("LA GUIA NO SE ANULO CORRECTAMENTE CORRECTAMENTE", "NOTIFICACIÓN", {
+        toastr.error("LA GUIA NO SE ANULO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
       } else if (response.status == 200) {
@@ -782,7 +877,7 @@ function anular_guiaServi(numero_guia) {
           positionClass: "toast-bottom-center",
         });
 
-        initDataTable();
+        reloadDataTable();
       }
     },
     error: function (xhr, status, error) {
@@ -803,7 +898,7 @@ function anular_guiaGintracom(numero_guia) {
         });
 
         $("#imagen_categoriaModal").modal("hide");
-        initDataTable();
+        reloadDataTable();
       } else {
         toastr.error("LA GUIA NO SE ANULO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
@@ -812,7 +907,7 @@ function anular_guiaGintracom(numero_guia) {
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al anular guia gintracom");
+      alert("Hubo un problema al anular gintracom");
     },
   });
 }
@@ -885,6 +980,9 @@ $(document).ready(function () {
 });
 
 function enviar_gintraNovedad() {
+  var button = document.getElementById("boton_gintra");
+  button.disabled = true; // Desactivar el botón
+
   var guia = $("#numero_guia").val();
   var observacion = $("#Solucion_novedad").val();
   var id_novedad = $("#id_novedad").val();
@@ -915,26 +1013,33 @@ function enviar_gintraNovedad() {
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
       response = JSON.parse(response);
-      if (response.status == 500) {
-        toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
+      if (response.error === true) {
+        toastr.error("" + response.message, "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
-      } else if (response.status == 200) {
-        toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
+
+        button.disabled = false;
+      } else if (response.error === false) {
+        toastr.success("" + response.message, "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
 
         $("#gestionar_novedadModal").modal("hide");
+        button.disabled = false;
         initDataTableNovedades();
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
+      button.disabled = false;
     },
   });
 }
 
 function enviar_serviNovedad() {
+  var button = document.getElementById("boton_servi");
+  button.disabled = true; // Desactivar el botón
+
   var guia = $("#numero_guia").val();
   var observacion = $("#observacion_nov").val();
   var id_novedad = $("#id_novedad").val();
@@ -956,22 +1061,29 @@ function enviar_serviNovedad() {
         toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
+
+        button.disabled = false;
       } else if (response.status == 200) {
         toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
 
         $("#gestionar_novedadModal").modal("hide");
-        initDataTable();
+        button.disabled = false;
+        initDataTableNovedades();
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
+      button.disabled = false;
     },
   });
 }
 
 function enviar_laarNovedad() {
+  var button = document.getElementById("boton_laar");
+  button.disabled = true; // Desactivar el botón
+
   var guia = $("#numero_guia").val();
   var id_novedad = $("#id_novedad").val();
   var ciudad = $("#ciudad_novedadesServi").val();
@@ -991,15 +1103,15 @@ function enviar_laarNovedad() {
   formData.append("guia", guia);
   formData.append("observacionA", observacionA);
   formData.append("id_novedad", id_novedad);
-  formData.append("ciudad", ciudad_novedadesServi);
+  formData.append("ciudad", ciudad);
   formData.append("nombre", nombre_novedadesServi);
   formData.append("callePrincipal", callePrincipal_novedadesServi);
   formData.append("calleSecundaria", calleSecundaria_novedadesServi);
   formData.append("numeracion", numeracion_novedadesServi);
   formData.append("referencia", referencia_novedadesServi);
   formData.append("telefono", telefono_novedadesServi);
-  formData.append("celular    ", celular_novedadesServi);
-  formData.append("observacion    ", observacion_novedadesServi);
+  formData.append("celular", celular_novedadesServi);
+  formData.append("observacion", observacion_novedadesServi);
 
   $.ajax({
     url: SERVERURL + "novedades/solventarNovedadLaar",
@@ -1013,17 +1125,21 @@ function enviar_laarNovedad() {
         toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
+
+        button.disabled = false;
       } else if (response.status == 200) {
         toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
 
         $("#gestionar_novedadModal").modal("hide");
-        initDataTable();
+        button.disabled = false;
+        initDataTableNovedades();
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
+      button.disabled = false;
     },
   });
 }
