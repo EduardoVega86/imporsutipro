@@ -271,69 +271,99 @@ class PedidosModel extends Query
         $sql = "SELECT * FROM vista_guias_administrador";
 
         // Condiciones de filtro
+        $firstCondition = true;  // Variable para saber si es la primera condición
+
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
             $sql .= " WHERE fecha_guia BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+            $firstCondition = false; // Ya se ha añadido un WHERE
         }
 
         if (!empty($transportadora)) {
-            $sql .= " AND transporte = '$transportadora'";
+            if ($firstCondition) {
+                $sql .= " WHERE transporte = '$transportadora'";
+                $firstCondition = false;
+            } else {
+                $sql .= " AND transporte = '$transportadora'";
+            }
         }
 
         if (!empty($estado)) {
+            if ($firstCondition) {
+                $sql .= " WHERE ";
+                $firstCondition = false;
+            } else {
+                $sql .= " AND ";
+            }
+
             switch ($estado) {
                 case 'generada':
-                    $sql .= " AND ((estado_guia_sistema in (100,102,103) and id_transporte=2)
-                        OR (estado_guia_sistema in (1,2) and id_transporte=1)
-                        OR (estado_guia_sistema in (1,2,3) and id_transporte=3)
-                        OR (estado_guia_sistema in (2) and id_transporte=4))";
+                    $sql .= "(estado_guia_sistema in (100,102,103) and id_transporte=2)
+                    OR (estado_guia_sistema in (1,2) and id_transporte=1)
+                    OR (estado_guia_sistema in (1,2,3) and id_transporte=3)
+                    OR (estado_guia_sistema in (2) and id_transporte=4)";
                     break;
                 case 'en_transito':
-                    $sql .= " AND ((estado_guia_sistema BETWEEN 300 AND 317 and id_transporte=2)
-                        OR (estado_guia_sistema in (5,11,12,6) and id_transporte=1)
-                        OR (estado_guia_sistema in (5,4) and id_transporte=3)
-                        OR (estado_guia_sistema in (3) and id_transporte=4))";
+                    $sql .= "(estado_guia_sistema BETWEEN 300 AND 317 and id_transporte=2)
+                    OR (estado_guia_sistema in (5,11,12,6) and id_transporte=1)
+                    OR (estado_guia_sistema in (5,4) and id_transporte=3)
+                    OR (estado_guia_sistema in (3) and id_transporte=4)";
                     break;
                 case 'entregada':
-                    $sql .= " AND ((estado_guia_sistema BETWEEN 400 AND 403 and id_transporte=2)
-                        OR (estado_guia_sistema in (7) and id_transporte=1)
-                        OR (estado_guia_sistema in (7) and id_transporte=3))";
+                    $sql .= "(estado_guia_sistema BETWEEN 400 AND 403 and id_transporte=2)
+                    OR (estado_guia_sistema in (7) and id_transporte=1)
+                    OR (estado_guia_sistema in (7) and id_transporte=3)";
                     break;
                 case 'novedad':
-                    $sql .= " AND ((estado_guia_sistema BETWEEN 320 AND 351 and id_transporte=2)
-                        OR (estado_guia_sistema in (14) and id_transporte=1)
-                        OR (estado_guia_sistema in (6) and id_transporte=3))";
+                    $sql .= "(estado_guia_sistema BETWEEN 320 AND 351 and id_transporte=2)
+                    OR (estado_guia_sistema in (14) and id_transporte=1)
+                    OR (estado_guia_sistema in (6) and id_transporte=3)";
                     break;
                 case 'devolucion':
-                    $sql .= " AND ((estado_guia_sistema BETWEEN 500 AND 502 and id_transporte=2)
-                        OR (estado_guia_sistema in (9) and id_transporte=2)
-                        OR (estado_guia_sistema in (9) and id_transporte=4)
-                        OR (estado_guia_sistema in (8,9,13) and id_transporte=3))";
+                    $sql .= "(estado_guia_sistema BETWEEN 500 AND 502 and id_transporte=2)
+                    OR (estado_guia_sistema in (9) and id_transporte=2)
+                    OR (estado_guia_sistema in (9) and id_transporte=4)
+                    OR (estado_guia_sistema in (8,9,13) and id_transporte=3)";
                     break;
             }
         }
 
         // Si existe búsqueda
-        // if (!empty($search)) {
-        //     $search = '%' . $search . '%';
-        //     if (strpos($sql, 'WHERE') === false) {
-        //         $sql .= " WHERE numero_factura LIKE '$search'";
-        //     } else {
-        //         $sql .= " AND numero_factura LIKE '$search'";
-        //     }
-        // }
-
+        if (!empty($search)) {
+            $search = '%' . $search . '%';  // Formatear el valor de búsqueda
+            if ($firstCondition) {
+                $sql .= " WHERE numero_factura LIKE '$search'";
+                $firstCondition = false;
+            } else {
+                $sql .= " AND numero_factura LIKE '$search'";
+            }
+        }
 
         if ($drogshipin == 0 || $drogshipin == 1) {
-            $sql .= " AND drogshipin = $drogshipin";
+            if ($firstCondition) {
+                $sql .= " WHERE drogshipin = $drogshipin";
+                $firstCondition = false;
+            } else {
+                $sql .= " AND drogshipin = $drogshipin";
+            }
         }
 
         if ($impreso == 0 || $impreso == 1) {
-            $sql .= " AND impreso = $impreso";
+            if ($firstCondition) {
+                $sql .= " WHERE impreso = $impreso";
+                $firstCondition = false;
+            } else {
+                $sql .= " AND impreso = $impreso";
+            }
         }
 
         if ($despachos !== null && $despachos !== '') {
             if ($despachos == 1 || $despachos == 2 || $despachos == 3) {
-                $sql .= " AND estado_factura = '$despachos'";
+                if ($firstCondition) {
+                    $sql .= " WHERE estado_factura = '$despachos'";
+                    $firstCondition = false;
+                } else {
+                    $sql .= " AND estado_factura = '$despachos'";
+                }
             }
         }
 
@@ -343,6 +373,7 @@ class PedidosModel extends Query
         // Ejecutar la consulta
         return $this->select($sql);
     }
+
 
 
     public function contarGuiasAdministrador2($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos)
