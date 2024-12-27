@@ -314,8 +314,7 @@ class PedidosModel extends Query
 
         // Si existe búsqueda
         if (!empty($search)) {
-            $search = '%' . $search . '%'; // Agregar los comodines para LIKE
-            // Si deseas buscar en varias columnas, puedes hacer algo como esto:
+            $search = '%' . $search . '%';
             $sql .= " AND (numero_factura LIKE '$search' OR descripcion LIKE '$search' OR otra_columna LIKE '$search')";
         }
 
