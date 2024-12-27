@@ -395,7 +395,6 @@ class PedidosModel extends Query
 
         // Ejecutar la consulta para contar los registros
         $result = $this->select($sql);
-        var_dump($result);
         return $result[0]['total'] ?? 0;
     }
 
