@@ -567,7 +567,7 @@ class Pedidos extends Controller
         $impreso = $_POST['impreso'] ?? "";
         $despachos = $_POST['despachos'] ?? "";
 
-        // Capturamos los parámetros de paginación enviados por el DataTable
+        // Capturamos los parámetros de paginación enviados por el DataTabl
         $start = $_POST['start'] ?? 1;
         $length = $_POST['length'] ?? 25;
         $search = $_POST['search'] ?? "";
