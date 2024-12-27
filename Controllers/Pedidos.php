@@ -580,6 +580,7 @@ class Pedidos extends Controller
         echo json_encode([
             // "draw" => $_POST['draw'],
             "per_page" => $_POST["per_page"] ?? 25,
+            "total_pages" => 10,
             "recordsTotal" => $totalRecords,
             "recordsFiltered" => $totalRecords,
             "data" => $data
