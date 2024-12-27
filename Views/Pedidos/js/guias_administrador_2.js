@@ -20,7 +20,7 @@ const dataTableOptions = {
     method: 'POST',
     data: function(d) {
       console.log(d)
-    //  d.fecha_inicio = fecha_inicio;
+    ///  d.fecha_inicio = fecha_inicio;
      // d.fecha_fin = fecha_fin;
       d.estado = $("#estado_q").val();
       d.drogshipin = $("#tienda_q").val();
