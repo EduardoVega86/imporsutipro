@@ -19,8 +19,8 @@ const dataTableOptions = {
     data: function(d) {
       console.log(d)
       // Aquí puedes incluir filtros adicionales si es necesario
-      d.fecha_inicio = fecha_inicio;
-      d.fecha_fin = fecha_fin;
+    //  d.fecha_inicio = fecha_inicio;
+     // d.fecha_fin = fecha_fin;
       d.estado = $("#estado_q").val();
       d.drogshipin = $("#tienda_q").val();
       d.transportadora = $("#transporte").val();
