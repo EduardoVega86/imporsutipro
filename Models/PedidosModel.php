@@ -266,7 +266,7 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
-    public function cargarGuiasAdministrador2($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos, $start, $length)
+    public function cargarGuiasAdministrador2($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos, $start, $length, $search)
     {
         $sql = "SELECT * FROM vista_guias_administrador";
 
@@ -310,6 +310,11 @@ class PedidosModel extends Query
                             OR (estado_guia_sistema in (8,9,13) and id_transporte=3))";
                     break;
             }
+        }
+
+        // si existe busqueda
+        if ($search) {
+            var_dump($search);
         }
 
         if ($drogshipin == 0 || $drogshipin == 1) {
