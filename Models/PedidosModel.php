@@ -312,10 +312,10 @@ class PedidosModel extends Query
             }
         }
 
-        // Si existe búsqued
+        // Si existe búsqueda
         if (!empty($search)) {
             $search = '%' . $search . '%';
-            $sql .= "OR (numero_factura LIKE $search)";
+            $sql .= " AND (numero_factura LIKE '$search')";
         }
 
         if ($drogshipin == 0 || $drogshipin == 1) {
