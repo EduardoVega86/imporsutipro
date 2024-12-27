@@ -394,7 +394,7 @@ class PedidosModel extends Query
             }
         }
 
-        // Ejecutar la consulta para contar el totales
+        // Ejecutar la consulta para contar el total
         $result = $this->select($sql);
         return $result[0]['total'] ?? 0;
     }
