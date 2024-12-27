@@ -1,6 +1,8 @@
 let dataTable;
 let dataTableIsInitialized = false;
 
+console.log($("#impresion").val())
+
 const dataTableOptions = {
   columnDefs: [
     { className: "centered", targets: [1, 2, 3, 4, 5, 6, 7, 8, 9] },
@@ -24,9 +26,7 @@ const dataTableOptions = {
       d.estado = $("#estado_q").val();
       d.drogshipin = $("#tienda_q").val();
       d.transportadora = $("#transporte").val();
-      d.impreso = $(document).on('change', '#impresion', function() {
-        console.log( this.value );
-      });
+      d.impreso = $("#impresion").val();
       d.despachos = $("#despachos").val();
       d.start = d.start; 
       d.length = d.length; 
