@@ -268,7 +268,7 @@ class PedidosModel extends Query
 
     public function cargarGuiasAdministrador2($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos, $start, $length)
     {
-        $sql = "SELECT * FROM vista_guias_administrador ";
+        $sql = "SELECT * FROM vista_guias_administrador";
 
         // Condiciones de filtro
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
