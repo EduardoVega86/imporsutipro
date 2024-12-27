@@ -17,6 +17,7 @@ const dataTableOptions = {
     url: `${SERVERURL}pedidos/obtener_guiasAdministrador2`,
     method: 'POST',
     data: function(d) {
+      console.log(d)
       // Aquí puedes incluir filtros adicionales si es necesario
       d.fecha_inicio = fecha_inicio;
       d.fecha_fin = fecha_fin;
