@@ -28,6 +28,8 @@ const dataTableOptions = {
       d.despachos = $("#despachos").val();
     },
     dataSrc: function(response) {
+      console.log('Respuesta del servidor:', response);
+
       // `response.data` es el array de objetos con los datos de las guías
       return response.data.map(guia => {
         // Aquí puedes ajustar los datos de cada fila, procesarlos y retornar el formato correcto para DataTable
