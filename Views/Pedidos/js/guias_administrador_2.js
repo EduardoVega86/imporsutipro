@@ -4,7 +4,7 @@ let dataTableIsInitialized = false;
 const dataTableOptions = {
   columnDefs: [
     { className: "centered", targets: [1, 2, 3, 4, 5, 6, 7, 8, 9] },
-    { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
+    { orderable: false, targets: 0 }, // No ordenar la columna 0
   ],
   order: [[2, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
   pageLength: 25,
@@ -13,31 +13,65 @@ const dataTableOptions = {
   responsive: true,
   processing: true,
   serverSide: true,
-  ajax:`${SERVERURL}pedidos/obtener_guiasAdministrador2`,
-
+  ajax: {
+    url: `${SERVERURL}pedidos/obtener_guiasAdministrador2`,
+    method: 'POST',
+    data: function(d) {
+      // Aquí puedes incluir filtros adicionales si es necesario
+      d.fecha_inicio = fecha_inicio;
+      d.fecha_fin = fecha_fin;
+      d.estado = $("#estado_q").val();
+      d.drogshipin = $("#tienda_q").val();
+      d.transportadora = $("#transporte").val();
+      d.impreso = $("#impresion").val();
+      d.despachos = $("#despachos").val();
+    },
+    dataSrc: function(response) {
+      // `response.data` es el array de objetos con los datos de las guías
+      return response.data.map(guia => {
+        // Aquí puedes ajustar los datos de cada fila, procesarlos y retornar el formato correcto para DataTable
+        return {
+          checkbox: `<input type="checkbox" class="selectCheckbox" data-id="${guia.id_factura}">`,
+          numero_factura: guia.numero_factura,
+          drogshipin: guia.drogshipin == 0 ? "Local" : "Drogshipin",
+          detalles: `
+            <div>
+              <button onclick="ver_detalle_cot('${guia.id_factura}')" class="btn btn-sm btn-outline-primary">Ver detalle</button>
+              <div>${guia.fecha_factura}</div>
+            </div>`,
+          cliente: `
+            <div><strong>${guia.nombre}</strong></div>
+            <div>${guia.c_principal} y ${guia.c_secundaria}</div>
+            <div>telf: ${guia.telefono}</div>`,
+          ciudad: `${guia.provinciaa}-${guia.ciudad}`,
+          tienda: guia.tienda,
+          proveedor: guia.nombre_proveedor,
+          transporte: getTransporte(guia.id_transporte, guia.numero_guia),
+          estado_guia: getEstadoGuia(guia.estado_guia_sistema),
+          despacho: getDespachado(guia.estado_factura),
+          impreso: guia.impreso == 0 ? "<box-icon name='printer' color='red'></box-icon>" : "<box-icon name='printer' color='#28E418'></box-icon>",
+          acciones: getAcciones(guia)
+        };
+      });
+    }
+  },
   dom: '<"d-flex w-full justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
   buttons: [
     {
       extend: "excelHtml5",
       text: 'Excel <i class="fa-solid fa-file-excel"></i>',
-      title: "Panel de Control: Usuarios",
-      titleAttr: "Exportar a Excel",
-      exportOptions: {
-        columns: [1, 2, 3, 4, 5, 6, 7, 8],
-      },
-      filename: "guias" + "_" + getFecha(),
+      title: "Panel de Control: Guias",
+      exportOptions: { columns: [1, 2, 3, 4, 5, 6, 7, 8] },
+      filename: "guias_" + getFecha(),
       footer: true,
       className: "btn-excel",
     },
     {
       extend: "csvHtml5",
       text: 'CSV <i class="fa-solid fa-file-csv"></i>',
-      title: "Panel de Control: guias",
-      titleAttr: "Exportar a CSV",
-      exportOptions: {
-        columns: [1, 2, 3, 4, 5, 6, 7, 8],
-      },
-      filename: "guias" + "_" + getFecha(),
+      title: "Panel de Control: Guias",
+      exportOptions: { columns: [1, 2, 3, 4, 5, 6, 7, 8] },
+      filename: "guias_" + getFecha(),
       footer: true,
       className: "btn-csv",
     },
@@ -56,8 +90,64 @@ const dataTableOptions = {
       next: "Siguiente",
       previous: "Anterior",
     },
-  },
+  }
 };
+
+// Helper functions to process specific columns
+function getTransporte(idTransporte, numeroGuia) {
+  let transporte = '';
+  if (idTransporte == 2) {
+    transporte = `<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SERVIENTREGA</span>`;
+  } else if (idTransporte == 1) {
+    transporte = `<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">LAAR</span>`;
+  }
+  return transporte;
+}
+
+function getEstadoGuia(estadoGuia) {
+  let estado = '';
+  switch (estadoGuia) {
+    case '1':
+      estado = 'Pendiente';
+      break;
+    case '2':
+      estado = 'En tránsito';
+      break;
+    case '3':
+      estado = 'Entregado';
+      break;
+    default:
+      estado = 'Estado desconocido';
+  }
+  return `<span class="w-100 text-nowrap">${estado}</span>`;
+}
+
+function getDespachado(estadoFactura) {
+  switch (estadoFactura) {
+    case '2':
+      return `<i class='bx bx-check' style="color:#28E418; font-size: 30px;"></i>`;
+    case '1':
+      return `<i class='bx bx-x' style="color:red; font-size: 30px;"></i>`;
+    case '3':
+      return `<i class='bx bxs-truck' style="color:red; font-size: 30px;"></i>`;
+    default:
+      return '';
+  }
+}
+
+function getAcciones(guia) {
+  return `
+    <div class="dropdown">
+      <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fa-solid fa-gear"></i>
+      </button>
+      <ul class="dropdown-menu">
+        <li><span class="dropdown-item" onclick="anular_guia('${guia.numero_guia}')">Anular</span></li>
+        <li><span class="dropdown-item" onclick="ver_info('${guia.numero_guia}')">Información</span></li>
+      </ul>
+    </div>`;
+}
+
 
 function getFecha() {
   let fecha = new Date();
@@ -102,241 +192,241 @@ const reloadDataTable = async () => {
   });
 };
 
-const listGuias = async () => {
-  try {
-    const formData = new FormData();
-    formData.append("fecha_inicio", fecha_inicio);
-    formData.append("fecha_fin", fecha_fin);
-    formData.append("estado", $("#estado_q").val());
-    formData.append("drogshipin", $("#tienda_q").val());
-    formData.append("transportadora", $("#transporte").val());
-    formData.append("impreso", $("#impresion").val());
-    formData.append("despachos", $("#despachos").val());
+// const listGuias = async () => {
+//   try {
+//     const formData = new FormData();
+//     formData.append("fecha_inicio", fecha_inicio);
+//     formData.append("fecha_fin", fecha_fin);
+//     formData.append("estado", $("#estado_q").val());
+//     formData.append("drogshipin", $("#tienda_q").val());
+//     formData.append("transportadora", $("#transporte").val());
+//     formData.append("impreso", $("#impresion").val());
+//     formData.append("despachos", $("#despachos").val());
 
-    const response = await fetch(
-      `${SERVERURL}pedidos/obtener_guiasAdministrador2`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-    const guias = await response.json();
-    console.log(guias)
-    let content = ``;
-    let impresiones = "";
-    let novedad = "";
-    guias.forEach((guia, index) => {
-      let transporte = guia.id_transporte;
-      let transporte_content = "";
-      let ruta_descarga = "";
-      let ruta_traking = "";
-      let funcion_anular = "";
-      let select_speed = "";
-      let drogshipin = "";
-      let despachado = "";
-      if (transporte == 2) {
-        transporte_content =
-          '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SERVIENTREGA</span>';
-        ruta_descarga = `<a class="w-100" href="https://guias.imporsuitpro.com/Servientrega/guia/${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
-        ruta_traking = `https://www.servientrega.com.ec/Tracking/?guia=${guia.numero_guia}&tipo=GUIA`;
-        funcion_anular = `anular_guiaServi('${guia.numero_guia}')`;
-        estado = validar_estadoServi(guia.estado_guia_sistema);
-      } else if (transporte == 1) {
-        transporte_content =
-          '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">LAAR</span>';
+//     const response = await fetch(
+//       `${SERVERURL}pedidos/obtener_guiasAdministrador2`,
+//       {
+//         method: "POST",
+//         body: formData,
+//       }
+//     );
+//     const guias = await response.json();
+//     console.log(guias)
+//     let content = ``;
+//     let impresiones = "";
+//     let novedad = "";
+//     guias.forEach((guia, index) => {
+//       let transporte = guia.id_transporte;
+//       let transporte_content = "";
+//       let ruta_descarga = "";
+//       let ruta_traking = "";
+//       let funcion_anular = "";
+//       let select_speed = "";
+//       let drogshipin = "";
+//       let despachado = "";
+//       if (transporte == 2) {
+//         transporte_content =
+//           '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SERVIENTREGA</span>';
+//         ruta_descarga = `<a class="w-100" href="https://guias.imporsuitpro.com/Servientrega/guia/${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
+//         ruta_traking = `https://www.servientrega.com.ec/Tracking/?guia=${guia.numero_guia}&tipo=GUIA`;
+//         funcion_anular = `anular_guiaServi('${guia.numero_guia}')`;
+//         estado = validar_estadoServi(guia.estado_guia_sistema);
+//       } else if (transporte == 1) {
+//         transporte_content =
+//           '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">LAAR</span>';
 
-        ruta_descarga = `<a class="w-100" href="https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
+//         ruta_descarga = `<a class="w-100" href="https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
 
-        ruta_traking = `https://fenixoper.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${guia.numero_guia}`;
-        funcion_anular = `anular_guiaLaar('${guia.numero_guia}')`;
-        estado = validar_estadoLaar(guia.estado_guia_sistema);
-      } else if (transporte == 4) {
-        if (guia.numero_guia.includes("MKL")) {
-          transporte_content =
-            '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">MerkaLogistic</span>';
-        } else if (guia.numero_guia.includes("SPD")) {
-          transporte_content =
-            '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
-        }
-        ruta_descarga = `<a class="w-100" href="https://guias.imporsuitpro.com/Speed/descargar/${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
-        ruta_traking = ``;
-        funcion_anular = `anular_guiaSpeed('${guia.numero_guia}')`;
-        estado = validar_estadoSpeed(guia.estado_guia_sistema);
-        /* select_speed = `
-                    <select class="form-select select-estado-speed" style="max-width: 130px;" data-numero-guia="${
-                      guia.numero_guia
-                    }">
-                        <option value="0" ${
-                          guia.estado_guia_sistema == 0 ? "selected" : ""
-                        }>-- Selecciona estado --</option>
-                        <option value="2" ${
-                          guia.estado_guia_sistema == 2 ? "selected" : ""
-                        }>Generado</option>
-                        <option value="3" ${
-                          guia.estado_guia_sistema == 3 ? "selected" : ""
-                        }>Transito</option>
-                        <option value="7" ${
-                          guia.estado_guia_sistema == 7 ? "selected" : ""
-                        }>Entregado</option>
-                        <option value="9" ${
-                          guia.estado_guia_sistema == 9 ? "selected" : ""
-                        }>Devuelto</option>
-                        <option value="14" ${
-                          guia.estado_guia_sistema == 14 ? "selected" : ""
-                        }>Novedad</option>
-                    </select>`; */
-      } else if (transporte == 3) {
-        transporte_content =
-          '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>';
-        ruta_descarga = `<a class="w-100" href="https://guias.imporsuitpro.com/Gintracom/label/${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
-        ruta_traking = `https://ec.gintracom.site/web/site/tracking`;
-        funcion_anular = `anular_guiaGintracom('${guia.numero_guia}')`;
-        estado = validar_estadoGintracom(guia.estado_guia_sistema);
-      } else {
-        transporte_content =
-          '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">Guia no enviada</span>';
-      }
+//         ruta_traking = `https://fenixoper.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${guia.numero_guia}`;
+//         funcion_anular = `anular_guiaLaar('${guia.numero_guia}')`;
+//         estado = validar_estadoLaar(guia.estado_guia_sistema);
+//       } else if (transporte == 4) {
+//         if (guia.numero_guia.includes("MKL")) {
+//           transporte_content =
+//             '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">MerkaLogistic</span>';
+//         } else if (guia.numero_guia.includes("SPD")) {
+//           transporte_content =
+//             '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
+//         }
+//         ruta_descarga = `<a class="w-100" href="https://guias.imporsuitpro.com/Speed/descargar/${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
+//         ruta_traking = ``;
+//         funcion_anular = `anular_guiaSpeed('${guia.numero_guia}')`;
+//         estado = validar_estadoSpeed(guia.estado_guia_sistema);
+//         /* select_speed = `
+//                     <select class="form-select select-estado-speed" style="max-width: 130px;" data-numero-guia="${
+//                       guia.numero_guia
+//                     }">
+//                         <option value="0" ${
+//                           guia.estado_guia_sistema == 0 ? "selected" : ""
+//                         }>-- Selecciona estado --</option>
+//                         <option value="2" ${
+//                           guia.estado_guia_sistema == 2 ? "selected" : ""
+//                         }>Generado</option>
+//                         <option value="3" ${
+//                           guia.estado_guia_sistema == 3 ? "selected" : ""
+//                         }>Transito</option>
+//                         <option value="7" ${
+//                           guia.estado_guia_sistema == 7 ? "selected" : ""
+//                         }>Entregado</option>
+//                         <option value="9" ${
+//                           guia.estado_guia_sistema == 9 ? "selected" : ""
+//                         }>Devuelto</option>
+//                         <option value="14" ${
+//                           guia.estado_guia_sistema == 14 ? "selected" : ""
+//                         }>Novedad</option>
+//                     </select>`; */
+//       } else if (transporte == 3) {
+//         transporte_content =
+//           '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>';
+//         ruta_descarga = `<a class="w-100" href="https://guias.imporsuitpro.com/Gintracom/label/${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
+//         ruta_traking = `https://ec.gintracom.site/web/site/tracking`;
+//         funcion_anular = `anular_guiaGintracom('${guia.numero_guia}')`;
+//         estado = validar_estadoGintracom(guia.estado_guia_sistema);
+//       } else {
+//         transporte_content =
+//           '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">Guia no enviada</span>';
+//       }
 
-      var span_estado = estado.span_estado;
-      var estado_guia = estado.estado_guia;
+//       var span_estado = estado.span_estado;
+//       var estado_guia = estado.estado_guia;
 
-      if (guia.drogshipin == 0) {
-        drogshipin = "Local";
-      } else if (drogshipin == 1) {
-        drogshipin = "Drogshipin";
-      }
+//       if (guia.drogshipin == 0) {
+//         drogshipin = "Local";
+//       } else if (drogshipin == 1) {
+//         drogshipin = "Drogshipin";
+//       }
 
-      // Definir la variable ciudad antes de los bloques if-else
-      let ciudad = "Ciudad no especificada";
+//       // Definir la variable ciudad antes de los bloques if-else
+//       let ciudad = "Ciudad no especificada";
 
-      // Verificar si la ciudad es válida antes de usar split
-      let ciudadCompleta = guia.ciudad;
+//       // Verificar si la ciudad es válida antes de usar split
+//       let ciudadCompleta = guia.ciudad;
 
-      if (ciudadCompleta) {
-        let ciudadArray = ciudadCompleta.split("/");
-        ciudad = ciudadArray[0];
-      } else {
-        console.log("La ciudad no está definida o está vacía");
-      }
+//       if (ciudadCompleta) {
+//         let ciudadArray = ciudadCompleta.split("/");
+//         ciudad = ciudadArray[0];
+//       } else {
+//         console.log("La ciudad no está definida o está vacía");
+//       }
 
-      novedad = "";
-      if (guia.estado_guia_sistema == 14 && transporte == 1) {
-        novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
-      } else if (guia.estado_guia_sistema == 6 && transporte == 3) {
-        novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
-      } /* else if (guia.estado_guia_sistema == 14 && transporte == 4) {
-        novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
-      } */
-      if (
-        guia.estado_guia_sistema >= 318 &&
-        guia.estado_guia_sistema <= 351 &&
-        transporte == 2
-      ) {
-        novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
-      }
+//       novedad = "";
+//       if (guia.estado_guia_sistema == 14 && transporte == 1) {
+//         novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
+//       } else if (guia.estado_guia_sistema == 6 && transporte == 3) {
+//         novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
+//       } /* else if (guia.estado_guia_sistema == 14 && transporte == 4) {
+//         novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
+//       } */
+//       if (
+//         guia.estado_guia_sistema >= 318 &&
+//         guia.estado_guia_sistema <= 351 &&
+//         transporte == 2
+//       ) {
+//         novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
+//       }
 
-      let plataforma = procesarPlataforma(guia.plataforma);
-      if (guia.impreso == 0) {
-        impresiones = `<box-icon name='printer' color= "red"></box-icon>`;
-      } else {
-        impresiones = `<box-icon name='printer' color= "#28E418"></box-icon>`;
-      }
+//       let plataforma = procesarPlataforma(guia.plataforma);
+//       if (guia.impreso == 0) {
+//         impresiones = `<box-icon name='printer' color= "red"></box-icon>`;
+//       } else {
+//         impresiones = `<box-icon name='printer' color= "#28E418"></box-icon>`;
+//       }
 
-      despachado = "";
-      if (guia.estado_factura == 2) {
-        despachado = `<i class='bx bx-check' style="color:#28E418; font-size: 30px;"></i>`;
-      } else if (guia.estado_factura == 1) {
-        despachado = `<i class='bx bx-x' style="color:red; font-size: 30px;"></i>`;
-      } else if (guia.estado_factura == 3) {
-        despachado = `<i class='bx bxs-truck' style="color:red; font-size: 30px;"></i>`;
-      }
+//       despachado = "";
+//       if (guia.estado_factura == 2) {
+//         despachado = `<i class='bx bx-check' style="color:#28E418; font-size: 30px;"></i>`;
+//       } else if (guia.estado_factura == 1) {
+//         despachado = `<i class='bx bx-x' style="color:red; font-size: 30px;"></i>`;
+//       } else if (guia.estado_factura == 3) {
+//         despachado = `<i class='bx bxs-truck' style="color:red; font-size: 30px;"></i>`;
+//       }
 
-      content += `
-                <tr>
-                    <td><input type="checkbox" class="selectCheckbox" data-id="${
-                      guia.id_factura
-                    }"></td>
-                    <td>
-                    <div>
-                    ${guia.numero_factura}
-                    </div>
-                    <div>
-                    ${drogshipin}
-                    </div>
-                    </td>
-                    <td>
-                    <div><button onclick="ver_detalle_cot('${
-                      guia.id_factura
-                    }')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>
-                    <div>${guia.fecha_factura}</td></div>
-                    <td>
-                        <div><strong>${guia.nombre}</strong></div>
-                        <div>${guia.c_principal} y ${guia.c_secundaria}</div>
-                        <div>telf: ${guia.telefono}</div>
-                    </td>
-                    <td>${guia.provinciaa}-${ciudad}</td>
-                    <td><span class="link-like" id="plataformaLink">${
-                      guia.tienda
-                    }</span></td>
-                    <td><span class="link-like" id="plataformaLink">${
-                      guia.nombre_proveedor
-                    }</span></td>
-                    <td>${transporte_content}</td>
-                    <td>
-                     <div style="text-align: center;">
-                     <div>
-                      <span class="w-100 text-nowrap ${span_estado}">${estado_guia}</span>
-                     </div>
-                     <div>
-                     ${ruta_descarga}
-                     </div>
-                     <div style="position: relative; display: inline-block;">
-                      <a href="${ruta_traking}" target="_blank" style="vertical-align: middle;">
-                        <img src="https://new.imporsuitpro.com/public/img/tracking.png" width="40px" id="buscar_traking" alt="buscar_traking">
-                      </a>
-                      <a href="https://wa.me/${formatPhoneNumber(
-                        guia.telefono
-                      )}" target="_blank" style="font-size: 45px; vertical-align: middle; margin-left: 10px;" target="_blank">
-                      <i class='bx bxl-whatsapp-square' style="color: green;"></i>
-                      </a>
-                     </div>
-                     <div style="text-align: -webkit-center;">
-                     ${select_speed}
-                     </div>
-                     <div>
-                     ${novedad}
-                     </div>
-                     </div>
-                    </td>
-                    <td>${despachado}</td>
-                    <td>${impresiones}</td>
-                    <td>
-                    <div class="dropdown">
-                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-gear"></i>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="${funcion_anular}">Anular</span></li>
-                        <li><span class="dropdown-item" style="cursor: pointer;">Información</span></li>
-                        <li><span class="dropdown-item" style="cursor: pointer;" onclick='transito(${
-                          guia.id_factura
-                        })' >Transito</span></li>
-                        <li><span class="dropdown-item" style="cursor: pointer;" onclick='entregar(${
-                          guia.id_factura
-                        })' >Entregado</span></li>
-                        <li><span class="dropdown-item" style="cursor: pointer;" onclick='devolucion(${
-                          guia.id_factura
-                        })' >Devolución</span></li>
-                    </ul>
-                </div>
-                    </td>
-                </tr>`;
-    });
-    document.getElementById("tableBody_guias").innerHTML = content;
-  } catch (ex) {
-    alert(ex);
-  }
-};
+//       content += `
+//                 <tr>
+//                     <td><input type="checkbox" class="selectCheckbox" data-id="${
+//                       guia.id_factura
+//                     }"></td>
+//                     <td>
+//                     <div>
+//                     ${guia.numero_factura}
+//                     </div>
+//                     <div>
+//                     ${drogshipin}
+//                     </div>
+//                     </td>
+//                     <td>
+//                     <div><button onclick="ver_detalle_cot('${
+//                       guia.id_factura
+//                     }')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>
+//                     <div>${guia.fecha_factura}</td></div>
+//                     <td>
+//                         <div><strong>${guia.nombre}</strong></div>
+//                         <div>${guia.c_principal} y ${guia.c_secundaria}</div>
+//                         <div>telf: ${guia.telefono}</div>
+//                     </td>
+//                     <td>${guia.provinciaa}-${ciudad}</td>
+//                     <td><span class="link-like" id="plataformaLink">${
+//                       guia.tienda
+//                     }</span></td>
+//                     <td><span class="link-like" id="plataformaLink">${
+//                       guia.nombre_proveedor
+//                     }</span></td>
+//                     <td>${transporte_content}</td>
+//                     <td>
+//                      <div style="text-align: center;">
+//                      <div>
+//                       <span class="w-100 text-nowrap ${span_estado}">${estado_guia}</span>
+//                      </div>
+//                      <div>
+//                      ${ruta_descarga}
+//                      </div>
+//                      <div style="position: relative; display: inline-block;">
+//                       <a href="${ruta_traking}" target="_blank" style="vertical-align: middle;">
+//                         <img src="https://new.imporsuitpro.com/public/img/tracking.png" width="40px" id="buscar_traking" alt="buscar_traking">
+//                       </a>
+//                       <a href="https://wa.me/${formatPhoneNumber(
+//                         guia.telefono
+//                       )}" target="_blank" style="font-size: 45px; vertical-align: middle; margin-left: 10px;" target="_blank">
+//                       <i class='bx bxl-whatsapp-square' style="color: green;"></i>
+//                       </a>
+//                      </div>
+//                      <div style="text-align: -webkit-center;">
+//                      ${select_speed}
+//                      </div>
+//                      <div>
+//                      ${novedad}
+//                      </div>
+//                      </div>
+//                     </td>
+//                     <td>${despachado}</td>
+//                     <td>${impresiones}</td>
+//                     <td>
+//                     <div class="dropdown">
+//                     <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+//                         <i class="fa-solid fa-gear"></i>
+//                     </button>
+//                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+//                         <li><span class="dropdown-item" style="cursor: pointer;" onclick="${funcion_anular}">Anular</span></li>
+//                         <li><span class="dropdown-item" style="cursor: pointer;">Información</span></li>
+//                         <li><span class="dropdown-item" style="cursor: pointer;" onclick='transito(${
+//                           guia.id_factura
+//                         })' >Transito</span></li>
+//                         <li><span class="dropdown-item" style="cursor: pointer;" onclick='entregar(${
+//                           guia.id_factura
+//                         })' >Entregado</span></li>
+//                         <li><span class="dropdown-item" style="cursor: pointer;" onclick='devolucion(${
+//                           guia.id_factura
+//                         })' >Devolución</span></li>
+//                     </ul>
+//                 </div>
+//                     </td>
+//                 </tr>`;
+//     });
+//     document.getElementById("tableBody_guias").innerHTML = content;
+//   } catch (ex) {
+//     alert(ex);
+//   }
+// };
 
 function transito(id_cabecera) {
   $.ajax({
