@@ -24,7 +24,9 @@ const dataTableOptions = {
       d.estado = $("#estado_q").val();
       d.drogshipin = $("#tienda_q").val();
       d.transportadora = $("#transporte").val();
-      d.impreso = $("#impresion").val();
+      d.impreso = $(document).on('change', '#impresion', function() {
+        console.log( this.value );
+      });
       d.despachos = $("#despachos").val();
       d.start = d.start; 
       d.length = d.length; 
