@@ -325,7 +325,6 @@ class PedidosModel extends Query
                 $sql .= " AND estado_factura = '$despachos'";
             }
         }
-
         // Agregar LIMIT y OFFSET para la paginación
         $sql .= " LIMIT $start, $length";
 

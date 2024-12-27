@@ -568,7 +568,7 @@ class Pedidos extends Controller
         $despachos = $_POST['despachos'] ?? "";
 
         // Capturamos los parámetros de paginación enviados por el DataTable
-        $start = $_POST['start'] ?? 0;
+        $start = $_POST['start'] ?? 1;
         $length = $_POST['length'] ?? 26;
 
         $data = $this->model->cargarGuiasAdministrador2($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos, $start, $length);
