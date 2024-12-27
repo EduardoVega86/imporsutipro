@@ -117,7 +117,7 @@ const listGuias = async () => {
       }
     );
     const guias = await response.json();
-
+    console.log(guias)
     let content = ``;
     let impresiones = "";
     let novedad = "";
