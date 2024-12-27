@@ -571,21 +571,22 @@ class Pedidos extends Controller
         $start = $_POST['start'] ?? 0;
         $length = $_POST['length'] ?? 25;
 
-
         $data = $this->model->cargarGuiasAdministrador2($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos, $start, $length);
-
         $totalRecords = $this->model->contarGuiasAdministrador2($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos);
 
-        // Devolver los datos en formato JSON esperado por DataTables
+
+        $totalPages = ceil($totalRecords / $length);
+
+
         echo json_encode([
-            // "draw" => $_POST['draw'],
-            "per_page" => $_POST["per_page"] ?? 25,
-            "total_pages" => 10,
+            "draw" => $_POST['draw'],
             "recordsTotal" => $totalRecords,
             "recordsFiltered" => $totalRecords,
+            "totalPages" => $totalPages,
             "data" => $data
         ]);
     }
+
 
 
 
