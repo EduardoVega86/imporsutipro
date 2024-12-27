@@ -578,7 +578,7 @@ class Pedidos extends Controller
 
         // Devolver los datos en formato JSON esperado por DataTables
         echo json_encode([
-            "draw" => $_POST['draw'],
+            // "draw" => $_POST['draw'],
             "recordsTotal" => $totalRecords,
             "recordsFiltered" => $totalRecords,
             "data" => $data
