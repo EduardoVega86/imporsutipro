@@ -314,7 +314,7 @@ class PedidosModel extends Query
 
         // si existe busqueda
         if ($search) {
-            $sql .= "SELECT * FROM vista_guias_administrador WHERE numero_factura LIKE '%$search%''";
+            $sql .= "SELECT * FROM vista_guias_administrador WHERE numero_factura LIKE '%$search%'";
             //var_dump($search);
         }
 
