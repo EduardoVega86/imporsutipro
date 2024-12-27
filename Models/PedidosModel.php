@@ -336,9 +336,7 @@ class PedidosModel extends Query
     public function contarGuiasAdministrador2($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos)
     {
 
-        $sql = "SELECT COUNT(*) as total FROM vista_guias_administrador";
-        var_dump($sql);
-        die();
+        $sql = "SELECT COUNT(*) as total FROM vista_guias_administrador ";
 
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
             $sql .= " WHERE fecha_guia BETWEEN '$fecha_inicio' AND '$fecha_fin'";
@@ -397,6 +395,7 @@ class PedidosModel extends Query
 
         // Ejecutar la consulta para contar los registros
         $result = $this->select($sql);
+        var_dump($result);
         return $result[0]['total'] ?? 0;
     }
 
