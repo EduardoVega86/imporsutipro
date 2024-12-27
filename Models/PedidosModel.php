@@ -314,9 +314,11 @@ class PedidosModel extends Query
 
         // si existe busqueda
         if ($search) {
+            // Si ya hay una condición previa, agregar AND antes del LIKE
+            $sql .= (strpos($sql, "WHERE") === false) ? " WHERE " : " AND ";
             $sql .= "numero_factura LIKE '%$search%'";
-            //var_dump($search);
         }
+
 
         if ($drogshipin == 0 || $drogshipin == 1) {
             $sql .= " AND drogshipin = $drogshipin";
