@@ -314,9 +314,14 @@ class PedidosModel extends Query
 
         // Si existe búsqueda
         if (!empty($search)) {
-            $search = '%' . $search . '%';
-            $sql .= " AND numero_factura LIKE '$search'";
+            $search = '%' . $search . '%';  // Asegúrate de que el valor de búsqueda esté formateado correctamente
+            if (strpos($sql, 'WHERE') === false) {
+                $sql .= " WHERE numero_factura LIKE '$search'";
+            } else {
+                $sql .= " AND numero_factura LIKE '$search'";
+            }
         }
+
 
         if ($drogshipin == 0 || $drogshipin == 1) {
             $sql .= " AND drogshipin = $drogshipin";
