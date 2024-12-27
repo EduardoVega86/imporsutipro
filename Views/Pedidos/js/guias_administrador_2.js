@@ -13,6 +13,8 @@ const dataTableOptions = {
   responsive: true,
   processing: true,
   serverSide: true,
+  ajax:`${SERVERURL}pedidos/obtener_guiasAdministrador2`,
+
   dom: '<"d-flex w-full justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
   buttons: [
     {
