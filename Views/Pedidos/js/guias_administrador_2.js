@@ -28,7 +28,7 @@ const dataTableOptions = {
       d.despachos = $("#despachos").val();
       d.start = d.start; 
       d.length = d.length; 
-      d.search = d.search; 
+      d.search = d.search.value; 
     },
     dataSrc: function(response) {
       console.log('Respuesta del servidor', response);
