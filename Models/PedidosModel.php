@@ -312,7 +312,7 @@ class PedidosModel extends Query
             }
         }
 
-        // Si existe búsqued
+        // Si existe búsqueda
         if (!empty($search)) {
             $search = '%' . $search . '%';
             $sql .= "AND (numero_factura LIKE '$search')";
