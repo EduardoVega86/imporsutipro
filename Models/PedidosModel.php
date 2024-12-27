@@ -314,6 +314,7 @@ class PedidosModel extends Query
 
         // si existe busqueda
         if ($search) {
+            $sql .= "numero_factura LIKE '%$search%''";
             //var_dump($search);
         }
 
