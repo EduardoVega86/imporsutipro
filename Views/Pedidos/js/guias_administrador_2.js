@@ -163,7 +163,7 @@ const initDataTable = async () => {
     dataTable.destroy();
   }
 
-  await listGuias();
+  //await listGuias()
 
   dataTable = $("#datatable_guias").DataTable(dataTableOptions);
 
