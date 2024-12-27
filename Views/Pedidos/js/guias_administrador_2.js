@@ -15,7 +15,7 @@ const dataTableOptions = {
   serverSide: true,
   ajax: {
     url: `${SERVERURL}pedidos/obtener_guiasAdministrador2`,
-    method: 'GET',
+    method: 'POST',
     data: function(d) {
       console.log(d)
       // Aquí puedes incluir filtros adicionales si es necesario
