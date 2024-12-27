@@ -31,12 +31,26 @@
                         </div>
                     </div>
                 </div>
+                <div class="flex-fill filtro_impresar">
+                    <div class=" d-flex flex-column justify-content-start">
+                        <label for="despachado" class="col-sm-2 col-form-label">Despachados</label>
+                        <div>
+                            <select name="despachos" class="form-control" id="despachos">
+                                <option value=""> Todas</option>
+                                <option value="2"> Despachados </option>
+                                <option value="1"> No Despachados </option>
+                                <option value="3"> Devueltos </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
                 <div class="flex-fill filtro_tienda" style="width: 100%; padding-top: 8px; ">
                     <div style="width: 100%;">
                         <label for="tienda_q" class="col-form-label">Proveedor / Dropshipper</label>
                         <select id="tienda_q" class="form-control">
                             <option value="">Selecciona un Proveedor o Dropshipper</option>
-
+                            <option value="1">Dropshipper</option>
+                            <option value="0">Local</option>
                         </select>
                     </div>
                 </div>
@@ -47,25 +61,12 @@
                     <label for="inputPassword3" class="col-sm-2 col-form-label">Estado</label>
                     <div>
                         <select name="estado_q" class="form-control" id="estado_q">
-                            <option value=""> Seleccione Estado </option>
-                            <option value="(estado_guia_sistema in (100,102,103) and id_transporte=2)
-                            OR (estado_guia_sistema in (1,2,3,4) and id_transporte=1)
-                            or (estado_guia_sistema in (1,2,3) and id_transporte=3)
-                            or (estado_guia_sistema in (2) and id_transporte=4)"> Generada </option>
-                            <option value="(estado_guia_sistema BETWEEN 200 AND 202 and id_transporte=2)
-                            OR (estado_guia_sistema in (5,11,12,6) and id_transporte=1)
-                            OR (estado_guia_sistema in (5,4) and id_transporte=3)
-                            OR (estado_guia_sistema in (3) and id_transporte=4)"> En Transito </option>
-                            <option value="(estado_guia_sistema BETWEEN 400 AND 403   and id_transporte=2)
-                            OR  (estado_guia_sistema in (7)  and id_transporte=1)
-                            OR  (estado_guia_sistema in (7)  and id_transporte=3)"> Entregada </option>
-                            <option value="(estado_guia_sistema BETWEEN 320 AND 351 and id_transporte=2)
-                            OR  (estado_guia_sistema in (14) and id_transporte=1)
-                            OR  (estado_guia_sistema in (6) and id_transporte=3)"> Novedad </option>
-                            <option value="estado_guia_sistema BETWEEN 500 AND 502
-                            OR estado_guia_sistema in (9) 
-                            OR (estado_guia_sistema in (3) and id_transporte=4)
-                            OR (estado_guia_sistema in (8,9,13) and id_transporte=3)"> Devolucion </option>
+                            <option value="">Seleccione Estado</option>
+                            <option value="generada">Generada/ Por Recolectar</option>
+                            <option value="en_transito">En transito / Procesamiento / En ruta</option>
+                            <option value="entregada">Entregada</option>
+                            <option value="novedad">Novedad</option>
+                            <option value="devolucion">Devolución</option>
                         </select>
                     </div>
                 </div>
@@ -100,7 +101,7 @@
                 <thead>
                     <tr>
                         <th class="centered"><input type="checkbox" id="selectAll"></th>
-                        <th class="centered"># Orden</th>
+                        <th class="centered"># Guia</th>
                         <th class="centered">Detalle</th>
                         <th class="centered">Cliente</th>
                         <th class="centered">Destino</th>
@@ -121,9 +122,20 @@
 <script>
     let fecha_inicio = "";
     let fecha_fin = "";
+
+    // Calcula la fecha de inicio (hace 7 días) y la fecha de fin (hoy)
+    let hoy = moment();
+    let haceUnaSemana = moment().subtract(6, 'days'); // Rango de 7 días
+
+    // Asignar las fechas a las variables al cargar la página
+    fecha_inicio = haceUnaSemana.format('YYYY-MM-DD') + ' 00:00:00';
+    fecha_fin = hoy.format('YYYY-MM-DD') + ' 23:59:59';
+
     $(function() {
         $('#daterange').daterangepicker({
             opens: 'right',
+            startDate: haceUnaSemana, // Fecha de inicio predefinida
+            endDate: hoy, // Fecha de fin predefinida
             locale: {
                 format: 'YYYY-MM-DD',
                 separator: ' - ',
@@ -137,7 +149,7 @@
                 monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
                 firstDay: 1
             },
-            autoUpdateInput: false
+            autoUpdateInput: true // Actualiza el input automáticamente
         });
 
         // Evento que se dispara cuando se aplica un nuevo rango de fechas
@@ -145,14 +157,19 @@
             // Actualiza el valor del input con el rango de fechas seleccionado
             $(this).val(picker.startDate.format('YYYY-MM-DD') + ' - ' + picker.endDate.format('YYYY-MM-DD'));
 
+            // Actualizar las variables con las nuevas fechas seleccionadas
             fecha_inicio = picker.startDate.format('YYYY-MM-DD') + ' 00:00:00';
             fecha_fin = picker.endDate.format('YYYY-MM-DD') + ' 23:59:59';
             initDataTable();
         });
+
+        // Establece los valores iniciales en el input de fechas
+        $('#daterange').val(haceUnaSemana.format('YYYY-MM-DD') + ' - ' + hoy.format('YYYY-MM-DD'));
     });
 
     $(document).ready(function() {
-        $("#estado_q,#transporte,#impresion").change(function() {
+        // Inicializa la tabla cuando cambian los selectores
+        $("#tienda_q,#estado_q,#transporte,#impresion,#despachos").change(function() {
             initDataTable();
         });
     });
