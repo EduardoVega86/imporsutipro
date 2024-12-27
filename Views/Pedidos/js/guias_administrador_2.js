@@ -11,7 +11,7 @@ const dataTableOptions = {
   lengthMenu: [25, 50, 100, 200],
   destroy: true,
   responsive: true,
-  serverSide: true,
+  //serverSide: true,
   dom: '<"d-flex w-full justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
   buttons: [
     {
