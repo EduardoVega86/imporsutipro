@@ -15,7 +15,7 @@ const dataTableOptions = {
   serverSide: true,
   ajax: {
     url: `${SERVERURL}pedidos/obtener_guiasAdministrador2`,
-    method: 'POST',
+    method: 'GET',
     data: function(d) {
       console.log(d)
       // Aquí puedes incluir filtros adicionales si es necesario
@@ -28,33 +28,30 @@ const dataTableOptions = {
       d.despachos = $("#despachos").val();
     },
     dataSrc: function(response) {
-      console.log('Respuesta del servidor:', response);
+      console.log('Respuesta del servidor', response);
 
       // `response.data` es el array de objetos con los datos de las guías
       return response.data.map(guia => {
-        // Aquí puedes ajustar los datos de cada fila, procesarlos y retornar el formato correcto para DataTable
-        return {
-          checkbox: `<input type="checkbox" class="selectCheckbox" data-id="${guia.id_factura}">`,
-          numero_factura: guia.numero_factura,
-          drogshipin: guia.drogshipin == 0 ? "Local" : "Drogshipin",
-          detalles: `
-            <div>
-              <button onclick="ver_detalle_cot('${guia.id_factura}')" class="btn btn-sm btn-outline-primary">Ver detalle</button>
-              <div>${guia.fecha_factura}</div>
-            </div>`,
-          cliente: `
-            <div><strong>${guia.nombre}</strong></div>
-            <div>${guia.c_principal} y ${guia.c_secundaria}</div>
-            <div>telf: ${guia.telefono}</div>`,
-          ciudad: `${guia.provinciaa}-${guia.ciudad}`,
-          tienda: guia.tienda,
-          proveedor: guia.nombre_proveedor,
-          transporte: getTransporte(guia.id_transporte, guia.numero_guia),
-          estado_guia: getEstadoGuia(guia.estado_guia_sistema),
-          despacho: getDespachado(guia.estado_factura),
-          impreso: guia.impreso == 0 ? "<box-icon name='printer' color='red'></box-icon>" : "<box-icon name='printer' color='#28E418'></box-icon>",
-          acciones: getAcciones(guia)
-        };
+        return [
+          `<input type="checkbox" class="selectCheckbox" data-id="${guia.id_factura}">`,  // Columna 0: Checkbox
+          guia.numero_factura,                                                            // Columna 1: Número de factura
+          guia.drogshipin == 0 ? "Local" : "Drogshipin",                                  // Columna 2: Drogshipin
+          `<div>
+            <button onclick="ver_detalle_cot('${guia.id_factura}')" class="btn btn-sm btn-outline-primary">Ver detalle</button>
+            <div>${guia.fecha_factura}</div>
+          </div>`,                                                                       // Columna 3: Detalles
+          `<div><strong>${guia.nombre}</strong></div>
+           <div>${guia.c_principal} y ${guia.c_secundaria}</div>
+           <div>telf: ${guia.telefono}</div>`,                                          // Columna 4: Cliente
+          `${guia.provinciaa}-${guia.ciudad}`,                                            // Columna 5: Ciudad
+          guia.tienda,                                                                    // Columna 6: Tienda
+          guia.nombre_proveedor,                                                         // Columna 7: Proveedor
+          getTransporte(guia.id_transporte, guia.numero_guia),                            // Columna 8: Transporte
+          getEstadoGuia(guia.estado_guia_sistema),                                        // Columna 9: Estado de la guía
+          getDespachado(guia.estado_factura),                                             // Columna 10: Despacho
+          guia.impreso == 0 ? "<box-icon name='printer' color='red'></box-icon>" : "<box-icon name='printer' color='#28E418'></box-icon>", // Columna 11: Impreso
+          getAcciones(guia)                                                              // Columna 12: Acciones
+        ];
       });
     }
   },
@@ -95,6 +92,7 @@ const dataTableOptions = {
     },
   }
 };
+
 
 // Helper functions to process specific columns
 function getTransporte(idTransporte, numeroGuia) {
