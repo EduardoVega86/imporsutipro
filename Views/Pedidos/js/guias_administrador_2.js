@@ -88,7 +88,7 @@ const dataTableOptions = {
       first: "Primero",
       last: "Último",
       next: "Siguiente",
-      previous: "Anteriors",
+      previous: "Anterior",
     },
   }
 };
