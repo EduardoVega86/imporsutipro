@@ -315,7 +315,7 @@ class PedidosModel extends Query
         // Si existe búsqued
         if (!empty($search)) {
             $search = '%' . $search . '%';
-            $sql .= "OR (numero_factura LIKE '$search')";
+            $sql .= "OR (numero_factura LIKE $search)";
         }
 
         if ($drogshipin == 0 || $drogshipin == 1) {
