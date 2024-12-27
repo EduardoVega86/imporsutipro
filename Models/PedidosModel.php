@@ -314,7 +314,7 @@ class PedidosModel extends Query
 
         // si existe busqueda
         if ($search) {
-            var_dump($search);
+            //var_dump($search);
         }
 
         if ($drogshipin == 0 || $drogshipin == 1) {
