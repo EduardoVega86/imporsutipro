@@ -336,10 +336,10 @@ class PedidosModel extends Query
         }
 
 
-        if (!empty($search)) {
-            $search = '%' . $search . '%';
-            $sql .= $whereAdded ? " AND numero_factura LIKE '$search'" : " WHERE numero_factura LIKE '$search'";
-        }
+        // if (!empty($search)) {
+        //     $search = '%' . $search . '%';
+        //     $sql .= $whereAdded ? " AND numero_factura LIKE '$search'" : " WHERE numero_factura LIKE '$search'";
+        // }
 
         if ($drogshipin == 0 || $drogshipin == 1) {
             $sql .= $whereAdded ? " AND drogshipin = $drogshipin" : " WHERE drogshipin = $drogshipin";
