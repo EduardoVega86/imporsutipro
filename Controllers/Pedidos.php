@@ -569,7 +569,9 @@ class Pedidos extends Controller
 
         // Capturamos los parámetros de paginación enviados por el DataTable
         $start = $_POST['start'] ?? 1;
-        $length = $_POST['length'] ?? 26;
+        $length = $_POST['length'] ?? 25;
+        var_dump($_POST);
+        die();
 
         $data = $this->model->cargarGuiasAdministrador2($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos, $start, $length);
         $totalRecords = $this->model->contarGuiasAdministrador2($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos);
