@@ -26,6 +26,8 @@ const dataTableOptions = {
       d.transportadora = $("#transporte").val();
       d.impreso = $("#impresion").val();
       d.despachos = $("#despachos").val();
+      d.start = d.start; 
+      d.length = d.length; 
     },
     dataSrc: function(response) {
       console.log('Respuesta del servidor', response);
