@@ -78,10 +78,11 @@ const initDataTable = () => {
     serverSide: true, // Procesamiento del lado del servidor
     processing: true, // Mostrar el indicador de carga
     ajax: {
-      url: `${SERVERURL}pedidos/obtener_guiasAdministrador3`,
+      url: `${SERVERURL}pedidos/obtener_guiasAdministrador3`, // URL del controlador en el backend
       type: "POST",
       data: function (d) {
-        const params = {
+        // Parámetros adicionales para el backend
+        return {
           fecha_inicio: fecha_inicio,
           fecha_fin: fecha_fin,
           estado: $("#estado_q").val(),
@@ -93,11 +94,8 @@ const initDataTable = () => {
           length: d.length,
           draw: d.draw,
         };
-        console.log("Parámetros enviados:", params);
-        return params;
       },
     },
-    
     columns: [
       { data: "numero_factura", title: "# Factura" },
       { data: "fecha_factura", title: "Fecha" },
