@@ -66,11 +66,14 @@ function getFecha() {
 
 const initDataTable = () => {
   const table = $("#datatable_guias");
+  
+  // Destruir DataTable si ya está inicializado
   if ($.fn.DataTable.isDataTable(table)) {
     table.DataTable().destroy();
-    table.empty(); // Limpia los datos antiguos
+    table.empty();
   }
 
+  // Inicializar DataTable
   table.DataTable({
     serverSide: true,
     processing: true,
@@ -91,23 +94,35 @@ const initDataTable = () => {
           draw: d.draw,
         };
       },
+      dataSrc: function (json) {
+        if (!json.data) {
+          console.error("Error: Backend no devolvió datos.");
+          return [];
+        }
+        return json.data;
+      },
     },
     columns: [
-      { data: "numero_factura", title: "# Factura" },
-      { data: "fecha_factura", title: "Fecha" },
+      { data: "numero_factura", title: "# Guia" },
+      { data: "fecha_factura", title: "Detalle" },
       { data: "nombre", title: "Cliente" },
-      { data: "provincia", title: "Provincia" },
+      { data: "provincia", title: "Destino" },
       { data: "ciudad", title: "Ciudad" },
-      { data: "estado_factura", title: "Estado" },
+      { data: "estado_factura", title: "Despachado" },
       { data: "transporte", title: "Transportadora" },
       { data: "estado_guia_sistema", title: "Estado Guía" },
     ],
     pageLength: 25,
+    responsive: true,
     language: {
       url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json",
     },
+    error: function (xhr, error, thrown) {
+      console.error("Error en DataTables:", xhr.responseText);
+    },
   });
 };
+
 
 // Inicializar DataTable al cargar la página
 window.addEventListener("load", () => {
