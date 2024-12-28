@@ -39,6 +39,13 @@ class Pedidos extends Controller
         }
         $this->views->render($this, "guias_administrador");
     }
+    public function guias_administrador3($filtro = "")
+    {
+        if (!$this->isAuth()) {
+            header("Location: " . SERVERURL . "login");
+        }
+        $this->views->render($this, "guias_administrador_3");
+    }
     public function guias_administrador_2($filtro = "")
     {
         $this->views->render($this, "guias_administrador_2");
@@ -542,6 +549,23 @@ class Pedidos extends Controller
         $data = $this->model->cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos);
         echo json_encode($data);
     }
+
+
+    /// sebastian
+    public function obtener_guiasAdministrador3()
+    {
+        $fecha_inicio = $_POST['fecha_inicio'] ?? "";
+        $fecha_fin = $_POST['fecha_fin'] ?? "";
+        $transportadora = $_POST['transportadora'] ?? "";
+        $estado = $_POST['estado'] ?? "";
+        $drogshipin = $_POST['drogshipin'] ?? "";
+        $impreso = $_POST['impreso'] ?? "";
+        $despachos = $_POST['despachos'] ?? "";
+        /*  $start = $_POST['start'] ?? 0;
+        $length = $_POST['length'] ?? 25; */
+        $data = $this->model->cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos);
+        echo json_encode($data);
+    }
     private function sanitizeDate($date)
     {
         $timestamp = strtotime($date);
@@ -555,7 +579,7 @@ class Pedidos extends Controller
     {
         return htmlspecialchars(trim($string), ENT_QUOTES, 'UTF-8');
     }
-
+    //cristian
     public function obtener_guiasAdministrador2()
     {
         // Capturamos los filtros enviados por el DataTable
