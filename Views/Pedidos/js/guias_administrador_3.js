@@ -65,18 +65,16 @@ function getFecha() {
 }
 
 const initDataTable = () => {
+  if (dataTableIsInitialized) {
+    dataTable.destroy();
+  };
   const table = $("#datatable_guias");
+  
 
-  // Verificar si el elemento existe antes de proceder
-  if (table.length === 0) {
-    console.error("La tabla #datatable_guias no existe en el DOM.");
-    return;
-  }
-
-  // Inicializar la tabla
+  // Inicializa la tabla
   table.DataTable({
     serverSide: true, // Procesamiento del lado del servidor
-    processing: true, // Mostrar indicador de carga
+    processing: true, // Mostrar el indicador de carga
     ajax: {
       url: `${SERVERURL}pedidos/obtener_guiasAdministrador3`, // URL del controlador en el backend
       type: "POST",
@@ -108,14 +106,12 @@ const initDataTable = () => {
     ],
     pageLength: 25, // Número de registros por página
     lengthMenu: [25, 50, 100, 200], // Opciones de selección de registros por página
-    responsive: true, // Habilitar diseño responsivo
-    destroy: true, // Permitir inicialización repetida
+    responsive: true, // Habilita diseño responsivo
     language: {
       url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json", // Traducción al español
     },
   });
 };
-
 
 // Nueva función para recargar el DataTable manteniendo la paginación y el pageLength
 const reloadDataTable = async () => {
