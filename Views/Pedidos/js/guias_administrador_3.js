@@ -75,7 +75,6 @@ const initDataTable = () => {
       url: `${SERVERURL}pedidos/obtener_guiasAdministrador3`, // URL del controlador en el backend
       type: "POST",
       data: function (d) {
-        // Parámetros adicionales para el backend
         return {
           fecha_inicio: fecha_inicio,
           fecha_fin: fecha_fin,
@@ -89,7 +88,15 @@ const initDataTable = () => {
           draw: d.draw,
         };
       },
+      dataSrc: function (json) {
+        if (!json.data) {
+          console.error("Datos de la API están vacíos o son inválidos.");
+          return []; // Devuelve un arreglo vacío si no hay datos
+        }
+        return json.data; // Devuelve los datos procesados
+      },
     },
+    
     columns: [
       { data: "numero_factura", title: "# Factura" },
       { data: "fecha_factura", title: "Fecha" },
