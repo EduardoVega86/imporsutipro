@@ -66,6 +66,7 @@ function getFecha() {
 
 const initDataTable = () => {
   const table = $("#datatable_guias");
+  const start = start;
 
   const formData = new FormData();
     formData.append("fecha_inicio", fecha_inicio);
