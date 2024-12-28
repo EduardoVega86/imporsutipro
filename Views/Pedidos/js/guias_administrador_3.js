@@ -64,78 +64,85 @@ function getFecha() {
   return fechaHoy;
 }
 
-// Inicializar DataTable
-const initDataTable = async () => {
-  const tableElement = $("#datatable_guias");
-
-  // Verificar si la tabla ya está inicializada y destruirla si es necesario
-  if ($.fn.DataTable.isDataTable(tableElement)) {
-    tableElement.DataTable().destroy();
-    tableElement.empty(); // Limpiar el contenido de la tabla
+const initDataTable = () => {
+  const table = $("#datatable_guias");
+  
+  if (dataTableIsInitialized) {
+    dataTable.destroy();
   }
 
   // Inicializar DataTable
-  dataTable = tableElement.DataTable({
-    ...dataTableOptions,
-    serverSide: true, // Habilitar carga de datos desde el servidor
-    processing: true, // Mostrar indicador de carga
+  table.DataTable({
+    serverSide: true,
+    processing: true,
     ajax: {
       url: `${SERVERURL}pedidos/obtener_guiasAdministrador3`,
       type: "POST",
-      data: (d) => ({
-        ...d,
-        fecha_inicio: fecha_inicio,
-        fecha_fin: fecha_fin,
-        estado: $("#estado_q").val(),
-        drogshipin: $("#tienda_q").val(),
-        transportadora: $("#transporte").val(),
-        impresion: $("#impresion").val(),
-        despachos: $("#despachos").val(),
-      }),
-      dataSrc: (json) => {
-        // Validar si el servidor devuelve los datos correctamente
+      data: function (d) {
+        return {
+          fecha_inicio: fecha_inicio,
+          fecha_fin: fecha_fin,
+          estado: $("#estado_q").val(),
+          drogshipin: $("#tienda_q").val(),
+          transportadora: $("#transporte").val(),
+          impresion: $("#impresion").val(),
+          despachos: $("#despachos").val(),
+          start: d.start,
+          length: d.length,
+          draw: d.draw,
+        };
+      },
+      dataSrc: function (json) {
         if (!json.data) {
-          console.error("Error: El servidor no devolvió datos válidos.");
+          console.error("Error: Backend no devolvió datos.");
           return [];
         }
         return json.data;
       },
     },
     columns: [
-      { data: "id_factura", render: (data) => `<input type="checkbox" class="selectCheckbox" value="${data}">` },
-      { data: "numero_factura", title: "# Factura" },
-      { data: "fecha_factura", title: "Fecha" },
+      { data: "numero_factura", title: "# Guia" },
+      { data: "fecha_factura", title: "Detalle" },
       { data: "nombre", title: "Cliente" },
-      { data: "provincia", title: "Provincia" },
+      { data: "provincia", title: "Destino" },
       { data: "ciudad", title: "Ciudad" },
-      { data: "estado_factura", title: "Estado" },
+      { data: "estado_factura", title: "Despachado" },
       { data: "transporte", title: "Transportadora" },
       { data: "estado_guia_sistema", title: "Estado Guía" },
     ],
+    pageLength: 25,
+    responsive: true,
+    language: {
+      url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json",
+    },
+    error: function (xhr, error, thrown) {
+      console.error("Error en DataTables:", xhr.responseText);
+    },
   });
+};
 
+
+// Inicializar DataTable al cargar la página
+window.addEventListener("load", () => {
+  initDataTable(); // Llama a la función para inicializar DataTable
+});
+
+
+// Nueva función para recargar el DataTable manteniendo la paginación y el pageLength
+const reloadDataTable = async () => {
+  const currentPage = dataTable.page();
+  const currentLength = dataTable.page.len();
+  dataTable.destroy();
+  await listGuias();
+  dataTable = $("#datatable_guias").DataTable(dataTableOptions);
+  dataTable.page.len(currentLength).draw();
+  dataTable.page(currentPage).draw(false);
   dataTableIsInitialized = true;
-
-  // Controlar el evento del checkbox selectAll
   document.getElementById("selectAll").addEventListener("change", function () {
     const checkboxes = document.querySelectorAll(".selectCheckbox");
     checkboxes.forEach((checkbox) => (checkbox.checked = this.checked));
   });
 };
-
-// Recargar el DataTable manteniendo los parámetros actuales
-const reloadDataTable = () => {
-  if (dataTableIsInitialized) {
-    dataTable.ajax.reload(null, false); // Recargar datos sin reiniciar la tabla
-  } else {
-    initDataTable(); // Si no está inicializado, inicializar
-  }
-};
-
-// Ejecutar la inicialización de DataTable al cargar la página
-document.addEventListener("DOMContentLoaded", async () => {
-  await initDataTable();
-});
 
 const listGuias = async () => {
   try {
