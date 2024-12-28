@@ -64,11 +64,12 @@ function getFecha() {
   return fechaHoy;
 }
 
-const start = start;
 
 const initDataTable = () => {
   const table = $("#datatable_guias");
-  
+  let start = "";
+  let length = "";
+  let draw = "";
 
   const formData = new FormData();
     formData.append("fecha_inicio", fecha_inicio);
