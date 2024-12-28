@@ -66,20 +66,22 @@ function getFecha() {
 
 const initDataTable = () => {
   const table = $("#datatable_guias");
-  
-  if (dataTableIsInitialized) {
-    dataTable.destroy();
+
+  // Comprueba si la tabla ya está inicializada
+  if ($.fn.DataTable.isDataTable(table)) {
+    table.DataTable().destroy(); // Destruye la instancia anterior
+    table.empty(); // Limpia los datos antiguos del cuerpo de la tabla
   }
 
-  // Inicializar DataTable
+  // Inicializa la tabla
   table.DataTable({
-    serverSide: true,
-    processing: true,
+    serverSide: true, // Procesamiento del lado del servidor
+    processing: true, // Mostrar el indicador de carga
     ajax: {
       url: `${SERVERURL}pedidos/obtener_guiasAdministrador3`,
       type: "POST",
       data: function (d) {
-        return {
+        const params = {
           fecha_inicio: fecha_inicio,
           fecha_fin: fecha_fin,
           estado: $("#estado_q").val(),
@@ -91,35 +93,30 @@ const initDataTable = () => {
           length: d.length,
           draw: d.draw,
         };
-      },
-      dataSrc: function (json) {
-        if (!json.data) {
-          console.error("Error: Backend no devolvió datos.");
-          return [];
-        }
-        return json.data;
+        console.log("Parámetros enviados:", params);
+        return params;
       },
     },
+    
     columns: [
-      { data: "numero_factura", title: "# Guia" },
-      { data: "fecha_factura", title: "Detalle" },
+      { data: "numero_factura", title: "# Factura" },
+      { data: "fecha_factura", title: "Fecha" },
       { data: "nombre", title: "Cliente" },
-      { data: "provincia", title: "Destino" },
+      { data: "provincia", title: "Provincia" },
       { data: "ciudad", title: "Ciudad" },
-      { data: "estado_factura", title: "Despachado" },
+      { data: "estado_factura", title: "Estado" },
       { data: "transporte", title: "Transportadora" },
       { data: "estado_guia_sistema", title: "Estado Guía" },
     ],
-    pageLength: 25,
-    responsive: true,
+    pageLength: 25, // Número de registros por página
+    lengthMenu: [25, 50, 100, 200], // Opciones de selección de registros por página
+    responsive: true, // Habilita diseño responsivo
     language: {
-      url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json",
-    },
-    error: function (xhr, error, thrown) {
-      console.error("Error en DataTables:", xhr.responseText);
+      url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json", // Traducción al español
     },
   });
 };
+
 
 
 // Inicializar DataTable al cargar la página
