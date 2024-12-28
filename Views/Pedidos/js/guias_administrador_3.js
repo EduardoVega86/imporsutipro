@@ -2,47 +2,86 @@ let dataTable;
 let dataTableIsInitialized = false;
 
 const dataTableOptions = {
-  columnDefs: [
-    { className: "centered", targets: [1, 2, 3, 4, 5, 6, 7, 8, 9] },
-    { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
+  processing: true, // Muestra un indicador de procesamiento
+  serverSide: true, // Habilita el procesamiento en el servidor
+  ajax: {
+    url: `${SERVERURL}pedidos/obtener_guiasAdministrador3`, // URL del endpoint para la obtención de datos
+    type: "POST", // Método HTTP
+    data: function (d) {
+      // Agrega parámetros adicionales que se enviarán al servidor
+      d.fecha_inicio = $("#fecha_inicio").val();
+      d.fecha_fin = $("#fecha_fin").val();
+      d.estado = $("#estado_q").val();
+      d.drogshipin = $("#tienda_q").val();
+      d.transportadora = $("#transporte").val();
+      d.impreso = $("#impresion").val();
+      d.despachos = $("#despachos").val();
+    },
+  },
+  columns: [
+    { data: "checkbox", orderable: false, render: function (data, type, row) {
+        return `<input type="checkbox" class="selectCheckbox" data-id="${row.id_factura}">`;
+      }
+    },
+    { data: "numero_guia" },
+    { data: "fecha_factura" },
+    { data: "nombre" },
+    { data: "ciudad" },
+    { data: "tienda" },
+    { data: "transporte" },
+    { data: "estado_guia", render: function (data, type, row) {
+        return `<span class="badge ${row.span_estado}">${row.estado_guia}</span>`;
+      }
+    },
+    { data: "despachado", render: function (data, type, row) {
+        return row.despachado ? 
+          `<i class='bx bx-check' style="color:#28E418; font-size: 30px;"></i>` : 
+          `<i class='bx bx-x' style="color:red; font-size: 30px;"></i>`;
+      }
+    },
+    { data: "impreso", render: function (data, type, row) {
+        return row.impreso ? 
+          `<box-icon name='printer' color='#28E418'></box-icon>` : 
+          `<box-icon name='printer' color='red'></box-icon>`;
+      }
+    },
   ],
-  order: [[2, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
-  pageLength: 25,
-  lengthMenu: [25, 50, 100, 200],
-  destroy: true,
-  responsive: true,
-  dom: '<"d-flex w-full justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
+  order: [[2, "desc"]], // Orden inicial por fecha descendente
+  pageLength: 25, // Número de registros por página
+  lengthMenu: [10, 25, 50, 100], // Opciones para cambiar el número de registros por página
+  responsive: true, // Tabla responsiva
+  dom: '<"d-flex justify-content-between"lBf><t><"d-flex justify-content-between"ip>', // Configuración de botones y buscadores
   buttons: [
     {
       extend: "excelHtml5",
       text: 'Excel <i class="fa-solid fa-file-excel"></i>',
-      title: "Panel de Control: Usuarios",
+      title: "Exportar a Excel",
       titleAttr: "Exportar a Excel",
       exportOptions: {
-        columns: [1, 2, 3, 4, 5, 6, 7, 8],
+        columns: ":visible:not(:first-child)", // Exportar todas las columnas excepto la primera (checkbox)
       },
-      filename: "guias" + "_" + getFecha(),
+      filename: "guias_" + getFecha(),
       footer: true,
       className: "btn-excel",
     },
     {
       extend: "csvHtml5",
       text: 'CSV <i class="fa-solid fa-file-csv"></i>',
-      title: "Panel de Control: guias",
+      title: "Exportar a CSV",
       titleAttr: "Exportar a CSV",
       exportOptions: {
-        columns: [1, 2, 3, 4, 5, 6, 7, 8],
+        columns: ":visible:not(:first-child)",
       },
-      filename: "guias" + "_" + getFecha(),
+      filename: "guias_" + getFecha(),
       footer: true,
       className: "btn-csv",
     },
   ],
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
-    zeroRecords: "Ningún usuario encontrado",
+    zeroRecords: "No se encontraron registros",
     info: "Mostrando de _START_ a _END_ de un total de _TOTAL_ registros",
-    infoEmpty: "Ningún usuario encontrado",
+    infoEmpty: "No se encontraron registros",
     infoFiltered: "(filtrados desde _MAX_ registros totales)",
     search: "Buscar:",
     loadingRecords: "Cargando...",

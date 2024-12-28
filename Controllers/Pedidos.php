@@ -554,6 +554,12 @@ class Pedidos extends Controller
     /// sebastian
     public function obtener_guiasAdministrador3()
     {
+        $start = $_POST['start'] ?? 0; // Inicio de la paginación
+        $length = $_POST['length'] ?? 10; // Número de registros por página
+        $search = $_POST['search']['value'] ?? ""; // Término de búsqueda
+        $orderColumn = $_POST['order'][0]['column'] ?? 0; // Columna de orden
+        $orderDir = $_POST['order'][0]['dir'] ?? "asc"; // Dirección de orden
+
         $fecha_inicio = $_POST['fecha_inicio'] ?? "";
         $fecha_fin = $_POST['fecha_fin'] ?? "";
         $transportadora = $_POST['transportadora'] ?? "";
@@ -561,11 +567,32 @@ class Pedidos extends Controller
         $drogshipin = $_POST['drogshipin'] ?? "";
         $impreso = $_POST['impreso'] ?? "";
         $despachos = $_POST['despachos'] ?? "";
-        /*  $start = $_POST['start'] ?? 0;
-        $length = $_POST['length'] ?? 25; */
-        $data = $this->model->cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos);
-        echo json_encode($data);
+
+        $data = $this->model->cargarGuiasAdministrador3(
+            $fecha_inicio,
+            $fecha_fin,
+            $transportadora,
+            $estado,
+            $impreso,
+            $drogshipin,
+            $despachos,
+            $start,
+            $length,
+            $search,
+            $orderColumn,
+            $orderDir
+        );
+
+        $totalRecords = $this->model->totalGuias(); // Número total de registros
+
+        echo json_encode([
+            "draw" => $_POST['draw'], // Enviar el número de draw
+            "recordsTotal" => $totalRecords,
+            "recordsFiltered" => count($data), // Total después del filtrado
+            "data" => $data,
+        ]);
     }
+
 
 
 

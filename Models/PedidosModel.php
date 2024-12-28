@@ -439,84 +439,62 @@ class PedidosModel extends Query
         return $result[0]['total'] ?? 0;
     }
 
-    public function cargarGuiasAdministrador3($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos, $start, $length)
-    {
-        $sql = "SELECT SQL_CALC_FOUND_ROWS id_factura, numero_factura, fecha_factura, nombre, provincia, ciudad, estado_factura, transporte, estado_guia_sistema
-            FROM vista_guias_administrador";
 
-        // Construir filtros dinámicos
-        $filters = [];
+    public function cargarGuiasAdministrador3(
+        $fecha_inicio,
+        $fecha_fin,
+        $transportadora,
+        $estado,
+        $impreso,
+        $drogshipin,
+        $despachos,
+        $start,
+        $length,
+        $search,
+        $orderColumn,
+        $orderDir
+    ) {
+        $columns = ["numero_guia", "fecha_factura", "nombre", "ciudad", "tienda", "transporte", "estado_guia"];
+        $orderColumn = $columns[$orderColumn] ?? "fecha_factura";
+
+        $sql = "SELECT * FROM vista_guias_administrador WHERE 1=1";
+
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
-            $filters[] = "fecha_guia BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+            $sql .= " AND fecha_guia BETWEEN '$fecha_inicio' AND '$fecha_fin'";
         }
+
         if (!empty($transportadora)) {
-            $filters[] = "transporte = '$transportadora'";
+            $sql .= " AND transporte = '$transportadora'";
         }
+
         if (!empty($estado)) {
-            $estadoFilter = $this->getEstadoFilter($estado);
-            if (!empty($estadoFilter)) {
-                $filters[] = $estadoFilter;
-            }
-        }
-        if ($drogshipin !== "") {
-            $filters[] = "drogshipin = $drogshipin";
-        }
-        if ($impreso !== "") {
-            $filters[] = "impreso = $impreso";
-        }
-        if ($despachos !== "") {
-            $filters[] = "estado_factura = '$despachos'";
+            // Tu lógica para filtrar por estado
         }
 
-        // Añadir los filtros a la consulta
-        if (!empty($filters)) {
-            $sql .= " WHERE " . implode(" AND ", $filters);
+        if ($drogshipin == 0 || $drogshipin == 1) {
+            $sql .= " AND drogshipin = $drogshipin";
         }
 
-        // Agregar paginación
-        $sql .= " LIMIT $start, $length";
+        if ($impreso == 0 || $impreso == 1) {
+            $sql .= " AND impreso = $impreso";
+        }
 
-        $data = $this->select($sql);
-        $totalRecords = $this->select("SELECT FOUND_ROWS() AS total")[0]['total'];
+        if (!empty($search)) {
+            $sql .= " AND (numero_guia LIKE '%$search%' OR nombre LIKE '%$search%')";
+        }
 
-        return [
-            "draw" => intval($_POST['draw'] ?? 1),
-            "recordsTotal" => $totalRecords,
-            "recordsFiltered" => $totalRecords,
-            "data" => $data,
-        ];
+        $sql .= " ORDER BY $orderColumn $orderDir LIMIT $start, $length";
+
+        return $this->select($sql);
     }
 
-    private function getEstadoFilter($estado)
+    public function totalGuias()
     {
-        switch ($estado) {
-            case 'generada':
-                return "((estado_guia_sistema in (100,102,103) and id_transporte=2)
-                         OR (estado_guia_sistema in (1,2) and id_transporte=1)
-                         OR (estado_guia_sistema in (1,2,3) and id_transporte=3)
-                         OR (estado_guia_sistema in (2) and id_transporte=4))";
-            case 'en_transito':
-                return "((estado_guia_sistema BETWEEN 300 AND 317 and id_transporte=2)
-                         OR (estado_guia_sistema in (5,11,12,6) and id_transporte=1)
-                         OR (estado_guia_sistema in (5,4) and id_transporte=3)
-                         OR (estado_guia_sistema in (3) and id_transporte=4))";
-            case 'entregada':
-                return "((estado_guia_sistema BETWEEN 400 AND 403 and id_transporte=2)
-                         OR (estado_guia_sistema in (7) and id_transporte=1)
-                         OR (estado_guia_sistema in (7) and id_transporte=3))";
-            case 'novedad':
-                return "((estado_guia_sistema BETWEEN 320 AND 351 and id_transporte=2)
-                         OR (estado_guia_sistema in (14) and id_transporte=1)
-                         OR (estado_guia_sistema in (6) and id_transporte=3))";
-            case 'devolucion':
-                return "((estado_guia_sistema BETWEEN 500 AND 502 and id_transporte=2)
-                         OR (estado_guia_sistema in (9) and id_transporte=2)
-                         OR (estado_guia_sistema in (9) and id_transporte=4)
-                         OR (estado_guia_sistema in (8,9,13) and id_transporte=3))";
-            default:
-                return ""; // Si el estado no coincide con ninguno, devolver una cadena vacía
-        }
+        $sql = "SELECT COUNT(*) as total FROM vista_guias_administrador";
+        $result = $this->select($sql);
+        return $result[0]['total'] ?? 0;
     }
+
 
 
 
