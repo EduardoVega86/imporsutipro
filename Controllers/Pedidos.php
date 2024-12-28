@@ -561,24 +561,14 @@ class Pedidos extends Controller
         $drogshipin = $_POST['drogshipin'] ?? "";
         $impreso = $_POST['impreso'] ?? "";
         $despachos = $_POST['despachos'] ?? "";
-        /*  $start = $_POST['start'] ?? 0;
-        $length = $_POST['length'] ?? 25; */
-        $data = $this->model->cargarGuiasAdministrador3($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos);
+        $start = $_POST['start'] ?? 0;
+        $length = $_POST['length'] ?? 25;
+
+        $data = $this->model->cargarGuiasAdministrador3($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos, $start, $length);
         echo json_encode($data);
     }
-    private function sanitizeDate($date)
-    {
-        $timestamp = strtotime($date);
-        if ($timestamp === false) {
-            throw new InvalidArgumentException("Fecha inválida: $date");
-        }
-        return date('Y-m-d', $timestamp); // Retorna formato estándar
-    }
 
-    private function sanitizeString($string)
-    {
-        return htmlspecialchars(trim($string), ENT_QUOTES, 'UTF-8');
-    }
+
 
     //cristian
     public function obtener_guiasAdministrador2()
