@@ -561,8 +561,9 @@ class Pedidos extends Controller
         $drogshipin = $_POST['drogshipin'] ?? "";
         $impreso = $_POST['impreso'] ?? "";
         $despachos = $_POST['despachos'] ?? "";
-
-        $data = $this->model->cargarGuiasAdministrador3($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos);
+        /*  $start = $_POST['start'] ?? 0;
+        $length = $_POST['length'] ?? 25; */
+        $data = $this->model->cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos);
         echo json_encode($data);
     }
 
