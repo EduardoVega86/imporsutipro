@@ -70,11 +70,11 @@ const initDataTable = () => {
   const formData = new FormData();
     formData.append("fecha_inicio", fecha_inicio);
     formData.append("fecha_fin", fecha_fin);
-    formData.append("estado_q", estado);
-    formData.append("tienda_q", tienda);
-    formData.append("transporte", transporte);    
-    formData.append("impresion", impresion);    
-    formData.append("despachos", despachos);    
+    formData.append("estado_q", $("#estado_q").val());
+    formData.append("tienda_q",$("#tienda_q").val());
+    formData.append("transporte", $("#transporte").val());    
+    formData.append("impresion",$("#impresion").val());    
+    formData.append("despachos",  $("#despachos").val());    
     formData.append("start", start);    
     formData.append("length", length);    
     formData.append("draw", draw )
