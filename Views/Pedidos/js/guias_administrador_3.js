@@ -82,25 +82,25 @@ const initDataTable = () => {
     formData.append("start", start);    
     formData.append("length", length);    
     formData.append("draw", draw )
-  
+
     
   // Inicializa la tabla
   table.DataTable({
-      ajax: {
-        url: `${SERVERURL}pedidos/obtener_guiasAdministrador3`, // URL del controlador en el backend
-        type: "POST",
-        data: formData,
-        processData: false, // No procesar los datos
-      contentType: false, // No establecer ningún tipo de contenido
-        dataSrc: function (json) {
-          if (!json.data) {
-            console.error("Datos de la API están vacíos o son inválidos.");
-            return []; // Devuelve un arreglo vacío si no hay datos
-          }
-          return json.data; // Devuelve los datos procesados
-        },
+    ajax: {
+      url: `${SERVERURL}pedidos/obtener_guiasAdministrador3`,
+      type: "POST",
+      data: formData,
+      processData: false,
+      contentType: false,
+      dataSrc: function (json) {
+        // Validar que json tenga la estructura esperada
+        if (!json || typeof json.data === "undefined") {
+          console.error("La API devolvió una respuesta incorrecta.", json);
+          return [];
+        }
+        return json.data;
       },
-
+    },
     columns: [
       { data: "numero_factura", title: "# Factura" },
       { data: "fecha_factura", title: "Fecha" },
@@ -111,13 +111,16 @@ const initDataTable = () => {
       { data: "transporte", title: "Transportadora" },
       { data: "estado_guia_sistema", title: "Estado Guía" },
     ],
-    pageLength: 25, // Número de registros por página
-    lengthMenu: [25, 50, 100, 200], // Opciones de selección de registros por página
-    responsive: true, // Habilita diseño responsivo
+    serverSide: true, // Procesamiento en el servidor
+    processing: true, // Muestra un indicador de carga
+    pageLength: 25,
+    lengthMenu: [25, 50, 100, 200],
+    responsive: true,
     language: {
-      url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json", // Traducción al español
+      url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json",
     },
   });
+  
 };
 
 // Nueva función para recargar el DataTable manteniendo la paginación y el pageLength
