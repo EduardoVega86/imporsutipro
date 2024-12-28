@@ -83,6 +83,7 @@ const initDataTable = () => {
     formData.append("length", length);    
     formData.append("draw", draw )
   
+    
   // Inicializa la tabla
   table.DataTable({
       ajax: {
