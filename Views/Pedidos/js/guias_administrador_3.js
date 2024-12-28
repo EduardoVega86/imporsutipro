@@ -65,12 +65,8 @@ function getFecha() {
 }
 
 const initDataTable = () => {
-  if (dataTableIsInitialized) {
-    dataTable.destroy();
-  };
   const table = $("#datatable_guias");
   
-
   // Inicializa la tabla
   table.DataTable({
     serverSide: true, // Procesamiento del lado del servidor
