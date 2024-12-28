@@ -85,13 +85,12 @@ const initDataTable = () => {
   
   // Inicializa la tabla
   table.DataTable({
-    data: formData,
-      processData: false, // No procesar los datos
-      contentType: false, // No establecer ningún tipo de contenido
       ajax: {
         url: `${SERVERURL}pedidos/obtener_guiasAdministrador3`, // URL del controlador en el backend
         type: "POST",
         data: formData,
+        processData: false, // No procesar los datos
+      contentType: false, // No establecer ningún tipo de contenido
         dataSrc: function (json) {
           if (!json.data) {
             console.error("Datos de la API están vacíos o son inválidos.");
