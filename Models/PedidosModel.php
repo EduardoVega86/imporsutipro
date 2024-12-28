@@ -439,7 +439,69 @@ class PedidosModel extends Query
         return $result[0]['total'] ?? 0;
     }
 
+    public function cargarGuiasAdministrador3($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos)
+    {
+        $sql = "SELECT * FROM vista_guias_administrador ";
 
+
+        if (!empty($fecha_inicio) && !empty($fecha_fin)) {
+            $sql .= " WHERE fecha_guia BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+        }
+
+        if (!empty($transportadora)) {
+            $sql .= " AND transporte = '$transportadora'";
+        }
+
+        if (!empty($estado)) {
+            switch ($estado) {
+                case 'generada':
+                    $sql .= " AND ((estado_guia_sistema in (100,102,103) and id_transporte=2)
+                                OR (estado_guia_sistema in (1,2) and id_transporte=1)
+                                OR (estado_guia_sistema in (1,2,3) and id_transporte=3)
+                                OR (estado_guia_sistema in (2) and id_transporte=4))";
+                    break;
+                case 'en_transito':
+                    $sql .= " AND ((estado_guia_sistema BETWEEN 300 AND 317 and id_transporte=2)
+                                OR (estado_guia_sistema in (5,11,12,6) and id_transporte=1)
+                                OR (estado_guia_sistema in (5,4) and id_transporte=3)
+                                OR (estado_guia_sistema in (3) and id_transporte=4))";
+                    break;
+                case 'entregada':
+                    $sql .= " AND ((estado_guia_sistema BETWEEN 400 AND 403 and id_transporte=2)
+                                OR (estado_guia_sistema in (7) and id_transporte=1)
+                                OR (estado_guia_sistema in (7) and id_transporte=3))";
+                    break;
+                case 'novedad':
+                    $sql .= " AND ((estado_guia_sistema BETWEEN 320 AND 351 and id_transporte=2)
+                                OR (estado_guia_sistema in (14) and id_transporte=1)
+                                OR (estado_guia_sistema in (6) and id_transporte=3))";
+                    break;
+                case 'devolucion':
+                    $sql .= " AND ((estado_guia_sistema BETWEEN 500 AND 502 and id_transporte=2)
+                                OR (estado_guia_sistema in (9) and id_transporte=2)
+                                OR (estado_guia_sistema in (9) and id_transporte=4)
+                                OR (estado_guia_sistema in (8,9,13) and id_transporte=3))";
+                    break;
+            }
+        }
+
+        if ($drogshipin == 0 || $drogshipin == 1) {
+            $sql .= " AND drogshipin = $drogshipin";
+        }
+
+        if ($impreso == 0 || $impreso == 1) {
+            $sql .= " AND impreso = $impreso";
+        }
+
+        if ($despachos !== null && $despachos !== '') {
+
+            if ($despachos == 1 || $despachos == 2 || $despachos == 3) {
+                $sql .= " AND estado_factura = '$despachos'";
+            }
+        }
+        /* echo $sql; */
+        return $this->select($sql);
+    }
 
     public function cargarGuiasSpeed($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos, $recibo)
     {
