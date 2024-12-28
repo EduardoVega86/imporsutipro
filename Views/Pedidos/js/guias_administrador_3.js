@@ -64,51 +64,23 @@ function getFecha() {
   return fechaHoy;
 }
 
-const initDataTable = () => {
-  const table = $("#datatable_guias");
-  if ($.fn.DataTable.isDataTable(table)) {
-    table.DataTable().clear(); // Limpia los datos actuales
-    table.DataTable().destroy(); // Destruye la instancia existente
+const initDataTable = async () => {
+  if (dataTableIsInitialized) {
+    dataTable.destroy();
   }
 
-  table.DataTable({
-    serverSide: true,
-    processing: true,
-    ajax: {
-      url: `${SERVERURL}pedidos/obtener_guiasAdministrador3`,
-      type: "POST",
-      data: function (d) {
-        return {
-          fecha_inicio: fecha_inicio,
-          fecha_fin: fecha_fin,
-          estado: $("#estado_q").val(),
-          drogshipin: $("#tienda_q").val(),
-          transportadora: $("#transporte").val(),
-          impresion: $("#impresion").val(),
-          despachos: $("#despachos").val(),
-          start: d.start,
-          length: d.length,
-          draw: d.draw,
-        };
-      },
-    },
-    columns: [
-      { data: "numero_factura", title: "# Factura" },
-      { data: "fecha_factura", title: "Fecha" },
-      { data: "nombre", title: "Cliente" },
-      { data: "provincia", title: "Provincia" },
-      { data: "ciudad", title: "Ciudad" },
-      { data: "estado_factura", title: "Estado" },
-      { data: "transporte", title: "Transportadora" },
-      { data: "estado_guia_sistema", title: "Estado Guía" },
-    ],
-    pageLength: 25,
-    language: {
-      url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json",
-    },
+  await listGuias();
+
+  dataTable = $("#datatable_guias").DataTable(dataTableOptions);
+
+  dataTableIsInitialized = true;
+
+  // Handle select all checkbox
+  document.getElementById("selectAll").addEventListener("change", function () {
+    const checkboxes = document.querySelectorAll(".selectCheckbox");
+    checkboxes.forEach((checkbox) => (checkbox.checked = this.checked));
   });
 };
-
 
 // Inicializar DataTable al cargar la página
 window.addEventListener("load", () => {
