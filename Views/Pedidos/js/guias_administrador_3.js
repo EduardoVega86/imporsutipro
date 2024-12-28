@@ -115,14 +115,6 @@ const initDataTable = () => {
   });
 };
 
-
-
-// Inicializar DataTable al cargar la página
-window.addEventListener("load", () => {
-  initDataTable(); // Llama a la función para inicializar DataTable
-});
-
-
 // Nueva función para recargar el DataTable manteniendo la paginación y el pageLength
 const reloadDataTable = async () => {
   const currentPage = dataTable.page();
