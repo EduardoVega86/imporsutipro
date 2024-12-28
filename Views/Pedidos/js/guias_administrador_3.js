@@ -68,10 +68,10 @@ const initDataTable = () => {
   const table = $("#datatable_guias");
 
   // Comprueba si la tabla ya está inicializada
-  if ($.fn.DataTable.isDataTable(table)) {
+  /* if ($.fn.DataTable.isDataTable(table)) {
     table.DataTable().destroy(); // Destruye la instancia anterior
     table.empty(); // Limpia los datos antiguos del cuerpo de la tabla
-  }
+  } */
 
   // Inicializa la tabla
   table.DataTable({
