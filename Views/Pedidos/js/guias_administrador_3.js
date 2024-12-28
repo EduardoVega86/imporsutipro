@@ -64,60 +64,22 @@ function getFecha() {
   return fechaHoy;
 }
 
-const initDataTable = () => {
-  const table = $("#datatable_guias");
-  
+const initDataTable = async () => {
   if (dataTableIsInitialized) {
-    dataTable.destroy();
+    dataTable.destroy(); // Destruye la instancia previa
+    $("#datatable_guias").empty(); // Limpia el contenido
   }
 
-  // Inicializar DataTable
-  table.DataTable({
-    serverSide: true,
-    processing: true,
-    ajax: {
-      url: `${SERVERURL}pedidos/obtener_guiasAdministrador3`,
-      type: "POST",
-      data: function (d) {
-        return {
-          fecha_inicio: fecha_inicio,
-          fecha_fin: fecha_fin,
-          estado: $("#estado_q").val(),
-          drogshipin: $("#tienda_q").val(),
-          transportadora: $("#transporte").val(),
-          impresion: $("#impresion").val(),
-          despachos: $("#despachos").val(),
-          start: d.start,
-          length: d.length,
-          draw: d.draw,
-        };
-      },
-      dataSrc: function (json) {
-        if (!json.data) {
-          console.error("Error: Backend no devolvió datos.");
-          return [];
-        }
-        return json.data;
-      },
-    },
-    columns: [
-      { data: "numero_factura", title: "# Guia" },
-      { data: "fecha_factura", title: "Detalle" },
-      { data: "nombre", title: "Cliente" },
-      { data: "provincia", title: "Destino" },
-      { data: "ciudad", title: "Ciudad" },
-      { data: "estado_factura", title: "Despachado" },
-      { data: "transporte", title: "Transportadora" },
-      { data: "estado_guia_sistema", title: "Estado Guía" },
-    ],
-    pageLength: 25,
-    responsive: true,
-    language: {
-      url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json",
-    },
-    error: function (xhr, error, thrown) {
-      console.error("Error en DataTables:", xhr.responseText);
-    },
+  await listGuias(); // Carga los datos
+
+  dataTable = $("#datatable_guias").DataTable(dataTableOptions); // Inicializa DataTable
+
+  dataTableIsInitialized = true; // Marca como inicializado
+
+  // Manejar el checkbox de seleccionar todo
+  document.getElementById("selectAll").addEventListener("change", function () {
+    const checkboxes = document.querySelectorAll(".selectCheckbox");
+    checkboxes.forEach((checkbox) => (checkbox.checked = this.checked));
   });
 };
 
