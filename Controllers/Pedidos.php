@@ -554,12 +554,17 @@ class Pedidos extends Controller
     /// sebastian
     public function obtener_guiasAdministrador3()
     {
-        $start = $_POST['start'] ?? 0; // Inicio de la paginación
-        $length = $_POST['length'] ?? 10; // Número de registros por página
-        $search = $_POST['search']['value'] ?? ""; // Término de búsqueda
-        $orderColumn = $_POST['order'][0]['column'] ?? 0; // Columna de orden
-        $orderDir = $_POST['order'][0]['dir'] ?? "asc"; // Dirección de orden
+        // Obtén el número de "draw" de la solicitud, o usa un valor por defecto
+        $draw = isset($_POST['draw']) ? intval($_POST['draw']) : 0;
 
+        // Parámetros de DataTables
+        $start = isset($_POST['start']) ? intval($_POST['start']) : 0;
+        $length = isset($_POST['length']) ? intval($_POST['length']) : 10;
+        $search = isset($_POST['search']['value']) ? $_POST['search']['value'] : "";
+        $orderColumn = isset($_POST['order'][0]['column']) ? intval($_POST['order'][0]['column']) : 0;
+        $orderDir = isset($_POST['order'][0]['dir']) ? $_POST['order'][0]['dir'] : "asc";
+
+        // Otros parámetros personalizados
         $fecha_inicio = $_POST['fecha_inicio'] ?? "";
         $fecha_fin = $_POST['fecha_fin'] ?? "";
         $transportadora = $_POST['transportadora'] ?? "";
@@ -568,6 +573,7 @@ class Pedidos extends Controller
         $impreso = $_POST['impreso'] ?? "";
         $despachos = $_POST['despachos'] ?? "";
 
+        // Consulta paginada al modelo
         $data = $this->model->cargarGuiasAdministrador3(
             $fecha_inicio,
             $fecha_fin,
@@ -583,13 +589,15 @@ class Pedidos extends Controller
             $orderDir
         );
 
-        $totalRecords = $this->model->totalGuias(); // Número total de registros
+        // Total de registros
+        $totalRecords = $this->model->totalGuias();
 
+        // Respuesta a DataTables
         echo json_encode([
-            "draw" => $_POST['draw'], // Enviar el número de draw
-            "recordsTotal" => $totalRecords,
+            "draw" => $draw, // Número de draw
+            "recordsTotal" => $totalRecords, // Total de registros sin filtrar
             "recordsFiltered" => count($data), // Total después del filtrado
-            "data" => $data,
+            "data" => $data, // Registros
         ]);
     }
 
