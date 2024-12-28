@@ -16,7 +16,7 @@ const dataTableOptions = {
   processing: true,
   serverSide: true,
   ajax: {
-    url: `${SERVERURL}pedidos/obtener_guiasAdministrador2`,
+    url: `${SERVERURL}pedidos/obtener_guiasAdministrador3`,
     method: 'POST',
     data: function(d) {
       console.log(d)
