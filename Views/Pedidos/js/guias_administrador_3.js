@@ -65,19 +65,19 @@ function getFecha() {
 }
 
 const initDataTable = () => {
-  if ($.fn.DataTable.isDataTable("#datatable_guias")) {
-    $("#datatable_guias").DataTable().destroy(); // Destruye la instancia anterior si existe
-    $("#datatable_guias").empty(); // Limpia los datos antiguos
+  const table = $("#datatable_guias");
+  if ($.fn.DataTable.isDataTable(table)) {
+    table.DataTable().destroy();
+    table.empty(); // Limpia los datos antiguos
   }
 
-  $("#datatable_guias").DataTable({
-    serverSide: true, // Habilita el procesamiento del lado del servidor
-    processing: true, // Muestra el indicador de carga
+  table.DataTable({
+    serverSide: true,
+    processing: true,
     ajax: {
-      url: `${SERVERURL}pedidos/obtener_guiasAdministrador3`, // URL al controlador
+      url: `${SERVERURL}pedidos/obtener_guiasAdministrador3`,
       type: "POST",
       data: function (d) {
-        // Pasar parámetros adicionales (filtros) al backend
         return {
           fecha_inicio: fecha_inicio,
           fecha_fin: fecha_fin,
@@ -102,11 +102,9 @@ const initDataTable = () => {
       { data: "transporte", title: "Transportadora" },
       { data: "estado_guia_sistema", title: "Estado Guía" },
     ],
-    pageLength: 25, // Número de registros por página
-    lengthMenu: [25, 50, 100, 200], // Opciones de selección de registros por página
-    responsive: true, // Habilita diseño responsivo
+    pageLength: 25,
     language: {
-      url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json", // Traducción al español
+      url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json",
     },
   });
 };
