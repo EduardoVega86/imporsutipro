@@ -64,6 +64,11 @@ function getFecha() {
   return fechaHoy;
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+  initDataTable();
+});
+
+
 const initDataTable = () => {
   const table = $("#datatable_guias");
 
