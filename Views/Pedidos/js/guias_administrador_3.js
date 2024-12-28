@@ -64,62 +64,22 @@ function getFecha() {
   return fechaHoy;
 }
 
+const initDataTable = async () => {
+  if (dataTableIsInitialized) {
+    dataTable.destroy();
+  }
 
-const initDataTable = () => {
-  const table = $("#datatable_guias");
-  let start = "";
-  let length = "";
-  let draw = "";
+  await listGuias();
 
-  const formData = new FormData();
-    formData.append("fecha_inicio", fecha_inicio);
-    formData.append("fecha_fin", fecha_fin);
-    formData.append("estado_q", $("#estado_q").val());
-    formData.append("tienda_q",$("#tienda_q").val());
-    formData.append("transporte", $("#transporte").val());    
-    formData.append("impresion",$("#impresion").val());    
-    formData.append("despachos",  $("#despachos").val());    
-    formData.append("start", start);    
-    formData.append("length", length);    
-    formData.append("draw", draw )
+  dataTable = $("#datatable_guias").DataTable(dataTableOptions);
 
-    
-  // Inicializa la tabla
-  table.DataTable({
-    ajax: {
-      url: `${SERVERURL}pedidos/obtener_guiasAdministrador3`,
-      type: "POST",
-      data: formData,
-      processData: false,
-      contentType: false,
-      dataSrc: function (json) {
-        // Validar que json tenga la estructura esperada
-        if (!json || typeof json.data === "undefined") {
-          console.error("La API devolvió una respuesta incorrecta.", json);
-          return [];
-        }
-        return json.data;
-      },
-    },
-    columns: [
-      { data: "numero_factura", title: "# Factura" },
-      { data: "fecha_factura", title: "Fecha" },
-      { data: "nombre", title: "Cliente" },
-      { data: "provincia", title: "Provincia" },
-      { data: "ciudad", title: "Ciudad" },
-      { data: "estado_factura", title: "Estado" },
-      { data: "transporte", title: "Transportadora" },
-      { data: "estado_guia_sistema", title: "Estado Guía" },
-    ],
-    serverSide: true, // Procesamiento en el servidor
-    processing: true, // Muestra un indicador de carga
-    pageLength: 25,
-    lengthMenu: [25, 50, 100, 200],
-    responsive: true,
-    language: {
-      url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json",
-    },
-  })
+  dataTableIsInitialized = true;
+
+  // Handle select all checkbox
+  document.getElementById("selectAll").addEventListener("change", function () {
+    const checkboxes = document.querySelectorAll(".selectCheckbox");
+    checkboxes.forEach((checkbox) => (checkbox.checked = this.checked));
+  });
 };
 
 // Nueva función para recargar el DataTable manteniendo la paginación y el pageLength
