@@ -66,36 +66,36 @@ function getFecha() {
 
 const initDataTable = () => {
   const table = $("#datatable_guias");
+
+  const formData = new FormData();
+    formData.append("fecha_inicio", fecha_inicio);
+    formData.append("fecha_fin", fecha_fin);
+    formData,append("estado_q", estado);
+    formData,append("tienda_q", tienda);
+    formData,append("transporte", transporte);    
+    formData,append("impresion", impresion);    
+    formData,append("despachos", despachos);    
+    formData,append("start", start);    
+    formData,append("length", length);    
+    formData.append("draw", draw )
   
   // Inicializa la tabla
   table.DataTable({
-    serverSide: true, // Procesamiento del lado del servidor
-    processing: true, // Mostrar el indicador de carga
-ajax: {
-  url: `${SERVERURL}pedidos/obtener_guiasAdministrador3`, // URL del controlador en el backend
-  type: "POST",
-  data: function (d) {
-    return {
-      fecha_inicio: fecha_inicio,
-      fecha_fin: fecha_fin,
-      estado: $("#estado_q").val(),
-      drogshipin: $("#tienda_q").val(),
-      transportadora: $("#transporte").val(),
-      impresion: $("#impresion").val(),
-      despachos: $("#despachos").val(),
-      start: d.start,
-      length: d.length,
-      draw: d.draw,
-    };
-  },
-  dataSrc: function (json) {
-    if (!json.data) {
-      console.error("Datos de la API están vacíos o son inválidos.");
-      return []; // Devuelve un arreglo vacío si no hay datos
-    }
-    return json.data; // Devuelve los datos procesados
-  },
-},
+    data: formData,
+      processData: false, // No procesar los datos
+      contentType: false, // No establecer ningún tipo de contenido
+      ajax: {
+        url: `${SERVERURL}pedidos/obtener_guiasAdministrador3`, // URL del controlador en el backend
+        type: "POST",
+        data: formData,
+        dataSrc: function (json) {
+          if (!json.data) {
+            console.error("Datos de la API están vacíos o son inválidos.");
+            return []; // Devuelve un arreglo vacío si no hay datos
+          }
+          return json.data; // Devuelve los datos procesados
+        },
+      },
 
     columns: [
       { data: "numero_factura", title: "# Factura" },
