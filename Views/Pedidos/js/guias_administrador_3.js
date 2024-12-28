@@ -64,10 +64,6 @@ function getFecha() {
   return fechaHoy;
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-  initDataTable();
-});
-
 
 const initDataTable = () => {
   const table = $("#datatable_guias");
@@ -120,6 +116,9 @@ const initDataTable = () => {
   });
 };
 
+document.addEventListener("DOMContentLoaded", function () {
+  initDataTable();
+});
 
 
 // Inicializar DataTable al cargar la página
