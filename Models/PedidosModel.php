@@ -375,7 +375,7 @@ class PedidosModel extends Query
 
 
 
-    public function contarGuiasAdministrador3($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos)
+    public function contarGuiasAdministrador2($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos)
     {
 
         $sql = "SELECT COUNT(*) as total FROM vista_guias_administrador ";
