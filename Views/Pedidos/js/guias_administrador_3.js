@@ -66,35 +66,37 @@ function getFecha() {
 
 const initDataTable = () => {
   const table = $("#datatable_guias");
-
+  
+  // Inicializa la tabla
   table.DataTable({
-    serverSide: true,
-    processing: true,
-    ajax: {
-      url: `${SERVERURL}pedidos/obtener_guiasAdministrador3`,
-      type: "POST",
-      data: function (d) {
-        return {
-          fecha_inicio: fecha_inicio,
-          fecha_fin: fecha_fin,
-          estado: $("#estado_q").val(),
-          drogshipin: $("#tienda_q").val(),
-          transportadora: $("#transporte").val(),
-          impresion: $("#impresion").val(),
-          despachos: $("#despachos").val(),
-          start: d.start,
-          length: d.length,
-          draw: d.draw,
-        };
-      },
-      dataSrc: function (json) {
-        if (!json.data || !Array.isArray(json.data)) {
-          console.error("Datos de la API están vacíos o son inválidos.");
-          return [];
-        }
-        return json.data;
-      },
-    },
+    serverSide: true, // Procesamiento del lado del servidor
+    processing: true, // Mostrar el indicador de carga
+ajax: {
+  url: `${SERVERURL}pedidos/obtener_guiasAdministrador3`, // URL del controlador en el backend
+  type: "POST",
+  data: function (d) {
+    return {
+      fecha_inicio: fecha_inicio,
+      fecha_fin: fecha_fin,
+      estado: $("#estado_q").val(),
+      drogshipin: $("#tienda_q").val(),
+      transportadora: $("#transporte").val(),
+      impresion: $("#impresion").val(),
+      despachos: $("#despachos").val(),
+      start: d.start,
+      length: d.length,
+      draw: d.draw,
+    };
+  },
+  dataSrc: function (json) {
+    if (!json.data) {
+      console.error("Datos de la API están vacíos o son inválidos.");
+      return []; // Devuelve un arreglo vacío si no hay datos
+    }
+    return json.data; // Devuelve los datos procesados
+  },
+},
+
     columns: [
       { data: "numero_factura", title: "# Factura" },
       { data: "fecha_factura", title: "Fecha" },
@@ -105,11 +107,11 @@ const initDataTable = () => {
       { data: "transporte", title: "Transportadora" },
       { data: "estado_guia_sistema", title: "Estado Guía" },
     ],
-    pageLength: 25,
-    lengthMenu: [25, 50, 100, 200],
-    responsive: true,
+    pageLength: 25, // Número de registros por página
+    lengthMenu: [25, 50, 100, 200], // Opciones de selección de registros por página
+    responsive: true, // Habilita diseño responsivo
     language: {
-      url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json",
+      url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json", // Traducción al español
     },
   });
 };
